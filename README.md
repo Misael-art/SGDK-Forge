@@ -11,6 +11,8 @@ SGDK-Forge is a public SGDK 2.11 sample repository that showcases a resilient, m
 
 It demonstrates how the shared `sgdk_wrapper` prepares raw art, validates palettes, prevents common `rescomp` failures, and keeps `/data` as the source of truth for incoming assets.
 
+This repository is **standalone** with a vendored wrapper in [`/tools/sgdk_wrapper`](./tools/sgdk_wrapper), so a fresh clone does not depend on your original `MegaDrive_DEV` workspace layout.
+
 ## Features
 
 - **Auto-Slicing** for large sprite sheets and oversized source art.
@@ -27,6 +29,15 @@ It demonstrates how the shared `sgdk_wrapper` prepares raw art, validates palett
    Execute [`build.bat`](./build.bat).
 3. **Enjoy**  
    Launch the generated ROM and inspect the diagnostics in [`/out/logs`](./out/logs).
+
+## Standalone Setup
+
+The wrapper is committed inside this repository and the project-level `.bat` files resolve it locally before falling back to any parent workspace wrapper. [`resolve_wrapper.bat`](./resolve_wrapper.bat) is included as a small diagnostic helper.
+
+To compile on a fresh host you still need a valid SGDK installation. Use either:
+
+- an existing `GDK` environment variable that points to SGDK 2.11; or
+- a local drop-in at [`/sdk/sgdk-2.11`](./sdk/README.md).
 
 ## Source of Truth
 
@@ -78,6 +89,8 @@ After a build, check:
 ## Repository Layout
 
 - [`/data`](./data): raw source assets.
+- [`/tools/sgdk_wrapper`](./tools/sgdk_wrapper): vendored canonical wrapper used by this repository.
+- [`/sdk`](./sdk): optional local SGDK drop-in location for portable builds.
 - [`/res`](./res): SGDK-ready resources.
 - [`/src`](./src): example ROM logic.
 - [`/doc`](./doc): technical notes.

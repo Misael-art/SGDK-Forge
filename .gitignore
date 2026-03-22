@@ -16,6 +16,8 @@
 # Wrapper state
 /.sgdk_migration_state.json
 /.agent/
+/tools/sgdk_wrapper/out/
+/tools/sgdk_wrapper/__pycache__/
 
 # Logs and temp artifacts
 *.log
@@ -34,6 +36,10 @@ __pycache__/
 
 # Wrapper backups
 /res/data/backup/
+
+# Local SDK drop-in
+/sdk/*
+!/sdk/README.md
 
 # OS noise
 Thumbs.db

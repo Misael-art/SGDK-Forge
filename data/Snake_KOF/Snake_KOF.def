@@ -1,0 +1,41 @@
+
+[Info]
+name="Solid Snake"
+displayname="Solid Snake"
+versiondate=04,14,2023
+mugenversion=04,06,2004
+author="Wou"; + edit by Engel'86BR
+pal.defaults=1
+
+
+
+[Files]
+sprite=Snake_KOF.sff
+sound=Snake_KOF.snd
+anim=Snake_KOF.air
+cmd=Snake_KOF.cmd
+cns=Snake_KOF.cns
+st=Snake_KOF.cns
+stcommon=common.cns
+movelist = movelist.dat 
+pal1=01.act
+pal2=02.act
+pal3=03.act
+pal4=04.act
+pal5=05.act
+pal6=06.act
+pal7=07.act
+pal8=08.act
+pal9=09.act
+pal10=10.act
+pal11=11.act
+pal12=12.act
+st1=Misc.cns
+st2=Snake_KOF comando.cns
+st3=Snake_KOF especiais.cns
+
+
+[Arcade]
+arcadepath = external/historia/snake.lua
+intro.storyboard=
+ending.storyboard=

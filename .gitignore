@@ -1,0 +1,43 @@
+# Build outputs
+/out/
+/bin/
+
+# SGDK intermediates
+*.o
+*.d
+*.lst
+*.map
+*.nm
+*.wch
+
+# Generated headers
+/res/resources.h
+
+# Wrapper state
+/.sgdk_migration_state.json
+/.agent/
+
+# Logs and temp artifacts
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE metadata
+/.vscode/
+/.cursor/
+
+# Wrapper backups
+/res/data/backup/
+
+# OS noise
+Thumbs.db
+.DS_Store
+
+# Keep /data as the source of truth for raw assets
+!/data/

@@ -21,17 +21,7 @@ if defined SGDK_ENV_TRACE_LOG (
 )
 
 for %%I in ("%~dp0..\..") do set "MD_ROOT=%%~fI"
-set "SGDK_LOCAL_GDK=%MD_ROOT%\sdk\sgdk-2.11"
-set "GDK_CANDIDATE="
-if defined GDK if exist "%GDK%\makefile.gen" set "GDK_CANDIDATE=%GDK%"
-if not defined GDK_CANDIDATE if defined GDK_WIN if exist "%GDK_WIN%\makefile.gen" set "GDK_CANDIDATE=%GDK_WIN%"
-if not defined GDK_CANDIDATE if exist "%SGDK_LOCAL_GDK%\makefile.gen" set "GDK_CANDIDATE=%SGDK_LOCAL_GDK%"
-if not defined GDK_CANDIDATE if exist "%USERPROFILE%\sgdk\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=%USERPROFILE%\sgdk\sgdk-2.11"
-if not defined GDK_CANDIDATE if exist "C:\SGDK\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=C:\SGDK\sgdk-2.11"
-if not defined GDK_CANDIDATE if exist "C:\sgdk\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=C:\sgdk\sgdk-2.11"
-if not defined GDK_CANDIDATE set "GDK_CANDIDATE=%SGDK_LOCAL_GDK%"
-set "GDK=%GDK_CANDIDATE%"
-set "GDK_WIN=%GDK%"
+call :RESOLVE_GDK
 set "JAVA_OPTS=-Xmx2g"
 if defined SGDK_ENV_TRACE_LOG (
     echo [TRACE] MD_ROOT=!MD_ROOT!>> "!SGDK_ENV_TRACE_LOG!"
@@ -60,6 +50,8 @@ REM -------------------------------------------------------------------------
 REM Host bootstrap (controlled): if critical deps are missing, attempt setup once
 REM -------------------------------------------------------------------------
 set "NEEDS_HOST_SETUP=0"
+if not exist "%GDK%\makefile.gen" set "NEEDS_HOST_SETUP=1"
+
 if defined SGDK_ENV_TRACE_LOG echo [TRACE] powershell availability check >> "!SGDK_ENV_TRACE_LOG!"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "exit 0" >nul 2>&1
 if not "%ERRORLEVEL%"=="0" (
@@ -82,9 +74,17 @@ if "%NEEDS_HOST_SETUP%"=="1" (
     if not defined SGDK_HOST_BOOTSTRAPPED (
         set "BOOTSTRAP_SCRIPT=%~dp0install_host_deps.ps1"
         if exist "!BOOTSTRAP_SCRIPT!" (
-            echo [SGDK Wrapper] Host dependencies missing. Attempting zero-touch bootstrap...
+            echo [SGDK Wrapper] Host dependencies or SGDK SDK are missing. Attempting zero-touch bootstrap...
             powershell -NoProfile -ExecutionPolicy Bypass -File "!BOOTSTRAP_SCRIPT!" -GDKPath "%GDK%"
-            set "SGDK_HOST_BOOTSTRAPPED=1"
+            set "BOOTSTRAP_RC=!ERRORLEVEL!"
+            if "!BOOTSTRAP_RC!"=="0" (
+                set "SGDK_HOST_BOOTSTRAPPED=1"
+                call :RESOLVE_GDK
+                set "UPDATED_PATH=%PATH%"
+                if exist "%GDK%\bin" set "UPDATED_PATH=%GDK%\bin;%UPDATED_PATH%"
+            ) else (
+                echo [WARN] Host bootstrap exited with code !BOOTSTRAP_RC!.
+            )
         ) else (
             echo [ERROR] Missing host bootstrap script: !BOOTSTRAP_SCRIPT!
         )
@@ -132,3 +132,17 @@ endlocal & (
 )
 
 exit /b 0
+
+:RESOLVE_GDK
+set "SGDK_LOCAL_GDK=%MD_ROOT%\sdk\sgdk-2.11"
+set "GDK_CANDIDATE="
+if defined GDK if exist "%GDK%\makefile.gen" set "GDK_CANDIDATE=%GDK%"
+if not defined GDK_CANDIDATE if defined GDK_WIN if exist "%GDK_WIN%\makefile.gen" set "GDK_CANDIDATE=%GDK_WIN%"
+if not defined GDK_CANDIDATE if exist "%SGDK_LOCAL_GDK%\makefile.gen" set "GDK_CANDIDATE=%SGDK_LOCAL_GDK%"
+if not defined GDK_CANDIDATE if exist "%USERPROFILE%\sgdk\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=%USERPROFILE%\sgdk\sgdk-2.11"
+if not defined GDK_CANDIDATE if exist "C:\SGDK\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=C:\SGDK\sgdk-2.11"
+if not defined GDK_CANDIDATE if exist "C:\sgdk\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=C:\sgdk\sgdk-2.11"
+if not defined GDK_CANDIDATE set "GDK_CANDIDATE=%SGDK_LOCAL_GDK%"
+set "GDK=%GDK_CANDIDATE%"
+set "GDK_WIN=%GDK%"
+goto :eof

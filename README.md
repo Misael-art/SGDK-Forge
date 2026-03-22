@@ -39,6 +39,14 @@ To compile on a fresh host you still need a valid SGDK installation. Use either:
 - an existing `GDK` environment variable that points to SGDK 2.11; or
 - a local drop-in at [`/sdk/sgdk-2.11`](./sdk/README.md).
 
+When neither is available, the vendored wrapper now attempts a zero-touch Windows bootstrap:
+
+- it resolves a local target folder at `./sdk/sgdk-2.11`;
+- downloads the official SGDK 2.11 archive;
+- extracts it locally;
+- registers `GDK` and `GDK_WIN`;
+- and only then continues with the normal build flow.
+
 ## Source of Truth
 
 `/data` is the canonical home for new assets.
@@ -76,6 +84,8 @@ That means [`build.bat`](./build.bat) triggers:
 1. raw asset preparation from `/data`;
 2. validation and safe image sanitization;
 3. the standard SGDK build flow.
+
+On a fresh Windows host, `env.bat` also acts as the SGDK bootstrap gate: if it does not find a valid `makefile.gen`, it triggers `install_host_deps.ps1` to provision SGDK 2.11 and the required host tools.
 
 ### Diagnostics
 

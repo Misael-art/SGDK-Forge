@@ -7,6 +7,8 @@ Use one of these options on a fresh machine:
 1. Set the `GDK` environment variable to an existing SGDK 2.11 installation.
 2. Extract SGDK 2.11 into `./sdk/sgdk-2.11`.
 
+If neither exists, the wrapper will try to bootstrap SGDK 2.11 automatically on Windows by downloading the official `sgdk211.7z` release archive and extracting it into this folder.
+
 The project wrapper will look for SGDK in this order:
 
 1. `GDK`

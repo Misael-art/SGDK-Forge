@@ -27,7 +27,11 @@ set "RETRY_COUNT=0"
 set "PREPARE_SCRIPT=%~dp0prepare_assets.py"
 set "NORMALIZE_LOG_SCRIPT=%~dp0normalize_build_log.ps1"
 set "VALIDATE_SCRIPT=%~dp0validate_resources.ps1"
+set "STALE_SCRIPT=%~dp0test_project_stale.ps1"
 set "FIX_TRANSPARENCY_SCRIPT=%~dp0fix_transparency.ps1"
+set "RUNTIME_CAPTURE_SCRIPT=%~dp0run_runtime_capture.ps1"
+set "RUNTIME_MERGE_SCRIPT=%~dp0merge_runtime_metrics.ps1"
+if not defined SGDK_RUNTIME_FRAME_WINDOW set "SGDK_RUNTIME_FRAME_WINDOW=1800"
 
 echo [SGDK Wrapper] Pre-processing (migration + resource validation)...
 powershell -NoProfile -ExecutionPolicy Bypass -Command "& '%~dp0fix_migration_issues.ps1' '%CD%'"
@@ -80,6 +84,46 @@ set "MAKE_RC=%ERRORLEVEL%"
 if %MAKE_RC% EQU 0 (
     if exist "%NORMALIZE_LOG_SCRIPT%" (
         powershell -NoProfile -ExecutionPolicy Bypass -File "%NORMALIZE_LOG_SCRIPT%" -LogFile "%CD%\%LOG_FILE%"
+    )
+    if not exist "%STALE_SCRIPT%" (
+        echo [ERROR] Missing stale-check helper: %STALE_SCRIPT%
+        exit /b 1
+    )
+    for /f %%I in ('powershell -NoProfile -ExecutionPolicy Bypass -Command "[guid]::NewGuid().ToString(\"N\")"') do set "EVIDENCE_TOKEN=%%I"
+    set "EVIDENCE_FILE=%TEMP%\sgdk_evidence_!EVIDENCE_TOKEN!.cmd"
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%STALE_SCRIPT%" -WorkDir "%CD%" -RomPath "%CD%\out\rom.bin" -InvalidateEvidence -OutputFormat Batch > "!EVIDENCE_FILE!"
+    if errorlevel 1 (
+        if exist "!EVIDENCE_FILE!" del "!EVIDENCE_FILE!" >nul 2>&1
+        echo [ERROR] Failed to mark stale emulator evidence after build.
+        exit /b 1
+    )
+    call "!EVIDENCE_FILE!"
+    set "EVIDENCE_RC=!ERRORLEVEL!"
+    if exist "!EVIDENCE_FILE!" del "!EVIDENCE_FILE!" >nul 2>&1
+    if not "!EVIDENCE_RC!"=="0" (
+        echo [ERROR] Could not load stale evidence context after build.
+        exit /b 1
+    )
+    if "!SGDK_EVIDENCE_STALE!"=="1" (
+        echo [WARN] Existing emulator evidence marked stale at origin: !SGDK_EVIDENCE_REASON!
+    )
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%VALIDATE_SCRIPT%" -WorkDir "%CD%"
+    if errorlevel 1 (
+        echo [ERROR] Post-build validation failed. Check out\logs\validation_report.json and out\logs\build_debug.log
+        exit /b 1
+    )
+    if "%SGDK_RUNTIME_CAPTURE%"=="1" (
+        echo [SGDK Wrapper] Runtime capture enabled ^(SGDK_RUNTIME_CAPTURE=1^)
+        powershell -NoProfile -ExecutionPolicy Bypass -File "%RUNTIME_CAPTURE_SCRIPT%" -ProjectDir "%CD%" -FrameWindow %SGDK_RUNTIME_FRAME_WINDOW%
+        if errorlevel 1 (
+            echo [ERROR] Runtime capture failed. Check out\logs\runtime_metrics.json and emulator output.
+            exit /b 1
+        )
+        powershell -NoProfile -ExecutionPolicy Bypass -File "%RUNTIME_MERGE_SCRIPT%" -ProjectDir "%CD%"
+        if errorlevel 1 (
+            echo [ERROR] Runtime merge failed. Check out\logs\validation_report.json
+            exit /b 1
+        )
     )
     echo [OK] Build successful.
     exit /b 0

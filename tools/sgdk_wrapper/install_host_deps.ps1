@@ -444,10 +444,10 @@ try {
         $emuDir = Join-Path -Path $rootPath -ChildPath 'tools\emuladores'
 
         $emulatorPath = $null
-        if (Test-Path -Path (Join-Path $emuDir 'BizHawk\EmuHawk.exe')) {
-            $emulatorPath = Join-Path $emuDir 'BizHawk\EmuHawk.exe'
-        } elseif (Test-Path -Path (Join-Path $emuDir 'Blastem\Blastem.exe')) {
+        if (Test-Path -Path (Join-Path $emuDir 'Blastem\Blastem.exe')) {
             $emulatorPath = Join-Path $emuDir 'Blastem\Blastem.exe'
+        } elseif (Test-Path -Path (Join-Path $emuDir 'BizHawk\EmuHawk.exe')) {
+            $emulatorPath = Join-Path $emuDir 'BizHawk\EmuHawk.exe'
         } elseif (Test-Path -Path (Join-Path $emuDir 'Exodus_2.1\Exodus.exe')) {
             $emulatorPath = Join-Path $emuDir 'Exodus_2.1\Exodus.exe'
         } elseif (Test-Path -Path (Join-Path $emuDir 'GensKMod\gens.exe')) {

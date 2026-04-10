@@ -37,11 +37,30 @@ function Write-MigrationLog($msg, $level = "INFO") {
     Add-Content -LiteralPath $DEBUG_LOG $fullMsg -ErrorAction SilentlyContinue
 }
 
+function Get-ScriptHash($filePath) {
+    $hashCommand = Get-Command Get-FileHash -ErrorAction SilentlyContinue
+    if ($hashCommand) {
+        return (Get-FileHash -LiteralPath $filePath -Algorithm SHA256).Hash
+    }
+
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $stream = [System.IO.File]::OpenRead($filePath)
+        try {
+            return ([System.BitConverter]::ToString($sha256.ComputeHash($stream))).Replace("-", "")
+        } finally {
+            $stream.Dispose()
+        }
+    } finally {
+        $sha256.Dispose()
+    }
+}
+
 # --- Marker File (Idempotencia) ---
 # Se o marker existe e o hash deste script nao mudou, pula migracao.
 # Isso evita re-parsear arquivos grandes (ex: HAMOOPIG 7000+ linhas) em cada build.
 $markerFile = Join-Path $projectDir ".sgdk_migration_state.json"
-$scriptHash = (Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash
+$scriptHash = Get-ScriptHash $PSCommandPath
 
 if (-not $Force -and -not $DryRun -and (Test-Path -LiteralPath $markerFile)) {
     try {
@@ -164,8 +183,8 @@ if (-not (Test-Path -LiteralPath $sdkBootDir -PathType Container)) {
             continue
         }
 
-        $projHash = (Get-FileHash -LiteralPath $projFile -Algorithm MD5).Hash
-        $sdkHash = (Get-FileHash -LiteralPath $sdkFile -Algorithm MD5).Hash
+        $projHash = Get-ScriptHash $projFile
+        $sdkHash = Get-ScriptHash $sdkFile
         if ($projHash -ne $sdkHash) {
             if ($DryRun) {
                 Write-MigrationLog "[DRY-RUN] Would replace $bootFile with SGDK 2.11 standard" "INFO"

@@ -32,6 +32,11 @@ if ERRORLEVEL 1 (
     exit /b 1
 )
 
+REM Projetos novos devem sempre receber a .agent mais recente do wrapper.
+if exist "%TARGET_DIR%\.agent" (
+    rmdir /S /Q "%TARGET_DIR%\.agent"
+)
+
 REM Personaliza placeholders do template para o nome real do projeto.
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
     "$targetDir = '%TARGET_DIR%'; $projName = '%NEW_PROJ_NAME%';" ^

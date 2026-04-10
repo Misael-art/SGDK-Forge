@@ -1,0 +1,214 @@
+{
+  "roles": {
+    "sprite": {
+      "palette": {
+        "target_color_range": [6, 12],
+        "min_tonal_span": 72.0,
+        "redundant_luma_delta": 10.0,
+        "low_usage_ratio": 0.015
+      },
+      "tile": {
+        "max_empty_ratio": 0.12,
+        "max_bbox_waste": 0.18
+      },
+      "detail": {
+        "min_transition_density": 0.12,
+        "max_transition_density": 0.48,
+        "max_isolated_ratio": 0.18
+      },
+      "dithering": {
+        "preferred_min": 0.01,
+        "preferred_max": 0.18,
+        "noise_guard_max": 0.28
+      },
+      "silhouette": {
+        "min_boundary_contrast": 28.0,
+        "max_components": 5,
+        "min_fill_ratio": 0.28
+      },
+      "layer": {
+        "min_contrast_with_pair": 22.0,
+        "default_unpaired_score": 0.62
+      },
+      "status": {
+        "elite_ready_min": 0.78,
+        "needs_review_min": 0.56
+      }
+    },
+    "bg_a": {
+      "palette": {
+        "target_color_range": [8, 14],
+        "min_tonal_span": 68.0,
+        "redundant_luma_delta": 8.0,
+        "low_usage_ratio": 0.01
+      },
+      "tile": {
+        "max_empty_ratio": 0.02,
+        "max_bbox_waste": 0.05
+      },
+      "detail": {
+        "min_transition_density": 0.14,
+        "max_transition_density": 0.44,
+        "max_isolated_ratio": 0.14
+      },
+      "dithering": {
+        "preferred_min": 0.03,
+        "preferred_max": 0.22,
+        "noise_guard_max": 0.32
+      },
+      "silhouette": {
+        "min_boundary_contrast": 10.0,
+        "max_components": 18,
+        "min_fill_ratio": 0.82
+      },
+      "layer": {
+        "min_contrast_with_pair": 18.0,
+        "default_unpaired_score": 0.68
+      },
+      "status": {
+        "elite_ready_min": 0.76,
+        "needs_review_min": 0.58
+      }
+    },
+    "bg_b": {
+      "palette": {
+        "target_color_range": [6, 12],
+        "min_tonal_span": 54.0,
+        "redundant_luma_delta": 8.0,
+        "low_usage_ratio": 0.01
+      },
+      "tile": {
+        "max_empty_ratio": 0.02,
+        "max_bbox_waste": 0.05
+      },
+      "detail": {
+        "min_transition_density": 0.1,
+        "max_transition_density": 0.36,
+        "max_isolated_ratio": 0.12
+      },
+      "dithering": {
+        "preferred_min": 0.02,
+        "preferred_max": 0.2,
+        "noise_guard_max": 0.3
+      },
+      "silhouette": {
+        "min_boundary_contrast": 8.0,
+        "max_components": 22,
+        "min_fill_ratio": 0.86
+      },
+      "layer": {
+        "min_contrast_with_pair": 14.0,
+        "default_unpaired_score": 0.7
+      },
+      "status": {
+        "elite_ready_min": 0.74,
+        "needs_review_min": 0.56
+      }
+    },
+    "midground_layer": {
+      "palette": {
+        "target_color_range": [6, 12],
+        "min_tonal_span": 62.0,
+        "redundant_luma_delta": 8.0,
+        "low_usage_ratio": 0.01
+      },
+      "tile": {
+        "max_empty_ratio": 0.24,
+        "max_bbox_waste": 0.3
+      },
+      "detail": {
+        "min_transition_density": 0.1,
+        "max_transition_density": 0.42,
+        "max_isolated_ratio": 0.2
+      },
+      "dithering": {
+        "preferred_min": 0.02,
+        "preferred_max": 0.2,
+        "noise_guard_max": 0.3
+      },
+      "silhouette": {
+        "min_boundary_contrast": 10.0,
+        "max_components": 48,
+        "min_fill_ratio": 0.16
+      },
+      "layer": {
+        "min_contrast_with_pair": 18.0,
+        "default_unpaired_score": 0.68
+      },
+      "status": {
+        "elite_ready_min": 0.76,
+        "needs_review_min": 0.58
+      }
+    },
+    "foreground_layer": {
+      "palette": {
+        "target_color_range": [4, 10],
+        "min_tonal_span": 62.0,
+        "redundant_luma_delta": 10.0,
+        "low_usage_ratio": 0.012
+      },
+      "tile": {
+        "max_empty_ratio": 0.92,
+        "max_bbox_waste": 0.98
+      },
+      "detail": {
+        "min_transition_density": 0.08,
+        "max_transition_density": 0.46,
+        "max_isolated_ratio": 0.38
+      },
+      "dithering": {
+        "preferred_min": 0.0,
+        "preferred_max": 0.14,
+        "noise_guard_max": 0.34
+      },
+      "silhouette": {
+        "min_boundary_contrast": 14.0,
+        "max_components": 280,
+        "min_fill_ratio": 0.02
+      },
+      "layer": {
+        "min_contrast_with_pair": 22.0,
+        "default_unpaired_score": 0.66
+      },
+      "status": {
+        "elite_ready_min": 0.74,
+        "needs_review_min": 0.56
+      }
+    },
+    "hud": {
+      "palette": {
+        "target_color_range": [3, 8],
+        "min_tonal_span": 90.0,
+        "redundant_luma_delta": 12.0,
+        "low_usage_ratio": 0.01
+      },
+      "tile": {
+        "max_empty_ratio": 0.16,
+        "max_bbox_waste": 0.2
+      },
+      "detail": {
+        "min_transition_density": 0.08,
+        "max_transition_density": 0.34,
+        "max_isolated_ratio": 0.08
+      },
+      "dithering": {
+        "preferred_min": 0.0,
+        "preferred_max": 0.05,
+        "noise_guard_max": 0.12
+      },
+      "silhouette": {
+        "min_boundary_contrast": 36.0,
+        "max_components": 8,
+        "min_fill_ratio": 0.18
+      },
+      "layer": {
+        "min_contrast_with_pair": 30.0,
+        "default_unpaired_score": 0.7
+      },
+      "status": {
+        "elite_ready_min": 0.8,
+        "needs_review_min": 0.62
+      }
+    }
+  }
+}

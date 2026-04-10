@@ -1,0 +1,11 @@
+interface:
+  display_name: "Mega Drive VDP Budget Analyst"
+  short_description: "Analisa VRAM, DMA, sprites, paletas e scroll para hardware real"
+  brand_color: "#A36F00"
+  default_prompt: "Use $megadrive-vdp-budget-analyst para decidir se esta cena, efeito ou conjunto de assets cabe no Mega Drive em VRAM, DMA, sprites por scanline, paletas e scroll."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

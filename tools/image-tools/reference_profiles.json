@@ -1,0 +1,183 @@
+{
+  "default_profile": "generic-megadrive-elite",
+  "profiles": {
+    "generic-megadrive-elite": {
+      "label": "Generic Mega Drive Elite",
+      "benchmarks": [
+        "Streets of Rage 3",
+        "Monster World IV",
+        "Earthworm Jim",
+        "Shinobi III",
+        "Sonic 3 & Knuckles"
+      ],
+      "weights": {
+        "sprite": {
+          "palette_efficiency": 0.16,
+          "tile_efficiency": 0.14,
+          "detail_density_8x8": 0.16,
+          "dithering_density": 0.1,
+          "silhouette_readability": 0.22,
+          "layer_separation": 0.14,
+          "reuse_efficiency": 0.08
+        },
+        "bg_a": {
+          "palette_efficiency": 0.18,
+          "tile_efficiency": 0.18,
+          "detail_density_8x8": 0.2,
+          "dithering_density": 0.14,
+          "silhouette_readability": 0.06,
+          "layer_separation": 0.18,
+          "reuse_efficiency": 0.06
+        },
+        "bg_b": {
+          "palette_efficiency": 0.18,
+          "tile_efficiency": 0.2,
+          "detail_density_8x8": 0.16,
+          "dithering_density": 0.14,
+          "silhouette_readability": 0.04,
+          "layer_separation": 0.22,
+          "reuse_efficiency": 0.06
+        },
+        "midground_layer": {
+          "palette_efficiency": 0.18,
+          "tile_efficiency": 0.14,
+          "detail_density_8x8": 0.18,
+          "dithering_density": 0.1,
+          "silhouette_readability": 0.06,
+          "layer_separation": 0.24,
+          "reuse_efficiency": 0.1
+        },
+        "foreground_layer": {
+          "palette_efficiency": 0.18,
+          "tile_efficiency": 0.06,
+          "detail_density_8x8": 0.14,
+          "dithering_density": 0.08,
+          "silhouette_readability": 0.1,
+          "layer_separation": 0.28,
+          "reuse_efficiency": 0.16
+        },
+        "hud": {
+          "palette_efficiency": 0.22,
+          "tile_efficiency": 0.16,
+          "detail_density_8x8": 0.12,
+          "dithering_density": 0.04,
+          "silhouette_readability": 0.24,
+          "layer_separation": 0.16,
+          "reuse_efficiency": 0.06
+        }
+      }
+    },
+    "streets-of-rage-3": {
+      "label": "Streets of Rage 3",
+      "benchmarks": [
+        "Streets of Rage 3"
+      ],
+      "weights": {
+        "sprite": {
+          "palette_efficiency": 0.14,
+          "tile_efficiency": 0.14,
+          "detail_density_8x8": 0.14,
+          "dithering_density": 0.08,
+          "silhouette_readability": 0.24,
+          "layer_separation": 0.18,
+          "reuse_efficiency": 0.08
+        }
+      }
+    },
+    "monster-world-iv": {
+      "label": "Monster World IV",
+      "benchmarks": [
+        "Monster World IV"
+      ],
+      "weights": {
+        "sprite": {
+          "palette_efficiency": 0.2,
+          "tile_efficiency": 0.12,
+          "detail_density_8x8": 0.18,
+          "dithering_density": 0.08,
+          "silhouette_readability": 0.2,
+          "layer_separation": 0.14,
+          "reuse_efficiency": 0.08
+        }
+      }
+    },
+    "earthworm-jim": {
+      "label": "Earthworm Jim",
+      "benchmarks": [
+        "Earthworm Jim"
+      ],
+      "weights": {
+        "sprite": {
+          "palette_efficiency": 0.15,
+          "tile_efficiency": 0.12,
+          "detail_density_8x8": 0.18,
+          "dithering_density": 0.14,
+          "silhouette_readability": 0.18,
+          "layer_separation": 0.15,
+          "reuse_efficiency": 0.08
+        },
+        "bg_a": {
+          "palette_efficiency": 0.18,
+          "tile_efficiency": 0.16,
+          "detail_density_8x8": 0.18,
+          "dithering_density": 0.18,
+          "silhouette_readability": 0.04,
+          "layer_separation": 0.2,
+          "reuse_efficiency": 0.06
+        }
+      }
+    },
+    "shinobi-iii": {
+      "label": "Shinobi III",
+      "benchmarks": [
+        "Shinobi III"
+      ],
+      "weights": {
+        "sprite": {
+          "palette_efficiency": 0.16,
+          "tile_efficiency": 0.14,
+          "detail_density_8x8": 0.14,
+          "dithering_density": 0.08,
+          "silhouette_readability": 0.22,
+          "layer_separation": 0.18,
+          "reuse_efficiency": 0.08
+        },
+        "bg_b": {
+          "palette_efficiency": 0.18,
+          "tile_efficiency": 0.18,
+          "detail_density_8x8": 0.14,
+          "dithering_density": 0.12,
+          "silhouette_readability": 0.04,
+          "layer_separation": 0.24,
+          "reuse_efficiency": 0.06
+        }
+      }
+    },
+    "sonic-3k": {
+      "label": "Sonic 3 & Knuckles",
+      "benchmarks": [
+        "Sonic 3 & Knuckles"
+      ],
+      "weights": {
+        "sprite": {
+          "palette_efficiency": 0.16,
+          "tile_efficiency": 0.14,
+          "detail_density_8x8": 0.14,
+          "dithering_density": 0.06,
+          "silhouette_readability": 0.24,
+          "layer_separation": 0.18,
+          "reuse_efficiency": 0.08
+        },
+        "bg_a": {
+          "palette_efficiency": 0.16,
+          "tile_efficiency": 0.2,
+          "detail_density_8x8": 0.18,
+          "dithering_density": 0.08,
+          "silhouette_readability": 0.04,
+          "layer_separation": 0.24,
+          "reuse_efficiency": 0.1
+        }
+      }
+    }
+  }
+}

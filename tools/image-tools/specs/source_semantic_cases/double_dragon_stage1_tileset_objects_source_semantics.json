@@ -1,0 +1,95 @@
+{
+  "case_id": "double_dragon_stage1_tileset_objects_source_semantics",
+  "source_image": "assets/reference/translation_curation/composição_de_cenas/Zeebo - Double Dragon - Tilesets - Stage 1 Tileset & Objects.png",
+  "scene_truth_kind": "supervised_training_truth",
+  "layout_complexity": "medium",
+  "reports_dir": "assets/reference/translation_curation/composição_de_cenas/reports/double_dragon_stage1_tileset_objects_source_semantics",
+  "source_inventory": {
+    "includes": [
+      "tile_cluster",
+      "object_cluster"
+    ],
+    "notes": [
+      "A prancha nao e editorial; e um tileset/objects sheet com agrupamentos funcionais claros."
+    ]
+  },
+  "drop_policy": {
+    "drop_classes": [
+      "corrupted_region"
+    ],
+    "notes": [
+      "O topo glitchado deve ser descartado completamente.",
+      "Portas sao sequencia de objeto; parede e dano devem ser separados estruturalmente."
+    ]
+  },
+  "composition_schema": {
+    "kind": "tile_object_sheet",
+    "roles": [
+      {
+        "region_id": "door_sequence",
+        "composition_role": "object_animation_sequence",
+        "order": 0
+      },
+      {
+        "region_id": "wall_base_tiles",
+        "composition_role": "tile_cluster",
+        "order": 1
+      },
+      {
+        "region_id": "damage_overlay_tiles",
+        "composition_role": "overlay_cluster",
+        "order": 2
+      }
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "tilemap_sheet",
+    "semantic_regions": [
+      {
+        "id": "door_sequence",
+        "classification": "object_animation_sequence",
+        "bbox": [8, 168, 426, 264],
+        "notes": "Portas em sequencia progressiva; objeto animavel, nao tile simples."
+      },
+      {
+        "id": "wall_base_tiles",
+        "classification": "tile_cluster",
+        "bbox": [8, 280, 286, 376],
+        "notes": "Parede base reutilizavel."
+      },
+      {
+        "id": "damage_overlay_tiles",
+        "classification": "overlay_cluster",
+        "bbox": [286, 280, 445, 376],
+        "notes": "Buracos e danos grandes; melhor como overlays ou objetos separados."
+      }
+    ],
+    "auxiliary_regions": [],
+    "drop_regions": [
+      {
+        "id": "corrupted_top_region",
+        "classification": "corrupted_region",
+        "bbox": [0, 0, 512, 160],
+        "action": "drop",
+        "notes": "Faixa glitchada; nao usar nada daqui."
+      }
+    ],
+    "animation_ranges": [
+      {
+        "id": "door_states",
+        "frame_range": [0, 3],
+        "notes": "Estados abertos/fechados das portas."
+      }
+    ],
+    "final_scene_hypothesis": {
+      "summary": "A IA deve remover o topo corrompido, separar portas como sequencia de objeto e dividir parede base de overlays de dano."
+    },
+    "notes_on_why": [
+      "O erro critico aqui e tratar regiao glitchada como tileset valido.",
+      "Porta e wall damage tem papeis estruturais diferentes e nao devem ser fundidos."
+    ]
+  },
+  "training_labels": {
+    "goal": "Treinar leitura de tile/object sheet com agrupamentos funcionais."
+  }
+}

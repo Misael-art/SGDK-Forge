@@ -1,0 +1,116 @@
+{
+  "case_id": "china_arena_stage_board_source_semantics",
+  "source_image": "assets/reference/translation_curation/composição_de_cenas/Backgrounds/Game Boy Advance - Super Street Fighter II_ Turbo Revival - Backgrounds - China Arena.png",
+  "scene_truth_kind": "supervised_training_truth",
+  "layout_complexity": "medium",
+  "reports_dir": "assets/reference/translation_curation/composição_de_cenas/reports/china_arena_stage_board_source_semantics",
+  "source_inventory": {
+    "includes": [
+      "scene_planes",
+      "actor_sprite_sheet",
+      "mockup_preview",
+      "author_credits",
+      "avatar_or_icon"
+    ],
+    "notes": [
+      "A prancha mistura arquitetura, faixa de ceu, faixa de chao/perspectiva, sprites repetidos e residuos editoriais."
+    ]
+  },
+  "drop_policy": {
+    "drop_classes": [
+      "actor_sprite_sheet",
+      "mockup_preview",
+      "author_credits",
+      "avatar_or_icon"
+    ],
+    "notes": [
+      "Os strips de actor sao ruido para composicao do fundo e nao entram em BG_A/BG_B.",
+      "Preview preto e creditos devem ser removidos completamente."
+    ]
+  },
+  "composition_schema": {
+    "kind": "stage_board",
+    "roles": [
+      {
+        "region_id": "sky_strip",
+        "composition_role": "scene_plane_bg_b",
+        "order": 0
+      },
+      {
+        "region_id": "architecture_panel",
+        "composition_role": "scene_plane_bg_a",
+        "order": 1
+      },
+      {
+        "region_id": "ground_perspective_strip",
+        "composition_role": "scene_plane_bg_a",
+        "order": 2
+      }
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "editorial_board",
+    "semantic_regions": [
+      {
+        "id": "architecture_panel",
+        "classification": "scene_plane_architecture",
+        "bbox": [3, 3, 515, 176],
+        "notes": "Templo e construcoes secundarias; remover padding roxo e vazios laterais."
+      },
+      {
+        "id": "sky_strip",
+        "classification": "scene_plane_sky",
+        "bbox": [3, 241, 441, 385],
+        "notes": "Faixa continua de ceu e nuvens; manter continuidade horizontal."
+      },
+      {
+        "id": "ground_perspective_strip",
+        "classification": "scene_plane_ground",
+        "bbox": [3, 177, 515, 235],
+        "notes": "Faixa de perspectiva do chao; manter padrao tileavel horizontalmente."
+      }
+    ],
+    "auxiliary_regions": [],
+    "drop_regions": [
+      {
+        "id": "preview_stack",
+        "classification": "mockup_preview",
+        "bbox": [441, 241, 507, 385],
+        "action": "drop",
+        "notes": "Mini previews auxiliares na lateral direita."
+      },
+      {
+        "id": "actor_strip_upper",
+        "classification": "actor_sprite_sheet",
+        "bbox": [3, 391, 515, 447],
+        "action": "drop",
+        "notes": "Sprites repetidos; nao pertencem ao fundo."
+      },
+      {
+        "id": "actor_strip_lower",
+        "classification": "actor_sprite_sheet",
+        "bbox": [3, 453, 515, 509],
+        "action": "drop",
+        "notes": "Sprites repetidos; nao pertencem ao fundo."
+      },
+      {
+        "id": "credits_and_avatar_block",
+        "classification": "author_credits",
+        "bbox": [50, 517, 467, 548],
+        "action": "drop",
+        "notes": "Credito e avatar no rodape."
+      }
+    ],
+    "animation_ranges": [],
+    "final_scene_hypothesis": {
+      "summary": "A IA deve extrair arquitetura, ceu e chao/perspectiva como blocos semanticamente uteis e descartar sprites repetidos, previews e creditos."
+    },
+    "notes_on_why": [
+      "Sprites repetidos nao sao foreground da cena; sao ruido para este caso de background.",
+      "A separacao correta aqui e por papel estrutural: arquitetura, ceu e chao."
+    ]
+  },
+  "training_labels": {
+    "goal": "Treinar stage board com mistura de cena, faixas auxiliares e ruido editorial."
+  }
+}

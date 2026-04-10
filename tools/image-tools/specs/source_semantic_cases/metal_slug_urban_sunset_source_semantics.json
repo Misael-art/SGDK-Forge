@@ -1,0 +1,118 @@
+{
+  "case_id": "metal_slug_urban_sunset_source_semantics",
+  "source_image": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/source.png",
+  "scene_truth_kind": "supervised_training_truth",
+  "layout_complexity": "high",
+  "reports_dir": "assets/reference/translation_curation/composição_de_cenas/reports/metal_slug_urban_sunset_source_semantics",
+  "source_inventory": {
+    "includes": [
+      "scene_planes",
+      "mockup_preview",
+      "author_credits",
+      "avatar_or_icon",
+      "unrelated_reference"
+    ],
+    "notes": [
+      "A prancha mistura strips de composicao, mockup parcial e ruido editorial.",
+      "A IA precisa inferir a cena a partir do source, nao usar os PNGs manuais como entrada operacional."
+    ]
+  },
+  "drop_policy": {
+    "drop_classes": [
+      "mockup_preview",
+      "author_credits",
+      "avatar_or_icon",
+      "unrelated_reference"
+    ],
+    "notes": [
+      "Preview montado, creditos e avatar servem para interpretar a prancha, mas nao entram na composicao final."
+    ]
+  },
+  "composition_schema": {
+    "kind": "scene_layers",
+    "roles": [
+      {
+        "region_id": "bg_b_strip",
+        "composition_role": "scene_plane_bg_b",
+        "order": 0
+      },
+      {
+        "region_id": "bg_a_main",
+        "composition_role": "scene_plane_bg_a",
+        "order": 1
+      },
+      {
+        "region_id": "foreground_strip",
+        "composition_role": "scene_plane_foreground_composition",
+        "order": 2
+      }
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "editorial_board",
+    "semantic_regions": [
+      {
+        "id": "bg_b_strip",
+        "classification": "scene_plane_bg_b",
+        "bbox": [4, 26, 520, 155],
+        "notes": "Ceu e atmosfera; plano mais ao fundo."
+      },
+      {
+        "id": "bg_a_main",
+        "classification": "scene_plane_bg_a",
+        "bbox": [4, 170, 679, 430],
+        "notes": "Plano principal da rua e das edificacoes."
+      },
+      {
+        "id": "foreground_strip",
+        "classification": "scene_plane_foreground_composition",
+        "bbox": [12, 458, 686, 604],
+        "notes": "Faixa frontal composicional; nao e actor sprite."
+      }
+    ],
+    "drop_regions": [
+      {
+        "id": "mockup_preview",
+        "classification": "mockup_preview",
+        "bbox": [719, 190, 1021, 425],
+        "action": "drop",
+        "notes": "Preview montado da cena com referencias extras."
+      },
+      {
+        "id": "avatar_block",
+        "classification": "avatar_or_icon",
+        "bbox": [744, 510, 813, 579],
+        "action": "drop",
+        "notes": "Avatar autoral/editorial."
+      },
+      {
+        "id": "credits_block",
+        "classification": "author_credits",
+        "bbox": [807, 506, 1036, 605],
+        "action": "drop",
+        "notes": "Credito do autor; nao pertence a cena."
+      }
+    ],
+    "animation_ranges": [],
+    "final_scene_hypothesis": {
+      "summary": "A cena correta nasce da leitura BG-B + BG-A + faixa frontal em quadro comum; mockup, creditos e avatar sao ruido semantico.",
+      "reference_image": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/CENA MONTADA.png"
+    },
+    "notes_on_why": [
+      "BG-A aqui e plano principal inteiro, nao mascara vazada de arquitetura.",
+      "A faixa frontal precisa ser lida como composicao de profundidade, nao como sprite."
+    ]
+  },
+  "training_labels": {
+    "goal": "Ensinar editorial_board -> scene decomposition usando apenas source como entrada operacional.",
+    "reference_images": [
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/BG-B (Plano de fundo).png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/BG-A (Plano principal).png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/COMPISIÇÃO DO PLANO PRINCIPAL.png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/CENA MONTADA.png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/SEPARAÇÃO RACIONAL.png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/ParaAprendizado.png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/orientação para IA.png"
+    ]
+  }
+}

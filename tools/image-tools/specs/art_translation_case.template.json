@@ -1,0 +1,227 @@
+{
+  "case_id": "nome-curto-do-caso",
+  "source_image": "assets/reference/minha_imagem_fonte.png",
+  "translation_target": "sprite_sheet",
+  "reference_profile": "generic-megadrive-elite",
+  "minimum_delta": 0.08,
+  "scene_truth_kind": "inferred",
+  "layout_complexity": "medium",
+  "source_inventory": {
+    "includes": [
+      "scene_planes",
+      "mockup_preview",
+      "author_credits"
+    ],
+    "notes": [
+      "Inventariar tudo o que existe no source antes de decidir o que e util."
+    ]
+  },
+  "drop_policy": {
+    "drop_classes": [
+      "author_credits",
+      "avatar_or_icon",
+      "mockup_preview"
+    ],
+    "notes": [
+      "Ruido editorial nao pode ser promovido para layer de cena."
+    ]
+  },
+  "composition_schema": {
+    "kind": "scene_layers",
+    "roles": [
+      {
+        "region_id": "A",
+        "composition_role": "scene_plane_bg_b",
+        "order": 0
+      },
+      {
+        "region_id": "B",
+        "composition_role": "scene_plane_bg_a",
+        "order": 1
+      },
+      {
+        "region_id": "C",
+        "composition_role": "scene_plane_foreground_composition",
+        "order": 2
+      }
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "editorial_board",
+    "semantic_regions": [
+      {
+        "id": "A",
+        "classification": "scene_plane_bg_b",
+        "bbox": [0, 0, 320, 96],
+        "notes": "Regiao de composicao util."
+      }
+    ],
+    "drop_regions": [
+      {
+        "id": "credits_block",
+        "classification": "author_credits",
+        "bbox": [320, 160, 512, 224],
+        "action": "drop",
+        "notes": "Regiao editorial a descartar."
+      }
+    ],
+    "animation_ranges": [],
+    "final_scene_hypothesis": {
+      "summary": "Hipotese de remontagem antes da quantizacao.",
+      "reference_image": null
+    },
+    "notes_on_why": [
+      "Descreva por que cada bloco foi classificado dessa forma."
+    ]
+  },
+  "training_labels": {
+    "goal": "Opcional para casos pedagogicos de parsing semantico.",
+    "reference_images": []
+  },
+  "source_semantic_map": {
+    "source_layout_type": "sprite_sheet",
+    "intent_summary": "descreva a intencao da fonte e o que ela esta tentando comunicar",
+    "usable_regions": [
+      {
+        "id": "main_frame",
+        "kind": "scene_frame",
+        "bbox": [0, 0, 320, 224],
+        "notes": "regiao realmente jogavel ou principal para traducao"
+      }
+    ],
+    "auxiliary_regions": [
+      {
+        "id": "preview_crop",
+        "kind": "preview",
+        "bbox": [0, 0, 64, 64],
+        "notes": "crop auxiliar, nao entra na traducao final"
+      }
+    ],
+    "annotation_regions": [
+      {
+        "id": "credits_text",
+        "kind": "text_note",
+        "bbox": [0, 0, 64, 16],
+        "action": "drop"
+      }
+    ],
+    "animation_ranges": [
+      {
+        "id": "idle",
+        "frame_range": [0, 3],
+        "notes": "inicio e fim da animacao ou indices relevantes"
+      }
+    ],
+    "exotic_elements": [
+      {
+        "id": "fx_ornament",
+        "kind": "isolable_fx",
+        "decision": "isolate_for_review",
+        "notes": "elemento exotico que pode virar layer, sprite graft ou referencia apenas"
+      }
+    ]
+  },
+  "hardware_expectations": {
+    "allow_compare_flat_for_rom_proof": false,
+    "allow_manual_vram_partition": false,
+    "allow_sprite_grafts": false,
+    "allow_plane_size_tuning": false,
+    "allow_window_alias": false,
+    "allow_hscroll_slack_reuse": false,
+    "allow_sat_reuse": false
+  },
+  "intent_notes": [
+    "o ponto focal nao pode se perder",
+    "o material dominante precisa continuar legivel"
+  ],
+  "soul_contract": {
+    "must_keep": [
+      "silhueta principal",
+      "foco visual",
+      "material dominante"
+    ],
+    "can_simplify": [
+      "detalhes secundarios",
+      "micro-textura"
+    ],
+    "must_drop": [
+      "ruido fino que nao sobrevive em 320x224"
+    ]
+  },
+  "composite_pipeline": {
+    "segmentation_strategy": "semantic_first",
+    "alpha_matte_strategy": "layer_specific_mattes",
+    "composite_strategy": "alpha_compositing",
+    "quantization_stage": "after_semantic_extraction_and_composition_decisions",
+    "spatial_lock": true
+  },
+  "variants": {
+    "basic": {
+      "label": "BASIC",
+      "analysis_units": [
+        {
+          "name": "sprite",
+          "asset": "res/sprites/meu_sprite_basic.png",
+          "role": "sprite",
+          "critical_visual": true,
+          "weight": 1.0,
+          "paired_bg_layers": [
+            "res/bgs/meu_bg_b.png",
+            "res/bgs/meu_bg_a.png"
+          ]
+        }
+      ]
+    },
+    "elite": {
+      "label": "ELITE",
+      "analysis_units": [
+        {
+          "name": "sprite",
+          "asset": "res/sprites/meu_sprite_elite.png",
+          "role": "sprite",
+          "critical_visual": true,
+          "weight": 1.0,
+          "paired_bg_layers": [
+            "res/bgs/meu_bg_b.png",
+            "res/bgs/meu_bg_a.png"
+          ]
+        }
+      ]
+    }
+  },
+  "_notes": {
+    "analysis_roles": [
+      "sprite",
+      "bg_a",
+      "bg_b",
+      "hud",
+      "midground_layer",
+      "foreground_layer",
+      "scene_plane_bg_b",
+      "scene_plane_bg_a",
+      "scene_plane_foreground_composition",
+      "actor_sprite_sheet",
+      "palette_strip",
+      "labels_and_names",
+      "author_credits",
+      "metadata_block",
+      "avatar_or_icon",
+      "mockup_preview",
+      "unrelated_reference",
+      "tile_cluster",
+      "object_cluster"
+    ],
+    "semantic_layer_guidance": [
+      "Use `midground_layer` para arquitetura, massas estruturais ou plano frontal de background isolado em canvas transparente.",
+      "Use `foreground_layer` para destroços, ornamentos de frente ou massa composicional isolada que nao deve ser julgada como actor sprite.",
+      "Reserve `sprite` para actor sprite, frame jogavel ou elemento que realmente precise de leitura de silhueta compacta."
+    ],
+    "pipeline_guardrails": [
+      "Todo caso de `source` complexo deve emitir `semantic_parse_report` antes da traducao.",
+      "Se o source for prancha editorial, primeiro inventariar blocos e ruido semantico; so depois isolar cena util.",
+      "Nao quantize a fonte inteira antes de decidir o que e ceu, arquitetura, chao e massa frontal.",
+      "Nao use apenas threshold de cor como substituto de segmentacao semantica.",
+      "Toda camada transparente precisa declarar matte/alpha coerente e recompor por alpha compositing."
+    ]
+  }
+}

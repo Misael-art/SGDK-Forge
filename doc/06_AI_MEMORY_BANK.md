@@ -41,6 +41,20 @@
 - Regra consolidada para drafts de Sprint 2+: citar `92_frontdoor`, depois `92_registry`, e usar `99_appendix` apenas como evidencia bruta.
 - Decisao consolidada: nao duplicar skills ja existentes (`sprite-animation`, `character-design`, `multi-plane-composition`) nem recriar docs que ja existem e devem ser revisados in place.
 
+### Matriz de maestria hardware-level 16-bit (2026-04-10)
+- Criada a nova camada de dominio em `doc/05_technical/93_16bit_hardware_mastery_matrix.md`, `doc/05_technical/93_16bit_hardware_mastery_registry.json` e `doc/05_technical/94_16bit_hardware_mastery_roadmap.md`.
+- A nova camada NAO substitui `92_frontdoor` nem `92_registry`; ela organiza a maestria por tecnica e por owner skill.
+- Estado consolidado do agente:
+  - `incorporated`: tile flipping, DMA safety basico, sprite timing/pivot, multi-plano basico, budget VDP basico
+  - `candidate_with_evidence`: line scroll, H-Int palette split, pseudo-3D road stack, priority split foreground, tile cache streaming
+  - `partial`: column scroll, Shadow/Highlight como trilha dedicada, palette cycling formal, CRT-aware dithering, sprite multiplexing, BG_B bypassing, slot rule de S/H
+  - `gap_pure`: forward kinematics, XGM2 audio
+- Decisao consolidada: nao criar skills novas para tecnicas que ainda podem amadurecer dentro de `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst`, `multi-plane-composition`, `visual-excellence-standards`, `sprite-animation` e `character-design`.
+- Skills novas justificadas imediatamente:
+  - `forward-kinematics-rigging`
+  - `xgm2-audio-director`
+- O `BENCHMARK_VISUAL_LAB` continua sendo o unico laboratorio oficial de prova. Nenhuma tecnica nova sobe acima de `blastem_proven` sem scene dedicada, budget line e evidence bundle rastreavel.
+
 ### Assimilação do engine scan pass 2 (2026-04-10)
 - Criado o front door canônico em `doc/05_technical/92_sgdk_engine_pattern_frontdoor.md` para resolver a ambiguidade de "pass 2 sem pass 1".
 - Criado o registry machine-readable em `doc/05_technical/92_sgdk_engine_pattern_registry.json` com classificação explícita: `verified_example`, `interpreted_pattern`, `candidate_for_canon`, `blocked_pending_repro`.

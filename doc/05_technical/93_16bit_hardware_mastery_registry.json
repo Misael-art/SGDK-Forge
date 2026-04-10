@@ -1,0 +1,571 @@
+{
+  "version": 1,
+  "updated_at": "2026-04-10",
+  "domain": "16bit_hardware_mastery",
+  "matrix_path": "doc/05_technical/93_16bit_hardware_mastery_matrix.md",
+  "roadmap_path": "doc/05_technical/94_16bit_hardware_mastery_roadmap.md",
+  "front_door_path": "doc/05_technical/92_sgdk_engine_pattern_frontdoor.md",
+  "engine_registry_path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
+  "status_legend": {
+    "incorporated": "A tecnica ja faz parte da doutrina de skill existente.",
+    "candidate_with_evidence": "Ha evidencia forte em engine scan e/ou lib_case, mas ainda sem prova canonica em BlastEm.",
+    "partial": "Conhecimento existe, mas ainda esta espalhado, incompleto ou sem benchmark dedicado.",
+    "gap_pure": "Nao existe como competencia formal no workspace.",
+    "blastem_proven": "Tecnica tem scene dedicada e evidencia rastreavel em BlastEm.",
+    "senior_default": "Tecnica pode ser usada como comportamento especialista padrao."
+  },
+  "entries": [
+    {
+      "id": "line_scrolling",
+      "title": "Per-scanline horizontal scroll",
+      "module": "raster_manipulation",
+      "current_status": "candidate_with_evidence",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst",
+        "multi-plane-composition"
+      ],
+      "existing_artifacts": [
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#linescroll_scanline_gradient",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_line_scroll_hint",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_hint_wobble_spotlight",
+        "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/pattern_catalog.json#line_scroll_per_scanline"
+      ],
+      "required_artifacts": [
+        "BENCHMARK_VISUAL_LAB scene dedicada",
+        "budget line dedicada em doc/13-spec-cenas.md",
+        "proof bundle de BlastEm",
+        "checklist de seam e DMA leakage"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_line_scroll_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "HSCROLL_LINE + DMA por frame",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Subir para blastem_proven apenas apos scroll sem seam, sem glitch e com DMA controlado.",
+      "notes": "Tecnica central para parallax por linha, wobble, heat haze e chao falso 3D.",
+      "registry_ids": [
+        "linescroll_scanline_gradient",
+        "hint_wobble_scanline"
+      ]
+    },
+    {
+      "id": "column_scrolling",
+      "title": "Per-column vertical scroll",
+      "module": "raster_manipulation",
+      "current_status": "partial",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "existing_artifacts": [
+        "doc/05_technical/99_sgdk_engines_scan_appendix.md"
+      ],
+      "required_artifacts": [
+        "doutrina explicita em skill",
+        "lib_case dedicado",
+        "scene de benchmark em ROM"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_column_scroll_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "performance"
+        ],
+        "budget_line": "VSRAM update por frame",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem prova de coluna balancando sem jitter e sem custo excessivo de VBlank.",
+      "notes": "Necessario para torre, mola, terreno oscilante e estruturas verticais com vida."
+    },
+    {
+      "id": "hint_palette_blending",
+      "title": "H-Int palette split / raster blending",
+      "module": "raster_manipulation",
+      "current_status": "candidate_with_evidence",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "existing_artifacts": [
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#hint_spotlight_shadow",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_hint_wobble_spotlight"
+      ],
+      "required_artifacts": [
+        "scene isolada de split mid-frame",
+        "checklist de H-Int singleton budget",
+        "BlastEm proof bundle"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_hint_palette_split_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "H-Int callback unico + CRAM swap",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Requer linha de split estavel, sem glitch visual e sem conflito com DMA critico.",
+      "notes": "Base para agua, atmosfera e separacao dramatica de ambientes.",
+      "registry_ids": [
+        "hint_spotlight_shadow",
+        "raycasting_hud_palette_split"
+      ]
+    },
+    {
+      "id": "shadow_highlight_mode",
+      "title": "VDP Shadow / Highlight contextual",
+      "module": "light_color_illusion",
+      "current_status": "partial",
+      "owner_skills": [
+        "megadrive-vdp-budget-analyst",
+        "visual-excellence-standards",
+        "sgdk-runtime-coder"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/06_vdp_limit_extrapolation_techniques.md#6.1",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_hint_wobble_spotlight"
+      ],
+      "required_artifacts": [
+        "trilha dedicada de auditoria",
+        "scene de spotlight em ROM",
+        "slot audit documentado"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_shadow_highlight_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "visual_elite",
+          "performance"
+        ],
+        "budget_line": "S/H ativo + composicao de planos",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "So sobe com palette_slot_audit limpo e cena validada em BlastEm.",
+      "notes": "Competencia critica para spotlight, glow e sombra ambiental."
+    },
+    {
+      "id": "palette_cycling",
+      "title": "Color cycling via CRAM rotation",
+      "module": "light_color_illusion",
+      "current_status": "partial",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "visual-excellence-standards",
+        "multi-plane-composition"
+      ],
+      "existing_artifacts": [
+        "doc/05_technical/80_fx_combination_matrix.md"
+      ],
+      "required_artifacts": [
+        "timing tables",
+        "scene dedicada",
+        "regras de hierarquia de paleta"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_palette_cycling_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "visual_elite"
+        ],
+        "budget_line": "CRAM writes no VBlank",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem ciclo suave, sem pop de cor e sem invadir paleta critica.",
+      "notes": "Deve virar competencia formal para agua, lava, neon e pulso luminoso."
+    },
+    {
+      "id": "dithering_crt_smearing",
+      "title": "Functional dithering with CRT-aware reading",
+      "module": "light_color_illusion",
+      "current_status": "partial",
+      "owner_skills": [
+        "visual-excellence-standards",
+        "megadrive-pixel-strict-rules",
+        "character-design"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/00_visual_quality_bar.md",
+        "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+      ],
+      "required_artifacts": [
+        "catalogo CRT-aware explicito",
+        "comparativo LCD vs CRT perceptual",
+        "benchmarks de material"
+      ],
+      "benchmark_scene": {
+        "scene_id": "art_dither_crt_lab",
+        "validation_axes": [
+          "visual_elite"
+        ],
+        "budget_line": "n/a - tecnica de arte",
+        "evidence_bundle": [
+          "benchmark_visual.png"
+        ]
+      },
+      "promotion_gate": "So sobe quando o catalogo deixar claro quando dithering enriquece e quando vira ruido.",
+      "notes": "Hoje o workspace domina dithering funcional, mas ainda nao formalizou o raciocinio CRT-aware."
+    },
+    {
+      "id": "forward_kinematics",
+      "title": "Articulated sprite chains via fixed-point forward kinematics",
+      "module": "sprite_engineering",
+      "current_status": "gap_pure",
+      "owner_skills": [
+        "forward-kinematics-rigging",
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "existing_artifacts": [
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#trig_lookup_and_atan2"
+      ],
+      "required_artifacts": [
+        "skill dedicada",
+        "lib_case dedicado",
+        "POC de tentaculo/braco",
+        "proof bundle de BlastEm"
+      ],
+      "benchmark_scene": {
+        "scene_id": "boss_kinematics_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "performance",
+          "gameplay_basico"
+        ],
+        "budget_line": "sprites por scanline + fix16 per-joint cost",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem 60 fps observavel e ordem topologica correta das juntas.",
+      "notes": "Gap puro; justifica skill nova imediata.",
+      "registry_ids": [
+        "trig_lookup_and_atan2"
+      ]
+    },
+    {
+      "id": "sprite_multiplexing",
+      "title": "Temporal multiplexing of sprite populations",
+      "module": "sprite_engineering",
+      "current_status": "partial",
+      "owner_skills": [
+        "megadrive-vdp-budget-analyst",
+        "sgdk-runtime-coder",
+        "sprite-animation"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/AAA_SKILL_CURATION_STATUS.md"
+      ],
+      "required_artifacts": [
+        "regra binaria de uso",
+        "lista de proibicoes para gameplay critico",
+        "POC de chuva pesada ou detrito"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_sprite_multiplex_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "scanline pressure worst-frame",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem documentar claramente permitido, proibido e fallback.",
+      "notes": "Nao pode ser default em heroi, projetil critico ou leitura de gameplay."
+    },
+    {
+      "id": "pseudo3d_fake_mode7",
+      "title": "Pseudo-3D road / fake mode 7 stack",
+      "module": "software_rendering",
+      "current_status": "candidate_with_evidence",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "existing_artifacts": [
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#pseudo3d_road_stack",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_pseudo3d_road_zmap"
+      ],
+      "required_artifacts": [
+        "scene de benchmark em ROM",
+        "budget line de raster",
+        "evidence bundle de BlastEm"
+      ],
+      "benchmark_scene": {
+        "scene_id": "pseudo3d_road_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "HScroll/VScroll per-line + color banding",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Subir para blastem_proven so apos rodar estavel com curvas, morros ou banding real.",
+      "notes": "Ja tem lib_case, mas ainda nao e default do agente.",
+      "registry_ids": [
+        "pseudo3d_road_stack"
+      ]
+    },
+    {
+      "id": "xgm2_pcm_multiplexing",
+      "title": "XGM2 channel ownership and PCM multiplexing",
+      "module": "audio",
+      "current_status": "gap_pure",
+      "owner_skills": [
+        "xgm2-audio-director",
+        "sgdk-runtime-coder"
+      ],
+      "existing_artifacts": [
+        "doc/system_mechanics_roadmap.md"
+      ],
+      "required_artifacts": [
+        "skill dedicada",
+        "channel ownership map",
+        "audio lab scene",
+        "proof bundle com BGM + SFX + ambiente"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_xgm2_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "audio",
+          "performance"
+        ],
+        "budget_line": "PCM ownership + loop integrity",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem loop limpo, pause/resume correto e canais com dono definido.",
+      "notes": "Gap puro; justifica skill nova imediata."
+    },
+    {
+      "id": "tile_flipping",
+      "title": "Tile and sprite flipping via hardware bits",
+      "module": "sprite_engineering",
+      "current_status": "incorporated",
+      "owner_skills": [
+        "megadrive-pixel-strict-rules",
+        "sprite-animation",
+        "character-design"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/SKILL.md",
+        "doc/03_art/07_sprite_animation_standards.md"
+      ],
+      "required_artifacts": [
+        "vinculacao explicita na trilha de maestria"
+      ],
+      "benchmark_scene": {
+        "scene_id": "sprite_tile_flipping_lab",
+        "validation_axes": [
+          "gameplay_basico"
+        ],
+        "budget_line": "zero-cost VRAM reuse",
+        "evidence_bundle": [
+          "benchmark_visual.png"
+        ]
+      },
+      "promotion_gate": "Ja incorporado; sobe para senior_default quando a trilha de maestria estiver fechada.",
+      "notes": "Nao precisa skill nova."
+    },
+    {
+      "id": "bg_b_bypassing",
+      "title": "Giant boss rendered as tilemap / plane takeover",
+      "module": "sprite_engineering",
+      "current_status": "partial",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst",
+        "multi-plane-composition"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/06_vdp_limit_extrapolation_techniques.md"
+      ],
+      "required_artifacts": [
+        "benchmark de boss gigante",
+        "regras de quando pode e quando e desperdicio"
+      ],
+      "benchmark_scene": {
+        "scene_id": "boss_bg_b_bypass_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "plane takeover + sprite pressure aliviada",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem registrar claramente o tradeoff de perder parallax de background durante a luta.",
+      "notes": "Tecnica valida para bosses gigantes, nao para boss medio."
+    },
+    {
+      "id": "dma_transfer_safety",
+      "title": "DMA safety, leakage control and worst-frame discipline",
+      "module": "cross_cutting",
+      "current_status": "incorporated",
+      "owner_skills": [
+        "megadrive-vdp-budget-analyst",
+        "sgdk-runtime-coder"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+        "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+        "doc/03_art/06_vdp_limit_extrapolation_techniques.md"
+      ],
+      "required_artifacts": [
+        "checklist unico",
+        "scene de worst-frame budget"
+      ],
+      "benchmark_scene": {
+        "scene_id": "dma_safety_worst_frame_lab",
+        "validation_axes": [
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "DMA por VBlank no pior quadro",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Sobe para senior_default quando worst-frame budgeting estiver unificado e reproduzivel.",
+      "notes": "Conhecimento forte, mas ainda disperso entre skill e docs."
+    },
+    {
+      "id": "shadow_highlight_slot_rule",
+      "title": "Palette slot audit for Shadow / Highlight operator safety",
+      "module": "cross_cutting",
+      "current_status": "partial",
+      "owner_skills": [
+        "visual-excellence-standards",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+      ],
+      "required_artifacts": [
+        "checklist dedicado",
+        "scene de spotlight auditada",
+        "regra binaria em skill"
+      ],
+      "benchmark_scene": {
+        "scene_id": "shadow_slot_audit_lab",
+        "validation_axes": [
+          "visual_elite",
+          "boot_emulador"
+        ],
+        "budget_line": "PAL3 slot audit",
+        "evidence_bundle": [
+          "benchmark_visual.png"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem deixar impossivel usar slot operador por engano em volume critico.",
+      "notes": "Tecnicamente ligada ao S/H, mas forte o suficiente para existir como tecnica transversal."
+    },
+    {
+      "id": "priority_split_foreground",
+      "title": "Foreground priority split by tile segment",
+      "module": "sprite_engineering",
+      "current_status": "candidate_with_evidence",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "multi-plane-composition",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_priority_split_foreground",
+        "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/pattern_catalog.json#priority_split_foreground"
+      ],
+      "required_artifacts": [
+        "scene de benchmark",
+        "regras de desenho disciplinado"
+      ],
+      "benchmark_scene": {
+        "scene_id": "priority_split_foreground_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "visual_elite"
+        ],
+        "budget_line": "foreground priority discipline",
+        "evidence_bundle": [
+          "benchmark_visual.png"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem provar que cobre sprite sem gerar leitura confusa.",
+      "notes": "Candidato forte que complementa BG_B bypassing e multi-plano."
+    },
+    {
+      "id": "tile_cache_streaming_refcount",
+      "title": "Refcounted tile cache for maps larger than VRAM",
+      "module": "software_rendering",
+      "current_status": "candidate_with_evidence",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "existing_artifacts": [
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#tile_cache_streaming_refcount",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_tile_cache_streaming"
+      ],
+      "required_artifacts": [
+        "scene dedicada de streaming",
+        "budget line de camera velocidade x DMA"
+      ],
+      "benchmark_scene": {
+        "scene_id": "tile_cache_streaming_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "performance"
+        ],
+        "budget_line": "streaming por coluna/bloco + camera",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem provar ausencia de seam em camera real.",
+      "notes": "Tecnica importante para stages largos e bosses tilemapados.",
+      "registry_ids": [
+        "tile_cache_streaming_refcount"
+      ]
+    }
+  ]
+}

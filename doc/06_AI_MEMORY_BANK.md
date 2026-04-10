@@ -55,6 +55,32 @@
   - `xgm2-audio-director`
 - O `BENCHMARK_VISUAL_LAB` continua sendo o unico laboratorio oficial de prova. Nenhuma tecnica nova sobe acima de `blastem_proven` sem scene dedicada, budget line e evidence bundle rastreavel.
 
+### Reconciliacao dos efeitos lendarios na malha de maestria (2026-04-10)
+- `H-Int` deixou de existir apenas como restricao de budget e passou a ser tratado como substrato formal via `h_int_control_plane`.
+- `mid-frame palette swap` foi explicitamente absorvido como alias visual de `hint_palette_blending`; nao virou trilha separada.
+- `pseudo-3D` foi dividido em duas trilhas distintas:
+  - `pseudo3d_road_stack`
+  - `software_affine_pseudo3d`
+- `Window Plane` entrou na matriz como competencia formal de HUD e arquitetura de display:
+  - `window_plane_static_hud`
+- `window alias` permanece tecnica avancada e nao-default; nunca deve ser confundida com uso normal da `WINDOW`.
+- `interlaced_448_display_mode` entrou no core roadmap de maestria, mas com politica operacional `special_scene_only`.
+- `sprite multiplexing` deixou de ser categoria unica e passou a ser dividido em:
+  - `sprite_temporal_multiplexing`
+  - `sprite_midframe_sat_reuse`
+- `sprite_midframe_sat_reuse` depende formalmente de `h_int_control_plane` e ficou classificado como trilha futura perigosa.
+- O contrato do `BENCHMARK_VISUAL_LAB` foi endurecido para exigir:
+  - `intencao_da_cena`
+  - `signature_moment`
+  - `causa_de_gameplay`
+  - `secondary_fx_pairings`
+  - `hint_owner`
+  - `operational_policy`
+  - `budget_line`
+- Decisao consolidada:
+  - nao criar skill nova para H-Int, Window Plane, interlaced, palette split ou pseudo-3D road-stack
+  - novas skills continuam restritas aos gaps puros ja aceitos (`forward-kinematics-rigging` e `xgm2-audio-director`)
+
 ### Assimilação do engine scan pass 2 (2026-04-10)
 - Criado o front door canônico em `doc/05_technical/92_sgdk_engine_pattern_frontdoor.md` para resolver a ambiguidade de "pass 2 sem pass 1".
 - Criado o registry machine-readable em `doc/05_technical/92_sgdk_engine_pattern_registry.json` com classificação explícita: `verified_example`, `interpreted_pattern`, `candidate_for_canon`, `blocked_pending_repro`.

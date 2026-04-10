@@ -62,9 +62,22 @@
 |---|-------------|-----------------------|
 | 1 | A tecnica alterada existe em `doc/05_technical/93_16bit_hardware_mastery_registry.json`? | Registrar antes de promover |
 | 2 | A cena alterada tem `scene_id` e `budget line` em `doc/13-spec-cenas.md`? | Pare e completar o contrato |
-| 3 | O `evidence bundle` da tecnica foi capturado? | Nao promover acima de `candidate_with_evidence` |
-| 4 | O grupo de regressao da tecnica foi reexecutado? | Tratar como prova incompleta |
-| 5 | O novo estado da tecnica foi refletido no registry? | Corrigir tracking antes de encerrar |
+| 3 | A cena alterada declarou `intencao_da_cena`, `signature_moment` e `causa_de_gameplay`? | Nao tratar benchmark como prova dramatica valida |
+| 4 | Se houver H-Int, existe `hint_owner` e `hint_callback_contract` explicitos? | Bloquear a promocao ate haver owner unico |
+| 5 | A `operational_policy` da tecnica esta declarada? | Pare e classifique como `default_safe`, `advanced_tradeoff`, `special_scene_only` ou `hazardous_experimental` |
+| 6 | O `evidence bundle` da tecnica foi capturado? | Nao promover acima de `candidate_with_evidence` |
+| 7 | O grupo de regressao da tecnica foi reexecutado? | Tratar como prova incompleta |
+| 8 | O novo estado da tecnica foi refletido no registry? | Corrigir tracking antes de encerrar |
+
+## 5.1 GATE ESPECIAL: H-INT, WINDOW E DISPLAY
+
+| # | Verificacao | Se a resposta for NAO |
+|---|-------------|-----------------------|
+| 1 | So existe um owner ativo para `H-Int` na scene? | Tratar como conflito estrutural |
+| 2 | `WINDOW` esta sendo usada como HUD fixo ou esta explicitamente livre para tecnica avancada? | Bloquear a integracao |
+| 3 | `window alias` foi separado do uso normal de `WINDOW`? | Reprovar a classificacao da tecnica |
+| 4 | `interlaced_448` esta marcado como `special_scene_only` e comparado contra 224p? | Nao promover |
+| 5 | `sprite_midframe_sat_reuse` foi tratado como tecnica distinta de multiplex temporal? | Reprovar o laudo tecnico |
 
 ---
 

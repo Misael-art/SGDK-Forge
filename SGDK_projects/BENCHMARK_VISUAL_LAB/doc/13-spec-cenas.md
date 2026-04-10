@@ -8,10 +8,27 @@
 
 Scene ID: `[scene_id]`
 
+Intencao da cena: `[intencao_da_cena]`
+
+Signature moment: `[signature_moment]`
+
+Causa de gameplay: `[causa_de_gameplay]`
+
 Tecnicas cobertas:
 
 - `[technique_id_1]`
 - `[technique_id_2]`
+
+Secondary FX pairings:
+
+- `[secondary_fx_1]`
+- `[secondary_fx_2]`
+
+Operational policy: `[default_safe / advanced_tradeoff / special_scene_only / hazardous_experimental]`
+
+hint_owner: `[none / system_name]`
+
+hint_callback_contract: `[na / callback_name + reset_policy]`
 
 | Recurso | Budget | Uso atual |
 |---------|--------|-----------|
@@ -43,12 +60,21 @@ Tecnicas cobertas:
 
 - [restricao 1]
 - [restricao 2]
+- [por que a tecnica existe nesta cena]
 
 ---
 
 ## Cena: [OUTRA]
 
 Scene ID: `[scene_id]`
+
+Intencao da cena: `[intencao_da_cena]`
+
+Signature moment: `[signature_moment]`
+
+Causa de gameplay: `[causa_de_gameplay]`
+
+Operational policy: `[default_safe / advanced_tradeoff / special_scene_only / hazardous_experimental]`
 
 | Recurso | Budget | Uso atual |
 |---------|--------|-----------|

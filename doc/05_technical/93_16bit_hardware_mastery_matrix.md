@@ -20,6 +20,7 @@ Papel desta camada:
 - separar candidato forte de gap puro
 - nomear donos de skill
 - declarar o artefato minimo para subir de nivel
+- separar efeito visual, substrato de hardware e tecnica perigosa de excecao
 
 ## Escada unica de maestria
 
@@ -46,9 +47,15 @@ Equivalencia operacional:
 |---|---|---|---|
 | Line Scrolling | `candidate_with_evidence` | `sgdk-runtime-coder` | forte em engine scan, `lib_case` presente, falta benchmark canonico isolado |
 | Column Scrolling | `partial` | `sgdk-runtime-coder` | conhecido conceitualmente, mas sem doutrina dedicada nem POC formal |
-| H-Int Palette Blending / Raster Split | `candidate_with_evidence` | `sgdk-runtime-coder` | forte em `92_registry`, falta skill com linguagem perita e benchmark isolado |
+| H-Int Palette Blending / Mid-Frame Palette Swap | `candidate_with_evidence` | `sgdk-runtime-coder` | forte em `92_registry`, falta benchmark isolado e contrato explicito de ownership |
 
-## Modulo 2 - Luz, Cor e Ilusao Optica
+## Modulo 2 - Raster Control Plane
+
+| Tecnica | Estado atual | Dono principal | Situacao real |
+|---|---|---|---|
+| H-Int Control Plane | `partial` | `sgdk-runtime-coder` | conhecimento existe, mas ainda nao esta formalizado como competencia-substrato unica |
+
+## Modulo 3 - Luz, Cor e Ilusao Optica
 
 | Tecnica | Estado atual | Dono principal | Situacao real |
 |---|---|---|---|
@@ -56,24 +63,33 @@ Equivalencia operacional:
 | Palette Cycling | `partial` | `sgdk-runtime-coder` | aparece como conceito vizinho, mas ainda sem competencia formal do workspace |
 | Dithering + CRT Smearing | `partial` | `visual-excellence-standards` | dithering ja e doutrina; CRT-aware reading ainda nao esta canonizado como catalogo |
 
-## Modulo 3 - Engenharia de Sprites
+## Modulo 4 - Arquitetura de Display
 
 | Tecnica | Estado atual | Dono principal | Situacao real |
 |---|---|---|---|
-| Forward Kinematics | `gap_pure` | `forward-kinematics-rigging` | sem skill, sem `lib_case`, sem benchmark dedicado |
-| Sprite Multiplexing | `partial` | `megadrive-vdp-budget-analyst` | conhecido como tradeoff, mas sem regra binaria de uso e sem POC canonico |
-| Tile Flipping | `incorporated` | `megadrive-pixel-strict-rules` | doutrina solida em arte e VRAM; falta apenas vinculacao a trilha de maestria |
+| Window Plane Static HUD | `candidate_with_evidence` | `sgdk-runtime-coder` | `window_plane_lifebar` ja aparece forte no scan, mas ainda nao esta na matriz de maestria |
+| Interlaced 448 Display Mode | `gap_pure` | `sgdk-runtime-coder` | entra no core roadmap, mas com politica `special_scene_only` e sem prova dedicada ainda |
+
+## Modulo 5 - Engenharia de Sprites
+
+| Tecnica | Estado atual | Dono principal | Situacao real |
+|---|---|---|---|
+| Forward Kinematics | `gap_pure` | `forward-kinematics-rigging` | sem `lib_case`, sem benchmark dedicado |
+| Sprite Temporal Multiplexing | `partial` | `megadrive-vdp-budget-analyst` | conhecido como tradeoff visual, mas sem regra binaria de uso e sem POC canonico |
+| Sprite Mid-Frame SAT Reuse | `gap_pure` | `megadrive-vdp-budget-analyst` | tecnica perigosa e ainda sem competencia formal separada da alternancia temporal |
+| Tile Flipping | `incorporated` | `megadrive-pixel-strict-rules` | doutrina solida em arte e VRAM; falta apenas vinculacao plena a trilha de maestria |
 | BG_B Bypassing / Giant Boss Tilemap | `partial` | `sgdk-runtime-coder` | conhecido como tecnica valida, mas sem benchmark e sem checklist de proibicao/permissao |
-| Priority Split Foreground | `candidate_with_evidence` | `sgdk-runtime-coder` | bem ancorado no scan, mas ainda nao virou modulo de dominio |
+| Priority Split Foreground | `candidate_with_evidence` | `sgdk-runtime-coder` | bem ancorado no scan, mas ainda nao virou modulo de dominio senior |
 
-## Modulo 4 - Renderizacao por Software
+## Modulo 6 - Renderizacao por Software
 
 | Tecnica | Estado atual | Dono principal | Situacao real |
 |---|---|---|---|
-| Fake Mode 7 / Pseudo-3D | `candidate_with_evidence` | `sgdk-runtime-coder` | `lib_case` presente, benchmark futuro obrigatorio para subir de nivel |
+| Pseudo-3D Road Stack | `candidate_with_evidence` | `sgdk-runtime-coder` | `lib_case` presente, benchmark futuro obrigatorio para subir de nivel |
+| Software Affine Pseudo-3D | `gap_pure` | `sgdk-runtime-coder` | tecnica distinta do road-stack; ainda nao formalizada no workspace |
 | Tile Cache Streaming | `candidate_with_evidence` | `sgdk-runtime-coder` | muito forte no scan, ainda sem prova de laboratorio como tecnica oficial |
 
-## Modulo 5 - Audio
+## Modulo 7 - Audio
 
 | Tecnica | Estado atual | Dono principal | Situacao real |
 |---|---|---|---|
@@ -83,7 +99,7 @@ Equivalencia operacional:
 
 | Tecnica | Estado atual | Dono principal | Situacao real |
 |---|---|---|---|
-| DMA Transfer Safety | `incorporated` | `megadrive-vdp-budget-analyst` | forte mas espalhado; falta checklist unico e benchmark de worst-frame |
+| DMA Transfer Safety | `incorporated` | `megadrive-vdp-budget-analyst` | forte, mas espalhado; falta checklist unico e benchmark de worst-frame |
 | Shadow/Highlight Slot Rule | `partial` | `visual-excellence-standards` | auditoria existe como ideia forte, mas ainda nao esta organizada como competencia autonoma |
 
 ## Leitura por maturidade
@@ -100,22 +116,27 @@ Equivalencia operacional:
 
 - `line_scrolling`
 - `hint_palette_blending`
-- `pseudo3d_fake_mode7`
+- `window_plane_static_hud`
+- `pseudo3d_road_stack`
 - `priority_split_foreground`
-- `tile_cache_streaming`
+- `tile_cache_streaming_refcount`
 
 ### Parcial
 
 - `column_scrolling`
+- `h_int_control_plane`
 - `shadow_highlight_mode`
 - `palette_cycling`
 - `dithering_crt_smearing`
-- `sprite_multiplexing`
+- `sprite_temporal_multiplexing`
 - `bg_b_bypassing`
 - `shadow_highlight_slot_rule`
 
 ### Gap puro
 
+- `interlaced_448_display_mode`
+- `sprite_midframe_sat_reuse`
+- `software_affine_pseudo3d`
 - `forward_kinematics`
 - `xgm2_pcm_multiplexing`
 

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Scene State Architect"
+  short_description: "Protege modularidade e fronteiras de estado em projetos SGDK"
+  brand_color: "#5B4A8F"
+  default_prompt: "Use $scene-state-architect para revisar ou planejar cenas, estados, modulos e contratos centrais sem deixar a arquitetura se fragmentar."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

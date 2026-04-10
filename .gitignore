@@ -1,0 +1,53 @@
+# Build outputs
+**/out/
+*.bin
+*.o
+*.lst
+*.map
+**/build_output.log
+**/build_debug.log
+**/build_error.log
+**/validation_report.json
+**/hs_err_pid*.log
+**/replay_pid*.log
+**/.sgdk_migration_state.json
+**/__pycache__/
+**/.vs/
+**/.import/
+*.rds-replay
+*.png.original
+*.pdb
+
+# SDK (download separately)
+sdk/
+
+# Archives
+archives/
+
+# Local workspace state
+.venv/
+.vscode/
+.claude/
+.cursor/
+.kilocode/
+.playwright-cli/
+.trae/
+.mypy_cache/
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE
+.idea/
+*.suo
+*.user
+
+# Temporários e saídas
+tmp/
+.tmp/
+output/
+
+# Conteúdo local fora do escopo de salvamento atual
+assets/

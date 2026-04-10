@@ -1,0 +1,46 @@
+# Nome do projeto é o nome da pasta atual
+PROJECT = $(notdir $(CURDIR))
+
+# Diretórios
+SRC_DIR = src
+INC_DIR = inc
+RES_DIR = res
+BUILD_DIR = out
+
+# Arquivos fontes
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+
+# Configuração do SGDK
+SGDK_DIR = ../_sgdk200
+GCC_DIR = $(SGDK_DIR)/bin
+GCC = $(GCC_DIR)/m68k-elf-gcc
+AS = $(GCC_DIR)/m68k-elf-as
+LD = $(GCC_DIR)/m68k-elf-ld
+OBJCOPY = $(GCC_DIR)/m68k-elf-objcopy
+
+# Flags de compilação
+CFLAGS = -O2 -fomit-frame-pointer -Wall -I$(INC_DIR) -I$(SGDK_DIR)/inc -I$(SGDK_DIR)/res
+LDFLAGS = -n -T $(SGDK_DIR)/ldscripts/sgdk.ld -L$(SGDK_DIR)/lib -lmd -lres
+
+# Alvo padrão
+all: $(BUILD_DIR)/$(PROJECT).bin
+
+# Compilação dos arquivos objetos
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(BUILD_DIR)
+	$(GCC) $(CFLAGS) -c $< -o $@
+
+# Linkagem
+$(BUILD_DIR)/$(PROJECT).elf: $(OBJ)
+	$(LD) $(LDFLAGS) $^ -o $@
+
+# Geração do binário
+$(BUILD_DIR)/$(PROJECT).bin: $(BUILD_DIR)/$(PROJECT).elf
+	$(OBJCOPY) -O binary $< $@
+
+# Limpeza dos arquivos gerados
+clean:
+	rm -rf $(BUILD_DIR)
+
+.PHONY: all clean

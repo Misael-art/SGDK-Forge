@@ -1,0 +1,115 @@
+{
+  "scene_id": "main",
+  "schema_version": "1.6.0",
+  "display_name": "Legacy SGDK Overlay",
+  "background_layers": [],
+  "entities": [
+    {
+      "entity_id": "level_tileset_tilemap",
+      "display_name": "level_tileset",
+      "prefab": null,
+      "transform": {
+        "x": 0,
+        "y": 0
+      },
+      "components": {
+        "sprite": null,
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": null,
+        "camera": null,
+        "tilemap": {
+          "tileset": "assets/tilesets/level.png",
+          "map_width": 96,
+          "map_height": 96,
+          "scroll_x": 0,
+          "scroll_y": 0
+        }
+      }
+    },
+    {
+      "entity_id": "player_sprite",
+      "display_name": "player_sprite",
+      "prefab": null,
+      "transform": {
+        "x": 32,
+        "y": 32
+      },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/player.png",
+          "frame_width": 24,
+          "frame_height": 24,
+          "pivot": null,
+          "palette_slot": 0,
+          "animations": {},
+          "priority": "foreground",
+          "meta_sprite": false
+        },
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": {
+          "graph": "{\"edges\":[{\"fromNode\":\"start\",\"fromPort\":\"exec\",\"id\":\"edge_start_move\",\"toNode\":\"move_sprite\",\"toPort\":\"exec\"}],\"nodes\":[{\"id\":\"start\",\"inputs\":[],\"label\":\"On Start\",\"outputs\":[{\"id\":\"exec\",\"kind\":\"exec\",\"label\":\">\"}],\"params\":{},\"type\":\"event_start\",\"x\":48,\"y\":48},{\"id\":\"move_sprite\",\"inputs\":[{\"id\":\"exec\",\"kind\":\"exec\",\"label\":\">\"}],\"label\":\"Move Sprite\",\"outputs\":[{\"id\":\"exec\",\"kind\":\"exec\",\"label\":\">\"}],\"params\":{\"dx\":2,\"dy\":0,\"target\":\"player_sprite\"},\"type\":\"sprite_move\",\"x\":228,\"y\":48}],\"version\":1}",
+          "variables": {}
+        },
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "audio_bank",
+      "display_name": "Audio Bank",
+      "prefab": null,
+      "transform": {
+        "x": 0,
+        "y": 0
+      },
+      "components": {
+        "sprite": null,
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": {
+          "sfx": {
+            "jump": "assets/audio/jump.wav"
+          },
+          "bgm": "assets/audio/sonic2Emerald.vgm"
+        },
+        "logic": null,
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "main_camera",
+      "display_name": "Main Camera",
+      "prefab": null,
+      "transform": {
+        "x": 0,
+        "y": 0
+      },
+      "components": {
+        "sprite": null,
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": null,
+        "camera": {
+          "follow_entity": "player_sprite",
+          "offset_x": 0,
+          "offset_y": 0
+        },
+        "tilemap": null
+      }
+    }
+  ],
+  "palettes": [],
+  "retrofx": null,
+  "collision_map": null,
+  "layers": null
+}

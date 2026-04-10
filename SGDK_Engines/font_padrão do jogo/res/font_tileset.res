@@ -1,0 +1,1 @@
+TILESET font_tileset "sprite/font2.png" NONE ALL

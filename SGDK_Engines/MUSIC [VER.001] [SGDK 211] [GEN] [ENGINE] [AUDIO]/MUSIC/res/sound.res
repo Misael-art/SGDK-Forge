@@ -1,0 +1,1 @@
+XGM music "sfx/musicfile.vgm" 0

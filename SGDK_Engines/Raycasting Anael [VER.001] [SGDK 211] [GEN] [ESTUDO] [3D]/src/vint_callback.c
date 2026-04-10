@@ -1,0 +1,203 @@
+#include <types.h>
+#include <sys.h>
+#include "vint_callback.h"
+#include <vdp.h>
+#include <vdp_bg.h>
+#include <vdp_spr.h>
+#include <pal.h>
+#include <memory.h>
+#include <z80_ctrl.h>
+#include "consts.h"
+#include "consts_ext.h"
+#include "hud.h"
+#include "weapon_consts.h"
+#if PLANE_COLUMNS == 64
+#include "hud_320.h"
+#else
+#include "hud_256.h"
+#endif
+#include "utils.h"
+#include "render.h"
+#include "hint_callback.h"
+
+#if DMA_ENQUEUE_HUD_TILEMAP_TO_FLUSH_AT_VINT
+bool hud_tilemap_set;
+#endif
+
+static u16 tiles_elems;
+static void* tiles_from[DMA_MAX_QUEUE_CAPACITY] = {0};
+static u16 tiles_toIndex[DMA_MAX_QUEUE_CAPACITY] = {0};
+static u16 tiles_lenInWord[DMA_MAX_QUEUE_CAPACITY] = {0};
+
+#if DMA_ALLOW_COMPRESSED_SPRITE_TILES
+static 16 tiles_buf_elems;
+static u16 tiles_buf_toIndex[DMA_MAX_QUEUE_CAPACITY] = {0};
+static u16 tiles_buf_lenInWord[DMA_MAX_QUEUE_CAPACITY] = {0};
+static u16* tiles_buf_dmaBufPtr;
+#endif
+
+#if DMA_ENQUEUE_VDP_SPRITE_CACHE_TO_FLUSH_AT_VINT
+static u16 vdpSpriteCache_lenInWord;
+#endif
+
+void vint_reset ()
+{
+    #if DMA_ENQUEUE_HUD_TILEMAP_TO_FLUSH_AT_VINT
+    hud_tilemap_set= FALSE;
+    #endif
+
+    memset(tiles_from, 0, DMA_MAX_QUEUE_CAPACITY);
+    memsetU16(tiles_toIndex, 0, DMA_MAX_QUEUE_CAPACITY);
+    memsetU16(tiles_lenInWord, 0, DMA_MAX_QUEUE_CAPACITY);
+    tiles_elems = 0;
+
+    #if DMA_ALLOW_COMPRESSED_SPRITE_TILES
+    memsetU16(tiles_buf_toIndex, 0, DMA_MAX_QUEUE_CAPACITY);
+    memsetU16(tiles_buf_lenInWord, 0, DMA_MAX_QUEUE_CAPACITY);
+    tiles_buf_elems = 0;
+    tiles_buf_dmaBufPtr = dmaDataBuffer;
+    #endif
+
+    #if DMA_ENQUEUE_VDP_SPRITE_CACHE_TO_FLUSH_AT_VINT
+    vdpSpriteCache_lenInWord = 0;
+    #endif
+}
+
+FORCE_INLINE void vint_enqueueHudTilemap ()
+{
+    #if DMA_ENQUEUE_HUD_TILEMAP_TO_FLUSH_AT_VINT
+    hud_tilemap_set = TRUE;
+    #endif
+}
+
+FORCE_INLINE void vint_enqueueTiles (void* from, u16 toIndex, u16 lenInWord)
+{
+    u16 prev = tiles_elems;
+    ++tiles_elems;
+    tiles_toIndex[prev] = toIndex;
+    tiles_lenInWord[prev] = lenInWord;
+    tiles_from[prev] = from;
+}
+
+FORCE_INLINE void vint_enqueueTilesBuffered (u16 toIndex, u16 lenInWord)
+{
+    #if DMA_ALLOW_COMPRESSED_SPRITE_TILES
+    u16 prev = tiles_buf_elems;
+    ++tiles_buf_elems;
+    tiles_buf_toIndex[prev] = toIndex;
+    tiles_buf_lenInWord[prev] = lenInWord;
+    tiles_buf_dmaBufPtr += lenInWord;
+    #endif
+}
+
+FORCE_INLINE void vint_enqueueVdpSpriteCache (u16 lenInWord)
+{
+    #if DMA_ENQUEUE_VDP_SPRITE_CACHE_TO_FLUSH_AT_VINT
+    vdpSpriteCache_lenInWord = lenInWord;
+    #endif
+}
+
+void vint_callback ()
+{    
+    #if RENDER_MIRROR_PLANES_USING_VSCROLL_IN_HINT | RENDER_MIRROR_PLANES_USING_VSCROLL_IN_HINT_MULTI_CALLBACKS
+    hint_reset_mirror_planes_state();
+    #endif
+
+    vu32* vdpCtrl_ptr_l = (vu32*) VDP_CTRL_PORT;
+    // VDP Off
+	turnOffVDP_m(vdpCtrl_ptr_l, 0x74);
+
+    render_Z80_setBusProtection(TRUE);
+
+    // delay enabled ? --> wait a bit (10 ticks) to improve PCM playback (test on SOR2)
+    //if (Z80_getForceDelayDMA())
+	//    waitSubTick_(10);
+
+    render_DMA_flushQueue();
+
+    render_DMA_row_by_row_framebuffer();
+
+	render_Z80_setBusProtection(FALSE);
+
+    #if HUD_RELOAD_WEAPON_PALS_AT_VINT
+	// DMA the weapon pals that were overriden gy the HUD pals
+    doDmaFast_fixed_args(vdpCtrl_ptr_l, RAM_FIXED_WEAPON_PALETTES_ADDRESS + 1*2, VDP_DMA_CRAM_ADDR((WEAPON_BASE_PAL*16 + 1) * 2), 16*WEAPON_USED_PALS - 1);
+    #endif
+
+    #if DMA_ENQUEUE_HUD_TILEMAP_TO_FLUSH_AT_VINT
+    // Have any hud tilemaps to DMA?
+    if (hud_tilemap_set) {
+        hud_tilemap_set = FALSE;
+
+        // Setup DMA length high ONLY ONCE. Length in words because DMA RAM/ROM to VRAM moves 2 bytes per VDP cycle op
+        *(vu16*)vdpCtrl_ptr_l = 0x9400 | ((TILEMAP_COLUMNS >> 8) & 0xff); // DMA length high
+        // NOTE: DMA length low has to be set every time before triggering the DMA command
+
+        // Setup DMA address ONLY ONCE
+        u32 from = RAM_FIXED_HUD_TILEMAP_DST_ADDRESS + 0*TILEMAP_COLUMNS*2;
+        from >>= 1;
+        *(vu16*)vdpCtrl_ptr_l = 0x9500 | (from & 0xff); // low address
+        //*vdpCtrl_ptr_l = 0x8F029500 | (from & 0xff); // VDP inc step 2 and low address
+        from >>= 8;
+        *(vu16*)vdpCtrl_ptr_l = 0x9600 | (from & 0xff); // mid address
+        from >>= 8;
+        *(vu16*)vdpCtrl_ptr_l = 0x9700 | (from & 0x7f); // high address
+
+        #pragma GCC unroll 256 // Always set a big number since it does not accept defines
+        for (u16 i=0; i < HUD_BG_H; ++i) {
+            doDmaFast_fixed_args_loop_ready(vdpCtrl_ptr_l, VDP_DMA_VRAM_ADDR(PW_ADDR_AT_HUD + i*PLANE_COLUMNS*2), TILEMAP_COLUMNS);
+        }
+    }
+    #endif
+
+    // Have any tiles to DMA?
+    while (tiles_elems) {
+        --tiles_elems;
+        u16 lenInWord = tiles_lenInWord[tiles_elems];
+        // NOTE: this should be DMA_doDma() because tiles might be in in a bank > 4MB
+        void* from = tiles_from[tiles_elems];
+        u16 to = tiles_toIndex[tiles_elems];
+        //DMA_doDmaFast(DMA_VRAM, from, to, lenInWord, (s16)-1);
+        doDmaFast(lenInWord, (u32)from, VDP_DMA_VRAM_ADDR(to));
+    }
+
+    #if DMA_ENQUEUE_VDP_SPRITE_CACHE_TO_FLUSH_AT_VINT
+    // Have any update for vdp sprite cache?
+    if (vdpSpriteCache_lenInWord) {
+        u16 lenInWord = vdpSpriteCache_lenInWord;
+        vdpSpriteCache_lenInWord = 0;
+        //DMA_doDmaFast(DMA_VRAM, (void*) RAM_FIXED_VDP_SPRITE_CACHE_ADDRESS, VDP_SPRITE_LIST_ADDR, lenInWord, (s16)-1);
+        doDmaFast(lenInWord, RAM_FIXED_VDP_SPRITE_CACHE_ADDRESS, VDP_DMA_VRAM_ADDR(VDP_SPRITE_LIST_ADDR));
+    }
+    #endif
+
+    #if DMA_ALLOW_COMPRESSED_SPRITE_TILES
+    // Have any buffered tiles to DMA?
+    while (tiles_buf_elems) {
+        --tiles_buf_elems;
+        u16 lenInWord = tiles_buf_lenInWord[tiles_buf_elems];
+        tiles_buf_dmaBufPtr -= lenInWord;
+        u16 toIndex = tiles_buf_toIndex[tiles_buf_elems];
+        //DMA_doDmaFast(DMA_VRAM, tiles_buf_dmaBufPtr, toIndex, lenInWord, (s16)-1);
+        doDmaFast(lenInWord, (u32)tiles_buf_dmaBufPtr, VDP_DMA_VRAM_ADDR(toIndex));
+        DMA_releaseTemp(lenInWord);
+    }
+    #endif
+
+    #if RENDER_MIRROR_PLANES_USING_VDP_VRAM
+    render_mirror_planes_in_VRAM();
+    #endif
+
+    // VDP On
+    turnOnVDP_m(vdpCtrl_ptr_l, 0x74);
+
+    #if RENDER_MIRROR_PLANES_USING_VDP_VRAM
+    // Called once the other half planes were effectively DMAed into VRAM.
+    // Do this after the display is turned on, because is CPU and VDP intense and we don't want any black scanlines leak into active display.
+    render_copy_top_entries_in_VRAM();
+    #endif
+
+    #if RENDER_SET_FLOOR_AND_ROOF_COLORS_ON_HINT & !(RENDER_MIRROR_PLANES_USING_VSCROLL_IN_HINT | RENDER_MIRROR_PLANES_USING_VSCROLL_IN_HINT_MULTI_CALLBACKS)
+    hint_reset_change_bg_state();
+    #endif
+}

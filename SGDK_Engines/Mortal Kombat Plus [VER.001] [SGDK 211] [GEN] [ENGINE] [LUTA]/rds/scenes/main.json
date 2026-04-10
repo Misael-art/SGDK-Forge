@@ -1,0 +1,235 @@
+{
+  "scene_id": "main",
+  "schema_version": "1.3.0",
+  "display_name": "Mortal Kombat Plus - Imported SGDK Project",
+  "background_layers": [
+    {
+      "layer_id": "bg_palace_gates_a",
+      "depth": 0,
+      "tileset": "assets/tilesets/s2/palace_gates_bga_v2.png",
+      "scroll_speed": { "x": 0.0, "y": 0.0 }
+    },
+    {
+      "layer_id": "bg_palace_gates_b",
+      "depth": 1,
+      "tileset": "assets/tilesets/s2/palace_gates_bgb_v3.png",
+      "scroll_speed": { "x": 0.0, "y": 0.0 }
+    }
+  ],
+  "entities": [
+    {
+      "entity_id": "spr_jcage",
+      "prefab": null,
+      "transform": { "x": 80, "y": 160 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/jc_stance.png",
+          "frame_width": 128,
+          "frame_height": 120,
+          "palette_slot": 0,
+          "animations": {
+            "stance": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        },
+        "input": {
+          "device": "joypad_1",
+          "mapping": {
+            "left": "LEFT", "right": "RIGHT", "up": "UP", "down": "DOWN",
+            "a": "A", "b": "B", "start": "START"
+          }
+        },
+        "logic": { "graph": null, "graph_ref": null, "variables": {} }
+      }
+    },
+    {
+      "entity_id": "spr_kano",
+      "prefab": null,
+      "transform": { "x": 200, "y": 160 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/kano_stance.png",
+          "frame_width": 128,
+          "frame_height": 120,
+          "palette_slot": 1,
+          "animations": {
+            "stance": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        },
+        "logic": { "graph": null, "graph_ref": null, "variables": {} }
+      }
+    },
+    {
+      "entity_id": "spr_raiden",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/raiden_stance.png",
+          "frame_width": 128,
+          "frame_height": 120,
+          "palette_slot": 0,
+          "animations": {
+            "stance": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        }
+      }
+    },
+    {
+      "entity_id": "spr_subzero",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/subzero_stance.png",
+          "frame_width": 128,
+          "frame_height": 120,
+          "palette_slot": 0,
+          "animations": {
+            "stance": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        }
+      }
+    },
+    {
+      "entity_id": "spr_scorpion",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/scorpion_stance.png",
+          "frame_width": 128,
+          "frame_height": 120,
+          "palette_slot": 0,
+          "animations": {
+            "stance": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        }
+      }
+    },
+    {
+      "entity_id": "spr_sonya",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/sonya_stance.png",
+          "frame_width": 128,
+          "frame_height": 120,
+          "palette_slot": 0,
+          "animations": {
+            "stance": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        }
+      }
+    },
+    {
+      "entity_id": "spr_liu_kang",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/liu_kang_stance.png",
+          "frame_width": 128,
+          "frame_height": 120,
+          "palette_slot": 0,
+          "animations": {
+            "stance": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        }
+      }
+    },
+    {
+      "entity_id": "spr_reptile",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/reptile_stance.png",
+          "frame_width": 128,
+          "frame_height": 120,
+          "palette_slot": 0,
+          "animations": {
+            "stance": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        }
+      }
+    },
+    {
+      "entity_id": "player_selector",
+      "prefab": null,
+      "transform": { "x": 128, "y": 100 },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/player_seletor.png",
+          "frame_width": 56,
+          "frame_height": 64,
+          "palette_slot": 0,
+          "animations": {
+            "idle": { "frames": [0, 1, 2, 3, 4, 5], "fps": 6, "loop": true }
+          },
+          "priority": "foreground"
+        }
+      }
+    },
+    {
+      "entity_id": "ui_font",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "tilemap": {
+          "tileset": "assets/gfx/font_a.png",
+          "map_width": 0,
+          "map_height": 0,
+          "scroll_x": 0,
+          "scroll_y": 0
+        }
+      }
+    },
+    {
+      "entity_id": "audio_bank",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "audio": {
+          "sfx": {
+            "cursor": "assets/audio/sfx/cursor.wav",
+            "gongo": "assets/audio/sfx/snd_gongo.wav",
+            "loc_jc": "assets/audio/loc/loc_jc.wav",
+            "loc_subzero": "assets/audio/loc/loc_subzero.wav",
+            "loc_scorpion": "assets/audio/loc/loc_scorpion.wav",
+            "loc_liu_kang": "assets/audio/loc/loc_liu_kang.wav",
+            "loc_kano": "assets/audio/loc/loc_kano.wav",
+            "loc_sonya": "assets/audio/loc/loc_sonya.wav",
+            "loc_raiden": "assets/audio/loc/loc_raiden.wav"
+          },
+          "bgm": "assets/audio/mus/02_title.wav"
+        }
+      }
+    },
+    {
+      "entity_id": "camera",
+      "prefab": null,
+      "transform": { "x": 0, "y": 0 },
+      "components": {
+        "camera": {
+          "follow_entity": "spr_jcage",
+          "offset_x": 0,
+          "offset_y": 0
+        }
+      }
+    }
+  ],
+  "palettes": [
+    { "slot": 0, "colors": [] },
+    { "slot": 1, "colors": [] }
+  ],
+  "retrofx": null
+}

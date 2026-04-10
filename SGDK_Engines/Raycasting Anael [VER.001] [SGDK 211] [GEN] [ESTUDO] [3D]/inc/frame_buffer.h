@@ -1,0 +1,39 @@
+#ifndef _FRAME_BUFFER_H_
+#define _FRAME_BUFFER_H_
+
+#include <types.h>
+#include "consts.h"
+
+// Offset to access top entry. /8 because h2 comes as multiple of 8. *2 for byte convertion.
+#define H2_FOR_TOP_ENTRY (TILEMAP_COLUMNS/8)*2
+// Offset to access bottom entry. No need for /8 becuase h2 is already normalized at this point. *2 for byte convertion.
+#define H2_FOR_BOTTOM_ENTRY ((VERTICAL_ROWS-1)*TILEMAP_COLUMNS)*2
+
+void fb_allocate_frame_buffer ();
+void fb_free_frame_buffer ();
+
+void clear_buffer ();
+void clear_buffer_sp ();
+
+void clear_buffer_halved ();
+void clear_buffer_halved_sp ();
+
+// Points to the first row of the column in each cycle of the for-loop of columns.
+extern u16* column_ptr;
+
+void write_vline (u16 h2, u16 tileAttrib);
+void write_vline_halved (u16 h2, u16 tileAttrib);
+
+void fb_set_top_entries_column (u16 pixel_column);
+void fb_increment_entries_column ();
+
+/// @brief Mirrors in inverted fashion the bottom half region of frame_buffer's Plane A and B into their respective top half region.
+/// Uses CPU and RAM. Then set the correct top tilemap entries so they are not inverted.
+void fb_mirror_planes_in_RAM ();
+/// @brief Mirrors in inverted fashion the bottom half region of frame_buffer's Plane A and B into their respective top half region.
+/// Uses VDP's VRAM to VRAM copy operation. Then set the correct top tilemap entries so they are not inverted.
+void fb_mirror_planes_in_VRAM ();
+/// @brief Set the top entries to VRAM locations one by one. This must be called once the other half planes were effectively DMAed into VRAM.
+void fb_copy_top_entries_in_VRAM ();
+
+#endif // _FRAME_BUFFER_H_

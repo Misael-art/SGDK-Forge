@@ -1,0 +1,1 @@
+IMAGE bg_bgb "gfx/bg_bgb.png" BEST

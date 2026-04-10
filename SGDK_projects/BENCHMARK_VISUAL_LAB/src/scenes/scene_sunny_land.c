@@ -11,7 +11,6 @@
 #define SUNNY_BG_SCROLL_INITIAL 43
 #define SUNNY_BG_SCROLL_MIN 0
 #define SUNNY_BG_SCROLL_MAX 64
-#define SUNNY_FG_Y_TILES 10
 
 static bool sShowOverlay = TRUE;
 static bool sAutoDrift = TRUE;
@@ -144,7 +143,7 @@ void SCENE_sunnyLandEnter(void)
     PAL_setColor(0, sunny_land_bg_b.palette->data[0]);
 
     VDP_drawImageEx(BG_B, &sunny_land_bg_b, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, bgBase), 0, 0, FALSE, TRUE);
-    VDP_drawImageEx(BG_A, &sunny_land_bg_a, TILE_ATTR_FULL(PAL1, TRUE, FALSE, FALSE, fgBase), 0, SUNNY_FG_Y_TILES, FALSE, TRUE);
+    VDP_drawImageEx(BG_A, &sunny_land_bg_a, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, fgBase), 0, 0, FALSE, TRUE);
 
     sShowOverlay = TRUE;
     sAutoDrift = TRUE;

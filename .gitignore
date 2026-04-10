@@ -51,3 +51,12 @@ output/
 
 # Conteúdo local fora do escopo de salvamento atual
 assets/
+
+# Caches e lixo de importação de engines terceiros
+**/__MACOSX/
+**/.godot/
+**/._*
+
+# Repositórios aninhados preservados fora do escopo deste monorepo
+SGDK_projects/_laboratório/SGDK-Forge/
+SGDK_projects/data/Sprites Organizados/Asset Packs/Godot Project V4/NinjaAdventure/

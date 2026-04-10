@@ -1,0 +1,44 @@
+{
+  "benchmark_id": "armored-sentinel-side-by-side",
+  "reference_asset": "doc/03_art/reference/armored_sentinel_reference.png",
+  "reference_profile": "generic-megadrive-elite",
+  "minimum_delta": 0.12,
+  "asset_weights": {
+    "sprite": 0.45,
+    "bg_a": 0.35,
+    "bg_b": 0.2
+  },
+  "lanes": {
+    "basic": {
+      "label": "BASIC",
+      "critical_visual": true,
+      "bg_b": "res/bgs/basic_bg_b.png",
+      "bg_a": "res/bgs/basic_bg_a.png",
+      "sprite": "res/sprites/spr_basic_sentinel.png",
+      "reference_profile": "generic-megadrive-elite",
+      "tags": [
+        "flat",
+        "weak-depth",
+        "poor-separation"
+      ]
+    },
+    "elite": {
+      "label": "ELITE",
+      "critical_visual": true,
+      "bg_b": "res/bgs/elite_bg_b.png",
+      "bg_a": "res/bgs/elite_bg_a.png",
+      "sprite": "res/sprites/spr_elite_sentinel.png",
+      "reference_profile": "generic-megadrive-elite",
+      "tags": [
+        "dithered",
+        "strong-silhouette",
+        "depth-separated"
+      ]
+    }
+  },
+  "modes": [
+    "silhouette_lab",
+    "layer_contrast_lab",
+    "animation_readability_lab"
+  ]
+}

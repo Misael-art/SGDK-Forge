@@ -169,12 +169,20 @@ Esta skill deve ser tratada como dona do budget senior de hardware:
 
 - `scanline pressure`
   - 20 sprites por scanline como verdade de pior quadro
+- `H-Int arbitration`
+  - uma familia de callback por cena, com owner explicito
 - `H-Int singleton budget`
   - uma familia de efeitos por frame, nunca duas assumidas por inercia
 - `DMA leakage`
   - custo real por VBlank, inclusive no quadro mais pesado
+- `window occupancy / BG_A occlusion`
+  - custo real de usar `WINDOW` como HUD e o quanto de `BG_A` fica sacrificado
+- `interlaced shimmer budget`
+  - medir ganho real de layout versus tremor visual e custo de leitura
 - `sprite multiplexing tradeoff`
-  - quando a tecnica salva a cena e quando destrói leitura
+  - diferenciar alternancia temporal de reuso real de SAT
+- `SAT rewrite risk`
+  - medir corrupcao potencial, competicao com H-Int e fragilidade de timing
 - `giant boss plane takeover`
   - custo e beneficio de mover chefes gigantes para `BG_A/BG_B`
 - `worst-frame budgeting`
@@ -187,6 +195,7 @@ Regra:
 - esta skill responde se a tecnica `cabe`, `cabe com recuo` ou `nao cabe`
 - ela deve sempre explicitar o recuo necessario
 - nenhuma tecnica de scene special effect pode ser aprovada sem esse parecer
+- `interlaced_448` pode entrar no core roadmap, mas o parecer default continua `special_scene_only`
 
 ## Quirks e exploits do VDP
 

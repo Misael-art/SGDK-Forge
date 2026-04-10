@@ -72,8 +72,12 @@ Esta skill deve declarar dominio explicito sobre:
   - ciclos bonitos que ainda cabem em VRAM
 - `tile flipping por hardware`
   - reaproveitar direcao e simetria sem sheet duplicada
+- `sprite_temporal_multiplexing`
+  - alternancia temporal pode servir para FX densos, nunca para leitura critica
+- `sprite_midframe_sat_reuse awareness`
+  - reuso real de SAT mid-frame e outra tecnica, mais perigosa, e nao deve ser confundida com alternancia temporal
 - `multiplexing proibido para gameplay critico`
-  - heroi, hitbox chave e leitura de golpe nao entram em alternancia temporal por reflexo
+  - heroi, hitbox chave e leitura de golpe nao entram em alternancia temporal nem em SAT reuse por reflexo
 - `boss articulation readiness`
   - sheets e pivots preparados para juntas ou partes acopladas
 - `FX-heavy readability`

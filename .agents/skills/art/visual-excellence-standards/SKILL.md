@@ -167,6 +167,18 @@ Regra:
 - Esse slot pode ser sacrificado de forma defensiva ou usado de forma intencional para ponto emissivo.
 - Sem `palette_slot_audit`, a cena com Shadow/Highlight nao esta madura.
 
+### Waterline e palette split
+
+- Separacao de agua, atmosfera ou gradiente dramatico por split mid-frame deve preservar coerencia cromatica entre os dois hemisferios da tela.
+- A parte abaixo da linha nao pode parecer "outra fase" sem causa.
+- Se a linha oscilar, a leitura precisa continuar estavel quadro a quadro.
+
+### Leitura sob interlace
+
+- `interlaced_448` nunca deve ser julgado apenas por "caber mais coisa".
+- O criterio visual minimo e: shimmer toleravel, tipografia legivel e ganho real de layout em relacao ao modo normal.
+- Se a cena treme mais do que informa, o modo foi mal aplicado.
+
 ### Fundo enorme nao e virtude por si so
 
 - Conversao direta de ilustracao inteira costuma gerar muitos tiles unicos e pouca inteligencia estrutural.
@@ -217,6 +229,21 @@ benchmark_referencia:
 - Monster World IV
 check_em_rom: "validar no BENCHMARK_VISUAL_LAB em BlastEm com fundo claro e escuro"
 ```
+
+## Senior Competencies
+
+Esta skill deve tratar como competencias seniores explicitas:
+
+- `waterline readability`
+  - leitura acima e abaixo da linha de split sem ruptura cromatica acidental
+- `palette split coherence`
+  - transicao cromatica dramática sem perder pertencimento de cena
+- `interlace tolerance`
+  - shimmer aceitavel e hierarquia visual ainda legivel em 448
+- `shadow/highlight slot audit`
+  - operador nao pode destruir volume critico por descuido
+- `CRT-aware evaluation`
+  - dithering e material precisam sobreviver ao julgamento LCD + CRT-aware
 
 ## Gatilhos de reprovacao
 

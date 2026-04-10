@@ -77,12 +77,18 @@ Esta skill deve dominar explicitamente:
   - `BG_B` frio < `BG_A` medio < elemento heroico
 - `BG_B bypassing`
   - reconhecer quando um boss gigante precisa assumir o plano
+- `WINDOW as fixed plane`
+  - distinguir HUD fixo legitimo de terceira layer imaginaria
+- `window alias`
+  - reconhecer como tecnica avancada separada, nunca confundir com uso normal da `WINDOW`
 
 Regra:
 
 - esta skill decide a composicao
 - a skill de budget decide se ela cabe
 - a skill de runtime decide como ela vai rodar
+- `WINDOW` pode ser plano fixo de HUD sem violar a malha visual
+- `window alias` continua `advanced_tradeoff`, nao default de composicao
 
 ## Integracao
 

@@ -87,18 +87,26 @@ Esta skill senta entre as outras:
 
 Esta skill deve ser lida como dona operacional das seguintes competencias seniores:
 
+- `h_int_control_plane`
+  - ownership unico de callback, arbitro de efeitos e contrato de reset
 - `line scroll`
   - arrays por scanline, `DMA` e seam control
 - `column scroll`
   - uso disciplinado de `VSRAM` e custo por frame
 - `H-Int palette split`
-  - split mid-frame, reset simetrico e risco de callback unico
+  - split mid-frame, alias visual `mid-frame palette swap`, reset simetrico e risco de callback unico
 - `palette cycling`
   - escrita segura em `CRAM`, timing tables e ownership de paleta
+- `window_plane_static_hud`
+  - `WINDOW` como plano fixo para HUD, lifebar e score sem consumir sprite slot
+- `interlaced_448 orchestration`
+  - modo 448 como tecnica `special_scene_only`, nunca como default de cena
 - `BG_B bypassing`
   - boss gigante como tilemap, tradeoff com parallax e plane takeover
 - `pseudo-3D`
   - `zmap`, curves, hills, banding e budget de raster
+- `software_affine_pseudo3d`
+  - transformacao por software tratada como trilha separada do road-stack
 - `DMA scheduling`
   - uploads no VBlank, leakage control e worst-frame discipline
 - `XGM/XGM2 integration boundaries`
@@ -109,6 +117,9 @@ Regra:
 - esta skill pode orquestrar todas essas tecnicas
 - ela NAO as promove para default sozinha
 - promocao para `senior_default` exige `lib_case`, scene dedicada no `BENCHMARK_VISUAL_LAB`, `validation_report` com `blastem_gate = true` e gate humano
+- `WINDOW` normal e plano fixo legitimo; `window alias` continua tecnica separada e nao-default
+- `pseudo3d_road_stack` e `software_affine_pseudo3d` nunca devem compartilhar status
+- `sprite_midframe_sat_reuse` depende formalmente de `h_int_control_plane`
 
 ## Regra para engine scan
 

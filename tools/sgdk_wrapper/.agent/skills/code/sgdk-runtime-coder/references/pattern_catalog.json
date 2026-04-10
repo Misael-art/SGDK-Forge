@@ -32,6 +32,16 @@
       ]
     },
     {
+      "id": "window_plane_static_hud",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "HUD fixa, barra de vida ou score precisam permanecer ancorados sem comer sprite slots.",
+      "risk": "Medio; a Window substitui parte de BG_A e precisa de ownership claro.",
+      "engine_examples": [
+        "Lifebar window-plane HUD",
+        "Sonic HUD via WINDOW"
+      ]
+    },
+    {
       "id": "fade_transition",
       "tier": "canonical_pattern",
       "when_to_use": "Transicao limpa entre cenas, menus ou estados dramaticos.",
@@ -86,8 +96,8 @@
     {
       "id": "hint_raster_split",
       "tier": "advanced_pattern_candidate",
-      "when_to_use": "Split de paleta, spotlight ou raster line crítico.",
-      "risk": "Alto; existe um callback global de H-Int.",
+      "when_to_use": "Split de paleta, spotlight, waterline ou mid-frame palette swap.",
+      "risk": "Alto; existe um callback global de H-Int e a ownership precisa ser unica.",
       "engine_examples": [
         "FMV Code Sample main.c:780-811",
         "Opeth player.c:248-381"
@@ -95,6 +105,16 @@
       "registry_ids": [
         "hint_spotlight_shadow",
         "raycasting_hud_palette_split"
+      ]
+    },
+    {
+      "id": "h_int_control_plane",
+      "tier": "canonical_pattern",
+      "when_to_use": "Qualquer cena usar H-Int para split, wobble, spotlight, scaling ou SAT reuse mid-frame.",
+      "risk": "Baixo como regra; o risco esta em ignorar ownership unico e reset do callback.",
+      "engine_examples": [
+        "LIZARDRIVE H-Int family",
+        "Workspace H-Int arbitration rule"
       ]
     },
     {
@@ -180,6 +200,16 @@
       ]
     },
     {
+      "id": "interlaced_448_display_mode",
+      "tier": "experimental_pattern",
+      "when_to_use": "Split-screen, HUD extremo ou cena especial com ganho vertical real comprovado contra 224p.",
+      "risk": "Muito alto se usado por reflexo; shimmer, legibilidade e layout precisam justificar o modo.",
+      "engine_examples": [
+        "Sonic 2 multiplayer",
+        "Combat Cars menus"
+      ]
+    },
+    {
       "id": "giant_boss_tilemap_bypass",
       "tier": "advanced_pattern_candidate",
       "when_to_use": "Boss ou estrutura enorme estoura o limite de scanline como sprite tradicional.",
@@ -190,12 +220,22 @@
       ]
     },
     {
-      "id": "sprite_multiplexing_temporal",
+      "id": "sprite_temporal_multiplexing",
       "tier": "experimental_pattern",
       "when_to_use": "Chuva pesada, detrito, neve ou outros elementos nao-criticos que precisem exceder densidade visual.",
       "risk": "Muito alto se aplicado em leitura de gameplay; transparência perceptual e flicker sao tradeoffs reais.",
       "engine_examples": [
         "Shooters bullet-heavy patterns",
+        "Workspace planned benchmark"
+      ]
+    },
+    {
+      "id": "sprite_midframe_sat_reuse",
+      "tier": "experimental_pattern",
+      "when_to_use": "Exceder densidade de sprites em zonas específicas quando alternancia temporal nao resolve e o benchmark justificar o risco.",
+      "risk": "Extremo; compete com H-Int, exige SAT rewrite mid-frame e pode corromper leitura ou timing.",
+      "engine_examples": [
+        "Legacy raster multiplexing idioms",
         "Workspace planned benchmark"
       ]
     },
@@ -236,6 +276,16 @@
       ],
       "registry_ids": [
         "pseudo3d_road_stack"
+      ]
+    },
+    {
+      "id": "software_affine_pseudo3d",
+      "tier": "experimental_pattern",
+      "when_to_use": "Transformacao affine ou pseudo-Mode 7 por software exigir benchmark proprio e custo de CPU explicitamente medido.",
+      "risk": "Extremo; nao compartilhar status com o road-stack e nunca assumir como efeito barato.",
+      "engine_examples": [
+        "Software transform experiments",
+        "Workspace future affine benchmark"
       ]
     },
     {

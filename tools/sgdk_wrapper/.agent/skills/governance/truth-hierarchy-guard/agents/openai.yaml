@@ -1,0 +1,11 @@
+interface:
+  display_name: "Truth Hierarchy Guard"
+  short_description: "Aplica a hierarquia de verdade e evita respostas baseadas em suposicao"
+  brand_color: "#6D3B3B"
+  default_prompt: "Use $truth-hierarchy-guard para carregar a hierarquia de verdade do projeto SGDK, identificar a fonte vencedora e evitar drift entre documentacao e codigo."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

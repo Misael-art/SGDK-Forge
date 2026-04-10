@@ -14,6 +14,8 @@ Voce atua como guardiao de coerencia entre documentacao, estado real e status de
 - identificar drift entre docs e implementacao
 - exigir vocabulario de status preciso
 - cobrar handoff e evidencia quando houver alegacao de conclusao
+- 👉 **Garantir Filosofia Maximalista:** Verificar se o projeto e as entregas comprovam a aplicacao do "Check Maximalista" nas issues e handoffs.
+- 👉 **Trava de Intencao Dramatica:** Se a cena nao possuir intencao clara, assinatura memoravel (Signature Moment) ou coerencia entre FX e proposito, DEVE REPROVAR, mesmo que seja tecnicamente avancada/correta.
 
 ## Saida esperada
 

@@ -15,6 +15,7 @@ Ela foi desenhada para:
 - manter a logica operacional no wrapper central
 - separar claramente documentado, implementado, buildado, testado e placeholder
 - reduzir deriva entre manifesto, codigo, documentacao e status real
+- garantir cadeia de evidencia deterministica entre ROM gerada, emulador aberto e artefatos de QA
 
 ---
 
@@ -27,6 +28,13 @@ Ela foi desenhada para:
 
 Os wrappers centrais garantem o bootstrap automatico para projetos novos e antigos.
 
+### Resiliencia de bootstrap
+
+- Bootstrap ausente pode ser materializado automaticamente.
+- Bootstrap presente mas sem `framework_manifest.json` nao deve ser tratado como saudavel por padrao.
+- Divergencia entre copia local e fonte canonica deve promover o projeto a estado de `bootstrap_degradado` ate auditoria de drift.
+- O wrapper deve preferir aviso honesto e modo degradado a assumir que a copia local ainda representa a verdade canonica.
+
 ---
 
 ## Estrutura
@@ -34,6 +42,7 @@ Os wrappers centrais garantem o bootstrap automatico para projetos novos e antig
 ```text
 .agent/
   ARCHITECTURE.md
+  framework_manifest.json
   agents/
   rules/
   skills/
@@ -48,6 +57,7 @@ Os wrappers centrais garantem o bootstrap automatico para projetos novos e antig
 - `skills/`: conhecimento reutilizavel e carregavel por contexto
 - `workflows/`: runbooks operacionais
 - `scripts/`: automacoes de status, auditoria e verificacao
+- `framework_manifest.json`: versao canonica da `.agent`, fontes de status e artefatos obrigatorios
 
 ---
 
@@ -80,6 +90,15 @@ flowchart TD
     execution --> statusAudit[Auditar status e drift]
     statusAudit --> handoff[Atualizar handoff e evidencias]
 ```
+
+### Contrato de evidencia operacional
+
+- Nenhuma validacao em emulador e confiavel sem vinculo explicito com a ROM testada.
+- A cadeia minima de evidencia deve ser: build final -> identidade da ROM -> sessao do emulador -> captura dedicada -> consolidacao do report -> memoria operacional.
+- Captura dedicada significa imagem da janela do emulador alvo ou artefato equivalente do proprio emulador; captura da area de trabalho inteira nao basta.
+- Se qualquer build ou rebuild ocorrer depois da captura, a evidencia anterior passa a ser `stale` ate nova validacao.
+- `validation_report.json` nao pode sobrescrever silenciosamente um estado mais forte de QA sem marcar regressao ou evidência obsoleta.
+- O framework deve preferir estados honestos como `observado`, `capturado`, `stale` e `degradado` em vez de colapsar tudo em `ok` ou `nao_testado`.
 
 ### Pipeline de producao: Design -> Art -> Code -> QA
 
@@ -117,6 +136,11 @@ flowchart LR
 - `mega-drive-pixel-engineer`: Diretor de Arte Tecnico — projeta e audita assets visuais dentro dos limites do VDP
 - `qa-hardware-tester`: Bug Hunter e Tester de Performance — valida ROM em emuladores precisos e hardware real
 
+### Pipeline de Arte (3 cenarios)
+
+- `art-pipeline-operator`: Operador do pipeline de arte — detecta cenario, executa conversao, apresenta opcoes de correcao
+- `art-creator`: Criador de assets — gera arte com IA ou sourcia da web (CC0/CC-BY), coordena conversao
+
 ---
 
 ## Skills
@@ -141,7 +165,22 @@ flowchart LR
 
 ### Arte
 
-- `megadrive-pixel-strict-rules`: leis irrevogaveis da arte pixel para hardware real do Mega Drive (paleta 9-bits, grid 8x8, escala 1x, proibicoes absolutas)
+- `megadrive-pixel-strict-rules`: leis irrevogaveis da arte pixel (paleta 9-bits, grid 8x8, escala 1x, proibicoes absolutas)
+- `visual-excellence-standards`: cerebro estetico do workspace que transforma direcao de arte em metricas de hardware AAA
+- `art-asset-diagnostic`: diagnostica estado dos assets (/data, /res) e detecta cenario 1/2/3
+- `art-conversion-pipeline`: pipeline de conversao — photo2sgdk, batch_resize_index, fix_transparency, spec JSON
+- `art-creation-sourcing`: criacao via IA (prompts especializados) ou busca na web (CC0/CC-BY)
+
+---
+
+## Scripts de automacao
+
+- `art_diagnostic.py`: diagnostico completo de assets de um projeto (exit 0/1/2 por cenario)
+- `test_art_pipeline.py`: suite de 32 testes para validar pericia do pipeline de arte
+- `project_status.py`: relatorio de status do projeto
+- `doc_drift_audit.py`: auditoria de deriva documental
+
+Os scripts devem usar `framework_manifest.json` como ancora para versao da `.agent`, comparacao com copias locais e fontes reais do status panel.
 
 ---
 
@@ -157,6 +196,7 @@ flowchart LR
 ### Producao
 
 - `production-loop`: ciclo completo de producao do estudio — Design -> Art -> Code -> QA -> Iteracao
+- `art-onboarding`: pipeline de arte para os 3 cenarios — converter /data, diagnosticar /res, criar sem arte
 
 ---
 
@@ -175,6 +215,15 @@ O framework assume um painel unico com, no minimo, estes eixos:
 - `agent_bootstrapped`
 
 `agent_bootstrapped` indica se o projeto ja possui a `.agent` local materializada a partir da fonte canonica.
+O estado desses eixos deve ser derivado primeiro de `out/logs/validation_report.json`, `out/logs/runtime_metrics.json` e `out/logs/emulator_session.json` quando esses artefatos existirem; heuristicas de arquivo entram apenas como fallback honesto.
+
+### Proveniencia minima do status
+
+- `validation_report.json` deve apontar para a identidade da ROM validada, idealmente com caminho, timestamp, tamanho e hash.
+- `emulator_session.json` deve registrar o ciclo de vida da sessao com estados como `started`, `captured` e `closed`.
+- `testado_em_emulador` nao deve subir para verdadeiro se existir apenas `launch_status=started`.
+- `runtime_capture_present` nao deve depender apenas da existencia do arquivo; ele exige evidencia realmente anexada ao report.
+- `agent_bootstrapped` deve poder coexistir com um indicador de degradacao quando a copia local existir, mas estiver sem manifesto ou em drift.
 
 ---
 
@@ -191,6 +240,12 @@ Os seguintes scripts do wrapper participam do bootstrap automatico da `.agent`:
 - `new_project.bat`
 
 O bootstrap e centralizado em `ensure_project_agent.bat` + `ensure_project_agent.ps1`.
+
+Eles devem evoluir para:
+
+- diagnosticar drift de manifesto antes de declarar o bootstrap como confiavel
+- expor claramente quando a copia local esta em modo degradado
+- impedir que evidencias velhas de emulador parecam validas para ROMs novas
 
 ---
 

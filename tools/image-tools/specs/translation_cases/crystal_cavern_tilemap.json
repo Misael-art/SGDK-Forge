@@ -1,0 +1,59 @@
+{
+  "case_id": "crystal_cavern_tilemap",
+  "status": "staged_for_translation",
+  "source_image": "assets/reference/translation_curation/crystal_cavern_tilemap/source/source.png",
+  "translation_target": "tilemap",
+  "reference_profile": "generic-megadrive-elite",
+  "minimum_delta": 0.1,
+  "hardware_expectations": {
+    "allow_compare_flat_for_rom_proof": false,
+    "allow_manual_vram_partition": false,
+    "allow_sprite_grafts": false
+  },
+  "intent_notes": [
+    "preservar o brilho colorido dos cristais sem estourar a paleta",
+    "transformar o set em tiles reutilizaveis de verdade",
+    "evitar que variacao de cor vire ruido decorativo"
+  ],
+  "soul_contract": {
+    "must_keep": [
+      "leitura de geodo e cristal",
+      "contraste entre rocha e brilho",
+      "sensacao de cavidade modular"
+    ],
+    "can_simplify": [
+      "gradientes excessivos",
+      "variedade redundante de facetas pequenas"
+    ],
+    "must_drop": [
+      "detalhe cromatico sem funcao estrutural",
+      "tiles unicos que nao agreguem modularidade"
+    ]
+  },
+  "variants": {
+    "basic": {
+      "label": "BASIC",
+      "analysis_units": [
+        {
+          "name": "tilemap",
+          "asset": "assets/reference/translation_curation/crystal_cavern_tilemap/basic/crystal_tilemap_basic.png",
+          "role": "bg_a",
+          "critical_visual": true,
+          "weight": 1.0
+        }
+      ]
+    },
+    "elite": {
+      "label": "ELITE",
+      "analysis_units": [
+        {
+          "name": "tilemap",
+          "asset": "assets/reference/translation_curation/crystal_cavern_tilemap/elite/crystal_tilemap_elite.png",
+          "role": "bg_a",
+          "critical_visual": true,
+          "weight": 1.0
+        }
+      ]
+    }
+  }
+}

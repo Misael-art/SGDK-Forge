@@ -274,7 +274,35 @@ O resultado deve passar por:
 - budget de VDP quando aplicavel
 - prova em ROM com evidencia
 
-### 5.1 Interpretar o `hardware_budget_review`
+### 5.1 Triagem de promocao para ROM
+
+Antes de declarar que uma traducao esta pronta para benchmark ou integracao SGDK, classifique o problema dominante:
+
+- `erro_de_asset`
+  - o PNG ainda nao respeita indexacao, slot transparente, matte ou alinhamento espacial
+- `erro_de_recurso_sgdk`
+  - o asset esta bom, mas a linha `IMAGE` ou `MAP` foi promovida com politica errada de compressao, otimizacao ou papel de runtime
+- `erro_de_budget`
+  - a curadoria venceu offline, mas a topologia de tiles, mapas ou sprite reserve nao fecha em VRAM real
+- `erro_de_pipeline`
+  - build, geracao de dependencia, captura ou promocao automatica ainda nao sao estaveis o bastante para sustentar a prova
+
+Ordem obrigatoria:
+
+1. confirmar se a camada ainda esta correta em review humano
+2. confirmar se o PNG final continua indexado e se o slot transparente ficou isolado dos pixels visiveis
+3. revisar a linha de recurso SGDK e desconfiar de configuracao conservadora em cenas grandes promovidas por `IMAGE`
+4. medir tiles uteis, `reuse`, mapa e pressao de VRAM antes de culpar o alpha
+5. validar a mesma composicao em BlastEm e so entao fechar o caso
+
+Regra:
+
+- restaurar transparencia indexada e apenas o inicio do diagnostico quando a cena continua divergindo em ROM
+- `scene_slice` promovido por `IMAGE` precisa ser revisado tambem como recurso de tile, nao apenas como imagem bonita
+- se a prova offline vencer mas a integracao cair, registrar a classe do erro antes de tentar nova rodada de arte
+- nunca atribuir a falha inteira ao asset sem auditar `resources.res`, custo estrutural e estabilidade do build
+
+### 5.2 Interpretar o `hardware_budget_review`
 
 Os seguintes sinais do laudo sao canonicos:
 
@@ -293,7 +321,7 @@ Regra de pareamento:
 - `paired_bg` e credito de composicao, nao premio automatico.
 - Se o `basic` ainda for controle ingenuo, crop errado ou sheet editorial desmontada pela metade, deixe a variante sem `paired_bg` e reserve o pareamento para a leitura `elite`.
 
-### 5.2 Escolher a classe certa de tecnica de VDP
+### 5.3 Escolher a classe certa de tecnica de VDP
 
 Quando a traducao pedir mais do que quantizacao e reuso normal, classifique a tecnica:
 

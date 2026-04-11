@@ -15,12 +15,6 @@ try {
     exit 1
 }
 
-$LOG_DIR = if ($env:SGDK_LOG_DIR) { $env:SGDK_LOG_DIR } else { Join-Path $pwd.Path "out\logs" }
-$DEBUG_LOG = if ($env:SGDK_DEBUG_LOG) { $env:SGDK_DEBUG_LOG } else { Join-Path $LOG_DIR "build_debug.log" }
-$MAX_SPRITE_SIZE_TILES = 32
-$MAX_INTERNAL_SPRITES = 16
-$REPORT_FILE = if ($env:SGDK_VALIDATION_REPORT) { $env:SGDK_VALIDATION_REPORT } else { Join-Path $LOG_DIR "validation_report.json" }
-
 function Write-Log($msg, $level = "INFO") {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $fullMsg = "[$timestamp] [$level] $msg"
@@ -30,6 +24,93 @@ function Write-Log($msg, $level = "INFO") {
     }
     Add-Content -LiteralPath $DEBUG_LOG $fullMsg
 }
+
+function Get-EnvIntOrDefault($envName, $defaultValue) {
+    $rawValue = [System.Environment]::GetEnvironmentVariable($envName)
+    if ([string]::IsNullOrWhiteSpace($rawValue)) {
+        return $defaultValue
+    }
+
+    $parsedValue = 0
+    if ([int]::TryParse($rawValue, [ref]$parsedValue)) {
+        return $parsedValue
+    }
+
+    return $defaultValue
+}
+
+function Get-EnvDoubleOrDefault($envName, $defaultValue) {
+    $rawValue = [System.Environment]::GetEnvironmentVariable($envName)
+    if ([string]::IsNullOrWhiteSpace($rawValue)) {
+        return $defaultValue
+    }
+
+    $parsedValue = 0.0
+    if ([double]::TryParse($rawValue, [System.Globalization.NumberStyles]::Float, [System.Globalization.CultureInfo]::InvariantCulture, [ref]$parsedValue)) {
+        return $parsedValue
+    }
+
+    return $defaultValue
+}
+
+function Get-EnvSettingSnapshot($envName, $defaultValue, $kind) {
+    $rawValue = [System.Environment]::GetEnvironmentVariable($envName)
+    $hasOverride = -not [string]::IsNullOrWhiteSpace($rawValue)
+
+    if ($kind -eq "int") {
+        $effectiveValue = Get-EnvIntOrDefault $envName $defaultValue
+    } else {
+        $effectiveValue = Get-EnvDoubleOrDefault $envName $defaultValue
+    }
+
+    $isValidOverride = $false
+    if ($hasOverride) {
+        if ($kind -eq "int") {
+            $parsedValue = 0
+            $isValidOverride = [int]::TryParse($rawValue, [ref]$parsedValue)
+        } else {
+            $parsedValue = 0.0
+            $isValidOverride = [double]::TryParse($rawValue, [System.Globalization.NumberStyles]::Float, [System.Globalization.CultureInfo]::InvariantCulture, [ref]$parsedValue)
+        }
+    }
+
+    return [pscustomobject]@{
+        env = $envName
+        kind = $kind
+        default = $defaultValue
+        raw = $rawValue
+        has_override = $hasOverride
+        override_valid = $isValidOverride
+        source = if ($hasOverride -and $isValidOverride) { "env" } elseif ($hasOverride) { "default_invalid_env" } else { "default" }
+        effective = $effectiveValue
+    }
+}
+
+$LOG_DIR = if ($env:SGDK_LOG_DIR) { $env:SGDK_LOG_DIR } else { Join-Path $pwd.Path "out\logs" }
+$DEBUG_LOG = if ($env:SGDK_DEBUG_LOG) { $env:SGDK_DEBUG_LOG } else { Join-Path $LOG_DIR "build_debug.log" }
+$MAX_SPRITE_SIZE_TILES = 32
+$MAX_INTERNAL_SPRITES = 16
+$REPORT_FILE = if ($env:SGDK_VALIDATION_REPORT) { $env:SGDK_VALIDATION_REPORT } else { Join-Path $LOG_DIR "validation_report.json" }
+$Index0VisibleWarnMinPixelsSetting = Get-EnvSettingSnapshot "SGDK_INDEX0_VISIBLE_WARN_MIN_PIXELS" 8 "int"
+$Index0VisibleWarnMinRatioSetting = Get-EnvSettingSnapshot "SGDK_INDEX0_VISIBLE_WARN_MIN_RATIO" 0.0005 "double"
+$Index0VisibleErrorMinPixelsSetting = Get-EnvSettingSnapshot "SGDK_INDEX0_VISIBLE_ERROR_MIN_PIXELS" 128 "int"
+$Index0VisibleErrorMinRatioSetting = Get-EnvSettingSnapshot "SGDK_INDEX0_VISIBLE_ERROR_MIN_RATIO" 0.01 "double"
+$Index0TransparentCoverageInfoMinPixelsSetting = Get-EnvSettingSnapshot "SGDK_INDEX0_TRANSPARENT_COVERAGE_INFO_MIN_PIXELS" 2048 "int"
+$Index0TransparentCoverageInfoMinRatioSetting = Get-EnvSettingSnapshot "SGDK_INDEX0_TRANSPARENT_COVERAGE_INFO_MIN_RATIO" 0.35 "double"
+$IndexedTransparencyAuditSettings = @(
+    $Index0VisibleWarnMinPixelsSetting
+    $Index0VisibleWarnMinRatioSetting
+    $Index0VisibleErrorMinPixelsSetting
+    $Index0VisibleErrorMinRatioSetting
+    $Index0TransparentCoverageInfoMinPixelsSetting
+    $Index0TransparentCoverageInfoMinRatioSetting
+)
+$INDEX0_VISIBLE_WARN_MIN_PIXELS = $Index0VisibleWarnMinPixelsSetting.effective
+$INDEX0_VISIBLE_WARN_MIN_RATIO = $Index0VisibleWarnMinRatioSetting.effective
+$INDEX0_VISIBLE_ERROR_MIN_PIXELS = $Index0VisibleErrorMinPixelsSetting.effective
+$INDEX0_VISIBLE_ERROR_MIN_RATIO = $Index0VisibleErrorMinRatioSetting.effective
+$INDEX0_TRANSPARENT_COVERAGE_INFO_MIN_PIXELS = $Index0TransparentCoverageInfoMinPixelsSetting.effective
+$INDEX0_TRANSPARENT_COVERAGE_INFO_MIN_RATIO = $Index0TransparentCoverageInfoMinRatioSetting.effective
 
 function Find-RecoveredPath($relPath, $baseDir) {
     $fileName = Split-Path $relPath -Leaf
@@ -92,18 +173,283 @@ function Get-ImageInfo($magickPath, $filePath) {
     throw "Unable to parse ImageMagick identify output: $identify"
 }
 
+function Get-ImageOptionTokens($line) {
+    if ($line -match '^\s*IMAGE\s+\w+\s+"[^"]+"\s*(.*)$') {
+        $tail = $matches[1].Trim()
+        if ([string]::IsNullOrWhiteSpace($tail)) {
+            return @()
+        }
+        return @($tail -split '\s+')
+    }
+    return @()
+}
+
+function Test-SceneScaleImage($resourceName, $resourcePath, $info) {
+    $fingerprint = ("{0} {1}" -f $resourceName, $resourcePath).ToLowerInvariant()
+    if ($fingerprint -match 'bg[_\- ]?[ab]|scene|parallax|compare[_\- ]?flat|foreground|land|forest|stage|level') {
+        return $true
+    }
+    return (($info.Width -ge 256) -and ($info.Height -ge 112))
+}
+
+function Test-StructuralAlphaExpected($resourceKind, $resourceName, $resourcePath) {
+    if ($resourceKind -ne "IMAGE") {
+        return $false
+    }
+    $fingerprint = ("{0} {1}" -f $resourceName, $resourcePath).ToLowerInvariant()
+    return ($fingerprint -match 'bg[_\- ]?a|foreground|overlay|occlusion|mask|front|midground|plate|layer')
+}
+
+function Get-IndexedTransparencyAudit($filePath) {
+    try {
+        Add-Type -AssemblyName System.Drawing -ErrorAction Stop
+    } catch {
+        return $null
+    }
+
+    $bitmap = $null
+    $bitmapData = $null
+    try {
+        $bitmap = [System.Drawing.Bitmap]::FromFile($filePath)
+        $pixelFormat = $bitmap.PixelFormat
+        $indexedFlag = [System.Drawing.Imaging.PixelFormat]::Indexed
+        if (([int]$pixelFormat -band [int]$indexedFlag) -eq 0) {
+            return $null
+        }
+
+        $bitsPerPixel = [System.Drawing.Image]::GetPixelFormatSize($pixelFormat)
+        if ($bitsPerPixel -ne 4 -and $bitsPerPixel -ne 8) {
+            return $null
+        }
+
+        $rect = [System.Drawing.Rectangle]::new(0, 0, $bitmap.Width, $bitmap.Height)
+        $bitmapData = $bitmap.LockBits($rect, [System.Drawing.Imaging.ImageLockMode]::ReadOnly, $pixelFormat)
+        $stride = [Math]::Abs($bitmapData.Stride)
+        $bufferLength = $stride * $bitmap.Height
+        $buffer = New-Object byte[] $bufferLength
+        [System.Runtime.InteropServices.Marshal]::Copy($bitmapData.Scan0, $buffer, 0, $bufferLength)
+
+        $zeroIndexPixelCount = 0
+        for ($y = 0; $y -lt $bitmap.Height; $y++) {
+            $rowOffset = $y * $stride
+            for ($x = 0; $x -lt $bitmap.Width; $x++) {
+                if ($bitsPerPixel -eq 8) {
+                    $pixelIndex = $buffer[$rowOffset + $x]
+                } else {
+                    $byteValue = $buffer[$rowOffset + [int][Math]::Floor($x / 2)]
+                    if (($x % 2) -eq 0) {
+                        $pixelIndex = ($byteValue -shr 4) -band 0x0F
+                    } else {
+                        $pixelIndex = $byteValue -band 0x0F
+                    }
+                }
+
+                if ($pixelIndex -eq 0) {
+                    $zeroIndexPixelCount++
+                }
+            }
+        }
+
+        $paletteAlpha = 255
+        if ($bitmap.Palette -and $bitmap.Palette.Entries.Count -gt 0) {
+            $paletteAlpha = [int]$bitmap.Palette.Entries[0].A
+        }
+
+        return [pscustomobject]@{
+            bitsPerPixel = $bitsPerPixel
+            totalPixels = ($bitmap.Width * $bitmap.Height)
+            zeroIndexPixelCount = $zeroIndexPixelCount
+            zeroIndexCoverage = if (($bitmap.Width * $bitmap.Height) -gt 0) { $zeroIndexPixelCount / ($bitmap.Width * $bitmap.Height) } else { 0.0 }
+            paletteZeroAlpha = $paletteAlpha
+            hasVisibleZeroIndexRisk = ($zeroIndexPixelCount -gt 0 -and $paletteAlpha -gt 0)
+        }
+    } catch {
+        return $null
+    } finally {
+        if ($bitmapData -and $bitmap) {
+            $bitmap.UnlockBits($bitmapData)
+        }
+        if ($bitmap) {
+            $bitmap.Dispose()
+        }
+    }
+}
+
+function Get-IndexedTransparencySeverity($audit) {
+    if (-not $audit) {
+        return $null
+    }
+
+    if ($audit.paletteZeroAlpha -le 0) {
+        $highCoverageTransparent = (
+            $audit.zeroIndexPixelCount -ge $INDEX0_TRANSPARENT_COVERAGE_INFO_MIN_PIXELS -and
+            $audit.zeroIndexCoverage -ge $INDEX0_TRANSPARENT_COVERAGE_INFO_MIN_RATIO
+        )
+
+        return [pscustomobject]@{
+            level = if ($highCoverageTransparent) { "INFO" } else { "OK" }
+            code = if ($highCoverageTransparent) { "INDEX0_TRANSPARENT_HEAVY" } else { "INDEX0_TRANSPARENT_OK" }
+            message = if ($highCoverageTransparent) {
+                "Slot indexado 0 esta transparente e cobre uma area grande; revisar se a matte estrutural continua intencional no recorte final."
+            } else {
+                "Slot indexado 0 esta transparente e consistente com o papel estrutural esperado."
+            }
+        }
+    }
+
+    if ($audit.zeroIndexPixelCount -le 0) {
+        return [pscustomobject]@{
+            level = "INFO"
+            code = "INDEX0_OPAQUE_UNUSED"
+            message = "Slot indexado 0 esta opaco, mas nao foi usado por pixels da imagem."
+        }
+    }
+
+    $errorRisk = (
+        $audit.zeroIndexPixelCount -ge $INDEX0_VISIBLE_ERROR_MIN_PIXELS -and
+        $audit.zeroIndexCoverage -ge $INDEX0_VISIBLE_ERROR_MIN_RATIO
+    )
+    if ($errorRisk) {
+        return [pscustomobject]@{
+            level = "ERROR"
+            code = "INDEX0_VISIBLE_HIGH_RISK"
+            message = "Slot indexado 0 esta visivel e cobre massa significativa; risco alto de perder forma util quando a transparencia estrutural for aplicada."
+        }
+    }
+
+    $warningRisk = (
+        $audit.zeroIndexPixelCount -ge $INDEX0_VISIBLE_WARN_MIN_PIXELS -and
+        $audit.zeroIndexCoverage -ge $INDEX0_VISIBLE_WARN_MIN_RATIO
+    )
+    if ($warningRisk) {
+        return [pscustomobject]@{
+            level = "WARNING"
+            code = "INDEX0_VISIBLE_MEDIUM_RISK"
+            message = "Slot indexado 0 esta visivel em area relevante; revisar se pixels estruturais nao cairam no indice reservado a transparencia."
+        }
+    }
+
+    return [pscustomobject]@{
+        level = "INFO"
+        code = "INDEX0_VISIBLE_LOW_RISK"
+        message = "Slot indexado 0 esta visivel apenas em area residual; conferir se a presenca e intencional antes da promocao final."
+    }
+}
+
+function Normalize-RiskTaxonomyLevel($Level) {
+    $normalized = (Get-SafeString $Level "").ToUpperInvariant()
+    switch ($normalized) {
+        "WARN" { return "WARNING" }
+        "WARNING" { return "WARNING" }
+        "ERROR" { return "ERROR" }
+        "INFO" { return "INFO" }
+        default { return "OTHER" }
+    }
+}
+
+function New-RiskTaxonomyBucket() {
+    return [ordered]@{
+        count = 0
+        levels = [ordered]@{
+            INFO = 0
+            WARNING = 0
+            ERROR = 0
+            OTHER = 0
+        }
+        types = @()
+    }
+}
+
+function New-RiskTaxonomy() {
+    return [ordered]@{
+        asset_risk = (New-RiskTaxonomyBucket)
+        validator_config_risk = (New-RiskTaxonomyBucket)
+        runtime_risk = (New-RiskTaxonomyBucket)
+    }
+}
+
+function Resolve-RiskDomain($type, $resource, $file) {
+    $normalizedType = (Get-SafeString $type "").ToUpperInvariant()
+    $normalizedResource = (Get-SafeString $resource "").ToLowerInvariant()
+    $normalizedFile = (Get-SafeString $file "").ToLowerInvariant()
+
+    if (
+        $normalizedResource -eq "validator_config" -or
+        $normalizedType -eq "INDEX0_THRESHOLD_INVALID_OVERRIDE" -or
+        $normalizedType -eq "RUNTIME_THRESHOLDS"
+    ) {
+        return "validator_config_risk"
+    }
+
+    if (
+        $normalizedResource -in @("runtime", "emulator", "rom", "code", "heap") -or
+        $normalizedType -like "RUNTIME_*" -or
+        $normalizedType -like "EMULATOR_*" -or
+        $normalizedType -in @("ROM_SIZE", "AGENT_BOOTSTRAP", "BANNED_API", "CODE_SCAN") -or
+        $normalizedFile.EndsWith("runtime_metrics.json") -or
+        $normalizedFile.EndsWith("emulator_session.json") -or
+        $normalizedFile.EndsWith("rom.bin")
+    ) {
+        return "runtime_risk"
+    }
+
+    return "asset_risk"
+}
+
+function Add-RiskTaxonomyEntry($results, $detail) {
+    if (-not $results -or -not $detail) {
+        return
+    }
+
+    if (-not $results.risk_taxonomy) {
+        $results.risk_taxonomy = New-RiskTaxonomy
+    }
+
+    $riskDomain = Get-SafeString $detail.risk_domain "asset_risk"
+    if (-not $results.risk_taxonomy.Contains($riskDomain)) {
+        $results.risk_taxonomy[$riskDomain] = New-RiskTaxonomyBucket
+    }
+
+    $bucket = $results.risk_taxonomy[$riskDomain]
+    $bucket.count = [int]$bucket.count + 1
+
+    $normalizedLevel = Normalize-RiskTaxonomyLevel $detail.level
+    if (-not $bucket.levels.Contains($normalizedLevel)) {
+        $bucket.levels[$normalizedLevel] = 0
+    }
+    $bucket.levels[$normalizedLevel] = [int]$bucket.levels[$normalizedLevel] + 1
+
+    $detailType = Get-SafeString $detail.type ""
+    if ($detailType) {
+        $existingTypes = @($bucket.types)
+        if ($existingTypes -notcontains $detailType) {
+            $bucket.types = @($existingTypes + $detailType)
+        }
+    }
+}
+
 function Add-Detail($results, $type, $level, $message, $resource, $file, $extra = @{}) {
+    $riskDomain = $null
+    if ($extra -is [hashtable] -and $extra.ContainsKey("risk_domain")) {
+        $riskDomain = Get-SafeString $extra["risk_domain"] ""
+    }
+    if (-not $riskDomain) {
+        $riskDomain = Resolve-RiskDomain -type $type -resource $resource -file $file
+    }
+
     $detail = @{
         type = $type
         level = $level
         message = $message
         resource = $resource
         file = $file
+        risk_domain = $riskDomain
     }
     foreach ($key in $extra.Keys) {
         $detail[$key] = $extra[$key]
     }
     $results.details += $detail
+    Add-RiskTaxonomyEntry -results $results -detail $detail
 }
 
 function Get-PythonPath() {
@@ -319,7 +665,13 @@ function Get-RomIdentityFromSession {
 
     $sessionRomPath = Resolve-ExistingPathOrNull $Session.rom_path
     $sessionSha = Get-SafeString $Session.rom_sha256 ""
-    $sessionLastWriteUtc = Get-SafeString $Session.rom_last_write_utc ""
+    $sessionLastWriteUtc = $null
+    $sessionLastWriteUtcValue = Get-DateOrNull $Session.rom_last_write_utc
+    if ($sessionLastWriteUtcValue) {
+        $sessionLastWriteUtc = $sessionLastWriteUtcValue.ToString("o")
+    } else {
+        $sessionLastWriteUtc = Get-SafeString $Session.rom_last_write_utc ""
+    }
     $sessionSizeBytes = $null
     if ($null -ne $Session.rom_size_bytes -and [string]$Session.rom_size_bytes -ne "") {
         try {
@@ -348,15 +700,27 @@ function Get-DateOrNull {
         return $null
     }
 
+    if ($Value -is [datetimeoffset]) {
+        return [datetimeoffset]$Value
+    }
+
+    if ($Value -is [datetime]) {
+        return [datetimeoffset]$Value
+    }
+
     $text = [string]$Value
     if ([string]::IsNullOrWhiteSpace($text)) {
         return $null
     }
 
     try {
-        return [datetimeoffset]::Parse($text)
+        return [datetimeoffset]::Parse($text, [System.Globalization.CultureInfo]::InvariantCulture, [System.Globalization.DateTimeStyles]::RoundtripKind)
     } catch {
-        return $null
+        try {
+            return [datetimeoffset]::Parse($text, [System.Globalization.CultureInfo]::CurrentCulture, [System.Globalization.DateTimeStyles]::AllowWhiteSpaces)
+        } catch {
+            return $null
+        }
     }
 }
 
@@ -562,6 +926,17 @@ Write-Log "--- Starting Resource Validation Suite ---"
 $results = @{
     timestamp = Get-Date -Format "o"
     summary = @{ errors = 0; warnings = 0; checked = 0; recovered = 0 }
+    risk_taxonomy = New-RiskTaxonomy
+    validator_config = @{
+        indexed_transparency_audit = @{
+            visible_warn_min_pixels = $Index0VisibleWarnMinPixelsSetting
+            visible_warn_min_ratio = $Index0VisibleWarnMinRatioSetting
+            visible_error_min_pixels = $Index0VisibleErrorMinPixelsSetting
+            visible_error_min_ratio = $Index0VisibleErrorMinRatioSetting
+            transparent_coverage_info_min_pixels = $Index0TransparentCoverageInfoMinPixelsSetting
+            transparent_coverage_info_min_ratio = $Index0TransparentCoverageInfoMinRatioSetting
+        }
+    }
     runtime_profile = @{
         frame_stability = if ($env:SGDK_FRAME_STABILITY) { $env:SGDK_FRAME_STABILITY } else { "nao_medido" }
         sprite_pressure = if ($env:SGDK_SPRITE_PRESSURE) { $env:SGDK_SPRITE_PRESSURE } else { "nao_medido" }
@@ -623,6 +998,21 @@ $results = @{
         benchmark = $null
     }
     details = @()
+}
+
+foreach ($setting in $IndexedTransparencyAuditSettings) {
+    if ($setting.source -eq "default_invalid_env") {
+        $msg = "Override invalido para $($setting.env): valor bruto '$($setting.raw)' ignorado; usando default $($setting.default)."
+        Write-Log $msg "WARN"
+        $results.summary.warnings++
+        Add-Detail $results "INDEX0_THRESHOLD_INVALID_OVERRIDE" "WARNING" $msg "validator_config" $REPORT_FILE @{
+            env = $setting.env
+            kind = $setting.kind
+            raw = $setting.raw
+            default = $setting.default
+            effective = $setting.effective
+        }
+    }
 }
 
 $magickPath = Get-MagickPath
@@ -722,6 +1112,10 @@ foreach ($res in $resFiles) {
         $w = $null
         $h = $null
         $hasOptType = $false
+        $imageOptionTokens = @()
+        $imageCompression = $null
+        $imageMapOptimization = $null
+        $structuralAlphaExpected = $false
 
         if ($line -match '^\s*SPRITE\s+(\w+)\s+"([^"]+)"\s+(\d+)\s+(\d+)') {
             $kind = "SPRITE"
@@ -734,6 +1128,14 @@ foreach ($res in $resFiles) {
             $kind = "IMAGE"
             $name = $matches[1]
             $path = $matches[2]
+            $imageOptionTokens = Get-ImageOptionTokens $line
+            if ($imageOptionTokens.Count -ge 1) {
+                $imageCompression = $imageOptionTokens[0].ToUpperInvariant()
+            }
+            if ($imageOptionTokens.Count -ge 2) {
+                $imageMapOptimization = $imageOptionTokens[1].ToUpperInvariant()
+            }
+            $structuralAlphaExpected = Test-StructuralAlphaExpected -resourceKind $kind -resourceName $name -resourcePath $path
         } else {
             continue
         }
@@ -838,6 +1240,47 @@ foreach ($res in $resFiles) {
                     $fixMsg = "Fix automático falhou para $name."
                     Write-Log $fixMsg "ERROR"
                     Add-Detail $results "FIX_FAILED" "ERROR" $fixMsg $name $path
+                }
+            }
+        }
+
+        if ($kind -eq "IMAGE" -and $info.Indexed) {
+            $sceneScaleImage = Test-SceneScaleImage -resourceName $name -resourcePath $path -info $info
+            if ($sceneScaleImage -and $imageCompression -eq "NONE" -and $imageMapOptimization -eq "NONE") {
+                $warnMsg = "Imagem de cena $name usa `IMAGE ... NONE NONE`, configuracao de alto risco para prova em ROM por manter compressao e otimizacao de tiles desligadas numa promocao estruturalmente pesada."
+                Write-Log $warnMsg "WARN"
+                $results.summary.warnings++
+                Add-Detail $results "IMAGE_SCENE_RISK" "WARNING" $warnMsg $name $path @{
+                    width = $info.Width
+                    height = $info.Height
+                    compression = $imageCompression
+                    mapOptimization = $imageMapOptimization
+                }
+            }
+
+            if ($structuralAlphaExpected) {
+                $transparencyAudit = Get-IndexedTransparencyAudit -filePath $absPath
+                $transparencySeverity = Get-IndexedTransparencySeverity -audit $transparencyAudit
+                if ($transparencySeverity -and $transparencySeverity.level -ne "OK") {
+                    $logLevel = switch ($transparencySeverity.level) {
+                        "ERROR" { "ERROR" }
+                        "WARNING" { "WARN" }
+                        default { "INFO" }
+                    }
+                    $auditMsg = "Imagem ${name}: $($transparencySeverity.message)"
+                    Write-Log $auditMsg $logLevel
+                    if ($transparencySeverity.level -eq "ERROR") {
+                        $results.summary.errors++
+                    } elseif ($transparencySeverity.level -eq "WARNING") {
+                        $results.summary.warnings++
+                    }
+                    Add-Detail $results $transparencySeverity.code $transparencySeverity.level $auditMsg $name $path @{
+                        bitsPerPixel = $transparencyAudit.bitsPerPixel
+                        totalPixels = $transparencyAudit.totalPixels
+                        zeroIndexPixelCount = $transparencyAudit.zeroIndexPixelCount
+                        zeroIndexCoverage = $transparencyAudit.zeroIndexCoverage
+                        paletteZeroAlpha = $transparencyAudit.paletteZeroAlpha
+                    }
                 }
             }
         }

@@ -82,16 +82,33 @@ function Resolve-ExistingPathOrNull {
 function Get-DateOrNull {
     param($Value)
 
+    if ($null -eq $Value) {
+        return $null
+    }
+
+    if ($Value -is [datetimeoffset]) {
+        return [datetimeoffset]$Value
+    }
+
+    if ($Value -is [datetime]) {
+        return [datetimeoffset]$Value
+    }
+
     $text = Get-SafeString $Value ""
     if (-not $text) {
         return $null
     }
 
     try {
-        return [datetimeoffset]::Parse($text)
+        return [datetimeoffset]::Parse($text, [System.Globalization.CultureInfo]::InvariantCulture, [System.Globalization.DateTimeStyles]::RoundtripKind)
     }
     catch {
-        return $null
+        try {
+            return [datetimeoffset]::Parse($text, [System.Globalization.CultureInfo]::CurrentCulture, [System.Globalization.DateTimeStyles]::AllowWhiteSpaces)
+        }
+        catch {
+            return $null
+        }
     }
 }
 
@@ -135,7 +152,14 @@ function Get-RomIdentityFromSession {
 
     $sessionRomPath = Resolve-ExistingPathOrNull $Session.rom_path
     $sessionSha = Get-SafeString $Session.rom_sha256 ""
-    $sessionLastWriteUtc = Get-SafeString $Session.rom_last_write_utc ""
+    $sessionLastWriteUtc = $null
+    $sessionLastWriteUtcValue = Get-DateOrNull $Session.rom_last_write_utc
+    if ($sessionLastWriteUtcValue) {
+        $sessionLastWriteUtc = $sessionLastWriteUtcValue.ToString("o")
+    }
+    else {
+        $sessionLastWriteUtc = Get-SafeString $Session.rom_last_write_utc ""
+    }
     $sessionSizeBytes = $null
     if ($null -ne $Session.rom_size_bytes -and [string]$Session.rom_size_bytes -ne "") {
         try {
@@ -241,6 +265,115 @@ function Get-Array {
     return @($Value)
 }
 
+function Normalize-RiskTaxonomyLevel {
+    param($Level)
+
+    $normalized = (Get-SafeString $Level "").ToUpperInvariant()
+    switch ($normalized) {
+        "WARN" { return "WARNING" }
+        "WARNING" { return "WARNING" }
+        "ERROR" { return "ERROR" }
+        "INFO" { return "INFO" }
+        default { return "OTHER" }
+    }
+}
+
+function New-RiskTaxonomyBucket {
+    return [ordered]@{
+        count = 0
+        levels = [ordered]@{
+            INFO = 0
+            WARNING = 0
+            ERROR = 0
+            OTHER = 0
+        }
+        types = @()
+    }
+}
+
+function New-RiskTaxonomy {
+    return [ordered]@{
+        asset_risk = (New-RiskTaxonomyBucket)
+        validator_config_risk = (New-RiskTaxonomyBucket)
+        runtime_risk = (New-RiskTaxonomyBucket)
+    }
+}
+
+function Resolve-RiskDomain {
+    param($Type, $Resource, $File)
+
+    $normalizedType = (Get-SafeString $Type "").ToUpperInvariant()
+    $normalizedResource = (Get-SafeString $Resource "").ToLowerInvariant()
+    $normalizedFile = (Get-SafeString $File "").ToLowerInvariant()
+
+    if (
+        $normalizedResource -eq "validator_config" -or
+        $normalizedType -eq "INDEX0_THRESHOLD_INVALID_OVERRIDE" -or
+        $normalizedType -eq "RUNTIME_THRESHOLDS"
+    ) {
+        return "validator_config_risk"
+    }
+
+    if (
+        $normalizedResource -in @("runtime", "emulator", "rom", "code", "heap") -or
+        $normalizedType -like "RUNTIME_*" -or
+        $normalizedType -like "EMULATOR_*" -or
+        $normalizedType -in @("ROM_SIZE", "AGENT_BOOTSTRAP", "BANNED_API", "CODE_SCAN") -or
+        $normalizedFile.EndsWith("runtime_metrics.json") -or
+        $normalizedFile.EndsWith("emulator_session.json") -or
+        $normalizedFile.EndsWith("rom.bin")
+    ) {
+        return "runtime_risk"
+    }
+
+    return "asset_risk"
+}
+
+function Get-RiskTaxonomyFromDetails {
+    param($Details)
+
+    $taxonomy = New-RiskTaxonomy
+    $normalizedDetails = @()
+
+    foreach ($detail in Get-Array $Details) {
+        $type = if ($detail.PSObject.Properties["type"]) { Get-SafeString $detail.PSObject.Properties["type"].Value "" } else { "" }
+        $resource = if ($detail.PSObject.Properties["resource"]) { Get-SafeString $detail.PSObject.Properties["resource"].Value "" } else { "" }
+        $file = if ($detail.PSObject.Properties["file"]) { Get-SafeString $detail.PSObject.Properties["file"].Value "" } else { "" }
+        $riskDomain = if ($detail.PSObject.Properties["risk_domain"]) { Get-SafeString $detail.PSObject.Properties["risk_domain"].Value "" } else { "" }
+        if (-not $riskDomain) {
+            $riskDomain = Resolve-RiskDomain -Type $type -Resource $resource -File $file
+        }
+        Set-PropertyValue -Object $detail -Name "risk_domain" -Value $riskDomain
+
+        if (-not $taxonomy.Contains($riskDomain)) {
+            $taxonomy[$riskDomain] = New-RiskTaxonomyBucket
+        }
+
+        $bucket = $taxonomy[$riskDomain]
+        $bucket.count = [int]$bucket.count + 1
+
+        $normalizedLevel = Normalize-RiskTaxonomyLevel $detail.level
+        if (-not $bucket.levels.Contains($normalizedLevel)) {
+            $bucket.levels[$normalizedLevel] = 0
+        }
+        $bucket.levels[$normalizedLevel] = [int]$bucket.levels[$normalizedLevel] + 1
+
+        if ($type) {
+            $existingTypes = @($bucket.types)
+            if ($existingTypes -notcontains $type) {
+                $bucket.types = @($existingTypes + $type)
+            }
+        }
+
+        $normalizedDetails += $detail
+    }
+
+    return [pscustomobject]@{
+        taxonomy = $taxonomy
+        details = @($normalizedDetails)
+    }
+}
+
 function Get-IdentityMismatchReason {
     param(
         [Parameter(Mandatory = $true)]$CurrentRomIdentity,
@@ -341,7 +474,8 @@ function Mark-OriginEvidenceState {
         Set-PropertyValue -Object $evidence -Name "rom_identity" -Value ([pscustomobject]$RomIdentity)
         Set-PropertyValue -Object $evidence -Name "emulator_session_rom_path" -Value $(if ($sessionIdentity) { $sessionIdentity.path } else { $null })
         Set-PropertyValue -Object $evidence -Name "emulator_session_rom_identity" -Value $(if ($sessionIdentity) { [pscustomobject]$sessionIdentity } else { $null })
-        Set-PropertyValue -Object $evidence -Name "emulator_session_timestamp" -Value $(if ($session) { Get-SafeString $session.timestamp $null } else { $null })
+        $sessionTimestampValue = if ($session) { Get-DateOrNull $session.timestamp } else { $null }
+        Set-PropertyValue -Object $evidence -Name "emulator_session_timestamp" -Value $(if ($sessionTimestampValue) { $sessionTimestampValue.ToString("o") } else { $null })
         Set-PropertyValue -Object $evidence -Name "emulator_evidence_reason" -Value $reason
 
         $existingDetails = @(Get-Array $report.details | Where-Object {
@@ -358,8 +492,11 @@ function Mark-OriginEvidenceState {
             reason = $reason
             origin = "build_wrapper"
             stale_marked_at = $markedAt
+            risk_domain = "runtime_risk"
         }
-        Set-PropertyValue -Object $report -Name "details" -Value @($existingDetails + $originDetail)
+        $riskState = Get-RiskTaxonomyFromDetails -Details @($existingDetails + $originDetail)
+        Set-PropertyValue -Object $report -Name "details" -Value $riskState.details
+        Set-PropertyValue -Object $report -Name "risk_taxonomy" -Value $riskState.taxonomy
 
         $warningCount = @((Get-Array $report.details) | Where-Object { $_.level -eq "WARNING" }).Count
         $errorCount = @((Get-Array $report.details) | Where-Object { $_.level -eq "ERROR" }).Count

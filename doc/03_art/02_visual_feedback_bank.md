@@ -472,3 +472,45 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
 - benchmark_referencia:
   - metal_slug_urban_sunset_source_semantics
 - check_em_rom: antes da promocao para tilemap real, confirmar se o alpha do review e apenas matte estrutural ou se existe perda visual verdadeira
+
+### Proof Offline Correto Ainda Pode Falhar em ROM
+
+- sintoma: a curadoria offline parece resolvida, mas a versao integrada no laboratorio ou na ROM aparece corrompida, opaca ou estruturalmente diferente
+- diagnostico_tecnico: o pipeline confundiu validacao estetica com promocao de runtime; a arte estava correta para review humano, mas a cadeia `asset -> recurso SGDK -> VRAM -> emulador` ainda nao estava segura
+- heuristica_preventiva: toda promocao de `scene_slice` precisa passar por triagem de quatro classes antes de virar prova canonica: `asset`, `flags do recurso`, `budget de tiles` e `pipeline de build`; o primeiro acerto visual nao encerra o diagnostico
+- metricas_afetadas:
+  - reference_alignment
+  - layer_separation
+  - tile_efficiency
+- benchmark_referencia:
+  - sunny_land
+  - BENCHMARK_VISUAL_LAB
+- check_em_rom: recompilar, abrir no BlastEm e confirmar que a leitura final da ROM coincide com a prova offline e nao apenas com o preview RGBA
+
+### Flags de IMAGE Podem Sabotar Cena Valida
+
+- sintoma: a imagem parece SGDK-valida no papel, mas a promocao para ROM explode tiles, perde reuse e degrada a cena sem que o asset bruto pareca quebrado
+- diagnostico_tecnico: a linha `IMAGE` foi declarada com configuracao conservadora demais para uma cena grande, desativando compressao e otimizacao de tiles onde a promocao precisava justamente de deduplicacao estrutural
+- heuristica_preventiva: em backgrounds de cena, nunca tratar `IMAGE` como mera referencia de arquivo; revisar a politica de compressao e otimizacao antes da build final e desconfiar de `NONE NONE` em imagens grandes promovidas para benchmark
+- metricas_afetadas:
+  - tile_efficiency
+  - reuse_opportunity
+  - layer_separation
+- benchmark_referencia:
+  - sunny_land
+  - BENCHMARK_VISUAL_LAB
+- check_em_rom: alternar entre a configuracao antiga e a configuracao otimizada do mesmo `IMAGE` e registrar no BlastEm se a cena mantem leitura sem corrupcao
+
+### Transparencia Indexada E Pre-Requisito, Nao Diagnostico Final
+
+- sintoma: o time corrige alpha, a cena melhora, mas a promocao em ROM continua divergindo do esperado
+- diagnostico_tecnico: em layers que dependem de alpha estrutural, a representacao indexada correta e um pre-flight obrigatorio da cadeia SGDK; ainda assim, o problema real pode continuar em integracao de recurso, reuse de tiles ou robustez do pipeline
+- heuristica_preventiva: quando uma layer transparente falhar, corrigir primeiro a representacao indexada com slot transparente isolado e depois continuar a triagem; nunca encerrar o diagnostico apenas porque o alpha voltou a aparecer, e nunca promover esse passo sozinho a causa raiz final sem prova adicional em ROM
+- metricas_afetadas:
+  - reference_alignment
+  - layer_separation
+  - tile_efficiency
+- benchmark_referencia:
+  - sunny_land
+  - metal_slug_urban_sunset_scene
+- check_em_rom: apos restaurar a transparencia, repetir a validacao estrutural e confirmar se a ROM final tambem recuperou composicao, custo e estabilidade

@@ -12,6 +12,7 @@ Documentação centralizada do projeto MegaDrive_DEV – engines e jogos para Me
 |-----------|-----------|
 | [AGENTS.md](AGENTS.md) | Diretrizes para agentes de IA – propósitos, métodos, regras e checklist de migração |
 | [06_AI_MEMORY_BANK.md](06_AI_MEMORY_BANK.md) | Memory Bank global – estado do repositório, sessões recentes, decisões |
+| [07_workspace_compreensao_e_estagio.md](07_workspace_compreensao_e_estagio.md) | Compreensão do workspace e estágio honesto de desenvolvimento (visão consolidada) |
 | [QA_CHECKLIST_ROTEIRO.md](QA_CHECKLIST_ROTEIRO.md) | Roteiro QA passo-a-passo e checklist de evidências para promoção RC |
 | [PADRAO_NOMENCLATURA.md](PADRAO_NOMENCLATURA.md) | Padrão de nomenclatura de projetos e engines |
 | [CANONICAL_WORKTREE.md](CANONICAL_WORKTREE.md) | Estrutura canonica de projeto, manifesto `.mddev` e política de arquivamento |
@@ -49,6 +50,7 @@ doc/
 ├── README.md           # Este indice
 ├── AGENTS.md           # Diretrizes para agentes de IA
 ├── 06_AI_MEMORY_BANK.md    # Memory Bank global (workspace)
+├── 07_workspace_compreensao_e_estagio.md  # Visao consolidada do workspace e estagio real
 ├── QA_CHECKLIST_ROTEIRO.md # Roteiro QA e checklist evidências RC
 ├── PADRAO_NOMENCLATURA.md
 └── migrations/         # Relatorios de migracao por projeto

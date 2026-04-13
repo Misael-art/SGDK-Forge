@@ -1,6 +1,6 @@
 # AAA Skill Curation Status — v3
 
-Ultima atualizacao: 2026-04-10
+Ultima atualizacao: 2026-04-12
 
 ## Escopo
 
@@ -52,16 +52,16 @@ Ele NAO substitui:
 
 | ID | Trilha | doctrine_status | runtime_proof_status | Local canonico | Proximo gate |
 |----|--------|-----------------|----------------------|----------------|--------------|
-| S1.1 | Animacao de Sprites | `INCORPORADO` | `NAO_INICIADA` | `tools/sgdk_wrapper/.agent/skills/art/sprite-animation/SKILL.md` | prova em `BENCHMARK_VISUAL_LAB` |
-| S1.2 | Design de Personagem | `INCORPORADO` | `NAO_INICIADA` | `tools/sgdk_wrapper/.agent/skills/art/character-design/SKILL.md` | prova em `BENCHMARK_VISUAL_LAB` |
-| S1.3 | Composicao Multi-Plano em ROM | `INCORPORADO` | `NAO_INICIADA` | `tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md` | revisao in place de `doc/05_technical/91_multi_plane_composition.md` + BlastEm |
+| S1.1 | Animacao de Sprites | `INCORPORADO` | `POC_PENDENTE_ROM` | `tools/sgdk_wrapper/.agent/skills/art/sprite-animation/SKILL.md` | captura BlastEm `scene_sprite_anim` + aprovacao humana |
+| S1.2 | Design de Personagem | `INCORPORADO` | `POC_PENDENTE_ROM` | `tools/sgdk_wrapper/.agent/skills/art/character-design/SKILL.md` | captura BlastEm `scene_character_design` + aprovacao humana |
+| S1.3 | Composicao Multi-Plano em ROM | `INCORPORADO` | `POC_PENDENTE_ROM` | `tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md` | captura BlastEm `scene_multiplane` + aprovacao humana |
 
 ## Sprint 2 — Diferenciacao AAA
 
 | ID | Trilha | doctrine_status | runtime_proof_status | Dependencia | Notas reconciliadas |
 |----|--------|-----------------|----------------------|-------------|---------------------|
-| S2.1 | Efeitos Raster e Line Scroll | `PENDENTE` | `NAO_INICIADA` | Sprint 1 estabilizada | absorver `h_int_control_plane`, mid-frame palette swap, line scroll, column scroll, pseudo3d road-stack e DMA safety |
-| S2.2 | Shadow/Highlight Mode | `PENDENTE` | `NAO_INICIADA` | Sprint 1 estabilizada | reforcar regra obrigatoria do slot 15 |
+| S2.1 | Efeitos Raster e Line Scroll | `PENDENTE` | `NAO_INICIADA` | Sprint 1 estabilizada | absorver `h_int_control_plane`, mid-frame palette swap, line scroll, column scroll, pseudo3d road-stack, `procedural_raster_glitch_suite` e DMA safety |
+| S2.2 | Shadow/Highlight Mode | `PENDENTE` | `NAO_INICIADA` | Sprint 1 estabilizada | reforcar regra obrigatoria do slot 15 e absorver `masked_shadow_highlight_lighting` como nome honesto da trilha |
 | S2.3 | Palette Cycling | `PENDENTE` | `NAO_INICIADA` | Sprint 1 estabilizada | manter foco em custo zero de VRAM |
 | S2.4 | Sistema de Particulas e FX | `PENDENTE` | `NAO_INICIADA` | Sprint 1 estabilizada | absorver apenas `sprite_temporal_multiplexing`; SAT reuse fica fora desta sprint |
 
@@ -95,6 +95,8 @@ Estas trilhas entram no roadmap de maestria do agente, mas NAO alteram a numerac
 |----|--------|-----------------|----------------------|----------|-------|
 | T1 | Interlaced 448 Display Mode | `PROPOSTO` | `NAO_INICIADA` | `special_scene_only` | tecnica core de dominio, mas proibida como default de cena; exige benchmark proprio e comparacao contra 224p |
 | T2 | Sprite Mid-Frame SAT Reuse | `PROPOSTO` | `NAO_INICIADA` | `hazardous_experimental` | tecnica perigosa, separada de multiplex temporal e dependente de `h_int_control_plane` |
+| T3 | Mutable Tile Decal Mutation | `PROPOSTO` | `NAO_INICIADA` | `special_scene_only` | dano persistente local por pool mutavel; proibido vender como decal livre ou mutacao global de qualquer parede |
+| T4 | Cellular Microbuffer Simulation | `PROPOSTO` | `NAO_INICIADA` | `special_scene_only` | microframebuffer local para areia, acido ou lava; bloqueado ate dirty upload e tile mutation amadurecerem |
 
 ## Historico
 
@@ -111,3 +113,6 @@ Estas trilhas entram no roadmap de maestria do agente, mas NAO alteram a numerac
 | 2026-04-10 | S2.1 / S2.4 / S3.2 | `notas reconciliadas ampliadas` | H-Int vira substrato formal, Window Plane HUD entra em S3.2 e multiplexing temporal se separa de SAT reuse |
 | 2026-04-10 | T1 | `inexistente -> PROPOSTO` | `interlaced_448_display_mode` entra no roadmap de maestria com politica `special_scene_only` |
 | 2026-04-10 | T2 | `inexistente -> PROPOSTO` | `sprite_midframe_sat_reuse` entra como trilha futura perigosa, fora do escopo padrao das sprints atuais |
+| 2026-04-10 | S2.1 / S2.2 | `notas reconciliadas ampliadas` | `procedural_raster_glitch_suite` e `masked_shadow_highlight_lighting` entram como suites honestas de hardware, nao como equivalentes literais a pipelines modernos |
+| 2026-04-10 | T3 | `inexistente -> PROPOSTO` | `mutable_tile_decal_mutation` entra como trilha futura especial de dano local persistente |
+| 2026-04-10 | T4 | `inexistente -> PROPOSTO` | `cellular_microbuffer_sim` entra como trilha futura tardia de microframebuffer local |

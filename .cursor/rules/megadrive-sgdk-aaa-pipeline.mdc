@@ -1,0 +1,14 @@
+---
+description: Jornada canonica AAA (cena SGDK) — seguir pipeline e skills reais antes de afirmacoes de budget ou entrega.
+globs:
+  - SGDK_projects/**/*
+  - tools/sgdk_wrapper/**/*
+---
+
+# Mega Drive / SGDK — jornada AAA
+
+1. Para trabalho de **cena visual ou entrega AAA**, seguir a ordem em `tools/sgdk_wrapper/.agent/pipelines/aaa_scene_v1.json` e o roteamento em `tools/sgdk_wrapper/.agent/workflows/aaa-scene-pipeline.md` — nao substituir por improvisacao.
+2. **Nunca** afirmar que o tile budget "cabe" ou que a cena e segura em VRAM sem consultar a skill `megadrive-vdp-budget-analyst` (e artefactos que ela exige).
+3. **Nunca** declarar "validado" ou "pronto para entrega" sem evidencia em `out/logs/` (ex. `validation_report.json`, `emulator_session.json`) e alinhamento com `AGENTS.md` / `workflows/build-validate.md` — texto so nao substitui prova.
+
+Antes do primeiro build da sessao, preferir `tools/sgdk_wrapper/preflight_host.ps1` (falhas bloqueantes = exit 1).

@@ -33,6 +33,7 @@ Nenhuma tecnica sobe de estado sem passar por:
 - `line_scrolling`
 - `column_scrolling`
 - `hint_palette_blending`
+- `procedural_raster_glitch_suite`
 
 ### 2. Display Architecture
 
@@ -50,6 +51,12 @@ Nenhuma tecnica sobe de estado sem passar por:
 
 - `pseudo3d_road_stack`
 - `software_affine_pseudo3d`
+
+### 5. Surface Mutation and Simulation
+
+- `masked_shadow_highlight_lighting`
+- `mutable_tile_decal_mutation`
+- `cellular_microbuffer_sim`
 
 ## Wave 0 - Auditoria canonica
 
@@ -95,6 +102,8 @@ Scenes obrigatorias no `BENCHMARK_VISUAL_LAB`:
 - `fx_hint_arbiter_lab`
 - `fx_shadow_highlight_lab`
 - `fx_palette_cycling_lab`
+- `fx_procedural_glitch_lab`
+- `fx_masked_light_lab`
 
 Entregas:
 
@@ -102,11 +111,15 @@ Entregas:
 - budget lines em `doc/13-spec-cenas.md`
 - validation axes preenchidos
 - evidence bundle por scene
+- `procedural_raster_glitch_suite` nasce como linguagem dramatica formal de `S2.1`
+- `masked_shadow_highlight_lighting` nasce como nome honesto para spotlight, lanterna e weak spot de boss em `S2.2`
 
 Gate:
 
 - linha, coluna, split e cycling rodam sem glitch e com budget declarado
 - apenas um owner de H-Int fica ativo por scene
+- glitch raster continua legivel durante gameplay
+- spotlight mascarado nao vende alpha blending nem iluminacao global inexistente
 
 ## Wave 3 - Display Architecture e Sprite Overflow Engineering
 
@@ -156,7 +169,27 @@ Gate:
 - articulacao em `fix16` estavel
 - prova em ROM sem queda perceptivel de desempenho
 
-## Wave 5 - Audio senior
+## Wave 5 - Surface Mutation experimental
+
+Scenes obrigatorias:
+
+- `fx_decal_mutation_lab`
+
+Entregas:
+
+- formalizar `mutable_tile_decal_mutation` como trilha experimental de setor local
+- exigir `RAM shadow copy`, `mutable tile pool` e politica de persistencia por sala
+- provar que a tecnica nao depende de readback livre de `VRAM`
+- manter `cellular_microbuffer_sim` bloqueado ate haver prova de mutacao local e dirty upload disciplinado
+
+Gate:
+
+- tiles mutaveis ficam limitados a setores explicitamente damageable
+- budget de dirty uploads cabe no pior quadro
+- persistencia local nao explode unicidade de tiles
+- `cellular_microbuffer_sim` permanece fora do build principal ate benchmark proprio em ilha pequena
+
+## Wave 6 - Audio senior
 
 Scene obrigatoria:
 
@@ -172,7 +205,7 @@ Gate:
 
 - audio deixa de ser categoria ausente do framework
 
-## Wave 6 - Certificacao senior absoluta
+## Wave 7 - Certificacao senior absoluta
 
 Para cada tecnica:
 
@@ -188,9 +221,22 @@ Somente entao o `current_status` pode virar `senior_default`.
 
 1. consolidar skill owners
 2. consolidar benchmark contract
-3. promover tecnicas candidatas fortes
-4. abrir skills novas apenas para gaps puros
-5. certificar por BlastEm e regressao
+3. promover tecnicas candidatas fortes e suites compostas honestas
+4. abrir trilhas experimentais de mutacao local antes de microbuffers celulares
+5. abrir skills novas apenas para gaps puros ja aprovados
+6. certificar por BlastEm e regressao
+
+## Ordem obrigatoria dos quatro efeitos especulativos
+
+1. `procedural_raster_glitch_suite`
+2. `masked_shadow_highlight_lighting`
+3. `mutable_tile_decal_mutation`
+4. `cellular_microbuffer_sim`
+
+Regra:
+
+- `cellular_microbuffer_sim` nao entra antes de `mutable_tile_decal_mutation`
+- nenhum dos quatro sobe sem causa de gameplay e benchmark proprio
 
 ## Regressao obrigatoria
 

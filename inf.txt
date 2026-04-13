@@ -1,0 +1,434 @@
+
+# Análise Forense do Plano de Curadoria de Agentes — MegaDrive_DEV
+
+> **Objetivo:** Diferenciar evidência de competência real no framework `.agent` que pretende transformar uma IA em perito na criação de jogos para Mega Drive.
+
+---
+
+## 1. O QUE O FRAMEWORK PRETENDE SER
+
+O sistema aspira a ser um **estúdio de desenvolvimento 16-bits completo**, onde cada agente IA assume um papel de produção profissional:
+
+| Papel | Agente | Prerrogativa |
+|-------|--------|-------------|
+| Director / Producer | `game-director-sgdk` | Visão, escopo, anti-feature-creep |
+| Diretor de Arte Técnico | `mega-drive-pixel-engineer` | Assets dentro dos limites do VDP |
+| Guardião de Hardware | `hardware-budget-guardian` | VRAM, DMA, sprites, scanline |
+| QA / Bug Hunter | `qa-hardware-tester` | ROM em emulador, gate de entrega |
+| Pipeline de Arte | `art-pipeline-operator`, `art-creator` | Conversão, sourcing, IA generativa |
+| Governança | `governance-auditor` | Hierarquia de verdade, anti-drift |
+| Build | `build-wrapper-operator` | Wrapper centralizado |
+
+A promessa é ambiciosa: governança documental, pipeline de produção com gates, anti-alucinação de hardware, e a regra final de ferro: *"Se não foi visto rodando no emulador, não existe."*
+
+---
+
+## 2. O QUE É GENUINAMENTE BOM (Evidência Real de Competência)
+
+### 2.1 Conhecimento técnico de hardware — REAL E PRECISO
+
+> [!TIP]
+> Este é o ponto mais forte de todo o framework.
+
+As skills de hardware demonstram conhecimento **genuíno e tecnicamente correto** do VDP do Mega Drive:
+
+- **Paleta 9-bits:** Os 8 níveis por canal (`0x00, 0x22, 0x44...0xEE`) estão corretos ✅
+- **Grid 8x8 obrigatório:** Tile de 32 bytes, sprite máximo 4×4 tiles = 32×32px ✅
+- **VRAM real:** 64KB = 2048 tiles, ~1536 úteis após reservas ✅
+- **Sprites por scanline:** Limite real reconhecido ✅
+- **Ausência de alpha, scaling, rotation:** Corretamente identificados como inexistentes ✅
+- **Shadow/Highlight:** Reconhecido como o único "efeito de blending", com trade-offs reais ✅
+- **DMA apenas no VBlank:** Restrição real bem documentada ✅
+- **`int` = 32 bits no GCC 68000:** Pegadinha técnica correta e rara de ver documentada ✅
+- **Tabela de migração SGDK 1.60→2.11:** APIs verificáveis (`SPR_addSprite`, `PAL_setPalette`, `SPR_FLAG_AUTO_VRAM_ALLOC`) ✅
+- **Bug do `VDP_drawTextBGFill()`:** Armadilha real do SGDK 2.11 documentada ✅
+
+**Diagnóstico:** A parte técnica do hardware é **a evidência mais forte de competência real**. Não é especulação — são fatos do datasheet do VDP e da API real do SGDK 2.11. Quem escreveu isso sabe o que está documentando.
+
+---
+
+### 2.2 Técnicas avançadas de VDP — REAIS E BEM CLASSIFICADAS
+
+A skill [megadrive-vdp-budget-analyst](file:///f:/Projects/MegaDrive_DEV/tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md) demonstra conhecimento que vai além do básico:
+
+| Técnica | Classificação | Status |
+|---------|---------------|--------|
+| `Plane size tuning` (`VDP_setPlaneSize`) | `canonica_segura` | Real — otimização legítima |
+| `SPR_initEx(u16 vramSize)` | `canonica_segura` | Real — API SGDK 2.11 verificável |
+| `3+1 palette split` | `canonica_segura` | Real — design pattern NES/MD clássico |
+| `Sprite grafts` para profundidade | `avancada_com_tradeoff` | Real — técnica usada em jogos comerciais |
+| `Window alias` | `avancada_com_tradeoff` | Real mas arriscada — corretamente classificada |
+| `H-Scroll slack reuse` | `avancada_com_tradeoff` | Real mas frágil — corretamente sinalizada |
+| `SAT reuse` | `opt_in_de_cena_especial` | Real — corretamente restrita a menus/cutscenes |
+| `X = -128` exploit | Proibido por padrão | Real — quirk documentado do VDP |
+
+A **taxonomia de 3 níveis** (canônica_segura → avançada_com_tradeoff → opt_in) é uma contribuição genuinamente boa para governança de decisões técnicas.
+
+---
+
+### 2.3 Anti-alucinação — EFICAZ E NECESSÁRIO
+
+A tabela de anti-alucinação no AGENTS.md é um dos elementos mais valiosos:
+
+```
+| Alpha blending      | Não existe — apenas Highlight/Shadow |
+| Terceiro plano BG   | Apenas BG_A + BG_B + WINDOW        |
+| `int` é 16 bits     | GCC 68000: `int` = 32 bits          |
+| Gradiente suave     | Max 61 cores — fade = troca paleta  |
+```
+
+Isso existe porque **IAs realmente alucinam essas features**. É uma correção de ruído provada na prática. ✅
+
+---
+
+### 2.4 Scripts de automação — FUNCIONAIS E REAIS
+
+Os dois scripts Python que existem de fato são código funcional:
+
+- [project_status.py](file:///f:/Projects/MegaDrive_DEV/tools/sgdk_wrapper/.agent/scripts/project_status.py) — 231 linhas, lê manifestos, compara hashes de `.agent`, verifica drift, gera JSON estruturado ✅
+- [doc_drift_audit.py](file:///f:/Projects/MegaDrive_DEV/tools/sgdk_wrapper/.agent/scripts/doc_drift_audit.py) — 197 linhas, audita evidência, detecta divergências documental-factual ✅
+
+Ambos são **código Python real e executável**, não pseudocódigo.
+
+---
+
+### 2.5 Cadeia de evidência em emulador — IMPLEMENTADA DE VERDADE
+
+O `BENCHMARK_VISUAL_LAB` demonstra uma cadeia de evidência real:
+
+- **ROM compilada:** `rom.bin` existe (131KB) ✅
+- **SRAM evidence block:** Código C real que escreve bloco assinado "VLAB" + paletas + scores em SRAM ✅
+- **Captures:** `benchmark_visual.png`, `save.sram`, `visual_vdp_dump.bin`, `benchmark_quicksave.state` ✅
+- **Validation report:** 214 linhas de JSON estruturado com métricas de estética, QA axes, identity tracking por SHA256 ✅
+- **Stale detection:** O sistema detecta que a ROM foi rebuildada após a captura e marca evidência como `stale` ✅
+
+**Isso é infra real.** A cadeia `ROM hash → sessão emulador → captura → report` funciona.
+
+---
+
+### 2.6 Wrapper centralizado de build — FUNCIONAL
+
+O wrapper em `tools/sgdk_wrapper/` com `build.bat`, `run.bat`, `clean.bat`, `rebuild.bat` é real e os projetos compilam de fato. A memória operacional declara "13/13 projetos compiláveis".
+
+---
+
+## 3. O QUE É ASPIRAÇÃO SEM EVIDÊNCIA (Documentação ≠ Competência)
+
+### 3.1 A "Filosofia Maximalista" — ASPIRAÇÃO PURA
+
+> [!WARNING]
+> Este é o ponto mais frágil de todo o framework.
+
+O documento [08_maximalist_directive.md](file:///f:/Projects/MegaDrive_DEV/doc/00-governance/08_maximalist_directive.md) é ambicioso:
+
+- *"Seu padrão é: Treasure (Gunstar Heroes), Konami (Contra Hard Corps), Sega (Sonic 3)"*
+- *"NENHUMA CENA PODE SER SIMPLES"*
+- *"Pelo menos 1 FX principal + 2 FX secundários por cena"*
+- *"Hardware no limite sem quebrar"*
+
+**Realidade:** Nenhum projeto no workspace demonstra sequer uma fração desse nível. O projeto mais avançado (`BENCHMARK_VISUAL_LAB`) é um comparador estático de duas imagens lado a lado. Não tem:
+- Parallax
+- FX de nenhum tipo
+- Gameplay
+- Sprites animados
+- Interação com jogador
+- Áudio
+
+Citar Treasure e Konami como referência é fácil. Replicar o que eles fizeram com o 68000 é outra coisa completamente diferente. **A distância entre a documentação e o código real é a maior lacuna do framework.**
+
+### 3.2 Pipeline de produção — NÃO EXERCITADO
+
+O [production-loop.md](file:///f:/Projects/MegaDrive_DEV/tools/sgdk_wrapper/.agent/workflows/production-loop.md) descreve:
+
+```
+Director → Pixel Engineer → Programmer → QA → Iteração
+```
+
+**Realidade:** Não existe evidência de que esse pipeline foi executado nem uma vez do início ao fim com resultado tangível. Os projetos existentes são:
+
+| Projeto | Estado real |
+|---------|------------|
+| BENCHMARK_VISUAL_LAB | Comparador estático de imagens — benchmark, não jogo |
+| METAL_SLUG_URBAN_SUNSET | Pipeline de tradução de arte — não é jogo jogável |
+| Rain_Arena | Build com erro `Bad file descriptor` — não compila |
+| Pequeno Príncipe v1/v2 | Aventura — tem memory bank, mas estado de gameplay incerto |
+| Shadow Dancer Hamoopig | Engine de plataforma — tem colisão real, melhor candidato |
+| MEGABLADE | Estrutura presente, gameplay desconhecido |
+| Codex smoke models | Fixtures de teste |
+
+Nenhum desses projetos demonstra o pipeline Director→Art→Code→QA completo.
+
+### 3.3 Art Director e Visual Quality Bar — TEÓRICOS
+
+O [art-director.md](file:///f:/Projects/MegaDrive_DEV/tools/sgdk_wrapper/.agent/agents/art-director.md) tem apenas 1.5KB. O [visual_quality_bar.md](file:///f:/Projects/MegaDrive_DEV/doc/03_art/00_visual_quality_bar.md) tem 29 linhas que basicamente dizem "seja tão bom quanto Streets of Rage 2".
+
+**Realidade:** Nenhum asset no workspace demonstra qualidade comparável a esses jogos. O sistema de arte tem:
+- `art-translation-to-vdp` — skill robusta de 453 linhas com processo real de decomposição semântica ✅
+- `visual-excellence-standards` — 12KB de skill ✅
+- `megadrive-pixel-strict-rules` — checklist técnico correto ✅
+
+Mas **a arte produzida** (visível nos captures e nos projetos) não atinge o nível declarado. A infraestrutura de avaliação é real; a produção artística AAA não é.
+
+### 3.4 Scripts declarados mas ausentes
+
+O ARCHITECTURE.md lista 4 scripts. Apenas 2 existem:
+
+| Script declarado | Existe? |
+|-----------------|---------|
+| `project_status.py` | ✅ Sim |
+| `doc_drift_audit.py` | ✅ Sim |
+| `art_diagnostic.py` | ❌ Não encontrado |
+| `test_art_pipeline.py` | ❌ Não encontrado (suposta suite de 32 testes) |
+
+### 3.5 Métricas de runtime — NUNCA MEDIDAS
+
+O validation_report do BENCHMARK_VISUAL_LAB mostra:
+
+```json
+"runtime_profile": {
+    "frame_stability": "nao_medido",
+    "sprite_pressure": "nao_medido",
+    "perceptual_quality": "nao_medido",
+    "fx_load": "nao_medido"
+}
+```
+
+O framework define essas métricas, mas **nenhum projeto jamais as mediu**. São campos vazios em JSON.
+
+### 3.6 Teste em hardware real — ZERO EVIDÊNCIA
+
+O agente `qa-hardware-tester` exige "cobrar teste em hardware real (flashcart + CRT)". **Não existe nenhuma evidência de teste em hardware real** em todo o workspace. `hardware_real: nao_testado` é o estado de todos os projetos.
+
+---
+
+## 4. DIAGNÓSTICO ESTRUTURAL
+
+### O que este framework realmente é:
+
+```mermaid
+graph TB
+    subgraph FORTE["✅ FORTE — Evidência Real"]
+        A[Conhecimento de hardware VDP]
+        B[Anti-alucinação de API]
+        C[Cadeia de evidência ROM→Emulador]
+        D[Scripts de auditoria Python]
+        E[Wrapper de build funcional]
+        F[Skill de tradução de arte]
+        G[Taxonomia de técnicas VDP]
+    end
+    
+    subgraph MEDIO["⚠️ MÉDIO — Infraestrutura sem exercício"]
+        H[Pipeline Director→Art→Code→QA]
+        I[10 agentes definidos]
+        J[12 skills documentadas]
+        K[6 workflows escritos]
+        L[Métricas de qualidade visual]
+    end
+    
+    subgraph FRACO["❌ FRACO — Aspiração sem evidência"]
+        M[Nível AAA Treasure/Konami]
+        N[Filosofia Maximalista na prática]
+        O[Arte produzida real]
+        P[Gameplay funcional completo]
+        Q[Runtime metrics reais]
+        R[Hardware real testado]
+    end
+```
+
+### Metáfora honesta:
+
+> O framework é como um **campo de treinamento militar completamente equipado** — com manuais de combate precisos, quadros de regras corretos, armamento catalogado e protocolos de inspeção funcionais — mas onde **nenhum soldado completou a marcha inteira ainda**.
+
+A doutrina está certa. O arsenal está no lugar. Mas a guerra não foi travada.
+
+---
+
+## 5. VEREDICTO — SEPARAÇÃO HONESTA
+
+### ✅ Competência Real Demonstrada
+
+1. **Conhecimento factual do hardware** — Correto em datasheet, VDP, DMA, paleta, sprites, limitações
+2. **Conhecimento da API SGDK 2.11** — Migração, armadilhas, flags, funções reais
+3. **Infra de build** — Wrapper funcional, 13 projetos compiláveis
+4. **Cadeia de evidência** — ROM hash tracking, stale detection, SRAM evidence blocks
+5. **Scripts de auditoria** — Python real que gera JSON estruturado
+6. **Protocolo de tradução de arte** — Decomposição semântica, basic vs elite, gates
+7. **Anti-alucinação** — O agente sabe o que não existe no hardware
+8. **Vocabulário de status** — 8 estados distintos vs. "pronto" ou "validado" genéricos
+
+### ❌ Aspiração Sem Evidência
+
+1. **Nível AAA** — Nenhum projeto demonstra qualidade Treasure/Konami
+2. **Pipeline completo** — Nenhuma iteração Director→QA documentada de ponta a ponta
+3. **Maximalismo** — Nenhuma cena com FX combinados, parallax, reação a gameplay
+4. **Arte AAA** — Nenhum asset publicado atinge a Visual Quality Bar declarada
+5. **Runtime profiling** — Todas as métricas são `nao_medido`
+6. **Hardware real** — Zero evidência de flashcart ou CRT
+7. **2 de 4 scripts** — Ausentes (`art_diagnostic.py`, `test_art_pipeline.py`)
+8. **Gameplay funcional** — Nenhum jogo completo jogável com os padrões declarados
+
+---
+
+## 6. CONCLUSÃO
+
+### A pergunta certa não é "o framework é bom?"
+
+O framework é **excepcionalmente bom como sistema de governança e conhecimento técnico**. A parte de hardware, API, anti-alucinação e cadeia de evidência é trabalho de alta qualidade que eu raramente vejo em projetos homebrew.
+
+### A pergunta certa é: "o framework produz jogos?"
+
+**Ainda não.** A distância entre a doutrina e a produção é o gap principal.
+
+O risco real é que o esforço de governança consuma mais energia do que a produção de gameplay. O framework tem 10 agentes, 12 skills, 6 workflows, dezenas de documentos de governança — e zero cenas jogáveis com FX combinados rodando a 60fps no BlastEm.
+
+### Recomendação honesta:
+
+> O framework tem **fundação técnica real para produzir um perito em Mega Drive**. Mas a perícia só se prova com ROM rodando. A própria regra de ferro do projeto diz isso. Aplique-a ao próprio framework.
+
+O próximo passo lógico é: **um projeto-prova** — uma cena de 30 segundos que exercite o pipeline inteiro, do Director ao QA, com FX combinados, parallax, gameplay interativo, 60fps estáveis e evidência completa no BlastEm. Sem isso, o framework é uma biblioteca brilhante que nunca foi lida.
+
+
+------------------
+
+# Internalização de Perícia: Extração Semântica (Layout First)
+
+Este plano operacionaliza a capacidade do agente de extrair e compor cenas complexas a partir de pranchas editoriais, garantindo proficiência e substituindo heurísticas fracas por métricas rigorosas de validação.
+
+## User Review Required
+
+> [!IMPORTANT]
+> Aprovação da arquitetura "Layout First" como padrão oficial para todas as "artes source" complexas. As regras estabelecem o abandono de scripts customizados por cena em favor de um motor agnóstico orientado a manifesto (JSON/Boxes lógicas).
+
+> [!TIP]
+> A métrica `IoU > 85%` passa a ser a régua de ferro do "Juiz Estético" para garantir o controle de qualidade do agente.
+
+## Proposed Changes
+
+---
+
+### Módulo Cognitivo (Skill Agent)
+
+Atualização das diretrizes operacionais do agente para não permitir ambiguidades durante o pipeline de tradução.
+
+#### [MODIFY] [SKILL.md](file:///f:/Projects/MegaDrive_DEV/tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md)
+- Inclusão da regra "Layout First": A leitura da imagem DEVE ocorrer regionalmente antes de globalmente.
+- Proibição do uso de "pixel math" cego (edge detection e threshold global de luminância em panoramas inteiros) sem demarcação espacial explícita.
+- Estabelecimento do *Gate de Qualidade*: O agente só pode avançar para a Fase 3 (Quantização/Tradução VDP) se o seu parser semântico atingir `IoU >= 85%` contra o gabarito humano quando houver material pedagógico (ou avaliação visual idêntica quando autônomo).
+
+---
+
+### Módulo de Parsing (Engine Python Universal)
+
+Criação do motor agnóstico que encapsula e automatiza a inteligência de composição provada na v2 do nosso teste.
+
+#### [NEW] [sgdk_semantic_parser.py](file:///f:/Projects/MegaDrive_DEV/tools/image-tools/sgdk_semantic_parser.py)
+Um módulo estrutural python focado puramente em lógica espacial, contendo:
+- `extract_region(source, box)`: Isola a camada baseado no inventário editorial.
+- `mask_from_isolated_region(region)`: Gera o `alpha` base para arquitetura e escombros detectando a fronteira opaca.
+- `compose_layers(regions[], target_size)`: Efetua o "Alpha Compositing" seguindo a ordem de profundidade Z para recriar o panorama jogável.
+- `calculate_iou(ai_mask, human_mask)`: A implementação do Juiz para aferição de qualidade formal.
+
+---
+
+### Limpeza da Dívida Técnica (O Caso Refatorado)
+
+Substituição da lógica velha (com falhas) pelo novo motor limpo e auditável.
+
+#### [MODIFY] [generate_metal_slug_translation_case.py](file:///f:/Projects/MegaDrive_DEV/tools/image-tools/generate_metal_slug_translation_case.py)
+- Remover todo o bloco engessado de `build_architecture_alpha` e `build_debris_alpha` (linhas 511-645).
+- Importar módulo `sgdk_semantic_parser`.
+- Adaptar o pipeline original para apenas ditar os Bounding Boxes organizacionais (`A_BOX`, `B_BOX`, `C_BOX`) e deixar o `sgdk_semantic_parser` resolver a montagem perfeita (IoU de ~95-98%).
+- Assegurar que os assets gerados dinamicamente passem a compor de fato os assets finais inseridos dentro da "ROM" de testes se necessário.
+
+
+## Open Questions
+
+Nenhuma no momento. O diagnóstico do passo anterior providenciou clareza absoluta sobre as deficiências e a solução funcional necessária.
+
+## Verification Plan
+
+### Automated Tests
+- Rodarei o refatorado `generate_metal_slug_translation_case.py` após instalar o motor, e os novos logs do report deverão acusar a mesma métrica superior já validada (IoU > 90%).
+
+### Manual Verification
+- Com todas as referências do antigo `build_architecture_alpha` destruídas, a imagem final do pipeline oficial continuará mantendo a perfeição visual, garantindo que o Agente aprendeu e aplicou a lição para uso futuro.
+---------------------------
+Varredura da segunda passada dos engines concluída. Compilei o relatório em doc/05_technical/99_sgdk_engines_scan_appendix.md com 22 seções cobrindo os padrões extraídos das pastas que não haviam sido exploradas no primeiro passe.
+
+Resumo das descobertas (Pass 2)
+
+Padrões canônicos extraídos e documentados:
+
+LIZARDRIVE FX — 4 referências canônicas de H-Int: wobble (distorção senoidal), scaling (zoom bitmap), hilight-shadow (spotlight), linescroll (parallax por scanline).
+
+LIZARDRIVE Sonic sample — câmera deadzone com parallax por bit-shift (x >> 3, y >> 5), streaming manual de tilemap via VDP_setTileMapDataColumnFast, HUD por SPR_setFrame e desaceleração multi-taxa em 4 bandas.
+
+LIZARDRIVE Platformer sample — valores canônicos de game feel: coyote time = 10f, jump buffer = 10f, half-jump cancel em velY * 0.5, one-way platforms com errorCorrection = 5px.
+
+TSK_ multitasking API — referência oficial do scheduler cooperativo do SGDK (TSK_userSet, TSK_superPend, TSK_superPost).
+
+Mega Metroid slopes — colisão com gradiente por coluna (x_dif << 1, clamp em 8).
+
+NEXZR — entity manager minimalista (~65 linhas) via ponteiros de função.
+
+MegaDriving Lou tutorials — stack completo de pseudo-3D: ZMAP (F16_div(-75, i-112)), hills via VScroll, curves via HScroll, color banding via zmapval & 1.
+
+Shadow Dancer tileCache — cache de tiles com refcount via MAP_ callback — solução para mapas maiores que a VRAM.
+
+TidyText — fonte de largura variável via composição de tiles em runtime com bit masking (descoberta principal).
+
+RPG Text tile_text_renderer — renderizador streaming com ring buffer, preshift/mask, word wrap e controle por escape codes 0xFF.
+
+Paseo dialog — script multi-língua empacotado em byte array único com offsets por idioma.
+
+Raycasting Anael — column tiles pré-computados, ASM inline para flush de DMA queue, palette swap mid-frame via H-Int.
+
+Trigonometry Projetil — tabela sin/cos (91 entradas 0-90°) + atan2 polinomial de 4 termos.
+
+O relatório inclui fila de canonização priorizada (§21) — 10 padrões ranqueados por impacto nas skills AAA, sendo TidyText (variable-width font) o #1 e o racing pseudo-3D stack o #2. Nenhum desses padrões é canon ainda — todos ficam bloqueados até a aprovação do Sprint 1, exatamente como exigido pelas portas de canonização.
+
+Notificação registrada — o background search que eu havia disparado (find ... -name "*LESSONS*.md") terminou com código 0. Como já havia determinado por outros meios que não existia relatório prévio e já escrevi o appendix completo em doc/05_technical/99_sgdk_engines_scan_appendix.md, não há ação adicional necessária a partir dessa notificação.
+
+
+-----------------
+neste chat foi  mencionado técnicas e efeitos especiais para desenvolvimento
+ de jogos de mega drive se sim liste com explicando a lógica de cada um, uma referencia de jogo se houver, como    aplicar e um conceito técnico bem detalhado 
+ 
+ 
+ ------------------
+ 
+ Você está retomando o workspace MegaDrive_DEV após reidratação do host.
+
+Base obrigatória:
+- Branch: codex/workspace-salvage-wave1
+- Commit âncora: c1703bd26098f07372c41b202be840b0dcbb152e
+- Branch complementar de curadoria técnica: codex/hardware-mastery-roadmap
+- Regra de ferro: se não foi visto no BlastEm, não existe
+
+Leia nesta ordem:
+1. /F:/Projects/MegaDrive_DEV/AGENTS.md
+2. /F:/Projects/MegaDrive_DEV/doc/06_AI_MEMORY_BANK.md
+3. /F:/Projects/MegaDrive_DEV/doc/03_art/AAA_SKILL_CANONIZATION_PROTOCOL.md
+4. /F:/Projects/MegaDrive_DEV/doc/03_art/AAA_SKILL_CURATION_STATUS.md
+5. /F:/Projects/MegaDrive_DEV/doc/05_technical/92_sgdk_engine_pattern_frontdoor.md
+6. /F:/Projects/MegaDrive_DEV/doc/05_technical/92_sgdk_engine_pattern_registry.json
+7. /F:/Projects/MegaDrive_DEV/doc/05_technical/93_16bit_hardware_mastery_matrix.md
+8. /F:/Projects/MegaDrive_DEV/doc/05_technical/93_16bit_hardware_mastery_registry.json
+9. /F:/Projects/MegaDrive_DEV/doc/05_technical/94_16bit_hardware_mastery_roadmap.md
+10. /F:/Projects/MegaDrive_DEV/SGDK_projects/BENCHMARK_VISUAL_LAB/doc/13-spec-cenas.md
+11. /F:/Projects/MegaDrive_DEV/SGDK_projects/BENCHMARK_VISUAL_LAB/doc/09-checklist-anti-alucinacao.md
+
+Regras de segurança:
+- Não canonizar nada só por documentação
+- Não mexer em assets/.tmp como se estivessem no Git
+- Não tratar os 5 engines aninhados como diretórios normais sem normalização explícita
+- Usar BENCHMARK_VISUAL_LAB como laboratório oficial
+- Antes de qualquer feature nova, confirmar branch, commit base e status do memory bank
+
+checklist operacional:
+
+git clone
+git checkout codex/workspace-salvage-wave1
+confirmar git rev-parse HEAD == c1703bd26098f07372c41b202be840b0dcbb152e
+restaurar backup local de assets/ e .tmp/ se necessário
+só então continuar a curadoria

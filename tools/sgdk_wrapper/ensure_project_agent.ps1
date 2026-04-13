@@ -145,9 +145,27 @@ try {
         $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "existing"
         $localManifest = Get-AgentManifest -AgentDir $destinationAgentDir
         if (-not $localManifest) {
+            $sourceManifestPath = Join-Path $resolvedSource "framework_manifest.json"
+            if (Test-Path -LiteralPath $sourceManifestPath -PathType Leaf) {
+                $destManifestPath = Join-Path $destinationAgentDir "framework_manifest.json"
+                try {
+                    Copy-Item -LiteralPath $sourceManifestPath -Destination $destManifestPath -Force
+                    $localManifest = Get-AgentManifest -AgentDir $destinationAgentDir
+                    if ($localManifest) {
+                        $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "manifest_healed"
+                        if ($OutputFormat -eq "Host") {
+                            Write-Host "[SGDK Wrapper] framework_manifest.json copiado da canonica (heal) — nenhuma outra pasta da .agent local foi sobrescrita."
+                        }
+                    }
+                } catch {
+                    Write-Warning ("[SGDK Wrapper] Falha ao copiar framework_manifest.json da canonica: {0}" -f $_.Exception.Message)
+                }
+            }
+        }
+        if (-not $localManifest) {
             $status["SGDK_AGENT_BOOTSTRAP_DEGRADED"] = "1"
             $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "missing_manifest"
-            Write-Warning ("[SGDK Wrapper] .agent local sem framework_manifest.json. Canonica atual: {0}. Rode a auditoria de drift antes de confiar no bootstrap local." -f $sourceVersion)
+            Write-Warning ("[SGDK Wrapper] .agent local sem framework_manifest.json apos heal. Canonica atual: {0}. Auditar drift." -f $sourceVersion)
         } else {
             $localVersion = if ($localManifest.framework_version) { [string]$localManifest.framework_version } else { "desconhecida" }
             $status["SGDK_AGENT_LOCAL_VERSION"] = $localVersion

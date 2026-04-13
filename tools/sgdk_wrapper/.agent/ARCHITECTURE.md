@@ -32,6 +32,7 @@ Os wrappers centrais garantem o bootstrap automatico para projetos novos e antig
 
 - Bootstrap ausente pode ser materializado automaticamente.
 - Bootstrap presente mas sem `framework_manifest.json` nao deve ser tratado como saudavel por padrao.
+- **Heal de manifesto**: se `.agent` local existir e faltar apenas `framework_manifest.json`, `ensure_project_agent.ps1` copia **somente** esse ficheiro da canonica (sem tocar em `skills/` ou restantes ficheiros). Motivo de status: `manifest_healed`.
 - Divergencia entre copia local e fonte canonica deve promover o projeto a estado de `bootstrap_degradado` ate auditoria de drift.
 - O wrapper deve preferir aviso honesto e modo degradado a assumir que a copia local ainda representa a verdade canonica.
 
@@ -47,6 +48,7 @@ Os wrappers centrais garantem o bootstrap automatico para projetos novos e antig
   rules/
   skills/
   workflows/
+  pipelines/
   scripts/
 ```
 
@@ -56,8 +58,9 @@ Os wrappers centrais garantem o bootstrap automatico para projetos novos e antig
 - `agents/`: personas especializadas por dominio
 - `skills/`: conhecimento reutilizavel e carregavel por contexto
 - `workflows/`: runbooks operacionais
+- `pipelines/`: definicoes machine-readable de jornadas (ex.: `aaa_scene_v1.json`)
 - `scripts/`: automacoes de status, auditoria e verificacao
-- `framework_manifest.json`: versao canonica da `.agent`, fontes de status e artefatos obrigatorios
+- `framework_manifest.json`: versao canonica da `.agent`, fontes de status, artefatos obrigatorios e lista `pipelines`
 
 ---
 

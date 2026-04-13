@@ -48,6 +48,7 @@ Exit codes:
 | `NOT_INDEXED` | Imagem nao e PNG modo P (indexado) | ResComp rejeita |
 | `DIM_NOT_MULTIPLE_8` | Dimensoes nao sao multiplos de 8 | ResComp rejeita |
 | `TOO_MANY_COLORS` | Mais de 15 cores visiveis | Paleta extrapola hardware |
+| `PALETTE_INFLATED` | Paleta PLTE com >16 entradas (ex: 256 em 8bpp) | Deduplicacao de tiles falha; corrupcao visual no VDP |
 | `OPEN_FAILED` | Arquivo corrompido ou formato invalido | Build falha |
 | `FILE_NOT_FOUND` | Arquivo referenciado no .res nao existe | Linker error |
 
@@ -82,11 +83,61 @@ magick "<arquivo>.png" -unique-colors txt:-
 
 ---
 
+## Analise forense zero-dependency (PowerShell / .NET)
+
+Quando Python e ImageMagick nao estiverem disponiveis, use leitura directa do header PNG via .NET. Esta tecnica nao requer nenhuma dependencia externa.
+
+```powershell
+# Ler header PNG: bytes 16-25 contem largura, altura, bitDepth e colorType
+$bytes = [System.IO.File]::ReadAllBytes("<arquivo>.png")
+$w = [int]$bytes[16]*16777216 + [int]$bytes[17]*65536 + [int]$bytes[18]*256 + [int]$bytes[19]
+$h = [int]$bytes[20]*16777216 + [int]$bytes[21]*65536 + [int]$bytes[22]*256 + [int]$bytes[23]
+$bitDepth = $bytes[24]   # 4 = 16 cores (correcto), 8 = 256 cores (PROBLEMA)
+$colorType = $bytes[25]  # 3 = Indexed (correcto), 2 = RGB, 6 = RGBA (PROBLEMA)
+```
+
+### Contar entradas PLTE (paleta real)
+
+```powershell
+# Percorrer chunks PNG ate encontrar PLTE; dividir tamanho por 3
+$i = 8
+while ($i -lt ($bytes.Length - 12)) {
+    $chunkLen = [int]$bytes[$i]*16777216 + [int]$bytes[$i+1]*65536 + [int]$bytes[$i+2]*256 + [int]$bytes[$i+3]
+    $chunkType = [System.Text.Encoding]::ASCII.GetString($bytes, $i+4, 4)
+    if ($chunkType -eq 'PLTE') { Write-Output "Paleta: $($chunkLen / 3) entradas"; break }
+    $i += 12 + $chunkLen
+}
+```
+
+### Contar cores unicas reais (via System.Drawing)
+
+```powershell
+Add-Type -AssemblyName System.Drawing
+$bmp = [System.Drawing.Bitmap]::new("<arquivo>.png")
+$cores = @{}
+for ($y = 0; $y -lt $bmp.Height; $y++) {
+    for ($x = 0; $x -lt $bmp.Width; $x++) {
+        $c = $bmp.GetPixel($x, $y)
+        $cores["$($c.R),$($c.G),$($c.B)"] = $true
+    }
+}
+$bmp.Dispose()
+Write-Output "Cores unicas reais: $($cores.Count)"
+```
+
+### IMPORTANTE: Entradas PLTE vs cores unicas
+
+Uma imagem pode ter **11 cores unicas** mas **256 entradas de paleta**. O ImageMagick reporta cores unicas (%k) como 11 e passa. Mas o rescomp usa indices de paleta brutos: dois pixeis com a mesma cor RGB mas indices diferentes geram tiles "unicos" falsos, inflando o tileset e causando corrupcao visual. Verifique SEMPRE as entradas PLTE, nao apenas as cores unicas.
+
+---
+
 ## Checklist de qualidade por asset
 
 Execute mentalmente para cada asset antes de aceitar:
 
-- [ ] Formato: PNG indexado modo P (4-bit ou 8-bit)
+- [ ] Formato: PNG indexado (colorType=3, byte 25 do header)
+- [ ] BitDepth: 4 (max 16 cores) — byte 24 do header
+- [ ] Entradas PLTE: max 16 (contar no chunk, nao confiar apenas em cores unicas)
 - [ ] Index 0 = transparente (#FF00FF)
 - [ ] Max 15 cores visiveis na paleta
 - [ ] Todas as cores no grid 9-bits (R, G, B em multiplos de 0x22)

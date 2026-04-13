@@ -149,28 +149,101 @@ function Estimate-VDPSprites($wTiles, $hTiles) {
 }
 
 function Get-MagickPath() {
-    $magickPath = Get-Command magick -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
-    if (-not $magickPath) {
-        $commonPaths = Get-ChildItem -Path "C:\Program Files\ImageMagick*" -Filter "magick.exe" -Recurse -ErrorAction SilentlyContinue |
-            Select-Object -ExpandProperty FullName
-        if ($commonPaths.Count -gt 0) { $magickPath = $commonPaths[0] }
+    $candidates = @()
+    $cmdMagick = Get-Command magick -ErrorAction SilentlyContinue
+    if ($cmdMagick -and $cmdMagick.Source -and ($cmdMagick.Source -notmatch 'WindowsApps')) {
+        $candidates += $cmdMagick.Source
     }
-    return $magickPath
+    $searchRoots = @((Join-Path $env:ProgramFiles 'ImageMagick*'))
+    $pf86 = [Environment]::GetEnvironmentVariable('ProgramFiles(x86)')
+    if (-not [string]::IsNullOrWhiteSpace($pf86)) {
+        $searchRoots += (Join-Path $pf86 'ImageMagick*')
+    }
+    foreach ($root in $searchRoots) {
+        $found = Get-ChildItem -Path $root -Filter 'magick.exe' -Recurse -ErrorAction SilentlyContinue |
+            Select-Object -ExpandProperty FullName
+        if ($found) { $candidates += $found }
+    }
+    foreach ($p in $candidates) {
+        if ($p -and (Test-Path -LiteralPath $p)) {
+            return [string]$p
+        }
+    }
+    return $null
+}
+
+function Get-PngHeaderInfo($filePath) {
+    $bytes = [System.IO.File]::ReadAllBytes($filePath)
+    if ($bytes.Length -lt 29) { throw "File too small to be a valid PNG" }
+    if ($bytes[0] -ne 0x89 -or $bytes[1] -ne 0x50) { throw "Not a PNG file (bad signature)" }
+
+    $w = [int]$bytes[16] * 16777216 + [int]$bytes[17] * 65536 + [int]$bytes[18] * 256 + [int]$bytes[19]
+    $h = [int]$bytes[20] * 16777216 + [int]$bytes[21] * 65536 + [int]$bytes[22] * 256 + [int]$bytes[23]
+    $bitDepth = [int]$bytes[24]
+    $colorType = [int]$bytes[25]
+
+    $palEntries = 0
+    $i = 8
+    while ($i -lt ($bytes.Length - 12)) {
+        $chunkLen = [int]$bytes[$i] * 16777216 + [int]$bytes[$i+1] * 65536 + [int]$bytes[$i+2] * 256 + [int]$bytes[$i+3]
+        $chunkType = [System.Text.Encoding]::ASCII.GetString($bytes, $i + 4, 4)
+        if ($chunkType -eq 'PLTE') { $palEntries = [int]($chunkLen / 3); break }
+        if ($chunkType -eq 'IDAT') { break }
+        $i += 12 + $chunkLen
+    }
+
+    $isIndexed = ($colorType -eq 3)
+    $typeName = switch ($colorType) { 0 { 'Grayscale' } 2 { 'DirectClassRGB' } 3 { 'PseudoClass' } 4 { 'GrayscaleAlpha' } 6 { 'DirectClassRGBA' } default { "Unknown" } }
+    $effectiveColors = if ($isIndexed -and $palEntries -gt 0) { $palEntries } elseif ($isIndexed) { [Math]::Pow(2, $bitDepth) } else { 0 }
+
+    return [pscustomobject]@{
+        Width = $w
+        Height = $h
+        Depth = $bitDepth
+        Colors = [int]$effectiveColors
+        PaletteEntries = $palEntries
+        Class = $typeName
+        Indexed = $isIndexed
+        Source = "dotnet_png_header"
+    }
 }
 
 function Get-ImageInfo($magickPath, $filePath) {
-    $identify = & $magickPath identify -format "%w|%h|%z|%k|%r" "$filePath"
-    if ($identify -match '^(\d+)\|(\d+)\|(\d+)\|(\d+)\|(.+)$') {
-        return [pscustomobject]@{
-            Width = [int]$matches[1]
-            Height = [int]$matches[2]
-            Depth = [int]$matches[3]
-            Colors = [int]$matches[4]
-            Class = $matches[5]
-            Indexed = ($matches[5] -match '^PseudoClass')
-        }
+    if (-not $magickPath -or -not (Test-Path -LiteralPath $magickPath)) {
+        throw "ImageMagick executable invalid or missing: $magickPath"
     }
-    throw "Unable to parse ImageMagick identify output: $identify"
+    if (-not (Test-Path -LiteralPath $filePath)) {
+        throw "Image file not found: $filePath"
+    }
+    # Start-Process evita falhas do operador & com caminhos contendo espacos (erro "O termo 'C' nao e reconhecido").
+    $stdout = [System.IO.Path]::GetTempFileName()
+    $stderr = [System.IO.Path]::GetTempFileName()
+    try {
+        $p = Start-Process -FilePath $magickPath -ArgumentList @(
+            'identify', '-format', '%w|%h|%z|%k|%r', $filePath
+        ) -NoNewWindow -Wait -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+        $identifyText = ([System.IO.File]::ReadAllText($stdout)).Trim()
+        if ($p.ExitCode -ne 0) {
+            $errText = [System.IO.File]::ReadAllText($stderr)
+            throw "ImageMagick identify exit $($p.ExitCode): $errText"
+        }
+        if ($identifyText -match '^(\d+)\|(\d+)\|(\d+)\|(\d+)\|(.+)$') {
+            return [pscustomobject]@{
+                Width = [int]$matches[1]
+                Height = [int]$matches[2]
+                Depth = [int]$matches[3]
+                Colors = [int]$matches[4]
+                Class = $matches[5]
+                Indexed = ($matches[5] -match '^PseudoClass')
+                Source = "imagemagick"
+            }
+        }
+        throw "Unable to parse ImageMagick identify output: $identifyText"
+    }
+    finally {
+        Remove-Item -LiteralPath $stdout -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath $stderr -ErrorAction SilentlyContinue
+    }
 }
 
 function Get-ImageOptionTokens($line) {
@@ -179,7 +252,7 @@ function Get-ImageOptionTokens($line) {
         if ([string]::IsNullOrWhiteSpace($tail)) {
             return @()
         }
-        return @($tail -split '\s+')
+        return , @($tail -split '\s+')
     }
     return @()
 }
@@ -453,11 +526,37 @@ function Add-Detail($results, $type, $level, $message, $resource, $file, $extra 
 }
 
 function Get-PythonPath() {
-    $pythonPath = Get-Command python -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
-    if (-not $pythonPath) {
-        $pythonPath = Get-Command py -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
+    function Test-UsablePythonExe([string]$Path) {
+        if (-not $Path -or -not (Test-Path -LiteralPath $Path)) { return $false }
+        if ($Path -match 'WindowsApps') { return $false }
+        return $true
     }
-    return $pythonPath
+
+    foreach ($name in @('python', 'py')) {
+        $cmd = Get-Command $name -ErrorAction SilentlyContinue
+        if ($cmd -and (Test-UsablePythonExe $cmd.Source)) {
+            return $cmd.Source
+        }
+    }
+
+    $roots = @(
+        (Join-Path $env:LOCALAPPDATA 'Programs\Python'),
+        (Join-Path $env:ProgramFiles 'Python*')
+    )
+    $pf86 = [Environment]::GetEnvironmentVariable('ProgramFiles(x86)')
+    if (-not [string]::IsNullOrWhiteSpace($pf86)) {
+        $roots += (Join-Path $pf86 'Python*')
+    }
+    foreach ($root in $roots) {
+        $exes = Get-ChildItem -Path $root -Filter 'python.exe' -Recurse -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -notmatch 'WindowsApps' } |
+            Sort-Object FullName -Descending
+        foreach ($ex in $exes) {
+            if (Test-UsablePythonExe $ex.FullName) { return $ex.FullName }
+        }
+    }
+
+    return $null
 }
 
 function Get-AestheticRole($resourceKind, $resourceName, $resourcePath) {
@@ -1178,20 +1277,33 @@ foreach ($res in $resFiles) {
             }
         }
 
-        if (-not $magickPath) {
-            Write-Log "ImageMagick não encontrado; validação de imagem será parcial." "WARN"
-            $results.summary.warnings++
-            continue
+        $info = $null
+        if ($magickPath) {
+            try {
+                $info = Get-ImageInfo $magickPath $absPath
+            } catch {
+                Write-Log "ImageMagick falhou para ${path}: $($_.Exception.Message). Tentando fallback .NET..." "WARN"
+            }
         }
 
-        try {
-            $info = Get-ImageInfo $magickPath $absPath
-        } catch {
-            $msg = "Falha ao inspecionar ${path}: $($_.Exception.Message)"
-            Write-Log $msg "ERROR"
-            $results.summary.errors++
-            Add-Detail $results "IDENTIFY_FAILED" "ERROR" $msg $name $path
-            continue
+        if (-not $info) {
+            try {
+                $info = Get-PngHeaderInfo $absPath
+                Write-Log ("Inspecao via fallback .NET para {0}: {1}x{2} bitDepth={3} palette={4}" -f $path, $info.Width, $info.Height, $info.Depth, $info.PaletteEntries) "INFO"
+            } catch {
+                $msg = "Falha ao inspecionar ${path} (ImageMagick e fallback .NET): $($_.Exception.Message)"
+                Write-Log $msg "ERROR"
+                $results.summary.errors++
+                Add-Detail $results "IDENTIFY_FAILED" "ERROR" $msg $name $path
+                continue
+            }
+        }
+
+        if ($info.Source -eq "imagemagick" -and $info.Indexed) {
+            try {
+                $pngHeader = Get-PngHeaderInfo $absPath
+                $info | Add-Member -NotePropertyName PaletteEntries -NotePropertyValue $pngHeader.PaletteEntries -Force
+            } catch { }
         }
 
         if (($info.Width % 8) -ne 0 -or ($info.Height % 8) -ne 0) {
@@ -1205,6 +1317,17 @@ foreach ($res in $resFiles) {
         if (-not $info.Indexed) { $invalidReasons += "imagem não indexada" }
         if ($info.Depth -gt 8) { $invalidReasons += "depth $($info.Depth) bits" }
         if ($info.Colors -gt 16) { $invalidReasons += "$($info.Colors) cores" }
+
+        if ($info.Indexed -and $info.PSObject.Properties.Name -contains 'PaletteEntries' -and $info.PaletteEntries -gt 16) {
+            $msg = "Imagem $path tem $($info.PaletteEntries) entradas de paleta PLTE (max 16). Mesmo com poucas cores unicas, indices redundantes impedem deduplicacao de tiles no rescomp e causam corrupcao visual."
+            Write-Log $msg "ERROR"
+            $results.summary.errors++
+            Add-Detail $results "PALETTE_INFLATED" "ERROR" $msg $name $path @{
+                paletteEntries = $info.PaletteEntries
+                bitDepth = $info.Depth
+                uniqueColors = $info.Colors
+            }
+        }
 
         if ($invalidReasons.Count -gt 0) {
             $msg = "Imagem $path é incompatível com SGDK ($($invalidReasons -join ', ')). Requer <=16 cores indexadas (PseudoClass) em 4bpp/8bpp."

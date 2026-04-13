@@ -6,3 +6,6 @@ IMAGE bg_a_ground "bgs/bg_a_ground.png" BEST ALL
 SPRITE spr_hero "sprites/spr_hero.png" 4 4 FAST 5
 IMAGE sunny_land_bg_b "gfx/sunny_land_bg_b.png" BEST ALL 0
 IMAGE sunny_land_bg_a "gfx/sunny_land_bg_a.png" BEST ALL 0
+
+// S1 Sprint: Gaira fighter (56x72 = 7x9 tiles, 5 anims x 8 frames)
+SPRITE spr_gaira "sprites/spr_gaira.png" 7 9 FAST 5

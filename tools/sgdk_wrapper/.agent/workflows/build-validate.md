@@ -11,7 +11,7 @@ Use este fluxo para build, rebuild e validacao operacional.
 1. Resolver contexto do projeto (manifesto + layout + `build_policy`).
 2. Auditar saude do bootstrap local da `.agent`:
    - se ausente, bootstrap automatico e permitido
-   - se presente sem `framework_manifest.json`, marcar como `bootstrap_degradado`
+   - se presente sem `framework_manifest.json`, `ensure_project_agent.ps1` tenta **heal** (copia so o manifesto da canonica); se ainda faltar, marcar `bootstrap_degradado`
    - se houver drift entre copia local e canônica, registrar explicitamente antes de confiar no contexto local
 3. Se `build_policy=disabled`, declarar como referencia/pacote pedagogico e encerrar o fluxo.
 4. Rodar build pelo wrapper canonico:

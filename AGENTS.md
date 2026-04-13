@@ -86,11 +86,13 @@ Para descoberta nativa de skills pelo Codex em nivel de repositorio, o workspace
 
 ## PIPELINE DE PRODUCAO
 
-```
-Director → Pixel Engineer → Programador → QA → Iteracao
-```
+Ordem **canonica** (cena AAA, machine-readable): `tools/sgdk_wrapper/.agent/pipelines/aaa_scene_v1.json`  
+Roteamento curto: `tools/sgdk_wrapper/.agent/workflows/aaa-scene-pipeline.md`  
+Narrativa + skills reais (sem nomes de agentes inexistentes): `tools/sgdk_wrapper/.agent/workflows/production-loop.md`.
 
-Nenhum passo pode ser pulado. Ver `tools/sgdk_wrapper/.agent/workflows/production-loop.md`.
+**Enforcement pratico para IAs**: regra Cursor `/.cursor/rules/megadrive-sgdk-aaa-pipeline.mdc`; preflight `tools/sgdk_wrapper/preflight_host.ps1`; CI local opcional `tools/sgdk_wrapper/ci/run_golden_validate.ps1`.
+
+Nenhum passo pode ser pulado.
 
 **Regras do loop:**
 - Feature creep bloqueado na etapa 1 (se nao esta no GDD, nao entra)
@@ -184,7 +186,10 @@ Naming convention: `NOME [VER.XXX] [SGDK YYY] [PLATAFORMA] [TIPO] [GENERO]`
 |-------------|---------|
 | Framework .agent | `tools/sgdk_wrapper/.agent/ARCHITECTURE.md` |
 | Regras globais | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` |
-| Pipeline | `tools/sgdk_wrapper/.agent/workflows/production-loop.md` |
+| Pipeline AAA (JSON) | `tools/sgdk_wrapper/.agent/pipelines/aaa_scene_v1.json` |
+| Pipeline AAA (tabela) | `tools/sgdk_wrapper/.agent/workflows/aaa-scene-pipeline.md` |
+| Loop de producao | `tools/sgdk_wrapper/.agent/workflows/production-loop.md` |
+| Preflight host | `tools/sgdk_wrapper/preflight_host.ps1` |
 | Pixel strict rules | `tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/` |
 | Budget VDP | `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/` |
 | Migracao batch | `doc/migrations/MIGRATION_BATCH_211.md` |

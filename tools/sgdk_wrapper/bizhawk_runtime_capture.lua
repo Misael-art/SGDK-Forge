@@ -174,16 +174,27 @@ end
 
 write_heartbeat("lua_loaded")
 
-local ok, err = xpcall(function()
-    local capture_status = "timeout"
-    write_heartbeat("loop_start")
-    client.unpause()
+local capture_done = false
+local capture_error = nil
 
-    while true do
+local function finalize_capture(status, timeout_frame)
+    if capture_done then
+        return
+    end
+
+    capture_done = true
+    write_report(status, timeout_frame)
+    write_heartbeat("report_written")
+    client.pause()
+    client.closerom()
+    client.exitCode(0)
+end
+
+local function runtime_tick()
+    local ok, err = xpcall(function()
         local frame = emu.framecount()
-        if frame == 0 then
-            write_heartbeat("frame_0_before_advance")
-        end
+        local scene_id = read_word(5)
+        local samples_recorded = read_word(9)
 
         if frame >= 220 and frame < 228 then
             joypad.set({ ["P1 A"] = true, ["P1 Start"] = true, A = true, Start = true }, 1)
@@ -191,35 +202,38 @@ local ok, err = xpcall(function()
             joypad.set({}, 1)
         end
 
-        emu.frameadvance()
-        client.unpause()
-
-        local scene_id = read_word(5)
-        local samples_recorded = read_word(9)
         if frame % 120 == 0 then
             write_heartbeat(string.format("frame=%d scene=%d samples=%d", frame, scene_id, samples_recorded))
         end
 
         if scene_id == target_scene and samples_recorded >= frame_window then
-            capture_status = "ok"
-            break
+            finalize_capture("ok", frame)
+            return
         end
 
         if frame >= max_wait_frames then
-            break
+            finalize_capture("timeout", frame)
         end
+    end, function(message)
+        return debug.traceback(tostring(message), 2)
+    end)
+
+    if not ok then
+        capture_done = true
+        capture_error = err
+        write_text(error_path, err)
+        client.exitCode(1)
     end
+end
 
-    write_report(capture_status, max_wait_frames)
-    write_heartbeat("report_written")
-    client.pause()
-    client.closerom()
-    client.exitCode(0)
-end, function(message)
-    return debug.traceback(tostring(message), 2)
-end)
+event.onframestart(runtime_tick)
+write_heartbeat("loop_start")
+client.unpause()
 
-if not ok then
-    write_text(error_path, err)
-    error(err)
+while not capture_done do
+    emu.yield()
+end
+
+if capture_error ~= nil then
+    error(capture_error)
 end

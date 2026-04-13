@@ -45,7 +45,8 @@ Estas regras sao sempre ativas para qualquer projeto `MegaDrive_DEV` que use est
 - Toda logica compartilhada deve morar em `tools/sgdk_wrapper/`.
 - Melhorias genericas vao para o wrapper central, nao para wrappers locais do projeto.
 - O bootstrap da `.agent` e feito apenas quando ausente.
-- Se a `.agent` local existir sem `framework_manifest.json` ou com sinais de drift, trate o projeto como `bootstrap_degradado` ate auditoria explicita.
+- Se faltar apenas `framework_manifest.json`, `ensure_project_agent.ps1` pode **heal** copiando esse ficheiro da canonica (sem sobrescrever skills locais).
+- Se ainda assim faltar manifesto, ou houver drift de versao/caminhos rastreados, trate como `bootstrap_degradado` ate auditoria explicita.
 - O wrapper nao deve fingir saude canonica quando so consegue provar existencia de copia local.
 
 ## 5. Handoff

@@ -179,6 +179,17 @@ Regra:
 - O criterio visual minimo e: shimmer toleravel, tipografia legivel e ganho real de layout em relacao ao modo normal.
 - Se a cena treme mais do que informa, o modo foi mal aplicado.
 
+### Ilusoes modernas honestas
+
+- `masked_shadow_highlight_lighting`
+  - deve ser julgado como spotlight, lanterna ou weak spot de boss, nunca como luz suave de engine moderna
+- `procedural_raster_glitch_suite`
+  - so funciona quando o ruído e dirigido e o jogador continua lendo risco, hitbox e objetivo
+- `mutable_tile_decal_mutation`
+  - o valor visual esta na persistencia localizada e na narrativa do impacto, nao em prometer destruicao universal
+- `cellular_microbuffer_sim`
+  - so e elite quando uma ilha pequena parece organica sem trair o budget; aumentar a area sem necessidade e erro de direcao
+
 ### Fundo enorme nao e virtude por si so
 
 - Conversao direta de ilustracao inteira costuma gerar muitos tiles unicos e pouca inteligencia estrutural.

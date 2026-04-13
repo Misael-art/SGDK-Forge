@@ -7,6 +7,9 @@
 #include "scenes/scene_menu.h"
 #include "scenes/scene_parallax.h"
 #include "scenes/scene_sunny_land.h"
+#include "scenes/scene_sprite_anim.h"
+#include "scenes/scene_character_design.h"
+#include "scenes/scene_multiplane.h"
 #include "system/input.h"
 
 static void APP_drawDebugHud(void)
@@ -34,7 +37,7 @@ void APP_boot(bool hardReset)
 
     JOY_init();
     INPUT_init();
-    SPR_init();
+    SPR_initEx(768);
 
     gApp.currentScene = APP_SCENE_BOOT;
     gApp.previousScene = APP_SCENE_BOOT;
@@ -67,6 +70,9 @@ const char* APP_sceneName(AppScene scene)
         case APP_SCENE_DEMO: return "DEMO";
         case APP_SCENE_PARALLAX: return "PARALLAX";
         case APP_SCENE_SUNNY_LAND: return "SUNNY";
+        case APP_SCENE_SPRITE_ANIM: return "SPR_ANIM";
+        case APP_SCENE_CHAR_DESIGN: return "CHR_DSGN";
+        case APP_SCENE_MULTIPLANE: return "MLTPLANE";
         default: return "UNKNOWN";
     }
 }
@@ -89,6 +95,9 @@ void APP_update(void)
             case APP_SCENE_DEMO: SCENE_demoEnter(); break;
             case APP_SCENE_PARALLAX: SCENE_parallaxEnter(); break;
             case APP_SCENE_SUNNY_LAND: SCENE_sunnyLandEnter(); break;
+            case APP_SCENE_SPRITE_ANIM: SCENE_spriteAnimEnter(); break;
+            case APP_SCENE_CHAR_DESIGN: SCENE_characterDesignEnter(); break;
+            case APP_SCENE_MULTIPLANE: SCENE_multiplaneEnter(); break;
             default: SCENE_bootEnter(); break;
         }
         gApp.sceneNeedsEnter = FALSE;
@@ -101,6 +110,9 @@ void APP_update(void)
         case APP_SCENE_DEMO: SCENE_demoUpdate(); break;
         case APP_SCENE_PARALLAX: SCENE_parallaxUpdate(); break;
         case APP_SCENE_SUNNY_LAND: SCENE_sunnyLandUpdate(); break;
+        case APP_SCENE_SPRITE_ANIM: SCENE_spriteAnimUpdate(); break;
+        case APP_SCENE_CHAR_DESIGN: SCENE_characterDesignUpdate(); break;
+        case APP_SCENE_MULTIPLANE: SCENE_multiplaneUpdate(); break;
         default: SCENE_bootUpdate(); break;
     }
 

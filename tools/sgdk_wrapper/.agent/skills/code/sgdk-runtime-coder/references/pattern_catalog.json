@@ -159,6 +159,15 @@
       ]
     },
     {
+      "id": "masked_shadow_highlight_lighting",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Sala escura, lanterna, weak spot de boss ou spotlight curto precisarem revelar cor local sem fingir alpha blending real.",
+      "risk": "Alto; slot operator de paleta, scanline pressure e leitura de gameplay podem degradar rapido.",
+      "engine_examples": [
+        "Workspace planned masked light benchmark"
+      ]
+    },
+    {
       "id": "palette_cycling_cram",
       "tier": "advanced_pattern_candidate",
       "when_to_use": "Agua, lava, neon, tocha ou pulso luminoso sem custo de tiles extras.",
@@ -167,6 +176,15 @@
         "Sonic 1 waterfalls",
         "Castlevania Bloodlines torches",
         "Streets of Rage 2 neon"
+      ]
+    },
+    {
+      "id": "procedural_raster_glitch_suite",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Crise visual, colapso de interface, corrupcao de transmissao ou estado mental instavel pedirem rasgo e choque cromatico dirigidos por gameplay.",
+      "risk": "Alto; ruido solto mata leitura e o pacote pode competir com H-Int, paleta e HUD ao mesmo tempo.",
+      "engine_examples": [
+        "Workspace planned glitch benchmark"
       ]
     },
     {
@@ -286,6 +304,24 @@
       "engine_examples": [
         "Software transform experiments",
         "Workspace future affine benchmark"
+      ]
+    },
+    {
+      "id": "mutable_tile_decal_mutation",
+      "tier": "experimental_pattern",
+      "when_to_use": "Parede, piso ou setor local precisarem reter dano, sangue ou marca persistente sem empilhar sprites decorativos.",
+      "risk": "Muito alto; pool de tiles unicos, dirty uploads e arquitetura de persistencia podem explodir facil.",
+      "engine_examples": [
+        "Workspace planned decal mutation benchmark"
+      ]
+    },
+    {
+      "id": "cellular_microbuffer_sim",
+      "tier": "experimental_pattern",
+      "when_to_use": "Areia, acido, lava ou espuma precisarem de comportamento organico em ilha pequena e altamente delimitada.",
+      "risk": "Extremo; solver local, dirty tiles e cadence de update nao suportam sandbox global.",
+      "engine_examples": [
+        "Workspace planned microbuffer benchmark"
       ]
     },
     {

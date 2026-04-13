@@ -2,77 +2,71 @@
 
 Use este fluxo para o pipeline completo de producao de uma iteracao: do design a entrega validada.
 
-Este e o ciclo operacional do estudio 16-bits. Cada passo tem um agente responsavel e criterios de saida claros. Nenhum passo pode ser pulado.
+Cada passo tem **skills reais** (em `tools/sgdk_wrapper/.agent/skills/`) ou **papel humano** explicito. A ordem canonica da jornada cena AAA esta em `workflows/aaa-scene-pipeline.md` e em `pipelines/aaa_scene_v1.json`. Nenhum passo pode ser pulado.
 
 ---
 
 ## Pipeline: Design -> Art -> Code -> QA -> Iteracao
 
-### 1. Director define Escopo e Mecanica
+### 1. Escopo e mecanica (papel humano: Director)
 
-**Agente**: `game-director-sgdk`
+**Nao ha skill `game-director-sgdk` no repo** — tratar como direcao de produto humana ou brief escrito.
 
 - Consultar GDD (`doc/11-gdd.md`) e spec de cenas (`doc/13-spec-cenas.md`).
-- Delimitar o escopo da iteracao: cena, mecanica ou feature especifica.
-- Decompor em tarefas acionaveis com criterios de aceitacao.
-- Emitir briefings claros para Pixel Engineer e Programadores.
-- **Criterio de saida**: briefing emitido com escopo, assets necessarios e criterios de aceitacao documentados.
+- Delimitar escopo da iteracao: cena, mecanica ou feature.
+- Decompor em tarefas com criterios de aceitacao.
+- **Criterio de saida**: briefing com escopo, assets necessarios e criterios documentados.
 
-### 2. Pixel Engineer define e audita Assets
+### 2. Arte e budget VDP (skills: diagnostico -> composicao -> traducao -> excelencia -> budget)
 
-**Agente**: `mega-drive-pixel-engineer`
+**Nao ha skill `mega-drive-pixel-engineer`** — o trabalho e coberto por esta cadeia (invocar na ordem de `aaa_scene_v1.json` quando a iteracao for cena/visual):
 
-- Receber briefing do Director.
-- Consultar budget de VRAM da cena via `megadrive-vdp-budget-analyst`.
-- Projetar assets dentro das `megadrive-pixel-strict-rules`: dimensoes, paleta, frames.
-- Auditar cada asset contra o checklist de validacao.
-- Especificar entradas `.res` com dimensoes, paleta e compressao.
-- **Criterio de saida**: todos os assets com status `aprovado` ou `aprovado_com_ajustes`, specs de `.res` entregues, budget de VRAM confirmado como `cabe` ou `cabe com recuo`.
+| Etapa | Skill (pasta sob `skills/`) |
+|-------|-----------------------------|
+| Classificar estado dos assets | `art/art-asset-diagnostic` |
+| Planos, parallax, contrato de planos | `art/multi-plane-composition` |
+| Traducao interpretativa para VDP | `art/art-translation-to-vdp` |
+| Julgamento estetico AAA | `art/visual-excellence-standards` |
+| Tiles, VRAM, DMA, sprites | `hardware/megadrive-vdp-budget-analyst` |
 
-### 3. Programmer (Scene Architect) integra Logica, Sprites e Audio
+Regras pixel: `art/megadrive-pixel-strict-rules`. Conversao tecnica sem reinterpretacao: `art/art-conversion-pipeline`.
 
-**Agentes**: `sgdk-runtime-coder`, `scene-state-architect`, `sgdk-build-wrapper-operator`, `megadrive-vdp-budget-analyst`
+- **Criterio de saida**: assets aprovados ou aprovados com ajustes; `res/resources.res` alinhado ao budget; decisao explicita `cabe` / `cabe com recuo` / `nao cabe` documentada.
 
-- Receber specs de assets e briefing de mecanica.
-- Implementar logica de cena, integracao de sprites, tilemap e audio (XGM2).
-- Respeitar arquitetura modular (`scene-state-architect`).
-- Registrar entradas `.res` conforme specs do Pixel Engineer.
-- Executar build local para verificar compilacao.
-- **Criterio de saida**: codigo compilando sem erros, assets integrados, build gerando ROM.
+### 3. Integracao runtime (skills de codigo e wrapper)
 
-### 4. Build e QA auditam ROM gerada
+**Skills**: `code/sgdk-runtime-coder`, `architecture/scene-state-architect`, `operation/sgdk-build-wrapper-operator`, `hardware/megadrive-vdp-budget-analyst` (revalidar se a cena mudar).
 
-**Agente**: `qa-hardware-tester`
+- Antes do build: `tools/sgdk_wrapper/preflight_host.ps1` (host Java/Python/ImageMagick/SGDK).
+- Build via wrapper do projeto; ver `workflows/build-validate.md`.
+- **Criterio de saida**: compila sem erros; ROM em `out/rom.bin`; entradas `.res` coerentes com o plano de arte.
 
-- Executar `rebuild.bat` para build limpo e reprodutivel.
-- Analisar `validation_report.json`.
-- Testar ROM em BlastEm (obrigatorio para gate) e BizHawk (recomendado para telemetria e frame advance).
-- Verificar boot, gameplay, transicoes, audio e performance.
-- Preencher tabela de status por eixo de validacao.
-- **Criterio de saida**: tabela de 7 eixos preenchida, issues documentadas com evidencia, `validation_report.json` coerente com `runtime_metrics.json` e recomendacao emitida.
+### 4. Validacao ROM (papel humano: QA + artefactos obrigatorios)
 
-### 5. Iteracao e correcao de bugs (Loop de QA)
+**Nao ha skill `qa-hardware-tester`** — QA e humano assistido por scripts e relatorios.
 
-**Agentes**: `game-director-sgdk` (triagem), demais agentes (correcao)
+- `rebuild.bat` quando o objetivo for reprodutibilidade.
+- Analisar `out/logs/validation_report.json` (gerado por `validate_resources.ps1` no fluxo de build quando configurado).
+- BlastEm obrigatorio para gate de entrega; BizHawk opcional para telemetria.
+- **Criterio de saida**: eixos em `build-validate.md` preenchidos; evidencia em `out/logs/` (ex.: `emulator_session.json`, capturas); relatorio coerente com a ROM.
 
-- Director recebe report do QA e prioriza issues.
-- Bugs de asset voltam ao `mega-drive-pixel-engineer`.
-- Bugs de codigo voltam ao programador.
-- Bugs de spec/escopo voltam ao Director para reavaliacao.
-- Cada correcao repassa pelos passos 2-4 conforme necessario.
-- **Criterio de saida**: QA emite `aprovado_para_iteracao` ou `validado` em hardware real.
+### 5. Iteracao e correcao
+
+**Triagem**: papel humano (Director). **Correcao**: voltar as skills da etapa afetada (arte: secao 2; codigo: secao 3).
+
+- **Criterio de saida**: `aprovado_para_iteracao` ou `validado` com prova em hardware/emulador alvo.
 
 ---
 
 ## Regras do loop
 
-- **Nenhum passo pode ser pulado.** Mesmo iteracoes pequenas passam por Design -> Art -> Code -> QA.
-- **Feature creep e bloqueado** no passo 1. Se nao esta no GDD, nao entra na iteracao.
-- **Assets nao validados nao entram no build.** O Pixel Engineer e o gate obrigatorio.
-- **ROM nao testada nao e entregue.** O QA e a ultima linha de defesa.
-- **Handoff entre passos deve ser explicito**: quem entrega, o que entrega, quem recebe.
-- **Evidencia e obrigatoria**: logs, reports, screenshots. Nao aceitar "funciona" sem prova.
-- **Emulador de entrega e unico**: BlastEm fecha gate; BizHawk complementa, Exodus diagnostica, Gens KMod nao aprova entrega.
+- **Nenhum passo pode ser pulado.**
+- **Feature creep bloqueado** no passo 1.
+- **Assets nao validados nao entram no build** sem excecao documentada.
+- **ROM nao testada nao e entregue.**
+- **Handoff explicito** entre passos.
+- **Evidencia obrigatoria** — ver `workflows/build-validate.md`.
+- **Emulador de entrega**: BlastEm fecha gate; BizHawk complementa; Gens KMod nao aprova entrega sozinho.
 
 ---
 
@@ -80,12 +74,12 @@ Este e o ciclo operacional do estudio 16-bits. Cada passo tem um agente responsa
 
 ```mermaid
 flowchart TD
-    director[1. Director: Escopo e Mecanica] --> pixelEngineer[2. Pixel Engineer: Assets e Specs]
-    pixelEngineer --> programmer[3. Programmer: Integracao e Build]
-    programmer --> qa[4. QA: Teste e Validacao]
+    director[1. Director humano: Escopo] --> artChain[2. Cadeia arte e budget VDP]
+    artChain --> programmer[3. Runtime e build]
+    programmer --> qa[4. QA humano e logs]
     qa -->|aprovado| done[Iteracao concluida]
-    qa -->|requer_correcao| triage[5. Director: Triagem de bugs]
-    triage -->|bug de asset| pixelEngineer
-    triage -->|bug de codigo| programmer
-    triage -->|bug de spec| director
+    qa -->|requer_correcao| triage[5. Triagem humana]
+    triage -->|asset| artChain
+    triage -->|codigo| programmer
+    triage -->|spec| director
 ```

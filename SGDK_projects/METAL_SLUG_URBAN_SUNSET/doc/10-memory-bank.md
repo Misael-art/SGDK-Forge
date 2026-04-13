@@ -1,84 +1,83 @@
 # 10 - Memory Bank & Context Tracker — METAL_SLUG_URBAN_SUNSET
 
-**Ultima atualizacao:** 2026-04-07
-**Fase atual:** runtime refeito com crop VDP-viavel; visual revalidado no BlastEm, gate canonico ainda parcial por falha de `save.sram`
-**Proxima fase:** fechar a captura canonica do BlastEm e entao medir runtime/budget real antes de decidir a integracao do foreground C
+**Ultima atualizacao:** 2026-04-12  
+**Fase actual:** **Pipeline de skills (Jornada de Mestria)** — diagnostico, composicao multi-plano, traducao semantica do `source.png`, excelencia visual, budget VDP, integracao SGDK e **build OK** com ROM estatica (sem streaming de strips).
 
-> **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
-> Leia integralmente antes de qualquer codigo ou decisao.
+> **DIRETRIZ:** Este e o bloco de memoria primario do projeto.  
+> Leia integralmente antes de qualquer codigo ou decisao.  
 > Atualize ao encerrar sessoes relevantes.
 
 ---
 
-## 1. ESTADO ATUAL DO PROJETO
+## 1. ESTADO ACTUAL DO PROJECTO
 
 ### O que existe e funciona
 
-- O caso de curadoria `metal_slug_urban_sunset_scene` ja tem mapa semantico A/B/C, variantes basic e elite e relatorio de analise em `tools/image-tools/specs/translation_cases/metal_slug_urban_sunset_scene.json` e `assets/reference/translation_curation/metal_slug_urban_sunset_scene/reports/`.
-- O projeto SGDK agora materializa um runtime de prova com dois planos reais, line scroll por zonas em BG_B, scroll base em BG_A e bloco de evidencia em SRAM via `src/main.c`.
-- Os assets de runtime ja existem em `res/gfx/` e `resources.res` foi alinhado para nomear BG_B e BG_A de acordo com os arquivos reais.
-- Os assets de runtime foram refeitos a partir do aprendizado semantico consolidado, com recorte oficial `336x224` em vez do panorama `584x224` que estourava o budget visual/VDP.
-- O slice atual foi visto no BlastEm por screenshot dedicado em `out/captures/benchmark_visual.png`; a exposicao vazia na lateral direita desapareceu e a cena voltou a ler corretamente.
-- O gate canonico `testado_em_emulador` ainda nao pode ser fechado nesta passada porque o wrapper do BlastEm segue falhando ao materializar `save.sram`/`visual_vdp_dump.bin` desta build especifica.
+- **Fluxo de arte alinhado ao plano:** `doc/semantic_parse_report.md`, `doc/composition_deliverables.md`, `doc/translation_report.md`, `doc/aesthetic_report.md`, `doc/hardware_budget_review.md`.
+- **BG_B** (`sky_bg_b.png`): gradiente sunset **bandado** 256x224, **15 tiles** unicos (rescomp), parallax **0.25x**.
+- **BG_A** (`city_bg_a.png`): cidade 512x224 (**448 px** uteis + padding transparente), **1246 tiles** unicos, parallax **1.0x**, topo transparente sobre o ceu.
+- **Layer C (foreground composicional):** tres sprites `spr_debris_01/02/03` (64x48, 8x6 celulas), **PAL2**, parallax **1.25x** (`gCameraX + (gCameraX >> 2)`).
+- **Player** placeholder `spr_player`, **PAL3**.
+- `SPR_initEx(160)` para acomodar debris + jogador com margem.
+- **Validacao de recursos:** correcao de **paleta indice 0** com **alpha = 0** nos PNG 4bpp (evita falso positivo `INDEX0_VISIBLE_HIGH_RISK` do wrapper).
+- **Build:** `build.bat` (wrapper) compila com sucesso; `out/rom.bin` gerado.
+- **Wrapper:** `tools/sgdk_wrapper/build_inner.bat` passa a **antecipar `java.exe` no PATH** antes do `make` (MSYS/sh nao herdava Java apos winget).
 
 ### O que e placeholder
 
-- O foreground C continua isolado na curadoria, mas ainda nao foi aprovado como plano independente no runtime final.
-- O gate final de entrega ainda nao esta fechado com performance, audio e budget validados em artefatos rastreaveis dentro da arvore revisada nesta sessao.
-- O wrapper de captura visual ainda apresenta intermitencia no `save.sram`; nesta passada a janela do BlastEm chegou a renderizar corretamente e a screenshot foi atualizada, mas o `save.sram` nao foi persistido.
-- A captura complementar de runtime via BizHawk ainda nao esta pronta porque o projeto nao expoe `g_mdRuntimeProbe` no binario atual.
-- O foreground C continua isolado como asset proprio (`layer_c_front_elite.png`), mas o runtime jogavel atual segue bakeando a massa frontal principal dentro do BG_A para preservar budget.
+- Silhueta do jogador (`player_placeholder.png`).
+- Debris sao **recortes** da faixa inferior do `source.png`, nao animacao nem objectos interactaveis.
 
-### O que falta para o slice ser completo
+### Proximos passos sugeridos
 
-- Fechar a persistencia canonica da evidencia do BlastEm (`save.sram` + `visual_vdp_dump.bin`) para a ROM atual.
-- Medir em ROM a viabilidade do foreground como faixa de sprites limitada; se falhar, fundir de forma controlada a massa frontal na faixa inferior do BG_A.
-- Integrar `g_mdRuntimeProbe` para produzir `runtime_metrics.json` e transformar `performance` / `validado_budget` em estados medidos, nao inferidos.
-- Validar budget real de VRAM, DMA e SAT depois da retomada dinamica.
-- Fechar os 7 eixos de QA antes de declarar entrega.
-
-### Metricas de codigo
-
-- Runtime atual: 1 modulo principal de cena em `src/main.c`, 3 imagens declaradas em `res/resources.res`, 0 sprites ativos no loop atual.
-- Topologia atual do runtime: 2 planos scrollaveis reais + WINDOW apenas para overlay textual.
-- Efeito atual buildado: line scroll em 224 linhas para BG_B e BG_A, com duas velocidades no fundo e movimento automatico de camera em ping-pong.
-- Crop runtime atual: `336x224`, viewport `320x224`, camera travel `16px`.
-- Estimativa atual dos PNGs de runtime apos a refacao: `bg_b = 563` tiles unicos, `bg_a = 942`, `bg_c = 214`, total ativo do slice jogavel `1505` para `BG_B + BG_A`.
-- Paletas de runtime hoje: 2 ativas para a cena estaticamente carregada; estrategia alvo reserva 1 paleta adicional para foreground e 1 para efeitos.
+- Opcional: **dithering funcional** na cidade (ver `doc/aesthetic_report.md`).
+- Se a cidade crescer em largura ou detalhe: **streaming de segmentos** (arquitectura ja documentada em versoes anteriores deste memory bank) ou reducao de crop.
+- Corrigir **Python no PATH** do processo de validacao (wrapper chama `analyze_aesthetic.py`; alias da Store devolve 9009).
+- Corrigir invocacao **ImageMagick** no validador (erro `O termo 'C' nao e reconhecido` — path / cmdlet).
 
 ---
 
-## 2. O QUE ACABOU DE ACONTECER
+## 2. METRICAS DE BUILD (rescomp 2026-04-12 — cena estatica 448px)
 
-**2026-04-07 — Runtime foi refeito com crop VDP-viavel e voltou a ler corretamente no BlastEm**
+| Recurso | Tiles unicos (raw/32) |
+|---------|------------------------|
+| sky_bg_b | 15 |
+| city_bg_a | 1246 |
+| spr_debris_01 | 28 |
+| spr_debris_02 | 26 |
+| spr_debris_03 | 24 |
+| spr_player | 20 |
+| **BG_B + BG_A** | **1261** |
+| **Tecto user BG** (SPR_initEx 160) | **1264** |
+| **Margem BG** | **3 tiles** |
 
-- Os assets `city_bg_a_elite.png`, `city_bg_b_elite.png` e `layer_c_front_elite.png` foram regenerados a partir das camadas manuais autoritativas do caso de curadoria.
-- O panorama `584x224` foi mantido apenas como referencia humana em `reports/`; a exportacao de runtime passou a usar um crop budgetado `336x224` em `x=96`.
-- O `BG_A` anterior entrava na ROM com detalhe demais e estourava a viabilidade do slice; a nova exportacao reduziu o custo ativo para `1505` tiles unicos estimados em `BG_B + BG_A`.
-- A nova ROM foi vista no BlastEm e o screenshot dedicado mostra a cena correta, sem o bloco vazio/maroon que apareceu na tentativa de panorama largo.
-- O wrapper de captura ainda nao conseguiu fechar `save.sram`, entao o projeto nao deve ser descrito como `testado_em_emulador` nesta iteracao apesar da validacao visual por screenshot.
-
-**2026-04-05 — Continuidade da curadoria foi canonizada e aplicada no runtime**
-
-- O rascunho manual da sessao anterior foi consolidado nos documentos canonicos do projeto, removendo o estado de template do GDD e da especificacao tecnica da cena.
-- O spec do caso de curadoria recebeu uma estrategia formal de retomada para runtime dinamico, cobrindo quebra de profundidade, mapeamento BG_A/B, politica de foreground, paletas, tile-first e checklist pre-gate.
-- O runtime passou a usar `HSCROLL_LINE`, com BG_B dividido em zona de ceu e zona de skyline e BG_A movendo a arquitetura como plano principal.
-- O rebuild do projeto fechou com sucesso no wrapper, mas a evidencia antiga foi invalidada por mudanca de identidade da ROM.
+Paletas: **PAL0** ceu, **PAL1** cidade, **PAL2** debris (paleta partilhada entre os 3 PNG), **PAL3** player.
 
 ---
 
-## 3. DECISOES PENDENTES
+## 3. BUDGET VRAM (resumo)
 
-- Aprovar ou rejeitar foreground por sprites limitados apos medir SAT e VRAM em emulador.
-- Decidir entre widen/stream do conteudo horizontal ou recuo controlado do camera travel para eliminar a exposicao lateral direita.
-- Definir o corte exato entre ceu e skyline para line scroll em BG_B sem provocar serrilhado ou ruido.
-- Integrar a sonda `g_mdRuntimeProbe` antes de exigir medicao automatica de frame stability, sprite pressure e FX load.
-- Medir se a particao padrao de VRAM do sprite engine precisa ser reduzida com `SPR_initEx(u16 vramSize)` para devolver espaco ao background.
+Ver **`doc/hardware_budget_review.md`** para a decisao formal **`cabe`** e tabela completa.
 
 ---
 
 ## 4. REFERENCIAS RAPIDAS
 
+- Composicao: `doc/composition_deliverables.md`
+- Semantica source: `doc/semantic_parse_report.md`
+- Traducao: `doc/translation_report.md`
+- Julgamento estetico: `doc/aesthetic_report.md`
+- Budget: `doc/hardware_budget_review.md`
 - GDD: `doc/11-gdd.md`
 - Spec cenas: `doc/13-spec-cenas.md`
-- Diretrizes agente: `doc/00-diretrizes-agente.md`
+
+---
+
+## 5. LICCOES APRENDIDAS (ANTI-REGRESSAO)
+
+1. **Orcar com rescomp:** `tileset_data` raw size / 32 = tiles unicos do `IMAGE`/`SPRITE`.
+2. **1536 - 16 - 96 - SPR_initEx(N)** e o tecto real para **soma BG_A + BG_B** antes de corrupcao.
+3. **Indice 0:** no PNG indexado para SGDK, a entrada **0 da paleta deve ter alpha 0** (transparente) quando grandes areas usam indice 0 — o validador do wrapper distingue `paletteZeroAlpha`.
+4. **Java no PATH do sub-processo MSYS:** se `rescomp` falhar com `java: command not found`, garantir directorio do `java.exe` no PATH **na mesma sessao** que invoca `make` (ver `build_inner.bat`).
+5. **Prancha editorial:** nunca quantizar `source.png` inteiro — seguir `semantic_parse_report` (DROP mockup/creditos).
+6. Se **margem BG < ~10 tiles**: parar de adicionar detalhe ou activar streaming / `compare_flat`.

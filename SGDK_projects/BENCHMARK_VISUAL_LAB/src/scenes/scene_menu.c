@@ -14,10 +14,13 @@ static void SCENE_menuDraw(void)
     VDP_drawText("2. Edite src/system para infraestrutura.", 2, 10);
     VDP_drawText("3. Coloque assets brutos em res/data/.", 2, 12);
     VDP_drawText("4. Declare recursos reais quando necessario.", 2, 14);
-    VDP_drawText("A: cena demo", 14, 18);
-    VDP_drawText("START: S1 PARALLAX POC", 9, 20);
-    VDP_drawText("RIGHT: SUNNY LAND PROOF", 7, 22);
-    VDP_drawText("B: voltar para boot", 10, 24);
+    VDP_drawText("UP: S1.1 SPRITE ANIM", 9, 14);
+    VDP_drawText("DOWN: S1.2 CHAR DESIGN", 8, 16);
+    VDP_drawText("LEFT: S1.3 MULTIPLANE", 9, 18);
+    VDP_drawText("A: cena demo", 14, 20);
+    VDP_drawText("START: S1 PARALLAX POC", 9, 22);
+    VDP_drawText("RIGHT: SUNNY LAND PROOF", 7, 24);
+    VDP_drawText("B: voltar para boot", 10, 26);
 }
 
 void SCENE_menuEnter(void)
@@ -28,6 +31,21 @@ void SCENE_menuEnter(void)
 
 void SCENE_menuUpdate(void)
 {
+    if (INPUT_pressed(BUTTON_UP)) {
+        APP_changeScene(APP_SCENE_SPRITE_ANIM);
+        return;
+    }
+
+    if (INPUT_pressed(BUTTON_DOWN)) {
+        APP_changeScene(APP_SCENE_CHAR_DESIGN);
+        return;
+    }
+
+    if (INPUT_pressed(BUTTON_LEFT)) {
+        APP_changeScene(APP_SCENE_MULTIPLANE);
+        return;
+    }
+
     if (INPUT_pressed(BUTTON_A)) {
         APP_changeScene(APP_SCENE_DEMO);
         return;

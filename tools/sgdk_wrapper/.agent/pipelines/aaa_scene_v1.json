@@ -1,0 +1,94 @@
+{
+  "pipeline_id": "aaa_scene_v1",
+  "description": "Ordem canonica: diagnostico arte -> composicao multi-plano -> traducao VDP -> excelencia visual -> budget VDP -> runtime SGDK -> validacao e evidencia.",
+  "framework_manifest_min_version": "2026.04.03",
+  "steps": [
+    {
+      "id": "S0_scope",
+      "kind": "human",
+      "label": "Escopo e spec",
+      "skill_path": null,
+      "inputs": ["doc/11-gdd.md", "doc/13-spec-cenas.md"],
+      "outputs": ["briefing aceito (doc ou issue)"],
+      "blocking_validator_codes": []
+    },
+    {
+      "id": "S1_diagnostic",
+      "kind": "skill",
+      "label": "Classificar estado dos assets",
+      "skill_path": "skills/art/art-asset-diagnostic",
+      "inputs": ["res/", "res/data/"],
+      "outputs": ["classificacao do cenario (relatorio ou notas em doc/)"],
+      "blocking_validator_codes": []
+    },
+    {
+      "id": "S2_composition",
+      "kind": "skill",
+      "label": "Composicao multi-plano e budget preliminar de planos",
+      "skill_path": "skills/art/multi-plane-composition",
+      "inputs": ["MAPA_COMPOSICAO ou equivalente", "doc/13-spec-cenas.md"],
+      "outputs": ["doc/hardware_budget_review.md ou equivalente", "layer_plan / composition_schema"],
+      "blocking_validator_codes": []
+    },
+    {
+      "id": "S3_translation",
+      "kind": "skill",
+      "label": "Traducao interpretativa para VDP",
+      "skill_path": "skills/art/art-translation-to-vdp",
+      "inputs": ["fonte PNG high-res / crops"],
+      "outputs": ["res/gfx/*.png alinhados", "notas de traducao em doc/"],
+      "blocking_validator_codes": []
+    },
+    {
+      "id": "S4_excellence",
+      "kind": "skill",
+      "label": "Julgamento estetico AAA",
+      "skill_path": "skills/art/visual-excellence-standards",
+      "inputs": ["layers por plano"],
+      "outputs": ["doc/aesthetic_report.md ou equivalente"],
+      "blocking_validator_codes": ["VISUAL_ELITE"]
+    },
+    {
+      "id": "S5_budget",
+      "kind": "skill",
+      "label": "Budget VDP real (tiles, VRAM, sprites)",
+      "skill_path": "skills/hardware/megadrive-vdp-budget-analyst",
+      "inputs": ["res/resources.res", "dimensoes de PNG", "cena alvo"],
+      "outputs": ["decisao cabe/cabe com recuo/nao cabe", "doc/hardware_budget_review.md atualizado"],
+      "blocking_validator_codes": []
+    },
+    {
+      "id": "S6_runtime",
+      "kind": "skill",
+      "label": "Integracao runtime e cena",
+      "skill_path": "skills/code/sgdk-runtime-coder",
+      "supporting_skills": [
+        "skills/architecture/scene-state-architect",
+        "skills/operation/sgdk-build-wrapper-operator",
+        "skills/hardware/megadrive-vdp-budget-analyst"
+      ],
+      "inputs": ["res/resources.res", "src/**/*.c"],
+      "outputs": ["out/rom.bin", "build sem erros"],
+      "blocking_validator_codes": []
+    },
+    {
+      "id": "S7_validate",
+      "kind": "tool",
+      "label": "Validacao de recursos e gates",
+      "skill_path": null,
+      "script": "tools/sgdk_wrapper/validate_resources.ps1",
+      "inputs": ["res/*.res"],
+      "outputs": ["out/logs/validation_report.json"],
+      "blocking_validator_codes": ["DUPLICATE_RESOURCE", "INDEX0_VISIBLE_HIGH_RISK"]
+    },
+    {
+      "id": "S8_qa_evidence",
+      "kind": "human",
+      "label": "QA e evidencia em emulador",
+      "skill_path": null,
+      "inputs": ["out/rom.bin", "workflows/build-validate.md"],
+      "outputs": ["out/logs/emulator_session.json", "capturas BlastEm", "doc/10-memory-bank.md coerente"],
+      "blocking_validator_codes": ["RUNTIME_METRICS_STALE"]
+    }
+  ]
+}

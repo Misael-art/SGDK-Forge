@@ -29,10 +29,19 @@ archives/
 .vscode/
 .claude/
 .cursor/
+# Regras Cursor versionadas (ex.: jornada SGDK AAA)
+!.cursor/rules/
+!.cursor/rules/**
 .kilocode/
 .playwright-cli/
 .trae/
 .mypy_cache/
+
+# Emuladores: configuracao e saves locais (podem exceder limite GitHub)
+tools/emuladores/BizHawk/config.ini
+tools/emuladores/BizHawk/Genesis/SaveRAM/
+tools/emuladores/GensKMod/*.srm
+tools/emuladores/GensKMod/gens_KMod.log
 
 # OS junk
 Thumbs.db

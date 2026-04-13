@@ -8,7 +8,10 @@ typedef enum AppScene {
     APP_SCENE_MENU = 1,
     APP_SCENE_DEMO = 2,
     APP_SCENE_PARALLAX = 3,
-    APP_SCENE_SUNNY_LAND = 4
+    APP_SCENE_SUNNY_LAND = 4,
+    APP_SCENE_SPRITE_ANIM = 5,
+    APP_SCENE_CHAR_DESIGN = 6,
+    APP_SCENE_MULTIPLANE  = 7
 } AppScene;
 
 typedef struct InputSnapshot {

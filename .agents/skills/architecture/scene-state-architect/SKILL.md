@@ -36,3 +36,7 @@ Esta skill deve proteger explicitamente:
   - `WINDOW` como plano fixo legitimo ou recurso explicitamente livre para tecnica avancada
 - `display mode boundaries`
   - `interlaced_448` como `special_scene_only`
+- `mutable surface ownership`
+  - setor mutavel, `RAM shadow copy` e pool local de tiles com dono claro
+- `microbuffer boundaries`
+  - regiao de simulacao pequena, cadence explicita e sem concorrencia invisivel com outros sistemas de cena

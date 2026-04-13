@@ -77,6 +77,16 @@ REM Build loop with resilient retries (up to MAX_RETRIES)
 set /a RETRY_COUNT+=1
 echo [SGDK Wrapper] Running Build (Elite Standard) - attempt !RETRY_COUNT!/%MAX_RETRIES%
 
+REM MSYS sh invocado pelo make pode nao herdar o PATH completo da sessao (ex.: Java instalado via winget).
+REM Garantir que java.exe esteja no PATH antes de rescomp.
+if defined JAVA_HOME if exist "!JAVA_HOME!\bin\java.exe" (
+    set "PATH=!JAVA_HOME!\bin;!PATH!"
+)
+for /f "usebackq delims=" %%J in (`powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+  "$cmd = Get-Command java -ErrorAction SilentlyContinue; if ($cmd) { Split-Path $cmd.Source; exit }; $r1 = Join-Path $env:ProgramFiles 'Eclipse Adoptium'; $r2 = Join-Path ${env:ProgramFiles(x86)} 'Eclipse Adoptium'; foreach ($r in @($r1, $r2)) { if (Test-Path $r) { $all = @(Get-ChildItem $r -Recurse -Filter java.exe -ErrorAction SilentlyContinue); if ($all.Length -gt 0) { $all[0].DirectoryName; exit } } }"`) do (
+    if exist "%%J\java.exe" set "PATH=%%J;!PATH!"
+)
+
 REM Use SGDK canonical makefile for maximum compatibility
 make -f "%GDK%\\makefile.gen" > "%LOG_FILE%" 2>&1
 set "MAKE_RC=%ERRORLEVEL%"

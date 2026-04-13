@@ -48,6 +48,7 @@ Equivalencia operacional:
 | Line Scrolling | `candidate_with_evidence` | `sgdk-runtime-coder` | forte em engine scan, `lib_case` presente, falta benchmark canonico isolado |
 | Column Scrolling | `partial` | `sgdk-runtime-coder` | conhecido conceitualmente, mas sem doutrina dedicada nem POC formal |
 | H-Int Palette Blending / Mid-Frame Palette Swap | `candidate_with_evidence` | `sgdk-runtime-coder` | forte em `92_registry`, falta benchmark isolado e contrato explicito de ownership |
+| Procedural Raster Glitch Suite | `partial` | `sgdk-runtime-coder` | suite composta muito viavel para rasgo, shock de paleta e corrupcao controlada de HUD; ainda sem benchmark proprio nem regra de legibilidade |
 
 ## Modulo 2 - Raster Control Plane
 
@@ -60,6 +61,7 @@ Equivalencia operacional:
 | Tecnica | Estado atual | Dono principal | Situacao real |
 |---|---|---|---|
 | Shadow / Highlight Mode | `partial` | `megadrive-vdp-budget-analyst` | regras e alertas espalhados; falta trilha dedicada de auditoria + prova |
+| Masked Shadow/Highlight Lighting | `partial` | `sgdk-runtime-coder` | spotlight ou lanterna viavel como ilusao contida; nao equivale a iluminacao dinamica moderna nem a alpha blending |
 | Palette Cycling | `partial` | `sgdk-runtime-coder` | aparece como conceito vizinho, mas ainda sem competencia formal do workspace |
 | Dithering + CRT Smearing | `partial` | `visual-excellence-standards` | dithering ja e doutrina; CRT-aware reading ainda nao esta canonizado como catalogo |
 
@@ -87,6 +89,8 @@ Equivalencia operacional:
 |---|---|---|---|
 | Pseudo-3D Road Stack | `candidate_with_evidence` | `sgdk-runtime-coder` | `lib_case` presente, benchmark futuro obrigatorio para subir de nivel |
 | Software Affine Pseudo-3D | `gap_pure` | `sgdk-runtime-coder` | tecnica distinta do road-stack; ainda nao formalizada no workspace |
+| Mutable Tile Decal Mutation | `gap_pure` | `sgdk-runtime-coder` | persistencia local via pool mutavel e dirty uploads; nao e decal livre nem readback despreocupado de VRAM |
+| Cellular Microbuffer Simulation | `gap_pure` | `sgdk-runtime-coder` | simulacao local de areia, acido ou lava em ilha pequena; nao e sandbox global estilo Noita |
 | Tile Cache Streaming | `candidate_with_evidence` | `sgdk-runtime-coder` | muito forte no scan, ainda sem prova de laboratorio como tecnica oficial |
 
 ## Modulo 7 - Audio
@@ -126,17 +130,21 @@ Equivalencia operacional:
 - `column_scrolling`
 - `h_int_control_plane`
 - `shadow_highlight_mode`
+- `masked_shadow_highlight_lighting`
 - `palette_cycling`
 - `dithering_crt_smearing`
 - `sprite_temporal_multiplexing`
 - `bg_b_bypassing`
 - `shadow_highlight_slot_rule`
+- `procedural_raster_glitch_suite`
 
 ### Gap puro
 
 - `interlaced_448_display_mode`
 - `sprite_midframe_sat_reuse`
 - `software_affine_pseudo3d`
+- `mutable_tile_decal_mutation`
+- `cellular_microbuffer_sim`
 - `forward_kinematics`
 - `xgm2_pcm_multiplexing`
 

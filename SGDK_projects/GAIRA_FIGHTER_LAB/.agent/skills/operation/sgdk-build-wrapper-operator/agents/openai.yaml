@@ -1,0 +1,11 @@
+interface:
+  display_name: "SGDK Build Wrapper Operator"
+  short_description: "Opera o wrapper central SGDK com bootstrap e compatibilidade preservados"
+  brand_color: "#355C8C"
+  default_prompt: "Use $sgdk-build-wrapper-operator para operar, corrigir ou evoluir o wrapper central SGDK sem quebrar layouts antigos, bootstrap da .agent ou politicas do manifesto."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

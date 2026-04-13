@@ -34,6 +34,8 @@ flowchart LR
   infra --> portfolio
 ```
 
+
+
 ---
 
 ## Estágio honesto e real (sem romantizar)
@@ -56,8 +58,8 @@ Conclusão: o estágio aqui é **acervo integrado com triagem de migração SGDK
 
 Dois exemplos canónicos nos próprios `10-memory-bank.md` dos projetos:
 
-- [../SGDK_projects/BENCHMARK_VISUAL_LAB/doc/10-memory-bank.md](../SGDK_projects/BENCHMARK_VISUAL_LAB/doc/10-memory-bank.md): estado **`implementado`**, com foco em prova em ROM e lições de budget de VRAM — **laboratório técnico em evolução**, não “feature complete” no sentido de produto comercial.
-- [../SGDK_projects/_laboratório/Pequeno Principe Cronicas das Estrelas [VER.002] [SGDK 211] [GEN] [GAME] [AVENTURA]/doc/10-memory-bank.md](../SGDK_projects/_laborat%C3%B3rio/Pequeno%20Principe%20Cronicas%20das%20Estrelas%20%5BVER.002%5D%20%5BSGDK%20211%5D%20%5BGEN%5D%20%5BGAME%5D%20%5BAVENTURA%5D/doc/10-memory-bank.md): arquitetura e ficheiros de código criados; o próprio memory bank assinala **`buildado` e `testado_em_emulador` como pendentes** e lacunas de arte — típico de **pré-produção ou vertical slice não fechado**.
+- [../SGDK_projects/BENCHMARK_VISUAL_LAB/doc/10-memory-bank.md](../SGDK_projects/BENCHMARK_VISUAL_LAB/doc/10-memory-bank.md): estado `**implementado`**, com foco em prova em ROM e lições de budget de VRAM — **laboratório técnico em evolução**, não “feature complete” no sentido de produto comercial.
+- [../SGDK_projects/_laboratório/Pequeno Principe Cronicas das Estrelas [VER.002] [SGDK 211] [GEN] [GAME] [AVENTURA]/doc/10-memory-bank.md](../SGDK_projects/_laborat%C3%B3rio/Pequeno%20Principe%20Cronicas%20das%20Estrelas%20%5BVER.002%5D%20%5BSGDK%20211%5D%20%5BGEN%5D%20%5BGAME%5D%20%5BAVENTURA%5D/doc/10-memory-bank.md): arquitetura e ficheiros de código criados; o próprio memory bank assinala `**buildado` e `testado_em_emulador` como pendentes** e lacunas de arte — típico de **pré-produção ou vertical slice não fechado**.
 
 ### 4) Sinal externo versus critério interno
 
@@ -75,9 +77,12 @@ Dois exemplos canónicos nos próprios `10-memory-bank.md` dos projetos:
 
 ## Referências cruzadas
 
-| Tema | Onde aprofundar |
-|------|-----------------|
-| Regras e gate de entrega | [../AGENTS.md](../AGENTS.md) |
-| Estado e decisões recentes do workspace | [06_AI_MEMORY_BANK.md](06_AI_MEMORY_BANK.md) |
+
+| Tema                                      | Onde aprofundar                                        |
+| ----------------------------------------- | ------------------------------------------------------ |
+| Regras e gate de entrega                  | [../AGENTS.md](../AGENTS.md)                           |
+| Estado e decisões recentes do workspace   | [06_AI_MEMORY_BANK.md](06_AI_MEMORY_BANK.md)           |
 | Lista validada versus pendente em engines | [../SGDK_Engines/README.md](../SGDK_Engines/README.md) |
-| Worktree e manifesto | [CANONICAL_WORKTREE.md](CANONICAL_WORKTREE.md) |
+| Worktree e manifesto                      | [CANONICAL_WORKTREE.md](CANONICAL_WORKTREE.md)         |
+
+

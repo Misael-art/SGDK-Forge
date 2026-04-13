@@ -81,6 +81,30 @@
   - nao criar skill nova para H-Int, Window Plane, interlaced, palette split ou pseudo-3D road-stack
   - novas skills continuam restritas aos gaps puros ja aceitos (`forward-kinematics-rigging` e `xgm2-audio-director`)
 
+### Avaliacao honesta de efeitos especulativos modernos (2026-04-10)
+- Quatro propostas especulativas de "efeitos modernos no Mega" foram reconciliadas com nomes honestos e limites claros de hardware.
+- Ranking consolidado de viabilidade:
+  1. `procedural_raster_glitch_suite`
+  2. `masked_shadow_highlight_lighting`
+  3. `mutable_tile_decal_mutation`
+  4. `cellular_microbuffer_sim`
+- Decisoes consolidadas:
+  - `procedural_raster_glitch_suite` e altamente viavel como combinacao dirigida de `line scroll`, `palette shock`, `WINDOW` e leitura dramatica sob controle
+  - `masked_shadow_highlight_lighting` e viavel como ilusao forte de spotlight/lanterna, mas NAO equivale a iluminacao dinamica moderna nem a alpha blending
+  - `mutable_tile_decal_mutation` so e honesto como dano persistente local por `RAM shadow copy` + `mutable tile pool`; VRAM nao deve ser tratada como framebuffer livre
+  - `cellular_microbuffer_sim` so e honesto como microframebuffer local em ilha pequena; NAO equivale a sandbox global estilo Noita
+- Alocacao no framework:
+  - `procedural_raster_glitch_suite` entra em `S2.1`
+  - `masked_shadow_highlight_lighting` entra em `S2.2`
+  - `mutable_tile_decal_mutation` vira trilha futura `T3`
+  - `cellular_microbuffer_sim` vira trilha futura tardia `T4`
+- Benchmarks oficiais reservados:
+  - `fx_procedural_glitch_lab`
+  - `fx_masked_light_lab`
+  - `fx_decal_mutation_lab`
+  - `fx_cellular_microbuffer_lab`
+- Regra consolidada: nenhum desses quatro efeitos existe no framework sem ROM, BlastEm, budget aprovado e aprovacao humana.
+
 ### Assimilação do engine scan pass 2 (2026-04-10)
 - Criado o front door canônico em `doc/05_technical/92_sgdk_engine_pattern_frontdoor.md` para resolver a ambiguidade de "pass 2 sem pass 1".
 - Criado o registry machine-readable em `doc/05_technical/92_sgdk_engine_pattern_registry.json` com classificação explícita: `verified_example`, `interpreted_pattern`, `candidate_for_canon`, `blocked_pending_repro`.

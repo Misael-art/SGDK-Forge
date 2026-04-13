@@ -79,6 +79,16 @@
 | 4 | `interlaced_448` esta marcado como `special_scene_only` e comparado contra 224p? | Nao promover |
 | 5 | `sprite_midframe_sat_reuse` foi tratado como tecnica distinta de multiplex temporal? | Reprovar o laudo tecnico |
 
+## 5.2 GATE ESPECIAL: MUTACAO LOCAL E MICROBUFFER
+
+| # | Verificacao | Se a resposta for NAO |
+|---|-------------|-----------------------|
+| 1 | `mutable_tile_decal_mutation` declarou `RAM shadow copy` em vez de assumir readback livre de `VRAM`? | Reprovar o desenho tecnico |
+| 2 | Existe `mutable tile pool` limitado por sala, setor ou contrato de cena? | Nao promover a tecnica |
+| 3 | O budget de `dirty uploads` por quadro foi medido no pior caso? | Bloquear o benchmark |
+| 4 | `cellular_microbuffer_sim` esta restrito a ilha pequena com solver local e cadencia explicita? | Tratar como promessa irreal |
+| 5 | A tecnica foi descrita como ilusao robusta de hardware, e nao como equivalente literal a pipeline moderno? | Reescrever o laudo antes de promover |
+
 ---
 
 ## 6. LISTA DE ALUCINACOES COMUNS DE IAs

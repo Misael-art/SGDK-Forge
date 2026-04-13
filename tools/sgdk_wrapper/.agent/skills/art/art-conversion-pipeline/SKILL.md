@@ -249,13 +249,20 @@ call build.bat
 
 ```
 ✅ art_diagnostic.py exit code = 0 (sem issues criticos)
-✅ validate_resources.ps1 sem IDENTIFY_FAILED
-✅ PNG modo P (indexado) confirmado
+✅ validate_resources.ps1 sem IDENTIFY_FAILED nem PALETTE_INFLATED
+✅ PNG modo P (indexado) confirmado — byte 25 do header = 3
+✅ BitDepth = 4 (nao 8) — byte 24 do header
+✅ Entradas PLTE <= 16 (nao confiar apenas em cores unicas)
 ✅ Max 15 cores visiveis
 ✅ Dimensoes multiplas de 8
 ✅ build.bat compila sem erros
 ✅ ROM abre no emulador sem artefatos visuais
 ```
+
+> **ATENCAO:** Uma imagem pode ter 11 cores unicas mas 256 entradas de paleta (8bpp indexed).
+> O ImageMagick reporta 11 cores e PASSA. Mas o rescomp trata indices de paleta como identidade de tile.
+> Pixeis com mesma cor RGB mas indices diferentes geram tiles "unicos" falsos,
+> inflando o tileset e causando corrupcao visual. Verifique SEMPRE as entradas PLTE.
 
 ---
 

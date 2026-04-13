@@ -47,6 +47,20 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
 - Orcar contra a faixa realmente util depois de BG_A, BG_B, window, hscroll, sprite table, fonte e sprite engine.
 - Se o background legitimo pede mais tiles unicos do que a particao padrao comporta, preferir `SPR_initEx(u16 vramSize)` a aceitar corrupcao silenciosa.
 
+**Formula de budget (SGDK 2.11):**
+```
+maps_addr = endereco mais baixo entre BGB, BGA, Window, SAT, HScroll tables
+TILE_MAX_NUM = maps_addr / 32
+User tiles = TILE_MAX_NUM - TILE_SYSTEM_LENGTH(16) - FONT_LEN(96) - SPR_initEx(N)
+BG_A max = User tiles - BG_B tiles
+
+Configs comuns (maps_addr = 0xC000 em todas):
+  64x32 + SPR_initEx(128): user = 1296, com BG_B(242) → BG_A max = 1054
+  64x32 + SPR_initEx(420): user =  948, com BG_B(242) → BG_A max =  706
+  32x32 + SPR_initEx(128): user = 1296, com BG_B(242) → BG_A max = 1054
+```
+**OBRIGATORIO: calcular tile count com `rescomp` (IMAGE ou TILESET) ANTES de integrar arte.**
+
 ### `Plane size tuning`
 
 - O VDP nao exige sempre o maior mapa possivel para BG_A e BG_B.
@@ -189,6 +203,16 @@ Esta skill deve ser tratada como dona do budget senior de hardware:
   - dois personagens, HUD, FX e uploads concorrendo no mesmo quadro
 - `shadow/highlight slot audit`
   - risco de operador em slot critico de paleta
+- `masked lighting budget`
+  - medir custo real de pool emissivo, scanline pressure e perda de leitura em spotlight movel
+- `procedural glitch readability budget`
+  - garantir que rasgo, flash ou corrupcao de HUD continuem servindo gameplay
+- `mutable tile pool budget`
+  - quantos tiles unicos uma sala pode sujar sem estourar residency
+- `dirty upload discipline`
+  - uploads de mutacao local precisam caber no pior quadro
+- `cellular microbuffer envelope`
+  - regiao maxima, cadence do solver e custo de dirty tiles antes de a tecnica deixar de caber
 
 Regra:
 
@@ -215,8 +239,12 @@ Regra:
 - DMA fora de VBlank exige justificativa forte
 - shadow/highlight tem regras de prioridade e custo de paleta
 - imagem inteira convertida em tilemap quase sempre explode tiles unicos
+- **paleta PNG inflada (>16 entradas PLTE) causa corrupcao silenciosa**: o rescomp usa indices brutos da paleta para gerar tiles; dois pixeis com a mesma cor RGB mas indices diferentes no PNG produzem tiles "unicos" falsos, inflando o tileset sem motivo visual. Verificar SEMPRE byte 24 (bitDepth<=4) e contagem de entradas PLTE (<=16) antes de qualquer trabalho de recursos. Uma imagem com 11 cores unicas mas 256 entradas de paleta e um problema critico
+- **VRAM overflow por excesso de tiles unicos e SILENCIOSO**: a ROM compila sem erros mas os tiles invadem sprite VRAM, fonte e nametables do VDP, causando corrupcao total. NUNCA assumir "2048 tiles disponiveis". O budget real depende de `maps_addr` (endereco mais baixo de tabela VDP no VRAM). Para SGDK 2.11 com planos 64x32 OU 32x32: `maps_addr = 0xC000`, `TILE_MAX_NUM = 1536`, user tiles = 1536 - 16(sys) - 96(font) - SPR_initEx. **Calcular ANTES de buildar: BG_B_tiles + BG_A_tiles <= TILE_MAX_NUM - 16 - 96 - SPR_initEx.**
+- **maps_addr = 0xC000 para AMBOS 32x32 e 64x32 no SGDK 2.11** — mudar `VDP_setPlaneSize()` NAO aumenta tile space porque BGB nametable fica em 0xC000 em ambos os casos
+- **Arte com >80% tiles unicos e incompativel com cenarios largos** — panoramas detalhadas (como cityscapes) facilmente geram 2.8 tiles unicos por pixel-coluna. Para cenas > 320px, exigir ratio de tiles unicos <= 60% OU streaming de segmentos
 - `SPR_init()` automatico nao e neutro para cenas pesadas de background
-- `VDP_setPlaneSize(..)` costuma ser a primeira otimização estrutural legitima antes de alias ou reciclagem de tabela
+- `VDP_setPlaneSize(..)` costuma ser a primeira otimização estrutural legitima antes de alias ou reciclagem de tabela, mas NAO aumenta tile space no SGDK 2.11
 - `window alias` e `hscroll slack reuse` podem funcionar, mas quebram facil se a cena ou o modo de scroll mudarem
 - `SAT reuse` so faz sentido em telas especiais; em gameplay normal tende a conflitar com o sprite engine
 - `sprite graft` sem medicao de scanline budget vira flicker, nao profundidade
@@ -224,3 +252,4 @@ Regra:
 - efeito raster ou palette split sem BlastEm nao deve subir de status
 - stage acima do teto do plano pede streaming de tilemap guiado pela camera
 - frame critico de luta precisa ser orcado como conjunto; nao por personagem isolado
+

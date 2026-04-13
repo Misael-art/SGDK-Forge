@@ -229,6 +229,50 @@
       "notes": "Competencia critica para spotlight, glow e sombra ambiental."
     },
     {
+      "id": "masked_shadow_highlight_lighting",
+      "title": "Masked lighting illusion via Shadow / Highlight and controlled emissive masks",
+      "module": "light_color_illusion",
+      "current_status": "partial",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst",
+        "visual-excellence-standards"
+      ],
+      "prerequisite_ids": [
+        "shadow_highlight_mode",
+        "shadow_highlight_slot_rule",
+        "dma_transfer_safety"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/06_vdp_limit_extrapolation_techniques.md#6.1",
+        "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/pattern_catalog.json#masked_shadow_highlight_lighting"
+      ],
+      "required_artifacts": [
+        "scene de sala escura com 1 luz movel",
+        "palette_slot_audit explicito",
+        "scanline pressure review",
+        "BlastEm proof bundle"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_masked_light_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "gameplay_basico",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "Shadow/Highlight ativo + mascaras emissivas + palette_slot_audit",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "So sobe quando a luz movel preservar leitura de gameplay, nao gerar dropout de scanline e nao depender de promessa de alpha blending.",
+      "notes": "Nome honesto para spotlight, lanterna ou weak spot de boss. Nao equivale a iluminacao dinamica moderna nem a penumbra continua."
+    },
+    {
       "id": "palette_cycling",
       "title": "Color cycling via CRAM rotation",
       "module": "light_color_illusion",
@@ -265,6 +309,51 @@
       },
       "promotion_gate": "Nao sobe sem ciclo suave, sem pop de cor e sem invadir paleta critica.",
       "notes": "Deve virar competencia formal para agua, lava, neon e pulso luminoso."
+    },
+    {
+      "id": "procedural_raster_glitch_suite",
+      "title": "Procedural raster glitch suite with directed HScroll noise, palette shock and HUD corruption",
+      "module": "raster_manipulation",
+      "current_status": "partial",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst",
+        "visual-excellence-standards"
+      ],
+      "prerequisite_ids": [
+        "line_scrolling",
+        "h_int_control_plane",
+        "palette_cycling",
+        "window_plane_static_hud"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/pattern_catalog.json#procedural_raster_glitch_suite",
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#hint_spotlight_shadow"
+      ],
+      "required_artifacts": [
+        "scene dedicada de crise visual com gameplay legivel",
+        "contrato de leitura de gameplay durante o glitch",
+        "budget line de HScroll noise + palette shock",
+        "BlastEm proof bundle"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_procedural_glitch_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "gameplay_basico",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "HScroll noise + palette shock + corrupcao controlada de HUD",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "So sobe quando o glitch permanecer dramatico sem destruir leitura de gameplay e sem conflito estrutural de H-Int.",
+      "notes": "Suite de rasgo, choque cromatico e corrupcao procedural. Nao equivale a shader de pos-processamento, chromatic aberration fisica nem tearing de framebuffer."
     },
     {
       "id": "dithering_crt_smearing",
@@ -682,6 +771,90 @@
       },
       "promotion_gate": "Nao sobe sem benchmark proprio e medicao explicita de custo de CPU no pior quadro.",
       "notes": "Trilha separada do road-stack; o agente nunca mais pode chamar isso de fake mode 7 generico."
+    },
+    {
+      "id": "mutable_tile_decal_mutation",
+      "title": "Persistent tile mutation for local decals and room-scoped surface damage",
+      "module": "software_rendering",
+      "current_status": "gap_pure",
+      "operational_policy": "special_scene_only",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst",
+        "scene-state-architect"
+      ],
+      "prerequisite_ids": [
+        "dma_transfer_safety"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/06_vdp_limit_extrapolation_techniques.md",
+        "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/pattern_catalog.json#mutable_tile_decal_mutation"
+      ],
+      "required_artifacts": [
+        "RAM shadow copy para tiles mutaveis",
+        "pool de tiles mutaveis por sala",
+        "politica de persistencia local documentada",
+        "scene de benchmark de setor damageable"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_decal_mutation_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "gameplay_basico",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "dirty tile upload + mutable tile pool por sala",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem provar que a mutacao fica limitada a setores definidos, sem dependencia de readback frequente de VRAM e sem explodir o pool de tiles unicos.",
+      "notes": "Nome honesto para sangue, buracos ou dano persistente local. Nao e decal rendering livre nem mutacao global de qualquer parede do mapa."
+    },
+    {
+      "id": "cellular_microbuffer_sim",
+      "title": "Local cellular microbuffer for sand, acid, lava or foam islands",
+      "module": "software_rendering",
+      "current_status": "gap_pure",
+      "operational_policy": "special_scene_only",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "prerequisite_ids": [
+        "dma_transfer_safety",
+        "mutable_tile_decal_mutation"
+      ],
+      "existing_artifacts": [
+        "doc/00-governance/08_maximalist_directive.md",
+        "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/pattern_catalog.json#cellular_microbuffer_sim"
+      ],
+      "required_artifacts": [
+        "contrato de regiao delimitada",
+        "solver local com cadencia explicita",
+        "dirty upload parcial por frame",
+        "scene de benchmark microbuffer"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_cellular_microbuffer_lab",
+        "validation_axes": [
+          "boot_emulador",
+          "gameplay_basico",
+          "performance",
+          "visual_elite"
+        ],
+        "budget_line": "solver local + dirty tiles + DMA parcial",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "visual_vdp_dump.bin",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe sem provar regiao pequena, leitura estavel, dirty uploads sob controle e custo honesto no pior quadro.",
+      "notes": "Microframebuffer local para areia, acido ou lava. Nao equivale a sandbox global, fluidos de tela inteira nem simulacao estilo Noita."
     },
     {
       "id": "tile_cache_streaming_refcount",

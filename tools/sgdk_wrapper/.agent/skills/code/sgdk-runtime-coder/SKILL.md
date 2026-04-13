@@ -95,6 +95,10 @@ Esta skill deve ser lida como dona operacional das seguintes competencias senior
   - uso disciplinado de `VSRAM` e custo por frame
 - `H-Int palette split`
   - split mid-frame, alias visual `mid-frame palette swap`, reset simetrico e risco de callback unico
+- `procedural_raster_glitch_suite`
+  - rasgo dirigido por `HScroll`, shock de paleta, corrupcao controlada de HUD e leitura dramatica sob controle
+- `masked_shadow_highlight_lighting`
+  - spotlight, lanterna ou weak spot de boss como ilusao de hardware; nunca vender como alpha blending ou iluminacao global
 - `palette cycling`
   - escrita segura em `CRAM`, timing tables e ownership de paleta
 - `window_plane_static_hud`
@@ -107,6 +111,10 @@ Esta skill deve ser lida como dona operacional das seguintes competencias senior
   - `zmap`, curves, hills, banding e budget de raster
 - `software_affine_pseudo3d`
   - transformacao por software tratada como trilha separada do road-stack
+- `mutable_tile_decal_mutation`
+  - dano persistente local via `RAM shadow copy`, `mutable tile pool` e dirty uploads limitados
+- `cellular_microbuffer_sim`
+  - microframebuffer local, solver delimitado e update cadence declarada; nunca tratar como sandbox global
 - `DMA scheduling`
   - uploads no VBlank, leakage control e worst-frame discipline
 - `XGM/XGM2 integration boundaries`

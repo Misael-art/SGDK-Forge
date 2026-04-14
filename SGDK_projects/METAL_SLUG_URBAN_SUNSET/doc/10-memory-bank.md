@@ -35,7 +35,7 @@
 - **Validacao de recursos:** correcao de **paleta indice 0** com **alpha = 0** nos PNG 4bpp (evita falso positivo `INDEX0_VISIBLE_HIGH_RISK` do wrapper).
 - **Build:** `build.bat` (wrapper) compila com sucesso; `out/rom.bin` gerado.
 - **Wrapper:** `tools/sgdk_wrapper/build_inner.bat` passa a **antecipar `java.exe` no PATH** antes do `make` (MSYS/sh nao herdava Java apos winget).
-- **Curadoria de rota visual:** `default_multi_plane_method` continua o default travado; `anime_style` tornou-se o primeiro desafiante pronto para escolha humana, com `1191` tiles unicos e score `0.8267` no case comparativo.
+- **Curadoria de rota visual:** `default_multi_plane_method` continua o default travado; o teste antigo `anime_style` foi rejeitado por leitura errada de traco/cor, e a nova referencia correta da familia anime passou a ser `Gemini_Generated_Image_riu4i2riu4i2riu4.png`, ainda em reducao estrutural.
 - **Marco pipeline (novo):**
   - Gerador: `tools/image-tools/build_marco_player_sheet.py`
   - Relatorio: `out/logs/spr_marco_report.json`

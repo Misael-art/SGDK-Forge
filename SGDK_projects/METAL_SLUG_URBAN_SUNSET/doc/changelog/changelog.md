@@ -35,3 +35,16 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
 - Validation: curadoria only, sem novo build
 - Emulator evidence: unchanged
 
+## 2026-04-14T06:45:00-03:00 - anime_reference_retarget
+
+- Task: anime_reference_retarget
+- Study artifacts:
+  - `anime_style` anterior marcado como interpretacao rejeitada
+  - nova referencia correta: `Gemini_Generated_Image_riu4i2riu4i2riu4.png`
+  - provas geradas em `out/route_tests/route_anime_reference_*`
+  - `route_comparison_matrix.md` e `route_decision_record.md` atualizados com a nova leitura humana
+- Asset snapshots: none
+- ROM: unchanged
+- Validation: curadoria only, sem novo build
+- Emulator evidence: unchanged
+

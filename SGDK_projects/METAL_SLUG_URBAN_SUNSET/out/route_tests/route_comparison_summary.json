@@ -7,7 +7,8 @@
     "route_b": "duplicate_of_a",
     "route_c": "grid_alignment_diagnostic",
     "route_d": "cool_evening",
-    "route_e": "anime_style"
+    "route_e": "anime_style",
+    "route_f": "anime_background_reference"
   },
   "duplicate_detection": {
     "route_b_same_as_route_a": true,
@@ -52,7 +53,7 @@
       "compare_flat_budget_decision": "nao cabe"
     },
     "anime_style": {
-      "status": "challenger_ready_for_user_choice",
+      "status": "rejected_by_human_review",
       "visual_excellence_score": 0.8267,
       "palette_efficiency": 0.9318,
       "silhouette_readability": 1.0,
@@ -61,8 +62,24 @@
       "exact_duplicates": 377,
       "unique_exact_tiles": 1191,
       "compare_flat_budget_decision": "cabe"
+    },
+    "anime_background_reference": {
+      "status": "reference_target_under_reduction",
+      "flat_visual_excellence_score": 0.6918,
+      "flat_unique_exact_tiles": 1363,
+      "flat_compare_flat_budget_decision": "nao cabe",
+      "split_bg_a_visual_excellence_score": 0.6474,
+      "split_bg_a_unique_exact_tiles": 1322,
+      "split_bg_b_unique_exact_tiles": 25,
+      "split_total_unique_exact_tiles": 1347,
+      "split_budget_decision": "nao cabe"
     }
   },
   "challenger_ready_for_user_choice": "anime_style",
-  "comparison_board_with_anime": "out/route_tests/route_compare_with_incumbent_and_anime.png"
+  "comparison_board_with_anime": "out/route_tests/route_compare_with_incumbent_and_anime.png",
+  "human_review": {
+    "anime_style_previous_attempt": "rejected_by_human_review",
+    "reason": "lost linework and color intelligence compared to approved anime background reference",
+    "approved_anime_reference": "C:\\Users\\misae\\Downloads\\Gemini_Generated_Image_riu4i2riu4i2riu4.png"
+  }
 }

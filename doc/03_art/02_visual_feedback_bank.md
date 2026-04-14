@@ -560,3 +560,24 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
   - Monster World IV
   - Streets of Rage 3
 - check_em_rom: comparar a rota chapada com o incumbente no mesmo enquadramento, medir tiles unicos, confirmar se a leitura continua rica em 320x224 e exigir congelamento humano explicito antes de trocar a filosofia de pintura do projeto
+
+### Anime Background Nao E Posterize Duro
+
+- sintoma: o agente entende "anime" como contorno bruto, posterizacao agressiva e ceu chapado generico, produzindo uma cena dura, pobre em traco e distante da referencia humana aprovada
+- diagnostico_tecnico: a traducao confundiu `anime background` com `cel shading simplificado`; ela apagou a inteligencia do linework, perdeu a direcao tonal da noite e trocou rampas ilustrativas por blocos arbitrarios
+- heuristica_preventiva: quando a referencia aprovada for um fundo de anime, preservar estes pilares antes de reduzir budget:
+  - linework fino e desenhado, nao contorno pesado indiscriminado
+  - rampas controladas de material, especialmente em tijolo, telhado, metal e pedra
+  - ceu como campo tonal elegante, nao so uma chapa azul qualquer
+  - janelas quentes como contraponto narrativo
+  - flattening cirurgico apenas onde ele ajuda reuse e leitura
+- metricas_afetadas:
+  - reference_alignment
+  - palette_efficiency
+  - silhouette_readability
+  - reuse_opportunity
+- benchmark_referencia:
+  - Gemini urban anime background study
+  - Streets of Rage 3
+  - Shinobi III
+- check_em_rom: provar a rota de anime em composicao multi-plano; se o look aprovado pelo humano so existir na imagem full-flat e desmoronar ao separar BG_A/BG_B, a rota ainda nao esta pronta

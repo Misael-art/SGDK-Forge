@@ -1,0 +1,84 @@
+{
+  "asset_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\out\\route_tests\\route_anime_reference_bg_a_alpha.png",
+  "role": "bg_a",
+  "reference_profile": "generic-megadrive-elite",
+  "critical_visual": true,
+  "paired_bg": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\out\\route_tests\\route_anime_reference_bg_b.png",
+  "status": "needs_review",
+  "metrics": {
+    "palette_efficiency": 0.8462,
+    "tile_efficiency": 0.0,
+    "detail_density_8x8": 0.8906,
+    "dithering_density": 0.2077,
+    "silhouette_readability": 0.8189,
+    "layer_separation": 1.0,
+    "reuse_opportunity": 0.02,
+    "reference_alignment": 0.6474,
+    "visual_excellence_score": 0.6474
+  },
+  "metric_inputs": {
+    "palette_efficiency": {
+      "color_count": 14,
+      "tonal_span": 133.34439999999998,
+      "redundancy_ratio": 0.6153846153846154,
+      "low_usage_ratio": 0.0
+    },
+    "tile_efficiency": {
+      "empty_ratio": 0.14094387755102042,
+      "bbox_waste": 0.15811344068877553,
+      "total_tiles": 1568,
+      "empty_tiles": 221
+    },
+    "detail_density_8x8": {
+      "avg_transition_density": 0.35281337019689674,
+      "avg_isolated_ratio": 0.05103901620278528,
+      "non_empty_tiles": 1347
+    },
+    "dithering_density": {
+      "dither_ratio": 0.0021024715987146255,
+      "noise_ratio": 0.17175759458135728,
+      "samples": 83711
+    },
+    "silhouette_readability": {
+      "boundary_contrast": 5.472183774755429,
+      "fill_ratio": 0.8418865593112245,
+      "components": 1
+    },
+    "layer_separation": {
+      "contrast_value": 25.34458639995265,
+      "source": "paired_bg"
+    },
+    "reuse_opportunity": {
+      "non_empty_tiles": 1347,
+      "exact_duplicates": 26,
+      "flip_reuse_ratio": 0.0200445434298441
+    }
+  },
+  "issues": [
+    {
+      "code": "OVER_EMPTY_TILES",
+      "severity": "warning",
+      "message": "O asset desperdiça tiles com vazio ou bounding box frouxo.",
+      "value": 0.14094387755102042,
+      "threshold": 0.02
+    },
+    {
+      "code": "MISSING_DITHERING_FOR_MATERIAL",
+      "severity": "warning",
+      "message": "O asset esta abaixo da densidade minima de dithering esperada para o papel informado.",
+      "value": 0.0021024715987146255,
+      "threshold": 0.03
+    }
+  ],
+  "recommendations": [
+    "Apertar bounding box, cortar bordas vazias e revisar custo de VRAM do asset.",
+    "Adicionar dithering apenas onde ele descreve material ou transicao tonal real."
+  ],
+  "benchmarks": [
+    "Streets of Rage 3",
+    "Monster World IV",
+    "Earthworm Jim",
+    "Shinobi III",
+    "Sonic 3 & Knuckles"
+  ]
+}

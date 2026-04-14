@@ -1,0 +1,76 @@
+{
+  "asset_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\out\\route_tests\\route_anime_reference_refined_bg_a.png",
+  "role": "bg_a",
+  "reference_profile": "generic-megadrive-elite",
+  "critical_visual": true,
+  "paired_bg": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\out\\route_tests\\route_anime_reference_refined_bg_b.png",
+  "status": "elite_ready",
+  "metrics": {
+    "palette_efficiency": 0.8125,
+    "tile_efficiency": 1.0,
+    "detail_density_8x8": 0.9068,
+    "dithering_density": 0.5886,
+    "silhouette_readability": 0.9722,
+    "layer_separation": 1.0,
+    "reuse_opportunity": 0.1378,
+    "reference_alignment": 0.8801,
+    "visual_excellence_score": 0.8801
+  },
+  "metric_inputs": {
+    "palette_efficiency": {
+      "color_count": 13,
+      "tonal_span": 99.26719999999999,
+      "redundancy_ratio": 0.75,
+      "low_usage_ratio": 0.15384615384615385
+    },
+    "tile_efficiency": {
+      "empty_ratio": 0.0,
+      "bbox_waste": 0.0,
+      "total_tiles": 1568,
+      "empty_tiles": 0
+    },
+    "detail_density_8x8": {
+      "avg_transition_density": 0.3812476748511905,
+      "avg_isolated_ratio": 0.04350685586734694,
+      "non_empty_tiles": 1568
+    },
+    "dithering_density": {
+      "dither_ratio": 0.018408723829014557,
+      "noise_ratio": 0.14652742247770387,
+      "samples": 99681
+    },
+    "silhouette_readability": {
+      "boundary_contrast": 9.306187164179105,
+      "fill_ratio": 1.0,
+      "components": 1
+    },
+    "layer_separation": {
+      "contrast_value": 22.98359817044005,
+      "source": "paired_bg"
+    },
+    "reuse_opportunity": {
+      "non_empty_tiles": 1568,
+      "exact_duplicates": 215,
+      "flip_reuse_ratio": 0.1377551020408163
+    }
+  },
+  "issues": [
+    {
+      "code": "MISSING_DITHERING_FOR_MATERIAL",
+      "severity": "warning",
+      "message": "O asset esta abaixo da densidade minima de dithering esperada para o papel informado.",
+      "value": 0.018408723829014557,
+      "threshold": 0.03
+    }
+  ],
+  "recommendations": [
+    "Adicionar dithering apenas onde ele descreve material ou transicao tonal real."
+  ],
+  "benchmarks": [
+    "Streets of Rage 3",
+    "Monster World IV",
+    "Earthworm Jim",
+    "Shinobi III",
+    "Sonic 3 & Knuckles"
+  ]
+}

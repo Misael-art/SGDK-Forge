@@ -26,6 +26,7 @@ Este documento registra o teste comparativo das rotas visuais propostas para a c
 - `C`: `grid_alignment_diagnostic`
 - `D`: `cool_evening`
 - `E`: `anime_style`
+- `F`: `anime_background_reference`
 
 ## Metodo
 
@@ -52,6 +53,28 @@ Este documento registra o teste comparativo das rotas visuais propostas para a c
 | `cool_evening` | candidata real | `0.7414` | `0.4571` | `0.8463` | `0.0357` | `1518` | `nao cabe` |
 | `anime_style` | candidata real | `0.8267` | `0.9318` | `1.0000` | `0.2481` | `1191` | `cabe` |
 | `grid_alignment` | diagnostico | nao ranquear | nao ranquear | nao ranquear | nao ranquear | nao usar | nao promover |
+
+## Correcao humana da leitura "anime"
+
+Depois da revisao humana, a rota `anime_style` acima foi **rejeitada como interpretacao estetica**, apesar dos bons numeros.
+
+Motivo:
+
+- o resultado perdeu traco
+- a cor ficou arbitraria
+- a ideia de "anime" foi lida de forma errada
+
+A referencia correta para esta familia passou a ser a imagem:
+
+- [Gemini_Generated_Image_riu4i2riu4i2riu4.png](</C:/Users/misae/Downloads/Gemini_Generated_Image_riu4i2riu4i2riu4.png>)
+
+Leitura correta de estilo:
+
+- linework fino e ilustrado
+- rampas de material ainda ricas, so que mais controladas
+- ceu azul-petroleo limpo
+- janelas quentes como foco narrativo
+- simplificacao seletiva, nao posterizacao brutal
 
 ## Incumbente padrao do projeto
 
@@ -112,6 +135,21 @@ Regra de decisao:
   - muda a filosofia de pintura do projeto
   - precisa de aprovacao humana explicita antes de substituir o default
 
+### `anime_background_reference`
+
+Primeiros testes a partir da referencia aprovada:
+
+| Promocao de teste | Score | Tiles | Decisao |
+|-------------------|-------|-------|---------|
+| flat direta 15 colors | `0.6918` | `1363` | `nao cabe` |
+| split `BG_A + BG_B` direto | `0.6474` | `1322 + 25 = 1347` | `nao cabe` |
+
+Leitura:
+
+- visualmente esta rota esta muito mais proxima do alvo humano
+- porem a promocao automatica ainda nao reduziu estrutura o suficiente para o budget atual
+- esta e a linha correta para novas iteracoes, mas ainda nao esta pronta para substituir o default
+
 ## Laudo de budget
 
 Como imagem unica em `compare_flat`, as rotas dividiram-se em dois grupos:
@@ -148,9 +186,11 @@ Se a prioridade for:
 Recomendacao da curadoria neste teste:
 
 - `anime_style` sobe para a frente entre as rotas desafiantes
+- `anime_style` fica rebaixada a tentativa rejeitada de interpretacao
+- `anime_background_reference` passa a ser o alvo correto da familia anime
 - `high_key_haze` e `cool_evening` continuam validas como referencias de atmosfera
 - o metodo padrao do projeto continua travado como default ate haver escolha humana explicita
-- a partir deste teste, `anime_style` e a primeira rota que pode honestamente pedir a troca do default
+- neste momento, nenhuma rota anime pode honestamente pedir a troca do default sem nova rodada de reducao estrutural
 
 ## Proximo passo
 
@@ -159,5 +199,5 @@ Depois da escolha:
 1. registrar em `route_decision_record`
 2. manter `locked_visual_direction = default_multi_plane_method` ate o usuario congelar uma nova direcao
 3. usar `high_key_haze` e `cool_evening` como referencias de atmosfera quando fizer sentido
-4. promover `anime_style` a rota pronta para escolha humana
+4. promover `anime_background_reference` como alvo estetico das proximas iteracoes, nao como rota pronta
 5. so reabrir a decisao sem usuario se um desafiante provar `perceptual win` e `system win` de forma inequívoca e ainda preservar a fantasia-base do projeto

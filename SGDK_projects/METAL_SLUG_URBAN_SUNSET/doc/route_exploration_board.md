@@ -50,9 +50,21 @@ As alternativas nao podem variar:
 - vantagem: transforma gradiente e textura em blocos de cor mais claros para o Mega Drive, com forte potencial de reuse
 - risco: se exagerar na limpeza, pode empobrecer a aspereza material do caso original e afastar a cena do peso "Metal Slug"
 
+### Rota F - Anime Background Reference
+
+- leitura: fundo ilustrado noturno, com linework fino, rampas controladas e janelas quentes sobre ceu azul-petroleo
+- origem: referencia humana aprovada em [Gemini_Generated_Image_riu4i2riu4i2riu4.png](</C:/Users/misae/Downloads/Gemini_Generated_Image_riu4i2riu4i2riu4.png>)
+- vantagem: define com mais precisao o que "anime" significa para esta cena
+- risco: a promocao direta ainda gera pressao alta de tiles; precisa de reducao estrutural mais cuidadosa
+- regra:
+  - esta rota substitui o entendimento anterior de `anime_style` como alvo estetico
+  - o teste `anime_style` anterior fica registrado apenas como tentativa rejeitada
+
 ## Recomendacao de curadoria
 
-- manter A, D e E como candidatas reais
+- manter A e D como referencias de atmosfera
+- tratar E como tentativa rejeitada de interpretacao
+- tratar F como alvo estetico correto para a linha anime
 - usar C apenas como board tecnica
 - escolher a rota final antes de nova rodada de budget e runtime
 - o default continua sendo o metodo padrao atual ate existir `perceptual win` + `system win` e congelamento explicito do usuario

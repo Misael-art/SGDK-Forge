@@ -37,6 +37,44 @@ function Get-AgentManifest {
     }
 }
 
+function Copy-TrackedPathIfMissing {
+    param(
+        [Parameter(Mandatory = $true)][string]$SourceAgentDir,
+        [Parameter(Mandatory = $true)][string]$DestinationAgentDir,
+        [Parameter(Mandatory = $true)][string]$TrackedPath
+    )
+
+    $sourcePath = Join-Path $SourceAgentDir $TrackedPath
+    $destinationPath = Join-Path $DestinationAgentDir $TrackedPath
+
+    if (Test-Path -LiteralPath $destinationPath) {
+        return $true
+    }
+
+    if (-not (Test-Path -LiteralPath $sourcePath)) {
+        return $false
+    }
+
+    $sourceItem = Get-Item -LiteralPath $sourcePath
+    $destinationParent = Split-Path $destinationPath -Parent
+    if ($destinationParent -and -not (Test-Path -LiteralPath $destinationParent -PathType Container)) {
+        New-Item -ItemType Directory -Path $destinationParent -Force | Out-Null
+    }
+
+    if ($sourceItem.PSIsContainer) {
+        if (-not (Test-Path -LiteralPath $destinationPath -PathType Container)) {
+            New-Item -ItemType Directory -Path $destinationPath -Force | Out-Null
+        }
+        foreach ($child in Get-ChildItem -LiteralPath $sourcePath -Force) {
+            Copy-Item -LiteralPath $child.FullName -Destination $destinationPath -Recurse -Force
+        }
+    } else {
+        Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force
+    }
+
+    return (Test-Path -LiteralPath $destinationPath)
+}
+
 function Get-FileSha256OrEmpty {
     param([Parameter(Mandatory = $true)][string]$Path)
 
@@ -143,6 +181,7 @@ try {
         }
         $status["SGDK_AGENT_BOOTSTRAPPED"] = "1"
         $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "existing"
+        $healedTrackedPaths = @()
         $localManifest = Get-AgentManifest -AgentDir $destinationAgentDir
         if (-not $localManifest) {
             $sourceManifestPath = Join-Path $resolvedSource "framework_manifest.json"
@@ -154,7 +193,7 @@ try {
                     if ($localManifest) {
                         $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "manifest_healed"
                         if ($OutputFormat -eq "Host") {
-                            Write-Host "[SGDK Wrapper] framework_manifest.json copiado da canonica (heal) — nenhuma outra pasta da .agent local foi sobrescrita."
+                            Write-Host "[SGDK Wrapper] framework_manifest.json copiado da canonica (heal) - nenhuma outra pasta da .agent local foi sobrescrita."
                         }
                     }
                 } catch {
@@ -203,12 +242,31 @@ try {
                 foreach ($trackedPath in $sourceManifest.tracked_paths) {
                     $localTrackedPath = Join-Path $destinationAgentDir ([string]$trackedPath)
                     if (-not (Test-Path -LiteralPath $localTrackedPath)) {
+                        $copied = $false
+                        try {
+                            $copied = Copy-TrackedPathIfMissing -SourceAgentDir $resolvedSource -DestinationAgentDir $destinationAgentDir -TrackedPath ([string]$trackedPath)
+                        } catch {
+                            $copied = $false
+                        }
+
+                        if ($copied) {
+                            $healedTrackedPaths += [string]$trackedPath
+                            if ($OutputFormat -eq "Host") {
+                                Write-Host ("[SGDK Wrapper] Caminho canonico ausente materializado sem sobrescrita: {0}" -f $trackedPath)
+                            }
+                            continue
+                        }
+
                         $status["SGDK_AGENT_BOOTSTRAP_DEGRADED"] = "1"
                         $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "missing_tracked_path"
                         Write-Warning ("[SGDK Wrapper] .agent local sem caminho rastreado obrigatorio: {0}" -f $localTrackedPath)
                         break
                     }
                 }
+            }
+
+            if ($healedTrackedPaths.Count -gt 0 -and $status["SGDK_AGENT_BOOTSTRAP_DEGRADED"] -ne "1") {
+                $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "tracked_paths_healed"
             }
         }
         if (-not $status["SGDK_AGENT_LOCAL_VERSION"]) {

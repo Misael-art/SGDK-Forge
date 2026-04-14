@@ -14,9 +14,22 @@
 #define BGB_STAMP_COUNT      (PLANE_WIDTH_TILES / BGB_IMG_WIDTH_TILES)
 #define BGA_MAP_HEIGHT_TILES 28
 
-/* VRAM reservada ao motor de sprites: 3x debris 64x48 + player 32x64 + margem */
-#define SPRITE_VRAM_SIZE   160
-#define PLAYER_SPEED         2
+/*
+ * VRAM reservada ao motor de sprites (SPR_initEx).
+ * Pior caso simultaneo na demo: debris 28+26+24 + player 23 tiles = 101 <= 160.
+ * Valores >160 reduzem 1536-112-N e podem fazer BG_A+BG_B (1261) exceder o tecto.
+ */
+#define SPRITE_VRAM_SIZE     160
+#define PLAYER_SPEED           2
+#define PLAYER_WIDTH          40
+#define PLAYER_HEIGHT         48
+#define PLAYER_GROUND_MARGIN   8
+#define PLAYER_GROUND_Y      (VIEWPORT_HEIGHT - PLAYER_HEIGHT - PLAYER_GROUND_MARGIN)
+#define PLAYER_JUMP_SPEED     -7
+#define PLAYER_GRAVITY         1
+#define PLAYER_MAX_FALL        8
+#define PLAYER_LAND_TICKS      8
+#define PLAYER_SHOOT_TICKS    10
 
 /* Posicoes mundo (X) dos tres blocos de foreground composicional (Layer C) */
 #define DEBRIS_01_WORLD_X   40
@@ -24,16 +37,33 @@
 #define DEBRIS_03_WORLD_X  320
 
 static s16  gCameraX       = 0;
-static s16  gPlayerX       = 160;
-static s16  gPlayerY       = 160;
+static s16  gPlayerX       = 96;
+static s16  gPlayerY       = PLAYER_GROUND_Y;
+static s16  gPlayerVX      = 0;
+static s16  gPlayerVY      = 0;
 static bool gShowOverlay   = FALSE;
+static bool gPlayerOnGround = TRUE;
+static bool gPlayerFacingLeft = FALSE;
 static u16  gPrevInput     = 0;
+static u16  gShootTicks    = 0;
+static u16  gLandTicks     = 0;
 
 static Sprite* gPlayerSprite      = NULL;
 static Sprite* gDebrisSprites[3]  = { NULL, NULL, NULL };
 
 static u16  gBgBBaseTile;
 static u16  gBgABaseTile;
+
+typedef enum
+{
+    PLAYER_ANIM_IDLE = 0,
+    PLAYER_ANIM_WALK = 1,
+    PLAYER_ANIM_JUMP = 2,
+    PLAYER_ANIM_LAND = 3,
+    PLAYER_ANIM_SHOOT = 4
+} PlayerAnim;
+
+static PlayerAnim gPlayerAnim = PLAYER_ANIM_IDLE;
 
 
 static void loadBgBPlane(void)
@@ -137,7 +167,10 @@ static void drawScene(void)
         TILE_ATTR(PAL3, TRUE, FALSE, FALSE)
     );
     if (gPlayerSprite)
+    {
         SPR_setDepth(gPlayerSprite, 1);
+        SPR_setAnim(gPlayerSprite, PLAYER_ANIM_IDLE);
+    }
 
     drawOverlay();
 
@@ -145,6 +178,18 @@ static void drawScene(void)
     VDP_setHorizontalScroll(BG_B, 0);
 
     VDP_setEnable(TRUE);
+}
+
+
+static void applyPlayerAnimation(PlayerAnim nextAnim)
+{
+    if (!gPlayerSprite)
+        return;
+    if (gPlayerAnim != nextAnim)
+    {
+        gPlayerAnim = nextAnim;
+        SPR_setAnim(gPlayerSprite, (u16)gPlayerAnim);
+    }
 }
 
 
@@ -159,15 +204,69 @@ static void updateInput(void)
         drawOverlay();
     }
 
-    if (state & BUTTON_RIGHT)  gPlayerX += PLAYER_SPEED;
-    if (state & BUTTON_LEFT)   gPlayerX -= PLAYER_SPEED;
-    if (state & BUTTON_UP)     gPlayerY -= PLAYER_SPEED;
-    if (state & BUTTON_DOWN)   gPlayerY += PLAYER_SPEED;
+    gPlayerVX = 0;
+    if (state & BUTTON_RIGHT)
+    {
+        gPlayerVX = PLAYER_SPEED;
+        gPlayerFacingLeft = FALSE;
+    }
+    if (state & BUTTON_LEFT)
+    {
+        gPlayerVX = -PLAYER_SPEED;
+        gPlayerFacingLeft = TRUE;
+    }
+    gPlayerX += gPlayerVX;
 
-    if (gPlayerX < 0)                    gPlayerX = 0;
-    if (gPlayerX > SCENE_WIDTH - 32)     gPlayerX = SCENE_WIDTH - 32;
-    if (gPlayerY < 0)                    gPlayerY = 0;
-    if (gPlayerY > VIEWPORT_HEIGHT - 64) gPlayerY = VIEWPORT_HEIGHT - 64;
+    if ((pressed & BUTTON_B) && gPlayerOnGround)
+    {
+        gPlayerOnGround = FALSE;
+        gPlayerVY = PLAYER_JUMP_SPEED;
+        gLandTicks = 0;
+    }
+    if (pressed & BUTTON_C)
+        gShootTicks = PLAYER_SHOOT_TICKS;
+
+    if (!gPlayerOnGround)
+    {
+        gPlayerVY += PLAYER_GRAVITY;
+        if (gPlayerVY > PLAYER_MAX_FALL)
+            gPlayerVY = PLAYER_MAX_FALL;
+        gPlayerY += gPlayerVY;
+        if (gPlayerY >= PLAYER_GROUND_Y)
+        {
+            gPlayerY = PLAYER_GROUND_Y;
+            gPlayerVY = 0;
+            gPlayerOnGround = TRUE;
+            gLandTicks = PLAYER_LAND_TICKS;
+        }
+    }
+    else
+    {
+        gPlayerY = PLAYER_GROUND_Y;
+    }
+
+    if (gShootTicks > 0)
+        gShootTicks--;
+    if (gLandTicks > 0)
+        gLandTicks--;
+
+    if (gPlayerX < 0) gPlayerX = 0;
+    if (gPlayerX > SCENE_WIDTH - PLAYER_WIDTH)
+        gPlayerX = SCENE_WIDTH - PLAYER_WIDTH;
+
+    if (!gPlayerOnGround)
+        applyPlayerAnimation(PLAYER_ANIM_JUMP);
+    else if (gLandTicks > 0)
+        applyPlayerAnimation(PLAYER_ANIM_LAND);
+    else if (gShootTicks > 0)
+        applyPlayerAnimation(PLAYER_ANIM_SHOOT);
+    else if (gPlayerVX != 0)
+        applyPlayerAnimation(PLAYER_ANIM_WALK);
+    else
+        applyPlayerAnimation(PLAYER_ANIM_IDLE);
+
+    if (gPlayerSprite)
+        SPR_setHFlip(gPlayerSprite, gPlayerFacingLeft);
 
     gPrevInput = state;
 }

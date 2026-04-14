@@ -85,6 +85,79 @@ Estas metricas devem ser usadas pelo agente, pelo `analyze_aesthetic.py` e pelo 
 
 ## Traducao de estetica para hardware
 
+## Exploracao controlada de rotas visuais
+
+Quando o usuario pedir alternativas, ou quando uma cena critica admitir duas leituras fortes sem quebrar o hardware, esta skill deve julgar as rotas como uma familia controlada, nao como experimentos soltos.
+
+Entregas esperadas:
+
+- `route_exploration_board`
+- `route_comparison_matrix`
+- `route_preferred_by_judge`
+- `locked_visual_direction` apos escolha humana
+
+Regras:
+
+- todas as rotas devem compartilhar o mesmo `shared_canvas_contract`
+- todas as rotas devem respeitar o mesmo teto de paleta e a mesma historia espacial
+- cada rota deve declarar qual eixo esta variando
+- rotas nao podem competir por geometrias ou enquadramentos incompatíveis
+
+Eixos aceitaveis de variacao:
+
+- ceu e atmosfera
+- temperatura global
+- contraste e densidade de sombra
+- peso do `BG_B` versus `BG_A`
+- limpeza versus aspereza do material
+
+Eixos proibidos sem nova rodada de composicao:
+
+- perspectiva
+- distribuicao de massas principais
+- posicao do ponto focal
+- papel estrutural dos planos
+
+Protocolo de julgamento:
+
+1. eliminar rotas que so parecem fortes ampliadas
+2. eliminar rotas que sacrificam gameplay para ganhar ilustracao
+3. ranquear as sobreviventes por leitura, atmosfera, coerencia de projeto e risco de budget
+4. recomendar uma rota, mas preservar a escolha do usuario quando mais de uma ainda for valida
+
+## Regra de incumbencia
+
+Quando ja existir uma rota padrao aprovada no projeto, ela passa a ser o `incumbent visual method`.
+
+As rotas alternativas podem ser apresentadas ao usuario, mas nao substituem o incumbente por default.
+
+Para um desafiante substituir o incumbente, ele precisa vencer em dois niveis ao mesmo tempo:
+
+1. `perceptual win`
+   - leitura igual ou melhor
+   - identidade da cena igual ou melhor
+   - coerencia com a linguagem do projeto igual ou melhor
+2. `system win`
+   - budget igual ou melhor
+   - risco estrutural igual ou menor
+   - promocao para ROM igual ou mais honesta
+
+Regra:
+
+- se o desafiante so vencer em "imagem bonita isolada", ele nao toma o lugar do incumbente
+- se o incumbente for multi-plano, o julgamento precisa acontecer em contexto composto, nao apenas na layer isolada
+- na ausencia de vitoria clara do desafiante, o default continua sendo o metodo padrao ja consolidado
+
+Aplicacao pratica:
+
+- `visual_excellence_score` isolado nao pode derrubar sozinho um metodo incumbente multi-plano
+- a decisao final de rota deve considerar tambem reuse, pressao de tiles e aderencia ao `source` como cena
+
+Regra de ouro:
+
+- o foco AAA nao significa impor uma unica resposta
+- significa oferecer poucas rotas excelentes, cada uma honesta com o hardware, e depois congelar a direcao escolhida para manter coerencia visual
+
 ### Dithering
 - Nao e enfeite.
 - E mecanismo para simular gradiente, materiais e atmosfera com poucas cores.

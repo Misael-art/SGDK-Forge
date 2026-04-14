@@ -1,0 +1,68 @@
+{
+  "case": "METAL_SLUG_URBAN_SUNSET route exploration",
+  "locked_visual_direction": "default_multi_plane_method",
+  "route_identity": {
+    "incumbent": "default_multi_plane_method",
+    "route_a": "high_key_haze",
+    "route_b": "duplicate_of_a",
+    "route_c": "grid_alignment_diagnostic",
+    "route_d": "cool_evening",
+    "route_e": "anime_style"
+  },
+  "duplicate_detection": {
+    "route_b_same_as_route_a": true,
+    "route_b_sha256": "70A95220FEFC3DF8A8757CA7113250C673D80DE3AD995E68CD5DE8438A736791"
+  },
+  "diagnostic_only": [
+    "route_c_grid_alignment"
+  ],
+  "compare_flat_budget_ceiling_tiles": 1264,
+  "routes": {
+    "default_multi_plane_method": {
+      "status": "incumbent",
+      "visual_excellence_score": 0.7229,
+      "palette_efficiency": 0.4241,
+      "silhouette_readability": 0.9287,
+      "reuse_opportunity": 0.1977,
+      "total_tiles": 1568,
+      "exact_duplicates": 308,
+      "unique_exact_tiles": 1260,
+      "compare_flat_budget_decision": "cabe"
+    },
+    "high_key_haze": {
+      "status": "challenger",
+      "visual_excellence_score": 0.7491,
+      "palette_efficiency": 0.4929,
+      "silhouette_readability": 0.8627,
+      "reuse_opportunity": 0.0402,
+      "total_tiles": 1568,
+      "exact_duplicates": 56,
+      "unique_exact_tiles": 1512,
+      "compare_flat_budget_decision": "nao cabe"
+    },
+    "cool_evening": {
+      "status": "challenger",
+      "visual_excellence_score": 0.7414,
+      "palette_efficiency": 0.4571,
+      "silhouette_readability": 0.8463,
+      "reuse_opportunity": 0.0357,
+      "total_tiles": 1568,
+      "exact_duplicates": 50,
+      "unique_exact_tiles": 1518,
+      "compare_flat_budget_decision": "nao cabe"
+    },
+    "anime_style": {
+      "status": "challenger_ready_for_user_choice",
+      "visual_excellence_score": 0.8267,
+      "palette_efficiency": 0.9318,
+      "silhouette_readability": 1.0,
+      "reuse_opportunity": 0.2481,
+      "total_tiles": 1568,
+      "exact_duplicates": 377,
+      "unique_exact_tiles": 1191,
+      "compare_flat_budget_decision": "cabe"
+    }
+  },
+  "challenger_ready_for_user_choice": "anime_style",
+  "comparison_board_with_anime": "out/route_tests/route_compare_with_incumbent_and_anime.png"
+}

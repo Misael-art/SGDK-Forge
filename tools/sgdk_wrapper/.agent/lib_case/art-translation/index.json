@@ -1,6 +1,13 @@
 {
   "version": 1,
-  "updated_at": "2026-04-09",
+  "updated_at": "2026-04-14",
+  "failure_cases": [
+    {
+      "slug": "palette_inflated_png",
+      "title": "PNG indexado com PLTE inflada",
+      "lesson": "Cores unicas baixas nao bastam; entradas PLTE acima de 16 quebram deduplicacao e inflacionam tiles."
+    }
+  ],
   "entries": [
     {
       "taxonomy": "editorial_board",
@@ -23,6 +30,23 @@
       "canonical_real_cases": [
         "assets/reference/translation_curation/underwater_scene",
         "assets/reference/translation_curation/verdant_forest_depth_scene"
+      ]
+    },
+    {
+      "taxonomy": "palette_separated_panorama",
+      "slug": "case_scene_route_variants_city_crop",
+      "source_png": "case_scene_route_variants_city_crop/study_crop_448x224.png",
+      "parsing_example": "case_scene_route_variants_city_crop/parsing_example.py",
+      "expected_reports": [
+        "case_scene_route_variants_city_crop/route_exploration_board.md"
+      ],
+      "canonical_real_cases": [
+        "assets/reference/translation_curation/metal_slug_urban_sunset_scene"
+      ],
+      "teaching_tags": [
+        "alternative_route_exploration",
+        "user_choice_freeze",
+        "shared_canvas_lock"
       ]
     },
     {

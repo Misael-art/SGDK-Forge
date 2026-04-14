@@ -514,3 +514,49 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
   - sunny_land
   - metal_slug_urban_sunset_scene
 - check_em_rom: apos restaurar a transparencia, repetir a validacao estrutural e confirmar se a ROM final tambem recuperou composicao, custo e estabilidade
+
+### Cena Heroica Merece Rotas Congeladas, Nao Aleatoriedade
+
+- sintoma: cada iteracao da mesma cena volta com ceu, atmosfera e linguagem material diferentes, mesmo quando a geometria base continua igual
+- diagnostico_tecnico: o pipeline nao registrou uma exploracao controlada de alternativas nem congelou uma direcao visual apos a escolha; a IA reabriu a direcao de arte do zero em vez de iterar dentro de um contrato
+- heuristica_preventiva: em cenas heroicas ou muito atmosfericas, permitir no maximo 3 rotas fortes dentro do mesmo `shared_canvas_contract`, comparar as rotas com a mesma regua de leitura/budget e registrar a escolhida em `route_decision_record` antes de prosseguir para budget final e runtime
+- metricas_afetadas:
+  - layer_separation
+  - palette_efficiency
+  - dithering_density
+  - reference_alignment
+- benchmark_referencia:
+  - metal_slug_urban_sunset_scene
+  - Streets of Rage 3
+- check_em_rom: confirmar no BlastEm que a rota congelada continua legivel, coerente com o resto do projeto e nao foi substituida por outra linguagem cromatica em iteracoes futuras
+
+### Desafiante Bonito Nao Derruba Incumbente Sozinho
+
+- sintoma: uma rota alternativa parece mais bonita em comparativo isolado, mas na solucao real do projeto nao supera o metodo padrao ja consolidado
+- diagnostico_tecnico: o julgamento comparou um desafiante flat ou uma imagem isolada contra um incumbente multi-plano fora de contexto, premiando impacto visual bruto e ignorando aderencia ao source, reuse e honestidade de promocao para ROM
+- heuristica_preventiva: quando existir metodo padrao incumbente, toda rota desafiante deve vencer em dois niveis antes de substituir o default: `perceptual win` e `system win`; se nao vencer nos dois, a rota fica arquivada como alternativa e o padrao permanece
+- metricas_afetadas:
+  - reference_alignment
+  - layer_separation
+  - reuse_opportunity
+  - silhouette_readability
+- benchmark_referencia:
+  - metal_slug_urban_sunset_scene
+  - Streets of Rage 3
+- check_em_rom: comparar o incumbente composto e o desafiante no mesmo enquadramento, medir tiles unicos e confirmar em BlastEm se o desafiante realmente supera o metodo padrao em leitura e custo
+
+### Flat Anime Pode Ser Solucao, Nao Regressao
+
+- sintoma: uma rota mais chapada, em filosofia de anime background ou cel-shading, parece simplificada demais a primeira vista e corre risco de ser descartada so por abrir mao de degrades ricos
+- diagnostico_tecnico: o julgamento confundiu riqueza material com excesso de transicao tonal e ignorou que o Mega Drive premia massas claras, sombra dirigida e reuse estrutural
+- heuristica_preventiva: uma rota `anime_style` e valida quando transforma textura em blocos de cor dirigidos, melhora leitura de massa, reduz tiles unicos e preserva a fantasia-base da cena; se vencer em leitura e sistema, pode subir para rota elite mesmo sem imitar o gradiente do source
+- metricas_afetadas:
+  - palette_efficiency
+  - silhouette_readability
+  - reuse_opportunity
+  - reference_alignment
+- benchmark_referencia:
+  - metal_slug_urban_sunset_scene
+  - Monster World IV
+  - Streets of Rage 3
+- check_em_rom: comparar a rota chapada com o incumbente no mesmo enquadramento, medir tiles unicos, confirmar se a leitura continua rica em 320x224 e exigir congelamento humano explicito antes de trocar a filosofia de pintura do projeto

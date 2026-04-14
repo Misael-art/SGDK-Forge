@@ -1,6 +1,6 @@
 # Hardware Budget Review — METAL_SLUG_URBAN_SUNSET (medicao rescomp)
 
-**Data:** 2026-04-12  
+**Data:** 2026-04-13  
 **Fonte de verdade:** `out/logs/build_output.log` (ResComp 3.95, `IMAGE`/`SPRITE` BEST)
 
 ---
@@ -29,13 +29,17 @@ User tiles para fundos = 1536 - 112 - 160 = 1264 tiles
 | spr_debris_01 | 896 | 28 |
 | spr_debris_02 | 832 | 26 |
 | spr_debris_03 | 768 | 24 |
-| spr_player | 640 | 20 |
+| spr_player (sheet `spr_marco.png`, full_core) | 9872 | **308** (9872/32 trunc.; ver nota) |
 
 **Soma BG_B + BG_A:** 15 + 1246 = **1261 tiles**
 
 **Margem vs tecto de fundo (1264):** **3 tiles** — apertado mas **cabe**.
 
-**Sprites (regiao SPR_initEx):** 28 + 26 + 24 + 20 = **98 tiles** (reserva 160 → margem **62**).
+**Nota `spr_player`:** o campo `raw size` do ResComp para `SPRITE` agregado nao e sempre multiplo de 32; o valor **308** segue a mesma convencao `bytes/32` usada para os outros recursos (ROM / tileset deduplicado global do sprite).
+
+**Sprites (VRAM simultanea, pior frame na demo):** 28 + 26 + 24 + **23** (max. tiles por frame do Marco, animacao land) = **101 tiles**; reserva `SPR_initEx(160)` → margem **59** na regiao de sprites.
+
+**Rejeicao de `SPR_initEx(224)`:** com N=224 o tecto BG seria 1536-112-224 = **1200** < **1261** → **nao cabe** (risco de corrupcao de planos); 160 mantem o tecto **1264** e ainda cobre o pico **101**.
 
 ---
 
@@ -47,7 +51,7 @@ User tiles para fundos = 1536 - 112 - 160 = 1264 tiles
 
 1. Cidade limitada a **448 px** de conteudo util (padding transparente a 512 px para o plano).
 2. Ceiu **bandado** para **15 tiles** unicos.
-3. `SPR_initEx(160)` em vez de 128 para margem de sprites (3 debris 64x48 + player).
+3. `SPR_initEx(160)` em vez de 128 para margem de sprites (3 debris 64x48 + player full_core ate 23 tiles/frame).
 
 **Sinais monitorados:**
 
@@ -63,6 +67,6 @@ User tiles para fundos = 1536 - 112 - 160 = 1264 tiles
 | spr_debris_01 | 2 | 28 |
 | spr_debris_02 | 3 | 26 |
 | spr_debris_03 | 2 | 24 |
-| spr_player | 2 | 20 |
+| spr_player | **2 a 3** (por frame) | **19 a 23** (por frame) |
 
-Total links na SAT: verificar scanline pressure em cenas com mais entidades; para esta demo, aceitavel.
+Total links na SAT: verificar scanline pressure em cenas com mais entidades; para esta demo, aceitavel. O Marco passa a usar ate **3** VDP sprites nos frames mais altos (ex.: land/shoot).

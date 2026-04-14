@@ -1,0 +1,76 @@
+{
+  "asset_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\out\\route_tests\\route_anime_style_candidate_strict15.png",
+  "role": "bg_a",
+  "reference_profile": "generic-megadrive-elite",
+  "critical_visual": true,
+  "paired_bg": null,
+  "status": "elite_ready",
+  "metrics": {
+    "palette_efficiency": 0.9318,
+    "tile_efficiency": 1.0,
+    "detail_density_8x8": 0.9568,
+    "dithering_density": 0.4295,
+    "silhouette_readability": 1.0,
+    "layer_separation": 0.68,
+    "reuse_opportunity": 0.2481,
+    "reference_alignment": 0.8267,
+    "visual_excellence_score": 0.8267
+  },
+  "metric_inputs": {
+    "palette_efficiency": {
+      "color_count": 12,
+      "tonal_span": 222.38999999999996,
+      "redundancy_ratio": 0.2727272727272727,
+      "low_usage_ratio": 0.0
+    },
+    "tile_efficiency": {
+      "empty_ratio": 0.0,
+      "bbox_waste": 0.0,
+      "total_tiles": 1568,
+      "empty_tiles": 0
+    },
+    "detail_density_8x8": {
+      "avg_transition_density": 0.19366079020894073,
+      "avg_isolated_ratio": 0.020159040178571428,
+      "non_empty_tiles": 1568
+    },
+    "dithering_density": {
+      "dither_ratio": 0.0061195212728604245,
+      "noise_ratio": 0.04850473008898386,
+      "samples": 99681
+    },
+    "silhouette_readability": {
+      "boundary_contrast": 13.136734029850745,
+      "fill_ratio": 1.0,
+      "components": 1
+    },
+    "layer_separation": {
+      "contrast_value": 0.0,
+      "source": "unpaired_estimate"
+    },
+    "reuse_opportunity": {
+      "non_empty_tiles": 1568,
+      "exact_duplicates": 377,
+      "flip_reuse_ratio": 0.24808673469387754
+    }
+  },
+  "issues": [
+    {
+      "code": "MISSING_DITHERING_FOR_MATERIAL",
+      "severity": "warning",
+      "message": "O asset esta abaixo da densidade minima de dithering esperada para o papel informado.",
+      "value": 0.0061195212728604245,
+      "threshold": 0.03
+    }
+  ],
+  "recommendations": [
+    "Adicionar dithering apenas onde ele descreve material ou transicao tonal real."
+  ],
+  "benchmarks": [
+    "Streets of Rage 3",
+    "Monster World IV",
+    "Earthworm Jim",
+    "Shinobi III",
+    "Sonic 3 & Knuckles"
+  ]
+}

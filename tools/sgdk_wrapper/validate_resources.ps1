@@ -3,7 +3,9 @@ param(
     [Parameter(Mandatory = $false)]
     [string]$WorkDir = "",
     [Parameter(Mandatory = $false)]
-    [switch]$Fix
+    [switch]$Fix,
+    [Parameter(Mandatory = $false)]
+    [switch]$CloseoutGate
 )
 
 try {
@@ -525,6 +527,59 @@ function Add-Detail($results, $type, $level, $message, $resource, $file, $extra 
     Add-RiskTaxonomyEntry -results $results -detail $detail
 }
 
+function Test-CloseoutOnlyBlockingStatus($status) {
+    $normalizedStatus = Get-SafeString $status ""
+    return $normalizedStatus -in @(
+        "budget_doc_mismatch",
+        "changelog_missing",
+        "emulator_evidence_stale",
+        "visual_gate_blocked"
+    )
+}
+
+function Get-BlockingStatusLogLevel($status) {
+    if (Test-CloseoutOnlyBlockingStatus $status) {
+        if ($CloseoutGate) {
+            return "ERROR"
+        }
+        return "WARN"
+    }
+
+    return "ERROR"
+}
+
+function Add-BlockingStatus($results, $status, $message, $resource, $file, $extra = @{}) {
+    $normalizedStatus = Get-SafeString $status ""
+    if (-not $normalizedStatus) {
+        return
+    }
+
+    if (-not $results.ContainsKey("blocking_statuses")) {
+        $results.blocking_statuses = @()
+    }
+
+    if ($normalizedStatus -notin $results.blocking_statuses) {
+        $results.blocking_statuses += $normalizedStatus
+    }
+
+    $closeoutOnly = Test-CloseoutOnlyBlockingStatus $normalizedStatus
+    $enforcedAsError = (-not $closeoutOnly) -or $CloseoutGate
+    if ($enforcedAsError) {
+        $results.summary.errors++
+    } else {
+        $results.summary.warnings++
+    }
+
+    $payload = @{}
+    foreach ($key in $extra.Keys) {
+        $payload[$key] = $extra[$key]
+    }
+    $payload.blocking_status = $normalizedStatus
+    $payload.closeout_only = $closeoutOnly
+    $payload.closeout_gate_enforced = [bool]$CloseoutGate
+    Add-Detail $results "BLOCKING_STATUS" $(if ($enforcedAsError) { "ERROR" } else { "WARNING" }) $message $resource $file $payload
+}
+
 function Get-PythonPath() {
     function Test-UsablePythonExe([string]$Path) {
         if (-not $Path -or -not (Test-Path -LiteralPath $Path)) { return $false }
@@ -755,6 +810,20 @@ function Get-NormalizedTextHashOrNull {
     }
 }
 
+function Get-JsonOrNull {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+        return $null
+    }
+
+    try {
+        return Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+    } catch {
+        return $null
+    }
+}
+
 function Get-RomIdentityFromSession {
     param($Session)
 
@@ -953,6 +1022,238 @@ function Get-AgentBootstrapStatus {
     return $result
 }
 
+function Normalize-AssetId {
+    param([Parameter(Mandatory = $true)][string]$Value)
+
+    $normalized = $Value.ToLowerInvariant() -replace '[^a-z0-9_-]', '_'
+    $normalized = $normalized.Trim('_')
+    if ([string]::IsNullOrWhiteSpace($normalized)) {
+        return "asset"
+    }
+    return $normalized
+}
+
+function Get-ResourceEntriesForChangelog {
+    param([Parameter(Mandatory = $true)][string]$ProjectRoot)
+
+    $entries = @()
+    $resRoot = Join-Path $ProjectRoot "res"
+    if (-not (Test-Path -LiteralPath $resRoot -PathType Container)) {
+        return $entries
+    }
+
+    $seen = @{}
+    $resFiles = Get-ChildItem -LiteralPath $resRoot -Recurse -Filter "*.res" -File -ErrorAction SilentlyContinue
+    foreach ($resFile in $resFiles) {
+        $baseDir = Split-Path $resFile.FullName
+        foreach ($line in Get-Content -LiteralPath $resFile.FullName) {
+            if ($line -match '^\s*(IMAGE|SPRITE|MAP|TILESET|PALETTE|BIN|OBJECT)\s+([A-Za-z0-9_]+)\s+"([^"]+)"') {
+                $resourceKind = $matches[1]
+                $resourceName = $matches[2]
+                $assetPath = Join-Path $baseDir $matches[3]
+                if (-not (Test-Path -LiteralPath $assetPath -PathType Leaf)) {
+                    continue
+                }
+
+                $key = "{0}|{1}" -f $resourceName, $assetPath.ToLowerInvariant()
+                if ($seen.ContainsKey($key)) {
+                    continue
+                }
+                $seen[$key] = $true
+
+                $entries += [pscustomobject]@{
+                    asset_id = Normalize-AssetId $resourceName
+                    resource_name = $resourceName
+                    resource_kind = $resourceKind
+                    source_path = $assetPath
+                    source_identity = Get-FileIdentity -Path $assetPath
+                }
+            }
+        }
+    }
+
+    return $entries
+}
+
+function Get-LatestVersionMetadata {
+    param(
+        [Parameter(Mandatory = $true)][string]$Root,
+        [Parameter(Mandatory = $true)][string]$Prefix,
+        [Parameter(Mandatory = $true)][string]$MetaName
+    )
+
+    if (-not (Test-Path -LiteralPath $Root -PathType Container)) {
+        return $null
+    }
+
+    $matchesFound = @()
+    foreach ($dir in Get-ChildItem -LiteralPath $Root -Directory -ErrorAction SilentlyContinue) {
+        if ($dir.Name -match "^$Prefix(\d{3})$") {
+            $metaPath = Join-Path $dir.FullName $MetaName
+            if (-not (Test-Path -LiteralPath $metaPath -PathType Leaf)) {
+                continue
+            }
+
+            $meta = Get-JsonOrNull $metaPath
+            if ($meta) {
+                $matchesFound += [pscustomobject]@{
+                    version = $dir.Name
+                    ordinal = [int]$matches[1]
+                    dir = $dir.FullName
+                    meta = $meta
+                    meta_path = $metaPath
+                }
+            }
+        }
+    }
+
+    if (-not $matchesFound) {
+        return $null
+    }
+
+    return $matchesFound | Sort-Object ordinal -Descending | Select-Object -First 1
+}
+
+function Get-ChangelogStatus {
+    param(
+        [Parameter(Mandatory = $true)][string]$ProjectRoot,
+        [Parameter(Mandatory = $false)]$RomIdentity
+    )
+
+    $changelogRoot = Join-Path $ProjectRoot "doc\changelog"
+    $assetsRoot = Join-Path $changelogRoot "assets"
+    $romsRoot = Join-Path $changelogRoot "roms"
+    $changelogPath = Join-Path $changelogRoot "changelog.md"
+
+    $result = [ordered]@{
+        changelog_path = $changelogPath
+        present = (Test-Path -LiteralPath $changelogPath -PathType Leaf)
+        assets_missing = @()
+        assets_outdated = @()
+        rom_outdated = $false
+        latest_build_version = $null
+        latest_build_meta_path = $null
+        latest_build_sha256 = $null
+    }
+
+    if (-not $result.present) {
+        return $result
+    }
+
+    foreach ($entry in (Get-ResourceEntriesForChangelog -ProjectRoot $ProjectRoot)) {
+        if (-not $entry.source_identity) {
+            continue
+        }
+
+        $assetRoot = Join-Path $assetsRoot $entry.asset_id
+        $latestAsset = Get-LatestVersionMetadata -Root $assetRoot -Prefix "v" -MetaName "meta.json"
+        if (-not $latestAsset) {
+            $result.assets_missing += [ordered]@{
+                asset_id = $entry.asset_id
+                resource_name = $entry.resource_name
+                source_path = $entry.source_path
+            }
+            continue
+        }
+
+        $metaSha = Get-SafeString $latestAsset.meta.source_sha256 ""
+        if (-not $metaSha -or $metaSha -ne $entry.source_identity.sha256) {
+            $result.assets_outdated += [ordered]@{
+                asset_id = $entry.asset_id
+                resource_name = $entry.resource_name
+                source_path = $entry.source_path
+                latest_version = $latestAsset.version
+            }
+        }
+    }
+
+    if ($RomIdentity) {
+        $latestBuild = Get-LatestVersionMetadata -Root $romsRoot -Prefix "build_v" -MetaName "build_meta.json"
+        if (-not $latestBuild) {
+            $result.rom_outdated = $true
+        } else {
+            $result.latest_build_version = $latestBuild.version
+            $result.latest_build_meta_path = $latestBuild.meta_path
+            $result.latest_build_sha256 = Get-SafeString $latestBuild.meta.rom_sha256 ""
+            if ($result.latest_build_sha256 -ne $RomIdentity.sha256) {
+                $result.rom_outdated = $true
+            }
+        }
+    }
+
+    return $result
+}
+
+function Resolve-SprInitExValue {
+    param([Parameter(Mandatory = $true)][string]$ProjectRoot)
+
+    $srcRoot = Join-Path $ProjectRoot "src"
+    if (-not (Test-Path -LiteralPath $srcRoot -PathType Container)) {
+        return $null
+    }
+
+    foreach ($file in Get-ChildItem -LiteralPath $srcRoot -Recurse -File -Include *.c,*.h -ErrorAction SilentlyContinue) {
+        $content = Get-Content -LiteralPath $file.FullName -Raw
+        if ($content -match 'SPR_initEx\s*\(\s*([A-Za-z_][A-Za-z0-9_]*|\d+)\s*\)') {
+            $token = $matches[1]
+            if ($token -match '^\d+$') {
+                return [ordered]@{ value = [int]$token; file = $file.FullName; token = $token }
+            }
+
+            $definePattern = "(?m)^\s*#define\s+$([regex]::Escape($token))\s+(\d+)\b"
+            if ($content -match $definePattern) {
+                return [ordered]@{ value = [int]$matches[1]; file = $file.FullName; token = $token }
+            }
+        }
+    }
+
+    return $null
+}
+
+function Get-BudgetDocumentationMismatch {
+    param([Parameter(Mandatory = $true)][string]$ProjectRoot)
+
+    $runtimeSprInit = Resolve-SprInitExValue -ProjectRoot $ProjectRoot
+    if (-not $runtimeSprInit) {
+        return $null
+    }
+
+    $docPaths = @(
+        (Join-Path $ProjectRoot "doc\hardware_budget_review.md"),
+        (Join-Path $ProjectRoot "doc\10-memory-bank.md")
+    )
+
+    $mismatches = @()
+    foreach ($docPath in $docPaths) {
+        if (-not (Test-Path -LiteralPath $docPath -PathType Leaf)) {
+            continue
+        }
+
+        $content = Get-Content -LiteralPath $docPath -Raw
+        $docValues = @([regex]::Matches($content, 'SPR_initEx\s*\(?\s*(\d+)\s*\)?') | ForEach-Object { [int]$_.Groups[1].Value })
+        if ($docValues.Count -eq 0) {
+            continue
+        }
+
+        if ($runtimeSprInit.value -notin $docValues) {
+            $mismatches += [ordered]@{
+                file = $docPath
+                runtime_spr_init_ex = $runtimeSprInit.value
+                documented_values = @($docValues | Select-Object -Unique)
+            }
+        }
+    }
+
+    if ($mismatches.Count -eq 0) {
+        return $null
+    }
+
+    return [ordered]@{
+        runtime = $runtimeSprInit
+        mismatches = $mismatches
+    }
+}
+
 function Set-RuntimeProfileFromMetrics($results, $runtimeMetrics, $thresholds, $runtimePath) {
     if (-not $runtimeMetrics) {
         return
@@ -1024,7 +1325,8 @@ function Set-RuntimeProfileFromMetrics($results, $runtimeMetrics, $thresholds, $
 Write-Log "--- Starting Resource Validation Suite ---"
 $results = @{
     timestamp = Get-Date -Format "o"
-    summary = @{ errors = 0; warnings = 0; checked = 0; recovered = 0 }
+    summary = @{ errors = 0; warnings = 0; checked = 0; recovered = 0; closeout_gate = [bool]$CloseoutGate }
+    blocking_statuses = @()
     risk_taxonomy = New-RiskTaxonomy
     validator_config = @{
         indexed_transparency_audit = @{
@@ -1067,6 +1369,9 @@ $results = @{
         blastem_gate = $false
         emulator_evidence_stale = $false
         visual_gate_ready = $false
+        changelog_ready = $false
+        ready_for_aaa = $false
+        closing_blockers = @()
         primary_source = "validation_report"
         source_artifacts = @()
     }
@@ -1085,6 +1390,7 @@ $results = @{
         emulator_evidence_reason = "nao_avaliado"
         agent_bootstrap = $null
         visual_aesthetic_report_path = $null
+        changelog_status = $null
     }
     visual_profile = @{
         status = "nao_medido"
@@ -1487,11 +1793,11 @@ $results.evidence.agent_bootstrap = $agentBootstrapStatus
 
 if ($agentBootstrapStatus.bootstrap_degradado) {
     $msg = ("Bootstrap local da .agent em modo degradado: {0}." -f $agentBootstrapStatus.reason)
-    Write-Log $msg "WARN"
-    $results.summary.warnings++
-    Add-Detail $results "AGENT_BOOTSTRAP" "WARNING" $msg ".agent" $agentBootstrapStatus.local_agent_dir @{
+    Write-Log $msg "ERROR"
+    Add-BlockingStatus $results "agent_context_degraded" $msg ".agent" $agentBootstrapStatus.local_agent_dir @{
         canonicalVersion = $agentBootstrapStatus.canonical_version
         localVersion = $agentBootstrapStatus.local_version
+        reason = $agentBootstrapStatus.reason
     }
 }
 
@@ -1533,6 +1839,7 @@ if ($visualAnalyses.Count -gt 0) {
     $needsReviewCount = @($visualAnalyses | Where-Object { $_.status -eq "needs_review" }).Count
     $reworkCount = @($visualAnalyses | Where-Object { $_.status -eq "rework" }).Count
     $criticalReworkCount = @($visualAnalyses | Where-Object { $_.status -eq "rework" -and $_.critical_visual }).Count
+    $criticalNotReadyCount = @($visualAnalyses | Where-Object { $_.critical_visual -and $_.status -ne "elite_ready" }).Count
 
     $visualStatusRaw =
         if ($criticalReworkCount -gt 0) { "reprovado" }
@@ -1556,13 +1863,13 @@ if ($visualAnalyses.Count -gt 0) {
         $visualStatus = Get-SafeString $visualLabBenchmark.status $visualStatusRaw
     }
 
-    $visualGateReady = ($criticalReworkCount -eq 0)
+    $visualGateReady = ($reworkCount -eq 0 -and $criticalNotReadyCount -eq 0)
     if ($visualLabBenchmark -and $visualLabBenchmark.comparison) {
         $benchmarkPassed = $false
         if ($null -ne $visualLabBenchmark.comparison.passed_delta) {
             $benchmarkPassed = [bool]($visualLabBenchmark.comparison.passed_delta | ForEach-Object { $_ })
         }
-        $visualGateReady = $benchmarkPassed
+        $visualGateReady = $visualGateReady -and $benchmarkPassed
     }
 
     $results.visual_profile = @{
@@ -1618,18 +1925,23 @@ if ($visualAnalyses.Count -gt 0) {
         }
     } elseif ($criticalReworkCount -gt 0) {
         $msg = "Gate visual reprovado: asset critico em rework detectado pelo juiz estetico."
-        Write-Log $msg "ERROR"
-        $results.summary.errors++
-        Add-Detail $results "VISUAL_ELITE" "ERROR" $msg "visual" $visualAestheticReportPath @{
+        Write-Log $msg (Get-BlockingStatusLogLevel "visual_gate_blocked")
+        Add-BlockingStatus $results "visual_gate_blocked" $msg "visual" $visualAestheticReportPath @{
             criticalRework = $criticalReworkCount
             totalAssets = $visualAnalyses.Count
         }
     } elseif ($reworkCount -gt 0) {
-        $msg = "Juiz estetico detectou assets em rework, sem bloquear tecnicamente o build."
-        Write-Log $msg "WARN"
-        $results.summary.warnings++
-        Add-Detail $results "VISUAL_ELITE" "WARNING" $msg "visual" $visualAestheticReportPath @{
+        $msg = "Gate visual bloqueado: existem assets em rework no juiz estetico."
+        Write-Log $msg (Get-BlockingStatusLogLevel "visual_gate_blocked")
+        Add-BlockingStatus $results "visual_gate_blocked" $msg "visual" $visualAestheticReportPath @{
             rework = $reworkCount
+            totalAssets = $visualAnalyses.Count
+        }
+    } elseif ($criticalNotReadyCount -gt 0) {
+        $msg = "Gate visual bloqueado: existe asset critico sem status elite_ready."
+        Write-Log $msg (Get-BlockingStatusLogLevel "visual_gate_blocked")
+        Add-BlockingStatus $results "visual_gate_blocked" $msg "visual" $visualAestheticReportPath @{
+            criticalNotReady = $criticalNotReadyCount
             totalAssets = $visualAnalyses.Count
         }
     } elseif ($needsReviewCount -gt 0) {
@@ -1655,9 +1967,8 @@ if ($visualAnalyses.Count -gt 0) {
 
         if (-not $benchmarkPassed) {
             $msg = "Benchmark visual composto nao atingiu o delta minimo entre BASIC e ELITE."
-            Write-Log $msg "WARN"
-            $results.summary.warnings++
-            Add-Detail $results "VISUAL_BENCHMARK" "WARNING" $msg "visual" $visualAestheticReportPath @{
+            Write-Log $msg (Get-BlockingStatusLogLevel "visual_gate_blocked")
+            Add-BlockingStatus $results "visual_gate_blocked" $msg "visual" $visualAestheticReportPath @{
                 benchmarkStatus = $visualLabBenchmark.benchmark_status
                 eliteMinusBasic = $visualLabBenchmark.comparison.elite_minus_basic
                 minimumDelta = $visualLabBenchmark.comparison.minimum_delta
@@ -1751,6 +2062,38 @@ $results.evidence.emulator_session_rom_identity = $sessionRomIdentity
 $results.evidence.emulator_session_rom_path = $sessionRomPath
 $results.evidence.emulator_session_timestamp = if ($sessionTimestamp) { $sessionTimestamp.ToString("o") } else { $null }
 $results.evidence.emulator_evidence_reason = $emulatorEvidenceReason
+$budgetDocMismatch = Get-BudgetDocumentationMismatch -ProjectRoot $pwd.Path
+$changelogStatus = Get-ChangelogStatus -ProjectRoot $pwd.Path -RomIdentity $romIdentity
+$results.evidence.changelog_status = $changelogStatus
+
+if ($budgetDocMismatch) {
+    $firstMismatch = $budgetDocMismatch.mismatches | Select-Object -First 1
+    $msg = ("Documento de budget inconsistente com o runtime: SPR_initEx real = {0}, docs = {1}." -f $budgetDocMismatch.runtime.value, (($firstMismatch.documented_values | ForEach-Object { $_ }) -join ", "))
+    Write-Log $msg (Get-BlockingStatusLogLevel "budget_doc_mismatch")
+    Add-BlockingStatus $results "budget_doc_mismatch" $msg "budget" $firstMismatch.file @{
+        runtimeFile = $budgetDocMismatch.runtime.file
+        runtimeValue = $budgetDocMismatch.runtime.value
+        documentedValues = @($firstMismatch.documented_values)
+    }
+}
+
+if (-not $changelogStatus.present) {
+    $msg = "Changelog canonico ausente: doc/changelog/changelog.md."
+    Write-Log $msg (Get-BlockingStatusLogLevel "changelog_missing")
+    Add-BlockingStatus $results "changelog_missing" $msg "changelog" $changelogStatus.changelog_path
+} elseif ($changelogStatus.assets_missing.Count -gt 0 -or $changelogStatus.assets_outdated.Count -gt 0 -or $changelogStatus.rom_outdated) {
+    $parts = @()
+    if ($changelogStatus.assets_missing.Count -gt 0) { $parts += ("assets_sem_snapshot={0}" -f $changelogStatus.assets_missing.Count) }
+    if ($changelogStatus.assets_outdated.Count -gt 0) { $parts += ("assets_desatualizados={0}" -f $changelogStatus.assets_outdated.Count) }
+    if ($changelogStatus.rom_outdated) { $parts += "rom_desatualizada=1" }
+    $msg = ("Changelog canonico desatualizado: {0}." -f ($parts -join ", "))
+    Write-Log $msg (Get-BlockingStatusLogLevel "changelog_missing")
+    Add-BlockingStatus $results "changelog_missing" $msg "changelog" $changelogStatus.changelog_path @{
+        assetsMissing = @($changelogStatus.assets_missing)
+        assetsOutdated = @($changelogStatus.assets_outdated)
+        romOutdated = [bool]$changelogStatus.rom_outdated
+    }
+}
 
 $results.status_panel.documentado =
     (Test-Path -LiteralPath (Join-Path $pwd.Path "README.md")) -or
@@ -1766,9 +2109,8 @@ $results.status_panel.emulator_evidence_stale = $emulatorEvidenceStale
 
 if ($emulatorEvidenceStale -and $emulatorSession) {
     $msg = ("Evidencia de emulador obsoleta ou insuficiente: {0}." -f $emulatorEvidenceReason)
-    Write-Log $msg "WARN"
-    $results.summary.warnings++
-    Add-Detail $results "EMULATOR_EVIDENCE" "WARNING" $msg "emulator" $emulatorSessionPath @{
+    Write-Log $msg (Get-BlockingStatusLogLevel "emulator_evidence_stale")
+    Add-BlockingStatus $results "emulator_evidence_stale" $msg "emulator" $emulatorSessionPath @{
         reason = $emulatorEvidenceReason
         launchStatus = $sessionLaunchStatus
         evidenceFiles = $existingSessionEvidence.Count
@@ -1814,6 +2156,7 @@ if ($emulatorEvidenceStale) {
 
 $results.status_panel.blastem_gate = $blastEmGate
 $results.status_panel.testado_em_emulador = ($blastEmGate -or ($runtimeSamplesRecorded -gt 0)) -and (-not $emulatorEvidenceStale)
+$results.status_panel.changelog_ready = $changelogStatus.present -and ($changelogStatus.assets_missing.Count -eq 0) -and ($changelogStatus.assets_outdated.Count -eq 0) -and (-not $changelogStatus.rom_outdated)
 $results.status_panel.validado_budget =
     $results.status_panel.buildado -and
     ($results.summary.errors -eq 0) -and
@@ -1841,8 +2184,18 @@ $sourceArtifacts = @($REPORT_FILE)
 if (Test-Path -LiteralPath $runtimeMetricsPath) { $sourceArtifacts += $runtimeMetricsPath }
 if (Test-Path -LiteralPath $emulatorSessionPath) { $sourceArtifacts += $emulatorSessionPath }
 if (Test-Path -LiteralPath $visualAestheticReportPath) { $sourceArtifacts += $visualAestheticReportPath }
+if ($changelogStatus.present) { $sourceArtifacts += $changelogStatus.changelog_path }
+if ($changelogStatus.latest_build_meta_path) { $sourceArtifacts += $changelogStatus.latest_build_meta_path }
 $sourceArtifacts += $existingSessionEvidence
-$results.status_panel.source_artifacts = $sourceArtifacts
+$results.status_panel.source_artifacts = @($sourceArtifacts | Select-Object -Unique)
+$results.status_panel.closing_blockers = @($results.blocking_statuses)
+$results.status_panel.ready_for_aaa =
+    ($results.summary.errors -eq 0) -and
+    $results.status_panel.buildado -and
+    $results.status_panel.changelog_ready -and
+    $results.status_panel.visual_gate_ready -and
+    $results.status_panel.blastem_gate -and
+    (-not $results.status_panel.emulator_evidence_stale)
 
 $results | ConvertTo-Json -Depth 16 | Set-Content -LiteralPath $REPORT_FILE
 Write-Log "Validation finished. Errors: $($results.summary.errors), Warnings: $($results.summary.warnings), Checked: $($results.summary.checked), Recovered: $($results.summary.recovered)"

@@ -57,6 +57,34 @@ Esta skill senta entre as outras:
 - `emulator_evidence`
 - `delivery_findings`
 
+## Contrato Operacional
+
+### Entrada minima
+
+- `res/resources.res`
+- codigo de runtime alvo
+- laudo vigente de `megadrive-vdp-budget-analyst`
+- contexto de build e emulador
+
+### Saida minima
+
+- `runtime_decision_log`
+- `api_reality_check`
+- `build_evidence`
+- `emulator_evidence`
+- `delivery_findings`
+
+### Passa quando
+
+- a decisao de runtime cita explicitamente o budget que a autorizou
+- a escolha entre `IMAGE`, `MAP`, streaming e `SPR_initEx` fica rastreavel
+- build, validacao e evidencia apontam para a mesma ROM
+
+### Handoff para proxima etapa
+
+- entregar a ROM e o `runtime_decision_log` para `validate_resources.ps1`
+- entregar identidade da ROM e evidencia para `doc/changelog` e `doc/10-memory-bank.md`
+
 ## Regras canonicas imediatas
 
 - SGDK 2.11 real vence memoria do agente
@@ -71,6 +99,7 @@ Esta skill senta entre as outras:
 - index `0` realmente transparente nos PNGs integrados
 - `TILE_USER_INDEX` e empilhamento de tilesets devem ser declarados
 - no Windows, build sempre com caminho absoluto e `cmd //c`
+- runtime sem laudo de budget vigente e erro de processo, nao apenas erro de estilo
 
 ## Classificacao de conhecimento
 
@@ -150,6 +179,17 @@ Regra:
 - `SPR_init()` para reserva padrao
 - `SPR_initEx(n)` quando o fundo estiver pressionando VRAM e o budget real pedir ajuste
 - a escolha deve citar custo e impacto
+
+### Escada forense antes de mudar arquitetura
+
+Antes de trocar `IMAGE`, `MAP` ou streaming, o agente deve anexar:
+
+1. numeros de `rescomp`
+2. formula real de VRAM
+3. configuracao atual de `SPR_initEx`
+4. motivo da troca
+
+Sem isso, a mudanca de arquitetura e tentativa cega.
 
 ### Scene exit reset
 

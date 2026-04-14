@@ -39,6 +39,32 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
 - mover parte da profundidade para `sprite grafts`
 - promover a prova de ROM para `compare_flat`
 
+## Contrato Operacional
+
+### Entrada minima
+
+- `resources.res`
+- dimensoes dos assets promovidos
+- `build_output.log` quando existir
+- configuracao real de `SPR_initEx`
+- layout real de planos
+
+### Saida minima
+
+- laudo deterministico `cabe`, `cabe com recuo` ou `nao cabe`
+- numeros de VRAM usados no parecer
+- recuo explicito quando necessario
+
+### Passa quando
+
+- o parecer consegue ser reconstruido por outra IA a partir dos mesmos numeros
+- o laudo identifica claramente se o problema dominante e asset, recurso SGDK ou arquitetura
+
+### Handoff para proxima etapa
+
+- entregar o laudo vigente para `sgdk-runtime-coder`
+- bloquear runtime se o laudo nao existir ou estiver contradizendo codigo/docs
+
 ## Tecnicas canonicas de extrapolacao segura
 
 ### Reparticao intencional de VRAM
@@ -252,4 +278,14 @@ Regra:
 - efeito raster ou palette split sem BlastEm nao deve subir de status
 - stage acima do teto do plano pede streaming de tilemap guiado pela camera
 - frame critico de luta precisa ser orcado como conjunto; nao por personagem isolado
+
+## Escada forense obrigatoria
+
+1. header PNG / PLTE
+2. `rescomp` raw tiles
+3. formula real de VRAM
+4. decisao de arquitetura
+5. BlastEm
+
+Se a analise saltar esta ordem, o parecer ainda nao esta maduro.
 

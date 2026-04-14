@@ -1,0 +1,59 @@
+# Route Exploration Board - METAL_SLUG_URBAN_SUNSET
+
+Este documento registra rotas visuais alternativas para a cena urbana, sem quebrar o fluxo canonico de curadoria.
+
+## Fontes deste estudo
+
+- source original: [source.png](/F:/Projects/MegaDrive_DEV/SGDK_projects/METAL_SLUG_URBAN_SUNSET/res/data/source/source.png)
+- crop de estudo: [city_cropped_448x224.png](/F:/Projects/MegaDrive_DEV/SGDK_projects/METAL_SLUG_URBAN_SUNSET/res/data/city_cropped_448x224.png)
+- caso canonico do workspace: [route_exploration_board.md](/F:/Projects/MegaDrive_DEV/tools/sgdk_wrapper/.agent/lib_case/art-translation/case_scene_route_variants_city_crop/route_exploration_board.md)
+
+## Regra central
+
+As alternativas podem variar atmosfera, temperatura global, contraste, dithering e peso entre `BG_A` e `BG_B`.
+
+As alternativas nao podem variar:
+
+- perspectiva
+- geometria principal
+- enquadramento
+- papel estrutural da rua, predios e viaduto
+
+## Rotas vivas
+
+### Rota A - High-Key Haze
+
+- leitura: ceu claro, ambiencia luminosa, vitrines e janelas mais destacadas
+- vantagem: look moderno e limpo, com bom impacto imediato
+- risco: enfraquece a fantasia de sunset dramatico do caso original
+
+### Rota B - Duplicata de A
+
+- estado: mesma imagem da rota A
+- regra: tratar como duplicata, nao como nova direcao
+
+### Rota C - Grid Alignment
+
+- leitura: board de alinhamento e verificacao de grade
+- uso: diagnostico de composicao e pixel lock
+- regra: nao promover como arte final
+
+### Rota D - Cool Evening
+
+- leitura: ceu azul frio, contraste termico mais claro entre ar e luz interna
+- vantagem: separacao de planos potencialmente melhor e `BG_B` mais legivel
+- risco: pode afastar demais a cena da assinatura "urban sunset"
+
+### Rota E - Anime Style
+
+- leitura: recomposicao em filosofia de anime background, com sombra chapada, massas limpas e ceu em bandas largas
+- vantagem: transforma gradiente e textura em blocos de cor mais claros para o Mega Drive, com forte potencial de reuse
+- risco: se exagerar na limpeza, pode empobrecer a aspereza material do caso original e afastar a cena do peso "Metal Slug"
+
+## Recomendacao de curadoria
+
+- manter A, D e E como candidatas reais
+- usar C apenas como board tecnica
+- escolher a rota final antes de nova rodada de budget e runtime
+- o default continua sendo o metodo padrao atual ate existir `perceptual win` + `system win` e congelamento explicito do usuario
+- apos a escolha, registrar em `route_decision_record` e preservar a linguagem nas proximas iteracoes

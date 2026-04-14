@@ -51,6 +51,45 @@ Use esta skill quando:
 - `hardware_expectations`
 - `intent_notes`
 
+## Contrato Operacional
+
+### Entrada minima
+
+- `source_image`
+- `translation_target`
+- `reference_profile`
+- `hardware_spec`
+- `hardware_expectations`
+- `intent_notes`
+
+### Saida minima
+
+- `semantic_parse_report`
+- `translation_report`
+- pacote `basic`
+- pacote `elite`
+- review estrutural de tileset e paleta
+
+### Saida opcional quando houver multiplas rotas viaveis
+
+- `route_exploration_board`
+- `route_comparison_matrix`
+- `route_decision_record`
+- `locked_visual_direction`
+
+### Passa quando
+
+- o parsing semantico foi emitido antes de qualquer promocao final
+- `elite` se sustenta melhor que `basic`
+- quando houver duas ou mais leituras fortes, a exploracao de rotas foi registrada antes da promocao final
+- o caso ja aponta sua classe dominante: `erro_de_asset`, `erro_de_recurso_sgdk`, `erro_de_budget` ou `erro_de_pipeline`
+
+### Handoff para proxima etapa
+
+- entregar assets e reports para `visual-excellence-standards`
+- entregar `route_exploration_board` e `route_decision_record` quando houver alternativas vivas
+- entregar review estrutural e `hardware_budget_review` para `megadrive-vdp-budget-analyst`
+
 ## Curadoria e acuracia da skill
 
 Esta skill deve ser treinada com casos canonicos, nao com impressao subjetiva de uma unica imagem.
@@ -69,9 +108,18 @@ Regra pratica:
 - toda curadoria deve medir delta entre as duas
 - toda falha recorrente deve virar heuristica no feedback bank
 - toda validacao humana de arte deve apresentar `original + basic + elite` lado a lado
+- quando a cena for heroica, altamente atmosferica ou o usuario pedir opcoes, a validacao humana deve poder apresentar tambem uma `route_exploration_board` com alternativas controladas
 - quando houver `source_semantic_map`, a validacao humana deve incluir tambem `ORIGINAL -> A/B/C extraidos -> ELITE remontado`
 - toda traducao de `tilemap` ou `scene_slice` deve gerar artefatos de review de tileset e paleta por layer
 - todo `translation_report` de `tilemap` ou `scene_slice` deve incluir `hardware_budget_review`
+
+## Few-shot canonico de falhas caras
+
+Ao diagnosticar regressao, consultar explicitamente estes tres padroes antes de improvisar:
+
+- `PALETTE_INFLATED`: PNG aparentemente correto, mas com PLTE inflada e deduplicacao quebrada
+- overflow real de VRAM: `rescomp` cabe no build, mas a soma de tiles invade a faixa do VDP
+- escolha errada entre `IMAGE`, `MAP` e streaming: arquitetura muda por numerologia real, nao por preferencia
 
 ## Checklist obrigatorio
 
@@ -264,6 +312,66 @@ Produza sempre:
 `basic` serve de controle.
 `elite` serve para provar que houve traducao inteligente.
 
+### 4.1 Explorar alternativas sem perder coerencia
+
+Quando a imagem-fonte permitir mais de uma direcao forte, ou quando o usuario explicitamente quiser escolher a melhor rota visual, a skill pode abrir um laboratorio controlado de alternativas.
+
+Objetivo:
+
+- contornar limitacoes do Mega Drive sem cair em aleatoriedade
+- mostrar ao usuario rotas legitimas de direcao de arte
+- congelar uma escolha antes de budget final e runtime
+
+Gatilhos legitimos:
+
+- cena heroica ou identitaria do projeto
+- conflito entre fidelidade ao `source` e leitura em hardware
+- tensao entre atmosfera dramatica e legibilidade de gameplay
+- estudos externos anexados pelo usuario com mais de uma rota promissora
+
+Regras duras:
+
+- manter o mesmo `shared_canvas_contract`
+- manter o mesmo `translation_target`
+- manter geometria, perspectiva e foco composicional
+- variar no maximo um eixo visual maior por rota
+- permitir no maximo 3 rotas de producao e 1 board diagnostica
+- nunca deixar que cada rota invente uma fase diferente
+
+Eixos de variacao aceitaveis:
+
+- temperatura e historia cromatica do ceu
+- agressividade de contraste e gamma
+- carater do dithering
+- hierarquia entre planos e peso atmosferico do `BG_B`
+- densidade de detalhe e limpeza de materiais
+
+Artefatos obrigatorios da exploracao:
+
+- `route_exploration_board`
+  - miniaturas lado a lado
+  - nome da rota
+  - o que ganha
+  - o que sacrifica
+  - risco de budget
+- `route_comparison_matrix`
+  - leitura
+  - atmosfera
+  - separacao de planos
+  - aderencia ao `source`
+  - risco de VRAM
+- `route_decision_record`
+  - rota preferida pela skill
+  - rota escolhida pelo usuario
+  - restricoes que passam a valer para o resto do projeto
+
+Regra de congelamento:
+
+- se mais de uma rota continuar forte apos a review, `visual-excellence-standards` deve ranquear as sobreviventes
+- se o usuario escolher uma rota, essa escolha vira `locked_visual_direction`
+- depois do congelamento, as proximas iteracoes devem preservar essa linguagem visual em vez de reabrir a direcao do zero
+- se ja existir `locked_visual_direction` no projeto, novas rotas entram como `challenger routes` e o default continua incumbente ate que uma rota prove vitoria perceptual e estrutural
+
 ### 5. Validar
 
 O resultado deve passar por:
@@ -448,6 +556,13 @@ Regra importante:
 - evidencia de emulador
 - painel humano `original + basic + elite`
 - pacote de review estrutural com `tileset_sheet`, `palette_strip` e resumo de reuso
+
+## Outputs opcionais para curadoria AAA
+
+- `route_exploration_board`
+- `route_comparison_matrix`
+- `route_decision_record`
+- `locked_visual_direction`
 
 ## Comando de avaliacao
 

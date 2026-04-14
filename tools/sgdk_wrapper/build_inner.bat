@@ -27,6 +27,7 @@ set "RETRY_COUNT=0"
 set "PREPARE_SCRIPT=%~dp0prepare_assets.py"
 set "NORMALIZE_LOG_SCRIPT=%~dp0normalize_build_log.ps1"
 set "VALIDATE_SCRIPT=%~dp0validate_resources.ps1"
+set "CHANGELOG_SCRIPT=%~dp0update_project_changelog.ps1"
 set "STALE_SCRIPT=%~dp0test_project_stale.ps1"
 set "FIX_TRANSPARENCY_SCRIPT=%~dp0fix_transparency.ps1"
 set "RUNTIME_CAPTURE_SCRIPT=%~dp0run_runtime_capture.ps1"
@@ -42,6 +43,10 @@ if errorlevel 1 (
 
 if not exist "%VALIDATE_SCRIPT%" (
     echo [ERROR] Missing resource validation helper: %VALIDATE_SCRIPT%
+    exit /b 1
+)
+if not exist "%CHANGELOG_SCRIPT%" (
+    echo [ERROR] Missing changelog helper: %CHANGELOG_SCRIPT%
     exit /b 1
 )
 
@@ -64,6 +69,10 @@ set "VALIDATE_FLAGS=-WorkDir "%CD%""
 if "%SGDK_AUTO_FIX_RESOURCES%"=="1" (
     echo [SGDK Wrapper] Proactive resource fixing enabled ^(SGDK_AUTO_FIX_RESOURCES=1^)
     set "VALIDATE_FLAGS=!VALIDATE_FLAGS! -Fix"
+)
+if "%SGDK_VALIDATE_CLOSEOUT%"=="1" (
+    echo [SGDK Wrapper] Strict closeout gate enabled ^(SGDK_VALIDATE_CLOSEOUT=1^)
+    set "VALIDATE_FLAGS=!VALIDATE_FLAGS! -CloseoutGate"
 )
 
 powershell -NoProfile -ExecutionPolicy Bypass -File "%VALIDATE_SCRIPT%" !VALIDATE_FLAGS!
@@ -117,9 +126,19 @@ if %MAKE_RC% EQU 0 (
     if "!SGDK_EVIDENCE_STALE!"=="1" (
         echo [WARN] Existing emulator evidence marked stale at origin: !SGDK_EVIDENCE_REASON!
     )
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%CHANGELOG_SCRIPT%" -ProjectRoot "%CD%" -Task "build_snapshot" >nul
+    if errorlevel 1 (
+        echo [ERROR] Failed to update canonical changelog after build.
+        exit /b 1
+    )
     powershell -NoProfile -ExecutionPolicy Bypass -File "%VALIDATE_SCRIPT%" -WorkDir "%CD%"
     if errorlevel 1 (
         echo [ERROR] Post-build validation failed. Check out\logs\validation_report.json and out\logs\build_debug.log
+        exit /b 1
+    )
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%CHANGELOG_SCRIPT%" -ProjectRoot "%CD%" -Task "post_validate_refresh" >nul
+    if errorlevel 1 (
+        echo [ERROR] Failed to refresh canonical changelog after validation.
         exit /b 1
     )
     if "%SGDK_RUNTIME_CAPTURE%"=="1" (
@@ -132,6 +151,11 @@ if %MAKE_RC% EQU 0 (
         powershell -NoProfile -ExecutionPolicy Bypass -File "%RUNTIME_MERGE_SCRIPT%" -ProjectDir "%CD%"
         if errorlevel 1 (
             echo [ERROR] Runtime merge failed. Check out\logs\validation_report.json
+            exit /b 1
+        )
+        powershell -NoProfile -ExecutionPolicy Bypass -File "%CHANGELOG_SCRIPT%" -ProjectRoot "%CD%" -Task "runtime_capture_refresh" >nul
+        if errorlevel 1 (
+            echo [ERROR] Failed to refresh canonical changelog after runtime capture.
             exit /b 1
         )
     )

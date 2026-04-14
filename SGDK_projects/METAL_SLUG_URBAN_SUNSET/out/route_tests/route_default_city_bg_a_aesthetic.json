@@ -1,0 +1,100 @@
+{
+  "asset_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\res\\gfx\\city_bg_a.png",
+  "role": "bg_a",
+  "reference_profile": "generic-megadrive-elite",
+  "critical_visual": false,
+  "paired_bg": null,
+  "status": "rework",
+  "metrics": {
+    "palette_efficiency": 0.475,
+    "tile_efficiency": 0.0,
+    "detail_density_8x8": 0.816,
+    "dithering_density": 0.5372,
+    "silhouette_readability": 1.0,
+    "layer_separation": 0.68,
+    "reuse_opportunity": 0.0702,
+    "reference_alignment": 0.5621,
+    "visual_excellence_score": 0.5621
+  },
+  "metric_inputs": {
+    "palette_efficiency": {
+      "color_count": 15,
+      "tonal_span": 230.63559999999998,
+      "redundancy_ratio": 0.5,
+      "low_usage_ratio": 0.06666666666666667
+    },
+    "tile_efficiency": {
+      "empty_ratio": 0.25279017857142855,
+      "bbox_waste": 0.1665636957908163,
+      "total_tiles": 1792,
+      "empty_tiles": 453
+    },
+    "detail_density_8x8": {
+      "avg_transition_density": 0.3867167232186181,
+      "avg_isolated_ratio": 0.08586551046152142,
+      "non_empty_tiles": 1339
+    },
+    "dithering_density": {
+      "dither_ratio": 0.018706742171240503,
+      "noise_ratio": 0.19945791588016068,
+      "samples": 82644
+    },
+    "silhouette_readability": {
+      "boundary_contrast": 12.677900077609623,
+      "fill_ratio": 0.8334363042091837,
+      "components": 1
+    },
+    "layer_separation": {
+      "contrast_value": 0.0,
+      "source": "unpaired_estimate"
+    },
+    "reuse_opportunity": {
+      "non_empty_tiles": 1339,
+      "exact_duplicates": 92,
+      "flip_reuse_ratio": 0.070201643017177
+    }
+  },
+  "issues": [
+    {
+      "code": "PALETTE_WASTE",
+      "severity": "warning",
+      "message": "Paleta com baixa eficiencia tonal ou cores redundantes.",
+      "value": 0.475,
+      "threshold": 0.55
+    },
+    {
+      "code": "OVER_EMPTY_TILES",
+      "severity": "warning",
+      "message": "O asset desperdiça tiles com vazio ou bounding box frouxo.",
+      "value": 0.25279017857142855,
+      "threshold": 0.02
+    },
+    {
+      "code": "MISSING_DITHERING_FOR_MATERIAL",
+      "severity": "warning",
+      "message": "O asset esta abaixo da densidade minima de dithering esperada para o papel informado.",
+      "value": 0.018706742171240503,
+      "threshold": 0.03
+    },
+    {
+      "code": "LOW_REFERENCE_ALIGNMENT",
+      "severity": "warning",
+      "message": "O asset ainda nao se sustenta contra o benchmark escolhido.",
+      "value": 0.5620901881524067,
+      "threshold": 0.58
+    }
+  ],
+  "recommendations": [
+    "Consolidar tons redundantes e preservar apenas diferencas tonais que melhoram leitura material.",
+    "Apertar bounding box, cortar bordas vazias e revisar custo de VRAM do asset.",
+    "Adicionar dithering apenas onde ele descreve material ou transicao tonal real.",
+    "Comparar o asset com o benchmark escolhido e ajustar o equilibrio entre leitura, detalhe e paleta."
+  ],
+  "benchmarks": [
+    "Streets of Rage 3",
+    "Monster World IV",
+    "Earthworm Jim",
+    "Shinobi III",
+    "Sonic 3 & Knuckles"
+  ]
+}

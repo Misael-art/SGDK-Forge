@@ -1,7 +1,19 @@
 {
   "version": 2,
-  "updated_at": "2026-04-10",
+  "updated_at": "2026-04-13",
   "registry_path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
+  "failure_cases": [
+    {
+      "slug": "vram_overflow_budget",
+      "title": "Build verde com VRAM overflow real",
+      "lesson": "Orcar contra 1536 e a particao real do VDP, nunca contra 2048 tiles brutos."
+    },
+    {
+      "slug": "image_map_streaming_decision",
+      "title": "Decisao errada entre IMAGE, MAP e streaming",
+      "lesson": "A arquitetura de cena muda por numeros de tile, largura efetiva e custo de runtime, nao por preferencia."
+    }
+  ],
   "wave_1_cases": [
     "case_variable_width_font_tidytext",
     "case_tile_text_stream_renderer",

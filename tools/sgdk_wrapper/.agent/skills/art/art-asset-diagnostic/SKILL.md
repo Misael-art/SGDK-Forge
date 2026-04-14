@@ -37,6 +37,30 @@ Exit codes:
 - `1` = issues criticos ou assets inadequados
 - `2` = nenhuma arte encontrada (cenario 3)
 
+## Contrato Operacional
+
+### Entrada minima
+
+- raiz do projeto
+- `res/`, `res/data/` e `.res` relevantes
+
+### Saida minima
+
+- laudo de cenario
+- lista de issues bloqueantes
+- decisao de rota para a proxima skill
+
+### Passa quando
+
+- o agente consegue dizer com evidência se o projeto esta em `1_data_needs_conversion`, `2_res_exists_check` ou `3_no_art`
+- assets bloqueantes foram nomeados com codigo e impacto
+
+### Handoff para proxima etapa
+
+- se houver traducao de cena: `art/multi-plane-composition`
+- se houver apenas conversao tecnica: `art/art-conversion-pipeline`
+- se nao houver arte: `art/art-creation-sourcing`
+
 ---
 
 ## O que o diagnostico verifica

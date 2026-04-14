@@ -32,6 +32,39 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - `hardware_budget_review`
 - `delivery_findings`
 
+## Entregas opcionais quando houver multiplas rotas de cena
+
+- `route_family_matrix`
+- `locked_composition_direction`
+
+## Contrato Operacional
+
+### Entrada minima
+
+- mapa de composicao ou referencia equivalente
+- spec da cena
+- leitura previa do budget analyst
+
+### Saida minima
+
+- `depth_role_map`
+- `composition_schema`
+- `layer_plan`
+- `shared_canvas_contract`
+- `hardware_budget_review`
+- `delivery_findings`
+
+### Passa quando
+
+- papeis de `BG_A`, `BG_B`, foreground e fallback de ROM ficaram declarados
+- quando houver alternativas, elas continuam pertencendo a mesma cena e mesma base espacial
+- a cena tem estrategia clara para caber ou degradar honestamente
+
+### Handoff para proxima etapa
+
+- entregar o `layer_plan` para `art-translation-to-vdp`
+- entregar o `hardware_budget_review` preliminar para `megadrive-vdp-budget-analyst`
+
 ## Regras canonicas
 
 - `BG_B` carrega atmosfera e profundidade distante
@@ -40,6 +73,29 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - toda layer semantica compartilha a mesma base espacial
 - composicao e por alpha/matte controlado, nao por soma bruta
 - promocao para ROM exige budget honesto e pode pedir `compare_flat`
+
+## Exploracao de rotas sem quebrar a cena
+
+Esta skill pode abrir rotas alternativas de composicao, desde que a cena continue sendo a mesma cena.
+
+Permitido variar:
+
+- peso atmosferico do `BG_B`
+- agressividade do parallax
+- separacao ou fusao honesta de certos detalhes secundarios
+- fallback declarado entre multi-plano, `compare_flat` e `sprite graft`
+
+Nao e permitido variar sem nova rodada estrutural:
+
+- perspectiva
+- distribuicao macro das massas
+- relacao espacial entre rua, predios e horizonte
+
+Se houver rota alternativa:
+
+- emitir `route_family_matrix`
+- declarar o que muda e o que fica travado
+- entregar a decisao congelada em `locked_composition_direction` antes do runtime
 
 ## Gates de aprovacao
 

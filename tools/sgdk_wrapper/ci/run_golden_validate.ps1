@@ -36,7 +36,7 @@ if ($pf -eq 2) {
 }
 
 $validate = Join-Path $wrapperRoot "validate_resources.ps1"
-& powershell -NoProfile -ExecutionPolicy Bypass -File $validate -WorkDir $goldenPath
+& powershell -NoProfile -ExecutionPolicy Bypass -File $validate -WorkDir $goldenPath -CloseoutGate
 if ($LASTEXITCODE -ne 0) {
     Write-Error "validate_resources.ps1 falhou para $goldenPath."
     exit 1

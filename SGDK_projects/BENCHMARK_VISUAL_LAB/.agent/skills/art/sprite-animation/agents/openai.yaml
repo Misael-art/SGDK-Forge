@@ -1,0 +1,11 @@
+interface:
+  display_name: "Sprite Animation"
+  short_description: "Revisa sheets e ciclos de animacao com foco em pivot, timing, reuso e leitura em ROM"
+  brand_color: "#7A5BC2"
+  default_prompt: "Use $sprite-animation para revisar ou estruturar uma sprite sheet Mega Drive, avaliando pivot, timing em VBlank, envelope, reuso de tiles e legibilidade em 320x224."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

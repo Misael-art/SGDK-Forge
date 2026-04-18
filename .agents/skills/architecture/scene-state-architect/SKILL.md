@@ -7,6 +7,32 @@ description: Protege modularidade, separacao de responsabilidades e fronteiras d
 
 Use esta skill quando criar ou revisar estados, cenas, modulos ou contratos centrais.
 
+## Contrato Operacional
+
+### Entrada minima
+
+- raiz do projeto
+- `src/` relevante (ou arquivo alvo)
+- docs canonicos disponiveis (`doc/10-memory-bank.md`, `doc/03-arquitetura.md` quando existirem)
+- restricoes de hardware pertinentes (H-Int, WINDOW, modos especiais)
+
+### Saida minima
+
+- recomendacao de arquitetura e fronteiras de responsabilidade (com nomes de modulos)
+- riscos de concorrencia (ex.: segundo owner de H-Int ou WINDOW)
+- handoff objetivo para o proximo gate (budget/runtime/QA)
+
+### Passa quando
+
+- nao existe "segundo sistema concorrente" introduzido por acidente
+- ownership de callback global e de WINDOW fica explicitamente declarado
+- mudancas futuras ficam marcadas como `futuro_arquitetural`, nao misturadas com feature pronta
+
+### Handoff para proxima etapa
+
+- se houver mudanca de runtime: entregar plano para `code/sgdk-runtime-coder`
+- se houver impacto de budget: solicitar veredito em `hardware/megadrive-vdp-budget-analyst`
+
 ## Foco
 
 - `main.c` minimo

@@ -2,316 +2,312 @@
 
 #include "resources.h"
 
-#define VIEWPORT_WIDTH     320
-#define VIEWPORT_HEIGHT    224
-#define PLANE_WIDTH_TILES   64
-#define PLANE_HEIGHT_TILES  32
+#define VIEWPORT_WIDTH       320
+#define VIEWPORT_HEIGHT      224
+#define PLANE_WIDTH_TILES     64
+#define PLANE_HEIGHT_TILES    32
+#define WINDOW_ROWS            8
 
-#define SCENE_WIDTH        448
-#define CAMERA_MAX_X       (SCENE_WIDTH - VIEWPORT_WIDTH)
+#define BG_B_PARALLAX_SHIFT    2
+#define SCROLL_STEP            2
 
-#define BGB_IMG_WIDTH_TILES  32
-#define BGB_STAMP_COUNT      (PLANE_WIDTH_TILES / BGB_IMG_WIDTH_TILES)
-#define BGA_MAP_HEIGHT_TILES 28
-
-/*
- * VRAM reservada ao motor de sprites (SPR_initEx).
- * Pior caso simultaneo na demo: debris 28+26+24 + player 23 tiles = 101 <= 160.
- * Valores >160 reduzem 1536-112-N e podem fazer BG_A+BG_B (1261) exceder o tecto.
- */
-#define SPRITE_VRAM_SIZE     160
-#define PLAYER_SPEED           2
-#define PLAYER_WIDTH          40
-#define PLAYER_HEIGHT         48
-#define PLAYER_GROUND_MARGIN   8
-#define PLAYER_GROUND_Y      (VIEWPORT_HEIGHT - PLAYER_HEIGHT - PLAYER_GROUND_MARGIN)
-#define PLAYER_JUMP_SPEED     -7
-#define PLAYER_GRAVITY         1
-#define PLAYER_MAX_FALL        8
-#define PLAYER_LAND_TICKS      8
-#define PLAYER_SHOOT_TICKS    10
-
-/* Posicoes mundo (X) dos tres blocos de foreground composicional (Layer C) */
-#define DEBRIS_01_WORLD_X   40
-#define DEBRIS_02_WORLD_X  180
-#define DEBRIS_03_WORLD_X  320
-
-static s16  gCameraX       = 0;
-static s16  gPlayerX       = 96;
-static s16  gPlayerY       = PLAYER_GROUND_Y;
-static s16  gPlayerVX      = 0;
-static s16  gPlayerVY      = 0;
-static bool gShowOverlay   = FALSE;
-static bool gPlayerOnGround = TRUE;
-static bool gPlayerFacingLeft = FALSE;
-static u16  gPrevInput     = 0;
-static u16  gShootTicks    = 0;
-static u16  gLandTicks     = 0;
-
-static Sprite* gPlayerSprite      = NULL;
-static Sprite* gDebrisSprites[3]  = { NULL, NULL, NULL };
-
-static u16  gBgBBaseTile;
-static u16  gBgABaseTile;
-
-typedef enum
+typedef struct
 {
-    PLAYER_ANIM_IDLE = 0,
-    PLAYER_ANIM_WALK = 1,
-    PLAYER_ANIM_JUMP = 2,
-    PLAYER_ANIM_LAND = 3,
-    PLAYER_ANIM_SHOOT = 4
-} PlayerAnim;
+    const char* name;
+    const Image* bgB;
+    const Image* bgA;
+    u16 sceneWidthPx;
+    const char* budgetLabel;
+} SceneVariant;
 
-static PlayerAnim gPlayerAnim = PLAYER_ANIM_IDLE;
-
-
-static void loadBgBPlane(void)
+typedef struct
 {
-    u16 stamp;
+    const char* sceneName;
+    const SceneVariant* variants;
+    u16 variantCount;
+} SceneGroup;
 
-    gBgBBaseTile = TILE_USER_INDEX;
-    VDP_loadTileSet(sky_bg_b.tileset, gBgBBaseTile, CPU);
-
-    for (stamp = 0; stamp < BGB_STAMP_COUNT; stamp++)
+static const SceneVariant sUrbanVariants[] =
+{
     {
-        VDP_setTileMapEx(
-            BG_B,
-            sky_bg_b.tilemap,
-            TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, gBgBBaseTile),
-            stamp * BGB_IMG_WIDTH_TILES, 0,
-            0, 0,
-            BGB_IMG_WIDTH_TILES, BGA_MAP_HEIGHT_TILES,
-            CPU
-        );
+        "default_multi_plane_method",
+        &urban_default_bg_b,
+        &urban_default_bg_a,
+        448,
+        "baseline em uso no projeto"
+    },
+    {
+        "anime_linefirst_balanced",
+        &urban_linefirst_balanced_bg_b,
+        &urban_linefirst_balanced_bg_a,
+        448,
+        "comparativo line-first balanced"
+    },
+    {
+        "anime_linefirst_cohesive",
+        &urban_linefirst_cohesive_bg_b,
+        &urban_linefirst_cohesive_bg_a,
+        448,
+        "comparativo line-first cohesive"
     }
-}
+};
 
-
-static void loadBgAPlane(void)
+static const SceneVariant sMission1Variants[] =
 {
-    gBgABaseTile = gBgBBaseTile + sky_bg_b.tileset->numTile;
-    VDP_loadTileSet(city_bg_a.tileset, gBgABaseTile, CPU);
+    {
+        "flat_strict15",
+        &mission1_shared_bg_b,
+        &mission1_flat_strict15_bg_a,
+        448,
+        "flat strict-15 para leitura"
+    },
+    {
+        "flat_snap700",
+        &mission1_shared_bg_b,
+        &mission1_flat_snap700_bg_a,
+        448,
+        "flat snap700 para comparacao"
+    },
+    {
+        "default_skylift",
+        &mission1_shared_bg_b,
+        &mission1_skylift_bg_a,
+        448,
+        "default skylift do projeto"
+    }
+};
 
-    VDP_setTileMapEx(
-        BG_A,
-        city_bg_a.tilemap,
-        TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, gBgABaseTile),
-        0, 0,
-        0, 0,
-        PLANE_WIDTH_TILES, BGA_MAP_HEIGHT_TILES,
-        CPU
-    );
+static const SceneGroup sScenes[] =
+{
+    { "URBAN SUNSET", sUrbanVariants, 3 },
+    { "MISSION 1",    sMission1Variants, 3 }
+};
+
+static u16 gSceneIndex = 0;
+static u16 gVariantIndex = 0;
+static s16 gScrollX = 0;
+static bool gShowOverlay = TRUE;
+static u16 gPrevInput = 0;
+
+static void clearOverlayText(void)
+{
+    VDP_clearTextArea(0, 0, 40, 32);
 }
 
+static const SceneVariant* getCurrentVariant(void)
+{
+    return &sScenes[gSceneIndex].variants[gVariantIndex];
+}
+
+static s16 getScrollMaxX(void)
+{
+    const SceneVariant* variant = getCurrentVariant();
+    const s16 maxX = (s16)variant->sceneWidthPx - VIEWPORT_WIDTH;
+    return (maxX > 0) ? maxX : 0;
+}
+
+static void applyScroll(void)
+{
+    VDP_setHorizontalScroll(BG_A, -gScrollX);
+    VDP_setHorizontalScroll(BG_B, -(gScrollX >> BG_B_PARALLAX_SHIFT));
+}
 
 static void drawOverlay(void)
 {
-    VDP_clearTextArea(0, 0, 40, 5);
+    char line[41];
+    const SceneVariant* variant = getCurrentVariant();
 
+    clearOverlayText();
     if (!gShowOverlay)
     {
         VDP_setWindowOff();
         return;
     }
 
-    VDP_setWindowOnTop(5);
-    VDP_drawText("PIPELINE SKILLS - URBAN", 3, 1);
-    VDP_drawText("BG_B SKY  PAL0 1/4x", 3, 2);
-    VDP_drawText("BG_A CITY PAL1 1.0x", 3, 3);
-    VDP_drawText("C DEBRIS PAL2 1.25x", 3, 4);
+    VDP_setWindowOnTop(WINDOW_ROWS);
+    VDP_drawText("ROM VIEWER SEM SPRITES", 1, 0);
+    sprintf(line, "Cena: %s", sScenes[gSceneIndex].sceneName);
+    VDP_drawText(line, 1, 1);
+    sprintf(line, "Variante: %s", variant->name);
+    VDP_drawText(line, 1, 2);
+    sprintf(line, "Scroll: %d/%d", gScrollX, getScrollMaxX());
+    VDP_drawText(line, 1, 3);
+    sprintf(line, "Budget: %s", variant->budgetLabel);
+    VDP_drawText(line, 1, 4);
+    VDP_drawText("LEFT/RIGHT:SCROLL  START:RESET", 1, 5);
+    VDP_drawText("A:CENA  B:VARIANTE  C:OVERLAY", 1, 6);
 }
 
-
-static void drawScene(void)
+static void loadCurrentSceneVariant(void)
 {
+    const SceneVariant* variant = getCurrentVariant();
+    u16 bgBWidthTiles;
+    u16 bgBHeightTiles;
+    u16 bgAWidthTiles;
+    u16 bgAHeightTiles;
+    u16 stamp;
+    u16 stampCount;
+    u16 bgBBaseTile;
+    u16 bgABaseTile;
+    u16 fillRow;
+
     VDP_setEnable(FALSE);
-    VDP_setPlaneSize(PLANE_WIDTH_TILES, PLANE_HEIGHT_TILES, TRUE);
     VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
-
-    PAL_setPalette(PAL0, sky_bg_b.palette->data, CPU);
-    PAL_setPalette(PAL1, city_bg_a.palette->data, CPU);
-    VDP_setBackgroundColor(0);
-
     VDP_clearPlane(BG_B, TRUE);
     VDP_clearPlane(BG_A, TRUE);
     VDP_clearPlane(WINDOW, TRUE);
-    VDP_setWindowOff();
 
-    loadBgBPlane();
-    loadBgAPlane();
+    PAL_setPalette(PAL0, variant->bgB->palette->data, CPU);
+    PAL_setPalette(PAL1, variant->bgA->palette->data, CPU);
+    /* Index 0 is often transparent/matte in these assets, so avoid showing it. */
+    VDP_setBackgroundColor(1);
 
-    SPR_initEx(SPRITE_VRAM_SIZE);
+    bgBBaseTile = TILE_USER_INDEX;
+    VDP_loadTileSet(variant->bgB->tileset, bgBBaseTile, CPU);
 
-    PAL_setPalette(PAL2, spr_debris_01.palette->data, DMA);
-    PAL_setPalette(PAL3, spr_player.palette->data, DMA);
+    bgBWidthTiles = variant->bgB->tilemap->w;
+    bgBHeightTiles = variant->bgB->tilemap->h;
+    stampCount = (bgBWidthTiles > 0) ? (PLANE_WIDTH_TILES / bgBWidthTiles) : 0;
 
-    gDebrisSprites[0] = SPR_addSprite(
-        &spr_debris_01, DEBRIS_01_WORLD_X, VIEWPORT_HEIGHT - 56,
-        TILE_ATTR(PAL2, TRUE, FALSE, FALSE)
-    );
-    gDebrisSprites[1] = SPR_addSprite(
-        &spr_debris_02, DEBRIS_02_WORLD_X, VIEWPORT_HEIGHT - 56,
-        TILE_ATTR(PAL2, TRUE, FALSE, FALSE)
-    );
-    gDebrisSprites[2] = SPR_addSprite(
-        &spr_debris_03, DEBRIS_03_WORLD_X, VIEWPORT_HEIGHT - 56,
-        TILE_ATTR(PAL2, TRUE, FALSE, FALSE)
-    );
-    if (gDebrisSprites[0]) SPR_setDepth(gDebrisSprites[0], 0);
-    if (gDebrisSprites[1]) SPR_setDepth(gDebrisSprites[1], 0);
-    if (gDebrisSprites[2]) SPR_setDepth(gDebrisSprites[2], 0);
-
-    gPlayerSprite = SPR_addSprite(
-        &spr_player, gPlayerX, gPlayerY,
-        TILE_ATTR(PAL3, TRUE, FALSE, FALSE)
-    );
-    if (gPlayerSprite)
+    for (stamp = 0; stamp < stampCount; stamp++)
     {
-        SPR_setDepth(gPlayerSprite, 1);
-        SPR_setAnim(gPlayerSprite, PLAYER_ANIM_IDLE);
+        VDP_setTileMapEx(
+            BG_B,
+            variant->bgB->tilemap,
+            TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, bgBBaseTile),
+            stamp * bgBWidthTiles, 0,
+            0, 0,
+            bgBWidthTiles, bgBHeightTiles,
+            CPU
+        );
     }
 
+    bgABaseTile = bgBBaseTile + variant->bgB->tileset->numTile;
+    VDP_loadTileSet(variant->bgA->tileset, bgABaseTile, CPU);
+
+    bgAWidthTiles = variant->bgA->tilemap->w;
+    bgAHeightTiles = variant->bgA->tilemap->h;
+    VDP_setTileMapEx(
+        BG_A,
+        variant->bgA->tilemap,
+        TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, bgABaseTile),
+        0, 0,
+        0, 0,
+        bgAWidthTiles, bgAHeightTiles,
+        CPU
+    );
+
+    /*
+     * The source images are 224px tall (28 tile rows) while the plane is 32 rows.
+     * Repeat the last valid row to avoid exposing palette-0 matte at the bottom.
+     */
+    for (fillRow = bgBHeightTiles; fillRow < PLANE_HEIGHT_TILES; fillRow++)
+    {
+        for (stamp = 0; stamp < stampCount; stamp++)
+        {
+            VDP_setTileMapEx(
+                BG_B,
+                variant->bgB->tilemap,
+                TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, bgBBaseTile),
+                stamp * bgBWidthTiles, fillRow,
+                0, bgBHeightTiles - 1,
+                bgBWidthTiles, 1,
+                CPU
+            );
+        }
+    }
+
+    for (fillRow = bgAHeightTiles; fillRow < PLANE_HEIGHT_TILES; fillRow++)
+    {
+        VDP_setTileMapEx(
+            BG_A,
+            variant->bgA->tilemap,
+            TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, bgABaseTile),
+            0, fillRow,
+            0, bgAHeightTiles - 1,
+            bgAWidthTiles, 1,
+            CPU
+        );
+    }
+
+    gScrollX = 0;
+    applyScroll();
     drawOverlay();
-
-    VDP_setHorizontalScroll(BG_A, 0);
-    VDP_setHorizontalScroll(BG_B, 0);
-
     VDP_setEnable(TRUE);
 }
 
-
-static void applyPlayerAnimation(PlayerAnim nextAnim)
+static void nextScene(void)
 {
-    if (!gPlayerSprite)
-        return;
-    if (gPlayerAnim != nextAnim)
-    {
-        gPlayerAnim = nextAnim;
-        SPR_setAnim(gPlayerSprite, (u16)gPlayerAnim);
-    }
+    gSceneIndex++;
+    if (gSceneIndex >= (sizeof(sScenes) / sizeof(sScenes[0])))
+        gSceneIndex = 0;
+    gVariantIndex = 0;
+    loadCurrentSceneVariant();
 }
 
+static void nextVariant(void)
+{
+    gVariantIndex++;
+    if (gVariantIndex >= sScenes[gSceneIndex].variantCount)
+        gVariantIndex = 0;
+    loadCurrentSceneVariant();
+}
+
+static void clampScroll(void)
+{
+    const s16 maxScroll = getScrollMaxX();
+    if (gScrollX < 0)
+        gScrollX = 0;
+    if (gScrollX > maxScroll)
+        gScrollX = maxScroll;
+}
 
 static void updateInput(void)
 {
-    const u16 state   = JOY_readJoypad(JOY_1);
+    const u16 state = JOY_readJoypad(JOY_1);
     const u16 pressed = state & ~gPrevInput;
+    bool redrawOverlay = FALSE;
 
-    if (pressed & BUTTON_A)
-    {
-        gShowOverlay = !gShowOverlay;
-        drawOverlay();
-    }
-
-    gPlayerVX = 0;
-    if (state & BUTTON_RIGHT)
-    {
-        gPlayerVX = PLAYER_SPEED;
-        gPlayerFacingLeft = FALSE;
-    }
     if (state & BUTTON_LEFT)
     {
-        gPlayerVX = -PLAYER_SPEED;
-        gPlayerFacingLeft = TRUE;
+        gScrollX -= SCROLL_STEP;
+        redrawOverlay = TRUE;
     }
-    gPlayerX += gPlayerVX;
-
-    if ((pressed & BUTTON_B) && gPlayerOnGround)
+    if (state & BUTTON_RIGHT)
     {
-        gPlayerOnGround = FALSE;
-        gPlayerVY = PLAYER_JUMP_SPEED;
-        gLandTicks = 0;
+        gScrollX += SCROLL_STEP;
+        redrawOverlay = TRUE;
+    }
+
+    if (pressed & BUTTON_START)
+    {
+        gScrollX = 0;
+        redrawOverlay = TRUE;
+    }
+    if (pressed & BUTTON_A)
+    {
+        nextScene();
+        gPrevInput = state;
+        return;
+    }
+    if (pressed & BUTTON_B)
+    {
+        nextVariant();
+        gPrevInput = state;
+        return;
     }
     if (pressed & BUTTON_C)
-        gShootTicks = PLAYER_SHOOT_TICKS;
-
-    if (!gPlayerOnGround)
     {
-        gPlayerVY += PLAYER_GRAVITY;
-        if (gPlayerVY > PLAYER_MAX_FALL)
-            gPlayerVY = PLAYER_MAX_FALL;
-        gPlayerY += gPlayerVY;
-        if (gPlayerY >= PLAYER_GROUND_Y)
-        {
-            gPlayerY = PLAYER_GROUND_Y;
-            gPlayerVY = 0;
-            gPlayerOnGround = TRUE;
-            gLandTicks = PLAYER_LAND_TICKS;
-        }
-    }
-    else
-    {
-        gPlayerY = PLAYER_GROUND_Y;
+        gShowOverlay = !gShowOverlay;
+        redrawOverlay = TRUE;
     }
 
-    if (gShootTicks > 0)
-        gShootTicks--;
-    if (gLandTicks > 0)
-        gLandTicks--;
-
-    if (gPlayerX < 0) gPlayerX = 0;
-    if (gPlayerX > SCENE_WIDTH - PLAYER_WIDTH)
-        gPlayerX = SCENE_WIDTH - PLAYER_WIDTH;
-
-    if (!gPlayerOnGround)
-        applyPlayerAnimation(PLAYER_ANIM_JUMP);
-    else if (gLandTicks > 0)
-        applyPlayerAnimation(PLAYER_ANIM_LAND);
-    else if (gShootTicks > 0)
-        applyPlayerAnimation(PLAYER_ANIM_SHOOT);
-    else if (gPlayerVX != 0)
-        applyPlayerAnimation(PLAYER_ANIM_WALK);
-    else
-        applyPlayerAnimation(PLAYER_ANIM_IDLE);
-
-    if (gPlayerSprite)
-        SPR_setHFlip(gPlayerSprite, gPlayerFacingLeft);
-
+    clampScroll();
+    applyScroll();
+    if (redrawOverlay || gShowOverlay)
+        drawOverlay();
     gPrevInput = state;
 }
-
-
-static void updateCamera(void)
-{
-    s16 targetCamX = gPlayerX - (VIEWPORT_WIDTH / 2);
-
-    if (targetCamX < 0)          targetCamX = 0;
-    if (targetCamX > CAMERA_MAX_X) targetCamX = CAMERA_MAX_X;
-
-    gCameraX = targetCamX;
-
-    VDP_setHorizontalScroll(BG_A, -gCameraX);
-    VDP_setHorizontalScroll(BG_B, -(gCameraX >> 2));
-
-    /* Parallax 1.25x no foreground composicional: desloca 1/4 extra vs camera */
-    {
-        const s16 debrisParallax = gCameraX + (gCameraX >> 2);
-
-        if (gDebrisSprites[0])
-            SPR_setPosition(
-                gDebrisSprites[0],
-                DEBRIS_01_WORLD_X - debrisParallax,
-                VIEWPORT_HEIGHT - 56
-            );
-        if (gDebrisSprites[1])
-            SPR_setPosition(
-                gDebrisSprites[1],
-                DEBRIS_02_WORLD_X - debrisParallax,
-                VIEWPORT_HEIGHT - 56
-            );
-        if (gDebrisSprites[2])
-            SPR_setPosition(
-                gDebrisSprites[2],
-                DEBRIS_03_WORLD_X - debrisParallax,
-                VIEWPORT_HEIGHT - 56
-            );
-    }
-
-    if (gPlayerSprite)
-        SPR_setPosition(gPlayerSprite, gPlayerX - gCameraX, gPlayerY);
-}
-
 
 int main(bool hardReset)
 {
@@ -324,14 +320,11 @@ int main(bool hardReset)
     VDP_setTextPriority(TRUE);
     JOY_init();
 
-    drawScene();
+    loadCurrentSceneVariant();
 
     while (TRUE)
     {
         updateInput();
-        updateCamera();
-
-        SPR_update();
         SYS_doVBlankProcess();
     }
 

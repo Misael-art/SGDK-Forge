@@ -1,0 +1,186 @@
+{
+  "case_id": "metal_slug_urban_sunset_scene",
+  "status": "generated_pass_05_runtime_budgeted_crop",
+  "source_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\source\\source.png",
+  "target_size": [
+    320,
+    224
+  ],
+  "source_regions": {
+    "A_bg_b_atmosphere": [
+      4,
+      26,
+      516,
+      154
+    ],
+    "B_bg_a_architecture": [
+      5,
+      172,
+      677,
+      428
+    ],
+    "C_foreground_debris": [
+      12,
+      458,
+      684,
+      601
+    ],
+    "preview_reference_only": [
+      717,
+      189,
+      1021,
+      413
+    ]
+  },
+  "basic": {
+    "assets": {
+      "A": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\basic\\layer_a_bg_b_basic.png",
+      "B": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\basic\\layer_b_bg_a_basic.png",
+      "C": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\basic\\layer_c_front_basic.png"
+    },
+    "rgba_reference_composite": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\basic_semantic_composite_rgba.png",
+    "notes": [
+      "Decompõe a fonte em A/B/C, mas mantém a leitura ainda próxima de uma conversão direta.",
+      "A preserva o céu, B já respeita transparência estrutural, C mantém a massa frontal sem curadoria profunda de volume.",
+      "A recomposição RGBA acontece antes da quantização final para manter alinhamento espacial entre as layers."
+    ],
+    "review_pack": {
+      "A": {
+        "sheet_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_basic_A_tileset_sheet.png",
+        "structure": {
+          "total_tiles": 1120,
+          "unique_exact_tiles": 636,
+          "unique_hflip_tiles": 634,
+          "exact_reuse_ratio": 0.4321,
+          "hflip_reuse_ratio": 0.4339,
+          "hflip_savings_tiles": 2
+        },
+        "palette_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_basic_A_palette_strip.png"
+      },
+      "B": {
+        "sheet_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_basic_B_tileset_sheet.png",
+        "structure": {
+          "total_tiles": 1120,
+          "unique_exact_tiles": 967,
+          "unique_hflip_tiles": 966,
+          "exact_reuse_ratio": 0.1366,
+          "hflip_reuse_ratio": 0.1375,
+          "hflip_savings_tiles": 1
+        },
+        "palette_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_basic_B_palette_strip.png"
+      },
+      "C": {
+        "sheet_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_basic_C_tileset_sheet.png",
+        "structure": {
+          "total_tiles": 1120,
+          "unique_exact_tiles": 264,
+          "unique_hflip_tiles": 264,
+          "exact_reuse_ratio": 0.7643,
+          "hflip_reuse_ratio": 0.7643,
+          "hflip_savings_tiles": 0
+        },
+        "palette_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_basic_C_palette_strip.png"
+      }
+    }
+  },
+  "elite": {
+    "assets": {
+      "A": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\elite\\layer_a_bg_b_elite.png",
+      "B": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\elite\\layer_b_bg_a_elite.png",
+      "C": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\elite\\layer_c_front_elite.png"
+    },
+    "rgba_reference_composite": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\elite_semantic_composite_rgba.png",
+    "notes": [
+      "A vira BG_B de atmosfera com gradiente preservado e palette ramp mais quente perto do horizonte.",
+      "B vira layer estrutural com alpha real nas áreas de céu, sombras mais escuras e janelas quentes.",
+      "C vira massa frontal recomposta por volume, preservando sombra e textura em vez de só borda ruidosa.",
+      "A montagem de referencia acontece inteira em RGBA antes da quantização final por layer."
+    ],
+    "review_pack": {
+      "A": {
+        "sheet_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_elite_A_tileset_sheet.png",
+        "structure": {
+          "total_tiles": 1120,
+          "unique_exact_tiles": 742,
+          "unique_hflip_tiles": 739,
+          "exact_reuse_ratio": 0.3375,
+          "hflip_reuse_ratio": 0.3402,
+          "hflip_savings_tiles": 3
+        },
+        "palette_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_elite_A_palette_strip.png"
+      },
+      "B": {
+        "sheet_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_elite_B_tileset_sheet.png",
+        "structure": {
+          "total_tiles": 1120,
+          "unique_exact_tiles": 941,
+          "unique_hflip_tiles": 940,
+          "exact_reuse_ratio": 0.1598,
+          "hflip_reuse_ratio": 0.1607,
+          "hflip_savings_tiles": 1
+        },
+        "palette_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_elite_B_palette_strip.png"
+      },
+      "C": {
+        "sheet_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_elite_C_tileset_sheet.png",
+        "structure": {
+          "total_tiles": 1120,
+          "unique_exact_tiles": 271,
+          "unique_hflip_tiles": 270,
+          "exact_reuse_ratio": 0.758,
+          "hflip_reuse_ratio": 0.7589,
+          "hflip_savings_tiles": 1
+        },
+        "palette_path": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\metal_slug_elite_C_palette_strip.png"
+      }
+    },
+    "params": {
+      "A_palette_strategy": "manual_semantic_palette",
+      "B_palette_strategy": "manual_semantic_palette",
+      "C_palette_strategy": "manual_semantic_palette",
+      "A_dither": true,
+      "B_dither": false,
+      "C_dither": false
+    },
+    "runtime_assets": {
+      "bg_b": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\res\\gfx\\city_bg_b_elite.png",
+      "bg_a": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\res\\gfx\\city_bg_a_elite.png",
+      "fg_c": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\METAL_SLUG_URBAN_SUNSET\\res\\gfx\\layer_c_front_elite.png"
+    },
+    "runtime_scene": {
+      "authoritative_sources": {
+        "bg_b": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\source\\old\\BG-B (Plano de fundo).png",
+        "bg_a": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\source\\old\\BG-A (Plano principal).png",
+        "fg_c": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\source\\old\\COMPISIÇÃO DO PLANO PRINCIPAL.png",
+        "composite_truth": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\source\\old\\CENA MONTADA.png"
+      },
+      "shared_crop": [
+        8,
+        251,
+        684,
+        510
+      ],
+      "panorama_size": [
+        584,
+        224
+      ],
+      "runtime_export_box": [
+        96,
+        0,
+        432,
+        224
+      ],
+      "runtime_size": [
+        336,
+        224
+      ],
+      "viewport_size": [
+        320,
+        224
+      ],
+      "composite_rgba": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\runtime_panorama_composite_rgba.png",
+      "runtime_scene_rgba": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\runtime_scene_composite_rgba.png",
+      "bg_a_without_fg_rgba": "F:\\Projects\\MegaDrive_DEV\\assets\\reference\\translation_curation\\metal_slug_urban_sunset_scene\\reports\\runtime_bg_a_base_rgba.png"
+    }
+  }
+}

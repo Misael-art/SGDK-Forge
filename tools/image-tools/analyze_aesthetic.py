@@ -208,11 +208,24 @@ def palette_efficiency(counter: Counter, cfg: dict) -> tuple[float, dict]:
     }
 
 
-def tile_efficiency(mask: list[list[bool]], tiles: list[dict], cfg: dict) -> tuple[float, dict]:
+def tile_efficiency(
+    mask: list[list[bool]],
+    tiles: list[dict],
+    cfg: dict,
+    paired_structural_layer: bool = False
+) -> tuple[float, dict]:
     bbox = bbox_from_mask(mask)
     total_tiles = len(tiles)
     empty_tiles = sum(1 for tile in tiles if tile["empty"])
     empty_ratio = empty_tiles / max(1, total_tiles)
+    max_empty_ratio = cfg["max_empty_ratio"]
+    max_bbox_waste = cfg["max_bbox_waste"]
+    evaluation_mode = "default"
+
+    if paired_structural_layer:
+        max_empty_ratio = max(max_empty_ratio, cfg.get("paired_structural_max_empty_ratio", max_empty_ratio))
+        max_bbox_waste = max(max_bbox_waste, cfg.get("paired_structural_max_bbox_waste", max_bbox_waste))
+        evaluation_mode = "paired_structural"
 
     if bbox is None:
         bbox_waste = 1.0
@@ -222,13 +235,16 @@ def tile_efficiency(mask: list[list[bool]], tiles: list[dict], cfg: dict) -> tup
         used_pixels = sum(1 for row in mask for visible in row if visible)
         bbox_waste = 1.0 - (used_pixels / max(1, bbox_area))
 
-    empty_score = clamp(1.0 - (empty_ratio / max(cfg["max_empty_ratio"], 1e-6)))
-    bbox_score = clamp(1.0 - (bbox_waste / max(cfg["max_bbox_waste"], 1e-6)))
+    empty_score = clamp(1.0 - (empty_ratio / max(max_empty_ratio, 1e-6)))
+    bbox_score = clamp(1.0 - (bbox_waste / max(max_bbox_waste, 1e-6)))
     return clamp((0.55 * empty_score) + (0.45 * bbox_score)), {
         "empty_ratio": empty_ratio,
         "bbox_waste": bbox_waste,
         "total_tiles": total_tiles,
-        "empty_tiles": empty_tiles
+        "empty_tiles": empty_tiles,
+        "max_empty_ratio": max_empty_ratio,
+        "max_bbox_waste": max_bbox_waste,
+        "mode": evaluation_mode
     }
 
 
@@ -438,11 +454,21 @@ def build_issues(
     reference_alignment: float
 ) -> list[Issue]:
     issues: list[Issue] = []
+    tile_inputs = inputs["tile_efficiency"]
+    tile_empty_threshold = tile_inputs.get("max_empty_ratio", role_cfg["tile"]["max_empty_ratio"])
+    tile_bbox_threshold = tile_inputs.get("max_bbox_waste", role_cfg["tile"]["max_bbox_waste"])
 
     if metrics["palette_efficiency"] < 0.55:
         issues.append(Issue("PALETTE_WASTE", "warning", "Paleta com baixa eficiencia tonal ou cores redundantes.", metrics["palette_efficiency"], 0.55))
-    if metrics["tile_efficiency"] < 0.55 or inputs["tile_efficiency"]["empty_ratio"] > role_cfg["tile"]["max_empty_ratio"]:
-        issues.append(Issue("OVER_EMPTY_TILES", "warning", "O asset desperdiça tiles com vazio ou bounding box frouxo.", inputs["tile_efficiency"]["empty_ratio"], role_cfg["tile"]["max_empty_ratio"]))
+    if (
+        tile_inputs.get("mode") != "paired_structural" and
+        (
+            metrics["tile_efficiency"] < 0.55 or
+            tile_inputs["empty_ratio"] > tile_empty_threshold or
+            tile_inputs["bbox_waste"] > tile_bbox_threshold
+        )
+    ):
+        issues.append(Issue("OVER_EMPTY_TILES", "warning", "O asset desperdiça tiles com vazio ou bounding box frouxo.", tile_inputs["empty_ratio"], tile_empty_threshold))
     if metrics["detail_density_8x8"] < 0.52:
         issues.append(Issue("LOW_TILE_DENSITY", "warning", "Os tiles 8x8 estao com detalhe insuficiente para a meta de leitura.", metrics["detail_density_8x8"], 0.52))
     if inputs["detail_density_8x8"]["avg_isolated_ratio"] > role_cfg["detail"]["max_isolated_ratio"] or inputs["dithering_density"]["noise_ratio"] > role_cfg["dithering"]["noise_guard_max"]:
@@ -468,9 +494,17 @@ def analyze(asset_path: Path, role: str, reference_profile: str, paired_bg: Path
     mask = alpha_mask(image)
     tiles = list(iter_tiles(image, mask))
     counter = visible_rgb_counter(image, mask)
+    total_pixels = image.size[0] * image.size[1]
+    visible_pixels = sum(counter.values())
+    transparency_ratio = 1.0 - (visible_pixels / max(1, total_pixels))
+    paired_structural_layer = (
+        paired_bg is not None and
+        role in {"bg_a", "midground_layer", "foreground_layer"} and
+        transparency_ratio >= 0.08
+    )
 
     palette_score, palette_inputs = palette_efficiency(counter, role_cfg["palette"])
-    tile_score, tile_inputs = tile_efficiency(mask, tiles, role_cfg["tile"])
+    tile_score, tile_inputs = tile_efficiency(mask, tiles, role_cfg["tile"], paired_structural_layer=paired_structural_layer)
     detail_score, detail_inputs = detail_density(image, mask, tiles, role_cfg["detail"])
     dither_score, dither_inputs = dithering_density(image, mask, role_cfg["dithering"])
     silhouette_score, silhouette_inputs = silhouette_readability(image, mask, role_cfg["silhouette"])
@@ -508,7 +542,11 @@ def analyze(asset_path: Path, role: str, reference_profile: str, paired_bg: Path
         "dithering_density": dither_inputs,
         "silhouette_readability": silhouette_inputs,
         "layer_separation": layer_inputs,
-        "reuse_opportunity": reuse_inputs
+        "reuse_opportunity": reuse_inputs,
+        "structural_layer": {
+            "paired_structural_layer": paired_structural_layer,
+            "transparency_ratio": transparency_ratio
+        }
     }
 
     issues = build_issues(metrics, metric_inputs, role_cfg, reference_alignment, reference_alignment)

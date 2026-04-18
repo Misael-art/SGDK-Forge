@@ -10,5 +10,51 @@
   "build_policy": "enabled",
   "kind": "tool",
   "category": "test",
-  "notes": "Laboratorio visual canonico para renderizar parallax 3 layers do Metal Slug."
+  "notes": "Laboratorio visual canonico para renderizar parallax 3 layers do Metal Slug.",
+  "visual_review": {
+    "variant_pairs": [
+      {
+        "scene": "URBAN SUNSET",
+        "variant": "urban_default",
+        "mode": "paired_bg",
+        "bg_b": "gfx/sky_bg_b.png",
+        "bg_a": "gfx/city_bg_a_448.png"
+      },
+      {
+        "scene": "URBAN SUNSET",
+        "variant": "urban_linefirst_balanced",
+        "mode": "paired_bg",
+        "bg_b": "gfx/urban_linefirst_balanced_bg_b.png",
+        "bg_a": "gfx/urban_linefirst_balanced_bg_a.png"
+      },
+      {
+        "scene": "URBAN SUNSET",
+        "variant": "urban_linefirst_cohesive",
+        "mode": "paired_bg",
+        "bg_b": "gfx/urban_linefirst_cohesive_bg_b.png",
+        "bg_a": "gfx/urban_linefirst_cohesive_bg_a.png"
+      },
+      {
+        "scene": "MISSION 1",
+        "variant": "mission1_flat_strict15",
+        "mode": "paired_bg",
+        "bg_b": "gfx/mission1_skylift_bg_b.png",
+        "bg_a": "gfx/mission1_flat_strict15.png"
+      },
+      {
+        "scene": "MISSION 1",
+        "variant": "mission1_flat_snap700",
+        "mode": "paired_bg",
+        "bg_b": "gfx/mission1_skylift_bg_b.png",
+        "bg_a": "gfx/mission1_flat_snap_700.png"
+      },
+      {
+        "scene": "MISSION 1",
+        "variant": "mission1_default_skylift",
+        "mode": "paired_bg",
+        "bg_b": "gfx/mission1_skylift_bg_b.png",
+        "bg_a": "gfx/mission1_skylift_bg_a.png"
+      }
+    ]
+  }
 }

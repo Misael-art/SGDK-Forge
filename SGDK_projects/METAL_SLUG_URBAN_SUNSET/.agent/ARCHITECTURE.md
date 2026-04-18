@@ -91,6 +91,21 @@ Regra:
 - `scripts/`: automacoes de status, auditoria, changelog e verificacao
 - `lib_case/`: few-shots pedagogicos e referencias reproduziveis
 
+### Camadas de compatibilidade e descoberta
+
+- `agents/`
+  - status oficial: camada pedagogica e de compatibilidade documental
+  - nao e a fonte primaria do fluxo canonico
+  - nao deve ser removida sem decisao arquitetural explicita e curadoria das referencias cruzadas
+- `skills/**/agents/openai.yaml`
+  - metadata de descoberta repo-native e politica de invocacao
+  - `SKILL.md` continua sendo a fonte de verdade do comportamento operacional
+  - ausencia de `openai.yaml` deve ser tratada como exposicao implicita nao curada, nao como prova de orfandade
+- `.agents/skills`
+  - ponte repo-native para `tools/sgdk_wrapper/.agent/skills`
+  - deve permanecer saudavel como junction/symlink rastreavel
+  - se quebrar, a descoberta de skills pode degradar silenciosamente
+
 ---
 
 ## Modelo Operacional
@@ -138,6 +153,20 @@ Para trabalho de cena visual, a cadeia oficial e:
 Nenhuma etapa pode ser pulada.
 
 Se o passo anterior nao emitiu os artefatos minimos, o passo seguinte nao tem permissao para se declarar concluido.
+
+### Acoplamento por `skill_path`
+
+Os pipelines machine-readable referenciam skills por `skill_path`.
+
+Isso significa que:
+
+- renomear ou mover uma skill exige curadoria simultanea de `pipelines/`
+- o `framework_manifest.json` deve continuar rastreando skills e workflows usados pelo pipeline
+- limpeza estrutural sem atualizar `skill_path` quebra a cadeia canônica de execucao
+
+Regra:
+
+- mover ou renomear skill sem revisar pipelines e workflows e regressao de governanca, nao "refactor cosmetico"
 
 ---
 

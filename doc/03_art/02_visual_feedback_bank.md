@@ -213,6 +213,20 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
   - metal_slug_urban_sunset_scene
 - check_em_rom: validar que apenas a variante promovida como composicao real recebe comparacao de planos pareados
 
+### BG_A Transparente Nao e Tile Morto
+
+- sintoma: uma layer estrutural em `BG_A` recebe `OVER_EMPTY_TILES` mesmo quando os vazios sao justamente a janela semantica para o `BG_B` aparecer
+- diagnostico_tecnico: o juiz tratou uma `scene_slice` multi-plano como se fosse um frame chapado independente, penalizando transparencia estrutural como desperdicio de VRAM
+- heuristica_preventiva: em viewer ou cena multi-plano declarada por `paired_bg`, um `BG_A` com transparencia estrutural deve ser julgado pela composicao final; so marcar `OVER_EMPTY_TILES` quando o vazio nao fizer parte do recorte semantico da cena
+- metricas_afetadas:
+  - tile_efficiency
+  - layer_separation
+  - reference_alignment
+- benchmark_referencia:
+  - metal_slug_urban_sunset_scene
+  - Shinobi III
+- check_em_rom: alternar entre a composicao completa e o `BG_A` isolado; se o vazio estiver servindo corretamente a leitura do `BG_B`, ele nao pode ser tratado como tile morto
+
 ### Camada Semantica Nao e Actor Sprite
 
 - sintoma: destrocos, massas frontais ou arquitetura isolada recebem score ruim porque o laudo os julga como `sprite` compacto ou `bg_a` cheio, mesmo quando sao layers transparentes para remontagem
@@ -581,3 +595,41 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
   - Streets of Rage 3
   - Shinobi III
 - check_em_rom: provar a rota de anime em composicao multi-plano; se o look aprovado pelo humano so existir na imagem full-flat e desmoronar ao separar BG_A/BG_B, a rota ainda nao esta pronta
+
+### Anime Guiado Pede Pipeline por Etapas
+
+- sintoma: o agente tenta achar o look anime final diretamente na conversao para SGDK e perde controle sobre o que veio do traço, o que veio da massa de cor e o que veio da paleta
+- diagnostico_tecnico: sem separar `line art`, `recolor de superficies` e `promocao SGDK`, a iteracao mistura decisoes demais e fica dificil corrigir cor sem destruir desenho, ou corrigir budget sem destruir atmosfera
+- heuristica_preventiva: quando o alvo for fundo anime controlado, seguir um pipeline guiado:
+  1. `scene crop` aderente ao framing final
+  2. `anime style` como board de linguagem
+  3. `line art only` como contrato de desenho
+  4. `recolor broad surfaces` com paleta explicita
+  5. `promocao SGDK` com split `BG_A/BG_B`, reforco seletivo de traço e budget review
+- metricas_afetadas:
+  - reference_alignment
+  - palette_efficiency
+  - reuse_opportunity
+  - layer_separation
+- benchmark_referencia:
+  - metal_slug_urban_sunset_scene
+  - anime guided route study
+- check_em_rom: a cor final da cena so pode ser considerada madura se a etapa de `recolor broad surfaces` continuar bonita depois do split para `BG_A/BG_B` e ainda couber no budget real
+
+### Line-First Fecha o Anime no Mega
+
+- sintoma: mesmo com line art correto, a promocao para Mega Drive continua com linhas turvas ou micro-variacao demais porque o traco e a cor ainda estao competindo no mesmo passo
+- diagnostico_tecnico: o pipeline reaplica line art e recolor ao mesmo tempo; o resultado preserva contorno demais onde so precisava de contrato estrutural e gera tiles unicos desnecessarios
+- heuristica_preventiva: em fundo anime para Mega Drive, transformar o line art em `block mask` e `display mask`:
+  1. `block mask` delimita regioes de pintura
+  2. `display mask` preserva apenas os tracos que realmente precisam aparecer
+  3. a cor deve ser preenchida por regiao e so depois receber o traco seletivo
+- metricas_afetadas:
+  - tile_efficiency
+  - reuse_opportunity
+  - silhouette_readability
+  - reference_alignment
+- benchmark_referencia:
+  - metal_slug_urban_sunset_scene
+  - anime line-first route study
+- check_em_rom: validar se a versao `balanced` ou `cohesive` continua com linhas firmes em BlastEm sem reintroduzir ruido de microtraco nem estourar o teto pratico de tiles

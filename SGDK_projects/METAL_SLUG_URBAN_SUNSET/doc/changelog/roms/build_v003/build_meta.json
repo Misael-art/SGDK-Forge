@@ -1,0 +1,68 @@
+﻿{
+    "build_version":  "build_v003",
+    "rom_sha256":  "ca660262e4ad2a57a080cd2ff6bef24313e89677669962428989efb730782a72",
+    "size_bytes":  262144,
+    "timestamp":  "2026-04-16T23:33:46.9504158-03:00",
+    "source_commit_when_available":  "5bbe5de1b8af759b883f7da35fc1a432b286d6f1",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  1,
+                               "blocking_statuses":  [
+                                                         "visual_gate_blocked"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "ok",
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "urban_default_bg_b",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/sky_bg_b.png"
+                                  },
+                                  {
+                                      "asset_id":  "urban_default_bg_a",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/city_bg_a_448.png"
+                                  },
+                                  {
+                                      "asset_id":  "urban_linefirst_balanced_bg_b",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/urban_linefirst_balanced_bg_b.png"
+                                  },
+                                  {
+                                      "asset_id":  "urban_linefirst_balanced_bg_a",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/urban_linefirst_balanced_bg_a.png"
+                                  },
+                                  {
+                                      "asset_id":  "urban_linefirst_cohesive_bg_b",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/urban_linefirst_cohesive_bg_b.png"
+                                  },
+                                  {
+                                      "asset_id":  "urban_linefirst_cohesive_bg_a",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/urban_linefirst_cohesive_bg_a.png"
+                                  },
+                                  {
+                                      "asset_id":  "mission1_shared_bg_b",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/mission1_skylift_bg_b.png"
+                                  },
+                                  {
+                                      "asset_id":  "mission1_flat_strict15_bg_a",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/mission1_flat_strict15.png"
+                                  },
+                                  {
+                                      "asset_id":  "mission1_flat_snap700_bg_a",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/mission1_flat_snap_700.png"
+                                  },
+                                  {
+                                      "asset_id":  "mission1_skylift_bg_a",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/mission1_skylift_bg_a.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

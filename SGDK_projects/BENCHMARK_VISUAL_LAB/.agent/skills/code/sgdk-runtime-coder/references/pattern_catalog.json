@@ -1,0 +1,414 @@
+{
+  "version": 2,
+  "updated_at": "2026-04-10",
+  "registry_path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
+  "patterns": [
+    {
+      "id": "manual_frame_animation",
+      "tier": "canonical_pattern",
+      "when_to_use": "Quando o gameplay precisa controlar exatamente qual frame ou barra de HUD esta visivel.",
+      "risk": "Baixo, desde que o fluxo de update esteja correto.",
+      "engine_examples": [
+        "HAMOOPIG main.c:3333-3350"
+      ]
+    },
+    {
+      "id": "palette_swap_runtime",
+      "tier": "canonical_pattern",
+      "when_to_use": "Quando personagens ou variantes compartilham sheet e precisam trocar paleta em runtime.",
+      "risk": "Medio se o roster dividir slots de paleta de forma apertada.",
+      "engine_examples": [
+        "HAMOOPIG KOF94 main.c:2695-2716",
+        "HAMOOPIG KOF94 main.c:460-474"
+      ]
+    },
+    {
+      "id": "hud_graphics_array",
+      "tier": "canonical_pattern",
+      "when_to_use": "HUD com multiplos elementos independentes controlados como sprites.",
+      "risk": "Medio por pressao de OAM se crescer demais.",
+      "engine_examples": [
+        "HAMOOPIG VER.1.0 main.c:303-355"
+      ]
+    },
+    {
+      "id": "window_plane_static_hud",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "HUD fixa, barra de vida ou score precisam permanecer ancorados sem comer sprite slots.",
+      "risk": "Medio; a Window substitui parte de BG_A e precisa de ownership claro.",
+      "engine_examples": [
+        "Lifebar window-plane HUD",
+        "Sonic HUD via WINDOW"
+      ]
+    },
+    {
+      "id": "fade_transition",
+      "tier": "canonical_pattern",
+      "when_to_use": "Transicao limpa entre cenas, menus ou estados dramaticos.",
+      "risk": "Baixo.",
+      "engine_examples": [
+        "HAMOOPIG KOF94 main.c:390-406",
+        "Goblin SGDK"
+      ]
+    },
+    {
+      "id": "sprite_vram_tuning",
+      "tier": "canonical_pattern",
+      "when_to_use": "Quando o fundo pressiona VRAM e a reserva default do sprite engine precisa ser ajustada.",
+      "risk": "Medio; pede auditoria de budget.",
+      "engine_examples": [
+        "BG_TILE_COUNTER main.c:58"
+      ]
+    },
+    {
+      "id": "sprite_culling",
+      "tier": "canonical_pattern",
+      "when_to_use": "Quando sprites fora da tela continuam custando update e visibilidade.",
+      "risk": "Baixo se a margem de tela for honesta.",
+      "engine_examples": [
+        "XGM2 sonic utils.c:9-12"
+      ]
+    },
+    {
+      "id": "map_parallax",
+      "tier": "canonical_pattern",
+      "when_to_use": "Mapas grandes com camera e parallax entre BG_A e BG_B.",
+      "risk": "Medio por custo de mapa e budget.",
+      "engine_examples": [
+        "BG_TILE_COUNTER main.c:85-95",
+        "BG_TILE_COUNTER main.c:230-231"
+      ]
+    },
+    {
+      "id": "line_scroll_per_scanline",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Wave, wobble ou separacao dramatica de scroll por scanline.",
+      "risk": "Alto se competir com outros usos de H-Int ou DMA.",
+      "engine_examples": [
+        "Goblin SGDK titlescreen.c:617",
+        "FMV Code Sample main.c:780-811"
+      ],
+      "registry_ids": [
+        "hint_wobble_scanline",
+        "linescroll_scanline_gradient"
+      ]
+    },
+    {
+      "id": "hint_raster_split",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Split de paleta, spotlight, waterline ou mid-frame palette swap.",
+      "risk": "Alto; existe um callback global de H-Int e a ownership precisa ser unica.",
+      "engine_examples": [
+        "FMV Code Sample main.c:780-811",
+        "Opeth player.c:248-381"
+      ],
+      "registry_ids": [
+        "hint_spotlight_shadow",
+        "raycasting_hud_palette_split"
+      ]
+    },
+    {
+      "id": "h_int_control_plane",
+      "tier": "canonical_pattern",
+      "when_to_use": "Qualquer cena usar H-Int para split, wobble, spotlight, scaling ou SAT reuse mid-frame.",
+      "risk": "Baixo como regra; o risco esta em ignorar ownership unico e reset do callback.",
+      "engine_examples": [
+        "LIZARDRIVE H-Int family",
+        "Workspace H-Int arbitration rule"
+      ]
+    },
+    {
+      "id": "priority_split_foreground",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Foreground que precisa cobrir sprite apenas em parte do tile/coluna.",
+      "risk": "Medio-alto; pede desenho e mapa muito disciplinados.",
+      "engine_examples": [
+        "Croakus Pocus makemap.c:512-535"
+      ]
+    },
+    {
+      "id": "column_scroll_per_column",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Estruturas verticais, torres, plataformas ou colunas que precisam oscilar por faixa.",
+      "risk": "Medio-alto; VSRAM e budget de frame pedem muito controle.",
+      "engine_examples": [
+        "Castlevania Bloodlines",
+        "Gunstar Heroes"
+      ]
+    },
+    {
+      "id": "shadow_highlight_context_toggle",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Cena noturna, spotlight ou contexto de luz que muda por cena.",
+      "risk": "Medio; exige coerencia visual e decisao de pipeline.",
+      "engine_examples": [
+        "Goblin SGDK main.c:133-137",
+        "Opeth player.c:248-381"
+      ],
+      "registry_ids": [
+        "hint_spotlight_shadow"
+      ]
+    },
+    {
+      "id": "shadow_highlight_slot_audit",
+      "tier": "canonical_pattern",
+      "when_to_use": "Sempre que a cena usar Shadow/Highlight e um sprite tiver volume critico ou emissivo forte.",
+      "risk": "Baixo; o risco esta em nao fazer a auditoria.",
+      "engine_examples": [
+        "Workspace rule derived from spotlight and S/H usage"
+      ]
+    },
+    {
+      "id": "masked_shadow_highlight_lighting",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Sala escura, lanterna, weak spot de boss ou spotlight curto precisarem revelar cor local sem fingir alpha blending real.",
+      "risk": "Alto; slot operator de paleta, scanline pressure e leitura de gameplay podem degradar rapido.",
+      "engine_examples": [
+        "Workspace planned masked light benchmark"
+      ]
+    },
+    {
+      "id": "palette_cycling_cram",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Agua, lava, neon, tocha ou pulso luminoso sem custo de tiles extras.",
+      "risk": "Medio; hierarquia de paleta e timing precisam estar muito corretos.",
+      "engine_examples": [
+        "Sonic 1 waterfalls",
+        "Castlevania Bloodlines torches",
+        "Streets of Rage 2 neon"
+      ]
+    },
+    {
+      "id": "procedural_raster_glitch_suite",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Crise visual, colapso de interface, corrupcao de transmissao ou estado mental instavel pedirem rasgo e choque cromatico dirigidos por gameplay.",
+      "risk": "Alto; ruido solto mata leitura e o pacote pode competir com H-Int, paleta e HUD ao mesmo tempo.",
+      "engine_examples": [
+        "Workspace planned glitch benchmark"
+      ]
+    },
+    {
+      "id": "custom_font_hud",
+      "tier": "canonical_pattern",
+      "when_to_use": "HUD ou menu com identidade grafica propria.",
+      "risk": "Baixo a medio, dependendo do slot de tiles.",
+      "engine_examples": [
+        "Custom Fonts Example main.c:52",
+        "Custom Font main.c:88",
+        "Vigilante Tutorial init.c:233-352"
+      ]
+    },
+    {
+      "id": "vdp_disable_during_heavy_setup",
+      "tier": "canonical_pattern",
+      "when_to_use": "Carga pesada de cena, troca massiva de tiles ou setup com risco de artefato visual.",
+      "risk": "Baixo se o religamento for garantido.",
+      "engine_examples": [
+        "Pattern presente em varios engines"
+      ]
+    },
+    {
+      "id": "dma_worst_frame_budget",
+      "tier": "canonical_pattern",
+      "when_to_use": "Sempre que uma tecnica concorrer com uploads, HUD, sprites e FX no mesmo quadro.",
+      "risk": "Baixo; o risco esta em nao medir o pior quadro.",
+      "engine_examples": [
+        "Workspace VBlank discipline",
+        "Engine-scan budget synthesis"
+      ]
+    },
+    {
+      "id": "interlaced_448_display_mode",
+      "tier": "experimental_pattern",
+      "when_to_use": "Split-screen, HUD extremo ou cena especial com ganho vertical real comprovado contra 224p.",
+      "risk": "Muito alto se usado por reflexo; shimmer, legibilidade e layout precisam justificar o modo.",
+      "engine_examples": [
+        "Sonic 2 multiplayer",
+        "Combat Cars menus"
+      ]
+    },
+    {
+      "id": "giant_boss_tilemap_bypass",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Boss ou estrutura enorme estoura o limite de scanline como sprite tradicional.",
+      "risk": "Alto; geralmente custa parallax ou um plano inteiro da cena.",
+      "engine_examples": [
+        "Contra Hard Corps",
+        "Alien Soldier"
+      ]
+    },
+    {
+      "id": "sprite_temporal_multiplexing",
+      "tier": "experimental_pattern",
+      "when_to_use": "Chuva pesada, detrito, neve ou outros elementos nao-criticos que precisem exceder densidade visual.",
+      "risk": "Muito alto se aplicado em leitura de gameplay; transparência perceptual e flicker sao tradeoffs reais.",
+      "engine_examples": [
+        "Shooters bullet-heavy patterns",
+        "Workspace planned benchmark"
+      ]
+    },
+    {
+      "id": "sprite_midframe_sat_reuse",
+      "tier": "experimental_pattern",
+      "when_to_use": "Exceder densidade de sprites em zonas específicas quando alternancia temporal nao resolve e o benchmark justificar o risco.",
+      "risk": "Extremo; compete com H-Int, exige SAT rewrite mid-frame e pode corromper leitura ou timing.",
+      "engine_examples": [
+        "Legacy raster multiplexing idioms",
+        "Workspace planned benchmark"
+      ]
+    },
+    {
+      "id": "tidytext_variable_width_batch",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Dialogos ou creditos que pedem fonte de largura variavel sem cair em BMP mode.",
+      "risk": "Medio; exige disciplina de VRAM temporaria e composicao de tiles.",
+      "engine_examples": [
+        "TidyText tidyText.c"
+      ],
+      "registry_ids": [
+        "tidytext_variable_width_batch"
+      ]
+    },
+    {
+      "id": "tile_text_stream_renderer",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Typewriter text, scripts longos ou renderer com escape codes e ring buffer.",
+      "risk": "Medio-alto; fluxo de VRAM e wrapping precisam estar muito corretos.",
+      "engine_examples": [
+        "RPG Text tile_text_renderer.c"
+      ],
+      "registry_ids": [
+        "tile_text_stream_renderer",
+        "packed_multilingual_script_pool"
+      ]
+    },
+    {
+      "id": "pseudo3d_road_stack",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Racing road com curvas, morros e banding por linha.",
+      "risk": "Alto; compete por HScroll, VScroll e budget de raster.",
+      "engine_examples": [
+        "MegaDriving 01_basic_road",
+        "MegaDriving 02_hills",
+        "MegaDriving 04_colors"
+      ],
+      "registry_ids": [
+        "pseudo3d_road_stack"
+      ]
+    },
+    {
+      "id": "software_affine_pseudo3d",
+      "tier": "experimental_pattern",
+      "when_to_use": "Transformacao affine ou pseudo-Mode 7 por software exigir benchmark proprio e custo de CPU explicitamente medido.",
+      "risk": "Extremo; nao compartilhar status com o road-stack e nunca assumir como efeito barato.",
+      "engine_examples": [
+        "Software transform experiments",
+        "Workspace future affine benchmark"
+      ]
+    },
+    {
+      "id": "mutable_tile_decal_mutation",
+      "tier": "experimental_pattern",
+      "when_to_use": "Parede, piso ou setor local precisarem reter dano, sangue ou marca persistente sem empilhar sprites decorativos.",
+      "risk": "Muito alto; pool de tiles unicos, dirty uploads e arquitetura de persistencia podem explodir facil.",
+      "engine_examples": [
+        "Workspace planned decal mutation benchmark"
+      ]
+    },
+    {
+      "id": "cellular_microbuffer_sim",
+      "tier": "experimental_pattern",
+      "when_to_use": "Areia, acido, lava ou espuma precisarem de comportamento organico em ilha pequena e altamente delimitada.",
+      "risk": "Extremo; solver local, dirty tiles e cadence de update nao suportam sandbox global.",
+      "engine_examples": [
+        "Workspace planned microbuffer benchmark"
+      ]
+    },
+    {
+      "id": "tile_cache_streaming_refcount",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Mapas maiores que a VRAM visivel, com reuso de tiles por janela ativa.",
+      "risk": "Alto; callback precisa ser muito rapido e o DMA deve permanecer sob controle.",
+      "engine_examples": [
+        "Shadow Dancer Revisitado mapHandler.c"
+      ],
+      "registry_ids": [
+        "tile_cache_streaming_refcount"
+      ]
+    },
+    {
+      "id": "platformer_feel_buffered_jump",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Plataforma com leitura moderna de input e tolerancia de jogador.",
+      "risk": "Medio; vira assinatura de feel e nao deve entrar sem intencao.",
+      "engine_examples": [
+        "SGDK_LIZARDRIVE platformer player.c"
+      ],
+      "registry_ids": [
+        "platformer_feel_buffered_jump"
+      ]
+    },
+    {
+      "id": "multi_rate_deceleration",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Personagens com momentum forte e frenagem em bandas.",
+      "risk": "Medio; afeta feel inteiro do personagem.",
+      "engine_examples": [
+        "SGDK_LIZARDRIVE sonic player.c"
+      ],
+      "registry_ids": [
+        "sonic_multi_rate_deceleration"
+      ]
+    },
+    {
+      "id": "minimal_entity_manager",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Projeto precisa de gerenciador leve de entidades sem switch monolitico.",
+      "risk": "Medio; escolha arquitetural, nao so snippet.",
+      "engine_examples": [
+        "NEXZR entitymanager.c"
+      ],
+      "registry_ids": [
+        "minimal_entity_manager"
+      ]
+    },
+    {
+      "id": "slope_collision_gradient",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Colisao com slopes e aderencia ao piso em plataforma.",
+      "risk": "Medio-alto; tune errado gera jitter ou hover.",
+      "engine_examples": [
+        "Mega Metroid main.c"
+      ],
+      "registry_ids": [
+        "slope_collision_gradient"
+      ]
+    },
+    {
+      "id": "trig_lookup_and_atan2",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Projeteis, dash angular, homing e geometria 2D de combate.",
+      "risk": "Baixo a medio; depende da convencao angular do projeto.",
+      "engine_examples": [
+        "Trigonometry Projetil trigonometric.c"
+      ],
+      "registry_ids": [
+        "trig_lookup_and_atan2"
+      ]
+    },
+    {
+      "id": "raycasting_asm_dma_flush",
+      "tier": "experimental_pattern",
+      "when_to_use": "Renderer extremo ja comprovado em budget e precisando flush especializado de DMA.",
+      "risk": "Muito alto; padrao fragil, de baixa portabilidade e dificil de auditar.",
+      "engine_examples": [
+        "Raycasting Anael render.c"
+      ],
+      "registry_ids": [
+        "raycasting_column_tile_renderer",
+        "raycasting_hud_palette_split",
+        "raycasting_asm_dma_flush"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+﻿{
+    "build_version":  "build_v005",
+    "rom_sha256":  "07cb5c0dce3b883ca39a8f0ca657a9e3241d88082a1180a732fcfaf5d42d8815",
+    "size_bytes":  262144,
+    "timestamp":  "2026-04-17T13:48:58.5915259-03:00",
+    "source_commit_when_available":  "5bbe5de1b8af759b883f7da35fc1a432b286d6f1",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  2,
+                               "blocking_statuses":  [
+                                                         "visual_gate_blocked",
+                                                         "emulator_evidence_stale"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "rom_identity_mismatch",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "stale",
+                             "performance":  "nao_testado",
+                             "audio":  "nao_testado",
+                             "hardware_real":  "nao_testado"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "bg_b_sky",
+                                      "version":  "v001",
+                                      "source_path":  "res/bgs/bg_b_sky.png"
+                                  },
+                                  {
+                                      "asset_id":  "bg_a_ground",
+                                      "version":  "v001",
+                                      "source_path":  "res/bgs/bg_a_ground.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hero",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/spr_hero.png"
+                                  },
+                                  {
+                                      "asset_id":  "sunny_land_bg_b",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/sunny_land_bg_b.png"
+                                  },
+                                  {
+                                      "asset_id":  "sunny_land_bg_a",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/sunny_land_bg_a.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_gaira",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/spr_gaira.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

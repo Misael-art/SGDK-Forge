@@ -1,0 +1,11 @@
+interface:
+  display_name: "XGM2 Audio Director"
+  short_description: "Orquestra audio XGM2 com ownership de canal, loop e prova de integracao"
+  brand_color: "#8B5A36"
+  default_prompt: "Use $xgm2-audio-director para definir arquitetura de audio XGM2 no Mega Drive, incluindo ownership de canal, eventos de gameplay, loop e prova de integracao."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

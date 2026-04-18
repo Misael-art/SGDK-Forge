@@ -27,7 +27,7 @@ Use este fluxo para build, rebuild e validacao operacional.
    - snapshot da ROM quando o hash mudar
    - atualizacao de `build_meta.json`
    - atualizacao do bloco derivado em `doc/10-memory-bank.md`
-8. Executar `validate_resources.ps1`.
+8. Executar `validate_resources.ps1 -CloseoutGate` no fechamento de QA; durante iteracao, o wrapper pode usar o modo normal apenas para manter o relatorio coerente sem bloquear o build.
 9. Conferir blockers de fechamento:
    - `agent_context_degraded`
    - `budget_doc_mismatch`
@@ -41,6 +41,12 @@ Use este fluxo para build, rebuild e validacao operacional.
    - `doc/changelog/changelog.md`
    - `doc/10-memory-bank.md`
 12. Se houver novo build depois disso, rebaixar a evidencia anterior para `stale`.
+
+## Semantica do Gate Final
+
+- `visual_lab_aprovado` pode fechar o laboratorio visual, mas nao autoriza entrega AAA sozinho.
+- `gameplay_rom_aprovada` exige gameplay real, `performance`, `audio` e `hardware_real` fora de `nao_testado`.
+- `ready_for_aaa` so pode ser verdadeiro quando a ROM jogavel estiver aprovada e o budget/runtime estiverem validados.
 
 ## Saida minima esperada
 

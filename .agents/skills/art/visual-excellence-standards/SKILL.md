@@ -22,6 +22,32 @@ Todo asset deve ser tratado como recurso de hardware:
 
 Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sobrevive ao VDP do Mega Drive.
 
+## Contrato Operacional
+
+### Entrada minima
+
+- fonte visual (ou assets traduzidos por layer) e seu papel na cena
+- `doc/03_art/02_visual_feedback_bank.md` e barra de qualidade quando existirem
+- contexto de composicao (`layer_plan` / `shared_canvas_contract`) quando houver multi-plano
+
+### Saida minima
+
+- julgamento estetico com criterio observavel (nao apenas subjetivo)
+- metricas canonicas aplicadas (ex.: `palette_efficiency`, `layer_separation`)
+- bloqueios visuais registrados quando aplicavel (ex.: `visual_gate_blocked`)
+- recomendacao objetiva de proxima etapa (budget/runtime)
+
+### Passa quando
+
+- a leitura em 320x224 nativo foi considerada
+- os sintomas foram traduzidos em diagnostico tecnico e heuristica preventiva quando necessario
+- a decisao resultante nao contradiz o hardware sem declarar tradeoff
+
+### Handoff para proxima etapa
+
+- se a rota visual estiver congelada: entregar para `hardware/megadrive-vdp-budget-analyst`
+- se ainda faltar traducao: entregar para `art/art-translation-to-vdp` com lista objetiva de ajustes
+
 ## Regra de Ouro
 
 Nenhum feedback humano corrige PNG diretamente.

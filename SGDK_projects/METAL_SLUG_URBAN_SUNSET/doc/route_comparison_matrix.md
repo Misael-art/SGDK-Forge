@@ -27,6 +27,7 @@ Este documento registra o teste comparativo das rotas visuais propostas para a c
 - `D`: `cool_evening`
 - `E`: `anime_style`
 - `F`: `anime_background_reference`
+- `G`: `anime_linefirst`
 
 ## Metodo
 
@@ -150,6 +151,40 @@ Leitura:
 - porem a promocao automatica ainda nao reduziu estrutura o suficiente para o budget atual
 - esta e a linha correta para novas iteracoes, mas ainda nao esta pronta para substituir o default
 
+### `anime_linefirst`
+
+O pipeline foi refeito na ordem pedida pelo usuario:
+
+1. `city_cropped_448x224`
+2. `anime style`
+3. `line art only`
+4. promocao do traco para Mega Drive
+5. pintura inteligente por massas amplas
+
+O ganho estrutural veio de dois pontos:
+
+- o line art virou contrato de regiao antes da cor
+- a cor passou a ser preenchida por regioes delimitadas pelo desenho, nao por remapeamento pixel a pixel
+
+Resultados canônicos desta familia:
+
+| Perfil | Score | Tiles BG_A | Tiles BG_B | Total | Decisao |
+|--------|-------|------------|------------|-------|---------|
+| `anime_linefirst_balanced` | `0.7184` | `1260` | `1` | `1261` | `cabe` |
+| `anime_linefirst_cohesive` | `0.6988` | `1243` | `5` | `1248` | `cabe` |
+
+Leitura:
+
+- `balanced` foi o melhor equilibrio numerico dentro da familia line-first
+- `cohesive` sacrifica um pouco do score bruto, mas aproxima o mood do anime noturno aprovado
+- a versao intermediaria `regionfill_recolor` chegou a `0.7335`, mas ficou em `1303` tiles e portanto nao cabe
+
+Conclusao:
+
+- `anime_linefirst` e a primeira familia anime que passou a fechar o budget de forma reproduzivel
+- ela ainda nao derruba automaticamente o `default_multi_plane_method`
+- a partir daqui a discussao deixa de ser "como fazer caber" e passa a ser "qual filosofia visual o projeto quer congelar"
+
 ## Laudo de budget
 
 Como imagem unica em `compare_flat`, as rotas dividiram-se em dois grupos:
@@ -164,10 +199,13 @@ Decisao:
 - `high_key_haze`: `nao cabe` como `compare_flat`
 - `cool_evening`: `nao cabe` como `compare_flat`
 - `anime_style`: `cabe` como `compare_flat`
+- `anime_linefirst_balanced`: `cabe`
+- `anime_linefirst_cohesive`: `cabe`
 - como direcao de arte para reinterpretacao multi-plano:
   - `high_key_haze`: `cabe com recuo`
   - `cool_evening`: `cabe com recuo`
   - `anime_style`: `cabe` e tambem cabe como filosofia para promocao multi-plano futura
+  - `anime_linefirst`: `cabe` e agora tambem cabe como processo canônico desta familia
 
 Recuo necessario:
 
@@ -188,9 +226,11 @@ Recomendacao da curadoria neste teste:
 - `anime_style` sobe para a frente entre as rotas desafiantes
 - `anime_style` fica rebaixada a tentativa rejeitada de interpretacao
 - `anime_background_reference` passa a ser o alvo correto da familia anime
+- `anime_linefirst_balanced` passa a ser a melhor promocao tecnica desta familia
+- `anime_linefirst_cohesive` passa a ser a melhor promocao de mood desta familia
 - `high_key_haze` e `cool_evening` continuam validas como referencias de atmosfera
 - o metodo padrao do projeto continua travado como default ate haver escolha humana explicita
-- neste momento, nenhuma rota anime pode honestamente pedir a troca do default sem nova rodada de reducao estrutural
+- neste momento, a familia anime ja pode pedir escolha humana honesta, porque finalmente tem promocoes que cabem no budget
 
 ## Proximo passo
 

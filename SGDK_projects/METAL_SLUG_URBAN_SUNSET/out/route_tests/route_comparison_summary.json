@@ -8,7 +8,8 @@
     "route_c": "grid_alignment_diagnostic",
     "route_d": "cool_evening",
     "route_e": "anime_style",
-    "route_f": "anime_background_reference"
+    "route_f": "anime_background_reference",
+    "route_g": "anime_linefirst"
   },
   "duplicate_detection": {
     "route_b_same_as_route_a": true,
@@ -73,10 +74,27 @@
       "split_bg_b_unique_exact_tiles": 25,
       "split_total_unique_exact_tiles": 1347,
       "split_budget_decision": "nao cabe"
+    },
+    "anime_linefirst_balanced": {
+      "status": "challenger_ready",
+      "visual_excellence_score": 0.7184,
+      "bg_a_unique_exact_tiles": 1260,
+      "bg_b_unique_exact_tiles": 1,
+      "total_unique_exact_tiles": 1261,
+      "compare_flat_budget_decision": "cabe"
+    },
+    "anime_linefirst_cohesive": {
+      "status": "challenger_ready",
+      "visual_excellence_score": 0.6988,
+      "bg_a_unique_exact_tiles": 1243,
+      "bg_b_unique_exact_tiles": 5,
+      "total_unique_exact_tiles": 1248,
+      "compare_flat_budget_decision": "cabe"
     }
   },
-  "challenger_ready_for_user_choice": "anime_style",
+  "challenger_ready_for_user_choice": "anime_linefirst_balanced",
   "comparison_board_with_anime": "out/route_tests/route_compare_with_incumbent_and_anime.png",
+  "linefirst_board": "out/route_tests/route_anime_linefirst_board.png",
   "human_review": {
     "anime_style_previous_attempt": "rejected_by_human_review",
     "reason": "lost linework and color intelligence compared to approved anime background reference",

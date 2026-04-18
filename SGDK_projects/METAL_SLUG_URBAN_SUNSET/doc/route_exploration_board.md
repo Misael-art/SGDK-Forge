@@ -60,11 +60,30 @@ As alternativas nao podem variar:
   - esta rota substitui o entendimento anterior de `anime_style` como alvo estetico
   - o teste `anime_style` anterior fica registrado apenas como tentativa rejeitada
 
+### Rota G - Anime Line-First
+
+- leitura: a cena passa primeiro por `line art only`, depois por promocao Mega Drive do traco, e so entao recebe pintura por massas amplas
+- origem:
+  - [estilo anime.png](</C:/Users/misae/Downloads/estilo anime.png>)
+  - [estilo anime somente com os traços.png](</C:/Users/misae/Downloads/estilo anime somente com os traços.png>)
+  - [estilo anime recolorido pela IA 16 cores.png](</C:/Users/misae/Downloads/estilo anime recolorido pela IA 16 cores.png>)
+- vantagem:
+  - corrige o erro anterior de misturar desenho, paleta e budget no mesmo passo
+  - produz linhas mais firmes e massas de cor mais controladas
+  - ja tem duas promocoes que cabem no budget real
+- perfis vivos:
+  - `anime_linefirst_balanced`: mais claro, mais proximo do board recolorido, `1261` tiles totais, score `0.7184`
+  - `anime_linefirst_cohesive`: mais noturno e coeso com a referencia anime, `1248` tiles totais, score `0.6988`
+- risco:
+  - ainda simplifica materiais mais do que o metodo padrao do projeto
+  - precisa de congelamento humano explicito antes de substituir o default
+
 ## Recomendacao de curadoria
 
 - manter A e D como referencias de atmosfera
 - tratar E como tentativa rejeitada de interpretacao
 - tratar F como alvo estetico correto para a linha anime
+- tratar G como o primeiro processo anime que fechou budget de forma reproduzivel
 - usar C apenas como board tecnica
 - escolher a rota final antes de nova rodada de budget e runtime
 - o default continua sendo o metodo padrao atual ate existir `perceptual win` + `system win` e congelamento explicito do usuario

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Multi-Plane Composition"
+  short_description: "Compõe cenas Mega Drive em BG_A, BG_B, foreground e fallback honesto de ROM"
+  brand_color: "#4E7F9E"
+  default_prompt: "Use $multi-plane-composition para decidir papéis de BG_A, BG_B, foreground, parallax e fallback de ROM em uma cena Mega Drive antes da etapa de traducao."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

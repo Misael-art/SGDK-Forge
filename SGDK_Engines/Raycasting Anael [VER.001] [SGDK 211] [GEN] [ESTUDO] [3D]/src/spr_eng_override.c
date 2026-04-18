@@ -1,0 +1,631 @@
+#include <types.h>
+#include <vram.h>
+#include <sprite_eng.h>
+#include <tools.h>
+#include <mapper.h>
+#include <sys.h>
+#include "spr_eng_override.h"
+#include "consts_ext.h"
+#include "consts.h"
+#include "hint_callback.h"
+#include "vint_callback.h"
+#include "utils.h"
+
+#define VISIBILITY_ON                       0xFFFF
+#define VISIBILITY_OFF                      0x0000
+
+#define ALLOCATED                           0x8000
+
+#define NEED_VISIBILITY_UPDATE              0x0001
+#define NEED_FRAME_UPDATE                   0x0002
+#define NEED_TILES_UPLOAD                   0x0004
+
+#define STATE_ANIMATION_DONE                0x0010
+
+extern Sprite* firstSprite;
+extern Sprite* lastSprite;
+
+static Sprite* allocateSprite (u16 head)
+{
+    Sprite* result;
+
+    // allocate
+    result = POOL_allocate(spritesPool);
+
+    if (head)
+    {
+        // add the new sprite at the beginning of the chained list
+        if (firstSprite) firstSprite->prev = result;
+        result->prev = NULL;
+        result->next = firstSprite;
+        // update first and last sprite
+        if (lastSprite == NULL) lastSprite = result;
+        firstSprite = result;
+    }
+    else
+    {
+        // add the new sprite at the end of the chained list
+        if (lastSprite) lastSprite->next = result;
+        result->prev = lastSprite;
+        result->next = NULL;
+        // update first and last sprite
+        if (firstSprite == NULL) firstSprite = result;
+        lastSprite = result;
+    }
+
+    // mark as allocated --> this is done after allocate call, not needed here
+    // result->status = ALLOCATED;
+
+    return result;
+}
+
+// VRAM region allocated for the Sprite Engine
+extern VRAMRegion vram;
+
+Sprite* spr_eng_addSpriteEx (const SpriteDefinition* spriteDef, s16 x, s16 y, u16 attribut, u16 flag)
+{
+    Sprite* sprite;
+
+    // allocate new sprite
+    sprite = allocateSprite(flag & (u16)SPR_FLAG_INSERT_HEAD);
+
+    sprite->status = (u16)ALLOCATED | (flag & (u16)SPR_FLAG_MASK);
+
+    // fabri1983: currently I'm not using (u16)SPR_FLAG_AUTO_VISIBILITY
+    // auto visibility ?
+    /*if (flag & (u16)SPR_FLAG_AUTO_VISIBILITY) sprite->visibility = 0;
+    // otherwise we set it to visible by default
+    else*/ sprite->visibility = (u16)VISIBILITY_ON;
+    // initialized with specified flag
+    sprite->definition = spriteDef;
+    sprite->onFrameChange = NULL;
+
+//    FIXME: not needed
+//    sprite->animation = NULL;
+    sprite->frame = NULL;
+
+    sprite->animInd = -1;
+    sprite->frameInd = -1;
+//    sprite->seqInd = -1;
+
+    // may not be reset in SPR_setAnimAndFrame(..) so we have to reset it here
+    sprite->timer = 0;
+
+    sprite->x = x + 0x80;
+    sprite->y = y + 0x80;
+    // depending sprite position (first or last) we set its default depth
+    if (flag & (u16)SPR_FLAG_INSERT_HEAD) sprite->depth = (s16)SPR_MIN_DEPTH;
+    else sprite->depth = (s16)SPR_MAX_DEPTH;
+
+    // fabri1983: currently I'm not setting SPR_FLAG_AUTO_VRAM_ALLOC flag when adding the sprites
+    sprite->attribut = attribut;
+    // fabri1983: therefor next logic is not neeed
+    // auto VRAM alloc enabled ?
+    /*if (flag & (u16)SPR_FLAG_AUTO_VRAM_ALLOC)
+    {
+        // allocate VRAM
+        ind = VRAM_alloc(&vram, spriteDef->maxNumTile);
+        // not enough --> release sprite and return NULL
+        if (ind < 0)
+        {
+            releaseSprite(sprite);
+            return NULL;
+        }
+
+        // set VRAM index and preserve specific attributs from parameter
+        sprite->attribut = ind | (attribut & TILE_ATTR_MASK);
+    }
+    // just use the given attribut
+    else sprite->attribut = attribut;*/
+
+    // set anim and frame to 0 (important to do it after sprite->attribut has been set)
+    SPR_setAnimAndFrame(sprite, 0, 0);
+
+    return sprite;
+}
+
+static void setVisibility (Sprite* sprite, u16 newVisibility)
+{
+    // set new visibility
+    sprite->visibility = newVisibility;
+}
+
+static u16 updateVisibility (Sprite* sprite, u16 status)
+{
+    // fabri1983: sprites are always visible, they are unloaded when not used.
+    // set the new computed visibility
+    setVisibility(sprite, (u16)VISIBILITY_ON);
+    // visibility update done !
+    return status & (u16)~NEED_VISIBILITY_UPDATE;
+
+
+    u16 visibility;
+    const SpriteDefinition* sprDef = sprite->definition;
+
+    // we use 'unsigned' on purpose here to get merged <0 test
+    // fabri1983: we know the screenWidth at compilation time
+    const u16 sw = PLANE_COLUMNS == 64 ? 320 : 256; // screenWidth;
+    // fabri1983: we know the screenHeight at compilation time
+    const u16 sh = 224; // screenHeight;
+    const u16 w = sprDef->w - 1;
+    const u16 h = sprDef->h - 1;
+    const u16 x = sprite->x - 0x80;
+    const u16 y = sprite->y - 0x80;
+
+    // fabri1983: we don't use flag SPR_FLAG_FAST_AUTO_VISIBILITY
+    // fast visibility computation ?
+    /*if (status & (u16)SPR_FLAG_FAST_AUTO_VISIBILITY)
+    {
+        // compute global visibility for sprite ('unsigned' allow merged <0 test)
+        if (((u16)(x + w) < (u16)(sw + w)) && ((u16)(y + h) < (u16)(sh + h)))
+            visibility = (u16)VISIBILITY_ON;
+        else
+            visibility = (u16)VISIBILITY_OFF;
+    }
+    else*/
+    {
+        // sprite is fully visible ? --> set all sprite visible ('unsigned' allow merged <0 test)
+        if ((x < (u16)(sw - w)) && (y < (u16)(sh - h)))
+        {
+            visibility = (u16)VISIBILITY_ON;
+        }
+        // sprite is fully hidden ? --> set all sprite to hidden ('unsigned' allow merged <0 test)
+        else if (((u16)(x + w) >= (u16)(sw + w)) || ((u16)(y + h) >= (u16)(sh + h)))
+        {
+            visibility = (u16)VISIBILITY_OFF;
+        }
+        else
+        {
+            const u16 bx = x + 0x1F;    // max hardware sprite size = 32
+            const u16 by = y + 0x1F;
+            const u16 mx = sw + 0x1F;   // max hardware sprite size = 32
+            const u16 my = sh + 0x1F;
+
+            AnimationFrame* frame = sprite->frame;
+            s8 num = frame->numSprite;
+
+            // special case of single VDP sprite with size aligned to sprite size (no offset, no flip calculation required)
+            if (num < 0)
+                visibility = ((bx < mx) && (by < my))?0x8000:0;
+            else
+            {
+                #if SPR_ENG_ALLOW_MULTI_PALS
+                FrameVDPSpriteWithPal* frameSprite = (FrameVDPSpriteWithPal*)frame->frameVDPSprites;
+                #else
+                FrameVDPSprite* frameSprite = frame->frameVDPSprites;
+                #endif
+                visibility = 0;
+
+                switch(sprite->attribut & (TILE_ATTR_HFLIP_MASK | TILE_ATTR_VFLIP_MASK))
+                {
+                    case 0:
+                        while(num--)
+                        {
+                            // need to be done first
+                            visibility <<= 1;
+
+                            // compute visibility ('unsigned' allow merged <0 test)
+                            if (((u16)(frameSprite->offsetX + bx) < mx) && ((u16)(frameSprite->offsetY + by) < my))
+                                visibility |= 1;
+
+                            // next
+                            frameSprite++;
+                        }
+                        break;
+
+                    case TILE_ATTR_HFLIP_MASK:
+                        while(num--)
+                        {
+                            // need to be done first
+                            visibility <<= 1;
+
+                            // compute visibility ('unsigned' allow merged <0 test)
+                            if (((u16)(frameSprite->offsetXFlip + bx) < mx) && ((u16)(frameSprite->offsetY + by) < my))
+                                visibility |= 1;
+
+                            // next
+                            frameSprite++;
+                        }
+                        break;
+
+                    case TILE_ATTR_VFLIP_MASK:
+                        while(num--)
+                        {
+                            // need to be done first
+                            visibility <<= 1;
+
+                            // compute visibility ('unsigned' allow merged <0 test)
+                            if (((u16)(frameSprite->offsetX + bx) < mx) && ((u16)(frameSprite->offsetYFlip + by) < my))
+                                visibility |= 1;
+
+                            // next
+                            frameSprite++;
+                        }
+                        break;
+
+                    case TILE_ATTR_HFLIP_MASK | TILE_ATTR_VFLIP_MASK:
+                        while(num--)
+                        {
+                            // need to be done first
+                            visibility <<= 1;
+
+                            // compute visibility ('unsigned' allow merged <0 test)
+                            if (((u16)(frameSprite->offsetXFlip + bx) < mx) && ((u16)(frameSprite->offsetYFlip + by) < my))
+                                visibility |= 1;
+
+                            // next
+                            frameSprite++;
+                        }
+                        break;
+                }
+
+                // so visibility is in high bits
+                visibility <<= (16 - frame->numSprite);
+            }
+        }
+    }
+
+    // set the new computed visibility
+    setVisibility(sprite, visibility);
+
+    // visibility update done !
+    return status & (u16)~NEED_VISIBILITY_UPDATE;
+}
+
+static u16 updateFrame (Sprite* sprite, u16 status)
+{
+    AnimationFrame* frame = sprite->animation->frames[sprite->frameInd];
+
+    // fabri1983: we don't delay frame update, plus we handle DMA in hint and vint
+    // we need to transfert tiles data for this sprite and frame delay is not disabled ?
+    /*if ((status & (u16)(SPR_FLAG_AUTO_TILE_UPLOAD | SPR_FLAG_DISABLE_DELAYED_FRAME_UPDATE)) == (u16)SPR_FLAG_AUTO_TILE_UPLOAD)
+    {
+        // not enough DMA capacity to transfer sprite tile data ?
+        const u16 dmaCapacity = DMA_getMaxTransferSize();
+
+        if (dmaCapacity && ((DMA_getQueueTransferSize() + (frame->tileset->numTile * 32)) > dmaCapacity))
+        {
+            // initial frame update ? --> better to set frame at least
+            if (sprite->frame == NULL)
+                sprite->frame = frame;
+
+            // delay frame update (when we will have enough DMA capacity to do it)
+            return status;
+        }
+    }*/
+
+    // set frame
+    sprite->frame = frame;
+    // init timer for this frame *before* frame change callback so it can modify change it if needed.
+    if (SPR_getAutoAnimation(sprite))
+        sprite->timer = frame->timer;
+
+    // fabri1983: we don't need it
+    // frame change event handler defined ? --> call it
+    /*if (sprite->onFrameChange)
+    {
+        // important to preserve status value which may be modified externally here
+        sprite->status = status;
+        sprite->onFrameChange(sprite);
+        status = sprite->status;
+    }*/
+
+    // require tile data upload
+    if (status & (u16)SPR_FLAG_AUTO_TILE_UPLOAD)
+        status |= (u16)NEED_TILES_UPLOAD;
+    // fabri1983: we don't use flag SPR_FLAG_AUTO_VISIBILITY
+    // require visibility update
+    /*if (status & (u16)SPR_FLAG_AUTO_VISIBILITY)
+        status |= (u16)NEED_VISIBILITY_UPDATE;*/
+
+    // frame update done, also clear ANIMATION_DONE state
+    status &= (u16)~(NEED_FRAME_UPDATE | STATE_ANIMATION_DONE);
+
+    return status;
+}
+
+static FORCE_INLINE void loadTiles (Sprite* sprite)
+{
+    TileSet* tileset = sprite->frame->tileset;
+
+    // need to test for empty tileset (blank frame)
+    // fabri1983: we know our sprites have no empty frames
+    //if (tileset->numTile)
+    {
+        u16 lenInWord = (tileset->numTile * 32) / 2;
+
+        // TODO: separate tileset per VDP sprite and only unpack/upload visible VDP sprite (using visibility) to VRAM
+
+        // need unpacking ?
+        #if DMA_ALLOW_COMPRESSED_SPRITE_TILES
+        u16 compression = tileset->compression;
+        if (compression != COMPRESSION_NONE)
+        {
+            // get buffer, it will be released in the appropriate unit
+            u8* buf = DMA_allocateTemp(lenInWord);
+
+            // unpack in temp buffer obtained from DMA queue
+            //if (buf)
+            {
+                unpackSelector(compression, (u8*) FAR_SAFE(tileset->tiles, lenInWord * 2), buf);
+                // enqueue in sprite's queue
+                render_spr_queueDmaFastBuffered(buf, (sprite->attribut & TILE_INDEX_MASK) * 32, lenInWord);
+                //DMA_queueDmaFast(DMA_VRAM, buf, (sprite->attribut & TILE_INDEX_MASK) * 32, lenInWord, (u16)2);
+                //DMA_releaseTemp(lenInWord);
+
+                u16 baseIndex = (sprite->attribut & TILE_INDEX_MASK);
+                if (canDMAinHint(lenInWord)) {
+                    hint_enqueueTilesBuffered(baseIndex * 32, lenInWord);
+                }
+                else {
+                    hint_enqueueTilesBuffered(baseIndex * 32, DMA_LENGTH_IN_WORD_THRESHOLD_FOR_HINT);
+                    vint_enqueueTilesBuffered(baseIndex * 32 + DMA_TILES_THRESHOLD_FOR_HINT * 32, lenInWord - DMA_LENGTH_IN_WORD_THRESHOLD_FOR_HINT);
+                }
+            }
+        }
+        else
+        #endif
+        {
+            // just DMA operation to transfer tileset data to VRAM
+            // enqueue in sprite's queue
+            //render_spr_queueDma(FAR_SAFE(tileset->tiles, lenInWord * 2), (sprite->attribut & (u16)TILE_INDEX_MASK) * (u16)32, lenInWord);
+            //DMA_queueDma(DMA_VRAM, FAR_SAFE(tileset->tiles, lenInWord * 2), (sprite->attribut & (u16)TILE_INDEX_MASK) * (u16)32, lenInWord, (u16)2);
+
+            u16 baseIndex = (sprite->attribut & TILE_INDEX_MASK);
+            if (canDMAinHint(lenInWord)) {
+                hint_enqueueTiles(FAR_SAFE(tileset->tiles, lenInWord * 2), baseIndex * 32, lenInWord);
+            }
+            else {
+                hint_enqueueTiles(FAR_SAFE(tileset->tiles, DMA_LENGTH_IN_WORD_THRESHOLD_FOR_HINT * 2), 
+                    baseIndex * (u16)32, (u16)DMA_LENGTH_IN_WORD_THRESHOLD_FOR_HINT);
+                vint_enqueueTiles(FAR_SAFE(tileset->tiles + DMA_TILES_THRESHOLD_FOR_HINT*8, (lenInWord - DMA_LENGTH_IN_WORD_THRESHOLD_FOR_HINT) * 2), 
+                    baseIndex * (u16)32 + (u16)DMA_TILES_THRESHOLD_FOR_HINT * 32, lenInWord - (u16)DMA_LENGTH_IN_WORD_THRESHOLD_FOR_HINT);
+            }
+        }
+    }
+}
+
+NO_INLINE void spr_eng_update ()
+{
+    Sprite* sprite = firstSprite;
+    // SAT pointer
+    VDPSprite* vdpSprite = (void*) RAM_FIXED_VDP_SPRITE_CACHE_ADDRESS; //vdpSpriteCache;
+    // VDP sprite index (for link field)
+    u8 vdpSpriteInd = 1;
+
+    // fabri1983: we don't use this method to show the frame load.
+    // first sprite used by CPU load monitor
+    /*if (SYS_getShowFrameLoad())
+    {
+        // goes to next VDP sprite then
+        vdpSprite->link = vdpSpriteInd++;
+        vdpSprite++;
+    }*/
+
+    // iterate over all sprites
+    while(sprite)
+    {
+        s16 timer = sprite->timer;
+
+        // handle frame animation
+        if (timer > 0)
+        {
+            // timer elapsed --> next frame
+            if (--timer == 0) SPR_nextFrame(sprite);
+            // just update remaining timer
+            else sprite->timer = timer;
+        }
+
+        u16 status = sprite->status;
+
+        // order is important: updateFrame first then updateVisibility
+        if (status & NEED_FRAME_UPDATE)
+            status = updateFrame(sprite, status);
+        if (status & NEED_VISIBILITY_UPDATE)
+            status = updateVisibility(sprite, status);
+
+        // sprite visible and still allocated (can be released during updateFrame(..) with the frame change callback) with enough entry in SAT ?
+        if (sprite->visibility && (status & ALLOCATED) && (vdpSpriteInd <= SAT_MAX_SIZE))
+        {
+            if (status & NEED_TILES_UPLOAD)
+            {
+                loadTiles(sprite);
+                // tiles upload and sprite table done
+                status &= ~NEED_TILES_UPLOAD;
+            }
+
+            // update SAT now
+            AnimationFrame* frame = sprite->frame;
+            #if SPR_ENG_ALLOW_MULTI_PALS
+            FrameVDPSpriteWithPal* frameSprite = (FrameVDPSpriteWithPal*)frame->frameVDPSprites;
+            #else
+            FrameVDPSprite* frameSprite = frame->frameVDPSprites;
+            #endif
+            u16 attr = sprite->attribut;
+            s8 numSprite = frame->numSprite;
+
+            // special case of single VDP sprite with size aligned to sprite size (no offset, no flip calculation required)
+            if (numSprite < 0)
+            {
+                vdpSprite->y = sprite->y;
+                vdpSprite->size = frameSprite->size;
+                vdpSprite->link = vdpSpriteInd++;
+                #if SPR_ENG_ALLOW_MULTI_PALS
+                vdpSprite->attribut = attr | frameSprite->paletteId;
+                #else
+                vdpSprite->attribut = attr;
+                #endif
+                vdpSprite->x = sprite->x;
+                vdpSprite++;
+            }
+            else
+            {
+                static const u16 visibilityMask[17] =
+                {
+                    0x0000, 0x8000, 0xC000, 0xE000, 0xF000, 0xF800, 0xFC00, 0xFE00,
+                    0xFF00, 0xFF80, 0xFFC0, 0xFFE0, 0xFFF0, 0xFFF8, 0xFFFC, 0xFFFE,
+                    0xFFFF
+                };
+
+                // so visibility also allow to get the number of sprite
+                s16 visibility = (s16)(sprite->visibility & visibilityMask[(u8) numSprite]);
+
+                switch(attr & (TILE_ATTR_VFLIP_MASK | TILE_ATTR_HFLIP_MASK))
+                {
+                    case 0:
+                        while(visibility)
+                        {
+                            // current sprite visibility bit is in high bit
+                            if (visibility < 0)
+                            {
+                                vdpSprite->y = sprite->y + frameSprite->offsetY;
+                                vdpSprite->size = frameSprite->size;
+                                vdpSprite->link = vdpSpriteInd++;
+                                #if SPR_ENG_ALLOW_MULTI_PALS
+                                vdpSprite->attribut = attr | frameSprite->paletteId;
+                                #else
+                                vdpSprite->attribut = attr;
+                                #endif
+                                vdpSprite->x = sprite->x + frameSprite->offsetX;
+                                vdpSprite++;
+                            }
+
+                            // increment tile index in attribut field
+                            attr += frameSprite->numTile;
+                            // next
+                            frameSprite++;
+                            // next VDP sprite
+                            visibility <<= 1;
+                        }
+                        break;
+
+                    case TILE_ATTR_HFLIP_MASK:
+                        while(visibility)
+                        {
+                            // current sprite visibility bit is in high bit
+                            if (visibility < 0)
+                            {
+                                vdpSprite->y = sprite->y + frameSprite->offsetY;
+                                vdpSprite->size = frameSprite->size;
+                                vdpSprite->link = vdpSpriteInd++;
+                                #if SPR_ENG_ALLOW_MULTI_PALS
+                                vdpSprite->attribut = attr | frameSprite->paletteId;
+                                #else
+                                vdpSprite->attribut = attr;
+                                #endif
+                                vdpSprite->x = sprite->x + frameSprite->offsetXFlip;
+                                vdpSprite++;
+                            }
+
+                            // increment tile index in attribut field
+                            attr += frameSprite->numTile;
+                            // next
+                            frameSprite++;
+                            // next VDP sprite
+                            visibility <<= 1;
+                        }
+                        break;
+
+                    case TILE_ATTR_VFLIP_MASK:
+                        while(visibility)
+                        {
+                            // current sprite visibility bit is in high bit
+                            if (visibility < 0)
+                            {
+                                vdpSprite->y = sprite->y + frameSprite->offsetYFlip;
+                                vdpSprite->size = frameSprite->size;
+                                vdpSprite->link = vdpSpriteInd++;
+                                #if SPR_ENG_ALLOW_MULTI_PALS
+                                vdpSprite->attribut = attr | frameSprite->paletteId;
+                                #else
+                                vdpSprite->attribut = attr;
+                                #endif
+                                vdpSprite->x = sprite->x + frameSprite->offsetX;
+                                vdpSprite++;
+                            }
+
+                            // increment tile index in attribut field
+                            attr += frameSprite->numTile;
+                            // next
+                            frameSprite++;
+                            // next VDP sprite
+                            visibility <<= 1;
+                        }
+                        break;
+
+                    case (TILE_ATTR_VFLIP_MASK | TILE_ATTR_HFLIP_MASK):
+                        while(visibility)
+                        {
+                            // current sprite visibility bit is in high bit
+                            if (visibility < 0)
+                            {
+                                vdpSprite->y = sprite->y + frameSprite->offsetYFlip;
+                                vdpSprite->size = frameSprite->size;
+                                vdpSprite->link = vdpSpriteInd++;
+                                #if SPR_ENG_ALLOW_MULTI_PALS
+                                vdpSprite->attribut = attr | frameSprite->paletteId;
+                                #else
+                                vdpSprite->attribut = attr;
+                                #endif
+                                vdpSprite->x = sprite->x + frameSprite->offsetXFlip;
+                                vdpSprite++;
+                            }
+
+                            // increment tile index in attribut field
+                            attr += frameSprite->numTile;
+                            // next
+                            frameSprite++;
+                            // next VDP sprite
+                            visibility <<= 1;
+                        }
+                        break;
+                }
+            }
+        }
+
+        // processes done
+        sprite->status = status;
+        // next sprite
+        sprite = sprite->next;
+    }
+
+    // remove 1 to get number of hard sprite used
+    vdpSpriteInd--;
+
+    // fabri1983: there is always something to display.
+    // something to display ?
+    //if (vdpSpriteInd > 0)
+    {
+        // get back to last sprite
+        vdpSprite--;
+        // mark as end
+        vdpSprite->link = 0;
+        // send sprites to VRAM
+        #if DMA_ENQUEUE_VDP_SPRITE_CACHE_TO_FLUSH_AT_HINT
+        hint_enqueueVdpSpriteCache(vdpSpriteInd * (sizeof(VDPSprite) / 2));
+        #elif DMA_ENQUEUE_VDP_SPRITE_CACHE_TO_FLUSH_AT_VINT
+        vint_enqueueVdpSpriteCache(vdpSpriteInd * (sizeof(VDPSprite) / 2));
+        #elif DMA_ENQUEUE_VDP_SPRITE_CACHE_FOR_SGDK_QUEUE
+        DMA_queueDmaFast(DMA_VRAM, vdpSpriteCache, VDP_SPRITE_TABLE, vdpSpriteInd * (sizeof(VDPSprite) / 2), (u16)2);
+        #elif DMA_ENQUEUE_VDP_SPRITE_CACHE_ON_CUSTOM_SPR_QUEUE
+        render_spr_queueDmaFast(vdpSpriteCache, VDP_SPRITE_TABLE, vdpSpriteInd * (sizeof(VDPSprite) / 2));
+        #endif
+    }
+    // no sprite to display
+    /*else
+    {
+        // set 1st sprite off screen and mark as end
+        vdpSprite->y = 0;
+        vdpSprite->link = 0;
+        // send sprites to VRAM
+        #if DMA_ENQUEUE_VDP_SPRITE_CACHE_TO_FLUSH_AT_HINT
+        hint_enqueueVdpSpriteCache(1 * (sizeof(VDPSprite) / 2));
+        #elif DMA_ENQUEUE_VDP_SPRITE_CACHE_TO_FLUSH_AT_VINT
+        vint_enqueueVdpSpriteCache(1 * (sizeof(VDPSprite) / 2));
+        #elif DMA_ENQUEUE_VDP_SPRITE_CACHE_FOR_SGDK_QUEUE
+        DMA_queueDmaFast(DMA_VRAM, vdpSpriteCache, VDP_SPRITE_TABLE, 1 * (sizeof(VDPSprite) / 2), (u16)2);
+        #elif DMA_ENQUEUE_VDP_SPRITE_CACHE_ON_CUSTOM_SPR_QUEUE
+        render_spr_queueDmaFast(vdpSpriteCache, VDP_SPRITE_TABLE, vdpSpriteInd * (sizeof(VDPSprite) / 2));
+        #endif
+    }*/
+}

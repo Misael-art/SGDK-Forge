@@ -1,0 +1,54 @@
+{
+  "case_id": "armand_compact_sprite_sheet",
+  "status": "staged_for_translation",
+  "source_image": "assets/reference/translation_curation/armand_compact_sprite_sheet/source/source.png",
+  "translation_target": "sprite_sheet",
+  "reference_profile": "generic-megadrive-elite",
+  "minimum_delta": 0.08,
+  "intent_notes": [
+    "preservar a massa compacta e legivel do personagem em 32x32",
+    "evitar que a armadura pequena vire borrado",
+    "manter o sheet enxuto e consistente"
+  ],
+  "soul_contract": {
+    "must_keep": [
+      "silhueta compacta do cavaleiro",
+      "leitura de capacete e torso",
+      "valor central da pose idle"
+    ],
+    "can_simplify": [
+      "detalhes minimos de ornamento",
+      "tons proximos na armadura"
+    ],
+    "must_drop": [
+      "ruido interno que nao ajuda a leitura",
+      "frames redundantes sem ganho real"
+    ]
+  },
+  "variants": {
+    "basic": {
+      "label": "BASIC",
+      "analysis_units": [
+        {
+          "name": "sprite_sheet",
+          "asset": "assets/reference/translation_curation/armand_compact_sprite_sheet/basic/armand_sheet_basic.png",
+          "role": "sprite",
+          "critical_visual": true,
+          "weight": 1.0
+        }
+      ]
+    },
+    "elite": {
+      "label": "ELITE",
+      "analysis_units": [
+        {
+          "name": "sprite_sheet",
+          "asset": "assets/reference/translation_curation/armand_compact_sprite_sheet/elite/armand_sheet_elite.png",
+          "role": "sprite",
+          "critical_visual": true,
+          "weight": 1.0
+        }
+      ]
+    }
+  }
+}

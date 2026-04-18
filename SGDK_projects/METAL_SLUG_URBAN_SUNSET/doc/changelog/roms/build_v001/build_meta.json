@@ -1,0 +1,49 @@
+﻿{
+    "build_version":  "build_v001",
+    "rom_sha256":  "9f4c01bc281220d59cdd34275b4811da459446860bb2fed669bd5bf03f52bd9a",
+    "size_bytes":  131072,
+    "timestamp":  "2026-04-13T22:58:42.6890869-03:00",
+    "source_commit_when_available":  "81079bd6a6b0d4a66a80f66a86f52a9aa44d502f",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  2,
+                               "blocking_statuses":  [
+                                                         "visual_gate_blocked",
+                                                         "emulator_evidence_stale"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "runtime_metrics_stale",
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "sky_bg_b",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/sky_bg_b.png"
+                                  },
+                                  {
+                                      "asset_id":  "city_bg_a",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/city_bg_a.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_debris_01",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/debris_01.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_debris_02",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/debris_02.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_debris_03",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/debris_03.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_player",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/spr_marco.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

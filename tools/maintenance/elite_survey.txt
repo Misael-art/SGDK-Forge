@@ -1,0 +1,53 @@
+--- NEXZR MD [VER.001] [SGDK 211] [GEN] [GAME] [SHMUP] ---
+Docs: ['01-visao-geral.md', '02-build-wrapper.md', '03-arquitetura.md', '04-recursos-e-pipeline.md', '05-guia-de-desenvolvimento.md', '06-debug-migracao.md', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md']
+Src structure: ['background.c', 'background.h', 'boot', 'callback.h', 'characters.c', 'characters.h', 'enemies.c', 'enemies.h', 'entitymanager.c', 'entitymanager.h', 'game.c', 'game.h', 'hud.c', 'hud.h', 'i18n.c', 'i18n.h', 'include', 'intro.c', 'intro.h', 'lang_en.h', 'lang_es.h', 'lang_pt.h', 'level_1.c', 'level_1.h', 'main.c', 'menu.c', 'menu.h', 'player.c', 'player.h', 'utils.c', 'utils.h']
+  - boot/: ['rom_head.c', 'sega.s']
+  - include/: ['asm.h', 'asm_mac.i', 'bmp.h', 'config.h', 'dma.h', 'ext', 'genesis.h', 'joy.h', 'kdebug.h', 'map.h', 'mapper.h', 'maths.h', 'maths3D.h', 'memory.h', 'memory_base.h', 'object.h', 'pal.h', 'pool.h', 'psg.h', 'snd', 'sprite_eng.h', 'sprite_eng_legacy.h', 'sram.h', 'string.h', 'sys.h', 'tab_cnv.h', 'task.h', 'task_cst.h', 'timer.h', 'tools.h', 'types.h', 'vdp.h', 'vdp_bg.h', 'vdp_pal.h', 'vdp_spr.h', 'vdp_tile.h', 'vram.h', 'ym2612.h', 'z80_ctrl.h']
+Root files: ['README.md']
+
+--- Jogo de Nave [VER.0.5] [SGDK 211] [GEN] [GAME] [SHMUP] ---
+Docs: ['01-visao-geral.md', '02-build-wrapper.md', '03-arquitetura.md', '04-recursos-e-pipeline.md', '05-guia-de-desenvolvimento.md', '06-debug-migracao.md', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md']
+Src structure: ['boot', 'main.c']
+  - boot/: ['rom_head.c', 'sega.s']
+Root files: ['README.md']
+
+--- Shadow Dancer Hamoopig [VER.1.0] [SGDK 211] [GEN] [ENGINE] [PLATAFORMA] ---
+Docs: ['01-visao-geral.md', '02-build-wrapper.md', '03-arquitetura.md', '04-recursos-e-pipeline.md', '05-guia-de-desenvolvimento.md', '06-debug-migracao.md', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md']
+Src structure: ['boot', 'main.c']
+  - boot/: ['rom_head.c', 'sega.s']
+Root files: ['README.md']
+
+--- HAMOOPIG [VER.1.0 CPU6.2] [SGDK 211] [GEN] [ENGINE] [LUTA] ---
+Docs: ['01-visao-geral.md', '02-build-wrapper.md', '03-arquitetura.md', '04-recursos-e-pipeline.md', '05-guia-de-desenvolvimento.md', '06-debug-migracao.md', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md']
+Src structure: ['boot']
+  - boot/: ['rom_head.c', 'sega.s']
+Root files: ['PROP.TXT', 'README.md']
+
+--- HAMOOPIG main [VER.001] [SGDK 211] [GEN] [ENGINE] [LUTA] ---
+Docs: ['01-visao-geral.md', '02-build-wrapper.md', '03-arquitetura.md', '04-recursos-e-pipeline.md', '05-guia-de-desenvolvimento.md', '06-debug-migracao.md', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md']
+Src structure: ['boot']
+  - boot/: ['rom_head.c', 'sega.s']
+Root files: ['NOTA_COMPILACAO.md', 'README.md']
+
+--- BLAZE_ENGINE [VER.001] [SGDK 211] [GEN] [ENGINE] [BRIGA DE RUA] ---
+Docs: ['01-visao-geral.md', '02-build-wrapper.md', '03-arquitetura.md', '04-recursos-e-pipeline.md', '05-guia-de-desenvolvimento.md', '06-debug-migracao.md', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md']
+Src structure: ['boot', 'main.c']
+  - boot/: ['rom_head.c', 'sega.s']
+Root files: ['README.md']
+
+--- PlatformerEngine [VER.1.0] [SGDK 211] [GEN] [ENGINE] [PLATAFORMA] ---
+Docs: ['engine_architecture_nodes.md', 'player_logic_flow.md']
+Root files: ['README.md']
+
+--- KOF94 HAMOOPIG MINIMALIST [VER.001] [SGDK 211] [GEN] [ENGINE] [LUTA] ---
+Docs: ['01-visao-geral.md', '02-build-wrapper.md', '03-arquitetura.md', '04-recursos-e-pipeline.md', '05-guia-de-desenvolvimento.md', '06-debug-migracao.md', '07-material-de-referencia.md', 'assets', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md', 'reference']
+Root files: ['README.md']
+
+--- HAMOOPIG [VER.1.0] [SGDK 211] [GEN] [ENGINE] [LUTA] ---
+Docs: ['01-visao-geral.md', '02-build-wrapper.md', '03-arquitetura.md', '04-recursos-e-pipeline.md', '05-guia-de-desenvolvimento.md', '06-debug-migracao.md', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md']
+Root files: ['README.md']
+
+--- MegaDriving [VER.1.0] [SGDK 211] [GEN] [ENGINE] [CORRIDA] ---
+Docs: ['01-visao-geral.md', '02-mapa-de-variantes.md', '03-fluxo-de-trabalho.md', 'engine_architecture_nodes.md', 'player_logic_flow.md', 'README.md', 'reference']
+Root files: ['README.md']
+

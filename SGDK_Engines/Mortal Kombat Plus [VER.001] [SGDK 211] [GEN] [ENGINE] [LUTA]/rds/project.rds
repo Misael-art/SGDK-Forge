@@ -1,0 +1,26 @@
+{
+  "rds_version": "1.0.0",
+  "schema_version": "1.3.0",
+  "name": "Mortal Kombat Plus",
+  "target": "megadrive",
+  "resolution": {
+    "width": 320,
+    "height": 224
+  },
+  "fps": 60,
+  "palette_mode": "4x16",
+  "entry_scene": "scenes/main.json",
+  "build": {
+    "output_dir": "build/",
+    "optimization": "size",
+    "artifact_prefix": "rom",
+    "patch_audit_log": []
+  },
+  "template_metadata": {
+    "template_id": "sgdk_import_fighting",
+    "template_version": "1.0.0",
+    "source_kind": "external_sgdk",
+    "source_path": ".",
+    "imported_at_ms": 1710576000000
+  }
+}

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Status Panel Maintainer"
+  short_description: "Mantem vocabulario e leitura de status operacional sem ambiguidade"
+  brand_color: "#446B7A"
+  default_prompt: "Use $status-panel-maintainer para descrever o estado real de um projeto SGDK com vocabulario de status canonico e evidencia correta."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

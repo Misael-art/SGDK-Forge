@@ -1,0 +1,15 @@
+# Opcional: definir variavel CI/CD SGDK_CI=1 para ativar o pipeline (evita falhas em runners sem SGDK).
+workflow:
+  rules:
+    - if: '$SGDK_CI == "1"'
+    - when: never
+
+stages:
+  - verify
+
+sgdk_golden_validate:
+  stage: verify
+  tags:
+    - windows
+  script:
+    - powershell -NoProfile -ExecutionPolicy Bypass -File tools/sgdk_wrapper/ci/run_golden_validate.ps1

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "frame_stability": {
+    "stable_over_budget_ratio_max": 0.005,
+    "stable_cpu_load_max": 100,
+    "stable_cpu_load_p95_max": 95,
+    "stable_cpu_jitter_max": 24
+  },
+  "sprite_pressure": {
+    "low_max": 12,
+    "medium_max": 16,
+    "high_max": 20,
+    "critical_block_above": 20
+  },
+  "fx_load": {
+    "light_max": 1,
+    "heavy_max": 3
+  },
+  "perceptual_quality": {
+    "aaa_min_score": 7,
+    "acceptable_min_score": 4,
+    "max_score_per_axis": 2
+  }
+}

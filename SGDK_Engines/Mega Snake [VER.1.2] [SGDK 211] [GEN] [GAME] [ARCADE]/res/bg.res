@@ -1,0 +1,1 @@
+IMAGE bgb "bgx\bgb2.png" BEST

@@ -1,0 +1,364 @@
+#include <types.h>
+#include <sys.h>
+#include <vdp.h>
+#include <z80_ctrl.h>
+#include <timer.h>
+#include <dma.h>
+#include <memory.h>
+#include "render.h"
+#include "consts.h"
+#include "consts_ext.h"
+//#include <joy.h>
+#include "joy_6btn.h"
+#include "hud.h"
+#include "utils.h"
+#include "frame_buffer.h"
+#include "vint_callback.h"
+
+extern VoidCallback *vblankCB;
+
+#if RENDER_ENABLE_FRAME_LOAD_CALCULATION
+extern bool addFrameLoad(u16 frameLoad, u32 vtime);
+extern u16 getAdjustedVCounterInternal(u16 blank, u16 vcnt);
+#endif
+
+u16 render_loadTiles ()
+{
+    // ORDERING: Tiles are created in groups of 8 tiles except first one which is the empty tile.
+    // Tiles inside each group go from Highest to Smallest in pixel height. Groups go from Darkest to Brightest.
+    // 4 most right columns of pixels for each tile is left empty so the Plane B can be displaced 4 bits to the right.
+
+	// Create a buffer of the size of a tile
+	u8* tile = MEM_alloc(32); // 32 bytes per tile, layout: tile[4*8]
+	memset(tile, 0, 32); // clear the tile with color index 0 (which is the BG color index)
+
+	// 9 possible tile heights: from 0 to 8 pixels
+
+	// Tile with height 0 goes at index 0, and its color is 0
+	VDP_loadTileData((u32*)tile, 0, 1, CPU);
+
+	// Remaining 8 possible tile heights, distributed in 8 sets
+
+    // fabri1983: we'll add 8 more tiles so we can use the other half of the palette.
+    // First pass creates and loads 8 tiles with colors 0..7.
+    // Second pass creates and loads 8 tiles with colors 0 and 8..14.
+    for (u8 pass=0; pass < 2; ++pass) {
+
+        // 8 tiles per set
+        for (u16 t = 1; t <= 8; t++) {
+            memset(tile, 0, 32); // clear the tile with color index 0
+            // 8 colors: they match with those from SGDK's ramp palettes (palette_grey, red, green, blue) first 8 colors going from darker to lighter
+            for (u16 c = 0; c < 8; c++) {
+                // Visit the height of each tile in current set. Height here is 0 based because is used as a stride into tile buffer.
+                for (u16 h = t-1; h < 8; h++) {
+                    // Visit the columns of current row. 1 byte holds 2 colors as per Tile definition (4 bits per color),
+                    // so lower byte is color c and higher byte is color c+1, letting the RCA video signal do the blending.
+                    // We only fill most left 4 columns of pixels of the tile, leaving the other 4 columns with color 0. 
+                    for (u16 b = 0; b < 2; b++) {
+                        // lower 4 bits
+                        u8 colorLow = c;
+                        if (pass == 1)
+                            colorLow = c == 0 ? 0 : c+7;
+
+                        // higher 4 bits
+                        u8 colorHigh = (c+1) == 8 ? c : c+1;
+                        // We clamp to color 7 since starting at SGDK's palette 8th color they repeat
+                        if (pass == 1)
+                            colorHigh += 7;
+
+                        // combine lower and higher bits (low and high colors)
+                        u8 color = colorLow | (colorHigh << 4);
+
+                        // This sets 2 pixels (remember a color holds 2 color pixels) at left columns [4*h] and [4*h + 1],
+                        // leaving pixels in right columns at [4*h + 2] and [4*h + 2] as it is (currently 0).
+                        tile[4*h + b] = color;
+                        // Duplicate color in right colums too
+                        //tile[4*h + 2 + b] = color;
+                    }
+                }
+                VDP_loadTileData((u32*)tile, t + c*8 + (pass*(8*8)), 1, CPU);
+            }
+        }
+    }
+
+    // Add 5 tiles more to be used as floor using PAL0 (which holds grey palette) 
+    // ranging from 0x0222 (darkest) to 0x0444 (brightest) using dithering with black color at position 0xF
+    /*u16 floorTileStart = 1 + 8*8 + 8*8;
+    for (u16 t = 0; t < 5; t++) {
+        memset(tile, 0, 32); // Clear the tile
+        // Iterate over all heights
+        for (u16 h = 0; h < 8; h++) {
+            // Iterate for 2 columns of colors
+            for (u16 b = 0; b < 2; b++) {
+                u8 color;
+                // Different dithering ratios
+                switch (t) {
+                    case 0: // Darkest: 25% 0x2, 75% 0xF
+                        color = (((h + b) % 4) < 1) ? 0x22 : 0xF2;
+                        break;
+                    case 1: // 50% 0x2, 50% 0xF
+                        color = ((h + b) % 2) ? 0x22 : 0xF2;
+                        break;
+                    case 2: // 50% 0x2, 50% 0x4
+                        color = ((h + b) % 2) ? 0x22 : 0x42;
+                        break;
+                    case 3: // 25% 0x2, 75% 0x4
+                        color = (((h + b) % 4) < 1) ? 0x22 : 0x42;
+                        break;
+                    case 4: // Brightest: all 0x4
+                        color = 0x44;
+                        break;
+                }
+                // Set color for left columns
+                tile[4*h + b] = color;
+                // Duplicate color in right colums too
+                //tile[4*h + 2 + b] = color;
+            }
+        }
+        VDP_loadTileData((u32*)tile, floorTileStart + t, 1, CPU);
+    }*/
+
+    MEM_free(tile);
+
+    // Returns next available tile index in VRAM
+    return VRAM_INDEX_AFTER_TILES;
+}
+
+void render_loadWallPalettes ()
+{
+    // palette grey and palette red were already loaded by SGDK
+
+    // load colors used from green palette into PAL0. From darkest to lightest.
+    PAL_setColors(PAL0*16 + 8, palette_green + 1, 7, DMA);
+    // load colors used from blue palette into PAL1. From darkest to lightest.
+    PAL_setColors(PAL1*16 + 8, palette_blue + 1, 7, DMA);
+}
+
+static FORCE_INLINE void render_Z80_requestBus(bool wait)
+{
+    // request bus (need to end reset)
+    vu16* pw_bus = (u16 *) Z80_HALT_PORT;
+    //vu16* pw_reset = (u16 *) Z80_RESET_PORT;
+    vu16* pw_reset = pw_bus + (Z80_RESET_PORT - Z80_HALT_PORT);
+
+    // take bus and end reset
+    *pw_bus = 0x0100;
+    *pw_reset = 0x0100;
+
+    if (wait) {
+        // wait for bus taken
+        while (*pw_bus & 0x0100);
+    }
+}
+
+static FORCE_INLINE void render_Z80_releaseBus()
+{
+    vu16* pw = (u16 *) Z80_HALT_PORT;
+    *pw = 0x0000;
+}
+
+FORCE_INLINE void render_Z80_setBusProtection (bool value)
+{
+    render_Z80_requestBus(FALSE);
+	u16 busProtectSignalAddress = (u16)(Z80_DRV_PARAMS + 0x0D); //& 0xFFFF; // point to Z80 PROTECT parameter
+    vu8* pb = (u8*) (Z80_RAM + busProtectSignalAddress); // See Z80_useBusProtection() reference in z80_ctrl.c
+    *pb = value?1:0;
+	render_Z80_releaseBus();
+}
+
+extern DMAOpInfo *dmaQueues;
+
+FORCE_INLINE void render_DMA_flushQueue ()
+{
+    u16 queueIndex = DMA_getQueueSize();
+    if (queueIndex == 0)
+        return;
+
+    // u8 autoInc = VDP_getAutoInc(); // save autoInc
+	// Z80_requestBus(FALSE);
+
+    vu32* vdpCtrl_ptr_l = (u32*) VDP_CTRL_PORT;
+    __asm volatile (
+        "subq.w  #1,%2\n"         // prepare for dbra
+        ".fq_loop_%=:\n\t"
+        "move.l  (%0)+,(%1)\n\t"
+        "move.l  (%0)+,(%1)\n\t"
+        "move.l  (%0)+,(%1)\n\t"
+        "move.w  (%0)+,(%1)\n\t"
+        "move.w  (%0)+,(%1)\n\t"  // Stef: important to use word write for command triggering DMA (see SEGA notes)
+        "dbra    %2,.fq_loop_%="
+        :
+        : "a" (dmaQueues), "a" (vdpCtrl_ptr_l), "d" (queueIndex)
+        :
+    );
+
+    // Z80_releaseBus();
+    DMA_clearQueue();
+    // VDP_setAutoInc(autoInc); // restore autoInc
+}
+
+#if RENDER_ENABLE_FRAME_LOAD_CALCULATION
+static u32 vtimerStart;
+static u16 vcnt;
+static u16 blank;
+
+static FORCE_INLINE void render_setupFrameLoadCalculation ()
+{
+    // For frame CPU load calculation
+    vtimerStart = vtimer;
+    // store V-Counter and initial blank state
+    vcnt = GET_VCOUNTER;
+    vu16* pw = (u16*) VDP_CTRL_PORT;
+    blank = *pw & VDP_VBLANK_FLAG;
+}
+
+static FORCE_INLINE void render_calculateFrameLoad ()
+{
+    // update CPU frame load
+    addFrameLoad(getAdjustedVCounterInternal(blank, vcnt), vtimerStart);
+}
+#endif
+
+void render_SYS_doVBlankProcessEx_ON_VBLANK ()
+{
+    #if RENDER_ENABLE_FRAME_LOAD_CALCULATION
+    render_setupFrameLoadCalculation();
+    #endif
+
+    // joy state refresh
+    //JOY_update();
+    joy_update_6btn();
+
+    // Waits until SGDK's vint is triggered and returned from the user vintCB().
+    waitVInt_vtimer();
+
+    #if RENDER_ENABLE_FRAME_LOAD_CALCULATION
+    render_calculateFrameLoad();
+    showCPULoad(0, 24); // is shown on WINDOW plane
+    //showFPS(0, 24);
+    #endif
+}
+
+void render_DMA_enqueue_framebuffer ()
+{
+    u16* frame_buffer = (u16*) RAM_FIXED_FRAME_BUFFER_ADDRESS;
+
+    // All the frame_buffer Plane A
+    DMA_queueDmaFast(DMA_VRAM, frame_buffer, PA_ADDR, (u16)(VERTICAL_ROWS*PLANE_COLUMNS) - (PLANE_COLUMNS-TILEMAP_COLUMNS), (u16)2);
+ 
+    // All the frame_buffer Plane B
+    DMA_queueDmaFast(DMA_VRAM, frame_buffer + (VERTICAL_ROWS*PLANE_COLUMNS), PB_ADDR, (u16)(VERTICAL_ROWS*PLANE_COLUMNS) - (u16)(PLANE_COLUMNS-TILEMAP_COLUMNS), (u16)2);
+}
+
+FORCE_INLINE void render_DMA_row_by_row_framebuffer ()
+{
+    // Arguments must be in byte addressing mode.
+    // Except the lenght since DMA RAM to VRAM copies 2 bytes on every cycle.
+    // Also we assume VDP's stepping is already 2.
+
+    vu32* vdpCtrl_ptr_l = (vu32*) VDP_CTRL_PORT;
+
+    #if RENDER_MIRROR_PLANES_USING_VDP_VRAM || RENDER_MIRROR_PLANES_USING_VSCROLL_IN_HINT || RENDER_MIRROR_PLANES_USING_VSCROLL_IN_HINT_MULTI_CALLBACKS
+
+    // Plane A rows
+
+    // Setup DMA length high ONLY ONCE. Length in words because DMA RAM/ROM to VRAM moves 2 bytes per VDP cycle op
+    *(vu16*)vdpCtrl_ptr_l = 0x9400 | ((TILEMAP_COLUMNS >> 8) & 0xff); // DMA length high
+    // NOTE: DMA length low has to be set every time before triggering the DMA command
+
+    // Setup DMA address ONLY ONCE
+    u32 from_A = RAM_FIXED_FRAME_BUFFER_ADDRESS + (VERTICAL_ROWS*TILEMAP_COLUMNS/2 + 0*TILEMAP_COLUMNS)*2;
+    from_A >>= 1;
+    *(vu16*)vdpCtrl_ptr_l = 0x9500 | (from_A & 0xff); // low address
+    //*vdpCtrl_ptr_l = 0x8F029500 | (from & 0xff); // VDP inc step 2 and low address
+    from_A >>= 8;
+    *(vu16*)vdpCtrl_ptr_l = 0x9600 | (from_A & 0xff); // mid address
+    from_A >>= 8;
+    *(vu16*)vdpCtrl_ptr_l = 0x9700 | (from_A & 0x7f); // high address
+
+    #pragma GCC unroll 256 // Always set a big number since it does not accept defines
+    for (u16 i=0; i < VERTICAL_ROWS/2; ++i) {
+        // Plane A row
+        doDmaFast_fixed_args_loop_ready(vdpCtrl_ptr_l, VDP_DMA_VRAM_ADDR(PA_ADDR + HALF_PLANE_ADDR_OFFSET_BYTES + i*PLANE_COLUMNS*2), TILEMAP_COLUMNS);
+    }
+
+    // Plane B rows
+
+    // Setup DMA length high ONLY ONCE. Length in words because DMA RAM/ROM to VRAM moves 2 bytes per VDP cycle op
+    *(vu16*)vdpCtrl_ptr_l = 0x9400 | ((TILEMAP_COLUMNS >> 8) & 0xff); // DMA length high
+    // NOTE: DMA length low has to be set every time before triggering the DMA command
+
+    // Setup DMA address ONLY ONCE
+    u32 from_B = RAM_FIXED_FRAME_BUFFER_ADDRESS + (VERTICAL_ROWS*TILEMAP_COLUMNS + VERTICAL_ROWS*TILEMAP_COLUMNS/2 + 0*TILEMAP_COLUMNS)*2;
+    from_B >>= 1;
+    *(vu16*)vdpCtrl_ptr_l = 0x9500 | (from_B & 0xff); // low address
+    //*vdpCtrl_ptr_l = 0x8F029500 | (from_B & 0xff); // VDP inc step 2 and low address
+    from_B >>= 8;
+    *(vu16*)vdpCtrl_ptr_l = 0x9600 | (from_B & 0xff); // mid address
+    from_B >>= 8;
+    *(vu16*)vdpCtrl_ptr_l = 0x9700 | (from_B & 0x7f); // high address
+
+    #pragma GCC unroll 256 // Always set a big number since it does not accept defines
+    for (u16 i=0; i < VERTICAL_ROWS/2; ++i) {
+        // Plane B row
+        doDmaFast_fixed_args_loop_ready(vdpCtrl_ptr_l, VDP_DMA_VRAM_ADDR(PB_ADDR + HALF_PLANE_ADDR_OFFSET_BYTES + i*PLANE_COLUMNS*2), TILEMAP_COLUMNS);
+    }
+
+    #else
+
+    // Plane A rows
+
+    // Setup DMA length high ONLY ONCE. Length in words because DMA RAM/ROM to VRAM moves 2 bytes per VDP cycle op
+    *(vu16*)vdpCtrl_ptr_l = 0x9400 | ((TILEMAP_COLUMNS >> 8) & 0xff); // DMA length high
+    // NOTE: DMA length low has to be set every time before triggering the DMA command
+
+    // Setup DMA address ONLY ONCE
+    u32 from_A = RAM_FIXED_FRAME_BUFFER_ADDRESS + 0*TILEMAP_COLUMNS*2;
+    from_A >>= 1;
+    *(vu16*)vdpCtrl_ptr_l = 0x9500 | (from_A & 0xff); // low address
+    //*vdpCtrl_ptr_l = 0x8F029500 | (from_A & 0xff); // VDP inc step 2 and low address
+    from_A >>= 8;
+    *(vu16*)vdpCtrl_ptr_l = 0x9600 | (from_A & 0xff); // mid address
+    from_A >>= 8;
+    *(vu16*)vdpCtrl_ptr_l = 0x9700 | (from_A & 0x7f); // high address
+
+    #pragma GCC unroll 256 // Always set a big number since it does not accept defines
+    for (u16 i=0; i < VERTICAL_ROWS; ++i) {
+        // Plane A row
+        doDmaFast_fixed_args_loop_ready(vdpCtrl_ptr_l, VDP_DMA_VRAM_ADDR(PA_ADDR + i*PLANE_COLUMNS*2), TILEMAP_COLUMNS);
+    }
+
+    // Plane B rows
+
+    // Setup DMA length high ONLY ONCE. Length in words because DMA RAM/ROM to VRAM moves 2 bytes per VDP cycle op
+    *(vu16*)vdpCtrl_ptr_l = 0x9400 | ((TILEMAP_COLUMNS >> 8) & 0xff); // DMA length high
+    // NOTE: DMA length low has to be set every time before triggering the DMA command
+
+    // Setup DMA address ONLY ONCE
+    u32 from_B = RAM_FIXED_FRAME_BUFFER_ADDRESS + (VERTICAL_ROWS*TILEMAP_COLUMNS + 0*TILEMAP_COLUMNS)*2;
+    from_B >>= 1;
+    *(vu16*)vdpCtrl_ptr_l = 0x9500 | (from_B & 0xff); // low address
+    //*vdpCtrl_ptr_l = 0x8F029500 | (from_B & 0xff); // VDP inc step 2 and low address
+    from_B >>= 8;
+    *(vu16*)vdpCtrl_ptr_l = 0x9600 | (from_B & 0xff); // mid address
+    from_B >>= 8;
+    *(vu16*)vdpCtrl_ptr_l = 0x9700 | (from_B & 0x7f); // high address
+
+    #pragma GCC unroll 256 // Always set a big number since it does not accept defines
+    for (u16 i=0; i < VERTICAL_ROWS; ++i) {
+        // Plane B row
+        doDmaFast_fixed_args_loop_ready(vdpCtrl_ptr_l, VDP_DMA_VRAM_ADDR(PB_ADDR + i*PLANE_COLUMNS*2), TILEMAP_COLUMNS);
+    }
+
+    #endif
+}
+
+FORCE_INLINE void render_mirror_planes_in_VRAM ()
+{
+    fb_mirror_planes_in_VRAM();
+}
+
+FORCE_INLINE void render_copy_top_entries_in_VRAM ()
+{
+    fb_copy_top_entries_in_VRAM();
+}

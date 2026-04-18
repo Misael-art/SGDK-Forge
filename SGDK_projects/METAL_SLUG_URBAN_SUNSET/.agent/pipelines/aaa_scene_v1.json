@@ -1,0 +1,297 @@
+{
+  "pipeline_id": "aaa_scene_v1",
+  "description": "Jornada canonica de cena visual AAA: diagnostico -> composicao -> traducao -> excelencia -> budget -> runtime -> validacao -> evidencia.",
+  "framework_manifest_min_version": "2026.04.13",
+  "steps": [
+    {
+      "id": "S0_scope",
+      "kind": "human",
+      "label": "Escopo e spec",
+      "skill_path": null,
+      "inputs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md"
+      ],
+      "required_artifacts": [
+        "briefing aceito"
+      ],
+      "entry_conditions": [],
+      "exit_conditions": [
+        "escopo fechado",
+        "criterio de aceitacao declarado"
+      ],
+      "blocking_statuses": [
+        "feature_creep"
+      ],
+      "handoff_to": [
+        "S1_diagnostic"
+      ]
+    },
+    {
+      "id": "S1_diagnostic",
+      "kind": "skill",
+      "label": "Classificar estado dos assets",
+      "skill_path": "skills/art/art-asset-diagnostic",
+      "inputs": [
+        "res/",
+        "res/data/",
+        "res/*.res"
+      ],
+      "required_artifacts": [
+        "art_diagnostic_report",
+        "asset_route_decision"
+      ],
+      "entry_conditions": [
+        "briefing aceito"
+      ],
+      "exit_conditions": [
+        "rota de arte decidida",
+        "issues bloqueantes registrados"
+      ],
+      "blocking_statuses": [
+        "missing_source_art",
+        "asset_route_undefined"
+      ],
+      "handoff_to": [
+        "S2_composition"
+      ]
+    },
+    {
+      "id": "S2_composition",
+      "kind": "skill",
+      "label": "Composicao multi-plano",
+      "skill_path": "skills/art/multi-plane-composition",
+      "inputs": [
+        "mapa de composicao",
+        "doc/13-spec-cenas.md",
+        "briefing aceito"
+      ],
+      "required_artifacts": [
+        "depth_role_map",
+        "composition_schema",
+        "layer_plan",
+        "shared_canvas_contract",
+        "hardware_budget_review",
+        "delivery_findings"
+      ],
+      "optional_artifacts": [
+        "route_family_matrix",
+        "locked_composition_direction"
+      ],
+      "entry_conditions": [
+        "asset_route_decision"
+      ],
+      "exit_conditions": [
+        "planos declarados",
+        "estrategia de ROM declarada",
+        "se houver alternativas, a cena continua travada pelo mesmo shared_canvas_contract"
+      ],
+      "blocking_statuses": [
+        "plane_roles_undefined",
+        "rom_strategy_undefined"
+      ],
+      "handoff_to": [
+        "S3_translation"
+      ]
+    },
+    {
+      "id": "S3_translation",
+      "kind": "skill",
+      "label": "Traducao interpretativa para VDP",
+      "skill_path": "skills/art/art-translation-to-vdp",
+      "inputs": [
+        "source_image",
+        "translation_target",
+        "layer_plan",
+        "hardware_expectations"
+      ],
+      "required_artifacts": [
+        "semantic_parse_report",
+        "translation_report",
+        "basic_translation",
+        "elite_translation",
+        "tileset_review_package"
+      ],
+      "optional_artifacts": [
+        "route_exploration_board",
+        "route_comparison_matrix",
+        "route_decision_record",
+        "locked_visual_direction"
+      ],
+      "entry_conditions": [
+        "layer_plan"
+      ],
+      "exit_conditions": [
+        "semantic parsing emitido",
+        "assets traduzidos e auditaveis",
+        "se houver multiplas rotas fortes, uma direcao foi congelada antes do runtime"
+      ],
+      "blocking_statuses": [
+        "missing_semantic_parse",
+        "translation_without_review"
+      ],
+      "handoff_to": [
+        "S4_excellence"
+      ]
+    },
+    {
+      "id": "S4_excellence",
+      "kind": "skill",
+      "label": "Julgamento estetico AAA",
+      "skill_path": "skills/art/visual-excellence-standards",
+      "inputs": [
+        "assets por layer",
+        "translation_report",
+        "benchmark escolhido",
+        "route_exploration_board (opcional)"
+      ],
+      "required_artifacts": [
+        "doc/aesthetic_report.md",
+        "visual_asset_statuses"
+      ],
+      "optional_artifacts": [
+        "route_preferred_by_judge",
+        "locked_visual_direction"
+      ],
+      "entry_conditions": [
+        "elite_translation"
+      ],
+      "exit_conditions": [
+        "nenhum asset critico em rework",
+        "status visual por asset registrado",
+        "se houver multiplas rotas validas, a rota preferida ficou declarada"
+      ],
+      "blocking_statuses": [
+        "visual_gate_blocked"
+      ],
+      "handoff_to": [
+        "S5_budget"
+      ]
+    },
+    {
+      "id": "S5_budget",
+      "kind": "skill",
+      "label": "Budget VDP real",
+      "skill_path": "skills/hardware/megadrive-vdp-budget-analyst",
+      "inputs": [
+        "res/resources.res",
+        "build_output.log",
+        "layout real de planos",
+        "configuracao real de SPR_initEx"
+      ],
+      "required_artifacts": [
+        "doc/hardware_budget_review.md",
+        "budget_decision"
+      ],
+      "entry_conditions": [
+        "visual_asset_statuses"
+      ],
+      "exit_conditions": [
+        "decisao cabe/cabe com recuo/nao cabe registrada",
+        "numeros de VRAM anexados"
+      ],
+      "blocking_statuses": [
+        "budget_undefined",
+        "budget_doc_mismatch"
+      ],
+      "handoff_to": [
+        "S6_runtime"
+      ]
+    },
+    {
+      "id": "S6_runtime",
+      "kind": "skill",
+      "label": "Integracao runtime e cena",
+      "skill_path": "skills/code/sgdk-runtime-coder",
+      "supporting_skills": [
+        "skills/operation/sgdk-build-wrapper-operator",
+        "skills/architecture/scene-state-architect",
+        "skills/hardware/megadrive-vdp-budget-analyst"
+      ],
+      "inputs": [
+        "res/resources.res",
+        "src/**/*.c",
+        "budget_decision"
+      ],
+      "required_artifacts": [
+        "runtime_decision_log",
+        "build_evidence",
+        "delivery_findings"
+      ],
+      "entry_conditions": [
+        "budget_decision"
+      ],
+      "exit_conditions": [
+        "build limpo",
+        "runtime alinhado ao budget"
+      ],
+      "blocking_statuses": [
+        "runtime_without_budget"
+      ],
+      "handoff_to": [
+        "S7_validate"
+      ]
+    },
+    {
+      "id": "S7_validate",
+      "kind": "tool",
+      "label": "Validacao estruturada",
+      "skill_path": null,
+      "script": "tools/sgdk_wrapper/validate_resources.ps1",
+      "inputs": [
+        "out/rom.bin",
+        "out/logs/build_output.log",
+        "doc/changelog/changelog.md"
+      ],
+      "required_artifacts": [
+        "out/logs/validation_report.json"
+      ],
+      "entry_conditions": [
+        "build_evidence"
+      ],
+      "exit_conditions": [
+        "summary.errors == 0",
+        "nenhum blocker de fechamento ativo"
+      ],
+      "blocking_statuses": [
+        "agent_context_degraded",
+        "budget_doc_mismatch",
+        "visual_gate_blocked",
+        "emulator_evidence_stale",
+        "changelog_missing"
+      ],
+      "handoff_to": [
+        "S8_qa_evidence"
+      ]
+    },
+    {
+      "id": "S8_qa_evidence",
+      "kind": "human",
+      "label": "QA e evidencia BlastEm",
+      "skill_path": null,
+      "inputs": [
+        "out/rom.bin",
+        "out/logs/validation_report.json",
+        "workflows/build-validate.md"
+      ],
+      "required_artifacts": [
+        "out/logs/emulator_session.json",
+        "doc/changelog/changelog.md",
+        "doc/10-memory-bank.md"
+      ],
+      "entry_conditions": [
+        "summary.errors == 0"
+      ],
+      "exit_conditions": [
+        "BlastEm observado com evidencia rastreavel",
+        "changelog atualizado",
+        "memory bank coerente com a ROM vigente"
+      ],
+      "blocking_statuses": [
+        "blastem_gate_false",
+        "emulator_evidence_stale"
+      ],
+      "handoff_to": []
+    }
+  ]
+}

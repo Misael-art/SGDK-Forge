@@ -1,0 +1,1 @@
+IMAGE gfx_cachoeira "arquivos/cachoeira.png" NONE

@@ -1,0 +1,80 @@
+# Build outputs
+**/out/
+*.bin
+*.o
+*.lst
+*.map
+**/build_output.log
+**/build_debug.log
+**/build_error.log
+**/validation_report.json
+**/hs_err_pid*.log
+**/replay_pid*.log
+**/.sgdk_migration_state.json
+**/__pycache__/
+**/.vs/
+**/.import/
+*.rds-replay
+*.png.original
+*.pdb
+
+# SDK (download separately)
+sdk/
+
+# Archives
+archives/
+
+# Local workspace state
+.venv/
+.vscode/
+.claude/
+.cursor/
+# Regras Cursor versionadas (ex.: jornada SGDK AAA)
+!.cursor/rules/
+!.cursor/rules/**
+.kilocode/
+.playwright-cli/
+.trae/
+.mypy_cache/
+
+# Emuladores: configuracao e saves locais (podem exceder limite GitHub)
+tools/emuladores/BizHawk/config.ini
+tools/emuladores/BizHawk/Genesis/SaveRAM/
+tools/emuladores/GensKMod/*.srm
+tools/emuladores/GensKMod/gens_KMod.log
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE
+.idea/
+*.suo
+*.user
+
+# Temporários e saídas
+tmp/
+.tmp/
+output/
+
+# Conteúdo local fora do escopo de salvamento atual
+assets/
+
+# Caches e lixo de importação de engines terceiros
+**/__MACOSX/
+**/.godot/
+**/._*
+
+# Repositórios aninhados preservados fora do escopo deste monorepo
+SGDK_projects/_laboratório/SGDK-Forge/
+SGDK_projects/data/Sprites Organizados/Asset Packs/Godot Project V4/NinjaAdventure/
+
+# Engines que hoje existem como repositórios Git aninhados
+SGDK_Engines/imgs-example/
+SGDK_Engines/imgs-example(BitmapMD para criar telas com imagens em 4 camadas usando SH o resultado é uma imagem que pode superar 100 core)/
+SGDK_Engines/mega genius \[VER.001\] \[SGDK 211\] \[GEN\] \[GAME\] \[PUZZLE\]/mega genius/
+SGDK_Engines/msu-example \[VER.001\] \[SGDK 211\] \[GEN\] \[ENGINE\] \[AUDIO\]/msu-example/
+SGDK_Engines/PlatformerStudio \[VER.1.0\] \[SGDK 211\] \[GEN\] \[ENGINE\] \[EDITOR\]/
+SGDK_Engines/RaycastingEngine \[VER.1.0\] \[SGDK 211\] \[GEN\] \[ENGINE\] \[3D\]/
+SGDK_Engines/state machine RPG \[VER.001\] \[SGDK 211\] \[GEN\] \[ENGINE\] \[RPG\]/state_machine/

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Doc Sync Audit"
+  short_description: "Audita deriva entre manifesto, docs, wrappers e estado implementado"
+  brand_color: "#7A4F9A"
+  default_prompt: "Use $doc-sync-audit para comparar manifesto, documentacao, wrapper e codigo e apontar drift real com classificacao objetiva."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

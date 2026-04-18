@@ -1,0 +1,69 @@
+{
+  "host_root": "F:\\Projects\\MegaDrive_DEV\\SGDK_Engines\\PlatformerEngine Toolkit [VER.1.0] [SGDK 211] [GEN] [COLLECTION] [PLATAFORMA]\\upstream\\PlatformerEngine",
+  "source_files": [
+    "src/boot/rom_head.c",
+    "src/boot/sega.s",
+    "src/camera.c",
+    "src/global.c",
+    "src/levelgenerator.c",
+    "src/levels.c",
+    "src/main.c",
+    "src/map.c",
+    "src/physics.c",
+    "src/player.c",
+    "src/types.c"
+  ],
+  "header_files": [
+    "inc/camera.h",
+    "inc/global.h",
+    "inc/levelgenerator.h",
+    "inc/levels.h",
+    "inc/map.h",
+    "inc/physics.h",
+    "inc/player.h",
+    "inc/types.h",
+    "res/resources.h"
+  ],
+  "manifest_files": [
+    "res/resources.res"
+  ],
+  "resource_files": [
+    "res/images/level.png",
+    "res/images/player.png",
+    "res/resources.h",
+    "res/resources.res",
+    "res/sound/jump.wav",
+    "res/sound/sonic2Emerald.vgm"
+  ],
+  "output_files": [
+    "out/logs/build_debug.log",
+    "out/logs/build_output.log",
+    "out/logs/validation_report.json",
+    "out/res/resources.d",
+    "out/res/resources.o",
+    "out/rom.bin",
+    "out/rom.out",
+    "out/rom_head.bin",
+    "out/rom_head.o",
+    "out/sega.o",
+    "out/src/camera.d",
+    "out/src/camera.o",
+    "out/src/global.d",
+    "out/src/global.o",
+    "out/src/levelgenerator.d",
+    "out/src/levelgenerator.o",
+    "out/src/levels.d",
+    "out/src/levels.o",
+    "out/src/main.d",
+    "out/src/main.o",
+    "out/src/map.d",
+    "out/src/map.o",
+    "out/src/physics.d",
+    "out/src/physics.o",
+    "out/src/player.d",
+    "out/src/player.o",
+    "out/src/types.d",
+    "out/src/types.o",
+    "out/symbol.txt"
+  ]
+}

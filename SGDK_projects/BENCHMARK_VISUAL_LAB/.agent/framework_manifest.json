@@ -1,0 +1,51 @@
+{
+  "framework_name": "MegaDrive_DEV SGDK Agent Framework",
+  "framework_version": "2026.04.17",
+  "schema_version": 1,
+  "canonical_root": "tools/sgdk_wrapper/.agent",
+  "tracked_paths": [
+    "ARCHITECTURE.md",
+    "framework_manifest.json",
+    "rules",
+    "skills/operation/sgdk-build-wrapper-operator",
+    "skills/operation/status-panel-maintainer",
+    "skills/art/art-asset-diagnostic",
+    "skills/art/multi-plane-composition",
+    "skills/art/art-translation-to-vdp",
+    "skills/art/visual-excellence-standards",
+    "skills/art/megadrive-pixel-strict-rules",
+    "skills/architecture/scene-state-architect",
+    "skills/governance/truth-hierarchy-guard",
+    "skills/governance/doc-sync-audit",
+    "skills/hardware/megadrive-vdp-budget-analyst",
+    "skills/code/sgdk-runtime-coder",
+    "skills/README.md",
+    "workflows/build-validate.md",
+    "workflows/production-loop.md",
+    "workflows/aaa-scene-pipeline.md",
+    "workflows/art-onboarding.md",
+    "workflows/handoff.md",
+    "workflows/plan.md",
+    "workflows/status.md",
+    "pipelines",
+    "scripts",
+    "lib_case"
+  ],
+  "pipelines": [
+    "pipelines/aaa_scene_v1.json"
+  ],
+  "required_project_artifacts": [
+    "doc/10-memory-bank.md",
+    "doc/changelog/changelog.md"
+  ],
+  "status_sources": [
+    "out/logs/validation_report.json",
+    "out/logs/runtime_metrics.json",
+    "out/logs/emulator_session.json"
+  ],
+  "canonical_memory_artifacts": [
+    "doc/10-memory-bank.md",
+    "doc/06_AI_MEMORY_BANK.md",
+    "doc/03_art/02_visual_feedback_bank.md"
+  ]
+}

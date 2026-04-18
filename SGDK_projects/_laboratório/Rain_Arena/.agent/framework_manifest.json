@@ -1,0 +1,23 @@
+{
+  "framework_name": "MegaDrive_DEV SGDK Agent Framework",
+  "framework_version": "2026.04.02",
+  "schema_version": 1,
+  "canonical_root": "tools/sgdk_wrapper/.agent",
+  "tracked_paths": [
+    "ARCHITECTURE.md",
+    "agents",
+    "rules",
+    "skills",
+    "workflows",
+    "scripts"
+  ],
+  "status_sources": [
+    "out/logs/validation_report.json",
+    "out/logs/runtime_metrics.json",
+    "out/logs/emulator_session.json"
+  ],
+  "canonical_memory_artifacts": [
+    "doc/10-memory-bank.md",
+    "doc/06_AI_MEMORY_BANK.md"
+  ]
+}

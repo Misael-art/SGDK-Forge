@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/vdp_palette_snapshot.schema.json",
+  "title": "VDP Palette Snapshot",
+  "description": "Snapshot of all four Mega Drive CRAM palettes (64 entries total, 16 per palette).",
+  "type": "object",
+  "required": [
+    "palettes"
+  ],
+  "properties": {
+    "palettes": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["index", "entries"],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "entries": {
+            "type": "array",
+            "minItems": 16,
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "required": ["index", "raw_value"],
+              "properties": {
+                "index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 15
+                },
+                "raw_value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4095,
+                  "description": "Raw 12-bit Mega Drive color value (0x0BBB GGG RRR)"
+                },
+                "r": { "type": "integer", "minimum": 0, "maximum": 14 },
+                "g": { "type": "integer", "minimum": 0, "maximum": 14 },
+                "b": { "type": "integer", "minimum": 0, "maximum": 14 },
+                "hex_rgb": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$",
+                  "description": "Approximate RGB hex for display purposes"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "unique_colors": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of unique non-zero colors in this palette"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

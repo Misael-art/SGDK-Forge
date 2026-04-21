@@ -69,6 +69,20 @@ if ($sig -ne "MDRT") {
 $schema = Read-U16BE -Bytes $bytes -Offset ($SramOffset + 4)
 $totalBytes = Read-U16BE -Bytes $bytes -Offset ($SramOffset + 6)
 $wordCount = Read-U16BE -Bytes $bytes -Offset ($SramOffset + 8)
+
+# Sanity guard: impedir alocacao descontrolada em caso de SRAM corrompida.
+# BENCHMARK_VISUAL_LAB/inc/system/runtime_probe.h define MAX_SAMPLES <= 2048
+# => maximo real de wordCount esperado e ~2080 (32 header + 2048 samples).
+# Tetamos em 8192 como margem de seguranca contra drift de schema.
+$MDRT_WORDCOUNT_MIN = 64
+$MDRT_WORDCOUNT_MAX = 8192
+if ($wordCount -lt $MDRT_WORDCOUNT_MIN) {
+    throw "Dump MDRT invalido (wordCount=$wordCount < $MDRT_WORDCOUNT_MIN). Provavel SRAM corrompida ou schema incompativel."
+}
+if ($wordCount -gt $MDRT_WORDCOUNT_MAX) {
+    throw "Dump MDRT invalido (wordCount=$wordCount > $MDRT_WORDCOUNT_MAX). Provavel SRAM corrompida."
+}
+
 $payloadStart = $SramOffset + 10
 $expectedSize = $payloadStart + ($wordCount * 2)
 if ($bytes.Length -lt $expectedSize) {
@@ -82,10 +96,6 @@ for ($i = 0; $i -lt $wordCount; $i++) {
     $pos += 2
 }
 
-if ($wordCount -lt 64) {
-    throw "Dump MDRT invalido: wordCount=$wordCount"
-}
-
 $samplesRecorded = [int]$words[9]
 if ($samplesRecorded -lt 0) { $samplesRecorded = 0 }
 
@@ -95,9 +105,10 @@ if ($samplesRecorded -gt $maxSamples) {
     $samplesRecorded = $maxSamples
 }
 
-$samples = @()
+# List<int> evita O(n^2) do operador "+=" em arrays PowerShell (ate 1800 iteracoes).
+$samples = [System.Collections.Generic.List[int]]::new($samplesRecorded)
 for ($i = 0; $i -lt $samplesRecorded; $i++) {
-    $samples += [int]$words[$sampleOffset + $i]
+    [void]$samples.Add([int]$words[$sampleOffset + $i])
 }
 
 $samplesSorted = @($samples | Sort-Object)

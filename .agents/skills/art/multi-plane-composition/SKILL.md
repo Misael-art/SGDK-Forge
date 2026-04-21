@@ -20,6 +20,7 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - decisao entre `BG_A`, `BG_B`, `midground_layer` e `foreground_layer`
 - paired background review
 - parallax por planos
+- continuidade visual entre cenas, zonas ou atos conectados
 - compare entre curadoria offline e prova em ROM
 - decisao entre multi-plano real, `compare_flat` ou foreground via sprite graft
 
@@ -36,6 +37,7 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 
 - `route_family_matrix`
 - `locked_composition_direction`
+- `scene_transition_card` quando a composicao precisar preservar continuidade entre cenas, zonas ou atos
 
 ## Contrato Operacional
 
@@ -44,6 +46,7 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - mapa de composicao ou referencia equivalente
 - spec da cena
 - leitura previa do budget analyst
+- `scene_transition_card` seed quando houver transicao espacial ou visual formal
 
 ### Saida minima
 
@@ -53,11 +56,13 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - `shared_canvas_contract`
 - `hardware_budget_review`
 - `delivery_findings`
+- `continuity_model` e `camera_motion_contract` quando houver transicao formal
 
 ### Passa quando
 
 - papeis de `BG_A`, `BG_B`, foreground e fallback de ROM ficaram declarados
 - quando houver alternativas, elas continuam pertencendo a mesma cena e mesma base espacial
+- quando houver transicao formal, seam, camera, continuidade de plano e fallback visual ficam declarados
 - a cena tem estrategia clara para caber ou degradar honestamente
 
 ### Handoff para proxima etapa
@@ -137,6 +142,8 @@ Esta skill deve dominar explicitamente:
   - distinguir HUD fixo legitimo de terceira layer imaginaria
 - `window alias`
   - reconhecer como tecnica avancada separada, nunca confundir com uso normal da `WINDOW`
+- `spatial_scroll_bridge`
+  - continuidade de camera, seam escondido, streaming ou passagem fisica entre mapas/cenas
 
 Regra:
 

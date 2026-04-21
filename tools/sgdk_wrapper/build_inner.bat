@@ -20,7 +20,7 @@ if not exist "%GDK%\makefile.gen" (
 )
 
 if exist "%~dp0preflight_host.ps1" (
-    powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0preflight_host.ps1" -RepoRoot "%~dp0..\.."
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0preflight_host.ps1" -RepoRoot "%~dp0..\.." -ProjectRoot "%CD%"
     set "PREFLIGHT_RC=!ERRORLEVEL!"
     if "!PREFLIGHT_RC!"=="1" (
         echo [ERROR] Host preflight failed. Fix pre-requisitos e tente novamente.

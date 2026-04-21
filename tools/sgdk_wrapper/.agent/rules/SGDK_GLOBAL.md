@@ -75,6 +75,28 @@ A credibilidade do espetaculo vem da consistencia visual. Para gerar ou instruir
 - **Trava 3:** Sem a aprovacao do `art-director` para validar shading/volume -> INVALIDO.
 - Todo feedback corretivo de arte deve passar antes por `doc/03_art/02_visual_feedback_bank.md` e pela skill `visual-excellence-standards`.
 
+## 8.1 MENUS E TITLE SCREENS NAO PODEM SER GENERICOS
+
+Menu e title screen sao superficies de showcase, nao telas utilitarias neutras.
+
+Regra:
+- devem refletir a fantasia, o genero e a temperatura do projeto
+- devem permanecer legiveis em 320x224 nativo
+- devem ter vida perceptivel em idle
+- devem fornecer feedback ativo de selecao
+- nao podem depender de fundo estatico morto com texto cru por cima
+
+Default esperado:
+- profundidade visual por planos, parallax ou equivalente tematico
+- tipografia com separacao dura do fundo
+- cursor ou item selecionado com animacao observavel
+- paleta de alto contraste com hierarquia clara
+
+Proibido por default:
+- menu `placeholder funcional` entregue como front-end final
+- sci-fi neon generico em projeto cuja fantasia pede outra linguagem
+- texto critico desenhado em plano rolavel quando houver risco de conflito visual
+
 ## 9. EFEITO COLATERAL DE FX (OBRIGATORIO)
 
 Nenhum FX age isoladamente. Todo FX principal deve gerar pelo menos 1 efeito secundario fisicamente real no ambiente:
@@ -133,6 +155,9 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 - O ciclo esperado e `started -> captured -> closed`, ou equivalente mais detalhado definido pelo wrapper.
 - `boot_emulador` nao deve ser marcado como `ok` sem uma sessao ao menos capturada.
 - `gameplay_basico` nao deve ser marcado como funcional se a sessao nao provar entrada, leitura de estado ou resposta visual coerente.
+- scripts de automacao BlastEm devem consumir `tools/sgdk_wrapper/lib/blastem_automation.psm1`; duplicacao local de foco/input/close e regressao.
+- quando a ROM expuser heartbeat `READY`, a navegacao deve preferir `press_until_ready:*` com leitura em SRAM `0x100`.
+- no Windows, o sandbox do BlastEm deve refletir a topologia `HOME/AppData/Local/blastem`; escrever apenas em um `LocalAppData` paralelo nao e suficiente.
 
 ### 14.3 Captura dedicada e nao ambigua
 
@@ -140,6 +165,8 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 - Captura global da area de trabalho, IDE ou monitor errado nao conta como evidencia valida.
 - Quando houver mais de uma janela candidata, o processo de QA deve verificar titulo da janela, PID ou outro identificador confiavel antes de salvar a evidencia.
 - O framework deve preservar os arquivos de captura usados no gate em `source_artifacts` do `validation_report.json`.
+- logs operacionais do BlastEm devem existir em JSONL sob `out/logs/*_blastem.log`.
+- `save_path` e `screenshot_path` do BlastEm devem ser inseridos no bloco `ui {}` do cfg sandboxizado; no topo do arquivo a opcao pode ser ignorada pelo emulador.
 
 ### 14.3.1 Regra canonica para evidencia de VDP
 
@@ -147,6 +174,14 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 - Nessa configuracao, o quicksave nativo do BlastEm passa a ser **evidencia redundante opcional**, nao requisito bloqueante.
 - O `visual_vdp_dump.bin` deve ser derivado de um bloco assinado e limitado ao frame/estado relevante, nunca de inferencia textual ou de memoria inventada pelo agente.
 - Se o projeto nao tiver emissao canônica de dump visual em SRAM, a regra acima nao se aplica; nesse caso o gate continua dependendo da evidencia padrao registrada pelo wrapper e pelo `emulator_session.json`.
+
+### 14.3.2 Sandbox e frescor de SRAM
+
+- `save.sram`, screenshots e artefatos auxiliares do BlastEm devem nascer dentro de `out/blastem_env_*` do projeto.
+- fallback para `LocalAppData\\blastem\\rom` ou qualquer save root global invalida a evidencia de gate.
+- `fresh_sram_confirmed=false`, `outside_sandbox_candidate` ou `stale_sandbox_candidate` devem ser tratados como evidencia `stale`.
+- o fechamento do BlastEm no wrapper deve seguir `ESC -> WM_CLOSE -> Alt+F4 -> kill`, registrando o resultado no log JSONL.
+- se o smoke integrado falhar antes de abrir o emulador por blocker real de build/validator, isso deve ser reportado explicitamente como falha do projeto, nao mascarado como sucesso de emulacao.
 
 ### 14.4 Perfil minimo observacional quando nao houver telemetria forte
 

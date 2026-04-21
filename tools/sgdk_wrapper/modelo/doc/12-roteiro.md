@@ -3,6 +3,12 @@
 > Use este documento quando o projeto tiver historia, dialogos ou encontros narrativos.
 > Se nao houver narrativa, mantenha como placeholder.
 
+## Roteiro Scope
+
+- [quais cenas ou telas realmente precisam de texto neste slice]
+- [qual e o papel narrativo de menu, title, cutscene ou briefing se houver]
+- [o que fica fora da narrativa por enquanto]
+
 ## Tom geral
 
 [Definir tom: serio, comico, nostalgico, etc.]

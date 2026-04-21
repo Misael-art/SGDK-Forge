@@ -48,22 +48,66 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
 - `build_output.log` quando existir
 - configuracao real de `SPR_initEx`
 - layout real de planos
+- `ui_decision_card` quando houver HUD/UI formal
+- `scene_transition_card` quando houver transicao formal
 
 ### Saida minima
 
 - laudo deterministico `cabe`, `cabe com recuo` ou `nao cabe`
 - numeros de VRAM usados no parecer
+- `budget_decision` alinhado ao `ui_architecture_choice` quando houver UI formal
+- `budget_decision` alinhado ao `continuity_model` quando houver transicao formal
+- `glyph_budget_class` alinhado ao `font_render_mode` quando houver anexo tipografico
 - recuo explicito quando necessario
 
 ### Passa quando
 
 - o parecer consegue ser reconstruido por outra IA a partir dos mesmos numeros
 - o laudo identifica claramente se o problema dominante e asset, recurso SGDK ou arquitetura
+- quando houver UI formal, ownership e fallback nao contradizem o laudo
+- quando houver transicao formal, `fx_ownership_map`, `teardown_reset_plan` e `fallback_plan` nao contradizem o laudo
+- quando houver anexo tipografico, `glyph_manifest`, `charset_profile` e `fallback_font_plan` nao contradizem o laudo
 
 ### Handoff para proxima etapa
 
 - entregar o laudo vigente para `sgdk-runtime-coder`
 - bloquear runtime se o laudo nao existir ou estiver contradizendo codigo/docs
+- quando houver UI formal, entregar o veredito junto do `ui_decision_card`
+- quando houver transicao formal, entregar o veredito junto do `scene_transition_card`
+
+## Quando houver HUD/UI formal
+
+- ler `ui_architecture_choice` antes de aprovar custo
+- usar `budget_decision` como veredito oficial do card
+- se a rota for `window_plane_static_hud`, auditar `WINDOW fixa + oclusao de BG_A`
+- se a rota for `sprite_hud`, medir scanline pressure contra o pior quadro de gameplay
+- se a rota for `raster_enhanced_ui`, exigir `fx_ownership_map`, reset simetrico e fallback honesto
+- se houver anexo tipografico, ler `font_render_mode`, `charset_profile` e `glyph_budget_class` antes de aprovar custo
+- `fixed_custom_hud_font`
+  - auditar residency de tiles, custo de `WINDOW` e subset real de glifos
+- `variable_width_tidytext`
+  - auditar churn de tiles temporarios, DMA por update, cadence de redraw e reset do cache
+- sem `glyph_manifest`, reprovar charset expandido ou compositor proporcional como rota canonica
+
+## Quando houver transicao formal
+
+- ler `continuity_model`, `player_control_policy`, `camera_motion_contract`, `fx_ownership_map`, `runtime_state_handoff`, `teardown_reset_plan` e `fallback_plan`
+- usar `budget_decision` como veredito oficial do `scene_transition_card`
+- `palette_fade_bridge`
+  - auditar CRAM/audio fade e garantir que nao esteja mascarando uma transicao espacial que deveria ser planejada
+- `spatial_scroll_bridge`
+  - auditar mapa visivel, streaming, plane size, seam oculto e custo de camera no pior quadro
+- `scripted_avatar_bridge`
+  - auditar sprites, controle do jogador, colisao temporaria, camera scriptada e handoff de estado
+- `tile_mask_mosaic_transition`
+  - reprovar sem backup/restauro de tileset, budget de DMA, dirty region e fallback barato
+- `raster_distortion_bridge`
+  - reprovar sem owner unico de H-Int, reset de callback, custo de line scroll/VSRAM e prova de legibilidade
+- `lighting_state_transition`
+  - auditar CRAM, Shadow/Highlight, palette split, slots criticos e legibilidade de sprite/HUD
+- `pseudo3d_perspective_bridge`
+  - tratar como `advanced_tradeoff`; exigir budget proprio e fallback seguro
+- sem `scene_transition_card`, reprovar transicao avancada como rota canonica
 
 ## Tecnicas canonicas de extrapolacao segura
 

@@ -29,11 +29,16 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - fonte visual (ou assets traduzidos por layer) e seu papel na cena
 - `doc/03_art/02_visual_feedback_bank.md` e barra de qualidade quando existirem
 - contexto de composicao (`layer_plan` / `shared_canvas_contract`) quando houver multi-plano
+- `ui_decision_card` quando a surface formal for HUD/UI/overlay/menu
+- `scene_transition_card` quando houver transicao formal de cena, zona, ato, menu, cutscene ou estado visual
 
 ### Saida minima
 
 - julgamento estetico com criterio observavel (nao apenas subjetivo)
 - metricas canonicas aplicadas (ex.: `palette_efficiency`, `layer_separation`)
+- leitura de `attention_profile` e `hud_density` quando houver UI formal
+- leitura de `transition_role`, `continuity_model` e clareza visual quando houver transicao formal
+- leitura de `typography_role` e contraste tipografico quando houver anexo tipografico
 - bloqueios visuais registrados quando aplicavel (ex.: `visual_gate_blocked`)
 - recomendacao objetiva de proxima etapa (budget/runtime)
 
@@ -42,6 +47,9 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - a leitura em 320x224 nativo foi considerada
 - os sintomas foram traduzidos em diagnostico tecnico e heuristica preventiva quando necessario
 - a decisao resultante nao contradiz o hardware sem declarar tradeoff
+- quando houver UI formal, `attention_profile`, `hud_density` e clareza da arquitetura ficam registrados
+- quando houver transicao formal, a tecnica comunica causa, geografia, tom, risco ou ritmo; se for so bonita, reprovar
+- quando houver tipografia relevante, fonte-display, fonte-body, acentos e separacao contra o fundo ficam julgados
 
 ### Handoff para proxima etapa
 
@@ -222,6 +230,65 @@ Regra de ouro:
 ### Leitura em 320x224
 - Avalie sempre em escala nativa.
 - Se um detalhe so funciona ampliado, ele ainda nao existe no jogo.
+
+## Menus e Title Screens
+
+Menu forte no Mega Drive nao e tela parada com lista de opcoes. E uma cena de apresentacao.
+Referencia longa: `doc/03_art/12_menu_visual_language.md`.
+Doutrina complementar obrigatoria: `doc/03_art/13_hud_ui_fx_decision_system.md`.
+
+Checklist canonico:
+- o menu precisa compor a proposta do jogo, nao uma estetica generica solta
+- o fundo deve permanecer vivo em idle, via parallax, cycling, wobble, timeline curta ou equivalente tematico
+- o olhar deve ser conduzido por uma geometria forte, como piso em perspectiva ou outra estrutura espacial coerente com o tema
+- a tipografia deve vencer o fundo com outline, sombra dura ou separacao de valor igualmente forte
+- a opcao selecionada deve ter feedback ativo visivel, nao apenas troca de cor
+- a paleta deve ter contraste alto e hierarquia perceptiva clara
+
+Defaults fortes:
+- 2 a 3 camadas de profundidade
+- um eixo visual dominante no fundo
+- item selecionado com pulso, seta viva, brilho corrido ou cycling controlado
+
+Regra de versatilidade:
+- `grade infinita` e referencia historica, nao obrigacao universal
+- o equivalente correto depende do projeto: energia, ruina, arquitetura, magia, industria, horizonte urbano ou outro motivo espacial forte
+
+Anti-padroes:
+- fundo sem vida
+- excesso de detalhe atras do texto
+- menu que parece overlay de debug
+- identidade visual desconectada do jogo
+
+## HUD, interface e overlay
+
+- quando houver surface formal de UI, ler o `ui_decision_card` antes de julgar a imagem
+- `attention_profile` define quanta disputa visual a interface pode criar por segundo
+- `hud_density` nao pode subir alem do que a mecanica consegue sustentar
+- `typography_role` decide a rota:
+  - `hud_critical` tende a `fixed_custom_hud_font`
+  - `narrative_text` tende a `variable_width_tidytext`
+  - `front_end_premium` pode pedir `display_font_plus_body_font`
+- `window_plane_static_hud` continua sendo o default seguro para leitura constante
+- `fixed_custom_hud_font` e o default forte para timer, score, ammo, labels e leitura rapida
+- `variable_width_tidytext` sobe para dialogo, credito, lore e corpo de texto premium em PT-BR
+- reprovar fonte ornamental pesada ou compositor proporcional em HUD de combate
+- `window_plane_lifebar` e `sonic_hud_physics_family` sao referencias de pattern, nao defaults universais
+- `raster_enhanced_ui` e `procedural_raster_glitch_suite` so passam quando houver ganho perceptivo real, `fx_ownership_map` e fallback honesto
+
+## Transicoes contextualizadas
+
+- quando houver transicao formal, ler o `scene_transition_card` antes de julgar a imagem
+- `transition_role` precisa explicar por que a troca existe: geografia, causa narrativa, ritmo, risco, humor, maquina, sonho ou palco
+- `continuity_model` decide o julgamento visual:
+  - `spatial_scroll_bridge` precisa preservar leitura de camera e esconder o seam
+  - `scripted_avatar_bridge` precisa fazer o avatar parecer agente da passagem, nao passageiro de cutscene vazia
+  - `lighting_state_transition` precisa manter silhueta, paleta e prioridade de gameplay legiveis
+  - `raster_distortion_bridge` precisa servir agua, impacto, sonho, corrupcao ou choque fisico, nao enfeite solto
+  - `pseudo3d_perspective_bridge` precisa justificar o custo como setpiece e declarar fallback
+- se a transicao tocar HUD, menu, title, overlay ou texto, consumir tambem o `ui_decision_card`
+- `palette_fade_bridge` e fallback honesto, mas nao deve substituir uma passagem espacial clara quando o mundo poderia conectar as cenas
+- reprovar efeito que esconda estado do jogador, confunda direcao de movimento ou quebre o ritmo sem payoff dramatico
 
 ## Extrapolacao legitima do VDP
 

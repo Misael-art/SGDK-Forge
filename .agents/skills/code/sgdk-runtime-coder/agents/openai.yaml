@@ -2,7 +2,7 @@ interface:
   display_name: "SGDK Runtime Coder"
   short_description: "Implementa e corrige runtime SGDK 2.11 com build, ROM e evidencia rastreavel"
   brand_color: "#365E8B"
-  default_prompt: "Use $sgdk-runtime-coder para implementar ou corrigir runtime SGDK 2.11 real, escolhendo APIs corretas, preservando budget e fechando o ciclo ate ROM com evidencia."
+  default_prompt: "Use $sgdk-runtime-coder para implementar ou corrigir runtime SGDK 2.11 real, escolhendo APIs corretas, preservando budget e fechando o ciclo ate ROM com evidencia; se a tarefa tocar menu/title/front-end, trate-os como cenas formais com `WINDOW`, reset e feedback animado corretos."
 
 policy:
   allow_implicit_invocation: false

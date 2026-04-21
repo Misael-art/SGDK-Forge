@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/blastem_session_manifest.schema.json",
+  "title": "BlastEm Evidence Session Manifest",
+  "description": "Per-session manifest written alongside evidence artifacts in out/evidence/blastem/. Records exact conditions of a capture session for reproducibility auditing.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "session_id",
+    "session_started_at",
+    "rom_sha256",
+    "emulator_path",
+    "sandbox_root",
+    "capture_mode",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Unique identifier for this capture session (timestamp-based)"
+    },
+    "session_started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp when the session began"
+    },
+    "session_completed_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp when the session ended, null if not completed"
+    },
+    "rom_path": {
+      "type": "string"
+    },
+    "rom_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$|^MISSING$"
+    },
+    "rom_size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "emulator_path": {
+      "type": "string"
+    },
+    "emulator_version": {
+      "type": ["string", "null"],
+      "description": "BlastEm version string if detectable, null otherwise"
+    },
+    "sandbox_root": {
+      "type": "string",
+      "description": "Absolute path to the isolated sandbox directory used for this session"
+    },
+    "capture_mode": {
+      "type": "string",
+      "enum": ["canonical", "minimal", "debug"],
+      "description": "canonical=full evidence bundle, minimal=screenshot only, debug=all plus extra diagnostics"
+    },
+    "warmup_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Milliseconds waited before initiating capture"
+    },
+    "boot_timeout_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum milliseconds allowed for BlastEm boot and window readiness"
+    },
+    "artifacts": {
+      "type": "object",
+      "description": "Map of artifact type to its relative path within the evidence directory",
+      "properties": {
+        "screenshot": {
+          "type": ["string", "null"]
+        },
+        "sram": {
+          "type": ["string", "null"]
+        },
+        "vdp_dump": {
+          "type": ["string", "null"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "process_id": {
+      "type": ["integer", "null"],
+      "description": "OS process ID of the BlastEm instance"
+    },
+    "exit_code": {
+      "type": ["integer", "null"],
+      "description": "Exit code of the BlastEm process, null if still running or killed"
+    },
+    "close_mode": {
+      "type": ["string", "null"],
+      "enum": ["esc", "wm_close", "alt_f4", "stop_process", null],
+      "description": "Which shutdown escalation level was used"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of non-fatal errors encountered during the session"
+    }
+  },
+  "additionalProperties": true
+}

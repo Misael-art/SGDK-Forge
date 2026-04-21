@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_regression_report.schema.json",
+  "title": "Scene Regression Report",
+  "description": "Output of run_scene_regression.ps1. Extends the common artifact envelope with per-scene regression results.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "workspace_root",
+    "status",
+    "scenes_total",
+    "scenes_passed",
+    "scenes_failed",
+    "results"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tool_name": {
+      "type": "string",
+      "const": "run_scene_regression"
+    },
+    "tool_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ok", "warn", "error"]
+    },
+    "failure_reason": {
+      "type": ["string", "null"]
+    },
+    "rom_sha256": {
+      "type": "string"
+    },
+    "scenes_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "scenes_passed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "scenes_failed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "scenes_errors": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "scenes_degraded": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/scene_result"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "scene_result": {
+      "type": "object",
+      "required": [
+        "scene_id",
+        "status"
+      ],
+      "properties": {
+        "scene_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["passed", "failed", "missing", "stale", "unsupported", "error"],
+          "description": "passed=matches baseline, failed=differs, missing=no baseline, stale=baseline outdated, unsupported=cannot boot deterministically, error=capture/compare failure"
+        },
+        "comparison_mode": {
+          "type": ["string", "null"],
+          "enum": ["exact", "tolerant", null]
+        },
+        "baseline_rom_sha256": {
+          "type": ["string", "null"],
+          "description": "SHA256 of the ROM when baseline was captured"
+        },
+        "current_rom_sha256": {
+          "type": ["string", "null"]
+        },
+        "diff_summary": {
+          "type": ["object", "null"],
+          "description": "Comparison details (hash match, pixel diff percentage, etc.)",
+          "properties": {
+            "screenshot_match": { "type": ["boolean", "null"] },
+            "sram_match": { "type": ["boolean", "null"] },
+            "vdp_dump_match": { "type": ["boolean", "null"] },
+            "pixel_diff_fraction": { "type": ["number", "null"] }
+          },
+          "additionalProperties": true
+        },
+        "evidence_path": {
+          "type": ["string", "null"],
+          "description": "Path to the captured evidence for this scene"
+        },
+        "baseline_path": {
+          "type": ["string", "null"],
+          "description": "Path to the baseline evidence for this scene"
+        },
+        "failure_reason": {
+          "type": ["string", "null"]
+        },
+        "readiness_ok": {
+          "type": ["boolean", "null"]
+        },
+        "capture_status": {
+          "type": ["string", "null"],
+          "enum": ["ok", "degraded", "failed", null]
+        },
+        "capture_degraded": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

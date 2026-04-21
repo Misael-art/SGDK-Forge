@@ -85,6 +85,7 @@ Regra:
 ### Responsabilidades
 
 - `rules/`: regras sempre ativas e nao negociaveis
+- `planning/`: seed de projeto, corte de escopo, `first_playable_slice` e roadmap inicial
 - `skills/`: conhecimento acionavel por dominio, com contrato operacional explicito
 - `workflows/`: runbooks operacionais curtos
 - `pipelines/`: jornadas machine-readable
@@ -137,6 +138,32 @@ Validator e wrapper fecham o gate.
 
 ---
 
+## Planejamento Canonico de Projeto
+
+Quando um projeto ainda nao tem briefing, GDD ou spec suficientes, a primeira superficie canonica deixa de ser a camada `agents/` e passa a ser:
+
+- `skills/planning/game-design-planning`
+
+Ela existe para emitir, antes de arte ou runtime:
+
+- `project_brief`
+- `core_loop_statement`
+- `feature_scope_map`
+- `scene_roadmap`
+- `first_playable_slice`
+- `front_end_profile`
+- `scene_transition_card` seed quando houver transicao formal prevista
+- `roteiro_scope`
+
+Regra:
+
+- a skill de planejamento **nao aprova escopo sozinha**
+- ela prepara seeds concretos para a etapa humana de `S0_scope`
+- quando houver HUD/UI formal, o `front_end_profile` planejado deve ser formalizado depois como `ui_decision_card`
+- quando houver transicao formal, o seed deve virar `scene_transition_card` completo antes de arte/runtime
+
+---
+
 ## Pipeline AAA de Cena
 
 Para trabalho de cena visual, a cadeia oficial e:
@@ -185,6 +212,44 @@ A cadeia minima de evidencia e:
 7. bloco derivado em `doc/10-memory-bank.md`
 
 Se qualquer build ocorrer depois da captura, a evidencia anterior passa a ser `stale`.
+
+### Contrato canonico BlastEm
+
+- `tools/sgdk_wrapper/lib/blastem_automation.psm1` e a unica fonte canonica para foco, input, config, close escalonado, screenshot e logs do BlastEm
+- `run_runtime_capture.ps1` e `run_visual_capture.ps1` devem ser scripts finos de orquestracao; duplicacao local de automacao e regressao
+- `press_until_ready:*` usa o heartbeat `READY` em SRAM `0x100`; sem esse handshake a navegacao e considerada heuristica, nao gate canonico
+- toda evidencia BlastEm deve nascer em sandbox por projeto sob `out/blastem_env_*`
+- qualquer `save.sram` detectado fora do sandbox, ou anterior ao boot do processo, deve invalidar a sessao como `stale`
+- a trilha operacional do emulador deve ir para JSONL em `out/logs/*_blastem.log`
+
+#### Matriz de suporte do stub GDB do BlastEm
+
+Investigado e consolidado em 2026-04 contra o BlastEm release oficial:
+
+- `Z0` breakpoint simples: SUPORTADO
+- `Z2`/`Z3`/`Z4` watchpoints: NAO SUPORTADO pelo stub (responde com pacote vazio)
+- `m addr,len` com CPU parada no entry point de debug: SUPORTADO
+- `c` (continue) + leitura interativa: degrada o canal; nao e rota de heartbeat ao vivo
+
+Consequencias canonicas:
+
+- rota Z2-based para heartbeat esta fora do contrato ate o stub do BlastEm ganhar suporte
+- qualquer agente que proponha rota Z2 precisa aprovacao humana explicita e evidencia de release nova
+- GDB continua util apenas para debug humano offline com `Z0`
+
+#### Readiness canonica (rolling heartbeat SRAM)
+
+Caminho unico aceito para confirmar que a cena esta renderizando antes da captura:
+
+1. ROM escreve em SRAM `0x100` um heartbeat `READY` + contador rolante de frames, re-assinado periodicamente pos-warmup. Um flush unico nao pode ser o ponto de falha.
+2. Wrapper detecta via snapshot periodico com duas camadas:
+   - fast-path `FileSystemWatcher` em `$SaveRoots` para reagir em milissegundos quando o BlastEm flusha SRAM
+   - backstop de polling como rede de seguranca
+3. Flush trigger ativo: a cada `flush_every` presses sem READY detectado, `Invoke-BlastEmNavigation` emite um ciclo breve de ESC pause/resume para forcar o BlastEm a flushar SRAM para o sandbox
+4. Key rotation opcional (`rotate_key=<tecla>`): em timeout do primeiro laco, tentativa extra com tecla alternativa, cobrindo cenas em que o input esperado mudou
+5. Toda detecao deve passar por `Test-FreshSramCandidate` (sandbox-root + `processStartedAt`). Sem fresco + sob sandbox, a evidencia vira `stale`.
+
+A referencia de implementacao ROM-side vive em `tools/sgdk_wrapper/modelo/src/system/runtime_probe.c`. Projetos que queiram o handshake canonico copiam dali.
 
 ---
 

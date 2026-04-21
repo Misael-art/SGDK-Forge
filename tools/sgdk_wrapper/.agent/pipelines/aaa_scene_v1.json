@@ -1,13 +1,16 @@
 {
   "pipeline_id": "aaa_scene_v1",
   "description": "Jornada canonica de cena visual AAA: diagnostico -> composicao -> traducao -> excelencia -> budget -> runtime -> validacao -> evidencia.",
-  "framework_manifest_min_version": "2026.04.17",
+  "framework_manifest_min_version": "2026.04.20",
   "steps": [
     {
       "id": "S0_scope",
       "kind": "human",
       "label": "Escopo e spec",
       "skill_path": null,
+      "supporting_skills": [
+        "skills/planning/game-design-planning"
+      ],
       "inputs": [
         "doc/11-gdd.md",
         "doc/13-spec-cenas.md"
@@ -15,10 +18,27 @@
       "required_artifacts": [
         "briefing aceito"
       ],
+      "optional_artifacts": [
+        "project_brief",
+        "core_loop_statement",
+        "feature_scope_map",
+        "scene_roadmap",
+        "first_playable_slice",
+        "front_end_profile",
+        "roteiro_scope",
+        "ui_decision_card",
+        "glyph_manifest",
+        "scene_transition_card"
+      ],
       "entry_conditions": [],
       "exit_conditions": [
         "escopo fechado",
-        "criterio de aceitacao declarado"
+        "criterio de aceitacao declarado",
+        "quando o projeto nascer do zero ou o escopo precisar de reseed, planning/game-design-planning emitiu seeds suficientes para GDD, roteiro e spec",
+        "quando houver HUD/UI formal, o ui_decision_card foi declarado antes da arte e do runtime",
+        "quando houver UI com peso tipografico real, o ui_decision_card declara anexo tipografico e glyph_manifest antes da arte e do runtime",
+        "quando houver transicao formal, o scene_transition_card foi declarado antes da arte e do runtime",
+        "quando houver menu/title/front-end, o front_end_profile foi declarado no planejamento e o ui_decision_card usa profile_kind=front_end_profile"
       ],
       "blocking_statuses": [
         "feature_creep"
@@ -75,6 +95,8 @@
         "delivery_findings"
       ],
       "optional_artifacts": [
+        "ui_decision_card",
+        "scene_transition_card",
         "route_family_matrix",
         "locked_composition_direction"
       ],
@@ -84,7 +106,10 @@
       "exit_conditions": [
         "planos declarados",
         "estrategia de ROM declarada",
-        "se houver alternativas, a cena continua travada pelo mesmo shared_canvas_contract"
+        "se houver alternativas, a cena continua travada pelo mesmo shared_canvas_contract",
+        "quando houver HUD/UI formal, o ui_decision_card congela plane ownership, arquitetura e fallback",
+        "quando houver peso tipografico real, o mesmo card congela font_render_mode, charset_profile e fallback_font_plan",
+        "quando houver transicao formal, o scene_transition_card congela continuidade, camera, ownership e fallback"
       ],
       "blocking_statuses": [
         "plane_roles_undefined",
@@ -143,6 +168,8 @@
         "assets por layer",
         "translation_report",
         "benchmark escolhido",
+        "ui_decision_card (quando houver HUD/UI formal)",
+        "scene_transition_card (quando houver transicao formal)",
         "route_exploration_board (opcional)"
       ],
       "required_artifacts": [
@@ -159,7 +186,10 @@
       "exit_conditions": [
         "nenhum asset critico em rework",
         "status visual por asset registrado",
-        "se houver multiplas rotas validas, a rota preferida ficou declarada"
+        "se houver multiplas rotas validas, a rota preferida ficou declarada",
+        "quando houver HUD/UI formal, attention_profile e hud_density ficaram julgados",
+        "quando houver UI com tipografia relevante, typography_role e contraste de leitura ficaram julgados",
+        "quando houver transicao formal, transition_role, continuidade e clareza visual ficaram julgados"
       ],
       "blocking_statuses": [
         "visual_gate_blocked"
@@ -177,7 +207,9 @@
         "res/resources.res",
         "build_output.log",
         "layout real de planos",
-        "configuracao real de SPR_initEx"
+        "configuracao real de SPR_initEx",
+        "ui_decision_card (quando houver HUD/UI formal)",
+        "scene_transition_card (quando houver transicao formal)"
       ],
       "required_artifacts": [
         "doc/hardware_budget_review.md",
@@ -188,11 +220,16 @@
       ],
       "exit_conditions": [
         "decisao cabe/cabe com recuo/nao cabe registrada",
-        "numeros de VRAM anexados"
+        "numeros de VRAM anexados",
+        "quando houver HUD/UI formal, o laudo responde ao ui_architecture_choice e ao ownership declarado",
+        "quando houver anexo tipografico, o laudo responde a font_render_mode, glyph_budget_class e fallback_font_plan",
+        "quando houver transicao formal, o laudo responde ao continuity_model, fx_ownership_map, audio_transition_plan e fallback_plan"
       ],
       "blocking_statuses": [
         "budget_undefined",
-        "budget_doc_mismatch"
+        "budget_doc_mismatch",
+        "ui_ownership_undefined",
+        "transition_contract_missing"
       ],
       "handoff_to": [
         "S6_runtime"
@@ -211,7 +248,9 @@
       "inputs": [
         "res/resources.res",
         "src/**/*.c",
-        "budget_decision"
+        "budget_decision",
+        "ui_decision_card (quando houver HUD/UI formal)",
+        "scene_transition_card (quando houver transicao formal)"
       ],
       "required_artifacts": [
         "runtime_decision_log",
@@ -223,10 +262,15 @@
       ],
       "exit_conditions": [
         "build limpo",
-        "runtime alinhado ao budget"
+        "runtime alinhado ao budget",
+        "quando houver HUD/UI formal, WINDOW/H-Int/FX seguem plane_ownership_map, fx_ownership_map e fallback",
+        "quando houver anexo tipografico, o runtime segue font_render_mode, font_owner e fallback_font_plan",
+        "quando houver transicao formal, runtime_state_handoff, teardown_reset_plan e fallback_plan ficam rastreaveis"
       ],
       "blocking_statuses": [
-        "runtime_without_budget"
+        "runtime_without_budget",
+        "ui_runtime_contract_missing",
+        "transition_runtime_contract_missing"
       ],
       "handoff_to": [
         "S7_validate"

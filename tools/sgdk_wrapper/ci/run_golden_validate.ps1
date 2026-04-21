@@ -32,7 +32,7 @@ if ($pf -eq 1) {
     exit 1
 }
 if ($pf -eq 2) {
-    Write-Warning "preflight_host.ps1 concluiu com avisos opcionais (exit 2) — prosseguindo."
+    Write-Warning "preflight_host.ps1 concluiu com avisos opcionais (exit 2) - prosseguindo."
 }
 
 $validate = Join-Path $wrapperRoot "validate_resources.ps1"

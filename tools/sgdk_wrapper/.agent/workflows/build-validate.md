@@ -34,7 +34,12 @@ Use este fluxo para build, rebuild e validacao operacional.
    - `visual_gate_blocked`
    - `emulator_evidence_stale`
    - `changelog_missing`
-10. Rodar BlastEm para gate de entrega.
+10. Rodar BlastEm pelo contrato canonico de automacao:
+   - `run_runtime_capture.ps1` e `run_visual_capture.ps1` devem importar `lib/blastem_automation.psm1`
+   - navegacao deve privilegiar `press_until_ready:*` com heartbeat `READY` em SRAM `0x100`
+   - `Close-BlastEmGracefully` deve seguir `ESC -> WM_CLOSE -> Alt+F4 -> kill`
+   - logs operacionais devem ir para JSONL em `out/logs/*_blastem.log`
+   - evidence roots devem ficar dentro de `out/blastem_env_*`, sem fallback para `LocalAppData\blastem\rom`
 11. Consolidar:
    - `emulator_session.json`
    - `validation_report.json`
@@ -53,6 +58,7 @@ Use este fluxo para build, rebuild e validacao operacional.
 - `out/rom.bin` com identidade registrada
 - `out/logs/validation_report.json`
 - `out/logs/emulator_session.json`
+- `out/logs/*_blastem.log` com trilha JSONL da automacao
 - `doc/changelog/changelog.md`
 - `doc/10-memory-bank.md` coerente com a ROM vigente
 

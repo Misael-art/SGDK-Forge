@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-04-10",
+  "updated_at": "2026-04-21",
   "registry_path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
   "patterns": [
     {
@@ -44,11 +44,23 @@
     {
       "id": "fade_transition",
       "tier": "canonical_pattern",
-      "when_to_use": "Transicao limpa entre cenas, menus ou estados dramaticos.",
-      "risk": "Baixo.",
+      "when_to_use": "palette_fade_bridge simples, fallback honesto ou corte de baixo risco quando nao houver continuidade espacial ou FX contextual aprovado.",
+      "risk": "Baixo, mas vira solucao pobre se substituir uma transicao de geografia, causa narrativa ou gameplay que deveria ser contextual.",
       "engine_examples": [
         "HAMOOPIG KOF94 main.c:390-406",
         "Goblin SGDK"
+      ]
+    },
+    {
+      "id": "tile_mask_mosaic_transition",
+      "tier": "advanced_pattern_candidate",
+      "when_to_use": "Wipe, mosaic ou fade por mutacao/mascara de dados de tile quando a transicao comunica materia, memoria visual, terminal, magia, corrupcao ou cena especial.",
+      "risk": "Alto; exige backup/restauro de tileset, budget de DMA por VBlank, teardown simetrico e fallback palette_fade_bridge.",
+      "engine_examples": [
+        "Change Screen Effect main.c"
+      ],
+      "registry_ids": [
+        "tile_mask_transition_fade"
       ]
     },
     {
@@ -190,12 +202,15 @@
     {
       "id": "custom_font_hud",
       "tier": "canonical_pattern",
-      "when_to_use": "HUD ou menu com identidade grafica propria.",
-      "risk": "Baixo a medio, dependendo do slot de tiles.",
+      "when_to_use": "HUD, labels fixos ou menu/title com leitura rapida e identidade grafica propria.",
+      "risk": "Baixo a medio, dependendo do slot de tiles; nao serve como default para texto corrido.",
       "engine_examples": [
         "Custom Fonts Example main.c:52",
         "Custom Font main.c:88",
         "Vigilante Tutorial init.c:233-352"
+      ],
+      "registry_ids": [
+        "custom_font_tile_index_math"
       ]
     },
     {
@@ -260,8 +275,8 @@
     {
       "id": "tidytext_variable_width_batch",
       "tier": "advanced_pattern_candidate",
-      "when_to_use": "Dialogos ou creditos que pedem fonte de largura variavel sem cair em BMP mode.",
-      "risk": "Medio; exige disciplina de VRAM temporaria e composicao de tiles.",
+      "when_to_use": "Dialogos, creditos, lore ou corpo de texto premium em PT-BR que pedem largura variavel sem cair em BMP mode.",
+      "risk": "Medio; exige disciplina de VRAM temporaria e composicao de tiles, e nao deve virar HUD de combate por frame.",
       "engine_examples": [
         "TidyText tidyText.c"
       ],

@@ -205,6 +205,30 @@ void MD_RT_SetPerceptualScores(u16 fluidez, u16 leitura, u16 naturalidade, u16 i
     MD_RT_SetWord(MD_RT_WORD_PERCEPTUAL_IMPACTO, impacto);
 }
 
+void MD_RT_ExportHeartbeat(u32 currentFrame)
+{
+    SRAM_enable();
+
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 0, 'R');
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 1, 'E');
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 2, 'A');
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 3, 'D');
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 4, 'Y');
+
+    /* bytes 5..7 reservados (zero) */
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 5, 0);
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 6, 0);
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 7, 0);
+
+    /* frame atual em big-endian */
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 8,  (u8) ((currentFrame >> 24) & 0xFF));
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 9,  (u8) ((currentFrame >> 16) & 0xFF));
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 10, (u8) ((currentFrame >> 8)  & 0xFF));
+    SRAM_writeByte(MD_RT_HEARTBEAT_SRAM_OFFSET + 11, (u8) (currentFrame         & 0xFF));
+
+    SRAM_disable();
+}
+
 void MD_RT_FrameEnd(void)
 {
     u16 samplesRecorded = MD_RT_GetWord(MD_RT_WORD_SAMPLES_RECORDED);

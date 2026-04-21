@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/blastem_evidence.schema.json",
+  "title": "BlastEm Canonical Evidence Artifact",
+  "description": "Main evidence artifact written to out/logs/blastem_evidence.json. Extends the common artifact envelope with BlastEm-specific capture fields.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "workspace_root",
+    "status",
+    "rom_path",
+    "rom_sha256",
+    "emulator_path",
+    "capture_mode",
+    "session_started",
+    "session_completed",
+    "screenshot_present",
+    "sram_present",
+    "vdp_dump_present",
+    "evidence_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tool_name": {
+      "type": "string",
+      "const": "capture_blastem_evidence"
+    },
+    "tool_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ok", "warn", "error"]
+    },
+    "failure_reason": {
+      "type": ["string", "null"]
+    },
+    "rom_path": {
+      "type": "string"
+    },
+    "rom_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$|^MISSING$"
+    },
+    "emulator_path": {
+      "type": "string"
+    },
+    "capture_mode": {
+      "type": "string",
+      "enum": ["canonical", "minimal", "debug"]
+    },
+    "session_started": {
+      "type": "boolean",
+      "description": "Whether the emulator session was successfully started"
+    },
+    "session_completed": {
+      "type": "boolean",
+      "description": "Whether the session completed without fatal errors"
+    },
+    "screenshot_present": {
+      "type": "boolean",
+      "description": "Whether a screenshot was captured and exists on disk"
+    },
+    "sram_present": {
+      "type": "boolean",
+      "description": "Whether SRAM was captured and exists on disk"
+    },
+    "vdp_dump_present": {
+      "type": "boolean",
+      "description": "Whether a VDP dump was captured and exists on disk"
+    },
+    "evidence_status": {
+      "type": "string",
+      "enum": ["ok", "warn", "error"],
+      "description": "Status of the evidence bundle completeness"
+    },
+    "evidence_root": {
+      "type": "string",
+      "description": "Absolute path to the evidence output directory"
+    },
+    "session_manifest_path": {
+      "type": "string",
+      "description": "Absolute path to the detailed session manifest JSON"
+    },
+    "duration_ms": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Total capture session duration in milliseconds"
+    }
+  },
+  "additionalProperties": true
+}

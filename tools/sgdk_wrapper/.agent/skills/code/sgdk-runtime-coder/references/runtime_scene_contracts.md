@@ -91,3 +91,25 @@ Toda cena deve declarar:
 - o que precisa ser resetado
 - o que pode vazar para a proxima cena
 - qual callback global ela mexe
+
+Quando a troca tiver peso dramatico, tecnico ou de continuidade, ela precisa de `scene_transition_card` antes do runtime.
+
+Campos que o runtime deve consumir:
+
+- `continuity_model`
+- `player_control_policy`
+- `camera_motion_contract`
+- `plane_ownership_map`
+- `fx_ownership_map` quando houver FX
+- `audio_transition_plan`
+- `runtime_state_handoff`
+- `fallback_plan`
+- `teardown_reset_plan`
+
+Regras:
+
+- `palette_fade_bridge` e fallback contextualizado, nao desculpa para ignorar continuidade espacial
+- `tile_mask_mosaic_transition` exige backup/restauro de tileset e budget de DMA
+- `raster_distortion_bridge` exige owner unico de H-Int e reset do callback
+- `lighting_state_transition` exige reset de CRAM, Shadow/Highlight e palette split
+- `pseudo3d_perspective_bridge` e `advanced_tradeoff` ate ter benchmark proprio

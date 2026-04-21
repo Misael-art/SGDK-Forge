@@ -13,3 +13,6 @@ Principios:
 - preferir funcoes pequenas e previsiveis;
 - evitar logica escondida em variaveis globais sem contexto;
 - manter o primeiro build simples e observavel.
+
+Nota:
+- menu e title screen devem ser tratados como cenas formais, com identidade visual coerente, ownership claro de display state e contrato de reset equivalente ao de gameplay.

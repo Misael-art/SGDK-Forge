@@ -488,6 +488,7 @@ function Test-CloseoutOnlyBlockingStatus($status) {
         "changelog_missing",
         "emulator_evidence_stale",
         "gameplay_gate_incomplete",
+        "scene_regression_incomplete",
         "visual_gate_blocked"
     )
 }
@@ -807,6 +808,104 @@ function Get-VisualReviewVariantPairs {
     return @($pairs)
 }
 
+function Get-SceneRegressionSpec {
+    param([Parameter(Mandatory = $true)][string]$ProjectRoot)
+
+    $manifestPath = Join-Path $ProjectRoot ".mddev\project.json"
+    $manifest = Get-JsonOrNull $manifestPath
+    if (-not $manifest -or -not $manifest.scene_regression) {
+        return [ordered]@{
+            required = $false
+            scenes = @()
+            report_path = Join-Path $ProjectRoot "out\logs\scene_regression_report.json"
+        }
+    }
+
+    $required = $false
+    try {
+        if ($null -ne $manifest.scene_regression.required) {
+            $required = [bool]$manifest.scene_regression.required
+        }
+    } catch {
+        $required = $false
+    }
+
+    return [ordered]@{
+        required = $required
+        scenes = @($manifest.scene_regression.scenes)
+        report_path = Join-Path $ProjectRoot "out\logs\scene_regression_report.json"
+    }
+}
+
+function Get-SceneRegressionStatus {
+    param(
+        [Parameter(Mandatory = $true)][string]$ProjectRoot,
+        $RomIdentity
+    )
+
+    $spec = Get-SceneRegressionSpec -ProjectRoot $ProjectRoot
+    $expectedScenes = @($spec.scenes)
+    $reportPath = $spec.report_path
+    $result = [ordered]@{
+        required = [bool]$spec.required
+        expected_scene_count = $expectedScenes.Count
+        report_path = $reportPath
+        report_present = $false
+        complete = $false
+        stale = $false
+        rom_sha256 = $null
+        report_scene_count = 0
+        failed_scenes = @()
+        missing_scenes = @()
+    }
+
+    if ($expectedScenes.Count -eq 0) {
+        $result.complete = (-not $result.required)
+        return $result
+    }
+
+    $report = Get-JsonOrNull $reportPath
+    if (-not $report) {
+        return $result
+    }
+
+    $result.report_present = $true
+    $result.rom_sha256 = Get-SafeString $report.rom_sha256 ""
+    $reportScenes = @($report.scenes)
+    $result.report_scene_count = $reportScenes.Count
+
+    $currentSha = if ($RomIdentity) { Get-SafeString $RomIdentity.sha256 "" } else { "" }
+    if ($currentSha -and $result.rom_sha256 -and ($currentSha -ne $result.rom_sha256)) {
+        $result.stale = $true
+    }
+
+    $reportedKeys = @{}
+    foreach ($scene in $reportScenes) {
+        $sceneKey = Get-SafeString $scene.scene_key ""
+        if ($sceneKey) {
+            $reportedKeys[$sceneKey] = $true
+        }
+        if ((Get-SafeString $scene.status "") -ne "captured") {
+            $result.failed_scenes += if ($sceneKey) { $sceneKey } else { "scene_desconhecida" }
+        }
+    }
+
+    foreach ($expected in $expectedScenes) {
+        $expectedKey = Get-SafeString $expected.scene_key ""
+        if ($expectedKey -and (-not $reportedKeys.ContainsKey($expectedKey))) {
+            $result.missing_scenes += $expectedKey
+        }
+    }
+
+    $result.complete =
+        (-not $result.stale) -and
+        ($result.failed_scenes.Count -eq 0) -and
+        ($result.missing_scenes.Count -eq 0) -and
+        ($reportScenes.Count -ge $expectedScenes.Count)
+
+    return $result
+}
+
 function Get-VisualPairContextsForResource {
     param(
         [object[]]$VariantPairs = @(),
@@ -940,6 +1039,27 @@ function Resolve-ExistingPathOrNull {
     }
 
     return [System.IO.Path]::GetFullPath($text)
+}
+
+function Test-PathUnderRoot {
+    param(
+        $CandidatePath,
+        $RootPath
+    )
+
+    $candidate = Resolve-ExistingPathOrNull $CandidatePath
+    $root = Resolve-ExistingPathOrNull $RootPath
+    if (-not $candidate -or -not $root) {
+        return $false
+    }
+
+    $candidateFull = [System.IO.Path]::GetFullPath($candidate)
+    $rootFull = [System.IO.Path]::GetFullPath($root).TrimEnd('\', '/')
+    $rootWithSep = $rootFull + [System.IO.Path]::DirectorySeparatorChar
+
+    return
+        $candidateFull.Equals($rootFull, [System.StringComparison]::OrdinalIgnoreCase) -or
+        $candidateFull.StartsWith($rootWithSep, [System.StringComparison]::OrdinalIgnoreCase)
 }
 
 function Get-AgentBootstrapStatus {
@@ -1444,6 +1564,7 @@ $results = @{
         runtime_capture_present = $false
         blastem_gate = $false
         emulator_evidence_stale = $false
+        scene_regression_ready = $false
         visual_gate_ready = $false
         visual_lab_aprovado = $false
         gameplay_rom_aprovada = $false
@@ -1466,6 +1587,14 @@ $results = @{
         emulator_session_rom_path = $null
         emulator_session_timestamp = $null
         emulator_evidence_reason = "nao_avaliado"
+        emulator_sandbox_root = $null
+        emulator_save_root = $null
+        emulator_log_path = $null
+        emulator_fresh_sram_confirmed = $null
+        emulator_outside_sandbox_candidate = $null
+        emulator_stale_sandbox_candidate = $null
+        scene_regression_report_path = $null
+        scene_regression_status = $null
         agent_bootstrap = $null
         visual_aesthetic_report_path = $null
         changelog_status = $null
@@ -1503,6 +1632,7 @@ $fixScript = Join-Path $PSScriptRoot "ensure_safe_image.ps1"
 $runtimeMetricsPath = Join-Path $LOG_DIR "runtime_metrics.json"
 $emulatorSessionPath = Join-Path $LOG_DIR "emulator_session.json"
 $visualAestheticReportPath = Join-Path $LOG_DIR "visual_aesthetic_report.json"
+$sceneRegressionReportPath = Join-Path $LOG_DIR "scene_regression_report.json"
 $runtimeThresholdsPath = Join-Path $PSScriptRoot "runtime_thresholds.json"
 $aestheticAnalyzerPath = $null
 $visualLabAnalyzerPath = $null
@@ -1517,6 +1647,7 @@ $emulatorSession = $null
 $runtimeThresholds = $null
 $workspaceRoot = Resolve-WorkspaceRoot $pwd.Path
 $visualReviewVariantPairs = Get-VisualReviewVariantPairs -ProjectRoot $pwd.Path
+$sceneRegressionStatus = $null
 
 if ($workspaceRoot) {
     $aestheticAnalyzerPath = Join-Path $workspaceRoot "tools\image-tools\analyze_aesthetic.py"
@@ -2131,6 +2262,30 @@ $existingSessionEvidence = @($sessionEvidenceFiles | Where-Object { Test-Path -L
 $sessionTimestamp = if ($emulatorSession) { Get-DateOrNull $emulatorSession.timestamp } else { $null }
 $sessionRomPath = if ($emulatorSession) { Resolve-ExistingPathOrNull $emulatorSession.rom_path } else { $null }
 $sessionRomIdentity = if ($emulatorSession) { Get-RomIdentityFromSession -Session $emulatorSession } else { $null }
+$emulatorName = if ($emulatorSession) { Get-SafeString $emulatorSession.emulator (Get-SafeString $emulatorSession.reference_emulator "") } else { "" }
+$sessionSandboxRoot = if ($emulatorSession) { Resolve-ExistingPathOrNull $emulatorSession.sandbox_root } else { $null }
+$sessionSaveRoot = if ($emulatorSession) { Resolve-ExistingPathOrNull $emulatorSession.save_root } else { $null }
+$sessionLogPath = if ($emulatorSession) { Resolve-ExistingPathOrNull $emulatorSession.emulator_log_path } else { $null }
+$outsideSandboxCandidate = if ($emulatorSession) { Resolve-ExistingPathOrNull $emulatorSession.outside_sandbox_candidate } else { $null }
+$staleSandboxCandidate = if ($emulatorSession) { Resolve-ExistingPathOrNull $emulatorSession.stale_sandbox_candidate } else { $null }
+$sessionFreshSramConfirmed = $null
+if ($emulatorSession -and $null -ne $emulatorSession.fresh_sram_confirmed) {
+    try {
+        $sessionFreshSramConfirmed = [bool]$emulatorSession.fresh_sram_confirmed
+    } catch {
+        $sessionFreshSramConfirmed = $null
+    }
+}
+$isBlastEmSession = $emulatorName -match '(?i)blastem'
+$evidenceOutsideSandbox = $false
+if ($sessionSandboxRoot) {
+    foreach ($evidencePath in $existingSessionEvidence) {
+        if (-not (Test-PathUnderRoot -CandidatePath $evidencePath -RootPath $sessionSandboxRoot)) {
+            $evidenceOutsideSandbox = $true
+            break
+        }
+    }
+}
 $currentRomPath = if ($romIdentity) { Resolve-ExistingPathOrNull $romIdentity.path } else { $null }
 $runtimeMetricsItem = if (Test-Path -LiteralPath $runtimeMetricsPath) { Get-Item -LiteralPath $runtimeMetricsPath } else { $null }
 $runtimeMetricsFresh = $false
@@ -2148,6 +2303,24 @@ if ($emulatorSession) {
     } elseif ($existingSessionEvidence.Count -eq 0 -and $runtimeSamplesRecorded -le 0) {
         $emulatorEvidenceStale = $true
         $emulatorEvidenceReason = "missing_evidence_files"
+    } elseif ($isBlastEmSession -and $outsideSandboxCandidate) {
+        $emulatorEvidenceStale = $true
+        $emulatorEvidenceReason = "outside_sandbox_candidate"
+    } elseif ($isBlastEmSession -and $staleSandboxCandidate) {
+        $emulatorEvidenceStale = $true
+        $emulatorEvidenceReason = "stale_sandbox_candidate"
+    } elseif ($isBlastEmSession -and (-not $sessionSandboxRoot)) {
+        $emulatorEvidenceStale = $true
+        $emulatorEvidenceReason = "missing_sandbox_root"
+    } elseif ($isBlastEmSession -and $sessionSaveRoot -and (-not (Test-PathUnderRoot -CandidatePath $sessionSaveRoot -RootPath $sessionSandboxRoot))) {
+        $emulatorEvidenceStale = $true
+        $emulatorEvidenceReason = "save_root_outside_sandbox"
+    } elseif ($isBlastEmSession -and $evidenceOutsideSandbox) {
+        $emulatorEvidenceStale = $true
+        $emulatorEvidenceReason = "evidence_outside_sandbox"
+    } elseif ($isBlastEmSession -and $null -ne $sessionFreshSramConfirmed -and (-not $sessionFreshSramConfirmed)) {
+        $emulatorEvidenceStale = $true
+        $emulatorEvidenceReason = "fresh_sram_unconfirmed"
     } elseif ($currentRomPath -and $sessionRomPath -and $currentRomPath -ne $sessionRomPath) {
         $emulatorEvidenceStale = $true
         $emulatorEvidenceReason = "rom_path_mismatch"
@@ -2184,9 +2357,18 @@ $results.evidence.emulator_session_rom_identity = $sessionRomIdentity
 $results.evidence.emulator_session_rom_path = $sessionRomPath
 $results.evidence.emulator_session_timestamp = if ($sessionTimestamp) { $sessionTimestamp.ToString("o") } else { $null }
 $results.evidence.emulator_evidence_reason = $emulatorEvidenceReason
+$results.evidence.emulator_sandbox_root = $sessionSandboxRoot
+$results.evidence.emulator_save_root = $sessionSaveRoot
+$results.evidence.emulator_log_path = $sessionLogPath
+$results.evidence.emulator_fresh_sram_confirmed = $sessionFreshSramConfirmed
+$results.evidence.emulator_outside_sandbox_candidate = $outsideSandboxCandidate
+$results.evidence.emulator_stale_sandbox_candidate = $staleSandboxCandidate
+$results.evidence.scene_regression_report_path = if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sceneRegressionReportPath } else { $null }
 $budgetDocMismatch = Get-BudgetDocumentationMismatch -ProjectRoot $pwd.Path
 $changelogStatus = Get-ChangelogStatus -ProjectRoot $pwd.Path -RomIdentity $romIdentity
+$sceneRegressionStatus = Get-SceneRegressionStatus -ProjectRoot $pwd.Path -RomIdentity $romIdentity
 $results.evidence.changelog_status = $changelogStatus
+$results.evidence.scene_regression_status = $sceneRegressionStatus
 
 if ($budgetDocMismatch) {
     $firstMismatch = $budgetDocMismatch.mismatches | Select-Object -First 1
@@ -2217,6 +2399,33 @@ if (-not $changelogStatus.present) {
     }
 }
 
+if ($sceneRegressionStatus.required -and (-not $sceneRegressionStatus.complete) -and ($env:SGDK_SCENE_REGRESSION_BUILDING -ne "1")) {
+    $parts = @()
+    if (-not $sceneRegressionStatus.report_present) {
+        $parts += "report_ausente"
+    }
+    if ($sceneRegressionStatus.stale) {
+        $parts += "report_stale"
+    }
+    if ($sceneRegressionStatus.missing_scenes.Count -gt 0) {
+        $parts += ("cenas_sem_captura={0}" -f $sceneRegressionStatus.missing_scenes.Count)
+    }
+    if ($sceneRegressionStatus.failed_scenes.Count -gt 0) {
+        $parts += ("cenas_falhas={0}" -f $sceneRegressionStatus.failed_scenes.Count)
+    }
+    if ($parts.Count -eq 0) {
+        $parts += "report_incompleto"
+    }
+    $msg = ("Matriz canonica de regressao por cena ausente, stale ou incompleta: {0}." -f ($parts -join ", "))
+    Write-Log $msg (Get-BlockingStatusLogLevel "scene_regression_incomplete")
+    Add-BlockingStatus $results "scene_regression_incomplete" $msg "runtime" $sceneRegressionStatus.report_path @{
+        missingScenes = @($sceneRegressionStatus.missing_scenes)
+        failedScenes = @($sceneRegressionStatus.failed_scenes)
+        stale = [bool]$sceneRegressionStatus.stale
+        reportPresent = [bool]$sceneRegressionStatus.report_present
+    }
+}
+
 $results.status_panel.documentado =
     (Test-Path -LiteralPath (Join-Path $pwd.Path "README.md")) -or
     (Test-Path -LiteralPath (Join-Path $pwd.Path "doc")) -or
@@ -2228,6 +2437,7 @@ $results.status_panel.implementado =
 $results.status_panel.buildado = Test-Path -LiteralPath $romPath
 $results.status_panel.runtime_capture_present = (($runtimeSamplesRecorded -gt 0) -or ($existingSessionEvidence.Count -gt 0)) -and (-not $emulatorEvidenceStale)
 $results.status_panel.emulator_evidence_stale = $emulatorEvidenceStale
+$results.status_panel.scene_regression_ready = if ($sceneRegressionStatus) { ((-not $sceneRegressionStatus.required) -or $sceneRegressionStatus.complete) } else { $true }
 
 if ($emulatorEvidenceStale -and $emulatorSession) {
     $msg = ("Evidencia de emulador obsoleta ou insuficiente: {0}." -f $emulatorEvidenceReason)
@@ -2236,12 +2446,13 @@ if ($emulatorEvidenceStale -and $emulatorSession) {
         reason = $emulatorEvidenceReason
         launchStatus = $sessionLaunchStatus
         evidenceFiles = $existingSessionEvidence.Count
+        sandboxRoot = $sessionSandboxRoot
+        freshSramConfirmed = $sessionFreshSramConfirmed
     }
 }
 
 $blastEmGate = $false
 if ($emulatorSession) {
-    $emulatorName = Get-SafeString $emulatorSession.emulator (Get-SafeString $emulatorSession.reference_emulator "")
     $bootStatus = Get-SafeString $emulatorSession.boot_emulador (Get-SafeString $emulatorSession.status "nao_testado")
     $results.qa_axes.boot_emulador = $bootStatus
     if ($emulatorName -match '(?i)blastem' -and $bootStatus -eq "ok" -and $sessionCaptured -and -not $emulatorEvidenceStale) {
@@ -2258,10 +2469,6 @@ if ($emulatorSession) {
     $performanceStatus = Get-SafeString $emulatorSession.performance ""
     if ($performanceStatus) {
         $results.qa_axes.performance = $performanceStatus
-    }
-    $hardwareStatus = Get-SafeString $emulatorSession.hardware_real ""
-    if ($hardwareStatus) {
-        $results.qa_axes.hardware_real = $hardwareStatus
     }
 } elseif ($runtimeSamplesRecorded -gt 0 -and -not $emulatorEvidenceStale) {
     $results.qa_axes.boot_emulador = "ok"
@@ -2306,6 +2513,7 @@ $sourceArtifacts = @($REPORT_FILE)
 if (Test-Path -LiteralPath $runtimeMetricsPath) { $sourceArtifacts += $runtimeMetricsPath }
 if (Test-Path -LiteralPath $emulatorSessionPath) { $sourceArtifacts += $emulatorSessionPath }
 if (Test-Path -LiteralPath $visualAestheticReportPath) { $sourceArtifacts += $visualAestheticReportPath }
+if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sourceArtifacts += $sceneRegressionReportPath }
 if ($changelogStatus.present) { $sourceArtifacts += $changelogStatus.changelog_path }
 if ($changelogStatus.latest_build_meta_path) { $sourceArtifacts += $changelogStatus.latest_build_meta_path }
 $sourceArtifacts += $existingSessionEvidence
@@ -2313,6 +2521,7 @@ $results.status_panel.source_artifacts = @($sourceArtifacts | Select-Object -Uni
 $results.status_panel.visual_lab_aprovado =
     $results.status_panel.buildado -and
     $results.status_panel.changelog_ready -and
+    $results.status_panel.scene_regression_ready -and
     $results.status_panel.visual_gate_ready -and
     $results.status_panel.blastem_gate -and
     (-not $results.status_panel.emulator_evidence_stale)

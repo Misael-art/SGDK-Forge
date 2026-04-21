@@ -1,0 +1,11 @@
+interface:
+  display_name: "Game Design Planning"
+  short_description: "Semeia GDD, roadmap de cenas e first playable slice para projetos SGDK"
+  brand_color: "#2F6B5F"
+  default_prompt: "Use $game-design-planning para transformar nome, genero, fantasia, referencias e restricoes em project_brief, gdd_seed, scene_roadmap, first_playable_slice, roteiro_scope, front_end_profile e scene_transition_card seed quando houver transicao formal, coerentes com Mega Drive / SGDK 2.11 antes de abrir arte ou runtime."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

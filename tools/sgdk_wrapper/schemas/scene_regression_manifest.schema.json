@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_regression_manifest.schema.json",
+  "title": "Scene Regression Manifest",
+  "description": "Project-level manifest at <project_root>/doc/scene-regression.json defining which scenes to regress, how to boot them, and what to compare.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scenes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/definitions/regression_scene"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "regression_scene": {
+      "type": "object",
+      "required": [
+        "scene_id",
+        "boot_mode",
+        "capture_kind"
+      ],
+      "properties": {
+        "scene_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "boot_mode": {
+          "type": "string",
+          "enum": ["debug_menu", "sram_bootstrap", "runtime_flag", "direct_boot", "unsupported"],
+          "description": "How to deterministically reach this scene"
+        },
+        "capture_kind": {
+          "type": "string",
+          "enum": ["screenshot", "evidence_bundle"],
+          "description": "screenshot=single PNG, evidence_bundle=full capture (screenshot+sram+vdp)"
+        },
+        "capture_frame": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Frame number at which to capture"
+        },
+        "warmup_frames": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Frames to wait before scene is stable"
+        },
+        "baseline_root": {
+          "type": "string",
+          "description": "Relative path from project root to the baseline directory for this scene"
+        },
+        "comparison_mode": {
+          "type": "string",
+          "enum": ["exact", "tolerant"],
+          "description": "exact=hash match, tolerant=pixel-tolerance diff"
+        },
+        "tolerance_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "For tolerant mode: max fraction of differing pixels (0.0-1.0)"
+        },
+        "required_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["screenshot", "sram", "vdp_dump"]
+          },
+          "description": "Which artifacts must be present for comparison"
+        },
+        "navigation_sequence": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "BlastEm navigation commands to reach this scene"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_budget.schema.json",
+  "title": "Scene Budget Report",
+  "description": "Output of audit_scene_budget.ps1. Extends the common artifact envelope with per-scene budget analysis.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "workspace_root",
+    "status",
+    "scenes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tool_name": {
+      "type": "string",
+      "const": "audit_scene_budget"
+    },
+    "tool_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ok", "warn", "error"]
+    },
+    "failure_reason": {
+      "type": ["string", "null"]
+    },
+    "scenes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/scene_budget_entry"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "scene_budget_entry": {
+      "type": "object",
+      "required": [
+        "scene_id",
+        "measurement_origin",
+        "budget_status"
+      ],
+      "properties": {
+        "scene_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "measurement_origin": {
+          "type": "string",
+          "enum": ["measured", "estimated", "inferred"]
+        },
+        "frames_analyzed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dma_bytes_peak": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "dma_ops_peak": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "sprite_count_peak": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "sprites_per_scanline_peak": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "pal_changes_peak": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "vram_usage_estimate_peak": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "cpu_overrun_count": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "budget_status": {
+          "type": "string",
+          "enum": ["ok", "warn", "error"],
+          "description": "ok=within budget, warn=approaching limits, error=over budget"
+        },
+        "budget_notes": {
+          "type": ["string", "null"],
+          "description": "Human-readable notes about budget status"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

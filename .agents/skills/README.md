@@ -10,6 +10,7 @@ Esta arvore contem a fonte canonica das skills do framework MegaDrive_DEV.
 
 - `allow_implicit_invocation: false`
   - use em skills de governanca, auditoria, roteamento, status ou sourcing externo
+  - use tambem em skills de planejamento, seed de GDD ou definicao de escopo
   - use tambem quando o disparo implicito puder levar o agente para um workflow mais caro ou mais invasivo do que o pedido do usuario
 
 ### Regras praticas
@@ -35,6 +36,7 @@ Nao duplique nem edite skills em dois lugares.
 
 ## Crescimento da arvore
 
+- especializacoes de planejamento, GDD seed e scope slicing entram primeiro em `planning/`
 - especializacoes de runtime entram primeiro em `code/`
 - especializacoes de budget entram em `hardware/`
 - especializacoes de leitura e direcao visual entram em `art/`

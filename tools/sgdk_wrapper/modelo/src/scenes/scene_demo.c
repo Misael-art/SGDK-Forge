@@ -7,15 +7,18 @@
 static void SCENE_demoDrawStatic(void)
 {
     VDP_clearPlane(BG_A, TRUE);
-    VDP_drawText("DEMO TECNICA EDITAVEL", 9, 4);
-    VDP_drawText("Use esta cena para experimentar logica, UI e fluxo.", 1, 8);
-    VDP_drawText("A: reiniciar a cena", 11, 20);
-    VDP_drawText("B: voltar para menu", 11, 22);
-    VDP_drawText("C: alternar HUD", 12, 24);
+    VDP_drawTextFill("DEMO TECNICA EDITAVEL", 9, 4, 22);
+    VDP_drawTextFill("Use esta cena para experimentar logica, UI e fluxo.", 1, 8, 39);
+    VDP_drawTextFill("A: reiniciar a cena", 11, 20, 28);
+    VDP_drawTextFill("B: voltar para menu", 11, 22, 28);
+    VDP_drawTextFill("C: alternar HUD", 12, HUD_ROW_HINT_SECONDARY, 28);
 }
 
 void SCENE_demoEnter(void)
 {
+    /* Canonical enter: high-contrast text palette + deterministic backdrop. */
+    PAL_setPalette(PAL3, palette_grey, DMA);
+    VDP_setTextPalette(PAL3);
     PAL_setColor(0, RGB24_TO_VDPCOLOR(0x241212));
     SCENE_demoDrawStatic();
 }
@@ -46,11 +49,11 @@ void SCENE_demoUpdate(void)
     }
     PAL_setColor(0, backdrop);
 
-    VDP_clearTextArea(0, 11, 40, 6);
+    /* Canonical dynamic overlay: VDP_drawTextFill with fixed len, no residual garbage. */
     sprintf(line, "Scene frame: %u", gApp.sceneFrames);
-    VDP_drawText(line, 2, 11);
+    VDP_drawTextFill(line, 2, 11, 38);
     sprintf(line, "Held: 0x%04X  Pressed: 0x%04X", gInput.held, gInput.pressed);
-    VDP_drawText(line, 2, 13);
-    VDP_drawText("Pedagogical marker:", 2, 15);
-    VDP_drawText("<*>", markerX, 17);
+    VDP_drawTextFill(line, 2, 13, 38);
+    VDP_drawTextFill("Pedagogical marker:", 2, 15, 38);
+    VDP_drawTextFill("<*>", markerX, 17, 3);
 }

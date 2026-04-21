@@ -53,6 +53,7 @@ Esta skill senta entre as outras:
 - `runtime_decision_log`
 - `api_reality_check`
 - `scene_reset_plan` quando houver transicao de cena
+- `scene_transition_runtime_contract` quando houver `scene_transition_card`
 - `build_evidence`
 - `emulator_evidence`
 - `delivery_findings`
@@ -65,11 +66,14 @@ Esta skill senta entre as outras:
 - codigo de runtime alvo
 - laudo vigente de `megadrive-vdp-budget-analyst`
 - contexto de build e emulador
+- `ui_decision_card` quando houver HUD/UI formal
+- `scene_transition_card` quando houver transicao formal
 
 ### Saida minima
 
 - `runtime_decision_log`
 - `api_reality_check`
+- `scene_reset_plan` quando houver transicao de cena
 - `build_evidence`
 - `emulator_evidence`
 - `delivery_findings`
@@ -78,7 +82,11 @@ Esta skill senta entre as outras:
 
 - a decisao de runtime cita explicitamente o budget que a autorizou
 - a escolha entre `IMAGE`, `MAP`, streaming e `SPR_initEx` fica rastreavel
+- quando houver UI formal, o runtime cita `ui_architecture_choice`, ownership e fallback usados
+- quando houver transicao formal, o runtime cita `continuity_model`, `runtime_state_handoff`, `teardown_reset_plan` e fallback usados
+- quando houver anexo tipografico, o runtime cita `font_render_mode`, `font_owner` e `fallback_font_plan` usados
 - build, validacao e evidencia apontam para a mesma ROM
+- a captura BlastEm registra `runtime_metrics.json` ou evidencia equivalente sem vazar para fora de `out/blastem_env_*`
 
 ### Handoff para proxima etapa
 
@@ -100,6 +108,16 @@ Esta skill senta entre as outras:
 - `TILE_USER_INDEX` e empilhamento de tilesets devem ser declarados
 - no Windows, build sempre com caminho absoluto e `cmd //c`
 - runtime sem laudo de budget vigente e erro de processo, nao apenas erro de estilo
+- para smoke/gate em BlastEm, usar a lib canonica `tools/sgdk_wrapper/lib/blastem_automation.psm1`
+- heartbeat canonico de readiness e `READY` em SRAM `0x100` em rolling (re-assinado pos-warmup); emissao unica e anti-padrao
+- referencia ROM-side do heartbeat canonico vive em `tools/sgdk_wrapper/modelo/src/system/runtime_probe.c`
+- `press_until_ready:*` e o unico passo oficial para chegar em cena antes de captura; suporta `flush_every=` para forcar flush de SRAM e `rotate_key=` para recuperar de timeout
+- `FileSystemWatcher` em `$SaveRoots` e fast-path oficial; polling continua como backstop
+- GDB stub do BlastEm nao suporta `Z2`/`Z3`/`Z4` (watchpoints); nao construir rota de heartbeat live via GDB
+- `fresh_sram_confirmed` precisa ser verdadeiro para promover evidencia de runtime BlastEm
+- logs operacionais do BlastEm devem sair em JSONL e entrar no handoff como evidencia rastreavel
+- no Windows, o sandbox do BlastEm deve alinhar `HOME/USERPROFILE` com `AppData\\Local` e gravar `blastem.cfg` no ramo efetivo que o emulador resolve
+- `save_path` e `screenshot_path` precisam viver dentro de `ui {}` no cfg gerado; fora disso o BlastEm pode cair no default `$USERDATA/blastem/$ROMNAME`
 
 ## Classificacao de conhecimento
 
@@ -200,6 +218,61 @@ Ao sair de cena, avaliar obrigatoriamente:
 - `VDP_setHorizontalScroll(BG_B, 0)` e equivalentes
 - limpeza de HUD / WINDOW / texto
 
+## Contrato de runtime para transicoes formais
+
+Quando houver `scene_transition_card`, o runtime deve:
+
+- consumir `continuity_model`, `player_control_policy`, `camera_motion_contract`, `plane_ownership_map`, `fx_ownership_map`, `audio_transition_plan`, `runtime_state_handoff`, `fallback_plan` e `teardown_reset_plan`
+- registrar no `runtime_decision_log` se a rota final ficou elite, fallback ou bloqueada por budget
+- tratar `palette_fade_bridge` como fallback contextualizado, nao como fade preto generico automatico
+- para `spatial_scroll_bridge`, garantir que camera, streaming e seam oculto estejam sob um unico contrato de estado
+- para `scripted_avatar_bridge`, garantir que perda de controle tenha motivo dramatico, duracao curta e handoff limpo
+- para `tile_mask_mosaic_transition`, implementar backup/restauro de tileset ou reprovar a rota
+- para `raster_distortion_bridge`, declarar owner unico de H-Int, arrays de scroll/VSRAM e reset simetrico do callback
+- para `lighting_state_transition`, resetar CRAM, Shadow/Highlight, palette split e qualquer slot especial
+- para `pseudo3d_perspective_bridge`, manter fallback seguro e nao misturar com gameplay normal sem benchmark proprio
+- se tocar HUD, menu, title, overlay ou texto, consumir tambem `ui_decision_card`
+- sem teardown verificavel, nao declarar a transicao pronta
+
+## Contrato de runtime para HUD/UI formal
+
+Quando houver `ui_decision_card`, o runtime deve:
+
+- consumir `ui_architecture_choice`, `plane_ownership_map` e `fallback_plan` antes de escrever qualquer HUD
+- consumir `fx_ownership_map` antes de ligar split, wobble, palette cycling ou qualquer FX de interface
+- registrar no `runtime_decision_log` se a rota final ficou elite ou fallback
+- impedir segundo owner implicito de `WINDOW`, `H-Int` ou paleta especial
+- tratar `profile_kind=front_end_profile` como menu/title/front-end formal, nao como excecao improvisada
+- se houver anexo tipografico, consumir `font_render_mode`, `charset_profile`, `font_owner` e `fallback_font_plan` antes de escolher renderer
+- `fixed_custom_hud_font`
+  - preferir `VDP_loadFont` ou emissao por tile-index math para HUD, labels e leitura rapida
+- `variable_width_tidytext`
+  - reservar para dialogo, credito, lore, terminais e front-end controlado
+- `display_font_plus_body_font`
+  - reservar para title/menu/front-end com `profile_kind=front_end_profile`
+- nunca usar compositor proporcional caro por frame em HUD de combate
+- `glyph_manifest` fecha o subset real de glifos; sem ele nao subir charset expandido nem cache temporario caro
+
+## Contrato de Runtime para Menus
+
+Menus e title screens devem ser tratados como cenas de primeira classe.
+
+Defaults de implementacao:
+- texto e UI critica em `WINDOW` ou superficie fixa equivalente
+- fundo vivo por `BG_A` + `BG_B` + tecnica controlada, nunca por gambiarra sem owner
+- item selecionado com feedback animado real
+- estado de paleta, scroll, `WINDOW` e callbacks especiais resetado ao sair
+
+Nao aprovar por default:
+- menu com texto critico em plano rolavel
+- selecao so por troca de cor
+- idle completamente morto
+- efeito especial sem contrato de teardown
+
+Quando houver FX:
+- declarar owner de `H-Int`, palette cycling e split visual
+- provar que o menu continua legivel e sem flicker
+
 ## Anti-padroes
 
 - inventar getter SGDK inexistente
@@ -207,6 +280,7 @@ Ao sair de cena, avaliar obrigatoriamente:
 - redeclarar globais em mais de um `.c`
 - confiar em build manual sem wrapper e sem caminho absoluto
 - chamar a cena de pronta sem ROM rodando em BlastEm
+- aceitar `save.sram` fora do sandbox do projeto como prova valida
 
 ## Lib case obrigatoria
 

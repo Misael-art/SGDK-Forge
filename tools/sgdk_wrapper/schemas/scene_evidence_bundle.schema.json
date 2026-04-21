@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_evidence_bundle.schema.json",
+  "title": "Scene Evidence Bundle",
+  "description": "Describes the evidence artifacts captured for a single scene during a regression run. Stored at out/evidence/scenes/<scene_id>/bundle.json.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scene_id",
+    "captured_at",
+    "rom_sha256",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "scene_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rom_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$|^MISSING$"
+    },
+    "boot_mode": {
+      "type": "string"
+    },
+    "capture_frame": {
+      "type": ["integer", "null"]
+    },
+    "warmup_frames": {
+      "type": ["integer", "null"]
+    },
+    "readiness_ok": {
+      "type": ["boolean", "null"]
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "screenshot": {
+          "type": ["string", "null"],
+          "description": "Relative path to screenshot within bundle directory"
+        },
+        "sram": {
+          "type": ["string", "null"]
+        },
+        "vdp_dump": {
+          "type": ["string", "null"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "capture_status": {
+      "type": "string",
+      "enum": ["ok", "degraded", "partial", "failed"]
+    }
+  },
+  "additionalProperties": true
+}

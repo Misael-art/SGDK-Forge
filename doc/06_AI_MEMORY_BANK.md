@@ -1,6 +1,6 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
-**Última atualização:** 2026-04-10  
+**Última atualização:** 2026-04-21
 **Escopo:** Repositório MegaDrive_DEV (workspace global)  
 **Projeto em foco:** Shadow Dancer Hamoopig, Pequeno Príncipe, engines SGDK 211, reorganização workspace, assimilação do engine scan pass 2
 
@@ -128,6 +128,54 @@
   9. slope collision
   10. trig library
 - Regra consolidada: pesquisa validada de engine é insumo forte, mas não canon pronta; promoção depende de referência exata, descrição limpa, `lib_case` reprodutível e gate humano explícito.
+
+### Sistema de decisao HUD/UI FX canonizado (2026-04-20)
+- Criado `doc/03_art/13_hud_ui_fx_decision_system.md` como doutrina principal de `S3.2 HUD Design`.
+- `ui_decision_card` passa a ser o artefato canonico para HUD, interface, overlay, subscreen, menu, title e FX de interface.
+- `front_end_profile` deixa de existir como artefato separado e passa a sobreviver apenas como `profile_kind=front_end_profile` dentro do mesmo `ui_decision_card`.
+- `AAA_SKILL_CURATION_STATUS.md` promoveu `S3.2` para `INCORPORADO`, mas `runtime_proof_status` continua `NAO_INICIADA`.
+- Pipeline e workflows da `.agent` agora exigem que ownership, fallback e budget de UI sejam declarados antes de budget/runtime quando houver surface formal de interface.
+- `scene-state-architect`, `visual-excellence-standards`, `megadrive-vdp-budget-analyst`, `sgdk-runtime-coder`, `sgdk-build-wrapper-operator` e `game-director-sgdk` foram alinhados ao novo contrato.
+- Decisao consolidada:
+  - `window_plane_static_hud` continua sendo o default seguro para leitura constante
+  - `window_plane_lifebar` e `sonic_hud_physics_family` seguem como referencias de pattern, nao defaults universais
+  - `procedural_raster_glitch_suite` continua tecnica de alto risco e so entra com owner explicito, reset simetrico e fallback honesto
+- Politica tipografica consolidada:
+  - `fixed_custom_hud_font` e a rota default para HUD, labels fixos e leitura rapida
+  - `variable_width_tidytext` fica para dialogo, credito, lore e texto premium em PT-BR
+  - `glyph_manifest` passa a ser obrigatorio sempre que a UI subir fonte dedicada, acentos ou compositor proporcional
+
+### Sistema de transicoes contextualizadas canonizado (2026-04-21)
+- Criado `doc/03_art/14_contextual_scene_transition_system.md` como doutrina principal de `S3.4 Scene Transition Design`.
+- `scene_transition_card` passa a ser o artefato canonico para troca de cena, zona, ato, menu, cutscene ou estado visual com peso dramatico/tecnico.
+- `scene_transition_card` permanece separado de `ui_decision_card`, mas deve referenciar UI quando a transicao tocar HUD, menu, title, overlay ou texto critico.
+- Classes canonicas registradas: `palette_fade_bridge`, `spatial_scroll_bridge`, `scripted_avatar_bridge`, `tile_mask_mosaic_transition`, `raster_distortion_bridge`, `lighting_state_transition`, `pseudo3d_perspective_bridge` e `meta_cut_bridge`.
+- Pipeline, workflows, frontdoor tecnico, registry de engine patterns, registry de maestria 16-bit e contracts das skills foram alinhados ao novo contrato.
+- Decisao consolidada:
+  - fade preto generico deixa de ser reflexo default; fallback seguro e `palette_fade_bridge` contextualizado
+  - H-Int, palette split, wobble, pseudo-3D, tile mutation e audio fade so entram com owner unico, budget, reset simetrico e fallback
+  - status inicial e `INCORPORADO` em doutrina e `NAO_INICIADA` em runtime proof ate existir benchmark em BlastEm
+
+### Roadmap de proficiencia AAA do agente canonizado (2026-04-21)
+- O roadmap oficial de proficiencia AAA do agente passa a viver em quatro fontes sincronizadas:
+  - `doc/03_art/AAA_SKILL_CURATION_STATUS.md` como placar executivo
+  - `doc/05_technical/93_16bit_hardware_mastery_matrix.md` como mapa humano
+  - `doc/05_technical/93_16bit_hardware_mastery_registry.json` como registry machine-readable
+  - `doc/05_technical/94_16bit_hardware_mastery_roadmap.md` como ordem de execucao
+- Menu, fontes, HUD/UI e transicoes ja tem doutrina canonizada, mas continuam sem equivaler a runtime proof completo.
+- Raster/luz/feedback FX, boss/setpieces, tilemap avancado e audio senior tambem passam a ter doutrina canonizada por `doc/03_art/15_aaa_runtime_spectacle_decision_system.md`.
+- Proxima lacuna prioritaria:
+  - prova runtime de `P0 Raster + Lighting + Feedback FX` no `BENCHMARK_VISUAL_LAB`
+- Ordem consolidada de proficiencia:
+  1. `aaa_agent_proficiency_roadmap`
+  2. `feedback_fx_decision_system`
+  3. `boss_setpiece_design`
+  4. `advanced_tilemap_design`
+  5. `xgm2_audio_architecture`
+  6. kinematics e experimentos especiais
+- Regra consolidada:
+  - `INCORPORADO` em doutrina nao significa `VALIDADA_EM_ROM`
+  - nenhuma tecnica vira default AAA sem benchmark em BlastEm, budget aprovado e evidencia rastreavel
 
 ### Reorganização do Workspace
 - **Backup completo:** Criado `archives/backup_pre_reorg_2026/` com cópia de doc/, SGDK_projects/, SGDK_Engines/, assets/, tmp/.

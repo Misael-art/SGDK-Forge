@@ -22,6 +22,7 @@ Use esta skill antes de aprovar efeitos visuais, assets, transicoes ou mudancas 
 - custo de animacao de tiles em VRAM por VBlank
 - largura real do stage versus teto pratico do plano antes de streaming
 - worst-frame budget quando a cena tiver dois lutadores, HUD e FX grandes
+- separacao entre custo ROM, set residente em VRAM, DMA de preload e DMA por frame
 
 ## Decisao
 
@@ -39,6 +40,20 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
 - mover parte da profundidade para `sprite grafts`
 - promover a prova de ROM para `compare_flat`
 
+## Resource Budget Semantics
+
+Todo parecer deve separar limite fisico, residencia e custo por frame. Nao reprovar uma proposta so porque "o mundo inteiro nao cabe residente" antes de avaliar escopo local, preload, streaming e janela ativa.
+
+Termos canonicos:
+
+- `rom_asset_cost`: custo do asset compactado ou bruto em ROM; `FAST`, `BEST` e `NONE` mudam ROM/decompress/load behavior, nao o numero final de tiles descompactados que ocupam VRAM.
+- `vram_resident_set`: tiles, fontes, sprites, mapas e tabelas que precisam estar simultaneamente residentes na cena atual.
+- `load_time_dma_cost`: uploads feitos em boot, loading screen, troca de cena ou trecho sem gameplay responsivo; pode ser alto se houver tela/estado de carregamento honesto.
+- `per_frame_dma_cost`: uploads por VBlank durante gameplay ou controle ativo; deve caber no pior quadro sem roubar uploads criticos.
+- `active_animation_window`: subconjunto de frames/ciclos realmente necessario no intervalo atual; nao confundir sheet completa do personagem com residencia obrigatoria.
+- `scene_local_scope`: assets permitidos para a cena/fase atual; assets de outra cena devem sair do budget residente.
+- `scanline_sprite_pressure`: limite perceptivo e fisico de sprites por scanline; multiplexing/flicker e tradeoff declarado, nao mascara de overflow.
+
 ## Contrato Operacional
 
 ### Entrada minima
@@ -50,13 +65,16 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
 - layout real de planos
 - `ui_decision_card` quando houver HUD/UI formal
 - `scene_transition_card` quando houver transicao formal
+- `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` ou `audio_architecture_card` quando houver espetaculo runtime formal
 
 ### Saida minima
 
 - laudo deterministico `cabe`, `cabe com recuo` ou `nao cabe`
 - numeros de VRAM usados no parecer
+- separacao explicita entre `rom_asset_cost`, `vram_resident_set`, `load_time_dma_cost`, `per_frame_dma_cost`, `active_animation_window`, `scene_local_scope` e `scanline_sprite_pressure`
 - `budget_decision` alinhado ao `ui_architecture_choice` quando houver UI formal
 - `budget_decision` alinhado ao `continuity_model` quando houver transicao formal
+- `budget_decision` alinhado aos cards de feedback FX, boss/setpiece, tilemap avancado e audio senior quando existirem
 - `glyph_budget_class` alinhado ao `font_render_mode` quando houver anexo tipografico
 - recuo explicito quando necessario
 
@@ -64,8 +82,12 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
 
 - o parecer consegue ser reconstruido por outra IA a partir dos mesmos numeros
 - o laudo identifica claramente se o problema dominante e asset, recurso SGDK ou arquitetura
+- o laudo nao confunde asset compactado em ROM com tiles residentes em VRAM
+- o laudo nao confunde DMA de preload/loading com DMA por frame em gameplay
+- o laudo considera scene-local loading, streaming e active animation window antes de concluir `nao cabe`
 - quando houver UI formal, ownership e fallback nao contradizem o laudo
 - quando houver transicao formal, `fx_ownership_map`, `teardown_reset_plan` e `fallback_plan` nao contradizem o laudo
+- quando houver espetaculo runtime formal, pior quadro, scanline pressure, H-Int, CRAM, DMA, sprites, tile churn e audio ownership ficam auditados
 - quando houver anexo tipografico, `glyph_manifest`, `charset_profile` e `fallback_font_plan` nao contradizem o laudo
 
 ### Handoff para proxima etapa
@@ -74,6 +96,7 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
 - bloquear runtime se o laudo nao existir ou estiver contradizendo codigo/docs
 - quando houver UI formal, entregar o veredito junto do `ui_decision_card`
 - quando houver transicao formal, entregar o veredito junto do `scene_transition_card`
+- quando houver cards de espetaculo runtime, entregar veredito junto dos cards e do pior quadro
 
 ## Quando houver HUD/UI formal
 
@@ -109,6 +132,24 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
   - tratar como `advanced_tradeoff`; exigir budget proprio e fallback seguro
 - sem `scene_transition_card`, reprovar transicao avancada como rota canonica
 
+## Quando houver espetaculo runtime AAA
+
+- ler `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` e `audio_architecture_card` quando existirem
+- usar `budget_decision` como veredito oficial de cada card
+- `feedback_fx_decision_card`
+  - auditar H-Int, CRAM, VSRAM, sprite particles, tile particles, camera shake e reset
+  - medir se FX compete com HUD, jogador, projetil ou hitbox no pior quadro
+- `boss_setpiece_card`
+  - auditar boss + jogador + HUD + projeteis + FX no mesmo scanline budget
+  - se houver `plane_takeover`, declarar perda de parallax e custo de tiles residentes
+- `advanced_tilemap_design_card`
+  - auditar metatile reuse, streaming boundary, dirty uploads, foreground priority e colisao visual
+  - separar mundo total, janela visivel, resident set local e DMA de streaming
+  - reprovar streaming sem seam budget e fallback
+- `audio_architecture_card`
+  - auditar ownership de canal, prioridade de SFX, ambience, stinger, pause/resume e custo de PCM
+- sem card formal, reprovar tecnica avancada como rota canonica
+
 ## Tecnicas canonicas de extrapolacao segura
 
 ### Reparticao intencional de VRAM
@@ -116,6 +157,7 @@ Se responder `cabe com recuo`, explicite qual recuo desbloqueia a cena:
 - Nao orce contra `2048` tiles brutos como se todos fossem livres para arte.
 - Orcar contra a faixa realmente util depois de BG_A, BG_B, window, hscroll, sprite table, fonte e sprite engine.
 - Se o background legitimo pede mais tiles unicos do que a particao padrao comporta, preferir `SPR_initEx(u16 vramSize)` a aceitar corrupcao silenciosa.
+- Se uma cena so estoura porque o projeto inteiro foi contado como residente, recortar por `scene_local_scope` antes de reduzir a ambicao visual.
 
 **Formula de budget (SGDK 2.11):**
 ```
@@ -171,6 +213,16 @@ Configs comuns (maps_addr = 0xC000 em todas):
   - bytes por coluna ou bloco
   - tolerancia de velocidade da camera
   - risco de seam
+
+### Streaming de animacao e janela ativa
+
+- Sheet completa de personagem nao precisa estar inteira residente se o runtime usa janela ativa, SGDK auto VRAM alloc ou streaming manual validado.
+- Medir:
+  - frames residentes no pior estado de gameplay
+  - tiles unicos do ciclo ativo
+  - DMA de troca de frame quando houver upload dinamico
+  - fallback para reduzir frames, cadence ou variacao se o pior quadro estourar
+- Multiplexing ou flicker controlado so pode entrar para efeito nao-critico; nunca para heroi, hitbox, golpe-chave ou leitura essencial.
 
 ### Gate de verdade para raster e paleta
 
@@ -307,6 +359,7 @@ Regra:
 - alpha blending real nao existe
 - terceira camada de background nao existe
 - DMA fora de VBlank exige justificativa forte
+- compressao `.res` reduz custo de ROM e pode alterar tempo de load, mas nao reduz o custo final do tile descompactado quando residente em VRAM
 - shadow/highlight tem regras de prioridade e custo de paleta
 - imagem inteira convertida em tilemap quase sempre explode tiles unicos
 - **paleta PNG inflada (>16 entradas PLTE) causa corrupcao silenciosa**: o rescomp usa indices brutos da paleta para gerar tiles; dois pixeis com a mesma cor RGB mas indices diferentes no PNG produzem tiles "unicos" falsos, inflando o tileset sem motivo visual. Verificar SEMPRE byte 24 (bitDepth<=4) e contagem de entradas PLTE (<=16) antes de qualquer trabalho de recursos. Uma imagem com 11 cores unicas mas 256 entradas de paleta e um problema critico
@@ -327,9 +380,10 @@ Regra:
 
 1. header PNG / PLTE
 2. `rescomp` raw tiles
-3. formula real de VRAM
-4. decisao de arquitetura
-5. BlastEm
+3. separar `rom_asset_cost`, `vram_resident_set`, `load_time_dma_cost`, `per_frame_dma_cost`, `active_animation_window`, `scene_local_scope` e `scanline_sprite_pressure`
+4. formula real de VRAM
+5. decisao de arquitetura
+6. BlastEm
 
 Se a analise saltar esta ordem, o parecer ainda nao esta maduro.
 

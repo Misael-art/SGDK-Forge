@@ -18,7 +18,9 @@ Antes de escrever codigo, criar arquivos ou propor mudancas:
 3. Ler `doc/13-spec-cenas.md` — saber os limites tecnicos da cena afetada.
 4. Ler `doc/12-roteiro.md` se a tarefa tocar dialogos, encontros ou narrativa.
 5. Ler `doc/03-arquitetura.md` se for criar ou mover arquivos.
-6. Responder com `[Contexto Carregado]` e um plano antes de gerar codigo.
+6. Em projeto novo ou escopo ainda difuso, usar `planning/game-design-planning` para seedar GDD, roteiro, spec, `first_playable_slice` e `front_end_profile`.
+7. Se a tarefa tocar menu, title screen ou front-end, alinhar `front_end_profile` no GDD antes de abrir arte ou runtime.
+8. Responder com `[Contexto Carregado]` e um plano antes de gerar codigo.
 
 **SE VOCE NAO SEGUIR ESTE FLUXO, O TRABALHO DEVE SER TRATADO COMO NAO CONFIAVEL.**
 
@@ -70,7 +72,9 @@ Antes de escrever qualquer linha, valide:
 
 - [ ] Li o Memory Bank e sei onde o projeto parou?
 - [ ] A tarefa pertence ao escopo atual do GDD?
+- [ ] Se o projeto ainda esta nascendo, o `first_playable_slice` e o roadmap de cenas ja foram seedados?
 - [ ] Sei os limites de VRAM/DMA/sprites da cena afetada (ver `doc/13-spec-cenas.md`)?
+- [ ] Se a cena for menu/title/front-end, a identidade visual e o comportamento de idle/selecao estao declarados no GDD?
 - [ ] Meu codigo usa apenas `u8`, `u16`, `s16`, `u32`, `fix16`, `fix32`?
 - [ ] Nao estou alocando memoria dinamica no loop?
 - [ ] Os dialogos respeitam o roteiro aprovado?

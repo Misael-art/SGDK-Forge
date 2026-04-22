@@ -158,7 +158,7 @@ Todos os engines e jogos possuem agora uma versao SGDK 211:
 ## 7. Referências Rápidas
 
 - **Documentação:** [doc/README.md](README.md)
-- **Template de Projeto:** `templates/project-template/` (template canonico)
+- **Template de Projeto:** `tools/sgdk_wrapper/modelo/` (template primario) + `SGDK_templates/base-elite/` (fallback/referencia ELITE)
 - **Wrapper:** [tools/sgdk_wrapper/README.md](../tools/sgdk_wrapper/README.md)
 - **Resiliência:** [tools/sgdk_wrapper/RESILIENCE.md](../tools/sgdk_wrapper/RESILIENCE.md)
 - **Relatório BLAZE_ENGINE:** [doc/migrations/BLAZE_ENGINE_FIX_REPORT.md](migrations/BLAZE_ENGINE_FIX_REPORT.md)

@@ -31,6 +31,7 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - contexto de composicao (`layer_plan` / `shared_canvas_contract`) quando houver multi-plano
 - `ui_decision_card` quando a surface formal for HUD/UI/overlay/menu
 - `scene_transition_card` quando houver transicao formal de cena, zona, ato, menu, cutscene ou estado visual
+- `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` ou `audio_architecture_card` quando a cena tocar esses dominios
 
 ### Saida minima
 
@@ -38,6 +39,7 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - metricas canonicas aplicadas (ex.: `palette_efficiency`, `layer_separation`)
 - leitura de `attention_profile` e `hud_density` quando houver UI formal
 - leitura de `transition_role`, `continuity_model` e clareza visual quando houver transicao formal
+- leitura de `gameplay_signal`, `weak_point_model`, `route_readability_gate` e `audio_role` quando houver cards de espetaculo runtime
 - leitura de `typography_role` e contraste tipografico quando houver anexo tipografico
 - bloqueios visuais registrados quando aplicavel (ex.: `visual_gate_blocked`)
 - recomendacao objetiva de proxima etapa (budget/runtime)
@@ -49,6 +51,7 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - a decisao resultante nao contradiz o hardware sem declarar tradeoff
 - quando houver UI formal, `attention_profile`, `hud_density` e clareza da arquitetura ficam registrados
 - quando houver transicao formal, a tecnica comunica causa, geografia, tom, risco ou ritmo; se for so bonita, reprovar
+- quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior, a leitura de gameplay vence excesso visual, ruido e ambiguidade
 - quando houver tipografia relevante, fonte-display, fonte-body, acentos e separacao contra o fundo ficam julgados
 
 ### Handoff para proxima etapa
@@ -290,6 +293,22 @@ Anti-padroes:
 - `palette_fade_bridge` e fallback honesto, mas nao deve substituir uma passagem espacial clara quando o mundo poderia conectar as cenas
 - reprovar efeito que esconda estado do jogador, confunda direcao de movimento ou quebre o ritmo sem payoff dramatico
 
+## Espetaculo runtime AAA
+
+Doutrina complementar obrigatoria: `doc/03_art/15_aaa_runtime_spectacle_decision_system.md`.
+
+- quando houver raster, H-Int, line scroll, palette split, Shadow/Highlight, palette cycling, hit sparks ou particulas, ler `feedback_fx_decision_card`
+- `gameplay_signal` decide a permissao do FX; se nao comunica impacto, risco, estado ou recompensa, reprovar
+- `readability_target` nao pode perder para brilho, poeira, shake, debris ou choque de paleta
+- `lighting_state` precisa manter silhueta, volume critico e `palette_slot_audit`
+- `sprite_particles` e `tile_particles` precisam reforcar direcao de impacto, nao virar confete visual
+- quando houver boss ou setpiece, ler `boss_setpiece_card`
+- `telegraph_profile` precisa ser lido em tempo real: startup, active, recovery e weak point precisam parecer intencionais
+- quando houver tilemap avancado, ler `advanced_tilemap_design_card`
+- `route_readability_gate` precisa responder para onde o jogador olha em 1 segundo
+- quando houver audio senior, ler `audio_architecture_card` para coerencia dramatica entre imagem, stinger, impacto e silencio
+- maximalismo visual nao autoriza ambiguidades: efeito caro sem leitura clara e bloqueio visual
+
 ## Extrapolacao legitima do VDP
 
 ### Repartir budget e melhor que fingir que o limite nao existe
@@ -407,21 +426,6 @@ benchmark_referencia:
 check_em_rom: "validar no BENCHMARK_VISUAL_LAB em BlastEm com fundo claro e escuro"
 ```
 
-## Senior Competencies
-
-Esta skill deve tratar como competencias seniores explicitas:
-
-- `waterline readability`
-  - leitura acima e abaixo da linha de split sem ruptura cromatica acidental
-- `palette split coherence`
-  - transicao cromatica dramática sem perder pertencimento de cena
-- `interlace tolerance`
-  - shimmer aceitavel e hierarquia visual ainda legivel em 448
-- `shadow/highlight slot audit`
-  - operador nao pode destruir volume critico por descuido
-- `CRT-aware evaluation`
-  - dithering e material precisam sobreviver ao julgamento LCD + CRT-aware
-
 ## Gatilhos de reprovacao
 
 Reprovar imediatamente quando houver:
@@ -492,6 +496,12 @@ Novas heuristicas so viram doutrina canonizada quando:
 
 Esta skill deve assumir pericia explicita em:
 
+- `waterline readability`
+  - leitura acima e abaixo da linha de split sem ruptura cromatica acidental
+- `palette split coherence`
+  - transicao cromatica dramatica sem perder pertencimento de cena
+- `interlace tolerance`
+  - shimmer aceitavel e hierarquia visual ainda legivel em 448
 - `dithering funcional`
   - gradiente, material e atmosfera; nunca xadrez aleatorio
 - `CRT-aware reading`

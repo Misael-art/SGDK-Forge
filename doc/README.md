@@ -16,7 +16,7 @@ Documentação centralizada do projeto MegaDrive_DEV – engines e jogos para Me
 | [QA_CHECKLIST_ROTEIRO.md](QA_CHECKLIST_ROTEIRO.md) | Roteiro QA passo-a-passo e checklist de evidências para promoção RC |
 | [PADRAO_NOMENCLATURA.md](PADRAO_NOMENCLATURA.md) | Padrão de nomenclatura de projetos e engines |
 | [CANONICAL_WORKTREE.md](CANONICAL_WORKTREE.md) | Estrutura canonica de projeto, manifesto `.mddev` e política de arquivamento |
-| [HIERARQUIA_TEMPLATES.md](HIERARQUIA_TEMPLATES.md) | Papel de cada template (project-template, base-elite, SimpleGameStates_Elite, nested) |
+| [HIERARQUIA_TEMPLATES.md](HIERARQUIA_TEMPLATES.md) | Papel de cada template (modelo, base-elite, SimpleGameStates_Elite, nested) |
 | [AVALIACAO_PROJETOS_SGDK_PROJECTS.md](AVALIACAO_PROJETOS_SGDK_PROJECTS.md) | Avaliação de teste e ELITE_TEST_PROJECT (2026-03-19) |
 | [VALIDACAO_BAT_WRAPPER.md](VALIDACAO_BAT_WRAPPER.md) | Validação de coesão dos .bat com o wrapper (2026-03-19) |
 | [FAXINA_EXECUTADA_20260314.md](FAXINA_EXECUTADA_20260314.md) | Registro da limpeza, isolamento do Git e arquivamento do legado |

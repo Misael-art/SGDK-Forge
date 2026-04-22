@@ -214,6 +214,12 @@ SPRITE enemy_walk "sprite/enemy_walk.png" 3 4 BEST 5
 Calculo de tiles: `w_tiles = width_px / 8`, `h_tiles = height_px / 8`
 Opcoes de compressao: `FAST` (mais rapido), `BEST` (menor tamanho), `NONE` (sem compressao)
 
+Regra de budget:
+
+- `FAST`, `BEST` e `NONE` afetam custo de ROM, tempo/comportamento de decompress e carga inicial.
+- Apos o asset estar carregado, o custo em VRAM e o numero de tiles descompactados residentes continuam sendo medidos por tiles reais.
+- Nao aprovar asset como "mais barato em VRAM" apenas porque usa `BEST`.
+
 ### gfx.res (tileset + mapa)
 
 ```

@@ -21,6 +21,8 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - paired background review
 - parallax por planos
 - continuidade visual entre cenas, zonas ou atos conectados
+- boss/setpiece com plane takeover, arena especial ou weak point de leitura visual
+- tilemap avancado com streaming, metatiles, foreground priority ou rota complexa
 - compare entre curadoria offline e prova em ROM
 - decisao entre multi-plano real, `compare_flat` ou foreground via sprite graft
 
@@ -38,6 +40,8 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - `route_family_matrix`
 - `locked_composition_direction`
 - `scene_transition_card` quando a composicao precisar preservar continuidade entre cenas, zonas ou atos
+- `boss_setpiece_card` quando boss/setpiece exigir arquitetura de planos
+- `advanced_tilemap_design_card` quando o mundo exigir streaming, metatiles, rota ou colisao visual
 
 ## Contrato Operacional
 
@@ -47,6 +51,7 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - spec da cena
 - leitura previa do budget analyst
 - `scene_transition_card` seed quando houver transicao espacial ou visual formal
+- `boss_setpiece_card` ou `advanced_tilemap_design_card` seed quando houver boss/tilemap formal
 
 ### Saida minima
 
@@ -57,12 +62,15 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - `hardware_budget_review`
 - `delivery_findings`
 - `continuity_model` e `camera_motion_contract` quando houver transicao formal
+- `plane_takeover_decision`, `route_readability_gate` e `collision_visual_contract` quando houver boss/tilemap avancado
 
 ### Passa quando
 
 - papeis de `BG_A`, `BG_B`, foreground e fallback de ROM ficaram declarados
 - quando houver alternativas, elas continuam pertencendo a mesma cena e mesma base espacial
 - quando houver transicao formal, seam, camera, continuidade de plano e fallback visual ficam declarados
+- quando houver boss/setpiece, telegraph, weak point, plano dominante e fallback ficam declarados
+- quando houver tilemap avancado, streaming boundary, metatile reuse, rota e colisao visual ficam declarados
 - a cena tem estrategia clara para caber ou degradar honestamente
 
 ### Handoff para proxima etapa
@@ -144,6 +152,10 @@ Esta skill deve dominar explicitamente:
   - reconhecer como tecnica avancada separada, nunca confundir com uso normal da `WINDOW`
 - `spatial_scroll_bridge`
   - continuidade de camera, seam escondido, streaming ou passagem fisica entre mapas/cenas
+- `boss_setpiece_composition`
+  - decidir boss como sprites, plano, hibrido ou fallback sem quebrar leitura
+- `advanced_tilemap_design`
+  - metatile reuse, streaming boundary, route readability e collision_visual_contract
 
 Regra:
 

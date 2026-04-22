@@ -97,7 +97,7 @@ Equivalencia operacional:
 
 | Tecnica | Estado atual | Dono principal | Situacao real |
 |---|---|---|---|
-| XGM2 / PCM Multiplexing | `gap_pure` | `xgm2-audio-director` | workspace nao tem skill de audio dedicada nem prova oficial |
+| XGM2 / PCM Multiplexing | `incorporated` | `xgm2-audio-director` | doutrina e skill existem; falta benchmark oficial com BGM, SFX, ambience, stinger e pause/resume |
 
 ## Tecnicas transversais
 
@@ -105,6 +105,17 @@ Equivalencia operacional:
 |---|---|---|---|
 | DMA Transfer Safety | `incorporated` | `megadrive-vdp-budget-analyst` | forte, mas espalhado; falta checklist unico e benchmark de worst-frame |
 | Shadow/Highlight Slot Rule | `partial` | `visual-excellence-standards` | auditoria existe como ideia forte, mas ainda nao esta organizada como competencia autonoma |
+| Contextual Scene Transition System | `incorporated` | `game-design-planning`, `scene-state-architect`, `sgdk-runtime-coder` | doutrina e `scene_transition_card` canonizados; runtime proof continua `NAO_INICIADA` ate benchmark BlastEm |
+
+## Roadmap de Proficiencia AAA do Agente
+
+| Trilha | Estado atual | Dono principal | Situacao real |
+|---|---|---|---|
+| AAA Agent Proficiency Roadmap | `incorporated` | `scene-state-architect`, `megadrive-vdp-budget-analyst` | placar canonico existe; serve para ordenar doutrina, prova runtime e gaps sem criar arvore paralela |
+| Feedback FX Decision System | `incorporated` | `visual-excellence-standards`, `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | doutrina formal existe via `feedback_fx_decision_card`; falta runtime proof em BlastEm |
+| Boss / Setpiece Design | `incorporated` | `visual-excellence-standards`, `multi-plane-composition`, `sgdk-runtime-coder` | doutrina formal existe via `boss_setpiece_card`; falta benchmark de boss/setpiece |
+| Advanced Tilemap Design | `incorporated` | `multi-plane-composition`, `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | doutrina formal existe via `advanced_tilemap_design_card`; falta benchmark de streaming/metatile/rota |
+| XGM2 Audio Architecture | `incorporated` | `xgm2-audio-director`, `sgdk-runtime-coder` | doutrina formal existe via `audio_architecture_card`; falta prova de audio senior em BlastEm |
 
 ## Leitura por maturidade
 
@@ -115,6 +126,10 @@ Equivalencia operacional:
 - timing/pivot/frame economy basico de sprite
 - multi-plano basico
 - budget VDP basico
+- `ui_decision_card`, politica tipografica hibrida e menu/title como front-end formal em doutrina
+- `contextual_scene_transition_system` como doutrina e contrato, ainda sem runtime proof
+- `aaa_agent_proficiency_roadmap` como placar canonico de prioridades do agente
+- `feedback_fx_decision_system`, `boss_setpiece_design`, `advanced_tilemap_design` e `xgm2_audio_architecture` como doutrina, ainda sem runtime proof
 
 ### Candidato com evidencia forte
 
@@ -146,7 +161,6 @@ Equivalencia operacional:
 - `mutable_tile_decal_mutation`
 - `cellular_microbuffer_sim`
 - `forward_kinematics`
-- `xgm2_pcm_multiplexing`
 
 ## Regra de promocao
 

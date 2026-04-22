@@ -7,7 +7,12 @@ description: Use quando um projeto SGDK estiver nascendo, quando o GDD/spec aind
 
 Use esta skill para preencher o espaco entre intencao e producao.
 
-Ela existe para impedir que um projeto novo pule direto para arte ou runtime sem:
+Antes de usa-la, classifique o contexto via `workflows/project-opening.md`.
+
+Regra:
+
+- se for `projeto_existente`, esta skill nao deve reabrir briefing do zero sem pedido explicito
+- se for `reseed` ou `projeto_novo`, esta skill vira a primeira superficie canonica antes de arte ou runtime
 
 - `project_brief`
 - `core_loop_statement`
@@ -39,6 +44,8 @@ Se ja existirem documentos canonicos, ler primeiro:
 - `doc/13-spec-cenas.md`
 - `doc/12-roteiro.md` quando houver narrativa
 - `doc/10-memory-bank.md` quando houver historico real
+
+Se o projeto ja existir e esses documentos sustentarem o escopo atual, prefira continuar a iteracao em vez de reseedar o planejamento.
 
 ---
 

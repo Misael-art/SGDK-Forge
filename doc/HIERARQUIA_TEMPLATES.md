@@ -7,14 +7,17 @@ Este documento descreve o papel de cada template no workspace MegaDrive_DEV e ev
 ```mermaid
 flowchart TB
     subgraph templates [Templates]
-        A[templates/project-template]
+        A[tools/sgdk_wrapper/modelo]
         B[SGDK_templates/base-elite]
         C[SGDK_templates/SimpleGameStates_Elite]
         D[tools/sgdk_wrapper/templates/project-template-nested]
     end
     new_project[new-project.bat] --> A
     new_project --> B
-    canonicalize[canonicalize_projects.py] --> D
+    new_project_sh[new_project.sh] --> A
+    new_project_sh --> B
+    canonicalize[canonicalize_projects.py] --> A
+    canonicalize --> D
     A -.->|"referência"| B
 ```
 
@@ -22,19 +25,20 @@ flowchart TB
 
 | Caminho | Papel | Uso |
 |---------|-------|-----|
-| `templates/project-template/` | Template canônico mínimo | Usado por `new-project.bat` para criar novos projetos; esqueleto básico com src/, res/, inc/, wrappers de build |
-| `SGDK_templates/base-elite/` | Template ELITE Golden | Template completo obrigatório para novos projetos; referência de qualidade e padrões |
+| `tools/sgdk_wrapper/modelo/` | Template primário efetivo | Usado por `new_project.bat` e `new_project.sh` para criar novos projetos; base editável com docs, wrappers e bootstrap alinhados ao wrapper central |
+| `SGDK_templates/base-elite/` | Fallback e referência ELITE | Fallback quando `modelo/` não estiver disponível e referência de qualidade para direção estrutural e visual |
 | `SGDK_templates/SimpleGameStates_Elite/` | Variante com estados | Template com máquina de estados de jogo; variante do base-elite |
-| `tools/sgdk_wrapper/templates/project-template-nested/` | Fixture interno | Usado **apenas** por `canonicalize_projects.py`; não usar diretamente |
+| `tools/sgdk_wrapper/templates/project-template-nested/` | Fixture interno | Usado **apenas** por `canonicalize_projects.py` para README/layout nested; não usar diretamente |
 
 ## Regras
 
-- **Novos projetos:** Use `new-project.bat` que delega a `tools/sgdk_wrapper/new_project.bat`.
+- **Novos projetos:** Use `new-project.bat` ou `tools/sgdk_wrapper/new_project.sh`; ambos priorizam `tools/sgdk_wrapper/modelo` e caem em `SGDK_templates/base-elite` apenas como fallback.
 - **Referência de qualidade:** Consulte `SGDK_templates/base-elite/` para padrões ELITE.
+- **Template efetivo:** Não trate o caminho legado de template como fonte vigente; ele não faz parte da topologia atual do workspace.
 - **Fixture nested:** Não modifique nem use `project-template-nested/` fora do fluxo de canonicalização.
 
 ## Referências
 
-- [templates/README.md](../templates/README.md)
+- [tools/sgdk_wrapper/MODELO.md](../tools/sgdk_wrapper/MODELO.md)
 - [SGDK_templates/README.md](../SGDK_templates/README.md)
 - [CLAUDE.md](../CLAUDE.md) — Directory Layout

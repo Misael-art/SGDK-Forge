@@ -1,16 +1,12 @@
 
-## Migrado para
+## Topologia atual de templates
 
 ```
-templates/project-template/
-├── src/main.c              # Codigo-fonte pedagogico com comentarios
-├── res/resources.res       # Definicoes de recursos (sprites, sons)
-├── inc/                    # Headers personalizados
-├── .vscode/                # IntelliSense + tasks
-├── build.bat               # Delega ao wrapper central
-├── clean.bat
-├── run.bat
-├── rebuild.bat
-├── .gitignore
-└── README.md               # Documentacao pedagogica completa
+tools/sgdk_wrapper/modelo/      # template primario usado pelo bootstrap
+SGDK_templates/base-elite/      # fallback e referencia ELITE
+SGDK_templates/SimpleGameStates_Elite/
 ```
+
+`tools/sgdk_wrapper/modelo` e a base efetiva para projetos novos.
+
+`SGDK_templates/base-elite` permanece como fallback e referencia estrutural/visual de barra alta.

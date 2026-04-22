@@ -121,8 +121,10 @@ Excecao: generos que NAO usam todas as acoes (ex: puzzle) DEVEM omitir linhas, n
 | 48x64 (6x8) | 48 tiles | 3 frames | 4608 bytes (144 tiles unicos) |
 
 - OBRIGATORIO: antes de aprovar uma sprite sheet, calcular tiles unicos totais e comparar com o budget acima.
-- Se o ciclo completo exceder o budget, o agente DEVE propor estrategia de streaming (carregar frames sob demanda via DMA) ou reducao de frames.
+- O budget acima e alvo de residencia, nao decreto de impossibilidade fisica. Se o ciclo completo exceder residencia razoavel, o agente DEVE propor `active_animation_window`, SGDK auto VRAM alloc, streaming manual por DMA validado ou reducao de frames.
+- Separar sempre: sheet completa em ROM, frames/ciclos residentes em VRAM, DMA de preload/loading e DMA por frame durante gameplay.
 - SGDK automatiza DMA de sprite frames quando usando `SPR_addSprite()` com `SPR_FLAG_AUTO_VRAM_ALLOC`. O agente DEVE confirmar que o modo automatico comporta o ciclo antes de aprovar.
+- Compressao `FAST`, `BEST` ou `NONE` altera custo de ROM e comportamento de load/decompress; nao reduz o numero de tiles que um frame ocupa quando esta descompactado em VRAM.
 
 ### 3.3 Implementacao SGDK
 

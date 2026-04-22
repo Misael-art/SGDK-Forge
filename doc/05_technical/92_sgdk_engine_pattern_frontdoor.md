@@ -34,23 +34,24 @@ Regra importante:
 
 | Family ID | Status | Dominio | Skill alvo | Nota |
 |---|---|---|---|---|
-| `lizardrive_hint_fx_family` | `candidate_for_canon` | FX / raster | `sgdk-runtime-coder` | inclui `wobble`, `scaling`, `spotlight` e `linescroll` como familia-base de H-Int |
+| `lizardrive_hint_fx_family` | `candidate_for_canon` | FX / raster | `sgdk-runtime-coder` | inclui `wobble`, `scaling`, `spotlight` e `linescroll` como familia-base de H-Int; como transicao, so entra via `scene_transition_card` com owner e reset |
 | `sonic_camera_streaming_family` | `candidate_for_canon` | camera / mapa | `sgdk-runtime-coder` | inclui camera com deadzone, parallax por bit-shift e streaming manual de tilemap |
-| `sonic_hud_physics_family` | `candidate_for_canon` | HUD / feel | `sprite-animation`, `sgdk-runtime-coder` | inclui HUD por frame manual e desaceleracao multi-taxa |
+| `sonic_hud_physics_family` | `candidate_for_canon` | HUD / feel | `sprite-animation`, `sgdk-runtime-coder` | inclui HUD por frame manual e desaceleracao multi-taxa; referencia de feel, nunca default universal sem `ui_decision_card` |
 | `platformer_feel_family` | `candidate_for_canon` | gameplay feel | `sgdk-runtime-coder` | inclui `coyote`, `jump buffer`, `half-jump cancel` e tolerancia de one-way |
 | `platformer_camera_math_family` | `verified_example` | camera / collision math | `sgdk-runtime-coder` | inclui deadzone AABB e helpers por shift para tiles 16x16 |
 | `tsk_multitasking_api` | `verified_example` | scheduler | `sgdk-runtime-coder` | referencia oficial de `TSK_userSet`, `TSK_superPend`, `TSK_superPost` |
 | `benchmark_runtime_diagnostics` | `verified_example` | diagnostico | `sgdk-runtime-coder` | forma recomendada de strip diagnostico e leitura de memoria/DMA |
 | `mega_metroid_slope_collision` | `candidate_for_canon` | collision | `sgdk-runtime-coder` | slope por gradiente de coluna com clamp e aderencia ao piso |
-| `nexzr_runtime_patterns` | `candidate_for_canon` | entity / starfield / font | `sgdk-runtime-coder` | inclui entity manager minimalista, sprite chains de star warp e font por tile-index math |
-| `megadriving_pseudo3d_stack` | `candidate_for_canon` | pseudo-3D | `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | inclui ZMAP, curves, hills e color banding |
+| `nexzr_runtime_patterns` | `candidate_for_canon` | entity / starfield / font | `sgdk-runtime-coder` | inclui entity manager minimalista, sprite chains de star warp e font por tile-index math; rota forte para `fixed_custom_hud_font`, nao para texto corrido |
+| `megadriving_pseudo3d_stack` | `candidate_for_canon` | pseudo-3D | `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | inclui ZMAP, curves, hills e color banding; referencia para `pseudo3d_perspective_bridge`, sempre `advanced_tradeoff` |
 | `tile_cache_streaming_refcount` | `candidate_for_canon` | streaming / VRAM | `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | forte candidato para mapas maiores que a VRAM |
-| `window_plane_lifebar` | `candidate_for_canon` | HUD | `sgdk-runtime-coder` | barra em `WINDOW` com tiles graduais e remainder logic |
-| `tidytext_variable_width` | `candidate_for_canon` | texto | `sgdk-runtime-coder` | principal candidato do scan para canonizacao imediata |
+| `window_plane_lifebar` | `candidate_for_canon` | HUD | `sgdk-runtime-coder` | barra em `WINDOW` com tiles graduais e remainder logic; referencia forte para `window_plane_static_hud`, nao regra universal |
+| `tidytext_variable_width` | `candidate_for_canon` | texto | `sgdk-runtime-coder` | principal candidato do scan para canonizacao imediata; rota forte para `variable_width_tidytext` em dialogo, creditos e corpo de texto premium |
 | `tile_text_stream_renderer` | `candidate_for_canon` | texto | `sgdk-runtime-coder` | streaming renderer com ring buffer e escape codes |
-| `packed_multilingual_script_pool` | `interpreted_pattern` | script / localizacao | `sgdk-runtime-coder` | padrao promissor, mas ainda dependente do renderer escolhido |
+| `packed_multilingual_script_pool` | `interpreted_pattern` | script / localizacao | `sgdk-runtime-coder` | padrao promissor, mas ainda dependente do renderer escolhido e da politica de `glyph_manifest` / `charset_profile` |
 | `axis_slide_collision` | `verified_example` | collision | `sgdk-runtime-coder` | boa referencia de RPG top-down com slide por eixo |
-| `bitmap_palette_masking_family` | `interpreted_pattern` | bitmap / trick rendering | `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | inclui BMP nibble fill, 2-color framebuffer e mask transitions |
+| `bitmap_palette_masking_family` | `interpreted_pattern` | bitmap / trick rendering | `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | inclui BMP nibble fill, 2-color framebuffer e mask transitions; referencia de transicao, nao default universal |
+| `tile_mask_transition_fade` | `interpreted_pattern` | scene transition | `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | referencia direta para `tile_mask_mosaic_transition`; exige `scene_transition_card`, backup/restauro de tileset, budget de DMA e fallback |
 | `raycasting_renderer_family` | `blocked_pending_repro` | 3D / raster / DMA | `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst` | inclui column tiles, split de paleta, DMA flush em ASM e otimizações frágeis |
 | `trig_lookup_and_atan2` | `candidate_for_canon` | math / projectile | `sgdk-runtime-coder` | forte referencia para projeteis, homing e dash angular |
 
@@ -78,8 +79,38 @@ Um padrao so sobe de `candidate_for_canon` para canon quando tiver:
 - `lib_case` reproduzivel
 - skill alvo declarada
 - gate humano explicito
+- para HUD/UI, enquadramento explicito no `ui_decision_card` e criterio claro de fallback mais barato
+- para tipografia/UI, `glyph_manifest` real, `charset_profile` declarado e escolha explicita entre `fixed_custom_hud_font` e `variable_width_tidytext`
+- para transicoes formais, `scene_transition_card`, `teardown_reset_plan`, fallback honesto e owner explicito de `H-Int`, CRAM, VSRAM ou mutacao de tiles quando houver FX
 
 Padrao `blocked_pending_repro` nao sobe por inercia.
+
+## Leitura tipografica recomendada
+
+- `custom_font_tile_index_math` + `case_custom_font_hud`
+  - rota base para `fixed_custom_hud_font` em HUD, labels fixos e menu com leitura rapida
+- `tidytext_variable_width`
+  - rota base para `variable_width_tidytext` em dialogo, credito, lore e texto premium em PT-BR
+- `packed_multilingual_script_pool`
+  - so sobe depois que renderer, `glyph_manifest` e `charset_profile` estiverem congelados
+
+## Leitura de transicoes recomendada
+
+- `fade_transition`
+  - rota segura para `palette_fade_bridge` quando a transicao nao pede geografia continua ou tecnica de palco
+- `sonic_camera_streaming_family`
+  - referencia para `spatial_scroll_bridge` quando camera, streaming e continuidade de mapa forem a propria transicao
+- `tile_mask_transition_fade`
+  - referencia para `tile_mask_mosaic_transition`; nao aprovar sem backup/restauro de tileset e budget de DMA
+- `lizardrive_hint_fx_family`
+  - referencia para `raster_distortion_bridge` e `lighting_state_transition`; sempre subordinada a `fx_ownership_map`, owner unico de H-Int e reset simetrico
+- `megadriving_pseudo3d_stack`
+  - referencia para `pseudo3d_perspective_bridge`; sempre `advanced_tradeoff` com fallback em `palette_fade_bridge` ou hard cut justificado
+
+Regra:
+
+- transicao nao vira default por existir no scan
+- se ela nao comunica causa, geografia, tom ou risco, permanece como truque de laboratorio
 
 ## Spot audit fechado nesta passada
 

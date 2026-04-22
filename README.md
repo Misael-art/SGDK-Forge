@@ -144,13 +144,14 @@ O padrão completo está documentado em `doc/CANONICAL_WORKTREE.md`.
 
 ### Uso de templates
 
-A pasta `templates\project-template` contém o esqueleto mínimo para um
-novo jogo: subpastas `src`, `res`, `inc`, a pasta `doc/`, o manifesto
-`.mddev/project.json` e os wrappers citados acima. O comando `new-project.bat`
-copia esse template para `SGDK_projects\<nome>` e já deixa tudo pronto para
-compilar com `build.bat`. Nunca edite diretamente os scripts do projeto;
-mantenha as alterações em `tools\sgdk_wrapper` para que todos os novos
-projetos herdem o comportamento.
+O bootstrap real de projeto novo parte de `tools\sgdk_wrapper\modelo`,
+com fallback para `SGDK_templates\base-elite`. Esse template entrega o
+esqueleto mínimo do jogo: `src`, `res`, `inc`, `doc/`, manifesto
+`.mddev/project.json`, wrappers e a base documental para GDD/spec/roteiro.
+O comando `new-project.bat` copia essa base para `SGDK_projects\<nome>` e
+deixa o projeto pronto para compilar com `build.bat`. Nunca edite
+diretamente os scripts do projeto; mantenha as alterações em
+`tools\sgdk_wrapper` para que todos os novos projetos herdem o comportamento.
 
 ### Canonicalização em lote
 
@@ -197,7 +198,7 @@ Adições recentes de motores e protótipos de código aberto para estudo avanç
 ## 💡 Dicas de Desenvolvimento
 
 ### Para Iniciantes
-- Comece com o template básico (`templates/project-template`)
+- Comece com o bootstrap canônico (`new-project.bat` -> `tools/sgdk_wrapper/modelo`)
 - Consulte `archives/cleanup_20260314-190609/reference/examples/` para estudar os exemplos legados
 - Crie novos projetos em `SGDK_projects/` para manter a árvore ativa limpa
 

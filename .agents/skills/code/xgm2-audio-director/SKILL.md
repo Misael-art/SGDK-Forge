@@ -31,6 +31,7 @@ Esta skill existe para o gap puro de audio senior no workspace.
 
 ## Saidas obrigatorias
 
+- `audio_architecture_card`
 - `channel_ownership_map`
 - `audio_event_matrix`
 - `sample_format_audit`
@@ -46,6 +47,8 @@ Esta skill existe para o gap puro de audio senior no workspace.
 - loop de musica NAO pode clicar nem reiniciar de forma abrupta
 - SFX nao podem cortar BGM por erro de ownership
 - sample rate e formato DEVEM ser auditados antes da integracao
+- audio AAA nao e pos-processo: deve nascer no spec da cena quando houver stinger, ambience, boss cue, fade ou prioridade de SFX
+- todo `audio_architecture_card` deve declarar `audio_role`, `xgm2_mode`, `channel_ownership_map`, `sfx_priority_table`, `music_stinger_plan`, `audio_transition_plan`, `pause_resume_contract` e `fallback_plan`
 
 ## Senior Competencies
 

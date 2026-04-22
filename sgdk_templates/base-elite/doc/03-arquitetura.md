@@ -20,3 +20,7 @@ Input -> FSM (Main) -> Room Update -> Entity Logic -> Sound/GFX Updates
 - Palette 1: Background Layer B
 - Palette 2: Personagens e Objetos
 - Palette 3: UI / Efeitos Especiais
+
+## Nota de Front-End
+
+Menu e title screen devem ser tratados como cenas formais do projeto, com identidade visual coerente com o jogo, ownership claro de `WINDOW` e display state, e contrato de reset equivalente ao de gameplay.

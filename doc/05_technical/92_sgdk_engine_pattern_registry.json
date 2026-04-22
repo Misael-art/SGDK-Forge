@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-04-10",
+  "updated_at": "2026-04-21",
   "domain": "runtime/code/engine patterns",
   "front_door": "doc/05_technical/92_sgdk_engine_pattern_frontdoor.md",
   "source_appendix": "doc/05_technical/99_sgdk_engines_scan_appendix.md",
@@ -362,7 +362,7 @@
       "promotion_state": "interpreted_pattern",
       "target_skill": "sgdk-runtime-coder",
       "needs_lib_case": true,
-      "notes": "Good toolbox reference, but still closer to a technique family than a single canon rule."
+      "notes": "Reference for tile_mask_mosaic_transition, not a universal transition default. Requires scene_transition_card, tileset backup/restore, DMA budget, teardown_reset_plan and fallback before canon use."
     },
     {
       "id": "raycasting_column_tile_renderer",

@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "updated_at": "2026-04-10",
+  "updated_at": "2026-04-21",
   "domain": "16bit_hardware_mastery",
   "matrix_path": "doc/05_technical/93_16bit_hardware_mastery_matrix.md",
   "roadmap_path": "doc/05_technical/94_16bit_hardware_mastery_roadmap.md",
   "front_door_path": "doc/05_technical/92_sgdk_engine_pattern_frontdoor.md",
   "engine_registry_path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
   "status_legend": {
+    "documented": "Doutrina ou roadmap existe em documento canonico, mas ainda nao virou competencia operacional madura.",
     "incorporated": "A tecnica ja faz parte da doutrina de skill existente.",
     "candidate_with_evidence": "Ha evidencia forte em engine scan e/ou lib_case, mas ainda sem prova canonica em BlastEm.",
     "partial": "Conhecimento existe, mas ainda esta espalhado, incompleto ou sem benchmark dedicado.",
@@ -16,6 +17,7 @@
   },
   "operational_policy_legend": {
     "default_safe": "Tecnica pode amadurecer como default do agente quando passar pelos gates.",
+    "integrated_doctrine": "Sistema canonizado por documentos e contracts existentes, sem criar skill nova.",
     "advanced_tradeoff": "Tecnica e valida, mas cobra auditoria estrutural e nao deve ser aplicada por reflexo.",
     "special_scene_only": "Tecnica fica no core roadmap, mas so pode ser usada em cenas especiais com ganho verificavel.",
     "hazardous_experimental": "Tecnica perigosa, fragil ou de timing extremo; exige benchmark isolado e gate forte."
@@ -329,11 +331,13 @@
       ],
       "existing_artifacts": [
         "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/pattern_catalog.json#procedural_raster_glitch_suite",
-        "doc/05_technical/92_sgdk_engine_pattern_registry.json#hint_spotlight_shadow"
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#hint_spotlight_shadow",
+        "doc/03_art/13_hud_ui_fx_decision_system.md"
       ],
       "required_artifacts": [
         "scene dedicada de crise visual com gameplay legivel",
         "contrato de leitura de gameplay durante o glitch",
+        "ui_decision_card com fx_ownership_map e fallback",
         "budget line de HScroll noise + palette shock",
         "BlastEm proof bundle"
       ],
@@ -403,12 +407,18 @@
       "prerequisite_ids": [],
       "existing_artifacts": [
         "doc/05_technical/92_sgdk_engine_pattern_frontdoor.md#window_plane_lifebar",
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#custom_font_tile_index_math",
         "doc/05_technical/91_multi_plane_composition.md",
-        "doc/05_technical/99_sgdk_engines_scan_appendix.md#10.-lifebar-window-plane-hud-with-graded-tiles"
+        "doc/05_technical/99_sgdk_engines_scan_appendix.md#10.-lifebar-window-plane-hud-with-graded-tiles",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_custom_font_hud",
+        "doc/03_art/13_hud_ui_fx_decision_system.md"
       ],
       "required_artifacts": [
         "competencia formal em HUD",
         "scene de benchmark com HUD fixo",
+        "ui_decision_card com plane_ownership_map",
+        "anexo tipografico no ui_decision_card quando HUD usar fonte custom ou PT-BR visivel",
+        "glyph_manifest derivado de strings reais quando a HUD subir charset ou fonte dedicada",
         "regra explicita separando WINDOW de window alias"
       ],
       "benchmark_scene": {
@@ -425,9 +435,10 @@
         ]
       },
       "promotion_gate": "Nao sobe sem provar HUD fixa durante scroll e ausencia de escrita indevida em BG_A.",
-      "notes": "Competencia segura e central; nao deve ser confundida com window alias.",
+      "notes": "Competencia segura e central; default forte para leitura constante, deve preferir `fixed_custom_hud_font` quando houver tipografia dedicada e nunca deve ser confundida com window alias.",
       "registry_ids": [
-        "window_plane_lifebar"
+        "window_plane_lifebar",
+        "custom_font_tile_index_math"
       ]
     },
     {
@@ -998,6 +1009,291 @@
       },
       "promotion_gate": "Nao sobe sem deixar impossivel usar slot operador por engano em volume critico.",
       "notes": "Tecnicamente ligada ao S/H, mas forte o suficiente para existir como tecnica transversal."
+    },
+    {
+      "id": "contextual_scene_transition_system",
+      "title": "Contextual scene transition architecture",
+      "module": "scene_flow_architecture",
+      "current_status": "documented",
+      "operational_policy": "integrated_doctrine",
+      "owner_skills": [
+        "game-design-planning",
+        "multi-plane-composition",
+        "scene-state-architect",
+        "visual-excellence-standards",
+        "megadrive-vdp-budget-analyst",
+        "sgdk-runtime-coder"
+      ],
+      "prerequisite_ids": [
+        "h_int_control_plane",
+        "dma_transfer_safety"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/14_contextual_scene_transition_system.md",
+        "doc/05_technical/92_sgdk_engine_pattern_frontdoor.md#leitura-de-transicoes-recomendada",
+        "doc/05_technical/92_sgdk_engine_pattern_registry.json#tile_mask_transition_fade",
+        "doc/05_technical/99_sgdk_engines_scan_appendix.md#17.-change-screen-effect--fade-inout-via-tile-data-masking"
+      ],
+      "required_artifacts": [
+        "scene_transition_card",
+        "teardown_reset_plan",
+        "fallback_plan",
+        "fx_ownership_map quando houver FX",
+        "proof bundle BlastEm quando virar runtime"
+      ],
+      "benchmark_scene": {
+        "scene_id": "scene_transition_lab",
+        "validation_axes": [
+          "visual_elite",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "transition FX + state handoff + teardown",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Nao sobe de documentado sem scene dedicada em BlastEm, owner unico de H-Int/CRAM/VSRAM/tile mutation, reset simetrico e fallback medido.",
+      "notes": "Doutrina integrada para transicoes contextualizadas; sem runtime proof ainda. Referencias como tile mask, H-Int wobble, palette split, pseudo-3D e audio fade sao vocabulario de cena, nao defaults universais."
+    },
+    {
+      "id": "aaa_agent_proficiency_roadmap",
+      "title": "AAA agent proficiency roadmap",
+      "module": "agent_proficiency_governance",
+      "current_status": "incorporated",
+      "operational_policy": "integrated_doctrine",
+      "owner_skills": [
+        "scene-state-architect",
+        "megadrive-vdp-budget-analyst",
+        "visual-excellence-standards",
+        "sgdk-runtime-coder"
+      ],
+      "prerequisite_ids": [],
+      "existing_artifacts": [
+        "doc/03_art/AAA_SKILL_CURATION_STATUS.md#roadmap-objetivo-de-proficiencia-aaa-do-agente",
+        "doc/05_technical/93_16bit_hardware_mastery_matrix.md#roadmap-de-proficiencia-aaa-do-agente",
+        "doc/05_technical/94_16bit_hardware_mastery_roadmap.md",
+        "doc/06_AI_MEMORY_BANK.md"
+      ],
+      "required_artifacts": [
+        "status executivo por trilha",
+        "matriz humana sincronizada",
+        "registry machine-readable sincronizado",
+        "roadmap de waves com gates"
+      ],
+      "benchmark_scene": {
+        "scene_id": "n/a_documentation_governance",
+        "validation_axes": [
+          "documentation_consistency"
+        ],
+        "budget_line": "n/a",
+        "evidence_bundle": [
+          "ConvertFrom-Json",
+          "git diff --check",
+          "rg ids canonicos"
+        ]
+      },
+      "promotion_gate": "Roadmap so muda ordem ou status quando matriz, registry, roadmap e memory bank forem atualizados juntos.",
+      "notes": "Placar canonico do que o agente ja domina, do que falta doutrina, do que falta runtime proof e dos gaps puros."
+    },
+    {
+      "id": "feedback_fx_decision_system",
+      "title": "Raster, lighting and feedback FX decision system",
+      "module": "feedback_fx_architecture",
+      "current_status": "incorporated",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "visual-excellence-standards",
+        "megadrive-vdp-budget-analyst",
+        "sgdk-runtime-coder",
+        "scene-state-architect"
+      ],
+      "prerequisite_ids": [
+        "h_int_control_plane",
+        "hint_palette_blending",
+        "shadow_highlight_mode",
+        "palette_cycling",
+        "dma_transfer_safety"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/15_aaa_runtime_spectacle_decision_system.md#feedback_fx_decision_card",
+        "doc/03_art/AAA_SKILL_CURATION_STATUS.md#sprint-2--diferenciacao-aaa",
+        "doc/05_technical/93_16bit_hardware_mastery_matrix.md#modulo-1---manipulacao-de-raster",
+        "doc/05_technical/93_16bit_hardware_mastery_matrix.md#modulo-3---luz-cor-e-ilusao-optica",
+        "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md"
+      ],
+      "required_artifacts": [
+        "feedback_fx_decision_card",
+        "fx_ownership_map",
+        "readability_gate",
+        "budget_decision",
+        "teardown_reset_plan",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "fx_feedback_suite_lab",
+        "validation_axes": [
+          "visual_elite",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "H-Int + CRAM + sprites + DMA no pior quadro",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar hit sparks, particulas, palette cycling, raster/light FX e reset em BlastEm sem sacrificar leitura de gameplay.",
+      "notes": "Doutrina P0 incorporada; runtime proof ainda nao iniciado. Unifica raster, lighting, particulas e feedback de gameplay sem vender efeitos inexistentes do Mega Drive."
+    },
+    {
+      "id": "boss_setpiece_design",
+      "title": "Boss and setpiece visual design system",
+      "module": "boss_setpiece_architecture",
+      "current_status": "incorporated",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "visual-excellence-standards",
+        "multi-plane-composition",
+        "megadrive-vdp-budget-analyst",
+        "sgdk-runtime-coder",
+        "scene-state-architect"
+      ],
+      "prerequisite_ids": [
+        "bg_b_bypassing",
+        "priority_split_foreground",
+        "sprite_temporal_multiplexing",
+        "feedback_fx_decision_system"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/15_aaa_runtime_spectacle_decision_system.md#boss_setpiece_card",
+        "doc/03_art/AAA_SKILL_CURATION_STATUS.md#sprint-3--polimento",
+        "doc/05_technical/93_16bit_hardware_mastery_matrix.md#modulo-5---engenharia-de-sprites",
+        "doc/05_technical/93_16bit_hardware_mastery_matrix.md#modulo-6---renderizacao-por-software"
+      ],
+      "required_artifacts": [
+        "boss_setpiece_card",
+        "attack_telegraph_map",
+        "weak_point_readability_map",
+        "plane_takeover_decision",
+        "scanline_budget",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "boss_setpiece_lab",
+        "validation_axes": [
+          "visual_elite",
+          "gameplay_basico",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "boss parts + player + HUD + FX no pior quadro",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem boss/setpiece com telegraph legivel, impacto visual, owner de planos/sprites e worst-frame budget aprovado.",
+      "notes": "Doutrina P1 incorporada; runtime proof ainda nao iniciado. Transforma tecnicas isoladas de boss gigante, plane takeover e foreground priority em decisao de cena AAA."
+    },
+    {
+      "id": "advanced_tilemap_design",
+      "title": "Advanced tilemap, streaming and route readability design",
+      "module": "tilemap_world_architecture",
+      "current_status": "incorporated",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "multi-plane-composition",
+        "visual-excellence-standards",
+        "megadrive-vdp-budget-analyst",
+        "sgdk-runtime-coder"
+      ],
+      "prerequisite_ids": [
+        "tile_flipping",
+        "tile_cache_streaming_refcount",
+        "priority_split_foreground",
+        "dma_transfer_safety"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/15_aaa_runtime_spectacle_decision_system.md#advanced_tilemap_design_card",
+        "doc/03_art/AAA_SKILL_CURATION_STATUS.md#sprint-4--autonomia",
+        "doc/05_technical/92_sgdk_engine_pattern_frontdoor.md#mapa-de-classificacao",
+        "doc/05_technical/93_16bit_hardware_mastery_matrix.md#modulo-6---renderizacao-por-software",
+        "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md"
+      ],
+      "required_artifacts": [
+        "advanced_tilemap_design_card",
+        "metatile_reuse_plan",
+        "streaming_boundary_map",
+        "collision_visual_contract",
+        "route_readability_gate",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "advanced_tilemap_streaming_lab",
+        "validation_axes": [
+          "visual_elite",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "tile cache + metatiles + DMA + collision readability",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar streaming sem seam, metatile reuse real, leitura de rota e colisao visual coerente em ROM.",
+      "notes": "Doutrina P2 incorporada; runtime proof ainda nao iniciado. Converte tile flipping e tile cache em linguagem de mundo jogavel, nao apenas otimizacao de tiles."
+    },
+    {
+      "id": "xgm2_audio_architecture",
+      "title": "XGM2 senior audio architecture",
+      "module": "audio_architecture",
+      "current_status": "incorporated",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "xgm2-audio-director",
+        "sgdk-runtime-coder",
+        "scene-state-architect"
+      ],
+      "prerequisite_ids": [
+        "xgm2_pcm_multiplexing"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/15_aaa_runtime_spectacle_decision_system.md#audio_architecture_card",
+        "tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/SKILL.md",
+        "doc/03_art/AAA_SKILL_CURATION_STATUS.md#sprint-5--kinematics-e-audio",
+        "doc/05_technical/93_16bit_hardware_mastery_matrix.md#modulo-7---audio"
+      ],
+      "required_artifacts": [
+        "audio_ownership_map",
+        "sfx_priority_table",
+        "music_stinger_plan",
+        "ambient_loop_plan",
+        "pause_resume_contract",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_xgm2_lab",
+        "validation_axes": [
+          "audio",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "BGM + PCM SFX + ambience + pause/resume ownership",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem loop limpo, stingers, prioridade de SFX, pause/resume e multiplexing PCM com dono definido em BlastEm.",
+      "notes": "Doutrina P3 incorporada; runtime proof ainda nao iniciado. Audio deixa de ser pos-processo e passa a ter contrato de cena via audio_architecture_card."
     }
   ]
 }

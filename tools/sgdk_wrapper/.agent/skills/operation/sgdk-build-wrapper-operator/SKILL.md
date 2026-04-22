@@ -12,6 +12,7 @@ Use esta skill ao tocar qualquer arquivo em `tools/sgdk_wrapper/` ou ao diagnost
 - o wrapper central e a fonte unica de logica compartilhada
 - wrappers locais dos projetos devem continuar finos
 - o manifesto resolve layout e policy
+- UGDM/build significa o fluxo real `.res`/ResComp/wrapper/validate/evidencia; build limpo nao substitui budget de residencia e DMA
 - a `.agent` local nao pode ser tratada como saudavel se faltar contexto canonico critico
 - `doc/changelog` e parte do fluxo operacional, nao pos-processo opcional
 
@@ -60,6 +61,8 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - em projeto novo, garantir que `doc/13-spec-cenas.md` declare `scene_transition_card` para qualquer transicao formal antes de arte/runtime
 - em projeto novo, tratar menu e title screen como cenas formais desde o bootstrap, usando `profile_kind=front_end_profile` e seguindo `doc/03_art/12_menu_visual_language.md` + `doc/03_art/13_hud_ui_fx_decision_system.md`
 - verificar `build_policy`
+- ao operar UGDM/build, preservar a separacao entre ROM/compressao, VRAM residente, DMA de preload, DMA por frame e pior scanline
+- nunca tratar `FAST`, `BEST` ou `NONE` em `.res` como reducao automatica de VRAM residente
 - preservar compatibilidade com projetos antigos
 - evitar sobrescrita de `.agent` local
 - apos build com validacao, garantir `validation_report.json`, `doc/changelog` e memoria operacional coerentes

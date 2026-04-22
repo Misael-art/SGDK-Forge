@@ -22,9 +22,14 @@
 
 | Recurso | Budget | Uso atual |
 |---------|--------|-----------|
-| VRAM (tiles) | [N] | [N] |
-| DMA por frame | [N] words | [N] |
-| Sprites SAT | [N] | [N] |
+| ROM / compressao | [bytes + FAST/BEST/NONE] | [N] |
+| VRAM residente da cena | [N tiles] | [N] |
+| DMA de preload/loading | [N words] | [N] |
+| DMA por frame pior caso | [N words] | [N] |
+| Janela ativa de animacao | [ciclos/frames residentes] | [N] |
+| Sprites SAT totais | [N] | [N] |
+| Pior scanline sprites | [N/20] | [N] |
+| Streaming / fallback | [scene-local / preload / streaming / reduced] | [decisao] |
 | Paletas | [N] | [N] |
 | Efeito dominante | [line scroll / column scroll / H-Int / nenhum] | |
 | Papel da cena | [gameplay / menu / title / cutscene / laboratorio] | |
@@ -41,7 +46,12 @@
 
 | Recurso | Budget | Uso atual |
 |---------|--------|-----------|
-| VRAM (tiles) | [N] | [N] |
-| DMA por frame | [N] words | [N] |
-| Sprites SAT | [N] | [N] |
+| ROM / compressao | [bytes + FAST/BEST/NONE] | [N] |
+| VRAM residente da cena | [N tiles] | [N] |
+| DMA de preload/loading | [N words] | [N] |
+| DMA por frame pior caso | [N words] | [N] |
+| Janela ativa de animacao | [ciclos/frames residentes] | [N] |
+| Sprites SAT totais | [N] | [N] |
+| Pior scanline sprites | [N/20] | [N] |
+| Streaming / fallback | [scene-local / preload / streaming / reduced] | [decisao] |
 | Paletas | [N] | [N] |

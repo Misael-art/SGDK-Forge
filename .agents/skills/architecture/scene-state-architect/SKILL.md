@@ -17,6 +17,7 @@ Use esta skill quando criar ou revisar estados, cenas, modulos ou contratos cent
 - restricoes de hardware pertinentes (H-Int, WINDOW, modos especiais)
 - `ui_decision_card` quando a cena tiver HUD/UI/overlay/FX formal
 - `scene_transition_card` quando houver troca formal de cena, zona, ato, menu, cutscene ou estado visual
+- cards de espetaculo runtime quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior
 
 ### Saida minima
 
@@ -24,6 +25,7 @@ Use esta skill quando criar ou revisar estados, cenas, modulos ou contratos cent
 - riscos de concorrencia (ex.: segundo owner de H-Int ou WINDOW)
 - `plane_ownership_map` e `fx_ownership_map` coerentes quando houver UI formal
 - `runtime_state_handoff`, `teardown_reset_plan` e donos de FX coerentes quando houver transicao formal
+- ownership de H-Int, CRAM, VSRAM, sprites, tiles, boss plane takeover, streaming e audio channel coerente quando houver cards de espetaculo runtime
 - `font_owner` e ownership de cache temporario de glifos coerentes quando houver anexo tipografico
 - handoff objetivo para o proximo gate (budget/runtime/QA)
 
@@ -33,6 +35,7 @@ Use esta skill quando criar ou revisar estados, cenas, modulos ou contratos cent
 - ownership de callback global e de WINDOW fica explicitamente declarado
 - quando houver UI formal, o `ui_decision_card` nao deixa ownership implicito
 - quando houver transicao formal, o `scene_transition_card` nao deixa implicito o dono de camera, scroll, H-Int, CRAM, VSRAM, tiles mutaveis, audio ou estado persistente
+- quando houver espetaculo runtime, nenhum card deixa owner, reset ou fallback implicito
 - quando houver anexo tipografico, `font_owner`, cache de glifos e teardown tipografico nao ficam implicitos
 - mudancas futuras ficam marcadas como `futuro_arquitetural`, nao misturadas com feature pronta
 
@@ -55,6 +58,7 @@ Use esta skill quando criar ou revisar estados, cenas, modulos ou contratos cent
 - existe mais de um dono implicito para `H-Int`, `WINDOW` ou modo interlaced?
 - o `ui_decision_card` declara `plane_ownership_map` e `fx_ownership_map` sem ambiguidade?
 - o `scene_transition_card` declara `runtime_state_handoff`, `teardown_reset_plan` e fallback sem esconder carregamento?
+- os cards de feedback FX, boss, tilemap e audio declaram donos sem sobrepor callbacks, planos, tiles, sprites ou canais?
 - se houver anexo tipografico, `font_owner`, tiles temporarios e `glyph_manifest` estao sob o owner correto?
 ## Proibido
 - mover logica compartilhada para lugares ad hoc
@@ -62,6 +66,7 @@ Use esta skill quando criar ou revisar estados, cenas, modulos ou contratos cent
 - criar segundo arbitro de `H-Int`
 - tratar `WINDOW` como recurso livre quando o HUD ja tem dono
 - deixar transicao formal mexer em scroll, paleta, tiles, audio ou callback global sem owner unico e reset
+- deixar FX, boss, tilemap streaming ou audio senior nascerem sem card formal, owner e teardown
 - ligar `interlaced_448` como default de cena em vez de modo especial com gate explicito
 
 ## Menu Scene Ownership

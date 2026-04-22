@@ -54,6 +54,7 @@ Esta skill senta entre as outras:
 - `api_reality_check`
 - `scene_reset_plan` quando houver transicao de cena
 - `scene_transition_runtime_contract` quando houver `scene_transition_card`
+- `resource_loading_model` quando houver streaming, preload, animacao grande ou asset scene-local
 - `build_evidence`
 - `emulator_evidence`
 - `delivery_findings`
@@ -68,12 +69,14 @@ Esta skill senta entre as outras:
 - contexto de build e emulador
 - `ui_decision_card` quando houver HUD/UI formal
 - `scene_transition_card` quando houver transicao formal
+- `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` ou `audio_architecture_card` quando houver espetaculo runtime formal
 
 ### Saida minima
 
 - `runtime_decision_log`
 - `api_reality_check`
 - `scene_reset_plan` quando houver transicao de cena
+- `resource_loading_model` quando houver diferenca entre asset total, set residente e upload por frame
 - `build_evidence`
 - `emulator_evidence`
 - `delivery_findings`
@@ -82,8 +85,11 @@ Esta skill senta entre as outras:
 
 - a decisao de runtime cita explicitamente o budget que a autorizou
 - a escolha entre `IMAGE`, `MAP`, streaming e `SPR_initEx` fica rastreavel
+- o `runtime_decision_log` declara qual modelo foi usado: `full_resident`, `scene_local_preload`, `animation_window_streaming`, `tilemap_streaming` ou `fallback_reduced_residency`
+- runtime separa custo ROM/compressao, tiles residentes em VRAM, DMA de loading/preload e DMA por frame
 - quando houver UI formal, o runtime cita `ui_architecture_choice`, ownership e fallback usados
 - quando houver transicao formal, o runtime cita `continuity_model`, `runtime_state_handoff`, `teardown_reset_plan` e fallback usados
+- quando houver espetaculo runtime formal, o runtime cita cards, owners, budget, teardown e fallback usados
 - quando houver anexo tipografico, o runtime cita `font_render_mode`, `font_owner` e `fallback_font_plan` usados
 - build, validacao e evidencia apontam para a mesma ROM
 - a captura BlastEm registra `runtime_metrics.json` ou evidencia equivalente sem vazar para fora de `out/blastem_env_*`
@@ -106,6 +112,8 @@ Esta skill senta entre as outras:
 - reset de cena e obrigatorio ao sair
 - index `0` realmente transparente nos PNGs integrados
 - `TILE_USER_INDEX` e empilhamento de tilesets devem ser declarados
+- compressao `.res` (`FAST`, `BEST`, `NONE`) nao reduz o set residente em VRAM depois do load; registrar ROM/load separado de VRAM
+- asset de outra cena nao entra no budget residente da cena atual se houver unload/preload claro
 - no Windows, build sempre com caminho absoluto e `cmd //c`
 - runtime sem laudo de budget vigente e erro de processo, nao apenas erro de estilo
 - para smoke/gate em BlastEm, usar a lib canonica `tools/sgdk_wrapper/lib/blastem_automation.psm1`
@@ -129,6 +137,22 @@ Esta skill senta entre as outras:
   - padrao forte vindo do scan de engines, mas ainda sem promocao humana explicita
 - `experimental_pattern`
   - so com prova forte e intencao explicita
+
+## Modelos de carga e residencia
+
+Use exatamente um modelo dominante no `runtime_decision_log` quando o budget depender de residencia ou streaming:
+
+- `full_resident`: todos os tiles/frames necessarios ficam residentes durante a cena.
+- `scene_local_preload`: assets da cena atual carregam em boot/loading/troca de cena e assets externos ficam fora da residencia.
+- `animation_window_streaming`: apenas a janela ativa de animacao fica residente; trocas de ciclo usam SGDK auto VRAM alloc ou DMA manual validado.
+- `tilemap_streaming`: mapa maior que a VRAM visivel entra por chunks/colunas/blocos com seam control.
+- `fallback_reduced_residency`: rota reduzida por budget, com menos frames, menos tiles unicos, menor parallax ou `compare_flat`.
+
+Regra:
+
+- `load_time_dma_cost` pode ser alto quando a cena esta em loading honesto.
+- `per_frame_dma_cost` precisa caber no pior VBlank de gameplay.
+- `scanline_sprite_pressure` continua limite de leitura e hardware mesmo quando VRAM cabe.
 
 ## Senior Competencies
 
@@ -204,8 +228,9 @@ Antes de trocar `IMAGE`, `MAP` ou streaming, o agente deve anexar:
 
 1. numeros de `rescomp`
 2. formula real de VRAM
-3. configuracao atual de `SPR_initEx`
-4. motivo da troca
+3. separacao entre ROM/compressao, VRAM residente, DMA de preload, DMA por frame e pior scanline
+4. configuracao atual de `SPR_initEx`
+5. motivo da troca
 
 Sem isso, a mudanca de arquitetura e tentativa cega.
 
@@ -233,6 +258,20 @@ Quando houver `scene_transition_card`, o runtime deve:
 - para `pseudo3d_perspective_bridge`, manter fallback seguro e nao misturar com gameplay normal sem benchmark proprio
 - se tocar HUD, menu, title, overlay ou texto, consumir tambem `ui_decision_card`
 - sem teardown verificavel, nao declarar a transicao pronta
+
+## Contrato de runtime para espetaculo AAA
+
+Quando houver `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` ou `audio_architecture_card`, o runtime deve:
+
+- consumir o card antes de escrever H-Int, CRAM, VSRAM, sprites, tiles, audio ou camera
+- registrar no `runtime_decision_log` se a rota ficou elite, fallback ou bloqueada por budget
+- impedir segundo owner implicito de H-Int, paleta, sprite particles, tile mutation, boss plane takeover ou audio channel
+- para `feedback_fx_decision_card`, resetar callbacks, scroll, palette cycling, Shadow/Highlight, sprites temporarios e tile mutation
+- para `boss_setpiece_card`, registrar arquitetura do boss, scanline budget, weak point, telegraph e teardown
+- para `advanced_tilemap_design_card`, registrar MAP/IMAGE/streaming, metatile reuse, collision_visual_contract e seam/fallback
+  - declarar tambem `scene_local_preload`, `tilemap_streaming` ou `fallback_reduced_residency` quando a cena nao mantiver o mundo inteiro residente
+- para `audio_architecture_card`, delegar ownership e eventos a `xgm2-audio-director` quando XGM2/PCM for relevante
+- sem fallback honesto, nao implementar rota avancada
 
 ## Contrato de runtime para HUD/UI formal
 

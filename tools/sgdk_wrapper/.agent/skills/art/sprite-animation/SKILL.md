@@ -35,6 +35,8 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - `frame_envelope`
 - `timing_table`
 - `tile_reuse_summary`
+- `active_animation_window` quando o ciclo completo nao precisar ficar residente
+- `residency_strategy`
 - `delivery_findings`
 
 ## Regras canonicas
@@ -44,6 +46,8 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - timing e em VBlank, nunca em intuicao vaga
 - anticipation e follow-through sao obrigatorios em acoes
 - flip horizontal e hardware, nao duplicacao de sheet
+- ciclo completo que nao cabe residente nao significa "impossivel"; propor `active_animation_window`, SGDK auto VRAM alloc ou streaming manual com budget de DMA validado
+- compressao do `SPRITE` em `.res` altera ROM/load, nao reduz tiles residentes do frame descompactado
 - frame bonito em zoom nao vale se falhar em 320x224 nativo
 
 ## Gates de aprovacao
@@ -63,6 +67,7 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - golpe sem follow-through
 - duplicar direcao esquerda/direita em PNG
 - aprovar animacao sem calcular tiles unicos do ciclo
+- reprovar sheet grande sem antes avaliar janela ativa, scene-local preload e custo real de DMA por frame
 
 ## Senior Competencies
 
@@ -70,6 +75,8 @@ Esta skill deve declarar dominio explicito sobre:
 
 - `frame economy`
   - ciclos bonitos que ainda cabem em VRAM
+- `active_animation_window`
+  - separar sheet completa, ciclos ativos e frames que realmente precisam estar residentes agora
 - `tile flipping por hardware`
   - reaproveitar direcao e simetria sem sheet duplicada
 - `sprite_temporal_multiplexing`

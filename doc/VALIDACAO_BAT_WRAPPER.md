@@ -42,7 +42,7 @@ Caminho: `..\..\..\..` (4 níveis: variant → variants → collection → SGDK_
 |-----------|---------|--------|
 | **Raiz** | `new-project.bat`, `setup-env.bat` | OK — delegam a `tools\sgdk_wrapper\` |
 | **Wrapper** | `tools/sgdk_wrapper/*.bat` | OK — lógica central (build, clean, run, rebuild, env, load_project_context, new_project, ensure_project_agent) |
-| **Projetos 2 níveis** | SGDK_projects, SGDK_Engines, SGDK_templates, templates/project-template | OK — usam `..\..\tools\sgdk_wrapper\` |
+| **Projetos 2 níveis** | SGDK_projects, SGDK_Engines, SGDK_templates, tools/sgdk_wrapper/modelo | OK — usam `..\..\tools\sgdk_wrapper\` |
 | **Projetos variants** | SGDK_Engines/*/variants/*/ | Corrigido — passaram de `..\..\` para `..\..\..\..\` |
 | **Outros tools** | `tools/photo2sgdk/run.bat` | N/A — não é SGDK; launcher próprio |
 
@@ -64,6 +64,7 @@ Caminho: `..\..\..\..` (4 níveis: variant → variants → collection → SGDK_
 1. **Projeto na raiz de SGDK_projects ou SGDK_Engines:** use `..\..\tools\sgdk_wrapper\`.
 2. **Projeto dentro de `variants/`:** use `..\..\..\..\tools\sgdk_wrapper\`.
 3. **Projeto em subpasta mais profunda:** calcule os níveis até a raiz do workspace e use `..\` × N + `tools\sgdk_wrapper\`.
+4. **Bootstrap de projeto novo:** `new_project.bat` e `new_project.sh` partem de `tools/sgdk_wrapper/modelo`, com fallback para `SGDK_templates/base-elite`.
 
 ---
 

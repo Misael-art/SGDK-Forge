@@ -1294,6 +1294,357 @@
       },
       "promotion_gate": "Nao sobe para blastem_proven sem loop limpo, stingers, prioridade de SFX, pause/resume e multiplexing PCM com dono definido em BlastEm.",
       "notes": "Doutrina P3 incorporada; runtime proof ainda nao iniciado. Audio deixa de ser pos-processo e passa a ter contrato de cena via audio_architecture_card."
+    },
+    {
+      "id": "custom_z80_audio_drivers",
+      "title": "Custom Z80 audio drivers",
+      "module": "audio",
+      "current_status": "incorporated",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "z80-pcm-custom-driver",
+        "sgdk-runtime-coder"
+      ],
+      "prerequisite_ids": [
+        "xgm2_audio_architecture"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/SKILL.md",
+        "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/references/z80_driver_architecture.json",
+        "doc/05_technical/99_aaa_audio_architecture_guide.md",
+        "doc/05_technical/93_16bit_hardware_mastery_matrix.md#modulo-7---audio"
+      ],
+      "required_artifacts": [
+        "z80_driver_spec",
+        "cycle_budget_card",
+        "hardware_register_map",
+        "integration_contract",
+        "blastem_audio_proof_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_z80_pcm_lab",
+        "validation_axes": [
+          "audio",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "driver size in Z80 RAM + cycle margin + bank switch + bus contention",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar driver custom cabendo em Z80 RAM, sem crackling e com integracao segura em BlastEm.",
+      "notes": "Skill e doutrina incorporadas; falta benchmark dedicado de driver customizado no laboratorio."
+    },
+    {
+      "id": "pcm_streaming_ring_buffer",
+      "title": "PCM streaming / ring buffer",
+      "module": "audio",
+      "current_status": "incorporated",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "z80-pcm-custom-driver",
+        "sgdk-runtime-coder"
+      ],
+      "prerequisite_ids": [
+        "custom_z80_audio_drivers"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/references/pcm_streaming_patterns.md",
+        "doc/05_technical/99_aaa_audio_architecture_guide.md"
+      ],
+      "required_artifacts": [
+        "pcm_streaming_plan",
+        "bus_contention_analysis",
+        "cycle_budget_card",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_z80_pcm_lab",
+        "validation_axes": [
+          "audio",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "double/triple buffer + feed cadence + underrun protection",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar streaming sem underrun, sem crackling e com fallback de feed declarado.",
+      "notes": "Patterns de buffer e bank switching incorporados; falta POC oficial no laboratorio."
+    },
+    {
+      "id": "dac_direct_manipulation",
+      "title": "YM2612 DAC direct manipulation",
+      "module": "audio",
+      "current_status": "incorporated",
+      "operational_policy": "advanced_tradeoff",
+      "owner_skills": [
+        "z80-pcm-custom-driver"
+      ],
+      "prerequisite_ids": [
+        "custom_z80_audio_drivers"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/references/hardware_audio_memory_map.json",
+        "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/references/z80_driver_architecture.json"
+      ],
+      "required_artifacts": [
+        "hardware_register_map",
+        "cycle_budget_card",
+        "sample_format_audit"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_z80_pcm_lab",
+        "validation_axes": [
+          "audio",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "DAC timing + FM_CH6 handoff + sample cadence",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar voz/PCM limpa no DAC, timing estavel e ausencia de corrupcao de registrador.",
+      "notes": "Mapa de registradores e timing incorporados; falta prova hi-fi em ROM."
+    },
+    {
+      "id": "psg_direct_control_audio",
+      "title": "PSG direct control",
+      "module": "audio",
+      "current_status": "incorporated",
+      "operational_policy": "contextual_contract",
+      "owner_skills": [
+        "z80-pcm-custom-driver"
+      ],
+      "prerequisite_ids": [],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/references/hardware_audio_memory_map.json",
+        "doc/05_technical/99_aaa_audio_architecture_guide.md"
+      ],
+      "required_artifacts": [
+        "hardware_register_map",
+        "integration_contract",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_z80_pcm_lab",
+        "validation_axes": [
+          "audio",
+          "boot_emulador"
+        ],
+        "budget_line": "tone/noise ownership + envelope + fallback com XGM2/BGM",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar PSG controlado sem conflito de ownership e com papel perceptivo real.",
+      "notes": "PSG direto foi formalizado como tecnica valida, mas ainda sem benchmark isolado."
+    },
+    {
+      "id": "audio_dma_safety_bus_contention",
+      "title": "Audio DMA safety / bus contention",
+      "module": "audio",
+      "current_status": "incorporated",
+      "operational_policy": "hard_constraint",
+      "owner_skills": [
+        "z80-pcm-custom-driver",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "prerequisite_ids": [
+        "dma_transfer_safety"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/references/z80_driver_architecture.json",
+        "doc/05_technical/99_aaa_audio_architecture_guide.md"
+      ],
+      "required_artifacts": [
+        "bus_contention_analysis",
+        "budget_decision",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_z80_pcm_lab",
+        "validation_axes": [
+          "audio",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "DMA worst-case + Z80 protection + playback cleanliness",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar audio limpo sob DMA relevante e laudo de mitigation em worst frame.",
+      "notes": "A relacao entre DMA e audio agora esta incorporada como substrato formal, nao nota solta."
+    },
+    {
+      "id": "sample_format_engineering_audio",
+      "title": "Audio sample format engineering",
+      "module": "audio",
+      "current_status": "incorporated",
+      "operational_policy": "contextual_contract",
+      "owner_skills": [
+        "z80-pcm-custom-driver",
+        "xgm2-audio-director"
+      ],
+      "prerequisite_ids": [],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/references/sample_format_decision_system.md",
+        "tools/sgdk_wrapper/validate_audio.ps1",
+        "doc/05_technical/99_aaa_audio_architecture_guide.md"
+      ],
+      "required_artifacts": [
+        "sample_format_audit",
+        "rom_audio_budget",
+        "out/logs/audio_validation_report.json"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_xgm2_lab",
+        "validation_axes": [
+          "audio",
+          "boot_emulador"
+        ],
+        "budget_line": "sample rate + format + ROM estimate + loop integrity",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem validar formato, budget, alinhamento e loop integrity em assets declarados e runtime real.",
+      "notes": "Decision system e validator de audio estao incorporados; falta fechar benchmark e integracao total com runtime proof."
+    },
+    {
+      "id": "audio_event_contract",
+      "title": "Audio event contract",
+      "module": "audio",
+      "current_status": "incorporated",
+      "operational_policy": "contextual_contract",
+      "owner_skills": [
+        "xgm2-audio-director",
+        "sgdk-runtime-coder"
+      ],
+      "prerequisite_ids": [
+        "xgm2_audio_architecture"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/references/audio_event_contract.json",
+        "tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/SKILL.md"
+      ],
+      "required_artifacts": [
+        "audio_event_matrix",
+        "pause_resume_contract",
+        "loop_integrity_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_xgm2_lab",
+        "validation_axes": [
+          "audio",
+          "boot_emulador"
+        ],
+        "budget_line": "ownership + preemption + pause/resume + loop integrity",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar dispatch, preempcao, pause/resume e loop limpo em cena real.",
+      "notes": "Contrato de eventos e maquina de estados de audio foram formalizados como superficie do framework."
+    },
+    {
+      "id": "channel_ownership_templates_audio",
+      "title": "Channel ownership templates",
+      "module": "audio",
+      "current_status": "incorporated",
+      "operational_policy": "contextual_contract",
+      "owner_skills": [
+        "xgm2-audio-director",
+        "scene-state-architect"
+      ],
+      "prerequisite_ids": [
+        "audio_event_contract"
+      ],
+      "existing_artifacts": [
+        "tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/references/channel_ownership_templates.json",
+        "tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/SKILL.md"
+      ],
+      "required_artifacts": [
+        "channel_ownership_map",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "audio_xgm2_lab",
+        "validation_axes": [
+          "audio",
+          "boot_emulador"
+        ],
+        "budget_line": "ownership por canal + prioridade + sacrificio de ambient/voice",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar ownership sem conflito, fallback de contencao e handoff limpo entre estados.",
+      "notes": "Templates prontos agora existem como base de contrato, nao apenas exemplo informal."
+    },
+    {
+      "id": "expressive_text_presentation_system",
+      "title": "Expressive narrative text presentation",
+      "module": "ui_narrative_text",
+      "current_status": "incorporated",
+      "operational_policy": "contextual_contract",
+      "owner_skills": [
+        "visual-excellence-standards",
+        "scene-state-architect",
+        "sgdk-runtime-coder",
+        "xgm2-audio-director",
+        "art-translation-to-vdp",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "prerequisite_ids": [
+        "window_plane_static_hud",
+        "xgm2_audio_architecture"
+      ],
+      "existing_artifacts": [
+        "doc/03_art/16_expressive_narrative_text_presentation.md#text_presentation_profile",
+        "doc/03_art/13_hud_ui_fx_decision_system.md#artefato-canonico-ui_decision_card",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_variable_width_font_tidytext",
+        "tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/case_tile_text_stream_renderer"
+      ],
+      "required_artifacts": [
+        "ui_decision_card",
+        "ui_decision_card.text_presentation_profile",
+        "glyph_manifest",
+        "plane_ownership_map",
+        "text_audio_plan",
+        "asset_budget_plan",
+        "teardown_reset_plan",
+        "fallback_plan"
+      ],
+      "benchmark_scene": {
+        "scene_id": "expressive_text_lab",
+        "validation_axes": [
+          "visual_elite",
+          "audio",
+          "performance",
+          "boot_emulador"
+        ],
+        "budget_line": "painel/balao/retrato/text reveal + glyph cache + SFX de texto",
+        "evidence_bundle": [
+          "benchmark_visual.png",
+          "save.sram",
+          "visual_vdp_dump.bin"
+        ]
+      },
+      "promotion_gate": "Nao sobe para blastem_proven sem provar texto expressivo legivel em 320x224, owner de tiles/sprites/audio, reset limpo e fallback honesto em BlastEm.",
+      "notes": "Doutrina S3.5 incorporada; runtime proof ainda nao iniciado. Texto expressivo vive como anexo do ui_decision_card para evitar artefato paralelo."
     }
   ]
 }

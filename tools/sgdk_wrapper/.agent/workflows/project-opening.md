@@ -8,6 +8,8 @@ Use este fluxo sempre que um agente receber um pedido de iniciar trabalho em um 
 
 Nenhum agente deve abrir arte, runtime, assets ou claims de estrutura antes de classificar corretamente uma dessas 3 situacoes.
 
+Depois da classificacao, o agente deve abrir `workflows/route-decision-gate.md` sempre que a primeira entrega ainda nao tiver rota tecnica, skill dona e ferramenta inicial declaradas.
+
 ---
 
 ## Objetivo
@@ -39,6 +41,7 @@ Acao:
 - resumir o estado atual
 - detectar drift entre docs, codigo e evidencias
 - perguntar apenas o necessario para continuar a iteracao atual
+- se a iteracao apontar para cena `aaa_layered`, abrir cedo `workflows/scene-architecture-triage.md` antes de arte/runtime
 
 Nao reabrir briefing do zero sem sinal concreto de que o usuario quer reseed.
 
@@ -68,6 +71,7 @@ Acao:
 - parar antes de runtime
 - abrir questionario de fundacao
 - emitir seeds documentais minimos
+- emitir `route_decision_record` para o primeiro slice antes de qualquer arte/runtime
 - so depois abrir estrutura de projeto
 
 ---
@@ -97,6 +101,7 @@ Para `projeto_novo` ou `reseed`, a abertura so passa quando existir fundacao doc
 - `scene_roadmap`
 - `first_playable_slice`
 - `front_end_profile`
+- `route_decision_record` do primeiro slice
 
 Mapeamento recomendado:
 
@@ -108,6 +113,13 @@ Mapeamento recomendado:
 - `doc/13-spec-cenas.md`
   - `scene_roadmap`
   - `first_playable_slice`
+  - `route_decision_record`
+
+Regra:
+
+- projeto novo nao deve comecar por conversao de imagem, runtime ou depuracao visual
+- primeiro deve existir decisao de rota: `planning`, `art_diagnostic`, `curated_builder`, `source_translation`, `conversion_batch`, `scene_architecture`, `budget`, `runtime` ou `validation`
+- quando a cena tiver pack grande, parallax, foreground/oclusao, stage largo ou relacao forte sprite/cenario, `scene_architecture_triage` nasce junto do `route_decision_record`
 
 Se o projeto ja for operacional, esses blocos podem ser revalidados em vez de recriados.
 
@@ -126,6 +138,17 @@ Perguntas de abertura para projeto existente devem focar em:
 - o que mudou desde o ultimo estado valido
 - qual entrega atual deve ser perseguida
 - quais blockers ou aprendizados recentes precisam guiar a iteracao
+
+Se a entrega atual envolver cena com base + foreground/oclusao + relacao forte entre sprite e cenario, a abertura tambem deve produzir:
+
+- `scene_profile`
+- `baseline_technique_applicability`
+- `baseline_decision`
+- `reference_implementation` quando houver referencia interna forte
+
+O template recomendado para isso e:
+
+- `workflows/scene-architecture-triage.md`
 
 ---
 

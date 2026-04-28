@@ -19,8 +19,11 @@ Antes de escrever codigo, criar arquivos ou propor mudancas:
 4. Ler `doc/12-roteiro.md` se a tarefa tocar dialogos, encontros ou narrativa.
 5. Ler `doc/03-arquitetura.md` se for criar ou mover arquivos.
 6. Em projeto novo ou escopo ainda difuso, usar `planning/game-design-planning` para seedar GDD, roteiro, spec, `first_playable_slice` e `front_end_profile`.
-7. Se a tarefa tocar menu, title screen ou front-end, alinhar `front_end_profile` no GDD antes de abrir arte ou runtime.
-8. Responder com `[Contexto Carregado]` e um plano antes de gerar codigo.
+7. Em projeto novo, reseed ou cena sem familia tecnica declarada, emitir `route_decision_record` via `workflows/route-decision-gate.md` antes de converter asset, editar `.res` ou escrever runtime.
+8. Se a cena tiver parallax, foreground/oclusao, source grande ou referencia interna, preencher `scene_architecture_triage` e medir janela/painel antes de assumir `IMAGE` residente.
+9. Se a tarefa tocar menu, title screen ou front-end, alinhar `front_end_profile` no GDD antes de abrir arte ou runtime.
+10. Manter `doc/14-plano-de-provas-qa.md` coerente com a rota real para provar `visual_lab_aprovado`, `audio`, `hardware_real` e `ready_for_aaa`.
+11. Responder com `[Contexto MD Carregado]` e um plano antes de gerar codigo.
 
 **SE VOCE NAO SEGUIR ESTE FLUXO, O TRABALHO DEVE SER TRATADO COMO NAO CONFIAVEL.**
 
@@ -73,6 +76,8 @@ Antes de escrever qualquer linha, valide:
 - [ ] Li o Memory Bank e sei onde o projeto parou?
 - [ ] A tarefa pertence ao escopo atual do GDD?
 - [ ] Se o projeto ainda esta nascendo, o `first_playable_slice` e o roadmap de cenas ja foram seedados?
+- [ ] Se a rota tecnica ainda nao esta declarada, existe `route_decision_record` com skill, ferramenta, modelo de loading e evidencia?
+- [ ] Se ha parallax/foreground/source grande, existe triagem de arquitetura e medicao de janela/painel antes de runtime?
 - [ ] Sei os limites de VRAM/DMA/sprites da cena afetada (ver `doc/13-spec-cenas.md`)?
 - [ ] Se a cena for menu/title/front-end, a identidade visual e o comportamento de idle/selecao estao declarados no GDD?
 - [ ] Meu codigo usa apenas `u8`, `u16`, `s16`, `u32`, `fix16`, `fix32`?
@@ -92,7 +97,8 @@ Uma tarefa so pode ser considerada concluida quando:
 4. Os budgets de `doc/13-spec-cenas.md` nao foram violados.
 5. Os 7 eixos de QA foram reportados: build, validation_report, boot_emulador, gameplay_basico, performance, audio e memoria operacional canonica.
 6. `doc/10-memory-bank.md` foi atualizado com o que mudou.
-7. Nenhum documento canonico ficou em conflito com o estado real.
+7. `doc/14-plano-de-provas-qa.md` reflete o estado real dos blockers e da evidencia minima.
+8. Nenhum documento canonico ficou em conflito com o estado real.
 
 **Termos proibidos sem satisfazer os gates acima:**
 `pronto`, `completo`, `fechado`, `funcional`, `validado`.

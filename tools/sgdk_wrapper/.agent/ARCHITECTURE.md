@@ -91,6 +91,7 @@ Regra:
 - `pipelines/`: jornadas machine-readable
 - `scripts/`: automacoes de status, auditoria, changelog e verificacao
 - `lib_case/`: few-shots pedagogicos e referencias reproduziveis
+- `../validate_audio.ps1`: auditoria canonica de assets de audio declarados em `.res`, sempre com saida em `out/logs/`
 
 ### Camadas de compatibilidade e descoberta
 
@@ -130,7 +131,8 @@ Ele e definido por:
 1. `pipelines/aaa_scene_v1.json`
 2. `workflows/aaa-scene-pipeline.md`
 3. `workflows/production-loop.md`
-4. as `SKILL.md` reais invocadas por cada etapa
+4. `workflows/route-decision-gate.md` quando a rota tecnica ainda nao estiver congelada
+5. as `SKILL.md` reais invocadas por cada etapa
 
 Workflows descrevem ordem.
 Skills descrevem como executar.
@@ -164,6 +166,7 @@ Ela existe para emitir, antes de arte ou runtime:
 - `feature_scope_map`
 - `scene_roadmap`
 - `first_playable_slice`
+- `route_decision_record` quando for projeto novo, reseed ou primeira cena tecnica
 - `front_end_profile`
 - `scene_transition_card` seed quando houver transicao formal prevista
 - `roteiro_scope`
@@ -174,6 +177,8 @@ Regra:
 - ela prepara seeds concretos para a etapa humana de `S0_scope`
 - quando houver HUD/UI formal, o `front_end_profile` planejado deve ser formalizado depois como `ui_decision_card`
 - quando houver transicao formal, o seed deve virar `scene_transition_card` completo antes de arte/runtime
+- quando a skill/ferramenta/modelo de loading ainda nao estiverem declarados, abrir `workflows/route-decision-gate.md` antes de asset, `.res` ou runtime
+- quando a iteracao apontar para cena `aaa_layered`, a abertura e o planejamento tambem devem materializar `scene_architecture_triage` via `workflows/scene-architecture-triage.md`
 
 ---
 
@@ -190,9 +195,29 @@ Para trabalho de cena visual, a cadeia oficial e:
 7. `validate_resources.ps1`
 8. BlastEm + `workflows/build-validate.md`
 
+Quando a cena tiver audio senior, ownership PCM, stinger, ambience ou driver customizado, a trilha oficial passa a incluir tambem:
+
+- `code/xgm2-audio-director`
+- `code/z80-pcm-custom-driver`
+- `../validate_audio.ps1` antes do fechamento em `validate_resources.ps1`
+
 Nenhuma etapa pode ser pulada.
 
 Se o passo anterior nao emitiu os artefatos minimos, o passo seguinte nao tem permissao para se declarar concluido.
+
+### Baseline arquitetural prioritario para cena composta
+
+Quando a cena tiver composicao em camadas, foreground/oclusao, staging visual e relacao forte entre sprite e cenario:
+
+- `tilemap streaming guiado pela camera` vira baseline arquitetural prioritario
+- o agente deve extrair o principio tecnico da referencia, nao copiar tamanho de painel, uso de `IMAGE` ou implementacao 1:1 sem medir a cena atual
+- o budget deve separar mundo total, janela visivel, paineis/metatiles candidatos e resident set simultaneo
+- a comparacao com esse baseline acontece antes de depuracao residual
+- a decisao final deve registrar `adotar`, `adaptar` ou `divergir`
+- uma implementacao interna madura, como a `BLAZE_ENGINE [VER.001] [SGDK 211] [GEN] [ENGINE] [BRIGA DE RUA]`, pode ser usada como referencia de apoio, nao como nome da tecnica
+- divergencia e permitida, mas precisa citar a constraint real da cena
+
+Essa disciplina existe para evitar que bugs locais de VRAM, paleta, `WINDOW`, `rescomp` ou sprite runtime escondam um erro anterior de contrato arquitetural.
 
 ### Acoplamento por `skill_path`
 

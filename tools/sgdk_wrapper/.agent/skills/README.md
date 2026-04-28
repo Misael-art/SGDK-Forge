@@ -38,6 +38,7 @@ Nao duplique nem edite skills em dois lugares.
 
 - especializacoes de planejamento, GDD seed e scope slicing entram primeiro em `planning/`
 - especializacoes de runtime entram primeiro em `code/`
+- especializacoes de audio senior (XGM2 ownership, Z80 custom driver, PCM streaming, DAC/PSG direto) entram primeiro em `code/`
 - especializacoes de budget entram em `hardware/`
 - especializacoes de leitura e direcao visual entram em `art/`
 

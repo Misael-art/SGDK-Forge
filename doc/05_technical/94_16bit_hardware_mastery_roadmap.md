@@ -66,6 +66,7 @@ Nenhuma tecnica sobe de estado sem passar por:
 ### 7. Agent Proficiency Roadmap
 
 - `aaa_agent_proficiency_roadmap`
+- `expressive_text_presentation_system`
 - `feedback_fx_decision_system`
 - `boss_setpiece_design`
 - `advanced_tilemap_design`
@@ -123,6 +124,25 @@ Gate:
 
 - nenhuma transicao avancada sobe sem causa dramatica, budget aprovado, reset simetrico e prova BlastEm
 - fallback padrao e `palette_fade_bridge` contextualizado, nao fade preto generico
+
+## Wave 1.6 - Texto narrativo expressivo
+
+Scene futura no `BENCHMARK_VISUAL_LAB`:
+
+- `expressive_text_lab`
+
+Entregas:
+
+- usar `expressive_text_presentation_system` como doutrina S3.5 ja incorporada
+- validar `text_presentation_profile` dentro do `ui_decision_card`, sem artefato paralelo
+- cobrir `panel_sequence_text`, `diegetic_speech_balloon`, `animated_portrait_dialog`, `kinetic_hype_text`, `typewriter_voice_text` e `flavor_text_interaction`
+- exigir `glyph_manifest`, `text_audio_plan`, owner de tiles/sprites/WINDOW/audio, budget e fallback antes do runtime
+
+Gate:
+
+- texto expressivo continua legivel em 320x224 e nao cobre gameplay critico
+- typewriter voice nao rouba SFX critico nem boss cue
+- paineis, baloes e retratos resetam sem vazamento de tiles, sprites, paleta ou audio
 
 ## Wave 2 - Raster Control e iluminacao
 
@@ -231,17 +251,22 @@ Gate:
 Scene obrigatoria:
 
 - `audio_xgm2_lab`
+- `audio_z80_pcm_lab`
 
 Entregas:
 
 - usar `xgm2_audio_architecture` como doutrina P3 ate existir benchmark
+- usar `z80-pcm-custom-driver` como skill canonica para driver custom, PCM streaming, DAC direto, PSG direto e bank switching
 - provar BGM + SFX prioritario + ambiente + stinger
+- provar driver customizado, bus protection, PCM streaming e sample format engineering quando a cena exigir audio alem do XGM2 padrao
 - provar `pause`, `resume`, `loop` e ownership de canal
+- rodar `validate_audio.ps1` com saida em `out/logs/audio_validation_report.json` e absorcao no `validation_report.json`
 - declarar fallback quando PCM multiplexing nao couber
 
 Gate:
 
 - audio deixa de ser categoria ausente do framework
+- `audio_validation_report.json` nao pode ficar fora de `out/logs` nem fora da cadeia de validacao
 - stinger, ambiente e SFX nao roubam canal critico sem ownership declarado
 
 ## Wave 6 - Kinematics e Experimentos
@@ -281,13 +306,14 @@ Somente entao o `current_status` pode virar `senior_default`.
 
 1. consolidar skill owners e registry machine-readable
 2. consolidar benchmark contract e roadmap de proficiencia
-3. canonizar Raster Control e Iluminacao
-4. canonizar Feedback FX e Particulas
-5. canonizar Display, Boss/Setpieces e Sprite Overflow Engineering
-6. canonizar Tilemap Avancado, Pseudo-3D e Streaming
-7. canonizar Audio Senior
-8. abrir Kinematics e Experimentos apenas depois dos gates anteriores
-9. certificar por BlastEm e regressao
+3. canonizar Texto Narrativo Expressivo quando houver fala, alerta, flavor ou painel dramatico
+4. canonizar Raster Control e Iluminacao
+5. canonizar Feedback FX e Particulas
+6. canonizar Display, Boss/Setpieces e Sprite Overflow Engineering
+7. canonizar Tilemap Avancado, Pseudo-3D e Streaming
+8. canonizar Audio Senior
+9. abrir Kinematics e Experimentos apenas depois dos gates anteriores
+10. certificar por BlastEm e regressao
 
 ## Ordem obrigatoria dos quatro efeitos especulativos
 

@@ -27,25 +27,33 @@ Use este fluxo para build, rebuild e validacao operacional.
    - snapshot da ROM quando o hash mudar
    - atualizacao de `build_meta.json`
    - atualizacao do bloco derivado em `doc/10-memory-bank.md`
-8. Executar `validate_resources.ps1 -CloseoutGate` no fechamento de QA; durante iteracao, o wrapper pode usar o modo normal apenas para manter o relatorio coerente sem bloquear o build.
-9. Conferir blockers de fechamento:
+8. Quando o projeto declarar audio em `.res`:
+   - executar `validate_audio.ps1`
+   - gravar `out/logs/audio_validation_report.json`
+   - tratar `audio_validation_missing`, `audio_validation_stale` e `audio_validation_failed` como sinais canonicos da trilha de audio
+9. Executar `validate_resources.ps1 -CloseoutGate` no fechamento de QA; durante iteracao, o wrapper pode usar o modo normal apenas para manter o relatorio coerente sem bloquear o build.
+10. Conferir blockers de fechamento:
    - `agent_context_degraded`
+   - `audio_validation_missing`
+   - `audio_validation_stale`
+   - `audio_validation_failed`
    - `budget_doc_mismatch`
    - `visual_gate_blocked`
    - `emulator_evidence_stale`
    - `changelog_missing`
-10. Rodar BlastEm pelo contrato canonico de automacao:
+11. Rodar BlastEm pelo contrato canonico de automacao:
    - `run_runtime_capture.ps1` e `run_visual_capture.ps1` devem importar `lib/blastem_automation.psm1`
    - navegacao deve privilegiar `press_until_ready:*` com heartbeat `READY` em SRAM `0x100`
    - `Close-BlastEmGracefully` deve seguir `ESC -> WM_CLOSE -> Alt+F4 -> kill`
    - logs operacionais devem ir para JSONL em `out/logs/*_blastem.log`
    - evidence roots devem ficar dentro de `out/blastem_env_*`, sem fallback para `LocalAppData\blastem\rom`
-11. Consolidar:
+12. Consolidar:
    - `emulator_session.json`
+   - `audio_validation_report.json`
    - `validation_report.json`
    - `doc/changelog/changelog.md`
    - `doc/10-memory-bank.md`
-12. Se houver novo build depois disso, rebaixar a evidencia anterior para `stale`.
+13. Se houver novo build depois disso, rebaixar a evidencia anterior para `stale`.
 
 ## Semantica do Gate Final
 
@@ -56,6 +64,7 @@ Use este fluxo para build, rebuild e validacao operacional.
 ## Saida minima esperada
 
 - `out/rom.bin` com identidade registrada
+- `out/logs/audio_validation_report.json` quando houver audio declarado em `.res`
 - `out/logs/validation_report.json`
 - `out/logs/emulator_session.json`
 - `out/logs/*_blastem.log` com trilha JSONL da automacao

@@ -213,6 +213,71 @@ function Get-ImageOptionTokens($line) {
     return @()
 }
 
+function Resolve-ResReferencePath($baseDir, $declaredPath) {
+    if ([string]::IsNullOrWhiteSpace($declaredPath)) {
+        return $null
+    }
+    if ([System.IO.Path]::IsPathRooted($declaredPath)) {
+        return [System.IO.Path]::GetFullPath($declaredPath)
+    }
+    return [System.IO.Path]::GetFullPath((Join-Path $baseDir $declaredPath))
+}
+
+function Get-DeclaredAudioEntries($resFiles) {
+    $entries = @()
+    $pattern = '^\s*(?<kind>WAV|XGM2|XGM|BIN)\s+(?<name>\w+)\s+(?:"(?<quoted>[^"]+)"|(?<bare>\S+))(?:\s+(?<arg1>[A-Za-z0-9_]+))?(?:\s+(?<arg2>\d+))?'
+
+    foreach ($resFile in $resFiles) {
+        $baseDir = Split-Path -Parent $resFile.FullName
+        $lineNumber = 0
+        foreach ($line in (Get-Content -LiteralPath $resFile.FullName -ErrorAction SilentlyContinue)) {
+            $lineNumber++
+            $trimmed = $line.Trim()
+            if ([string]::IsNullOrWhiteSpace($trimmed) -or $trimmed.StartsWith("//")) {
+                continue
+            }
+            if ($trimmed -notmatch $pattern) {
+                continue
+            }
+
+            $kind = $matches["kind"].ToUpperInvariant()
+            $declaredPath = if ($matches["quoted"]) { $matches["quoted"] } else { $matches["bare"] }
+            if ($kind -eq "BIN") {
+                $ext = [System.IO.Path]::GetExtension($declaredPath).ToLowerInvariant()
+                if ($ext -notin @(".raw", ".pcm", ".dpcm")) {
+                    continue
+                }
+            }
+
+            $resolvedPath = Resolve-ResReferencePath $baseDir $declaredPath
+            $entries += [pscustomobject]@{
+                kind = if ($kind -eq "BIN") { "BIN_AUDIO" } else { $kind }
+                resource_name = $matches["name"]
+                declared_path = $declaredPath
+                resolved_path = $resolvedPath
+                res_file = $resFile.FullName
+                res_line = $lineNumber
+                exists = Test-Path -LiteralPath $resolvedPath -PathType Leaf
+            }
+        }
+    }
+
+    return @($entries)
+}
+
+function Get-LatestExistingWriteUtc($paths) {
+    $latest = $null
+    foreach ($path in $paths) {
+        if (-not $path) { continue }
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { continue }
+        $candidate = (Get-Item -LiteralPath $path).LastWriteTimeUtc
+        if (($null -eq $latest) -or ($candidate -gt $latest)) {
+            $latest = $candidate
+        }
+    }
+    return $latest
+}
+
 function Test-SceneScaleImage($resourceName, $resourcePath, $info) {
     $fingerprint = ("{0} {1}" -f $resourceName, $resourcePath).ToLowerInvariant()
     if ($fingerprint -match 'bg[_\- ]?[ab]|scene|parallax|compare[_\- ]?flat|foreground|land|forest|stage|level') {
@@ -484,6 +549,8 @@ function Add-Detail($results, $type, $level, $message, $resource, $file, $extra 
 function Test-CloseoutOnlyBlockingStatus($status) {
     $normalizedStatus = Get-SafeString $status ""
     return $normalizedStatus -in @(
+        "audio_validation_missing",
+        "audio_validation_stale",
         "budget_doc_mismatch",
         "changelog_missing",
         "emulator_evidence_stale",
@@ -871,10 +938,20 @@ function Get-SceneRegressionStatus {
 
     $result.report_present = $true
     $result.rom_sha256 = Get-SafeString $report.rom_sha256 ""
-    $reportScenes = @($report.scenes)
+    $reportScenes = @()
+    if ($report.PSObject.Properties['scenes']) {
+        $reportScenes = @($report.scenes)
+    } elseif ($report.PSObject.Properties['results']) {
+        $reportScenes = @($report.results | ForEach-Object {
+            [ordered]@{
+                scene_key = Get-SafeString $_.scene_id ""
+                status = if ((Get-SafeString $_.status "") -eq "passed" -and (Get-SafeString $_.capture_status "") -eq "ok") { "captured" } else { "failed" }
+            }
+        })
+    }
     $result.report_scene_count = $reportScenes.Count
 
-    $currentSha = if ($RomIdentity) { Get-SafeString $RomIdentity.sha256 "" } else { "" }
+    $currentSha = if ($RomIdentity) { Get-SafeString $RomIdentity.rom_sha256 "" } else { "" }
     if ($currentSha -and $result.rom_sha256 -and ($currentSha -ne $result.rom_sha256)) {
         $result.stale = $true
     }
@@ -1556,6 +1633,7 @@ $results = @{
         buildado = $false
         testado_em_emulador = $false
         validado_budget = $false
+        audio_validation_ready = $false
         agent_bootstrapped = $false
         bootstrap_degradado = $false
         placeholder = $false
@@ -1595,6 +1673,8 @@ $results = @{
         emulator_stale_sandbox_candidate = $null
         scene_regression_report_path = $null
         scene_regression_status = $null
+        audio_validation_report_path = $null
+        audio_validation_status = $null
         agent_bootstrap = $null
         visual_aesthetic_report_path = $null
         changelog_status = $null
@@ -1648,6 +1728,9 @@ $runtimeThresholds = $null
 $workspaceRoot = Resolve-WorkspaceRoot $pwd.Path
 $visualReviewVariantPairs = Get-VisualReviewVariantPairs -ProjectRoot $pwd.Path
 $sceneRegressionStatus = $null
+$audioValidationReportPath = Join-Path $LOG_DIR "audio_validation_report.json"
+$audioValidationReport = $null
+$audioDeclarations = @()
 
 if ($workspaceRoot) {
     $aestheticAnalyzerPath = Join-Path $workspaceRoot "tools\image-tools\analyze_aesthetic.py"
@@ -1693,6 +1776,7 @@ if (-not $resFiles) {
 } else {
     Write-Log "Encontrados $($resFiles.Count) arquivo(s) .res para validar." "INFO"
 }
+$audioDeclarations = Get-DeclaredAudioEntries -resFiles $resFiles
 
 foreach ($res in $resFiles) {
     Write-Log "Validando $($res.FullName)..."
@@ -2364,11 +2448,82 @@ $results.evidence.emulator_fresh_sram_confirmed = $sessionFreshSramConfirmed
 $results.evidence.emulator_outside_sandbox_candidate = $outsideSandboxCandidate
 $results.evidence.emulator_stale_sandbox_candidate = $staleSandboxCandidate
 $results.evidence.scene_regression_report_path = if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sceneRegressionReportPath } else { $null }
+$results.evidence.audio_validation_report_path = if (Test-Path -LiteralPath $audioValidationReportPath) { $audioValidationReportPath } else { $null }
 $budgetDocMismatch = Get-BudgetDocumentationMismatch -ProjectRoot $pwd.Path
 $changelogStatus = Get-ChangelogStatus -ProjectRoot $pwd.Path -RomIdentity $romIdentity
 $sceneRegressionStatus = Get-SceneRegressionStatus -ProjectRoot $pwd.Path -RomIdentity $romIdentity
 $results.evidence.changelog_status = $changelogStatus
 $results.evidence.scene_regression_status = $sceneRegressionStatus
+
+$audioValidationStatus = [ordered]@{
+    required = ($audioDeclarations.Count -gt 0)
+    declared_resources = $audioDeclarations.Count
+    report_present = Test-Path -LiteralPath $audioValidationReportPath
+    stale = $false
+    pass = $null
+    budget_status = $null
+}
+
+if (-not $audioValidationStatus.required) {
+    $audioValidationStatus.pass = $true
+    $audioValidationStatus.budget_status = "NOT_REQUIRED"
+    if ($audioValidationStatus.report_present) {
+        Add-Detail $results "AUDIO_VALIDATION" "INFO" "Projeto sem audio declarado em .res; audio_validation_report.json segue como evidencia canonicamente opcional." "audio" $audioValidationReportPath @{
+            declaredResources = 0
+            budgetStatus = $audioValidationStatus.budget_status
+        }
+    }
+}
+elseif ($audioValidationStatus.required) {
+    $latestAudioInputUtc = Get-LatestExistingWriteUtc (@($audioDeclarations.res_file) + @($audioDeclarations.resolved_path))
+
+    if ($audioValidationStatus.report_present) {
+        try {
+            $audioValidationReport = Get-Content -LiteralPath $audioValidationReportPath -Raw | ConvertFrom-Json
+            $audioValidationStatus.pass = [bool]$audioValidationReport.summary.pass
+            $audioValidationStatus.budget_status = Get-SafeString $audioValidationReport.summary.budget_status ""
+            if ($latestAudioInputUtc) {
+                $reportWriteUtc = (Get-Item -LiteralPath $audioValidationReportPath).LastWriteTimeUtc
+                $audioValidationStatus.stale = ($reportWriteUtc -lt $latestAudioInputUtc)
+            }
+        } catch {
+            $msg = ("Falha ao carregar audio_validation_report.json: {0}" -f $_.Exception.Message)
+            Write-Log $msg "ERROR"
+            Add-BlockingStatus $results "audio_validation_failed" $msg "audio" $audioValidationReportPath @{
+                reportPresent = [bool]$audioValidationStatus.report_present
+                declaredResources = $audioDeclarations.Count
+            }
+        }
+    } else {
+        $msg = ("Projeto declara {0} recurso(s) de audio em .res, mas out/logs/audio_validation_report.json esta ausente." -f $audioDeclarations.Count)
+        Write-Log $msg (Get-BlockingStatusLogLevel "audio_validation_missing")
+        Add-BlockingStatus $results "audio_validation_missing" $msg "audio" $audioValidationReportPath @{
+            declaredResources = $audioDeclarations.Count
+        }
+    }
+
+    if ($audioValidationStatus.report_present -and $audioValidationStatus.stale) {
+        $msg = "audio_validation_report.json esta stale em relacao aos .res/inputs de audio declarados."
+        Write-Log $msg (Get-BlockingStatusLogLevel "audio_validation_stale")
+        Add-BlockingStatus $results "audio_validation_stale" $msg "audio" $audioValidationReportPath @{
+            declaredResources = $audioDeclarations.Count
+        }
+    } elseif ($audioValidationStatus.report_present -and $null -ne $audioValidationStatus.pass -and (-not $audioValidationStatus.pass)) {
+        $msg = "audio_validation_report.json reportou falha em recursos de audio declarados."
+        Write-Log $msg "ERROR"
+        Add-BlockingStatus $results "audio_validation_failed" $msg "audio" $audioValidationReportPath @{
+            declaredResources = $audioDeclarations.Count
+            budgetStatus = $audioValidationStatus.budget_status
+        }
+    } elseif ($audioValidationStatus.report_present -and (-not $audioValidationStatus.stale) -and $audioValidationStatus.pass) {
+        Add-Detail $results "AUDIO_VALIDATION" "INFO" "audio_validation_report.json presente e coerente com os recursos de audio declarados." "audio" $audioValidationReportPath @{
+            declaredResources = $audioDeclarations.Count
+            budgetStatus = $audioValidationStatus.budget_status
+        }
+    }
+}
+
+$results.evidence.audio_validation_status = $audioValidationStatus
 
 if ($budgetDocMismatch) {
     $firstMismatch = $budgetDocMismatch.mismatches | Select-Object -First 1
@@ -2435,6 +2590,11 @@ $results.status_panel.implementado =
     (Test-Path -LiteralPath (Join-Path $pwd.Path "inc")) -or
     (Test-Path -LiteralPath (Join-Path $pwd.Path "res"))
 $results.status_panel.buildado = Test-Path -LiteralPath $romPath
+$results.status_panel.audio_validation_ready = if ($audioValidationStatus.required) {
+    [bool]($audioValidationStatus.report_present -and (-not $audioValidationStatus.stale) -and $audioValidationStatus.pass)
+} else {
+    $true
+}
 $results.status_panel.runtime_capture_present = (($runtimeSamplesRecorded -gt 0) -or ($existingSessionEvidence.Count -gt 0)) -and (-not $emulatorEvidenceStale)
 $results.status_panel.emulator_evidence_stale = $emulatorEvidenceStale
 $results.status_panel.scene_regression_ready = if ($sceneRegressionStatus) { ((-not $sceneRegressionStatus.required) -or $sceneRegressionStatus.complete) } else { $true }
@@ -2488,6 +2648,7 @@ $results.status_panel.testado_em_emulador = ($blastEmGate -or ($runtimeSamplesRe
 $results.status_panel.changelog_ready = $changelogStatus.present -and ($changelogStatus.assets_missing.Count -eq 0) -and ($changelogStatus.assets_outdated.Count -eq 0) -and (-not $changelogStatus.rom_outdated)
 $results.status_panel.validado_budget =
     $results.status_panel.buildado -and
+    $results.status_panel.audio_validation_ready -and
     ($results.summary.errors -eq 0) -and
     (
         $results.runtime_profile.frame_stability -eq "estavel" -and
@@ -2514,6 +2675,7 @@ if (Test-Path -LiteralPath $runtimeMetricsPath) { $sourceArtifacts += $runtimeMe
 if (Test-Path -LiteralPath $emulatorSessionPath) { $sourceArtifacts += $emulatorSessionPath }
 if (Test-Path -LiteralPath $visualAestheticReportPath) { $sourceArtifacts += $visualAestheticReportPath }
 if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sourceArtifacts += $sceneRegressionReportPath }
+if (Test-Path -LiteralPath $audioValidationReportPath) { $sourceArtifacts += $audioValidationReportPath }
 if ($changelogStatus.present) { $sourceArtifacts += $changelogStatus.changelog_path }
 if ($changelogStatus.latest_build_meta_path) { $sourceArtifacts += $changelogStatus.latest_build_meta_path }
 $sourceArtifacts += $existingSessionEvidence

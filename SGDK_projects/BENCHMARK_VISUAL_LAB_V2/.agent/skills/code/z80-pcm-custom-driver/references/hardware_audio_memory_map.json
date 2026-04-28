@@ -1,0 +1,224 @@
+{
+  "_meta": {
+    "title": "Hardware Audio Memory Map — Mega Drive Complete",
+    "version": "1.0.0",
+    "purpose": "Single-source reference for all audio-related hardware addresses, registers, and timing on Sega Mega Drive",
+    "last_updated": "2026-04-23"
+  },
+
+  "ym2612": {
+    "description": "Yamaha YM2612 FM Synthesis + DAC chip",
+    "clock_ntsc_hz": 7670453,
+    "clock_pal_hz": 7600489,
+    "internal_rate": "clock / 144 (NTSC: 53267 Hz, PAL: 52781 Hz)",
+
+    "ports_68k": {
+      "0xA04000": "Address Port 0 (FM channels 1-3, global regs)",
+      "0xA04001": "Data Port 0",
+      "0xA04002": "Address Port 1 (FM channels 4-6)",
+      "0xA04003": "Data Port 1"
+    },
+
+    "ports_z80": {
+      "0x4000": "Address Port 0",
+      "0x4001": "Data Port 0",
+      "0x4002": "Address Port 1",
+      "0x4003": "Data Port 1"
+    },
+
+    "timing_z80_cycles": {
+      "address_write": 6,
+      "data_write_fm": 53,
+      "data_write_dac": 8,
+      "data_write_timer": 8,
+      "busy_flag_check": "Read bit 7 of status port (0x4000)"
+    },
+
+    "dac_registers": {
+      "0x2A": {
+        "port": 0,
+        "name": "DAC Data",
+        "format": "8-bit unsigned (0x80 = center/silence, 0x00 = min, 0xFF = max)",
+        "note": "Write sample values here for PCM output"
+      },
+      "0x2B": {
+        "port": 0,
+        "name": "DAC Enable",
+        "bit_7": "1 = DAC on (replaces FM CH6), 0 = DAC off (FM CH6 active)",
+        "note": "Enabling DAC sacrifices FM channel 6"
+      }
+    },
+
+    "timer_registers": {
+      "0x24": {
+        "port": 0,
+        "name": "Timer A MSB",
+        "bits": "High 8 bits of 10-bit Timer A value"
+      },
+      "0x25": {
+        "port": 0,
+        "name": "Timer A LSB",
+        "bits": "Low 2 bits of Timer A value (bits 1-0)"
+      },
+      "0x26": {
+        "port": 0,
+        "name": "Timer B",
+        "bits": "8-bit Timer B value"
+      },
+      "0x27": {
+        "port": 0,
+        "name": "Timer Control / CH3 Mode",
+        "bit_0": "Timer A load",
+        "bit_1": "Timer B load",
+        "bit_2": "Timer A enable",
+        "bit_3": "Timer B enable",
+        "bit_4": "Timer A reset flag",
+        "bit_5": "Timer B reset flag",
+        "bits_6_7": "CH3 mode (00=normal, 01=special)"
+      },
+      "timer_a_formula": "period = 72 * (1024 - timer_value) / FM_clock",
+      "timer_a_freq_formula": "freq = FM_clock / (72 * (1024 - timer_value))",
+      "timer_a_pcm_rates": {
+        "1020": "~13300 Hz (XGM2 default)",
+        "1016": "~11025 Hz",
+        "1008": "~8000 Hz",
+        "1023": "~53267 Hz (theoretical max, impractical)"
+      },
+      "timer_b_formula": "period = 1152 * (256 - timer_value) / FM_clock"
+    },
+
+    "fm_channels": {
+      "ch1": { "address_port": 0, "key_on_bit": 0 },
+      "ch2": { "address_port": 0, "key_on_bit": 1 },
+      "ch3": { "address_port": 0, "key_on_bit": 2, "special_mode": true },
+      "ch4": { "address_port": 1, "key_on_bit": 4 },
+      "ch5": { "address_port": 1, "key_on_bit": 5 },
+      "ch6_or_dac": { "address_port": 1, "key_on_bit": 6, "note": "Shared with DAC" }
+    },
+
+    "key_on_register": {
+      "address": "0x28",
+      "port": 0,
+      "bits_0_3": "Operator enable (OP1-OP4)",
+      "bits_4_6": "Channel selection (see key_on_bit above)"
+    }
+  },
+
+  "psg_sn76489": {
+    "description": "Texas Instruments SN76489 PSG (4 channels: 3 tone + 1 noise)",
+    "clock_ntsc_hz": 3579545,
+    "clock_pal_hz": 3546893,
+
+    "ports": {
+      "68k": "0xC00011 (write only)",
+      "z80": "0x7F11 (write only)"
+    },
+
+    "registers": {
+      "tone_channels": {
+        "count": 3,
+        "frequency_bits": 10,
+        "frequency_formula": "freq = clock / (32 * tone_value)",
+        "frequency_range": "109.4 Hz (tone=1023) to 111861 Hz (tone=1)",
+        "attenuation_bits": 4,
+        "attenuation_range": "0 (max volume) to 15 (silence)"
+      },
+      "noise_channel": {
+        "frequency_select": "2 bits (clock/512, clock/1024, clock/2048, tone3_freq)",
+        "noise_type": "1 bit (0=periodic, 1=white)",
+        "attenuation_bits": 4
+      }
+    },
+
+    "write_format": {
+      "latch_byte": {
+        "bit_7": "1 (latch flag)",
+        "bits_4_6": "register select (channel * 2 + type: 0=tone, 1=attenuation)",
+        "bits_0_3": "low 4 bits of data"
+      },
+      "data_byte": {
+        "bit_7": "0 (data flag)",
+        "bits_0_5": "high 6 bits of data (tone) or unused (attenuation)"
+      }
+    },
+
+    "channel_register_ids": {
+      "ch0_tone": 0,
+      "ch0_attn": 1,
+      "ch1_tone": 2,
+      "ch1_attn": 3,
+      "ch2_tone": 4,
+      "ch2_attn": 5,
+      "noise_ctrl": 6,
+      "noise_attn": 7
+    }
+  },
+
+  "z80_bus_control": {
+    "halt_port": {
+      "address": "0xA11100",
+      "write_0x0100": "Request Z80 bus (halt Z80)",
+      "write_0x0000": "Release Z80 bus (resume Z80)",
+      "read_bit_0": "0 = Z80 bus taken (halted), 1 = Z80 bus free (running)"
+    },
+    "reset_port": {
+      "address": "0xA11200",
+      "write_0x0000": "Assert Z80 reset (hold in reset)",
+      "write_0x0100": "Deassert Z80 reset (start running)"
+    },
+    "sequence_load_driver": [
+      "1. Request bus (0xA11100 = 0x0100)",
+      "2. Wait for bus taken (read 0xA11100 bit 0 = 0)",
+      "3. Assert reset (0xA11200 = 0x0000)",
+      "4. Copy driver binary to 0xA00000+",
+      "5. Deassert reset (0xA11200 = 0x0100)",
+      "6. Release bus (0xA11100 = 0x0000)",
+      "7. Wait for STATUS.bit7 (READY) at 0xA00102"
+    ]
+  },
+
+  "bank_register": {
+    "address_z80": "0x6000",
+    "address_68k": "0xA06000",
+    "width_bits": 9,
+    "write_protocol": "9 sequential writes, bit 0 of each byte, MSB first",
+    "window_mapped": "0x8000-0xFFFF in Z80 address space",
+    "window_size_bytes": 32768,
+    "max_banks": 512,
+    "max_addressable_bytes": 16777216,
+    "write_cost_z80_cycles": "~45 minimum (9 writes * 5 cycles each)",
+    "sgdk_function": "Z80_setBank(u16 bank)"
+  },
+
+  "sample_alignment_requirements": {
+    "pcm_8bit": {
+      "alignment": 256,
+      "length_multiple": 256,
+      "format": "8-bit signed (-128 to 127)",
+      "drivers": ["Z80_DRIVER_PCM", "Z80_DRIVER_PCM4", "Z80_DRIVER_XGM", "Z80_DRIVER_XGM2"]
+    },
+    "dpcm_4bit": {
+      "alignment": 128,
+      "length_multiple": 128,
+      "format": "4-bit delta packed (2 samples per byte)",
+      "drivers": ["Z80_DRIVER_DPCM2"]
+    }
+  },
+
+  "dma_audio_interaction": {
+    "vdp_dma_halts_z80": true,
+    "68k_z80_ram_access_halts_z80": true,
+    "typical_dma_per_frame_vblank": {
+      "tile_upload": "~20-40 scanlines equivalent",
+      "palette_update": "~1-2 scanlines",
+      "sprite_table": "~2-4 scanlines"
+    },
+    "z80_cycles_lost_per_scanline_dma": "~228 Z80 cycles",
+    "protection_mechanisms": {
+      "Z80_setBusProtection": "Z80 writes signal address when safe to access",
+      "Z80_setForceDelayDMA": "Adds ~3 scanline delay before DMA to protect PSG writes",
+      "Z80_enableBusProtection": "Global enable",
+      "Z80_disableBusProtection": "Global disable"
+    }
+  }
+}

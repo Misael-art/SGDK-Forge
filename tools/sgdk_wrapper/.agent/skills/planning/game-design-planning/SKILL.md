@@ -19,6 +19,7 @@ Regra:
 - `feature_scope_map`
 - `scene_roadmap`
 - `first_playable_slice`
+- `route_decision_record` seed para o primeiro slice tecnico
 - `front_end_profile`
 - `scene_transition_card` seed quando houver troca de cena, zona, ato ou estado visual com peso dramatico/tecnico
 - `gdd_seed`
@@ -56,6 +57,7 @@ Se o projeto ja existir e esses documentos sustentarem o escopo atual, prefira c
 - `feature_scope_map`
 - `scene_roadmap`
 - `first_playable_slice`
+- `route_decision_record` seed
 - `front_end_profile`
 - `scene_transition_card` seed quando houver transicao formal prevista
 - `gdd_seed`
@@ -65,7 +67,7 @@ Se o projeto ja existir e esses documentos sustentarem o escopo atual, prefira c
 ### Mapeamento recomendado para docs
 
 - `project_brief`, `core_loop_statement`, `feature_scope_map` e `front_end_profile` -> `doc/11-gdd.md`
-- `scene_roadmap`, `first_playable_slice`, `scene_transition_card` seed e `scene_spec_seed` -> `doc/13-spec-cenas.md`
+- `scene_roadmap`, `first_playable_slice`, `route_decision_record`, `scene_transition_card` seed e `scene_spec_seed` -> `doc/13-spec-cenas.md`
 - `roteiro_scope` -> `doc/12-roteiro.md`
 
 Regra:
@@ -84,6 +86,7 @@ Regra:
 - a ordem de cenas e o papel de cada uma estao claros o suficiente para handoff
 - transicoes formais entre cenas, zonas, atos, menus ou cutscenes tem causa, controle do jogador e fallback declarados quando aplicavel
 - menu, title screen e front-end ja tem papel declarado quando aplicavel
+- o primeiro slice tem `route_decision_record` suficiente para escolher skill, ferramenta e familia tecnica antes de asset/runtime
 - arte, runtime e budget conseguem trabalhar sem adivinhacao de objetivo
 
 ---
@@ -161,15 +164,31 @@ Emitir `scene_roadmap` com:
 
 Se a cena inicial ainda nao estiver clara, nao abrir runtime.
 
-### 7. Delimitar narrativa
+### 7. Emitir o route decision record inicial
+
+Antes de abrir arte, conversor ou runtime, emitir um `route_decision_record` seed para a primeira cena/slice:
+
+- `dominant_route`: `planning | art_diagnostic | source_translation | curated_builder | conversion_batch | scene_architecture | budget | runtime | validation`
+- `first_skill`: skill que deve ser usada primeiro
+- `first_tool`: ferramenta ou script canonico esperado, quando existir
+- `resource_loading_model`: `full_resident`, `scene_local_preload`, `tilemap_streaming`, `animation_window_streaming` ou `fallback_reduced_residency`
+- `asset_strategy`: fonte de assets, builder esperado, ou motivo para diagnostico antes de converter
+- `evidence_required`: prova minima antes de promover a etapa
+- `forbidden_shortcuts_until_evidence`: atalhos bloqueados ate a rota ser provada
+
+Regra de inteligencia: este registro nao e burocracia. Ele impede que projeto novo comece por tentativa local quando ja existe skill, builder, manifesto, baseline interno ou ferramenta canonica.
+
+### 8. Delimitar narrativa
 
 Quando houver historia, `roteiro_scope` deve dizer:
 
 - quais cenas/telas precisam de texto neste slice
 - qual tom geral
+- se o texto e leitura simples ou precisa de painel, balao, retrato, hype text, typewriter voice ou flavor text
 - o que fica fora por enquanto
 
 Nao abrir dialogo aprovado sem saber em que slice ele cabe.
+Nao abrir texto expressivo sem `text_presentation_profile` quando ele tiver peso dramatico, diegetico ou cinetico.
 
 ---
 
@@ -181,6 +200,7 @@ Nao abrir dialogo aprovado sem saber em que slice ele cabe.
 - confundir wishlist com `feature_scope_map`
 - escrever `scene_spec_seed` sem `first_playable_slice`
 - abrir arte sem cena inicial escolhida
+- abrir conversao de imagem, OCR/crop manual, `resources.res` ou runtime sem `route_decision_record` quando a rota tecnica ainda nao estiver declarada
 
 ---
 
@@ -193,6 +213,7 @@ Quando responder usando esta skill, entregar algo suficientemente concreto para 
 - `feature_scope_map`
 - `scene_roadmap`
 - `first_playable_slice`
+- `route_decision_record`
 - `front_end_profile`
 - `scene_transition_card` seed quando houver transicao formal
 - `roteiro_scope`

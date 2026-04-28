@@ -1,0 +1,11 @@
+interface:
+  display_name: "Z80 PCM Custom Driver"
+  short_description: "Drivers Z80 customizados, streaming PCM, DAC, PSG e audio AAA alem do XGM2"
+  brand_color: "#2E7D32"
+  default_prompt: "Use $z80-pcm-custom-driver para projetar drivers Z80 customizados, streaming PCM avancado, manipulacao de DAC/YM2612, controle PSG e qualquer tecnica de audio AAA que va alem do wrapper XGM2 padrao."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

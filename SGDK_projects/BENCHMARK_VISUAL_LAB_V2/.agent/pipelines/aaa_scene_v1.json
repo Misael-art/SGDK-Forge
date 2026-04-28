@@ -28,6 +28,7 @@
         "roteiro_scope",
         "ui_decision_card",
         "glyph_manifest",
+        "ui_decision_card.text_presentation_profile",
         "scene_transition_card",
         "feedback_fx_decision_card",
         "boss_setpiece_card",
@@ -41,6 +42,7 @@
         "quando o projeto nascer do zero ou o escopo precisar de reseed, planning/game-design-planning emitiu seeds suficientes para GDD, roteiro e spec",
         "quando houver HUD/UI formal, o ui_decision_card foi declarado antes da arte e do runtime",
         "quando houver UI com peso tipografico real, o ui_decision_card declara anexo tipografico e glyph_manifest antes da arte e do runtime",
+        "quando houver texto dramatico, fala, alerta cinetico ou flavor text, o ui_decision_card declara text_presentation_profile antes da arte e do runtime",
         "quando houver transicao formal, o scene_transition_card foi declarado antes da arte e do runtime",
         "quando houver raster/luz/particulas/feedback formal, o feedback_fx_decision_card foi declarado antes da arte e do runtime",
         "quando houver boss ou setpiece formal, o boss_setpiece_card foi declarado antes da arte e do runtime",
@@ -104,6 +106,7 @@
       ],
       "optional_artifacts": [
         "ui_decision_card",
+        "ui_decision_card.text_presentation_profile",
         "scene_transition_card",
         "feedback_fx_decision_card",
         "boss_setpiece_card",
@@ -120,6 +123,7 @@
         "se houver alternativas, a cena continua travada pelo mesmo shared_canvas_contract",
         "quando houver HUD/UI formal, o ui_decision_card congela plane ownership, arquitetura e fallback",
         "quando houver peso tipografico real, o mesmo card congela font_render_mode, charset_profile e fallback_font_plan",
+        "quando houver texto expressivo, o mesmo card congela text_surface_class, reading_context, layout_anchor, text_audio_plan e fallback",
         "quando houver transicao formal, o scene_transition_card congela continuidade, camera, ownership e fallback",
         "quando houver boss/setpiece ou tilemap avancado, os cards congelam planos, rota, ownership, budget preliminar e fallback",
         "quando houver feedback FX de cena, o feedback_fx_decision_card congela leitura alvo, classe de FX, owner e fallback"
@@ -182,6 +186,7 @@
         "translation_report",
         "benchmark escolhido",
         "ui_decision_card (quando houver HUD/UI formal)",
+        "ui_decision_card.text_presentation_profile (quando houver texto expressivo)",
         "scene_transition_card (quando houver transicao formal)",
         "feedback_fx_decision_card (quando houver FX/particulas/raster/luz formal)",
         "boss_setpiece_card (quando houver boss/setpiece formal)",
@@ -206,6 +211,7 @@
         "se houver multiplas rotas validas, a rota preferida ficou declarada",
         "quando houver HUD/UI formal, attention_profile e hud_density ficaram julgados",
         "quando houver UI com tipografia relevante, typography_role e contraste de leitura ficaram julgados",
+        "quando houver texto expressivo, text_surface_class, ritmo, ancoragem, voz de texto e legibilidade ficaram julgados",
         "quando houver transicao formal, transition_role, continuidade e clareza visual ficaram julgados",
         "quando houver feedback FX formal, gameplay_signal, readability_target e excesso visual ficaram julgados",
         "quando houver boss/setpiece, telegraph, weak point e impacto visual ficaram julgados",
@@ -230,6 +236,7 @@
         "layout real de planos",
         "configuracao real de SPR_initEx",
         "ui_decision_card (quando houver HUD/UI formal)",
+        "ui_decision_card.text_presentation_profile (quando houver texto expressivo)",
         "scene_transition_card (quando houver transicao formal)",
         "feedback_fx_decision_card (quando houver FX/particulas/raster/luz formal)",
         "boss_setpiece_card (quando houver boss/setpiece formal)",
@@ -248,6 +255,7 @@
         "numeros de VRAM anexados",
         "quando houver HUD/UI formal, o laudo responde ao ui_architecture_choice e ao ownership declarado",
         "quando houver anexo tipografico, o laudo responde a font_render_mode, glyph_budget_class e fallback_font_plan",
+        "quando houver texto expressivo, o laudo responde a glyph cache, paineis, baloes, retratos, text_audio_plan e fallback",
         "quando houver transicao formal, o laudo responde ao continuity_model, fx_ownership_map, audio_transition_plan e fallback_plan",
         "quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior, o laudo responde aos respectivos cards, pior quadro, ownership e fallback",
         "o laudo separa rom_asset_cost, vram_resident_set, load_time_dma_cost, per_frame_dma_cost, active_animation_window, scene_local_scope e scanline_sprite_pressure",
@@ -257,6 +265,7 @@
         "budget_undefined",
         "budget_doc_mismatch",
         "ui_ownership_undefined",
+        "text_presentation_contract_missing",
         "transition_contract_missing",
         "feedback_fx_contract_missing",
         "boss_setpiece_contract_missing",
@@ -282,6 +291,7 @@
         "src/**/*.c",
         "budget_decision",
         "ui_decision_card (quando houver HUD/UI formal)",
+        "ui_decision_card.text_presentation_profile (quando houver texto expressivo)",
         "scene_transition_card (quando houver transicao formal)",
         "feedback_fx_decision_card (quando houver FX/particulas/raster/luz formal)",
         "boss_setpiece_card (quando houver boss/setpiece formal)",
@@ -301,6 +311,7 @@
         "runtime alinhado ao budget",
         "quando houver HUD/UI formal, WINDOW/H-Int/FX seguem plane_ownership_map, fx_ownership_map e fallback",
         "quando houver anexo tipografico, o runtime segue font_render_mode, font_owner e fallback_font_plan",
+        "quando houver texto expressivo, o runtime segue text_surface_class, narrative_timing_model, layout_anchor, text_audio_plan, teardown e fallback",
         "quando houver transicao formal, runtime_state_handoff, teardown_reset_plan e fallback_plan ficam rastreaveis",
         "quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior, runtime_decision_log cita cards, owner, teardown e fallback",
         "runtime_decision_log declara o modelo full_resident, scene_local_preload, animation_window_streaming, tilemap_streaming ou fallback_reduced_residency quando houver diferenca entre asset total, set residente e upload por frame",
@@ -309,6 +320,7 @@
       "blocking_statuses": [
         "runtime_without_budget",
         "ui_runtime_contract_missing",
+        "text_presentation_runtime_contract_missing",
         "transition_runtime_contract_missing",
         "feedback_fx_runtime_contract_missing",
         "boss_setpiece_runtime_contract_missing",
@@ -328,20 +340,28 @@
       "inputs": [
         "out/rom.bin",
         "out/logs/build_output.log",
-        "doc/changelog/changelog.md"
+        "doc/changelog/changelog.md",
+        "out/logs/audio_validation_report.json (quando houver audio declarado em .res)"
       ],
       "required_artifacts": [
         "out/logs/validation_report.json"
+      ],
+      "optional_artifacts": [
+        "out/logs/audio_validation_report.json"
       ],
       "entry_conditions": [
         "build_evidence"
       ],
       "exit_conditions": [
         "summary.errors == 0",
+        "quando houver audio declarado em .res, out/logs/audio_validation_report.json existe, nao esta stale e foi absorvido pelo validation_report",
         "nenhum blocker de fechamento ativo"
       ],
       "blocking_statuses": [
         "agent_context_degraded",
+        "audio_validation_missing",
+        "audio_validation_stale",
+        "audio_validation_failed",
         "budget_doc_mismatch",
         "visual_gate_blocked",
         "emulator_evidence_stale",

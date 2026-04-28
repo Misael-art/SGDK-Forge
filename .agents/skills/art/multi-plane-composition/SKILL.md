@@ -25,9 +25,11 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - tilemap avancado com streaming, metatiles, foreground priority ou rota complexa
 - compare entre curadoria offline e prova em ROM
 - decisao entre multi-plano real, `compare_flat` ou foreground via sprite graft
+- cena AAA em projeto novo/reseed com assets grandes, fonte de imagem forte ou referencia interna a adaptar
 
 ## Entregas obrigatorias
 
+- `route_decision_record` quando a familia tecnica ainda nao estiver congelada
 - `depth_role_map`
 - `composition_schema`
 - `layer_plan`
@@ -49,6 +51,7 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 
 - mapa de composicao ou referencia equivalente
 - spec da cena
+- `route_decision_record` ou `scene_architecture_triage` quando houver chance honesta de `aaa_layered`
 - leitura previa do budget analyst
 - `scene_transition_card` seed quando houver transicao espacial ou visual formal
 - `boss_setpiece_card` ou `advanced_tilemap_design_card` seed quando houver boss/tilemap formal
@@ -58,6 +61,7 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - `depth_role_map`
 - `composition_schema`
 - `layer_plan`
+- `resource_topology_plan` quando houver imagem/cenario maior que a janela efetiva da cena
 - `shared_canvas_contract`
 - `hardware_budget_review`
 - `delivery_findings`
@@ -67,6 +71,7 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 ### Passa quando
 
 - papeis de `BG_A`, `BG_B`, foreground e fallback de ROM ficaram declarados
+- a rota entre `full_resident`, `scene_local_preload`, `tilemap_streaming`, `panel streaming` ou `compare_flat` ficou declarada antes de runtime
 - quando houver alternativas, elas continuam pertencendo a mesma cena e mesma base espacial
 - quando houver transicao formal, seam, camera, continuidade de plano e fallback visual ficam declarados
 - quando houver boss/setpiece, telegraph, weak point, plano dominante e fallback ficam declarados
@@ -77,6 +82,7 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 
 - entregar o `layer_plan` para `art-translation-to-vdp`
 - entregar o `hardware_budget_review` preliminar para `megadrive-vdp-budget-analyst`
+- entregar `resource_topology_plan` para builders/conversores quando a cena exigir paineis, metatiles ou streaming
 
 ## Regras canonicas
 
@@ -86,6 +92,8 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - toda layer semantica compartilha a mesma base espacial
 - composicao e por alpha/matte controlado, nao por soma bruta
 - promocao para ROM exige budget honesto e pode pedir `compare_flat`
+- `WINDOW` e HUD/dialogo/plano fixo; nao usar como mascara de foreground/oclusao so para esconder problema de rota
+- imagem-fonte grande nao vira `IMAGE` inteira por default; primeiro medir janela visivel, paineis candidatos e tiles unicos locais
 
 ## Exploracao de rotas sem quebrar a cena
 
@@ -109,6 +117,21 @@ Se houver rota alternativa:
 - emitir `route_family_matrix`
 - declarar o que muda e o que fica travado
 - entregar a decisao congelada em `locked_composition_direction` antes do runtime
+- registrar se a tecnica vem de referencia interna, de builder canonico, de fonte traduzida ou de nova curadoria
+
+## Resource Topology Plan
+
+Quando a cena tiver fonte visual grande, parallax, foreground/oclusao ou camera com deslocamento, a composicao deve produzir um plano de topologia antes de qualquer `resources.res` ou runtime:
+
+- `source_extent`: tamanho e papel da imagem/mundo total
+- `visible_window`: regiao efetivamente vista por frame
+- `motion_path`: direcao, amplitude e cadencia de camera/scroll
+- `panel_candidates`: larguras/alturas testadas e tiles unicos por painel
+- `resident_window`: conjunto maximo simultaneo de BG_A, BG_B, sprites, fonte e HUD
+- `streaming_boundary`: onde a troca de painel/metatile acontece e como o seam fica escondido
+- `detail_priority`: onde a cena merece mais detalhe e onde pode simplificar sem perder leitura
+
+A filosofia maximalista nao significa carregar o mundo inteiro: significa escolher a topologia que preserva detalhe onde o jogador olha.
 
 ## Gates de aprovacao
 

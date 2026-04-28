@@ -91,6 +91,7 @@ Regra:
 - `pipelines/`: jornadas machine-readable
 - `scripts/`: automacoes de status, auditoria, changelog e verificacao
 - `lib_case/`: few-shots pedagogicos e referencias reproduziveis
+- `../validate_audio.ps1`: auditoria canonica de assets de audio declarados em `.res`, sempre com saida em `out/logs/`
 
 ### Camadas de compatibilidade e descoberta
 
@@ -189,6 +190,12 @@ Para trabalho de cena visual, a cadeia oficial e:
 6. `code/sgdk-runtime-coder`
 7. `validate_resources.ps1`
 8. BlastEm + `workflows/build-validate.md`
+
+Quando a cena tiver audio senior, ownership PCM, stinger, ambience ou driver customizado, a trilha oficial passa a incluir tambem:
+
+- `code/xgm2-audio-director`
+- `code/z80-pcm-custom-driver`
+- `../validate_audio.ps1` antes do fechamento em `validate_resources.ps1`
 
 Nenhuma etapa pode ser pulada.
 

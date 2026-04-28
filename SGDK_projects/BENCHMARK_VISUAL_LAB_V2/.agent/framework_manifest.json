@@ -1,6 +1,6 @@
 {
   "framework_name": "MegaDrive_DEV SGDK Agent Framework",
-  "framework_version": "2026.04.20",
+  "framework_version": "2026.04.23",
   "schema_version": 1,
   "canonical_root": "tools/sgdk_wrapper/.agent",
   "tracked_paths": [
@@ -20,6 +20,8 @@
     "skills/governance/doc-sync-audit",
     "skills/hardware/megadrive-vdp-budget-analyst",
     "skills/code/sgdk-runtime-coder",
+    "skills/code/xgm2-audio-director",
+    "skills/code/z80-pcm-custom-driver",
     "skills/README.md",
     "workflows/build-validate.md",
     "workflows/production-loop.md",
@@ -35,6 +37,10 @@
   ],
   "pipelines": [
     "pipelines/aaa_scene_v1.json"
+  ],
+  "workspace_tooling_paths": [
+    "../validate_resources.ps1",
+    "../validate_audio.ps1"
   ],
   "required_project_artifacts": [
     "doc/10-memory-bank.md",

@@ -64,6 +64,7 @@ Termos canonicos:
 - configuracao real de `SPR_initEx`
 - layout real de planos
 - `ui_decision_card` quando houver HUD/UI formal
+- `text_presentation_profile` quando texto, fala, alerta cinetico ou flavor tiver peso dramatico
 - `scene_transition_card` quando houver transicao formal
 - `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` ou `audio_architecture_card` quando houver espetaculo runtime formal
 
@@ -73,6 +74,7 @@ Termos canonicos:
 - numeros de VRAM usados no parecer
 - separacao explicita entre `rom_asset_cost`, `vram_resident_set`, `load_time_dma_cost`, `per_frame_dma_cost`, `active_animation_window`, `scene_local_scope` e `scanline_sprite_pressure`
 - `budget_decision` alinhado ao `ui_architecture_choice` quando houver UI formal
+- `budget_decision` alinhado a paineis, baloes, retratos, texto cinetico, glyph cache e SFX de texto quando houver apresentacao expressiva
 - `budget_decision` alinhado ao `continuity_model` quando houver transicao formal
 - `budget_decision` alinhado aos cards de feedback FX, boss/setpiece, tilemap avancado e audio senior quando existirem
 - `glyph_budget_class` alinhado ao `font_render_mode` quando houver anexo tipografico
@@ -86,6 +88,7 @@ Termos canonicos:
 - o laudo nao confunde DMA de preload/loading com DMA por frame em gameplay
 - o laudo considera scene-local loading, streaming e active animation window antes de concluir `nao cabe`
 - quando houver UI formal, ownership e fallback nao contradizem o laudo
+- quando houver texto expressivo, glyph cache, tiles temporarios, sprites, CRAM, SFX e teardown nao contradizem o laudo
 - quando houver transicao formal, `fx_ownership_map`, `teardown_reset_plan` e `fallback_plan` nao contradizem o laudo
 - quando houver espetaculo runtime formal, pior quadro, scanline pressure, H-Int, CRAM, DMA, sprites, tile churn e audio ownership ficam auditados
 - quando houver anexo tipografico, `glyph_manifest`, `charset_profile` e `fallback_font_plan` nao contradizem o laudo
@@ -106,11 +109,17 @@ Termos canonicos:
 - se a rota for `sprite_hud`, medir scanline pressure contra o pior quadro de gameplay
 - se a rota for `raster_enhanced_ui`, exigir `fx_ownership_map`, reset simetrico e fallback honesto
 - se houver anexo tipografico, ler `font_render_mode`, `charset_profile` e `glyph_budget_class` antes de aprovar custo
+- se houver `text_presentation_profile`, auditar `text_surface_class`, `layout_anchor`, `text_audio_plan`, `asset_budget_plan`, `teardown_reset_plan` e fallback
 - `fixed_custom_hud_font`
   - auditar residency de tiles, custo de `WINDOW` e subset real de glifos
 - `variable_width_tidytext`
   - auditar churn de tiles temporarios, DMA por update, cadence de redraw e reset do cache
 - sem `glyph_manifest`, reprovar charset expandido ou compositor proporcional como rota canonica
+- `panel_sequence_text` reprova sem budget de tiles por painel e fallback
+- `diegetic_speech_balloon` reprova se aumentar scanline pressure ou cobrir HUD/jogador sem politica
+- `animated_portrait_dialog` reprova sem medir retrato, mouth frames, blink e cache residente
+- `kinetic_hype_text` reprova se competir com gameplay ou depender de H-Int/CRAM sem owner
+- `typewriter_voice_text` reprova se SFX de texto competir com dano, alerta ou boss cue
 
 ## Quando houver transicao formal
 
@@ -146,6 +155,9 @@ Termos canonicos:
   - auditar metatile reuse, streaming boundary, dirty uploads, foreground priority e colisao visual
   - separar mundo total, janela visivel, resident set local e DMA de streaming
   - reprovar streaming sem seam budget e fallback
+- `route_decision_record`
+  - confirmar se o modelo declarado (`full_resident`, `scene_local_preload`, `tilemap_streaming`, `animation_window_streaming`, `fallback_reduced_residency`) bate com os numeros medidos
+  - bloquear runtime quando a rota declara streaming mas o budget foi calculado como imagem residente inteira, ou vice-versa
 - `audio_architecture_card`
   - auditar ownership de canal, prioridade de SFX, ambience, stinger, pause/resume e custo de PCM
 - sem card formal, reprovar tecnica avancada como rota canonica
@@ -209,10 +221,28 @@ Configs comuns (maps_addr = 0xC000 em todas):
 
 - Cena acima do teto pratico do plano nao deve depender de wrap acidental.
 - Se o stage passar de ~512 px no arranjo do plano usado, tratar streaming guiado pela camera como resposta canônica.
+- Imagem/painel grande nao deve ser reprovado nem aprovado pelo tamanho total antes de medir a janela ativa e a topologia de paineis.
 - Medir:
+  - tamanho do mundo total
+  - tamanho da janela visivel
+  - candidatos de painel/metatile
+  - tiles unicos por candidato no pior trecho
+  - resident set simultaneo de BG_A + BG_B + sprites + fonte/HUD
   - bytes por coluna ou bloco
   - tolerancia de velocidade da camera
   - risco de seam
+
+### Painel, mosaico e detalhe central
+
+Para cenas AAA com fonte grande, parallax, foreground/oclusao ou inspiracao em engines internas como BLAZE_ENGINE, o budget deve avaliar a tecnica, nao copiar cegamente o tamanho do asset:
+
+- extrair o principio estrutural da referencia: fatias, cache rotativo, paineis, metatiles, prioridade de foreground, seam escondido
+- medir pelo menos 2-3 candidatos de painel antes de escolher a rota
+- privilegiar maior detalhe na regiao central/critica da camera e simplificacao honesta nas bordas ou fundos distantes
+- separar `world_total_unique_tiles` de `resident_window_unique_tiles`
+- bloquear `IMAGE` full-resident quando o board inteiro estoura mas uma janela streamada caberia com margem
+
+Se o laudo disser `nao cabe`, ele deve dizer qual das opcoes falhou: resident set local, DMA por frame, seam/camera, sprites/scanline, paleta ou runtime complexity. Sem isso, o parecer ainda esta incompleto.
 
 ### Streaming de animacao e janela ativa
 

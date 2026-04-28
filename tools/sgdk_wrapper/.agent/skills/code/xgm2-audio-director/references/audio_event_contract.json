@@ -1,0 +1,172 @@
+{
+  "_meta": {
+    "title": "Audio Event Contract — XGM2 Gameplay Integration",
+    "version": "1.0.0",
+    "purpose": "Formal specification for audio event dispatch, channel routing, and state management",
+    "last_updated": "2026-04-23"
+  },
+
+  "event_dispatch_model": {
+    "description": "Gameplay code dispatches audio events by ID. Audio director routes to correct channel, respects priority, and manages state.",
+    "flow": [
+      "1. Gameplay raises event: audio_play(EVENT_ID, priority)",
+      "2. Audio director checks channel ownership map",
+      "3. If target channel busy: compare priority (higher wins)",
+      "4. If preempting: stop current, start new",
+      "5. If yielding: queue or discard (configurable)",
+      "6. Update audio state machine"
+    ]
+  },
+
+  "event_categories": {
+    "bgm": {
+      "channel": "XGM2 FM+PSG tracks",
+      "ownership": "EXCLUSIVE — only one BGM at a time",
+      "transition": "fadeOut → load → fadeIn (or cross-fade via fadeTo)",
+      "priority": "N/A (BGM doesn't compete with SFX channels)",
+      "events": [
+        { "id": "BGM_TITLE", "description": "Title screen music", "loop": true },
+        { "id": "BGM_STAGE_N", "description": "Stage N music (parameterized)", "loop": true },
+        { "id": "BGM_BOSS", "description": "Boss encounter music", "loop": true },
+        { "id": "BGM_VICTORY", "description": "Victory jingle", "loop": false },
+        { "id": "BGM_GAMEOVER", "description": "Game over music", "loop": false },
+        { "id": "BGM_SILENCE", "description": "Stop BGM (dramatic pause)", "loop": false }
+      ]
+    },
+    "sfx": {
+      "channel": "XGM2 PCM CH1 (primary SFX)",
+      "ownership": "SHARED — priority-based preemption",
+      "priority_levels": {
+        "0-3": "ambient/background SFX (wind, footsteps)",
+        "4-7": "standard SFX (jump, land, collect)",
+        "8-11": "important SFX (hit, damage, power-up)",
+        "12-14": "critical SFX (boss cue, alarm, death)",
+        "15": "voice/cinematic (maximum)"
+      },
+      "events": [
+        { "id": "SFX_JUMP", "priority": 5, "channel": "CH1" },
+        { "id": "SFX_LAND", "priority": 4, "channel": "CH1" },
+        { "id": "SFX_HIT", "priority": 9, "channel": "CH1" },
+        { "id": "SFX_DAMAGE", "priority": 10, "channel": "CH1" },
+        { "id": "SFX_COLLECT", "priority": 6, "channel": "CH1" },
+        { "id": "SFX_MENU_SELECT", "priority": 7, "channel": "CH1" },
+        { "id": "SFX_EXPLOSION", "priority": 11, "channel": "CH1" },
+        { "id": "SFX_BOSS_CUE", "priority": 13, "channel": "CH1" },
+        { "id": "SFX_DEATH", "priority": 14, "channel": "CH1" }
+      ]
+    },
+    "voice": {
+      "channel": "XGM2 PCM CH2 (dedicated voice)",
+      "ownership": "DEDICATED — voice-only, highest PCM priority",
+      "events": [
+        { "id": "VOICE_ROUND_ANNOUNCE", "priority": 15, "channel": "CH2" },
+        { "id": "VOICE_BOSS_NAME", "priority": 15, "channel": "CH2" },
+        { "id": "VOICE_GAME_OVER", "priority": 15, "channel": "CH2" },
+        { "id": "VOICE_TYPEWRITER_TICK", "priority": 3, "channel": "CH2" }
+      ]
+    },
+    "ambience": {
+      "channel": "XGM2 PCM CH3 (ambient/secondary)",
+      "ownership": "SHARED — lowest priority, interruptible",
+      "events": [
+        { "id": "AMB_WIND", "priority": 1, "channel": "CH3", "loop": true },
+        { "id": "AMB_RAIN", "priority": 1, "channel": "CH3", "loop": true },
+        { "id": "AMB_FIRE", "priority": 2, "channel": "CH3", "loop": true },
+        { "id": "AMB_CROWD", "priority": 1, "channel": "CH3", "loop": true }
+      ]
+    },
+    "stinger": {
+      "channel": "Preempts BGM momentarily via fadeOut/pause",
+      "ownership": "TEMPORARY — short musical cue, then BGM resumes",
+      "events": [
+        { "id": "STINGER_BOSS_INTRO", "description": "Boss encounter musical sting" },
+        { "id": "STINGER_SECRET", "description": "Secret discovered jingle" },
+        { "id": "STINGER_CHECKPOINT", "description": "Checkpoint reached" }
+      ],
+      "implementation": "XGM2_fadeOutAndPause(15) → play stinger → wait → XGM2_resume()"
+    }
+  },
+
+  "pause_resume_state_machine": {
+    "states": {
+      "AUDIO_ACTIVE": "Normal playback (BGM + SFX + ambience)",
+      "AUDIO_PAUSED": "All audio paused (gameplay pause menu)",
+      "AUDIO_BGM_ONLY": "SFX/ambience muted (cutscene, dramatic moment)",
+      "AUDIO_STINGER": "BGM paused, stinger playing",
+      "AUDIO_FADE_OUT": "Fading to silence (scene transition)",
+      "AUDIO_SILENCE": "No audio (dramatic pause, loading)"
+    },
+    "transitions": {
+      "ACTIVE → PAUSED": "XGM2_pause() + stop all PCM channels",
+      "PAUSED → ACTIVE": "XGM2_resume() + restart ambient loops",
+      "ACTIVE → STINGER": "XGM2_fadeOutAndPause(N) + play stinger on BGM track",
+      "STINGER → ACTIVE": "XGM2_resume() + XGM2_fadeIn(N)",
+      "ACTIVE → FADE_OUT": "XGM2_fadeOutAndStop(N) + stop all PCM",
+      "FADE_OUT → SILENCE": "Automatic (fade completes)",
+      "SILENCE → ACTIVE": "XGM2_play(new_track) + XGM2_fadeIn(N) + restart ambience",
+      "ANY → BGM_ONLY": "Stop PCM CH1-3, keep BGM"
+    },
+    "invariants": [
+      "Pause MUST affect ALL audio layers (BGM + PCM)",
+      "Resume MUST restore ambient loops that were playing before pause",
+      "Stinger MUST have defined max duration with auto-fallback to resume",
+      "Scene transition MUST stop all audio before loading new scene audio",
+      "NEVER leave orphan PCM playing after scene cleanup"
+    ]
+  },
+
+  "typewriter_voice_spec": {
+    "description": "System for text display with per-character/syllable sound ticks",
+    "rules": {
+      "channel": "CH2 (voice channel, low priority tick)",
+      "priority": 3,
+      "cadence": "1 tick per 2-4 characters (configurable per speaker)",
+      "silence_on_punctuation": "Period = 200ms, Comma = 100ms, Exclamation = 150ms",
+      "speaker_variation": "Different speakers get different tick samples",
+      "cancellation": "Any SFX priority >= 8 cancels typewriter ticks instantly",
+      "dramatic_silence": "Set cadence to 0 for dramatic text (no tick sound)"
+    },
+    "implementation_pattern": {
+      "tick_counter": "Increment per character drawn",
+      "play_condition": "tick_counter % cadence == 0 AND no higher-priority on CH2",
+      "sample": "Short (10-30ms) tick sample per speaker ID",
+      "sample_rate": "13.3 Khz minimum for clarity"
+    }
+  },
+
+  "loop_integrity_audit": {
+    "description": "Formal audit process for loop-safe playback",
+    "checks": [
+      {
+        "check": "Loop point at zero-crossing",
+        "method": "Inspect last 8 samples before loop end — average amplitude < 5",
+        "severity": "CRITICAL — audible click if failed"
+      },
+      {
+        "check": "Loop start at zero-crossing",
+        "method": "Inspect first 8 samples after loop start — average amplitude < 5",
+        "severity": "CRITICAL"
+      },
+      {
+        "check": "Crossfade at boundary",
+        "method": "4-8 sample crossfade between end and start of loop",
+        "severity": "HIGH — prevents hard transitions"
+      },
+      {
+        "check": "Silence padding",
+        "method": "At least 4 bytes of 0x00 (signed center) at sample end",
+        "severity": "MEDIUM — prevents garbage from alignment padding"
+      },
+      {
+        "check": "Loop count test",
+        "method": "Play loop 100+ iterations in BlastEm, monitor for drift or degradation",
+        "severity": "HIGH — some loops degrade over time due to accumulation"
+      },
+      {
+        "check": "Headphone test",
+        "method": "Human listen with headphones for any audible artifact at loop boundary",
+        "severity": "CRITICAL — final gate"
+      }
+    ]
+  }
+}

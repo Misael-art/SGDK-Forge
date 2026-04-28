@@ -67,7 +67,9 @@ Esta skill senta entre as outras:
 - codigo de runtime alvo
 - laudo vigente de `megadrive-vdp-budget-analyst`
 - contexto de build e emulador
+- `route_decision_record` ou `scene_architecture_triage` quando a cena envolver assets grandes, parallax, foreground/oclusao ou familia tecnica ainda nao congelada
 - `ui_decision_card` quando houver HUD/UI formal
+- `text_presentation_profile` quando texto, fala, alerta cinetico ou flavor tiver peso dramatico
 - `scene_transition_card` quando houver transicao formal
 - `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` ou `audio_architecture_card` quando houver espetaculo runtime formal
 
@@ -84,10 +86,12 @@ Esta skill senta entre as outras:
 ### Passa quando
 
 - a decisao de runtime cita explicitamente o budget que a autorizou
+- runtime nao comeca por tentativa local quando `route_decision_record` ainda esta ausente ou contraditorio
 - a escolha entre `IMAGE`, `MAP`, streaming e `SPR_initEx` fica rastreavel
 - o `runtime_decision_log` declara qual modelo foi usado: `full_resident`, `scene_local_preload`, `animation_window_streaming`, `tilemap_streaming` ou `fallback_reduced_residency`
 - runtime separa custo ROM/compressao, tiles residentes em VRAM, DMA de loading/preload e DMA por frame
 - quando houver UI formal, o runtime cita `ui_architecture_choice`, ownership e fallback usados
+- quando houver texto expressivo, o runtime cita `text_surface_class`, timing, owner, audio, teardown e fallback usados
 - quando houver transicao formal, o runtime cita `continuity_model`, `runtime_state_handoff`, `teardown_reset_plan` e fallback usados
 - quando houver espetaculo runtime formal, o runtime cita cards, owners, budget, teardown e fallback usados
 - quando houver anexo tipografico, o runtime cita `font_render_mode`, `font_owner` e `fallback_font_plan` usados
@@ -126,6 +130,18 @@ Esta skill senta entre as outras:
 - logs operacionais do BlastEm devem sair em JSONL e entrar no handoff como evidencia rastreavel
 - no Windows, o sandbox do BlastEm deve alinhar `HOME/USERPROFILE` com `AppData\\Local` e gravar `blastem.cfg` no ramo efetivo que o emulador resolve
 - `save_path` e `screenshot_path` precisam viver dentro de `ui {}` no cfg gerado; fora disso o BlastEm pode cair no default `$USERDATA/blastem/$ROMNAME`
+
+## Roteamento antes de runtime
+
+Antes de alterar C, `.res` ou builder, confirme qual rota autorizou a cena:
+
+- `full_resident`: cena pequena, tiles unicos medidos e preload suficiente
+- `scene_local_preload`: asset grande no projeto, mas recortado para a cena atual
+- `tilemap_streaming` ou `panel streaming`: mundo/cenario maior que a janela visivel
+- `animation_window_streaming`: sheet/ciclo maior que a janela ativa necessaria
+- `fallback_reduced_residency`: reducao assumida, registrada e visualmente honesta
+
+Se a cena for `aaa_layered` e nao houver `route_decision_record`/`scene_architecture_triage`, pare o runtime e produza esse registro. O agente deve escolher a familia tecnica antes de tentar encaixar assets por tentativa e erro.
 
 ## Classificacao de conhecimento
 
@@ -215,6 +231,7 @@ Regra:
 - usar `IMAGE` quando a arte cabe no plano efetivo e nao pede streaming de mapa
 - usar `MAP_create` quando o cenario for maior que o plano, precisar de scroll de mapa ou streaming
 - nao usar `MAP_create` por reflexo se `VDP_drawImageEx` resolver com menos complexidade
+- nao promover imagem grande como `IMAGE` inteira so porque compila; se o mundo excede a janela efetiva, medir paineis/metatiles e usar streaming antes de integrar
 
 ### `SPR_init` vs `SPR_initEx`
 
@@ -233,6 +250,22 @@ Antes de trocar `IMAGE`, `MAP` ou streaming, o agente deve anexar:
 5. motivo da troca
 
 Sem isso, a mudanca de arquitetura e tentativa cega.
+
+### Escada visual antes de mexer em recursos
+
+Quando sprite/BG existe mas nao aparece ou parece corrompido, investigue nesta ordem:
+
+1. existencia do objeto no runtime (`SPR_addSprite`, ponteiro, contador, callback)
+2. posicao real na tela apos camera/scroll
+3. contrato de coordenadas e dimensoes da API
+4. prioridade/oclusao entre BG_A, BG_B, WINDOW e sprites
+5. paleta e indice transparente
+6. VRAM/tile index/tileset
+7. `resources.res`, compressao e troca de formato
+
+Regra SGDK critica: em `SpriteDefinition`, `w` e `h` no runtime gerado representam dimensoes em pixels, nao contagem de tiles da declaracao `.res`. Nao multiplique por 8 sem verificar o header/struct gerado.
+
+`WINDOW` nao e rota de oclusao de cenario por default. Use `WINDOW` para HUD/dialogo/plano fixo; foreground com oclusao deve ser BG_A com prioridade, sprite graft validado ou outra tecnica declarada no `route_decision_record`.
 
 ### Scene exit reset
 
@@ -283,6 +316,7 @@ Quando houver `ui_decision_card`, o runtime deve:
 - impedir segundo owner implicito de `WINDOW`, `H-Int` ou paleta especial
 - tratar `profile_kind=front_end_profile` como menu/title/front-end formal, nao como excecao improvisada
 - se houver anexo tipografico, consumir `font_render_mode`, `charset_profile`, `font_owner` e `fallback_font_plan` antes de escolher renderer
+- se houver `text_presentation_profile`, consumir `text_surface_class`, `narrative_timing_model`, `layout_anchor`, `speaker_binding`, `text_audio_plan`, `asset_budget_plan`, `teardown_reset_plan` e `fallback_plan` antes de desenhar texto
 - `fixed_custom_hud_font`
   - preferir `VDP_loadFont` ou emissao por tile-index math para HUD, labels e leitura rapida
 - `variable_width_tidytext`
@@ -291,6 +325,18 @@ Quando houver `ui_decision_card`, o runtime deve:
   - reservar para title/menu/front-end com `profile_kind=front_end_profile`
 - nunca usar compositor proporcional caro por frame em HUD de combate
 - `glyph_manifest` fecha o subset real de glifos; sem ele nao subir charset expandido nem cache temporario caro
+- `panel_sequence_text`
+  - pre-carregar ou trocar paineis apenas em cadence segura; fallback e painel unico ou caixa fixa
+- `diegetic_speech_balloon`
+  - usar anchor claro e lifetime curto; nao cobrir hitbox, rota, HUD ou leitura de dano
+- `animated_portrait_dialog`
+  - separar blink, mouth frames e estado emocional; fallback e retrato estatico
+- `kinetic_hype_text`
+  - limitar duracao e registrar owner de sprites, tiles, CRAM ou H-Int
+- `typewriter_voice_text`
+  - revelar texto por cadence declarada e delegar SFX de texto a `xgm2-audio-director` quando houver audio
+- `flavor_text_interaction`
+  - carregar strings reais do `glyph_manifest` e manter limite de leitura por interacao
 
 ## Contrato de Runtime para Menus
 

@@ -61,6 +61,17 @@
 - [quais sistemas ela precisa provar]
 - [qual e o criterio minimo para dizer que o loop existe]
 
+## Route Decision Record
+
+- `context_type`: [projeto_novo | reseed | projeto_existente | cena_nova]
+- `dominant_route`: [planning | art_diagnostic | source_translation | curated_builder | scene_architecture | budget | runtime | validation]
+- `first_skill`: [skill canonica que deve agir primeiro]
+- `first_tool`: [ferramenta/script canonico, se existir]
+- `resource_loading_model`: [full_resident | scene_local_preload | tilemap_streaming | animation_window_streaming | fallback_reduced_residency]
+- `asset_strategy`: [IMAGE | MAP | panels | metatiles | spritesheet window | procedural | mixed]
+- `evidence_required`: [qual relatorio/captura/build prova que a rota esta certa]
+- `forbidden_shortcuts_until_evidence`: [atalhos bloqueados ate a evidencia existir]
+
 ## Escopo atual
 
 - [fase/slice em producao]

@@ -1252,7 +1252,7 @@ def process_res_data_mirror(
 
     previous_state = {}
     if state_path.exists():
-        previous_state = json.loads(state_path.read_text(encoding="utf-8", errors="ignore"))
+        previous_state = json.loads(state_path.read_text(encoding="utf-8-sig", errors="ignore"))
 
     res_root = project_dir / "res"
     raw_sources = collect_recursive_data_files(raw_data_dir, backup_dir)
@@ -1431,7 +1431,7 @@ def process_legacy_resource_mapping(
     assignments, diagnostics = assign_sources(resources, sources)
     previous_state = {}
     if state_path.exists():
-        previous_state = json.loads(state_path.read_text(encoding="utf-8", errors="ignore"))
+        previous_state = json.loads(state_path.read_text(encoding="utf-8-sig", errors="ignore"))
 
     log_event(log_lines, "SCAN", f"modo legado encontrou {len(resources)} recurso(s) e {len(sources)} fonte(s) em data/")
     prepared_assets: list[PreparedAsset] = []

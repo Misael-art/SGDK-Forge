@@ -1,0 +1,38 @@
+﻿{
+  "schema_version": 1,
+  "name": "AXE DE ACO FIGHTER [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
+  "display_name": "AXE DE ACO FIGHTER [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
+  "version": "1.0",
+  "sgdk_version": "2.11",
+  "layout": "flat",
+  "project_root": ".",
+  "sgdk_root": ".",
+  "build_policy": "enabled",
+  "kind": "template",
+  "category": "reference",
+  "notes": "Base oficial pedagogica para novos projetos SGDK com sgdk_wrapper e pipeline canonico de assets.",
+  "scene_regression": {
+    "required": false,
+    "manifest_path": "doc/scene-regression.json",
+    "report_path": "out/logs/scene_regression_report.json",
+    "scenes": []
+  },
+  "scene_contracts": {
+    "source_spec_path": "doc/13-spec-cenas.md",
+    "regression_manifest_path": "doc/scene-regression.json",
+    "compiled_path": "doc/scene-contracts.json",
+    "compile_mode": "lab"
+  },
+  "qa_proof_plan": {
+    "path": "doc/14-plano-de-provas-qa.md",
+    "required_for_new_projects": true
+  },
+  "validation_artifacts": {
+    "validation_report_path": "out/logs/validation_report.json",
+    "runtime_metrics_path": "out/logs/runtime_metrics.json",
+    "scene_budget_report_path": "out/logs/scene_budget_report.json",
+    "scene_regression_report_path": "out/logs/scene_regression_report.json",
+    "emulator_session_path": "out/logs/emulator_session.json"
+  }
+}
+

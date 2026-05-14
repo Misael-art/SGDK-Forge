@@ -1,0 +1,24 @@
+{
+  "project_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\AXE DE ACO FIGHTER [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
+  "scenario_detected": "3_no_art",
+  "summary": "Projeto sem nenhuma arte. Escolha: (A) gerar com IA + converter, ou (B) baixar assets da web + converter.",
+  "total_assets": 0,
+  "ok": 0,
+  "needs_conversion": 0,
+  "inadequate": 0,
+  "absent": 0,
+  "assets": [],
+  "recommended_actions": [
+    "ROTA A: Gerar arte pixel art com IA (Claude Sonnet via API de imagem ou Stable Diffusion) e converter.",
+    "ROTA A: Executar photo2sgdk.exe para converter imagens geradas para formato SGDK.",
+    "ROTA B: Baixar sprite sheets de opengameart.org, itch.io (assets CC0/CC-BY).",
+    "ROTA B: Converter assets baixados com batch_resize_index.py.",
+    "Criar spec JSON em tools/image-tools/specs/ para automatizar o pipeline."
+  ],
+  "conversion_commands": [
+    "# Abrir photo2sgdk GUI:",
+    "call tools\\photo2sgdk\\run.bat",
+    "# OU converter via linha de comando (apos gerar/baixar assets em data/):",
+    "python tools/image-tools/batch_resize_index.py --spec tools/image-tools/specs/AXE DE ACO FIGHTER [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]_spec.json --batch-root F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\AXE DE ACO FIGHTER [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data"
+  ]
+}

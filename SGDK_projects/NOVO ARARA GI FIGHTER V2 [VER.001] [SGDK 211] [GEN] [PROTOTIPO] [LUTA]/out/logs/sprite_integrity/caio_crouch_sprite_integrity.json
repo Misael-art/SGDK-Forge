@@ -1,0 +1,118 @@
+{
+  "schema": "sprite_strip_integrity_report.v1",
+  "tool": "analyze_sprite_strip_integrity.py",
+  "image_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\crouch.png",
+  "mode": "P",
+  "size": [
+    192,
+    112
+  ],
+  "frame_width": 96,
+  "frame_height": 112,
+  "frame_count": 2,
+  "background_rgba": [
+    255,
+    0,
+    255,
+    255
+  ],
+  "background_palette_index": 0,
+  "status": "passed",
+  "summary": {
+    "edge_problem_frames": 0,
+    "matte_problem_frames": 0,
+    "island_problem_frames": 0,
+    "baked_fx_frames": 0,
+    "bbox_width_min": 69,
+    "bbox_width_max": 84,
+    "bbox_height_min": 92,
+    "bbox_height_max": 100
+  },
+  "findings": [],
+  "frames": [
+    {
+      "frame": 1,
+      "non_background_pixels": 3046,
+      "bbox": [
+        13,
+        2,
+        81,
+        101
+      ],
+      "bbox_size": [
+        69,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "largest_component_area": 3046,
+        "non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 3046,
+            "bbox": [
+              13,
+              2,
+              81,
+              101
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 2,
+      "non_background_pixels": 4149,
+      "bbox": [
+        6,
+        10,
+        89,
+        101
+      ],
+      "bbox_size": [
+        84,
+        92
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "largest_component_area": 4149,
+        "non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 4149,
+            "bbox": [
+              6,
+              10,
+              89,
+              101
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "state": "crouch",
+  "scale_tolerance_note": "max_scale_ratio=5.0 allows fight knockdown/getup vertical-to-horizontal pose transitions; clipping/matte/debris gates remain blocking."
+}

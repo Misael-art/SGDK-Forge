@@ -1,0 +1,185 @@
+﻿{
+    "build_version":  "build_v005",
+    "rom_sha256":  "93d02b59721980b69f2d7862d0866818bc371cdd2b71e2984f4261a3c9fb750e",
+    "size_bytes":  262144,
+    "timestamp":  "2026-05-16T05:54:05.1248898-03:00",
+    "source_commit_when_available":  "c8c9156d9507fe690c2fa3d1a57eeae8043aacd0",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  4,
+                               "blocking_statuses":  [
+                                                         "agent_context_degraded",
+                                                         "emulator_evidence_stale"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "runtime_metrics_stale",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "stale",
+                             "performance":  "estavel",
+                             "audio":  "ok",
+                             "hardware_real":  "blastem_reference_emulator"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "lapa_bg_b",
+                                      "version":  "v002",
+                                      "source_path":  "res/bgs/lapa_bg_b.png"
+                                  },
+                                  {
+                                      "asset_id":  "lapa_bg_a",
+                                      "version":  "v002",
+                                      "source_path":  "res/bgs/lapa_bg_a.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hit_spark",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/effects/hit_spark.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_idle",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/idle.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_walk_forward",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/walk_forward.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_walk_back",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/walk_back.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_dash",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/dash.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_crouch",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/crouch.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_jump",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/jump.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_guard",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/guard.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_jab",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/jab.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_medium",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/medium.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_grip",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/grip.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_hip_throw",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/hip_throw.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_hurt",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/hurt.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_knockdown",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/knockdown.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_caio_getup",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/caio/getup.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_idle",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/idle.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_walk_forward",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/walk_forward.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_walk_back",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/walk_back.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_dash",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/dash.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_crouch",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/crouch.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_jump",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/jump.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_guard",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/guard.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_jab",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/jab.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_medium",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/medium.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_grip",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/grip.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_hip_throw",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/hip_throw.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_hurt",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/hurt.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_knockdown",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/knockdown.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_davi_getup",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/characters/davi/getup.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

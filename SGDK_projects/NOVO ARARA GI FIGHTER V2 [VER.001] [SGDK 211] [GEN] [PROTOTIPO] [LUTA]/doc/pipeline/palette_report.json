@@ -1,0 +1,30 @@
+{
+  "schema": "material_palette_report.v1",
+  "date": "2026-05-16",
+  "layout": "res/sprites/characters/<character>/palettes/pal1.png",
+  "policy": "runtime sprites use per-pose strips; palette carriers preserve material slot intent for review",
+  "caio": {
+    "carrier": "res/sprites/characters/caio/palettes/pal1.png",
+    "material_slots": {
+      "0": "transparent_magenta",
+      "1": "outline",
+      "2-8": "white_gi_cool_shadow_to_highlight",
+      "9-10": "navy_rashguard",
+      "11-13": "skin",
+      "14": "green_patch",
+      "15": "yellow_patch"
+    }
+  },
+  "davi": {
+    "carrier": "res/sprites/characters/davi/palettes/pal1.png",
+    "material_slots": {
+      "0": "transparent_magenta",
+      "1": "outline",
+      "2-8": "deep_blue_gi_shadow_to_highlight",
+      "9-10": "dark_inner_garment",
+      "11-13": "skin",
+      "14": "green_patch",
+      "15": "yellow_patch"
+    }
+  }
+}

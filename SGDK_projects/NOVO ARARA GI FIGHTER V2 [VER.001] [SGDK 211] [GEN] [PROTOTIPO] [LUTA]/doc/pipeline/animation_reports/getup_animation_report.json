@@ -1,0 +1,100 @@
+{
+  "asset_id": "caio_getup",
+  "asset_kind": "animation_strip",
+  "source_file": "data/source_art/caio_getup_strip_source.png",
+  "frame_count": 6,
+  "runtime_anim_index": 13,
+  "motion_phase_map": {
+    "startup": [],
+    "active": [],
+    "recovery": [],
+    "looping": false
+  },
+  "frame_delta_report": [
+    {
+      "from": 0,
+      "to": 1,
+      "changed_pixel_ratio": 0.3761,
+      "adjacent_frame_delta": "ok"
+    },
+    {
+      "from": 1,
+      "to": 2,
+      "changed_pixel_ratio": 0.3822,
+      "adjacent_frame_delta": "ok"
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "changed_pixel_ratio": 0.3551,
+      "adjacent_frame_delta": "ok"
+    },
+    {
+      "from": 3,
+      "to": 4,
+      "changed_pixel_ratio": 0.4217,
+      "adjacent_frame_delta": "ok"
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "changed_pixel_ratio": 0.2941,
+      "adjacent_frame_delta": "ok"
+    }
+  ],
+  "contact_sheet": "data/processed/animation_qa/getup_contact_sheet.png",
+  "pivot_overlay": "data/processed/animation_qa/getup_pivot_overlay.png",
+  "preview_gif": "data/processed/animation_qa/getup_preview.gif",
+  "foot_contact_report": [
+    {
+      "frame": 0,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 1,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 2,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 3,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 4,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 5,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    }
+  ],
+  "state_belongs_to_character_fantasy": true,
+  "decision": "accepted_for_runtime_translation"
+}

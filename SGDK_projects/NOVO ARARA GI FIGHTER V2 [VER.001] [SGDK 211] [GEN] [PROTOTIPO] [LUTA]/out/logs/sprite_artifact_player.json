@@ -1,0 +1,33 @@
+{
+  "schema": "sprite_strip_integrity_report.v1",
+  "tool": "analyze_sprite_strip_integrity.py",
+  "status": "passed",
+  "asset_id": "caio_arara_p1",
+  "scope": "all_caio_runtime_pose_strips",
+  "frame_width": 96,
+  "frame_height": 112,
+  "states_checked": [
+    "idle",
+    "walk_forward",
+    "walk_back",
+    "dash",
+    "crouch",
+    "jump",
+    "guard",
+    "jab",
+    "medium",
+    "grip",
+    "hip_throw",
+    "hurt",
+    "knockdown",
+    "getup"
+  ],
+  "state_reports_root": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\sprite_integrity",
+  "scale_tolerance_note": "max_scale_ratio=5.0 because knockdown/getup are deliberate vertical-to-horizontal combat transitions; no clipping, matte, debris, transparency, stray-component, or baked-FX blocker is tolerated.",
+  "summary": {
+    "states_checked": 14,
+    "total_findings": 0,
+    "blocking_findings": 0
+  },
+  "findings": []
+}

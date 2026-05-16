@@ -1,0 +1,81 @@
+{
+  "asset_id": "caio_jab",
+  "asset_kind": "animation_strip",
+  "source_file": "data/source_art/caio_jab_strip_source.png",
+  "frame_count": 4,
+  "runtime_anim_index": 7,
+  "motion_phase_map": {
+    "startup": [
+      0,
+      0
+    ],
+    "active": [
+      1,
+      2
+    ],
+    "recovery": [
+      3,
+      3
+    ],
+    "looping": false
+  },
+  "frame_delta_report": [
+    {
+      "from": 0,
+      "to": 1,
+      "changed_pixel_ratio": 0.33,
+      "adjacent_frame_delta": "ok"
+    },
+    {
+      "from": 1,
+      "to": 2,
+      "changed_pixel_ratio": 0.2687,
+      "adjacent_frame_delta": "ok"
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "changed_pixel_ratio": 0.3521,
+      "adjacent_frame_delta": "ok"
+    }
+  ],
+  "contact_sheet": "data/processed/animation_qa/jab_contact_sheet.png",
+  "pivot_overlay": "data/processed/animation_qa/jab_pivot_overlay.png",
+  "preview_gif": "data/processed/animation_qa/jab_preview.gif",
+  "foot_contact_report": [
+    {
+      "frame": 0,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 1,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 2,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 3,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    }
+  ],
+  "state_belongs_to_character_fantasy": true,
+  "decision": "accepted_for_runtime_translation"
+}

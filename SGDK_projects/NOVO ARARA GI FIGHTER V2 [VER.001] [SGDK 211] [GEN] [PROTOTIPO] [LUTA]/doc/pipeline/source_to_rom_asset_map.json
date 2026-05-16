@@ -1,0 +1,51 @@
+{
+  "schema": "source_to_rom_asset_map.v1",
+  "date": "2026-05-16",
+  "status": "assets_promoted_to_res",
+  "assets": [
+    {
+      "asset_id": "caio_arara_p1",
+      "source_paths": [
+        "data/source_art/caio_idle_strip_source.png",
+        "data/source_art/caio_walk_forward_strip_source.png",
+        "data/source_art/caio_walk_back_strip_source.png",
+        "data/source_art/caio_dash_strip_source.png",
+        "data/source_art/caio_crouch_strip_source.png",
+        "data/source_art/caio_jump_strip_source.png",
+        "data/source_art/caio_guard_strip_source.png",
+        "data/source_art/caio_jab_strip_source.png",
+        "data/source_art/caio_medium_strip_source.png",
+        "data/source_art/caio_grip_strip_source.png",
+        "data/source_art/caio_hip_throw_strip_source.png",
+        "data/source_art/caio_hurt_strip_source.png",
+        "data/source_art/caio_knockdown_strip_source.png",
+        "data/source_art/caio_getup_strip_source.png"
+      ],
+      "rom_asset_path": "res/sprites/characters/caio/*.png",
+      "resources_symbol": "spr_caio_idle, spr_caio_walk_forward, spr_caio_walk_back, spr_caio_dash, spr_caio_crouch, spr_caio_jump, spr_caio_guard, spr_caio_jab, spr_caio_medium, spr_caio_grip, spr_caio_hip_throw, spr_caio_hurt, spr_caio_knockdown, spr_caio_getup",
+      "source_to_rom_visual_match": 8.1,
+      "match_method": "per-pose source crop to 96x112 indexed strips, manual/observational score after material palette pass"
+    },
+    {
+      "asset_id": "davi_arara_p2",
+      "source_paths": [
+        "data/source_art/davi_arara_variant_source.png",
+        "data/source_art/caio_arara_model_sheet_source.png"
+      ],
+      "rom_asset_path": "res/sprites/characters/davi/*.png",
+      "resources_symbol": "spr_davi_idle, spr_davi_walk_forward, spr_davi_walk_back, spr_davi_dash, spr_davi_crouch, spr_davi_jump, spr_davi_guard, spr_davi_jab, spr_davi_medium, spr_davi_grip, spr_davi_hip_throw, spr_davi_hurt, spr_davi_knockdown, spr_davi_getup",
+      "source_to_rom_visual_match": 7.9,
+      "match_method": "curated runtime palette variant from Caio indexed rig with material-slot remap; P2 face distinction source remains model-sheet level"
+    },
+    {
+      "asset_id": "lapa_open_mat_stage",
+      "source_paths": [
+        "data/source_art/lapa_open_mat_stage_concept_source.png"
+      ],
+      "rom_asset_path": "res/bgs/lapa_bg_b.png + res/bgs/lapa_bg_a.png",
+      "resources_symbol": "lapa_bg_b, lapa_bg_a",
+      "source_to_rom_visual_match": 8.0,
+      "match_method": "native 320x224 crop split into BG_B/BG_A; layer detail reduced in the builder to meet VRAM residency while preserving stage read"
+    }
+  ]
+}

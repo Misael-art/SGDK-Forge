@@ -1,0 +1,187 @@
+{
+  "schema": "sprite_strip_integrity_report.v1",
+  "tool": "analyze_sprite_strip_integrity.py",
+  "image_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\guard.png",
+  "mode": "P",
+  "size": [
+    288,
+    112
+  ],
+  "frame_width": 96,
+  "frame_height": 112,
+  "frame_count": 3,
+  "background_rgba": [
+    255,
+    0,
+    255,
+    255
+  ],
+  "background_palette_index": 0,
+  "status": "passed",
+  "summary": {
+    "edge_problem_frames": 0,
+    "matte_problem_frames": 0,
+    "island_problem_frames": 0,
+    "baked_fx_frames": 0,
+    "bbox_width_min": 79,
+    "bbox_width_max": 85,
+    "bbox_height_min": 94,
+    "bbox_height_max": 100
+  },
+  "findings": [],
+  "frames": [
+    {
+      "frame": 1,
+      "non_background_pixels": 3902,
+      "bbox": [
+        6,
+        2,
+        88,
+        101
+      ],
+      "bbox_size": [
+        83,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 1,
+        "largest_component_area": 3901,
+        "non_largest_component_pixels": 1,
+        "largest_stray_component_area": 1,
+        "largest_stray_component_box": [
+          67,
+          12,
+          67,
+          12
+        ],
+        "component_boxes": [
+          {
+            "area": 3901,
+            "bbox": [
+              6,
+              2,
+              88,
+              101
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              67,
+              12,
+              67,
+              12
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 2,
+      "non_background_pixels": 4224,
+      "bbox": [
+        8,
+        2,
+        86,
+        101
+      ],
+      "bbox_size": [
+        79,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "largest_component_area": 4224,
+        "non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 4224,
+            "bbox": [
+              8,
+              2,
+              86,
+              101
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 3,
+      "non_background_pixels": 3758,
+      "bbox": [
+        5,
+        8,
+        89,
+        101
+      ],
+      "bbox_size": [
+        85,
+        94
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 1,
+        "largest_component_area": 3757,
+        "non_largest_component_pixels": 1,
+        "largest_stray_component_area": 1,
+        "largest_stray_component_box": [
+          63,
+          9,
+          63,
+          9
+        ],
+        "component_boxes": [
+          {
+            "area": 3757,
+            "bbox": [
+              5,
+              8,
+              89,
+              101
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              63,
+              9,
+              63,
+              9
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "state": "guard",
+  "scale_tolerance_note": "max_scale_ratio=5.0 allows fight knockdown/getup vertical-to-horizontal pose transitions; clipping/matte/debris gates remain blocking."
+}

@@ -1,0 +1,296 @@
+{
+  "schema": "sprite_strip_integrity_report.v1",
+  "tool": "analyze_sprite_strip_integrity.py",
+  "image_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\idle.png",
+  "mode": "P",
+  "size": [
+    576,
+    112
+  ],
+  "frame_width": 96,
+  "frame_height": 112,
+  "frame_count": 6,
+  "background_rgba": [
+    255,
+    0,
+    255,
+    255
+  ],
+  "background_palette_index": 0,
+  "status": "passed",
+  "summary": {
+    "edge_problem_frames": 0,
+    "matte_problem_frames": 0,
+    "island_problem_frames": 0,
+    "baked_fx_frames": 0,
+    "bbox_width_min": 54,
+    "bbox_width_max": 62,
+    "bbox_height_min": 100,
+    "bbox_height_max": 100
+  },
+  "findings": [],
+  "frames": [
+    {
+      "frame": 1,
+      "non_background_pixels": 2684,
+      "bbox": [
+        22,
+        2,
+        75,
+        101
+      ],
+      "bbox_size": [
+        54,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "largest_component_area": 2684,
+        "non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 2684,
+            "bbox": [
+              22,
+              2,
+              75,
+              101
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 2,
+      "non_background_pixels": 2762,
+      "bbox": [
+        20,
+        2,
+        75,
+        101
+      ],
+      "bbox_size": [
+        56,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 6,
+        "largest_component_area": 2756,
+        "non_largest_component_pixels": 6,
+        "largest_stray_component_area": 6,
+        "largest_stray_component_box": [
+          20,
+          39,
+          21,
+          43
+        ],
+        "component_boxes": [
+          {
+            "area": 2756,
+            "bbox": [
+              22,
+              2,
+              75,
+              101
+            ]
+          },
+          {
+            "area": 6,
+            "bbox": [
+              20,
+              39,
+              21,
+              43
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 3,
+      "non_background_pixels": 2786,
+      "bbox": [
+        21,
+        2,
+        75,
+        101
+      ],
+      "bbox_size": [
+        55,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "largest_component_area": 2786,
+        "non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 2786,
+            "bbox": [
+              21,
+              2,
+              75,
+              101
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 4,
+      "non_background_pixels": 2802,
+      "bbox": [
+        19,
+        2,
+        77,
+        101
+      ],
+      "bbox_size": [
+        59,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "largest_component_area": 2802,
+        "non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 2802,
+            "bbox": [
+              19,
+              2,
+              77,
+              101
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 5,
+      "non_background_pixels": 2825,
+      "bbox": [
+        16,
+        2,
+        77,
+        101
+      ],
+      "bbox_size": [
+        62,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "largest_component_area": 2825,
+        "non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 2825,
+            "bbox": [
+              16,
+              2,
+              77,
+              101
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 6,
+      "non_background_pixels": 2895,
+      "bbox": [
+        16,
+        2,
+        76,
+        101
+      ],
+      "bbox_size": [
+        61,
+        100
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "largest_component_area": 2895,
+        "non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 2895,
+            "bbox": [
+              16,
+              2,
+              76,
+              101
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "state": "idle",
+  "scale_tolerance_note": "max_scale_ratio=5.0 allows fight knockdown/getup vertical-to-horizontal pose transitions; clipping/matte/debris gates remain blocking."
+}

@@ -143,6 +143,23 @@ function Test-SgdkRequiredFile {
     return ($null -ne $info -and $info.Length -gt 0)
 }
 
+function Get-SgdkBinarySha256 {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$FilePath
+    )
+
+    $stream = [System.IO.File]::OpenRead($FilePath)
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $hashBytes = $sha256.ComputeHash($stream)
+        return ([System.BitConverter]::ToString($hashBytes).Replace('-', '')).ToLowerInvariant()
+    } finally {
+        $sha256.Dispose()
+        $stream.Dispose()
+    }
+}
+
 # ---------------------------------------------------------------------------
 # Get-SgdkRomIdentity
 # ---------------------------------------------------------------------------
@@ -168,8 +185,7 @@ function Get-SgdkRomIdentity {
     }
 
     if (Test-Path -LiteralPath $RomPath) {
-        $hash = Get-FileHash -LiteralPath $RomPath -Algorithm SHA256
-        $result['rom_sha256'] = $hash.Hash.ToLower()
+        $result['rom_sha256'] = Get-SgdkBinarySha256 -FilePath $RomPath
         $result['rom_size_bytes'] = (Get-Item -LiteralPath $RomPath).Length
     }
 

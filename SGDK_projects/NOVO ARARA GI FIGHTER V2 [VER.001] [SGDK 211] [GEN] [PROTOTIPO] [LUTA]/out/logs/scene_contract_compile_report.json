@@ -1,0 +1,64 @@
+﻿{
+    "schema_version":  "1.0.0",
+    "generated_at":  "2026-05-16T09:11:24.6115104Z",
+    "tool_name":  "scene_contract_compiler",
+    "tool_version":  "0.1.0",
+    "project_root":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
+    "workspace_root":  "F:\\Projects\\MegaDrive_DEV",
+    "status":  "ok",
+    "failure_reason":  null,
+    "mode":  "lab",
+    "spec_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\doc\\13-spec-cenas.md",
+    "regression_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\doc\\scene-regression.json",
+    "contract_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\doc\\scene-contracts.json",
+    "scenes_compiled":  2,
+    "lint_result":  {
+                        "lint_ran":  true,
+                        "lint_status":  "ok",
+                        "lint_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_contract_report.json"
+                    },
+    "findings":  [
+                     {
+                         "scene_id":  "_compiler",
+                         "severity":  "info",
+                         "code":  "CC010",
+                         "message":  "Merged with regression manifest: 2 scenes"
+                     },
+                     {
+                         "scene_id":  "front_end_main_menu",
+                         "severity":  "info",
+                         "code":  "CC030",
+                         "message":  "Merged with regression manifest (boot_mode=unsupported)"
+                     },
+                     {
+                         "scene_id":  "front_end_main_menu",
+                         "severity":  "info",
+                         "code":  "CC040",
+                         "message":  "Inferred scene_role=menu from spec"
+                     },
+                     {
+                         "scene_id":  "first_playable_slice",
+                         "severity":  "info",
+                         "code":  "CC030",
+                         "message":  "Merged with regression manifest (boot_mode=unsupported)"
+                     },
+                     {
+                         "scene_id":  "first_playable_slice",
+                         "severity":  "info",
+                         "code":  "CC040",
+                         "message":  "Inferred scene_role=gameplay from spec"
+                     },
+                     {
+                         "scene_id":  "_compiler",
+                         "severity":  "info",
+                         "code":  "CC050",
+                         "message":  "Wrote 2 scenes to F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\doc\\scene-contracts.json"
+                     },
+                     {
+                         "scene_id":  "_compiler",
+                         "severity":  "info",
+                         "code":  "CC060",
+                         "message":  "Lint completed: status=ok"
+                     }
+                 ]
+}

@@ -1,0 +1,1377 @@
+{
+  "schema": "animation_manifest.v1",
+  "frame_w": 96,
+  "frame_h": 112,
+  "max_cols": 8,
+  "runtime_layout": "per_pose_sprites_with_preview_atlas",
+  "per_pose_exports": [
+    {
+      "state": "idle",
+      "caio_path": "res/sprites/characters/caio/idle.png",
+      "davi_path": "res/sprites/characters/davi/idle.png",
+      "frame_count": 6,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "walk_forward",
+      "caio_path": "res/sprites/characters/caio/walk_forward.png",
+      "davi_path": "res/sprites/characters/davi/walk_forward.png",
+      "frame_count": 6,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "walk_back",
+      "caio_path": "res/sprites/characters/caio/walk_back.png",
+      "davi_path": "res/sprites/characters/davi/walk_back.png",
+      "frame_count": 6,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "dash",
+      "caio_path": "res/sprites/characters/caio/dash.png",
+      "davi_path": "res/sprites/characters/davi/dash.png",
+      "frame_count": 4,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "crouch",
+      "caio_path": "res/sprites/characters/caio/crouch.png",
+      "davi_path": "res/sprites/characters/davi/crouch.png",
+      "frame_count": 2,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "jump",
+      "caio_path": "res/sprites/characters/caio/jump.png",
+      "davi_path": "res/sprites/characters/davi/jump.png",
+      "frame_count": 6,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "guard",
+      "caio_path": "res/sprites/characters/caio/guard.png",
+      "davi_path": "res/sprites/characters/davi/guard.png",
+      "frame_count": 3,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "jab",
+      "caio_path": "res/sprites/characters/caio/jab.png",
+      "davi_path": "res/sprites/characters/davi/jab.png",
+      "frame_count": 4,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "medium",
+      "caio_path": "res/sprites/characters/caio/medium.png",
+      "davi_path": "res/sprites/characters/davi/medium.png",
+      "frame_count": 5,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "grip",
+      "caio_path": "res/sprites/characters/caio/grip.png",
+      "davi_path": "res/sprites/characters/davi/grip.png",
+      "frame_count": 5,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "hip_throw",
+      "caio_path": "res/sprites/characters/caio/hip_throw.png",
+      "davi_path": "res/sprites/characters/davi/hip_throw.png",
+      "frame_count": 8,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "hurt",
+      "caio_path": "res/sprites/characters/caio/hurt.png",
+      "davi_path": "res/sprites/characters/davi/hurt.png",
+      "frame_count": 4,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "knockdown",
+      "caio_path": "res/sprites/characters/caio/knockdown.png",
+      "davi_path": "res/sprites/characters/davi/knockdown.png",
+      "frame_count": 6,
+      "frame_w": 96,
+      "frame_h": 112
+    },
+    {
+      "state": "getup",
+      "caio_path": "res/sprites/characters/caio/getup.png",
+      "davi_path": "res/sprites/characters/davi/getup.png",
+      "frame_count": 6,
+      "frame_w": 96,
+      "frame_h": 112
+    }
+  ],
+  "animations": {
+    "idle": {
+      "asset_id": "caio_idle",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_idle_strip_source.png",
+      "frame_count": 6,
+      "runtime_anim_index": 0,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": true
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.2181,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.1959,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.3022,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.2285,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "changed_pixel_ratio": 0.2254,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/idle_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/idle_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/idle_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 5,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "walk_forward": {
+      "asset_id": "caio_walk_forward",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_walk_forward_strip_source.png",
+      "frame_count": 6,
+      "runtime_anim_index": 1,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": true
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.2433,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.2642,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.2217,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.225,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "changed_pixel_ratio": 0.2189,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/walk_forward_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/walk_forward_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/walk_forward_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 5,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "walk_back": {
+      "asset_id": "caio_walk_back",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_walk_back_strip_source.png",
+      "frame_count": 6,
+      "runtime_anim_index": 2,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": true
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.1802,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.1781,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.1822,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.2096,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "changed_pixel_ratio": 0.2087,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/walk_back_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/walk_back_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/walk_back_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 5,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "dash": {
+      "asset_id": "caio_dash",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_dash_strip_source.png",
+      "frame_count": 4,
+      "runtime_anim_index": 3,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.3238,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.2551,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.3653,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/dash_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/dash_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/dash_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "crouch": {
+      "asset_id": "caio_crouch",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_crouch_strip_source.png",
+      "frame_count": 2,
+      "runtime_anim_index": 4,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": true
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.4112,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/crouch_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/crouch_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/crouch_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "jump": {
+      "asset_id": "caio_jump",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_jump_strip_source.png",
+      "frame_count": 6,
+      "runtime_anim_index": 5,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.4089,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.2879,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.2807,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.3363,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "changed_pixel_ratio": 0.425,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/jump_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/jump_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/jump_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "arc_or_landing",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "arc_or_landing",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "arc_or_landing",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "arc_or_landing",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "arc_or_landing",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 5,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "arc_or_landing",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "guard": {
+      "asset_id": "caio_guard",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_guard_strip_source.png",
+      "frame_count": 3,
+      "runtime_anim_index": 6,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": true
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.4129,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.3945,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/guard_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/guard_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/guard_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "jab": {
+      "asset_id": "caio_jab",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_jab_strip_source.png",
+      "frame_count": 4,
+      "runtime_anim_index": 7,
+      "motion_phase_map": {
+        "startup": [
+          0,
+          0
+        ],
+        "active": [
+          1,
+          2
+        ],
+        "recovery": [
+          3,
+          3
+        ],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.33,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.2687,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.3521,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/jab_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/jab_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/jab_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "medium": {
+      "asset_id": "caio_medium",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_medium_strip_source.png",
+      "frame_count": 5,
+      "runtime_anim_index": 8,
+      "motion_phase_map": {
+        "startup": [
+          0,
+          1
+        ],
+        "active": [
+          2,
+          3
+        ],
+        "recovery": [
+          4,
+          4
+        ],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.4044,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.4794,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.3976,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.4425,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/medium_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/medium_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/medium_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "grip": {
+      "asset_id": "caio_grip",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_grip_strip_source.png",
+      "frame_count": 5,
+      "runtime_anim_index": 9,
+      "motion_phase_map": {
+        "startup": [
+          0,
+          1
+        ],
+        "active": [
+          2,
+          3
+        ],
+        "recovery": [
+          4,
+          4
+        ],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.3107,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.2814,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.3545,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.5411,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/grip_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/grip_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/grip_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "hip_throw": {
+      "asset_id": "caio_hip_throw",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_hip_throw_strip_source.png",
+      "frame_count": 8,
+      "runtime_anim_index": 10,
+      "motion_phase_map": {
+        "startup": [
+          0,
+          2
+        ],
+        "active": [
+          3,
+          5
+        ],
+        "recovery": [
+          6,
+          7
+        ],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.3227,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.3504,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.3549,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.3486,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "changed_pixel_ratio": 0.3546,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "changed_pixel_ratio": 0.3176,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "changed_pixel_ratio": 0.4049,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/hip_throw_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/hip_throw_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/hip_throw_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 5,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 6,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 7,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "hurt": {
+      "asset_id": "caio_hurt",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_hurt_strip_source.png",
+      "frame_count": 4,
+      "runtime_anim_index": 11,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.4212,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.3891,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.4835,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/hurt_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/hurt_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/hurt_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "knockdown": {
+      "asset_id": "caio_knockdown",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_knockdown_strip_source.png",
+      "frame_count": 6,
+      "runtime_anim_index": 12,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.4437,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.4796,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.3078,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.2838,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "changed_pixel_ratio": 0.1796,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/knockdown_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/knockdown_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/knockdown_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 5,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    },
+    "getup": {
+      "asset_id": "caio_getup",
+      "asset_kind": "animation_strip",
+      "source_file": "data/source_art/caio_getup_strip_source.png",
+      "frame_count": 6,
+      "runtime_anim_index": 13,
+      "motion_phase_map": {
+        "startup": [],
+        "active": [],
+        "recovery": [],
+        "looping": false
+      },
+      "frame_delta_report": [
+        {
+          "from": 0,
+          "to": 1,
+          "changed_pixel_ratio": 0.3761,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "changed_pixel_ratio": 0.3822,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "changed_pixel_ratio": 0.3551,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "changed_pixel_ratio": 0.4217,
+          "adjacent_frame_delta": "ok"
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "changed_pixel_ratio": 0.2941,
+          "adjacent_frame_delta": "ok"
+        }
+      ],
+      "contact_sheet": "data/processed/animation_qa/getup_contact_sheet.png",
+      "pivot_overlay": "data/processed/animation_qa/getup_pivot_overlay.png",
+      "preview_gif": "data/processed/animation_qa/getup_preview.gif",
+      "foot_contact_report": [
+        {
+          "frame": 0,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 1,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 2,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 3,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 4,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        },
+        {
+          "frame": 5,
+          "ground_y": 104,
+          "bottom_y": 104,
+          "foot_contact": "grounded_or_intended",
+          "pivot_x": 48,
+          "pivot_drift_px": 0
+        }
+      ],
+      "state_belongs_to_character_fantasy": true,
+      "decision": "accepted_for_runtime_translation"
+    }
+  }
+}

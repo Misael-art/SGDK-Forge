@@ -1,0 +1,91 @@
+{
+  "asset_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\idle.png",
+  "role": "sprite",
+  "reference_profile": "generic-megadrive-elite",
+  "critical_visual": false,
+  "paired_bg": null,
+  "status": "needs_review",
+  "metrics": {
+    "palette_efficiency": 0.4594,
+    "tile_efficiency": 1.0,
+    "detail_density_8x8": 0.8969,
+    "dithering_density": 0.539,
+    "silhouette_readability": 0.6,
+    "layer_separation": 0.62,
+    "reuse_opportunity": 0.5942,
+    "reference_alignment": 0.6622,
+    "visual_excellence_score": 0.6622
+  },
+  "metric_inputs": {
+    "palette_efficiency": {
+      "color_count": 16,
+      "tonal_span": 235.5452,
+      "redundancy_ratio": 0.4,
+      "low_usage_ratio": 0.5625
+    },
+    "tile_efficiency": {
+      "empty_ratio": 0.0,
+      "bbox_waste": 0.0,
+      "total_tiles": 1008,
+      "empty_tiles": 0,
+      "max_empty_ratio": 0.12,
+      "max_bbox_waste": 0.18,
+      "mode": "default"
+    },
+    "detail_density_8x8": {
+      "avg_transition_density": 0.15893167162698413,
+      "avg_isolated_ratio": 0.061864459325396824,
+      "non_empty_tiles": 1008
+    },
+    "dithering_density": {
+      "dither_ratio": 0.00518605562083823,
+      "noise_ratio": 0.11849588719153936,
+      "samples": 63825
+    },
+    "silhouette_readability": {
+      "boundary_contrast": 0.0,
+      "fill_ratio": 1.0,
+      "components": 1
+    },
+    "layer_separation": {
+      "contrast_value": 0.0,
+      "source": "unpaired_estimate"
+    },
+    "reuse_opportunity": {
+      "non_empty_tiles": 1008,
+      "exact_duplicates": 597,
+      "flip_reuse_ratio": 0.5942460317460317
+    },
+    "structural_layer": {
+      "paired_structural_layer": false,
+      "transparency_ratio": 0.0
+    }
+  },
+  "issues": [
+    {
+      "code": "PALETTE_WASTE",
+      "severity": "warning",
+      "message": "Paleta com baixa eficiencia tonal ou cores redundantes.",
+      "value": 0.4594,
+      "threshold": 0.55
+    },
+    {
+      "code": "MISSING_DITHERING_FOR_MATERIAL",
+      "severity": "warning",
+      "message": "O asset esta abaixo da densidade minima de dithering esperada para o papel informado.",
+      "value": 0.00518605562083823,
+      "threshold": 0.01
+    }
+  ],
+  "recommendations": [
+    "Consolidar tons redundantes e preservar apenas diferencas tonais que melhoram leitura material.",
+    "Adicionar dithering apenas onde ele descreve material ou transicao tonal real."
+  ],
+  "benchmarks": [
+    "Streets of Rage 3",
+    "Monster World IV",
+    "Earthworm Jim",
+    "Shinobi III",
+    "Sonic 3 & Knuckles"
+  ]
+}

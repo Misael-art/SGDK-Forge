@@ -1,0 +1,2205 @@
+{
+  "project_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
+  "scenario_detected": "2_res_inadequate_check",
+  "summary": "Projeto tem 109 asset(s) em /res. 64 ok, 45 precisam conversao, 0 inadequados, 0 ausentes.",
+  "total_assets": 109,
+  "ok": 64,
+  "needs_conversion": 45,
+  "inadequate": 0,
+  "absent": 0,
+  "assets": [
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\crouch_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 192,
+      "height": 112,
+      "color_count": 5865,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "5865 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\crouch_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 192,
+      "height": 112,
+      "color_count": 5751,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "5751 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\dash_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 384,
+      "height": 112,
+      "color_count": 8692,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "8692 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\dash_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 384,
+      "height": 112,
+      "color_count": 8564,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "8564 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\getup_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 14417,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "14417 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\getup_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 14174,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "14174 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\grip_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 480,
+      "height": 112,
+      "color_count": 13615,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "13615 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\grip_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 480,
+      "height": 112,
+      "color_count": 13410,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "13410 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\guard_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 288,
+      "height": 112,
+      "color_count": 8937,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "8937 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\guard_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 288,
+      "height": 112,
+      "color_count": 8807,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "8807 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\hip_throw_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 768,
+      "height": 112,
+      "color_count": 19166,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19166 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\hip_throw_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 768,
+      "height": 112,
+      "color_count": 18843,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "18843 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\hurt_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 384,
+      "height": 112,
+      "color_count": 10258,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "10258 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\hurt_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 384,
+      "height": 112,
+      "color_count": 10103,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "10103 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\idle_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 13420,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "13420 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\idle_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 13173,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "13173 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\jab_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 384,
+      "height": 112,
+      "color_count": 9842,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "9842 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\jab_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 384,
+      "height": 112,
+      "color_count": 9657,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "9657 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\jump_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 17055,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "17055 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\jump_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 16671,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "16671 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\knockdown_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 11939,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "11939 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\knockdown_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 11778,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "11778 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\medium_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 480,
+      "height": 112,
+      "color_count": 13336,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "13336 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\medium_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 480,
+      "height": 112,
+      "color_count": 13158,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "13158 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\walk_back_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 11940,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "11940 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\walk_back_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 11549,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "11549 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\walk_forward_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 12238,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "12238 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\animation_qa\\walk_forward_pivot_overlay.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 576,
+      "height": 112,
+      "color_count": 11961,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "11961 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\crouch.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 192,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\dash.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\getup.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\grip.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 480,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\guard.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 288,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\hip_throw.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 768,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\hurt.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\idle.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\jab.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\jump.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\knockdown.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\medium.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 480,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\walk_back.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\caio\\walk_forward.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\crouch.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 192,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\dash.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\getup.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\grip.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 480,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\guard.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 288,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\hip_throw.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 768,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\hurt.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\idle.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\jab.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\jump.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\knockdown.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\medium.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 480,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\walk_back.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\characters\\davi\\walk_forward.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\hit_spark.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 96,
+      "height": 32,
+      "color_count": 3,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\lapa_bg_a.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 64,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\lapa_bg_b.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 160,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\runtime_atlas\\caio_arara_sheet_preview.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 768,
+      "height": 1568,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\processed\\runtime_atlas\\davi_arara_sheet_preview.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 768,
+      "height": 1568,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_arara_model_sheet_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1536,
+      "height": 1024,
+      "color_count": 199283,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "199283 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_crouch_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1774,
+      "height": 887,
+      "color_count": 133806,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1774x887 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1776x888 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "133806 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_dash_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 134686,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "134686 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_getup_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 141641,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "141641 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_grip_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 157196,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "157196 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_guard_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 136282,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "136282 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_hip_throw_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 148437,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "148437 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_hurt_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 144646,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "144646 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_idle_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 211428,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "211428 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_jab_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 164807,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "164807 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_jump_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 149584,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "149584 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_knockdown_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 108717,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "108717 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_medium_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 153740,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "153740 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_walk_back_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 171911,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "171911 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\caio_walk_forward_strip_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 172437,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "172437 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\davi_arara_variant_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1536,
+      "height": 1024,
+      "color_count": 113844,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "113844 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\data\\source_art\\lapa_open_mat_stage_concept_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1659,
+      "height": 948,
+      "color_count": 245236,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1659x948 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1664x952 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "245236 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\bgs\\lapa_bg_a.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 64,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\bgs\\lapa_bg_b.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 160,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\crouch.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 192,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\dash.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\getup.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\grip.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 480,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\guard.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 288,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\hip_throw.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 768,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\hurt.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\idle.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\jab.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\jump.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\knockdown.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\medium.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 480,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\walk_back.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\walk_forward.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\crouch.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 192,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\dash.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\getup.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\grip.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 480,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\guard.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 288,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\hip_throw.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 768,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\hurt.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\idle.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\jab.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\jump.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\knockdown.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\medium.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 480,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\walk_back.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\davi\\walk_forward.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 112,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\effects\\hit_spark.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 96,
+      "height": 32,
+      "color_count": 3,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    }
+  ],
+  "recommended_actions": [
+    "ATENCAO: 45 asset(s) com issues criticos — build pode falhar.",
+    "Apresentar este relatorio ao dono do projeto para decisao de rota.",
+    "Assets nao indexados: converter para PNG modo P (indexed) com max 16 cores.",
+    "Usar fix_png_transparency_final.py para corrigir transparencia."
+  ],
+  "conversion_commands": [
+    "# Corrigir transparencia automaticamente:",
+    "python tools/image-tools/fix_png_transparency_final.py F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res",
+    "# Validar recursos:",
+    "powershell -File tools\\sgdk_wrapper\\validate_resources.ps1",
+    "# Auto-fix sprite.res:",
+    "powershell -File tools\\sgdk_wrapper\\autofix_sprite_res.ps1"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "asset_id": "caio_guard",
+  "asset_kind": "animation_strip",
+  "source_file": "data/source_art/caio_guard_strip_source.png",
+  "frame_count": 3,
+  "runtime_anim_index": 6,
+  "motion_phase_map": {
+    "startup": [],
+    "active": [],
+    "recovery": [],
+    "looping": true
+  },
+  "frame_delta_report": [
+    {
+      "from": 0,
+      "to": 1,
+      "changed_pixel_ratio": 0.4129,
+      "adjacent_frame_delta": "ok"
+    },
+    {
+      "from": 1,
+      "to": 2,
+      "changed_pixel_ratio": 0.3945,
+      "adjacent_frame_delta": "ok"
+    }
+  ],
+  "contact_sheet": "data/processed/animation_qa/guard_contact_sheet.png",
+  "pivot_overlay": "data/processed/animation_qa/guard_pivot_overlay.png",
+  "preview_gif": "data/processed/animation_qa/guard_preview.gif",
+  "foot_contact_report": [
+    {
+      "frame": 0,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 1,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    },
+    {
+      "frame": 2,
+      "ground_y": 104,
+      "bottom_y": 104,
+      "foot_contact": "grounded_or_intended",
+      "pivot_x": 48,
+      "pivot_drift_px": 0
+    }
+  ],
+  "state_belongs_to_character_fantasy": true,
+  "decision": "accepted_for_runtime_translation"
+}

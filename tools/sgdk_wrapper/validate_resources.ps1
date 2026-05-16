@@ -26,7 +26,7 @@ function Write-Log($msg, $level = "INFO") {
     if (-not (Test-Path -LiteralPath $LOG_DIR)) {
         New-Item -ItemType Directory -Force -Path $LOG_DIR | Out-Null
     }
-    Add-Content -LiteralPath $DEBUG_LOG $fullMsg
+    [System.IO.File]::AppendAllText($DEBUG_LOG, $fullMsg + [Environment]::NewLine, [System.Text.Encoding]::UTF8)
 }
 
 function Get-EnvIntOrDefault($envName, $defaultValue) {
@@ -150,7 +150,49 @@ function Get-PngHeaderInfo($filePath) {
 
     $isIndexed = ($colorType -eq 3)
     $typeName = switch ($colorType) { 0 { 'Grayscale' } 2 { 'DirectClassRGB' } 3 { 'PseudoClass' } 4 { 'GrayscaleAlpha' } 6 { 'DirectClassRGBA' } default { "Unknown" } }
-    $effectiveColors = if ($isIndexed -and $palEntries -gt 0) { $palEntries } elseif ($isIndexed) { [Math]::Pow(2, $bitDepth) } else { 0 }
+
+    $uniqueColors = 0
+    if ($isIndexed) {
+        try {
+            Add-Type -AssemblyName System.Drawing -ErrorAction Stop
+            $bmp = [System.Drawing.Bitmap]::FromFile($filePath)
+            try {
+                $pf = $bmp.PixelFormat
+                $bpp = [System.Drawing.Image]::GetPixelFormatSize($pf)
+                if ($bpp -eq 4 -or $bpp -eq 8) {
+                    $rect = [System.Drawing.Rectangle]::new(0, 0, $bmp.Width, $bmp.Height)
+                    $bd = $bmp.LockBits($rect, [System.Drawing.Imaging.ImageLockMode]::ReadOnly, $pf)
+                    try {
+                        $stride = [Math]::Abs($bd.Stride)
+                        $buf = New-Object byte[] ($stride * $bmp.Height)
+                        [System.Runtime.InteropServices.Marshal]::Copy($bd.Scan0, $buf, 0, $buf.Length)
+                        $seen = New-Object bool[] 256
+                        for ($y = 0; $y -lt $bmp.Height; $y++) {
+                            $rowOff = $y * $stride
+                            for ($x = 0; $x -lt $bmp.Width; $x++) {
+                                if ($bpp -eq 8) {
+                                    $idx = [int]$buf[$rowOff + $x]
+                                } else {
+                                    $bv = [int]$buf[$rowOff + [int][Math]::Floor($x / 2)]
+                                    $idx = if (($x % 2) -eq 0) { ($bv -shr 4) -band 0x0F } else { $bv -band 0x0F }
+                                }
+                                $seen[$idx] = $true
+                            }
+                        }
+                        for ($k = 0; $k -lt 256; $k++) { if ($seen[$k]) { $uniqueColors++ } }
+                    } finally {
+                        $bmp.UnlockBits($bd)
+                    }
+                }
+            } finally {
+                $bmp.Dispose()
+            }
+        } catch {
+            $uniqueColors = 0
+        }
+    }
+
+    $effectiveColors = if ($uniqueColors -gt 0) { $uniqueColors } elseif ($isIndexed -and $palEntries -gt 0) { $palEntries } elseif ($isIndexed) { [Math]::Pow(2, $bitDepth) } else { 0 }
 
     return [pscustomobject]@{
         Width = $w
@@ -549,6 +591,7 @@ function Add-Detail($results, $type, $level, $message, $resource, $file, $extra 
 function Test-CloseoutOnlyBlockingStatus($status) {
     $normalizedStatus = Get-SafeString $status ""
     return $normalizedStatus -in @(
+        "agent_context_degraded",
         "audio_validation_missing",
         "audio_validation_stale",
         "budget_doc_mismatch",
@@ -710,6 +753,176 @@ function Get-SafeString($value, $default = "") {
     return $text
 }
 
+function Get-ObjectPropertyValue($object, $name, $default = $null) {
+    if ($null -eq $object) {
+        return $default
+    }
+    $prop = $object.PSObject.Properties[$name]
+    if ($null -eq $prop) {
+        return $default
+    }
+    return $prop.Value
+}
+
+function Get-SafeNumberOrNull($value) {
+    if ($null -eq $value) {
+        return $null
+    }
+    $text = [string]$value
+    if ([string]::IsNullOrWhiteSpace($text)) {
+        return $null
+    }
+    $parsedValue = 0.0
+    if ([double]::TryParse($text, [System.Globalization.NumberStyles]::Float, [System.Globalization.CultureInfo]::InvariantCulture, [ref]$parsedValue)) {
+        return $parsedValue
+    }
+    return $null
+}
+
+function Test-TruthyValue($value) {
+    if ($null -eq $value) {
+        return $false
+    }
+    if ($value -is [bool]) {
+        return [bool]$value
+    }
+    $text = ([string]$value).Trim().ToLowerInvariant()
+    if ([string]::IsNullOrWhiteSpace($text)) {
+        return $false
+    }
+    return $text -in @("1", "true", "yes", "sim", "ok", "passed", "pass", "elite_ready")
+}
+
+function Test-EmptyOrNoneValue($value) {
+    if ($null -eq $value) {
+        return $true
+    }
+    $text = ([string]$value).Trim().ToLowerInvariant()
+    if ([string]::IsNullOrWhiteSpace($text)) {
+        return $true
+    }
+    return $text -in @("none", "nenhum", "nao", "nao_aplicavel", "not_applicable", "n/a", "original")
+}
+
+function Test-ApprovedDerivativeLicenseStatus($value, [bool]$HasDerivative) {
+    if ($null -eq $value) {
+        return $false
+    }
+
+    $text = ([string]$value).Trim().ToLowerInvariant()
+    if ([string]::IsNullOrWhiteSpace($text)) {
+        return $false
+    }
+
+    $approvedDerivedStatuses = @(
+        "authorized",
+        "authorised",
+        "licensed",
+        "cc0",
+        "cc-by-ok",
+        "cc_by_ok",
+        "explicit_permission",
+        "permitted",
+        "approved"
+    )
+
+    if ($HasDerivative) {
+        return $text -in $approvedDerivedStatuses
+    }
+
+    return $text -in (@("original", "own_authorial", "none", "not_applicable", "nao_aplicavel", "n/a") + $approvedDerivedStatuses)
+}
+
+function Test-AssetFlagPresent($asset, [string[]]$Needles) {
+    $haystack = New-Object System.Collections.ArrayList
+    foreach ($field in @("flags", "issues", "visual_issues", "blocking_statuses", "palette_findings", "delivery_findings")) {
+        $value = Get-ObjectPropertyValue $asset $field $null
+        if ($null -eq $value) { continue }
+        foreach ($entry in @($value)) {
+            if ($null -ne $entry) {
+                [void]$haystack.Add(([string]$entry).ToLowerInvariant())
+            }
+        }
+    }
+    foreach ($needle in $Needles) {
+        $needleText = $needle.ToLowerInvariant()
+        foreach ($entry in $haystack) {
+            if ($entry -eq $needleText -or $entry -match [regex]::Escape($needleText)) {
+                return $true
+            }
+        }
+    }
+    return $false
+}
+
+function Test-ExistingArtifactReference($value, [string]$BaseDir) {
+    if ($null -eq $value) {
+        return $false
+    }
+
+    $candidate = $value
+    if ($value.PSObject.Properties["path"]) {
+        $candidate = $value.path
+    }
+
+    $text = Get-SafeString $candidate ""
+    if (-not $text) {
+        return $false
+    }
+    if ($text.ToLowerInvariant() -in @("inline", "embedded", "n/a", "not_applicable", "nao_aplicavel")) {
+        return $false
+    }
+
+    $resolved = if ([System.IO.Path]::IsPathRooted($text)) { $text } else { Join-Path $BaseDir $text }
+    return Test-Path -LiteralPath $resolved
+}
+
+function Resolve-ArtifactReference($value, [string]$BaseDir) {
+    if ($null -eq $value) {
+        return ""
+    }
+
+    $candidate = $value
+    if ($value.PSObject.Properties["path"]) {
+        $candidate = $value.path
+    }
+
+    $text = Get-SafeString $candidate ""
+    if (-not $text -or $text.ToLowerInvariant() -in @("inline", "embedded", "n/a", "not_applicable", "nao_aplicavel")) {
+        return ""
+    }
+
+    if ([System.IO.Path]::IsPathRooted($text)) {
+        return $text
+    }
+    return Join-Path $BaseDir $text
+}
+
+function Get-ArtifactJsonOrNull($value, [string]$BaseDir) {
+    $resolved = Resolve-ArtifactReference $value $BaseDir
+    if (-not $resolved -or -not (Test-Path -LiteralPath $resolved -PathType Leaf)) {
+        return $null
+    }
+    return Get-JsonOrNull -Path $resolved
+}
+
+function Test-HudVisualAsset($asset, [string]$AssetId) {
+    $role = Get-SafeString (Get-ObjectPropertyValue $asset "role" "") ""
+    $kind = Get-SafeString (Get-ObjectPropertyValue $asset "asset_kind" "") ""
+    $fingerprint = ("{0} {1} {2}" -f $AssetId, $role, $kind).ToLowerInvariant()
+    return $fingerprint -match "hud|ui|lifebar|life_bar|timer|score|overlay"
+}
+
+function Test-AnimatedCriticalAsset($asset, [string]$AssetId) {
+    $role = Get-SafeString (Get-ObjectPropertyValue $asset "role" "") ""
+    $kind = Get-SafeString (Get-ObjectPropertyValue $asset "asset_kind" "") ""
+    $fingerprint = ("{0} {1} {2}" -f $AssetId, $role, $kind).ToLowerInvariant()
+    if (Test-TruthyValue (Get-ObjectPropertyValue $asset "requires_animation_gate" $false)) {
+        return $true
+    }
+    return $fingerprint -match "player_character|fighter|character|sprite|animation_strip|final_sprite_sheet"
+}
+
 function Get-StatusRank {
     param([Parameter(Mandatory = $true)][string]$Status)
 
@@ -803,6 +1016,60 @@ function Get-NormalizedTextHashOrNull {
     }
 }
 
+function Get-BinaryFileHashOrNull {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+        return $null
+    }
+
+    $stream = [System.IO.File]::OpenRead($Path)
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $hashBytes = $sha256.ComputeHash($stream)
+        return ([System.BitConverter]::ToString($hashBytes).Replace("-", "")).ToLowerInvariant()
+    } finally {
+        $sha256.Dispose()
+        $stream.Dispose()
+    }
+}
+
+function Get-AgentPathDigestOrNull {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path)) {
+        return $null
+    }
+
+    $item = Get-Item -LiteralPath $Path -Force
+    if (-not $item.PSIsContainer) {
+        $extension = [System.IO.Path]::GetExtension($Path).ToLowerInvariant()
+        if ($extension -in @(".md", ".json", ".yaml", ".yml", ".ps1", ".py", ".bat")) {
+            return Get-NormalizedTextHashOrNull -Path $Path
+        }
+        return Get-BinaryFileHashOrNull -Path $Path
+    }
+
+    $root = [System.IO.Path]::GetFullPath($Path).TrimEnd('\')
+    $entries = New-Object System.Collections.Generic.List[string]
+    foreach ($file in @(Get-ChildItem -LiteralPath $Path -Recurse -File -Force -ErrorAction SilentlyContinue | Sort-Object FullName)) {
+        $full = [System.IO.Path]::GetFullPath($file.FullName)
+        $relative = $full.Substring($root.Length).TrimStart('\') -replace '\\', '/'
+        $hash = Get-AgentPathDigestOrNull -Path $full
+        $entries.Add(("{0}={1}" -f $relative, $hash))
+    }
+
+    $payload = [string]::Join("`n", $entries)
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($payload)
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $hashBytes = $sha256.ComputeHash($bytes)
+        return ([System.BitConverter]::ToString($hashBytes).Replace("-", "")).ToLowerInvariant()
+    } finally {
+        $sha256.Dispose()
+    }
+}
+
 function Get-JsonOrNull {
     param([Parameter(Mandatory = $true)][string]$Path)
 
@@ -815,6 +1082,59 @@ function Get-JsonOrNull {
     } catch {
         return $null
     }
+}
+
+function Get-ObservedReportStatus {
+    param(
+        [Parameter(Mandatory = $true)][string]$ReportPath,
+        [string[]]$DependencyPaths = @()
+    )
+
+    $result = [ordered]@{
+        report_path = $ReportPath
+        report_present = $false
+        stale = $false
+        generated_at = $null
+        latest_dependency_utc = $null
+    }
+
+    if (-not (Test-Path -LiteralPath $ReportPath -PathType Leaf)) {
+        return $result
+    }
+
+    $result.report_present = $true
+    $reportItem = Get-Item -LiteralPath $ReportPath
+    $reportWriteUtc = $reportItem.LastWriteTimeUtc
+    $reportJson = Get-JsonOrNull $ReportPath
+
+    if ($reportJson) {
+        if ($reportJson.PSObject.Properties['generated_at']) {
+            $result.generated_at = Get-SafeString $reportJson.generated_at ""
+        } elseif ($reportJson.PSObject.Properties['timestamp']) {
+            $result.generated_at = Get-SafeString $reportJson.timestamp ""
+        }
+    }
+
+    $latestDependencyUtc = $null
+    foreach ($dependencyPath in @($DependencyPaths | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) } | Select-Object -Unique)) {
+        if (-not (Test-Path -LiteralPath $dependencyPath -PathType Leaf)) {
+            continue
+        }
+
+        $dependencyWriteUtc = (Get-Item -LiteralPath $dependencyPath).LastWriteTimeUtc
+        if ($null -eq $latestDependencyUtc -or $dependencyWriteUtc -gt $latestDependencyUtc) {
+            $latestDependencyUtc = $dependencyWriteUtc
+        }
+    }
+
+    if ($null -ne $latestDependencyUtc) {
+        $result.latest_dependency_utc = $latestDependencyUtc.ToString("o")
+        if ($latestDependencyUtc -gt $reportWriteUtc) {
+            $result.stale = $true
+        }
+    }
+
+    return $result
 }
 
 function Normalize-ResourceRelativePath {
@@ -838,12 +1158,22 @@ function Get-VisualReviewVariantPairs {
 
     $manifestPath = Join-Path $ProjectRoot ".mddev\project.json"
     $manifest = Get-JsonOrNull $manifestPath
-    if (-not $manifest -or -not $manifest.visual_review -or -not $manifest.visual_review.variant_pairs) {
+    if (-not $manifest) {
+        return @()
+    }
+
+    $visualReviewProp = $manifest.PSObject.Properties['visual_review']
+    if (-not $visualReviewProp -or -not $visualReviewProp.Value) {
+        return @()
+    }
+
+    $variantPairsProp = $visualReviewProp.Value.PSObject.Properties['variant_pairs']
+    if (-not $variantPairsProp -or -not $variantPairsProp.Value) {
         return @()
     }
 
     $pairs = @()
-    foreach ($entry in @($manifest.visual_review.variant_pairs)) {
+    foreach ($entry in @($variantPairsProp.Value)) {
         if (-not $entry) {
             continue
         }
@@ -1134,9 +1464,10 @@ function Test-PathUnderRoot {
     $rootFull = [System.IO.Path]::GetFullPath($root).TrimEnd('\', '/')
     $rootWithSep = $rootFull + [System.IO.Path]::DirectorySeparatorChar
 
-    return
+    return (
         $candidateFull.Equals($rootFull, [System.StringComparison]::OrdinalIgnoreCase) -or
         $candidateFull.StartsWith($rootWithSep, [System.StringComparison]::OrdinalIgnoreCase)
+    )
 }
 
 function Get-AgentBootstrapStatus {
@@ -1152,6 +1483,18 @@ function Get-AgentBootstrapStatus {
         canonical_version = Get-SafeString $env:SGDK_AGENT_CANONICAL_VERSION "desconhecida"
         local_version = Get-SafeString $env:SGDK_AGENT_LOCAL_VERSION ""
         local_agent_dir = Join-Path $ProjectRoot ".agent"
+        local_agent = [ordered]@{
+            path = Join-Path $ProjectRoot ".agent"
+            present = $false
+            ok = $false
+            link_type = ""
+            expected_target = ""
+            actual_target = ""
+            reason = ""
+            physical_materialization = $false
+            tracked_git_paths_count = 0
+            tracked_git_path_examples = @()
+        }
         agents_bridge = [ordered]@{
             path = ""
             present = $false
@@ -1160,7 +1503,10 @@ function Get-AgentBootstrapStatus {
             expected_target = ""
             actual_target = ""
             reason = ""
+            tracked_git_paths_count = 0
+            tracked_git_path_examples = @()
         }
+        tracked_path_drift = @()
     }
 
     if ($env:SGDK_AGENT_BOOTSTRAPPED -eq "1") {
@@ -1210,6 +1556,59 @@ function Get-AgentBootstrapStatus {
         $canonicalManifestPath = Join-Path $canonicalAgentDir "framework_manifest.json"
         $canonicalArchitecturePath = Join-Path $canonicalAgentDir "ARCHITECTURE.md"
 
+        $result.local_agent.expected_target = $canonicalAgentDir
+        $result.local_agent.present = $true
+        try {
+            $localAgentItem = Get-Item -LiteralPath $localAgentDir -Force
+            $result.local_agent.link_type = Get-SafeString $localAgentItem.LinkType ""
+            $localTargets = @()
+            if ($localAgentItem.Target) { $localTargets = @($localAgentItem.Target) }
+            $localActualTarget = if ($localTargets.Count -gt 0) { [string]$localTargets[0] } else { "" }
+            $result.local_agent.actual_target = $localActualTarget
+            $localIsReparsePoint = ($localAgentItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0
+            $localIsLink = $localIsReparsePoint -and ($result.local_agent.link_type -in @("Junction", "SymbolicLink"))
+            $canonicalFull = [System.IO.Path]::GetFullPath($canonicalAgentDir)
+            $localActualFull = if ($localActualTarget) { [System.IO.Path]::GetFullPath($localActualTarget) } else { "" }
+
+            if (-not $localIsLink) {
+                $result.local_agent.physical_materialization = $true
+                $result.local_agent.reason = "physical_materialization"
+                $result.bootstrap_degradado = $true
+                if ($result.reason -eq "existing") { $result.reason = "local_agent_physical" }
+            } elseif ($localActualFull -ne $canonicalFull) {
+                $result.local_agent.reason = "target_mismatch"
+                $result.bootstrap_degradado = $true
+                if ($result.reason -eq "existing") { $result.reason = "local_agent_target_mismatch" }
+            } else {
+                $result.local_agent.ok = $true
+                $result.local_agent.reason = "ok"
+            }
+        } catch {
+            $result.local_agent.reason = "inspection_failed"
+            $result.bootstrap_degradado = $true
+            if ($result.reason -eq "existing") { $result.reason = "local_agent_inspection_failed" }
+        }
+
+        try {
+            $workspaceFull = [System.IO.Path]::GetFullPath($WorkspaceRoot).TrimEnd('\')
+            $projectFull = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd('\')
+            if (($projectFull + '\').StartsWith($workspaceFull + '\', [System.StringComparison]::OrdinalIgnoreCase)) {
+                $projectRelative = ($projectFull.Substring($workspaceFull.Length).TrimStart('\') -replace '\\', '/')
+                if ($projectRelative) {
+                    $trackedLocalAgentPaths = @(git -C $WorkspaceRoot ls-files "$projectRelative/.agent/**" 2>$null)
+                    $result.local_agent.tracked_git_paths_count = $trackedLocalAgentPaths.Count
+                    $result.local_agent.tracked_git_path_examples = @($trackedLocalAgentPaths | Select-Object -First 8)
+                    if ($trackedLocalAgentPaths.Count -gt 0) {
+                        $result.bootstrap_degradado = $true
+                        if ($result.reason -eq "existing") { $result.reason = "local_agent_tracked_content" }
+                        if ($result.local_agent.reason -eq "ok") { $result.local_agent.reason = "tracked_content" }
+                    }
+                }
+            }
+        } catch {
+            # Git may be unavailable in export-only environments; link shape still carries the primary gate.
+        }
+
         # Repo-native skill discovery bridge. This should be a junction to the canonical skills tree.
         $bridgePath = Join-Path $WorkspaceRoot ".agents\skills"
         $expectedTarget = Join-Path $WorkspaceRoot "tools\sgdk_wrapper\.agent\skills"
@@ -1255,6 +1654,19 @@ function Get-AgentBootstrapStatus {
             $result.agents_bridge.reason = "missing"
         }
 
+        try {
+            $trackedBridgePaths = @(git -C $WorkspaceRoot ls-files ".agents/skills/**" 2>$null)
+            $result.agents_bridge.tracked_git_paths_count = $trackedBridgePaths.Count
+            $result.agents_bridge.tracked_git_path_examples = @($trackedBridgePaths | Select-Object -First 8)
+            if ($trackedBridgePaths.Count -gt 0) {
+                $result.bootstrap_degradado = $true
+                if ($result.reason -eq "existing") { $result.reason = "agents_bridge_tracked_content" }
+                if ($result.agents_bridge.reason -eq "ok") { $result.agents_bridge.reason = "tracked_content" }
+            }
+        } catch {
+            # Git may be unavailable in export-only environments; link shape still carries the primary gate.
+        }
+
         if (Test-Path -LiteralPath $canonicalManifestPath -PathType Leaf) {
             try {
                 $canonicalManifest = Get-Content -LiteralPath $canonicalManifestPath -Raw | ConvertFrom-Json
@@ -1267,10 +1679,26 @@ function Get-AgentBootstrapStatus {
                 if ($canonicalManifest.tracked_paths) {
                     foreach ($trackedPath in $canonicalManifest.tracked_paths) {
                         $localTracked = Join-Path $localAgentDir ([string]$trackedPath)
+                        $canonicalTracked = Join-Path $canonicalAgentDir ([string]$trackedPath)
                         if (-not (Test-Path -LiteralPath $localTracked)) {
                             $result.bootstrap_degradado = $true
                             $result.reason = "missing_tracked_path"
                             break
+                        }
+                        if (Test-Path -LiteralPath $canonicalTracked) {
+                            $localTrackedHash = Get-AgentPathDigestOrNull -Path $localTracked
+                            $canonicalTrackedHash = Get-AgentPathDigestOrNull -Path $canonicalTracked
+                            if ($localTrackedHash -and $canonicalTrackedHash -and $localTrackedHash -ne $canonicalTrackedHash) {
+                                $result.tracked_path_drift += [ordered]@{
+                                    path = [string]$trackedPath
+                                    local_hash = $localTrackedHash
+                                    canonical_hash = $canonicalTrackedHash
+                                }
+                                $result.bootstrap_degradado = $true
+                                if ($result.reason -eq "existing") {
+                                    $result.reason = "tracked_path_drift"
+                                }
+                            }
                         }
                     }
                 }
@@ -1455,6 +1883,142 @@ function Get-ChangelogStatus {
     }
 
     return $result
+}
+
+function New-CanonicalValidationSummary {
+    param(
+        [Parameter(Mandatory = $true)]$Results,
+        $RuntimeMetrics,
+        $EmulatorSession,
+        $SceneRegressionStatus,
+        $AudioValidationStatus,
+        $ChangelogStatus,
+        $SceneContractCompileStatus,
+        $ResGraphStatus,
+        $FreshnessAuditStatus,
+        $SceneCloseoutGateStatus
+    )
+
+    $runtimeSceneId = $null
+    if ($RuntimeMetrics -and $RuntimeMetrics.PSObject.Properties['scene_id']) {
+        try {
+            $runtimeSceneId = [int]$RuntimeMetrics.scene_id
+        } catch {
+            $runtimeSceneId = $RuntimeMetrics.scene_id
+        }
+    }
+
+    $sceneRegressionSnapshot = [ordered]@{
+        required = if ($SceneRegressionStatus) { [bool]$SceneRegressionStatus.required } else { $false }
+        ready = [bool]$Results.status_panel.scene_regression_ready
+        report_present = if ($SceneRegressionStatus) { [bool]$SceneRegressionStatus.report_present } else { $false }
+        stale = if ($SceneRegressionStatus) { [bool]$SceneRegressionStatus.stale } else { $false }
+        expected_scene_count = if ($SceneRegressionStatus) { [int]$SceneRegressionStatus.expected_scene_count } else { 0 }
+        report_scene_count = if ($SceneRegressionStatus) { [int]$SceneRegressionStatus.report_scene_count } else { 0 }
+        failed_scenes = if ($SceneRegressionStatus) { @($SceneRegressionStatus.failed_scenes) } else { @() }
+        missing_scenes = if ($SceneRegressionStatus) { @($SceneRegressionStatus.missing_scenes) } else { @() }
+    }
+
+    $audioState = "not_required"
+    if ($AudioValidationStatus -and $AudioValidationStatus.required) {
+        if (-not $AudioValidationStatus.report_present) {
+            $audioState = "missing"
+        } elseif ($AudioValidationStatus.stale) {
+            $audioState = "stale"
+        } elseif ($AudioValidationStatus.pass) {
+            $audioState = "ok"
+        } else {
+            $audioState = "failed"
+        }
+    }
+
+    $emulatorState = "missing"
+    if ([bool]$Results.status_panel.emulator_evidence_stale) {
+        $emulatorState = "stale"
+    } elseif ([bool]$Results.status_panel.blastem_gate) {
+        $emulatorState = "blastem_gate_ok"
+    } elseif ([bool]$Results.status_panel.testado_em_emulador) {
+        $emulatorState = "captured_no_blastem_gate"
+    }
+
+    return [ordered]@{
+        schema_version = "1.0.0"
+        generated_from = "validation_report"
+        build = [ordered]@{
+            rom_present = [bool]$Results.status_panel.buildado
+            qa_axis = $Results.qa_axes.build
+        }
+        runtime_capture = [ordered]@{
+            present = [bool]$Results.status_panel.runtime_capture_present
+            stale = [bool]$Results.status_panel.emulator_evidence_stale
+            samples_recorded = [int]$Results.evidence.runtime_samples_recorded
+            scene_id = $runtimeSceneId
+            frame_stability = $Results.runtime_profile.frame_stability
+            sprite_pressure = $Results.runtime_profile.sprite_pressure
+            fx_load = $Results.runtime_profile.fx_load
+            perceptual_quality = $Results.runtime_profile.perceptual_quality
+        }
+        emulator = [ordered]@{
+            state = $emulatorState
+            qa_axis = $Results.qa_axes.boot_emulador
+            reference = $Results.evidence.emulator_reference
+            blastem_gate = [bool]$Results.status_panel.blastem_gate
+            fresh_sram_confirmed = $Results.evidence.emulator_fresh_sram_confirmed
+        }
+        scene_regression = $sceneRegressionSnapshot
+        audio_validation = [ordered]@{
+            ready = [bool]$Results.status_panel.audio_validation_ready
+            state = $audioState
+            required = if ($AudioValidationStatus) { [bool]$AudioValidationStatus.required } else { $false }
+            report_present = if ($AudioValidationStatus) { [bool]$AudioValidationStatus.report_present } else { $false }
+            stale = if ($AudioValidationStatus) { [bool]$AudioValidationStatus.stale } else { $false }
+        }
+        changelog = [ordered]@{
+            ready = [bool]$Results.status_panel.changelog_ready
+            present = if ($ChangelogStatus) { [bool]$ChangelogStatus.present } else { $false }
+            rom_outdated = if ($ChangelogStatus) { [bool]$ChangelogStatus.rom_outdated } else { $false }
+            assets_missing = if ($ChangelogStatus) { @($ChangelogStatus.assets_missing) } else { @() }
+            assets_outdated = if ($ChangelogStatus) { @($ChangelogStatus.assets_outdated) } else { @() }
+        }
+        gates = [ordered]@{
+            validado_budget = [bool]$Results.status_panel.validado_budget
+            visual_lab_aprovado = [bool]$Results.status_panel.visual_lab_aprovado
+            gameplay_rom_aprovada = [bool]$Results.status_panel.gameplay_rom_aprovada
+            ready_for_aaa = [bool]$Results.status_panel.ready_for_aaa
+        }
+        wrapper_reports = [ordered]@{
+            scene_contract_compile = [ordered]@{
+                report_present = if ($SceneContractCompileStatus) { [bool]$SceneContractCompileStatus.report_present } else { $false }
+                stale = if ($SceneContractCompileStatus) { [bool]$SceneContractCompileStatus.stale } else { $false }
+                generated_at = if ($SceneContractCompileStatus) { $SceneContractCompileStatus.generated_at } else { $null }
+                latest_dependency_utc = if ($SceneContractCompileStatus) { $SceneContractCompileStatus.latest_dependency_utc } else { $null }
+                report_path = if ($SceneContractCompileStatus) { $SceneContractCompileStatus.report_path } else { $null }
+            }
+            res_graph = [ordered]@{
+                report_present = if ($ResGraphStatus) { [bool]$ResGraphStatus.report_present } else { $false }
+                stale = if ($ResGraphStatus) { [bool]$ResGraphStatus.stale } else { $false }
+                generated_at = if ($ResGraphStatus) { $ResGraphStatus.generated_at } else { $null }
+                latest_dependency_utc = if ($ResGraphStatus) { $ResGraphStatus.latest_dependency_utc } else { $null }
+                report_path = if ($ResGraphStatus) { $ResGraphStatus.report_path } else { $null }
+            }
+            freshness_audit = [ordered]@{
+                report_present = if ($FreshnessAuditStatus) { [bool]$FreshnessAuditStatus.report_present } else { $false }
+                stale = if ($FreshnessAuditStatus) { [bool]$FreshnessAuditStatus.stale } else { $false }
+                generated_at = if ($FreshnessAuditStatus) { $FreshnessAuditStatus.generated_at } else { $null }
+                latest_dependency_utc = if ($FreshnessAuditStatus) { $FreshnessAuditStatus.latest_dependency_utc } else { $null }
+                report_path = if ($FreshnessAuditStatus) { $FreshnessAuditStatus.report_path } else { $null }
+            }
+            scene_closeout_gate = [ordered]@{
+                report_present = if ($SceneCloseoutGateStatus) { [bool]$SceneCloseoutGateStatus.report_present } else { $false }
+                stale = if ($SceneCloseoutGateStatus) { [bool]$SceneCloseoutGateStatus.stale } else { $false }
+                generated_at = if ($SceneCloseoutGateStatus) { $SceneCloseoutGateStatus.generated_at } else { $null }
+                latest_dependency_utc = if ($SceneCloseoutGateStatus) { $SceneCloseoutGateStatus.latest_dependency_utc } else { $null }
+                report_path = if ($SceneCloseoutGateStatus) { $SceneCloseoutGateStatus.report_path } else { $null }
+            }
+        }
+        blocking_status_codes = @($Results.blocking_statuses | Select-Object -Unique)
+        source_artifacts = @($Results.status_panel.source_artifacts)
+    }
 }
 
 function Resolve-SprInitExValue {
@@ -1712,6 +2276,7 @@ $fixScript = Join-Path $PSScriptRoot "ensure_safe_image.ps1"
 $runtimeMetricsPath = Join-Path $LOG_DIR "runtime_metrics.json"
 $emulatorSessionPath = Join-Path $LOG_DIR "emulator_session.json"
 $visualAestheticReportPath = Join-Path $LOG_DIR "visual_aesthetic_report.json"
+$visualDeliveryGateReportPath = Join-Path $LOG_DIR "visual_delivery_gate_report.json"
 $sceneRegressionReportPath = Join-Path $LOG_DIR "scene_regression_report.json"
 $runtimeThresholdsPath = Join-Path $PSScriptRoot "runtime_thresholds.json"
 $aestheticAnalyzerPath = $null
@@ -1722,6 +2287,7 @@ $pythonPath = Get-PythonPath
 $visualAnalyses = @()
 $visualLabBenchmark = $null
 $visualAnalyzerAvailable = $false
+$visualDeliveryGateReport = $null
 $runtimeMetrics = $null
 $emulatorSession = $null
 $runtimeThresholds = $null
@@ -1767,6 +2333,17 @@ if (Test-Path -LiteralPath $emulatorSessionPath) {
         Write-Log ("Falha ao carregar emulator_session.json: {0}" -f $_.Exception.Message) "WARN"
         $results.summary.warnings++
         Add-Detail $results "EMULATOR_SESSION" "WARNING" "Falha ao carregar emulator_session.json." "runtime" $emulatorSessionPath
+    }
+}
+
+if (Test-Path -LiteralPath $visualDeliveryGateReportPath) {
+    try {
+        $visualDeliveryGateReport = Get-Content -LiteralPath $visualDeliveryGateReportPath -Raw | ConvertFrom-Json
+    } catch {
+        $msg = ("Falha ao carregar visual_delivery_gate_report.json: {0}" -f $_.Exception.Message)
+        Write-Log $msg "WARN"
+        $results.summary.warnings++
+        Add-Detail $results "VISUAL_DELIVERY_GATE" "WARNING" $msg "visual" $visualDeliveryGateReportPath
     }
 }
 
@@ -1916,17 +2493,33 @@ foreach ($res in $resFiles) {
         $invalidReasons = @()
         if (-not $info.Indexed) { $invalidReasons += "imagem não indexada" }
         if ($info.Depth -gt 8) { $invalidReasons += "depth $($info.Depth) bits" }
-        if ($info.Colors -gt 16) { $invalidReasons += "$($info.Colors) cores" }
 
+        $paletteInflatedHandledColors = $false
         if ($info.Indexed -and $info.PSObject.Properties.Name -contains 'PaletteEntries' -and $info.PaletteEntries -gt 16) {
-            $msg = "Imagem $path tem $($info.PaletteEntries) entradas de paleta PLTE (max 16). Mesmo com poucas cores unicas, indices redundantes impedem deduplicacao de tiles no rescomp e causam corrupcao visual."
-            Write-Log $msg "ERROR"
-            $results.summary.errors++
-            Add-Detail $results "PALETTE_INFLATED" "ERROR" $msg $name $path @{
-                paletteEntries = $info.PaletteEntries
-                bitDepth = $info.Depth
-                uniqueColors = $info.Colors
+            if ($info.Colors -gt 16) {
+                $paletteInflatedHandledColors = $true
+                $msg = "Imagem $path tem $($info.PaletteEntries) entradas de paleta PLTE e $($info.Colors) cores unicas (max 16). ResComp rejeitara esta imagem."
+                Write-Log $msg "ERROR"
+                $results.summary.errors++
+                Add-Detail $results "PALETTE_INFLATED" "ERROR" $msg $name $path @{
+                    paletteEntries = $info.PaletteEntries
+                    bitDepth = $info.Depth
+                    uniqueColors = $info.Colors
+                }
+            } else {
+                $msg = "Imagem $path tem $($info.PaletteEntries) entradas de paleta PLTE (max 16), mas apenas $($info.Colors) cores unicas. ResComp re-indexa automaticamente; considere re-quantizar para limpeza."
+                Write-Log $msg "WARN"
+                $results.summary.warnings++
+                Add-Detail $results "PALETTE_INFLATED" "WARNING" $msg $name $path @{
+                    paletteEntries = $info.PaletteEntries
+                    bitDepth = $info.Depth
+                    uniqueColors = $info.Colors
+                }
             }
+        }
+
+        if (-not $paletteInflatedHandledColors -and $info.Colors -gt 16) {
+            $invalidReasons += "$($info.Colors) cores"
         }
 
         if ($invalidReasons.Count -gt 0) {
@@ -1985,19 +2578,23 @@ foreach ($res in $resFiles) {
                 $transparencyAudit = Get-IndexedTransparencyAudit -filePath $absPath
                 $transparencySeverity = Get-IndexedTransparencySeverity -audit $transparencyAudit
                 if ($transparencySeverity -and $transparencySeverity.level -ne "OK") {
-                    $logLevel = switch ($transparencySeverity.level) {
+                    $effectiveLevel = $transparencySeverity.level
+                    if ($kind -eq "IMAGE" -and $effectiveLevel -eq "ERROR") {
+                        $effectiveLevel = "WARNING"
+                    }
+                    $logLevel = switch ($effectiveLevel) {
                         "ERROR" { "ERROR" }
                         "WARNING" { "WARN" }
                         default { "INFO" }
                     }
                     $auditMsg = "Imagem ${name}: $($transparencySeverity.message)"
                     Write-Log $auditMsg $logLevel
-                    if ($transparencySeverity.level -eq "ERROR") {
+                    if ($effectiveLevel -eq "ERROR") {
                         $results.summary.errors++
-                    } elseif ($transparencySeverity.level -eq "WARNING") {
+                    } elseif ($effectiveLevel -eq "WARNING") {
                         $results.summary.warnings++
                     }
-                    Add-Detail $results $transparencySeverity.code $transparencySeverity.level $auditMsg $name $path @{
+                    Add-Detail $results $transparencySeverity.code $effectiveLevel $auditMsg $name $path @{
                         bitsPerPixel = $transparencyAudit.bitsPerPixel
                         totalPixels = $transparencyAudit.totalPixels
                         zeroIndexPixelCount = $transparencyAudit.zeroIndexPixelCount
@@ -2252,7 +2849,11 @@ if ($visualAnalyses.Count -gt 0) {
             critical_rework = $criticalReworkCount
         }
     }
-    $reportPayload | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $visualAestheticReportPath
+    [System.IO.File]::WriteAllText(
+        $visualAestheticReportPath,
+        ($reportPayload | ConvertTo-Json -Depth 12),
+        [System.Text.Encoding]::UTF8
+    )
 
     if ($visualLabBenchmark) {
         Add-Detail $results "VISUAL_ELITE" "INFO" "Projeto em modo benchmark composto: o gate visual principal usa o delta BASIC vs ELITE." "visual" $visualAestheticReportPath @{
@@ -2317,6 +2918,355 @@ if ($visualAnalyses.Count -gt 0) {
                 minimumDelta = $visualLabBenchmark.comparison.minimum_delta
             }
         }
+    }
+}
+else {
+    $msg = "Gate visual sem medicao canonica: nenhum asset visual foi analisado e o laboratorio visual nao pode ser promovido."
+    Write-Log $msg (Get-BlockingStatusLogLevel "visual_gate_blocked")
+    Add-BlockingStatus $results "visual_gate_blocked" $msg "visual" $visualAestheticReportPath @{
+        reason = "no_visual_analysis"
+        totalAssets = 0
+        benchmarkStatus = if ($visualLabBenchmark) { Get-SafeString $visualLabBenchmark.benchmark_status "nao_medido" } else { "nao_configurado" }
+    }
+}
+
+if ($visualDeliveryGateReport) {
+    $results.evidence.visual_delivery_gate_report_path = $visualDeliveryGateReportPath
+    $gateFindings = @()
+
+    $schemaValue = Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport "schema" "") ""
+    if ($schemaValue -ne "visual_delivery_gate_report.v1") {
+        $gateFindings += "schema_missing_or_invalid"
+    }
+
+    foreach ($routeField in @("visual_route_status", "route_status", "pipeline_status", "delivery_status")) {
+        $routeStatus = Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport $routeField "") ""
+        if (-not $routeStatus) { continue }
+        $routeStatusNormalized = $routeStatus.ToLowerInvariant()
+        if ($routeStatusNormalized -in @("blocked_image_tooling", "blocked_no_premium_source", "blocked_no_visual_source")) {
+            $gateFindings += $routeStatusNormalized
+        }
+        if ($routeStatusNormalized -eq "lab_not_delivery") {
+            $gateFindings += "lab_not_delivery"
+        }
+    }
+
+    $readyForAaaValue = Get-ObjectPropertyValue $visualDeliveryGateReport "ready_for_aaa" $null
+    if ($null -ne $readyForAaaValue -and -not (Test-TruthyValue $readyForAaaValue)) {
+        $gateFindings += "ready_for_aaa_false"
+    }
+
+    $reportAuthorialityGate = Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport "authoriality_gate" "") ""
+    if ($reportAuthorialityGate -and $reportAuthorialityGate.ToLowerInvariant() -notin @("passed", "pass", "ok")) {
+        $gateFindings += ("authoriality_gate_{0}" -f $reportAuthorialityGate)
+    }
+
+    $blockingStatus = Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport "blocking_status" "") ""
+    if ($blockingStatus -and $blockingStatus -notin @("none", "ok", "passed")) {
+        $gateFindings += $blockingStatus
+    }
+
+    $visualDeliveryCandidate =
+        (Test-TruthyValue $readyForAaaValue) -or
+        ((Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport "visual_route_status" "") "").ToLowerInvariant() -eq "delivery_candidate") -or
+        ((Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport "delivery_classification" "") "").ToLowerInvariant() -match "aaa|delivery")
+
+    $vramResidencyStatus = (Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport "vram_residency_status" "") "").ToLowerInvariant()
+    $vramResidencyReportRef = Get-ObjectPropertyValue $visualDeliveryGateReport "vram_residency_report" $null
+    if ($vramResidencyStatus -in @("failed", "blocked", "nao_medido", "unmeasured", "not_measured", "missing")) {
+        $gateFindings += ("vram_residency_status_{0}" -f $vramResidencyStatus)
+    }
+    if ($visualDeliveryCandidate) {
+        if (-not $vramResidencyStatus) {
+            $gateFindings += "vram_residency_status_missing"
+        }
+        if ($null -eq $vramResidencyReportRef -or -not (Test-ExistingArtifactReference $vramResidencyReportRef $pwd.Path)) {
+            $gateFindings += "vram_residency_report_missing"
+        }
+    }
+    if ($vramResidencyReportRef -and (Test-ExistingArtifactReference $vramResidencyReportRef $pwd.Path)) {
+        $vramResidencyReport = Get-ArtifactJsonOrNull $vramResidencyReportRef $pwd.Path
+        if ($null -eq $vramResidencyReport) {
+            $gateFindings += "vram_residency_report_invalid"
+        } else {
+            $reportedVramStatus = (Get-SafeString (Get-ObjectPropertyValue (Get-ObjectPropertyValue $vramResidencyReport "vram" $null) "status" "") "").ToLowerInvariant()
+            if ($reportedVramStatus -in @("collision_risk", "failed", "blocked", "error")) {
+                $gateFindings += ("vram_residency_report_{0}" -f $reportedVramStatus)
+            }
+            $reportedOverlaps = @(Get-ObjectPropertyValue (Get-ObjectPropertyValue $vramResidencyReport "vram" $null) "overlaps" @())
+            if ($reportedOverlaps.Count -gt 0) {
+                $gateFindings += ("vram_residency_overlap_count_{0}" -f $reportedOverlaps.Count)
+            }
+        }
+    }
+
+    $runtimeVisualCorruptionStatus = (Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport "runtime_visual_corruption_status" "") "").ToLowerInvariant()
+    if ($runtimeVisualCorruptionStatus -in @("detected", "failed", "blocked", "garbage_tiles", "corrupted")) {
+        $gateFindings += ("runtime_visual_corruption_{0}" -f $runtimeVisualCorruptionStatus)
+    }
+    if ($visualDeliveryCandidate -and -not $runtimeVisualCorruptionStatus) {
+        $gateFindings += "runtime_visual_corruption_status_missing"
+    }
+
+    $criticalAssets = @(Get-ObjectPropertyValue $visualDeliveryGateReport "critical_assets" @())
+    if ($criticalAssets.Count -eq 0) {
+        $gateFindings += "critical_assets_missing"
+    }
+    foreach ($asset in $criticalAssets) {
+        $assetId = Get-SafeString (Get-ObjectPropertyValue $asset "asset_id" "") "unknown_asset"
+        $status = Get-SafeString (Get-ObjectPropertyValue $asset "visual_status" "") ""
+        if (-not $status) { $status = Get-SafeString (Get-ObjectPropertyValue $asset "status" "") "" }
+        if ($status -in @("needs_review", "rework", "placeholder", "debug_lab", "benchmark-derived", "benchmark_derived")) {
+            $gateFindings += ("{0}:{1}" -f $assetId, $status)
+        }
+        if ($status -eq "debug_lab" -and -not (Test-TruthyValue (Get-ObjectPropertyValue $asset "lab_not_delivery" $false))) {
+            $gateFindings += ("{0}:lab_not_delivery_missing" -f $assetId)
+        }
+        if (Test-TruthyValue (Get-ObjectPropertyValue $asset "lab_not_delivery" $false)) {
+            $gateFindings += ("{0}:lab_not_delivery" -f $assetId)
+        }
+
+        if (-not (Test-TruthyValue (Get-ObjectPropertyValue $asset "source_validity" $false))) {
+            $gateFindings += ("{0}:source_validity_failed" -f $assetId)
+        }
+
+        $assetAuthorialityGate = Get-SafeString (Get-ObjectPropertyValue $asset "authoriality_gate" "") ""
+        if (-not $assetAuthorialityGate) {
+            $gateFindings += ("{0}:authoriality_gate_missing" -f $assetId)
+        } elseif ($assetAuthorialityGate.ToLowerInvariant() -notin @("passed", "pass", "ok")) {
+            $gateFindings += ("{0}:authoriality_gate_{1}" -f $assetId, $assetAuthorialityGate)
+        }
+
+        foreach ($requiredField in @("license", "authorial_source", "derivative_of", "derivative_license_status", "clone_risk_score", "clone_risk_method", "benchmark_used_as")) {
+            $fieldValue = Get-ObjectPropertyValue $asset $requiredField $null
+            if ($null -eq $fieldValue -or [string]::IsNullOrWhiteSpace([string]$fieldValue)) {
+                $gateFindings += ("{0}:{1}_missing" -f $assetId, $requiredField)
+            }
+        }
+
+        $benchmarkUsedAs = Get-SafeString (Get-ObjectPropertyValue $asset "benchmark_used_as" "") ""
+        if ($benchmarkUsedAs -and $benchmarkUsedAs.ToLowerInvariant() -notin @("technical_reference", "technical_benchmark", "scale_density_timing_budget_quality", "escala_densidade_timing_budget_qualidade")) {
+            $gateFindings += ("{0}:benchmark_used_as_{1}" -f $assetId, $benchmarkUsedAs)
+        }
+
+        $derivativeOf = Get-ObjectPropertyValue $asset "derivative_of" $null
+        $hasDerivative = -not (Test-EmptyOrNoneValue $derivativeOf)
+        $derivativeLicenseStatus = Get-ObjectPropertyValue $asset "derivative_license_status" $null
+        if (-not (Test-ApprovedDerivativeLicenseStatus $derivativeLicenseStatus $hasDerivative)) {
+            $gateFindings += ("{0}:derivative_license_status_invalid" -f $assetId)
+        }
+
+        $cloneRiskScore = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "clone_risk_score" $null)
+        $cloneRiskThreshold = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "clone_risk_max" $null)
+        if ($null -eq $cloneRiskThreshold) { $cloneRiskThreshold = 0.35 }
+        if ($null -eq $cloneRiskScore) {
+            $gateFindings += ("{0}:clone_risk_score_missing" -f $assetId)
+        } elseif ($cloneRiskScore -gt $cloneRiskThreshold) {
+            $gateFindings += ("{0}:clone_risk_score_{1}" -f $assetId, $cloneRiskScore)
+        }
+
+        $benchmarkSimilarityIndex = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "benchmark_similarity_index" $null)
+        $benchmarkMaxSimilarity = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "benchmark_profile_max_similarity" $null)
+        if ($null -eq $benchmarkMaxSimilarity) { $benchmarkMaxSimilarity = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "benchmark_max_similarity" $null) }
+        if ($null -eq $benchmarkMaxSimilarity) { $benchmarkMaxSimilarity = 0.35 }
+        $benchmarkProfileId = Get-SafeString (Get-ObjectPropertyValue $asset "benchmark_profile_id" "") ""
+        if (-not $benchmarkProfileId) { $benchmarkProfileId = Get-SafeString (Get-ObjectPropertyValue $asset "benchmark_profile" "") "" }
+        if ($benchmarkProfileId -and $null -eq $benchmarkSimilarityIndex) {
+            $gateFindings += ("{0}:benchmark_similarity_index_missing" -f $assetId)
+        } elseif ($null -ne $benchmarkSimilarityIndex -and $benchmarkSimilarityIndex -gt $benchmarkMaxSimilarity) {
+            $gateFindings += ("{0}:benchmark_similarity_index_{1}" -f $assetId, $benchmarkSimilarityIndex)
+        }
+
+        $cloneRiskStatus = Get-SafeString (Get-ObjectPropertyValue $asset "clone_risk_status" "") ""
+        if ($cloneRiskStatus -and $cloneRiskStatus.ToLowerInvariant() -notin @("passed", "pass", "ok", "low", "baixo")) {
+            $gateFindings += ("{0}:clone_risk_status_{1}" -f $assetId, $cloneRiskStatus)
+        }
+
+        if (Get-ObjectPropertyValue $asset "rom_asset_path" $null) {
+            if (-not (Test-TruthyValue (Get-ObjectPropertyValue $asset "elite_ready" $false))) {
+                $gateFindings += ("{0}:elite_ready_missing" -f $assetId)
+            }
+        }
+
+        $perceptualQuality = Get-SafeString (Get-ObjectPropertyValue $asset "perceptual_quality" "") ""
+        if ($perceptualQuality -in @("nao_medido", "unmeasured", "not_measured")) {
+            $gateFindings += ("{0}:perceptual_quality_unmeasured" -f $assetId)
+        }
+
+        $hasRomAssetPath = -not [string]::IsNullOrWhiteSpace((Get-SafeString (Get-ObjectPropertyValue $asset "rom_asset_path" "") ""))
+        $sourceMatch = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "source_to_rom_visual_match" $null)
+        if ($hasRomAssetPath -and $null -eq $sourceMatch) {
+            $gateFindings += ("{0}:source_to_rom_visual_match_missing" -f $assetId)
+        } elseif ($null -ne $sourceMatch -and $sourceMatch -lt 8.0) {
+            $gateFindings += ("{0}:source_to_rom_visual_match_{1}" -f $assetId, $sourceMatch)
+        }
+
+        $benchmarkRequiredMatch = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "benchmark_profile_required_match" $null)
+        if ($null -eq $benchmarkRequiredMatch) { $benchmarkRequiredMatch = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "benchmark_required_match" $null) }
+        if ($null -eq $benchmarkRequiredMatch) { $benchmarkRequiredMatch = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "required_benchmark_match" $null) }
+        $benchmarkMatch = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "benchmark_match" $null)
+        $hamoopigMatch = Get-SafeNumberOrNull (Get-ObjectPropertyValue $asset "HAMOOPIG_benchmark_match" $null)
+        if ($null -eq $benchmarkMatch -and $null -ne $hamoopigMatch) { $benchmarkMatch = $hamoopigMatch }
+        if ($null -ne $benchmarkRequiredMatch) {
+            if ($null -eq $benchmarkMatch) {
+                $gateFindings += ("{0}:benchmark_match_missing" -f $assetId)
+            } elseif ($benchmarkMatch -lt $benchmarkRequiredMatch) {
+                $gateFindings += ("{0}:benchmark_match_{1}_below_required_{2}" -f $assetId, $benchmarkMatch, $benchmarkRequiredMatch)
+            }
+        } elseif ($null -ne $hamoopigMatch -and $hamoopigMatch -lt 8.0) {
+            $gateFindings += ("{0}:HAMOOPIG_benchmark_match_{1}" -f $assetId, $hamoopigMatch)
+        }
+
+        $generationChannel = Get-SafeString (Get-ObjectPropertyValue $asset "generation_channel" "") ""
+        $sourceKind = Get-SafeString (Get-ObjectPropertyValue $asset "source_kind" "") ""
+        if ($generationChannel -in @("local_author_pixel_rasterization", "procedural_renderer") -or $sourceKind -in @("procedural_debug_lab", "debug_lab")) {
+            $gateFindings += ("{0}:local_rasterization_used_as_final" -f $assetId)
+        }
+
+        $sourceLineageKind = Get-SafeString (Get-ObjectPropertyValue $asset "source_lineage_kind" "") ""
+        if ($sourceLineageKind -in @("benchmark-derived", "benchmark_derived", "clone", "unauthored", "unknown_authority")) {
+            $gateFindings += ("{0}:source_lineage_{1}" -f $assetId, $sourceLineageKind)
+        }
+
+        $paletteStatus = Get-SafeString (Get-ObjectPropertyValue $asset "palette_status" "") ""
+        if ($paletteStatus -eq "PALETTE_WASTE" -or (Test-AssetFlagPresent $asset @("PALETTE_WASTE"))) {
+            $gateFindings += ("{0}:PALETTE_WASTE" -f $assetId)
+        }
+
+        if (Test-TruthyValue (Get-ObjectPropertyValue $asset "quantization_only" $false)) {
+            $gateFindings += ("{0}:quantization_only_palette_pass" -f $assetId)
+        }
+
+        if (Test-TruthyValue (Get-ObjectPropertyValue $asset "manual_palette_pass_required" $false)) {
+            if (-not (Test-TruthyValue (Get-ObjectPropertyValue $asset "manual_palette_pass" $false))) {
+                $gateFindings += ("{0}:manual_palette_pass_missing" -f $assetId)
+            }
+        }
+
+        $materialProfile = Get-SafeString (Get-ObjectPropertyValue $asset "material_profile" "") ""
+        $requiresWhiteMaterialContract =
+            (Test-TruthyValue (Get-ObjectPropertyValue $asset "white_material_palette_contract_required" $false)) -or
+            ($materialProfile.ToLowerInvariant() -match "white_gi|white_fabric|tecido_claro|gi_branco")
+        if ($requiresWhiteMaterialContract) {
+            $contractValue = Get-ObjectPropertyValue $asset "white_material_palette_contract" $null
+            $contractPath = Get-SafeString (Get-ObjectPropertyValue $asset "white_material_palette_contract_path" "") ""
+            $contractPassed = Test-TruthyValue $contractValue
+            if ($contractValue -and $contractValue.PSObject.Properties["status"]) {
+                $contractPassed = ((Get-SafeString $contractValue.status "") -in @("passed", "ok", "pass"))
+            }
+            if ($contractPath) {
+                $resolvedContractPath = if ([System.IO.Path]::IsPathRooted($contractPath)) { $contractPath } else { Join-Path $pwd.Path $contractPath }
+                $contractPassed = $contractPassed -or (Test-Path -LiteralPath $resolvedContractPath)
+            }
+            if (-not $contractPassed) {
+                $gateFindings += ("{0}:white_material_palette_contract_missing" -f $assetId)
+            }
+            foreach ($slotField in @("hue_shifted_shadows", "warm_clean_highlights", "minimum_tonal_distance", "palette_slot_functions_declared")) {
+                if (-not (Test-TruthyValue (Get-ObjectPropertyValue $asset $slotField $false))) {
+                    $gateFindings += ("{0}:{1}_missing" -f $assetId, $slotField)
+                }
+            }
+        }
+
+        if (Test-HudVisualAsset $asset $assetId) {
+            foreach ($hudField in @("ui_attention_profile", "hud_density", "visual_hierarchy", "hud_screen_area", "contrast_profile", "gameplay_interference")) {
+                $hudValue = Get-ObjectPropertyValue $asset $hudField $null
+                if ($null -eq $hudValue -or [string]::IsNullOrWhiteSpace([string]$hudValue)) {
+                    $gateFindings += ("{0}:{1}_missing" -f $assetId, $hudField)
+                }
+            }
+            if (Test-TruthyValue (Get-ObjectPropertyValue $asset "debug_hud" $false)) {
+                $gateFindings += ("{0}:debug_hud_promoted" -f $assetId)
+            }
+        }
+
+        if (Test-AnimatedCriticalAsset $asset $assetId) {
+            foreach ($animationField in @("animation_preview_evidence", "contact_sheet", "pivot_overlay", "foot_contact_report", "motion_phase_map", "frame_delta_report", "slicing_cell_contract")) {
+                $animationValue = Get-ObjectPropertyValue $asset $animationField $null
+                if ($null -eq $animationValue -or [string]::IsNullOrWhiteSpace([string]$animationValue)) {
+                    $gateFindings += ("{0}:{1}_missing" -f $assetId, $animationField)
+                } elseif (-not (Test-ExistingArtifactReference $animationValue $pwd.Path)) {
+                    $gateFindings += ("{0}:{1}_file_missing" -f $assetId, $animationField)
+                }
+            }
+            $cellContractSource = (Get-SafeString (Get-ObjectPropertyValue $asset "cell_contract_source" "") "").ToLowerInvariant()
+            if ($cellContractSource -in @("hardcoded", "hardcoded_default", "unknown", "none")) {
+                $gateFindings += ("{0}:cell_contract_source_{1}" -f $assetId, $cellContractSource)
+            }
+            if (-not (Test-TruthyValue (Get-ObjectPropertyValue $asset "state_belongs_to_character_fantasy" $false))) {
+                $gateFindings += ("{0}:state_belongs_to_character_fantasy_false" -f $assetId)
+            }
+            if (Test-TruthyValue (Get-ObjectPropertyValue $asset "has_attack_states" $false)) {
+                $activeRecoveryMap = Get-ObjectPropertyValue $asset "active_recovery_map" $null
+                if ($null -eq $activeRecoveryMap -or [string]::IsNullOrWhiteSpace([string]$activeRecoveryMap)) {
+                    $gateFindings += ("{0}:active_recovery_map_missing" -f $assetId)
+                }
+            }
+            if (Test-TruthyValue (Get-ObjectPropertyValue $asset "bjj_state" $false)) {
+                if (-not (Test-TruthyValue (Get-ObjectPropertyValue $asset "bjj_body_language_declared" $false))) {
+                    $gateFindings += ("{0}:bjj_body_language_missing" -f $assetId)
+                }
+            }
+
+            $spriteArtifactReportRef = Get-ObjectPropertyValue $asset "sprite_artifact_report" $null
+            if ($hasRomAssetPath -and ($null -eq $spriteArtifactReportRef -or [string]::IsNullOrWhiteSpace([string]$spriteArtifactReportRef))) {
+                $gateFindings += ("{0}:sprite_artifact_report_missing" -f $assetId)
+            } elseif ($spriteArtifactReportRef -and -not (Test-ExistingArtifactReference $spriteArtifactReportRef $pwd.Path)) {
+                $gateFindings += ("{0}:sprite_artifact_report_file_missing" -f $assetId)
+            } elseif ($spriteArtifactReportRef) {
+                $spriteArtifactReport = Get-ArtifactJsonOrNull $spriteArtifactReportRef $pwd.Path
+                if ($null -eq $spriteArtifactReport) {
+                    $gateFindings += ("{0}:sprite_artifact_report_invalid" -f $assetId)
+                } else {
+                    $spriteArtifactStatus = (Get-SafeString (Get-ObjectPropertyValue $spriteArtifactReport "status" "") "").ToLowerInvariant()
+                    if ($spriteArtifactStatus -and $spriteArtifactStatus -notin @("passed", "pass", "ok", "elite_ready")) {
+                        $gateFindings += ("{0}:sprite_artifact_report_{1}" -f $assetId, $spriteArtifactStatus)
+                    }
+                    foreach ($spriteFinding in @($spriteArtifactReport.findings)) {
+                        $spriteCode = Get-SafeString (Get-ObjectPropertyValue $spriteFinding "code" "") ""
+                        $spriteSeverity = (Get-SafeString (Get-ObjectPropertyValue $spriteFinding "severity" "") "").ToLowerInvariant()
+                        if ($spriteCode -in @("FRAME_EDGE_CLIPPING", "FRAME_EMPTY", "NON_INDEX0_BACKGROUND_MATTE", "SMALL_ISLAND_DEBRIS", "STRAY_LARGE_COMPONENT", "SCALE_INCONSISTENCY", "BAKED_FX_IN_CHARACTER_SHEET")) {
+                            $gateFindings += ("{0}:{1}" -f $assetId, $spriteCode)
+                        } elseif ($spriteSeverity -eq "error") {
+                            $gateFindings += ("{0}:sprite_artifact_error_{1}" -f $assetId, $spriteCode)
+                        }
+                    }
+                }
+            }
+
+            foreach ($booleanGate in @(
+                @{ name = "frame_envelope_integrity"; code = "frame_envelope_integrity_failed" },
+                @{ name = "index0_transparency_clean"; code = "index0_transparency_dirty" },
+                @{ name = "scale_consistency"; code = "scale_consistency_failed" },
+                @{ name = "baked_fx_separated"; code = "baked_fx_not_separated" }
+            )) {
+                $rawGateValue = Get-ObjectPropertyValue $asset $booleanGate.name $null
+                if ($null -ne $rawGateValue -and -not (Test-TruthyValue $rawGateValue)) {
+                    $gateFindings += ("{0}:{1}" -f $assetId, $booleanGate.code)
+                }
+            }
+        }
+
+        $premiumSourcePath = Get-SafeString (Get-ObjectPropertyValue $asset "premium_source_path" "") ""
+        if ($premiumSourcePath) {
+            $resolvedPremiumSourcePath = if ([System.IO.Path]::IsPathRooted($premiumSourcePath)) { $premiumSourcePath } else { Join-Path $pwd.Path $premiumSourcePath }
+            if (-not (Test-Path -LiteralPath $resolvedPremiumSourcePath)) {
+                $gateFindings += ("{0}:premium_source_missing" -f $assetId)
+            }
+        } else {
+            $gateFindings += ("{0}:premium_source_missing" -f $assetId)
+        }
+    }
+
+    if ($gateFindings.Count -gt 0) {
+        $results.status_panel.visual_gate_ready = $false
+        $msg = "visual_delivery_gate_report bloqueou a promocao visual AAA."
+        Write-Log $msg (Get-BlockingStatusLogLevel "visual_gate_blocked")
+        Add-BlockingStatus $results "visual_gate_blocked" $msg "visual" $visualDeliveryGateReportPath @{
+            findings = @($gateFindings | Select-Object -Unique)
+        }
+    } else {
+        Add-Detail $results "VISUAL_DELIVERY_GATE" "INFO" "visual_delivery_gate_report presente e sem blockers." "visual" $visualDeliveryGateReportPath
     }
 }
 
@@ -2630,6 +3580,10 @@ if ($emulatorSession) {
     if ($performanceStatus) {
         $results.qa_axes.performance = $performanceStatus
     }
+    $hardwareRealStatus = Get-SafeString $emulatorSession.hardware_real ""
+    if ($hardwareRealStatus) {
+        $results.qa_axes.hardware_real = $hardwareRealStatus
+    }
 } elseif ($runtimeSamplesRecorded -gt 0 -and -not $emulatorEvidenceStale) {
     $results.qa_axes.boot_emulador = "ok"
 }
@@ -2670,12 +3624,143 @@ if ($results.qa_axes.performance -eq "nao_testado" -and $results.runtime_profile
     $results.qa_axes.performance = if ($results.runtime_profile.frame_stability -eq "estavel") { "estavel" } else { "com_drops" }
 }
 
+$sceneContractCompileReportPath = Join-Path $pwd.Path "out\logs\scene_contract_compile_report.json"
+$sceneContractCompileDependencies = @(
+    (Join-Path $pwd.Path "doc\13-spec-cenas.md"),
+    (Join-Path $pwd.Path "doc\scene-regression.json"),
+    (Join-Path $pwd.Path "doc\scene-contracts.json")
+)
+$sceneContractCompileStatus = Get-ObservedReportStatus `
+    -ReportPath $sceneContractCompileReportPath `
+    -DependencyPaths $sceneContractCompileDependencies
+
+$resGraphReportPath = Join-Path $pwd.Path "out\logs\res_graph_report.json"
+$resGraphDependencies = @()
+$resRoot = Join-Path $pwd.Path "res"
+if (Test-Path -LiteralPath $resRoot -PathType Container) {
+    $resGraphDependencies = @(Get-ChildItem -LiteralPath $resRoot -Filter "*.res" -Recurse -File -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName)
+}
+$resGraphStatus = Get-ObservedReportStatus `
+    -ReportPath $resGraphReportPath `
+    -DependencyPaths $resGraphDependencies
+
+$freshnessAuditReportPath = Join-Path $pwd.Path "out\logs\freshness_audit_report.json"
+$freshnessAuditDependencies = @(
+    (Join-Path $pwd.Path "doc\10-memory-bank.md"),
+    (Join-Path $pwd.Path "doc\13-spec-cenas.md"),
+    (Join-Path $pwd.Path "doc\14-plano-de-provas-qa.md"),
+    (Join-Path $pwd.Path "doc\scene-regression.json"),
+    (Join-Path $pwd.Path "doc\scene-contracts.json"),
+    (Join-Path $pwd.Path "out\rom.bin"),
+    $runtimeMetricsPath,
+    $emulatorSessionPath,
+    $visualAestheticReportPath,
+    $sceneRegressionReportPath,
+    $audioValidationReportPath,
+    $sceneContractCompileReportPath,
+    $resGraphReportPath
+)
+$freshnessAuditStatus = Get-ObservedReportStatus `
+    -ReportPath $freshnessAuditReportPath `
+    -DependencyPaths $freshnessAuditDependencies
+
+$sceneCloseoutGateReportPath = Join-Path $pwd.Path "out\logs\scene_closeout_gate_report.json"
+$sceneCloseoutGateDependencies = @(
+    (Join-Path $pwd.Path "out\rom.bin"),
+    $runtimeMetricsPath,
+    $emulatorSessionPath,
+    $sceneRegressionReportPath,
+    $audioValidationReportPath,
+    $sceneContractCompileReportPath,
+    $resGraphReportPath,
+    $freshnessAuditReportPath
+)
+$sceneCloseoutGateStatus = Get-ObservedReportStatus `
+    -ReportPath $sceneCloseoutGateReportPath `
+    -DependencyPaths $sceneCloseoutGateDependencies
+
+$results.wrapper_reports = [ordered]@{
+    scene_contract_compile = $sceneContractCompileStatus
+    res_graph = $resGraphStatus
+    freshness_audit = $freshnessAuditStatus
+    scene_closeout_gate = $sceneCloseoutGateStatus
+}
+
+if ($sceneContractCompileStatus.report_present) {
+    if ($sceneContractCompileStatus.stale) {
+        Add-Detail $results "WRAPPER_REPORT" "WARNING" "scene_contract_compile_report.json esta stale em relacao ao spec/manifesto de cenas." "scene_contract_compile" $sceneContractCompileStatus.report_path @{
+            report_kind = "scene_contract_compile"
+            stale = $true
+            generated_at = $sceneContractCompileStatus.generated_at
+            latest_dependency_utc = $sceneContractCompileStatus.latest_dependency_utc
+        }
+    }
+} else {
+    Add-Detail $results "WRAPPER_REPORT" "INFO" "scene_contract_compile_report.json ausente; estado do compiler ainda nao foi observado neste projeto." "scene_contract_compile" $sceneContractCompileReportPath @{
+        report_kind = "scene_contract_compile"
+        report_present = $false
+    }
+}
+
+if ($resGraphStatus.report_present) {
+    if ($resGraphStatus.stale) {
+        Add-Detail $results "WRAPPER_REPORT" "WARNING" "res_graph_report.json esta stale em relacao aos .res do projeto." "res_graph" $resGraphStatus.report_path @{
+            report_kind = "res_graph"
+            stale = $true
+            generated_at = $resGraphStatus.generated_at
+            latest_dependency_utc = $resGraphStatus.latest_dependency_utc
+        }
+    }
+} else {
+    Add-Detail $results "WRAPPER_REPORT" "INFO" "res_graph_report.json ausente; o grafo canonico de recursos ainda nao foi observado neste projeto." "res_graph" $resGraphReportPath @{
+        report_kind = "res_graph"
+        report_present = $false
+    }
+}
+
+if ($freshnessAuditStatus.report_present) {
+    if ($freshnessAuditStatus.stale) {
+        Add-Detail $results "WRAPPER_REPORT" "WARNING" "freshness_audit_report.json esta stale em relacao aos artefatos canonicos observados." "freshness_audit" $freshnessAuditStatus.report_path @{
+            report_kind = "freshness_audit"
+            stale = $true
+            generated_at = $freshnessAuditStatus.generated_at
+            latest_dependency_utc = $freshnessAuditStatus.latest_dependency_utc
+        }
+    }
+} else {
+    Add-Detail $results "WRAPPER_REPORT" "INFO" "freshness_audit_report.json ausente; o drift entre evidencias ainda nao foi observado nesta sessao." "freshness_audit" $freshnessAuditReportPath @{
+        report_kind = "freshness_audit"
+        report_present = $false
+    }
+}
+
+if ($sceneCloseoutGateStatus.report_present) {
+    if ($sceneCloseoutGateStatus.stale) {
+        Add-Detail $results "WRAPPER_REPORT" "WARNING" "scene_closeout_gate_report.json esta stale frente aos artefatos de fechamento da cena." "scene_closeout_gate" $sceneCloseoutGateStatus.report_path @{
+            report_kind = "scene_closeout_gate"
+            stale = $true
+            generated_at = $sceneCloseoutGateStatus.generated_at
+            latest_dependency_utc = $sceneCloseoutGateStatus.latest_dependency_utc
+        }
+    }
+} else {
+    Add-Detail $results "WRAPPER_REPORT" "INFO" "scene_closeout_gate_report.json ausente; nenhum fechamento canonico de cena foi observado ainda." "scene_closeout_gate" $sceneCloseoutGateReportPath @{
+        report_kind = "scene_closeout_gate"
+        report_present = $false
+    }
+}
+
 $sourceArtifacts = @($REPORT_FILE)
 if (Test-Path -LiteralPath $runtimeMetricsPath) { $sourceArtifacts += $runtimeMetricsPath }
 if (Test-Path -LiteralPath $emulatorSessionPath) { $sourceArtifacts += $emulatorSessionPath }
 if (Test-Path -LiteralPath $visualAestheticReportPath) { $sourceArtifacts += $visualAestheticReportPath }
+if (Test-Path -LiteralPath $visualDeliveryGateReportPath) { $sourceArtifacts += $visualDeliveryGateReportPath }
 if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sourceArtifacts += $sceneRegressionReportPath }
 if (Test-Path -LiteralPath $audioValidationReportPath) { $sourceArtifacts += $audioValidationReportPath }
+if ($sceneContractCompileStatus.report_present) { $sourceArtifacts += $sceneContractCompileStatus.report_path }
+if ($resGraphStatus.report_present) { $sourceArtifacts += $resGraphStatus.report_path }
+if ($freshnessAuditStatus.report_present) { $sourceArtifacts += $freshnessAuditStatus.report_path }
+if ($sceneCloseoutGateStatus.report_present) { $sourceArtifacts += $sceneCloseoutGateStatus.report_path }
 if ($changelogStatus.present) { $sourceArtifacts += $changelogStatus.changelog_path }
 if ($changelogStatus.latest_build_meta_path) { $sourceArtifacts += $changelogStatus.latest_build_meta_path }
 $sourceArtifacts += $existingSessionEvidence
@@ -2714,7 +3799,23 @@ $results.status_panel.ready_for_aaa =
     $results.status_panel.gameplay_rom_aprovada -and
     $results.status_panel.validado_budget
 
-$results | ConvertTo-Json -Depth 16 | Set-Content -LiteralPath $REPORT_FILE
+$results.canonical_summary = New-CanonicalValidationSummary `
+    -Results $results `
+    -RuntimeMetrics $runtimeMetrics `
+    -EmulatorSession $emulatorSession `
+    -SceneRegressionStatus $sceneRegressionStatus `
+    -AudioValidationStatus $audioValidationStatus `
+    -ChangelogStatus $changelogStatus `
+    -SceneContractCompileStatus $sceneContractCompileStatus `
+    -ResGraphStatus $resGraphStatus `
+    -FreshnessAuditStatus $freshnessAuditStatus `
+    -SceneCloseoutGateStatus $sceneCloseoutGateStatus
+
+[System.IO.File]::WriteAllText(
+    $REPORT_FILE,
+    ($results | ConvertTo-Json -Depth 16),
+    [System.Text.Encoding]::UTF8
+)
 Write-Log "Validation finished. Errors: $($results.summary.errors), Warnings: $($results.summary.warnings), Checked: $($results.summary.checked), Recovered: $($results.summary.recovered)"
 
 if ($results.summary.errors -gt 0) { exit 1 }

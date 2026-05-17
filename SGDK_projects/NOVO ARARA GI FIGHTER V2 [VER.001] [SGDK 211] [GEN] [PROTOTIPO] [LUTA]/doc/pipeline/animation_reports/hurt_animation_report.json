@@ -4,29 +4,102 @@
   "source_file": "data/source_art/caio_hurt_strip_source.png",
   "frame_count": 4,
   "runtime_anim_index": 11,
+  "scale_lock": {
+    "scale": 0.169884,
+    "status": "passed",
+    "source": "fixed_manifest_cell_safe_scale_lock",
+    "target_body_height": 92,
+    "median_source_height": 455,
+    "max_bbox": [
+      518,
+      465
+    ],
+    "source_bboxes": [
+      {
+        "frame": 0,
+        "bbox": [
+          67,
+          147,
+          514,
+          602
+        ],
+        "w": 447,
+        "h": 455
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          103,
+          137,
+          462,
+          602
+        ],
+        "w": 359,
+        "h": 465
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          25,
+          155,
+          543,
+          602
+        ],
+        "w": 518,
+        "h": 447
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          0,
+          147,
+          416,
+          602
+        ],
+        "w": 416,
+        "h": 455
+      }
+    ],
+    "scale_by_target": 0.202198,
+    "safe_scale": 0.169884,
+    "per_frame_scaling": false
+  },
   "motion_phase_map": {
     "startup": [],
-    "active": [],
-    "recovery": [],
+    "anticipation": [],
+    "active": [
+      0
+    ],
+    "recovery": [
+      2,
+      3
+    ],
+    "hitstop_hold_frame": 0,
+    "frame_durations_vblank": [
+      3,
+      5,
+      5,
+      7
+    ],
     "looping": false
   },
   "frame_delta_report": [
     {
       "from": 0,
       "to": 1,
-      "changed_pixel_ratio": 0.4212,
+      "changed_pixel_ratio": 0.3075,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 1,
       "to": 2,
-      "changed_pixel_ratio": 0.3891,
+      "changed_pixel_ratio": 0.2418,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 2,
       "to": 3,
-      "changed_pixel_ratio": 0.4835,
+      "changed_pixel_ratio": 0.3279,
       "adjacent_frame_delta": "ok"
     }
   ],
@@ -37,36 +110,104 @@
     {
       "frame": 0,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -1,
+      "bbox": [
+        10,
+        25,
+        85,
+        101
+      ],
+      "bbox_size": [
+        76,
+        77
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 1,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -1,
+      "bbox": [
+        17,
+        23,
+        77,
+        101
+      ],
+      "bbox_size": [
+        61,
+        79
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 2,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -9,
+      "bbox": [
+        5,
+        26,
+        73,
+        101
+      ],
+      "bbox_size": [
+        69,
+        76
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 3,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -2,
+      "bbox": [
+        11,
+        25,
+        81,
+        101
+      ],
+      "bbox_size": [
+        71,
+        77
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     }
   ],
+  "timing_spacing": {
+    "durations": [
+      3,
+      5,
+      5,
+      7
+    ],
+    "startup": [],
+    "anticipation": [],
+    "active": [
+      0
+    ],
+    "hitstop": 4,
+    "recovery": [
+      2,
+      3
+    ],
+    "impact_frame": 0
+  },
+  "reports_are_measured_from_runtime_png": true,
   "state_belongs_to_character_fantasy": true,
   "decision": "accepted_for_runtime_translation"
 }

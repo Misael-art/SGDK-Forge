@@ -71,6 +71,13 @@ Regra: cena com parallax, foreground/oclusao, source grande, spritesheet grande 
 
 Regra: cena so sobe de `testado_em_emulador` para `validado_budget` quando a evidencia mede a ROM vigente, o `app_scene_id` capturado bate com o esperado e o freshness nao aponta drift bloqueante.
 
+Status em 2026-05-17 00:12 BRT:
+
+- `first_playable_slice`: capturado em BlastEm por `sram_bootstrap`, `expected_app_scene_id=2`, `captured_app_scene_id=2`, `scene_match=true`.
+- `scene_closeout_gate_report.json`: `blocked`, 9/9 passos executados, blocker unico `visual_gate_blocked`.
+- `visual_delivery_gate_report.json`: `ready_for_aaa=false`, `vram_residency_status=not_measured`, `visual_vdp_dump_status=required_if_screenshot_suspicious`.
+- `visual_vdp_dump.bin`: ausente; enquanto nao houver dump visual/perceptual medido, a cena permanece prototipo jogavel, nao AAA.
+
 ## Detalhamento do Slice Inicial
 
 ### Cena 0 - `front_end_main_menu`

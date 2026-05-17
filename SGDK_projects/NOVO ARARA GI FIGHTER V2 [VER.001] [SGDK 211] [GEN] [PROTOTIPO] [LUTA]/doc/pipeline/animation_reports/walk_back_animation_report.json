@@ -4,41 +4,133 @@
   "source_file": "data/source_art/caio_walk_back_strip_source.png",
   "frame_count": 6,
   "runtime_anim_index": 2,
+  "scale_lock": {
+    "scale": 0.19802,
+    "status": "passed",
+    "source": "fixed_manifest_cell_safe_scale_lock",
+    "target_body_height": 100,
+    "median_source_height": 505,
+    "max_bbox": [
+      362,
+      507
+    ],
+    "source_bboxes": [
+      {
+        "frame": 0,
+        "bbox": [
+          63,
+          105,
+          362,
+          612
+        ],
+        "w": 299,
+        "h": 507
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          0,
+          107,
+          362,
+          612
+        ],
+        "w": 362,
+        "h": 505
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          0,
+          112,
+          362,
+          612
+        ],
+        "w": 362,
+        "h": 500
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          0,
+          109,
+          362,
+          614
+        ],
+        "w": 362,
+        "h": 505
+      },
+      {
+        "frame": 4,
+        "bbox": [
+          0,
+          109,
+          362,
+          612
+        ],
+        "w": 362,
+        "h": 503
+      },
+      {
+        "frame": 5,
+        "bbox": [
+          0,
+          119,
+          315,
+          614
+        ],
+        "w": 315,
+        "h": 495
+      }
+    ],
+    "scale_by_target": 0.19802,
+    "safe_scale": 0.205128,
+    "per_frame_scaling": false
+  },
   "motion_phase_map": {
     "startup": [],
+    "anticipation": [],
     "active": [],
     "recovery": [],
+    "hitstop_hold_frame": null,
+    "frame_durations_vblank": [
+      5,
+      5,
+      4,
+      5,
+      5,
+      4
+    ],
     "looping": true
   },
   "frame_delta_report": [
     {
       "from": 0,
       "to": 1,
-      "changed_pixel_ratio": 0.1802,
+      "changed_pixel_ratio": 0.3109,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 1,
       "to": 2,
-      "changed_pixel_ratio": 0.1781,
+      "changed_pixel_ratio": 0.263,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 2,
       "to": 3,
-      "changed_pixel_ratio": 0.1822,
+      "changed_pixel_ratio": 0.2189,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 3,
       "to": 4,
-      "changed_pixel_ratio": 0.2096,
+      "changed_pixel_ratio": 0.2414,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 4,
       "to": 5,
-      "changed_pixel_ratio": 0.2087,
+      "changed_pixel_ratio": 0.2686,
       "adjacent_frame_delta": "ok"
     }
   ],
@@ -49,52 +141,141 @@
     {
       "frame": 0,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 102,
+      "ground_delta_px": 2,
+      "foot_contact": "measured_grounded",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 0,
+      "bbox": [
+        19,
+        2,
+        78,
+        102
+      ],
+      "bbox_size": [
+        60,
+        101
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 1,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 102,
+      "ground_delta_px": 2,
+      "foot_contact": "measured_grounded",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 8,
+      "bbox": [
+        30,
+        3,
+        83,
+        102
+      ],
+      "bbox_size": [
+        54,
+        100
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 2,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 13,
+      "bbox": [
+        39,
+        2,
+        83,
+        101
+      ],
+      "bbox_size": [
+        45,
+        100
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 3,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 102,
+      "ground_delta_px": 2,
+      "foot_contact": "measured_grounded",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 11,
+      "bbox": [
+        36,
+        2,
+        83,
+        102
+      ],
+      "bbox_size": [
+        48,
+        101
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 4,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 9,
+      "bbox": [
+        32,
+        2,
+        83,
+        101
+      ],
+      "bbox_size": [
+        52,
+        100
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 5,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 3,
+      "bbox": [
+        27,
+        3,
+        76,
+        101
+      ],
+      "bbox_size": [
+        50,
+        99
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     }
   ],
+  "timing_spacing": {
+    "durations": [
+      5,
+      5,
+      4,
+      5,
+      5,
+      4
+    ],
+    "startup": [],
+    "anticipation": [],
+    "active": [],
+    "hitstop": 0,
+    "recovery": [],
+    "impact_frame": null
+  },
+  "reports_are_measured_from_runtime_png": true,
   "state_belongs_to_character_fantasy": true,
   "decision": "accepted_for_runtime_translation"
 }

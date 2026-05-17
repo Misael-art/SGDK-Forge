@@ -8,13 +8,13 @@
   "metrics": {
     "palette_efficiency": 0.4833,
     "tile_efficiency": 1.0,
-    "detail_density_8x8": 0.8902,
-    "dithering_density": 0.5091,
+    "detail_density_8x8": 0.8976,
+    "dithering_density": 0.5321,
     "silhouette_readability": 0.6,
     "layer_separation": 0.62,
-    "reuse_opportunity": 0.4905,
-    "reference_alignment": 0.6702,
-    "visual_excellence_score": 0.6702
+    "reuse_opportunity": 0.55,
+    "reference_alignment": 0.669,
+    "visual_excellence_score": 0.669
   },
   "metric_inputs": {
     "palette_efficiency": {
@@ -33,13 +33,13 @@
       "mode": "default"
     },
     "detail_density_8x8": {
-      "avg_transition_density": 0.1861514136904762,
-      "avg_isolated_ratio": 0.06588541666666667,
+      "avg_transition_density": 0.16791294642857144,
+      "avg_isolated_ratio": 0.06145833333333333,
       "non_empty_tiles": 840
     },
     "dithering_density": {
-      "dither_ratio": 0.005021723184562433,
-      "noise_ratio": 0.1338561943989919,
+      "dither_ratio": 0.005153378848577178,
+      "noise_ratio": 0.12228930391769641,
       "samples": 53169
     },
     "silhouette_readability": {
@@ -53,8 +53,8 @@
     },
     "reuse_opportunity": {
       "non_empty_tiles": 840,
-      "exact_duplicates": 410,
-      "flip_reuse_ratio": 0.49047619047619045
+      "exact_duplicates": 458,
+      "flip_reuse_ratio": 0.55
     },
     "structural_layer": {
       "paired_structural_layer": false,
@@ -73,7 +73,7 @@
       "code": "MISSING_DITHERING_FOR_MATERIAL",
       "severity": "warning",
       "message": "O asset esta abaixo da densidade minima de dithering esperada para o papel informado.",
-      "value": 0.005021723184562433,
+      "value": 0.005153378848577178,
       "threshold": 0.01
     }
   ],

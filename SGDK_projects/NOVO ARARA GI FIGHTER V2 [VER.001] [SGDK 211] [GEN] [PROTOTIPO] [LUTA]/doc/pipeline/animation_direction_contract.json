@@ -1,0 +1,172 @@
+{
+  "schema": "animation_direction_contract.v1",
+  "character_id": "caio_arara",
+  "measurement_basis": "post-generation runtime PNGs plus declared gameplay timing",
+  "actions": {
+    "jab": {
+      "gameplay_role": "fast probe strike",
+      "motion_archetype": "small compression -> quick extension -> guard recovery",
+      "frame_count": 4,
+      "startup_frames": [
+        0
+      ],
+      "anticipation_frames": [
+        0
+      ],
+      "active_frames": [
+        1
+      ],
+      "hitstop_hold_frame": 1,
+      "recovery_frames": [
+        2,
+        3
+      ],
+      "root_foot_policy": "pivot measured from final PNG bbox; grounded states target ground_y 104",
+      "center_of_mass_curve": "measured in foot_contact_report pivot_drift_px per frame",
+      "impact_readability": "impact frame must be held by runtime_animation_timing_map",
+      "fx_policy": "hit spark is spr_hit_spark; no character sheet baked FX",
+      "palette_flash_policy": "runtime palette flash is separate policy; no uncontrolled requantization"
+    },
+    "medium": {
+      "gameplay_role": "mid range palm or low kick punish",
+      "motion_archetype": "weight set -> burst -> slower recoil",
+      "frame_count": 5,
+      "startup_frames": [
+        0
+      ],
+      "anticipation_frames": [
+        0,
+        1
+      ],
+      "active_frames": [
+        2
+      ],
+      "hitstop_hold_frame": 2,
+      "recovery_frames": [
+        3,
+        4
+      ],
+      "root_foot_policy": "pivot measured from final PNG bbox; grounded states target ground_y 104",
+      "center_of_mass_curve": "measured in foot_contact_report pivot_drift_px per frame",
+      "impact_readability": "impact frame must be held by runtime_animation_timing_map",
+      "fx_policy": "hit spark is spr_hit_spark; no character sheet baked FX",
+      "palette_flash_policy": "runtime palette flash is separate policy; no uncontrolled requantization"
+    },
+    "grip": {
+      "gameplay_role": "close BJJ grip attempt",
+      "motion_archetype": "hands open -> forward grip -> retract",
+      "frame_count": 5,
+      "startup_frames": [
+        0
+      ],
+      "anticipation_frames": [
+        0,
+        1
+      ],
+      "active_frames": [
+        2,
+        3
+      ],
+      "hitstop_hold_frame": 2,
+      "recovery_frames": [
+        4
+      ],
+      "root_foot_policy": "pivot measured from final PNG bbox; grounded states target ground_y 104",
+      "center_of_mass_curve": "measured in foot_contact_report pivot_drift_px per frame",
+      "impact_readability": "impact frame must be held by runtime_animation_timing_map",
+      "fx_policy": "hit spark is spr_hit_spark; no character sheet baked FX",
+      "palette_flash_policy": "runtime palette flash is separate policy; no uncontrolled requantization"
+    },
+    "hip_throw": {
+      "gameplay_role": "close range BJJ throw with knockdown",
+      "motion_archetype": "level change -> hip entry -> rotation -> recovery",
+      "frame_count": 8,
+      "startup_frames": [
+        0,
+        1
+      ],
+      "anticipation_frames": [
+        1,
+        2
+      ],
+      "active_frames": [
+        3,
+        4
+      ],
+      "hitstop_hold_frame": 3,
+      "recovery_frames": [
+        5,
+        6,
+        7
+      ],
+      "root_foot_policy": "pivot measured from final PNG bbox; grounded states target ground_y 104",
+      "center_of_mass_curve": "measured in foot_contact_report pivot_drift_px per frame",
+      "impact_readability": "impact frame must be held by runtime_animation_timing_map",
+      "fx_policy": "hit spark is spr_hit_spark; no character sheet baked FX",
+      "palette_flash_policy": "runtime palette flash is separate policy; no uncontrolled requantization"
+    },
+    "hurt": {
+      "gameplay_role": "short force reaction",
+      "motion_archetype": "impact shock -> posture break -> stabilize",
+      "frame_count": 4,
+      "startup_frames": [],
+      "anticipation_frames": [],
+      "active_frames": [
+        0
+      ],
+      "hitstop_hold_frame": 0,
+      "recovery_frames": [
+        2,
+        3
+      ],
+      "root_foot_policy": "pivot measured from final PNG bbox; grounded states target ground_y 104",
+      "center_of_mass_curve": "measured in foot_contact_report pivot_drift_px per frame",
+      "impact_readability": "impact frame must be held by runtime_animation_timing_map",
+      "fx_policy": "hit spark is spr_hit_spark; no character sheet baked FX",
+      "palette_flash_policy": "runtime palette flash is separate policy; no uncontrolled requantization"
+    },
+    "knockdown": {
+      "gameplay_role": "fall to mat after throw or zero life",
+      "motion_archetype": "impact -> loss of base -> mat contact",
+      "frame_count": 6,
+      "startup_frames": [],
+      "anticipation_frames": [],
+      "active_frames": [
+        1,
+        2
+      ],
+      "hitstop_hold_frame": 1,
+      "recovery_frames": [
+        3,
+        4,
+        5
+      ],
+      "root_foot_policy": "pivot measured from final PNG bbox; grounded states target ground_y 104",
+      "center_of_mass_curve": "measured in foot_contact_report pivot_drift_px per frame",
+      "impact_readability": "impact frame must be held by runtime_animation_timing_map",
+      "fx_policy": "hit spark is spr_hit_spark; no character sheet baked FX",
+      "palette_flash_policy": "runtime palette flash is separate policy; no uncontrolled requantization"
+    },
+    "getup": {
+      "gameplay_role": "ground recovery back to fighting base",
+      "motion_archetype": "mat base -> knee under body -> fighting stance",
+      "frame_count": 6,
+      "startup_frames": [
+        0,
+        1
+      ],
+      "anticipation_frames": [],
+      "active_frames": [],
+      "hitstop_hold_frame": null,
+      "recovery_frames": [
+        4,
+        5
+      ],
+      "root_foot_policy": "pivot measured from final PNG bbox; grounded states target ground_y 104",
+      "center_of_mass_curve": "measured in foot_contact_report pivot_drift_px per frame",
+      "impact_readability": "impact frame must be held by runtime_animation_timing_map",
+      "fx_policy": "hit spark is spr_hit_spark; no character sheet baked FX",
+      "palette_flash_policy": "runtime palette flash is separate policy; no uncontrolled requantization"
+    }
+  }
+}

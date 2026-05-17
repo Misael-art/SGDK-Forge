@@ -1,13 +1,13 @@
 ﻿{
     "schema_version":  "1.0.0",
     "project_profile":  "lab",
-    "compiled_at":  "2026-05-16T09:11:24.8191442Z",
+    "compiled_at":  "2026-05-17T03:14:45.7191784Z",
     "compiled_from":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\doc\\13-spec-cenas.md",
     "scenes":  [
                    {
                        "scene_id":  "front_end_main_menu",
                        "scene_role":  "menu",
-                       "boot_mode":  "unsupported",
+                       "boot_mode":  "sram_bootstrap",
                        "compile_origin":  "merged_with_regression",
                        "source_heading":  "### Cena 0 - `front_end_main_menu`",
                        "resource_budget_model":  {
@@ -24,6 +24,8 @@
                        "capture_kind":  "evidence_bundle",
                        "capture_frame":  120,
                        "warmup_frames":  90,
+                       "expected_app_scene_id":  1,
+                       "bootstrap_scene_id":  1,
                        "scene_key":  "front_end_main_menu",
                        "comparison_artifacts":  [
                                                     "screenshot"
@@ -33,7 +35,7 @@
                    {
                        "scene_id":  "first_playable_slice",
                        "scene_role":  "gameplay",
-                       "boot_mode":  "unsupported",
+                       "boot_mode":  "sram_bootstrap",
                        "compile_origin":  "merged_with_regression",
                        "source_heading":  "### Cena 1 - `first_playable_slice`",
                        "resource_budget_model":  {
@@ -51,6 +53,8 @@
                        "capture_kind":  "evidence_bundle",
                        "capture_frame":  120,
                        "warmup_frames":  90,
+                       "expected_app_scene_id":  2,
+                       "bootstrap_scene_id":  2,
                        "scene_key":  "first_playable_slice",
                        "comparison_artifacts":  [
                                                     "screenshot"

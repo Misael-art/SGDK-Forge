@@ -1,0 +1,84 @@
+{
+  "schema": "state_timing_spacing_report.v1",
+  "state": "hurt",
+  "timing": {
+    "durations": [
+      3,
+      5,
+      5,
+      7
+    ],
+    "startup": [],
+    "anticipation": [],
+    "active": [
+      0
+    ],
+    "hitstop": 4,
+    "recovery": [
+      2,
+      3
+    ],
+    "impact_frame": 0
+  },
+  "scale_lock": {
+    "scale": 0.169884,
+    "status": "passed",
+    "source": "fixed_manifest_cell_safe_scale_lock",
+    "target_body_height": 92,
+    "median_source_height": 455,
+    "max_bbox": [
+      518,
+      465
+    ],
+    "source_bboxes": [
+      {
+        "frame": 0,
+        "bbox": [
+          67,
+          147,
+          514,
+          602
+        ],
+        "w": 447,
+        "h": 455
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          103,
+          137,
+          462,
+          602
+        ],
+        "w": 359,
+        "h": 465
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          25,
+          155,
+          543,
+          602
+        ],
+        "w": 518,
+        "h": 447
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          0,
+          147,
+          416,
+          602
+        ],
+        "w": 416,
+        "h": 455
+      }
+    ],
+    "scale_by_target": 0.202198,
+    "safe_scale": 0.169884,
+    "per_frame_scaling": false
+  },
+  "reports_are_measured_from_runtime_png": true
+}

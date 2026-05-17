@@ -1,0 +1,63 @@
+{
+  "schema": "recovery_curve_report.v1",
+  "actions": {
+    "jab": {
+      "recovery_frames": [
+        2,
+        3
+      ],
+      "frame_durations_vblank": [
+        3,
+        2,
+        3,
+        6
+      ],
+      "snap_back_to_idle": false
+    },
+    "medium": {
+      "recovery_frames": [
+        3,
+        4
+      ],
+      "frame_durations_vblank": [
+        4,
+        4,
+        2,
+        4,
+        7
+      ],
+      "snap_back_to_idle": false
+    },
+    "grip": {
+      "recovery_frames": [
+        4
+      ],
+      "frame_durations_vblank": [
+        5,
+        4,
+        3,
+        5,
+        8
+      ],
+      "snap_back_to_idle": false
+    },
+    "hip_throw": {
+      "recovery_frames": [
+        5,
+        6,
+        7
+      ],
+      "frame_durations_vblank": [
+        5,
+        4,
+        4,
+        2,
+        4,
+        5,
+        6,
+        8
+      ],
+      "snap_back_to_idle": false
+    }
+  }
+}

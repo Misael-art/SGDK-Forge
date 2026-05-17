@@ -1,0 +1,59 @@
+{
+  "schema": "state_timing_spacing_report.v1",
+  "state": "crouch",
+  "timing": {
+    "durations": [
+      5,
+      8
+    ],
+    "startup": [],
+    "anticipation": [
+      0
+    ],
+    "active": [],
+    "hitstop": 0,
+    "recovery": [
+      1
+    ],
+    "impact_frame": null
+  },
+  "scale_lock": {
+    "scale": 0.122503,
+    "status": "passed",
+    "source": "fixed_manifest_cell_safe_scale_lock",
+    "target_body_height": 92,
+    "median_source_height": 751,
+    "max_bbox": [
+      523,
+      751
+    ],
+    "source_bboxes": [
+      {
+        "frame": 0,
+        "bbox": [
+          236,
+          47,
+          759,
+          798
+        ],
+        "w": 523,
+        "h": 751
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          140,
+          281,
+          613,
+          797
+        ],
+        "w": 473,
+        "h": 516
+      }
+    ],
+    "scale_by_target": 0.122503,
+    "safe_scale": 0.138482,
+    "per_frame_scaling": false
+  },
+  "reports_are_measured_from_runtime_png": true
+}

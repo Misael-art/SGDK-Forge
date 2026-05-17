@@ -1,378 +1,172 @@
 {
   "schema": "sprite_strip_integrity_report.v1",
-  "tool": "analyze_sprite_strip_integrity.py",
+  "tool": "build_arara_gi_fighter_assets.py::analyze_runtime_strip",
   "image_path": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\res\\sprites\\characters\\caio\\hip_throw.png",
-  "mode": "P",
-  "size": [
-    768,
-    112
-  ],
+  "state": "hip_throw",
+  "status": "passed",
   "frame_width": 96,
   "frame_height": 112,
   "frame_count": 8,
-  "background_rgba": [
-    255,
-    0,
-    255,
-    255
-  ],
   "background_palette_index": 0,
-  "status": "passed",
   "summary": {
-    "edge_problem_frames": 0,
-    "matte_problem_frames": 0,
-    "island_problem_frames": 0,
-    "baked_fx_frames": 0,
-    "bbox_width_min": 51,
-    "bbox_width_max": 75,
-    "bbox_height_min": 96,
-    "bbox_height_max": 98
+    "total_findings": 0,
+    "blocking_findings": 0,
+    "bbox_height_min": 89,
+    "bbox_height_max": 105
   },
   "findings": [],
   "frames": [
     {
-      "frame": 1,
-      "non_background_pixels": 3606,
+      "frame": 0,
       "bbox": [
         13,
-        4,
-        84,
+        3,
+        85,
+        102
+      ],
+      "bbox_size": [
+        73,
+        100
+      ],
+      "bottom_y": 102,
+      "center_x": 49,
+      "pivot_drift_px": 1,
+      "component_count": 1,
+      "non_largest_component_pixels": 0,
+      "largest_stray_component_area": 0
+    },
+    {
+      "frame": 1,
+      "bbox": [
+        17,
+        5,
+        86,
         100
       ],
       "bbox_size": [
-        72,
-        97
+        70,
+        96
       ],
-      "edge_counts": {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0
-      },
-      "touching_edges": [],
-      "component_report": {
-        "component_count": 1,
-        "small_island_count": 0,
-        "small_island_pixels": 0,
-        "largest_component_area": 3606,
-        "non_largest_component_pixels": 0,
-        "largest_stray_component_area": 0,
-        "largest_stray_component_box": null,
-        "component_boxes": [
-          {
-            "area": 3606,
-            "bbox": [
-              13,
-              4,
-              84,
-              100
-            ]
-          }
-        ]
-      }
+      "bottom_y": 100,
+      "center_x": 51,
+      "pivot_drift_px": 3,
+      "component_count": 1,
+      "non_largest_component_pixels": 0,
+      "largest_stray_component_area": 0
     },
     {
       "frame": 2,
-      "non_background_pixels": 3683,
       "bbox": [
-        10,
-        4,
-        84,
-        99
+        16,
+        3,
+        82,
+        100
       ],
       "bbox_size": [
-        75,
-        96
+        67,
+        98
       ],
-      "edge_counts": {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0
-      },
-      "touching_edges": [],
-      "component_report": {
-        "component_count": 2,
-        "small_island_count": 0,
-        "small_island_pixels": 0,
-        "largest_component_area": 3614,
-        "non_largest_component_pixels": 69,
-        "largest_stray_component_area": 69,
-        "largest_stray_component_box": [
-          10,
-          30,
-          17,
-          43
-        ],
-        "component_boxes": [
-          {
-            "area": 3614,
-            "bbox": [
-              14,
-              4,
-              84,
-              99
-            ]
-          },
-          {
-            "area": 69,
-            "bbox": [
-              10,
-              30,
-              17,
-              43
-            ]
-          }
-        ]
-      }
+      "bottom_y": 100,
+      "center_x": 49,
+      "pivot_drift_px": 1,
+      "component_count": 1,
+      "non_largest_component_pixels": 0,
+      "largest_stray_component_area": 0
     },
     {
       "frame": 3,
-      "non_background_pixels": 3490,
       "bbox": [
-        14,
+        20,
         3,
-        81,
-        100
+        74,
+        107
       ],
       "bbox_size": [
-        68,
-        98
+        55,
+        105
       ],
-      "edge_counts": {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0
-      },
-      "touching_edges": [],
-      "component_report": {
-        "component_count": 1,
-        "small_island_count": 0,
-        "small_island_pixels": 0,
-        "largest_component_area": 3490,
-        "non_largest_component_pixels": 0,
-        "largest_stray_component_area": 0,
-        "largest_stray_component_box": null,
-        "component_boxes": [
-          {
-            "area": 3490,
-            "bbox": [
-              14,
-              3,
-              81,
-              100
-            ]
-          }
-        ]
-      }
+      "bottom_y": 107,
+      "center_x": 47,
+      "pivot_drift_px": -1,
+      "component_count": 1,
+      "non_largest_component_pixels": 0,
+      "largest_stray_component_area": 0
     },
     {
       "frame": 4,
-      "non_background_pixels": 2836,
       "bbox": [
-        22,
-        3,
-        72,
+        16,
+        4,
+        78,
         100
       ],
       "bbox_size": [
-        51,
-        98
+        63,
+        97
       ],
-      "edge_counts": {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0
-      },
-      "touching_edges": [],
-      "component_report": {
-        "component_count": 1,
-        "small_island_count": 0,
-        "small_island_pixels": 0,
-        "largest_component_area": 2836,
-        "non_largest_component_pixels": 0,
-        "largest_stray_component_area": 0,
-        "largest_stray_component_box": null,
-        "component_boxes": [
-          {
-            "area": 2836,
-            "bbox": [
-              22,
-              3,
-              72,
-              100
-            ]
-          }
-        ]
-      }
+      "bottom_y": 100,
+      "center_x": 47,
+      "pivot_drift_px": -1,
+      "component_count": 1,
+      "non_largest_component_pixels": 0,
+      "largest_stray_component_area": 0
     },
     {
       "frame": 5,
-      "non_background_pixels": 3373,
       "bbox": [
-        17,
-        4,
-        79,
-        99
+        12,
+        12,
+        78,
+        100
       ],
       "bbox_size": [
-        63,
-        96
+        67,
+        89
       ],
-      "edge_counts": {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0
-      },
-      "touching_edges": [],
-      "component_report": {
-        "component_count": 1,
-        "small_island_count": 0,
-        "small_island_pixels": 0,
-        "largest_component_area": 3373,
-        "non_largest_component_pixels": 0,
-        "largest_stray_component_area": 0,
-        "largest_stray_component_box": null,
-        "component_boxes": [
-          {
-            "area": 3373,
-            "bbox": [
-              17,
-              4,
-              79,
-              99
-            ]
-          }
-        ]
-      }
+      "bottom_y": 100,
+      "center_x": 45,
+      "pivot_drift_px": -3,
+      "component_count": 1,
+      "non_largest_component_pixels": 0,
+      "largest_stray_component_area": 0
     },
     {
       "frame": 6,
-      "non_background_pixels": 3252,
       "bbox": [
-        12,
-        4,
-        83,
-        99
+        9,
+        5,
+        62,
+        97
       ],
       "bbox_size": [
-        72,
-        96
+        54,
+        93
       ],
-      "edge_counts": {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0
-      },
-      "touching_edges": [],
-      "component_report": {
-        "component_count": 1,
-        "small_island_count": 0,
-        "small_island_pixels": 0,
-        "largest_component_area": 3252,
-        "non_largest_component_pixels": 0,
-        "largest_stray_component_area": 0,
-        "largest_stray_component_box": null,
-        "component_boxes": [
-          {
-            "area": 3252,
-            "bbox": [
-              12,
-              4,
-              83,
-              99
-            ]
-          }
-        ]
-      }
+      "bottom_y": 97,
+      "center_x": 35,
+      "pivot_drift_px": -13,
+      "component_count": 1,
+      "non_largest_component_pixels": 0,
+      "largest_stray_component_area": 0
     },
     {
       "frame": 7,
-      "non_background_pixels": 2547,
       "bbox": [
-        18,
-        4,
-        73,
-        99
+        11,
+        6,
+        80,
+        100
       ],
       "bbox_size": [
-        56,
-        96
+        70,
+        95
       ],
-      "edge_counts": {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0
-      },
-      "touching_edges": [],
-      "component_report": {
-        "component_count": 1,
-        "small_island_count": 0,
-        "small_island_pixels": 0,
-        "largest_component_area": 2547,
-        "non_largest_component_pixels": 0,
-        "largest_stray_component_area": 0,
-        "largest_stray_component_box": null,
-        "component_boxes": [
-          {
-            "area": 2547,
-            "bbox": [
-              18,
-              4,
-              73,
-              99
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "frame": 8,
-      "non_background_pixels": 3658,
-      "bbox": [
-        10,
-        4,
-        81,
-        99
-      ],
-      "bbox_size": [
-        72,
-        96
-      ],
-      "edge_counts": {
-        "left": 0,
-        "right": 0,
-        "top": 0,
-        "bottom": 0
-      },
-      "touching_edges": [],
-      "component_report": {
-        "component_count": 1,
-        "small_island_count": 0,
-        "small_island_pixels": 0,
-        "largest_component_area": 3658,
-        "non_largest_component_pixels": 0,
-        "largest_stray_component_area": 0,
-        "largest_stray_component_box": null,
-        "component_boxes": [
-          {
-            "area": 3658,
-            "bbox": [
-              10,
-              4,
-              81,
-              99
-            ]
-          }
-        ]
-      }
+      "bottom_y": 100,
+      "center_x": 45,
+      "pivot_drift_px": -3,
+      "component_count": 1,
+      "non_largest_component_pixels": 0,
+      "largest_stray_component_area": 0
     }
-  ],
-  "state": "hip_throw",
-  "scale_tolerance_note": "max_scale_ratio=5.0 allows fight knockdown/getup vertical-to-horizontal pose transitions; clipping/matte/debris gates remain blocking."
+  ]
 }

@@ -1,0 +1,10 @@
+{
+  "schema": "palette_flash_policy.v1",
+  "policy": "character material palette remains stable; hit spark uses separate sprite art and no baked flash frames",
+  "runtime_flash": "none",
+  "allowed_fx_sprite": "spr_hit_spark",
+  "blocked": [
+    "uncontrolled_requantized_flash",
+    "baked_hit_spark_in_character_sheet"
+  ]
+}

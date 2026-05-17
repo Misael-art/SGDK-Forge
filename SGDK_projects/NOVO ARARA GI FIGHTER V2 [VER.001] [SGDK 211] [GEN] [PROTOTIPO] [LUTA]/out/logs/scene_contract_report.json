@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "generated_at":  "2026-05-16T09:11:25.1793196Z",
+    "generated_at":  "2026-05-17T03:14:46.2115560Z",
     "tool_name":  "lint_scene_contract",
     "tool_version":  "0.1.0",
     "project_root":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
@@ -10,25 +10,12 @@
     "mode":  "lab",
     "contract_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\doc\\scene-contracts.json",
     "scenes_checked":  2,
-    "total_findings":  2,
+    "total_findings":  0,
     "scene_statuses":  {
-                           "first_playable_slice":  "unsupported",
-                           "front_end_main_menu":  "unsupported"
+                           "first_playable_slice":  "ok",
+                           "front_end_main_menu":  "ok"
                        },
     "findings":  [
-                     {
-                         "scene_id":  "front_end_main_menu",
-                         "severity":  "info",
-                         "code":  "SC090",
-                         "message":  "Scene has boot_mode=unsupported, skipping further deterministic checks",
-                         "related_path":  ""
-                     },
-                     {
-                         "scene_id":  "first_playable_slice",
-                         "severity":  "info",
-                         "code":  "SC090",
-                         "message":  "Scene has boot_mode=unsupported, skipping further deterministic checks",
-                         "related_path":  ""
-                     }
+
                  ]
 }

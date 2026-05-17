@@ -149,4 +149,169 @@
 - ROM: build_v005 (sha256 93d02b59721980b69f2d7862d0866818bc371cdd2b71e2984f4261a3c9fb750e, 262144 bytes)
 - Validation: errors=0, warnings=4
 - Blockers: agent_context_degraded, emulator_evidence_stale
+- Emulator evidence: runtime_metrics_stale## 2026-05-16T23:22:24.9417913-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots:
+  - spr_caio_idle -> v002 (res/sprites/characters/caio/idle.png)
+  - spr_caio_walk_forward -> v002 (res/sprites/characters/caio/walk_forward.png)
+  - spr_caio_walk_back -> v002 (res/sprites/characters/caio/walk_back.png)
+  - spr_caio_dash -> v002 (res/sprites/characters/caio/dash.png)
+  - spr_caio_crouch -> v002 (res/sprites/characters/caio/crouch.png)
+  - spr_caio_jump -> v002 (res/sprites/characters/caio/jump.png)
+  - spr_caio_guard -> v002 (res/sprites/characters/caio/guard.png)
+  - spr_caio_jab -> v002 (res/sprites/characters/caio/jab.png)
+  - spr_caio_medium -> v002 (res/sprites/characters/caio/medium.png)
+  - spr_caio_grip -> v002 (res/sprites/characters/caio/grip.png)
+  - spr_caio_hip_throw -> v002 (res/sprites/characters/caio/hip_throw.png)
+  - spr_caio_hurt -> v002 (res/sprites/characters/caio/hurt.png)
+  - spr_caio_knockdown -> v002 (res/sprites/characters/caio/knockdown.png)
+  - spr_caio_getup -> v002 (res/sprites/characters/caio/getup.png)
+  - spr_davi_idle -> v002 (res/sprites/characters/davi/idle.png)
+  - spr_davi_walk_forward -> v002 (res/sprites/characters/davi/walk_forward.png)
+  - spr_davi_walk_back -> v002 (res/sprites/characters/davi/walk_back.png)
+  - spr_davi_dash -> v002 (res/sprites/characters/davi/dash.png)
+  - spr_davi_crouch -> v002 (res/sprites/characters/davi/crouch.png)
+  - spr_davi_jump -> v002 (res/sprites/characters/davi/jump.png)
+  - spr_davi_guard -> v002 (res/sprites/characters/davi/guard.png)
+  - spr_davi_jab -> v002 (res/sprites/characters/davi/jab.png)
+  - spr_davi_medium -> v002 (res/sprites/characters/davi/medium.png)
+  - spr_davi_grip -> v002 (res/sprites/characters/davi/grip.png)
+  - spr_davi_hip_throw -> v002 (res/sprites/characters/davi/hip_throw.png)
+  - spr_davi_hurt -> v002 (res/sprites/characters/davi/hurt.png)
+  - spr_davi_knockdown -> v002 (res/sprites/characters/davi/knockdown.png)
+  - spr_davi_getup -> v002 (res/sprites/characters/davi/getup.png)
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=7
+- Blockers: visual_gate_blocked, changelog_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-05-16T23:23:14.0390522-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=4
+- Blockers: visual_gate_blocked, emulator_evidence_stale
 - Emulator evidence: runtime_metrics_stale
+
+## 2026-05-16T23:34:22.5095927-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=3
+- Blockers: visual_gate_blocked
+- Emulator evidence: ok
+
+## 2026-05-16T23:35:08.4741788-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=4
+- Blockers: visual_gate_blocked, emulator_evidence_stale
+- Emulator evidence: runtime_metrics_stale
+
+## 2026-05-16T23:39:59.6818506-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=3
+- Blockers: visual_gate_blocked
+- Emulator evidence: ok
+
+## 2026-05-16T23:40:48.3793959-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=4
+- Blockers: visual_gate_blocked, emulator_evidence_stale
+- Emulator evidence: runtime_metrics_stale
+
+## 2026-05-16T23:44:48.5310543-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=3
+- Blockers: visual_gate_blocked
+- Emulator evidence: ok
+
+## 2026-05-16T23:45:30.6208595-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=4
+- Blockers: visual_gate_blocked, emulator_evidence_stale
+- Emulator evidence: runtime_metrics_stale
+
+## 2026-05-16T23:52:41.6375837-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=3
+- Blockers: visual_gate_blocked
+- Emulator evidence: ok
+
+## 2026-05-16T23:53:26.6306530-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=4
+- Blockers: visual_gate_blocked, emulator_evidence_stale
+- Emulator evidence: runtime_metrics_stale
+
+## 2026-05-17T00:00:56.6223768-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=3
+- Blockers: visual_gate_blocked
+- Emulator evidence: ok
+
+## 2026-05-17T00:01:41.9798723-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=4
+- Blockers: visual_gate_blocked, emulator_evidence_stale
+- Emulator evidence: runtime_metrics_stale
+
+## 2026-05-17T00:07:03.9391577-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=3
+- Blockers: visual_gate_blocked
+- Emulator evidence: ok
+
+## 2026-05-17T00:07:49.9337680-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=4
+- Blockers: visual_gate_blocked, emulator_evidence_stale
+- Emulator evidence: runtime_metrics_stale
+
+## 2026-05-17T00:12:47.4063224-03:00 - quality_gate_repair
+
+- Task: quality_gate_repair
+- Asset snapshots: Caio/Davi runtime strips regeneradas a partir de `data/source_art`; `sprite_artifact_player.json` passou com 14 estados e 0 findings.
+- ROM: build_v006 (sha256 e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f, 262144 bytes)
+- Validation: errors=0, warnings=3
+- Blockers: visual_gate_blocked
+- Emulator evidence: BlastEm fresco, `emulator_evidence_stale=false`, screenshot e `save.sram` canonicos atualizados.
+- Scene closeout: blocked honesto, 9/9 passos ok, blocker unico `visual_gate_blocked`.
+- Scene regression: `first_playable_slice` capturado, `expected_app_scene_id=2`, `captured_app_scene_id=2`, baseline ainda ausente.
+- AAA status: `ready_for_aaa=false`; `visual_vdp_dump.bin` ausente e VRAM visual nao medida em dump.
+

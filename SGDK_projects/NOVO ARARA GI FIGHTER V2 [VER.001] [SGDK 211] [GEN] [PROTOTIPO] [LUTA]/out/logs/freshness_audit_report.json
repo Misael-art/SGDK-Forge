@@ -1,16 +1,16 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "generated_at":  "2026-05-16T09:12:01.7856562Z",
+    "generated_at":  "2026-05-17T03:18:39.6168464Z",
     "tool_name":  "freshness_audit",
     "tool_version":  "0.1.0",
     "project_root":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
-    "status":  "warning",
+    "status":  "ok",
     "strict":  false,
     "summary":  {
                     "checks_total":  8,
-                    "stale_count":  1,
+                    "stale_count":  0,
                     "missing_required_count":  0,
-                    "warnings":  1,
+                    "warnings":  0,
                     "errors":  0
                 },
     "checks":  [
@@ -20,9 +20,9 @@
                        "report_present":  true,
                        "required":  true,
                        "stale":  false,
-                       "generated_at":  "2026-05-16T09:11:24.6115104Z",
-                       "report_last_write_utc":  "2026-05-16T09:11:25.5256695Z",
-                       "latest_dependency_utc":  "2026-05-16T09:11:24.8456654Z",
+                       "generated_at":  "2026-05-17T03:14:45.4610765Z",
+                       "report_last_write_utc":  "2026-05-17T03:14:46.5488693Z",
+                       "latest_dependency_utc":  "2026-05-17T03:14:45.7561963Z",
                        "dependency_count":  3,
                        "status":  "fresh"
                    },
@@ -32,9 +32,9 @@
                        "report_present":  true,
                        "required":  true,
                        "stale":  false,
-                       "generated_at":  "2026-05-16T09:11:26.0275773Z",
-                       "report_last_write_utc":  "2026-05-16T09:11:30.2436391Z",
-                       "latest_dependency_utc":  "2026-05-16T09:02:33.4642411Z",
+                       "generated_at":  "2026-05-17T03:07:53.7926342Z",
+                       "report_last_write_utc":  "2026-05-17T03:07:59.0424432Z",
+                       "latest_dependency_utc":  "2026-05-17T02:22:07.2411205Z",
                        "dependency_count":  48,
                        "status":  "fresh"
                    },
@@ -44,10 +44,10 @@
                        "report_present":  true,
                        "required":  true,
                        "stale":  false,
-                       "generated_at":  "2026-05-16T06:11:30.8561784-03:00",
-                       "report_last_write_utc":  "2026-05-16T09:12:00.8702111Z",
-                       "latest_dependency_utc":  "2026-05-16T09:11:30.2436391Z",
-                       "dependency_count":  5,
+                       "generated_at":  "2026-05-17T00:17:35.8027116-03:00",
+                       "report_last_write_utc":  "2026-05-17T03:18:27.2758167Z",
+                       "latest_dependency_utc":  "2026-05-17T03:17:24.5664235Z",
+                       "dependency_count":  6,
                        "status":  "fresh"
                    },
                    {
@@ -57,22 +57,22 @@
                        "required":  false,
                        "stale":  false,
                        "generated_at":  null,
-                       "report_last_write_utc":  "2026-05-16T08:55:29.8033293Z",
-                       "latest_dependency_utc":  "2026-05-16T08:53:25.4799146Z",
+                       "report_last_write_utc":  "2026-05-17T03:09:47.4350055Z",
+                       "latest_dependency_utc":  "2026-05-17T03:07:01.3611192Z",
                        "dependency_count":  1,
                        "status":  "fresh"
                    },
                    {
                        "name":  "scene_regression",
                        "report_path":  "out/logs/scene_regression_report.json",
-                       "report_present":  false,
+                       "report_present":  true,
                        "required":  false,
                        "stale":  false,
-                       "generated_at":  null,
-                       "report_last_write_utc":  null,
-                       "latest_dependency_utc":  null,
+                       "generated_at":  "2026-05-17T03:16:53.9401145Z",
+                       "report_last_write_utc":  "2026-05-17T03:17:24.5664235Z",
+                       "latest_dependency_utc":  "2026-05-17T03:14:45.7561963Z",
                        "dependency_count":  3,
-                       "status":  "not_observed"
+                       "status":  "fresh"
                    },
                    {
                        "name":  "emulator_session",
@@ -80,9 +80,9 @@
                        "report_present":  true,
                        "required":  false,
                        "stale":  false,
-                       "generated_at":  "2026-05-16T08:56:24.3827738Z",
-                       "report_last_write_utc":  "2026-05-16T08:56:24.4073606Z",
-                       "latest_dependency_utc":  "2026-05-16T08:53:25.4799146Z",
+                       "generated_at":  "2026-05-17T00:09:47.5688677-03:00",
+                       "report_last_write_utc":  "2026-05-17T03:09:47.6972063Z",
+                       "latest_dependency_utc":  "2026-05-17T03:07:01.3611192Z",
                        "dependency_count":  1,
                        "status":  "fresh"
                    },
@@ -103,21 +103,15 @@
                        "report_path":  "out/logs/build_output.log",
                        "report_present":  true,
                        "required":  true,
-                       "stale":  true,
+                       "stale":  false,
                        "generated_at":  null,
-                       "report_last_write_utc":  "2026-05-16T08:53:26.1426995Z",
-                       "latest_dependency_utc":  "2026-05-16T09:02:33.4642411Z",
+                       "report_last_write_utc":  "2026-05-17T03:07:01.8503864Z",
+                       "latest_dependency_utc":  "2026-05-17T02:22:07.2411205Z",
                        "dependency_count":  70,
-                       "status":  "stale"
+                       "status":  "fresh"
                    }
                ],
     "findings":  [
-                     {
-                         "severity":  "warning",
-                         "code":  "FRESH_STALE",
-                         "message":  "Artifact is stale relative to dependencies: build_output",
-                         "artifact":  "out/logs/build_output.log"
-                     },
                      {
                          "severity":  "info",
                          "code":  "FRESH_DOC_OLDER_THAN_EVIDENCE",

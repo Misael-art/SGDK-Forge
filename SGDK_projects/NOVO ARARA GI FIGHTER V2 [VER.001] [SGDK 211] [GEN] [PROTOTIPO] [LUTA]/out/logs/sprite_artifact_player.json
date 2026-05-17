@@ -1,9 +1,9 @@
 {
   "schema": "sprite_strip_integrity_report.v1",
-  "tool": "analyze_sprite_strip_integrity.py",
-  "status": "passed",
+  "tool": "build_arara_gi_fighter_assets.py::write_sprite_artifact_report",
   "asset_id": "caio_arara_p1",
   "scope": "all_caio_runtime_pose_strips",
+  "status": "passed",
   "frame_width": 96,
   "frame_height": 112,
   "states_checked": [
@@ -23,11 +23,97 @@
     "getup"
   ],
   "state_reports_root": "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\sprite_integrity",
-  "scale_tolerance_note": "max_scale_ratio=5.0 because knockdown/getup are deliberate vertical-to-horizontal combat transitions; no clipping, matte, debris, transparency, stray-component, or baked-FX blocker is tolerated.",
+  "scale_tolerance_note": "scale lock measured from generated runtime PNGs; jump, knockdown and getup are pose-transition exceptions only",
   "summary": {
     "states_checked": 14,
     "total_findings": 0,
     "blocking_findings": 0
   },
+  "state_reports": [
+    {
+      "state": "idle",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_idle_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "walk_forward",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_walk_forward_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "walk_back",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_walk_back_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "dash",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_dash_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "crouch",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_crouch_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "jump",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_jump_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "guard",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_guard_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "jab",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_jab_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "medium",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_medium_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "grip",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_grip_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "hip_throw",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_hip_throw_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "hurt",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_hurt_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "knockdown",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_knockdown_sprite_integrity.json",
+      "findings": []
+    },
+    {
+      "state": "getup",
+      "status": "passed",
+      "path": "out/logs/sprite_integrity/caio_getup_sprite_integrity.json",
+      "findings": []
+    }
+  ],
   "findings": []
 }

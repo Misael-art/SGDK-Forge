@@ -2,17 +2,41 @@
   {
     "frame": 0,
     "ground_y": 104,
-    "bottom_y": 104,
-    "foot_contact": "grounded_or_intended",
+    "bottom_y": 101,
+    "ground_delta_px": 3,
+    "foot_contact": "needs_review_ground_contact",
     "pivot_x": 48,
-    "pivot_drift_px": 0
+    "pivot_drift_px": -1,
+    "bbox": [
+      15,
+      10,
+      79,
+      101
+    ],
+    "bbox_size": [
+      65,
+      92
+    ],
+    "measurement_method": "post_generation_png_component_bbox"
   },
   {
     "frame": 1,
     "ground_y": 104,
-    "bottom_y": 104,
-    "foot_contact": "grounded_or_intended",
+    "bottom_y": 102,
+    "ground_delta_px": 2,
+    "foot_contact": "measured_grounded",
     "pivot_x": 48,
-    "pivot_drift_px": 0
+    "pivot_drift_px": -2,
+    "bbox": [
+      18,
+      39,
+      75,
+      102
+    ],
+    "bbox_size": [
+      58,
+      64
+    ],
+    "measurement_method": "post_generation_png_component_bbox"
   }
 ]

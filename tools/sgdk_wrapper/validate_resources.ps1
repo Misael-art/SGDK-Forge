@@ -2883,10 +2883,9 @@ if ($visualAnalyses.Count -gt 0) {
             totalAssets = $visualAnalyses.Count
         }
     } elseif ($needsReviewCount -gt 0) {
-        $msg = "Juiz estetico sinalizou assets que pedem revisao antes de serem tratados como Elite."
-        Write-Log $msg "WARN"
-        $results.summary.warnings++
-        Add-Detail $results "VISUAL_ELITE" "WARNING" $msg "visual" $visualAestheticReportPath @{
+        $msg = "Gate visual bloqueado: qualquer asset em needs_review impede Elite/AAA ate curadoria canonica."
+        Write-Log $msg (Get-BlockingStatusLogLevel "visual_gate_blocked")
+        Add-BlockingStatus $results "visual_gate_blocked" $msg "visual" $visualAestheticReportPath @{
             needsReview = $needsReviewCount
             totalAssets = $visualAnalyses.Count
         }
@@ -3006,6 +3005,14 @@ if ($visualDeliveryGateReport) {
     }
     if ($visualDeliveryCandidate -and -not $runtimeVisualCorruptionStatus) {
         $gateFindings += "runtime_visual_corruption_status_missing"
+    }
+
+    $visualVdpDumpStatus = (Get-SafeString (Get-ObjectPropertyValue $visualDeliveryGateReport "visual_vdp_dump_status" "") "").ToLowerInvariant()
+    if ($visualDeliveryCandidate -and ($visualVdpDumpStatus -match "required|missing|blocked")) {
+        $vdpDumpPath = Join-Path $pwd.Path "out\evidence\blastem\visual_vdp_dump.bin"
+        if (-not (Test-Path -LiteralPath $vdpDumpPath -PathType Leaf)) {
+            $gateFindings += "visual_vdp_dump_missing_required"
+        }
     }
 
     $criticalAssets = @(Get-ObjectPropertyValue $visualDeliveryGateReport "critical_assets" @())
@@ -3205,6 +3212,69 @@ if ($visualDeliveryGateReport) {
             if (Test-TruthyValue (Get-ObjectPropertyValue $asset "bjj_state" $false)) {
                 if (-not (Test-TruthyValue (Get-ObjectPropertyValue $asset "bjj_body_language_declared" $false))) {
                     $gateFindings += ("{0}:bjj_body_language_missing" -f $assetId)
+                }
+            }
+
+            foreach ($premiumMotionField in @(
+                "scale_lock_report",
+                "animation_direction_contract",
+                "timing_spacing_report",
+                "impact_frame_contract",
+                "recovery_curve_report",
+                "shading_motion_report",
+                "palette_flash_policy",
+                "palette_domain_report"
+            )) {
+                $premiumValue = Get-ObjectPropertyValue $asset $premiumMotionField $null
+                if ($null -eq $premiumValue -or [string]::IsNullOrWhiteSpace([string]$premiumValue)) {
+                    $gateFindings += ("{0}:{1}_missing" -f $assetId, $premiumMotionField)
+                } elseif (-not (Test-ExistingArtifactReference $premiumValue $pwd.Path)) {
+                    $gateFindings += ("{0}:{1}_file_missing" -f $assetId, $premiumMotionField)
+                }
+            }
+
+            foreach ($reactionField in @("hit_reaction_contract", "smear_frame_manifest")) {
+                $reactionValue = Get-ObjectPropertyValue $asset $reactionField $null
+                if ($null -ne $reactionValue -and -not [string]::IsNullOrWhiteSpace([string]$reactionValue)) {
+                    if (-not (Test-ExistingArtifactReference $reactionValue $pwd.Path)) {
+                        $gateFindings += ("{0}:{1}_file_missing" -f $assetId, $reactionField)
+                    }
+                } elseif ($reactionField -eq "hit_reaction_contract") {
+                    $gateFindings += ("{0}:{1}_missing" -f $assetId, $reactionField)
+                }
+            }
+
+            $scaleLockReportRef = Get-ObjectPropertyValue $asset "scale_lock_report" $null
+            if ($scaleLockReportRef -and (Test-ExistingArtifactReference $scaleLockReportRef $pwd.Path)) {
+                $scaleLockReport = Get-ArtifactJsonOrNull $scaleLockReportRef $pwd.Path
+                if ($null -eq $scaleLockReport) {
+                    $gateFindings += ("{0}:scale_lock_report_invalid" -f $assetId)
+                } else {
+                    foreach ($state in @((Get-ObjectPropertyValue $scaleLockReport "states" @{}).PSObject.Properties)) {
+                        $stateValue = $state.Value
+                        if (Test-TruthyValue (Get-ObjectPropertyValue $stateValue "per_frame_scaling" $false)) {
+                            $gateFindings += ("{0}:scale_lock_report_per_frame_scaling_{1}" -f $assetId, $state.Name)
+                        }
+                        $stateStatus = (Get-SafeString (Get-ObjectPropertyValue $stateValue "status" "") "").ToLowerInvariant()
+                        if ($stateStatus -and $stateStatus -notin @("passed", "pass", "ok")) {
+                            $gateFindings += ("{0}:scale_lock_report_{1}_{2}" -f $assetId, $state.Name, $stateStatus)
+                        }
+                    }
+                }
+            }
+
+            $footContactReportRef = Get-ObjectPropertyValue $asset "foot_contact_report" $null
+            if ($footContactReportRef -and (Test-ExistingArtifactReference $footContactReportRef $pwd.Path)) {
+                $footContactReport = Get-ArtifactJsonOrNull $footContactReportRef $pwd.Path
+                if ($null -ne $footContactReport) {
+                    foreach ($footFrame in @($footContactReport)) {
+                        $method = Get-SafeString (Get-ObjectPropertyValue $footFrame "measurement_method" "") ""
+                        $contact = (Get-SafeString (Get-ObjectPropertyValue $footFrame "foot_contact" "") "").ToLowerInvariant()
+                        if (-not $method -or $contact -in @("grounded_or_intended", "arc_or_landing")) {
+                            $gateFindings += ("{0}:synthetic_foot_contact_report" -f $assetId)
+                            break
+                        }
+                    }
                 }
             }
 

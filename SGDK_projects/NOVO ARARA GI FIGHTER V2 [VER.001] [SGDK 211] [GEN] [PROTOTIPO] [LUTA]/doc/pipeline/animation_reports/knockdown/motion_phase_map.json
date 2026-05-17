@@ -1,6 +1,23 @@
 {
   "startup": [],
-  "active": [],
-  "recovery": [],
+  "anticipation": [],
+  "active": [
+    1,
+    2
+  ],
+  "recovery": [
+    3,
+    4,
+    5
+  ],
+  "hitstop_hold_frame": 1,
+  "frame_durations_vblank": [
+    4,
+    5,
+    5,
+    8,
+    10,
+    14
+  ],
   "looping": false
 }

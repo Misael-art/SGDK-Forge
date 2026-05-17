@@ -4,18 +4,86 @@
   "source_file": "data/source_art/caio_jab_strip_source.png",
   "frame_count": 4,
   "runtime_anim_index": 7,
+  "scale_lock": {
+    "scale": 0.162662,
+    "status": "passed",
+    "source": "fixed_manifest_cell_safe_scale_lock",
+    "target_body_height": 96,
+    "median_source_height": 474,
+    "max_bbox": [
+      541,
+      475
+    ],
+    "source_bboxes": [
+      {
+        "frame": 0,
+        "bbox": [
+          85,
+          128,
+          501,
+          603
+        ],
+        "w": 416,
+        "h": 475
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          28,
+          129,
+          495,
+          603
+        ],
+        "w": 467,
+        "h": 474
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          0,
+          146,
+          541,
+          603
+        ],
+        "w": 541,
+        "h": 457
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          12,
+          137,
+          428,
+          603
+        ],
+        "w": 416,
+        "h": 466
+      }
+    ],
+    "scale_by_target": 0.202532,
+    "safe_scale": 0.162662,
+    "per_frame_scaling": false
+  },
   "motion_phase_map": {
     "startup": [
-      0,
+      0
+    ],
+    "anticipation": [
       0
     ],
     "active": [
-      1,
-      2
+      1
     ],
     "recovery": [
-      3,
+      2,
       3
+    ],
+    "hitstop_hold_frame": 1,
+    "frame_durations_vblank": [
+      3,
+      2,
+      3,
+      6
     ],
     "looping": false
   },
@@ -23,19 +91,19 @@
     {
       "from": 0,
       "to": 1,
-      "changed_pixel_ratio": 0.33,
+      "changed_pixel_ratio": 0.2314,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 1,
       "to": 2,
-      "changed_pixel_ratio": 0.2687,
+      "changed_pixel_ratio": 0.2132,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 2,
       "to": 3,
-      "changed_pixel_ratio": 0.3521,
+      "changed_pixel_ratio": 0.2614,
       "adjacent_frame_delta": "ok"
     }
   ],
@@ -46,36 +114,108 @@
     {
       "frame": 0,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -1,
+      "bbox": [
+        14,
+        25,
+        81,
+        101
+      ],
+      "bbox_size": [
+        68,
+        77
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 1,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -1,
+      "bbox": [
+        10,
+        25,
+        85,
+        101
+      ],
+      "bbox_size": [
+        76,
+        77
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 2,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -1,
+      "bbox": [
+        4,
+        28,
+        91,
+        101
+      ],
+      "bbox_size": [
+        88,
+        74
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 3,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -1,
+      "bbox": [
+        14,
+        26,
+        81,
+        101
+      ],
+      "bbox_size": [
+        68,
+        76
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     }
   ],
+  "timing_spacing": {
+    "durations": [
+      3,
+      2,
+      3,
+      6
+    ],
+    "startup": [
+      0
+    ],
+    "anticipation": [
+      0
+    ],
+    "active": [
+      1
+    ],
+    "hitstop": 4,
+    "recovery": [
+      2,
+      3
+    ],
+    "impact_frame": 1
+  },
+  "reports_are_measured_from_runtime_png": true,
   "state_belongs_to_character_fantasy": true,
   "decision": "accepted_for_runtime_translation"
 }

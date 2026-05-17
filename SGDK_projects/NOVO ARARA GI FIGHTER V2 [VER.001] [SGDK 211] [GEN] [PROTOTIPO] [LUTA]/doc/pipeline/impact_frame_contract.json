@@ -1,0 +1,56 @@
+{
+  "schema": "impact_frame_contract.v1",
+  "actions": {
+    "jab": {
+      "impact_frame": 1,
+      "active_frames": [
+        1
+      ],
+      "hitstop_vblanks": 4,
+      "fx_sprite": "spr_hit_spark"
+    },
+    "medium": {
+      "impact_frame": 2,
+      "active_frames": [
+        2
+      ],
+      "hitstop_vblanks": 5,
+      "fx_sprite": "spr_hit_spark"
+    },
+    "grip": {
+      "impact_frame": 2,
+      "active_frames": [
+        2,
+        3
+      ],
+      "hitstop_vblanks": 5,
+      "fx_sprite": "spr_hit_spark"
+    },
+    "hip_throw": {
+      "impact_frame": 3,
+      "active_frames": [
+        3,
+        4
+      ],
+      "hitstop_vblanks": 8,
+      "fx_sprite": "spr_hit_spark"
+    },
+    "hurt": {
+      "impact_frame": 0,
+      "active_frames": [
+        0
+      ],
+      "hitstop_vblanks": 4,
+      "fx_sprite": "spr_hit_spark"
+    },
+    "knockdown": {
+      "impact_frame": 1,
+      "active_frames": [
+        1,
+        2
+      ],
+      "hitstop_vblanks": 6,
+      "fx_sprite": "spr_hit_spark"
+    }
+  }
+}

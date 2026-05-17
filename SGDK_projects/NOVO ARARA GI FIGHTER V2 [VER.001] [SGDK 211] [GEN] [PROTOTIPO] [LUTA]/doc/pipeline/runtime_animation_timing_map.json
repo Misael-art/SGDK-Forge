@@ -1,0 +1,298 @@
+{
+  "schema": "runtime_animation_timing_map.v1",
+  "unit": "vblank_frames",
+  "states": {
+    "idle": {
+      "frame_durations": [
+        8,
+        6,
+        7,
+        8,
+        6,
+        7
+      ],
+      "startup": [],
+      "anticipation": [],
+      "active": [],
+      "hitstop": 0,
+      "impact_frame": null,
+      "recovery": []
+    },
+    "walk_forward": {
+      "frame_durations": [
+        5,
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "startup": [],
+      "anticipation": [],
+      "active": [],
+      "hitstop": 0,
+      "impact_frame": null,
+      "recovery": []
+    },
+    "walk_back": {
+      "frame_durations": [
+        5,
+        5,
+        4,
+        5,
+        5,
+        4
+      ],
+      "startup": [],
+      "anticipation": [],
+      "active": [],
+      "hitstop": 0,
+      "impact_frame": null,
+      "recovery": []
+    },
+    "dash": {
+      "frame_durations": [
+        3,
+        3,
+        4,
+        6
+      ],
+      "startup": [
+        0
+      ],
+      "anticipation": [
+        0
+      ],
+      "active": [],
+      "hitstop": 0,
+      "impact_frame": null,
+      "recovery": [
+        2,
+        3
+      ]
+    },
+    "crouch": {
+      "frame_durations": [
+        5,
+        8
+      ],
+      "startup": [],
+      "anticipation": [
+        0
+      ],
+      "active": [],
+      "hitstop": 0,
+      "impact_frame": null,
+      "recovery": [
+        1
+      ]
+    },
+    "jump": {
+      "frame_durations": [
+        4,
+        5,
+        6,
+        5,
+        4,
+        5
+      ],
+      "startup": [
+        0
+      ],
+      "anticipation": [
+        0
+      ],
+      "active": [],
+      "hitstop": 0,
+      "impact_frame": null,
+      "recovery": [
+        5
+      ]
+    },
+    "guard": {
+      "frame_durations": [
+        5,
+        8,
+        6
+      ],
+      "startup": [
+        0
+      ],
+      "anticipation": [],
+      "active": [],
+      "hitstop": 0,
+      "impact_frame": null,
+      "recovery": [
+        2
+      ]
+    },
+    "jab": {
+      "frame_durations": [
+        3,
+        2,
+        3,
+        6
+      ],
+      "startup": [
+        0
+      ],
+      "anticipation": [
+        0
+      ],
+      "active": [
+        1
+      ],
+      "hitstop": 4,
+      "impact_frame": 1,
+      "recovery": [
+        2,
+        3
+      ]
+    },
+    "medium": {
+      "frame_durations": [
+        4,
+        4,
+        2,
+        4,
+        7
+      ],
+      "startup": [
+        0
+      ],
+      "anticipation": [
+        0,
+        1
+      ],
+      "active": [
+        2
+      ],
+      "hitstop": 5,
+      "impact_frame": 2,
+      "recovery": [
+        3,
+        4
+      ]
+    },
+    "grip": {
+      "frame_durations": [
+        5,
+        4,
+        3,
+        5,
+        8
+      ],
+      "startup": [
+        0
+      ],
+      "anticipation": [
+        0,
+        1
+      ],
+      "active": [
+        2,
+        3
+      ],
+      "hitstop": 5,
+      "impact_frame": 2,
+      "recovery": [
+        4
+      ]
+    },
+    "hip_throw": {
+      "frame_durations": [
+        5,
+        4,
+        4,
+        2,
+        4,
+        5,
+        6,
+        8
+      ],
+      "startup": [
+        0,
+        1
+      ],
+      "anticipation": [
+        1,
+        2
+      ],
+      "active": [
+        3,
+        4
+      ],
+      "hitstop": 8,
+      "impact_frame": 3,
+      "recovery": [
+        5,
+        6,
+        7
+      ]
+    },
+    "hurt": {
+      "frame_durations": [
+        3,
+        5,
+        5,
+        7
+      ],
+      "startup": [],
+      "anticipation": [],
+      "active": [
+        0
+      ],
+      "hitstop": 4,
+      "impact_frame": 0,
+      "recovery": [
+        2,
+        3
+      ]
+    },
+    "knockdown": {
+      "frame_durations": [
+        4,
+        5,
+        5,
+        8,
+        10,
+        14
+      ],
+      "startup": [],
+      "anticipation": [],
+      "active": [
+        1,
+        2
+      ],
+      "hitstop": 6,
+      "impact_frame": 1,
+      "recovery": [
+        3,
+        4,
+        5
+      ]
+    },
+    "getup": {
+      "frame_durations": [
+        8,
+        8,
+        7,
+        6,
+        5,
+        8
+      ],
+      "startup": [
+        0,
+        1
+      ],
+      "anticipation": [],
+      "active": [],
+      "hitstop": 0,
+      "impact_frame": null,
+      "recovery": [
+        4,
+        5
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "palette_domain_report.v1",
+  "palettes": {
+    "PAL1": "Caio material palette plus spark for current prototype",
+    "PAL3": "Davi material palette",
+    "PAL0": "BG_B",
+    "PAL2": "BG_A"
+  },
+  "fx_domain": {
+    "spr_hit_spark": "separate sprite, currently shares PAL1 color slots 8/13/15 by contract",
+    "risk": "fx palette is coupled to PAL1 but documented; no baked FX in character strips"
+  }
+}

@@ -6,22 +6,22 @@
   "paired_bg": null,
   "status": "needs_review",
   "metrics": {
-    "palette_efficiency": 0.5,
+    "palette_efficiency": 0.4437,
     "tile_efficiency": 1.0,
-    "detail_density_8x8": 0.8866,
-    "dithering_density": 0.5367,
+    "detail_density_8x8": 0.9171,
+    "dithering_density": 0.485,
     "silhouette_readability": 0.6,
     "layer_separation": 0.62,
-    "reuse_opportunity": 0.5198,
-    "reference_alignment": 0.6727,
-    "visual_excellence_score": 0.6727
+    "reuse_opportunity": 0.6657,
+    "reference_alignment": 0.6518,
+    "visual_excellence_score": 0.6518
   },
   "metric_inputs": {
     "palette_efficiency": {
       "color_count": 16,
       "tonal_span": 235.5452,
       "redundancy_ratio": 0.4,
-      "low_usage_ratio": 0.375
+      "low_usage_ratio": 0.625
     },
     "tile_efficiency": {
       "empty_ratio": 0.0,
@@ -33,13 +33,13 @@
       "mode": "default"
     },
     "detail_density_8x8": {
-      "avg_transition_density": 0.19051494295634921,
-      "avg_isolated_ratio": 0.06803385416666667,
+      "avg_transition_density": 0.13068111359126985,
+      "avg_isolated_ratio": 0.04975818452380952,
       "non_empty_tiles": 1008
     },
     "dithering_density": {
-      "dither_ratio": 0.005468076772424599,
-      "noise_ratio": 0.13496278887583235,
+      "dither_ratio": 0.003963963963963964,
+      "noise_ratio": 0.09809635722679201,
       "samples": 63825
     },
     "silhouette_readability": {
@@ -53,8 +53,8 @@
     },
     "reuse_opportunity": {
       "non_empty_tiles": 1008,
-      "exact_duplicates": 523,
-      "flip_reuse_ratio": 0.5198412698412699
+      "exact_duplicates": 669,
+      "flip_reuse_ratio": 0.6656746031746031
     },
     "structural_layer": {
       "paired_structural_layer": false,
@@ -66,14 +66,14 @@
       "code": "PALETTE_WASTE",
       "severity": "warning",
       "message": "Paleta com baixa eficiencia tonal ou cores redundantes.",
-      "value": 0.5,
+      "value": 0.4437,
       "threshold": 0.55
     },
     {
       "code": "MISSING_DITHERING_FOR_MATERIAL",
       "severity": "warning",
       "message": "O asset esta abaixo da densidade minima de dithering esperada para o papel informado.",
-      "value": 0.005468076772424599,
+      "value": 0.003963963963963964,
       "threshold": 0.01
     }
   ],

@@ -45,7 +45,7 @@
       "rom_asset_path": "res/bgs/lapa_bg_b.png + res/bgs/lapa_bg_a.png",
       "resources_symbol": "lapa_bg_b, lapa_bg_a",
       "source_to_rom_visual_match": 8.0,
-      "match_method": "native 320x224 crop split into BG_B/BG_A; layer detail reduced in the builder to meet VRAM residency while preserving stage read"
+      "match_method": "native 320x224 crop split into BG_B/BG_A with 16-color quantized layer pass"
     }
   ]
 }

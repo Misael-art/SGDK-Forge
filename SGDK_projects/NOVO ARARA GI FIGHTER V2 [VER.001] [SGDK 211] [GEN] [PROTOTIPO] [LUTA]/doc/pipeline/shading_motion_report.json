@@ -1,0 +1,23 @@
+{
+  "schema": "shading_motion_report.v1",
+  "status": "measured_observational_pass",
+  "measurement_basis": "runtime strips in res/sprites/characters/caio",
+  "rule": "gi shadow/highlight bands must move with the measured bbox and pose, not just outline",
+  "states_checked": [
+    "idle",
+    "walk_forward",
+    "walk_back",
+    "dash",
+    "crouch",
+    "jump",
+    "guard",
+    "jab",
+    "medium",
+    "grip",
+    "hip_throw",
+    "hurt",
+    "knockdown",
+    "getup"
+  ],
+  "findings": []
+}

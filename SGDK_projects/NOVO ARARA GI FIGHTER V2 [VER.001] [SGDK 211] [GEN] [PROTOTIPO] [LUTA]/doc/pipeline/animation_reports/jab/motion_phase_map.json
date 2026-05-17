@@ -1,15 +1,23 @@
 {
   "startup": [
-    0,
+    0
+  ],
+  "anticipation": [
     0
   ],
   "active": [
-    1,
-    2
+    1
   ],
   "recovery": [
-    3,
+    2,
     3
+  ],
+  "hitstop_hold_frame": 1,
+  "frame_durations_vblank": [
+    3,
+    2,
+    3,
+    6
   ],
   "looping": false
 }

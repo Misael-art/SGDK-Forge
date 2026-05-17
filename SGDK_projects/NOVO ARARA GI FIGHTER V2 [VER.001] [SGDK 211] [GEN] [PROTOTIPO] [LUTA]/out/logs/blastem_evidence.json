@@ -1,16 +1,15 @@
-﻿{
+{
     "schema_version":  "1.0.0",
-    "generated_at":  "2026-05-16T08:55:51.0626434Z",
-    "tool_name":  "capture_blastem_evidence",
-    "tool_version":  "0.1.0",
+    "generated_at":  "2026-05-17T00:09:47.5688677-03:00",
+    "tool_name":  "run_runtime_capture.ps1",
+    "tool_version":  "0.2.0",
     "project_root":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
-    "workspace_root":  "F:\\Projects\\MegaDrive_DEV",
     "status":  "ok",
     "failure_reason":  null,
     "rom_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\rom.bin",
-    "rom_sha256":  "93d02b59721980b69f2d7862d0866818bc371cdd2b71e2984f4261a3c9fb750e",
-    "emulator_path":  "F:\\Projects\\MegaDrive_DEV\\tools\\emuladores\\BlastEm\\blastem.exe",
-    "capture_mode":  "canonical",
+    "rom_sha256":  "e32ed0d18c488f4195747626a7d2505e61d33b2b8f665c721626f5496349788f",
+    "emulator_path":  null,
+    "capture_mode":  "runtime_capture",
     "session_started":  true,
     "session_completed":  true,
     "screenshot_present":  true,
@@ -19,7 +18,7 @@
     "evidence_status":  "ok",
     "evidence_root":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\evidence\\blastem",
     "session_manifest_path":  null,
-    "duration_ms":  33236,
+    "duration_ms":  null,
     "readiness_ok":  true,
     "ready_probe_source":  "post_close_sram_heartbeat"
 }

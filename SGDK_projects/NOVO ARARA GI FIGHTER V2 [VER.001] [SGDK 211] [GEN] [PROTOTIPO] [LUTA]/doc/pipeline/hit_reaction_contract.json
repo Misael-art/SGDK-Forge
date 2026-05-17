@@ -1,0 +1,15 @@
+{
+  "schema": "hit_reaction_contract.v1",
+  "states": {
+    "hurt": {
+      "force_direction": "away_from_attacker",
+      "posture_break_notes": "shoulders and torso recoil; runtime adds horizontal knockback",
+      "hitstop_hold_frame": 0
+    },
+    "knockdown": {
+      "force_direction": "throw_or_final_hit_to_mat",
+      "posture_break_notes": "base lost, body descends to mat, getup restores scale",
+      "hitstop_hold_frame": 1
+    }
+  }
+}

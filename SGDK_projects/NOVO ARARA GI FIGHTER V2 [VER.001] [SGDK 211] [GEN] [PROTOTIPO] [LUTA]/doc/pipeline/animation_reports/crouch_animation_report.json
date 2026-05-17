@@ -4,17 +4,65 @@
   "source_file": "data/source_art/caio_crouch_strip_source.png",
   "frame_count": 2,
   "runtime_anim_index": 4,
+  "scale_lock": {
+    "scale": 0.122503,
+    "status": "passed",
+    "source": "fixed_manifest_cell_safe_scale_lock",
+    "target_body_height": 92,
+    "median_source_height": 751,
+    "max_bbox": [
+      523,
+      751
+    ],
+    "source_bboxes": [
+      {
+        "frame": 0,
+        "bbox": [
+          236,
+          47,
+          759,
+          798
+        ],
+        "w": 523,
+        "h": 751
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          140,
+          281,
+          613,
+          797
+        ],
+        "w": 473,
+        "h": 516
+      }
+    ],
+    "scale_by_target": 0.122503,
+    "safe_scale": 0.138482,
+    "per_frame_scaling": false
+  },
   "motion_phase_map": {
     "startup": [],
+    "anticipation": [
+      0
+    ],
     "active": [],
-    "recovery": [],
+    "recovery": [
+      1
+    ],
+    "hitstop_hold_frame": null,
+    "frame_durations_vblank": [
+      5,
+      8
+    ],
     "looping": true
   },
   "frame_delta_report": [
     {
       "from": 0,
       "to": 1,
-      "changed_pixel_ratio": 0.4112,
+      "changed_pixel_ratio": 0.287,
       "adjacent_frame_delta": "ok"
     }
   ],
@@ -25,20 +73,61 @@
     {
       "frame": 0,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "needs_review_ground_contact",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -1,
+      "bbox": [
+        15,
+        10,
+        79,
+        101
+      ],
+      "bbox_size": [
+        65,
+        92
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 1,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 102,
+      "ground_delta_px": 2,
+      "foot_contact": "measured_grounded",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -2,
+      "bbox": [
+        18,
+        39,
+        75,
+        102
+      ],
+      "bbox_size": [
+        58,
+        64
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     }
   ],
+  "timing_spacing": {
+    "durations": [
+      5,
+      8
+    ],
+    "startup": [],
+    "anticipation": [
+      0
+    ],
+    "active": [],
+    "hitstop": 0,
+    "recovery": [
+      1
+    ],
+    "impact_frame": null
+  },
+  "reports_are_measured_from_runtime_png": true,
   "state_belongs_to_character_fantasy": true,
   "decision": "accepted_for_runtime_translation"
 }

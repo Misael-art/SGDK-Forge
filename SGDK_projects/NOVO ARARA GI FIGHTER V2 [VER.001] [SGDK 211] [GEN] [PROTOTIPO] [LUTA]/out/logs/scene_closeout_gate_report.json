@@ -1,33 +1,50 @@
 ﻿{
     "schema_version":  "1.0.0",
-    "generated_at":  "2026-05-16T09:12:02.0197091Z",
+    "generated_at":  "2026-05-17T03:11:50.3947946Z",
     "tool_name":  "scene_closeout_gate",
     "tool_version":  "0.1.0",
     "project_root":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
-    "scene_id":  "lapa_open_mat_demo",
+    "scene_id":  "first_playable_slice",
     "target_scene":  2,
     "plan_only":  false,
     "warn_only":  false,
-    "status":  "ok",
+    "status":  "blocked",
     "summary":  {
-                    "steps_total":  4,
+                    "steps_total":  9,
                     "planned":  0,
-                    "succeeded":  4,
+                    "succeeded":  9,
                     "failed":  0,
                     "warnings":  0,
                     "skipped":  0,
-                    "blocked":  0,
+                    "blocked":  1,
                     "validation_report_readable":  true,
                     "validation_blocking_statuses":  [
-
+                                                         "visual_gate_blocked"
                                                      ],
                     "closeout_blocking_statuses":  [
-
+                                                       "visual_gate_blocked"
                                                    ],
                     "res_graph_vram_status":  "ok",
                     "res_graph_vram_overlap_count":  0
                 },
     "steps":  [
+                  {
+                      "name":  "build",
+                      "kind":  "build",
+                      "command":  "cmd.exe",
+                      "arguments":  [
+                                        "/c",
+                                        "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\build.bat"
+                                    ],
+                      "required":  true,
+                      "status":  "ok",
+                      "exit_code":  0,
+                      "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_build.log",
+                      "started_at":  "2026-05-17T03:06:03.1351285Z",
+                      "finished_at":  "2026-05-17T03:07:50.7031481Z",
+                      "duration_ms":  107521,
+                      "skipped_reason":  null
+                  },
                   {
                       "name":  "scene_contract_compiler",
                       "kind":  "contract",
@@ -45,9 +62,9 @@
                       "status":  "ok",
                       "exit_code":  0,
                       "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_scene_contract_compiler.log",
-                      "started_at":  "2026-05-16T09:11:24.1287562Z",
-                      "finished_at":  "2026-05-16T09:11:25.6037359Z",
-                      "duration_ms":  1456,
+                      "started_at":  "2026-05-17T03:07:50.7561012Z",
+                      "finished_at":  "2026-05-17T03:07:53.1733389Z",
+                      "duration_ms":  2411,
                       "skipped_reason":  null
                   },
                   {
@@ -67,9 +84,9 @@
                       "status":  "ok",
                       "exit_code":  0,
                       "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_res_graph_audit.log",
-                      "started_at":  "2026-05-16T09:11:25.6347495Z",
-                      "finished_at":  "2026-05-16T09:11:30.3541697Z",
-                      "duration_ms":  4718,
+                      "started_at":  "2026-05-17T03:07:53.1863411Z",
+                      "finished_at":  "2026-05-17T03:07:59.3030238Z",
+                      "duration_ms":  6117,
                       "skipped_reason":  null
                   },
                   {
@@ -89,9 +106,103 @@
                       "status":  "ok",
                       "exit_code":  0,
                       "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_validate_resources.log",
-                      "started_at":  "2026-05-16T09:11:30.3591685Z",
-                      "finished_at":  "2026-05-16T09:12:01.0010969Z",
-                      "duration_ms":  30641,
+                      "started_at":  "2026-05-17T03:07:59.3206927Z",
+                      "finished_at":  "2026-05-17T03:08:42.7856266Z",
+                      "duration_ms":  43464,
+                      "skipped_reason":  null
+                  },
+                  {
+                      "name":  "runtime_capture",
+                      "kind":  "emulator",
+                      "command":  "powershell.exe",
+                      "arguments":  [
+                                        "-NoProfile",
+                                        "-ExecutionPolicy",
+                                        "Bypass",
+                                        "-File",
+                                        "F:\\Projects\\MegaDrive_DEV\\tools\\sgdk_wrapper\\run_runtime_capture.ps1",
+                                        "-ProjectDir",
+                                        "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
+                                        "-TargetScene",
+                                        "2",
+                                        "-Emulator",
+                                        "blastem"
+                                    ],
+                      "required":  true,
+                      "status":  "ok",
+                      "exit_code":  0,
+                      "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_runtime_capture.log",
+                      "started_at":  "2026-05-17T03:08:42.8028178Z",
+                      "finished_at":  "2026-05-17T03:09:48.3041217Z",
+                      "duration_ms":  65500,
+                      "skipped_reason":  null
+                  },
+                  {
+                      "name":  "validate_resources_post_runtime",
+                      "kind":  "validation",
+                      "command":  "powershell.exe",
+                      "arguments":  [
+                                        "-NoProfile",
+                                        "-ExecutionPolicy",
+                                        "Bypass",
+                                        "-File",
+                                        "F:\\Projects\\MegaDrive_DEV\\tools\\sgdk_wrapper\\validate_resources.ps1",
+                                        "-WorkDir",
+                                        "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]"
+                                    ],
+                      "required":  true,
+                      "status":  "ok",
+                      "exit_code":  0,
+                      "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_validate_resources_post_runtime.log",
+                      "started_at":  "2026-05-17T03:09:48.3561658Z",
+                      "finished_at":  "2026-05-17T03:10:32.6792342Z",
+                      "duration_ms":  44322,
+                      "skipped_reason":  null
+                  },
+                  {
+                      "name":  "scene_regression",
+                      "kind":  "emulator",
+                      "command":  "powershell.exe",
+                      "arguments":  [
+                                        "-NoProfile",
+                                        "-ExecutionPolicy",
+                                        "Bypass",
+                                        "-File",
+                                        "F:\\Projects\\MegaDrive_DEV\\tools\\sgdk_wrapper\\run_scene_regression.ps1",
+                                        "-ProjectRoot",
+                                        "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]",
+                                        "-SceneId",
+                                        "first_playable_slice"
+                                    ],
+                      "required":  true,
+                      "status":  "ok",
+                      "exit_code":  0,
+                      "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_scene_regression.log",
+                      "started_at":  "2026-05-17T03:10:32.6910529Z",
+                      "finished_at":  "2026-05-17T03:11:04.1168280Z",
+                      "duration_ms":  31422,
+                      "skipped_reason":  null
+                  },
+                  {
+                      "name":  "validate_resources_final",
+                      "kind":  "validation",
+                      "command":  "powershell.exe",
+                      "arguments":  [
+                                        "-NoProfile",
+                                        "-ExecutionPolicy",
+                                        "Bypass",
+                                        "-File",
+                                        "F:\\Projects\\MegaDrive_DEV\\tools\\sgdk_wrapper\\validate_resources.ps1",
+                                        "-WorkDir",
+                                        "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]"
+                                    ],
+                      "required":  true,
+                      "status":  "ok",
+                      "exit_code":  0,
+                      "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_validate_resources_final.log",
+                      "started_at":  "2026-05-17T03:11:04.1418244Z",
+                      "finished_at":  "2026-05-17T03:11:48.3069998Z",
+                      "duration_ms":  44164,
                       "skipped_reason":  null
                   },
                   {
@@ -111,9 +222,9 @@
                       "status":  "ok",
                       "exit_code":  0,
                       "log_path":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_closeout_freshness_audit.log",
-                      "started_at":  "2026-05-16T09:12:01.0091014Z",
-                      "finished_at":  "2026-05-16T09:12:01.8891870Z",
-                      "duration_ms":  879,
+                      "started_at":  "2026-05-17T03:11:48.3880134Z",
+                      "finished_at":  "2026-05-17T03:11:50.1601414Z",
+                      "duration_ms":  1771,
                       "skipped_reason":  null
                   }
               ],
@@ -121,7 +232,7 @@
                                "validation_report":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\validation_report.json",
                                "freshness_audit_report":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\freshness_audit_report.json",
                                "res_graph_report":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\res_graph_report.json",
-                               "scene_regression_report":  null,
+                               "scene_regression_report":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\scene_regression_report.json",
                                "runtime_metrics":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\logs\\runtime_metrics.json",
                                "rom":  "F:\\Projects\\MegaDrive_DEV\\SGDK_projects\\NOVO ARARA GI FIGHTER V2 [VER.001] [SGDK 211] [GEN] [PROTOTIPO] [LUTA]\\out\\rom.bin"
                            }

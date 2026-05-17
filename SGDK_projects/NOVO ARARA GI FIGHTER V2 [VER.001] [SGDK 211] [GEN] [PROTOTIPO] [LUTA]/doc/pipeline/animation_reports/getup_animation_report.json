@@ -4,41 +4,139 @@
   "source_file": "data/source_art/caio_getup_strip_source.png",
   "frame_count": 6,
   "runtime_anim_index": 13,
+  "scale_lock": {
+    "scale": 0.243094,
+    "status": "passed",
+    "source": "fixed_manifest_cell_safe_scale_lock",
+    "target_body_height": 92,
+    "median_source_height": 320,
+    "max_bbox": [
+      362,
+      407
+    ],
+    "source_bboxes": [
+      {
+        "frame": 0,
+        "bbox": [
+          61,
+          355,
+          362,
+          529
+        ],
+        "w": 301,
+        "h": 174
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          0,
+          278,
+          362,
+          530
+        ],
+        "w": 362,
+        "h": 252
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          0,
+          283,
+          362,
+          534
+        ],
+        "w": 362,
+        "h": 251
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          0,
+          206,
+          343,
+          526
+        ],
+        "w": 343,
+        "h": 320
+      },
+      {
+        "frame": 4,
+        "bbox": [
+          9,
+          165,
+          362,
+          537
+        ],
+        "w": 353,
+        "h": 372
+      },
+      {
+        "frame": 5,
+        "bbox": [
+          0,
+          130,
+          303,
+          537
+        ],
+        "w": 303,
+        "h": 407
+      }
+    ],
+    "scale_by_target": 0.2875,
+    "safe_scale": 0.243094,
+    "per_frame_scaling": false
+  },
   "motion_phase_map": {
-    "startup": [],
+    "startup": [
+      0,
+      1
+    ],
+    "anticipation": [],
     "active": [],
-    "recovery": [],
+    "recovery": [
+      4,
+      5
+    ],
+    "hitstop_hold_frame": null,
+    "frame_durations_vblank": [
+      8,
+      8,
+      7,
+      6,
+      5,
+      8
+    ],
     "looping": false
   },
   "frame_delta_report": [
     {
       "from": 0,
       "to": 1,
-      "changed_pixel_ratio": 0.3761,
+      "changed_pixel_ratio": 0.3088,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 1,
       "to": 2,
-      "changed_pixel_ratio": 0.3822,
+      "changed_pixel_ratio": 0.3052,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 2,
       "to": 3,
-      "changed_pixel_ratio": 0.3551,
+      "changed_pixel_ratio": 0.3013,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 3,
       "to": 4,
-      "changed_pixel_ratio": 0.4217,
+      "changed_pixel_ratio": 0.4206,
       "adjacent_frame_delta": "ok"
     },
     {
       "from": 4,
       "to": 5,
-      "changed_pixel_ratio": 0.2941,
+      "changed_pixel_ratio": 0.3098,
       "adjacent_frame_delta": "ok"
     }
   ],
@@ -49,52 +147,147 @@
     {
       "frame": 0,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 100,
+      "ground_delta_px": 4,
+      "foot_contact": "measured_ground_transition",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 1,
+      "bbox": [
+        13,
+        59,
+        85,
+        100
+      ],
+      "bbox_size": [
+        73,
+        42
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 1,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 100,
+      "ground_delta_px": 4,
+      "foot_contact": "measured_ground_transition",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 5,
+      "bbox": [
+        16,
+        41,
+        91,
+        100
+      ],
+      "bbox_size": [
+        76,
+        60
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 2,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 100,
+      "ground_delta_px": 4,
+      "foot_contact": "measured_ground_transition",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 6,
+      "bbox": [
+        18,
+        40,
+        91,
+        100
+      ],
+      "bbox_size": [
+        74,
+        61
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 3,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 100,
+      "ground_delta_px": 4,
+      "foot_contact": "measured_ground_transition",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": 1,
+      "bbox": [
+        12,
+        23,
+        87,
+        100
+      ],
+      "bbox_size": [
+        76,
+        78
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 4,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 99,
+      "ground_delta_px": 5,
+      "foot_contact": "measured_ground_transition",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -3,
+      "bbox": [
+        6,
+        11,
+        85,
+        99
+      ],
+      "bbox_size": [
+        80,
+        89
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     },
     {
       "frame": 5,
       "ground_y": 104,
-      "bottom_y": 104,
-      "foot_contact": "grounded_or_intended",
+      "bottom_y": 101,
+      "ground_delta_px": 3,
+      "foot_contact": "measured_ground_transition",
       "pivot_x": 48,
-      "pivot_drift_px": 0
+      "pivot_drift_px": -3,
+      "bbox": [
+        9,
+        3,
+        82,
+        101
+      ],
+      "bbox_size": [
+        74,
+        99
+      ],
+      "measurement_method": "post_generation_png_component_bbox"
     }
   ],
+  "timing_spacing": {
+    "durations": [
+      8,
+      8,
+      7,
+      6,
+      5,
+      8
+    ],
+    "startup": [
+      0,
+      1
+    ],
+    "anticipation": [],
+    "active": [],
+    "hitstop": 0,
+    "recovery": [
+      4,
+      5
+    ],
+    "impact_frame": null
+  },
+  "reports_are_measured_from_runtime_png": true,
   "state_belongs_to_character_fantasy": true,
   "decision": "accepted_for_runtime_translation"
 }

@@ -5,28 +5,18 @@ frame_w: 96
 frame_h: 112
 pivot_x: 48
 ground_y: 104
-feet_policy: grounded states align at ground_y; jump state declares arc_or_landing.
+cell_contract_source: fixed_manifest_cell_safe_scale_lock
 
 ## Scale Contract
 
-- Caio visual height target: 80-96 px within 96x112 frame.
-- Davi uses identical frame and pivot.
-- No state may shrink or grow the torso mass except crouch, jump arc compression, knockdown, and getup by intended pose.
-- Face, lapel, belt, bare feet, and hand-tape identity must survive at native 320x224.
+- Runtime cell is fixed at 96x112 because the source max bbox plus 8 px safety pad fits the declared fixed_manifest_cell.
+- Builder locks scale once per declared action contract before normalizing frames; no frame may compute an independent scale.
+- `doc/pipeline/scale_lock_report.json` stores source bboxes, safe scale and target body ruler for each state.
+- Crouch, jump, knockdown and getup may change visible bbox only as pose/ground-contact transitions; attacks must preserve body scale.
 
-## Frame Envelope Rules
+## Measured QA
 
-- No hands, feet, head, belt, or gi lapel may clip frame edges.
-- Chroma-key/source matte must not survive as visible pixels after conversion.
-- Index 0 in runtime PNGs is transparent/magenta.
-- Sprites face right in source; runtime uses hardware horizontal flip for mirrored direction.
-
-## Pivot QA
-
-Each animation must produce:
-- motion_phase_map
-- frame_delta_report
-- contact_sheet
-- pivot_overlay
-- foot_contact_report
-- preview GIF
+- `foot_contact_report.json` is measured from post-generation runtime PNG component bbox.
+- `pivot_drift_px` is measured from bbox center against pivot_x=48.
+- `frame_delta_report.json` is measured from post-generation runtime PNG pixels.
+- Sprite island cleanup is recorded before promotion; remaining islands block `sprite_artifact_report`.

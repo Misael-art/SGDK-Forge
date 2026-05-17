@@ -1,0 +1,109 @@
+{
+  "schema": "state_timing_spacing_report.v1",
+  "state": "jump",
+  "timing": {
+    "durations": [
+      4,
+      5,
+      6,
+      5,
+      4,
+      5
+    ],
+    "startup": [
+      0
+    ],
+    "anticipation": [
+      0
+    ],
+    "active": [],
+    "hitstop": 0,
+    "recovery": [
+      5
+    ],
+    "impact_frame": null
+  },
+  "scale_lock": {
+    "scale": 0.219409,
+    "status": "passed",
+    "source": "fixed_manifest_cell_safe_scale_lock",
+    "target_body_height": 96,
+    "median_source_height": 394,
+    "max_bbox": [
+      362,
+      474
+    ],
+    "source_bboxes": [
+      {
+        "frame": 0,
+        "bbox": [
+          87,
+          349,
+          329,
+          638
+        ],
+        "w": 242,
+        "h": 289
+      },
+      {
+        "frame": 1,
+        "bbox": [
+          6,
+          225,
+          305,
+          630
+        ],
+        "w": 299,
+        "h": 405
+      },
+      {
+        "frame": 2,
+        "bbox": [
+          57,
+          125,
+          299,
+          519
+        ],
+        "w": 242,
+        "h": 394
+      },
+      {
+        "frame": 3,
+        "bbox": [
+          38,
+          75,
+          362,
+          436
+        ],
+        "w": 324,
+        "h": 361
+      },
+      {
+        "frame": 4,
+        "bbox": [
+          0,
+          152,
+          362,
+          626
+        ],
+        "w": 362,
+        "h": 474
+      },
+      {
+        "frame": 5,
+        "bbox": [
+          0,
+          349,
+          233,
+          638
+        ],
+        "w": 233,
+        "h": 289
+      }
+    ],
+    "scale_by_target": 0.243655,
+    "safe_scale": 0.219409,
+    "per_frame_scaling": false
+  },
+  "reports_are_measured_from_runtime_png": true
+}

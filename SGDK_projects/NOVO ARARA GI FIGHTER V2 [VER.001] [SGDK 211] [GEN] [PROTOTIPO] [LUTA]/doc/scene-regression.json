@@ -5,7 +5,9 @@
     {
       "scene_id": "front_end_main_menu",
       "scene_key": "front_end_main_menu",
-      "boot_mode": "unsupported",
+      "boot_mode": "sram_bootstrap",
+      "expected_app_scene_id": 1,
+      "bootstrap_scene_id": 1,
       "capture_kind": "evidence_bundle",
       "comparison_artifacts": ["screenshot"],
       "capture_frame": 120,
@@ -15,7 +17,9 @@
     {
       "scene_id": "first_playable_slice",
       "scene_key": "first_playable_slice",
-      "boot_mode": "unsupported",
+      "boot_mode": "sram_bootstrap",
+      "expected_app_scene_id": 2,
+      "bootstrap_scene_id": 2,
       "capture_kind": "evidence_bundle",
       "comparison_artifacts": ["screenshot"],
       "capture_frame": 120,

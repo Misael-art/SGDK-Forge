@@ -14,7 +14,7 @@
 #define LIFE_MAX 96
 #define HIT_RANGE_CLOSE 58
 #define HIT_RANGE_STRIKE 72
-#define ANIM_SPEED 5
+#define MAX_STATE_FRAMES 8
 #define ROUND_SECONDS 99
 
 typedef enum FighterState {
@@ -93,6 +93,35 @@ static const bool sLooping[FIGHTER_STATE_COUNT] = {
     TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE
 };
 
+static const u8 sFrameDurations[FIGHTER_STATE_COUNT][MAX_STATE_FRAMES] = {
+    { 8, 6, 7, 8, 6, 7, 0, 0 },
+    { 5, 4, 5, 5, 4, 5, 0, 0 },
+    { 5, 5, 4, 5, 5, 4, 0, 0 },
+    { 3, 3, 4, 6, 0, 0, 0, 0 },
+    { 5, 8, 0, 0, 0, 0, 0, 0 },
+    { 4, 5, 6, 5, 4, 5, 0, 0 },
+    { 5, 8, 6, 0, 0, 0, 0, 0 },
+    { 3, 2, 3, 6, 0, 0, 0, 0 },
+    { 4, 4, 2, 4, 7, 0, 0, 0 },
+    { 5, 4, 3, 5, 8, 0, 0, 0 },
+    { 5, 4, 4, 2, 4, 5, 6, 8 },
+    { 3, 5, 5, 7, 0, 0, 0, 0 },
+    { 4, 5, 5, 8, 10, 14, 0, 0 },
+    { 8, 8, 7, 6, 5, 8, 0, 0 },
+};
+
+static const u8 sActiveStart[FIGHTER_STATE_COUNT] = {
+    255, 255, 255, 255, 255, 255, 255, 1, 2, 2, 3, 0, 1, 255
+};
+
+static const u8 sActiveEnd[FIGHTER_STATE_COUNT] = {
+    255, 255, 255, 255, 255, 255, 255, 1, 2, 3, 4, 0, 2, 255
+};
+
+static const u8 sHitstopFrames[FIGHTER_STATE_COUNT] = {
+    0, 0, 0, 0, 0, 0, 0, 4, 5, 5, 8, 4, 6, 0
+};
+
 static const s16 sJumpArc[6] = { 0, -26, -44, -36, -18, 0 };
 
 static Fighter sP1;
@@ -105,6 +134,7 @@ static u16 sRoundSeconds;
 static u16 sRoundFrameTicks;
 static u16 sShakeTimer;
 static s16 sShakeX;
+static u16 sHitstopTimer;
 
 static s16 iabs16(s16 value)
 {
@@ -138,14 +168,30 @@ static bool stateIsAttack(FighterState state)
 
 static bool stateIsActiveFrame(FighterState state, u16 frame)
 {
-    switch (state)
-    {
-        case FIGHTER_JAB: return (frame >= 1) && (frame <= 2);
-        case FIGHTER_MEDIUM: return (frame >= 2) && (frame <= 3);
-        case FIGHTER_GRIP: return (frame >= 2) && (frame <= 3);
-        case FIGHTER_HIP_THROW: return (frame >= 3) && (frame <= 5);
-        default: return FALSE;
+    if (sActiveStart[state] == 255) return FALSE;
+    return (frame >= sActiveStart[state]) && (frame <= sActiveEnd[state]);
+}
+
+static u8 stateHitstopFrames(FighterState state)
+{
+    return sHitstopFrames[state];
+}
+
+static u8 stateFrameDuration(FighterState state, u16 frame)
+{
+    if (frame >= MAX_STATE_FRAMES) return 1;
+    if (sFrameDurations[state][frame] == 0) return 1;
+    return sFrameDurations[state][frame];
+}
+
+static u16 stateTotalDuration(FighterState state)
+{
+    u16 total = 0;
+    u16 i;
+    for (i = 0; i < sFrameCounts[state]; i++) {
+        total += stateFrameDuration(state, i);
     }
+    return total;
 }
 
 static void fighterSetState(Fighter* f, FighterState state)
@@ -173,7 +219,7 @@ static void fighterSetState(Fighter* f, FighterState state)
 
 static bool fighterStateDone(const Fighter* f)
 {
-    return f->stateFrames >= ((u16)sFrameCounts[f->state] * ANIM_SPEED);
+    return f->stateFrames >= stateTotalDuration(f->state);
 }
 
 static void fighterTickAnimation(Fighter* f)
@@ -187,7 +233,7 @@ static void fighterTickAnimation(Fighter* f)
         f->y = GROUND_Y + sJumpArc[frame];
     }
 
-    if (f->frameTimer >= ANIM_SPEED) {
+    if (f->frameTimer >= stateFrameDuration(f->state, f->animFrame)) {
         f->frameTimer = 0;
         if (sLooping[f->state]) {
             f->animFrame = (f->animFrame + 1) % sFrameCounts[f->state];
@@ -263,6 +309,7 @@ static void applyHit(Fighter* attacker, Fighter* target, u16 damage, bool knockd
     target->life -= (s16)damage;
     if (target->life < 0) target->life = 0;
     target->vx = dir * (knockdown ? 4 : 2);
+    sHitstopTimer = stateHitstopFrames(attacker->state);
     triggerSpark(target->x + 36, target->y + 48);
 
     if (target->life == 0) {
@@ -488,6 +535,7 @@ void SCENE_demoEnter(void)
     sRoundFrameTicks = 0;
     sShakeTimer = 0;
     sShakeX = 0;
+    sHitstopTimer = 0;
 
     faceOpponent();
     drawHud();
@@ -495,6 +543,16 @@ void SCENE_demoEnter(void)
 
 void SCENE_demoUpdate(void)
 {
+    if (sHitstopTimer > 0) {
+        sHitstopTimer--;
+        faceOpponent();
+        syncSprite(&sP1);
+        syncSprite(&sP2);
+        updateSpark();
+        drawHud();
+        return;
+    }
+
     updateP1Control();
     updateDummy();
 

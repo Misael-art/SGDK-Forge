@@ -1,6 +1,6 @@
 ---
 name: sgdk-runtime-coder
-description: Use quando a tarefa envolver codigo C SGDK 2.11 real, montagem de cena, sprites, BGs, HUD, audio, loop principal, build no Windows, scroll avancado, raster split, pseudo-3D, DMA scheduling e fechamento do ciclo ate ROM com evidencia em emulador. Nao substitui megadrive-elite, scene-state-architect, sgdk-build-wrapper-operator ou megadrive-vdp-budget-analyst; trabalha entre eles como o programador perito de runtime.
+description: Use quando a tarefa envolver codigo C SGDK 2.11 real, montagem de cena, sprites, BGs, HUD, audio, loop principal, build no Windows, scroll avancado, raster split, pseudo-3D, DMA scheduling e fechamento do ciclo ate ROM com evidencia em emulador. Nao substitui scene-state-architect, sgdk-build-wrapper-operator ou megadrive-vdp-budget-analyst; trabalha entre eles como o programador perito de runtime.
 ---
 
 # SGDK Runtime Coder
@@ -17,8 +17,8 @@ Esta skill existe para o miolo operacional que faltava no framework:
 
 Esta skill senta entre as outras:
 
-- `megadrive-elite`
-  - ponto de entrada do workspace
+- `AGENTS.md` + `rules/SGDK_GLOBAL.md`
+  - ponto de entrada e regras sempre ativas do workspace
 - `scene-state-architect`
   - modularidade, fronteiras de estado e responsabilidade
 - `sgdk-build-wrapper-operator`
@@ -38,6 +38,8 @@ Esta skill senta entre as outras:
 8. `doc/10-memory-bank.md` do projeto alvo
 9. header relevante em `sdk/sgdk-2.11/inc/`
 
+Se `doc/10-memory-bank.md` nao existir no projeto, registre o fallback para `doc/06_AI_MEMORY_BANK.md` no `context_pack_manifest`.
+
 ## Quando usar
 
 - bug de compilacao ou link em SGDK 2.11
@@ -47,17 +49,24 @@ Esta skill senta entre as outras:
 - reset de estado entre cenas
 - tune de `SPR_initEx`
 - validacao de runtime com BlastEm
+- fechamento de cena via `scene_closeout_gate.ps1`
 
 ## Saidas obrigatorias
 
 - `runtime_decision_log`
+- `context_pack_manifest` quando a tarefa envolver codigo novo, API SGDK incerta ou arte gerada por sourcing
 - `api_reality_check`
 - `scene_reset_plan` quando houver transicao de cena
 - `scene_transition_runtime_contract` quando houver `scene_transition_card`
 - `resource_loading_model` quando houver streaming, preload, animacao grande ou asset scene-local
+- `runtime_animation_timing_map` quando houver lutador, ataque, dano, hitstop, smear, flash frame ou animacao premium
+- `cutscene_runtime_contract` quando houver abertura, cutscene, cena de contexto, briefing, painel narrativo ou final
+- `production_runtime_contract` quando houver alvo AAA, stable, release, jogo completo ou projeto piloto
+- `visual_delivery_gate_report` quando a ROM usar asset critico e houver alegacao de `AAA`, `pronto` ou `delivery`
 - `build_evidence`
 - `emulator_evidence`
 - `delivery_findings`
+- `freshness_audit_report` quando a mudanca tocar ROM, contrato, captura, baseline ou docs
 
 ## Contrato Operacional
 
@@ -66,18 +75,42 @@ Esta skill senta entre as outras:
 - `res/resources.res`
 - codigo de runtime alvo
 - laudo vigente de `megadrive-vdp-budget-analyst`
+- `visual_delivery_gate_report` sem blockers quando a tarefa pedir entrega visual AAA ou prototipo final
+- `context_pack_manifest` quando a decisao depender de docs, source cases, memoria operacional, engine profiles ou headers SGDK
 - contexto de build e emulador
 - `route_decision_record` ou `scene_architecture_triage` quando a cena envolver assets grandes, parallax, foreground/oclusao ou familia tecnica ainda nao congelada
 - `ui_decision_card` quando houver HUD/UI formal
 - `text_presentation_profile` quando texto, fala, alerta cinetico ou flavor tiver peso dramatico
+- `cutscene_fsm_script`, `cutscene_panel_layout`, `cutscene_resource_plan`, `cutscene_text_timing_map` e `cutscene_teardown_plan` quando `scene_role=cutscene`
+- `production_runtime_contract`, `scene_manager_contract`, `input_abstraction_contract`, `save_system_contract` e `region_timing_contract` quando o alvo for AAA/stable/release
 - `scene_transition_card` quando houver transicao formal
 - `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` ou `audio_architecture_card` quando houver espetaculo runtime formal
 
 ### Saida minima
 
 - `runtime_decision_log`
+- `context_pack_manifest` quando gerado para esta iteracao
 - `api_reality_check`
 - `scene_reset_plan` quando houver transicao de cena
+- `debug_order_check` quando estiver corrigindo visibilidade, tilemap, sprite ou composicao
+
+## Ordem Conservadora de Debug Grafico
+
+Antes de atacar VRAM, paleta, rescomp, compressao ou WINDOW, valide nesta ordem:
+
+1. existencia do objeto/asset no runtime
+2. posicao real na tela e semantica de unidades do SGDK (pixels vs tiles)
+3. composicao entre BG_B, BG_A, WINDOW e sprites
+4. budget residente e DMA por frame
+5. paleta, compressao, corte interno e artefatos de build
+
+Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug sofisticado cedo demais e regressao operacional, nao demonstracao de rigor.
+
+## Fechamento de Runtime
+
+- depois de buildar, rode o validator e freshness antes de promover status
+- se a cena tiver `SceneId` e `TargetScene`, use `scene_closeout_gate.ps1` para fechar a sequencia inteira
+- se `runtime_metrics` apontar `over_budget_frames`, `cpu_load_max` acima do alvo ou cena errada em MDRT, volte para runtime/budget antes de atualizar baseline
 - `resource_loading_model` quando houver diferenca entre asset total, set residente e upload por frame
 - `build_evidence`
 - `emulator_evidence`
@@ -86,17 +119,30 @@ Esta skill senta entre as outras:
 ### Passa quando
 
 - a decisao de runtime cita explicitamente o budget que a autorizou
+- `api_reality_check` cita header, referencia local ou fonte canonica antes de usar API SGDK sensivel
 - runtime nao comeca por tentativa local quando `route_decision_record` ainda esta ausente ou contraditorio
 - a escolha entre `IMAGE`, `MAP`, streaming e `SPR_initEx` fica rastreavel
 - o `runtime_decision_log` declara qual modelo foi usado: `full_resident`, `scene_local_preload`, `animation_window_streaming`, `tilemap_streaming` ou `fallback_reduced_residency`
 - runtime separa custo ROM/compressao, tiles residentes em VRAM, DMA de loading/preload e DMA por frame
 - quando houver UI formal, o runtime cita `ui_architecture_choice`, ownership e fallback usados
 - quando houver texto expressivo, o runtime cita `text_surface_class`, timing, owner, audio, teardown e fallback usados
+- quando houver cutscene, o runtime cita `cutscene_fsm_script`, estado inicial, triggers, text timing, resource plan, palette script, audio cue map e teardown usados
+- quando houver alvo AAA/stable/release, o runtime cita scene manager, input abstraction, save/SRAM, region/timing e como eles foram provados na ROM
 - quando houver transicao formal, o runtime cita `continuity_model`, `runtime_state_handoff`, `teardown_reset_plan` e fallback usados
 - quando houver espetaculo runtime formal, o runtime cita cards, owners, budget, teardown e fallback usados
+- quando houver golpe/dano premium, o runtime implementa o `runtime_animation_timing_map` a partir de `animation_direction_contract`: startup, anticipation, active, hitstop, follow-through, recovery, cancel/return e frame hold nao podem virar cadencia uniforme por habito
+- hit spark, dust, flash e camera shake sao eventos de gameplay sincronizados ao `impact_frame_contract`, nao pixels baked-in no personagem
 - quando houver anexo tipografico, o runtime cita `font_render_mode`, `font_owner` e `fallback_font_plan` usados
 - build, validacao e evidencia apontam para a mesma ROM
+- o runtime nao declara `pronto`, `AAA`, `delivery` ou `ready_for_aaa=true` se o gate visual tiver `needs_review`, `perceptual_quality=nao_medido`, `source_to_rom_visual_match < 8`, `benchmark_match` abaixo de `benchmark_profile.required_match`, `blocked_image_tooling`, `blocked_no_premium_source`, `lab_not_delivery`, ou `local_author_pixel_rasterization` como fonte final de asset critico
+- o runtime nao declara `pronto`, `AAA`, `delivery` ou `ready_for_aaa=true` quando uma animacao critica tiver `animation_direction_contract` ausente, hitstop nao implementado, active/recovery divergente do mapa ou FX/flash acoplado indevidamente a paleta do personagem
+- o runtime nao declara `pronto`, `AAA`, `delivery` ou `ready_for_aaa=true` se `scene_role=cutscene` nao possuir FSM, resource plan por estado, text timing map, owner de surfaces e evidencia da cena correta
+- o runtime nao declara `pronto`, `AAA`, `stable`, `release`, `delivery` ou `ready_for_aaa=true` sem scene manager, input abstraction, save/SRAM quando aplicavel, region/timing, ROM mastering, code review e CI/local CI reportados
+- o runtime nao declara `pronto`, `AAA`, `delivery` ou `ready_for_aaa=true` se `res/resources.res` estiver ausente em projeto visual/gameplay, se `res_graph_report.method=no_res_files`, ou se `res_graph_report.vram.status=code_loaded_tiles_unmeasured`
 - a captura BlastEm registra `runtime_metrics.json` ou evidencia equivalente sem vazar para fora de `out/blastem_env_*`
+- a captura BlastEm precisa provar a cena certa: `TargetScene`, bootstrap SRAM/MDRT e `runtime_metrics.scene_id` devem coincidir antes de screenshot/baseline serem usados como evidencia
+- screenshot dedicado com `<=3` cores unicas, quase vazio ou sem informacao de gameplay e `blank_or_low_information_capture`; deve ser refeito antes de fechar QA
+- `visual_vdp_dump.bin` com hash igual ao `save.sram` e evidencia invalida (`invalid_visual_vdp_dump`), nao fallback aceitavel
 
 ### Handoff para proxima etapa
 
@@ -291,6 +337,39 @@ Quando houver `scene_transition_card`, o runtime deve:
 - para `pseudo3d_perspective_bridge`, manter fallback seguro e nao misturar com gameplay normal sem benchmark proprio
 - se tocar HUD, menu, title, overlay ou texto, consumir tambem `ui_decision_card`
 - sem teardown verificavel, nao declarar a transicao pronta
+
+## Contrato de runtime para cutscenes
+
+Quando houver `cutscene_scene_contract`, o runtime deve:
+
+- consumir `cutscene_fsm_script`, `cutscene_panel_layout`, `cutscene_resource_plan`, `cutscene_palette_script`, `cutscene_text_timing_map`, `cutscene_audio_cue_map`, `cutscene_teardown_plan` e `cutscene_evidence_plan`
+- implementar a cutscene como tabela de estados, nao como sequencia solta de `if` e timers sem nome
+- cada estado deve possuir `enter`, `update`, `advance` e `exit` rastreaveis no `runtime_decision_log`
+- declarar owner unico de `BG_B`, `BG_A`, `WINDOW`, sprites, CRAM, H-Int, scroll, audio e glyph cache
+- tratar texto como sistema temporizado: cadence, pausas por pontuacao, input para acelerar/avancar e limite de linhas
+- tratar portrait blink/mouth frames, pans, holds, palette cycling e fades seletivos como eventos de estado
+- carregar apenas o set residente do estado atual ou o bloco explicitamente herdado por `state_handoff`
+- full-screen cutscene image so pode entrar se o contrato trouxer justificativa e budget; fallback padrao e painel/pan/crop
+- se usar H-Int/raster, registrar callback owner, custo e reset simetrico
+- ao sair, resetar scroll, WINDOW, CRAM especial, H-Int, sprites temporarios, glyph cache e audio cue temporario
+- screenshot, baseline e metricas devem provar o `scene_id` da cutscene, nao apenas title/menu ou gameplay
+
+Sem esse contrato, a cena pode ficar `documentado` ou `lab`, mas nao fecha como cutscene AAA.
+
+## Contrato de runtime de producao AAA
+
+Quando houver `production_runtime_contract`, o runtime deve:
+
+- implementar ou integrar `scene_manager_contract`: scene id, enter/update/exit, transition/loading/fade, cleanup e boot deterministico
+- implementar ou integrar `input_abstraction_contract`: 3/6 botoes, combo/buffer quando o genero pedir, remap, pause/debug, edge/hold/repeat e frame-lag tolerance
+- declarar `persistence_scope` e `sram_policy`; implementar ou integrar `save_system_contract` somente quando `persistence_scope=required`, `sram_policy!=none` ou o GDD exigir persistencia: SRAM magic, version, checksum, slots, init, invalid save recovery e teste de leitura/escrita
+- implementar ou integrar `region_timing_contract`: `SYS_isPAL()`, alvo 50/60 Hz, duracoes, audio cadence, cooldowns, timers e regressao PAL/NTSC
+- declarar se scheduler/multitasking existe, e se for ausente limitar o escopo de AI/FX ou marcar `scheduler_runtime_missing`
+- entregar runtime proof, nao apenas header ou stub
+- quando `persistence_scope=none`, registrar `save_system_contract_not_applicable`; nao emitir `save_system_contract_missing_when_persistence_required`
+- se algum contrato ficar fora do slice, rebaixar para `prototype_playable` e registrar o blocker
+
+Sem esse contrato, projeto pode ser prototipo excelente, mas nao produto AAA/stable/release.
 
 ## Contrato de runtime para espetaculo AAA
 

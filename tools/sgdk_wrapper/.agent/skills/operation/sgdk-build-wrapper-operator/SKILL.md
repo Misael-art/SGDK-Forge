@@ -15,6 +15,10 @@ Use esta skill ao tocar qualquer arquivo em `tools/sgdk_wrapper/` ou ao diagnost
 - UGDM/build significa o fluxo real `.res`/ResComp/wrapper/validate/evidencia; build limpo nao substitui budget de residencia e DMA
 - a `.agent` local nao pode ser tratada como saudavel se faltar contexto canonico critico
 - `doc/changelog` e parte do fluxo operacional, nao pos-processo opcional
+- freshness de evidencia e parte do fluxo operacional: depois de nova ROM, captura ou contrato, rode `freshness_audit.ps1`
+- fechamento de cena deve preferir `scene_closeout_gate.ps1` para evitar sequencias manuais incompletas
+- `ci_gate_report` ou `local_ci_gate_report` e parte do fechamento AAA/stable/release; ausencia de GitHub Actions nao bloqueia prototipo, mas bloqueia declarar pipeline AAA-grade sem substituto local
+- `prd_readiness_report` e o preflight de autonomia: ele diz se o agente tem autoridade documentada antes de produzir arte/runtime
 
 ## Jornada AAA cena (ordem obrigatoria)
 
@@ -38,11 +42,16 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - bootstrap da `.agent` auditado
 - build e validacao executados no wrapper central
 - `doc/changelog` atualizado quando houver novo asset ou nova ROM
+- `out/logs/freshness_audit_report.json` quando houver evidencia previa ou fechamento
+- `out/logs/scene_closeout_gate_report.json` quando uma cena for declarada fechada
+- `ci_gate_report` ou `local_ci_gate_report` quando houver alegacao AAA/stable/release
+- `out/logs/prd_readiness_report.json` antes de arte/runtime em projeto novo ou escopo reseed
 
 ### Passa quando
 
 - o projeto nao esta em contexto degradado silencioso
 - a ROM, o changelog e a memoria operacional apontam para o mesmo estado
+- para AAA/stable/release, preflight, testes CI locais/host, validator, mastering e code review foram registrados; se GitHub Actions/pre-commit/make paralelo/debug symbols nao existirem, status de pipeline fica `pipeline_gate_partial`
 - a automacao BlastEm usa exclusivamente `tools/sgdk_wrapper/lib/blastem_automation.psm1`
 - logs do emulador ficam em JSONL sob `out/logs/*_blastem.log`
 - artefatos de SRAM/screenshot ficam confinados a `out/blastem_env_*`
@@ -51,10 +60,13 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 ### Handoff para proxima etapa
 
 - entregar `validation_report.json`, `doc/changelog` e `doc/10-memory-bank.md` coerentes para o fechamento de QA
+- em fechamento de cena, entregar tambem `scene_closeout_gate_report.json` e `freshness_audit_report.json`
 
 ## Checklist
 
 - executar `tools/sgdk_wrapper/preflight_host.ps1` antes do primeiro build da sessao
+- executar `tools/sgdk_wrapper/check_prd_readiness.ps1` apos bootstrap/reseed de escopo; para AAA/stable/release, blocker nesse report impede fechar entrega
+- quando o objetivo for AAA/stable/release, gerar `local_ci_gate_report` conforme `tools/sgdk_wrapper/schemas/local_ci_gate_report.schema.json`, com preflight, testes `ci/*.ps1` relevantes, validadores, code review e mastering; nao tratar build manual como CI
 - confirmar `MD_ROOT`, `GDK` e `SGDK_EMULATOR_PATH`
 - resolver contexto do projeto via manifesto ou heuristica controlada
 - em projeto novo, garantir que `doc/11-gdd.md` ou `doc/13-spec-cenas.md` declarem `ui_decision_card` para qualquer UI formal antes do runtime
@@ -66,6 +78,8 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - preservar compatibilidade com projetos antigos
 - evitar sobrescrita de `.agent` local
 - apos build com validacao, garantir `validation_report.json`, `doc/changelog` e memoria operacional coerentes
+- apos qualquer nova ROM, regressao, captura ou baseline, rodar `freshness_audit.ps1` e corrigir drift antes de promover status
+- ao encerrar uma cena, rodar `scene_closeout_gate.ps1`; se usar fluxo manual, registrar a justificativa no `runtime_decision_log`
 - quando usar BlastEm, preferir `press_until_ready:*` apoiado em heartbeat `READY` em SRAM `0x100` com rolling write pos-warmup (ROM-side) + FileSystemWatcher fast-path (wrapper-side)
 - `press_until_ready` aceita knobs canonicas: `timeout_ms`, `interval_ms`, `hold`, `max_presses`, `flush_every` (forca ciclo ESC pause/resume para flushar SRAM), `rotate_key` (tentativa extra com tecla alternativa em timeout)
 - `save_path` e `screenshot_path` do BlastEm devem ser reescritos dentro do bloco `ui {}`; no topo do cfg a opcao pode ser ignorada
@@ -73,6 +87,7 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - fechar o BlastEm pelo contrato `ESC -> WM_CLOSE -> Alt+F4 -> kill`
 - se o build falhar antes do emulador por blockers do projeto, registrar isso como falha do smoke integrado, nao como sucesso parcial de QA
 - nao construir rota de heartbeat live via GDB watchpoint: stub do BlastEm nao suporta `Z2`/`Z3`/`Z4`, retorna pacote vazio
+- `make -j`, debug symbols, hooks e GitHub Actions sao melhorias de pipeline; ate existirem e serem provadas, registrar gap em vez de vender como resolvido
 
 ## Proibido
 
@@ -82,3 +97,5 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - reintroduzir fallback para `LocalAppData\\blastem\\rom` fora do sandbox do projeto
 - bootstrapar projeto novo sem declarar que papel a UI cumpre na fantasia, no fluxo e no `ui_decision_card`
 - bootstrapar projeto novo com transicoes dramaticas, de zona ou de menu sem `scene_transition_card`, teardown e fallback
+- declarar pipeline AAA-grade sem `ci_gate_report`/`local_ci_gate_report`, `code_review_report` e `rom_mastering_report`
+- tratar `doc/prd_index.json` ausente, PRD obrigatorio em `seed` ou `prd_readiness_report.status=blocked` como detalhe menor quando o objetivo for AAA/stable/release

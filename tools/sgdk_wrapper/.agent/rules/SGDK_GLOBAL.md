@@ -13,6 +13,29 @@ Estas regras sao sempre ativas para qualquer projeto `MegaDrive_DEV` que use est
 - Nunca trate README isolado como prova suficiente de implementacao ou validacao.
 - Todos OS AGENTES DEVEM OBEDECER O **MASTER SYSTEM DIRECTOR** e aplicar a **Filosofia Maximalista**, priorizando excelencia visual e impulsionando o hardware com responsabilidade.
 
+### 1.0.1 Context Pack antes de geracao
+
+- Antes de gerar arte original, prompt de imagem, sourcing externo ou codigo SGDK com API sensivel, declare um `context_pack_manifest`.
+- O manifesto deve listar docs canonicos, memoria operacional, source cases, feedback bank, engine profiles e headers SGDK consultados quando relevantes.
+- Se `doc/10-memory-bank.md` nao existir no projeto, use `doc/06_AI_MEMORY_BANK.md` como fallback declarado; nao invente outro arquivo de memoria.
+- RAG v1 neste workspace significa recuperacao controlada de arquivos auditaveis, nao dependencia obrigatoria de banco vetorial.
+- Nao solicite nem exponha Chain of Thought; use `route_decision_record`, `art_generation_brief`, `master_style_manifest`, `qa_findings` e `correction_request`.
+
+## 1.1 Prioridade arquitetural para cenas AAA compostas
+
+- Quando a cena tiver composicao em camadas, foreground/oclusao, staging visual e forte relacao entre sprite e cenario, trate `tilemap streaming guiado pela camera` como baseline arquitetural prioritario.
+- Essa prioridade e uma presuncao forte de metodo, nao uma obrigacao cega de replicacao.
+- Antes de implementar ou depurar localmente uma cena desse perfil, registre uma triagem arquitetural minima contendo:
+- `scene_profile`: `aaa_layered`, `single_plane`, `hud_heavy`, `boss_arena`, `cutscene`, `fx_driven` ou equivalente honesto
+- `baseline_technique_applicability`: `sim`, `parcial` ou `nao`
+- `baseline_contract`: divisao base/foreground, papel de cada plano, staging visual, organizacao de tilemaps, forma de oclusao e relacao sprite/cenario
+- `baseline_decision`: `adotar`, `adaptar` ou `divergir`
+- `divergence_reason`: obrigatorio quando a decisao for `divergir`
+- A `BLAZE_ENGINE [VER.001] [SGDK 211] [GEN] [ENGINE] [BRIGA DE RUA]` entra apenas como referencia interna opcional de implementacao dessa familia tecnica.
+- Se a cena divergir de `tilemap streaming guiado pela camera`, a justificativa deve citar constraints reais da cena, como budget, `WINDOW`, streaming, layout, telemetria, linguagem visual ou contrato de gameplay.
+- Nao iniciar depuracao residual de VRAM, paleta, `rescomp`, upload de sprite ou workaround de plano antes de fechar essa triagem quando o perfil da cena for `aaa_layered`.
+- A pergunta obrigatoria deixa de ser "como faco esta cena do zero?" e passa a ser "o que de `tilemap streaming guiado pela camera` se aplica aqui, o que nao se aplica e por que?".
+
 ## 2. Restricoes nao negociaveis
 
 - Nao usar `float` ou `double` para gameplay SGDK.
@@ -33,6 +56,27 @@ Estas regras sao sempre ativas para qualquer projeto `MegaDrive_DEV` que use est
 - Diferencie sempre `documentado`, `implementado`, `buildado`, `testado_em_emulador`, `validado_budget`, `placeholder`, `parcial` e `futuro_arquitetural`.
 - Nao use termos como `validado`, `pronto` ou `completo` sem evidencia verificavel.
 - Se encontrar conflito entre docs e codigo, sinalize a divergencia explicitamente.
+- Antes de produzir arte/runtime em projeto novo ou escopo reseed, gerar `prd_readiness_report` com `tools/sgdk_wrapper/check_prd_readiness.ps1`; PRD obrigatorio em `seed`, ausente ou sem frontmatter bloqueia AAA/stable/release.
+
+### 3.2 Gate de runtime de producao AAA
+
+- Percentual de cobertura, diagnostico executivo ou "infra forte" nao e gate de entrega. So artefato verificavel fecha status.
+- Projeto que pedir `AAA`, `stable`, `release`, `delivery` ou `ready_for_aaa=true` precisa declarar e provar estes contratos:
+  - `production_runtime_contract`
+  - `scene_manager_contract`: enter/update/exit, loading, fade/transition, cleanup e scene id deterministico
+  - `input_abstraction_contract`: 3/6 botoes, buffer, remap, pause/debug, frame-lag tolerance e ownership de leitura
+  - `persistence_scope`: `none`, `optional` ou `required`, com `sram_policy` explicito
+  - `save_system_contract` quando `persistence_scope=required`, `sram_policy!=none` ou o GDD declarar persistencia: SRAM magic, version, checksum, slots, inicializacao e tratamento de save invalido
+  - `region_timing_contract`: `SYS_isPAL()`, alvo 50/60 Hz, timers, audio cadence, animacao e regressao PAL/NTSC
+  - `asset_optimization_report`: compressao `.res`, dedup/reuse de tiles, custo ROM, custo VRAM e tradeoffs
+  - `rom_mastering_report`: header, region flags, SRAM, checksum, product id, sizealign e hash
+  - `code_review_report`: revisao formal de C/SGDK, `.res`, builders, budget, evidencias e APIs 2.11
+  - `ci_gate_report` ou `local_ci_gate_report`: preflight, testes CI locais/host, validator e razao se GitHub Actions ainda nao existir; `local_ci_gate_report` segue `tools/sgdk_wrapper/schemas/local_ci_gate_report.schema.json`
+- `save_system_contract_missing` so bloqueia quando `persistence_scope=required`, `sram_policy!=none` ou o GDD/feature_scope_map exigir persistencia. Com `persistence_scope=none`, registrar `save_system_contract_not_applicable`.
+- Se algum contrato obrigatorio acima for ausente ou `nao_medido`, o status maximo e `prototype_playable` ou `visual_gate_blocked`, nunca AAA/stable/release.
+- Scene manager, input, save e region nao precisam nascer como biblioteca global no primeiro slice, mas precisam ter contrato explicito e runtime proof no projeto piloto.
+- Compressao `.res` reduz ROM/load; nao reduz VRAM residente. Dedup/reuse so conta quando medido por report, nunca por expectativa.
+- `make -j`, debug symbols, hooks e CI/CD sao melhorias de pipeline. Ate existirem como evidencia, declarar `pipeline_gate_partial`, nao "pipeline AAA-grade".
 
 ## 3.1 Armadilhas SGDK que devem ser assumidas como suspeitas
 
@@ -75,7 +119,45 @@ A credibilidade do espetaculo vem da consistencia visual. Para gerar ou instruir
 - **Trava 3:** Sem a aprovacao do `art-director` para validar shading/volume -> INVALIDO.
 - Todo feedback corretivo de arte deve passar antes por `doc/03_art/02_visual_feedback_bank.md` e pela skill `visual-excellence-standards`.
 
-## 8.1 MENUS E TITLE SCREENS NAO PODEM SER GENERICOS
+### 8.2 Gate visual fonte-ROM
+
+- `local_author_pixel_rasterization`, `procedural_renderer` e scripts locais `draw_*` so podem ser `debug_lab`, `visual_lab_control` ou `placeholder`; nunca fonte final de personagem, cenario, boss, HUD heroico ou asset AAA.
+- Arte premium so existe para o pipeline se estiver persistida em `data/source_art/` com `premium_source_manifest` e hash/timestamp. Imagem inline nao persistida e `generated_inline_pending_persistence`.
+- Benchmark tecnico nunca pode virar `source_art`; ele so orienta escala, densidade, timing, presenca, budget e qualidade. Thresholds e metodo de similaridade pertencem ao `benchmark_profile` e ao `authoriality_gate_report`, nao a uma regra global fixa.
+- `source_validity` passa antes de `source_to_rom_visual_match`. Fonte clone, benchmark-derived, sem autoria ou derivada sem autorizacao/licenca bloqueia a promocao mesmo que a imagem reduzida pareca parecida.
+- Asset critico precisa declarar `license`, `authorial_source`, `derivative_of`, `derivative_license_status`, `clone_risk_score`, `clone_risk_method` e `benchmark_used_as`.
+- Personagem principal autoral exige `authorial_model_sheet`; cenario autoral exige `authorial_stage_concept`; todo asset critico exige `clone_risk_score` medido por metodo declarado.
+- Asset critico com `needs_review`, `rework`, `placeholder`, `debug_lab`, `benchmark-derived` ou `perceptual_quality=nao_medido` bloqueia `pronto`, `AAA`, `delivery` e `ready_for_aaa=true`.
+- Todo asset critico em `res/` precisa de `elite_ready=true` e `source_to_rom_asset_map` com `source_to_rom_visual_match >= 8`.
+- Se for laboratorio, declarar `lab_not_delivery=true`; isso nao autoriza status de entrega.
+- Sprite heroico com gi branco ou tecido claro exige `white_material_palette_contract` com sombras frias azul/roxo, highlights limpos/quentes, distancia tonal minima e funcao por slot.
+- `PALETTE_WASTE` em asset critico bloqueia visual delivery; quantizacao automatica nao substitui palette pass manual.
+- `budget_pass` e `visual_pass` sao eixos separados. Quando o runtime cabe com folga, budget nao pode justificar empobrecimento visual.
+- HUD de entrega nao pode parecer debug: precisa registrar `ui_attention_profile`, densidade alvo, hierarquia, area ocupada, contraste e interferencia no gameplay.
+- Benchmark de genero usa `benchmark_profile.required_match`; HAMOOPIG e apenas um perfil possivel, nunca regra global.
+- Build limpo e BlastEm observado nao reduzem o gate visual; se `validation_report.blocking_statuses` nao estiver vazio, closeout nao pode ser `ok`.
+- Entrega visual AAA exige `measurement_level` formal: `measured`, `emulator_verified` ou `vdp_dump_verified`. `declared` e `estimated` servem para planejamento, nao para aprovacao.
+- `leaf_blocker_propagation=true` e obrigatorio em `visual_delivery_gate_report`: qualquer `needs_review`, ilha, stale, `index0_high_risk`, dump VDP ausente ou evidencia `measured=false` em asset critico força `ready_for_aaa=false`.
+- Para entrega AAA, `visual_vdp_dump.bin` e obrigatorio. Se screenshot sugerir faixa indevida, garbage, plano descoberto, conflito de paleta ou colisao VRAM, ausencia do dump vira blocker formal mesmo em prototipo.
+- `visual_vdp_dump.bin` nao pode ser copia, alias ou hash igual ao `save.sram`; dump invalido equivale a `invalid_visual_vdp_dump`.
+- Regressao de cena so valida visualmente quando compara contra baseline persistido. Captura sem baseline e evidencia de execucao, nao evidencia de qualidade visual.
+- Screenshot com informacao visual baixa (`<=3` cores unicas ou cena quase vazia) e `blank_or_low_information_capture`; nao fecha gate, mesmo com emulador aberto.
+- Projeto com intencao de entrega visual/gameplay e sem `res/resources.res` ou `.res` equivalente fica `resources_res_missing_for_visual_delivery` e `asset_pipeline_not_started`.
+- Runtime que carrega/desenha tiles diretamente em C (`VDP_loadTileData`, `TILE_USER_INDEX`, arrays de tiles ou nametable manual) deve ser marcado como `code_loaded_tiles_unmeasured` ate ter budget especifico, screenshot util e/ou dump VDP. Ausencia de `.res` nao e validacao de budget.
+- Cena alvo precisa casar com a evidencia: `TargetScene`, bootstrap SRAM/MDRT e `runtime_metrics.scene_id` divergentes geram `runtime_target_scene_mismatch`.
+- `workspace_scope_isolation=true` deve declarar que sujeira global do workspace nao foi usada para promover, reprovar ou misturar evidencia de projeto. Mudancas fora do projeto precisam ficar fora do parecer de entrega.
+
+### 8.2.1 Animacao premium e performance de movimento
+
+- Personagem heroico, lutador, boss, golpe, dano, smear, hitstop ou alegacao premium/AAA exige `animation_direction_contract` alem de `motion_phase_map`.
+- Golpe premium precisa declarar startup/anticipation, active, hitstop frame, follow-through e recovery; ataque que comeca direto no active frame, volta instantaneamente ao idle ou nao informa hitstop fica `needs_review`.
+- Smear frame deve ser intencional e declarado; se parecer blur, sujeira, ilha, halo ou fragmento de celula, ele bloqueia `elite_ready`.
+- Dano precisa declarar direcao da forca, quebra de postura e escala; hurt/knockdown sem `hit_reaction_contract` nao e animacao AAA.
+- Shading deve acompanhar volume em movimento. Luz estatica colada em corpo girando bloqueia premium mesmo quando o strip compila.
+- Flash frame e FX de impacto dependem de `palette_flash_policy` e sprite/FX separado quando tiverem papel de gameplay; FX baked-in em sheet de personagem bloqueia entrega.
+- Chefe/chefao ou criatura colossal deve usar `modular_boss_rig_contract` quando full-body sheet exceder budget seguro; partes, pivots e dominios de paleta precisam ser auditaveis.
+
+## 8.3 MENUS E TITLE SCREENS NAO PODEM SER GENERICOS
 
 Menu e title screen sao superficies de showcase, nao telas utilitarias neutras.
 
@@ -116,6 +198,21 @@ A partir deste trancamento, **"Cutscene nao e Gameplay"**. Se uma animacao narra
 - Importe o estrito arsenal narrativo ditado pelo documento `/doc/05_technical/90_cutscene_system.md` (Usando Pans, Holds e Som).
 - Cumpra intencionalmente 3 regras cinematicas do `doc/01_game_design/30_cinematic_language.md`.
 - Entregue a cena obedecendo religiosamente ao "Template de Cutscene", formalizando a prioridade *Imagem Bem Feita + Truques Visuais > Animacao Complexa*. A pergunta base passa a ser: *"Como conto isso com o minímo de movimento e maximo de impacto?"*
+
+### 11.1 Contrato canonico de cutscene
+
+- Cutscene, abertura, cena de contexto, final, briefing, comunicador de piloto, retrato falante ou painel narrativo exige a skill `cutscene-cinematic-direction`.
+- Cutscene nao e video continuo. Cada shot vira estado de FSM com `enter`, `update`, `advance` e `exit/teardown`.
+- Antes de arte ou runtime, devem existir: `cutscene_scene_contract`, `cutscene_fsm_script`, `cutscene_storyboard_board`, `cutscene_panel_layout`, `cutscene_resource_plan`, `cutscene_palette_script`, `cutscene_text_timing_map`, `cutscene_audio_cue_map`, `cutscene_teardown_plan` e `cutscene_evidence_plan`.
+- Cada estado declara assets carregados, surfaces (`BG_B`, `BG_A`, `WINDOW`, sprites), dominios de paleta, texto, trigger de avanco, duracao, FX, audio e reset.
+- Painel/manga layout e o default seguro. Full-screen bitmap e permitido somente com `fullscreen_bitmap_justification`, contagem de tiles/paletas e fallback de pan/crop/painel.
+- Storyboard ou board de cutscene deve passar por `translation_target=cutscene_board` e consultar `tools/sgdk_wrapper/.agent/lib_case/art-translation/case_cutscene_board`.
+- Referencias como Phantasy Star IV, Valis III, Rondo of Blood, Tales of Phantasia, Snatcher e Princess Minerva orientam linguagem visual, staging e ritmo. Elas nao importam automaticamente recursos de PC Engine CD, SNES ou Sega CD para SGDK.
+- Anime 90s em pixel art exige clusters limpos, olhos/rosto expressivos, linework duro, hue-shift em pele/cabelo/tecido, dithering funcional e leitura nativa em 320x224. Arte suave, borrada ou com gradiente de IA nao passa.
+- Texto dramatico exige `glyph_manifest`, cadence por pontuacao, owner de `WINDOW` ou regiao de `BG_A`, controle de avanco e limite de linhas.
+- H-Int, palette cycling, palette split, Shadow/Highlight e raster effects em cutscene exigem owner unico, budget por estado e teardown simetrico.
+- Budget de cutscene e por estado. Nao assumir que todos os paineis, retratos e fontes ficam residentes ao mesmo tempo, nem herdar VRAM por acidente.
+- Entrega AAA de cutscene exige screenshot dedicado da cena, `runtime_metrics.scene_id` correto, baseline comparativo, freshness limpo e `visual_vdp_dump.bin` quando AAA ou quando houver suspeita visual.
 
 ## 12. O SGDK MASTER BUILD & VISUAL VALIDATION LOOP
 
@@ -173,6 +270,7 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 - Quando o projeto ou laboratorio emitir um bloco de evidencia visual em SRAM auditavel, o gate pode ser fechado com o trio: `benchmark_visual.png` (ou screenshot equivalente da janela do BlastEm) + `save.sram` + `visual_vdp_dump.bin`.
 - Nessa configuracao, o quicksave nativo do BlastEm passa a ser **evidencia redundante opcional**, nao requisito bloqueante.
 - O `visual_vdp_dump.bin` deve ser derivado de um bloco assinado e limitado ao frame/estado relevante, nunca de inferencia textual ou de memoria inventada pelo agente.
+- O wrapper deve rejeitar dump visual com o mesmo hash do `save.sram` e screenshot de baixa informacao; isso e evidencia defeituosa, nao evidencia parcial.
 - Se o projeto nao tiver emissao canônica de dump visual em SRAM, a regra acima nao se aplica; nesse caso o gate continua dependendo da evidencia padrao registrada pelo wrapper e pelo `emulator_session.json`.
 
 ### 14.3.2 Sandbox e frescor de SRAM

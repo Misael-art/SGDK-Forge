@@ -1,0 +1,101 @@
+﻿{
+    "build_version":  "build_v001",
+    "rom_sha256":  "b00ad37ac4d98ca674ddbf2a67feb1d4270b21e2174593069f26e0a520871a88",
+    "size_bytes":  131072,
+    "timestamp":  "2026-06-05T22:06:17.5913894-03:00",
+    "source_commit_when_available":  null,
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  3,
+                               "blocking_statuses":  [
+                                                         "project_methodology_manifest_invalid",
+                                                         "agent_context_degraded",
+                                                         "visual_gate_blocked"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "sem_sessao",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "nao_testado",
+                             "performance":  "nao_testado",
+                             "audio":  "nao_testado",
+                             "hardware_real":  "nao_testado"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "spr_hibrido_idle_body_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_idle_fx_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_idle_fx_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_walk_body_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_walk_body_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_walk_fx_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_walk_fx_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_crouch_body_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_crouch_body_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_crouch_fx_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_crouch_fx_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_jump_body_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_jump_body_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_jump_fx_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_jump_fx_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_punch_light_body_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_punch_light_body_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_punch_light_fx_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_punch_light_fx_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_kick_heavy_body_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_kick_heavy_body_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_kick_heavy_fx_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_kick_heavy_fx_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_special_overheat_body_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_special_overheat_body_48x64_strip_v001.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_special_overheat_fx_v001",
+                                      "version":  "v002",
+                                      "source_path":  "res/sprites/hibrido/hibrido_special_overheat_fx_48x64_strip_v001.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

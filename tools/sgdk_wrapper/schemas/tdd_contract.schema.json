@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/tdd_contract.schema.json",
+  "title": "SGDK Technical Design Document Contract",
+  "description": "Contract declaring the technical design of a product: scene manager, input, FSM, memory, ownership, save, region, ROM mastering.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "tdd_id",
+    "scene_manager_scope",
+    "input_abstraction_scope",
+    "state_fsm_map",
+    "memory_pool_map",
+    "vblank_dma_ownership",
+    "h_int_ownership",
+    "audio_ownership",
+    "save_scope",
+    "region_timing_scope",
+    "rom_mastering_scope",
+    "technique_selection",
+    "risk_mitigation_table"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "tdd_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "scene_manager_scope": {
+      "type": "object",
+      "required": ["topology", "deterministic"],
+      "properties": {
+        "topology": {"type": "string", "enum": ["linear", "hub", "free", "stacked"]},
+        "deterministic": {"type": "boolean"},
+        "transition_handling": {"type": "string"},
+        "boot_to_first_scene_ms_target": {"type": "integer", "minimum": 0}
+      }
+    },
+    "input_abstraction_scope": {
+      "type": "object",
+      "required": ["abstraction_layer", "latency_target_ms"],
+      "properties": {
+        "abstraction_layer": {"type": "string"},
+        "latency_target_ms": {"type": "integer", "minimum": 0, "maximum": 50},
+        "supported_devices": {"type": "array", "items": {"type": "string"}},
+        "rebind_support": {"type": "boolean"}
+      }
+    },
+    "camera_runtime_scope": {
+      "type": "object",
+      "description": "Required by policy when camera or scrolling affects gameplay readability.",
+      "required": ["contract_path", "runtime_owner", "coordinate_model", "render_snap", "culling_owner"],
+      "properties": {
+        "contract_path": {"type": "string", "description": "Project-relative path to camera_behavior_contract.json."},
+        "runtime_owner": {"type": "string", "minLength": 1},
+        "coordinate_model": {"type": "string", "enum": ["integer_only", "fix16_internal", "fix32_internal"]},
+        "render_snap": {"type": "string", "const": "integer_pixels_only"},
+        "culling_owner": {"type": "string", "minLength": 1},
+        "trigger_owner": {"type": "string"},
+        "not_applicable_reason": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "state_fsm_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["scene_id", "states", "transitions"],
+        "properties": {
+          "scene_id": {"type": "string", "description": "should match level_blueprint.json.scope_id"},
+          "states": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+          "transitions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["from", "to", "trigger"],
+              "properties": {
+                "from": {"type": "string"},
+                "to": {"type": "string"},
+                "trigger": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "memory_pool_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pool_id", "type", "size", "owner"],
+        "properties": {
+          "pool_id": {"type": "string"},
+          "type": {"type": "string", "enum": ["sprite", "enemy", "projectile", "particle", "sfx_channel", "ui", "string_buffer"]},
+          "size": {"type": "integer", "minimum": 1},
+          "owner": {"type": "string"},
+          "lifecycle": {"type": "string"}
+        }
+      }
+    },
+    "vblank_dma_ownership": {
+      "type": "object",
+      "required": ["vblank_owner", "dma_owners"],
+      "properties": {
+        "vblank_owner": {"type": "string"},
+        "dma_owners": {"type": "array", "items": {"type": "string"}},
+        "max_pending_dma": {"type": "integer", "minimum": 0},
+        "safety_pattern": {"type": "string"}
+      }
+    },
+    "h_int_ownership": {
+      "type": "object",
+      "properties": {
+        "h_int_in_use": {"type": "boolean"},
+        "singleton_owner": {"type": "string"},
+        "slices": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "audio_ownership": {
+      "type": "object",
+      "properties": {
+        "driver": {"type": "string", "enum": ["xgm2", "z80_custom", "pwm_only", "psg_only", "hybrid"]},
+        "channel_owners": {"type": "array", "items": {"type": "string"}},
+        "sample_rate_hz": {"type": "integer"},
+        "adaptive_music_state_map_ref": {"type": "string"}
+      }
+    },
+    "save_scope": {
+      "type": "string",
+      "enum": ["required", "optional", "none", "not_applicable"]
+    },
+    "save_contract": {
+      "type": "object",
+      "description": "Required when save_scope=required.",
+      "properties": {
+        "sram_magic": {"type": "string", "pattern": "^[0-9A-Fa-f]{8}$", "minLength": 8, "maxLength": 8},
+        "sram_version": {"type": "integer", "minimum": 0, "maximum": 255},
+        "sram_checksum": {"type": "string", "enum": ["xor", "crc16", "crc32"]},
+        "size_bytes": {"type": "integer", "minimum": 1}
+      },
+      "required": ["sram_magic", "sram_version", "sram_checksum"]
+    },
+    "region_timing_scope": {
+      "type": "object",
+      "required": ["region"],
+      "properties": {
+        "region": {"type": "string", "enum": ["NTSC", "PAL", "both", "not_applicable"]},
+        "justification": {"type": "string", "description": "Required when region=not_applicable."},
+        "frame_budget_ms": {"type": "number", "minimum": 0}
+      }
+    },
+    "rom_mastering_scope": {
+      "type": "object",
+      "properties": {
+        "size_target_kb": {"type": "integer", "minimum": 0},
+        "header_validated": {"type": "boolean"},
+        "checksum_validated": {"type": "boolean"},
+        "sram_size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "technique_selection": {
+      "type": "object",
+      "required": [
+        "registry_source",
+        "usage_manifest_path",
+        "selected_registry_ids",
+        "required_tags",
+        "owner_skills",
+        "selection_rationale",
+        "fallback_strategy",
+        "application_plan",
+        "rejected_or_deferred"
+      ],
+      "properties": {
+        "registry_source": {
+          "type": "string",
+          "const": "doc/05_technical/93_16bit_hardware_mastery_registry.json"
+        },
+        "usage_manifest_path": {
+          "type": "string",
+          "const": "doc/technique_usage_manifest.json"
+        },
+        "selected_registry_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+        },
+        "deferred_or_rejected_registry_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+        },
+        "required_tags": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z0-9_]+$"}
+        },
+        "owner_skills": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_-]+/[a-z0-9_-]+$"}
+        },
+        "selection_rationale": {"type": "string", "minLength": 24},
+        "fallback_strategy": {"type": "string", "minLength": 16},
+        "signature_technique_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+        },
+        "application_plan": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "registry_id",
+              "scene_or_system",
+              "gameplay_or_narrative_purpose",
+              "visual_or_audio_role",
+              "owner_skill",
+              "budget_evidence",
+              "fallback"
+            ],
+            "properties": {
+              "registry_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+              "scene_or_system": {"type": "string", "minLength": 1},
+              "gameplay_or_narrative_purpose": {"type": "string", "minLength": 16},
+              "visual_or_audio_role": {"type": "string", "minLength": 12},
+              "owner_skill": {"type": "string", "pattern": "^[a-z0-9_-]+/[a-z0-9_-]+$"},
+              "budget_evidence": {"type": "string", "minLength": 8},
+              "fallback": {"type": "string", "minLength": 12}
+            },
+            "additionalProperties": false
+          }
+        },
+        "rejected_or_deferred": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["registry_id", "decision", "reason", "reconsideration_gate"],
+            "properties": {
+              "registry_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+              "decision": {"type": "string", "enum": ["rejected", "deferred"]},
+              "reason": {"type": "string", "minLength": 12},
+              "reconsideration_gate": {"type": "string", "minLength": 8}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "risk_mitigation_table": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["risk_id", "risk", "mitigation"],
+        "properties": {
+          "risk_id": {"type": "string"},
+          "risk": {"type": "string"},
+          "mitigation": {"type": "string"},
+          "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"]}
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

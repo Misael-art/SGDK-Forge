@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "scene_direction_runtime_contract",
+  "scene_id": "chase_first_playable",
+  "composition": {
+    "BG_B": "distant celestial atmosphere",
+    "BG_A": "road and near foreground with structural transparency",
+    "WINDOW": "top-three-row gameplay HUD and full-screen result",
+    "sprites": "pursuer high, threats mid-road, hero foreground"
+  },
+  "temporal_variation": [
+    "three pressure phases",
+    "depth-banded road scroll",
+    "phase palette accent",
+    "pursuer proximity",
+    "impact shake",
+    "Pulse clear and hitstop"
+  ],
+  "gameplay_link": "all recurring FX communicate pressure, collision, energy, Pulse or phase",
+  "decorative_only_effects": [],
+  "blockers": [
+    "perceptual quality requires current-ROM BlastEm capture and human review"
+  ]
+}

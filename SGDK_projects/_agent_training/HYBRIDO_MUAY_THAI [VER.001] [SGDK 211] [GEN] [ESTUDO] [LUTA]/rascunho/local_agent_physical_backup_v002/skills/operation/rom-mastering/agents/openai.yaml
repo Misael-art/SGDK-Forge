@@ -1,0 +1,11 @@
+interface:
+  display_name: "ROM Mastering"
+  short_description: "Mastering de ROM Mega Drive para entrega"
+  brand_color: "#34515E"
+  default_prompt: "Use $rom-mastering para verificar header, regiao, SRAM, checksum, tamanho, hash e coerencia entre out/rom.bin, build, validacao e evidencia em BlastEm antes de qualquer entrega."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

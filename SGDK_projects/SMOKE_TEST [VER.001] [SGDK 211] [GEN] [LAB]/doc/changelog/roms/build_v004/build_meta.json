@@ -1,0 +1,99 @@
+﻿{
+    "build_version":  "build_v004",
+    "rom_sha256":  "d4a923fc02a067f7f7b380276a207166719b7ec0f614a050207aa4897ed41c74",
+    "size_bytes":  262144,
+    "timestamp":  "2026-06-03T13:50:23.9399200-03:00",
+    "source_commit_when_available":  null,
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  14,
+                               "blocking_statuses":  [
+                                                         "gdd_substantial_insufficient",
+                                                         "visual_gate_blocked",
+                                                         "visual_delivery_gate_missing",
+                                                         "audio_validation_missing",
+                                                         "freshness_audit_missing",
+                                                         "scene_closeout_gate_missing"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "sem_sessao",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "nao_testado",
+                             "performance":  "nao_testado",
+                             "audio":  "nao_testado",
+                             "hardware_real":  "nao_testado"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_brand_fx_tiles",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_fx_tiles.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_engine_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_engine_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_author_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_author_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_project_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_project_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_presents_text",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_presents_text.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_font_forge_8x12",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/font_forge_8x12.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_font_terminal_7x9",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/font_terminal_7x9.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_font_crest_8x16",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/font_crest_8x16.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_spark",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_spark_8x8.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_monogram",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_monogram_mo_16x16.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_pen",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_pen_8x16.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_shield",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_shield_16x16.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_glow",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_glow_16x16.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

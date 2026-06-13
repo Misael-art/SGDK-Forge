@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/technique_usage_manifest.schema.json",
+  "title": "Project Technique Usage Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "registry_source",
+    "documentation_sync",
+    "techniques"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "name",
+        "project_root_policy"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "project_root_policy": {
+          "type": "string",
+          "enum": [
+            "all_project_material_inside_project"
+          ]
+        },
+        "lab_not_delivery": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/05_technical/93_16bit_hardware_mastery_registry.json"
+    },
+    "documentation_sync": {
+      "type": "object",
+      "required": [
+        "doc_13_spec_cenas",
+        "doc_10_memory_bank",
+        "doc_changelog"
+      ],
+      "properties": {
+        "doc_13_spec_cenas": {
+          "type": "boolean"
+        },
+        "doc_10_memory_bank": {
+          "type": "boolean"
+        },
+        "doc_changelog": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "allowed_external_artifacts": {
+      "type": "array",
+      "description": "Deprecated. Evidence used by a project must be copied into the project and registered in doc/project_hygiene_manifest.json.",
+      "maxItems": 0,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "reason",
+          "human_authorized"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "human_authorized": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "techniques": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "scene_id",
+          "registry_id",
+          "human_proficiency_status",
+          "technique_tags",
+          "owner_skills",
+          "evidence",
+          "doc_refs"
+        ],
+        "properties": {
+          "scene_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "registry_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "human_proficiency_status": {
+            "type": "string",
+            "enum": [
+              "LABORATORIO",
+              "TEORICA_STANDARD",
+              "TEORICA_PRIORITARIA",
+              "MESTRE_STANDARD",
+              "MESTRE_PRIORITARIA"
+            ]
+          },
+          "technique_tags": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9_]+$"
+            }
+          },
+          "owner_skills": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "object",
+            "properties": {
+              "rom_sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[A-Fa-f0-9]{64}$"
+              },
+              "blastem_evidence_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "budget_report_path": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "validation_report_path": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "promotion_record_path": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": true
+          },
+          "doc_refs": {
+            "type": "array",
+            "minItems": 3,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

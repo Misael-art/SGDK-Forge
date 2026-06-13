@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/strategy_tower_frame_data.schema.json",
+  "title": "Strategy Tower Defense Tower Frame Data",
+  "description": "Per-tower stat block for strategy_tower_defense projects. Defines tier upgrades, projectile behavior, status effects, and animation timing. All numeric fields are non-negative integers or constrained ranges. Stat fields are REQUIRED for every tower; upgrade tiers are required for at least 1 advanced tower per design contract. Time unit is 'frames' (1/60 s) for fire_rate and animation timing.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "tower_id",
+    "tower_category",
+    "registry_source",
+    "time_unit",
+    "tiers"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "tower_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "tower_category": {
+      "type": "string",
+      "enum": ["damage", "slow", "splash", "chain", "support", "economy", "ultimate"]
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": { "type": "string", "const": "frames" },
+    "tiers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["tier_id", "tier_name", "cost", "damage", "range_tiles", "fire_rate_frames", "projectile_speed_tiles_per_second"],
+        "properties": {
+          "tier_id": {
+            "type": "string",
+            "enum": ["basic", "advanced", "elite"]
+          },
+          "tier_name": { "type": "string", "minLength": 1 },
+          "cost": { "type": "integer", "minimum": 10, "maximum": 2000 },
+          "damage": { "type": "integer", "minimum": 1, "maximum": 9999 },
+          "range_tiles": { "type": "integer", "minimum": 1, "maximum": 12 },
+          "fire_rate_frames": { "type": "integer", "minimum": 6, "maximum": 600 },
+          "projectile_speed_tiles_per_second": { "type": "integer", "minimum": 1, "maximum": 16 },
+          "splash_radius_tiles": { "type": "integer", "minimum": 0, "maximum": 4 },
+          "slow_pct": { "type": "integer", "minimum": 0, "maximum": 90 },
+          "slow_duration_frames": { "type": "integer", "minimum": 0, "maximum": 600 },
+          "chain_targets": { "type": "integer", "minimum": 0, "maximum": 8 },
+          "support_aura_bonus_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "support_aura_radius_tiles": { "type": "integer", "minimum": 0, "maximum": 6 },
+          "economy_gold_per_kill": { "type": "integer", "minimum": 0, "maximum": 50 },
+          "ultimate_unlocked_at_wave": { "type": "integer", "minimum": 0, "maximum": 50 },
+          "animation_idle_frames": { "type": "integer", "minimum": 0, "maximum": 600 },
+          "animation_fire_frames": { "type": "integer", "minimum": 0, "maximum": 60 },
+          "voxel_size": { "type": "string", "enum": ["8x8", "16x16", "16x32", "32x32"] },
+          "head_metric": {
+            "type": "string",
+            "enum": ["S", "M", "L", "XL"],
+            "description": "Advisory only. Validator never blocks by this field alone."
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "Elite tier must declare ultimate_unlocked_at_wave.",
+      "if": {
+        "properties": {
+          "tiers": {
+            "type": "array",
+            "contains": { "properties": { "tier_id": { "const": "elite" } }, "required": ["tier_id"] }
+          }
+        },
+        "required": ["tiers"]
+      },
+      "then": {
+        "properties": {
+          "tiers": {
+            "items": {
+              "if": { "properties": { "tier_id": { "const": "elite" } }, "required": ["tier_id"] },
+              "then": { "required": ["ultimate_unlocked_at_wave"] }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

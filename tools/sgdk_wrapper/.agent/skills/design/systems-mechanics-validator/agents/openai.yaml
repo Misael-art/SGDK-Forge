@@ -1,0 +1,11 @@
+interface:
+  display_name: "Systems Mechanics Validator"
+  short_description: "Valida mechanic_contract contra 5 Leis Fundamentais"
+  brand_color: "#8C4A2F"
+  default_prompt: "Use $systems-mechanics-validator para validar mechanic_contract.json contra as 5 Leis Fundamentais (Agency, Feedback, Flow, Consistency, Reward) e os 5 Pilares. Mecanica core precisa de versatility_cases >= 3, min_reuses >= 3, combination_map >= 1. Valide contra tools/sgdk_wrapper/schemas/mechanic_contract.schema.json e tools/sgdk_wrapper/schemas/mechanic_validation_report.schema.json. Use o catalogo tools/sgdk_wrapper/.agent/references/mechanic_role_catalog.json para validar roles."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

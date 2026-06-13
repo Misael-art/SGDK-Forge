@@ -1,0 +1,96 @@
+# Golden Makefile Elite V16 - Persistent Toolchain Fixed for MegaDrive_DEV
+# Pointed by build_inner.bat to ensure production standards across SGDK installs.
+# NATIVE WINDOWS CMD EXECUTION - BYPASSING SH.EXE PATH MANGLING
+
+# Nota: nao forcar SHELL=cmd.exe aqui.
+# O wrapper ja executa em caminho curto 8.3 e os poucos condicionais usam `cmd /c`.
+
+ifndef GDK
+    $(error [ERROR] GDK environment variable not set. Please run env.bat)
+endif
+
+# Normalizamos caminhos para Windows (Backslash)
+GDK_W := $(subst /,\,$(GDK))
+BIN_W := $(GDK_W)\bin
+
+# Tool Definitions (Absolute Windows paths to be sure)
+CC      := "$(BIN_W)\gcc.exe"
+OBJCPY  := "$(BIN_W)\objcopy.exe"
+NM      := "$(BIN_W)\nm.exe"
+SIZEBND := java -jar "$(BIN_W)\sizebnd.jar"
+RESCOMP := java -jar "$(BIN_W)\rescomp.jar"
+
+# Commands (Usamos nomes explícitos do CMD)
+MKDIR   := if not exist
+RM      := del /f /q
+RMDIR   := rmdir /s /q
+ECHO    := echo
+CMD     := cmd /c
+
+SRC := src
+RES := res
+INCLUDE := inc
+OUT := out
+
+# Windows-style paths for recipes
+OUT_W := $(subst /,\,$(OUT))
+
+# Discovery (Recursive)
+SRC_C := $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c) $(wildcard $(SRC)/*/*/*.c) $(wildcard $(SRC)/*/*/*/*.c) $(wildcard $(SRC)/*/*/*/*/*.c)
+SRC_C := $(filter-out $(SRC)/boot/rom_head.c,$(SRC_C))
+ifeq ($(SRC_C),)
+  SRC_C := $(SRC)/main.c
+endif
+
+SRC_S := $(wildcard $(SRC)/*.s) $(wildcard $(SRC)/*/*.s) $(wildcard $(SRC)/*/*/*.s) $(wildcard $(SRC)/*/*/*/*.s) $(wildcard $(SRC)/*/*/*/*/*.s)
+SRC_S := $(filter-out $(SRC)/boot/sega.s,$(SRC_S))
+
+OBJ := $(SRC_C:.c=.o) $(SRC_S:.s=.o)
+OBJS := $(addprefix $(OUT)/, $(OBJ))
+
+# LTO Control
+Elite_LTO ?= 0
+$(info [ELITE-DEBUG-V16] Building with Elite_LTO $(Elite_LTO))
+
+ifeq ($(Elite_LTO),1)
+    LTO_FLAGS := -flto -flto=auto -ffat-lto-objects -fuse-linker-plugin
+else
+    LTO_FLAGS := -fno-lto
+endif
+
+# Includes
+INCS := -I. -I$(INCLUDE) -I$(SRC) -I$(RES) -I"$(GDK_W)\inc" -I"$(GDK_W)\res"
+DEFAULT_FLAGS := -DSGDK_GCC -m68000 -fdiagnostics-color=always -Wall -Wextra -Wno-shift-negative-value -fno-builtin -ffunction-sections -fdata-sections -fms-extensions $(INCS) -B"$(BIN_W)"
+
+release: FLAGS := $(DEFAULT_FLAGS) -O3 -fno-web -fno-gcse -fomit-frame-pointer $(LTO_FLAGS)
+release: $(OUT)\rom.bin
+	$(SIZEBND) $(OUT_W)\rom.bin -sizealign 131072 -checksum
+.PHONY: release
+
+$(OUT)\rom.bin: $(OUT)\rom.out
+	$(OBJCPY) -O binary $(OUT_W)\rom.out $(OUT_W)\rom.bin
+
+$(OUT)\rom.out: $(OUT)\sega.o $(OUT)\rom_head.o $(OBJS)
+	$(CC) -m68000 -B"$(BIN_W)" -n -T "$(GDK_W)\md.ld" -nostdlib $(subst /,\,$(OUT)/sega.o $(OUT)/rom_head.o $(OBJS)) "$(GDK_W)\lib\libmd.a" "$(GDK_W)\lib\libgcc.a" -o $(OUT_W)\rom.out -Wl,--gc-sections $(LTO_FLAGS)
+
+$(OUT)\sega.o: $(SRC)\boot\sega.s $(OUT)\rom_head.bin
+	$(CC) -x assembler-with-cpp -Wa,--register-prefix-optional $(DEFAULT_FLAGS) -c $(subst /,\,$(SRC)/boot/sega.s) -o $(OUT_W)\sega.o
+
+$(OUT)\rom_head.bin: $(OUT)\rom_head.o
+	$(OBJCPY) -O binary $(OUT_W)\rom_head.o $(OUT_W)\rom_head.bin
+
+$(OUT)\rom_head.o: $(SRC)\boot\rom_head.c
+	$(CMD) if not exist $(OUT_W) mkdir $(OUT_W)
+	$(CC) $(DEFAULT_FLAGS) -c $(subst /,\,$(SRC)/boot/rom_head.c) -o $(OUT_W)\rom_head.o
+
+$(OUT)\%.o: %.c
+	$(CMD) if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
+	$(CC) $(FLAGS) -MMD -c $(subst /,\,$(<)) -o $(subst /,\,$(@))
+
+$(OUT)\%.o: %.s
+	$(CMD) if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
+	$(CC) -x assembler-with-cpp -Wa,--register-prefix-optional $(FLAGS) -MMD -c $(subst /,\,$(<)) -o $(subst /,\,$(@))
+
+clean:
+	$(CMD) if exist $(OUT_W) $(RMDIR) $(OUT_W)
+.PHONY: clean

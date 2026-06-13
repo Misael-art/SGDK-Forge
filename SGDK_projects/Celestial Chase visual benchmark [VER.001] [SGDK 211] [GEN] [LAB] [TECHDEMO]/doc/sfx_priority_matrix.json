@@ -1,0 +1,12 @@
+{
+  "schema": "sfx_priority_matrix_v1",
+  "events": [
+    {"event": "failure", "priority": 15, "channel": "PCM_CH2"},
+    {"event": "victory", "priority": 14, "channel": "PCM_CH2"},
+    {"event": "damage", "priority": 13, "channel": "PCM_CH2"},
+    {"event": "celestial_pulse", "priority": 12, "channel": "PCM_CH2"},
+    {"event": "pressure_warning", "priority": 8, "channel": "PCM_CH3"},
+    {"event": "pickup", "priority": 6, "channel": "PCM_CH3"},
+    {"event": "menu_jump_land", "priority": 5, "channel": "PCM_CH3"}
+  ]
+}

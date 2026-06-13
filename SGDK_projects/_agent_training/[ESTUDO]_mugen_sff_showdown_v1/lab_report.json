@@ -1,0 +1,105 @@
+{
+  "lab_not_delivery": true,
+  "ready_for_aaa": false,
+  "training_mode": "train_agent",
+  "status": "controlled_training_area",
+  "topic": "mugen_sff_v1_01_showdown",
+  "fixtures": [
+    "rascunho/inputs/showdown.sff",
+    "rascunho/inputs/showdown.def"
+  ],
+  "world": {
+    "pixels_w": 768,
+    "pixels_h": 480,
+    "tiles_w": 96,
+    "tiles_h": 60,
+    "viewport_w": 320,
+    "viewport_h": 224,
+    "camera_scroll_bounds_px": {
+      "min_x": 0,
+      "max_x": 448,
+      "min_y": 0,
+      "max_y": 256
+    },
+    "viewer_default_scroll_px": {
+      "x": 224,
+      "y": 256
+    },
+    "no_downscale": true
+  },
+  "viewer": {
+    "path": "sgdk_viewer/showdown_viewer",
+    "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
+    "rom_sha256": "4b0ce91f5e370a8d6fd4e842a511c7f6c2e52a8f49ee4f2419696c972305fe2e",
+    "blastem_status": "testado_em_blastem_minimal",
+    "screenshot": "evidence/blastem_showdown_screenshot.png",
+    "save_sram": "evidence/blastem_showdown_save.sram",
+    "session_manifest": "evidence/blastem_session_manifest.json",
+    "visual_check": "evidence/blastem_screenshot_visual_check.json",
+    "visual_vdp_dump": null,
+    "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
+    "frame_animation_enabled": false
+  },
+  "budget": {
+    "raw_tiles": 23040,
+    "global_unique_rom_tiles": 2253,
+    "dedup_saving_ratio": 0.902214,
+    "hflip_tile_count": 5,
+    "vflip_tile_count": 12,
+    "hvflip_tile_count": 4,
+    "lossy_tile_merges": 0,
+    "streaming_window_tiles_w": 42,
+    "streaming_window_tiles_h": 30,
+    "max_window_unique_tiles": 1087,
+    "streaming_cache_capacity_tiles": 1151,
+    "estimated_streaming_cache_vram_bytes": 36832,
+    "full_resident_preliminary": false,
+    "validado_budget": false,
+    "palette_status": "pass_with_degradation",
+    "nearest_color_remaps": 187569
+  },
+  "reconstruction_gate": {
+    "visual_integrity_status": "pass",
+    "world_frame_bad_ratio": 0.0,
+    "blastem_screenshot_bad_ratio": 0.0,
+    "anti_magenta_threshold": 0.05
+  },
+  "latest_validation": {
+    "python_tests": {
+      "status": "passed",
+      "tests": 8,
+      "warnings": 4
+    },
+    "validate_resources": {
+      "status": "failed_lab_closeout",
+      "errors": 1,
+      "warnings": 11,
+      "hard_limit": "code_loaded_tiles_unmeasured"
+    },
+    "res_graph_audit": {
+      "status": "warn",
+      "issue": "RG_CODETILE001"
+    },
+    "freshness_audit": {
+      "status": "warning",
+      "viewer_stale": 2,
+      "root_stale": 1,
+      "missing_required": 2
+    },
+    "project_learning_capture": {
+      "lessons": 11,
+      "candidates": 7,
+      "canonical_promotion_performed": false
+    }
+  },
+  "honest_limits": [
+    "Wrapper rebuild path was attempted but degraded/timed out in consultive validation; direct SGDK 2.11 debug make was used for final lab evidence.",
+    "Showdown is visible in BlastEm without catastrophic magenta matte.",
+    "The stage is preserved as a 768x480 world with camera, not resized to 320x224.",
+    "Banded palette approximation still causes visible color degradation and needs curation.",
+    "Runtime uses code-loaded/streamed tiles; VDP budget remains estimated until dump or telemetry exists.",
+    "Frame animation is disabled because full-window frame reloads caused tile tearing during capture.",
+    "visual_vdp_dump.bin absent.",
+    "ready_for_aaa remains false."
+  ]
+}

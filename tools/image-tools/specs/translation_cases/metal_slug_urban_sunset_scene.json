@@ -1,0 +1,384 @@
+{
+  "case_id": "metal_slug_urban_sunset_scene",
+  "status": "pass_03_semantic_layers_refined_elite_delta_confirmed_runtime_continuation_defined",
+  "source_image": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/source.png",
+  "translation_target": "scene_slice",
+  "reference_profile": "generic-megadrive-elite",
+  "minimum_delta": 0.12,
+  "scene_truth_kind": "inferred",
+  "layout_complexity": "high",
+  "source_inventory": {
+    "includes": [
+      "scene_planes",
+      "mockup_preview",
+      "author_credits",
+      "avatar_or_icon",
+      "unrelated_reference"
+    ],
+    "notes": [
+      "O source mistura strips de composicao, preview de mockup e blocos editoriais."
+    ]
+  },
+  "drop_policy": {
+    "drop_classes": [
+      "mockup_preview",
+      "author_credits",
+      "avatar_or_icon",
+      "unrelated_reference"
+    ],
+    "notes": [
+      "Preview, creditos e avatar ajudam a interpretar a prancha, mas nao entram na traducao final."
+    ]
+  },
+  "composition_schema": {
+    "kind": "scene_layers",
+    "roles": [
+      {
+        "region_id": "A",
+        "composition_role": "scene_plane_bg_b",
+        "order": 0
+      },
+      {
+        "region_id": "B",
+        "composition_role": "scene_plane_bg_a",
+        "order": 1
+      },
+      {
+        "region_id": "C",
+        "composition_role": "scene_plane_foreground_composition",
+        "order": 2
+      }
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "editorial_board",
+    "semantic_regions": [
+      {
+        "id": "A",
+        "classification": "scene_plane_bg_b",
+        "bbox": [4, 26, 520, 155],
+        "notes": "Faixa atmosferica do por do sol."
+      },
+      {
+        "id": "B",
+        "classification": "scene_plane_bg_a",
+        "bbox": [4, 170, 679, 430],
+        "notes": "Plano principal da rua e da arquitetura."
+      },
+      {
+        "id": "C",
+        "classification": "scene_plane_foreground_composition",
+        "bbox": [12, 458, 686, 601],
+        "notes": "Faixa frontal composicional da cena."
+      }
+    ],
+    "drop_regions": [
+      {
+        "id": "right_composite_preview",
+        "classification": "mockup_preview",
+        "bbox": [717, 189, 1021, 413],
+        "action": "drop",
+        "notes": "Composicao auxiliar montada."
+      },
+      {
+        "id": "credits_block",
+        "classification": "author_credits",
+        "bbox": [706, 506, 1031, 601],
+        "action": "drop",
+        "notes": "Bloco de creditos."
+      },
+      {
+        "id": "avatar_block",
+        "classification": "avatar_or_icon",
+        "bbox": [706, 506, 773, 573],
+        "action": "drop",
+        "notes": "Avatar editorial do rip."
+      }
+    ],
+    "animation_ranges": [],
+    "final_scene_hypothesis": {
+      "summary": "A cena correta recomposta preserva BG-B, BG-A e a faixa frontal em quadro espacial comum, descartando mockup e creditos.",
+      "reference_image": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/CENA MONTADA.png"
+    },
+    "notes_on_why": [
+      "BG-A e plano principal inteiro, nao mascara vazada.",
+      "A faixa frontal nao e actor sprite nem ruido."
+    ]
+  },
+  "training_labels": {
+    "goal": "Usar os PNGs manuais apenas como supervisao da leitura semantica do source.",
+    "reference_images": [
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/BG-A (Plano principal).png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/BG-B (Plano de fundo).png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/COMPISIÇÃO DO PLANO PRINCIPAL.png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/CENA MONTADA.png",
+      "assets/reference/translation_curation/metal_slug_urban_sunset_scene/source/SEPARAÇÃO RACIONAL.png"
+    ]
+  },
+  "source_semantic_map": {
+    "source_layout_type": "editorial_board",
+    "intent_summary": "board editorial com uma cena urbana ao por do sol, recortes auxiliares e elementos de referencia misturados na mesma prancha",
+    "usable_regions": [
+      {
+        "id": "A",
+        "kind": "bg_b_atmosphere",
+        "bbox": [4, 26, 516, 154],
+        "notes": "por do sol e nuvens; camada mais ao fundo"
+      },
+      {
+        "id": "B",
+        "kind": "bg_a_architecture",
+        "bbox": [5, 172, 677, 428],
+        "notes": "edificacoes, skyline e rua base; camada estrutural da frente do background"
+      },
+      {
+        "id": "C",
+        "kind": "foreground_debris",
+        "bbox": [12, 458, 684, 601],
+        "notes": "destrocos e massa da frente; deve ser tratado como camada frontal isolada, nao como background automatico"
+      }
+    ],
+    "auxiliary_regions": [
+      {
+        "id": "right_composite_preview",
+        "kind": "preview",
+        "bbox": [717, 189, 1021, 413],
+        "notes": "composicao auxiliar montada, util apenas como referencia de intencao"
+      }
+    ],
+    "annotation_regions": [
+      {
+        "id": "credits_block",
+        "kind": "credits_text",
+        "bbox": [706, 506, 1031, 601],
+        "action": "drop"
+      },
+      {
+        "id": "avatar_block",
+        "kind": "avatar_reference",
+        "bbox": [706, 506, 773, 573],
+        "action": "drop"
+      }
+    ],
+    "animation_ranges": [],
+    "exotic_elements": [
+      {
+        "id": "sprite_reference_inside_preview",
+        "kind": "embedded_reference_sprite",
+        "decision": "drop_from_translation",
+        "notes": "sprite pequeno embutido no preview da direita; referencia editorial, nao parte do cenario final"
+      }
+    ]
+  },
+  "hardware_expectations": {
+    "allow_compare_flat_for_rom_proof": true,
+    "allow_manual_vram_partition": true,
+    "allow_sprite_grafts": false,
+    "allow_plane_size_tuning": true,
+    "allow_window_alias": false,
+    "allow_hscroll_slack_reuse": false,
+    "allow_sat_reuse": false
+  },
+  "intent_notes": [
+    "preservar o drama do ceu alaranjado e da silhueta urbana",
+    "preservar leitura da rua destruida sem entupir o plano jogavel",
+    "fazer a arquitetura sobreviver sem virar ruido"
+  ],
+  "soul_contract": {
+    "must_keep": [
+      "skyline urbana",
+      "gradiente dramatico do por do sol",
+      "massa da rua destruida no primeiro plano"
+    ],
+    "can_simplify": [
+      "detalhes pequenos de fachada e janelas",
+      "ornamentos secundarios"
+    ],
+    "must_drop": [
+      "linhas finas que colapsem ao reduzir",
+      "tonalidades quase identicas sem funcao"
+    ]
+  },
+  "runtime_continuation": {
+    "phase": "retomar_curadoria_para_runtime_dinamico",
+    "goal": "migrar da prova visual estatica para uma cena SGDK com profundidade, parallax e foreground controlado sem quebrar a topologia real do VDP",
+    "depth_breakdown": [
+      {
+        "id": "sky",
+        "source_regions": ["A"],
+        "runtime_role": "bg_b_far",
+        "notes": "gradiente e nuvens; deve carregar a atmosfera quente e mover mais devagar que o plano jogavel"
+      },
+      {
+        "id": "skyline",
+        "source_regions": ["B"],
+        "runtime_role": "bg_b_mid_far",
+        "notes": "silhueta urbana escura e ponte distante; deve ser reinterpretada como faixa de parallax lenta dentro do BG_B"
+      },
+      {
+        "id": "architecture",
+        "source_regions": ["B"],
+        "runtime_role": "bg_a_main",
+        "notes": "predios detalhados, rua, postes e base estrutural do cenario; precisa manter nitidez"
+      },
+      {
+        "id": "foreground",
+        "source_regions": ["C"],
+        "runtime_role": "foreground_candidate",
+        "notes": "destrocos e massa frontal; manter isolado na curadoria para decidir integracao por medicao em ROM"
+      }
+    ],
+    "runtime_mapping": {
+      "bg_b": {
+        "content": [
+          "ceu completo",
+          "faixa distante do skyline"
+        ],
+        "scroll_strategy": "line_scroll_horizontal_por_zonas",
+        "zones": [
+          {
+            "name": "ceu",
+            "speed_model": "camera_x / 8"
+          },
+          {
+            "name": "skyline",
+            "speed_model": "camera_x / 4"
+          }
+        ]
+      },
+      "bg_a": {
+        "content": [
+          "arquitetura principal",
+          "rua destruida",
+          "base da ponte",
+          "postes"
+        ],
+        "scroll_strategy": "scroll_base",
+        "speed_model": "camera_x / 1"
+      },
+      "foreground": {
+        "content": [
+          "entulho frontal",
+          "quebra de silhueta no chao"
+        ],
+        "approved_runtime_form": "em_estudo",
+        "preferred_path": "sprite_strip_limitado_se_SAT_e_VRAM_permitirem",
+        "fallback_path": "fusao_controlada_na_faixa_inferior_do_BG_A",
+        "blocked_paths": [
+          "WINDOW_como_plano_cenico_fullscreen"
+        ]
+      }
+    },
+    "palette_strategy": {
+      "pal0": "ceu e gradiente principal",
+      "pal1": "cidade principal e rua",
+      "pal2": "foreground mais escuro e de maior contraste",
+      "pal3": "reserva para variacoes controladas e pequenos efeitos",
+      "shared_color_policy": [
+        "reutilizar laranja do ceu em janelas e reflexos quentes",
+        "reutilizar marrom escuro como sombra global entre camadas"
+      ]
+    },
+    "tileset_strategy": {
+      "mode": "tile_first",
+      "rules": [
+        "nao converter a imagem inteira como bitmap unico de runtime",
+        "agrupar paredes, janelas e chao por repeticao real",
+        "revisar clustering antes de aprovar foreground independente"
+      ]
+    },
+    "visual_quality_rules": [
+      "foreground mais escuro e mais contrastado que o miolo",
+      "skyline mais desaturado que a arquitetura principal",
+      "evitar dither sem funcao material ou tonal",
+      "reforcar outlines seletivos onde a leitura estrutural cair"
+    ],
+    "budget_targets": {
+      "safe_bg_tile_ceiling": 1536,
+      "elite_semantic_total_unique_tiles": 1525,
+      "elite_semantic_background_unique_tiles": 1354,
+      "elite_semantic_foreground_unique_tiles": 171,
+      "foreground_policy": "so aprovar foreground independente se a medicao em ROM nao comprometer VRAM nem SAT"
+    },
+    "pre_gate_visual_checklist": [
+      "indice 0 transparente consistente em assets com alpha",
+      "todos os assets de runtime em 320x224 ou bbox controlada",
+      "somente planos SGDK validos no build final",
+      "overlay isolado da composicao cenica",
+      "screenshot dedicada do BlastEm",
+      "save.sram salvo",
+      "visual_vdp_dump.bin salvo"
+    ]
+  },
+  "variants": {
+    "basic": {
+      "label": "BASIC",
+      "analysis_units": [
+        {
+          "name": "A",
+          "semantic_region_id": "A",
+          "asset": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/basic/layer_a_bg_b_basic.png",
+          "role": "bg_b",
+          "critical_visual": true,
+          "weight": 0.22
+        },
+        {
+          "name": "B",
+          "semantic_region_id": "B",
+          "asset": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/basic/layer_b_bg_a_basic.png",
+          "role": "midground_layer",
+          "critical_visual": true,
+          "weight": 0.48
+        },
+        {
+          "name": "C",
+          "semantic_region_id": "C",
+          "asset": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/basic/layer_c_front_basic.png",
+          "role": "foreground_layer",
+          "critical_visual": true,
+          "weight": 0.3
+        }
+      ]
+    },
+    "elite": {
+      "label": "ELITE",
+      "analysis_units": [
+        {
+          "name": "A",
+          "semantic_region_id": "A",
+          "asset": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/elite/layer_a_bg_b_elite.png",
+          "role": "bg_b",
+          "critical_visual": true,
+          "paired_bg_layers": [
+            "assets/reference/translation_curation/metal_slug_urban_sunset_scene/elite/layer_b_bg_a_elite.png",
+            "assets/reference/translation_curation/metal_slug_urban_sunset_scene/elite/layer_c_front_elite.png"
+          ],
+          "weight": 0.22
+        },
+        {
+          "name": "B",
+          "semantic_region_id": "B",
+          "asset": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/elite/layer_b_bg_a_elite.png",
+          "role": "midground_layer",
+          "critical_visual": true,
+          "paired_bg_layers": [
+            "assets/reference/translation_curation/metal_slug_urban_sunset_scene/elite/layer_a_bg_b_elite.png"
+          ],
+          "weight": 0.48
+        },
+        {
+          "name": "C",
+          "semantic_region_id": "C",
+          "asset": "assets/reference/translation_curation/metal_slug_urban_sunset_scene/elite/layer_c_front_elite.png",
+          "role": "foreground_layer",
+          "critical_visual": true,
+          "paired_bg_layers": [
+            "assets/reference/translation_curation/metal_slug_urban_sunset_scene/elite/layer_a_bg_b_elite.png",
+            "assets/reference/translation_curation/metal_slug_urban_sunset_scene/elite/layer_b_bg_a_elite.png"
+          ],
+          "weight": 0.3
+        }
+      ]
+    }
+  }
+}

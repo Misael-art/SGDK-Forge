@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_budget_frame.schema.json",
+  "title": "Scene Budget Frame Metric",
+  "description": "Per-frame budget measurement for a scene. Used as input to the budget auditor.",
+  "type": "object",
+  "required": [
+    "frame_number",
+    "measurement_origin"
+  ],
+  "properties": {
+    "frame_number": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "measurement_origin": {
+      "type": "string",
+      "enum": ["measured", "estimated", "inferred"],
+      "description": "measured=from runtime telemetry, estimated=from static analysis, inferred=from heuristics"
+    },
+    "dma_bytes_requested": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "dma_ops": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "sprite_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "max_sprites_per_scanline": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "pal_changes": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "tile_stream_updates": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "vram_usage_estimate": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Estimated VRAM usage in bytes"
+    },
+    "cpu_frame_overrun_flag": {
+      "type": ["boolean", "null"],
+      "description": "True if frame exceeded CPU budget"
+    }
+  },
+  "additionalProperties": true
+}

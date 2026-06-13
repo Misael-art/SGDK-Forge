@@ -1,0 +1,354 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/rpg_turn_based_jrpg_design_contract.schema.json",
+  "title": "RPG Turn-Based JRPG Design Contract",
+  "description": "Design-level contract for rpg_turn_based_jrpg projects. Holds party, lore, modes, combat, equipment, progression and balance sections as embedded blocks. The TDD continues to own runtime/technical decisions; this contract only describes the gameplay surface. Time unit is 'ticks' (one combat turn) for combat-related fields and 'frames' for overworld movement. Party member stats are read alongside the per-member party_frame_data contract.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "specialization_id",
+    "registry_source",
+    "time_unit",
+    "party_size_max",
+    "equipment_grid",
+    "encounter_trigger",
+    "permadeath",
+    "narrative_branching",
+    "party",
+    "lore",
+    "modes",
+    "combat",
+    "equipment",
+    "progression",
+    "balance",
+    "doc_refs"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "specialization_id": {
+      "type": "string",
+      "const": "rpg_turn_based_jrpg"
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": {
+      "type": "string",
+      "const": "ticks (turn)"
+    },
+    "party_size_max": {
+      "type": "integer",
+      "const": 4,
+      "description": "Frozen design axis. party.size must be <= party_size_max."
+    },
+    "equipment_grid": {
+      "type": "string",
+      "const": "slot_based"
+    },
+    "encounter_trigger": {
+      "type": "string",
+      "enum": ["fixed", "random", "fixed+random"]
+    },
+    "permadeath": {
+      "type": "string",
+      "const": "off"
+    },
+    "narrative_branching": {
+      "type": "string",
+      "enum": ["linear", "linear_with_optional_scenes", "branching"]
+    },
+    "party": {
+      "type": "object",
+      "required": ["size", "members"],
+      "properties": {
+        "size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "description": "Active party size. Must be <= party_size_max."
+        },
+        "members": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "display_name",
+              "role",
+              "class_id",
+              "party_frame_data_path",
+              "lore_id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "display_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "type": "string",
+                "enum": ["leader", "support", "mage", "rogue", "tank", "healer", "summoner", "guest"]
+              },
+              "class_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$",
+                "description": "Foreign key into classes block (e.g. knight, white_mage, thief)."
+              },
+              "party_frame_data_path": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Project-relative path to a rpg_party_frame_data.json instance."
+              },
+              "lore_id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Foreign key into lore.characters block."
+              },
+              "head_metric": {
+                "type": "string",
+                "enum": ["S", "M", "L", "XL"],
+                "description": "Advisory only. Validator never blocks by this field alone."
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "lore": {
+      "type": "object",
+      "required": ["characters", "world"],
+      "properties": {
+        "characters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "summary"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+              "summary": { "type": "string", "minLength": 1 },
+              "ip_status": {
+                "type": "string",
+                "enum": ["original", "homage", "public_domain", "licensed"]
+              },
+              "ip_notes": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "world": {
+          "type": "object",
+          "required": ["summary"],
+          "properties": {
+            "summary": { "type": "string", "minLength": 1 },
+            "factions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["id", "display_name"],
+                "properties": {
+                  "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+                  "display_name": { "type": "string", "minLength": 1 },
+                  "summary": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["main_story", "side_quest", "arena", "colosseum", "post_game", "new_game_plus"]
+          },
+          "human_or_cpu_opponent": {
+            "type": "string",
+            "enum": ["single_player", "cpu_party", "multiplayer_coop"]
+          },
+          "save_model": {
+            "type": "string",
+            "enum": ["save_station", "save_anywhere_with_confirm", "save_anywhere"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "combat": {
+      "type": "object",
+      "required": ["turn_order", "action_menu", "magic_system", "status_effects"],
+      "properties": {
+        "turn_order": {
+          "type": "object",
+          "required": ["formula", "tiebreaker"],
+          "properties": {
+            "formula": {
+              "type": "string",
+              "enum": ["agility_only", "agility_with_random_jitter", "agility_with_dexterity"]
+            },
+            "tiebreaker": {
+              "type": "string",
+              "enum": ["level", "party_id", "rng_seed"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "action_menu": {
+          "type": "object",
+          "required": ["actions"],
+          "properties": {
+            "actions": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "string",
+                "enum": ["attack", "magic", "item", "defend", "skill", "escape", "summon", "change_formation"]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "magic_system": {
+          "type": "object",
+          "required": ["mp_resource", "categories"],
+          "properties": {
+            "mp_resource": {
+              "type": "string",
+              "enum": ["mp_shared", "mp_per_member", "stamina_pool"]
+            },
+            "categories": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": ["white_magic", "black_magic", "summon", "buff", "debuff", "heal", "ultimate"]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "status_effects": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["poison", "sleep", "paralysis", "silence", "confusion", "blind", "stone", "death", "regen", "shield", "haste", "slow"]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "equipment": {
+      "type": "object",
+      "required": ["slot_based", "slots"],
+      "properties": {
+        "slot_based": {
+          "type": "boolean",
+          "const": true
+        },
+        "slots": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["weapon", "armor", "helmet", "shield", "accessory_1", "accessory_2", "relic"]
+          }
+        },
+        "item_categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["consumable", "weapon", "armor", "key_item", "tome", "gem"]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "progression": {
+      "type": "object",
+      "required": ["xp_curve", "level_cap"],
+      "properties": {
+        "xp_curve": {
+          "type": "string",
+          "enum": ["linear", "quadratic", "exponential", "custom_table"]
+        },
+        "level_cap": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 99
+        },
+        "xp_table_path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Project-relative path to a level/xp table JSON. Required when xp_curve=custom_table."
+        },
+        "skill_tree_policy": {
+          "type": "string",
+          "enum": ["none", "job_based", "stat_based", "free_form"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "balance": {
+      "type": "object",
+      "required": ["evidence_paths", "method"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["encounter_playtest", "stat_curve_first", "boss_pattern_first", "playtest_then_curve", "hybrid"]
+        },
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Project-relative paths to balance evidence (encounter logs, stat curves, boss playtest notes). Required to lift past vertical_slice.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "tier_targets": {
+          "type": "object",
+          "description": "Advisory. Tier lists are design tools, not laws.",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "doc_refs": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

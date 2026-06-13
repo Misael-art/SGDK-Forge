@@ -1,0 +1,63 @@
+﻿{
+    "build_version":  "build_v001",
+    "rom_sha256":  "dab33df15904743f7891333370ab29060ac0edfcffa1e69b2fe246533fe3f587",
+    "size_bytes":  131072,
+    "timestamp":  "2026-06-02T11:29:25.5944273-03:00",
+    "source_commit_when_available":  "55ea9d6a47ed78211eed6a0a149a18d3a5bfdd45",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  5,
+                               "blocking_statuses":  [
+                                                         "gdd_substantial_insufficient",
+                                                         "visual_gate_blocked",
+                                                         "visual_delivery_gate_missing",
+                                                         "freshness_audit_missing",
+                                                         "scene_closeout_gate_missing"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "sem_sessao",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "nao_testado",
+                             "performance":  "nao_testado",
+                             "audio":  "nao_testado",
+                             "hardware_real":  "nao_testado"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_brand_fx_tiles",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_fx_tiles.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_engine_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_engine_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_author_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_author_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_project_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_project_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_presents_text",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_presents_text.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_chase_compare_flat",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/chase_compare_flat.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

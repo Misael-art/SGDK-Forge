@@ -1,0 +1,11 @@
+interface:
+  display_name: "Mega Drive Pixel Strict Rules"
+  short_description: "Leis absolutas de paleta, grid 8x8 e VDP para assets pixel art"
+  brand_color: "#B84A3A"
+  default_prompt: "Use $megadrive-pixel-strict-rules para validar este sprite, tileset ou background contra as restricoes absolutas de paleta, grid 8x8, index 0 transparente e limites reais do VDP."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

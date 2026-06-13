@@ -1,0 +1,38 @@
+{
+  "schema": "visual_correction_request_v1",
+  "scene": "chase_first_playable",
+  "status": "open",
+  "owner": "implementation",
+  "requested_changes": [
+    {
+      "id": "VIS-001",
+      "priority": "blocker",
+      "request": "Replace the flat runtime background with a measured translation of the approved v007 composition.",
+      "acceptance": "BG_A and BG_B roles are distinct, the road remains readable and the VDP budget report passes."
+    },
+    {
+      "id": "VIS-002",
+      "priority": "major",
+      "request": "Integrate authored obstacle and telegraph silhouettes.",
+      "acceptance": "Each hazard reads before collision at gameplay speed and shares the locked palette language."
+    },
+    {
+      "id": "VIS-003",
+      "priority": "major",
+      "request": "Integrate gameplay-linked celestial FX.",
+      "acceptance": "Pulse, hit, pickup, dust and phase escalation each have a visible authored response."
+    },
+    {
+      "id": "VIS-004",
+      "priority": "major",
+      "request": "Replace development menu and HUD presentation.",
+      "acceptance": "Menu, pause, HUD and result states are legible and visually coherent."
+    },
+    {
+      "id": "VIS-005",
+      "priority": "blocker",
+      "request": "Produce emulator evidence for the exact current ROM.",
+      "acceptance": "Dedicated BlastEm screenshot and traceable ROM hash exist."
+    }
+  ]
+}

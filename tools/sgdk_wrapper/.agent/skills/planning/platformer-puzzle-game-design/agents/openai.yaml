@@ -1,0 +1,11 @@
+interface:
+  display_name: "Platformer/Puzzle Game Design (Orchestrator)"
+  short_description: "Orquestra platformer_precision_2d por opt-in e delega skills"
+  brand_color: "#7570B3"
+  default_prompt: "Use $platformer-puzzle-game-design APENAS quando o projeto declarou opt-in em doc/genre_specialization_manifest.json com specialization_id=platformer_precision_2d (ou metroidvania_ability_gated/puzzle_sokoban_grid/puzzle_tile_matching em Wave 2-3+). Esta skill nao cria GDD nem TDD; ela orquestra systems-mechanics-validator, character-design, sprite-animation, megadrive-vdp-budget-analyst, xgm2-audio-director, sgdk-runtime-coder e tdd-authoring. Emite platformer_precision_2d_design_contract.json (design de superficie) e platformer_level_segment_frame_data.json por nivel. NUNCA infere ativacao por nome de pasta, codigo ou regex. time_unit=frames, camera=side_scroll_with_lookahead, run_speed_horizontal=2x_player, jump_count=1_to_2, coyote_time=on, death_loop=on, level_length=short_tight. Validator canonico: tools/sgdk_wrapper/validate_platformer_precision_2d_specialization.ps1."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

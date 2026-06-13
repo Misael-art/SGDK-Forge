@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "project_status": {
+    "training_mode": "train_agent",
+    "controlled_training_area": true,
+    "lab_not_delivery": true,
+    "ready_for_aaa": false
+  },
+  "tool": {
+    "workspace_path": "tools/mugen2sgdk",
+    "found": true,
+    "type": "legacy_gui_tool",
+    "primary_executable": "tools/mugen2sgdk/interface.dist/mugen2sgdk.exe",
+    "adjacent_reference": "tools/mugen2sgdk/interface.dist/mugen_sgdk_converter.url"
+  },
+  "tests": [
+    {
+      "name": "help_probe",
+      "command": "mugen2sgdk.exe --help",
+      "inputs": [],
+      "expected_outputs": [
+        "usage text",
+        "documented CLI options",
+        "noninteractive exit"
+      ],
+      "result": "timeout_after_5s_no_cli_output",
+      "decision_impact": "tool cannot be treated as primary CLI for this fixture"
+    },
+    {
+      "name": "showdown_fixture_applicability",
+      "command": "manual/GUI-style tool audit only",
+      "inputs": [
+        "rascunho/inputs/showdown.sff",
+        "rascunho/inputs/showdown.def"
+      ],
+      "expected_outputs": [
+        "extracted sprites or SGDK assets",
+        "tilemap/palette reports",
+        "reproducible command log"
+      ],
+      "result": "no reproducible CLI path detected in interface.dist",
+      "decision_impact": "local training parser/exporter remains justified inside the study"
+    }
+  ],
+  "decision": "replace",
+  "reuse_policy": {
+    "canonical_promotion": false,
+    "local_pipeline_allowed": true,
+    "local_pipeline_scope": "training fixture only",
+    "reason": "tools/mugen2sgdk exists and was audited first, but the available packaged executable behaved like a legacy GUI/unknown noninteractive tool and did not expose a reproducible CLI contract for SFF+DEF conversion. The study pipeline remains local until a human approves canonical improvement or wrapping of mugen2sgdk."
+  },
+  "comparison": {
+    "mugen2sgdk_output_available": false,
+    "study_pipeline_output_available": true,
+    "study_outputs": [
+      "work/extracted_pcx/",
+      "work/reconstructed_layers/",
+      "work/sgdk_bins/",
+      "analysis/tile_stats.json",
+      "analysis/scene_tilemap_conversion_report.json",
+      "analysis/tilemap_flag_report.json",
+      "analysis/palette_violations.json",
+      "analysis/per_tile_palette_conflict_report.json"
+    ],
+    "differences": "No byte/output comparison possible because mugen2sgdk did not provide a reproducible noninteractive output in this audit."
+  }
+}

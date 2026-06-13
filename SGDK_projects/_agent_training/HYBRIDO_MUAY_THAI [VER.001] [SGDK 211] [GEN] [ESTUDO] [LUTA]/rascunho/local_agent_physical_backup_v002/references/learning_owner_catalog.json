@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Conservative routing of recurring project lessons to existing canonical owners before proposing new skills.",
+  "rules": [
+    {
+      "id": "total_sprite_usage_is_not_scanline_pressure",
+      "match_any": [
+        "total vdp sprite usage is not scanline pressure",
+        "never label total vdp sprite usage as per-scanline pressure"
+      ],
+      "candidate_kind": "validator",
+      "canonical_target": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "required_tests": [
+        "scanline simulator fixture",
+        "worst-frame sprite budget regression"
+      ]
+    },
+    {
+      "id": "populated_tilemap_width_before_scroll",
+      "match_any": [
+        "populated width matters more than declared plane width",
+        "audit populated tilemap width"
+      ],
+      "candidate_kind": "validator",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+      "owner_skill": "art/multi-plane-composition",
+      "required_tests": [
+        "signed scroll gutter fixture",
+        "multi-frame seam regression"
+      ]
+    },
+    {
+      "id": "visual_z_collision_shared_state",
+      "match_any": [
+        "visual z and collision must share one state",
+        "derive screen position, scale frame and collision"
+      ],
+      "candidate_kind": "schema",
+      "canonical_target": "tools/sgdk_wrapper/schemas/road_physics_contract.schema.json",
+      "owner_skill": "design/systems-mechanics-validator",
+      "required_tests": [
+        "road physics contract schema fixture",
+        "collision-active interval regression"
+      ]
+    },
+    {
+      "id": "horizontal_parallax_bands_use_hscroll",
+      "match_any": [
+        "horizontal parallax bands use hscroll",
+        "horizontal speed bands belong to hscroll_line"
+      ],
+      "candidate_kind": "doc",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "required_tests": [
+        "scroll ownership review",
+        "band boundary visual regression"
+      ]
+    },
+    {
+      "id": "saturated_scene_rejects_signature_raster_by_default",
+      "match_any": [
+        "signature raster tricks do not enter a saturated scene by default",
+        "reserve sat/hblank experiments for isolated benchmark roms"
+      ],
+      "candidate_kind": "workflow",
+      "canonical_target": "tools/sgdk_wrapper/.agent/workflows/route-decision-gate.md",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "required_tests": [
+        "lab-only technique routing fixture",
+        "fallback ownership review"
+      ]
+    },
+    {
+      "id": "technical_pass_does_not_imply_visual_pass",
+      "match_any": [
+        "technical stability masked visual failure",
+        "budget pass and visual pass remain independent gates",
+        "never promote a visual chase by performance metrics alone"
+      ],
+      "candidate_kind": "validator",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+      "owner_skill": "art/visual-excellence-standards",
+      "required_tests": [
+        "visual gate blocked with technical pass fixture",
+        "perceptual evidence regression"
+      ]
+    },
+    {
+      "id": "modular_boss_requires_runtime_parts",
+      "match_any": [
+        "static sprite scaling is not a modular boss",
+        "child modules were never instantiated",
+        "a modular boss claim requires separate runtime sprites"
+      ],
+      "candidate_kind": "validator",
+      "canonical_target": "tools/sgdk_wrapper/validate_project_methodology.ps1",
+      "owner_skill": "architecture/scene-state-architect",
+      "required_tests": [
+        "modular boss runtime fixture",
+        "boss parts schema validation",
+        "worst-scanline report regression"
+      ]
+    },
+    {
+      "id": "z_axis_chase_requires_depth_direction",
+      "match_any": [
+        "z-axis chase cannot use inverted parallax",
+        "distant sky moved faster than the road",
+        "drive forward travel through road depth tables"
+      ],
+      "candidate_kind": "schema",
+      "canonical_target": "tools/sgdk_wrapper/schemas/road_physics_contract.schema.json",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "required_tests": [
+        "depth direction evidence fixture",
+        "road horizon displacement regression"
+      ]
+    },
+    {
+      "id": "modular_source_crop_excludes_child_silhouette",
+      "match_any": [
+        "source-derived modular torso must exclude external limbs",
+        "modularity in code does not repair a source crop"
+      ],
+      "candidate_kind": "workflow",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/art-conversion-pipeline/SKILL.md",
+      "owner_skill": "art/art-conversion-pipeline",
+      "required_tests": [
+        "modular silhouette temporal review",
+        "source crop ownership fixture"
+      ]
+    },
+    {
+      "id": "per_scanline_multiplication_budget_risk",
+      "match_any": [
+        "per-scanline multiplication can destroy the frame budget",
+        "derive line deformation with finite differences"
+      ],
+      "candidate_kind": "lib_case",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+      "owner_skill": "code/sgdk-runtime-coder",
+      "required_tests": [
+        "MDRT performance sample",
+        "road equation budget regression"
+      ]
+    },
+    {
+      "id": "black_capture_is_not_emulator_evidence",
+      "match_any": [
+        "a black printwindow capture is not emulator evidence",
+        "almost-uniform white or black printwindow output"
+      ],
+      "candidate_kind": "validator",
+      "canonical_target": "tools/sgdk_wrapper/lib/blastem_automation.psm1",
+      "owner_skill": "operation/sgdk-build-wrapper-operator",
+      "required_tests": [
+        "black capture rejection fixture",
+        "recognizable gameplay screenshot check"
+      ]
+    }
+  ]
+}

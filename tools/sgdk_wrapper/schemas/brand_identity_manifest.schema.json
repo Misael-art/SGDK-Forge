@@ -1,0 +1,484 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/brand_identity_manifest.schema.json",
+  "title": "Brand Identity Manifest",
+  "description": "Project-level contract for title logo, font system, front-end brand readability, and Mega Drive runtime export. Prevents generic fonts and decorative logos from becoming final AAA identity.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project_id",
+    "manifest_id",
+    "brand_role",
+    "source_authority",
+    "logo_system",
+    "typography_system",
+    "title_screen_export_plan",
+    "validation_plan",
+    "fallback_policy",
+    "approval_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "manifest_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "brand_role": {
+      "type": "string",
+      "enum": [
+        "project_identity",
+        "title_screen",
+        "front_end",
+        "marketing_reference"
+      ]
+    },
+    "source_authority": {
+      "type": "object",
+      "required": [
+        "gdd_ref",
+        "ui_decision_card_ref",
+        "master_style_manifest_ref"
+      ],
+      "properties": {
+        "gdd_ref": {
+          "type": "string",
+          "pattern": "^doc/"
+        },
+        "ui_decision_card_ref": {
+          "type": "string",
+          "pattern": "^doc/"
+        },
+        "master_style_manifest_ref": {
+          "type": "string",
+          "pattern": "^doc/"
+        },
+        "reference_policy": {
+          "type": "string",
+          "enum": [
+            "technical_inspiration_only",
+            "not_applicable"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "logo_system": {
+      "type": "object",
+      "required": [
+        "primary_title_text",
+        "main_title_weight_percent",
+        "genre_tone_alignment",
+        "gameplay_metaphor",
+        "silhouette_test",
+        "monochrome_test",
+        "thumbnail_test",
+        "dynamic_background_test"
+      ],
+      "properties": {
+        "primary_title_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subtitle_text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "main_title_weight_percent": {
+          "type": "integer",
+          "minimum": 70,
+          "maximum": 100
+        },
+        "genre_tone_alignment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_vector_master_path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^(data/source_art/|doc/|$)"
+        },
+        "gameplay_metaphor": {
+          "type": "object",
+          "required": [
+            "metaphor",
+            "target_letter_or_shape",
+            "readability_priority"
+          ],
+          "properties": {
+            "metaphor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "target_letter_or_shape": {
+              "type": "string",
+              "minLength": 1
+            },
+            "readability_priority": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "silhouette_test": {
+          "$ref": "#/definitions/readability_test"
+        },
+        "monochrome_test": {
+          "$ref": "#/definitions/readability_test"
+        },
+        "thumbnail_test": {
+          "$ref": "#/definitions/readability_test"
+        },
+        "dynamic_background_test": {
+          "$ref": "#/definitions/readability_test"
+        }
+      },
+      "additionalProperties": false
+    },
+    "typography_system": {
+      "type": "object",
+      "required": [
+        "font_roles",
+        "generic_font_policy",
+        "glyph_manifest_ref"
+      ],
+      "properties": {
+        "font_roles": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": [
+              "role",
+              "render_mode",
+              "charset_profile",
+              "asset_ref",
+              "usage",
+              "fallback"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "logo_display",
+                  "front_end_body",
+                  "hud_critical",
+                  "narrative_text",
+                  "debug_fallback"
+                ]
+              },
+              "render_mode": {
+                "type": "string",
+                "enum": [
+                  "bitmap_tileset",
+                  "variable_width_tidytext",
+                  "vector_source",
+                  "sgdk_default_fallback"
+                ]
+              },
+              "charset_profile": {
+                "type": "string",
+                "enum": [
+                  "ascii_core",
+                  "ptbr_core_accents",
+                  "extended_optional"
+                ]
+              },
+              "asset_ref": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^(data/source_art/|data/processed/|res/|doc/|$)"
+              },
+              "usage": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fallback": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "generic_font_policy": {
+          "type": "object",
+          "required": [
+            "sgdk_default_font_use",
+            "final_identity_requires_custom_font"
+          ],
+          "properties": {
+            "sgdk_default_font_use": {
+              "type": "string",
+              "enum": [
+                "debug_only",
+                "fallback_only",
+                "not_used"
+              ]
+            },
+            "final_identity_requires_custom_font": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "glyph_manifest_ref": {
+          "type": "string",
+          "pattern": "^doc/"
+        }
+      },
+      "additionalProperties": false
+    },
+    "title_screen_export_plan": {
+      "type": "object",
+      "required": [
+        "runtime_layers",
+        "vdp_budget_ref",
+        "fallback_static_plan"
+      ],
+      "properties": {
+        "runtime_layers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "layer_id",
+              "role",
+              "vdp_surface",
+              "palette_domain",
+              "animation_role"
+            ],
+            "properties": {
+              "layer_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "main_text",
+                  "subtitle",
+                  "metaphor",
+                  "shadow",
+                  "glow",
+                  "vfx",
+                  "cursor_feedback"
+                ]
+              },
+              "vdp_surface": {
+                "type": "string",
+                "enum": [
+                  "BG_A",
+                  "BG_B",
+                  "WINDOW",
+                  "SPRITES",
+                  "not_decided"
+                ]
+              },
+              "palette_domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "animation_role": {
+                "type": "string",
+                "enum": [
+                  "static",
+                  "pulse",
+                  "palette_cycle",
+                  "beat_sync",
+                  "press_start_reveal",
+                  "not_applicable"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "vdp_budget_ref": {
+          "type": "string",
+          "pattern": "^doc/"
+        },
+        "fallback_static_plan": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation_plan": {
+      "type": "object",
+      "required": [
+        "native_320x224_status",
+        "silhouette_status",
+        "monochrome_status",
+        "thumbnail_status",
+        "dynamic_background_status",
+        "blastem_evidence_required"
+      ],
+      "properties": {
+        "native_320x224_status": {
+          "$ref": "#/definitions/test_status"
+        },
+        "silhouette_status": {
+          "$ref": "#/definitions/test_status"
+        },
+        "monochrome_status": {
+          "$ref": "#/definitions/test_status"
+        },
+        "thumbnail_status": {
+          "$ref": "#/definitions/test_status"
+        },
+        "dynamic_background_status": {
+          "$ref": "#/definitions/test_status"
+        },
+        "blastem_evidence_required": {
+          "type": "boolean"
+        },
+        "blastem_evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^(out/|doc/|$)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fallback_policy": {
+      "type": "object",
+      "required": [
+        "budget_fallback",
+        "font_fallback",
+        "logo_animation_fallback"
+      ],
+      "properties": {
+        "budget_fallback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "font_fallback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "logo_animation_fallback": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "needs_review",
+        "approved_for_source",
+        "approved_for_runtime",
+        "blocked"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "approval_status": {
+            "const": "approved_for_runtime"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "validation_plan": {
+            "properties": {
+              "native_320x224_status": {
+                "const": "passed"
+              },
+              "silhouette_status": {
+                "const": "passed"
+              },
+              "monochrome_status": {
+                "const": "passed"
+              },
+              "thumbnail_status": {
+                "const": "passed"
+              },
+              "dynamic_background_status": {
+                "const": "passed"
+              },
+              "blastem_evidence_required": {
+                "const": true
+              },
+              "blastem_evidence_ref": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(out/|doc/)"
+              }
+            },
+            "required": [
+              "blastem_evidence_ref"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "readability_test": {
+      "type": "object",
+      "required": [
+        "method",
+        "pass_condition"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pass_condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^(doc/|out/|data/processed/|$)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "test_status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "passed",
+        "failed",
+        "not_applicable"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

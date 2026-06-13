@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "script_id": "training_ring_boot",
+  "target_scene": "scene_training_ring",
+  "rom_identity_required": true,
+  "steps": [
+    {
+      "op": "press_until_ready",
+      "key": "START",
+      "timeout_ms": 12000,
+      "interval_ms": 120,
+      "max_presses": 40,
+      "flush_every": 5,
+      "rotate_key": "A"
+    },
+    {
+      "op": "capture_screenshot",
+      "path": "out/evidence/blastem/scene_training_ring.png"
+    },
+    {
+      "op": "close_emulator"
+    }
+  ],
+  "evidence_required": [
+    "rom_sha256",
+    "emulator_session_json",
+    "dedicated_screenshot",
+    "save_sram",
+    "validation_report_json"
+  ]
+}

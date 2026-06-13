@@ -1,0 +1,568 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "visual_delivery_gate_report.schema.json",
+  "title": "Visual Delivery Gate Report",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "ready_for_aaa",
+    "measurement_level",
+    "leaf_blocker_propagation",
+    "workspace_scope_isolation",
+    "critical_assets"
+  ],
+  "properties": {
+    "schema": {
+      "const": "visual_delivery_gate_report.v1"
+    },
+    "ready_for_aaa": {
+      "type": "boolean"
+    },
+    "technical_ready": {
+      "type": "boolean",
+      "description": "Technical readiness signal only; never a substitute for creative_ready or ready_for_aaa."
+    },
+    "creative_ready": {
+      "type": "boolean",
+      "description": "Creative readiness signal after semantic, visual, gameplay, animation, GDD, decision-log, and axis-evidence gates."
+    },
+    "technical_artifact_status": {
+      "type": "string",
+      "description": "Canonical replacement for aggregate_status. Describes build/runtime artifact maturity, not AAA delivery."
+    },
+    "aggregate_status": {
+      "type": "string",
+      "description": "Deprecated compatibility alias for technical_artifact_status; must not be used as an AAA signal."
+    },
+    "semantic_audit_status": {
+      "type": "string",
+      "enum": [
+        "missing",
+        "unknown",
+        "passed",
+        "failed"
+      ]
+    },
+    "max_delivery_status": {
+      "type": "string",
+      "enum": [
+        "technical_incomplete",
+        "technical_artifact_only",
+        "technical_lab_validated",
+        "technical_ready_creative_blocked",
+        "aaa_delivery_candidate"
+      ]
+    },
+    "creative_blocking_statuses": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "visual_direction_status": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "ok",
+        "failed",
+        "blocked",
+        "rework",
+        "needs_review"
+      ]
+    },
+    "visual_direction_findings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "decision_log": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "type": "string" },
+          {
+            "type": "object",
+            "required": ["axis", "decision", "rationale", "evidence"],
+            "additionalProperties": true
+          }
+        ]
+      }
+    },
+    "axis_evidence": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": true },
+        { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+      ]
+    },
+    "gameplay_consequence_evidence": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Evidence that each effect changes route, risk, timing, enemy response, camera communication, or player decision."
+    },
+    "measurement_level": {
+      "type": "string",
+      "enum": [
+        "declared",
+        "estimated",
+        "measured",
+        "emulator_verified",
+        "vdp_dump_verified"
+      ]
+    },
+    "leaf_blocker_propagation": {
+      "type": "boolean"
+    },
+    "workspace_scope_isolation": {
+      "type": "boolean"
+    },
+    "anti_lab_fallback": {
+      "type": "object",
+      "required": [
+        "lab_bg_b_absent",
+        "vdp_drawtext_not_dominant",
+        "effect_names_not_visible",
+        "debug_panel_absent",
+        "axis_specific_playable_scene"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "lab_bg_b_absent": {
+          "type": "boolean"
+        },
+        "vdp_drawtext_not_dominant": {
+          "type": "boolean"
+        },
+        "effect_names_not_visible": {
+          "type": "boolean"
+        },
+        "debug_panel_absent": {
+          "type": "boolean"
+        },
+        "axis_specific_playable_scene": {
+          "type": "boolean"
+        },
+        "static_audit_report": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            {
+              "type": "object",
+              "required": ["path"],
+              "properties": {
+                "path": { "type": "string", "minLength": 1 }
+              },
+              "additionalProperties": true
+            }
+          ]
+        }
+      }
+    },
+    "visual_vdp_dump_required": {
+      "type": "boolean"
+    },
+    "visual_vdp_dump_status": {
+      "type": "string",
+      "enum": [
+        "captured",
+        "present",
+        "passed",
+        "ok",
+        "required",
+        "missing",
+        "blocked",
+        "nao_medido",
+        "unmeasured",
+        "not_measured"
+      ]
+    },
+    "visual_vdp_dump_path": {
+      "type": "string"
+    },
+    "baseline_comparison_status": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "captured",
+        "failed",
+        "missing",
+        "stale",
+        "unsupported",
+        "error"
+      ]
+    },
+    "scene_regression_report": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        {
+          "type": "object",
+          "required": ["path"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "visual_route_status": {
+      "type": "string",
+      "enum": [
+        "delivery_candidate",
+        "visual_gate_blocked",
+        "blocked_image_tooling",
+        "blocked_no_premium_source",
+        "blocked_no_visual_source",
+        "lab_not_delivery"
+      ]
+    },
+    "route_status": {
+      "type": "string"
+    },
+    "pipeline_status": {
+      "type": "string"
+    },
+    "blocking_status": {
+      "type": "string"
+    },
+    "vram_residency_status": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "pass",
+        "ok",
+        "needs_review",
+        "failed",
+        "blocked",
+        "nao_medido",
+        "unmeasured",
+        "not_measured",
+        "missing"
+      ]
+    },
+    "vram_residency_report": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        {
+          "type": "object",
+          "required": ["path"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "runtime_visual_corruption_status": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "pass",
+        "ok",
+        "none",
+        "not_detected",
+        "detected",
+        "failed",
+        "blocked",
+        "garbage_tiles",
+        "corrupted"
+      ]
+    },
+    "critical_assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "asset_id",
+          "role",
+          "visual_status",
+          "perceptual_quality",
+          "source_validity",
+          "authoriality_gate",
+          "license",
+          "authorial_source",
+          "derivative_of",
+          "derivative_license_status",
+          "clone_risk_score",
+          "clone_risk_method",
+          "benchmark_used_as",
+          "premium_source_path",
+          "measurement_level"
+        ],
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "visual_status": {
+            "type": "string",
+            "enum": [
+              "elite_ready",
+              "needs_review",
+              "rework",
+              "placeholder",
+              "debug_lab",
+              "benchmark-derived",
+              "benchmark_derived"
+            ]
+          },
+          "measurement_level": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "estimated",
+              "measured",
+              "emulator_verified",
+              "vdp_dump_verified"
+            ]
+          },
+          "measured": {
+            "type": "boolean"
+          },
+          "leaf_blockers": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "perceptual_quality": {
+            "type": "string",
+            "not": {
+              "enum": [
+                "nao_medido",
+                "unmeasured",
+                "not_measured"
+              ]
+            }
+          },
+          "source_validity": {
+            "type": "boolean"
+          },
+          "authoriality_gate": {
+            "type": "string",
+            "enum": [
+              "passed",
+              "pass",
+              "ok",
+              "failed",
+              "blocked"
+            ]
+          },
+          "license": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authorial_source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "derivative_of": {
+            "type": "string"
+          },
+          "derivative_license_status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clone_risk_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "clone_risk_method": {
+            "type": "string",
+            "minLength": 1
+          },
+          "benchmark_used_as": {
+            "type": "string",
+            "enum": [
+              "technical_reference",
+              "technical_benchmark",
+              "scale_density_timing_budget_quality",
+              "escala_densidade_timing_budget_qualidade"
+            ]
+          },
+          "benchmark_profile_id": {
+            "type": "string"
+          },
+          "benchmark_profile_required_match": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "benchmark_match": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "benchmark_similarity_index": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "benchmark_similarity_method": {
+            "type": "string"
+          },
+          "premium_source_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rom_asset_path": {
+            "type": "string"
+          },
+          "source_to_rom_visual_match": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "elite_ready": {
+            "type": "boolean"
+          },
+          "sprite_artifact_report": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              {
+                "type": "object",
+                "required": ["path"],
+                "properties": {
+                  "path": { "type": "string", "minLength": 1 }
+                },
+                "additionalProperties": true
+              }
+            ]
+          },
+          "animation_preview_evidence": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "idle_breathing_cycle_contract": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "additionalProperties": true }
+            ]
+          },
+          "anticipation_evidence": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "additionalProperties": true }
+            ]
+          },
+          "impact_frame_contract": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "additionalProperties": true }
+            ]
+          },
+          "recovery_curve_report": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "additionalProperties": true }
+            ]
+          },
+          "silhouette_readability_report": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "additionalProperties": true }
+            ]
+          },
+          "contact_sheet": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "pivot_overlay": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "foot_contact_report": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "motion_phase_map": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "frame_delta_report": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "slicing_cell_contract": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "scale_lock_report": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "palette_domain_report": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "object", "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 } }, "additionalProperties": true }
+            ]
+          },
+          "pivot_overlay_measurement_level": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "estimated",
+              "measured",
+              "emulator_verified",
+              "vdp_dump_verified"
+            ]
+          },
+          "foot_contact_measurement_level": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "estimated",
+              "measured",
+              "emulator_verified",
+              "vdp_dump_verified"
+            ]
+          },
+          "frame_delta_measurement_level": {
+            "type": "string",
+            "enum": [
+              "declared",
+              "estimated",
+              "measured",
+              "emulator_verified",
+              "vdp_dump_verified"
+            ]
+          },
+          "cell_contract_source": {
+            "type": "string"
+          },
+          "frame_envelope_integrity": {
+            "type": "boolean"
+          },
+          "index0_transparency_clean": {
+            "type": "boolean"
+          },
+          "scale_consistency": {
+            "type": "boolean"
+          },
+          "baked_fx_separated": {
+            "type": "boolean"
+          },
+          "lab_not_delivery": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

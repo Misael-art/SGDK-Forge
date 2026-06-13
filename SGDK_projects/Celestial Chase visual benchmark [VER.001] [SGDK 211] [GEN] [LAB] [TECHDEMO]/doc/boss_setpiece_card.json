@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned_v011",
+  "scene_id": "chase_first_playable",
+  "setpiece_id": "celestial_pursuer_approach",
+  "owner": "chase_pursuer",
+  "rig": {
+    "root": "torso",
+    "modules": ["torso", "head", "near_claw", "far_claw"],
+    "shared_vram_slots": [
+      {
+        "slot": "claw_frame",
+        "consumers": ["near_claw", "far_claw"],
+        "rule": "claws_must_remain_frame_locked"
+      }
+    ]
+  },
+  "articulation_contract": {
+    "head_swing_px_max": 3,
+    "head_bob_px_max": 2,
+    "neck_torso_overlap_px_min": 6,
+    "claw_reach_driven_by": "pursuer_depth_and_attack_phase",
+    "rear_leg_motion": "source_baked_torso_frame_cycle"
+  },
+  "sprite_budget": {
+    "persistent_modules": 4,
+    "independent_second_claw_slot_allowed": false,
+    "reason": "current sprite VRAM headroom is 32 tiles; a second 64x64 claw slot costs about 64 tiles",
+    "fallback": "prune_far_claw_during_scanline_pressure_or_impact"
+  },
+  "validation_required": [
+    "rig_overlap_static_test",
+    "sprite_scanline_pressure_report",
+    "BlastEm_visual_capture",
+    "visual_vdp_dump"
+  ]
+}

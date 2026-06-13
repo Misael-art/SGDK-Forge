@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "cpu_frame_budget_report",
+  "scene_id": "scene_training_ring",
+  "measurement_level": "estimated",
+  "target_fps": 60,
+  "frame_budget_ms": 16.67,
+  "cpu_load_max_percent": 55,
+  "hot_loops": [
+    {
+      "name": "player_update",
+      "math_policy": "fix16_only",
+      "heap_in_loop": false,
+      "float_or_double": false,
+      "asm_cycle_note": "not_used"
+    }
+  ],
+  "blockers": []
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "layers": [
+    {
+      "semantic_role": "celestial atmosphere and horizon",
+      "plane": "BG_B",
+      "scroll_ratio": "0x sky, 0.125x cloud band, -0.125x mountain band",
+      "line_scroll_enabled": true,
+      "base_hscroll_px": -96,
+      "owner": "chase_road"
+    },
+    {
+      "semantic_role": "front road speed bands",
+      "plane": "BG_A",
+      "scroll_ratio": "1.0x",
+      "line_scroll_enabled": true,
+      "base_hscroll_px": -96,
+      "owner": "chase_road"
+    },
+    {
+      "semantic_role": "fixed gameplay HUD",
+      "plane": "WINDOW or fixed BG_A fallback",
+      "scroll_ratio": "0x",
+      "line_scroll_enabled": false,
+      "owner": "chase_hud"
+    }
+  ],
+  "scroll_ratio_set": ["0x", "0.125x", "1.0x"],
+  "line_scroll_table_size_bytes": 896,
+  "seam_policy": "Both scene backgrounds use centered 512px authored gutters; BG_A transparent index 0 reveals BG_B without reaching an unpopulated plane edge.",
+  "reset_on_scene_exit": true,
+  "worst_frame_cost_estimate": "224 signed offsets plus SGDK sprite update; disable line mode when metrics regress",
+  "measurement_level": "estimated_pending_runtime"
+}

@@ -1,0 +1,541 @@
+{
+  "pipeline_id": "game_production_v1",
+  "description": "Jornada canonica de jogo completo: Project Opening -> GDD -> TDD -> Mecanicas -> Level -> Enemy -> Audio -> Scene Pipeline -> Runtime -> QA. Sub-loop AAA scene em S7.",
+  "framework_manifest_min_version": "2026.06.04",
+  "schema_version": "1.0.0",
+  "owner_skill_root": "tools/sgdk_wrapper/.agent",
+  "workflow_ref": "tools/sgdk_wrapper/.agent/workflows/5-stage-production.md",
+  "predecessor": null,
+  "successor": null,
+  "steps": [
+    {
+      "id": "S0_project_opening",
+      "kind": "workflow",
+      "name": "Project Opening",
+      "owner_workflow": "tools/sgdk_wrapper/.agent/workflows/project-opening.md",
+      "owner_skill": null,
+      "supporting_skills": [
+        "skills/planning/game-design-planning"
+      ],
+      "inputs": [
+        "user_request",
+        "doc/11-gdd.md (when existing)",
+        "doc/10-memory-bank.md (when existing)"
+      ],
+      "required_artifacts": [
+        "project_classification: projeto_existente|reseed|projeto_novo",
+        "route_decision_record when route unfrozen",
+        "doc/project_methodology_manifest.json",
+        "doc/project_hygiene_manifest.json",
+        "learning_context_status from audit_project_learning.ps1 -Mode Audit",
+        "rascunho/README.md"
+      ],
+      "optional_artifacts": [
+        "project_brief",
+        "core_loop_statement",
+        "creative_director_radar_seed"
+      ],
+      "entry_conditions": [
+        "user request received"
+      ],
+      "exit_conditions": [
+        "project_classification emitted",
+        "project learning context audited read-only",
+        "route_decision_record emitted when route unfrozen",
+        "context_pack_manifest emitted when art or SGDK API will be touched",
+        "project hygiene validates before project work begins"
+      ],
+      "blocking_statuses": [
+        "project_classification_undeclared",
+        "route_unresolved",
+        "project_hygiene_manifest_missing",
+        "project_hygiene_manifest_invalid"
+      ],
+      "handoff_to": [
+        "S1_gdd_scope"
+      ]
+    },
+    {
+      "id": "S1_gdd_scope",
+      "kind": "skill",
+      "name": "GDD e Escopo",
+      "owner_skill": "skills/planning/game-design-planning",
+      "supporting_skills": [],
+      "inputs": [
+        "doc/11-gdd.md (when existing)",
+        "doc/13-spec-cenas.md (when existing)",
+        "doc/12-roteiro.md (when existing)"
+      ],
+      "required_artifacts": [
+        "project_brief",
+        "core_loop_statement",
+        "feature_scope_map",
+        "scene_roadmap",
+        "first_playable_slice",
+        "front_end_profile",
+        "creative_director_radar_seed",
+        "technical_visual_audio_ambition",
+        "technique_selection_seed"
+      ],
+      "optional_artifacts": [
+        "mechanic_contract_seed",
+        "level_blueprint_seed",
+        "enemy_roster_seed",
+        "tdd_contract_seed",
+        "adaptive_music_state_seed",
+        "roteiro_scope",
+        "ui_decision_card",
+        "scene_transition_card"
+      ],
+      "entry_conditions": [
+        "S0_project_opening passed"
+      ],
+      "exit_conditions": [
+        "seeds emitted for new project or reseed",
+        "scope frozen without feature creep",
+        "GDD declares selected and rejected/deferred techniques with purpose, owner, evidence and fallback"
+        ,
+        "creative director radar seed declares project promise, benchmark axes, signature pillars, proactive gaps and no-copy policy for new/reseed/slice/AAA work"
+      ],
+      "blocking_statuses": [
+        "feature_creep",
+        "gdd_substantial_insufficient",
+        "core_loop_undefined",
+        "creative_director_radar_missing",
+        "signature_gap",
+        "prd_readiness_blocked"
+      ],
+      "handoff_to": [
+        "S2_tdd_authoring"
+      ]
+    },
+    {
+      "id": "S2_tdd_authoring",
+      "kind": "skill",
+      "name": "TDD Tecnico",
+      "owner_skill": "skills/planning/tdd-authoring",
+      "supporting_skills": [
+        "skills/architecture/scene-state-architect",
+        "skills/hardware/megadrive-vdp-budget-analyst"
+      ],
+      "inputs": [
+        "GDD from S1",
+        "scene_spec_seed from S1",
+        "route_decision_record from S0",
+        "creative_director_radar from S1 when present"
+      ],
+      "required_artifacts": [
+        "tdd_contract.json",
+        "tdd_document.md",
+        "state_fsm_map",
+        "memory_pool_map",
+        "runtime_ownership_map",
+        "technique_selection.application_plan",
+        "technique_selection.rejected_or_deferred"
+      ],
+      "optional_artifacts": [
+        "risk_mitigation_table",
+        "save_contract",
+        "region_timing_justification"
+      ],
+      "entry_conditions": [
+        "S1_gdd_scope passed",
+        "runtime_target declared: pilot|vertical_slice|ready_for_aaa"
+      ],
+      "exit_conditions": [
+        "tdd_contract.json valid against schema",
+        "state_fsm_map covers all level_blueprint scenes",
+        "save_scope decided (required|optional|none|not_applicable)",
+        "region_timing_scope decided (NTSC|PAL|both|not_applicable)",
+        "runtime_ownership_map declares single owner for VBlank/DMA/audio",
+        "technique_selection covers every selected registry id with purpose, owner, budget evidence and fallback"
+        ,
+        "signature techniques map to accepted creative_director_radar pillars, gaps or signature scene candidates when radar exists"
+      ],
+      "blocking_statuses": [
+        "tdd_missing_for_product",
+        "scene_fsm_missing",
+        "memory_pool_missing",
+        "runtime_ownership_missing",
+        "input_contract_missing_for_product",
+        "region_timing_missing_for_product",
+        "save_contract_missing_when_required",
+        "tdd_technique_selection_missing"
+        ,
+        "signature_technique_without_director_rationale"
+      ],
+      "handoff_to": [
+        "S3_mechanics_validation"
+      ]
+    },
+    {
+      "id": "S3_mechanics_validation",
+      "kind": "skill",
+      "name": "Systems/Mechanics Gate",
+      "owner_skill": "skills/design/systems-mechanics-validator",
+      "supporting_skills": [
+        "skills/code/sgdk-runtime-coder"
+      ],
+      "inputs": [
+        "mechanic_contract.json or equivalent block in GDD/spec",
+        "player kit",
+        "target scene/scope"
+      ],
+      "required_artifacts": [
+        "mechanic_validation_report.json",
+        "numeric_attribute_table.json",
+        "mechanic_juice_map.json"
+      ],
+      "optional_artifacts": [
+        "mechanic_5_laws_compliance"
+      ],
+      "entry_conditions": [
+        "S1_gdd_scope passed"
+      ],
+      "exit_conditions": [
+        "core mechanics have versatility_cases >= 3",
+        "core mechanics have level_design_reuse_plan.min_reuses >= 3",
+        "core mechanics have combination_map >= 1",
+        "non-deterministic probability has success_rate_percent",
+        "shared input buttons have disambiguation_rule",
+        "5 laws status filled for each mechanic"
+      ],
+      "blocking_statuses": [
+        "mechanic_contract_missing",
+        "mechanic_orphaned",
+        "mechanic_underused",
+        "mechanic_no_goal_link",
+        "mechanic_no_skill_expression",
+        "mechanic_input_ambiguous",
+        "mechanic_probability_undeclared",
+        "mechanic_feedback_missing",
+        "mechanic_test_scenario_missing"
+      ],
+      "handoff_to": [
+        "S4_level_design"
+      ]
+    },
+    {
+      "id": "S4_level_design",
+      "kind": "skill",
+      "name": "Level Design Gate",
+      "owner_skill": "skills/design/level-design-canonical",
+      "supporting_skills": [
+        "skills/art/multi-plane-composition"
+      ],
+      "inputs": [
+        "scene_roadmap from S1",
+        "mechanic_validation_report.json from S3",
+        "level_blueprint.json"
+      ],
+      "required_artifacts": [
+        "level_design_report.json",
+        "golden_path_review",
+        "phase_rhythm_review",
+        "mechanic_reuse_review"
+      ],
+      "optional_artifacts": [
+        "pattern_break_audit",
+        "narrative_through_environment"
+      ],
+      "entry_conditions": [
+        "S3_mechanics_validation passed"
+      ],
+      "exit_conditions": [
+        "every playable scene has golden_path with >= 2 waypoints",
+        "phase_rhythm_map contains calm AND pressure (or justifies not_applicable)",
+        "mechanic_reuse_map covers all core mechanics",
+        "risk_markers have telegraph declared",
+        "pattern_break_audit shows differentiation vs previous scene"
+      ],
+      "blocking_statuses": [
+        "level_blueprint_missing",
+        "golden_path_missing",
+        "phase_rhythm_missing",
+        "level_mechanic_reuse_missing",
+        "level_goal_path_unclear",
+        "level_risk_untelegraphed"
+      ],
+      "handoff_to": [
+        "S5_enemy_design"
+      ]
+    },
+    {
+      "id": "S5_enemy_design",
+      "kind": "skill",
+      "name": "Enemy Design Gate",
+      "owner_skill": "skills/design/enemy-design-canonical",
+      "supporting_skills": [
+        "skills/code/sgdk-runtime-coder"
+      ],
+      "inputs": [
+        "enemy_roster.json",
+        "level_blueprint.json from S4",
+        "player kit from S3",
+        "scene spec"
+      ],
+      "required_artifacts": [
+        "enemy_design_report.json",
+        "enemy_ai_role_map",
+        "synergy_composition_map",
+        "head_metric_audit"
+      ],
+      "optional_artifacts": [
+        "boss_curto_justification"
+      ],
+      "entry_conditions": [
+        "S4_level_design passed"
+      ],
+      "exit_conditions": [
+        "every enemy has role + head_metric + telegraph_model + synergy_partners (or solo_tutorial)",
+        "boss has head_metric=XL and boss_state_count >= 3 (or boss_curto_justification)",
+        "no non-boss has head_metric=XL",
+        "head_metric_audit.boss_xl_compliance=true",
+        "synergy_composition_map has >= 1 composition with 2+ members when roster >= 4"
+      ],
+      "blocking_statuses": [
+        "enemy_roster_missing",
+        "enemy_role_missing",
+        "enemy_telegraph_missing",
+        "enemy_synergy_missing",
+        "enemy_level_function_missing",
+        "enemy_head_metric_invalid"
+      ],
+      "handoff_to": [
+        "S6_audio_adaptive_state"
+      ]
+    },
+    {
+      "id": "S6_audio_adaptive_state",
+      "kind": "skill",
+      "name": "Audio Adaptive State",
+      "owner_skill": "skills/code/xgm2-audio-director",
+      "supporting_skills": [
+        "skills/code/z80-pcm-custom-driver"
+      ],
+      "inputs": [
+        "phase_rhythm_map from S4 (audio_state per phase)",
+        "feedback_on_alert from S5 (stinger_id per enemy)",
+        "mechanic_juice_map from S3 (audio cues per mechanic)"
+      ],
+      "required_artifacts": [
+        "audio_architecture_card.json",
+        "composition_scope_contract",
+        "adaptive_music_state_map.json",
+        "sfx_priority_matrix",
+        "channel_ownership_report"
+      ],
+      "optional_artifacts": [
+        "stinger_catalog",
+        "loop_integrity_plan",
+        "seamless_loop_report when BGM, ambience loop, menu loop or stage track is declared",
+        "frequency_masking_plan when music coexists with critical SFX, voice, UI or boss cues",
+        "music_stem_export_plan when modular_track_1h or adaptive music is declared"
+      ],
+      "entry_conditions": [
+        "S4_level_design passed (when phase_rhythm_map declares audio_state)",
+        "S5_enemy_design passed (when stinger_id declared per enemy)"
+      ],
+      "exit_conditions": [
+        "composition_scope_contract declares micro_sketch_1m, core_loop_10m, modular_track_1h or silence_intentional",
+        "micro_sketch_1m is capped to lab, placeholder, loading, simple menu, game jam or prototype and cannot close AAA",
+        "core_loop_10m has seamless_loop_report with no click, cut, dead silence or perceptible restart",
+        "modular_track_1h has A/B or equivalent variation, transition plan, frequency_masking_plan and stems/layers when adaptive",
+        "music does not mask critical gameplay SFX declared in sfx_priority_matrix",
+        "adaptive_music_state_map has all 7 states (exploration, stealth, suspicion, alert, boss, blackout, victory_or_release)",
+        "each state has trigger + transitions + channels + sfx_priority + fallback",
+        "validate_audio.ps1 emitted audio_validation_report.json when audio declared in .res"
+      ],
+      "blocking_statuses": [
+        "audio_architecture_card_missing",
+        "composition_scope_contract_missing",
+        "prototype_music_used_as_final",
+        "seamless_loop_report_missing",
+        "music_masks_critical_sfx",
+        "modular_track_stems_missing",
+        "adaptive_music_state_map_missing",
+        "sfx_priority_matrix_missing",
+        "audio_validation_report_failed"
+      ],
+      "handoff_to": [
+        "S7_scene_pipeline_call"
+      ]
+    },
+    {
+      "id": "S7_scene_pipeline_call",
+      "kind": "pipeline_call",
+      "name": "AAA Scene Pipeline Sub-Loop",
+      "owner_skill": null,
+      "supporting_skills": [],
+      "pipeline_ref": "tools/sgdk_wrapper/.agent/pipelines/aaa_scene_v1.json",
+      "inputs": [
+        "all artifacts from S0-S6",
+        "creative_director_radar when product is new, reseed, vertical_slice_candidate or ready_for_aaa",
+        "level_blueprint.json scope",
+        "enemy_roster.json scope"
+      ],
+      "required_artifacts": [
+        "all aaa_scene_v1.json step artifacts"
+      ],
+      "optional_artifacts": [
+        "scene_closeout_gate_report.json"
+      ],
+      "entry_conditions": [
+        "S0-S6 passed (or skipped when product_status == technical_lab_validated and visual not required)"
+      ],
+      "exit_conditions": [
+        "aaa_scene_v1.json completed for each playable scene",
+        "signature scene candidates have either implemented evidence, accepted deferment or fallback",
+        "BlastEm evidence captured for each scene",
+        "validation_report.json clean for each scene"
+      ],
+      "blocking_statuses": [
+        "aaa_scene_subloop_failed"
+        ,
+        "signature_gap"
+      ],
+      "handoff_to": [
+        "S8_runtime_product_integration"
+      ]
+    },
+    {
+      "id": "S8_runtime_product_integration",
+      "kind": "skill",
+      "name": "Runtime Product Integration",
+      "owner_skill": "skills/code/sgdk-runtime-coder",
+      "supporting_skills": [
+        "skills/architecture/scene-state-architect",
+        "skills/operation/sgdk-build-wrapper-operator"
+      ],
+      "inputs": [
+        "tdd_contract.json from S2",
+        "level_blueprint.json from S4",
+        "enemy_roster.json from S5",
+        "audio_architecture_card from S6",
+        "aaa scene artifacts from S7"
+      ],
+      "required_artifacts": [
+        "runtime_decision_log",
+        "build clean",
+        "ROM generated"
+      ],
+      "optional_artifacts": [
+        "runtime_animation_timing_map",
+        "api_reality_check",
+        "game_production_gate_report.json"
+      ],
+      "entry_conditions": [
+        "S7_scene_pipeline_call passed for all scenes"
+      ],
+      "exit_conditions": [
+        "build clean (no compile errors)",
+        "ROM generated and validated by rescomp",
+        "runtime_decision_log explains every ownership decision"
+      ],
+      "blocking_statuses": [
+        "build_failed",
+        "api_reality_check_failed",
+        "rom_generation_failed"
+      ],
+      "handoff_to": [
+        "S9_product_validation_closeout"
+      ]
+    },
+    {
+      "id": "S9_product_validation_closeout",
+      "kind": "skill",
+      "name": "Product Validation and Closeout",
+      "owner_skill": "skills/operation/sgdk-build-wrapper-operator",
+      "supporting_skills": [
+        "skills/operation/rom-mastering",
+        "skills/operation/status-panel-maintainer",
+        "skills/governance/truth-hierarchy-guard"
+      ],
+      "inputs": [
+        "ROM from S8",
+        "all 5 design reports (mechanic, level, enemy, tdd, adaptive_music)",
+        "aaa scene reports from S7",
+        "doc/changelog",
+        "doc/10-memory-bank.md"
+      ],
+      "required_artifacts": [
+        "validation_report.json with new status fields (mechanics_ready, level_design_ready, enemy_design_ready, tdd_ready, game_production_ready)",
+        "freshness_audit_report.json",
+        "scene_closeout_gate_report.json",
+        "emulator_session.json",
+        "qa_emulator_report.json",
+        "audit_game_design_contracts_report.json",
+        "changelog updated",
+        "doc/10-memory-bank.md updated",
+        "project_hygiene_report.json"
+      ],
+      "optional_artifacts": [
+        "softlock_detection_report.json",
+        "runtime_fuzz_report.json",
+        "project_learning_report.json"
+      ],
+      "entry_conditions": [
+        "S8_runtime_product_integration passed"
+      ],
+      "exit_conditions": [
+        "ready_for_aaa decision computed from technical_ready AND creative_ready AND mechanics_ready AND level_design_ready AND enemy_design_ready AND tdd_ready (when product_status != lab)",
+        "no blocking_statuses in validation_report",
+        "no creative_blocking_statuses in validation_report",
+        "creative_director_radar is present and not contradictory for vertical_slice_candidate or ready_for_aaa",
+        "BlastEm evidence captured",
+        "memory operational updated",
+        "project learning captured locally when doc/agent_learning exists; canonical_promotion_performed=false",
+        "project hygiene clean and project-specific artifacts remain inside project",
+        "memory bank and changelog reflect implementation and architecture"
+      ],
+      "blocking_statuses": [
+        "ready_for_aaa_blocked_by_design_gates",
+        "emulator_evidence_stale",
+        "freshness_audit_stale",
+        "changelog_missing",
+        "memory_bank_drift",
+        "project_hygiene_manifest_missing",
+        "project_hygiene_manifest_invalid",
+        "project_documentation_sync_stale"
+      ],
+      "handoff_to": []
+    }
+  ],
+  "global_blocking_statuses": [
+    "feature_creep",
+    "prd_readiness_blocked",
+    "tdd_missing_for_product",
+    "scene_fsm_missing",
+    "memory_pool_missing",
+    "runtime_ownership_missing",
+    "mechanic_contract_missing",
+    "level_blueprint_missing",
+    "enemy_roster_missing",
+    "audio_architecture_card_missing",
+    "composition_scope_contract_missing",
+    "prototype_music_used_as_final",
+    "seamless_loop_report_missing",
+    "music_masks_critical_sfx",
+    "modular_track_stems_missing",
+    "project_hygiene_manifest_missing",
+    "project_hygiene_manifest_invalid",
+    "project_documentation_sync_stale",
+    "tdd_technique_selection_missing"
+    ,
+    "creative_director_radar_missing",
+    "signature_gap",
+    "signature_technique_without_director_rationale"
+  ],
+  "ready_for_aaa_requirements": {
+    "technical_ready": "from validate_resources.ps1",
+    "creative_ready": "from validate_resources.ps1",
+    "mechanics_ready": "from mechanic_validation_report",
+    "level_design_ready": "from level_design_report",
+    "enemy_design_ready": "from enemy_design_report",
+    "tdd_ready": "from tdd_contract (skipped when product_status == technical_lab_validated)",
+    "blastem_evidence": "from emulator_session.json",
+    "visual_delivery_gate": "from visual_delivery_gate_report",
+    "signature_director_gate": "from creative_director_radar and project docs when product_status is vertical_slice_candidate or ready_for_aaa",
+    "all_conditions": "AND of all above"
+  }
+}

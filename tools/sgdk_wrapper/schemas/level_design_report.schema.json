@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/level_design_report.schema.json",
+  "title": "SGDK Level Design Report",
+  "description": "Output of level-design-canonical. Aggregates golden path review, phase rhythm review, mechanic reuse review.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "report_id",
+    "timestamp",
+    "target_scope",
+    "status",
+    "reviews",
+    "issues",
+    "blocking_statuses"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "report_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "target_scope": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["passed", "warn", "blocked"]},
+    "reviews": {
+      "type": "object",
+      "required": ["golden_path", "phase_rhythm", "mechanic_reuse", "narrative_environmental", "pattern_break"],
+      "properties": {
+        "golden_path": {
+          "type": "object",
+          "properties": {
+            "waypoint_count": {"type": "integer", "minimum": 0},
+            "landmarks_visible": {"type": "boolean"},
+            "risk_markers_telegraphed": {"type": "boolean"},
+            "telegraph_chain_complete": {"type": "boolean"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]}
+          }
+        },
+        "phase_rhythm": {
+          "type": "object",
+          "properties": {
+            "phases_present": {"type": "array", "items": {"type": "string"}},
+            "calm_pressure_payoff_present": {"type": "boolean"},
+            "boss_phase_present": {"type": "boolean"},
+            "breathing_zone_count": {"type": "integer", "minimum": 0},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]}
+          }
+        },
+        "mechanic_reuse": {
+          "type": "object",
+          "properties": {
+            "core_mechanics_covered": {"type": "array", "items": {"type": "string"}},
+            "missing_core_mechanic_ids": {"type": "array", "items": {"type": "string"}},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]}
+          }
+        },
+        "narrative_environmental": {
+          "type": "object",
+          "properties": {
+            "story_beats_count": {"type": "integer", "minimum": 0},
+            "no_text_required_satisfied": {"type": "boolean"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]}
+          }
+        },
+        "pattern_break": {
+          "type": "object",
+          "properties": {
+            "previous_scope_id": {"type": "string"},
+            "palette_differentiation": {"type": "string", "enum": ["none", "minor", "major"]},
+            "rhythm_variation": {"type": "string", "enum": ["none", "minor", "major"]},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed", "not_applicable"]}
+          }
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "severity", "message"],
+        "properties": {
+          "code": {"type": "string"},
+          "severity": {"type": "string", "enum": ["warn", "blocker"]},
+          "message": {"type": "string"}
+        }
+      }
+    },
+    "blocking_statuses": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/art_quality_report.schema.json",
+  "title": "Art Quality Gate Report",
+  "description": "Avaliacao artistica complementar ao art_diagnostic.py. Valida silhueta, escala, lineart, pose, appeal, coerencia, aderencia ao GDD e padrao AAA. Asset tecnicamente OK nao eleva ready_for_aaa se artistic_gate_failed.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_root",
+    "assets",
+    "overall_artistic_pass"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "gdd_reference": {
+      "type": ["string", "null"]
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["asset_path", "asset_role", "evaluations", "artistic_pass"],
+        "properties": {
+          "asset_path": { "type": "string", "minLength": 1 },
+          "asset_role": {
+            "enum": ["hero", "enemy", "boss", "npc", "tileset", "background", "hud", "ui", "fx", "other"]
+          },
+          "is_placeholder": { "type": "boolean" },
+          "placeholder_tag": {
+            "type": ["string", "null"],
+            "enum": [null, "placeholder", "technical_lab_asset", "procedural_debug", "lab_fallback", "pil_imagedraw_generated"]
+          },
+          "evaluations": {
+            "type": "object",
+            "required": ["silhouette", "scale", "lineart", "pose", "appeal"],
+            "properties": {
+              "silhouette": {
+                "type": "object",
+                "required": ["score", "notes"],
+                "properties": {
+                  "score": { "type": "integer", "minimum": 0, "maximum": 5 },
+                  "notes": { "type": "string" }
+                },
+                "additionalProperties": false
+              },
+              "scale": {
+                "type": "object",
+                "required": ["conforms_to_canon", "head_metric", "notes"],
+                "properties": {
+                  "conforms_to_canon": { "type": "boolean" },
+                  "head_metric": { "type": ["string", "null"], "enum": [null, "S", "M", "L", "XL"] },
+                  "notes": { "type": "string" }
+                },
+                "additionalProperties": false
+              },
+              "lineart": {
+                "type": "object",
+                "required": ["score", "notes"],
+                "properties": {
+                  "score": { "type": "integer", "minimum": 0, "maximum": 5 },
+                  "notes": { "type": "string" }
+                },
+                "additionalProperties": false
+              },
+              "pose": {
+                "type": "object",
+                "required": ["readability", "notes"],
+                "properties": {
+                  "readability": { "type": "integer", "minimum": 0, "maximum": 5 },
+                  "notes": { "type": "string" }
+                },
+                "additionalProperties": false
+              },
+              "appeal": {
+                "type": "object",
+                "required": ["score", "notes"],
+                "properties": {
+                  "score": { "type": "integer", "minimum": 0, "maximum": 5 },
+                  "notes": { "type": "string" }
+                },
+                "additionalProperties": false
+              },
+              "animation_coherence": {
+                "type": ["object", "null"],
+                "properties": {
+                  "applicable": { "type": "boolean" },
+                  "score": { "type": ["integer", "null"], "minimum": 0, "maximum": 5 },
+                  "notes": { "type": "string" }
+                },
+                "additionalProperties": false
+              },
+              "gdd_adherence": {
+                "type": ["object", "null"],
+                "properties": {
+                  "applicable": { "type": "boolean" },
+                  "conforms": { "type": "boolean" },
+                  "notes": { "type": "string" }
+                },
+                "additionalProperties": false
+              },
+              "aaa_pattern_adherence": {
+                "type": ["object", "null"],
+                "properties": {
+                  "applicable": { "type": "boolean" },
+                  "conforms": { "type": "boolean" },
+                  "notes": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          "artistic_pass": {
+            "type": "boolean"
+          },
+          "failure_reasons": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "overall_artistic_pass": {
+      "type": "boolean"
+    },
+    "placeholder_assets_found": {
+      "type": "boolean"
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "blocker_code": {
+      "type": ["string", "null"],
+      "enum": [null, "artistic_gate_failed"]
+    }
+  },
+  "additionalProperties": false
+}

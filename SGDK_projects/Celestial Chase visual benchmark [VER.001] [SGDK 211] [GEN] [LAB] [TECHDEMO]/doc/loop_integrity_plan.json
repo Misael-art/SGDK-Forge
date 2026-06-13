@@ -1,0 +1,18 @@
+{
+  "schema": "loop_integrity_plan_v1",
+  "asset": "res/audio/chase/chase_score_loop.wav",
+  "automated_checks": [
+    "mono PCM WAV",
+    "13300 Hz",
+    "8-bit",
+    "first sample equals 128",
+    "last sample equals 128",
+    "no clipping"
+  ],
+  "runtime_checks": [
+    "Play at least five consecutive loops in BlastEm.",
+    "Listen for click, gap or drift at the loop boundary.",
+    "Inspect XGM2 missed frames while road line scroll is active."
+  ],
+  "status": "pending_runtime_listen"
+}

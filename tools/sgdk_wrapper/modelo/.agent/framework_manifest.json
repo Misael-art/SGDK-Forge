@@ -1,0 +1,88 @@
+{
+  "framework_name": "MegaDrive_DEV SGDK Agent Framework",
+  "framework_version": "2026.05.09",
+  "schema_version": 1,
+  "canonical_root": "tools/sgdk_wrapper/.agent",
+  "tracked_paths": [
+    "ARCHITECTURE.md",
+    "framework_manifest.json",
+    "rules",
+    "skills/operation/sgdk-build-wrapper-operator",
+    "skills/operation/rom-mastering",
+    "skills/operation/status-panel-maintainer",
+    "skills/planning/game-design-planning",
+    "skills/art/art-asset-diagnostic",
+    "skills/art/art-conversion-pipeline",
+    "skills/art/art-creation-sourcing",
+    "skills/art/art-direction-selector",
+    "skills/art/multi-plane-composition",
+    "skills/art/art-translation-to-vdp",
+    "skills/art/cutscene-cinematic-direction",
+    "skills/art/scene-direction-curator",
+    "skills/art/character-design",
+    "skills/art/visual-excellence-standards",
+    "skills/art/megadrive-pixel-strict-rules",
+    "skills/art/sprite-animation",
+    "skills/architecture/scene-state-architect",
+    "skills/governance/truth-hierarchy-guard",
+    "skills/governance/doc-sync-audit",
+    "skills/governance/project-learning-loop",
+    "skills/hardware/megadrive-vdp-budget-analyst",
+    "skills/code/forward-kinematics-rigging",
+    "skills/code/sgdk-code-reviewer",
+    "skills/code/sgdk-runtime-coder",
+    "skills/code/xgm2-audio-director",
+    "skills/code/z80-pcm-custom-driver",
+    "skills/README.md",
+    "workflows/build-validate.md",
+    "workflows/production-loop.md",
+    "workflows/aaa-scene-pipeline.md",
+    "workflows/art-onboarding.md",
+    "workflows/handoff.md",
+    "workflows/plan.md",
+    "workflows/project-opening.md",
+    "workflows/project-learning-loop.md",
+    "workflows/route-decision-gate.md",
+    "workflows/scene-architecture-triage.md",
+    "workflows/status.md",
+    "pipelines",
+    "references",
+    "scripts",
+    "lib_case"
+  ],
+  "pipelines": [
+    "pipelines/aaa_scene_v1.json"
+  ],
+  "workspace_tooling_paths": [
+    "../validate_resources.ps1",
+    "../validate_audio.ps1",
+    "../freshness_audit.ps1",
+    "../scene_closeout_gate.ps1",
+    "../audit_project_learning.ps1",
+    "../check_prd_readiness.ps1",
+    "../schemas/prd_readiness_report.schema.json",
+    "../schemas/local_ci_gate_report.schema.json"
+  ],
+  "required_project_artifacts": [
+    "doc/10-memory-bank.md",
+    "doc/changelog/changelog.md"
+  ],
+  "status_sources": [
+    "out/logs/validation_report.json",
+    "out/logs/prd_readiness_report.json",
+    "out/logs/runtime_metrics.json",
+    "out/logs/emulator_session.json"
+  ],
+  "canonical_memory_artifacts": [
+    "doc/10-memory-bank.md",
+    "doc/06_AI_MEMORY_BANK.md",
+    "doc/03_art/02_visual_feedback_bank.md"
+  ],
+  "passive_learning_artifacts": [
+    "doc/agent_learning/README.md",
+    "doc/agent_learning/success_patterns.md",
+    "doc/agent_learning/failure_patterns.md",
+    "doc/agent_learning/skill_promotion_candidates.md",
+    "doc/agent_learning/canonical_promotion_review.md"
+  ]
+}

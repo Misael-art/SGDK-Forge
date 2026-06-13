@@ -1,0 +1,1283 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "doc/07_game_design/genre_specialization_registry.json",
+  "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design",
+  "promotion_tier": "LABORATORIO",
+  "promotion_required_artifacts": [
+    "human_curation_signature",
+    "doc/07_game_design/curation_sources/SOURCES_INDEX.md",
+    "tools/sgdk_wrapper/schemas/genre_specialization_registry.schema.json",
+    "tools/sgdk_wrapper/schemas/genre_specialization_manifest.schema.json",
+    "tools/sgdk_wrapper/schemas/fighting_2d_design_contract.schema.json",
+    "tools/sgdk_wrapper/schemas/fighting_moveset_frame_data.schema.json",
+    "tools/sgdk_wrapper/schemas/fighting_specialization_report.schema.json",
+    "tools/sgdk_wrapper/validate_fighting_specialization.ps1",
+    "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design/SKILL.md"
+  ],
+  "promotion_required_human_roles": [
+    "human_curator",
+    "framework_maintainer"
+  ],
+  "forbidden_inferences": [
+    "Activation by project folder name",
+    "Activation by code keyword regex (e.g. buttons & PAD_*, state names containing FIGHTING/ROUND)",
+    "Activation by file extension",
+    "Activation by project short name",
+    "Activation by GDD keyword match (e.g. '2D fighter', 'street fighter style')",
+    "Activation by TDD keyword match",
+    "Activation by matchup matrix presence",
+    "Activation by frame data table presence",
+    "Activation by hitbox viewer presence"
+  ],
+  "families": {
+    "fighting": "Luta 1v1 em plano 2D com sistema de combate discreto, frame data, neutral game, okizeme e round-based resolution. Subgeneros: 2D Traditional, 2D Air Dasher, 2D Tag Team, 3D, Arena, Platform.",
+    "rpg": "Role-playing games com party, progressao por experiencia, resolucao de combate (turnos ou acao), narrativa ramificada e gerenciamento de inventario. Subgeneros: JRPG, cRPG Classico, Action RPG, RPG Narrativo.",
+    "strategy": "Estrategia com unidades, economia, vitoria por condicao (aniquilacao, captura, construcao) e combate tatico ou em tempo real. Subgeneros: Tactical Turn-Based, Tower Defense, RTS Compact, Grand Strategy, 4X Turn-Based.",
+    "horror": "Horror/Sobrevivencia com ameaca (inimigo ou ambiente), inventario escasso, gerencia de recursos (municao, vida, sanity) e resolucao de medo (jump scare, scripted, suggestion). Subgeneros: Survival Horror, Stealth Horror, Psychological Horror, Action Horror, Mascot Horror, Retro & Short Form.",
+    "brawler": "Briga de rua e run-and-gun 2D com wave combat, iframe (invincibility frames), escape move, encounter design e progressao linear. Subgeneros: Beat 'em Up (Belt-Scroll), Run and Gun 2D, Run and Gun Top-Down.",
+    "fps": "First-person shooter com movimentacao 3D ou 2.5D, armas com recarga, combate a distancia, level design labirintico e resolucao por eliminacao. Subgeneros: Boomer Shooter (Wolf3D), Shooter Tatito, Immersive Sim, FPS Puzzle.",
+    "platformer_puzzle": "Plataformas, metroidvanias e puzzles com traversal 2D, ability gates, fisica simples e logica espacial. Subgeneros: Plataforma de Precisao, Metroidvania, Puzzle de Fisica, Sokoban, Tile-Matching.",
+    "racing_sports_adventure": "Corrida com fisica de veiculo, controle de atleta em esportes, ou exploracao de mundo em aventura. Subgeneros: Simulador de Corrida, Corrida Arcade, Gestao Esportiva, Acao Esportiva Direta, Aventura de Acao."
+  },
+  "mega_drive_feasibility_legend": {
+    "active": "Subgenero MD-viavel (cabe no budget de 64KB RAM + 7.67MHz 68K + 64KB VRAM). Pode receber opt-in por projeto, design contract e validator.",
+    "future_knowledge": "Subgenero MD-viavel mas ainda em pesquisa. Sem design contract ativo, sem validator. Promocao exige curadoria humana + projeto piloto + ROM + BlastEm.",
+    "future_architetural": "Subgenero NAO-viavel em Mega Drive (exige 3D livre, IA complexa, persistencia macica, multi-threading). Sem skill, sem schema, sem validator. Listado para fins de proficiencia taxonomica do agente."
+  },
+  "known_specializations": [
+    {
+      "specialization_id": "fighting_2d_traditional",
+      "display_name": "Fighting 2D Traditional",
+      "category": "fighting",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design",
+      "design_contract_schema": "fighting_2d_design_contract.schema.json",
+      "primary_use_cases": [
+        "1v1 versus fighter on a 2D plane (X + Y)",
+        "Round-based combat with discrete health and round timer",
+        "Stages with corner management, no platform hazards, optional soft hazards",
+        "Combo system based on links, cancels and chain normals",
+        "Training mode with frame data display and dummy state machine"
+      ],
+      "non_goals": [
+        "3D sidestep / Z axis movement",
+        "Air dash / double jump / triple jump mobility",
+        "Tag team rotation, assists, DHC",
+        "Knockback percentage / blast zone ringout",
+        "Lock-on camera arenas",
+        "Rollback netcode (Mega Drive has no native rollback substrate)",
+        "Gatling style target combos requiring 30+ hit juggles"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "archetype_policy": "design_tool_not_law",
+        "balance_evidence_required": true,
+        "rollback_netcode": "not_applicable"
+      },
+      "advisory_design_axes": {
+        "roster_size": 6,
+        "stages_count": 4,
+        "round_time_limit_seconds": 99,
+        "rounds_to_win": 2,
+        "head_metric_distribution_hint": "S=2, M=2, L=2, XL=0"
+      },
+      "phase_aware_blockers": [
+        "fighting_training_mode_missing_for_product",
+        "fighting_lore_moveset_unbound",
+        "fighting_balance_evidence_missing"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "fighting_2d_air_dasher",
+      "display_name": "Fighting 2D Air Dasher (Future Knowledge)",
+      "category": "fighting",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design",
+      "design_contract_schema": "fighting_2d_design_contract.schema.json",
+      "primary_use_cases": [
+        "Air dash / double jump / triple jump mobility",
+        "Gatling combo chains, 30+ hit juggles",
+        "Burst mechanic, Just Defend, Faultless Defense",
+        "Long combo routes with resource bars"
+      ],
+      "non_goals": [
+        "Traditional 2D frame-perfect neutral",
+        "Corner management as primary spatial axis"
+      ],
+      "frozen_design_axes": {
+        "category": "future_knowledge"
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "fighting_2d_tag_team",
+      "display_name": "Fighting 2D Tag Team (Future Knowledge)",
+      "category": "fighting",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design",
+      "design_contract_schema": "fighting_2d_design_contract.schema.json",
+      "primary_use_cases": [
+        "2v2 or 3v3 partner rotation",
+        "Assist calls, DHC chains, snapback"
+      ],
+      "non_goals": [
+        "Single character solo mastery"
+      ],
+      "frozen_design_axes": {
+        "category": "future_knowledge"
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "fighting_platform",
+      "display_name": "Platform Fighter (Future Architectural)",
+      "category": "fighting",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design",
+      "design_contract_schema": "fighting_2d_design_contract.schema.json",
+      "primary_use_cases": [
+        "Knockback percentage and blast zone ringout",
+        "Edge-guarding and recovery",
+        "Directional Influence (DI)"
+      ],
+      "non_goals": [
+        "Health bar zero-out victory",
+        "Mega Drive 2D plane constraint (would need a different platform)"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "fighting_3d",
+      "display_name": "Fighting 3D (Future Architectural)",
+      "category": "fighting",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design",
+      "design_contract_schema": "fighting_2d_design_contract.schema.json",
+      "primary_use_cases": [
+        "Sidestep on Z axis",
+        "Linear / tracking / high / low attack properties",
+        "Wall splat and stage transition"
+      ],
+      "non_goals": [
+        "Mega Drive 2D plane constraint (would need a different platform)"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "fighting_arena",
+      "display_name": "Arena Fighter (Future Architectural)",
+      "category": "fighting",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design",
+      "design_contract_schema": "fighting_2d_design_contract.schema.json",
+      "primary_use_cases": [
+        "Third person camera following the character",
+        "Lock-on targeting and free roaming arenas",
+        "Substitution / teleport evasion"
+      ],
+      "non_goals": [
+        "Side-view orthographic camera"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "rpg_turn_based_jrpg",
+      "display_name": "RPG Turn-Based JRPG (Active)",
+      "category": "rpg",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/rpg-game-design",
+      "design_contract_schema": "rpg_turn_based_jrpg_design_contract.schema.json",
+      "primary_use_cases": [
+        "Party of 1-4 characters with turn-based combat resolution",
+        "Menu-driven actions: Attack, Magic, Item, Defend, Flee, Summon, Change Formation",
+        "Fixed + random enemy encounters on a world map (overworld + dungeons)",
+        "Linear narrative with optional side scenes and side-quests",
+        "Story-driven progression with character growth curves, classes and skills"
+      ],
+      "non_goals": [
+        "Real-time action combat (use rpg_action_topdown instead)",
+        "Open world sandbox",
+        "Multiplayer party",
+        "Permadeath (off; JRPG canonico nao tem permadeath real)",
+        "More than 4 party members (cap frozen)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "ticks (turn)",
+        "party_size_max": 4,
+        "equipment_grid": "slot_based",
+        "encounter_trigger": "fixed+random",
+        "permadeath": "off",
+        "narrative_branching": "linear_with_optional_scenes",
+        "balance_evidence_required": true,
+        "head_metric_policy": "advisory"
+      },
+      "advisory_design_axes": {
+        "save_slot_count": 3,
+        "max_level": 99,
+        "save_state_policy": "save_station_recommended",
+        "magic_categories": ["white_magic", "black_magic", "summon", "heal", "ultimate"]
+      },
+      "phase_aware_blockers": [
+        "rpg_party_size_unbounded",
+        "rpg_encounter_resolution_ambiguous",
+        "rpg_save_corruption_risk"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "rpg_action_topdown",
+      "display_name": "RPG Action Top-Down (Active)",
+      "category": "rpg",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/rpg-game-design",
+      "design_contract_schema": "rpg_design_contract.schema.json",
+      "primary_use_cases": [
+        "Single protagonist with real-time combat (sword swing, dodge, ranged)",
+        "Top-down or 3/4 perspective on a connected world map",
+        "Loot-driven progression: weapons, armor, consumables",
+        "Enemy encounter zones (visible) with respawn",
+        "Short bursts of narrative between combat zones"
+      ],
+      "non_goals": [
+        "Turn-based menu combat (use rpg_turn_based_jrpg instead)",
+        "Side-scrolling action (use brawler_* instead)",
+        "First-person dungeon crawl"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "archetype_policy": "design_tool_not_law",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "combat_resolution": "real_time_action"
+      },
+      "advisory_design_axes": {
+        "player_character_count": 1,
+        "weapon_slots": 2,
+        "head_metric_distribution_hint": "M=1, L=3",
+        "save_slot_count": 3
+      },
+      "phase_aware_blockers": [
+        "rpg_action_party_unbound_for_product",
+        "rpg_action_loot_balance_evidence_missing",
+        "rpg_action_save_state_undefined_for_product"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "rpg_c_rpg_classic",
+      "display_name": "RPG cRPG Classico (Future Knowledge)",
+      "category": "rpg",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/rpg-game-design",
+      "design_contract_schema": "rpg_design_contract.schema.json",
+      "primary_use_cases": [
+        "Pause-and-play real-time-with-pause combat (RTwP)",
+        "Heavy dialogue trees with branching consequences",
+        "Stat-heavy character creation (D&D-style attributes)",
+        "Open-ended quest log with multiple simultaneous objectives"
+      ],
+      "non_goals": [
+        "Turn-based menu combat (use rpg_turn_based_jrpg instead)",
+        "Action combat (use rpg_action_topdown instead)",
+        "Mega Drive may struggle with the data volume; needs curadoria"
+      ],
+      "frozen_design_axes": {
+        "category": "future_knowledge",
+        "mega_drive_feasible": "borderline"
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "rpg_narrative_dialogue",
+      "display_name": "RPG Narrative Dialogue (Future Knowledge)",
+      "category": "rpg",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/rpg-game-design",
+      "design_contract_schema": "rpg_design_contract.schema.json",
+      "primary_use_cases": [
+        "Narrative-first with light combat (or no combat)",
+        "Branching dialogue trees with character skill checks",
+        "Internal monologue and dialogue skill trees",
+        "Visual novel style with light RPG progression"
+      ],
+      "non_goals": [
+        "Action-heavy combat",
+        "Tactical party combat",
+        "Mega Drive text capacity is limited; needs font/curation work"
+      ],
+      "frozen_design_axes": {
+        "category": "future_knowledge",
+        "mega_drive_feasible": "borderline"
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "strategy_tactical_turn_based",
+      "display_name": "Strategy Tactical Turn-Based (Active)",
+      "category": "strategy",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/strategy-game-design",
+      "design_contract_schema": "strategy_design_contract.schema.json",
+      "primary_use_cases": [
+        "Grid-based tactical combat (Fire Emblem / Shining Force style)",
+        "Unit archetypes: infantry, cavalry, flier, mage, archer, healer",
+        "Permadeath or revival per chapter",
+        "Weapon triangle / class triangle system",
+        "Story-driven chapters with map progression"
+      ],
+      "non_goals": [
+        "Real-time strategy (use strategy_rts_compact instead)",
+        "4X empire management (use strategy_4x_turn_based instead)",
+        "Tower defense grid (use strategy_tower_defense instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "turns",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "combat_resolution": "grid_turn_based"
+      },
+      "advisory_design_axes": {
+        "chapter_count": 20,
+        "max_unit_per_map": 16,
+        "permadeath_policy": "advisory"
+      },
+      "phase_aware_blockers": [
+        "strategy_tactical_weapon_triangle_undefined",
+        "strategy_tactical_balance_evidence_missing",
+        "strategy_tactical_save_state_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "strategy_tower_defense",
+      "display_name": "Strategy Tower Defense (Active)",
+      "category": "strategy",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/strategy-game-design",
+      "design_contract_schema": "strategy_tower_defense_design_contract.schema.json",
+      "primary_use_cases": [
+        "Fixed path with wave-based enemy spawns (scripted)",
+        "1-3 lanes per map with branching/curved geometry",
+        "Tower archetypes: damage, slow, splash, chain, support, economy, ultimate",
+        "Tower upgrades (basic/advanced/elite tiers per tower)",
+        "Economy: gold or energy, kill multiplier, wave clear bonus, combo/perfect/speed bonuses",
+        "Modes: campaign, endless, challenge, puzzle_td, daily_seed"
+      ],
+      "non_goals": [
+        "Real-time base building (use strategy_rts_compact instead)",
+        "Open-field tactical combat (use strategy_tactical_turn_based instead)",
+        "4X empire management (MD-não-viavel)",
+        "Active control of units by player (TD canonico eh posicional)",
+        "Multiplayer head-to-head (MD-não-viavel)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "grid": "fixed_path",
+        "lane_count": "1_to_3",
+        "tower_slots_max": 24,
+        "wave_spawner": "scripted",
+        "resource_currency": "energy_or_gold",
+        "victory": "survive_N_waves",
+        "balance_evidence_required": true,
+        "head_metric_policy": "advisory"
+      },
+      "advisory_design_axes": {
+        "wave_count_target": 20,
+        "tower_tiers": 3,
+        "vram_budget_estimate_kb_max": 64,
+        "fire_rate_frames_min": 6
+      },
+      "phase_aware_blockers": [
+        "strategy_grid_vram_overflow",
+        "strategy_unit_ap_unbounded",
+        "strategy_fog_of_war_race"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "strategy_rts_compact",
+      "display_name": "Strategy RTS Compact (Future Knowledge)",
+      "category": "strategy",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/strategy-game-design",
+      "design_contract_schema": "strategy_design_contract.schema.json",
+      "primary_use_cases": [
+        "Real-time base building and unit production",
+        "Fog of war with vision mechanics",
+        "Resource gathering (minerals, gas, gold)",
+        "Small-scale maps (2-4 players)"
+      ],
+      "non_goals": [
+        "Turn-based tactical combat (use strategy_tactical_turn_based instead)",
+        "Mega Drive APM and CPU pressure is very tight; needs curadoria"
+      ],
+      "frozen_design_axes": {
+        "category": "future_knowledge",
+        "mega_drive_feasible": "borderline"
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "strategy_grand_strategy",
+      "display_name": "Strategy Grand Strategy (Future Architectural)",
+      "category": "strategy",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/strategy-game-design",
+      "design_contract_schema": "strategy_design_contract.schema.json",
+      "primary_use_cases": [
+        "Nation-level management with diplomacy, economy, war",
+        "Crusader Kings / Europa Universalis style",
+        "Long-form simulation (50+ in-game years)"
+      ],
+      "non_goals": [
+        "Mega Drive has insufficient data capacity for grand strategy",
+        "Needs modern PC/console with persistent storage"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "strategy_4x_turn_based",
+      "display_name": "Strategy 4X Turn-Based (Future Architectural)",
+      "category": "strategy",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/strategy-game-design",
+      "design_contract_schema": "strategy_design_contract.schema.json",
+      "primary_use_cases": [
+        "eXplore, eXpand, eXploit, eXterminate",
+        "Master of Orion / Civilization style",
+        "Tech tree with hundreds of nodes",
+        "Multiple playable factions with asymmetric abilities"
+      ],
+      "non_goals": [
+        "Mega Drive has insufficient data capacity for 4X",
+        "Requires modern platform with persistent storage"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "horror_survival_inventory",
+      "display_name": "Horror Survival Inventory (Active)",
+      "category": "horror",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/horror-game-design",
+      "design_contract_schema": "horror_design_contract.schema.json",
+      "primary_use_cases": [
+        "Scarce inventory (limited slots, no stacking)",
+        "Resource management: ammo, health, sanity, save items",
+        "Static-camera rooms with locked doors (Resident Evil style)",
+        "Enemy encounters with escape or combat trade-off",
+        "Puzzle solving with environmental clues"
+      ],
+      "non_goals": [
+        "Action-horde (use horror_action_horde instead)",
+        "Stealth-only (use horror_stealth_avoid instead)",
+        "Suggestion-driven (use horror_psychological_suggestion instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "agency_scale": "survival",
+        "camera_mode": "static_or_fixed"
+      },
+      "advisory_design_axes": {
+        "inventory_slots": 8,
+        "save_item_count_per_run": 1,
+        "room_count": 30
+      },
+      "phase_aware_blockers": [
+        "horror_survival_inventory_system_undefined",
+        "horror_survival_balance_evidence_missing",
+        "horror_survival_camera_mode_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "horror_stealth_avoid",
+      "display_name": "Horror Stealth Avoid (Active)",
+      "category": "horror",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/horror-game-design",
+      "design_contract_schema": "horror_design_contract.schema.json",
+      "primary_use_cases": [
+        "Avoid-or-die with detection meter",
+        "Sound-based AI awareness (vision cones, footsteps, alerts)",
+        "Top-down or 3/4 perspective",
+        "Takedown or stun mechanics (optional, resource-limited)",
+        "Mission-based level structure with escalating threat"
+      ],
+      "non_goals": [
+        "Survival-inventory (use horror_survival_inventory instead)",
+        "Action combat as primary resolution",
+        "Mascot/static horror (use horror_mascot_static instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "agency_scale": "stealth",
+        "camera_mode": "top_down_or_3_4"
+      },
+      "advisory_design_axes": {
+        "mission_count": 12,
+        "detection_meter_max": 100,
+        "takedown_per_mission": 3
+      },
+      "phase_aware_blockers": [
+        "horror_stealth_detection_system_undefined",
+        "horror_stealth_balance_evidence_missing",
+        "horror_stealth_camera_mode_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "horror_psychological_suggestion",
+      "display_name": "Horror Psychological Suggestion (Future Knowledge)",
+      "category": "horror",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/horror-game-design",
+      "design_contract_schema": "horror_design_contract.schema.json",
+      "primary_use_cases": [
+        "Suggestion-driven fear (off-screen threat, sound design, environmental cues)",
+        "Silent Hill / PT style",
+        "Walking simulator with light puzzles",
+        "Symbolic imagery and dream logic"
+      ],
+      "non_goals": [
+        "Action-driven horror (use horror_action_horde instead)",
+        "Mega Drive has limited audio channels for complex sound design"
+      ],
+      "frozen_design_axes": {
+        "category": "future_knowledge",
+        "mega_drive_feasible": "borderline"
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "horror_action_horde",
+      "display_name": "Horror Action Horde (Active)",
+      "category": "horror",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/horror-game-design",
+      "design_contract_schema": "horror_design_contract.schema.json",
+      "primary_use_cases": [
+        "Action combat against horror-themed enemies (zombies, demons, monsters)",
+        "Resource scarcity balanced with combat effectiveness",
+        "Tight arenas with choke points and escape routes",
+        "Boss encounters with pattern-based telegraphing",
+        "Wave-based survival or chapter progression"
+      ],
+      "non_goals": [
+        "Pure survival-inventory (use horror_survival_inventory instead)",
+        "Stealth-only (use horror_stealth_avoid instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "agency_scale": "action",
+        "camera_mode": "side_view_or_3_4"
+      },
+      "advisory_design_axes": {
+        "weapon_count": 6,
+        "chapter_count": 8,
+        "max_simultaneous_enemies": 12
+      },
+      "phase_aware_blockers": [
+        "horror_action_enemy_archetype_unbound",
+        "horror_action_balance_evidence_missing",
+        "horror_action_save_state_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "horror_mascot_static",
+      "display_name": "Horror Mascot Static (Active)",
+      "category": "horror",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/horror-game-design",
+      "design_contract_schema": "horror_design_contract.schema.json",
+      "primary_use_cases": [
+        "Static camera with limited player movement (Five Nights at Freddy's style)",
+        "Resource management: power, doors, cameras, time",
+        "Animatronic / mascot antagonists with patrol AI",
+        "Jump-scare triggers tied to resource exhaustion",
+        "Night-based progression (5-7 nights)"
+      ],
+      "non_goals": [
+        "Action combat (use horror_action_horde instead)",
+        "Stealth navigation (use horror_stealth_avoid instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "nights",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "agency_scale": "mascot_static",
+        "camera_mode": "static_cameras"
+      },
+      "advisory_design_axes": {
+        "night_count": 6,
+        "mascot_count": 4,
+        "power_drain_per_night": 100
+      },
+      "phase_aware_blockers": [
+        "horror_mascot_antagonist_set_undefined",
+        "horror_mascot_balance_evidence_missing",
+        "horror_mascot_resource_system_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "horror_retro_short_form",
+      "display_name": "Horror Retro Short Form (Active)",
+      "category": "horror",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/horror-game-design",
+      "design_contract_schema": "horror_design_contract.schema.json",
+      "primary_use_cases": [
+        "Short-form horror (1-2 hour playtime)",
+        "PS1-style retro 3D or pre-rendered backgrounds",
+        "Environmental storytelling with collectible lore",
+        "Multiple endings based on item discovery or choices"
+      ],
+      "non_goals": [
+        "Open-ended exploration (use horror_survival_inventory instead)",
+        "Combat-heavy (use horror_action_horde instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "agency_scale": "narrative_short",
+        "camera_mode": "fixed_or_pre_rendered"
+      },
+      "advisory_design_axes": {
+        "playtime_minutes": 90,
+        "ending_count": 3,
+        "lore_collectible_count": 20
+      },
+      "phase_aware_blockers": [
+        "horror_retro_narrative_arc_undefined",
+        "horror_retro_balance_evidence_missing",
+        "horror_retro_save_state_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "brawler_belt_scroll",
+      "display_name": "Brawler Belt-Scroll (Active)",
+      "category": "brawler",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/brawler-game-design",
+      "design_contract_schema": "brawler_belt_scroll_design_contract.schema.json",
+      "primary_use_cases": [
+        "Side-scrolling belt-scroll combat (Streets of Rage, Final Fight style)",
+        "1-2 player co-op or single-player (1_to_2)",
+        "Wave-based encounters with screen-clearing rhythm",
+        "Pickup weapons with limited duration (knife, bat, pipe) AND health/score/extralife",
+        "Health via food pickups or limited healing items",
+        "Stage progression linear with bosses (3-10 stages, 1-3 boss phases)"
+      ],
+      "non_goals": [
+        "Run-and-gun (use brawler_run_and_gun_2d or _topdown instead)",
+        "3D brawler arena (use fighting_arena instead)",
+        "Beat 'em up with strong platforming (use platformer_precision_2d instead)",
+        "Top-down view (use brawler_run_and_gun_topdown instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "camera": "horizontal_lanes",
+        "player_count": "1_to_2",
+        "enemy_count_on_screen_max": 8,
+        "pickup_drop": "health_and_score",
+        "stage_progression": "linear_with_bosses",
+        "iframe_on_hit": "on",
+        "balance_evidence_required": true,
+        "head_metric_policy": "advisory"
+      },
+      "advisory_design_axes": {
+        "stage_count": 5,
+        "boss_phases_max": 3,
+        "iframe_frames_min": 8
+      },
+      "phase_aware_blockers": [
+        "brawler_iframe_window_unsafe",
+        "brawler_pickup_drop_unbounded",
+        "brawler_wave_spawner_deterministic"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "brawler_run_and_gun_2d",
+      "display_name": "Brawler Run and Gun 2D (Active)",
+      "category": "brawler",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/brawler-game-design",
+      "design_contract_schema": "brawler_design_contract.schema.json",
+      "primary_use_cases": [
+        "Side-scrolling run-and-gun (Gunstar Heroes, Contra Hard Corps style)",
+        "Linear stage progression with mid-boss and end-boss",
+        "Aim in 8 directions with primary fire and special weapon",
+        "Respawn or limited-continues system",
+        "Co-op with shared health pool or independent lives"
+      ],
+      "non_goals": [
+        "Belt-scroll beat 'em up (use brawler_belt_scroll instead)",
+        "Top-down shooter (use brawler_run_and_gun_topdown instead)",
+        "First-person shooter (use fps_* instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "encounter_resolution": "run_and_gun_side"
+      },
+      "advisory_design_axes": {
+        "stage_count": 6,
+        "weapon_pickup_count": 5,
+        "max_players": 2,
+        "boss_count": 6
+      },
+      "phase_aware_blockers": [
+        "brawler_rungun_enemy_archetype_unbound",
+        "brawler_rungun_balance_evidence_missing",
+        "brawler_rungun_weapon_system_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "brawler_run_and_gun_topdown",
+      "display_name": "Brawler Run and Gun Top-Down (Active)",
+      "category": "brawler",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/brawler-game-design",
+      "design_contract_schema": "brawler_design_contract.schema.json",
+      "primary_use_cases": [
+        "Top-down or 3/4 view run-and-gun (Smash TV, Assault Android Cactus style)",
+        "Arena-based or corridor-based with auto-aim or fixed directions",
+        "Wave-based survival or chapter progression",
+        "Power-up pickups (rate of fire, damage, speed)",
+        "Score-based ranking per run"
+      ],
+      "non_goals": [
+        "Belt-scroll (use brawler_belt_scroll instead)",
+        "Side-scrolling run-and-gun (use brawler_run_and_gun_2d instead)",
+        "First-person shooter"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "encounter_resolution": "run_and_gun_top_down"
+      },
+      "advisory_design_axes": {
+        "arena_count": 10,
+        "weapon_pickup_count": 6,
+        "max_simultaneous_enemies": 20
+      },
+      "phase_aware_blockers": [
+        "brawler_rungun_top_enemy_archetype_unbound",
+        "brawler_rungun_top_balance_evidence_missing",
+        "brawler_rungun_top_powerup_system_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "fps_boomer_raycast",
+      "display_name": "FPS Boomer Raycast (Future Knowledge)",
+      "category": "fps",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fps-game-design",
+      "design_contract_schema": "fps_design_contract.schema.json",
+      "primary_use_cases": [
+        "Wolfenstein 3D-style raycast rendering on Mega Drive",
+        "Tile-based or sector-based level geometry",
+        "8-direction sprite-based enemies",
+        "Limited weapon set (knife, pistol, machine gun, etc.)",
+        "Linear episode progression with key/door puzzles"
+      ],
+      "non_goals": [
+        "True 3D polygon rendering (use future_architetural FPS instead)",
+        "Mega Drive sprite and palette limits are severe for raycast"
+      ],
+      "frozen_design_axes": {
+        "category": "future_knowledge",
+        "mega_drive_feasible": "borderline"
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "fps_tactical_simulation",
+      "display_name": "FPS Tactical Simulation (Future Architectural)",
+      "category": "fps",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fps-game-design",
+      "design_contract_schema": "fps_design_contract.schema.json",
+      "primary_use_cases": [
+        "Realistic ballistics, lean, breach",
+        "Rainbow Six / Ghost Recon style squad-based tactical FPS",
+        "Permadeath or iron-man mode"
+      ],
+      "non_goals": [
+        "Mega Drive has insufficient processing power and storage",
+        "Requires modern platform with persistent save"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "fps_immersive_sandbox",
+      "display_name": "FPS Immersive Sandbox (Future Architectural)",
+      "category": "fps",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fps-game-design",
+      "design_contract_schema": "fps_design_contract.schema.json",
+      "primary_use_cases": [
+        "Deus Ex / System Shock style immersive sim",
+        "Multiple paths through levels (stealth, hacking, combat)",
+        "RPG-lite progression with augments / skills",
+        "Branching narrative with faction reputation"
+      ],
+      "non_goals": [
+        "Mega Drive has insufficient data capacity and processing power",
+        "Requires modern platform"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "fps_puzzle_gravitational",
+      "display_name": "FPS Puzzle Gravitational (Future Architectural)",
+      "category": "fps",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/fps-game-design",
+      "design_contract_schema": "fps_design_contract.schema.json",
+      "primary_use_cases": [
+        "First-person perspective with portal / gravity mechanics",
+        "Portal / Mirror's Edge style movement and spatial puzzles",
+        "Physics-driven combat and traversal"
+      ],
+      "non_goals": [
+        "Mega Drive has insufficient processing power and physics",
+        "Requires modern platform"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "platformer_precision_2d",
+      "display_name": "Platformer Precision 2D (Active)",
+      "category": "platformer_puzzle",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/platformer-puzzle-game-design",
+      "design_contract_schema": "platformer_precision_2d_design_contract.schema.json",
+      "primary_use_cases": [
+        "Side-scrolling 2D platformer with tight controls (Mega Man, Sonic, Super Meat Boy style)",
+        "Precision movement: run, jump, double jump, dash, wall jump",
+        "Run-based progression (death = instant restart)",
+        "Best-time-per-level speedrun",
+        "Stage-based structure with collectibles and secrets"
+      ],
+      "non_goals": [
+        "Open-ended exploration (use metroidvania_ability_gated instead)",
+        "Combat-heavy (use brawler_belt_scroll instead)",
+        "Puzzle-focused (use puzzle_sokoban_grid or _tile_matching instead)",
+        "Long levels > 120s par time"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "camera": "side_scroll_with_lookahead",
+        "run_speed_horizontal": "2x_player",
+        "jump_count": "1_to_2",
+        "coyote_time": "on",
+        "death_loop": "on",
+        "level_length": "short_tight",
+        "balance_evidence_required": true,
+        "head_metric_policy": "advisory"
+      },
+      "advisory_design_axes": {
+        "level_count": 50,
+        "coyote_time_frames_max": 6,
+        "jump_buffer_frames_max": 6,
+        "par_time_seconds_max": 120
+      },
+      "phase_aware_blockers": [
+        "platformer_coyote_time_overflow",
+        "metroidvania_ability_unlock_path",
+        "puzzle_undo_count_unbounded"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "metroidvania_ability_gated",
+      "display_name": "Metroidvania Ability Gated (Active)",
+      "category": "platformer_puzzle",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/platformer-puzzle-game-design",
+      "design_contract_schema": "platformer_puzzle_design_contract.schema.json",
+      "primary_use_cases": [
+        "Open-ended 2D exploration with ability gates (Castlevania Bloodlines, Symphony of the Night style)",
+        "Ability progression: double jump, dash, wall climb, swim, etc.",
+        "Backtracking to previously inaccessible areas after gaining new abilities",
+        "Item-based stat upgrades (heart containers, mana)",
+        "Save rooms scattered across the map"
+      ],
+      "non_goals": [
+        "Linear stage progression (use platformer_precision_2d instead)",
+        "Puzzle-focused (use puzzle_* instead)",
+        "3D exploration"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "traversal_axis": "side_2d_exploration"
+      },
+      "advisory_design_axes": {
+        "ability_count": 8,
+        "save_room_count": 12,
+        "map_size_screens": 200
+      },
+      "phase_aware_blockers": [
+        "metroidvania_ability_tree_undefined",
+        "metroidvania_balance_evidence_missing",
+        "metroidvania_save_state_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "puzzle_physics_2d",
+      "display_name": "Puzzle Physics 2D (Future Knowledge)",
+      "category": "platformer_puzzle",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/platformer-puzzle-game-design",
+      "design_contract_schema": "platformer_puzzle_design_contract.schema.json",
+      "primary_use_cases": [
+        "Physics-driven 2D puzzles (Angry Birds, Cut the Rope style)",
+        "Gravity, momentum, collision-based problem solving",
+        "Limited tool set per level"
+      ],
+      "non_goals": [
+        "Mega Drive has limited physics processing power",
+        "Pure logic puzzles are preferred (use puzzle_sokoban_grid instead)"
+      ],
+      "frozen_design_axes": {
+        "category": "future_knowledge",
+        "mega_drive_feasible": "borderline"
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "puzzle_sokoban_grid",
+      "display_name": "Puzzle Sokoban Grid (Active)",
+      "category": "platformer_puzzle",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/platformer-puzzle-game-design",
+      "design_contract_schema": "platformer_puzzle_design_contract.schema.json",
+      "primary_use_cases": [
+        "Grid-based push-and-pull puzzle (Sokoban, BoxBoy style)",
+        "Discrete tile movement (4 directions)",
+        "Level-based progression with optional move/par counters",
+        "Hint system via undo or solution replay"
+      ],
+      "non_goals": [
+        "Real-time action (use platformer_precision_2d instead)",
+        "Physics-driven (use puzzle_physics_2d instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "turns",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "puzzle_grid": "discrete_4dir"
+      },
+      "advisory_design_axes": {
+        "level_count": 60,
+        "grid_max_size": 16,
+        "undo_buffer_per_level": 100
+      },
+      "phase_aware_blockers": [
+        "puzzle_sokoban_level_curve_undefined",
+        "puzzle_sokoban_balance_evidence_missing",
+        "puzzle_sokoban_save_state_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "puzzle_tile_matching",
+      "display_name": "Puzzle Tile-Matching (Active)",
+      "category": "platformer_puzzle",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/platformer-puzzle-game-design",
+      "design_contract_schema": "platformer_puzzle_design_contract.schema.json",
+      "primary_use_cases": [
+        "Tile-matching puzzle (Tetris, Puyo Puyo, Columns style)",
+        "Falling blocks or color matching with line/cluster clear",
+        "Time attack or endurance mode",
+        "Garbage attack vs opponent (Puyo Puyo / Dr. Robotnik style)",
+        "Combo system with score multipliers"
+      ],
+      "non_goals": [
+        "Logic-based puzzles (use puzzle_sokoban_grid instead)",
+        "Story-driven puzzles"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "puzzle_grid": "falling_or_cluster"
+      },
+      "advisory_design_axes": {
+        "playfield_width_tiles": 10,
+        "playfield_height_tiles": 20,
+        "mode_count": 4
+      },
+      "phase_aware_blockers": [
+        "puzzle_tile_grid_definition_undefined",
+        "puzzle_tile_balance_evidence_missing",
+        "puzzle_tile_save_state_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "racing_sim_hardcore",
+      "display_name": "Racing Sim Hardcore (Future Architectural)",
+      "category": "racing_sports_adventure",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/racing-sports-adventure-game-design",
+      "design_contract_schema": "racing_sports_adventure_design_contract.schema.json",
+      "primary_use_cases": [
+        "Vehicle physics simulation (iRacing, Gran Turismo style)",
+        "Tire model, fuel consumption, mechanical damage",
+        "Track with realistic elevation and grip changes"
+      ],
+      "non_goals": [
+        "Mega Drive has insufficient processing power for hardcore sim",
+        "Use racing_arcade instead"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "racing_arcade",
+      "display_name": "Racing Arcade (Active)",
+      "category": "racing_sports_adventure",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/racing-sports-adventure-game-design",
+      "design_contract_schema": "racing_arcade_design_contract.schema.json",
+      "primary_use_cases": [
+        "Arcade-style racing (OutRun, Top Gear, Road Rash, Super Monaco GP style)",
+        "Behind-car or chase camera (2D pseudo-3D or sprite-scaled)",
+        "Track-based progression with 4-16 tracks",
+        "Vehicle archetypes: light/medium/heavy/formula",
+        "Boost/drift mechanics, item/power-up drops, drafting, rubber banding"
+      ],
+      "non_goals": [
+        "Realistic simulation (use racing_sim_hardcore instead; MD-NAO-viavel)",
+        "Combat racing as primary mechanic (use a sub-variant)",
+        "Pit stops, vehicle tuning, telemetry (MD-NAO-viavel)",
+        "Top-down camera (use racing_sim_hardcore variants)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "camera": "behind_or_chase",
+        "track_count_max": 16,
+        "lap_count_max": 5,
+        "ai_opponents": "5_to_7",
+        "boost_on_drift": "on",
+        "collision_model": "arcade_forgiving",
+        "balance_evidence_required": true,
+        "head_metric_policy": "advisory"
+      },
+      "advisory_design_axes": {
+        "track_count": 8,
+        "vehicle_count": 8,
+        "lap_count": 3,
+        "ai_difficulty_levels": 4
+      },
+      "phase_aware_blockers": [
+        "racing_collision_model_audit",
+        "adventure_inventory_overflow",
+        "adventure_save_overflow"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "sports_manager_data",
+      "display_name": "Sports Manager Data (Future Architectural)",
+      "category": "racing_sports_adventure",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/racing-sports-adventure-game-design",
+      "design_contract_schema": "racing_sports_adventure_design_contract.schema.json",
+      "primary_use_cases": [
+        "Football Manager style long-term team management",
+        "Squad, tactics, transfers, training, finances",
+        "Multiple leagues and seasons"
+      ],
+      "non_goals": [
+        "Mega Drive has insufficient storage and database capacity",
+        "Use sports_action_direct instead"
+      ],
+      "frozen_design_axes": {
+        "category": "future_architetural",
+        "mega_drive_feasible": false
+      },
+      "advisory_design_axes": {},
+      "phase_aware_blockers": [],
+      "status": "deferred"
+    },
+    {
+      "specialization_id": "sports_action_direct",
+      "display_name": "Sports Action Direct (Active)",
+      "category": "racing_sports_adventure",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/racing-sports-adventure-game-design",
+      "design_contract_schema": "racing_sports_adventure_design_contract.schema.json",
+      "primary_use_cases": [
+        "Direct control of athletes in real-time (NBA Jam, FIFA, NHL style)",
+        "Side or top-down perspective",
+        "Season mode with playoffs or tournament mode",
+        "Roster with team-specific playbooks or signature moves"
+      ],
+      "non_goals": [
+        "Manager-style (use sports_manager_data instead)",
+        "Mega Drive storage is limited for large rosters"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "camera_mode": "side_or_top_down"
+      },
+      "advisory_design_axes": {
+        "team_count": 8,
+        "athlete_count_per_team": 12,
+        "season_length_games": 16
+      },
+      "phase_aware_blockers": [
+        "sports_action_team_roster_undefined",
+        "sports_action_balance_evidence_missing",
+        "sports_action_save_state_undefined"
+      ],
+      "status": "active"
+    },
+    {
+      "specialization_id": "adventure_action_2d",
+      "display_name": "Adventure Action 2D (Active)",
+      "category": "racing_sports_adventure",
+      "promotion_tier": "LABORATORIO",
+      "owner_skill": "tools/sgdk_wrapper/.agent/skills/planning/racing-sports-adventure-game-design",
+      "design_contract_schema": "racing_sports_adventure_design_contract.schema.json",
+      "primary_use_cases": [
+        "Action-adventure with combat, puzzles, and exploration (Zelda, Beyond Oasis style)",
+        "Top-down or 3/4 perspective",
+        "Item-based progression: sword, bow, magic, key items",
+        "Dungeon-based structure with boss encounters",
+        "NPC dialogue and quest structure"
+      ],
+      "non_goals": [
+        "First-person 3D adventure (Shenmue, Witcher 3)",
+        "Turn-based combat (use rpg_turn_based_jrpg instead)",
+        "Pure platforming (use platformer_precision_2d instead)"
+      ],
+      "frozen_design_axes": {
+        "time_unit": "frames",
+        "head_metric_policy": "advisory",
+        "balance_evidence_required": true,
+        "save_state_policy": "advisory",
+        "agency_scale": "adventure_hybrid"
+      },
+      "advisory_design_axes": {
+        "dungeon_count": 8,
+        "weapon_count": 4,
+        "key_item_count": 12
+      },
+      "phase_aware_blockers": [
+        "adventure_action_item_progression_undefined",
+        "adventure_action_balance_evidence_missing",
+        "adventure_action_save_state_undefined"
+      ],
+      "status": "active"
+    }
+  ]
+}

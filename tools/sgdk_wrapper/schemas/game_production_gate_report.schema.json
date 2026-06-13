@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/game_production_gate_report.schema.json",
+  "title": "SGDK Game Production Gate Report",
+  "description": "Aggregator of all design contracts gates. Used by validate_resources.ps1 to derive mechanics_ready, level_design_ready, enemy_design_ready, tdd_ready, game_production_ready status panel fields.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "report_id",
+    "timestamp",
+    "target_scope",
+    "product_status",
+    "claim_ceiling",
+    "scope_id",
+    "gates",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "report_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "target_scope": {"type": "string"},
+    "product_status": {
+      "type": "string",
+      "enum": ["technical_lab_validated", "vertical_slice_candidate", "ready_for_aaa", "technical_incomplete", "unscoped"]
+    },
+    "claim_ceiling": {
+      "type": "string",
+      "enum": ["technical_lab_validated", "vertical_slice_candidate", "ready_for_aaa"]
+    },
+    "scope_id": {"type": "string"},
+    "gates": {
+      "type": "object",
+      "required": [
+        "mechanics_gate",
+        "level_design_gate",
+        "enemy_design_gate",
+        "tdd_gate",
+        "audio_adaptive_gate",
+        "scene_pipeline_gate",
+        "qa_gate"
+      ],
+      "properties": {
+        "mechanics_gate": {
+          "type": "object",
+          "properties": {
+            "report_ref": {"type": "string"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed", "missing", "not_required"]},
+            "ready": {"type": "boolean"},
+            "blocking_statuses": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "level_design_gate": {
+          "type": "object",
+          "properties": {
+            "report_ref": {"type": "string"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed", "missing", "not_required"]},
+            "ready": {"type": "boolean"},
+            "blocking_statuses": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "enemy_design_gate": {
+          "type": "object",
+          "properties": {
+            "report_ref": {"type": "string"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed", "missing", "not_required"]},
+            "ready": {"type": "boolean"},
+            "blocking_statuses": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "tdd_gate": {
+          "type": "object",
+          "properties": {
+            "report_ref": {"type": "string"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed", "missing", "not_required"]},
+            "ready": {"type": "boolean"},
+            "blocking_statuses": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "audio_adaptive_gate": {
+          "type": "object",
+          "properties": {
+            "report_ref": {"type": "string"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed", "missing", "not_required"]},
+            "ready": {"type": "boolean"}
+          }
+        },
+        "scene_pipeline_gate": {
+          "type": "object",
+          "properties": {
+            "report_ref": {"type": "string"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed", "missing", "not_required"]},
+            "ready": {"type": "boolean"}
+          }
+        },
+        "qa_gate": {
+          "type": "object",
+          "properties": {
+            "report_ref": {"type": "string"},
+            "status": {"type": "string", "enum": ["passed", "warn", "failed", "missing", "not_required"]},
+            "ready": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "game_production_ready",
+        "blocking_statuses_count",
+        "creative_blocking_statuses_count"
+      ],
+      "properties": {
+        "game_production_ready": {"type": "boolean"},
+        "mechanics_ready": {"type": "boolean"},
+        "level_design_ready": {"type": "boolean"},
+        "enemy_design_ready": {"type": "boolean"},
+        "tdd_ready": {"type": "boolean"},
+        "blocking_statuses_count": {"type": "integer", "minimum": 0},
+        "creative_blocking_statuses_count": {"type": "integer", "minimum": 0},
+        "all_blocking_statuses": {"type": "array", "items": {"type": "string"}},
+        "all_creative_blocking_statuses": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "ready_for_aaa_local": {"type": "boolean"},
+    "ready_for_aaa_invalidated_by": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

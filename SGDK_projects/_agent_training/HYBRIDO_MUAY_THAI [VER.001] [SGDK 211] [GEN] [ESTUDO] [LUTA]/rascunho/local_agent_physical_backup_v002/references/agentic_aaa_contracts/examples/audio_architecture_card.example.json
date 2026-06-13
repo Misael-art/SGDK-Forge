@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "scene_training_ring",
+  "audio_role": "bgm_sfx",
+  "xgm2_mode": "standard_with_pcm",
+  "channel_ownership_map": {
+    "FM_CH1": {
+      "owner": "BGM",
+      "stealable": false
+    },
+    "FM_CH2": {
+      "owner": "BGM",
+      "stealable": false
+    },
+    "FM_CH3": {
+      "owner": "BGM",
+      "stealable": false
+    },
+    "FM_CH4": {
+      "owner": "BGM",
+      "stealable": false
+    },
+    "FM_CH5": {
+      "owner": "BGM",
+      "stealable": false
+    },
+    "FM_CH6_DAC": {
+      "owner": "XGM2_PCM",
+      "stealable": true
+    },
+    "PSG_CH1": {
+      "owner": "BGM",
+      "stealable": false
+    },
+    "PSG_CH2": {
+      "owner": "BGM",
+      "stealable": false
+    },
+    "PSG_CH3": {
+      "owner": "BGM",
+      "stealable": false
+    },
+    "PSG_NOISE": {
+      "owner": "SFX_NOISE",
+      "stealable": true
+    }
+  },
+  "sfx_priority_table": [
+    {
+      "event": "hit_heavy",
+      "priority": 12,
+      "channel": "PCM_CH1",
+      "steals_lower_priority": true
+    },
+    {
+      "event": "cursor_tick",
+      "priority": 2,
+      "channel": "PSG_NOISE",
+      "steals_lower_priority": false
+    }
+  ],
+  "dac_budget": {
+    "dac_used": true,
+    "sample_rate_hz": 13300,
+    "max_concurrent_pcm": 2,
+    "clipping_policy": "reserve headroom and reject samples clipped at 0x00 or 0xff"
+  },
+  "fallback_plan": "drop ambience before dropping hit feedback",
+  "approval_status": "approved_for_runtime",
+  "blockers": []
+}

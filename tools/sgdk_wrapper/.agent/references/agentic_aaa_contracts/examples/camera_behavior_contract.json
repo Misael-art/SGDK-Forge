@@ -1,0 +1,93 @@
+{
+  "$schema": "../../../../schemas/camera_behavior_contract.schema.json",
+  "schema_version": "1.0.0",
+  "artifact_kind": "camera_behavior_contract",
+  "scene_id": "scene_training_ring",
+  "camera_role": "platformer",
+  "model": "deadzone_lookahead",
+  "coordinate_model": "fix16_internal",
+  "target_anchor": {
+    "subject": "player",
+    "x_offset_px": 0,
+    "y_offset_px": -12,
+    "vertical_priority": "grounded_feet"
+  },
+  "dead_zone": {
+    "enabled": true,
+    "left_px": 72,
+    "right_px": 96,
+    "top_px": 48,
+    "bottom_px": 56,
+    "reason": "avoid jitter during micro movement while keeping threats ahead visible"
+  },
+  "smoothing": {
+    "enabled": true,
+    "method": "lerp_fixed_point",
+    "frames_to_target": 8,
+    "max_speed_px_per_frame": 6
+  },
+  "lookahead": {
+    "enabled": true,
+    "x_px": 32,
+    "y_px": 0,
+    "switch_frames": 10,
+    "source": "velocity"
+  },
+  "clamp": {
+    "enabled": true,
+    "min_x_px": 0,
+    "max_x_px": 704,
+    "min_y_px": 0,
+    "max_y_px": 224,
+    "empty_space_policy": "forbidden"
+  },
+  "render_snap": {
+    "final_position": "integer_pixels_only",
+    "scroll_register_units": "pixels",
+    "sprite_camera_space": "world_minus_camera_integer",
+    "subpixel_jitter_guard": true
+  },
+  "trigger_zones": [
+    {
+      "trigger_id": "boss_room_entry",
+      "bounds_px": {"x": 640, "y": 0, "w": 96, "h": 224},
+      "mode": "boss_room_lock",
+      "enter_behavior": "lock camera to arena anchor and close rear boundary",
+      "exit_behavior": "restore deadzone_lookahead and level clamps"
+    }
+  ],
+  "screen_shake": {
+    "allowed": true,
+    "max_offset_px": 4,
+    "max_duration_frames": 12,
+    "decay": "exponential",
+    "snap_after_shake": true,
+    "gameplay_events": ["heavy_impact", "boss_landing"]
+  },
+  "culling_policy": {
+    "enabled": true,
+    "margin_px": 64,
+    "disable_physics_outside_view": false,
+    "telegraph_safe": true,
+    "exceptions": ["boss", "active_projectile", "scripted_hazard"]
+  },
+  "runtime_owner": {
+    "module": "src/camera.c",
+    "update_function": "CAMERA_update",
+    "reset_function": "CAMERA_reset"
+  },
+  "fallback": "integer clamp camera without smoothing or shake",
+  "evidence_required": [
+    {
+      "evidence_type": "blastem_motion_capture",
+      "path": "out/evidence/camera_motion.gif",
+      "passed": false
+    },
+    {
+      "evidence_type": "runtime_metrics",
+      "path": "out/logs/runtime_metrics.json",
+      "passed": false
+    }
+  ],
+  "blockers": []
+}

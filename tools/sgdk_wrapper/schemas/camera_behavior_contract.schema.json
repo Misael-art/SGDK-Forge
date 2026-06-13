@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/camera_behavior_contract.schema.json",
+  "title": "SGDK Camera Behavior Contract",
+  "description": "Contract for 2D camera behavior: dead zone, smoothing, look-ahead, clamping, triggers, integer render snap and culling.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "scene_id",
+    "camera_role",
+    "model",
+    "coordinate_model",
+    "target_anchor",
+    "dead_zone",
+    "smoothing",
+    "lookahead",
+    "clamp",
+    "render_snap",
+    "trigger_zones",
+    "screen_shake",
+    "culling_policy",
+    "runtime_owner",
+    "fallback",
+    "evidence_required",
+    "blockers"
+  ],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "artifact_kind": {"type": "string", "const": "camera_behavior_contract"},
+    "scene_id": {"type": "string", "minLength": 1},
+    "camera_role": {
+      "type": "string",
+      "enum": ["platformer", "action", "fighting_stage", "boss_room", "racing", "cutscene", "menu", "fixed_room", "other"]
+    },
+    "model": {
+      "type": "string",
+      "enum": [
+        "fixed_room",
+        "deadzone",
+        "deadzone_smoothing",
+        "deadzone_lookahead",
+        "lookahead_smoothing",
+        "trigger_anchor",
+        "auto_scroll",
+        "fighting_stage_lock",
+        "free_scroll"
+      ]
+    },
+    "coordinate_model": {
+      "type": "string",
+      "enum": ["integer_only", "fix16_internal", "fix32_internal"]
+    },
+    "target_anchor": {
+      "type": "object",
+      "required": ["subject", "x_offset_px", "y_offset_px"],
+      "properties": {
+        "subject": {"type": "string", "minLength": 1},
+        "x_offset_px": {"type": "integer"},
+        "y_offset_px": {"type": "integer"},
+        "vertical_priority": {"type": "string", "enum": ["player_center", "grounded_feet", "room_anchor", "boss_anchor", "custom"]}
+      },
+      "additionalProperties": false
+    },
+    "dead_zone": {
+      "type": "object",
+      "required": ["enabled", "left_px", "right_px", "top_px", "bottom_px"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "left_px": {"type": "integer", "minimum": 0},
+        "right_px": {"type": "integer", "minimum": 0},
+        "top_px": {"type": "integer", "minimum": 0},
+        "bottom_px": {"type": "integer", "minimum": 0},
+        "reason": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "smoothing": {
+      "type": "object",
+      "required": ["enabled", "method", "frames_to_target"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "method": {"type": "string", "enum": ["none", "fixed_step", "lerp_fixed_point", "ease_table"]},
+        "frames_to_target": {"type": "integer", "minimum": 0},
+        "max_speed_px_per_frame": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "lookahead": {
+      "type": "object",
+      "required": ["enabled", "x_px", "y_px", "switch_frames"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "x_px": {"type": "integer", "minimum": 0},
+        "y_px": {"type": "integer", "minimum": 0},
+        "switch_frames": {"type": "integer", "minimum": 0},
+        "source": {"type": "string", "enum": ["facing", "velocity", "input", "scripted", "none"]}
+      },
+      "additionalProperties": false
+    },
+    "clamp": {
+      "type": "object",
+      "required": ["enabled", "min_x_px", "max_x_px", "min_y_px", "max_y_px", "empty_space_policy"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "min_x_px": {"type": "integer"},
+        "max_x_px": {"type": "integer"},
+        "min_y_px": {"type": "integer"},
+        "max_y_px": {"type": "integer"},
+        "empty_space_policy": {"type": "string", "enum": ["forbidden", "allowed_lab_only", "intentional_black_bar", "not_applicable"]}
+      },
+      "additionalProperties": false
+    },
+    "render_snap": {
+      "type": "object",
+      "required": ["final_position", "scroll_register_units", "sprite_camera_space"],
+      "properties": {
+        "final_position": {"type": "string", "const": "integer_pixels_only"},
+        "scroll_register_units": {"type": "string", "enum": ["pixels", "tiles_plus_pixels", "not_applicable"]},
+        "sprite_camera_space": {"type": "string", "enum": ["world_minus_camera_integer", "screen_space_fixed", "not_applicable"]},
+        "subpixel_jitter_guard": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "trigger_zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["trigger_id", "bounds_px", "mode", "enter_behavior", "exit_behavior"],
+        "properties": {
+          "trigger_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "bounds_px": {
+            "type": "object",
+            "required": ["x", "y", "w", "h"],
+            "properties": {
+              "x": {"type": "integer"},
+              "y": {"type": "integer"},
+              "w": {"type": "integer", "minimum": 1},
+              "h": {"type": "integer", "minimum": 1}
+            },
+            "additionalProperties": false
+          },
+          "mode": {"type": "string", "enum": ["anchor_lock", "boss_room_lock", "auto_scroll", "vertical_lock", "lookahead_override", "shake_suppression"]},
+          "enter_behavior": {"type": "string", "minLength": 1},
+          "exit_behavior": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "screen_shake": {
+      "type": "object",
+      "required": ["allowed", "max_offset_px", "max_duration_frames", "decay", "snap_after_shake"],
+      "properties": {
+        "allowed": {"type": "boolean"},
+        "max_offset_px": {"type": "integer", "minimum": 0},
+        "max_duration_frames": {"type": "integer", "minimum": 0},
+        "decay": {"type": "string", "enum": ["none", "linear", "exponential", "lookup_table"]},
+        "snap_after_shake": {"type": "boolean"},
+        "gameplay_events": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "culling_policy": {
+      "type": "object",
+      "required": ["enabled", "margin_px", "disable_physics_outside_view", "telegraph_safe"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "margin_px": {"type": "integer", "minimum": 0},
+        "disable_physics_outside_view": {"type": "boolean"},
+        "telegraph_safe": {"type": "boolean"},
+        "exceptions": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "runtime_owner": {
+      "type": "object",
+      "required": ["module", "update_function", "reset_function"],
+      "properties": {
+        "module": {"type": "string", "minLength": 1},
+        "update_function": {"type": "string", "minLength": 1},
+        "reset_function": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "fallback": {"type": "string", "minLength": 8},
+    "evidence_required": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["evidence_type", "path", "passed"],
+        "properties": {
+          "evidence_type": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "passed": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "audio_event_matrix_v1",
+  "events": [
+    {"source": "scene_enter", "event": "score_start", "action": "loop score on PCM_CH1"},
+    {"source": "pause", "event": "audio_pause", "action": "stop all PCM"},
+    {"source": "resume", "event": "audio_resume", "action": "restart score loop"},
+    {"source": "jump", "event": "jump", "action": "PCM_CH3 priority 5"},
+    {"source": "land", "event": "land", "action": "PCM_CH3 priority 5"},
+    {"source": "pickup", "event": "pickup", "action": "PCM_CH3 priority 6"},
+    {"source": "pressure_threshold", "event": "pressure_warning", "action": "PCM_CH3 priority 8"},
+    {"source": "damage", "event": "damage", "action": "PCM_CH2 priority 13"},
+    {"source": "pulse", "event": "celestial_pulse", "action": "PCM_CH2 priority 12"},
+    {"source": "victory", "event": "victory", "action": "stop score and play PCM_CH2 priority 14"},
+    {"source": "failure", "event": "failure", "action": "stop score and play PCM_CH2 priority 15"},
+    {"source": "scene_exit", "event": "audio_stop", "action": "stop all PCM"}
+  ]
+}

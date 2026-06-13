@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "z80_task_ownership_contract",
+  "scene_id": "chase_first_playable",
+  "driver": "XGM2",
+  "tasks": [
+    {
+      "task": "looped_score",
+      "owner": "XGM2_PCM_CH1",
+      "priority": 7
+    },
+    {
+      "task": "critical_hit_pulse_result",
+      "owner": "XGM2_PCM_CH2",
+      "priority": 13
+    },
+    {
+      "task": "movement_pickup_menu_pressure",
+      "owner": "XGM2_PCM_CH3",
+      "priority": 4
+    }
+  ],
+  "custom_driver_allowed": false,
+  "pause_policy": "stop all PCM; resume restarts score loop",
+  "fallback": "drop pressure cue before replacing critical cues",
+  "blockers": [
+    "BlastEm audio listen required"
+  ]
+}

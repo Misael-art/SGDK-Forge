@@ -1,0 +1,122 @@
+﻿{
+    "build_version":  "build_v006",
+    "rom_sha256":  "bfbb7adffd586edc8f5f065b1c623a44250b806a17a73470223ae3ce73480850",
+    "size_bytes":  393216,
+    "timestamp":  "2026-06-04T05:48:52.9372721-03:00",
+    "source_commit_when_available":  null,
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  10,
+                               "blocking_statuses":  [
+                                                         "perceptual_motion_unvalidated",
+                                                         "visual_gate_blocked",
+                                                         "procedural_fallback_as_final",
+                                                         "visual_direction_failed",
+                                                         "budget_doc_mismatch",
+                                                         "scene_regression_incomplete",
+                                                         "emulator_evidence_stale",
+                                                         "freshness_audit_stale",
+                                                         "scene_closeout_gate_stale"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "runtime_metrics_stale",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "stale",
+                             "performance":  "estavel",
+                             "audio":  "ok",
+                             "hardware_real":  "blastem_reference_emulator"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_brand_fx_tiles",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_fx_tiles.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_engine_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_engine_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_author_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_author_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_project_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_project_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_presents_text",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_presents_text.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_chase_anim_runtime_bg",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/chase_anim_runtime_bg_v004.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_hero_run_toward",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/chase/hero_run_toward_64x80_strip_v003.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_pursuer_body_zloop",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/chase/pursuer_3q_front_mid_96x80_zloop_strip_v003.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_pursuer_head_zloop",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/chase/pursuer_head_horns_112x64_zloop_strip_v003.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_pursuer_hoof_zloop",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/chase/pursuer_attack_hoof_96x64_zloop_strip_v003.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_pursuer_dust_impact",
+                                      "version":  "v003",
+                                      "source_path":  "res/sprites/chase/pursuer_impact_dust_fx_64x32_strip_v005.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_chase_bg_b_elite",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/chase/chase_bg_b_elite.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_chase_bg_a_elite",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/chase/chase_bg_a_elite.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_obstacle_boulder",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/chase/chase_obstacle_boulder_64x48.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_obstacle_brand",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/chase/chase_obstacle_brand_64x48.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_energy_star",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/chase/chase_energy_star_32x32.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_chase_pulse_impact",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/chase/chase_pulse_impact_64x48.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

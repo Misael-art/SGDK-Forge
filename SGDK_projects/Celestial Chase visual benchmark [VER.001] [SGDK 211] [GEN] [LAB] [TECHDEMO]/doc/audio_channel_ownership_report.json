@@ -1,0 +1,12 @@
+{
+  "schema": "audio_channel_ownership_report_v1",
+  "status": "implemented_in_contract_pending_runtime",
+  "conflicts": [],
+  "protected_events": ["damage", "celestial_pulse", "victory", "failure"],
+  "dropped_first_under_contention": ["pressure_warning", "pickup"],
+  "delivery_findings": [
+    "Score ownership is isolated on PCM_CH1.",
+    "Critical cues cannot be masked by movement or UI cues.",
+    "Audio must be stopped symmetrically on pause and scene exit."
+  ]
+}

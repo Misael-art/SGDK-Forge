@@ -1,0 +1,11 @@
+interface:
+  display_name: "Art Conversion Pipeline"
+  short_description: "Converte assets para SGDK com paleta, grid e validacao"
+  brand_color: "#1D6F8C"
+  default_prompt: "Use $art-conversion-pipeline para converter assets de /data ou corrigir assets inadequados em /res para o padrao SGDK e Mega Drive. Se houver builder dedicado em tools/image-tools, reutilize essa rota curada antes de OCR, crop manual ou lote generico."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

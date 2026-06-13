@@ -1,0 +1,334 @@
+BRAWLER / RUN-AND-GUN SUBGENRE TAXONOMY (BIBLIA 1)
+======================================================
+
+Esta biblia cobre a taxonomia pedagogica dos subgeneros principais do genero
+Brawler e Run-and-Gun, com foco em viabilidade para Mega Drive (16-bit,
+64KB RAM, 7.67MHz 68K, 64KB VRAM). Foi copiada para fins de curadoria
+secundaria. O `verification_status=unverified_secondary_text` indica que este
+texto precisa de revisao humana antes de virar `promotion_allowed=true` em
+SOURCES_INDEX.md.
+
+Cobrimos: Beat 'em Up (Belt-Scroll), Run and Gun 2D, Run and Gun Top-Down.
+O v2 do framework foca em `brawler_belt_scroll` (active Wave 1),
+`brawler_run_and_gun_2d` (active Wave 2+) e `brawler_run_and_gun_topdown`
+(active Wave 3+).
+
+================================================================================
+1. DEFINICAO DO GENERO BRAWLER / RUN-AND-GUN
+================================================================================
+
+Brawler (ou Beat 'em Up) eh um genero onde o jogador controla 1-2
+personagens em um plano 2D, lutando contra hordas de inimigos com combate
+corpo-a-corpo. Run-and-Gun eh variacao que adiciona armas de fogo. Caracteristicas
+centrais:
+
+- **Wave Combat**: Inimigos vem em waves (hordas). Cada wave eh delimitada
+  por um pequeno intervalo (3-10s) ou marcador visual.
+- **Iframe (Invincibility Frames)**: Ao receber dano, jogador tem janela
+  curta (8-30 frames) de invencibilidade para evitar hit stacking.
+- **Escape Move**: Jogador pode usar movimento especial para escapar de
+  cercos (dash, roll, jump).
+- **Encounter Design**: Cada cenario (stage) tem encontros pre-definidos
+  com composicao de inimigos e timing. NAO aleatorio (vs RPG).
+- **Progressao Linear**: Stage 1 -> Stage 2 -> ... -> Boss. Sem
+  backtracking, sem open world.
+
+================================================================================
+2. SUBGENERO: BEAT 'EM UP (BELT-SCROLL)
+================================================================================
+
+### 2.1 Definicao
+
+Beat 'em Up Belt-Scroll eh o subgenero canonico de briga de rua em plano
+2D lateral. O jogador move-se em lanes (geralmente 1-3) ao longo de um
+cenario pre-definido (bairro, beco, dojo, ponte, etc), enfrentando waves
+de inimigos. Inspirado em Double Dragon, Streets of Rage, Final Fight,
+Golden Axe.
+
+### 2.2 Elementos Universais (presentes em todo belt-scroll)
+
+- **Camera Horizontal Lanes**: Camera rola lateralmente (1 lane) ou
+  alterna entre 2-3 lanes verticais (top/middle/bottom). Camera nunca
+  vertical.
+- **Player Count**: 1-2 jogadores (cooperativo local). Cada jogador
+  controla 1 personagem.
+- **Move Set Basico**: 3-5 movimentos:
+  - **Punch**: ataque rapido, curto alcance
+  - **Kick**: ataque medio, medio alcance
+  - **Grab/Throw**: agarra inimigo proximo, joga ou soca
+  - **Jump**: pula, permite double-jump opcional
+  - **Special Move**: gasta super bar, ataque area ou multi-hit
+- **Enemy Count On-Screen**: 4-8 inimigos visiveis simultaneamente. Mais
+  que 8 polui a tela e quebra frame budget.
+- **Pickup Drop**: Inimigos dropam:
+  - **Health**: pocao, sushi, fruta (recupera HP)
+  - **Weapon**: garrafa, taco, faca (durabilidade limitada, ataque forte)
+  - **Score**: $100, $500, $1000 (pontos)
+  - **Extra Life**: 1UP (raro)
+- **Stage Progression**: Linear. Cada stage termina com boss fight (1-3
+  fases de boss). Sem escolha de caminho.
+- **Lives System**: 3-5 vidas iniciais. Continue aumenta limite.
+- **Score System**: Pontos por inimigo derrotado. Score alto desbloqueia
+  continues extras ou ranking final.
+- **Iframe on Hit**: Ao receber dano, jogador tem janela de invencibilidade
+  (8-30 frames). Sem iframe, hit stacking (4 hits/s) mata em 1s.
+
+### 2.3 Elementos Exclusivos do Belt-Scroll
+
+- **Lane System**: Camera mostra 1-3 lanes horizontais. Jogador move-se
+  entre lanes (vertical) e ao longo da lane (horizontal).
+- **Throw Interaction**: Jogador pode pegar arma dropada e usar (1-2 hits
+  com durabilidade). Inimigo pego na grab eh jogavel em outro inimigo.
+- **Co-op Moves**: 2 jogadores podem fazer double-team attack (gasta super
+  bar, dano alto em area).
+- **Special Bar**: Medidor de super (0-100). Ataques combos e special
+  moves gastam/somam.
+- **Enemy Archetypes**: Pelo menos 4-6 tipos:
+  - **Grunt**: ataque basico, HP baixo
+  - **Heavy**: HP alto, ataque lento, alto dano
+  - **Thrower**: joga garrafas/facas a distancia
+  - **Runner**: rapido, baixa vida, knockback forte
+  - **Jumper**: pula e ataca de cima
+  - **Boss**: HP muito alto, multi-phase, telegraph obrigatorio
+- **Stage Hazards**: Barris, fogo, buracos (opcional). Some inimigo ao
+  cair. Pode matar jogador tambem.
+- **Respawn Pattern**: Inimigos respawnam em waves. Posicao de spawn
+  geralmente fora-da-tela (entram correndo ou pulando).
+- **Music Loop**: BGM por stage, com boss theme. Loop canonico 4-8
+  batidas.
+
+### 2.4 Elementos Fora do Escopo (NAO canonicos em belt-scroll)
+
+- **Top-Down View**: Use run_and_gun_topdown.
+- **Arma Primária**: Belt-scroll canonico usa pocao/soco. Arma eh
+  secundaria/limitada. Use run_and_gun_2d se arma for primária.
+- **Open World / City Free Roam**: Use sandbox (Yakuza) ou adventure.
+- **Multiplayer Head-to-Head (versus)**: Use fighting_2d.
+- **Story-Driven Choice**: Belt-scroll canonico tem narrativa linear
+  minima. Use adventure.
+
+### 2.5 Viabilidade em Mega Drive
+
+Brawler Belt-Scroll eh **MD-viavel**. Referencias canonicas ja em MD:
+
+- Streets of Rage 1/2/3 (Sega, 1991-1994) -- gold standard
+- Final Fight (Capcom, ports MD)
+- Golden Axe 1/2/3 (Sega, 1989-1993)
+- Altered Beast (Sega, 1989)
+- Comix Zone (Sega, 1995)
+
+Restricoes de hardware:
+- Enemy on-screen max: 8 (10+ causa sprite flicker no VDP)
+- Player sprite: 16x16 ou 16x24 (per frame)
+- Lane count: 1-3 (4+ lanes exige camera split)
+- Stage count: 5-8 (acima exige save data)
+- Boss phases: 1-3 (4+ sem telegraph fica ilegivel)
+- Special moves: 1-2 por personagem (3+ polui o controle)
+- Iframe: 8-30 frames (abaixo de 8 eh hit stacking; acima de 30 quebra
+  ritmo de combate)
+
+### 2.6 Frozen Design Axes (v2 do framework)
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "horizontal_lanes",
+  "player_count": "1_to_2",
+  "enemy_count_on_screen_max": 8,
+  "pickup_drop": "health_and_score",
+  "stage_progression": "linear_with_bosses",
+  "iframe_on_hit": "on"
+}
+```
+
+Cada eixo eh **congelado** durante a vigencia da especializacao. Mudanca
+exige nova rodada de curadoria + projeto piloto + ROM + BlastEm.
+
+### 2.7 Phase-Aware Blockers (disparam em ready_for_aaa/closeout)
+
+- `brawler_iframe_window_unsafe`: Iframe window deve ter duracao >= 8
+  frames. Abaixo disso, hit stacking eh mortal.
+- `brawler_pickup_drop_unbounded`: Pickup drop rate deve respeitar
+  budget de VBlank e nao pode dropar 10+ items por segundo.
+- `brawler_wave_spawner_deterministic`: Wave spawner deve ser
+  deterministico (scripted) para QA e replays.
+
+================================================================================
+3. SUBGENERO: RUN AND GUN 2D
+================================================================================
+
+### 3.1 Definicao
+
+Run and Gun 2D eh variacao do brawler onde o jogador usa **arma de fogo
+primaria** (pistola, rifle, shotgun) ao inves de soco. Inspirado em
+Contra, Metal Slug, Gunstar Heroes. Movimento lateral, inimigos em waves,
+bosses mecanicos.
+
+### 3.2 Elementos Universais
+
+- **Camera Horizontal Sidescroll**: Camera rola lateralmente sem lanes
+  verticais. Jogador move-se em X, pula em Y, atira em 4-8 direcoes.
+- **Player Count**: 1-2 jogadores.
+- **Move Set**: Run (4-8 dir), Jump (com gravity), Crouch, Aim (4-8
+  direcoes), Fire (continuo ou tap), Reload (weapon-specific).
+- **Weapon Pickup**: Drop-and-swap. Inimigo dropa arma, jogador pega,
+  troca a anterior. Tipos:
+  - **Pistol**: default, munição infinita
+  - **Machine Gun**: rapido, munição limitada
+  - **Shotgun**: spread, dano alto area
+  - **Rocket Launcher**: dano massivo, cooldown longo
+  - **Flame Thrower**: cone, dano continuo
+  - **Laser**: instantaneo, 1-3 tiros
+- **Ammo Count Max**: 99-999 (acima disso, sem display util).
+- **Enemy Spawn**: Continuous waves. Inimigos aparecem em pontos
+  pre-definidos (spawners visiveis ou off-screen) ate wave acabar.
+- **Cover Mechanic**: Opcional. Jogador pode esconder-se atras de
+  barricadas/barricas para reduzir hit chance.
+- **Destructible Cover**: Opcional. Cover toma dano e quebra apos N
+  hits, forçando jogador a mover.
+
+### 3.3 Elementos Exclusivos
+
+- **Weapon Pickup Swap**: Drop-and-swap eh canonico (vs pick-up-only
+  em brawler).
+- **Crosshair/Aim Indicator**: UI mostra direcao do tiro.
+- **Reload Mechanic**: Cada arma tem reload time. Sem reload, arma eh
+  dropada.
+- **Stage Hazards (fogo, agua, espinhos)**: Similar a belt-scroll.
+
+### 3.4 Viabilidade em Mega Drive
+
+Run and Gun 2D eh **MD-viavel**. Referencias:
+
+- Gunstar Heroes (Sega, 1993) -- 4-7 inimigos na tela
+- Contra Hard Corps (Konami, 1994) -- 4 inimigos na tela
+- Midnight Resistance (Data East, 1990)
+
+Restricoes adicionais vs brawler:
+- Projeteis consomem sprite ceiling (1 projetil = 1 sprite)
+- 4-7 inimigos na tela (menos que brawler porque projeteis ocupam sprites)
+- Weapon swap UI: 1-2 slots de arma (3+ polui)
+- Ammo count display: max 999 (acima exige 4 digitos)
+- Boss HP: 50-200 (acima quebra UI)
+
+### 3.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "horizontal_sidescroll",
+  "player_count": "1_to_2",
+  "weapon_pickup": "drop_and_swap",
+  "ammo_count_max": 999,
+  "enemy_spawn": "continuous_waves",
+  "cover_mechanic": "on"
+}
+```
+
+### 3.6 Phase-Aware Blockers
+
+- `brawler_iframe_window_unsafe` (aplicado tb em run-and-gun)
+- `brawler_pickup_drop_unbounded` (weapon pickup)
+- `brawler_wave_spawner_deterministic`
+
+================================================================================
+4. SUBGENERO: RUN AND GUN TOP-DOWN
+================================================================================
+
+### 4.1 Definicao
+
+Variacao top-down do run-and-gun. Camera olha de cima, jogador move-se
+em 8 direcoes, atira em 8 direcoes. Inspirado em Cabal, Mercs, Ikari
+Three.
+
+### 4.2 Elementos Universais
+
+- **Camera Top-Down**: Visao ortogonal/isometrica de cima. Player
+  controlado por D-pad 8-way.
+- **Aim Direction**: 8 direcoes (N, NE, E, SE, S, SW, W, NW). Joystick
+  ou D-pad+button.
+- **Move Set**: Run (8 dir), Aim (8 dir), Fire (continuo).
+- **Weapon Pickup**: Drop-and-swap. Tipos: pistol, machine gun, shotgun,
+  rocket, flame.
+- **Ammo Count Max**: 99-999.
+
+### 4.3 Elementos Exclusivos
+
+- **Enemy Spawn Room-Based**: Inimigos entram por portas/janelas
+  visiveis. Cada sala tem composicao fixa.
+- **Destructible Cover**: Cover toma dano, eh destrutivel.
+- **Vertical Aim**: Em algumas variantes, aim eh 16-way (N, NNE, NE,
+  ENE, ...) para maior precisao.
+
+### 4.4 Viabilidade em Mega Drive
+
+Run and Gun Top-Down eh **MD-viavel**. Referencias:
+
+- Ikari Three (SNK, 1989) -- mecanica similar
+- Mercs (Capcom, 1991) -- 1-2 inimigos por area
+- Gain Ground (Sega, 1991) -- estrategia + atirador top-down
+- Atomic Runner Chelnov (Data East, 1992) -- corredor
+
+Restricoes:
+- 2-4 inimigos na tela (menos que run-and-gun 2D porque o jogador
+  precisa ver area maior)
+- Room size: 16x16 a 24x24 tiles
+- Aim direction: 8-way (16-way eh melhor, mas 8-way cabe em u8)
+- Projectile count: 4-8 visiveis (sprite ceiling)
+
+### 4.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "topdown",
+  "player_count": "1_to_2",
+  "aim_direction": "8_way",
+  "ammo_count_max": 999,
+  "enemy_spawn": "room_based",
+  "destructible_cover": "on"
+}
+```
+
+### 4.6 Phase-Aware Blockers
+
+- `brawler_iframe_window_unsafe`
+- `brawler_pickup_drop_unbounded`
+- `brawler_wave_spawner_deterministic` (room-based spawner eh
+  deterministico por design)
+
+================================================================================
+5. CRITERIOS DE PROMOCAO
+================================================================================
+
+Os 3 subgeneros (brawler_belt_scroll, brawler_run_and_gun_2d,
+brawler_run_and_gun_topdown) ja estao em `active` no v2. Wave 1 entrega
+apenas `brawler_belt_scroll` com biblia+schemas+validator+skill+tests.
+Waves 2-3 entregam os outros dois. Todos os 3 compartilham:
+
+1. Schema proprio em `tools/sgdk_wrapper/schemas/brawler_<subgenero>_design_contract.schema.json`
+2. Validator proprio em `tools/sgdk_wrapper/validate_brawler_<subgenero>_specialization.ps1`
+3. Skill propria em `tools/sgdk_wrapper/.agent/skills/planning/brawler-<subgenero>-game-design/`
+4. 5 testes CI por subgenero
+
+================================================================================
+6. NOTAS DE CURADORIA
+================================================================================
+
+Este texto foi compilado de multiplas fontes publicas (manuais de
+Streets of Rage, Final Fight, Golden Axe, Contra, Gunstar Heroes;
+artigos genericos de game design). NAO inclui citacoes literais
+extensas. As listas de elementos universais/exclusivos seguem a
+convecao canonica do genero, nao citacao exata de uma unica fonte.
+
+Para usar este texto como base de `verified_curated`:
+1. Humano le integralmente.
+2. Humano decide se ha conflito com a politica de IP do workspace
+   (`art_style_catalog.json`).
+3. Humano atualiza `SOURCES_INDEX.md` com `verification_status=verified_curated`
+   e `promotion_allowed=true`.
+4. Humano registra a promocao em `doc/changelog/changelog.md` do wrapper.
+
+================================================================================
+7. FIM
+================================================================================

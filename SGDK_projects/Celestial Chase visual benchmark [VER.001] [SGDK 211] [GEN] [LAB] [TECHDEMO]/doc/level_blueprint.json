@@ -1,0 +1,252 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "chase_first_playable",
+  "golden_path": {
+    "waypoint_sequence": [
+      "road_awakes",
+      "first_choice",
+      "pressure_crossing",
+      "last_breath",
+      "celestial_gate"
+    ],
+    "visible_landmarks": [
+      "three luminous road lanes",
+      "pursuer silhouette and proximity",
+      "celestial gate growing at the horizon"
+    ],
+    "telegraph_chain": [
+      "lane tint marks the threatened path",
+      "warning flare pulses before activation",
+      "threat enters active collision window",
+      "impact or clean-avoid feedback resolves the beat"
+    ]
+  },
+  "waypoints": [
+    {
+      "waypoint_id": "road_awakes",
+      "position": "0-8 seconds",
+      "purpose": "Establish lane anchors and safe first pickup.",
+      "checkpoint": true
+    },
+    {
+      "waypoint_id": "first_choice",
+      "position": "8-20 seconds",
+      "purpose": "Teach lane change and isolated jump barrier.",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "pressure_crossing",
+      "position": "20-50 seconds",
+      "purpose": "Combine lane threats, barriers and Pulse decisions.",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "last_breath",
+      "position": "50-55 seconds",
+      "purpose": "Give a short recovery window before climax.",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "celestial_gate",
+      "position": "55-75 seconds",
+      "purpose": "Resolve the final pursuer attack pattern and reach the gate.",
+      "checkpoint": false
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "pulse_readiness_gate",
+      "gate_type": "mechanic_mastery",
+      "unlock_condition": "Collect four celestial energy pickups.",
+      "telegraph": "Pulse meter glows and pulse-ready cue plays."
+    },
+    {
+      "gate_id": "celestial_gate",
+      "gate_type": "narrative",
+      "unlock_condition": "Survive through frame 4500 with integrity above zero and pressure below 100.",
+      "telegraph": "Horizon gate brightens through the climax palette transition."
+    }
+  ],
+  "optional_routes": [
+    {
+      "route_id": "high_risk_energy_lane",
+      "reward": "Extra celestial energy and two points of pressure relief.",
+      "risk_level": "high"
+    },
+    {
+      "route_id": "clean_avoid_line",
+      "reward": "Five Pulse energy and three points of pressure relief.",
+      "risk_level": "medium"
+    }
+  ],
+  "risk_markers": [
+    {
+      "position": "intro_tutorial single lane",
+      "threat_type": "celestial_shard",
+      "telegraph": "Low bright shard silhouette appears 48 frames before collision."
+    },
+    {
+      "position": "rising_pressure alternating lane",
+      "threat_type": "astral_brand",
+      "telegraph": "Threatened lane receives a warm floor flare 36 frames before activation."
+    },
+    {
+      "position": "climax_escape pursuer strike",
+      "threat_type": "pursuer_hoof",
+      "telegraph": "Pursuer impact frame and lane flare align 28 frames before collision."
+    },
+    {
+      "position": "all active phases",
+      "threat_type": "pursuer_pressure",
+      "telegraph": "Pressure meter, warmer palette accents and danger cue cadence increase together."
+    }
+  ],
+  "breathing_zones": [
+    {
+      "zone_id": "last_breath",
+      "purpose": "Provide one safe pickup and a readable pause before the final attack sequence.",
+      "duration_target_seconds": 5
+    }
+  ],
+  "phase_rhythm_map": [
+    {
+      "phase": "calm",
+      "intensity": "low",
+      "start_waypoint": "road_awakes",
+      "end_waypoint": "first_choice",
+      "audio_state": "exploration",
+      "fidelity_target": "clear tutorial readability and cool palette"
+    },
+    {
+      "phase": "pressure",
+      "intensity": "high",
+      "start_waypoint": "first_choice",
+      "end_waypoint": "pressure_crossing",
+      "audio_state": "alert",
+      "fidelity_target": "paired threats, warm accents and visible pursuer growth"
+    },
+    {
+      "phase": "transition",
+      "intensity": "medium",
+      "start_waypoint": "pressure_crossing",
+      "end_waypoint": "last_breath",
+      "audio_state": "suspicion",
+      "fidelity_target": "short recovery without losing urgency"
+    },
+    {
+      "phase": "boss",
+      "intensity": "climax",
+      "start_waypoint": "last_breath",
+      "end_waypoint": "celestial_gate",
+      "audio_state": "boss",
+      "fidelity_target": "pursuer impacts, high contrast and stable obstacle readability"
+    },
+    {
+      "phase": "payoff",
+      "intensity": "low",
+      "start_waypoint": "celestial_gate",
+      "end_waypoint": "celestial_gate",
+      "audio_state": "victory_or_release",
+      "fidelity_target": "portal release and result readability"
+    }
+  ],
+  "mechanic_reuse_map": [
+    {
+      "mechanic_id": "lane_change",
+      "target_scenes": ["chase_first_playable"],
+      "reuse_count": 18
+    },
+    {
+      "mechanic_id": "jump",
+      "target_scenes": ["chase_first_playable"],
+      "reuse_count": 10
+    },
+    {
+      "mechanic_id": "celestial_pulse",
+      "target_scenes": ["chase_first_playable"],
+      "reuse_count": 3
+    },
+    {
+      "mechanic_id": "pursuer_pressure",
+      "target_scenes": ["chase_first_playable"],
+      "reuse_count": 3
+    }
+  ],
+  "tutorial_invisible_beats": [
+    {
+      "beat_id": "safe_pickup",
+      "teaches": "Celestial energy is desirable.",
+      "delivery": "Spawn the first pickup in the starting lane without threats."
+    },
+    {
+      "beat_id": "adjacent_pickup",
+      "teaches": "Left and right change lane.",
+      "delivery": "Spawn the next pickup in one adjacent lane."
+    },
+    {
+      "beat_id": "isolated_barrier",
+      "teaches": "A jumps low barriers.",
+      "delivery": "Spawn one low barrier with both adjacent lanes safe."
+    },
+    {
+      "beat_id": "pulse_ready",
+      "teaches": "B spends a full Pulse meter.",
+      "delivery": "Glow the meter, play the ready cue and follow with a paired threat."
+    }
+  ],
+  "environmental_narrative_map": [
+    {
+      "element": "cold star field and intact luminous road",
+      "story_beat": "The road still protects the runner at the beginning.",
+      "no_text_required": true
+    },
+    {
+      "element": "warmer sky accents and pursuer growing on the horizon",
+      "story_beat": "The ancient hart is closing the distance.",
+      "no_text_required": true
+    },
+    {
+      "element": "bright gate and stabilized road lines",
+      "story_beat": "The runner has reached temporary safety.",
+      "no_text_required": true
+    }
+  ],
+  "failure_recovery_model": {
+    "last_checkpoint": "road_awakes",
+    "reset_strategy": "Result state accepts A or START and re-enters APP_SCENE_CHASE with all static pools reset.",
+    "death_punishment": "The current 75-second attempt is lost; no persistent progress is removed."
+  },
+  "acceptance_tests": [
+    {
+      "test_id": "golden_path_visible",
+      "scenario": "Play from start without reading any instructions.",
+      "expected": "Three lanes, incoming threats and the final gate remain visually readable."
+    },
+    {
+      "test_id": "all_core_mechanics_required",
+      "scenario": "Complete one successful run.",
+      "expected": "Lane change, jump and Pulse each provide a meaningful advantage at least once."
+    },
+    {
+      "test_id": "fair_failure",
+      "scenario": "Allow every threat to hit.",
+      "expected": "Each hit was visibly telegraphed before failure and the result offers immediate restart."
+    },
+    {
+      "test_id": "no_softlock",
+      "scenario": "Pause and resume in every phase, then reach victory and failure results.",
+      "expected": "Every state has a deterministic continuation path."
+    }
+  ],
+  "pattern_break_audit": {
+    "previous_scope_id": "chase_visual_benchmark",
+    "palette_differentiation": "major",
+    "rhythm_variation": "major",
+    "hazard_introduction": [
+      "lane-bound celestial shard",
+      "astral brand",
+      "pursuer hoof strike",
+      "pressure failure system"
+    ]
+  }
+}

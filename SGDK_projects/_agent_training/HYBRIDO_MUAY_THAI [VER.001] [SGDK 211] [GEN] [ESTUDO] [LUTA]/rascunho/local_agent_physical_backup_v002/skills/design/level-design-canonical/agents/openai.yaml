@@ -1,0 +1,11 @@
+interface:
+  display_name: "Level Design Canonical"
+  short_description: "Emite level_blueprint.json com golden path e phase rhythm"
+  brand_color: "#5F8C2F"
+  default_prompt: "Use $level-design-canonical para emitir level_blueprint.json e level_design_report.json. golden_path.waypoint_sequence precisa de >= 2 waypoints. phase_rhythm_map precisa de fases calm E pressure. mechanic_reuse_map precisa listar toda mecanica core declarada no mechanic_contract.json. Valide contra tools/sgdk_wrapper/schemas/level_blueprint.schema.json e tools/sgdk_wrapper/schemas/level_design_report.schema.json."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

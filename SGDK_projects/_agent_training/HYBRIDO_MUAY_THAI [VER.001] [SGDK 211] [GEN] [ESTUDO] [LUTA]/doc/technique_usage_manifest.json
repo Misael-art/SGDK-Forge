@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": true
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "v002 registra treino/lab reprovado visualmente; v009 registra spritesheet runtime candidate nativo 48x64, ainda pendente de aprovacao visual humana."
+  },
+  "visual_curation_status": {
+    "visual_aprovado": false,
+    "human_approval_status": "pending_v009_visual_validation",
+    "final_art_available": false,
+    "current_runtime_candidate": "hibrido_fighter_sprite_sheet_v009",
+    "semantic_visual_failure": false,
+    "technical_pass_does_not_imply_visual_pass": true,
+    "reports": [
+      "out/logs/hibrido_v002_visual_rejection_report.json",
+      "out/logs/hibrido_v002_input_gatekeeper_report.json",
+      "out/logs/hibrido_v002_runtime_fidelity_report.json",
+      "out/logs/hibrido_v009_visual_translation_report.json",
+      "out/logs/hibrido_v009_sprite_artifact_report.json",
+      "out/logs/sprite_strip_integrity_report_v009.json",
+      "out/logs/blastem_evidence_reconciliation_v009.json"
+    ]
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "scene_id": "hibrido_fighter_viewer_v002",
+      "registry_id": "palette_remastering_slot_audit",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["PALETTE_REMASTERING", "PALETTE_MANAGEMENT_AVANCADO", "SHADOW_HIGHLIGHT"],
+      "owner_skills": ["art-conversion-pipeline", "megadrive-pixel-strict-rules", "visual-excellence-standards"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "PAL2/PAL3 foram exercitados tecnicamente, mas a traducao visual falhou: braco de lava, olhos, calcao e contraste quente nao ficaram legiveis no runtime. Tecnica preservada, arte rejeitada."
+    },
+    {
+      "scene_id": "hibrido_fighter_viewer_v002",
+      "registry_id": "rescomp_metasprite_decomposition_audit",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["RESCOMP_METASPRITE_AUDIT", "METASPRITE_OPTIMIZATION", "SPRITE_SCANLINE_BUDGET", "SPRITE_ENGINEERING"],
+      "owner_skills": ["sgdk-runtime-coder", "megadrive-vdp-budget-analyst"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Celula fixa 48x64 declarada como SPRITE 6x8. Decomposicao tecnica nao aprova anatomia, acting ou fidelidade visual."
+    },
+    {
+      "scene_id": "hibrido_fighter_viewer_v002",
+      "registry_id": "source_baked_pixel_art_standard",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["SOURCE_BAKED_PIXEL_ART", "PIXEL_LOCK", "ANIMATION_STRIP", "ART_PIPELINE_GATE"],
+      "owner_skills": ["art-conversion-pipeline", "art-translation-to-vdp", "megadrive-pixel-strict-rules"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "O source IA nao e runtime e foi rejeitado pelo input gatekeeper por anatomia/acting. A traducao P/PLTE<=16 tambem e placeholder reprovado, nao candidato visual."
+    },
+    {
+      "scene_id": "hibrido_fighter_viewer_v002",
+      "registry_id": "tile_dedup_hvflip_hashing",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["TILE_DEDUP_HVFLIP", "VRAM_TILE_INDEX_MANAGEMENT", "METASPRITE_OPTIMIZATION"],
+      "owner_skills": ["art-conversion-pipeline", "megadrive-vdp-budget-analyst"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Hash/dedup formal ainda nao promovido; mantido como tecnica de auditoria de sprite. Nao compensa falha perceptiva."
+    },
+    {
+      "scene_id": "hibrido_fighter_viewer_v002",
+      "registry_id": "large_metasprite_vblank_fit_audit",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["VBLANK_BUDGET_AUDIT", "METASPRITE_OPTIMIZATION", "DMA_OPTIMIZADO"],
+      "owner_skills": ["megadrive-vdp-budget-analyst", "sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Pior quadro local e body+FX do teep. Budget tecnico nao muda o status visual rejeitado."
+    },
+    {
+      "scene_id": "hibrido_fighter_viewer_v002",
+      "registry_id": "sprite_band_slot_allocator",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": ["SPRITE_BAND_ALLOCATOR", "SPRITE_SCANLINE_BUDGET", "MULTIPLEXING", "SPRITE_ENGINEERING"],
+      "owner_skills": ["megadrive-vdp-budget-analyst", "sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Dois sprites sobrepostos body+FX por acao. A sobreposicao prova split tecnico, mas nao aprova leitura de corpo/lava no Mega Drive."
+    },
+    {
+      "scene_id": "hibrido_fighter_viewer_v009",
+      "registry_id": "rescomp_metasprite_decomposition_audit",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": [
+        "RESCOMP_METASPRITE_AUDIT",
+        "METASPRITE_OPTIMIZATION",
+        "SPRITE_SCANLINE_BUDGET",
+        "SPRITE_ENGINEERING"
+      ],
+      "applied_local_patterns": [
+        "palette_material_slots",
+        "metasprite_48x64",
+        "animation_strip",
+        "sprite_optimization",
+        "vdp_budget",
+        "native_grid_pixel_redraw",
+        "technical_pass_visual_pending"
+      ],
+      "owner_skills": [
+        "art-conversion-pipeline",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "evidence": {
+        "rom_sha256": "764d5a95c5c6aa979905afaeba417c6225b0547299537bb27228c4c85a9b34da",
+        "blastem_evidence_paths": [
+          "out/evidence/blastem/screenshot.png",
+          "out/evidence/blastem/save.sram",
+          "out/logs/blastem_evidence_reconciliation_v009.json"
+        ],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "pixel_compliance_report_path": "out/logs/hibrido_v009_pixel_compliance_report.json",
+        "strip_integrity_report_path": "out/logs/sprite_strip_integrity_report_v009.json",
+        "promotion_record_path": "doc/contracts/human_validation_record_v009.md"
+      },
+      "doc_refs": [
+        "doc/contracts/visual_dna_manifest_v009.json",
+        "doc/contracts/animation_direction_contract_v009.json",
+        "doc/contracts/human_validation_record_v009.md",
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "v009 usa uma paleta de personagem de 16 entradas, strips body-only para idle/walk_step/guard_block/jab/knee/teep e viewer PAL2. FX separado/PAL3 fica preservado como tecnica aprendida, mas nao foi aplicado nesta rodada de paleta unica."
+    }
+  ]
+}

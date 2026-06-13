@@ -1,0 +1,1040 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]"
+  },
+  "policy": {
+    "local_auto_update": true,
+    "canonical_auto_mutation": false,
+    "human_approval_required": true,
+    "evidence_required": true
+  },
+  "generated_at": "2026-06-07T14:47:47Z",
+  "source_digest": "811478e05930a907beed556d1e863eeed09413efab3442c045cba514e18c3153",
+  "lessons": [
+    {
+      "lesson_id": "lesson_662dbdee48c09c72",
+      "title": "A Black PrintWindow Capture Is Not Emulator Evidence",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "a_black_printwindow_capture_is_not_emulator_evidence",
+      "context": "",
+      "observation": "the evidence tool reported screenshot success while the PNG contained only black pixels.",
+      "diagnosis": "the host capturer rejected nearly white `PrintWindow` failures but accepted nearly black failures.",
+      "resolution_or_preventive_heuristic": "treat almost-uniform white or black `PrintWindow` output as invalid and fall back to a real screen capture.",
+      "scope_limits": [
+        "visually inspect the dedicated screenshot and require recognizable active gameplay before citing it as evidence."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/lib/blastem_automation.psm1",
+        "owner_skill": "operation/sgdk-build-wrapper-operator",
+        "match_rule_id": "black_capture_is_not_emulator_evidence"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/lib/blastem_automation.psm1",
+        "summary": "Review existing owner against project lesson: A Black PrintWindow Capture Is Not Emulator Evidence",
+        "required_tests": [
+          "black capture rejection fixture",
+          "recognizable gameplay screenshot check"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_f61b72bf9dcbe3c5",
+      "title": "Derived Contract Compilation Must Be Idempotent",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-04",
+      "problem_signature": "derived_contract_compilation_must_be_idempotent",
+      "context": "",
+      "observation": "closeout recompiled an unchanged `scene-contracts.json`, changed only `compiled_at`, and immediately made the freshly passing scene regression stale.",
+      "diagnosis": "generated-artifact timestamps were treated as semantic changes, creating a validation cycle that could never remain fresh.",
+      "resolution_or_preventive_heuristic": "compare generated contracts without volatile metadata and preserve the existing file timestamp when semantics are unchanged; closeout must compile with the same rigor mode used by the delivery contract.",
+      "scope_limits": [
+        "compile twice, confirm the contract timestamp is unchanged, then verify freshness keeps scene regression fresh."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2d72ce32ec19ba75",
+      "title": "Horizontal Parallax Bands Use HScroll",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "horizontal_parallax_bands_use_hscroll",
+      "context": "",
+      "observation": "a proposed BG_B design assigned horizontal speed bands to column scrolling.",
+      "diagnosis": "`VSCROLL_COLUMN` changes vertical offset by 16px columns; it cannot express horizontal bands moving at different horizontal speeds.",
+      "resolution_or_preventive_heuristic": "horizontal speed bands belong to `HSCROLL_LINE` or `HSCROLL_TILE`; keep one scroll-table owner and author safe band boundaries into the art.",
+      "scope_limits": [
+        "verify that sky/Moon stay fixed, the mountain band moves slowly and no line boundary tears a silhouette."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "doc",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+        "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+        "match_rule_id": "horizontal_parallax_bands_use_hscroll"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+        "summary": "Review existing owner against project lesson: Horizontal Parallax Bands Use HScroll",
+        "required_tests": [
+          "scroll ownership review",
+          "band boundary visual regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_dcce8769adedffc3",
+      "title": "Incremental Build Logs Are Not Durable ResComp Evidence",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-04",
+      "problem_signature": "incremental_build_logs_are_not_durable_rescomp_evidence",
+      "context": "",
+      "observation": "a valid measured residency report became unverifiable after an incremental build no longer emitted the original ResComp origin-size lines.",
+      "diagnosis": "build logs describe work performed in that invocation, not the complete current resource graph.",
+      "resolution_or_preventive_heuristic": "preserve a ResComp origin-size snapshot bound to each source PNG SHA256 and to the final ROM SHA256; invalidate it when either identity changes.",
+      "scope_limits": [
+        "`res_graph_report.json` must report measured evidence as valid, zero overlaps and the exact current ROM hash."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_b6dfcb7d09797f07",
+      "title": "Measurement Code Must Not Consume The Budget It Measures",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-04",
+      "problem_signature": "measurement_code_must_not_consume_the_budget_it_measures",
+      "context": "",
+      "observation": "the first true per-scanline runtime probe pushed the chase to `cpu_load_max=138` with 56 frame overruns.",
+      "diagnosis": "clearing and scanning all 224 visible lines every frame made the diagnostic path more expensive than the behavior under test.",
+      "resolution_or_preventive_heuristic": "sample four evenly spaced real scanlines per frame and rotate the sampling window; cover all 224 lines over 56 frames while keeping the probe bounded.",
+      "scope_limits": [
+        "compare a fresh MDRT sample before and after enabling the probe; the instrumented build must keep `over_budget_frames=0`."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_44dbcee145e9f7a3",
+      "title": "Per-Scanline Multiplication Can Destroy The Frame Budget",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "per_scanline_multiplication_can_destroy_the_frame_budget",
+      "context": "",
+      "observation": "the cinematic road looked correct but drove the runtime sample to roughly 160% CPU.",
+      "diagnosis": "multiple multiplications inside a 224-line loop executed every frame overwhelmed the 68000.",
+      "resolution_or_preventive_heuristic": "derive line deformation with finite differences/addition, update visual tables at 30 Hz when perceptually safe, and keep actor/gameplay logic at 60 Hz.",
+      "scope_limits": [
+        "require a fresh MDRT sample after every road-equation change; visual correctness does not excuse frame overruns."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "lib_case",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+        "owner_skill": "code/sgdk-runtime-coder",
+        "match_rule_id": "per_scanline_multiplication_budget_risk"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+        "summary": "Review existing owner against project lesson: Per-Scanline Multiplication Can Destroy The Frame Budget",
+        "required_tests": [
+          "MDRT performance sample",
+          "road equation budget regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_d1e5198c429c3108",
+      "title": "Populated Width Matters More Than Declared Plane Width",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "populated_width_matters_more_than_declared_plane_width",
+      "context": "",
+      "observation": "a 512px hardware plane still exposed road seams during line scroll.",
+      "diagnosis": "the plane was `64x32` tiles, but the BG_A image populated only the first 320px while line scroll reached `-64px..+17px`; empty columns and an incompatible BG_B road became visible.",
+      "resolution_or_preventive_heuristic": "audit populated tilemap width, safe gutters and maximum signed scroll together; a larger plane does not create authored continuity.",
+      "scope_limits": [
+        "test maximum left/right curve plus shake and require zero exposed empty gutter."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+        "owner_skill": "art/multi-plane-composition",
+        "match_rule_id": "populated_tilemap_width_before_scroll"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+        "summary": "Review existing owner against project lesson: Populated Width Matters More Than Declared Plane Width",
+        "required_tests": [
+          "signed scroll gutter fixture",
+          "multi-frame seam regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_0a2b4b56e107c4e7",
+      "title": "Road And Motion Claims Need Temporal Evidence",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-07",
+      "problem_signature": "road_and_motion_claims_need_temporal_evidence",
+      "context": "",
+      "observation": "a single screenshot could hide road shearing, tile shimmer or motion that reads worse than the still frame.",
+      "diagnosis": "BG_A line/column scroll and pseudo-3D road polish are perceptual systems; static baseline equality cannot prove fluency, naturality or impact.",
+      "resolution_or_preventive_heuristic": "after every road-equation or BG_A art change, capture a multi-frame emulator sequence and keep `perceptual_check` human-gated unless review scores are explicitly recorded.",
+      "scope_limits": [
+        "compare frames across the run (`frame_090`, `frame_120`, `frame_150`, `frame_180` or equivalent); road motion must stay coherent while runtime MDRT remains under budget."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_d55ecd0b5ce4018f",
+      "title": "Shared App Scene IDs Need An Explicit Budget Alias Owner",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-04",
+      "problem_signature": "shared_app_scene_ids_need_an_explicit_budget_alias_owner",
+      "context": "",
+      "observation": "runtime metrics for gameplay were assigned to the result state because both contracts use `expected_app_scene_id=4` and the last alias silently won.",
+      "diagnosis": "a numeric runtime scene id cannot distinguish substates that share the same app scene.",
+      "resolution_or_preventive_heuristic": "declare one `budget_alias_owner` for shared runtime ids; the budget auditor must preserve that explicit owner when later aliases are registered.",
+      "scope_limits": [
+        "the first playable budget row must receive measured MDRT frames while the result-state row remains separate."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_9fa7534267e8bd22",
+      "title": "Signature Raster Tricks Do Not Enter A Saturated Scene By Default",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "signature_raster_tricks_do_not_enter_a_saturated_scene_by_default",
+      "context": "",
+      "observation": "HBlank SAT multiplexing was proposed to add star sprites while the scene already reached the sprite-per-scanline limit.",
+      "diagnosis": "the proposal added mid-frame SAT risk, raster ownership and CPU pressure without a gameplay benefit that justified the cost.",
+      "resolution_or_preventive_heuristic": "keep baked atmospheric detail in BG_B and reserve SAT/HBlank experiments for isolated benchmark ROMs with a declared fallback.",
+      "scope_limits": [
+        "no signature-only raster technique enters the delivery route without its own scanline, CPU, teardown and corruption evidence."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/workflows/route-decision-gate.md",
+        "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+        "match_rule_id": "saturated_scene_rejects_signature_raster_by_default"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/workflows/route-decision-gate.md",
+        "summary": "Review existing owner against project lesson: Signature Raster Tricks Do Not Enter A Saturated Scene By Default",
+        "required_tests": [
+          "lab-only technique routing fixture",
+          "fallback ownership review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_16264b8f1e5edeef",
+      "title": "Source-Derived Modular Torso Must Exclude External Limbs",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "source_derived_modular_torso_must_exclude_external_limbs",
+      "context": "",
+      "observation": "separate runtime claws existed, but residual arms in the derived torso made the pursuer read as having duplicated or tangled limbs.",
+      "diagnosis": "modularity in code does not repair a source crop that still owns the child module silhouette.",
+      "resolution_or_preventive_heuristic": "a torso module may retain shoulder sockets and core mass, but must remove the external silhouette owned by separate claws, hooves or weapons.",
+      "scope_limits": [
+        "inspect a temporal sequence, not one frame; exactly the intended child limbs must dominate at every articulation extreme."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/art-conversion-pipeline/SKILL.md",
+        "owner_skill": "art/art-conversion-pipeline",
+        "match_rule_id": "modular_source_crop_excludes_child_silhouette"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-conversion-pipeline/SKILL.md",
+        "summary": "Review existing owner against project lesson: Source-Derived Modular Torso Must Exclude External Limbs",
+        "required_tests": [
+          "modular silhouette temporal review",
+          "source crop ownership fixture"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_599ebb0962b79a82",
+      "title": "Sprite Transparency Index 0 Needs A Runtime Color Gate",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-07",
+      "problem_signature": "sprite_transparency_index_0_needs_a_runtime_color_gate",
+      "context": "",
+      "observation": "a technically green build rendered the hero inside an opaque blue/teal capsule.",
+      "diagnosis": "the asset remained indexed, but visible mantle/canvas pixels were written outside the silhouette; SGDK correctly drew those non-zero indices as solid sprite pixels.",
+      "resolution_or_preventive_heuristic": "critical sprite promotion requires both an indexed PNG contract (`transparent_index=0`, bounded edge occupancy, no full-width frame touch) and a BlastEm screenshot color-sampling gate over the hero ROI.",
+      "scope_limits": [
+        "`out/logs/visual_screenshot_color_gate_report.json` must pass on active gameplay, with no tall forbidden-matte columns; compiler success never clears this gate."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/visual_screenshot_color_gate_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_d300bec90f286fe1",
+      "title": "Static Sprite Scaling Is Not A Modular Boss",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "static_sprite_scaling_is_not_a_modular_boss",
+      "context": "",
+      "observation": "the pursuer appeared as a flat image moving vertically despite the project declaring modular assets.",
+      "diagnosis": "the body sprite owned the complete silhouette and child modules were never instantiated or updated.",
+      "resolution_or_preventive_heuristic": "a modular boss claim requires separate runtime sprites, a parent-before-child update order, visible relative motion, SAT pruning and a worst-scanline report.",
+      "scope_limits": [
+        "capture at least two frames where head and claws change relative position against the torso."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/validate_project_methodology.ps1",
+        "owner_skill": "architecture/scene-state-architect",
+        "match_rule_id": "modular_boss_requires_runtime_parts"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/validate_project_methodology.ps1",
+        "summary": "Review existing owner against project lesson: Static Sprite Scaling Is Not A Modular Boss",
+        "required_tests": [
+          "modular boss runtime fixture",
+          "boss parts schema validation",
+          "worst-scanline report regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_0baa5bf72dc185a8",
+      "title": "Total VDP Sprite Usage Is Not Scanline Pressure",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "total_vdp_sprite_usage_is_not_scanline_pressure",
+      "context": "",
+      "observation": "runtime reports claimed `max_scanline_sprites=20` and the budget gate treated the scene as exactly at the hardware scanline limit.",
+      "diagnosis": "the runtime probe populated that field from `SPR_getUsedVDPSprite()`, which SGDK documents as the maximum hardware sprite usage summed across all active sprites, then clamped the value to 20.",
+      "resolution_or_preventive_heuristic": "never label total VDP sprite usage as per-scanline pressure; use the canonical scanline simulator and runtime/VDP evidence for scanline claims.",
+      "scope_limits": [
+        "regenerate worst-frame traffic, impact and Pulse reports after every sprite-layout change and keep every line at or below 20."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+        "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+        "match_rule_id": "total_sprite_usage_is_not_scanline_pressure"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+        "summary": "Review existing owner against project lesson: Total VDP Sprite Usage Is Not Scanline Pressure",
+        "required_tests": [
+          "scanline simulator fixture",
+          "worst-frame sprite budget regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3d92de57904c0589",
+      "title": "v008 Technical Stability Masked Visual Failure",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "v008_technical_stability_masked_visual_failure",
+      "context": "",
+      "observation": "ROM booted and held frame budget, but the chase composition contained opaque FX mattes, broken hero anatomy, a flat pursuer and inverted plane motion.",
+      "diagnosis": "FX declared transparency at palette index 0 while their background pixels used index 1. BG_B reserved a beige color at palette index 0, contaminating the global backdrop. The runtime instantiated only the pursuer body despite approved head and hoof modules. BG_B moved faster than BG_A and the road only slid laterally. The methodology incorrectly classified road physics and modular boss as not applicable.",
+      "resolution_or_preventive_heuristic": "never promote a visual chase by performance metrics alone; validate every critical asset at pixel-index level and in active composition; require depth motion ownership and modular boss runtime symbols when they are part of the scene fantasy; budget pass and visual pass remain independent gates.",
+      "scope_limits": [
+        "active gameplay screenshot must show fixed deep sky, road depth motion, transparent FX and articulated pursuer; multi-frame evidence must prove hero cycle, Pulse expansion and rig motion."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "technical_pass_does_not_imply_visual_pass"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: v008 Technical Stability Masked Visual Failure",
+        "required_tests": [
+          "visual gate blocked with technical pass fixture",
+          "perceptual evidence regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_5a483b30d23952a7",
+      "title": "Visual Z And Collision Must Share One State",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "visual_z_and_collision_must_share_one_state",
+      "context": "",
+      "observation": "hazards appeared visually distant or clear while the fixed lane/Y collision window registered damage.",
+      "diagnosis": "render position, scale frame and collision activation were independent values.",
+      "resolution_or_preventive_heuristic": "derive screen position, lane spread, scale frame, contact shadow, hitbox and collision interval from one deterministic Z state.",
+      "scope_limits": [
+        "capture and test the exact frames immediately before, during and after the collision-active interval."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "schema",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/schemas/road_physics_contract.schema.json",
+        "owner_skill": "design/systems-mechanics-validator",
+        "match_rule_id": "visual_z_collision_shared_state"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/schemas/road_physics_contract.schema.json",
+        "summary": "Review existing owner against project lesson: Visual Z And Collision Must Share One State",
+        "required_tests": [
+          "road physics contract schema fixture",
+          "collision-active interval regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_e404869b5a301287",
+      "title": "Window-Chrome Variance Needs A Narrow Regression Tolerance",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-04",
+      "problem_signature": "window_chrome_variance_needs_a_narrow_regression_tolerance",
+      "context": "",
+      "observation": "the result-state regression differed by only 31 pixels because BlastEm's window title showed a variable FPS value.",
+      "diagnosis": "the whole-window capture included host chrome unrelated to the rendered Mega Drive frame.",
+      "resolution_or_preventive_heuristic": "prefer content-only capture; when unavailable, scope tolerant comparison to the single affected scene with a threshold small enough to reject any gameplay-frame drift.",
+      "scope_limits": [
+        "menu and gameplay remain exact-hash comparisons; only the declared result capture may use the documented `0.0005` tolerance."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_690d735910a52fbb",
+      "title": "Z-Axis Chase Cannot Use Inverted Parallax",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-04",
+      "problem_signature": "z_axis_chase_cannot_use_inverted_parallax",
+      "context": "",
+      "observation": "distant sky moved faster than the road and the road slid left without forward depth.",
+      "diagnosis": "both planes were treated as generic horizontal scroll layers without a vanishing-point contract.",
+      "resolution_or_preventive_heuristic": "keep deep sky fixed or near-fixed; drive forward travel through road depth tables and move atmospheric grafts slower than the playable plane.",
+      "scope_limits": [
+        "compare consecutive frames at the horizon and screen edge; edge road displacement must exceed horizon and sky displacement."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "schema",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/schemas/road_physics_contract.schema.json",
+        "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+        "match_rule_id": "z_axis_chase_requires_depth_direction"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/schemas/road_physics_contract.schema.json",
+        "summary": "Review existing owner against project lesson: Z-Axis Chase Cannot Use Inverted Parallax",
+        "required_tests": [
+          "depth direction evidence fixture",
+          "road horizon displacement regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    }
+  ],
+  "candidate_index": [
+    {
+      "lesson_id": "lesson_662dbdee48c09c72",
+      "title": "A Black PrintWindow Capture Is Not Emulator Evidence",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/lib/blastem_automation.psm1"
+    },
+    {
+      "lesson_id": "lesson_f61b72bf9dcbe3c5",
+      "title": "Derived Contract Compilation Must Be Idempotent",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_2d72ce32ec19ba75",
+      "title": "Horizontal Parallax Bands Use HScroll",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_dcce8769adedffc3",
+      "title": "Incremental Build Logs Are Not Durable ResComp Evidence",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_b6dfcb7d09797f07",
+      "title": "Measurement Code Must Not Consume The Budget It Measures",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_44dbcee145e9f7a3",
+      "title": "Per-Scanline Multiplication Can Destroy The Frame Budget",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_d1e5198c429c3108",
+      "title": "Populated Width Matters More Than Declared Plane Width",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_0a2b4b56e107c4e7",
+      "title": "Road And Motion Claims Need Temporal Evidence",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_d55ecd0b5ce4018f",
+      "title": "Shared App Scene IDs Need An Explicit Budget Alias Owner",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_9fa7534267e8bd22",
+      "title": "Signature Raster Tricks Do Not Enter A Saturated Scene By Default",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/workflows/route-decision-gate.md"
+    },
+    {
+      "lesson_id": "lesson_16264b8f1e5edeef",
+      "title": "Source-Derived Modular Torso Must Exclude External Limbs",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-conversion-pipeline/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_599ebb0962b79a82",
+      "title": "Sprite Transparency Index 0 Needs A Runtime Color Gate",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_d300bec90f286fe1",
+      "title": "Static Sprite Scaling Is Not A Modular Boss",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/validate_project_methodology.ps1"
+    },
+    {
+      "lesson_id": "lesson_0baa5bf72dc185a8",
+      "title": "Total VDP Sprite Usage Is Not Scanline Pressure",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py"
+    },
+    {
+      "lesson_id": "lesson_3d92de57904c0589",
+      "title": "v008 Technical Stability Masked Visual Failure",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_5a483b30d23952a7",
+      "title": "Visual Z And Collision Must Share One State",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/schemas/road_physics_contract.schema.json"
+    },
+    {
+      "lesson_id": "lesson_e404869b5a301287",
+      "title": "Window-Chrome Variance Needs A Narrow Regression Tolerance",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_690d735910a52fbb",
+      "title": "Z-Axis Chase Cannot Use Inverted Parallax",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/schemas/road_physics_contract.schema.json"
+    }
+  ],
+  "canonical_promotion_performed": false
+}

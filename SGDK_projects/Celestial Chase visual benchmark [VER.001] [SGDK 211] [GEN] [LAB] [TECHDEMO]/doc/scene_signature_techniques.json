@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "techniques": [
+    {
+      "technique_id": "pseudo3d_road_stack",
+      "gameplay_role": "Make three lane choices readable in forced perspective.",
+      "owner": "scene_chase and chase_obstacles",
+      "fallback": "Static approved road perspective with discrete lane anchors."
+    },
+    {
+      "technique_id": "line_scroll_floor",
+      "gameplay_role": "Communicate speed and escalation without changing collision rules.",
+      "owner": "scene_chase",
+      "fallback": "Plane scroll on BG_A."
+    },
+    {
+      "technique_id": "camera_shake_light_flash",
+      "gameplay_role": "Confirm damage, Pulse and pursuer impact.",
+      "owner": "chase_rules and chase_pursuer",
+      "fallback": "Dust plus palette accent."
+    },
+    {
+      "technique_id": "palette_state_transitions",
+      "gameplay_role": "Communicate phase and pressure escalation.",
+      "owner": "scene_chase",
+      "fallback": "Approved static environment palette."
+    }
+  ]
+}

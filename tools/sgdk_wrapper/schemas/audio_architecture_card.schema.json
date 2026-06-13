@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/audio_architecture_card.schema.json",
+  "title": "Audio Architecture Card",
+  "description": "Scene-level audio ownership contract for XGM2, YM2612 FM, PSG, DAC, PCM, priority, channel stealing, pause/resume, and fallback.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scene_id",
+    "audio_role",
+    "xgm2_mode",
+    "channel_ownership_map",
+    "sfx_priority_table",
+    "dac_budget",
+    "fallback_plan",
+    "approval_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "scene_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "audio_role": {
+      "type": "string",
+      "enum": [
+        "silent_intentional",
+        "bgm_sfx",
+        "ambience",
+        "cutscene",
+        "boss_setpiece",
+        "custom_driver"
+      ]
+    },
+    "xgm2_mode": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "standard_with_pcm",
+        "hybrid_custom_z80",
+        "not_applicable"
+      ]
+    },
+    "channel_ownership_map": {
+      "type": "object",
+      "required": [
+        "FM_CH1",
+        "FM_CH2",
+        "FM_CH3",
+        "FM_CH4",
+        "FM_CH5",
+        "FM_CH6_DAC",
+        "PSG_CH1",
+        "PSG_CH2",
+        "PSG_CH3",
+        "PSG_NOISE"
+      ],
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "owner",
+          "stealable"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stealable": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "sfx_priority_table": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "event",
+          "priority",
+          "channel",
+          "steals_lower_priority"
+        ],
+        "properties": {
+          "event": {
+            "type": "string",
+            "minLength": 1
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 15
+          },
+          "channel": {
+            "type": "string",
+            "minLength": 1
+          },
+          "steals_lower_priority": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "dac_budget": {
+      "type": "object",
+      "required": [
+        "dac_used",
+        "sample_rate_hz",
+        "max_concurrent_pcm",
+        "clipping_policy"
+      ],
+      "properties": {
+        "dac_used": {
+          "type": "boolean"
+        },
+        "sample_rate_hz": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "max_concurrent_pcm": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "clipping_policy": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "sound_chip_identity_plan": {
+      "type": "object",
+      "description": "Declares how the scene translates its intended sound into Mega Drive YM2612 FM, PSG and DAC roles instead of assuming SNES-style sample/echo behavior.",
+      "required": [
+        "target_sound_school",
+        "fm_patch_palette",
+        "psg_usage",
+        "dac_pcm_usage",
+        "reference_translation_policy",
+        "forbidden_assumptions"
+      ],
+      "properties": {
+        "target_sound_school": {
+          "type": "string",
+          "enum": [
+            "mega_drive_fm_psg_dac",
+            "mega_drive_sample_heavy",
+            "reference_translation_only",
+            "intentional_silence"
+          ]
+        },
+        "fm_patch_palette": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["role", "timbre_goal", "channel_owner"],
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": ["lead", "bass", "pad", "arp", "percussion", "fx", "stinger"]
+              },
+              "timbre_goal": {"type": "string", "minLength": 1},
+              "channel_owner": {"type": "string", "minLength": 1},
+              "patch_notes": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "psg_usage": {
+          "type": "object",
+          "required": ["role", "noise_use", "fallback"],
+          "properties": {
+            "role": {"type": "string", "minLength": 1},
+            "noise_use": {"type": "string", "minLength": 1},
+            "fallback": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
+        "dac_pcm_usage": {
+          "type": "object",
+          "required": ["used", "purpose", "channel_tradeoff_acknowledged", "sample_budget_policy"],
+          "properties": {
+            "used": {"type": "boolean"},
+            "purpose": {"type": "string", "minLength": 1},
+            "channel_tradeoff_acknowledged": {"type": "boolean"},
+            "sample_budget_policy": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
+        "reference_translation_policy": {"type": "string", "minLength": 1},
+        "forbidden_assumptions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "fallback_plan": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "approved_for_runtime",
+        "needs_review",
+        "blocked"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

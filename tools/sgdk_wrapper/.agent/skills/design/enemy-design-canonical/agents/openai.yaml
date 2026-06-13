@@ -1,0 +1,11 @@
+interface:
+  display_name: "Enemy Design Canonical"
+  short_description: "Emite enemy_roster.json com roles, head metric e synergy"
+  brand_color: "#A52F4A"
+  default_prompt: "Use $enemy-design-canonical para emitir enemy_roster.json e enemy_design_report.json. Toda entrada precisa de role (use tools/sgdk_wrapper/.agent/references/enemy_ai_role_catalog.json), telegraph_model com telegraph_frames >= 1, synergy_partners (exceto solo_tutorial e boss) e head_metric compativel (boss exige XL; use tools/sgdk_wrapper/.agent/references/head_metric_reference.json). Valide contra tools/sgdk_wrapper/schemas/enemy_roster.schema.json e tools/sgdk_wrapper/schemas/enemy_design_report.schema.json."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

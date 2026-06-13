@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "style_anchor_id": "celestial_chase_locked_v005",
+  "selected_style_id": "vibrant_16bit_pixel",
+  "visual_fantasy": "A luminous storybook chase rendered as crisp native 16-bit pixel art: a small ivory-and-blue hero runs toward the viewer while an ancient celestial hart closes across a deep indigo road and star-filled desert.",
+  "master_palette": {
+    "environment_domain": ["08122e", "102858", "205080", "806a82", "d4b576", "eef4da"],
+    "hero_domain": ["102858", "2878b8", "f0e5c5", "d9a94f", "ffffff"],
+    "pursuer_domain": ["241c38", "775073", "c18b55", "f1c46a", "f8e2a6"],
+    "danger_domain": ["d05a45", "f19a52"],
+    "ui_safe_domain": ["10182c", "f2e6bd", "58bde0", "e56b55"]
+  },
+  "palette_domains": {
+    "PAL0": "environment and phase accents",
+    "PAL1": "hero",
+    "PAL2": "pursuer, threats and gameplay FX",
+    "PAL3": "HUD and result"
+  },
+  "line_weight": "one-pixel exterior accents with selective dark clusters; no heavy continuous black outline",
+  "pixel_density": "dense focal characters, simplified repeated environment clusters, readable at native 320x224",
+  "lighting": "cool moonlit base with warm danger accents and ivory celestial highlights",
+  "dithering": "functional only in broad environment transitions; never automatic noise on characters",
+  "drift_limit": "asset must preserve palette domain, silhouette readability, source-baked cluster discipline and the locked v005 road/sky composition",
+  "prompt_descriptors": [
+    "native 16-bit pixel clusters",
+    "luminous celestial desert",
+    "deep indigo forced-perspective road",
+    "ivory blue and gold heroic runner",
+    "ancient mechanical hart in frontal three-quarter pursuit",
+    "hard palette separation",
+    "clean silhouette at 320x224"
+  ],
+  "negative_descriptors": [
+    "heavy black outline",
+    "automatic dithering noise",
+    "soft gradient",
+    "generic cyber neon",
+    "debug grid",
+    "flat laboratory background",
+    "ASCII-dominant interface",
+    "copied proprietary silhouette"
+  ],
+  "technical_references": [
+    {
+      "ref": "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/elite_split_scene/chase_elite_split_approval_board_v005.png",
+      "inspiration_only": true,
+      "role": "locked composition"
+    },
+    {
+      "ref": "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/source_baked_pixel_art_candidates_v001/animation_strip_candidates_v003/animation_strip_approval_board_v003.png",
+      "inspiration_only": true,
+      "role": "approved character motion"
+    }
+  ],
+  "similarity_limit_percent": 25,
+  "authoriality_gate": "required"
+}

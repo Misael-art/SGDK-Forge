@@ -1,0 +1,224 @@
+{
+  "_meta": {
+    "title": "Z80 Driver Architecture Reference",
+    "version": "1.0.0",
+    "purpose": "Authoritative reference for Z80 audio driver development on Mega Drive with SGDK 2.11",
+    "last_updated": "2026-04-23"
+  },
+
+  "z80_subsystem": {
+    "cpu": "Zilog Z80A",
+    "clock_ntsc": "3.579545 MHz",
+    "clock_pal": "3.546893 MHz",
+    "ram_start": "0xA00000 (68K address) / 0x0000 (Z80 local)",
+    "ram_end": "0xA01FFF (68K address) / 0x1FFF (Z80 local)",
+    "ram_size_bytes": 8192,
+    "stack_default": "0x2000 (grows downward)",
+    "interrupt_mode": "IM 1 (fixed vector at 0x0038)",
+    "nmi_vector": "0x0066",
+    "reset_vector": "0x0000"
+  },
+
+  "memory_map_z80_local": {
+    "0x0000-0x1FFF": "Z80 RAM (8KB — driver code + buffers + tables)",
+    "0x2000-0x3FFF": "Z80 RAM mirror",
+    "0x4000": "YM2612 Address Port 0 (FM channels 1-3)",
+    "0x4001": "YM2612 Data Port 0",
+    "0x4002": "YM2612 Address Port 1 (FM channels 4-6)",
+    "0x4003": "YM2612 Data Port 1",
+    "0x6000": "Bank Register (sets which 32KB window of 68K ROM is visible at 0x8000-0xFFFF)",
+    "0x7F11": "PSG (SN76489) write port",
+    "0x8000-0xFFFF": "Banked 68K ROM window (32KB, selected via bank register)"
+  },
+
+  "memory_map_68k_view": {
+    "0xA00000-0xA01FFF": "Z80 RAM (read/write when Z80 BUS taken)",
+    "0xA00100": "Z80_DRV_COMMAND — command register",
+    "0xA00102": "Z80_DRV_STATUS — status register",
+    "0xA00104": "Z80_DRV_PARAMS — parameter block start",
+    "0xA04000-0xA04003": "YM2612 ports (accessible from 68K)",
+    "0xA06000": "Z80 Bank Register (write from 68K)",
+    "0xA11100": "Z80_HALT_PORT — request/release Z80 BUS",
+    "0xA11200": "Z80_RESET_PORT — Z80 reset control"
+  },
+
+  "sgdk_driver_types": {
+    "Z80_DRIVER_NULL": { "id": 0, "description": "Dummy driver — infinite loop, only sets READY" },
+    "Z80_DRIVER_PCM": { "id": 1, "description": "Single channel, variable rate 8-32 Khz, 8-bit signed" },
+    "Z80_DRIVER_DPCM2": { "id": 2, "description": "2 channels, fixed 22.05 Khz, 4-bit DPCM" },
+    "Z80_DRIVER_PCM4": { "id": 3, "description": "4 channels, fixed 16 Khz, 8-bit signed, 16-level volume" },
+    "Z80_DRIVER_XGM": { "id": 4, "description": "XGM v1 music + 4 PCM channels at 14 Khz" },
+    "Z80_DRIVER_XGM2": { "id": 5, "description": "XGM v2 music + 3 PCM channels at 13.3/6.65 Khz" },
+    "Z80_DRIVER_CUSTOM": { "id": -1, "description": "Custom Z80 binary loaded via Z80_loadCustomDriver()" }
+  },
+
+  "driver_protocol": {
+    "command_register": {
+      "address_68k": "0xA00100",
+      "address_z80": "0x0100",
+      "size": "2 bytes",
+      "convention": "68K writes command bits, Z80 reads and clears after processing",
+      "standard_bits": {
+        "bit_0": "PLAY (channel 0 / general play)",
+        "bit_1": "PLAY channel 1",
+        "bit_2": "PLAY channel 2",
+        "bit_3": "PLAY channel 3",
+        "bit_4": "STOP",
+        "bit_5": "RESUME",
+        "bit_6": "PAUSE",
+        "bit_7": "reserved / driver-specific"
+      }
+    },
+    "status_register": {
+      "address_68k": "0xA00102",
+      "address_z80": "0x0102",
+      "size": "2 bytes",
+      "convention": "Z80 writes status, 68K reads",
+      "standard_bits": {
+        "bit_0": "PLAYING (channel 0)",
+        "bit_1": "PLAYING channel 1",
+        "bit_2": "PLAYING channel 2",
+        "bit_3": "PLAYING channel 3",
+        "bit_7": "READY (driver initialized)"
+      }
+    },
+    "params_block": {
+      "address_68k": "0xA00104",
+      "address_z80": "0x0104",
+      "description": "Driver-specific parameters (sample address, length, rate, etc.)"
+    }
+  },
+
+  "ym2612_dac": {
+    "register": "0x2A (written to address port 0, data port 0)",
+    "format": "8-bit unsigned (0x80 = silence/center)",
+    "timing": {
+      "address_write_z80_cycles": 6,
+      "data_write_z80_cycles": 8,
+      "full_sample_output_z80_cycles": 14,
+      "note": "DAC write is fast because it bypasses FM busy flag"
+    },
+    "dac_enable": {
+      "register": "0x2B to address port 0",
+      "value": "0x80 to enable DAC (bit 7)",
+      "effect": "Replaces FM channel 6 output with DAC"
+    },
+    "timer_a_for_pcm_clock": {
+      "registers": "0x24 (high 8 bits) + 0x25 (low 2 bits)",
+      "range": "0-1023 (10-bit)",
+      "formula": "freq = FM_clock / (72 * (1024 - timer_value))",
+      "default_xgm2": "1020 (0x3FC) = ~13300 Hz NTSC",
+      "fm_clock_ntsc": 7670453,
+      "fm_clock_pal": 7600489
+    }
+  },
+
+  "psg_sn76489": {
+    "port_z80": "0x7F11",
+    "port_68k": "0xC00011",
+    "channels": {
+      "0": "Tone generator 1 (10-bit frequency, 4-bit attenuation)",
+      "1": "Tone generator 2",
+      "2": "Tone generator 3",
+      "3": "Noise generator (2-bit frequency + 1-bit type, 4-bit attenuation)"
+    },
+    "attenuation": "0 = max volume, 15 = silence (off)",
+    "frequency_formula": "freq = 3579545 / (32 * tone_value)",
+    "noise_types": {
+      "periodic": "Low-frequency tone (useful for bass)",
+      "white": "Hiss/noise (useful for percussion, explosions)"
+    },
+    "noise_frequencies": {
+      "0": "clock/512",
+      "1": "clock/1024",
+      "2": "clock/2048",
+      "3": "Tone generator 3 frequency (allows variable noise pitch)"
+    }
+  },
+
+  "bank_register": {
+    "address_z80": "0x6000",
+    "address_68k": "0xA06000",
+    "mechanism": "Write 9 bits serially (bit 0 of each write, 9 writes total, MSB first)",
+    "window": "0x8000-0xFFFF on Z80 maps to selected 32KB bank of 68K ROM",
+    "bank_formula": "68K_addr = bank_value * 32768",
+    "max_addressable": "16MB (9-bit bank = 512 banks * 32KB)",
+    "sgdk_api": "Z80_setBank(bank_number)",
+    "latency_note": "Bank switch is NOT instant — 9 serial writes take ~45 Z80 cycles minimum"
+  },
+
+  "cycle_budgets": {
+    "cycles_per_frame_ntsc": {
+      "total": 59659,
+      "note": "3579545 Hz / 59.94 fps"
+    },
+    "cycles_per_frame_pal": {
+      "total": 70937,
+      "note": "3546893 Hz / 50 fps"
+    },
+    "cycles_per_sample_at_rate": {
+      "8000_hz": 447,
+      "11025_hz": 325,
+      "13300_hz": 269,
+      "14000_hz": 256,
+      "16000_hz": 224,
+      "22050_hz": 162,
+      "32000_hz": 112
+    },
+    "driver_overhead_reference": {
+      "null_driver": "~20 cycles/iteration (infinite loop)",
+      "pcm_single": "110-443 cycles/sample (rate dependent)",
+      "dpcm2_2ch": "161 cycles/sample (pessimist)",
+      "pcm4_4ch": "223 cycles/sample",
+      "xgm_4ch": "254 cycles/sample",
+      "xgm2_3ch": "269 cycles/sample + ~229 cycles V-int"
+    }
+  },
+
+  "bus_contention": {
+    "description": "When 68K accesses Z80 address space (0xA00000-0xA0FFFF), Z80 is halted. When VDP DMA runs, Z80 is also halted.",
+    "dma_impact": {
+      "vblank_dma": "Z80 halted for duration of DMA transfer — can be 100+ scanlines worth",
+      "hblank_dma": "Short Z80 halts per line — causes jitter in sample timing",
+      "mitigation_bus_protection": "Z80_setBusProtection(true) — Z80 signals safe windows to 68K",
+      "mitigation_delay_dma": "Z80_setForceDelayDMA(true) — ~3 scanline delay protects PSG access"
+    },
+    "safe_access_windows": {
+      "active_display": "68K can access Z80 RAM during active display (no DMA)",
+      "vblank_before_dma": "Brief window at start of VBlank before DMA starts",
+      "after_dma": "After DMA completes, Z80 resumes — may need resync"
+    },
+    "worst_case_scenario": "H-blank DMA + scroll update + sprite DMA + 68K→Z80 param write in same frame = audio dropout",
+    "aaa_rule": "Bus protection is MANDATORY, not optional, for AAA audio quality"
+  },
+
+  "custom_driver_template": {
+    "description": "Minimal structure for a custom Z80 driver compatible with SGDK Z80_loadCustomDriver()",
+    "requirements": [
+      "ORG $0000 (loaded at start of Z80 RAM)",
+      "DI at entry (disable interrupts initially)",
+      "Set SP to $2000",
+      "Set IM 1 for V-int support (or keep DI for polling)",
+      "Write $80 to STATUS register ($0102) when ready",
+      "Main loop: poll COMMAND register ($0100), process commands, clear processed bits",
+      "Total size must fit in 8KB minus buffer space"
+    ],
+    "skeleton_z80_asm": [
+      "    ORG $0000",
+      "    DI",
+      "    LD SP, $2000",
+      "    IM 1",
+      "    ; init hardware",
+      "    XOR A",
+      "    LD ($0100), A        ; clear COMMAND",
+      "    LD A, $80",
+      "    LD ($0102), A        ; set READY status",
+      "main_loop:",
+      "    LD A, ($0100)        ; read COMMAND",
+      "    OR A",
+      "    JR Z, main_loop      ; no command, loop",
+      "    ; process commands here",
+      "    JR main_loop"
+    ]
+  }
+}

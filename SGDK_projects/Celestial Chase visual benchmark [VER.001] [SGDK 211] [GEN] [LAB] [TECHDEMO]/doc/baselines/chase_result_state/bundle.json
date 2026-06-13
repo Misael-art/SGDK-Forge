@@ -1,0 +1,41 @@
+﻿{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_result_state",
+  "captured_at": "2026-06-05T15:52:10.6089788Z",
+  "rom_sha256": "fd05c0f4db73130f1faa89e296fcecc11963b3679d6a4630e3ddca9a1336d383",
+  "boot_mode": "sram_bootstrap",
+  "capture_frame": 120,
+  "warmup_frames": 90,
+  "expected_app_scene_id": 4,
+  "captured_app_scene_id": 4,
+  "scene_verification_required": true,
+  "scene_match": true,
+  "readiness_ok": true,
+  "ready_heartbeat_ok": true,
+  "mdrt_present": true,
+  "mdrt": {
+    "source_path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\out\\evidence\\scenes\\chase_result_state\\save.sram",
+    "sram_offset": 0,
+    "present": true,
+    "valid": true,
+    "magic": "MDRT",
+    "schema": 1,
+    "total_bytes": 138,
+    "word_count": 64,
+    "schema_version": 1,
+    "scene_id": 4,
+    "error": null
+  },
+  "artifacts_captured": [
+    "screenshot",
+    "sram"
+  ],
+  "artifacts": {
+    "screenshot": "screenshot.png",
+    "sram": "save.sram",
+    "vdp_dump": null
+  },
+  "required_artifacts_present": true,
+  "capture_status": "ok",
+  "failure_reason": null
+}

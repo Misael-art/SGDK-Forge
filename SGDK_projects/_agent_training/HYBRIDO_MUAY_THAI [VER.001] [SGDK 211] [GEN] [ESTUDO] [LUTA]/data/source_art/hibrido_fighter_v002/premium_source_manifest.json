@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_source_concept_v002",
+  "asset_role": "concept_art",
+  "accepted_as_premium_source": false,
+  "source_file": "data/source_art/hibrido_fighter_v002/source_concept.png",
+  "sha256": "39b3574be9e95c5a01af019ea65b1dda448950a26732b5431664e7f30c9e0c06",
+  "license_or_generation_basis": "AI generated concept source candidate for local training study; not copied from existing IP.",
+  "promotion_policy": "May inform native 48x64 redraw only. The source PNG must not be promoted directly to res/.",
+  "human_approval_required": true,
+  "human_approval_status": "rejected",
+  "source_visual_status": "rejected_input_source",
+  "rejection_report": "out/logs/hibrido_v002_input_gatekeeper_report.json",
+  "rejection_reasons": [
+    "Pose 3 anatomy/topology fails basic member count due duplicated guard arm reading.",
+    "Combat poses reuse static idle facial expression.",
+    "Requires corrected source or redraw before any final runtime translation."
+  ]
+}

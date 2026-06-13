@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_contract.schema.json",
+  "title": "SGDK Scene Contract Manifest",
+  "description": "Project-level manifest declaring the contract for each scene. Lives at <project_root>/doc/scene-contracts.json. Used by the linter, regression runner, and budget auditor.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project_profile",
+    "scenes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_profile": {
+      "type": "string",
+      "enum": ["lab", "production", "aaa_gate"],
+      "description": "Rigor level. lab=relaxed, production=standard, aaa_gate=strict"
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/definitions/scene_entry"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "scene_entry": {
+      "type": "object",
+      "required": [
+        "scene_id",
+        "scene_role",
+        "boot_mode"
+      ],
+      "properties": {
+        "scene_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Unique lowercase identifier for this scene"
+        },
+        "scene_role": {
+          "type": "string",
+          "enum": ["menu", "title", "gameplay", "boss", "cutscene", "lab", "debug", "benchmark"],
+          "description": "Functional role of the scene"
+        },
+        "boot_mode": {
+          "type": "string",
+          "enum": ["debug_menu", "sram_bootstrap", "runtime_flag", "direct_boot", "unsupported"],
+          "description": "How this scene can be deterministically reached"
+        },
+        "capture_kind": {
+          "type": "string",
+          "enum": ["screenshot", "evidence_bundle"],
+          "description": "Evidence mode expected for this scene."
+        },
+        "capture_frame": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Frame number at which to capture evidence"
+        },
+        "warmup_frames": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Frames to wait before scene is considered stable"
+        },
+        "required_assets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Relative paths to assets this scene depends on"
+        },
+        "visual_priority": {
+          "type": "string",
+          "enum": ["critical", "high", "normal", "low"],
+          "description": "Visual fidelity priority for this scene"
+        },
+        "palette_policy": {
+          "type": "string",
+          "description": "Describes palette usage strategy (e.g. 'single_pal0', 'dynamic_fade', 'multi_pal')"
+        },
+        "budget_profile": {
+          "type": "string",
+          "description": "Budget class reference (e.g. 'lightweight', 'standard', 'heavy_fx')"
+        },
+        "effects_active": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of active FX (e.g. 'raster_scroll', 'palette_fade', 'sprite_scaling')"
+        },
+        "cleanup_required": {
+          "type": "boolean",
+          "description": "Whether this scene needs explicit cleanup before transitioning"
+        },
+        "required_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["screenshot", "sram", "vdp_dump"]
+          },
+          "description": "Artifacts that must be present in the capture bundle."
+        },
+        "comparison_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["screenshot", "sram", "vdp_dump"]
+          },
+          "description": "Artifacts that participate in baseline diff. Defaults to screenshot-only when omitted."
+        },
+        "regression_required": {
+          "type": "boolean",
+          "description": "Whether this scene must have a regression baseline"
+        },
+        "cutscene_contract": {
+          "$ref": "#/definitions/cutscene_contract"
+        }
+      },
+      "additionalProperties": true
+    },
+    "cutscene_contract": {
+      "type": "object",
+      "description": "Required for scene_role=cutscene in production and aaa_gate modes.",
+      "required": [
+        "cutscene_mode",
+        "fsm_script",
+        "resource_plan",
+        "panel_layout",
+        "text_timing_map",
+        "advance_model",
+        "teardown_plan",
+        "evidence_plan"
+      ],
+      "properties": {
+        "cutscene_mode": {
+          "type": "string",
+          "enum": ["panel_sequence", "portrait_dialog", "pan_hold", "object_insert", "full_screen_justified", "mixed"]
+        },
+        "fsm_script": { "type": "string" },
+        "resource_plan": { "type": "string" },
+        "panel_layout": { "type": "string" },
+        "palette_script": { "type": "string" },
+        "text_timing_map": { "type": "string" },
+        "audio_cue_map": { "type": "string" },
+        "glyph_manifest": { "type": "string" },
+        "advance_model": {
+          "type": "string",
+          "enum": ["WAIT_INPUT", "WAIT_FRAMES", "TEXT_DONE", "AUDIO_CUE_DONE", "MIXED"]
+        },
+        "teardown_plan": { "type": "string" },
+        "evidence_plan": { "type": "string" },
+        "uses_fullscreen_bitmap": { "type": "boolean" },
+        "fullscreen_bitmap_justification": { "type": "string" },
+        "dynamic_fx": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "h_int_owner": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  }
+}

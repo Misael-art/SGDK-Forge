@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/meaningful_change_report.schema.json",
+  "title": "Meaningful Change Gate Report",
+  "description": "Verifica se a mudanca atual ataca o blocker dominante. Mudancas em wrapper/log/docs nao contam quando o blocker e visual/perceptual.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_root",
+    "dominant_blocker",
+    "change_category",
+    "attacks_dominant_blocker",
+    "valid_progress"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dominant_blocker": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dominant_category": {
+      "type": "string",
+      "enum": ["visual", "perceptual_motion", "runtime", "budget", "evidence", "documentation", "infra", "other"]
+    },
+    "change_diff_summary": {
+      "type": "string"
+    },
+    "change_category": {
+      "type": "string",
+      "enum": ["runtime", "visual", "art", "infra", "docs", "wrapper", "log", "schema", "other"]
+    },
+    "attacks_dominant_blocker": {
+      "type": "boolean"
+    },
+    "exception_for_measurement": {
+      "type": "boolean",
+      "description": "Mudanca em infra/docs conta se for necessaria para medir o blocker dominante"
+    },
+    "valid_progress": {
+      "type": "boolean"
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "blocker_code": {
+      "type": ["string", "null"],
+      "enum": [null, "meaningful_change_absent"]
+    }
+  },
+  "additionalProperties": false
+}

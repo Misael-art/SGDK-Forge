@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "ym2612_patch",
+  "patch_id": "clean_bell",
+  "channel": "FM_CH1",
+  "algorithm": 4,
+  "feedback": 2,
+  "uses_dac": false,
+  "operators": [
+    {
+      "detune": 0,
+      "multiple": 1,
+      "total_level": 24,
+      "rate_scaling": 0,
+      "attack_rate": 31,
+      "decay_rate": 12,
+      "sustain_rate": 4,
+      "release_rate": 7,
+      "sustain_level": 3
+    },
+    {
+      "detune": 0,
+      "multiple": 2,
+      "total_level": 30,
+      "rate_scaling": 0,
+      "attack_rate": 28,
+      "decay_rate": 10,
+      "sustain_rate": 5,
+      "release_rate": 7,
+      "sustain_level": 4
+    },
+    {
+      "detune": 1,
+      "multiple": 1,
+      "total_level": 34,
+      "rate_scaling": 0,
+      "attack_rate": 27,
+      "decay_rate": 9,
+      "sustain_rate": 4,
+      "release_rate": 6,
+      "sustain_level": 5
+    },
+    {
+      "detune": 0,
+      "multiple": 1,
+      "total_level": 18,
+      "rate_scaling": 0,
+      "attack_rate": 31,
+      "decay_rate": 8,
+      "sustain_rate": 3,
+      "release_rate": 6,
+      "sustain_level": 3
+    }
+  ]
+}

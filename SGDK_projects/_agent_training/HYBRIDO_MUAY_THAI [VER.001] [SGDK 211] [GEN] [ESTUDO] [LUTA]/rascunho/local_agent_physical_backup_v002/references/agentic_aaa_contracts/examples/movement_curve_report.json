@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "movement_curve_report",
+  "scene_id": "scene_training_ring",
+  "position_representation": "fix16",
+  "render_snap": "integer_pixels_only",
+  "curves": [
+    {
+      "name": "walk_accel",
+      "startup_frames": 6,
+      "max_speed_px_per_frame": 2,
+      "uses_float": false
+    }
+  ],
+  "blockers": []
+}

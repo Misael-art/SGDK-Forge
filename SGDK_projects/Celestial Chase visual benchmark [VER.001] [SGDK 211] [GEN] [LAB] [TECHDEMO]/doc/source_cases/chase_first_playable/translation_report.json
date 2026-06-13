@@ -1,0 +1,68 @@
+{
+  "schema": "art_translation_report_v1",
+  "status": "runtime_candidate_pending_rescomp_blastem_and_human_review",
+  "basic": {
+    "bg_b_unique_tiles": 975,
+    "bg_a_unique_tiles": 380,
+    "total_unique_tiles": 1355
+  },
+  "elite": {
+    "bg_b_unique_tiles": 501,
+    "bg_a_unique_tiles": 367,
+    "total_unique_tiles": 868
+  },
+  "elite_method": {
+    "BG_B": "tile representative reuse with 4x4 signature blocks",
+    "BG_A": "tile representative reuse with 2x2 signature blocks",
+    "global_downscale": false,
+    "source_baked_character_pixels_modified": false
+  },
+  "runtime_sprites": [
+    {
+      "symbol": "chase_obstacle_boulder_64x48",
+      "path": "res/sprites/chase/chase_obstacle_boulder_64x48.png",
+      "size": [
+        64,
+        48
+      ],
+      "unique_tiles": 47,
+      "sha256": "fc71f2a1e0dbf492a7bccb5a4744f67ceba739fec72f581c77501d4213fd95b8"
+    },
+    {
+      "symbol": "chase_obstacle_brand_64x48",
+      "path": "res/sprites/chase/chase_obstacle_brand_64x48.png",
+      "size": [
+        64,
+        48
+      ],
+      "unique_tiles": 37,
+      "sha256": "d83d8de9b6d33c42c1bc6456e67bc41f6f45a381e26816e7c850f05e6893be08"
+    },
+    {
+      "symbol": "chase_energy_star_32x32",
+      "path": "res/sprites/chase/chase_energy_star_32x32.png",
+      "size": [
+        32,
+        32
+      ],
+      "unique_tiles": 7,
+      "sha256": "66cf96d67a709be7b06535d917cdb09beebf4bef902d629fca5bad77d62197f8"
+    },
+    {
+      "symbol": "chase_pulse_impact_64x48",
+      "path": "res/sprites/chase/chase_pulse_impact_64x48.png",
+      "size": [
+        64,
+        48
+      ],
+      "unique_tiles": 32,
+      "sha256": "f6a6076fffb2e791a854038f63177aba2075c341cfd95c0870f2300ee8350cdc"
+    }
+  ],
+  "dominant_problem_class": "erro_de_budget",
+  "delivery_findings": [
+    "Elite preserves the v007 focal road while reducing resident background tiles.",
+    "Translated props and FX remain perceptual candidates until seen at gameplay speed.",
+    "No human approval is inferred by this builder."
+  ]
+}

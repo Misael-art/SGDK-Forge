@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "runtime_animation_timing_map",
+  "scene_id": "chase_first_playable",
+  "animations": [
+    {
+      "id": "hero_run_toward",
+      "frames": 4,
+      "ticks": [6, 6, 6, 6],
+      "upload_parity": "even simulation frames"
+    },
+    {
+      "id": "pursuer_body_zloop",
+      "frames": 6,
+      "ticks": [6, 5, 5, 7, 5, 5],
+      "upload_parity": "odd simulation frames"
+    },
+    {
+      "id": "pursuer_dust_impact",
+      "frames": 5,
+      "ticks": [2, 2, 2, 3, 3],
+      "upload_parity": "independent; included in worst-frame DMA"
+    },
+    {
+      "id": "pulse_impact",
+      "frames": 6,
+      "visible_ticks": 18,
+      "upload_parity": "bounded expansion frames"
+    },
+    {
+      "id": "hazard_scale_stage",
+      "frames": 4,
+      "ticks": "changes only at shared obstacle Z thresholds",
+      "upload_parity": "bounded transition upload",
+      "purpose": "synchronize apparent scale, contact and collision"
+    }
+  ],
+  "hitstop_frames": {
+    "damage": 4,
+    "pulse": 5
+  },
+  "blockers": [
+    "motion approval remains human-gated"
+  ]
+}

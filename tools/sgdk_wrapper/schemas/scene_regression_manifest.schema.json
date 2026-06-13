@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_regression_manifest.schema.json",
+  "title": "Scene Regression Manifest",
+  "description": "Project-level manifest at <project_root>/doc/scene-regression.json defining which scenes to regress, how to boot them, and what to compare.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scenes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/definitions/regression_scene"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "regression_scene": {
+      "type": "object",
+      "required": [
+        "scene_id",
+        "boot_mode",
+        "capture_kind"
+      ],
+      "properties": {
+        "scene_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "boot_mode": {
+          "type": "string",
+          "enum": ["debug_menu", "sram_bootstrap", "runtime_flag", "direct_boot", "unsupported"],
+          "description": "How to deterministically reach this scene"
+        },
+        "capture_kind": {
+          "type": "string",
+          "enum": ["screenshot", "evidence_bundle"],
+          "description": "screenshot=single PNG, evidence_bundle=canonical capture for the project. For V2 projects this normally means screenshot+sram (MDRT); legacy pipelines may also include visual_vdp_dump.bin."
+        },
+        "capture_frame": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Frame number at which to capture"
+        },
+        "capture_hold_frame": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535,
+          "description": "Optional QA-only scene frame at which the ROM freezes scene simulation after SRAM bootstrap so capture is deterministic."
+        },
+        "warmup_frames": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Frames to wait before scene is stable"
+        },
+        "baseline_root": {
+          "type": "string",
+          "description": "Relative path from project root to the baseline directory for this scene"
+        },
+        "comparison_mode": {
+          "type": "string",
+          "enum": ["exact", "tolerant"],
+          "description": "exact=hash match, tolerant=pixel-tolerance diff"
+        },
+        "tolerance_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "For tolerant mode: max fraction of differing pixels (0.0-1.0)"
+        },
+        "required_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["screenshot", "sram", "vdp_dump"]
+          },
+          "description": "Which artifacts must be present in the captured evidence bundle. This gates presence only; it does not define baseline diff behavior."
+        },
+        "comparison_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["screenshot", "sram", "vdp_dump"]
+          },
+          "description": "Which artifacts are compared against the baseline. Defaults to ['screenshot'] when omitted."
+        },
+        "navigation_sequence": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "BlastEm navigation commands to reach this scene"
+        },
+        "scene_key": {
+          "type": "string",
+          "description": "Human-readable key for this scene (e.g. 'slice1_multiplane')"
+        },
+        "expected_app_scene_id": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "App-defined scene ID expected in MDRT block after capture"
+        },
+        "bootstrap_scene_id": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Scene ID to write into SRAM bootstrap payload for sram_bootstrap boot mode"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "z80_task_ownership_contract",
+  "scene_id": "scene_training_ring",
+  "driver": "XGM2",
+  "tasks": [
+    {
+      "task": "bgm",
+      "owner": "XGM2",
+      "priority": 5
+    },
+    {
+      "task": "heavy_hit_pcm",
+      "owner": "XGM2_PCM_CH1",
+      "priority": 12
+    }
+  ],
+  "custom_driver_allowed": false,
+  "fallback": "drop ambience before switching away from XGM2",
+  "blockers": []
+}

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Fighting Game Design (Orchestrator)"
+  short_description: "Orquestra fighting_2d por opt-in e delega skills"
+  brand_color: "#B23A48"
+  default_prompt: "Use $fighting-game-design APENAS quando o projeto declarou opt-in em doc/genre_specialization_manifest.json com specialization_id=fighting_2d_traditional. Esta skill nao cria GDD nem TDD; ela orquestra systems-mechanics-validator, character-design, sprite-animation, megadrive-vdp-budget-analyst, xgm2-audio-director, sgdk-runtime-coder e tdd-authoring. Emite fighting_2d_design_contract.json (design de superficie) e fighting_moveset_frame_data.json por personagem. NUNCA infere ativacao por nome de pasta, codigo ou regex. time_unit=frames, head_metric_policy=advisory, balance_evidence_required=true, rollback_netcode=not_applicable. Validator canonico: tools/sgdk_wrapper/validate_fighting_specialization.ps1."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

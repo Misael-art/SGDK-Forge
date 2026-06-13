@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "code_review_report",
+  "scope": [
+    "src/core/app.c",
+    "src/scenes/scene_branding.c",
+    "src/scenes/scene_boot.c",
+    "src/scenes/scene_menu.c",
+    "src/scenes/scene_chase.c",
+    "src/gameplay/chase_rules.c",
+    "src/gameplay/chase_player.c",
+    "src/gameplay/chase_obstacles.c",
+    "src/gameplay/chase_pursuer.c",
+    "src/gameplay/chase_hud.c",
+    "src/system/audio.c",
+    "res/resources.res",
+    "data/builders/build_chase_first_playable_assets.py",
+    "data/builders/build_chase_audio.py"
+  ],
+  "workspace_scope_isolation": true,
+  "decision": "review_passed_with_risk",
+  "findings": [
+    {
+      "severity": "high",
+      "status": "fixed",
+      "title": "scene-entry plane clears used immediate DMA",
+      "resolution": "replaced VDP_clearPlane with CPU VDP_clearTileMapRect"
+    },
+    {
+      "severity": "high",
+      "status": "fixed",
+      "title": "BG_B line scroll table was incomplete in HSCROLL_LINE mode",
+      "resolution": "queue complete BG_A and BG_B tables every active frame"
+    },
+    {
+      "severity": "medium",
+      "status": "fixed",
+      "title": "chase palette timeline wrote CRAM during active frame",
+      "resolution": "queue PAL_setColors with DMA_QUEUE"
+    },
+    {
+      "severity": "medium",
+      "status": "partial_evidence",
+      "title": "current runtime is proven for active gameplay and failure, but not the full route",
+      "resolution": "current-ROM BlastEm screenshot/SRAM/runtime metrics exist; victory and result restart/menu input transitions remain unproven"
+    },
+    {
+      "severity": "medium",
+      "status": "fixed_after_blastem_review",
+      "title": "result text competed with the detailed chase composition",
+      "resolution": "hide actors and queue black BG palettes before drawing the result card"
+    },
+    {
+      "severity": "low",
+      "status": "open_human_gate",
+      "title": "motion and visual readability remain human-gated",
+      "resolution": "preserve blocker until explicit approval"
+    }
+  ],
+  "checks": {
+    "sgdk_2_11_api_verified": true,
+    "float_or_double": false,
+    "heap_in_loop": false,
+    "active_frame_dma": false,
+    "hint_owner_conflict": false,
+    "window_owner_conflict": false,
+    "audio_owner_conflict": false,
+    "debug_toggle_in_delivery": false
+  },
+  "blockers": [
+    "full route, victory, and result input transitions remain unproven",
+    "scene regression passes menu/result but active-play capture remains blocked by runner timing",
+    "human perceptual approval remains pending"
+  ]
+}

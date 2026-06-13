@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "catalog_id": "megadrive_dev_mechanic_role_catalog",
+  "purpose": "Canonical 8 mechanic roles for game systems on Mega Drive. Used by systems-mechanics-validator.",
+  "roles": [
+    {
+      "role_id": "core",
+      "display_name": "Mecanica Central",
+      "description": "Mecanica principal do jogo; deve ter versatility_cases >= 3, level_design_reuse_plan.min_reuses >= 3, e combination_map >= 1.",
+      "example": "pulo_duplo_em_plataforma, dash_em_briga, lock_on_em_run_and_gun"
+    },
+    {
+      "role_id": "supporting",
+      "display_name": "Mecanica de Apoio",
+      "description": "Apoia uma mecanica central; tem reuso limitado e regras claras.",
+      "example": "wall_jump_para_alcancar_coletavel, parry_para_abrir_combo, slide_para_passar_por_gap"
+    },
+    {
+      "role_id": "utility",
+      "display_name": "Utilidade",
+      "description": "Tem skill_challenge_type=none_utility permitido; goal_link obrigatorio; baixo atrito.",
+      "example": "mapa_pausado, zoom_de_camera, marcadores_de_tutorial"
+    },
+    {
+      "role_id": "traversal",
+      "display_name": "Travessia",
+      "description": "Move o jogador pelo cenario; ensina o espaco do jogo.",
+      "example": "correr, escalar, planar, nadar, dash_horizontal"
+    },
+    {
+      "role_id": "combat",
+      "display_name": "Combate",
+      "description": "Resolve encontros; tem feedback forte e risco de morte.",
+      "example": "ataque_leve, ataque_pesado, especial, contra_ataque"
+    },
+    {
+      "role_id": "stealth",
+      "display_name": "Furtividade",
+      "description": "Evita ou atrasa combate; depende de leitura espacial.",
+      "example": "agachar_para_evitar_visao, distrair_com_objeto, ataque_silencioso_por_tras"
+    },
+    {
+      "role_id": "economy",
+      "display_name": "Economia",
+      "description": "Gerencia recursos; pressiona decisao entre gastar/agora e guardar/para_boss.",
+      "example": "moeda_para_upgrade, vida_limitada_para_recarregar, muniçao_para_especial"
+    },
+    {
+      "role_id": "ui",
+      "display_name": "Interface",
+      "description": "Comando indireto via interface; nao e acao direta no mundo.",
+      "example": "abrir_pausa, navegar_inventario, confirmar_dialogo"
+    }
+  ]
+}

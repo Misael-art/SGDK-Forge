@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/project_bible.schema.json",
+  "title": "Project Bible",
+  "description": "Machine-readable creative bible for project identity, authorship, benchmark policy, and non-copyable visual/audio/gameplay pillars.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project_id",
+    "project_title",
+    "authorial_identity",
+    "core_fantasy",
+    "visual_pillars",
+    "gameplay_pillars",
+    "audio_pillars",
+    "benchmark_policy",
+    "forbidden_clone_targets",
+    "approval_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "project_title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorial_identity": {
+      "type": "string",
+      "minLength": 1
+    },
+    "core_fantasy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "visual_pillars": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "gameplay_pillars": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "audio_pillars": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "signature_promise": {
+      "type": "object",
+      "required": [
+        "one_sentence",
+        "signature_mechanics",
+        "signature_audiovisual_moments",
+        "what_must_never_feel_generic"
+      ],
+      "properties": {
+        "one_sentence": {
+          "type": "string",
+          "minLength": 12
+        },
+        "signature_mechanics": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "signature_audiovisual_moments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "what_must_never_feel_generic": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "creative_director_radar_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "benchmark_policy": {
+      "type": "object",
+      "required": [
+        "allowed_use",
+        "disallowed_use",
+        "max_similarity_default"
+      ],
+      "properties": {
+        "allowed_use": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "disallowed_use": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "max_similarity_default": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "forbidden_clone_targets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved_for_production",
+        "needs_review",
+        "blocked"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "style_drift_report_v1",
+  "scene": "chase_first_playable",
+  "status": "correction_required",
+  "locked_style": "vibrant_16bit_pixel",
+  "drift_findings": [
+    {
+      "surface": "runtime_background",
+      "severity": "blocker",
+      "finding": "Current flat fallback loses the approved celestial desert depth and gold focal hierarchy.",
+      "correction": "Use the v007 source direction through a budgeted multi-plane translation."
+    },
+    {
+      "surface": "runtime_obstacles",
+      "severity": "major",
+      "finding": "No authored obstacle family is currently integrated despite an available source sheet.",
+      "correction": "Promote readable obstacle silhouettes from the approved source sheet."
+    },
+    {
+      "surface": "runtime_fx",
+      "severity": "major",
+      "finding": "Gameplay events lack the authored impact and celestial FX language available in the source sheet.",
+      "correction": "Integrate dust, spark, pulse and impact variants with gameplay ownership."
+    },
+    {
+      "surface": "menu_and_hud",
+      "severity": "major",
+      "finding": "Development presentation conflicts with the locked project identity.",
+      "correction": "Replace it with a compact authored menu, HUD and result presentation."
+    }
+  ],
+  "protected_elements": [
+    "hero silhouette",
+    "pursuer silhouette",
+    "navy-indigo-gold material hierarchy",
+    "gold road focal line",
+    "source-baked pixel art"
+  ]
+}

@@ -1,0 +1,476 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/ui_pixel_surface_contract.schema.json",
+  "title": "UI Pixel Surface Contract",
+  "description": "Pixel-perfect contract for HUD/UI surfaces, including health bars, text boxes, micro-icons and menu UI. It complements ui_decision_card and blocks fake pixel UI, fractional scaling, and runtime approval without evidence.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "surface_id",
+    "surface_kind",
+    "ui_decision_card_ref",
+    "pixel_grid_policy",
+    "typography_policy",
+    "atlas_plan",
+    "validation_plan",
+    "approval_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "surface_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "surface_kind": {
+      "type": "string",
+      "enum": [
+        "health_bar",
+        "text_box",
+        "inventory_grid",
+        "micro_icon_set",
+        "menu_cursor",
+        "mixed_ui",
+        "title_frontend"
+      ]
+    },
+    "ui_decision_card_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pixel_grid_policy": {
+      "type": "object",
+      "required": [
+        "native_resolution",
+        "integer_positioning_required",
+        "scaling_policy",
+        "forbidden_interpolation"
+      ],
+      "properties": {
+        "native_resolution": {
+          "type": "string",
+          "enum": [
+            "320x224",
+            "256x224",
+            "scene_specific"
+          ]
+        },
+        "integer_positioning_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "scaling_policy": {
+          "type": "string",
+          "enum": [
+            "one_x_native",
+            "integer_scale_only",
+            "window_plane_pixels",
+            "not_scaled"
+          ]
+        },
+        "forbidden_interpolation": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "bilinear",
+              "bicubic",
+              "lanczos",
+              "engine_free_scale",
+              "subpixel_ui_motion",
+              "anti_aliased_edges"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "typography_policy": {
+      "type": "object",
+      "required": [
+        "font_role",
+        "native_font_height_px",
+        "baseline_grid_px",
+        "contrast_treatment",
+        "glyph_manifest_ref"
+      ],
+      "properties": {
+        "font_role": {
+          "type": "string",
+          "enum": [
+            "none",
+            "hud_critical",
+            "narrative_text",
+            "front_end_premium"
+          ]
+        },
+        "native_font_height_px": {
+          "type": "integer",
+          "minimum": 0,
+          "multipleOf": 8
+        },
+        "baseline_grid_px": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "contrast_treatment": {
+          "type": "string",
+          "enum": [
+            "none",
+            "one_px_shadow",
+            "full_outline",
+            "dedicated_panel"
+          ]
+        },
+        "glyph_manifest_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "atlas_plan": {
+      "type": "object",
+      "required": [
+        "atlas_ref",
+        "vdp_surface",
+        "palette_domain",
+        "index0_policy",
+        "budget_ref"
+      ],
+      "properties": {
+        "atlas_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vdp_surface": {
+          "type": "string",
+          "enum": [
+            "WINDOW",
+            "BG_A",
+            "BG_B",
+            "SPRITES",
+            "MIXED"
+          ]
+        },
+        "palette_domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "index0_policy": {
+          "type": "string",
+          "enum": [
+            "transparent_for_sprites",
+            "solid_for_window_or_bg",
+            "mixed_declared"
+          ]
+        },
+        "budget_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "nine_slice_system": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "corner_policy",
+        "edge_policy",
+        "center_policy"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "corner_policy": {
+          "type": "string",
+          "enum": [
+            "static_pixels",
+            "not_applicable"
+          ]
+        },
+        "edge_policy": {
+          "type": "string",
+          "enum": [
+            "repeat_one_axis",
+            "not_applicable"
+          ]
+        },
+        "center_policy": {
+          "type": "string",
+          "enum": [
+            "tile_repeat",
+            "solid_fill",
+            "not_applicable"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "health_bar_system": {
+      "type": "object",
+      "required": [
+        "container_layer",
+        "latent_damage_buffer",
+        "active_fill",
+        "drain_step_px",
+        "critical_threshold_percent",
+        "low_hp_feedback",
+        "inner_edge_policy"
+      ],
+      "properties": {
+        "container_layer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "latent_damage_buffer": {
+          "type": "object",
+          "required": [
+            "enabled",
+            "delay_frames",
+            "drain_frames"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "const": true
+            },
+            "delay_frames": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "drain_frames": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "active_fill": {
+          "type": "object",
+          "required": [
+            "high_color_role",
+            "mid_color_role",
+            "critical_color_role"
+          ],
+          "properties": {
+            "high_color_role": {
+              "type": "string",
+              "minLength": 1
+            },
+            "mid_color_role": {
+              "type": "string",
+              "minLength": 1
+            },
+            "critical_color_role": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "drain_step_px": {
+          "type": "integer",
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "critical_threshold_percent": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        },
+        "low_hp_feedback": {
+          "type": "object",
+          "required": [
+            "flash_cadence_frames",
+            "ui_shake_allowed",
+            "audio_cue_ref"
+          ],
+          "properties": {
+            "flash_cadence_frames": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "ui_shake_allowed": {
+              "type": "boolean"
+            },
+            "audio_cue_ref": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "inner_edge_policy": {
+          "type": "string",
+          "const": "hard_aliased_no_antialias"
+        }
+      },
+      "additionalProperties": false
+    },
+    "micro_icon_policy": {
+      "type": "object",
+      "required": [
+        "icon_cell_px",
+        "shape_language",
+        "value_contrast_rule"
+      ],
+      "properties": {
+        "icon_cell_px": {
+          "type": "integer",
+          "enum": [
+            8,
+            16,
+            32
+          ]
+        },
+        "shape_language": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value_contrast_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation_plan": {
+      "type": "object",
+      "required": [
+        "native_readability_status",
+        "integer_pixel_motion_status",
+        "atlas_budget_status",
+        "blastem_evidence_required",
+        "blastem_evidence_ref"
+      ],
+      "properties": {
+        "native_readability_status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "passed",
+            "failed"
+          ]
+        },
+        "integer_pixel_motion_status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "passed",
+            "failed"
+          ]
+        },
+        "atlas_budget_status": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "passed",
+            "failed"
+          ]
+        },
+        "blastem_evidence_required": {
+          "type": "boolean"
+        },
+        "blastem_evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "approved_for_runtime",
+        "blocked"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "surface_kind": {
+            "const": "health_bar"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "health_bar_system"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "surface_kind": {
+            "const": "text_box"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "nine_slice_system"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "approval_status": {
+            "const": "approved_for_runtime"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "validation_plan": {
+            "properties": {
+              "native_readability_status": {
+                "const": "passed"
+              },
+              "integer_pixel_motion_status": {
+                "const": "passed"
+              },
+              "atlas_budget_status": {
+                "const": "passed"
+              },
+              "blastem_evidence_required": {
+                "const": true
+              },
+              "blastem_evidence_ref": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(out/|doc/)"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

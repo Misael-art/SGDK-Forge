@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "resource_loading_model",
+  "scene_id": "chase_first_playable",
+  "model": "scene_local_preload",
+  "backgrounds": {
+    "BG_B": "img_chase_bg_b_v009 at TILE_USER_INDEX",
+    "BG_A": "img_chase_bg_a_v009 immediately after BG_B tiles",
+    "letterbox": "ts_chase_letterbox_v009 after BG_A",
+    "resident_tiles": 674
+  },
+  "sprite_engine": {
+    "reserve_tiles": 680,
+    "estimated_allocated_tiles": 648,
+    "allocation": "all actors, three obstacle slots and FX created at scene enter",
+    "shared_vram_slots": [
+      "far claw shares near claw frame slot",
+      "far hero ghost shares near hero ghost frame slot",
+      "far cloud shares near cloud frame slot"
+    ],
+    "runtime_policy": "visibility toggles only; no malloc/free; duplicated shared-slot sprites remain frame-locked"
+  },
+  "per_frame_uploads": [
+    "alternating hero or one pursuer module group animation frame",
+    "optional dust frame",
+    "SAT",
+    "two line-scroll tables and two column-scroll tables",
+    "small palette updates"
+  ],
+  "fallback": "prune far claw, far ghost and far cloud before reducing critical hero or road depth",
+  "evidence": {
+    "rom_sha256": "a685b460d5397f0c4fe809350a9da653f6e322531bd0b7e027922b32bbbe1176",
+    "screenshot": "out/evidence/blastem_gameplay_v009/screenshot.png",
+    "sequence": "out/evidence/blastem_gameplay_v009/sequence/frame_01..04/screenshot.png",
+    "sram": "out/evidence/blastem_gameplay_v009/save.sram",
+    "runtime_metrics": "out/logs/runtime_metrics.json",
+    "capture_scope": "partial_151_frames",
+    "visual_vdp_dump": null
+  },
+  "blockers": [
+    "generic res graph does not model scene-local eviction and reports three conservative overlaps",
+    "fresh visual VDP dump or equivalent explicit residency audit required before validado_budget"
+  ]
+}

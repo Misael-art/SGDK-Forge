@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/strategy_specialization_report.schema.json",
+  "title": "Strategy Specialization Compliance Report",
+  "description": "Aggregator report emitted by tools/sgdk_wrapper/validate_strategy_tower_defense_specialization.ps1 (and the future strategy_tactical_turn_based validator). Combines a JSON Schema validation pass, a phase-aware blocker check, a tower frame data cross-reference, and balance-evidence link verification. This report is consumed by the build wrapper's closeout gate and by ci/run_all_contract_gates.ps1.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "status",
+    "specialization_id",
+    "registry_source",
+    "manifest_path",
+    "manifest_status",
+    "design_contract_path",
+    "design_contract_status",
+    "tower_audits",
+    "blockers",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "tool_name": { "type": "string" },
+    "tool_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "status": { "type": "string", "enum": ["ok", "warn", "error"] },
+    "specialization_id": {
+      "type": "string",
+      "enum": ["strategy_tower_defense", "strategy_tactical_turn_based"]
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "manifest_path": { "type": "string" },
+    "manifest_status": { "type": "string", "enum": ["absent", "present", "invalid"] },
+    "design_contract_path": { "type": "string" },
+    "design_contract_status": { "type": "string", "enum": ["absent", "present", "invalid"] },
+    "tower_audits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tower_id", "category", "path", "schema_status", "missing_required_tier_fields"],
+        "properties": {
+          "tower_id": { "type": "string" },
+          "category": { "type": "string" },
+          "path": { "type": "string" },
+          "schema_status": { "type": "string", "enum": ["ok", "warn", "error", "absent"] },
+          "missing_required_tier_fields": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["blocker_id", "phase", "fired", "evidence"],
+        "properties": {
+          "blocker_id": {
+            "type": "string",
+            "pattern": "^strategy_[a-z][a-z0-9_]*$"
+          },
+          "phase": { "type": "string", "enum": ["vertical_slice", "ready_for_aaa", "closeout"] },
+          "fired": { "type": "boolean" },
+          "evidence": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["passed", "warned", "failed"],
+      "properties": {
+        "passed": { "type": "integer", "minimum": 0 },
+        "warned": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

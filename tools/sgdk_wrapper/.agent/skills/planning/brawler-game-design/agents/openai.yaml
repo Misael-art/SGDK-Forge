@@ -1,0 +1,11 @@
+interface:
+  display_name: "Brawler Game Design (Orchestrator)"
+  short_description: "Orquestra brawler_belt_scroll por opt-in e delega skills"
+  brand_color: "#D95F02"
+  default_prompt: "Use $brawler-game-design APENAS quando o projeto declarou opt-in em doc/genre_specialization_manifest.json com specialization_id=brawler_belt_scroll (ou brawler_run_and_gun_2d em Wave 2+ ou brawler_run_and_gun_topdown em Wave 3+). Esta skill nao cria GDD nem TDD; ela orquestra systems-mechanics-validator, character-design, sprite-animation, megadrive-vdp-budget-analyst, xgm2-audio-director, sgdk-runtime-coder e tdd-authoring. Emite brawler_belt_scroll_design_contract.json (design de superficie) e brawler_enemy_archetype_frame_data.json por arquetipo. NUNCA infere ativacao por nome de pasta, codigo ou regex. time_unit=frames, camera=horizontal_lanes, player_count=1_to_2, enemy_count_on_screen_max=8, pickup_drop=health_and_score, stage_progression=linear_with_bosses, iframe_on_hit=on. Validator canonico: tools/sgdk_wrapper/validate_brawler_belt_scroll_specialization.ps1."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

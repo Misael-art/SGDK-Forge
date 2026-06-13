@@ -1,0 +1,18 @@
+Curadoria secundaria: arquitetura sonora 16-bit, Mega Drive vs SNES.
+
+Origem: texto colado pelo usuario em 2026-06-06 a partir de chat de analise com foco em musica retro e engenharia de audio.
+Status: unverified_secondary_text. Nao e evidencia operacional.
+
+Pontos assimilados:
+- Mega Drive segue a escola de sintese: YM2612 FM, PSG e DAC/PCM curto.
+- SNES segue a escola de amostragem: SPC700, samples em APU RAM e eco/reverb nativo.
+- O agente nao deve tentar fazer um Mega Drive soar como SNES por acumulacao de samples/eco.
+- Referencias SNES/orquestrais devem ser traduzidas para papeis FM, PSG e DAC, com budget e fallback.
+- FM timbre design e competencia propria: operadores/algoritmo/envelope viram baixo, lead, pad, arp, percussao ou stinger com dono de canal.
+- DAC/PCM precisa reconhecer tradeoff de canal, sample format, ROM budget, bus contention e validacao auditiva.
+- PSG deve ter funcao: UI, noise, acentos, drones, fallback ou textura controlada.
+
+Aplicacao canonica:
+- Reforcar `xgm2-audio-director` como diretor de identidade sonora, nao apenas roteador de canal.
+- Adicionar `sound_chip_identity_plan` ao `audio_architecture_card`.
+- Registrar `ym2612_fm_timbre_design` como tecnica teorica prioritaria, sem promocao pratica.

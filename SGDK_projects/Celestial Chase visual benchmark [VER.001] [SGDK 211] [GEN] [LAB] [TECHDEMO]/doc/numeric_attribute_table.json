@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "chase_first_playable",
+  "timing": {
+    "target_fps_ntsc": 60,
+    "target_fps_pal": 50,
+    "round_seconds": 75,
+    "round_frames_ntsc": 4500,
+    "phase_intro_end_ntsc": 1200,
+    "phase_pressure_end_ntsc": 3000
+  },
+  "player": {
+    "lane_x_px": [80, 128, 176],
+    "initial_lane": 1,
+    "lane_change_frames": 12,
+    "integrity_max": 3,
+    "invulnerability_frames": 75,
+    "jump_initial_velocity_fix16": -327680,
+    "jump_gravity_fix16": 24576,
+    "jump_ground_y_px": 136,
+    "jump_apex_height_px_estimate": 48
+  },
+  "pulse": {
+    "meter_max": 100,
+    "pickup_energy": 25,
+    "clean_avoid_energy": 5,
+    "pressure_reduction": 28,
+    "safety_frames": 45,
+    "hitstop_frames": 4
+  },
+  "pressure": {
+    "min": 0,
+    "max": 100,
+    "initial": 22,
+    "damage_increase": 18,
+    "missed_pickup_increase": 2,
+    "clean_avoid_reduction": 3,
+    "pickup_reduction": 2,
+    "passive_tick_intro_frames": 240,
+    "passive_tick_pressure_frames": 150,
+    "passive_tick_climax_frames": 90
+  },
+  "obstacles": {
+    "pool_size": 6,
+    "telegraph_pool_size": 3,
+    "spawn_y_px": 92,
+    "collision_y_px": 148,
+    "despawn_y_px": 208,
+    "speed_intro_fix16": 131072,
+    "speed_pressure_fix16": 196608,
+    "speed_climax_fix16": 262144,
+    "telegraph_intro_frames": 48,
+    "telegraph_pressure_frames": 36,
+    "telegraph_climax_frames": 28
+  },
+  "feedback": {
+    "damage_hitstop_frames": 5,
+    "damage_shake_offsets_px": [3, -3, 2, -2, 1, 0],
+    "pulse_shake_offsets_px": [-2, 2, -1, 1, 0],
+    "phase_card_frames": 90
+  }
+}

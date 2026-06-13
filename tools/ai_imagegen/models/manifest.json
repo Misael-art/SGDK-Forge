@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "models": [
+    {
+      "id": "sd15-pruned-emaonly",
+      "name": "Stable Diffusion 1.5 (pruned-emaonly)",
+      "type": "checkpoint",
+      "format": "safetensors",
+      "url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors",
+      "size_mb": 4200,
+      "license": "runwayml-license",
+      "checksum_sha256": null,
+      "profiles": ["deck_safe_sd15", "cpu_fallback"]
+    },
+    {
+      "id": "sdxl-base-1.0",
+      "name": "Stable Diffusion XL Base 1.0",
+      "type": "checkpoint",
+      "format": "safetensors",
+      "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
+      "size_mb": 6900,
+      "license": "stabilityai-license",
+      "checksum_sha256": null,
+      "profiles": ["sdxl_lowvram"]
+    },
+    {
+      "id": "flux-schnell-gguf",
+      "name": "FLUX.1 Schnell GGUF",
+      "type": "gguf",
+      "format": "gguf",
+      "url": "https://huggingface.co/city96/FLUX.1-schnell-gguf/resolve/main/flux1-schnell-Q4_K_M.gguf",
+      "size_mb": 8200,
+      "license": "flux-license",
+      "checksum_sha256": null,
+      "profiles": ["flux_schnell_gguf"]
+    },
+    {
+      "id": "bonsai-4b-ternary",
+      "name": "Bonsai-Image 4B Ternary (1.58-bit, FLUX-architecture destilado)",
+      "type": "checkpoint",
+      "format": "safetensors",
+      "url": "https://huggingface.co/prism-ml/Bonsai-Image-4B",
+      "size_mb": 1210,
+      "license": "pending_license_validation",
+      "license_status": "pending_license_validation",
+      "source_status": "pending_source_verification",
+      "checksum_sha256": null,
+      "profiles": ["bonsai_4b_ternary"],
+      "notes": "Backends Bonsai exigem GPU NVIDIA (gemlite+HQQ/triton-windows) ou Apple Silicon (mflux+MLX). Nao roda em AMD. NAO usar como asset final AAA ate Fase D completa: install + generate + art-translation-to-vdp + contact sheet + visual audit + BlastEm gate."
+    },
+    {
+      "id": "bonsai-4b-binary",
+      "name": "Bonsai-Image 4B Binary (1-bit, menor)",
+      "type": "checkpoint",
+      "format": "safetensors",
+      "url": "https://huggingface.co/prism-ml/Bonsai-Image-4B",
+      "size_mb": 850,
+      "license": "pending_license_validation",
+      "license_status": "pending_license_validation",
+      "source_status": "pending_source_verification",
+      "checksum_sha256": null,
+      "profiles": ["bonsai_4b_binary"],
+      "notes": "Variante binary 1-bit do Bonsai 4B. Mesmas travas de escopo e licenca do ternary."
+    }
+  ]
+}

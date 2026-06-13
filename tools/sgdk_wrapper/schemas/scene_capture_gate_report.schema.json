@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_capture_gate_report.schema.json",
+  "title": "Scene Capture Gate Report",
+  "description": "Output of scene_capture_gate.ps1. Extends the common artifact envelope with the gate decision result.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "workspace_root",
+    "status",
+    "scene_id",
+    "gate_result"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "tool_name": { "type": "string", "const": "scene_capture_gate" },
+    "tool_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project_root": { "type": "string", "minLength": 1 },
+    "workspace_root": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["ok", "warn", "error"] },
+    "failure_reason": { "type": ["string", "null"] },
+    "scene_id": { "type": "string" },
+    "manifest_path": { "type": "string" },
+    "evidence_path": { "type": "string" },
+    "rom_sha256": { "type": "string" },
+    "gate_result": {
+      "oneOf": [
+        { "$ref": "#/definitions/gate_result" },
+        { "type": "null" }
+      ]
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "gate_result": {
+      "type": "object",
+      "required": [
+        "scene_id",
+        "capture_status",
+        "artifacts_captured",
+        "required_artifacts_present"
+      ],
+      "properties": {
+        "scene_id": { "type": "string" },
+        "expected_app_scene_id": { "type": ["integer", "null"] },
+        "captured_app_scene_id": { "type": ["integer", "null"] },
+        "scene_verification_required": { "type": "boolean" },
+        "scene_match": { "type": ["boolean", "null"] },
+        "mdrt_present": { "type": "boolean" },
+        "mdrt": {
+          "type": ["object", "null"],
+          "properties": {
+            "present": { "type": "boolean" },
+            "valid": { "type": "boolean" },
+            "magic": { "type": ["string", "null"] },
+            "schema": { "type": ["integer", "null"] },
+            "total_bytes": { "type": ["integer", "null"] },
+            "word_count": { "type": ["integer", "null"] },
+            "scene_id": { "type": ["integer", "null"] },
+            "error": { "type": ["string", "null"] }
+          }
+        },
+        "ready_heartbeat_ok": { "type": "boolean" },
+        "readiness_ok": { "type": "boolean" },
+        "artifacts_captured": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["screenshot", "sram", "vdp_dump"] }
+        },
+        "required_artifacts_present": { "type": "boolean" },
+        "capture_status": {
+          "type": "string",
+          "enum": ["ok", "degraded", "wrong_scene", "failed"]
+        },
+        "failure_reason": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "dac_stream_budget_report_v1",
+  "driver": "XGM2",
+  "sample_rate_hz": 13300,
+  "max_concurrent_pcm": 3,
+  "streaming_model": "XGM2 ROM-backed PCM playback; no custom ring buffer",
+  "contention_risk": "medium_until_runtime_metrics",
+  "mitigation": [
+    "Keep per-frame VDP DMA below the documented 7168-byte envelope.",
+    "Never update hero and pursuer animation frames in the same VBlank.",
+    "Drop optional pressure cue before a critical cue.",
+    "Inspect XGM2 missed frames and DMA wait in BlastEm."
+  ]
+}

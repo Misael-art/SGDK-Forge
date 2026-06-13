@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/blastem_input_script.schema.json",
+  "title": "BlastEm Input Script",
+  "description": "Deterministic input script for the canonical BlastEm harness. Navigation must prefer press_until_ready when the ROM exposes the READY SRAM heartbeat.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "script_id",
+    "target_scene",
+    "rom_identity_required",
+    "steps",
+    "evidence_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "script_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "target_scene": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rom_identity_required": {
+      "type": "boolean",
+      "const": true
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "op"
+        ],
+        "properties": {
+          "op": {
+            "type": "string",
+            "enum": [
+              "wait_ms",
+              "press",
+              "hold",
+              "release",
+              "press_until_ready",
+              "capture_screenshot",
+              "close_emulator"
+            ]
+          },
+          "key": {
+            "type": "string"
+          },
+          "duration_ms": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "timeout_ms": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "interval_ms": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "max_presses": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "flush_every": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "rotate_key": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence_required": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "rom_sha256",
+          "emulator_session_json",
+          "dedicated_screenshot",
+          "save_sram",
+          "visual_vdp_dump_bin",
+          "runtime_metrics_json",
+          "validation_report_json"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}

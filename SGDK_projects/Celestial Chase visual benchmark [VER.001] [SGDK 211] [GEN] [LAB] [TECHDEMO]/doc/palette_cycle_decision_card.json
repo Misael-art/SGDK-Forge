@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "cycles": [
+    {
+      "cycle_id": "star_pulse",
+      "cram_slot_range": "PAL0 slot 15",
+      "cadence_frames": 8,
+      "palette_owner": "scene_chase",
+      "narrative_purpose": "Keep the celestial atmosphere alive without tile animation."
+    },
+    {
+      "cycle_id": "phase_heat",
+      "cram_slot_range": "PAL0 slots 12-14",
+      "cadence_frames": 120,
+      "palette_owner": "scene_chase",
+      "narrative_purpose": "Signal rising pressure and final release."
+    }
+  ],
+  "interaction_with_shadow_highlight": "Shadow/Highlight is enabled contextually during attack and hit feedback; palette cycles remain environment-owned.",
+  "ui_and_sprite_conflict_policy": "PAL1, PAL2 and PAL3 are never mutated by environment cycles.",
+  "teardown_plan": "Restore approved PAL0 and reset all scene-owned accent slots on exit."
+}

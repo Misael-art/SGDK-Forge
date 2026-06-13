@@ -1,0 +1,11 @@
+interface:
+  display_name: "Character Design"
+  short_description: "Define silhueta, escala, lineart e paleta"
+  brand_color: "#9B4D6B"
+  default_prompt: "Use $character-design para revisar ou definir identidade visual de personagem no Mega Drive, incluindo silhueta, escala, lineart_blocking_1px, contrato arcade/hi-bit quando aplicavel, palette sharing e leitura em 320x224."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

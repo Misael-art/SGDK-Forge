@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.1.0",
+  "status": "controlled_training_area",
+  "source_frames": [
+    "work/reconstructed_layers/frame_0000.png",
+    "work/reconstructed_layers/frame_0001.png",
+    "work/reconstructed_layers/frame_0002.png",
+    "work/reconstructed_layers/frame_0003.png"
+  ],
+  "visual_gate": {
+    "status": "pass",
+    "threshold": 0.05,
+    "reports": [
+      {
+        "path": "work/reconstructed_layers/frame_0000.png",
+        "status": "pass",
+        "width": 768,
+        "height": 480,
+        "expected_width": 768,
+        "expected_height": 480,
+        "total_pixels": 368640,
+        "transparent_pixels": 0,
+        "exact_matte_pixels": 0,
+        "near_magenta_pixels": 0,
+        "bad_pixels": 0,
+        "bad_ratio": 0.0,
+        "threshold": 0.05
+      },
+      {
+        "path": "work/reconstructed_layers/frame_0001.png",
+        "status": "pass",
+        "width": 768,
+        "height": 480,
+        "expected_width": 768,
+        "expected_height": 480,
+        "total_pixels": 368640,
+        "transparent_pixels": 0,
+        "exact_matte_pixels": 0,
+        "near_magenta_pixels": 0,
+        "bad_pixels": 0,
+        "bad_ratio": 0.0,
+        "threshold": 0.05
+      },
+      {
+        "path": "work/reconstructed_layers/frame_0002.png",
+        "status": "pass",
+        "width": 768,
+        "height": 480,
+        "expected_width": 768,
+        "expected_height": 480,
+        "total_pixels": 368640,
+        "transparent_pixels": 0,
+        "exact_matte_pixels": 0,
+        "near_magenta_pixels": 0,
+        "bad_pixels": 0,
+        "bad_ratio": 0.0,
+        "threshold": 0.05
+      },
+      {
+        "path": "work/reconstructed_layers/frame_0003.png",
+        "status": "pass",
+        "width": 768,
+        "height": 480,
+        "expected_width": 768,
+        "expected_height": 480,
+        "total_pixels": 368640,
+        "transparent_pixels": 0,
+        "exact_matte_pixels": 0,
+        "near_magenta_pixels": 0,
+        "bad_pixels": 0,
+        "bad_ratio": 0.0,
+        "threshold": 0.05
+      }
+    ]
+  },
+  "tiles_bin": "work/sgdk_bins/showdown_tiles_4bpp.bin",
+  "maps_bin": "work/sgdk_bins/showdown_maps_u16.bin",
+  "palettes_bin": "work/sgdk_bins/showdown_palettes_u16.bin",
+  "sha256": {
+    "tiles_bin": "d83715fc2fdf2a166059f94bef63c0d4359a7191d2c394f71610cfe83467dfc3",
+    "maps_bin": "c6210e098abd0de1cb994b3bc3d99ca0ce314d92b88148b425ae8c670fbad888",
+    "palettes_bin": "f92d51f376313b8ad398db2dc9713ee0f0801dc55d85ddc3c07f817e822d2218"
+  },
+  "frames": 4,
+  "world": {
+    "pixels_w": 768,
+    "pixels_h": 480,
+    "tiles_w": 96,
+    "tiles_h": 60
+  },
+  "viewport": {
+    "w": 320,
+    "h": 224
+  },
+  "runtime_streaming": {
+    "strategy": "tile_graphics_and_tilemap_window_streaming",
+    "map_word_format": "bits0_11_global_tile_id_bit12_hflip_bit13_vflip_bits14_15_palette",
+    "window_tiles_w": 42,
+    "window_tiles_h": 30,
+    "window_bytes_per_update": 2520,
+    "max_window_unique_tiles": 1087,
+    "streaming_cache_capacity_tiles": 1151,
+    "estimated_streaming_cache_vram_bytes": 36832,
+    "camera": {
+      "mugen_start": {
+        "x": 0,
+        "y": 0
+      },
+      "mugen_bounds": {
+        "left": -224,
+        "right": 224,
+        "high": -240,
+        "low": 0
+      },
+      "scroll_bounds_px": {
+        "min_x": 0,
+        "max_x": 448,
+        "min_y": 0,
+        "max_y": 256
+      },
+      "mugen_start_scroll_px": {
+        "x": 224,
+        "y": 256
+      },
+      "viewer_default_scroll_px": {
+        "x": 224,
+        "y": 256
+      },
+      "verticalfollow": 0.5
+    }
+  },
+  "tile_user_index": 16,
+  "raw_tiles": 23040,
+  "unique_tiles": 2253,
+  "exact_unique_tiles_before_lossy_merge": 2253,
+  "global_tile_id_limit_ok": true,
+  "global_tile_id_limit_status": "global_ids_fit_custom_12bit_map",
+  "dedup": {
+    "raw_tiles": 23040,
+    "unique_tiles": 2253,
+    "exact_unique_tiles_before_lossy_merge": 2253,
+    "lossy_tile_merge_threshold_pixels": 0,
+    "lossy_tile_merges": 0,
+    "reused_tiles": 20787,
+    "saving_ratio": 0.902214,
+    "matches_normal_or_exact": 23019,
+    "matches_hflip": 5,
+    "matches_vflip": 12,
+    "matches_hvflip": 4,
+    "quality_note": "No near-duplicate tile merge is used in the final streaming route; global ROM tiles are decoded into a local VDP window cache."
+  },
+  "palettes": {
+    "subpalette_count": 4,
+    "slots_per_subpalette": 16,
+    "global_palette_source": "first reconstructed world frame quantized to 64 colors",
+    "strategy": "banded_palette_v1_world",
+    "bands_y_tiles": [
+      0,
+      22,
+      40,
+      52,
+      60
+    ],
+    "tile_palette_assignments": 23040,
+    "palette_sizes": [
+      1,
+      16,
+      16,
+      15
+    ],
+    "nearest_color_remaps": 187569,
+    "remap_policy": "missing global colors are mapped to the nearest RGB color in the selected MD subpalette instead of slot 0",
+    "greedy_baseline_violations": 7004,
+    "raw_per_tile_palette_conflicts": 0
+  },
+  "violations": []
+}

@@ -1,0 +1,469 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": true
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Manifesto adotado em 2026-06-04; tecnicas vigentes refletidas nos documentos locais."
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "source_baked_pixel_art_standard",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "SOURCE_BAKED_PIXEL_ART",
+        "PIXEL_LOCK",
+        "ANIMATION_STRIP",
+        "MOTION_GIF",
+        "ART_PIPELINE_GATE"
+      ],
+      "owner_skills": [
+        "art-conversion-pipeline",
+        "art-translation-to-vdp",
+        "megadrive-pixel-strict-rules"
+      ],
+      "evidence": {
+        "rom_sha256": "984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9",
+        "blastem_evidence_paths": [
+          "out/evidence/motion/chase_hero_silhouette_velocity_v013.gif",
+          "out/evidence/motion/chase_hero_ghost_silhouette_velocity_v013.gif",
+          "out/logs/sprite_transparency_gate_report.json",
+          "out/logs/visual_screenshot_color_gate_report.json",
+          "out/evidence/scenes/first_playable_slice/screenshot.png",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe_report.json",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe.webp"
+        ],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "v013 corrige a regressao v022: source-baked nao autoriza pintar canvas transparente como manto. Heroi/ghost agora preservam index 0 e passam gates de sprite e screenshot; aprovacao humana e estrada ainda bloqueiam creative_ready."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "critical_visual_rework_blocker",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "CRITICAL_VISUAL_GATE",
+        "REWORK_BLOCKER",
+        "HUMAN_OVERRIDE",
+        "VDP_DUMP_EVIDENCE",
+        "VISUAL_DELIVERY"
+      ],
+      "owner_skills": [
+        "art-asset-diagnostic",
+        "art-conversion-pipeline",
+        "visual-excellence-standards"
+      ],
+      "evidence": {
+        "rom_sha256": "984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9",
+        "blastem_evidence_paths": [
+          "out/logs/sprite_transparency_gate_report.json",
+          "out/logs/visual_screenshot_color_gate_report_pre_fix.json",
+          "out/logs/visual_screenshot_color_gate_report.json",
+          "out/evidence/scenes/first_playable_slice/screenshot.png",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe_report.json",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe.webp"
+        ],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "v014 keeps the gate honest: hero matte remains blocked by sprite/screenshot checks, BG_A road polish reduces but does not clear visual_gate_blocked; aesthetic BG_A score is 0.5631/0.58."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "gif_motion_approval_gate",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "GIF_MOTION_APPROVAL",
+        "PIVOT_DECLARATION",
+        "CONTACT_POINTS",
+        "ASSET_APPROVAL",
+        "PERCEPTUAL_MOTION"
+      ],
+      "owner_skills": [
+        "art-conversion-pipeline",
+        "art-translation-to-vdp",
+        "sprite-animation"
+      ],
+      "evidence": {
+        "rom_sha256": "984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9",
+        "blastem_evidence_paths": [
+          "out/evidence/motion/chase_hero_silhouette_velocity_v013.gif",
+          "out/evidence/motion/chase_hero_ghost_silhouette_velocity_v013.gif",
+          "out/evidence/motion/hero_silhouette_transparency_fix_motion_report_v013.json",
+          "out/evidence/scenes/first_playable_slice/screenshot.png",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe_report.json",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe.webp"
+        ],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "GIF/WebP v013 estao locais ao projeto e cobrem os dois assets criticos apos remover a capsula opaca. Aprovacao humana formal ainda e blocker."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "perceptual_motion_gate",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "PERCEPTUAL_MOTION",
+        "RUNTIME_EVIDENCE",
+        "GATING",
+        "VISUAL_DELIVERY",
+        "BLASTEM_EVIDENCE"
+      ],
+      "owner_skills": [
+        "visual-excellence-standards",
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "evidence": {
+        "rom_sha256": "984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9",
+        "blastem_evidence_paths": [
+          "out/logs/blastem_evidence.json",
+          "out/logs/runtime_metrics.json",
+          "out/evidence/motion/hero_silhouette_transparency_fix_motion_report_v013.json",
+          "out/evidence/blastem/screenshot.png",
+          "out/evidence/blastem/save.sram",
+          "out/evidence/blastem/visual_vdp_dump.bin",
+          "out/logs/visual_screenshot_color_gate_report.json",
+          "out/evidence/scenes/first_playable_slice/screenshot.png",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe_report.json",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe.webp"
+        ],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "v014 adds four-frame BlastEm-derived scene evidence for frames 90/120/150/180, plus runtime_metrics. perceptual_check stays zero and human approval remains required."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "line_scrolling",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "LINE_SCROLL",
+        "PARALLAX",
+        "PSEUDO_3D",
+        "RASTER_EFFECTS",
+        "VBLANK_BUDGET_AUDIT"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "chase_road owns 224-line HScroll tables; v014 halves foreground streak strength and removes independent per-column road tearing, preserving 60 FPS evidence.",
+      "evidence": {
+        "rom_sha256": "984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9",
+        "blastem_evidence_paths": [
+          "out/logs/runtime_metrics.json",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe_report.json"
+        ],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      }
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "column_scrolling",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": [
+        "COLUMN_SCROLL",
+        "PARALLAX",
+        "RASTER_EFFECTS",
+        "VSRAM_WAVE"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "VSCROLL_COLUMN adds edge-weighted forward road motion; lab_not_delivery remains active."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "pseudo3d_road_stack",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": [
+        "PSEUDO_3D",
+        "SOFTWARE_RENDERING",
+        "LINE_SCROLL",
+        "RASTER_EFFECTS",
+        "PALETTE_MANAGEMENT_AVANCADO"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "v014 road polish strengthens vanishing rows and lane convergence, reduces singleton tile noise, and keeps BG_A at 210 tiles measured by ResComp.",
+      "evidence": {
+        "rom_sha256": "984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9",
+        "blastem_evidence_paths": [
+          "out/evidence/scenes/first_playable_slice/screenshot.png",
+          "out/evidence/motion/chase_v014_scene_multiframe/chase_v014_scene_multiframe.webp",
+          "out/logs/scene_tilemap_conversion_report.json"
+        ],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      }
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "one_dimensional_tile_deformation",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": [
+        "TILE_DEFORMATION_1D",
+        "LINE_SCROLL",
+        "PSEUDO_3D"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Integer depth gain deforms the pre-rendered road without affine hardware."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "camera_scroll_management",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "CAMERA_MANAGEMENT",
+        "PARALLAX",
+        "FIXED_POINT_MATH"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Camera shake is consumed once by chase_road and attenuated for BG_B."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "hitstop_camera_shake_feedback",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "HITSTOP",
+        "CAMERA_SHAKE",
+        "GAMEPLAY_FEEDBACK"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Damage and Pulse freeze actor progression while X/Y shake continues."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "ghost_afterimage_sprites",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": [
+        "GHOST_AFTERIMAGE",
+        "SPRITE_SCANLINE_BUDGET",
+        "SPRITE_ENGINEERING",
+        "FEEDBACK_FX"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Two delayed silhouettes share one frame-locked VRAM slot; v012 afterimage strip preserva massa de silhueta e possui GIF/WebP, mas human approval ainda e pendente."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "forward_kinematics",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": [
+        "CUSTOM_SPRITE_COMPOSITION",
+        "METASPRITE_OPTIMIZATION",
+        "SPRITE_ENGINEERING"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Torso root updates head and two claw children through a signed integer sine LUT."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "prerendered_sprite_scaling",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "PRERENDERED_SCALING",
+        "SPRITE_ENGINEERING",
+        "PSEUDO_3D"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Six source-derived z-loop stages replace runtime affine scaling."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "active_sat_link_pruning",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "SAT_LINK_PRUNING",
+        "OFFSCREEN_CULLING",
+        "SPRITE_SCANLINE_BUDGET"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Far claw is pruned during Pulse or close-pressure occlusion."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "palette_cycling",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": [
+        "PALETTE_MANAGEMENT_AVANCADO",
+        "SHADOW_HIGHLIGHT",
+        "RASTER_EFFECTS"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Queued PAL3 accent cycling communicates phase escalation."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "temporal_dithering_palette_blending",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": [
+        "TEMPORAL_DITHERING",
+        "PALETTE_MANAGEMENT_AVANCADO",
+        "CRT_AWARE"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Slow adjacent accent alternation is used as a restrained atmospheric shimmer."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "shadow_highlight_mode",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": [
+        "PALETTE_MANAGEMENT_AVANCADO",
+        "SHADOW_HIGHLIGHT",
+        "TEXT_PRESENTATION"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Shadow/Highlight is restricted to active Pulse frames and reset symmetrically."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "cinematic_letterbox",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": [
+        "CINEMATIC_LETTERBOX",
+        "WINDOW_PLANE",
+        "CUTSCENE"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Climax expands the top Window HUD and adds a lower BG_A bar."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "window_plane_static_hud",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "HUD_UI",
+        "WINDOW_PLANE"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Compact fixed HUD remains independent from road scroll."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "dma_transfer_safety",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "DMA_OPTIMIZADO",
+        "DMA_QUEUE",
+        "VBLANK_BUDGET_AUDIT"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Scroll and CRAM updates use DMA_QUEUE; large assets preload at scene entry."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "palette_state_transitions",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "PALETTE_MANAGEMENT_AVANCADO",
+        "PALETTE_TRANSITION",
+        "PALETTE_FLASH"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Phase accents and Pulse-only Shadow/Highlight expose gameplay state without midline CRAM."
+    }
+  ]
+}

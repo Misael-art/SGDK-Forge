@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1.0",
+  "status": "pass_with_degradation",
+  "strategy": "banded_palette_v1_world",
+  "bands_y_tiles": [
+    0,
+    22,
+    40,
+    52,
+    60
+  ],
+  "violations_total": 0,
+  "violations": [],
+  "nearest_color_remaps": 187569,
+  "raw_greedy_baseline_violations_total": 7004,
+  "raw_per_tile_palette_conflicts_total": 0,
+  "lossy_tile_merge_threshold_pixels": 0,
+  "lossy_tile_merges": 0,
+  "curation_note": "Final exported world tiles fit one of four banded subpalettes, but source colors were approximated; tile graphics are streamed per camera window to preserve world extent without lossy tile merging."
+}

@@ -1,0 +1,54 @@
+﻿{
+  "schema_version": "1.0.0",
+  "methodology_version": "2026.06.04",
+  "project": {
+    "name": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+    "lifecycle": "existing",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "active_workflow": "production-loop",
+  "required_skills": [
+    "governance/truth-hierarchy-guard",
+    "governance/doc-sync-audit",
+    "operation/sgdk-build-wrapper-operator",
+    "art/visual-excellence-standards",
+    "code/sgdk-runtime-coder",
+    "design/level-design-canonical",
+    "code/forward-kinematics-rigging",
+    "hardware/megadrive-vdp-budget-analyst"
+  ],
+  "required_validations": [
+    "preflight_host",
+    "validate_resources",
+    "scene_closeout_gate",
+    "freshness_audit",
+    "project_hygiene"
+  ],
+  "claims": {
+    "critical_motion": {
+      "applicability": "required",
+      "rationale": "O benchmark promove movimento de heroi, perseguidor e poeira como eixo visual critico.",
+      "critical_asset_ids": [
+        "spr_chase_hero_run_v009",
+        "spr_chase_pursuer_torso_v009",
+        "spr_chase_pursuer_head_v009",
+        "spr_chase_pursuer_claw_v009",
+        "spr_chase_pursuer_dust_impact"
+      ],
+      "motion_gif_path": "out/evidence/motion/chase_v009_runtime_motion.gif",
+      "human_approval_record_path": "doc/human_approval_record.md"
+    },
+    "road_physics": {
+      "applicability": "required",
+      "rationale": "A v009 exige movimento em eixo Z, convergencia de pista e deformacao por profundidade como parte da leitura jogavel.",
+      "contract_path": "doc/contracts/chase_v009_road_physics_contract.json",
+      "runtime_symbol": "CHASE_ROAD_update"
+    },
+    "modular_boss": {
+      "applicability": "required",
+      "rationale": "A v009 rejeita o perseguidor monolitico e exige torso, cabeca e garras articulados com poda ativa de partes.",
+      "contract_path": "doc/contracts/chase_v009_modular_boss_contract.json",
+      "runtime_symbol": "CHASE_PURSUER_update"
+    }
+  }
+}

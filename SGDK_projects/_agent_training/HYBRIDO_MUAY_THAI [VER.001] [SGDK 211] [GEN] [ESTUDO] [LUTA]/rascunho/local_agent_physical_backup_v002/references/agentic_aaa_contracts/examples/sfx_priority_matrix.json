@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "sfx_priority_matrix",
+  "scene_id": "scene_training_ring",
+  "events": [
+    {
+      "event": "hit_heavy",
+      "priority": 12,
+      "channel": "PCM_CH1",
+      "may_steal": true
+    },
+    {
+      "event": "ui_cursor",
+      "priority": 2,
+      "channel": "PSG_NOISE",
+      "may_steal": false
+    }
+  ],
+  "blockers": []
+}

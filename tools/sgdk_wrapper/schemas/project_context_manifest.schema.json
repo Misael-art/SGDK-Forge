@@ -1,0 +1,320 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/project_context_manifest.schema.json",
+  "title": "SGDK Forge Project Context Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "context_type",
+    "context_status",
+    "delivery_claim_ceiling",
+    "documentation_profile",
+    "blocking_policy",
+    "context_decision_record"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "context_type": {
+      "type": "string",
+      "enum": [
+        "unclassified",
+        "aaa_game",
+        "technical_demo",
+        "exercise",
+        "game_review",
+        "consulting"
+      ]
+    },
+    "context_status": {
+      "type": "string",
+      "enum": [
+        "unclassified",
+        "planned",
+        "active",
+        "review_only",
+        "consultive",
+        "closed"
+      ]
+    },
+    "delivery_claim_ceiling": {
+      "type": "string",
+      "enum": [
+        "none",
+        "concept",
+        "lab",
+        "exercise",
+        "prototype",
+        "technical_demo",
+        "vertical_slice",
+        "ready_for_aaa",
+        "release_candidate"
+      ]
+    },
+    "documentation_profile": {
+      "type": "string",
+      "enum": [
+        "unclassified",
+        "full_game",
+        "demo",
+        "exercise",
+        "review",
+        "consulting"
+      ]
+    },
+    "project_intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "one_sentence_goal",
+        "success_definition",
+        "non_goals"
+      ],
+      "properties": {
+        "one_sentence_goal": {
+          "type": "string",
+          "minLength": 8
+        },
+        "success_definition": {
+          "type": "string",
+          "minLength": 8
+        },
+        "non_goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 2
+          }
+        }
+      }
+    },
+    "blocking_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "levels",
+        "documents"
+      ],
+      "properties": {
+        "levels": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "type": "string",
+            "enum": [
+              "blocking",
+              "phase_blocking",
+              "recommended",
+              "optional",
+              "not_applicable"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "documents": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "role",
+              "requirement"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 3,
+                "pattern": "^[^:*?\"<>|]+$"
+              },
+              "role": {
+                "type": "string",
+                "minLength": 4
+              },
+              "requirement": {
+                "type": "string",
+                "enum": [
+                  "blocking",
+                  "phase_blocking",
+                  "recommended",
+                  "optional",
+                  "not_applicable"
+                ]
+              },
+              "required_for_contexts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "aaa_game",
+                    "technical_demo",
+                    "exercise",
+                    "game_review",
+                    "consulting"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "context_decision_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_by",
+        "rationale",
+        "evidence_or_prompt",
+        "human_confirmation_required_for_mode_change"
+      ],
+      "properties": {
+        "selected_by": {
+          "type": "string",
+          "enum": [
+            "human",
+            "agent_inferred",
+            "unselected"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 8
+        },
+        "evidence_or_prompt": {
+          "type": "string",
+          "minLength": 3
+        },
+        "human_confirmation_required_for_mode_change": {
+          "type": "boolean",
+          "const": true
+        },
+        "last_reviewed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "context_type": {
+            "const": "aaa_game"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "documentation_profile": {
+            "const": "full_game"
+          },
+          "delivery_claim_ceiling": {
+            "enum": [
+              "vertical_slice",
+              "ready_for_aaa",
+              "release_candidate"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "context_type": {
+            "const": "technical_demo"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "documentation_profile": {
+            "const": "demo"
+          },
+          "delivery_claim_ceiling": {
+            "enum": [
+              "lab",
+              "prototype",
+              "technical_demo"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "context_type": {
+            "const": "exercise"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "documentation_profile": {
+            "const": "exercise"
+          },
+          "delivery_claim_ceiling": {
+            "enum": [
+              "exercise",
+              "prototype"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "context_type": {
+            "const": "game_review"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "documentation_profile": {
+            "const": "review"
+          },
+          "delivery_claim_ceiling": {
+            "enum": [
+              "none",
+              "concept"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "context_type": {
+            "const": "consulting"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "documentation_profile": {
+            "const": "consulting"
+          },
+          "delivery_claim_ceiling": {
+            "enum": [
+              "none",
+              "concept"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

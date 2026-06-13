@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "chase_first_playable",
+  "events": [
+    {"event_id": "lane_change_start", "mechanic_id": "lane_change", "visual": "hero interpolation plus dust accent", "audio": "lane_shift", "camera": "none", "priority": 2},
+    {"event_id": "jump_start", "mechanic_id": "jump", "visual": "takeoff dust", "audio": "jump", "camera": "none", "priority": 3},
+    {"event_id": "jump_land", "mechanic_id": "jump", "visual": "landing dust", "audio": "land", "camera": "one_pixel_bump", "priority": 3},
+    {"event_id": "pickup_collect", "mechanic_id": "celestial_pulse", "visual": "palette spark and meter increment", "audio": "collect", "camera": "none", "priority": 2},
+    {"event_id": "pulse_ready", "mechanic_id": "celestial_pulse", "visual": "meter glow", "audio": "pulse_ready", "camera": "none", "priority": 4},
+    {"event_id": "pulse_activate", "mechanic_id": "celestial_pulse", "visual": "palette flash, light band, threat clear", "audio": "pulse", "camera": "four_frame_hitstop_then_outward_shake", "priority": 8},
+    {"event_id": "player_damage", "mechanic_id": "pursuer_pressure", "visual": "hero flash, dust, pressure jump", "audio": "impact", "camera": "five_frame_hitstop_then_shake", "priority": 10},
+    {"event_id": "pressure_danger", "mechanic_id": "pursuer_pressure", "visual": "warm palette accent and pursuer proximity", "audio": "danger", "camera": "impact_only", "priority": 7},
+    {"event_id": "victory", "mechanic_id": "pursuer_pressure", "visual": "portal palette release and result card", "audio": "victory", "camera": "settle_to_zero", "priority": 9},
+    {"event_id": "failure", "mechanic_id": "pursuer_pressure", "visual": "dark palette hold and result card", "audio": "failure", "camera": "final_impact_then_zero", "priority": 9}
+  ]
+}

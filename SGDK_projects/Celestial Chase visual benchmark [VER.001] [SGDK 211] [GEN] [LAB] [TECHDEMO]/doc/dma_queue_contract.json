@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "dma_queue_contract",
+  "scene_id": "chase_first_playable",
+  "vblank_byte_budget": 7168,
+  "worst_frame_bytes": 6404,
+  "ops": [
+    {
+      "timing": "vblank",
+      "target": "BG_A line-scroll table",
+      "bytes": 448,
+      "reason": "depth-banded road motion"
+    },
+    {
+      "timing": "vblank",
+      "target": "BG_B line-scroll table",
+      "bytes": 448,
+      "reason": "constant atmosphere offset while HSCROLL_LINE is active"
+    },
+    {
+      "timing": "vblank",
+      "target": "sprite SAT",
+      "bytes": 640,
+      "reason": "SGDK sprite engine commit"
+    },
+    {
+      "timing": "vblank",
+      "target": "pursuer animation frame",
+      "bytes": 3840,
+      "reason": "conservative maximum body upload"
+    },
+    {
+      "timing": "vblank",
+      "target": "dust animation frame",
+      "bytes": 1024,
+      "reason": "independent impact frame"
+    },
+    {
+      "timing": "vblank",
+      "target": "CRAM palette accents",
+      "bytes": 4,
+      "reason": "phase accent plus light pulse"
+    }
+  ],
+  "forbidden": [
+    "VDP_clearPlane during active frame",
+    "DMA outside DMA_QUEUE/VBlank",
+    "hero and pursuer body frame upload on the same frame"
+  ],
+  "fallback": "HSCROLL_PLANE and slower animation ticks",
+  "blockers": [
+    "current-ROM runtime metrics required"
+  ]
+}

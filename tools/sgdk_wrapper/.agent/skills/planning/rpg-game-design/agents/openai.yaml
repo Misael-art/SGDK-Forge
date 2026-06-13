@@ -1,0 +1,11 @@
+interface:
+  display_name: "RPG Game Design (Orchestrator)"
+  short_description: "Orquestra rpg_turn_based_jrpg por opt-in e delega skills"
+  brand_color: "#6B4FBB"
+  default_prompt: "Use $rpg-game-design APENAS quando o projeto declarou opt-in em doc/genre_specialization_manifest.json com specialization_id=rpg_turn_based_jrpg (ou rpg_action_topdown em Wave 2+). Esta skill nao cria GDD nem TDD; ela orquestra systems-mechanics-validator, character-design, sprite-animation, megadrive-vdp-budget-analyst, xgm2-audio-director, sgdk-runtime-coder e tdd-authoring. Emite rpg_turn_based_jrpg_design_contract.json (design de superficie) e rpg_party_frame_data.json por membro. NUNCA infere ativacao por nome de pasta, codigo ou regex. time_unit='ticks (turn)', party_size_max=4, equipment_grid=slot_based, encounter_trigger=fixed+random, permadeath=off. Validator canonico: tools/sgdk_wrapper/validate_rpg_turn_based_jrpg_specialization.ps1."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

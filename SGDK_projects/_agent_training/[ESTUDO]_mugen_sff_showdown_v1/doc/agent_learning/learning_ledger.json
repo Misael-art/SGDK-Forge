@@ -1,0 +1,602 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "[ESTUDO]_mugen_sff_showdown_v1"
+  },
+  "policy": {
+    "local_auto_update": true,
+    "canonical_auto_mutation": false,
+    "human_approval_required": true,
+    "evidence_required": true
+  },
+  "generated_at": "2026-06-08T10:02:53Z",
+  "source_digest": "a4613cfa741810ca6b5a7f17d6e9b0e61f0b6fc51903e0c510c4844b38caa128",
+  "lessons": [
+    {
+      "lesson_id": "lesson_11617cb584e612a2",
+      "title": "Full-frame streaming can tear capture evidence",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-08",
+      "problem_signature": "full_frame_streaming_can_tear_capture_evidence",
+      "context": "Runtime attempted to cycle four full-world frames by reloading a large camera tile cache.",
+      "observation": "Short-warmup BlastEm screenshots showed horizontal tile-cache tearing/corruption even after the PNG reconstruction and exported bins were correct.",
+      "diagnosis": "Large code-driven tile uploads were observable by the emulator/capture before the tile graphics and tilemap reached a stable state.",
+      "resolution_or_preventive_heuristic": "Batch tile uploads through a RAM staging buffer, disable display during scene-enter load, delay autopan, and keep `FRAME_ANIMATION_ENABLED=0` until incremental/double-buffered streaming is implemented.",
+      "scope_limits": [
+        "This fixes evidence stability for the lab viewer; it does not establish a production streaming engine."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_f237ad241d2b856a",
+      "title": "Global ROM tiles are not resident VDP budget",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-08",
+      "problem_signature": "global_rom_tiles_are_not_resident_vdp_budget",
+      "context": "Full-world Showdown export produced 2253 global unique ROM tiles, which cannot be claimed as a simple full-resident VDP fit.",
+      "observation": "Treating all unique world tiles as resident would either exceed practical VDP layout expectations or obscure the difference between ROM storage and live VRAM cache.",
+      "diagnosis": "Dedup metrics were initially read as a direct resident-budget claim instead of a source/export metric.",
+      "resolution_or_preventive_heuristic": "Report global ROM tiles separately from active-window unique tiles. The viewer now streams a 42x30 window with max observed active unique tiles 1087 and cache capacity 1151, while `validado_budget` remains false until VDP dump/telemetry exists.",
+      "scope_limits": [
+        "This is a budget-audit pattern, not proof of runtime performance."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ba1c5008445457a8",
+      "title": "MUGEN stage composition is execution, not metadata",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-07",
+      "problem_signature": "mugen_stage_composition_is_execution_not_metadata",
+      "context": "showdown.sff/showdown.def reconstruction for work/reconstructed_layers/frame_0000.png before SGDK export.",
+      "observation": "The previous reconstructed frames contained a large solid magenta matte and displaced layers even though SFF/DEF properties were parsed.",
+      "diagnosis": "The renderer treated the DEF as metadata instead of executing MUGEN 2D composition rules: SFF axes, PCX index-0 alpha, BG order, start offsets, animation offsets and tiling.",
+      "resolution_or_preventive_heuristic": "Convert masked PCX sprites to RGBA with palette index 0 alpha 0, compose with alpha paste, draw BG sections in DEF order, apply start/offset/axis/tile rules, then run the anti-magenta histogram gate before SGDK binary export.",
+      "scope_limits": [
+        "Local training evidence only; this is not a canonical parser promotion."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_f1ad2e8eca3fb63f",
+      "title": "SGDK viewer palettes must not overwrite stage palettes",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-07",
+      "problem_signature": "sgdk_viewer_palettes_must_not_overwrite_stage_palettes",
+      "context": "sgdk_viewer/showdown_viewer rendered the reconstructed Showdown bins in BlastEm.",
+      "observation": "The viewer loaded stage palettes and then reused PAL3 for debug text, corrupting foreground colors.",
+      "diagnosis": "Template/debug UI assumptions leaked into a full-screen art viewer where all four subpalettes are part of the asset contract.",
+      "resolution_or_preventive_heuristic": "Do not reserve PAL0-PAL3 for debug text after loading full-screen stage palettes; keep debug text out of the palette contract or use a separate validated presentation path.",
+      "scope_limits": [
+        "Applies to full-screen code-loaded art fixtures using all four MD subpalettes."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2b360c8a6a36ecbe",
+      "title": "Viewport crop is not stage conversion",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-08",
+      "problem_signature": "viewport_crop_is_not_stage_conversion",
+      "context": "Showdown DEF camera bounds are larger than the Mega Drive viewport: world 768x480, viewport 320x224.",
+      "observation": "A 40x28/320x224 reconstruction made the SGDK viewer easier to build but lost the original MUGEN stage extent and hid the need for camera management.",
+      "diagnosis": "The conversion treated the display viewport as the source world instead of deriving the world from `boundleft`, `boundright`, `boundhigh` and `boundlow`.",
+      "resolution_or_preventive_heuristic": "Reconstruct full-world frames, export 96x60 tilemaps, and make the SGDK viewer manage camera/streaming. Use viewport previews only as evidence, not as source data.",
+      "scope_limits": [
+        "Local training evidence only. Exact MUGEN parallax/delta behavior still needs additional curation."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_5ebbb44f5433b0b7",
+      "title": "mugen_stage_full_world_camera_streaming_fixture",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "date_not_declared",
+      "problem_signature": "mugen_stage_full_world_camera_streaming_fixture",
+      "context": "Local Showdown training fixture only.",
+      "observation": "Derive the full stage world from MUGEN DEF camera bounds, export global ROM tiles and a world tilemap, then use a SGDK camera/window-streamed viewer instead of resizing to the Mega Drive viewport.",
+      "diagnosis": "This prevented a false 320x224 conversion from hiding the actual 768x480 stage and made camera/budget tradeoffs explicit.",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Not promoted. Needs at least two additional MUGEN stages, an explicit parallax/delta model, VDP dump/telemetry, and a production-safe incremental streaming strategy before any canonical skill/tool change."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "create_skill",
+        "target_path": null,
+        "summary": "Evaluate whether a new skill is justified: mugen_stage_full_world_camera_streaming_fixture",
+        "required_tests": [
+          "cross-project reproduction",
+          "skill framework validation",
+          "human approval"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ee44e0c0fc50ee45",
+      "title": "mugen_stage_logical_composition_gate",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "date_not_declared",
+      "problem_signature": "mugen_stage_logical_composition_gate",
+      "context": "Local Showdown training fixture only.",
+      "observation": "Parse DEF stage instructions, apply SFF axes, apply PCX index-0 alpha, compose layers in engine order, support tiling, then run a matte/magenta histogram gate before any SGDK export.",
+      "diagnosis": "This prevented a catastrophic magenta matte regression from being hidden by later tile/bin/ROM steps.",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Not promoted. Before canonical promotion, compare against at least two more SFF v1 stages, define mask inference policy, and decide how to represent palette degradation separately from hard palette violations."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "create_skill",
+        "target_path": null,
+        "summary": "Evaluate whether a new skill is justified: mugen_stage_logical_composition_gate",
+        "required_tests": [
+          "cross-project reproduction",
+          "skill framework validation",
+          "human approval"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_e341d102532ee340",
+      "title": "Anti-magenta gate before tile export",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-07",
+      "problem_signature": "anti_magenta_gate_before_tile_export",
+      "context": "Showdown reconstruction produces work/reconstructed_layers/frame_0000.png through frame_0003.png before SGDK export.",
+      "observation": "A visual histogram gate rejected solid magenta or transparent matte leakage before the tile/bin/ROM stage could hide the root cause.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "Count exact magenta, near-magenta and transparent pixels in the 320x224 reconstructed frame and fail export when the bad-pixel ratio exceeds 5 percent.",
+      "scope_limits": [
+        "This gate detects catastrophic matte leakage, not palette quality or artistic fidelity."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_f01461007c2915c1",
+      "title": "Evidence-friendly streaming hold",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-08",
+      "problem_signature": "evidence_friendly_streaming_hold",
+      "context": "The BlastEm capture tool may take its screenshot after several seconds of emulation, while large tile uploads can still be visually unstable if the camera/animation is moving.",
+      "observation": "The final evidence starts on the canonical Showdown view and avoids tile tearing.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "Disable frame animation, batch upload active-window tiles, disable the display during scene-enter load, and delay autopan for 1800 ticks while keeping D-pad camera available.",
+      "scope_limits": [
+        "This is a training viewer evidence pattern, not a substitute for production streaming telemetry."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_76f7d00198a7c1b1",
+      "title": "Full-world tilemap plus camera viewer",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-08",
+      "problem_signature": "full_world_tilemap_plus_camera_viewer",
+      "context": "Showdown camera bounds produce a 768x480 stage world, larger than the 320x224 Mega Drive viewport.",
+      "observation": "The viewer can now display the stage as a large tilemap with a managed camera instead of relying on a resized/cropped PNG reconstruction.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "Reconstruct 768x480 frames, export 96x60 maps, keep global ROM tile IDs in a custom map format, stream a 42x30 active window into VDP, and document camera bounds in the root manifest.",
+      "scope_limits": [
+        "Lab proof only. Budget is estimated and parallax is flattened."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_202e1427bc236b06",
+      "title": "Root-owned evidence chain for nested viewer",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-06-07",
+      "problem_signature": "root_owned_evidence_chain_for_nested_viewer",
+      "context": "sgdk_viewer/showdown_viewer remains nested, but the study root owns the ROM hash, reports and BlastEm evidence.",
+      "observation": "The viewer stopped being an orphan proof because root manifests connect source inputs, reconstruction reports, SGDK bins, ROM and emulator screenshot.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "Keep doc/viewer_aggregate_manifest.json, doc/10-memory-bank.md, lab_report.json and doc/changelog/changelog.md aligned with the same ROM SHA256 and evidence files.",
+      "scope_limits": [
+        "This is governance for training fixtures, not a delivery claim."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/success_patterns.md",
+          "doc/changelog/changelog.md",
+          "doc/viewer_aggregate_manifest.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    }
+  ],
+  "candidate_index": [
+    {
+      "lesson_id": "lesson_11617cb584e612a2",
+      "title": "Full-frame streaming can tear capture evidence",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_f237ad241d2b856a",
+      "title": "Global ROM tiles are not resident VDP budget",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_ba1c5008445457a8",
+      "title": "MUGEN stage composition is execution, not metadata",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_f1ad2e8eca3fb63f",
+      "title": "SGDK viewer palettes must not overwrite stage palettes",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_2b360c8a6a36ecbe",
+      "title": "Viewport crop is not stage conversion",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_5ebbb44f5433b0b7",
+      "title": "mugen_stage_full_world_camera_streaming_fixture",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_ee44e0c0fc50ee45",
+      "title": "mugen_stage_logical_composition_gate",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    }
+  ],
+  "canonical_promotion_performed": false
+}

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Racing/Sports/Adventure Game Design (Orchestrator)"
+  short_description: "Orquestra racing_arcade por opt-in e delega skills"
+  brand_color: "#E7298A"
+  default_prompt: "Use $racing-sports-adventure-game-design APENAS quando o projeto declarou opt-in em doc/genre_specialization_manifest.json com specialization_id=racing_arcade (ou sports_action_direct/adventure_action_2d em Wave 4+). Esta skill nao cria GDD nem TDD; ela orquestra systems-mechanics-validator, character-design, sprite-animation, megadrive-vdp-budget-analyst, xgm2-audio-director, sgdk-runtime-coder e tdd-authoring. Emite racing_arcade_design_contract.json (design de superficie) e racing_vehicle_frame_data.json por veiculo. NUNCA infere ativacao por nome de pasta, codigo ou regex. time_unit=frames, camera=behind_or_chase, track_count_max=16, lap_count_max=5, ai_opponents=5_to_7, boost_on_drift=on, collision_model=arcade_forgiving. Validator canonico: tools/sgdk_wrapper/validate_racing_arcade_specialization.ps1."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "celestial_chase_first_playable_enemy_design",
+  "timestamp": "2026-06-04T05:00:00-03:00",
+  "target_scope": "chase_first_playable",
+  "status": "passed",
+  "enemy_results": [
+    {
+      "enemy_id": "celestial_shard",
+      "role": "solo_tutorial",
+      "head_metric": "S",
+      "tactical_function": "Teach the low-barrier jump response in isolation.",
+      "telegraph_complete": true,
+      "synergy_count": 0,
+      "status": "passed",
+      "issues": []
+    },
+    {
+      "enemy_id": "astral_brand",
+      "role": "atirador",
+      "head_metric": "M",
+      "tactical_function": "Mark a lane at range and force early repositioning.",
+      "telegraph_complete": true,
+      "synergy_count": 2,
+      "status": "passed",
+      "issues": []
+    },
+    {
+      "enemy_id": "celestial_bulwark",
+      "role": "bloqueador",
+      "head_metric": "M",
+      "tactical_function": "Occupy a lane and make the adjacent Brand pattern meaningful.",
+      "telegraph_complete": true,
+      "synergy_count": 1,
+      "status": "passed",
+      "issues": []
+    },
+    {
+      "enemy_id": "comet_spark",
+      "role": "voador",
+      "head_metric": "S",
+      "tactical_function": "Punish blind jumping and redirect lane timing.",
+      "telegraph_complete": true,
+      "synergy_count": 2,
+      "status": "passed",
+      "issues": []
+    },
+    {
+      "enemy_id": "pursuer_hoof",
+      "role": "perseguidor",
+      "head_metric": "L",
+      "tactical_function": "Convert pursuer proximity into a direct, lane-bound strike.",
+      "telegraph_complete": true,
+      "synergy_count": 2,
+      "status": "passed",
+      "issues": []
+    },
+    {
+      "enemy_id": "ancient_hart_pressure",
+      "role": "boss",
+      "head_metric": "XL",
+      "tactical_function": "Drive the three-phase pressure arc across the whole slice.",
+      "telegraph_complete": true,
+      "synergy_count": 0,
+      "status": "passed",
+      "issues": []
+    }
+  ],
+  "enemy_ai_role_map": [
+    {"enemy_id": "celestial_shard", "role": "solo_tutorial", "level_function": "isolated jump lesson"},
+    {"enemy_id": "astral_brand", "role": "atirador", "level_function": "lane zoning"},
+    {"enemy_id": "celestial_bulwark", "role": "bloqueador", "level_function": "lane denial"},
+    {"enemy_id": "comet_spark", "role": "voador", "level_function": "jump disruption"},
+    {"enemy_id": "pursuer_hoof", "role": "perseguidor", "level_function": "climax strike"},
+    {"enemy_id": "ancient_hart_pressure", "role": "boss", "level_function": "systemic pressure arc"}
+  ],
+  "head_metric_audit": {
+    "counts_per_metric": {"S": 2, "M": 2, "L": 1, "XL": 1},
+    "boss_xl_compliance": true,
+    "non_boss_xl_violations": [],
+    "boss_with_lt_3_states": []
+  },
+  "synergy_composition_map": [
+    {
+      "composition_id": "blocked_brand",
+      "members": ["celestial_bulwark", "astral_brand"],
+      "synergy_type": "frontline_shield_plus_backline_dps",
+      "validated": true
+    },
+    {
+      "composition_id": "air_and_hoof",
+      "members": ["comet_spark", "pursuer_hoof"],
+      "synergy_type": "jump_disruption_plus_flanker",
+      "validated": true
+    }
+  ],
+  "issues": [],
+  "blocking_statuses": [],
+  "runtime_validation_status": "pending_blastem"
+}

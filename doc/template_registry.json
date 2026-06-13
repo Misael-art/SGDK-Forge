@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-04",
+  "policy": "template registry is authoritative for future template decisions; it does not move files",
+  "canonical_bootstrap_id": "sgdk_modelo",
+  "canonical_bootstrap_path": "tools/sgdk_wrapper/modelo",
+  "canonical_override_justification": "new_project.bat and new_project.sh use tools/sgdk_wrapper/modelo first; base-elite is fallback/reference only in current wrapper behavior.",
+  "templates": [
+    {
+      "id": "sgdk_modelo",
+      "path": "tools/sgdk_wrapper/modelo",
+      "status": "CANONICAL_BOOTSTRAP",
+      "purpose": "Current wrapper-first project bootstrap model.",
+      "used_by_scripts": [
+        "tools/sgdk_wrapper/new_project.bat",
+        "tools/sgdk_wrapper/new_project.sh"
+      ],
+      "has_mddev_project_json": true,
+      "has_build_bat": true,
+      "has_run_bat": true,
+      "has_clean_bat": true,
+      "has_rebuild_bat": true,
+      "has_src": true,
+      "has_inc": true,
+      "has_res": true,
+      "has_doc": true,
+      "contains_out": false,
+      "file_count": 312,
+      "dir_count": 159,
+      "bytes": 15561544,
+      "divergence_against_modelo": null,
+      "recommendation": [
+        "KEEP"
+      ],
+      "owner_review_notes": []
+    },
+    {
+      "id": "wrapper_project_template_nested",
+      "path": "tools/sgdk_wrapper/templates/project-template-nested",
+      "status": "PARTIAL_TEMPLATE",
+      "purpose": "Nested wrapper shim/template support.",
+      "used_by_scripts": [],
+      "has_mddev_project_json": false,
+      "has_build_bat": true,
+      "has_run_bat": true,
+      "has_clean_bat": true,
+      "has_rebuild_bat": true,
+      "has_src": false,
+      "has_inc": false,
+      "has_res": false,
+      "has_doc": false,
+      "contains_out": false,
+      "file_count": 8,
+      "dir_count": 0,
+      "bytes": 13325,
+      "divergence_against_modelo": {
+        "common_files": 6,
+        "different_common_files": 6,
+        "modelo_only_files": 415,
+        "template_only_files": 2
+      },
+      "recommendation": [
+        "KEEP",
+        "OWNER_REVIEW"
+      ],
+      "owner_review_notes": []
+    }
+  ],
+  "validation": {
+    "exactly_one_canonical_bootstrap_required": true,
+    "validator": "tools/sgdk_wrapper/.agent/scripts/validate_template_registry.py"
+  }
+}

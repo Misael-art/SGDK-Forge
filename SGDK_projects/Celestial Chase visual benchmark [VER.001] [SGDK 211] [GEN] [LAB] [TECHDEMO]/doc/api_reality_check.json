@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "api_reality_check",
+  "sgdk_version": "2.11",
+  "verified_apis": [
+    {
+      "api": "SPR_initEx",
+      "header": "sdk/sgdk-2.11/inc/sprite_eng.h",
+      "usage": "SPR_initEx(680)"
+    },
+    {
+      "api": "VDP_setHorizontalScrollLine",
+      "header": "sdk/sgdk-2.11/inc/vdp_bg.h",
+      "usage": "complete BG_A and BG_B tables with DMA_QUEUE"
+    },
+    {
+      "api": "VDP_setVerticalScrollTile",
+      "header": "sdk/sgdk-2.11/inc/vdp_bg.h",
+      "usage": "VSCROLL_COLUMN road depth and quarter-strength sky shake with DMA_QUEUE"
+    },
+    {
+      "api": "SPR_addSpriteEx",
+      "header": "sdk/sgdk-2.11/inc/sprite_eng.h",
+      "usage": "frame-locked duplicate sprites share an explicitly assigned VRAM tile index"
+    },
+    {
+      "api": "VDP_setHilightShadow",
+      "header": "sdk/sgdk-2.11/inc/vdp.h",
+      "usage": "contextual Pulse-only scene state with symmetric reset"
+    },
+    {
+      "api": "VDP_clearTileMapRect",
+      "header": "sdk/sgdk-2.11/inc/vdp_tile.h",
+      "usage": "CPU scene-entry clear instead of VDP_clearPlane DMA"
+    },
+    {
+      "api": "PAL_setColors",
+      "header": "sdk/sgdk-2.11/inc/pal.h",
+      "usage": "four-argument SGDK 2.11 call with DMA_QUEUE"
+    },
+    {
+      "api": "XGM2_playPCMEx",
+      "header": "sdk/sgdk-2.11/inc/snd/xgm2.h",
+      "usage": "three fixed PCM channels with explicit priorities"
+    },
+    {
+      "api": "Z80_loadDriver",
+      "header": "sdk/sgdk-2.11/inc/z80_ctrl.h",
+      "usage": "Z80_loadDriver(Z80_DRIVER_XGM2, TRUE)"
+    }
+  ],
+  "invented_or_legacy_apis": [],
+  "blockers": []
+}

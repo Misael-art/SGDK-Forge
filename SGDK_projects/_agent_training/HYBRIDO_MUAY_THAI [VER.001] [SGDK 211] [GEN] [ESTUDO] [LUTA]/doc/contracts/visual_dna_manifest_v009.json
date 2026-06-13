@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_sprite_sheet_v009",
+  "source_ref": "data/source_art/hibrido_fighter_v008/source_concept.png",
+  "status": "runtime_sprite_candidate_pending_human_visual_validation",
+  "scale_contract": {
+    "cell_px": [48, 64],
+    "ground_y": 58,
+    "pivot_px": [24, 58],
+    "scale_lock_status": "locked_for_v009_candidate",
+    "resize_policy": "no_silent_resize; pose rework must return to builder"
+  },
+  "topology_lock": {
+    "arms": 2,
+    "legs": 2,
+    "head": 1,
+    "trunk": 1,
+    "lava_arm_side": "screen_right_character_left_special_arm",
+    "human_arm_marker": "red_biceps_band_on_non_lava_arm"
+  },
+  "material_lock": {
+    "skin": "bronze skin using indices 5-8",
+    "hair_outline": "black/almost-black indices 1-2",
+    "shorts": "black/dark gray with gold trim indices 2-3-11",
+    "wraps": "dirty white indices 9-10",
+    "lava_rock_arm": "gray rock indices 3-4 with orange/yellow cracks indices 13-14",
+    "lava_arm_wraps": "forbidden"
+  },
+  "palette_contract": {
+    "palette_ref": "doc/contracts/hibrido_fighter_v008_palette_map.json",
+    "runtime_palette": "single 16-entry character palette",
+    "transparent_index": 0,
+    "transparent_rgb": "#EE00EE",
+    "grid": "Mega Drive 9-bit channel values only"
+  },
+  "visual_gate": {
+    "technical_conformance": "passed_v009_pixel_compliance",
+    "human_visual_approval": "pending",
+    "not_final_art_until_approved": true
+  }
+}

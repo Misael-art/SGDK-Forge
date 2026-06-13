@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "boss_id": "celestial_pursuer_v009",
+  "scene_id": "chase_first_playable",
+  "parts": [
+    {
+      "part_id": "torso_root",
+      "runtime_symbol": "sTorso",
+      "parent_id": null,
+      "pivot_x": 48,
+      "pivot_y": 40,
+      "scanline_sprite_cost": 3
+    },
+    {
+      "part_id": "head_child",
+      "runtime_symbol": "sHead",
+      "parent_id": "torso_root",
+      "pivot_x": 40,
+      "pivot_y": 48,
+      "scanline_sprite_cost": 3
+    },
+    {
+      "part_id": "near_claw_child",
+      "runtime_symbol": "sClawNear",
+      "parent_id": "torso_root",
+      "pivot_x": 8,
+      "pivot_y": 12,
+      "scanline_sprite_cost": 2
+    },
+    {
+      "part_id": "far_claw_child",
+      "runtime_symbol": "sClawFar",
+      "parent_id": "torso_root",
+      "pivot_x": 56,
+      "pivot_y": 12,
+      "scanline_sprite_cost": 2
+    }
+  ],
+  "fk_chain": [
+    {
+      "parent_part_id": "torso_root",
+      "child_part_id": "head_child",
+      "transform_rule": "integer_sine_lut_head_arc"
+    },
+    {
+      "parent_part_id": "torso_root",
+      "child_part_id": "near_claw_child",
+      "transform_rule": "integer_sine_lut_forward_reach"
+    },
+    {
+      "parent_part_id": "torso_root",
+      "child_part_id": "far_claw_child",
+      "transform_rule": "mirrored_half_reach_with_active_pruning"
+    }
+  ],
+  "fk_update_symbol": "chasePursuerPlaceRig",
+  "runtime_source_paths": [
+    "src/gameplay/chase_pursuer.c"
+  ],
+  "scanline_budget": {
+    "maximum_sprites_per_line": 20,
+    "measured_peak": 12,
+    "runtime_observed_peak": 9,
+    "offline_rom_worst_peak": 12,
+    "headroom_to_hardware_limit": 8,
+    "measurement_note": "Runtime probe samples real FrameVDPSprite scanline occupancy across the frame; the ROM-linked enumerator covers reachable FK, pressure, hero and FX states through the canonical scanline simulator."
+  },
+  "math_model": "32-entry signed integer sine LUT; no float, division or heap in the hot loop",
+  "scale_model": "six pre-rendered z-loop frames with staggered upload groups",
+  "sat_pruning_order": [
+    "far_claw",
+    "oldest_hero_afterimage",
+    "far_cloud_graft"
+  ],
+  "vram_policy": "far claw shares the near claw VRAM slot and remains frame-locked",
+  "fallback": "hide far claw while preserving torso, head and striking claw",
+  "evidence_required": [
+    "out/logs/sprite_scanline_pressure_report.json",
+    "out/logs/runtime_metrics.json",
+    "out/evidence/scenes/first_playable_slice/screenshot.png"
+  ]
+}

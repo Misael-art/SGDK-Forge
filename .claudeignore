@@ -1,0 +1,79 @@
+# Claude Code context mask — excludes noise from indexing & context
+# Canonical agent framework lives at tools/sgdk_wrapper/.agent/
+
+# SDK: Java rescomp, samples, binaries — poluição de busca e tokens
+sdk/
+
+# Build outputs
+out/
+graphify-out/
+**/out/
+*.bin
+*.o
+*.lst
+*.map
+**/build_output.log
+**/build_debug.log
+**/build_error.log
+**/validation_report.json
+**/hs_err_pid*.log
+**/replay_pid*.log
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+
+# Emuladores — grandes e fora do escopo de código
+tools/emuladores/
+
+# Agent materialization bridges (canonical source versioned at tools/sgdk_wrapper/.agent/)
+.agents/skills/
+SGDK_projects/**/.agent/
+SGDK_Engines/**/.agent/
+
+# Local agent state — não versionado
+.claude/
+.cursor/
+.trae/
+.serena/
+.superpowers/
+.kilocode/
+.vscode/
+.idea/
+.obsidian/
+
+# Images e assets binários — ocupam tokens sem valor de busca
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+**/*.bmp
+**/*.ico
+**/*.psd
+**/*.xcf
+
+# Áudio
+**/*.wav
+**/*.ogg
+**/*.mp3
+**/*.vgm
+**/*.xgm
+**/*.ym
+
+# Arquivos compactados
+**/*.zip
+**/*.rar
+**/*.7z
+**/*.tar.gz
+
+# Save states / SRAM
+**/*.srm
+**/*.sram
+**/*.state
+
+# Temporários
+tmp/
+.tmp/
+output/

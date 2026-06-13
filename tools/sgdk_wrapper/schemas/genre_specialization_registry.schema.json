@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/genre_specialization_registry.schema.json",
+  "title": "Genre Specialization Registry",
+  "description": "Master catalog of genre specializations known to the SGDK framework. A specialization is opt-in for a project only when declared in doc/genre_specialization_manifest.json. Promotion tiers: LABORATORIO -> TEORICA_STANDARD -> TEORICA_PRIORITARIA -> MESTRE_STANDARD -> MESTRE_PRIORITARIA. Reaching any MESTRE_* tier requires human curation plus a shipped project with ROM evidence (BlastEm), doc/10-memory-bank.md and validator output. The registry is human-curated; no auto-promotion. v2 expands the catalog to 8 families (fighting, rpg, strategy, horror, brawler, fps, platformer_puzzle, racing_sports_adventure) and three status dimensions: active (MD-feasible + opt-in ready), deferred (future_knowledge, MD-feasible but pending curadoria), deferred with mega_drive_feasible=false (future_architetural, MD-not-feasible, listed for taxonomic proficiency only).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "registry_id",
+    "owner_skill",
+    "promotion_tier",
+    "promotion_required_artifacts",
+    "promotion_required_human_roles",
+    "forbidden_inferences",
+    "families",
+    "mega_drive_feasibility_legend",
+    "known_specializations"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "registry_id": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "owner_skill": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Top-level owner skill path (fighting-game-design in v1). Per-spec owner_skill overrides this for that spec."
+    },
+    "promotion_tier": {
+      "type": "string",
+      "enum": [
+        "LABORATORIO",
+        "TEORICA_STANDARD",
+        "TEORICA_PRIORITARIA",
+        "MESTRE_STANDARD",
+        "MESTRE_PRIORITARIA"
+      ]
+    },
+    "promotion_required_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Top-level shared artifact paths or role names required to justify promotion of any spec to MESTRE_*. Per-spec required files (design contract schema, validator, role data) are listed in the spec's design_contract_schema field and owner_skill path."
+    },
+    "promotion_required_human_roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "forbidden_inferences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Inference rules that must NEVER trigger activation: project folder name, code keyword regex, file extension, project short name, GDD keyword, TDD keyword. Activation is human-declared only via doc/genre_specialization_manifest.json."
+    },
+    "families": {
+      "type": "object",
+      "description": "Human-readable description of each genre family. Keys are family ids; values are short summaries.",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "mega_drive_feasibility_legend": {
+      "type": "object",
+      "description": "Legend explaining how status + mega_drive_feasible interact.",
+      "required": ["active", "future_knowledge", "future_architetural"],
+      "properties": {
+        "active": { "type": "string", "minLength": 1 },
+        "future_knowledge": { "type": "string", "minLength": 1 },
+        "future_architetural": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "known_specializations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "specialization_id",
+          "display_name",
+          "category",
+          "promotion_tier",
+          "owner_skill",
+          "design_contract_schema",
+          "primary_use_cases",
+          "non_goals",
+          "frozen_design_axes",
+          "advisory_design_axes",
+          "phase_aware_blockers",
+          "status"
+        ],
+        "properties": {
+          "specialization_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "fighting",
+              "rpg",
+              "strategy",
+              "horror",
+              "brawler",
+              "fps",
+              "platformer_puzzle",
+              "racing_sports_adventure",
+              "future_knowledge",
+              "future_architetural"
+            ]
+          },
+          "promotion_tier": {
+            "type": "string",
+            "enum": [
+              "LABORATORIO",
+              "TEORICA_STANDARD",
+              "TEORICA_PRIORITARIA",
+              "MESTRE_STANDARD",
+              "MESTRE_PRIORITARIA"
+            ]
+          },
+          "owner_skill": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Path to the orchestrator skill that owns this specialization. For multi-family support, multiple specs share a family-level skill (e.g., rpg-game-design owns all RPG specs)."
+          },
+          "design_contract_schema": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Path to the design contract schema (relative to tools/sgdk_wrapper/schemas/) that the project must instantiate. For future_architetural specs without a contract, use a family placeholder like 'rpg_design_contract.schema.json' to indicate the family design surface even if no validator exists yet."
+          },
+          "primary_use_cases": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "non_goals": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "frozen_design_axes": {
+            "type": "object",
+            "description": "Axes whose values are policy-locked. TDD/validator must enforce them.",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "boolean",
+                "integer"
+              ]
+            }
+          },
+          "advisory_design_axes": {
+            "type": "object",
+            "description": "Axes whose values are guidance only, not gateable.",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "boolean",
+                "integer"
+              ]
+            }
+          },
+          "phase_aware_blockers": {
+            "type": "array",
+            "description": "Blockers that only fire in ready_for_aaa or closeout tiers. vertical_slice is never blocked by these.",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "deferred",
+              "experimental"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

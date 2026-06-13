@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_tilemap_conversion_report.schema.json",
+  "title": "Scene Tilemap Conversion Report",
+  "description": "Report for auditable scene/tilemap conversion: 8x8 slicing, flip-aware dedup summary, palette conflict summary, and ROM resource strategy.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_path",
+    "source_sha256",
+    "conversion_target",
+    "output_tileset_path",
+    "output_tilemap_path",
+    "output_palette_path",
+    "tile_size_px",
+    "total_tiles",
+    "unique_tiles_exact",
+    "unique_tiles_hflip",
+    "unique_tiles_vflip",
+    "unique_tiles_hvflip",
+    "final_unique_tiles",
+    "dedup_savings_tiles",
+    "dedup_savings_percent",
+    "palette_count",
+    "per_tile_palette_conflicts",
+    "priority_tile_count",
+    "hflip_tile_count",
+    "vflip_tile_count",
+    "hvflip_tile_count",
+    "estimated_vram_bytes",
+    "estimated_map_bytes",
+    "rom_resource_strategy",
+    "status",
+    "blockers",
+    "generated_at",
+    "tool_name",
+    "tool_version"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "conversion_target": { "const": "world_tilemap_with_camera_window_streaming" }
+        }
+      },
+      "then": {
+        "required": ["world_dimensions", "viewport_dimensions", "runtime_streaming"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "rom_resource_strategy": { "const": "BIN_CUSTOM_TILE_GRAPHICS_AND_TILEMAP_WINDOW_STREAMING" }
+        }
+      },
+      "then": {
+        "required": ["runtime_streaming"]
+      }
+    }
+  ],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "source_path": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "conversion_target": {
+      "type": "string",
+      "enum": [
+        "scene_slice",
+        "tilemap",
+        "background_layer",
+        "foreground_layer",
+        "world_tilemap_with_camera_window_streaming"
+      ]
+    },
+    "output_tileset_path": { "type": "string", "minLength": 1 },
+    "output_tilemap_path": { "type": "string", "minLength": 1 },
+    "output_palette_path": { "type": "string", "minLength": 1 },
+    "tile_size_px": { "type": "integer", "const": 8 },
+    "total_tiles": { "type": "integer", "minimum": 0 },
+    "unique_tiles_exact": { "type": "integer", "minimum": 0 },
+    "unique_tiles_hflip": { "type": "integer", "minimum": 0 },
+    "unique_tiles_vflip": { "type": "integer", "minimum": 0 },
+    "unique_tiles_hvflip": { "type": "integer", "minimum": 0 },
+    "final_unique_tiles": { "type": "integer", "minimum": 0 },
+    "dedup_savings_tiles": { "type": "integer" },
+    "dedup_savings_percent": { "type": "number" },
+    "palette_count": { "type": "integer", "minimum": 0 },
+    "per_tile_palette_conflicts": { "type": "integer", "minimum": 0 },
+    "priority_tile_count": { "type": "integer", "minimum": 0 },
+    "hflip_tile_count": { "type": "integer", "minimum": 0 },
+    "vflip_tile_count": { "type": "integer", "minimum": 0 },
+    "hvflip_tile_count": { "type": "integer", "minimum": 0 },
+    "estimated_vram_bytes": { "type": "integer", "minimum": 0 },
+    "estimated_map_bytes": { "type": "integer", "minimum": 0 },
+    "rom_resource_strategy": {
+      "type": "string",
+      "enum": [
+        "IMAGE",
+        "TILESET_MAP",
+        "BIN_CUSTOM",
+        "BIN_CUSTOM_TILE_GRAPHICS_AND_TILEMAP_WINDOW_STREAMING",
+        "COMPARE_FLAT"
+      ]
+    },
+    "world_dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pixels_w", "pixels_h", "tiles_w", "tiles_h"],
+      "properties": {
+        "pixels_w": { "type": "integer", "minimum": 0 },
+        "pixels_h": { "type": "integer", "minimum": 0 },
+        "tiles_w": { "type": "integer", "minimum": 0 },
+        "tiles_h": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "viewport_dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pixels_w", "pixels_h", "tiles_w", "tiles_h"],
+      "properties": {
+        "pixels_w": { "type": "integer", "minimum": 0 },
+        "pixels_h": { "type": "integer", "minimum": 0 },
+        "tiles_w": { "type": "integer", "minimum": 0 },
+        "tiles_h": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "runtime_streaming": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "window_tiles_w",
+        "window_tiles_h",
+        "max_window_unique_tiles",
+        "cache_capacity_tiles",
+        "estimated_cache_vram_bytes",
+        "upload_method",
+        "evidence_level"
+      ],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["camera_window_tile_streaming", "full_resident", "compare_flat", "none"]
+        },
+        "window_tiles_w": { "type": "integer", "minimum": 0 },
+        "window_tiles_h": { "type": "integer", "minimum": 0 },
+        "max_window_unique_tiles": { "type": "integer", "minimum": 0 },
+        "cache_capacity_tiles": { "type": "integer", "minimum": 0 },
+        "estimated_cache_vram_bytes": { "type": "integer", "minimum": 0 },
+        "upload_method": { "type": "string", "enum": ["DMA", "CPU", "MIXED", "unknown"] },
+        "frame_animation_enabled": { "type": "boolean" },
+        "visual_vdp_dump_required": { "type": "boolean" },
+        "evidence_level": {
+          "type": "string",
+          "enum": ["estimated", "measured", "emulator_verified", "vdp_dump_verified"]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "lossy_tile_merge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "threshold_pixels": { "type": "integer", "minimum": 0 },
+        "merged_tiles": { "type": "integer", "minimum": 0 },
+        "status": { "type": "string", "enum": ["not_used", "needs_review", "approved_for_lab_only"] }
+      }
+    },
+    "status": { "type": "string", "enum": ["ok", "needs_review", "blocked"] },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "tool_name": { "type": "string", "minLength": 1 },
+    "tool_version": { "type": "string", "minLength": 1 }
+  }
+}

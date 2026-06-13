@@ -1,0 +1,326 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "chase_first_playable",
+  "mechanics": [
+    {
+      "mechanic_id": "lane_change",
+      "mechanic_role": "core",
+      "player_action": "Move one lane left or right.",
+      "system_rule": "The player occupies one of three discrete lanes and commits to a 12-frame interpolated change.",
+      "goal_link": "Avoid lane-bound threats and align with celestial energy.",
+      "input_binding": {
+        "button": "LEFT or RIGHT",
+        "binding_description": "Pressed edge requests one adjacent lane change."
+      },
+      "activation_context": {
+        "state_requirements": "Active chase phase, not paused, not already changing lanes.",
+        "cooldown_ms": 66,
+        "resource_cost": "none"
+      },
+      "space_requirements": {
+        "min_reuses_in_world": 12,
+        "preferred_zones": ["intro_tutorial", "rising_pressure", "climax_escape"]
+      },
+      "required_game_elements": ["three lane anchors", "lane-bound obstacles", "lane-bound energy"],
+      "skill_challenge_type": "mixed",
+      "rules_and_limits": [
+        "One adjacent lane per press.",
+        "No wrap from left to right lane.",
+        "A new lane request is rejected until the current 12-frame change finishes."
+      ],
+      "probability_model": {"type": "deterministic"},
+      "versatility_cases": [
+        "avoid a marked lane",
+        "align with a celestial energy pickup",
+        "set up a safe jump lane",
+        "escape a pursuer hoof strike"
+      ],
+      "level_design_reuse_plan": {
+        "min_reuses": 12,
+        "target_scenes": ["chase_first_playable"]
+      },
+      "combination_map": [
+        {"combo_mechanic_id": "jump", "combo_effect": "Change lane before or after a jump to solve paired threats."},
+        {"combo_mechanic_id": "celestial_pulse", "combo_effect": "Reposition while Pulse clears the immediate lane pressure."}
+      ],
+      "failure_states": [
+        {
+          "failure_condition": "Player requests movement beyond the outer lane.",
+          "consequence": "Request is rejected with no displacement.",
+          "recovery_path": "Press the opposite direction."
+        },
+        {
+          "failure_condition": "Lane change finishes inside an active threat.",
+          "consequence": "Player takes one integrity damage and pressure increases.",
+          "recovery_path": "Invulnerability window allows a corrective move."
+        }
+      ],
+      "feedback_model": {
+        "visual": "Hero interpolates between lane anchors and emits a short dust accent.",
+        "audio": "Short lane shift cue at movement start.",
+        "haptic_or_camera": "No shake; camera remains stable to preserve readability.",
+        "juice_layers": ["position interpolation", "dust accent", "shift cue"]
+      },
+      "tutorial_invisible_plan": {
+        "teaching_scenes": ["chase_first_playable"],
+        "scaffolding_steps": [
+          "Spawn first energy in the current lane.",
+          "Spawn second energy in an adjacent lane with no threat.",
+          "Introduce a single marked lane after the first successful change."
+        ]
+      },
+      "test_scenarios": [
+        {"scenario_id": "lane_center_to_left", "setup": "Player idle in center lane and LEFT is pressed.", "expected_outcome": "Player reaches left anchor in 12 frames and cannot leave the road."},
+        {"scenario_id": "lane_reject_repeat", "setup": "RIGHT is pressed twice during one change.", "expected_outcome": "Only one adjacent lane change occurs."},
+        {"scenario_id": "lane_threat_avoid", "setup": "Active threat occupies center and LEFT is pressed before the active window.", "expected_outcome": "Threat misses and pressure does not increase."}
+      ],
+      "evidence_required": [
+        {"evidence_type": "BlastEm gameplay capture", "location": "out/evidence/blastem/chase_first_playable.png", "passed": false},
+        {"evidence_type": "runtime metrics", "location": "out/logs/runtime_metrics.json", "passed": false}
+      ],
+      "mechanic_5_laws_compliance": {
+        "agency": {"status": "passed", "input_latency_target_ms": 16, "evidence_ref": "doc/numeric_attribute_table.json"},
+        "feedback": {"status": "passed", "feedback_layers": ["visual", "audio", "dust"], "evidence_ref": "doc/mechanic_juice_map.json"},
+        "flow": {"status": "passed", "difficulty_curve_evidence": "doc/level_blueprint.json"},
+        "consistency": {"status": "passed", "color_shape_contract_ref": "doc/08-bible-artistica.md"},
+        "reward": {"status": "passed", "drop_or_progression_ref": "lane alignment grants energy and pressure relief"}
+      }
+    },
+    {
+      "mechanic_id": "jump",
+      "mechanic_role": "core",
+      "player_action": "Jump above low threats.",
+      "system_rule": "A starts a fixed deterministic jump arc when grounded; landing restores grounded state.",
+      "goal_link": "Avoid low barriers while preserving the chosen lane.",
+      "input_binding": {
+        "button": "A",
+        "binding_description": "Pressed edge starts a jump only while grounded."
+      },
+      "activation_context": {
+        "state_requirements": "Active chase phase, grounded, not paused.",
+        "cooldown_ms": 0,
+        "resource_cost": "none"
+      },
+      "space_requirements": {
+        "min_reuses_in_world": 8,
+        "preferred_zones": ["intro_tutorial", "rising_pressure", "climax_escape"]
+      },
+      "required_game_elements": ["grounded state", "low barrier", "jump arc"],
+      "skill_challenge_type": "physical",
+      "rules_and_limits": [
+        "No double jump.",
+        "Lane changes remain available during the jump.",
+        "High marked attacks are not avoided by jumping."
+      ],
+      "probability_model": {"type": "deterministic"},
+      "versatility_cases": [
+        "clear a celestial shard",
+        "combine with a lane change over paired threats",
+        "collect elevated celestial energy",
+        "avoid a low pursuer shockwave"
+      ],
+      "level_design_reuse_plan": {
+        "min_reuses": 8,
+        "target_scenes": ["chase_first_playable"]
+      },
+      "combination_map": [
+        {"combo_mechanic_id": "lane_change", "combo_effect": "Airborne lane adjustment solves staggered barrier patterns."},
+        {"combo_mechanic_id": "celestial_pulse", "combo_effect": "Pulse during jump clears the landing zone."}
+      ],
+      "failure_states": [
+        {
+          "failure_condition": "A is pressed while airborne.",
+          "consequence": "No second jump begins.",
+          "recovery_path": "Wait for landing."
+        },
+        {
+          "failure_condition": "The jump begins after the collision window.",
+          "consequence": "Player takes damage.",
+          "recovery_path": "Use the invulnerability window and re-align."
+        }
+      ],
+      "feedback_model": {
+        "visual": "Hero rises on a fixed arc with takeoff and landing dust.",
+        "audio": "Jump cue at takeoff and landing cue on contact.",
+        "haptic_or_camera": "One-pixel landing bump only.",
+        "juice_layers": ["arc", "takeoff dust", "jump cue", "landing cue"]
+      },
+      "tutorial_invisible_plan": {
+        "teaching_scenes": ["chase_first_playable"],
+        "scaffolding_steps": [
+          "Place one isolated low barrier after lane movement is taught.",
+          "Leave all adjacent lanes safe.",
+          "Later pair a low barrier with a lane reward."
+        ]
+      },
+      "test_scenarios": [
+        {"scenario_id": "jump_clear_barrier", "setup": "Press A 18 frames before a low barrier reaches the player.", "expected_outcome": "Barrier misses and no damage is applied."},
+        {"scenario_id": "jump_no_double", "setup": "Press A twice during the same arc.", "expected_outcome": "Only one arc occurs."},
+        {"scenario_id": "jump_land", "setup": "Complete a jump with no obstacle.", "expected_outcome": "Grounded state returns and landing cue plays once."}
+      ],
+      "evidence_required": [
+        {"evidence_type": "BlastEm gameplay capture", "location": "out/evidence/blastem/chase_first_playable.png", "passed": false},
+        {"evidence_type": "runtime metrics", "location": "out/logs/runtime_metrics.json", "passed": false}
+      ],
+      "mechanic_5_laws_compliance": {
+        "agency": {"status": "passed", "input_latency_target_ms": 16, "evidence_ref": "doc/numeric_attribute_table.json"},
+        "feedback": {"status": "passed", "feedback_layers": ["visual", "audio", "camera"], "evidence_ref": "doc/mechanic_juice_map.json"},
+        "flow": {"status": "passed", "difficulty_curve_evidence": "doc/level_blueprint.json"},
+        "consistency": {"status": "passed", "color_shape_contract_ref": "doc/08-bible-artistica.md"},
+        "reward": {"status": "passed", "drop_or_progression_ref": "clean avoidance lowers pressure"}
+      }
+    },
+    {
+      "mechanic_id": "celestial_pulse",
+      "mechanic_role": "core",
+      "player_action": "Release stored celestial energy.",
+      "system_rule": "B activates only at 100 energy, clears active threats, reduces pressure and grants a short safety window.",
+      "goal_link": "Convert successful collection and survival into recovery during high pressure.",
+      "input_binding": {
+        "button": "B",
+        "binding_description": "Pressed edge activates Pulse when the meter is full."
+      },
+      "activation_context": {
+        "state_requirements": "Active chase phase, pulse energy equals 100, not paused.",
+        "cooldown_ms": 1000,
+        "resource_cost": "100 pulse energy"
+      },
+      "space_requirements": {
+        "min_reuses_in_world": 3,
+        "preferred_zones": ["rising_pressure", "climax_escape"]
+      },
+      "required_game_elements": ["energy pickups", "pulse meter", "active threats", "pressure system"],
+      "skill_challenge_type": "cognitive",
+      "rules_and_limits": [
+        "Cannot activate below 100 energy.",
+        "Clears active threats but does not skip the phase timer.",
+        "Reduces pressure by 28 and grants 45 frames of safety."
+      ],
+      "probability_model": {"type": "deterministic"},
+      "versatility_cases": [
+        "recover from high pursuer pressure",
+        "clear a dense obstacle pair",
+        "protect a difficult landing",
+        "preserve final integrity during climax"
+      ],
+      "level_design_reuse_plan": {
+        "min_reuses": 3,
+        "target_scenes": ["chase_first_playable"]
+      },
+      "combination_map": [
+        {"combo_mechanic_id": "lane_change", "combo_effect": "Pulse creates a safe repositioning window."},
+        {"combo_mechanic_id": "jump", "combo_effect": "Pulse can clear an unsafe landing zone."}
+      ],
+      "failure_states": [
+        {
+          "failure_condition": "B is pressed below full energy.",
+          "consequence": "Pulse does not activate and a short unavailable cue plays.",
+          "recovery_path": "Collect more celestial energy."
+        },
+        {
+          "failure_condition": "Player hoards Pulse until pressure reaches 100.",
+          "consequence": "The run fails.",
+          "recovery_path": "Restart and spend Pulse earlier."
+        }
+      ],
+      "feedback_model": {
+        "visual": "Palette flash, expanding light band and active threat clear.",
+        "audio": "High-priority Pulse cue.",
+        "haptic_or_camera": "Four-frame hitstop followed by a controlled outward shake.",
+        "juice_layers": ["palette flash", "light band", "hitstop", "shake", "priority cue"]
+      },
+      "tutorial_invisible_plan": {
+        "teaching_scenes": ["chase_first_playable"],
+        "scaffolding_steps": [
+          "Provide enough safe pickups to fill the first meter.",
+          "Flash the full meter and play the ready cue.",
+          "Follow with a readable paired threat that rewards activation."
+        ]
+      },
+      "test_scenarios": [
+        {"scenario_id": "pulse_unavailable", "setup": "Press B at 80 energy.", "expected_outcome": "No Pulse activates and energy remains 80."},
+        {"scenario_id": "pulse_clear", "setup": "Press B at 100 energy with two active threats.", "expected_outcome": "Threats clear, pressure drops by 28 and energy becomes 0."},
+        {"scenario_id": "pulse_safety", "setup": "Activate Pulse immediately before an active collision.", "expected_outcome": "No damage occurs during the 45-frame safety window."}
+      ],
+      "evidence_required": [
+        {"evidence_type": "BlastEm gameplay capture", "location": "out/evidence/blastem/chase_first_playable.png", "passed": false},
+        {"evidence_type": "runtime metrics", "location": "out/logs/runtime_metrics.json", "passed": false}
+      ],
+      "mechanic_5_laws_compliance": {
+        "agency": {"status": "passed", "input_latency_target_ms": 16, "evidence_ref": "doc/numeric_attribute_table.json"},
+        "feedback": {"status": "passed", "feedback_layers": ["visual", "audio", "camera", "hitstop"], "evidence_ref": "doc/mechanic_juice_map.json"},
+        "flow": {"status": "passed", "difficulty_curve_evidence": "doc/level_blueprint.json"},
+        "consistency": {"status": "passed", "color_shape_contract_ref": "doc/08-bible-artistica.md"},
+        "reward": {"status": "passed", "drop_or_progression_ref": "energy collection becomes a pressure recovery tool"}
+      }
+    },
+    {
+      "mechanic_id": "pursuer_pressure",
+      "mechanic_role": "supporting",
+      "player_action": "Manage mistakes, collections and Pulse timing to keep pressure below 100.",
+      "system_rule": "Pressure is a deterministic 0-100 value that rises on mistakes and falls on clean play or Pulse.",
+      "goal_link": "Survive until the portal without being caught.",
+      "input_binding": {
+        "button": "indirect",
+        "binding_description": "All core mechanics affect pressure through their outcomes."
+      },
+      "activation_context": {
+        "state_requirements": "Active chase phase.",
+        "cooldown_ms": 0,
+        "resource_cost": "none"
+      },
+      "space_requirements": {
+        "min_reuses_in_world": 3,
+        "preferred_zones": ["intro_tutorial", "rising_pressure", "climax_escape"]
+      },
+      "required_game_elements": ["pressure meter", "pursuer sprite", "phase timer"],
+      "skill_challenge_type": "cognitive",
+      "rules_and_limits": [
+        "Pressure clamps to 0-100.",
+        "Pressure 100 causes failure.",
+        "Phase transitions increase passive pressure cadence."
+      ],
+      "probability_model": {"type": "deterministic"},
+      "versatility_cases": ["communicate danger", "reward clean avoidance", "make Pulse timing meaningful"],
+      "level_design_reuse_plan": {
+        "min_reuses": 3,
+        "target_scenes": ["chase_first_playable"]
+      },
+      "combination_map": [
+        {"combo_mechanic_id": "celestial_pulse", "combo_effect": "Pulse reduces pressure by 28."}
+      ],
+      "failure_states": [
+        {
+          "failure_condition": "Pressure reaches 100.",
+          "consequence": "Failure result state begins.",
+          "recovery_path": "Restart the run."
+        }
+      ],
+      "feedback_model": {
+        "visual": "Pressure meter, pursuer proximity and warmer palette.",
+        "audio": "Danger cue cadence accelerates at high pressure.",
+        "haptic_or_camera": "Pursuer impacts add controlled shake.",
+        "juice_layers": ["meter", "proximity", "palette", "danger cue", "shake"]
+      },
+      "tutorial_invisible_plan": {
+        "teaching_scenes": ["chase_first_playable"],
+        "scaffolding_steps": ["Begin at low pressure.", "Increase pressure after the first visible mistake.", "Show Pulse reducing pressure."]
+      },
+      "test_scenarios": [
+        {"scenario_id": "pressure_damage", "setup": "Player collides at pressure 30.", "expected_outcome": "Pressure becomes 48 and integrity decreases by one."},
+        {"scenario_id": "pressure_clamp", "setup": "Apply a 28 reduction at pressure 12.", "expected_outcome": "Pressure becomes 0."},
+        {"scenario_id": "pressure_fail", "setup": "Raise pressure from 90 by 18.", "expected_outcome": "Pressure clamps to 100 and failure result begins."}
+      ],
+      "evidence_required": [
+        {"evidence_type": "BlastEm gameplay capture", "location": "out/evidence/blastem/chase_first_playable.png", "passed": false}
+      ],
+      "mechanic_5_laws_compliance": {
+        "agency": {"status": "passed", "input_latency_target_ms": 16, "evidence_ref": "core mechanic outcomes"},
+        "feedback": {"status": "passed", "feedback_layers": ["visual", "audio", "camera"], "evidence_ref": "doc/mechanic_juice_map.json"},
+        "flow": {"status": "passed", "difficulty_curve_evidence": "doc/level_blueprint.json"},
+        "consistency": {"status": "passed", "color_shape_contract_ref": "doc/08-bible-artistica.md"},
+        "reward": {"status": "passed", "drop_or_progression_ref": "clean play creates survival margin"}
+      }
+    }
+  ]
+}

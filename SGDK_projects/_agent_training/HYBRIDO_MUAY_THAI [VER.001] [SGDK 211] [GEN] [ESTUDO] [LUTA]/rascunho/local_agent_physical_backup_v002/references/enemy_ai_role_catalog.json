@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "catalog_id": "megadrive_dev_enemy_ai_role_catalog",
+  "purpose": "Canonical 6 AI roles + 2 extras for enemy design on Mega Drive. Used by enemy-design-canonical and audit_game_design_contracts.ps1.",
+  "roles": [
+    {
+      "role_id": "patrulheiro",
+      "display_name": "Patrulheiro",
+      "tactical_function": "Loop de waypoints; ameaca de fundo previsivel; treinamento de leitura de cenario.",
+      "head_metric_typical": ["S", "M"],
+      "behavior_signature": ["ground_patrol", "static_emplacement"],
+      "synergy_prefers": ["perseguidor", "atirador"],
+      "synergy_avoid": ["bloqueador"]
+    },
+    {
+      "role_id": "perseguidor",
+      "display_name": "Perseguidor",
+      "tactical_function": "Caca ativa dentro do raio de aggro; pressiona o jogador a gerenciar distancia.",
+      "head_metric_typical": ["S", "M"],
+      "behavior_signature": ["ground_chase", "aerial_zigzag"],
+      "synergy_prefers": ["atirador", "bloqueador"],
+      "synergy_avoid": []
+    },
+    {
+      "role_id": "atirador",
+      "display_name": "Atirador",
+      "tactical_function": "Ataque a distancia com gerenciamento de recuo; ensina o jogador a fechar gap ou usar cobertura.",
+      "head_metric_typical": ["M", "L"],
+      "behavior_signature": ["static_emplacement", "ground_patrol"],
+      "synergy_prefers": ["bloqueador", "guarda"],
+      "synergy_avoid": ["perseguidor"]
+    },
+    {
+      "role_id": "guarda",
+      "display_name": "Guarda",
+      "tactical_function": "Protege ponto, item ou rota; so sai do posto sob condicao especifica.",
+      "head_metric_typical": ["M", "L"],
+      "behavior_signature": ["static_emplacement", "ground_patrol"],
+      "synergy_prefers": ["atirador", "bloqueador"],
+      "synergy_avoid": []
+    },
+    {
+      "role_id": "voador",
+      "display_name": "Voador",
+      "tactical_function": "Movimentacao tridimensional; quebra o frame de pulo tradicional.",
+      "head_metric_typical": ["S", "M", "L"],
+      "behavior_signature": ["aerial_zigzag", "aerial_hover"],
+      "synergy_prefers": ["perseguidor", "atirador"],
+      "synergy_avoid": []
+    },
+    {
+      "role_id": "bloqueador",
+      "display_name": "Bloqueador",
+      "tactical_function": "Mitigacao de dano; vanguarda ou escudo humano; segura o jogador enquanto aliados atacam.",
+      "head_metric_typical": ["M", "L"],
+      "behavior_signature": ["ground_patrol", "static_emplacement"],
+      "synergy_prefers": ["atirador", "tecnico_suporte"],
+      "synergy_avoid": ["perseguidor"]
+    },
+    {
+      "role_id": "tecnico_suporte",
+      "display_name": "Tecnico de Suporte",
+      "tactical_function": "Heal, buff, controle de zona, hack; muda a dinamica do combate sem matar diretamente.",
+      "head_metric_typical": ["M"],
+      "behavior_signature": ["ground_patrol", "aerial_hover"],
+      "synergy_prefers": ["bloqueador", "atirador"],
+      "synergy_avoid": []
+    },
+    {
+      "role_id": "boss",
+      "display_name": "Chefe de Fase",
+      "tactical_function": "Tela tomada; FSM com multiplos estados; quebra o frame de camera.",
+      "head_metric_typical": ["XL"],
+      "behavior_signature": ["phase_transition", "ground_chase", "aerial_hover"],
+      "synergy_prefers": [],
+      "synergy_avoid": [],
+      "special_constraint": "Requer head_metric=XL e boss_state_count >= 3 (ou boss_curto_justification)."
+    },
+    {
+      "role_id": "solo_tutorial",
+      "display_name": "Inimigo Solo de Tutorial",
+      "tactical_function": "Inimigo de ensino, isolado, sem synergy; permite synergy_partners vazio.",
+      "head_metric_typical": ["S"],
+      "behavior_signature": ["ground_patrol"],
+      "synergy_prefers": [],
+      "synergy_avoid": [],
+      "special_constraint": "synergy_partners vazio so passa quando role=solo_tutorial."
+    }
+  ]
+}

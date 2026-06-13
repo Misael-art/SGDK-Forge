@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "SCENE_TILEMAP_CURATION_FIXTURE",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": true
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Fixture lab: tecnica declarada e registrada em spec, memory bank e changelog do projeto."
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "registry_id": "tile_dedup_hvflip_hashing",
+      "scene_id": "tilemap_fixture_320x224_v001",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "TILE_DEDUP_HVFLIP"
+      ],
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ]
+    }
+  ]
+}

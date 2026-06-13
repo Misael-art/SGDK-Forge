@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/brawler_enemy_archetype_frame_data.schema.json",
+  "title": "Brawler Enemy Archetype Frame Data",
+  "description": "Per-enemy-archetype stat block for brawler_belt_scroll projects. Defines HP, attack, movement, drop table, iframe (if any), and animation timing. All numeric fields are non-negative integers or constrained ranges. Stat fields are REQUIRED for every archetype; boss archetypes must declare multi-phase data. Time unit is 'frames' (1/60 s) for hit_stun, iframe, and animation timing.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "archetype_id",
+    "archetype_role",
+    "registry_source",
+    "time_unit",
+    "base_stats",
+    "drop_table",
+    "animation"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "archetype_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "archetype_role": {
+      "type": "string",
+      "enum": ["grunt", "heavy", "thrower", "runner", "jumper", "boss", "mini_boss"]
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": { "type": "string", "const": "frames" },
+    "base_stats": {
+      "type": "object",
+      "required": ["hp", "damage", "move_speed_px_per_second", "score_reward", "hit_stun_frames"],
+      "properties": {
+        "hp": { "type": "integer", "minimum": 1, "maximum": 9999 },
+        "damage": { "type": "integer", "minimum": 1, "maximum": 99 },
+        "move_speed_px_per_second": { "type": "integer", "minimum": 8, "maximum": 200 },
+        "score_reward": { "type": "integer", "minimum": 0, "maximum": 99999 },
+        "hit_stun_frames": { "type": "integer", "minimum": 4, "maximum": 30 },
+        "iframe_frames": { "type": "integer", "minimum": 0, "maximum": 30 }
+      },
+      "additionalProperties": false
+    },
+    "drop_table": {
+      "type": "object",
+      "required": ["drop_pool"],
+      "properties": {
+        "drop_pool": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "required": ["pickup_id", "drop_chance_pct"],
+            "properties": {
+              "pickup_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$",
+                "description": "Foreign key into design contract pickup_catalog."
+              },
+              "drop_chance_pct": { "type": "integer", "minimum": 1, "maximum": 100 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "guaranteed_drop": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Foreign key into pickup_catalog. If set, this pickup always drops (100%)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "animation": {
+      "type": "object",
+      "required": ["animation_idle_frames", "animation_attack_frames", "animation_hit_frames", "animation_death_frames", "voxel_size"],
+      "properties": {
+        "animation_idle_frames": { "type": "integer", "minimum": 0, "maximum": 600 },
+        "animation_attack_frames": { "type": "integer", "minimum": 0, "maximum": 60 },
+        "animation_hit_frames": { "type": "integer", "minimum": 0, "maximum": 30 },
+        "animation_death_frames": { "type": "integer", "minimum": 0, "maximum": 120 },
+        "voxel_size": { "type": "string", "enum": ["8x8", "16x16", "16x24", "16x32", "24x24", "32x32"] },
+        "head_metric": {
+          "type": "string",
+          "enum": ["S", "M", "L", "XL"],
+          "description": "Advisory only."
+        }
+      },
+      "additionalProperties": false
+    },
+    "boss_phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["phase_id", "hp_threshold_pct", "behavior"],
+        "properties": {
+          "phase_id": { "type": "integer", "minimum": 1, "maximum": 3 },
+          "hp_threshold_pct": { "type": "integer", "minimum": 1, "maximum": 100 },
+          "behavior": {
+            "type": "string",
+            "enum": ["idle", "attack_pattern_1", "attack_pattern_2", "rage_mode", "summon_adds", "charge", "teleport"]
+          },
+          "attack_pattern_frames": { "type": "integer", "minimum": 0, "maximum": 600 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "Boss archetype must declare at least 2 phases (telegraph + rage).",
+      "if": {
+        "properties": {
+          "archetype_role": { "const": "boss" }
+        },
+        "required": ["archetype_role"]
+      },
+      "then": {
+        "required": ["boss_phases"],
+        "properties": {
+          "boss_phases": { "minItems": 2 }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,300 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/mechanic_contract.schema.json",
+  "title": "SGDK Mechanic Contract",
+  "description": "Contract declaring a single game mechanic. Used by systems-mechanics-validator to enforce 5 Laws compliance and 5 Pillars validation.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "mechanic_id",
+    "mechanic_role",
+    "player_action",
+    "system_rule",
+    "goal_link",
+    "input_binding",
+    "activation_context",
+    "space_requirements",
+    "required_game_elements",
+    "skill_challenge_type",
+    "rules_and_limits",
+    "probability_model",
+    "versatility_cases",
+    "level_design_reuse_plan",
+    "combination_map",
+    "failure_states",
+    "feedback_model",
+    "tutorial_invisible_plan",
+    "test_scenarios",
+    "evidence_required",
+    "mechanic_5_laws_compliance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "mechanic_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "mechanic_role": {
+      "type": "string",
+      "enum": ["core", "supporting", "utility", "traversal", "combat", "stealth", "economy", "ui"]
+    },
+    "player_action": {"type": "string", "minLength": 1},
+    "system_rule": {"type": "string", "minLength": 1},
+    "goal_link": {"type": "string", "minLength": 1},
+    "input_binding": {
+      "type": "object",
+      "required": ["button", "binding_description"],
+      "properties": {
+        "button": {"type": "string", "minLength": 1},
+        "binding_description": {"type": "string", "minLength": 1},
+        "shared_button_disambiguation": {
+          "type": "string",
+          "description": "Required when same button maps to multiple actions. Provides disambiguation rule."
+        }
+      },
+      "additionalProperties": true
+    },
+    "activation_context": {
+      "type": "object",
+      "required": ["state_requirements"],
+      "properties": {
+        "state_requirements": {"type": "string", "minLength": 1},
+        "disambiguation_rule": {
+          "type": "string",
+          "description": "Required when input_binding shares button with another action."
+        },
+        "cooldown_ms": {"type": "integer", "minimum": 0},
+        "resource_cost": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "space_requirements": {
+      "type": "object",
+      "required": ["min_reuses_in_world"],
+      "properties": {
+        "min_reuses_in_world": {"type": "integer", "minimum": 1},
+        "preferred_zones": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "required_game_elements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "skill_challenge_type": {
+      "type": "string",
+      "enum": ["cognitive", "physical", "social", "mixed", "none_utility"]
+    },
+    "rules_and_limits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "probability_model": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {"type": "string", "enum": ["deterministic", "random", "weighted", "conditional"]},
+        "success_rate_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Required when type != deterministic."
+        },
+        "rng_seed_strategy": {"type": "string"},
+        "weights": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "versatility_cases": {
+      "type": "array",
+      "description": "Different ways the mechanic can be used. core requires >= 3.",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "level_design_reuse_plan": {
+      "type": "object",
+      "required": ["min_reuses", "target_scenes"],
+      "properties": {
+        "min_reuses": {"type": "integer", "minimum": 1, "description": "core requires >= 3."},
+        "target_scenes": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "combination_map": {
+      "type": "array",
+      "description": "Mechanics this one combines with. core requires >= 1 entry.",
+      "items": {
+        "type": "object",
+        "required": ["combo_mechanic_id", "combo_effect"],
+        "properties": {
+          "combo_mechanic_id": {"type": "string"},
+          "combo_effect": {"type": "string"}
+        }
+      }
+    },
+    "failure_states": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["failure_condition", "consequence"],
+        "properties": {
+          "failure_condition": {"type": "string"},
+          "consequence": {"type": "string"},
+          "recovery_path": {"type": "string"}
+        }
+      }
+    },
+    "feedback_model": {
+      "type": "object",
+      "required": ["visual", "audio", "haptic_or_camera"],
+      "properties": {
+        "visual": {"type": "string"},
+        "audio": {"type": "string"},
+        "haptic_or_camera": {"type": "string"},
+        "juice_layers": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "tutorial_invisible_plan": {
+      "type": "object",
+      "required": ["teaching_scenes"],
+      "properties": {
+        "teaching_scenes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "scaffolding_steps": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "test_scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["scenario_id", "setup", "expected_outcome"],
+        "properties": {
+          "scenario_id": {"type": "string"},
+          "setup": {"type": "string"},
+          "expected_outcome": {"type": "string"},
+          "evidence_ref": {"type": "string"}
+        }
+      }
+    },
+    "evidence_required": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["evidence_type", "location"],
+        "properties": {
+          "evidence_type": {"type": "string"},
+          "location": {"type": "string"},
+          "passed": {"type": "boolean"}
+        }
+      }
+    },
+    "mechanic_5_laws_compliance": {
+      "type": "object",
+      "required": ["agency", "feedback", "flow", "consistency", "reward"],
+      "properties": {
+        "agency": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]},
+            "input_latency_target_ms": {"type": "integer", "minimum": 0},
+            "evidence_ref": {"type": "string"}
+          }
+        },
+        "feedback": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]},
+            "feedback_layers": {"type": "array", "items": {"type": "string"}},
+            "evidence_ref": {"type": "string"}
+          }
+        },
+        "flow": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]},
+            "difficulty_curve_evidence": {"type": "string"}
+          }
+        },
+        "consistency": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]},
+            "color_shape_contract_ref": {"type": "string"}
+          }
+        },
+        "reward": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {"type": "string", "enum": ["passed", "warn", "failed"]},
+            "drop_or_progression_ref": {"type": "string"}
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true,
+  "allOf": [
+    {"$ref": "#/definitions/core_constraints"},
+    {"$ref": "#/definitions/probability_constraints"}
+  ],
+  "definitions": {
+    "core_constraints": {
+      "allOf": [
+        {
+          "if": {
+            "properties": {"mechanic_role": {"const": "core"}},
+            "required": ["mechanic_role"]
+          },
+          "then": {
+            "required": ["versatility_cases", "level_design_reuse_plan", "combination_map"],
+            "properties": {
+              "versatility_cases": {"minItems": 3, "items": {"type": "string", "minLength": 1}},
+              "level_design_reuse_plan": {
+                "required": ["min_reuses"],
+                "properties": {"min_reuses": {"minimum": 3, "type": "integer"}}
+              },
+              "combination_map": {"minItems": 1}
+            }
+          }
+        }
+      ]
+    },
+    "probability_constraints": {
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "probability_model": {
+                "properties": {"type": {"not": {"const": "deterministic"}}},
+                "required": ["type"]
+              }
+            },
+            "required": ["probability_model"]
+          },
+          "then": {
+            "properties": {
+              "probability_model": {
+                "required": ["success_rate_percent"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

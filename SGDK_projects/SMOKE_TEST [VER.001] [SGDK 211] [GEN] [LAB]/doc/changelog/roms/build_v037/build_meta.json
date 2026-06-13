@@ -1,0 +1,113 @@
+﻿{
+    "build_version":  "build_v037",
+    "rom_sha256":  "be8a4d8459eb17b431cfc4051851b863ce82c426b7b24ddd462636963086ba76",
+    "size_bytes":  262144,
+    "timestamp":  "2026-06-05T06:00:17.2505535-03:00",
+    "source_commit_when_available":  null,
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  6,
+                               "blocking_statuses":  [
+                                                         "gdd_substantial_insufficient",
+                                                         "visual_gate_blocked",
+                                                         "emulator_evidence_stale",
+                                                         "freshness_audit_stale",
+                                                         "scene_closeout_gate_stale"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "runtime_metrics_stale",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "stale",
+                             "performance":  "estavel",
+                             "audio":  "ok",
+                             "hardware_real":  "blastem_reference_emulator"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_brand_engine_bg_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_engine_bg_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_author_bg_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_author_bg_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_project_bg_v3",
+                                      "version":  "v002",
+                                      "source_path":  "res/branding/brand_project_bg_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_engine_logo_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_engine_logo_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_author_signature_v3",
+                                      "version":  "v002",
+                                      "source_path":  "res/branding/brand_author_signature_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_project_logo_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_project_logo_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_presents_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_presents_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_font_forge_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/font_forge_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_font_terminal_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/font_terminal_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_font_crest_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/font_crest_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_spark_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_spark_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_monogram_v3",
+                                      "version":  "v002",
+                                      "source_path":  "res/branding/fx_monogram_mo_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_cursor_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_cursor_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_shield_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_shield_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_glow_v3",
+                                      "version":  "v002",
+                                      "source_path":  "res/branding/fx_glow_v3.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_brand_debris_v3",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/fx_debris_v3.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

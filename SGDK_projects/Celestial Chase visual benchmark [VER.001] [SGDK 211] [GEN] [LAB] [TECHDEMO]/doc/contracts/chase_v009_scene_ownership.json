@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "plane_ownership": {
+    "BG_B": "scene_chase fixed sky",
+    "BG_A": "chase_road road deformation and lower climax bar",
+    "WINDOW": "chase_hud fixed top HUD and climax top bar"
+  },
+  "fx_ownership": {
+    "H_INT": "unused",
+    "HSCROLL_LINE": "chase_road",
+    "VSCROLL_COLUMN": "chase_road",
+    "CRAM_cycle": "scene_chase",
+    "Shadow_Highlight": "scene_chase",
+    "camera_shake": "chase_pursuer request composed by chase_road"
+  },
+  "teardown": [
+    "disable Shadow/Highlight",
+    "reset scrolling mode to plane",
+    "clear road scroll tables",
+    "turn WINDOW off",
+    "reset sprites and audio"
+  ]
+}

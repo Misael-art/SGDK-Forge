@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/rpg_party_frame_data.schema.json",
+  "title": "RPG Party Member Frame Data",
+  "description": "Per-member stat block and learned abilities for rpg_turn_based_jrpg projects. All numeric fields are non-negative integers or constrained ranges. Stat fields are REQUIRED for every member; learned_abilities are required for at least 1 primary member; skills/spells coverage is validated by phase_aware_blockers at ready_for_aaa/closeout. Time unit is 'ticks' (turn) for MP costs, but ability entries do not declare frame counts (no startup/active/recovery; combat is fully turn-based).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "member_id",
+    "member_role",
+    "registry_source",
+    "time_unit",
+    "base_stats",
+    "growth_curve",
+    "learned_abilities"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "member_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "member_role": {
+      "type": "string",
+      "enum": ["leader", "support", "mage", "rogue", "tank", "healer", "summoner", "guest"]
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": {
+      "type": "string",
+      "const": "ticks (turn)"
+    },
+    "base_stats": {
+      "type": "object",
+      "required": ["hp", "mp", "attack", "defense", "agility", "magic"],
+      "properties": {
+        "hp": { "type": "integer", "minimum": 1, "maximum": 9999 },
+        "mp": { "type": "integer", "minimum": 0, "maximum": 999 },
+        "attack": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "defense": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "agility": { "type": "integer", "minimum": 1, "maximum": 255 },
+        "magic": { "type": "integer", "minimum": 1, "maximum": 255 }
+      },
+      "additionalProperties": false
+    },
+    "growth_curve": {
+      "type": "object",
+      "required": ["hp_per_level", "mp_per_level", "attack_per_level", "defense_per_level", "agility_per_level", "magic_per_level"],
+      "properties": {
+        "hp_per_level": { "type": "integer", "minimum": 0, "maximum": 999 },
+        "mp_per_level": { "type": "integer", "minimum": 0, "maximum": 99 },
+        "attack_per_level": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "defense_per_level": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "agility_per_level": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "magic_per_level": { "type": "integer", "minimum": 0, "maximum": 10 }
+      },
+      "additionalProperties": false
+    },
+    "learned_abilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["ability_id", "display_name", "category", "learned_at_level", "mp_cost"],
+        "properties": {
+          "ability_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "display_name": { "type": "string", "minLength": 1 },
+          "category": {
+            "type": "string",
+            "enum": ["attack", "white_magic", "black_magic", "summon", "buff", "debuff", "heal", "ultimate", "skill", "item_use"]
+          },
+          "learned_at_level": { "type": "integer", "minimum": 1, "maximum": 99 },
+          "mp_cost": { "type": "integer", "minimum": 0, "maximum": 99 },
+          "target_type": {
+            "type": "string",
+            "enum": ["single_enemy", "all_enemies", "single_ally", "all_allies", "self", "dead_ally"]
+          },
+          "power": { "type": "integer", "minimum": 0, "maximum": 999 },
+          "status_inflict": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["poison", "sleep", "paralysis", "silence", "confusion", "blind", "stone", "death", "regen", "shield", "haste", "slow"]
+            }
+          },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "Leader role must have at least 3 learned_abilities; non-leader must have at least 1.",
+      "if": {
+        "properties": {
+          "member_role": { "const": "leader" }
+        },
+        "required": ["member_role"]
+      },
+      "then": {
+        "properties": {
+          "learned_abilities": { "minItems": 3 }
+        }
+      },
+      "else": {
+        "properties": {
+          "learned_abilities": { "minItems": 1 }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

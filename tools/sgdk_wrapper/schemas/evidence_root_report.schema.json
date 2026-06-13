@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/evidence_root_report.schema.json",
+  "title": "Evidence Root Isolation Report",
+  "description": "Bloqueia quando relatorios, screenshots, ROM paths ou evidence JSON apontam para outro workspace/projeto.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_root",
+    "expected_root",
+    "reported_roots",
+    "rom_hashes",
+    "root_mismatch",
+    "hash_divergent"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reported_roots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_file", "reported_root", "inside_project"],
+        "properties": {
+          "source_file": { "type": "string", "minLength": 1 },
+          "reported_root": { "type": "string", "minLength": 1 },
+          "inside_project": { "type": "boolean" },
+          "field_name": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "rom_hashes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_file", "rom_sha256"],
+        "properties": {
+          "source_file": { "type": "string", "minLength": 1 },
+          "rom_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "context": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "root_mismatch": {
+      "type": "boolean"
+    },
+    "hash_divergent": {
+      "type": "boolean"
+    },
+    "external_paths_accepted": {
+      "type": "array",
+      "description": "Caminhos externos aceitos apenas se copiados para rascunho/ com hash e manifest",
+      "items": {
+        "type": "object",
+        "required": ["path", "rascunho_copy", "hash_verified"],
+        "properties": {
+          "path": { "type": "string" },
+          "rascunho_copy": { "type": "boolean" },
+          "hash_verified": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "blocker_codes": {
+      "type": "array",
+      "items": {
+        "enum": ["evidence_root_mismatch", "evidence_rom_hash_divergent"]
+      }
+    }
+  },
+  "additionalProperties": false
+}

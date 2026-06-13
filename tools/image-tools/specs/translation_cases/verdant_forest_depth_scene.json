@@ -1,0 +1,77 @@
+{
+  "case_id": "verdant_forest_depth_scene",
+  "status": "elite_delta_confirmed",
+  "source_image": "assets/reference/translation_curation/verdant_forest_depth_scene/source/source.png",
+  "translation_target": "scene_slice",
+  "reference_profile": "generic-megadrive-elite",
+  "minimum_delta": 0.1,
+  "hardware_expectations": {
+    "allow_compare_flat_for_rom_proof": true,
+    "allow_manual_vram_partition": false,
+    "allow_sprite_grafts": false
+  },
+  "intent_notes": [
+    "preservar a leitura imediata da arvore central",
+    "preservar a sensacao de profundidade entre copa frontal, troncos medios e floresta distante",
+    "evitar que o verde saturado destrua a hierarquia de planos"
+  ],
+  "soul_contract": {
+    "must_keep": [
+      "silhueta da arvore central",
+      "camadas de profundidade da floresta",
+      "atmosfera luminosa fria do fundo"
+    ],
+    "can_simplify": [
+      "micro-folhas e texturas internas de copa",
+      "variedade excessiva de verdes proximos"
+    ],
+    "must_drop": [
+      "detalhe fino redundante que nao sobrevive em 320x224",
+      "transicoes suaves demais que dependam de muitas cores"
+    ]
+  },
+  "variants": {
+    "basic": {
+      "label": "BASIC",
+      "analysis_units": [
+        {
+          "name": "bg_b",
+          "asset": "assets/reference/translation_curation/verdant_forest_depth_scene/basic/forest_bg_b_basic.png",
+          "role": "bg_b",
+          "critical_visual": true,
+          "weight": 0.45,
+          "paired_bg": "assets/reference/translation_curation/verdant_forest_depth_scene/basic/forest_bg_a_basic.png"
+        },
+        {
+          "name": "bg_a",
+          "asset": "assets/reference/translation_curation/verdant_forest_depth_scene/basic/forest_bg_a_basic.png",
+          "role": "bg_a",
+          "critical_visual": true,
+          "weight": 0.55,
+          "paired_bg": "assets/reference/translation_curation/verdant_forest_depth_scene/basic/forest_bg_b_basic.png"
+        }
+      ]
+    },
+    "elite": {
+      "label": "ELITE",
+      "analysis_units": [
+        {
+          "name": "bg_b",
+          "asset": "assets/reference/translation_curation/verdant_forest_depth_scene/elite/forest_bg_b_elite.png",
+          "role": "bg_b",
+          "critical_visual": true,
+          "weight": 0.45,
+          "paired_bg": "assets/reference/translation_curation/verdant_forest_depth_scene/elite/forest_bg_a_elite.png"
+        },
+        {
+          "name": "bg_a",
+          "asset": "assets/reference/translation_curation/verdant_forest_depth_scene/elite/forest_bg_a_elite.png",
+          "role": "bg_a",
+          "critical_visual": true,
+          "weight": 0.55,
+          "paired_bg": "assets/reference/translation_curation/verdant_forest_depth_scene/elite/forest_bg_b_elite.png"
+        }
+      ]
+    }
+  }
+}

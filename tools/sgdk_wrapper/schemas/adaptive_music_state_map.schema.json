@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/adaptive_music_state_map.schema.json",
+  "title": "SGDK Adaptive Music State Map",
+  "description": "State machine for adaptive music. Annex to audio_architecture_card. Each state has trigger, transitions, affected channels, SFX priority, fallback.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state_map_id",
+    "states",
+    "transitions"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "state_map_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["state_id", "label", "trigger", "channels", "sfx_priority", "fallback"],
+        "properties": {
+          "state_id": {
+            "type": "string",
+            "enum": ["exploration", "stealth", "suspicion", "alert", "boss", "blackout", "victory_or_release", "death", "menu", "pause"]
+          },
+          "label": {"type": "string", "minLength": 1},
+          "trigger": {"type": "string", "minLength": 1},
+          "channels": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["channel", "layer", "intensity"],
+              "properties": {
+                "channel": {"type": "string", "enum": ["bgm_base", "bgm_layer_drums", "bgm_layer_lead", "bgm_layer_pad", "ambience", "stinger", "voice"]},
+                "layer": {"type": "string", "enum": ["core", "stinger", "duck_sfx", "duck_voice", "transition"]},
+                "intensity": {"type": "number", "minimum": 0, "maximum": 1},
+                "track_id": {"type": "string"}
+              }
+            }
+          },
+          "sfx_priority": {"type": "integer", "minimum": 0, "maximum": 10},
+          "fallback": {
+            "type": "object",
+            "required": ["fallback_state_id"],
+            "properties": {
+              "fallback_state_id": {"type": "string"},
+              "reason": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["from_state", "to_state", "trigger", "crossfade_ms"],
+        "properties": {
+          "from_state": {"type": "string"},
+          "to_state": {"type": "string"},
+          "trigger": {"type": "string", "minLength": 1},
+          "crossfade_ms": {"type": "integer", "minimum": 0, "maximum": 5000},
+          "duck_sfx_during_transition": {"type": "boolean"}
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "character_id": "hibrido_muay_thai",
+  "cell_px": { "w": 48, "h": 64 },
+  "pivot_px": { "x": 24, "y": 58 },
+  "palettes": {
+    "body": "PAL2",
+    "fx": "PAL3"
+  },
+  "source_status": "v001_procedural_placeholder_preserved_as_technical_lab_asset",
+  "runtime_status": "v002_training_viewer_candidate",
+  "actions": [
+    {
+      "id": "idle",
+      "frames": 8,
+      "body_strip": "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v002.png",
+      "fx_strip": "res/sprites/hibrido/hibrido_idle_fx_48x64_strip_v002.png"
+    },
+    {
+      "id": "walk_step",
+      "frames": 6,
+      "body_strip": "res/sprites/hibrido/hibrido_walk_step_body_48x64_strip_v002.png",
+      "fx_strip": "res/sprites/hibrido/hibrido_walk_step_fx_48x64_strip_v002.png"
+    },
+    {
+      "id": "teep",
+      "frames": 6,
+      "body_strip": "res/sprites/hibrido/hibrido_teep_body_48x64_strip_v002.png",
+      "fx_strip": "res/sprites/hibrido/hibrido_teep_fx_48x64_strip_v002.png"
+    }
+  ]
+}

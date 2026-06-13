@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "audio_role": "bgm_sfx",
+  "xgm2_mode": "standard_with_pcm",
+  "channel_ownership_map": {
+    "FM_CH1": {"owner": "XGM2 reserved", "stealable": false},
+    "FM_CH2": {"owner": "XGM2 reserved", "stealable": false},
+    "FM_CH3": {"owner": "XGM2 reserved", "stealable": false},
+    "FM_CH4": {"owner": "XGM2 reserved", "stealable": false},
+    "FM_CH5": {"owner": "XGM2 reserved", "stealable": false},
+    "FM_CH6_DAC": {"owner": "XGM2 PCM mixer", "stealable": false},
+    "PSG_CH1": {"owner": "PSG fallback score layer", "stealable": true},
+    "PSG_CH2": {"owner": "PSG fallback cue", "stealable": true},
+    "PSG_CH3": {"owner": "PSG fallback cue", "stealable": true},
+    "PSG_NOISE": {"owner": "PSG fallback impact", "stealable": true},
+    "PCM_CH1": {"owner": "looped original chase score", "stealable": false},
+    "PCM_CH2": {"owner": "critical gameplay and result cues", "stealable": true},
+    "PCM_CH3": {"owner": "movement, pickup and menu cues", "stealable": true}
+  },
+  "sfx_priority_table": [
+    {"event": "failure", "priority": 15, "channel": "PCM_CH2", "steals_lower_priority": true},
+    {"event": "victory", "priority": 14, "channel": "PCM_CH2", "steals_lower_priority": true},
+    {"event": "damage", "priority": 13, "channel": "PCM_CH2", "steals_lower_priority": true},
+    {"event": "celestial_pulse", "priority": 12, "channel": "PCM_CH2", "steals_lower_priority": true},
+    {"event": "pressure_warning", "priority": 8, "channel": "PCM_CH3", "steals_lower_priority": true},
+    {"event": "pickup", "priority": 6, "channel": "PCM_CH3", "steals_lower_priority": true},
+    {"event": "jump_land_menu", "priority": 5, "channel": "PCM_CH3", "steals_lower_priority": true}
+  ],
+  "dac_budget": {
+    "dac_used": true,
+    "sample_rate_hz": 13300,
+    "max_concurrent_pcm": 3,
+    "clipping_policy": "Generated samples keep headroom and begin/end at unsigned PCM center."
+  },
+  "fallback_plan": "Drop pressure warning first, then use PSG cues while keeping the score or intentional silence.",
+  "approval_status": "needs_review",
+  "blockers": [
+    "validate_audio pending after resources.res integration",
+    "BlastEm simultaneous playback and loop integrity proof pending"
+  ]
+}

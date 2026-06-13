@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "native_scale_camera_streaming",
+  "status": "controlled_training_area",
+  "lab_not_delivery": true,
+  "ready_for_aaa": false,
+  "purpose": "Prevent recurrence of resized or flattened MUGEN stage reconstruction. The stage must keep native world dimensions and be viewed through a Mega Drive viewport with camera and tile streaming.",
+  "source_stage": {
+    "def": "rascunho/showdown.def",
+    "sff": "rascunho/showdown.sff",
+    "mugen_stage_rules_required": [
+      "mask=1 applies index-0 transparency before layer composition",
+      "BG sections render in sequential back-to-front order",
+      "start offsets are applied in world coordinates",
+      "tile flags repeat sprites to fill the stage region"
+    ]
+  },
+  "world_contract": {
+    "world_pixels": {
+      "width": 768,
+      "height": 480
+    },
+    "world_tiles_8x8": {
+      "width": 96,
+      "height": 60
+    },
+    "viewport_pixels": {
+      "width": 320,
+      "height": 224
+    },
+    "rescale_allowed": false,
+    "crop_as_final_asset_allowed": false,
+    "camera_required": true,
+    "camera_axes_required": [
+      "horizontal",
+      "vertical"
+    ]
+  },
+  "sgdk_streaming_contract": {
+    "viewer": "sgdk_viewer/showdown_viewer",
+    "runtime_source": "sgdk_viewer/showdown_viewer/src/scenes/scene_demo.c",
+    "resources": "sgdk_viewer/showdown_viewer/res/resources.res",
+    "stream_window_tiles": {
+      "width": 42,
+      "height": 30,
+      "tiles_per_window": 1260
+    },
+    "global_unique_tiles_in_rom": 2253,
+    "active_vdp_cache_capacity_tiles": 1151,
+    "max_window_unique_tiles_reported_by_exporter": 1087,
+    "cache_margin_tiles": 64,
+    "tile_user_index": 16,
+    "runtime_policy": "Rebuild the active 42x30 tile window when the camera crosses an 8px tile boundary. Upload only unique tiles required by the current window, then write the BG_A tilemap with palette and H/V flip flags."
+  },
+  "visual_regression_gates": {
+    "anti_magenta_gate": {
+      "required": true,
+      "max_magenta_ratio": 0.05,
+      "applies_to": "work/reconstructed_layers/frame_0000.png",
+      "failure_meaning": "Transparency or layer composition failed before SGDK export."
+    },
+    "native_scale_gate": {
+      "required": true,
+      "expected_world_width": 768,
+      "expected_world_height": 480,
+      "failure_meaning": "The MUGEN stage was resized or flattened instead of reconstructed as a camera-driven world."
+    },
+    "camera_coverage_gate": {
+      "required": true,
+      "expected_camera_max_x": 448,
+      "expected_camera_max_y": 256,
+      "failure_meaning": "The viewer cannot expose the full reconstructed stage extents."
+    }
+  },
+  "evidence_links": {
+    "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
+    "rom_sha256": "4b0ce91f5e370a8d6fd4e842a511c7f6c2e52a8f49ee4f2419696c972305fe2e",
+    "blastem_screenshot": "evidence/blastem_showdown_screenshot.png",
+    "blastem_sram": "evidence/blastem_showdown_save.sram",
+    "viewer_vram_residency_report": "sgdk_viewer/showdown_viewer/doc/vram_residency_report.json"
+  },
+  "curation_notes": [
+    "This report describes a training fixture behavior, not a global canonical tool promotion.",
+    "Future agents must not replace the camera/streaming contract with image downscaling to fit 320x224.",
+    "Future canonicalization should add wrapper-native VDP dump evidence for the active tile cache."
+  ]
+}

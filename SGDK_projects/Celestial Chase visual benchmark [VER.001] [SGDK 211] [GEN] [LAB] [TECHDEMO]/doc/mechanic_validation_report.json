@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "celestial_chase_first_playable_mechanics",
+  "timestamp": "2026-06-04T04:30:00-03:00",
+  "target_scope": "chase_first_playable",
+  "mechanic_results": [
+    {
+      "mechanic_id": "lane_change",
+      "status": "passed",
+      "laws_status": {"agency": "passed", "feedback": "passed", "flow": "passed", "consistency": "passed", "reward": "passed"},
+      "pillars_status": {"space": "passed", "trigger": "passed", "challenge": "passed", "limitation": "passed", "probability": "not_applicable"},
+      "issues": []
+    },
+    {
+      "mechanic_id": "jump",
+      "status": "passed",
+      "laws_status": {"agency": "passed", "feedback": "passed", "flow": "passed", "consistency": "passed", "reward": "passed"},
+      "pillars_status": {"space": "passed", "trigger": "passed", "challenge": "passed", "limitation": "passed", "probability": "not_applicable"},
+      "issues": []
+    },
+    {
+      "mechanic_id": "celestial_pulse",
+      "status": "passed",
+      "laws_status": {"agency": "passed", "feedback": "passed", "flow": "passed", "consistency": "passed", "reward": "passed"},
+      "pillars_status": {"space": "passed", "trigger": "passed", "challenge": "passed", "limitation": "passed", "probability": "not_applicable"},
+      "issues": []
+    },
+    {
+      "mechanic_id": "pursuer_pressure",
+      "status": "passed",
+      "laws_status": {"agency": "passed", "feedback": "passed", "flow": "passed", "consistency": "passed", "reward": "passed"},
+      "pillars_status": {"space": "passed", "trigger": "passed", "challenge": "passed", "limitation": "passed", "probability": "not_applicable"},
+      "issues": []
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "warn": 0,
+    "failed": 0,
+    "orphan_mechanic_ids": [],
+    "underused_mechanic_ids": []
+  },
+  "blocking_statuses": [],
+  "runtime_validation_status": "pending_blastem"
+}

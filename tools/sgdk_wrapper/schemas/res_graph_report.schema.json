@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/res_graph_report.schema.json",
+  "title": "Resource Graph Audit Report",
+  "description": "Output of res_graph_audit.ps1. Extends the common artifact envelope with resource declarations, edges, and issues.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "workspace_root",
+    "status",
+    "res_files",
+    "declarations",
+    "vram",
+    "issues",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "tool_name": { "type": "string", "const": "res_graph_audit" },
+    "tool_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project_root": { "type": "string", "minLength": 1 },
+    "workspace_root": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["ok", "warn", "error"] },
+    "failure_reason": { "type": ["string", "null"] },
+    "res_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Absolute paths to .res files parsed"
+    },
+    "declarations": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/declaration" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/edge" },
+      "description": "Resource declaration to source file relationships"
+    },
+    "issues": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/issue" }
+    },
+    "vram": { "$ref": "#/definitions/vram" },
+    "summary": { "$ref": "#/definitions/summary" }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "declaration": {
+      "type": "object",
+      "required": ["resource_kind", "res_file", "res_line", "parser_status", "classification"],
+      "properties": {
+        "resource_kind": { "type": "string" },
+        "resource_name": { "type": ["string", "null"] },
+        "declared_path": { "type": ["string", "null"] },
+        "resolved_path": { "type": ["string", "null"] },
+        "res_file": { "type": "string" },
+        "res_line": { "type": "integer", "minimum": 1 },
+        "exists": { "type": ["boolean", "null"] },
+        "option_tokens": { "type": "array", "items": { "type": "string" } },
+        "normalized_options": { "type": "object", "additionalProperties": true },
+        "source_size_bytes": { "type": ["integer", "null"], "minimum": 0 },
+        "tile_stats": { "$ref": "#/definitions/tile_stats" },
+        "parser_status": { "type": "string", "enum": ["ok", "source_missing", "unknown_kind", "unparsed"] },
+        "classification": { "type": "string", "enum": ["audio", "image", "map", "palette", "binary", "unknown"] }
+      },
+      "additionalProperties": true
+    },
+    "tile_stats": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string" },
+            "width": { "type": "integer", "minimum": 1 },
+            "height": { "type": "integer", "minimum": 1 },
+            "tile_columns": { "type": "integer", "minimum": 1 },
+            "tile_rows": { "type": "integer", "minimum": 1 },
+            "total_tiles": { "type": "integer", "minimum": 1 },
+            "unique_tiles": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "vram": {
+      "type": "object",
+      "required": ["status", "tile_ranges", "sprite_reserve_tiles", "overlaps"],
+      "properties": {
+        "status": { "type": "string", "enum": ["ok", "warn", "collision_risk", "not_measured", "error"] },
+        "method": { "type": "string" },
+        "tile_max_before_maps": { "type": "integer", "minimum": 0 },
+        "sprite_reserve_tiles": { "type": "integer", "minimum": 0 },
+        "tile_ranges": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/vram_tile_range" }
+        },
+        "overlaps": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/vram_overlap" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "vram_tile_range": {
+      "type": "object",
+      "required": ["resource_name", "start_tile", "end_tile", "unique_tiles"],
+      "properties": {
+        "resource_name": { "type": ["string", "null"] },
+        "start_tile": { "type": "integer", "minimum": 0 },
+        "end_tile": { "type": "integer", "minimum": 0 },
+        "unique_tiles": { "type": "integer", "minimum": 0 },
+        "assignment_model": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "vram_overlap": {
+      "type": "object",
+      "required": ["resource_name", "overlap_with", "overlap_start_tile", "overlap_end_tile"],
+      "properties": {
+        "resource_name": { "type": ["string", "null"] },
+        "overlap_with": { "type": "string" },
+        "overlap_start_tile": { "type": "integer", "minimum": 0 },
+        "overlap_end_tile": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "edge": {
+      "type": "object",
+      "required": ["from_res", "from_line", "resource_name", "resource_kind", "to_source"],
+      "properties": {
+        "from_res": { "type": "string" },
+        "from_line": { "type": "integer" },
+        "resource_name": { "type": "string" },
+        "resource_kind": { "type": "string" },
+        "to_source": { "type": ["string", "null"] },
+        "exists": { "type": "boolean" },
+        "classification": { "type": "string" }
+      }
+    },
+    "issue": {
+      "type": "object",
+      "required": ["res_file", "res_line", "severity", "code", "message"],
+      "properties": {
+        "res_file": { "type": "string" },
+        "res_line": { "type": "integer" },
+        "severity": { "type": "string", "enum": ["info", "warn", "error"] },
+        "code": { "type": "string" },
+        "message": { "type": "string" },
+        "resource": { "type": ["string", "null"] }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["res_files_count", "declarations_total", "issues_count", "vram_residency_status", "sprite_reserve_tiles", "vram_overlap_count"],
+      "properties": {
+        "res_files_count": { "type": "integer", "minimum": 0 },
+        "declarations_total": { "type": "integer", "minimum": 0 },
+        "declarations_ok": { "type": "integer", "minimum": 0 },
+        "declarations_missing": { "type": "integer", "minimum": 0 },
+        "declarations_unparsed": { "type": "integer", "minimum": 0 },
+        "audio_count": { "type": "integer", "minimum": 0 },
+        "image_count": { "type": "integer", "minimum": 0 },
+        "map_count": { "type": "integer", "minimum": 0 },
+        "binary_count": { "type": "integer", "minimum": 0 },
+        "unknown_count": { "type": "integer", "minimum": 0 },
+        "total_source_bytes": { "type": "integer", "minimum": 0 },
+        "issues_count": { "type": "integer", "minimum": 0 },
+        "vram_residency_status": { "type": "string" },
+        "sprite_reserve_tiles": { "type": "integer", "minimum": 0 },
+        "vram_overlap_count": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

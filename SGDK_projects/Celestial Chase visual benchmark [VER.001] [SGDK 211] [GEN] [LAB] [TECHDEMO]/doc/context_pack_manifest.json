@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "project_classification": "projeto_existente",
+  "iteration": "chase_first_playable_vertical_slice",
+  "canonical_docs": [
+    "doc/10-memory-bank.md",
+    "doc/11-gdd.md",
+    "doc/12-roteiro.md",
+    "doc/13-spec-cenas.md",
+    "doc/07-budget-vram-dma.md",
+    "doc/14-plano-de-provas-qa.md",
+    "doc/project_methodology_manifest.json",
+    "doc/project_hygiene_manifest.json",
+    "doc/technique_usage_manifest.json"
+  ],
+  "source_cases": [
+    "doc/source_cases/chase_visual_benchmark/asset_promotion_report.md",
+    "doc/source_cases/chase_visual_benchmark/animation_asset_promotion_report_v004.md",
+    "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/elite_split_scene/locked_visual_direction_v005.json",
+    "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/elite_split_scene/runtime_split_candidates_v007/chase_runtime_split_candidates_report_v007.json",
+    "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/source_baked_pixel_art_candidates_v001/animation_strip_candidates_v003/animation_direction_contract_v003.json"
+  ],
+  "feedback_bank": [
+    "doc/agent_learning/success_patterns.md",
+    "doc/agent_learning/failure_patterns.md"
+  ],
+  "registries": [
+    "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+    "tools/sgdk_wrapper/.agent/references/scene_archetype_catalog.json",
+    "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/pattern_catalog.json"
+  ],
+  "sgdk_headers_to_verify": [
+    "sdk/sgdk-2.11/inc/genesis.h",
+    "sdk/sgdk-2.11/inc/sprite_eng.h",
+    "sdk/sgdk-2.11/inc/vdp.h",
+    "sdk/sgdk-2.11/inc/vdp_bg.h",
+    "sdk/sgdk-2.11/inc/pal.h",
+    "sdk/sgdk-2.11/inc/joy.h",
+    "sdk/sgdk-2.11/inc/sound.h",
+    "sdk/sgdk-2.11/inc/xgm2.h"
+  ],
+  "constraints": [
+    "preserve approved source-baked hero and pursuer sprites",
+    "no float, double, malloc or free",
+    "no unsafe DMA outside VBlank",
+    "no debug control in delivery path",
+    "no final procedural fallback claim",
+    "BlastEm evidence must match current ROM hash"
+  ]
+}

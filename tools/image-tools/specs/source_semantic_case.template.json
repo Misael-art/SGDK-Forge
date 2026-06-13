@@ -1,0 +1,150 @@
+{
+  "case_id": "nome-curto-do-caso-semantico",
+  "source_image": "assets/reference/translation_curation/composição_de_cenas/minha_prancha.png",
+  "scene_truth_kind": "supervised_training_truth",
+  "layout_complexity": "high",
+  "source_inventory": {
+    "includes": [
+      "scene_planes",
+      "mockup_preview",
+      "author_credits",
+      "avatar_or_icon"
+    ],
+    "notes": [
+      "Descrever o que existe na prancha antes de decidir o que e cena util."
+    ]
+  },
+  "drop_policy": {
+    "drop_classes": [
+      "author_credits",
+      "avatar_or_icon",
+      "mockup_preview"
+    ],
+    "notes": [
+      "Regioes editoriais entram como supervisao de parsing, nao como layer de cena."
+    ]
+  },
+  "composition_schema": {
+    "kind": "scene_layers",
+    "shared_canvas": "scene_board_canvas",
+    "roles": [
+      {
+        "region_id": "bg_b_strip",
+        "composition_role": "scene_plane_bg_b",
+        "order": 0
+      },
+      {
+        "region_id": "bg_a_main",
+        "composition_role": "scene_plane_bg_a",
+        "order": 1
+      },
+      {
+        "region_id": "foreground_strip",
+        "composition_role": "scene_plane_foreground_composition",
+        "order": 2
+      }
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "editorial_board",
+    "semantic_regions": [
+      {
+        "id": "bg_b_strip",
+        "classification": "scene_plane_sky",
+        "bbox": [0, 0, 320, 96],
+        "export_name": "layer_sky.png",
+        "usage_kind": "scene_layer",
+        "normalization": [
+          "crop_dead_padding",
+          "preserve_horizontal_alignment",
+          "shared_scene_canvas",
+          "quantize_after_recomposition"
+        ],
+        "notes": "Faixa de atmosfera que pertence ao plano mais ao fundo."
+      },
+      {
+        "id": "bg_a_main",
+        "classification": "scene_plane_architecture",
+        "bbox": [0, 96, 320, 180],
+        "export_name": "layer_architecture.png",
+        "usage_kind": "scene_layer",
+        "normalization": [
+          "crop_dead_padding",
+          "preserve_alpha",
+          "shared_scene_canvas",
+          "quantize_after_recomposition"
+        ],
+        "notes": "Plano principal da cena com arquitetura e leitura estrutural."
+      },
+      {
+        "id": "ground_strip",
+        "classification": "scene_plane_ground",
+        "bbox": [0, 180, 320, 224],
+        "export_name": "layer_ground.png",
+        "usage_kind": "scene_layer",
+        "normalization": [
+          "crop_dead_padding",
+          "tile_multiple_8x8",
+          "preserve_horizontal_alignment",
+          "quantize_after_recomposition"
+        ],
+        "notes": "Faixa de chao, perspectiva ou base do plano principal."
+      }
+    ],
+    "auxiliary_regions": [
+      {
+        "id": "palette_block",
+        "classification": "palette_strip",
+        "bbox": [320, 0, 384, 16],
+        "action": "auxiliary",
+        "export_name": "palette_reference.png",
+        "usage_kind": "auxiliary_data",
+        "normalization": [
+          "keep_out_of_frame_extraction"
+        ],
+        "notes": "Dado auxiliar; nao e frame jogavel."
+      }
+    ],
+    "drop_regions": [
+      {
+        "id": "credits_block",
+        "classification": "author_credits",
+        "bbox": [320, 160, 512, 224],
+        "action": "drop",
+        "drop_reason": "editorial_noise",
+        "notes": "Credito autoral ou editorial; nao entra na composicao."
+      }
+    ],
+    "animation_ranges": [],
+    "final_scene_hypothesis": {
+      "summary": "A IA deve isolar os planos utilitarios e descartar ruido editorial antes de compor a cena.",
+      "reference_image": null
+    },
+    "notes_on_why": [
+      "A prancha nao e o asset.",
+      "Primeiro entender a organizacao semantica; depois traduzir para o VDP."
+    ]
+  },
+  "training_labels": {
+    "goal": "Treinar alfabetizacao semantica de source antes da traducao para Mega Drive."
+  },
+  "_notes": {
+    "recommended_classes": [
+      "scene_plane_sky",
+      "scene_plane_architecture",
+      "scene_plane_ground",
+      "scene_plane_foreground_composition",
+      "actor_sprite_sheet",
+      "palette_strip",
+      "metadata_block",
+      "author_credits",
+      "avatar_or_icon",
+      "mockup_preview",
+      "unrelated_reference",
+      "tile_cluster",
+      "overlay_cluster",
+      "object_animation_sequence",
+      "corrupted_region"
+    ]
+  }
+}

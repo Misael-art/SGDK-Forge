@@ -1,0 +1,423 @@
+{
+  "schema_version": "1.0.0",
+  "tdd_id": "celestial_chase_first_playable",
+  "runtime_target": "vertical_slice_candidate",
+  "engine_target": "SGDK 2.11",
+  "language": "C",
+  "architecture_pattern": "scene_fsm_with_static_subsystem_pools",
+  "scene_manager_scope": {
+    "topology": "linear",
+    "deterministic": true,
+    "transition_handling": "scene-local teardown followed by cut or short palette transition",
+    "boot_to_first_scene_ms_target": 3000
+  },
+  "input_abstraction_scope": {
+    "abstraction_layer": "src/system/input.c",
+    "latency_target_ms": 16,
+    "supported_devices": [
+      "Mega Drive 3-button pad",
+      "Mega Drive 6-button pad"
+    ],
+    "rebind_support": false
+  },
+  "state_fsm_map": [
+    {
+      "scene_id": "chase_first_playable",
+      "states": [
+        "enter",
+        "intro_tutorial",
+        "rising_pressure",
+        "climax_escape",
+        "paused",
+        "victory_result",
+        "failure_result",
+        "exit"
+      ],
+      "transitions": [
+        {"from": "enter", "to": "intro_tutorial", "trigger": "scene_resources_ready"},
+        {"from": "intro_tutorial", "to": "rising_pressure", "trigger": "phase_frame_1200"},
+        {"from": "rising_pressure", "to": "climax_escape", "trigger": "phase_frame_3000"},
+        {"from": "climax_escape", "to": "victory_result", "trigger": "phase_frame_4500_and_alive"},
+        {"from": "intro_tutorial", "to": "failure_result", "trigger": "integrity_zero_or_pressure_100"},
+        {"from": "rising_pressure", "to": "failure_result", "trigger": "integrity_zero_or_pressure_100"},
+        {"from": "climax_escape", "to": "failure_result", "trigger": "integrity_zero_or_pressure_100"},
+        {"from": "intro_tutorial", "to": "paused", "trigger": "start_pressed"},
+        {"from": "rising_pressure", "to": "paused", "trigger": "start_pressed"},
+        {"from": "climax_escape", "to": "paused", "trigger": "start_pressed"},
+        {"from": "paused", "to": "intro_tutorial", "trigger": "start_pressed_and_saved_state_intro"},
+        {"from": "paused", "to": "rising_pressure", "trigger": "start_pressed_and_saved_state_pressure"},
+        {"from": "paused", "to": "climax_escape", "trigger": "start_pressed_and_saved_state_climax"},
+        {"from": "victory_result", "to": "enter", "trigger": "a_or_start_pressed"},
+        {"from": "failure_result", "to": "enter", "trigger": "a_or_start_pressed"},
+        {"from": "victory_result", "to": "exit", "trigger": "b_or_mode_pressed"},
+        {"from": "failure_result", "to": "exit", "trigger": "b_or_mode_pressed"}
+      ]
+    }
+  ],
+  "memory_pool_map": [
+    {
+      "pool_id": "chase_obstacles",
+      "type": "enemy",
+      "size": 6,
+      "owner": "src/gameplay/chase_obstacles.c",
+      "lifecycle": "static array reset on scene enter; slots activated and deactivated without heap"
+    },
+    {
+      "pool_id": "chase_telegraphs",
+      "type": "particle",
+      "size": 3,
+      "owner": "src/gameplay/chase_obstacles.c",
+      "lifecycle": "static array paired with obstacle slots"
+    },
+    {
+      "pool_id": "chase_fx",
+      "type": "particle",
+      "size": 4,
+      "owner": "src/gameplay/chase_pursuer.c",
+      "lifecycle": "static burst slots for dust, impact and Pulse"
+    },
+    {
+      "pool_id": "chase_ui",
+      "type": "ui",
+      "size": 6,
+      "owner": "src/gameplay/chase_hud.c",
+      "lifecycle": "fixed HUD fields and result card"
+    },
+    {
+      "pool_id": "chase_text_buffers",
+      "type": "string_buffer",
+      "size": 4,
+      "owner": "src/gameplay/chase_hud.c",
+      "lifecycle": "fixed 40-byte buffers reused every draw"
+    },
+    {
+      "pool_id": "audio_cues",
+      "type": "sfx_channel",
+      "size": 3,
+      "owner": "src/system/audio.c",
+      "lifecycle": "single priority arbiter over PSG/XGM2 channels"
+    }
+  ],
+  "vblank_dma_ownership": {
+    "vblank_owner": "SGDK SYS_doVBlankProcess called by src/main.c",
+    "dma_owners": [
+      "SGDK sprite engine via SPR_update",
+      "scene-local preload during SCENE_chaseEnter",
+      "small palette and scroll updates from scene_chase"
+    ],
+    "max_pending_dma": 12,
+    "safety_pattern": "all large resources preload on scene enter; gameplay uses SGDK queued operations and commits once through SYS_doVBlankProcess"
+  },
+  "h_int_ownership": {
+    "h_int_in_use": false,
+    "singleton_owner": "none",
+    "slices": [],
+    "rejected_hazardous_techniques": [
+      "cram_overdrive_midline",
+      "zero_overhead_hblank_isr"
+    ]
+  },
+  "window_ownership": {
+    "in_use": true,
+    "owner": "chase_hud",
+    "decision": "WINDOW owns the fixed compact top HUD; BG_A owns the lower climax letterbox bar."
+  },
+  "audio_ownership": {
+    "driver": "hybrid",
+    "channel_owners": [
+      "XGM2 owns adaptive music when xgm2 asset is present",
+      "PSG channel 0 owns UI and jump cues",
+      "PSG channel 1 owns danger and Pulse cues",
+      "PSG noise channel owns impact and dust cues"
+    ],
+    "sample_rate_hz": 14000,
+    "adaptive_music_state_map_ref": "doc/adaptive_music_state_map.json"
+  },
+  "save_scope": "none",
+  "save_system_contract_not_applicable": "The slice has no persistent player progress; SRAM is reserved for canonical runtime evidence only.",
+  "region_timing_scope": {
+    "region": "both",
+    "frame_budget_ms": 16.67,
+    "justification": "Gameplay timers scale from gApp.targetFps; NTSC 60 FPS is the performance gate and PAL remains functionally supported."
+  },
+  "rom_mastering_scope": {
+    "size_target_kb": 2048,
+    "header_validated": true,
+    "checksum_validated": true,
+    "sram_size_bytes": 0
+  },
+  "technique_selection": {
+    "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+    "usage_manifest_path": "doc/technique_usage_manifest.json",
+    "selected_registry_ids": [
+      "line_scrolling",
+      "column_scrolling",
+      "pseudo3d_road_stack",
+      "one_dimensional_tile_deformation",
+      "camera_scroll_management",
+      "hitstop_camera_shake_feedback",
+      "ghost_afterimage_sprites",
+      "forward_kinematics",
+      "prerendered_sprite_scaling",
+      "active_sat_link_pruning",
+      "palette_cycling",
+      "temporal_dithering_palette_blending",
+      "shadow_highlight_mode",
+      "cinematic_letterbox",
+      "window_plane_static_hud",
+      "dma_transfer_safety",
+      "palette_state_transitions"
+    ],
+    "deferred_or_rejected_registry_ids": [
+      "cram_overdrive_midline",
+      "zero_overhead_hblank_isr",
+      "masked_shadow_highlight_lighting"
+    ],
+    "required_tags": [
+      "LINE_SCROLL",
+      "COLUMN_SCROLL",
+      "PSEUDO3D",
+      "TILE_DEFORMATION_1D",
+      "CAMERA",
+      "HITSTOP",
+      "GHOST_AFTERIMAGE",
+      "CUSTOM_SPRITE_COMPOSITION",
+      "PRERENDERED_SCALING",
+      "SAT_LINK_PRUNING",
+      "PALETTE_MANAGEMENT_AVANCADO",
+      "SHADOW_HIGHLIGHT",
+      "CINEMATIC_LETTERBOX",
+      "WINDOW_HUD",
+      "DMA",
+      "PALETTE"
+    ],
+    "owner_skills": [
+      "code/sgdk-runtime-coder",
+      "hardware/megadrive-vdp-budget-analyst",
+      "architecture/scene-state-architect",
+      "art/visual-excellence-standards"
+    ],
+    "selection_rationale": "The v009 techniques directly communicate Z-axis speed, articulated threat, phase escalation and physical impact while keeping a safe VBlank-only implementation path.",
+    "fallback_strategy": "Prune far claw, one afterimage and cloud grafts before reducing road depth or returning to a monolithic pursuer.",
+    "signature_technique_ids": [
+      "pseudo3d_road_stack",
+      "forward_kinematics",
+      "hitstop_camera_shake_feedback",
+      "palette_state_transitions",
+      "cinematic_letterbox"
+    ],
+    "application_plan": [
+      {
+        "registry_id": "line_scrolling",
+        "scene_or_system": "chase_first_playable road",
+        "gameplay_or_narrative_purpose": "Curve the road around a stable vanishing point and reinforce lane choice.",
+        "visual_or_audio_role": "Per-scanline road deformation.",
+        "owner_skill": "code/sgdk-runtime-coder",
+        "budget_evidence": "out/logs/runtime_metrics.json and out/logs/scene_budget_report.json",
+        "fallback": "Use BG_A plane scroll only."
+      },
+      {
+        "registry_id": "column_scrolling",
+        "scene_or_system": "chase_first_playable road",
+        "gameplay_or_narrative_purpose": "Move the lower road faster than the horizon to communicate forward travel.",
+        "visual_or_audio_role": "VSCROLL_COLUMN depth deformation on BG_A.",
+        "owner_skill": "code/sgdk-runtime-coder",
+        "budget_evidence": "doc/contracts/chase_v009_road_physics_contract.json and out/logs/dma_queue_plan.json",
+        "fallback": "Keep line scroll and freeze vertical column offsets."
+      },
+      {
+        "registry_id": "pseudo3d_road_stack",
+        "scene_or_system": "chase_first_playable lane model",
+        "gameplay_or_narrative_purpose": "Make three discrete lanes readable inside a forced-perspective chase.",
+        "visual_or_audio_role": "Road perspective and lane staging.",
+        "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+        "budget_evidence": "doc/07-budget-vram-dma.md and out/logs/res_graph_report.json",
+        "fallback": "Keep static perspective road overlay."
+      },
+      {
+        "registry_id": "one_dimensional_tile_deformation",
+        "scene_or_system": "chase_first_playable road",
+        "gameplay_or_narrative_purpose": "Create lane convergence and speed without affine hardware.",
+        "visual_or_audio_role": "Integer Z-gain applied to HScroll and VSRAM tables.",
+        "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+        "budget_evidence": "doc/contracts/chase_v009_road_physics_contract.json",
+        "fallback": "Use three fixed depth bands."
+      },
+      {
+        "registry_id": "camera_scroll_management",
+        "scene_or_system": "scene_chase and chase_pursuer",
+        "gameplay_or_narrative_purpose": "Communicate impact and pursuer proximity while preserving player control.",
+        "visual_or_audio_role": "Small deterministic scroll offsets.",
+        "owner_skill": "code/sgdk-runtime-coder",
+        "budget_evidence": "runtime metrics and regression capture",
+        "fallback": "Reset to zero scroll and retain dust."
+      },
+      {
+        "registry_id": "hitstop_camera_shake_feedback",
+        "scene_or_system": "chase_rules damage and Pulse",
+        "gameplay_or_narrative_purpose": "Make damage and successful Pulse use unambiguous to the player.",
+        "visual_or_audio_role": "Short hitstop, shake, dust and cue.",
+        "owner_skill": "code/sgdk-runtime-coder",
+        "budget_evidence": "runtime timing map and BlastEm motion evidence",
+        "fallback": "Use palette flash and dust without shake."
+      },
+      {
+        "registry_id": "ghost_afterimage_sprites",
+        "scene_or_system": "chase_player",
+        "gameplay_or_narrative_purpose": "Make lane commitment and Pulse movement readable at high speed.",
+        "visual_or_audio_role": "Two dithered delayed hero silhouettes.",
+        "owner_skill": "art/visual-excellence-standards",
+        "budget_evidence": "out/logs/sprite_scanline_pressure_report.json",
+        "fallback": "Prune the oldest afterimage first."
+      },
+      {
+        "registry_id": "forward_kinematics",
+        "scene_or_system": "chase_pursuer",
+        "gameplay_or_narrative_purpose": "Give the pursuer weight and readable Z-axis attacks.",
+        "visual_or_audio_role": "Parent torso with articulated head and claws.",
+        "owner_skill": "code/forward-kinematics-rigging",
+        "budget_evidence": "doc/contracts/chase_v009_modular_boss_contract.json and out/logs/sprite_scanline_pressure_report.json",
+        "fallback": "Hide the far claw while preserving head and striking claw."
+      },
+      {
+        "registry_id": "prerendered_sprite_scaling",
+        "scene_or_system": "chase_pursuer",
+        "gameplay_or_narrative_purpose": "Communicate pressure growth without runtime affine scaling.",
+        "visual_or_audio_role": "Existing six-frame Z-loop scale stages.",
+        "owner_skill": "art/sprite-animation",
+        "budget_evidence": "doc/contracts/chase_v009_modular_boss_contract.json",
+        "fallback": "Use fewer scale stages tied to phase."
+      },
+      {
+        "registry_id": "active_sat_link_pruning",
+        "scene_or_system": "chase_pursuer and chase_player",
+        "gameplay_or_narrative_purpose": "Protect critical silhouettes and obstacle readability.",
+        "visual_or_audio_role": "Hide far claw, old ghost and cloud grafts under pressure.",
+        "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+        "budget_evidence": "out/logs/sprite_scanline_pressure_report.json",
+        "fallback": "Disable noncritical grafts."
+      },
+      {
+        "registry_id": "palette_cycling",
+        "scene_or_system": "scene_chase atmosphere",
+        "gameplay_or_narrative_purpose": "Make celestial energy react to phase escalation.",
+        "visual_or_audio_role": "Safe queued CRAM accent cycle.",
+        "owner_skill": "art/visual-excellence-standards",
+        "budget_evidence": "out/logs/dma_queue_plan.json",
+        "fallback": "Use the remastered static palette."
+      },
+      {
+        "registry_id": "temporal_dithering_palette_blending",
+        "scene_or_system": "scene_chase atmosphere",
+        "gameplay_or_narrative_purpose": "Add controlled analog shimmer without competing with hazards.",
+        "visual_or_audio_role": "Alternating adjacent deep-sky accent colors.",
+        "owner_skill": "art/visual-excellence-standards",
+        "budget_evidence": "BlastEm capture and perceptual review",
+        "fallback": "Use palette cycling at a slower cadence."
+      },
+      {
+        "registry_id": "shadow_highlight_mode",
+        "scene_or_system": "scene_chase climax and Pulse",
+        "gameplay_or_narrative_purpose": "Separate the threat and Pulse during the climax.",
+        "visual_or_audio_role": "Contextual VDP Shadow/Highlight state with slot audit.",
+        "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+        "budget_evidence": "doc/contracts/chase_v009_palette_slot_audit.json and BlastEm capture",
+        "fallback": "Disable mode and keep remastered high-contrast palette."
+      },
+      {
+        "registry_id": "cinematic_letterbox",
+        "scene_or_system": "scene_chase climax",
+        "gameplay_or_narrative_purpose": "Focus attention during the final pressure phase.",
+        "visual_or_audio_role": "Expanded top WINDOW and lower BG_A bar.",
+        "owner_skill": "architecture/scene-state-architect",
+        "budget_evidence": "doc/contracts/chase_v009_scene_ownership.json",
+        "fallback": "Keep compact HUD without letterbox."
+      },
+      {
+        "registry_id": "window_plane_static_hud",
+        "scene_or_system": "chase_hud",
+        "gameplay_or_narrative_purpose": "Keep integrity, Pulse and pressure readable during road motion.",
+        "visual_or_audio_role": "Fixed compact gameplay HUD.",
+        "owner_skill": "art/visual-excellence-standards",
+        "budget_evidence": "HUD screenshot and scene budget report",
+        "fallback": "Use a fixed BG_A safe area."
+      },
+      {
+        "registry_id": "dma_transfer_safety",
+        "scene_or_system": "entire runtime",
+        "gameplay_or_narrative_purpose": "Prevent visual corruption and frame instability during the chase.",
+        "visual_or_audio_role": "Safe resource and sprite updates.",
+        "owner_skill": "code/sgdk-runtime-coder",
+        "budget_evidence": "validation report and runtime metrics",
+        "fallback": "Preload more assets at scene enter."
+      },
+      {
+        "registry_id": "palette_state_transitions",
+        "scene_or_system": "chase_rules phase transitions",
+        "gameplay_or_narrative_purpose": "Signal escalation and escape state without obscuring obstacles.",
+        "visual_or_audio_role": "Controlled CRAM accents per phase.",
+        "owner_skill": "art/visual-excellence-standards",
+        "budget_evidence": "BlastEm capture and visual VDP dump",
+        "fallback": "Use the approved static palette."
+      }
+    ],
+    "rejected_or_deferred": [
+      {
+        "registry_id": "cram_overdrive_midline",
+        "decision": "rejected_for_v009_safe_route",
+        "reason": "Active-display CRAM writes are hazardous experimental and conflict with the safe VBlank-only delivery contract.",
+        "reconsideration_gate": "isolated benchmark plus BlastEm and hardware proof"
+      },
+      {
+        "registry_id": "zero_overhead_hblank_isr",
+        "decision": "rejected_for_v009_safe_route",
+        "reason": "The safe route does not need an HBlank ISR and reserves H-Int ownership for future isolated experiments.",
+        "reconsideration_gate": "isolated benchmark with owner and teardown"
+      },
+      {
+        "registry_id": "masked_shadow_highlight_lighting",
+        "decision": "deferred",
+        "reason": "The v009 route uses contextual Shadow/Highlight without a moving mask until scanline and palette behavior are proven.",
+        "reconsideration_gate": "dedicated mask asset, slot audit and BlastEm proof"
+      }
+    ]
+  },
+  "risk_mitigation_table": [
+    {
+      "risk_id": "vram_overflow",
+      "risk": "Split background plus approved animation frames may exceed the usable tile budget.",
+      "mitigation": "Measure the v007 split candidate, retain scene-local preload and reduce road overlay height before touching critical sprites.",
+      "severity": "critical"
+    },
+    {
+      "risk_id": "dma_starvation",
+      "risk": "Sprite frame uploads, line scroll and palette changes may compete in VBlank.",
+      "mitigation": "Use SGDK queued operations, small fixed updates and disable line scroll through the declared fallback when metrics regress.",
+      "severity": "high"
+    },
+    {
+      "risk_id": "sprite_scanline_limit",
+      "risk": "Hero, pursuer, obstacles, telegraphs and FX may exceed 20 sprites per scanline.",
+      "mitigation": "Limit active object pools, stagger Y positions and hide inactive sprites vertically.",
+      "severity": "high"
+    },
+    {
+      "risk_id": "palette_collision",
+      "risk": "Background, hero, pursuer and HUD may compete for the four CRAM palettes.",
+      "mitigation": "Reserve PAL0 background, PAL1 hero, PAL2 pursuer/gameplay sprites and PAL3 HUD; mutate only documented accent slots.",
+      "severity": "high"
+    },
+    {
+      "risk_id": "audio_channel_clash",
+      "risk": "Music and high-priority feedback cues may mask danger or impact.",
+      "mitigation": "Use a priority matrix with impact and Pulse above collection and UI cues.",
+      "severity": "medium"
+    },
+    {
+      "risk_id": "softlock",
+      "risk": "Pause or result transitions may leave the round without a valid continuation input.",
+      "mitigation": "FSM tests cover pause/resume, victory/failure restart and return to menu.",
+      "severity": "critical"
+    }
+  ]
+}

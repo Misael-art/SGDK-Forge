@@ -1,0 +1,138 @@
+{
+  "case_id": "ryu_sprite_sheet_source_semantics",
+  "source_image": "assets/reference/translation_curation/composição_de_cenas/Playable Characters/Game Boy Advance - Super Street Fighter II_ Turbo Revival - Playable Characters - Ryu.png",
+  "scene_truth_kind": "supervised_training_truth",
+  "layout_complexity": "high",
+  "reports_dir": "assets/reference/translation_curation/composição_de_cenas/reports/ryu_sprite_sheet_source_semantics",
+  "source_inventory": {
+    "includes": [
+      "actor_sprite_sheet",
+      "palette_strip",
+      "metadata_block",
+      "author_credits"
+    ],
+    "notes": [
+      "A prancha e majoritariamente sprite sheet, mas tem faixa de paleta e bloco editorial no rodape."
+    ]
+  },
+  "drop_policy": {
+    "drop_classes": [
+      "metadata_block",
+      "author_credits"
+    ],
+    "notes": [
+      "A paleta e apoio util e deve virar dado auxiliar; o bloco textual nao entra em traducao nem em ranges."
+    ]
+  },
+  "composition_schema": {
+    "kind": "sprite_sheet",
+    "roles": [
+      {
+        "region_id": "actor_sheet",
+        "composition_role": "actor_sprite_sheet",
+        "order": 0
+      },
+      {
+        "region_id": "palette_block",
+        "composition_role": "palette_strip",
+        "order": 1
+      }
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "sprite_sheet",
+    "semantic_regions": [
+      {
+        "id": "actor_sheet",
+        "classification": "actor_sprite_sheet",
+        "bbox": [8, 5, 785, 1940],
+        "notes": "Area util da sheet com as sequencias de animacao; padding externo deve ser ignorado."
+      }
+    ],
+    "auxiliary_regions": [
+      {
+        "id": "palette_block",
+        "classification": "palette_strip",
+        "bbox": [545, 1760, 747, 1936],
+        "action": "auxiliary",
+        "notes": "Faixa de paleta; dado auxiliar, nao frame jogavel."
+      }
+    ],
+    "drop_regions": [
+      {
+        "id": "metadata_block",
+        "classification": "metadata_block",
+        "bbox": [13, 1940, 785, 2107],
+        "action": "drop",
+        "notes": "Texto editorial e credito do rip."
+      }
+    ],
+    "animation_ranges": [
+      {
+        "id": "band_01",
+        "frame_range": [5, 87],
+        "notes": "Linha superior com poses curtas."
+      },
+      {
+        "id": "band_02",
+        "frame_range": [100, 290],
+        "notes": "Primeiro bloco longo de animacoes."
+      },
+      {
+        "id": "band_03",
+        "frame_range": [323, 407],
+        "notes": "Faixa curta de transicao."
+      },
+      {
+        "id": "band_04",
+        "frame_range": [446, 674],
+        "notes": "Bloco central de poses."
+      },
+      {
+        "id": "band_05",
+        "frame_range": [717, 806],
+        "notes": "Faixa compacta superior-media."
+      },
+      {
+        "id": "band_06",
+        "frame_range": [822, 984],
+        "notes": "Bloco medio com menor largura util."
+      },
+      {
+        "id": "band_07",
+        "frame_range": [1006, 1129],
+        "notes": "Faixa de transicao e poses curtas."
+      },
+      {
+        "id": "band_08",
+        "frame_range": [1186, 1268],
+        "notes": "Faixa curta inferior."
+      },
+      {
+        "id": "band_09",
+        "frame_range": [1290, 1449],
+        "notes": "Bloco longo inferior."
+      },
+      {
+        "id": "band_10",
+        "frame_range": [1482, 1645],
+        "notes": "Bloco longo com variacao de poses."
+      },
+      {
+        "id": "band_11",
+        "frame_range": [1711, 1940],
+        "notes": "Faixa final da sheet antes da metadata."
+      }
+    ],
+    "final_scene_hypothesis": {
+      "summary": "A IA deve isolar a area util da sheet, tratar a paleta como auxiliar e segmentar linhas de animacao antes de qualquer recorte por frame."
+    },
+    "notes_on_why": [
+      "Palette strip e dado auxiliar, nao imagem comum.",
+      "O ponto critico aqui e agrupar por linhas de animacao e preservar pivot/normalizacao depois."
+    ]
+  },
+  "training_labels": {
+    "goal": "Treinar leitura de sprite sheet com bloco util, paleta e residuo editorial."
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/project_hygiene_manifest.schema.json",
+  "title": "SGDK Project Hygiene Manifest",
+  "description": "Declares project-local storage, organized scratch space, canonical shared dependencies, and copied external inputs.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project_root_policy",
+    "naming_policy",
+    "scratch_policy",
+    "allowed_root_entries",
+    "canonical_shared_dependencies",
+    "external_inputs"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_root_policy": {
+      "type": "string",
+      "const": "all_project_material_inside_project"
+    },
+    "naming_policy": {
+      "type": "string",
+      "const": "portable_descriptive_v1"
+    },
+    "scratch_policy": {
+      "type": "object",
+      "required": ["root", "raw_inputs", "processed_inputs", "temporary"],
+      "properties": {
+        "root": {"$ref": "#/definitions/project_relative_path"},
+        "raw_inputs": {"$ref": "#/definitions/project_relative_path"},
+        "processed_inputs": {"$ref": "#/definitions/project_relative_path"},
+        "temporary": {"$ref": "#/definitions/project_relative_path"}
+      },
+      "additionalProperties": false
+    },
+    "allowed_root_entries": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[^\\\\/]+$"
+      }
+    },
+    "canonical_shared_dependencies": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "tools/sgdk_wrapper",
+          "sdk/sgdk-2.11",
+          "tools/emuladores"
+        ]
+      }
+    },
+    "external_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source",
+          "copied_to",
+          "purpose",
+          "license_or_authorization",
+          "sha256"
+        ],
+        "properties": {
+          "source": {"type": "string", "minLength": 1},
+          "copied_to": {"$ref": "#/definitions/project_relative_path"},
+          "copied_root": {"$ref": "#/definitions/project_relative_path"},
+          "purpose": {"type": "string", "minLength": 3},
+          "license_or_authorization": {"type": "string", "minLength": 3},
+          "sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "project_relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![A-Za-z]:)(?![\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/animation_strip_contract.schema.json",
+  "title": "Animation Strip Contract",
+  "description": "One-action horizontal animation strip contract. Multi-action sheets, metadata-only assets, and drift across anatomy, pivot, scale, outfit, face, palette, or bounding box are blocked.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "asset_id",
+    "asset_kind",
+    "action",
+    "strip_layout",
+    "frame_count",
+    "frames",
+    "visual_dna_manifest",
+    "motion_phase_map",
+    "pivot_policy",
+    "drift_thresholds",
+    "approval_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "asset_kind": {
+      "type": "string",
+      "const": "animation_strip"
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Exactly one gameplay action, such as idle, walk, jump_start, attack_light, hurt, or knockdown."
+    },
+    "strip_layout": {
+      "type": "string",
+      "const": "horizontal_single_action"
+    },
+    "frame_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "metadata_only": {
+      "type": "boolean",
+      "default": false
+    },
+    "frames": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "index",
+          "x",
+          "y",
+          "w",
+          "h",
+          "pivot_x",
+          "pivot_y",
+          "phase"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "x": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "y": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "w": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "h": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pivot_x": {
+            "type": "integer"
+          },
+          "pivot_y": {
+            "type": "integer"
+          },
+          "phase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "hold_frames": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "visual_dna_manifest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "motion_phase_map": {
+      "type": "string",
+      "minLength": 1
+    },
+    "style_motion_reverse_engineering": {
+      "type": "string",
+      "minLength": 1
+    },
+    "turnaround_tracking_contract": {
+      "type": "string",
+      "minLength": 1
+    },
+    "motion_physics_contract": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state_transition_motion_contract": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pivot_policy": {
+      "type": "string",
+      "enum": [
+        "bottom_center_feet",
+        "declared_airborne_exception",
+        "object_center",
+        "custom_declared"
+      ]
+    },
+    "palette_hash": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "drift_thresholds": {
+      "type": "object",
+      "required": [
+        "pivot_px",
+        "bbox_px",
+        "palette_changed_allowed",
+        "scale_percent"
+      ],
+      "properties": {
+        "pivot_px": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bbox_px": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "palette_changed_allowed": {
+          "type": "boolean"
+        },
+        "scale_percent": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "approved_for_sheet",
+        "needs_review",
+        "blocked"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "project_id": "celestial_chase_first_playable",
+  "decision_id": "art_direction_v006",
+  "mode": "autonomous_with_escalation",
+  "auto_selected": true,
+  "confidence": 0.92,
+  "confidence_threshold": 0.65,
+  "selected_style_id": "vibrant_16bit_pixel",
+  "catalog_path": "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+  "catalog_entry_hash": "ad18a63c7cfa8c41c54c7073bc752cfc399370c5053d214e7df6514858799a5e",
+  "inputs_consulted": [
+    "doc/11-gdd.md",
+    "doc/13-spec-cenas.md",
+    "doc/08-bible-artistica.md",
+    "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/elite_split_scene/locked_visual_direction_v005.json",
+    "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/source_baked_pixel_art_candidates_v001/source_baked_pixel_art_standard_manifest.json"
+  ],
+  "top_candidates": [
+    {
+      "style_id": "vibrant_16bit_pixel",
+      "score": 9.4,
+      "why_fit": "Matches the approved source-baked sprites, strong Mega Drive palette separation and readable forced perspective.",
+      "risks": "Background tile pressure must be reduced without flattening the approved composition."
+    },
+    {
+      "style_id": "analog_cel_anime_90s",
+      "score": 8.1,
+      "why_fit": "Supports the heroic character and monumental pursuer staging.",
+      "risks": "Direct cel detail would exceed the practical color and tile budget."
+    },
+    {
+      "style_id": "storybook_gouache_nature",
+      "score": 7.3,
+      "why_fit": "Supports the celestial landscape and lyrical road fantasy.",
+      "risks": "Soft painterly gradients do not translate directly to Mega Drive CRAM and tiles."
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "style_id": "thick_outline_comedic_fighter",
+      "reason": "Conflicts with the user-rejected heavy line-art route and the intended luminous tone."
+    },
+    {
+      "style_id": "digital_manhwa_neon",
+      "reason": "Generic neon language is outside the celestial storybook fantasy."
+    }
+  ],
+  "benchmark_used_as": "quality",
+  "clone_risk_policy": "authoriality_gate_required",
+  "prompt_descriptor_policy": "neutral_technical_descriptors_only",
+  "locked_direction_ref": "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/elite_split_scene/locked_visual_direction_v005.json",
+  "blocking_statuses": []
+}

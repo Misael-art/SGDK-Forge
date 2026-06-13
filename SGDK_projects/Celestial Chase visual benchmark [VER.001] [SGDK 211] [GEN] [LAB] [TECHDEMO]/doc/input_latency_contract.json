@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "input_latency_contract",
+  "scene_id": "chase_first_playable",
+  "polling_order": "INPUT_update_at_frame_start_before_APP_update",
+  "target_response_frames": 1,
+  "measured_response_frames": null,
+  "actions": [
+    {
+      "input": "LEFT/RIGHT",
+      "response": "target lane changes on press; visible travel completes in 12 frames"
+    },
+    {
+      "input": "A",
+      "response": "jump velocity starts in the same simulation frame"
+    },
+    {
+      "input": "B",
+      "response": "Pulse clears threats and starts feedback in the same simulation frame when energy is full"
+    },
+    {
+      "input": "START",
+      "response": "pause or resume occurs in the same frame"
+    }
+  ],
+  "exceptions": [
+    "gameplay input is intentionally ignored during hitstop and result states"
+  ],
+  "blockers": [
+    "measured response requires emulator input script"
+  ]
+}

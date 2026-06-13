@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "status": "measured",
+  "scope": "showdown_viewer_active_vdp_tile_cache",
+  "study_status": {
+    "classification": "controlled_training_area",
+    "lab_not_delivery": true,
+    "ready_for_aaa": false
+  },
+  "res_graph_evidence": {
+    "measurement_level": "rescomp_source_hash_snapshot",
+    "rom_sha256": "4b0ce91f5e370a8d6fd4e842a511c7f6c2e52a8f49ee4f2419696c972305fe2e",
+    "reserved_font_resource": "",
+    "resident_resources": [
+      {
+        "resource_name": "bin_showdown_tiles",
+        "unique_tiles": 1151,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "origin_size_bytes": 36832,
+        "source_sha256": "d83715fc2fdf2a166059f94bef63c0d4359a7191d2c394f71610cfe83467dfc3"
+      }
+    ]
+  },
+  "runtime_streaming_contract": {
+    "world_pixels": {
+      "width": 768,
+      "height": 480
+    },
+    "world_tiles": {
+      "width": 96,
+      "height": 60
+    },
+    "visible_viewport_pixels": {
+      "width": 320,
+      "height": 224
+    },
+    "stream_window_tiles": {
+      "width": 42,
+      "height": 30,
+      "tiles_per_window": 1260
+    },
+    "camera_pixels": {
+      "default_x": 224,
+      "default_y": 256,
+      "max_x": 448,
+      "max_y": 256
+    },
+    "global_tiles_in_rom": 2253,
+    "vdp_cache_capacity_tiles": 1151,
+    "max_window_unique_tiles_reported_by_exporter": 1087,
+    "tile_user_index": 16,
+    "tile_slot_range": {
+      "first": 16,
+      "last_inclusive": 1166
+    },
+    "streaming_policy": "full_world_kept_at_native_scale; camera traverses horizontal and vertical extents; only active window unique tiles are resident in VDP",
+    "source_runtime": "src/scenes/scene_demo.c",
+    "source_res": "res/resources.res",
+    "source_tiles": "res/data/showdown/showdown_tiles_4bpp.bin"
+  },
+  "honesty_notes": [
+    "The 2253 global deduplicated tiles are ROM source data, not all resident in VRAM at once.",
+    "The measured resident resource models the active streaming cache upper bound used by the viewer.",
+    "This report is sufficient for res_graph to audit the declared cache contract, but does not promote the study to ready_for_aaa.",
+    "A future canonical promotion should add a VDP dump or wrapper-native code tile telemetry instead of relying only on source-hash snapshot evidence."
+  ]
+}

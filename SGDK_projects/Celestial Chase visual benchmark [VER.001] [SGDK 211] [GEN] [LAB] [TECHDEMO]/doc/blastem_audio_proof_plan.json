@@ -1,0 +1,16 @@
+{
+  "schema": "blastem_audio_proof_plan_v1",
+  "required_scenarios": [
+    "score loop during normal traffic",
+    "score plus damage cue",
+    "score plus Pulse cue",
+    "pause silence and deterministic resume",
+    "victory and failure cue ownership"
+  ],
+  "required_metrics": [
+    "XGM2_getCPULoad(TRUE)",
+    "XGM2_getDMAWaitTime(TRUE)",
+    "XGM2_getDebugMissedFrames()"
+  ],
+  "status": "pending_current_rom"
+}

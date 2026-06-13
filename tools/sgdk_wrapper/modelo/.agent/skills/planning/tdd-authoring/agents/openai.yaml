@@ -1,0 +1,11 @@
+interface:
+  display_name: "TDD Authoring"
+  short_description: "Emite tdd_contract.json canonico para SGDK 2.11"
+  brand_color: "#4A6FA5"
+  default_prompt: "Use $tdd-authoring para emitir tdd_contract.json com state_fsm_map, memory_pool_map, vblank_dma_ownership, h_int_ownership, audio_ownership, save_scope, region_timing_scope, rom_mastering_scope, code_review_scope, ci_gate_scope e risk_mitigation_table. O TDD nasce ANTES de qualquer codigo C em SGDK 2.11. Valide contra tools/sgdk_wrapper/schemas/tdd_contract.schema.json."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

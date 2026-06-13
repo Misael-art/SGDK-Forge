@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.1.0",
+  "project": {
+    "name": "showdown_viewer",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": true,
+    "ready_for_aaa": false
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Viewer SGDK aninhado; autoridade de estudo fica no root, mas o viewer mantem refs locais para passar no gate local."
+  },
+  "allowed_external_artifacts": [],
+  "runtime": {
+    "strategy": "window_streamed_tile_graphics_and_tilemap",
+    "world_tiles": {
+      "w": 96,
+      "h": 60
+    },
+    "viewport_pixels": {
+      "w": 320,
+      "h": 224
+    },
+    "frame_animation_enabled": false,
+    "validado_budget": false
+  },
+  "techniques": [
+    {
+      "scene_id": "showdown_viewer",
+      "registry_id": "tile_dedup_hvflip_hashing",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "TILE_DEDUP_HVFLIP",
+        "VRAM_TILE_INDEX_MANAGEMENT"
+      ],
+      "owner_skills": [
+        "art/art-conversion-pipeline",
+        "hardware/megadrive-vdp-budget-analyst"
+      ],
+      "evidence": {
+        "rom_sha256": "4b0ce91f5e370a8d6fd4e842a511c7f6c2e52a8f49ee4f2419696c972305fe2e",
+        "blastem_evidence_paths": [
+          "out/evidence/blastem/screenshot.png",
+          "out/evidence/blastem/save.sram"
+        ],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md",
+        "out/logs/tilemap_flag_report.json"
+      ],
+      "notes": "Measured for the full-world Showdown fixture. Current H/V/HV counts are 5/12/4; no lossy tile merge is used."
+    },
+    {
+      "scene_id": "showdown_viewer",
+      "registry_id": "palette_remastering_slot_audit",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": [
+        "PALETTE_REMASTERING",
+        "PALETTE_MANAGEMENT_AVANCADO"
+      ],
+      "owner_skills": [
+        "art/art-translation-to-vdp",
+        "hardware/megadrive-vdp-budget-analyst"
+      ],
+      "evidence": {
+        "rom_sha256": "4b0ce91f5e370a8d6fd4e842a511c7f6c2e52a8f49ee4f2419696c972305fe2e",
+        "blastem_evidence_paths": [
+          "out/evidence/blastem/screenshot.png",
+          "out/evidence/blastem/save.sram"
+        ],
+        "budget_report_path": "out/logs/per_tile_palette_conflict_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md",
+        "out/logs/per_tile_palette_conflict_report.json"
+      ],
+      "notes": "Four sub-palettes are assigned by the study exporter. Palette status is pass_with_degradation due nearest-color remaps."
+    },
+    {
+      "scene_id": "showdown_viewer",
+      "registry_id": "advanced_tilemap_design",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": [
+        "VRAM_TILE_INDEX_MANAGEMENT"
+      ],
+      "owner_skills": [
+        "art/multi-plane-composition",
+        "code/sgdk-runtime-coder"
+      ],
+      "evidence": {
+        "rom_sha256": "4b0ce91f5e370a8d6fd4e842a511c7f6c2e52a8f49ee4f2419696c972305fe2e",
+        "blastem_evidence_paths": [
+          "out/evidence/blastem/screenshot.png",
+          "out/evidence/blastem/save.sram"
+        ],
+        "budget_report_path": "out/logs/scene_tilemap_conversion_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md",
+        "out/logs/scene_tilemap_conversion_report.json"
+      ],
+      "notes": "Custom BIN tilemap streaming viewer for a controlled training fixture, not a reusable engine feature. validado_budget=false until VDP dump/telemetry exists."
+    }
+  ]
+}

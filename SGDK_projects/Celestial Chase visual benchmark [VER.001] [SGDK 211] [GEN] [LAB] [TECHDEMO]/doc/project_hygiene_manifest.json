@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "project_root_policy": "all_project_material_inside_project",
+  "naming_policy": "portable_descriptive_v1",
+  "scratch_policy": {
+    "root": "rascunho",
+    "raw_inputs": "rascunho/entrada_bruta",
+    "processed_inputs": "rascunho/processado",
+    "temporary": "rascunho/temporario"
+  },
+  "allowed_root_entries": [
+    ".agent",
+    ".cursor",
+    ".mddev",
+    ".vscode",
+    "data",
+    "doc",
+    "inc",
+    "out",
+    "rascunho",
+    "rds",
+    "res",
+    "src",
+    "README.md",
+    "build.bat",
+    "clean.bat",
+    "rebuild.bat",
+    "resolve_wrapper.bat",
+    "run.bat",
+    "sgdk_wrapper_env.bat"
+  ],
+  "canonical_shared_dependencies": [
+    "tools/sgdk_wrapper",
+    "sdk/sgdk-2.11",
+    "tools/emuladores"
+  ],
+  "external_inputs": [
+    {
+      "source": "F:/Projects/MegaDrive_DEV/data/source_art/celestial_chase_v001",
+      "copied_to": "rascunho/entrada_bruta/legacy_megadrive_dev/source_art/celestial_chase_v001/_external_input_inventory.json",
+      "copied_root": "rascunho/entrada_bruta/legacy_megadrive_dev/source_art/celestial_chase_v001",
+      "purpose": "Preservar localmente o pacote autoral de source art usado na construcao historica.",
+      "license_or_authorization": "Material autoral aprovado pelo usuario e migrado para encapsulamento do projeto.",
+      "sha256": "cff3f572820c1a08e7e1e3644e2568bfb9110d7ceb8ae30f2fb6864f2504b00e"
+    },
+    {
+      "source": "F:/Projects/MegaDrive_DEV/data/processed/celestial_chase_v001",
+      "copied_to": "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/_external_input_inventory.json",
+      "copied_root": "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001",
+      "purpose": "Preservar localmente derivados, pranchas e evidencias visuais historicas.",
+      "license_or_authorization": "Material de projeto aprovado pelo usuario e migrado para encapsulamento do projeto.",
+      "sha256": "afeea5fbbbf7c738a70a9b1658b1555b352cb8b9ee2641b4b19b224e58c9501e"
+    },
+    {
+      "source": "F:/Projects/MegaDrive_DEV/tools/image-tools",
+      "copied_to": "rascunho/entrada_bruta/legacy_megadrive_dev/tools/image-tools/_external_input_inventory.json",
+      "copied_root": "rascunho/entrada_bruta/legacy_megadrive_dev/tools/image-tools",
+      "purpose": "Preservar localmente os scripts historicos usados para gerar assets do projeto.",
+      "license_or_authorization": "Scripts do workspace anterior fornecidos pelo usuario para migracao do projeto.",
+      "sha256": "95605fe4aca484827b762eb789d0d1ebc73220d29991bf3449fea042e6f421c1"
+    }
+  ]
+}

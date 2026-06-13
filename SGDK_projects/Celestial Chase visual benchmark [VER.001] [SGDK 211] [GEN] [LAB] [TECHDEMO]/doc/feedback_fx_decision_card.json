@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "fx": [
+    {
+      "fx_id": "player_damage",
+      "gameplay_signal": "integrity loss and pressure increase",
+      "fx_class": "hitstop, camera shake, dust, palette accent and impact cue",
+      "owner": "chase_rules and chase_pursuer",
+      "worst_frame_cost": "one dust sprite plus six scroll offsets",
+      "fallback": "dust and palette accent only",
+      "teardown": "reset scroll and hide dust"
+    },
+    {
+      "fx_id": "celestial_pulse",
+      "gameplay_signal": "active threats cleared and pressure reduced",
+      "fx_class": "short hitstop, palette release, light band and priority cue",
+      "owner": "chase_rules",
+      "worst_frame_cost": "existing sprites hidden plus small palette updates",
+      "fallback": "palette release and threat clear",
+      "teardown": "restore phase palette"
+    },
+    {
+      "fx_id": "pursuer_impact",
+      "gameplay_signal": "climax attack window",
+      "fx_class": "pursuer impact frame, dust and controlled shake",
+      "owner": "chase_pursuer",
+      "worst_frame_cost": "pursuer frame upload plus dust sprite",
+      "fallback": "impact frame and cue without shake",
+      "teardown": "hide dust and reset scroll"
+    },
+    {
+      "fx_id": "ground_contact_shadow",
+      "gameplay_signal": "physical contact with the pseudo-3D road",
+      "fx_class": "dithered shadow scaled and anchored by shared obstacle Z",
+      "owner": "chase_obstacles and chase_player",
+      "worst_frame_cost": "bounded shadow sprite slots already included in scanline simulation",
+      "fallback": "prune far obstacle shadows before gameplay sprites",
+      "teardown": "hide shadow with its owning actor"
+    }
+  ],
+  "validation_required": [
+    "sprite_scanline_pressure_report",
+    "BlastEm_visual_capture"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "case": "case_map_parallax_aaa",
+  "status": "reference_case_pending_blastem_measurement",
+  "measurement_level": "declared",
+  "techniques": [
+    "parallax_extreme",
+    "line_scroll_depth_bands",
+    "seam_control",
+    "scene_exit_reset"
+  ],
+  "sources": [
+    "minimal_example.c: VDP_setScrollingMode(HSCROLL_LINE, VSCROLL_PLANE)",
+    "minimal_example.c: VDP_setHorizontalScrollLine(BG_B, 0, sBgBScroll, 224, DMA)",
+    "minimal_example.c: VDP_setHorizontalScrollLine(BG_A, 0, sBgAScroll, 224, DMA)"
+  ],
+  "required_follow_up_evidence": [
+    "out/evidence/blastem/screenshot.png",
+    "out/logs/runtime_metrics.json",
+    "out/logs/parallax_layer_contract.measured.json"
+  ],
+  "lab_not_delivery": true
+}
+

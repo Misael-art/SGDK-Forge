@@ -1,0 +1,851 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]"
+  },
+  "policy": {
+    "local_auto_update": true,
+    "canonical_auto_mutation": false,
+    "human_approval_required": true,
+    "evidence_required": true
+  },
+  "generated_at": "2026-06-08T08:43:45Z",
+  "source_digest": "603fb0ff448dd250a87885e40a5afd765b4014f07806b5f26dc80eaed0d1ff08",
+  "lessons": [
+    {
+      "lesson_id": "lesson_bfd94ca2a29d6356",
+      "title": "asymmetric character accessories need per limb material lock and palette map",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "asymmetric_character_accessories_need_per_limb_material_lock_and_palette_map",
+      "context": "",
+      "observation": "v005 manteve avanco geral, mas a mao de rocha/lava ganhou leitura de faixa/luva na ultima pose, diferente das poses anteriores, e faltava mapa de cores.",
+      "diagnosis": "O model sheet nao tinha contrato explicito de aderecos por membro nem paleta/material map para estabilizar producao futura.",
+      "resolution_or_preventive_heuristic": "Personagem assimetrico precisa declarar por membro o que pode ou nao aparecer. No Hibrido, lava hand e sempre rocha exposta sem faixa/luva; human hand e pes usam faixas; mapa PAL2/PAL3 precisa existir antes do redraw.",
+      "scope_limits": [
+        "Oclusao por pose pode esconder um acessorio, mas nao pode trocar o material do membro."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/source_art/hibrido_fighter_v006/source_concept.png",
+          "doc/agent_learning/failure_patterns.md",
+          "doc/contracts/hibrido_fighter_v006_palette_map.json",
+          "out/logs/hibrido_v005_model_sheet_review_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "asymmetric_accessory_material_lock_palette_map_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: asymmetric character accessories need per limb material lock and palette map",
+        "required_tests": [
+          "asymmetric character accessory continuity fixture",
+          "palette material map fixture",
+          "model sheet marker continuity review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_749b4f53b6d062ab",
+      "title": "canonical model sheet needs scale lock turnaround and marker continuity",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "canonical_model_sheet_needs_scale_lock_turnaround_and_marker_continuity",
+      "context": "",
+      "observation": "v003 melhorou anatomia/acting, mas a pose frontal ficou maior, nao havia pose de costas e a faixa vermelha do biceps sumiu na primeira pose.",
+      "diagnosis": "O gate focou contagem de membros e expressao, mas ainda nao exigia escala travada, turnaround minimo e continuidade de marcadores de figurino.",
+      "resolution_or_preventive_heuristic": "Model sheet canonico deve ter proporcao base consistente entre poses, pose de costas quando o personagem tiver futuro longo, e checklist de marcadores obrigatorios por pose.",
+      "scope_limits": [
+        "Acoes podem alterar bbox por mecanica, mas nao podem alterar escala estrutural do personagem."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/source_art/hibrido_fighter_v005/source_concept.png",
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/hibrido_v003_model_sheet_review_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_35507ac2e7c80311",
+      "title": "direct high resolution translation destroyed 48x64 readability",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "direct_high_resolution_translation_destroyed_48x64_readability",
+      "context": "",
+      "observation": "A traducao runtime perdeu olhos, braco de lava, calcao preto/dourado e contraste quente, embora mantivesse formato SGDK valido.",
+      "diagnosis": "A reducao/traducao priorizou textura/quantizacao e nao reconstrucao manual de clusters nativos 48x64.",
+      "resolution_or_preventive_heuristic": "Proibir downscale suave e quantizacao global como rota final; reconstruir lineart 1px, silhueta e materiais com PAL2/PAL3 mapeados manualmente.",
+      "scope_limits": [
+        "Downscale pode servir como thumbnail de referencia, nunca como sprite final."
+      ],
+      "evidence": {
+        "grade": "E3_blastem",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/evidence/blastem/screenshot.png",
+          "out/logs/hibrido_v002_runtime_fidelity_report.json"
+        ],
+        "gaps": []
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+        "owner_skill": "art/art-translation-to-vdp",
+        "match_rule_id": "no_direct_downscale_for_critical_48x64_sprites"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+        "summary": "Review existing owner against project lesson: direct high resolution translation destroyed 48x64 readability",
+        "required_tests": [
+          "48x64 source-to-rom comparison fixture",
+          "fake pixel art rejection fixture",
+          "palette material mapping review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_a6d68d2ebf990388",
+      "title": "model sheet accepted without anatomy gate",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "model_sheet_accepted_without_anatomy_gate",
+      "context": "",
+      "observation": "Pose 3 do source/model sheet foi aceita apesar de leitura de tres bracos por duplicacao/sobreposicao de braco com faixa.",
+      "diagnosis": "A avaliacao focou textura, volume e estilo geral antes de contar membros e conferir articulacoes.",
+      "resolution_or_preventive_heuristic": "Antes de paleta ou conversao, contar 2 bracos, 2 pernas, 1 cabeca e 1 tronco por pose; rejeitar membro duplicado no mesmo ombro/quadril.",
+      "scope_limits": [
+        "Designs nao-humanos precisam declarar excecao anatomica explicita antes do gate."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/source_art/hibrido_fighter_v002/source_concept.png",
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/hibrido_v002_input_gatekeeper_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "sprite_model_sheet_anatomy_acting_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: model sheet accepted without anatomy gate",
+        "required_tests": [
+          "model sheet anatomy rejection fixture",
+          "facial acting state fixture",
+          "human visual review record"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_bc671b75410f2cba",
+      "title": "special limb endpoint readability and cluster shading are mandatory",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-08",
+      "problem_signature": "special_limb_endpoint_readability_and_cluster_shading_are_mandatory",
+      "context": "",
+      "observation": "v006 corrigiu parte da consistencia de acessorios, mas introduziu mao/punho ausente ou ilegivel no braco lava e manteve ruido de detalhe inadequado para Mega Drive.",
+      "diagnosis": "O gate verificou wrap/glove, mas nao exigiu leitura da extremidade do membro especial nem bloqueou textura tipo spray.",
+      "resolution_or_preventive_heuristic": "Todo membro especial precisa de ombro/cotovelo/punho/mao legiveis. Sombreamento deve usar clusters limpos de 2-3 tons; microdetalhe que vira tile-noise reprova. Personagem deve ser planejado com uma paleta de 16 cores para corpo.",
+      "scope_limits": [
+        "Ruido fino pode existir em concept exploratorio, mas nao em source candidato a spritesheet."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/source_art/hibrido_fighter_v006/source_concept.png",
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/hibrido_v006_model_sheet_review_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "special_limb_endpoint_cluster_shading_palette_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: special limb endpoint readability and cluster shading are mandatory",
+        "required_tests": [
+          "special limb endpoint readability fixture",
+          "cluster shading visual fixture",
+          "single palette character fixture"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_08"
+      }
+    },
+    {
+      "lesson_id": "lesson_a95494aa8d1600f8",
+      "title": "static face breaks combat acting",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "static_face_breaks_combat_acting",
+      "context": "",
+      "observation": "Idle, knee e teep/kick mantiveram a mesma expressao fria, quebrando acting de esforco fisico.",
+      "diagnosis": "A geracao/curadoria tratou rosto como detalhe estetico e nao como parte do estado de animacao.",
+      "resolution_or_preventive_heuristic": "Cada estado animado deve declarar expressao facial esperada e direcao do olhar; golpes precisam de maxilar tenso, dentes ou kiai e olhos estreitos.",
+      "scope_limits": [
+        "Em sprites muito pequenos, acting pode ser minimo, mas precisa ser intencional e verificavel em pixels de olhos/boca/cabeca."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/contracts/animation_direction_contract_v002.json",
+          "out/logs/hibrido_v002_input_gatekeeper_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "sprite_model_sheet_anatomy_acting_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: static face breaks combat acting",
+        "required_tests": [
+          "model sheet anatomy rejection fixture",
+          "facial acting state fixture",
+          "human visual review record"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_3b30848a7e74c4af",
+      "title": "technical stability masked visual failure",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "technical_stability_masked_visual_failure",
+      "context": "",
+      "observation": "v002 foi tratado como progressao porque PNG, PLTE, build SGDK e BlastEm funcionaram, mas a arte falhou em anatomia, acting facial e fidelidade perceptiva 48x64.",
+      "diagnosis": "O pipeline confundiu sintaxe tecnica com semantica visual e nao bloqueou a fonte no input gatekeeper antes da traducao.",
+      "resolution_or_preventive_heuristic": "Separar gates: `technical_pass` nunca implica `visual_pass`. Qualquer personagem critico exige input gatekeeper anatomico, acting facial por estado e runtime fidelity check no BlastEm.",
+      "scope_limits": [
+        "Build e screenshot continuam validos para provar execucao, mas nao podem aprovar arte final."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/hibrido_v002_runtime_fidelity_report.json",
+          "out/logs/hibrido_v002_visual_rejection_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "technical_pass_does_not_imply_visual_pass"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: technical stability masked visual failure",
+        "required_tests": [
+          "visual gate blocked with technical pass fixture",
+          "perceptual evidence regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_897a1b6d4d9afa2a",
+      "title": "asymmetric_accessory_material_lock_palette_map_gate",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "asymmetric_accessory_material_lock_palette_map_gate",
+      "context": "",
+      "observation": "Exige contrato de adereco/material por membro assimetrico e mapa de paleta/material antes de spritesheet.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "validar com personagem assimetrico adicional"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/contracts/hibrido_fighter_v006_palette_map.json",
+          "out/logs/hibrido_v005_model_sheet_review_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "asymmetric_accessory_material_lock_palette_map_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: asymmetric_accessory_material_lock_palette_map_gate",
+        "required_tests": [
+          "asymmetric character accessory continuity fixture",
+          "palette material map fixture",
+          "model sheet marker continuity review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_4b1d5c38124759d8",
+      "title": "canonical_model_sheet_scale_turnaround_marker_gate",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "canonical_model_sheet_scale_turnaround_marker_gate",
+      "context": "",
+      "observation": "Exige escala coerente, pose de costas e continuidade de marcadores de figurino antes de aprovar model sheet canonico.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "promover somente apos validar em outro personagem/sheet"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/source_art/hibrido_fighter_v005/source_concept.png",
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "out/logs/hibrido_v003_model_sheet_review_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "create_skill",
+        "target_path": null,
+        "summary": "Evaluate whether a new skill is justified: canonical_model_sheet_scale_turnaround_marker_gate",
+        "required_tests": [
+          "cross-project reproduction",
+          "skill framework validation",
+          "human approval"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_f1f8d4531a7bb74f",
+      "title": "no_direct_downscale_for_critical_48x64_sprites",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "no_direct_downscale_for_critical_48x64_sprites",
+      "context": "",
+      "observation": "Impede downscale/quantizacao global de concept high-res como rota final para lutador 48x64; exige redraw em clusters e PAL2/PAL3 por material.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "criar teste visual comparativo original/basic/elite/rom"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/03_art/02_visual_feedback_bank.md",
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "out/logs/hibrido_v002_runtime_fidelity_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+        "owner_skill": "art/art-translation-to-vdp",
+        "match_rule_id": "no_direct_downscale_for_critical_48x64_sprites"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+        "summary": "Review existing owner against project lesson: no_direct_downscale_for_critical_48x64_sprites",
+        "required_tests": [
+          "48x64 source-to-rom comparison fixture",
+          "fake pixel art rejection fixture",
+          "palette material mapping review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_2aa2f1294ffe26e2",
+      "title": "png_plte_trim_to_16",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-05",
+      "problem_signature": "png_plte_trim_to_16",
+      "context": "",
+      "observation": "Remove PLTE 256 entradas em PNG indexado gerado por Pillow, garantindo PLTE <=16 (pixel-strict).",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "revisar compatibilidade com tRNS e outros exporters"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "create_skill",
+        "target_path": null,
+        "summary": "Evaluate whether a new skill is justified: png_plte_trim_to_16",
+        "required_tests": [
+          "cross-project reproduction",
+          "skill framework validation",
+          "human approval"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_1dada4785d34530a",
+      "title": "preflight_host_files_count_array_wrap",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-06-05",
+      "problem_signature": "preflight_host_files_count_array_wrap",
+      "context": "",
+      "observation": "Evita falha de preflight quando Get-ProjectCodeFiles retorna escalar (sem `.Count`).",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "revisar aplicacao em outros projetos + adicionar teste"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "out/logs/build_output.log"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "skill",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "create_skill",
+        "target_path": null,
+        "summary": "Evaluate whether a new skill is justified: preflight_host_files_count_array_wrap",
+        "required_tests": [
+          "cross-project reproduction",
+          "skill framework validation",
+          "human approval"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_04d9f3ee6a1b0ba0",
+      "title": "special_limb_endpoint_cluster_shading_palette_gate",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-08",
+      "problem_signature": "special_limb_endpoint_cluster_shading_palette_gate",
+      "context": "",
+      "observation": "Exige extremidade legivel em membro especial, shading por clusters e plano de 1 paleta 16 cores antes de spritesheet.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "validar com source v007 e fixture 48x64"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/source_art/hibrido_fighter_v006/source_concept.png",
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "out/logs/hibrido_v006_model_sheet_review_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "special_limb_endpoint_cluster_shading_palette_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: special_limb_endpoint_cluster_shading_palette_gate",
+        "required_tests": [
+          "special limb endpoint readability fixture",
+          "cluster shading visual fixture",
+          "single palette character fixture"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_08"
+      }
+    },
+    {
+      "lesson_id": "lesson_49a9818894455f70",
+      "title": "visual_input_gatekeeper_anatomy_acting_48x64",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-07",
+      "problem_signature": "visual_input_gatekeeper_anatomy_acting_48x64",
+      "context": "",
+      "observation": "technical stability masked visual failure; bloqueia source/model sheet com membro extra, face estatica e baixa fidelidade 48x64 antes de converter para PNG final.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "promover para visual-excellence/art-translation somente com teste de fixture e aprovacao humana"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "out/logs/hibrido_v002_input_gatekeeper_report.json",
+          "out/logs/hibrido_v002_visual_rejection_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "validator",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "technical_pass_does_not_imply_visual_pass"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "summary": "Review existing owner against project lesson: visual_input_gatekeeper_anatomy_acting_48x64",
+        "required_tests": [
+          "visual gate blocked with technical pass fixture",
+          "perceptual evidence regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    }
+  ],
+  "candidate_index": [
+    {
+      "lesson_id": "lesson_bfd94ca2a29d6356",
+      "title": "asymmetric character accessories need per limb material lock and palette map",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_749b4f53b6d062ab",
+      "title": "canonical model sheet needs scale lock turnaround and marker continuity",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_35507ac2e7c80311",
+      "title": "direct high resolution translation destroyed 48x64 readability",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E3_blastem",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_a6d68d2ebf990388",
+      "title": "model sheet accepted without anatomy gate",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_bc671b75410f2cba",
+      "title": "special limb endpoint readability and cluster shading are mandatory",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_a95494aa8d1600f8",
+      "title": "static face breaks combat acting",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_3b30848a7e74c4af",
+      "title": "technical stability masked visual failure",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_897a1b6d4d9afa2a",
+      "title": "asymmetric_accessory_material_lock_palette_map_gate",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_4b1d5c38124759d8",
+      "title": "canonical_model_sheet_scale_turnaround_marker_gate",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_f1f8d4531a7bb74f",
+      "title": "no_direct_downscale_for_critical_48x64_sprites",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_2aa2f1294ffe26e2",
+      "title": "png_plte_trim_to_16",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_1dada4785d34530a",
+      "title": "preflight_host_files_count_array_wrap",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_04d9f3ee6a1b0ba0",
+      "title": "special_limb_endpoint_cluster_shading_palette_gate",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_49a9818894455f70",
+      "title": "visual_input_gatekeeper_anatomy_acting_48x64",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    }
+  ],
+  "canonical_promotion_performed": false
+}

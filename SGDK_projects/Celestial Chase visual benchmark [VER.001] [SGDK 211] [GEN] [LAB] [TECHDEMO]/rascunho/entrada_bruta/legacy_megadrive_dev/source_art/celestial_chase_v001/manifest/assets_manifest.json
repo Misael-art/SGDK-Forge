@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "package_id": "celestial_chase_v001",
+  "created_at": "2026-06-02",
+  "status": "approved_source_art_package",
+  "runtime_status": "not_implemented",
+  "sgdk_resource_status": "not_promoted_to_res",
+  "art_direction": {
+    "selected_style_ids": [
+      "analog_cel_anime_90s",
+      "ligne_claire_sci_fi"
+    ],
+    "catalog_path": "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+    "benchmark_used_as": [
+      "technique",
+      "timing",
+      "scale",
+      "density",
+      "presence"
+    ],
+    "clone_risk_policy": "authoriality_gate_required",
+    "prompt_descriptor_policy": "neutral_technical_descriptors_only"
+  },
+  "source_validity_policy": {
+    "source_type": "ai_generated_authorial_concept",
+    "derivative_of": "none",
+    "forbidden": [
+      "copied_ip_silhouette",
+      "copied_costume",
+      "copied_pose",
+      "copied_scene_layout",
+      "benchmark_as_source_art",
+      "direct_res_promotion"
+    ]
+  },
+  "assets": [
+    {
+      "asset_id": "scene_concept",
+      "asset_kind": "concept_art",
+      "path": "concept/scene_concept_approved_v001.png",
+      "approval_status": "approved_by_user",
+      "width": 1498,
+      "height": 1050,
+      "sha256": "77C98A8BE944EB2E4C56FEAAD6F502E796F200CA546FA4F2AA9FA7196C031D7C"
+    },
+    {
+      "asset_id": "star_wanderer_model_sheet",
+      "asset_kind": "model_sheet",
+      "path": "characters/star_wanderer_model_sheet_approved_v001.png",
+      "approval_status": "approved_by_user",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "F6398D219C3135226E34087621B143849DF4AB8CE93B0AECC2C9326CA1ED7F28"
+    },
+    {
+      "asset_id": "star_wanderer_key_poses",
+      "asset_kind": "key_pose_sheet",
+      "path": "characters/star_wanderer_key_poses_candidate_v001.png",
+      "approval_status": "approved_by_user",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "C01BFD218ABBE82F1292DBE9D2AAAB4964E762FA57E2E5042F473F63002F225B"
+    },
+    {
+      "asset_id": "clockwork_desert_stag_model_scale",
+      "asset_kind": "antagonist_model_sheet",
+      "path": "characters/clockwork_desert_stag_model_scale_candidate_v001.png",
+      "approval_status": "approved_by_user",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "997BBCF706BDD0CB08573B9658EC23D3562029EE7D4BF32500D5DC7A57509597"
+    },
+    {
+      "asset_id": "cosmic_desert_chase_background",
+      "asset_kind": "scene_background_plate",
+      "path": "scene/cosmic_desert_chase_background_candidate_v001.png",
+      "approval_status": "approved_by_user",
+      "width": 1498,
+      "height": 1050,
+      "sha256": "C3F1DD55588E38A39FDBC4928F0E4EF2169334E4930CB900C6FF3E223C74B0AD"
+    },
+    {
+      "asset_id": "palette_cycling_stone_road_study",
+      "asset_kind": "palette_cycling_material_study",
+      "path": "scene/palette_cycling_stone_road_study_candidate_v001.png",
+      "approval_status": "approved_by_user",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "7991D52AFA1DA9B3475D162717E0ACB872B5DEA041D9FD46207660D3652D695F"
+    },
+    {
+      "asset_id": "chase_obstacle_props",
+      "asset_kind": "prop_sheet",
+      "path": "props/chase_obstacle_props_candidate_v001.png",
+      "approval_status": "approved_by_user",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "8189F935C10D6CC029C0DE14BDBDF5D419A6A557C25BC7B2D5B1ABC5D53E40F1"
+    },
+    {
+      "asset_id": "chase_fx_sheet",
+      "asset_kind": "fx_source_sheet",
+      "path": "fx/chase_fx_sheet_candidate_v001.png",
+      "approval_status": "approved_by_user",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "8DA5ADF79BE21ADC538F1CC5DCCD5DE5E02C0F24AB764970A61C969382A4FBE1"
+    }
+  ],
+  "blocking_statuses": [
+    "not_translated_to_vdp",
+    "not_budget_validated",
+    "not_built",
+    "not_tested_in_emulator"
+  ]
+}

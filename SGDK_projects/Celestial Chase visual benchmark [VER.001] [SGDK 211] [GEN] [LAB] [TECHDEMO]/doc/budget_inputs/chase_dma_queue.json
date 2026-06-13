@@ -1,0 +1,24 @@
+{
+  "vblank_byte_budget": 7168,
+  "ops": [
+    {"frame": 0, "timing": "vblank", "bytes": 2560, "target": "hero_frame"},
+    {"frame": 0, "timing": "vblank", "bytes": 448, "target": "bg_a_line_scroll"},
+    {"frame": 0, "timing": "vblank", "bytes": 448, "target": "bg_b_line_scroll"},
+    {"frame": 0, "timing": "vblank", "bytes": 640, "target": "sprite_sat"},
+    {"frame": 1, "timing": "vblank", "bytes": 3840, "target": "pursuer_frame"},
+    {"frame": 1, "timing": "vblank", "bytes": 448, "target": "bg_a_line_scroll"},
+    {"frame": 1, "timing": "vblank", "bytes": 448, "target": "bg_b_line_scroll"},
+    {"frame": 1, "timing": "vblank", "bytes": 640, "target": "sprite_sat"},
+    {"frame": 1, "timing": "vblank", "bytes": 1024, "target": "dust_frame"},
+    {"frame": 1, "timing": "vblank", "bytes": 4, "target": "cram_accents"},
+    {"frame": 2, "timing": "vblank", "bytes": 1024, "target": "dust_frame"},
+    {"frame": 2, "timing": "vblank", "bytes": 448, "target": "bg_a_line_scroll"},
+    {"frame": 2, "timing": "vblank", "bytes": 448, "target": "bg_b_line_scroll"},
+    {"frame": 2, "timing": "vblank", "bytes": 640, "target": "sprite_sat"},
+    {"frame": 3, "timing": "vblank", "bytes": 448, "target": "bg_a_line_scroll"},
+    {"frame": 3, "timing": "vblank", "bytes": 448, "target": "bg_b_line_scroll"},
+    {"frame": 3, "timing": "vblank", "bytes": 640, "target": "sprite_sat"},
+    {"frame": 0, "timing": "preload", "bytes": 27776, "target": "bg_a_bg_b_tiles"},
+    {"frame": 0, "timing": "preload", "bytes": 12544, "target": "sprite_pool_initial_frames"}
+  ]
+}

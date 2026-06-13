@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/learning_ledger.schema.json",
+  "title": "Project Local Learning Ledger",
+  "description": "Versionable project-local lessons and unapplied canonical patch proposals.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "policy",
+    "generated_at",
+    "source_digest",
+    "lessons",
+    "candidate_index",
+    "canonical_promotion_performed"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "local_auto_update",
+        "canonical_auto_mutation",
+        "human_approval_required",
+        "evidence_required"
+      ],
+      "properties": {
+        "local_auto_update": {
+          "const": true
+        },
+        "canonical_auto_mutation": {
+          "const": false
+        },
+        "human_approval_required": {
+          "const": true
+        },
+        "evidence_required": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lessons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/lesson"
+      }
+    },
+    "candidate_index": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/candidate_index_entry"
+      }
+    },
+    "canonical_promotion_performed": {
+      "const": false
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![A-Za-z]:[\\\\/])(?!/)(?!\\\\\\\\).+"
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["grade", "freshness", "refs", "gaps"],
+      "properties": {
+        "grade": {
+          "enum": [
+            "E0_note_only",
+            "E1_artifact",
+            "E2_build",
+            "E3_blastem",
+            "E4_budget_and_regression",
+            "E5_cross_project_reproduction"
+          ]
+        },
+        "freshness": {
+          "enum": ["fresh", "stale", "unknown", "not_applicable"]
+        },
+        "refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/relative_path"
+          }
+        },
+        "gaps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "routing": {
+      "type": "object",
+      "required": [
+        "candidate_kind",
+        "deduplication",
+        "canonical_target",
+        "owner_skill",
+        "match_rule_id"
+      ],
+      "properties": {
+        "candidate_kind": {
+          "enum": [
+            "none",
+            "human_review",
+            "rule",
+            "validator",
+            "schema",
+            "skill",
+            "workflow",
+            "lib_case",
+            "doc"
+          ]
+        },
+        "deduplication": {
+          "enum": ["matched_existing_owner", "no_match", "not_applicable"]
+        },
+        "canonical_target": {
+          "type": ["string", "null"]
+        },
+        "owner_skill": {
+          "type": ["string", "null"]
+        },
+        "match_rule_id": {
+          "type": ["string", "null"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "human_approval": {
+      "type": "object",
+      "required": ["status", "record_ref"],
+      "properties": {
+        "status": {
+          "enum": ["pending", "approved", "rejected"]
+        },
+        "record_ref": {
+          "type": ["string", "null"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "canonical_patch_proposal": {
+      "type": "object",
+      "required": [
+        "action",
+        "target_path",
+        "summary",
+        "required_tests",
+        "human_approval_required",
+        "human_approval",
+        "apply_status"
+      ],
+      "properties": {
+        "action": {
+          "enum": [
+            "none",
+            "patch_existing_owner",
+            "create_rule",
+            "create_validator",
+            "create_schema",
+            "create_skill",
+            "create_workflow",
+            "create_lib_case",
+            "update_doc"
+          ]
+        },
+        "target_path": {
+          "type": ["string", "null"]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "required_tests": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "human_approval_required": {
+          "const": true
+        },
+        "human_approval": {
+          "$ref": "#/definitions/human_approval"
+        },
+        "apply_status": {
+          "enum": ["not_applied", "approved_not_applied", "applied_by_human", "rejected"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "lesson": {
+      "type": "object",
+      "required": [
+        "lesson_id",
+        "title",
+        "source_kind",
+        "source_document",
+        "classification",
+        "lifecycle_status",
+        "observed_at",
+        "problem_signature",
+        "context",
+        "observation",
+        "diagnosis",
+        "resolution_or_preventive_heuristic",
+        "scope_limits",
+        "evidence",
+        "routing",
+        "canonical_patch_proposal"
+      ],
+      "properties": {
+        "lesson_id": {
+          "type": "string",
+          "pattern": "^lesson_[a-f0-9]{16}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_kind": {
+          "enum": [
+            "success_pattern",
+            "failure_pattern",
+            "skill_promotion_candidate",
+            "canonical_promotion_review"
+          ]
+        },
+        "source_document": {
+          "$ref": "#/definitions/relative_path"
+        },
+        "classification": {
+          "enum": ["local_note", "promotion_candidate", "do_not_promote", "needs_human_review"]
+        },
+        "lifecycle_status": {
+          "enum": [
+            "observed",
+            "evidence_incomplete",
+            "qualified_local",
+            "human_review_required",
+            "approved_for_canonical_patch",
+            "implemented",
+            "verified",
+            "rejected",
+            "superseded"
+          ]
+        },
+        "observed_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problem_signature": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "context": {
+          "type": "string"
+        },
+        "observation": {
+          "type": "string"
+        },
+        "diagnosis": {
+          "type": "string"
+        },
+        "resolution_or_preventive_heuristic": {
+          "type": "string"
+        },
+        "scope_limits": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence": {
+          "$ref": "#/definitions/evidence"
+        },
+        "routing": {
+          "$ref": "#/definitions/routing"
+        },
+        "canonical_patch_proposal": {
+          "$ref": "#/definitions/canonical_patch_proposal"
+        }
+      },
+      "additionalProperties": false
+    },
+    "candidate_index_entry": {
+      "type": "object",
+      "required": [
+        "lesson_id",
+        "title",
+        "lifecycle_status",
+        "evidence_grade",
+        "action",
+        "target_path"
+      ],
+      "properties": {
+        "lesson_id": {
+          "type": "string",
+          "pattern": "^lesson_[a-f0-9]{16}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lifecycle_status": {
+          "type": "string"
+        },
+        "evidence_grade": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "target_path": {
+          "type": ["string", "null"]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

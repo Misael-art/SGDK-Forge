@@ -1,0 +1,257 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "chase_first_playable",
+  "enemies": [
+    {
+      "enemy_id": "celestial_shard",
+      "role": "solo_tutorial",
+      "head_metric": "S",
+      "hp": 1,
+      "damage": 1,
+      "movement_model": "ground_linear",
+      "ai_behavior": {
+        "aggro_radius_px": 160,
+        "retreat_threshold_hp_percent": 0,
+        "state_machine": "telegraph -> approach -> collide_or_pass -> despawn"
+      },
+      "telegraph_model": {
+        "telegraph_frames": 48,
+        "visual_cue": "Low bright shard silhouette in the target lane.",
+        "audio_cue": "threat_low",
+        "color_contract": "ivory and cyan means low jumpable barrier"
+      },
+      "weakness_model": {
+        "weakness_mechanic_ids": ["jump", "lane_change", "celestial_pulse"],
+        "weakness_position": "core",
+        "stagger_threshold": 1
+      },
+      "synergy_partners": [],
+      "level_placement_rules": {
+        "target_scenes": ["chase_first_playable"],
+        "min_count_per_scene": 3,
+        "max_count_per_scene": 8
+      },
+      "feedback_on_hit": {
+        "visual": "Shard breaks into a short light burst.",
+        "audio": "pulse_clear",
+        "hitstop_frames": 2
+      },
+      "feedback_on_alert": {
+        "visual": "Shard flare begins.",
+        "audio": "threat_low",
+        "stinger_id": "stinger_low_threat"
+      }
+    },
+    {
+      "enemy_id": "astral_brand",
+      "role": "atirador",
+      "head_metric": "M",
+      "hp": 1,
+      "damage": 1,
+      "movement_model": "static_emplacement",
+      "ai_behavior": {
+        "aggro_radius_px": 224,
+        "retreat_threshold_hp_percent": 0,
+        "state_machine": "mark_lane -> charge -> active_blast -> cooldown"
+      },
+      "telegraph_model": {
+        "telegraph_frames": 36,
+        "visual_cue": "Warm floor flare fills one lane before the blast.",
+        "audio_cue": "threat_brand",
+        "color_contract": "amber and red means leave the marked lane"
+      },
+      "weakness_model": {
+        "weakness_mechanic_ids": ["lane_change", "celestial_pulse"],
+        "weakness_position": "core",
+        "stagger_threshold": 1
+      },
+      "synergy_partners": [
+        {"enemy_id": "celestial_bulwark", "synergy_type": "frontline_shield"},
+        {"enemy_id": "comet_spark", "synergy_type": "bait"}
+      ],
+      "level_placement_rules": {
+        "target_scenes": ["chase_first_playable"],
+        "min_count_per_scene": 2,
+        "max_count_per_scene": 6
+      },
+      "feedback_on_hit": {
+        "visual": "Brand collapses into a warm flash.",
+        "audio": "pulse_clear",
+        "hitstop_frames": 2
+      },
+      "feedback_on_alert": {
+        "visual": "Lane flare expands.",
+        "audio": "threat_brand",
+        "stinger_id": "stinger_lane_mark"
+      }
+    },
+    {
+      "enemy_id": "celestial_bulwark",
+      "role": "bloqueador",
+      "head_metric": "M",
+      "hp": 2,
+      "damage": 1,
+      "movement_model": "ground_linear",
+      "ai_behavior": {
+        "aggro_radius_px": 192,
+        "retreat_threshold_hp_percent": 0,
+        "state_machine": "telegraph -> occupy_lane -> pass -> despawn"
+      },
+      "telegraph_model": {
+        "telegraph_frames": 40,
+        "visual_cue": "Wide dark silhouette with cyan rim enters one lane.",
+        "audio_cue": "threat_blocker",
+        "color_contract": "dark mass with cyan rim means change lane rather than jump"
+      },
+      "weakness_model": {
+        "weakness_mechanic_ids": ["lane_change", "celestial_pulse"],
+        "weakness_position": "shield_break",
+        "stagger_threshold": 2
+      },
+      "synergy_partners": [
+        {"enemy_id": "astral_brand", "synergy_type": "backline_dps"}
+      ],
+      "level_placement_rules": {
+        "target_scenes": ["chase_first_playable"],
+        "min_count_per_scene": 1,
+        "max_count_per_scene": 4
+      },
+      "feedback_on_hit": {
+        "visual": "Bulwark rim flashes and fragments.",
+        "audio": "pulse_clear_heavy",
+        "hitstop_frames": 3
+      },
+      "feedback_on_alert": {
+        "visual": "Rim brightens before lane occupation.",
+        "audio": "threat_blocker",
+        "stinger_id": "stinger_blocker"
+      }
+    },
+    {
+      "enemy_id": "comet_spark",
+      "role": "voador",
+      "head_metric": "S",
+      "hp": 1,
+      "damage": 1,
+      "movement_model": "aerial_zigzag",
+      "ai_behavior": {
+        "aggro_radius_px": 200,
+        "retreat_threshold_hp_percent": 0,
+        "state_machine": "signal -> zigzag -> cross_player_y -> despawn"
+      },
+      "telegraph_model": {
+        "telegraph_frames": 32,
+        "visual_cue": "Small star traces the upcoming zigzag path.",
+        "audio_cue": "threat_air",
+        "color_contract": "violet star trail means remain grounded or change lane"
+      },
+      "weakness_model": {
+        "weakness_mechanic_ids": ["lane_change", "celestial_pulse"],
+        "weakness_position": "core",
+        "stagger_threshold": 1
+      },
+      "synergy_partners": [
+        {"enemy_id": "astral_brand", "synergy_type": "control_zoner"},
+        {"enemy_id": "pursuer_hoof", "synergy_type": "flanker"}
+      ],
+      "level_placement_rules": {
+        "target_scenes": ["chase_first_playable"],
+        "min_count_per_scene": 1,
+        "max_count_per_scene": 4
+      },
+      "feedback_on_hit": {
+        "visual": "Spark disperses into a violet star burst.",
+        "audio": "pulse_clear",
+        "hitstop_frames": 1
+      },
+      "feedback_on_alert": {
+        "visual": "Zigzag trail appears.",
+        "audio": "threat_air",
+        "stinger_id": "stinger_air"
+      }
+    },
+    {
+      "enemy_id": "pursuer_hoof",
+      "role": "perseguidor",
+      "head_metric": "L",
+      "hp": 8,
+      "damage": 1,
+      "movement_model": "ground_chase",
+      "ai_behavior": {
+        "aggro_radius_px": 320,
+        "retreat_threshold_hp_percent": 0,
+        "state_machine": "choose_lane -> rear_back -> strike -> impact -> recover"
+      },
+      "telegraph_model": {
+        "telegraph_frames": 28,
+        "visual_cue": "Pursuer body leans and target lane receives a heavy impact flare.",
+        "audio_cue": "threat_hoof",
+        "color_contract": "white-hot impact flare means leave the lane immediately"
+      },
+      "weakness_model": {
+        "weakness_mechanic_ids": ["lane_change", "celestial_pulse"],
+        "weakness_position": "legs",
+        "stagger_threshold": 8
+      },
+      "synergy_partners": [
+        {"enemy_id": "comet_spark", "synergy_type": "control_zoner"},
+        {"enemy_id": "astral_brand", "synergy_type": "flanker"}
+      ],
+      "level_placement_rules": {
+        "target_scenes": ["chase_first_playable"],
+        "min_count_per_scene": 2,
+        "max_count_per_scene": 5
+      },
+      "feedback_on_hit": {
+        "visual": "Hoof strike is repelled by the Pulse with dust and palette flash.",
+        "audio": "pulse_heavy",
+        "hitstop_frames": 4
+      },
+      "feedback_on_alert": {
+        "visual": "Pursuer leans into the target lane.",
+        "audio": "threat_hoof",
+        "stinger_id": "stinger_pursuer_attack"
+      }
+    },
+    {
+      "enemy_id": "ancient_hart_pressure",
+      "role": "boss",
+      "head_metric": "XL",
+      "hp": 100,
+      "damage": 1,
+      "movement_model": "phase_transition",
+      "ai_behavior": {
+        "aggro_radius_px": 320,
+        "retreat_threshold_hp_percent": 0,
+        "state_machine": "distant_observer -> closing_pressure -> climax_assault"
+      },
+      "telegraph_model": {
+        "telegraph_frames": 60,
+        "visual_cue": "Pursuer proximity, warm palette and danger cadence escalate together.",
+        "audio_cue": "danger",
+        "color_contract": "warm environment accents mean systemic pursuer pressure"
+      },
+      "weakness_model": {
+        "weakness_mechanic_ids": ["celestial_pulse"],
+        "weakness_position": "core",
+        "stagger_threshold": 100
+      },
+      "synergy_partners": [],
+      "level_placement_rules": {
+        "target_scenes": ["chase_first_playable"],
+        "boss_arena_id": "entire_chase_first_playable"
+      },
+      "feedback_on_hit": {
+        "visual": "Pulse pushes the pursuer back and cools the palette.",
+        "audio": "pulse_heavy",
+        "hitstop_frames": 4
+      },
+      "feedback_on_alert": {
+        "visual": "Pursuer grows and impact dust cadence increases.",
+        "audio": "danger",
+        "stinger_id": "stinger_pursuer_pressure"
+      },
+      "boss_state_count": 3
+    }
+  ]
+}

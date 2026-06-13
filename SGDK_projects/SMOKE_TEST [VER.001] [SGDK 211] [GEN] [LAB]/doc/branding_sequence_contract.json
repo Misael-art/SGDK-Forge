@@ -1,0 +1,82 @@
+{
+  "contract_id": "branding_sequence_v3",
+  "status": "technical_lab_validated_visual_concept_approved",
+  "applies_to": "SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+  "scene_id": "APP_SCENE_BRANDING",
+  "app_scene_id": 0,
+  "purpose": "provar uma abertura de assinatura memoravel que transforma forja, autoria e selo de projeto em tres setpieces de Mega Drive",
+  "total_duration_frames_ntsc": 480,
+  "screens": [
+    {
+      "slot": 1,
+      "role": "engine",
+      "text": "MEGA FORGE ENGINE",
+      "font_resource": "img_font_forge_v3",
+      "duration_frames_ntsc": 150,
+      "visual_contract": "camara de forja com impacto, logo emergindo quente, heat-wave por linha, cooldown metalico e shimmer",
+      "sprites": ["spr_brand_spark_v3", "spr_brand_glow_v3"],
+      "audio_cues": ["brand_bell_forge", "PSG impact", "PSG low drone"],
+      "evidence": ["out/evidence/blastem_branding_v3_final/three_slot_preview.png"],
+      "evidence_note": "arte final integrada e runtime medido; captura dedicada do hold final da engine ainda pendente"
+    },
+    {
+      "slot": 2,
+      "role": "author",
+      "text": "MISAEL OLIVEIRA",
+      "font_resource": "img_font_terminal_v3",
+      "duration_frames_ntsc": 150,
+      "visual_contract": "grid fosforo, selo MO facetado, halo vazado, typewriter reveal e assinatura enquadrada",
+      "sprites": ["spr_brand_monogram_v3", "spr_brand_cursor_v3", "spr_brand_glow_v3"],
+      "audio_cues": ["brand_typewriter_click", "brand_bell_terminal", "PSG periodic click"],
+      "evidence": [
+        "out/evidence/blastem_branding_v3_final/author_reveal.png",
+        "out/evidence/blastem_branding_v3_final/author_hold.png"
+      ]
+    },
+    {
+      "slot": 3,
+      "role": "project",
+      "text": "MEGA MASTER GAMES / SMOKE TEST LAB",
+      "font_resource": "img_font_crest_v3",
+      "duration_frames_ntsc": 180,
+      "visual_contract": "prensa industrial, escudo em queda, impacto com debris, placa de aprovacao e fade",
+      "sprites": ["spr_brand_shield_v3", "spr_brand_debris_v3"],
+      "audio_cues": ["brand_stamp_whoosh", "brand_reverb_tail", "PSG stacked impact", "PSG four-note jingle"],
+      "evidence": ["out/evidence/blastem_branding_v3_final/project_hold.png"]
+    }
+  ],
+  "runtime_rules": {
+    "architecture": "FSM enter/update/exit por slot",
+    "frame_selection": "SPR_setFrame em spritesheets de frames pre-calculados",
+    "line_scroll_transfer": "DMA_QUEUE com buffer estatico de 224 words",
+    "palette_animation": "PAL_setColor em slots com owner declarado por slot",
+    "skip_inputs": ["BUTTON_START", "BUTTON_A"],
+    "exit_scene": "APP_SCENE_BOOT"
+  },
+  "asset_paths": {
+    "builder_source": "tools/image-tools/build_branding_v3_assets.py",
+    "final_runtime": "res/branding/",
+    "resource_manifest": "res/resources.res",
+    "lineage_report": "out/logs/branding_v3_lineage.json",
+    "visual_delivery_gate": "out/logs/visual_delivery_gate_report.json"
+  },
+  "teardown_reset_plan": [
+    "SPR_releaseSprite/SPR_reset",
+    "SPR_update",
+    "AUDIO_stopAll",
+    "VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE)",
+    "VDP_setHorizontalScroll(BG_A/BG_B, 0)",
+    "VDP_setVerticalScroll(BG_A/BG_B, 0)"
+  ],
+  "verification_current": {
+    "rom_sha256": "3bdb6ed7418e7f8bbe1f04f2ee662b5734f906756837487c689e6fcac2dc8a6b",
+    "wrapper_build": "passed",
+    "asset_contract_tests": "3_passed",
+    "wrapper_contract_tests": "12_passed",
+    "blastem_runtime": "scene_0_matched_fresh_sram_partial_capture",
+    "audio_validation": "passed_5_samples_zero_issues",
+    "res_graph": "passed_21_declarations_zero_overlap",
+    "runtime_metrics_branding": "151_frames_zero_over_budget_cpu_max_6",
+    "visual_delivery": "concept_approved_lab_needs_review_for_aaa"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_sprite_sheet_v009",
+  "status": "candidate_pending_human_visual_validation",
+  "cell_px": [48, 64],
+  "pivot_px": [24, 58],
+  "ground_y": 58,
+  "runtime_actions": [
+    {
+      "id": "idle",
+      "frames": 6,
+      "intent": "focused Muay Thai stance with breathing variation",
+      "acting": "neutral/focused face",
+      "strip": "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v009.png"
+    },
+    {
+      "id": "walk_step",
+      "frames": 6,
+      "intent": "short guarded step with stable combat weight",
+      "acting": "focused face, eyes forward",
+      "strip": "res/sprites/hibrido/hibrido_walk_step_body_48x64_strip_v009.png"
+    },
+    {
+      "id": "guard_block",
+      "frames": 6,
+      "intent": "raised defensive guard, lava hand open and consistent",
+      "acting": "focused face",
+      "strip": "res/sprites/hibrido/hibrido_guard_block_body_48x64_strip_v009.png"
+    },
+    {
+      "id": "jab",
+      "frames": 6,
+      "intent": "simple wrapped-hand jab with startup, impact and recovery",
+      "acting": "teeth/kiai on impact frames",
+      "strip": "res/sprites/hibrido/hibrido_jab_body_48x64_strip_v009.png"
+    },
+    {
+      "id": "knee",
+      "frames": 6,
+      "intent": "Muay Thai knee with compression and raised knee active frames",
+      "acting": "jaw/teeth tension during active frames",
+      "strip": "res/sprites/hibrido/hibrido_knee_body_48x64_strip_v009.png"
+    },
+    {
+      "id": "teep",
+      "frames": 6,
+      "intent": "front teep kick with open lava hand visible above the leg",
+      "acting": "kiai on active frames",
+      "strip": "res/sprites/hibrido/hibrido_teep_body_48x64_strip_v009.png"
+    }
+  ],
+  "reports": {
+    "animation_report": "out/logs/hibrido_v009_animation_report.json",
+    "sprite_strip_integrity_report": "out/logs/sprite_strip_integrity_report_v009.json",
+    "pixel_compliance_report": "out/logs/hibrido_v009_pixel_compliance_report.json",
+    "sprite_artifact_report": "out/logs/hibrido_v009_sprite_artifact_report.json",
+    "visual_translation_report": "out/logs/hibrido_v009_visual_translation_report.json"
+  },
+  "approval_gate": {
+    "technical_gate": "passed",
+    "visual_gate": "pending_human_validation",
+    "runtime_evidence": "partial_blastem_evidence_available"
+  }
+}

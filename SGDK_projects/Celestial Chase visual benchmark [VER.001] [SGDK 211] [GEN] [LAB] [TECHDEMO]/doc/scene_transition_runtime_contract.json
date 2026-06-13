@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "scene_transition_runtime_contract",
+  "flow": [
+    "APP_SCENE_BRANDING",
+    "APP_SCENE_BOOT",
+    "APP_SCENE_MENU",
+    "APP_SCENE_CHASE",
+    "CHASE_RESULT"
+  ],
+  "routes": [
+    {
+      "from": "APP_SCENE_BRANDING",
+      "to": "APP_SCENE_BOOT",
+      "input": "timeout or A/START",
+      "teardown": "PSG stop and line-scroll reset"
+    },
+    {
+      "from": "APP_SCENE_BOOT",
+      "to": "APP_SCENE_MENU",
+      "input": "timeout or A/START",
+      "teardown": "APP SAT scrub"
+    },
+    {
+      "from": "APP_SCENE_MENU",
+      "to": "APP_SCENE_CHASE",
+      "input": "A/START",
+      "teardown": "scene chase entry owns full reset"
+    },
+    {
+      "from": "CHASE_RESULT",
+      "to": "APP_SCENE_CHASE",
+      "input": "A/START",
+      "teardown": "chaseExit then scene re-entry"
+    },
+    {
+      "from": "CHASE_RESULT",
+      "to": "APP_SCENE_MENU",
+      "input": "B/MODE",
+      "teardown": "chaseExit then menu reset"
+    }
+  ],
+  "softlock_policy": "every non-playing state exposes a deterministic continuation input",
+  "qa_bootstrap": "checksum-valid SBIS SRAM payload may select an AppScene once, then its magic is erased",
+  "blockers": [
+    "full route still requires scripted BlastEm proof"
+  ]
+}

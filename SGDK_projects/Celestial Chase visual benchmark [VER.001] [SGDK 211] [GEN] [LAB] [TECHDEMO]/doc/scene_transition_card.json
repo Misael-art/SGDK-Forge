@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "transition_id": "celestial_chase_slice_flow",
+  "transitions": [
+    {
+      "from": "branding",
+      "to": "boot_title",
+      "cause": "branding_complete_or_skip",
+      "camera_continuity": "reset",
+      "audio_handoff": "stop branding PSG before title cue",
+      "runtime_state_handoff": "none",
+      "teardown_reset_plan": "reset line scroll, sprites, palettes and text ownership",
+      "fallback": "hard cut after teardown"
+    },
+    {
+      "from": "menu",
+      "to": "chase_first_playable",
+      "cause": "start_chase_selected",
+      "camera_continuity": "reset",
+      "audio_handoff": "menu cue then chase music state",
+      "runtime_state_handoff": "none",
+      "teardown_reset_plan": "clear menu text and reset scrolling before chase preload",
+      "fallback": "hard cut after teardown"
+    },
+    {
+      "from": "chase_playing",
+      "to": "chase_result",
+      "cause": "victory_or_failure",
+      "camera_continuity": "settle scroll and retain background",
+      "audio_handoff": "victory or failure state",
+      "runtime_state_handoff": "integrity, pulses_used and result",
+      "teardown_reset_plan": "freeze spawns and clear active threats",
+      "fallback": "retain scene and draw result card"
+    }
+  ]
+}

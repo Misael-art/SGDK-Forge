@@ -1,0 +1,26 @@
+{
+  "schema": "semantic_parse_report_v1",
+  "translation_target": "scene_slice_and_gameplay_sprites",
+  "layout_classification": {
+    "background_pair": "paired_bg_scene_slice",
+    "props": "editorial_object_board",
+    "fx": "editorial_fx_board"
+  },
+  "usable_regions": [
+    "v007 BG_B atmosphere",
+    "v007 BG_A road overlay",
+    "boulder, astral brand and obelisk prop regions",
+    "energy star and pulse impact FX regions"
+  ],
+  "drop_policy": [
+    "board backgrounds",
+    "unused scale variants",
+    "metadata-free editorial spacing"
+  ],
+  "must_keep": [
+    "celestial horizon",
+    "gold road focal line",
+    "navy-indigo-gold material hierarchy",
+    "telegraph silhouette readability"
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "schema": "sample_format_audit_v1",
+  "status": "generated_pending_validate_audio_and_blastem_listen",
+  "generation_basis": "project_local_original_synthesis",
+  "driver": "XGM2",
+  "assets": [
+    {
+      "path": "res/audio/chase/chase_score_loop.wav",
+      "sha256": "494640395cb0f4a8e5319daf55c595bcc578d963d18d82249fec82abcec4374b",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 8.0,
+      "dc_offset": 0.05,
+      "peak": 63,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_menu.wav",
+      "sha256": "f257bdc4aa4eface1f38d63e63613d438b5956a7f044fd7b01a5d6e178b97fce",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.12,
+      "dc_offset": 0.003,
+      "peak": 53,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_jump.wav",
+      "sha256": "580eca4e21d0fbf3aae4261010eadb6c44511b253f11ff827241a03abec39e94",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.18,
+      "dc_offset": -0.014,
+      "peak": 55,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_land.wav",
+      "sha256": "f22186bd2f5e74320a9f22a63330cc5970b25be5aaead052e5da12f35344f3d0",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.14,
+      "dc_offset": -0.147,
+      "peak": 68,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_hit.wav",
+      "sha256": "a104ea8126f1cc5c7a4602c00e870c9740b4df084405a3a73eb231b9acae9d53",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.24,
+      "dc_offset": -0.287,
+      "peak": 94,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_pulse.wav",
+      "sha256": "8c3860ba7a749c63ca578d75b77364bdb43baaf1c59bf1f6c623c13b196da7a5",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.46,
+      "dc_offset": 0.006,
+      "peak": 50,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_pickup.wav",
+      "sha256": "861122d5a64b06518c01ef8de42108a963b74d962873cb1d52cb5ed167e9675c",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.16,
+      "dc_offset": 0.002,
+      "peak": 51,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_victory.wav",
+      "sha256": "98f265106220f1b75ae7f957a7903cb4c9de8f9d8b3d41e78cd35016266dcd30",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.72,
+      "dc_offset": 0.001,
+      "peak": 56,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_failure.wav",
+      "sha256": "5656e2455ce34589f23b1db073f22a7efa2e0ab3784f76f4cc15ceda56040921",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.72,
+      "dc_offset": 0.003,
+      "peak": 55,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    },
+    {
+      "path": "res/audio/chase/chase_pressure.wav",
+      "sha256": "bd9f582d96d818446dc61426d7ba35a81f1a4ee41d0099fca406c7c5b6e5555f",
+      "channels": 1,
+      "bits_per_sample": 8,
+      "sample_rate_hz": 13300,
+      "duration_seconds": 0.2,
+      "dc_offset": 0.004,
+      "peak": 41,
+      "first_sample": 128,
+      "last_sample": 128,
+      "loop_boundary_silent": true
+    }
+  ],
+  "delivery_findings": [
+    "All sources are mono PCM WAV at 13.3 kHz and 8-bit.",
+    "Every sample begins and ends at unsigned PCM center 128.",
+    "The score loop remains pending a human headphone loop check in BlastEm."
+  ]
+}

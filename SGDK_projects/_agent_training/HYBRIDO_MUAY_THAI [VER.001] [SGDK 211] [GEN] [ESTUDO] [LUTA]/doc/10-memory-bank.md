@@ -203,8 +203,8 @@
   - `validate_project_context`: status ok, contexto `exercise`, blockers=0;
   - `validate_project_methodology`: passed, blockers=0;
   - `validate_project_hygiene`: passed, blockers=0;
-  - `validate_resources`: errors=0, warnings=11, checked=6; avisos preservam bloqueio visual, evidencia de emulador insuficiente e closeout ausente;
-  - `freshness_audit`: status warning; nao ha entrega AAA, apenas registro honesto de estudo rejeitado.
+  - `validate_resources`: errors=0, warnings=9, checked=6; avisos preservam bloqueio visual, evidencia de emulador insuficiente e closeout ausente;
+  - `freshness_audit`: status ok apos sincronizacao de memoria/changelog; nao ha entrega AAA, apenas registro honesto de estudo rejeitado.
 
 
 

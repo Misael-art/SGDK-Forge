@@ -355,6 +355,7 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
   - `validate_project_context`: ok como `exercise`;
   - `validate_project_methodology`: passed;
   - `validate_project_hygiene`: passed;
-  - `validate_resources`: errors=0, warnings=11, checked=6, com bloqueio visual preservado;
+  - `validate_resources`: errors=0, warnings=9, checked=6, com bloqueio visual preservado;
+  - `freshness_audit`: status ok, stale=0;
   - `test_model_sheet_to_sprite_fidelity_report.ps1`: 9/9 passed;
   - `test_visual_delivery_gate_required_fields.ps1`: 12/12 passed.

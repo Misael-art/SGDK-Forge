@@ -11,10 +11,10 @@ export PATH="$GDK/bin:$PATH"
 
 EMU_DIR="$MD_ROOT/tools/emuladores"
 
-if [ -f "$EMU_DIR/BizHawk/EmuHawk.exe" ]; then
-    export SGDK_EMULATOR_PATH="$EMU_DIR/BizHawk/EmuHawk.exe"
-elif [ -f "$EMU_DIR/Blastem/Blastem.exe" ]; then
+if [ -f "$EMU_DIR/Blastem/Blastem.exe" ]; then
     export SGDK_EMULATOR_PATH="$EMU_DIR/Blastem/Blastem.exe"
+elif [ -f "$EMU_DIR/BizHawk/EmuHawk.exe" ]; then
+    export SGDK_EMULATOR_PATH="$EMU_DIR/BizHawk/EmuHawk.exe"
 elif [ -f "$EMU_DIR/Exodus_2.1/Exodus.exe" ]; then
     export SGDK_EMULATOR_PATH="$EMU_DIR/Exodus_2.1/Exodus.exe"
 elif [ -f "$EMU_DIR/GensKMod/gens.exe" ]; then

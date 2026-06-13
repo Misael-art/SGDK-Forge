@@ -31,7 +31,7 @@ Este e o ciclo operacional do estudio 16-bits. Cada passo tem um agente responsa
 
 ### 3. Programmer (Scene Architect) integra Logica, Sprites e Audio
 
-**Agentes**: `build-wrapper-operator`, `hardware-budget-guardian`
+**Agentes**: `sgdk-runtime-coder`, `scene-state-architect`, `sgdk-build-wrapper-operator`, `megadrive-vdp-budget-analyst`
 
 - Receber specs de assets e briefing de mecanica.
 - Implementar logica de cena, integracao de sprites, tilemap e audio (XGM2).
@@ -46,10 +46,10 @@ Este e o ciclo operacional do estudio 16-bits. Cada passo tem um agente responsa
 
 - Executar `rebuild.bat` para build limpo e reprodutivel.
 - Analisar `validation_report.json`.
-- Testar ROM em BlastEm (obrigatorio) e BizHawk (recomendado).
+- Testar ROM em BlastEm (obrigatorio para gate) e BizHawk (recomendado para telemetria e frame advance).
 - Verificar boot, gameplay, transicoes, audio e performance.
 - Preencher tabela de status por eixo de validacao.
-- **Criterio de saida**: tabela de 7 eixos preenchida, issues documentadas com evidencia, recomendacao emitida.
+- **Criterio de saida**: tabela de 7 eixos preenchida, issues documentadas com evidencia, `validation_report.json` coerente com `runtime_metrics.json` e recomendacao emitida.
 
 ### 5. Iteracao e correcao de bugs (Loop de QA)
 
@@ -72,6 +72,7 @@ Este e o ciclo operacional do estudio 16-bits. Cada passo tem um agente responsa
 - **ROM nao testada nao e entregue.** O QA e a ultima linha de defesa.
 - **Handoff entre passos deve ser explicito**: quem entrega, o que entrega, quem recebe.
 - **Evidencia e obrigatoria**: logs, reports, screenshots. Nao aceitar "funciona" sem prova.
+- **Emulador de entrega e unico**: BlastEm fecha gate; BizHawk complementa, Exodus diagnostica, Gens KMod nao aprova entrega.
 
 ---
 

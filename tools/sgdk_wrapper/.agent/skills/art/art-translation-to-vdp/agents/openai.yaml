@@ -1,0 +1,11 @@
+interface:
+  display_name: "Art Translation to VDP"
+  short_description: "Traduz imagem-fonte forte para sprite, sprite sheet ou tilemap realmente Mega Drive"
+  brand_color: "#7A5A1B"
+  default_prompt: "Use $art-translation-to-vdp para reinterpretar esta imagem-fonte como recurso de VDP, preservando a alma visual e provando o salto entre uma traducao basic e uma traducao elite."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

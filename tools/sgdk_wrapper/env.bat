@@ -22,17 +22,17 @@ if defined SGDK_ENV_TRACE_LOG (
 
 for %%I in ("%~dp0..\..") do set "MD_ROOT=%%~fI"
 call :RESOLVE_GDK
-set "JAVA_OPTS=-Xmx2g"
+if not defined JAVA_OPTS set "JAVA_OPTS=-Xmx2g"
 if defined SGDK_ENV_TRACE_LOG (
     echo [TRACE] MD_ROOT=!MD_ROOT!>> "!SGDK_ENV_TRACE_LOG!"
     echo [TRACE] GDK=!GDK!>> "!SGDK_ENV_TRACE_LOG!"
 )
 
 set "SGDK_EMULATOR_PATH="
-if exist "%MD_ROOT%\tools\emuladores\BizHawk\EmuHawk.exe" (
-    set "SGDK_EMULATOR_PATH=%MD_ROOT%\tools\emuladores\BizHawk\EmuHawk.exe"
-) else if exist "%MD_ROOT%\tools\emuladores\Blastem\Blastem.exe" (
+if exist "%MD_ROOT%\tools\emuladores\Blastem\Blastem.exe" (
     set "SGDK_EMULATOR_PATH=%MD_ROOT%\tools\emuladores\Blastem\Blastem.exe"
+) else if exist "%MD_ROOT%\tools\emuladores\BizHawk\EmuHawk.exe" (
+    set "SGDK_EMULATOR_PATH=%MD_ROOT%\tools\emuladores\BizHawk\EmuHawk.exe"
 ) else if exist "%MD_ROOT%\tools\emuladores\Exodus_2.1\Exodus.exe" (
     set "SGDK_EMULATOR_PATH=%MD_ROOT%\tools\emuladores\Exodus_2.1\Exodus.exe"
 ) else if exist "%MD_ROOT%\tools\emuladores\GensKMod\gens.exe" (

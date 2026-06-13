@@ -1,49 +1,43 @@
 # Build outputs
-/out/
-/bin/
-
-# SGDK intermediates
+**/out/
+*.bin
 *.o
-*.d
 *.lst
 *.map
-*.nm
-*.wch
+**/build_output.log
+**/build_debug.log
+**/build_error.log
+**/validation_report.json
+**/hs_err_pid*.log
+**/replay_pid*.log
+**/.sgdk_migration_state.json
+**/__pycache__/
+**/.vs/
+**/.import/
+*.rds-replay
+*.png.original
 
-# Generated headers
-/res/resources.h
+# SDK (download separately)
+sdk/
 
-# Wrapper state
-/.sgdk_migration_state.json
-/.agent/
-/tools/sgdk_wrapper/out/
-/tools/sgdk_wrapper/__pycache__/
+# Archives
+archives/
 
-# Logs and temp artifacts
-*.log
-*.tmp
-*.temp
-*.bak
-*.orig
+# Local workspace state
+.venv/
+.vscode/
+.claude/
 
-# Python cache
-__pycache__/
-*.pyc
-
-# IDE metadata
-/.vscode/
-/.cursor/
-
-# Wrapper backups
-/res/data/backup/
-
-# Local SDK drop-in
-/sdk/*
-!/sdk/README.md
-
-# OS noise
+# OS junk
 Thumbs.db
+Desktop.ini
 .DS_Store
 
-# Keep /data as the source of truth for raw assets
-!/data/
+# IDE
+.idea/
+*.suo
+*.user
+
+# Temporários e saídas
+tmp/
+output/

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Art Creation & Sourcing"
+  short_description: "Cria ou busca arte quando o projeto nao possui assets visuais"
+  brand_color: "#8C5C1D"
+  default_prompt: "Use $art-creation-sourcing para decidir entre geracao com IA ou busca de assets livres quando o projeto estiver sem arte."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

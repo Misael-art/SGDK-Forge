@@ -49,6 +49,8 @@ if not exist "%GDK%\makefile.gen" (
 )
 
 set "ROM_PATH=%CD%\out\rom.bin"
+set "LOG_DIR=%CD%\out\logs"
+set "EMULATOR_SESSION_FILE=%LOG_DIR%\emulator_session.json"
 set "STALE_SCRIPT=%~dp0test_project_stale.ps1"
 for /f %%I in ('powershell -NoProfile -ExecutionPolicy Bypass -Command "[guid]::NewGuid().ToString(\"N\")"') do set "STALE_TOKEN=%%I"
 set "STALE_FILE=%TEMP%\sgdk_stale_%STALE_TOKEN%.cmd"
@@ -96,14 +98,39 @@ if "%SGDK_ROM_NEEDS_BUILD%"=="1" (
     echo [OK] Resilient build completed successfully.
 )
 
+for /f %%I in ('powershell -NoProfile -ExecutionPolicy Bypass -Command "[guid]::NewGuid().ToString(\"N\")"') do set "EVIDENCE_TOKEN=%%I"
+set "EVIDENCE_FILE=%TEMP%\sgdk_evidence_%EVIDENCE_TOKEN%.cmd"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%STALE_SCRIPT%" -WorkDir "%SGDK_WORK_DIR%" -RomPath "%ROM_PATH%" -InvalidateEvidence -OutputFormat Batch > "%EVIDENCE_FILE%"
+if errorlevel 1 (
+    if exist "%EVIDENCE_FILE%" del "%EVIDENCE_FILE%" >nul 2>&1
+    echo [ERROR] Failed to refresh emulator evidence state before launch.
+    exit /b 1
+)
+
+call "%EVIDENCE_FILE%"
+set "EVIDENCE_RC=%ERRORLEVEL%"
+if exist "%EVIDENCE_FILE%" del "%EVIDENCE_FILE%" >nul 2>&1
+if not "%EVIDENCE_RC%"=="0" (
+    echo [ERROR] Could not load emulator evidence state before launch.
+    exit /b 1
+)
+if "%SGDK_EVIDENCE_STALE%"=="1" (
+    echo [WARN] Existing emulator evidence marked stale at origin: %SGDK_EVIDENCE_REASON%
+)
+
 if "%SGDK_EMULATOR_PATH%"=="" (
     echo [ERROR] No emulator configured or found.
     exit /b 1
 )
 
+if not exist "%LOG_DIR%" mkdir "%LOG_DIR%" >nul 2>&1
+
 echo [SGDK Wrapper] Running ROM: %ROM_PATH%
 echo [SGDK Wrapper] Emulator: %SGDK_EMULATOR_PATH%
 echo [SGDK Wrapper] Layout: %SGDK_LAYOUT% (%SGDK_RESOLUTION_REASON%)
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+    "$rom = Get-Item -LiteralPath '%ROM_PATH%'; $stream = [System.IO.File]::OpenRead('%ROM_PATH%'); try { $sha256 = [System.Security.Cryptography.SHA256]::Create(); try { $hash = ([System.BitConverter]::ToString($sha256.ComputeHash($stream)).Replace('-', '')).ToLowerInvariant() } finally { $sha256.Dispose() } } finally { $stream.Dispose() }; $payload = [ordered]@{ timestamp = (Get-Date -Format o); emulator = '%SGDK_EMULATOR_PATH%'; rom_path = '%ROM_PATH%'; rom_size_bytes = $rom.Length; rom_last_write_utc = $rom.LastWriteTimeUtc.ToString('o'); rom_sha256 = $hash; boot_emulador = 'nao_testado'; gameplay_basico = 'nao_testado'; performance = 'nao_testado'; audio = 'nao_testado'; hardware_real = 'nao_testado'; launch_status = 'attempted' }; $payload | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath '%EMULATOR_SESSION_FILE%'"
 
 start "" "%SGDK_EMULATOR_PATH%" "%ROM_PATH%"
 
@@ -111,6 +138,9 @@ if ERRORLEVEL 1 (
     echo [ERROR] The emulator failed to start or crashed immediately.
     exit /b 1
 )
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+    "$rom = Get-Item -LiteralPath '%ROM_PATH%'; $stream = [System.IO.File]::OpenRead('%ROM_PATH%'); try { $sha256 = [System.Security.Cryptography.SHA256]::Create(); try { $hash = ([System.BitConverter]::ToString($sha256.ComputeHash($stream)).Replace('-', '')).ToLowerInvariant() } finally { $sha256.Dispose() } } finally { $stream.Dispose() }; $payload = [ordered]@{ timestamp = (Get-Date -Format o); emulator = '%SGDK_EMULATOR_PATH%'; rom_path = '%ROM_PATH%'; rom_size_bytes = $rom.Length; rom_last_write_utc = $rom.LastWriteTimeUtc.ToString('o'); rom_sha256 = $hash; boot_emulador = 'nao_testado'; gameplay_basico = 'nao_testado'; performance = 'nao_testado'; audio = 'nao_testado'; hardware_real = 'nao_testado'; launch_status = 'started' }; $payload | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath '%EMULATOR_SESSION_FILE%'"
 
 endlocal
 exit /b 0

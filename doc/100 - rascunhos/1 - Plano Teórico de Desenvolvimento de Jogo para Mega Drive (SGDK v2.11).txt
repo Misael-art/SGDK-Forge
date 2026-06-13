@@ -1,0 +1,305 @@
+Plano Teórico de Desenvolvimento de Jogo para Mega Drive (SGDK v2.11)
+IA Responsável: SGDK Master Coder & Pixel Artist
+Objetivo: Guiar o desenvolvimento iterativo (sprints) de um jogo completo para Mega Drive, desde a concepção até a preparação para lançamento, utilizando a SGDK v2.11.
+Metodologia: Desenvolvimento Ágil baseado em Sprints, onde cada sprint foca em um conjunto específico de funcionalidades ou conteúdos, guiado por um formulário preenchido pelo usuário.
+1. Estrutura de Pastas Padrão do Projeto
+Uma organização clara é fundamental. Recomendo a seguinte estrutura:
+MeuJogoMegaDrive/
+├── src/           # Código fonte C (.c)
+├── inc/           # Arquivos de cabeçalho (.h)
+├── res/           # Arquivos de recursos (compilados e fontes)
+│   ├── sprites/   # Arquivos PNG/BMP para sprites
+│   ├── gfx/       # Arquivos PNG/BMP para tilesets e backgrounds
+│   ├── sfx/       # Arquivos WAV para efeitos sonoros
+│   ├── music/     # Arquivos VGM para música
+│   └── resources.res # Arquivo de definição para o rescomp
+├── out/           # Arquivos de saída da compilação (.o, .map, .bin, rom.md)
+├── doc/           # Documentação (README.md, Design Doc)
+├── tools/         # Ferramentas auxiliares (opcional)
+└── makefile       # Makefile padrão da SGDK
+└── compile.bat    # (Opcional) Script para compilar no Windows
+Use code with caution.
+2. Fases de Desenvolvimento e Sprints
+Fase 1: Concepção e Planejamento (Sprint 0)
+Objetivo: Definir a visão geral, escopo, mecânicas centrais e estilo do jogo.
+Atividades: Brainstorming, definição do GDD (Game Design Document) inicial, escolha do estilo visual, definição dos requisitos técnicos.
+Formulário: SPRINT_00_PLANNING.md
+Saídas: Documento de Design (inicial) em doc/, Formulário Sprint 0 preenchido.
+Estrutura: Criação da estrutura base de pastas.
+Fase 2: Protótipo e Mecânicas Fundamentais (Sprints 1-N)
+Objetivo: Implementar e validar as mecânicas principais do jogo (movimento, ataque, colisão básica, etc.). Criar um protótipo jogável inicial.
+Atividades: Codificação das mecânicas centrais, implementação da física básica, criação de assets placeholder (sprites/tiles simples), configuração inicial do VDP e sprites.
+Formulário: SPRINT_01_PROTOTYPING.md (pode haver múltiplos sprints de prototipagem)
+Saídas: Código C inicial em src/ e inc/, assets placeholder em res/ (e compilados via resources.res), protótipo funcional em out/rom.bin.
+Estrutura: População das pastas src, inc, res. Criação inicial do makefile e resources.res.
+Fase 3: Criação e Integração de Assets (Sprints N+1 - M)
+Objetivo: Produzir os assets visuais (sprites, tiles, backgrounds) e sonoros (SFX, música) definitivos e integrá-los ao jogo.
+Atividades: Criação de pixel art no estilo definido, composição de música/SFX (ou seleção de bibliotecas), atualização do arquivo resources.res, substituição de placeholders no código.
+Formulário: SPRINT_02_ASSETS.md (pode haver múltiplos sprints de assets)
+Saídas: Arquivos PNG/BMP/WAV/VGM em res/, arquivo resources.res atualizado, código C com assets integrados, versão visualmente mais próxima do final.
+Estrutura: Atualização intensiva da pasta res e do arquivo resources.res. Modificações no código em src para carregar e usar os novos assets.
+Fase 4: Design de Níveis e Conteúdo (Sprints M+1 - P)
+Objetivo: Construir os níveis, fases ou mundo do jogo, posicionar inimigos, itens e eventos.
+Atividades: Criação de mapas de tiles (.tmx ou similar, depois convertidos), codificação da lógica de progressão, implementação de IA básica para inimigos, design de encontros e desafios.
+Formulário: SPRINT_03_LEVEL_DESIGN.md (pode haver múltiplos sprints de level design)
+Saídas: Mapas de tiles (arquivos de dados ou código C), código C com lógica de níveis/eventos, inimigos posicionados e funcionais no jogo.
+Estrutura: Adição de arquivos de mapa em res/gfx ou res/maps, atualização do resources.res, adição de lógica de jogo em src/.
+Fase 5: Polimento e Otimização (Sprints P+1 - Q)
+Objetivo: Refinar a jogabilidade, adicionar efeitos visuais/sonoros, otimizar performance e corrigir bugs.
+Atividades: Implementação de efeitos (parallax, partículas), ajuste fino da física e controles, adição de UI (HUD, menus), otimização do uso de VRAM e CPU, correção de bugs identificados.
+Formulário: SPRINT_04_POLISH_OPTIMIZE.md
+Saídas: Jogo mais estável e polido, com efeitos adicionais, performance melhorada. Código C otimizado.
+Estrutura: Refinamentos em src/, inc/ e res/. Possível adição de código assembly para otimizações críticas.
+Fase 6: Testes Finais e Preparação para Lançamento (Sprint Final)
+Objetivo: Realizar testes extensivos, criar a tela de título, créditos e documentação final.
+Atividades: Testes QA (Quality Assurance), criação da tela de título e sequência final/créditos, escrita do README final, compilação da versão final da ROM.
+Formulário: SPRINT_05_FINALIZATION.md
+Saídas: ROM final (.bin ou .md) em out/, README.md completo em doc/.
+Estrutura: Finalização de todos os arquivos do projeto.
+3. Formulários de Sprint (Markdown)
+Aqui estão os modelos de formulário para cada etapa principal. O usuário preenche as seções [User Input Here] e a IA utiliza essas informações para gerar os artefatos do sprint.
+(Arquivo: SPRINT_00_PLANNING.md)
+# Sprint 0: Planejamento e Concepção
+
+**Objetivo:** Definir as bases do jogo.
+
+## 1. Informações Gerais
+
+*   **Nome do Jogo (Provisório):** `[User Input Here]`
+*   **Gênero Principal:** (Plataforma, Luta, RPG, Nave, Puzzle, Beat'em Up, Outro) `[User Input Here]`
+*   **Breve Descrição (Elevator Pitch):** `[User Input Here - 1 a 2 frases sobre o jogo]`
+
+## 2. Mecânicas Principais
+
+*   Liste as 3-5 mecânicas mais importantes:
+    *   `[User Input Here - Ex: Pulo com altura variável]`
+    *   `[User Input Here - Ex: Ataque corpo a corpo com combo de 3 hits]`
+    *   `[User Input Here - Ex: Coleta de itens de cura]`
+    *   `[User Input Here]`
+    *   `[User Input Here]`
+
+## 3. Estilo Visual
+
+*   **Estilo Base:** (Akira Toriyama, Studio Ghibli, SNK/Shinkiro, Cyberpunk/Mecha, Anime, Cartoon, Realismo 16-bit, Outro) `[User Input Here]`
+*   **Detalhes Adicionais de Estilo:** (e.g., tons escuros, foco em cenários orgânicos, personagens com armaduras) `[User Input Here]`
+*   **Personagem Principal (Conceito Inicial):** `[User Input Here - Breve descrição ou referência visual]`
+*   **Ambiente Principal (Conceito Inicial):** `[User Input Here - Ex: Floresta cyberpunk, Castelo medieval sombrio]`
+
+## 4. Requisitos Técnicos
+
+*   **Resolução:** (320x224 ou 256x224) `[User Input Here - Padrão: 320x224]`
+*   **Número de Jogadores:** (1 ou 2) `[User Input Here]`
+
+## 5. Recursos Iniciais Necessários (Para Próximo Sprint)
+
+*   **Protótipo Focado em:** (e.g., Movimento básico do jogador, Sistema de tiro) `[User Input Here]`
+*   **Assets Placeholder Necessários:** (e.g., sprite simples do jogador, tile básico de chão) `[User Input Here]`
+
+## 6. Idioma Preferencial para Comentários
+*   (Português ou Inglês) `[User Input Here]`
+Use code with caution.
+Markdown
+(Arquivo: SPRINT_01_PROTOTYPING.md)
+# Sprint 1: Protótipo de Mecânica Essencial
+
+**Objetivo:** Implementar e testar a mecânica central definida no Sprint 0.
+
+## 1. Foco do Protótipo
+
+*   **Mecânica a ser Implementada:** `[User Input Here - Ex: Movimento e Pulo do Jogador]`
+*   **Objetivo de Teste:** (e.g., Verificar se o pulo é responsivo, Testar colisão básica com o chão) `[User Input Here]`
+
+## 2. Detalhes da Implementação
+
+*   **Parâmetros de Física (Se aplicável):**
+    *   Gravidade: `[User Input Here - Ex: 2]`
+    *   Impulso Inicial do Pulo: `[User Input Here - Ex: -15]`
+    *   Velocidade Máxima Horizontal: `[User Input Here - Ex: 2]`
+*   **Controles:**
+    *   Mover Esquerda/Direita: `[User Input Here - Ex: D-Pad Esquerda/Direita]`
+    *   Pular: `[User Input Here - Ex: Botão C]`
+    *   Ação Principal (se houver neste sprint): `[User Input Here - Ex: Botão B para ataque simples]`
+*   **Lógica Específica:** (e.g., Pulo de altura variável ao segurar o botão) `[User Input Here]`
+
+## 3. Assets Placeholder
+
+*   **Jogador:**
+    *   Ações a serem representadas (mesmo com blocos coloridos): `[User Input Here - Ex: Parado, Andando, Pulando]`
+    *   Tamanho Aproximado (em pixels): `[User Input Here - Ex: 32x48]`
+*   **Ambiente:**
+    *   Tile de Chão Básico: `[User Input Here - Sim/Não]`
+    *   Tile de Parede (Opcional): `[User Input Here - Sim/Não]`
+*   **Observação:** A IA gerará placeholders simples se assets específicos não forem fornecidos.
+
+## 4. Próximo Foco
+
+*   Após este sprint, qual a próxima mecânica ou área de foco? (e.g., Ataque básico, Primeiro inimigo, Criação de assets visuais) `[User Input Here]`
+Use code with caution.
+Markdown
+(Arquivo: SPRINT_02_ASSETS.md)
+# Sprint X: Criação e Integração de Assets
+
+**Objetivo:** Criar/Integrar assets visuais e/ou sonoros para substituir placeholders ou adicionar novos elementos.
+
+## 1. Tipo de Asset
+
+*   (Sprites, Tileset/Background, Efeitos Sonoros, Música, UI/HUD) `[User Input Here]`
+
+## 2. Detalhes dos Assets Visuais (Se aplicável)
+
+*   **Elemento:** (Jogador, Inimigo Tipo A, Item X, Tileset Nível 1, Background Camada 1, etc.) `[User Input Here]`
+*   **Estilo Visual (Reforço):** `[User Input Here - Confirmar ou refinar o estilo do Sprint 0]`
+*   **Animações Necessárias (para Sprites):**
+    *   Ação: `[User Input Here - Ex: Idle]` Nº Frames: `[User Input Here - Ex: 4]`
+    *   Ação: `[User Input Here - Ex: Walk]` Nº Frames: `[User Input Here - Ex: 6]`
+    *   Ação: `[User Input Here - Ex: Attack1]` Nº Frames: `[User Input Here - Ex: 5]`
+    *   ... (Listar todas as animações)
+*   **Descrição (para Tilesets/Backgrounds):** (e.g., Floresta densa com árvores altas, Caverna rochosa escura, Cidade futurista neon) `[User Input Here]`
+*   **Paleta de Cores:** (Usar existente PAL0/1/2/3 ou Gerar nova paleta dedicada?) `[User Input Here]`
+
+## 3. Detalhes dos Assets Sonoros (Se aplicável)
+
+*   **Tipo:** (Efeito Sonoro - SFX ou Música - BGM) `[User Input Here]`
+*   **Descrição do SFX:** (e.g., Pulo, Soco, Explosão Pequena, Coleta de Item) `[User Input Here]`
+*   **Descrição da Música (BGM):** (e.g., Tema heróico para Nível 1, Música tensa para chefe, Tema tranquilo para menu) `[User Input Here]`
+*   **Formato Preferencial (Opcional):** (WAV para SFX, VGM para BGM - A IA usará formatos padrão se não especificado) `[User Input Here]`
+
+## 4. Integração
+
+*   Substituir quais placeholders? `[User Input Here - Ex: Substituir sprite placeholder do jogador]`
+*   Adicionar novos elementos ao jogo? `[User Input Here - Ex: Adicionar tileset do Nível 1 ao BG_B]`
+
+## 5. Arquivo de Recursos (`resources.res`)
+
+*   A IA deve gerar/atualizar automaticamente as entradas no `resources.res` para os novos assets? (Sim/Não) `[User Input Here - Padrão: Sim]`
+Use code with caution.
+Markdown
+(Arquivo: SPRINT_03_LEVEL_DESIGN.md)
+# Sprint X: Design de Nível/Conteúdo
+
+**Objetivo:** Construir uma seção do jogo (nível, área, encontro).
+
+## 1. Seção a ser Desenvolvida
+
+*   **Nome/Número do Nível/Área:** `[User Input Here - Ex: Nível 1 - Floresta Inicial]`
+*   **Tema Geral:** `[User Input Here - Reforçar o tema visual/ambiental]`
+*   **Dimensões Aproximadas (em tiles ou pixels):** `[User Input Here - Ex: 256x30 tiles ou 2048x240 pixels]`
+
+## 2. Layout e Estrutura
+
+*   **Descrição Geral do Layout:** (e.g., Linear da esquerda para a direita com algumas plataformas, Área aberta com exploração vertical, Labirinto simples) `[User Input Here]`
+*   **Elementos de Plataforma/Terreno:** (e.g., Plataformas flutuantes, Rampas, Água/Espinhos) `[User Input Here]`
+*   **Tileset a ser Utilizado:** (Referenciar um tileset criado em sprint anterior) `[User Input Here - Ex: TILES_FOREST]`
+
+## 3. Inimigos
+
+*   **Tipos de Inimigos Presentes:** (Referenciar inimigos definidos/criados) `[User Input Here - Ex: Slime, Goblin Archer]`
+*   **Posicionamento Estratégico:** (e.g., Goblins em plataformas elevadas, Slimes patrulhando áreas planas) `[User Input Here - Pode ser um esboço simples]`
+*   **Comportamento Básico (se ainda não definido):** `[User Input Here - Ex: Slime pula, Goblin atira se o jogador se aproxima]`
+
+## 4. Itens e Coletáveis
+
+*   **Tipos de Itens:** (e.g., Moedas, Poção de Cura, Chave) `[User Input Here]`
+*   **Posicionamento:** (e.g., Moedas em locais óbvios, Poção escondida atrás de uma parede falsa) `[User Input Here]`
+
+## 5. Eventos ou Gatilhos (Opcional)
+
+*   (e.g., Chegar ao final do nível ativa a próxima seção, Coletar chave abre porta) `[User Input Here]`
+
+## 6. Integração
+
+*   Como este nível/área se conecta a outras partes do jogo? `[User Input Here - Ex: É o primeiro nível, acessado após a tela de título]`
+*   **Arquivo de Mapa:** (A IA deve gerar um arquivo de mapa para `rescomp` ou dados em C?) `[User Input Here - Padrão: Dados em C]`
+Use code with caution.
+Markdown
+(Arquivo: SPRINT_04_POLISH_OPTIMIZE.md)
+# Sprint X: Polimento e Otimização
+
+**Objetivo:** Refinar a experiência, adicionar efeitos e otimizar a performance.
+
+## 1. Polimento de Jogabilidade
+
+*   **Áreas a Refinar:** (e.g., Controles mais responsivos, Ajustar hitbox do ataque X, Melhorar feedback de dano) `[User Input Here]`
+*   **Novos Elementos de UI/HUD:** (e.g., Contador de pontos, Barra de vida do chefe, Mini-mapa) `[User Input Here]`
+
+## 2. Efeitos Visuais
+
+*   **Tipo de Efeito:** (Parallax Scrolling, Sistema de Partículas, Simulação Mode7, Outro) `[User Input Here]`
+*   **Descrição do Efeito:**
+    *   **Parallax:** (e.g., 3 camadas de nuvens no fundo com velocidades diferentes) `[User Input Here]`
+    *   **Partículas:** (e.g., Faíscas ao colidir espadas, Explosão ao derrotar inimigo, Rastro de fumaça na nave) `[User Input Here]`
+    *   **Mode7 Sim:** (e.g., Chão com efeito de perspectiva para corrida, Rotação de background em tela de chefe) `[User Input Here]`
+*   **Assets Necessários (se houver):** (e.g., Tiles para camadas de parallax, Sprites de partículas) `[User Input Here]`
+
+## 3. Áudio
+
+*   **SFX Adicionais:** (e.g., Som de menu, Confirmação, Morte do jogador) `[User Input Here]`
+*   **Música Adicional (BGM):** (e.g., Música para tela de Game Over, Fanfarra de vitória) `[User Input Here]`
+
+## 4. Otimização
+
+*   **Áreas com Problemas de Performance (se conhecidas):** (e.g., Lentidão com muitos inimigos, Flicker de sprites) `[User Input Here]`
+*   **Foco da Otimização:** (Uso de VRAM, Limite de Sprites, Ciclos de CPU) `[User Input Here - A IA focará em otimizações gerais se não especificado]`
+
+## 5. Correção de Bugs
+
+*   Liste os bugs conhecidos que devem ser corrigidos neste sprint:
+    *   `[User Input Here]`
+    *   `[User Input Here]`
+Use code with caution.
+Markdown
+(Arquivo: SPRINT_05_FINALIZATION.md)
+# Sprint Final: Finalização e Empacotamento
+
+**Objetivo:** Preparar o jogo para um estado "completo", incluindo telas essenciais e documentação.
+
+## 1. Telas Adicionais
+
+*   **Tela de Título:**
+    *   Logo do Jogo (Usar asset existente ou gerar?): `[User Input Here]`
+    *   Texto: (e.g., "Press Start", Copyright) `[User Input Here]`
+    *   Música: `[User Input Here]`
+*   **Tela de Game Over (Opcional):**
+    *   Texto: (e.g., "Game Over", "Continue?") `[User Input Here]`
+    *   Gráfico: `[User Input Here]`
+    *   Música/SFX: `[User Input Here]`
+*   **Tela de Créditos/Final (Opcional):**
+    *   Texto: (Listar nomes/agradecimentos) `[User Input Here]`
+    *   Gráfico: `[User Input Here]`
+    *   Música: `[User Input Here]`
+
+## 2. Testes Finais
+
+*   **Foco Principal dos Testes:** (e.g., Testar todos os níveis, Verificar balanceamento, Procurar por crashes) `[User Input Here]`
+
+## 3. Documentação (README.md)
+
+*   **Conteúdo a ser incluído:**
+    *   Título do Jogo: `[Confirmar Nome Final]`
+    *   Breve Descrição: `[Confirmar Descrição]`
+    *   Controles: `[Listar Controles Finais]`
+    *   Instruções de Compilação: (A IA gerará o padrão)
+    *   Créditos: `[Listar Créditos]`
+    *   Notas Adicionais: `[User Input Here]`
+
+## 4. Compilação Final
+
+*   Gerar ROM final? (Sim/Não) `[User Input Here - Padrão: Sim]`
+*   Formato da ROM: (.bin ou .md) `[User Input Here - Padrão: .bin]`
+Use code with caution.
+Markdown
+4. Descrição dos Arquivos Auxiliares
+.c (Arquivos Fonte C): Contêm a lógica principal do jogo, implementando as mecânicas, gerenciamento de estados, etc. Organizados na pasta src/.
+.h (Arquivos de Cabeçalho): Contêm declarações de funções, definições de constantes (#define), estruturas (struct), e protótipos. Usados para organizar o código e permitir a compilação separada. Organizados na pasta inc/.
+resources.res (Arquivo de Definição de Recursos): Arquivo de texto lido pela ferramenta rescomp da SGDK. Ele lista todos os assets (imagens, sons, músicas, dados binários) e como eles devem ser compilados e nomeados para uso no código C. Fica na pasta res/.
+.png / .bmp (Arquivos de Imagem): Formatos comuns para criar sprites, tilesets e backgrounds em pixel art. Devem seguir as limitações de cores e dimensões do Mega Drive. Ficam nas subpastas de res/ (sprites/, gfx/). rescomp converte esses arquivos para o formato nativo do Mega Drive.
+.wav (Arquivos de Som): Formato comum para efeitos sonoros curtos. rescomp pode convertê-los para o formato PCM suportado pela SGDK (usando wavtoraw ou similar internamente). Ficam em res/sfx/.
+.vgm (Arquivos de Música): Formato padrão para música chiptune no Mega Drive, utilizando os canais FM e PSG. Pode ser tocado diretamente pela biblioteca XGM da SGDK. Ficam em res/music/.
+.res (Arquivo Binário de Recursos - Gerado): Não é editado manualmente. É o resultado da compilação do resources.res pelo rescomp. Contém os dados dos assets prontos para serem carregados na memória do Mega Drive. Geralmente fica na pasta src/ ou res/ após a compilação dos recursos.
+.md (Arquivos Markdown): Usados para documentação (README.md, GDD.md, SPRINT_XX.md). Ficam na pasta doc/ ou na raiz.
+makefile: Arquivo essencial para a SGDK. Define as regras de compilação do código C, linkagem e compilação dos recursos via rescomp para gerar a ROM final. Fica na raiz do projeto.
+.bat / .sh (Scripts de Compilação - Opcional): Scripts simples para automatizar o processo de compilação no Windows (.bat) ou Linux/Mac (.sh), geralmente chamando o make. Ficam na raiz.
+.o (Arquivos Objeto): Arquivos intermediários gerados durante a compilação do código C. Ficam na pasta out/.
+.map (Arquivo de Mapa): Gerado pelo linker, mostra como a memória foi alocada para código e dados. Útil para depuração. Fica na pasta out/.
+.bin / .md (ROM do Jogo): O arquivo final executável do jogo, pronto para ser carregado em um emulador ou flashcart. Fica na pasta out/.
+Este plano fornece um roteiro claro e os formulários necessários para que você, como IA especialista, possa gerar os componentes de um jogo Mega Drive de forma iterativa e organizada, sprint por sprint, com base nas especificações do usuário.

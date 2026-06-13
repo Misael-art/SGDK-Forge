@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "updated_at": "2026-04-09",
+  "entries": [
+    {
+      "taxonomy": "editorial_board",
+      "slug": "case_editorial_board",
+      "source_png": "case_editorial_board/source.png",
+      "parsing_example": "case_editorial_board/parsing_example.py",
+      "expected_reports": [
+        "case_editorial_board/semantic_layers_report.json"
+      ],
+      "canonical_real_cases": [
+        "assets/reference/translation_curation/metal_slug_urban_sunset_scene"
+      ]
+    },
+    {
+      "taxonomy": "palette_separated_panorama",
+      "slug": "case_flat_panorama_palette",
+      "source_png": "case_flat_panorama_palette/source.png",
+      "parsing_example": "case_flat_panorama_palette/parsing_example.py",
+      "expected_reports": [],
+      "canonical_real_cases": [
+        "assets/reference/translation_curation/underwater_scene",
+        "assets/reference/translation_curation/verdant_forest_depth_scene"
+      ]
+    },
+    {
+      "taxonomy": "spritesheet_islands",
+      "slug": "case_spritesheet_islands",
+      "source_png": "case_spritesheet_islands/source.png",
+      "parsing_example": "case_spritesheet_islands/parsing_example.py",
+      "expected_reports": [],
+      "canonical_real_cases": [
+        "assets/reference/translation_curation/fighters_gaira_anim",
+        "assets/reference/translation_curation/armand_compact_sprite_sheet"
+      ]
+    },
+    {
+      "taxonomy": "cutscene_board",
+      "slug": "case_cutscene_board",
+      "source_png": "case_cutscene_board/source.png",
+      "parsing_example": "case_cutscene_board/parsing_example.py",
+      "expected_reports": [],
+      "canonical_real_cases": [
+        "assets/reference/translation_curation/cutscenes/cases/pilot_intro2"
+      ]
+    },
+    {
+      "taxonomy": "level_tilemap_lighting",
+      "slug": "case_level_tilemap_lighting",
+      "source_png": "case_level_tilemap_lighting/source.png",
+      "parsing_example": "case_level_tilemap_lighting/parsing_example.py",
+      "expected_reports": [],
+      "canonical_real_cases": [
+        "assets/reference/translation_curation/crystal_cavern_tilemap",
+        "assets/reference/translation_curation/level_tilemaps"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+Prompt para Simulação de Zoom no Mega Drive com SGDK 2.11
+
+Objetivo: Criar um efeito de zoom em um sprite no Mega Drive utilizando a SGDK 2.11. Como o Mega Drive não suporta zoom nativamente, o efeito será simulado alternando entre diferentes versões do mesmo sprite em tamanhos variados.
+
+Passos Necessários:
+
+
+
+
+
+Criação de Sprites:
+
+
+
+
+
+Gere múltiplas versões do mesmo sprite em tamanhos diferentes (ex.: 16x16, 32x32, 64x64 pixels). Esses sprites devem representar o mesmo objeto em escalas crescentes.
+
+
+
+Converta esses sprites para o formato .res utilizando a ferramenta rescomp da SGDK.
+
+
+
+Carregamento dos Sprites:
+
+
+
+
+
+No código C, use a função SPR_addSprite() para carregar cada versão do sprite na VRAM. Atribua um identificador único para cada sprite.
+
+
+
+Controle da Escala:
+
+
+
+
+
+Crie uma variável scale (tipo float) para representar o nível de zoom.
+
+
+
+Com base no valor de scale, selecione qual sprite exibir. Por exemplo:
+
+
+
+
+
+Se scale <= 1.0, exiba o sprite de 16x16.
+
+
+
+Se 1.0 < scale <= 2.0, exiba o sprite de 32x32.
+
+
+
+Se 2.0 < scale <= 4.0, exiba o sprite de 64x64.
+
+
+
+Ajuste de Posição:
+
+
+
+
+
+Para manter o centro do sprite fixo durante o zoom, calcule a nova posição do sprite com base na escala. Use a fórmula:
+nova_pos_x = centro_x - (largura_atual / 2)
+nova_pos_y = centro_y - (altura_atual / 2)
+
+Onde centro_x e centro_y são as coordenadas do ponto que deve permanecer fixo.
+
+
+
+Controles do Usuário:
+
+
+
+
+
+Use os botões do controle para aumentar ou diminuir a variável scale.
+
+
+
+Por exemplo, o botão "Cima" pode aumentar a escala, e o botão "Baixo" pode diminuí-la.
+
+Detalhes do Código:
+
+
+
+
+
+Inclua a inicialização do VDP e a configuração da resolução.
+
+
+
+Carregue as paletas de cores adequadas para os sprites.
+
+
+
+No loop principal, verifique as entradas do controle para ajustar a escala.
+
+
+
+Atualize o sprite exibido e sua posição com base na escala atual.
+
+
+
+Use SPR_update() e SYS_doVBlankProcess() para garantir a renderização correta.
+
+Saída Esperada:
+
+
+
+
+
+Um código C completo e funcional que simula o efeito de zoom em um sprite.
+
+
+
+Instruções sobre como criar e integrar os sprites de diferentes tamanhos.
+
+
+
+O efeito deve ser suave e responsivo, com o centro do sprite permanecendo fixo durante o zoom.
+
+Este prompt orienta a IA a gerar um código que simula o zoom de forma eficaz, respeitando as limitações do hardware do Mega Drive e utilizando as capacidades da SGDK 2.11.

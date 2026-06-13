@@ -44,7 +44,10 @@ SGDK_Engines/**/.agent/
 .obsidian/
 
 # Images e assets binários — ocupam tokens sem valor de busca
-**/*.png
+# PNG preservado em out/evidence/ (screenshots BlastEm p/ gate visual)
+# Excluído apenas de res/ (assets de jogo) e doc/03_art/ (referências de arte)
+SGDK_projects/**/res/*.png
+doc/03_art/**/*.png
 **/*.jpg
 **/*.jpeg
 **/*.gif

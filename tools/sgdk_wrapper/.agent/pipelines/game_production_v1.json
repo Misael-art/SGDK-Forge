@@ -371,6 +371,7 @@
       "inputs": [
         "all artifacts from S0-S6",
         "creative_director_radar when product is new, reseed, vertical_slice_candidate or ready_for_aaa",
+        "art_gameplay_direction_gate for critical model sheets, backgrounds, sprite art, animation strips, final sprite sheets, FX sheets, HUD or title/menu assets",
         "level_blueprint.json scope",
         "enemy_roster.json scope"
       ],
@@ -524,7 +525,11 @@
     ,
     "creative_director_radar_missing",
     "signature_gap",
-    "signature_technique_without_director_rationale"
+    "signature_technique_without_director_rationale",
+    "art_director_supervision_missing",
+    "game_design_context_missing",
+    "cohesion_drift",
+    "director_gate_unapproved"
   ],
   "ready_for_aaa_requirements": {
     "technical_ready": "from validate_resources.ps1",

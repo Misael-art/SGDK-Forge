@@ -52,6 +52,10 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - `creative_director_radar` quando o projeto for novo, reseed,
   vertical_slice_candidate, ready_for_aaa, front-end autoral, cena assinatura ou
   parecer de lacuna de personalidade
+- `art_gameplay_direction_gate` quando houver model sheet, background,
+  sprite art, key pose, animation strip, sprite sheet final, FX sheet, HUD
+  heroico, title/menu ou asset critico sendo gerado, convertido, revisado ou
+  promovido
 - `white_material_palette_contract` quando sprite heroico usar gi branco ou tecido claro
 - `sprite_artifact_report` quando asset critico for personagem animado, lutador, inimigo grande ou boss
 - `model_sheet_to_sprite_fidelity_report` com decisao por traço `must_preserve` quando houver source/model sheet e sprite sheet derivado
@@ -77,6 +81,9 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - `style_drift_report.json` quando o asset mudar linguagem, paleta, line weight, material ou staging do projeto
 - `signature_gap_report` quando o asset, cena, HUD, front-end ou efeito estiver
   correto mas generico diante da promessa do projeto
+- `art_gameplay_direction_gate_report` quando a revisao envolver asset critico
+  que precise provar supervisao conjunta de art director e contexto de game
+  design antes de producao ou promocao
 - `source_to_rom_asset_map` com match visual contra a fonte premium quando a ROM ja usa o asset
 - `benchmark_match_report` quando o projeto declarar benchmark de engine, genero ou prototipo
 - leitura de `attention_profile` e `hud_density` quando houver UI formal
@@ -116,6 +123,16 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - se houver `creative_director_radar`, o julgamento precisa responder aos
   pilares assinatura, aos gaps propositivos e ao primeiro candidato de cena
   memoravel; arte correta mas sem payoff do radar recebe `signature_gap`
+- se houver `art_gameplay_direction_gate`, o julgamento precisa responder ao
+  review do art director, ao contexto de game design, a perspectiva da camera,
+  as interacoes previstas e a lista `must_preserve`; cabelo, olho, roupa,
+  emblema, cicatriz, caracteristica fisica unica, arma, acessorio, material,
+  assimetria, landmark ou sinal de UI que mude sem justificativa gera
+  `cohesion_drift`
+- model sheet, background, sprite art, key pose, animation strip, sprite sheet
+  final, FX sheet, HUD heroico, title/menu ou asset critico sem
+  `art_gameplay_direction_gate` valido ficam no maximo `needs_review` e nao
+  podem promover `elite_ready`, `delivery`, baseline ou `ready_for_aaa`
 - `benchmark_usage_policy` impede que benchmark vire fonte visual, prompt de copia ou asset em `data/source_art`
 - benchmark tecnico nao pode virar `source_art`; use benchmark apenas para escala, densidade, timing, presenca, budget e qualidade
 - assets criticos promovidos para `res/` possuem fonte premium real em `data/source_art/` e `source_to_rom_visual_match >= 8`
@@ -190,6 +207,29 @@ Fluxo obrigatorio:
 5. So entao corrigir o asset.
 
 Se o agente pular esse fluxo, a melhoria nao foi canonizada. Foi improvisada.
+
+## Gate de direcao arte + game design
+
+Antes de gerar, converter, aceitar ou promover model sheet, background, sprite
+art, key pose, animation strip, sprite sheet final, FX sheet, HUD heroico,
+title/menu ou asset critico, emitir `art_gameplay_direction_gate` validado
+contra `tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json`.
+
+O gate deve provar:
+
+- supervisao do `art-director` ou parecer humano equivalente;
+- contexto de game design: GDD/spec, papel no gameplay, camera/perspectiva,
+  oponente/obstaculos/cenario e interacoes relevantes;
+- continuidade de identidade: cabelo, olhos, rosto, roupa, emblemas,
+  cicatrizes, caracteristicas fisicas unicas, armas, acessorios, materiais,
+  assimetrias, landmarks e sinais de UI;
+- movimento e carisma quando aplicavel: cabelo, tecido, faixa, expressao
+  facial, maos, peso, anticipation, active, recovery e follow-through;
+- decisao de bloquear, seguir para geracao, seguir para conversao ou voltar
+  para lineart/blocking.
+
+Sem esse gate, o maximo status permitido e `needs_review`. Se o asset ja foi
+produzido, a ausencia do gate vira blocker retroativo: `director_gate_unapproved`.
 
 ## Gate obrigatorio para model sheet e sprite de personagem
 

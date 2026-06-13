@@ -22,7 +22,7 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 5. `references/premium_motion_direction_contract.md` quando houver personagem heroico, luta, boss, golpe, dano, hitstop, smear ou alegacao de qualidade premium/AAA
 6. `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md` quando houver risco de budget
 7. `art-direction-selector` quando estilo, personalidade visual ou linguagem de movimento ainda nao estiverem congelados
-8. `tools/sgdk_wrapper/schemas/visual_dna_manifest.schema.json`, `design_inheritance.schema.json` e `animation_strip_contract.schema.json` quando a entrega precisar ser machine-readable
+8. `tools/sgdk_wrapper/schemas/visual_dna_manifest.schema.json`, `design_inheritance.schema.json`, `animation_strip_contract.schema.json` e `art_gameplay_direction_gate.schema.json` quando a entrega precisar ser machine-readable
 9. `tools/sgdk_wrapper/.agent/scripts/validate_strip.py` antes de aprovar strip gerada, recebida ou convertida
 
 ## Quando usar
@@ -43,6 +43,9 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - `frame_budget_table`
 - `pivot_and_scale_contract`
 - `visual_dna_manifest.scale_contract` travado quando houver personagem novo, key poses ou alteracao de escala
+- `art_gameplay_direction_gate` aprovado antes de gerar key poses, strips ou
+  sheet final de personagem critico, lutador, boss, NPC expressivo ou asset
+  autoral
 - `model_sheet_to_sprite_fidelity_report` quando a animacao vier de model sheet aprovado
 - `style_motion_reverse_engineering` para personagem, boss, NPC expressivo ou heranca visual declarada
 - `turnaround_tracking_contract` quando houver 3/4, rotacao, direcoes multiplas, giro ou close-up em outro angulo
@@ -88,12 +91,18 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 
 - o pivot e definido uma vez e nao flutua dentro do ciclo
 - personagem gerado por IA nao avanca para imagem sem `animation_state_plan`, `pose_roster`, `frame_budget_table` e `pivot_and_scale_contract`
+- personagem animado critico nao avanca para key pose, strip ou sheet final sem
+  `art_gameplay_direction_gate` conectando GDD/spec, camera, interacoes,
+  estados de movimento, identidade visual e aprovacao do art director
 - personagem novo ou alteracao de escala nao avanca para key poses aprovadas sem `visual_dna_manifest.scale_contract.scale_lock_status=locked`
 - `style_motion_reverse_engineering` deve existir antes de mimetizar estilo, benchmark ou direcao visual autoral; nomes de jogos/artistas nao substituem regras de forma, proporcao, linha e shading
 - `turnaround_tracking_contract` deve existir quando o personagem precisa girar, mirar em 3/4, andar em mais de uma direcao ou preservar volume em cutscene
 - `motion_physics_contract` deve existir para acao critica com peso, gravidade, contato de pe, arma, golpe, queda, pulo, dano ou boss
 - `state_transition_motion_contract` deve declarar frames ponte ou regra de retorno para impedir snap entre estados jogaveis
 - personagem heroico/lutador/boss em AAA nao avanca para strips finais sem contratos de carisma aplicaveis: idle breathing, facial expression, cloth secondary e hand pose, ou `not_applicable` justificado
+- cabelo, faixa, roupa, olhos, rosto, maos, arma/acessorio e feature assinatura
+  devem ter comportamento temporal coerente com a acao; se ficarem congelados,
+  trocarem de forma ou virarem massa generica, a sheet volta para `rework`
 - o frame envelope e unico por sequencia
 - strip gerada por IA so promove com `sprite_artifact_report.status=passed`
 - `sprite_artifact_report.status=passed` aprova integridade tecnica da celula; se a sheet veio de model sheet aprovado, tambem exige `model_sheet_to_sprite_fidelity_report.status=passed`
@@ -183,6 +192,8 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - aprovar estado de BJJ que parece karateka recolorido ou pose marcial generica
 - aceitar personagem que muda roupa, anatomia, escala, rosto ou volume entre frames
 - aceitar sheet que preserva pivo/celula mas perde o DNA do model sheet em rosto, feature assinatura, roupa, material ou acting
+- aceitar sprite sheet feita sem saber camera, oponente, alcance, contato,
+  cenario, hitbox ou papel da acao no jogo
 - aceitar key poses, inbetweens ou strips com escala ainda em `draft`
 - aceitar celula com pe/mao/cabeca cortados, fragmento deslocado, retangulo de matte ou sujeira de fundo so porque o PNG compila
 - aceitar FX de dano/spark embutido na sheet do personagem quando o FX deveria ser sprite separado
@@ -240,6 +251,8 @@ Regra:
 - personagem, inimigo, boss ou FX animado com papel de gameplay declarado
 - sheet existente, fonte visual ou lista de acoes a produzir
 - `asset_kind_declaration`; sem isso, tratar como nao classificavel
+- `art_gameplay_direction_gate` quando a arte for personagem critico, lutador,
+  boss, NPC expressivo ou asset autoral em key pose, strip ou sheet final
 - `animation_state_plan`, `pose_roster`, `frame_budget_table` e `pivot_and_scale_contract` quando a arte nascer de IA
 - `visual_dna_manifest.scale_contract` com `scale_lock_status=locked` antes de key poses aprovadas
 - `style_motion_reverse_engineering` quando houver estilo alvo, benchmark, autoralidade ou personagem expressivo
@@ -262,6 +275,7 @@ Regra:
 - `frame_budget_table`
 - `pivot_and_scale_contract`
 - `scale_lock_check`
+- `art_gameplay_direction_gate` quando houver asset critico ou autoral
 - `style_motion_reverse_engineering` quando aplicavel
 - `turnaround_tracking_contract` quando aplicavel
 - `motion_physics_contract` quando aplicavel
@@ -309,6 +323,10 @@ Regra:
 - `asset_kind` foi classificado corretamente; `key_pose_sheet` nao foi promovido como `animation_strip`
 - frames gerados mantem o mesmo `style_anchor_id`, line weight, iluminacao e densidade visual
 - quando houver model sheet aprovado, frames preservam os traços `must_preserve`; perda de rosto/olhos, feature assinatura, roupa/material ou acting vira `model_sheet_to_sprite_fidelity_failed`
+- quando houver `art_gameplay_direction_gate`, cada estado pertence a fantasia
+  e ao contexto de gameplay declarado; camera, interacao, leitura de golpe,
+  roupa/cabelo/expressao e features assinatura nao podem ser inferidos depois
+  da sheet pronta
 - quando houver `style_motion_reverse_engineering`, primitive shape, proportion matrix, line weight e shading model permanecem estaveis entre model sheet, key poses e strips
 - quando houver `turnaround_tracking_contract`, alturas de articulacao, ground_y, pivot e foreshortening permanecem coerentes entre angulos
 - quando houver `motion_physics_contract`, centro de massa, arcos, contato de solo, gravidade e inercia secundaria sao legiveis em 320x224

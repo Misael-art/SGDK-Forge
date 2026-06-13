@@ -124,6 +124,9 @@ Campos minimos:
 - "Mode 7" em Mega Drive e um blocker semantico. Redirecione para `pseudo3d_road_stack`, `line_scroll_floor`, `zmap_road`, `palette_depth_bands` ou paineis pre-renderizados.
 - Cenario monumental precisa de funcao: risco, maravilhamento, velocidade, isolamento, escala, ameaca, transicao ou leitura de rota.
 - Parallax sem funcao vira `decorative_only_blocked` em AAA.
+- Background ou layer sheet nao nasce isolado: precisa declarar camera,
+  profundidade, leitura do sprite, interacoes de gameplay e supervisao do art
+  director em `art_gameplay_direction_gate`.
 - H-Int e raster FX possuem owner unico. Segundo owner sem chain declarada gera `raster_fx_owner_collision`.
 - Palette cycling nao pode disputar slots com jogador, HUD, FX de dano ou Shadow/Highlight sem `palette_cycle_decision_card`.
 - `signature_only` exige fallback e budget antes de runtime.
@@ -158,6 +161,9 @@ Campos minimos:
 - `scene_direction_record`
 - `scene_signature_techniques`
 - `fallback_profile`
+- `art_gameplay_direction_gate` quando a iteracao produzir background plate,
+  layer sheet, foreground, setpiece visual, boss arena, title/menu scenic
+  background ou qualquer cenario autoral critico
 - `parallax_layer_contract` quando aplicavel
 - `palette_cycle_decision_card` quando aplicavel
 - `raster_fx_ownership_map` quando aplicavel
@@ -173,6 +179,9 @@ Campos minimos:
 - cenario monumental tem funcao de gameplay ou narrativa, nao apenas decoracao
 - fallback e rebaixamento estao documentados antes de runtime
 - budget preliminar nao contradiz o perfil escolhido
+- `art_gameplay_direction_gate` passa quando a cena gerar background/layers
+  criticos; sem isso, o cenario fica `needs_review` mesmo que a imagem seja
+  bonita
 
 ### Handoff
 

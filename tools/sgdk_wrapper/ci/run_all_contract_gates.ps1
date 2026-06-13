@@ -7,6 +7,7 @@
     1. test_agent_startup_environment.ps1 (guard comum de agentes + Graphify consultivo)
     2. test_game_design_contract_gates.ps1 (auditor 3-bucket + ready flags)
     3. test_schema_contract_gates.py (jsonschema Draft-07)
+    3a. test_art_gameplay_direction_gate.ps1 (gate art director + game design)
     4. test_project_context_governance.ps1 (contexto de trabalho + docs proporcionais)
     5. test_project_methodology_governance.ps1 (claims estruturados + gates)
     6. test_project_bootstrap_qaproof.ps1 (template limpo + manifests)
@@ -49,6 +50,7 @@
     - agent_startup_test: { exit_code, duration_seconds, output_tail }
     - audit_test: { passed, failed, total, exit_code }
     - schema_test: { passed, failed, total, exit_code }
+    - art_gameplay_direction_gate_test: { passed, failed, total, exit_code }
     - project_context_test: { exit_code, duration_seconds, output_tail }
     - methodology_test: { passed, failed, total, exit_code }
     - bootstrap_test: { passed, failed, total, exit_code }
@@ -136,6 +138,7 @@ $reportPath = Join-Path $OutputDir "contract_gates_report.json"
 $agentStartupScript = Join-Path $ciDir "test_agent_startup_environment.ps1"
 $auditScript = Join-Path $ciDir "test_game_design_contract_gates.ps1"
 $schemaScript = Join-Path $ciDir "test_schema_contract_gates.py"
+$artGameplayDirectionGateScript = Join-Path $ciDir "test_art_gameplay_direction_gate.ps1"
 $projectContextScript = Join-Path $ciDir "test_project_context_governance.ps1"
 $methodologyScript = Join-Path $ciDir "test_project_methodology_governance.ps1"
 $bootstrapScript = Join-Path $ciDir "test_project_bootstrap_qaproof.ps1"
@@ -187,6 +190,7 @@ $report = [ordered]@{
     agent_startup_test = $null
     audit_test = $null
     schema_test = $null
+    art_gameplay_direction_gate_test = $null
     project_context_test = $null
     methodology_test = $null
     bootstrap_test = $null
@@ -264,6 +268,7 @@ function Run-Step {
 $agentStartupRan = $false
 $auditRan = $false
 $schemaRan = $false
+$artGameplayDirectionGateRan = $false
 $projectContextRan = $false
 $methodologyRan = $false
 $bootstrapRan = $false
@@ -333,6 +338,17 @@ if ($Mode -in @("full", "schema", "smoke")) {
         $result = Run-Step -Name "schema_contract_gates (Python jsonschema)" -Command $pythonExe -CommandArgs @($schemaScript)
         $report.schema_test = $result
         $schemaRan = $true
+    }
+}
+
+if ($Mode -in @("full", "schema", "smoke")) {
+    if (-not (Test-Path -LiteralPath $artGameplayDirectionGateScript)) {
+        Write-Host "[ERROR] art gameplay direction gate test not found: $artGameplayDirectionGateScript"
+        $report.art_gameplay_direction_gate_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "art_gameplay_direction_gate (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $artGameplayDirectionGateScript)
+        $report.art_gameplay_direction_gate_test = $result
+        $artGameplayDirectionGateRan = $true
     }
 }
 
@@ -759,6 +775,7 @@ $combinedExit = 0
 if ($agentStartupRan -and $report.agent_startup_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($auditRan -and $report.audit_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($schemaRan -and $report.schema_test.exit_code -ne 0) { $combinedExit = 1 }
+if ($artGameplayDirectionGateRan -and $report.art_gameplay_direction_gate_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($projectContextRan -and $report.project_context_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($methodologyRan -and $report.methodology_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($bootstrapRan -and $report.bootstrap_test.exit_code -ne 0) { $combinedExit = 1 }
@@ -808,6 +825,7 @@ Write-Host "=== Resumo ==="
 Write-Host "agent_startup_test exit_code: $(if ($null -eq $report.agent_startup_test) { 'not_run' } else { $report.agent_startup_test.exit_code })"
 Write-Host "audit_test exit_code: $(if ($null -eq $report.audit_test) { 'not_run' } else { $report.audit_test.exit_code })"
 Write-Host "schema_test exit_code: $(if ($null -eq $report.schema_test) { 'not_run' } else { $report.schema_test.exit_code })"
+Write-Host "art_gameplay_direction_gate_test exit_code: $(if ($null -eq $report.art_gameplay_direction_gate_test) { 'not_run' } else { $report.art_gameplay_direction_gate_test.exit_code })"
 Write-Host "project_context_test exit_code: $(if ($null -eq $report.project_context_test) { 'not_run' } else { $report.project_context_test.exit_code })"
 Write-Host "methodology_test exit_code: $(if ($null -eq $report.methodology_test) { 'not_run' } else { $report.methodology_test.exit_code })"
 Write-Host "bootstrap_test exit_code: $(if ($null -eq $report.bootstrap_test) { 'not_run' } else { $report.bootstrap_test.exit_code })"

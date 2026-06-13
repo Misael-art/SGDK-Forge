@@ -75,3 +75,13 @@
 - Mitigacao: Antes de promocao para `res/`, baseline visual ou claim de qualidade, emitir `model_sheet_to_sprite_fidelity_report` comparando model sheet, sprite sheet e contact sheet. Cada traço `must_preserve` precisa passar ou o asset volta para lineart/blocking por estado.
 - Evidencia: out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json, data/source_art/hibrido_fighter_v008/source_concept.png, data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png
 - Limite de uso: Aplica-se a personagem, lutador, boss, inimigo grande e NPC expressivo derivados de model sheet. Nao substitui pixel compliance, strip integrity, motion preview nem BlastEm; complementa esses gates.
+
+## art and game design supervision is mandatory
+
+- Data: 2026-06-13
+- Falha observada: v009 foi produzida como sprite sheet isolado, sem provar supervisao conjunta de art director e game design antes da geracao/conversao.
+- Falha observada: o model sheet v008 aceito ainda tinha drift interno de coesao, como cabelo diferente entre a primeira pose e as demais, mas isso nao foi transformado em contrato antes da folha final.
+- Causa provavel: O pipeline tinha gates para formato, paleta, pivot, integridade e fidelidade posterior, mas nao exigia um contrato pre-producao com GDD/spec, camera, interacoes, papel de gameplay, marcadores de identidade e movimento/carismo.
+- Mitigacao: Model sheet, background, sprite art, key pose, animation strip, sprite sheet final, FX sheet, HUD heroico e title/menu criticos exigem `art_gameplay_direction_gate` antes de prompt, redraw, conversao ou promocao.
+- Evidencia: doc/contracts/art_gameplay_direction_gate_v009.json, doc/contracts/human_validation_record_v009.md, data/source_art/hibrido_fighter_v008/source_concept.png, data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png
+- Limite de uso: Aplica-se a asset critico visual. Nao substitui `model_sheet_to_sprite_fidelity_report`, pixel compliance, preview de animacao, budget VDP ou BlastEm; ele impede comecar a producao sem direcao.

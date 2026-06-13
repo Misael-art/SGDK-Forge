@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "asset_id": "hibrido_fighter_sprite_sheet_v009",
-  "status": "candidate_pending_human_visual_validation",
+  "status": "rejected_human_visual_validation",
   "cell_px": [48, 64],
   "pivot_px": [24, 58],
   "ground_y": 58,
@@ -54,11 +54,20 @@
     "sprite_strip_integrity_report": "out/logs/sprite_strip_integrity_report_v009.json",
     "pixel_compliance_report": "out/logs/hibrido_v009_pixel_compliance_report.json",
     "sprite_artifact_report": "out/logs/hibrido_v009_sprite_artifact_report.json",
-    "visual_translation_report": "out/logs/hibrido_v009_visual_translation_report.json"
+    "visual_translation_report": "out/logs/hibrido_v009_visual_translation_report.json",
+    "model_sheet_to_sprite_fidelity_report": "out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json",
+    "art_gameplay_direction_gate": "doc/contracts/art_gameplay_direction_gate_v009.json"
   },
   "approval_gate": {
     "technical_gate": "passed",
-    "visual_gate": "pending_human_validation",
-    "runtime_evidence": "partial_blastem_evidence_available"
+    "visual_gate": "rejected_human_visual_validation",
+    "runtime_evidence": "partial_blastem_evidence_available",
+    "blockers": [
+      "model_sheet_to_sprite_fidelity_failed",
+      "art_director_supervision_missing",
+      "game_design_context_missing",
+      "cohesion_drift",
+      "director_gate_unapproved"
+    ]
   }
 }

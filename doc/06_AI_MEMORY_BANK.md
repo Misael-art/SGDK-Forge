@@ -1756,3 +1756,56 @@ Regra factual:
   `MESTRE`;
 - nenhuma nova sessao BlastEm foi executada porque a mudanca e de framework
   operacional, nao entrega de jogo.
+
+## 38. WRAPPER 2026-06-13 - GATE ARTE + GAME DESIGN PARA ASSETS CRITICOS
+
+Status: `implemented_validated_with_schema_runner_environment_gap`.
+
+Estudo usado:
+
+- `_agent_training/HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]`.
+
+Licao qualificada:
+
+- o agente nao pode gerar model sheet, background, sprite art, key pose,
+  animation strip, sprite sheet final, FX sheet, HUD heroico ou title/menu
+  critico apenas por prompt ou validacao tecnica;
+- direcao de arte e game design precisam supervisionar a producao antes do
+  primeiro prompt/redraw/conversao: GDD/spec, camera, interacoes, papel de
+  gameplay, identidade visual, marcadores `must_preserve` e movimento/carismo;
+- um model sheet aceito ainda pode conter drift interno, como cabelo diferente
+  entre poses, e isso precisa ser resolvido antes de virar fonte canonica.
+
+Curadoria aplicada:
+
+- novo schema `tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json`;
+- novo teste `tools/sgdk_wrapper/ci/test_art_gameplay_direction_gate.ps1`;
+- reforco em `SGDK_GLOBAL.md`, agentes `art-director` e
+  `game-director-sgdk`, skills de arte, workflows e pipelines;
+- novo contrato do estudo
+  `doc/contracts/art_gameplay_direction_gate_v009.json`;
+- contratos v009 do HYBRIDO sincronizados como rejeitados, nao pendentes.
+
+Validacao:
+
+- `test_art_gameplay_direction_gate.ps1`: `12/12` passed;
+- `test_model_sheet_to_sprite_fidelity_report.ps1`: `9/9` passed;
+- `test_visual_delivery_gate_required_fields.ps1`: `12/12` passed;
+- `test_validation_report_visual_gate_blocker.ps1`: `5/5` passed;
+- `test_visual_delivery_gate_report_blocks.ps1`: `13/13` passed;
+- HYBRIDO: contexto, metodologia e higiene passaram; `validate_resources`
+  retornou `errors=0`, `warnings=9`, `checked=6`; `freshness_audit` retornou
+  `status=ok`.
+- Captura local de aprendizado: `18` licoes, `18` candidatos,
+  `canonical_promotion_performed=false`; os dois registros do novo gate foram
+  marcados como `implemented` por diretiva humana desta curadoria.
+- Limitacao: `run_all_contract_gates.ps1 -Mode schema` falhou no passo Python
+  porque `py` e `jsonschema` nao estao disponiveis no PATH atual; o novo teste
+  PowerShell dentro desse runner passou.
+
+Regra factual:
+
+- esta curadoria melhora a inteligencia do agente para preservar coesao,
+  personalidade, carisma, contexto de camera/interacao e qualidade grafica;
+- a v009 continua rejeitada e nao foi promovida;
+- nenhuma ROM nova foi validada como entrega.

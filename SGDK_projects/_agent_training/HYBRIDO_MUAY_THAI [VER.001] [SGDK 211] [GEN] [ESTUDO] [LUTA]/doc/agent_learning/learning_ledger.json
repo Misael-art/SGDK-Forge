@@ -9,9 +9,63 @@
     "human_approval_required": true,
     "evidence_required": true
   },
-  "generated_at": "2026-06-13T09:03:31Z",
-  "source_digest": "74868269a5be4b28e9a971830141a43e257e3413592a65e2c167ab1f74f909d6",
+  "generated_at": "2026-06-13T18:38:21Z",
+  "source_digest": "a484a63199e03fa30613dafb2b9fb1d7484e0747cc42032451b17090b63e800b",
   "lessons": [
+    {
+      "lesson_id": "lesson_371c6308f44d4056",
+      "title": "art and game design supervision is mandatory",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-13",
+      "problem_signature": "art_and_game_design_supervision_is_mandatory",
+      "context": "",
+      "observation": "o model sheet v008 aceito ainda tinha drift interno de coesao, como cabelo diferente entre a primeira pose e as demais, mas isso nao foi transformado em contrato antes da folha final.",
+      "diagnosis": "O pipeline tinha gates para formato, paleta, pivot, integridade e fidelidade posterior, mas nao exigia um contrato pre-producao com GDD/spec, camera, interacoes, papel de gameplay, marcadores de identidade e movimento/carismo.",
+      "resolution_or_preventive_heuristic": "Model sheet, background, sprite art, key pose, animation strip, sprite sheet final, FX sheet, HUD heroico e title/menu criticos exigem `art_gameplay_direction_gate` antes de prompt, redraw, conversao ou promocao.",
+      "scope_limits": [
+        "Aplica-se a asset critico visual. Nao substitui `model_sheet_to_sprite_fidelity_report`, pixel compliance, preview de animacao, budget VDP ou BlastEm; ele impede comecar a producao sem direcao."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png",
+          "data/source_art/hibrido_fighter_v008/source_concept.png",
+          "doc/agent_learning/failure_patterns.md",
+          "doc/contracts/art_gameplay_direction_gate_v009.json",
+          "doc/contracts/human_validation_record_v009.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "schema",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "art_gameplay_direction_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json",
+        "summary": "Review existing owner against project lesson: art and game design supervision is mandatory",
+        "required_tests": [
+          "art gameplay direction gate fixture",
+          "cohesion drift fixture",
+          "director supervision missing regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_13"
+      }
+    },
     {
       "lesson_id": "lesson_bfd94ca2a29d6356",
       "title": "asymmetric character accessories need per limb material lock and palette map",
@@ -423,6 +477,58 @@
           "record_ref": "doc/agent_learning/canonical_promotion_review.md"
         },
         "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_97cdfdf6965daac9",
+      "title": "art_gameplay_direction_gate",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-13",
+      "problem_signature": "art_gameplay_direction_gate",
+      "context": "",
+      "observation": "Impede gerar model sheet, background, sprite art ou sprite sheet critico sem supervisao de art director + game design, GDD/spec, camera, interacao, marcadores de identidade e movimento/carismo.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "promovido para schema, skills, workflows e pipelines por diretiva humana"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "doc/contracts/art_gameplay_direction_gate_v009.json",
+          "doc/contracts/human_validation_record_v009.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "schema",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "art_gameplay_direction_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json",
+        "summary": "Review existing owner against project lesson: art_gameplay_direction_gate",
+        "required_tests": [
+          "art gameplay direction gate fixture",
+          "cohesion drift fixture",
+          "director supervision missing regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_13"
       }
     },
     {
@@ -841,6 +947,14 @@
   ],
   "candidate_index": [
     {
+      "lesson_id": "lesson_371c6308f44d4056",
+      "title": "art and game design supervision is mandatory",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json"
+    },
+    {
       "lesson_id": "lesson_bfd94ca2a29d6356",
       "title": "asymmetric character accessories need per limb material lock and palette map",
       "lifecycle_status": "implemented",
@@ -903,6 +1017,14 @@
       "evidence_grade": "E1_artifact",
       "action": "patch_existing_owner",
       "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_97cdfdf6965daac9",
+      "title": "art_gameplay_direction_gate",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json"
     },
     {
       "lesson_id": "lesson_897a1b6d4d9afa2a",

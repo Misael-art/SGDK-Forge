@@ -105,6 +105,12 @@ Skill canonica de apoio quando o projeto estiver nascendo ou precisar de reseed:
 - se houver uma referencia interna madura, como a `BLAZE_ENGINE [VER.001] [SGDK 211] [GEN] [ENGINE] [BRIGA DE RUA]`, usa-la como implementacao de apoio, nao como nome da tecnica
 - se a cena divergir, justificar o desvio com constraints reais antes de abrir depuracao residual de VRAM, paleta, `rescomp`, `WINDOW` ou sprite runtime
 - quando a cena prometer profundidade monumental, clima dinamico, bioma-chave, pseudo-3D, agua/calor/linha, fundo vivo ou setpiece de fundo, declarar que a etapa 2 deve emitir `scene_direction_record` via `art/scene-direction-curator`
+- antes de gerar, buscar, converter ou promover model sheet, background, sprite
+  art, key pose, animation strip, sprite sheet final, FX sheet, HUD heroico,
+  title/menu ou asset critico, emitir `art_gameplay_direction_gate` validado
+  contra `tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json`;
+  sem esse gate, o asset fica `needs_review` e nao entra em baseline, `res/`
+  final, `delivery` ou `ready_for_aaa`
 
 Saida minima:
 
@@ -114,6 +120,9 @@ Saida minima:
 - `creative_director_radar` quando o alvo for projeto novo, reseed,
   vertical_slice_candidate, ready_for_aaa ou quando houver lacuna de
   personalidade/signature
+- `art_gameplay_direction_gate` quando a iteracao tocar model sheet,
+  background, sprite art, key pose, animation strip, sprite sheet final, FX
+  sheet, HUD heroico, title/menu ou asset critico
 - `context_pack_manifest` quando a iteracao envolver arte original, sourcing externo ou API SGDK sensivel
 - `ui_decision_card` quando houver surface formal de UI
 - `ui_pixel_surface_contract` quando houver UI pixel-perfect, health bar, fonte, caixa, micro-icone, cursor ou atlas de entrega
@@ -176,6 +185,10 @@ Saida minima:
 - quando houver transicao formal, `scene_transition_card` coerente com continuidade, camera, ownership, audio, teardown e fallback
 - quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior, os cards precisam ficar coerentes com gameplay_signal, leitura, ownership, budget e fallback
 - quando houver cenario monumental, `scene_direction_record` precisa consultar `scene_archetype_catalog.json`, escolher perfil, declarar tecnicas assinadas, fallback e funcao de gameplay/narrativa
+- quando houver model sheet, background, sprite art, key pose, animation strip,
+  sprite sheet final, FX sheet, HUD heroico, title/menu ou asset critico,
+  `art_gameplay_direction_gate` precisa amarrar art director, GDD/spec,
+  camera, interacoes, identidade visual e movimento/carismo aplicavel
 - tecnicas de cenario exigem card especifico antes do runtime: `parallax_layer_contract`, `palette_cycle_decision_card`, `raster_fx_ownership_map` ou `background_ecology_card`
 - quando houver mais de uma rota visual honesta, `route_exploration_board` + `route_decision_record` antes do runtime
 - `qa_findings` e `correction_request` devem substituir raciocinio interno exposto quando uma geracao falhar por drift de estilo
@@ -188,7 +201,7 @@ Regra de curadoria AAA:
 - banco vetorial e futuro opcional; em v1, `style_memory_index` em arquivo e a memoria auditavel
 - a exploracao deve acontecer dentro do mesmo `shared_canvas_contract` e congelar uma `locked_visual_direction` escolhida pelo usuario ou recomendada pelo juiz estetico
 - em cenas `aaa_layered`, a exploracao visual deve acontecer depois da comparacao com o baseline de `tilemap streaming guiado pela camera`, nunca no lugar dela
-- `needs_review`, `placeholder`, `debug_lab`, `benchmark-derived`, `perceptual_quality=nao_medido`, `source_to_rom_visual_match < 8`, `source_validity=false`, `authoriality_gate!=passed`, `clone_risk_score` acima do limite declarado, `PALETTE_WASTE`, `model_sheet_to_sprite_fidelity_failed`, `signature_feature_loss`, `generic_blocky_redraw`, `blocked_image_tooling`, `blocked_no_premium_source`, `lab_not_delivery` ou `benchmark_match` abaixo de `benchmark_profile.required_match` bloqueiam `pronto`, `AAA`, `delivery` e `ready_for_aaa=true`
+- `needs_review`, `placeholder`, `debug_lab`, `benchmark-derived`, `perceptual_quality=nao_medido`, `source_to_rom_visual_match < 8`, `source_validity=false`, `authoriality_gate!=passed`, `clone_risk_score` acima do limite declarado, `PALETTE_WASTE`, `model_sheet_to_sprite_fidelity_failed`, `signature_feature_loss`, `generic_blocky_redraw`, `art_director_supervision_missing`, `game_design_context_missing`, `cohesion_drift`, `director_gate_unapproved`, `blocked_image_tooling`, `blocked_no_premium_source`, `lab_not_delivery` ou `benchmark_match` abaixo de `benchmark_profile.required_match` bloqueiam `pronto`, `AAA`, `delivery` e `ready_for_aaa=true`
 - ataque que comeca direto no active frame, sem recovery, com hitstop frame fraco, smear sujo, shading estatico ou hurt sem direcao de forca bloqueia `elite_ready` mesmo quando o PNG e o build estao limpos
 - `budget_pass` e `visual_pass` sao eixos separados; se o runtime cabe com folga, budget nao pode ser usado como desculpa para arte pobre
 - HUD de entrega nao pode parecer debug: precisa registrar `ui_attention_profile`, densidade alvo, hierarquia, area ocupada, contraste e interferencia no gameplay

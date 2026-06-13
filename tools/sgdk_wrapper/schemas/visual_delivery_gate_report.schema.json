@@ -429,6 +429,30 @@
               }
             ]
           },
+          "art_gameplay_direction_gate": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              {
+                "type": "object",
+                "required": ["path"],
+                "properties": {
+                  "path": { "type": "string", "minLength": 1 },
+                  "art_director_status": {
+                    "type": "string",
+                    "enum": ["passed", "needs_review", "blocked"]
+                  },
+                  "game_design_context_status": {
+                    "type": "string",
+                    "enum": ["passed", "needs_review", "blocked"]
+                  },
+                  "production_allowed": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": true
+              }
+            ]
+          },
           "model_sheet_to_sprite_fidelity_report": {
             "oneOf": [
               { "type": "string", "minLength": 1 },

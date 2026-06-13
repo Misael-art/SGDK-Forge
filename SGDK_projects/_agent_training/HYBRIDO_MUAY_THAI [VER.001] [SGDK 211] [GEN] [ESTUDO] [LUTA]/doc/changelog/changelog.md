@@ -359,3 +359,38 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
   - `freshness_audit`: status ok, stale=0;
   - `test_model_sheet_to_sprite_fidelity_report.ps1`: 9/9 passed;
   - `test_visual_delivery_gate_required_fields.ps1`: 12/12 passed.
+
+## 2026-06-13T15:15:00-03:00 - hibrido_fighter_v009_art_gameplay_direction_rejection
+
+- Task: curadoria complementar sobre supervisao de direcao artistica e game design antes de model sheet, background, sprite art e sprite sheet.
+- Decisao: v009 continua reprovado; alem de falhar fidelidade model sheet -> sprite sheet, falhou o gate retroativo de direcao arte + game design.
+- Novo contrato do projeto:
+  - `doc/contracts/art_gameplay_direction_gate_v009.json`.
+- Contratos sincronizados:
+  - `doc/contracts/visual_dna_manifest_v009.json`: `status=rejected_human_visual_validation`;
+  - `doc/contracts/animation_direction_contract_v009.json`: `visual_gate=rejected_human_visual_validation`;
+  - `doc/contracts/human_validation_record_v009.md`: referencia o novo gate.
+- Blockers adicionados: `art_director_supervision_missing`, `game_design_context_missing`, `cohesion_drift`, `director_gate_unapproved`, `generic_visual_without_personality`.
+- Observacao de coesao: o model sheet v008 aceito ainda precisa de auditoria de marcadores internos, incluindo diferenca de cabelo entre a primeira pose e as demais antes de servir como fonte canonica de nova sheet.
+- Curadoria canonica aplicada:
+  - novo schema `tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json`;
+  - novo teste `tools/sgdk_wrapper/ci/test_art_gameplay_direction_gate.ps1`;
+  - reforco em `SGDK_GLOBAL.md`, `art-director`, `game-director-sgdk`, `visual-excellence-standards`, `character-design`, `sprite-animation`, `art-creation-sourcing`, `art-translation-to-vdp`, `scene-direction-curator`, workflows e pipelines.
+- Validacao inicial do novo gate:
+  - `test_art_gameplay_direction_gate.ps1`: 12/12 passed.
+- Validacao pos-curadoria:
+  - `test_model_sheet_to_sprite_fidelity_report.ps1`: 9/9 passed;
+  - `test_visual_delivery_gate_required_fields.ps1`: 12/12 passed;
+  - `test_validation_report_visual_gate_blocker.ps1`: 5/5 passed;
+  - `test_visual_delivery_gate_report_blocks.ps1`: 13/13 passed;
+  - `validate_project_context`: ok como `exercise`;
+  - `validate_project_methodology`: passed;
+  - `validate_project_hygiene`: passed;
+  - `validate_resources`: errors=0, warnings=9, checked=6, com bloqueio visual preservado;
+  - `freshness_audit`: status ok, stale=0, missing_required=0.
+- Aprendizado local:
+  - `extract_project_learning.py --mode capture`: 18 licoes, 18 candidatos, sem promocao canonica automatica;
+  - `art and game design supervision is mandatory` e `art_gameplay_direction_gate` registrados como `implemented` no ledger por diretiva humana.
+- Limitacao de ambiente: `run_all_contract_gates.ps1 -Mode schema` executou o
+  novo gate, mas falhou no passo Python `test_schema_contract_gates.py` porque
+  `py`/`jsonschema` nao estao disponiveis no PATH atual.

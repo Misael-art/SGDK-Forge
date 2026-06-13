@@ -178,6 +178,27 @@
       ]
     },
     {
+      "id": "art_gameplay_direction_gate",
+      "match_any": [
+        "art and game design supervision is mandatory",
+        "art_gameplay_direction_gate",
+        "diretor de arte e game design",
+        "sprite sheet sem contexto de movimento",
+        "background sem contexto de camera",
+        "cohesion drift",
+        "cabelo olhos roupas emblemas cicatrizes acessorios",
+        "asset bonito fora do contexto do jogo"
+      ],
+      "candidate_kind": "schema",
+      "canonical_target": "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json",
+      "owner_skill": "art/visual-excellence-standards",
+      "required_tests": [
+        "art gameplay direction gate fixture",
+        "cohesion drift fixture",
+        "director supervision missing regression"
+      ]
+    },
+    {
       "id": "modular_boss_requires_runtime_parts",
       "match_any": [
         "static sprite scaling is not a modular boss",

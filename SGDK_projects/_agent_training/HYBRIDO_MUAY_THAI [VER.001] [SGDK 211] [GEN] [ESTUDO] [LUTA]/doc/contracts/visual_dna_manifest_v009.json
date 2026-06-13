@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "asset_id": "hibrido_fighter_sprite_sheet_v009",
   "source_ref": "data/source_art/hibrido_fighter_v008/source_concept.png",
-  "status": "runtime_sprite_candidate_pending_human_visual_validation",
+  "status": "rejected_human_visual_validation",
   "scale_contract": {
     "cell_px": [48, 64],
     "ground_y": 58,
@@ -35,7 +35,16 @@
   },
   "visual_gate": {
     "technical_conformance": "passed_v009_pixel_compliance",
-    "human_visual_approval": "pending",
-    "not_final_art_until_approved": true
+    "human_visual_approval": "rejected",
+    "not_final_art_until_approved": true,
+    "model_sheet_to_sprite_fidelity_report": "out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json",
+    "art_gameplay_direction_gate": "doc/contracts/art_gameplay_direction_gate_v009.json",
+    "blockers": [
+      "model_sheet_to_sprite_fidelity_failed",
+      "art_director_supervision_missing",
+      "game_design_context_missing",
+      "cohesion_drift",
+      "director_gate_unapproved"
+    ]
   }
 }

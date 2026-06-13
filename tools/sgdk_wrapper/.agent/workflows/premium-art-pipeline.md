@@ -11,8 +11,8 @@ Arte final nao nasce de procedural/debug, screenshot bonito ou reducao automatic
 | # | Etapa | Entrada minima | Saida minima | Gate |
 |---|---|---|---|---|
 | 1 | `source_art` | briefing, GDD/spec, direcao visual | fonte persistida em `data/source_art/` com hash, licenca, autoria e lineage | sem fonte persistida, status maximo `planning` ou `debug_lab` |
-| 2 | model sheet autoral | personagem, faccao, boss ou objeto critico | `authorial_model_sheet` ou `authorial_stage_concept` | clone risk declarado |
-| 3 | sprite sheet / layer sheet | model sheet e escala 320x224 | sheet com silhueta legivel, pivot, estados, paleta planejada e `model_sheet_to_sprite_fidelity_report` quando houver personagem | index 0 transparente, contratos de animacao e fidelidade ao model sheet quando aplicavel |
+| 2 | model sheet autoral | personagem, faccao, boss ou objeto critico + `art_gameplay_direction_gate` | `authorial_model_sheet` ou `authorial_stage_concept` | clone risk declarado e gate art/game design aprovado |
+| 3 | sprite sheet / layer sheet | model sheet, escala 320x224 e `art_gameplay_direction_gate` | sheet com silhueta legivel, pivot, estados, paleta planejada e `model_sheet_to_sprite_fidelity_report` quando houver personagem | index 0 transparente, contratos de animacao, contexto de camera/interacao e fidelidade ao model sheet quando aplicavel |
 | 4 | contact sheet | todos candidatos e variantes | contact sheet de triagem com aprovacao/rework por asset | candidato sem triagem nao entra em `res/` final |
 | 5 | traducao VDP | source aprovado, budget preliminar | PNG indexed SGDK-safe, `.res`, `source_to_rom_asset_map` | sem procedural/debug como final |
 | 6 | comparacao BlastEm | ROM vigente, screenshot, baseline | screenshot dedicada, diff/baseline, observacao de leitura nativa | captura de baixa informacao reprova |
@@ -22,10 +22,15 @@ Arte final nao nasce de procedural/debug, screenshot bonito ou reducao automatic
 ## Regras bloqueantes
 
 - `source_art` obrigatorio para personagem, boss, cenario, HUD heroico, title ou asset de identidade.
+- `art_gameplay_direction_gate` obrigatorio para model sheet, background, sprite
+  art, key pose, animation strip, sprite sheet final, FX sheet, HUD heroico,
+  title/menu ou asset critico.
 - Model sheet autoral obrigatorio para personagem principal, faccao visual e boss.
 - Contact sheet obrigatorio como triagem antes de promover asset para final.
 - Sprite sheet final precisa ter silhueta legivel em 320x224 nativo e estados nomeados.
 - Sprite sheet derivado de model sheet precisa passar `model_sheet_to_sprite_fidelity_report`; arte blocada/generica com `technical_pass=true` continua reprovada.
+- Sprite sheet ou background sem contexto de GDD/spec, camera, interacao,
+  identidade visual e supervisao do art director fica `director_gate_unapproved`.
 - Procedural/debug, texto cru, placeholder, benchmark-derived ou `local_author_pixel_rasterization` nao podem ser fonte final.
 - Comparacao visual deve acontecer em BlastEm para claims de entrega.
 - `capture_status=complete` e obrigatorio para entrega final.
@@ -34,6 +39,7 @@ Arte final nao nasce de procedural/debug, screenshot bonito ou reducao automatic
 ## Artefatos esperados
 
 - `premium_source_manifest`
+- `art_gameplay_direction_gate`
 - `authorial_model_sheet` ou `authorial_stage_concept`
 - `sprite_sheet_contract`
 - `model_sheet_to_sprite_fidelity_report`

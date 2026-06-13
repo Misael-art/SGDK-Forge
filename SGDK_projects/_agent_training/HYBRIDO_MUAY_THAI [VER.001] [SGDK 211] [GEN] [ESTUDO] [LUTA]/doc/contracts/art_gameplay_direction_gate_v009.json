@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "hibrido_v009_art_gameplay_direction_gate",
+  "project_id": "hibrido_muay_thai",
+  "asset_id": "hibrido_fighter_sprite_sheet_v009",
+  "asset_kind": "final_sprite_sheet",
+  "evaluated_at": "2026-06-13T15:15:00-03:00",
+  "measurement_level": "human_visual_review",
+  "art_director_review": {
+    "status": "blocked",
+    "reviewer": "human-art-director",
+    "art_direction_decision_record": "doc/contracts/human_validation_record_v008.md",
+    "master_style_manifest": "doc/03_art/01_visual_cohesion_system.md",
+    "findings": [
+      "O sprite sheet v009 virou uma leitura blocada/generica e nao preservou a anatomia, rosto, cabelo, braco de lava, shorts, wraps e acting do model sheet v008.",
+      "A primeira pose do model sheet aceito tambem exige auditoria de coesao: cabelo, olhos, roupa, emblemas, cicatrizes, caracteristicas fisicas, acessorios e materiais nao podem mudar entre poses sem justificativa.",
+      "Aprovar celula 48x64, PNG modo P e PLTE nao prova direcao artistica nem carisma visual."
+    ]
+  },
+  "game_design_context": {
+    "status": "blocked",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "animation_state_plan": "doc/contracts/animation_direction_contract_v009.json",
+    "gameplay_role": "Lutador jogavel de Muay Thai com braco de lava, golpes frontais, guarda alta e leitura forte em camera lateral.",
+    "camera_perspective": "side_view_close_combat",
+    "interaction_context": [
+      "oponente frontal em jogo de luta",
+      "golpes jab, knee, teep, guard_block e walk_step",
+      "contato de pe/solo e eixo Y estavel",
+      "braco de lava como feature assinatura e possivel fonte de FX separado"
+    ]
+  },
+  "identity_continuity_lock": {
+    "visual_dna_manifest": "doc/contracts/visual_dna_manifest_v009.json",
+    "must_preserve": [
+      {
+        "id": "hair_silhouette",
+        "kind": "hair",
+        "expected": "cabelo espesso, agressivo e consistente entre poses do model sheet",
+        "observed": "silhueta simplificada e inconsistente, com risco ja observado no proprio model sheet aceito",
+        "status": "failed"
+      },
+      {
+        "id": "eyes_and_face",
+        "kind": "face",
+        "expected": "olhos focados, sobrancelha agressiva, expressao de lutador",
+        "observed": "rosto reduzido a poucos pixels sem personalidade suficiente",
+        "status": "failed"
+      },
+      {
+        "id": "lava_arm",
+        "kind": "signature_feature",
+        "expected": "braco de rocha/lava com rachaduras quentes e volume anatomico",
+        "observed": "massa cinza/lava generica, sem a complexidade anatomica do model sheet",
+        "status": "failed"
+      },
+      {
+        "id": "shorts_gold_trim",
+        "kind": "costume",
+        "expected": "shorts pretos com detalhes dourados ornamentais",
+        "observed": "shorts viraram bloco escuro com leitura pobre dos ornamentos",
+        "status": "failed"
+      },
+      {
+        "id": "wraps_and_red_band",
+        "kind": "accessory",
+        "expected": "bandagens brancas sujas e faixa vermelha como marcadores recorrentes",
+        "observed": "marcadores aparecem simplificados, irregulares ou insuficientes",
+        "status": "weak"
+      },
+      {
+        "id": "bronze_skin_lava_materials",
+        "kind": "material",
+        "expected": "pele bronzeada, pedra escura, rachaduras quentes e contraste de materiais",
+        "observed": "materiais colapsaram em blocos com pouca semantica visual",
+        "status": "failed"
+      }
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "blocked",
+    "secondary_motion": [
+      "cabelo com atraso ou compressao sutil",
+      "faixas e shorts reagindo a teep, knee e jab",
+      "braco de lava mantendo massa, articulacao e glow por fase"
+    ],
+    "expression_requirements": [
+      "idle focado",
+      "jab/knee/teep com kiai ou mandibula tensionada",
+      "guard_block com olhar protegido mas agressivo"
+    ],
+    "state_fantasy_checks": [
+      "cada estado precisa parecer Muay Thai e nao pose marcial generica",
+      "golpes precisam declarar startup, active, hitstop visual e recovery antes do sheet final"
+    ]
+  },
+  "decision": {
+    "production_allowed": false,
+    "ready_for_generation": false,
+    "ready_for_conversion": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "return_to_art_directed_lineart_blocking",
+      "reissue_art_gameplay_direction_gate_before_new_generation",
+      "regenerate_key_poses_per_action_before_final_sheet"
+    ]
+  },
+  "blockers": [
+    "art_director_supervision_missing",
+    "game_design_context_missing",
+    "cohesion_drift",
+    "director_gate_unapproved",
+    "generic_visual_without_personality"
+  ]
+}

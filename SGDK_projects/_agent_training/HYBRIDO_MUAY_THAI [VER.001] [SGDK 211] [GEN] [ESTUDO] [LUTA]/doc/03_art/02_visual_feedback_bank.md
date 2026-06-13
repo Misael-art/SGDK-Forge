@@ -52,3 +52,13 @@
 - Preventive heuristic: toda folha 48x64 derivada de model sheet aprovado exige `model_sheet_to_sprite_fidelity_report` com checks de anatomia, rosto/olhos, feature assinatura, roupa, paleta/material e acting por estado. Falha em qualquer traço assinatura bloqueia promocao.
 - Preventive heuristic: `native redraw` nao basta. Redesenho nativo precisa provar que melhorou a traducao perceptiva em relacao ao controle, preservando o DNA visual, nao apenas evitando downscale.
 - Evidence: out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json, data/source_art/hibrido_fighter_v008/source_concept.png, data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png
+
+## 2026-06-13 - Reprovacao v009 por falta de gate arte + game design
+
+- Falha observada: a producao da folha tratou sprite sheet como tarefa de desenho isolada, sem provar supervisao conjunta de art director e game design antes da geracao.
+- Falha observada: o model sheet aceito tambem tinha uma pendencia de coesao interna: o cabelo da primeira pose nao le igual ao das demais. Esse tipo de drift precisa ser decidido antes de virar fonte de producao.
+- Falha observada: camera, oponente, alcance, hitbox, interacao com cenario, contato de solo, cabelo, roupas, expressoes faciais e movimento secundario nao estavam travados como contrato antes da folha final.
+- Technical diagnosis: o pipeline tinha gates fortes para formato, paleta, pivot e fidelidade posterior, mas ainda permitia iniciar geracao sem `art_gameplay_direction_gate`. Isso deixa o agente livre para preencher lacunas com interpretacao generica.
+- Preventive heuristic: model sheet, background, sprite art, key pose, animation strip, sprite sheet final, FX sheet, HUD heroico e title/menu criticos exigem `art_gameplay_direction_gate` antes de prompt, redraw, conversao ou promocao.
+- Preventive heuristic: marcadores de identidade como cabelo, olhos, roupa, emblemas, cicatrizes, caracteristicas fisicas unicas, armas, acessorios, materiais e assimetrias precisam de lista `must_preserve`; mudanca sem oclusao/acao/camera justificada vira `cohesion_drift`.
+- Evidence: doc/contracts/art_gameplay_direction_gate_v009.json, doc/contracts/human_validation_record_v009.md

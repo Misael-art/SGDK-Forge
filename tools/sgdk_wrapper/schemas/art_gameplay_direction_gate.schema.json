@@ -1,0 +1,429 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json",
+  "title": "Art Gameplay Direction Gate",
+  "description": "Joint art-director and game-director supervision gate for model sheets, backgrounds, sprite art, animation strips, final sprite sheets, FX sheets, HUD and title assets before generation, conversion, ROM promotion, baseline or AAA claims.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate_id",
+    "project_id",
+    "asset_id",
+    "asset_kind",
+    "evaluated_at",
+    "measurement_level",
+    "art_director_review",
+    "game_design_context",
+    "identity_continuity_lock",
+    "motion_personality_contract",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "gate_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "asset_kind": {
+      "type": "string",
+      "enum": [
+        "model_sheet",
+        "key_pose_sheet",
+        "animation_strip",
+        "final_sprite_sheet",
+        "background_plate",
+        "layer_sheet",
+        "fx_sheet",
+        "hud_asset",
+        "title_or_menu_asset"
+      ]
+    },
+    "evaluated_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "measurement_level": {
+      "type": "string",
+      "enum": [
+        "planned_contract",
+        "human_visual_review",
+        "measured_contact_sheet",
+        "emulator_verified",
+        "vdp_dump_verified"
+      ]
+    },
+    "art_director_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reviewer",
+        "findings"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "needs_review",
+            "blocked"
+          ]
+        },
+        "reviewer": {
+          "type": "string",
+          "enum": [
+            "art-director",
+            "visual-excellence-standards",
+            "human-art-director"
+          ]
+        },
+        "art_direction_decision_record": {
+          "type": "string",
+          "minLength": 1
+        },
+        "master_style_manifest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "creative_director_radar": {
+          "type": "string",
+          "minLength": 1
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "game_design_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "gdd_ref",
+        "scene_spec_ref",
+        "gameplay_role",
+        "camera_perspective",
+        "interaction_context"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "needs_review",
+            "blocked"
+          ]
+        },
+        "gdd_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene_spec_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "animation_state_plan": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene_direction_record": {
+          "type": "string",
+          "minLength": 1
+        },
+        "camera_behavior_contract": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gameplay_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "camera_perspective": {
+          "type": "string",
+          "enum": [
+            "side_view_close_combat",
+            "side_view_platform",
+            "top_down",
+            "three_quarter",
+            "fixed_camera",
+            "chase_or_pseudo3d",
+            "front_end_or_ui",
+            "scene_specific"
+          ]
+        },
+        "interaction_context": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "identity_continuity_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "must_preserve"
+      ],
+      "properties": {
+        "visual_dna_manifest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "design_inheritance": {
+          "type": "string",
+          "minLength": 1
+        },
+        "must_preserve": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "expected",
+              "status"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "hair",
+                  "eyes",
+                  "face",
+                  "costume",
+                  "emblem",
+                  "scar",
+                  "physical_marker",
+                  "signature_feature",
+                  "weapon",
+                  "accessory",
+                  "material",
+                  "palette",
+                  "silhouette",
+                  "asymmetry",
+                  "background_landmark",
+                  "ui_identity"
+                ]
+              },
+              "expected": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observed": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "locked",
+                  "passed",
+                  "weak",
+                  "failed",
+                  "occluded_by_pose",
+                  "not_applicable"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "motion_personality_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "secondary_motion",
+        "expression_requirements",
+        "state_fantasy_checks"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "needs_review",
+            "blocked",
+            "not_applicable_static"
+          ]
+        },
+        "secondary_motion": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expression_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "state_fantasy_checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "background_scene_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "depth_role_map": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer_plan": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sprite_readability_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interactive_elements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "production_allowed",
+        "next_required_route"
+      ],
+      "properties": {
+        "production_allowed": {
+          "type": "boolean"
+        },
+        "ready_for_generation": {
+          "type": "boolean"
+        },
+        "ready_for_conversion": {
+          "type": "boolean"
+        },
+        "ready_for_res_promotion": {
+          "type": "boolean"
+        },
+        "ready_for_aaa": {
+          "type": "boolean"
+        },
+        "next_required_route": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "art_director_supervision_missing",
+          "game_design_context_missing",
+          "art_direction_undeclared",
+          "creative_director_radar_missing",
+          "identity_continuity_lock_missing",
+          "design_marker_loss",
+          "inconsistent_hair_or_face",
+          "costume_or_emblem_drift",
+          "accessory_or_weapon_drift",
+          "animation_context_missing",
+          "camera_perspective_missing",
+          "scene_interaction_missing",
+          "generic_visual_without_personality",
+          "cohesion_drift",
+          "director_gate_unapproved"
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "production_allowed": {
+                "const": true
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "art_director_review": {
+            "properties": {
+              "status": {
+                "const": "passed"
+              }
+            }
+          },
+          "game_design_context": {
+            "properties": {
+              "status": {
+                "const": "passed"
+              }
+            }
+          },
+          "motion_personality_contract": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "passed",
+                  "not_applicable_static"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

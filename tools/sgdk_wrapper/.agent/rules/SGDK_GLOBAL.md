@@ -193,9 +193,10 @@ A credibilidade do espetaculo vem da consistencia visual. Para gerar ou instruir
 - **Trava 2:** Sem Visual Breakdown pre-definido (paleta, material, iluminacao e profundidade) -> INVALIDO.
 - **Trava 3:** Sem a aprovacao do `art-director` para validar shading/volume -> INVALIDO.
 - **Trava 4:** Sem `art_direction_decision_record` consultando `tools/sgdk_wrapper/.agent/references/art_style_catalog.json` antes de gerar, buscar, converter ou julgar arte -> INVALIDO.
+- **Trava 5:** Sem `art_gameplay_direction_gate` para model sheet, background, sprite art, animation strip, sprite sheet final, FX sheet, HUD heroico, title/menu ou asset critico -> INVALIDO.
 - Todo feedback corretivo de arte deve passar antes por `doc/03_art/02_visual_feedback_bank.md` e pela skill `visual-excellence-standards`.
 - Drift de estilo no meio do projeto exige `style_drift_correction_brief` antes de regerar arte.
-- `art_direction_undeclared`, `style_catalog_not_consulted` ou `style_drift_uncorrected` bloqueiam `ready_for_aaa=true`, `AAA`, `stable`, `release` e `delivery`.
+- `art_direction_undeclared`, `style_catalog_not_consulted`, `style_drift_uncorrected`, `art_director_supervision_missing`, `game_design_context_missing`, `cohesion_drift` ou `director_gate_unapproved` bloqueiam `ready_for_aaa=true`, `AAA`, `stable`, `release` e `delivery`.
 - Referencias esteticas sao ancoras tecnicas. Nunca transforme nome de artista, estudio, marca, jogo ou IP em prompt de copia; use descritores tecnicos neutros e `authoriality_gate_report`.
 
 ### 8.2 Gate visual fonte-ROM

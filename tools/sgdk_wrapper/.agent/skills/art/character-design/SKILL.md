@@ -32,6 +32,9 @@ Esta skill existe para proteger a identidade visual do personagem dentro das res
 - `silhouette_test_result`
 - `material_color_ramp_plan`
 - `palette_role_map`
+- `art_gameplay_direction_gate` para personagem critico, heroi, lutador, boss,
+  NPC expressivo ou asset autoral antes de model sheet, key poses, strips ou
+  sheet final
 - `roster_distinction_notes`
 - `face_readability_notes`
 - `delivery_findings`
@@ -39,6 +42,9 @@ Esta skill existe para proteger a identidade visual do personagem dentro das res
 ## Regras canonicas
 
 - escala do sprite e decidida antes da producao da sheet
+- personagem critico nao comeca model sheet, key poses, strips ou sheet final
+  sem `art_gameplay_direction_gate` com contexto de GDD/spec, camera,
+  gameplay role, interacoes e revisao de art director
 - escala aprovada para key poses precisa estar `locked`; se mudar depois, reseed e replanejar FOV, hitbox, pivot, tiles, residencia e animacao
 - estilo arcade/hi-bit grande so e permitido com contrato de proporcao, budget e residencia; nao e default
 - personagem critico nao inicia `color blocking` ou shading final sem `lineart_blocking_1px`
@@ -52,6 +58,10 @@ Esta skill existe para proteger a identidade visual do personagem dentro das res
 - `material_color_ramp_plan` deve declarar hue shift por material critico: highlight tende ao quente/amarelo quando aplicavel; sombra tende a azul/roxo/frio; cinza/preto misturado por quantizacao nao conta como direcao de arte
 - palette swap troca roupas e sinais de identidade secundaria, nao estrutura
 - roster compartilha base cromatica sem perder diferenciação funcional
+- cabelo, olhos, rosto, roupa, emblema, cicatriz, caracteristica fisica unica,
+  arma, acessorio, material e assimetria sao marcadores de identidade; se um
+  marcador muda entre poses sem oclusao ou acao justificavel, a entrega vira
+  `cohesion_drift`
 
 ## Gates de aprovacao
 
@@ -135,6 +145,7 @@ Regra:
 - `material_color_ramp_plan`
 - `palette_role_map`
 - `style_anchor_inheritance` quando houver `master_style_manifest`
+- `art_gameplay_direction_gate` quando o personagem for critico ou autoral
 - `roster_distinction_notes`
 - `face_readability_notes`
 - `delivery_findings`
@@ -148,6 +159,9 @@ Regra:
 - paleta diferencia funcao, faccao ou estado sem quebrar compartilhamento
 - material critico possui hue shift curado ou justificativa explicita para rampa neutra
 - personagem herda paleta, line weight, iluminacao e densidade do `master_style_manifest` quando existir
+- `art_gameplay_direction_gate` foi aprovado antes de key poses, strips ou sheet
+  final, e todos os marcadores `must_preserve` de identidade foram preservados
+  ou declarados como oclusao/acao justificada
 - rosto, postura e massa continuam legiveis sob FX previstos
 - personagem nao depende de detalhe subpixel, alpha, AA ou gradiente inexistente
 

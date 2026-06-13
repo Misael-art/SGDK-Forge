@@ -22,7 +22,7 @@ Leia sob demanda:
 - `../art-direction-selector/SKILL.md`, `doc/03_art/17_concept_art_direction_system.md` e `tools/sgdk_wrapper/.agent/references/art_style_catalog.json` antes de escrever `master_style_manifest` novo
 - `references/image_generation_capability_routing.md` antes de declarar bloqueio de geracao visual
 - `../art-conversion-pipeline/references/canonical_asset_structure.md` para separar fonte premium, raw, processed, debug lab e `res/`
-- `tools/sgdk_wrapper/schemas/project_bible.schema.json`, `visual_dna_manifest.schema.json` e `design_inheritance.schema.json` quando o asset nascer autoral e precisar de rastro machine-readable
+- `tools/sgdk_wrapper/schemas/project_bible.schema.json`, `visual_dna_manifest.schema.json`, `design_inheritance.schema.json` e `art_gameplay_direction_gate.schema.json` quando o asset nascer autoral e precisar de rastro machine-readable
 - `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/benchmark_usage_policy.md` antes de usar benchmarks em brief ou prompt
 
 Ferramenta local:
@@ -36,6 +36,10 @@ Regra:
 - nao pedir ou emitir Chain of Thought; use artefatos de decisao rastreaveis
 - nao gerar proposta visual sem declarar quais fontes canonicas foram consultadas
 - nao gerar prompt, buscar asset ou aceitar imagem sem `concept_art_direction_brief`, `art_direction_decision_record` e `master_style_manifest`; manifest legado sem decision record fica `art_direction_pre_canonical` e nao fecha AAA novo
+- nao gerar prompt, buscar asset ou aceitar imagem de model sheet, background,
+  sprite art, key pose, animation strip, sprite sheet final, FX sheet, HUD
+  heroico, title/menu ou asset critico sem `art_gameplay_direction_gate`
+  aprovado ou explicitamente `needs_review` com bloqueio de promocao
 - usar os `prompt_descriptors` tecnicos do `art_style_catalog.json`; nomes de artistas, estudios, marcas, jogos ou IP ficam como referencias tecnicas e nunca como comando de copia
 - se a arte gerada por IA for personagem animado, carregar `art/sprite-animation` antes de qualquer prompt de imagem
 - falha de API/CLI nao bloqueia se houver geracao nativa inline no chat; registrar `generated_inline_pending_persistence` quando a imagem renderizou mas ainda nao foi salva
@@ -46,11 +50,11 @@ Regra:
 
 ## As duas rotas
 
-Rota A agora sempre comeca por `context_pack_manifest`, `concept_art_direction_brief`, `art_direction_decision_record`, `master_style_manifest` e `art_generation_brief`. O prompt de imagem vem depois desses artefatos, e cada resultado precisa de `asset_lineage_record`.
+Rota A agora sempre comeca por `context_pack_manifest`, `concept_art_direction_brief`, `art_direction_decision_record`, `master_style_manifest`, `art_gameplay_direction_gate` para asset critico e `art_generation_brief`. O prompt de imagem vem depois desses artefatos, e cada resultado precisa de `asset_lineage_record`.
 
 Quando uma geracao for aceita como fonte artistica, o primeiro destino canonico e `data/source_art/`, nao `res/`. `data/raw_ai/` guarda saidas brutas; `data/debug_lab/` guarda controles procedurais; `data/processed/` guarda candidatos convertidos. O handoff para conversao deve incluir `premium_source_manifest` e lineage com caminho real existente.
 
-Para personagem, inimigo ou boss animado, a Rota A tambem exige `asset_kind_declaration`, `animation_state_plan`, `pose_roster`, `frame_budget_table` e `pivot_and_scale_contract` de `sprite-animation` antes do primeiro `visual_proof_anchor`. O agente deve gerar model sheet, key poses e strips por acao antes de montar sheet final; prompt generico de "sprite sheet completo" e bloqueado. `key_pose_sheet` nunca equivale a `animation_strip`; cada strip deve conter uma unica acao e um `motion_phase_map`.
+Para personagem, inimigo ou boss animado, a Rota A tambem exige `asset_kind_declaration`, `animation_state_plan`, `pose_roster`, `frame_budget_table`, `pivot_and_scale_contract` e `art_gameplay_direction_gate` de `sprite-animation` antes do primeiro `visual_proof_anchor`. O agente deve gerar model sheet, key poses e strips por acao antes de montar sheet final; prompt generico de "sprite sheet completo" e bloqueado. `key_pose_sheet` nunca equivale a `animation_strip`; cada strip deve conter uma unica acao e um `motion_phase_map`.
 
 Para personagem critico, heroi, lutador, boss, NPC expressivo ou asset autoral,
 a geracao/concepcao tambem deve produzir `lineart_blocking_1px` antes de

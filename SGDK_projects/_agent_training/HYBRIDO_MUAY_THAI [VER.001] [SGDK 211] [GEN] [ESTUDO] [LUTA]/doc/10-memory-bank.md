@@ -206,6 +206,46 @@
   - `validate_resources`: errors=0, warnings=9, checked=6; avisos preservam bloqueio visual, evidencia de emulador insuficiente e closeout ausente;
   - `freshness_audit`: status ok apos sincronizacao de memoria/changelog; nao ha entrega AAA, apenas registro honesto de estudo rejeitado.
 
+## 2026-06-13 - Curadoria complementar: direcao arte + game design
+
+- Nova pendencia observada pelo humano: a producao de model sheet, background,
+  sprite art e sprite sheet precisa ser supervisionada por direcao de arte e
+  game design, nao apenas por checks tecnicos ou prompts isolados.
+- Problema de coesao identificado: ate o model sheet v008 aceito tem risco de
+  drift interno, pois o cabelo da primeira pose nao le igual ao das demais.
+  Esse tipo de marcador precisa ser decidido antes de servir como fonte
+  canonica para key poses e sheet.
+- Novo contrato do estudo:
+  - `doc/contracts/art_gameplay_direction_gate_v009.json`.
+- Contratos v009 sincronizados:
+  - `doc/contracts/visual_dna_manifest_v009.json` agora aponta `human_visual_approval=rejected`;
+  - `doc/contracts/animation_direction_contract_v009.json` agora aponta `visual_gate=rejected_human_visual_validation`;
+  - `doc/contracts/human_validation_record_v009.md` referencia o novo gate.
+- Regra operacional: model sheet, background, sprite art, key pose, animation
+  strip, sprite sheet final, FX sheet, HUD heroico e title/menu criticos exigem
+  `art_gameplay_direction_gate` antes de prompt, redraw, conversao ou promocao.
+- Status: v009 continua `technical_pass=true`, `visual_pass=false`,
+  `production_allowed=false`, `ready_for_res_promotion=false`,
+  `ready_for_aaa=false`.
+- Validacao pos-curadoria complementar:
+  - `test_art_gameplay_direction_gate.ps1`: 12/12 passed;
+  - `test_model_sheet_to_sprite_fidelity_report.ps1`: 9/9 passed;
+  - `test_visual_delivery_gate_required_fields.ps1`: 12/12 passed;
+  - `test_validation_report_visual_gate_blocker.ps1`: 5/5 passed;
+  - `test_visual_delivery_gate_report_blocks.ps1`: 13/13 passed;
+  - `validate_project_context`: status ok, contexto `exercise`, blockers=0;
+  - `validate_project_methodology`: passed, blockers=0;
+  - `validate_project_hygiene`: passed, blockers=0;
+  - `validate_resources`: errors=0, warnings=9, checked=6;
+  - `freshness_audit`: status ok, stale=0, missing_required=0.
+- Aprendizado local:
+  - captura via `extract_project_learning.py --mode capture`: 18 licoes, 18 candidatos, `canonical_promotion_performed=false`;
+  - entradas `art and game design supervision is mandatory` e
+    `art_gameplay_direction_gate` marcadas como `implemented` por diretiva
+    humana de curadoria em `doc/agent_learning/learning_ledger.json`.
+- Limitacao de ambiente: `run_all_contract_gates.ps1 -Mode schema` rodou o
+  novo teste, mas falhou no passo `test_schema_contract_gates.py` porque o
+  alias `py` e o pacote Python `jsonschema` nao estao disponiveis neste PATH.
 
 
 

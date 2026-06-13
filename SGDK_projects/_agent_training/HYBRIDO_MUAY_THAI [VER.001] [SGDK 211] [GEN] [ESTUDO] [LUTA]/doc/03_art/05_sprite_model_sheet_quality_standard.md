@@ -50,3 +50,16 @@ Antes de promover uma folha derivada do model sheet:
 - Se o sheet falhar, voltar para lineart/blocking por acao; nao remendar o PNG final.
 
 Critério: folha tecnicamente indexada, 48x64 e alinhada ainda reprova se nao herdar o DNA visual do model sheet aprovado.
+
+## 6. Gate de direcao arte + game design
+
+Antes de gerar model sheet, key pose, strip ou sprite sheet final:
+
+- Gerar `art_gameplay_direction_gate`.
+- Confirmar supervisao do art director e contexto de GDD/spec.
+- Declarar camera, perspectiva, oponente/interacao, contato de solo, alcance de golpe e papel do estado no jogo.
+- Listar marcadores `must_preserve`: cabelo, olhos, rosto, roupa, emblemas, cicatrizes, braco de lava, bandagens, faixa vermelha, ornamentos dourados, materiais e assimetria.
+- Se o proprio model sheet aceito tiver drift interno, como cabelo diferente entre poses, bloquear a derivacao ate decidir se e variacao intencional, erro de pose ou necessidade de redraw.
+- Declarar movimento secundario e carisma: cabelo, faixas, shorts, expressao facial, maos, anticipation, active, hitstop visual, recovery e follow-through.
+
+Critério: sprite sheet feito sem saber camera, interacao, leitura de golpe e identidade preservada nao e asset dirigido; e `director_gate_unapproved`.

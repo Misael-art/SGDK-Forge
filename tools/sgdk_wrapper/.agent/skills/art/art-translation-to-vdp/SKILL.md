@@ -122,6 +122,9 @@ informacao via quantizacao cega e o anti-padrao classico.
 - `hardware_expectations`
 - `intent_notes`
 - `visual_dna_manifest` e `design_inheritance` quando a traducao for personagem, boss, stage autoral ou HUD heroico
+- `art_gameplay_direction_gate` quando a traducao for model sheet, background,
+  sprite art, key pose, animation strip, sprite sheet final, FX sheet, HUD
+  heroico, title/menu ou asset critico
 - `model_sheet_to_sprite_fidelity_report` quando `translation_target=sprite_sheet` e houver model sheet aprovado
 - `animation_strip_contract` quando a traducao alvo for `sprite_sheet` com strips de acao
 - `fake_pixel_art_rejection` quando a fonte veio de IA, render high-res ou mockup que apenas parece pixel art
@@ -136,6 +139,7 @@ informacao via quantizacao cega e o anti-padrao classico.
 - `hardware_spec`
 - `hardware_expectations`
 - `intent_notes`
+- `art_gameplay_direction_gate` quando o alvo for asset critico ou autoral
 
 ### Saida minima
 
@@ -153,6 +157,8 @@ informacao via quantizacao cega e o anti-padrao classico.
 - `native_grid_translation_report` quando a fonte precisar virar pixel art nativa
 - `fake_pixel_art_rejection` quando aplicavel
 - `authorial_consistency_report` quando a traducao tocar asset critico autoral
+- `art_gameplay_direction_gate_report` quando a traducao depender de contexto de
+  art director + game design antes de gerar/converter/promover
 - `model_sheet_to_sprite_fidelity_report` quando a traducao gerar sprite sheet de personagem a partir de model sheet
 
 ### Saida opcional quando houver multiplas rotas viaveis
@@ -167,6 +173,9 @@ informacao via quantizacao cega e o anti-padrao classico.
 - o parsing semantico foi emitido antes de qualquer promocao final
 - a traducao nao aceita metadata-only como asset aprovado
 - strips de animacao preservam acao unica, pivot, escala, roupa, rosto, paleta e bbox declarados no `visual_dna_manifest`
+- se houver `art_gameplay_direction_gate`, a traducao preserva camera,
+  interacao, papel de gameplay e marcadores `must_preserve`; asset bonito fora
+  de contexto vira `director_gate_unapproved`
 - sprite sheet derivado de model sheet preserva os traços `must_preserve` em `model_sheet_to_sprite_fidelity_report`; `native redraw` sem fidelidade vira `generic_blocky_redraw`, nao `elite`
 - fonte IA/high-res nao foi promovida como sprite nativo sem nearest-neighbor/redesenho, indexacao limpa e rejeicao de fake pixel art
 - `elite` se sustenta melhor que `basic`

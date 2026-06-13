@@ -351,3 +351,10 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
   - novo schema `tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json`;
   - reforco nas skills de excelencia visual, traducao VDP, animacao de sprite e conversao;
   - reforco no workflow premium de arte.
+- Validacao pos-curadoria:
+  - `validate_project_context`: ok como `exercise`;
+  - `validate_project_methodology`: passed;
+  - `validate_project_hygiene`: passed;
+  - `validate_resources`: errors=0, warnings=11, checked=6, com bloqueio visual preservado;
+  - `test_model_sheet_to_sprite_fidelity_report.ps1`: 9/9 passed;
+  - `test_visual_delivery_gate_required_fields.ps1`: 12/12 passed.

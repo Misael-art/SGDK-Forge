@@ -43,3 +43,12 @@
 - Preventive heuristic: Membro assimetrico deve passar `limb_endpoint_readability`: ombro, cotovelo, punho/mao e silhueta da extremidade precisam ser legiveis. Shading deve usar clusters de 2-3 tons; spray/noise reprovam.
 - Preventive heuristic: Fonte para personagem deve nascer com plano de 1 paleta de 16 cores para o corpo; FX separado so quando estiver destacado em PAL3/strip proprio.
 - Evidence: out/logs/hibrido_v006_model_sheet_review_report.json, data/source_art/hibrido_fighter_v006/source_concept.png
+
+## 2026-06-13 - Reprovacao v009 por perda de fidelidade model sheet -> sprite sheet
+
+- Falha observada: o model sheet v008 preservava anatomia, rosto agressivo, braco de lava, shorts preto/dourado e bandagens; o sprite sheet v009 virou massa blocada de baixa resolucao, sem herdar esses sinais.
+- Falha observada: a folha v009 passa checks tecnicos de PNG/celula, mas isso mascarou a perda de identidade visual.
+- Technical diagnosis: o builder reconstruiu um boneco 48x64 funcional, porem nao executou um gate de heranca visual por traço obrigatorio. `sprite_strip_integrity` e `pixel_compliance` mediram sintaxe e integridade de celula, nao fidelidade ao model sheet.
+- Preventive heuristic: toda folha 48x64 derivada de model sheet aprovado exige `model_sheet_to_sprite_fidelity_report` com checks de anatomia, rosto/olhos, feature assinatura, roupa, paleta/material e acting por estado. Falha em qualquer traço assinatura bloqueia promocao.
+- Preventive heuristic: `native redraw` nao basta. Redesenho nativo precisa provar que melhorou a traducao perceptiva em relacao ao controle, preservando o DNA visual, nao apenas evitando downscale.
+- Evidence: out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json, data/source_art/hibrido_fighter_v008/source_concept.png, data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png

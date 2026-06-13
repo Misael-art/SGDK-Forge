@@ -23,4 +23,5 @@ Promocao canonica so ocorre quando um humano ordenar explicitamente a assimilaca
 |---|---|---|---|---|
 | 2026-06-07 | visual_input_gatekeeper_anatomy_acting_48x64 | `approved_for_local_mandatory_rule` | Feedback humano reprovou v002; regra incorporada localmente como gate obrigatorio. Promocao canonica ainda exige fixture/testes. | user |
 | 2026-06-07 | no_direct_downscale_for_critical_48x64_sprites | `approved_for_local_mandatory_rule` | Feedback humano definiu proibicao de downscale direto e separacao sintaxe/semantica visual. Promocao canonica ainda exige fixture/testes. | user |
+| 2026-06-13 | model_sheet_to_sprite_fidelity_gate | `approved_for_canonical_patch` | Feedback humano reprovou v009: sprite sheet 48x64 tecnicamente valido perdeu heranca do model sheet v008. Regra promovida como gate de fidelidade e schema machine-readable. | user |
 | [DATA] | [candidato] | `needs_human_review` | [motivo] | [nome/handle] |

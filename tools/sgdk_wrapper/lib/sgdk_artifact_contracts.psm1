@@ -130,17 +130,63 @@ function Test-SgdkRequiredFile {
         Checks whether a required file exists and is non-empty.
     .PARAMETER FilePath
         Absolute path to check.
+    .PARAMETER Integrity
+        If set, performs deeper integrity validation based on file extension:
+        - .png : validates via System.Drawing.Bitmap
+        - .sram/.srm/.sav: checks canonical MDRT / VLAB / READY offsets
+        - visual_vdp_dump.bin: checks minimum size and non-uniformity
+        - .bin: checks MinBytes
+    .PARAMETER Kind
+        Explicit artifact kind. Auto maps known extensions and rejects unknown
+        extensions when -Integrity is used.
+    .PARAMETER MinBytes
+        Optional minimum byte count for binary checks.
     .OUTPUTS
-        $true if file exists and has size > 0, $false otherwise.
+        $true if file exists and passes checks, $false otherwise.
     #>
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory)][string]$FilePath
+        [Parameter(Mandatory)][string]$FilePath,
+        [switch]$Integrity,
+        [ValidateSet('Auto', 'Png', 'Sram', 'VdpDump', 'Bin')]
+        [string]$Kind = 'Auto',
+        [int]$MinBytes = 0
     )
 
     if (-not (Test-Path -LiteralPath $FilePath)) { return $false }
     $info = Get-Item -LiteralPath $FilePath -ErrorAction SilentlyContinue
-    return ($null -ne $info -and $info.Length -gt 0)
+    if ($null -eq $info -or $info.Length -eq 0) { return $false }
+    if ($MinBytes -gt 0 -and $info.Length -lt $MinBytes) { return $false }
+
+    if (-not $Integrity) { return $true }
+
+    $effectiveKind = $Kind
+    $ext = [System.IO.Path]::GetExtension($FilePath).ToLowerInvariant()
+    if ($effectiveKind -eq 'Auto') {
+        $fileName = [System.IO.Path]::GetFileName($FilePath).ToLowerInvariant()
+        switch ($ext) {
+            '.png' { $effectiveKind = 'Png' }
+            '.sram' { $effectiveKind = 'Sram' }
+            '.srm' { $effectiveKind = 'Sram' }
+            '.sav' { $effectiveKind = 'Sram' }
+            '.bin' {
+                if ($fileName -eq 'visual_vdp_dump.bin') {
+                    $effectiveKind = 'VdpDump'
+                } else {
+                    $effectiveKind = 'Bin'
+                }
+            }
+            default { return $false }
+        }
+    }
+
+    switch ($effectiveKind) {
+        'Png'     { return Test-SgdkPngIntegrity -FilePath $FilePath }
+        'Sram'    { return Test-SgdkSramIntegrity -FilePath $FilePath }
+        'VdpDump' { return Test-SgdkVdpDumpIntegrity -FilePath $FilePath -MinBytes ($(if ($MinBytes -gt 0) { $MinBytes } else { 16 })) }
+        'Bin'     { return Test-SgdkBinIntegrity -FilePath $FilePath -MinBytes ($(if ($MinBytes -gt 0) { $MinBytes } else { 1 })) }
+        default   { return $false }
+    }
 }
 
 function Get-SgdkBinarySha256 {
@@ -193,6 +239,227 @@ function Get-SgdkRomIdentity {
 }
 
 # ---------------------------------------------------------------------------
+# Resolve-SgdkArtifactReportPath
+# ---------------------------------------------------------------------------
+function Resolve-SgdkArtifactReportPath {
+    <#
+    .SYNOPSIS
+        Resolves the canonical report path for a given tool/script name.
+    .PARAMETER ToolName
+        Logical tool name used to derive the filename (e.g. "scene_closeout_gate").
+    .PARAMETER ProjectRoot
+        Absolute path to the project root.
+    .PARAMETER ExplicitPath
+        Optional explicit override. If provided, returned verbatim.
+    .OUTPUTS
+        Absolute path string to the .json report file.
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$ToolName,
+        [Parameter(Mandatory)][string]$ProjectRoot,
+        [string]$ExplicitPath
+    )
+
+    if (-not [string]::IsNullOrWhiteSpace($ExplicitPath)) {
+        return $ExplicitPath
+    }
+
+    $LogDir = Join-Path $ProjectRoot "out\logs"
+    $safeName = $ToolName -replace '[^A-Za-z0-9_.-]', '_'
+    return Join-Path $LogDir "${safeName}_report.json"
+}
+
+# ---------------------------------------------------------------------------
+# Write-SgdkFallbackFailureArtifact
+# ---------------------------------------------------------------------------
+function Write-SgdkFallbackFailureArtifact {
+    <#
+    .SYNOPSIS
+        Writes a minimal failure artifact to disk.
+    .DESCRIPTION
+        Designed for use in finally blocks to guarantee an artifact exists even
+        after an unhandled exception. Uses the public Write-SgdkJsonArtifact so
+        parent directory creation is handled automatically.
+    .PARAMETER ReportPath
+        Absolute path for the output JSON file.
+    .PARAMETER ToolName
+        Name of the generating tool.
+    .PARAMETER ToolVersion
+        Version of the generating tool.
+    .PARAMETER ProjectRoot
+        Absolute path to the project root.
+    .PARAMETER FailureReason
+        Human-readable failure description.
+    .PARAMETER DomainData
+        Optional extra data merged into the artifact (e.g. domain-specific status).
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$ReportPath,
+        [Parameter(Mandatory)][string]$ToolName,
+        [Parameter(Mandatory)][string]$ToolVersion,
+        [Parameter(Mandatory)][string]$ProjectRoot,
+        [Parameter(Mandatory)][string]$FailureReason,
+        [System.Collections.IDictionary]$DomainData = $null
+    )
+
+    $fallback = New-SgdkArtifactEnvelope -ToolName $ToolName -ToolVersion $ToolVersion -ProjectRoot $ProjectRoot
+    $fallback['status'] = 'error'
+    $fallback['failure_reason'] = $FailureReason
+
+    if ($DomainData -ne $null) {
+        foreach ($key in $DomainData.Keys) { $fallback[$key] = $DomainData[$key] }
+    }
+
+    Write-SgdkJsonArtifact -Data $fallback -Path $ReportPath | Out-Null
+    Write-Host ("[FALLBACK] wrote failure artifact to {0}: {1}" -f $ReportPath, $FailureReason)
+}
+
+# ---------------------------------------------------------------------------
+# Extensions for Test-SgdkRequiredFile -Integrity
+# ---------------------------------------------------------------------------
+function Read-SgdkU16BE {
+    param(
+        [Parameter(Mandatory)][byte[]]$Bytes,
+        [Parameter(Mandatory)][int]$Offset
+    )
+
+    return (([int]$Bytes[$Offset] -shl 8) -bor [int]$Bytes[$Offset + 1])
+}
+
+function Test-SgdkAsciiMagicAt {
+    param(
+        [Parameter(Mandatory)][byte[]]$Bytes,
+        [Parameter(Mandatory)][int]$Offset,
+        [Parameter(Mandatory)][string]$Magic
+    )
+
+    if ($Offset -lt 0 -or ($Offset + $Magic.Length) -gt $Bytes.Length) { return $false }
+    return ([System.Text.Encoding]::ASCII.GetString($Bytes, $Offset, $Magic.Length) -eq $Magic)
+}
+
+function Test-SgdkMdrtBlockAt {
+    param(
+        [Parameter(Mandatory)][byte[]]$Bytes,
+        [Parameter(Mandatory)][int]$Offset
+    )
+
+    if (-not (Test-SgdkAsciiMagicAt -Bytes $Bytes -Offset $Offset -Magic 'MDRT')) { return $false }
+    if (($Offset + 10) -gt $Bytes.Length) { return $false }
+
+    $schema = Read-SgdkU16BE -Bytes $Bytes -Offset ($Offset + 4)
+    $totalBytes = Read-SgdkU16BE -Bytes $Bytes -Offset ($Offset + 6)
+    $wordCount = Read-SgdkU16BE -Bytes $Bytes -Offset ($Offset + 8)
+
+    if ($schema -lt 1) { return $false }
+    if ($wordCount -lt 64 -or $wordCount -gt 8192) { return $false }
+
+    $minimumBlockBytes = 10 + ($wordCount * 2)
+    if ($totalBytes -lt $minimumBlockBytes) { return $false }
+    if (($Offset + $totalBytes) -gt $Bytes.Length) { return $false }
+
+    return $true
+}
+
+function Test-SgdkVlabBlockAt {
+    param(
+        [Parameter(Mandatory)][byte[]]$Bytes,
+        [Parameter(Mandatory)][int]$Offset
+    )
+
+    if (-not (Test-SgdkAsciiMagicAt -Bytes $Bytes -Offset $Offset -Magic 'VLAB')) { return $false }
+    if (($Offset + 8) -gt $Bytes.Length) { return $false }
+
+    $totalBytes = Read-SgdkU16BE -Bytes $Bytes -Offset ($Offset + 6)
+    if ($totalBytes -lt 8) { return $false }
+    if (($Offset + $totalBytes) -gt $Bytes.Length) { return $false }
+
+    return $true
+}
+
+function Test-SgdkPngIntegrity {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$FilePath)
+
+    if (-not (Test-Path -LiteralPath $FilePath -PathType Leaf)) { return $false }
+    try {
+        $img = [System.Drawing.Bitmap]::FromFile($FilePath)
+        $valid = ($null -ne $img)
+        $img.Dispose()
+        return $valid
+    } catch {
+        return $false
+    }
+}
+
+function Test-SgdkSramIntegrity {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$FilePath)
+
+    if (-not (Test-Path -LiteralPath $FilePath -PathType Leaf)) { return $false }
+    try {
+        $bytes = [System.IO.File]::ReadAllBytes($FilePath)
+        if ($bytes.Length -lt 8) { return $false }
+
+        if (Test-SgdkAsciiMagicAt -Bytes $bytes -Offset 0x100 -Magic 'READY') {
+            return $true
+        }
+
+        foreach ($offset in @(0x200, 0x0)) {
+            if (Test-SgdkMdrtBlockAt -Bytes $bytes -Offset $offset) { return $true }
+        }
+
+        foreach ($offset in @(0x0, 0x200, 0x400)) {
+            if (Test-SgdkVlabBlockAt -Bytes $bytes -Offset $offset) { return $true }
+        }
+
+        return $false
+    } catch {
+        return $false
+    }
+}
+
+function Test-SgdkVdpDumpIntegrity {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$FilePath,
+        [int]$MinBytes = 16
+    )
+
+    if (-not (Test-Path -LiteralPath $FilePath -PathType Leaf)) { return $false }
+    try {
+        $info = Get-Item -LiteralPath $FilePath
+        if ($info.Length -lt $MinBytes) { return $false }
+        $bytes = [System.IO.File]::ReadAllBytes($FilePath)
+        $headerOk = ($null -ne $bytes -and $bytes.Length -gt 0)
+        $hasVariation = $false
+        for ($i = 1; $i -lt [Math]::Min($bytes.Length, 256); $i++) {
+            if ($bytes[$i] -ne $bytes[0]) { $hasVariation = $true; break }
+        }
+        return ($headerOk -and $hasVariation)
+    } catch {
+        return $false
+    }
+}
+
+function Test-SgdkBinIntegrity {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$FilePath,
+        [int]$MinBytes = 1
+    )
+
+    if (-not (Test-Path -LiteralPath $FilePath -PathType Leaf)) { return $false }
+    try {
+        $info = Get-Item -LiteralPath $FilePath
+        return ($info.Length -ge $MinBytes)
+    } catch {
+        return $false
+    }
+}
+
+# ---------------------------------------------------------------------------
 # Exports
 # ---------------------------------------------------------------------------
 Export-ModuleMember -Function @(
@@ -201,5 +468,11 @@ Export-ModuleMember -Function @(
     'Write-SgdkJsonArtifact',
     'Test-SgdkRequiredFile',
     'Get-SgdkBinarySha256',
-    'Get-SgdkRomIdentity'
+    'Get-SgdkRomIdentity',
+    'Resolve-SgdkArtifactReportPath',
+    'Write-SgdkFallbackFailureArtifact',
+    'Test-SgdkPngIntegrity',
+    'Test-SgdkSramIntegrity',
+    'Test-SgdkVdpDumpIntegrity',
+    'Test-SgdkBinIntegrity'
 )

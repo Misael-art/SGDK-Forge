@@ -43,6 +43,7 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - `frame_budget_table`
 - `pivot_and_scale_contract`
 - `visual_dna_manifest.scale_contract` travado quando houver personagem novo, key poses ou alteracao de escala
+- `model_sheet_to_sprite_fidelity_report` quando a animacao vier de model sheet aprovado
 - `style_motion_reverse_engineering` para personagem, boss, NPC expressivo ou heranca visual declarada
 - `turnaround_tracking_contract` quando houver 3/4, rotacao, direcoes multiplas, giro ou close-up em outro angulo
 - `motion_physics_contract` para locomocao, pulo, queda, ataque, dano, boss ou acao premium
@@ -70,6 +71,7 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - `subpixel_shading_motion_report` quando houver micro-movimento por luz/sombra
 - `cluster_motion_review`
 - `sprite_artifact_report`
+- `model_sheet_to_sprite_fidelity_report`
 - `slicing_cell_contract`
 - `animation_preview_evidence`
 - `contact_sheet`
@@ -94,6 +96,7 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - personagem heroico/lutador/boss em AAA nao avanca para strips finais sem contratos de carisma aplicaveis: idle breathing, facial expression, cloth secondary e hand pose, ou `not_applicable` justificado
 - o frame envelope e unico por sequencia
 - strip gerada por IA so promove com `sprite_artifact_report.status=passed`
+- `sprite_artifact_report.status=passed` aprova integridade tecnica da celula; se a sheet veio de model sheet aprovado, tambem exige `model_sheet_to_sprite_fidelity_report.status=passed`
 - `slicing_cell_contract` declara se a celula veio de `max_bbox + padding` ou de celula fixa justificada; hardcode sem contrato volta para `rework`
 - se o relatorio apontar `FRAME_EDGE_CLIPPING`, `NON_INDEX0_BACKGROUND_MATTE`, `TRANSPARENCY_INDEX0_BACKGROUND_MISMATCH`, `SMALL_ISLAND_DEBRIS`, `STRAY_LARGE_COMPONENT`, `SCALE_INCONSISTENCY` ou `BAKED_FX_IN_CHARACTER_SHEET`, a acao volta para `rework`
 - producao deve seguir passes: model sheet, key poses, strips por acao, sheet final, QA
@@ -179,6 +182,7 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - aprovar golpe sem active/recovery map
 - aprovar estado de BJJ que parece karateka recolorido ou pose marcial generica
 - aceitar personagem que muda roupa, anatomia, escala, rosto ou volume entre frames
+- aceitar sheet que preserva pivo/celula mas perde o DNA do model sheet em rosto, feature assinatura, roupa, material ou acting
 - aceitar key poses, inbetweens ou strips com escala ainda em `draft`
 - aceitar celula com pe/mao/cabeca cortados, fragmento deslocado, retangulo de matte ou sujeira de fundo so porque o PNG compila
 - aceitar FX de dano/spark embutido na sheet do personagem quando o FX deveria ser sprite separado
@@ -285,12 +289,14 @@ Regra:
 - `subpixel_shading_motion_report` quando aplicavel
 - `cluster_motion_review`
 - `sprite_artifact_report`
+- `model_sheet_to_sprite_fidelity_report`
 - `slicing_cell_contract`
 - `tile_reuse_summary`
 - `active_animation_window` quando aplicavel
 - `animation_preview_evidence` com contact sheet, preview ou overlays quando houver frames produzidos
 - `contact_sheet`, `pivot_overlay`, `foot_contact_report` e `active_recovery_map` quando houver golpes
 - `visual_dna_manifest` e `design_inheritance` quando houver personagem, boss, roupa, paleta ou identidade autoral a preservar
+- `model_sheet_to_sprite_fidelity_report` quando houver model sheet aprovado como fonte visual da sheet
 - `animation_strip_contract` por strip de acao unica; exemplo canonico em `references/agentic_aaa_contracts/examples/animation_strip_contract.example.json`
 - `validate_strip_report` gerado por `scripts/validate_strip.py` quando houver JSON de strip
 - `state_belongs_to_character_fantasy` comprovado por estado
@@ -302,6 +308,7 @@ Regra:
 - pivot e envelope nao flutuam entre frames da mesma acao
 - `asset_kind` foi classificado corretamente; `key_pose_sheet` nao foi promovido como `animation_strip`
 - frames gerados mantem o mesmo `style_anchor_id`, line weight, iluminacao e densidade visual
+- quando houver model sheet aprovado, frames preservam os traços `must_preserve`; perda de rosto/olhos, feature assinatura, roupa/material ou acting vira `model_sheet_to_sprite_fidelity_failed`
 - quando houver `style_motion_reverse_engineering`, primitive shape, proportion matrix, line weight e shading model permanecem estaveis entre model sheet, key poses e strips
 - quando houver `turnaround_tracking_contract`, alturas de articulacao, ground_y, pivot e foreshortening permanecem coerentes entre angulos
 - quando houver `motion_physics_contract`, centro de massa, arcos, contato de solo, gravidade e inercia secundaria sao legiveis em 320x224

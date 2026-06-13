@@ -9,8 +9,8 @@
     "human_approval_required": true,
     "evidence_required": true
   },
-  "generated_at": "2026-06-08T08:43:45Z",
-  "source_digest": "603fb0ff448dd250a87885e40a5afd765b4014f07806b5f26dc80eaed0d1ff08",
+  "generated_at": "2026-06-13T09:03:31Z",
+  "source_digest": "74868269a5be4b28e9a971830141a43e257e3413592a65e2c167ab1f74f909d6",
   "lessons": [
     {
       "lesson_id": "lesson_bfd94ca2a29d6356",
@@ -215,6 +215,59 @@
           "record_ref": "doc/agent_learning/canonical_promotion_review.md"
         },
         "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_4e075a1949ec18fe",
+      "title": "model sheet to sprite sheet fidelity gate is mandatory",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-13",
+      "problem_signature": "model_sheet_to_sprite_sheet_fidelity_gate_is_mandatory",
+      "context": "",
+      "observation": "v009 produziu sprite sheet 48x64 tecnicamente organizado, mas com arte blocada e generica, perdendo a anatomia, rosto/olhos, braco de lava, shorts preto/dourado, bandagens e acting do model sheet v008.",
+      "diagnosis": "O pipeline tratou `native redraw` e `sprite_strip_integrity` como garantia visual. Eles provam celula e integridade tecnica, mas nao medem heranca do design aprovado.",
+      "resolution_or_preventive_heuristic": "Antes de promocao para `res/`, baseline visual ou claim de qualidade, emitir `model_sheet_to_sprite_fidelity_report` comparando model sheet, sprite sheet e contact sheet. Cada tra\u00e7o `must_preserve` precisa passar ou o asset volta para lineart/blocking por estado.",
+      "scope_limits": [
+        "Aplica-se a personagem, lutador, boss, inimigo grande e NPC expressivo derivados de model sheet. Nao substitui pixel compliance, strip integrity, motion preview nem BlastEm; complementa esses gates."
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png",
+          "data/source_art/hibrido_fighter_v008/source_concept.png",
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "schema",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "model_sheet_to_sprite_fidelity_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json",
+        "summary": "Review existing owner against project lesson: model sheet to sprite sheet fidelity gate is mandatory",
+        "required_tests": [
+          "model sheet to sprite fidelity fixture",
+          "signature feature preservation review",
+          "technical pass visual fail regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_13"
       }
     },
     {
@@ -474,6 +527,59 @@
           "record_ref": "doc/agent_learning/canonical_promotion_review.md"
         },
         "apply_status": "applied_by_user_directive_2026_06_07"
+      }
+    },
+    {
+      "lesson_id": "lesson_752c28a687e9c550",
+      "title": "model_sheet_to_sprite_fidelity_gate",
+      "source_kind": "skill_promotion_candidate",
+      "source_document": "doc/agent_learning/skill_promotion_candidates.md",
+      "classification": "promotion_candidate",
+      "lifecycle_status": "implemented",
+      "observed_at": "2026-06-13",
+      "problem_signature": "model_sheet_to_sprite_fidelity_gate",
+      "context": "",
+      "observation": "Impede que sprite sheet tecnicamente valido mas blocado/generico seja promovido quando perde DNA visual do model sheet aprovado.",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "promover para skills existentes e schema; criar fixture automatica quando houver comparador visual"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png",
+          "data/source_art/hibrido_fighter_v008/source_concept.png",
+          "doc/agent_learning/skill_promotion_candidates.md",
+          "out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "schema",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json",
+        "owner_skill": "art/visual-excellence-standards",
+        "match_rule_id": "model_sheet_to_sprite_fidelity_gate"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json",
+        "summary": "Review existing owner against project lesson: model_sheet_to_sprite_fidelity_gate",
+        "required_tests": [
+          "model sheet to sprite fidelity fixture",
+          "signature feature preservation review",
+          "technical pass visual fail regression"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "approved",
+          "record_ref": "doc/agent_learning/canonical_promotion_review.md"
+        },
+        "apply_status": "applied_by_user_directive_2026_06_13"
       }
     },
     {
@@ -767,6 +873,14 @@
       "target_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md"
     },
     {
+      "lesson_id": "lesson_4e075a1949ec18fe",
+      "title": "model sheet to sprite sheet fidelity gate is mandatory",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json"
+    },
+    {
       "lesson_id": "lesson_bc671b75410f2cba",
       "title": "special limb endpoint readability and cluster shading are mandatory",
       "lifecycle_status": "implemented",
@@ -805,6 +919,14 @@
       "evidence_grade": "E1_artifact",
       "action": "create_skill",
       "target_path": null
+    },
+    {
+      "lesson_id": "lesson_752c28a687e9c550",
+      "title": "model_sheet_to_sprite_fidelity_gate",
+      "lifecycle_status": "implemented",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json"
     },
     {
       "lesson_id": "lesson_f1f8d4531a7bb74f",

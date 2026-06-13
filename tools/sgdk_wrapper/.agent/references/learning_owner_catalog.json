@@ -159,6 +159,25 @@
       ]
     },
     {
+      "id": "model_sheet_to_sprite_fidelity_gate",
+      "match_any": [
+        "model sheet to sprite sheet fidelity gate is mandatory",
+        "model_sheet_to_sprite_fidelity_gate",
+        "model sheet -> sprite sheet",
+        "sprite sheet perdeu o model sheet",
+        "generic blocky redraw",
+        "arte blocada"
+      ],
+      "candidate_kind": "schema",
+      "canonical_target": "tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json",
+      "owner_skill": "art/visual-excellence-standards",
+      "required_tests": [
+        "model sheet to sprite fidelity fixture",
+        "signature feature preservation review",
+        "technical pass visual fail regression"
+      ]
+    },
+    {
       "id": "modular_boss_requires_runtime_parts",
       "match_any": [
         "static sprite scaling is not a modular boss",

@@ -26,6 +26,15 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+$libDir = Join-Path $PSScriptRoot 'lib'
+$modulePath = Join-Path $libDir 'sgdk_artifact_contracts.psm1'
+if (Test-Path -LiteralPath $modulePath -PathType Leaf) {
+    Import-Module $modulePath -Force
+}
+
+$script:ToolName = 'validate_project_context'
+$script:ToolVersion = '1.0.0'
+
 function Get-Prop {
     param($Object, [string]$Name, $Default = $null)
     if ($null -eq $Object) { return $Default }
@@ -118,26 +127,33 @@ function Require-Docs {
     }
 }
 
+$script:WrittenOk = $false
+$script:FailureMessage = ''
+$script:ExitCode = 1
 $script:ResolvedProjectRoot = [System.IO.Path]::GetFullPath($ProjectRoot)
-if (-not (Test-Path -LiteralPath $script:ResolvedProjectRoot -PathType Container)) {
-    throw "ProjectRoot inexistente: $script:ResolvedProjectRoot"
-}
-if ([string]::IsNullOrWhiteSpace($OutputPath)) {
-    $OutputPath = Join-Path $script:ResolvedProjectRoot 'out\logs\project_context_report.json'
-}
-
+$script:WorkspaceRoot = if ($env:MD_ROOT) { $env:MD_ROOT } else { [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..')) }
 $script:ManifestPath = Join-Path $script:ResolvedProjectRoot 'doc\project_context_manifest.json'
 $script:ContextType = 'missing'
+if (Get-Command Resolve-SgdkArtifactReportPath -ErrorAction SilentlyContinue) {
+    $OutputPath = Resolve-SgdkArtifactReportPath -ToolName 'project_context' -ProjectRoot $script:ResolvedProjectRoot -ExplicitPath $OutputPath
+} elseif ([string]::IsNullOrWhiteSpace($OutputPath)) {
+    $OutputPath = Join-Path $script:ResolvedProjectRoot 'out\logs\project_context_report.json'
+}
 $script:Report = [ordered]@{
     schema_version = '1.0.0'
     generated_at = (Get-Date).ToUniversalTime().ToString('o')
+    tool_name = $script:ToolName
+    tool_version = $script:ToolVersion
     project_root = $script:ResolvedProjectRoot
+    workspace_root = $script:WorkspaceRoot
+    status = 'error'
+    failure_reason = $null
+    validation_status = 'error'
     phase = $Phase
     manifest_path = $script:ManifestPath
     context_type = $script:ContextType
     documentation_profile = ''
     delivery_claim_ceiling = ''
-    status = 'blocked'
     ready = $false
     blocking_statuses = @()
     warnings = @()
@@ -146,6 +162,35 @@ $script:Report = [ordered]@{
     non_blocking_documents = @()
     details = @()
 }
+
+try {
+    if (-not (Test-Path -LiteralPath $script:ResolvedProjectRoot -PathType Container)) {
+        throw "ProjectRoot inexistente: $script:ResolvedProjectRoot"
+    }
+
+    $script:Report = [ordered]@{
+        schema_version = '1.0.0'
+        generated_at = (Get-Date).ToUniversalTime().ToString('o')
+        tool_name = $script:ToolName
+        tool_version = $script:ToolVersion
+        project_root = $script:ResolvedProjectRoot
+        workspace_root = $script:WorkspaceRoot
+        status = 'error'
+        failure_reason = $null
+        validation_status = 'blocked'
+        phase = $Phase
+        manifest_path = $script:ManifestPath
+        context_type = $script:ContextType
+        documentation_profile = ''
+        delivery_claim_ceiling = ''
+        ready = $false
+        blocking_statuses = @()
+        warnings = @()
+        required_documents = @()
+        phase_blocking_documents = @()
+        non_blocking_documents = @()
+        details = @()
+    }
 
 $contextRules = @{
     aaa_game = @{
@@ -341,7 +386,12 @@ if (-not (Test-Path -LiteralPath $script:ManifestPath -PathType Leaf)) {
 }
 
 $script:Report.ready = ($script:Report.blocking_statuses.Count -eq 0)
-$script:Report.status = if ($script:Report.ready) { 'passed' } else { 'blocked' }
+$script:Report.validation_status = if ($script:Report.ready) { 'passed' } else { 'blocked' }
+$script:Report.status = if ($script:Report.ready) { 'ok' } else { 'error' }
+if (-not $script:Report.ready) {
+    $blockers = ($script:Report.blocking_statuses -join '; ')
+    $script:Report.failure_reason = "Blocking statuses: $blockers"
+}
 
 $outputParent = Split-Path $OutputPath -Parent
 if (-not (Test-Path -LiteralPath $outputParent -PathType Container)) {
@@ -352,7 +402,28 @@ if (-not (Test-Path -LiteralPath $outputParent -PathType Container)) {
     ($script:Report | ConvertTo-Json -Depth 20),
     [System.Text.Encoding]::UTF8
 )
+$script:WrittenOk = $true
 
 Write-Host ("[validate_project_context] status={0} context={1} phase={2} blockers={3} report={4}" -f $script:Report.status, $script:Report.context_type, $Phase, $script:Report.blocking_statuses.Count, $OutputPath)
-if ($script:Report.ready) { exit 0 }
-exit 1
+    $script:ExitCode = if ($script:Report.ready) { 0 } else { 1 }
+} catch {
+    $script:FailureMessage = $_.Exception.Message
+    $script:ExitCode = 1
+    Write-Host ("[validate_project_context] UNHANDLED EXCEPTION: {0}" -f $script:FailureMessage)
+    if (-not $script:WrittenOk) {
+        $script:Report.status = 'error'
+        $script:Report.failure_reason = $script:FailureMessage
+        $script:Report.validation_status = 'error'
+    }
+} finally {
+    if (-not $script:WrittenOk) {
+        $domain = @{
+            validation_status = 'error'
+            phase = $Phase
+            context_type = if ($null -ne $script:Report -and -not [string]::IsNullOrWhiteSpace([string]$script:Report.context_type)) { $script:Report.context_type } else { 'unknown' }
+        }
+        $reason = if ([string]::IsNullOrWhiteSpace($script:FailureMessage)) { 'Unknown project context validation failure.' } else { $script:FailureMessage }
+        Write-SgdkFallbackFailureArtifact -ReportPath $OutputPath -ToolName $script:ToolName -ToolVersion $script:ToolVersion -ProjectRoot $script:ResolvedProjectRoot -FailureReason $reason -DomainData $domain
+    }
+    exit $script:ExitCode
+}

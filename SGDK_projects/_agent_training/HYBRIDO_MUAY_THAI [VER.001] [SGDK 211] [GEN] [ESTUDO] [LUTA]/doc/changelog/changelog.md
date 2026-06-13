@@ -335,3 +335,19 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
   - `out/logs/blastem_evidence_reconciliation_v009.json` registra evidencia parcial por bug conhecido do script de captura.
 - Status: `technical_runtime_candidate=true`, `visual_aprovado=false`, `human_visual_validation=pending`, `ready_for_aaa=false`.
 - Pos-validacao: `validate_resources.ps1 -WorkDir <project>` em 2026-06-09T05:52-03:00 retornou errors=0, warnings=11, checked=6 apos ajuste do `technique_usage_manifest.json` para registry/tags canonicos.
+
+## 2026-06-13T08:55:00Z - hibrido_fighter_v009_model_sheet_to_sprite_rejection
+
+- Task: curadoria humana do estudo e bloqueio da falha de fidelidade entre model sheet e sprite sheet.
+- Decisao: v009 reprovado visualmente; permanece apenas como candidato tecnico rejeitado.
+- Fonte comparada:
+  - `data/source_art/hibrido_fighter_v008/source_concept.png` sha256 `04e898f74564c7b1e8a00b7b1f2130ea8d4381b51d8ef0b5266545e04464e4ec`.
+  - `data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png` sha256 `952568f4b2354631ec13e93d61955476bc001d5752dc3578d5d8414c341a001d`.
+- Novo report:
+  - `out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json`.
+- Blockers adicionados: `model_sheet_to_sprite_fidelity_failed`, `signature_feature_loss`, `anatomy_simplified_into_block_mass`, `face_or_eye_readability_lost`, `material_palette_semantics_lost`, `generic_blocky_redraw`.
+- Status atualizado: `technical_pass=true`, `visual_pass=false`, `ready_for_res_promotion=false`, `ready_for_aaa=false`.
+- Curadoria canonica aplicada:
+  - novo schema `tools/sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json`;
+  - reforco nas skills de excelencia visual, traducao VDP, animacao de sprite e conversao;
+  - reforco no workflow premium de arte.

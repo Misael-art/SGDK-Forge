@@ -429,6 +429,28 @@
               }
             ]
           },
+          "model_sheet_to_sprite_fidelity_report": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              {
+                "type": "object",
+                "required": ["path"],
+                "properties": {
+                  "path": { "type": "string", "minLength": 1 },
+                  "status": {
+                    "type": "string",
+                    "enum": ["passed", "needs_review", "failed"]
+                  }
+                },
+                "additionalProperties": true
+              }
+            ]
+          },
+          "model_sheet_to_sprite_visual_match": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
           "animation_preview_evidence": {
             "oneOf": [
               { "type": "string", "minLength": 1 },

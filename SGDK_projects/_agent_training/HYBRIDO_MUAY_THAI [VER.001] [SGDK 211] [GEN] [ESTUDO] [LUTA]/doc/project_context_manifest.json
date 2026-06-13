@@ -1,16 +1,17 @@
 {
   "schema_version": "1.0.0",
-  "context_type": "unclassified",
-  "context_status": "unclassified",
-  "delivery_claim_ceiling": "none",
-  "documentation_profile": "unclassified",
+  "context_type": "exercise",
+  "context_status": "active",
+  "delivery_claim_ceiling": "exercise",
+  "documentation_profile": "exercise",
   "project_intent": {
-    "one_sentence_goal": "Classificar o contexto antes de gerar escopo, arte, runtime ou entrega.",
-    "success_definition": "O agente sabe se esta abrindo jogo AAA, demo tecnica, exercicio, review ou consultoria.",
+    "one_sentence_goal": "Treinar e auditar o pipeline de personagem 48x64 para Mega Drive sem promessa de entrega AAA.",
+    "success_definition": "O estudo produz aprendizado rastreavel sobre model sheet, sprite sheet, fidelidade visual e gates SGDK proporcionais ao treino.",
     "non_goals": [
       "Promover projeto sem evidencia",
       "Exigir pacote completo de jogo para exercicio ou review",
-      "Tratar consultoria como entrega de ROM"
+      "Tratar consultoria como entrega de ROM",
+      "Promover sprite sheet reprovado como arte final"
     ]
   },
   "blocking_policy": {
@@ -153,10 +154,10 @@
     ]
   },
   "context_decision_record": {
-    "selected_by": "unselected",
-    "rationale": "A sessao ainda nao classificou o contexto de producao.",
-    "evidence_or_prompt": "Classifique antes de executar.",
+    "selected_by": "human",
+    "rationale": "Projeto localizado em SGDK_projects/_agent_training, manifesto .mddev kind=study/category=art_training e pedido humano de curadoria de estudo.",
+    "evidence_or_prompt": "Pedido humano de 2026-06-13 para revisar o estudo HYBRIDO_MUAY_THAI e curar o agente canonico.",
     "human_confirmation_required_for_mode_change": true,
-    "last_reviewed_at": null
+    "last_reviewed_at": "2026-06-13T08:50:00Z"
   }
 }

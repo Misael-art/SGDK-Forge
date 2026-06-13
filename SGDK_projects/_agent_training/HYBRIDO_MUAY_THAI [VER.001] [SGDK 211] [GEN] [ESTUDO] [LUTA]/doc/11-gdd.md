@@ -1,6 +1,6 @@
 # GDD - HYBRIDO MUAY THAI
 
-Status: `training_lab_visual_rejected_v002`
+Status: `training_lab_visual_rejected_v009`
 
 ## Escopo
 
@@ -29,6 +29,11 @@ haver aprovacao humana, motion preview aprovado e evidencia BlastEm fresca.
 v002 falhou este gate: Pose 3 le como tres bracos, o rosto nao muda em poses de
 esforco e a traducao 48x64 perdeu olhos, lava, calcao e contraste material.
 
+v009 tambem falhou visualmente: mesmo com celula 48x64, PNG indexado e strips
+tecnicamente estruturados, o sprite sheet perdeu a heranca do model sheet v008.
+A anatomia virou massa blocada, rosto/olhos deixaram de ser foco, o braco de lava
+perdeu calor e mao clara, e shorts/bandagens/marcadores ficaram genericos.
+
 PNG tecnicamente valido, build limpo e ROM no BlastEm nao equivalem a aprovacao
 artistica.
 
@@ -39,3 +44,5 @@ tratado como fonte visual final.
 
 `data/builders/build_hibrido_fighter_assets_v002.py` tambem e rota reprovada:
 so pode ser usado com flag explicita de reproducao de laboratorio rejeitado.
+
+`data/builders/build_hibrido_fighter_sprite_sheet_v009.py` e `rejected_visual_inheritance_route` ate que um novo `model_sheet_to_sprite_fidelity_report` passe.

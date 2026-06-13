@@ -39,6 +39,18 @@ A traducao correta e reconstruir em grid nativo:
 
 Downscale pode servir como miniatura ou guia de proporcao. Nao e final art.
 
+Mesmo quando o agente redesenha em grid nativo, a folha ainda pode falhar se
+ela virar um boneco blocado/generico. Para sprite sheet derivado de model
+sheet aprovado, o redraw precisa passar por `model_sheet_to_sprite_fidelity_report`:
+
+- cada traço `must_preserve` do `visual_dna_manifest`/`design_inheritance`
+  precisa ser avaliado;
+- rosto/olhos, feature assinatura, roupa, materiais e acting por estado
+  precisam sobreviver em 48x64;
+- `technical_pass=true` com `visual_pass=false` bloqueia promocao;
+- falha exige retorno para `lineart_blocking_1px` por acao, nao polimento sobre
+  o PNG final.
+
 ## Quando usar
 
 Use esta skill quando:
@@ -110,6 +122,7 @@ informacao via quantizacao cega e o anti-padrao classico.
 - `hardware_expectations`
 - `intent_notes`
 - `visual_dna_manifest` e `design_inheritance` quando a traducao for personagem, boss, stage autoral ou HUD heroico
+- `model_sheet_to_sprite_fidelity_report` quando `translation_target=sprite_sheet` e houver model sheet aprovado
 - `animation_strip_contract` quando a traducao alvo for `sprite_sheet` com strips de acao
 - `fake_pixel_art_rejection` quando a fonte veio de IA, render high-res ou mockup que apenas parece pixel art
 
@@ -140,6 +153,7 @@ informacao via quantizacao cega e o anti-padrao classico.
 - `native_grid_translation_report` quando a fonte precisar virar pixel art nativa
 - `fake_pixel_art_rejection` quando aplicavel
 - `authorial_consistency_report` quando a traducao tocar asset critico autoral
+- `model_sheet_to_sprite_fidelity_report` quando a traducao gerar sprite sheet de personagem a partir de model sheet
 
 ### Saida opcional quando houver multiplas rotas viaveis
 
@@ -153,6 +167,7 @@ informacao via quantizacao cega e o anti-padrao classico.
 - o parsing semantico foi emitido antes de qualquer promocao final
 - a traducao nao aceita metadata-only como asset aprovado
 - strips de animacao preservam acao unica, pivot, escala, roupa, rosto, paleta e bbox declarados no `visual_dna_manifest`
+- sprite sheet derivado de model sheet preserva os traços `must_preserve` em `model_sheet_to_sprite_fidelity_report`; `native redraw` sem fidelidade vira `generic_blocky_redraw`, nao `elite`
 - fonte IA/high-res nao foi promovida como sprite nativo sem nearest-neighbor/redesenho, indexacao limpa e rejeicao de fake pixel art
 - `elite` se sustenta melhor que `basic`
 - quando houver duas ou mais leituras fortes, a exploracao de rotas foi registrada antes da promocao final

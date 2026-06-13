@@ -68,6 +68,7 @@ Regra critica:
 - warning visual em asset promovido volta para o builder/spec do asset; nao compense no runtime sem registrar tradeoff
 - antes de declarar promocao concluida, gere ou atualize manifesto do builder e rode `res_graph_audit.ps1`, `validate_resources.ps1` e `freshness_audit.ps1`
 - antes de promover sprite/strip gerado por IA, registrar `fake_pixel_art_rejection`, `pixel_perfect_animation_pass` quando houver movimento e `sprite_artifact_report`
+- antes de promover sprite/strip derivado de model sheet aprovado, registrar `model_sheet_to_sprite_fidelity_report`; falha em fidelidade bloqueia `res/` final mesmo com PNG valido
 - antes de promover UI final, health bar, fonte, micro-icone, caixa ou cursor, registrar `ui_pixel_surface_contract` quando a surface depender de pixel-perfect, atlas, fonte ou barra
 - para AAA/stable/release, gerar `asset_optimization_report` com compressao `.res`, dedup/reuse medido, custo ROM, custo VRAM e decisao por recurso
 
@@ -536,6 +537,7 @@ Ao converter sprites, use estes jogos como benchmark visual:
 - asset critico nao vem de `local_author_pixel_rasterization`, `procedural_renderer` ou `data/debug_lab/`
 - asset critico em `res/` aponta para fonte premium real em `data/source_art/`
 - promocao para `res/` fica bloqueada quando `source_validity=false`, `authoriality_gate!=passed`, `clone_risk_score` ou `benchmark_similarity_index` acima dos limites declarados, `needs_review`, `placeholder`, `debug_lab`, `benchmark-derived`, `rework`, `perceptual_quality=nao_medido`, `elite_ready=false`, `blocked_image_tooling`, `blocked_no_premium_source`, `lab_not_delivery` ou `source_to_rom_visual_match < 8` ja estiver registrado
+- promocao para `res/` final tambem fica bloqueada por `model_sheet_to_sprite_fidelity_failed`, `signature_feature_loss`, `generic_blocky_redraw` ou `model_sheet_to_sprite_fidelity_report.status != passed`
 - para personagem animado critico, promocao para `res/` tambem fica bloqueada quando `animation_direction_contract`, `timing_spacing_report`, `impact_frame_contract`, `recovery_curve_report`, `hit_reaction_contract` aplicavel, `shading_motion_report` ou `palette_flash_policy` aplicavel estiver ausente, sintetico ou contraditorio com o strip
 - benchmark tecnico nao vira fonte visual nem substitui `premium_source_manifest`
 - `PALETTE_WASTE` em asset critico bloqueia promocao; gi branco ou tecido claro exige `white_material_palette_contract`

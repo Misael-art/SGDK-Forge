@@ -514,3 +514,39 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 - PNG palette validator / PLTE trim: `TEORICA_STANDARD` ate fixture aprovada.
 - Runtime probe / scene regression: `TEORICA_STANDARD` ou `MESTRE` somente com evidencia canonica suficiente.
 - Nunca promover para `MESTRE` neste lote sem aprovacao humana explicita.
+
+## 28. Flags canonicas de script (WarnOnly, SkipManual, Force)
+
+Scripts wrapper e gate devem expor consistentemente os seguintes flags canonicos quando aplicavel:
+
+### 28.1 `-WarnOnly`
+- Degrada falhas/erros para warning.
+- O script continua executando mesmo quando encontraria blockers.
+- Exit code normalmente e 0 quando combinado com erros degradados.
+- Domínio: `scene_closeout_gate.ps1`, `validate_artifact_schema.ps1`, `validate_resources.ps1`.
+
+### 28.2 `-SkipManual`
+- Pula etapas que exigem intervencao humana ou confirmacao explicita.
+- Nao equivalente a `-Force`; apenas omite passos com `manual_intervention_required=true`.
+- Domínio: scripts de validacao com gate humano.
+
+### 28.3 `-Force`
+- Regenera ou reexecuta operacoes destrutivas/idempotentes.
+- Nunca significa "skip validation"; forcar sobrescrita de artefato existente, recaptura de evidencia ou reavaliacao de blockers.
+- Domínio: `capture_blastem_evidence.ps1`, `run_scene_regression.ps1`, scripts de conversao.
+- `-Force` nao desliga outras validacoes; continua respeitando `-WarnOnly` se ambos forem passados.
+
+### 28.4 Convencao de step-skip
+- Flags especificos de dominio como `-SkipBuild`, `-SkipRuntimeCapture`, `-SkipSceneRegression` permanece em `scene_closeout_gate.ps1`.
+- Eles sao ortogonais aos canonicos: `-SkipBuild -WarnOnly` pula build e degrada falhas restantes.
+
+### 28.5 Implementacao padrao
+```powershell
+param(
+    [switch]$WarnOnly,
+    [switch]$SkipManual,
+    [switch]$Force
+)
+```
+Scripts que consomem module `sgdk_artifact_contracts.psm1` herdam as helpers de envelope e fallback.
+Exit code: `0` se `status != error` ou `WarnOnly` esta ativo; caso contrario `1`.

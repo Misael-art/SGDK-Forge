@@ -34,28 +34,53 @@ param(
     [switch]$WarnOnly,
 
     [Parameter(Mandatory = $false)]
-    [switch]$PlanOnly
+    [switch]$PlanOnly,
+
+    [Parameter(Mandatory = $false)]
+    [string]$ReportPath = ""
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+$libDir = Join-Path $PSScriptRoot 'lib'
+$modulePath = Join-Path $libDir 'sgdk_artifact_contracts.psm1'
+if (Test-Path -LiteralPath $modulePath -PathType Leaf) {
+    Import-Module $modulePath -Force
+}
+
+$script:ToolName = 'scene_closeout_gate'
+$script:ToolVersion = '0.2.0'
+$script:WrittenOk = $false
+$script:FailureMessage = ''
+$script:ExitCode = 1
+$previousCloseoutBuilding = $null
+
 if ([string]::IsNullOrWhiteSpace($ProjectRoot)) {
     $ProjectRoot = (Get-Location).Path
 }
 $ProjectRoot = [System.IO.Path]::GetFullPath($ProjectRoot)
-if (-not (Test-Path -LiteralPath $ProjectRoot -PathType Container)) {
-    throw "ProjectRoot not found: $ProjectRoot"
+$script:FallbackProjectRoot = $ProjectRoot
+
+if (Get-Command Resolve-SgdkArtifactReportPath -ErrorAction SilentlyContinue) {
+    $script:FallbackReportPath = Resolve-SgdkArtifactReportPath -ToolName $script:ToolName -ProjectRoot $ProjectRoot -ExplicitPath $ReportPath
+} else {
+    $script:FallbackReportPath = if ([string]::IsNullOrWhiteSpace($ReportPath)) { Join-Path $ProjectRoot 'out\logs\scene_closeout_gate_report.json' } else { $ReportPath }
 }
 
-$ScriptRoot = $PSScriptRoot
-$LogDir = Join-Path $ProjectRoot "out\logs"
-if (-not (Test-Path -LiteralPath $LogDir -PathType Container)) {
-    New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
-}
-$ReportPath = Join-Path $LogDir "scene_closeout_gate_report.json"
-$previousCloseoutBuilding = $env:SGDK_SCENE_CLOSEOUT_BUILDING
-$env:SGDK_SCENE_CLOSEOUT_BUILDING = "1"
+try {
+    if (-not (Test-Path -LiteralPath $ProjectRoot -PathType Container)) {
+        throw "ProjectRoot not found: $ProjectRoot"
+    }
+
+    $ScriptRoot = $PSScriptRoot
+    $LogDir = Join-Path $ProjectRoot "out\logs"
+    if (-not (Test-Path -LiteralPath $LogDir -PathType Container)) {
+        New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
+    }
+    $ReportPath = $script:FallbackReportPath
+    $previousCloseoutBuilding = $env:SGDK_SCENE_CLOSEOUT_BUILDING
+    $env:SGDK_SCENE_CLOSEOUT_BUILDING = "1"
 
 function New-Step {
     param(
@@ -236,6 +261,7 @@ if (-not $SkipSceneRegression) {
 
 $executed = New-Object System.Collections.ArrayList
 $failed = $false
+$reportFailureStep = ''
 foreach ($step in @($steps)) {
     if ($step.status -eq "skipped") {
         [void]$executed.Add($step)
@@ -248,6 +274,7 @@ foreach ($step in @($steps)) {
 
     if ($result.status -eq "failed") {
         $failed = $true
+        $reportFailureStep = $result.name
         break
     }
 }
@@ -362,52 +389,83 @@ $closeoutBlockingStatuses = @($closeoutBlockingStatuses | Where-Object {
 } | Select-Object -Unique)
 $closeoutBlocked = (-not $failed) -and (-not $PlanOnly) -and ($closeoutBlockingStatuses.Count -gt 0)
 
-$report = [ordered]@{
-    schema_version = "1.0.0"
-    generated_at = (Get-Date).ToUniversalTime().ToString("o")
-    tool_name = "scene_closeout_gate"
-    tool_version = "0.1.0"
-    project_root = $ProjectRoot
-    scene_id = $SceneId
-    target_scene = if ($TargetScene -ge 0) { $TargetScene } else { $null }
-    plan_only = [bool]$PlanOnly
-    warn_only = [bool]$WarnOnly
-    status = if ($failed) { "failed" } elseif ($PlanOnly) { "planned" } elseif ($closeoutBlocked) { "blocked" } else { "ok" }
-    summary = [ordered]@{
-        steps_total = $executed.Count
-        planned = @($executed | Where-Object { $_.status -eq "planned" }).Count
-        succeeded = @($executed | Where-Object { $_.status -eq "ok" }).Count
-        failed = @($executed | Where-Object { $_.status -eq "failed" }).Count
-        warnings = @($executed | Where-Object { $_.status -eq "warning" }).Count
-        skipped = @($executed | Where-Object { $_.status -eq "skipped" }).Count
-        blocked = if ($closeoutBlocked) { 1 } else { 0 }
-        validation_report_readable = [bool]$validationReportReadable
-        validation_blocking_statuses = @($validationBlockingStatuses)
-        closeout_blocking_statuses = @($closeoutBlockingStatuses)
-        res_graph_vram_status = $resGraphVramStatus
-        res_graph_vram_overlap_count = $resGraphVramOverlapCount
+    $workspaceRoot = if ($env:MD_ROOT) { $env:MD_ROOT } else { 'UNKNOWN' }
+    $closeoutRawStatus = if ($failed) { "failed" } elseif ($PlanOnly) { "planned" } elseif ($closeoutBlocked) { "blocked" } else { "ok" }
+    $commonStatus = if ($failed) { "error" } elseif ($closeoutBlocked) { if ($WarnOnly) { "warn" } else { "error" } } else { "ok" }
+    $failureReason = if ($failed) { "Closeout failed at step: $($reportFailureStep)" } elseif ($closeoutBlocked) { "Blocked by: $($closeoutBlockingStatuses -join '; ')" } else { $null }
+
+    $report = [ordered]@{
+        schema_version = "1.0.0"
+        generated_at = (Get-Date).ToUniversalTime().ToString("o")
+        tool_name = $script:ToolName
+        tool_version = $script:ToolVersion
+        project_root = $ProjectRoot
+        workspace_root = $workspaceRoot
+        status = $commonStatus
+        failure_reason = $failureReason
+        closeout_status = $closeoutRawStatus
+        scene_id = $SceneId
+        target_scene = if ($TargetScene -ge 0) { $TargetScene } else { $null }
+        plan_only = [bool]$PlanOnly
+        warn_only = [bool]$WarnOnly
+        summary = [ordered]@{
+            steps_total = $executed.Count
+            planned = @($executed | Where-Object { $_.status -eq "planned" }).Count
+            succeeded = @($executed | Where-Object { $_.status -eq "ok" }).Count
+            failed = @($executed | Where-Object { $_.status -eq "failed" }).Count
+            warnings = @($executed | Where-Object { $_.status -eq "warning" }).Count
+            skipped = @($executed | Where-Object { $_.status -eq "skipped" }).Count
+            blocked = if ($closeoutBlocked) { 1 } else { 0 }
+            validation_report_readable = [bool]$validationReportReadable
+            validation_blocking_statuses = @($validationBlockingStatuses)
+            closeout_blocking_statuses = @($closeoutBlockingStatuses)
+            res_graph_vram_status = $resGraphVramStatus
+            res_graph_vram_overlap_count = $resGraphVramOverlapCount
+        }
+        steps = @($executed)
+        observed_artifacts = [ordered]@{
+            validation_report = if (Test-Path -LiteralPath $validationReportPath) { $validationReportPath } else { $null }
+            freshness_audit_report = if (Test-Path -LiteralPath $freshnessReportPath) { $freshnessReportPath } else { $null }
+            res_graph_report = if (Test-Path -LiteralPath $resGraphReportPath) { $resGraphReportPath } else { $null }
+            scene_regression_report = if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sceneRegressionReportPath } else { $null }
+            runtime_metrics = if (Test-Path -LiteralPath $runtimeMetricsPath) { $runtimeMetricsPath } else { $null }
+            rom = if (Test-Path -LiteralPath (Join-Path $ProjectRoot "out\rom.bin")) { (Join-Path $ProjectRoot "out\rom.bin") } else { $null }
+        }
     }
-    steps = @($executed)
-    observed_artifacts = [ordered]@{
-        validation_report = if (Test-Path -LiteralPath $validationReportPath) { $validationReportPath } else { $null }
-        freshness_audit_report = if (Test-Path -LiteralPath $freshnessReportPath) { $freshnessReportPath } else { $null }
-        res_graph_report = if (Test-Path -LiteralPath $resGraphReportPath) { $resGraphReportPath } else { $null }
-        scene_regression_report = if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sceneRegressionReportPath } else { $null }
-        runtime_metrics = if (Test-Path -LiteralPath $runtimeMetricsPath) { $runtimeMetricsPath } else { $null }
-        rom = if (Test-Path -LiteralPath (Join-Path $ProjectRoot "out\rom.bin")) { (Join-Path $ProjectRoot "out\rom.bin") } else { $null }
+
+    $reportParent = Split-Path $ReportPath -Parent
+    if (-not [string]::IsNullOrWhiteSpace($reportParent) -and -not (Test-Path -LiteralPath $reportParent -PathType Container)) {
+        New-Item -ItemType Directory -Force -Path $reportParent | Out-Null
     }
-}
+    $report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $ReportPath -Encoding UTF8
+    $script:WrittenOk = $true
+    Write-Host ("[CLOSEOUT] status={0} report={1}" -f $report.status, $ReportPath)
 
-$report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $ReportPath -Encoding UTF8
-Write-Host ("[CLOSEOUT] status={0} report={1}" -f $report.status, $ReportPath)
-
-if ($null -eq $previousCloseoutBuilding) {
-    Remove-Item Env:\SGDK_SCENE_CLOSEOUT_BUILDING -ErrorAction SilentlyContinue
-} else {
-    $env:SGDK_SCENE_CLOSEOUT_BUILDING = $previousCloseoutBuilding
+    if ($failed) {
+        $script:ExitCode = 1
+    } elseif ($closeoutBlocked -and -not $WarnOnly) {
+        $script:ExitCode = 1
+    } else {
+        $script:ExitCode = 0
+    }
+} catch {
+    $script:FailureMessage = $_.Exception.Message
+    $script:ExitCode = 1
+    Write-Host ("[CLOSEOUT] UNHANDLED EXCEPTION: {0}" -f $script:FailureMessage)
+} finally {
+    if ($null -eq $previousCloseoutBuilding) {
+        Remove-Item Env:\SGDK_SCENE_CLOSEOUT_BUILDING -ErrorAction SilentlyContinue
+    } else {
+        $env:SGDK_SCENE_CLOSEOUT_BUILDING = $previousCloseoutBuilding
+    }
+    if (-not $script:WrittenOk) {
+        $domain = @{
+            closeout_status = 'error'
+            scene_id = $SceneId
+            plan_only = [bool]$PlanOnly
+        }
+        $reason = if ([string]::IsNullOrWhiteSpace($script:FailureMessage)) { 'Unknown scene closeout failure.' } else { $script:FailureMessage }
+        Write-SgdkFallbackFailureArtifact -ReportPath $script:FallbackReportPath -ToolName $script:ToolName -ToolVersion $script:ToolVersion -ProjectRoot $script:FallbackProjectRoot -FailureReason $reason -DomainData $domain
+    }
+    exit $script:ExitCode
 }
-
-if (($failed -or $closeoutBlocked) -and -not $WarnOnly) {
-    exit 1
-}
-exit 0

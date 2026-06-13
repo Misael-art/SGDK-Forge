@@ -8,7 +8,7 @@
 - Ultimo build versionado: build_v004
 - ROM vigente: `764d5a95c5c6aa979905afaeba417c6225b0547299537bb27228c4c85a9b34da` (`131072` bytes)
 - Validation summary: errors=0 warnings=11
-- Blockers vigentes: project_methodology_manifest_invalid, gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing
+- Blockers vigentes: project_methodology_manifest_invalid, gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing, model_sheet_to_sprite_fidelity_failed
 - Evidencia de emulador: session_not_captured
 - Gate visual: visual_lab_aprovado=False
 - Gate gameplay: gameplay_rom_aprovada=False
@@ -184,8 +184,27 @@
   - `doc/contracts/visual_dna_manifest_v009.json`;
   - `doc/contracts/animation_direction_contract_v009.json`;
   - `doc/contracts/human_validation_record_v009.md`.
-- Status honesto: `technical_runtime_candidate=true`, `blastem_partial_evidence=true`, `visual_aprovado=false`, `human_visual_validation=pending`, `ready_for_aaa=false`.
+- Status honesto: `technical_runtime_candidate=true`, `blastem_partial_evidence=true`, `visual_aprovado=false`, `human_visual_validation=rejected`, `ready_for_aaa=false`.
 - Pos-validacao 2026-06-09T05:52-03:00: `validate_resources.ps1 -WorkDir <project>` retornou errors=0, warnings=11, checked=6; o `technique_usage_manifest.json` foi corrigido para usar registry_id canonico e tags reconhecidas.
+
+## 2026-06-13 - Reprovacao curatorial v009 por fidelidade model sheet -> sprite sheet
+
+- Pedido humano: revisar o estudo porque o model sheet v008 tinha direcao forte, mas o sprite sheet v009 virou arte blocada e desconectada do design original.
+- Decisao curatorial: `hibrido_fighter_complete_sprite_sheet_48x64_v009.png` fica reprovado visualmente.
+- Evidencia:
+  - source/model sheet: `data/source_art/hibrido_fighter_v008/source_concept.png`;
+  - sprite sheet reprovado: `data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png`;
+  - report novo: `out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json`.
+- Falha principal: conformidade tecnica de celula, PNG modo P, PLTE e grid 9-bit nao preservou anatomia, rosto/olhos, braco de lava, calcao preto/dourado, bandagens, marcadores vermelhos nem acting de Muay Thai.
+- Novo aprendizado local: folha de personagem 48x64 derivada de model sheet aprovado exige `model_sheet_to_sprite_fidelity_report` antes de promocao para `res/`, baseline visual ou claim de qualidade.
+- Status v009 apos revisao: `technical_pass=true`, `visual_pass=false`, `ready_for_res_promotion=false`, `ready_for_aaa=false`.
+- Proxima rota: nao remendar PNG final; voltar para `lineart_blocking_1px` por estado/acao, reconstruir clusters nativos preservando o DNA v008 e gerar comparativo model sheet/sprite/contact sheet antes de runtime.
+- Validacao pos-curadoria:
+  - `validate_project_context`: status ok, contexto `exercise`, blockers=0;
+  - `validate_project_methodology`: passed, blockers=0;
+  - `validate_project_hygiene`: passed, blockers=0;
+  - `validate_resources`: errors=0, warnings=11, checked=6; avisos preservam bloqueio visual, evidencia de emulador insuficiente e closeout ausente;
+  - `freshness_audit`: status warning; nao ha entrega AAA, apenas registro honesto de estudo rejeitado.
 
 
 

@@ -66,3 +66,12 @@
 - Mitigacao: Todo membro especial precisa de ombro/cotovelo/punho/mao legiveis. Sombreamento deve usar clusters limpos de 2-3 tons; microdetalhe que vira tile-noise reprova. Personagem deve ser planejado com uma paleta de 16 cores para corpo.
 - Evidencia: out/logs/hibrido_v006_model_sheet_review_report.json, data/source_art/hibrido_fighter_v006/source_concept.png
 - Limite de uso: Ruido fino pode existir em concept exploratorio, mas nao em source candidato a spritesheet.
+
+## model sheet to sprite sheet fidelity gate is mandatory
+
+- Data: 2026-06-13
+- Falha observada: v009 produziu sprite sheet 48x64 tecnicamente organizado, mas com arte blocada e generica, perdendo a anatomia, rosto/olhos, braco de lava, shorts preto/dourado, bandagens e acting do model sheet v008.
+- Causa provavel: O pipeline tratou `native redraw` e `sprite_strip_integrity` como garantia visual. Eles provam celula e integridade tecnica, mas nao medem heranca do design aprovado.
+- Mitigacao: Antes de promocao para `res/`, baseline visual ou claim de qualidade, emitir `model_sheet_to_sprite_fidelity_report` comparando model sheet, sprite sheet e contact sheet. Cada traço `must_preserve` precisa passar ou o asset volta para lineart/blocking por estado.
+- Evidencia: out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json, data/source_art/hibrido_fighter_v008/source_concept.png, data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png
+- Limite de uso: Aplica-se a personagem, lutador, boss, inimigo grande e NPC expressivo derivados de model sheet. Nao substitui pixel compliance, strip integrity, motion preview nem BlastEm; complementa esses gates.

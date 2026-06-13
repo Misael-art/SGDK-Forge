@@ -48,11 +48,13 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - `source_validity_report`, `authoriality_gate_report` e `clone_risk_report` quando houver asset critico autoral
 - `authorial_model_sheet` para personagem principal e `authorial_stage_concept` para cenario autoral
 - `visual_dna_manifest`, `design_inheritance`, `project_bible`, `benchmark_usage_policy`, `authorial_consistency_report` e `style_drift_report` quando a revisao envolver autoria, benchmark ou identidade de projeto
+- `model_sheet_to_sprite_fidelity_report` quando um personagem, lutador, boss, inimigo grande ou NPC expressivo virar sprite sheet a partir de model sheet aprovado
 - `creative_director_radar` quando o projeto for novo, reseed,
   vertical_slice_candidate, ready_for_aaa, front-end autoral, cena assinatura ou
   parecer de lacuna de personalidade
 - `white_material_palette_contract` quando sprite heroico usar gi branco ou tecido claro
 - `sprite_artifact_report` quando asset critico for personagem animado, lutador, inimigo grande ou boss
+- `model_sheet_to_sprite_fidelity_report` com decisao por traço `must_preserve` quando houver source/model sheet e sprite sheet derivado
 
 ### Saida minima
 
@@ -119,6 +121,7 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - assets criticos promovidos para `res/` possuem fonte premium real em `data/source_art/` e `source_to_rom_visual_match >= 8`
 - assets criticos promovidos para `res/` possuem `elite_ready=true`
 - personagem animado critico em `res/` possui `sprite_artifact_report.status=passed`
+- personagem animado critico derivado de model sheet possui `model_sheet_to_sprite_fidelity_report.status=passed`; `sprite_artifact_report.status=passed` sem fidelidade visual e apenas conformance tecnica
 - personagem novo, heroi, inimigo relevante, lutador, boss ou NPC expressivo possui `visual_dna_manifest.scale_contract` com bbox em multiplos de 8, `scale_lock_status=locked` antes de key poses, FOV/hitbox/workload declarados e politica de mudanca sem resize silencioso
 - personagem critico, heroi, lutador, boss, NPC expressivo ou asset autoral passa `lineart_blocking_1px` antes de color blocking; lineart deve ser 1 px, hard-edge, uma cor escura temporaria, sem AA/blur/degraus/double corners/pixels orfaos
 - personagem grande animado em `res/` possui `slicing_cell_contract`, `motion_phase_map`, `frame_delta_report`, `contact_sheet`, `pivot_overlay` e `foot_contact_report` reais; relatorio mecanico sem medicao nao aprova animacao
@@ -247,6 +250,38 @@ Todo lutador/personagem critico em 48x64 precisa responder, em runtime:
 
 Se a resposta de 1 ou 2 for "nao", ou 3 indicar imagem degradada, o asset
 fica `placeholder`/`needs_rework` e o gate visual continua fechado.
+
+## Gate de fidelidade model sheet -> sprite sheet
+
+Para personagem, lutador, boss, inimigo grande ou NPC expressivo derivado de
+model sheet, o agente deve provar heranca visual antes de aceitar a folha.
+
+`sprite_strip_integrity`, PNG modo P, PLTE <= 16, celula 48x64 e pivots
+estaveis medem sintaxe e integridade. Eles nao medem se o personagem ainda e o
+mesmo.
+
+Antes de promover para `res/`, baseline visual, `elite_ready`, `delivery` ou
+`ready_for_aaa`, emitir `model_sheet_to_sprite_fidelity_report` validando:
+
+- anatomia e proporcao do model sheet;
+- rosto, olhos, expressao e direcao do olhar;
+- feature assinatura, arma, membro especial ou silhueta proprietaria;
+- roupa, marcadores, paleta/material e contraste semantico;
+- acting por estado, especialmente ataque, dano, idle e locomocao;
+- comparacao lado a lado `model_sheet + sprite_sheet + contact_sheet`, em
+  escala nativa e ampliacao de review.
+
+Falhas canonicas:
+
+- `signature_feature_loss`
+- `anatomy_simplified_into_block_mass`
+- `face_or_eye_readability_lost`
+- `material_palette_semantics_lost`
+- `generic_blocky_redraw`
+
+Qualquer falha acima deixa `visual_pass=false`, mesmo quando
+`technical_pass=true`. A proxima rota e voltar para `lineart_blocking_1px` por
+estado/acao; nao remendar o PNG final nem compensar no runtime.
 
 ## Baseline Visual
 
@@ -650,6 +685,7 @@ Reprovar imediatamente quando houver:
 - health bar sem buffer de dano latente quando o jogo depende de leitura de impacto
 - UI que usa free-scale, subpixel motion, AA ou interpolacao para parecer lisa
 - personagem com escala alterada depois de key poses sem reseed
+- sprite sheet derivado de model sheet que vira boneco blocado/generico ou perde feature assinatura
 - material critico com straight shading lavado ou paleta de microvariacoes
 - projeto, cena ou front-end tecnicamente limpo, mas sem momento assinatura,
   sem identidade autoral ou sem resposta aos gaps aceitos no

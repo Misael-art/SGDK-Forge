@@ -37,3 +37,16 @@ suave. O sprite deve ser reconstruido em clusters pixel art:
 - Sem ruido de dithering automatico.
 - Sem blur, anti-aliasing ou halo.
 - Sem promocao visual apenas por validacao tecnica.
+
+## 5. Gate model sheet -> sprite sheet
+
+Antes de promover uma folha derivada do model sheet:
+
+- Gerar `model_sheet_to_sprite_fidelity_report`.
+- Comparar model sheet, sprite sheet e contact sheet lado a lado.
+- Listar traços `must_preserve`: anatomia, rosto/olhos, braco de lava, shorts, bandagens, faixa vermelha, paleta/material e acting por estado.
+- Marcar como blocker qualquer traço assinatura que vire bloco generico.
+- Separar `technical_pass` de `visual_pass`.
+- Se o sheet falhar, voltar para lineart/blocking por acao; nao remendar o PNG final.
+
+Critério: folha tecnicamente indexada, 48x64 e alinhada ainda reprova se nao herdar o DNA visual do model sheet aprovado.

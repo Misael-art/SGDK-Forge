@@ -16,6 +16,7 @@ Use esta skill ANTES de qualquer acao de conversao ou criacao de arte. Ela deter
 | `1_data_needs_conversion` | `/data` existe com PNGs, sem `/res` adequado | Converter assets de /data |
 | `2_res_exists_check` | `/res` existe com PNGs referenciados em .res | Diagnosticar qualidade dos assets em /res |
 | `3_no_art` | Nenhum asset encontrado em /data ou /res | Emitir `context_pack_manifest` e decidir rota A (IA) ou B (web) com `art-creation-sourcing`. Em paralelo, rodar `imagegen_circuit.py preflight` para verificar se o host pode gerar Bonsai (license + host + scope) ou ComfyUI. |
+| `4_lab_nested_art_review` | Projeto de treino/laboratorio sem `/data` ou `/res` convencionais, mas com arte em `work/`, `analysis/`, `evidence/`, `rascunho/inputs`, bins gerados ou viewer SGDK aninhado | Nao declarar ausencia de arte; auditar o pipeline de laboratorio, comparar fonte/export/BlastEm e rotear para `multi-plane-composition` ou `visual-excellence-standards`. |
 
 ---
 
@@ -212,5 +213,6 @@ Para cada asset reportar:
 | Cenario 1 (data existe) | Ir para `art-conversion-pipeline` |
 | Cenario 2 (res inadequado) | Apresentar relatorio ao usuario para decisao de rota |
 | Cenario 3 (sem arte) | Ir para `art-creation-sourcing` — emitir `context_pack_manifest`, `master_style_manifest` e decidir rota A ou B |
+| Cenario 4 (arte de laboratorio aninhada) | Auditar `work/`, `analysis/`, `evidence/` e viewer aninhado antes de criar arte nova; nao usar `3_no_art` como verdade final |
 | Issues criticos em /res | Bloquear build, corrigir antes de prosseguir |
 | Apenas avisos em /res | Informar usuario, prosseguir com ressalvas documentadas |

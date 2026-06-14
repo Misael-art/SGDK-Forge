@@ -32,6 +32,9 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - `doc/03_art/02_visual_feedback_bank.md` e barra de qualidade quando existirem
 - `premium_source_manifest`, `source_to_rom_asset_map` e `benchmark_match_report` quando houver alegacao de `AAA`, `pronto`, `delivery` ou promocao para ROM
 - contexto de composicao (`layer_plan` / `shared_canvas_contract`) quando houver multi-plano
+- `camera_motion_contract` e `parallax_layer_contract` quando houver palco de
+  luta, camera horizontal/vertical, fonte MUGEN/DEF, Tiled parallax ou cena com
+  deltas por camada
 - `scene_direction_record`, `scene_signature_techniques`, `parallax_layer_contract`, `palette_cycle_decision_card`, `raster_fx_ownership_map` e `background_ecology_card` quando o cenario declarar perfil competente, monumental, signature-only ou qualquer efeito de plano
 - `ui_decision_card` quando a surface formal for HUD/UI/overlay/menu
 - `ui_pixel_surface_contract` quando a UI formal tiver barra, caixa, micro-icone, cursor, fonte ou surface pixel-perfect de entrega
@@ -84,6 +87,13 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - `art_gameplay_direction_gate_report` quando a revisao envolver asset critico
   que precise provar supervisao conjunta de art director e contexto de game
   design antes de producao ou promocao
+- `palette_vitality_check` quando a diretriz visual pedir cor vibrante, quando
+  a fonte tiver alta diferenciacao cromatica, quando houver `pass_with_degradation`
+  ou quando nearest-color/remap/quantizacao puder apagar material, atmosfera ou
+  separacao de planos
+- `camera_composition_check` quando o runtime ou screenshot vier de camera com
+  scroll horizontal/vertical, palco de luta, zoffset, verticalfollow,
+  parallax ou foco em personagens
 - `source_to_rom_asset_map` com match visual contra a fonte premium quando a ROM ja usa o asset
 - `benchmark_match_report` quando o projeto declarar benchmark de engine, genero ou prototipo
 - leitura de `attention_profile` e `hud_density` quando houver UI formal
@@ -115,6 +125,16 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - asset critico em `needs_review`, `rework` ou `placeholder` bloqueia `pronto`, `AAA`, `delivery` e `ready_for_aaa=true`
 - asset critico em `debug_lab` ou `benchmark-derived` tambem bloqueia `pronto`, `AAA`, `delivery` e `ready_for_aaa=true`
 - `perceptual_quality=nao_medido` bloqueia `ready_for_aaa=true`
+- `pass_with_degradation` em paleta, remap ou conversao de asset critico nao e
+  aprovacao visual; se a diretriz pedir cor vibrante ou a fonte depender de
+  contraste cromatico, a entrega precisa de `palette_vitality_check=passed`
+  antes de qualquer claim visual
+- nearest-color remap massivo, reducao severa de cores uteis ou perda de papeis
+  de material recebe `palette_vibrancy_lost`, mesmo quando cada tile cabe em
+  uma sub-paleta
+- palco de luta com camera X/Y precisa preservar chao, zoffset, foco de
+  personagens e planos; screenshot visivel sem `camera_composition_check`
+  fica no maximo `lab_evidence`
 - `measurement_level` precisa ser `measured`, `emulator_verified` ou `vdp_dump_verified` para qualquer asset critico e para o `visual_delivery_gate_report`; `declared` e `estimated` sao planejamento
 - `leaf_blocker_propagation=true` e obrigatorio: se uma folha/asset folha tiver `needs_review`, ilha, stale, `index0_high_risk`, `vdp_dump_missing` ou `measured=false`, o report final herda o blocker e força `ready_for_aaa=false`
 - `source_validity=true` precisa existir antes de qualquer `source_to_rom_visual_match`

@@ -128,6 +128,12 @@ informacao via quantizacao cega e o anti-padrao classico.
 - `model_sheet_to_sprite_fidelity_report` quando `translation_target=sprite_sheet` e houver model sheet aprovado
 - `animation_strip_contract` quando a traducao alvo for `sprite_sheet` com strips de acao
 - `fake_pixel_art_rejection` quando a fonte veio de IA, render high-res ou mockup que apenas parece pixel art
+- `camera_motion_contract` e `parallax_layer_contract` quando a fonte for
+  stage MUGEN/DEF, Tiled parallax, cena de luta com scroll X/Y ou background
+  com deltas por camada
+- `palette_vitality_check` quando a diretriz pedir cores vibrantes, quando a
+  fonte depender de contraste cromatico, ou quando a primeira rota gerar
+  nearest-color/remap massivo
 
 ## Contrato Operacional
 
@@ -176,6 +182,12 @@ informacao via quantizacao cega e o anti-padrao classico.
 - se houver `art_gameplay_direction_gate`, a traducao preserva camera,
   interacao, papel de gameplay e marcadores `must_preserve`; asset bonito fora
   de contexto vira `director_gate_unapproved`
+- stage com multiplos deltas, zoffset ou verticalfollow nao pode virar sheet
+  plana unica sem `compare_flat` honesto; se a rota achatar parallax, declarar
+  `lab_flattened_reference` ou voltar para `multi-plane-composition`
+- traducao que encaixa em 4 sub-paletas mas perde vibracao, temperatura de
+  materiais, agua/ceu/vegetacao/rocha ou separacao de planos nao passa como
+  `elite`; usar `palette_vitality_check`, nao apenas `per_tile_palette_conflicts=0`
 - sprite sheet derivado de model sheet preserva os traços `must_preserve` em `model_sheet_to_sprite_fidelity_report`; `native redraw` sem fidelidade vira `generic_blocky_redraw`, nao `elite`
 - fonte IA/high-res nao foi promovida como sprite nativo sem nearest-neighbor/redesenho, indexacao limpa e rejeicao de fake pixel art
 - `elite` se sustenta melhor que `basic`

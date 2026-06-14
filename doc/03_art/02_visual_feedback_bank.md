@@ -1096,3 +1096,30 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
 - check_em_rom: validar no BlastEm se o primeiro contato, a primeira acao e a
   cena assinatura provam a promessa do projeto; se a ROM apenas demonstra
   sistemas corretos, rebaixar claim ou emitir `signature_gap`
+
+### Stage Visivel Mas Achatado E Opaco
+
+- status: candidate_until_MUGEN_SFF_SHOWDOWN_rework_proof
+- sintoma: stage importado aparece no BlastEm, sem matte magenta, mas a cena
+  fica plana, com camera de laboratorio e cores opacas apesar de fonte vibrante
+- diagnostico_tecnico: o agente confundiu conformance mecanica com qualidade
+  visual; deltas de parallax foram achatados em um unico plano, `zoffset` e
+  `verticalfollow` nao viraram contrato de camera de luta, e a paleta usou
+  nearest-color/remap massivo sem medir vitalidade cromatica
+- heuristica_preventiva: stage com camera X/Y e camadas importadas precisa de
+  `camera_motion_contract`, `parallax_layer_contract` e
+  `palette_vitality_check` antes de qualquer claim visual; `pass_with_degradation`
+  fica no maximo como evidencia de laboratorio
+- metricas_afetadas:
+  - layer_separation
+  - color_vibrancy
+  - camera_composition
+  - source_to_rom_visual_match
+  - perceptual_quality
+- benchmark_referencia:
+  - palcos arcade 2D com parallax multi-plano
+  - jogos de luta 16-bit com chao ancorado e camera legivel
+- check_em_rom: comparar source viewport, export preview e screenshot BlastEm;
+  se a cena perdeu planos, chao, materiais ou temperatura de cor, bloquear como
+  `flattened_mugen_parallax`, `fighting_stage_camera_contract_missing` ou
+  `palette_vibrancy_lost`

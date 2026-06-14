@@ -9,6 +9,7 @@
 - Do not resize a MUGEN stage to the Mega Drive viewport when the DEF camera bounds prove the original world is larger than 320x224.
 - Do not treat global ROM tile count as resident VDP tile count. A large world needs a separate runtime cache/streaming budget.
 - Do not animate full-world streamed frames until the tile-cache update strategy is incremental or double-buffered enough to avoid capture tearing.
+- Do not claim visual success for an imported fighting stage just because it appears in BlastEm; parallax, camera floor anchor and palette vitality must survive source/export/runtime comparison.
 
 ## MUGEN stage composition is execution, not metadata
 
@@ -59,3 +60,13 @@
 - Mitigacao: Batch tile uploads through a RAM staging buffer, disable display during scene-enter load, delay autopan, and keep `FRAME_ANIMATION_ENABLED=0` until incremental/double-buffered streaming is implemented.
 - Evidencia: sgdk_viewer/showdown_viewer/src/scenes/scene_demo.c evidence/blastem_showdown_screenshot.png evidence/blastem_screenshot_visual_check.json
 - Limite de uso: This fixes evidence stability for the lab viewer; it does not establish a production streaming engine.
+
+## Visible stage can still fail composition and color
+
+- Data: 2026-06-13
+- Contexto: Curatorial review of Showdown source viewport, exported bin viewport and BlastEm evidence after full-world streaming fixture.
+- Falha observada: The stage appears in BlastEm, but the MUGEN multi-delta parallax is flattened into one BG_A, the runtime camera behaves like a lab explorer instead of a fighting-stage camera, and the palette looks dull despite a vibrant source.
+- Causa provavel: The agent treated anti-magenta, per-tile palette fit and ROM visibility as sufficient visual gates. It did not require `camera_motion_contract`, `parallax_layer_contract` or `palette_vitality_check`.
+- Mitigacao: Before rework, derive camera from `zoffset`, bounds and `verticalfollow`; map BG deltas to SGDK planes/fallback; compare source/export/BlastEm for color vitality. If flattening is chosen, label it `lab_flattened_reference` or `compare_flat`, not `elite_ready`.
+- Evidencia: doc/showdown_camera_palette_curation_2026-06-13.md analysis/reconstruction.json analysis/palette_violations.json evidence/blastem_showdown_screenshot.png
+- Limite de uso: Applies to imported fighting stages and large scrolling backgrounds; a production-ready rule needs more fixtures before tool promotion.

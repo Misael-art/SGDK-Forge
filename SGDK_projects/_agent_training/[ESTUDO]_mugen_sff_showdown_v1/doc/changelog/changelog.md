@@ -1,5 +1,27 @@
 # Changelog - MUGEN SFF Showdown Study
 
+## 2026-06-13 - Curadoria camera/paleta reprovada
+
+- Classificado o root do estudo como `exercise` em `doc/project_context_manifest.json`.
+- Atualizado `doc/00-project-brief.md` para refletir o escopo real: treino controlado de conversao MUGEN SFF/DEF, nao entrega AAA.
+- Atualizado `doc/project_methodology_manifest.json` para declarar `project_context` entre as validacoes obrigatorias.
+- Criado `doc/showdown_camera_palette_curation_2026-06-13.md` com a avaliacao formal.
+- Decisao visual: `rework_required`.
+- Principais blockers:
+  - `flattened_mugen_parallax`: deltas BG0/BG1/BG2/BG3 foram achatados em um unico `BG_A`;
+  - `fighting_stage_camera_contract_missing`: camera de laboratorio/autopan nao preserva zoffset, verticalfollow e foco de palco de luta;
+  - `palette_vibrancy_lost`: `banded_palette_v1_world` gerou `187569` nearest-color remaps e reduziu o viewport de 76 para 26 cores uteis;
+  - `visual_gate_too_narrow`: gate atual mede matte/magenta, mas nao mede composicao, vitalidade cromatica ou fidelidade perceptiva;
+  - `nested_lab_art_not_detected`: `art_diagnostic.py` no root retorna `3_no_art` para um estudo com arte em `work/`, `analysis/`, `evidence/` e viewer aninhado.
+- Validacoes da curadoria:
+  - `validate_project_context`: passed, `context=exercise`, `blockers=0`;
+  - `validate_project_methodology`: passed, `blockers=0`;
+  - `validate_project_hygiene`: blocked, `blockers=3`;
+  - `freshness_audit`: warning, `stale=2`, `missing_required=2`;
+  - `validate_resources`: failed, `errors=8`, `warnings=6`, `checked=0`;
+  - `audit_project_learning` via Python embutido: `lessons=13`, `candidates=9`, `canonical_promotion_performed=false`.
+- Status permanece `controlled_training_area`, `lab_not_delivery=true`, `ready_for_aaa=false`, `validado_budget=false`.
+
 ## 2026-06-08 - Full-world camera streaming fixture
 
 - Corrected the stage contract from 320x224 output to the full MUGEN camera world:

@@ -1809,3 +1809,66 @@ Regra factual:
   personalidade, carisma, contexto de camera/interacao e qualidade grafica;
 - a v009 continua rejeitada e nao foi promovida;
 - nenhuma ROM nova foi validada como entrega.
+
+## 39. WRAPPER 2026-06-13 - CURADORIA MUGEN SHOWDOWN CAMERA/PALETA
+
+Status: `curated_rework_required`.
+
+Estudo usado:
+
+- `_agent_training/[ESTUDO]_mugen_sff_showdown_v1`.
+
+Licao qualificada:
+
+- stage de luta importado de MUGEN/SFF/DEF nao pode ser aprovado so porque
+  aparece no BlastEm;
+- `showdown.def` contem deltas por camada, `zoffset`, bounds X/Y e
+  `verticalfollow`; esses dados sao contrato de composicao/camera, nao
+  metadata secundaria;
+- paleta que passa por conflito de tile mas usa remap massivo pode destruir
+  vitalidade cromatica, materiais e separacao de planos;
+- diagnostico de arte convencional pode dizer `3_no_art` em laboratorio com
+  arte aninhada em `work/`, `analysis/`, `evidence/` e viewer SGDK.
+
+Curadoria aplicada:
+
+- criado parecer do estudo:
+  `doc/showdown_camera_palette_curation_2026-06-13.md`;
+- contexto do estudo classificado como `exercise`;
+- memory bank, changelog, asset register e aprendizado local sincronizados;
+- reforco em skills canonicas:
+  `multi-plane-composition`, `visual-excellence-standards`,
+  `art-translation-to-vdp` e `art-asset-diagnostic`;
+- feedback bank global atualizado com o padrao
+  `Stage Visivel Mas Achatado E Opaco`.
+
+Validacao:
+
+- JSON do contexto/metodologia/asset register/learning ledger: parse OK;
+- `validate_project_context`: passed, `context=exercise`, `blockers=0`;
+- `validate_project_methodology`: passed, `blockers=0`;
+- `validate_project_hygiene`: blocked, `blockers=3`;
+- `freshness_audit`: warning, `stale=2`, `missing_required=2`;
+- `validate_resources`: failed, `errors=8`, `warnings=6`, `checked=0`;
+- `audit_project_learning` via Python embutido: `lessons=13`, `candidates=9`,
+  `canonical_promotion_performed=false`;
+- `validate_skill_framework.py` falhou por cinco skills de planejamento nao
+  alteradas nesta curadoria (`brawler`, `platformer-puzzle`, `racing-sports`,
+  `rpg`, `strategy`) sem blocos contratuais `passa quando`/`handoff`.
+
+Blockers registrados:
+
+- `flattened_mugen_parallax`;
+- `fighting_stage_camera_contract_missing`;
+- `palette_vibrancy_lost`;
+- `visual_gate_too_narrow`;
+- `nested_lab_art_not_detected`.
+
+Regra factual:
+
+- esta curadoria melhora a inteligencia do agente em camera de palco de luta,
+  parallax multi-plano e vitalidade de paleta;
+- nenhuma arte nova foi gerada;
+- nenhuma ROM nova foi buildada ou validada como entrega;
+- a evidencia BlastEm existente continua somente `testado_em_blastem_minimal`
+  e `lab_not_delivery=true`.

@@ -71,6 +71,12 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - `hardware_budget_review`
 - `delivery_findings`
 - `continuity_model` e `camera_motion_contract` quando houver transicao formal
+- `camera_motion_contract` quando a cena tiver camera horizontal/vertical,
+  palco de luta, bounds importados, zoffset, verticalfollow, camera shake ou
+  camera guiada por personagens
+- `parallax_layer_contract` quando a fonte declarar deltas por camada, como
+  stages MUGEN/DEF, Tiled com parallax, mockups multi-plano ou background
+  com foreground separado
 - `plane_takeover_decision`, `route_readability_gate` e `collision_visual_contract` quando houver boss/tilemap avancado
 - `scene_direction_seed` quando a cena merecer avaliacao `minimal|competent|monumental|signature_only`
 
@@ -104,6 +110,17 @@ Esta skill existe para impedir que cena multi-plano vire soma cega de layers ou 
 - imagem-fonte grande nao vira `IMAGE` inteira por default; primeiro medir janela visivel, paineis candidatos e tiles unicos locais
 - para conversao de cenario/tilemap critico (>=320x224, ou tecnica declarada, ou entrega), a promocao exige reports em `out/logs/` (`scene_tilemap_conversion_report.json`, `per_tile_palette_conflict_report.json` e `tilemap_flag_report.json` quando houver dedup/flip/otimizacao)
 - `IMAGE` full-screen com alto unique_ratio e suspeito por padrao; se insistir em imagem inteira, usar estrategia `COMPARE_FLAT` e registrar benchmark/justificativa antes do closeout
+- stage MUGEN/DEF ou palco de luta com BG deltas diferentes nao pode ser
+  achatado em um unico plano e aprovado como composicao final; se a rota
+  escolhida for flat, registrar `compare_flat` ou `lab_flattened_reference`
+  com blocker visual, nunca `elite_ready`
+- `zoffset`, `boundleft`, `boundright`, `boundhigh`, `boundlow`,
+  `verticalfollow`, chao visivel, foco dos lutadores e maior scroll real fazem
+  parte do `camera_motion_contract`; camera de explorador/autopan nao substitui
+  camera de gameplay
+- deltas importados por camada sao contrato espacial, nao metadata decorativa:
+  BG distante, midground, anim layer e foreground precisam de mapeamento para
+  BG_B, BG_A, priority split, sprite graft, streaming ou fallback declarado
 
 ## Exploracao de rotas sem quebrar a cena
 
@@ -163,6 +180,11 @@ A filosofia maximalista nao significa carregar o mundo inteiro: significa escolh
 - third plane imaginario em vez de decisao real de `WINDOW`, sprite graft ou compare flat
 - chamar cena de monumental quando ela so possui parallax decorativo sem funcao narrativa ou de gameplay
 - tentar implementar Mode 7 em Mega Drive em vez de redirecionar para pseudo-3D, line scroll ou paineis pre-renderizados
+- declarar sucesso de stage importado porque a imagem aparece no emulador, mas
+  com parallax achatado, camera sem zoffset/floor anchor ou foreground
+  percorrendo junto com o fundo
+- aceitar `autopan` de laboratorio como prova de camera de luta quando o stage
+  exige leitura de chao, personagens e eixo vertical
 
 ## Senior Competencies
 

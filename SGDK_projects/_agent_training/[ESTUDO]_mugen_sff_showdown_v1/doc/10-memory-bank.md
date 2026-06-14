@@ -7,6 +7,7 @@
 - `lab_not_delivery=true`
 - `ready_for_aaa=false`
 - Root is the authority for the study; `sgdk_viewer/showdown_viewer/` is an embedded proof viewer, not an independent delivery project.
+- Curadoria 2026-06-13: o resultado atual esta `rework_required` para composicao, camera e paleta. A ROM aparece no BlastEm, mas nao preserva a qualidade visual do stage.
 
 ## Operational Truth
 
@@ -47,6 +48,8 @@
 - Visual VDP dump: absent.
 - Emulator status: `testado_em_blastem_minimal`; the Showdown stage is visible in BlastEm without catastrophic magenta matte and without the earlier 320x224 downscale/crop assumption.
 - Remaining visual limit: banded palette approximation leaves visible color degradation/blue gaps and the MUGEN parallax model is flattened into one streamed SGDK plane for this lab viewer.
+- Curadoria visual: `analysis/palette_violations.json` marcar `pass_with_degradation` nao e suficiente para aprovar qualidade. O export usa `187569` nearest-color remaps, reduz o viewport de 76 cores uteis para 26 e perde vitalidade cromatica.
+- Curadoria de camera: `showdown.def` declara `zoffset=215`, bounds X/Y e `verticalfollow=.5`; o runtime atual usa camera de explorador/autopan livre, sem contrato de palco de luta.
 - Runtime limit: frame animation is disabled in the viewer (`FRAME_ANIMATION_ENABLED=0`) because changing frames forced large tile-cache reloads and caused visible tearing during capture. All four reconstructed frames remain exported and reported for curation.
 - Camera status: manual D-pad camera works from boot; autopan is delayed for 1800 ticks so evidence starts on the canonical MUGEN view, then sweeps the 768x480 world.
 - Budget status: `validado_budget=false`; `res_graph_report` is present but still warns that code-loaded tiles require explicit VDP dump or telemetry.
@@ -55,6 +58,12 @@
 - Latest root `freshness_audit.ps1`: `status=warning`, `stale=1`, `missing_required=2`.
 - Latest `validate_resources.ps1`: failed with 1 error and 11 warnings. The hard error remains code-loaded tile budget unmeasured; this is acceptable only as `lab_not_delivery`.
 - Latest `audit_project_learning.ps1 -Mode Capture`: `learning_context_present`, lessons `11`, candidates `7`, `canonical_promotion_performed=false`.
+- Curadoria 2026-06-13 validations:
+  - `validate_project_context`: passed, `context=exercise`, `blockers=0`.
+  - `validate_project_methodology`: passed, `blockers=0`.
+  - `validate_project_hygiene`: blocked, `blockers=3`.
+  - `validate_resources`: failed, `errors=8`, `warnings=6`, `checked=0`; this is expected for the current lab root because technique manifests, hygiene, visual gate and freshness are not delivery-clean.
+  - `audit_project_learning` fallback via bundled Python: `lessons=13`, `candidates=9`, `canonical_promotion_performed=false`.
 
 ## Required Evidence Chain
 
@@ -64,6 +73,11 @@ Root -> `doc/viewer_aggregate_manifest.json` -> `sgdk_viewer/showdown_viewer/out
 
 - This is a training/lab fixture, not an AAA delivery.
 - No `ready_for_aaa` declaration is allowed.
+- `flattened_mugen_parallax`: BG0/BG1/BG2/BG3 possuem deltas distintos, mas o viewer atual achata tudo em um unico `BG_A`.
+- `fighting_stage_camera_contract_missing`: nao ha contrato que preserve chao, zoffset, foco dos lutadores e verticalfollow.
+- `palette_vibrancy_lost`: a paleta encaixa tecnicamente, mas perde cores vibrantes e separacao de materiais.
+- `visual_gate_too_narrow`: o gate mede matte/magenta e conflitos, mas nao mede fidelidade perceptiva, vitalidade de paleta ou composicao.
+- `nested_lab_art_not_detected`: `art_diagnostic.py` retorna `3_no_art` no root porque nao entende arte em `work/`, `analysis/`, `evidence/` e viewer aninhado.
 - `tools/mugen2sgdk` should be wrapped or improved only with explicit human approval.
 - Any future claim of HV flip savings must remain report-backed; current full-world Showdown fixture reports H/V/HV matches `5/12/4`.
 - `validate_resources.ps1` still reports methodology/resource blockers for canonical closeout, including local `.agent` degraded mode, missing visual delivery/scene closeout gates, stale freshness/documentation, and missing VDP measurement evidence for code-loaded tiles.
@@ -74,6 +88,7 @@ Root -> `doc/viewer_aggregate_manifest.json` -> `sgdk_viewer/showdown_viewer/out
 
 ## Next Operator Notes
 
+- Leia `doc/showdown_camera_palette_curation_2026-06-13.md` antes de qualquer rework.
 - Re-run `python tools/pipeline/run_showdown_pipeline.py` and `python tools/sgdk_export/export_showdown_bins.py` after changing SFF/DEF parsing.
 - Copy updated `work/sgdk_bins/*.bin` into `sgdk_viewer/showdown_viewer/res/data/showdown/` before building.
 - Build and evidence must use the workspace SGDK 2.11 wrapper and BlastEm gate.

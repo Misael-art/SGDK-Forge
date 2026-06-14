@@ -1,4 +1,4 @@
-﻿{
+{
     "schema_version":  "1.0.0",
     "methodology_version":  "2026.06.04",
     "project":  {
@@ -17,20 +17,21 @@
                                  "validate_resources",
                                  "scene_closeout_gate",
                                  "freshness_audit",
-                                 "project_hygiene"
+                                 "project_hygiene",
+                                 "project_context"
                              ],
     "claims":  {
                    "critical_motion":  {
-                                           "applicability":  "review_required",
-                                           "rationale":  "Classificar antes de implementar ou promover animacao critica."
+                                          "applicability":  "not_applicable",
+                                          "rationale":  "O estudo avalia cenario, camera e paleta; nao ha animacao critica de personagem a promover."
                                        },
                    "road_physics":  {
-                                        "applicability":  "review_required",
-                                        "rationale":  "Classificar antes de declarar chase, estrada pseudo-3D ou fisica de pista."
-                                    },
+                                       "applicability":  "not_applicable",
+                                       "rationale":  "O estudo nao declara estrada, chase ou fisica de pista."
+                                   },
                    "modular_boss":  {
-                                        "applicability":  "review_required",
-                                        "rationale":  "Classificar antes de declarar boss modular ou forward kinematics."
-                                    }
+                                       "applicability":  "not_applicable",
+                                       "rationale":  "O estudo nao possui boss modular ou forward kinematics."
+                                   }
                }
 }

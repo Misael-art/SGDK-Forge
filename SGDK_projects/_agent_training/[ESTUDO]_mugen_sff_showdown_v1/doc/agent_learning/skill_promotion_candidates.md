@@ -19,3 +19,12 @@ No canonical promotion candidates approved. This study remains a controlled trai
 - Justificativa: This prevented a false 320x224 conversion from hiding the actual 768x480 stage and made camera/budget tradeoffs explicit.
 - Evidencia: analysis/reconstruction.json analysis/tile_stats.json doc/viewer_aggregate_manifest.json evidence/blastem_showdown_screenshot.png
 - Limite de uso: Not promoted. Needs at least two additional MUGEN stages, an explicit parallax/delta model, VDP dump/telemetry, and a production-safe incremental streaming strategy before any canonical skill/tool change.
+
+## fighting_stage_camera_palette_gate
+
+- Candidato: fighting_stage_camera_palette_gate
+- Contexto: Local Showdown training fixture only.
+- Padrao observado: Stage importado de luta precisa validar camera X/Y, zoffset, floor anchor, verticalfollow, parallax deltas e vitalidade de paleta contra source/export/BlastEm.
+- Justificativa: O estudo mostrou que uma cena pode aparecer no BlastEm e ainda falhar como arte por achatar planos e perder cores vibrantes.
+- Evidencia: doc/showdown_camera_palette_curation_2026-06-13.md analysis/reconstruction.json analysis/palette_violations.json evidence/blastem_showdown_screenshot.png
+- Limite de uso: Not promoted as new skill. The rule was routed into `multi-plane-composition`, `visual-excellence-standards`, `art-translation-to-vdp` and `art-asset-diagnostic`; a dedicated tool/schema should wait for more fixtures.

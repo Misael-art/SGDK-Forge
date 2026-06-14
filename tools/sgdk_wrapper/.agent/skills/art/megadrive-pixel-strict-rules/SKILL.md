@@ -132,6 +132,13 @@ de 8, mas ainda reprovar se:
 Nesses casos, registrar `technical_pass_visual_fail` e entregar para
 `visual-excellence-standards`/`art-translation-to-vdp`; nao promover.
 
+Conformidade pixel-strict tambem nao autoriza linhagem visual. Se a sheet foi
+reprovada, parcial, sem revisao humana, sem `visual_vdp_dump` ou marcada como
+`runtime_candidate_not_source`, ela deve ser `obsolete_for_generation_source`.
+O proximo asset nao pode nascer de reparo, upscale, img2img ou refinamento
+desse PNG; deve voltar ao model sheet aprovado/travado e passar por
+`visual_source_of_truth`.
+
 ## Contrato Operacional
 
 ### Entrada minima

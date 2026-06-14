@@ -1,7 +1,8 @@
 {
   "schema_version": "1.0.0",
   "asset_id": "hibrido_fighter_pivot_and_scale_contract_v010",
-  "status": "rework_required_until_corrected_model_sheet",
+  "status": "measured_runtime_candidate_not_source",
+  "visual_source_of_truth": "doc/contracts/visual_source_of_truth_v010.json",
   "native_resolution": "320x224",
   "cell_px": {
     "w": 48,
@@ -12,7 +13,7 @@
     "y": 58
   },
   "ground_y": 58,
-  "frame_envelope_policy": "fixed 48x64 cell is allowed only if corrected model sheet and lineart blocking prove no hair, hand, foot, lava arm, strike or recovery clipping",
+  "frame_envelope_policy": "fixed 48x64 cell is allowed only when the approved model sheet plus 1px lineart/blocking prove no hair, hand, foot, lava arm, strike or recovery clipping; v009/v010 sprite sheets are never source/baseline/img2img base",
   "scale_targets": {
     "visible_body_height_px": "52-60 depending on stance and action",
     "head_height_px": "10-14 including hair mass at sprite scale",
@@ -26,9 +27,9 @@
     "Any scale change after lineart blocking requires reseed and this contract must be rewritten."
   ],
   "blockers": [
-    "corrected_model_sheet_not_yet_approved",
-    "foot_contact_report_missing",
-    "pivot_overlay_missing",
-    "native_lineart_blocking_missing"
+    "human_visual_review_missing_for_aaa",
+    "visual_vdp_dump_missing",
+    "runtime_60fps_metrics_missing",
+    "next_generation_must_restart_from_model_sheet"
   ]
 }

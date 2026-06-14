@@ -1,7 +1,9 @@
 {
   "schema_version": "1.0.0",
   "asset_id": "hibrido_fighter_motion_phase_map_v010",
-  "status": "planned_not_yet_measured",
+  "status": "planned_for_next_model_sheet_driven_generation_not_measured",
+  "visual_source_of_truth": "doc/contracts/visual_source_of_truth_v010.json",
+  "source_policy": "Motion phases define animation intent only. They cannot use v009/v010 sprite sheets, contact sheets or runtime strips as generation source, baseline, reference_for_generation or img2img_base.",
   "phase_maps": [
     {
       "animation_id": "idle",

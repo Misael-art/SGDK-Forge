@@ -62,6 +62,12 @@ Esta skill existe para proteger a identidade visual do personagem dentro das res
   arma, acessorio, material e assimetria sao marcadores de identidade; se um
   marcador muda entre poses sem oclusao ou acao justificavel, a entrega vira
   `cohesion_drift`
+- sprite sheet reprovada, parcial ou sem gates humanos/runtime completos nunca
+  corrige identidade por cima de si mesma. Quando houver drift de cabelo,
+  olhos, roupa, emblemas, cicatrizes, feature assinatura, arma, acessorio,
+  anatomia ou material, a rota volta ao model sheet aprovado/travado,
+  `visual_dna_manifest`, brief de direcao, lineart 1 px e key poses; a sheet
+  ruim vira `obsolete_for_generation_source` e apenas evidencia negativa.
 
 ## Gates de aprovacao
 

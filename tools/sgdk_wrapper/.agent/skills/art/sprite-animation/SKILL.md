@@ -109,6 +109,12 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - `slicing_cell_contract` declara se a celula veio de `max_bbox + padding` ou de celula fixa justificada; hardcode sem contrato volta para `rework`
 - se o relatorio apontar `FRAME_EDGE_CLIPPING`, `NON_INDEX0_BACKGROUND_MATTE`, `TRANSPARENCY_INDEX0_BACKGROUND_MISMATCH`, `SMALL_ISLAND_DEBRIS`, `STRAY_LARGE_COMPONENT`, `SCALE_INCONSISTENCY` ou `BAKED_FX_IN_CHARACTER_SHEET`, a acao volta para `rework`
 - producao deve seguir passes: model sheet, key poses, strips por acao, sheet final, QA
+- se uma sheet existente estiver reprovada, parcial, sem revisao humana, sem
+  `visual_vdp_dump` ou marcada como `runtime_candidate_not_source`, ela e
+  evidencia/comparacao, nao base de geracao. Nao pedir "melhore esta sprite
+  sheet" e nao usar como `source`, `baseline`, `reference_for_generation`,
+  `img2img_base`, `generation_source` ou `image_reference`; voltar ao model
+  sheet aprovado + `visual_dna_manifest` + `lineart_blocking_1px` por estado.
 - toda imagem deve declarar `asset_kind`: `model_sheet`, `key_pose_sheet`, `animation_strip` ou `final_sprite_sheet`
 - `key_pose_sheet` nunca passa como `animation_strip`; pose boa isolada nao prova fluxo de animacao
 - `animation_strip` contem uma unica acao e exige `motion_phase_map`; multi-acao na mesma strip vira `rejeitado_multi_action_sheet`

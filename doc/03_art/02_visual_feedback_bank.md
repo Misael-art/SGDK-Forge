@@ -1123,3 +1123,32 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
   se a cena perdeu planos, chao, materiais ou temperatura de cor, bloquear como
   `flattened_mugen_parallax`, `fighting_stage_camera_contract_missing` ou
   `palette_vibrancy_lost`
+
+### Polimento Do Erro Em Sprite Sheet Derivada
+
+- status: rejected_until_VISUAL_SOURCE_OF_TRUTH_proof
+- sintoma: o agente tenta "melhorar", "refinar", "upscalear" ou usar img2img em
+  sprite sheet parcial/reprovada, preservando blocagem ruim, perda de identidade,
+  drift de cabelo/roupa/material e falso senso de progresso
+- diagnostico_tecnico: faltou contrato `visual_source_of_truth`; um report
+  `passed` de fidelidade tecnica foi interpretado como permissao de fonte
+  artistica, mesmo com `human_visual_review_missing_for_aaa`,
+  `visual_vdp_dump_missing` ou `visual_gate_blocked`
+- heuristica_preventiva: sheet reprovada/parcial vira
+  `obsolete_for_generation_source`; a proxima geracao deve nascer do model
+  sheet aprovado/travado, `visual_dna_manifest`, brief de direcao,
+  `art_gameplay_direction_gate`, lineart 1 px por estado e key poses aprovadas
+- metricas_afetadas:
+  - source_lineage_integrity
+  - model_sheet_to_sprite_fidelity
+  - identity_continuity
+  - animation_charisma
+  - ready_for_aaa
+- benchmark_referencia:
+  - lutadores 16-bit com silhueta, rosto e roupa consistentes entre estados
+  - sprites de luta com key poses redesenhadas em grid nativo
+- check_em_rom: se faltam revisao humana, `visual_vdp_dump.bin`, metrics 60fps
+  ou leitura visual AAA, manter `runtime_candidate_not_source`; rode
+  `validate_visual_source_of_truth.ps1` e bloqueie qualquer uso como `source`,
+  `baseline`, `reference_for_generation`, `img2img_base`, `generation_source`
+  ou `image_reference`

@@ -3873,6 +3873,7 @@ $runtimeMetricsPath = Join-Path $LOG_DIR "runtime_metrics.json"
 $emulatorSessionPath = Join-Path $LOG_DIR "emulator_session.json"
 $visualAestheticReportPath = Join-Path $LOG_DIR "visual_aesthetic_report.json"
 $visualDeliveryGateReportPath = Join-Path $LOG_DIR "visual_delivery_gate_report.json"
+$visualSourceLineageReportPath = Join-Path $LOG_DIR "visual_source_lineage_report.json"
 $sceneRegressionReportPath = Join-Path $LOG_DIR "scene_regression_report.json"
 $sceneTilemapConversionReportPath = Join-Path $LOG_DIR "scene_tilemap_conversion_report.json"
 $tilemapFlagReportPath = Join-Path $LOG_DIR "tilemap_flag_report.json"
@@ -6324,11 +6325,65 @@ if ($null -ne $runtimeSceneIdNumber -and $expectedSceneIds.Count -gt 0) {
     }
 }
 
+$visualSourceContractPath = $null
+$visualSourceContractsRoot = Join-Path $pwd.Path 'doc\contracts'
+if (Test-Path -LiteralPath $visualSourceContractsRoot) {
+    $visualSourceContract = Get-ChildItem -LiteralPath $visualSourceContractsRoot -Filter 'visual_source_of_truth*.json' -File -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending |
+        Select-Object -First 1
+    if ($visualSourceContract) {
+        $visualSourceContractPath = $visualSourceContract.FullName
+    }
+}
+
+if ($visualSourceContractPath) {
+    $visualSourceValidatorPath = Join-Path $PSScriptRoot 'validate_visual_source_of_truth.ps1'
+    if (Test-Path -LiteralPath $visualSourceValidatorPath) {
+        try {
+            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $visualSourceValidatorPath `
+                -ProjectRoot $pwd.Path `
+                -ContractPath $visualSourceContractPath `
+                -OutputPath $visualSourceLineageReportPath 2>&1 | ForEach-Object {
+                    Write-Log ("visual_source_of_truth: {0}" -f $_) "INFO"
+                }
+            $visualSourceExitCode = $LASTEXITCODE
+            if (Test-Path -LiteralPath $visualSourceLineageReportPath) {
+                $visualSourceLineageReport = Get-Content -LiteralPath $visualSourceLineageReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+                $results.evidence.visual_source_lineage_report_path = $visualSourceLineageReportPath
+                foreach ($blockingStatus in @($visualSourceLineageReport.blocking_statuses)) {
+                    $msg = ("Gate de linhagem visual bloqueado: {0}. Sprite sheet derivada/parcial nao pode ser fonte de nova geracao." -f $blockingStatus)
+                    Add-BlockingStatus $results ([string]$blockingStatus) $msg "visual_source_of_truth" $visualSourceLineageReportPath @{
+                        contract_path = $visualSourceContractPath
+                    }
+                }
+                Add-Detail $results "VISUAL_SOURCE_OF_TRUTH" $(if ($visualSourceExitCode -eq 0) { "INFO" } else { "ERROR" }) ("visual_source_of_truth status={0}." -f $visualSourceLineageReport.status) "visual" $visualSourceLineageReportPath @{
+                    contract_path = $visualSourceContractPath
+                    blocking_statuses = @($visualSourceLineageReport.blocking_statuses)
+                }
+            } elseif ($visualSourceExitCode -ne 0) {
+                $msg = "Gate de linhagem visual falhou sem gerar relatorio."
+                Add-BlockingStatus $results "visual_source_lineage_failed" $msg "visual_source_of_truth" $visualSourceContractPath @{
+                    validator = $visualSourceValidatorPath
+                }
+            }
+        } catch {
+            $msg = "Falha ao executar gate de linhagem visual: $($_.Exception.Message)"
+            Add-BlockingStatus $results "visual_source_lineage_failed" $msg "visual_source_of_truth" $visualSourceContractPath @{
+                validator = $visualSourceValidatorPath
+            }
+        }
+    } else {
+        $msg = "Contrato visual_source_of_truth existe, mas o validador canonico nao foi encontrado."
+        Add-BlockingStatus $results "visual_source_validator_missing" $msg "visual_source_of_truth" $visualSourceContractPath
+    }
+}
+
 $sourceArtifacts = @($REPORT_FILE)
 if (Test-Path -LiteralPath $runtimeMetricsPath) { $sourceArtifacts += $runtimeMetricsPath }
 if (Test-Path -LiteralPath $emulatorSessionPath) { $sourceArtifacts += $emulatorSessionPath }
 if (Test-Path -LiteralPath $visualAestheticReportPath) { $sourceArtifacts += $visualAestheticReportPath }
 if (Test-Path -LiteralPath $visualDeliveryGateReportPath) { $sourceArtifacts += $visualDeliveryGateReportPath }
+if (Test-Path -LiteralPath $visualSourceLineageReportPath) { $sourceArtifacts += $visualSourceLineageReportPath }
 if ($semanticAuditStatus.report_path -and (Test-Path -LiteralPath $semanticAuditStatus.report_path)) { $sourceArtifacts += $semanticAuditStatus.report_path }
 if ($gddSubstantialStatus.path -and (Test-Path -LiteralPath $gddSubstantialStatus.path)) { $sourceArtifacts += $gddSubstantialStatus.path }
 if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sourceArtifacts += $sceneRegressionReportPath }
@@ -6411,7 +6466,7 @@ $results.status_panel.aggregate_status_deprecated = $true
 # palavras soltas em codigo/Markdown e proibida para evitar falsos positivos.
 
 $creativeBlockingStatuses = @($results.blocking_statuses | Where-Object {
-    $_ -match '^(visual_gate_blocked|visual_delivery_gate_missing|semantic_audit_failed|gdd_substantial_missing|gdd_substantial_insufficient|procedural_fallback_as_final|visual_direction_failed|decision_log_too_shallow|axis_evidence_missing|gameplay_consequence_missing|animation_gate_failed|perceptual_motion_unvalidated|art_director_supervision_missing|game_design_context_missing|cohesion_drift|director_gate_unapproved|generic_visual_without_personality|project_naming_invalid|project_methodology_manifest_missing|project_methodology_manifest_invalid|road_physics_contract_invalid|modular_boss_runtime_invalid|technique_usage_manifest_invalid|technique_registry_id_unknown|technique_tag_unknown|technique_status_mismatch|laboratorio_technique_in_delivery_scope|technique_evidence_outside_project|technique_documentation_sync_missing|master_technique_evidence_missing)$'
+    $_ -match '^(visual_gate_blocked|visual_delivery_gate_missing|semantic_audit_failed|gdd_substantial_missing|gdd_substantial_insufficient|procedural_fallback_as_final|visual_direction_failed|decision_log_too_shallow|axis_evidence_missing|gameplay_consequence_missing|animation_gate_failed|perceptual_motion_unvalidated|art_director_supervision_missing|game_design_context_missing|cohesion_drift|director_gate_unapproved|generic_visual_without_personality|visual_source_[a-z_]+|visual_lineage_forbidden_reference|visual_partial_pass_promoted_to_aaa|forbidden_generation_source_used|obsolete_generation_source_used|runtime_candidate_used_as_generation_source|approved_authorial_source_missing|approved_authorial_source_file_missing|allowed_generation_source_missing_path|allowed_generation_source_invalid_role|project_naming_invalid|project_methodology_manifest_missing|project_methodology_manifest_invalid|road_physics_contract_invalid|modular_boss_runtime_invalid|technique_usage_manifest_invalid|technique_registry_id_unknown|technique_tag_unknown|technique_status_mismatch|laboratorio_technique_in_delivery_scope|technique_evidence_outside_project|technique_documentation_sync_missing|master_technique_evidence_missing)$'
 })
 $results.status_panel.creative_blocking_statuses = @($creativeBlockingStatuses | Select-Object -Unique)
 $results.status_panel.creative_ready =

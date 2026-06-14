@@ -5,7 +5,7 @@
   "asset_id": "hibrido_fighter_visual_package_v010",
   "asset_kind": "final_sprite_sheet",
   "evaluated_at": "2026-06-13T23:19:02-03:00",
-  "measurement_level": "planned_contract",
+  "measurement_level": "measured_contact_sheet",
   "art_director_review": {
     "status": "passed",
     "reviewer": "visual-excellence-standards",
@@ -13,6 +13,7 @@
     "master_style_manifest": "doc/03_art/01_visual_cohesion_system.md",
     "findings": [
       "v009 is rejected as a visual baseline; it may be used only as negative evidence for what the v010 route must avoid.",
+      "visual_source_of_truth_v010 locks every new sprite generation to the approved model sheet plus visual DNA and direction briefs; v009/v010 sprite sheets are comparison/runtime evidence only.",
       "The accepted identity comes from v008 as art direction only: bronze skin, aggressive hair and face, black/gold shorts, dirty white wraps, red biceps band on the non-lava arm, and a rock/lava arm with readable hand endpoint.",
       "The v010 route must preserve character charisma before technical cell compliance. A PNG can pass PLTE, index 0 and grid checks while still failing this gate.",
       "If v008 internal cohesion drift is confirmed, especially hair drift in the first pose, production must create a corrected model sheet brief before any sprite sheet or runtime strip.",
@@ -181,16 +182,19 @@
   },
   "decision": {
     "production_allowed": true,
-    "ready_for_generation": true,
+    "ready_for_generation": false,
     "ready_for_conversion": false,
     "ready_for_res_promotion": false,
     "ready_for_aaa": false,
     "next_required_route": [
-      "audit_v008_model_sheet_internal_cohesion",
-      "if_hair_face_costume_or_lava_drift_is_unjustified_write_model_sheet_v010_generation_brief_before_image",
-      "create_animation_state_plan_pose_roster_frame_budget_table_pivot_and_scale_contract_motion_phase_map",
+      "use_visual_source_of_truth_v010_before_any_new_generation",
+      "generate_or_reconstruct_only_from_approved_model_sheet_plus_visual_dna_and_direction_brief",
       "redraw_native_grid_lineart_blocking_1px_per_state_before_color",
-      "generate_model_sheet_to_sprite_fidelity_report_v010_before_any_res_promotion"
+      "approve_key_poses_before_color",
+      "generate_new_sprite_sheet_from_model_sheet_not_from_v009_or_v010_sheet",
+      "run_model_sheet_to_sprite_fidelity_report",
+      "capture_blastem_screenshot_sram_and_visual_vdp_dump",
+      "human_visual_review_before_aaa_claim"
     ]
   }
 }

@@ -51,6 +51,27 @@ sheet aprovado, o redraw precisa passar por `model_sheet_to_sprite_fidelity_repo
 - falha exige retorno para `lineart_blocking_1px` por acao, nao polimento sobre
   o PNG final.
 
+## Bloqueio anti-polimento do erro
+
+Quando uma sprite sheet, contact sheet, GIF, strip em `res/sprites/` ou pacote
+parcial falhar visualmente, faltar revisao humana, faltar `visual_vdp_dump` ou
+ficar em `runtime_candidate_not_source`, ela deve ser marcada como
+`obsolete_for_generation_source`. A proxima geracao nao pode usar esse PNG como
+`source`, `baseline`, `reference_for_generation`, `img2img_base`,
+`generation_source` ou `image_reference`.
+
+Rota permitida:
+
+- voltar ao model sheet aprovado/travado;
+- aplicar `visual_dna_manifest`, brief de direcao e `art_gameplay_direction_gate`;
+- redesenhar `lineart_blocking_1px` por estado/acao;
+- aprovar key poses antes de color blocking;
+- gerar nova sheet a partir do model sheet, nao reparar a sheet ruim.
+
+Se existir `doc/contracts/visual_source_of_truth*.json`, rode
+`tools/sgdk_wrapper/validate_visual_source_of_truth.ps1` antes de qualquer nova
+geracao, builder ou promocao visual.
+
 ## Quando usar
 
 Use esta skill quando:

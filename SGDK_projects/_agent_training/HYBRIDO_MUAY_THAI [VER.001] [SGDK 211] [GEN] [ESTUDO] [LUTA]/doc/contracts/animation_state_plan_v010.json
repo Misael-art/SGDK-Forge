@@ -1,9 +1,10 @@
 {
   "schema_version": "1.0.0",
   "asset_id": "hibrido_fighter_animation_state_plan_v010",
-  "status": "blocked_until_corrected_model_sheet",
+  "status": "planned_model_sheet_rebuild_required_not_sheet_repair",
   "art_gameplay_direction_gate": "doc/contracts/art_gameplay_direction_gate_v010.json",
   "visual_dna_manifest": "doc/contracts/visual_dna_manifest_v010.json",
+  "visual_source_of_truth": "doc/contracts/visual_source_of_truth_v010.json",
   "states": [
     {
       "id": "idle",
@@ -62,8 +63,10 @@
     "hurt preserves ground_y and returns through a recovery pose, never a direct scale snap."
   ],
   "blockers": [
-    "corrected_model_sheet_not_yet_approved",
-    "native_lineart_blocking_missing",
-    "motion_phase_map_not_measured"
+    "human_visual_review_missing_for_aaa",
+    "visual_vdp_dump_missing",
+    "runtime_60fps_metrics_missing",
+    "next_generation_must_restart_from_model_sheet",
+    "native_lineart_blocking_required_before_new_sheet"
   ]
 }

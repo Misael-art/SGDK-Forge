@@ -373,3 +373,54 @@
   - GDD substancial e gates de cena/tilemap/closeout ainda bloqueiam entrega
     final.
 
+## 2026-06-14 - bloqueio anti-polimento do erro visual
+
+- Contrato criado:
+  - `doc/contracts/visual_source_of_truth_v010.json`.
+- Decisao de linhagem:
+  - fonte autoral aprovada/travada:
+    `data/source_art/hibrido_fighter_v010/source_concept.png`;
+  - fontes permitidas para nova geracao: model sheet aprovado, visual DNA,
+    brief de direcao, gate art/gameplay e registro humano;
+  - fontes proibidas para nova geracao: `data/processed/spritesheets/*`,
+    `res/sprites/*`, contact sheets, GIFs, overlays, v009 e qualquer v010
+    parcial.
+- Status obrigatorios:
+  - `v009=obsolete_negative_evidence`;
+  - `v010=runtime_candidate_not_aaa_not_source`;
+  - `model_sheet_to_sprite_fidelity_report.status=passed` significa candidato
+    medido, nao autorizacao de fonte para proxima geracao.
+- Contratos reconciliados:
+  - `doc/contracts/model_sheet_to_sprite_fidelity_report_v010.json` agora fica
+    `ready_for_res_promotion=false`;
+  - `doc/contracts/art_gameplay_direction_gate_v010.json` exige
+    `visual_source_of_truth` antes de qualquer nova geracao;
+  - `doc/contracts/pivot_and_scale_contract_v010.json`,
+    `animation_state_plan_v010.json`, `pose_roster_v010.json` e
+    `motion_phase_map_v010.json` foram alinhados para impedir reparo em cima
+    de sheet ruim.
+- Novo gate local executado:
+  - `out/logs/visual_source_lineage_report.json`;
+  - status: `passed`;
+  - blockers: nenhum;
+  - regra testada: qualquer tentativa de usar v009/v010 parcial como `source`,
+    `baseline`, `reference_for_generation`, `img2img_base`,
+    `generation_source` ou `image_reference` deve falhar.
+- Estado final desta curadoria:
+  - nenhum novo sprite sheet foi gerado;
+  - nenhum claim AAA foi aberto;
+  - a proxima tentativa de arte deve recomecar do model sheet aprovado +
+    lineart/blocking 1 px por estado, nao do sprite sheet parcial.
+- Validacao final desta curadoria:
+  - `test_visual_source_of_truth_gate.ps1`: 11/11 passed;
+  - `validate_visual_source_of_truth.ps1`: `status=passed`, blockers=0;
+  - schemas reais v010: visual source, art/gameplay gate e fidelity report OK;
+  - `validate_project_context`: ok, contexto `exercise`, blockers=0;
+  - `validate_project_methodology`: passed, blockers=0;
+  - `validate_project_hygiene`: passed, blockers=0;
+  - `validate_resources`: errors=0, warnings=8, checked=7,
+    `ready_for_aaa=false`;
+  - `freshness_audit`: status ok, stale=0, missing_required=0;
+  - `audit_project_learning.ps1 -Mode Capture`: 18 licoes, 18 candidatos,
+    `canonical_promotion_performed=false`.
+

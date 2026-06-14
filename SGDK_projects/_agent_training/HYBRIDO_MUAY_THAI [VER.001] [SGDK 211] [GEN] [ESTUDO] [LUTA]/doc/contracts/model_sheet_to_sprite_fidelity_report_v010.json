@@ -143,9 +143,12 @@
   "decision": {
     "technical_pass": true,
     "visual_pass": true,
-    "ready_for_res_promotion": true,
+    "ready_for_res_promotion": false,
     "ready_for_aaa": false,
     "next_required_route": [
+      "passed_means_measured_candidate_only_not_generation_source",
+      "visual_source_of_truth_v010_locks_new_generation_to_approved_model_sheet",
+      "treat_v010_as_runtime_candidate_not_aaa_not_source_until_human_review_and_vdp_dump",
       "build_rom_with_v010_assets",
       "capture_blastem_screenshot_sram_and_visual_vdp_dump",
       "run_validate_resources_and_freshness",

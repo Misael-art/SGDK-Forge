@@ -1,7 +1,8 @@
 {
   "schema_version": "1.0.0",
   "asset_id": "hibrido_fighter_pose_roster_v010",
-  "status": "planned_blocked_until_model_sheet_correction",
+  "status": "approved_for_model_sheet_driven_rebuild_not_sheet_repair",
+  "visual_source_of_truth": "doc/contracts/visual_source_of_truth_v010.json",
   "model_sheet_required_poses": [
     {
       "id": "front_neutral",
@@ -55,6 +56,7 @@
     }
   ],
   "rejection_rules": [
+    "Reject any prompt, builder or contract that asks to improve, repair, upscale, img2img or baseline a v009/v010 sprite sheet instead of restarting from the approved model sheet.",
     "Reject any pose where the hair becomes a different haircut instead of a tracked angle/action variation.",
     "Reject any pose where the lava arm endpoint disappears or reads as wrap/glove.",
     "Reject any pose where the face is blank during active strike or hurt.",

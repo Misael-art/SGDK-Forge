@@ -343,6 +343,27 @@ Qualquer falha acima deixa `visual_pass=false`, mesmo quando
 `technical_pass=true`. A proxima rota e voltar para `lineart_blocking_1px` por
 estado/acao; nao remendar o PNG final nem compensar no runtime.
 
+## Gate de fonte visual canonica
+
+Para personagem, lutador, boss, NPC expressivo ou asset autoral gerado em
+etapas, `model_sheet_to_sprite_fidelity_report.status=passed` significa apenas
+"candidato medido". Nao significa fonte autorizada para a proxima geracao.
+
+Se houver `human_visual_review_missing_for_aaa`, `visual_vdp_dump_missing`,
+`visual_gate_blocked`, `runtime_candidate_not_source` ou falha visual humana:
+
+- marcar a sheet, strip, contact sheet e GIF como
+  `obsolete_for_generation_source`;
+- usar esses arquivos apenas como `negative_evidence`, `comparison_only` ou
+  `runtime_evidence_only`;
+- bloquear qualquer prompt, contrato, builder ou relatorio que use esses
+  arquivos como `source`, `baseline`, `reference_for_generation`,
+  `img2img_base`, `generation_source` ou `image_reference`;
+- exigir `visual_source_of_truth` e validacao por
+  `tools/sgdk_wrapper/validate_visual_source_of_truth.ps1`;
+- a proxima sheet nasce do model sheet aprovado/travado, visual DNA, brief de
+  direcao, `art_gameplay_direction_gate`, lineart 1 px por estado e key poses.
+
 ## Baseline Visual
 
 - nao atualize baseline para esconder diferenca estetica causada por runtime instavel

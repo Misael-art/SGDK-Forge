@@ -563,3 +563,45 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
     `visual_direction_failed`, reports de cena/tilemap/closeout ausentes,
     `visual_vdp_dump_missing`, `runtime_60fps_metrics_missing` e review humano
     visual pendente.
+
+## 2026-06-14T10:35:00-03:00 - visual_source_of_truth_anti_polish_gate
+
+- Task: endurecer pipeline para impedir polimento/refinamento em cima de sprite
+  sheet reprovada ou parcial.
+- Novo contrato:
+  - `doc/contracts/visual_source_of_truth_v010.json`.
+- Estado de linhagem:
+  - `v009=obsolete_negative_evidence`;
+  - `v010=runtime_candidate_not_aaa_not_source`;
+  - `data/source_art/hibrido_fighter_v010/source_concept.png` e a unica fonte
+    autoral primaria para nova geracao visual.
+- Regra aplicada:
+  - `data/processed/spritesheets/*`, `res/sprites/*`, contact sheets, GIFs,
+    overlays, v009 e v010 parcial nao podem aparecer como `source`,
+    `baseline`, `reference_for_generation`, `img2img_base`,
+    `generation_source` ou `image_reference`.
+- Contratos/reports alinhados:
+  - `doc/contracts/model_sheet_to_sprite_fidelity_report_v010.json` agora usa
+    `ready_for_res_promotion=false`;
+  - `doc/contracts/art_gameplay_direction_gate_v010.json` direciona proxima
+    geracao para model sheet aprovado + visual DNA + lineart 1 px;
+  - `out/logs/visual_delivery_gate_report.json` registra
+    `candidate_source_status=runtime_candidate_not_aaa_not_source`.
+- Validacao nova:
+  - `out/logs/visual_source_lineage_report.json`: `status=passed`, blockers=0.
+- Validacao final:
+  - `test_visual_source_of_truth_gate.ps1`: 11/11 passed;
+  - schemas reais v010: visual source, art/gameplay gate e fidelity report OK;
+  - `validate_project_context`: ok (`exercise`);
+  - `validate_project_methodology`: passed;
+  - `validate_project_hygiene`: passed;
+  - `validate_resources`: errors=0, warnings=8, checked=7,
+    `ready_for_aaa=false`;
+  - `freshness_audit`: status ok, stale=0, missing_required=0;
+  - `audit_project_learning.ps1 -Mode Capture`: 18 licoes, 18 candidatos,
+    `canonical_promotion_performed=false`.
+- Status:
+  - nenhum asset visual novo gerado;
+  - nenhum claim de `ready_for_aaa`;
+  - proxima sheet deve nascer do model sheet aprovado, nao de reparo do sheet
+    parcial.

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_pivot_and_scale_contract_v010",
+  "status": "rework_required_until_corrected_model_sheet",
+  "native_resolution": "320x224",
+  "cell_px": {
+    "w": 48,
+    "h": 64
+  },
+  "pivot_px": {
+    "x": 24,
+    "y": 58
+  },
+  "ground_y": 58,
+  "frame_envelope_policy": "fixed 48x64 cell is allowed only if corrected model sheet and lineart blocking prove no hair, hand, foot, lava arm, strike or recovery clipping",
+  "scale_targets": {
+    "visible_body_height_px": "52-60 depending on stance and action",
+    "head_height_px": "10-14 including hair mass at sprite scale",
+    "face_cluster_goal": "eyes and brow remain readable with 2-4 pixels of intentional contrast",
+    "hand_endpoint_goal": "human fist, wrapped hand and lava hand each have distinct silhouette families"
+  },
+  "pivot_rules": [
+    "idle, walk_step, guard_block, jab and knee keep bottom-center pivot stable.",
+    "teep keeps support foot on ground_y; kicking leg may extend but cannot force frame edge clipping.",
+    "hurt preserves scale and ground_y, with head/torso reacting to force instead of full-body resize.",
+    "Any scale change after lineart blocking requires reseed and this contract must be rewritten."
+  ],
+  "blockers": [
+    "corrected_model_sheet_not_yet_approved",
+    "foot_contact_report_missing",
+    "pivot_overlay_missing",
+    "native_lineart_blocking_missing"
+  ]
+}

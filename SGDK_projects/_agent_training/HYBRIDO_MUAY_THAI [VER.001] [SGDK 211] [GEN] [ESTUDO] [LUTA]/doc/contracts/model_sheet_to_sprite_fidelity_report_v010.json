@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_visual_package_v010",
+  "evaluated_at": "2026-06-13T23:33:00-03:00",
+  "measurement_level": "human_visual_review",
+  "source_model_sheet": {
+    "path": "data/source_art/hibrido_fighter_v008/source_concept.png",
+    "sha256": "04e898f74564c7b1e8a00b7b1f2130ea8d4381b51d8ef0b5266545e04464e4ec",
+    "approval_status": "needs_review"
+  },
+  "candidate_sprite_sheet": {
+    "path": "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png",
+    "sha256": "952568f4b2354631ec13e93d61955476bc001d5752dc3578d5d8414c341a001d",
+    "cell_w": 48,
+    "cell_h": 64
+  },
+  "visual_dna_refs": [
+    "doc/contracts/art_gameplay_direction_gate_v010.json",
+    "doc/contracts/visual_dna_manifest_v010.json",
+    "doc/contracts/hibrido_fighter_v010_model_sheet_generation_brief.md",
+    "out/logs/hibrido_v010_model_sheet_cohesion_audit_report.json",
+    "out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json"
+  ],
+  "status": "failed",
+  "must_preserve_checks": [
+    {
+      "id": "v010_candidate_absent",
+      "expected": "A new v010 native sprite candidate exists only after corrected model sheet approval, lineart blocking and key pose review.",
+      "observed": "No v010 sprite candidate exists. The only available 48x64 sheet is v009, already rejected by human visual review.",
+      "status": "failed",
+      "evidence": [
+        "out/logs/hibrido_v010_model_sheet_cohesion_audit_report.json",
+        "out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json"
+      ]
+    },
+    {
+      "id": "hair_face_lava_identity",
+      "expected": "Hair tracking, face/eyes and lava-arm hand/fissures survive the model sheet to sprite translation.",
+      "observed": "v009 loses face/eyes, simplifies hair and collapses the lava arm into a generic gray mass. v010 has not yet produced a replacement.",
+      "status": "failed",
+      "evidence": [
+        "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v009_preview_x4.png"
+      ]
+    },
+    {
+      "id": "costume_material_markers",
+      "expected": "Black/gold shorts, dirty wraps, red biceps band, bronze skin and rock/lava materials stay distinct.",
+      "observed": "v009 loses material semantics and costume detail. v010 contracts now require preservation, but no candidate has passed.",
+      "status": "failed",
+      "evidence": [
+        "doc/contracts/visual_dna_manifest_v010.json",
+        "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png"
+      ]
+    }
+  ],
+  "frame_state_checks": [
+    {
+      "id": "idle",
+      "expected": "Idle v010 must show focused Muay Thai stance, breathing, hair/face identity and readable lava arm.",
+      "observed": "No v010 idle strip exists; v009 idle is rejected as generic/blocky.",
+      "status": "failed",
+      "evidence": [
+        "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v009.png"
+      ]
+    },
+    {
+      "id": "jab",
+      "expected": "Jab v010 must show startup, active human fist, face effort, shoulder drive and recovery.",
+      "observed": "No v010 jab strip exists; v009 jab is rejected as weak motion over a generic body.",
+      "status": "failed",
+      "evidence": [
+        "res/sprites/hibrido/hibrido_jab_body_48x64_strip_v009.png"
+      ]
+    },
+    {
+      "id": "knee",
+      "expected": "Knee v010 must show compression, raised knee, support foot, kiai face and lava arm visibility.",
+      "observed": "No v010 knee strip exists; v009 knee is mechanically readable but visually generic.",
+      "status": "failed",
+      "evidence": [
+        "res/sprites/hibrido/hibrido_knee_body_48x64_strip_v009.png"
+      ]
+    },
+    {
+      "id": "teep",
+      "expected": "Teep v010 must show long reach, planted support foot, visible lava hand and strong attack silhouette.",
+      "observed": "No v010 teep strip exists; v009 teep does not preserve source acting or lava-arm dominance.",
+      "status": "failed",
+      "evidence": [
+        "res/sprites/hibrido/hibrido_teep_body_48x64_strip_v009.png"
+      ]
+    }
+  ],
+  "blockers": [
+    "model_sheet_to_sprite_fidelity_failed",
+    "signature_feature_loss",
+    "anatomy_simplified_into_block_mass",
+    "face_or_eye_readability_lost",
+    "material_palette_semantics_lost",
+    "costume_marker_loss",
+    "pose_acting_loss",
+    "generic_blocky_redraw",
+    "human_visual_rejection"
+  ],
+  "decision": {
+    "technical_pass": false,
+    "visual_pass": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "Accept corrected v010 model sheet before sprite translation.",
+      "Create native 48x64 lineart_blocking_1px per state.",
+      "Generate a real v010 candidate and replace this negative comparator report with measured evidence.",
+      "Only run res promotion after visual_pass=true and sprite_artifact_report.status=passed."
+    ]
+  }
+}

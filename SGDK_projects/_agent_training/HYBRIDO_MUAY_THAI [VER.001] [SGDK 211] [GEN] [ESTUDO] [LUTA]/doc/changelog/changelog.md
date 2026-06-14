@@ -394,3 +394,57 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
 - Limitacao de ambiente: `run_all_contract_gates.ps1 -Mode schema` executou o
   novo gate, mas falhou no passo Python `test_schema_contract_gates.py` porque
   `py`/`jsonschema` nao estao disponiveis no PATH atual.
+
+## 2026-06-13T23:40:00-03:00 - hibrido_fighter_v010_recovery_direction_gate
+
+- Task: recovery de arte/game design para reconstruir o pacote visual sem
+  promover a v009 reprovada.
+- Novo contrato principal:
+  - `doc/contracts/art_gameplay_direction_gate_v010.json`.
+- Novos contratos/artefatos de planejamento:
+  - `doc/contracts/hibrido_fighter_v010_model_sheet_generation_brief.md`;
+  - `doc/contracts/visual_dna_manifest_v010.json`;
+  - `doc/contracts/animation_state_plan_v010.json`;
+  - `doc/contracts/pose_roster_v010.json`;
+  - `doc/contracts/frame_budget_table_v010.json`;
+  - `doc/contracts/pivot_and_scale_contract_v010.json`;
+  - `doc/contracts/motion_phase_map_v010.json`;
+  - `doc/contracts/animation_direction_contract_v010.json`;
+  - `doc/contracts/model_sheet_to_sprite_fidelity_report_v010.json`.
+- Reports e evidencia:
+  - `out/logs/hibrido_v010_model_sheet_cohesion_audit_report.json`;
+  - `out/logs/hibrido_v010_vdp_budget_planning_report.json`;
+  - `out/logs/visual_delivery_gate_report_v010.json`;
+  - `data/processed/reports/hibrido_v010_blocked_direction_comparison_board.png`.
+- Decisao:
+  - v008 continua fonte de identidade/direcao, mas ainda precisa de novo brief
+    de coesao antes de virar baseline de sprite;
+  - v009 continua `technical_pass=true`, `visual_pass=false` e somente
+    comparador negativo;
+  - v010 esta `blocked_before_asset_generation` ate existir model sheet
+    corrigido e aprovado.
+- Blockers v010:
+  - `hair_tracking_unresolved`;
+  - `turnaround_tracking_contract_missing`;
+  - `sprite_scale_contract_missing`;
+  - `model_sheet_locked_baseline_missing`;
+  - `native_sprite_candidate_missing`;
+  - `emulator_evidence_new_missing`.
+- Validacao:
+  - `test_art_gameplay_direction_gate.ps1`: 12/12 passed;
+  - `test_model_sheet_to_sprite_fidelity_report.ps1`: 9/9 passed;
+  - `test_visual_delivery_gate_required_fields.ps1`: 12/12 passed;
+  - `test_validation_report_visual_gate_blocker.ps1`: 5/5 passed;
+  - `test_visual_delivery_gate_report_blocks.ps1`: 13/13 passed;
+  - schema v010 de gate art/gameplay, fidelity report e visual delivery: OK;
+  - `validate_project_context`: ok como `exercise`;
+  - `validate_project_methodology`: passed;
+  - `validate_project_hygiene`: passed;
+  - `validate_resources`: errors=0, warnings=9, checked=6.
+- Sincronizacao final:
+  - `freshness_audit`: status ok, stale=0, missing_required=0;
+  - `extract_project_learning.py --mode capture`: 18 licoes, 18 candidatos,
+    `canonical_promotion_performed=false`.
+- Status: documentacao e gate de direcao atualizados; nenhum novo asset final,
+  nenhum novo runtime asset, nenhum build novo e nenhuma evidencia nova de
+  emulador nesta rodada.

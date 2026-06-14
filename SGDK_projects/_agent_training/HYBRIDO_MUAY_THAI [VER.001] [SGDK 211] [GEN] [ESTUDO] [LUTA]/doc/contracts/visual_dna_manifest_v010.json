@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_visual_package_v010",
+  "asset_role": "hero_character",
+  "authorial_source": "data/source_art/hibrido_fighter_v008/source_concept.png",
+  "license": "project-local generated source accepted as direction only; not runtime art",
+  "benchmark_used_as": "technical_quality_bar",
+  "style_pillars": [
+    "Muay Thai fighter silhouette with guard, rooted feet, knee and teep readability",
+    "Asymmetric rock/lava arm as the signature gameplay and material signal",
+    "Bronze skin, black/gold shorts, dirty wraps and red non-lava-arm marker as identity anchors",
+    "Native Mega Drive hard-edge clusters with readable face and material hierarchy at 320x224"
+  ],
+  "palette_intent": {
+    "max_palettes": 1,
+    "reserved_slots": [
+      {
+        "palette": 2,
+        "slot": 0,
+        "purpose": "transparent index for processed runtime assets"
+      },
+      {
+        "palette": 2,
+        "slot": 1,
+        "purpose": "outline, deepest hair and silhouette anchors"
+      },
+      {
+        "palette": 2,
+        "slot": 12,
+        "purpose": "red biceps band, sash and controlled lava red accent"
+      },
+      {
+        "palette": 2,
+        "slot": 13,
+        "purpose": "lava orange cracks"
+      },
+      {
+        "palette": 2,
+        "slot": 14,
+        "purpose": "lava yellow heat and eye accent only when needed"
+      }
+    ],
+    "material_ramps": [
+      {
+        "material": "outline_hair_short_shadow",
+        "slots": [1, 2, 3],
+        "contrast_goal": "keep hair, shorts and outline separate from skin and rock without AA"
+      },
+      {
+        "material": "skin",
+        "slots": [5, 6, 7, 8],
+        "contrast_goal": "warm bronze ramp with enough native contrast for torso and face planes"
+      },
+      {
+        "material": "dirty_wraps",
+        "slots": [9, 10],
+        "contrast_goal": "off-white wraps readable on hands and feet without pure flat white"
+      },
+      {
+        "material": "rock_lava_arm",
+        "slots": [3, 4, 12, 13, 14],
+        "contrast_goal": "dark stone mass with hot fissures; no spray, no gray block collapse"
+      },
+      {
+        "material": "gold_trim",
+        "slots": [11],
+        "contrast_goal": "small ornamental trim remains visible on black shorts"
+      }
+    ]
+  },
+  "shape_language": [
+    "compact fighter torso with broad shoulders and clear pelvis/leg stance",
+    "spiky thick hair crown with consistent front/back/3-4 volume landmarks",
+    "lava arm uses larger rounded rock plates and internal crack clusters, not cloth bands",
+    "human hand and feet use wrap blocks with clear endpoints",
+    "attack poses prioritize silhouette peaks over texture"
+  ],
+  "material_rules": [
+    "Lava arm is exposed rock only; wraps, gloves and bandages on this arm are forbidden.",
+    "Human hand and feet carry dirty white wraps; the red band belongs to the non-lava biceps.",
+    "FX sparks, lava bursts, hit flashes and dust are separate runtime FX assets when used.",
+    "Material ramps must be manually planned; automatic quantization is not approval.",
+    "No smooth gradient, blur, anti-aliasing, subpixel edge or palette micro-noise."
+  ],
+  "scale_contract": {
+    "native_resolution": "320x224",
+    "nominal_bbox_px": {
+      "w": 48,
+      "h": 64
+    },
+    "pivot_policy": "planned bottom-center pivot at 24,58 with stable ground_y 58; must be revalidated after corrected model sheet and lineart blocking",
+    "scale_class": "medium_24_48",
+    "scale_lock_status": "rework_required",
+    "gameplay_scale_fit": {
+      "camera_fov_role": "close_combat_precision",
+      "hitbox_alignment_role": "limb_precise",
+      "animation_workload_policy": "standard_16bit_pipeline",
+      "integer_pixel_motion_policy": "fixed_point_logic_integer_render"
+    },
+    "scale_change_policy": "requires_reseed_before_art"
+  },
+  "forbidden_drift": [
+    "anatomy",
+    "pivot",
+    "scale",
+    "outfit",
+    "face",
+    "palette",
+    "bounding_box",
+    "material",
+    "style"
+  ],
+  "approval_status": "blocked",
+  "blockers": [
+    "corrected_model_sheet_not_yet_generated_or_approved",
+    "hair_tracking_unresolved",
+    "turnaround_tracking_contract_missing",
+    "native_lineart_blocking_missing"
+  ]
+}

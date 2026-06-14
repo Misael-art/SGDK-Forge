@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_pose_roster_v010",
+  "status": "planned_blocked_until_model_sheet_correction",
+  "model_sheet_required_poses": [
+    {
+      "id": "front_neutral",
+      "purpose": "lock face, hair, torso, shorts, wraps and asymmetry from front"
+    },
+    {
+      "id": "back_neutral",
+      "purpose": "prove hair volume, back anatomy, shorts, red band side logic and lava arm side logic"
+    },
+    {
+      "id": "guard_3q",
+      "purpose": "lock combat guard, opponent eye-line, lava arm visibility and root stance"
+    },
+    {
+      "id": "knee_key_pose",
+      "purpose": "lock compression, raised knee, support foot, kiai face and shorts/cloth response"
+    },
+    {
+      "id": "teep_or_attack_key_pose",
+      "purpose": "lock long reach, support foot, visible lava hand, open/guard hand family and attack silhouette"
+    }
+  ],
+  "sprite_key_pose_roster": [
+    {
+      "state": "idle",
+      "key_poses": ["neutral_guard", "inhale_guard", "exhale_guard"]
+    },
+    {
+      "state": "walk_step",
+      "key_poses": ["front_foot_lift", "passing_weight", "front_foot_plant"]
+    },
+    {
+      "state": "guard_block",
+      "key_poses": ["ready_guard", "impact_absorb", "settle_guard"]
+    },
+    {
+      "state": "jab",
+      "key_poses": ["ready", "anticipation", "active_extension", "follow_through", "recovery"]
+    },
+    {
+      "state": "knee",
+      "key_poses": ["ready", "compression", "knee_active", "hitstop_peak", "recovery"]
+    },
+    {
+      "state": "teep",
+      "key_poses": ["ready", "lean_back_anticipation", "leg_active", "held_reach", "recovery"]
+    },
+    {
+      "state": "hurt",
+      "key_poses": ["impact", "posture_break", "recover"]
+    }
+  ],
+  "rejection_rules": [
+    "Reject any pose where the hair becomes a different haircut instead of a tracked angle/action variation.",
+    "Reject any pose where the lava arm endpoint disappears or reads as wrap/glove.",
+    "Reject any pose where the face is blank during active strike or hurt.",
+    "Reject any pose where the red biceps band swaps side without justified occlusion."
+  ]
+}

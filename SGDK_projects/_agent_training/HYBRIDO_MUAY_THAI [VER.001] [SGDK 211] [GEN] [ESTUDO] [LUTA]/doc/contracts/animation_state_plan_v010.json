@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_animation_state_plan_v010",
+  "status": "blocked_until_corrected_model_sheet",
+  "art_gameplay_direction_gate": "doc/contracts/art_gameplay_direction_gate_v010.json",
+  "visual_dna_manifest": "doc/contracts/visual_dna_manifest_v010.json",
+  "states": [
+    {
+      "id": "idle",
+      "priority": "p0",
+      "loop_policy": "loop",
+      "gameplay_role": "default readable combat stance",
+      "personality": "focused breathing, high guard, grounded feet"
+    },
+    {
+      "id": "walk_step",
+      "priority": "p0",
+      "loop_policy": "loop",
+      "gameplay_role": "short pressure step toward opponent",
+      "personality": "disciplined forward weight, eyes locked on target"
+    },
+    {
+      "id": "guard_block",
+      "priority": "p0",
+      "loop_policy": "hold_or_short_loop",
+      "gameplay_role": "defensive guard and incoming strike readability",
+      "personality": "protected but aggressive, lava arm still visible"
+    },
+    {
+      "id": "jab",
+      "priority": "p0",
+      "loop_policy": "one_shot_then_recover",
+      "gameplay_role": "fast light strike with human wrapped fist",
+      "personality": "tight jaw, quick shoulder snap, readable recovery"
+    },
+    {
+      "id": "knee",
+      "priority": "p0",
+      "loop_policy": "one_shot_then_recover",
+      "gameplay_role": "Muay Thai knee, close-range punish or pressure",
+      "personality": "compression, upward drive, kiai face"
+    },
+    {
+      "id": "teep",
+      "priority": "p0",
+      "loop_policy": "one_shot_then_recover",
+      "gameplay_role": "front kick that controls space and shows reach",
+      "personality": "support foot planted, lava hand visible, hard recovery"
+    },
+    {
+      "id": "hurt",
+      "priority": "p0",
+      "loop_policy": "one_shot_then_recover",
+      "gameplay_role": "damage read and hit confirmation",
+      "personality": "force direction, pain asymmetry, identity preserved"
+    }
+  ],
+  "state_transition_rules": [
+    "idle may enter walk_step, guard_block, jab, knee, teep or hurt.",
+    "walk_step returns to idle with no pivot snap and can cancel into guard or jab only after a planted-foot frame.",
+    "attacks require startup/anticipation, active frame, follow-through and recovery before idle.",
+    "hurt preserves ground_y and returns through a recovery pose, never a direct scale snap."
+  ],
+  "blockers": [
+    "corrected_model_sheet_not_yet_approved",
+    "native_lineart_blocking_missing",
+    "motion_phase_map_not_measured"
+  ]
+}

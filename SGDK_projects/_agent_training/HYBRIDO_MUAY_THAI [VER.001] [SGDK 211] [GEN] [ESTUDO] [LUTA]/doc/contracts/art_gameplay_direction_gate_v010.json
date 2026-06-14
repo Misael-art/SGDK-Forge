@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "hibrido_v010_art_gameplay_direction_gate",
+  "project_id": "hibrido_muay_thai",
+  "asset_id": "hibrido_fighter_visual_package_v010",
+  "asset_kind": "final_sprite_sheet",
+  "evaluated_at": "2026-06-13T23:19:02-03:00",
+  "measurement_level": "planned_contract",
+  "art_director_review": {
+    "status": "passed",
+    "reviewer": "visual-excellence-standards",
+    "art_direction_decision_record": "doc/contracts/human_validation_record_v008.md",
+    "master_style_manifest": "doc/03_art/01_visual_cohesion_system.md",
+    "findings": [
+      "v009 is rejected as a visual baseline; it may be used only as negative evidence for what the v010 route must avoid.",
+      "The accepted identity comes from v008 as art direction only: bronze skin, aggressive hair and face, black/gold shorts, dirty white wraps, red biceps band on the non-lava arm, and a rock/lava arm with readable hand endpoint.",
+      "The v010 route must preserve character charisma before technical cell compliance. A PNG can pass PLTE, index 0 and grid checks while still failing this gate.",
+      "If v008 internal cohesion drift is confirmed, especially hair drift in the first pose, production must create a corrected model sheet brief before any sprite sheet or runtime strip.",
+      "The art target is native Mega Drive pixel art with hard 1 px structure, material-coded clusters, clean silhouette and readable face/eyes at 320x224."
+    ]
+  },
+  "game_design_context": {
+    "status": "passed",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "animation_state_plan": "doc/contracts/animation_direction_contract_v010.json",
+    "gameplay_role": "Playable close-combat Muay Thai hybrid fighter. The character reads as the player avatar in side-view combat, using disciplined guard, short forward pressure, jab, knee, teep and block while the lava arm functions as the signature visual/gameplay signal.",
+    "camera_perspective": "side_view_close_combat",
+    "interaction_context": [
+      "Camera is 320x224 side view, close enough for face and hand identity but wide enough for two fighters, HUD and attack reach.",
+      "Target scale remains a 48x64 cell only if the scale contract preserves visible body, hands, feet, hair and lava arm without clipping; default pivot is bottom-center at 24,58 and ground_y is 58.",
+      "Opponent is frontal on the same ground plane, usually one to two character widths away; attacks must communicate startup, reach, active contact and recovery before FX.",
+      "Hitbox/hurtbox policy: torso and head keep stable mass; jab extends the human wrapped fist, knee compresses then drives upward, teep extends the front leg while the lava hand stays visible above or beside the leg.",
+      "Scenario must support readability, not compete with the fighter. Background contrast, texture and saturation stay subordinate to outline, hair, eyes, bandages, shorts and lava cracks.",
+      "Contact policy: planted foot and root foot must be legible on ground_y during idle, walk, guard, jab and knee. Teep may lift one foot but must show the support foot and recovery path.",
+      "Runtime FX policy: hit sparks, lava bursts, glow flares, dust and impact flashes are separate runtime FX assets when used; they are not baked into the character body sheet.",
+      "Required movement states for v010 planning: front, back, guard, knee, teep or attack key pose, idle, walk_step, guard_block, jab, knee, teep, hurt and transition/recovery rules."
+    ]
+  },
+  "identity_continuity_lock": {
+    "visual_dna_manifest": "doc/contracts/visual_dna_manifest_v010.json",
+    "design_inheritance": "doc/contracts/model_sheet_to_sprite_fidelity_report_v010.json",
+    "must_preserve": [
+      {
+        "id": "hair_silhouette",
+        "kind": "hair",
+        "expected": "Thick aggressive dark hair with consistent volume between poses; variation only by camera angle, occlusion or action force.",
+        "observed": "v008 is the identity source but the first-pose hair drift remains an audit target before sprite production.",
+        "status": "locked"
+      },
+      {
+        "id": "eyes_focus",
+        "kind": "eyes",
+        "expected": "Focused high-contrast eyes aimed at the opponent, with brows/eye line supporting aggression at native scale.",
+        "observed": "v009 lost face/eye charisma; v010 must restore it through posture, contrast and a deliberate eye cluster.",
+        "status": "locked"
+      },
+      {
+        "id": "face_personality",
+        "kind": "face",
+        "expected": "Readable fighter face: calm focus in idle/guard, jaw tension or kiai on active strikes, pain direction on hurt.",
+        "observed": "Face acting is part of gameplay readability, not optional microdetail.",
+        "status": "locked"
+      },
+      {
+        "id": "athletic_anatomy",
+        "kind": "physical_marker",
+        "expected": "Athletic Muay Thai body with consistent head, torso, shoulder, hip, hand and foot scale across front, back and action poses.",
+        "observed": "No extra limbs, no amorphous endpoints, no block-mass simplification.",
+        "status": "locked"
+      },
+      {
+        "id": "lava_arm",
+        "kind": "signature_feature",
+        "expected": "Asymmetric rock/lava arm with dark stone volume, orange/yellow fissures, readable elbow/wrist/hand endpoint and no wrap or glove.",
+        "observed": "This is the primary signature feature and cannot collapse into a gray block or generic glove.",
+        "status": "locked"
+      },
+      {
+        "id": "lava_fissures",
+        "kind": "material",
+        "expected": "Glowing lava fissures read as internal heat cracks on the special arm, using hot slots and controlled cluster shapes.",
+        "observed": "Fissures must survive palette planning without becoming noise, spray or baked FX.",
+        "status": "locked"
+      },
+      {
+        "id": "black_gold_shorts",
+        "kind": "costume",
+        "expected": "Black Muay Thai shorts with gold trim/ornament, readable as cloth and not as a single dark block.",
+        "observed": "Shorts and trim must remain visible in key poses and 48x64 sprite planning.",
+        "status": "locked"
+      },
+      {
+        "id": "red_biceps_band",
+        "kind": "accessory",
+        "expected": "Red band on the non-lava arm biceps, consistent by side and omitted only when physically occluded by pose.",
+        "observed": "Side-specific accessory drift was a known prior failure and is locked for v010.",
+        "status": "locked"
+      },
+      {
+        "id": "dirty_white_wraps",
+        "kind": "accessory",
+        "expected": "Dirty white bandages/wraps on the human hand and feet, never on the lava arm.",
+        "observed": "Wrap placement must distinguish human limb from lava limb at native scale.",
+        "status": "locked"
+      },
+      {
+        "id": "bronze_skin",
+        "kind": "material",
+        "expected": "Bronze/dark warm skin with hue-shifted shadow and enough separation from stone, cloth and wraps.",
+        "observed": "Skin cannot be washed into the same gray/dark mass as shorts or rock.",
+        "status": "locked"
+      },
+      {
+        "id": "material_roles",
+        "kind": "palette",
+        "expected": "Palette separates outline, hair, skin, shorts, gold, dirty wraps, stone and lava cracks by function under a 16-color character domain unless FX are separated.",
+        "observed": "Palette syntax alone is insufficient; material semantics must be visible.",
+        "status": "locked"
+      },
+      {
+        "id": "emblems_and_gold_trim",
+        "kind": "emblem",
+        "expected": "Gold trim, waistband/short markings and any emblem-like ornament stay consistent with v008 design and do not drift between poses.",
+        "observed": "If a marking is simplified for 48x64, the simplification must preserve placement and role.",
+        "status": "locked"
+      },
+      {
+        "id": "scars_and_crack_marks",
+        "kind": "scar",
+        "expected": "Visible scars, crack marks or scar-like lava fissures from the approved direction must not be invented, dropped or moved without pose justification.",
+        "observed": "The lava fissures are treated as a scar-like identity marker for continuity.",
+        "status": "locked"
+      },
+      {
+        "id": "asymmetry_lock",
+        "kind": "asymmetry",
+        "expected": "Lava arm side, human-arm marker, wraps and body-side relationships remain coherent across front, back and action poses.",
+        "observed": "Horizontal flip is a runtime direction tool, not permission to swap the character identity.",
+        "status": "locked"
+      },
+      {
+        "id": "accessory_set",
+        "kind": "accessory",
+        "expected": "Biceps band, hand wraps, foot wraps, shorts trim and any waist details stay in the same visual language and side logic.",
+        "observed": "Accessories are identity markers and cannot become random decorative noise.",
+        "status": "locked"
+      },
+      {
+        "id": "pure_black_silhouette",
+        "kind": "silhouette",
+        "expected": "The fighter remains recognizable in pure black silhouette: hair, guard, shorts, Muay Thai stance and lava-arm mass must be readable.",
+        "observed": "Silhouette must pass before color blocking, sprite strips or runtime promotion.",
+        "status": "locked"
+      }
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "passed",
+    "secondary_motion": [
+      "Hair reacts after torso motion with 1-2 frame delay; it compresses in guard/knee and trails in jab/teep recovery without changing identity.",
+      "Shorts, waist trim, red band and wraps move as cloth clusters with delayed settle; they cannot freeze during attacks or turn into unrelated shapes.",
+      "Breathing is visible in idle through chest/shoulder/guard micro-poses and shading shifts, not through subpixel movement or blur.",
+      "Weight is rooted in the feet: stance stays heavy, knee rises from compression, teep shows support foot and jab pays recovery.",
+      "Lava-arm cracks keep material continuity through motion; glow/impact bursts are separated as runtime FX when needed."
+    ],
+    "expression_requirements": [
+      "Idle: focused closed-mouth stare aimed at the opponent.",
+      "Walk_step: focused eyes with slight jaw/shoulder tension.",
+      "Guard_block: protected face still reads aggressive, not blank.",
+      "Jab/knee/teep active frames: tightened jaw, kiai mouth or teeth indication where the face scale permits.",
+      "Hurt: visible force direction, head reaction and pain asymmetry without losing scale or identity."
+    ],
+    "state_fantasy_checks": [
+      "Every state must read as a Muay Thai hybrid fighter, not a generic martial-arts mannequin.",
+      "Attacks require anticipation, active contact, hitstop-readable peak and recovery; no attack may start directly on the active frame.",
+      "The lava arm is a visual signature and gameplay signal even in states where the human arm or leg performs the strike.",
+      "Reach and contact must be clear enough for fair hitbox interpretation against a frontal opponent.",
+      "Sprite planning must preserve ground_y, pivot and frame envelope before any full sheet assembly."
+    ]
+  },
+  "decision": {
+    "production_allowed": true,
+    "ready_for_generation": true,
+    "ready_for_conversion": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "audit_v008_model_sheet_internal_cohesion",
+      "if_hair_face_costume_or_lava_drift_is_unjustified_write_model_sheet_v010_generation_brief_before_image",
+      "create_animation_state_plan_pose_roster_frame_budget_table_pivot_and_scale_contract_motion_phase_map",
+      "redraw_native_grid_lineart_blocking_1px_per_state_before_color",
+      "generate_model_sheet_to_sprite_fidelity_report_v010_before_any_res_promotion"
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_motion_phase_map_v010",
+  "status": "planned_not_yet_measured",
+  "phase_maps": [
+    {
+      "animation_id": "idle",
+      "frame_count": 6,
+      "phase_sequence": [
+        {"frame": 1, "phase": "settled_guard", "note": "baseline stance, focused face"},
+        {"frame": 2, "phase": "inhale", "note": "chest/shoulders rise subtly"},
+        {"frame": 3, "phase": "hold", "note": "guard tension, hair still"},
+        {"frame": 4, "phase": "exhale", "note": "shoulders settle, wraps follow"},
+        {"frame": 5, "phase": "micro_shift", "note": "weight stays grounded"},
+        {"frame": 6, "phase": "loop_closure", "note": "returns to frame 1 without pivot snap"}
+      ]
+    },
+    {
+      "animation_id": "walk_step",
+      "frame_count": 6,
+      "phase_sequence": [
+        {"frame": 1, "phase": "ready", "note": "guard up, rear foot loaded"},
+        {"frame": 2, "phase": "front_foot_lift", "note": "small forward pressure"},
+        {"frame": 3, "phase": "passing", "note": "center of mass moves forward"},
+        {"frame": 4, "phase": "plant", "note": "front foot contacts ground_y"},
+        {"frame": 5, "phase": "weight_settle", "note": "hair/wraps lag"},
+        {"frame": 6, "phase": "loop_or_idle_bridge", "note": "returns to ready stance"}
+      ]
+    },
+    {
+      "animation_id": "guard_block",
+      "frame_count": 4,
+      "phase_sequence": [
+        {"frame": 1, "phase": "ready_guard", "note": "guard raised, eyes visible"},
+        {"frame": 2, "phase": "brace", "note": "torso compresses"},
+        {"frame": 3, "phase": "impact_absorb", "note": "hitstop-readable block shape"},
+        {"frame": 4, "phase": "settle", "note": "returns to guard without face blanking"}
+      ]
+    },
+    {
+      "animation_id": "jab",
+      "frame_count": 5,
+      "phase_sequence": [
+        {"frame": 1, "phase": "ready", "note": "guard high, shoulder relaxed"},
+        {"frame": 2, "phase": "anticipation", "note": "small shoulder load, root foot locked"},
+        {"frame": 3, "phase": "active", "note": "human wrapped fist extends, face tense"},
+        {"frame": 4, "phase": "follow_through", "note": "torso pays inertia, hair trails"},
+        {"frame": 5, "phase": "recovery", "note": "returns to guard, no snap"}
+      ]
+    },
+    {
+      "animation_id": "knee",
+      "frame_count": 6,
+      "phase_sequence": [
+        {"frame": 1, "phase": "ready", "note": "guard and weight set"},
+        {"frame": 2, "phase": "compression", "note": "hips drop, support foot plants"},
+        {"frame": 3, "phase": "lift", "note": "knee rises, torso curls"},
+        {"frame": 4, "phase": "active_hitstop", "note": "knee peak, kiai face, lava arm readable"},
+        {"frame": 5, "phase": "follow_through", "note": "body decelerates"},
+        {"frame": 6, "phase": "recovery", "note": "leg returns to stance"}
+      ]
+    },
+    {
+      "animation_id": "teep",
+      "frame_count": 6,
+      "phase_sequence": [
+        {"frame": 1, "phase": "ready", "note": "guard high, support foot clear"},
+        {"frame": 2, "phase": "lean_back_anticipation", "note": "center of mass shifts back"},
+        {"frame": 3, "phase": "active_extension", "note": "front leg extends, reach readable"},
+        {"frame": 4, "phase": "held_contact", "note": "hitstop frame, lava hand visible above/beside leg"},
+        {"frame": 5, "phase": "retract", "note": "kicking leg returns, cloth follows"},
+        {"frame": 6, "phase": "recovery", "note": "grounded stance restored"}
+      ]
+    },
+    {
+      "animation_id": "hurt",
+      "frame_count": 3,
+      "phase_sequence": [
+        {"frame": 1, "phase": "impact", "note": "force direction visible"},
+        {"frame": 2, "phase": "posture_break", "note": "head/torso react without scale loss"},
+        {"frame": 3, "phase": "recover", "note": "bridge back to guard/idle"}
+      ]
+    }
+  ]
+}

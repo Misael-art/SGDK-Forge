@@ -247,6 +247,78 @@
   novo teste, mas falhou no passo `test_schema_contract_gates.py` porque o
   alias `py` e o pacote Python `jsonschema` nao estao disponiveis neste PATH.
 
+## 2026-06-13 - v010 recovery gate: direcao antes de asset
+
+- Pedido humano: atuar como recovery agent de arte/game design e refazer
+  corretamente o pacote visual do HYBRIDO_MUAY_THAI sem reutilizar a v009 como
+  baseline aprovado.
+- Regra operacional confirmada: nenhum model sheet novo, sprite sheet,
+  background ou asset final foi gerado nesta rodada. A v009 permanece apenas
+  como comparador negativo/tecnico rejeitado.
+- Novo gate principal:
+  - `doc/contracts/art_gameplay_direction_gate_v010.json`.
+- Decisao do gate v010:
+  - `production_allowed=true` apenas para direcao, auditoria, brief e
+    planejamento de traducao;
+  - `ready_for_generation=false` para asset final enquanto o model sheet
+    corrigido nao for aprovado;
+  - `ready_for_res_promotion=false`;
+  - `ready_for_aaa=false`.
+- Auditoria do model sheet v008:
+  - report: `out/logs/hibrido_v010_model_sheet_cohesion_audit_report.json`;
+  - status: `approved_as_direction_but_needs_cohesion_rebrief`;
+  - blockers: `hair_tracking_unresolved`,
+    `turnaround_tracking_contract_missing`, `sprite_scale_contract_missing`,
+    `model_sheet_locked_baseline_missing`.
+- Brief obrigatorio antes de qualquer nova imagem:
+  - `doc/contracts/hibrido_fighter_v010_model_sheet_generation_brief.md`;
+  - exige frente, costas, guarda, joelhada e teep/ataque com identidade unica,
+    silhueta preta legivel, anatomia preservada e braco de lava como assinatura.
+- Contratos v010 criados para impedir nova traducao generica:
+  - `doc/contracts/visual_dna_manifest_v010.json`;
+  - `doc/contracts/animation_state_plan_v010.json`;
+  - `doc/contracts/pose_roster_v010.json`;
+  - `doc/contracts/frame_budget_table_v010.json`;
+  - `doc/contracts/pivot_and_scale_contract_v010.json`;
+  - `doc/contracts/motion_phase_map_v010.json`;
+  - `doc/contracts/animation_direction_contract_v010.json`;
+  - `doc/contracts/model_sheet_to_sprite_fidelity_report_v010.json`.
+- Budget VDP planejado:
+  - report: `out/logs/hibrido_v010_vdp_budget_planning_report.json`;
+  - 36 frames planejados em 48x64 geram custo bruto alto se tudo ficar
+    residente; rota permitida exige janela ativa por estado, reuso de tiles,
+    FX separados do corpo e validacao futura de DMA/scanline/VRAM no runtime.
+- Evidencia visual desta rodada:
+  - `data/processed/reports/hibrido_v010_blocked_direction_comparison_board.png`;
+  - contem model sheet v008 aprovado como direcao, v009 reprovado como
+    comparador negativo, status do gate v010 e bloqueios antes do sprite.
+- Status honesto v010:
+  - `direction_gate_passed_for_planning=true`;
+  - `corrected_model_sheet_required=true`;
+  - `native_sprite_candidate_exists=false`;
+  - `runtime_asset_promoted=false`;
+  - `emulator_evidence_new=false`;
+  - `final_delivery=false`.
+- Validacao parcial ja rodada:
+  - `test_art_gameplay_direction_gate.ps1`: 12/12 passed;
+  - `test_model_sheet_to_sprite_fidelity_report.ps1`: 9/9 passed;
+  - `test_visual_delivery_gate_required_fields.ps1`: 12/12 passed;
+  - `test_validation_report_visual_gate_blocker.ps1`: 5/5 passed;
+  - `test_visual_delivery_gate_report_blocks.ps1`: 13/13 passed;
+  - schema v010 de `art_gameplay_direction_gate`, `model_sheet_to_sprite_fidelity_report`
+    e `visual_delivery_gate_report`: OK;
+  - `validate_project_context`: status ok, contexto `exercise`, blockers=0;
+  - `validate_project_methodology`: passed, blockers=0;
+  - `validate_project_hygiene`: passed, blockers=0;
+  - `validate_resources`: errors=0, warnings=9, checked=6.
+- Sincronizacao final:
+  - `freshness_audit`: status ok, stale=0, missing_required=0;
+  - captura via `extract_project_learning.py --mode capture`: 18 licoes,
+    18 candidatos, `canonical_promotion_performed=false`.
+- Warnings de recursos sao esperados nesta fase: GDD insuficiente para entrega,
+  gate visual bloqueado, evidencia de emulador obsoleta/insuficiente e reports
+  de cena/tilemap/closeout ausentes. Nao ha claim de pronto, AAA ou entrega.
+
 
 
 

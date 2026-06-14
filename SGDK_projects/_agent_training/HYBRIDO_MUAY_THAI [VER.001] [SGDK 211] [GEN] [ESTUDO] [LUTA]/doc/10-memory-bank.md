@@ -2,13 +2,13 @@
 ## 0. Estado Derivado dos Artefatos
 
 - Fonte: `doc/changelog` + `validation_report.json`
-- Ultima sincronizacao: `2026-06-09T05:42:31.8233731-03:00`
+- Ultima sincronizacao: `2026-06-14T06:29:54.1657419-03:00`
 - Changelog canonico: `doc/changelog/changelog.md`
-- Assets versionados rastreados: 6
-- Ultimo build versionado: build_v004
-- ROM vigente: `764d5a95c5c6aa979905afaeba417c6225b0547299537bb27228c4c85a9b34da` (`131072` bytes)
-- Validation summary: errors=0 warnings=11
-- Blockers vigentes: project_methodology_manifest_invalid, gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing, model_sheet_to_sprite_fidelity_failed
+- Assets versionados rastreados: 7
+- Ultimo build versionado: build_v006
+- ROM vigente: `9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566` (`131072` bytes)
+- Validation summary: errors=0 warnings=10
+- Blockers vigentes: gdd_substantial_insufficient, visual_gate_blocked, visual_direction_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing
 - Evidencia de emulador: session_not_captured
 - Gate visual: visual_lab_aprovado=False
 - Gate gameplay: gameplay_rom_aprovada=False
@@ -319,7 +319,57 @@
   gate visual bloqueado, evidencia de emulador obsoleta/insuficiente e reports
   de cena/tilemap/closeout ausentes. Nao ha claim de pronto, AAA ou entrega.
 
+## 2026-06-14 - v010 native visual package, runtime proof parcial
 
-
-
+- Continuidade do recovery: v009 permanece reprovada e foi usada somente como
+  comparador negativo. O pacote v010 partiu do gate de arte/gameplay e dos
+  contratos v010, sem downscale direto do model sheet.
+- Novo gerador do pacote:
+  - `data/builders/build_hibrido_fighter_visual_package_v010.py`.
+- Evidencia visual versionada:
+  - model sheet/key poses: `data/processed/model_sheets/hibrido_fighter_model_sheet_native_key_poses_48x64_v010.png`;
+  - source board: `data/source_art/hibrido_fighter_v010/source_concept.png`;
+  - sheet nativa: `data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v010.png`;
+  - contact sheet: `data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png`;
+  - preview animado: `data/processed/reports/hibrido_fighter_motion_preview_v010.gif`;
+  - pivot overlay: `data/processed/reports/hibrido_fighter_pivot_overlay_v010.png`;
+  - comparison board: `data/processed/reports/hibrido_v010_delivery_comparison_board.png`.
+- Runtime atualizado para v010:
+  - `res/resources.res` e `src/main.c` referenciam as 7 strips v010:
+    idle, walk_step, guard_block, jab, knee, teep e hurt;
+  - celula 48x64, pivot `(24,58)`, `ground_y=58`, PNG modo P, PLTE 16,
+    indice 0 transparente e FX separados do corpo.
+- Build:
+  - `out/rom.bin`: 131072 bytes;
+  - sha256 `9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566`;
+  - `build.bat`: sucesso.
+- Evidencia BlastEm:
+  - `out/evidence/blastem/screenshot.png` mostra a ROM com o personagem v010;
+  - `out/evidence/blastem/save.sram` foi gravado;
+  - `out/logs/emulator_session.json` foi recuperado manualmente a partir da
+    sessao porque `capture_blastem_evidence.ps1` falhou apos a captura com
+    `$screenshotArtifactPath` indefinido sob StrictMode;
+  - `visual_vdp_dump.bin` nao foi gerado e continua bloqueando AAA.
+- Validacao atual:
+  - `validate_project_context`: ok, contexto `exercise`;
+  - `validate_project_methodology`: passed;
+  - `validate_project_hygiene`: passed;
+  - `validate_resources`: errors=0, warnings=8, checked=7;
+  - juiz visual automatico rodou com Pillow e analisou 7 assets, status
+    `alerta`/`needs_review`;
+  - schema OK para art/gameplay gate, visual DNA, fidelity report e visual
+    delivery gate.
+- Sincronizacao final:
+  - `freshness_audit`: status ok, stale=0, missing_required=0;
+  - `res_graph_audit`: 7 declaracoes OK;
+  - `audit_project_learning.ps1 -Mode Capture`: 18 licoes, 18 candidatos,
+    `canonical_promotion_performed=false`.
+- Status honesto:
+  - `testado_em_emulador=true` para boot visual no BlastEm com screenshot/SRAM;
+  - `ready_for_aaa=false`;
+  - `performance_60fps` ainda nao medida;
+  - `human_visual_review_missing_for_aaa`;
+  - `visual_vdp_dump_missing`;
+  - GDD substancial e gates de cena/tilemap/closeout ainda bloqueiam entrega
+    final.
 

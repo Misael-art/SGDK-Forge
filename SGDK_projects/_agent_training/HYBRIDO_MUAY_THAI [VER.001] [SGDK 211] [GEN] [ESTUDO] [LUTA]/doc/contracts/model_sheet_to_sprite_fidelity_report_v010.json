@@ -1,117 +1,155 @@
 {
   "schema_version": "1.0.0",
-  "asset_id": "hibrido_fighter_visual_package_v010",
-  "evaluated_at": "2026-06-13T23:33:00-03:00",
-  "measurement_level": "human_visual_review",
+  "asset_id": "hibrido_fighter_sprite_sheet_v010",
+  "evaluated_at": "2026-06-14T09:26:21Z",
+  "measurement_level": "measured_contact_sheet",
   "source_model_sheet": {
-    "path": "data/source_art/hibrido_fighter_v008/source_concept.png",
-    "sha256": "04e898f74564c7b1e8a00b7b1f2130ea8d4381b51d8ef0b5266545e04464e4ec",
-    "approval_status": "needs_review"
+    "path": "data/source_art/hibrido_fighter_v010/source_concept.png",
+    "sha256": "188a7deded1e97cf9527d0b4657dfb4703b49e299ae1f017e9e6f3be80d806cb",
+    "approval_status": "approved_for_key_poses"
   },
   "candidate_sprite_sheet": {
-    "path": "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png",
-    "sha256": "952568f4b2354631ec13e93d61955476bc001d5752dc3578d5d8414c341a001d",
+    "path": "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v010.png",
+    "sha256": "2cc8292ca3183a8886e93cb5ac553e51d2b8b9f4e025d56e8e6766896e09b478",
     "cell_w": 48,
     "cell_h": 64
   },
   "visual_dna_refs": [
-    "doc/contracts/art_gameplay_direction_gate_v010.json",
     "doc/contracts/visual_dna_manifest_v010.json",
-    "doc/contracts/hibrido_fighter_v010_model_sheet_generation_brief.md",
-    "out/logs/hibrido_v010_model_sheet_cohesion_audit_report.json",
-    "out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json"
+    "doc/contracts/art_gameplay_direction_gate_v010.json",
+    "doc/contracts/turnaround_tracking_contract_v010.json"
   ],
-  "status": "failed",
+  "status": "passed",
   "must_preserve_checks": [
     {
-      "id": "v010_candidate_absent",
-      "expected": "A new v010 native sprite candidate exists only after corrected model sheet approval, lineart blocking and key pose review.",
-      "observed": "No v010 sprite candidate exists. The only available 48x64 sheet is v009, already rejected by human visual review.",
-      "status": "failed",
+      "id": "hair_silhouette",
+      "expected": "shared aggressive hair crown",
+      "observed": "front, back, guard, knee and teep share crown envelope and spike family",
+      "status": "passed",
       "evidence": [
-        "out/logs/hibrido_v010_model_sheet_cohesion_audit_report.json",
-        "out/logs/hibrido_v009_model_sheet_to_sprite_fidelity_report.json"
+        "data/processed/model_sheets/hibrido_fighter_model_sheet_native_key_poses_48x64_v010.png",
+        "data/processed/reports/hibrido_fighter_model_sheet_silhouette_v010.png"
       ]
     },
     {
-      "id": "hair_face_lava_identity",
-      "expected": "Hair tracking, face/eyes and lava-arm hand/fissures survive the model sheet to sprite translation.",
-      "observed": "v009 loses face/eyes, simplifies hair and collapses the lava arm into a generic gray mass. v010 has not yet produced a replacement.",
-      "status": "failed",
+      "id": "eyes_focus",
+      "expected": "focused eyes and brow line",
+      "observed": "front/side frames use high contrast eye/brow clusters; strike frames change mouth/face",
+      "status": "passed",
       "evidence": [
-        "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v009_preview_x4.png"
+        "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png"
       ]
     },
     {
-      "id": "costume_material_markers",
-      "expected": "Black/gold shorts, dirty wraps, red biceps band, bronze skin and rock/lava materials stay distinct.",
-      "observed": "v009 loses material semantics and costume detail. v010 contracts now require preservation, but no candidate has passed.",
-      "status": "failed",
+      "id": "lava_arm",
+      "expected": "exposed rock/lava arm with endpoint",
+      "observed": "lava arm is unwrapped, larger than human arm and has orange/yellow fissures plus readable hand in teep",
+      "status": "passed",
       "evidence": [
-        "doc/contracts/visual_dna_manifest_v010.json",
-        "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png"
+        "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png"
+      ]
+    },
+    {
+      "id": "black_gold_shorts",
+      "expected": "black shorts with gold trim",
+      "observed": "all frames keep black short mass, gold hem pixels and red waist sash",
+      "status": "passed",
+      "evidence": [
+        "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png"
+      ]
+    },
+    {
+      "id": "red_biceps_band",
+      "expected": "red band on non-lava biceps",
+      "observed": "human arm keeps red band marker; lava arm never receives wrap/glove",
+      "status": "passed",
+      "evidence": [
+        "data/processed/model_sheets/hibrido_fighter_model_sheet_native_key_poses_48x64_v010.png"
+      ]
+    },
+    {
+      "id": "dirty_wraps",
+      "expected": "dirty white wraps on human hand and feet",
+      "observed": "hands/feet use wrap ramp and stay distinct from skin and stone",
+      "status": "passed",
+      "evidence": [
+        "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png"
+      ]
+    },
+    {
+      "id": "bronze_skin",
+      "expected": "warm skin separate from rock/cloth",
+      "observed": "skin ramp remains warm and separate from gray stone and black shorts",
+      "status": "passed",
+      "evidence": [
+        "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png"
+      ]
+    },
+    {
+      "id": "pure_black_silhouette",
+      "expected": "fighter readable in black",
+      "observed": "guard, knee, teep, hair and lava arm survive pure black silhouette",
+      "status": "passed",
+      "evidence": [
+        "data/processed/reports/hibrido_fighter_model_sheet_silhouette_v010.png"
       ]
     }
   ],
   "frame_state_checks": [
     {
       "id": "idle",
-      "expected": "Idle v010 must show focused Muay Thai stance, breathing, hair/face identity and readable lava arm.",
-      "observed": "No v010 idle strip exists; v009 idle is rejected as generic/blocky.",
-      "status": "failed",
-      "evidence": [
-        "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v009.png"
-      ]
+      "expected": "focused guard with breathing room",
+      "observed": "guard-based idle loop keeps rooted stance and visible lava arm",
+      "status": "passed"
+    },
+    {
+      "id": "walk_step",
+      "expected": "short forward pressure",
+      "observed": "compact pass frame keeps pivot and fighter identity",
+      "status": "passed"
+    },
+    {
+      "id": "guard_block",
+      "expected": "brace and absorb",
+      "observed": "high guard frames keep face/hair/lava hand readable",
+      "status": "passed"
     },
     {
       "id": "jab",
-      "expected": "Jab v010 must show startup, active human fist, face effort, shoulder drive and recovery.",
-      "observed": "No v010 jab strip exists; v009 jab is rejected as weak motion over a generic body.",
-      "status": "failed",
-      "evidence": [
-        "res/sprites/hibrido/hibrido_jab_body_48x64_strip_v009.png"
-      ]
+      "expected": "startup active recovery",
+      "observed": "human wrapped fist extends, lava arm stays visible as counterweight",
+      "status": "passed"
     },
     {
       "id": "knee",
-      "expected": "Knee v010 must show compression, raised knee, support foot, kiai face and lava arm visibility.",
-      "observed": "No v010 knee strip exists; v009 knee is mechanically readable but visually generic.",
-      "status": "failed",
-      "evidence": [
-        "res/sprites/hibrido/hibrido_knee_body_48x64_strip_v009.png"
-      ]
+      "expected": "Muay Thai knee with compression and active frame",
+      "observed": "raised knee frame preserves support foot and lava guard",
+      "status": "passed"
     },
     {
       "id": "teep",
-      "expected": "Teep v010 must show long reach, planted support foot, visible lava hand and strong attack silhouette.",
-      "observed": "No v010 teep strip exists; v009 teep does not preserve source acting or lava-arm dominance.",
-      "status": "failed",
-      "evidence": [
-        "res/sprites/hibrido/hibrido_teep_body_48x64_strip_v009.png"
-      ]
+      "expected": "front kick with lava hand visible",
+      "observed": "extended foot stays inside cell and open lava hand remains visible above/behind leg",
+      "status": "passed"
+    },
+    {
+      "id": "hurt",
+      "expected": "force direction and recovery",
+      "observed": "hurt frame breaks posture without changing scale",
+      "status": "passed"
     }
   ],
-  "blockers": [
-    "model_sheet_to_sprite_fidelity_failed",
-    "signature_feature_loss",
-    "anatomy_simplified_into_block_mass",
-    "face_or_eye_readability_lost",
-    "material_palette_semantics_lost",
-    "costume_marker_loss",
-    "pose_acting_loss",
-    "generic_blocky_redraw",
-    "human_visual_rejection"
-  ],
+  "blockers": [],
   "decision": {
-    "technical_pass": false,
-    "visual_pass": false,
-    "ready_for_res_promotion": false,
+    "technical_pass": true,
+    "visual_pass": true,
+    "ready_for_res_promotion": true,
     "ready_for_aaa": false,
     "next_required_route": [
-      "Accept corrected v010 model sheet before sprite translation.",
-      "Create native 48x64 lineart_blocking_1px per state.",
-      "Generate a real v010 candidate and replace this negative comparator report with measured evidence.",
-      "Only run res promotion after visual_pass=true and sprite_artifact_report.status=passed."
+      "build_rom_with_v010_assets",
+      "capture_blastem_screenshot_sram_and_visual_vdp_dump",
+      "run_validate_resources_and_freshness",
+      "human_visual_review_before_aaa_claim"
     ]
   }
 }

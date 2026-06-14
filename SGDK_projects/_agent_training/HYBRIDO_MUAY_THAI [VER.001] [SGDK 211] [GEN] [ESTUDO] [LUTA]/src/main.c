@@ -9,17 +9,20 @@ typedef struct
 } ActionDef;
 
 static const ActionDef ACTIONS[] = {
-    { &spr_hibrido_idle_body_v009, 6 },
-    { &spr_hibrido_walk_step_body_v009, 6 },
-    { &spr_hibrido_guard_block_body_v009, 6 },
-    { &spr_hibrido_jab_body_v009, 6 },
-    { &spr_hibrido_knee_body_v009, 6 },
-    { &spr_hibrido_teep_body_v009, 6 },
+    { &spr_hibrido_idle_body_v010, 6 },
+    { &spr_hibrido_walk_step_body_v010, 6 },
+    { &spr_hibrido_guard_block_body_v010, 4 },
+    { &spr_hibrido_jab_body_v010, 5 },
+    { &spr_hibrido_knee_body_v010, 6 },
+    { &spr_hibrido_teep_body_v010, 6 },
+    { &spr_hibrido_hurt_body_v010, 3 },
 };
 
 static u16 current_action = 0;
 static u16 current_frame = 0;
 static u16 frame_timer = 0;
+
+static const u16 ACTION_COUNT = sizeof(ACTIONS) / sizeof(ACTIONS[0]);
 
 static void apply_action(Sprite* body, u16 action_index)
 {
@@ -66,12 +69,12 @@ int main(bool hardReset)
 
         if (pressed & BUTTON_RIGHT)
         {
-            current_action = (current_action + 1) % (sizeof(ACTIONS) / sizeof(ACTIONS[0]));
+            current_action = (current_action + 1) % ACTION_COUNT;
             apply_action(body, current_action);
         }
         else if (pressed & BUTTON_LEFT)
         {
-            current_action = (current_action == 0) ? (sizeof(ACTIONS) / sizeof(ACTIONS[0]) - 1) : (current_action - 1);
+            current_action = (current_action == 0) ? (ACTION_COUNT - 1) : (current_action - 1);
             apply_action(body, current_action);
         }
 

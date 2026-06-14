@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "asset_id": "hibrido_fighter_animation_direction_v010",
-  "status": "blocked_until_corrected_model_sheet_and_lineart",
+  "status": "sprite_lab_candidate_generated",
   "art_gameplay_direction_gate": "doc/contracts/art_gameplay_direction_gate_v010.json",
   "animation_state_plan": "doc/contracts/animation_state_plan_v010.json",
   "pose_roster": "doc/contracts/pose_roster_v010.json",
@@ -9,15 +9,22 @@
   "pivot_and_scale_contract": "doc/contracts/pivot_and_scale_contract_v010.json",
   "motion_phase_map": "doc/contracts/motion_phase_map_v010.json",
   "visual_dna_manifest": "doc/contracts/visual_dna_manifest_v010.json",
-  "cell_px": [48, 64],
-  "pivot_px": [24, 58],
+  "turnaround_tracking_contract": "doc/contracts/turnaround_tracking_contract_v010.json",
+  "cell_px": [
+    48,
+    64
+  ],
+  "pivot_px": [
+    24,
+    58
+  ],
   "ground_y": 58,
   "runtime_actions": [
     {
       "id": "idle",
       "frames": 6,
       "gameplay_role": "neutral combat stance",
-      "motion_archetype": "breathing hold -> guard tension -> loop closure",
+      "motion_archetype": "breathing hold",
       "fx_policy": "no baked FX"
     },
     {
@@ -25,22 +32,25 @@
       "frames": 6,
       "gameplay_role": "short forward pressure step",
       "motion_archetype": "plant -> pass -> settle",
-      "fx_policy": "dust optional as separate runtime FX"
+      "fx_policy": "dust separate runtime FX"
     },
     {
       "id": "guard_block",
       "frames": 4,
       "gameplay_role": "defensive block",
       "motion_archetype": "brace -> absorb -> settle",
-      "fx_policy": "block spark separate runtime FX if used"
+      "fx_policy": "block spark separate runtime FX"
     },
     {
       "id": "jab",
       "frames": 5,
       "gameplay_role": "fast light strike",
-      "motion_archetype": "ready -> anticipation -> active -> follow-through -> recovery",
-      "active_frames": [3],
-      "hitstop_hold_frame": 3,
+      "motion_archetype": "guard -> startup -> active -> hitstop -> recovery",
+      "active_frames": [
+        3,
+        4
+      ],
+      "hitstop_hold_frame": 4,
       "fx_policy": "hit spark separate runtime FX"
     },
     {
@@ -48,17 +58,23 @@
       "frames": 6,
       "gameplay_role": "close-range Muay Thai knee",
       "motion_archetype": "compression -> lift -> active_hitstop -> recovery",
-      "active_frames": [4],
-      "hitstop_hold_frame": 4,
+      "active_frames": [
+        4,
+        5
+      ],
+      "hitstop_hold_frame": 5,
       "fx_policy": "impact FX separate runtime asset"
     },
     {
       "id": "teep",
       "frames": 6,
       "gameplay_role": "front kick space control",
-      "motion_archetype": "lean_back -> extension -> held_contact -> retract -> recovery",
-      "active_frames": [3, 4],
-      "hitstop_hold_frame": 4,
+      "motion_archetype": "chamber -> extension -> held_contact -> retract -> recovery",
+      "active_frames": [
+        4,
+        5
+      ],
+      "hitstop_hold_frame": 5,
       "fx_policy": "impact FX separate runtime asset"
     },
     {
@@ -66,24 +82,24 @@
       "frames": 3,
       "gameplay_role": "damage reaction",
       "motion_archetype": "impact -> posture_break -> recover",
-      "fx_policy": "damage flash via runtime policy only; no accidental requantized flash"
+      "fx_policy": "runtime flash only, no baked flash"
     }
   ],
   "charisma_contracts": {
-    "idle_breathing_cycle_contract": "required_after_lineart",
-    "facial_expression_phase_map": "required_after_corrected_model_sheet",
-    "cloth_secondary_animation_contract": "required_for_hair_shorts_wraps",
-    "hand_pose_keyframe_contract": "required_for_human_fist_lava_hand_teep_open_hand"
+    "idle_breathing_cycle_contract": "represented by guard/hold loop; needs human motion approval before AAA",
+    "facial_expression_phase_map": "idle focused, attacks teeth/kiai, hurt asymmetry",
+    "cloth_secondary_animation_contract": "hair/shorts/wraps controlled as hard clusters; no frozen identity markers in active frames",
+    "hand_pose_keyframe_contract": "wrapped fist, lava fist and teep open lava hand are distinct"
   },
   "approval_gate": {
-    "technical_gate": "not_run_for_v010",
-    "visual_gate": "blocked_until_corrected_model_sheet",
-    "runtime_evidence": "not_applicable_no_v010_runtime_asset",
+    "technical_gate": "passed_static_assets",
+    "visual_gate": "passed_contact_sheet_fidelity",
+    "runtime_evidence": "blastem_screenshot_and_sram_captured_partial; visual_vdp_dump_missing; 60fps_metrics_missing",
+    "ready_for_aaa": false,
     "blockers": [
-      "corrected_model_sheet_not_yet_approved",
-      "native_lineart_blocking_missing",
-      "model_sheet_to_sprite_fidelity_pending",
-      "sprite_strip_integrity_not_run"
+      "human_visual_review_missing_for_aaa",
+      "visual_vdp_dump_missing",
+      "runtime_60fps_metrics_missing"
     ]
   }
 }

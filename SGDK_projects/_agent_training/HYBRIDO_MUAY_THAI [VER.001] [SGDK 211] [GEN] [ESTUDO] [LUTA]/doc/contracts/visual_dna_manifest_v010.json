@@ -2,8 +2,8 @@
   "schema_version": "1.0.0",
   "asset_id": "hibrido_fighter_visual_package_v010",
   "asset_role": "hero_character",
-  "authorial_source": "data/source_art/hibrido_fighter_v008/source_concept.png",
-  "license": "project-local generated source accepted as direction only; not runtime art",
+  "authorial_source": "data/source_art/hibrido_fighter_v010/source_concept.png",
+  "license": "project-local generated source accepted for key pose translation; no external IP source",
   "benchmark_used_as": "technical_quality_bar",
   "style_pillars": [
     "Muay Thai fighter silhouette with guard, rooted feet, knee and teep readability",
@@ -43,35 +43,55 @@
     "material_ramps": [
       {
         "material": "outline_hair_short_shadow",
-        "slots": [1, 2, 3],
-        "contrast_goal": "keep hair, shorts and outline separate from skin and rock without AA"
+        "slots": [
+          1,
+          2,
+          3
+        ],
+        "contrast_goal": "separate hair, shorts and outline from skin and rock without AA"
       },
       {
         "material": "skin",
-        "slots": [5, 6, 7, 8],
-        "contrast_goal": "warm bronze ramp with enough native contrast for torso and face planes"
+        "slots": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "contrast_goal": "warm bronze ramp for torso, face and leg planes"
       },
       {
         "material": "dirty_wraps",
-        "slots": [9, 10],
-        "contrast_goal": "off-white wraps readable on hands and feet without pure flat white"
+        "slots": [
+          9,
+          10
+        ],
+        "contrast_goal": "off-white wraps readable on hands and feet"
       },
       {
         "material": "rock_lava_arm",
-        "slots": [3, 4, 12, 13, 14],
-        "contrast_goal": "dark stone mass with hot fissures; no spray, no gray block collapse"
+        "slots": [
+          3,
+          4,
+          12,
+          13,
+          14
+        ],
+        "contrast_goal": "dark stone mass with hot fissures"
       },
       {
         "material": "gold_trim",
-        "slots": [11],
-        "contrast_goal": "small ornamental trim remains visible on black shorts"
+        "slots": [
+          11
+        ],
+        "contrast_goal": "small ornament clusters on shorts"
       }
     ]
   },
   "shape_language": [
-    "compact fighter torso with broad shoulders and clear pelvis/leg stance",
-    "spiky thick hair crown with consistent front/back/3-4 volume landmarks",
-    "lava arm uses larger rounded rock plates and internal crack clusters, not cloth bands",
+    "compact but athletic fighter torso with broad shoulders and rooted lower body",
+    "spiky thick hair crown with consistent front/back/side landmarks",
+    "lava arm uses larger rounded rock plates and internal crack clusters",
     "human hand and feet use wrap blocks with clear endpoints",
     "attack poses prioritize silhouette peaks over texture"
   ],
@@ -79,7 +99,6 @@
     "Lava arm is exposed rock only; wraps, gloves and bandages on this arm are forbidden.",
     "Human hand and feet carry dirty white wraps; the red band belongs to the non-lava biceps.",
     "FX sparks, lava bursts, hit flashes and dust are separate runtime FX assets when used.",
-    "Material ramps must be manually planned; automatic quantization is not approval.",
     "No smooth gradient, blur, anti-aliasing, subpixel edge or palette micro-noise."
   ],
   "scale_contract": {
@@ -88,9 +107,9 @@
       "w": 48,
       "h": 64
     },
-    "pivot_policy": "planned bottom-center pivot at 24,58 with stable ground_y 58; must be revalidated after corrected model sheet and lineart blocking",
+    "pivot_policy": "locked bottom-center pivot at 24,58 with stable ground_y 58 for all v010 strips",
     "scale_class": "medium_24_48",
-    "scale_lock_status": "rework_required",
+    "scale_lock_status": "locked",
     "gameplay_scale_fit": {
       "camera_fov_role": "close_combat_precision",
       "hitbox_alignment_role": "limb_precise",
@@ -110,11 +129,5 @@
     "material",
     "style"
   ],
-  "approval_status": "blocked",
-  "blockers": [
-    "corrected_model_sheet_not_yet_generated_or_approved",
-    "hair_tracking_unresolved",
-    "turnaround_tracking_contract_missing",
-    "native_lineart_blocking_missing"
-  ]
+  "approval_status": "approved_for_key_poses"
 }

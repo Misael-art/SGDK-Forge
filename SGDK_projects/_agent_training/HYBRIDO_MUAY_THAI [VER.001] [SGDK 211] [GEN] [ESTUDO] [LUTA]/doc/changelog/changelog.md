@@ -448,3 +448,118 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
 - Status: documentacao e gate de direcao atualizados; nenhum novo asset final,
   nenhum novo runtime asset, nenhum build novo e nenhuma evidencia nova de
   emulador nesta rodada.
+## 2026-06-14T06:14:08.3731209-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots:
+  - spr_hibrido_idle_body_v010 -> v001 (res/sprites/hibrido/hibrido_idle_body_48x64_strip_v010.png)
+  - spr_hibrido_walk_step_body_v010 -> v001 (res/sprites/hibrido/hibrido_walk_step_body_48x64_strip_v010.png)
+  - spr_hibrido_guard_block_body_v010 -> v001 (res/sprites/hibrido/hibrido_guard_block_body_48x64_strip_v010.png)
+  - spr_hibrido_jab_body_v010 -> v001 (res/sprites/hibrido/hibrido_jab_body_48x64_strip_v010.png)
+  - spr_hibrido_knee_body_v010 -> v001 (res/sprites/hibrido/hibrido_knee_body_48x64_strip_v010.png)
+  - spr_hibrido_teep_body_v010 -> v001 (res/sprites/hibrido/hibrido_teep_body_48x64_strip_v010.png)
+  - spr_hibrido_hurt_body_v010 -> v001 (res/sprites/hibrido/hibrido_hurt_body_48x64_strip_v010.png)
+- ROM: build_v005 (sha256 f30d64cb8866fbb360648e4bc15e1cd274cfe1138739350a236e1dd6a69560fe, 131072 bytes)
+- Validation: errors=0, warnings=12
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, changelog_missing, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-14T06:14:44.6405695-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v005 (sha256 f30d64cb8866fbb360648e4bc15e1cd274cfe1138739350a236e1dd6a69560fe, 131072 bytes)
+- Validation: errors=0, warnings=10
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: session_not_captured
+
+## 2026-06-14T06:19:46.0155226-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566, 131072 bytes)
+- Validation: errors=0, warnings=12
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-14T06:20:18.9364177-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566, 131072 bytes)
+- Validation: errors=0, warnings=10
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: session_not_captured
+
+## 2026-06-14T06:29:07.4748816-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566, 131072 bytes)
+- Validation: errors=0, warnings=12
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, visual_direction_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-14T06:29:54.1657419-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v006 (sha256 9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566, 131072 bytes)
+- Validation: errors=0, warnings=10
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, visual_direction_failed, emulator_evidence_stale, scene_tilemap_conversion_report_missing, tilemap_flag_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: session_not_captured
+
+## 2026-06-14T06:39:30-03:00 - hibrido_fighter_v010_native_package_runtime_partial
+
+- Task: pacote visual v010 corrigido com direcao de arte/game design antes de
+  promocao runtime.
+- Gerador:
+  - `data/builders/build_hibrido_fighter_visual_package_v010.py`.
+- Assets v010 criados:
+  - `data/processed/model_sheets/hibrido_fighter_model_sheet_native_key_poses_48x64_v010.png`;
+  - `data/source_art/hibrido_fighter_v010/source_concept.png`;
+  - `data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v010.png`;
+  - `data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png`;
+  - `data/processed/reports/hibrido_fighter_motion_preview_v010.gif`;
+  - `data/processed/reports/hibrido_fighter_pivot_overlay_v010.png`;
+  - `data/processed/reports/hibrido_v010_delivery_comparison_board.png`.
+- Runtime:
+  - `res/resources.res` promove 7 strips v010;
+  - `src/main.c` alterna idle, walk_step, guard_block, jab, knee, teep e hurt;
+  - warning de signedness no seletor de acao foi removido com `ACTION_COUNT`.
+- Reports/contratos:
+  - `doc/contracts/animation_direction_contract_v010.json` atualizado para
+    evidenciar runtime parcial: screenshot/SRAM sim, VDP dump e 60fps nao;
+  - `doc/contracts/model_sheet_to_sprite_fidelity_report_v010.json`: passed;
+  - `doc/contracts/visual_dna_manifest_v010.json`: atualizado com o pacote v010;
+  - `out/logs/visual_delivery_gate_report.json`: schema OK, `ready_for_aaa=false`.
+- Build:
+  - `out/rom.bin`: 131072 bytes;
+  - sha256 `9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566`;
+  - `build.bat`: sucesso.
+- BlastEm:
+  - `out/evidence/blastem/screenshot.png` mostra o personagem v010 no viewer;
+  - `out/evidence/blastem/save.sram` foi gravado;
+  - `out/logs/emulator_session.json` foi recuperado a partir da sessao porque
+    `capture_blastem_evidence.ps1` falhou apos captura com
+    `$screenshotArtifactPath` indefinido;
+  - `visual_vdp_dump.bin` ausente.
+- Validacao:
+  - `validate_project_context`: ok (`exercise`);
+  - `validate_project_methodology`: passed;
+  - `validate_project_hygiene`: passed;
+  - `validate_resources`: errors=0, warnings=8, checked=7;
+  - juiz visual automatico analisou 7 assets e retornou `alerta`;
+  - schemas OK para art/gameplay gate, visual DNA, fidelity report e visual
+    delivery gate.
+- Sincronizacao:
+  - `res_graph_audit`: 7 declaracoes OK;
+  - `freshness_audit`: status ok, stale=0, missing_required=0;
+  - `audit_project_learning.ps1 -Mode Capture`: 18 licoes, 18 candidatos,
+    `canonical_promotion_performed=false`.
+- Status:
+  - v010 e candidato tecnico com runtime parcial, nao entrega AAA;
+  - blockers restantes: `gdd_substantial_insufficient`, `visual_gate_blocked`,
+    `visual_direction_failed`, reports de cena/tilemap/closeout ausentes,
+    `visual_vdp_dump_missing`, `runtime_60fps_metrics_missing` e review humano
+    visual pendente.

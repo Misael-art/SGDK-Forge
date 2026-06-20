@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/multiplayer_input_plan.schema.json",
+  "title": "Multiplayer Input Plan",
+  "description": "Declares per-player input (1P/2P) and, when applicable, multitap as an explicit plan (never default) for the input-system-sgdk owner.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "project",
+    "player_count",
+    "players",
+    "multitap",
+    "port_support",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "multiplayer_input_plan" },
+    "project": { "type": "string", "minLength": 1 },
+    "player_count": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "players": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["player_id", "port"],
+        "properties": {
+          "player_id": { "type": "integer", "minimum": 0 },
+          "port": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "multitap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "explicit_plan"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "explicit_plan": { "type": "boolean" }
+      }
+    },
+    "port_support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declared_with_api"],
+      "properties": {
+        "declared_with_api": { "type": "string", "const": "JOY_setSupport" }
+      }
+    },
+    "status": { "type": "string", "enum": ["candidate_applied_not_verified", "ok", "needs_review", "blocked"] }
+  }
+}

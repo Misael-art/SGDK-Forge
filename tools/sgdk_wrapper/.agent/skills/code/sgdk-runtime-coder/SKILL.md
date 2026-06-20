@@ -213,6 +213,58 @@ Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug s
 - no Windows, o sandbox do BlastEm deve alinhar `HOME/USERPROFILE` com `AppData\\Local` e gravar `blastem.cfg` no ramo efetivo que o emulador resolve
 - `save_path` e `screenshot_path` precisam viver dentro de `ui {}` no cfg gerado; fora disso o BlastEm pode cair no default `$USERDATA/blastem/$ROMNAME`
 
+## Padroes C/SGDK e Window Plane (curation_batch_2026_06_16)
+
+Origem: itens de headers/structs/enums e Window Plane/HUD do lote
+`curation_batch_2026_06_16`, evidencia `E1_text`, expansao candidata. Reusa os
+contratos existentes (`plane_ownership_map`, `ui_pixel_surface_contract`,
+`fx_ownership_map`, reset de cena); nao cria schema novo e nao promete
+AAA/runtime.
+
+### Padroes C/SGDK
+
+- headers declaram apenas o contrato publico minimo; estado privado fica no `.c`
+  do modulo (`static`), nao exposto no header.
+- structs/enums que importam para runtime usam tipos explicitos `u8`, `u16`,
+  `s16`, `u32` ou `fix16`; nada de `int` para dados sensiveis de VDP, input,
+  frame timing ou serializacao.
+- todo modulo que possuir recursos, callbacks, DMA, palette cycling, Window Plane
+  ou sprites deve expor `init`/`update`/`deinit` com ciclo de vida simetrico.
+
+### Licoes de runtime seed e placeholder
+
+Origem: `Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME]
+[ACTION_RACING]`, evidencia `E1_project_artifact`, expansao candidata.
+
+- `int main(bool hardReset)` e assinatura SGDK aceitavel; loops, timers,
+  indices de cena, frame counters e dados de VDP/input continuam usando
+  `u8/u16/s16/u32/fix16` conforme o dominio.
+- `VDP_drawText`, `sprintf` e texto ASCII por frame sao aceitaveis em seed,
+  smoke test ou placeholder declarado; em cena de entrega, texto mutavel precisa
+  de cadencia, dirty region, cache/fonte e budget.
+- Seed de boot com screenshot/SRAM prova somente o escopo do seed; nao prova
+  title final, cutscene, Sector 01, gameplay, audio, budget ou visual AAA.
+- Cenas interativas devem consumir uma abstracao de input validada; se o runtime
+  chama `JOY_readJoypad` dentro de cada cena, voltar para `input-system-sgdk`.
+- Cutscene com muitos beats nao deve virar `update()` monolitico; usar tabela de
+  passos ou FSM de dados e rotear direcao visual para `cutscene-cinematic-direction`.
+- Placeholder de corrida, menu ou cutscene precisa declarar o que e fake e qual
+  gate futuro o substitui; texto "SIMULATING..." nao e evidencia de mecanica.
+
+### Contrato de Window Plane / HUD estatico
+
+- `WINDOW` e subplano estatico do Plane A; nao tratar como terceiro plano
+  scrollavel nem como camada extra de parallax.
+- HUD fixo deve declarar owner, area em tiles, paleta, prioridade, reset e
+  convivencia com o Plane A (qual regiao o WINDOW cobre e o que sobra para
+  gameplay).
+- Window Plane nao pode consumir a mesma regiao logica de gameplay sem passar
+  por `scene-state-architect` para resolver ownership/reset.
+- mudancas de HUD durante o gameplay com mutacao de tile exigem cadencia de
+  atualizacao declarada e budget de VRAM/VDP.
+- a expansao continua candidata: producao real exige GDD/TDD, budget de
+  CPU/frame, resource lifetime e code review.
+
 ## Roteamento antes de runtime
 
 Antes de alterar C, `.res` ou builder, confirme qual rota autorizou a cena:
@@ -570,6 +622,11 @@ Quando houver FX:
 - confiar em build manual sem wrapper e sem caminho absoluto
 - chamar a cena de pronta sem ROM rodando em BlastEm
 - aceitar `save.sram` fora do sandbox do projeto como prova valida
+- promover seed com `VDP_drawText` e placeholders para gameplay real
+- manter `sprintf`/redesenho de texto todo frame em cena de entrega sem budget
+  e dirty update
+- usar `int` em contadores sensiveis de frame, VDP, input ou serializacao; a
+  excecao pratica e a assinatura `int main(...)` exigida pelo C/SGDK
 
 ## Lib case obrigatoria
 

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_technique_curation_record",
+  "source": {
+    "source_id": "case_sprites_16bit_architecture",
+    "source_kind": "direct_user_summary",
+    "title_or_label": "Como funciona os Sprites nos 16-bits?",
+    "url": "",
+    "availability": "available_in_thread"
+  },
+  "technique": {
+    "id": "sprite_scanline_and_sat_discipline",
+    "name": "Sprite scanline and SAT discipline",
+    "summary": "Treat sprite rendering as SAT/OAM entries, 4bpp indexed data, total sprite limits and per-scanline pressure rather than generic draw calls.",
+    "risk_domain": [
+      "vdp",
+      "entity_architecture"
+    ]
+  },
+  "classification": "already_covered",
+  "canonical_fit": {
+    "owner_paths": [
+      "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/art/sprite-animation/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/code/collision-system-architect/SKILL.md"
+    ],
+    "new_artifacts": [
+      "sprite_scanline_pressure_report",
+      "vdp_sprite_snapshot",
+      "collision_topology_report"
+    ],
+    "blocked_by": []
+  },
+  "evidence": {
+    "grade": "E1_text",
+    "minimum_required_before_canonical": [
+      "worst-frame sprite pressure fixture",
+      "metasprite decomposition audit",
+      "runtime evidence when visual status is claimed"
+    ],
+    "current_gaps": [
+      "source is a user-provided summary, not a local runtime fixture"
+    ]
+  },
+  "promotion_decision": {
+    "decision": "keep_local_case",
+    "rationale": "The framework already contains sprite pressure and animation owners; this record reinforces routing rather than adding a new skill."
+  },
+  "accepted_concepts": [
+    "Sprite rendering is governed by SAT/OAM entries, 4bpp indexed data, total sprite limits and per-scanline pressure.",
+    "Routing reinforces existing owners (megadrive-vdp-budget-analyst, sprite-animation, collision-system-architect) rather than adding a skill."
+  ],
+  "rejected_or_deferred_claims": [
+    "Source is a user-provided summary, not a direct transcript, so any quantitative sprite-limit claim is deferred until a fixture confirms it.",
+    "No promotion to runtime or budget status from this summary alone."
+  ],
+  "required_followups": [
+    "Human review of the user summary against a worst-frame sprite pressure fixture.",
+    "Metasprite decomposition audit and runtime evidence before any visual status is claimed."
+  ],
+  "status": "accepted_with_constraints"
+}

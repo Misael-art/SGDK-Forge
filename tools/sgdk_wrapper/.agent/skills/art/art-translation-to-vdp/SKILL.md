@@ -794,3 +794,24 @@ Primeiro:
 - tratar `window alias`, `hscroll slack reuse` ou `SAT reuse` como tecnicas seguras por padrao
 - usar bug de sprite em `X = -128` como tecnica padrao
 - insistir em comparativo dual-plane em ROM quando o hardware pede `compare_flat`
+
+## Curadoria 2026-06-15 - Tecnicas externas e pipeline AAA
+
+Quando uma traducao visual for motivada por video, transcricao ou parecer
+externo, esta skill deve exigir `external_technique_curation_record` antes de
+promover nova regra, workflow ou skill.
+
+Quando o alvo prometer AAA, release, showcase ou tecnica avancada:
+
+- acionar `aaa-pipeline-guardian`;
+- exigir `aaa_pipeline_gate_report`;
+- para tilemap/cena, entregar `scene_tilemap_conversion_report` e, se houver
+  streaming ou animacao de tiles, `dma_queue_contract`;
+- para Shadow/Highlight, H-Int, VSCROLL_COLUMN, HSCROLL_LINE ou palette cycling,
+  entregar `scroll_fx_contract`;
+- para ports/conversoes SNES->MD, PC-98->MD ou high-colour, manter status
+  `backlog_pending_evidence` ate existir source, fixture, palette/material
+  report e prova visual.
+
+Resumo agregado de outro agente nao autoriza criar skill ou declarar
+`ready_for_aaa`; ele apenas abre backlog de curadoria.

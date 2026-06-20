@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_technique_curation_record",
+  "source": {
+    "source_id": "case_modern_vs_classic_md_pipeline",
+    "source_kind": "direct_user_summary",
+    "title_or_label": "How New Sega Genesis & Mega Drive Games Are Made",
+    "url": "",
+    "availability": "available_in_thread"
+  },
+  "technique": {
+    "id": "modern_sgdk_pipeline_truth_gate",
+    "name": "Modern SGDK pipeline truth gate",
+    "summary": "Use modern C/SGDK tooling, rescomp and emulators while keeping hardware proof and avoiding build-green-as-quality claims.",
+    "risk_domain": [
+      "governance",
+      "tooling"
+    ]
+  },
+  "classification": "pipeline_update",
+  "canonical_fit": {
+    "owner_paths": [
+      "tools/sgdk_wrapper/.agent/skills/governance/aaa-pipeline-guardian/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md"
+    ],
+    "new_artifacts": [
+      "aaa_pipeline_gate_report",
+      "build_and_emulator_gate",
+      "freshness_audit"
+    ],
+    "blocked_by": [
+      "build_green_used_as_visual_proof"
+    ]
+  },
+  "evidence": {
+    "grade": "E1_text",
+    "minimum_required_before_canonical": [
+      "project fixture where build passes but visual/runtime gate blocks",
+      "fresh emulator evidence linked to ROM hash"
+    ],
+    "current_gaps": [
+      "no local command execution available in this session"
+    ]
+  },
+  "promotion_decision": {
+    "decision": "apply_as_candidate",
+    "rationale": "The value is a pipeline gate, not a new production skill."
+  },
+  "accepted_concepts": [
+    "Modern C/SGDK tooling, rescomp and emulators are valid, but hardware proof remains mandatory.",
+    "The aaa-pipeline-guardian owns the truth gate that prevents build-green being treated as visual quality."
+  ],
+  "rejected_or_deferred_claims": [
+    "Build-green is rejected as visual or runtime proof.",
+    "No claim of testado_em_emulador without fresh emulator evidence linked to a ROM hash."
+  ],
+  "required_followups": [
+    "Build a project fixture where the build passes but the visual/runtime gate blocks.",
+    "Link fresh emulator evidence to a ROM hash before promotion."
+  ],
+  "status": "candidate_applied_not_verified"
+}

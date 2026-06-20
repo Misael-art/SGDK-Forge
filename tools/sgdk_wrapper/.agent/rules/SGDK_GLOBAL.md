@@ -537,6 +537,18 @@ Scripts wrapper e gate devem expor consistentemente os seguintes flags canonicos
 - Domínio: `capture_blastem_evidence.ps1`, `run_scene_regression.ps1`, scripts de conversao.
 - `-Force` nao desliga outras validacoes; continua respeitando `-WarnOnly` se ambos forem passados.
 
+## 29. Claim ceiling executavel
+
+- antes de `first_playable`, `gameplay_rom_aprovada`,
+  `performance=estavel`, `assets premium`, `scene closeout`,
+  `validado_budget`, `ready_for_aaa` ou avancar de fase, execute
+  `tools/sgdk_wrapper/audit_promotion_claims.ps1`;
+- evidencia declara escopo e SHA-256 da ROM vigente;
+- score tecnico de asset nunca equivale a aprovacao artistica;
+- trabalho paralelo de runtime/visual exige `integration_owner`;
+- divergencia entre memoria, validator e evidencia resolve pelo menor status
+  consistente, nunca pelo relatorio mais otimista.
+
 ### 28.4 Convencao de step-skip
 - Flags especificos de dominio como `-SkipBuild`, `-SkipRuntimeCapture`, `-SkipSceneRegression` permanece em `scene_closeout_gate.ps1`.
 - Eles sao ortogonais aos canonicos: `-SkipBuild -WarnOnly` pula build e degrada falhas restantes.

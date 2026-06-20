@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_video_curation_audit_report",
+  "status": "candidate_applied_not_verified",
+  "audit_date": "2026-06-15",
+  "scope": "Mega Drive AAA video technique curation package",
+  "source_integrity": {
+    "direct_cases_available": 6,
+    "aggregate_64_video_claim": "backlog_only",
+    "external_web_verification": false,
+    "reason": "The package is based on thread/attached material and must not promote indirect aggregate claims without individual source records."
+  },
+  "artifacts_checked_by_design": {
+    "new_skills": 20,
+    "updated_existing_skills": 15,
+    "integration_modes": {
+      "direct_skill_section_applied": 4,
+      "sidecar_handoff_applied": 11
+    },
+    "schemas_expected_by_inventory": 28,
+    "minimal_examples_expected_by_inventory": 24,
+    "core_workflows_expected_by_inventory": 14,
+    "direct_case_records": 6,
+    "artifact_kinds": [
+      "aaa_video_curation_manifest",
+      "aaa_video_curation_decision_matrix",
+      "aaa_skill_contract_catalog",
+      "aaa_skill_activation_matrix",
+      "aaa_evidence_ladder",
+      "external_source_reliability_rubric",
+      "aaa_agent_proficiency_matrix",
+      "aaa_agent_proficiency_eval_suite",
+      "aaa_source_to_skill_traceability_matrix",
+      "aaa_curation_validation_recovery_plan",
+      "aaa_curation_package_inventory",
+      "aaa_curation_risk_register",
+      "aaa_curation_memory_update",
+      "aaa_video_source_intake_template",
+      "aaa_validator_coverage_matrix",
+      "aaa_status_vocabulary_map",
+      "existing_skill_integration_manifest",
+      "AAA_VIDEO_CURATION_rule",
+      "aaa_next_agent_handoff",
+      "aaa_video_curation_agent_bootstrap"
+    ],
+    "artifact_paths": {
+      "manifest": "doc/05_technical/aaa_video_curation_manifest.json",
+      "decision_matrix": "doc/05_technical/aaa_video_curation_decision_matrix.json",
+      "skill_contract_catalog": "doc/05_technical/aaa_skill_contract_catalog.json",
+      "skill_activation_matrix": "doc/05_technical/aaa_skill_activation_matrix.json",
+      "evidence_ladder": "doc/05_technical/aaa_evidence_ladder.json",
+      "source_reliability_rubric": "doc/05_technical/external_source_reliability_rubric.json",
+      "agent_proficiency_matrix": "doc/05_technical/aaa_agent_proficiency_matrix.json",
+      "agent_proficiency_eval_suite": "doc/05_technical/aaa_agent_proficiency_eval_suite.json",
+      "source_to_skill_traceability_matrix": "doc/05_technical/aaa_source_to_skill_traceability_matrix.json",
+      "validation_recovery_plan": "doc/05_technical/aaa_curation_validation_recovery_plan.json",
+      "package_inventory": "doc/05_technical/aaa_curation_package_inventory.json",
+      "risk_register": "doc/05_technical/aaa_curation_risk_register.json",
+      "memory_update": "doc/05_technical/aaa_curation_memory_update.json",
+      "source_intake_template": "doc/05_technical/aaa_video_source_intake_template.json",
+      "validator_coverage_matrix": "doc/05_technical/aaa_validator_coverage_matrix.json",
+      "status_vocabulary_map": "doc/05_technical/aaa_status_vocabulary_map.json",
+      "integration_manifest": "doc/05_technical/existing_skill_integration_manifest.json",
+      "canonical_rule": ".agent/rules/AAA_VIDEO_CURATION.md",
+      "next_agent_handoff": "doc/05_technical/aaa_next_agent_handoff.md",
+      "agent_bootstrap": "doc/05_technical/aaa_video_curation_agent_bootstrap.md"
+    }
+  },
+  "runner_status": {
+    "local_command_execution": "restored",
+    "prior_blocker": "blocked_by_environment_CreateProcessAsUserW_failed_5",
+    "prior_blocker_state": "resolved_no_longer_reproduces",
+    "validation_attempts_in_codex_session": 11,
+    "runner_probe_attempts_in_codex_session": 2,
+    "validated_by_runner": true,
+    "validator_result": "validate_aaa_video_curation.ps1=PASSED",
+    "commit_created": false,
+    "push_completed": false
+  },
+  "release_status": {
+    "ready_for_aaa": false,
+    "ready_for_rom_delivery": false,
+    "validado_budget": false,
+    "testado_em_emulador": false,
+    "reason": "This is a candidate curation package. It now PASSES the package validator (validate_aaa_video_curation.ps1), but a package-validator PASS is documentation/guardrail integrity only and is not ROM/emulator proof; no emulator evidence exists for any game build."
+  },
+  "required_next_steps": [
+    "Run validate_aaa_video_curation.ps1.",
+    "Run workspace context, methodology, hygiene, freshness and learning audits required by AGENTS.md.",
+    "Review sidecar handoffs before optional inline merges.",
+    "Merge the memory capsule into the primary memory bank only after safe inspection.",
+    "Commit and push only after validation and audit requirements pass."
+  ]
+}

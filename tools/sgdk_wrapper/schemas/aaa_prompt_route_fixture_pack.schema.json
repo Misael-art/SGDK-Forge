@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/aaa_prompt_route_fixture_pack.schema.json",
+  "title": "AAA Prompt Route Fixture Pack",
+  "description": "Fixtures for testing how AAA Mega Drive prompts should route through aaa-pipeline-guardian into curated skills and artifacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "status",
+    "fixtures"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "aaa_prompt_route_fixture_pack" },
+    "status": {
+      "type": "string",
+      "enum": ["candidate_applied_not_verified", "validated_candidate", "needs_rework"]
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "prompt",
+          "expected_claim_types",
+          "expected_required_skills",
+          "expected_required_artifacts",
+          "expected_status_ceiling"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "prompt": { "type": "string", "minLength": 1 },
+          "expected_claim_types": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "expected_required_skills": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "expected_required_artifacts": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "expected_status_ceiling": {
+            "type": "string",
+            "enum": [
+              "conceptual_reference",
+              "backlog_pending_evidence",
+              "pipeline_update_candidate",
+              "lab_candidate",
+              "candidate_applied_not_verified",
+              "runtime_candidate",
+              "ready_for_aaa"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

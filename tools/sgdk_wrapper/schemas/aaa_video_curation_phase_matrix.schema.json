@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/aaa_video_curation_phase_matrix.schema.json",
+  "title": "AAA Video Curation Phase Matrix",
+  "description": "Coverage matrix mapping the aggregate six-phase Mega Drive video-curation plan to applied skills, existing owners and backlog.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "status",
+    "source_claim",
+    "curator_policy",
+    "phases",
+    "non_goals"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "aaa_video_curation_phase_matrix" },
+    "status": {
+      "type": "string",
+      "enum": ["candidate_applied_not_verified", "validated_candidate", "needs_rework"]
+    },
+    "source_claim": { "type": "string", "minLength": 1 },
+    "curator_policy": { "type": "string", "minLength": 1 },
+    "phases": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "phase",
+          "label",
+          "requested_focus",
+          "implemented",
+          "covered_by_existing",
+          "backlog",
+          "status"
+        ],
+        "properties": {
+          "phase": { "type": "integer", "minimum": 1, "maximum": 6 },
+          "label": { "type": "string", "minLength": 1 },
+          "requested_focus": { "type": "string", "minLength": 1 },
+          "implemented": { "type": "array", "items": { "type": "string" } },
+          "covered_by_existing": { "type": "array", "items": { "type": "string" } },
+          "backlog": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "non_goals": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+  }
+}

@@ -135,6 +135,10 @@ Narrativa + skills reais (sem nomes de agentes inexistentes): `tools/sgdk_wrappe
 
 Antes de qualquer trabalho em projeto novo ou antigo:
 
+- quando houver bootstrap, falha de executor, build inconsistente, recuperacao de
+  runtime, captura ou disputa entre status tecnico e criativo, siga
+  `tools/sgdk_wrapper/.agent/workflows/production-diagnostic-triage.md` antes de
+  atribuir causa ou alterar codigo;
 - execute `tools/sgdk_wrapper/adopt_project_methodology.ps1`
 - classifique `doc/project_context_manifest.json` com `aaa_game`, `technical_demo`, `exercise`, `game_review` ou `consulting`
 - valide o contexto com `tools/sgdk_wrapper/validate_project_context.ps1`; `unclassified` bloqueia producao, review final e consultoria
@@ -259,6 +263,8 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Regras globais | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` |
 | Menu/modos de sessao | `tools/sgdk_wrapper/.agent/workflows/agent-session-bootstrap.md` |
 | Preparo comum dos agentes | `tools/sgdk_wrapper/.agent/workflows/agent-startup-environment.md` |
+| Triagem host/toolchain/runtime/criativo | `tools/sgdk_wrapper/.agent/workflows/production-diagnostic-triage.md` |
+| Protocolo de verdade de producao | `tools/sgdk_wrapper/.agent/references/production_truth_protocol.md` |
 | Preparar ambiente dos agentes | `tools/sgdk_wrapper/prepare_agent_environment.ps1` |
 | Guard de ambiente dos agentes | `tools/sgdk_wrapper/assert_agent_environment.ps1` |
 | Renderizar menu de sessao | `tools/sgdk_wrapper/show_agent_menu.ps1` |

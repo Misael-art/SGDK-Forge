@@ -177,7 +177,8 @@ $racingRegistryScript = Join-Path $ciDir "test_racing_specialization_registry.ps
 $racingContractsScript = Join-Path $ciDir "test_racing_specialization_contracts.ps1"
 $racingMasterPromotionScript = Join-Path $ciDir "test_racing_master_promotion_guard.ps1"
 $racingValidatorSmokeScript = Join-Path $ciDir "test_racing_specialization_validator_smoke.ps1"
-$pythonExe = "py"
+$pythonExe = "uv"
+$pythonPrefixArgs = @("run", "--with", "jsonschema", "python")
 
 $runTimestamp = (Get-Date).ToString("o")
 $report = [ordered]@{
@@ -335,7 +336,7 @@ if ($Mode -in @("full", "schema", "smoke")) {
         Write-Host "[ERROR] schema test not found: $schemaScript"
         $report.schema_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "schema_contract_gates (Python jsonschema)" -Command $pythonExe -CommandArgs @($schemaScript)
+        $result = Run-Step -Name "schema_contract_gates (Python jsonschema)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($schemaScript))
         $report.schema_test = $result
         $schemaRan = $true
     }
@@ -434,7 +435,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] project learning test not found: $projectLearningScript"
         $report.project_learning_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "project_learning_loop (Python)" -Command $pythonExe -CommandArgs @($projectLearningScript)
+        $result = Run-Step -Name "project_learning_loop (Python)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($projectLearningScript))
         $report.project_learning_test = $result
         $projectLearningRan = $true
     }

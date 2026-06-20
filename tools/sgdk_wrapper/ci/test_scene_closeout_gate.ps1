@@ -48,7 +48,7 @@ Assert-True ($report.status -eq "ok") "Expected common status ok, got '$($report
 Assert-True ([int]$report.summary.planned -ge 1) "Expected planned steps"
 
 $stepNames = @($report.steps | ForEach-Object { $_.name })
-foreach ($expected in @("build", "scene_contract_compiler", "res_graph_audit", "validate_resources", "runtime_capture", "scene_regression", "freshness_audit")) {
+foreach ($expected in @("build", "scene_contract_compiler", "res_graph_audit", "validate_resources", "runtime_capture", "scene_regression", "promotion_claim_audit", "freshness_audit", "evidence_finalize")) {
     Assert-True ($stepNames -contains $expected) "Expected planned step '$expected'"
 }
 $compilerStep = $report.steps | Where-Object { $_.name -eq "scene_contract_compiler" } | Select-Object -First 1

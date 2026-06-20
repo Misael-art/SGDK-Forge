@@ -1,0 +1,285 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_video_curation_decision_matrix",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "source_scope": {
+    "direct_cases_available_in_thread": 6,
+    "aggregate_64_video_claim": "recorded_as_unverified_backlog",
+    "decision_policy": "Create or update only when the technique has a concrete SGDK/Mega Drive consequence."
+  },
+  "summary_counts": {
+    "create_new_skill": 20,
+    "improve_existing": 15,
+    "already_covered": 14,
+    "discard_or_defer": 8,
+    "case_study": 3,
+    "pipeline_update": 2
+  },
+  "create_new_skill": [
+    {
+      "skill_id": "collision-system-architect",
+      "phase": 1,
+      "priority": "high",
+      "reason": "Multi-point probes, semi-solid platforms, slopes and large-sprite collision are foundational for platformers, beat 'em ups and fighters."
+    },
+    {
+      "skill_id": "vram-streaming-dma-queue",
+      "phase": 1,
+      "priority": "high",
+      "reason": "Animated backgrounds and runtime tile changes need VRAM slot ownership and DMA discipline."
+    },
+    {
+      "skill_id": "shadow-highlight-scroll-fx",
+      "phase": 2,
+      "priority": "high",
+      "reason": "Shadow/Highlight and scroll effects are key Mega Drive-native spectacle techniques."
+    },
+    {
+      "skill_id": "entity-polymorphism-architect",
+      "phase": 3,
+      "priority": "medium",
+      "reason": "Function-pointer dispatch avoids giant behavior switches and supports enemy catalogs."
+    },
+    {
+      "skill_id": "game-state-transition-architect",
+      "phase": 3,
+      "priority": "medium",
+      "reason": "Fade, flush and mutex transitions prevent re-entrant scene changes and VRAM/CRAM corruption."
+    },
+    {
+      "skill_id": "aaa-pipeline-guardian",
+      "phase": 6,
+      "priority": "blocking",
+      "reason": "Advanced claims need a single gate that routes work to the required domain skills."
+    },
+    {
+      "skill_id": "tilemap-attribute-director",
+      "phase": 1,
+      "priority": "high",
+      "reason": "16 Tile-style per-cell palette, priority and flip metadata must become explicit scene data."
+    },
+    {
+      "skill_id": "palette-cram-curator",
+      "phase": 2,
+      "priority": "high",
+      "reason": "Vibrant Mega Drive art depends on CRAM ownership, indexed color and 9-bit quantization."
+    },
+    {
+      "skill_id": "sprite-scanline-budgeter",
+      "phase": 1,
+      "priority": "high",
+      "reason": "Large sprites, crowds and bosses fail visually when per-scanline sprite limits are ignored."
+    },
+    {
+      "skill_id": "hscroll-linescroll-road-fx",
+      "phase": 2,
+      "priority": "medium",
+      "reason": "Road, water and pseudo-3D effects need explicit HScroll table ownership and camera mapping."
+    },
+    {
+      "skill_id": "raster-palette-hint-director",
+      "phase": 2,
+      "priority": "medium",
+      "reason": "Mid-frame palette changes require timing, CRAM ownership and artifact risk control."
+    },
+    {
+      "skill_id": "dither-composite-transparency",
+      "phase": 2,
+      "priority": "medium",
+      "reason": "Checkerboard transparency must be reviewed against display/capture assumptions."
+    },
+    {
+      "skill_id": "z80-audio-boundary-architect",
+      "phase": 3,
+      "priority": "medium",
+      "reason": "Audio streaming and PCM playback require explicit Z80/68000 responsibility boundaries."
+    },
+    {
+      "skill_id": "articulated-sprite-architect",
+      "phase": 3,
+      "priority": "medium",
+      "reason": "Multi-part bosses and characters need anchor, SAT and collision coherence."
+    },
+    {
+      "skill_id": "software-tile-rasterizer",
+      "phase": 2,
+      "priority": "medium",
+      "reason": "CPU-rendered pseudo-3D or polygon-like effects rewrite tiles and need strict cost controls."
+    },
+    {
+      "skill_id": "level-manifest-architect",
+      "phase": 3,
+      "priority": "medium",
+      "reason": "Levels need one contract binding camera, art, collision, entities, audio and evidence."
+    },
+    {
+      "skill_id": "sprite-asset-budget-curator",
+      "phase": 4,
+      "priority": "medium",
+      "reason": "Sprite sheets require hardware-shaped art budgets, palette discipline and frame consistency."
+    },
+    {
+      "skill_id": "color-conversion-curator",
+      "phase": 4,
+      "priority": "medium_low",
+      "reason": "SNES, PC-98, high-color and AI art need controlled conversion into Mega Drive constraints."
+    },
+    {
+      "skill_id": "sfx-prep-fm-psg-pcm",
+      "phase": 4,
+      "priority": "medium_low",
+      "reason": "SFX assets need FM/PSG/PCM ownership and channel-risk planning."
+    },
+    {
+      "skill_id": "emulator-vdp-evidence-curator",
+      "phase": 6,
+      "priority": "blocking",
+      "reason": "Visual and runtime claims must map to BlastEm/screenshot/SRAM/VDP evidence."
+    }
+  ],
+  "improve_existing": [
+    {
+      "skill_id": "megadrive-vdp-budget-analyst",
+      "status": "updated",
+      "needed_change": "Consume new scroll, DMA, sprite, entity, transition and guardian contracts."
+    },
+    {
+      "skill_id": "scene-direction-curator",
+      "status": "updated",
+      "needed_change": "Route art direction through scroll FX, DMA and guardian gates."
+    },
+    {
+      "skill_id": "multi-plane-composition",
+      "status": "updated",
+      "needed_change": "Require tilemap attributes, palette conflicts and streaming evidence for advanced backgrounds."
+    },
+    {
+      "skill_id": "art-translation-to-vdp",
+      "status": "updated",
+      "needed_change": "Accept external techniques only through explicit VDP constraints."
+    },
+    {
+      "skill_id": "art-asset-diagnostic",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Consume sprite-asset-budget-curator for model-sheet fidelity and rejected-sheet prevention."
+    },
+    {
+      "skill_id": "art-conversion-pipeline",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Consume color-conversion-curator and palette-cram-curator before asset conversion approval."
+    },
+    {
+      "skill_id": "visual-excellence-standards",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Add display-mode review for dithering, palette vibrance and CRT/composite assumptions."
+    },
+    {
+      "skill_id": "rom-mastering",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Consume emulator-vdp-evidence-curator before final closeout."
+    },
+    {
+      "skill_id": "sgdk-runtime-coder",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Route state transitions, entity dispatch and SGDK 2.11 API claims to new architecture skills."
+    },
+    {
+      "skill_id": "scene-state-architect",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Consume game-state-transition-architect for fade/flush/mutex contracts."
+    },
+    {
+      "skill_id": "sgdk-code-reviewer",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Review function-pointer entity tables, transition locks and DMA queue misuse."
+    },
+    {
+      "skill_id": "sgdk-build-wrapper-operator",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Expose curation validator and evidence checks in closeout workflows."
+    },
+    {
+      "skill_id": "tiled-hybrid-parallax-curator",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Route line-scroll and tilemap attribute claims to dedicated skills."
+    },
+    {
+      "skill_id": "cutscene-cinematic-direction",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Route palette, transition, VDP dump and SFX claims to dedicated gates."
+    },
+    {
+      "skill_id": "project-methodology-adoption",
+      "status": "sidecar_handoff_applied",
+      "needed_change": "Include AAA curation package validation as an optional canonical audit for training cases."
+    }
+  ],
+  "already_covered": [
+    "SGDK build wrapper centralization",
+    "SGDK 2.11 header verification discipline",
+    "No float/double in runtime gameplay code",
+    "No malloc/free in game loop",
+    "VBlank-only DMA safety rule",
+    "Two background planes plus window limitation",
+    "Resource validation through tools/sgdk_wrapper",
+    "Project context classification before production",
+    "Project hygiene and portable naming policy",
+    "Learning capture/audit separation",
+    "ROM mastering as release concern",
+    "Multi-plane composition baseline",
+    "VDP budget analysis baseline",
+    "Visual excellence review baseline"
+  ],
+  "discard_or_defer": [
+    {
+      "topic": "general alpha blending",
+      "decision": "discard",
+      "reason": "Mega Drive has no general alpha blending; use Shadow/Highlight, palette or dithering strategies."
+    },
+    {
+      "topic": "SNES Mode 7 as native Mega Drive feature",
+      "decision": "discard",
+      "reason": "Mega Drive requires line scroll, software rendering or pre-rendered approximations."
+    },
+    {
+      "topic": "unverified 64-video aggregate conclusions",
+      "decision": "defer",
+      "reason": "Aggregate claim lacks local source-level evidence."
+    },
+    {
+      "topic": "full asset conversion automation",
+      "decision": "defer",
+      "reason": "Needs real local asset corpus and script execution evidence."
+    },
+    {
+      "topic": "cycle-perfect H-Int scheduler",
+      "decision": "defer",
+      "reason": "Requires code-level timing proof beyond current transcript material."
+    },
+    {
+      "topic": "custom Z80 driver implementation",
+      "decision": "defer",
+      "reason": "Boundary skill is useful now; implementing a driver needs separate source and test plan."
+    },
+    {
+      "topic": "unbounded software 3D engine",
+      "decision": "defer",
+      "reason": "Accepted only as tile-rasterizer guardrail until a concrete game scope exists."
+    },
+    {
+      "topic": "automatic AAA approval from visual reports",
+      "decision": "discard",
+      "reason": "Contradicts emulator evidence and anti-theater validation rules."
+    }
+  ],
+  "case_studies": [
+    "case_16tile_tilemap_attributes",
+    "case_rangerx_shadow_highlight_scroll",
+    "case_independent_devs_architecture"
+  ],
+  "pipeline_updates": [
+    "aaa-pipeline-guardian-workflow",
+    "external-technique-curation-workflow"
+  ]
+}

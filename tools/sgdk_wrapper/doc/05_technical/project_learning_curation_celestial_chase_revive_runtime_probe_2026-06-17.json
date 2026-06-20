@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "project_learning_curation_record",
+  "curation_id": "project_learning_celestial_chase_revive_runtime_probe_2026_06_17",
+  "source_project": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "source_project_path": "F:/Projects/Sgdk Forge/SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "curation_date": "2026-06-17",
+  "evidence_grade": "E2_project_runtime_probe",
+  "canonical_promotion": false,
+  "status_ceiling": "candidate_operational_rules",
+  "summary": "Curates the Celestial Chase Revive BlastEm scene-transition probe as bounded operational guidance: SRAM READY/SCN/INP can prove a declared transition when tied to a fresh ROM hash, while ROM-observed input outranks host-side dispatch claims.",
+  "source_artifacts": [
+    "out/logs/scene_transition_probe_report.json",
+    "out/logs/blastem_evidence.json",
+    "out/logs/emulator_session.json",
+    "out/evidence/blastem/title_to_opening_cutscene.png",
+    "out/evidence/blastem/title_to_opening_cutscene.sram",
+    "doc/10-memory-bank.md",
+    "doc/changelog/changelog.md",
+    "src/main.c",
+    "src/input_abstraction.c",
+    "src/scene_manager.c",
+    "doc/blastem_input_script.json"
+  ],
+  "accepted_lessons": [
+    {
+      "lesson_id": "scoped_scene_transition_probe",
+      "owner_artifacts": [
+        ".agent/skills/governance/aaa-pipeline-guardian/SKILL.md",
+        ".agent/skills/operation/rom-mastering/SKILL.md",
+        ".agent/skills/architecture/game-state-transition-architect/SKILL.md"
+      ],
+      "summary": "READY + SCN + INP SRAM proof can validate a named scene transition only when tied to the same ROM hash and a fresh capture."
+    },
+    {
+      "lesson_id": "rom_observed_input_over_host_dispatch",
+      "owner_artifacts": [
+        ".agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md"
+      ],
+      "summary": "Input dispatch by the host is not enough for navigation claims; ROM-observed input is required when the project exposes that probe."
+    },
+    {
+      "lesson_id": "transition_scope_ceiling",
+      "owner_artifacts": [
+        ".agent/skills/governance/aaa-pipeline-guardian/SKILL.md",
+        ".agent/skills/operation/rom-mastering/SKILL.md"
+      ],
+      "summary": "A TITLE -> OPENING_CUTSCENE probe does not promote first playable, gameplay, visual delivery, audio, VDP budget or ready_for_aaa."
+    }
+  ],
+  "rejected_or_limited_claims": [
+    "Do not promote wm_key_message_to_sdl_window as a universal canonical transport from one host/session.",
+    "Do not treat TITLE -> OPENING_CUTSCENE as first playable or gameplay_rom_aprovada.",
+    "Do not treat absence of visual_vdp_dump.bin as acceptable for visual claims; it is acceptable only for minimal runtime seed/probe scope with no visual claim."
+  ],
+  "updated_owner_files": [
+    "tools/sgdk_wrapper/.agent/skills/governance/aaa-pipeline-guardian/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+    "tools/sgdk_wrapper/doc/05_technical/aaa_curation_memory_update.json"
+  ],
+  "required_followups": [
+    "Add wrapper-level canonical support and tests for alternative BlastEm input transport before changing automation defaults.",
+    "Repeat the SRAM scene/input probe pattern in another project or transition before creating a new schema or skill.",
+    "Use BlastEm, fresh SRAM and ROM hash for future scene-transition claims.",
+    "Require visual_vdp_dump.bin or equivalent VDP evidence when a transition proof is also used for visual or budget claims."
+  ],
+  "non_goals": [
+    "No new skill was created.",
+    "No new schema was created.",
+    "No SGDK_projects file is modified by this curation.",
+    "No status is promoted to ready_for_aaa, testado_em_emulador, validado_budget or buildado."
+  ]
+}

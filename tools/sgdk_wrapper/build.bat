@@ -23,6 +23,18 @@ if errorlevel 1 (
 )
 if defined SGDK_WRAPPER_TRACE echo [TRACE] after_detect_operational_loop
 
+set "SGDK_PROGRESS_WARNING=0"
+for /f "usebackq delims=" %%I in (`powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p='%SGDK_PROJECT_ROOT%\out\logs\operational_loop_report.json'; if (Test-Path -LiteralPath $p) { $r=Get-Content -Raw -LiteralPath $p ^| ConvertFrom-Json; if ($r.progress_warning) { '1' } else { '0' } } else { '0' }"`) do set "SGDK_PROGRESS_WARNING=%%I"
+if "%SGDK_PROGRESS_WARNING%"=="1" (
+    echo [SGDK Wrapper] Repeated blockers detected. Verifying explicit blocker-removal intent...
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0audit_meaningful_change.ps1" -ProjectRoot "%SGDK_PROJECT_ROOT%" -RequireIntent -TargetBlocker "%SGDK_TARGET_BLOCKER%" -ChangeCategory "%SGDK_CHANGE_CATEGORY%" -ChangeDiffSummary "%SGDK_CHANGE_SUMMARY%" -OutputPath "%SGDK_PROJECT_ROOT%\out\logs\meaningful_change_report.json"
+    if errorlevel 1 (
+        echo [ERROR] Build blocked: declare SGDK_TARGET_BLOCKER, SGDK_CHANGE_CATEGORY and SGDK_CHANGE_SUMMARY.
+        echo [ERROR] The target blocker must exist in the current validation report and the change must attack it.
+        endlocal & exit /b 1
+    )
+)
+
 cd /d "%SGDK_WORK_DIR_SHORT%" >nul 2>&1
 if errorlevel 1 (
     cd /d "%SGDK_WORK_DIR%" >nul 2>&1

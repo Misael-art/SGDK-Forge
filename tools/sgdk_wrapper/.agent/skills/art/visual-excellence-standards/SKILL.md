@@ -568,6 +568,27 @@ Anti-padroes:
 - menu que parece overlay de debug
 - identidade visual desconectada do jogo
 
+### Identidade minima de front-end
+
+Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
+[GAME] [ACTION_RACING]`, evidencia `E1_project_artifact`.
+
+Em `aaa_game`, logo, fonte, menu e creditos entram cedo como contrato de
+primeira impressao. Nao precisam ser arte final no planejamento, mas precisam
+ter:
+
+- `brand_identity_manifest` para logo/title/press-start/front-end autoral
+- perfil de fonte/texto quando a tipografia carrega genero, tom ou narrativa
+- contrato de menu com input, feedback selecionado, layout e fallback
+- contrato de creditos quando houver cena de creditos planejada
+- teste futuro de leitura em 320x224, silhueta/monocromatico/thumbnail quando
+  houver logo
+
+Branding/texto puro com `VDP_drawText` e aceitavel como debug/seed, mas nao como
+identidade final. Mockup local pode orientar composicao somente quando tem hash
+e status `mockup_reference_only`; ele nao substitui pixel art final, captura
+BlastEm, paleta auditada ou visual delivery gate.
+
 ## HUD, interface e overlay
 
 - quando houver surface formal de UI, ler o `ui_decision_card` antes de julgar a imagem
@@ -694,6 +715,25 @@ Regra:
   - o valor visual esta na persistencia localizada e na narrativa do impacto, nao em prometer destruicao universal
 - `cellular_microbuffer_sim`
   - so e elite quando uma ilha pequena parece organica sem trair o budget; aumentar a area sem necessidade e erro de direcao
+
+### Gate `high_color_illusion`
+
+Origem: itens de high-color/true-color do lote `curation_batch_2026_06_16`,
+evidencia `E1_text`, expansao candidata. Reusa os contratos/cards existentes
+(`raster_fx_ownership_map`, `palette_cycle_decision_card`, `scroll_fx_contract`,
+`palette_role_map`); nao cria schema novo e nao promete AAA/runtime.
+
+- toda cena que parecer ter mais cores que o limite real (60 visiveis em 4
+  sub-paletas) deve declarar a tecnica que produz a ilusao: H-Int palette swap,
+  Shadow/Highlight, palette cycling, dithering estrutural ou composicao por
+  planos. Ilusao high-color sem tecnica declarada fica `high_color_illusion_undeclared`.
+- gradiente suave real nao existe; usar rampas discretas, dither estrutural ou
+  troca de paleta. Claim de gradiente continuo sem tecnica vira blocker.
+- benchmark visual de jogo referencia e comparacao de restricoes (escala,
+  densidade, presenca, budget), nao licenca para copiar um resultado impossivel
+  no VDP.
+- producao real ainda exige screenshot e, quando o efeito depender de estado
+  mid-frame, VDP/CRAM/scroll dump; sem isso, no maximo `lab_evidence`.
 
 ### Fundo enorme nao e virtude por si so
 

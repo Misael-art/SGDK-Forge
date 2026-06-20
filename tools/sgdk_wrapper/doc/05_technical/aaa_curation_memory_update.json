@@ -1,0 +1,261 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_curation_memory_update",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Capture the operational memory update produced by the Mega Drive AAA video curation package without falsely claiming the canonical workspace memory bank was safely merged while local command execution is blocked.",
+  "memory_scope": {
+    "workspace": "F:/Projects/Sgdk Forge",
+    "canonical_framework_root": "tools/sgdk_wrapper/.agent",
+    "curation_package_root": "tools/sgdk_wrapper/doc/05_technical",
+    "merge_status": "memory_capsule_created_not_merged_into_primary_memory_bank"
+  },
+  "key_decisions": [
+    {
+      "decision_id": "curation_status",
+      "decision": "The package remains candidate_applied_not_verified until local validation, workspace audits, commit and push can run.",
+      "owner_artifacts": [
+        "aaa_curation_validation_recovery_plan",
+        "aaa_curation_risk_register",
+        "aaa_video_curation_audit_report_2026-06-15"
+      ]
+    },
+    {
+      "decision_id": "skill_surface",
+      "decision": "Twenty new skills were created as candidate curation surfaces for Mega Drive AAA techniques.",
+      "owner_artifacts": [
+        "aaa_video_curation_decision_matrix",
+        "aaa_skill_contract_catalog",
+        "aaa_curation_package_inventory"
+      ]
+    },
+    {
+      "decision_id": "existing_skill_updates",
+      "decision": "Fifteen existing skills/workflows are integrated: four by direct section update and eleven by sidecar handoff.",
+      "owner_artifacts": [
+        "existing_skill_integration_manifest",
+        "aaa_curation_risk_register"
+      ]
+    },
+    {
+      "decision_id": "source_confidence",
+      "decision": "The six direct cases are candidate timestamped/transcript cases; the broader 64-video claim remains indirect aggregate evidence/backlog.",
+      "owner_artifacts": [
+        "external_source_reliability_rubric",
+        "aaa_source_to_skill_traceability_matrix",
+        "video_curation_evidence_backlog"
+      ]
+    },
+    {
+      "decision_id": "anti_theater_validation",
+      "decision": "No text report, build assumption, screenshot-only claim or inventory presence can promote runtime, budget, ROM or AAA status.",
+      "owner_artifacts": [
+        "aaa_evidence_ladder",
+        "aaa-pipeline-guardian",
+        "emulator-vdp-evidence-curator"
+      ]
+    },
+    {
+      "decision_id": "future_source_intake",
+      "decision": "Future videos, transcripts, AI summaries and aggregate analyses must enter through the source intake template before changing canonical skills or rules.",
+      "owner_artifacts": [
+        "aaa_video_source_intake_template",
+        "aaa-video-source-intake",
+        "external_source_reliability_rubric",
+        "aaa_source_to_skill_traceability_matrix"
+      ]
+    },
+    {
+      "decision_id": "validator_coverage",
+      "decision": "Every mandatory curation artifact must be mapped to validator coverage or explicitly marked backlog/experimental.",
+      "owner_artifacts": [
+        "aaa_validator_coverage_matrix",
+        "aaa-validator-coverage-audit",
+        "validate_aaa_video_curation"
+      ]
+    },
+    {
+      "decision_id": "status_vocabulary",
+      "decision": "Status reporting must use exact AGENTS.md/evidence-ladder vocabulary and avoid ambiguous promotion words without proof.",
+      "owner_artifacts": [
+        "aaa_status_vocabulary_map",
+        "aaa-status-vocabulary-gate",
+        "aaa_evidence_ladder"
+      ]
+    },
+    {
+      "decision_id": "phase4a_character_proportion_absorption",
+      "decision": "The curation_batch_2026_06_16 character-proportion record (E1_text direct text analysis) was absorbed conservatively into three existing owner skills (character-design, sprite-animation, megadrive-pixel-strict-rules) as candidate operational rules. The example C code was NOT made a canonical API, no new skill or schema was created, and the expansion still requires a visual fixture or baseline contract plus collision-system-architect hitbox reconciliation before any production promotion.",
+      "owner_artifacts": [
+        "case_character_proportion_pixel_art_platformer",
+        "video_curation_evidence_backlog",
+        "aaa_source_to_skill_traceability_matrix"
+      ]
+    },
+    {
+      "decision_id": "phase4b_vdp_color_illusion_absorption",
+      "decision": "Raster/scroll, Shadow/Highlight, palette cycling and high-color/true-color illusion concepts from curation_batch_2026_06_16 (E1_text) were absorbed as candidate operational rules into five existing owner skills (shadow-highlight-scroll-fx, raster-palette-hint-director, visual-excellence-standards, palette-cram-curator, color-conversion-curator). No new skill or schema was created, alpha blending and real true color remain rejected, and production still requires screenshot plus VDP/CRAM/scroll dump, worst-frame budget and reset proof. The aggregate plan as a whole stays backlog_not_proof.",
+      "owner_artifacts": [
+        "video_curation_evidence_backlog",
+        "aaa_source_to_skill_traceability_matrix",
+        "aaa_video_curation_manifest"
+      ]
+    },
+    {
+      "decision_id": "phase4c_entity_c_pattern_hud_absorption",
+      "decision": "Modular Design (function-pointer ability system: static struct with init/update/deinit/can_activate/get_cost, fixed slot array, no malloc/free), C/SGDK header/struct/enum patterns (explicit u8/u16/s16/u32/fix16, no int for VDP/input/timing/serialization) and Window Plane/HUD ownership concepts from curation_batch_2026_06_16 (E1_text) were absorbed as candidate operational rules into three existing owner skills (entity-polymorphism-architect, sgdk-runtime-coder, scene-state-architect). No new skill or schema was created; WINDOW stays a static subplane of Plane A (never a third scrollable plane); production still requires GDD/TDD, CPU/frame budget, resource lifetime and code review. The aggregate plan as a whole stays backlog_not_proof.",
+      "owner_artifacts": [
+        "video_curation_evidence_backlog",
+        "aaa_source_to_skill_traceability_matrix",
+        "aaa_video_curation_manifest"
+      ]
+    },
+    {
+      "decision_id": "phase4d_software_rasterizer_absorption",
+      "decision": "Software 3D, pseudo-Mode 7, rotozoom, wireframe, simple polygons and fullscreen rotation concepts from curation_batch_2026_06_16 (E1_text) were absorbed as bounded candidate operational rules into the existing software-tile-rasterizer skill. The Mega Drive has no native Mode 7; every scale/rotation is software tile rewrite + DMA. No new skill or schema was created; software-polygon-renderer stays deferred P3 and was NOT created. Runtime tile rewrite requires per_frame_dma_budget_report, cpu_frame_budget_report and reset/teardown; fullscreen rotation needs megadrive-vdp-budget-analyst approval; software polygon counts are not promoted without a local benchmark. Production still requires fixture, budget, ROM/emulator, VDP/VRAM evidence and code review. The aggregate plan as a whole stays backlog_not_proof.",
+      "owner_artifacts": [
+        "video_curation_evidence_backlog",
+        "aaa_source_to_skill_traceability_matrix",
+        "aaa_video_curation_manifest"
+      ]
+    },
+    {
+      "decision_id": "phase4e_audio_sfx_absorption",
+      "decision": "Mega Drive Music Creation and SFX Design concepts from curation_batch_2026_06_16 (E1_text) were absorbed as candidate operational rules into the existing sfx-prep-fm-psg-pcm skill: YM2612/FM patches declare perceptual role, envelope, algorithm, feedback and fallback; SN76489/PSG declares noise/UI/impact/texture use with priority and FM/BGM coexistence; PCM/DAC declares sample rate, bit depth/format, duration, ROM size, priority and handoff. No new skill or schema was created; music architecture stays with xgm2-audio-director and the custom PCM/DAC driver with z80-pcm-custom-driver (handoff only, not edited). PCM-for-everything, long samples without budget, FM patches without perceptual role and 'AAA' audio without audited real audio are blocked. Production still requires audio_architecture_card, sample_format_audit, channel ownership, an auditory test and, when applicable, a Z80/PCM benchmark. The aggregate plan as a whole stays backlog_not_proof.",
+      "owner_artifacts": [
+        "video_curation_evidence_backlog",
+        "aaa_source_to_skill_traceability_matrix",
+        "aaa_video_curation_manifest"
+      ]
+    },
+    {
+      "decision_id": "phase7_final_review_package_ready",
+      "decision": "Phase 7 closed the curation as a reviewable package. A final review report (aaa_video_curation_final_review_2026-06-16.md) consolidates Phases 1-6: validate_aaa_video_curation.ps1=PASSED, assert_agent_environment.ps1=ready, global status candidate_applied_not_verified (commit/push and ROM/emulator proof do not exist). Real new items: 2 skills, 5 schemas, 16 case studies. Deferred and NOT created: porting-techniques-sgdk, software-polygon-renderer, fmv-compression-megadrive. No promotion to ready_for_aaa/testado_em_emulador/validado_budget/buildado; no fake SGDK APIs; no SGDK_projects file altered by this curation. The final review is an auxiliary document (not validator-mandatory). Future commit should cover tools/sgdk_wrapper only, separate from the pre-existing SGDK_projects changes; commit/push remain pending.",
+      "owner_artifacts": [
+        "aaa_video_curation_final_review_2026-06-16",
+        "aaa_video_curation_manifest",
+        "aaa_curation_package_inventory",
+        "aaa_validator_coverage_matrix",
+        "aaa_video_curation_closeout_checklist",
+        "aaa_next_agent_handoff"
+      ]
+    },
+    {
+      "decision_id": "phase6_case_studies_materialized",
+      "decision": "The case-study items from curation_batch_2026_06_16 were materialized as a reference case library at .agent/lib_case/video-curation-2026-06-16 (README.md + index.json + 16 CASE_STUDY.md across art/hardware/industry). All are evidence_grade E1_text, canonical_promotion=false, and are reference/few-shot only, not skills, schemas or runtime/ROM evidence. The plan declared 14 case studies but listed 16 concrete items; the divergence is recorded as declared_case_count_mismatch=declared_14_listed_16 (metadata, not an error). No timestamps, links, scenes, technical names, performance numbers or runtime claims were invented; where only a label exists, the case study says so. The validator was extended with an additive validate_phase6_case_studies check requiring the 16 cases and the index of 16, without altering the original curated counts.",
+      "owner_artifacts": [
+        "video_curation_evidence_backlog",
+        "aaa_source_to_skill_traceability_matrix",
+        "aaa_video_curation_manifest",
+        "aaa_curation_package_inventory",
+        "aaa_validator_coverage_matrix",
+        "validate_aaa_video_curation"
+      ]
+    },
+    {
+      "decision_id": "phase5_input_camera_new_skills",
+      "decision": "Two new P0 canonical owner skills were created in Phase 5 from curation_batch_2026_06_16 (E1_text): input-system-sgdk and camera-system-sgdk, each with SKILL.md and agents/openai.yaml. input-system-sgdk uses only real SGDK 2.11 joy.h APIs (JOY_init, JOY_update, JOY_readJoypad, JOY_getJoypadType, JOY_getPortType, JOY_setSupport) and blocks invented input APIs. Five new schemas were added (input_mapping_contract, input_latency_contract, multiplayer_input_plan, camera_bounds_policy, parallax_camera_contract) and camera_behavior_contract was reused, not recreated. The validator was extended with an additive validate_phase5_input_camera check that does not alter the original 20-skill/20-contract/28-schema counts. porting-techniques-sgdk (P2/backlog), software-polygon-renderer (P3) and fmv-compression-megadrive (P4) remain deferred and were NOT created. The new skills are candidate; production still requires fixture, real build and emulator evidence when a ROM is delivered.",
+      "owner_artifacts": [
+        "framework_manifest",
+        "aaa_video_curation_manifest",
+        "aaa_skill_contract_catalog",
+        "aaa_curation_package_inventory",
+        "aaa_validator_coverage_matrix",
+        "validate_aaa_video_curation"
+      ]
+    },
+    {
+      "decision_id": "phase4f_toolchain_setup_absorption",
+      "decision": "SGDK Setup + VS Code concepts from curation_batch_2026_06_16 (E1_text) were absorbed as candidate operational rules into the existing sgdk-build-wrapper-operator skill: setup/build belong to the central wrapper (not project logic), the workspace sdk/sgdk-2.11/ is the canonical toolchain, an inherited GDK from another workspace is not a canonical dependency, the environment must pass assert_agent_environment.ps1 before diagnosis, and PATH/shell/PowerShell/Make/Java/rescomp/VS Code errors become explicit diagnostics rather than silent workarounds. No new skill or schema was created, no build scripts were changed, and no project setup is declared ready or buildado. Production still requires project validators, a real build and emulator evidence when a ROM is delivered. The aggregate plan as a whole stays backlog_not_proof.",
+      "owner_artifacts": [
+        "video_curation_evidence_backlog",
+        "aaa_source_to_skill_traceability_matrix",
+        "aaa_video_curation_manifest"
+      ]
+    },
+    {
+      "decision_id": "project_learning_celestial_chase_revive_absorption",
+      "decision": "Celestial Chase Revive local project learning (E1_project_artifact) was curated as candidate operational guidance, not runtime proof. Accepted lessons: pre-runtime contract closure for aaa_game, input abstraction before interactive scenes, per-scene fade/palette policy, table-driven cutscene FSM handoff, runtime seed scope separation, status reconciliation after build, and front-end identity minimum contracts. Existing owner workflows/skills were updated; no new skill or schema was created. A lib_case project-learning case and a technical curation record were added. Boot seed evidence remains scoped to boot seed only and does not promote gameplay, audio, visual delivery, budget or ready_for_aaa.",
+      "owner_artifacts": [
+        "project_learning_curation_celestial_chase_revive_2026-06-16",
+        "project-methodology-adoption",
+        "production-loop",
+        "input-system-sgdk",
+        "game-state-transition-architect",
+        "cutscene-cinematic-direction",
+        "sgdk-runtime-coder",
+        "sgdk-build-wrapper-operator",
+        "visual-excellence-standards",
+        "aaa-pipeline-guardian",
+        "lib_case/project-learning"
+      ]
+    },
+    {
+      "decision_id": "project_learning_celestial_chase_revive_runtime_probe_absorption",
+      "decision": "Celestial Chase Revive runtime probe evidence (E2_project_runtime_probe) was curated as candidate operational guidance. Accepted lessons: READY/SCN/INP SRAM proof can validate only a named scene transition when tied to the same ROM hash and fresh capture; ROM-observed input outranks host-side dispatch claims; TITLE -> OPENING_CUTSCENE proof does not promote first playable, gameplay, visual delivery, audio, VDP budget or ready_for_aaa. Existing owner skills were updated; no new skill or schema was created, and SGDK_projects was not modified by this curation. Planned creative contracts from the project remain outside canon until real implementation and evidence exist.",
+      "owner_artifacts": [
+        "project_learning_curation_celestial_chase_revive_runtime_probe_2026-06-17",
+        "aaa-pipeline-guardian",
+        "sgdk-build-wrapper-operator",
+        "rom-mastering",
+        "game-state-transition-architect"
+      ]
+    },
+    {
+      "decision_id": "video_transcript_graphics_tricks_2026_06_17_absorption",
+      "decision": "The 2026-06-17 attached graphics-tricks transcript (E1_text) was reviewed critically. Most content was already covered by prior VDP/tilemap/raster curation. Four bounded candidate improvements were absorbed into existing owners only: stricter tilemap dedup/HV flip/palette-conflict reporting in tilemap-attribute-director, implementable line-scroll/HBlank ownership in hscroll-linescroll-road-fx, display-profile/fallback requirements for composite dither in dither-composite-transparency, and flicker/multiplexing as controlled degradation in sprite-scanline-budgeter. No new skill or schema was created. Alpha blending, generic HBlank magic, automatic 60fps/budget claims and sprite flicker as capacity expansion remain rejected without fixture, budget and emulator evidence.",
+      "owner_artifacts": [
+        "video_transcript_graphics_tricks_curation_2026-06-17",
+        "tilemap-attribute-director",
+        "hscroll-linescroll-road-fx",
+        "dither-composite-transparency",
+        "sprite-scanline-budgeter"
+      ]
+    },
+    {
+      "decision_id": "video_transcript_game_music_2026_06_17_absorption",
+      "decision": "The 2026-06-17 attached game-music transcript (E1_text) was reviewed critically to strengthen the agent as a Mega Drive music/audio director. Accepted as candidate operational rules: adaptive music as event-driven states, vertical remixing translated to preauthored stems/layers or variants, horizontal resequencing translated to a bar/beat timing plan, seamless loops with explicit tail/click handling, and gameplay-role-first SFX design. Rejected: direct FMOD/Wwise/RTPC assumptions, default low-pass/filter automation, illustrative C snippets as canonical SGDK/XGM2 code, and any claim that text analysis proves excellent/AAA audio. Existing owner skills only were updated: xgm2-audio-director and sfx-prep-fm-psg-pcm. No new skill or schema was created; production still requires audio_architecture_card, adaptive_music_state_map, seamless_loop_report, frequency_masking_plan, sample_format_audit, auditory test, validate_audio when resources exist, and BlastEm evidence for runtime audio claims.",
+      "owner_artifacts": [
+        "video_transcript_game_music_curation_2026-06-17",
+        "xgm2-audio-director",
+        "sfx-prep-fm-psg-pcm"
+      ]
+    },
+    {
+      "decision_id": "video_transcript_nes_parallax_2026_06_17_absorption",
+      "decision": "The 2026-06-17 attached NES parallax transcript (E1_text) was reviewed critically. Accepted as candidate operational rules: translate NES raster concepts (Sprite 0/MMC3/PPUSCROLL) into Mega Drive VDP mechanisms rather than copying them, require scanline_band_map for banded/line parallax, and require horizon/ratio-curve/LUT/update/fallback contracts for road or floor pseudo-3D. Rejected: treating NES timing mechanisms as Mega Drive implementation rules, claiming line scroll creates unlimited independent layers, treating the illustrative demo as runtime proof, and assuming a linear proximity formula works for all roads. Existing owner skills only were updated: hscroll-linescroll-road-fx and multi-plane-composition. No new skill or schema was created; production still requires budget, art authoring checks, camera contract, fallback and BlastEm motion evidence before runtime claims.",
+      "owner_artifacts": [
+        "video_transcript_nes_parallax_curation_2026-06-17",
+        "hscroll-linescroll-road-fx",
+        "multi-plane-composition"
+      ]
+    }
+  ],
+  "canonical_load_order": [
+    ".agent/rules/AAA_VIDEO_CURATION.md",
+    "doc/05_technical/aaa_next_agent_handoff.md",
+    "doc/05_technical/aaa_video_curation_agent_bootstrap.md",
+    "doc/05_technical/aaa_video_curation_manifest.json",
+    "doc/05_technical/external_source_reliability_rubric.json",
+    "doc/05_technical/aaa_skill_activation_matrix.json",
+    "doc/05_technical/aaa_skill_contract_catalog.json",
+    "doc/05_technical/aaa_evidence_ladder.json",
+    "doc/05_technical/aaa_video_source_intake_template.json",
+    "doc/05_technical/aaa_validator_coverage_matrix.json",
+    "doc/05_technical/aaa_status_vocabulary_map.json"
+  ],
+  "must_not_forget": [
+    "Do not use rejected or partial sprite sheets as generation sources.",
+    "Do not promote aggregate external analysis into validated canon without per-source evidence.",
+    "Do not confuse curation package validation with project ROM/runtime validation.",
+    "Do not claim commit or push until real git command output exists.",
+    "Do not merge sidecar handoffs into primary skills without reading the original skill bodies."
+  ],
+  "pending_actions_after_runner_recovery": [
+    "Run validate_aaa_video_curation.ps1.",
+    "Run workspace context/methodology/hygiene/freshness/learning audits required by AGENTS.md.",
+    "Review whether this memory capsule should be merged into the primary workspace memory bank.",
+    "Review sidecar handoffs for possible safe inline integration.",
+    "Commit and push only after validation and audit requirements pass."
+  ]
+}

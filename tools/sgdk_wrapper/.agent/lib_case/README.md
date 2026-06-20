@@ -9,8 +9,17 @@ Ela e few-shot pedagogico e memoria reproduzivel.
 
 - `tools/sgdk_wrapper/.agent/lib_case/art-translation/index.json`
 - `tools/sgdk_wrapper/.agent/lib_case/sgdk-runtime/index.json`
+- `tools/sgdk_wrapper/.agent/lib_case/video-curation-2026-06-16/index.json`
+- `tools/sgdk_wrapper/.agent/lib_case/project-learning/index.json`
 - `doc/05_technical/92_sgdk_engine_pattern_frontdoor.md`
 - `doc/05_technical/92_sgdk_engine_pattern_registry.json`
+
+## Lote curation_batch_2026_06_16
+
+- `video-curation-2026-06-16/` contem 16 case studies de referencia
+  (`phase6_case_studies_materialized_candidate`, `evidence_grade: E1_text`).
+- Sao referencia/few-shot, nao skills, nao schemas e nao prova de runtime.
+- Divergencia registrada: `declared_case_count_mismatch: declared_14_listed_16`.
 
 ## Regras
 
@@ -18,6 +27,14 @@ Ela e few-shot pedagogico e memoria reproduzivel.
 - `registry` resolve ids e promocao de padrao
 - `lib_case` resolve few-shot executavel
 - nada daqui promove canon automaticamente
+
+## Casos de aprendizado de projeto
+
+- `project-learning/celestial-chase-revive-2026-06-16/`
+  registra licoes locais de um `aaa_game` com specs, runtime seed e evidencia
+  limitada ao seed. O caso ensina reconciliacao de status, pre-runtime
+  contract closure, input/transition ownership e limites de placeholder.
+  Evidencia: `E1_project_artifact`; nao e prova de gameplay, budget ou AAA.
 
 ## Casos de falha que devem ser lembrados
 

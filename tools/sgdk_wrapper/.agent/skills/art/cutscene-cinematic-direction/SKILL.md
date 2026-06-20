@@ -121,6 +121,25 @@ Cada estado precisa declarar:
 - `audio_cue`
 - `exit_teardown`
 
+### FSM table-driven para runtime SGDK
+
+Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
+[GAME] [ACTION_RACING]`, evidencia `E1_project_artifact`.
+
+Quando a cutscene tiver quatro ou mais beats, o handoff para runtime deve nascer
+como tabela de estados/passos, nao como `update()` monolitico. O formato pode
+variar, mas precisa carregar no minimo:
+
+- frame inicial/final ou duracao por estado
+- texto/string id e posicao/ancora
+- trigger de avancar, skip ou completar typewriter
+- callbacks ou IDs de `on_enter`/`on_exit`
+- recursos/paleta/surface usados naquele estado
+- teardown esperado antes do proximo estado
+
+Isso reduz branching, facilita revisao temporal e impede que typewriter, skip,
+fade e troca de painel fiquem misturados em uma cadeia de `if/else`.
+
 ## Direcao visual anime 90s
 
 O resultado precisa parecer pixel art anime de 8/16-bit, nao filtro moderno.
@@ -263,3 +282,5 @@ Cutscene so fecha gate com:
 - fade preto generico para toda emocao
 - cutscene que nao sabe como sai para a proxima cena
 - chamar de anime 90s uma imagem moderna suavizada e borrada
+- cutscene com muitos beats codificada como `update()` crescente sem tabela de
+  estados, sem `on_enter`/`on_exit` e sem teardown por passo

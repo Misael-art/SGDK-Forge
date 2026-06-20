@@ -1,0 +1,349 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_video_curation_manifest",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "scope": "Mega Drive AAA video technique curation for the canonical SGDK Forge agent framework",
+  "source_status": {
+    "direct_sources_available_in_thread": 6,
+    "aggregate_64_video_claim": "recorded_as_backlog_not_proof",
+    "attached_transcript_status": "partial_thread_attachment_not_locally_validated_by_runner"
+  },
+  "curation_batches": [
+    {
+      "batch_id": "curation_batch_2026_06_16",
+      "received_date": "2026-06-16",
+      "intake_status": "registered_as_candidate_backlog_not_proof",
+      "backlog_reference": "doc/05_technical/video_curation_evidence_backlog.json",
+      "items": [
+        {
+          "id": "other_agent_plan_aggregate",
+          "evidence_class": "agent_aggregate_summary",
+          "evidence_grade": "E1_text",
+          "disposition": "backlog_not_proof",
+          "phase4b_concepts_absorbed_as_candidate": {
+            "status": "phase4b_skill_update_applied_candidate",
+            "owner_skills": [
+              "shadow-highlight-scroll-fx",
+              "raster-palette-hint-director",
+              "visual-excellence-standards",
+              "palette-cram-curator",
+              "color-conversion-curator"
+            ]
+          },
+          "phase4c_concepts_absorbed_as_candidate": {
+            "status": "phase4c_skill_update_applied_candidate",
+            "owner_skills": [
+              "entity-polymorphism-architect",
+              "sgdk-runtime-coder",
+              "scene-state-architect"
+            ]
+          },
+          "phase4d_concepts_absorbed_as_candidate": {
+            "status": "phase4d_skill_update_applied_candidate",
+            "owner_skills": [
+              "software-tile-rasterizer"
+            ],
+            "deferred_not_created": "software-polygon-renderer (P3)"
+          },
+          "phase4e_concepts_absorbed_as_candidate": {
+            "status": "phase4e_skill_update_applied_candidate",
+            "owner_skills": [
+              "sfx-prep-fm-psg-pcm"
+            ]
+          },
+          "phase4f_concepts_absorbed_as_candidate": {
+            "status": "phase4f_skill_update_applied_candidate",
+            "owner_skills": [
+              "sgdk-build-wrapper-operator"
+            ]
+          }
+        },
+        {
+          "id": "character_proportion_pixel_art_platformer",
+          "evidence_class": "direct_text_analysis",
+          "evidence_grade": "E1_text",
+          "disposition": "phase4a_skill_update_applied_candidate",
+          "curation_record": "doc/05_technical/curation_records/case_character_proportion_pixel_art_platformer.json",
+          "owner_skills": [
+            "character-design",
+            "sprite-animation",
+            "megadrive-pixel-strict-rules",
+            "collision-system-architect"
+          ],
+          "phase4a_skill_updates_applied": [
+            "character-design",
+            "sprite-animation",
+            "megadrive-pixel-strict-rules"
+          ]
+        }
+      ]
+    },
+    {
+      "batch_id": "video_transcript_game_music_2026_06_17",
+      "received_date": "2026-06-17",
+      "intake_status": "candidate_operational_rules_applied",
+      "evidence_class": "direct_text_analysis",
+      "evidence_grade": "E1_text",
+      "curation_record": "doc/05_technical/video_transcript_game_music_curation_2026-06-17.json",
+      "canonical_promotion": false,
+      "items": [
+        {
+          "id": "interactive_game_music_composition",
+          "disposition": "candidate_operational_rules_applied",
+          "owner_skills": [
+            "xgm2-audio-director",
+            "sfx-prep-fm-psg-pcm"
+          ],
+          "accepted_concepts": [
+            "event-driven adaptive music states",
+            "bar/beat transition planning",
+            "seamless loop/tail handling",
+            "gameplay-role-first SFX allocation"
+          ],
+          "rejected_claims": [
+            "direct FMOD/Wwise/RTPC assumptions",
+            "default runtime filter automation",
+            "illustrative code as canonical SGDK/XGM2 API",
+            "text-only proof of excellent or AAA audio"
+          ]
+        }
+      ]
+    },
+    {
+      "batch_id": "video_transcript_nes_parallax_2026_06_17",
+      "received_date": "2026-06-17",
+      "intake_status": "candidate_operational_rules_applied",
+      "evidence_class": "direct_text_analysis",
+      "evidence_grade": "E1_text",
+      "curation_record": "doc/05_technical/video_transcript_nes_parallax_curation_2026-06-17.json",
+      "canonical_promotion": false,
+      "items": [
+        {
+          "id": "nes_parallax_to_md_linescroll",
+          "disposition": "candidate_operational_rules_applied",
+          "owner_skills": [
+            "hscroll-linescroll-road-fx",
+            "multi-plane-composition"
+          ],
+          "accepted_concepts": [
+            "NES raster concepts translated to Mega Drive VDP mechanisms",
+            "scanline_band_map for band/line parallax",
+            "road gradient contract with horizon, ratio curve/LUT, update cadence and fallback"
+          ],
+          "rejected_claims": [
+            "NES Sprite 0/MMC3 as Mega Drive implementation",
+            "line scroll as unlimited independent planes",
+            "illustrative code as runtime proof",
+            "linear formula as universal road solution"
+          ]
+        }
+      ]
+    }
+  ],
+  "runner_status": {
+    "local_command_execution": "restored",
+    "validated_by_runner": true,
+    "validator_result": "validate_aaa_video_curation.ps1=PASSED",
+    "prior_blocker_resolved": "earlier_createprocessasuserw_5_no_longer_reproduces",
+    "commit_created": false,
+    "push_completed": false
+  },
+  "phase5_new_skills": {
+    "status": "phase5_new_candidate_skill_applied",
+    "evidence_grade": "E1_text",
+    "skills": [
+      {
+        "skill_id": "input-system-sgdk",
+        "path": ".agent/skills/code/input-system-sgdk",
+        "new_schemas": [
+          "input_mapping_contract.schema.json",
+          "input_latency_contract.schema.json",
+          "multiplayer_input_plan.schema.json"
+        ],
+        "real_apis": ["JOY_init", "JOY_update", "JOY_readJoypad", "JOY_getJoypadType", "JOY_getPortType", "JOY_setSupport"]
+      },
+      {
+        "skill_id": "camera-system-sgdk",
+        "path": ".agent/skills/code/camera-system-sgdk",
+        "reused_schemas": ["camera_behavior_contract.schema.json"],
+        "new_schemas": [
+          "camera_bounds_policy.schema.json",
+          "parallax_camera_contract.schema.json"
+        ]
+      }
+    ],
+    "deferred_not_created": [
+      { "skill": "porting-techniques-sgdk", "priority": "P2", "state": "backlog" },
+      { "skill": "software-polygon-renderer", "priority": "P3", "state": "deferred" },
+      { "skill": "fmv-compression-megadrive", "priority": "P4", "state": "deferred" }
+    ],
+    "still_required_for_production": ["fixture", "real build", "emulator evidence when a ROM is delivered"]
+  },
+  "phase6_case_studies": {
+    "status": "phase6_case_studies_materialized_candidate",
+    "library_path": ".agent/lib_case/video-curation-2026-06-16",
+    "index": ".agent/lib_case/video-curation-2026-06-16/index.json",
+    "case_studies_created": 16,
+    "declared_case_count_mismatch": "declared_14_listed_16",
+    "canonical_promotion": false,
+    "evidence_grade": "E1_text",
+    "note": "Reference case studies only; not skills, not schemas, not runtime/ROM evidence. No content invented beyond available labels."
+  },
+  "phase7_final_review": {
+    "status": "package_ready_for_review_not_committed",
+    "report": "doc/05_technical/aaa_video_curation_final_review_2026-06-16.md",
+    "document_role": "auxiliary",
+    "phases_completed": ["1", "2", "3", "4A", "4B", "4C", "4D", "4E", "4F", "5", "6"],
+    "new_skills": 2,
+    "new_schemas": 5,
+    "case_studies": 16,
+    "deferred_not_created": ["porting-techniques-sgdk", "software-polygon-renderer", "fmv-compression-megadrive"],
+    "commit_push_pending": true,
+    "commit_scope_recommendation": "tools/sgdk_wrapper only; separate from pre-existing SGDK_projects changes"
+  },
+  "new_canonical_skills": [
+    "collision-system-architect",
+    "vram-streaming-dma-queue",
+    "shadow-highlight-scroll-fx",
+    "entity-polymorphism-architect",
+    "game-state-transition-architect",
+    "aaa-pipeline-guardian",
+    "tilemap-attribute-director",
+    "palette-cram-curator",
+    "sprite-scanline-budgeter",
+    "hscroll-linescroll-road-fx",
+    "raster-palette-hint-director",
+    "dither-composite-transparency",
+    "z80-audio-boundary-architect",
+    "articulated-sprite-architect",
+    "software-tile-rasterizer",
+    "level-manifest-architect",
+    "sprite-asset-budget-curator",
+    "color-conversion-curator",
+    "sfx-prep-fm-psg-pcm",
+    "emulator-vdp-evidence-curator"
+  ],
+  "updated_existing_skills": [
+    "megadrive-vdp-budget-analyst",
+    "scene-direction-curator",
+    "multi-plane-composition",
+    "art-translation-to-vdp",
+    "art-asset-diagnostic",
+    "art-conversion-pipeline",
+    "visual-excellence-standards",
+    "rom-mastering",
+    "sgdk-runtime-coder",
+    "scene-state-architect",
+    "sgdk-code-reviewer",
+    "sgdk-build-wrapper-operator",
+    "tiled-hybrid-parallax-curator",
+    "cutscene-cinematic-direction",
+    "project-methodology-adoption"
+  ],
+  "pending_existing_skill_updates": [],
+  "machine_readable_contracts": [
+    "collision_topology_report",
+    "dma_queue_contract",
+    "scroll_fx_contract",
+    "entity_vtable_plan",
+    "state_transition_contract",
+    "aaa_pipeline_gate_report",
+    "external_technique_curation_record",
+    "aaa_video_curation_audit_report",
+    "aaa_prompt_route_fixture_pack",
+    "aaa_video_curation_manifest",
+    "aaa_video_curation_phase_matrix",
+    "aaa_pipeline_curated_skill_map",
+    "existing_skill_integration_manifest",
+    "aaa_video_curation_decision_matrix",
+    "aaa_skill_contract_catalog",
+    "aaa_skill_activation_matrix",
+    "aaa_evidence_ladder",
+    "external_source_reliability_rubric",
+    "aaa_agent_proficiency_matrix",
+    "aaa_agent_proficiency_eval_suite",
+    "aaa_source_to_skill_traceability_matrix",
+    "aaa_curation_validation_recovery_plan",
+    "aaa_curation_package_inventory",
+    "aaa_curation_risk_register",
+    "aaa_curation_memory_update",
+    "aaa_video_source_intake_template",
+    "aaa_validator_coverage_matrix",
+    "aaa_status_vocabulary_map"
+  ],
+  "pipeline_docs": [
+    ".agent/rules/AAA_VIDEO_CURATION.md",
+    "doc/05_technical/README.md",
+    "doc/05_technical/aaa_next_agent_handoff.md",
+    "doc/05_technical/aaa_video_curation_agent_bootstrap.md",
+    "doc/05_technical/pipeline_aaa_skill_gate_map.json",
+    "doc/05_technical/aaa_video_curation_phase_matrix.json",
+    "doc/05_technical/aaa_video_curation_closeout_checklist.md",
+    "doc/05_technical/aaa_video_curation_operational_summary.md",
+    "doc/05_technical/existing_skill_integration_manifest.json",
+    "doc/05_technical/aaa_video_curation_decision_matrix.json",
+    "doc/05_technical/aaa_skill_contract_catalog.json",
+    "doc/05_technical/aaa_skill_activation_matrix.json",
+    "doc/05_technical/aaa_evidence_ladder.json",
+    "doc/05_technical/external_source_reliability_rubric.json",
+    "doc/05_technical/aaa_agent_proficiency_matrix.json",
+    "doc/05_technical/aaa_agent_proficiency_eval_suite.json",
+    "doc/05_technical/aaa_source_to_skill_traceability_matrix.json",
+    "doc/05_technical/aaa_curation_validation_recovery_plan.json",
+    "doc/05_technical/aaa_curation_package_inventory.json",
+    "doc/05_technical/aaa_curation_risk_register.json",
+    "doc/05_technical/aaa_curation_memory_update.json",
+    "doc/05_technical/aaa_video_source_intake_template.json",
+    "doc/05_technical/aaa_validator_coverage_matrix.json",
+    "doc/05_technical/aaa_status_vocabulary_map.json",
+    "doc/mega_drive_aaa_video_curation_registry.md",
+    "doc/mega_drive_aaa_video_curation_changelog_2026-06-14.md"
+  ],
+  "direct_case_records": [
+    "doc/05_technical/curation_records/case_16tile_tilemap_attributes.json",
+    "doc/05_technical/curation_records/case_sprites_16bit_architecture.json",
+    "doc/05_technical/curation_records/case_graphical_tricks_vdp.json",
+    "doc/05_technical/curation_records/case_modern_vs_classic_md_pipeline.json",
+    "doc/05_technical/curation_records/case_megadrive_graphics_pipeline.json",
+    "doc/05_technical/curation_records/case_independent_devs_architecture.json"
+  ],
+  "case_studies": [
+    "doc/05_technical/case_16tile_tilemap_attributes.md",
+    "doc/05_technical/case_rangerx_shadow_highlight_scroll.md",
+    "doc/05_technical/case_independent_devs_architecture.md"
+  ],
+  "decision_matrix": "doc/05_technical/aaa_video_curation_decision_matrix.json",
+  "skill_contract_catalog": "doc/05_technical/aaa_skill_contract_catalog.json",
+  "skill_activation_matrix": "doc/05_technical/aaa_skill_activation_matrix.json",
+  "evidence_ladder": "doc/05_technical/aaa_evidence_ladder.json",
+  "source_reliability_rubric": "doc/05_technical/external_source_reliability_rubric.json",
+  "agent_proficiency_matrix": "doc/05_technical/aaa_agent_proficiency_matrix.json",
+  "agent_proficiency_eval_suite": "doc/05_technical/aaa_agent_proficiency_eval_suite.json",
+  "source_to_skill_traceability_matrix": "doc/05_technical/aaa_source_to_skill_traceability_matrix.json",
+  "validation_recovery_plan": "doc/05_technical/aaa_curation_validation_recovery_plan.json",
+  "package_inventory": "doc/05_technical/aaa_curation_package_inventory.json",
+  "risk_register": "doc/05_technical/aaa_curation_risk_register.json",
+  "memory_update": "doc/05_technical/aaa_curation_memory_update.json",
+  "source_intake_template": "doc/05_technical/aaa_video_source_intake_template.json",
+  "validator_coverage_matrix": "doc/05_technical/aaa_validator_coverage_matrix.json",
+  "status_vocabulary_map": "doc/05_technical/aaa_status_vocabulary_map.json",
+  "next_agent_handoff": "doc/05_technical/aaa_next_agent_handoff.md",
+  "canonical_rule": ".agent/rules/AAA_VIDEO_CURATION.md",
+  "agent_bootstrap": "doc/05_technical/aaa_video_curation_agent_bootstrap.md",
+  "validation": {
+    "primary_command": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/sgdk_wrapper/validate_aaa_video_curation.ps1",
+    "python_entrypoint": "python tools/sgdk_wrapper/validate_aaa_video_curation.py",
+    "expected_state_before_shell_recovery": "candidate_applied_not_verified"
+  },
+  "release_gate": {
+    "ready_for_aaa": false,
+    "reason": "The curation package now PASSES the package validator (validate_aaa_video_curation.ps1), but a package-validator PASS is not ROM/emulator proof: no runtime, build or emulator evidence exists, so the package is not ready_for_aaa, testado_em_emulador or validado_budget, and commit/push are still pending.",
+    "required_before_ready": [
+      "run validate_aaa_video_curation",
+      "run workspace context, methodology, hygiene and learning audits as required by AGENTS.md",
+      "commit and push after local validation",
+      "retain emulator evidence rule for any game delivery claim"
+    ]
+  }
+}

@@ -483,3 +483,17 @@ Novas skills, workflows e scripts sao bem-vindos se preservarem:
 - aderencia ao hardware real
 - centralizacao da operacao no wrapper
 - continuidade entre build, validação, changelog e memoria operacional
+
+## Gate canonico de promocao por claim
+
+`audit_promotion_claims.ps1` reconcilia claims de entrega com o hash da ROM,
+escopo observado, warnings criticos, reachability de modulos, proveniencia de
+assets, metricas, review e estado da fase. O menor status consistente entre
+memoria, validacao e evidencia define o teto.
+
+- `module_present`, `integrated`, `reachable` e `runtime_proven` sao distintos;
+- screenshot ou boot/title nao prova gameplay, audio ou performance;
+- MTR registra estatistica de jogo; somente MDRT dedicado sustenta performance;
+- closeout manual nao substitui `scene_closeout_gate_report.json`;
+- crash, corrupcao visual ou review bloqueado impedem avancar de fase;
+- todo claim forte aponta para evidencia fresca da mesma ROM.

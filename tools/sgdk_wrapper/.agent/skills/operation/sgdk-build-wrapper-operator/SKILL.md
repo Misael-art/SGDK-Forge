@@ -94,6 +94,107 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - nao construir rota de heartbeat live via GDB watchpoint: stub do BlastEm nao suporta `Z2`/`Z3`/`Z4`, retorna pacote vazio
 - `make -j`, debug symbols, hooks e GitHub Actions sao melhorias de pipeline; ate existirem e serem provadas, registrar gap em vez de vender como resolvido
 
+## Reconciliacao de status apos build
+
+Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
+[GAME] [ACTION_RACING]`, evidencia `E1_project_artifact`.
+
+Depois de uma ROM, captura ou refresh de validacao, o agente deve comparar, no
+mesmo escopo:
+
+- `out/rom.bin` e hash/tamanho registrado
+- `doc/changelog/roms/*/build_meta.json`
+- `doc/10-memory-bank.md`
+- `doc/changelog/changelog.md`
+- `doc/rom_mastering_report.json`
+- `doc/local_ci_gate_report.json` quando existir
+- evidencia de BlastEm/SRAM/screenshot e sua frescura em relacao a ROM
+- `validation_report.blocking_statuses`
+
+Se estes artefatos discordarem, o status maximo e o menor status consistente por
+escopo. Exemplo: um boot seed com screenshot/SRAM pode ser
+`testado_em_emulador` somente para o seed, enquanto `gameplay`, `visual AAA`,
+`budget`, `audio` e `first playable` continuam nao provados. Relatorio antigo
+`not_started`, `sem_sessao` ou `report_older_than_rom` deve virar drift a
+reconciliar, nao argumento para promover ou descartar a evidencia sem analise.
+
+Quando a mudanca for apenas reconciliacao de relatorio/status, preferir
+atualizacao status-only e freshness audit; nao criar build snapshot artificial.
+
+## Gate de progresso antes de novo build
+
+Licao operacional extraida de `Celestial Chase Revive [VER.001] [SGDK 211]
+[GEN] [GAME] [ACTION_RACING]`, sustentada pelo historico canonico de
+`doc/changelog/roms/build_v*/build_meta.json`.
+
+- O detector de loop deve preferir `build_meta.json` ao arquivo mutavel
+  `out/logs/validation_report.json`; um relatorio atual isolado nao representa
+  historico.
+- Dois builds consecutivos com blocker comum geram `progress_warning`.
+- Sob `progress_warning`, o proximo build exige:
+  - `SGDK_TARGET_BLOCKER`: blocker vigente que a mudanca pretende remover;
+  - `SGDK_CHANGE_CATEGORY`: `runtime`, `visual`, `art`, `infra`, `docs`,
+    `wrapper`, `log`, `schema` ou `other`;
+  - `SGDK_CHANGE_SUMMARY`: mudanca concreta, com informacao suficiente para
+    auditoria.
+- O alvo precisa existir em `validation_report.blocking_statuses`, e a categoria
+  precisa atacar o tipo do blocker. Rebuild sem alvo explicito e bloqueado.
+- Tres builds consecutivos com blocker comum continuam exigindo
+  `doc/operational_loop_decision.json` valido.
+- Numero de build, nova captura ou refresh de relatorio nao contam como
+  progresso quando `blockers_removed=0`.
+
+Exemplo de sessao PowerShell antes do build:
+
+```powershell
+$env:SGDK_TARGET_BLOCKER = "visual_gate_blocked"
+$env:SGDK_CHANGE_CATEGORY = "art"
+$env:SGDK_CHANGE_SUMMARY = "Produzir a fixture visual real do primeiro setor."
+```
+
+## Evidencia de input no BlastEm por observacao da ROM
+
+Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
+[GAME] [ACTION_RACING]`, evidencia `E2_project_runtime_probe`.
+
+- Input enviado pelo host nao e evidencia por si so.
+- Para navegacao roteirizada, exigir confirmacao ROM-side quando disponivel:
+  campos SRAM/metricas para `raw_input`, `observed_input`, `input_locked` e
+  `scene_id`.
+- Se `SendInput` reporta envio mas `observed_input` permanece `0`, nao contar a
+  navegacao como sucesso.
+- `wm_key_message_to_sdl_window` foi observado no Celestial Chase como input
+  lido pela ROM naquela sessao/host; nao promover isso a transporte universal
+  ate o wrapper ter suporte canonico e teste proprio.
+- Relatorios de navegacao devem registrar `input_transport`, `observed_input`,
+  `raw_input`, cena esperada, cena observada e hash da ROM.
+- Preferir scripts JSON e `press_until_ready`, mas qualquer transporte de input
+  precisa ser validado por estado observado pela ROM quando a alegacao for
+  transicao de cena.
+
+## Setup SGDK/VS Code candidato
+
+Origem: item `SGDK Setup + VS Code` do lote `curation_batch_2026_06_16`,
+evidência `E1_text`, expansão candidata. Reusa o checklist e o contrato
+operacional existentes (manifesto, `assert_agent_environment.ps1`,
+`preflight_host.ps1`); não cria schema novo e não promete build/runtime de
+projeto.
+
+- setup e build pertencem ao **wrapper central**, não à lógica dentro do
+  projeto; configurar SGDK/VS Code é operação de wrapper.
+- a toolchain canônica é sempre o `sdk/sgdk-2.11/` deste workspace; build sempre
+  resolve por ele.
+- `GDK` herdado de outro workspace **não é dependência canônica**; não tratar um
+  GDK externo como toolchain oficial.
+- antes de diagnosticar ambiente, o ambiente deve passar por
+  `assert_agent_environment.ps1`.
+- erros de PATH, shell, PowerShell, Make, Java/rescomp ou VS Code viram
+  **diagnóstico explícito**, nunca workaround silencioso.
+- não editar um projeto para "consertar setup" sem manifesto/higiene resolvidos;
+  ambiente não conserta projeto por atalho.
+- a expansão continua candidata: produção real ainda exige os validators do
+  projeto, build real e evidência de emulador quando houver entrega de ROM.
+
 ## Proibido
 
 - duplicar regras de copia da `.agent` em varios arquivos sem helper comum
@@ -104,3 +205,7 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - bootstrapar projeto novo com transicoes dramaticas, de zona ou de menu sem `scene_transition_card`, teardown e fallback
 - declarar pipeline AAA-grade sem `ci_gate_report`/`local_ci_gate_report`, `code_review_report` e `rom_mastering_report`
 - tratar `doc/prd_index.json` ausente, PRD obrigatorio em `seed` ou `prd_readiness_report.status=blocked` como detalhe menor quando o objetivo for AAA/stable/release
+- tratar screenshot, SRAM ou boot como prova automatica de gameplay, audio ou
+  performance sem `claim_scope` correspondente
+- tratar MTR de estatistica de corrida como MDRT de desempenho
+- aceitar closeout manual sem `scene_closeout_gate_report.json` executado

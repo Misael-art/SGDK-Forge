@@ -518,6 +518,39 @@ if ($artifact['session_completed'] -and $session) {
 
 & $WriteArtifactJson -Data $artifact -Path $artifactPath | Out-Null
 
+$evidenceCloseoutPath = Join-Path $logsDir 'evidence_closeout_report.json'
+$evidenceFinalizer = Join-Path $PSScriptRoot 'finalize_emulator_evidence.ps1'
+if ($artifact['session_completed'] -and (Test-Path -LiteralPath $evidenceFinalizer -PathType Leaf)) {
+    $finalizerArgs = @(
+        '-NoProfile',
+        '-ExecutionPolicy', 'Bypass',
+        '-File', $evidenceFinalizer,
+        '-ProjectRoot', $ProjectRoot,
+        '-RomPath', $RomPath,
+        '-OutputPath', $evidenceCloseoutPath
+    )
+    if ($WarnOnly) {
+        $finalizerArgs += '-WarnOnly'
+    }
+    & powershell.exe @finalizerArgs | Out-Host
+    $finalizerExitCode = $LASTEXITCODE
+    $artifact['evidence_closeout_report_path'] = $evidenceCloseoutPath
+    if (Test-Path -LiteralPath $evidenceCloseoutPath -PathType Leaf) {
+        try {
+            $sealReport = Get-Content -LiteralPath $evidenceCloseoutPath -Raw -Encoding UTF8 | ConvertFrom-Json
+            $artifact['evidence_seal_status'] = [string]$sealReport.seal_status
+        }
+        catch {
+            $artifact['evidence_seal_status'] = 'unreadable'
+        }
+    }
+    & $WriteArtifactJson -Data $artifact -Path $artifactPath | Out-Null
+    if ($finalizerExitCode -ne 0 -and -not $WarnOnly) {
+        Write-Host "[ERROR] Evidence capture completed, but ROM identity sealing failed."
+        exit 1
+    }
+}
+
 $statusLabel = $artifact['evidence_status'].ToString().ToUpper()
 $capturedList = @()
 if ($artifact['screenshot_present']) { $capturedList += 'screenshot' }

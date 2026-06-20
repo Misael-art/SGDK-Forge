@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_curation_validation_recovery_plan",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Define the exact recovery path for validating, promoting, committing and pushing the Mega Drive AAA video curation package after local command execution becomes available.",
+  "historical_blocker": {
+    "blocker_id": "windows_runner_createprocessasuserw_failed_5",
+    "blocker_state": "resolved_no_longer_reproduces",
+    "observed_behavior": "Earlier, local shell commands failed before process execution.",
+    "effect": "While active, the validator, git status, commit, push and any workspace audit command could not be proven; local command execution has since been restored and validate_aaa_video_curation.ps1 prints PASSED.",
+    "status_impact": "A package-validator PASS is not ROM/emulator proof, so all curation artifacts remain candidate_applied_not_verified until build/emulator runtime evidence exists."
+  },
+  "promotion_policy": {
+    "no_auto_promotion_from_file_presence": true,
+    "no_auto_promotion_from_prose_review": true,
+    "requires_validator_output": true,
+    "requires_workspace_audits_when_available": true,
+    "requires_commit_and_push_for_user_requested_persistence": true
+  },
+  "recovery_steps": [
+    {
+      "step_id": "recover_process_execution",
+      "order": 1,
+      "action": "Restore local process execution in the Codex/PowerShell runner.",
+      "required_evidence": [
+        "a simple command can execute",
+        "command output is visible to the agent"
+      ],
+      "forbidden_shortcut": "Do not assume runner recovery without a successful command."
+    },
+    {
+      "step_id": "run_primary_validator",
+      "order": 2,
+      "action": "Run the AAA video curation validator.",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/sgdk_wrapper/validate_aaa_video_curation.ps1",
+      "required_evidence": [
+        "validator prints PASSED",
+        "no missing file/schema/manifest/route errors"
+      ],
+      "forbidden_shortcut": "Do not treat validator script existence as validator pass."
+    },
+    {
+      "step_id": "run_workspace_required_audits",
+      "order": 3,
+      "action": "Run relevant workspace methodology/context/hygiene/freshness/learning audits required by AGENTS.md for this curation scope.",
+      "required_evidence": [
+        "audit commands executed",
+        "blocking findings resolved or explicitly recorded"
+      ],
+      "forbidden_shortcut": "Do not replace workspace audits with the curation validator."
+    },
+    {
+      "step_id": "review_status_promotions",
+      "order": 4,
+      "action": "Promote only the curation package status, not game/runtime/AAA release status.",
+      "allowed_status_change": {
+        "from": "candidate_applied_not_verified",
+        "to": "validated_curation"
+      },
+      "forbidden_status_changes": [
+        "ready_for_aaa",
+        "testado_em_emulador",
+        "validado_budget",
+        "final_aaa_release"
+      ],
+      "required_evidence": [
+        "validator pass",
+        "workspace audits pass or non-blocking status recorded"
+      ]
+    },
+    {
+      "step_id": "commit_changes",
+      "order": 5,
+      "action": "Commit the validated curation package with a clear message.",
+      "required_evidence": [
+        "git status reviewed",
+        "only intended files staged",
+        "commit hash produced"
+      ],
+      "forbidden_shortcut": "Do not claim commit without git output."
+    },
+    {
+      "step_id": "push_changes",
+      "order": 6,
+      "action": "Push the commit to the configured remote/branch when available.",
+      "required_evidence": [
+        "push command output",
+        "remote branch updated or push blocker recorded"
+      ],
+      "forbidden_shortcut": "Do not claim push without git output."
+    }
+  ],
+  "status_files_to_update_after_validation": [
+    "doc/05_technical/aaa_video_curation_manifest.json",
+    "doc/05_technical/aaa_video_curation_audit_report_2026-06-15.json",
+    "doc/05_technical/aaa_video_curation_operational_summary.md",
+    "doc/mega_drive_aaa_video_curation_registry.md",
+    "doc/mega_drive_aaa_video_curation_changelog_2026-06-14.md"
+  ],
+  "explicit_non_goals": [
+    "This plan does not validate any ROM.",
+    "This plan does not validate any generated sprite sheet.",
+    "This plan does not replace BlastEm/VDP evidence for game delivery.",
+    "This plan does not verify the full external 64-video corpus."
+  ]
+}

@@ -257,6 +257,28 @@ if SCRIPT.exists() and SCHEMA.exists() and WRAPPER.exists() and MODEL_LEDGER.exi
     )
 
     reset_fixture()
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "skill_promotion_candidates.md",
+        """# Skill Promotion Candidates
+
+| Data | Classificacao | Candidato | Problema resolvido | Evidencia minima | Risco | Proxima revisao humana |
+|---|---|---|---|---|---|---|
+| 2026-06-16 | `promotion_candidate` | planning_mode_pre_runtime_spec_closure_checklist | Planejamento AAA parecia completo sem contratos executaveis para runtime | doc/critical_gap_audit.json | medio | human review |
+""",
+    )
+    write_text(FIXTURE_ROOT / "doc" / "critical_gap_audit.json", "{}")
+    result, _ = run_loop("capture")
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    routed = ledger["lessons"][0]
+    assert_true(
+        "known planning candidate patches an existing owner instead of creating a skill",
+        routed["routing"]["deduplication"] == "matched_existing_owner"
+        and routed["canonical_patch_proposal"]["action"] == "patch_existing_owner"
+        and routed["routing"]["owner_skill"] == "planning/game-design-planning",
+        str(routed),
+    )
+
+    reset_fixture()
     wrapper_result = run_powershell(
         WRAPPER,
         "-ProjectRoot",

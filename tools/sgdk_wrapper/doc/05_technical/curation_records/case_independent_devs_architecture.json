@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_technique_curation_record",
+  "source": {
+    "source_id": "case_independent_devs_architecture",
+    "source_kind": "direct_user_summary",
+    "title_or_label": "The big impact of smaller Sega Mega-Drive/Genesis developers",
+    "url": "",
+    "availability": "available_in_thread"
+  },
+  "technique": {
+    "id": "small_team_architecture_under_constraints",
+    "name": "Small-team architecture under constraints",
+    "summary": "Extract reusable architecture principles from independent developers: entity decomposition, function pointers, Z80/audio separation, VRAM streaming and state transitions.",
+    "risk_domain": [
+      "entity_architecture",
+      "dma",
+      "audio",
+      "state_transition"
+    ]
+  },
+  "classification": "case_study",
+  "canonical_fit": {
+    "owner_paths": [
+      "tools/sgdk_wrapper/.agent/skills/code/entity-polymorphism-architect/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/hardware/vram-streaming-dma-queue/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/SKILL.md"
+    ],
+    "new_artifacts": [
+      "entity_vtable_plan",
+      "dma_queue_contract",
+      "state_transition_contract",
+      "audio_architecture_card"
+    ],
+    "blocked_by": [
+      "hack_or_exploit_without_benchmark"
+    ]
+  },
+  "evidence": {
+    "grade": "E1_text",
+    "minimum_required_before_canonical": [
+      "project fixture using entity vtable plan",
+      "DMA queue fixture for tile streaming",
+      "state transition fixture",
+      "audio benchmark for Z80/PCM claim"
+    ],
+    "current_gaps": [
+      "historical/contextual source only",
+      "no local benchmark in this session"
+    ]
+  },
+  "promotion_decision": {
+    "decision": "keep_local_case",
+    "rationale": "The case teaches architecture discipline, but individual techniques still require fixtures before stronger canonical claims."
+  },
+  "accepted_concepts": [
+    "Entity decomposition with structs and function pointers, Z80/audio separation, VRAM streaming and explicit state transitions are reusable small-team architecture principles.",
+    "entity-polymorphism-architect, vram-streaming-dma-queue and game-state-transition-architect are the canonical owners."
+  ],
+  "rejected_or_deferred_claims": [
+    "Historical/contextual source only; individual technique benchmarks are deferred until fixtures exist.",
+    "Any hack or exploit without a benchmark is blocked from promotion."
+  ],
+  "required_followups": [
+    "Human review of architecture claims against project fixtures (entity vtable plan, DMA queue, state transition).",
+    "Audio benchmark for the Z80/PCM claim before any stronger canonical status."
+  ],
+  "status": "accepted_with_constraints"
+}

@@ -189,3 +189,21 @@ Campos minimos:
 - para `visual-excellence-standards`: entregar funcao narrativa, anti-padroes e risco decorative-only
 - para `megadrive-vdp-budget-analyst`: entregar cards com custo de pior quadro e ownership
 - para `sgdk-runtime-coder`: entregar owner de H-Int/CRAM/scroll/tiles, reset e fallback
+
+## Curadoria 2026-06-15 - Guardian e scroll FX
+
+Quando uma cena usar material da curadoria Mega Drive AAA ou prometer
+Shadow/Highlight, H-Int, VSCROLL_COLUMN, HSCROLL_LINE, palette cycling,
+tile animation, Ranger X-like lighting, pseudo-3D ou `ready_for_aaa`, esta skill
+deve:
+
+- acionar `aaa-pipeline-guardian` antes de fechar o perfil da cena;
+- produzir ou exigir `aaa_pipeline_gate_report`;
+- entregar `scroll_fx_contract` para `shadow-highlight-scroll-fx`;
+- entregar `dma_queue_contract` quando background vivo depender de tile
+  animation, dirty tiles ou streaming;
+- manter `ready_for_aaa=false` enquanto faltar BlastEm, VDP dump quando
+  necessario, ou budget do pior quadro.
+
+Tecnica historica vista em video e referencia de curadoria, nao permissao para
+aplicar hack sem owner, fallback e evidencia.

@@ -49,6 +49,23 @@ Esta skill fecha a camada final da ROM. Ela nao torna o jogo bom; ela prova que 
 - Se a ROM for rebuildada, o mastering anterior fica stale.
 - Header/region/checksum corrigidos por ferramenta precisam gerar novo hash e nova evidencia.
 
+## Evidencia de probe SRAM por escopo
+
+Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
+[GAME] [ACTION_RACING]`, evidencia `E2_project_runtime_probe`.
+
+- `READY` em SRAM prova somente liveness/boot do runtime.
+- `SCN` em SRAM pode provar uma cena ou transicao nomeada quando cena esperada
+  e observada batem, usando o mesmo hash de ROM e captura fresca.
+- `INP` em SRAM pode provar que a ROM observou o input roteirizado; despacho de
+  input pelo host sem observacao da ROM e insuficiente.
+- Esse conjunto pode sustentar `testado_em_emulador` somente para a rota
+  declarada, por exemplo `TITLE -> OPENING_CUTSCENE`; nao prova visual,
+  budget, audio, gameplay amplo ou first playable.
+- Se `visual_vdp_dump.bin` nao foi gerado e nao existe claim visual, registrar
+  como `not_generated_runtime_seed_probe_only`; se houver claim visual, exigir
+  dump/screenshot conforme o gate normal.
+
 ## Anti-padroes
 
 - copiar hash antigo apos rebuild

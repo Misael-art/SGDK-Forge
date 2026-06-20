@@ -85,6 +85,18 @@ Skill canonica de apoio quando o projeto estiver nascendo ou precisar de reseed:
 - quando a transicao tocar HUD, menu, title, overlay ou texto critico, referenciar tambem o `ui_decision_card`
 - quando a iteracao envolver menu, title screen ou front-end, o mesmo card deve usar `profile_kind=front_end_profile`
 - quando a iteracao for o primeiro slice de projeto novo, declarar tambem `route_decision_record` com `dominant_route`, `first_skill`, `first_tool`, `resource_loading_model`, `asset_strategy`, evidencias e atalhos bloqueados
+- quando o projeto for `aaa_game` e estiver antes do runtime jogavel, executar o
+  fechamento pre-runtime proporcional do `project-methodology-adoption`: dados
+  de fase, colisao, HUD, animacao, tuning, assets/mockups, build, boss,
+  game-flow e front-end identity precisam estar contratados o bastante para o
+  `sgdk-runtime-coder` nao improvisar arquitetura
+- se esta revisao encontrar contratos ausentes, volte para planejamento; se
+  encontrar apenas contratos documentados sem ROM/BlastEm/budget, mantenha o
+  status em `documentado` e prossiga somente para seed honesto
+- para `aaa_game`, uma passagem de coesao criativa deve existir antes do seed
+  que promete fantasia jogavel: pressao visivel, risco significativo,
+  identidade mecanica por setor, momento assinatura, audio como feedback e
+  replay hook. Isso e criterio de direcao, nao prova de diversao.
 - para projeto autoral com personagem principal, declarar `authorial_model_sheet` antes de arte final; para cenario, declarar `authorial_stage_concept`
 - para personagem novo, heroi, inimigo relevante, lutador, boss ou NPC expressivo, declarar `visual_dna_manifest.scale_contract` antes de model sheet, key poses ou strips; escala em `draft` nao aprova key poses
 - para asset critico, o manifesto precisa trazer `license`, `authorial_source`, `derivative_of`, `derivative_license_status`, `clone_risk_score`, `clone_risk_method` e `benchmark_used_as`
@@ -306,3 +318,11 @@ Regra de promocao:
 - transicao de cena sem `scene_transition_card`, causa dramatica, teardown e fallback nao sobe
 - raster/luz/particula/boss/tilemap/audio sem card formal, owner, budget e fallback nao sobe
 - logo/title/front-end sem manifesto de marca, leitura em escala e fallback nao sobe
+
+## Gate de promocao
+
+- antes do freshness/closeout final, executar `audit_promotion_claims.ps1`;
+- blockers de hash, escopo, warning critico, reachability, arte procedural,
+  MTR/MDRT, crash, review ou divergencia reabrem a etapa proprietaria;
+- a proxima fase nao inicia enquanto a atual tiver `runtime_route_crashed`,
+  `visual_corruption_observed` ou `review_blocked`.

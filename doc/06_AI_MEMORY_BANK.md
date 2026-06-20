@@ -1872,3 +1872,138 @@ Regra factual:
 - nenhuma ROM nova foi buildada ou validada como entrega;
 - a evidencia BlastEm existente continua somente `testado_em_blastem_minimal`
   e `lab_not_delivery=true`.
+
+## 40. WRAPPER 2026-06-17 - ENFORCEMENT DE PROGRESSO E EVIDENCIA
+
+Status: `implemented_validated_without_new_rom`.
+
+Curadoria aplicada:
+
+- `detect_operational_loop.ps1` usa o historico imutavel de
+  `doc/changelog/roms/build_v*/build_meta.json`, alerta apos dois ciclos sem
+  blocker removido e bloqueia no terceiro sem decisao estrategica;
+- `build.bat` exige blocker alvo, categoria e resumo quando ha
+  `progress_warning`;
+- captura e closeout executam `finalize_emulator_evidence.ps1`, que sela a ROM
+  e os artefatos por SHA-256 e rejeita rebuild ou arquivo ausente;
+- candidatos conhecidos de aprendizado sao roteados para owners existentes
+  antes de qualquer proposta de skill nova.
+
+Validacao:
+
+- regressões de loop, meaningful change e evidence seal: passed;
+- `test_scene_closeout_gate.ps1`: passed;
+- `test_project_learning_loop.py`: `33/33` via `uv run --with jsonschema`;
+- guard do ambiente: `agent_environment_status=ready`.
+
+Limite factual: nenhuma ROM ou evidencia de jogo foi promovida; esta entrega
+valida apenas o framework operacional.
+
+## 41. CURADORIA CANONICA DE SKILLS 2026-06-18
+
+Status: `implementado_validado_sem_rom`.
+
+Decisoes:
+
+- 47 owners permanecem na descoberta ativa;
+- 13 aliases/tecnicas foram movidos integralmente para
+  `.agent/legacy/skills/`, com hash SHA-256 deterministico e restauracao
+  testada em fixture temporaria;
+- 12 entradas legadas estao `merged`; `code/software-tile-rasterizer` esta
+  `experimental` e exige benchmark dedicado;
+- o lifecycle registry e o auditor read-only passam a ser a fonte operacional
+  para owner ativo, substitutas, budget de contexto e condicoes de retorno;
+- os oito owners tecnicos novos e cinco orchestrators foram compactados para
+  2.615 palavras no total e receberam contrato `Entrada minima`, `Saida
+  minima`, `Passa quando` e `Handoff`;
+- a descoberta ativa tem 65.931 palavras; a quarentena removeu 4.111 palavras
+  do caminho ativo (5,87% sobre a arvore pre-quarentena projetada);
+- apenas `fighting_2d_traditional`, `brawler_belt_scroll`,
+  `platformer_precision_2d`, `racing_arcade`, `rpg_turn_based_jrpg` e
+  `strategy_tower_defense` permanecem especializacoes ativas;
+- demais especializacoes sem schema, validator, owner, teste e opt-in
+  simultaneos foram rebaixadas para `deferred`;
+- limites arbitrarios de party, magias, fases, tracks, waves e save foram
+  removidos dos cinco orchestrators; o dimensionamento pertence ao contrato do
+  projeto e ao budget medido.
+
+Validacao:
+
+- framework de skills: passed;
+- lifecycle, hashes e restauracao: passed;
+- roteamento ativo/ponte `.agents/skills`: passed;
+- registry de generos e cinco orchestrators: passed;
+- curadoria AAA lifecycle-aware: passed;
+- ambiente consultivo: `agent_environment_status=ready`,
+  `graph_status=fresh`;
+- `git diff --check` global encontrou apenas duas linhas em branco no EOF em
+  arquivos preexistentes de `HYBRIDO_MUAY_THAI`, fora desta curadoria.
+
+Limites factuais:
+
+- nenhuma ROM foi gerada;
+- nenhuma tecnica ganhou prova de runtime;
+- lifecycle `active` significa owner operacional, nao dominio comprovado em
+  hardware;
+- tecnica experimental continua exigindo fixture, budget e BlastEm;
+- documentos historicos podem preservar aliases e contagens antigas, mas nao
+  sao rotas operacionais.
+
+## 42. CURADORIA CLAIM → EVIDENCIA → ROM 2026-06-18
+
+Status: `implementado_validado_sem_rom_nova`.
+
+- criado `audit_promotion_claims.ps1` com schemas de manifesto e relatorio;
+- `scene_closeout_gate.ps1` executa o auditor antes de freshness;
+- claims fortes exigem hash da ROM, escopo observado e reconciliacao
+  conservadora;
+- MTR nao prova performance MDRT;
+- asset procedural e score automatico nao provam arte premium;
+- modulo presente/integrado nao prova reachability/runtime;
+- crash, corrupcao visual e review bloqueado impedem avancar de fase;
+- suite de pressao: 10/10 cenarios bloqueados;
+- regressões de closeout, selo de evidencia, quarentena visual e freshness:
+  passed.
+
+Limite factual: nenhuma ROM foi buildada ou promovida nesta curadoria.
+## 43. Coesao final da curadoria canonica (2026-06-19)
+
+- O roteamento canonico foi reduzido a owners ativos e validado por schema proprio.
+- Skills arquivadas permanecem no legado com hash e possibilidade de reversao, mas nao participam de roteamento, manifesto ativo ou bootstrap.
+- Especializacoes de genero sao opt-in: seis permanecem ativas e as demais ficam diferidas ate possuirem schema, validator, testes e necessidade concreta.
+- O gate agregado de curadoria cobre framework, lifecycle, rotas, registro de generos e contratos dos orchestrators.
+- Status operacional: `validated_framework_no_rom`.
+- Gate agregado, lifecycle, rotas e especializacoes passaram em 2026-06-20.
+
+## 44. Aprendizado canonico do Celestial Chase Revive (2026-06-19)
+
+- Curadoria humana autorizada promoveu somente invariantes comprovadas e de
+  baixo risco; automacoes novas permanecem em piloto.
+- A triagem canonica agora separa `host_executor`, `toolchain_wrapper`,
+  `rom_runtime` e `creative_quality`.
+- Metadados RESCOMP, input observado, hash da ROM e independencia entre
+  fechamento tecnico e promocao criativa passaram a ser regras explicitas.
+- Nao foram criadas novas skills redundantes. O conhecimento foi integrado por
+  protocolo, workflow, route map, registro auditavel e gate contratual.
+- Registro:
+  `tools/sgdk_wrapper/.agent/references/celestial_chase_canonical_learning_review_2026-06-19.json`.
+- Estado: `validated_framework_no_rom`.
+- `test_celestial_chase_canonical_learning.ps1` passou dentro do gate agregado
+  em 2026-06-20.
+
+## 45. Fechamento de verificacao da curadoria (2026-06-20)
+
+- `test_canonical_skill_curation.ps1`: passed;
+- lifecycle: 13 owners ativos e 13 payloads legados, hashes reversiveis;
+- `test_project_learning_loop.py`: 33/33;
+- schemas: 73/73;
+- startup/Graphify: 28/28;
+- regressao de update Graphify recusado: passed;
+- runner global passou a usar `uv run --with jsonschema`, sem depender de
+  pacote Python global;
+- guards de promocao e wrappers de registry foram sincronizados ao registry
+  v3, sem dependencia de campos aposentados;
+- smoke global de contratos: `combined_status=passed`;
+- Graphify nao grava mais freshness quando o processo externo falha;
+- nenhuma ROM, runtime, budget VDP ou claim AAA foi promovido por esta
+  verificacao de framework.

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sgdk-forge.local/schemas/aaa_evidence_ladder.schema.json",
+  "title": "AAA Evidence Ladder",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "status",
+    "curation_date",
+    "purpose",
+    "global_rules",
+    "rungs",
+    "claim_floor_rules"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "aaa_evidence_ladder"
+    },
+    "status": {
+      "enum": [
+        "candidate_applied_not_verified",
+        "validated_curation",
+        "rejected"
+      ]
+    },
+    "curation_date": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "global_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "rungs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "rung_id",
+          "rank",
+          "meaning",
+          "minimum_evidence",
+          "insufficient_evidence",
+          "allowed_claims",
+          "forbidden_claims"
+        ],
+        "properties": {
+          "rung_id": {
+            "type": "string"
+          },
+          "rank": {
+            "type": "integer"
+          },
+          "meaning": {
+            "type": "string"
+          },
+          "minimum_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "insufficient_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "allowed_claims": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "forbidden_claims": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "claim_floor_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  }
+}

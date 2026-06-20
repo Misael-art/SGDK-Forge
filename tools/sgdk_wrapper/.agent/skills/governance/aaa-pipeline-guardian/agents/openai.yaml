@@ -1,0 +1,7 @@
+interface:
+  display_name: "AAA Pipeline Guardian"
+  short_description: "Roteia claims AAA para gates e owners ativos"
+  default_prompt: "Use $aaa-pipeline-guardian para mapear claims ambiciosos aos owners ativos, exigir evidencia proporcional e bloquear falso positivo."
+
+policy:
+  allow_implicit_invocation: true

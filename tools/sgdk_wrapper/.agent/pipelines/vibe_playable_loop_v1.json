@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "pipeline_id": "vibe_playable_loop_v1",
+  "status": "contractual",
+  "entry_report_schema": "tools/sgdk_wrapper/schemas/vibe_playable_route_report.schema.json",
+  "entry_command": "tools/sgdk_wrapper/route_vibe_playable_request.ps1",
+  "runtime_gate": {
+    "production_runtime_requires": [
+      "premium_source_manifest.production_source_ready=true",
+      "human_asset_approval.bound_to_source_and_converted_hashes=true",
+      "runtime_admission_report.runtime_admitted=true",
+      "blastem_session.bound_to_rom_sha256=true"
+    ],
+    "technical_runtime_does_not_promote_visual_status": true,
+    "lab_runtime_status": "lab_not_delivery"
+  },
+  "deterministic_route_order": [
+    "detect_intents",
+    "detect_targets",
+    "attach_visual_owners",
+    "emit_compact_context",
+    "block_runtime_until_visual_admission"
+  ],
+  "visual_owner_order": [
+    "skills/art/art-direction-selector",
+    "skills/art/art-asset-diagnostic",
+    "skills/art/art-creation-sourcing",
+    "skills/art/visual-excellence-standards",
+    "skills/art/art-translation-to-vdp",
+    "skills/hardware/megadrive-vdp-budget-analyst",
+    "skills/operation/sgdk-build-wrapper-operator",
+    "skills/operation/emulator-vdp-evidence-curator"
+  ],
+  "graphify_policy": {
+    "required_for_routing": false,
+    "cold_start_timeout_seconds": 15,
+    "warm_start_timeout_seconds": 5,
+    "degradation": "consultative_only_use_canonical_files"
+  }
+}

@@ -4,7 +4,7 @@
 
 **Goal:** Curar `tools/sgdk_wrapper/modelo` para que projetos novos nascam com a rota Vibe Playable preparada, bloqueada e rastreavel, sem approvals, runtime evidence ou assets E2E falsos.
 
-**Architecture:** A curadoria adiciona apenas instancias seed dos contratos canonicos do `vibe_playable_loop_v1`; nao cria schema paralelo. O teste `test_vibe_playable_template_birth.ps1` nasce primeiro e valida tanto o template quanto um projeto temporario criado por `new_project.bat/.sh`, incluindo bloqueios contra `out/`, approvals e evidencias. `new_project` passa a podar `out/` apos a copia e a orientar a rota sem declarar sucesso visual/runtime.
+**Architecture:** A curadoria adiciona apenas instancias seed dos contratos canonicos do `vibe_playable_loop_v1`; nao cria schema paralelo. O teste `test_vibe_playable_template_birth.ps1` nasce primeiro e valida tanto o template quanto projetos temporarios com nomes canonicos criados em `SGDK_projects` por `new_project.bat/.sh`, incluindo bloqueios contra `out/`, approvals e evidencias. `new_project` passa a podar `out/` apos a copia e a orientar a rota sem declarar sucesso visual/runtime.
 
 **Tech Stack:** PowerShell 5.1/7, Batch, Bash, JSON Schema Draft-07 via validadores canonicos existentes, `new_project.bat/.sh`, `doc/template_registry.json`, `tools/sgdk_wrapper/.agent/scripts/validate_template_registry.py`.
 
@@ -14,6 +14,7 @@
 
 - Este plano implementa a especificacao aprovada em `docs/superpowers/specs/2026-06-24-vibe-playable-template-birth-curation-proposal.md` (`c1022c51`).
 - Este plano depende dos contratos reais criados pelo plano `vibe_playable_loop_v1` aprovado em `a9e70939`.
+- A implementacao deste plano so pode comecar depois que estes tres schemas reais existirem no workspace: `tools/sgdk_wrapper/schemas/vibe_playable_route_report.schema.json`, `tools/sgdk_wrapper/schemas/premium_source_manifest.schema.json` e `tools/sgdk_wrapper/schemas/runtime_admission_report.schema.json`.
 - Nao criar `vibe_playable_birth_contract.schema.json`, `template_birth.schema.json` ou qualquer schema paralelo.
 - Se um schema real ainda nao existir no momento da execucao, a fase correspondente fica bloqueada ate a fase do `vibe_playable_loop_v1` que cria esse schema.
 - Seeds devem ser validos pelos schemas reais, ou entao o schema canonico real deve ser ajustado no plano principal; nunca contornar com schema local de template.
@@ -25,6 +26,24 @@ Schemas reais esperados:
 - `tools/sgdk_wrapper/schemas/runtime_admission_report.schema.json`
 - `tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json`
 - `tools/sgdk_wrapper/schemas/visual_delivery_gate_report.schema.json`
+
+### Gate de entrada absoluto
+
+Antes de qualquer passo de implementacao deste plano, inclusive criacao do teste RED, rodar:
+
+```powershell
+$EntrySchemas = @(
+  'tools/sgdk_wrapper/schemas/vibe_playable_route_report.schema.json',
+  'tools/sgdk_wrapper/schemas/premium_source_manifest.schema.json',
+  'tools/sgdk_wrapper/schemas/runtime_admission_report.schema.json'
+)
+$MissingEntrySchemas = @($EntrySchemas | Where-Object { -not (Test-Path $_) })
+if ($MissingEntrySchemas.Count -ne 0) {
+  throw "blocked_missing_vibe_playable_schema: implement vibe_playable_loop_v1 schema phases first: $($MissingEntrySchemas -join ', ')"
+}
+```
+
+Expected: PASS. Se falhar, nao criar teste, nao editar template e nao tocar `new_project`; executar primeiro as fases correspondentes do plano `vibe_playable_loop_v1`.
 
 ## Invariantes de execucao
 
@@ -109,7 +128,42 @@ Arquivos novos binarios nao sao previstos neste plano. Se algum aparecer, parar 
 
 - [ ] **Step 1: Escrever o teste antes de tocar no template**
 
-O teste deve validar o template e um projeto temporario. Ele deve conter helpers locais para asserts, leitura JSON e limpeza do projeto temporario dentro de `SGDK_projects/_agent_laboratory/`.
+O teste deve validar o template e projetos temporarios criados com nomes canonicos diretamente sob `SGDK_projects`. `new_project.bat/.sh` rejeitam barras e nao aceitam target root arbitrario; portanto o teste nao deve tentar criar dentro de `SGDK_projects/_agent_laboratory`.
+
+Nomes temporarios obrigatorios:
+
+```powershell
+$BatProjectName = 'VIBE_TEMPLATE_BIRTH_BAT [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]'
+$ShProjectName = 'VIBE_TEMPLATE_BIRTH_SH [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]'
+$ProjectsRoot = Join-Path (Get-Location) 'SGDK_projects'
+$BatProjectRoot = Join-Path $ProjectsRoot $BatProjectName
+$ShProjectRoot = Join-Path $ProjectsRoot $ShProjectName
+```
+
+Cleanup seguro obrigatorio:
+
+```powershell
+function Remove-TestProjectSafely([string]$Path, [string]$ExpectedLeaf) {
+  if (-not (Test-Path -LiteralPath $Path)) { return }
+  $Resolved = (Resolve-Path -LiteralPath $Path).Path
+  $ResolvedProjects = (Resolve-Path -LiteralPath 'SGDK_projects').Path
+  $Leaf = Split-Path -Leaf $Resolved
+  if ((Split-Path -Parent $Resolved) -ne $ResolvedProjects) { throw "refusing cleanup outside SGDK_projects: $Resolved" }
+  if ($Leaf -ne $ExpectedLeaf) { throw "refusing cleanup unexpected leaf: $Leaf" }
+  Remove-Item -LiteralPath $Resolved -Recurse -Force
+}
+```
+
+Execucao dinamica:
+
+```powershell
+Remove-TestProjectSafely $BatProjectRoot $BatProjectName
+$newProjectOutput = & cmd /c tools\sgdk_wrapper\new_project.bat "$BatProjectName" 2>&1
+```
+
+O teste deve envolver as criacoes dinamicas em `try { ... } finally { Remove-TestProjectSafely ... }` para remover `$BatProjectRoot` e `$ShProjectRoot` mesmo quando uma assercao falhar.
+
+Para `new_project.sh`, o teste deve sempre fazer static-scan da poda de `TARGET_DIR/out`. Se `bash` estiver disponivel no host, tambem deve criar `$ShProjectName` e validar o projeto recem-criado; se `bash` nao estiver disponivel, registrar `new_project_sh_dynamic=skipped_bash_unavailable` sem falhar, porque a cobertura obrigatoria de shell fica no static-scan.
 
 Assercoes obrigatorias:
 
@@ -134,6 +188,16 @@ Assert-True ($assetRegister.assets[0].promotion_allowed -eq $false) 'asset regis
 Assert-True ($newProjectOutput -match 'blocked_no_premium_source') 'new_project output does not explain blocker'
 ```
 
+O teste deve validar os seeds contra os schemas reais, com helper local equivalente a:
+
+```powershell
+Assert-JsonMatchesSchema "$TemplateRoot/doc/contracts/vibe_playable_route_report.json" "tools/sgdk_wrapper/schemas/vibe_playable_route_report.schema.json"
+Assert-JsonMatchesSchema "$TemplateRoot/data/source_art/premium_source_manifest.json" "tools/sgdk_wrapper/schemas/premium_source_manifest.schema.json"
+Assert-JsonMatchesSchema "$TemplateRoot/doc/contracts/runtime_admission_report.json" "tools/sgdk_wrapper/schemas/runtime_admission_report.schema.json"
+Assert-JsonMatchesSchema "$TemplateRoot/doc/contracts/art_gameplay_direction_gate.json" "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json"
+Assert-JsonMatchesSchema "$TemplateRoot/doc/contracts/visual_delivery_gate_report.json" "tools/sgdk_wrapper/schemas/visual_delivery_gate_report.schema.json"
+```
+
 O teste tambem deve static-scan `new_project.bat` e `new_project.sh` para exigir uma limpeza explicita de `TARGET_DIR/out` apos copia.
 
 - [ ] **Step 2: Rodar RED**
@@ -142,7 +206,7 @@ O teste tambem deve static-scan `new_project.bat` e `new_project.sh` para exigir
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/sgdk_wrapper/ci/test_vibe_playable_template_birth.ps1
 ```
 
-Expected RED atual: FAIL por pelo menos `missing route seed`, `missing premium_source_manifest` e `template contains out directory`. Se falhar por schema real ausente, registrar `blocked_missing_vibe_playable_schema` e executar primeiro as fases correspondentes do plano `vibe_playable_loop_v1`.
+Expected RED atual, apos o gate de entrada absoluto passar: FAIL por pelo menos `missing route seed`, `missing premium_source_manifest` e `template contains out directory`. Falha por schema real ausente nao e RED valido deste plano; nesse caso a execucao deve ter parado antes, com `blocked_missing_vibe_playable_schema`.
 
 - [ ] **Step 3: Commit do teste RED**
 
@@ -190,7 +254,7 @@ if ($MissingSchemas.Count -ne 0) { throw "blocked_missing_vibe_playable_schema: 
 
 Expected: todos existem depois das fases aplicaveis do `vibe_playable_loop_v1`. Se nao existirem, parar; nao criar schema substituto.
 
-- [ ] **Step 2: Criar seeds validos pelos contratos reais**
+- [ ] **Step 2: Criar seeds JSON completos e validaveis pelos contratos reais**
 
 Criar estes arquivos:
 
@@ -203,14 +267,252 @@ tools/sgdk_wrapper/modelo/data/source_art/premium_source_manifest.json
 tools/sgdk_wrapper/modelo/doc/human_approval_record.md
 ```
 
-Regras de conteudo:
+Usar os JSONs abaixo como conteudo completo dos seeds. Depois que os schemas reais existirem, cada seed deve validar contra seu schema canonico. Se algum seed for rejeitado por divergencia estrutural, parar e corrigir o contrato/schema real no plano `vibe_playable_loop_v1`; nao criar variante local de template.
 
-- `vibe_playable_route_report.json`: `template_seed=true`, `template_prevalidated=false`, `visual_route_required=false`, `runtime_open_allowed=false`, `detected_targets=[]`, `required_owners=[]`, `blocking_statuses=["blocked_no_user_request","blocked_no_premium_source"]`.
-- `art_gameplay_direction_gate.json`: seguir `art_gameplay_direction_gate.schema.json`; usar `measurement_level="planned_contract"`, reviews `blocked`, `decision.production_allowed=false`, `decision.ready_for_aaa=false`, `next_required_route=["premium_source_manifest","art_direction_selector","human_asset_approval"]`.
-- `visual_delivery_gate_report.json`: seguir `visual_delivery_gate_report.schema.json`; usar `schema="visual_delivery_gate_report.v1"`, `ready_for_aaa=false`, `creative_ready=false`, `measurement_level="declared"`, `visual_route_status="blocked_no_premium_source"`, `critical_assets` contendo apenas um seed `role="template_seed"` com `lab_not_delivery=true`, `visual_status="placeholder"` e `measurement_level="declared"`. Esse seed e bloqueante e nao e asset E2E.
-- `runtime_admission_report.json`: seguir `runtime_admission_report.schema.json`; usar `admission_type="runtime_blocked_template_seed"`, `visual_status_promotion_allowed=false`, `claim_ceiling="template_seed_only"`, `blocking_statuses=["blocked_no_premium_source","blocked_no_human_approval","blocked_no_blastem_evidence"]`.
-- `premium_source_manifest.json`: `production_source_ready=false`, `assets=[]`, `template_seed=true`, `blocking_status="blocked_no_premium_source"`.
-- `human_approval_record.md`: conter `status: no_human_approval` e nao conter `approved_by`, `decision: approved`, hash de painel, ROM, screenshot, SRAM ou VDP dump.
+`tools/sgdk_wrapper/modelo/doc/contracts/vibe_playable_route_report.json`:
+
+```json
+{
+  "schema_version": "1.0.0",
+  "report_kind": "vibe_playable_route_report",
+  "template_seed": true,
+  "template_prevalidated": false,
+  "generated_at": "template_seed_not_runtime_evidence",
+  "input_text": "template_seed_no_user_request",
+  "normalized_input": "",
+  "detected_intents": [],
+  "intent_confidence": 0.0,
+  "matched_rules": [],
+  "ambiguity_fallback": "wait_for_user_request",
+  "visual_route_required": false,
+  "technical_runtime_admitted": false,
+  "runtime_admitted": false,
+  "runtime_lab_admitted": false,
+  "runtime_open_allowed": false,
+  "detected_targets": [],
+  "required_owners": [],
+  "dispatch": {
+    "mode": "not_dispatched_template_seed",
+    "first_visual_owner": "none_template_seed",
+    "runtime_owner_blocked_until_visual_route": true
+  },
+  "compact_context": {
+    "status": "template_seed_empty",
+    "bytes": 0,
+    "owners": [],
+    "files": []
+  },
+  "blocking_statuses": [
+    "blocked_no_user_request",
+    "blocked_no_premium_source",
+    "blocked_no_human_approval",
+    "blocked_no_blastem_evidence"
+  ],
+  "forbidden_claims_until_evidence": [
+    "runtime_admitted",
+    "visual_excellence_passed",
+    "asset_approval_fresh",
+    "runtime_evidence_fresh",
+    "ready_for_aaa"
+  ]
+}
+```
+
+`tools/sgdk_wrapper/modelo/doc/contracts/art_gameplay_direction_gate.json`:
+
+```json
+{
+  "schema_version": "1.0.0",
+  "gate_id": "template_seed_art_gameplay_direction_gate",
+  "project_id": "template_seed_project",
+  "asset_id": "vibe_playable_template_seed",
+  "asset_kind": "background_plate",
+  "evaluated_at": "template_seed_not_runtime_evidence",
+  "measurement_level": "planned_contract",
+  "art_director_review": {
+    "status": "blocked",
+    "reviewer": "visual-excellence-standards",
+    "art_direction_decision_record": "doc/contracts/vibe_playable_route_report.json",
+    "findings": [
+      "No premium source exists yet; template seed is not visual approval."
+    ]
+  },
+  "game_design_context": {
+    "status": "blocked",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "gameplay_role": "template_seed_no_runtime_role",
+    "camera_perspective": "scene_specific",
+    "interaction_context": [
+      "No natural request has been routed yet."
+    ]
+  },
+  "identity_continuity_lock": {
+    "must_preserve": [
+      {
+        "id": "template_seed_silhouette",
+        "kind": "silhouette",
+        "expected": "To be defined after art direction and premium source.",
+        "status": "not_applicable"
+      }
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "blocked",
+    "secondary_motion": [],
+    "expression_requirements": [],
+    "state_fantasy_checks": []
+  },
+  "decision": {
+    "production_allowed": false,
+    "ready_for_generation": false,
+    "ready_for_conversion": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "vibe_playable_route_report",
+      "premium_source_manifest",
+      "art_direction_selector",
+      "human_asset_approval",
+      "blastem_runtime_evidence"
+    ]
+  },
+  "blockers": [
+    "art_direction_undeclared",
+    "game_design_context_missing",
+    "director_gate_unapproved"
+  ]
+}
+```
+
+`tools/sgdk_wrapper/modelo/doc/contracts/visual_delivery_gate_report.json`:
+
+```json
+{
+  "schema": "visual_delivery_gate_report.v1",
+  "ready_for_aaa": false,
+  "technical_ready": false,
+  "creative_ready": false,
+  "technical_artifact_status": "template_seed_only",
+  "semantic_audit_status": "missing",
+  "max_delivery_status": "technical_incomplete",
+  "creative_blocking_statuses": [
+    "blocked_no_premium_source",
+    "blocked_no_human_approval",
+    "blocked_no_blastem_evidence"
+  ],
+  "visual_direction_status": "blocked",
+  "visual_direction_findings": [
+    "Template seed only; no visual source, approval panel, or runtime evidence exists."
+  ],
+  "decision_log": [
+    {
+      "axis": "template_birth",
+      "decision": "blocked",
+      "rationale": "New projects start prepared for Vibe Playable routing but not visually validated.",
+      "evidence": "doc/contracts/vibe_playable_route_report.json"
+    }
+  ],
+  "axis_evidence": {
+    "template_seed": true,
+    "premium_source_ready": false,
+    "human_approval_present": false,
+    "blastem_evidence_present": false
+  },
+  "measurement_level": "declared",
+  "leaf_blocker_propagation": true,
+  "workspace_scope_isolation": true,
+  "visual_route_status": "blocked_no_premium_source",
+  "critical_assets": [
+    {
+      "asset_id": "vibe_playable_template_seed",
+      "role": "template_seed",
+      "visual_status": "placeholder",
+      "perceptual_quality": "blocked_template_seed_no_visual_source",
+      "source_validity": false,
+      "authoriality_gate": "blocked",
+      "license": "none_template_seed",
+      "authorial_source": "none_template_seed",
+      "derivative_of": "",
+      "derivative_license_status": "not_applicable_template_seed",
+      "clone_risk_score": 0,
+      "clone_risk_method": "not_applicable_template_seed",
+      "benchmark_used_as": "technical_reference",
+      "premium_source_path": "data/source_art/premium_source_manifest.json",
+      "measurement_level": "declared",
+      "lab_not_delivery": true,
+      "leaf_blockers": [
+        "blocked_no_premium_source",
+        "blocked_no_human_approval",
+        "blocked_no_blastem_evidence"
+      ]
+    }
+  ]
+}
+```
+
+`tools/sgdk_wrapper/modelo/doc/contracts/runtime_admission_report.json`:
+
+```json
+{
+  "schema_version": "1.0.0",
+  "report_kind": "runtime_admission_report",
+  "template_seed": true,
+  "admission_type": "runtime_blocked_template_seed",
+  "route_report_ref": "doc/contracts/vibe_playable_route_report.json",
+  "route_report_sha256": "template_seed_unhashed",
+  "input_fingerprint": "template_seed_no_user_request",
+  "claim_ceiling": "template_seed_only",
+  "visual_status_promotion_allowed": false,
+  "runtime_admitted": false,
+  "technical_runtime_admitted": false,
+  "runtime_lab_admitted": false,
+  "blocking_statuses": [
+    "blocked_no_user_request",
+    "blocked_no_premium_source",
+    "blocked_no_human_approval",
+    "blocked_no_blastem_evidence"
+  ],
+  "evidence_refs": [],
+  "forbidden_claims_until_evidence": [
+    "visual_excellence_passed",
+    "asset_approval_fresh",
+    "runtime_evidence_fresh",
+    "ready_for_aaa"
+  ]
+}
+```
+
+`tools/sgdk_wrapper/modelo/data/source_art/premium_source_manifest.json`:
+
+```json
+{
+  "schema_version": "2.0.0",
+  "manifest_kind": "premium_source_manifest",
+  "template_seed": true,
+  "production_source_ready": false,
+  "blocking_status": "blocked_no_premium_source",
+  "assets": [],
+  "notes": [
+    "Template seed only. Add premium source files, hashes, authoring metadata and license before visual production."
+  ]
+}
+```
+
+`tools/sgdk_wrapper/modelo/doc/human_approval_record.md`:
+
+```markdown
+# Human Approval Record
+
+status: no_human_approval
+template_seed: true
+
+Nenhum asset visual deste projeto foi aprovado ainda.
+
+Este arquivo deve ser preenchido somente por checkpoint humano real, apos fonte premium, asset convertido, painel de aprovacao imutavel e parecer visual canonico.
+
+O template nao contem aprovacao humana, hashes de ROM, capturas, SRAM, dumps VDP ou paineis runtime.
+```
 
 - [ ] **Step 3: Atualizar docs do template**
 
@@ -578,13 +880,14 @@ Evidencias esperadas:
 
 O trabalho so pode ser declarado concluido quando:
 
-1. cada fase teve RED observado antes de GREEN;
-2. cada commit teve diff staged auditado;
-3. nenhum schema paralelo foi criado;
-4. template e projeto temporario continuam bloqueados para visual/runtime;
-5. `new_project.bat/.sh` impedem `out/` herdado;
-6. registry e validador concordam sobre o marcador conservador;
-7. as alteracoes preexistentes fora do inventario permanecem intactas.
+1. o gate de entrada confirmou a existencia de `vibe_playable_route_report`, `premium_source_manifest` e `runtime_admission_report` reais;
+2. cada fase teve RED observado antes de GREEN;
+3. cada commit teve diff staged auditado;
+4. nenhum schema paralelo foi criado;
+5. template e projeto temporario continuam bloqueados para visual/runtime;
+6. `new_project.bat/.sh` impedem `out/` herdado;
+7. registry e validador concordam sobre o marcador conservador;
+8. as alteracoes preexistentes fora do inventario permanecem intactas.
 
 ## Autorrevisao
 
@@ -593,6 +896,6 @@ O trabalho so pode ser declarado concluido quando:
 - Requisito 3: `premium_source_manifest` vazio e bloqueante coberto pela Fase 2.
 - Requisito 4: `human_approval_record.md` sem aprovacao coberto pela Fase 2.
 - Requisito 5: `new_project.bat/.sh` podam `out/` coberto pela Fase 3.
-- Requisito 6: teste temporario recem-criado coberto pela Fase 1 e validado ate a Fase 5.
+- Requisito 6: teste temporario recem-criado usa nomes canonicos sob `SGDK_projects`, cleanup seguro por caminho resolvido e cobertura dinamica para `.bat`; `.sh` tem static-scan obrigatorio e dinamica quando `bash` existir.
 - Requisito 7: registry e validator atualizados juntos na Fase 4.
-- Requisito 8: nenhum schema paralelo; execucao bloqueia se os schemas reais do `vibe_playable_loop_v1` ainda nao existirem.
+- Requisito 8: nenhum schema paralelo; execucao nem inicia se `vibe_playable_route_report`, `premium_source_manifest` e `runtime_admission_report` reais ainda nao existirem; seeds completos ficam no plano e devem validar contra os schemas canonicos.

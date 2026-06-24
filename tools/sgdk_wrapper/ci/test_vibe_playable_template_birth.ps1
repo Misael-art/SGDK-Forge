@@ -263,6 +263,16 @@ $AssetRegister = Get-Json -Path $AssetRegisterPath
 Assert-True ($AssetRegister.assets[0].promotion_allowed -eq $false) 'asset register seed promotes'
 Assert-True ($AssetRegister.assets[0].status -eq 'blocked_no_premium_source') 'asset register default visual status not blocking'
 
+$TemplateRegistryPath = Join-Path $RepoRoot 'doc\template_registry.json'
+$TemplateRegistry = Get-Json -Path $TemplateRegistryPath
+$Template = @($TemplateRegistry.templates | Where-Object { $_.id -eq 'sgdk_modelo' })[0]
+Assert-True ($Template.vibe_playable_birth_seed -eq $true) 'registry missing vibe birth marker'
+Assert-True ($Template.template_prevalidated -eq $false) 'registry says template prevalidated'
+Assert-True ($Template.contains_runtime_evidence -eq $false) 'registry permits runtime evidence'
+Assert-True ($Template.contains_human_approval -eq $false) 'registry permits human approval'
+Assert-True ($Template.contains_e2e_fixture_assets -eq $false) 'registry permits e2e fixture assets'
+Assert-True ($Template.default_visual_status -eq 'blocked_no_premium_source') 'registry visual default not blocking'
+
 $NewProjectBatText = Get-Content -Raw -LiteralPath (Join-Path $RepoRoot 'tools\sgdk_wrapper\new_project.bat')
 $NewProjectShText = Get-Content -Raw -LiteralPath (Join-Path $RepoRoot 'tools\sgdk_wrapper\new_project.sh')
 Assert-True ($NewProjectBatText -match 'TARGET_DIR%\\out' -and $NewProjectBatText -match 'rmdir\s+/S\s+/Q\s+"%TARGET_DIR%\\out"') 'new_project.bat does not explicitly prune TARGET_DIR out'

@@ -84,6 +84,30 @@ def main() -> int:
         if template["status"] in {"CANONICAL_BOOTSTRAP", "REFERENCE_TEMPLATE", "LOGIC_TEMPLATE"} and template.get("contains_out"):
             warnings.append(f"{template['id']}: active template contains out/ artifacts")
 
+        if template.get("vibe_playable_birth_seed") is True:
+            for field in [
+                "template_prevalidated",
+                "contains_runtime_evidence",
+                "contains_human_approval",
+                "contains_e2e_fixture_assets",
+                "default_visual_status",
+            ]:
+                if field not in template:
+                    errors.append(f"{template['id']}: missing vibe playable marker field {field}")
+
+            if template.get("template_prevalidated") is not False:
+                errors.append(f"{template['id']}: vibe playable template must not be prevalidated")
+            if template.get("contains_runtime_evidence") is not False:
+                errors.append(f"{template['id']}: vibe playable template must not contain runtime evidence")
+            if template.get("contains_human_approval") is not False:
+                errors.append(f"{template['id']}: vibe playable template must not contain human approval")
+            if template.get("contains_e2e_fixture_assets") is not False:
+                errors.append(f"{template['id']}: vibe playable template must not contain E2E fixture assets")
+            if template.get("default_visual_status") != "blocked_no_premium_source":
+                errors.append(f"{template['id']}: default visual status must be blocked_no_premium_source")
+            if template.get("contains_out") is not False:
+                errors.append(f"{template['id']}: vibe playable template must not contain out/ artifacts")
+
     for warning in warnings:
         print(f"WARN: {warning}")
     for error in errors:

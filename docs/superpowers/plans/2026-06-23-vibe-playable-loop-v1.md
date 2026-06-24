@@ -13,14 +13,40 @@
 ## Invariantes globais de execucao
 
 - Preservar integralmente o worktree existente. Nunca usar `git reset`, `git checkout`, `git restore`, stash ou limpeza ampla.
-- Antes de cada fase, salvar `git status --porcelain=v1` em `out/ci/vibe_playable_worktree_baseline.txt`; depois da fase, comparar e aceitar somente os caminhos declarados neste plano.
-- Aplicar patches pequenos com `apply_patch`; nunca sobrescrever arquivos inteiros que ja estejam modificados no worktree.
+- Antes de cada fase, definir `$PhaseFiles`, salvar `git status --porcelain=v1` em `out/ci/vibe_playable_worktree_baseline.txt`, salvar `git diff -- $PhaseFiles` em `out/ci/vibe_playable_phaseN_preexisting.diff` e registrar existencia/hash inicial dos caminhos em `out/ci/vibe_playable_phaseN_file_baseline.json`; depois da fase, comparar e aceitar somente os caminhos declarados neste plano.
+- Aplicar patches pequenos com `apply_patch`; nunca sobrescrever arquivos inteiros que ja estejam modificados no worktree. Se um hunk da fase se misturar com alteracao preexistente no mesmo arquivo, parar a fase e migrar para worktree limpa dedicada em vez de commitar um delta ambiguo.
 - Rodar RED antes de criar a implementacao correspondente e registrar a mensagem de falha esperada.
-- Fazer um commit isolado por fase, adicionando explicitamente apenas os arquivos listados.
+- Fazer um commit isolado por fase, adicionando explicitamente apenas o delta produzido pela fase. `git add -- $PhaseFiles` sozinho e proibido porque pode capturar alteracoes preexistentes nos mesmos arquivos.
 - Imediatamente apos cada commit, registrar `$PhaseCommit = (git rev-parse HEAD)` no log de execucao. O rollback e `git revert $PhaseCommit`. Antes do commit, reverter somente o hunk criado pela fase ou remover somente arquivos novos cujos caminhos absolutos foram conferidos.
 - `tools/sgdk_wrapper/ci/run_vibe_playable_fast_tests.ps1` nunca abre emulador.
 - `tools/sgdk_wrapper/ci/run_vibe_playable_blastem_gate.ps1` e o unico runner desta entrega que fecha a fixture visual real.
 - Nenhum teste escreve `doc/human_approval_record.md`; ele apenas valida um registro humano preexistente e com hash fixado.
+
+### Politica obrigatoria de staging em worktree sujo
+
+Cada fase deve escolher um dos dois caminhos antes do primeiro patch:
+
+1. **Worktree limpa dedicada:** se a fase precisar tocar arquivo ja sujo no baseline e os hunks nao forem separaveis com seguranca, criar uma worktree limpa dedicada antes de implementar a fase. Essa escolha exige usar `superpowers:using-git-worktrees` no turno de implementacao e commitar a fase apenas nessa worktree limpa.
+2. **Staging por delta no worktree atual:** quando os hunks forem separaveis, usar `git add -N -- $PhaseFiles` seguido de `git add -p -- $PhaseFiles` para arquivos texto existentes. Arquivos novos, inclusive PNG/WebP binarios, so podem ser staged inteiros quando ausentes no baseline e listados na secao **Criar** da fase. Em seguida, salvar `git diff --cached -- $PhaseFiles` em `out/ci/vibe_playable_phaseN_cached.diff` e revisar esse arquivo antes do commit. O commit so pode ocorrer se todos os hunks no diff staged forem produzidos pela fase, todos os arquivos staged estiverem em `$PhaseFiles`, e nenhum hunk preexistente do baseline aparecer no cached diff.
+
+O executor deve tratar `git diff --cached` como evidencia obrigatoria da fase. Se a auditoria staged falhar, nao commitar; registrar o bloqueio e retornar ao caminho de worktree limpa dedicada.
+
+Antes do Step 1 de cada fase, declarar o mesmo array `$PhaseNFiles` mostrado no passo de commit e executar o preflight da fase com o numero correto:
+
+```powershell
+$PhaseName = 'phaseN'
+$BaselineFiles = @($PhaseFiles | ForEach-Object {
+  $Exists = Test-Path -LiteralPath $_
+  [pscustomobject]@{
+    path = $_
+    existed = $Exists
+    sha256 = if ($Exists -and (Test-Path -LiteralPath $_ -PathType Leaf)) { (Get-FileHash -Algorithm SHA256 -LiteralPath $_).Hash } else { $null }
+  }
+})
+git status --porcelain=v1 | Set-Content out/ci/vibe_playable_worktree_baseline.txt
+git diff -- $PhaseFiles | Set-Content "out/ci/vibe_playable_${PhaseName}_preexisting.diff"
+[pscustomobject]@{ files = $BaselineFiles } | ConvertTo-Json -Depth 5 | Set-Content "out/ci/vibe_playable_${PhaseName}_file_baseline.json"
+```
 
 ## Inventario exato de arquivos
 
@@ -73,6 +99,8 @@
 - `tools/sgdk_wrapper/audit_visual_asset_traceability.ps1`
 - `tools/sgdk_wrapper/ci/test_visual_asset_traceability.ps1`
 - `tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/doc/human_approval_record.md`
+- `tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/data/processed/reports/asset_approval_panel.png`
+- `tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/data/processed/reports/asset_visual_delivery_gate_report.json`
 - `tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/fixture_manifest.json`
 
 **Fase 6**
@@ -124,7 +152,8 @@ Raiz: `SGDK_projects/_agent_laboratory/VIBE_PLAYABLE_LOOP_FIXTURE [VER.001] [SGD
 - `data/processed/sprites/vibe_boss_attack_elite.png`
 - `data/processed/reports/hero_motion_preview.webp`
 - `data/processed/reports/boss_motion_preview.webp`
-- `data/processed/reports/source_basic_elite_panel.png`
+- `data/processed/reports/asset_approval_panel.png`
+- `data/processed/reports/asset_visual_delivery_gate_report.json`
 - `res/bgs/vibe_stage_elite.png`
 - `res/sprites/vibe_hero_attack_elite.png`
 - `res/sprites/vibe_boss_attack_elite.png`
@@ -134,6 +163,16 @@ Raiz: `SGDK_projects/_agent_laboratory/VIBE_PLAYABLE_LOOP_FIXTURE [VER.001] [SGD
 - `src/system/runtime_probe.h`
 
 O bootstrap pode materializar `.agent/` local a partir do framework central. Essa arvore e gerada pelo helper canonico, nao recebe edicao manual e deve ser auditada pelo framework manifest.
+
+**Fase 8 — artefatos gerados pelo runner, nao versionados, exigidos como evidencia**
+
+- `out/logs/build_meta.json`
+- `out/logs/emulator_session.json`
+- `out/logs/evidence_closeout_report.json`
+- `out/logs/visual_asset_traceability_report.json`
+- `out/logs/visual_delivery_gate_report.json`
+- `out/logs/runtime_comparison_panel.png`
+- `out/logs/vibe_playable_e2e_report.json`
 
 ### Modificar
 
@@ -342,7 +381,12 @@ $Phase1Files = @(
   'tools/sgdk_wrapper/.agent/workflows/aaa-scene-pipeline.md',
   'tools/sgdk_wrapper/ci/test_active_skill_routing.ps1'
 )
-git add -- $Phase1Files
+git add -N -- $Phase1Files
+git add -p -- $Phase1Files
+git diff --cached -- $Phase1Files | Tee-Object out/ci/vibe_playable_phase1_cached.diff
+$UnexpectedCached = @(git diff --cached --name-only | Where-Object { $Phase1Files -notcontains $_ })
+if ($UnexpectedCached.Count -ne 0) { throw "unexpected staged files: $($UnexpectedCached -join ', ')" }
+# Revisar out/ci/vibe_playable_phase1_cached.diff: todo hunk staged deve ter sido produzido nesta fase; se houver hunk preexistente, nao commitar.
 git commit -m "feat: add deterministic vibe playable routing"
 $PhaseCommit = git rev-parse HEAD
 ```
@@ -365,7 +409,8 @@ O teste deve exigir:
 
 ```powershell
 Assert-True ($v1Single.normalized.assets.Count -eq 1) 'single legacy manifest not normalized'
-Assert-True ($v1Root.normalized.assets.Count -eq 0) 'root legacy manifest shape changed'
+Assert-True ($v1Root.normalized.assets.Count -ge 2) 'root legacy manifest assets not preserved'
+Assert-True (@($v1Root.normalized.assets | Where-Object { $_.source_sha256 -match '^[A-Fa-f0-9]{64}$' }).Count -eq $v1Root.normalized.assets.Count) 'root legacy assets missing real hashes'
 Assert-True ($v2.status -eq 'passed') 'extended canonical manifest rejected'
 Assert-True ($unknown.blocking_statuses -contains 'unknown_authoring_method') 'unknown source promoted'
 Assert-True (-not (Test-Path "$WrapperRoot/schemas/premium_visual_source_manifest.schema.json")) 'duplicate schema created'
@@ -381,7 +426,7 @@ Expected: FAIL por schema/validator ausentes.
 
 - [ ] **Step 3: Criar schema unico com `oneOf` compatível**
 
-O schema aceita `1.x` single-asset, `1.x` root `assets[]` e `2.0.0` estendido. Somente `2.0.0` pode obter `production_source_ready=true`. Campos novos obrigatorios por asset:
+O schema aceita `1.x` single-asset, `1.x` root `assets[]` com assets reais preservados e `2.0.0` estendido. Somente `2.0.0` pode obter `production_source_ready=true`. Campos novos obrigatorios por asset:
 
 ```json
 ["asset_id","asset_role","criticality","authoring_method","source_origin","source_classification","tool","source_files","transformations","variants"]
@@ -432,7 +477,12 @@ $Phase2Files = @(
   'tools/sgdk_wrapper/.agent/pipelines/aaa_scene_v1.json',
   'tools/sgdk_wrapper/ci/test_schema_contract_gates.py'
 )
-git add -- $Phase2Files
+git add -N -- $Phase2Files
+git add -p -- $Phase2Files
+git diff --cached -- $Phase2Files | Tee-Object out/ci/vibe_playable_phase2_cached.diff
+$UnexpectedCached = @(git diff --cached --name-only | Where-Object { $Phase2Files -notcontains $_ })
+if ($UnexpectedCached.Count -ne 0) { throw "unexpected staged files: $($UnexpectedCached -join ', ')" }
+# Revisar out/ci/vibe_playable_phase2_cached.diff: todo hunk staged deve ter sido produzido nesta fase; se houver hunk preexistente, nao commitar.
 git commit -m "feat: extend canonical premium source manifest"
 $PhaseCommit = git rev-parse HEAD
 ```
@@ -530,7 +580,12 @@ $Phase3Files = @(
   'tools/sgdk_wrapper/.agent/workflows/vibe-playable-loop.md',
   'tools/sgdk_wrapper/.agent/pipelines/vibe_playable_loop_v1.json'
 )
-git add -- $Phase3Files
+git add -N -- $Phase3Files
+git add -p -- $Phase3Files
+git diff --cached -- $Phase3Files | Tee-Object out/ci/vibe_playable_phase3_cached.diff
+$UnexpectedCached = @(git diff --cached --name-only | Where-Object { $Phase3Files -notcontains $_ })
+if ($UnexpectedCached.Count -ne 0) { throw "unexpected staged files: $($UnexpectedCached -join ', ')" }
+# Revisar out/ci/vibe_playable_phase3_cached.diff: todo hunk staged deve ter sido produzido nesta fase; se houver hunk preexistente, nao commitar.
 git commit -m "feat: enforce runtime admission claim ceilings"
 $PhaseCommit = git rev-parse HEAD
 ```
@@ -629,7 +684,12 @@ $Phase4Files = @(
   'tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md',
   'tools/sgdk_wrapper/.agent/workflows/vibe-playable-loop.md'
 )
-git add -- $Phase4Files
+git add -N -- $Phase4Files
+git add -p -- $Phase4Files
+git diff --cached -- $Phase4Files | Tee-Object out/ci/vibe_playable_phase4_cached.diff
+$UnexpectedCached = @(git diff --cached --name-only | Where-Object { $Phase4Files -notcontains $_ })
+if ($UnexpectedCached.Count -ne 0) { throw "unexpected staged files: $($UnexpectedCached -join ', ')" }
+# Revisar out/ci/vibe_playable_phase4_cached.diff: todo hunk staged deve ter sido produzido nesta fase; se houver hunk preexistente, nao commitar.
 git commit -m "feat: quarantine procedural visual authoring"
 $PhaseCommit = git rev-parse HEAD
 ```
@@ -648,15 +708,17 @@ $PhaseCommit = git rev-parse HEAD
 
 - [ ] **Step 1: Escrever fixture humana imutavel e teste RED**
 
-`fixture_manifest.json` fixa SHA-256 de `doc/human_approval_record.md`. O Markdown contem bloco machine-readable com:
+`fixture_manifest.json` fixa SHA-256 de `doc/human_approval_record.md`, do painel imutavel `data/processed/reports/asset_approval_panel.png` e do parecer `data/processed/reports/asset_visual_delivery_gate_report.json`. O Markdown contem bloco machine-readable com:
 
 ```yaml
 approval_scope: asset
 asset_id: fixture_hero
 source_sha256: 64-hex
 converted_sha256: 64-hex
+visual_excellence_report_path: data/processed/reports/asset_visual_delivery_gate_report.json
 visual_excellence_report_sha256: 64-hex
-comparison_panel_sha256: 64-hex
+asset_approval_panel_path: data/processed/reports/asset_approval_panel.png
+asset_approval_panel_sha256: 64-hex
 approved_by: human_fixture_reviewer
 decision: approved
 ```
@@ -667,6 +729,8 @@ O teste copia a fixture sem editar e valida:
 Assert-True $trace.asset_approval_fresh 'preapproved asset record rejected'
 Assert-True $trace.runtime_evidence_fresh 'matching ROM evidence rejected'
 Assert-True ($trace.links.rescomp_link.kind -eq 'manifest_link') 'raw asset hash inferred from ROM'
+Assert-True ($trace.asset_approval_panel_sha256 -eq $trace.human_record.asset_approval_panel_sha256) 'approval panel hash drifted'
+Assert-True ($trace.visual_excellence_report_sha256 -eq $trace.human_record.visual_excellence_report_sha256) 'visual excellence report hash drifted'
 Assert-True (-not $rebuilt.runtime_evidence_fresh) 'new ROM did not stale runtime evidence'
 Assert-True $rebuilt.asset_approval_fresh 'new ROM incorrectly invalidated unchanged asset approval'
 ```
@@ -691,6 +755,29 @@ premium_source -> converted_asset -> res_declaration -> rescomp/build_meta -> ro
 
 Nenhum campo declara que o PNG hash foi extraido da ROM.
 
+`visual_delivery_gate_report.schema.json` passa a ser o schema canonico tambem para o parecer de `visual-excellence-standards`. Campos minimos obrigatorios:
+
+```text
+schema_version
+scope = asset_approval | runtime_evidence
+owner = skills/art/visual-excellence-standards
+target_ids[]
+source_hashes[]
+converted_hashes[]
+panel.path
+panel.sha256
+criteria.identity | materials | silhouette | depth | movement
+structural_metrics
+decision = passed | failed | blocked
+decision_rationale
+generated_at
+content_sha256
+```
+
+O SHA-256 do arquivo completo do report fica fora do proprio report, em `human_approval_record.md`, `fixture_manifest.json` ou `vibe_playable_e2e_report.json`. O campo `content_sha256` e calculado sobre o JSON canonico sem o proprio campo de hash.
+
+No escopo `runtime_evidence`, o mesmo schema tambem exige `rom_sha256`, `blastem_session_sha256`, `runtime_screenshot_sha256`, `runtime_comparison_panel_sha256` e `asset_visual_delivery_gate_report_sha256`.
+
 - [ ] **Step 4: Estender produtores canonicos existentes**
 
 - `update_project_changelog.ps1`: gravar hashes dos assets convertidos, declaracao `.res`, report ResComp e route/admission.
@@ -698,6 +785,7 @@ Nenhum campo declara que o PNG hash foi extraido da ROM.
 - `finalize_emulator_evidence.ps1`: selar ROM + artefatos + build meta, sem alterar approval record.
 - `freshness_audit.ps1`: separar `asset_approval_fresh` de `runtime_evidence_fresh`.
 - `scene_closeout_gate.ps1`: chamar `audit_visual_asset_traceability.ps1` antes da promocao.
+- `visual_delivery_gate_report.json`: aceitar `visual_excellence=passed` somente quando o relatorio canonico validar contra schema, o runner recomputar `content_sha256` e o SHA-256 do arquivo completo referenciado externamente, e o report apontar para paineis/assets existentes.
 
 - [ ] **Step 5: Rodar GREEN e evidence regressions**
 
@@ -718,6 +806,8 @@ $Phase5Files = @(
   'tools/sgdk_wrapper/audit_visual_asset_traceability.ps1',
   'tools/sgdk_wrapper/ci/test_visual_asset_traceability.ps1',
   'tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/doc/human_approval_record.md',
+  'tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/data/processed/reports/asset_approval_panel.png',
+  'tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/data/processed/reports/asset_visual_delivery_gate_report.json',
   'tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/fixture_manifest.json',
   'tools/sgdk_wrapper/update_project_changelog.ps1',
   'tools/sgdk_wrapper/capture_blastem_evidence.ps1',
@@ -730,7 +820,23 @@ $Phase5Files = @(
   'tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/references/source_to_rom_visual_gate.md',
   'tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md'
 )
-git add -- $Phase5Files
+$Phase5NewBinaryFiles = @(
+  'tools/sgdk_wrapper/ci/fixtures/vibe_playable/approval/data/processed/reports/asset_approval_panel.png'
+)
+$Phase5Baseline = Get-Content out/ci/vibe_playable_phase5_file_baseline.json -Raw | ConvertFrom-Json
+$BinaryAlreadyExisted = @($Phase5NewBinaryFiles | Where-Object {
+  $Candidate = $_
+  @($Phase5Baseline.files | Where-Object { $_.path -eq $Candidate -and $_.existed }).Count -ne 0
+})
+if ($BinaryAlreadyExisted.Count -ne 0) { throw "binary paths were not new at baseline: $($BinaryAlreadyExisted -join ', ')" }
+git add -- $Phase5NewBinaryFiles
+$Phase5TextPatchFiles = @($Phase5Files | Where-Object { $Phase5NewBinaryFiles -notcontains $_ })
+git add -N -- $Phase5TextPatchFiles
+git add -p -- $Phase5TextPatchFiles
+git diff --cached -- $Phase5Files | Tee-Object out/ci/vibe_playable_phase5_cached.diff
+$UnexpectedCached = @(git diff --cached --name-only | Where-Object { $Phase5Files -notcontains $_ })
+if ($UnexpectedCached.Count -ne 0) { throw "unexpected staged files: $($UnexpectedCached -join ', ')" }
+# Revisar out/ci/vibe_playable_phase5_cached.diff: todo hunk staged deve ter sido produzido nesta fase; se houver hunk preexistente, nao commitar.
 git commit -m "feat: seal visual assets through BlastEm evidence"
 $PhaseCommit = git rev-parse HEAD
 ```
@@ -829,7 +935,12 @@ $Phase6Files = @(
   'tools/sgdk_wrapper/.agent/workflows/agent-startup-environment.md',
   'doc/GRAPHIFY_OBSIDIAN_POLICY.md'
 )
-git add -- $Phase6Files
+git add -N -- $Phase6Files
+git add -p -- $Phase6Files
+git diff --cached -- $Phase6Files | Tee-Object out/ci/vibe_playable_phase6_cached.diff
+$UnexpectedCached = @(git diff --cached --name-only | Where-Object { $Phase6Files -notcontains $_ })
+if ($UnexpectedCached.Count -ne 0) { throw "unexpected staged files: $($UnexpectedCached -join ', ')" }
+# Revisar out/ci/vibe_playable_phase6_cached.diff: todo hunk staged deve ter sido produzido nesta fase; se houver hunk preexistente, nao commitar.
 git commit -m "perf: cache vibe context and bound Graphify attempts"
 $PhaseCommit = git rev-parse HEAD
 ```
@@ -918,7 +1029,12 @@ $Phase7Files = @(
   'tools/sgdk_wrapper/ci/test_schema_contract_gates.py',
   'tools/sgdk_wrapper/.agent/framework_manifest.json'
 )
-git add -- $Phase7Files
+git add -N -- $Phase7Files
+git add -p -- $Phase7Files
+git diff --cached -- $Phase7Files | Tee-Object out/ci/vibe_playable_phase7_cached.diff
+$UnexpectedCached = @(git diff --cached --name-only | Where-Object { $Phase7Files -notcontains $_ })
+if ($UnexpectedCached.Count -ne 0) { throw "unexpected staged files: $($UnexpectedCached -join ', ')" }
+# Revisar out/ci/vibe_playable_phase7_cached.diff: todo hunk staged deve ter sido produzido nesta fase; se houver hunk preexistente, nao commitar.
 git commit -m "test: add vibe playable contract fixtures"
 $PhaseCommit = git rev-parse HEAD
 ```
@@ -950,6 +1066,24 @@ manual_checkpoint_required: human_asset_approval_missing
 ```
 
 quando o projeto, a fonte ou o approval record ainda nao existirem. O runner nunca cria o approval record.
+
+O mesmo RED deve incluir uma fixture adversarial de E2E com `visual_excellence=passed` textual, mas sem `out/logs/visual_delivery_gate_report.json` valido. Resultado esperado: exit 2 com `visual_excellence_report_missing_or_invalid`.
+
+`vibe_playable_e2e_report.schema.json` exige objeto:
+
+```json
+{
+  "visual_excellence": {
+    "status": "passed",
+    "report_path": "out/logs/visual_delivery_gate_report.json",
+    "report_sha256": "64-hex",
+    "schema_path": "tools/sgdk_wrapper/schemas/visual_delivery_gate_report.schema.json",
+    "content_sha256": "64-hex",
+    "criteria_passed": true,
+    "runtime_panel_sha256": "64-hex"
+  }
+}
+```
 
 - [ ] **Step 2: Rodar RED**
 
@@ -988,15 +1122,17 @@ Somente ferramentas de conversao/quantizacao/corte/atlas podem produzir `data/pr
 
 - [ ] **Step 6: Montar painel de aprovacao**
 
-`source_basic_elite_panel.png` mostra fonte, basic, elite e previews de movimento, em escala nativa e ampliada. O painel registra hashes; ainda nao inclui BlastEm.
+`data/processed/reports/asset_approval_panel.png` mostra fonte, basic, elite e previews de movimento, em escala nativa e ampliada. O painel registra hashes de fonte/convertido/motion preview e ainda nao inclui BlastEm.
+
+Gerar tambem `data/processed/reports/asset_visual_delivery_gate_report.json`, validado por `tools/sgdk_wrapper/schemas/visual_delivery_gate_report.schema.json` com `scope=asset_approval`. Esse parecer e produzido pelo owner `skills/art/visual-excellence-standards`, inclui criterios de identidade, materiais, silhueta, profundidade e movimento, e recebe hash SHA-256 fixado antes do checkpoint.
 
 - [ ] **Step 7: PARAR para checkpoint humano real**
 
-Apresentar ao usuario os cinco bitmaps-fonte, tres assets convertidos, dois motion previews, painel, hashes e parecer `visual-excellence-standards`. O usuario escreve/aprova a entrada asset-scoped em `doc/human_approval_record.md`.
+Apresentar ao usuario os cinco bitmaps-fonte, tres assets convertidos, dois motion previews, `asset_approval_panel.png`, hashes e `asset_visual_delivery_gate_report.json`. O usuario escreve/aprova a entrada asset-scoped em `doc/human_approval_record.md`, vinculada aos hashes do painel imutavel e do parecer canonico.
 
 O agente nao pode preencher `approved_by`, `decision=approved` ou assinatura em nome do usuario. Sem aprovacao, status da Task 9 permanece `manual_checkpoint_required` e a Task 10 nao inicia.
 
-**Conclusao da Task 9:** fonte real, conversao e motion preview existem; approval record humano referencia hashes exatos.
+**Conclusao da Task 9:** fonte real, conversao, motion preview, painel de aprovacao imutavel e parecer visual canonico existem; approval record humano referencia hashes exatos.
 
 **Rollback antes do checkpoint:** remover somente o novo projeto LAB apos confirmar o caminho absoluto; nenhum arquivo do framework ou projeto existente e tocado.
 
@@ -1006,7 +1142,7 @@ O agente nao pode preencher `approved_by`, `decision=approved` ou assinatura em 
 
 - [ ] **Step 1: Validar approval record imutavel**
 
-O runner calcula o hash do record e confirma source/converted hashes. Se divergir, sair 2 com `human_asset_approval_stale` antes do build.
+O runner calcula o hash do record e confirma source/converted hashes, `asset_approval_panel_sha256` e `visual_excellence_report_sha256`. Se divergir, sair 2 com `human_asset_approval_stale` antes do build. A Task 10 nunca escreve nem sobrescreve `data/processed/reports/asset_approval_panel.png`.
 
 - [ ] **Step 2: Build central**
 
@@ -1036,7 +1172,9 @@ Expected: `emulator_session.json`, screenshot dedicado, `save.sram`, `visual_vdp
 
 - [ ] **Step 5: Painel final e comparacao**
 
-Atualizar o painel como `source + basic + elite + BlastEm` usando apenas montagem de review permitida. Rodar `visual-excellence-standards`; nao editar approval record se source/converted nao mudaram.
+Criar `out/logs/runtime_comparison_panel.png` como painel separado (`source + basic + elite + BlastEm`) usando apenas montagem de review permitida. Nao sobrescrever `data/processed/reports/asset_approval_panel.png`; o hash aprovado na Task 9 permanece imutavel.
+
+Rodar `visual-excellence-standards` para gerar `out/logs/visual_delivery_gate_report.json` com `scope=runtime_evidence`. O runner valida esse JSON contra `tools/sgdk_wrapper/schemas/visual_delivery_gate_report.schema.json`, recomputa o hash do arquivo canonico, confirma `rom_sha256`, `blastem_session_sha256`, `runtime_screenshot_sha256`, `runtime_comparison_panel_sha256` e o hash do parecer asset-scope aprovado. O E2E rejeita qualquer `visual_excellence=passed` sem esse report valido.
 
 - [ ] **Step 6: Rodar gate E2E GREEN**
 
@@ -1057,7 +1195,7 @@ visual_excellence=passed
 manual_checkpoint=approved
 ```
 
-O runner grava `(Join-Path $FixtureRoot 'out\logs\vibe_playable_e2e_report.json')`; ele valida a aprovacao humana, nunca a cria.
+O runner grava `(Join-Path $FixtureRoot 'out\logs\vibe_playable_e2e_report.json')`; ele valida a aprovacao humana, nunca a cria. O campo `visual_excellence=passed` so aparece no resumo se `visual_excellence.report_path`, `visual_excellence.report_sha256`, `visual_excellence.schema_path`, `visual_excellence.criteria_passed=true` e `visual_excellence.runtime_panel_sha256` tiverem sido verificados.
 
 - [ ] **Step 7: Provar invalidacao seletiva**
 
@@ -1109,7 +1247,8 @@ $Phase8Files = @(
   "$FixtureRelative/data/processed/sprites/vibe_boss_attack_elite.png",
   "$FixtureRelative/data/processed/reports/hero_motion_preview.webp",
   "$FixtureRelative/data/processed/reports/boss_motion_preview.webp",
-  "$FixtureRelative/data/processed/reports/source_basic_elite_panel.png",
+  "$FixtureRelative/data/processed/reports/asset_approval_panel.png",
+  "$FixtureRelative/data/processed/reports/asset_visual_delivery_gate_report.json",
   "$FixtureRelative/res/bgs/vibe_stage_elite.png",
   "$FixtureRelative/res/sprites/vibe_hero_attack_elite.png",
   "$FixtureRelative/res/sprites/vibe_boss_attack_elite.png",
@@ -1118,7 +1257,36 @@ $Phase8Files = @(
   "$FixtureRelative/src/system/runtime_probe.c",
   "$FixtureRelative/src/system/runtime_probe.h"
 )
-git add -- $Phase8Files
+$Phase8NewBinaryFiles = @(
+  "$FixtureRelative/data/source_art/vibe_scene_v1/source_scene.png",
+  "$FixtureRelative/data/source_art/vibe_hero_v1/model_sheet.png",
+  "$FixtureRelative/data/source_art/vibe_hero_v1/hero_attack_strip.png",
+  "$FixtureRelative/data/source_art/vibe_boss_v1/model_sheet.png",
+  "$FixtureRelative/data/source_art/vibe_boss_v1/boss_attack_strip.png",
+  "$FixtureRelative/data/processed/bgs/vibe_stage_elite.png",
+  "$FixtureRelative/data/processed/sprites/vibe_hero_attack_elite.png",
+  "$FixtureRelative/data/processed/sprites/vibe_boss_attack_elite.png",
+  "$FixtureRelative/data/processed/reports/hero_motion_preview.webp",
+  "$FixtureRelative/data/processed/reports/boss_motion_preview.webp",
+  "$FixtureRelative/data/processed/reports/asset_approval_panel.png",
+  "$FixtureRelative/res/bgs/vibe_stage_elite.png",
+  "$FixtureRelative/res/sprites/vibe_hero_attack_elite.png",
+  "$FixtureRelative/res/sprites/vibe_boss_attack_elite.png"
+)
+$Phase8Baseline = Get-Content out/ci/vibe_playable_phase8_file_baseline.json -Raw | ConvertFrom-Json
+$BinaryAlreadyExisted = @($Phase8NewBinaryFiles | Where-Object {
+  $Candidate = $_
+  @($Phase8Baseline.files | Where-Object { $_.path -eq $Candidate -and $_.existed }).Count -ne 0
+})
+if ($BinaryAlreadyExisted.Count -ne 0) { throw "binary paths were not new at baseline: $($BinaryAlreadyExisted -join ', ')" }
+git add -- $Phase8NewBinaryFiles
+$Phase8TextPatchFiles = @($Phase8Files | Where-Object { $Phase8NewBinaryFiles -notcontains $_ })
+git add -N -- $Phase8TextPatchFiles
+git add -p -- $Phase8TextPatchFiles
+git diff --cached -- $Phase8Files | Tee-Object out/ci/vibe_playable_phase8_cached.diff
+$UnexpectedCached = @(git diff --cached --name-only | Where-Object { $Phase8Files -notcontains $_ })
+if ($UnexpectedCached.Count -ne 0) { throw "unexpected staged files: $($UnexpectedCached -join ', ')" }
+# Revisar out/ci/vibe_playable_phase8_cached.diff: todo hunk staged deve ter sido produzido nesta fase; novos PNG/WebP so podem estar inteiros se ausentes no baseline.
 git commit -m "test: prove vibe playable loop in BlastEm"
 $PhaseCommit = git rev-parse HEAD
 ```
@@ -1146,6 +1314,10 @@ Evidencias obrigatorias:
 - fixture `out/logs/validation_report.json` sem blocker da rota visual;
 - fixture `out/logs/visual_authoring_report.json` sem autoria procedural critica;
 - fixture `out/logs/visual_asset_traceability_report.json` com todos os elos;
+- fixture `data/processed/reports/asset_approval_panel.png` com hash referenciado no `human_approval_record.md`;
+- fixture `data/processed/reports/asset_visual_delivery_gate_report.json` validado por schema e hash aprovado;
+- fixture `out/logs/runtime_comparison_panel.png` separado do painel de aprovacao;
+- fixture `out/logs/visual_delivery_gate_report.json` validado por schema, hash e criterios minimos;
 - fixture `out/logs/emulator_session.json`;
 - fixture `out/logs/evidence_closeout_report.json` selado;
 - fixture screenshot, `save.sram` e `visual_vdp_dump.bin`;
@@ -1164,7 +1336,8 @@ O trabalho so pode ser declarado completo quando:
 5. tecnica/lab nao promovem visual;
 6. procedural/unknown nao promovem asset critico;
 7. approval humano preexistente e validado, nunca sintetizado;
-8. nenhum arquivo preexistente fora do escopo foi revertido, sobrescrito ou incorporado ao commit.
+8. nenhum arquivo preexistente fora do escopo foi revertido, sobrescrito ou incorporado ao commit;
+9. cada commit de fase inclui auditoria `git diff --cached` comprovando que apenas o delta da fase foi staged.
 
 ## Autorrevisao do plano
 
@@ -1187,5 +1360,9 @@ Resultado da autorrevisao:
 - nao ha marcador de implementacao incompleta no documento;
 - o gate rapido nao chama BlastEm;
 - o gate E2E para antes do build quando a aprovacao humana esta ausente ou stale;
-- as alteracoes Graphify preexistentes recebem revisao de hunk antes do commit;
+- as alteracoes Graphify preexistentes recebem revisao de hunk antes do commit, e qualquer hunk inseparavel migra para worktree limpa dedicada;
+- staging/commit em worktree sujo nao depende de `git add -- $PhaseFiles`; cada fase exige baseline, staging por delta e `git diff --cached` auditado;
+- o painel de aprovacao de asset (`asset_approval_panel.png`) e imutavel e separado do painel final runtime (`runtime_comparison_panel.png`);
+- `visual-excellence-standards` produz artefato verificavel em `visual_delivery_gate_report.json`, com schema, campos minimos e hashes; o runner nao aceita `visual_excellence=passed` textual;
+- a fixture `v1_root` valida assets reais preservados, nao `assets.Count=0`;
 - a fixture real fica isolada em novo projeto LAB e nao reutiliza projetos atualmente sujos.

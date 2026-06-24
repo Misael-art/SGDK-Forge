@@ -142,6 +142,7 @@ $artGameplayDirectionGateScript = Join-Path $ciDir "test_art_gameplay_direction_
 $projectContextScript = Join-Path $ciDir "test_project_context_governance.ps1"
 $methodologyScript = Join-Path $ciDir "test_project_methodology_governance.ps1"
 $bootstrapScript = Join-Path $ciDir "test_project_bootstrap_qaproof.ps1"
+$vibeTemplateBirthScript = Join-Path $ciDir "test_vibe_playable_template_birth.ps1"
 $freshnessScript = Join-Path $ciDir "test_freshness_audit.ps1"
 $hygieneScript = Join-Path $ciDir "test_project_hygiene_governance.ps1"
 $techniqueUsageScript = Join-Path $ciDir "test_technique_usage_governance.ps1"
@@ -195,6 +196,7 @@ $report = [ordered]@{
     project_context_test = $null
     methodology_test = $null
     bootstrap_test = $null
+    vibe_template_birth_test = $null
     freshness_test = $null
     hygiene_test = $null
     technique_usage_test = $null
@@ -273,6 +275,7 @@ $artGameplayDirectionGateRan = $false
 $projectContextRan = $false
 $methodologyRan = $false
 $bootstrapRan = $false
+$vibeTemplateBirthRan = $false
 $freshnessRan = $false
 $hygieneRan = $false
 $techniqueUsageRan = $false
@@ -416,6 +419,16 @@ if ($Mode -in @("full", "smoke")) {
         $result = Run-Step -Name "project_bootstrap_qaproof (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $bootstrapScript)
         $report.bootstrap_test = $result
         $bootstrapRan = $true
+    }
+}
+if ($Mode -in @("full", "smoke")) {
+    if (-not (Test-Path -LiteralPath $vibeTemplateBirthScript)) {
+        Write-Host "[ERROR] vibe template birth test not found: $vibeTemplateBirthScript"
+        $report.vibe_template_birth_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "vibe_playable_template_birth (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $vibeTemplateBirthScript)
+        $report.vibe_template_birth_test = $result
+        $vibeTemplateBirthRan = $true
     }
 }
 
@@ -780,6 +793,7 @@ if ($artGameplayDirectionGateRan -and $report.art_gameplay_direction_gate_test.e
 if ($projectContextRan -and $report.project_context_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($methodologyRan -and $report.methodology_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($bootstrapRan -and $report.bootstrap_test.exit_code -ne 0) { $combinedExit = 1 }
+if ($vibeTemplateBirthRan -and $report.vibe_template_birth_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($freshnessRan -and $report.freshness_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($hygieneRan -and $report.hygiene_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($techniqueUsageRan -and $report.technique_usage_test.exit_code -ne 0) { $combinedExit = 1 }
@@ -830,6 +844,7 @@ Write-Host "art_gameplay_direction_gate_test exit_code: $(if ($null -eq $report.
 Write-Host "project_context_test exit_code: $(if ($null -eq $report.project_context_test) { 'not_run' } else { $report.project_context_test.exit_code })"
 Write-Host "methodology_test exit_code: $(if ($null -eq $report.methodology_test) { 'not_run' } else { $report.methodology_test.exit_code })"
 Write-Host "bootstrap_test exit_code: $(if ($null -eq $report.bootstrap_test) { 'not_run' } else { $report.bootstrap_test.exit_code })"
+Write-Host "vibe_template_birth_test exit_code: $(if ($null -eq $report.vibe_template_birth_test) { 'not_run' } else { $report.vibe_template_birth_test.exit_code })"
 Write-Host "freshness_test exit_code: $(if ($null -eq $report.freshness_test) { 'not_run' } else { $report.freshness_test.exit_code })"
 Write-Host "hygiene_test exit_code: $(if ($null -eq $report.hygiene_test) { 'not_run' } else { $report.hygiene_test.exit_code })"
 Write-Host "technique_usage_test exit_code: $(if ($null -eq $report.technique_usage_test) { 'not_run' } else { $report.technique_usage_test.exit_code })"

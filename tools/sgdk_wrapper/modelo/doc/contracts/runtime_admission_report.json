@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "runtime_admission_report",
+  "template_seed": true,
+  "template_prevalidated": false,
+  "generated_at": "template_seed_not_runtime_evidence",
+  "admission_type": "production_visual",
+  "status": "blocked",
+  "runtime_admitted": false,
+  "technical_runtime_admitted": false,
+  "runtime_lab_admitted": false,
+  "visual_status_promotion_allowed": false,
+  "claim_ceiling": "documented_visual_route_only",
+  "manual_approval_required": true,
+  "route_report_ref": "doc/contracts/vibe_playable_route_report.json",
+  "route_report_sha256": null,
+  "technical_change_scope_ref": null,
+  "technical_change_scope_sha256": null,
+  "lab_reason": null,
+  "input_fingerprint": "bdebb673ac8f5619232e2ab537b85ebb83cf944e29ef87e6695612cca466cbab",
+  "blocking_statuses": [
+    "blocked_no_user_request",
+    "blocked_no_premium_source",
+    "blocked_no_human_asset_approval",
+    "blocked_no_blastem_evidence"
+  ],
+  "forbidden_claims": [
+    "visual_excellence_passed",
+    "asset_approval_fresh",
+    "runtime_evidence_fresh",
+    "ready_for_aaa"
+  ],
+  "evidence_refs": []
+}

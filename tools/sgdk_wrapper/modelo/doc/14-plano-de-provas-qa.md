@@ -119,3 +119,11 @@ Sempre que um eixo mudar de estado:
 4. Reexecute o wrapper canonico para refletir o novo estado em `validation_report.json`.
 5. Rode `freshness_audit.ps1` para garantir que os artefatos medem a mesma ROM.
 6. No fechamento de cena, rode `scene_closeout_gate.ps1` ou registre a justificativa conservadora para nao rodar.
+
+---
+
+## 5. Vibe Playable Birth Seed
+
+- `vibe_playable_birth_seed=structural_only`
+- `visual_delivery=blocked_no_premium_source`
+- `ready_for_aaa=false_until_real_evidence`

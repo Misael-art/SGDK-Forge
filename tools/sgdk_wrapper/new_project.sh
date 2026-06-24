@@ -79,11 +79,24 @@ replace_placeholder_in_file() {
 }
 
 mkdir -p "$TARGET_DIR"
-cp -a "$TEMPLATE_DIR/." "$TARGET_DIR/"
+shopt -s dotglob nullglob
+for template_entry in "$TEMPLATE_DIR"/*; do
+    entry_name="$(basename "$template_entry")"
+    if [ "$entry_name" = ".agent" ] || [ "$entry_name" = "out" ]; then
+        continue
+    fi
+    cp -a "$template_entry" "$TARGET_DIR/"
+done
+shopt -u dotglob nullglob
 PROJECT_CREATED=1
 
 if [ -d "$TARGET_DIR/.agent" ]; then
     rm -rf "$TARGET_DIR/.agent"
+fi
+
+# Vibe Playable template seeds are structural only. Runtime evidence must never be born from the template.
+if [ -d "$TARGET_DIR/out" ]; then
+    rm -rf "$TARGET_DIR/out"
 fi
 
 ESCAPED_PROJECT_NAME="$(escape_sed_replacement "$NEW_PROJ_NAME")"
@@ -104,6 +117,11 @@ pwsh -NoProfile -File "$SCRIPT_DIR/adopt_project_methodology.ps1" -ProjectRoot "
 
 pwsh -NoProfile -File "$SCRIPT_DIR/ensure_project_agent.ps1" -SourceDir "$AGENT_SOURCE_DIR" -TargetDir "$TARGET_DIR" >/dev/null
 
+# Final safety pass: bootstrap helpers may create out/ for diagnostics, but new projects must not be born with runtime evidence.
+if [ -d "$TARGET_DIR/out" ]; then
+    rm -rf "$TARGET_DIR/out"
+fi
+
 echo "[OK] Project created: $TARGET_DIR"
 echo ""
 echo "Next steps:"
@@ -117,5 +135,8 @@ echo "  7. Atualize .mddev/project.json, doc/00-project-brief.md, doc/11-gdd.md,
 echo "  8. Declare a identidade de front-end e o papel formal de menu/title antes do runtime."
 echo "  9. Put raw art in res/data/ when needed."
 echo "  10. Run ../../tools/sgdk_wrapper/build.sh \"\$PWD\" (or build.bat on Windows) to verify the canonical wrapper pipeline."
+echo "  11. Vibe Playable seed installed: blocked_no_premium_source."
+echo "  12. No approval, ROM, screenshot, SRAM, VDP dump or runtime panel was created by this bootstrap."
+echo "  13. Next visual gates: premium source -> human asset approval -> VDP conversion -> build -> BlastEm evidence."
 echo ""
 echo "REGRA DE OURO: sempre atualize a documentacao quando a verdade do projeto mudar."

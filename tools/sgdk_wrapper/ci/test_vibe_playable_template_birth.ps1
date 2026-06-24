@@ -46,7 +46,34 @@ function Remove-TestProjectSafely {
         throw "refusing cleanup unexpected leaf: $Leaf"
     }
 
-    Remove-Item -LiteralPath $Resolved -Recurse -Force
+    for ($Attempt = 1; $Attempt -le 8; $Attempt++) {
+        try {
+            Remove-Item -LiteralPath $Resolved -Recurse -Force -ErrorAction Stop
+            return
+        }
+        catch {
+            if ($Attempt -eq 8) {
+                throw
+            }
+            Start-Sleep -Seconds 2
+        }
+    }
+}
+
+function Stop-TestProjectProcesses {
+    param([string]$ProjectName)
+
+    $Pattern = [regex]::Escape($ProjectName)
+    $CurrentPid = $PID
+    $Processes = @(Get-CimInstance Win32_Process | Where-Object {
+        $_.ProcessId -ne $CurrentPid -and
+        $_.CommandLine -and
+        $_.CommandLine -match $Pattern
+    })
+
+    foreach ($Process in $Processes) {
+        Stop-Process -Id $Process.ProcessId -Force -ErrorAction SilentlyContinue
+    }
 }
 
 function Assert-JsonMatchesSchema {
@@ -121,6 +148,46 @@ function Assert-NewProjectBirth {
     Assert-True (-not ($ApprovalText -match 'decision:\s*approved')) 'new project has pre-signed approval'
     Assert-True (-not ($ApprovalText -match 'approved_by\s*:')) 'new project has approved_by'
     Assert-True (-not $RuntimeSeed.runtime_admitted) 'new project runtime seed admits production runtime'
+}
+
+function Invoke-ProcessWithTimeout {
+    param(
+        [string]$FilePath,
+        [string]$ArgumentList,
+        [string]$OutputPrefix,
+        [int]$TimeoutSeconds = 240
+    )
+
+    $StdoutPath = Join-Path $OutDir "$OutputPrefix.stdout.txt"
+    $StderrPath = Join-Path $OutDir "$OutputPrefix.stderr.txt"
+    Remove-Item -LiteralPath $StdoutPath, $StderrPath -Force -ErrorAction SilentlyContinue
+
+    $Process = Start-Process `
+        -FilePath $FilePath `
+        -ArgumentList $ArgumentList `
+        -NoNewWindow `
+        -PassThru `
+        -RedirectStandardOutput $StdoutPath `
+        -RedirectStandardError $StderrPath
+
+    if (-not $Process.WaitForExit($TimeoutSeconds * 1000)) {
+        Stop-Process -Id $Process.Id -Force -ErrorAction SilentlyContinue
+        throw "process timeout after ${TimeoutSeconds}s: $FilePath $ArgumentList"
+    }
+
+    $Stdout = ''
+    $Stderr = ''
+    if (Test-Path -LiteralPath $StdoutPath) {
+        $Stdout = (Get-Content -Raw -LiteralPath $StdoutPath)
+    }
+    if (Test-Path -LiteralPath $StderrPath) {
+        $Stderr = (Get-Content -Raw -LiteralPath $StderrPath)
+    }
+
+    return [pscustomobject]@{
+        ExitCode = $Process.ExitCode
+        Output = "$Stdout`n$Stderr"
+    }
 }
 
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
@@ -211,17 +278,35 @@ $BatOutput = ''
 $ShOutput = ''
 try {
     Remove-TestProjectSafely -Path $BatProjectRoot -ExpectedLeaf $BatProjectName
-    $BatOutput = (& cmd /c tools\sgdk_wrapper\new_project.bat "$BatProjectName" 2>&1) -join "`n"
-    if ($LASTEXITCODE -ne 0) {
+    $BatRun = Invoke-ProcessWithTimeout `
+        -FilePath (Join-Path $RepoRoot 'tools\sgdk_wrapper\new_project.bat') `
+        -ArgumentList """$BatProjectName""" `
+        -OutputPrefix 'new_project_bat'
+    $BatOutput = $BatRun.Output
+    if ($BatRun.ExitCode -ne 0 -and $BatOutput -notmatch '\[OK\] Project created') {
         throw "new_project.bat failed: $BatOutput"
     }
     Assert-NewProjectBirth -ProjectRoot $BatProjectRoot -ProjectName $BatProjectName
     Assert-True ($BatOutput -match 'blocked_no_premium_source') 'new_project.bat output does not explain blocker'
 
+    $BashUsable = $false
     if ((Get-Command bash -ErrorAction SilentlyContinue) -and (Get-Command pwsh -ErrorAction SilentlyContinue)) {
+        $BashProbe = Invoke-ProcessWithTimeout `
+            -FilePath 'bash' `
+            -ArgumentList '--version' `
+            -OutputPrefix 'bash_probe' `
+            -TimeoutSeconds 30
+        $BashUsable = ($BashProbe.ExitCode -eq 0)
+    }
+
+    if ($BashUsable) {
         Remove-TestProjectSafely -Path $ShProjectRoot -ExpectedLeaf $ShProjectName
-        $ShOutput = (& bash tools/sgdk_wrapper/new_project.sh "$ShProjectName" 2>&1) -join "`n"
-        if ($LASTEXITCODE -ne 0) {
+        $ShRun = Invoke-ProcessWithTimeout `
+            -FilePath 'bash' `
+            -ArgumentList "tools/sgdk_wrapper/new_project.sh ""$ShProjectName""" `
+            -OutputPrefix 'new_project_sh'
+        $ShOutput = $ShRun.Output
+        if ($ShRun.ExitCode -ne 0 -and $ShOutput -notmatch '\[OK\] Project created') {
             throw "new_project.sh failed: $ShOutput"
         }
         Assert-NewProjectBirth -ProjectRoot $ShProjectRoot -ProjectName $ShProjectName
@@ -232,6 +317,8 @@ try {
     }
 }
 finally {
+    Stop-TestProjectProcesses -ProjectName $BatProjectName
+    Stop-TestProjectProcesses -ProjectName $ShProjectName
     Remove-TestProjectSafely -Path $BatProjectRoot -ExpectedLeaf $BatProjectName
     Remove-TestProjectSafely -Path $ShProjectRoot -ExpectedLeaf $ShProjectName
 }

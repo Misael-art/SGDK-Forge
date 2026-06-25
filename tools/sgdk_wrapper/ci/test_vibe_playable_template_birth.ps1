@@ -122,6 +122,21 @@ function Assert-NoRuntimeEvidence {
     Assert-True ($Forbidden.Count -eq 0) "template contains E2E/runtime evidence asset: $($Forbidden.FullName -join ', ')"
 }
 
+function Assert-LegitimateSourceArtPresent {
+    param(
+        [string]$Root,
+        [string[]]$RelativePaths
+    )
+
+    foreach ($RelativePath in $RelativePaths) {
+        Assert-True ($RelativePath -match '^data/source_art/') "legitimate source art must live under data/source_art: $RelativePath"
+        $FullPath = Join-Path $Root ($RelativePath -replace '/', [IO.Path]::DirectorySeparatorChar)
+        Assert-True (Test-Path -LiteralPath $FullPath) "missing legitimate template source art: $RelativePath"
+        $Item = Get-Item -LiteralPath $FullPath
+        Assert-True ($Item.Length -gt 0) "legitimate template source art is empty: $RelativePath"
+    }
+}
+
 function Assert-NewProjectBirth {
     param(
         [string]$ProjectRoot,
@@ -138,6 +153,7 @@ function Assert-NewProjectBirth {
     Assert-True (Test-Path -LiteralPath $PremiumPath) 'new project missing premium source seed'
     Assert-True (Test-Path -LiteralPath $ApprovalPath) 'new project missing human approval record'
     Assert-True (Test-Path -LiteralPath $RuntimeSeedPath) 'new project missing runtime admission seed'
+    Assert-LegitimateSourceArtPresent -Root $ProjectRoot -RelativePaths $LegitimateTemplateSourceArt
 
     $Premium = Get-Json -Path $PremiumPath
     $RuntimeSeed = Get-Json -Path $RuntimeSeedPath
@@ -218,6 +234,11 @@ $VisualSeedPath = Join-Path $TemplateRoot 'doc\contracts\visual_delivery_gate_re
 $RuntimeSeedPath = Join-Path $TemplateRoot 'doc\contracts\runtime_admission_report.json'
 $PremiumPath = Join-Path $TemplateRoot 'data\source_art\premium_source_manifest.json'
 $ApprovalPath = Join-Path $TemplateRoot 'doc\human_approval_record.md'
+$LegitimateTemplateSourceArt = @(
+    'data/source_art/branding_intro/production/author_panel_source.png',
+    'data/source_art/branding_intro/production/engine_mark_source.png',
+    'data/source_art/branding_intro/production/project_crest_source.png'
+)
 
 Assert-True (Test-Path -LiteralPath $RouteSeedPath) 'missing route seed'
 Assert-True (Test-Path -LiteralPath $ArtSeedPath) 'missing art gameplay seed'
@@ -225,6 +246,7 @@ Assert-True (Test-Path -LiteralPath $VisualSeedPath) 'missing visual delivery se
 Assert-True (Test-Path -LiteralPath $RuntimeSeedPath) 'missing runtime admission seed'
 Assert-True (Test-Path -LiteralPath $PremiumPath) 'missing premium_source_manifest'
 Assert-True (Test-Path -LiteralPath $ApprovalPath) 'missing human approval record'
+Assert-LegitimateSourceArtPresent -Root $TemplateRoot -RelativePaths $LegitimateTemplateSourceArt
 
 Assert-JsonMatchesSchema $RouteSeedPath 'tools/sgdk_wrapper/schemas/vibe_playable_route_report.schema.json'
 Assert-JsonMatchesSchema $PremiumPath 'tools/sgdk_wrapper/schemas/premium_source_manifest.schema.json'

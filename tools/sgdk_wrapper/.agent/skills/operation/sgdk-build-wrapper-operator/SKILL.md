@@ -143,6 +143,15 @@ Licao operacional extraida de `Celestial Chase Revive [VER.001] [SGDK 211]
   `doc/operational_loop_decision.json` valido.
 - Numero de build, nova captura ou refresh de relatorio nao contam como
   progresso quando `blockers_removed=0`.
+- Quando o blocker dominante for `visual_gate_blocked`,
+  `visual_direction_failed`, `blocked_no_premium_source`,
+  `blocked_no_human_asset_approval`, `blocked_no_vdp_conversion` ou
+  `perceptual_motion_unvalidated`, o proximo build so e progresso se
+  `SGDK_CHANGE_CATEGORY` for `art`, `visual` ou `runtime` com resumo que ataque
+  diretamente fonte, aprovacao, conversao VDP, match visual, motion evidence ou
+  `visual_delivery_gate_report`. Build tecnico, screenshot novo ou revalidacao
+  sem remover blocker visual deve ser classificado como `smoke_only` ou
+  `technical_runtime_creative_blocked`.
 
 Exemplo de sessao PowerShell antes do build:
 

@@ -428,6 +428,9 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 
 - Se blockers dominantes forem visual/perceptual, bloquear trabalho de infraestrutura irrelevante.
 - O agente deve priorizar mudanca significativa que ataque o blocker dominante.
+- Para projeto `aaa_game` novo, retomado ou reaberto com intencao visual, seguir `tools/sgdk_wrapper/.agent/workflows/visual-first-project-lifecycle.md` antes de expandir runtime definitivo.
+- Se o estado for `technical_runtime_creative_blocked`, `lab_evidence_not_delivery` ou `smoke_only`, nova ROM/build/screenshot so conta como progresso se remover ou reduzir blocker visual real: fonte premium, aprovacao humana, direcao arte-gameplay, conversao VDP, evidencia perceptual de movimento ou `visual_delivery_gate_report` canonico.
+- BLUE_CIRCUIT e referencia positiva de rota visual-first; Celestial Chase Revive e alerta canonico de runtime tecnico que nao substitui maturidade visual.
 
 ## 17. Placeholder quarantine
 

@@ -21,6 +21,9 @@ Workflow canonico de entrada:
 - `workflows/project-context-classification.md`
 - `workflows/project-methodology-adoption.md`
 - `workflows/route-decision-gate.md`
+- `workflows/visual-first-project-lifecycle.md` quando o trabalho for
+  `aaa_game`, vertical slice, reseed, retomada com `visual_gate_blocked` ou
+  projeto preso em runtime seed/placeholder
 
 O agente deve primeiro classificar o pedido como:
 
@@ -50,6 +53,10 @@ Regra:
 - antes de gerar arte original, prompt de imagem, sourcing externo ou codigo SGDK sensivel, emitir `context_pack_manifest`
 - antes de converter ou medir match visual de asset critico, emitir `source_validity_report`, `authoriality_gate_report` e `clone_risk_report`
 - benchmark tecnico so pode orientar escala, densidade, timing, presenca, budget e qualidade; se virar fonte visual, pose, paleta, silhueta ou estrutura, a entrega bloqueia
+- se a auditoria indicar `technical_runtime_creative_blocked`,
+  `lab_evidence_not_delivery`, `smoke_only` ou `visual_gate_blocked`, abrir
+  `workflows/visual-first-project-lifecycle.md` antes de novo runtime; novo
+  build so e progresso quando remove o blocker dominante
 
 ### 1. Escopo, planejamento e mecanica
 
@@ -123,6 +130,11 @@ Skill canonica de apoio quando o projeto estiver nascendo ou precisar de reseed:
   contra `tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json`;
   sem esse gate, o asset fica `needs_review` e nao entra em baseline, `res/`
   final, `delivery` ou `ready_for_aaa`
+- para projeto novo, reseed ou retomada de `aaa_game`, a ordem preferida e
+  `visual_first`: congelar promessa visual, fonte premium, aprovacao humana,
+  gate arte+gameplay e plano de conversao antes do runtime de entrega. Runtime
+  anterior a isso precisa ser rotulado como `smoke_only` ou
+  `technical_runtime_creative_blocked`.
 
 Saida minima:
 
@@ -177,6 +189,10 @@ Saida minima:
 - quando a cena nascer sem arte, `context_pack_manifest`, `master_style_manifest`, `art_generation_brief` e `asset_lineage_record` antes de qualquer promocao para `res/`
 - arte premium aceita deve ser persistida em `data/source_art/` com `premium_source_manifest`; imagem inline pendente ou prompt sem arquivo nao entra em `res/`
 - se a rota visual terminar em `blocked_image_tooling` ou `blocked_no_premium_source`, pare a producao visual antes do runtime; qualquer ROM posterior e apenas smoke test com `lab_not_delivery=true`
+- se o projeto ja possui ROM ou rota tecnica mas segue com `visual_gate_blocked`,
+  a proxima iteracao de arte deve atacar fonte, aprovacao, conversao VDP, match
+  ou visual delivery gate. Nao gastar ciclo em novo build, novo screenshot ou
+  reescrita de texto sem remover blocker visual.
 - `source_validity` precisa passar antes de `source_to_rom_visual_match`; se a fonte premium for clone, derivada indevida, benchmark-derived ou sem autoria, nenhum match visual aprova a promocao
 - `clone_risk_score` e `benchmark_similarity_index` acima dos limites declarados pelo `authoriality_gate_report` ou `benchmark_profile` bloqueiam asset critico autoral
 - asset critico so entra em `res/` com `elite_ready=true`; `needs_review`, `placeholder`, `debug_lab`, `benchmark-derived`, `rework` ou `perceptual_quality=nao_medido` bloqueiam promocao
@@ -250,6 +266,10 @@ Saida minima:
 - ROM gerada
 - nenhum status de entrega visual AAA e promovido sem `visual_delivery_gate_report` limpo
 - build limpo e BlastEm observado nao reduzem a exigencia visual; gate visual bloqueado continua bloqueado
+- quando o status for `technical_runtime_creative_blocked`, o runtime pode
+  continuar apenas para medir rota, input, crash e performance. Ele nao pode
+  virar base de direcao visual nem justificar expansao de fase enquanto fonte
+  premium, arte, animacao e visual gate continuarem bloqueados.
 - ROM que usa majoritariamente `VDP_drawText`, ASCII art, painel de nomes de efeito, `lab_bg_b` generico, fallback procedural repetido ou marcadores de debug e laboratorio deve ficar em `lab_not_delivery=true`; nao pode virar microfase AAA por narrativa em Markdown
 - campanha de multiplas tecnicas/eixos deve passar por `tools/sgdk_wrapper/audit_effect_campaign_semantics.ps1` antes do closeout final; se o auditor emitir blocker, corrija a ROM ou rebaixe o status para rejeitado
 - `validate_resources.ps1` deve bloquear `ready_for_aaa` quando `doc/technique_usage_manifest.json` estiver invalido, usar tecnica/tag fora do registry, declarar `LABORATORIO` em escopo de entrega, apontar evidencia fora do projeto ou deixar docs locais/freshness incompletos

@@ -178,7 +178,10 @@ Ele e definido por:
 3. `workflows/production-loop.md`
 4. `workflows/project-methodology-adoption.md`
 5. `workflows/route-decision-gate.md` quando a rota tecnica ainda nao estiver congelada
-6. as `SKILL.md` reais invocadas por cada etapa
+6. `workflows/visual-first-project-lifecycle.md` quando o projeto for
+   `aaa_game`, vertical slice, reseed ou estiver preso em runtime seed com
+   `visual_gate_blocked`
+7. as `SKILL.md` reais invocadas por cada etapa
 
 Workflows descrevem ordem.
 Skills descrevem como executar.

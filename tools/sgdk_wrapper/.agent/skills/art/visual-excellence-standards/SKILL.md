@@ -852,6 +852,67 @@ Para projetos em `LAB/TECHDEMO` (claim_ceiling `technical_lab_validated`):
 
 Esse piso evita que "ta rodando" vire "ta pronto".
 
+## Curadoria 2026-06-28 - Visual-first project lifecycle
+
+Licao extraida da comparacao entre `BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN]
+[GAME] [ACTION_PLATFORMER]`, `Celestial Chase Revive [VER.001] [SGDK 211]
+[GEN] [GAME] [ACTION_RACING]`, `Celestial Chase visual benchmark [VER.001]
+[SGDK 211] [GEN] [LAB] [TECHDEMO]`, `_agent_training`, `_agent_laboratory` e
+`SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]`.
+
+### Rota visual-first economiza tempo e tokens
+
+Em `aaa_game`, o agente deve preferir a rota visual-first antes do runtime de
+entrega:
+
+1. identidade visual e cena assinatura no GDD/spec;
+2. fonte premium local com autoria, licenca, hash e papel no gameplay;
+3. aprovacao humana ou painel de aprovacao imutavel;
+4. `art_gameplay_direction_gate` com camera, interacoes e `must_preserve`;
+5. conversao VDP e budget;
+6. runtime e BlastEm.
+
+`BLUE_CIRCUIT` mostrou o padrao positivo: mesmo inacabado, o projeto avancou
+com menos diagnostico repetido porque bloqueou o runtime final ate existir rota
+visual, fonte premium e gates humanos. Isso nao aprova automaticamente os
+assets; apenas reduz improviso e mantem o agente no caminho certo.
+
+### Runtime tecnico com visual bloqueado nao e maturidade AAA
+
+`Celestial Chase Revive` mostrou o anti-padrao de custo: ROM, rotas BlastEm e
+first playable tecnico podem coexistir com `creative_quality=blocked` quando a
+arte ainda e placeholder, procedural, pouco autoral ou abaixo da promessa AAA.
+
+Nessa situacao, a proxima iteracao visual nao deve ser "mais um build" nem
+"mais um refresh de screenshot". Deve atacar um destes blockers:
+
+- `blocked_no_premium_source`;
+- `blocked_no_human_asset_approval`;
+- `blocked_no_vdp_conversion`;
+- `visual_gate_blocked`;
+- `visual_direction_failed`;
+- `perceptual_motion_unvalidated`;
+- `source_to_rom_visual_match` ausente ou abaixo do contrato;
+- `visual_delivery_gate_report` ausente, stale ou nao canonico.
+
+Se a mudanca proposta nao remove ou reduz um desses blockers, ela pode ser
+valida como smoke/lab, mas nao como progresso visual AAA.
+
+### Estagios visuais canonicos
+
+- `visual_first_ready_for_translation`: fonte e gate existem; falta conversao,
+  budget e runtime.
+- `technical_runtime_creative_blocked`: ROM ou rota existe; visual, animacao,
+  audio ou identidade ainda bloqueiam.
+- `lab_evidence_not_delivery`: laboratorio provou tecnica ou fixture, nao
+  produto.
+- `smoke_only`: boot/build valida estrutura, nao qualidade.
+- `ready_for_visual_closeout`: fonte, ROM, budget, motion/evidencia e gate
+  visual estao coerentes para closeout.
+
+O menor estagio entre direcao visual, fonte, budget, runtime e evidencia define
+o teto do projeto.
+
 ## Integracao com agentes
 
 ### `art-director`

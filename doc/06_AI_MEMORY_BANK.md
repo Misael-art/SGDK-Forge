@@ -2007,3 +2007,48 @@ Limite factual: nenhuma ROM foi buildada ou promovida nesta curadoria.
 - Graphify nao grava mais freshness quando o processo externo falha;
 - nenhuma ROM, runtime, budget VDP ou claim AAA foi promovido por esta
   verificacao de framework.
+
+## 46. Curadoria visual-first project lifecycle (2026-06-28)
+
+Status: `curated_framework_no_rom`.
+
+Projetos auditados:
+
+- `_agent_laboratory`: raiz agregada de laboratorio, nao entrega AAA;
+- `_agent_training`: raiz de treino, util para licoes apos promocao humana;
+- `BLUE_CIRCUIT`: `aaa_game` em rota positiva visual-first, com fonte/gates
+  antes de runtime final;
+- `Celestial Chase Revive`: `aaa_game` com runtime tecnico, mas
+  `creative_quality=blocked` por `visual_gate_blocked`;
+- `Celestial Chase visual benchmark`: `technical_demo` util para movimento,
+  budget e captura, ainda nao entrega;
+- `SMOKE_TEST`: fixture smoke/lab, nao referencia de maturidade visual.
+
+Licao canonica: BLUE_CIRCUIT avancou melhor porque estabilizou promessa visual,
+fonte premium, aprovacao humana e bloqueio de runtime antes de transformar o
+projeto em loop tecnico. Celestial Chase Revive preserva valor tecnico, mas e o
+alerta de que ROM, rota, screenshot e correcoes pequenas nao substituem
+direcao visual, animacao, fonte aprovada e gate perceptual.
+
+Curadoria aplicada:
+
+- novo workflow `tools/sgdk_wrapper/.agent/workflows/visual-first-project-lifecycle.md`;
+- `production-loop.md` agora consulta esse workflow em projeto novo, reseed,
+  retomada, amadurecimento, revisao e closeout visual;
+- `visual-excellence-standards` e `sgdk-build-wrapper-operator` bloqueiam
+  build que nao ataque o blocker visual dominante;
+- `SGDK_GLOBAL.md` declara que `technical_runtime_creative_blocked`,
+  `lab_evidence_not_delivery` e `smoke_only` nao podem virar progresso AAA por
+  inercia de build.
+
+Validacao:
+
+- `assert_agent_environment.ps1`: `agent_environment_status=ready`;
+- framework de skills: passed, 47 active e 13 legacy;
+- schemas contratuais: 78/78;
+- `run_all_contract_gates.ps1 -Mode smoke`: `combined_status=passed`.
+
+Limite factual: nenhuma ROM, asset, benchmark ou projeto foi promovido a AAA
+por esta curadoria. A mudanca fortalece o agente canonico e reduz diagnostico
+repetido, mas cada jogo ainda precisa evidencias proprias de fonte, VDP,
+BlastEm, animacao, audio, level design e aprovacao humana.

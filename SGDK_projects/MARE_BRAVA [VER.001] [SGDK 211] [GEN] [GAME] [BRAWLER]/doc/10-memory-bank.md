@@ -8,9 +8,9 @@
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-07-03 (sessao 4 — concepts recebidos + prova VDP)
-**Fase atual:** `pre_producao_documentada_com_template_tecnico` (vocabulário do parecer 2026-07-03). NÃO é protótipo, NÃO é vertical slice, NÃO é jogo. Bloqueios curatoriais tratados: slice scope contract (anti-falso-verde), streaming do cais contratado, direção de arte com trio MD-nativo e RATIFICAÇÃO HUMANA PENDENTE, rota de arte corrigida para concept-first com prompt pack, áudio XGM2 corrigido no TDD, dívidas do branding declaradas.
-**Proxima fase:** RATIFICAÇÃO HUMANA da direção com o contact sheet (`data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png`) → model sheet pixel autoral 3.5 heads (TAÍNA primeiro) → lineart 1px → key poses → strips → conversão VDP + laudo de budget. RUNTIME SÓ DEPOIS.
+**Ultima atualizacao:** 2026-07-03 (sessao 5 — correcao level-art modular do CAIS_01)
+**Fase atual:** `pre_producao_documentada_com_template_tecnico` (vocabulário do parecer 2026-07-03). NÃO é protótipo, NÃO é vertical slice, NÃO é jogo. Bloqueios curatoriais tratados: slice scope contract (anti-falso-verde), streaming do cais contratado, direção de arte com trio MD-nativo e RATIFICAÇÃO HUMANA PENDENTE, rota de arte corrigida para concept-first, e agora rota do CAIS corrigida para `dock_scene_kit` modular + montagem autoral pelo agente. Painéis prontos do cais ficam `mood_reference_only`, não fonte de produção.
+**Proxima fase:** gerar/curar `dock_scene_kit` modular conforme `doc/contracts/level_art_assembly_contract.json` → montar `world_layout_board` 1344x224 pelo agente (object placement + parallax + ecology + collision visual) → ratificação humana do board/contact sheet → model sheet pixel autoral 3.5 heads (TAÍNA primeiro) → lineart 1px → key poses → strips → conversão VDP + laudo de budget. RUNTIME SÓ DEPOIS.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -64,6 +64,26 @@
 
 ## 2. O QUE ACABOU DE ACONTECER
 
+**2026-07-03 (sessão 5) — Correção de autoria do level art do CAIS_01**
+
+*Artefatos de montagem construídos pelo agente (continuação da sessão 5):*
+
+- `doc/contracts/dock_scene_kit_inventory.json` — auditoria dos sources: bgb_loop = referência modular utilizável; 3 painéis de arena = mood/landmark_reference_only (reclassificados no premium_source_manifest); TODOS os 6 boards modulares (prompts A-F) = lacuna real de sourcing + 1 lacuna complementar (railing kit para bloquear ring-out nas arenas 1-2).
+- `doc/contracts/object_role_map.json` — 25 objetos com função declarada no vocabulário canônico (cover/hazard/lane_guide/silhouette_landmark/occlusion_foreground/parallax_depth/ecology_loop/breakable_candidate/purely_decorative), plano (BG_A/BG_B/foreground/sprite) e classe de budget.
+- `doc/contracts/object_placement_map.json` — autoria de level design: bandas de y (dressing 64-144, luta 144-208, beirada 208-224), script de câmera com 3 wave-locks (x=160/560/960), política de ring-out por trechos (exposto 480-560 ensaio + 960-1280 payoff; bloqueado por railing/barco/net wall no resto; grade quebrada em x=944 anuncia a regra), placements por fase, foreground nas bordas, costuras de variação (x=352/704/1056) e variação temporal.
+- `doc/contracts/parallax_layer_contract.json` — BG_B residente 512px com 4 bandas line-scroll (0.125/0.25/0.375/0.5), guindaste fora da costura do loop (448-512 só céu/mar), far_boat_drift via hscroll (zero tiles), regra de contraste BG_B < sprites.
+- `doc/contracts/background_ecology_card.json` — 7 loops com função e prioridade de corte: foam=NUNCA cortar (sinal de ring-out), net/cloth=primeiros cortes, gulls=sprites em disputa de budget (dispersam no splash — ecologia ligada a gameplay); teto alvo 98 patterns de animação a provar no laudo.
+- `doc/art/world_layout_board_1344x224.png` — board visual revisável: fases calm/pressure/payoff, locks com extensão de viewport, beirada exposta vs bloqueada, landmarks, golden path (ARCH→crane→BOAT→BOOTH→NET WALL→grade quebrada→FAROLETE), régua de colunas de streaming e legenda. NÃO é arte final; é o plano de montagem.
+
+*Status honesto:* `object_role_map_missing` e `world_layout_board_missing` LIMPOS; permanecem `dock_scene_kit_missing` (nenhum board modular gerado), `level_art_assembly_not_built` (montagem real só após kit + conversão), `budget_not_measured`, `blastem_evidence_missing`. Tudo `documentado`; nada implementado/buildado/testado_em_emulador/validado_budget.
+
+- Parecer humano aceito: a rota anterior ainda tratava o CAIS como panoramas/painéis prontos demais, delegando criatividade de level design e montagem visual ao modelo de imagem.
+- Novo contrato: `doc/contracts/level_art_assembly_contract.json` define ownership correto: modelo de imagem gera `scene_kit`; agente canônico monta o level com `level_blueprint`, câmera, streaming, parallax, foreground, ecology loops e gameplay anchors.
+- `doc/art/art_generation_brief.md` atualizado para v3: Etapa A0 obrigatória (`level_art_assembly_contract`) antes de nova geração do cais; painéis existentes reclassificados como `mood_reference_only` / `landmark_reference_only`.
+- `doc/art/prompt_pack/03_cais_world_concept.md` substituído por prompts de kit modular: floor/edge tiles, props/obstructions, landmarks, BG_B parallax, foreground/occlusion e background ecology loops.
+- Status dos painéis atuais do cais: servem para paleta, atmosfera e alguns landmarks, mas NÃO autorizam tilemap final, streaming world source, `res/` ou `ready_for_aaa`.
+- Novo blocker dominante para o CAIS: `level_art_assembly_not_built` / `dock_scene_kit_missing` / `world_layout_board_missing`.
+
 **2026-07-03 (sessão 4) — Concepts recebidos, prova VDP e aprendizados registrados**
 
 - Humano gerou 15 concepts via prompt pack (TAÍNA turnaround+9 poses+retrato, CRIA, ESTIVADOR, 3 arenas do cais, BG loop, HUD, FX, logo escolhido + estudos). Nomes normalizados (portable_descriptive_v1; CRIA estava na pasta errada) e todos registrados como `source_candidate` no premium_source_manifest.
@@ -109,7 +129,8 @@
 
 ## 3. DECISOES PENDENTES
 
-- RATIFICAR DIREÇÃO DE ARTE (humano): avaliar `data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png` — recomendação do agente: ratificar para mundo/front-end (sobrevivem) e aprovar a rota pixel autoral para personagens.
+- RATIFICAR DIREÇÃO DE ARTE (humano): a ratificação agora é parcial. Logo/BG/mood podem ser ratificados como direção; painéis do cais ficam `mood_reference_only` até existir `dock_scene_kit` modular e `world_layout_board` montado pelo agente.
+- Montar o CAIS_01 com autoria de level design: gerar/curar `dock_scene_kit`, emitir `dock_scene_kit_inventory`, `object_role_map`, `world_layout_board`, `object_placement_map`, `parallax_layer_contract` e `background_ecology_card`.
 - Escolher quem faz o model sheet pixel autoral (humano no Aseprite/GraphicsGale ou agente via ferramenta de pixel) — próximo passo físico da arte.
 - Aprovação humana dos premium sources quando gerados (gate obrigatório antes de conversão VDP).
 - Art pass da branding com identidade MARÉ BRAVA (direção de arte agora existe).

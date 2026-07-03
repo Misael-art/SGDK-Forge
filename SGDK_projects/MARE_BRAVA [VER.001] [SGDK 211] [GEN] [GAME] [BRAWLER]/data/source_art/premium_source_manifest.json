@@ -80,8 +80,8 @@
       "sha256": "a3f6d6c515f415c26ea04def00c097ebc3b17c86c58d5ff4ed476067174d83a6",
       "kind": "world_panel_concept",
       "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
-      "status": "source_candidate",
-      "notes": "entrada do cais"
+      "status": "mood_reference_only",
+      "notes": "entrada do cais | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): rebaixado pelo level_art_assembly_contract: vale para paleta/materiais; NAO e fonte de tilemap/layout"
     },
     {
       "asset_id": "cais_arena2",
@@ -89,8 +89,8 @@
       "sha256": "3f2e289d8e19168da8e42e3bb3781e23b5c7d2266894b13e262f84298c5cd463",
       "kind": "world_panel_concept",
       "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
-      "status": "source_candidate",
-      "notes": "meio do cais com barco atracado"
+      "status": "landmark_reference_only",
+      "notes": "meio do cais com barco atracado | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): referencia de landmarks (barco lacrado, guarita, banca); NAO e composicao final"
     },
     {
       "asset_id": "cais_arena3",
@@ -98,8 +98,8 @@
       "sha256": "9467551f9280456083eecb4324b2fa7c51a160f2a4949415586b3967910e93a0",
       "kind": "world_panel_concept",
       "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
-      "status": "source_candidate",
-      "notes": "beirada exposta; espuma de alto contraste na base = zona de ring-out; DESVIO ACEITO: texto diegetico ('interditado por sindicato', caixote da uniao) apesar de 'no text' — vira narrativa ambiental, mas conversao precisa tratar texto em tiles legiveis ou estilizar"
+      "status": "landmark_reference_only",
+      "notes": "beirada exposta; espuma de alto contraste na base = zona de ring-out; DESVIO ACEITO: texto diegetico ('interditado por sindicato', caixote da uniao) apesar de 'no text' — vira narrativa ambiental, mas conversao precisa tratar texto em tiles legiveis ou estilizar | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): referencia de beirada/farolete/contraste ring-out; NAO e zona de payoff pronta"
     },
     {
       "asset_id": "bgb_loop",
@@ -107,8 +107,8 @@
       "sha256": "e04e16d22742ce036e3203cae8c4357dac5a39783ac8d2569a21c8214268dcb1",
       "kind": "background_loop_concept",
       "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
-      "status": "source_candidate",
-      "notes": "mar/ceu em bandas horizontais line-scroll friendly com guindastes na linha do horizonte; quase-tileavel (costura a fechar na conversao)"
+      "status": "modular_reference_usable",
+      "notes": "mar/ceu em bandas horizontais line-scroll friendly com guindastes na linha do horizonte; quase-tileavel (costura a fechar na conversao) | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): referencia direta das bandas do BG_B; precisa ser redesenhado em strips separadas (prompt D)"
     },
     {
       "asset_id": "hud_frame",
@@ -152,5 +152,11 @@
     "cenario contem texto diegetico apesar do negative prompt: aceito como narrativa ambiental, tratar na conversao de tiles"
   ],
   "next_gate": "ratificacao humana da direcao com contact sheet 320x224 (data/processed/contact_sheets/) antes de qualquer conversao para res/",
-  "notes": "Concepts recebidos em 2026-07-03 via prompt pack. NENHUM asset aqui e final: rota autoral obrigatoria (model sheet pixel -> lineart 1px -> key poses -> strips)."
+  "notes": "Concepts recebidos em 2026-07-03 via prompt pack. NENHUM asset aqui e final: rota autoral obrigatoria (model sheet pixel -> lineart 1px -> key poses -> strips).",
+  "level_art_route": {
+    "contract": "doc/contracts/level_art_assembly_contract.json",
+    "kit_inventory": "doc/contracts/dock_scene_kit_inventory.json",
+    "pending_boards": "6 boards modulares (prompts A-F de doc/art/prompt_pack/03) + railing kit complementar",
+    "save_to": "data/source_art/concept/cais_world_modular/"
+  }
 }

@@ -1,0 +1,287 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "cais_01_level_art_assembly_v1",
+  "project_id": "mare_brava",
+  "scene_id": "cais_01",
+  "status": "active_preproduction_contract",
+  "created_at": "2026-07-03",
+  "purpose": "Corrigir a rota visual do CAIS_01 para que o level seja construido pelo agente canonico a partir de kit modular, level design, camera e streaming, em vez de delegar a composicao final a uma imagem panoramica pronta.",
+  "curatorial_decision": {
+    "previous_world_panels_status": "mood_reference_only",
+    "previous_contact_sheet_status": "directional_evidence_only",
+    "not_allowed_as": [
+      "production_tilemap_source",
+      "res_promotion_source",
+      "streaming_world_source",
+      "final_level_layout"
+    ],
+    "allowed_as": [
+      "palette_mood_reference",
+      "landmark_reference",
+      "material_language_reference",
+      "negative_evidence_for_panorama_first_pipeline"
+    ],
+    "reason": "Os painéis prontos congelam a fase como ilustração e transferem decisões de level design, densidade, ritmo, câmera e autoria visual para o modelo de imagem."
+  },
+  "ownership_model": {
+    "image_model_role": "generate_modular_source_candidates_only",
+    "canonical_agent_role": "assemble_level_layout_and_visual_grammar",
+    "human_role": "ratify_direction_and_select_sources",
+    "runtime_role": "prove_streaming_budget_and_gameplay_in_emulator"
+  },
+  "mandatory_inputs": [
+    "doc/11-gdd.md",
+    "doc/13-spec-cenas.md",
+    "doc/contracts/level_blueprint.json",
+    "doc/contracts/tilemap_streaming_contract.json",
+    "doc/art/master_style_manifest.json",
+    "doc/art/prompt_pack/03_cais_world_concept.md"
+  ],
+  "route_decision_record": {
+    "context_type": "aaa_game_first_playable_slice",
+    "dominant_route": "level_art_modular_assembly",
+    "asset_strategy": "scene_kit_then_agent_assembled_world",
+    "resource_loading_model": "BG_A tilemap_streaming + BG_B full_resident_loop + foreground priority/sprite_graft candidates + scene_local sprites/HUD",
+    "forbidden_shortcuts_until_evidence": [
+      "whole_panorama_as_tilemap",
+      "arena_panel_as_final_layout",
+      "image_model_decides_level_composition",
+      "res_promotion_before_object_role_map",
+      "ready_for_aaa_before_blastem_budget"
+    ]
+  },
+  "level_design_bindings": {
+    "world_dimensions_px": {
+      "width": 1344,
+      "height": 224
+    },
+    "viewport_px": {
+      "width": 320,
+      "height": 224
+    },
+    "waypoint_sequence": [
+      "wp_entrada",
+      "wp_arena1",
+      "wp_respiro1",
+      "wp_arena2",
+      "wp_respiro2",
+      "wp_arena3_beirada",
+      "wp_saida"
+    ],
+    "phase_roles": [
+      {
+        "phase": "calm",
+        "x_range": "0..160",
+        "visual_need": "estabelecer cais, mar e direcao sem excesso de obstrucao"
+      },
+      {
+        "phase": "pressure",
+        "x_range": "160..480",
+        "visual_need": "arena limpa para ensinar combo com landmarks discretos"
+      },
+      {
+        "phase": "breathing",
+        "x_range": "480..560",
+        "visual_need": "respiro com pickup, menor densidade de obstaculos"
+      },
+      {
+        "phase": "pressure_high",
+        "x_range": "560..880",
+        "visual_need": "barco/mercado como landmark e gestao de espaco contra grappler"
+      },
+      {
+        "phase": "breathing",
+        "x_range": "880..960",
+        "visual_need": "preparar visualmente a beirada e reduzir ruido antes do payoff"
+      },
+      {
+        "phase": "payoff",
+        "x_range": "960..1280",
+        "visual_need": "beirada/ring-out como maior contraste funcional da cena"
+      }
+    ],
+    "gameplay_visual_contract": [
+      "faixa de luta sempre legivel em 320x224",
+      "beirada de agua sempre comunica risco antes do empurrao",
+      "landmarks guiam golden path sem setas nem texto obrigatorio",
+      "foreground nunca cobre hitbox, HUD, spawn ou telegraph"
+    ]
+  },
+  "scene_kit_required_boards": [
+    {
+      "board_id": "dock_floor_and_edge_tiles",
+      "role": "BG_A_base_metatiles",
+      "examples": [
+        "straight_boardwalk",
+        "cracked_planks",
+        "missing_planks",
+        "pier_edge",
+        "dark_water_edge",
+        "foam_edge",
+        "corner_pieces",
+        "rope_tied_posts"
+      ],
+      "acceptance": [
+        "tiles/metatiles reusable",
+        "flat_walkable_lane",
+        "ring_out_edge_readable",
+        "low_noise_material_detail"
+      ]
+    },
+    {
+      "board_id": "dock_props_and_obstructions",
+      "role": "placeable_BG_A_objects",
+      "examples": [
+        "crates",
+        "fish_crates",
+        "ice_boxes",
+        "ropes",
+        "nets",
+        "market_stall_frame",
+        "scale_booth_parts",
+        "lamp_posts",
+        "barrels",
+        "pallets"
+      ],
+      "acceptance": [
+        "objects_can_be_rearranged",
+        "narrative_without_text",
+        "scale_variants_available",
+        "does_not_block_sprite_readability"
+      ]
+    },
+    {
+      "board_id": "large_landmark_plates",
+      "role": "arena_landmarks",
+      "examples": [
+        "moored_boat",
+        "scale_booth",
+        "distant_crane",
+        "dock_entrance_arch",
+        "final_lantern",
+        "large_net_wall",
+        "cargo_stack"
+      ],
+      "acceptance": [
+        "one_landmark_per_arena",
+        "isolated_from_panorama",
+        "supports_golden_path",
+        "can_be_assigned_to_BG_A_or_BG_B"
+      ]
+    },
+    {
+      "board_id": "BG_B_parallax_layers",
+      "role": "distant_atmosphere",
+      "examples": [
+        "sky_bands",
+        "cloud_strips",
+        "harbor_silhouette",
+        "far_cranes",
+        "sea_rows",
+        "far_boats",
+        "gull_silhouettes"
+      ],
+      "acceptance": [
+        "loopable_left_right",
+        "lower_density_than_BG_A",
+        "scroll_ratios_declared",
+        "line_scroll_friendly_bands"
+      ]
+    },
+    {
+      "board_id": "foreground_occlusion_kit",
+      "role": "foreground_layer_or_sprite_graft_candidates",
+      "examples": [
+        "front_pilings",
+        "near_ropes",
+        "hanging_net_strips",
+        "broken_railing",
+        "underside_beams",
+        "foreground_splash_shapes"
+      ],
+      "acceptance": [
+        "frames_action_without_covering_gameplay",
+        "priority_split_or_sprite_graft_possible",
+        "distinct_from_actor_sprites",
+        "scanline_budget_pending"
+      ]
+    },
+    {
+      "board_id": "background_ecology_loops",
+      "role": "living_world_micro_animation",
+      "examples": [
+        "boat_bob_3f",
+        "far_boat_drift_2f",
+        "gull_flap_3f",
+        "lantern_flicker_3f",
+        "foam_loop_4f",
+        "cloth_flap_3f",
+        "net_sway_3f"
+      ],
+      "acceptance": [
+        "small_frame_counts",
+        "gameplay_or_narrative_role_declared",
+        "tile_animation_or_sprite_graft_route_pending",
+        "no_alpha_blending_claim"
+      ]
+    }
+  ],
+  "assembly_grammar": {
+    "density_rules": [
+      {
+        "area": "walkable_lane",
+        "rule": "minimum_detail_needed_for_ground_readability; avoid high-frequency plank noise behind characters"
+      },
+      {
+        "area": "arena_pressure_zones",
+        "rule": "landmark visible but center combat space remains clean"
+      },
+      {
+        "area": "breathing_zones",
+        "rule": "lower prop density; pickup silhouette gets priority"
+      },
+      {
+        "area": "ring_out_zone",
+        "rule": "dark water + pale foam contrast is the strongest gameplay signal"
+      }
+    ],
+    "placement_rules": [
+      "large_landmarks anchor arena identity, not every screen",
+      "repeating props vary by rotation/stacking but preserve tile reuse",
+      "foreground pilings appear near screen edges or non-critical action zones",
+      "nets/ropes can frame but never obscure active telegraphs",
+      "BG_B motion must be slower than BG_A and less contrasty than gameplay"
+    ],
+    "seam_rules": [
+      "streaming columns must not introduce unique landmark seams inside viewport",
+      "repeating boardwalk patterns need hidden variation every 2-3 screens",
+      "BG_B loop seam must be proven separately from BG_A streaming seam"
+    ]
+  },
+  "expected_artifacts_before_res": [
+    "dock_scene_kit_inventory.json",
+    "object_role_map.json",
+    "world_layout_board_1344x224.png",
+    "object_placement_map.json",
+    "depth_role_map.json",
+    "composition_schema.json",
+    "layer_plan.json",
+    "parallax_layer_contract.json",
+    "background_ecology_card.json",
+    "scene_tilemap_conversion_report.json",
+    "per_tile_palette_conflict_report.json",
+    "tilemap_flag_report.json",
+    "hardware_budget_review.json",
+    "human_approval_record.md"
+  ],
+  "blocking_statuses": [
+    "level_art_assembly_not_built",
+    "dock_scene_kit_missing",
+    "panorama_first_pipeline_rejected",
+    "object_role_map_missing",
+    "world_layout_board_missing",
+    "budget_not_measured",
+    "blastem_evidence_missing"
+  ],
+  "next_required_action": "Gerar ou curar o dock_scene_kit modular e montar o world_layout_board 1344x224 pelo agente antes de qualquer nova conversao de cenario."
+}

@@ -118,3 +118,21 @@
 - Prova VDP: data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png (320x224+15c+snap 9-bit) — cenarios/BG/logo sobrevivem; personagens exigem model sheet pixel autoral (borrao no downscale direto)
 - art_direction_decision_record + art_gameplay_direction_gate atualizados: ratificacao humana pendente com evidencia pronta; blocker novo `no_pixel_model_sheet`
 - Aprendizado: 7 licoes no learning_ledger (6 candidatas canonicas), success/failure patterns e skill_promotion_candidates atualizados para o estudo canonico posterior; promocao automatica proibida (correto)
+
+## 2026-07-03 - correcao_level_art_modular_cais01
+
+- Task: corrigir rota de produção visual do CAIS_01 para impedir panorama-first e preservar autoria do level design pelo agente canônico
+- Novo contrato: `doc/contracts/level_art_assembly_contract.json` (`cais_01_level_art_assembly_v1`) define `scene_kit` modular, ownership correto, gramática de montagem, blockers e artefatos esperados antes de qualquer `res/`
+- `doc/art/art_generation_brief.md` atualizado para v3: Etapa A0 obrigatória antes da nova arte do cais; painéis atuais reclassificados como `mood_reference_only` / `landmark_reference_only`
+- `doc/art/prompt_pack/03_cais_world_concept.md` substituído: sai o pedido de 3 painéis 16:9; entram prompts para floor/edge tiles, props, landmarks, BG_B parallax, foreground/occlusion e ecology loops
+- Decisão curatorial: modelo de imagem gera matéria-prima; agente monta `world_layout_board` 1344x224 com `level_blueprint`, câmera, streaming, parallax, foreground e gameplay anchors
+- Blockers novos do CAIS: `level_art_assembly_not_built`, `dock_scene_kit_missing`, `panorama_first_pipeline_rejected`, `world_layout_board_missing`, `budget_not_measured`, `blastem_evidence_missing`
+
+## 2026-07-03 - cais01_level_art_modular_artefatos_de_montagem
+
+- Task: etapa documental/curatorial do CAIS_01 como level modular (level_art_assembly_contract)
+- Auditoria de sources: bgb_loop=modular_reference_usable; 3 paineis de arena reclassificados mood/landmark_reference_only no premium_source_manifest; lacuna real = 6 boards modulares (prompts A-F) + railing kit complementar
+- Novos artefatos (doc/contracts/): dock_scene_kit_inventory, object_role_map (25 objetos, 9 funcoes canonicas), object_placement_map (camera script 3 locks, politica de ring-out por trechos com grade quebrada em x=944, costuras x=352/704/1056), parallax_layer_contract (4 bandas 0.125-0.5, costura do loop protegida), background_ecology_card (7 loops, foam nunca corta, teto 98 patterns)
+- doc/art/world_layout_board_1344x224.png: board visual do plano de montagem (fases, locks, beirada, landmarks, golden path, regua de streaming)
+- Blockers limpos: object_role_map_missing, world_layout_board_missing; mantidos: dock_scene_kit_missing, level_art_assembly_not_built, budget_not_measured, blastem_evidence_missing
+- Vocabulario: tudo `documentado`; nada implementado/buildado/testado_em_emulador/validado_budget

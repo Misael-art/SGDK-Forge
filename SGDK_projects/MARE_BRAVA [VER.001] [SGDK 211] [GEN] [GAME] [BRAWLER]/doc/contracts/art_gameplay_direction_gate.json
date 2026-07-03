@@ -1,62 +1,94 @@
 {
   "schema_version": "1.0.0",
-  "gate_id": "template_seed_art_gameplay_direction_gate",
-  "project_id": "template_seed_project",
-  "asset_id": "vibe_playable_template_seed",
-  "asset_kind": "background_plate",
-  "evaluated_at": "template_seed_not_runtime_evidence",
+  "gate_id": "cais_01_first_visual_package_gate_v1",
+  "project_id": "mare_brava",
+  "asset_id": "cais_01_first_visual_package",
+  "asset_kind": "mixed_package",
+  "evaluated_at": "2026-07-03_planning_no_runtime_evidence",
   "measurement_level": "planned_contract",
   "art_director_review": {
-    "status": "blocked",
-    "reviewer": "visual-excellence-standards",
-    "art_direction_decision_record": "doc/contracts/vibe_playable_route_report.json",
+    "status": "pending_human",
+    "reviewer": "humano (ratificacao obrigatoria) + visual-excellence-standards",
+    "art_direction_decision_record": "doc/art/art_direction_decision_record.json",
     "findings": [
-      "No premium source exists yet; template seed is not visual approval."
+      "Direcao angular_cps2_fighter congelada automaticamente; ratificacao humana pendente (parecer 2026-07-03).",
+      "Trio de prova MD-nativo declarado (SOR2, Shinobi III, Comix Zone); prova VDP via contact sheet 320x224 requerida.",
+      "Nenhum premium source existe; canal IA permitido somente para concept (proibido animated_sprite_final)."
     ]
   },
   "game_design_context": {
-    "status": "blocked",
+    "status": "declared",
     "gdd_ref": "doc/11-gdd.md",
     "scene_spec_ref": "doc/13-spec-cenas.md",
-    "gameplay_role": "template_seed_no_runtime_role",
-    "camera_perspective": "scene_specific",
+    "gameplay_role": "pacote visual do first playable slice: heroina, 2 arquetipos, cais com beirada de ring-out, HUD e logo",
+    "camera_perspective": "belt scroll horizontal com y-sort em faixa de 64px",
     "interaction_context": [
-      "No natural request has been routed yet."
+      "beirada d'agua deve ler como zona especial a qualquer momento (mecanica ring-out)",
+      "telegraphs de CRIA (12f) e ESTIVADOR (18f) precisam ser legiveis na silhueta",
+      "4 inimigos + heroina distinguiveis por silhueta e paleta em 320x224"
     ]
   },
   "identity_continuity_lock": {
     "must_preserve": [
       {
-        "id": "template_seed_silhouette",
+        "id": "taina_silhouette",
         "kind": "silhouette",
-        "expected": "To be defined after art direction and premium source.",
-        "status": "not_applicable"
+        "expected": "diagonais de muay thai, 3.5 heads, 48px; guarda alta reconhecivel em 1 frame",
+        "status": "planned"
+      },
+      {
+        "id": "estivador_mass",
+        "kind": "silhouette",
+        "expected": "massa quadrada com bracos abertos no telegraph de grab",
+        "status": "planned"
+      },
+      {
+        "id": "beirada_espuma",
+        "kind": "palette_role",
+        "expected": "espuma da beirada sempre no dominio pal3, animavel, contraste com cais",
+        "status": "planned"
+      },
+      {
+        "id": "logo_onda",
+        "kind": "shape",
+        "expected": "quebra de onda na barra do A final do logo, legivel em miniatura e monocromatico",
+        "status": "planned"
       }
     ]
   },
   "motion_personality_contract": {
-    "status": "blocked",
-    "secondary_motion": [],
-    "expression_requirements": [],
-    "state_fantasy_checks": []
+    "status": "planned",
+    "secondary_motion": [
+      "espuma da beirada em loop curto",
+      "respiracao no idle da TAINA"
+    ],
+    "expression_requirements": [
+      "antecipacao curta e impacto travado (hitstop) em todos os golpes"
+    ],
+    "state_fantasy_checks": [
+      "jab/cross/lowkick lem como muay thai, nao como boxe generico"
+    ]
   },
   "decision": {
-    "production_allowed": false,
-    "ready_for_generation": false,
+    "production_allowed": true,
+    "production_allowed_scope": "somente Etapa A do brief: concepts/model sheets via prompt pack (scope concept_art)",
+    "ready_for_generation": true,
+    "ready_for_generation_scope": "concept_art apenas; animated_sprite_final proibido por gate de canal",
     "ready_for_conversion": false,
     "ready_for_res_promotion": false,
     "ready_for_aaa": false,
     "next_required_route": [
-      "vibe_playable_route_report",
-      "premium_source_manifest",
-      "art_direction_selector",
-      "human_asset_approval",
+      "prompt_pack (doc/art/prompt_pack/) -> geracao de concepts pelo humano ou canal aprovado",
+      "salvar em data/source_art/concept/ + premium_source_manifest",
+      "ratificacao humana da direcao com contact sheet 320x224",
+      "model sheet autoral -> lineart 1px -> key poses -> strips por acao",
+      "art-translation-to-vdp + megadrive-pixel-strict-rules + visual-excellence-standards",
       "blastem_runtime_evidence"
     ]
   },
   "blockers": [
-    "art_direction_undeclared",
-    "game_design_context_missing",
-    "director_gate_unapproved"
+    "art_direction_pending_human_ratification",
+    "no_premium_source",
+    "generation_channel_unavailable_on_host"
   ]
 }

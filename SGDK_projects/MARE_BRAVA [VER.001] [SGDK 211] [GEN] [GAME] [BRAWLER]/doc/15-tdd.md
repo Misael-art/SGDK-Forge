@@ -42,7 +42,13 @@ O TDD descreve como o jogo sera construido. Ele nao substitui o GDD; traduz as e
 
 ### Audio
 
-- Driver XGM2; FM1-4 musica, FM5-6 SFX prioritario, PSG reforco tonal/UI; PCM 13300 Hz
+- Driver XGM2 é dono de FM **e** PSG (o arranjo decide o uso dos canais na composição — o código não reserva canais FM).
+- SFX roteados pelos canais PCM do XGM2 (2-3 simultâneos, 13300 Hz), prioridade hit > telegraph > pickup > ui.
+- PROIBIDO: escrita direta em PSG/FM pelo código do jogo com o driver carregado (correção do parecer curatorial 2026-07-03 — a divisão anterior "FM1-4 música / FM5-6 SFX" estava errada para XGM2).
+
+### Streaming de tilemap (BG_A do cais)
+
+- `scene_local_preload` foi vetado para o mapa de 1344px. Contrato fechado em `doc/contracts/tilemap_streaming_contract.json`: janela 64x32 circular, margem de 12 colunas, custo de 64 bytes/coluna de tilemap, máx 2 colunas/frame na fila DMA do VBlank, costura sempre fora da viewport, fallbacks ordenados (1024px → 2 sub-cenas → densidade). Veredito VDP atual: `nao_medido_contrato_fechado`; alvo `cabe_com_recuo` após medições.
 
 ### Save
 
@@ -56,9 +62,18 @@ Selecionadas: `line_scrolling` (parallax mar/ceu), `camera_scroll_management` (w
 
 - Alvo 512KB com sizebnd (checksum + size align); header autoral; SRAM 32KB declarada para o probe
 
-## 6. Riscos
+## 6. Riscos e dívidas técnicas declaradas
 
-Ver `risk_mitigation_table` no contrato: pressao de sprites por scanline (high), consistencia de arte IA (high), toolchain Linux/Wine (medium), pico de DMA no spawn (medium).
+Ver `risk_mitigation_table` no contrato: pressão de sprites por scanline (high), consistência de arte IA (high), toolchain Linux/Wine (medium), pico de DMA no spawn (medium), **violação de ownership no branding herdado (high)** e **costura do streaming (medium)**.
+
+Dívida de código herdada do template (bloqueia abertura do runtime do slice, não o planejamento):
+- [scene_branding.c:253](src/scenes/scene_branding.c) usa `VDP_setHorizontalScrollLine(..., CPU)` e escreve CRAM dentro do update — contradiz o ownership de VBlank deste TDD.
+- O mesmo código toca PSG diretamente com XGM2 carregado — contradiz o ownership de áudio.
+- Correção obrigatória (fila VBlank + remover acesso direto a PSG) antes de qualquer claim visual/sonoro do branding ou abertura do runtime do CAIS_01.
+
+## 6b. Escopo do slice vs contrato de jogo
+
+O contrato de gênero descreve o JOGO (eixos congelados: 8 inimigos, grab, super bar, 3 stages com boss). O slice usa o subconjunto declarado em `doc/contracts/slice_scope_contract.json` (1 jogador, cap 4 inimigos, herói sem grab, sem super bar, sem boss). Validador verde no contrato de jogo NÃO significa slice implementado — guarda anti-falso-verde registrada no próprio contrato.
 
 ## 7. Contratos irmãos
 
@@ -67,3 +82,6 @@ Ver `risk_mitigation_table` no contrato: pressao de sprites por scanline (high),
 - `doc/contracts/level_blueprint.json` — blueprint do `cais_01`
 - `doc/contracts/enemy_roster.json` — roster do slice (CRIA, ESTIVADOR)
 - `doc/contracts/frame_data/*.json` — frame data por archetype
+- `doc/contracts/slice_scope_contract.json` — subconjunto do slice (guarda anti-falso-verde)
+- `doc/contracts/tilemap_streaming_contract.json` — streaming do cais 1344px (janela, custos, seam policy)
+- `doc/contracts/art_gameplay_direction_gate.json` — gate do primeiro pacote visual (produção autorizada só para concepts)

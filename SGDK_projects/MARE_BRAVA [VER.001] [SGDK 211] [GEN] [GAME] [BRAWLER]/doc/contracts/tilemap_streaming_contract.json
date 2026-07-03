@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "cais_01_tilemap_streaming_v1",
+  "project": {
+    "name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]"
+  },
+  "scene_id": "cais_01",
+  "motivation": "BG_A do cais tem 1344x224 px (168 colunas de tile). scene_local_preload foi vetado pelo parecer curatorial de 2026-07-03: fase desse tamanho exige streaming guiado pela camera com janela residente, custo por coluna e seam policy fechados ANTES do runtime.",
+  "planes": {
+    "BG_A": {
+      "model": "tilemap_streaming",
+      "map_size_px": "1344x224",
+      "plane_window": "64x32 tiles (512x256 px) circular com wrap nativo do VDP",
+      "resident_margin_columns": 12,
+      "pattern_budget": "tileset dedup residente alvo <=320 tiles (a medir no res_graph apos conversao)",
+      "per_column_cost": {
+        "tilemap_bytes": 64,
+        "note": "32 celulas/coluna x 2 bytes; patterns novos so quando a coluna introduz tile inedito (dedup)"
+      },
+      "per_frame_budget": "max 2 colunas/frame na fila DMA do VBlank (128 bytes tilemap + patterns eventuais)",
+      "seam_policy": "coluna de costura sempre >=2 colunas alem da borda visivel; proibido scroll >2 colunas/frame (camera clamp de 4px/frame garante); costura nunca atualizada dentro da viewport",
+      "owner": "tilemap_column_streamer (novo dono na fila DMA do VBlank, ver tdd_contract)"
+    },
+    "BG_B": {
+      "model": "full_resident_loop",
+      "map_size_px": "512x224 loop",
+      "note": "mar/ceu residente completo; line-scroll HScroll por tabela, wrap natural"
+    },
+    "sprites_hud": {
+      "model": "scene_local_preload",
+      "note": "strips por estado com janela de animacao ativa; HUD residente em WINDOW"
+    }
+  },
+  "measurements_required": [
+    "res_graph_report: tileset real do cais apos conversao",
+    "runtime_metrics: bytes DMA/frame durante scroll continuo e em wave-lock",
+    "scene_regression: captura na costura (borda esquerda/direita da janela)"
+  ],
+  "fallbacks_ordered": [
+    "reduzir cais para 1024px mantendo 3 arenas",
+    "cortar em 2 sub-cenas com transicao formal (scene_transition_card)",
+    "so entao reduzir densidade do tileset"
+  ],
+  "vdp_verdict": {
+    "current": "nao_medido_contrato_fechado",
+    "target": "cabe_com_recuo",
+    "gate": "laudo megadrive-vdp-budget-analyst apos primeira conversao de tiles"
+  },
+  "doc_refs": [
+    "doc/13-spec-cenas.md",
+    "doc/contracts/level_blueprint.json",
+    "doc/contracts/tdd_contract.json"
+  ]
+}

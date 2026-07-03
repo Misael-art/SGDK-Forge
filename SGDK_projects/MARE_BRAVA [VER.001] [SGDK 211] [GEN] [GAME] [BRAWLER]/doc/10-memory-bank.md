@@ -8,9 +8,9 @@
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-07-03 (sessao 2)
-**Fase atual:** FASES 1-3 concluídas — GDD + cadeia completa de contratos (TDD, brawler design, mechanic, level, enemy, frame data) validada, direção de arte congelada (`angular_cps2_fighter`) e PRDs em seed. Status geral: `documentado`. Geração de premium source BLOQUEADA por ausência de canal (ver abaixo).
-**Proxima fase:** habilitar canal de geração (instalar ComfyUI `deck_safe_sd15` OU fornecer API key OU gerar em host com canal nativo) → gerar premium source do CAIS_01 → aprovação humana → FASE 4 (laudo VDP budget).
+**Ultima atualizacao:** 2026-07-03 (sessao 3 — resposta ao parecer curatorial)
+**Fase atual:** `pre_producao_documentada_com_template_tecnico` (vocabulário do parecer 2026-07-03). NÃO é protótipo, NÃO é vertical slice, NÃO é jogo. Bloqueios curatoriais tratados: slice scope contract (anti-falso-verde), streaming do cais contratado, direção de arte com trio MD-nativo e RATIFICAÇÃO HUMANA PENDENTE, rota de arte corrigida para concept-first com prompt pack, áudio XGM2 corrigido no TDD, dívidas do branding declaradas.
+**Proxima fase:** humano gera concepts via `doc/art/prompt_pack/` (Etapa A) → registro em data/source_art/concept + premium_source_manifest → contact sheet 320x224 → ratificação humana da direção → model sheet autoral → lineart 1px → key poses → strips. RUNTIME SÓ DEPOIS do pacote visual e do laudo VDP.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -25,7 +25,7 @@
 - FASE 2 completa (2026-07-03): `doc/contracts/tdd_contract.json` (FSM, pools, DMA ownership, NTSC-first, tecnicas com registry) + `doc/contracts/brawler_belt_scroll_design_contract.json` (roster TAINA/JACO, 6 arquetipos com frame data, 3 stages com boss, combat/balance) + `mechanic_contract.json` (combo_de_mare), `level_blueprint.json` (cais_01), `enemy_roster.json`. TODOS 100% validos nos schemas; `audit_game_design_contracts`: passed, blockers=0; `validate_brawler_belt_scroll_specialization`: passed=11 failed=0.
 - FASE 3 (direção): `doc/art/` com art_direction_decision_record (angular_cps2_fighter, confianca 0.70), concept_art_direction_brief, master_style_manifest, moodboard_manifest, brand_identity_manifest (planned), style_drift_policy, art_asset_diagnostic (rota 3_no_art), art_generation_brief.md pronto para disparo.
 - 16 PRDs materializados (art bible, palette master, benchmark, rom mastering, ci, code review etc.); `check_prd_readiness`: ok, blockers=0 (target prototype).
-- Validadores canonicos todos verdes: contexto, metodologia, higiene (corrigido caminho F:\ herdado do template em scene-contracts.json).
+- Validadores canonicos todos verdes: contexto, metodologia, higiene (corrigido caminho absoluto de drive Windows herdado do template em scene-contracts.json).
 - Projeto nascido em 2026-07-03 via `new_project.sh` (template `tools/sgdk_wrapper/modelo`, rota Vibe Playable, `blocked_no_premium_source`).
 - `doc/project_context_manifest.json` classificado `aaa_game`/`active`, teto `vertical_slice`; validado: `status=ok context=aaa_game phase=planning blockers=0`.
 - `doc/genre_specialization_manifest.json` com opt-in humano em `brawler_belt_scroll`.
@@ -57,12 +57,26 @@
 ### Ambiente de producao (host)
 
 - Host atual: Manjaro Linux. Loop build→BlastEm foi PROVADO neste host em 2026-07-03 usando SMOKE_TEST (toolchain Windows do SDK via Wine/binfmt + binutils m68k nativos; BlastEm sob Wine a 59.8 fps com screenshot interno e save.sram).
-- Receita completa na memória do agente do workspace; pontos-chave: symlink sem espaços para o SDK, `LIBGCC=<gdk>/lib/libgcc.a` no make, symlink `/mnt/sdcard/tmp -> /tmp`, fonte Arial registrada no prefixo Wine para o BlastEm.
+- Receita completa na memória do agente do workspace; pontos-chave: symlink sem espaços para o SDK, `LIBGCC=<gdk>/lib/libgcc.a` no make, symlink `tmp` na raiz do cartão SD apontando para o tmp do sistema, fonte Arial registrada no prefixo Wine para o BlastEm.
 - Guard de ambiente roda com `pwsh` + `USERPROFILE=$HOME` + shim `powershell→pwsh`; Graphify com `-SkipGraphify` até o fix de `Get-Item -Force`.
 
 ---
 
 ## 2. O QUE ACABOU DE ACONTECER
+
+**2026-07-03 (sessão 3) — Resposta ao parecer curatorial**
+
+- Status renomeado honestamente: pré-produção documentada com template técnico; nenhuma comparação com jogos reais do MD é cabível ainda.
+- `doc/contracts/slice_scope_contract.json`: mata o falso verde — contrato de gênero descreve o JOGO; o slice é 1P, cap 4 inimigos, sem grab do herói, sem super bar, sem boss.
+- `doc/contracts/tilemap_streaming_contract.json`: cais 1344px sai de scene_local_preload para streaming por colunas (janela 64x32, máx 2 colunas/frame, seam policy, fallbacks). Veredito VDP: não medido, contrato fechado; alvo "cabe com recuo".
+- Direção de arte: trio de prova MD-nativo (SOR2, Shinobi III, Comix Zone) adicionado; `human_ratification: pending` — nada converte para res/ sem sua aprovação com contact sheet 320x224; fallback declarado (vibrant_16bit_pixel) se a linguagem não sobreviver ao VDP.
+- Rota de arte corrigida: IA somente para concept (gate proíbe animated_sprite_final); `doc/art/prompt_pack/` criado com 6 documentos de prompts específicos para o humano gerar; depois model sheet autoral → lineart 1px → key poses → strips.
+- `art_gameplay_direction_gate.json` preenchido: produção autorizada SÓ para Etapa A (concepts).
+- TDD: áudio corrigido (XGM2 dono de FM+PSG; SFX via PCM do driver; proibido acesso direto), streamer de colunas adicionado ao ownership de DMA, riscos r5 (violação de ownership no branding herdado, high) e r6 (costura de streaming) registrados.
+- Dívida de código declarada: scene_branding.c escreve CRAM/HScroll(CPU) no update e toca PSG com XGM2 carregado — refatorar antes do runtime.
+- build.bat/rebuild/clean/run/resolve_wrapper locais corrigidos (profundidade de delegação de três para dois níveis; apontavam para fora do workspace).
+- Metadados herdados build_v001/v002 removidos de doc/changelog/roms/ (eram do template, anteriores ao nascimento).
+- 4 problemas de framework canônico encaminhados como tarefa separada (ready_for_aaa em planejamento, mistura source/res no diagnóstico, higiene vs texto histórico, visual gate procurado em out/logs).
 
 **2026-07-03 (sessão 2) — FASES 2 e 3 completas, tudo validado**
 
@@ -87,7 +101,8 @@
 
 ## 3. DECISOES PENDENTES
 
-- CANAL DE GERAÇÃO (decisão humana): instalar ComfyUI `deck_safe_sd15` neste host (4.2GB, qualidade SD1.5 exige revisão) OU fornecer API key externa OU rodar geração em host com canal nativo.
+- GERAR CONCEPTS (humano): usar `doc/art/prompt_pack/` num modelo capaz e salvar em `data/source_art/concept/`; alternativa: instalar ComfyUI `deck_safe_sd15` (4.2GB) para triagem local.
+- RATIFICAR DIREÇÃO DE ARTE (humano): avaliar contact sheet 320x224 dos primeiros concepts contra o trio MD-nativo; até lá `art_direction_pending_human_ratification` bloqueia conversão.
 - Aprovação humana dos premium sources quando gerados (gate obrigatório antes de conversão VDP).
 - Art pass da branding com identidade MARÉ BRAVA (direção de arte agora existe).
 - Nome/arte final do segundo herói JACO (capoeirista) — `entra_depois`.

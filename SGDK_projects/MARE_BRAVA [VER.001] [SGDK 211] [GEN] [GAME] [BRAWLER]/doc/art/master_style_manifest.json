@@ -76,18 +76,23 @@
   },
   "technical_references": [
     {
-      "title": "Street Fighter Alpha 2",
-      "used_as": "quality/scale",
-      "inspiration_only": true
-    },
-    {
       "title": "Streets of Rage 2",
-      "used_as": "quality/timing",
+      "used_as": "md_feasibility/quality/scale",
       "inspiration_only": true
     },
     {
-      "title": "Darkstalkers",
-      "used_as": "quality",
+      "title": "Shinobi III",
+      "used_as": "md_feasibility/timing",
+      "inspiration_only": true
+    },
+    {
+      "title": "Comix Zone",
+      "used_as": "md_feasibility/line_language",
+      "inspiration_only": true
+    },
+    {
+      "title": "Street Fighter Alpha 2",
+      "used_as": "linguagem de anatomia angular (ancora conceitual, plataforma nao-MD)",
       "inspiration_only": true
     }
   ],
@@ -96,5 +101,10 @@
     "sourcing": "doc/art/art_generation_brief.md",
     "conversion": "art-translation-to-vdp",
     "excellence": "visual-excellence-standards"
-  }
+  },
+  "vdp_survival_proof": {
+    "required": "todo concept aprovado deve gerar contact sheet reduzido a 320x224 com quantizacao a 16 cores por dominio antes da ratificacao humana",
+    "fail_action": "se a linguagem nao sobreviver (silhueta ilegivel ou ramp quebrado), recuar para vibrant_16bit_pixel (runner-up nativo) sem reabrir catalogo inteiro"
+  },
+  "approval_status": "pending_human_ratification"
 }

@@ -8,7 +8,7 @@ set "SGDK_LOCAL_ENV=%~dp0sgdk_wrapper_env.bat"
 if exist "!SGDK_LOCAL_ENV!" call "!SGDK_LOCAL_ENV!"
 set "SGDK_PROJECT_ROOT=%~dp0."
 for %%I in ("!SGDK_PROJECT_ROOT!") do set "SGDK_PROJECT_ROOT=%%~fI"
-set "SGDK_WRAPPER_CLEAN=%~dp0..\..\..\tools\sgdk_wrapper\clean.bat"
+set "SGDK_WRAPPER_CLEAN=%~dp0..\..\tools\sgdk_wrapper\clean.bat"
 for %%I in ("!SGDK_WRAPPER_CLEAN!") do set "SGDK_WRAPPER_CLEAN=%%~fI"
 if not exist "!SGDK_WRAPPER_CLEAN!" (
     echo [ERROR] Nao foi possivel localizar tools\sgdk_wrapper\clean.bat a partir de %~dp0

@@ -160,6 +160,7 @@ Regra: cena so sobe de `testado_em_emulador` para `validado_budget` quando a evi
 - classe de problema: gameplay de brawler belt scroll com crowd, hitstop e parallax
 - papel: gameplay
 - objetivo visual: cais de Porto Bravo ao entardecer — BG_B mar/céu com `line_scrolling` (2 faixas), BG_A cais jogável, faixa de luta de 64px, beirada d'água como zona de ring-out legível
+- técnicas do registry nesta cena: `line_scrolling` (parallax BG_B), `camera_scroll_management` (deadzone 16px + wave-lock + clamp), `hitstop_camera_shake_feedback` (freeze 2-5f no acerto, shake só no ring-out) — manifest em `doc/technique_usage_manifest.json`, contrato em `doc/contracts/tdd_contract.json#technique_selection`
 - papel no projeto: primeira entrega jogavel com evidencias minimas rastreaveis
 - budget alvo:
   - preload honesto dos assets da cena (herói + 2 arquétipos + tileset cais + HUD)
@@ -174,8 +175,8 @@ Regra: cena so sobe de `testado_em_emulador` para `validado_budget` quando a evi
   - `per_frame_dma_cost`: `nao_medido` (alvo: só strips de animação ativos)
   - `active_animation_window`: janela por estado de animação; estados inativos não residentes
   - `scanline_sprite_pressure`: `nao_medido` (risco declarado: 4 inimigos na mesma faixa de y; mitigação: espaçamento por wave manager)
-  - `runtime_loading_model`: `scene_local_preload`
-  - `fallback_plan`: reduzir para 3 inimigos ativos → remover FX splash → reduzir estados de animação, nesta ordem, antes de sacrificar 60fps
+  - `runtime_loading_model`: `tilemap_streaming` no BG_A (cais 1344px, janela 64x32, máx 2 colunas/frame) + `full_resident_loop` no BG_B + `scene_local_preload` só para sprites/HUD — contrato completo com seam policy e custos em `doc/contracts/tilemap_streaming_contract.json` (veredito curatorial: `scene_local_preload` para 1344px NÃO cabe metodologicamente)
+  - `fallback_plan`: reduzir para 3 inimigos ativos → remover FX splash → reduzir estados de animação, nesta ordem, antes de sacrificar 60fps; para o mapa: fallbacks ordenados do contrato de streaming (1024px → 2 sub-cenas → densidade)
 - riscos de VDP:
   - HUD em plano rolavel
   - pressão de sprites por scanline na faixa de luta

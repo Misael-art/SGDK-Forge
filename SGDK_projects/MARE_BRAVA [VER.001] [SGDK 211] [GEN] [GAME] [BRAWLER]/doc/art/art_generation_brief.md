@@ -1,43 +1,35 @@
-# Art Generation Brief - MARE_BRAVA (CAIS_01)
+# Art Generation Brief - MARE_BRAVA (CAIS_01) — v2 pos-parecer curatorial
 
-Pronto para disparo assim que houver canal de geracao (ver `out/logs/generation_channel_decision.json`).
-Persistencia obrigatoria: `data/source_art/` + `premium_source_manifest` + aprovacao humana ANTES de conversao para `res/`.
+> CORREÇÃO CURATORIAL (2026-07-03): a v1 deste brief pedia sprite sheets completos
+> gerados por IA. Isso viola o gate de canal (IA permitida somente para
+> `concept_art`; `animated_sprite_final` é proibido). Rota correta em 3 etapas.
 
----
-context_pack_manifest:
-  docs: doc/11-gdd.md, doc/13-spec-cenas.md, doc/art/master_style_manifest.json, doc/art/art_direction_decision_record.json, doc/art/moodboard_manifest.json
-  style_catalog: tools/sgdk_wrapper/.agent/references/art_style_catalog.json
-  style_anchor: mare_brava_master_v1 (angular_cps2_fighter)
+## Etapa A — Concepts via IA (scope permitido: concept_art)
 
-art_generation_brief:
-  - target: sprite_sheet
-    character: TAINA, 48px altura (frame 48x48), 3.5 heads, muay thai de vila, top esportivo + calca de treino com faixa, silhueta com diagonais
-    palette: dominio pal1_heroina (15 cores + index 0): FF5533 / 2E1F3A / F2C29A / 1A6B5A + ramps hue-shift
-    action_states: idle, walk, jab, cross, lowkick, knee (aereo), special (A+B), hit_down (minimo 8)
-    format: PNG indexado, grid 8x8, PLTE <= 16 cores, index 0 transparente
-    prompt_base: "angular arcade fighter anatomy, sharp cel-shadow muscle planes, vibrant limited palette, clean outline pixel clusters, expressive impact poses, late afternoon warm sunlight, brazilian coastal dock 1990s"
-    negative: "recolored commercial sprites, neutral gray ramps, soft AA edges, photo realism, AI glow, copying iconic fighter poses"
-  - target: sprite_sheet
-    character: CRIA, 44px (frame 48x48), rusher magro inclinado para frente, camiseta regata
-    palette: dominio pal2_inimigos
-    action_states: walk, telegraph (corrida armada), attack, hit, down (minimo 5)
-    format: PNG indexado, grid 8x8, PLTE <= 16 cores, index 0 transparente
-  - target: sprite_sheet
-    character: ESTIVADOR, 56px (frame 56x56), grappler de massa quadrada, colete de carga
-    palette: dominio pal2_inimigos (compartilhada com CRIA)
-    action_states: walk, grab_telegraph (bracos abertos 18f), grab, hit, down (minimo 5)
-    format: PNG indexado, grid 8x8, PLTE <= 16 cores, index 0 transparente
-  - target: background_tilemap
-    scene: cais de Porto Bravo ao entardecer; BG_A cais jogavel 1344x224 (madeira, caixotes do sindicato, guindaste, barco, beirada com espuma); BG_B mar/ceu 512x224 loop para line-scroll 2 faixas
-    palette: dominio pal0_cenario; espuma compartilha pal3
-    format: PNG indexado por plano, grid 8x8, PLTE <= 16 cores por plano
-    megadrive_rules: sem alpha blending, index 0 transparente, 320x224 viewport
-  - target: title_screen
-    ref: doc/art/brand_identity_manifest.json (logo MARE BRAVA com quebra de onda, press start, mar em loop)
-    palette: pal3_hud para logo, pal0 para mar
-  - target: hud_element
-    itens: health bar 40x8, fonte 8x8 (0-9 A-Z), retrato TAINA 16x16, hitspark 8x8 (3 frames), splash 32x32 (3 frames)
-    palette: pal3_hud
----
+Prompts prontos e específicos em `doc/art/prompt_pack/` (um doc por asset).
+O humano gera num modelo capaz (ou canal aprovado futuro), salva em
+`data/source_art/concept/<asset>/` e registra no `premium_source_manifest`.
 
-Regras herdadas: `doc/art/style_drift_policy.json` define drift e obriga correction brief antes de regerar.
+Saídas da Etapa A: model sheets de personagem, painéis de mundo do cais,
+estudos de logo e estudos de HUD/FX. NADA disso vai direto para `res/`.
+
+Gate de saída: ratificação humana da direção de arte com contact sheet
+320x224 + quantização 16 cores (ver `doc/art/master_style_manifest.json#vdp_survival_proof`).
+
+## Etapa B — Autoral (proibido gerar por IA)
+
+1. Model sheet autoral consolidado por personagem (limpar/decidir sobre os concepts)
+2. Lineart 1px sobre o model sheet (grid de pixel, proporção travada no scale_contract)
+3. Key poses por ação (4-6 por estado, frame data como guia de timing)
+4. Strips por ação em PNG indexado (15 cores + index 0, grid 8x8)
+
+## Etapa C — Conversão e prova
+
+`art-translation-to-vdp` → `megadrive-pixel-strict-rules` → contact sheet →
+`visual-excellence-standards` → aprovação humana → só então `res/` e build.
+
+## Regras herdadas
+
+- `doc/art/style_drift_policy.json` (drift para correção antes de regerar)
+- `doc/contracts/art_gameplay_direction_gate.json` (escopo de produção autorizado)
+- Canal de geração: `out/logs/generation_channel_decision.json` (bloqueado no host)

@@ -47,5 +47,34 @@
   "benchmark_used_as": "quality",
   "clone_risk_policy": "authoriality_gate_required",
   "prompt_descriptor_policy": "neutral_technical_descriptors_only",
-  "blocking_statuses": []
+  "blocking_statuses": [
+    "art_direction_pending_human_ratification"
+  ],
+  "md_native_proof_trio": [
+    {
+      "title": "Streets of Rage 2",
+      "proves": "crowd de 4+ lutadores 48-64px legivel com cel shadow real no VDP; escala e densidade do genero",
+      "used_as": "feasibility_quality",
+      "inspiration_only": true
+    },
+    {
+      "title": "Shinobi III",
+      "proves": "silhueta forte + impacto de golpe com paleta limitada e 60fps; timing de antecipacao/recovery",
+      "used_as": "feasibility_timing",
+      "inspiration_only": true
+    },
+    {
+      "title": "Comix Zone",
+      "proves": "linha grossa angular e planos musculares sobrevivendo a 4 paletas de 16 cores; teto de densidade de detalhe por sprite",
+      "used_as": "feasibility_line_language",
+      "inspiration_only": true
+    }
+  ],
+  "md_native_proof_note": "Trio estritamente Mega Drive exigido pelo parecer curatorial de 2026-07-03 para provar que a linguagem angular_cps2_fighter (origem CPS2) sobrevive ao VDP. CPS2/Final Fight permanecem apenas como ancora de linguagem, nunca de viabilidade.",
+  "human_ratification": {
+    "status": "pending",
+    "required_before": "qualquer aprovacao de premium source ou conversao para res/",
+    "basis": "parecer curatorial 2026-07-03: direcao foi congelada automaticamente (auto_selected=true, confianca 0.70) sem moodboard visual real e sem aprovacao humana",
+    "ratification_inputs": "primeiro pacote de concepts do prompt pack (model sheet TAINA + painel do cais + estudo de logo) avaliado contra o trio MD-nativo em contact sheet 320x224"
+  }
 }

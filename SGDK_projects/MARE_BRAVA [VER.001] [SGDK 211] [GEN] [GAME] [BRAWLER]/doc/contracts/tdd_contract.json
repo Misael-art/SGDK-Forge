@@ -176,10 +176,11 @@
     "dma_owners": [
       "SPR_update_sprite_engine",
       "fila_hscroll_line_table_bgb",
-      "fila_cram_fades_e_flashes"
+      "fila_cram_fades_e_flashes",
+      "tilemap_column_streamer_bg_a"
     ],
     "max_pending_dma": 3,
-    "safety_pattern": "toda_transferencia_enfileirada_no_update_e_flushada_apenas_no_vblank"
+    "safety_pattern": "toda transferencia enfileirada no update e flushada apenas no vblank; streamer de colunas respeita max 2 colunas/frame (doc/contracts/tilemap_streaming_contract.json)"
   },
   "h_int_ownership": {
     "h_int_in_use": false
@@ -187,9 +188,9 @@
   "audio_ownership": {
     "driver": "xgm2",
     "channel_owners": [
-      "fm1_a_fm4_musica",
-      "fm5_fm6_sfx_prioritario",
-      "psg_reforco_tonal_e_ui"
+      "musica: FM e PSG pertencem ao driver XGM2 (arranjo na composicao, nao reserva fixa de canais FM pelo codigo)",
+      "sfx: roteados pelos canais PCM do XGM2 (2-3 simultaneos), prioridade hit > telegraph > pickup > ui",
+      "proibido: escrita direta em PSG/FM pelo codigo do jogo enquanto o XGM2 estiver carregado"
     ],
     "sample_rate_hz": 13300
   },
@@ -311,6 +312,18 @@
       "risk_id": "r4_dma_spike_spawn",
       "risk": "pico de DMA no spawn de grupo (strips novos)",
       "mitigation": "preload de strips no ENTER_PRELOAD; janela de animacao ativa; spawn escalonado",
+      "severity": "medium"
+    },
+    {
+      "risk_id": "r5_branding_ownership_violation",
+      "risk": "codigo herdado do template (scene_branding.c) escreve CRAM e VDP_setHorizontalScrollLine(...,CPU) dentro do update e toca PSG direto com XGM2 carregado, violando o ownership de VBlank/audio deste TDD",
+      "mitigation": "refatorar branding para fila VBlank e remover acesso direto a PSG ANTES de abrir o runtime do slice; dívida registrada no memory bank; nenhum claim visual/sonoro do branding ate la",
+      "severity": "high"
+    },
+    {
+      "risk_id": "r6_streaming_seam",
+      "risk": "costura visivel ou estouro de DMA no streaming de colunas do cais (1344px)",
+      "mitigation": "contrato de streaming fechado (janela 64x32, margem 12 colunas, max 2 colunas/frame, costura fora da viewport) + medicoes obrigatorias antes de validar budget; fallbacks ordenados declarados",
       "severity": "medium"
     }
   ]

@@ -91,7 +91,21 @@
 - Gates: audit_game_design_contracts=passed blockers=0; brawler validator passed=11 failed=0 (CI 23/23); schemas 100% via jsonschema
 - FASE 3: doc/art/ completo (decision record angular_cps2_fighter conf 0.70, master_style_manifest, moodboard, brand_identity planned, drift policy, diagnostic 3_no_art, art_generation_brief)
 - 16 PRDs materializados; check_prd_readiness=ok blockers=0 (prototype)
-- Higiene: corrigido compiled_from com caminho F:\ herdado do template; validate_project_hygiene=passed
+- Higiene: corrigido compiled_from com caminho absoluto de drive Windows herdado do template; validate_project_hygiene=passed
 - Metodologia: claims classificados (critical_motion not_applicable em planning, road_physics/modular_boss not_applicable); validate_project_methodology=passed
 - BLOCKER ATIVO: canal de geração de imagem indisponível no host (generation_channel_decision.json); premium source aguarda canal
 - Fix canônico correlato (tools/sgdk_wrapper): validate_brawler_belt_scroll_specialization.ps1 corrigido para pwsh 7.5+ (OrderedDictionary + DateKind String), CI 23/23
+
+## 2026-07-03 - resposta_ao_parecer_curatorial
+
+- Task: correcoes curatoriais (parecer humano de 2026-07-03)
+- Status renomeado: pre_producao_documentada_com_template_tecnico (nao e prototipo/slice/jogo)
+- Novos contratos: slice_scope_contract.json (anti-falso-verde) e tilemap_streaming_contract.json (cais 1344px: janela 64x32, max 2 colunas/frame, seam policy, fallbacks; scene_local_preload vetado)
+- Direcao de arte: trio de prova MD-nativo (SOR2/Shinobi III/Comix Zone) + human_ratification=pending + vdp_survival_proof (contact sheet 320x224) + fallback vibrant_16bit_pixel
+- Rota de arte corrigida: IA apenas concept_art; doc/art/prompt_pack/ com 6 docs de prompts especificos para geracao humana; sequencia autoral model sheet -> lineart 1px -> key poses -> strips
+- art_gameplay_direction_gate.json preenchido (producao autorizada so para Etapa A)
+- TDD: audio_ownership corrigido para XGM2 real (FM+PSG do driver, SFX via PCM, sem acesso direto), tilemap_column_streamer no DMA ownership, riscos r5/r6
+- Divida declarada: scene_branding.c viola ownership (CRAM/HScroll CPU no update + PSG direto) - refatorar antes do runtime
+- Wrappers locais .bat corrigidos (profundidade de delegacao corrigida de tres para dois niveis); metadados build_v001/v002 herdados removidos
+- Framework canonico: 4 correcoes encaminhadas (ready_for_aaa em planning, source/res no diagnostico, higiene vs texto historico, visual gate em out/logs)
+- validation_report regenerado: de 4 erros para 1 (res_graph ausente, honesto ate a conversao de arte). Corrigidos: doc_refs verificaveis das tecnicas (spec+memory bank+changelog), .agent local como symlink canonico, marcadores do GDD (kit do jogador, ensino invisivel, qualidade visual, direcao sonora). Blockers restantes sao estado honesto de pre-producao (gates visuais sem arte, closeout sem cena)

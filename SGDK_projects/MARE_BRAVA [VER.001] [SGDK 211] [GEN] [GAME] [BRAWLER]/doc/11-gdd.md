@@ -63,8 +63,8 @@ O jogo não é um beat'em up genérico com skin brasileira: a leitura de espaço
 ## Ambicao Tecnica, Visual e Sonora
 
 - `quality_promise`: game feel de combate no nível de Streets of Rage 2 — resposta imediata ao input, hitstop consistente, leitura de crowd impecável; percebido no primeiro combo conectado.
-- `visual_direction`: sprites 44–56px com silhuetas fortes e 3-4 heads; cais em 2 planos (BG_B mar/céu com line_scroll, BG_A cais jogável); paleta quente de entardecer; index 0 transparente; zero alpha blending.
-- `sound_direction`: XGM2; groove de baixo + percussão brasileira (surdo/agogô sintetizados via FM), SFX de impacto secos e altos; splash de ring-out como payoff sonoro.
+- `visual_direction` (criterios de qualidade visual): sprites 44–56px com silhuetas fortes e 3-4 heads; cais em 2 planos (BG_B mar/céu com line_scroll, BG_A cais jogável); paleta quente de entardecer; index 0 transparente; zero alpha blending.
+- `sound_direction` (direcao sonora / identidade musical): XGM2; groove de baixo + percussão brasileira (surdo/agogô sintetizados via FM), SFX de impacto secos e altos; splash de ring-out como payoff sonoro.
 - `gameplay_quality_bar`: 60fps constantes com 6 sprites ativos (1 herói + 4 inimigos + 1 pickup/FX); colisão multi-ponto justa; sem slowdown fora de hitstop intencional.
 - `hardware_strategy`: técnicas do registry com status apto; DMA apenas em VBlank; budget VDP validado antes do runtime; WINDOW para HUD; sem prometer terceiro plano nem efeitos inexistentes.
 
@@ -86,7 +86,9 @@ Toda tecnica precisa existir no registry canonico e servir a gameplay, narrativa
 | `shadow_highlight_mode` | adiada | status `LABORATORIO`; entardecer via paleta estática resolve o slice | promoção do registry + slot audit |
 | `pseudo3d_road_stack` | rejeitada | sem função em belt scroller | nunca neste projeto |
 
-## Mecanicas core
+## Kit do jogador e mecanicas core
+
+Kit do jogador (acoes e movimentos): andar 8 direcoes, combo A-A-A, joelhada aerea, especial defensivo A+B, Empurrao de Mare (knockback direcional).
 
 - Combo terrestre 3 hits com cancel window e hitstop crescente (2/3/5 frames)
 - Knockback direcional com física fix16 e ring-out na beirada d'água
@@ -97,6 +99,7 @@ Toda tecnica precisa existir no registry canonico e servir a gameplay, narrativa
 ## Progressao
 
 - Slice: cena única CAIS_01 com 3 grupos de onda; vitória = painel "DEMO CLEAR" e retorno ao title.
+- Ensino invisivel (tutorial invisivel, sem texto): arena 1 convida o combo com 2 CRIAs fracos; arena 2 ensina controle de espaço com o ESTIVADOR; arena 3 sugere o ring-out pelo layout da beirada.
 - Jogo completo (contrato v1): 3 atos com boss por ato — cais (CAPATAZ), mercado da madrugada (RAINHA DO MERCADO), sede do sindicato (MARÉ ALTA); expansível a 5 fases em revisão futura do design contract.
 
 ## Regras e limites
@@ -149,7 +152,7 @@ Toda tecnica precisa existir no registry canonico e servir a gameplay, narrativa
 - `dominant_route`: `art_diagnostic`
 - `first_skill`: `art/art-direction-selector` (emitir `art_direction_decision_record` + `master_style_manifest`), seguida de `art/art-creation-sourcing` (rota `3_no_art`)
 - `first_tool`: `tools/ai_imagegen/` para premium source; conversão via `art-translation-to-vdp`
-- `resource_loading_model`: `scene_local_preload`
+- `resource_loading_model`: `tilemap_streaming` (BG_A do cais 1344px; contrato `doc/contracts/tilemap_streaming_contract.json`) + `scene_local_preload` apenas para sprites/HUD/BG_B
 - `asset_strategy`: geração IA → `data/source_art/` com `premium_source_manifest` → aprovação humana → conversão VDP (spritesheet strips + tilemap IMAGE/MAP)
 - `evidence_required`: `art_direction_decision_record`, `premium_source_manifest`, laudo `megadrive-vdp-budget-analyst`, build ok, screenshot BlastEm + `save.sram` MDRT
 - `forbidden_shortcuts_until_evidence`: sem arte placeholder promovida a final; sem runtime de gameplay antes do laudo de budget VDP; sem `.res` de sprite antes do scale_contract travado

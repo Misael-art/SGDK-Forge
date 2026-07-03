@@ -5,8 +5,7 @@
     "description": "Cais de Porto Bravo ao entardecer: madeira gasta, caixotes do sindicato, guindaste em contraluz, mar vivo esverdeado com espuma na beirada.",
     "lighting_palette": "sol baixo quente (laranja/ambar) com sombras roxo-azuladas frias; hue shift declarado",
     "key_image_refs": [
-      "data/source_art/moodboard/world_cais_entardecer_01.png (planejado)",
-      "data/source_art/moodboard/world_beirada_espuma_01.png (planejado)"
+      "data/source_art/concept/cais_world/ (a gerar via doc/art/prompt_pack/03_cais_world_concept.md)"
     ],
     "mood_words": [
       "calor",
@@ -19,7 +18,7 @@
     {
       "protagonist_id": "taina",
       "key_pose_refs": [
-        "data/source_art/moodboard/taina_idle_guard_01.png (planejado)"
+        "data/source_art/concept/taina_model_sheet/ (a gerar via prompt_pack/01)"
       ],
       "palette_dominance": [
         "FF5533",
@@ -37,14 +36,14 @@
     {
       "enemy_id": "cria",
       "key_pose_refs": [
-        "data/source_art/moodboard/cria_rush_01.png (planejado)"
+        "data/source_art/concept/cria_model_sheet/ (a gerar via prompt_pack/02)"
       ],
       "readability_notes": "silhueta fina inclinada para frente; le como 'rapido e fraco' a 2 metros"
     },
     {
       "enemy_id": "estivador",
       "key_pose_refs": [
-        "data/source_art/moodboard/estivador_grab_telegraph_01.png (planejado)"
+        "data/source_art/concept/estivador_model_sheet/ (a gerar via prompt_pack/02)"
       ],
       "readability_notes": "massa quadrada com bracos abertos; telegraph de agarrao legivel por 18 frames"
     }
@@ -53,14 +52,14 @@
     {
       "item_id": "espetinho",
       "key_visual_refs": [
-        "data/source_art/moodboard/espetinho_01.png (planejado)"
+        "data/source_art/concept/hud_fx/ (estudos via prompt_pack/05)"
       ],
       "rarity_signal": "common"
     },
     {
       "item_id": "moeda_do_cais",
       "key_visual_refs": [
-        "data/source_art/moodboard/moeda_01.png (planejado)"
+        "data/source_art/concept/hud_fx/ (estudos via prompt_pack/05)"
       ],
       "rarity_signal": "common"
     }
@@ -115,5 +114,6 @@
     "trade dress de Streets of Rage/Final Fight",
     "gradientes suaves de 32-bit"
   ],
-  "inspiration_only": true
+  "inspiration_only": true,
+  "status_note": "Moodboard ainda TEXTUAL: o parecer curatorial 2026-07-03 exige imagens reais antes da ratificacao humana da direcao. As refs apontam para as saidas do prompt pack."
 }

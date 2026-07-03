@@ -8,9 +8,9 @@
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-07-03 (sessao 3 — resposta ao parecer curatorial)
+**Ultima atualizacao:** 2026-07-03 (sessao 4 — concepts recebidos + prova VDP)
 **Fase atual:** `pre_producao_documentada_com_template_tecnico` (vocabulário do parecer 2026-07-03). NÃO é protótipo, NÃO é vertical slice, NÃO é jogo. Bloqueios curatoriais tratados: slice scope contract (anti-falso-verde), streaming do cais contratado, direção de arte com trio MD-nativo e RATIFICAÇÃO HUMANA PENDENTE, rota de arte corrigida para concept-first com prompt pack, áudio XGM2 corrigido no TDD, dívidas do branding declaradas.
-**Proxima fase:** humano gera concepts via `doc/art/prompt_pack/` (Etapa A) → registro em data/source_art/concept + premium_source_manifest → contact sheet 320x224 → ratificação humana da direção → model sheet autoral → lineart 1px → key poses → strips. RUNTIME SÓ DEPOIS do pacote visual e do laudo VDP.
+**Proxima fase:** RATIFICAÇÃO HUMANA da direção com o contact sheet (`data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png`) → model sheet pixel autoral 3.5 heads (TAÍNA primeiro) → lineart 1px → key poses → strips → conversão VDP + laudo de budget. RUNTIME SÓ DEPOIS.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -64,6 +64,14 @@
 
 ## 2. O QUE ACABOU DE ACONTECER
 
+**2026-07-03 (sessão 4) — Concepts recebidos, prova VDP e aprendizados registrados**
+
+- Humano gerou 15 concepts via prompt pack (TAÍNA turnaround+9 poses+retrato, CRIA, ESTIVADOR, 3 arenas do cais, BG loop, HUD, FX, logo escolhido + estudos). Nomes normalizados (portable_descriptive_v1; CRIA estava na pasta errada) e todos registrados como `source_candidate` no premium_source_manifest.
+- Prova de sobrevivência VDP construída (320x224 + 15 cores + snap 9-bit): CENÁRIOS/BG/LOGO SOBREVIVEM com leitura excelente; PERSONAGENS viram borrão no downscale direto — confirma objetivamente a rota autoral pixel (3.5 heads) exigida pelo parecer.
+- Desvios registrados: proporção realista dos sheets (identidade ok, compressão devida) e texto diegético emergente no cenário (aceito como narrativa; tratar em tiles).
+- 7 lições gravadas em `doc/agent_learning/learning_ledger.json` (6 candidatas canônicas: prompt pack como artefato, proporção ignorada por modelos, texto diegético, contact sheet VDP como gate, incompatibilidades pwsh/Linux, falso verde de contrato) + patterns + candidates para o estudo canônico posterior.
+- Gate de arte atualizado: ratificação humana PENDENTE com evidência pronta; próximos blockers: `no_pixel_model_sheet`.
+
 **2026-07-03 (sessão 3) — Resposta ao parecer curatorial**
 
 - Status renomeado honestamente: pré-produção documentada com template técnico; nenhuma comparação com jogos reais do MD é cabível ainda.
@@ -101,8 +109,8 @@
 
 ## 3. DECISOES PENDENTES
 
-- GERAR CONCEPTS (humano): usar `doc/art/prompt_pack/` num modelo capaz e salvar em `data/source_art/concept/`; alternativa: instalar ComfyUI `deck_safe_sd15` (4.2GB) para triagem local.
-- RATIFICAR DIREÇÃO DE ARTE (humano): avaliar contact sheet 320x224 dos primeiros concepts contra o trio MD-nativo; até lá `art_direction_pending_human_ratification` bloqueia conversão.
+- RATIFICAR DIREÇÃO DE ARTE (humano): avaliar `data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png` — recomendação do agente: ratificar para mundo/front-end (sobrevivem) e aprovar a rota pixel autoral para personagens.
+- Escolher quem faz o model sheet pixel autoral (humano no Aseprite/GraphicsGale ou agente via ferramenta de pixel) — próximo passo físico da arte.
 - Aprovação humana dos premium sources quando gerados (gate obrigatório antes de conversão VDP).
 - Art pass da branding com identidade MARÉ BRAVA (direção de arte agora existe).
 - Nome/arte final do segundo herói JACO (capoeirista) — `entra_depois`.

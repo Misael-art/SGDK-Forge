@@ -109,3 +109,12 @@
 - Wrappers locais .bat corrigidos (profundidade de delegacao corrigida de tres para dois niveis); metadados build_v001/v002 herdados removidos
 - Framework canonico: 4 correcoes encaminhadas (ready_for_aaa em planning, source/res no diagnostico, higiene vs texto historico, visual gate em out/logs)
 - validation_report regenerado: de 4 erros para 1 (res_graph ausente, honesto ate a conversao de arte). Corrigidos: doc_refs verificaveis das tecnicas (spec+memory bank+changelog), .agent local como symlink canonico, marcadores do GDD (kit do jogador, ensino invisivel, qualidade visual, direcao sonora). Blockers restantes sao estado honesto de pre-producao (gates visuais sem arte, closeout sem cena)
+
+## 2026-07-03 - concepts_recebidos_prova_vdp_aprendizados
+
+- Task: processamento dos concepts gerados pelo humano via prompt pack
+- 15 concepts recebidos e normalizados (portable_descriptive_v1; par do CRIA movido da pasta do estivador)
+- premium_source_manifest v2: 15 assets `source_candidate` com sha256, desvios globais declarados (proporcao realista; texto diegetico emergente)
+- Prova VDP: data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png (320x224+15c+snap 9-bit) — cenarios/BG/logo sobrevivem; personagens exigem model sheet pixel autoral (borrao no downscale direto)
+- art_direction_decision_record + art_gameplay_direction_gate atualizados: ratificacao humana pendente com evidencia pronta; blocker novo `no_pixel_model_sheet`
+- Aprendizado: 7 licoes no learning_ledger (6 candidatas canonicas), success/failure patterns e skill_promotion_candidates atualizados para o estudo canonico posterior; promocao automatica proibida (correto)

@@ -75,6 +75,14 @@
     "status": "pending",
     "required_before": "qualquer aprovacao de premium source ou conversao para res/",
     "basis": "parecer curatorial 2026-07-03: direcao foi congelada automaticamente (auto_selected=true, confianca 0.70) sem moodboard visual real e sem aprovacao humana",
-    "ratification_inputs": "primeiro pacote de concepts do prompt pack (model sheet TAINA + painel do cais + estudo de logo) avaliado contra o trio MD-nativo em contact sheet 320x224"
+    "ratification_inputs": "contact sheet data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png (320x224, 15 cores, snap 9-bit MD) sobre os concepts recebidos em 2026-07-03",
+    "evidence_status": {
+      "concepts_received": true,
+      "contact_sheet_built": true,
+      "vdp_survival_result": {
+        "cenarios_bg_logo": "SOBREVIVEM — leitura excelente a 320x224/15c/9-bit; linguagem angular_cps2_fighter aprovavel para mundo e front-end",
+        "personagens": "NAO sobrevivem por downscale direto (proporcao realista vira borrao em 44-56px) — confirma rota autoral obrigatoria: model sheet pixel 3.5 heads -> lineart 1px -> strips"
+      }
+    }
   }
 }

@@ -4,16 +4,17 @@
   "project_id": "mare_brava",
   "asset_id": "cais_01_first_visual_package",
   "asset_kind": "mixed_package",
-  "evaluated_at": "2026-07-03_planning_no_runtime_evidence",
+  "evaluated_at": "2026-07-03_concepts_recebidos_contact_sheet_pronto",
   "measurement_level": "planned_contract",
   "art_director_review": {
     "status": "pending_human",
     "reviewer": "humano (ratificacao obrigatoria) + visual-excellence-standards",
     "art_direction_decision_record": "doc/art/art_direction_decision_record.json",
     "findings": [
-      "Direcao angular_cps2_fighter congelada automaticamente; ratificacao humana pendente (parecer 2026-07-03).",
-      "Trio de prova MD-nativo declarado (SOR2, Shinobi III, Comix Zone); prova VDP via contact sheet 320x224 requerida.",
-      "Nenhum premium source existe; canal IA permitido somente para concept (proibido animated_sprite_final)."
+      "15 concepts recebidos via prompt pack e registrados como source_candidate no premium_source_manifest.",
+      "Prova VDP construida: cenarios/BG/logo sobrevivem a 320x224+15c+9bit; personagens exigem etapa pixel autoral (downscale direto vira borrao).",
+      "Desvios registrados: proporcao realista nos sheets (identidade ok, proporcao a comprimir), texto diegetico no cenario (aceito como narrativa, tratar em tiles).",
+      "Ratificacao humana da direcao continua PENDENTE — decidir com o contact sheet."
     ]
   },
   "game_design_context": {
@@ -78,17 +79,15 @@
     "ready_for_res_promotion": false,
     "ready_for_aaa": false,
     "next_required_route": [
-      "prompt_pack (doc/art/prompt_pack/) -> geracao de concepts pelo humano ou canal aprovado",
-      "salvar em data/source_art/concept/ + premium_source_manifest",
-      "ratificacao humana da direcao com contact sheet 320x224",
-      "model sheet autoral -> lineart 1px -> key poses -> strips por acao",
+      "RATIFICACAO HUMANA: avaliar data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png",
+      "model sheet pixel autoral 3.5 heads por personagem (compressao das identidades aprovadas)",
+      "lineart 1px -> key poses -> strips por acao (PNG indexado 15c+index0)",
       "art-translation-to-vdp + megadrive-pixel-strict-rules + visual-excellence-standards",
-      "blastem_runtime_evidence"
+      "laudo megadrive-vdp-budget-analyst (tileset do cais + strips) antes do runtime"
     ]
   },
   "blockers": [
     "art_direction_pending_human_ratification",
-    "no_premium_source",
-    "generation_channel_unavailable_on_host"
+    "no_pixel_model_sheet"
   ]
 }

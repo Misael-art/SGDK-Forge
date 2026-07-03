@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "project_id": "mare_brava",
+  "decision_id": "adr_mare_brava_001",
+  "mode": "autonomous_with_escalation",
+  "auto_selected": true,
+  "confidence": 0.7,
+  "confidence_threshold": 0.65,
+  "selected_style_id": "angular_cps2_fighter",
+  "catalog_path": "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+  "catalog_entry_hash": "ad18a63c7cfa8c41c54c7073bc752cfc399370c5053d214e7df6514858799a5e",
+  "inputs_consulted": [
+    "doc/11-gdd.md",
+    "doc/13-spec-cenas.md",
+    "doc/contracts/brawler_belt_scroll_design_contract.json"
+  ],
+  "top_candidates": [
+    {
+      "style_id": "angular_cps2_fighter",
+      "score": 3.95,
+      "why_fit": "afinidade exata beat_em_up/fighting; humor sharp/agressivo/arcade casa com 'peso de mare'; outline 1-2px legivel para crowd de 4 inimigos; linguagem de impacto (poses expressivas) serve hitstop",
+      "risks": "vram_pressure high (mitigada por animation window streaming + cap de 4 inimigos + escala MD 44-56px); risco de clone da linguagem Capcom (delimitado por authoriality gate e proibicao de poses iconicas)"
+    },
+    {
+      "style_id": "kinetic_loose_line_action",
+      "score": 3.6,
+      "why_fit": "smears e silhueta forte servem hitstop e leitura de crowd; diferenciacao alta no MD",
+      "risks": "humor wild/comedic conflita com tom 'seco, sem caricatura' do GDD; jag intencional pode virar ruido em 48px"
+    },
+    {
+      "style_id": "vibrant_16bit_pixel",
+      "score": 3.5,
+      "why_fit": "compatibilidade nativa MD, paleta limpa, leitura excelente e producao barata",
+      "risks": "anti-padrao 'pixel art generico' que esta skill combate; humor bright/fast diverge do entardecer tenso"
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "style_id": "fighting_promo_chiaroscuro_90s",
+      "reason": "chiaroscuro pesado prejudica leitura de sprite pequeno em gameplay; reservado como referencia para retratos/title futuro"
+    },
+    {
+      "style_id": "analog_cel_anime_90s",
+      "reason": "afinidade rpg/cutscene, nao beat_em_up; ritmo de producao de cel nao serve strips de combate"
+    }
+  ],
+  "benchmark_used_as": "quality",
+  "clone_risk_policy": "authoriality_gate_required",
+  "prompt_descriptor_policy": "neutral_technical_descriptors_only",
+  "blocking_statuses": []
+}

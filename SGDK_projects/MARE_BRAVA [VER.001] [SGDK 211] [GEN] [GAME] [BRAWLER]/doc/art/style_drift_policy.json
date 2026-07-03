@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "mare_brava_drift_v1",
+  "drift_definitions": [
+    "paleta fora dos dominios do master_style_manifest",
+    "outline preto puro ou line weight acima de 2px",
+    "sombras cinza-neutras (sem hue shift)",
+    "anatomia realista suave ou proporcao acima de 4 heads",
+    "face/corpo/roupa que pareca de outro jogo conhecido",
+    "prompt que ignore negative_descriptors do manifesto"
+  ],
+  "action_on_drift": "parar geracao; emitir style_drift_correction_brief antes de regerar; nunca converter asset em drift para res/",
+  "reviewer": "humano (aprovacao de premium source e sempre humana)"
+}

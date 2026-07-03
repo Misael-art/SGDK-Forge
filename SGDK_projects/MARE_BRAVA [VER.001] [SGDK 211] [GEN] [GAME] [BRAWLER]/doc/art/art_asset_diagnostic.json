@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "diagnostic_id": "mare_brava_asset_diag_v1",
+  "generated_at": "2026-07-03",
+  "inventory": {
+    "data/source_art": "vazio (projeto recem-nascido)",
+    "res/": "apenas branding herdada do template (fora do escopo de gameplay)",
+    "rascunho/": "vazio"
+  },
+  "asset_route_decision": "3_no_art",
+  "rationale": "Nenhum asset de gameplay existe. Rota: geracao IA como premium source via image-generation-routing + art-creation-sourcing, persistindo em data/source_art/ com premium_source_manifest e aprovacao humana antes de conversao VDP.",
+  "critical_assets_needed": [
+    {
+      "asset_id": "taina_sheet",
+      "kind": "sprite_sheet",
+      "states": [
+        "idle",
+        "walk",
+        "jab",
+        "cross",
+        "lowkick",
+        "knee",
+        "special",
+        "hit_down"
+      ],
+      "frame_size": "48x48"
+    },
+    {
+      "asset_id": "cria_sheet",
+      "kind": "sprite_sheet",
+      "states": [
+        "walk",
+        "telegraph",
+        "attack",
+        "hit",
+        "down"
+      ],
+      "frame_size": "48x48"
+    },
+    {
+      "asset_id": "estivador_sheet",
+      "kind": "sprite_sheet",
+      "states": [
+        "walk",
+        "grab_telegraph",
+        "grab",
+        "hit",
+        "down"
+      ],
+      "frame_size": "56x56"
+    },
+    {
+      "asset_id": "cais_tilemap",
+      "kind": "background_tilemap",
+      "planes": "BG_A cais jogavel + BG_B mar/ceu line-scroll",
+      "size": "1344x224 (BG_A), 512x224 loop (BG_B)"
+    },
+    {
+      "asset_id": "logo_title",
+      "kind": "title_screen",
+      "ref": "doc/art/brand_identity_manifest.json"
+    },
+    {
+      "asset_id": "hud_pack",
+      "kind": "hud_element",
+      "itens": "health bar 40x8, fonte 8x8, retrato 16x16, hitspark/splash FX"
+    }
+  ],
+  "blockers": [
+    "blocked_no_premium_source"
+  ]
+}

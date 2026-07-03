@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "vibe_playable_route_report",
+  "template_seed": true,
+  "template_prevalidated": false,
+  "generated_at": "template_seed_not_runtime_evidence",
+  "input_text": "template_seed_no_user_request",
+  "normalized_input": "",
+  "detected_language": "unknown",
+  "detected_intents": [],
+  "intent_confidence": 0.0,
+  "matched_rules": [],
+  "ambiguity_fallback": {
+    "used": false,
+    "reason": "template_seed_wait_for_user_request"
+  },
+  "ambiguity_status": "template_seed_no_request",
+  "fallback_decision": "wait_for_user_request",
+  "visual_route_required": false,
+  "runtime_open_allowed": false,
+  "technical_runtime_candidate": false,
+  "detected_targets": [],
+  "required_owners": [],
+  "dispatch": {
+    "mode": "no_visual_dispatch",
+    "art_direction_selector_lifecycle": {
+      "allow_implicit_invocation": false,
+      "activation_method": "not_activated",
+      "reason": "template seed waits for deterministic router dispatch after a natural request"
+    },
+    "owner": ""
+  },
+  "compact_context": {
+    "status": "template_seed_empty",
+    "owners": [],
+    "files": []
+  },
+  "compact_context_bytes": 0,
+  "runtime_admission": {
+    "status": "blocked_no_user_request",
+    "reason": "template seed is structural only and cannot open runtime",
+    "runtime_admitted": false,
+    "technical_runtime_admitted": false,
+    "runtime_lab_admitted": false
+  },
+  "graphify": {
+    "required_for_routing": false,
+    "mode": "not_used_template_seed",
+    "timeout_seconds": 0,
+    "degradation": "canonical_files_remain_authoritative"
+  },
+  "blocking_statuses": [
+    "blocked_no_user_request",
+    "blocked_no_premium_source",
+    "blocked_no_human_asset_approval",
+    "blocked_no_blastem_evidence"
+  ],
+  "forbidden_claims_until_evidence": [
+    "runtime_admitted",
+    "visual_excellence_passed",
+    "asset_approval_fresh",
+    "runtime_evidence_fresh",
+    "ready_for_aaa"
+  ]
+}

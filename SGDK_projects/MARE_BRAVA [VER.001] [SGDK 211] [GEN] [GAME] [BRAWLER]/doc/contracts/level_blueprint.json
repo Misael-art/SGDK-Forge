@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "cais_01",
+  "golden_path": {
+    "waypoint_sequence": [
+      "wp_entrada",
+      "wp_arena1",
+      "wp_respiro1",
+      "wp_arena2",
+      "wp_respiro2",
+      "wp_arena3_beirada",
+      "wp_saida"
+    ],
+    "visible_landmarks": [
+      "guindaste do cais ao fundo",
+      "barco atracado no meio",
+      "farolete aceso na beirada final"
+    ],
+    "telegraph_chain": [
+      "espuma animada marca a beirada desde a arena1",
+      "musica intensifica na entrada de cada onda"
+    ]
+  },
+  "waypoints": [
+    {
+      "waypoint_id": "wp_entrada",
+      "position": "x=0..160 y=faixa_luta",
+      "purpose": "estabelecer movimento e leitura do cenario",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "wp_arena1",
+      "position": "x=160..480",
+      "purpose": "onda 1: 2 CRIAs ensinam o combo",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "wp_respiro1",
+      "position": "x=480..560",
+      "purpose": "breathing zone com espetinho",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "wp_arena2",
+      "position": "x=560..880",
+      "purpose": "onda 2: CRIA + ESTIVADOR ensinam gerenciamento de espaco",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "wp_respiro2",
+      "position": "x=880..960",
+      "purpose": "breathing zone com moeda",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "wp_arena3_beirada",
+      "position": "x=960..1280 beirada exposta",
+      "purpose": "onda 3: payoff do ring-out",
+      "checkpoint": false
+    },
+    {
+      "waypoint_id": "wp_saida",
+      "position": "x=1280..1344",
+      "purpose": "painel DEMO CLEAR",
+      "checkpoint": false
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "gate_onda1",
+      "gate_type": "enemy",
+      "unlock_condition": "grupo 1 zerado",
+      "telegraph": "camera trava + entrada visivel dos inimigos pela direita"
+    },
+    {
+      "gate_id": "gate_onda2",
+      "gate_type": "enemy",
+      "unlock_condition": "grupo 2 zerado",
+      "telegraph": "camera trava + ESTIVADOR entra pela esquerda com passo pesado"
+    },
+    {
+      "gate_id": "gate_onda3",
+      "gate_type": "enemy",
+      "unlock_condition": "grupo 3 zerado",
+      "telegraph": "camera trava + espuma da beirada em destaque"
+    }
+  ],
+  "optional_routes": [
+    {
+      "route_id": "rota_beirada",
+      "reward": "moeda_do_cais extra na faixa da beirada",
+      "risk_level": "high"
+    }
+  ],
+  "risk_markers": [
+    {
+      "position": "faixa inferior das arenas (beirada)",
+      "threat_type": "zona de ring-out (letal para inimigos; heroina nao cai no slice)",
+      "telegraph": "espuma animada + quebra de onda no tile"
+    },
+    {
+      "position": "wp_arena2 centro",
+      "threat_type": "agarrao do ESTIVADOR",
+      "telegraph": "bracos abertos por 18 frames antes do grab"
+    }
+  ],
+  "breathing_zones": [
+    {
+      "zone_id": "respiro1",
+      "purpose": "recuperar vida (espetinho) e reposicionar",
+      "duration_target_seconds": 8
+    },
+    {
+      "zone_id": "respiro2",
+      "purpose": "score e respiro antes do payoff",
+      "duration_target_seconds": 8
+    }
+  ],
+  "phase_rhythm_map": [
+    {
+      "phase": "calm",
+      "intensity": "low",
+      "start_waypoint": "wp_entrada",
+      "end_waypoint": "wp_arena1",
+      "audio_state": "tema_base"
+    },
+    {
+      "phase": "pressure",
+      "intensity": "medium",
+      "start_waypoint": "wp_arena1",
+      "end_waypoint": "wp_respiro1",
+      "audio_state": "tema_base"
+    },
+    {
+      "phase": "calm",
+      "intensity": "low",
+      "start_waypoint": "wp_respiro1",
+      "end_waypoint": "wp_arena2",
+      "audio_state": "tema_base"
+    },
+    {
+      "phase": "pressure",
+      "intensity": "high",
+      "start_waypoint": "wp_arena2",
+      "end_waypoint": "wp_respiro2",
+      "audio_state": "tema_base"
+    },
+    {
+      "phase": "payoff",
+      "intensity": "climax",
+      "start_waypoint": "wp_arena3_beirada",
+      "end_waypoint": "wp_saida",
+      "audio_state": "tema_base"
+    }
+  ],
+  "mechanic_reuse_map": [
+    {
+      "mechanic_id": "combo_de_mare",
+      "target_scenes": [
+        "cais_01_arena1",
+        "cais_01_arena2",
+        "cais_01_arena3"
+      ],
+      "reuse_count": 3
+    }
+  ],
+  "tutorial_invisible_beats": [
+    {
+      "beat_id": "beat_combo",
+      "teaches": "combo A-A-A",
+      "delivery": "2 CRIAs fracos na arena1 sem pressao de tempo"
+    },
+    {
+      "beat_id": "beat_espaco",
+      "teaches": "gerenciar rusher + grappler",
+      "delivery": "composicao da arena2 forca alternancia de alvo"
+    },
+    {
+      "beat_id": "beat_ring_out",
+      "teaches": "Empurrao de Mare na beirada",
+      "delivery": "arena3 posiciona a onda com as costas para a agua"
+    }
+  ],
+  "environmental_narrative_map": [
+    {
+      "element": "caixotes com marca do Sindicato da Mare",
+      "story_beat": "o cais esta sob controle da milicia",
+      "no_text_required": true
+    },
+    {
+      "element": "rede de pesca rasgada e barco lacrado",
+      "story_beat": "pescadores impedidos de trabalhar",
+      "no_text_required": true
+    }
+  ],
+  "failure_recovery_model": {
+    "last_checkpoint": "inicio da onda corrente",
+    "reset_strategy": "reset da onda com vida cheia ao gastar 1 vida; game over sem vidas",
+    "death_punishment": "perde progresso da onda corrente e score parcial do grupo"
+  },
+  "acceptance_tests": [
+    {
+      "test_id": "at1_clear",
+      "scenario": "jogador mediano completa as 3 ondas",
+      "expected": "clear em 3-5 minutos com <=1 vida gasta"
+    },
+    {
+      "test_id": "at2_ring_out",
+      "scenario": "jogador tenta ring-out na arena3",
+      "expected": "ring-out possivel e legivel em ate 3 tentativas"
+    },
+    {
+      "test_id": "at3_60fps",
+      "scenario": "onda cheia (4 inimigos + heroina + fx)",
+      "expected": "60fps sem slowdown fora de hitstop intencional"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": true
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Tecnicas declaradas no GDD/spec/TDD em 2026-07-03; evidencia de runtime pendente (correto para fase de planejamento)."
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "scene_id": "cais_01",
+      "registry_id": "line_scrolling",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "LINE_SCROLL",
+        "PARALLAX",
+        "VBLANK_BUDGET_AUDIT"
+      ],
+      "owner_skills": [
+        "code/sgdk-runtime-coder"
+      ],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": null,
+        "validation_report_path": null,
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md",
+        "doc/contracts/tdd_contract.json"
+      ],
+      "notes": "Declarada na FASE 2; evidencia sera anexada no primeiro build testado do slice."
+    },
+    {
+      "scene_id": "cais_01",
+      "registry_id": "camera_scroll_management",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "CAMERA_MANAGEMENT",
+        "CAMERA_DEADZONE",
+        "FIXED_POINT_MATH"
+      ],
+      "owner_skills": [
+        "code/camera-system-sgdk"
+      ],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": null,
+        "validation_report_path": null,
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md",
+        "doc/contracts/tdd_contract.json"
+      ],
+      "notes": "Declarada na FASE 2; evidencia sera anexada no primeiro build testado do slice."
+    },
+    {
+      "scene_id": "cais_01",
+      "registry_id": "hitstop_camera_shake_feedback",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "HITSTOP",
+        "CAMERA_SHAKE",
+        "GAMEPLAY_FEEDBACK"
+      ],
+      "owner_skills": [
+        "code/sgdk-runtime-coder"
+      ],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": null,
+        "validation_report_path": null,
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md",
+        "doc/contracts/tdd_contract.json"
+      ],
+      "notes": "Declarada na FASE 2; evidencia sera anexada no primeiro build testado do slice."
+    }
+  ]
+}

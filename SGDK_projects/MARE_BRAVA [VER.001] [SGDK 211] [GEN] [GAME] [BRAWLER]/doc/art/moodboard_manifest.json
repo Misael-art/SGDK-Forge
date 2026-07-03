@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "moodboard_id": "mare_brava_mood_v1",
+  "world": {
+    "description": "Cais de Porto Bravo ao entardecer: madeira gasta, caixotes do sindicato, guindaste em contraluz, mar vivo esverdeado com espuma na beirada.",
+    "lighting_palette": "sol baixo quente (laranja/ambar) com sombras roxo-azuladas frias; hue shift declarado",
+    "key_image_refs": [
+      "data/source_art/moodboard/world_cais_entardecer_01.png (planejado)",
+      "data/source_art/moodboard/world_beirada_espuma_01.png (planejado)"
+    ],
+    "mood_words": [
+      "calor",
+      "fim de tarde",
+      "tensao",
+      "sal"
+    ]
+  },
+  "protagonists": [
+    {
+      "protagonist_id": "taina",
+      "key_pose_refs": [
+        "data/source_art/moodboard/taina_idle_guard_01.png (planejado)"
+      ],
+      "palette_dominance": [
+        "FF5533",
+        "F2C29A",
+        "2E1F3A"
+      ],
+      "mood_words": [
+        "firme",
+        "tecnica",
+        "cansada de esperar"
+      ]
+    }
+  ],
+  "enemies": [
+    {
+      "enemy_id": "cria",
+      "key_pose_refs": [
+        "data/source_art/moodboard/cria_rush_01.png (planejado)"
+      ],
+      "readability_notes": "silhueta fina inclinada para frente; le como 'rapido e fraco' a 2 metros"
+    },
+    {
+      "enemy_id": "estivador",
+      "key_pose_refs": [
+        "data/source_art/moodboard/estivador_grab_telegraph_01.png (planejado)"
+      ],
+      "readability_notes": "massa quadrada com bracos abertos; telegraph de agarrao legivel por 18 frames"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "espetinho",
+      "key_visual_refs": [
+        "data/source_art/moodboard/espetinho_01.png (planejado)"
+      ],
+      "rarity_signal": "common"
+    },
+    {
+      "item_id": "moeda_do_cais",
+      "key_visual_refs": [
+        "data/source_art/moodboard/moeda_01.png (planejado)"
+      ],
+      "rarity_signal": "common"
+    }
+  ],
+  "palette_swatches": [
+    {
+      "swatch_id": "sol_areia",
+      "hex": "E8A05C",
+      "role": "base"
+    },
+    {
+      "swatch_id": "sombra_roxa",
+      "hex": "5C2E4A",
+      "role": "shadow"
+    },
+    {
+      "swatch_id": "luz_sol",
+      "hex": "FFD98A",
+      "role": "highlight"
+    },
+    {
+      "swatch_id": "laranja_impacto",
+      "hex": "FF5533",
+      "role": "accent"
+    },
+    {
+      "swatch_id": "mar_verde",
+      "hex": "3A6B7A",
+      "role": "neutral"
+    },
+    {
+      "swatch_id": "vermelho_perigo",
+      "hex": "CC2244",
+      "role": "danger"
+    },
+    {
+      "swatch_id": "hud_claro",
+      "hex": "F2F2E0",
+      "role": "ui_safe"
+    }
+  ],
+  "mood_words": [
+    "calor",
+    "groove",
+    "peso",
+    "mare",
+    "urbano-litoraneo"
+  ],
+  "negative_references": [
+    "neon cyberpunk",
+    "favela caricata de novela",
+    "trade dress de Streets of Rage/Final Fight",
+    "gradientes suaves de 32-bit"
+  ],
+  "inspiration_only": true
+}

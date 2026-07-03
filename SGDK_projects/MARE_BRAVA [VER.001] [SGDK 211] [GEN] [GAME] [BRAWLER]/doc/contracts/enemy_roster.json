@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "cais_01",
+  "enemies": [
+    {
+      "enemy_id": "cria",
+      "role": "perseguidor",
+      "head_metric": "M",
+      "hp": 40,
+      "damage": 5,
+      "movement_model": "ground_chase",
+      "ai_behavior": {
+        "aggro_radius_px": 200,
+        "retreat_threshold_hp_percent": 0,
+        "state_machine": "APPROACH->TELEGRAPH->ATTACK->RECOVER"
+      },
+      "telegraph_model": {
+        "telegraph_frames": 12,
+        "visual_cue": "corrida inclinada com braco armado",
+        "audio_cue": "grito curto"
+      },
+      "weakness_model": {
+        "weakness_mechanic_ids": [
+          "combo_de_mare",
+          "joelhada_aerea"
+        ],
+        "stagger_threshold": 10
+      },
+      "synergy_partners": [
+        {
+          "enemy_id": "estivador",
+          "synergy_type": "bait"
+        }
+      ],
+      "level_placement_rules": {
+        "target_scenes": [
+          "cais_01_arena1",
+          "cais_01_arena2",
+          "cais_01_arena3"
+        ],
+        "min_count_per_scene": 1,
+        "max_count_per_scene": 3
+      },
+      "feedback_on_hit": {
+        "visual": "hitspark + recuo de 8px",
+        "audio": "sfx_hit_leve",
+        "hitstop_frames": 2
+      },
+      "feedback_on_alert": {
+        "visual": "pulo curto de alerta",
+        "audio": "grito de aviso"
+      }
+    },
+    {
+      "enemy_id": "estivador",
+      "role": "bloqueador",
+      "head_metric": "L",
+      "hp": 120,
+      "damage": 12,
+      "movement_model": "ground_linear",
+      "ai_behavior": {
+        "aggro_radius_px": 140,
+        "retreat_threshold_hp_percent": 0,
+        "state_machine": "ADVANCE->GRAB_TELEGRAPH->GRAB->SLAM|WHIFF"
+      },
+      "telegraph_model": {
+        "telegraph_frames": 18,
+        "visual_cue": "bracos abertos e passo pesado",
+        "audio_cue": "respiro grave"
+      },
+      "weakness_model": {
+        "weakness_mechanic_ids": [
+          "combo_de_mare"
+        ],
+        "weakness_position": "back",
+        "stagger_threshold": 30
+      },
+      "synergy_partners": [
+        {
+          "enemy_id": "cria",
+          "synergy_type": "frontline_shield"
+        }
+      ],
+      "level_placement_rules": {
+        "target_scenes": [
+          "cais_01_arena2",
+          "cais_01_arena3"
+        ],
+        "min_count_per_scene": 0,
+        "max_count_per_scene": 2
+      },
+      "feedback_on_hit": {
+        "visual": "flinch pesado sem recuo (poise)",
+        "audio": "sfx_hit_grave",
+        "hitstop_frames": 3
+      },
+      "feedback_on_alert": {
+        "visual": "vira o corpo e bate no peito",
+        "audio": "stinger grave"
+      }
+    }
+  ],
+  "notes": "Roster do first playable slice. FISGA (atirador) e os bosses (capataz, rainha_do_mercado, mare_alta) estao no design contract com frame data proprio e entram nos blueprints das cenas futuras."
+}

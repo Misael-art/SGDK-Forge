@@ -155,8 +155,30 @@ function Ensure-RelativeBridge {
     }
 
     if (Test-Path -LiteralPath $fullBridge) {
-        Write-AgentEnvLog "WARN" "$BridgePath existe mas nao e ponte reconhecida; mantendo sem sobrescrever."
-        return $true
+        # Checkout sem suporte a symlink (Windows sem dev mode, core.symlinks=false)
+        # materializa a ponte como arquivo de texto contendo o caminho-alvo.
+        # E um stub do git, nao conteudo do usuario: substituir e o unico
+        # caminho de recuperacao. Qualquer outro arquivo aqui e falha dura --
+        # devolver $true sobre uma ponte quebrada esconde a causa raiz.
+        $isGitPlaceholder = $false
+        try {
+            $item = Get-Item -LiteralPath $fullBridge -Force
+            if (-not $item.PSIsContainer -and -not $item.LinkType -and $item.Length -le 512) {
+                $stub = ([System.IO.File]::ReadAllText($fullBridge)).Trim()
+                $normalizedStub = $stub.Replace('\', '/')
+                $isGitPlaceholder = $normalizedStub -eq $TargetRelative.Replace('\', '/')
+            }
+        } catch {
+            Write-AgentEnvLog "WARN" "Nao foi possivel ler ${BridgePath}: $($_.Exception.Message)"
+        }
+
+        if ($isGitPlaceholder) {
+            Write-AgentEnvLog "INFO" "$BridgePath veio do checkout como arquivo stub; rematerializando."
+            Remove-Item -LiteralPath $fullBridge -Force
+        } else {
+            Write-AgentEnvLog "ERROR" "$BridgePath existe e nao e ponte nem stub do checkout; nao sobrescrevendo."
+            return $false
+        }
     }
 
     try {

@@ -33,13 +33,19 @@ if ($null -eq $python) {
 $frameworkValidator = Join-Path $agentRoot "scripts/validate_skill_framework.py"
 $videoValidator = Join-Path $wrapperRoot "validate_aaa_video_curation.py"
 $lifecycleAuditor = Join-Path $wrapperRoot "audit_skill_lifecycle.ps1"
+$bridgeMaterialization = Join-Path $PSScriptRoot "test_skill_bridge_materialization.py"
 
-foreach ($requiredFile in @($frameworkValidator, $videoValidator, $lifecycleAuditor)) {
+foreach ($requiredFile in @($frameworkValidator, $videoValidator, $lifecycleAuditor, $bridgeMaterialization)) {
     if (-not (Test-Path -LiteralPath $requiredFile -PathType Leaf)) {
         throw "canonical_skill_curation_dependency_missing:$requiredFile"
     }
 }
 
+# Precede o validador de framework: se a ponte .agents/skills nao materializar,
+# o validador falha com bridge mismatch e a causa real fica escondida.
+Invoke-Gate -Label "skill bridge materialization" -Action {
+    & $python.Path @pythonArgs $bridgeMaterialization
+}
 Invoke-Gate -Label "skill framework" -Action {
     & $python.Path @pythonArgs $frameworkValidator
 }

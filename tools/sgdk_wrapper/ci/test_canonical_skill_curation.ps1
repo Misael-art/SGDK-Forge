@@ -49,6 +49,9 @@ Invoke-Gate -Label "skill bridge materialization" -Action {
 Invoke-Gate -Label "skill framework" -Action {
     & $python.Path @pythonArgs $frameworkValidator
 }
+Invoke-Gate -Label "skill hash engine parity" -Action {
+    & (Join-Path $PSScriptRoot "test_skill_hash_engine_parity.ps1")
+}
 Invoke-Gate -Label "skill lifecycle" -Action {
     & $lifecycleAuditor
 }

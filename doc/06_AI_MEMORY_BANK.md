@@ -1,6 +1,6 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
-**Última atualização:** 2026-06-07
+**Última atualização:** 2026-08-02
 **Escopo:** Repositório MegaDrive_DEV (workspace global)
 **Projeto em foco:** Shadow Dancer Hamoopig, Pequeno Príncipe, engines SGDK 211, reorganização workspace, assimilação do engine scan pass 2
 
@@ -2052,3 +2052,24 @@ Limite factual: nenhuma ROM, asset, benchmark ou projeto foi promovido a AAA
 por esta curadoria. A mudanca fortalece o agente canonico e reduz diagnostico
 repetido, mas cada jogo ainda precisa evidencias proprias de fonte, VDP,
 BlastEm, animacao, audio, level design e aprovacao humana.
+
+## 47. Recuperacao da remediacao de conformance (2026-08-02)
+
+Status: `checkpoint_recovered_framework_partial`.
+
+- O trabalho interrompido foi localizado na branch
+  `remediation/framework-conformance` e preservado em checkpoint Git.
+- O commit `96de9154` conserva ponte relativa, 13 hashes legacy reconciliados,
+  gate de materializacao e recuperacao de stub de checkout.
+- O delta interrompido conserva o motor ordinal de hash, gate de paridade e o
+  helper central `host_executors.psm1` ainda nao integrado.
+- Passaram: paridade de 14 payloads no Linux, lifecycle audit e framework
+  validator apos rematerializacao da ponte.
+- Permanecem blockers: `powershell`/`powershell.exe` literais, `USERPROFILE`
+  nulo no preparo Linux, dependencias Python ausentes na branch, cobertura CRLF
+  do hash e reconciliacao 47 active versus 13 active registrados no lifecycle.
+- O registro detalhado e o ponto de retomada vivem em
+  `doc/agent_learning/framework_conformance_recovery_checkpoint_2026-08-02.md`.
+
+Limite factual: nenhum runner completo, golden obrigatorio, `FORGE_REFERENCE`,
+ROM, runtime, budget ou claim AAA foi provado por este checkpoint.

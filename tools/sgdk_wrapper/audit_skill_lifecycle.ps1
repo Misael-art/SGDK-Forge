@@ -29,13 +29,31 @@ function Get-DirectoryContentHash {
     param([Parameter(Mandatory = $true)][string]$Path)
 
     $baseFull = [System.IO.Path]::GetFullPath($Path).TrimEnd("\", "/") + [System.IO.Path]::DirectorySeparatorChar
-    $items = foreach ($file in Get-ChildItem -LiteralPath $Path -File -Recurse | Sort-Object FullName) {
+
+    # Ordenar pelo caminho relativo POSIX em ordinal, nunca por FullName.
+    # `Sort-Object FullName` e case-insensitive e ordena o separador junto, entao
+    # em um payload com subdiretorio ele produz `agents/openai.yaml` antes de
+    # `SKILL.md`, enquanto o `sorted()` de validate_skill_framework.py produz o
+    # inverso. Mesmos bytes, ordem diferente, hash diferente -- era impossivel
+    # satisfazer os dois motores ao mesmo tempo. O Python e o lado canonico.
+    #
+    # `Sort-Object -CaseSensitive` NAO resolve: continua sendo comparacao
+    # cultural (ordena minusculas antes de maiusculas). So StringComparer.Ordinal
+    # reproduz a ordem de bytes que o Python usa.
+    $map = @{}
+    foreach ($file in Get-ChildItem -LiteralPath $Path -File -Recurse -Force) {
         $fileFull = [System.IO.Path]::GetFullPath($file.FullName)
         if (-not $fileFull.StartsWith($baseFull, [System.StringComparison]::OrdinalIgnoreCase)) {
             throw "skill_file_outside_payload:$fileFull"
         }
-        $relative = $fileFull.Substring($baseFull.Length).Replace("\", "/")
-        $fileHash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+        $map[$fileFull.Substring($baseFull.Length).Replace("\", "/")] = $file.FullName
+    }
+
+    $ordered = [string[]]@($map.Keys)
+    [System.Array]::Sort($ordered, [System.StringComparer]::Ordinal)
+
+    $items = foreach ($relative in $ordered) {
+        $fileHash = (Get-FileHash -LiteralPath $map[$relative] -Algorithm SHA256).Hash.ToLowerInvariant()
         "$relative`0$fileHash`n"
     }
     $bytes = [System.Text.Encoding]::UTF8.GetBytes([string]::Concat($items))

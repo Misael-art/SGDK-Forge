@@ -49,6 +49,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $ToolVersion = '0.1.0'
 
 # ---------------------------------------------------------------------------
@@ -532,7 +536,7 @@ if ($artifact['session_completed'] -and (Test-Path -LiteralPath $evidenceFinaliz
     if ($WarnOnly) {
         $finalizerArgs += '-WarnOnly'
     }
-    & powershell.exe @finalizerArgs | Out-Host
+    & $script:HostPwsh @finalizerArgs | Out-Host
     $finalizerExitCode = $LASTEXITCODE
     $artifact['evidence_closeout_report_path'] = $evidenceCloseoutPath
     if (Test-Path -LiteralPath $evidenceCloseoutPath -PathType Leaf) {

@@ -1,6 +1,10 @@
 param()
 
 $ErrorActionPreference = "Stop"
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $scriptPath = $MyInvocation.MyCommand.Path
 $ciRoot = Split-Path -Parent $scriptPath
 $wrapperRoot = Split-Path -Parent $ciRoot
@@ -23,17 +27,17 @@ if (-not (Test-Path -LiteralPath $templateRoot)) {
 }
 
 $protoReport = Join-Path $env:TEMP "prd_readiness_proto_test.json"
-& powershell -NoProfile -ExecutionPolicy Bypass -File $checker -ProjectRoot $templateRoot -TargetProfile prototype -OutPath $protoReport
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $checker -ProjectRoot $templateRoot -TargetProfile prototype -OutPath $protoReport
 Assert-True "prototype check exits cleanly" ($LASTEXITCODE -eq 0)
 $proto = Get-Content -LiteralPath $protoReport -Raw -Encoding UTF8 | ConvertFrom-Json
 Assert-True "prototype status ok" ($proto.status -eq "ok") "status=$($proto.status)"
 Assert-True "prototype has tier0 required" ([int]$proto.summary.required -ge 5) "required=$($proto.summary.required)"
 
-$schemaOutput = & powershell -NoProfile -ExecutionPolicy Bypass -File $schemaValidator -SchemaPath $schemaPath -ArtifactPath $protoReport 2>&1
+$schemaOutput = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $schemaValidator -SchemaPath $schemaPath -ArtifactPath $protoReport 2>&1
 Assert-True "prototype report passes schema" ($LASTEXITCODE -eq 0) ($schemaOutput -join "; ")
 
 $aaaReport = Join-Path $env:TEMP "prd_readiness_aaa_test.json"
-& powershell -NoProfile -ExecutionPolicy Bypass -File $checker -ProjectRoot $templateRoot -TargetProfile AAA -OutPath $aaaReport -WarnOnly
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $checker -ProjectRoot $templateRoot -TargetProfile AAA -OutPath $aaaReport -WarnOnly
 Assert-True "AAA warn-only check exits cleanly" ($LASTEXITCODE -eq 0)
 $aaa = Get-Content -LiteralPath $aaaReport -Raw -Encoding UTF8 | ConvertFrom-Json
 Assert-True "AAA template is blocked while PRDs are seed/missing" ($aaa.status -eq "blocked") "status=$($aaa.status)"

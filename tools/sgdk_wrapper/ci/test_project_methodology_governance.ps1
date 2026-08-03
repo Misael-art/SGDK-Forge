@@ -13,6 +13,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $validator = Join-Path $wrapperRoot 'validate_project_methodology.ps1'
@@ -120,7 +124,7 @@ function New-MethodologyManifest {
 }
 
 function Invoke-MethodologyValidator {
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validator `
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator `
         -ProjectRoot $fixtureRoot `
         -WorkspaceRoot $workspaceRoot `
         -OutputPath $reportPath | Out-Null
@@ -152,14 +156,14 @@ try {
         display_name = '__PROJECT_NAME__'
         kind = 'lab'
     }
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $adopter -ProjectRoot $fixtureRoot -Lifecycle existing | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $adopter -ProjectRoot $fixtureRoot -Lifecycle existing | Out-Null
     $adoptedPath = Join-Path $fixtureRoot 'doc\project_methodology_manifest.json'
     $adopted = Get-Content -LiteralPath $adoptedPath -Raw -Encoding UTF8 | ConvertFrom-Json
     Assert-True 'adopter materializes missing methodology inside project' (Test-Path -LiteralPath $adoptedPath -PathType Leaf)
     Assert-True 'adopter replaces template project-name placeholder with folder name' ([string]$adopted.project.name -eq (Split-Path $fixtureRoot -Leaf))
     Assert-True 'adopter keeps old project claims review_required' ([string]$adopted.claims.critical_motion.applicability -eq 'review_required')
     $beforeHash = (Get-FileHash -LiteralPath $adoptedPath -Algorithm SHA256).Hash
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $adopter -ProjectRoot $fixtureRoot -Lifecycle new | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $adopter -ProjectRoot $fixtureRoot -Lifecycle new | Out-Null
     $afterHash = (Get-FileHash -LiteralPath $adoptedPath -Algorithm SHA256).Hash
     Assert-True 'adopter never overwrites existing methodology' ($beforeHash -eq $afterHash)
 

@@ -92,6 +92,46 @@ function Get-PowerShellExecutable {
     return $null
 }
 
+function Invoke-HostPowerShell {
+    <#
+    .SYNOPSIS
+        Executa um script .ps1 no PowerShell real deste host.
+
+    .DESCRIPTION
+        Substituto unico de `& powershell ...` e `& powershell.exe ...`. Todos os
+        call sites do wrapper e da CI passam por aqui, entao a resolucao do
+        executor existe em UM lugar e nao em 150.
+
+        `-ExecutionPolicy Bypass` e sempre emitido: `pwsh` aceita a flag nas tres
+        plataformas (no Linux ela e aceita e ignorada) e `powershell.exe` a exige
+        para rodar script nao assinado. Verificado neste host com pwsh 7.6.3.
+
+        O exit code do processo filho e propagado em $global:LASTEXITCODE, porque
+        os gates decidem por exit code. Sem isso, um teste que falhou seria lido
+        como teste que passou -- exatamente o falso verde que esta remediacao
+        ataca.
+
+    .PARAMETER ScriptPath
+        Caminho do .ps1 a executar. Ausencia e erro explicito, nunca skip.
+
+    .PARAMETER Arguments
+        Argumentos repassados ao script, apos `-File`.
+    #>
+    param(
+        [Parameter(Mandatory = $true)][string]$ScriptPath,
+        [Parameter(Mandatory = $false)][object[]]$Arguments = @()
+    )
+
+    if (-not (Test-Path -LiteralPath $ScriptPath -PathType Leaf)) {
+        throw "host_powershell_script_missing: '$ScriptPath' nao existe. Um gate que nao pode ser executado e blocker, nao skip."
+    }
+
+    $exe = Get-PowerShellExecutable
+    $invocation = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $ScriptPath) + $Arguments
+
+    & $exe @invocation
+}
+
 function Get-PythonExecutable {
     <#
     .SYNOPSIS
@@ -498,6 +538,7 @@ Export-ModuleMember -Function @(
     'Get-WorkspaceRootFromModule',
     'Test-IsWindowsHost',
     'Get-PowerShellExecutable',
+    'Invoke-HostPowerShell',
     'Get-PythonExecutable',
     'Get-JavaExecutable',
     'Get-PythonLockPath',

@@ -13,6 +13,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $ciRoot = $PSScriptRoot
 $wrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $ciRoot ".."))
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $wrapperRoot "..\.."))
@@ -22,7 +26,7 @@ $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $wrapperRoot "..\.."))
 # Executa antes da checagem de golden targets para garantir cobertura mesmo
 # quando o workspace nao tem projeto dourado.
 $generalistaTest = Join-Path $ciRoot "test_genre_specialization_generalista_unchanged.ps1"
-& powershell -NoProfile -ExecutionPolicy Bypass -File $generalistaTest
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $generalistaTest
 if ($LASTEXITCODE -ne 0) {
     Write-Error "test_genre_specialization_generalista_unchanged.ps1 falhou."
     exit 1
@@ -67,7 +71,7 @@ if ($pf -eq 2) {
 
 $validate = Join-Path $wrapperRoot "validate_resources.ps1"
 foreach ($target in $goldenTargets) {
-    & powershell -NoProfile -ExecutionPolicy Bypass -File $validate -WorkDir $target.Path -CloseoutGate
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validate -WorkDir $target.Path -CloseoutGate
     if ($LASTEXITCODE -ne 0) {
         Write-Error "validate_resources.ps1 falhou para $($target.Path)."
         exit 1

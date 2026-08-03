@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $fixtureRoot = Join-Path $workspaceRoot "out\ci\effect_campaign_semantic_audit_fixture"
@@ -118,7 +122,7 @@ $effectNotes = [ordered]@{
 }
 [System.IO.File]::WriteAllText((Join-Path $projectRoot "out\agent_learning\effect_implementation_notes.json"), ($effectNotes | ConvertTo-Json -Depth 8), [System.Text.Encoding]::UTF8)
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript -WorkspaceRoot $workspaceRoot -CampaignRoot $campaignRoot -ProjectsRoot $projectsRoot -ReportPath $reportPath -FailOnBlocker | Out-Host
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript -WorkspaceRoot $workspaceRoot -CampaignRoot $campaignRoot -ProjectsRoot $projectsRoot -ReportPath $reportPath -FailOnBlocker | Out-Host
 $auditExit = $LASTEXITCODE
 Assert-True "semantic audit exits non-zero" ($auditExit -ne 0) "exit=$auditExit"
 Assert-True "semantic audit report generated" (Test-Path -LiteralPath $reportPath)

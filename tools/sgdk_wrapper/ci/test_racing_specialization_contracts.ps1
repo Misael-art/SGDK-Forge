@@ -7,6 +7,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $schemasDir = Join-Path $wrapperRoot 'schemas'
@@ -209,7 +213,7 @@ Set-Content -LiteralPath (Join-Path $fixtureRoot 'out\balance\lap_time_log.md') 
 Set-Content -LiteralPath (Join-Path $fixtureRoot 'out\balance\difficulty_curve.json') -Value '{}' -Encoding UTF8
 Set-Content -LiteralPath (Join-Path $fixtureRoot 'doc\changelog\changelog.md') -Value '# CI fixture' -Encoding UTF8
 
-& powershell -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $fixtureRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $fixtureRoot | Out-Null
 $validatorExit = $LASTEXITCODE
 Assert-True 'validator passes on fixture (vertical_slice phase)' ($validatorExit -eq 0) ("exit=$validatorExit")
 
@@ -244,7 +248,7 @@ $brokenContract.collision_model = "realistic_full"
     claim_ceiling = "ready_for_aaa"
 } | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $brokenRoot 'doc\project_methodology_manifest.json') -Encoding UTF8
 $brokenContract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $brokenRoot 'doc\racing_arcade_design_contract.json') -Encoding UTF8
-& powershell -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $brokenRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $brokenRoot | Out-Null
 $brokenExit = $LASTEXITCODE
 $brokenReportPath = Join-Path $brokenRoot 'out\logs\racing_specialization_report.json'
 Assert-True 'validator fails on broken collision_model (ready_for_aaa phase)' ($brokenExit -ne 0) ("exit=$brokenExit")

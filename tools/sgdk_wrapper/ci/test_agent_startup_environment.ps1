@@ -1,6 +1,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $repoRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $prepareScript = Join-Path $wrapperRoot 'prepare_agent_environment.ps1'
@@ -53,7 +57,7 @@ Assert-True 'assert_agent_environment.ps1 existe' (Test-Path -LiteralPath $asser
 Assert-True 'prepare_agent_environment.ps1 sintaxe ok' (Test-PowerShellSyntax -Path $prepareScript)
 Assert-True 'assert_agent_environment.ps1 sintaxe ok' (Test-PowerShellSyntax -Path $assertScript)
 
-$assertOut = (& powershell -NoProfile -ExecutionPolicy Bypass -File $assertScript -RepoRoot $repoRoot 2>&1 | Out-String)
+$assertOut = (& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $assertScript -RepoRoot $repoRoot 2>&1 | Out-String)
 $assertExit = $LASTEXITCODE
 Write-Host $assertOut.TrimEnd()
 Assert-ExitCode 'assert_agent_environment prepara ambiente' $assertExit 0

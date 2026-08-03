@@ -7,6 +7,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $ciDir = $PSScriptRoot
 $wrapperRoot = Split-Path $ciDir -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
@@ -42,7 +46,7 @@ if (Test-Path -LiteralPath $fixtureRoot) {
 }
 New-Item -ItemType Directory -Force -Path (Join-Path $fixtureRoot 'out\logs') | Out-Null
 
-& powershell -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $fixtureRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $fixtureRoot | Out-Null
 $validatorExit = $LASTEXITCODE
 Assert-True 'validator exits 0 on no-manifest project' ($validatorExit -eq 0) ("exit=$validatorExit")
 Assert-True 'report file emitted' (Test-Path -LiteralPath $reportPath) $reportPath

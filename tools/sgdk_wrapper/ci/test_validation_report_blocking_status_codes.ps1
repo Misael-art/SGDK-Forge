@@ -1,6 +1,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $projectRoot = Join-Path $workspaceRoot 'SGDK_projects\BENCHMARK_VISUAL_LAB_V2'
@@ -34,7 +38,7 @@ if (-not (Test-Path -LiteralPath $projectRoot -PathType Container)) {
     exit 0
 }
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot | Out-Null
 $exitCode = $LASTEXITCODE
 $report = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 $summary = $report.canonical_summary

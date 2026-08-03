@@ -9,6 +9,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $WrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $WorkspaceRoot = Split-Path (Split-Path $WrapperRoot -Parent) -Parent
 $AgentRoot = Join-Path $WrapperRoot ".agent"
@@ -46,7 +50,7 @@ Assert-True (Test-Path -LiteralPath $SchemaPath -PathType Leaf) "skill lifecycle
 Assert-True (Test-Path -LiteralPath $AuditScript -PathType Leaf) "skill lifecycle auditor missing"
 
 try {
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $AuditScript `
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $AuditScript `
         -WorkspaceRoot $WorkspaceRoot `
         -OutputPath $ReportPath | Out-Null
     Assert-True ($LASTEXITCODE -eq 0) "skill lifecycle audit failed"

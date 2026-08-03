@@ -10,6 +10,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = $null
 if ($args.Count -gt 0 -and $args[0]) {
     $wrapperRoot = $args[0]
@@ -53,7 +57,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $fixtureRoot 'out\logs') | 
 
 # No doc/genre_specialization_manifest.json => generalista path.
 # No doc/project_methodology_manifest.json => validator must default to safe ceiling.
-& powershell -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $fixtureRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $fixtureRoot | Out-Null
 $validatorExit = $LASTEXITCODE
 Assert-True 'validator exits 0 on generalista (no manifest) project' ($validatorExit -eq 0) ("exit=$validatorExit")
 Assert-True 'report file emitted' (Test-Path -LiteralPath $reportPath) $reportPath

@@ -8,6 +8,10 @@ param(
     [switch]$CloseoutGate
 )
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 try {
     if (-not [string]::IsNullOrWhiteSpace($WorkDir)) {
         Set-Location -LiteralPath $WorkDir
@@ -2887,7 +2891,7 @@ function Validate-ProjectMethodology {
         $args += @("-WorkspaceRoot", $WorkspaceRoot)
     }
 
-    & powershell.exe @args | ForEach-Object { Write-Host "[validate_resources][methodology] $_" }
+    & $script:HostPwsh @args | ForEach-Object { Write-Host "[validate_resources][methodology] $_" }
     if (-not (Test-Path -LiteralPath $reportPath -PathType Leaf)) {
         $msg = "validate_project_methodology.ps1 nao produziu project_methodology_report.json."
         Write-Log $msg "ERROR"
@@ -2970,7 +2974,7 @@ function Validate-ProjectHygiene {
         $args += @("-WorkspaceRoot", $WorkspaceRoot)
     }
 
-    & powershell.exe @args | ForEach-Object { Write-Host "[validate_resources][hygiene] $_" }
+    & $script:HostPwsh @args | ForEach-Object { Write-Host "[validate_resources][hygiene] $_" }
     if (-not (Test-Path -LiteralPath $reportPath -PathType Leaf)) {
         $msg = "validate_project_hygiene.ps1 nao produziu project_hygiene_report.json."
         Write-Log $msg "ERROR"
@@ -6340,7 +6344,7 @@ if ($visualSourceContractPath) {
     $visualSourceValidatorPath = Join-Path $PSScriptRoot 'validate_visual_source_of_truth.ps1'
     if (Test-Path -LiteralPath $visualSourceValidatorPath) {
         try {
-            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $visualSourceValidatorPath `
+            & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $visualSourceValidatorPath `
                 -ProjectRoot $pwd.Path `
                 -ContractPath $visualSourceContractPath `
                 -OutputPath $visualSourceLineageReportPath 2>&1 | ForEach-Object {
@@ -6608,7 +6612,7 @@ if ((Test-Path -LiteralPath $auditScript) -and ($resolvedProductStatus -ne "tech
         if ($semanticAuditPath) { $auditArgs['SemanticAuditPath'] = $semanticAuditPath.FullName }
         $auditExit = 0
         try {
-            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript @auditArgs 2>&1 | ForEach-Object { Write-Host "[validate_resources] $_" }
+            & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript @auditArgs 2>&1 | ForEach-Object { Write-Host "[validate_resources] $_" }
             $auditExit = $LASTEXITCODE
         } catch {
             Write-Host "[validate_resources] audit_game_design_contracts.ps1 falhou: $($_.Exception.Message)"

@@ -16,6 +16,10 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $workspaceRoot = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..\..")
 if (-not $StatePath) {
     $StatePath = Join-Path $workspaceRoot "doc\agent_session_state.json"
@@ -24,7 +28,7 @@ if (-not $StatePath) {
 if ($env:SGDK_SKIP_AGENT_ENVIRONMENT_GUARD -ne "1") {
     $agentEnvGuard = Join-Path $workspaceRoot "tools\sgdk_wrapper\assert_agent_environment.ps1"
     if (Test-Path -LiteralPath $agentEnvGuard -PathType Leaf) {
-        & powershell -NoProfile -ExecutionPolicy Bypass -File $agentEnvGuard -RepoRoot $workspaceRoot
+        & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $agentEnvGuard -RepoRoot $workspaceRoot
         if ($LASTEXITCODE -ne 0) {
             throw "Agent environment guard failed. See graphify-out/AGENT_ENVIRONMENT_REPORT.json."
         }

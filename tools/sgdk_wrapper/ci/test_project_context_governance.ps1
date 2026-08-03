@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $validator = Join-Path $wrapperRoot 'validate_project_context.ps1'
@@ -81,7 +85,7 @@ function New-ContextManifest {
 
 function Invoke-ContextValidator {
     param([string]$Phase = 'planning')
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validator `
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator `
         -ProjectRoot $fixtureRoot `
         -Phase $Phase `
         -OutputPath $reportPath | Out-Null

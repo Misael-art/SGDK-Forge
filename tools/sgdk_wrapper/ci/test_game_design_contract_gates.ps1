@@ -24,6 +24,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $fixtureRoot = Join-Path $workspaceRoot 'out\ci\game_design_contracts_fixture'
@@ -75,7 +79,7 @@ function Run-Audit {
     )
     $p = @{}
     foreach ($k in $Params.Keys) { $p[$k] = $Params[$k] }
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript @p 2>&1 | Out-Host
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript @p 2>&1 | Out-Host
     return $LASTEXITCODE
 }
 

@@ -27,6 +27,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Test-IsWindowsHost/Get-PowerShellExecutable: deteccao de host em um lugar so.
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 function Write-AgentEnvLog {
     param([string]$Level, [string]$Message)
     $ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -39,14 +43,73 @@ function Test-CommandAvailable {
 }
 
 function Refresh-ProcessPath {
-    $machinePath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
-    $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
-    $parts = @()
-    if (-not [string]::IsNullOrWhiteSpace($machinePath)) { $parts += $machinePath }
-    if (-not [string]::IsNullOrWhiteSpace($userPath)) { $parts += $userPath }
-    $localBin = Join-Path $env:USERPROFILE ".local\bin"
-    if (Test-Path -LiteralPath $localBin) { $parts += $localBin }
-    if ($parts.Count -gt 0) { $env:Path = ($parts -join ';') }
+    <#
+    .SYNOPSIS
+        Reincorpora ao PATH do processo o que um instalador acabou de registrar.
+
+    .DESCRIPTION
+        Existe porque winget/uv escrevem no PATH persistido, e o processo atual
+        continua com a copia antiga; sem reler, o binario recem-instalado parece
+        ausente.
+
+        A versao anterior era Windows-only e no Linux causava DUAS falhas:
+
+          * `Join-Path $env:USERPROFILE` lancava sob StrictMode, porque
+            USERPROFILE nao existe no Linux (HOME e o equivalente). Era a falha
+            que interrompia o preparo depois de rematerializar a ponte.
+          * os escopos 'Machine'/'User' do registro do Windows retornam vazio no
+            Linux, e o join com ';' sobrescreveria o PATH herdado com uma string
+            vazia -- perdendo pwsh, python e git no meio da preparacao.
+
+        Agora o PATH herdado e a base em toda plataforma: so ACRESCENTAMOS o que
+        falta. Nunca substituimos, porque um PATH truncado transforma dependencia
+        presente em dependencia "ausente" e o diagnostico aponta para o lugar
+        errado.
+    #>
+    $separator = [System.IO.Path]::PathSeparator
+    $parts = New-Object System.Collections.Generic.List[string]
+
+    # PATH atual primeiro: preserva o que o processo pai ja resolveu.
+    if (-not [string]::IsNullOrWhiteSpace($env:Path)) {
+        $parts.Add($env:Path)
+    }
+
+    # Escopos persistidos existem apenas em Windows real; no Linux vem vazios.
+    if (Test-IsWindowsHost) {
+        foreach ($scope in @('Machine', 'User')) {
+            $scoped = [Environment]::GetEnvironmentVariable('Path', $scope)
+            if (-not [string]::IsNullOrWhiteSpace($scoped)) { $parts.Add($scoped) }
+        }
+    }
+
+    # Destino de `uv tool install` nos dois mundos. USERPROFILE no Windows, HOME
+    # no Linux/macOS; ausencia dos dois nao e fatal aqui, apenas nao acrescenta.
+    $homeDir = if (-not [string]::IsNullOrWhiteSpace($env:USERPROFILE)) {
+        $env:USERPROFILE
+    } elseif (-not [string]::IsNullOrWhiteSpace($env:HOME)) {
+        $env:HOME
+    } else {
+        $null
+    }
+    if ($null -ne $homeDir) {
+        $localBin = Join-Path (Join-Path $homeDir '.local') 'bin'
+        if (Test-Path -LiteralPath $localBin) { $parts.Add($localBin) }
+    }
+
+    if ($parts.Count -gt 0) {
+        # Dedup preservando ordem: a primeira ocorrencia ganha, entao o PATH
+        # herdado mantem precedencia sobre o que foi acrescentado.
+        $seen = New-Object System.Collections.Generic.HashSet[string]
+        $ordered = New-Object System.Collections.Generic.List[string]
+        foreach ($chunk in $parts) {
+            foreach ($entry in ($chunk -split [regex]::Escape($separator))) {
+                if (-not [string]::IsNullOrWhiteSpace($entry) -and $seen.Add($entry)) {
+                    $ordered.Add($entry)
+                }
+            }
+        }
+        $env:Path = ($ordered -join $separator)
+    }
 }
 
 function Resolve-ForgedRepoRoot {
@@ -266,7 +329,7 @@ if (-not $SkipGraphify -and $failures -gt 0 -and $null -ne $agentEnvMutex) {
 if (-not $SkipGraphify -and $failures -eq 0) {
     try {
     $graphifyWrapper = Join-Path $root "tools\sgdk_wrapper\graphify_forge.ps1"
-    $statusOut = (& pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action status -RepoRoot $root 2>&1 | Out-String)
+    $statusOut = (& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action status -RepoRoot $root 2>&1 | Out-String)
     Write-Host $statusOut.TrimEnd()
     if ($statusOut -match 'graph_status=([a-z_]+)\s+reason=([a-z_]+)') {
         $graphStatus = $Matches[1]
@@ -282,13 +345,13 @@ if (-not $SkipGraphify -and $failures -eq 0) {
         }
 
         Write-AgentEnvLog "INFO" "Preparando Graphify com action=$action."
-        & pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action $action -RepoRoot $root @extra | Out-Host
+        & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action $action -RepoRoot $root @extra | Out-Host
         if ($LASTEXITCODE -ne 0 -and $action -eq 'update') {
             Write-AgentEnvLog "WARN" "Update falhou; tentando build limpo."
-            & pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action build -RepoRoot $root -Force | Out-Host
+            & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action build -RepoRoot $root -Force | Out-Host
         }
 
-        $finalStatus = (& pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action status -RepoRoot $root 2>&1 | Out-String)
+        $finalStatus = (& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper -Action status -RepoRoot $root 2>&1 | Out-String)
         Write-Host $finalStatus.TrimEnd()
         if ($finalStatus -match 'graph_status=([a-z_]+)\s+reason=([a-z_]+)') {
             $graphStatus = $Matches[1]

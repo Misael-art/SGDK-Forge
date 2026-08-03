@@ -7,6 +7,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $fixtureRoot = Join-Path $workspaceRoot 'out\ci\no_res_and_emulator_evidence_blockers_fixture'
@@ -123,13 +127,13 @@ $emulatorSession = @{
 }
 [System.IO.File]::WriteAllText((Join-Path $fixtureRoot 'out\logs\emulator_session.json'), ($emulatorSession | ConvertTo-Json -Depth 8), [System.Text.Encoding]::UTF8)
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $resGraphScript -ProjectRoot $fixtureRoot | Out-Host
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $resGraphScript -ProjectRoot $fixtureRoot | Out-Host
 Assert-True 'res_graph_report generated' (Test-Path -LiteralPath $resGraphReportPath)
 $resGraphReport = Get-Content -LiteralPath $resGraphReportPath -Raw | ConvertFrom-Json
 Assert-True 'code-loaded tiles detected' ($resGraphReport.vram.status -eq 'code_loaded_tiles_unmeasured') ("status=$($resGraphReport.vram.status)")
 Assert-True 'code-loaded estimate present' ([int]$resGraphReport.vram.code_loaded_tiles.estimated_tiles -ge 16) ("estimate=$($resGraphReport.vram.code_loaded_tiles.estimated_tiles)")
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $fixtureRoot | Out-Host
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $fixtureRoot | Out-Host
 $validateExit = $LASTEXITCODE
 Assert-True 'validate_resources returns non-zero' ($validateExit -ne 0) "exit=$validateExit"
 Assert-True 'validation_report generated' (Test-Path -LiteralPath $validationReportPath)

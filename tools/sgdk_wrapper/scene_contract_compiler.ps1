@@ -35,6 +35,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 # ---------------------------------------------------------------------------
 # Bootstrap
 # ---------------------------------------------------------------------------
@@ -481,7 +485,7 @@ if (Test-Path -LiteralPath $lintScript -PathType Leaf) {
             '-WarnOnly'
         )
         $lintArgumentList = @('-NoProfile', '-ExecutionPolicy', 'Bypass') + $lintArgs
-        $lintOutput = & powershell.exe @lintArgumentList 2>&1
+        $lintOutput = & $script:HostPwsh @lintArgumentList 2>&1
         foreach ($line in @($lintOutput)) {
             if (-not [string]::IsNullOrWhiteSpace([string]$line)) {
                 Write-Host $line

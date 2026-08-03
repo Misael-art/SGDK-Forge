@@ -9,6 +9,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $WrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $ScriptUnderTest = Join-Path $WrapperRoot "freshness_audit.ps1"
 $ValidateResourcesScript = Join-Path $WrapperRoot "validate_resources.ps1"
@@ -81,7 +85,7 @@ Assert-True ([bool]$sceneContractCheck.stale) "Expected scene_contract_compile t
 Assert-True (@($report.findings | Where-Object { $_.code -eq "FRESH_MEMORY_BANK_STALE" }).Count -ge 1) "Expected stale memory bank finding"
 Assert-True (@($report.findings | Where-Object { $_.code -eq "FRESH_CHANGELOG_STALE" }).Count -ge 1) "Expected stale changelog finding"
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ValidateResourcesScript -WorkDir $ProjectRoot -CloseoutGate | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ValidateResourcesScript -WorkDir $ProjectRoot -CloseoutGate | Out-Null
 $ValidationReport = Get-Content -LiteralPath $ValidationReportPath -Raw | ConvertFrom-Json
 Assert-True (@($ValidationReport.blocking_statuses) -contains "freshness_audit_stale") "Expected validate_resources closeout to propagate stale findings from freshness_audit_report.json"
 Assert-True (@($ValidationReport.blocking_statuses) -contains "project_documentation_sync_stale") "Expected validate_resources closeout to expose documentation sync drift"

@@ -43,6 +43,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $libDir = Join-Path $PSScriptRoot 'lib'
 $modulePath = Join-Path $libDir 'sgdk_artifact_contracts.psm1'
 if (Test-Path -LiteralPath $modulePath -PathType Leaf) {
@@ -216,18 +220,18 @@ if (-not $SkipBuild) {
     }
 }
 
-[void]$steps.Add((New-Step -Name "scene_contract_compiler" -Kind "contract" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "scene_contract_compiler.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "production") -Required $true))
+[void]$steps.Add((New-Step -Name "scene_contract_compiler" -Kind "contract" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "scene_contract_compiler.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "production") -Required $true))
 
-[void]$steps.Add((New-Step -Name "res_graph_audit" -Kind "resources" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "res_graph_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "res_graph_audit" -Kind "resources" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "res_graph_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 
-[void]$steps.Add((New-Step -Name "validate_resources" -Kind "validation" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "validate_resources" -Kind "validation" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
 
 if (-not $SkipRuntimeCapture) {
     if ($TargetScene -ge 0) {
-        [void]$steps.Add((New-Step -Name "runtime_capture" -Kind "emulator" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "run_runtime_capture.ps1"), "-ProjectDir", $ProjectRoot, "-TargetScene", ([string]$TargetScene), "-Emulator", "blastem") -Required $true))
-        [void]$steps.Add((New-Step -Name "validate_resources_post_runtime" -Kind "validation" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+        [void]$steps.Add((New-Step -Name "runtime_capture" -Kind "emulator" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "run_runtime_capture.ps1"), "-ProjectDir", $ProjectRoot, "-TargetScene", ([string]$TargetScene), "-Emulator", "blastem") -Required $true))
+        [void]$steps.Add((New-Step -Name "validate_resources_post_runtime" -Kind "validation" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
     } else {
-        $step = New-Step -Name "runtime_capture" -Kind "emulator" -Command "powershell.exe" -Arguments @() -Required $false
+        $step = New-Step -Name "runtime_capture" -Kind "emulator" -Command $script:HostPwsh -Arguments @() -Required $false
         $step.status = "skipped"
         $step.skipped_reason = "TargetScene not provided"
         [void]$steps.Add($step)
@@ -243,32 +247,32 @@ if (-not $SkipSceneRegression) {
         if ($WarnOnly) {
             $regressionArgs += @("-WarnOnly")
         }
-        [void]$steps.Add((New-Step -Name "scene_regression" -Kind "emulator" -Command "powershell.exe" -Arguments $regressionArgs -Required $true))
-        [void]$steps.Add((New-Step -Name "validate_resources_after_scene_regression" -Kind "validation" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+        [void]$steps.Add((New-Step -Name "scene_regression" -Kind "emulator" -Command $script:HostPwsh -Arguments $regressionArgs -Required $true))
+        [void]$steps.Add((New-Step -Name "validate_resources_after_scene_regression" -Kind "validation" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
     } else {
-        $step = New-Step -Name "scene_regression" -Kind "emulator" -Command "powershell.exe" -Arguments @() -Required $false
+        $step = New-Step -Name "scene_regression" -Kind "emulator" -Command $script:HostPwsh -Arguments @() -Required $false
         $step.status = "skipped"
         $step.skipped_reason = "No scene-regression scenes declared"
         [void]$steps.Add($step)
     }
 }
 
-[void]$steps.Add((New-Step -Name "promotion_claim_audit" -Kind "governance" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_promotion_claims.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "promotion_claim_audit" -Kind "governance" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_promotion_claims.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 
-[void]$steps.Add((New-Step -Name "freshness_audit" -Kind "freshness" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "freshness_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "freshness_audit" -Kind "freshness" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "freshness_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 
-[void]$steps.Add((New-Step -Name "validate_resources_final" -Kind "validation" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+[void]$steps.Add((New-Step -Name "validate_resources_final" -Kind "validation" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
 
 if (-not $SkipRuntimeCapture -and ($TargetScene -ge 0 -or $PlanOnly)) {
-    [void]$steps.Add((New-Step -Name "evidence_finalize" -Kind "evidence" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "finalize_emulator_evidence.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+    [void]$steps.Add((New-Step -Name "evidence_finalize" -Kind "evidence" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "finalize_emulator_evidence.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 } else {
-    $step = New-Step -Name "evidence_finalize" -Kind "evidence" -Command "powershell.exe" -Arguments @() -Required $false
+    $step = New-Step -Name "evidence_finalize" -Kind "evidence" -Command $script:HostPwsh -Arguments @() -Required $false
     $step.status = "skipped"
     $step.skipped_reason = "Runtime capture not requested"
     [void]$steps.Add($step)
 }
 
-[void]$steps.Add((New-Step -Name "project_learning_capture" -Kind "learning" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_project_learning.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "Capture", "-OutputFormat", "Json") -Required $true))
+[void]$steps.Add((New-Step -Name "project_learning_capture" -Kind "learning" -Command $script:HostPwsh -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_project_learning.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "Capture", "-OutputFormat", "Json") -Required $true))
 
 $executed = New-Object System.Collections.ArrayList
 $failed = $false

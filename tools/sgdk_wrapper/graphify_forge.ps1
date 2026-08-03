@@ -44,18 +44,26 @@ function Get-ForgeTrackedFiles {
     $roots = Get-ForgeTrackedRoots -Root $Root
     $files = New-Object System.Collections.Generic.List[System.IO.FileInfo]
 
+    # -Force em todo acesso: a raiz rastreada principal e `.agent`, e no Linux
+    # todo caminho com ponto inicial e oculto. Sem -Force, `Get-Item` lancava
+    # "Could not find item" para um diretorio que Test-Path acabara de aprovar,
+    # e o snapshot de freshness nunca podia ser gerado -- o grafo ficava
+    # permanentemente `freshness_missing`.
+    #
+    # Os filtros de exclusao tambem precisam casar '/' e '\': ancorados apenas em
+    # '\' eles nunca excluiriam __pycache__ no Linux, e cada .pyc reciclado
+    # marcaria o grafo como sujo sem que nada canonico tivesse mudado.
+    $excluded = '[\\/](__pycache__|\.pytest_cache|\.serena|\.superpowers)[\\/]'
+
     foreach ($p in $roots) {
         if (-not (Test-Path -LiteralPath $p)) { continue }
-        if ((Get-Item -LiteralPath $p) -is [System.IO.DirectoryInfo]) {
-            Get-ChildItem -LiteralPath $p -Recurse -File | Where-Object {
-                $_.FullName -notmatch '\\__pycache__\\' -and
-                $_.FullName -notmatch '\\\.pytest_cache\\' -and
-                $_.FullName -notmatch '\\\.serena\\' -and
-                $_.FullName -notmatch '\\\.superpowers\\' -and
+        if ((Get-Item -LiteralPath $p -Force) -is [System.IO.DirectoryInfo]) {
+            Get-ChildItem -LiteralPath $p -Recurse -File -Force | Where-Object {
+                $_.FullName -notmatch $excluded -and
                 $_.Extension -ne '.pyc'
             } | ForEach-Object { $files.Add($_) }
         } else {
-            $files.Add((Get-Item -LiteralPath $p))
+            $files.Add((Get-Item -LiteralPath $p -Force))
         }
     }
 
@@ -116,8 +124,14 @@ function Test-PathUnderRoot {
 
     if ($p -ieq $r) { return $true }
 
+    # O separador precisa ser o do host. Com '\' fixo, no Linux o teste
+    # comparava '/repo/graphify-out' com o prefixo '/repo\' e NUNCA casava:
+    # todo caminho legitimo era classificado como fora do workspace e o
+    # `build` abortava com exit 6. Era uma guarda correta falhando ao
+    # contrario -- bloqueava o caso valido em vez do caso perigoso.
+    $separator = [System.IO.Path]::DirectorySeparatorChar
     $rWithSep = $r
-    if (-not $rWithSep.EndsWith('\')) { $rWithSep += '\' }
+    if (-not $rWithSep.EndsWith($separator)) { $rWithSep += $separator }
     return $p.StartsWith($rWithSep, [System.StringComparison]::OrdinalIgnoreCase)
 }
 

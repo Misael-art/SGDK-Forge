@@ -1,6 +1,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $compilerScript = Join-Path $wrapperRoot 'scene_contract_compiler.ps1'
 $templateRoot = Join-Path $wrapperRoot 'modelo'
@@ -32,7 +36,7 @@ try {
     Write-Host '=== Scene Contract Compiler Host Smoke Test ==='
     Write-Host ''
 
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerScript -ProjectRoot $tempRoot -WarnOnly | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $compilerScript -ProjectRoot $tempRoot -WarnOnly | Out-Null
     $exitCode = $LASTEXITCODE
 
     $contractPath = Join-Path $tempRoot 'doc\scene-contracts.json'
@@ -51,7 +55,7 @@ try {
 
     $firstWriteUtc = (Get-Item -LiteralPath $contractPath).LastWriteTimeUtc
     Start-Sleep -Milliseconds 1100
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $compilerScript -ProjectRoot $tempRoot -WarnOnly | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $compilerScript -ProjectRoot $tempRoot -WarnOnly | Out-Null
     $secondWriteUtc = (Get-Item -LiteralPath $contractPath).LastWriteTimeUtc
     Assert-True 'unchanged contract preserves timestamp' ($secondWriteUtc -eq $firstWriteUtc) "first=$firstWriteUtc second=$secondWriteUtc"
 }

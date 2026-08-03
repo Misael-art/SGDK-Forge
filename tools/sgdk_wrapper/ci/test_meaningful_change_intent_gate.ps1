@@ -9,6 +9,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $WrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $ScriptUnderTest = Join-Path $WrapperRoot "audit_meaningful_change.ps1"
 
@@ -31,12 +35,12 @@ try {
     } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $LogDir "validation_report.json") -Encoding UTF8
 
     $reportPath = Join-Path $LogDir "meaningful_change_report.json"
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot -RequireIntent -OutputPath $reportPath | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot -RequireIntent -OutputPath $reportPath | Out-Null
     Assert-True ($LASTEXITCODE -ne 0) "Missing build intent should block when RequireIntent is active."
     $missingIntent = Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json
     Assert-True ($missingIntent.blocker_code -eq "build_intent_missing") "Expected build_intent_missing."
 
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest `
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest `
         -ProjectRoot $ProjectRoot `
         -RequireIntent `
         -TargetBlocker "audio_missing" `
@@ -47,7 +51,7 @@ try {
     $wrongTarget = Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json
     Assert-True ($wrongTarget.blocker_code -eq "target_blocker_not_current") "Expected target_blocker_not_current."
 
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest `
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest `
         -ProjectRoot $ProjectRoot `
         -RequireIntent `
         -TargetBlocker "visual_gate_blocked" `

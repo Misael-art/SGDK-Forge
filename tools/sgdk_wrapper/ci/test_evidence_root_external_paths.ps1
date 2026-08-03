@@ -9,6 +9,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $WrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $ScriptUnderTest = Join-Path $WrapperRoot "audit_evidence_root.ps1"
 if (-not (Test-Path -LiteralPath $ScriptUnderTest -PathType Leaf)) {
@@ -53,14 +57,14 @@ $badReport = @{
 }
 ($badReport | ConvertTo-Json -Depth 10) | Set-Content -LiteralPath (Join-Path $LogDir "validation_report.json") -Encoding UTF8
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot | Out-Null
 Assert-True ($LASTEXITCODE -ne 0) "Expected evidence root audit to block on unregistered external path in reports"
 
 $okReport = $badReport.Clone()
 $okReport.rom_path = $externalSource
 ($okReport | ConvertTo-Json -Depth 10) | Set-Content -LiteralPath (Join-Path $LogDir "validation_report.json") -Encoding UTF8
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot | Out-Null
 Assert-True ($LASTEXITCODE -eq 0) "Expected evidence root audit to allow external path when registered and hashed in hygiene manifest"
 
 Write-Host "[PASS] evidence root audit blocks external paths unless registered + hashed in hygiene manifest"

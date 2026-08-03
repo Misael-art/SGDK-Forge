@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $projectRoot = Join-Path $workspaceRoot 'out\ci\visual_source_of_truth_fixture'
@@ -101,7 +105,7 @@ $goodContract = @{
 $goodPath = Join-Path $projectRoot 'doc\contracts\visual_source_of_truth_v010.json'
 [System.IO.File]::WriteAllText($goodPath, ($goodContract | ConvertTo-Json -Depth 12), [System.Text.Encoding]::UTF8)
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
 $goodExit = $LASTEXITCODE
 $goodReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
@@ -118,7 +122,7 @@ $badContract.allowed_generation_sources = @(
 )
 [System.IO.File]::WriteAllText($goodPath, ($badContract | ConvertTo-Json -Depth 12), [System.Text.Encoding]::UTF8)
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
 $badExit = $LASTEXITCODE
 $badReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
@@ -136,7 +140,7 @@ $badContract.allowed_generation_sources = @(
 [System.IO.File]::WriteAllText($goodPath, ($badContract | ConvertTo-Json -Depth 12), [System.Text.Encoding]::UTF8)
 Set-Content -LiteralPath (Join-Path $projectRoot 'data\builders\bad_prompt.py') -Value 'reference_for_generation = "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png"' -Encoding UTF8
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
 $scanExit = $LASTEXITCODE
 $scanReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
@@ -145,7 +149,7 @@ Assert-True 'blocker cita visual_lineage_forbidden_reference' (@($scanReport.blo
 
 Set-Content -LiteralPath (Join-Path $projectRoot 'data\builders\bad_prompt.py') -Value 'img2img_base = "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v010.png"' -Encoding UTF8
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
 $resExit = $LASTEXITCODE
 $resReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
@@ -174,7 +178,7 @@ $partialGate = @{
 }
 [System.IO.File]::WriteAllText((Join-Path $projectRoot 'out\logs\visual_delivery_gate_report.json'), ($partialGate | ConvertTo-Json -Depth 8), [System.Text.Encoding]::UTF8)
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -ProjectRoot $projectRoot -SchemaPath $schemaPath -OutputPath $reportPath | Out-Null
 $partialExit = $LASTEXITCODE
 $partialReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 

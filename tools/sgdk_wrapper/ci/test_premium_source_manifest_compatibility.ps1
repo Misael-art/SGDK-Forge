@@ -1,5 +1,9 @@
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 function Assert-True {
     param(
         [bool]$Condition,
@@ -31,7 +35,7 @@ function Invoke-PremiumSourceValidator {
     Assert-True (Test-Path -LiteralPath $FixturePath) "fixture must exist: $FixtureName"
 
     $OutputPath = Join-Path $OutDir $OutputName
-    & powershell -NoProfile -ExecutionPolicy Bypass -File $ValidatorScript `
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ValidatorScript `
         -ManifestPath $FixturePath `
         -OutputPath $OutputPath | Out-Null
     if ($LASTEXITCODE -ne 0) {

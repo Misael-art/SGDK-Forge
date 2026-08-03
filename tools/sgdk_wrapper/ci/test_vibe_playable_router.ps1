@@ -1,5 +1,9 @@
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 function Assert-True {
     param(
         [bool]$Condition,
@@ -44,7 +48,7 @@ $ReportB = Join-Path $OutDir 'route_b.json'
 $CompactA = Join-Path $OutDir 'compact_a.json'
 $CompactB = Join-Path $OutDir 'compact_b.json'
 
-& powershell -NoProfile -ExecutionPolicy Bypass -File $RouterScript `
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $RouterScript `
     -RequestText $RequestText `
     -ProjectRoot $RepoRoot `
     -OutputPath $ReportA `
@@ -54,7 +58,7 @@ if ($LASTEXITCODE -ne 0) {
     throw "router command failed for first deterministic run"
 }
 
-& powershell -NoProfile -ExecutionPolicy Bypass -File $RouterScript `
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $RouterScript `
     -RequestText $RequestText `
     -ProjectRoot $RepoRoot `
     -OutputPath $ReportB `

@@ -8,6 +8,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path -Parent $PSScriptRoot
 $auditScript = Join-Path $wrapperRoot 'audit_promotion_claims.ps1'
 $fixtureRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('sgdk_claim_gate_' + [guid]::NewGuid().ToString('N'))
@@ -40,7 +44,7 @@ function Assert-Blocked {
     param([string]$Name, [hashtable]$Manifest, [hashtable]$Files, [string[]]$ExpectedCodes)
     $fixture = New-Fixture -Name $Name -Manifest $Manifest -Files $Files
     $reportPath = Join-Path $fixture.root 'out\logs\promotion_claim_audit_report.json'
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $fixture.root -OutputPath $reportPath *> $null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $fixture.root -OutputPath $reportPath *> $null
     $exitCode = $LASTEXITCODE
     if (-not (Test-Path -LiteralPath $reportPath)) {
         Write-Host "[FAIL] $Name report missing"

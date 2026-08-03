@@ -22,6 +22,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 function Resolve-ForgedRepoRoot {
     param([string]$ExplicitRoot)
     if (-not [string]::IsNullOrWhiteSpace($ExplicitRoot)) {
@@ -46,7 +50,7 @@ $args = @(
 if (-not $NoInstallMissing) { $args += "-InstallMissing" }
 if ($SkipGraphify) { $args += "-SkipGraphify" }
 
-& powershell @args
+& $script:HostPwsh @args
 if ($LASTEXITCODE -ne 0) {
     Write-Host "agent_environment_status=blocked reason=prepare_failed"
     exit 1

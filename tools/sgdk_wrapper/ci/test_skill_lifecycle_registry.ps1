@@ -13,6 +13,13 @@ $ErrorActionPreference = "Stop"
 . (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
 $script:HostPwsh = Get-PowerShellExecutable
 
+# Motor canonico de hash. Este teste mantinha a sua propria copia com
+# `Sort-Object FullName` e separador `\` literal, o que no Linux produzia chave
+# e ordem erradas e falhava com `restoration fixture hash mismatch`. Consumir o
+# modulo garante que a verificacao de reversibilidade usa exatamente o mesmo
+# motor que o auditor.
+. (Join-Path $PSScriptRoot "../lib/skill_payload_hash_bootstrap.ps1")
+
 $WrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $WorkspaceRoot = Split-Path (Split-Path $WrapperRoot -Parent) -Parent
 $AgentRoot = Join-Path $WrapperRoot ".agent"
@@ -27,22 +34,6 @@ function Assert-True {
         [Parameter(Mandatory = $true)][string]$Message
     )
     if (-not $Condition) { throw $Message }
-}
-
-function Get-DirectoryContentHash {
-    param([string]$Path)
-    $payload = ""
-    foreach ($file in Get-ChildItem -LiteralPath $Path -File -Recurse | Sort-Object FullName) {
-        $baseFull = [IO.Path]::GetFullPath($Path).TrimEnd("\") + "\"
-        $relative = [IO.Path]::GetFullPath($file.FullName).Substring($baseFull.Length).Replace("\", "/")
-        $fileHash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-        $payload += "$relative`0$fileHash`n"
-    }
-    $sha = [Security.Cryptography.SHA256]::Create()
-    try {
-        return ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($payload)))).Replace("-", "").ToLowerInvariant()
-    }
-    finally { $sha.Dispose() }
 }
 
 Assert-True (Test-Path -LiteralPath $RegistryPath -PathType Leaf) "skill lifecycle registry missing"
@@ -68,7 +59,7 @@ try {
     $fixtureSkill = Join-Path $fixtureRoot ([string]$merged.skill_id)
     New-Item -ItemType Directory -Path (Split-Path $fixtureSkill -Parent) -Force | Out-Null
     Copy-Item -LiteralPath (Join-Path $WorkspaceRoot ([string]$merged.legacy_path)) -Destination $fixtureSkill -Recurse
-    Assert-True ((Get-DirectoryContentHash $fixtureSkill) -eq [string]$merged.content_sha256) "restoration fixture hash mismatch"
+    Assert-True ((Get-SkillPayloadHash -Path $fixtureSkill) -eq [string]$merged.content_sha256) "restoration fixture hash mismatch"
     Assert-True (Test-Path -LiteralPath (Join-Path $fixtureSkill "SKILL.md")) "restoration fixture payload missing"
     Remove-Item -LiteralPath $fixtureRoot -Recurse -Force
 

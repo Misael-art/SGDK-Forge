@@ -25,46 +25,11 @@ if ([string]::IsNullOrWhiteSpace($OutputPath)) {
     $OutputPath = Join-Path $WorkspaceRoot "out\logs\skill_lifecycle_report.json"
 }
 
-function Get-DirectoryContentHash {
-    param([Parameter(Mandatory = $true)][string]$Path)
-
-    $baseFull = [System.IO.Path]::GetFullPath($Path).TrimEnd("\", "/") + [System.IO.Path]::DirectorySeparatorChar
-
-    # Ordenar pelo caminho relativo POSIX em ordinal, nunca por FullName.
-    # `Sort-Object FullName` e case-insensitive e ordena o separador junto, entao
-    # em um payload com subdiretorio ele produz `agents/openai.yaml` antes de
-    # `SKILL.md`, enquanto o `sorted()` de validate_skill_framework.py produz o
-    # inverso. Mesmos bytes, ordem diferente, hash diferente -- era impossivel
-    # satisfazer os dois motores ao mesmo tempo. O Python e o lado canonico.
-    #
-    # `Sort-Object -CaseSensitive` NAO resolve: continua sendo comparacao
-    # cultural (ordena minusculas antes de maiusculas). So StringComparer.Ordinal
-    # reproduz a ordem de bytes que o Python usa.
-    $map = @{}
-    foreach ($file in Get-ChildItem -LiteralPath $Path -File -Recurse -Force) {
-        $fileFull = [System.IO.Path]::GetFullPath($file.FullName)
-        if (-not $fileFull.StartsWith($baseFull, [System.StringComparison]::OrdinalIgnoreCase)) {
-            throw "skill_file_outside_payload:$fileFull"
-        }
-        $map[$fileFull.Substring($baseFull.Length).Replace("\", "/")] = $file.FullName
-    }
-
-    $ordered = [string[]]@($map.Keys)
-    [System.Array]::Sort($ordered, [System.StringComparer]::Ordinal)
-
-    $items = foreach ($relative in $ordered) {
-        $fileHash = (Get-FileHash -LiteralPath $map[$relative] -Algorithm SHA256).Hash.ToLowerInvariant()
-        "$relative`0$fileHash`n"
-    }
-    $bytes = [System.Text.Encoding]::UTF8.GetBytes([string]::Concat($items))
-    $sha = [System.Security.Cryptography.SHA256]::Create()
-    try {
-        return ([System.BitConverter]::ToString($sha.ComputeHash($bytes))).Replace("-", "").ToLowerInvariant()
-    }
-    finally {
-        $sha.Dispose()
-    }
-}
+# Motor canonico unico de hash de payload; nunca reimplementar aqui. O contrato
+# (chave relativa POSIX, ordem ordinal, normalizacao CRLF apenas em extensoes
+# textuais, binarios byte-exatos) esta documentado no modulo e provado contra o
+# lado Python por ci/test_skill_hash_engine_parity.ps1.
+. (Join-Path $PSScriptRoot "lib/skill_payload_hash_bootstrap.ps1")
 
 function Get-WordCount {
     param([Parameter(Mandatory = $true)][string]$SkillRoot)
@@ -133,7 +98,7 @@ if ($registry) {
             $errors.Add("skill_present_in_both_roots:$skillId")
         }
 
-        $actualHash = Get-DirectoryContentHash -Path $payload
+        $actualHash = Get-SkillPayloadHash -Path $payload
         $words = Get-WordCount -SkillRoot $payload
         if ($isActive) {
             $activeCount++

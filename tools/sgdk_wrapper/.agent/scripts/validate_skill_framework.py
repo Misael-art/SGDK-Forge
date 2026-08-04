@@ -6,7 +6,7 @@ import hashlib
 import json
 import re
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -17,6 +17,34 @@ BRIDGE_ROOT = ROOT / ".agents" / "skills"
 MANIFEST_PATH = AGENT_ROOT / "framework_manifest.json"
 LIFECYCLE_PATH = AGENT_ROOT / "references" / "skill_lifecycle_registry.json"
 FORBIDDEN_TERMS = ("megadrive-elite", "blaze_applicability")
+# Extensoes tratadas como texto pelo contrato canonico de hash. Deve permanecer
+# identica a $script:SkillPayloadTextExtensions em
+# tools/sgdk_wrapper/lib/skill_payload_hash.psm1 -- o gate de paridade compara
+# os dois conjuntos e falha se divergirem.
+TEXT_EXTENSIONS = frozenset(
+    {
+        ".bat",
+        ".c",
+        ".cfg",
+        ".cmd",
+        ".csv",
+        ".h",
+        ".ini",
+        ".json",
+        ".md",
+        ".ps1",
+        ".psd1",
+        ".psm1",
+        ".py",
+        ".sh",
+        ".svg",
+        ".toml",
+        ".txt",
+        ".xml",
+        ".yaml",
+        ".yml",
+    }
+)
 CONTRACT_BLOCKS = (
     ("entrada minima", r"(?i)entrada minima|entrada m.nima"),
     ("saida minima", r"(?i)saida minima|sa.da minima"),
@@ -48,14 +76,77 @@ def parse_frontmatter(text: str) -> tuple[list[str], dict[str, str]] | None:
     return keys, values
 
 
+def assert_relative_key(key: str) -> str:
+    """Falha se a chave relativa nao for portavel entre os dois motores.
+
+    `StringComparer.Ordinal` do .NET compara unidades UTF-16 e o `sorted()` do
+    Python compara code points; as duas ordens divergem para caracteres fora do
+    BMP. Restringindo as chaves a ASCII imprimivel, a igualdade das ordens e
+    provada em vez de esperada. Um `\\` colidiria com o separador normalizado.
+    """
+    if not key:
+        raise ValueError("skill_payload_key_empty")
+    if "\\" in key:
+        raise ValueError(f"skill_payload_key_has_backslash:{key}")
+    for char in key:
+        if not 0x20 <= ord(char) <= 0x7E:
+            raise ValueError(f"skill_payload_key_not_ascii:{key}:U+{ord(char):04X}")
+    return key
+
+
+def relative_key(root: Path, file_path: Path) -> str:
+    """Chave canonica: caminho relativo POSIX, case preservado.
+
+    Nunca ordene objetos Path. `WindowsPath` compara por componentes
+    normalizados e case-insensitive, enquanto `PosixPath` compara byte a byte:
+    a mesma arvore renderia ordens diferentes por host e, portanto, hashes
+    diferentes. A ordenacao acontece sobre esta string.
+    """
+    return assert_relative_key(file_path.relative_to(root).as_posix())
+
+
+def canonical_bytes(file_path: Path, key: str) -> bytes:
+    """Bytes do arquivo com o fim de linha normalizado pelo contrato.
+
+    Somente extensoes textuais declaradas sao normalizadas, e a operacao e
+    feita sobre bytes -- decodificar texto arriscaria reescrever BOM ou trocar
+    bytes invalidos por U+FFFD, mudando o hash de um arquivo que nao mudou.
+    Binarios ficam byte-exatos: um `.bin` com 0x0D 0x0A permanece intacto.
+    """
+    data = file_path.read_bytes()
+    suffix = PurePosixPath(key).suffix.lower()
+    if suffix not in TEXT_EXTENSIONS:
+        return data
+    # CRLF e CR solitario colapsam para LF.
+    return data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
+def file_payload_hash(file_path: Path, key: str) -> str:
+    return hashlib.sha256(canonical_bytes(file_path, key)).hexdigest()
+
+
 def directory_hash(path: Path) -> str:
+    """Hash canonico do payload de uma skill.
+
+    Implementacao canonica do lado Python; o lado PowerShell vive em
+    tools/sgdk_wrapper/lib/skill_payload_hash.psm1. O gate
+    ci/test_skill_hash_engine_parity.ps1 importa ESTA funcao (nao uma copia) e
+    prova que os dois motores concordam.
+    """
+    by_key: dict[str, Path] = {}
+    for file_path in path.rglob("*"):
+        if not file_path.is_file():
+            continue
+        key = relative_key(path, file_path)
+        if key in by_key:
+            raise ValueError(f"skill_payload_duplicate_key:{key}")
+        by_key[key] = file_path
+
     payload = bytearray()
-    for file_path in sorted(p for p in path.rglob("*") if p.is_file()):
-        relative = file_path.relative_to(path).as_posix()
-        file_hash = hashlib.sha256(file_path.read_bytes()).hexdigest()
-        payload.extend(relative.encode("utf-8"))
+    for key in sorted(by_key):
+        payload.extend(key.encode("utf-8"))
         payload.extend(b"\0")
-        payload.extend(file_hash.encode("ascii"))
+        payload.extend(file_payload_hash(by_key[key], key).encode("ascii"))
         payload.extend(b"\n")
     return hashlib.sha256(payload).hexdigest()
 
@@ -64,9 +155,13 @@ def skill_dirs(root: Path) -> dict[str, Path]:
     result: dict[str, Path] = {}
     if not root.exists():
         return result
-    for skill_file in sorted(root.rglob("SKILL.md")):
-        skill_dir = skill_file.parent
-        result[skill_dir.relative_to(root).as_posix()] = skill_dir
+    # Ordena pela chave relativa POSIX, nunca pelos objetos Path.
+    pairs = [
+        (skill_file.parent.relative_to(root).as_posix(), skill_file.parent)
+        for skill_file in root.rglob("SKILL.md")
+    ]
+    for key, skill_dir in sorted(pairs, key=lambda pair: pair[0]):
+        result[key] = skill_dir
     return result
 
 
@@ -81,7 +176,11 @@ def check_bridge(errors: list[str]) -> None:
 
 
 def check_active_structure(active: dict[str, Path], errors: list[str]) -> None:
-    for yaml_file in sorted(SKILLS_ROOT.rglob("agents/openai.yaml")):
+    yaml_files = sorted(
+        SKILLS_ROOT.rglob("agents/openai.yaml"),
+        key=lambda item: item.relative_to(SKILLS_ROOT).as_posix(),
+    )
+    for yaml_file in yaml_files:
         skill_dir = yaml_file.parent.parent
         if not (skill_dir / "SKILL.md").is_file():
             errors.append(f"active skill metadata without SKILL.md: {rel(skill_dir)}")
@@ -216,7 +315,11 @@ def check_pipeline_references(errors: list[str]) -> None:
 
 
 def check_forbidden_terms(errors: list[str]) -> None:
-    for path in sorted(AGENT_ROOT.rglob("*")):
+    scanned = sorted(
+        AGENT_ROOT.rglob("*"),
+        key=lambda item: item.relative_to(AGENT_ROOT).as_posix(),
+    )
+    for path in scanned:
         if LEGACY_ROOT in path.parents:
             continue
         if not path.is_file() or path.suffix.lower() not in {".md", ".json", ".yaml"}:

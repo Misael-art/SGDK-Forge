@@ -1,6 +1,13 @@
 # Framework Conformance Recovery Checkpoint - 2026-08-02
 
-Status: `checkpoint_recovered_framework_partial`
+Status: `checkpoint_recovered_framework_partial` -- **superado em 2026-08-04**.
+
+> Este documento tem duas partes. O corpo abaixo preserva o estado factual de
+> 2026-08-02, quando o trabalho estava interrompido, e permanece intacto como
+> registro historico. A secao final, `Resolucao - 2026-08-04`, tem precedencia:
+> os quatro blockers P0 foram fechados e o status corrente e
+> `framework_conformance_validated`. Nao leia os blockers do corpo como abertos
+> sem conferir a tabela de resolucao no fim.
 
 Claim ceiling: infraestrutura de conformance parcialmente implementada. Este
 registro nao prova framework funcional completo, pipeline AAA, build de jogo,
@@ -108,3 +115,105 @@ O commit `96de9154` preserva:
 Nao promover este commit como remediacao concluida ate existir worktree limpo
 com guard de ambiente, suite canonica e conformance runner completos, sem
 dependencia global e sem zero-golden falso verde.
+
+---
+
+# Resolucao - 2026-08-04
+
+Status: `framework_conformance_validated`.
+
+Esta secao substitui as expectativas da parte acima. O checkpoint de 2026-08-02
+descrevia trabalho interrompido; os quatro blockers P0 agora estao fechados.
+
+## Correcao factual do checkpoint
+
+O blocker 5 acima afirma que a implementacao Python embutida no teste "nao
+reproduz a normalizacao CRLF/LF existente em `validate_skill_framework.py`".
+Isso estava errado: **nenhuma** das tres implementacoes normalizava fim de linha
+-- todas hasheavam bytes crus. Nao havia normalizacao a reproduzir. O contrato
+CRLF/LF foi introduzido em 2026-08-04, nao apenas replicado.
+
+## Commits
+
+| Commit | Escopo | Validacao |
+|---|---|---|
+| `6e7bd223` | executores do host em vez de `powershell` literal | 12/12, 192 scripts varridos |
+| `a4882e98` | dependencias Python dos gates hermeticas | 18/18 |
+| `62fb7484` | hash de payload identico em qualquer host | 34/34 paridade |
+
+## Blockers do checkpoint, um a um
+
+| # | Blocker de 2026-08-02 | Estado |
+|---|---|---|
+| 1 | `assert_agent_environment.ps1` chama `powershell` literal | resolvido em `6e7bd223`; guard termina exit 0 no Linux |
+| 2 | `USERPROFILE` nulo em `Refresh-ProcessPath` | resolvido em `6e7bd223` |
+| 3 | consumidores chamando `powershell.exe` literal | resolvido; varredura de 192 scripts nao encontra executor literal |
+| 4 | `host_executors.psm1` sem lock/cache Python | resolvido em `a4882e98`; lock unico com hashes, cache do workspace, versao divergente bloqueia |
+| 5 | paridade sem CRLF e sem motor canonico unico | resolvido em `62fb7484` |
+| 6 | 13 owners no lifecycle versus 47 skills active | **aberto**; fora do escopo desta remediacao |
+| 7 | checkout cru com `core.symlinks=false` | resolvido pelo guard funcional; gate de materializacao precede o validador |
+
+## Algoritmo final de hash
+
+Dono unico por linguagem, nenhuma copia:
+
+- `tools/sgdk_wrapper/lib/skill_payload_hash.psm1`;
+- `tools/sgdk_wrapper/.agent/scripts/validate_skill_framework.py`.
+
+Contrato: chave relativa POSIX com case preservado; ordenacao explicita ordinal
+pela chave (nunca objetos de caminho, nunca `Sort-Object`); chaves restritas a
+ASCII imprimivel sem `\`, porque `StringComparer.Ordinal` compara unidades UTF-16
+e o `sorted()` do Python compara code points e as ordens divergem fora do BMP;
+CRLF e CR colapsam para LF apenas em extensoes textuais declaradas; binarios
+byte-exatos; agregado = chave UTF-8 + `0x00` + sha256 hex + `0x0A`; hash final =
+sha256 do agregado.
+
+Nenhum hash regenerado: os 25 arquivos legacy ja eram LF, a normalizacao e
+idempotente e o registry ficou byte-identico. O contrato foi provado antes de
+tocar em qualquer valor.
+
+## Fixtures multiplataforma
+
+`ci/test_skill_hash_engine_parity.ps1` importa as duas implementacoes reais em
+vez de embutir copia simplificada. 34 verificacoes cobrindo: 13 payloads legacy;
+LF, CRLF e CR convergindo para o mesmo hash; `.bin` com bytes CRLF distinto do
+gemeo LF; arquivo na raiz e em subdiretorio; diferenca de caixa; chave
+convergente entre caminho nativo, com `/` e com componente `.`; rejeicao de chave
+nao-ASCII nos dois lados; igualdade dos conjuntos de extensoes textuais;
+proibicao de `Get-DirectoryContentHash` ressurgir em qualquer `.ps1`/`.psm1`.
+
+Mutantes que fazem o gate falhar, como exigido: `Sort-Object FullName`,
+`sorted(Path)` e remocao da normalizacao CRLF.
+
+## Suite integral no Linux
+
+| Gate | Resultado | Exit |
+|---|---|---|
+| `assert_agent_environment.ps1` | `agent_environment_status=ready` | 0 |
+| `test_host_executor_resolution.ps1` | 12/12, 192 scripts | 0 |
+| `test_python_dependency_hermeticity.ps1` | 18/18 | 0 |
+| `test_skill_hash_engine_parity.ps1` | 34/34, pwsh == python | 0 |
+| `validate_skill_framework.py` | 47 active, 13 legacy | 0 |
+| `test_canonical_skill_curation.ps1` | 21 gates, 64 PASS | 0 |
+
+O blocker `restoration fixture hash mismatch` nao reaparece e nenhum gate foi
+saltado.
+
+## Blockers remanescentes
+
+1. `run_framework_conformance.sh/.bat` deterministas: `not_started`.
+2. Golden obrigatorio com registry de referencias: `not_started`.
+3. `FORGE_REFERENCE` canonico: `not_started`.
+4. Reconciliacao 13 owners no lifecycle versus 47 skills active: `not_started`.
+5. Execucao real em Windows nao foi feita. As fixtures cobrem a divergencia de
+   ordenacao e de chave por construcao, o que e prova de contrato, nao execucao
+   no host.
+
+## Claim ceiling
+
+`framework_conformance_validated` cobre a infraestrutura de conformance:
+resolucao de executores, hermeticidade de dependencias Python, hash determinista
+multiplataforma e suite canonica completa.
+
+Nao use `ready_for_aaa`. Esta remediacao nao prova ROM, gameplay, audio, budget
+VDP nem execucao no BlastEm.

@@ -2073,3 +2073,105 @@ Status: `checkpoint_recovered_framework_partial`.
 
 Limite factual: nenhum runner completo, golden obrigatorio, `FORGE_REFERENCE`,
 ROM, runtime, budget ou claim AAA foi provado por este checkpoint.
+
+## 48. Remediacao de conformance executada (2026-08-04)
+
+Status: `framework_conformance_validated`.
+
+Sucede a entrada 47, que ficou em checkpoint. Os quatro blockers P0 foram
+fechados no worktree isolado `framework_conformance`, branch
+`remediation/framework-conformance`.
+
+### Commits
+
+| Commit | Escopo |
+|---|---|
+| `6e7bd223` | executores do host resolvidos em vez de `powershell` literal |
+| `a4882e98` | dependencias Python dos gates tornadas hermeticas |
+| `62fb7484` | hash de payload identico em qualquer host |
+
+O commit de registro operacional e o proprio commit que introduz esta entrada.
+
+### Algoritmo final de hash de payload
+
+Havia TRES implementacoes de `content_sha256`. A de
+`ci/test_skill_lifecycle_registry.ps1` usava `Sort-Object FullName` e montava a
+chave relativa com `\` literal, entao no Linux produzia chave e ordem erradas --
+era a causa de `restoration fixture hash mismatch`. Satisfazer um motor quebrava
+o outro, logo o registry so podia estar correto para um lado por vez.
+
+Contrato unico, agora com dois donos e nenhuma copia:
+
+- `tools/sgdk_wrapper/lib/skill_payload_hash.psm1` (PowerShell);
+- `tools/sgdk_wrapper/.agent/scripts/validate_skill_framework.py` (Python).
+
+Regras:
+
+1. chave = caminho relativo a raiz do payload, separador `/`, case preservado;
+2. ordenacao explicita pela chave, ordinal; nunca ordenar objetos de caminho nem
+   usar `Sort-Object`, que e cultural e case-insensitive;
+3. chaves restritas a ASCII imprimivel sem `\`, porque
+   `StringComparer.Ordinal` compara unidades UTF-16 e o `sorted()` do Python
+   compara code points -- fora do BMP as ordens divergem. A restricao torna a
+   igualdade provada, nao presumida;
+4. CRLF e CR solitario colapsam para LF somente em extensoes textuais
+   declaradas; os dois conjuntos de extensoes sao comparados pelo gate;
+5. qualquer outra extensao e binaria e permanece byte-exata;
+6. payload agregado por entrada: chave UTF-8 + `0x00` + sha256 hex minusculo +
+   `0x0A`; hash final = sha256 do agregado.
+
+Nenhum hash foi regenerado. Os 25 arquivos de payload legacy ja eram LF, logo a
+normalizacao e idempotente e o registry ficou byte-identico -- o contrato foi
+provado antes, nao acomodado depois.
+
+### Ordenar objetos Path e dependente de host
+
+`sorted(p for p in root.rglob("*"))` parece determinista e nao e: `WindowsPath`
+compara por componentes de forma case-insensitive, `PosixPath` compara byte a
+byte. A mesma arvore hasheava diferente conforme o host que rodou o gate. Corrigido
+em `directory_hash`, na descoberta de `SKILL.md`, na de `agents/openai.yaml` e na
+varredura de termos proibidos.
+
+### Fixtures multiplataforma
+
+`ci/test_skill_hash_engine_parity.ps1` deixou de embutir uma copia simplificada
+do motor Python -- uma copia so prova que concorda consigo mesma. O gate importa
+as duas implementacoes reais e cobre 34 verificacoes: paridade nos 13 payloads
+legacy, LF/CRLF/CR convergindo para o mesmo hash, binario com bytes CRLF
+permanecendo distinto do gemeo LF, arquivo na raiz e em subdiretorio, diferenca
+de caixa, convergencia de chave entre caminho nativo/POSIX/com `.`, rejeicao de
+chave nao-ASCII nos dois lados, igualdade dos conjuntos de extensoes e um gate
+que falha se `Get-DirectoryContentHash` ressurgir em qualquer `.ps1`/`.psm1`.
+
+Tres mutantes provam que o gate morde: reintroduzir `Sort-Object FullName`,
+`sorted(Path)` ou remover a normalizacao CRLF faz o gate falhar.
+
+### Resultado integral da suite no Linux
+
+| Gate | Resultado |
+|---|---|
+| `assert_agent_environment.ps1` | `agent_environment_status=ready`, exit 0 |
+| `test_host_executor_resolution.ps1` | 12/12, 192 scripts varridos, exit 0 |
+| `test_python_dependency_hermeticity.ps1` | 18/18, exit 0 |
+| `test_skill_hash_engine_parity.ps1` | 34/34, pwsh == python, exit 0 |
+| `validate_skill_framework.py` | 47 active, 13 legacy, exit 0 |
+| `test_canonical_skill_curation.ps1` | 21 gates, 64 PASS, exit 0 |
+
+A suite agregada roda do inicio ao fim sem gate saltado.
+
+### Blockers remanescentes
+
+Fora do escopo desta remediacao, ainda abertos:
+
+- entradas deterministas `run_framework_conformance.sh/.bat` nao existem;
+- golden obrigatorio com registry de referencias nao existe;
+- `FORGE_REFERENCE` canonico nao existe;
+- o lifecycle registry lista 13 owners enquanto o validador descobre 47 skills
+  active; a reconciliacao de cobertura segue aberta;
+- a suite foi provada no Linux; a execucao em Windows real nao foi feita. As
+  fixtures cobrem a divergencia de ordenacao e de chave por construcao, mas
+  isso e prova de contrato, nao execucao no host.
+
+Limite factual: `framework_conformance_validated` cobre infraestrutura de
+conformance. Nao use `ready_for_aaa`. Nada aqui prova ROM, gameplay, audio,
+budget VDP ou execucao no BlastEm.

@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "forge_reference_neutral_v1",
+  "claim_ceiling": "technical_fixture_contracts",
+  "ready_for_aaa": false,
+  "contracts": [
+    {"type": "sampled_gate_non_vacuity", "gate_id": "sample_count", "sample_count": 8, "violation_count": 0},
+    {"type": "versioned_telemetry", "gate_id": "versioned_telemetry", "required_fields": ["scene_id"], "optional_fields": ["future_field"], "block": {"schema_version": "1.0.0", "total_words": 5, "scene_id": 1}},
+    {"type": "rom_side_playtest", "gate_id": "observed_state", "requested_mask": 3, "observed_mask": 3, "required_mask": 3, "completed": true},
+    {"type": "raster_color_truth", "gate_id": "cram_truth", "cram_entries_used": 16, "illegal_cram_entries": 0, "mid_frame_palette_updates": 0},
+    {"type": "identical_work_elision", "gate_id": "static_table", "camera_delta": 0, "table_hash_before": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "table_hash_after": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "rebuild_count": 0, "dma_bytes": 0},
+    {"type": "evidence_binding", "gate_id": "identity", "manifest": {"status": "sealed", "rom_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}, "gate_reports": [{"gate_id": "runtime", "status": "passed", "rom_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}]},
+    {"type": "gate_scope", "gate_id": "scope", "declared_scope": "static_contract", "claimed_scope": "static_contract", "source_status": "passed"}
+  ]
+}

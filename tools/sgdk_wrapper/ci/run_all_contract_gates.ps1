@@ -15,6 +15,7 @@
     8. test_project_hygiene_governance.ps1 (isolamento + rascunho + copias externas)
     9. test_changelog_status_sync.ps1 (memoria derivada sem snapshot artificial)
     10. test_project_learning_loop.py (captura local + propostas sem mutacao canonica)
+    10a. test_canonical_fixture_contracts.py (sete contratos neutros sem falso verde)
     11. test_genre_specialization_registry.ps1 (registry canonico v1)
     12. test_fighting_specialization_orchestrator.ps1 (orquestrador fino)
     13. test_fighting_specialization_contracts.ps1 (5 schemas + validator em fixture)
@@ -148,6 +149,7 @@ $hygieneScript = Join-Path $ciDir "test_project_hygiene_governance.ps1"
 $techniqueUsageScript = Join-Path $ciDir "test_technique_usage_governance.ps1"
 $statusSyncScript = Join-Path $ciDir "test_changelog_status_sync.ps1"
 $projectLearningScript = Join-Path $ciDir "test_project_learning_loop.py"
+$canonicalFixtureContractsScript = Join-Path $ciDir "test_canonical_fixture_contracts.py"
 $genreRegistryScript = Join-Path $ciDir "test_genre_specialization_registry.ps1"
 $fightingOrchestratorScript = Join-Path $ciDir "test_fighting_specialization_orchestrator.ps1"
 $fightingContractsScript = Join-Path $ciDir "test_fighting_specialization_contracts.ps1"
@@ -202,6 +204,7 @@ $report = [ordered]@{
     technique_usage_test = $null
     status_sync_test = $null
     project_learning_test = $null
+    canonical_fixture_contracts_test = $null
     genre_registry_test = $null
     fighting_orchestrator_test = $null
     fighting_contracts_test = $null
@@ -281,6 +284,7 @@ $hygieneRan = $false
 $techniqueUsageRan = $false
 $statusSyncRan = $false
 $projectLearningRan = $false
+$canonicalFixtureContractsRan = $false
 $genreRegistryRan = $false
 $fightingOrchestratorRan = $false
 $fightingContractsRan = $false
@@ -320,6 +324,17 @@ if ($Mode -in @("full", "smoke")) {
         $result = Run-Step -Name "agent_startup_environment (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $agentStartupScript)
         $report.agent_startup_test = $result
         $agentStartupRan = $true
+    }
+}
+
+if ($Mode -in @("full", "smoke")) {
+    if (-not (Test-Path -LiteralPath $canonicalFixtureContractsScript)) {
+        Write-Host "[ERROR] canonical fixture contracts test not found: $canonicalFixtureContractsScript"
+        $report.canonical_fixture_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "canonical_fixture_contracts (seven neutral fixtures)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($canonicalFixtureContractsScript))
+        $report.canonical_fixture_contracts_test = $result
+        $canonicalFixtureContractsRan = $true
     }
 }
 
@@ -799,6 +814,7 @@ if ($hygieneRan -and $report.hygiene_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($techniqueUsageRan -and $report.technique_usage_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($statusSyncRan -and $report.status_sync_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($projectLearningRan -and $report.project_learning_test.exit_code -ne 0) { $combinedExit = 1 }
+if ($canonicalFixtureContractsRan -and $report.canonical_fixture_contracts_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($genreRegistryRan -and $report.genre_registry_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($fightingOrchestratorRan -and $report.fighting_orchestrator_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($fightingContractsRan -and $report.fighting_contracts_test.exit_code -ne 0) { $combinedExit = 1 }
@@ -850,6 +866,7 @@ Write-Host "hygiene_test exit_code: $(if ($null -eq $report.hygiene_test) { 'not
 Write-Host "technique_usage_test exit_code: $(if ($null -eq $report.technique_usage_test) { 'not_run' } else { $report.technique_usage_test.exit_code })"
 Write-Host "status_sync_test exit_code: $(if ($null -eq $report.status_sync_test) { 'not_run' } else { $report.status_sync_test.exit_code })"
 Write-Host "project_learning_test exit_code: $(if ($null -eq $report.project_learning_test) { 'not_run' } else { $report.project_learning_test.exit_code })"
+Write-Host "canonical_fixture_contracts_test exit_code: $(if ($null -eq $report.canonical_fixture_contracts_test) { 'not_run' } else { $report.canonical_fixture_contracts_test.exit_code })"
 Write-Host "genre_registry_test exit_code: $(if ($null -eq $report.genre_registry_test) { 'not_run' } else { $report.genre_registry_test.exit_code })"
 Write-Host "fighting_orchestrator_test exit_code: $(if ($null -eq $report.fighting_orchestrator_test) { 'not_run' } else { $report.fighting_orchestrator_test.exit_code })"
 Write-Host "fighting_contracts_test exit_code: $(if ($null -eq $report.fighting_contracts_test) { 'not_run' } else { $report.fighting_contracts_test.exit_code })"

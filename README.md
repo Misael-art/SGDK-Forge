@@ -1,228 +1,142 @@
-# MegaDrive_DEV [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/)
+# SGDK Forge
 
-<sup>Workspace de desenvolvimento homebrew para Sega Mega Drive / Genesis usando **SGDK v2.11**</sup>
+Framework de código aberto para iniciar, organizar e validar projetos de Mega Drive
+com **SGDK 2.11**. Ele reúne um template de projeto, um wrapper de build, regras
+para agentes de IA e contratos que evitam resultados tecnicamente enganosos.
 
-Workspace ativo focado em projetos **SGDK 211**. Material legado, rascunhos e acervo de referencia foram reorganizados em `archives/`.
+> Esta é uma distribuição de **código-fonte e ferramentas**. Não é uma coleção de
+> ROMs prontas nem a entrega de um jogo. Uma ROM só é considerada entregue após
+> build, validação e evidência recente no BlastEm.
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows-orange.svg)](#)
-[![SGDK](https://img.shields.io/badge/SGDK-v2.11-red.svg)](https://www.sgdk.de/)
+## Baixar
 
-## ✨ Recursos Principais
+Escolha uma das opções:
 
-- 🚀 **Sistema de Build Inteligente**: Detecção automática de erros e correção de paletas
-- 💎 **Golden Template [ELITE]**: Estrutura rígida focada em 60FPS, XGM2 e qualidade AAA para Mega Drive
-- 🔧 **Infraestrutura Centralizada**: Scripts wrapper garantem consistência entre projetos
-- 📚 **Material de Aprendizado**: Acervo de tutoriais e exemplos preservado em `archives/`
-- 🎨 **Ferramentas de Desenvolvimento**: Editores de tiles, paletas, e conversores
-- 🌐 **Rigor Metodológico**: Projetos focados em superar as referências históricas do hardware
+- [Release estável mais recente](https://github.com/Misael-art/SGDK-Forge/releases/latest): arquivo ZIP/TAR gerado pelo GitHub para a tag publicada.
+- [Código da main](https://github.com/Misael-art/SGDK-Forge/archive/refs/heads/main.zip): versão em desenvolvimento.
+- Clone com Git:
 
-## 📚 Navegação Rápida
-
-- 🚀 [Comece Aqui](#quick-start) - Setup básico em 4 passos
-- 📖 [Documentação](doc/README.md) - Índice central em `doc/`
-- 🗂️ [Catálogo SGDK 211](SGDK_Engines/README.md) - Escolha por status: validado, pendente ou coleção
-- 🎮 [Motores de Jogo](#motores-de-jogo-disponíveis) - Escolha seu motor
-- 💡 [Dicas de Desenvolvimento](#dicas-de-desenvolvimento) - Melhores práticas
-- 🔧 [Solução de Problemas](#solução-de-problemas-comuns) - FAQ técnico
-- 📁 [Estrutura do Projeto](#estrutura) - Detalhes da organização
-
-## Estrutura
-
-```
-MegaDrive_DEV/
-├── assets/              # Recursos visuais (sprites, tilesets, backgrounds)
-├── doc/                 # Documentação centralizada (Rigor AAA)
-│   ├── logs/            # Logs de build e integração arquivados
-│   └── [subpastas numeradas]
-├── scripts/             # Scripts de automação (new-project.bat, setup-env.bat)
-├── sdk/sgdk-2.11/       # SGDK local
-├── tools/               # Wrapper central + ferramentas auxiliares
-│   └── maintenance/     # Scripts avulsos e manutenção
-├── SGDK_projects/       # Reservado para projetos autorais ativos
-├── SGDK_Engines/        # Engines de elite e jogos ativos em SGDK 211
-├── SGDK_templates/      # Onde vive o Golden Template (base-elite)
-├── .tmp/                # Arquivos temporários
-└── archives/            # Legado, referência e backups
+```bash
+git clone https://github.com/Misael-art/SGDK-Forge.git
+cd SGDK-Forge
 ```
 
-Depois da faxina de `2026-03-14` e reorganização de `2026-04-02`:
+## O que vem no repositório
 
-- versões `SGDK 160/200`, exemplos antigos e projetos de teste foram arquivados
-- a árvore ativa de `SGDK_Engines/` ficou concentrada nas entradas `SGDK 211`
-- o Git passou a viver em `F:\\Projects\\MegaDrive_DEV`, sem mais repositório acidental na raiz de `F:\\`
-- `scripts/` consolidada na raiz para acesso rápido; ferramentas auxiliares em `tools/maintenance/`
-- `Assets and Sprites/` renomeado para `assets/` para limpeza
-- `tmp/` renomeado para `.tmp/` para indicar temporário
-- logs de build movidos para `doc/logs/` e arquivados em `archives/logs_build_2026/`
-- arquivos soltos em `SGDK_Engines/` movidos para `tools/maintenance/`
+| Componente | Para que serve |
+|---|---|
+| `tools/sgdk_wrapper/` | Ponto central de build, validação e criação de projetos. |
+| `tools/sgdk_wrapper/modelo/` | Template copiável para um novo projeto SGDK. |
+| `tools/sgdk_wrapper/.agent/` | Regras, workflows e skills canônicas para agentes. |
+| `SGDK_projects/FORGE_REFERENCE.../` | Fixture técnica neutra que demonstra contratos de telemetria. |
+| `doc/` | Diretrizes, memória operacional e referências de produção. |
+| `sdk/README.md` | Como disponibilizar o SDK SGDK 2.11 no seu computador. |
 
-## Quick Start
+Os binários do SGDK e emuladores não fazem parte desta release de fonte. A pasta
+`sdk/` explica como apontar `GDK` para uma instalação local ou instalar o SGDK
+2.11 em `sdk/sgdk-2.11`.
+
+## Início rápido
+
+### 1. Prepare o ambiente
+
+Para executar os checks desta release, instale:
+
+- Python 3.10 ou superior;
+- PowerShell 7 (`pwsh`) para o runner integrado;
+- Git.
+
+Para compilar uma ROM, instale também uma distribuição válida do **SGDK 2.11** e
+configure `GDK` para sua pasta. Confirme que `makefile.gen` existe dentro dela.
+Leia [sdk/README.md](sdk/README.md) antes de tentar o primeiro build.
+
+No Windows, a rota de build documentada pelo wrapper usa `cmd` e caminho absoluto:
 
 ```bat
-REM 1. Configurar ambiente (primeira vez apenas)
-setup-env.bat
-
-REM 2. Criar novo projeto a partir do template
-new-project.bat meu-jogo-legal
-
-REM 3. Navegar para o projeto e abrir no VSCode
-cd SGDK_projects\meu-jogo-legal
-code .
-
-REM 4. Desenvolver seu jogo
-REM    - Edite src/main.c e os recursos em res/
-REM    - Use Ctrl+Shift+B para compilar no VSCode
-
-REM 5. Testar no emulador
-run.bat
+cmd /c "C:\caminho\para\SGDK-Forge\tools\sgdk_wrapper\build.bat C:\caminho\para\meu-projeto"
 ```
 
-**Dica:** O primeiro build pode demorar mais devido à compilação das bibliotecas SGDK.
+No Linux, esta release permite executar os checks de framework. A rota de build
+portável para SGDK ainda não foi certificada nesta `main`; não a trate como prova
+de ROM, desempenho ou compatibilidade com emulador.
 
-## Pre-requisitos
+### 2. Valide a instalação baixada
 
-- Windows 10/11
-- Java Runtime (para rescomp do SGDK)
-- Python 3 (opcional, para scripts de conversão)
-- ImageMagick (opcional, para manipulação de sprites)
-- VSCode com extensao C/C++ (recomendado)
-- Emulador Mega Drive (BlastEm, Gens, Kega Fusion)
+Execute estes comandos na raiz do repositório:
 
----
+```bash
+python3 tools/sgdk_wrapper/ci/test_canonical_fixture_contracts.py
+python3 tools/sgdk_wrapper/ci/test_project_learning_loop.py
+pwsh -NoProfile -File tools/sgdk_wrapper/ci/run_canonical_fixture_gates.ps1
+```
 
-## 🎮 Motores de Jogo Disponíveis
+O resultado esperado é **10/10** nos contratos de fixture e **36/36** nos checks
+de vínculo de evidência. Esses testes usam apenas a biblioteca padrão do Python.
 
-| Motor | Tipo | Complexidade | Recursos |
-|-------|------|-------------|----------|
-| **BLAZE ENGINE** | Luta | Avançado | Combos, 4 personagens, sistema de energia, efeitos visuais |
-| **HAMOOPIG** | Plataforma | Intermediário | Física básica, câmera, sistema de tiles |
-| **GEN_Mega_Snake** | Arcade | Iniciante | Jogo Snake completo, score system |
-| **State Machine** | RPG | Intermediário | Sistema de estados finitos, diálogo simples |
-| **Super Monaco GP** | Corrida | Avançado | Scroll lateral, múltiplos níveis, AI básica |
+### 3. Crie um projeto
 
----
-
-## Padrão de projeto e scripts canônicos
-
-Todos os projetos usam os **scripts-wrapper** localizados em `tools\sgdk_wrapper`.
-Esses arquivos (`build.bat`, `clean.bat`, `run.bat`, `env.bat`) centralizam a lógica
-para configurar o ambiente, verificar variáveis, compilar, limpar e executar ROMs.
-Qualquer melhoria, correção de bugs ou nova funcionalidade é feita apenas nesses
-arquivos, garantindo portabilidade e consistência entre projetos.
-
-### Como funcionam os wrappers
-
-- `env.bat` determina o caminho raiz (`MEGADRIVE_DEV_ROOT`), configura `GDK` e
-  adiciona a toolchain ao `PATH`. Ele também verifica se a instalação do SGDK
-  está presente e exibe avisos caso contrário.
-- `build.bat` chama `env.bat`, testa se `GDK` está definido e executa `make`.
-- `clean.bat` faz a mesma preparação antes de rodar `make clean`.
-- `run.bat` garante que a ROM existe e que há um emulador configurado antes de
-  lançar o jogo.
-
-Os scripts são invocados pelos projetos usando caminhos relativos, por exemplo
-no template:
+No Windows, use o template canônico:
 
 ```bat
-@echo off
-call "%~dp0..\..\tools\sgdk_wrapper\build.bat" "%~dp0"
+tools\sgdk_wrapper\new_project.bat "MEU_JOGO [VER.001] [SGDK 211] [GEN] [GAME] [ACAO]"
 ```
 
-Isso permite mover a pasta `MegaDrive_DEV` para outro drive sem quebrar nada.
+Depois, abra o diretório criado em `SGDK_projects/`, revise
+`.mddev/project.json` e `doc/10-memory-bank.md`, e mantenha assets brutos em
+`res/data/`. A convenção completa de nomes está em
+[doc/PADRAO_NOMENCLATURA.md](doc/PADRAO_NOMENCLATURA.md).
 
-### Manifesto estrutural e layouts suportados
+## Como ler os status corretamente
 
-Cada projeto canônico agora pode declarar sua estrutura em `.mddev/project.json`.
-Com isso, o wrapper central consegue resolver automaticamente:
+| Status | O que significa |
+|---|---|
+| `documentado` | Existe em documentação; ainda não há execução. |
+| `implementado` | Código existe, mas não foi compilado. |
+| `buildado` | Compilou; ainda não prova runtime. |
+| `testado_em_emulador` | A ROM correspondente foi observada com evidência rastreável. |
+| `validado_budget` | VRAM, DMA e pressão de sprites foram medidos. |
 
-- `flat`: quando `src/`, `res/` e `inc/` estão na própria raiz do projeto
-- `nested`: quando a raiz humana do projeto contém `README.md`, `doc/` e `.bat`,
-  mas o SGDK root real está em uma subpasta
+Regra principal: **“Se não foi visto rodando no emulador, não existe.”** Build
+verde, screenshot isolada ou documentação não substituem evidência de runtime.
 
-O padrão completo está documentado em `doc/CANONICAL_WORKTREE.md`.
+## Contratos de fixture incluídos
 
-### Uso de templates
+O `FORGE_REFERENCE` e `canonical_fixture_gate.py` protegem sete pontos comuns de
+falso verde:
 
-A pasta `templates\project-template` contém o esqueleto mínimo para um
-novo jogo: subpastas `src`, `res`, `inc`, a pasta `doc/`, o manifesto
-`.mddev/project.json` e os wrappers citados acima. O comando `new-project.bat`
-copia esse template para `SGDK_projects\<nome>` e já deixa tudo pronto para
-compilar com `build.bat`. Nunca edite diretamente os scripts do projeto;
-mantenha as alterações em `tools\sgdk_wrapper` para que todos os novos
-projetos herdem o comportamento.
+1. amostragem vazia não passa;
+2. telemetria obrigatória ausente falha;
+3. playtest mede estado observado pela ROM;
+4. legalidade de cor usa CRAM, não apenas screenshot;
+5. evidências precisam apontar para o mesmo SHA-256 da ROM;
+6. tabelas estáticas não podem refazer trabalho ou DMA sem mudança;
+7. contrato estático não pode alegar readiness de feature.
 
-### Canonicalização em lote
+Uma fixture aprovada continua com `ready_for_aaa=false`. Veja
+[canonical_fixture_contracts.md](tools/sgdk_wrapper/.agent/references/canonical_fixture_contracts.md)
+e o [README da referência](SGDK_projects/FORGE_REFERENCE%20[VER.001]%20[SGDK%20211]%20[GEN]%20[LAB]%20[TECHDEMO]/README.md).
 
-O script `tools\sgdk_wrapper\canonicalize_projects.py` padroniza projetos já
-existentes em `SGDK_Engines` e `SGDK_projects`, criando manifesto, documentação
-pedagógica e arquivando wrappers legados, logs e binários soltos em
-`archives\manual_review\`.
+## Antes de entregar uma ROM
 
-### Exemplo de criação de projeto
+O fluxo de produção exige, no mínimo:
 
-```bat
-setup-env.bat          REM configura o ambiente do Windows (Java, Python, etc.)
-new-project.bat jogo1  REM copia o template e cria o diretório
-cd SGDK_projects\jogo1
-build.bat              REM compila usando os wrappers centrais
-run.bat                REM executa no emulador configurado
-```
+1. build concluído e `out/rom.bin` identificado;
+2. relatório de validação limpo;
+3. boot da mesma ROM no BlastEm;
+4. gameplay, desempenho e áudio observados;
+5. orçamento VDP/VRAM/DMA revisado quando aplicável;
+6. `doc/10-memory-bank.md` e changelog atualizados.
 
-Essa abordagem dá centralidade ao desenvolvimento dos scripts, facilitando
-adições futuras (como verificação de dependências, logs, fallback para
-instaladores, etc.) e mantém a estrutura portátil e pedagogicamente explicada.
+Os workflows canônicos ficam em
+[`tools/sgdk_wrapper/.agent/workflows/`](tools/sgdk_wrapper/.agent/workflows/).
 
----
+## Escopo da release v0.1.0
 
----
+`v0.1.0` distribui o framework, o template, o `FORGE_REFERENCE` e os testes de
+contratos. Ela não contém ROM distribuível, evidência BlastEm, benchmark de 60 fps
+ou selo AAA. O gate rastreável está em
+[doc/releases/v0.1.0-source-release-gate.md](doc/releases/v0.1.0-source-release-gate.md).
 
-## 🌟 Avançados & Comunidade
+## Licença
 
-Adições recentes de motores e protótipos de código aberto para estudo avançado:
-
-| Nome | Pasta | Diferencial |
-|------|-------|-------------|
-| **PlatformerEngine Toolkit** | `SGDK_Engines/PlatformerEngine Toolkit...` | Colecao pedagogica com engine buildavel, pipeline de mapas e assets preservados |
-| **RaycastingEngine** | `SGDK_Engines/RaycastingEngine...` | Renderização 3D (estilo Doom/Wolf3D) no hardware original |
-| **MegaDriving** | `SGDK_Engines/MegaDriving...` | Pseudo-3D road scrolling e efeitos de perspectiva |
-| **PlatformerStudio**| `SGDK_Engines/PlatformerStudio...` | Ferramenta visual de autoria para SGDK |
-| **SimpleGameStates**| `SGDK_templates/SimpleGameStates...` | Template de lógica modular com FSM |
-
-> [!TIP]
-> Use estes repositórios para estudar técnicas de otimização extrema e arquiteturas de código profissionais.
-
----
-
-## 💡 Dicas de Desenvolvimento
-
-### Para Iniciantes
-- Comece com o template básico (`templates/project-template`)
-- Consulte `archives/cleanup_20260314-190609/reference/examples/` para estudar os exemplos legados
-- Crie novos projetos em `SGDK_projects/` para manter a árvore ativa limpa
-
-### Para Desenvolvedores Experientes
-- Explore o `SGDK_Engines/BLAZE_ENGINE` para jogos complexos
-- Utilize os scripts em `tools/gen-scripts` para automação
-- Consulte a documentação do SGDK para recursos avançados
-
-### Melhores Práticas
-- Nunca modifique os scripts dos projetos diretamente
-- Mantenha todas as alterações em `tools/sgdk_wrapper`
-- Use o sistema de controle de versão para seus projetos
-
----
-
-## 🔧 Solução de Problemas Comuns
-
-### Erros de Build
-- **"transparent pixel"**: O sistema corrre automaticamente usando ImageMagick
-- **GDK não definido**: Execute `setup-env.bat` e reinicie o terminal
-- **Bibliotecas não encontradas**: Verifique se o SGDK está instalado corretamente
-
-### Problemas de Execução
-- **Emulador não encontrado**: Baixe e configure um emulador (BlastEm, Gens, Kega Fusion)
-- **ROM não gerada**: Verifique se o build foi concluído sem erros
-- **Performance issues**: Reduza o número de sprites ou otimize as colisões
-
----
+Consulte [LICENSE](LICENSE).

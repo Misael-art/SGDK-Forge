@@ -1392,3 +1392,54 @@ Tres ferramentas de medicao apresentaram defeito nesta curadoria: o simulador qu
 limite de pixel, a probe que amostrava 4 de 224 linhas, e agora dois campos que exportavam uma
 constante. **Verificar o instrumento antes de acreditar na leitura** deixou de ser prudencia e
 virou etapa obrigatoria.
+
+## Fase 28 — meta-gate nos projetos: ferramenta obsoleta com self-check verde
+
+Rodar o meta-gate na arvore inteira expos um ponto cego dele proprio.
+
+### As 6 ferramentas canonicas passam
+
+`6/6 com self-check passando`.
+
+### E 5 copias locais estao em v1.0.0
+
+| Copia | Estado |
+|---|---|
+| FORGE_REFERENCE `/.agent/scripts/` | **em uso** |
+| GOTHAM_OVERDRIVE `/.agent/scripts/` | **em uso** |
+| KIRBY_FAN CLOUDE `/.agent/scripts/` | **em uso** |
+| KIRBY_FAN GROK BUILD `/.agent/scripts/` | **em uso** |
+| HYBRIDO_MUAY_THAI `/rascunho/...backup/` | arquivada |
+
+Todas em `v1.0.0` contra a canonica `v1.1.0` — ou seja, **sem o limite de 320 px por linha**.
+
+### O ponto cego, medido
+
+A copia defasada:
+
+- roda `--self-check` e **passa com exit 0**;
+- recebe uma cena com 16 sprites de 32px numa linha, 512 px contra teto de 320;
+- responde **`status: ok, blockers: []`**.
+
+O self-check dela passa porque **ele so testa o que aquela versao faz**. A v1.0.0 nao tem o
+conceito de limite de pixel, entao nao ha o que falhar.
+
+**Ferramenta obsoleta com self-check verde e pior que ferramenta sem self-check, porque parece
+verificada.**
+
+### Correcao no meta-gate
+
+Nova deteccao por hash: copia local de ferramenta de medicao precisa ser identica a canonica.
+Blocker `measurement_tool_stale_copy`. Copia sob `out/`, `rascunho/` ou `__pycache__` e backup
+morto e sai como aviso, nao como bloqueio.
+
+O self-check do proprio meta-gate ganhou a fixture correspondente: ferramenta sadia, quebrada,
+sem check, ausente **e copia defasada**.
+
+Veredito atual da arvore: **BLOCKED**, com 4 copias em uso defasadas e 1 arquivada.
+
+### Nao sincronizei as copias
+
+Sincronizar `.agent/` de projeto e materializacao do framework e tem politica propria — o
+`AGENTS.md` diz que `.agent` local existente **nao e sobrescrita**. O blocker fica levantado e
+nomeado; a decisao de propagar e do curador.

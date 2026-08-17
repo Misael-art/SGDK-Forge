@@ -144,6 +144,13 @@
       "severity": "structural",
       "lesson": "Antes de a leitura de uma ferramenta valer em qualquer claim, o self-check dela precisa passar, exercitando os dois sentidos: uma fixture que passa e uma que reprova.",
       "evidence": "Tres ferramentas de medicao com defeito na mesma sessao \u2014 simulador sem o limite de pixel, probe amostrando 4 de 224 linhas, e dois campos exportando a constante 1. Duas produziram bug reportado que nao existia, uma quase aprovou hardware estourado, e nenhuma acusou defeito sozinha."
+    },
+    {
+      "id": "stale_tool_copy_passes_its_own_self_check",
+      "bucket": "boas_praticas",
+      "severity": "structural",
+      "lesson": "Self-check que passa nao prova que a ferramenta esta atual. Copia local de ferramenta de medicao tem que ser identica a canonica, senao ela verifica a si mesma contra a propria versao obsoleta.",
+      "evidence": "Cinco copias do vdp_scanline_simulator em v1.0.0 nos projetos. O self-check delas passa com exit 0, e elas aprovam uma cena com 512 px numa linha contra teto de 320 \u2014 status ok, blockers vazio. Quatro estavam em .agent/scripts, ou seja em uso."
     }
   ]
 }

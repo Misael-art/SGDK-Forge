@@ -46,6 +46,10 @@ MEASUREMENT_TOOLS = [
 
 TIMEOUT_SECONDS = 120
 
+# Diretorios onde copia local de ferramenta e legitima como backup morto, nao
+# como instrumento em uso.
+COPY_SCAN_SKIP = {"out", "rascunho", "__pycache__", ".git"}
+
 
 def run_self_check(root: Path, rel: str) -> dict[str, Any]:
     path = root / rel
@@ -81,12 +85,57 @@ def run_self_check(root: Path, rel: str) -> dict[str, Any]:
     return entry
 
 
+def scan_copies(root: Path, tools: list[str]) -> list[dict[str, Any]]:
+    """Encontra copias locais defasadas das ferramentas canonicas.
+
+    PORQUE: self-check que passa nao prova que a ferramenta esta atual. Uma copia
+    da v1.0.0 do simulador passa no proprio self-check — porque ele so testa o
+    que aquela versao faz — e aprova uma cena com 512 px numa linha contra um
+    teto de 320. Ferramenta obsoleta com self-check verde e pior que ferramenta
+    sem self-check, porque parece verificada.
+    """
+    import hashlib
+
+    out: list[dict[str, Any]] = []
+    for rel in tools:
+        canon = root / rel
+        if not canon.is_file():
+            continue
+        canon_bytes = canon.read_bytes()
+        canon_hash = hashlib.sha256(canon_bytes).hexdigest()
+        name = Path(rel).name
+        for copy in sorted(root.rglob(name)):
+            if copy == canon or not copy.is_file():
+                continue
+            parts = {q.lower() for q in copy.relative_to(root).parts}
+            entry: dict[str, Any] = {
+                "copy": copy.relative_to(root).as_posix(),
+                "canonical": rel,
+                "archived": bool(parts & COPY_SCAN_SKIP),
+            }
+            same = hashlib.sha256(copy.read_bytes()).hexdigest() == canon_hash
+            entry["in_sync"] = same
+            if not same:
+                text = copy.read_text(errors="replace")
+                import re as _re
+                m = _re.search(r'TOOL_VERSION = "([\d.]+)"', text)
+                entry["local_version"] = m.group(1) if m else "unknown"
+                m2 = _re.search(r'TOOL_VERSION = "([\d.]+)"', canon.read_text(errors="replace"))
+                entry["canonical_version"] = m2.group(1) if m2 else "unknown"
+            out.append(entry)
+    return out
+
+
 def audit(root: Path, tools: list[str]) -> dict[str, Any]:
     results = [run_self_check(root, t) for t in tools]
+    copies = scan_copies(root, tools)
     blocking = sorted({
         f"measurement_tool_self_check_{r['status']}"
         for r in results if r["status"] != "passed"
     })
+    if any(not c["in_sync"] and not c["archived"] for c in copies):
+        blocking.append("measurement_tool_stale_copy")
+    blocking = sorted(set(blocking))
     return {
         "schema_version": "1.0.0",
         "tool": "validate_measurement_tools",
@@ -95,6 +144,9 @@ def audit(root: Path, tools: list[str]) -> dict[str, Any]:
         "tools_checked": len(results),
         "passed": len([r for r in results if r["status"] == "passed"]),
         "results": results,
+        "local_copies": copies,
+        "stale_copies": len([c for c in copies if not c["in_sync"] and not c["archived"]]),
+        "archived_stale_copies": len([c for c in copies if not c["in_sync"] and c["archived"]]),
         "limitation": "Garante que o self-check existe, roda e passa. Nao julga se o "
                       "self-check cobre o que deveria: isso continua sendo leitura humana.",
         "blocking": bool(blocking),
@@ -129,6 +181,14 @@ def self_check() -> int:
         r_none = audit(root, ["t/none.py"])
         r_missing = audit(root, ["t/ausente.py"])
 
+        # copia local divergente da canonica
+        (root / "proj").mkdir()
+        (root / "proj" / "good.py").write_text(
+            "import sys\n"
+            "if '--self-check' in sys.argv:\n"
+            "    print('ok antigo'); sys.exit(0)\n", encoding="utf-8")
+        r_stale = audit(root, ["t/good.py"])
+
     if r_good["blocking"]:
         print("self-check failed: ferramenta sadia reprovada", file=sys.stderr); return 1
     if "measurement_tool_self_check_failed" not in r_bad["blocking_statuses"]:
@@ -137,7 +197,10 @@ def self_check() -> int:
         print("self-check failed: ausencia de self-check nao detectada", file=sys.stderr); return 1
     if "measurement_tool_self_check_missing" not in r_missing["blocking_statuses"]:
         print("self-check failed: arquivo ausente nao detectado", file=sys.stderr); return 1
-    print("validate_measurement_tools self-check passed (sadia, quebrada, sem check, ausente)")
+    if "measurement_tool_stale_copy" not in r_stale["blocking_statuses"]:
+        print("self-check failed: copia local defasada nao detectada", file=sys.stderr); return 1
+    print("validate_measurement_tools self-check passed "
+          "(sadia, quebrada, sem check, ausente, copia defasada)")
     return 0
 
 
@@ -170,6 +233,15 @@ def main(argv: list[str]) -> int:
                 print(f"           {r['detail']}")
             elif r.get("output"):
                 print(f"           {r['output']}")
+        stale = [c for c in report["local_copies"] if not c["in_sync"]]
+        if stale:
+            print()
+            for c in stale:
+                tag = "arquivada" if c["archived"] else "EM USO"
+                print(f"  [{'aviso' if c['archived'] else 'FALHA'}] copia {tag} "
+                      f"v{c.get('local_version','?')} != canonica "
+                      f"v{c.get('canonical_version','?')}")
+                print(f"           {c['copy'][:100]}")
         print(f"\n[measurement-tools] {report['passed']}/{report['tools_checked']} com "
               f"self-check passando  verdict="
               f"{'BLOCKED' if report['blocking'] else 'OK'}")

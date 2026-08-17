@@ -754,6 +754,14 @@ Duas delas me fizeram reportar bug que nao existia. Uma quase aprovou hardware e
 - **Ferramenta nova de medicao entra na lista `MEASUREMENT_TOOLS`** no mesmo commit em que
   nasce. Injetor e gerador ficam fora: eles nao produzem numero que vira claim.
 
+- **Copia local de ferramenta de medicao precisa estar identica a canonica.** Self-check que
+  passa **nao prova que a ferramenta esta atual**: uma copia da v1.0.0 do simulador passa no
+  proprio self-check, porque ele so testa o que aquela versao faz, e **aprova uma cena com
+  512 px numa linha contra um teto de 320**. Ferramenta obsoleta com self-check verde e pior
+  que ferramenta sem self-check, porque parece verificada. Blocker:
+  `measurement_tool_stale_copy`. Copia sob `out/`, `rascunho/` ou `__pycache__` e backup morto
+  e sai como aviso.
+
 Limite declarado: o meta-gate garante que o self-check existe, roda e passa. **Ele nao julga se
 o self-check cobre o que deveria** — isso continua sendo leitura humana, e e por isso que a
 mensagem de cada self-check diz em texto o que ele exercitou.

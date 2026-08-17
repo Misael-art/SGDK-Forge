@@ -67,6 +67,21 @@
 #define STAGE_TW               28      /* 224px */
 #define STAGE_TH               10      /* 80px, cobre logo do ato 2 e wordmarks */
 
+/*
+ * Ritmo vertical do PALCO: BASELINE COMUM, nao centro comum.
+ *
+ * MISAEL tem 32px e MASTER tem 48px. Centrados na zona eles ficariam com bases
+ * em alturas diferentes e a sucessao leria como dois elementos em posicoes
+ * distintas, nao como um palco unico sendo cedido de um para o outro.
+ * Alinhados pela base em y=128 — 16px acima da zona FORJA — a troca le como
+ * substituicao no mesmo lugar.
+ */
+#define STAGE_BASELINE_Y      128
+#define AUTHOR_TILE_X           8      /* 192px centrado em 320 */
+#define AUTHOR_TILE_Y          12      /* base 96+32  = 128 */
+#define PROJECT_TILE_X          6      /* 224px centrado em 320 */
+#define PROJECT_TILE_Y         10      /* base 80+48  = 128 */
+
 #define ACT3_FORGE_FADE_OUT   300      /* FORGE comeca a sair sob a cortina */
 #define ACT3_AUTHOR_WIPE      318      /* varredura do FORGE, 1 fileira/quadro */
 #define ACT3_AUTHOR_IN        330      /* MISAEL entra no palco vazio         */
@@ -719,7 +734,7 @@ static void brandUpdateSignature(u16 f)
         VDP_drawImageEx(BG_A, &img_logo_author_v2,
                         TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
                                        sVramAuthor),
-                        8, 11, FALSE, TRUE);
+                        AUTHOR_TILE_X, AUTHOR_TILE_Y, FALSE, TRUE);
     }
 
     if (f == ACT3_AUTHOR_FADE_OUT) {
@@ -734,7 +749,7 @@ static void brandUpdateSignature(u16 f)
         VDP_drawImageEx(BG_A, &img_logo_project_v2,
                         TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
                                        sVramProject),
-                        6, 10, FALSE, TRUE);
+                        PROJECT_TILE_X, PROJECT_TILE_Y, FALSE, TRUE);
     }
 
     if (f == BRAND_V2_PRESENTS_IN) {

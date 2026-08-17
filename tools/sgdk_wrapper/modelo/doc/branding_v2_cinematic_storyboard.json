@@ -277,6 +277,20 @@
           "over_budget_frames": 0,
           "max_cpu_load": 96,
           "elements_on_stage": 1
+        },
+        "vertical_rhythm": {
+          "rule": "baseline comum em y=128, 16px acima da zona FORJA",
+          "rationale": "MISAEL 32px e MASTER 48px centrados na zona teriam bases diferentes e a sucessao leria como dois elementos em alturas distintas em vez de um palco cedido",
+          "author_tile": [
+            8,
+            12
+          ],
+          "project_tile": [
+            6,
+            10
+          ],
+          "measured_baseline_y": 126,
+          "target_baseline_y": 128
         }
       }
     ]

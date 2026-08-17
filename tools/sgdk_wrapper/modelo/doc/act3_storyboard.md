@@ -82,6 +82,24 @@ O FORGE sair para cima **por baixo da cortina** e o que liga o ato 2 ao 3 sem co
 sobe, o logo sobe junto e desaparece atras da coifa. Continuidade por movimento, nao por
 sobreposicao.
 
+### Ritmo vertical: baseline comum, nao centro comum
+
+MISAEL tem 32px e MASTER tem 48px. Centrados na zona, ficariam com bases em alturas
+diferentes e a sucessao leria como dois elementos em posicoes distintas — nao como um palco
+sendo cedido de um para o outro.
+
+**Alinhados pela base em `y=128`**, 16 px acima da zona FORJA, a troca le como substituicao no
+mesmo lugar:
+
+| Elemento | Altura | Tile y | Ocupa | Base |
+|---|---|---|---|---|
+| MISAEL | 32 | 12 | y 96..128 | **128** |
+| MASTER | 48 | 10 | y 80..128 | **128** |
+
+Horizontal ja estava correto: os dois centrados em x=160.
+
+Medido nas capturas: base em y=126 nos dois, dentro da granularidade do PNG escalado.
+
 ### O vao morto
 
 Os 56 px entre o fim do PALCO e o inicio da ASSINATURA nao sao desperdicio se a **FORJA** os

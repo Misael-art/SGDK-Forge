@@ -410,3 +410,16 @@ esta.
 Vale registrar que os checks de folga de highlight e de ciclo de brasa passaram porque o gate
 le a **tabela de paleta do PNG**, nao o painel C. A perda dos rotulos do painel C custa
 revisao humana, nao verificacao mecanica.
+
+### Rework despachado
+
+`doc/model_sheet_rework_v02_brief.md`. Passada de correcao, nao recomeco: a v01 acertou a lei
+da luz do painel A, o hook da bigorna, o painel B e a rota de proveniencia, e tudo isso fica
+preservado.
+
+**Causa tecnica encontrada na revisao do rework:** as 14 fontes brutas sao JPG.
+`wordmark_forja_v02.jpg` tem 66.030 cores unicas e o painel D final tem 13 — o ringing e o
+blocking do JPEG sobrevivem a quantizacao e viram o salpico dentro das letras e da pedra. Nao
+e dither com funcao de material, e artefato de compressao, que a direcao proibe. Duas saidas
+oferecidas: fontes em PNG lossless, ou posterizacao/denoise antes do remap de paleta. Sem
+isso, qualquer correcao de luz chega suja no PNG final.

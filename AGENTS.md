@@ -112,6 +112,7 @@ Regra de uso:
 ❌ Grafico desenhado por codigo como personagem, inimigo, boss ou cenario final
 ❌ Simbolo visual em res/*.res sem proveniencia declarada
 ❌ Fechar orcamento sem medir o degrau seguinte — folga nao medida e timidez
+❌ Usar leitura de ferramenta de medicao cujo --self-check nao passa
 ```
 
 ---
@@ -420,6 +421,7 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Doutrina de audacia | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secao 30 |
 | Pressao de scanline (2 limites) | `tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py` |
 | Residencia de tiles no asset | `tools/sgdk_wrapper/audit_tile_residency.py` |
+| Self-check das ferramentas de medicao | `tools/sgdk_wrapper/validate_measurement_tools.py` |
 | Pixel strict rules | `tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/` |
 | Budget VDP | `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/` |
 | Migracao batch | `doc/migrations/MIGRATION_BATCH_211.md` |

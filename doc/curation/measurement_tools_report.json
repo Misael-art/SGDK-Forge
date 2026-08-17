@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "tool": "validate_measurement_tools",
+  "generated_at": "2026-08-17T21:33:23Z",
+  "rule_ref": "SGDK_GLOBAL.md secao 34",
+  "tools_checked": 6,
+  "passed": 6,
+  "results": [
+    {
+      "tool": "tools/sgdk_wrapper/audit_procedural_asset_provenance.py",
+      "exit_code": 0,
+      "output": "audit_procedural_asset_provenance self-check passed (reprova promocao, aceita placeholder)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/audit_tile_residency.py",
+      "exit_code": 0,
+      "output": "audit_tile_residency self-check passed (passa, estoura teto, sinaliza dedup baixo)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/audit_scene_headroom.py",
+      "exit_code": 0,
+      "output": "audit_scene_headroom self-check passed (3 estados + limiar de folga)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/validate_model_sheet_contract.py",
+      "exit_code": 0,
+      "output": "validate_model_sheet_contract self-check passed (passa e reprova headroom, ciclo e escala)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/validate_brand_comprehension_gate.py",
+      "exit_code": 0,
+      "output": "validate_brand_comprehension_gate self-check passed (passa, reprova, vazio)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+      "exit_code": 0,
+      "output": "vdp_scanline_simulator self-check passed (both limits + headroom + h32)",
+      "status": "passed"
+    }
+  ],
+  "limitation": "Garante que o self-check existe, roda e passa. Nao julga se o self-check cobre o que deveria: isso continua sendo leitura humana.",
+  "blocking": false,
+  "blocking_statuses": []
+}

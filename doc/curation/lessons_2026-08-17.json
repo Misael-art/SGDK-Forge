@@ -8,7 +8,8 @@
     "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#30",
     "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#31",
     "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#32",
-    "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#33"
+    "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#33",
+    "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#34"
   ],
   "lessons": [
     {
@@ -136,6 +137,13 @@
       "severity": "high",
       "lesson": "Todo gate construido mede hardware. Empilhar elementos na mesma faixa da tela passa em residencia, scanline, provenance e compreensao de marca. Composicao se pega com planta baixa, nao com validador.",
       "evidence": "O ato 3 tem 0 sprites, 865 de 1740 tiles e over_budget 0 \u2014 todos os gates verdes \u2014 com quatro wordmarks empilhados."
+    },
+    {
+      "id": "measurement_tools_need_self_check",
+      "bucket": "boas_praticas",
+      "severity": "structural",
+      "lesson": "Antes de a leitura de uma ferramenta valer em qualquer claim, o self-check dela precisa passar, exercitando os dois sentidos: uma fixture que passa e uma que reprova.",
+      "evidence": "Tres ferramentas de medicao com defeito na mesma sessao \u2014 simulador sem o limite de pixel, probe amostrando 4 de 224 linhas, e dois campos exportando a constante 1. Duas produziram bug reportado que nao existia, uma quase aprovou hardware estourado, e nenhuma acusou defeito sozinha."
     }
   ]
 }

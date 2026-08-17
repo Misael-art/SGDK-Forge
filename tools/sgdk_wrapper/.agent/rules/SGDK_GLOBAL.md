@@ -725,3 +725,39 @@ dump de VDP  >  screenshot  >  quadro de burst
 **Bissecte antes de teorizar.** Duas hipoteses plausiveis e dois builds foram gastos num crash
 cujo endereco ja apontava a causa. Um desligamento por vez encontra em minutos o que a teoria
 nao encontra em horas.
+
+## 34. Self-check obrigatorio em ferramenta de medicao
+
+Na curadoria de 2026-08-17 **tres ferramentas de medicao apresentaram defeito na mesma
+sessao**, e as tres davam leituras plausiveis:
+
+| Ferramenta | Defeito | Consequencia |
+|---|---|---|
+| `vdp_scanline_simulator.py` | media contagem de sprites e ignorava o limite de 320 px por linha | metade do orcamento por scanline descoberta em todo projeto que a usou |
+| `runtime_probe.c` | amostrava 4 de 224 scanlines por quadro | reportou 6 onde a varredura media 23: falso verde para configuracao que causaria dropout |
+| `runtime_probe.c` | dois campos exportavam a constante `1` | `active_sprite_count` nunca mediu nada |
+
+Duas delas me fizeram reportar bug que nao existia. Uma quase aprovou hardware estourado.
+**Nenhuma acusou defeito por conta propria.**
+
+- **Antes de a leitura de uma ferramenta valer em qualquer claim, o self-check dela precisa
+  passar.** Numero vindo de instrumento nao verificado nao sustenta contrato, report nem
+  promocao de status.
+- **O self-check exercita os DOIS sentidos:** uma fixture que passa e uma que reprova.
+  Ferramenta que so sabe dizer `ok` nao esta medindo — esta concordando.
+- **Cada blocker que a ferramenta pode emitir merece uma fixture** que o dispare. Blocker sem
+  fixture e blocker que ninguem sabe se funciona.
+- **Enforcement:** `tools/sgdk_wrapper/validate_measurement_tools.py` roda o self-check de
+  cada ferramenta canonica de medicao e reprova com
+  `measurement_tool_self_check_failed`, `..._no_self_check`, `..._missing` ou `..._timeout`.
+  O proprio meta-gate tem self-check e se submete a regra que aplica.
+- **Ferramenta nova de medicao entra na lista `MEASUREMENT_TOOLS`** no mesmo commit em que
+  nasce. Injetor e gerador ficam fora: eles nao produzem numero que vira claim.
+
+Limite declarado: o meta-gate garante que o self-check existe, roda e passa. **Ele nao julga se
+o self-check cobre o que deveria** — isso continua sendo leitura humana, e e por isso que a
+mensagem de cada self-check diz em texto o que ele exercitou.
+
+Corolario da secao 33: quando modelo e hardware divergem, verifique o instrumento **antes** de
+escolher em quem acreditar. Nas tres vezes em que isso aconteceu nesta curadoria, o instrumento
+estava errado.

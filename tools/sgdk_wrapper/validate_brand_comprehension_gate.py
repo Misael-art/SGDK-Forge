@@ -263,6 +263,36 @@ def sweep(root: Path, write_reports: bool, quiet: bool) -> int:
     return 1 if blocked else 0
 
 
+def self_check() -> int:
+    """Verifica que o gate PASSA no caso valido e REPROVA no invalido."""
+    good = {"contract_id": "sc_ok", "acts": [{"act": 1, "id": "a", "techniques": [
+        {"registry_id": "t1", "brand_comprehension_role": "comprehension_bearing",
+         "brand_comprehension_claim": "c", "brand_comprehension_negative_test": "n",
+         "brand_comprehension_strength": "strong"},
+        {"registry_id": "t2", "brand_comprehension_role": "enabling_discipline",
+         "brand_comprehension_note": "previne artefato"}]}]}
+    bad = {"contract_id": "sc_bad", "acts": [{"act": 1, "id": "a", "techniques": [
+        {"registry_id": "t3"}]}]}
+    empty = {"contract_id": "sc_empty", "status": "active", "acts": []}
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        def run(obj):
+            f = Path(td) / "c.json"
+            f.write_text(json.dumps(obj), encoding="utf-8")
+            return audit(f)
+        g, b, e = run(good), run(bad), run(empty)
+
+    if g["blocking"]:
+        print("self-check failed: contrato valido reprovado", file=sys.stderr); return 1
+    if not b["blocking"] or "brand_comprehension_unjustified_technique" not in b["blocking_statuses"]:
+        print("self-check failed: tecnica sem justificativa nao reprovou", file=sys.stderr); return 1
+    if "brand_comprehension_techniques_undeclared" not in e["blocking_statuses"]:
+        print("self-check failed: contrato ativo e vazio nao reprovou", file=sys.stderr); return 1
+    print("validate_brand_comprehension_gate self-check passed (passa, reprova, vazio)")
+    return 0
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--contract", default="")
@@ -278,7 +308,11 @@ def main(argv: list[str]) -> int:
     )
     ap.add_argument("--output", default="")
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument("--self-check", action="store_true")
     args = ap.parse_args(argv)
+
+    if args.self_check:
+        return self_check()
 
     if args.all_projects:
         root = Path(args.all_projects).expanduser().resolve()

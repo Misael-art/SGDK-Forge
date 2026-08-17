@@ -263,13 +263,60 @@ def audit(project_root: Path) -> dict[str, Any]:
     }
 
 
+def self_check() -> int:
+    """Fixture limpa passa; fixture de ruido estoura o teto e reprova."""
+    import random, tempfile
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "res" / "gfx").mkdir(parents=True)
+
+        def png(name, w, h, noise):
+            im = Image.new("P", (w, h))
+            im.putpalette([(i * 37) % 256 for i in range(768)])
+            px = im.load()
+            rnd = random.Random(11)
+            for y in range(h):
+                for x in range(w):
+                    px[x, y] = rnd.randrange(1, 16) if noise else ((x // 8 + y // 8) % 2) + 1
+            im.save(root / "res" / "gfx" / name)
+
+        png("clean.png", 256, 64, False)
+        (root / "res" / "resources.res").write_text('IMAGE img_clean "gfx/clean.png" BEST\n')
+        ok = audit(root)
+
+        png("noise_a.png", 320, 240, True)
+        png("noise_b.png", 320, 240, True)
+        (root / "res" / "resources.res").write_text(
+            'IMAGE img_clean "gfx/clean.png" BEST\n'
+            'IMAGE img_noise_a "gfx/noise_a.png" BEST\n'
+            'IMAGE img_noise_b "gfx/noise_b.png" BEST\n')
+        bad = audit(root)
+
+    if ok["blocking"]:
+        print("self-check failed: fixture limpa reprovada", file=sys.stderr); return 1
+    clean = [a for a in ok["assets"] if a["res_symbol"] == "img_clean"][0]
+    if clean["dedup_ratio"] < 0.9:
+        print("self-check failed: dedup nao reconheceu tileset repetido", file=sys.stderr); return 1
+    if not bad["blocking"] or "tile_residency_over_ceiling" not in bad["blocking_statuses"]:
+        print("self-check failed: estouro de teto nao detectado", file=sys.stderr); return 1
+    if not any(f["code"] == "low_tile_dedup_ratio" for f in bad["findings"]):
+        print("self-check failed: dedup baixo nao sinalizado", file=sys.stderr); return 1
+    print("audit_tile_residency self-check passed (passa, estoura teto, sinaliza dedup baixo)")
+    return 0
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--project-root", required=True)
+    ap.add_argument("--project-root", default="")
+    ap.add_argument("--self-check", action="store_true")
     ap.add_argument("--output", default="")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
 
+    if args.self_check:
+        return self_check()
+    if not args.project_root:
+        print("[tile-residency] ERROR: passe --project-root ou --self-check"); return 2
     root = Path(args.project_root).expanduser().resolve()
     if not root.is_dir():
         print(f"[tile-residency] ERROR: projeto nao encontrado: {root}")

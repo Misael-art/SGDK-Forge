@@ -312,13 +312,81 @@ def finish(
     }
 
 
+def self_check() -> int:
+    """Folha conforme passa; folha violando dispara os blockers esperados."""
+    import tempfile
+
+    def build(path, headroom_ok, cycle_ok, panel_e_real):
+        pal = [0] * (64 * 3)
+        def setc(slot, rgb):
+            pal[slot * 3:slot * 3 + 3] = list(rgb)
+        for g in (0, 16, 32, 48):
+            setc(g, (255, 0, 255))
+        for i in range(1, 16):
+            v = 0x22 * (i // 2)
+            setc(i, (v, v // 2, 0)); setc(16 + i, (v, v, v))
+            setc(32 + i, (v // 2, v // 2, v)); setc(48 + i, (v, 0, v // 2))
+        cyc = ([(0x88, 0x44, 0), (0xAA, 0x44, 0), (0xAA, 0x66, 0), (0x88, 0x66, 0)]
+               if cycle_ok else
+               [(0x22, 0, 0), (0x44, 0x22, 0), (0x66, 0x44, 0), (0xEE, 0xCC, 0xAA)])
+        for n, c in zip(EMBER_INDICES, cyc):
+            setc(n, c)
+        hr = ([(0xAA, 0xAA, 0xCC), (0xCC, 0xCC, 0xCC)] if headroom_ok
+              else [(0xEE, 0xEE, 0xEE), (0xEE, 0xEE, 0xEE)])
+        for n, c in zip(HEADROOM_INDICES, hr):
+            setc(16 + n, c)
+        im = Image.new("P", CANVAS, 0); im.putpalette(pal); px = im.load()
+        def detail(x0, y0, x1, y1, a, b):
+            for y in range(y0, y1):
+                for x in range(x0, x1):
+                    px[x, y] = a if (x + y) % 2 else b
+        detail(8, 8, 248, 152, 5, 6)
+        for y in range(8, 152):
+            for x in range(264, 504):
+                px[x, y] = 15
+        detail(8, 168, 504, 216, 17, 18)
+        detail(8, 232, 248, 312, 33, 34)
+        if panel_e_real:
+            detail(264, 232, 504, 312, 49, 50)
+        else:
+            for by in range(232, 312, 4):
+                for bx in range(264, 504, 4):
+                    for y in range(by, by + 4):
+                        for x in range(bx, bx + 4):
+                            px[x, y] = 49
+        im.save(path)
+
+    with tempfile.TemporaryDirectory() as td:
+        ok_p, bad_p = Path(td) / "ok.png", Path(td) / "bad.png"
+        build(ok_p, True, True, True)
+        build(bad_p, False, False, False)
+        ok, bad = audit(ok_p), audit(bad_p)
+
+    if ok["blocking"]:
+        print(f"self-check failed: folha conforme reprovada {ok['blocking_statuses']}", file=sys.stderr)
+        return 1
+    for code in ("model_sheet_highlight_headroom_violated",
+                 "model_sheet_ember_cycle_not_closed",
+                 "model_sheet_panel_e_upscaled_only"):
+        if code not in bad["blocking_statuses"]:
+            print(f"self-check failed: {code} nao detectado", file=sys.stderr)
+            return 1
+    print("validate_model_sheet_contract self-check passed (passa e reprova headroom, ciclo e escala)")
+    return 0
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--model-sheet", required=True)
+    ap.add_argument("--model-sheet", default="")
+    ap.add_argument("--self-check", action="store_true")
     ap.add_argument("--output", default="")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
 
+    if args.self_check:
+        return self_check()
+    if not args.model_sheet:
+        print("[model-sheet] ERROR: passe --model-sheet ou --self-check"); return 2
     path = Path(args.model_sheet).expanduser().resolve()
     if not path.is_file():
         print(f"[model-sheet] ERROR: arquivo nao encontrado: {path}")

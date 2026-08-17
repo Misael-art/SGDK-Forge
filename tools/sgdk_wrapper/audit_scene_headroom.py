@@ -129,12 +129,38 @@ def audit(root: Path) -> dict[str, Any]:
     }
 
 
+def self_check() -> int:
+    """Classifica measured, declared_zero e unmeasured; sinaliza folga nao explorada."""
+    cases = {"9": ("measured", "unexploited_headroom"),
+             "19": ("measured", None),
+             "0": ("declared_zero", "hardware_idle_undeclared"),
+             "nao_medido": ("unmeasured", "sprite_pressure_unmeasured"),
+             "runtime observado 9/20": ("measured", "unexploited_headroom")}
+    for value, (want_state, want_finding) in cases.items():
+        state, peak = interpret(value)
+        if state != want_state:
+            print(f"self-check failed: '{value}' -> {state}, esperado {want_state}", file=sys.stderr)
+            return 1
+        if want_finding == "unexploited_headroom" and peak is not None:
+            if (peak / SPRITE_LIMIT_H40) >= UNEXPLOITED_BELOW:
+                print(f"self-check failed: '{value}' deveria acusar folga", file=sys.stderr); return 1
+        if want_finding is None and peak is not None:
+            if (peak / SPRITE_LIMIT_H40) < UNEXPLOITED_BELOW:
+                print(f"self-check failed: '{value}' nao deveria acusar folga", file=sys.stderr); return 1
+    print("audit_scene_headroom self-check passed (3 estados + limiar de folga)")
+    return 0
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default="SGDK_projects")
     ap.add_argument("--output", default="")
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument("--self-check", action="store_true")
     args = ap.parse_args(argv)
+
+    if args.self_check:
+        return self_check()
 
     root = Path(args.root).expanduser().resolve()
     if not root.is_dir():

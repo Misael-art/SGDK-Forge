@@ -513,11 +513,48 @@ def print_report(report: dict[str, Any]) -> None:
     print(f"[asset-provenance] verdict={verdict} blocking={report['blocking_statuses']}")
 
 
+def self_check() -> int:
+    """Builder de primitivas alimentando o .res reprova; placeholder declarado passa."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "res").mkdir()
+        (root / "tools").mkdir()
+        (root / "doc").mkdir()
+        (root / "res" / "resources.res").write_text(
+            'IMAGE img_x "gfx/x.png" BEST\n', encoding="utf-8")
+        (root / "res" / "gfx").mkdir()
+        (root / "res" / "gfx" / "x.png").write_bytes(b"\x89PNG\r\n\x1a\n")
+        (root / "tools" / "b.py").write_text(
+            "from PIL import Image, ImageDraw\n"
+            "d = ImageDraw.Draw(Image.new('P', (8, 8)))\n"
+            "d.rectangle([0, 0, 7, 7], fill=1)\n"
+            "img.save('res/gfx/x.png')\n", encoding="utf-8")
+        bad = audit(root, [])
+
+        (root / "doc" / "asset_provenance_manifest.json").write_text(json.dumps({
+            "schema_version": "1.0.0", "project_name": "t",
+            "declared_at": "2026-01-01T00:00:00Z",
+            "entries": [{"res_symbol": "img_x", "res_kind": "IMAGE", "asset_path": "gfx/x.png",
+                         "source_kind": "procedural_primitive",
+                         "acceptance_status": "placeholder", "generated_by": "tools/b.py"}]}),
+            encoding="utf-8")
+        ok = audit(root, [])
+
+    if "procedural_asset_promoted_to_res" not in bad["blocking_statuses"]:
+        print("self-check failed: promocao procedural nao detectada", file=sys.stderr); return 1
+    if ok["blocking"]:
+        print(f"self-check failed: placeholder honesto reprovado {ok['blocking_statuses']}", file=sys.stderr); return 1
+    print("audit_procedural_asset_provenance self-check passed (reprova promocao, aceita placeholder)")
+    return 0
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
         description="Audit procedural asset provenance against res/*.res."
     )
-    parser.add_argument("--project-root", required=True)
+    parser.add_argument("--project-root", default="")
+    parser.add_argument("--self-check", action="store_true")
     parser.add_argument(
         "--shared-builder-root",
         action="append",
@@ -528,6 +565,10 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
 
+    if args.self_check:
+        return self_check()
+    if not args.project_root:
+        print("[asset-provenance] ERROR: passe --project-root ou --self-check"); return 2
     project_root = Path(args.project_root).expanduser().resolve()
     if not project_root.is_dir():
         print(f"[asset-provenance] ERROR: project root not found: {project_root}")

@@ -480,6 +480,20 @@
         "img_brand_project_logo",
         "img_brand_presents_text"
       ]
+    },
+    "model_sheet_gate": {
+      "enforcement": "tools/sgdk_wrapper/validate_model_sheet_contract.py",
+      "report": "doc/model_sheet_contract_report.json",
+      "checks": [
+        "canvas 512x384",
+        "os 5 paineis carregam conteudo",
+        "painel B e silhueta de tinta unica",
+        "PAL1[13..14] com canal maximo <= 0xCC (folga de highlight)",
+        "PAL0[9..12] fecha como anel uniforme (razao <= 3.0)",
+        "painel E em escala real, nao ampliacao"
+      ],
+      "complements": "art_diagnostic.py cobre formato tecnico; art_quality_gate.py cobre qualidade artistica",
+      "limit": "nenhum check julga se a luz esta correta; direcao de luz e aprovacao humana"
     }
   },
   "audio_contract": {
@@ -537,6 +551,7 @@
   "evidence_plan": {
     "note": "Herda o plano do v1 e adiciona os gates que o v1 nao precisava por nao ter sprites nem H-Int.",
     "required": [
+      "doc/model_sheet_contract_report.json sem blockers, gerado por validate_model_sheet_contract.py",
       "out/logs/res_graph_report.json status ok, sem overlap com a reserva de sprites",
       "sprite_scanline_pressure_report gerado por tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py para o pior quadro do ato 2",
       "h_int_ownership_map conferido contra o runtime",

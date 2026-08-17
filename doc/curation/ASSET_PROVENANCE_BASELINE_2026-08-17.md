@@ -326,3 +326,42 @@ cada projeto ja tem — nao o conceito.
 
 `Celestial Chase Revive/doc/credits_contract.json` nao tem campo `contract_id`. Passou pelo
 gate como `None`. Nao inventei um id: quem conhece o projeto declara.
+
+## Fase 7 — gate do model sheet construido antes da arte
+
+`tools/sgdk_wrapper/validate_model_sheet_contract.py`. O criterio de aceitacao da fase 1 passou
+a ser medido **antes** do agente de arte comecar, em vez de discutido depois da entrega.
+
+Seis checks, deliberadamente sem duplicar `art_diagnostic.py` (formato tecnico geral) nem
+`art_quality_gate.py` (qualidade artistica):
+
+1. canvas exatamente 512x384;
+2. os 5 paineis carregam conteudo;
+3. painel B e silhueta de tinta unica (se tem shading, nao esta provando os `silhouette_hooks`);
+4. `PAL1[13..14]` com canal maximo `<= 0xCC` — sem folga, o operador de Shadow/Highlight nao tem
+   para onde clarear e a varredura especular do ato 2 nao existe;
+5. `PAL0[9..12]` fecha como anel uniforme — o runtime rotaciona em CRAM, e passo desigual vira
+   tranco na brasa;
+6. painel E em escala real, detectando ampliacao por blocos 4x4 uniformes.
+
+Convencao que faltava e foi adicionada a direcao: o model sheet e um PNG indexado com a paleta
+ordenada em `PAL0=0-15, PAL1=16-31, PAL2=32-47, PAL3=48-63`. Sem essa ordem o gate nao consegue
+ler a folga de highlight nem o ciclo de brasa, e paleta fora de ordem reprova por nao ser
+verificavel.
+
+### Dois erros meus que a construcao do gate expos
+
+**Seeds de paleta invalidos.** `0x0630` e `0x0CDD` na direcao de arte usam nibbles `3` e `D`,
+que nao existem no CRAM de 9 bits. Corrigidos para `0x0620` e `0x0CCC`. O agente de arte teria
+herdado cor impossivel de representar.
+
+**Definicao errada de "ciclo fechado".** A primeira versao comparava o passo de fechamento
+contra o maior passo interno. Uma rampa com um salto interno gigante fazia qualquer fechamento
+passar — o fixture deliberadamente aberto passou no primeiro teste. Trocado por uniformidade do
+anel: os 4 passos, incluindo o wrap, precisam ser comparaveis (razao `<= 3.0`), com deteccao
+separada de passo morto por cores duplicadas.
+
+Verificado nas duas direcoes com fixtures sinteticas: folha conforme passa com exit 0, folha
+violando dispara os 5 blockers com exit 1, e passo morto no anel dispara isolado. As fixtures
+sao PNGs desenhados por codigo no scratchpad — uso de debug permitido pela propria diretriz,
+nunca em `res/`.

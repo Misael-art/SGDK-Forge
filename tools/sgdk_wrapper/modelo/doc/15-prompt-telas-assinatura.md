@@ -105,6 +105,25 @@ secao 9 da direcao, mais `doc/authoriality_gate_report.json` com `clone_risk_sco
 mais um paragrafo honesto de autocritica apontando onde a folha ficou fraca. Folha sem
 autocritica volta.
 
+### O gate mecanico existe antes de voce comecar — rode nele
+
+O criterio de aceitacao esta medido, nao sera discutido depois. Folha que nao passa o gate
+mecanico nao chega a revisao humana:
+
+```bash
+python3 tools/sgdk_wrapper/validate_model_sheet_contract.py \
+  --model-sheet data/source_art/branding_v2/model_sheet_forge_v01.png \
+  --output doc/model_sheet_contract_report.json
+
+python3 tools/sgdk_wrapper/art_diagnostic.py    # formato tecnico geral
+python3 tools/sgdk_wrapper/art_quality_gate.py  # qualidade artistica
+```
+
+O gate de contrato confere 6 coisas: canvas 512x384, os 5 paineis com conteudo, painel B como
+silhueta de tinta unica, `PAL1[13..14]` com canal maximo `<= 0xCC`, `PAL0[9..12]` fechando como
+anel uniforme, e painel E em escala real em vez de ampliacao. Ele **nao** julga se a luz esta
+correta — isso e a revisao humana.
+
 **PARE. Espere aprovacao humana explicita do model sheet antes da fase 2.**
 
 ## FASE 2 — OS 8 ASSETS

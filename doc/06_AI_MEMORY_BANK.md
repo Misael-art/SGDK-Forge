@@ -2631,3 +2631,21 @@ Status: `documentado`.
   SMOKE_TEST tem identidade de branding propria. Propagou-se a exigencia estrutural, nao
   o conceito.
 - Higiene: `Celestial Chase Revive/doc/credits_contract.json` nao tem `contract_id`.
+
+## 2026-08-17 (fase 7) — Gate do model sheet construido antes da arte
+
+Status: `documentado`.
+
+- `tools/sgdk_wrapper/validate_model_sheet_contract.py`: 6 checks especificos do contrato
+  do model sheet v2, sem duplicar `art_diagnostic.py` nem `art_quality_gate.py`. O
+  criterio de aceitacao fica medido antes do agente de arte comecar.
+- Convencao adicionada a direcao: paleta do model sheet ordenada como PAL0=0-15,
+  PAL1=16-31, PAL2=32-47, PAL3=48-63. Fora dessa ordem o gate nao pode verificar a folga
+  de highlight nem o ciclo de brasa.
+- Erro meu exposto pela construcao: seeds `0x0630` e `0x0CDD` na direcao de arte usam
+  nibbles impares que nao existem no CRAM de 9 bits. Corrigidos para `0x0620` e `0x0CCC`.
+- Erro meu exposto pelo teste: "ciclo fechado" definido como fechamento contra o maior
+  passo interno e furado — salto interno gigante deixa qualquer fechamento passar, e o
+  fixture aberto passou. Trocado por uniformidade do anel (razao <= 3.0) com deteccao
+  separada de passo morto.
+- Verificado nas duas direcoes com fixtures sinteticas em scratchpad.

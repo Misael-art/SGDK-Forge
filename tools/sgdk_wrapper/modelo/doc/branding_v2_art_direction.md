@@ -84,7 +84,21 @@ desenha a rampa que permite ao hardware clarear.
 **O papel de cada indice e CONTRATO — o runtime depende dele.** Os valores hex sao SEED: o
 artista pode e deve refinar a cor, nunca mover o papel.
 
-Formato MD: `0x0BGR`, nibbles pares de `0` a `E`. Index 0 sempre transparente.
+Formato MD: `0x0BGR`, nibbles pares de `0` a `E`. Nibble impar nao existe no CRAM de 9 bits:
+`0x0630` e `0x0CDD` sao invalidos, `0x0620` e `0x0CCC` sao validos.
+
+**Layout da paleta no PNG do model sheet.** A folha e um unico PNG indexado com ate 64
+entradas, organizadas em 4 grupos de 16 na ordem das paletas:
+
+```
+entradas  0-15  -> PAL0   entradas 16-31 -> PAL1
+entradas 32-47  -> PAL2   entradas 48-63 -> PAL3
+```
+
+O indice 0 de **cada grupo** (0, 16, 32, 48) e o slot transparente daquela paleta. Essa
+ordem nao e sugestao: o gate de contrato le a paleta do PNG nessas posicoes para conferir a
+folga de highlight de PAL1 e o fechamento do ciclo de PAL0. Paleta fora de ordem reprova por
+nao poder ser verificada.
 
 ### PAL0 — ambiente da forja
 
@@ -101,10 +115,10 @@ Formato MD: `0x0BGR`, nibbles pares de `0` a `E`. Index 0 sempre transparente.
 
 | Idx | Papel | Seed | Trava |
 |---|---|---|---|
-| 1-3 | sombra de ferro (FRIA, violeta-azul) | `0x0200` `0x0420` `0x0630` | sombra neutra reprova |
+| 1-3 | sombra de ferro (FRIA, violeta-azul) | `0x0200` `0x0420` `0x0620` | sombra neutra reprova |
 | 4-8 | corpo do ferro | `0x0642` `0x0864` `0x0A86` `0x0CA8` `0x0ECA` | |
 | 9-12 | metal aquecido | `0x0068` `0x008A` `0x00AC` `0x02CE` | |
-| **13-14** | **FOLGA DE HIGHLIGHT** | `0x0ACC` `0x0CDD` | **precisam ficar ABAIXO do maximo. Se chegarem em `0x0EEE`, o operador de highlight do VDP nao tem para onde clarear e a varredura especular do ato 2 desaparece. Deixe os dois degraus mais claros de proposito abaixo do branco.** |
+| **13-14** | **FOLGA DE HIGHLIGHT** | `0x0AAC` `0x0CCC` | **nenhum canal pode chegar a `E`. Se a rampa chegar em `0x0EEE`, o operador de highlight do VDP nao tem para onde clarear e a varredura especular do ato 2 desaparece. Regra mecanica: canal maximo `<= C` nos dois indices.** |
 | 15 | contorno / chanfro escuro | `0x0000` | |
 
 ### PAL2 — wordmarks (autor, projeto, presents)

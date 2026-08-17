@@ -6,7 +6,6 @@
   "contract_ref": "doc/branding_sequence_contract.json#branding_sequence_v2",
   "direction_doc": "doc/branding_v2_art_direction.md",
   "authoring_note": "As decisoes de direcao deste registro estao FECHADAS e foram tomadas na curadoria. O agente de arte preenche apenas os campos marcados execution_* e nao altera as decisoes. Se discordar da direcao, abra a discordancia com o curador humano em vez de divergir em silencio.",
-
   "trava_1_referencias": {
     "requirement": "3 referencias visuais reais explicitas justificando a heranca",
     "policy": "Ancoras TECNICAS. inspiration_only=true. Nenhum nome de jogo, estudio, artista ou IP pode virar prompt de copia. Extraia a propriedade tecnica nomeada, nunca a forma.",
@@ -31,9 +30,8 @@
       }
     ],
     "clone_risk_method": "environment_and_costume_distance",
-    "execution_authoriality_gate_report": "PENDENTE — o agente de arte gera doc/authoriality_gate_report.json com clone_risk_score medido"
+    "execution_authoriality_gate_report": "PENDENTE \u2014 o agente de arte gera doc/authoriality_gate_report.json com clone_risk_score medido"
   },
-
   "trava_2_visual_breakdown": {
     "requirement": "paleta, material, iluminacao e profundidade definidos antes de gerar",
     "paleta": {
@@ -49,7 +47,12 @@
     },
     "material": {
       "count": 4,
-      "materials": ["pedra", "ferro", "brasa/calor", "fuligem"],
+      "materials": [
+        "pedra",
+        "ferro",
+        "brasa/calor",
+        "fuligem"
+      ],
       "rule": "dither sem funcao de material reprova; hachura por cluster na pedra, nunca dither uniforme",
       "detail": "doc/branding_v2_art_direction.md secao 4"
     },
@@ -64,14 +67,12 @@
       "forbidden": "linha de fuga, falsa perspectiva, terceiro plano de BG (o VDP tem BG_A + BG_B + WINDOW)"
     }
   },
-
   "trava_3_art_director_supervision": {
     "requirement": "aprovacao do art-director para validar shading/volume",
     "gate_point": "apos o model sheet da fase 1, antes de qualquer um dos 8 assets finais",
     "status": "pending_human_approval",
     "rationale": "Pacote de assets finais entregue sem model sheet aprovado falhou 4 vezes neste workspace."
   },
-
   "trava_4_style_catalog": {
     "requirement": "art_direction_decision_record consultando art_style_catalog.json antes de gerar",
     "consulted": true,
@@ -96,7 +97,6 @@
       "overdithered shadows (vibrant_16bit_pixel)"
     ]
   },
-
   "trava_5_art_gameplay_direction_gate": {
     "requirement": "art_gameplay_direction_gate para model sheet, background, sprite art, FX sheet, title/menu ou asset critico",
     "applies": true,
@@ -112,8 +112,16 @@
     "falsifiability_contract": {
       "principle": "Um eixo aprovado que nao pode reprovar nada e decoracao. A substituicao so e legitima porque pode falhar.",
       "rule": "Toda tecnica declarada no contrato precisa carregar um claim de compreensao COM teste negativo, ou ser classificada enabling_discipline (previne artefato, nao ensina nada ao espectador, isenta mas obrigatoria). Tecnica que nao e nem um nem outro e espetaculo sem consequencia e reprova.",
-      "claim_requirements": ["brand_comprehension_claim", "brand_comprehension_negative_test", "brand_comprehension_strength"],
-      "strength_enum": ["strong", "moderate", "weak"],
+      "claim_requirements": [
+        "brand_comprehension_claim",
+        "brand_comprehension_negative_test",
+        "brand_comprehension_strength"
+      ],
+      "strength_enum": [
+        "strong",
+        "moderate",
+        "weak"
+      ],
       "weak_policy": "claim fraco nao reprova, mas fica marcado e exige prova perceptiva no runtime. Nao pode ser apresentado como forte no closeout.",
       "blocker_codes": [
         "brand_comprehension_missing",
@@ -130,7 +138,10 @@
       "techniques_audited": 24,
       "comprehension_bearing": 15,
       "enabling_discipline": 9,
-      "weak_claims": ["column_scrolling", "expressive_text_presentation_system"],
+      "weak_claims": [
+        "column_scrolling",
+        "expressive_text_presentation_system"
+      ],
       "caught_on_first_run": {
         "registry_id": "xgm2_audio_architecture",
         "finding": "brand_comprehension_unjustified_technique",
@@ -139,7 +150,6 @@
       "note": "O gate encontrou um problema real na primeira execucao, o que e a evidencia de que nao e carimbo."
     }
   },
-
   "trava_6_authorial_line_contract": {
     "requirement": "authorial_line_contract para asset critico autoral",
     "line_signature": "contorno escuro fechado em ferro e pedra; ausencia total de contorno no emissivo (brasa e faisca sao luz, nao objeto). Borda de sombra dura, sem anti-aliasing. Luz de aresta de 1px sempre na face inferior.",
@@ -178,30 +188,63 @@
       "estilhaco como triangulo generico sem aresta viva"
     ]
   },
-
   "phase_1_deliverable": {
     "path": "data/source_art/branding_v2/model_sheet_forge_v01.png",
     "canvas": "512x384 PNG indexado, index 0 transparente",
     "panels": [
-      { "id": "A", "region": "256x160 topo-esquerda", "proves": "luz vinda de baixo em bigorna e martelo, 3 valores por material" },
-      { "id": "B", "region": "256x160 topo-direita", "proves": "os 3 silhouette_hooks em preto puro" },
-      { "id": "C", "region": "512x64 meio", "proves": "as 4 rampas rotuladas por indice, folga de PAL1 visivel, ciclo de PAL0 fechado" },
-      { "id": "D", "region": "256x96 baixo-esquerda", "proves": "corpo tipografico a 64px com chanfro inferior e marca assimetrica" },
-      { "id": "E", "region": "256x96 baixo-direita", "proves": "brasa e estilhaco a 16x16 REAL, 4 quadros cada, lendo como o mesmo objeto girando" }
+      {
+        "id": "A",
+        "region": "256x160 topo-esquerda",
+        "proves": "luz vinda de baixo em bigorna e martelo, 3 valores por material"
+      },
+      {
+        "id": "B",
+        "region": "256x160 topo-direita",
+        "proves": "os 3 silhouette_hooks em preto puro"
+      },
+      {
+        "id": "C",
+        "region": "512x64 meio",
+        "proves": "as 4 rampas rotuladas por indice, folga de PAL1 visivel, ciclo de PAL0 fechado"
+      },
+      {
+        "id": "D",
+        "region": "256x96 baixo-esquerda",
+        "proves": "corpo tipografico a 64px com chanfro inferior e marca assimetrica"
+      },
+      {
+        "id": "E",
+        "region": "256x96 baixo-direita",
+        "proves": "brasa e estilhaco a 16x16 REAL, 4 quadros cada, lendo como o mesmo objeto girando"
+      }
     ],
     "companion_artifacts": [
       "doc/authoriality_gate_report.json",
       "paragrafo de autocritica honesta apontando onde a folha ficou fraca"
-    ]
+    ],
+    "mechanical_gate": {
+      "enforcement": "tools/sgdk_wrapper/validate_model_sheet_contract.py",
+      "must_pass_before_human_review": true,
+      "note": "O gate existe ANTES da arte comecar de proposito: o criterio de aceitacao fica medido, nao discutido depois. Folha que nao passa o gate mecanico nao chega a revisao humana."
+    }
   },
-
   "acceptance": {
-    "five_gates": ["scope_style_constraints", "silhouette_shape_language", "value_hierarchy", "palette_role_map", "polish_vfx_gameplay_signal"],
+    "five_gates": [
+      "scope_style_constraints",
+      "silhouette_shape_language",
+      "value_hierarchy",
+      "palette_role_map",
+      "polish_vfx_gameplay_signal"
+    ],
     "final_test": "Isso poderia estar em um jogo comercial AAA de 1994? Se nao for um SIM categorico, refazer, nao ajustar.",
     "calibration_rule": "Comparar somente com a mesma geracao de hardware. O criterio e direcao de luz coerente na rampa, nao contagem de tons: 8 cores com luz correta passa, 15 com luz ambigua reprova.",
-    "provenance_rule": "Nenhum pixel pode nascer de PIL/ImageDraw ou primitiva. Verificado por tools/sgdk_wrapper/audit_procedural_asset_provenance.py."
+    "provenance_rule": "Nenhum pixel pode nascer de PIL/ImageDraw ou primitiva. Verificado por tools/sgdk_wrapper/audit_procedural_asset_provenance.py.",
+    "mechanical_gates": [
+      "tools/sgdk_wrapper/validate_model_sheet_contract.py",
+      "tools/sgdk_wrapper/art_diagnostic.py",
+      "tools/sgdk_wrapper/art_quality_gate.py"
+    ]
   },
-
   "execution_fields_for_art_agent": {
     "execution_model_sheet_path": null,
     "execution_generation_channel": null,
@@ -210,7 +253,6 @@
     "execution_five_gates_result": null,
     "execution_completed_at": null
   },
-
   "promotion_rules": [
     "este registro nao promove nada; status permanece direction_locked_execution_pending",
     "aprovacao humana do model sheet e obrigatoria antes dos 8 assets finais",

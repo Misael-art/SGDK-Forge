@@ -93,13 +93,19 @@ Emissivo: sem contorno, sem lado de sombra. Rampa em PAL3[5..9].
 Os fantasmas do rastro sao o mesmo sprite remapeado para PAL3[10..13] pelo runtime — voce nao
 desenha quadros de rastro.
 
-### 4. `spr_forge_hammer` — 48x48 (6x6) · **6 quadros** · PAL1 · ato 1-2 · **STREAMED**
+### 4. `spr_forge_hammer` — 48x48 (6x6 tiles) · **7 quadros** ⚠ MUDOU · PAL1 · ato 1-2 · **STREAMED**
 O golpe. Momento de assinatura da abertura.
 - quadro 0: repouso;
 - quadro 1: recuo, carregando;
 - quadros 2-3: descida, dois intermediarios;
-- quadro 4: **contato** — o quadro de F120;
-- quadro 5: retorno do recuo (sai em 10 quadros).
+- quadro 4: **contato em SMEAR** — o quadro de F120. Cabeca alongada no eixo do golpe, nao
+  pose limpa. A 60fps uma pose parada no contato le como teletransporte e o impacto perde a
+  aceleracao;
+- quadro 5: retorno do recuo (sai em 10 quadros);
+- quadro 6: assentamento.
+
+> **MUDANCA APOS O DESPACHO INICIAL:** este asset foi de 6 para 7 quadros na revisao de
+> vitrine. O quadro de smear e novo e nao estava no despacho original.
 **Cunha assimetrica obrigatoria:** um lado plano, um lado em cunha, legivel em preto chapado.
 E `silhouette_hook` numero 2 e a v02 provou o desenho.
 **Luz de baixo tambem aqui:** a face inferior da cabeca e o contato com a bigorna sao o ponto
@@ -107,7 +113,7 @@ mais quente do quadro no F120.
 **Registro:** o ponto de contato do quadro 4 precisa cair em (128,104) quando o sprite estiver
 na posicao de F120.
 Streaming em janela dupla: 72 tiles residentes, 1152 B por troca. Voce nao precisa fazer nada
-por causa disso — so saiba que os 6 quadros cabem porque foi decidido assim.
+por causa disso — so saiba que os 7 quadros cabem porque foi decidido assim: 252 tiles residentes viram 72.
 
 ### 5. `spr_forge_shard` — 16x16 (2x2) · 4 quadros · PAL3 · ato 2
 Estilhaco de metal do enxame de 32.
@@ -139,6 +145,19 @@ O oposto dos outros: leve, pequeno, **sem chanfro**, apenas corpo e contorno. Na
 o wordmark do projeto — entra, respira, para.
 
 ---
+
+## Revisao de vitrine — o que mudou depois do despacho
+
+Tres tecnicas novas entraram para a abertura virar vitrine do que o jogador vai encontrar.
+**Custo em sprites: zero.** Custo em arte: um quadro a mais no martelo.
+
+- **cicatriz na bigorna** (`mutable_tile_decal_mutation`) — o golpe grava uma marca
+  incandescente permanente na face da bigorna. Nao e asset novo: o runtime escreve os tiles.
+  Mas `img_forge_bg_a_props` precisa deixar a face da bigorna **limpa o bastante** para a
+  cicatriz aparecer: nada de detalhe fino exatamente em (128,104);
+- **smear no contato** (`smear_frame_animation`) — o quadro 4 do martelo. Voce desenha;
+- **presents no plano WINDOW** (`window_plane_static_hud`) — o wordmark fica imovel enquanto a
+  cortina move os planos por baixo. Nao muda o asset, muda onde ele vive.
 
 ## Ordem de producao sugerida
 

@@ -112,6 +112,13 @@
           "brand_comprehension_claim": "o metal esta liquido e o ambiente esta vivo, nao congelado",
           "brand_comprehension_negative_test": "congelar o ciclo: a fornalha vira textura morta e a forja parece desligada",
           "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "tile_dedup_hvflip_hashing",
+          "function": "alvenaria da forja deduplicada com hash de flip H/V para caber a parede irregular em VRAM sem repetir padrao visivel",
+          "owner": "img_forge_bg_b",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "e o que permite parede irregular dentro do orcamento; a leitura de nao-modularidade e da arte, nao da tecnica"
         }
       ],
       "audio": [
@@ -215,6 +222,45 @@
           "owner": "brandHeatHaze",
           "brand_comprehension_role": "enabling_discipline",
           "brand_comprehension_note": "previne artefato; nao carrega claim de compreensao e por isso e isento, mas continua obrigatorio"
+        },
+        {
+          "registry_id": "mutable_tile_decal_mutation",
+          "function": "o golpe grava uma cicatriz incandescente permanente na face da bigorna, escrita em tiles no F120 e mantida ate o fim da abertura",
+          "owner": "brandAnvilScar",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "o mundo guarda memoria do que aconteceu nele; isto e um lugar, nao um fundo",
+          "brand_comprehension_negative_test": "remover a cicatriz: o martelo bate e a bigorna fica intacta, entao o impacto nao teve consequencia e o cenario vira papel de parede",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "smear_frame_animation",
+          "function": "quadro de contato do martelo desenhado como smear, com a cabeca alongada no eixo do golpe",
+          "owner": "spr_forge_hammer",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "o golpe tem velocidade que uma pose parada nao mostra",
+          "brand_comprehension_negative_test": "usar pose limpa no contato: a 60fps o olho le o martelo como teletransportado ate a bigorna, e o impacto perde a aceleracao",
+          "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "sprite_frame_vram_slot_streaming",
+          "function": "janela dupla de 72 tiles para os 7 quadros do martelo, decidida em branding_v2_dma_queue_contract.json",
+          "owner": "brandHammer",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "e o que torna os 7 quadros viaveis; nao ensina nada ao espectador por si, mas sem ela a animacao teria que ser cortada"
+        },
+        {
+          "registry_id": "animation_lookahead_dma_queue",
+          "function": "fila com look-ahead de 2 quadros para o proximo quadro do martelo chegar antes de ser exibido",
+          "owner": "brandHammer",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "previne quadro faltando no meio do swing; disciplina de upload, nao afirmacao visual"
+        },
+        {
+          "registry_id": "large_metasprite_vblank_fit_audit",
+          "function": "o martelo e metasprite de 48x48 e cada troca de quadro precisa caber no envelope de VBlank medido",
+          "owner": "brandHammer",
+          "brand_comprehension_role": "enabling_discipline",
+          "brand_comprehension_note": "auditoria de cabimento; previne estouro de VBlank, nao comunica nada"
         }
       ],
       "audio": [
@@ -292,6 +338,15 @@
           "brand_comprehension_claim": "a abertura e uma tomada continua e nao um slideshow",
           "brand_comprehension_negative_test": "cortar a preto: volta exatamente o defeito estrutural do v1",
           "brand_comprehension_strength": "strong"
+        },
+        {
+          "registry_id": "window_plane_static_hud",
+          "function": "o wordmark presents vive no plano WINDOW, imovel enquanto a cortina por coluna move BG_A e BG_B por baixo",
+          "owner": "brandPresents",
+          "brand_comprehension_role": "comprehension_bearing",
+          "brand_comprehension_claim": "existe uma terceira superficie de composicao independente do scroll",
+          "brand_comprehension_negative_test": "por o presents em BG_A: ele viaja junto com a cortina e o plano WINDOW, que o v1 e o v2 deixavam 100% ocioso, continua sem existir para o espectador",
+          "brand_comprehension_strength": "moderate"
         }
       ],
       "audio": [
@@ -334,6 +389,26 @@
     {
       "registry_id": "software_affine_pseudo3d",
       "reason": "custo de CPU alto contra um v1 que ja media over_budget_frames=1"
+    },
+    {
+      "registry_id": "cellular_microbuffer_sim",
+      "reason": "faisca por simulacao celular custa CPU num projeto cujo v1 ja media over_budget_frames=1, e a brasa com afterimage ja carrega o claim de fogo vivo; seria tecnica por tecnica"
+    },
+    {
+      "registry_id": "bg_b_bypassing",
+      "reason": "nao existe boss gigante nesta cena; plane takeover sem objeto grande e espetaculo sem consequencia"
+    },
+    {
+      "registry_id": "forward_kinematics",
+      "reason": "nao ha cadeia articulada; o martelo e corpo rigido em 7 quadros autorais"
+    },
+    {
+      "registry_id": "prerendered_sprite_scaling",
+      "reason": "a cena nao tem eixo de profundidade que escale; a profundidade vem de valor atmosferico e priority split"
+    },
+    {
+      "registry_id": "tile_cache_streaming_refcount",
+      "reason": "nao ha mapa maior que a VRAM; a abertura e de tela unica"
     }
   ],
   "palette_slot_plan": {
@@ -434,11 +509,12 @@
         "res_kind": "SPRITE",
         "path": "branding/spr_forge_hammer_48x48_strip.png",
         "tiles": "6x6",
-        "frames": 6,
+        "frames": 7,
         "palette": "PAL1",
-        "role": "martelo que sobe em F96-120 e bate em F120; repouso, recuo, 2 intermediarios de descida, contato, retorno",
+        "role": "martelo que sobe em F96-120 e bate em F120; repouso, recuo, 2 intermediarios, CONTATO EM SMEAR, retorno, assentamento",
         "act": 1,
-        "budget_blocker": "6 quadros de 36 tiles = 216 tiles residentes. Decidir entre reduzir quadros, reduzir para 40x40 ou fazer streaming ANTES de autorar; a decisao muda o desenho e exige res_graph_report real."
+        "budget_blocker": "6 quadros de 36 tiles = 216 tiles residentes. Decidir entre reduzir quadros, reduzir para 40x40 ou fazer streaming ANTES de autorar; a decisao muda o desenho e exige res_graph_report real.",
+        "smear_requirement": "o quadro de contato e smear: cabeca alongada no eixo do golpe. Pose limpa no contato reprova por perder a aceleracao a 60fps."
       },
       {
         "res_symbol": "spr_forge_shard",
@@ -517,7 +593,8 @@
       "authority": "doc/branding_v2_cinematic_storyboard.json#asset_contract_deltas",
       "asset_count_before": 8,
       "asset_count_after": 9
-    }
+    },
+    "showcase_revision": "Vitrine: +3 tecnicas comprehension_bearing (cicatriz persistente, smear de contato, plano WINDOW) e +4 enabling_discipline declaradas. Custo em sprites: ZERO. Custo em arte: 1 quadro a mais no martelo (6 -> 7)."
   },
   "audio_contract": {
     "status": "reuse_v1_card_until_art_pass",

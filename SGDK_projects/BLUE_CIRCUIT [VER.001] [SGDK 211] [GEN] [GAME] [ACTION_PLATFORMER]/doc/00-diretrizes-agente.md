@@ -20,7 +20,7 @@ Regras:
 - os gates finais de `visual_lab_aprovado`, `audio`, `hardware_real` e `ready_for_aaa` devem ter trilha explicita em `doc/14-plano-de-provas-qa.md`.
 
 
-<!-- BEGIN: diretriz-bloqueio-estetico v3 -->
+<!-- BEGIN: diretriz-bloqueio-estetico v4 -->
 
 ## Diretriz de bloqueio estetico — leia antes de tocar em arte
 
@@ -120,6 +120,18 @@ python3 tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py --input <cen
 Regra completa: `SGDK_GLOBAL.md` secao 30.
 
 
+### Registro de folga de sprites — pendente para quem assumir
+
+Varredura de 2026-08-17 pela curadoria. **Nada foi corrigido neste projeto.**
+
+Este projeto tem 2 contrato(s) de cena e **nenhuma declaracao de
+pressao de sprites por scanline**. Isso nao e ausencia de problema, e ausencia de
+medicao: nem a pergunta foi feita. Qualquer claim de budget de sprites aqui e
+insustentavel.
+
+**O que fazer:** preencha `worst_frame_sprite_layout` na cena (campo novo do schema
+canonico) e rode o simulador. Ver a doutrina de audacia em `SGDK_GLOBAL.md` secao 30.
+
 ### Rota de saida — nao contorne, execute
 
 1. Criar/completar `doc/asset_provenance_manifest.json` declarando **cada** simbolo visual
@@ -139,4 +151,4 @@ python3 tools/sgdk_wrapper/audit_procedural_asset_provenance.py \
 **Build limpo, ROM no BlastEm e screenshot nao substituem este gate.** Nova build so conta
 como progresso visual se reduzir os blockers acima.
 
-<!-- END: diretriz-bloqueio-estetico v3 -->
+<!-- END: diretriz-bloqueio-estetico v4 -->

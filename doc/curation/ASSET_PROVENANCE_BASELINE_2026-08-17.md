@@ -737,3 +737,63 @@ um campo de prosa.
 
 O caminho seria o `scene_contract` passar a aceitar um `worst_frame_sprite_layout` — mas isso
 e mudanca de schema canonico que afeta todos os projetos, e nao foi feita aqui.
+
+## Fase 16 — schema, registro nos projetos, e a abertura como vitrine
+
+### `worst_frame_sprite_layout` no schema canonico
+
+`scene_contract.schema.json` ganhou o campo, **opcional e aditivo**: o schema era frouxo
+(`additionalProperties: true`, `scenes.items` sem constraints), entao nenhum contrato existente
+quebra. Os 11 contratos de cena do workspace seguem validos.
+
+O campo carrega `frame`, `sprites[]` no formato do simulador, `display_mode` (h40/h32),
+`how_determined` e `headroom_justification`. Com ele, `scanline_sprite_pressure` deixa de ser
+prosa e vira medicao.
+
+### Registro nos outros projetos, sem mexer neles
+
+Bloco de diretriz elevado a `v4`. Alem da diretriz estetica, do gate de marca e da doutrina de
+audacia, cada projeto agora carrega o **seu** registro de folga: quantas declaracoes tem, quais
+acusam `unexploited_headroom`, `hardware_idle_undeclared` ou `sprite_pressure_unmeasured`, e o
+que fazer quando um agente for atuar ali.
+
+12 de 13 projetos com registro. O 13o, HYBRIDO_MUAY_THAI, nao tem contrato de cena nenhum —
+nao ha o que registrar. Projeto com contrato de cena mas **zero** declaracoes recebe um
+registro proprio dizendo que ausencia de medicao e pior que estar fora do teto, porque nem a
+pergunta foi feita.
+
+Nada foi corrigido nos outros projetos, conforme instrucao.
+
+### A abertura como vitrine: 23 -> 31 tecnicas, zero sprites novos
+
+O registry tem 114 tecnicas e a abertura usava 23. A revisao mediu o que estava ocioso e
+avaliou cada candidata pelo gate de compreensao, nao por vontade de acumular.
+
+**Entraram como comprehension_bearing:**
+
+- `mutable_tile_decal_mutation` — o golpe grava cicatriz incandescente permanente na bigorna.
+  Claim: o mundo guarda memoria do que aconteceu nele; isto e um lugar, nao um fundo. Teste
+  negativo: sem ela o martelo bate e a bigorna fica intacta, entao o impacto nao teve
+  consequencia. **E o sinal mais AAA disponivel: estado persistente de mundo.**
+- `smear_frame_animation` — quadro de contato em smear. Claim: o golpe tem velocidade que uma
+  pose parada nao mostra. Teste negativo: a 60fps pose limpa le como teletransporte.
+- `window_plane_static_hud` — o `presents` vive no plano WINDOW, imovel enquanto a cortina
+  move os planos por baixo. Claim: existe uma terceira superficie independente do scroll. O
+  WINDOW estava **100% ocioso** no v1 e no v2.
+
+**Entraram como enabling_discipline** (ja decididas, faltava declarar): `sprite_frame_vram_slot_streaming`,
+`animation_lookahead_dma_queue`, `large_metasprite_vblank_fit_audit`, `tile_dedup_hvflip_hashing`.
+
+**Rejeitadas com motivo escrito**, de 4 para 9: `cellular_microbuffer_sim` (CPU num projeto que
+ja mediu spike), `bg_b_bypassing` (nao ha boss gigante), `forward_kinematics` (nao ha cadeia
+articulada), `prerendered_sprite_scaling` (nao ha eixo de profundidade), `tile_cache_streaming_refcount`
+(nao ha mapa maior que a VRAM).
+
+Custo total: **zero sprites novos**, 1 quadro de arte a mais no martelo (6 -> 7), absorvido
+pelo streaming — 252 tiles residentes viram 72, economia sobe de 144 para 180.
+
+Gate de compreensao: 31 tecnicas, 18 bearing, 13 enabling, `verdict=OK`.
+
+A vitrine nao e a contagem de tecnicas. E o fato de cada uma ter que dizer o que o espectador
+entende e o que se perderia sem ela — e de cinco terem sido cortadas justamente por nao
+conseguirem responder.

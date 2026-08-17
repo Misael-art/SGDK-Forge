@@ -27,6 +27,13 @@ nome de nada.
 treme; a brasa cai e acende o que passa perto; o metal esquenta e o ar acima dele ondula. Essa
 e a regra maximalista do workspace aplicada a uma cena sem gameplay.
 
+**Vitrine:** a abertura declara 31 tecnicas do registry canonico, das quais 18 carregam claim
+de compreensao e 13 sao disciplina de habilitacao. Nove foram rejeitadas com motivo escrito —
+inclusive coisas que pareceriam impressionantes (boss por plane takeover, cinematica articulada,
+escala pseudo-3D) e que nesta cena seriam espetaculo sem consequencia. A vitrine nao e a
+contagem: e o fato de cada item ter que dizer o que o espectador entende, e o que se perderia
+sem ele.
+
 **Momento de assinatura:** F120. O martelo encosta na bigorna, a tela pisca em branco por 2
 quadros, treme, e do impacto saem 32 estilhacos que **voltam** e se montam no logo. A marca
 nao aparece: ela e forjada na frente de quem assiste. Se so um segundo desta abertura for
@@ -81,14 +88,17 @@ sem causa.
 
 ### F120 — o impacto
 
-Quatro coisas no mesmo quadro:
+Cinco coisas no mesmo quadro:
 
 1. **Flash de CRAM** por 2 quadros, branco, escrito com mascara de linhas para nao gerar CRAM
    dots;
 2. **Hit de DAC** — o unico PCM da abertura, guardado para este instante;
 3. **Screen shake**: deslocamento vertical de 3px nos dois planos, decaindo para 0 em 6
    quadros (3, 2, 2, 1, 1, 0). Barato e le como massa;
-4. **32 estilhacos nascem** no ponto de contato.
+4. **56 estilhacos nascem** no ponto de contato, 2 por quadro;
+5. **a bigorna fica marcada** — o golpe grava uma cicatriz incandescente na face, escrita em
+   tiles, que **permanece ate o fim da abertura**. E a unica coisa da cena que sobrevive ao
+   proprio beat que a criou.
 
 ### F122-F180 — o enxame que monta a marca
 

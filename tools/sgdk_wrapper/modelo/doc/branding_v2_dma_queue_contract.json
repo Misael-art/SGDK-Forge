@@ -5,30 +5,51 @@
   "scene_id": "APP_SCENE_BRANDING",
   "contract_ref": "doc/branding_sequence_contract.json#branding_sequence_v2",
   "storyboard_ref": "doc/branding_v2_cinematic_storyboard.json",
-
   "decision": {
-    "subject": "spr_forge_hammer",
+    "subject": "spr_forge_hammer (7 quadros apos a revisao de vitrine)",
     "chosen": "sprite_frame_vram_slot_streaming",
     "decided_by": "human_curator",
     "decided_at": "2026-08-17",
-    "rationale": "A premissa do projeto e maxima qualidade visual. Reduzir o martelo para 4 quadros ou 40x40 empobreceria o unico golpe da abertura, que e o momento de assinatura. Streaming preserva os 6 quadros a 48x48 e devolve 144 tiles de VRAM.",
+    "rationale": "A premissa do projeto e maxima qualidade visual. Reduzir o martelo para 4 quadros ou 40x40 empobreceria o unico golpe da abertura, que e o momento de assinatura. Streaming preserva os 6 quadros a 48x48 e devolve 144 tiles de VRAM. A revisao de vitrine acrescentou o quadro de smear no contato, levando de 6 para 7 quadros \u2014 o streaming absorve sem mudar a janela residente.",
     "rejected_alternatives": [
-      { "option": "reduzir para 4 quadros", "reason": "o golpe perde antecipacao ou follow-through; o beat de F120 depende dos dois" },
-      { "option": "reduzir para 40x40", "reason": "o martelo e silhouette_hook numero 2 e precisa de massa legivel" },
-      { "option": "manter 6 quadros residentes", "reason": "216 tiles residentes so para um objeto que aparece em 34 quadros de 520" }
+      {
+        "option": "reduzir para 4 quadros",
+        "reason": "o golpe perde antecipacao ou follow-through; o beat de F120 depende dos dois"
+      },
+      {
+        "option": "reduzir para 40x40",
+        "reason": "o martelo e silhouette_hook numero 2 e precisa de massa legivel"
+      },
+      {
+        "option": "manter 6 quadros residentes",
+        "reason": "216 tiles residentes so para um objeto que aparece em 34 quadros de 520"
+      }
     ]
   },
-
   "vblank_budget_bytes": 7524,
   "vblank_budget_note": "Envelope teorico de 224p NTSC. NAO e medicao deste projeto. Antes de qualquer promocao, o envelope real precisa sair de runtime_metrics/res_graph, e o pior quadro precisa ser conferido contra ele.",
-
   "owners": [
-    { "resource": "spr_forge_hammer", "owner": "brandHammer", "window": "F96-F130" },
-    { "resource": "hscroll_line_table", "owner": "brandHeatHaze", "window": "F180-F300" },
-    { "resource": "vscroll_column_table", "owner": "brandCurtain", "window": "F300-F360" },
-    { "resource": "cram", "owner": "scene_branding", "window": "F0-F520" }
+    {
+      "resource": "spr_forge_hammer",
+      "owner": "brandHammer",
+      "window": "F96-F130"
+    },
+    {
+      "resource": "hscroll_line_table",
+      "owner": "brandHeatHaze",
+      "window": "F180-F300"
+    },
+    {
+      "resource": "vscroll_column_table",
+      "owner": "brandCurtain",
+      "window": "F300-F360"
+    },
+    {
+      "resource": "cram",
+      "owner": "scene_branding",
+      "window": "F0-F520"
+    }
   ],
-
   "vram_slots": [
     {
       "slot_id": "hammer_double_window",
@@ -36,21 +57,20 @@
       "tiles": 72,
       "bytes": 2304,
       "policy": "janela dupla: o quadro em exibicao e o proximo ficam residentes; o resto e carregado sob demanda",
-      "resident_without_streaming_tiles": 216,
-      "vram_saved_tiles": 144
+      "resident_without_streaming_tiles": 252,
+      "vram_saved_tiles": 180
     }
   ],
-
   "uploads": [
     {
       "id": "hammer_frame_swap",
       "resource": "spr_forge_hammer",
       "bytes_per_event": 1152,
-      "event_interval_frames": 5.7,
-      "average_bytes_per_frame": 203,
+      "event_interval_frames": 4.9,
+      "average_bytes_per_frame": 237,
       "peak_bytes_per_frame": 1152,
       "window": "F96-F130",
-      "derivation": "48x48 = 36 tiles de 32 bytes; 34 quadros de swing para 6 quadros de arte"
+      "derivation": "48x48 = 36 tiles de 32 bytes; 34 quadros de swing para 7 quadros de arte"
     },
     {
       "id": "hscroll_line_table",
@@ -60,25 +80,29 @@
       "average_bytes_per_frame": 448,
       "peak_bytes_per_frame": 448,
       "window": "F180-F300",
-      "derivation": "224 linhas x 2 bytes; enviada por DMA no VBlank, nunca por CPU — e a correcao do spike medido no v1"
+      "derivation": "224 linhas x 2 bytes; enviada por DMA no VBlank, nunca por CPU \u2014 e a correcao do spike medido no v1"
     }
   ],
-
   "worst_frame_analysis": {
     "coincidence": "troca de quadro do martelo somada a tabela de HScroll",
     "bytes": 1600,
     "note": "As duas janelas quase nao se sobrepoem (martelo termina em F130, ar quente comeca em F180), entao 1600 B e o pior teorico e nao o esperado. Ainda assim e o numero que precisa caber no envelope medido.",
     "measurement_level": "estimated"
   },
-
   "active_animation_windows": [
-    { "id": "hammer_swing", "frames": [96, 130], "look_ahead_frames": 2, "technique": "animation_lookahead_dma_queue" }
+    {
+      "id": "hammer_swing",
+      "frames": [
+        96,
+        130
+      ],
+      "look_ahead_frames": 2,
+      "technique": "animation_lookahead_dma_queue",
+      "art_frames": 7
+    }
   ],
-
   "teardown_policy": "SCENE_brandingV2Exit drena a fila, libera os slots do martelo, zera as tabelas de scroll e restaura HSCROLL_PLANE/VSCROLL_PLANE. Nenhum upload pode ficar pendente na saida da cena.",
-
   "fallback_plan": "Se o pior quadro nao couber no envelope medido, a ordem de recuo e: primeiro aumentar o intervalo de troca do martelo de 5.7 para 8 quadros (a animacao fica mais dura mas o golpe sobrevive), depois reduzir a janela de ar quente, e so por ultimo cortar quadros de arte. Cortar arte e o ultimo recurso porque contraria a premissa da decisao.",
-
   "status": "documentado",
   "blockers": [
     "vblank_envelope_not_measured_for_this_project",

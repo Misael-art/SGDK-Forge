@@ -15,7 +15,7 @@ Regras:
 - os gates finais de `visual_lab_aprovado`, `audio`, `hardware_real` e `ready_for_aaa` devem ter trilha explicita em `doc/14-plano-de-provas-qa.md`.
 
 
-<!-- BEGIN: diretriz-bloqueio-estetico v3 -->
+<!-- BEGIN: diretriz-bloqueio-estetico v4 -->
 
 ## Diretriz de bloqueio estetico — leia antes de tocar em arte
 
@@ -139,6 +139,31 @@ python3 tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py --input <cen
 Regra completa: `SGDK_GLOBAL.md` secao 30.
 
 
+### Registro de folga de sprites — pendente para quem assumir
+
+Varredura de 2026-08-17 pela curadoria. **Nada foi corrigido neste projeto**; isto e
+registro para o proximo agente agir.
+
+- declaracoes de pressao encontradas: **2**
+- `unexploited_headroom` (abaixo de 60% do teto): **1**
+- `hardware_idle_undeclared` (zero sprites sem declarar que e decisao): **0**
+- `sprite_pressure_unmeasured` (prosa, nada computavel): **1**
+
+Declaracoes que pedem acao:
+
+- `scene-contracts.json` -> `scanline_sprite_pressure` = "nao_medido" (sem numero) -> `sprite_pressure_unmeasured`
+- `scene-contracts.json` -> `scanline_sprite_pressure` = "runtime v012 observado 9/20; enumerador ligado a geometr" (45%) -> `unexploited_headroom`
+
+**O que fazer quando for atuar aqui:** preencha `worst_frame_sprite_layout` no
+`scene-contracts.json` da cena (campo novo do schema canonico, formato do simulador),
+rode o simulador, e entao ou empurre a densidade ate medir o teto ou declare
+`headroom_justification` dizendo por que a direcao de arte ou o level design pedem menos.
+
+```bash
+python3 tools/sgdk_wrapper/audit_scene_headroom.py --root SGDK_projects
+python3 tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py --input <cena>.json
+```
+
 ### Rota de saida — nao contorne, execute
 
 1. Criar/completar `doc/asset_provenance_manifest.json` declarando **cada** simbolo visual
@@ -158,4 +183,4 @@ python3 tools/sgdk_wrapper/audit_procedural_asset_provenance.py \
 **Build limpo, ROM no BlastEm e screenshot nao substituem este gate.** Nova build so conta
 como progresso visual se reduzir os blockers acima.
 
-<!-- END: diretriz-bloqueio-estetico v3 -->
+<!-- END: diretriz-bloqueio-estetico v4 -->

@@ -3,7 +3,7 @@
 Regras de processo deste projeto. Autoridade #4 da hierarquia de verdade.
 
 
-<!-- BEGIN: diretriz-bloqueio-estetico v3 -->
+<!-- BEGIN: diretriz-bloqueio-estetico v4 -->
 
 ## Diretriz de bloqueio estetico — leia antes de tocar em arte
 
@@ -130,4 +130,4 @@ python3 tools/sgdk_wrapper/audit_procedural_asset_provenance.py \
 **Build limpo, ROM no BlastEm e screenshot nao substituem este gate.** Nova build so conta
 como progresso visual se reduzir os blockers acima.
 
-<!-- END: diretriz-bloqueio-estetico v3 -->
+<!-- END: diretriz-bloqueio-estetico v4 -->

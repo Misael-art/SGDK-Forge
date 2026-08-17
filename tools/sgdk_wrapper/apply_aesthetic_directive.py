@@ -25,11 +25,13 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from audit_procedural_asset_provenance import audit  # noqa: E402
+from audit_scene_headroom import audit as headroom_audit  # noqa: E402
 
-BEGIN = "<!-- BEGIN: diretriz-bloqueio-estetico v3 -->"
-END = "<!-- END: diretriz-bloqueio-estetico v3 -->"
+BEGIN = "<!-- BEGIN: diretriz-bloqueio-estetico v4 -->"
+END = "<!-- END: diretriz-bloqueio-estetico v4 -->"
 # v1 fica reconhecido para que o bloco antigo seja substituido, nao duplicado.
 LEGACY_MARKERS = [
+    ("<!-- BEGIN: diretriz-bloqueio-estetico v3 -->", "<!-- END: diretriz-bloqueio-estetico v3 -->"),
     ("<!-- BEGIN: diretriz-bloqueio-estetico v2 -->", "<!-- END: diretriz-bloqueio-estetico v2 -->"),
     ("<!-- BEGIN: diretriz-bloqueio-estetico v1 -->", "<!-- END: diretriz-bloqueio-estetico v1 -->"),
 ]
@@ -193,7 +195,73 @@ def measurement_block(report: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def build_block(report: dict[str, Any] | None) -> str:
+
+def headroom_block(project_root: Path) -> str:
+    """Registro de folga deste projeto, para o agente que assumir continuidade."""
+    try:
+        report = headroom_audit(project_root)
+    except Exception:  # noqa: BLE001
+        return ""
+    decls = report.get("declarations") or []
+    if not decls:
+        # Zero declaracoes nao e ausencia de problema: e ausencia de medicao. Se o
+        # projeto tem contrato de cena, nao saber a pressao e pior que estar fora do
+        # teto, porque nem a pergunta foi feita.
+        contracts = list(project_root.glob("doc/scene*contract*.json")) + list(
+            project_root.glob("doc/*scene-contracts.json"))
+        if not contracts:
+            return ""
+        return "\n".join([
+            "### Registro de folga de sprites — pendente para quem assumir",
+            "",
+            "Varredura de 2026-08-17 pela curadoria. **Nada foi corrigido neste projeto.**",
+            "",
+            f"Este projeto tem {len(contracts)} contrato(s) de cena e **nenhuma declaracao de",
+            "pressao de sprites por scanline**. Isso nao e ausencia de problema, e ausencia de",
+            "medicao: nem a pergunta foi feita. Qualquer claim de budget de sprites aqui e",
+            "insustentavel.",
+            "",
+            "**O que fazer:** preencha `worst_frame_sprite_layout` na cena (campo novo do schema",
+            "canonico) e rode o simulador. Ver a doutrina de audacia em `SGDK_GLOBAL.md` secao 30.",
+            "",
+        ])
+    s = report["summary"]
+    lines = [
+        "### Registro de folga de sprites — pendente para quem assumir",
+        "",
+        "Varredura de 2026-08-17 pela curadoria. **Nada foi corrigido neste projeto**; isto e",
+        "registro para o proximo agente agir.",
+        "",
+        f"- declaracoes de pressao encontradas: **{s['declarations_found']}**",
+        f"- `unexploited_headroom` (abaixo de 60% do teto): **{s['unexploited_headroom']}**",
+        f"- `hardware_idle_undeclared` (zero sprites sem declarar que e decisao): **{s['hardware_idle_undeclared']}**",
+        f"- `sprite_pressure_unmeasured` (prosa, nada computavel): **{s['unmeasured']}**",
+        "",
+    ]
+    worst = [d for d in decls if d.get("finding") and d.get("finding") != "ok"][:6]
+    if worst:
+        lines.append("Declaracoes que pedem acao:")
+        lines.append("")
+        for d in worst:
+            util = f"{d['utilization']:.0%}" if d.get("utilization") is not None else "sem numero"
+            lines.append(f"- `{d['file']}` -> `{d['field']}` = \"{d['declared'][:56]}\" ({util}) -> `{d['finding']}`")
+        lines.append("")
+    lines += [
+        "**O que fazer quando for atuar aqui:** preencha `worst_frame_sprite_layout` no",
+        "`scene-contracts.json` da cena (campo novo do schema canonico, formato do simulador),",
+        "rode o simulador, e entao ou empurre a densidade ate medir o teto ou declare",
+        "`headroom_justification` dizendo por que a direcao de arte ou o level design pedem menos.",
+        "",
+        "```bash",
+        "python3 tools/sgdk_wrapper/audit_scene_headroom.py --root SGDK_projects",
+        "python3 tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py --input <cena>.json",
+        "```",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def build_block(report: dict[str, Any] | None, project_root: Path | None = None) -> str:
     parts = [BEGIN, "", CANONICAL]
     if report is None:
         parts.append(
@@ -206,6 +274,10 @@ def build_block(report: dict[str, Any] | None) -> str:
         parts.append(measurement_block(report))
     parts.append(BRAND_GATE)
     parts.append(AUDACITY)
+    if project_root is not None:
+        hb = headroom_block(project_root)
+        if hb:
+            parts.append(hb)
     parts.append(EXIT_ROUTE)
     parts.append(END)
     return "\n".join(parts)
@@ -230,7 +302,7 @@ def apply_to_project(
         except Exception as exc:  # noqa: BLE001 - never let one project abort the sweep
             return (f"audit_failed: {exc}", False)
 
-    block = build_block(report)
+    block = build_block(report, project_root)
 
     if guidelines.exists():
         original = guidelines.read_text(encoding="utf-8-sig")

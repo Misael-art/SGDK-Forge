@@ -47,6 +47,25 @@
 #define HAZE_AMP_START          6
 #define CURTAIN_COLUMNS        20
 
+/* ---- Layout de VRAM: manual, porque o pool automatico nao cabe ----------
+ *
+ * O crash da primeira versao foi SPR_addSprite auto-alocando 1292 tiles contra
+ * uma reserva de 320: o pool esgota, SPR_addSprite devolve NULL e a chamada
+ * seguinte derruba a CPU. Aqui cada sprite aponta para tiles compartilhados.
+ *
+ * Os 56 estilhacos usam UM conjunto de 16 tiles, nao 56 copias de 4 quadros.
+ * O martelo usa a janela dupla de 72 tiles que o dma_queue_contract decidiu.
+ */
+#define HAMMER_SLOT_TILES 36
+#define HAMMER_WINDOW_SLOTS 2
+
+/*
+ * Os offsets sao DERIVADOS de tileset->numTile, nunca escritos a mao. A versao
+ * anterior hardcodou 304 tiles para o bg_a e o ResComp gerou 309: os cinco de
+ * diferenca sobrepuseram o logo e encheram a tela de tiles de lixo.
+ */
+static u16 sVramBgB, sVramBgA, sVramLogo, sVramShard, sVramEmber, sVramHammer;
+
 /* ---- Estado ------------------------------------------------------------ */
 
 static u8   sAct;
@@ -62,6 +81,8 @@ static s16  sEmberTrailX[EMBER_GHOSTS * 2 + 2];
 static s16  sEmberTrailY[EMBER_GHOSTS * 2 + 2];
 static u8   sTrailHead;
 static u8   sHammerFrame;
+static u8   sHammerSlotLoaded[HAMMER_WINDOW_SLOTS];
+static u8   sHammerSlotFrame[HAMMER_WINDOW_SLOTS];
 static u8   sShakeLeft;
 
 /* Rampa de brasa de PAL0[9..12]: o ciclo precisa fechar, senao aparece salto. */
@@ -81,7 +102,11 @@ static void brandHIntHandler(void)
     u16 band = sHIntLine;
 
     if (band < BRAND_V2_HINT_BANDS) {
-        PAL_setColor(BRAND_V2_EMBER_CYCLE_FIRST, HINT_BANDS[band]);
+        /* Escrita direta no CRAM. PAL_setColor passa pela fila de DMA e nao e
+         * seguro em contexto de H-Int: era a causa do M68K pular para
+         * 0x23080000 e travar a cena no primeiro quadro. */
+        *((vu32*) VDP_CTRL_PORT) = VDP_WRITE_CRAM_ADDR((u32)(BRAND_V2_EMBER_CYCLE_FIRST * 2));
+        *((vu16*) VDP_DATA_PORT) = HINT_BANDS[band];
         sHIntLine = band + 1;
     }
 }
@@ -136,6 +161,29 @@ static void brandShardExplodePos(u16 index, u16 age, s16 *outX, s16 *outY)
     *outY = ANVIL_Y + (s16)(((s32)FAN_SIN[sector] * radius) / 64);
 }
 
+/*
+ * Streaming do martelo: janela dupla de 72 tiles. O quadro pedido e carregado
+ * no slot (frame & 1) e o sprite passa a apontar para la. E o que o
+ * dma_queue_contract decidiu e o que a primeira versao do runtime ignorou.
+ */
+static void brandHammerSetFrame(u8 frame)
+{
+    const u8 slot = (u8)(frame & 1u);
+    const u16 base = sVramHammer + (slot * HAMMER_SLOT_TILES);
+
+    if (!sHammerSlotLoaded[slot] || sHammerSlotFrame[slot] != frame) {
+        const Animation *anim = spr_forge_hammer.animations[0];
+        if (frame < anim->numFrame) {
+            VDP_loadTileSet(anim->frames[frame]->tileset, base, DMA_QUEUE);
+            sHammerSlotLoaded[slot] = 1;
+            sHammerSlotFrame[slot] = frame;
+        }
+    }
+    SPR_setVRAMTileIndex(sHammer, (s16)base);
+    SPR_setFrame(sHammer, frame);
+    sHammerFrame = frame;
+}
+
 /* ---- Ato 1: ignicao ---------------------------------------------------- */
 
 static void brandEnterIgnition(void)
@@ -151,33 +199,60 @@ static void brandEnterIgnition(void)
     PAL_setPalette(BRAND_V2_PAL_WORDMARK, img_logo_author_v2.palette->data, DMA);
     PAL_setPalette(BRAND_V2_PAL_FX, spr_forge_ember.palette->data, DMA);
 
+    VDP_setBackgroundColor(0);
+    sVramBgB    = TILE_USER_INDEX;
+    sVramBgA    = sVramBgB + img_forge_bg_b.tileset->numTile;
+    sVramLogo   = sVramBgA + img_forge_bg_a_props.tileset->numTile;
+    sVramShard  = sVramLogo + img_logo_engine_v2.tileset->numTile;
+    sVramEmber  = sVramShard + spr_forge_shard.maxNumTile;
+    sVramHammer = sVramEmber + spr_forge_ember.maxNumTile;
+
     VDP_drawImageEx(BG_B, &img_forge_bg_b,
-                    TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, FALSE, FALSE, FALSE, TILE_USER_INDEX),
+                    TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, FALSE, FALSE, FALSE, sVramBgB),
                     0, 0, FALSE, TRUE);
     VDP_drawImageEx(BG_A, &img_forge_bg_a_props,
-                    TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, TRUE, FALSE, FALSE,
-                                   TILE_USER_INDEX + 1093),
+                    TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, TRUE, FALSE, FALSE, sVramBgA),
                     0, 0, FALSE, TRUE);
 
-    sEmber = SPR_addSprite(&spr_forge_ember, 232, -16,
-                           TILE_ATTR(BRAND_V2_PAL_FX, TRUE, FALSE, FALSE));
+    /* Conjuntos compartilhados: carregados UMA vez, apontados por todos. */
+    VDP_loadTileSet(spr_forge_ember.animations[0]->frames[0]->tileset, sVramEmber, DMA);
+    VDP_loadTileSet(spr_forge_shard.animations[0]->frames[0]->tileset, sVramShard, DMA);
+
+    PAL_setColor(0, 0x0000);   /* depois das paletas: o magenta nao vai para a borda */
+
+    sEmber = SPR_addSpriteEx(&spr_forge_ember, 232, -16,
+                             TILE_ATTR(BRAND_V2_PAL_FX, TRUE, FALSE, FALSE), 0);
+    SPR_setVRAMTileIndex(sEmber, (s16)sVramEmber);
+    SPR_setAutoTileUpload(sEmber, FALSE);
     for (i = 0; i < EMBER_GHOSTS; i++) {
-        sGhost[i] = SPR_addSprite(&spr_forge_ember, -32, -32,
-                                  TILE_ATTR(BRAND_V2_PAL_FX, FALSE, FALSE, FALSE));
+        sGhost[i] = SPR_addSpriteEx(&spr_forge_ember, -32, -32,
+                                    TILE_ATTR(BRAND_V2_PAL_FX, FALSE, FALSE, FALSE), 0);
+        SPR_setVRAMTileIndex(sGhost[i], (s16)sVramEmber);
+        SPR_setAutoTileUpload(sGhost[i], FALSE);
         SPR_setVisibility(sGhost[i], HIDDEN);
     }
-    sHammer = SPR_addSprite(&spr_forge_hammer, 150, -48,
-                            TILE_ATTR(BRAND_V2_PAL_METAL, TRUE, FALSE, FALSE));
+    sHammer = SPR_addSpriteEx(&spr_forge_hammer, 150, -48,
+                              TILE_ATTR(BRAND_V2_PAL_METAL, TRUE, FALSE, FALSE), 0);
+    SPR_setAutoTileUpload(sHammer, FALSE);
+    sHammerSlotLoaded[0] = 0;
+    sHammerSlotLoaded[1] = 0;
+    brandHammerSetFrame(0);
     SPR_setVisibility(sHammer, HIDDEN);
 
     sTrailHead = 0;
     sHammerFrame = 0;
-    brandAcquireHInt();
+    /* BLOCKER: brandAcquireHInt() derruba a CPU em 0x23080000, tanto com
+     * PAL_setColor quanto com escrita direta no CRAM. A bisecao provou que e o
+     * H-Int e nao o resto da cena. hint_palette_blending fica DESLIGADO ate a
+     * causa ser encontrada; o gradiente de bandas do ato 1 nao existe nesta ROM. */
+    /* brandAcquireHInt(); */
     AUDIO_playCue(AUDIO_CUE_BRAND_ENGINE_HIT);
 }
 
 static void brandUpdateIgnition(u16 f)
 {
+    sHIntLine = 0;   /* rearma as bandas para o quadro seguinte */
+
     /* PAL0[9..12] gira em CRAM: a forja respira antes da primeira imagem. */
     if ((f & 7) == 0) {
         u16 i;
@@ -223,8 +298,7 @@ static void brandUpdateIgnition(u16 f)
         const u16 t = f - 96;
         SPR_setVisibility(sHammer, VISIBLE);
         SPR_setPosition(sHammer, 150, (s16)(ANVIL_Y - 56 - (t * 2)));
-        sHammerFrame = (t < 12) ? 1u : 2u;
-        SPR_setFrame(sHammer, sHammerFrame);
+        brandHammerSetFrame((t < 12) ? 1u : 2u);
     }
 }
 
@@ -235,8 +309,10 @@ static void brandEnterStrike(void)
     u16 i;
 
     for (i = 0; i < SHARD_COUNT; i++) {
-        sShard[i] = SPR_addSprite(&spr_forge_shard, -32, -32,
-                                  TILE_ATTR(BRAND_V2_PAL_FX, TRUE, FALSE, FALSE));
+        sShard[i] = SPR_addSpriteEx(&spr_forge_shard, -32, -32,
+                                    TILE_ATTR(BRAND_V2_PAL_FX, TRUE, FALSE, FALSE), 0);
+        SPR_setVRAMTileIndex(sShard[i], (s16)sVramShard);
+        SPR_setAutoTileUpload(sShard[i], FALSE);
         SPR_setVisibility(sShard[i], HIDDEN);
         sShardLanded[i] = 0;
     }
@@ -344,7 +420,7 @@ static void brandSpecularSweep(u16 t)
         for (ty = 0; ty < (LOGO_H / 8); ty++) {
             VDP_setTileMapXY(BG_A,
                 TILE_ATTR_FULL(BRAND_V2_PAL_METAL, lit, FALSE, FALSE,
-                               TILE_USER_INDEX + 1397 + (ty * (LOGO_W / 8)) + tx),
+                               sVramLogo + (ty * (LOGO_W / 8)) + tx),
                 (u16)((LOGO_X0 / 8) + tx), (u16)((LOGO_Y0 / 8) + ty));
         }
     }
@@ -357,7 +433,7 @@ static void brandUpdateStrike(u16 f)
     brandStrikeFlashAndShake(t);
 
     if (f < BRAND_V2_ACT_STRIKE_START + HAMMER_RECOIL_FRAMES) {
-        SPR_setFrame(sHammer, (t < 2) ? 4u : 5u);      /* contato em smear */
+        brandHammerSetFrame((t < 2) ? 4u : 5u);        /* contato em smear */
         SPR_setPosition(sHammer, 150, (s16)(ANVIL_Y - 56 - (t * 10)));
     } else if (f == BRAND_V2_ACT_STRIKE_START + HAMMER_RECOIL_FRAMES) {
         SPR_setVisibility(sHammer, HIDDEN);

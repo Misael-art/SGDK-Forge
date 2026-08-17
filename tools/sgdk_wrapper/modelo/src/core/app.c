@@ -49,7 +49,7 @@ void APP_boot(bool hardReset)
     JOY_init();
     INPUT_init();
     AUDIO_init();
-    SPR_init();
+    SPR_initEx(16);   /* pool minimo: a cena de branding gerencia VRAM de sprite manualmente */
 
     gApp.currentScene = APP_SCENE_BRANDING;
     gApp.previousScene = APP_SCENE_BRANDING;

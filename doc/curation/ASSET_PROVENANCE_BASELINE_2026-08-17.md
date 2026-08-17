@@ -979,3 +979,65 @@ emitir telemetria.
 
 Nenhum status de entrega e reivindicavel. A regra de ferro do workspace continua valendo e
 desta vez ela reprovou o meu proprio codigo.
+
+## Fase 20 — runtime corrigido: crash resolvido, cena anima, margem zero
+
+### O crash: bisecao encontrou, hipotese inicial estava errada
+
+Minha primeira hipotese foi esgotamento do pool de sprites (1292 tiles exigidos contra 320).
+Corrigi para tiles compartilhados e streaming do martelo — **e o crash continuou identico**,
+mesmo endereco `0x23080000`.
+
+Bisecao desligando `brandAcquireHInt()`: **sem crash, e a cena passou a animar**. A causa era o
+H-Int, nao o pool.
+
+Tentei corrigir trocando `PAL_setColor` por escrita direta no CRAM, que e o padrao canonico
+para mudar paleta em interrupcao. **O crash voltou.** Entao nao e o metodo de escrita: e o
+proprio callback de H-Int nesta configuracao, e a causa ainda nao foi encontrada.
+
+`hint_palette_blending` esta **desligado no codigo, com blocker escrito no proprio arquivo**. O
+gradiente de bandas do ato 1 nao existe nesta ROM.
+
+### Segundo bug: offsets de VRAM hardcoded
+
+Eu havia escrito `TILE_USER_INDEX + 1093` para o BG_A usando **a minha** contagem de dedup. O
+ResComp gera **1097** para o `bg_b` e **309** para o `bg_a`, nao os 1093 e 304 que calculei.
+Cinco tiles de diferenca sobrepuseram o logo e encheram a tela de lixo.
+
+Corrigido: todos os offsets agora sao **derivados de `tileset->numTile`**, nunca escritos a mao.
+
+### O que a ROM faz agora
+
+Sem crash de CPU. Quadros capturados no BlastEm mudando **26,3%, 3,5%, 18,6%, 3,9% e 1,3%** —
+a cena roda. A bigorna renderiza, o enxame de estilhacos aparece, e o fundo magenta das bordas
+sumiu depois de mover o `PAL_setColor(0, 0x0000)` para **depois** do carregamento das paletas.
+
+### O que continua quebrado, e a raiz e sempre a mesma
+
+| | Tiles |
+|---|---|
+| TILE_USER_INDEX | 16 |
+| **bg_b** | **1097** |
+| bg_a | 309 |
+| logo_engine | 187 |
+| shard + ember | 40 |
+| janela do martelo | 72 |
+| pool SPR | 16 |
+| **total** | **1737** |
+| teto util | 1740 |
+
+**Tres tiles de margem.** Por isso so carreguei o quadro 0 dos tilesets de brasa e estilhaco:
+nao ha espaco para os 6 e 4 quadros. Visualmente eles nao animam, e ainda ha lixo na metade
+inferior da tela.
+
+Com o `bg_b` re-autorado ao alvo de 644 tiles do brief, a margem saltaria para **456 tiles** —
+espaco de sobra para carregar todos os quadros de sprite e parar de brigar por tile.
+
+### Status
+
+`implementado` e `buildado`. **Nao** `testado_em_emulador`: a cena roda mas com lixo visual,
+sem H-Int e sem animacao de quadro nos FX. O bundle segue rejeitado por falta de `vdp_dump` e
+`runtime_metrics`.
+
+Dois blockers nomeados para a proxima sessao: **causa do crash de H-Int** e **re-autoria do
+`bg_b`**. O segundo destrava o primeiro tipo de problema por folga.

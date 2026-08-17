@@ -156,7 +156,11 @@ Nao e fonte. E **objeto de metal forjado** com letras.
   outras nao tem. Isso e `costume_asymmetry` aplicado a tipografia — e o que impede o
   wordmark de parecer template;
 - o `presents` e o oposto: leve, pequeno, sem chanfro, apenas corpo e contorno. Ele nao
-  compete com o wordmark do projeto.
+  compete com o wordmark do projeto. **Discricao e sobre tamanho e peso tipografico, nunca
+  sobre luma:** o corpo tem piso de luma 100 e no minimo 3 passos de rampa. A primeira
+  entrega deste asset saiu com 99% da tinta num unico indice de luma 38, contra um fundo de
+  luma media 46 — contraste de −8, ou seja mais escuro que o proprio fundo. Elemento
+  discreto continua tendo que ser lido.
 
 **Proibido:** `VDP_drawText`, fonte do SGDK, texto renderizado por engine. Os tres wordmarks
 sao assets de pixel art. O cursor de maquina de escrever do v1 esta revogado.

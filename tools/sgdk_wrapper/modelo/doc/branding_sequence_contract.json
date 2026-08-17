@@ -280,11 +280,12 @@
         }
       ],
       "sprite_budget": {
-        "peak_total": 47,
-        "peak_per_scanline": 18,
-        "pixels_per_scanline": 288,
-        "measurement_level": "measured_by_simulator",
-        "gate": "vdp_scanline_simulator.py mede sprites por linha; o limite de 320 px por linha foi medido a parte porque a ferramenta canonica nao o cobre"
+        "peak_total": 33,
+        "peak_per_scanline": 16,
+        "pixels_per_scanline": 256,
+        "measurement_level": "measured_by_simulator_on_shipped_params",
+        "shard_count": 32,
+        "note": "Re-medido contra os parametros que estao na ROM. A declaracao anterior (56 estilhacos, 18/20) descrevia uma coreografia que nao foi implementada."
       }
     },
     {

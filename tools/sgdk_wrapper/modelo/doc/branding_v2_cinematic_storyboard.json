@@ -97,7 +97,7 @@
               122,
               140
             ],
-            "motion": "56 estilhacos nascem 2 por quadro e saem em leque radial com velocidades distintas",
+            "motion": "32 estilhacos nascem 2 por quadro e saem em leque radial com velocidades distintas",
             "intent": "explosao"
           },
           {
@@ -141,21 +141,24 @@
             "intent": "ar quente acima da forja: consequencia fisica do calor"
           }
         ],
-        "sprite_peak_total": 47,
-        "sprite_peak_per_scanline": 18,
-        "scanline_claim_gate": "MEDIDO por vdp_scanline_simulator.py: 18 de 20 sprites por linha, 288 de 320 px por linha, status ok",
+        "sprite_peak_total": 33,
+        "sprite_peak_per_scanline": 16,
+        "scanline_claim_gate": "MEDIDO nos parametros que estao na ROM: 16/20 sprites e 256/320 px por linha, status ok. Runtime no BlastEm registrou pico de 11 na amostra.",
         "measurement_level": "measured_by_simulator",
         "choreography_parameters": {
           "shard_spawn_per_frame": 2,
-          "row_stagger_frames": 5,
+          "row_stagger_frames": 4,
           "jitter_mod": 5,
-          "hammer_recoil_frames": 10,
+          "hammer_recoil_frames": 16,
           "last_shard_landing_frame": 203,
           "note": "A primeira coreografia media 36 sprites por scanline (status=error). Tres correcoes derrubaram para 15: spawn escalonado em vez de todos em F122, pouso progressivo (cada estilhaco que chega vira tile e sai do SAT) e recuo rapido do martelo.",
-          "shard_count": 56,
-          "landing_grid": "8x7",
+          "shard_count": 32,
+          "landing_grid": "8x4",
           "density_decision": "32 -> 56 estilhacos (+75%) apos medir os DOIS limites do VDP. Nenhuma tecnica nova, nenhum flicker: era folga que estava sobrando na mesa.",
-          "pixel_budget_per_line": "288/320 em H40"
+          "pixel_budget_per_line": "288/320 em H40",
+          "logo_y0": 64,
+          "reconciliation_note": "O contrato declarava 56 estilhacos com 18/20 medidos. O runtime entregue usa 32 com stagger 4 e logo em y=64. Re-medido: 16/20 e 256/320. A reducao para 32 veio da pressao de CPU (over_budget=12 no memory-bank), nao de VRAM \u2014 estilhacos compartilham um unico tileset de 16 tiles e nao pesam em VRAM.",
+          "open_question": "Com o bg_b re-autorado (1093 -> 642 tiles, 30% de margem de VRAM), a restauracao para 56 depende so de CPU. A doutrina de audacia pede medir antes de aceitar 32 como final."
         }
       },
       {

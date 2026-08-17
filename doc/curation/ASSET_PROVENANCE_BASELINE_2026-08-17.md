@@ -1041,3 +1041,42 @@ sem H-Int e sem animacao de quadro nos FX. O bundle segue rejeitado por falta de
 
 Dois blockers nomeados para a proxima sessao: **causa do crash de H-Int** e **re-autoria do
 `bg_b`**. O segundo destrava o primeiro tipo de problema por folga.
+
+## Fase 21 — outro agente destravou; contrato reconciliado com a ROM
+
+### O que o outro agente resolveu
+
+**A causa do crash de H-Int, que eu nao achei.** O handler era `void` e o GCC emitia `RTS`.
+H-Int e excecao de nivel 4: a pilha tem SR+PC, e `RTS` desempilha so o PC, entao o SR (0x2308)
+virou a word alta do endereco seguinte — **0x23080000**, exatamente o endereco do crash. A
+correcao e `HINTERRUPT_CALLBACK`, que emite `RTE`. Minhas duas tentativas atacaram o metodo de
+escrita no CRAM, que era um risco secundario e nao o vetor.
+
+**O `bg_b` re-autorado**: 1093 -> **642 tiles unicos, 43% de dedup**, contra o alvo de 644 do
+brief. A margem do ato 2 saltou de **3 tiles para 30%**.
+
+**Resultado**: sem crash, cena animando por todos os atos, e o bundle de evidencia
+`sealed` com `blockers: []` — a primeira vez que o gate de captura aceita esta cena.
+
+### O que eu corrigi nesta rodada
+
+Contrato e storyboard declaravam **56 estilhacos com 18/20 sprites medidos**. A ROM roda
+**32**, com stagger 4 e logo em y=64. Contrato descrevendo coreografia que nao foi
+implementada e exatamente o falso verde que esta curadoria combate.
+
+Re-medi com os parametros lidos do codigo: **16/20 sprites e 256/320 px, status ok**. O runtime
+no BlastEm registrou pico de 11 na amostra. Contrato e storyboard atualizados, com a divergencia
+registrada em vez de apagada.
+
+Detalhe que importa: a reducao para 32 **nao foi por VRAM**. Estilhacos compartilham um unico
+tileset de 16 tiles e nao pesam em VRAM; a causa foi pressao de CPU (`over_budget=12`). Com o
+`bg_b` corrigido, restaurar 56 depende so de CPU — e a doutrina de audacia pede medir antes de
+aceitar 32 como final.
+
+### Blockers abertos
+
+- `over_budget=12` quadros acima do orcamento de CPU;
+- `performance_claim: unproven` no proprio bundle;
+- captura terminou em `vlab.scene_id: 2`, ou seja depois da cena, entao o dump de VDP nao
+  cobre o pior quadro do ato 2;
+- 32 estilhacos sem justificativa medida contra os 56 que cabem por scanline.

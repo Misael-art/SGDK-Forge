@@ -797,3 +797,76 @@ Gate de compreensao: 31 tecnicas, 18 bearing, 13 enabling, `verdict=OK`.
 A vitrine nao e a contagem de tecnicas. E o fato de cada uma ter que dizer o que o espectador
 entende e o que se perderia sem ela — e de cinco terem sido cortadas justamente por nao
 conseguirem responder.
+
+## Fase 17 — 9 assets entregues, ROM compilada, e o blocker que nenhum gate pegou
+
+### O que a validacao confirmou
+
+- **proveniencia limpa**: 14 simbolos, 14 declarados, `blocking=[]`;
+- **dimensoes exatas** nos 9 assets, todos em modo indexado;
+- **degrau de luz do logo confirmado**: `PAL1[13]` a 4,5% dos pixels visiveis, `[14]` vazio,
+  pico de canal exatamente `0xCC` — no teto, nao acima. Requisito nao negociavel cumprido;
+- **face da bigorna limpa como declarado**: `4` puro de y=80 a y=103. Minha primeira leitura
+  acusou textura porque centrei a janela errado; a medicao corrigiu a mim, nao ao artista;
+- **ROM compilada**: 262144 B pelo wine bridge, os 9 simbolos em `resources.h`.
+
+### Autocritica do agente conferida por medicao
+
+O agente disse que o FORGE ficou "azul-ardosia demais". Medido: **51% de pixels frios contra
+29% quentes**. Confirmado, e no asset sobre o qual a varredura especular corre.
+
+### BLOCKER: o orcamento de VRAM esta estourado
+
+Nenhum gate desta curadoria pegou isto, porque todos mediam sprites, proveniencia e paleta —
+nenhum media **residencia de tiles**.
+
+| | Bruto | Unico (dedup H/V) | Reducao |
+|---|---|---|---|
+| `forge_bg_b` | 1120 | **1093** | **2%** |
+| `forge_bg_a_props` | 1120 | 304 | 73% |
+| demais 7 | 804 | 599 | 26% |
+| **total** | 3044 | **1996** | 34% |
+
+Residencia por ato contra o teto util de ~1700 tiles:
+
+| Ato | Residentes | Margem |
+|---|---|---|
+| 1 ignition | 1493 | 12% |
+| **2 strike** | **1667** | **2%** |
+| 3 signature | 1316 | 23% |
+
+Contra as linhas do proprio contrato: `bg_forge_set` orcado em 640 e real em **1397 (+118%)**.
+
+### A causa e a mesma de sempre, em forma nova
+
+`forge_bg_b` deduplica **2%**. Um fundo de alvenaria deveria deduplicar muito. Dois por cento
+significa que quase todo tile e unico — o que acontece quando a imagem e fotografica e foi
+quantizada, e nao autorada como tiles.
+
+E o mesmo vicio do ringing de JPEG, agora em outra camada: **a arte foi composta como imagem,
+nao como conjunto de tiles.**
+
+A ironia esta na leitura: o agente escreveu que a parede "continua lendo como fiada", ou seja
+modular demais aos olhos. A medicao diz o oposto na VRAM — 98% de tiles unicos. Ela consegue
+parecer repetitiva e custar como arte unica ao mesmo tempo, que e o pior dos dois mundos.
+
+`forge_bg_a_props`, autorado com formas mais limpas, deduplica 73%. Prova que o problema e de
+metodo de composicao e nao de estilo.
+
+### A ROM compilou, mas nao mostra a abertura v2
+
+Os 9 assets estao em `resources.h` e ocupam ROM, e **nenhuma linha de runtime os referencia**:
+`scene_branding.c` continua sendo a implementacao v1 com os 5 placeholders `img_brand_*`.
+
+O build prova que o ResComp aceita os 9 assets e que a ROM fecha em 256KB. **Nao prova nada
+sobre a abertura v2**, que nao existe em runtime. Apresentar essa ROM como validacao da cena
+seria o falso verde que esta curadoria passou a sessao inteira fechando.
+
+### Gap de gate exposto
+
+Esta curadoria construiu gate de proveniencia, de compreensao de marca, de model sheet e de
+pressao de scanline. **Nenhum mede residencia de tiles em VRAM.** O `res_graph_report` cobre
+isso no framework, mas nunca foi rodado sobre esta cena porque o runtime nao existe.
+
+Dedup de tile deveria ser medido no **asset**, antes do runtime — e da para fazer com o mesmo
+metodo usado aqui.

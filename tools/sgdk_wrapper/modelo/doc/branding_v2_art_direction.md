@@ -196,7 +196,7 @@ producao vai herdar.
 | Painel | Regiao | O que precisa provar |
 |---|---|---|
 | **A — luz** | topo-esquerda, 256x160 | bigorna + martelo em tamanho aproximado de cena, com a luz vindo de baixo. 3 valores minimos por material. Prova a secao 2. |
-| **B — silhueta** | topo-direita, 256x160 | o MESMO conteudo do painel A em preto puro sobre transparente. Prova os 3 `silhouette_hooks`. |
+| **B — silhueta** | topo-direita, 256x160 | os hooks do painel A em preto chapado. Fundo transparente ou branco liso, tanto faz: a convencao de estudio preto-sobre-branco le igual ou melhor. Prova os 3 `silhouette_hooks`. |
 | **C — rampas** | meio, 512x64 | as 4 paletas como tiras de degraus rotulados por indice, na ordem da secao 5. A tira de PAL1 deve mostrar visivelmente que 13-14 estao abaixo do branco. A tira de PAL0 deve mostrar os 4 passos do ciclo de brasa em sequencia fechada. |
 | **D — tipografia** | baixo-esquerda, 256x96 | uma palavra de teste (nao o nome final) no corpo do wordmark da engine, em tamanho real de 64px de altura, com o chanfro inferior e a marca de ferramenta assimetrica. |
 | **E — FX em tamanho real** | baixo-direita, 256x96 | brasa e estilhaco a **16x16, tamanho real, nao ampliados**, com os 4 quadros de cada um lado a lado. Ao lado, uma versao ampliada 4x apenas para leitura humana, claramente marcada como ampliacao. |

@@ -365,3 +365,48 @@ Verificado nas duas direcoes com fixtures sinteticas: folha conforme passa com e
 violando dispara os 5 blockers com exit 1, e passo morto no anel dispara isolado. As fixtures
 sao PNGs desenhados por codigo no scratchpad — uso de debug permitido pela propria diretriz,
 nunca em `res/`.
+
+## Fase 8 — primeira entrega do agente de arte revisada
+
+O agente de arte executou a fase 1 e entregou `model_sheet_forge_v01.png` com 14 fontes
+brutas em `raw/`, `assemble_model_sheet.py` e `model_sheet_lineage.json`.
+
+**A rota de proveniencia funcionou.** O assemblador tem zero chamadas de primitiva — apenas
+crop, resize nearest, paste, chroma key e remap de paleta. Fontes autorais persistidas com
+sha256 por painel, canal declarado `native_chat_image_generation_callable`,
+`procedural_generation_used_as_asset_source: false`. Codigo montou, nao desenhou: exatamente
+o `procedural_composed_from_authored` que a diretriz permite. O gate de contrato passou com
+exit 0.
+
+**O agente nao vendeu a folha como pronta.** Declarou `visual_quality_bar_1994: no_not_yet`
+por conta propria e nomeou a parede modular, o martelo e a perda dos rotulos do painel C.
+A politica de parada honesta, que substituiu o mandato de fallback procedural, produziu o
+comportamento pretendido logo na primeira entrega.
+
+**Revisao: `rework`.** Registro em `doc/model_sheet_review_v01.md`. Quatro blockers:
+
+1. wordmark do painel D iluminado por cima — a calota clara esta na aresta superior e o
+   painel vira `img_logo_engine_v2`, entao o erro contamina o ato 2 inteiro;
+2. wordmark na familia de paleta errada, azul-ardosia em vez da rampa de ferro de PAL1, o
+   que esvazia a varredura especular;
+3. wordmark sem a marca de ferramenta assimetrica, caindo no `generic_blocker` de simetria;
+4. martelo do painel A iluminado por cima, contradizendo a lei dentro do painel que existe
+   para prova-la, e pequeno demais para servir de `silhouette_hook`;
+5. os 4 quadros de brasa nao formam rotacao, e os 4 de estilhaco ja sao espelhos entre si,
+   o que colapsa as 16 orientacoes esperadas do flip H/V.
+
+**O que a folha acertou:** a lei da luz de baixo funciona no painel A. Fornalha no piso,
+barriga da bigorna e parede lavando em laranja, plano superior escuro, pedra distante em
+azul-violeta. Temperatura fazendo trabalho estrutural e bico da bigorna legivel em silhueta.
+O nucleo da direcao esta de pe.
+
+### Correcao na direcao, nao no trabalho
+
+Eu havia especificado o painel B como "preto puro sobre transparente". O agente entregou
+preto sobre branco, que e convencao de estudio padrao e le igual ou melhor. A especificacao
+estava apertada demais sem ganho; foi relaxada. O gate ja tolerava dois indices e ficou como
+esta.
+
+Vale registrar que os checks de folga de highlight e de ciclo de brasa passaram porque o gate
+le a **tabela de paleta do PNG**, nao o painel C. A perda dos rotulos do painel C custa
+revisao humana, nao verificacao mecanica.

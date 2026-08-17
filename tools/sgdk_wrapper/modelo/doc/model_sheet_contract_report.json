@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "model_sheet_contract",
+  "contract_ref": "doc/branding_sequence_contract.json#branding_sequence_v2",
+  "direction_ref": "doc/branding_v2_art_direction.md",
+  "model_sheet_path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/model_sheet_forge_v01.png",
+  "canvas": [
+    512,
+    384
+  ],
+  "mode": "P",
+  "palette_entries": 64,
+  "evidence": {
+    "panels": {
+      "A": {
+        "indices_used": 16,
+        "non_transparent": 15
+      },
+      "B": {
+        "indices_used": 2,
+        "non_transparent": 1,
+        "ink_indices": [
+          31
+        ]
+      },
+      "C": {
+        "indices_used": 61,
+        "non_transparent": 60
+      },
+      "D": {
+        "indices_used": 13,
+        "non_transparent": 12
+      },
+      "E": {
+        "indices_used": 14,
+        "non_transparent": 13,
+        "uniform_block_ratio": 0.631
+      }
+    },
+    "highlight_headroom": {
+      "PAL1[13]": {
+        "rgb": [
+          204,
+          170,
+          170
+        ],
+        "peak_channel": 204
+      },
+      "PAL1[14]": {
+        "rgb": [
+          204,
+          204,
+          204
+        ],
+        "peak_channel": 204
+      }
+    },
+    "ember_cycle": {
+      "colors": [
+        [
+          136,
+          68,
+          0
+        ],
+        [
+          170,
+          136,
+          0
+        ],
+        [
+          238,
+          170,
+          0
+        ],
+        [
+          204,
+          102,
+          0
+        ]
+      ],
+      "ring_steps": [
+        76.0,
+        76.0,
+        76.0,
+        76.0
+      ],
+      "closing_step": 76.0,
+      "uniformity_ratio": 1.0,
+      "limit": 3.0
+    }
+  },
+  "findings": [],
+  "complements": "art_diagnostic.py cobre formato tecnico geral; art_quality_gate.py cobre qualidade artistica. Este gate cobre so o contrato do model sheet v2.",
+  "human_judgement_still_required": "Nenhum destes checks julga se a luz esta correta. Direcao de luz coerente na rampa e aprovacao humana.",
+  "blocking": false,
+  "blocking_statuses": []
+}

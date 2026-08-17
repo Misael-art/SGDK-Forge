@@ -2649,3 +2649,26 @@ Status: `documentado`.
   fixture aberto passou. Trocado por uniformidade do anel (razao <= 3.0) com deteccao
   separada de passo morto.
 - Verificado nas duas direcoes com fixtures sinteticas em scratchpad.
+
+## 2026-08-17 (fase 8) — Primeira entrega de arte revisada: rework
+
+Status: `documentado`.
+
+- O agente de arte entregou `model_sheet_forge_v01.png`. A rota de proveniencia
+  funcionou: `assemble_model_sheet.py` tem zero primitivas (crop/resize/paste/chroma
+  key/remap), fontes autorais em `raw/` com sha256 por painel em
+  `model_sheet_lineage.json`. Gate de contrato exit 0.
+- O agente declarou `visual_quality_bar_1994: no_not_yet` sozinho. A politica de parada
+  honesta que substituiu o mandato de fallback procedural produziu o comportamento
+  pretendido na primeira entrega.
+- Revisao `rework` em `doc/model_sheet_review_v01.md`. Blockers: wordmark do painel D
+  iluminado por cima, em paleta fria em vez da rampa de ferro de PAL1 e sem marca
+  assimetrica; martelo do painel A tambem iluminado por cima dentro do painel que existe
+  para provar a luz inferior; 4 quadros de brasa que nao formam rotacao; 4 estilhacos que
+  ja sao espelhos entre si e colapsam o flip H/V.
+- A lei da luz de baixo funciona no painel A: esse e o nucleo da direcao e ele passou.
+- Correcao minha: especificar o painel B como "preto sobre transparente" era aperto sem
+  ganho. Preto sobre branco e convencao de estudio e le igual. Direcao relaxada.
+- Registrar que folga de highlight e ciclo de brasa passam porque o gate le a tabela de
+  paleta do PNG, nao o painel C. Perder os rotulos do painel C custa revisao humana, nao
+  verificacao mecanica.

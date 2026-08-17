@@ -679,3 +679,61 @@ proposta de flicker como falsa audacia.
 Propagacao: `AGENTS.md` (secao propria no ponto de entrada + restricao nao negociavel +
 referencia rapida), `SGDK_GLOBAL.md` secao 30, e o bloco de diretriz por projeto elevado a
 `diretriz-bloqueio-estetico v3` nos 13 projetos e no template, substituindo o v2 sem duplicar.
+
+## Fase 15 — varredura de folga nas cenas contratadas
+
+Pedido: rodar o simulador nas cenas ja contratadas.
+
+**Nao foi possivel, e a impossibilidade e o primeiro achado.** O
+`vdp_scanline_simulator.py` exige layout de sprites (x/y/w/h por sprite). **Nenhuma cena
+contratada do workspace declara layout** — todas declaram pressao como prosa ou como um numero
+solto. Nao existe nada para apontar a ferramenta.
+
+O que deu para fazer: `tools/sgdk_wrapper/audit_scene_headroom.py` varre as declaracoes,
+classifica em tres estados e aplica a doutrina da secao 30 onde ha numero. Report em
+`doc/curation/scene_headroom_sweep_2026-08-17.json`.
+
+### 41 declaracoes em 10 projetos
+
+| Estado | Qtd | Significado |
+|---|---|---|
+| `declared_zero` | **21** | a cena declara zero sprites |
+| `unmeasured` | **17** | `nao_medido` ou prosa; nada computavel |
+| `measured` | **3** | existe numero real |
+
+### Os tres numeros reais valem 45%
+
+`Celestial Chase Revive` declara `max_scanline_sprites: 9` e o `Celestial Chase visual
+benchmark` registra "runtime v012 observado 9/20". Nove de vinte e **45% de utilizacao**,
+abaixo do limiar de 60%: `unexploited_headroom` nos tres.
+
+Isso nao e reprovacao — e a pergunta que a doutrina obriga: nove foi o teto medido ou foi o
+primeiro numero que funcionou? Se a direcao de arte ou o level design pedem uma cena esparsa,
+a razao entra em `headroom_justification` e o aviso some. Se ninguem mediu o degrau seguinte,
+ha hardware na mesa.
+
+### Vinte e uma declaracoes de zero sprites
+
+Sao as cenas de branding v1 e seus contratos de cena. Ja diagnosticadas nesta curadoria como
+hardware ocioso — 0 de 80 sprites, 2 de 4 paletas, nenhum H-Int. A varredura agora quantifica:
+`hardware_idle_undeclared` em 21 pontos.
+
+O codigo separa `hardware_idle_undeclared` de `unexploited_headroom` de proposito: zero sprites
+pode ser decisao legitima de cena estatica, mas precisa estar declarado como decisao. Nenhuma
+das 21 declara.
+
+### Dezessete cenas sem medicao nenhuma
+
+Incluindo uma de MARE_BRAVA que diz `nao_medido (risco declarado: 4 inimigos na mesma...)` — o
+projeto **sabe** que tem risco de pressao de scanline e nunca mediu. Essa e a que mais merece
+atencao, porque tem risco nomeado sem numero.
+
+### O gap estrutural que isto expoe
+
+A doutrina de audacia so consegue morder onde ha numero, e o workspace tem numero em 3 de 41
+declaracoes. Enquanto os contratos de cena nao carregarem layout de sprite do pior quadro, o
+simulador continua sem poder ser apontado para nada, e `scanline_sprite_pressure` segue sendo
+um campo de prosa.
+
+O caminho seria o `scene_contract` passar a aceitar um `worst_frame_sprite_layout` — mas isso
+e mudanca de schema canonico que afeta todos os projetos, e nao foi feita aqui.

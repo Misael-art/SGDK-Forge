@@ -542,3 +542,28 @@ linha do tempo do ato 2 foi corrigida de F180 para F194.
 
 **Se eu tivesse liberado a arte antes de medir**, o agente teria desenhado 32 estilhacos para
 uma coreografia impossivel, e a descoberta viria na implementacao do runtime com a arte pronta.
+
+## Fase 12 — 9 assets liberados para producao
+
+Curador aprovou o model sheet v02 e a concepcao de cena em 2026-08-17. Estados atualizados:
+`trava_3=approved`, storyboard `status_ceiling=production_candidate`, asset_contract
+`released_for_production`. Brief em `doc/asset_production_brief_v2.md`.
+
+O brief carrega tres coisas que o contrato sozinho nao carregava:
+
+**1. O requisito nao negociavel do degrau de luz.** `img_logo_engine_v2` precisa de degrau em
+`PAL1[13..14]` com canal `<= 0xCC` na aresta inferior. O model sheet v02 nao tem passo de luz
+nenhum — 0,0% de uso desses slots — e a varredura especular do ato 2 corre sobre esse asset.
+
+**2. Registro de posicao derivado da coreografia.** Face da bigorna em (128,104), caixa do
+logo em x 48-272 / y 80-144, faixa de cisalhamento nas 48 scanlines inferiores. Sem essas
+ancoras os assets nao compoem cena: a brasa pousa no ar e o martelo bate no vazio.
+
+**3. Carga de correcao da v02 distribuida nos assets certos.** A parede modular vai para
+`img_forge_bg_b`, o entalhe do estilhaco para `spr_forge_shard`, em vez de uma terceira folha
+que nao provaria nada novo.
+
+Ordem de producao comeca por `img_forge_bg_a_props`, porque ele fixa o registro de (128,104)
+do qual os outros dependem.
+
+O teto de 1994 passa a ser cobrado nos assets. O model sheet era prova de direcao.

@@ -35,7 +35,7 @@
   "creative_direction": {
     "art_direction_doc": "doc/branding_v2_art_direction.md",
     "art_direction_decision_record": "doc/art_direction_decision_record.json",
-    "art_direction_status": "direction_locked_execution_pending",
+    "art_direction_status": "approved_assets_released",
     "concept_id": "a_forja",
     "one_line": "Uma unica tomada continua dentro de uma forja: uma brasa cai, o martelo bate, e o impacto forja a marca em metal incandescente.",
     "why_this_concept": "A metafora da forja e a desculpa mecanica perfeita para os pontos fortes reais do VDP: emissividade por Shadow/Highlight, metal liquido por rotacao de CRAM, ar quente por line scroll, estilha\u00e7os por multiplexacao de sprites e um impacto pesado por FM + DAC. A marca nao e apresentada, ela e fabricada na frente do jogador.",
@@ -394,7 +394,7 @@
     "conflict_policy": "Nenhum outro modulo pode registrar H-Int enquanto a cena de branding estiver ativa. Violacao e blocker formal."
   },
   "asset_contract": {
-    "status": "pending_art_production",
+    "status": "released_for_production",
     "provenance_rule": "Todo simbolo abaixo exige registro em doc/asset_provenance_manifest.json. source_kind procedural_primitive nunca pode ser final. Nenhum destes assets pode nascer de PIL/ImageDraw.",
     "model_sheet_first": "Obrigatorio. Pedido de pacote de assets finais sem model sheet aprovado reprova; a rota que funciona entrega model sheet e style board primeiro, depois os assets.",
     "symbols": [

@@ -1,7 +1,7 @@
 {
   "record_id": "branding_v2_forge_art_direction",
   "schema_version": "1.0.0",
-  "status": "direction_locked_execution_pending",
+  "status": "approved_assets_released",
   "scene_id": "APP_SCENE_BRANDING",
   "contract_ref": "doc/branding_sequence_contract.json#branding_sequence_v2",
   "direction_doc": "doc/branding_v2_art_direction.md",
@@ -30,7 +30,7 @@
       }
     ],
     "clone_risk_method": "environment_and_costume_distance",
-    "execution_authoriality_gate_report": "PENDENTE \u2014 o agente de arte gera doc/authoriality_gate_report.json com clone_risk_score medido"
+    "execution_authoriality_gate_report": "doc/authoriality_gate_report.json"
   },
   "trava_2_visual_breakdown": {
     "requirement": "paleta, material, iluminacao e profundidade definidos antes de gerar",
@@ -70,8 +70,12 @@
   "trava_3_art_director_supervision": {
     "requirement": "aprovacao do art-director para validar shading/volume",
     "gate_point": "apos o model sheet da fase 1, antes de qualquer um dos 8 assets finais",
-    "status": "pending_human_approval",
-    "rationale": "Pacote de assets finais entregue sem model sheet aprovado falhou 4 vezes neste workspace."
+    "status": "approved",
+    "rationale": "Pacote de assets finais entregue sem model sheet aprovado falhou 4 vezes neste workspace.",
+    "approved_at": "2026-08-17",
+    "approved_by": "human_curator",
+    "approval_basis": "doc/model_sheet_review_v02.md + doc/branding_v2_scene_conception.md",
+    "carry_forward_non_negotiable": "img_logo_engine_v2 exige degrau de luz em PAL1[13..14] com canal <= 0xCC na aresta inferior das hastes; o model sheet v02 nao tem passo de luz nenhum e sem ele a varredura especular do ato 2 nao existe"
   },
   "trava_4_style_catalog": {
     "requirement": "art_direction_decision_record consultando art_style_catalog.json antes de gerar",
@@ -246,12 +250,20 @@
     ]
   },
   "execution_fields_for_art_agent": {
-    "execution_model_sheet_path": null,
-    "execution_generation_channel": null,
-    "execution_tooling_capability_report": null,
-    "execution_self_critique": null,
-    "execution_five_gates_result": null,
-    "execution_completed_at": null
+    "execution_model_sheet_path": "data/source_art/branding_v2/model_sheet_forge_v02.png",
+    "execution_generation_channel": "native_chat_image_generation_callable",
+    "execution_tooling_capability_report": "doc/generation_channel_decision.json",
+    "execution_self_critique": "A v02 corrige a lei da luz no FORJA e no martelo, e a brasa agora e um nucleo que gira. Ainda nao e 1994. O remap da PAL1 comeu o corpo de ferrugem do wordmark e empurrou quase toda a letra para os slots de metal aquecido, entao o topo frio que existe na fonte some no PNG de 64px. A parede melhorou com trincas e um vazio, mas ainda le como fiada. Os rotulos do painel C existem (P0-P3 e 1/5/9/13/15) e sao apertados. O estilhaco 16x16 ainda pede a ampliacao 4x para o entalhe se tornar o gancho. Prova de correcao, nao peca final.",
+    "execution_five_gates_result": {
+      "scope_style_constraints": "pass",
+      "silhouette_shape_language": "pass",
+      "value_hierarchy": "partial",
+      "palette_role_map": "pass",
+      "polish_vfx_gameplay_signal": "partial",
+      "visual_quality_bar_1994": "no_not_yet",
+      "notes": "v02 contract gate clean. Hammer hook and ember rotation are now present. Wall modularity and PAL1 remap collapsing the wordmark rust band remain below the bar."
+    },
+    "execution_completed_at": "2026-08-17"
   },
   "promotion_rules": [
     "este registro nao promove nada; status permanece direction_locked_execution_pending",

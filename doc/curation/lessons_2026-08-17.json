@@ -122,6 +122,20 @@
       "severity": "medium",
       "lesson": "Meca o degrau seguinte antes de fechar um orcamento. Pare quando MEDIR o estouro, nao quando sentir receio; e declare a justificativa quando a direcao pedir menos.",
       "evidence": "32 estilhacos a 16/20 pareciam o teto; corrigir o aliasing levou a 56 a 16/20, densidade visual 3,5x maior pelo mesmo custo."
+    },
+    {
+      "id": "continuity_needs_declared_exits",
+      "bucket": "producao",
+      "severity": "high",
+      "lesson": "Proibir corte a preto sem declarar COMO cada elemento sai produz acumulo. Continuidade nao e ausencia de remocao: e ter saida desenhada por scroll, fade ou substituicao para cada elemento que entra.",
+      "evidence": "Ato 3 com quatro elementos vivos na mesma faixa y=80..128 em F451 (bigorna, FORGE, MISAEL, MASTER) e zero remocoes no codigo. O contrato dizia apenas 'nunca use VDP_clearPlane'."
+    },
+    {
+      "id": "gates_do_not_see_composition",
+      "bucket": "boas_praticas",
+      "severity": "high",
+      "lesson": "Todo gate construido mede hardware. Empilhar elementos na mesma faixa da tela passa em residencia, scanline, provenance e compreensao de marca. Composicao se pega com planta baixa, nao com validador.",
+      "evidence": "O ato 3 tem 0 sprites, 865 de 1740 tiles e over_budget 0 \u2014 todos os gates verdes \u2014 com quatro wordmarks empilhados."
     }
   ]
 }

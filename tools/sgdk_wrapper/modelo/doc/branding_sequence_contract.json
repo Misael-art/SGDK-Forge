@@ -39,11 +39,13 @@
     "concept_id": "a_forja",
     "one_line": "Uma unica tomada continua dentro de uma forja: uma brasa cai, o martelo bate, e o impacto forja a marca em metal incandescente.",
     "why_this_concept": "A metafora da forja e a desculpa mecanica perfeita para os pontos fortes reais do VDP: emissividade por Shadow/Highlight, metal liquido por rotacao de CRAM, ar quente por line scroll, estilha\u00e7os por multiplexacao de sprites e um impacto pesado por FM + DAC. A marca nao e apresentada, ela e fabricada na frente do jogador.",
-    "continuity_rule": "Zero cortes a preto. Os tres atos sao uma tomada continua; a transicao entre atos e feita por luz, scroll e paleta, nunca por VDP_clearPlane.",
+    "continuity_rule": "Zero cortes a preto, E cada elemento tem uma SAIDA DESENHADA. Proibir VDP_clearPlane sem declarar a alternativa foi implementado como 'nunca remova nada', e o ato 3 acumulou quatro elementos na mesma faixa vertical. Continuidade nao e ausencia de remocao: e ter saida declarada por scroll, fade ou substituicao para cada elemento que entra.",
     "escalation_rule": "Cada ato adiciona uma camada de hardware. O ato 1 estabelece luz, o ato 2 adiciona sprites e Shadow/Highlight, o ato 3 adiciona scroll por coluna. A abertura e, ela mesma, a demonstracao.",
     "authoriality": "Referencias de mesma geracao servem como ancora tecnica de direcao de luz, densidade e timing. Nenhum nome de estudio, jogo, artista ou IP pode virar prompt de copia; exige authoriality_gate_report.",
     "scene_conception_doc": "doc/branding_v2_scene_conception.md",
-    "cinematic_storyboard": "doc/branding_v2_cinematic_storyboard.json"
+    "cinematic_storyboard": "doc/branding_v2_cinematic_storyboard.json",
+    "stage_rule": "PALCO em y=56..144 aceita UM wordmark por vez. Quem entra, entra porque o anterior saiu. Zonas: COIFA y=0..56, PALCO y=56..144, FORJA y=144..200, ASSINATURA y=200..224 no plano WINDOW.",
+    "act3_storyboard": "doc/act3_storyboard.md"
   },
   "acts": [
     {

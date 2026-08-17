@@ -231,7 +231,47 @@
           }
         ],
         "sprite_peak_total": 0,
-        "sprite_peak_per_scanline": 0
+        "sprite_peak_per_scanline": 0,
+        "screen_zones": {
+          "coifa": "y 0..56",
+          "palco": "y 56..144 (um wordmark por vez)",
+          "forja": "y 144..200",
+          "assinatura": "y 200..224 no plano WINDOW"
+        },
+        "element_exits": [
+          {
+            "element": "FORGE",
+            "enter": "pouso dos estilhacos no ato 2",
+            "exit": "scroll vertical para cima sob a cortina, F300-330",
+            "implemented": false
+          },
+          {
+            "element": "MISAEL",
+            "enter": "scroll de baixo para o PALCO, F330-360",
+            "exit": "scroll para cima, F420-440",
+            "implemented": false
+          },
+          {
+            "element": "MASTER",
+            "enter": "scroll de baixo, F430-460",
+            "exit": "fade de paleta na entrega",
+            "implemented": false
+          },
+          {
+            "element": "PRESENTS",
+            "enter": "fade de paleta no WINDOW, F480",
+            "exit": "fade de paleta na entrega",
+            "implemented": true
+          }
+        ],
+        "composition_defect_found": "Aplicacao retroativa do scene-direction-first revelou quatro elementos vivos simultaneamente na faixa y=80..128 em F451: bigorna, FORGE, MISAEL e MASTER. Nenhuma remocao existe no codigo do ato 3. Medicao de hardware nao pegou porque o ato 3 tem 0 sprites e 50% de margem de VRAM: o defeito e 100% de composicao.",
+        "measured_act3": {
+          "sprites": 0,
+          "resident_tiles": 865,
+          "ceiling": 1740,
+          "over_budget_frames": 0,
+          "max_cpu_load": 96
+        }
       }
     ]
   },

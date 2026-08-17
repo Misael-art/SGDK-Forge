@@ -71,7 +71,12 @@ Quadros-chave com **posicao na tela**. Nao e concept art: e planta baixa.
 - **sucessao de nomes, fontes e direcoes**: em que ordem os wordmarks aparecem, qual
   tipografia cada um usa, de onde cada um vem;
 - **enquadramento**: o que ocupa o terco superior, o inferior, o que fica em silhueta;
-- **o que permanece na tela** entre um quadro-chave e o seguinte.
+- **o que permanece na tela** entre um quadro-chave e o seguinte;
+- **como cada elemento SAI**, elemento por elemento. Proibir corte a preto sem declarar a
+  alternativa vira "nunca remova nada" e a tela acumula. Continuidade e ter saida desenhada —
+  scroll, fade ou substituicao — nao ausencia de remocao;
+- **zonas de tela com papel fixo**, e a regra de quantos elementos cada zona aceita ao mesmo
+  tempo. Um palco que aceita um wordmark por vez impede empilhamento por construcao.
 
 Sem storyboard, `img_forge_bg_a_props` nao teria a bigorna em (128,104) e a brasa pousaria no
 ar. Essa ancora so apareceu na fase 10, depois da arte despachada.
@@ -126,6 +131,11 @@ existente. Foi assim que o martelo 6 -> 7 quadros nao virou refacao total.
 corrija a direcao. Aconteceu duas vezes: a exigencia de silhueta "sobre transparente" era
 aperto sem ganho, e "leve, sem chanfro" para o PRESENTS produziu contraste de −8 porque pedia
 discricao sem piso.
+
+**Nenhum gate ve composicao.** Todos os validadores deste workspace medem hardware:
+residencia, scanline, proveniencia, compreensao de marca. Uma cena com quatro elementos
+empilhados na mesma faixa passa em todos eles com folga. Composicao se pega com planta baixa e
+revisao humana, nunca com validador — e por isso o passo 2 nao tem substituto automatico.
 
 **Nao invente numero de asset.** `img_forge_bg_a_props` foi hardcoded como 304 tiles a partir
 de uma contagem propria; o ResComp gerou 309, e os cinco de diferenca encheram a tela de lixo.

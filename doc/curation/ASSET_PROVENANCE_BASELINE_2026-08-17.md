@@ -423,3 +423,40 @@ blocking do JPEG sobrevivem a quantizacao e viram o salpico dentro das letras e 
 e dither com funcao de material, e artefato de compressao, que a direcao proibe. Duas saidas
 oferecidas: fontes em PNG lossless, ou posterizacao/denoise antes do remap de paleta. Sem
 isso, qualquer correcao de luz chega suja no PNG final.
+
+## Fase 9 — v02 do model sheet revisada
+
+`doc/model_sheet_review_v02.md`. Os dois blockers duros da v01 estao resolvidos: o wordmark
+inverteu a luz (frio no topo, ouro na aresta inferior, mossa so no J, 100% em PAL1) e o
+martelo ganhou cunha legivel com o contato na bigorna como ponto mais quente. O median 3x3
+mais snap 9-bit antes do remap limpou o ruido de JPEG.
+
+### Furo no meu proprio gate, encontrado ao revisar
+
+Medindo a autocritica do agente, o wordmark usa `PAL1[13..14]` em **0,0%** — os slots de folga
+nao sao pintados. Meu gate conferia a folga exatamente neles: media a declaracao, nao a
+realidade. `PAL1[12]=(238,204,34)` esta no teto `0xEE` e em uso, e passava.
+
+O operador de Shadow/Highlight clareia a cor de saida do pixel, nao o slot reservado pelo
+contrato. Corrigido com `model_sheet_specular_headroom_unusable`, medindo cores pintadas.
+Calibrado por proporcao: acima de 15% dos pixels no teto reprova, abaixo fica warning, porque
+reprovar um glint de 1% seria gate gritando em asset saudavel. Mesma classe de erro que esta
+curadoria vinha fechando nos outros — verificar declaracao em vez de realidade.
+
+### Duas vezes em que a medicao corrigiu minha leitura visual
+
+- achei que a parede regrediu para salpico branco: pixels claros isolados no painel A caem de
+  17 na v01 para 4 na v02. E cluster, que e a hachura que a direcao pede. Ampliacao de 3x me
+  enganou.
+- achei que o fundo competia com o foco: pico de luminancia da parede 80 contra 226 do foco,
+  separacao +146, mediana da parede em 3. Hierarquia de valor forte.
+
+### Recomendacao
+
+Aprovar como direcao provada, com um item obrigatorio de arrasto: o wordmark nao tem passo de
+luz nenhum, e `img_logo_engine_v2` e justamente o asset sobre o qual a varredura especular do
+ato 2 corre. O degrau em `PAL1[13..14]` com canal `<= 0xCC` na aresta inferior de cada haste
+precisa entrar na producao do asset final. Isso nao e refinamento, e a existencia do efeito.
+
+Parede modular, rotulos apertados do painel C e entalhe do estilhaco viram arrasto de
+producao dos assets, nao uma terceira folha. Aprovacao final e do curador humano.

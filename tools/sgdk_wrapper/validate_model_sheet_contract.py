@@ -53,6 +53,9 @@ PAL_GROUPS = {"PAL0": 0, "PAL1": 16, "PAL2": 32, "PAL3": 48}
 MD_MAX = 0xEE           # canal maximo do CRAM de 9 bits
 HEADROOM_CEILING = 0xCC  # folga de highlight: nenhum canal pode passar disto
 HEADROOM_INDICES = (13, 14)
+# Acima desta fracao de pixels no teto, a varredura especular morre no corpo do metal.
+# Abaixo dela e glint: fica marcado, nao reprova.
+SPECULAR_BODY_SHARE = 0.15
 EMBER_INDICES = (9, 10, 11, 12)
 # Uniformidade do ciclo: os 4 passos, INCLUINDO o de fechamento, precisam ser
 # comparaveis. Comparar o fechamento contra o maior passo interno era furado —
@@ -159,6 +162,50 @@ def audit(path: Path) -> dict[str, Any]:
                 f"canal maximo {peak:#04x} passa de {HEADROOM_CEILING:#04x}. Sem folga, o operador "
                 "de Shadow/Highlight do VDP nao tem para onde clarear e a varredura especular do "
                 "ato 2 desaparece.",
+            )
+
+    # 4b. folga de highlight nas cores REALMENTE pintadas
+    #
+    # Conferir so os slots declarados 13-14 media a declaracao, nao a realidade: o
+    # wordmark pode nunca pintar esses slots e mesmo assim encostar no teto por outro
+    # indice. O operador de highlight do VDP clareia a cor de saida do pixel, entao o
+    # que decide e a cor que o pixel tem, nao o slot que o contrato reservou.
+    d_box = (0, 224, 256, 320)
+    d_used = sorted({i for i in region_indices(img, d_box) if base <= i <= base + 15})
+    capped = [(i - base, pal[i]) for i in d_used if i < len(pal) and max(pal[i]) > HEADROOM_CEILING]
+    if d_used:
+        total_d = len([i for i in region_indices(img, d_box) if base <= i <= base + 15])
+        capped_px = len(
+            [i for i in region_indices(img, d_box) if i in {base + n for n, _ in capped}]
+        )
+        share = capped_px / total_d if total_d else 0.0
+        evidence_headroom_used = {
+            "used_indices": [i - base for i in d_used],
+            "peak_channel_used": max((max(pal[i]) for i in d_used if i < len(pal)), default=0),
+            "capped_indices": [n for n, _ in capped],
+            "capped_pixel_share": round(share, 3),
+        }
+        headroom["used_colors"] = evidence_headroom_used
+        if capped:
+            names = ", ".join(f"PAL1[{n}]={tuple(c)}" for n, c in capped)
+            # Proporcionalidade: um glint no teto e escolha legitima de artista e a
+            # varredura ainda le no resto da letra. O que mata o efeito e o CORPO no
+            # teto. Reprovar 1% seria gate gritando em asset saudavel.
+            severity = "blocking" if share >= SPECULAR_BODY_SHARE else "warning"
+            consequence = (
+                "o corpo do metal esta no teto e a varredura especular do ato 2 morre"
+                if severity == "blocking"
+                else "e um glint, nao o corpo: a varredura ainda le no resto da letra, mas "
+                     "esses pixels ficam mortos sob o highlight"
+            )
+            add(
+                "model_sheet_specular_headroom_unusable",
+                severity,
+                "painel D",
+                f"{share:.0%} dos pixels de metal pintam cor com canal acima de "
+                f"{HEADROOM_CEILING:#04x} ({names}); limite de corpo {SPECULAR_BODY_SHARE:.0%}. "
+                f"O operador de highlight clareia a cor de saida do pixel, entao {consequence}. "
+                "A folga precisa estar na cor pintada, nao apenas nos slots reservados.",
             )
 
     # 5. ciclo de brasa em PAL0

@@ -1336,3 +1336,59 @@ contrato, exatamente como o storyboard previu.
 E a regra de bissectar antes de teorizar pagou de novo: a hipotese plausivel era custo
 concentrado no quadro de troca, e separar os quadros nao mudou nada. So o desligamento
 apontou o culpado.
+
+## Fase 27 — pico 6 vs 16 resolvido: o instrumento estava quebrado, e o modelo concentra
+
+### O instrumento nao media nada
+
+A probe exportava dois campos para responder "quantos sprites estao vivos":
+
+```c
+g_mdRuntimeProbe[16] = SPR_getNumActiveSprite();   /* valor do quadro do export */
+g_mdRuntimeProbe[17] = 1;                          /* CONSTANTE */
+```
+
+`[17]` era literalmente `1` e saia rotulado como `active_sprite_count`. `[16]` guardava o valor
+do quadro em que o export acontece — no ato 3, zero. **Os dois campos que existiam para essa
+pergunta nunca a responderam.**
+
+Corrigido: `[16]` continua instantaneo, `[17]` acumula o **maximo da cena**, e os nomes no
+`seal_fresh_evidence_bundle.py` passaram a descrever o que os campos medem
+(`active_sprite_count_at_export` e `max_active_sprites`).
+
+### A medicao decisiva
+
+`max_active_sprites = 63`.
+
+São 56 estilhacos + 1 brasa + 5 fantasmas + 1 martelo. **Todos vivos ao mesmo tempo.**
+Visibilidade, pouso antecipado e esgotamento de pool ficam descartados: o modelo acerta a
+contagem de vivos.
+
+### A divergencia e geometrica, e agora esta explicada
+
+O leque espalha por `y = 104 + FAN_SIN[setor] * r / 64`, com `r` ate 70: **y de 34 a 174, ou
+140 linhas**. Com 56 estilhacos de 16px, sao 896 coberturas de linha distribuidas por 140
+linhas — media de **6,4 por linha**.
+
+A probe mede pico **6**. O runtime bate com a distribuicao real.
+
+Meu modelo em Python previa 16 porque **concentra onde o hardware espalha**: ele nao reproduz
+a mesma aritmetica inteira de posicao, e superestima o empilhamento. O detalhe que sobrevive:
+os setores 0 e 8 tem `FAN_SIN = 0`, entao os 7 estilhacos que caem neles ficam com `y = 104`
+fixo independentemente do raio — e essa e a unica concentracao real do leque.
+
+### O que isso muda
+
+- **A matriz de densidade e conservadora por um fator de ~2,7x.** Ela reprovou 56/stagger 4 com
+  23/20 previstos; o hardware provavelmente comportaria. Nao vou reabrir a decisao com base no
+  modelo — qualquer aumento agora exige medicao on-hardware, que finalmente e confiavel.
+- **A probe virou a autoridade de densidade.** Com contagem de todas as 224 linhas, re-export
+  periodico e maximo de sprites ativos acumulado, ela mede o que o modelo so estima.
+- **Ha folga real:** 63 sprites vivos e pico de 6 por linha, contra um limite de 20.
+
+### A licao
+
+Tres ferramentas de medicao apresentaram defeito nesta curadoria: o simulador que ignorava o
+limite de pixel, a probe que amostrava 4 de 224 linhas, e agora dois campos que exportavam uma
+constante. **Verificar o instrumento antes de acreditar na leitura** deixou de ser prudencia e
+virou etapa obrigatoria.

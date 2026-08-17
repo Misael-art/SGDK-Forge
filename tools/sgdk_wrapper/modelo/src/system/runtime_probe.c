@@ -24,7 +24,7 @@
 #define PROBE_SCANLINE_GROUP_LENGTH (PROBE_SCANLINE_COUNT / PROBE_SCANLINE_SAMPLE_GROUPS)
 #define PROBE_VLAB_OFFSET 0x200
 #define PROBE_VLAB_SCHEMA_VERSION 1
-#define PROBE_VLAB_METRIC_WORDS 24
+#define PROBE_VLAB_METRIC_WORDS 26
 #define PROBE_VLAB_PALETTE_WORDS 64
 #define PROBE_VLAB_TOTAL_BYTES (8 + ((PROBE_VLAB_METRIC_WORDS + PROBE_VLAB_PALETTE_WORDS) * 2))
 
@@ -148,6 +148,8 @@ static void export_visual_probe_to_sram(void)
     sram_write_visual_word(&offset, g_mdRuntimeProbe[16]);
     sram_write_visual_word(&offset, g_mdRuntimeProbe[17]);
     sram_write_visual_word(&offset, g_mdRuntimeProbe[4]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[18]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[19]);
 
     for (i = 0; i < PROBE_VLAB_PALETTE_WORDS; i++) {
         sram_write_visual_word(&offset, s_vlabPalette[i]);
@@ -169,6 +171,8 @@ static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
     g_mdRuntimeProbe[15] = 0;
     g_mdRuntimeProbe[16] = 0;
     g_mdRuntimeProbe[17] = 0;
+    g_mdRuntimeProbe[18] = 0;
+    g_mdRuntimeProbe[19] = 0;
 
     for (i = 0; i < MD_RUNTIME_PROBE_MAX_SAMPLES; i++) {
         g_mdRuntimeProbe[PROBE_SAMPLE_OFFSET + i] = 0;
@@ -215,6 +219,12 @@ void MDRuntimeProbe_writeHeartbeat(void)
     SRAM_disable();
 
     s_heartbeatCounter++;
+}
+
+void MDRuntimeProbe_noteSpriteAlloc(u16 spawned, u16 failed)
+{
+    g_mdRuntimeProbe[18] = spawned;
+    g_mdRuntimeProbe[19] = failed;
 }
 
 void MDRuntimeProbe_init(void)
@@ -313,8 +323,18 @@ void MDRuntimeProbe_tick(void)
     }
 
     if (g_mdRuntimeProbe[15] < 1) g_mdRuntimeProbe[15] = 1;
+    /*
+     * [16] instantaneo, [17] MAXIMO acumulado na cena.
+     *
+     * A versao anterior gravava [17] = 1, uma constante, e exportava isso como
+     * `active_sprite_count`. O campo nunca mediu nada. E [16] guardava o valor
+     * do quadro do export, que no ato 3 e zero — entao os dois campos que
+     * existiam para responder "quantos sprites estao vivos" nao respondiam.
+     */
     g_mdRuntimeProbe[16] = clamp_u16(SPR_getNumActiveSprite());
-    g_mdRuntimeProbe[17] = 1;
+    if (g_mdRuntimeProbe[16] > g_mdRuntimeProbe[17]) {
+        g_mdRuntimeProbe[17] = g_mdRuntimeProbe[16];
+    }
 
     if (samplesRecorded < MD_RUNTIME_PROBE_MAX_SAMPLES) {
         g_mdRuntimeProbe[PROBE_SAMPLE_OFFSET + samplesRecorded] = cpuLoad;

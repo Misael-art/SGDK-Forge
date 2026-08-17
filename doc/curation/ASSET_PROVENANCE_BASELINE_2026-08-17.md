@@ -567,3 +567,59 @@ Ordem de producao comeca por `img_forge_bg_a_props`, porque ele fixa o registro 
 do qual os outros dependem.
 
 O teto de 1994 passa a ser cobrado nos assets. O model sheet era prova de direcao.
+
+## Fase 13 — densidade do enxame: 32 -> 56 sem flicker
+
+Provocacao do curador: tecnicas avancadas de romhack (multiplexacao com flicker, aglutinacao
+de sprites, render nos planos) poderiam elevar a cena. Avaliadas uma a uma contra medicao.
+
+### Correcao de numero de hardware
+
+O limite do Mega Drive em H40 e **20 sprites por linha E 320 pixels de sprite por linha**, dois
+limites simultaneos. A figura de "32 vagas de slot" nao corresponde ao MD.
+
+Consequencia medida: para sprites de 16x16, `20 x 16 = 320`. Os dois limites **fecham no mesmo
+ponto**. Por isso aglutinar estilhacos em sprites maiores nao compraria nada aqui — trocaria
+contagem por pixel na razao de 1:1. Aglutinacao paga quando ha muitos sprites de 8x8 adjacentes,
+onde se economiza slot sem somar pixel. Os estilhacos sao espalhados de proposito.
+
+### Furo encontrado na minha propria verificacao
+
+`vdp_scanline_simulator.py` reporta apenas `max_sprites_per_scanline`. **Ele nao mede o
+orcamento de 320 px por linha.** Toda a validacao anterior desta cena cobria so um dos dois
+limites. O segundo foi medido a parte: 288 de 320 no pior quadro.
+
+Isso e uma limitacao da ferramenta canonica, nao deste projeto — outros projetos que dependem
+dela estao igualmente descobertos.
+
+### Flicker: excluido pelo canon, nao por opiniao
+
+O skill de budget do workspace ja decide: *"So e canonico se passar em sprites por scanline,
+total de sprites na tela, custo de VRAM e ausencia de flicker"* e *"multiplexing/flicker e
+tradeoff declarado, nao mascara de overflow"*. Alem disso, numa abertura de marca o flicker e
+autodestrutivo: e a primeira impressao de acabamento, e a persistencia retiniana que sustentava
+a tecnica em CRT de 1994 e muito mais fraca em painel moderno e em screenshot de emulador, que
+e o meio de evidencia do workspace.
+
+### Render nos planos: ja esta em uso, e era a melhor das tres ideias
+
+O pouso progressivo **e** essa tecnica: cada estilhaco que chega vira tile e sai do SAT,
+liberando slot. O que nao serve e render por plano de objeto pequeno e rapido — apagar e
+redesenhar 56 objetos por quadro custaria varios KB de DMA por VBlank. Plane takeover
+(`bg_b_bypassing` no registry) e para objeto grande e lento, tipo boss gigante.
+
+### O que de fato elevou: medir a folga que sobrava
+
+| Estilhacos | Grade | Sprites/linha | Pixels/linha | Margem |
+|---|---|---|---|---|
+| 32 (antes) | 8x4 | 15/20 | 240/320 | 25% |
+| 40 | 10x4 | 20/20 | 320/320 | 0% |
+| 48 | 8x6 | 19/20 | 304/320 | 5% |
+| **56 (novo)** | **8x7** | **18/20** | **288/320** | **10%** |
+| 64 | 8x8 | 20/20 | 320/320 | 0% |
+
+**56 estilhacos, +75% de densidade, sem tecnica nova e sem flicker.** Confirmado pelo simulador
+canonico nos quatro piores quadros: 18/20, `status: ok`. Ultimo pouso vai de F194 para F203.
+
+A intuicao do curador de que a cena podia ser mais densa estava certa. A rota era medicao, nao
+flicker. Nao muda nenhum asset: mesmo `spr_forge_shard` de 4 quadros, so mais instancias.

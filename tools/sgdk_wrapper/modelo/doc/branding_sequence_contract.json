@@ -155,12 +155,13 @@
         },
         {
           "registry_id": "sprite_temporal_multiplexing",
-          "function": "enxame de ~32 estilha\u00e7os distribuido verticalmente para nunca cruzar 20 sprites na mesma scanline",
+          "function": "enxame de 56 estilhacos distribuido verticalmente e escalonado no tempo para nunca cruzar 20 sprites na mesma scanline; multiplexacao POR CONSTRUCAO, sem flicker",
           "owner": "brandShardSwarm",
           "brand_comprehension_role": "comprehension_bearing",
           "brand_comprehension_claim": "a marca e FABRICADA na frente do jogador, nao exibida",
           "brand_comprehension_negative_test": "substituir por fade-in do logo: morre a tese central da abertura e sobra um cartao estatico",
-          "brand_comprehension_strength": "strong"
+          "brand_comprehension_strength": "strong",
+          "no_flicker_policy": "flicker esta excluido por decisao: o skill de budget do workspace exige ausencia de flicker para claim canonico, e numa abertura de marca ele leria como defeito em painel moderno"
         },
         {
           "registry_id": "sat_double_buffering",
@@ -233,10 +234,11 @@
         }
       ],
       "sprite_budget": {
-        "peak_total": 32,
-        "peak_per_scanline": 12,
-        "measurement_level": "estimated",
-        "gate": "exige vdp_scanline_simulator.py antes de qualquer claim"
+        "peak_total": 47,
+        "peak_per_scanline": 18,
+        "pixels_per_scanline": 288,
+        "measurement_level": "measured_by_simulator",
+        "gate": "vdp_scanline_simulator.py mede sprites por linha; o limite de 320 px por linha foi medido a parte porque a ferramenta canonica nao o cobre"
       }
     },
     {

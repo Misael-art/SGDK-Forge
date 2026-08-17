@@ -97,7 +97,7 @@
               122,
               140
             ],
-            "motion": "32 estilhacos saem em leque radial com velocidades distintas",
+            "motion": "56 estilhacos nascem 2 por quadro e saem em leque radial com velocidades distintas",
             "intent": "explosao"
           },
           {
@@ -119,9 +119,9 @@
           {
             "frames": [
               180,
-              194
+              203
             ],
-            "motion": "pouso PROGRESSIVO: cada estilhaco que chega ao alvo vira tile do logo e sai do SAT; o ultimo pousa em F194",
+            "motion": "pouso PROGRESSIVO: cada estilhaco que chega ao alvo vira tile do logo e sai do SAT; o ultimo pousa em F203",
             "intent": "o logo se constroi peca por peca em vez de trocar de uma vez, e a populacao de sprites cai em vez de picar no fim"
           },
           {
@@ -141,17 +141,21 @@
             "intent": "ar quente acima da forja: consequencia fisica do calor"
           }
         ],
-        "sprite_peak_total": 33,
-        "sprite_peak_per_scanline": 15,
-        "scanline_claim_gate": "MEDIDO por tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py: pico 15 de 20, margem 25%",
+        "sprite_peak_total": 47,
+        "sprite_peak_per_scanline": 18,
+        "scanline_claim_gate": "MEDIDO por vdp_scanline_simulator.py: 18 de 20 sprites por linha, 288 de 320 px por linha, status ok",
         "measurement_level": "measured_by_simulator",
         "choreography_parameters": {
           "shard_spawn_per_frame": 2,
           "row_stagger_frames": 5,
           "jitter_mod": 5,
           "hammer_recoil_frames": 10,
-          "last_shard_landing_frame": 194,
-          "note": "A primeira coreografia media 36 sprites por scanline (status=error). Tres correcoes derrubaram para 15: spawn escalonado em vez de todos em F122, pouso progressivo (cada estilhaco que chega vira tile e sai do SAT) e recuo rapido do martelo."
+          "last_shard_landing_frame": 203,
+          "note": "A primeira coreografia media 36 sprites por scanline (status=error). Tres correcoes derrubaram para 15: spawn escalonado em vez de todos em F122, pouso progressivo (cada estilhaco que chega vira tile e sai do SAT) e recuo rapido do martelo.",
+          "shard_count": 56,
+          "landing_grid": "8x7",
+          "density_decision": "32 -> 56 estilhacos (+75%) apos medir os DOIS limites do VDP. Nenhuma tecnica nova, nenhum flicker: era folga que estava sobrando na mesa.",
+          "pixel_budget_per_line": "288/320 em H40"
         }
       },
       {
@@ -243,7 +247,8 @@
     ],
     "budget_note": "RESOLVIDO: streaming escolhido pelo curador. Ver doc/branding_v2_dma_queue_contract.json. 72 tiles residentes em janela dupla no lugar de 216.",
     "measurement_level": "estimated",
-    "dma_queue_contract": "doc/branding_v2_dma_queue_contract.json"
+    "dma_queue_contract": "doc/branding_v2_dma_queue_contract.json",
+    "sprite_note": "56 estilhacos concorrentes no pico; 47 sprites totais em tela em F183. Dois limites do VDP conferidos: 18/20 por linha e 288/320 px por linha."
   },
   "hardware_ownership": {
     "window_owner": "nenhum; a abertura nao usa o plano WINDOW",

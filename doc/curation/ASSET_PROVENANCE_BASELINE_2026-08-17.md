@@ -1180,3 +1180,61 @@ duplicar e a densidade real dobra de fato.
 Blocker novo e nomeado: **`shard_sector_aliasing`** — a formula de setor precisa desacoplar do
 `SHARD_COUNT`, senao densidade nominal e densidade visual divergem por construcao. Enquanto
 existir, qualquer claim de "32 estilhacos" e nominal e nao visual.
+
+## Fase 24 — aliasing corrigido destrava a densidade; ato 3 quebrado
+
+### A correcao do aliasing REDUZ a pressao
+
+`sector = (index * 16) / SHARD_COUNT` trocado por `sector = (index * 5) & 15`. Stride 5 e
+coprimo de 16, entao visita os 16 setores antes de repetir; pares consecutivos ficam a 5
+setores de distancia e pares que repetem setor tem `born` separado por 8 quadros.
+
+Matriz re-medida, com e sem aliasing:
+
+| Config | Com alias | Sem alias |
+|---|---|---|
+| 32, stagger 4 | 16/20 | **13/20** |
+| 40, stagger 5 | 19/20 | 14/20 |
+| 48, stagger 5 | 20/20 | 15/20 |
+| **56, stagger 6** | 22/20 **error** | **16/20 ok** |
+
+Remover as duplicatas **baixou** a pressao porque os estilhacos se espalham em vez de empilhar.
+Os 56 agora cabem com a mesma pressao que os 32 antigos tinham — e os 32 antigos rendiam
+apenas 16 posicoes visiveis. **Adotado: 56 estilhacos, stagger 6, 16/20 e 256/320.** Densidade
+visual real 3,5x maior pelo mesmo custo de scanline.
+
+### Duas correcoes na probe
+
+1. **Conta as 224 linhas** por quadro, em vez de amostrar 4 com cursor rotativo.
+2. **Re-exporta a cada 60 quadros** enquanto a cena roda. A condicao antiga exigia mudanca na
+   contagem de amostras, que satura em 32: a probe exportava **uma unica vez**, no quadro 151,
+   e o maximo acumulado cobria so F90-F151. Qualquer pico posterior nunca chegava a SRAM.
+   Agora as capturas alcancam F331, F451 e F511.
+
+Com a cena inteira coberta: `over_budget_frames: 0`, `max_cpu_load` subindo ate 96 no ato 3.
+
+### Divergencia entre modelo e hardware, registrada e nao resolvida
+
+Meu modelo em Python preve pico de 16 sprites por scanline; a probe on-hardware, cobrindo
+F90-F511 e contando todas as linhas, mede **6**. Os dois discordam de forma consistente.
+
+A probe e a autoridade: ela mede o codigo real no hardware emulado. O modelo ja errou uma vez
+nesta sessao (o "56 cabe" que nao transferiu entre geometrias). A divergencia significa que a
+matriz de densidade e **conservadora**, nao perigosa — mas ela nao esta explicada.
+
+### Blockers visuais abertos
+
+Captura do ato 3 (F331) mostra a parede com o piso de brasa, e:
+
+- **o magenta voltou nas bordas** — `PAL_setColor(0, 0x0000)` nao sobrevive as trocas de
+  paleta dos atos seguintes;
+- **nenhum wordmark aparece** — a cortina por coluna nao revela autor nem projeto;
+- **a bigorna sumiu** sem o logo ter entrado no lugar.
+
+O ato 1 e o ato 2 renderizam; **o ato 3 nao entrega**.
+
+### Risco nao medido que permanece
+
+`brandEnsureShard` retorna em silencio quando `SPR_addSpriteEx` devolve NULL: sem contador,
+sem blocker. A cena pode estar renderizando uma fracao dos estilhacos e nada reporta. Enquanto
+esse caminho for silencioso, o claim de "56 estilhacos" e nominal.

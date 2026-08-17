@@ -22,11 +22,11 @@
 
 /* ---- Coreografia medida (nao alterar sem re-medir) --------------------- */
 
-#define SHARD_COUNT            32
+#define SHARD_COUNT            56
 #define SHARD_COLS              8
-#define SHARD_ROWS              4
+#define SHARD_ROWS              7
 #define SHARD_SPAWN_PER_FRAME   2
-#define SHARD_ROW_STAGGER       4
+#define SHARD_ROW_STAGGER       6
 #define SHARD_JITTER_MOD        5
 #define SHARD_SPAWN_BASE      122
 #define SHARD_CONV_BASE       152
@@ -225,7 +225,20 @@ static const s16 FAN_SIN[16] = { 0, 24, 45, 59, 64, 59, 45, 24, 0, -24, -45, -59
 
 static void brandShardExplodePos(u16 index, u16 age, s16 *outX, s16 *outY)
 {
-    const u16 sector = (index * 16u) / SHARD_COUNT;
+    /*
+     * Setor por stride coprimo de 16, nao por divisao com SHARD_COUNT.
+     *
+     * PORQUE: `(index * 16) / SHARD_COUNT` com 32 estilhacos dava index/2, e
+     * como `born` tambem e index/2, todo par 2k e 2k+1 nascia no mesmo quadro
+     * NO MESMO SETOR — 16 pares perfeitamente sobrepostos. Os 32 sprites do SAT
+     * rendiam 16 posicoes visiveis, gastando metade do orcamento em duplicatas
+     * que o espectador nunca via.
+     *
+     * Stride 5 e coprimo de 16, entao visita os 16 setores antes de repetir.
+     * Pares consecutivos ficam a 5 setores de distancia; pares que repetem setor
+     * (i e i+16) tem `born` separado por 8 quadros, logo raios diferentes.
+     */
+    const u16 sector = (index * 5u) & 15u;
     u16 t = (age > 16) ? 16 : age;
     const s16 radius = (s16)((SHARD_RADIUS * t) / 16);
 

@@ -325,7 +325,20 @@ void MDRuntimeProbe_tick(void)
     s_hasPrevSample = TRUE;
 
     samplesRecorded = g_mdRuntimeProbe[9];
-    if (samplesRecorded > 0 && (samplesRecorded != s_lastExportSamples) && ((gApp.totalFrames - s_lastExportFrame) >= 60u)) {
+    /*
+     * Re-exporta a cada 60 quadros ENQUANTO a cena roda, nao apenas quando a
+     * contagem de amostras muda.
+     *
+     * PORQUE: o buffer de amostras satura em 32 e a condicao antiga
+     * (`samplesRecorded != s_lastExportSamples`) parava de disparar. A probe
+     * exportava uma unica vez, no quadro 151, e o maximo acumulado cobria so
+     * F90-F151. Qualquer pico posterior — no caso desta cena, a convergencia
+     * dos estilhacos a partir de F152 — nunca chegava a SRAM, e a captura
+     * reportava um numero baixo com aparencia de aprovado.
+     *
+     * Agora a ultima exportacao carrega o maximo de toda a cena ate ali.
+     */
+    if (samplesRecorded > 0 && ((gApp.totalFrames - s_lastExportFrame) >= 60u)) {
         MDRuntimeProbe_exportToSRAM();
         export_visual_probe_to_sram();
         s_lastExportSamples = samplesRecorded;

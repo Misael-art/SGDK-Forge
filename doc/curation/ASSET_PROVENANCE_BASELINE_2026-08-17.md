@@ -623,3 +623,59 @@ canonico nos quatro piores quadros: 18/20, `status: ok`. Ultimo pouso vai de F19
 
 A intuicao do curador de que a cena podia ser mais densa estava certa. A rota era medicao, nao
 flicker. Nao muda nenhum asset: mesmo `spr_forge_shard` de 4 quadros, so mais instancias.
+
+## Fase 14 — simulador com os dois limites, e a doutrina de audacia
+
+### `vdp_scanline_simulator.py` v1.0.0 -> v1.1.0
+
+A v1.0.0 media apenas contagem de sprites por linha. Toda cena validada por ela ficou
+descoberta no orcamento de pixel — nao so esta abertura, mas qualquer projeto do workspace que
+tenha usado a ferramenta.
+
+Adicionado, mantendo retrocompatibilidade (todos os campos antigos preservados):
+
+- `max_sprite_pixels_per_scanline` e `over_pixel_limit_lines`;
+- blocker `sprite_pixels_per_scanline_over_<limite>`;
+- suporte a `display_mode` h40 (20 sprites / 320 px) e h32 (16 / 256);
+- bloco `headroom` com utilizacao dos dois limites, qual deles amarra e a justificativa
+  declarada;
+- warning `unexploited_headroom` abaixo de 60% de utilizacao de pico.
+
+`--self-check` passou de 2 para 5 assercoes, incluindo o caso que a v1.0.0 nao enxergava: 16
+sprites de 32px numa linha passam na contagem (16 de 20) e estouram o pixel (512 de 320).
+
+Cena real dos 56 estilhacos medida na v1.1.0: 18/20 sprites (90%) e 288/320 px (90%), limite
+que amarra e a contagem.
+
+### Doutrina de audacia, `SGDK_GLOBAL.md` secao 30
+
+Pedido do curador: o agente deve ser audacioso e buscar o maximo dos limites, sem conter, mas
+respeitando direcao de arte, level design e premissas.
+
+O risco de encodar isso e obvio — "seja audacioso" vira licenca para overclaim, que e o
+oposto de tudo que esta curadoria construiu. A formulacao que resolve:
+
+> **Audacia e sobre a ambicao, nunca sobre o claim.** Empurre o que voce tenta; meca o que
+> voce afirma. Quanto mais ousado o alvo, mais rigorosa precisa ser a medicao.
+
+Isso separa os dois eixos em vez de troca-los. Ambicao alta com claim medido e o padrao;
+ambicao baixa desperdica hardware; claim alto sem medicao e falso verde, ja bloqueado.
+
+Regras operacionais:
+
+- **antes de fechar um orcamento, meca o degrau seguinte.** Se 32 cabem, meca 48 e 64. Pare
+  quando MEDIR o estouro, nao quando sentir receio. O numero entregue tem que ser resultado de
+  busca, nao o primeiro que funcionou;
+- **`unexploited_headroom` e aviso, nunca blocker**, limpo por `headroom_justification`. Forca
+  decisao consciente sem proibir cena leve;
+- **direcao de arte, level design e premissas vencem a densidade, mas por declaracao**, nunca
+  por omissao;
+- **falsa audacia** — flicker para mascarar overflow, efeito sem consequencia, densidade que
+  destroi leitura — continua bloqueada, e nao vira permitida em nome de ser ousado.
+
+Dois casos canonicos registrados na propria secao: o 32 -> 56 como audacia correta, e a
+proposta de flicker como falsa audacia.
+
+Propagacao: `AGENTS.md` (secao propria no ponto de entrada + restricao nao negociavel +
+referencia rapida), `SGDK_GLOBAL.md` secao 30, e o bloco de diretriz por projeto elevado a
+`diretriz-bloqueio-estetico v3` nos 13 projetos e no template, substituindo o v2 sem duplicar.

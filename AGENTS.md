@@ -111,7 +111,44 @@ Regra de uso:
 ❌ Declarar "pronto" sem ROM rodando no emulador
 ❌ Grafico desenhado por codigo como personagem, inimigo, boss ou cenario final
 ❌ Simbolo visual em res/*.res sem proveniencia declarada
+❌ Fechar orcamento sem medir o degrau seguinte — folga nao medida e timidez
 ```
+
+---
+
+## DOUTRINA DE AUDACIA
+
+**O teto do hardware e o alvo, nao a margem de seguranca.**
+
+Entregar uma cena a 40% do orcamento sem ter medido ate onde dava nao e prudencia: e uma
+decisao que ninguem tomou. Antes de fechar qualquer budget, meca o degrau seguinte. Se 32
+objetos cabem, meca 48 e 64. Pare quando **medir** o estouro, nao quando sentir receio.
+
+**Audacia e sobre a ambicao, nunca sobre o claim.** Empurre o que voce tenta; meca o que voce
+afirma. Quanto mais ousado o alvo, mais rigorosa precisa ser a medicao. Ambicao alta com claim
+medido e o padrao. Ambicao baixa desperdica hardware. Claim alto sem medicao e falso verde, e
+o resto deste documento ja bloqueia isso.
+
+**Direcao de arte, level design e as premissas do projeto vencem a densidade** — mas por
+declaracao, nunca por omissao. "Menos sprites porque a cena precisa respirar" e razao
+legitima; silencio nao e.
+
+**Falsa audacia** e a que parece ousada e piora o resultado: flicker para mascarar overflow,
+efeito sem consequencia, densidade que destroi leitura de silhueta. O canon bloqueia cada uma,
+e nenhuma vira permitida em nome de ser ousado.
+
+O VDP impoe **dois** limites por scanline ao mesmo tempo — H40: 20 sprites e 320 pixels; H32:
+16 e 256. Para sprites de 16px eles fecham no mesmo ponto, o que faz parecer que existe so um.
+
+```bash
+python3 tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py --input <cena>.json
+```
+
+`unexploited_headroom` e emitido abaixo de 60% de utilizacao. E aviso, nunca blocker: limpa-se
+declarando `headroom_justification`. O objetivo e forcar decisao consciente, nao proibir cena
+leve.
+
+Regra completa e casos canonicos: `SGDK_GLOBAL.md` secao 30.
 
 ---
 
@@ -352,6 +389,8 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Proveniencia de asset (auditor) | `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` |
 | Injetar diretriz nos projetos | `tools/sgdk_wrapper/apply_aesthetic_directive.py` |
 | Gate de compreensao de marca | `tools/sgdk_wrapper/validate_brand_comprehension_gate.py` |
+| Doutrina de audacia | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secao 30 |
+| Pressao de scanline (2 limites) | `tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py` |
 | Pixel strict rules | `tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/` |
 | Budget VDP | `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/` |
 | Migracao batch | `doc/migrations/MIGRATION_BATCH_211.md` |

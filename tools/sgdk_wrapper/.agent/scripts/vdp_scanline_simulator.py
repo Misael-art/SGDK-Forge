@@ -16,10 +16,24 @@ from pathlib import Path
 from typing import Any
 
 
-TOOL_VERSION = "1.0.0"
+TOOL_VERSION = "1.1.0"
 VISIBLE_LINES = 224
-SPRITES_PER_SCANLINE_LIMIT = 20
 TOTAL_SPRITE_LINK_LIMIT = 80
+
+# O VDP impoe DOIS limites por scanline ao mesmo tempo, nao um. A v1.0.0 media
+# apenas a contagem, entao toda cena validada por ela ficou descoberta no
+# orcamento de pixel. Para sprites de 16px os dois limites fecham juntos
+# (20 x 16 = 320), o que torna facil acreditar que so existe um.
+DISPLAY_MODES = {
+    "h40": {"sprites_per_scanline": 20, "pixels_per_scanline": 320},
+    "h32": {"sprites_per_scanline": 16, "pixels_per_scanline": 256},
+}
+DEFAULT_DISPLAY_MODE = "h40"
+
+# Doutrina de audacia: folga nao medida e timidez. Abaixo desta utilizacao o
+# projeto pode estar deixando hardware na mesa sem ter decidido isso — vira
+# aviso, nunca blocker, e some quando houver justificativa declarada.
+HEADROOM_UNEXPLOITED_BELOW = 0.60
 
 
 def _int(value: Any, default: int = 0) -> int:
@@ -35,9 +49,19 @@ def _estimated_links(w: int, h: int) -> int:
 
 def simulate(data: dict[str, Any]) -> dict[str, Any]:
     sprites = data.get("sprites") or []
-    pressure = [0 for _ in range(VISIBLE_LINES)]
+    mode_name = str(data.get("display_mode", DEFAULT_DISPLAY_MODE)).lower()
+    mode = DISPLAY_MODES.get(mode_name)
     blockers: list[str] = []
     warnings: list[str] = []
+    if mode is None:
+        warnings.append(f"unknown_display_mode:{mode_name}_falling_back_to_{DEFAULT_DISPLAY_MODE}")
+        mode_name = DEFAULT_DISPLAY_MODE
+        mode = DISPLAY_MODES[DEFAULT_DISPLAY_MODE]
+    sprite_limit = mode["sprites_per_scanline"]
+    pixel_limit = mode["pixels_per_scanline"]
+
+    pressure = [0 for _ in range(VISIBLE_LINES)]
+    pixel_pressure = [0 for _ in range(VISIBLE_LINES)]
     total_links = 0
 
     for idx, sprite in enumerate(sprites):
@@ -55,29 +79,65 @@ def simulate(data: dict[str, Any]) -> dict[str, Any]:
         end = min(VISIBLE_LINES, y + h)
         for line in range(start, end):
             pressure[line] += links
+            pixel_pressure[line] += max(0, w)
 
     max_pressure = max(pressure) if pressure else 0
+    max_pixels = max(pixel_pressure) if pixel_pressure else 0
+
     over_lines = [
         {"scanline": line, "sprite_links": count}
         for line, count in enumerate(pressure)
-        if count > SPRITES_PER_SCANLINE_LIMIT
+        if count > sprite_limit
+    ]
+    over_pixel_lines = [
+        {"scanline": line, "sprite_pixels": count}
+        for line, count in enumerate(pixel_pressure)
+        if count > pixel_limit
     ]
 
     if over_lines:
-        blockers.append("sprites_per_scanline_over_20")
+        blockers.append(f"sprites_per_scanline_over_{sprite_limit}")
+    if over_pixel_lines:
+        blockers.append(f"sprite_pixels_per_scanline_over_{pixel_limit}")
     if total_links > TOTAL_SPRITE_LINK_LIMIT:
         blockers.append("total_sprite_links_over_80")
-    if max_pressure >= 18 and not over_lines:
+    if max_pressure >= sprite_limit - 2 and not over_lines:
         warnings.append("scanline_pressure_near_limit")
+    if max_pixels >= pixel_limit - 32 and not over_pixel_lines:
+        warnings.append("scanline_pixel_pressure_near_limit")
+
+    sprite_use = (max_pressure / sprite_limit) if sprite_limit else 0.0
+    pixel_use = (max_pixels / pixel_limit) if pixel_limit else 0.0
+    binding = "sprite_count" if sprite_use >= pixel_use else "sprite_pixels"
+    peak_use = max(sprite_use, pixel_use)
+
+    justification = str(data.get("headroom_justification", "")).strip()
+    if sprites and peak_use < HEADROOM_UNEXPLOITED_BELOW and not justification:
+        warnings.append("unexploited_headroom")
 
     return {
         "tool_name": "vdp_scanline_simulator",
         "tool_version": TOOL_VERSION,
         "status": "ok" if not blockers else "error",
+        "display_mode": mode_name,
+        "limits": {"sprites_per_scanline": sprite_limit, "pixels_per_scanline": pixel_limit},
         "sprite_count": len(sprites),
         "total_sprite_links": total_links,
         "max_sprites_per_scanline": max_pressure,
+        "max_sprite_pixels_per_scanline": max_pixels,
         "over_limit_lines": over_lines,
+        "over_pixel_limit_lines": over_pixel_lines,
+        "headroom": {
+            "sprite_utilization": round(sprite_use, 3),
+            "pixel_utilization": round(pixel_use, 3),
+            "binding_limit": binding,
+            "peak_utilization": round(peak_use, 3),
+            "unexploited_threshold": HEADROOM_UNEXPLOITED_BELOW,
+            "justification": justification or None,
+            "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada "
+                    "sugere hardware deixado na mesa; empurre a densidade ou declare por que "
+                    "a direcao de arte, o level design ou outra premissa pede menos.",
+        },
         "blockers": blockers,
         "warnings": warnings,
     }
@@ -92,15 +152,38 @@ def load_json(path: Path) -> dict[str, Any]:
 
 
 def self_check() -> int:
-    ok = simulate({"sprites": [{"name": "hero", "x": 120, "y": 120, "w": 32, "h": 48}]})
+    ok = simulate({"sprites": [{"name": "hero", "x": 120, "y": 120, "w": 32, "h": 48}],
+                   "headroom_justification": "fixture minima"})
     bad = simulate({"sprites": [{"name": f"s{i}", "x": 0, "y": 50, "w": 32, "h": 16, "sprite_links": 1} for i in range(21)]})
+    # 16 sprites de 32px = 512px numa linha: passa na contagem (16 <= 20) e
+    # estoura o orcamento de pixel. E o caso que a v1.0.0 nao enxergava.
+    pixel_only = simulate({"sprites": [{"name": f"p{i}", "x": i * 8, "y": 60, "w": 32, "h": 16, "sprite_links": 1} for i in range(16)]})
+    timid = simulate({"sprites": [{"name": "lone", "x": 10, "y": 10, "w": 16, "h": 16, "sprite_links": 1}]})
+    h32 = simulate({"display_mode": "h32",
+                    "sprites": [{"name": f"n{i}", "x": 0, "y": 40, "w": 16, "h": 16, "sprite_links": 1} for i in range(17)]})
+
     if ok["status"] != "ok":
         print("self-check failed: simple scene rejected", file=sys.stderr)
         return 1
     if bad["status"] != "error" or "sprites_per_scanline_over_20" not in bad["blockers"]:
         print("self-check failed: scanline overflow not detected", file=sys.stderr)
         return 1
-    print("vdp_scanline_simulator self-check passed")
+    if pixel_only["status"] != "error" or "sprite_pixels_per_scanline_over_320" not in pixel_only["blockers"]:
+        print("self-check failed: pixel-per-scanline overflow not detected", file=sys.stderr)
+        return 1
+    if pixel_only["max_sprites_per_scanline"] > 20:
+        print("self-check failed: pixel fixture should pass the count limit", file=sys.stderr)
+        return 1
+    if "unexploited_headroom" not in timid["warnings"]:
+        print("self-check failed: unexploited headroom not flagged", file=sys.stderr)
+        return 1
+    if "unexploited_headroom" in ok["warnings"]:
+        print("self-check failed: declared justification did not clear the warning", file=sys.stderr)
+        return 1
+    if h32["status"] != "error" or "sprites_per_scanline_over_16" not in h32["blockers"]:
+        print("self-check failed: h32 limits not applied", file=sys.stderr)
+        return 1
+    print("vdp_scanline_simulator self-check passed (both limits + headroom + h32)")
     return 0
 
 

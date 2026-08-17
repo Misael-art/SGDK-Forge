@@ -15,7 +15,7 @@ Regras:
 - os gates finais de `visual_lab_aprovado`, `audio`, `hardware_real` e `ready_for_aaa` devem ter trilha explicita em `doc/14-plano-de-provas-qa.md`.
 
 
-<!-- BEGIN: diretriz-bloqueio-estetico v2 -->
+<!-- BEGIN: diretriz-bloqueio-estetico v3 -->
 
 ## Diretriz de bloqueio estetico — leia antes de tocar em arte
 
@@ -112,6 +112,33 @@ declaracao nao e aprovacao. Se o contrato foi substituido, marque-o inativo em v
 deixa-lo vazio.
 
 
+### Doutrina de audacia — folga nao medida e timidez
+
+O teto do hardware e o **alvo**, nao a margem de seguranca. Entregar a 40% do orcamento sem
+ter medido ate onde dava nao e prudencia: e uma decisao que ninguem tomou.
+
+- **audacia e sobre a ambicao, nunca sobre o claim.** Empurre o que voce tenta; meca o que
+  voce afirma. Quanto mais ousado o alvo, mais rigorosa precisa ser a medicao;
+- **antes de fechar um orcamento, meca o proximo degrau.** Se 32 cabem, meca 48 e 64. Pare
+  quando MEDIR o estouro, nao quando sentir receio;
+- **direcao de arte, level design e premissas do projeto vencem a densidade** — mas por
+  declaracao, nunca por omissao. "Menos porque a cena precisa respirar" e razao legitima;
+  silencio nao e;
+- **falsa audacia** e a que parece ousada e piora o resultado: flicker para mascarar overflow,
+  efeito sem consequencia, densidade que destroi leitura. O canon bloqueia cada uma.
+
+O VDP impoe DOIS limites por scanline ao mesmo tempo (H40: 20 sprites e 320 px; H32: 16 e
+256). Para sprites de 16px eles fecham no mesmo ponto, o que faz parecer que existe so um.
+
+```bash
+python3 tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py --input <cena>.json
+```
+
+`unexploited_headroom` e aviso, nao blocker: limpa-se declarando `headroom_justification`.
+
+Regra completa: `SGDK_GLOBAL.md` secao 30.
+
+
 ### Rota de saida — nao contorne, execute
 
 1. Criar/completar `doc/asset_provenance_manifest.json` declarando **cada** simbolo visual
@@ -131,4 +158,4 @@ python3 tools/sgdk_wrapper/audit_procedural_asset_provenance.py \
 **Build limpo, ROM no BlastEm e screenshot nao substituem este gate.** Nova build so conta
 como progresso visual se reduzir os blockers acima.
 
-<!-- END: diretriz-bloqueio-estetico v2 -->
+<!-- END: diretriz-bloqueio-estetico v3 -->

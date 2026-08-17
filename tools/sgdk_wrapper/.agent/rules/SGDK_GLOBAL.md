@@ -588,3 +588,41 @@ param(
 ```
 Scripts que consomem module `sgdk_artifact_contracts.psm1` herdam as helpers de envelope e fallback.
 Exit code: `0` se `status != error` ou `WarnOnly` esta ativo; caso contrario `1`.
+
+## 30. Doutrina de audacia — folga nao medida e timidez
+
+O teto do hardware e o **alvo**, nao a margem de seguranca. Entregar uma cena a 40% do
+orcamento sem ter medido ate onde dava nao e prudencia: e uma decisao que ninguem tomou.
+
+- **Audacia e sobre a ambicao, nunca sobre o claim.** Empurre o que voce tenta; meca o que
+  voce afirma. As duas coisas crescem juntas: quanto mais ousado o alvo, mais rigorosa
+  precisa ser a medicao. Ambicao alta com claim medido e o padrao; ambicao baixa e desperdicio
+  de hardware; claim alto sem medicao e falso verde, que o resto deste documento ja bloqueia.
+- **Antes de fechar um orcamento, meca o proximo degrau.** Se 32 objetos cabem, meca 48 e 64.
+  Pare quando **medir** o estouro, nao quando sentir receio. O numero que voce entrega tem que
+  ser o resultado de uma busca, nao o primeiro que funcionou.
+- **`unexploited_headroom`** e emitido por `tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py`
+  quando a utilizacao de pico fica abaixo de 60% sem justificativa. E **aviso, nunca blocker**:
+  limpa-se declarando `headroom_justification` no input. O objetivo e forcar uma decisao
+  consciente, nao proibir cenas leves.
+- **Direcao de arte, level design, leitura de gameplay e demais premissas vencem a densidade** —
+  mas precisam vencer **por declaracao**, nao por omissao. "Menos sprites porque a cena precisa
+  respirar" e uma razao legitima e declarada; silencio nao e.
+- **Falsa audacia** e a que parece ousada e piora o resultado: flicker para mascarar overflow,
+  efeito sem consequencia, densidade que destroi leitura de silhueta, tecnica citada por nome
+  em vez de por funcao. O canon ja bloqueia cada uma delas, e nenhuma vira permitida em nome
+  de ser ousado.
+- **Os dois limites por scanline sao medidos juntos.** O VDP impoe contagem de sprites **e**
+  pixels de sprite por linha ao mesmo tempo (H40: 20 e 320; H32: 16 e 256). Para sprites de
+  16px os dois fecham no mesmo ponto, o que faz parecer que existe so um. Claim de densidade
+  exige os dois.
+
+Caso canonico de audacia correta: a abertura `branding_sequence_v2` media 15 de 20 sprites por
+linha e foi declarada segura. Medir o degrau seguinte mostrou que 56 estilhacos cabiam no lugar
+de 32 — **+75% de densidade, sem tecnica nova e sem flicker**, apenas folga que estava sobrando
+na mesa. Registro em `doc/curation/ASSET_PROVENANCE_BASELINE_2026-08-17.md`.
+
+Caso canonico de falsa audacia, no mesmo episodio: multiplexacao com flicker foi proposta como
+rota para "dobrar os sprites". Ela e vedada pelo proprio skill de budget (`ausencia de flicker`
+e requisito de claim canonico) e, numa abertura de marca, degradaria a primeira impressao de
+acabamento em painel moderno. Parecia mais ousada e entregaria menos.

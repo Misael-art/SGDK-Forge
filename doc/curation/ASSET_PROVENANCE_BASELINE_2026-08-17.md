@@ -1238,3 +1238,54 @@ O ato 1 e o ato 2 renderizam; **o ato 3 nao entrega**.
 `brandEnsureShard` retorna em silencio quando `SPR_addSpriteEx` devolve NULL: sem contador,
 sem blocker. A cena pode estar renderizando uma fracao dos estilhacos e nada reporta. Enquanto
 esse caminho for silencioso, o claim de "56 estilhacos" e nominal.
+
+## Fase 25 — o magenta nunca esteve na ROM
+
+O outro agente fechou as tres pontas do ato 3 medindo antes de corrigir:
+`VDP_setWindowVPos(FALSE, 22)` punha a WINDOW nas fileiras 0-21 enquanto o draw estava em
+y=23; os wordmarks saiam sombreados por prioridade baixa com Shadow/Highlight ligado; e o
+contador novo em `brandEnsureShard` provou `spawned=56, failed=0`, ou seja `SPR_addSpriteEx`
+**nunca** falhava em silencio.
+
+Sobrou um item que a bisseccao de seis pontos nao explicou: o magenta das bordas no ato 3.
+
+### A medicao que resolveu
+
+`PAL0[0]` lido direto do `visual_vdp_dump.bin` em quatro sessoes: **`0x0000`, preto**, incluindo
+os quadros do ato 3. O backdrop nunca foi magenta no hardware.
+
+Comparando os dois caminhos de captura da mesma sessao:
+
+| Sessao | `screenshot.png` | `frame_1` | `frame_3` |
+|---|---|---|---|
+| v5 | preto | preto | preto |
+| dealias | preto | **MAGENTA** | preto |
+| re4 | preto | **MAGENTA** | preto |
+| act2_v2 | preto | **MAGENTA** | preto |
+| act3_master | preto | **MAGENTA** | preto |
+| act3_pres_fix | preto | **MAGENTA** | preto |
+
+O magenta aparece **apenas no primeiro quadro do burst**, nunca no screenshot e nunca no
+terceiro quadro. E aparece tambem em `act2_v2`, uma sessao que eu havia declarado limpa —
+porque ali eu olhei o `frame_3` e no ato 3 olhei o `frame_1`.
+
+### O que era
+
+Artefato de captura. Com `--burst-delay 0` o primeiro quadro e capturado antes da janela do
+emulador terminar de compor, e a superficie nao inicializada e gravada como magenta puro.
+
+Corrigido no `capture_blastem_evidence_linux.sh` com uma guarda de 0,35s antes do primeiro
+quadro do burst. Verificado: os tres quadros e o screenshot agora saem pretos.
+
+### O custo do erro
+
+**Eu reportei "magenta do backdrop" como bug da ROM durante varias fases**, e o handoff que
+escrevi mandou bissectar seis pontos do codigo atras de uma causa que nao existia ali. O outro
+agente gastou a bisseccao inteira e concluiu, corretamente, que nenhum dos seis explicava.
+
+A leitura que faltou era de um clique: o `visual_vdp_dump.bin` ja continha `PAL0[0]` desde a
+primeira captura selada. Eu julguei um PNG em vez de ler o dump que o proprio gate exige.
+
+Licao registrada: **evidencia visual tem hierarquia.** Dump de VDP > screenshot > quadro de
+burst. Julgar backdrop, paleta ou prioridade por PNG de animacao e julgar pelo artefato mais
+fraco da pilha.

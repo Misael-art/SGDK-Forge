@@ -1289,3 +1289,50 @@ primeira captura selada. Eu julguei um PNG em vez de ler o dump que o proprio ga
 Licao registrada: **evidencia visual tem hierarquia.** Dump de VDP > screenshot > quadro de
 burst. Julgar backdrop, paleta ou prioridade por PNG de animacao e julgar pelo artefato mais
 fraco da pilha.
+
+## Fase 26 — ato 3 corrigido conforme o storyboard
+
+Implementacao das saidas declaradas em `doc/act3_storyboard.md`.
+
+### O que mudou
+
+Zonas de tela no codigo (`STAGE_TX/TY/TW/TH`) e a regra do PALCO: **um wordmark por vez**.
+Cada elemento ganhou saida:
+
+| Elemento | Saida implementada |
+|---|---|
+| FORGE | varredura de 1 fileira de tiles por quadro, F318-330, sob a cortina |
+| MISAEL | entra no palco vazio em F330; sai por varredura F428-440 |
+| MASTER | entra no palco vazio em F440 |
+
+Resultado medido: **um unico elemento no palco**. A captura em F451 mostra so o MASTER, sem o
+FORGE azul por tras, com a bigorna intacta na zona FORJA.
+
+### A primeira tentativa regrediu o orcamento
+
+Implementei as saidas com `PAL_fadeOutPalette` e `PAL_fadeInPalette`, como a concepcao pedia.
+Medicao: `over_budget_frames` de **0 para 8** e `cpu_load` de 96 para 105, com jitter em 91.
+
+Tentei separar limpeza e desenho em quadros distintos: **nao resolveu**, o que ja eliminou a
+hipotese de custo concentrado num quadro.
+
+Bisseccao desligando apenas os tres fades: `over_budget` voltou a **0** e cpu a 97. Eram os
+fades.
+
+### A substituicao ficou melhor que o original
+
+Troquei fade de paleta por **varredura de tilemap**: uma fileira de 28 tiles apagada por
+quadro. Custa praticamente nada e **le melhor** — o wordmark e varrido de cima para baixo em
+vez de simplesmente escurecer, o que combina com a cortina que sobe no mesmo momento.
+
+Medicao final: `over_budget_frames: 0`, `max_cpu_load: 96`, os tres gates em exit 0.
+
+### O que isto confirma do workflow
+
+O passo 2 do `scene-direction-first` — planta baixa com saida declarada por elemento — era o
+que faltava, e nenhum gate podia ter pego. A correcao nao exigiu asset novo: foi runtime e
+contrato, exatamente como o storyboard previu.
+
+E a regra de bissectar antes de teorizar pagou de novo: a hipotese plausivel era custo
+concentrado no quadro de troca, e separar os quadros nao mudou nada. So o desligamento
+apontou o culpado.

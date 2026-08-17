@@ -6,6 +6,7 @@
 #include "scenes/branding_v2.h"
 #include "system/audio.h"
 #include "system/input.h"
+#include "system/runtime_probe.h"
 
 /*
  * branding_sequence_v2 — "A FORJA".
@@ -50,6 +51,35 @@
 #define HAZE_LINES             48
 #define HAZE_AMP_START          6
 #define CURTAIN_COLUMNS        20
+
+/* ---- Zonas de tela do storyboard (doc/act3_storyboard.md) --------------
+ * COIFA      y   0..56    o que a cortina levanta
+ * PALCO      y  56..144   UM wordmark por vez, nunca dois
+ * FORJA      y 144..200   bigorna e brasa, permanece a cena toda
+ * ASSINATURA y 200..224   plano WINDOW, so o PRESENTS
+ *
+ * O PALCO e a regra que faltava. A versao anterior desenhava cada wordmark por
+ * cima do anterior e nao removia nada: em F451 estavam vivos ao mesmo tempo a
+ * bigorna, o FORGE, o MISAEL e o MASTER, todos em y=80..128.
+ */
+#define STAGE_TX                6      /* x 48  */
+#define STAGE_TY                8      /* y 64  */
+#define STAGE_TW               28      /* 224px */
+#define STAGE_TH               10      /* 80px, cobre logo do ato 2 e wordmarks */
+
+#define ACT3_FORGE_FADE_OUT   300      /* FORGE comeca a sair sob a cortina */
+#define ACT3_AUTHOR_WIPE      318      /* varredura do FORGE, 1 fileira/quadro */
+#define ACT3_AUTHOR_IN        330      /* MISAEL entra no palco vazio         */
+#define ACT3_AUTHOR_FADE_OUT  420      /* MISAEL cede o palco                */
+#define ACT3_PROJECT_WIPE     428      /* varredura do MISAEL, 1 fileira/quadro */
+#define ACT3_PROJECT_IN       440      /* MASTER entra no palco vazio         */
+
+/*
+ * Limpeza e desenho ficam em quadros SEPARADOS de proposito. Juntos, o clear de
+ * 280 tiles somado ao draw de 168 num unico quadro levou over_budget_frames de
+ * 0 para 8 e o cpu_load de 96 para 104. Dividir o custo em dois quadros e a
+ * correcao; a troca continua imperceptivel a 60fps.
+ */
 
 /* ---- Layout de VRAM: manual, porque o pool automatico nao cabe ----------
  *
@@ -113,6 +143,8 @@ static u8   sHammerSlotFrame[HAMMER_WINDOW_SLOTS];
 static u8   sShakeLeft;
 static u8   sLogoDrawn;
 static u8   sHazeArmed;
+static u16  sShardSpawned;
+static u16  sShardFailed;
 
 /* Rampa de brasa de PAL0[9..12]: o ciclo precisa fechar, senao aparece salto. */
 static const u16 EMBER_CYCLE[BRAND_V2_EMBER_CYCLE_COUNT] = {
@@ -431,7 +463,13 @@ static void brandEnsureShard(u16 i)
     if (sShard[i] != NULL) return;
     sShard[i] = SPR_addSpriteEx(&spr_forge_shard, -32, -32,
                                 TILE_ATTR(BRAND_V2_PAL_FX, TRUE, FALSE, FALSE), 0);
-    if (sShard[i] == NULL) return;
+    if (sShard[i] == NULL) {
+        sShardFailed++;
+        MDRuntimeProbe_noteSpriteAlloc(sShardSpawned, sShardFailed);
+        return;
+    }
+    sShardSpawned++;
+    MDRuntimeProbe_noteSpriteAlloc(sShardSpawned, sShardFailed);
     SPR_setVRAMTileIndex(sShard[i], (s16)sShardFrameBase[0]);
     SPR_setAutoTileUpload(sShard[i], FALSE);
 }
@@ -442,6 +480,9 @@ static void brandEnterStrike(void)
 
     /* Flash e ciclo de brasa precisam do indice 9 inteiro; o raster sai. */
     brandReleaseHInt();
+    sShardSpawned = 0;
+    sShardFailed = 0;
+    MDRuntimeProbe_noteSpriteAlloc(0, 0);
     for (i = 0; i < SHARD_COUNT; i++) {
         sShard[i] = NULL;
         sShardLanded[i] = 0;
@@ -603,19 +644,49 @@ static void brandUpdateStrike(u16 f)
 
 /* ---- Ato 3: assinatura ------------------------------------------------- */
 
+/*
+ * Saida por substituicao: limpa o PALCO no tilemap de BG_A.
+ *
+ * A regra de continuidade do contrato proibia VDP_clearPlane e nao dizia como
+ * cada elemento sai, entao virou "nunca remova nada". Limpar a REGIAO do palco
+ * nao e corte a preto: o que aparece por baixo e a forja em BG_B, e a cena
+ * segue continua.
+ */
+static void brandClearStage(void)
+{
+    VDP_clearTileMapRect(BG_A, STAGE_TX, STAGE_TY, STAGE_TW, STAGE_TH);
+}
+
+/*
+ * Saida por varredura: apaga UMA fileira de tiles por quadro.
+ *
+ * Substitui PAL_fadeOutPalette, que a bisseccao mediu levando
+ * over_budget_frames de 0 para 8 e cpu_load de 96 para 105. Uma fileira por
+ * quadro custa 28 escritas de tilemap, e ainda le melhor: o wordmark e varrido
+ * de cima para baixo em vez de simplesmente escurecer.
+ */
+static void brandWipeStageRow(u16 step)
+{
+    if (step < STAGE_TH) {
+        VDP_clearTileMapRect(BG_A, STAGE_TX, (u16)(STAGE_TY + step), STAGE_TW, 1);
+    }
+}
+
 static void brandEnterSignature(void)
 {
-    /* Sprites do golpe sairam; reusa a VRAM de BG_A+logo+FX para os wordmarks. */
+    /* Sprites do golpe saem. Wordmarks NAO reusam sVramBgA: o tilemap da
+     * bigorna continua vivo e apontando para esses tiles. Bisseccao ato 3
+     * ponto 6 (out/evidence/bis_6) restaurou a bigorna; pontos 1-5 nao. */
     SPR_reset();
-    sVramAuthor   = sVramBgA;
+    sVramAuthor   = sVramHammer + (HAMMER_WINDOW_SLOTS * HAMMER_SLOT_TILES);
     sVramProject  = sVramAuthor + img_logo_author_v2.tileset->numTile;
     sVramPresents = sVramProject + img_logo_project_v2.tileset->numTile;
 
     VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_COLUMN);
-    VDP_drawImageEx(BG_A, &img_logo_author_v2,
-                    TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, FALSE, FALSE, FALSE,
-                                   sVramAuthor),
-                    8, 12, FALSE, TRUE);
+
+    /* O FORGE sai por fade de PAL1 enquanto a cortina sobe: o ato 2 se despede
+     * por luz e movimento, nao por sobreposicao. O tilemap dele so e limpo em
+     * ACT3_AUTHOR_IN, quando o fade ja terminou. */
 }
 
 static void brandUpdateSignature(u16 f)
@@ -636,19 +707,42 @@ static void brandUpdateSignature(u16 f)
         VDP_setVerticalScrollTile(BG_B, 0, sVScroll, CURTAIN_COLUMNS, DMA_QUEUE);
     }
 
-    if (f == 430) {
+    /* PALCO: um wordmark por vez. Quem entra, entra porque o anterior saiu.
+     * Antes desta correcao nada era removido e F451 tinha bigorna, FORGE,
+     * MISAEL e MASTER vivos na mesma faixa y=80..128. */
+    /* FORGE sai varrido, uma fileira por quadro, enquanto a cortina sobe. */
+    if (f >= ACT3_AUTHOR_WIPE && f < ACT3_AUTHOR_IN) {
+        brandWipeStageRow((u16)(f - ACT3_AUTHOR_WIPE));
+    }
+
+    if (f == ACT3_AUTHOR_IN) {
+        VDP_drawImageEx(BG_A, &img_logo_author_v2,
+                        TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
+                                       sVramAuthor),
+                        8, 11, FALSE, TRUE);
+    }
+
+    if (f == ACT3_AUTHOR_FADE_OUT) {
+    }
+
+    /* MISAEL cede o palco pela mesma varredura. */
+    if (f >= ACT3_PROJECT_WIPE && f < ACT3_PROJECT_IN) {
+        brandWipeStageRow((u16)(f - ACT3_PROJECT_WIPE));
+    }
+
+    if (f == ACT3_PROJECT_IN) {
         VDP_drawImageEx(BG_A, &img_logo_project_v2,
-                        TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, FALSE, FALSE, FALSE,
+                        TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
                                        sVramProject),
                         6, 10, FALSE, TRUE);
     }
 
     if (f == BRAND_V2_PRESENTS_IN) {
-        /* O presents vive no plano WINDOW: imovel enquanto a cortina move os
-         * planos por baixo. O v1 e o v2 deixavam esse plano 100% ocioso. */
-        VDP_setWindowVPos(FALSE, 22);
+        /* F480 mediu: FALSE,22 cobria as 22 fileiras de CIMA (tela preta) e o
+         * draw em y=23 ficava fora da WINDOW. TRUE,22 = fileiras 22-27. */
+        VDP_setWindowVPos(TRUE, 22);
         VDP_drawImageEx(WINDOW, &img_presents_text_v2,
-                        TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, FALSE, FALSE, FALSE,
+                        TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
                                        sVramPresents),
                         14, 23, FALSE, TRUE);
     }
@@ -673,6 +767,9 @@ void SCENE_brandingV2Enter(void)
     sHIntReady = 0;
     memset(sShard, 0, sizeof(sShard));
     memset(sShardLanded, 0, sizeof(sShardLanded));
+    sShardSpawned = 0;
+    sShardFailed = 0;
+    MDRuntimeProbe_noteSpriteAlloc(0, 0);
     AUDIO_stopAll();
 }
 

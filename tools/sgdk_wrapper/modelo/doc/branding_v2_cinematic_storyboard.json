@@ -242,20 +242,20 @@
           {
             "element": "FORGE",
             "enter": "pouso dos estilhacos no ato 2",
-            "exit": "scroll vertical para cima sob a cortina, F300-330",
-            "implemented": false
+            "exit": "varredura de 1 fileira de tiles por quadro, F318-330, sob a cortina",
+            "implemented": true
           },
           {
             "element": "MISAEL",
-            "enter": "scroll de baixo para o PALCO, F330-360",
-            "exit": "scroll para cima, F420-440",
-            "implemented": false
+            "enter": "entra no palco vazio em F330",
+            "exit": "varredura de 1 fileira por quadro, F428-440",
+            "implemented": true
           },
           {
             "element": "MASTER",
-            "enter": "scroll de baixo, F430-460",
+            "enter": "entra no palco vazio em F440",
             "exit": "fade de paleta na entrega",
-            "implemented": false
+            "implemented": true
           },
           {
             "element": "PRESENTS",
@@ -271,6 +271,12 @@
           "ceiling": 1740,
           "over_budget_frames": 0,
           "max_cpu_load": 96
+        },
+        "exit_technique_note": "Saida por varredura de tilemap, nao por fade de paleta. A bisseccao mediu PAL_fadeOutPalette/PAL_fadeInPalette levando over_budget_frames de 0 para 8 e cpu_load de 96 para 105. Uma fileira de 28 tiles por quadro custa nada e le melhor: o wordmark e varrido em vez de escurecer.",
+        "measured_after_fix": {
+          "over_budget_frames": 0,
+          "max_cpu_load": 96,
+          "elements_on_stage": 1
         }
       }
     ]

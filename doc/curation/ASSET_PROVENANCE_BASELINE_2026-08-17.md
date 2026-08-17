@@ -870,3 +870,55 @@ isso no framework, mas nunca foi rodado sobre esta cena porque o runtime nao exi
 
 Dedup de tile deveria ser medido no **asset**, antes do runtime — e da para fazer com o mesmo
 metodo usado aqui.
+
+## Fase 18 — gate de residencia de tiles, e a correcao que ele fez em mim
+
+`tools/sgdk_wrapper/audit_tile_residency.py`. Le `res/*.res`, abre cada asset e conta tiles
+unicos de 8x8 com dedup por flip H/V — **sem precisar de runtime**. Fecha a janela em que a
+arte esta pronta, o orcamento ja quebrou e ninguem consegue dizer, porque `res_graph_audit.ps1`
+so responde depois que a cena existe.
+
+Teto util derivado e publicado no relatorio: 2048 tiles, menos nametables de BG_A/BG_B a 64x32
+(256), menos SAT (20), menos tabela de scroll por linha (32) = **1740**.
+
+### O gate corrigiu a minha propria medicao
+
+Na primeira execucao ele acusou **1749 tiles no ato 2 contra 1740, estouro**. Estava cobrando o
+`spr_forge_hammer` inteiro (154 tiles unicos) sem saber que a decisao de streaming ja tinha sido
+tomada e documentada: a janela residente e de 72.
+
+Corrigido: o gate agora le `vram_slots` do `dma_queue_contract` do projeto. Com o streaming
+contabilizado, o ato 2 fica em **1667 de 1740 — 4% de margem, nao estouro**.
+
+**Isso corrige o que reportei na fase 17.** Eu havia dito que o orcamento estava estourado; o
+numero estava inflado pelo mesmo motivo. O orcamento **cabe**, com 4% de margem — o que continua
+sendo apertadissimo, mas e legal.
+
+O que **nao** muda da fase 17: `img_forge_bg_b` deduplica 2%, e a linha `bg_forge_set` do
+contrato foi orcada em 640 e esta em 1397.
+
+### Residencia medida por ato
+
+| Ato | Residentes | Margem |
+|---|---|---|
+| 1 ignition | 1493 | 14% |
+| **2 strike** | **1667** | **4%** |
+| 3 signature | 1316 | 24% |
+
+Utilizacao de pico: **96%**.
+
+### Verificado nas duas direcoes
+
+Fixture sintetica com dois fundos de ruido puro: 2402 tiles, 138% do teto, `verdict=BLOCKED`,
+exit 1. O tileset limpo da mesma fixture deduplica 99% e o de ruido 0% — a metrica discrimina
+exatamente o que deveria. Projeto real: exit 0.
+
+### Sinais
+
+- `tile_residency_over_ceiling` **bloqueia** — excesso de VRAM e fato de hardware;
+- `low_tile_dedup_ratio` **avisa** — fundo grande abaixo de 30% de dedup foi composto como
+  imagem e quantizado. Sintoma, nao violacao: nomeia o suspeito sem reprovar o estilo;
+- `unexploited_vram_headroom` abaixo de 40%, por simetria com a doutrina de audacia.
+
+Canonizado em `SGDK_GLOBAL.md` secao 31, na referencia rapida do `AGENTS.md` e no bloco de
+diretriz dos 13 projetos.

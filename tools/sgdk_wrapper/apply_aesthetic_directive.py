@@ -141,7 +141,12 @@ EXIT_ROUTE = """\
 ```bash
 python3 tools/sgdk_wrapper/audit_procedural_asset_provenance.py \\
   --project-root "<este projeto>" --shared-builder-root tools/image-tools
+python3 tools/sgdk_wrapper/audit_tile_residency.py --project-root "<este projeto>"
 ```
+
+O segundo mede residencia de tiles em VRAM **a partir do asset**, sem precisar de runtime.
+Fundo grande com deduplicacao baixa foi composto como imagem e quantizado, nao autorado como
+tiles: custa como arte unica e costuma ainda parecer repetitivo.
 
 **Build limpo, ROM no BlastEm e screenshot nao substituem este gate.** Nova build so conta
 como progresso visual se reduzir os blockers acima.

@@ -626,3 +626,31 @@ Caso canonico de falsa audacia, no mesmo episodio: multiplexacao com flicker foi
 rota para "dobrar os sprites". Ela e vedada pelo proprio skill de budget (`ausencia de flicker`
 e requisito de claim canonico) e, numa abertura de marca, degradaria a primeira impressao de
 acabamento em painel moderno. Parecia mais ousada e entregaria menos.
+
+
+## 31. Residencia de tiles medida no asset, antes do runtime
+
+`res_graph_audit.ps1` confere VRAM lendo um projeto **construido**: ele nao responde nada
+enquanto o runtime nao referencia os assets. Isso abre uma janela em que a arte esta pronta, o
+orcamento ja quebrou e ninguem consegue dizer.
+
+- **Residencia de tiles e medida no asset.** `tools/sgdk_wrapper/audit_tile_residency.py` le
+  `res/*.res`, abre cada asset e conta tiles unicos de 8x8 com deduplicacao por flip H/V, que e
+  o que de fato ocupa VRAM. Nao precisa de runtime.
+- **Teto util derivado, nao inventado:** 2048 tiles, menos as nametables de BG_A/BG_B a 64x32,
+  menos a SAT, menos a tabela de scroll por linha. O relatorio publica a derivacao.
+- **Asset com streaming ocupa a janela declarada**, nao o conjunto inteiro. O gate le
+  `vram_slots` do `dma_queue_contract` do projeto. Sem isso ele cobra o custo total de um asset
+  cuja decisao de streaming ja foi tomada, e a diferenca decide entre estourar e caber.
+- **`tile_residency_over_ceiling` bloqueia**: excesso de VRAM e fato de hardware.
+- **`low_tile_dedup_ratio` avisa**: fundo grande com menos de 30% de deduplicacao foi composto
+  como imagem fotografica e quantizado, nao autorado como conjunto de tiles. Custa como arte
+  unica e costuma **ainda parecer repetitivo** — o pior dos dois mundos. E sintoma, nao
+  violacao, entao nomeia o suspeito sem reprovar.
+- **`unexploited_vram_headroom`** abaixo de 40% de utilizacao, por simetria com a secao 30.
+
+Caso canonico: `branding_sequence_v2` entregou `img_forge_bg_b` com **2% de deduplicacao**
+(1093 tiles unicos de 1120), contra uma linha de contrato orcada em 640 para todo o conjunto de
+fundo. O agente de arte havia escrito que a parede "le como fiada", ou seja modular demais aos
+olhos; a medicao mostrou o oposto na VRAM. Percepcao e custo divergiram, e so a medicao
+explicou por que.

@@ -391,6 +391,7 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Gate de compreensao de marca | `tools/sgdk_wrapper/validate_brand_comprehension_gate.py` |
 | Doutrina de audacia | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secao 30 |
 | Pressao de scanline (2 limites) | `tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py` |
+| Residencia de tiles no asset | `tools/sgdk_wrapper/audit_tile_residency.py` |
 | Pixel strict rules | `tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/` |
 | Budget VDP | `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/` |
 | Migracao batch | `doc/migrations/MIGRATION_BATCH_211.md` |

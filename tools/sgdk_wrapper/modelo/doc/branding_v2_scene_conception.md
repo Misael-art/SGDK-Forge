@@ -96,9 +96,12 @@ Esta e a tese da abertura, e ela tem tres tempos:
 
 | Fase | Quadros | O que acontece |
 |---|---|---|
-| explosao | F122-F140 | os 32 estilhacos saem em leque radial, com velocidades diferentes |
-| suspensao | F140-F150 | desaceleram quase ate parar, girando |
-| convergencia | F150-F180 | cada um e puxado para um ponto da silhueta do logo, com ease-in |
+| nascimento | F122-F138 | os estilhacos surgem **2 por quadro**, nunca todos de uma vez |
+| explosao | ate F150 | cada um sai em leque radial, com velocidade propria |
+| convergencia | F152-F194 | puxados para pontos da silhueta, escalonados **5 quadros por fileira** |
+| pouso | continuo | cada estilhaco que chega vira tile e **sai do SAT**; o ultimo pousa em F194 |
+
+Os tres parametros acima nao sao gosto: sao o resultado de medicao. Ver a secao de orcamento.
 
 Cada estilhaco carrega um destino fixo: um ponto sobre a forma das letras. Na convergencia o
 runtime interpola posicao atual -> destino. Nos ultimos quadros a leitura vira "as letras estao
@@ -109,12 +112,16 @@ precisa ficar abaixo de 20 sprites por linha — e por isso a convergencia e esc
 estilhacos chegando em ondas de cima para baixo em vez de todos juntos. **Claim exige
 `vdp_scanline_simulator.py`, nao estimativa.**
 
-### F180 — a troca
+### F180-F194 — o pouso progressivo
 
-Os estilhacos somem e o logo em tilemap assume o lugar exato onde eles pousaram. Um quadro. Se
-a arte estiver alinhada, o olho nao ve a troca: ve o metal solidificando.
+Nao existe um quadro de troca. **Cada estilhaco que chega ao alvo vira tile do logo e sai do
+SAT na hora.** O logo se constroi peca por peca e a populacao de sprites **cai** durante a
+montagem, em vez de picar no fim.
 
-Depois disso o orcamento de sprites volta a **zero** e o resto do ato roda sem custo de SAT.
+Isso comecou como correcao de orcamento e virou a melhor decisao narrativa do ato: o olho ve
+o metal solidificando pedaco a pedaco, nao um passe de magica.
+
+Depois de F194 o custo de SAT e **zero** e o resto do ato roda de graca.
 
 ### F180-F300 — a varredura especular e o ar quente
 
@@ -164,18 +171,35 @@ coisa que some e a rampa de brasa, fechando o circulo com o F0.
 
 ## Orcamento ao longo do tempo
 
-| Ato | Sprites (pico) | DMA por quadro | H-Int | Notas |
+| Ato | Sprites totais | Pico por scanline | DMA por quadro | Notas |
 |---|---|---|---|---|
-| I | 6 | nenhum | 7 bandas de paleta | brasa + 5 fantasmas |
-| II F120-180 | **33** | nenhum | banda de varredura | 32 estilhacos + martelo |
-| II F180-300 | 0 | 448 B (tabela HScroll) | banda de varredura | logo em tilemap |
-| III | 0 | tabela de coluna | nenhum | cortina por scroll |
+| I | 6 | 2 | 203 B medios (streaming do martelo) | brasa + 5 fantasmas |
+| II F120-194 | 33 | **15 medido** | 1152 B no pico de troca | estilhacos + martelo |
+| II F194-300 | 0 | 0 | 448 B (tabela HScroll) | logo em tilemap |
+| III | 0 | 0 | tabela de coluna | cortina por scroll |
 
-O pico e F150-F180. Tudo depois disso e barato — a abertura gasta o orcamento no momento de
-assinatura e devolve.
+### A pressao de scanline foi medida, nao estimada
 
-`measurement_level: estimated`. Nenhum destes numeros vale como aprovacao: exigem
-`res_graph_report.json`, `sprite_scanline_pressure_report` do simulador e `visual_vdp_dump.bin`.
+A primeira coreografia que escrevi **quebrava o hardware**. Rodada no
+`vdp_scanline_simulator.py` canonico, media **36 sprites numa scanline** contra o limite de
+20, com `status: error`. A estimativa que eu tinha escrito no contrato dizia 12.
+
+O que estava errado: todos os 32 estilhacos nasciam no mesmo ponto no mesmo quadro, entao
+F122-F124 era uma pilha. E a convergencia terminava com todos empacotados na faixa de 64px do
+logo, o que dava 24 em F179.
+
+Tres correcoes, medidas ate passar com folga:
+
+1. **spawn escalonado** — 2 estilhacos por quadro, ao longo de 16 quadros;
+2. **pouso progressivo** — cada estilhaco que chega sai do SAT, entao a populacao cai durante
+   a montagem em vez de picar no fim;
+3. **recuo rapido do martelo** — 10 quadros em vez de ficar em cena ate F150. Foi a correcao
+   de maior efeito: o martelo tem 4 sprites de hardware e coexistia com a nuvem.
+
+Resultado medido pela ferramenta canonica: **15 sprites por scanline, margem de 25%**.
+
+`measurement_level: measured_by_simulator` para a pressao de scanline. O restante segue
+`estimated` e exige `res_graph_report.json` e `visual_vdp_dump.bin`.
 
 ---
 
@@ -229,9 +253,23 @@ De **8** para **9** assets, com dois ganhando quadros:
 
 ---
 
-## Pendencia antes de liberar os assets
+## Orcamento do martelo: RESOLVIDO por streaming
 
-O `spr_forge_hammer` a 6 quadros de 48x48 pesa 216 tiles residentes. Antes de mandar autorar,
-alguem precisa decidir entre reduzir quadros, reduzir tamanho ou fazer streaming — e essa
-decisao muda o que o agente de arte desenha. **Nao e decisao de arte, e de orcamento**, e ela
-deveria sair de um `res_graph_report` real em vez de estimativa.
+Decisao do curador em 2026-08-17: **streaming**, porque a premissa do projeto e maxima
+qualidade visual e o golpe e o momento de assinatura da abertura.
+
+| | Sem streaming | Com streaming |
+|---|---|---|
+| tiles residentes | 216 | **72** (janela dupla) |
+| bytes residentes | 6912 | 2304 |
+| custo por troca de quadro | 0 | 1152 B |
+| custo medio por quadro | 0 | 203 B |
+
+Economia de **144 tiles** de VRAM, preservando os 6 quadros a 48x48. O swing dura 34 quadros
+para 6 quadros de arte, entao a troca acontece a cada 5,7 quadros — nao a cada quadro.
+
+Pior coincidencia teorica: 1600 B num VBlank (troca de quadro somada a tabela de HScroll). As
+duas janelas quase nao se sobrepoem, entao isso e teto e nao expectativa. Contrato completo em
+`doc/branding_v2_dma_queue_contract.json`, com ordem de recuo declarada caso o envelope medido
+nao comporte — e cortar quadro de arte e o **ultimo** recurso, porque contraria a premissa da
+decisao.

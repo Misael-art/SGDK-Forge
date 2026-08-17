@@ -501,3 +501,44 @@ delas e decisao de arte. Precisa de `res_graph_report` real antes de liberar a p
 Tres regras estruturais verificaveis: tomada continua sem `VDP_clearPlane`; escalada de camada
 de hardware por ato; consequencia fisica em todo efeito. Momento de assinatura em F120, quando
 o impacto lanca 32 estilhacos que voltam e se montam no logo — a marca e forjada, nao exibida.
+
+## Fase 11 — streaming decidido, e a coreografia medida quebrando o hardware
+
+Decisao do curador: **streaming** para `spr_forge_hammer`, porque a premissa e maxima qualidade
+visual e o golpe e o momento de assinatura. Contrato em
+`doc/branding_v2_dma_queue_contract.json`, conforme `dma_queue_contract.schema.json`.
+
+- 216 tiles residentes viram **72** em janela dupla: economia de 144 tiles preservando os 6
+  quadros a 48x48;
+- custo: 1152 B por troca de quadro, a cada 5,7 quadros, media de 203 B/quadro;
+- pior coincidencia teorica 1600 B num VBlank; `vblank_budget_bytes` declarado como envelope
+  teorico de 224p NTSC com nota explicita de que **nao e medicao deste projeto**;
+- ordem de recuo declarada: alargar o intervalo de troca primeiro, encurtar a janela de ar
+  quente depois, e cortar quadro de arte **por ultimo**, porque contraria a premissa.
+
+### A coreografia que eu escrevi quebrava o hardware
+
+Modelei o ato 2 e rodei no `vdp_scanline_simulator.py` canonico antes de existir arte ou
+runtime. Resultado: **36 sprites numa scanline** contra o limite de 20, `status: error`. A
+estimativa que estava no contrato dizia 12.
+
+Duas causas: todos os 32 estilhacos nasciam no mesmo ponto no mesmo quadro, e a convergencia
+terminava com todos empacotados na faixa de 64px do logo (24 em F179).
+
+Tres correcoes, medidas ate passar com folga:
+
+1. spawn escalonado, 2 por quadro ao longo de 16 quadros;
+2. **pouso progressivo** — cada estilhaco que chega vira tile e sai do SAT, entao a populacao
+   cai durante a montagem em vez de picar no fim;
+3. recuo do martelo em 10 quadros. Foi a correcao de maior efeito: ele tem 4 sprites de
+   hardware e coexistia com a nuvem.
+
+Medicao final pela ferramenta canonica: **15 sprites por scanline, margem de 25%**. O campo do
+storyboard passou de `estimated` para `measured_by_simulator`.
+
+A correcao 2 comecou como orcamento e virou a melhor decisao narrativa do ato: o logo se
+constroi peca por peca em vez de trocar de uma vez. O ultimo estilhaco pousa em F194, entao a
+linha do tempo do ato 2 foi corrigida de F180 para F194.
+
+**Se eu tivesse liberado a arte antes de medir**, o agente teria desenhado 32 estilhacos para
+uma coreografia impossivel, e a descoberta viria na implementacao do runtime com a arte pronta.

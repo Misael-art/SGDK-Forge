@@ -1,0 +1,219 @@
+{
+  "record_id": "branding_v2_forge_art_direction",
+  "schema_version": "1.0.0",
+  "status": "direction_locked_execution_pending",
+  "scene_id": "APP_SCENE_BRANDING",
+  "contract_ref": "doc/branding_sequence_contract.json#branding_sequence_v2",
+  "direction_doc": "doc/branding_v2_art_direction.md",
+  "authoring_note": "As decisoes de direcao deste registro estao FECHADAS e foram tomadas na curadoria. O agente de arte preenche apenas os campos marcados execution_* e nao altera as decisoes. Se discordar da direcao, abra a discordancia com o curador humano em vez de divergir em silencio.",
+
+  "trava_1_referencias": {
+    "requirement": "3 referencias visuais reais explicitas justificando a heranca",
+    "policy": "Ancoras TECNICAS. inspiration_only=true. Nenhum nome de jogo, estudio, artista ou IP pode virar prompt de copia. Extraia a propriedade tecnica nomeada, nunca a forma.",
+    "anchors": [
+      {
+        "anchor": "acao console de meados dos anos 90, vertente gotica",
+        "catalog_source": "art_style_catalog.json#gothic_16bit_dark_fantasy.reference_titles",
+        "extract": "comportamento de luz de tocha: highlight duro pontual sobre massa escura, com dithering de pedra e metal controlado por funcao de material",
+        "do_not_extract": "layout de castelo, arquitetura, personagem, silhueta de costume"
+      },
+      {
+        "anchor": "plataforma/acao console inicio dos anos 90, vertente vibrante",
+        "catalog_source": "art_style_catalog.json#vibrant_16bit_pixel.reference_titles",
+        "extract": "disciplina de rampa limpa e saturacao pura no emissivo: como um nucleo de luz se separa do fundo sem contorno",
+        "do_not_extract": "forma de mascote, paleta de uma nota, qualquer figura iconica"
+      },
+      {
+        "anchor": "benchmark canonico do workspace",
+        "catalog_source": "doc/03_art/00_visual_quality_bar.md",
+        "extract": "densidade de detalhe concentrada e hierarquia de valor foreground/mid/background do padrao comercial de 1994",
+        "do_not_extract": "cena, inimigo, HUD ou tipografia de qualquer titulo citado"
+      }
+    ],
+    "clone_risk_method": "environment_and_costume_distance",
+    "execution_authoriality_gate_report": "PENDENTE — o agente de arte gera doc/authoriality_gate_report.json com clone_risk_score medido"
+  },
+
+  "trava_2_visual_breakdown": {
+    "requirement": "paleta, material, iluminacao e profundidade definidos antes de gerar",
+    "paleta": {
+      "architecture": "4 paletas ocupadas, 15 cores visiveis cada, index 0 transparente",
+      "index_roles_locked": true,
+      "hex_values": "seed ajustavel pelo artista; o PAPEL do indice e contrato porque o runtime depende dele",
+      "critical_constraints": [
+        "PAL0[9..12] e um ciclo fechado rotacionado em CRAM: o passo 12 precisa emendar no 9",
+        "PAL1[13..14] sao folga de highlight e precisam ficar ABAIXO do branco maximo, senao a varredura especular do ato 2 nao existe",
+        "sombra de metal quente e fria (violeta-azul); sombra em cinza neutro reprova"
+      ],
+      "detail": "doc/branding_v2_art_direction.md secao 5"
+    },
+    "material": {
+      "count": 4,
+      "materials": ["pedra", "ferro", "brasa/calor", "fuligem"],
+      "rule": "dither sem funcao de material reprova; hachura por cluster na pedra, nunca dither uniforme",
+      "detail": "doc/branding_v2_art_direction.md secao 4"
+    },
+    "iluminacao": {
+      "model": "emissiva inferior",
+      "statement": "A fonte de calor esta no piso. O plano SUPERIOR de cada volume esta em sombra, a face INFERIOR esta iluminada, a sombra sobe pela parede e o contato com o piso e o ponto mais quente da imagem.",
+      "second_light_event": "varredura especular horizontal no ato 2, produzida pelo operador Shadow/Highlight do VDP e NUNCA assada no asset",
+      "rejection_rule": "asset que possa ser lido como iluminado de cima e reprovado mesmo com rampa e dither impecaveis"
+    },
+    "profundidade": {
+      "method": "valor atmosferico em 2 planos mais foreground em silhueta",
+      "forbidden": "linha de fuga, falsa perspectiva, terceiro plano de BG (o VDP tem BG_A + BG_B + WINDOW)"
+    }
+  },
+
+  "trava_3_art_director_supervision": {
+    "requirement": "aprovacao do art-director para validar shading/volume",
+    "gate_point": "apos o model sheet da fase 1, antes de qualquer um dos 8 assets finais",
+    "status": "pending_human_approval",
+    "rationale": "Pacote de assets finais entregue sem model sheet aprovado falhou 4 vezes neste workspace."
+  },
+
+  "trava_4_style_catalog": {
+    "requirement": "art_direction_decision_record consultando art_style_catalog.json antes de gerar",
+    "consulted": true,
+    "primary_style_id": "gothic_16bit_dark_fantasy",
+    "primary_rationale": "lighting_model 'moonlit or torchlit hard highlights' e palette_signature com 'gold highlights, cool shadows' descrevem literalmente uma forja; mega_drive_compatibility=native e vram_pressure_hint=medium cabem no orcamento.",
+    "secondary_style_id": "vibrant_16bit_pixel",
+    "secondary_rationale": "usado APENAS na rampa emissiva (brasa, nucleo, faisca), por 'pure saturated hues, clean ramps'. Nao governa o ambiente.",
+    "rejected_styles": [
+      {
+        "style_id": "baroque_32bit_gothic_pixel",
+        "reason": "vram_pressure_hint=high e mega_drive_compatibility=stylized; o proprio catalogo lista o anti-pattern 'shipping PSX-size sheets on MD'"
+      },
+      {
+        "style_id": "digicel_16bit_animation",
+        "reason": "vram_pressure_hint=high e a cena nao e animacao de personagem; flat cel shading briga com o modelo emissivo"
+      }
+    ],
+    "inherited_anti_patterns_to_avoid": [
+      "dithering without material role (gothic_16bit_dark_fantasy)",
+      "brown/gray mud (gothic_16bit_dark_fantasy)",
+      "one-note blue palette (vibrant_16bit_pixel)",
+      "overdithered shadows (vibrant_16bit_pixel)"
+    ]
+  },
+
+  "trava_5_art_gameplay_direction_gate": {
+    "requirement": "art_gameplay_direction_gate para model sheet, background, sprite art, FX sheet, title/menu ou asset critico",
+    "applies": true,
+    "status": "approved_with_substituted_axis",
+    "axis_substitution": {
+      "note": "Esta cena nao tem gameplay: nao existe rota, risco, timing de inimigo ou decisao do jogador para a arte alterar. O eixo de consequencia jogavel nao pode ser preenchido com invencao.",
+      "axis": "brand_comprehension_consequence",
+      "definition": "cada decisao de arte precisa mudar o que o espectador entende sobre quem fez este jogo em 8,7 segundos",
+      "approved_by": "human_curator",
+      "approved_at": "2026-08-17",
+      "scope": "cenas de marca sem gameplay: branding, title card, selo de autor. NAO se aplica a cena jogavel, onde o eixo canonico de consequencia jogavel continua obrigatorio."
+    },
+    "falsifiability_contract": {
+      "principle": "Um eixo aprovado que nao pode reprovar nada e decoracao. A substituicao so e legitima porque pode falhar.",
+      "rule": "Toda tecnica declarada no contrato precisa carregar um claim de compreensao COM teste negativo, ou ser classificada enabling_discipline (previne artefato, nao ensina nada ao espectador, isenta mas obrigatoria). Tecnica que nao e nem um nem outro e espetaculo sem consequencia e reprova.",
+      "claim_requirements": ["brand_comprehension_claim", "brand_comprehension_negative_test", "brand_comprehension_strength"],
+      "strength_enum": ["strong", "moderate", "weak"],
+      "weak_policy": "claim fraco nao reprova, mas fica marcado e exige prova perceptiva no runtime. Nao pode ser apresentado como forte no closeout.",
+      "blocker_codes": [
+        "brand_comprehension_missing",
+        "brand_comprehension_not_falsifiable",
+        "brand_comprehension_strength_undeclared",
+        "brand_comprehension_unjustified_technique"
+      ],
+      "enforcement": "tools/sgdk_wrapper/validate_brand_comprehension_gate.py",
+      "report": "doc/brand_comprehension_gate_report.json",
+      "limit_of_automation": "O validador prova que nenhuma tecnica passou sem justificativa. Ele NAO julga se o claim e verdadeiro: isso e decisao humana no gate visual, contra screenshot e visual_vdp_dump reais."
+    },
+    "first_run_result": {
+      "verdict": "OK",
+      "techniques_audited": 24,
+      "comprehension_bearing": 15,
+      "enabling_discipline": 9,
+      "weak_claims": ["column_scrolling", "expressive_text_presentation_system"],
+      "caught_on_first_run": {
+        "registry_id": "xgm2_audio_architecture",
+        "finding": "brand_comprehension_unjustified_technique",
+        "resolution": "reclassificado como enabling_discipline. O ID descreve arquitetura de driver, nao uma afirmacao ao espectador; a funcao declarada antes confundia encanamento com conteudo. A cauda de reverb como claim espacial vive em audio_contract.new_cue_map."
+      },
+      "note": "O gate encontrou um problema real na primeira execucao, o que e a evidencia de que nao e carimbo."
+    }
+  },
+
+  "trava_6_authorial_line_contract": {
+    "requirement": "authorial_line_contract para asset critico autoral",
+    "line_signature": "contorno escuro fechado em ferro e pedra; ausencia total de contorno no emissivo (brasa e faisca sao luz, nao objeto). Borda de sombra dura, sem anti-aliasing. Luz de aresta de 1px sempre na face inferior.",
+    "silhouette_hooks": [
+      "bico conico assimetrico da bigorna",
+      "cabeca do martelo com um lado plano e um lado em cunha",
+      "diagonal da coifa da fornalha, unico angulo agudo do enquadramento"
+    ],
+    "face_grammar": {
+      "applicable": false,
+      "reason": "a cena nao tem personagem nem rosto; declarado N/A em vez de preenchido com invencao"
+    },
+    "hand_foot_grammar": {
+      "applicable": false,
+      "reason": "a cena nao tem figura humana; o martelo e objeto, nao mao"
+    },
+    "costume_asymmetry": {
+      "applicable": true,
+      "transposed_to": "tipografia",
+      "rule": "uma letra do wordmark carrega uma marca de ferramenta que as outras nao tem; sem essa marca o wordmark le como template"
+    },
+    "material_marks": {
+      "pedra": "hachura por cluster, junta irregular, rampa fria de 5 passos, sem grid visivel",
+      "ferro": "3 valores minimos mais 1 especular duro, aresta viva com 1px de luz inferior, sombra fria",
+      "brasa": "emissivo sem lado de sombra e sem contorno; gradiente por dither de 2-3 cores",
+      "fuligem": "dither com papel de escurecer o que esta longe do fogo"
+    },
+    "generic_blockers": [
+      "rampa de sombra em cinza neutro",
+      "iluminacao superior, ainda que discreta",
+      "dither uniforme sem funcao de material",
+      "grid de pedra regular e visivel (cookie-cutter)",
+      "brasa como circulo laranja com contorno",
+      "wordmark centrado e simetrico com chanfro nas 4 arestas",
+      "paleta de uma nota sem ancora fria",
+      "estilhaco como triangulo generico sem aresta viva"
+    ]
+  },
+
+  "phase_1_deliverable": {
+    "path": "data/source_art/branding_v2/model_sheet_forge_v01.png",
+    "canvas": "512x384 PNG indexado, index 0 transparente",
+    "panels": [
+      { "id": "A", "region": "256x160 topo-esquerda", "proves": "luz vinda de baixo em bigorna e martelo, 3 valores por material" },
+      { "id": "B", "region": "256x160 topo-direita", "proves": "os 3 silhouette_hooks em preto puro" },
+      { "id": "C", "region": "512x64 meio", "proves": "as 4 rampas rotuladas por indice, folga de PAL1 visivel, ciclo de PAL0 fechado" },
+      { "id": "D", "region": "256x96 baixo-esquerda", "proves": "corpo tipografico a 64px com chanfro inferior e marca assimetrica" },
+      { "id": "E", "region": "256x96 baixo-direita", "proves": "brasa e estilhaco a 16x16 REAL, 4 quadros cada, lendo como o mesmo objeto girando" }
+    ],
+    "companion_artifacts": [
+      "doc/authoriality_gate_report.json",
+      "paragrafo de autocritica honesta apontando onde a folha ficou fraca"
+    ]
+  },
+
+  "acceptance": {
+    "five_gates": ["scope_style_constraints", "silhouette_shape_language", "value_hierarchy", "palette_role_map", "polish_vfx_gameplay_signal"],
+    "final_test": "Isso poderia estar em um jogo comercial AAA de 1994? Se nao for um SIM categorico, refazer, nao ajustar.",
+    "calibration_rule": "Comparar somente com a mesma geracao de hardware. O criterio e direcao de luz coerente na rampa, nao contagem de tons: 8 cores com luz correta passa, 15 com luz ambigua reprova.",
+    "provenance_rule": "Nenhum pixel pode nascer de PIL/ImageDraw ou primitiva. Verificado por tools/sgdk_wrapper/audit_procedural_asset_provenance.py."
+  },
+
+  "execution_fields_for_art_agent": {
+    "execution_model_sheet_path": null,
+    "execution_generation_channel": null,
+    "execution_tooling_capability_report": null,
+    "execution_self_critique": null,
+    "execution_five_gates_result": null,
+    "execution_completed_at": null
+  },
+
+  "promotion_rules": [
+    "este registro nao promove nada; status permanece direction_locked_execution_pending",
+    "aprovacao humana do model sheet e obrigatoria antes dos 8 assets finais",
+    "trava_5 esta com needs_human_ruling e precisa de decisao do curador antes do closeout"
+  ]
+}

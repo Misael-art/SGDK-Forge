@@ -46,6 +46,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/sgdk_wrapper/assert_ag
 ```
 
 Essa guarda chama o preparo automaticamente, valida pontes de skills, instala/prepara Graphify quando necessario, serializa updates concorrentes por lock global e deixa o grafo consultivo `fresh`. Graphify deve ser usado somente via `pwsh` e pelo wrapper `tools/sgdk_wrapper/graphify_forge.ps1`; nunca use `graphify query` direto e nunca trate `graphify-out/` como fonte de verdade.
+Ela tambem prepara a camada opcional `ai-memory` de forma controlada via `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1`: cria apenas marcadores `.ai-memory.toml`, politica local e report consultivo. Nao instala hooks/MCP globais, nao roda bootstrap/auto-improve e nunca substitui memory bank, learning ledger, validators, Graphify, changelog ou evidencia de emulador. Politica: `doc/AI_MEMORY_POLICY.md`.
 O menu canonico `tools/sgdk_wrapper/show_agent_menu.ps1` tambem chama essa guarda automaticamente, exceto se `SGDK_SKIP_AGENT_ENVIRONMENT_GUARD=1`.
 
 ---
@@ -108,6 +109,67 @@ Regra de uso:
 ❌ Logica de build em projeto — apenas em tools/sgdk_wrapper/
 ❌ Inventar API do SGDK  — verificar header antes de usar
 ❌ Declarar "pronto" sem ROM rodando no emulador
+❌ Grafico desenhado por codigo como personagem, inimigo, boss ou cenario final
+❌ Simbolo visual em res/*.res sem proveniencia declarada
+```
+
+---
+
+## DIRETRIZ DE BLOQUEIO ESTETICO
+
+**Nenhum pixel de personagem, inimigo, boss ou cenario pode nascer de codigo.**
+
+Grafico procedural — primitivas, poligonos, retangulos, preenchimento solido, seja
+desenhado em C no runtime ou em Python por `PIL/ImageDraw` no pipeline — e permitido
+**apenas** para telemetria, debug visual de elemento invisivel ao jogador e elemento
+transitorio de interface como barra de progresso simples.
+
+Toda entrega visual consome arquivo de imagem externo importado por `res/resources.res`
+com `IMAGE`, `SPRITE`, `TILESET`, `TILEMAP` ou `MAP`, em pixel art indexada respeitando
+15 cores visiveis por bloco mais o index 0 transparente.
+
+**Um PNG desenhado por primitiva nao satisfaz essa regra por estar em disco.** O que
+decide e a proveniencia declarada, nao o formato nem o nome do arquivo:
+
+```
+doc/asset_provenance_manifest.json   ← um registro por simbolo visual do .res
+  source_kind: hand_authored_pixel | ai_generated | photo_or_render_derived
+             | procedural_composed_from_authored | procedural_primitive | sgdk_builtin
+  acceptance_status: final | placeholder | debug_lab | visual_lab_control
+```
+
+`source_kind: procedural_primitive` nunca pode ter `acceptance_status: final`.
+`procedural_composed_from_authored` exige fonte autoral persistida com hash.
+
+Enforcement executavel — roda antes de qualquer claim de entrega visual:
+
+```bash
+python3 tools/sgdk_wrapper/audit_procedural_asset_provenance.py \
+  --project-root "SGDK_projects/<projeto>" \
+  --shared-builder-root tools/image-tools
+```
+
+O auditor casa o `.res` com os builders que escrevem cada arquivo; declarar
+`hand_authored_pixel` para um asset escrito por builder de primitivas e detectado e
+bloqueado. Blockers: `asset_provenance_undeclared`, `procedural_asset_promoted_to_res`,
+`procedural_source_kind_declared_final`, `procedural_composed_without_authored_source`,
+`runtime_authored_tile_pixels_outside_debug`, `resources_res_missing_for_visual_delivery`.
+
+Unica excecao: projeto com `validator_fixture: true` em `doc/project_context_manifest.json`
+pode compilar sem asset externo, e em troca fica preso a `delivery_claim_ceiling` de
+`none`, `concept`, `lab` ou `exercise` — nunca sustenta claim de entrega visual.
+
+Regra completa: `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secoes 8.2 e 17.
+
+**Cada projeto carrega essa diretriz e seu proprio estado medido** em
+`doc/00-diretrizes-agente.md`, entre os marcadores `diretriz-bloqueio-estetico v1`.
+Agente que assume continuidade le esse bloco antes de tocar em arte. Projeto novo herda
+o bloco do template `tools/sgdk_wrapper/modelo/`. Para injetar ou atualizar:
+
+```bash
+python3 tools/sgdk_wrapper/apply_aesthetic_directive.py \
+  --all-projects SGDK_projects --shared-builder-root tools/image-tools
+# --check falha com exit 1 se algum projeto estiver sem a diretriz ou com medicao velha
 ```
 
 ---
@@ -267,6 +329,8 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Protocolo de verdade de producao | `tools/sgdk_wrapper/.agent/references/production_truth_protocol.md` |
 | Preparar ambiente dos agentes | `tools/sgdk_wrapper/prepare_agent_environment.ps1` |
 | Guard de ambiente dos agentes | `tools/sgdk_wrapper/assert_agent_environment.ps1` |
+| Integracao ai-memory consultiva | `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1` |
+| Politica ai-memory | `doc/AI_MEMORY_POLICY.md` |
 | Renderizar menu de sessao | `tools/sgdk_wrapper/show_agent_menu.ps1` |
 | Estado de sessao | `doc/agent_session_state.json` |
 | Troca de perspectiva | `tools/sgdk_wrapper/.agent/workflows/perspective-switch-gate.md` |
@@ -283,6 +347,11 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Painel humano de proficiencia | `doc/05_technical/93_16bit_hardware_mastery_matrix.md` |
 | Registry tecnico machine-readable | `doc/05_technical/93_16bit_hardware_mastery_registry.json` |
 | Preflight host | `tools/sgdk_wrapper/preflight_host.ps1` |
+| Diretriz de bloqueio estetico | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` (8.2 e 17) |
+| Proveniencia de asset (contrato) | `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json` |
+| Proveniencia de asset (auditor) | `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` |
+| Injetar diretriz nos projetos | `tools/sgdk_wrapper/apply_aesthetic_directive.py` |
+| Gate de compreensao de marca | `tools/sgdk_wrapper/validate_brand_comprehension_gate.py` |
 | Pixel strict rules | `tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/` |
 | Budget VDP | `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/` |
 | Migracao batch | `doc/migrations/MIGRATION_BATCH_211.md` |

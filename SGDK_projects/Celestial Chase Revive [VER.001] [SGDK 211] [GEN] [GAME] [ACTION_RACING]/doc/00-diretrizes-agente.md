@@ -1,18 +1,40 @@
-# 00 - Diretrizes do Modelo
+# 00 - Diretrizes do Agente - Celestial Chase Revive
 
-Este worktree existe para servir como base segura e editavel.
+## Regra de Ouro
 
-Regras:
-- projeto novo ou escopo ainda difuso deve passar primeiro por `planning/game-design-planning` antes de abrir arte ou runtime;
-- projeto novo, reseed ou cena sem familia tecnica declarada deve emitir `route_decision_record` via `workflows/route-decision-gate.md` antes de converter asset, editar `.res` ou escrever runtime;
-- cena com parallax, foreground/oclusao, source grande ou referencia interna deve passar por `scene_architecture_triage` e medir janela/painel antes de assumir `IMAGE` residente;
-- build, clean, rebuild e run sempre via wrapper;
-- assets brutos entram em `res/data/`;
-- saida final pronta para o SGDK fica em `res/`;
-- alteracoes estruturais devem ser refletidas na documentacao;
-- codigo novo deve preservar legibilidade e limites do Mega Drive.
-- menu, title screen e front-end devem nascer com identidade declarada no GDD, nao como placeholder tardio.
-- os gates finais de `visual_lab_aprovado`, `audio`, `hardware_real` e `ready_for_aaa` devem ter trilha explicita em `doc/14-plano-de-provas-qa.md`.
+Se nao foi visto rodando no BlastEm, nao existe como entrega. Este projeto esta apenas `documentado`.
+
+## Escopo Atual
+
+O foco atual sao specs. Nao criar runtime, arte final ou claim de pronto sem uma nova etapa explicitamente voltada para producao.
+
+## Fontes de Verdade Locais
+
+1. `doc/10-memory-bank.md`
+2. `doc/11-gdd.md`
+3. `doc/13-spec-cenas.md`
+4. `doc/15-tdd.md`
+5. `doc/12-roteiro.md`
+6. `doc/project_context_manifest.json`
+7. `.mddev/project.json`
+
+## Politica do Benchmark
+
+O benchmark Celestial Chase e referencia tecnica, nao prova de entrega do Revive. Nao copiar arte, path absoluto, evidencias ou status.
+
+## Proibicoes
+
+- Nao declarar Mode 7.
+- Nao declarar alpha blending real.
+- Nao usar float/double em gameplay.
+- Nao usar malloc/free no loop.
+- Nao promover tecnica `LABORATORIO` para entrega.
+- Nao usar HUD debug como HUD final.
+- Nao declarar boss modular sem contrato de partes, codigo e budget.
+
+## Fechamento
+
+Qualquer mudanca de runtime ou arquitetura futura deve atualizar `doc/10-memory-bank.md` e `doc/changelog/changelog.md`.
 
 
 <!-- BEGIN: diretriz-bloqueio-estetico v2 -->
@@ -49,8 +71,8 @@ Regra completa: `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secoes 8.2 e 17
 
 | Metrica | Valor |
 |---|---|
-| Simbolos visuais no `.res` | 16 |
-| Rastreados a builder de primitivas | **16** |
+| Simbolos visuais no `.res` | 11 |
+| Rastreados a builder de primitivas | **0** |
 | Proveniencia declarada | 0 |
 | Manifesto de proveniencia | `absent` |
 | Veredito | **BLOCKED** |
@@ -58,26 +80,7 @@ Regra completa: `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secoes 8.2 e 17
 Blockers ativos:
 
 - `asset_provenance_manifest_absent`
-- `procedural_asset_promoted_to_res`
-
-Simbolos escritos por builder de primitivas (16) — nenhum pode ser `final`:
-
-- `img_brand_engine_bg_v3` <- build_branding_v3_assets.py
-- `img_brand_author_bg_v3` <- build_branding_v3_assets.py
-- `img_brand_project_bg_v3` <- build_branding_v3_assets.py
-- `img_brand_engine_logo_v4` <- build_branding_v4_assets.py
-- `img_brand_author_signature_v4` <- build_branding_v4_assets.py
-- `img_brand_project_logo_v4` <- build_branding_v4_assets.py
-- `img_brand_presents_v4` <- build_branding_v4_assets.py
-- `img_font_forge_v4` <- build_branding_v4_assets.py
-- `img_font_terminal_v4` <- build_branding_v4_assets.py
-- `img_font_crest_v4` <- build_branding_v4_assets.py
-- `spr_brand_spark_v3` <- build_branding_v3_assets.py
-- `spr_brand_monogram_v3` <- build_branding_v3_assets.py
-- `spr_brand_cursor_v3` <- build_branding_v3_assets.py
-- `spr_brand_shield_v3` <- build_branding_v3_assets.py
-- `spr_brand_glow_v3` <- build_branding_v3_assets.py
-- `spr_brand_debris_v3` <- build_branding_v3_assets.py
+- `asset_provenance_undeclared`
 
 ### Cena de marca: eixo `brand_comprehension_consequence`
 

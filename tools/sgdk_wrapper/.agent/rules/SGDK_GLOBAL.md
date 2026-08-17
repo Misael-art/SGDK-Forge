@@ -84,6 +84,16 @@ Estas regras sao sempre ativas para qualquer projeto `MegaDrive_DEV` que use est
 - Superficies `.cursor`, `.serena`, `.superpowers`, `.trae`, `.agents` e `.claude` devem apontar para o mesmo workflow `tools/sgdk_wrapper/.agent/workflows/agent-startup-environment.md`.
 - Referencia: `doc/GRAPHIFY_OBSIDIAN_POLICY.md`.
 
+### 1.0.6 ai-memory (consultivo controlado)
+
+- `ai-memory` pode ser usado apenas como memoria auxiliar de handoff, busca e recall operacional.
+- O preparo automatico chama `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1`, que pode criar `.ai-memory.toml`, `doc/AI_MEMORY_POLICY.md` e `out/logs/ai_memory_integration_report.json`.
+- O wrapper nunca executa automaticamente `install-hooks --apply`, `install-mcp --apply`, `bootstrap`, `auto-improve` ou aprovacao de pending writes.
+- Qualquer auto-improvement do ai-memory deve permanecer pendente de revisao humana; use `[auto_improve] require_approval = true` e mantenha scheduler desabilitado durante piloto.
+- Pagina recuperada do ai-memory nao e fonte de verdade: abra os arquivos canonicos citados antes de decidir, editar ou promover status.
+- `ai-memory` nao fecha build, budget, `testado_em_emulador`, `MESTRE_*`, `stable`, `release`, `ready_for_aaa` nem closeout.
+- Projeto adotado por `adopt_project_methodology.ps1` deve receber marcador `.ai-memory.toml` local quando possivel, para evitar mistura de memoria entre projetos.
+
 ## 1.1 Prioridade arquitetural para cenas AAA compostas
 
 - Quando a cena tiver composicao em camadas, foreground/oclusao, staging visual e forte relacao entre sprite e cenario, trate `tilemap streaming guiado pela camera` como baseline arquitetural prioritario.
@@ -194,14 +204,23 @@ A credibilidade do espetaculo vem da consistencia visual. Para gerar ou instruir
 - **Trava 3:** Sem a aprovacao do `art-director` para validar shading/volume -> INVALIDO.
 - **Trava 4:** Sem `art_direction_decision_record` consultando `tools/sgdk_wrapper/.agent/references/art_style_catalog.json` antes de gerar, buscar, converter ou julgar arte -> INVALIDO.
 - **Trava 5:** Sem `art_gameplay_direction_gate` para model sheet, background, sprite art, animation strip, sprite sheet final, FX sheet, HUD heroico, title/menu ou asset critico -> INVALIDO.
+- **Trava 6:** Sem `authorial_line_contract` para asset critico autoral -> INVALIDO. O contrato deve declarar `line_signature`, `silhouette_hooks`, `face_grammar`, `hand_foot_grammar`, `costume_asymmetry`, `material_marks` e `generic_blockers`.
 - Todo feedback corretivo de arte deve passar antes por `doc/03_art/02_visual_feedback_bank.md` e pela skill `visual-excellence-standards`.
 - Drift de estilo no meio do projeto exige `style_drift_correction_brief` antes de regerar arte.
-- `art_direction_undeclared`, `style_catalog_not_consulted`, `style_drift_uncorrected`, `art_director_supervision_missing`, `game_design_context_missing`, `cohesion_drift` ou `director_gate_unapproved` bloqueiam `ready_for_aaa=true`, `AAA`, `stable`, `release` e `delivery`.
+- `art_direction_undeclared`, `style_catalog_not_consulted`, `style_drift_uncorrected`, `authorial_line_contract_missing`, `generic_prompt_style_blocker`, `art_director_supervision_missing`, `game_design_context_missing`, `cohesion_drift` ou `director_gate_unapproved` bloqueiam `ready_for_aaa=true`, `AAA`, `stable`, `release` e `delivery`.
 - Referencias esteticas sao ancoras tecnicas. Nunca transforme nome de artista, estudio, marca, jogo ou IP em prompt de copia; use descritores tecnicos neutros e `authoriality_gate_report`.
 
 ### 8.2 Gate visual fonte-ROM
 
 - `local_author_pixel_rasterization`, `procedural_renderer` e scripts locais `draw_*` so podem ser `debug_lab`, `visual_lab_control` ou `placeholder`; nunca fonte final de personagem, cenario, boss, HUD heroico ou asset AAA.
+- Todo simbolo visual de `res/*.res` (`IMAGE`, `SPRITE`, `TILESET`, `TILEMAP`, `MAP`, `BITMAP`) exige registro em `doc/asset_provenance_manifest.json` com `source_kind`, `acceptance_status` e `generated_by`. Simbolo sem registro e `asset_provenance_undeclared` e bloqueia entrega visual.
+- `source_kind: procedural_primitive` nunca pode ter `acceptance_status: final`. `procedural_composed_from_authored` exige `authored_source` persistida em `data/source_art/` com hash: codigo pode montar, recortar e paletizar arte autoral, nunca desenha-la.
+- PNG em disco nao prova autoria. O auditor casa cada arquivo do `.res` com os builders que o escrevem; declarar `hand_authored_pixel`, `ai_generated` ou `photo_or_render_derived` para arquivo produzido por builder de primitivas vira `procedural_asset_promoted_to_res`.
+- Pixels de tile escritos como literal `const u32` em C e enviados para VRAM fora de escopo de debug/telemetria viram `runtime_authored_tile_pixels_outside_debug`. Endereçamento de VRAM (`TILE_USER_INDEX`) e composicao de mapa (`VDP_setTileMapXY`, `VDP_fillTileMapRect`) com asset importado permanecem uso legitimo.
+- Grafico procedural e permitido apenas para telemetria, debug visual de elemento invisivel ao jogador e elemento transitorio de interface (barra de progresso simples). Nunca para personagem, inimigo, boss ou cenario.
+- `context_type: technical_demo` com intencao visual cumpre o mesmo gate de asset externo de `aaa_game`. A unica excecao e `validator_fixture: true` em `doc/project_context_manifest.json`, que em troca prende `delivery_claim_ceiling` em `none`, `concept`, `lab` ou `exercise` e nunca sustenta claim de entrega visual.
+- Enforcement: `tools/sgdk_wrapper/audit_procedural_asset_provenance.py`; contratos em `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json` e `asset_provenance_audit_report.schema.json`.
+- Cada projeto carrega a diretriz e seu estado medido em `doc/00-diretrizes-agente.md`, entre os marcadores `diretriz-bloqueio-estetico v1`. Agente que assume continuidade le esse bloco antes de tocar em arte; projeto novo herda o bloco do template `tools/sgdk_wrapper/modelo/`. Injecao e refresh idempotentes via `tools/sgdk_wrapper/apply_aesthetic_directive.py`, que falha com `--check` quando um projeto esta sem diretriz ou com medicao velha.
 - Arte premium so existe para o pipeline se estiver persistida em `data/source_art/` com `premium_source_manifest` e hash/timestamp. Imagem inline nao persistida e `generated_inline_pending_persistence`.
 - Benchmark tecnico nunca pode virar `source_art`; ele so orienta escala, densidade, timing, presenca, budget e qualidade. Thresholds e metodo de similaridade pertencem ao `benchmark_profile` e ao `authoriality_gate_report`, nao a uma regra global fixa.
 - `source_validity` passa antes de `source_to_rom_visual_match`. Fonte clone, benchmark-derived, sem autoria ou derivada sem autorizacao/licenca bloqueia a promocao mesmo que a imagem reduzida pareca parecida.
@@ -237,6 +256,9 @@ A credibilidade do espetaculo vem da consistencia visual. Para gerar ou instruir
 - Fallback procedural/debug/lab, `local_author_pixel_rasterization` ou `procedural_renderer` usados como asset final limitam `max_delivery_status` a `technical_lab_validated` e bloqueiam `creative_ready`.
 - Julgamento visual real bloqueia `visual_direction_failed` quando screenshot, contact sheet ou report indicar padrao repetitivo, painel textual, personagem generico, chuva estatica, mosaico debug ou asset procedural pobre.
 - Todo efeito precisa provar consequencia jogavel: rota muda, risco muda, timing muda, inimigo reage, camera comunica ou o jogador toma decisao diferente. Sem evidencia vira `gameplay_consequence_missing`.
+- Cena de marca sem gameplay (branding, title card, selo de autor) nao tem rota, risco nem decisao do jogador para a arte alterar. Nesse escopo — e somente nesse — o eixo de consequencia jogavel e substituido por `brand_comprehension_consequence`: cada decisao de arte precisa mudar o que o espectador entende sobre quem fez o jogo. Aprovado por curadoria humana em 2026-08-17. Cena jogavel continua obrigada ao eixo canonico; nunca use essa substituicao para escapar dele.
+- A substituicao so vale porque pode reprovar: toda tecnica declarada carrega `brand_comprehension_claim` com `brand_comprehension_negative_test` e `brand_comprehension_strength`, ou e classificada `enabling_discipline` (previne artefato, nao ensina nada ao espectador, isenta mas obrigatoria). Tecnica sem classificacao e espetaculo sem consequencia. Blockers: `brand_comprehension_missing`, `brand_comprehension_not_falsifiable`, `brand_comprehension_strength_undeclared`, `brand_comprehension_unjustified_technique`. Claim `weak` nao reprova, mas fica marcado e nao pode ser apresentado como forte no closeout.
+- Enforcement: `tools/sgdk_wrapper/validate_brand_comprehension_gate.py`. O validador prova que nenhuma tecnica passou sem justificativa; ele nao julga se o claim e verdadeiro, o que continua sendo decisao humana no gate visual contra screenshot e `visual_vdp_dump` reais.
 - Decision log precisa ser granular por eixo e decisao critica, com decisao, justificativa e evidencia; poucas linhas globais viram `decision_log_too_shallow`.
 - Cada eixo precisa de evidencia especifica: audio-sync exige timeline/cue report, particulas exigem movimento temporal observavel, level design exige rota jogavel, visual exige medicao real e animacao exige contratos/artefatos de movimento.
 
@@ -430,7 +452,7 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 - O agente deve priorizar mudanca significativa que ataque o blocker dominante.
 - Para projeto `aaa_game` novo, retomado ou reaberto com intencao visual, seguir `tools/sgdk_wrapper/.agent/workflows/visual-first-project-lifecycle.md` antes de expandir runtime definitivo.
 - Se o estado for `technical_runtime_creative_blocked`, `lab_evidence_not_delivery` ou `smoke_only`, nova ROM/build/screenshot so conta como progresso se remover ou reduzir blocker visual real: fonte premium, aprovacao humana, direcao arte-gameplay, conversao VDP, evidencia perceptual de movimento ou `visual_delivery_gate_report` canonico.
-- BLUE_CIRCUIT e referencia positiva de rota visual-first; Celestial Chase Revive e alerta canonico de runtime tecnico que nao substitui maturidade visual.
+- A rota visual-first exige direcao, fonte e gate humano antes do runtime de entrega; runtime tecnico com placeholder e apenas smoke e nao substitui maturidade visual.
 
 ## 17. Placeholder quarantine
 
@@ -439,7 +461,7 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 - Placeholder pode validar pipeline tecnico, paleta, ResComp, VRAM ou animacao, mas nao pode satisfazer `visual_direction_approved`.
 - HYBRIDO MUAY THAI usou geracao por PIL/ImageDraw; preservar aprendizado tecnico de PNG indexado/PLTE<=16/grid 9-bit, mas bloquear essa rota como solucao artistica final.
 - Bloqueio: `placeholder_promoted_to_aaa`.
-- Enforcement: `tools/sgdk_wrapper/audit_placeholder_quarantine.ps1`.
+- Enforcement: `tools/sgdk_wrapper/audit_placeholder_quarantine.ps1` detecta por tag/nome declarado; `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` mede a proveniencia real casando `.res` com builders. Arquivo com nome limpo produzido por `ImageDraw` passa pelo primeiro e reprova no segundo — rode os dois.
 
 ## 18. Qualidade tecnica vs qualidade artistica
 

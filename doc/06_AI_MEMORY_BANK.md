@@ -1,6 +1,6 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
-**Última atualização:** 2026-06-07
+**Última atualização:** 2026-07-30
 **Escopo:** Repositório MegaDrive_DEV (workspace global)
 **Projeto em foco:** Shadow Dancer Hamoopig, Pequeno Príncipe, engines SGDK 211, reorganização workspace, assimilação do engine scan pass 2
 
@@ -50,6 +50,21 @@
   - Obsidian e cockpit humano opcional; `.obsidian/` nao deve ser versionado
   - politica: `doc/GRAPHIFY_OBSIDIAN_POLICY.md`
 - `.cursor`, `.serena`, `.superpowers`, `.trae`, `.agents` e `.claude` agora apontam para o mesmo preparo de ambiente e para Graphify apenas via wrapper/pwsh.
+- Camada `ai-memory` integrada de forma complementar e controlada (2026-06-23):
+  - wrapper: `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1`
+  - politica: `doc/AI_MEMORY_POLICY.md`
+  - marcador raiz: `.ai-memory.toml` com `workspace = "sgdk_forge"` e `project = "workspace"`
+  - report: `out/logs/ai_memory_integration_report.json`
+  - `assert_agent_environment.ps1` agora prepara a camada junto do bootstrap comum
+  - `adopt_project_methodology.ps1` cria marcador `.ai-memory.toml` dentro do projeto quando possivel
+  - regra: ai-memory e consultivo, nao instala hooks/MCP globais automaticamente, nao roda bootstrap/auto-improve, nao substitui memory bank, learning ledger, Graphify, validators, changelog ou evidencia BlastEm
+  - auto-improvement deve permanecer pendente de revisao humana (`require_approval=true`) e scheduler deve ficar desabilitado durante piloto
+- Resiliencia de bootstrap Graphify (2026-06-23):
+  - `tools/sgdk_wrapper/graphify_forge.ps1` agora aceita `-GraphifyTimeoutSeconds`
+  - chamadas `build`, `update` e `query` executam `graphify` em processo controlado
+  - bloqueio de Windows App Control vira `graphify_start_failed` em vez de stack trace solto
+  - timeout vira `graphify_timeout` e nao deixa o agente esperando indefinidamente
+  - `prepare_agent_environment.ps1` repassa o timeout e registra `graphify.timeout_seconds` no report
 - `show_agent_menu.ps1` chama o guard de ambiente automaticamente, com opt-out explicito `SGDK_SKIP_AGENT_ENVIRONMENT_GUARD=1`.
 - A skill reaproveitavel `tiled-hybrid-parallax-curator` foi promovida para `tools/sgdk_wrapper/.agent/skills/art/` com contrato operacional e metadados OpenAI.
 - `.serena/project.yml` passou a indexar tambem Python, PowerShell, JSON e Markdown, mas ignora caches, SDK, emuladores e outputs pesados.
@@ -2052,3 +2067,567 @@ Limite factual: nenhuma ROM, asset, benchmark ou projeto foi promovido a AAA
 por esta curadoria. A mudanca fortalece o agente canonico e reduz diagnostico
 repetido, mas cada jogo ainda precisa evidencias proprias de fonte, VDP,
 BlastEm, animacao, audio, level design e aprovacao humana.
+## 47. Contrato canonico de traco autoral (2026-07-04)
+
+- Um style ID e referencias historicas nao bastam para impedir arte generica.
+- O catalogo `angular_cps2_fighter` agora carrega `authorial_line_contract` com
+  assinatura de linha, gramaticas de rosto/maos/materiais, assimetria e hooks
+  de silhueta.
+- `SGDK_GLOBAL.md`, `art-creator.md`, `art-director.md` e o quality bar vetam
+  claims AAA quando o contrato falta ou quando o resultado e competente mas
+  intercambiavel.
+- Projetos devem especializar o contrato global em um arquivo local e propagar
+  os mesmos campos aos prompts; adjetivos vagos e listas de referencias nao
+  substituem regras visuais operacionais.
+- Validacao aplicada em MARE_BRAVA com lote apenas `source_candidate`; nenhuma
+  ROM, budget VDP ou promocao para `res/` foi inferida.
+
+## 48. Diagnostico global de capacidade e backlog de correcao (2026-07-18)
+
+Status: `diagnostic_registered_no_runtime_promotion`.
+
+- diagnostico humano-operacional:
+  `doc/agent_learning/agent_capability_diagnostic_2026-07-18.md`;
+- backlog machine-readable:
+  `doc/agent_learning/agent_capability_remediation_backlog_2026-07-18.json`;
+- prompt executor persistente:
+  `doc/agent_learning/agent_remediation_execution_prompt_2026-07-18.md`;
+- classificacao atual do framework: `functional_with_human_supervision`;
+- claim ceiling global: `technical_vertical_slice_candidate`;
+- `ready_for_aaa=false`;
+- blocker dominante: o gate visual aceitou uma captura praticamente branca de
+  BLUE_CIRCUIT apesar de runtime parcial e metricas perceptuais zeradas;
+- regra nova de trabalho: corrigir primeiro a validacao semantica de evidencia
+  (`P0-001`) e depois reconciliar claims pelo menor status provado (`P0-002`);
+- o utilitario untracked `tools/image-tools/screenshot_integrity.py` detectou o
+  caso, mas continua apenas candidato a integracao ate review, testes e entrada
+  no fluxo canonico;
+- blockers adicionais: `jsonschema` ausente na sessao, 13 hashes lifecycle
+  divergentes, evidencias historicas/stale e ausencia de hardware real e
+  metricas de autonomia;
+- nenhum projeto, ROM, asset, tecnica ou claim AAA foi promovido por este
+  registro.
+
+Continuidade: agentes devem consumir o backlog JSON, selecionar um unico item
+`ready_for_assignment`, executar os acceptance checks e atualizar memoria e
+changelog sem exceder o menor gate comprovado.
+
+## 49. P0-001 — gate semantico de screenshot fechado (2026-07-18)
+
+Status: `framework_gate_validated_no_runtime_promotion`.
+
+- A captura canonica quase branca de BLUE_CIRCUIT agora falha com
+  `blank_or_low_information_capture`.
+- O report canônico registra SHA-256, dimensoes, `dominant_ratio`,
+  `edge_density`, decisao e impactos de claim.
+- Capturas escuras de Celestial Chase Revive e MUGEN permanecem validas no
+  gate de integridade; essa validade nao prova qualidade, gameplay ou
+  performance.
+- `capture_blastem_evidence.ps1`, `finalize_emulator_evidence.ps1`,
+  `scene_closeout_gate.ps1` e `validate_resources.ps1` consomem a mesma
+  decisao semantica.
+- Na validacao real de BLUE_CIRCUIT, `visual_gate_ready=false`,
+  `gameplay_rom_aprovada=false`, `blastem_gate=false`, gameplay e performance
+  ficaram `unproven`.
+- Regressao: Python 3/3, integracao PowerShell passou, closeout plan passou e
+  schemas passaram 81/81.
+- Evidencia:
+  `doc/agent_learning/p0_001_screenshot_semantic_remediation_report_2026-07-18.json`.
+- `P0-001=completed`; blocker dominante promovido para `P0-002`.
+- Nenhuma ROM, tecnica, asset, status de runtime ou claim AAA foi promovido.
+
+## 50. P0-002 — reconciliacao conservadora de claims (2026-07-18)
+
+Status: `framework_gate_validated_no_runtime_promotion`.
+
+- `reconcile_claims.py` aplica `lowest_proven_status_wins` aos reports de
+  validacao, entrega visual, admissao de runtime, metricas, emulador, gate de
+  screenshot e selagem de evidencia.
+- Gate bloqueado e claim positivo agora geram `report_status_conflict` e
+  forcam `ready_for_aaa=false`.
+- `capture_status=partial` força performance `unproven`.
+- Metricas perceptuais integralmente zeradas forcam `creative_ready=false`.
+- ROM e `evidence_session_id` ausentes ou divergentes recebem blockers
+  explicitos; reports de uma decisao positiva precisam compartilhar ambos.
+- BLUE_CIRCUIT foi reconciliado como bloqueado: `technical_ready=false`,
+  `creative_ready=false`, `ready_for_aaa=false`, performance `unproven`.
+- Regressao Python passou 4/4 e o report real passou pelo schema Draft 2020-12.
+- Evidencia:
+  `doc/agent_learning/p0_002_claim_reconciliation_report_2026-07-18.json`.
+- `P0-002=completed`; blocker dominante promovido para `P0-003`.
+- Nenhum runtime, ROM, tecnica ou claim AAA foi promovido.
+
+## 51. P0-003 — schemas reproduziveis no Linux (2026-07-18)
+
+Status: `framework_environment_validated_no_runtime_promotion`.
+
+- PowerShell 7.6.2, Temurin JRE 21.0.11+10 e dependencias Python possuem
+  provisionamento local ao workspace; os binarios externos usam SHA-256
+  fixado.
+- `jsonschema==4.25.1` e dependencias transitivas estao fixados com hashes em
+  `linux_python_requirements.lock`.
+- `ensure_linux_python_deps.sh` reconstruiu com sucesso um target limpo sem
+  instalacao global/manual.
+- `run_contract_gates_linux.sh` prepara PATH/PYTHONPATH e executa o runner
+  canonico; falha de dependencia produz blocker explicito.
+- Execucao schema: 84/84; gate art/gameplay complementar: 12/12;
+  `combined_status=passed`.
+- Evidencia:
+  `doc/agent_learning/p0_003_reproducible_schema_environment_report_2026-07-18.json`.
+- `P0-003=completed`; blocker dominante promovido para `P0-004`.
+- BlastEm ainda nao foi reexecutado nesta sessao e nenhum runtime foi
+  promovido.
+
+## 52. P0-004 — hashes lifecycle reconciliados (2026-07-19)
+
+Status: `framework_lifecycle_validated_no_runtime_promotion`.
+
+- Os 13 payloads legados foram comparados com o commit de introducao
+  `35dab34df2a8f12a577e9a30e0ab9f0092db0443` e permaneciam identicos, com
+  arvore de trabalho limpa; as divergencias foram classificadas como
+  `registry_obsolete_at_introduction`, nao como corrupcao.
+- O algoritmo canonico passou a usar caminhos relativos, ordem ordinal UTF-8,
+  normalizacao LF para texto e manifesto `path + NUL + sha256 + LF` em Python
+  e PowerShell.
+- O registry foi atualizado somente depois do report de review; o report
+  posterior classificou os 13 registros como `already_consistent`.
+- `validate_skill_framework.py` passou com 47 skills ativas e 13 legadas;
+  o auditor lifecycle passou sem erros e o teste de restauracao reversivel
+  tambem passou.
+- Evidencia:
+  `doc/agent_learning/p0_004_legacy_hash_reconciliation_report_2026-07-19.json`.
+- `P0-004=completed`; blocker dominante promovido para `P0-005`.
+- Nenhuma ROM, runtime, qualidade visual, performance ou claim AAA foi
+  promovido.
+
+## 53. P0-005 — bundle fresco da mesma sessao (2026-07-19)
+
+Status: `blastem_front_end_evidence_sealed_no_aaa_promotion`.
+
+- BlastEm Linux 0.6.2 foi provisionado pelo Flatpak oficial, fixado no commit
+  `c1f3f4435e9d009fa001322e26e73e785fe443fcedfae1f3187836685c602221`.
+- A sessao `blastem-linux-20260720T023600Z-152199` observou o front-end de
+  Celestial Chase Revive na ROM
+  `4c8302405accc7d414e2f29e0f77f3c4cdbac1f34f7d5760e5934ff48342d60e`.
+- ROM, screenshot, SRAM, dump VLAB e metricas carregam o mesmo `session_id`,
+  SHA-256 completo e timestamp; `freshness_report.status=ok`.
+- Screenshot 640x480 passou o P0-001 com `dominant_ratio=0.407383` e
+  `edge_density=0.080358`.
+- O closeout agora revalida hashes, sessao e ROM corrente; fixtures provam
+  bloqueio por stale, tamper e ROM divergente.
+- A janela mostrou 60.9 fps e o VLAB reuniu 900 amostras, mas performance
+  continua `unproven` porque esta captura isolada nao fecha uma janela
+  sustentada.
+- Mastering continua `mastering_needs_fix`: checksum/regiao/evidencia fresca
+  passam, enquanto validacao limpa e closeout do jogo nao passam.
+- Evidencia:
+  `doc/agent_learning/p0_005_fresh_same_session_evidence_report_2026-07-19.json`.
+- `P0-005=completed`; blocker dominante promovido para `P1-001`.
+- Nenhum claim de gameplay amplo, audio, performance estavel, qualidade
+  criativa ou AAA foi promovido.
+
+## 54. P1-001 — discovery de arte laboratorial aninhada (2026-07-19)
+
+Status: `framework_art_discovery_validated_no_runtime_promotion`.
+
+- `art_diagnostic.py` agora reconhece o cenario
+  `4_lab_nested_art_review` quando arte existe em `work/`, `analysis/`,
+  `evidence/`, entradas de `rascunho/` ou subprojeto SGDK aninhado.
+- O report separa `source_art`, `evidence_art`, `active_res_art`,
+  `lab_work_art`, `analysis_art` e artefatos gerados; captura de evidencia nao
+  e tratada como asset ativo.
+- O discovery fica confinado ao root, usa `followlinks=false` e ignora arquivos
+  e diretorios symlink; a regressao com alvo externo confirmou que nenhum
+  arquivo externo entrou no inventario.
+- A contagem de pixels usa `get_flattened_data` no Pillow atual e preserva
+  fallback para releases anteriores; `DeprecationWarning` promovido a erro nao
+  falhou.
+- A suite passou 46/46 checks.
+- O estudo MUGEN passou de `3_no_art`/exit 2 para
+  `4_lab_nested_art_review`/exit 0, com 90 artefatos visuais descobertos:
+  9 fontes, 3 evidencias, 5 recursos ativos e 73 imagens de trabalho; um
+  viewer SGDK aninhado com hygiene manifest foi identificado.
+- Evidencia:
+  `doc/agent_learning/p1_001_nested_lab_art_discovery_report_2026-07-19.json`.
+- `P1-001=completed`; blocker dominante promovido para `P1-002`.
+- O estudo continua `controlled_training_area`; nenhuma conversao, ROM,
+  qualidade visual, budget, runtime ou claim AAA foi promovido.
+
+## 55. P1-002 — pipeline musical XGM2 FM/PSG (2026-07-19)
+
+Status: `technical_complete_pending_external_human_audio_review`.
+
+- Celestial Chase visual benchmark substituiu o score PCM_CH1 por
+  `mus_chase_core`, XGM2 real com duas vozes YM2612 FM e pulso SN76489 PSG.
+- XGM2 passou a ser owner unico de FM/PSG; PCM_CH1 fica reservado, PCM_CH2
+  protege cues criticos e PCM_CH3 atende movimento/UI/pressao.
+- `validate_audio` passou com 1 musica, 9 SFX, zero issues e 0,96% do budget.
+- A ROM SGDK 2.11 foi buildada no container Linux recomendado pelo SGDK:
+  SHA-256 `8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450`.
+- Bundle atual `blastem-linux-20260720T032218Z-267076` passou frescor/hash;
+  AUD2 registrou 8 amostras music+SFX, 5/5 SFX aceitos e DMA wait maximo 0.
+- A captura WAV tem 24,064 s, sinal presente e nenhum clipping digital.
+- Warning conservador: 1 missed frame XGM2 em 1.363 frames; pico de carga 92.
+- Evidencia:
+  `doc/agent_learning/p1_002_xgm2_fm_psg_runtime_report_2026-07-19.json`.
+- O item nao foi marcado `completed`: a revisao auditiva humana continua
+  externa e pendente em `doc/human_audio_review_p1_002.md` do projeto.
+- O blocker dominante avanca para `P1-003`; nenhum claim AAA/release foi
+  promovido.
+
+## 56. P1-003 — performance em janela completa NTSC/PAL (2026-07-20)
+
+Status: `scene_3_performance_validated_in_blastem_windows`.
+
+- BLUE_CIRCUIT passou de 32 amostras parciais para 900 quadros NTSC ou 750
+  PAL, com flag explicita de conclusao e exportacao SRAM somente ao final.
+- A medicao de DMA ocorre depois de `SPR_update` e antes do VBlank; o VLAB foi
+  normalizado e o heartbeat pos-exportacao foi bloqueado para nao corromper a
+  serie selada.
+- ROM SGDK 2.11: SHA-256
+  `40b924f7895386458c7810204464fe47207c40b7f97d0c4585e840ee8d21bbf5`.
+- NTSC `blastem-linux-20260720T040940Z-424385`: 900/900, P95 44, max 44,
+  zero over-budget, titulo 61.0 fps.
+- PAL `blastem-linux-20260720T041233Z-435741`, forcado com `-r E`: 750/750,
+  P95 17, max 17, zero over-budget, titulo 50.3 fps.
+- Pico observado: 4 sprites ativos, 3/scanline, DMA 1 entrada/40 bytes.
+- Freshness passou em ambos os bundles; parser 10/10; screenshot e schemas
+  passaram.
+- Evidencia:
+  `doc/agent_learning/p1_003_full_window_performance_report_2026-07-20.json`.
+- `P1-003=completed`; blocker dominante promovido para `P1-004`.
+- O claim limita-se a cena 3 observada. Audio, outras cenas, hardware real,
+  FPGA, release e AAA nao foram promovidos.
+
+## 57. P1-004 — gate de hardware real ou FPGA (2026-07-20)
+
+Status: `technical_gate_complete_external_session_missing`.
+
+- Criados schema, validador e protocolo para sessao em console original ou
+  FPGA, com identidade de dispositivo/regiao/revisao, carga/firmware, ROM,
+  captura, decisoes de timing/audio e atestacao externa.
+- O validador compara a ROM corrente com o bundle BlastEm aprovado, verifica
+  hash/arquivo da captura e exige provas de boot, input, audio e gameplay.
+- Regressao passou 3/3: fixture aceita, pendente bloqueado e hash divergente
+  bloqueado.
+- O mastering da ROM `40b924f7...d21bbf5` confirmou 262144 bytes, alinhamento,
+  header JUE e checksum SGDK `sizebnd` `0x1527`.
+- A sessao real continua pendente; o agente nao preencheu dispositivo, video
+  nem atestacao humana.
+- Evidencia:
+  `doc/agent_learning/p1_004_hardware_gate_report_2026-07-20.json`.
+- `P1-004=blocked_external_hardware_evidence`; blocker executavel avanca para
+  `P1-005`.
+- Nenhum claim de hardware real, release ou AAA foi promovido.
+
+## 58. P1-005 — autonomia e intervencoes instrumentadas (2026-07-20)
+
+Status: `framework_process_metrics_validated`.
+
+- Criados schema, gravador atomico de eventos e derivador de metricas para
+  inicio, conclusao, bloqueio, retrabalho e intervencao humana.
+- Intervencoes aceitam somente categoria e reason code de allowlist; o gravador
+  nao possui campo de texto humano e fixa `sensitive_content_stored=false`.
+- A regressao passou 3 checks, incluindo rejeicao de intervencao sem categoria
+  e derivacao exata das taxas.
+- A sessao real registrou 9 eventos: 3 tarefas iniciadas, 2 concluidas, 1
+  bloqueada e 1 refeita; completion 0,6667 e first-attempt success 0,5.
+- Nao houve intervencao humana classificada na amostra real; a fixture cobre
+  `correction` sem conteudo sensivel.
+- Todo report fixa `quality_claim=unproven` e `ready_for_aaa=false`.
+- Evidencia:
+  `doc/agent_learning/p1_005_autonomy_instrumentation_report_2026-07-20.json`.
+- `P1-005=completed`; P1-006 continua bloqueado pelas dependencias externas e
+  o proximo item executavel e `P2-001`.
+
+## 59. Checkpoint de curadoria do aprendizado da remediacao (2026-07-20)
+
+Status: `captured_validated_pending_maturity`.
+
+- O responsavel humano autorizou registrar os aprendizados ja maduros e manter
+  os demais pontos em fila retomavel conforme novos insumos cumprirem seus
+  criterios de maturidade.
+- O checkpoint humano e machine-readable vive em:
+  - `doc/agent_learning/remediation_learning_curation_checkpoint_2026-07-20.md`;
+  - `doc/agent_learning/remediation_learning_curation_checkpoint_2026-07-20.json`.
+- O BLUE_CIRCUIT recebeu registros locais de falhas, sucessos, candidatos e
+  revisao de promocao em `doc/agent_learning/` do projeto; o ciclo Capture
+  consolidou 15 licoes e 10 candidatos no ledger.
+- Os cinco gaps procedurais foram deduplicados contra owners existentes; no
+  ledger final existem 6 propostas `patch_existing_owner`, todas
+  `not_applied`, e nenhuma proposta aplicada.
+- Validacao: schema passou, Audit posterior foi read-only e a regressao do
+  project learning loop passou 34/34.
+- Itens integrados e verificados: P0-001 a P0-005 e P1-001.
+- P1-003 possui prova runtime local forte, mas a generalizacao do probe exige
+  segunda cena/projeto e parametros em vez de constantes do BLUE_CIRCUIT.
+- P1-002 continua pendente de review auditivo humano; P1-004 continua pendente
+  de hardware/FPGA real; P1-005 possui instrumentacao validada com amostra
+  longitudinal ainda pequena.
+- P2-001 foi iniciado, mas nao fechado; P2-002 e P2-003 ainda nao foram
+  executados. A retomada conservadora comeca por P2-001.
+- Esta captura nao aplicou patch canonico novo, nao promoveu tecnica, ROM,
+  release ou `ready_for_aaa` e manteve
+  `canonical_promotion_performed=false`.
+
+## 60. Regra anti-falso-positivo para sprites e revalidacao (2026-07-24)
+
+Status: `framework_gate_added_projects_revalidated`.
+
+- Um strip que passa apenas dimensoes, paleta, index 0 e grid deve receber no
+  maximo `technical_pass`; isso nao autoriza `visual_pass`.
+- O novo `sprite_artifact_report.v2` e obrigatorio e mede clipping de borda,
+  ilhas soltas, anatomia, pivot, contato de pes e delta entre frames.
+- `validate_resources.ps1` rejeita report antigo, `visual_pass=false` ou
+  qualquer um dos seis controles ausente.
+- BLUE_CIRCUIT: strips antigos retraidos como
+  `technical_pass_visual_fail`; player v002 reconstruido em 24x32, 14 frames
+  sem findings, ROM `b2fbb1...e0b5` e bundle BlastEm fresco sem blockers.
+  A aprovacao e estritamente `sprite_visual_pass`, nao `ready_for_aaa`.
+- Celestial Chase Revive: Lio permanece `technical_pass_visual_fail` com 77
+  blockers. A ROM `a69050...d26` mostrou `ANIM_DAMAGE` real em rajada
+  BlastEm, mas a screenshot foi corretamente reprovada como
+  `blank_or_low_information_capture`.
+- Nunca converter compilacao, ResComp ou screenshot de boot em aprovacao de
+  anatomia/animacao. O claim deve citar o artefato exato e seu limite.
+
+## 61. Roteamento de compilacao SGDK por host e proveniencia LTO (2026-07-29)
+
+Status: `canonical_rule_implemented_and_locally_validated`.
+
+- A compilacao SGDK agora começa por
+  `tools/sgdk_wrapper/select_sgdk_build_route.py`, que registra host,
+  compilador, produtor/LTO de `libmd.a`, rota, blockers e teto de status em
+  `out/logs/sgdk_build_route_report.json`.
+- Linux usa exclusivamente
+  `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh --project-root <projeto>`:
+  staging isolado, executaveis SGDK via Wine e `libmd.a` reconstruida sem LTO
+  pelo compilador empacotado. O SDK canonico de origem nao e mutado.
+- Windows usa `tools/sgdk_wrapper/build.bat <projeto>`. Se a `libmd.a` contiver
+  LTO de major diferente do `gcc.exe`, o build fica bloqueado ate a biblioteca
+  ser restaurada ou reconstruida com o compilador empacotado. A bridge Linux
+  nao e workaround Windows.
+- Regra causal: ResComp e compilacao C aprovados seguidos de falha no link
+  mantem o diagnostico em `toolchain_wrapper`; o agente nao deve editar codigo
+  ou assets sem evidencia de erro nessas camadas.
+- A skill `sgdk-build-wrapper-operator`, seu metadata e o workflow
+  `production-diagnostic-triage` foram curados com a matriz Linux/Windows; o
+  `preflight_host.ps1` materializa e verifica automaticamente o report quando
+  recebe `ProjectRoot`.
+- Enforcement nas entradas: `build_sgdk_wine_bridge.sh` chama o seletor antes
+  do staging, e `build.bat` chama o preflight de rota antes do make. Projeto
+  com `ProjectRoot` e sem Python agora bloqueia, pois nao pode provar a rota.
+- Validacao no MARE_BRAVA: GCC 13.2.0 versus biblioteca canonica LTO 16.1.0;
+  staging GCC 13.2.0 sem LTO; ROM de 262144 bytes, SHA-256
+  `8ed8f28bde41cc4987718079f7584c6d90cbe1cad22a73f1b953857b367a434d`.
+- O resultado prova `buildado_emulator_pending`, nao
+  `testado_em_emulador`, gameplay, performance, audio, hardware ou AAA.
+
+## 62. Curadoria generica de arte, claims, bootstrap e Linux (2026-07-30)
+
+Status: `canonical_framework_rules_validated_with_synthetic_fixtures`.
+
+- O diagnostico de arte separa `source_art` de `active_res_art`. Defeitos em
+  concept, rascunho, contact sheet ou fonte nao referenciada roteiam conversao,
+  mas nao podem contaminar o veredito do grafo `.res` ativo.
+- Largura total de strip/sheet nao e tamanho de frame nem prova de metasprite.
+  O budget deve usar a celula declarada no `.res` e o report do artefato.
+- `sprite_artifact_report.v2` mantem os seis controles obrigatorios: clipping,
+  ilhas soltas, anatomia, pivot, contato de pes e delta entre frames. Passar
+  formato/paleta/grid sem passar esses controles resulta em
+  `technical_pass_visual_fail`.
+- O report tambem compara `required_actions` com os strips declarados. Toda
+  acao prometida para o slice precisa existir no `animation_state_plan`, no
+  artefato visual e no `runtime_animation_timing_map`; caso contrario, deve ser
+  implementada ou removida/reclassificada no contrato.
+- O closeout executa `audit_doc_sync.py`: ROM atual, memoria, changelog,
+  relatorios e claims devem convergir para o menor status comprovado. Historico
+  stale continua auditavel, mas nao pode agir como claim atual.
+- Projeto novo passa por `reset_new_project_state.ps1`: nenhuma ROM, hash,
+  snapshot, aprovacao ou evidencia do modelo e herdada. O nascimento declara
+  explicitamente `buildado: nao`, `testado_em_emulador: nao` e
+  `ready_for_aaa: false`.
+- No Linux, `new_project.sh` restaura o PATH nativo depois de carregar as
+  variaveis SGDK, impedindo que executaveis Wine substituam coreutils. O
+  companion de cenas e recompilado no projeto novo antes da higiene.
+- O bootstrap Python Linux fixa `jsonschema==4.25.1` e `pillow==12.3.0` com
+  hashes e confirma que ambas as distribuicoes foram carregadas do target
+  local do workspace, nao por acaso do Python global.
+- O wrapper Graphify trata `.agent` como diretorio oculto no Unix e compara
+  subpaths com o separador nativo da plataforma; workspace com espacos passou a
+  fechar `agent_environment_status=ready`.
+- Regressao canonica usa apenas fixtures sinteticas e cobre ownership de arte,
+  falso positivo visual, cobertura de acoes, screenshot semantico,
+  reconciliacao documental e roteamento de build. Projetos em amadurecimento
+  nao sao usados como fixture, baseline ou referencia ativa.
+- Limite factual: esta curadoria valida regras e infraestrutura do framework.
+  Nao valida ROM, gameplay, performance, audio, hardware real, release ou AAA
+  de qualquer jogo.
+
+## 63. Inventario transversal de capacidade grafica (2026-08-06)
+
+Status: `documentado_handoff_sem_promocao_canonica`.
+
+- A varredura recursiva de `SGDK_projects/` e `SGDK_Engines/` identificou 10
+  iniciativas graficas, 700 arquivos PNG/GIF/SVG e 166 licoes registradas;
+  `SGDK_Engines/` estava vazio.
+- O relatorio humano vive em
+  `doc/curation/GRAPHICS_CAPABILITY_REPORT_2026-08-06.md`, o inventario
+  machine-readable em
+  `doc/curation/graphics_capability_inventory_2026-08-06.json` e o painel em
+  `doc/curation/evidence/graphics_initiatives_board_2026-08-06.png`.
+- A convergencia mais forte e um pipeline de veto e refinamento: fonte forte,
+  model sheet, key poses, pixel nativo, artifact report, promocao controlada e
+  comparacao source/asset/BlastEm. Quantizacao e build continuam gates
+  tecnicos, nao aprovacao estetica.
+- MARE_BRAVA concentra a rota visual-first mais madura; BLUE_CIRCUIT consolidou
+  `technical_pass_visual_fail` e `sprite_artifact_report.v2`; Celestial Chase
+  visual benchmark consolidou compare-flat, matte gate e baseline seletiva;
+  Hibrido e MUGEN permanecem laboratorios com pendencias explicitadas.
+- As tentativas P1, P2, P3 e P4 do Kirby permanecem evidencia negativa. P4 foi
+  arquivada em
+  `data/archive/p4_2026-08-06_vector_master_anatomy_rejected/` porque limpeza
+  vetorial e conformidade flat nao compensaram anatomia/acting incorretos.
+- Este registro nao altera skills, schemas ou politica canonica e nao promove
+  projeto, asset, ferramenta, ROM, release ou status AAA.
+
+## 2026-08-17 — Diretriz de bloqueio estetico ganhou medicao
+
+Status: `documentado_bloqueio_sem_promocao`.
+
+- A proibicao de grafico procedural como personagem/inimigo/boss/cenario final ja
+  existia em `SGDK_GLOBAL.md` (8.2, 17, 22) e em cinco skills de arte, mas era
+  prosa: o unico detector estatico era `VDP_drawText >= 8 && SPR_addSprite == 0`, e
+  `audit_placeholder_quarantine.ps1` decidia por nome de arquivo e tag declarada.
+- Furo fechado: PNG desenhado por `PIL/ImageDraw` e salvo com nome limpo satisfazia
+  a letra de "consumir arquivo de imagem externo" e violava a diretriz inteira.
+- Contrato novo: `doc/asset_provenance_manifest.json` por projeto, um registro por
+  simbolo visual do `.res`, com `source_kind` e `acceptance_status`. Schema em
+  `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json`.
+- Enforcement novo: `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` casa
+  cada arquivo do `.res` com os builders que o escrevem; manifesto que declara
+  `hand_authored_pixel` para arquivo escrito por builder de primitivas e detectado
+  e bloqueado.
+- Baseline retroativa: 9 projetos auditados, 8 bloqueados, 136 simbolos visuais,
+  78 rastreados a builders de primitiva. Relatorio humano em
+  `doc/curation/ASSET_PROVENANCE_BASELINE_2026-08-17.md`, machine-readable em
+  `doc/curation/asset_provenance_baseline_2026-08-17.json`.
+- Nenhum projeto sustentava `ready_for_aaa=true`; nao houve selo a revogar. O efeito
+  retroativo recai nos tetos de claim (`vertical_slice` em 5, `technical_demo` em 2).
+- `[TECHDEMO]` e `[RELEASE]` entraram em `doc/PADRAO_NOMENCLATURA.md` com a regra
+  explicita de que a tag de pasta e rotulo humano: a autoridade executavel e
+  `context_type` / `delivery_claim_ceiling` / `validator_fixture` no
+  `project_context_manifest.json`.
+- Excecao nomeada: `validator_fixture: true` dispensa asset externo e em troca prende
+  `delivery_claim_ceiling` em `none`/`concept`/`lab`/`exercise`. FORGE_REFERENCE foi
+  o primeiro caso e teve o teto corrigido de `technical_demo` para `lab`.
+- Este registro nao promove projeto, asset, ROM, release ou status AAA.
+
+## 2026-08-17 (fase 2) — Diretriz estetica residente em cada projeto
+
+Status: `documentado_bloqueio_sem_promocao`.
+
+- A diretriz de bloqueio estetico agora mora dentro de cada projeto, em
+  `doc/00-diretrizes-agente.md` (autoridade #4), entre os marcadores
+  `diretriz-bloqueio-estetico v1`, com o estado medido daquele projeto e a lista
+  nominal dos simbolos escritos por builder de primitivas.
+- Injetada em 12 projetos e no template `tools/sgdk_wrapper/modelo/`, portanto
+  projeto novo nasce com a diretriz. `new_project.sh` e `new_project.bat` imprimem
+  a regra e o comando do auditor no bootstrap.
+- Ferramenta idempotente: `tools/sgdk_wrapper/apply_aesthetic_directive.py`;
+  `--check` retorna exit 1 se algum projeto estiver sem diretriz ou desatualizado.
+- Achado sistemico: `tools/image-tools/build_branding_intro_assets.py` desenha por
+  primitiva os 5 simbolos de branding e 8 projetos os consomem como finais. Todo
+  projeto que usa a intro herda 5 violacoes por default; corrigir na fonte resolve
+  os 8. Decisao de curadoria humana, nao tomada nesta sessao.
+- Achado: `SCENE_TILEMAP_CURATION_FIXTURE` nao tem
+  `doc/project_context_manifest.json`, logo nao pode declarar `validator_fixture`
+  nem teto de claim. Manifesto nao foi inventado; exige classificacao humana.
+- Este registro nao promove projeto, asset, ROM, release ou status AAA.
+
+## 2026-08-17 (fase 3) — Causa raiz do procedural e abertura v2
+
+Status: `documentado`.
+
+- Causa raiz encontrada: `doc/15-prompt-telas-assinatura.md`, o prompt mestre das
+  telas de assinatura, mandava o agente entregar fallback procedural ("voce nao pode
+  encerrar dizendo 'falta gerar assets' se ainda pode entregar a estrutura procedural
+  placeholder que compila"). Existia em 10 projetos. Os 78 simbolos procedurais
+  vieram de obediencia, nao de preguica.
+- Prompt do template reescrito como v2 com politica invertida; banner de revogacao
+  inserido nas 10 copias existentes sem alterar o corpo delas.
+- `branding_sequence_v2` autorado no template: conceito "A FORJA", tomada continua de
+  tres atos, 520 quadros NTSC, zero cortes a preto.
+- 28 tecnicas com `registry_id` conferido contra
+  `doc/05_technical/93_16bit_hardware_mastery_registry.json`; 4 rejeitadas com motivo.
+- Diagnostico medido do v1: 0 sprites de 80, 0 de 20 por scanline, PAL2/PAL3 ociosas,
+  nenhum H-Int, Shadow/Highlight nunca ligado — e ainda assim
+  `over_budget_frames: 1` e `cpu_load_max: 401`. O spike vem do upload de HScroll por
+  CPU e dos `VDP_drawImageEx` na troca de fase; o v2 nao tem troca de fase e usa DMA
+  no VBlank. Corrigir isso e o passo 1 da implementacao.
+- Fundamento no template: contrato v2, `inc/scenes/branding_v2.h`, 8 declaracoes `.res`
+  comentadas e prompt de handoff com portao humano depois do model sheet.
+- Nada foi buildado, implementado ou observado em emulador nesta fase.
+
+## 2026-08-17 (fase 4) — Direcao de arte da abertura v2 fechada
+
+Status: `documentado`.
+
+- `doc/branding_v2_art_direction.md` e `doc/art_direction_decision_record.json` no
+  template, com as 6 travas da Visual Quality Bar preenchidas antecipadamente. A
+  direcao esta fechada; o agente de arte preenche apenas campos `execution_*`.
+- Estilo primario `gothic_16bit_dark_fantasy`, secundario `vibrant_16bit_pixel` restrito
+  ao emissivo; `baroque_32bit_gothic_pixel` e `digicel_16bit_animation` rejeitados por
+  `vram_pressure_hint=high`. IDs conferidos contra `art_style_catalog.json`.
+- Decisao central: a forja ilumina de baixo. Plano superior em sombra, face inferior
+  iluminada, sombra subindo, contato com o piso como ponto mais quente. Sombra de metal
+  quente e fria, nunca cinza neutro.
+- Papel de indice de paleta e contrato, hex e seed. `PAL0[9..12]` fecha em ciclo para a
+  rotacao de CRAM; `PAL1[13..14]` fica abaixo do branco para o operador de highlight ter
+  para onde clarear.
+- Model sheet de 5 paineis em 512x384; painel E exige FX a 16x16 real.
+- PENDENCIA HUMANA: `trava_5_art_gameplay_direction_gate` com `needs_human_ruling`. Cena
+  de marca nao tem consequencia jogavel; proposta e `brand_comprehension_consequence`.
+
+## 2026-08-17 (fase 5) — trava_5 aplicada com eixo substituido
+
+Status: `documentado`.
+
+- `brand_comprehension_consequence` aprovado pela curadoria e aplicado. Escopo estrito:
+  cena de marca sem gameplay. Cena jogavel continua obrigada ao eixo canonico; a
+  substituicao nao e rota de fuga.
+- Regra falsificavel: toda tecnica carrega claim + teste negativo + strength, ou e
+  `enabling_discipline`. Tecnica sem classificacao reprova.
+- Enforcement novo: `tools/sgdk_wrapper/validate_brand_comprehension_gate.py`, com os
+  4 blockers `brand_comprehension_*`. Verificado nas duas direcoes: contrato real
+  exit 0, contrato adulterado exit 1 com os 4 codigos.
+- O gate achou problema real na primeira execucao: `xgm2_audio_architecture` sem
+  justificativa. Reclassificado como `enabling_discipline` porque o ID descreve
+  arquitetura de driver, nao afirmacao ao espectador.
+- 24 tecnicas: 15 comprehension_bearing, 9 enabling_discipline. Dois claims marcados
+  `weak` (`column_scrolling`, `expressive_text_presentation_system`) — exigem prova
+  perceptiva no runtime e nao podem ser vendidos como fortes no closeout.
+- Limite declarado: o validador prova que ninguem passou sem justificativa; nao julga se
+  o claim e verdadeiro. Isso segue humano, contra screenshot e visual_vdp_dump reais.
+
+## 2026-08-17 (fase 6) — Diretriz e gate aplicados nos projetos existentes
+
+Status: `documentado`.
+
+- Dois falsos verdes fechados ANTES de aplicar. Primeiro: o gate procurava tecnicas em
+  `acts` (v2) e os projetos usam `screens` (v1) ou um v3 divergente, entao reportaria OK
+  em 10 projetos sem julgar nada. Coleta virou varredura recursiva agnostica de formato,
+  e contrato ativo sem tecnica declarada virou blocker
+  `brand_comprehension_techniques_undeclared`.
+- Segundo: `apply_aesthetic_directive.py` descia so um nivel e deixava o viewer aninhado
+  em `_agent_training/[ESTUDO]_mugen_sff_showdown_v1/sgdk_viewer/showdown_viewer` sem
+  diretriz. Descoberta virou profundidade arbitraria; cobertura 12 -> 13 projetos.
+- Gate aplicado: 11 contratos, 10 bloqueados, 1 isento (BLUE_CIRCUIT declarou o contrato
+  de branding inativo porque foi substituido pela title screen propria).
+- Bloco de diretriz elevado a `diretriz-bloqueio-estetico v2` nos 13 projetos e no
+  template, substituindo o v1 sem duplicar, e agora carregando o eixo
+  `brand_comprehension_consequence` com escopo estrito.
+- A direcao criativa "A FORJA" NAO foi propagada: ficou so no template. BLUE_CIRCUIT e
+  SMOKE_TEST tem identidade de branding propria. Propagou-se a exigencia estrutural, nao
+  o conceito.
+- Higiene: `Celestial Chase Revive/doc/credits_contract.json` nao tem `contract_id`.

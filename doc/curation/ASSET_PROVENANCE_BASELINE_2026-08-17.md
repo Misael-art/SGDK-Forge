@@ -1,0 +1,328 @@
+# Baseline de proveniencia de asset — diretriz de bloqueio estetico
+
+Data: 2026-08-17
+Politica retroativa aprovada: **retroativo com auditoria**
+Excecao de fixture aprovada: **excecao nomeada por manifesto** (`validator_fixture`)
+Machine-readable: `doc/curation/asset_provenance_baseline_2026-08-17.json`
+Enforcement: `tools/sgdk_wrapper/audit_procedural_asset_provenance.py`
+
+Status: `documentado_bloqueio_sem_promocao`.
+
+## O que mudou
+
+A diretriz "nenhum grafico desenhado por codigo representa personagem, inimigo, boss ou
+cenario na compilacao final" **ja estava escrita** em `SGDK_GLOBAL.md` (8.2, 17, 22),
+`visual-excellence-standards`, `art-creation-sourcing`, `art-conversion-pipeline`,
+`image-generation-routing` e no pipeline `aaa_scene_v1.json`.
+
+Ela nao era medida. O unico detector estatico era `VDP_drawText >= 8 && SPR_addSprite == 0`
+em `validate_resources.ps1`, e `audit_placeholder_quarantine.ps1` decidia por
+**nome de arquivo e tag declarada** — um PNG desenhado por `ImageDraw` e salvo com nome
+limpo passava intacto.
+
+Essa curadoria fecha o furo com proveniencia declarada por simbolo do `.res`, auditada
+contra os builders que realmente escrevem cada arquivo.
+
+## Baseline medida
+
+| Projeto | Simbolos visuais | Rastreados a builder de primitivas | Veredito |
+|---|---|---|---|
+| BLUE_CIRCUIT | 9 | 0 | BLOCKED — proveniencia ausente |
+| Celestial Chase Revive | 11 | 0 | BLOCKED — proveniencia ausente |
+| Celestial Chase visual benchmark | 21 | **20** | BLOCKED — promocao procedural |
+| FORGE_REFERENCE | 0 | 0 | OK — `validator_fixture` |
+| GOTHAM_OVERDRIVE | 16 | 5 | BLOCKED — promocao procedural |
+| KIRBY_FAN GAME CLOUDE | 22 | **21** | BLOCKED — promocao procedural |
+| KIRBY_FAN GAME GROK BUILD | 26 | 5 | BLOCKED — promocao procedural |
+| MARE_BRAVA | 15 | **11** | BLOCKED — promocao procedural |
+| SMOKE_TEST | 16 | 16 | BLOCKED — promocao procedural |
+
+Total: 9 projetos auditados, 8 bloqueados, 136 simbolos visuais, **78 rastreados a
+builders que desenham por primitiva**.
+
+Nenhum projeto sustentava `ready_for_aaa=true` antes desta auditoria, portanto nao houve
+selo AAA a revogar. O efeito retroativo real e sobre os **tetos de claim**: cinco projetos
+declaram `vertical_slice` e dois `technical_demo` com arte cuja proveniencia agora esta
+formalmente bloqueada. Esses tetos ficam sem sustentacao ate re-autoria ou declaracao
+honesta de `placeholder`.
+
+## Leitura por caso
+
+- **MARE_BRAVA** — 7 dos 8 builders em `tools/art/` importam `ImageDraw`;
+  `build_taina_p0_locomotion_v01.py` tem 13 chamadas de primitiva. A heroina TAINA e os
+  backgrounds de CAIS_01 entram no `.res` como `final` sem marca de placeholder. Pela
+  Regra 17 esses assets deveriam estar em quarentena desde o commit `9c21683d`.
+- **SMOKE_TEST** — 16/16 simbolos procedurais. Coerente com a funcao de smoke, mas precisa
+  declarar `acceptance_status: placeholder` para ficar honesto em vez de silencioso.
+- **FORGE_REFERENCE** — unico OK. Passou a declarar `validator_fixture: true` e teve
+  `delivery_claim_ceiling` corrigido de `technical_demo` para `lab`: fixture nao pode
+  compilar sem asset externo **e** manter teto de entrega visual.
+
+## Rota de saida por projeto
+
+1. Criar `doc/asset_provenance_manifest.json` declarando cada simbolo do `.res`.
+2. Para asset desenhado por primitiva: `source_kind: procedural_primitive` +
+   `acceptance_status: placeholder`. Isso desbloqueia o gate e mantem o teto honesto.
+3. Para promover a `final`: re-autorar a arte por canal externo, ou persistir a fonte
+   autoral em `data/source_art/` e declarar `procedural_composed_from_authored` com hash —
+   codigo pode montar, recortar e paletizar arte autoral, nunca desenha-la.
+4. Rodar o auditor e anexar o report ao closeout.
+
+## Falsos positivos calibrados durante a curadoria
+
+O detector de runtime foi corrigido duas vezes antes de entrar; a primeira versao reprovava
+9/9 projetos por engano:
+
+- `TILE_USER_INDEX`, `VDP_setTileMapXY` e `VDP_fillTileMapRect` sao endereçamento de VRAM e
+  composicao de mapa de asset **importado** — nao contam como arte por codigo;
+- paleta autoral em C (`const u16 pal_x[16]` com literais de 4 digitos) e trabalho legitimo
+  de paleta — nao conta como tile art.
+
+O sinal aceito e estreito de proposito: `const u32` com >=16 literais de 8 digitos, que e a
+forma de pixel de tile no SGDK. Gate que grita em projeto saudavel e gate que sera ignorado.
+
+## Limites deste registro
+
+Nao promove projeto, asset, ROM, release ou status AAA. Nao altera skills de arte, pipeline
+`aaa_scene_v1.json` nem os validadores PowerShell existentes. Nao renomeia projeto legado.
+
+## Fase 2 — diretriz residente por projeto
+
+A diretriz deixou de depender de um agente lembrar de ler o workspace. Ela agora mora
+dentro de cada projeto, em `doc/00-diretrizes-agente.md` (autoridade #4 da hierarquia de
+verdade), entre os marcadores `diretriz-bloqueio-estetico v1`, e carrega o **estado medido
+daquele projeto**: contagem de simbolos, quantos vem de builder de primitivas, blockers
+ativos e a lista nominal dos simbolos com o builder que escreve cada um.
+
+- Injetado em 12 projetos (9 de topo + 3 subprojetos de treino/laboratorio).
+- Injetado no template `tools/sgdk_wrapper/modelo/doc/00-diretrizes-agente.md` sem bloco de
+  medicao, portanto **todo projeto novo nasce com a diretriz**.
+- `new_project.sh` e `new_project.bat` imprimem a diretriz e o comando do auditor no
+  bootstrap.
+- Ferramenta idempotente: `tools/sgdk_wrapper/apply_aesthetic_directive.py`. Com `--check`
+  retorna exit 1 quando um projeto esta sem diretriz ou com medicao velha — serve de gate
+  de CI local.
+- Insercao verificada como aditiva: 82 linhas adicionadas e 0 removidas em MARE_BRAVA,
+  nenhum conteudo pre-existente alterado.
+
+### Achado sistemico: o branding compartilhado e procedural
+
+`tools/image-tools/build_branding_intro_assets.py` desenha por primitiva os 5 simbolos de
+branding (`img_brand_fx_tiles`, `img_brand_engine_logo`, `img_brand_author_logo`,
+`img_brand_project_logo`, `img_brand_presents_text`) e **8 projetos consomem esses
+simbolos como finais**. Isso significa que qualquer projeto que use a intro de branding
+herda 5 violacoes por default, sem ter escrito uma linha de builder.
+
+Corrigir na fonte resolve os 8 de uma vez: re-autorar o logo da engine, o logo do autor e
+o texto de apresentacao como arte externa, ou declarar os 5 como `placeholder` no manifesto
+de cada projeto enquanto a arte definitiva nao existir. Esta decisao e de curadoria humana
+e nao foi tomada aqui.
+
+### Achado: fixture sem manifesto de contexto
+
+`SGDK_projects/_agent_laboratory/SCENE_TILEMAP_CURATION_FIXTURE [...]` se chama fixture,
+tem 6 simbolos visuais (5 procedurais de branding) e **nao possui
+`doc/project_context_manifest.json`** — portanto nao pode declarar `validator_fixture`,
+nem `context_type`, nem teto de claim. Nao inventei o manifesto: ele exige classificacao
+humana. Enquanto nao existir, o projeto fica bloqueado como qualquer outro.
+
+## Fase 3 — causa raiz encontrada e abertura v2 fundamentada
+
+### A causa raiz nao era o agente, era o prompt
+
+`doc/15-prompt-telas-assinatura.md`, o prompt mestre das telas de assinatura, instruia
+literalmente: *"voce nao pode encerrar dizendo 'falta gerar assets' se ainda pode entregar a
+estrutura procedural placeholder que compila"*, alem de *"mantenha o fallback procedural"*.
+
+Os 78 simbolos procedurais nao vieram de preguica de agente. Vieram de obediencia a uma
+instrucao canonica. O documento existia em **10 projetos**, contradizendo diretamente a
+diretriz instalada na fase 2 nos mesmos projetos.
+
+- Prompt do template reescrito como v2, com a politica invertida: encerrar com o blocker de
+  arte nomeado passou a ser entrega honesta, e renderer procedural deixou de ser rota de
+  saida.
+- Banner de revogacao inserido nas 10 copias existentes (20 linhas adicionadas, 0 removidas
+  por copia; as 2 copias com conteudo divergente foram preservadas intactas).
+
+### Abertura de assinatura v2: `branding_sequence_v2`
+
+O contrato v1 ja se autodenunciava com o blocker
+`visual_aesthetic_report_has_rework_for_existing_author_logo_until_art_pass`. A medicao
+confirma que nao era so a arte:
+
+| Eixo | v1 medido | Leitura |
+|---|---|---|
+| Sprites | `sprite_engine_peak: 0` de 80 | hardware de sprite 100% ocioso |
+| Scanline | `max_scanline_sprites: 0` de 20 | idem |
+| Paletas | PAL2 e PAL3 ociosas | 32 de 64 entradas de CRAM paradas |
+| H-Int | nenhum | sem gradiente alem de 61 cores |
+| Shadow/Highlight | nunca ligado | unico operador de luz do MD sem uso |
+| Line scroll | amplitude 2 por 36 quadros | assinatura do MD usada e desligada |
+| CPU | `over_budget_frames: 1`, `cpu_load_max: 401` | estouro com zero sprites |
+
+O spike de CPU com hardware ocioso aponta o upload da tabela de HScroll por CPU e os
+`VDP_drawImageEx` no caminho de troca de fase. Como o v2 e uma tomada continua sem trocas de
+fase e envia a tabela por DMA no VBlank, corrigir isso e o passo 1 da implementacao.
+
+Conceito: **"A FORJA"** — tomada unica, tres atos, zero cortes a preto. Uma brasa cai, o
+martelo bate, o impacto forja a marca em metal incandescente. A metafora existe para dar
+funcao mecanica aos pontos fortes do VDP: emissividade por Shadow/Highlight, metal liquido
+por rotacao de CRAM, ar quente por line scroll, estilhaços por multiplexacao de sprites.
+
+- 28 tecnicas declaradas, **todas com `registry_id` conferido contra
+  `doc/05_technical/93_16bit_hardware_mastery_registry.json`** — zero ID inventado.
+- 4 tecnicas rejeitadas com motivo declarado (`interlaced_448_display_mode`,
+  `procedural_raster_glitch_suite`, `pseudo3d_road_stack`, `software_affine_pseudo3d`).
+- As 4 paletas ocupadas, com folga de highlight reservada em PAL1[13..14] por
+  `shadow_highlight_slot_rule` — sem essa folga a varredura especular do ato 2 nao existe.
+- Truque de orcamento: o enxame de 32 estilhaços usa 1 sprite de 4 quadros com flip H/V
+  (`tile_flipping` + `tile_dedup_hvflip_hashing`), gerando 16 orientacoes com **zero DMA de
+  tile de sprite por quadro**.
+- Todo numero de orcamento marcado `measurement_level: estimated`, exigindo
+  `res_graph_report`, `vdp_scanline_simulator.py` e `visual_vdp_dump.bin`. O workspace se
+  recusa a fixar teto de DMA por decreto e o contrato respeita isso.
+
+Fundamento entregue no template: contrato v2, `inc/scenes/branding_v2.h` com a linha do
+tempo e o mapa de posse do H-Int, bloco de 8 declaracoes `.res` comentadas com dimensoes e
+paleta por asset, e o prompt de handoff com portao de aprovacao humana apos o model sheet.
+
+**Status: `documentado`.** A arte v2 nao existe, o runtime v2 nao esta implementado, nada foi
+buildado nem observado em emulador.
+
+## Fase 4 — direcao de arte da abertura v2
+
+`doc/branding_v2_art_direction.md` e `doc/art_direction_decision_record.json` autorados no
+template. A direcao esta FECHADA: o agente de arte executa e preenche apenas campos
+`execution_*`, sem inventar direcao.
+
+- As 6 travas da Visual Quality Bar preenchidas antecipadamente.
+- Estilo primario `gothic_16bit_dark_fantasy` (lighting_model "torchlit hard highlights" e
+  palette_signature com "gold highlights, cool shadows" descrevem literalmente uma forja;
+  `mega_drive_compatibility=native`, `vram_pressure_hint=medium`); secundario
+  `vibrant_16bit_pixel` restrito a rampa emissiva. Rejeitados
+  `baroque_32bit_gothic_pixel` e `digicel_16bit_animation` por `vram_pressure_hint=high`.
+  Os 4 IDs conferidos contra `art_style_catalog.json` — nenhum inventado.
+- Decisao central de direcao: **a forja ilumina de baixo**. Plano superior em sombra, face
+  inferior iluminada, sombra subindo pela parede, contato com o piso como ponto mais quente
+  da imagem. Asset legivel como iluminado de cima reprova por definicao.
+- Papel de indice de paleta travado como contrato (o runtime depende dele), hex como seed
+  ajustavel. Duas travas criticas: `PAL0[9..12]` precisa fechar em ciclo porque o runtime
+  rotaciona em CRAM, e `PAL1[13..14]` precisa ficar abaixo do branco maximo senao a
+  varredura especular do ato 2 nao existe.
+- Model sheet especificado em 5 paineis (512x384), cada um provando uma decisao herdavel.
+  Painel E exige brasa e estilhaco a 16x16 real, nao ampliados.
+
+### Pendencia que exige decisao humana
+
+`trava_5_art_gameplay_direction_gate` esta com `needs_human_ruling`. A cena nao tem gameplay:
+nao existe rota, risco, timing de inimigo ou decisao do jogador para a arte alterar, e o eixo
+de consequencia jogavel nao pode ser preenchido com invencao. A proposta e substituir por
+`brand_comprehension_consequence`. Sem decisao do curador, o blocker
+`art_gameplay_direction_gate_axis_undeclared` fica aberto no closeout.
+
+## Fase 5 — trava_5 aplicada: `brand_comprehension_consequence`
+
+Eixo aprovado pela curadoria humana em 2026-08-17 e aplicado. Escopo estrito: cena de marca
+sem gameplay (branding, title card, selo de autor). **Cena jogavel continua obrigada ao eixo
+canonico de consequencia jogavel** — a substituicao nao e rota de fuga.
+
+Definicao: cada decisao de arte precisa mudar o que o espectador entende sobre quem fez o jogo.
+
+### Por que ela pode reprovar
+
+Um eixo aprovado que nao reprova nada e decoracao — exatamente o padrao que esta curadoria
+passou a sessao fechando. A substituicao so e legitima porque e falsificavel:
+
+- toda tecnica carrega `brand_comprehension_claim` + `brand_comprehension_negative_test` +
+  `brand_comprehension_strength`; ou
+- e classificada `enabling_discipline` (previne artefato, nao ensina nada ao espectador,
+  isenta mas obrigatoria);
+- tecnica que nao e nem um nem outro e espetaculo sem consequencia e reprova.
+
+Enforcement: `tools/sgdk_wrapper/validate_brand_comprehension_gate.py`. Blockers:
+`brand_comprehension_missing`, `brand_comprehension_not_falsifiable`,
+`brand_comprehension_strength_undeclared`, `brand_comprehension_unjustified_technique`.
+
+### O gate encontrou um problema na primeira execucao
+
+`xgm2_audio_architecture` estava declarado como tecnica do ato 2 com funcao "cauda de reverb e
+acento metalico" e ficou sem justificativa. Julgamento: o registry_id descreve **arquitetura de
+driver**, nao uma afirmacao ao espectador; a funcao declarada confundia encanamento com
+conteudo. Reclassificado como `enabling_discipline`, com o claim espacial da cauda de reverb
+realocado para `audio_contract.new_cue_map`.
+
+Resultado final: 24 tecnicas auditadas, 15 comprehension_bearing, 9 enabling_discipline,
+veredito OK.
+
+### Dois claims marcados como fracos, nao escondidos
+
+- `column_scrolling` — a cortina por coluna carrega continuidade, mas um fade tambem
+  preservaria continuidade; o ganho e de carater, nao estrutural;
+- `expressive_text_presentation_system` — timing de respiracao dos wordmarks nao quebra nada
+  visivelmente se for arbitrario, o que expoe o risco de virar decoracao.
+
+Ambos exigem prova perceptiva no runtime e **nao podem ser apresentados como fortes no
+closeout**.
+
+### Limite declarado da automacao
+
+O validador prova que nenhuma tecnica passou sem justificativa. Ele nao julga se o claim e
+verdadeiro: isso permanece decisao humana no gate visual, contra screenshot e
+`visual_vdp_dump` reais. Automatizar julgamento subjetivo seria recriar o falso verde.
+
+## Fase 6 — diretriz e gate aplicados nos projetos existentes
+
+### Dois falsos verdes fechados antes de aplicar
+
+**1. O gate passava contratos vazios.** O validador procurava tecnicas em `acts` (formato v2).
+Os projetos existentes usam `screens` (v1) e um usa um v3 divergente — nenhum declara tecnica
+com `registry_id`. Aplicado como estava, o gate reportaria OK em 10 projetos sem julgar nada.
+Corrigido: a coleta virou varredura recursiva, agnostica de formato, e contrato de cena de
+marca **ativo sem nenhuma tecnica declarada** agora e blocker
+`brand_comprehension_techniques_undeclared`. Ausencia de declaracao nao e aprovacao.
+
+**2. Um subprojeto ficava fora da varredura.** `apply_aesthetic_directive.py` descia um nivel
+em containers, entao o viewer SGDK aninhado em
+`_agent_training/[ESTUDO]_mugen_sff_showdown_v1/sgdk_viewer/showdown_viewer` — que tem `doc/`,
+`res/` e `src/` proprios — nunca recebia a diretriz. Descoberta trocada por profundidade
+arbitraria. Cobertura foi de 12 para **13 projetos**.
+
+### Estado apos aplicar
+
+Gate de compreensao de marca, 11 contratos:
+
+| Projeto | Contrato | Estado | Veredito |
+|---|---|---|---|
+| BLUE_CIRCUIT | `branding_sequence_legacy_template_inactive` | inactive | **OK — isento declarado** |
+| Celestial Chase Revive | `credits_contract.json` (sem `contract_id`) | active | BLOCKED |
+| Celestial Chase visual benchmark | `branding_sequence_v1` | active | BLOCKED |
+| FORGE_REFERENCE | `branding_sequence_v1` | active | BLOCKED |
+| GOTHAM_OVERDRIVE | `branding_sequence_v1` | active | BLOCKED |
+| KIRBY_FAN CLOUDE | `branding_sequence_v1` | active | BLOCKED |
+| KIRBY_FAN GROK BUILD | `branding_sequence_v1` | active | BLOCKED |
+| MARE_BRAVA | `branding_sequence_v1` | active | BLOCKED |
+| SMOKE_TEST | `branding_sequence_v3` | active | BLOCKED |
+| SCENE_TILEMAP_CURATION_FIXTURE | `branding_sequence_v1` | active | BLOCKED |
+| showdown_viewer (aninhado) | `branding_sequence_v1` | active | BLOCKED |
+
+**10 de 11 bloqueados, 1 isento.** O unico OK e o BLUE_CIRCUIT, que declarou seu contrato de
+branding inativo porque foi substituido pela title screen propria — isencao registrada como
+`exempt_inactive_contract`, com a nota de que a cena de marca ativa dele precisa ser gateada
+onde ela realmente vive.
+
+Diretriz estetica: bloco elevado para `diretriz-bloqueio-estetico v2` nos 13 projetos e no
+template, substituindo o v1 em vez de duplicar. O bloco agora carrega tambem o eixo
+`brand_comprehension_consequence`, com o escopo estrito e o comando do gate.
+
+### O que NAO foi propagado, de proposito
+
+A direcao criativa "A FORJA" ficou **so no template**. Impor o conceito de forja a 10 projetos
+existentes seria overreach de curadoria: BLUE_CIRCUIT ja substituiu o branding pela title
+screen propria e o SMOKE_TEST tem um `branding_sequence_v3` com conceito autoral. O que foi
+propagado e a **exigencia estrutural** — declarar claim com teste negativo para a marca que
+cada projeto ja tem — nao o conceito.
+
+### Achado de higiene
+
+`Celestial Chase Revive/doc/credits_contract.json` nao tem campo `contract_id`. Passou pelo
+gate como `None`. Nao inventei um id: quem conhece o projeto declara.

@@ -86,6 +86,13 @@ if ERRORLEVEL 1 (
     exit /b 1
 )
 
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0reset_new_project_state.ps1" -ProjectRoot "%TARGET_DIR%" -ConfirmNewProjectSeed
+if ERRORLEVEL 1 (
+    echo [ERROR] Failed to reset inherited runtime/history state.
+    if "%CREATED_TARGET%"=="1" if exist "%TARGET_DIR%" rmdir /S /Q "%TARGET_DIR%"
+    exit /b 1
+)
+
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0adopt_project_methodology.ps1" -ProjectRoot "%TARGET_DIR%" -Lifecycle new
 if ERRORLEVEL 1 (
     echo [ERROR] Failed to materialize project methodology manifests.
@@ -131,6 +138,12 @@ echo   14. Run build.bat to verify the canonical wrapper pipeline.
 echo   15. Vibe Playable seed installed: blocked_no_premium_source.
 echo   16. No approval, ROM, screenshot, SRAM, VDP dump or runtime panel was created by this bootstrap.
 echo   17. Next visual gates: premium source -^> human asset approval -^> VDP conversion -^> build -^> BlastEm evidence.
+echo.
+echo DIRETRIZ DE BLOQUEIO ESTETICO (ja em doc/00-diretrizes-agente.md):
+echo   - nenhum pixel de personagem, inimigo, boss ou cenario pode nascer de codigo;
+echo   - primitiva/ImageDraw serve apenas para telemetria, debug visual e UI transitoria;
+echo   - todo simbolo visual do .res exige registro em doc/asset_provenance_manifest.json;
+echo   - auditor: python3 ..\..\tools\sgdk_wrapper\audit_procedural_asset_provenance.py --project-root "%%CD%%" --shared-builder-root ..\..\tools\image-tools
 echo.
 echo REGRA DE OURO: sempre atualize a documentacao quando a verdade do projeto mudar.
 

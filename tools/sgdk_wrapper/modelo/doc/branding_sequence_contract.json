@@ -41,7 +41,9 @@
     "why_this_concept": "A metafora da forja e a desculpa mecanica perfeita para os pontos fortes reais do VDP: emissividade por Shadow/Highlight, metal liquido por rotacao de CRAM, ar quente por line scroll, estilha\u00e7os por multiplexacao de sprites e um impacto pesado por FM + DAC. A marca nao e apresentada, ela e fabricada na frente do jogador.",
     "continuity_rule": "Zero cortes a preto. Os tres atos sao uma tomada continua; a transicao entre atos e feita por luz, scroll e paleta, nunca por VDP_clearPlane.",
     "escalation_rule": "Cada ato adiciona uma camada de hardware. O ato 1 estabelece luz, o ato 2 adiciona sprites e Shadow/Highlight, o ato 3 adiciona scroll por coluna. A abertura e, ela mesma, a demonstracao.",
-    "authoriality": "Referencias de mesma geracao servem como ancora tecnica de direcao de luz, densidade e timing. Nenhum nome de estudio, jogo, artista ou IP pode virar prompt de copia; exige authoriality_gate_report."
+    "authoriality": "Referencias de mesma geracao servem como ancora tecnica de direcao de luz, densidade e timing. Nenhum nome de estudio, jogo, artista ou IP pode virar prompt de copia; exige authoriality_gate_report.",
+    "scene_conception_doc": "doc/branding_v2_scene_conception.md",
+    "cinematic_storyboard": "doc/branding_v2_cinematic_storyboard.json"
   },
   "acts": [
     {
@@ -403,7 +405,8 @@
         "tiles": "40x28",
         "palette": "PAL0",
         "role": "interior da forja, escuro, piso lavado por brasa",
-        "act": 1
+        "act": 1,
+        "composition_constraint": "as 48 scanlines inferiores sofrem cisalhamento por linha no ato 2: material continuo, sem detalhe fino nem aresta que dependa de alinhamento horizontal"
       },
       {
         "res_symbol": "img_forge_bg_a_props",
@@ -411,7 +414,7 @@
         "path": "branding/forge_bg_a_props_320x224.png",
         "tiles": "40x28",
         "palette": "PAL0",
-        "role": "bigorna, martelo e ferramentas em foreground com priority split",
+        "role": "bigorna e ferramentas em foreground com priority split; MARTELO REMOVIDO, ele virou sprite",
         "act": 1
       },
       {
@@ -419,10 +422,21 @@
         "res_kind": "SPRITE",
         "path": "branding/spr_forge_ember_16x16_strip.png",
         "tiles": "2x2",
-        "frames": 4,
+        "frames": 6,
         "palette": "PAL3",
-        "role": "brasa que cai, com mascara de highlight",
+        "role": "brasa que cai com mascara de highlight; 4 quadros de rotacao em queda + 1 de esmagamento no contato + 1 de assentamento",
         "act": 1
+      },
+      {
+        "res_symbol": "spr_forge_hammer",
+        "res_kind": "SPRITE",
+        "path": "branding/spr_forge_hammer_48x48_strip.png",
+        "tiles": "6x6",
+        "frames": 6,
+        "palette": "PAL1",
+        "role": "martelo que sobe em F96-120 e bate em F120; repouso, recuo, 2 intermediarios de descida, contato, retorno",
+        "act": 1,
+        "budget_blocker": "6 quadros de 36 tiles = 216 tiles residentes. Decidir entre reduzir quadros, reduzir para 40x40 ou fazer streaming ANTES de autorar; a decisao muda o desenho e exige res_graph_report real."
       },
       {
         "res_symbol": "spr_forge_shard",
@@ -441,7 +455,8 @@
         "tiles": "28x8",
         "palette": "PAL1",
         "role": "wordmark da engine em metal, rampa com folga de highlight",
-        "act": 2
+        "act": 2,
+        "non_negotiable": "degrau de luz em PAL1[13..14] com canal <= 0xCC na aresta inferior das hastes; sem ele a varredura especular do ato 2 nao existe"
       },
       {
         "res_symbol": "img_logo_author_v2",
@@ -494,6 +509,12 @@
       ],
       "complements": "art_diagnostic.py cobre formato tecnico; art_quality_gate.py cobre qualidade artistica",
       "limit": "nenhum check julga se a luz esta correta; direcao de luz e aprovacao humana"
+    },
+    "choreography_revision": {
+      "reason": "A concepcao de cena invalidou parte desta lista: objeto que se move nao pode viver dentro de imagem estatica de fundo.",
+      "authority": "doc/branding_v2_cinematic_storyboard.json#asset_contract_deltas",
+      "asset_count_before": 8,
+      "asset_count_after": 9
     }
   },
   "audio_contract": {
@@ -561,7 +582,8 @@
       "screenshot dedicada do BlastEm por ato, nao apenas uma da sequencia",
       "visual_vdp_dump.bin (o v1 esta com visual_vdp_dump_status=missing)",
       "runtime_metrics.json com over_budget_frames=0",
-      "doc/brand_comprehension_gate_report.json sem blockers, gerado por validate_brand_comprehension_gate.py"
+      "doc/brand_comprehension_gate_report.json sem blockers, gerado por validate_brand_comprehension_gate.py",
+      "sprite_scanline_pressure_report do pior quadro do ato 2 (F150-180, pico estimado 33 sprites)"
     ]
   },
   "promotion_rules": [
@@ -570,7 +592,8 @@
     "arte v2 exige model sheet aprovado antes do pacote de assets",
     "claim de scanline exige o simulador, nunca SPR_getUsedVDPSprite",
     "abertura sem visual_vdp_dump.bin nao fecha gate visual",
-    "claim marcado weak (column_scrolling, expressive_text_presentation_system) nao pode ser apresentado como forte no closeout e exige prova perceptiva no runtime"
+    "claim marcado weak (column_scrolling, expressive_text_presentation_system) nao pode ser apresentado como forte no closeout e exige prova perceptiva no runtime",
+    "o orcamento de VRAM do spr_forge_hammer precisa de res_graph_report antes de liberar a arte"
   ],
   "brand_comprehension_gate": {
     "axis": "brand_comprehension_consequence",

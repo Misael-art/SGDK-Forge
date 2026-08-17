@@ -460,3 +460,44 @@ precisa entrar na producao do asset final. Isso nao e refinamento, e a existenci
 
 Parede modular, rotulos apertados do painel C e entalhe do estilhaco viram arrasto de
 producao dos assets, nao uma terceira folha. Aprovacao final e do curador humano.
+
+## Fase 10 — concepcao de cena, e o que ela quebrou no contrato de assets
+
+O curador barrou a liberacao dos 8 assets com a observacao certa: **asset nao e cena**. O
+fundamento dizia quais tecnicas e quais arquivos, mas nao dizia o que se move, para onde, em
+quanto tempo e com que peso — e a spec dos assets depende disso.
+
+Autorado em `doc/branding_v2_scene_conception.md` (leitura humana) e
+`doc/branding_v2_cinematic_storyboard.json`, instancia conforme
+`cinematic_storyboard_contract.schema.json`, `status_ceiling: planning_only`. Todos os campos
+obrigatorios do schema conferidos.
+
+### A coreografia invalidou o contrato de assets
+
+Escrever o movimento expos que a lista de 8 estava errada:
+
+- **`spr_forge_hammer` e asset NOVO.** O contrato punha o martelo dentro de
+  `img_forge_bg_a_props`, uma imagem estatica. Mas o martelo sobe em F96-120 e bate em F120.
+  Imagem estatica nao bate. Strip de 6 quadros, 48x48.
+- **`img_forge_bg_a_props` perde o martelo**, que virou sprite.
+- **`spr_forge_ember` vai de 4 para 6 quadros.** A brasa pousa na bigorna em F96; sem quadro
+  de esmagamento e assentamento ela para no ar.
+- **`img_forge_bg_b` ganha restricao de composicao.** As 48 scanlines inferiores sofrem
+  cisalhamento por linha no ato 2, entao detalhe fino ou aresta que dependa de alinhamento
+  horizontal quebra ali.
+- **`img_logo_engine_v2` formaliza o degrau de luz** em `PAL1[13..14]` como nao negociavel: e
+  sobre ele que a varredura especular corre.
+
+Contagem de 8 para 9.
+
+### Pendencia de orcamento que precede a arte
+
+`spr_forge_hammer` a 6 quadros de 48x48 pesa 216 tiles residentes. Reduzir quadros, reduzir
+para 40x40 ou fazer streaming sao decisoes que **mudam o que o artista desenha**, e nenhuma
+delas e decisao de arte. Precisa de `res_graph_report` real antes de liberar a producao.
+
+### O que faz isto ser cena
+
+Tres regras estruturais verificaveis: tomada continua sem `VDP_clearPlane`; escalada de camada
+de hardware por ato; consequencia fisica em todo efeito. Momento de assinatura em F120, quando
+o impacto lanca 32 estilhacos que voltam e se montam no logo — a marca e forjada, nao exibida.

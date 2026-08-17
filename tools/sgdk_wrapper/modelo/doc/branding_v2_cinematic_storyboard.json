@@ -158,7 +158,28 @@
           "pixel_budget_per_line": "288/320 em H40",
           "logo_y0": 64,
           "reconciliation_note": "O contrato declarava 56 estilhacos com 18/20 medidos. O runtime entregue usa 32 com stagger 4 e logo em y=64. Re-medido: 16/20 e 256/320. A reducao para 32 veio da pressao de CPU (over_budget=12 no memory-bank), nao de VRAM \u2014 estilhacos compartilham um unico tileset de 16 tiles e nao pesam em VRAM.",
-          "open_question": "Com o bg_b re-autorado (1093 -> 642 tiles, 30% de margem de VRAM), a restauracao para 56 depende so de CPU. A doutrina de audacia pede medir antes de aceitar 32 como final."
+          "open_question": "Com o bg_b re-autorado (1093 -> 642 tiles, 30% de margem de VRAM), a restauracao para 56 depende so de CPU. A doutrina de audacia pede medir antes de aceitar 32 como final.",
+          "density_test_matrix": {
+            "measured_at": "2026-08-17, geometria com LOGO_Y0=64",
+            "results": {
+              "32_stagger4": "16/20 sprites, 256/320 px, ok  <- ADOTADO",
+              "40_stagger5": "19/20, 304/320, ok mas 5% de margem",
+              "48_stagger5": "20/20, 320/320, ok com margem ZERO",
+              "56_stagger4": "23/20, 368/320, ERROR",
+              "56_stagger5": "22/20, 352/320, ERROR",
+              "56_stagger6": "22/20, 352/320, ERROR"
+            },
+            "conclusion": "56 estilhacos NAO cabem nesta geometria, em nenhum stagger testado. A medicao anterior de 18/20 com 56 valia para LOGO_Y0=80; mover o logo para y=64 aproximou a banda de pouso da origem da explosao em y=104 e elevou a sobreposicao por linha.",
+            "headroom_justification": "32 adotado por medicao, nao por timidez: 40 e 48 cabem mas ficam a 1 e 0 sprites do limite fisico, dentro da faixa em que o simulador ja emite scanline_pressure_near_limit. 32 entrega 20% de margem."
+          },
+          "runtime_measured": {
+            "scene_id": 0,
+            "frame": 151,
+            "over_budget_frames": 0,
+            "max_cpu_load": 45,
+            "max_cpu_jitter": 9,
+            "caveat": "A telemetria amostra quadros pontuais e reportou max_scanline_sprites=6 em F151. O pico real esta em F144 e F185 e so aparece na varredura do simulador. Amostra unica de runtime NAO substitui a varredura."
+          }
         }
       },
       {

@@ -1080,3 +1080,59 @@ aceitar 32 como final.
 - captura terminou em `vlab.scene_id: 2`, ou seja depois da cena, entao o dump de VDP nao
   cobre o pior quadro do ato 2;
 - 32 estilhacos sem justificativa medida contra os 56 que cabem por scanline.
+
+## Fase 22 — over_budget zerado, e a densidade reprovada por medicao
+
+### A causa era divisao de 32 bits no loop quente
+
+Por estilhaco e por quadro o update fazia: um modulo por 5, uma divisao `(t*t)/dur` e **duas
+divisoes de 32 bits** no lerp, mais duas chamadas recomputando posicao de explosao e alvo que
+sao **constantes**. Com 32 estilhacos isso da ~128 divisoes por quadro; no 68000 um `DIVS`
+custa cerca de 150 ciclos, entao so as divisoes comiam perto de 15% do orcamento do quadro.
+
+Correcao: tudo precomputado em `brandEnterStrike` — `born`, `convStart`, `dur`, posicao de
+explosao, alvo e um reciproco `65536/(dur*dur)`. O ease-in virou
+`(delta * t^2 * recip) >> 16`: dois multiplicadores e um shift, **zero divisao**.
+
+| | antes | depois |
+|---|---|---|
+| `over_budget_frames` | **12** | **0** |
+| `max_cpu_load` | 401 (v1) | **45** |
+
+Medido com `scene_id: 0` e `frame_counter: 151`, ou seja **dentro do ato 2**, nao no fim da
+cena como as capturas anteriores.
+
+### O teste de audacia rodou — e a medicao disse nao
+
+Com CPU folgada, testei restaurar os 56 estilhacos. A ROM rodou sem crash e com
+`over_budget_frames: 0`, e a telemetria reportou `max_scanline_sprites: 6`. **Parecia
+aprovado.**
+
+A varredura do simulador reprovou: **23/20 sprites e 368/320 px, `status: error`**. A
+telemetria amostrou F151; o pico real esta em F144 e F185.
+
+Matriz completa na geometria atual (`LOGO_Y0=64`):
+
+| Config | Sprites | Pixels | |
+|---|---|---|---|
+| **32, stagger 4** | **16/20** | **256/320** | **adotado** |
+| 40, stagger 5 | 19/20 | 304/320 | ok, 5% de margem |
+| 48, stagger 5 | 20/20 | 320/320 | ok, margem zero |
+| 56, stagger 4 | 23/20 | 368/320 | ERROR |
+| 56, stagger 5 | 22/20 | 352/320 | ERROR |
+| 56, stagger 6 | 22/20 | 352/320 | ERROR |
+
+**Minha medicao anterior de 18/20 com 56 estilhacos nao vale mais.** Ela foi feita com
+`LOGO_Y0=80`; o runtime entregue usa 64, e aproximar a banda de pouso da origem da explosao em
+y=104 elevou a sobreposicao por linha. Numero medido em uma geometria nao transfere para outra.
+
+`headroom_justification` registrado: 32 e escolha medida e nao timidez. 40 e 48 cabem mas
+ficam a 1 e 0 sprites do limite fisico, dentro da faixa em que o proprio simulador ja emite
+`scanline_pressure_near_limit`.
+
+### Licao para o canon
+
+Amostra unica de telemetria de runtime **nao substitui** varredura de todos os quadros. Neste
+episodio ela deu falso verde para uma configuracao que viola o limite de hardware em dois
+quadros — e o sintoma no console seria dropout de sprite, exatamente o flicker que o workspace
+proibe.

@@ -22,6 +22,11 @@
 #define PROBE_SCANLINE_COUNT 224
 #define PROBE_SCANLINE_SAMPLE_GROUPS 4
 #define PROBE_SCANLINE_GROUP_LENGTH (PROBE_SCANLINE_COUNT / PROBE_SCANLINE_SAMPLE_GROUPS)
+#define PROBE_VLAB_OFFSET 0x200
+#define PROBE_VLAB_SCHEMA_VERSION 1
+#define PROBE_VLAB_METRIC_WORDS 24
+#define PROBE_VLAB_PALETTE_WORDS 64
+#define PROBE_VLAB_TOTAL_BYTES (8 + ((PROBE_VLAB_METRIC_WORDS + PROBE_VLAB_PALETTE_WORDS) * 2))
 
 volatile u16 g_mdRuntimeProbe[MD_RUNTIME_PROBE_WORD_COUNT];
 
@@ -33,17 +38,31 @@ static u32 s_lastExportFrame;
 static u16 s_sceneWarmupFrames;
 static u32 s_heartbeatCounter;
 static u16 s_scanlineCursor;
+static u16 s_vlabPalette[PROBE_VLAB_PALETTE_WORDS];
 
+static u8 s_linePressure[PROBE_SCANLINE_COUNT];
+
+/*
+ * Conta TODAS as 224 linhas por quadro, em vez de amostrar 4 com cursor
+ * rotativo.
+ *
+ * PORQUE: a versao por amostragem olhava 4 linhas de 224 e girava o cursor um
+ * passo por quadro. Um pico transitorio numa linha especifica tinha chance
+ * baixissima de coincidir com a amostra, e a probe reportou 6 numa cena em que a
+ * varredura do simulador media 23 — falso verde para uma configuracao que
+ * violaria o limite de sprite por linha e causaria dropout no console.
+ *
+ * Custo: ~700 incrementos mais 224 comparacoes por quadro. Muito abaixo do que
+ * custava uma unica divisao de 32 bits no loop de gameplay.
+ */
 static u16 measure_max_scanline_sprites(void)
 {
     Sprite* cursor = firstSprite;
-    u16 sampleLines[PROBE_SCANLINE_SAMPLE_GROUPS];
-    u8 pressure[PROBE_SCANLINE_SAMPLE_GROUPS] = { 0, 0, 0, 0 };
-    u16 sample;
+    u16 line;
     u16 peak = 0;
 
-    for (sample = 0; sample < PROBE_SCANLINE_SAMPLE_GROUPS; sample++) {
-        sampleLines[sample] = s_scanlineCursor + (sample * PROBE_SCANLINE_GROUP_LENGTH);
+    for (line = 0; line < PROBE_SCANLINE_COUNT; line++) {
+        s_linePressure[line] = 0;
     }
 
     while (cursor != NULL) {
@@ -56,23 +75,21 @@ static u16 measure_max_scanline_sprites(void)
                 s16 start = (cursor->y - 0x80) + (s16)vdpSprite->offsetY;
                 s16 end = start + (s16)(((vdpSprite->size & 0x3) + 1) << 3);
 
-                for (sample = 0; sample < PROBE_SCANLINE_SAMPLE_GROUPS; sample++) {
-                    u16 scanline = sampleLines[sample];
-                    if (scanline >= start && scanline < end) {
-                        pressure[sample]++;
-                        if (pressure[sample] > peak) {
-                            peak = pressure[sample];
-                        }
+                /* Sprite estacionado fora da tela pode dar end negativo. Sem
+                 * este guarda o cast para u16 vira ~65000 e o loop escreve fora
+                 * do array, corrompendo memoria e impedindo o export do VLAB. */
+                if (end <= 0 || start >= (s16)PROBE_SCANLINE_COUNT) continue;
+                if (start < 0) start = 0;
+                if (end > (s16)PROBE_SCANLINE_COUNT) end = (s16)PROBE_SCANLINE_COUNT;
+
+                for (line = (u16)start; line < (u16)end; line++) {
+                    if (++s_linePressure[line] > peak) {
+                        peak = s_linePressure[line];
                     }
                 }
             }
         }
         cursor = cursor->next;
-    }
-
-    s_scanlineCursor++;
-    if (s_scanlineCursor >= PROBE_SCANLINE_GROUP_LENGTH) {
-        s_scanlineCursor = 0;
     }
 
     return peak;
@@ -82,6 +99,60 @@ static void sram_write_u16be(u32 offset, u16 value)
 {
     SRAM_writeByte(offset, (u8)((value >> 8) & 0xFF));
     SRAM_writeByte(offset + 1, (u8)(value & 0xFF));
+}
+
+static void sram_write_visual_word(u32 *offset, u16 value)
+{
+    sram_write_u16be(*offset, value);
+    *offset += 2;
+}
+
+static void export_visual_probe_to_sram(void)
+{
+    u32 offset = PROBE_VLAB_OFFSET;
+    u32 frame = gApp.totalFrames;
+    u16 i;
+
+    PAL_getColors(0, s_vlabPalette, PROBE_VLAB_PALETTE_WORDS);
+
+    SRAM_enable();
+    SRAM_writeByte(offset + 0, 'V');
+    SRAM_writeByte(offset + 1, 'L');
+    SRAM_writeByte(offset + 2, 'A');
+    SRAM_writeByte(offset + 3, 'B');
+    sram_write_u16be(offset + 4, PROBE_VLAB_SCHEMA_VERSION);
+    sram_write_u16be(offset + 6, PROBE_VLAB_TOTAL_BYTES);
+
+    offset += 8;
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[5]);
+    sram_write_visual_word(&offset, (u16)((frame >> 16) & 0xFFFF));
+    sram_write_visual_word(&offset, (u16)(frame & 0xFFFF));
+    sram_write_visual_word(&offset, VDP_getScreenWidth());
+    sram_write_visual_word(&offset, VDP_getScreenHeight());
+    sram_write_visual_word(&offset, VDP_getPlaneWidth());
+    sram_write_visual_word(&offset, VDP_getPlaneHeight());
+    sram_write_visual_word(&offset, VDP_getHorizontalScrollingMode());
+    sram_write_visual_word(&offset, VDP_getVerticalScrollingMode());
+    sram_write_visual_word(&offset, VDP_getBGAAddress());
+    sram_write_visual_word(&offset, VDP_getBGBAddress());
+    sram_write_visual_word(&offset, VDP_getWindowAddress());
+    sram_write_visual_word(&offset, VDP_getSpriteListAddress());
+    sram_write_visual_word(&offset, VDP_getHScrollTableAddress());
+    sram_write_visual_word(&offset, VDP_getBackgroundColor());
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[8]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[9]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[10]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[11]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[13]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[14]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[16]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[17]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[4]);
+
+    for (i = 0; i < PROBE_VLAB_PALETTE_WORDS; i++) {
+        sram_write_visual_word(&offset, s_vlabPalette[i]);
+    }
+    SRAM_disable();
 }
 
 static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
@@ -256,6 +327,7 @@ void MDRuntimeProbe_tick(void)
     samplesRecorded = g_mdRuntimeProbe[9];
     if (samplesRecorded > 0 && (samplesRecorded != s_lastExportSamples) && ((gApp.totalFrames - s_lastExportFrame) >= 60u)) {
         MDRuntimeProbe_exportToSRAM();
+        export_visual_probe_to_sram();
         s_lastExportSamples = samplesRecorded;
         s_lastExportFrame = gApp.totalFrames;
     }

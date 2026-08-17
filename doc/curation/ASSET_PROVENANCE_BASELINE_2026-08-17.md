@@ -1136,3 +1136,47 @@ Amostra unica de telemetria de runtime **nao substitui** varredura de todos os q
 episodio ela deu falso verde para uma configuracao que viola o limite de hardware em dois
 quadros — e o sintoma no console seria dropout de sprite, exatamente o flicker que o workspace
 proibe.
+
+## Fase 23 — a probe reescrita, um bug de corrupcao de memoria, e 16 sprites invisiveis
+
+### A probe media 4 linhas de 224
+
+`measure_max_scanline_sprites` amostrava **4 scanlines por quadro** com um cursor rotativo. Um
+pico transitorio numa linha especifica tinha chance de ~2% de coincidir com a amostra. Foi por
+isso que ela reportou 6 numa configuracao em que a varredura do simulador media 23 — **falso
+verde para algo que causaria dropout de sprite no console**.
+
+Reescrita para contar **todas as 224 linhas** por quadro: ~700 incrementos mais 224
+comparacoes, muito abaixo do que custava uma unica divisao de 32 bits no loop de gameplay.
+
+### Um bug de corrupcao de memoria na minha propria reescrita
+
+A primeira versao clampava `start < 0` mas nao tratava `end` negativo. Sprite estacionado
+acima da tela (martelo em y=-48, fantasmas em -32) produz `end` negativo; o cast para `u16`
+virava ~65000 e o loop escrevia **fora do array**, corrompendo memoria. O sintoma foi o VLAB
+parar de exportar e todos os bundles falharem com `vlab_block_missing`.
+
+Guarda adicionada. Vale registrar que o proprio bundle de evidencia detectou o dano — a
+ferramenta de medicao pegou o defeito da ferramenta de medicao.
+
+### O achado que explica a divergencia
+
+Com 32 estilhacos, o codigo calcula `sector = index * 16 / SHARD_COUNT` e
+`born = 122 + index / SHARD_SPAWN_PER_FRAME`. Para `SHARD_COUNT=32` e `SPAWN_PER_FRAME=2` isso
+da, para todo par `2k` e `2k+1`, **o mesmo setor e o mesmo quadro de nascimento**.
+
+Resultado medido: **16 pares perfeitamente sobrepostos**. Os 32 sprites do SAT rendem
+**16 posicoes visiveis distintas**. Metade do orcamento de sprite e gasta em duplicatas que o
+espectador nunca ve, e que ainda assim consomem slot de SAT e pressao de scanline.
+
+Isso explica por que a probe corrigida reporta 6: a densidade visual real e metade da nominal.
+E explica por que os 56 estouravam — com `SHARD_COUNT=56` a divisao `index*16/56` deixa de
+duplicar e a densidade real dobra de fato.
+
+### Estado
+
+`over_budget_frames: 0`, `max_cpu_load: 52`, bundle `sealed`, probe medindo as 224 linhas.
+
+Blocker novo e nomeado: **`shard_sector_aliasing`** — a formula de setor precisa desacoplar do
+`SHARD_COUNT`, senao densidade nominal e densidade visual divergem por construcao. Enquanto
+existir, qualquer claim de "32 estilhacos" e nominal e nao visual.

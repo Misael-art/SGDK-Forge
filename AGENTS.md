@@ -116,6 +116,32 @@ Regra de uso:
 
 ---
 
+## ORDEM DE TRABALHO DE CENA
+
+**Roteiro, storyboard, coreografia e medicao vem ANTES do contrato de asset.**
+
+```
+roteiro -> storyboard -> coreografia -> medicao -> orcamento
+        -> contrato de asset -> model sheet -> assets -> runtime -> evidencia
+```
+
+Coreografia e medicao **nao custam arte**: sao Python e planilha, erram barato e cedo. Quando
+entram depois da arte pronta, elas invalidam a arte. Na curadoria de 2026-08-17 isso custou:
+lista de assets de 8 para 9, martelo saindo de imagem estatica para sprite, brasa de 4 para 6
+quadros, um fundo inteiro re-autorado por deduplicacao nunca medida, e uma coreografia que
+media 36 sprites numa scanline contra um limite de 20.
+
+**Storyboard e planta baixa, nao concept art:** posicao em pixel de cada objeto, entradas e
+saidas por borda, sucessao de nomes e fontes, e o que permanece entre quadros-chave. A ancora
+de coordenada e o que faz assets se encaixarem em vez de flutuarem.
+
+**Adjetivo de direcao sem piso numerico vira defeito.** "Leve" sem piso de luma produziu um
+wordmark com contraste de -8 contra o proprio fundo.
+
+Workflow completo: `tools/sgdk_wrapper/.agent/workflows/scene-direction-first.md`.
+
+---
+
 ## DOUTRINA DE AUDACIA
 
 **O teto do hardware e o alvo, nao a margem de seguranca.**
@@ -384,6 +410,8 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Painel humano de proficiencia | `doc/05_technical/93_16bit_hardware_mastery_matrix.md` |
 | Registry tecnico machine-readable | `doc/05_technical/93_16bit_hardware_mastery_registry.json` |
 | Preflight host | `tools/sgdk_wrapper/preflight_host.ps1` |
+| Ordem de trabalho de cena | `tools/sgdk_wrapper/.agent/workflows/scene-direction-first.md` |
+| Licoes da curadoria 2026-08-17 | `doc/curation/lessons_2026-08-17.json` |
 | Diretriz de bloqueio estetico | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` (8.2 e 17) |
 | Proveniencia de asset (contrato) | `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json` |
 | Proveniencia de asset (auditor) | `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` |

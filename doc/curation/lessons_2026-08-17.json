@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "curation_2026_08_17_scene_direction_and_measurement",
+  "source": "doc/curation/ASSET_PROVENANCE_BASELINE_2026-08-17.md",
+  "phases_documented": 24,
+  "canonized_in": [
+    "tools/sgdk_wrapper/.agent/workflows/scene-direction-first.md",
+    "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#30",
+    "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#31",
+    "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#32",
+    "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md#33"
+  ],
+  "lessons": [
+    {
+      "id": "scene_direction_before_asset",
+      "bucket": "producao",
+      "severity": "structural",
+      "lesson": "Roteiro, storyboard, coreografia e medicao vem ANTES do contrato de asset. Coreografia e medicao nao custam arte e erram barato.",
+      "evidence": "8 assets viraram 9; martelo saiu de imagem estatica para sprite; brasa 4->6 quadros; martelo 6->7 depois do despacho; bg_b re-autorado inteiro; coreografia media 36 sprites por scanline contra limite de 20."
+    },
+    {
+      "id": "storyboard_carries_screen_position",
+      "bucket": "producao",
+      "severity": "structural",
+      "lesson": "Storyboard e planta baixa, nao concept art: posicao em pixel, entradas e saidas por borda, sucessao de nomes e fontes, o que permanece entre quadros-chave.",
+      "evidence": "A ancora da bigorna em (128,104) so apareceu na fase 10, depois da arte despachada. Sem ela a brasa pousa no ar e o martelo bate no vazio."
+    },
+    {
+      "id": "budget_decisions_are_not_art_decisions",
+      "bucket": "producao",
+      "severity": "high",
+      "lesson": "Streaming, residencia e teto por ato mudam o que o artista desenha e precisam estar fechados antes do despacho.",
+      "evidence": "A decisao de streaming do martelo definiu que 7 quadros a 48x48 eram viaveis; sem ela o brief teria pedido 4."
+    },
+    {
+      "id": "post_dispatch_change_is_an_event",
+      "bucket": "producao",
+      "severity": "medium",
+      "lesson": "Mudanca de spec com o artista trabalhando vai no topo do brief, marcada, dizendo o que preservar.",
+      "evidence": "Martelo 6->7 quadros preservou os quadros 0-3 e 5; so o 4 foi retrabalho e o 6 adicao."
+    },
+    {
+      "id": "direction_can_be_wrong",
+      "bucket": "direcao_de_arte",
+      "severity": "high",
+      "lesson": "Quando o artista entrega diferente e le melhor, corrija a direcao em vez de reprovar o trabalho.",
+      "evidence": "Silhueta 'sobre transparente' era aperto sem ganho. E 'leve, sem chanfro' para o PRESENTS produziu contraste de -8 porque pedia discricao sem piso de luma."
+    },
+    {
+      "id": "qualitative_adjective_needs_a_floor",
+      "bucket": "direcao_de_arte",
+      "severity": "high",
+      "lesson": "Adjetivo de direcao sem piso numerico vira defeito. 'Leve' precisa de piso de luma; 'discreto' e sobre tamanho e peso, nunca sobre contraste.",
+      "evidence": "PRESENTS com 99% da tinta num indice de luma 38 contra fundo de luma 46."
+    },
+    {
+      "id": "art_must_be_authored_as_tiles",
+      "bucket": "direcao_de_arte",
+      "severity": "high",
+      "lesson": "Fundo composto como imagem fotografica e quantizado nao deduplica: custa como arte unica e ainda parece repetitivo. Autore o vocabulario de tiles primeiro e componha por arranjo e flip.",
+      "evidence": "bg_b com 2% de dedup (1093 de 1120) contra 73% de um irmao autorado com formas limpas. Re-autorado para 642, margem do ato 2 de 3 tiles para 30%."
+    },
+    {
+      "id": "index_role_is_contract_hex_is_seed",
+      "bucket": "direcao_de_arte",
+      "severity": "medium",
+      "lesson": "O papel de cada indice de paleta e contrato porque o runtime depende dele; o valor hex e semente que o artista refina.",
+      "evidence": "A folga de highlight em PAL1[13..14] e o que permite a varredura especular existir."
+    },
+    {
+      "id": "model_sheet_before_package",
+      "bucket": "direcao_de_arte",
+      "severity": "high",
+      "lesson": "Pacote de assets finais sem model sheet aprovado reprova. A rota que funciona entrega direcao provada primeiro.",
+      "evidence": "Falhou 4 vezes neste workspace antes da regra."
+    },
+    {
+      "id": "rule_without_measurement_is_prose",
+      "bucket": "boas_praticas",
+      "severity": "structural",
+      "lesson": "Antes de escrever regra nova, procure a existente e leia o enforcement. Se ele decide por nome de arquivo ou campo autodeclarado, o gap e medicao e nao vocabulario.",
+      "evidence": "A proibicao de arte procedural existia em 8 lugares e nao era medida; 78 de 136 simbolos violavam."
+    },
+    {
+      "id": "bisect_before_theorizing",
+      "bucket": "boas_praticas",
+      "severity": "high",
+      "lesson": "Um desligamento por vez encontra em minutos o que a teoria nao encontra em horas.",
+      "evidence": "Dois builds gastos em hipoteses plausiveis num crash cujo endereco 0x23080000 ja apontava RTS em vez de RTE."
+    },
+    {
+      "id": "silent_failure_path_invalidates_claims",
+      "bucket": "boas_praticas",
+      "severity": "high",
+      "lesson": "Caminho de erro sem contador transforma qualquer claim de contagem em ficcao.",
+      "evidence": "brandEnsureShard retornava mudo em NULL; so um contador provou spawned=56, failed=0."
+    },
+    {
+      "id": "gate_must_fail_in_test",
+      "bucket": "boas_praticas",
+      "severity": "high",
+      "lesson": "Todo gate novo e verificado nos dois sentidos, com fixture que passa e fixture que reprova, antes de valer.",
+      "evidence": "O gate de model sheet tinha definicao furada de ciclo fechado: a fixture deliberadamente aberta passou no primeiro teste."
+    },
+    {
+      "id": "gate_that_cries_wolf_is_ignored",
+      "bucket": "boas_praticas",
+      "severity": "medium",
+      "lesson": "Calibre contra falso positivo antes de publicar. Gate que reprova projeto saudavel sera desligado.",
+      "evidence": "A primeira versao do detector de tiles em C reprovava 9 de 9 projetos por confundir enderecamento de VRAM e paleta autoral com arte por codigo."
+    },
+    {
+      "id": "contract_must_match_the_rom",
+      "bucket": "boas_praticas",
+      "severity": "high",
+      "lesson": "Contrato descrevendo coreografia nao implementada e falso verde. Reconcilie apos cada entrega de runtime.",
+      "evidence": "Contrato declarava 56 estilhacos com 18/20 medidos enquanto a ROM rodava 32 com outra geometria."
+    },
+    {
+      "id": "unmeasured_headroom_is_timidity",
+      "bucket": "boas_praticas",
+      "severity": "medium",
+      "lesson": "Meca o degrau seguinte antes de fechar um orcamento. Pare quando MEDIR o estouro, nao quando sentir receio; e declare a justificativa quando a direcao pedir menos.",
+      "evidence": "32 estilhacos a 16/20 pareciam o teto; corrigir o aliasing levou a 56 a 16/20, densidade visual 3,5x maior pelo mesmo custo."
+    }
+  ]
+}

@@ -654,3 +654,74 @@ Caso canonico: `branding_sequence_v2` entregou `img_forge_bg_b` com **2% de dedu
 fundo. O agente de arte havia escrito que a parede "le como fiada", ou seja modular demais aos
 olhos; a medicao mostrou o oposto na VRAM. Percepcao e custo divergiram, e so a medicao
 explicou por que.
+
+## 32. Fatos de hardware e de SGDK pagos com build
+
+Cada item abaixo custou pelo menos um ciclo de build e captura na curadoria de 2026-08-17.
+Registro em `doc/curation/ASSET_PROVENANCE_BASELINE_2026-08-17.md`.
+
+- **Callback de H-Int precisa de `HINTERRUPT_CALLBACK`.** Handler declarado `void` faz o GCC
+  emitir `RTS`. H-Int e excecao de nivel 4 e a pilha tem SR+PC: `RTS` desempilha so o PC e o SR
+  vira a word alta do endereco de retorno. Sintoma exato: `M68K attempted to execute code at
+  unmapped address 0x23080000`, onde `0x2308` e o proprio SR. Custou dois builds atacando o
+  metodo de escrita no CRAM, que era risco secundario.
+- **O VDP impoe DOIS limites por scanline ao mesmo tempo**: H40 da 20 sprites **e** 320 pixels;
+  H32 da 16 e 256. Para sprites de 16px os dois fecham no mesmo ponto, o que faz parecer que
+  existe so um.
+- **Formula de setor acoplada a contagem gera duplicata invisivel.** `sector = index * 16 /
+  SHARD_COUNT` com 32 objetos da `index/2`; se `born` tambem for `index/2`, todo par consecutivo
+  nasce no mesmo quadro no mesmo angulo. Foram 16 pares perfeitamente sobrepostos: 32 sprites no
+  SAT rendendo 16 posicoes visiveis. Use stride coprimo do numero de setores (`index * 5 & 15`).
+  Corrigir isso **baixou** a pressao de scanline e destravou densidade que a medicao tinha
+  reprovado.
+- **`DIVS` de 32 bits no 68000 custa ~150 ciclos.** Um loop com 4 divisoes por objeto e 32
+  objetos consome ~15% do quadro. Precompute em `enter` e troque divisao por reciproco em ponto
+  fixo: `(delta * t^2 * (65536/dur^2)) >> 16`. Isso levou `over_budget_frames` de 12 para 0.
+- **Offset de VRAM nunca e escrito a mao.** Derive de `tileset->numTile`. Uma contagem propria
+  de dedup deu 304 onde o ResComp gerou 309, e os cinco tiles de diferenca sobrepuseram o
+  recurso seguinte e encheram a tela de lixo.
+- **`SPR_addSprite` com auto-alocacao esgota o pool em silencio e devolve `NULL`.** 56 objetos
+  alocando os proprios quadros pediam 1292 tiles contra reserva de 320. Use tileset
+  compartilhado com `SPR_setVRAMTileIndex` e `SPR_setAutoTileUpload(FALSE)`, e **conte as
+  falhas**: caminho de erro mudo transforma claim de contagem em ficcao.
+- **`VDP_setWindowVPos(FALSE, n)` liga a WINDOW nas fileiras 0..n-1; `TRUE` liga em n..27.**
+  Desenhar fora da metade ativa come a tela.
+- **Prioridade baixa com Shadow/Highlight ligado sai sombreada.** Wordmark que precisa ler pede
+  prioridade alta, ou o operador escurece o tile.
+- **Nibble impar nao existe no CRAM de 9 bits.** `0x0630` e `0x0CDD` sao invalidos; `0x0620` e
+  `0x0CCC` sao validos.
+- **`PAL_setColor` no indice 0 tem que rodar depois de carregar as paletas**, senao a carga
+  devolve o magenta de transparencia do PNG ao backdrop.
+- **Deduplicacao com flip H/V e o que ocupa VRAM**, nao a contagem bruta de tiles. Fundo
+  fotografico quantizado deduplica quase nada: 1120 tiles brutos viraram 1093 unicos, 2%, contra
+  73% de um irmao autorado com formas limpas.
+
+## 33. Hierarquia de evidencia visual
+
+Nem toda imagem de captura vale o mesmo. Julgar pelo artefato errado produz bug inexistente.
+
+```
+dump de VDP  >  screenshot  >  quadro de burst
+```
+
+- **Backdrop, paleta, prioridade e residencia se julgam pelo `visual_vdp_dump.bin`**, que
+  carrega o CRAM real. Foi assim que se provou que `PAL0[0]` era `0x0000` enquanto um PNG
+  mostrava borda magenta.
+- **O primeiro quadro de um burst com delay zero e invalido.** A janela do emulador ainda nao
+  terminou de compor e a superficie nao inicializada e gravada como magenta puro. Medido em
+  cinco sessoes: `screenshot.png` e `frame_3` pretos, so `frame_1` magenta. O
+  `capture_blastem_evidence_linux.sh` ja tem guarda; nao a remova.
+- **Amostra pontual de telemetria nao substitui varredura.** Uma probe que amostrava 4 de 224
+  scanlines por quadro reportou 6 onde a varredura media 23 — falso verde para configuracao que
+  causaria dropout no console. Probe de pressao conta **todas** as linhas.
+- **Probe que exporta uma vez so mede uma janela so.** Condicao de export atrelada a contagem
+  de amostras satura e congela: o maximo acumulado cobria F90-F151 e nenhum pico posterior
+  chegava a SRAM. Re-exporte periodicamente enquanto a cena roda.
+- **Numero medido em uma geometria nao transfere para outra.** "56 estilhacos cabem a 18/20" foi
+  medido com o logo em y=80; movido para y=64 o mesmo arranjo deu 22/20 e reprovou.
+- **Quando modelo e hardware divergem, o hardware manda** — e a divergencia fica registrada em
+  vez de ser resolvida por teoria.
+
+**Bissecte antes de teorizar.** Duas hipoteses plausiveis e dois builds foram gastos num crash
+cujo endereco ja apontava a causa. Um desligamento por vez encontra em minutos o que a teoria
+nao encontra em horas.

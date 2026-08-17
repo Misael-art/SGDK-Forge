@@ -922,3 +922,60 @@ exatamente o que deveria. Projeto real: exit 0.
 
 Canonizado em `SGDK_GLOBAL.md` secao 31, na referencia rapida do `AGENTS.md` e no bloco de
 diretriz dos 13 projetos.
+
+## Fase 19 — runtime v2 escrito, ROM buildada, BlastEm rodou, CPU crashou
+
+### O que funcionou
+
+- `src/scenes/scene_branding_v2.c` escrito contra a coreografia medida, com os parametros de
+  spawn, stagger e recuo do martelo comentados como **nao alteraveis sem re-medir**;
+- ligado em `app.c` no lugar da v1;
+- **build passou** pelo wine bridge. `scene_branding_v2.o` com 10964 B, simbolos
+  `SCENE_brandingV2Enter/Update` e `brandHIntHandler` no `symbol.txt`, ROM nova
+  (`873cd957...` contra `f45d77e6...` da v1);
+- **BlastEm rodou de verdade** pelo `capture_blastem_evidence_linux.sh`, com screenshot, GIF,
+  SRAM e 5 quadros de animacao;
+- **o ato 1 renderiza**: a parede da forja aparece, e as bandas de calor do H-Int funcionam —
+  frio no topo, quente embaixo. A tecnica `hint_palette_blending` esta de pe em hardware
+  emulado.
+
+### O que quebrou
+
+**`M68K attempted to execute code at unmapped or I/O address 23080000`.** Nao e congelamento:
+e a CPU pulando para o vazio. Os 5 quadros capturados tem **0,0% de pixels diferentes entre
+si** — a cena trava no primeiro quadro do ato 1.
+
+Causa medida: o pool de VRAM do sprite engine.
+
+| | Tiles |
+|---|---|
+| brasa (4 x 6 quadros) | 24 |
+| fantasmas (4 x 6 x 5) | 120 |
+| martelo (36 x 7) | 252 |
+| **estilhacos (4 x 4 x 56)** | **896** |
+| **total exigido** | **1292** |
+| reserva do contrato | 320 |
+
+**304% acima da reserva.** `SPR_addSprite` devolve NULL quando o pool acaba, e as chamadas
+seguintes de `SPR_setVisibility`/`SPR_setPosition` sobre ponteiro nulo derrubam a CPU.
+
+### O erro e meu, e tem nome
+
+O `dma_queue_contract` decidiu **streaming em janela dupla de 72 tiles** para o martelo. Eu
+escrevi o runtime usando `SPR_addSprite` com auto-alocacao e **nao implementei streaming
+nenhum**. O contrato existia, foi aprovado pelo curador, e o runtime o ignorou.
+
+Pior: os 56 estilhacos sozinhos pedem 896 tiles porque cada instancia aloca os 4 quadros. O
+correto e **um unico conjunto de tiles compartilhado** entre as 56 instancias, com
+`SPR_setVRAMTileIndex` apontando todas para a mesma base — que e justamente o que
+`tile_flipping` e a decisao de 4 quadros com flip H/V pressupunham.
+
+### Status honesto
+
+`implementado` e `buildado`. **Nao** `testado_em_emulador`: a ROM boota e crasha. O bundle de
+captura foi rejeitado pelo proprio gate com `vlab_block_missing`,
+`artifact_missing:vdp_dump` e `artifact_missing:runtime_metrics`, porque o runtime nao chega a
+emitir telemetria.
+
+Nenhum status de entrega e reivindicavel. A regra de ferro do workspace continua valendo e
+desta vez ela reprovou o meu proprio codigo.

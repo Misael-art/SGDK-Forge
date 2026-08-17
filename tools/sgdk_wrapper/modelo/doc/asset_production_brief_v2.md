@@ -81,6 +81,10 @@ com fiadas irregulares, blocos de tamanhos diferentes, pedra faltando ou trincad
 Bigorna e ferramentas em foreground, com priority split sobre BG_B.
 **O MARTELO NAO ESTA AQUI.** Ele virou sprite porque se move.
 **Registro obrigatorio:** face da bigorna em **(128, 104)**.
+**Area reservada para a cicatriz:** o runtime escreve uma marca incandescente em tiles nesse
+ponto no F120 e ela permanece ate o fim. Deixe cerca de **32x16 px de superficie limpa**
+centrada em (128,104) — detalhe fino ou textura carregada ali competem com a marca e ela nao
+le.
 O bico conico da bigorna e `silhouette_hook` numero 1: preserve o perfil da v02.
 
 ### 3. `spr_forge_ember` — 16x16 (2x2) · **6 quadros** · PAL3 · ato 1

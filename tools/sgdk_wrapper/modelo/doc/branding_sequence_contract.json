@@ -492,7 +492,8 @@
         "tiles": "40x28",
         "palette": "PAL0",
         "role": "bigorna e ferramentas em foreground com priority split; MARTELO REMOVIDO, ele virou sprite",
-        "act": 1
+        "act": 1,
+        "composition_constraint": "a face da bigorna em (128,104) recebe a cicatriz incandescente escrita em tiles pelo runtime no F120 (mutable_tile_decal_mutation). Mantenha essa area com material limpo e legivel: detalhe fino, textura carregada ou aresta exatamente ali competem com a marca e a cicatriz nao le. Reserve aproximadamente 32x16 px de superficie util centrada no ponto de contato."
       },
       {
         "res_symbol": "spr_forge_ember",

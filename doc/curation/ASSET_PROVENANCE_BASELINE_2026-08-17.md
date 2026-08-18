@@ -1443,3 +1443,47 @@ Veredito atual da arvore: **BLOCKED**, com 4 copias em uso defasadas e 1 arquiva
 Sincronizar `.agent/` de projeto e materializacao do framework e tem politica propria — o
 `AGENTS.md` diz que `.agent` local existente **nao e sobrescrita**. O blocker fica levantado e
 nomeado; a decisao de propagar e do curador.
+
+## Fase 29 — sincronizacao das 4 copias em uso
+
+Autorizada pelo curador, sobrepondo a politica do `AGENTS.md` de nao sobrescrever `.agent` local.
+
+### Verificacao antes de sobrescrever
+
+As 5 copias eram **byte-identicas entre si** (sha `be8ba38f6292`, 4125 bytes). Nenhuma tinha
+customizacao local, entao sobrescrever nao descartou trabalho de ninguem. Essa checagem vem
+antes de qualquer copia: cinco arquivos com o mesmo nome nao sao cinco copias da mesma coisa
+ate que o hash diga que sao.
+
+As 4 em uso sao **ignoradas por politica** (`.gitignore:51` — `SGDK_projects/**/.agent/`): sao
+materializacao do framework, nao conteudo versionado. A sincronizacao foi operacao de
+filesystem e nao entra em commit.
+
+### Prova antes e depois, na mesma cena
+
+Cena de controle: 16 sprites de 32 px na mesma linha = 512 px, contra o teto de 320 do H40.
+
+| | status | blockers | px/linha |
+|---|---|---|---|
+| v1.0.0 (backup em `rascunho`, nao sincronizado) | `ok` | `[]` | campo inexistente |
+| FORGE_REFERENCE | `error` | `sprite_pixels_per_scanline_over_320` | 512 |
+| GOTHAM_OVERDRIVE | `error` | `sprite_pixels_per_scanline_over_320` | 512 |
+| KIRBY_FAN CLOUDE | `error` | `sprite_pixels_per_scanline_over_320` | 512 |
+| KIRBY_FAN GROK BUILD | `error` | `sprite_pixels_per_scanline_over_320` | 512 |
+
+O controle continua aprovando a cena estourada — e por isso que ele serve de controle.
+
+### Backup nao foi sincronizado
+
+`HYBRIDO_MUAY_THAI/rascunho/local_agent_physical_backup_v002/` continua em v1.0.0 de proposito.
+Backup que e atualizado deixa de ser backup. O meta-gate ja o classifica como `archived` e ele
+sai como aviso, nunca como blocker.
+
+### Veredito
+
+`validate_measurement_tools.py`: **8/8 com self-check passando, verdict=OK**. Primeira vez que a
+arvore inteira sai limpa desde que a deteccao de copia defasada existe.
+
+Consequencia para os 4 projetos: qualquer numero de pressao por scanline medido antes desta data
+saiu de instrumento cego para metade do orcamento. Os numeros nao estao necessariamente errados
+— estao **nao medidos** naquele eixo, e precisam ser refeitos antes de sustentar claim.

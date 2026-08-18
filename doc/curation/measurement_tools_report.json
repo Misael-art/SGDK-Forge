@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
   "tool": "validate_measurement_tools",
-  "generated_at": "2026-08-17T21:59:41Z",
+  "generated_at": "2026-08-18T15:02:03Z",
   "rule_ref": "SGDK_GLOBAL.md secao 34",
-  "tools_checked": 6,
-  "passed": 6,
+  "tools_checked": 8,
+  "passed": 8,
   "results": [
     {
       "tool": "tools/sgdk_wrapper/audit_procedural_asset_provenance.py",
@@ -37,6 +37,18 @@
       "status": "passed"
     },
     {
+      "tool": "tools/sgdk_wrapper/audit_stage_occupancy.py",
+      "exit_code": 0,
+      "output": "audit_stage_occupancy self-check passed (empilhamento 4x, sucessao limpa, deriva de runtime, saida ausente)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/audit_luma_floor.py",
+      "exit_code": 0,
+      "output": "audit_luma_floor self-check passed (contraste 0 reprova, +170 passa, contorno preto passa, sem massa de realce reprova, fundo vazio recusa)",
+      "status": "passed"
+    },
+    {
       "tool": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
       "exit_code": 0,
       "output": "vdp_scanline_simulator self-check passed (both limits + headroom + h32)",
@@ -48,33 +60,25 @@
       "copy": "SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/.agent/scripts/vdp_scanline_simulator.py",
       "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
       "archived": false,
-      "in_sync": false,
-      "local_version": "1.0.0",
-      "canonical_version": "1.1.0"
+      "in_sync": true
     },
     {
       "copy": "SGDK_projects/GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/.agent/scripts/vdp_scanline_simulator.py",
       "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
       "archived": false,
-      "in_sync": false,
-      "local_version": "1.0.0",
-      "canonical_version": "1.1.0"
+      "in_sync": true
     },
     {
       "copy": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/.agent/scripts/vdp_scanline_simulator.py",
       "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
       "archived": false,
-      "in_sync": false,
-      "local_version": "1.0.0",
-      "canonical_version": "1.1.0"
+      "in_sync": true
     },
     {
       "copy": "SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/.agent/scripts/vdp_scanline_simulator.py",
       "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
       "archived": false,
-      "in_sync": false,
-      "local_version": "1.0.0",
-      "canonical_version": "1.1.0"
+      "in_sync": true
     },
     {
       "copy": "SGDK_projects/_agent_training/HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]/rascunho/local_agent_physical_backup_v002/scripts/vdp_scanline_simulator.py",
@@ -85,11 +89,9 @@
       "canonical_version": "1.1.0"
     }
   ],
-  "stale_copies": 4,
+  "stale_copies": 0,
   "archived_stale_copies": 1,
   "limitation": "Garante que o self-check existe, roda e passa. Nao julga se o self-check cobre o que deveria: isso continua sendo leitura humana.",
-  "blocking": true,
-  "blocking_statuses": [
-    "measurement_tool_stale_copy"
-  ]
+  "blocking": false,
+  "blocking_statuses": []
 }

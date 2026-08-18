@@ -1961,3 +1961,57 @@ de hardware que diz que o teto e violado em algum momento, sem dizer qual.
 Para fechar faltam duas coisas: um campo de quadro-do-pico na probe (hoje o maximo e anonimo) e
 um caminho ate `BOSS_STATE_DEFEATED` — atalho de debug no `scene_techdemo.c`, que e edicao de
 codigo untracked e depende de autorizacao.
+
+## Fase 38 — quadro do pico na probe, e o furo de integracao que ele revelou
+
+### O que foi adicionado
+
+`probe_note_peak_frame(slot)` grava `gApp.totalFrames` como par hi/lo **no mesmo instante em que
+o maximo sobe**, para tres picos: scanline (`[24..25]`), cpu (`[26..27]`) e sprites ativos
+(`[28..29]`). Zeram junto com os picos no reset de cena.
+
+Anexados em `words[26..31]`, no FIM do bloco, subindo `PROBE_VLAB_METRIC_WORDS` de 26 para 32 —
+sem deslocar `words[0..25]`, que o sealer ja consome por indice fixo.
+
+### O furo
+
+Primeira captura com a probe nova: os tres campos vieram **`None`** num bundle cuja SRAM tinha o
+dado. `extract_vlab` cortava o bloco em `words[:24]`, com **24 escrito na mao**, enquanto a probe
+ja emitia **26**. As seis palavras novas cairam no balde da paleta.
+
+E isso nao era regressao minha: os dois campos que ja sobravam — `spawned` e `failed` do contador
+de alocacao de sprite — **nunca chegaram ao report desde que foram criados**. O contador que a
+licao `silent_failure_path_invalidates_claims` mandou construir existia na ROM e morria na
+leitura.
+
+Corrigido derivando a contagem: a paleta tem tamanho fixo (64), o que sobra na frente e metrica.
+Agora a leitura acompanha a probe sozinha.
+
+**O `None` em vez de `0` foi o que tornou o furo visivel.** Se `_peak_frame` devolvesse 0 na
+ausencia, os tres campos leriam "pico no quadro zero" e ninguem olharia duas vezes.
+
+### Medido
+
+| | valor | quadro |
+|---|---|---|
+| `max_scanline_sprites` | **21** de 20 | **405** |
+| `max_cpu_load` | **212** | **403** |
+| `max_active_sprites` | 58 | 91 |
+| `sprite_alloc_spawned` / `failed` | 0 / 0 | — |
+
+Sessao de 1111 quadros, 1021 estourados.
+
+### O que os quadros dizem
+
+**Pico de scanline (405) e pico de CPU (403) estao a 2 quadros de distancia: e o mesmo evento.**
+O pico de sprites ativos (91) esta longe dos dois, entao a alocacao maxima nao e o que estoura a
+linha — coerente com `max_active_sprites` ser so a contagem de objetos alocados, que e constante
+nesta cena.
+
+Quadro 405 a 60 fps sao ~6,8 s de cena, com o tiro segurado desde ~1 s. Ainda **nao atribui o
+evento**: saber o quadro estreita o cerco, nao fecha. Para fechar falta gravar tambem o estado do
+boss e a contagem de projeteis vivos naquele quadro.
+
+`sprite_alloc_spawned=0` confirma que o GOTHAM ainda nao chama `MDRuntimeProbe_noteSpriteAlloc` —
+o contador chegou com o port da Fase 35 e nao foi ligado ao `GOTHAM_PARTICLES_spawnParticle`, que
+e onde o `FALSE` silencioso mora.

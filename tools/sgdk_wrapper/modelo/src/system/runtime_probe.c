@@ -24,7 +24,16 @@
 #define PROBE_SCANLINE_GROUP_LENGTH (PROBE_SCANLINE_COUNT / PROBE_SCANLINE_SAMPLE_GROUPS)
 #define PROBE_VLAB_OFFSET 0x200
 #define PROBE_VLAB_SCHEMA_VERSION 1
-#define PROBE_VLAB_METRIC_WORDS 26
+/* 26 metricas + 3 pares hi/lo com o quadro de cada pico.
+ *
+ * PORQUE: uma captura do GOTHAM mediu max_scanline_sprites=21 contra o teto de
+ * 20 e nao houve como atribuir o pico a nada — o maximo era anonimo. Maximo sem
+ * quadro diz que o teto foi violado e nao diz por quem, o que nao fecha
+ * diagnostico nenhum.
+ *
+ * Os pares vao no FIM do bloco para nao deslocar words[0..25], que
+ * seal_fresh_evidence_bundle.py ja consome por indice fixo. */
+#define PROBE_VLAB_METRIC_WORDS 32
 #define PROBE_VLAB_PALETTE_WORDS 64
 #define PROBE_VLAB_TOTAL_BYTES (8 + ((PROBE_VLAB_METRIC_WORDS + PROBE_VLAB_PALETTE_WORDS) * 2))
 
@@ -55,6 +64,15 @@ static u8 s_linePressure[PROBE_SCANLINE_COUNT];
  * Custo: ~700 incrementos mais 224 comparacoes por quadro. Muito abaixo do que
  * custava uma unica divisao de 32 bits no loop de gameplay.
  */
+/* Grava gApp.totalFrames em (slot, slot+1) como hi/lo. Chamado no MESMO
+ * instante em que o maximo sobe, para o quadro descrever aquele pico. */
+static void probe_note_peak_frame(u16 slot)
+{
+    const u32 frame = gApp.totalFrames;
+    g_mdRuntimeProbe[slot] = (u16)((frame >> 16) & 0xFFFF);
+    g_mdRuntimeProbe[slot + 1] = (u16)(frame & 0xFFFF);
+}
+
 static u16 measure_max_scanline_sprites(void)
 {
     Sprite* cursor = firstSprite;
@@ -150,6 +168,13 @@ static void export_visual_probe_to_sram(void)
     sram_write_visual_word(&offset, g_mdRuntimeProbe[4]);
     sram_write_visual_word(&offset, g_mdRuntimeProbe[18]);
     sram_write_visual_word(&offset, g_mdRuntimeProbe[19]);
+    /* words[26..31]: quadro de cada pico, hi/lo. Anexados no fim do bloco. */
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[24]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[25]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[26]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[27]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[28]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[29]);
 
     for (i = 0; i < PROBE_VLAB_PALETTE_WORDS; i++) {
         sram_write_visual_word(&offset, s_vlabPalette[i]);
@@ -173,6 +198,9 @@ static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
     g_mdRuntimeProbe[17] = 0;
     g_mdRuntimeProbe[18] = 0;
     g_mdRuntimeProbe[19] = 0;
+    for (i = 24; i <= 29; i++) {
+        g_mdRuntimeProbe[i] = 0;   /* quadros de pico zeram junto com os picos */
+    }
 
     for (i = 0; i < MD_RUNTIME_PROBE_MAX_SAMPLES; i++) {
         g_mdRuntimeProbe[PROBE_SAMPLE_OFFSET + i] = 0;
@@ -312,6 +340,7 @@ void MDRuntimeProbe_tick(void)
     }
     if (cpuLoad > g_mdRuntimeProbe[11]) {
         g_mdRuntimeProbe[11] = cpuLoad;
+        probe_note_peak_frame(26);
     }
     if (s_hasPrevSample && jitter > g_mdRuntimeProbe[13]) {
         g_mdRuntimeProbe[13] = jitter;
@@ -320,6 +349,7 @@ void MDRuntimeProbe_tick(void)
     maxScanlineSprites = measure_max_scanline_sprites();
     if (maxScanlineSprites > g_mdRuntimeProbe[14]) {
         g_mdRuntimeProbe[14] = maxScanlineSprites;
+        probe_note_peak_frame(24);
     }
 
     if (g_mdRuntimeProbe[15] < 1) g_mdRuntimeProbe[15] = 1;
@@ -334,6 +364,7 @@ void MDRuntimeProbe_tick(void)
     g_mdRuntimeProbe[16] = clamp_u16(SPR_getNumActiveSprite());
     if (g_mdRuntimeProbe[16] > g_mdRuntimeProbe[17]) {
         g_mdRuntimeProbe[17] = g_mdRuntimeProbe[16];
+        probe_note_peak_frame(28);
     }
 
     if (samplesRecorded < MD_RUNTIME_PROBE_MAX_SAMPLES) {

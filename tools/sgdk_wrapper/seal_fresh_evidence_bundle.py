@@ -51,6 +51,10 @@ def load_screenshot_gate() -> Any:
     return module
 
 
+# Espelha PROBE_VLAB_PALETTE_WORDS em system/runtime_probe.c. Se mudar la, muda aqui.
+PROBE_VLAB_PALETTE_WORDS = 64
+
+
 def extract_vlab(sram_path: Path, dump_path: Path) -> dict[str, Any]:
     raw = sram_path.read_bytes()
     offset = raw.find(b"VLAB")
@@ -65,12 +69,23 @@ def extract_vlab(sram_path: Path, dump_path: Path) -> dict[str, Any]:
     words = list(struct.unpack_from(f">{word_count}H", payload, 8)) if word_count else []
     if len(words) < 24:
         raise ValueError("vlab_metrics_incomplete")
+    # A paleta tem tamanho FIXO (PROBE_VLAB_PALETTE_WORDS = 64) e vive no fim do
+    # bloco; o que sobra na frente e metrica. Derivar assim faz a leitura
+    # acompanhar a probe sozinha.
+    #
+    # A versao anterior cortava em `words[:24]` com 24 escrito na mao, enquanto a
+    # probe ja emitia 26 palavras. Os dois campos extras — spawned e failed do
+    # contador de alocacao — caiam no balde da paleta e nunca chegavam ao report.
+    # Quando a probe passou a 32, os seis quadros de pico sumiram do mesmo jeito,
+    # e o sintoma foi campo `None` num bundle cuja SRAM tinha o dado.
+    metric_count = max(24, len(words) - PROBE_VLAB_PALETTE_WORDS)
     return {
         "schema_version": schema_version,
         "offset": offset,
         "total_bytes": total_bytes,
-        "metric_words": words[:24],
-        "palette_words": words[24:],
+        "metric_word_count": metric_count,
+        "metric_words": words[:metric_count],
+        "palette_words": words[metric_count:],
     }
 
 
@@ -120,9 +135,28 @@ def build_runtime_metrics(
             "active_sprite_count_at_export": words[21],
             "max_active_sprites": words[22],
             "target_fps": words[23],
+            # words[26..31]: quadro em que cada pico ocorreu, hi/lo.
+            # Maximo sem quadro diz que o teto foi violado e nao diz por quem.
+            # Ausentes em ROM com probe anterior a 2026-08-18: fica None.
+            "max_scanline_sprites_at_frame": _peak_frame(words, 26),
+            "max_cpu_load_at_frame": _peak_frame(words, 28),
+            "max_active_sprites_at_frame": _peak_frame(words, 30),
+            # words[24..25]: contador de alocacao de sprite. Existiam na probe
+            # desde sempre e nunca chegavam aqui por causa do corte em 24.
+            "sprite_alloc_spawned": words[24] if len(words) > 24 else None,
+            "sprite_alloc_failed": words[25] if len(words) > 25 else None,
         },
         "claim_limit": "A single window-title and VLAB snapshot does not prove sustained performance.",
     }
+
+
+def _peak_frame(words, index):
+    """Le um par hi/lo. Devolve None quando a ROM foi compilada com a probe
+    antiga, que nao emite estas palavras — declarar ausencia e melhor que
+    devolver 0 e deixar parecer que o pico foi no quadro zero."""
+    if len(words) <= index + 1:
+        return None
+    return (words[index] << 16) | words[index + 1]
 
 
 def seal_bundle(

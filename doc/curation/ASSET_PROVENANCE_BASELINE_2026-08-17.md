@@ -1487,3 +1487,74 @@ arvore inteira sai limpa desde que a deteccao de copia defasada existe.
 Consequencia para os 4 projetos: qualquer numero de pressao por scanline medido antes desta data
 saiu de instrumento cego para metade do orcamento. Os numeros nao estao necessariamente errados
 — estao **nao medidos** naquele eixo, e precisam ser refeitos antes de sustentar claim.
+
+## Fase 30 — re-medicao de scanline nos 4 projetos
+
+O simulador defasado nunca foi a trava aqui. A trava e outra e e maior.
+
+### O que os 4 declaram, contra o que o codigo faz
+
+| projeto | declaracao | `SPR_addSprite` no codigo | veredito |
+|---|---|---|---|
+| FORGE_REFERENCE | `0 sprites neste baseline` | **nenhum** (so `SPR_init`) | declaracao **verdadeira** |
+| GOTHAM_OVERDRIVE | `0 sprites neste baseline` | player, 4 drones, boss de 5 pecas | declaracao **falsa** |
+| KIRBY_FAN CLOUDE | `0 sprites neste baseline` | 33 objetos de sprite | declaracao **falsa** |
+| KIRBY_FAN GROK BUILD | `0 sprites neste baseline` | 33 objetos de sprite | declaracao **falsa** |
+
+Tres de quatro declaram hardware ocioso enquanto o codigo popula a SAT. Isso nao e erro de
+instrumento: e declaracao que nunca foi ligada ao codigo. O simulador cego para pixel escondia
+metade do orcamento, mas aqui nao havia nem numero para esconder.
+
+### Sprite de hardware nao e sprite do SGDK
+
+O VDP conta **sprites de hardware**, e nenhum passa de 4x4 tiles. O SGDK quebra o resto. O chassi
+do boss de GOTHAM tem 8x6 tiles e vira **4 sprites**, nao 1. Medir sem decompor subconta o limite
+de 20 por linha pela metade — e teria dado um verde falso.
+
+### GOTHAM_OVERDRIVE, quadro pos-init
+
+Todas as posicoes lidas do codigo (`BOSS_START_X/Y = 128/40`, `PLAYER_START = 136/176`). Os
+drones nascem em `-32,-32` com `SPR_setVisibility(HIDDEN)`: estao fora da tela.
+
+| | |
+|---|---|
+| sprites de hardware em tela | 10 |
+| pico por scanline | **5 de 20** |
+| pico de pixels por scanline | **160 de 320** |
+| limite que amarra | `sprite_pixels` |
+| utilizacao | **50%** |
+
+`status=ok`, sem blockers. Abaixo do limiar de 60% da secao 30: folga nao explorada, sem
+justificativa declarada.
+
+Um cenario com os 4 drones ativos na faixa do player nao move o pico (continua 5/20 e 160/320) —
+o boss e o player e que dominam a linha. **Esse cenario e modelado por mim, nao lido do codigo**,
+e por isso nao entra como medicao.
+
+### KIRBY CLOUDE e GROK BUILD: inventario medido, scanline NAO
+
+Contagens lidas do codigo (`BOSS_BRANCH_COUNT 4`, `BOSS_SEGMENTS_PER_BRANCH 5`,
+`BOSS_APPLE_POOL 8`, `BOSS_LIGHT_SPRITES 3`):
+
+| elemento | qtd | tiles | sprites de hardware |
+|---|---|---|---|
+| segmentos de galho | 20 | 2x2 | 20 |
+| macas | 8 | 2x2 | 8 |
+| luzes | 3 | 4x4 | 3 |
+| face do boss | 1 | 6x4 | 2 |
+| kirby | 1 | 4x4 | 1 |
+| **total** | | | **34** |
+
+34 de 80 slots da SAT. **O pico por scanline nao pode ser medido**: as posicoes saem de
+`seg->x/seg->y` calculados em runtime pela simulacao dos galhos, e nao derivam de constante
+nenhuma. Se mais de 20 coincidirem numa linha, ha dropout — e com 20 segmentos de galho numa
+cena de boss, coincidir e plausivel.
+
+Para virar medicao, cada um precisa de **`worst_frame_sprite_layout` preenchido** no
+`scene_contract` ou de uma probe de runtime. Nao chutei o layout.
+
+### O que fica aberto
+
+- 3 declaracoes de `0 sprites` precisam ser corrigidas para o que o codigo faz.
+- GOTHAM tem 50% de folga sem justificativa declarada.
+- Os dois KIRBY precisam de layout declarado ou probe antes de qualquer claim de scanline.

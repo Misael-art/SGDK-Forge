@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "tool": "validate_measurement_tools",
-  "generated_at": "2026-08-18T16:10:01Z",
+  "generated_at": "2026-08-18T16:15:17Z",
   "rule_ref": "SGDK_GLOBAL.md secao 34",
   "tools_checked": 9,
   "passed": 9,
@@ -51,7 +51,7 @@
     {
       "tool": "tools/sgdk_wrapper/seal_fresh_evidence_bundle.py",
       "exit_code": 0,
-      "output": "seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados)",
+      "output": "seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados, ",
       "status": "passed"
     },
     {

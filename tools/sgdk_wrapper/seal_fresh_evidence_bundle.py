@@ -404,8 +404,85 @@ def self_check() -> int:
             print("self-check failed: bloco com 10 metricas foi aceito", file=sys.stderr)
             return 1
 
+    if _self_check_identity_and_freshness() != 0:
+        return 1
+
     print("seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, "
-          "hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados)")
+          "hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados, "
+          "identidade de ROM e frescor nos dois sentidos)")
+    return 0
+
+
+def _self_check_identity_and_freshness() -> int:
+    """As duas garantias que sustentam todo o resto do bundle.
+
+    `rom_identity_mismatch` e o que prende a evidencia a UM binario. Se ela
+    passar em silencio, todo numero selado fica preso a uma ROM nao verificada.
+    `artifact_stale` e o que impede selar captura de uma execucao anterior como
+    prova da atual — o erro que quase aconteceu nesta curadoria com uma rom.bin
+    tres dias mais velha que o codigo.
+
+    As fixtures usam screenshot INEXISTENTE de proposito: sem ele o gate
+    semantico externo nao roda, e as assertivas ficam sobre estes dois caminhos e
+    nao sobre a analise de imagem, que tem self-check proprio.
+    """
+    import os
+    import tempfile
+    import time
+
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        rom = tmp / "rom.bin"
+        rom.write_bytes(b"\x00" * 512)
+        sram = tmp / "s.sram"
+        sram.write_bytes(_fixture_sram(list(range(32))))
+        real = sha256(rom)
+
+        def seal(expected: str, root_name: str):
+            return seal_bundle(
+                session_root=tmp / root_name, session_id="t", rom_path=rom,
+                screenshot_path=tmp / "nao_existe.png", sram_path=sram,
+                expected_rom_sha256=expected, started_at=iso_utc(),
+                completed_at=iso_utc(), emulator_ref="t", emulator_commit="t",
+            )["manifest"]["blockers"]
+
+        # 1. sha divergente REPROVA
+        if "rom_identity_mismatch" not in seal("0" * 64, "b1"):
+            print("self-check failed: ROM divergente foi aceita — a evidencia deixaria "
+                  "de estar presa a um binario", file=sys.stderr)
+            return 1
+
+        # 2. sha correto NAO acusa
+        if "rom_identity_mismatch" in seal(real, "b2"):
+            print("self-check failed: ROM correta acusada como divergente", file=sys.stderr)
+            return 1
+
+        # 3. sha correto em MAIUSCULA nao acusa. hexdigest() e minusculo e so o
+        #    esperado passa por .lower(); um dos lados nao normalizado quebraria
+        #    todo bundle de quem escrevesse o sha em caixa alta.
+        if "rom_identity_mismatch" in seal(real.upper(), "b3"):
+            print("self-check failed: sha em maiuscula tratado como divergente",
+                  file=sys.stderr)
+            return 1
+
+        # 4. artefato velho REPROVA
+        antigo = time.time() - 3600.0
+        os.utime(rom, (antigo, antigo))
+        if not any(b.startswith("artifact_stale:") for b in seal(real, "b4")):
+            print("self-check failed: artefato de uma hora atras foi selado como fresco — "
+                  "isso deixaria captura de outra execucao virar prova desta",
+                  file=sys.stderr)
+            return 1
+
+        # 5. artefato recem-escrito NAO acusa
+        agora = time.time()
+        os.utime(rom, (agora, agora))
+        os.utime(sram, (agora, agora))
+        if any(b.startswith("artifact_stale:") for b in seal(real, "b5")):
+            print("self-check failed: artefato recem-escrito acusado como velho",
+                  file=sys.stderr)
+            return 1
+
     return 0
 
 

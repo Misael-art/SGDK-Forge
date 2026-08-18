@@ -2108,3 +2108,56 @@ Celestial Chase visual benchmark, FORGE_REFERENCE, os dois KIRBY, MARE_BRAVA, SM
 
 Sincronizar `runtime_probe.c` muda `src/` de 10 projetos e exige rebuild de cada um para valer.
 E decisao de curadoria, nao efeito colateral de um gate.
+
+## Fase 41 — identidade de ROM e frescor entram no self-check do sealer
+
+As duas garantias que sustentam todo o resto do bundle, e as unicas duas dos seis blockers de
+`seal_bundle()` que valiam a pena. As outras quatro ficam de fora de proposito:
+`artifact_missing` e um `is_file()` e nao tem como mentir plausivelmente,
+`session_completed_before_start` levanta excecao em vez de bloquear, e o `blocker_code` do gate
+de screenshot pertence ao self-check daquele gate.
+
+### `rom_identity_mismatch`
+
+E o que prende a evidencia a UM binario. Se passar em silencio, todo numero selado nesta
+curadoria fica preso a uma ROM nao verificada.
+
+Fixtures: sha divergente **reprova**; sha correto **nao acusa**; e sha correto **em maiuscula nao
+acusa** — `hexdigest()` devolve minuscula e so o lado esperado passa por `.lower()`, entao um dos
+lados sem normalizar quebraria todo bundle de quem escrevesse o sha em caixa alta.
+
+### `artifact_stale`
+
+E o que impede selar captura de uma execucao anterior como prova da atual. **Esse erro quase
+aconteceu nesta curadoria**: havia uma `rom.bin` de 15/08 no GOTHAM, tres dias mais velha que o
+codigo, e capturar aquela ROM teria produzido evidencia de outro programa com carimbo de valida.
+
+Fixtures: artefato com mtime de uma hora atras **reprova**; recem-escrito **nao acusa**.
+
+### Isolamento das fixtures
+
+Usam screenshot **inexistente** de proposito. Sem ele o gate semantico externo nao roda, e as
+assertivas ficam sobre estes dois caminhos em vez de sobre analise de imagem.
+
+### Teste de mutacao: 3 de 3 pegos
+
+| mutacao | resultado |
+|---|---|
+| `if current_rom_sha256 != ...` -> `if False:` | `exit=1` "ROM divergente foi aceita" |
+| `if modified < min_epoch ...` -> `if False:` | `exit=1` "artefato de uma hora atras foi selado como fresco" |
+| remover o `.lower()` do sha esperado | `exit=1` "sha em maiuscula tratado como divergente" |
+
+Restaurado, volta a passar. **As tres travas ja reprovaram de verdade.**
+
+### Bug encontrado ao escrever o proprio self-check
+
+Escrevi `seal_bundle(...)["blockers"]` e a funcao devolve
+`{"sealed", "manifest", "freshness"}` — os blockers vivem em `manifest.blockers`. Estourou
+`KeyError` na primeira execucao. Vale registrar porque e o argumento do self-check em miniatura:
+**eu presumi a forma do retorno de uma funcao que li dez minutos antes, e errei.**
+
+### Meta-gate
+
+9/9 com self-check passando. Verdict continua **BLOCKED** por
+`project_source_mirror_stale` — os 20 espelhos de `runtime_probe` da Fase 40, que seguem
+aguardando decisao de curadoria.

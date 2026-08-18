@@ -81,9 +81,9 @@ E tem mais folga na mesa. O logo declara 15 cores e **nunca pinta quatro delas**
 
 | idx | rgb | luma | uso |
 |---|---|---|---|
-| 7 | (136,170,204) | 172,5 | **0%** |
-| 8 | (170,204,238) | 205,7 | **0%** |
-| 12 | (238,204,34) | 210,2 | **0%** |
+| 7 | (136,170,204) | 163,7 | **0%** |
+| 8 | (170,204,238) | 197,7 | **0%** |
+| 12 | (238,204,34) | 194,8 | **0%** |
 | 14 | (204,204,204) | 204,0 | **0%** |
 
 O topo claro da rampa de aco **ja esta declarado e nunca foi pintado**. O idx 6 (luma 129,7)

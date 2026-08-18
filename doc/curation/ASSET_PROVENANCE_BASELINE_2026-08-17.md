@@ -1844,3 +1844,59 @@ desta curadoria nao versiona arquivo nao commitado do usuario.
 
 A captura continua impossivel enquanto `gotham_boss.c:33` chamar `spr_boss_tread`. O passo 2 dos
 tres da Fase 34 esta feito; o 1 e do autor e o 3 depende dele.
+
+## Fase 36 — GOTHAM compila e roda; a probe portada se prova e acha outra coisa
+
+### O conserto
+
+`gotham_boss.c:33-34`: `spr_boss_tread` -> `spr_boss_tread_left` e `spr_boss_tread_right`, que sao
+os nomes declarados em `res/resources.res:23-24`. Era erro de digitacao, nao refatoracao em
+andamento como eu suspeitei na Fase 34. Duas linhas.
+
+`wine_bridge_status=buildado`. Unico warning e pre-existente e alheio:
+`gotham_enemies.c:79: unused variable 'dx'`.
+
+A `runtime_probe.c` portada compilou **dentro do build completo**, nao so isolada, o que fecha a
+verificacao da Fase 35.
+
+### A captura
+
+`linux_blastem_capture_status=sealed`, `blockers: []`. Cena capturada:
+`APP_SCENE_TECHDEMO = 4`, 151 quadros.
+
+### A prova de que o port valeu
+
+| campo | probe antiga | probe portada, medida |
+|---|---|---|
+| `active_sprite_count` | **`1`** (constante) | **`58`** |
+| `max_active_sprites` | inexistente | **`58`** |
+| `max_scanline_sprites` | 4 de 224 linhas amostradas | **`7`**, varredura completa |
+| bloco VLAB | ausente | presente e lido |
+
+O campo que exportava a constante `1` agora exporta 58. **A leitura da probe antiga era ficcao**,
+e agora ha numero.
+
+### O que a captura achou, e nao era o que eu procurava
+
+| | |
+|---|---|
+| `max_cpu_load` | **185** |
+| `over_budget_frames` | **61** de 151 |
+| `max_cpu_jitter` | 13 |
+| `max_scanline_sprites` | 7 de 20 |
+| `max_active_sprites` | 58 |
+
+**A techdemo roda a 185% do orcamento de quadro, com 61 dos 151 quadros estourados.** O HUD da
+propria ROM concorda: `CPU:170` na captura. Isso e problema de CPU, nao de VDP — com 58 sprites
+ativos o pico por scanline e so 7 de 20, ou seja eles estao espalhados.
+
+Nao investiguei nem corrigi: e codigo untracked do usuario e esta fora do que foi pedido.
+
+### O que continua sem contraprova
+
+A captura **nao alcanca `BOSS_STATE_DEFEATED`** — chegar la exige jogar ate matar o boss. Os
+`13/20` e `288/320` das Fases 32 e 33 continuam sendo simulacao. O que mudou e que agora existe
+instrumentacao capaz de medi-los: ROM que compila, probe que le de verdade e bundle que sela.
+
+Bundle: `out/remediation/P0-005/fresh_bundle/blastem-linux-20260818T154746Z-2690057`
+(`out/` e ignorado, entao o bundle nao entra no git; o caminho fica registrado aqui).

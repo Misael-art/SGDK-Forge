@@ -231,14 +231,24 @@
       "canonized_in": "SGDK_GLOBAL secao 37",
       "enforced_by": "",
       "enforcement_state": "prose_only"
+    },
+    {
+      "id": "suggested_fix_without_measurement_is_a_guess",
+      "bucket": "boas_praticas",
+      "severity": "high",
+      "lesson": "Conserto sugerido por plausibilidade e chute. Meca a alternativa ANTES de propor, senao o proximo turno implementa a sua hipotese como se fosse conclusao.",
+      "evidence": "Fechei a Fase 32 sugerindo espalhar o spawn de particulas do GOTHAM por 3 quadros. Medido: 24/20 e 464/320, PIOR que o original de 23/20 e 448/320, porque o pool satura igual e o problema era espacial. A varredura de 8 alternativas achou o que funciona (nascer espalhado, r=6: 13/20 e 288/320) e derrubou a minha hipotese junto com mais cinco.",
+      "canonized_in": "SGDK_GLOBAL secao 37",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     }
   ],
   "canonization_audit": {
     "date": "2026-08-18",
-    "lessons": 22,
-    "canonized": 22,
+    "lessons": 23,
+    "canonized": 23,
     "measured": 11,
-    "prose_only": 11,
+    "prose_only": 12,
     "note": "Secoes 35 e 36 sairam de prosa em 2026-08-18 com audit_stage_occupancy.py e audit_luma_floor.py."
   }
 }

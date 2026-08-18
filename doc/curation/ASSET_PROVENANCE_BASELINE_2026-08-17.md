@@ -1665,3 +1665,61 @@ esta atras das particulas na ordem da SAT.
 baixo, procurando folga; nao havia ramo para estouro. Corrigido com o blocker
 `scanline_limit_exceeded` e uma fixture no self-check. Quarta ferramenta de medicao com defeito
 nesta curadoria, e a segunda que eu mesmo escrevi.
+
+## Fase 33 — o conserto que eu sugeri estava errado, e a medicao mostrou
+
+Na Fase 32 eu fechei sugerindo "espalhar o spawn por 2-3 quadros resolve sem tirar nada da
+tela". **Medido, piora.**
+
+### Varredura dos 181 quadros da derrota
+
+| alteracao | sprites/linha | px/linha | veredito |
+|---|---|---|---|
+| atual | 23/20 | 448/320 | estoura |
+| **espalhar o spawn em 3 quadros** | **24/20** | **464/320** | **pior que o original** |
+| count 6 -> 4 | 20/20 | 376/320 | estoura |
+| count 6 -> 3 | 18/20 | 368/320 | estoura |
+| pool 24 -> 16 | 20/20 | 376/320 | estoura |
+| velocidade x2 | 23/20 | 448/320 | estoura |
+| vidas 14/18/22 -> 8/10/12 | 23/20 | 448/320 | estoura |
+| explosao a cada 16 quadros | 22/20 | 408/320 | estoura |
+
+Espalhar no tempo nao muda nada porque **o pool de 24 satura de qualquer jeito**. A explosao a
+cada 8 quadros com vidas de 14 a 22 mantem 24 particulas vivas o tempo todo; mudar o instante do
+nascimento so muda o arranjo.
+
+### O limite que amarra e pixel, nao contagem
+
+Varias opcoes levam a contagem a 20 ou menos e continuam estourando px. O boss sozinho ocupa
+~120 px nas linhas dele (chassi 2 sprites de 32 px, torre 32, casulo 24), sobrando ~200 px, isto
+e **12 particulas de 16 px**. Cortar particula ate caber destruiria a explosao.
+
+### O que resolve: espalhar no ESPACO
+
+| raio de nascimento | sprites/linha | px/linha | folga |
+|---|---|---|---|
+| r=2 | 21/20 | 416/320 | -96 |
+| r=4 | 15/20 | 320/320 | 0 |
+| **r=6** | **13/20** | **288/320** | **+32** |
+| r=8 + count 5 | 11/20 | 256/320 | +64 |
+
+`EXPLOSION_BIRTH_SPREAD 6`: a particula nasce deslocada na direcao da propria velocidade, como se
+a explosao ja tivesse 6 quadros de idade no primeiro quadro. **Nada foi removido da tela** — pool
+24, count 6 e periodo de 8 quadros continuam identicos.
+
+Escolhi r=6 e nao r=8: a secao 30 diz que o teto e o alvo. Com 288/320 a cena usa 90% do
+orcamento de pixel e 65% do de sprite, com folga medida. r=8 entregaria margem que ninguem pediu
+ao custo de uma explosao mais rala.
+
+### Pior quadro depois
+
+`defeatTimer=24`, os mesmos 32 sprites de hardware em tela, **13/20 e 288/320, `status=ok`**.
+
+### A licao
+
+Sugeri um conserto por plausibilidade no fim da Fase 32 e o usuario pediu exatamente ele. Se eu
+tivesse implementado sem medir, teria entregue uma regressao com cara de correcao — e o
+`status=error` continuaria, so que agora com a justificativa de "ja foi tratado".
+
+**Conserto sugerido sem medicao e chute com sotaque de engenharia.** A varredura custou um
+script de 40 linhas e derrubou a minha hipotese junto com mais cinco.

@@ -71,239 +71,239 @@
         "load_time_dma_cost": "permitido apenas na entrada da cena",
         "per_frame_dma_cost": "nao_medido",
         "active_animation_window": "manter residente so o que participa do loop central",
-        "scanline_sprite_pressure": "23/20 sprites e 424/320 px nas linhas 80-95 (MEDIDO por vdp_scanline_simulator sobre worst_frame_sprite_layout; ESTOURA os dois limites do VDP)",
+        "scanline_sprite_pressure": "13/20 sprites e 288/320 px (MEDIDO por varredura dos 181 quadros da derrota; folga de 32 px no limite que amarra)",
         "runtime_loading_model": "scene_local_preload",
         "fallback_plan": "simplificar composicao antes de vender efeito caro como default",
         "worst_frame_sprite_layout": {
-          "frame": "BOSS_STATE_DEFEATED, defeatTimer=8 (quadro de spawn da explosao)",
+          "frame": "BOSS_STATE_DEFEATED, defeatTimer=24",
           "display_mode": "h40",
-          "how_determined": "Derivado do codigo, nao de captura. gotham_boss.c:216-219 chama spawnExplosion(bx+t%50, by+t%30, 6) a cada 8 quadros durante a derrota; gotham_particles.c:142-152 emite 3 particulas por iteracao NA MESMA coordenada, entao count 6 = 18 particulas coincidentes no quadro do spawn. Boss em BOSS_COMBAT_Y=72 com as 5 pecas nos offsets de gotham_boss.c:31-35. Sprites do SGDK decompostos em sprites de hardware de no maximo 4x4 tiles.",
-          "modeled_not_derived": "As 6 residuais da explosao anterior. Posicoes estimadas pelas velocidades (i*13)%7-3 e (i*17)%7-3 do codigo apos 8 quadros. Sem elas o pior quadro ja estoura: 22/20 e 408/320.",
-          "not_included": "Projeteis em voo (pool de 24), player e drones. Incluir qualquer um deles so piora o resultado.",
+          "how_determined": "Varredura dos 181 quadros da sequencia de derrota, simulando as regras de gotham_particles.c (pool de 24, primeira vaga livre, pos += v por quadro, lifetime--) e gotham_boss.c (explosao de count 6 a cada 8 quadros em bx+t%50, by+t%30; boss sobe 0.2/quadro). Cada quadro medido por vdp_scanline_simulator. Sprites do SGDK decompostos em sprites de hardware de no maximo 4x4 tiles.",
+          "fix_applied": "EXPLOSION_BIRTH_SPREAD 6 em gotham_particles.c. A particula nasce deslocada na direcao da propria velocidade. Nenhuma particula foi removida: pool 24, count 6 e periodo de 8 quadros continuam iguais.",
+          "rejected_alternative": "Espalhar o spawn por 3 quadros foi medido em 24/20 e 464/320, PIOR que o original de 23/20 e 448/320. O pool satura igual e so muda de arranjo; o problema era espacial, nao temporal.",
           "sprites": [
             {
               "x": 128,
-              "y": 72,
+              "y": 67,
               "w": 32,
               "h": 32,
               "src": "boss_chassis"
             },
             {
               "x": 160,
-              "y": 72,
+              "y": 67,
               "w": 32,
               "h": 32,
               "src": "boss_chassis"
             },
             {
               "x": 128,
-              "y": 104,
+              "y": 99,
               "w": 32,
               "h": 16,
               "src": "boss_chassis"
             },
             {
               "x": 160,
-              "y": 104,
+              "y": 99,
               "w": 32,
               "h": 16,
               "src": "boss_chassis"
             },
             {
               "x": 144,
-              "y": 80,
+              "y": 75,
               "w": 32,
               "h": 32,
               "src": "boss_turret"
             },
             {
               "x": 124,
-              "y": 104,
+              "y": 99,
               "w": 32,
               "h": 16,
               "src": "boss_tread_L"
             },
             {
               "x": 164,
-              "y": 104,
+              "y": 99,
               "w": 32,
               "h": 16,
               "src": "boss_tread_R"
             },
             {
               "x": 166,
-              "y": 68,
+              "y": 63,
               "w": 24,
               "h": 24,
               "src": "boss_missile_pod"
             },
             {
-              "x": 136,
-              "y": 80,
+              "x": 4,
+              "y": -54,
               "w": 16,
               "h": 16,
-              "src": "explosao_t8"
+              "src": "particula"
             },
             {
-              "x": 136,
-              "y": 80,
+              "x": 70,
+              "y": 34,
               "w": 16,
               "h": 16,
-              "src": "explosao_t8"
+              "src": "particula"
             },
             {
-              "x": 136,
-              "y": 80,
+              "x": 268,
+              "y": 78,
               "w": 16,
               "h": 16,
-              "src": "explosao_t8"
+              "src": "particula"
             },
             {
-              "x": 136,
-              "y": 80,
+              "x": 202,
+              "y": 100,
               "w": 16,
               "h": 16,
-              "src": "explosao_t8"
+              "src": "particula"
             },
             {
-              "x": 136,
-              "y": 80,
+              "x": 102,
+              "y": 42,
               "w": 16,
               "h": 16,
-              "src": "explosao_t8"
+              "src": "particula"
             },
             {
-              "x": 136,
-              "y": 80,
+              "x": 60,
+              "y": 0,
               "w": 16,
               "h": 16,
-              "src": "explosao_t8"
+              "src": "particula"
             },
             {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 136,
-              "y": 80,
-              "w": 16,
-              "h": 16,
-              "src": "explosao_t8"
-            },
-            {
-              "x": 104,
-              "y": 48,
-              "w": 16,
-              "h": 16,
-              "src": "residual_t0"
-            },
-            {
-              "x": 152,
-              "y": 72,
-              "w": 16,
-              "h": 16,
-              "src": "residual_t0"
-            },
-            {
-              "x": 144,
-              "y": 96,
-              "w": 16,
-              "h": 16,
-              "src": "residual_t0"
-            },
-            {
-              "x": 136,
-              "y": 64,
-              "w": 16,
-              "h": 16,
-              "src": "residual_t0"
-            },
-            {
-              "x": 128,
-              "y": 88,
-              "w": 16,
-              "h": 16,
-              "src": "residual_t0"
-            },
-            {
-              "x": 120,
+              "x": 102,
               "y": 56,
               "w": 16,
               "h": 16,
-              "src": "residual_t0"
+              "src": "particula"
+            },
+            {
+              "x": 186,
+              "y": 84,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 228,
+              "y": 84,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 186,
+              "y": 98,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 134,
+              "y": 73,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 116,
+              "y": 55,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 134,
+              "y": 79,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 170,
+              "y": 91,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 188,
+              "y": 91,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 170,
+              "y": 97,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 164,
+              "y": 109,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 176,
+              "y": 127,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 164,
+              "y": 115,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 158,
+              "y": 85,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 164,
+              "y": 79,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 158,
+              "y": 91,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 152,
+              "y": 103,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
+            },
+            {
+              "x": 152,
+              "y": 115,
+              "w": 16,
+              "h": 16,
+              "src": "particula"
             }
           ]
         }

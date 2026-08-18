@@ -1788,3 +1788,59 @@ edicao pedida continua no disco, apenas nao versionada.
 
 Ate os tres, o estado honesto de `first_playable_slice` e **medido por simulacao, nao por
 hardware**, e o contrato ja diz isso em `how_determined`.
+
+## Fase 35 — probe corrigida portada para o GOTHAM
+
+Autorizada pelo curador.
+
+### Verificacao antes de sobrescrever
+
+Diff ignorando fim de linha: **19 linhas so no GOTHAM, 124 so no modelo**. As 19 exclusivas do
+GOTHAM sao exatamente o codigo defeituoso:
+
+- `sampleLines[4]` / `pressure[4]` / cursor rotativo — amostragem de 4 de 224 scanlines;
+- `g_mdRuntimeProbe[17] = 1;` — constante exportada sob o nome `active_sprite_count`.
+
+**Nenhuma customizacao propria do GOTHAM foi perdida.** As unicas dependencias externas da
+versao do modelo sao `gApp`, `game_vars.h` e `system/runtime_probe.h`, e as tres existem no
+GOTHAM.
+
+### O que entrou junto
+
+O header do modelo tem duas linhas a mais: `MDRuntimeProbe_noteSpriteAlloc(u16 spawned, u16
+failed)`. Nao e bagagem — `GOTHAM_PARTICLES_spawnParticle` retorna `FALSE` em silencio quando o
+pool de 24 enche, e ninguem checa. E o mesmo defeito que a licao
+`silent_failure_path_invalidates_claims` descreve, e agora o GOTHAM tem onde contar.
+
+E o bloco `PROBE_VLAB_*`, que o GOTHAM **nao tinha**. Sem ele
+`capture_blastem_evidence_linux.sh` rejeita com `vlab_block_missing`: a probe antiga nunca
+poderia sustentar captura, mesmo com o build passando.
+
+### Verificacao depois
+
+Fim de linha convertido para CRLF, que e a convencao do GOTHAM (a do modelo e LF).
+
+Compilacao da unidade isolada pelo wrapper do wine bridge, ja que o build completo para antes de
+chegar nela:
+
+```
+gcc -m68000 -Wall -Wextra ... -c src/system/runtime_probe.c
+-> out/probecheck/runtime_probe.o, 7808 bytes, zero warning
+```
+
+| defeito | antes | depois |
+|---|---|---|
+| `g_mdRuntimeProbe[17] = 1;` | presente | **0 ocorrencias** |
+| varredura das 224 linhas | ausente | **presente** |
+| bloco VLAB | ausente | **presente** |
+
+### Nao commitado, de proposito
+
+`src/system/runtime_probe.c` e `inc/system/runtime_probe.h` sao **untracked** no GOTHAM, como
+quase todo o `src/` dele. Estao no disco e nao no git, pelo mesmo motivo da Fase 34: o escopo
+desta curadoria nao versiona arquivo nao commitado do usuario.
+
+### Ainda bloqueado
+
+A captura continua impossivel enquanto `gotham_boss.c:33` chamar `spr_boss_tread`. O passo 2 dos
+tres da Fase 34 esta feito; o 1 e do autor e o 3 depende dele.

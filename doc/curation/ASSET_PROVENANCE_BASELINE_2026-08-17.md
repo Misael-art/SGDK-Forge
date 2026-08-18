@@ -2053,3 +2053,58 @@ Restaurado, volta a passar. **O self-check ja reprovou de verdade uma vez**, que
 ### Meta-gate
 
 **9/9 com self-check passando, verdict=OK.**
+
+## Fase 40 — meta-gate passa a medir deriva de fonte por projeto
+
+A deriva de copia ja era detectada para os `.py` da lista `MEASUREMENT_TOOLS` — foi assim que as
+4 copias defasadas do simulador apareceram. A **probe nunca esteve no radar**: e C, e por
+projeto, e so apareceu porque fui olhar na mao. Deriva que nenhum gate mede so aparece quando
+alguem vai procurar.
+
+### O que entrou
+
+`PROJECT_SOURCE_MIRRORS` declara as fontes que cada projeto carrega uma copia, com a canonica no
+modelo — que e de onde `new_project.sh:37` copia:
+
+```
+tools/sgdk_wrapper/modelo/src/system/runtime_probe.c
+tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h
+```
+
+Blocker novo: `project_source_mirror_stale`, separado de `measurement_tool_stale_copy` porque a
+acao e diferente — um se resolve copiando a ferramenta, o outro exige rebuild do projeto.
+
+### Comparacao normaliza fim de linha
+
+O GOTHAM usa CRLF de proposito e o modelo usa LF. Comparar byte a byte acusaria **toda** copia
+CRLF como defasada. Fim de linha nao e deriva de versao, e reprovar por isso e o gate que grita
+lobo da secao 37. O self-check tem fixture para os dois lados: copia so-CRLF **precisa passar**,
+copia com corpo diferente **precisa reprovar**.
+
+### Medido na arvore
+
+| | |
+|---|---|
+| ferramentas com self-check ok | **9 de 9** |
+| espelhos de fonte **defasados em uso** | **20** |
+| espelhos em sincronia | 2 |
+| copia de ferramenta arquivada | 1 (aviso) |
+
+Veredito: **BLOCKED** por `project_source_mirror_stale`, exit 1.
+
+Os 20 sao `runtime_probe.c` e `.h` em 10 projetos: BLUE_CIRCUIT, Celestial Chase Revive,
+Celestial Chase visual benchmark, FORGE_REFERENCE, os dois KIRBY, MARE_BRAVA, SMOKE_TEST,
+`_agent_laboratory` e `_agent_training`. Os 2 em sincronia sao o GOTHAM, portado na Fase 38.
+
+### O que isso muda daqui pra frente
+
+- **Projeto novo nasce correto**: `new_project.sh` copia do modelo, que e a canonica.
+- **Projeto existente nao se conserta sozinho**: os 20 continuam defasados ate alguem sincronizar
+  e reconstruir. A diferenca e que agora **o gate diz**, em vez de depender de alguem suspeitar.
+- O sealer, por ser arquivo unico compartilhado, ja valia para todos sem copia nenhuma. A
+  assimetria entre ferramenta compartilhada e fonte espelhada era invisivel e agora e medida.
+
+### Nao sincronizei os 20
+
+Sincronizar `runtime_probe.c` muda `src/` de 10 projetos e exige rebuild de cada um para valer.
+E decisao de curadoria, nao efeito colateral de um gate.

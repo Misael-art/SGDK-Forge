@@ -49,6 +49,20 @@ MEASUREMENT_TOOLS = [
 
 TIMEOUT_SECONDS = 120
 
+# Instrumentos que NAO sao ferramenta de medicao em Python: sao fonte em C que
+# cada projeto carrega uma copia, nascida do template em `new_project.sh`.
+# A canonica e a do modelo, porque e de la que o script copia.
+#
+# PORQUE: a deriva de copia ja era detectada para os .py da lista acima, e por
+# isso as 4 copias defasadas do simulador apareceram. A probe nunca esteve no
+# radar — e C, e por projeto — e quando fui olhar na mao, 10 de 11 projetos
+# estavam com versao anterior ao quadro-do-pico. Deriva que nenhum gate mede so
+# aparece quando alguem vai procurar.
+PROJECT_SOURCE_MIRRORS = [
+    "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+    "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+]
+
 # Diretorios onde copia local de ferramenta e legitima como backup morto, nao
 # como instrumento em uso.
 COPY_SCAN_SKIP = {"out", "rascunho", "__pycache__", ".git"}
@@ -88,7 +102,17 @@ def run_self_check(root: Path, rel: str) -> dict[str, Any]:
     return entry
 
 
-def scan_copies(root: Path, tools: list[str]) -> list[dict[str, Any]]:
+def _normalized(path: Path) -> bytes:
+    """Conteudo com fim de linha normalizado.
+
+    Comparar byte a byte acusaria toda copia CRLF como defasada, e o GOTHAM usa
+    CRLF de proposito enquanto o modelo usa LF. Fim de linha nao e deriva de
+    versao: reprovar por isso e o gate que grita lobo da secao 37.
+    """
+    return path.read_bytes().replace(b"\r\n", b"\n")
+
+
+def scan_copies(root: Path, tools: list[str], mirrors: list[str] | None = None) -> list[dict[str, Any]]:
     """Encontra copias locais defasadas das ferramentas canonicas.
 
     PORQUE: self-check que passa nao prova que a ferramenta esta atual. Uma copia
@@ -98,46 +122,50 @@ def scan_copies(root: Path, tools: list[str]) -> list[dict[str, Any]]:
     sem self-check, porque parece verificada.
     """
     import hashlib
+    import re as _re
 
     out: list[dict[str, Any]] = []
-    for rel in tools:
-        canon = root / rel
-        if not canon.is_file():
-            continue
-        canon_bytes = canon.read_bytes()
-        canon_hash = hashlib.sha256(canon_bytes).hexdigest()
-        name = Path(rel).name
-        for copy in sorted(root.rglob(name)):
-            if copy == canon or not copy.is_file():
+    for kind, group in (("tool", tools), ("project_source", mirrors or [])):
+        for rel in group:
+            canon = root / rel
+            if not canon.is_file():
                 continue
-            parts = {q.lower() for q in copy.relative_to(root).parts}
-            entry: dict[str, Any] = {
-                "copy": copy.relative_to(root).as_posix(),
-                "canonical": rel,
-                "archived": bool(parts & COPY_SCAN_SKIP),
-            }
-            same = hashlib.sha256(copy.read_bytes()).hexdigest() == canon_hash
-            entry["in_sync"] = same
-            if not same:
-                text = copy.read_text(errors="replace")
-                import re as _re
-                m = _re.search(r'TOOL_VERSION = "([\d.]+)"', text)
-                entry["local_version"] = m.group(1) if m else "unknown"
-                m2 = _re.search(r'TOOL_VERSION = "([\d.]+)"', canon.read_text(errors="replace"))
-                entry["canonical_version"] = m2.group(1) if m2 else "unknown"
-            out.append(entry)
+            canon_hash = hashlib.sha256(_normalized(canon)).hexdigest()
+            canon_text = canon.read_text(errors="replace")
+            name = Path(rel).name
+            for copy in sorted(root.rglob(name)):
+                if copy == canon or not copy.is_file():
+                    continue
+                parts = {q.lower() for q in copy.relative_to(root).parts}
+                entry: dict[str, Any] = {
+                    "copy": copy.relative_to(root).as_posix(),
+                    "canonical": rel,
+                    "kind": kind,
+                    "archived": bool(parts & COPY_SCAN_SKIP),
+                }
+                same = hashlib.sha256(_normalized(copy)).hexdigest() == canon_hash
+                entry["in_sync"] = same
+                if not same:
+                    m = _re.search(r'TOOL_VERSION = "([\d.]+)"', copy.read_text(errors="replace"))
+                    entry["local_version"] = m.group(1) if m else "unknown"
+                    m2 = _re.search(r'TOOL_VERSION = "([\d.]+)"', canon_text)
+                    entry["canonical_version"] = m2.group(1) if m2 else "unknown"
+                out.append(entry)
     return out
 
 
 def audit(root: Path, tools: list[str]) -> dict[str, Any]:
     results = [run_self_check(root, t) for t in tools]
-    copies = scan_copies(root, tools)
+    copies = scan_copies(root, tools, PROJECT_SOURCE_MIRRORS if tools is MEASUREMENT_TOOLS else [])
     blocking = sorted({
         f"measurement_tool_self_check_{r['status']}"
         for r in results if r["status"] != "passed"
     })
-    if any(not c["in_sync"] and not c["archived"] for c in copies):
-        blocking.append("measurement_tool_stale_copy")
+    for c in copies:
+        if c["in_sync"] or c["archived"]:
+            continue
+        blocking.append("measurement_tool_stale_copy" if c["kind"] == "tool"
+                        else "project_source_mirror_stale")
     blocking = sorted(set(blocking))
     return {
         "schema_version": "1.0.0",
@@ -202,8 +230,38 @@ def self_check() -> int:
         print("self-check failed: arquivo ausente nao detectado", file=sys.stderr); return 1
     if "measurement_tool_stale_copy" not in r_stale["blocking_statuses"]:
         print("self-check failed: copia local defasada nao detectada", file=sys.stderr); return 1
-    print("validate_measurement_tools self-check passed "
-          "(sadia, quebrada, sem check, ausente, copia defasada)")
+
+    # Espelho de fonte por projeto: deriva reprova, fim de linha NAO.
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as td2:
+        r2 = Path(td2)
+        (r2 / "modelo").mkdir()
+        (r2 / "proj_igual").mkdir()
+        (r2 / "proj_crlf").mkdir()
+        (r2 / "proj_velho").mkdir()
+        corpo = b"void probe(void)\n{\n    peak_frame();\n}\n"
+        (r2 / "modelo" / "probe.c").write_bytes(corpo)
+        (r2 / "proj_igual" / "probe.c").write_bytes(corpo)
+        (r2 / "proj_crlf" / "probe.c").write_bytes(corpo.replace(b"\n", b"\r\n"))
+        (r2 / "proj_velho" / "probe.c").write_bytes(b"void probe(void)\n{\n}\n")
+
+        found = scan_copies(r2, [], ["modelo/probe.c"])
+        by = {c["copy"]: c for c in found}
+        if not by.get("proj_igual/probe.c", {}).get("in_sync"):
+            print("self-check failed: copia identica acusada como defasada", file=sys.stderr)
+            return 1
+        if not by.get("proj_crlf/probe.c", {}).get("in_sync"):
+            print("self-check failed: diferenca so de CRLF acusada como deriva — "
+                  "isso e o gate gritando lobo", file=sys.stderr)
+            return 1
+        if by.get("proj_velho/probe.c", {}).get("in_sync", True):
+            print("self-check failed: fonte defasada passou", file=sys.stderr)
+            return 1
+        if by["proj_velho/probe.c"]["kind"] != "project_source":
+            print("self-check failed: espelho classificado como ferramenta", file=sys.stderr)
+            return 1
+    print("validate_measurement_tools self-check passed (sadia, quebrada, sem check, "
+          "ausente, copia defasada, espelho de fonte defasado, CRLF nao acusa)")
     return 0
 
 
@@ -241,9 +299,10 @@ def main(argv: list[str]) -> int:
             print()
             for c in stale:
                 tag = "arquivada" if c["archived"] else "EM USO"
-                print(f"  [{'aviso' if c['archived'] else 'FALHA'}] copia {tag} "
-                      f"v{c.get('local_version','?')} != canonica "
-                      f"v{c.get('canonical_version','?')}")
+                ver = ""
+                if c.get("local_version", "unknown") != "unknown":
+                    ver = (f" v{c['local_version']} != v{c.get('canonical_version','?')}")
+                print(f"  [{'aviso' if c['archived'] else 'FALHA'}] {c['kind']} {tag}{ver}")
                 print(f"           {c['copy'][:100]}")
         print(f"\n[measurement-tools] {report['passed']}/{report['tools_checked']} com "
               f"self-check passando  verdict="

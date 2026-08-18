@@ -241,13 +241,23 @@
       "canonized_in": "SGDK_GLOBAL secao 37",
       "enforced_by": "",
       "enforcement_state": "prose_only"
+    },
+    {
+      "id": "absent_field_must_read_as_none_not_zero",
+      "bucket": "boas_praticas",
+      "severity": "high",
+      "lesson": "Campo ausente na leitura deve virar None, nunca 0. Zero e um valor plausivel e passa despercebido; None obriga alguem a explicar a ausencia.",
+      "evidence": "O quadro de pico voltou None num bundle cuja SRAM tinha o dado, e foi isso que expos o corte hardcoded em words[:24] do sealer. Com 0 os campos leriam 'pico no quadro zero' e o furo seguiria invisivel \u2014 como seguiu para spawned/failed, que nunca chegaram ao report desde que foram criados.",
+      "canonized_in": "SGDK_GLOBAL secao 37",
+      "enforced_by": "seal_fresh_evidence_bundle.py",
+      "enforcement_state": "measured"
     }
   ],
   "canonization_audit": {
     "date": "2026-08-18",
-    "lessons": 23,
-    "canonized": 23,
-    "measured": 11,
+    "lessons": 24,
+    "canonized": 24,
+    "measured": 12,
     "prose_only": 12,
     "note": "Secoes 35 e 36 sairam de prosa em 2026-08-18 com audit_stage_occupancy.py e audit_luma_floor.py."
   }

@@ -43,6 +43,7 @@ MEASUREMENT_TOOLS = [
     "tools/sgdk_wrapper/validate_brand_comprehension_gate.py",
     "tools/sgdk_wrapper/audit_stage_occupancy.py",
     "tools/sgdk_wrapper/audit_luma_floor.py",
+    "tools/sgdk_wrapper/seal_fresh_evidence_bundle.py",
     "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
 ]
 

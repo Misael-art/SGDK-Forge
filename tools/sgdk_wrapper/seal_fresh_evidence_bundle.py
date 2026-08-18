@@ -294,7 +294,124 @@ def seal_bundle(
     return {"sealed": sealed, "manifest": manifest, "freshness": freshness}
 
 
+def _fixture_sram(metric_words: list[int], palette_words: int = PROBE_VLAB_PALETTE_WORDS) -> bytes:
+    """Monta um bloco VLAB sintetico, com lixo antes para exercitar o find()."""
+    words = list(metric_words) + [0] * palette_words
+    total = 8 + len(words) * 2
+    return (b"\xAA" * 16 + b"VLAB" + struct.pack(">HH", 1, total)
+            + struct.pack(f">{len(words)}H", *words))
+
+
+def self_check() -> int:
+    """Duas leituras que devem bater e tres que devem recusar.
+
+    O caso 1 e a regressao que motivou este self-check: a leitura cortava as
+    metricas em 24 escrito na mao, entao toda palavra que a probe adicionasse
+    depois da 24a era silenciosamente lida como paleta. O sintoma foi campo
+    `None` num bundle cuja SRAM tinha o dado — e por dois anos os contadores
+    spawned/failed morreram assim sem ninguem notar.
+    """
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        dump = tmp / "d.bin"
+
+        def extract(metric: list[int]):
+            sram = tmp / "s.sram"
+            sram.write_bytes(_fixture_sram(metric))
+            return extract_vlab(sram, dump)
+
+        # 1. probe atual: 32 metricas, com quadro de pico que passa de 65535
+        m32 = list(range(24)) + [7, 3, 0x0001, 0x86A1, 0, 405, 0, 91]
+        v = extract(m32)
+        if v["metric_word_count"] != 32:
+            print(f"self-check failed: 32 metricas lidas como {v['metric_word_count']} "
+                  f"— o corte voltou a ser fixo", file=sys.stderr)
+            return 1
+        r = build_runtime_metrics(session_id="t", rom_sha256="t", vlab=v,
+                                  sram_path=tmp / "s.sram", dump_path=dump,
+                                  window_title="", generated_at="t")["vlab"]
+        if r["max_scanline_sprites_at_frame"] != (1 << 16) | 0x86A1:
+            print(f"self-check failed: par hi/lo reconstruido como "
+                  f"{r['max_scanline_sprites_at_frame']}, esperado 100001", file=sys.stderr)
+            return 1
+        if r["max_cpu_load_at_frame"] != 405 or r["max_active_sprites_at_frame"] != 91:
+            print("self-check failed: quadros de pico trocados de posicao", file=sys.stderr)
+            return 1
+        if r["sprite_alloc_spawned"] != 7 or r["sprite_alloc_failed"] != 3:
+            print("self-check failed: contador de alocacao nao chegou ao report",
+                  file=sys.stderr)
+            return 1
+
+        # 2. probe anterior: 26 metricas. Os campos novos precisam vir None, NUNCA 0.
+        v26 = extract(list(range(24)) + [5, 2])
+        if v26["metric_word_count"] != 26:
+            print(f"self-check failed: ROM antiga lida como {v26['metric_word_count']} "
+                  f"metricas", file=sys.stderr)
+            return 1
+        r26 = build_runtime_metrics(session_id="t", rom_sha256="t", vlab=v26,
+                                    sram_path=tmp / "s.sram", dump_path=dump,
+                                    window_title="", generated_at="t")["vlab"]
+        if r26["max_scanline_sprites_at_frame"] is not None:
+            print(f"self-check failed: ROM sem o campo devolveu "
+                  f"{r26['max_scanline_sprites_at_frame']} em vez de None — zero leria "
+                  f"como 'pico no quadro zero'", file=sys.stderr)
+            return 1
+        if r26["sprite_alloc_spawned"] != 5:
+            print("self-check failed: words[24] perdida na ROM de 26", file=sys.stderr)
+            return 1
+
+        # 3. sem bloco VLAB
+        bad = tmp / "sem.sram"
+        bad.write_bytes(b"\x00" * 256)
+        try:
+            extract_vlab(bad, dump)
+        except ValueError as exc:
+            if "vlab_block_missing" not in str(exc):
+                print(f"self-check failed: erro errado para VLAB ausente: {exc}",
+                      file=sys.stderr)
+                return 1
+        else:
+            print("self-check failed: SRAM sem VLAB foi aceita", file=sys.stderr)
+            return 1
+
+        # 4. total_bytes maior que a SRAM
+        trunc = tmp / "trunc.sram"
+        trunc.write_bytes(b"VLAB" + struct.pack(">HH", 1, 9999) + b"\x00" * 32)
+        try:
+            extract_vlab(trunc, dump)
+        except ValueError as exc:
+            if "vlab_block_size_invalid" not in str(exc):
+                print(f"self-check failed: erro errado para tamanho invalido: {exc}",
+                      file=sys.stderr)
+                return 1
+        else:
+            print("self-check failed: total_bytes impossivel foi aceito", file=sys.stderr)
+            return 1
+
+        # 5. metricas de menos
+        short = tmp / "short.sram"
+        short.write_bytes(_fixture_sram(list(range(10)), palette_words=0))
+        try:
+            extract_vlab(short, dump)
+        except ValueError as exc:
+            if "vlab_metrics_incomplete" not in str(exc):
+                print(f"self-check failed: erro errado para bloco curto: {exc}",
+                      file=sys.stderr)
+                return 1
+        else:
+            print("self-check failed: bloco com 10 metricas foi aceito", file=sys.stderr)
+            return 1
+
+    print("seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, "
+          "hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados)")
+    return 0
+
+
 def main() -> int:
+    if "--self-check" in sys.argv[1:]:
+        return self_check()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--session-root", required=True)
     parser.add_argument("--session-id", required=True)
@@ -307,6 +424,8 @@ def main() -> int:
     parser.add_argument("--emulator-ref", required=True)
     parser.add_argument("--emulator-commit", required=True)
     parser.add_argument("--window-title", default="")
+    parser.add_argument("--self-check", action="store_true",
+                        help="Roda as fixtures de leitura do bloco VLAB e sai.")
     args = parser.parse_args()
     result = seal_bundle(
         session_root=Path(args.session_root),

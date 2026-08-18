@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
   "tool": "validate_measurement_tools",
-  "generated_at": "2026-08-18T15:02:03Z",
+  "generated_at": "2026-08-18T16:03:56Z",
   "rule_ref": "SGDK_GLOBAL.md secao 34",
-  "tools_checked": 8,
-  "passed": 8,
+  "tools_checked": 9,
+  "passed": 9,
   "results": [
     {
       "tool": "tools/sgdk_wrapper/audit_procedural_asset_provenance.py",
@@ -21,7 +21,7 @@
     {
       "tool": "tools/sgdk_wrapper/audit_scene_headroom.py",
       "exit_code": 0,
-      "output": "audit_scene_headroom self-check passed (3 estados + limiar de folga)",
+      "output": "audit_scene_headroom self-check passed (3 estados, limiar de folga, estouro de limite)",
       "status": "passed"
     },
     {
@@ -46,6 +46,12 @@
       "tool": "tools/sgdk_wrapper/audit_luma_floor.py",
       "exit_code": 0,
       "output": "audit_luma_floor self-check passed (contraste 0 reprova, +170 passa, contorno preto passa, sem massa de realce reprova, fundo vazio recusa)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/seal_fresh_evidence_bundle.py",
+      "exit_code": 0,
+      "output": "seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados)",
       "status": "passed"
     },
     {

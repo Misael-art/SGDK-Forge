@@ -2015,3 +2015,41 @@ boss e a contagem de projeteis vivos naquele quadro.
 `sprite_alloc_spawned=0` confirma que o GOTHAM ainda nao chama `MDRuntimeProbe_noteSpriteAlloc` —
 o contador chegou com o port da Fase 35 e nao foi ligado ao `GOTHAM_PARTICLES_spawnParticle`, que
 e onde o `FALSE` silencioso mora.
+
+## Fase 39 — sealer entra no meta-gate
+
+`seal_fresh_evidence_bundle.py` produz **todo numero de runtime que esta curadoria cita** e nao
+estava na lista de ferramentas de medicao. A Fase 38 provou por que ele deveria estar: um corte
+hardcoded fazia campo existente na SRAM chegar ao report como `None`, e antes disso fazia
+`spawned`/`failed` nunca chegarem.
+
+### O self-check, nos dois sentidos
+
+Passam:
+- bloco de **32 metricas** lido como 32, nao truncado em 24;
+- par hi/lo reconstruido acima de 65535 (`0x0001_86A1` = 100001), que e o caso em que um
+  `u16` sozinho mentiria;
+- bloco de **26 metricas** (ROM com probe anterior) lido como 26, com os campos novos em
+  **`None` e nunca `0`**;
+- `words[24..25]` chegando ao report como `sprite_alloc_spawned`/`failed`.
+
+Reprovam:
+- SRAM sem bloco -> `vlab_block_missing`;
+- `total_bytes` maior que a SRAM -> `vlab_block_size_invalid`;
+- bloco com 10 metricas -> `vlab_metrics_incomplete`.
+
+### Teste de mutacao
+
+Reintroduzi o bug (`metric_count = 24`) e o self-check reprovou com a mensagem certa:
+
+```
+self-check failed: 32 metricas lidas como 24 — o corte voltou a ser fixo
+exit=1
+```
+
+Restaurado, volta a passar. **O self-check ja reprovou de verdade uma vez**, que e o que a secao
+37 exige antes de a trava valer.
+
+### Meta-gate
+
+**9/9 com self-check passando, verdict=OK.**

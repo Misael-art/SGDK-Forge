@@ -1612,3 +1612,56 @@ com escopo escondido. `nao_medido` continua sendo a declaracao correta ate exist
 Declaracao tem escopo, e o escopo faz parte da leitura. Medicao de projeto inteiro contra
 declaracao de cena nao mede nada — produz acusacao. Essa e a terceira vez nesta curadoria em que
 o instrumento estava errado e nao o alvo, e a primeira em que o instrumento era um `grep` meu.
+
+## Fase 32 — worst frame do GOTHAM: o VDP estoura na morte do boss
+
+`first_playable_slice` saiu de `nao_medido`. O pior quadro nao foi procurado em captura: ele
+esta escrito no codigo.
+
+### O gerador
+
+`gotham_boss.c:216-219`, estado `BOSS_STATE_DEFEATED`:
+
+```c
+if ((sBoss.defeatTimer & 7) == 0) {            /* a cada 8 quadros */
+    s16 rx = bx + (sBoss.defeatTimer % 50);
+    s16 ry = by + (sBoss.defeatTimer % 30);
+    GOTHAM_PARTICLES_spawnExplosion(rx, ry, 6);
+}
+```
+
+E `gotham_particles.c:142-152` emite **3 particulas por iteracao, na mesma coordenada**. Entao
+`count 6` = **18 particulas coincidentes** no quadro do spawn. A cada 8 quadros, por 180 quadros,
+com vida de 14 a 22 quadros: o pool de 24 satura e tudo fica dentro de 50x30 px do boss.
+
+### Medido
+
+Boss em `BOSS_COMBAT_Y=72` com as 5 pecas nos offsets de `gotham_boss.c:31-35`. Sprites do SGDK
+decompostos em sprites de hardware de no maximo 4x4 tiles.
+
+| | sprites de hw | sprites/linha | px/linha | status |
+|---|---|---|---|---|
+| **A** boss + 1 explosao (**so codigo**) | 26 | **22 / 20** | **408 / 320** | `error` |
+| **B** pool saturado (+6 residuais modeladas) | 32 | **23 / 20** | **424 / 320** | `error` |
+
+**Estoura os dois limites do VDP em 16 scanlines seguidas, da linha 80 a 95.**
+
+A variante A ja estoura sem nenhuma suposicao minha: boss nas posicoes do codigo mais uma
+chamada que o codigo faz. As 6 residuais da B estao marcadas como `modeled_not_derived` no
+contrato.
+
+**Nao incluidos** no layout: os 24 projeteis do pool, o player e os 4 drones. Qualquer um deles
+so piora.
+
+### Consequencia
+
+Sprite alem do vigesimo numa scanline nao e desenhado. Na sequencia de morte do boss — o climax
+da fatia jogavel — vao sumir sprites, e o candidato mais provavel a sumir e o proprio boss, que
+esta atras das particulas na ordem da SAT.
+
+### Um falso verde encontrado no caminho
+
+`audit_scene_headroom.py` reportava **`ok` para 115% de utilizacao**. A regra dele so olhava para
+baixo, procurando folga; nao havia ramo para estouro. Corrigido com o blocker
+`scanline_limit_exceeded` e uma fixture no self-check. Quarta ferramenta de medicao com defeito
+nesta curadoria, e a segunda que eu mesmo escrevi.

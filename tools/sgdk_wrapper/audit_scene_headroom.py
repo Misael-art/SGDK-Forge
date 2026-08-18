@@ -94,7 +94,11 @@ def audit(root: Path) -> dict[str, Any]:
             if state == "measured" and peak is not None:
                 util = peak / SPRITE_LIMIT_H40
                 entry["utilization"] = round(util, 3)
-                if util < UNEXPLOITED_BELOW and not justified:
+                # Folga e desperdicio; estouro e dropout. Reportar 115% como "ok"
+                # porque a regra so olhava para baixo era falso verde.
+                if util > 1.0:
+                    entry["finding"] = "scanline_limit_exceeded"
+                elif util < UNEXPLOITED_BELOW and not justified:
                     entry["finding"] = "unexploited_headroom"
             elif state == "declared_zero":
                 entry["utilization"] = 0.0
@@ -125,13 +129,15 @@ def audit(root: Path) -> dict[str, Any]:
             "unexploited_headroom": len([s for s in scenes if s.get("finding") == "unexploited_headroom"]),
             "hardware_idle_undeclared": len([s for s in scenes if s.get("finding") == "hardware_idle_undeclared"]),
             "unmeasured": len([s for s in scenes if s.get("finding") == "sprite_pressure_unmeasured"]),
+            "scanline_limit_exceeded": len([s for s in scenes if s.get("finding") == "scanline_limit_exceeded"]),
         },
     }
 
 
 def self_check() -> int:
     """Classifica measured, declared_zero e unmeasured; sinaliza folga nao explorada."""
-    cases = {"9": ("measured", "unexploited_headroom"),
+    cases = {"23/20 sprites e 424/320 px": ("measured", "scanline_limit_exceeded"),
+             "9": ("measured", "unexploited_headroom"),
              "19": ("measured", None),
              "0": ("declared_zero", "hardware_idle_undeclared"),
              "nao_medido": ("unmeasured", "sprite_pressure_unmeasured"),
@@ -141,13 +147,18 @@ def self_check() -> int:
         if state != want_state:
             print(f"self-check failed: '{value}' -> {state}, esperado {want_state}", file=sys.stderr)
             return 1
+        if want_finding == "scanline_limit_exceeded":
+            if peak is None or (peak / SPRITE_LIMIT_H40) <= 1.0:
+                print(f"self-check failed: '{value}' deveria acusar estouro", file=sys.stderr)
+                return 1
         if want_finding == "unexploited_headroom" and peak is not None:
             if (peak / SPRITE_LIMIT_H40) >= UNEXPLOITED_BELOW:
                 print(f"self-check failed: '{value}' deveria acusar folga", file=sys.stderr); return 1
         if want_finding is None and peak is not None:
             if (peak / SPRITE_LIMIT_H40) < UNEXPLOITED_BELOW:
                 print(f"self-check failed: '{value}' nao deveria acusar folga", file=sys.stderr); return 1
-    print("audit_scene_headroom self-check passed (3 estados + limiar de folga)")
+    print("audit_scene_headroom self-check passed "
+          "(3 estados, limiar de folga, estouro de limite)")
     return 0
 
 
@@ -178,6 +189,8 @@ def main(argv: list[str]) -> int:
         print(f"[scene-headroom] declaracoes encontradas: {s['declarations_found']}")
         for state, n in sorted(s["by_state"].items()):
             print(f"    {state:16} {n}")
+        if s.get("scanline_limit_exceeded"):
+            print(f"[scene-headroom] ESTOURO DE LIMITE: {s['scanline_limit_exceeded']}")
         print(f"[scene-headroom] unexploited_headroom={s['unexploited_headroom']} "
               f"hardware_idle_undeclared={s['hardware_idle_undeclared']} "
               f"unmeasured={s['unmeasured']}")

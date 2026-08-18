@@ -1900,3 +1900,64 @@ instrumentacao capaz de medi-los: ROM que compila, probe que le de verdade e bun
 
 Bundle: `out/remediation/P0-005/fresh_bundle/blastem-linux-20260818T154746Z-2690057`
 (`out/` e ignorado, entao o bundle nao entra no git; o caminho fica registrado aqui).
+
+## Fase 37 — nao ha atalho de debug, e a rota por input nao alcancou o boss
+
+### Procura
+
+`scene_techdemo.c` tem exatamente dois atalhos: `START` pausa e `MODE`/`X` alterna o overlay de
+telemetria. **Nao existe caminho de debug para `BOSS_STATE_DEFEATED`** — o boss so morre por dano
+em `GOTHAM_BOSS_damage`.
+
+### A rota que a matematica do codigo sugeria
+
+- boss com 200 de vida (`gotham_boss.c:18`);
+- vulcan com 2 projeteis de 2 de dano e cooldown de 6 quadros = **40 de dano/s**;
+- player nasce em x=136, canhoes em 146 e 168, dentro da caixa do boss (`bx..bx+64` = 128..192);
+- `g_mdRuntimeProbe[14]` e `[17]` sao **maximos acumulados**, entao nao era preciso acertar o
+  quadro da explosao.
+
+No BlastEm, `a` = `gamepads.1.a`. Captura rodada com `xdotool keydown a` por 34 s.
+
+### Resultado: nao funcionou
+
+| | sem input | com fogo |
+|---|---|---|
+| `frame_counter` | 151 | 1111 |
+| `max_cpu_load` | 185 | **212** |
+| `over_budget_frames` | 61 | **1021 de 1111** |
+| `max_scanline_sprites` | 7 | **21** |
+| `max_active_sprites` | 58 | 58 |
+
+HUD ao fim da sessao: `P:[......]` **vazio** e `BOSS:[###############.]` **cheio**.
+
+**O player morreu e o boss ficou com a vida intacta.** Segurar o tiro sem desviar mata o player
+antes de o boss cair. A rota por input roteirizado precisa de desvio, nao so de tiro.
+
+### O que a captura provou mesmo assim
+
+**Estouro de scanline existe neste ROM, medido em hardware: 21 contra o teto de 20.** Isso e
+dropout real, e e a primeira vez nesta curadoria que o estouro sai de dump e nao de simulacao.
+
+Mas **nao e o quadro de derrota do boss**, e nao da para atribui-lo: a probe exporta o maximo sem
+o quadro em que ele ocorreu. Os candidatos sao a barragem de vulcan e a explosao de morte do
+player (`gotham_player.c:77`, que usa o mesmo `spawnExplosion` de count 6).
+
+E ele foi medido **com o meu conserto ja compilado**. O `EXPLOSION_BIRTH_SPREAD 6` nao impediu o
+21, o que significa que ou o pico vem de outra fonte, ou o conserto e insuficiente fora do
+cenario do boss que eu simulei.
+
+### O achado dominante nao e o meu
+
+**1021 de 1111 quadros estourados, 92%, com `max_cpu_load` de 212.** O ROM esta em sobrecarga
+permanente, nao em pico. Isso e problema de CPU e ofusca em ordem de grandeza o eixo de scanline
+que eu vinha perseguindo. Nao investiguei: e codigo untracked do usuario.
+
+### Estado honesto
+
+Os `13/20` e `288/320` da Fase 33 **continuam sem contraprova**. O que existe agora e uma medicao
+de hardware que diz que o teto e violado em algum momento, sem dizer qual.
+
+Para fechar faltam duas coisas: um campo de quadro-do-pico na probe (hoje o maximo e anonimo) e
+um caminho ate `BOSS_STATE_DEFEATED` — atalho de debug no `scene_techdemo.c`, que e edicao de
+codigo untracked e depende de autorizacao.

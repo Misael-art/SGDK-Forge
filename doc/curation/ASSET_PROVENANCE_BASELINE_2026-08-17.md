@@ -1723,3 +1723,68 @@ tivesse implementado sem medir, teria entregue uma regressao com cara de correca
 
 **Conserto sugerido sem medicao e chute com sotaque de engenharia.** A varredura custou um
 script de 40 linhas e derrubou a minha hipotese junto com mais cinco.
+
+## Fase 34 — build e captura do GOTHAM: nao foi possivel, e o motivo importa
+
+Pedido: compilar a ROM e capturar no BlastEm para pagar a analise das Fases 32 e 33 com
+evidencia de hardware, conforme a secao 33.
+
+### O build reprova, e nao pelo que eu mexi
+
+```
+src/gameplay/gotham_boss.c:33: error: 'spr_boss_tread' undeclared;
+                               did you mean 'spr_boss_turret'?
+wine_bridge_status=blocked reason=sgdk_make_failed exit_code=2
+```
+
+`res/gotham.res` declara `spr_boss_tread_left` e `spr_boss_tread_right`; o codigo chama
+`spr_boss_tread`. **O projeto nao compila.**
+
+### E o codigo do boss e trabalho em andamento do usuario
+
+| arquivo | git |
+|---|---|
+| `src/gameplay/gotham_boss.c` | **untracked** |
+| `src/gameplay/gotham_enemies.c` | **untracked** |
+| `src/gameplay/gotham_particles.c` | untracked |
+
+Nao corrigi o erro de compilacao. Codigo nao commitado de terceiro nao se conserta por
+iniciativa propria, mesmo quando o conserto parece obvio — o autor pode estar no meio de uma
+refatoracao em que `spr_boss_tread` e o nome que vai existir.
+
+### Consequencia para as Fases 32 e 33
+
+**A analise do pior quadro e sobre codigo que nunca compilou.** Ela continua sendo leitura
+correta do que o codigo diz, e o mecanismo (18 particulas num pixel) e real. Mas os numeros
+23/20 e 448/320 **nunca rodaram em hardware nenhum**, e o conserto de 13/20 e 288/320 tambem
+nao. Os dois sao simulacao, e a secao 33 poe simulacao abaixo de dump de VDP.
+
+Existe `out/rom.bin` de 15/08, mas ela e anterior a este codigo — capturar aquela ROM produziria
+evidencia de outro programa, o que e pior que nenhuma evidencia.
+
+### E a probe esta defasada tambem
+
+`src/system/runtime_probe.c` do GOTHAM tem 262 linhas contra 367 do modelo, e mantem os dois
+defeitos que a curadoria ja corrigiu la:
+
+- `g_mdRuntimeProbe[17] = 1;` — constante exportada sob o nome `active_sprite_count`;
+- sem `s_linePressure[224]`, ou seja amostragem por grupos em vez de varredura das 224 linhas.
+
+Mesmo com o build passando, a captura leria um instrumento quebrado. Pela secao 34, essa leitura
+nao sustentaria claim nenhum.
+
+### Erro meu, corrigido
+
+O commit `a7e0c067` adicionou `gotham_particles.c` ao git. O arquivo era **untracked**: trabalho
+nao commitado do usuario, fora do escopo desta curadoria. Desfeito com `git rm --cached`; a
+edicao pedida continua no disco, apenas nao versionada.
+
+### O caminho para fechar de verdade
+
+1. O autor resolve `spr_boss_tread` (fora do meu escopo);
+2. portar a `runtime_probe.c` corrigida do modelo para o GOTHAM;
+3. build pelo wine bridge, captura por `capture_blastem_evidence_linux.sh` na sequencia de
+   derrota, e comparar o pico medido contra os 13/20 e 288/320 da simulacao.
+
+Ate os tres, o estado honesto de `first_playable_slice` e **medido por simulacao, nao por
+hardware**, e o contrato ja diz isso em `how_determined`.

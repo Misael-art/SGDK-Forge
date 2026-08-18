@@ -59,8 +59,8 @@
       "lesson": "Quando o artista entrega diferente e le melhor, corrija a direcao em vez de reprovar o trabalho.",
       "evidence": "Silhueta 'sobre transparente' era aperto sem ganho. E 'leve, sem chanfro' para o PRESENTS produziu contraste de -8 porque pedia discricao sem piso de luma.",
       "canonized_in": "SGDK_GLOBAL secao 36",
-      "enforced_by": "",
-      "enforcement_state": "prose_only"
+      "enforced_by": "audit_luma_floor.py",
+      "enforcement_state": "measured"
     },
     {
       "id": "qualitative_adjective_needs_a_floor",
@@ -69,8 +69,8 @@
       "lesson": "Adjetivo de direcao sem piso numerico vira defeito. 'Leve' precisa de piso de luma; 'discreto' e sobre tamanho e peso, nunca sobre contraste.",
       "evidence": "PRESENTS com 99% da tinta num indice de luma 38 contra fundo de luma 46.",
       "canonized_in": "SGDK_GLOBAL secao 36",
-      "enforced_by": "",
-      "enforcement_state": "prose_only"
+      "enforced_by": "audit_luma_floor.py",
+      "enforcement_state": "measured"
     },
     {
       "id": "art_must_be_authored_as_tiles",
@@ -179,8 +179,8 @@
       "lesson": "Proibir corte a preto sem declarar COMO cada elemento sai produz acumulo. Continuidade nao e ausencia de remocao: e ter saida desenhada por scroll, fade ou substituicao para cada elemento que entra.",
       "evidence": "Ato 3 com quatro elementos vivos na mesma faixa y=80..128 em F451 (bigorna, FORGE, MISAEL, MASTER) e zero remocoes no codigo. O contrato dizia apenas 'nunca use VDP_clearPlane'.",
       "canonized_in": "SGDK_GLOBAL secao 35",
-      "enforced_by": "",
-      "enforcement_state": "prose_only"
+      "enforced_by": "audit_stage_occupancy.py",
+      "enforcement_state": "measured"
     },
     {
       "id": "gates_do_not_see_composition",
@@ -189,8 +189,8 @@
       "lesson": "Todo gate construido mede hardware. Empilhar elementos na mesma faixa da tela passa em residencia, scanline, provenance e compreensao de marca. Composicao se pega com planta baixa, nao com validador.",
       "evidence": "O ato 3 tem 0 sprites, 865 de 1740 tiles e over_budget 0 \u2014 todos os gates verdes \u2014 com quatro wordmarks empilhados.",
       "canonized_in": "SGDK_GLOBAL secao 35",
-      "enforced_by": "",
-      "enforcement_state": "prose_only"
+      "enforced_by": "audit_stage_occupancy.py",
+      "enforcement_state": "measured"
     },
     {
       "id": "measurement_tools_need_self_check",
@@ -211,14 +211,24 @@
       "canonized_in": "SGDK_GLOBAL secao 34",
       "enforced_by": "validate_measurement_tools.py",
       "enforcement_state": "measured"
+    },
+    {
+      "id": "mean_luma_is_the_wrong_statistic",
+      "bucket": "direcao_de_arte",
+      "severity": "medium",
+      "lesson": "Contraste de elemento se mede por massa de tinta, nunca por media de luma. Contorno escuro e recurso de legibilidade e afunda a media sem afundar a leitura.",
+      "evidence": "A primeira versao do audit_luma_floor reprovou o presents_text por media -17,1. Aberta a distribuicao: 58,8% e contorno preto em -83,9 e o ouro esta em +107 e +46,8, com 0% da tinta sob o piso. Falso positivo do gate, pego na calibracao antes de publicar.",
+      "canonized_in": "SGDK_GLOBAL secao 36",
+      "enforced_by": "audit_luma_floor.py",
+      "enforcement_state": "measured"
     }
   ],
   "canonization_audit": {
     "date": "2026-08-18",
-    "lessons": 20,
-    "canonized": 20,
-    "measured": 6,
-    "prose_only": 14,
-    "note": "Secao 35 e 36 sao prosa declarada. A secao 37 exige que isso seja dito em voz alta em vez de parecer coberto."
+    "lessons": 21,
+    "canonized": 21,
+    "measured": 11,
+    "prose_only": 10,
+    "note": "Secoes 35 e 36 sairam de prosa em 2026-08-18 com audit_stage_occupancy.py e audit_luma_floor.py."
   }
 }

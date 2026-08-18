@@ -789,9 +789,20 @@ Medido: o ato 3 do branding do modelo tinha 0 sprites, 865 de 1740 tiles e `over
 - **Gate verde nao e cena aprovada.** Aprovacao artistica se le em captura; ela nunca sai de um
   exit code.
 
-Estado de enforcement: **nao medido**. Existe a metade mecanica — `worst_frame_sprite_layout` no
-schema de `scene_contract` — mas nenhum gate consome ocupacao de faixa da tela. Enquanto isso for
-verdade, esta secao e prosa e a secao 15 se aplica: a leitura e humana e obrigatoria.
+Estado de enforcement: **medido** por `audit_stage_occupancy.py`. Declare um bloco
+`stage_occupancy` no storyboard com zonas (faixa + `max_concurrent`) e elementos (faixa + janela
+de quadros + `exit`). A varredura devolve o pior quadro por zona. Blockers:
+`stage_zone_over_capacity`, `element_without_declared_exit`,
+`declared_band_diverges_from_runtime`.
+
+**Declare a faixa com `runtime_ref` apontando para as constantes do C.** Declaracao envelhece: o
+`vertical_rhythm` deste storyboard ainda dizia baseline y=128 com `author_tile [8,12]` depois que
+o codigo ja tinha ido para `[8,3]` — descrevia uma cena que nao existia mais. Com `runtime_ref`, o
+gate reprova quando o runtime anda sem a planta baixa junto.
+
+Limite declarado: isto mede **sobreposicao de faixa**, a metade geometrica da composicao. Nao le
+hierarquia, peso, direcao de leitura nem ritmo. Ocupacao 1 nao significa cena bem composta, e a
+captura continua obrigatoria.
 
 ## 36. Adjetivo de direcao precisa de piso numerico
 
@@ -813,8 +824,22 @@ Corolario da secao 30: o indice de paleta e **contrato** porque o runtime depend
 o valor hex e **semente** que o artista refina. Trocar hex e passe de arte; trocar papel quebra
 runtime.
 
-Estado de enforcement: **nao medido**. Piso de luma e mecanicamente verificavel a partir da
-paleta e do tileset, e nenhum gate faz isso hoje.
+Estado de enforcement: **medido** por `audit_luma_floor.py`. Declare um bloco `luma_floor` com
+pares elemento/fundo, a regiao exata onde o elemento e carimbado e as camadas de fundo compostas
+de tras para frente.
+
+**O piso e 34** — um degrau de componente do Mega Drive (0,34,68,...,238). Contraste abaixo de um
+degrau nao existe no console. Blockers: `luma_contrast_below_floor` quando mais de um terco da
+tinta cai sob o piso, e `no_readable_highlight_mass` quando intencao de realce nao tem 20% de
+massa com contraste positivo.
+
+**A metrica e massa de tinta, nunca media de luma.** A primeira versao desta ferramenta usava
+media e reprovou o PRESENTS, que le muito bem: 58,8% da tinta dele e contorno preto, e contorno
+escuro e recurso de legibilidade, nao defeito. Media de contorno com preenchimento nao mede nada.
+Calibrar contra falso positivo antes de publicar e a secao 37.
+
+Limite declarado: mede **luma**, nao legibilidade. Tinta e fundo podem estar longe em luma e
+brigar por matiz; serifa fina ou fundo ruidoso continuam ilegiveis com contraste alto.
 
 ## 37. Gate precisa reprovar em teste e ser calibrado contra falso positivo
 

@@ -1,423 +1,590 @@
 {
-  "schema_version": "1.0.0",
-  "contract_id": "branding_v2_cinematic_storyboard",
-  "scene_id": "APP_SCENE_BRANDING",
-  "scene_role": "brand_opening",
-  "status_ceiling": "production_candidate",
-  "ready_for_aaa": false,
-  "human_doc": "doc/branding_v2_scene_conception.md",
-  "source_authority": {
-    "roteiro_ref": "doc/branding_sequence_contract.json#branding_sequence_v2",
-    "spec_ref": "doc/branding_v2_art_direction.md",
-    "context_pack_manifest_ref": "doc/art_direction_decision_record.json",
-    "reference_profile": "ancoras tecnicas de mesma geracao declaradas em art_direction_decision_record.trava_1_referencias; inspiration_only, nenhum IP como prompt"
-  },
-  "cinematic_direction": {
-    "intention": "A marca nao e apresentada, e forjada na frente de quem assiste. Oito virgula sete segundos para dizer que quem fez isto sabe o que este hardware faz.",
-    "narrative_structure": "tres atos em tomada continua, sem corte a preto: a forja viva antes da imagem, o impacto que monta a marca, a assinatura que respira",
-    "cinematic_language_methods": [
-      "continuidade absoluta: nenhum VDP_clearPlane entre atos; transicao por luz, scroll e paleta",
-      "escalada de camada de hardware por ato: luz, depois populacao de sprites, depois scroll por coluna",
-      "antecipacao antes do impacto: 24 quadros de recuo do martelo sustentam o beat de F120",
-      "consequencia fisica em todo efeito: o golpe treme a tela, a brasa acende o que passa, o calor ondula o ar",
-      "economia de pico: o orcamento e gasto no momento de assinatura e devolvido logo depois"
+ "schema_version": "1.0.0",
+ "contract_id": "branding_v2_cinematic_storyboard",
+ "scene_id": "APP_SCENE_BRANDING",
+ "scene_role": "brand_opening",
+ "status_ceiling": "production_candidate",
+ "ready_for_aaa": false,
+ "human_doc": "doc/branding_v2_scene_conception.md",
+ "source_authority": {
+  "roteiro_ref": "doc/branding_sequence_contract.json#branding_sequence_v2",
+  "spec_ref": "doc/branding_v2_art_direction.md",
+  "context_pack_manifest_ref": "doc/art_direction_decision_record.json",
+  "reference_profile": "ancoras tecnicas de mesma geracao declaradas em art_direction_decision_record.trava_1_referencias; inspiration_only, nenhum IP como prompt"
+ },
+ "cinematic_direction": {
+  "intention": "A marca nao e apresentada, e forjada na frente de quem assiste. Oito virgula sete segundos para dizer que quem fez isto sabe o que este hardware faz.",
+  "narrative_structure": "tres atos em tomada continua, sem corte a preto: a forja viva antes da imagem, o impacto que monta a marca, a assinatura que respira",
+  "cinematic_language_methods": [
+   "continuidade absoluta: nenhum VDP_clearPlane entre atos; transicao por luz, scroll e paleta",
+   "escalada de camada de hardware por ato: luz, depois populacao de sprites, depois scroll por coluna",
+   "antecipacao antes do impacto: 24 quadros de recuo do martelo sustentam o beat de F120",
+   "consequencia fisica em todo efeito: o golpe treme a tela, a brasa acende o que passa, o calor ondula o ar",
+   "economia de pico: o orcamento e gasto no momento de assinatura e devolvido logo depois"
+  ],
+  "selected_fake_cinema_tools": [
+   "screen shake decaindo 3-2-2-1-1-0 no impacto",
+   "flash de CRAM de 2 quadros com mascara de linhas",
+   "rastro de afterimage por rampa de cor, ja que o VDP nao tem transparencia",
+   "cortina por coluna com offsets escalonados do centro para as bordas",
+   "varredura especular por bit de highlight, nunca brilho assado no asset"
+  ],
+  "signature_moment": "F120: o martelo encosta, a tela pisca e treme, e do impacto saem 32 estilhacos que voltam e se montam no logo. Se um segundo for lembrado, e esse."
+ },
+ "state_machine": {
+  "runtime_model": "enter/update/exit com maquina de 3 atos por faixa de quadro; sem loop bloqueante; SYS_doVBlankProcess ao fim de cada quadro",
+  "states": [
+   {
+    "id": "act1_ignition",
+    "frames_ntsc": [
+     0,
+     120
     ],
-    "selected_fake_cinema_tools": [
-      "screen shake decaindo 3-2-2-1-1-0 no impacto",
-      "flash de CRAM de 2 quadros com mascara de linhas",
-      "rastro de afterimage por rampa de cor, ja que o VDP nao tem transparencia",
-      "cortina por coluna com offsets escalonados do centro para as bordas",
-      "varredura especular por bit de highlight, nunca brilho assado no asset"
+    "beats": [
+     {
+      "frames": [
+       0,
+       8
+      ],
+      "motion": "nenhum objeto se move; PAL0[9..12] gira em CRAM a 1 passo por 8 quadros",
+      "intent": "a forja ja esta viva antes da primeira imagem"
+     },
+     {
+      "frames": [
+       8,
+       96
+      ],
+      "motion": "brasa cai em parabola de (232,-16) para (128,104); horizontal constante com arrasto, vertical com aceleracao v+=g; 5 fantasmas em t-2,4,6,8,10",
+      "intent": "peso legivel por aceleracao; velocidade constante leria como adesivo"
+     },
+     {
+      "frames": [
+       8,
+       96
+      ],
+      "motion": "janela de tiles com bit de highlight acompanha a brasa em BG_A",
+      "intent": "luz dinamica que o cenario responde, nao luz pintada"
+     },
+     {
+      "frames": [
+       96,
+       120
+      ],
+      "motion": "martelo entra pelo alto a direita e sobe carregando o golpe",
+      "intent": "antecipacao; sem ela F120 vira flash sem causa"
+     }
     ],
-    "signature_moment": "F120: o martelo encosta, a tela pisca e treme, e do impacto saem 32 estilhacos que voltam e se montam no logo. Se um segundo for lembrado, e esse."
-  },
-  "state_machine": {
-    "runtime_model": "enter/update/exit com maquina de 3 atos por faixa de quadro; sem loop bloqueante; SYS_doVBlankProcess ao fim de cada quadro",
-    "states": [
-      {
-        "id": "act1_ignition",
-        "frames_ntsc": [
-          0,
-          120
-        ],
-        "beats": [
-          {
-            "frames": [
-              0,
-              8
-            ],
-            "motion": "nenhum objeto se move; PAL0[9..12] gira em CRAM a 1 passo por 8 quadros",
-            "intent": "a forja ja esta viva antes da primeira imagem"
-          },
-          {
-            "frames": [
-              8,
-              96
-            ],
-            "motion": "brasa cai em parabola de (232,-16) para (128,104); horizontal constante com arrasto, vertical com aceleracao v+=g; 5 fantasmas em t-2,4,6,8,10",
-            "intent": "peso legivel por aceleracao; velocidade constante leria como adesivo"
-          },
-          {
-            "frames": [
-              8,
-              96
-            ],
-            "motion": "janela de tiles com bit de highlight acompanha a brasa em BG_A",
-            "intent": "luz dinamica que o cenario responde, nao luz pintada"
-          },
-          {
-            "frames": [
-              96,
-              120
-            ],
-            "motion": "martelo entra pelo alto a direita e sobe carregando o golpe",
-            "intent": "antecipacao; sem ela F120 vira flash sem causa"
-          }
-        ],
-        "sprite_peak_total": 6,
-        "sprite_peak_per_scanline": 2
-      },
-      {
-        "id": "act2_strike",
-        "frames_ntsc": [
-          120,
-          300
-        ],
-        "beats": [
-          {
-            "frames": [
-              120,
-              122
-            ],
-            "motion": "flash de CRAM branco por 2 quadros com mascara de linhas; hit de DAC; screen shake vertical 3,2,2,1,1,0 nos dois planos",
-            "intent": "massa fisica do golpe"
-          },
-          {
-            "frames": [
-              122,
-              140
-            ],
-            "motion": "32 estilhacos nascem 2 por quadro e saem em leque radial com velocidades distintas",
-            "intent": "explosao"
-          },
-          {
-            "frames": [
-              140,
-              150
-            ],
-            "motion": "estilhacos desaceleram quase ate parar, girando",
-            "intent": "suspensao antes da montagem"
-          },
-          {
-            "frames": [
-              150,
-              180
-            ],
-            "motion": "cada estilhaco interpola para um ponto da silhueta do logo com ease-in, em ondas de cima para baixo",
-            "intent": "a marca se fecha; ondas escalonadas mantem a pressao de scanline sob controle"
-          },
-          {
-            "frames": [
-              180,
-              203
-            ],
-            "motion": "pouso PROGRESSIVO: cada estilhaco que chega ao alvo vira tile do logo e sai do SAT; o ultimo pousa em F203",
-            "intent": "o logo se constroi peca por peca em vez de trocar de uma vez, e a populacao de sprites cai em vez de picar no fim"
-          },
-          {
-            "frames": [
-              180,
-              300
-            ],
-            "motion": "coluna de highlight de 24px atravessa o logo a 3px por quadro, da esquerda para a direita",
-            "intent": "isto e metal e nao plastico laranja; exige o degrau de luz em PAL1[13..14]"
-          },
-          {
-            "frames": [
-              180,
-              300
-            ],
-            "motion": "48 scanlines inferiores com deslocamento horizontal por linha, amplitude 6px caindo para 1px",
-            "intent": "ar quente acima da forja: consequencia fisica do calor"
-          }
-        ],
-        "sprite_peak_total": 33,
-        "sprite_peak_per_scanline": 16,
-        "scanline_claim_gate": "MEDIDO nos parametros que estao na ROM: 16/20 sprites e 256/320 px por linha, status ok. Runtime no BlastEm registrou pico de 11 na amostra.",
-        "measurement_level": "measured_by_simulator",
-        "choreography_parameters": {
-          "shard_spawn_per_frame": 2,
-          "row_stagger_frames": 4,
-          "jitter_mod": 5,
-          "hammer_recoil_frames": 16,
-          "last_shard_landing_frame": 203,
-          "note": "A primeira coreografia media 36 sprites por scanline (status=error). Tres correcoes derrubaram para 15: spawn escalonado em vez de todos em F122, pouso progressivo (cada estilhaco que chega vira tile e sai do SAT) e recuo rapido do martelo.",
-          "shard_count": 32,
-          "landing_grid": "8x4",
-          "density_decision": "32 -> 56 estilhacos (+75%) apos medir os DOIS limites do VDP. Nenhuma tecnica nova, nenhum flicker: era folga que estava sobrando na mesa.",
-          "pixel_budget_per_line": "288/320 em H40",
-          "logo_y0": 64,
-          "reconciliation_note": "O contrato declarava 56 estilhacos com 18/20 medidos. O runtime entregue usa 32 com stagger 4 e logo em y=64. Re-medido: 16/20 e 256/320. A reducao para 32 veio da pressao de CPU (over_budget=12 no memory-bank), nao de VRAM \u2014 estilhacos compartilham um unico tileset de 16 tiles e nao pesam em VRAM.",
-          "open_question": "Com o bg_b re-autorado (1093 -> 642 tiles, 30% de margem de VRAM), a restauracao para 56 depende so de CPU. A doutrina de audacia pede medir antes de aceitar 32 como final.",
-          "density_test_matrix": {
-            "measured_at": "2026-08-17, geometria com LOGO_Y0=64",
-            "results": {
-              "32_stagger4": "16/20 sprites, 256/320 px, ok  <- ADOTADO",
-              "40_stagger5": "19/20, 304/320, ok mas 5% de margem",
-              "48_stagger5": "20/20, 320/320, ok com margem ZERO",
-              "56_stagger4": "23/20, 368/320, ERROR",
-              "56_stagger5": "22/20, 352/320, ERROR",
-              "56_stagger6": "22/20, 352/320, ERROR"
-            },
-            "conclusion": "56 estilhacos NAO cabem nesta geometria, em nenhum stagger testado. A medicao anterior de 18/20 com 56 valia para LOGO_Y0=80; mover o logo para y=64 aproximou a banda de pouso da origem da explosao em y=104 e elevou a sobreposicao por linha.",
-            "headroom_justification": "32 adotado por medicao, nao por timidez: 40 e 48 cabem mas ficam a 1 e 0 sprites do limite fisico, dentro da faixa em que o simulador ja emite scanline_pressure_near_limit. 32 entrega 20% de margem."
-          },
-          "runtime_measured": {
-            "scene_id": 0,
-            "frame": 151,
-            "over_budget_frames": 0,
-            "max_cpu_load": 45,
-            "max_cpu_jitter": 9,
-            "caveat": "A telemetria amostra quadros pontuais e reportou max_scanline_sprites=6 em F151. O pico real esta em F144 e F185 e so aparece na varredura do simulador. Amostra unica de runtime NAO substitui a varredura."
-          }
-        }
-      },
-      {
-        "id": "act3_signature",
-        "frames_ntsc": [
-          300,
-          520
-        ],
-        "beats": [
-          {
-            "frames": [
-              300,
-              360
-            ],
-            "motion": "VSCROLL_2TILE: 20 colunas sobem com offsets escalonados do centro para as bordas",
-            "intent": "cortina, nao slide; uniforme leria como transicao de software"
-          },
-          {
-            "frames": [
-              360,
-              430
-            ],
-            "motion": "wordmark do autor exposto, com passagem de highlight mais lenta que a do ato 2",
-            "intent": "tempo de respiro, nao de impacto"
-          },
-          {
-            "frames": [
-              430,
-              480
-            ],
-            "motion": "wordmark do projeto assume o centro; o do autor sai por scroll vertical",
-            "intent": "passagem de assinatura"
-          },
-          {
-            "frames": [
-              480,
-              510
-            ],
-            "motion": "wordmark presents entra por baixo, pequeno, sem chanfro",
-            "intent": "nao compete com o projeto"
-          },
-          {
-            "frames": [
-              510,
-              520
-            ],
-            "motion": "fade de paleta para a cena seguinte; a rampa de brasa e a ultima a sumir",
-            "intent": "fecha o circulo com o F0, sem corte a preto"
-          }
-        ],
-        "sprite_peak_total": 0,
-        "sprite_peak_per_scanline": 0,
-        "screen_zones": {
-          "coifa": "y 0..56",
-          "palco": "y 56..144 (um wordmark por vez)",
-          "forja": "y 144..200",
-          "assinatura": "y 200..224 no plano WINDOW"
-        },
-        "element_exits": [
-          {
-            "element": "FORGE",
-            "enter": "pouso dos estilhacos no ato 2",
-            "exit": "varredura de 1 fileira de tiles por quadro, F318-330, sob a cortina",
-            "implemented": true
-          },
-          {
-            "element": "MISAEL",
-            "enter": "entra no palco vazio em F330",
-            "exit": "varredura de 1 fileira por quadro, F428-440",
-            "implemented": true
-          },
-          {
-            "element": "MASTER",
-            "enter": "entra no palco vazio em F440",
-            "exit": "fade de paleta na entrega",
-            "implemented": true
-          },
-          {
-            "element": "PRESENTS",
-            "enter": "fade de paleta no WINDOW, F480",
-            "exit": "fade de paleta na entrega",
-            "implemented": true
-          }
-        ],
-        "composition_defect_found": "Aplicacao retroativa do scene-direction-first revelou quatro elementos vivos simultaneamente na faixa y=80..128 em F451: bigorna, FORGE, MISAEL e MASTER. Nenhuma remocao existe no codigo do ato 3. Medicao de hardware nao pegou porque o ato 3 tem 0 sprites e 50% de margem de VRAM: o defeito e 100% de composicao.",
-        "measured_act3": {
-          "sprites": 0,
-          "resident_tiles": 865,
-          "ceiling": 1740,
-          "over_budget_frames": 0,
-          "max_cpu_load": 96
-        },
-        "exit_technique_note": "Saida por varredura de tilemap, nao por fade de paleta. A bisseccao mediu PAL_fadeOutPalette/PAL_fadeInPalette levando over_budget_frames de 0 para 8 e cpu_load de 96 para 105. Uma fileira de 28 tiles por quadro custa nada e le melhor: o wordmark e varrido em vez de escurecer.",
-        "measured_after_fix": {
-          "over_budget_frames": 0,
-          "max_cpu_load": 96,
-          "elements_on_stage": 1
-        },
-        "vertical_rhythm": {
-          "rule": "baseline comum em y=128, 16px acima da zona FORJA",
-          "rationale": "MISAEL 32px e MASTER 48px centrados na zona teriam bases diferentes e a sucessao leria como dois elementos em alturas distintas em vez de um palco cedido",
-          "author_tile": [
-            8,
-            12
-          ],
-          "project_tile": [
-            6,
-            10
-          ],
-          "measured_baseline_y": 126,
-          "target_baseline_y": 128
-        }
-      }
-    ]
-  },
-  "cutscene_resource_plan": {
-    "states": [
-      {
-        "id": "act1_ignition",
-        "resident": [
-          "img_forge_bg_b",
-          "img_forge_bg_a_props",
-          "spr_forge_ember",
-          "spr_forge_hammer"
-        ],
-        "per_frame_dma": "nenhum"
-      },
-      {
-        "id": "act2_strike",
-        "resident": [
-          "img_forge_bg_b",
-          "img_forge_bg_a_props",
-          "spr_forge_hammer",
-          "spr_forge_shard",
-          "img_logo_engine_v2"
-        ],
-        "per_frame_dma": "448 bytes da tabela de HScroll durante a janela de ar quente, por DMA no VBlank"
-      },
-      {
-        "id": "act3_signature",
-        "resident": [
-          "img_forge_bg_b",
-          "img_logo_author_v2",
-          "img_logo_project_v2",
-          "img_presents_text_v2"
-        ],
-        "per_frame_dma": "tabela de scroll por coluna"
-      }
+    "sprite_peak_total": 6,
+    "sprite_peak_per_scanline": 2
+   },
+   {
+    "id": "act2_strike",
+    "frames_ntsc": [
+     120,
+     300
     ],
-    "budget_note": "RESOLVIDO: streaming escolhido pelo curador. Ver doc/branding_v2_dma_queue_contract.json. 72 tiles residentes em janela dupla no lugar de 216.",
-    "measurement_level": "estimated",
-    "dma_queue_contract": "doc/branding_v2_dma_queue_contract.json",
-    "sprite_note": "56 estilhacos concorrentes no pico; 47 sprites totais em tela em F183. Dois limites do VDP conferidos: 18/20 por linha e 288/320 px por linha."
-  },
-  "hardware_ownership": {
-    "window_owner": "nenhum; a abertura nao usa o plano WINDOW",
-    "cram_owner": "scene_branding: ciclagem de PAL0[9..12], flash de F120 e fades de entrega",
-    "scroll_owner": "scene_branding: HScroll por linha no ato 2, VScroll por coluna no ato 3",
-    "audio_owner": "scene_branding conforme audio_contract; FM_CH6_DAC reservado para o hit de F120",
-    "h_int": {
-      "in_use": true,
-      "owner": "scene_branding.brandHIntHandler",
-      "teardown_reset_plan": "SCENE_brandingV2Exit libera o handler, zera as bandas e restaura HSCROLL_PLANE/VSCROLL_PLANE",
-      "fallback_plan": "sem H-Int, o ato 1 perde o gradiente de bandas e cai para uma paleta unica; registrar como degradacao declarada, nunca como entrega"
+    "beats": [
+     {
+      "frames": [
+       120,
+       122
+      ],
+      "motion": "flash de CRAM branco por 2 quadros com mascara de linhas; hit de DAC; screen shake vertical 3,2,2,1,1,0 nos dois planos",
+      "intent": "massa fisica do golpe"
+     },
+     {
+      "frames": [
+       122,
+       140
+      ],
+      "motion": "32 estilhacos nascem 2 por quadro e saem em leque radial com velocidades distintas",
+      "intent": "explosao"
+     },
+     {
+      "frames": [
+       140,
+       150
+      ],
+      "motion": "estilhacos desaceleram quase ate parar, girando",
+      "intent": "suspensao antes da montagem"
+     },
+     {
+      "frames": [
+       150,
+       180
+      ],
+      "motion": "cada estilhaco interpola para um ponto da silhueta do logo com ease-in, em ondas de cima para baixo",
+      "intent": "a marca se fecha; ondas escalonadas mantem a pressao de scanline sob controle"
+     },
+     {
+      "frames": [
+       180,
+       203
+      ],
+      "motion": "pouso PROGRESSIVO: cada estilhaco que chega ao alvo vira tile do logo e sai do SAT; o ultimo pousa em F203",
+      "intent": "o logo se constroi peca por peca em vez de trocar de uma vez, e a populacao de sprites cai em vez de picar no fim"
+     },
+     {
+      "frames": [
+       180,
+       300
+      ],
+      "motion": "coluna de highlight de 24px atravessa o logo a 3px por quadro, da esquerda para a direita",
+      "intent": "isto e metal e nao plastico laranja; exige o degrau de luz em PAL1[13..14]"
+     },
+     {
+      "frames": [
+       180,
+       300
+      ],
+      "motion": "48 scanlines inferiores com deslocamento horizontal por linha, amplitude 6px caindo para 1px",
+      "intent": "ar quente acima da forja: consequencia fisica do calor"
+     }
+    ],
+    "sprite_peak_total": 33,
+    "sprite_peak_per_scanline": 16,
+    "scanline_claim_gate": "MEDIDO nos parametros que estao na ROM: 16/20 sprites e 256/320 px por linha, status ok. Runtime no BlastEm registrou pico de 11 na amostra.",
+    "measurement_level": "measured_by_simulator",
+    "choreography_parameters": {
+     "shard_spawn_per_frame": 2,
+     "row_stagger_frames": 4,
+     "jitter_mod": 5,
+     "hammer_recoil_frames": 16,
+     "last_shard_landing_frame": 203,
+     "note": "A primeira coreografia media 36 sprites por scanline (status=error). Tres correcoes derrubaram para 15: spawn escalonado em vez de todos em F122, pouso progressivo (cada estilhaco que chega vira tile e sai do SAT) e recuo rapido do martelo.",
+     "shard_count": 32,
+     "landing_grid": "8x4",
+     "density_decision": "32 -> 56 estilhacos (+75%) apos medir os DOIS limites do VDP. Nenhuma tecnica nova, nenhum flicker: era folga que estava sobrando na mesa.",
+     "pixel_budget_per_line": "288/320 em H40",
+     "logo_y0": 64,
+     "reconciliation_note": "O contrato declarava 56 estilhacos com 18/20 medidos. O runtime entregue usa 32 com stagger 4 e logo em y=64. Re-medido: 16/20 e 256/320. A reducao para 32 veio da pressao de CPU (over_budget=12 no memory-bank), nao de VRAM \u2014 estilhacos compartilham um unico tileset de 16 tiles e nao pesam em VRAM.",
+     "open_question": "Com o bg_b re-autorado (1093 -> 642 tiles, 30% de margem de VRAM), a restauracao para 56 depende so de CPU. A doutrina de audacia pede medir antes de aceitar 32 como final.",
+     "density_test_matrix": {
+      "measured_at": "2026-08-17, geometria com LOGO_Y0=64",
+      "results": {
+       "32_stagger4": "16/20 sprites, 256/320 px, ok  <- ADOTADO",
+       "40_stagger5": "19/20, 304/320, ok mas 5% de margem",
+       "48_stagger5": "20/20, 320/320, ok com margem ZERO",
+       "56_stagger4": "23/20, 368/320, ERROR",
+       "56_stagger5": "22/20, 352/320, ERROR",
+       "56_stagger6": "22/20, 352/320, ERROR"
+      },
+      "conclusion": "56 estilhacos NAO cabem nesta geometria, em nenhum stagger testado. A medicao anterior de 18/20 com 56 valia para LOGO_Y0=80; mover o logo para y=64 aproximou a banda de pouso da origem da explosao em y=104 e elevou a sobreposicao por linha.",
+      "headroom_justification": "32 adotado por medicao, nao por timidez: 40 e 48 cabem mas ficam a 1 e 0 sprites do limite fisico, dentro da faixa em que o simulador ja emite scanline_pressure_near_limit. 32 entrega 20% de margem."
+     },
+     "runtime_measured": {
+      "scene_id": 0,
+      "frame": 151,
+      "over_budget_frames": 0,
+      "max_cpu_load": 45,
+      "max_cpu_jitter": 9,
+      "caveat": "A telemetria amostra quadros pontuais e reportou max_scanline_sprites=6 em F151. O pico real esta em F144 e F185 e so aparece na varredura do simulador. Amostra unica de runtime NAO substitui a varredura."
+     }
     }
-  },
-  "text_timing_map": {
-    "glyph_manifest_ref": "not_applicable_no_runtime_text",
-    "font_surface_owner": "nenhum",
-    "base_frames_per_glyph": 0,
-    "punctuation_pauses": {},
-    "advance_controls": "nenhum",
-    "rationale": "A abertura nao renderiza texto em runtime por decisao de direcao. Autor, projeto e presents sao assets de pixel art; VDP_drawText e VDP_drawTextBG estao proibidos em conteudo de marca. Campos preenchidos como nao aplicavel em vez de inventar um sistema de glifos que a cena nao tem."
-  },
-  "visual_source_gate": {
-    "production_source_ready": false,
-    "premium_source_manifest_ref": "data/source_art/branding_v2/model_sheet_lineage.json",
-    "human_approval_record_ref": "doc/model_sheet_review_v02.md",
-    "visual_delivery_gate_report_ref": "pendente: nenhum runtime v2 existe",
-    "blocked_statuses": [
-      "assets_v2_not_authored",
-      "runtime_v2_not_implemented"
-    ]
-  },
-  "evidence_plan": {
-    "blastem_required": true,
-    "screenshot_required": true,
-    "runtime_metrics_scene_id": 0,
-    "visual_vdp_dump_required": true,
-    "save_sram_required": true,
-    "baseline_comparison_required": true,
-    "freshness_audit_required": true,
-    "per_act_capture": "uma screenshot dedicada por ato, mais o quadro F120 do momento de assinatura; uma captura da sequencia inteira nao serve",
-    "motion_evidence": "o ato 2 exige prova perceptiva de movimento, nao screenshot estatica: a convergencia dos estilhacos e a varredura especular so existem no tempo"
-  },
-  "approval": {
-    "human_approval_required": true,
-    "approval_status": "approved",
-    "approval_record_ref": "doc/model_sheet_review_v02.md; concepcao de cena aprovada pelo curador em 2026-08-17"
-  },
-  "asset_contract_deltas": {
-    "reason": "A coreografia invalidou parte do contrato de assets: um objeto que se move nao pode viver dentro de uma imagem estatica de fundo.",
-    "changes": [
-      {
-        "asset": "spr_forge_hammer",
-        "change": "NOVO",
-        "detail": "strip de 6 quadros (repouso, recuo, 2 intermediarios, contato, retorno), alvo 48x48; o martelo sobe em F96-120 e bate em F120"
-      },
-      {
-        "asset": "img_forge_bg_a_props",
-        "change": "remover o martelo",
-        "detail": "ele passa a ser sprite; a imagem estatica fica so com bigorna e ferramentas"
-      },
-      {
-        "asset": "spr_forge_ember",
-        "change": "4 -> 6 quadros",
-        "detail": "acrescentar esmagamento no contato e assentamento; sem eles a brasa para no ar em F96"
-      },
-      {
-        "asset": "img_forge_bg_b",
-        "change": "restricao de composicao",
-        "detail": "as 48 scanlines inferiores sofrem cisalhamento por linha; sem detalhe fino nem aresta que dependa de alinhamento horizontal nessa faixa"
-      },
-      {
-        "asset": "img_logo_engine_v2",
-        "change": "requisito nao negociavel",
-        "detail": "degrau de luz em PAL1[13..14] com canal <= 0xCC na aresta inferior das hastes; sem ele a varredura especular do ato 2 nao existe"
-      }
+   },
+   {
+    "id": "act3_signature",
+    "frames_ntsc": [
+     300,
+     520
     ],
-    "asset_count": {
-      "before": 8,
-      "after": 9
+    "beats": [
+     {
+      "frames": [
+       300,
+       360
+      ],
+      "motion": "VSCROLL_2TILE: 20 colunas sobem com offsets escalonados do centro para as bordas",
+      "intent": "cortina, nao slide; uniforme leria como transicao de software"
+     },
+     {
+      "frames": [
+       360,
+       430
+      ],
+      "motion": "wordmark do autor exposto, com passagem de highlight mais lenta que a do ato 2",
+      "intent": "tempo de respiro, nao de impacto"
+     },
+     {
+      "frames": [
+       430,
+       480
+      ],
+      "motion": "wordmark do projeto assume o centro; o do autor sai por scroll vertical",
+      "intent": "passagem de assinatura"
+     },
+     {
+      "frames": [
+       480,
+       510
+      ],
+      "motion": "wordmark presents entra por baixo, pequeno, sem chanfro",
+      "intent": "nao compete com o projeto"
+     },
+     {
+      "frames": [
+       510,
+       520
+      ],
+      "motion": "fade de paleta para a cena seguinte; a rampa de brasa e a ultima a sumir",
+      "intent": "fecha o circulo com o F0, sem corte a preto"
+     }
+    ],
+    "sprite_peak_total": 0,
+    "sprite_peak_per_scanline": 0,
+    "screen_zones": {
+     "coifa": "y 0..56",
+     "palco": "y 56..144 (um wordmark por vez)",
+     "forja": "y 144..200",
+     "assinatura": "y 200..224 no plano WINDOW"
+    },
+    "element_exits": [
+     {
+      "element": "FORGE",
+      "enter": "pouso dos estilhacos no ato 2",
+      "exit": "varredura de 1 fileira de tiles por quadro, F318-330, sob a cortina",
+      "implemented": true
+     },
+     {
+      "element": "MISAEL",
+      "enter": "entra no palco vazio em F330",
+      "exit": "varredura de 1 fileira por quadro, F428-440",
+      "implemented": true
+     },
+     {
+      "element": "MASTER",
+      "enter": "entra no palco vazio em F440",
+      "exit": "fade de paleta na entrega",
+      "implemented": true
+     },
+     {
+      "element": "PRESENTS",
+      "enter": "fade de paleta no WINDOW, F480",
+      "exit": "fade de paleta na entrega",
+      "implemented": true
+     }
+    ],
+    "composition_defect_found": "Aplicacao retroativa do scene-direction-first revelou quatro elementos vivos simultaneamente na faixa y=80..128 em F451: bigorna, FORGE, MISAEL e MASTER. Nenhuma remocao existe no codigo do ato 3. Medicao de hardware nao pegou porque o ato 3 tem 0 sprites e 50% de margem de VRAM: o defeito e 100% de composicao.",
+    "measured_act3": {
+     "sprites": 0,
+     "resident_tiles": 865,
+     "ceiling": 1740,
+     "over_budget_frames": 0,
+     "max_cpu_load": 96
+    },
+    "exit_technique_note": "Saida por varredura de tilemap, nao por fade de paleta. A bisseccao mediu PAL_fadeOutPalette/PAL_fadeInPalette levando over_budget_frames de 0 para 8 e cpu_load de 96 para 105. Uma fileira de 28 tiles por quadro custa nada e le melhor: o wordmark e varrido em vez de escurecer.",
+    "measured_after_fix": {
+     "over_budget_frames": 0,
+     "max_cpu_load": 96,
+     "elements_on_stage": 1
+    },
+    "vertical_rhythm": {
+     "rule": "wordmarks alinhados pela base em y=56, um tijolo acima do inicio da tinta de BG_A",
+     "rationale": "MISAEL 32px e MASTER 48px com bases diferentes leriam como dois elementos em alturas distintas em vez de um lugar cedido. A base comum e o que faz a sucessao ler como um palco.",
+     "author_tile": [
+      8,
+      3
+     ],
+     "project_tile": [
+      6,
+      1
+     ],
+     "baseline_y": 56,
+     "superseded": "Versao anterior declarava baseline y=128 com author_tile [8,12]; o runtime saiu dessa geometria e a declaracao ficou para tras. Detectado por audit_stage_occupancy.py."
+    },
+    "stage_occupancy": {
+     "measured_by": "tools/sgdk_wrapper/audit_stage_occupancy.py",
+     "rule_ref": "SGDK_GLOBAL.md secao 35",
+     "note": "Faixas derivadas das constantes do runtime. runtime_ref faz a varredura reprovar se o codigo andar sem que esta declaracao ande junto.",
+     "zones": [
+      {
+       "id": "coifa",
+       "band": [
+        0,
+        56
+       ],
+       "max_concurrent": 1
+      },
+      {
+       "id": "palco",
+       "band": [
+        56,
+        144
+       ],
+       "max_concurrent": 1
+      },
+      {
+       "id": "forja",
+       "band": [
+        144,
+        200
+       ],
+       "max_concurrent": 1
+      },
+      {
+       "id": "assinatura",
+       "band": [
+        200,
+        224
+       ],
+       "max_concurrent": 1
+      }
+     ],
+     "elements": [
+      {
+       "id": "FORGE",
+       "frames": [
+        203,
+        330
+       ],
+       "band": [
+        64,
+        128
+       ],
+       "enter": "pouso dos estilhacos no ato 2, F203",
+       "exit": "varredura de 1 fileira de tiles por quadro, F318-330, sob a cortina"
+      },
+      {
+       "id": "MISAEL",
+       "frames": [
+        330,
+        440
+       ],
+       "band": [
+        24,
+        56
+       ],
+       "enter": "carimbo na parede em F330",
+       "exit": "varredura de 1 fileira por quadro, F428-440",
+       "runtime_ref": {
+        "file": "src/scenes/scene_branding_v2.c",
+        "tile_y": "AUTHOR_TILE_Y",
+        "tile_h": "AUTHOR_TH"
+       }
+      },
+      {
+       "id": "MASTER",
+       "frames": [
+        440,
+        520
+       ],
+       "band": [
+        8,
+        56
+       ],
+       "enter": "carimbo na parede em F440",
+       "exit": "fade de paleta na entrega",
+       "runtime_ref": {
+        "file": "src/scenes/scene_branding_v2.c",
+        "tile_y": "PROJECT_TILE_Y",
+        "tile_h": "PROJECT_TH"
+       }
+      },
+      {
+       "id": "PRESENTS",
+       "frames": [
+        480,
+        520
+       ],
+       "band": [
+        208,
+        224
+       ],
+       "enter": "fade de paleta em F480",
+       "exit": "fade de paleta na entrega"
+      }
+     ]
+    },
+    "luma_floor": {
+     "measured_by": "tools/sgdk_wrapper/audit_luma_floor.py",
+     "rule_ref": "SGDK_GLOBAL.md secao 36",
+     "floor": 34,
+     "background_model": "Camadas compostas de tras para frente: BG_B e depois BG_A props. Aproximacao declarada \u2014 o elemento e carimbado no tilemap de A, entao onde ele cobre props o fundo real e so B. A composicao das duas e o pior caso de ruido sob a tinta.",
+     "pairs": [
+      {
+       "element": "res/branding/presents_text_96x16.png",
+       "region": [
+        112,
+        208,
+        96,
+        16
+       ],
+       "intent": "leve",
+       "background_layers": [
+        "res/branding/forge_bg_b_320x224.png",
+        "res/branding/forge_bg_a_props_320x224.png"
+       ]
+      },
+      {
+       "element": "res/branding/logo_author_192x32.png",
+       "region": [
+        64,
+        24,
+        192,
+        32
+       ],
+       "intent": "destaque",
+       "background_layers": [
+        "res/branding/forge_bg_b_320x224.png",
+        "res/branding/forge_bg_a_props_320x224.png"
+       ]
+      },
+      {
+       "element": "res/branding/logo_project_224x48.png",
+       "region": [
+        48,
+        8,
+        224,
+        48
+       ],
+       "intent": "destaque",
+       "background_layers": [
+        "res/branding/forge_bg_b_320x224.png",
+        "res/branding/forge_bg_a_props_320x224.png"
+       ]
+      },
+      {
+       "element": "res/branding/logo_engine_224x64.png",
+       "region": [
+        48,
+        64,
+        224,
+        64
+       ],
+       "intent": "destaque",
+       "background_layers": [
+        "res/branding/forge_bg_b_320x224.png",
+        "res/branding/forge_bg_a_props_320x224.png"
+       ]
+      }
+     ]
     }
-  },
-  "promotion_rules": [
-    "status_ceiling planning_only: nada aqui promove asset, runtime, ROM ou status",
-    "claim de pressao de scanline exige o simulador, nunca SPR_getUsedVDPSprite",
-    "o orcamento de VRAM do martelo precisa de res_graph_report real antes de autorar a arte",
-    "todo numero de orcamento deste contrato e estimated ate haver medicao"
+   }
   ]
+ },
+ "cutscene_resource_plan": {
+  "states": [
+   {
+    "id": "act1_ignition",
+    "resident": [
+     "img_forge_bg_b",
+     "img_forge_bg_a_props",
+     "spr_forge_ember",
+     "spr_forge_hammer"
+    ],
+    "per_frame_dma": "nenhum"
+   },
+   {
+    "id": "act2_strike",
+    "resident": [
+     "img_forge_bg_b",
+     "img_forge_bg_a_props",
+     "spr_forge_hammer",
+     "spr_forge_shard",
+     "img_logo_engine_v2"
+    ],
+    "per_frame_dma": "448 bytes da tabela de HScroll durante a janela de ar quente, por DMA no VBlank"
+   },
+   {
+    "id": "act3_signature",
+    "resident": [
+     "img_forge_bg_b",
+     "img_logo_author_v2",
+     "img_logo_project_v2",
+     "img_presents_text_v2"
+    ],
+    "per_frame_dma": "tabela de scroll por coluna"
+   }
+  ],
+  "budget_note": "RESOLVIDO: streaming escolhido pelo curador. Ver doc/branding_v2_dma_queue_contract.json. 72 tiles residentes em janela dupla no lugar de 216.",
+  "measurement_level": "estimated",
+  "dma_queue_contract": "doc/branding_v2_dma_queue_contract.json",
+  "sprite_note": "56 estilhacos concorrentes no pico; 47 sprites totais em tela em F183. Dois limites do VDP conferidos: 18/20 por linha e 288/320 px por linha."
+ },
+ "hardware_ownership": {
+  "window_owner": "nenhum; a abertura nao usa o plano WINDOW",
+  "cram_owner": "scene_branding: ciclagem de PAL0[9..12], flash de F120 e fades de entrega",
+  "scroll_owner": "scene_branding: HScroll por linha no ato 2, VScroll por coluna no ato 3",
+  "audio_owner": "scene_branding conforme audio_contract; FM_CH6_DAC reservado para o hit de F120",
+  "h_int": {
+   "in_use": true,
+   "owner": "scene_branding.brandHIntHandler",
+   "teardown_reset_plan": "SCENE_brandingV2Exit libera o handler, zera as bandas e restaura HSCROLL_PLANE/VSCROLL_PLANE",
+   "fallback_plan": "sem H-Int, o ato 1 perde o gradiente de bandas e cai para uma paleta unica; registrar como degradacao declarada, nunca como entrega"
+  }
+ },
+ "text_timing_map": {
+  "glyph_manifest_ref": "not_applicable_no_runtime_text",
+  "font_surface_owner": "nenhum",
+  "base_frames_per_glyph": 0,
+  "punctuation_pauses": {},
+  "advance_controls": "nenhum",
+  "rationale": "A abertura nao renderiza texto em runtime por decisao de direcao. Autor, projeto e presents sao assets de pixel art; VDP_drawText e VDP_drawTextBG estao proibidos em conteudo de marca. Campos preenchidos como nao aplicavel em vez de inventar um sistema de glifos que a cena nao tem."
+ },
+ "visual_source_gate": {
+  "production_source_ready": false,
+  "premium_source_manifest_ref": "data/source_art/branding_v2/model_sheet_lineage.json",
+  "human_approval_record_ref": "doc/model_sheet_review_v02.md",
+  "visual_delivery_gate_report_ref": "pendente: nenhum runtime v2 existe",
+  "blocked_statuses": [
+   "assets_v2_not_authored",
+   "runtime_v2_not_implemented"
+  ]
+ },
+ "evidence_plan": {
+  "blastem_required": true,
+  "screenshot_required": true,
+  "runtime_metrics_scene_id": 0,
+  "visual_vdp_dump_required": true,
+  "save_sram_required": true,
+  "baseline_comparison_required": true,
+  "freshness_audit_required": true,
+  "per_act_capture": "uma screenshot dedicada por ato, mais o quadro F120 do momento de assinatura; uma captura da sequencia inteira nao serve",
+  "motion_evidence": "o ato 2 exige prova perceptiva de movimento, nao screenshot estatica: a convergencia dos estilhacos e a varredura especular so existem no tempo"
+ },
+ "approval": {
+  "human_approval_required": true,
+  "approval_status": "approved",
+  "approval_record_ref": "doc/model_sheet_review_v02.md; concepcao de cena aprovada pelo curador em 2026-08-17"
+ },
+ "asset_contract_deltas": {
+  "reason": "A coreografia invalidou parte do contrato de assets: um objeto que se move nao pode viver dentro de uma imagem estatica de fundo.",
+  "changes": [
+   {
+    "asset": "spr_forge_hammer",
+    "change": "NOVO",
+    "detail": "strip de 6 quadros (repouso, recuo, 2 intermediarios, contato, retorno), alvo 48x48; o martelo sobe em F96-120 e bate em F120"
+   },
+   {
+    "asset": "img_forge_bg_a_props",
+    "change": "remover o martelo",
+    "detail": "ele passa a ser sprite; a imagem estatica fica so com bigorna e ferramentas"
+   },
+   {
+    "asset": "spr_forge_ember",
+    "change": "4 -> 6 quadros",
+    "detail": "acrescentar esmagamento no contato e assentamento; sem eles a brasa para no ar em F96"
+   },
+   {
+    "asset": "img_forge_bg_b",
+    "change": "restricao de composicao",
+    "detail": "as 48 scanlines inferiores sofrem cisalhamento por linha; sem detalhe fino nem aresta que dependa de alinhamento horizontal nessa faixa"
+   },
+   {
+    "asset": "img_logo_engine_v2",
+    "change": "requisito nao negociavel",
+    "detail": "degrau de luz em PAL1[13..14] com canal <= 0xCC na aresta inferior das hastes; sem ele a varredura especular do ato 2 nao existe"
+   }
+  ],
+  "asset_count": {
+   "before": 8,
+   "after": 9
+  }
+ },
+ "promotion_rules": [
+  "status_ceiling planning_only: nada aqui promove asset, runtime, ROM ou status",
+  "claim de pressao de scanline exige o simulador, nunca SPR_getUsedVDPSprite",
+  "o orcamento de VRAM do martelo precisa de res_graph_report real antes de autorar a arte",
+  "todo numero de orcamento deste contrato e estimated ate haver medicao"
+ ]
 }

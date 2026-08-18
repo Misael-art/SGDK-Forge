@@ -221,14 +221,24 @@
       "canonized_in": "SGDK_GLOBAL secao 36",
       "enforced_by": "audit_luma_floor.py",
       "enforcement_state": "measured"
+    },
+    {
+      "id": "declaration_scope_is_part_of_the_reading",
+      "bucket": "boas_praticas",
+      "severity": "high",
+      "lesson": "Declaracao tem escopo. Medir o projeto inteiro contra uma declaracao de cena nao mede nada: produz acusacao. Leia o scene_id antes de comparar.",
+      "evidence": "Acusei tres projetos de declarar 0 sprites com a SAT populada. As declaracoes eram da cena de branding, cujo scene_branding.c tem zero chamadas de sprite nos tres. Os SPR_addSprite que encontrei estavam em first_playable_slice, que ja declarava nao_medido. A Fase 30 do baseline foi retratada na Fase 31.",
+      "canonized_in": "SGDK_GLOBAL secao 37",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     }
   ],
   "canonization_audit": {
     "date": "2026-08-18",
-    "lessons": 21,
-    "canonized": 21,
+    "lessons": 22,
+    "canonized": 22,
     "measured": 11,
-    "prose_only": 10,
+    "prose_only": 11,
     "note": "Secoes 35 e 36 sairam de prosa em 2026-08-18 com audit_stage_occupancy.py e audit_luma_floor.py."
   }
 }

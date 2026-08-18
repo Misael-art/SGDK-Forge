@@ -1558,3 +1558,57 @@ Para virar medicao, cada um precisa de **`worst_frame_sprite_layout` preenchido*
 - 3 declaracoes de `0 sprites` precisam ser corrigidas para o que o codigo faz.
 - GOTHAM tem 50% de folga sem justificativa declarada.
 - Os dois KIRBY precisam de layout declarado ou probe antes de qualquer claim de scanline.
+
+## Fase 31 — RETRATACAO da Fase 30: as declaracoes estavam certas
+
+A Fase 30 afirmou que tres projetos declaravam `0 sprites` com a SAT populada. **Isso esta
+errado e a tabela daquela fase nao vale.**
+
+### O erro
+
+As declaracoes de `0 sprites` sao **escopadas na cena de branding**:
+
+- `branding_sequence_contract.json` -> `scene_id: APP_SCENE_BRANDING`
+- `scene-contracts.json` -> `scenes[0].scene_id: branding_sequence`
+
+Eu rodei `grep SPR_addSprite` no projeto inteiro e comparei contra uma declaracao de UMA cena.
+Os `SPR_addSprite` que encontrei estao todos em `src/gameplay/` (GOTHAM) e em
+`scene_boss.c`/`scene_stage.c` (KIRBY) — que pertencem a `first_playable_slice`, e essa cena ja
+declara `nao_medido`.
+
+### Medido agora, no arquivo certo
+
+`src/scenes/scene_branding.c`, chamadas de sprite (`SPR_addSprite`, `SPR_setPosition`,
+`SPR_setVisibility`):
+
+| projeto | chamadas na cena de branding | declaracao |
+|---|---|---|
+| GOTHAM_OVERDRIVE | **0** | `0 sprites` — **verdadeira** |
+| KIRBY_FAN CLOUDE | **0** | `0 sprites` — **verdadeira** |
+| KIRBY_FAN GROK BUILD | **0** | `0 sprites` — **verdadeira** |
+| FORGE_REFERENCE | **0** (nenhum no projeto) | `0 sprites` — **verdadeira** |
+
+**As quatro declaracoes de zero estao corretas. Nenhuma foi alterada.**
+
+### O que sobrevive da Fase 30
+
+- **Sprite de hardware nao e sprite do SGDK.** O split em 4x4 tiles continua valendo, e continua
+  sendo obrigatorio decompor antes de medir.
+- **A medicao de GOTHAM** (10 sprites de hardware, 5/20 por linha, 160/320 px) e valida, mas
+  pertence a `first_playable_slice`, nao ao branding. Ela **preenche** um `nao_medido`, nao
+  contradiz um zero.
+- **O inventario dos KIRBY** (34 sprites de hardware) idem.
+
+### O que nao foi feito, de proposito
+
+A medicao de GOTHAM e do **quadro pos-init**, com o boss e o player nas posicoes de spawn. Nao e
+o pior quadro da cena. Escrever 5/20 em `first_playable_slice.scanline_sprite_pressure` faria um
+numero de escopo estreito parecer o pico da cena — trocaria um `nao_medido` honesto por um verde
+com escopo escondido. `nao_medido` continua sendo a declaracao correta ate existir
+`worst_frame_sprite_layout` ou probe.
+
+### A licao
+
+Declaracao tem escopo, e o escopo faz parte da leitura. Medicao de projeto inteiro contra
+declaracao de cena nao mede nada — produz acusacao. Essa e a terceira vez nesta curadoria em que
+o instrumento estava errado e nao o alvo, e a primeira em que o instrumento era um `grep` meu.

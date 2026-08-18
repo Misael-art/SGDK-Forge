@@ -769,3 +769,67 @@ mensagem de cada self-check diz em texto o que ele exercitou.
 Corolario da secao 33: quando modelo e hardware divergem, verifique o instrumento **antes** de
 escolher em quem acreditar. Nas tres vezes em que isso aconteceu nesta curadoria, o instrumento
 estava errado.
+
+## 35. Nenhum gate ve composicao
+
+Todo validador deste workspace mede **hardware**: residencia de tiles, pressao por scanline,
+procedencia de asset, compreensao de marca, orcamento de CPU. Nenhum deles olha para **onde as
+coisas estao na tela**.
+
+Medido: o ato 3 do branding do modelo tinha 0 sprites, 865 de 1740 tiles e `over_budget: 0` —
+**todos os gates verdes** — com quatro wordmarks empilhados na mesma faixa `y=80..128` no quadro
+451 (bigorna, FORGE, MISAEL, MASTER). A cena estava ilegivel e nenhum numero acusou.
+
+- **Composicao se pega com planta baixa, nao com validador.** Storyboard com posicao na tela,
+  por quadro-chave, antes do primeiro asset. Ver `workflows/scene-direction-first.md`.
+- **Continuidade nao e ausencia de remocao.** Proibir corte a preto sem dizer COMO cada elemento
+  sai produz acumulo. O contrato do ato 3 dizia apenas "nunca use `VDP_clearPlane`", e o
+  resultado foi zero remocoes no codigo. **Todo elemento que entra precisa de saida desenhada** —
+  scroll, fade, varredura ou substituicao — declarada no storyboard junto com a entrada.
+- **Gate verde nao e cena aprovada.** Aprovacao artistica se le em captura; ela nunca sai de um
+  exit code.
+
+Estado de enforcement: **nao medido**. Existe a metade mecanica — `worst_frame_sprite_layout` no
+schema de `scene_contract` — mas nenhum gate consome ocupacao de faixa da tela. Enquanto isso for
+verdade, esta secao e prosa e a secao 15 se aplica: a leitura e humana e obrigatoria.
+
+## 36. Adjetivo de direcao precisa de piso numerico
+
+Palavra qualitativa em brief de arte vira defeito reproduzivel quando nao carrega numero.
+
+Medido: "leve, sem chanfro" para o PRESENTS produziu **99% da tinta num indice de luma 38 contra
+fundo de luma 46** — contraste de **-8**, texto mais escuro que o fundo. O adjetivo pedia
+discricao e o artista entregou discricao; o brief e que confundiu dois eixos.
+
+- **"Discreto" e sobre tamanho e peso. Nunca sobre contraste.** Elemento pequeno com contraste
+  alto le como discreto; elemento grande com contraste baixo le como borrao.
+- **Todo adjetivo de direcao carrega piso**: "leve" precisa de piso de luma, "sutil" precisa de
+  delta minimo, "denso" precisa de contagem.
+- **A direcao pode estar errada.** Quando o artista entrega diferente do pedido e a entrega le
+  melhor, corrija a direcao em vez de reprovar o trabalho. A silhueta "sobre transparente" era
+  aperto sem ganho, e foi a entrega que mostrou isso.
+
+Corolario da secao 30: o indice de paleta e **contrato** porque o runtime depende do papel dele;
+o valor hex e **semente** que o artista refina. Trocar hex e passe de arte; trocar papel quebra
+runtime.
+
+Estado de enforcement: **nao medido**. Piso de luma e mecanicamente verificavel a partir da
+paleta e do tileset, e nenhum gate faz isso hoje.
+
+## 37. Gate precisa reprovar em teste e ser calibrado contra falso positivo
+
+Duas metades da mesma regra, e este workspace errou as duas.
+
+- **Gate que nunca reprovou nao esta medindo.** Toda trava precisa de fixture que passa **e**
+  fixture que reprova, exercitadas no self-check da secao 34.
+- **Gate que reprova projeto saudavel sera desligado.** A primeira versao do detector de arte
+  procedural reprovou **9 de 9 projetos** por confundir enderecamento de VRAM (`TILE_USER_INDEX`,
+  `VDP_setTileMapXY`) e paleta autoral com desenho por codigo. Um gate assim nao protege nada:
+  ele treina o time a ignorar o vermelho. Calibre contra a arvore existente **antes** de publicar.
+- **Caminho de erro sem contador transforma claim de contagem em ficcao.** `brandEnsureShard`
+  retornava mudo em `NULL`; a contagem de 56 estilhacos so virou fato quando um contador provou
+  `spawned=56, failed=0`. Todo `return` de falha precisa incrementar algo que seja exportado.
+
+Corolario da secao 15: antes de escrever regra nova, **procure a existente e leia o enforcement**.
+A proibicao de arte procedural ja existia em 8 lugares em prosa e nao era medida em nenhum — 78
+de 136 simbolos violavam. Quando a regra ja esta escrita, o gap e medicao, nao vocabulario.

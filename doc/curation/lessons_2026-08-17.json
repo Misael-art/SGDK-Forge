@@ -17,140 +17,208 @@
       "bucket": "producao",
       "severity": "structural",
       "lesson": "Roteiro, storyboard, coreografia e medicao vem ANTES do contrato de asset. Coreografia e medicao nao custam arte e erram barato.",
-      "evidence": "8 assets viraram 9; martelo saiu de imagem estatica para sprite; brasa 4->6 quadros; martelo 6->7 depois do despacho; bg_b re-autorado inteiro; coreografia media 36 sprites por scanline contra limite de 20."
+      "evidence": "8 assets viraram 9; martelo saiu de imagem estatica para sprite; brasa 4->6 quadros; martelo 6->7 depois do despacho; bg_b re-autorado inteiro; coreografia media 36 sprites por scanline contra limite de 20.",
+      "canonized_in": "workflows/scene-direction-first.md",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "storyboard_carries_screen_position",
       "bucket": "producao",
       "severity": "structural",
       "lesson": "Storyboard e planta baixa, nao concept art: posicao em pixel, entradas e saidas por borda, sucessao de nomes e fontes, o que permanece entre quadros-chave.",
-      "evidence": "A ancora da bigorna em (128,104) so apareceu na fase 10, depois da arte despachada. Sem ela a brasa pousa no ar e o martelo bate no vazio."
+      "evidence": "A ancora da bigorna em (128,104) so apareceu na fase 10, depois da arte despachada. Sem ela a brasa pousa no ar e o martelo bate no vazio.",
+      "canonized_in": "workflows/scene-direction-first.md",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "budget_decisions_are_not_art_decisions",
       "bucket": "producao",
       "severity": "high",
       "lesson": "Streaming, residencia e teto por ato mudam o que o artista desenha e precisam estar fechados antes do despacho.",
-      "evidence": "A decisao de streaming do martelo definiu que 7 quadros a 48x48 eram viaveis; sem ela o brief teria pedido 4."
+      "evidence": "A decisao de streaming do martelo definiu que 7 quadros a 48x48 eram viaveis; sem ela o brief teria pedido 4.",
+      "canonized_in": "workflows/scene-direction-first.md",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "post_dispatch_change_is_an_event",
       "bucket": "producao",
       "severity": "medium",
       "lesson": "Mudanca de spec com o artista trabalhando vai no topo do brief, marcada, dizendo o que preservar.",
-      "evidence": "Martelo 6->7 quadros preservou os quadros 0-3 e 5; so o 4 foi retrabalho e o 6 adicao."
+      "evidence": "Martelo 6->7 quadros preservou os quadros 0-3 e 5; so o 4 foi retrabalho e o 6 adicao.",
+      "canonized_in": "workflows/scene-direction-first.md",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "direction_can_be_wrong",
       "bucket": "direcao_de_arte",
       "severity": "high",
       "lesson": "Quando o artista entrega diferente e le melhor, corrija a direcao em vez de reprovar o trabalho.",
-      "evidence": "Silhueta 'sobre transparente' era aperto sem ganho. E 'leve, sem chanfro' para o PRESENTS produziu contraste de -8 porque pedia discricao sem piso de luma."
+      "evidence": "Silhueta 'sobre transparente' era aperto sem ganho. E 'leve, sem chanfro' para o PRESENTS produziu contraste de -8 porque pedia discricao sem piso de luma.",
+      "canonized_in": "SGDK_GLOBAL secao 36",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "qualitative_adjective_needs_a_floor",
       "bucket": "direcao_de_arte",
       "severity": "high",
       "lesson": "Adjetivo de direcao sem piso numerico vira defeito. 'Leve' precisa de piso de luma; 'discreto' e sobre tamanho e peso, nunca sobre contraste.",
-      "evidence": "PRESENTS com 99% da tinta num indice de luma 38 contra fundo de luma 46."
+      "evidence": "PRESENTS com 99% da tinta num indice de luma 38 contra fundo de luma 46.",
+      "canonized_in": "SGDK_GLOBAL secao 36",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "art_must_be_authored_as_tiles",
       "bucket": "direcao_de_arte",
       "severity": "high",
       "lesson": "Fundo composto como imagem fotografica e quantizado nao deduplica: custa como arte unica e ainda parece repetitivo. Autore o vocabulario de tiles primeiro e componha por arranjo e flip.",
-      "evidence": "bg_b com 2% de dedup (1093 de 1120) contra 73% de um irmao autorado com formas limpas. Re-autorado para 642, margem do ato 2 de 3 tiles para 30%."
+      "evidence": "bg_b com 2% de dedup (1093 de 1120) contra 73% de um irmao autorado com formas limpas. Re-autorado para 642, margem do ato 2 de 3 tiles para 30%.",
+      "canonized_in": "SGDK_GLOBAL secao 31",
+      "enforced_by": "audit_tile_residency.py",
+      "enforcement_state": "measured"
     },
     {
       "id": "index_role_is_contract_hex_is_seed",
       "bucket": "direcao_de_arte",
       "severity": "medium",
       "lesson": "O papel de cada indice de paleta e contrato porque o runtime depende dele; o valor hex e semente que o artista refina.",
-      "evidence": "A folga de highlight em PAL1[13..14] e o que permite a varredura especular existir."
+      "evidence": "A folga de highlight em PAL1[13..14] e o que permite a varredura especular existir.",
+      "canonized_in": "SGDK_GLOBAL secao 36",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "model_sheet_before_package",
       "bucket": "direcao_de_arte",
       "severity": "high",
       "lesson": "Pacote de assets finais sem model sheet aprovado reprova. A rota que funciona entrega direcao provada primeiro.",
-      "evidence": "Falhou 4 vezes neste workspace antes da regra."
+      "evidence": "Falhou 4 vezes neste workspace antes da regra.",
+      "canonized_in": "workflows/scene-direction-first.md",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "rule_without_measurement_is_prose",
       "bucket": "boas_praticas",
       "severity": "structural",
       "lesson": "Antes de escrever regra nova, procure a existente e leia o enforcement. Se ele decide por nome de arquivo ou campo autodeclarado, o gap e medicao e nao vocabulario.",
-      "evidence": "A proibicao de arte procedural existia em 8 lugares e nao era medida; 78 de 136 simbolos violavam."
+      "evidence": "A proibicao de arte procedural existia em 8 lugares e nao era medida; 78 de 136 simbolos violavam.",
+      "canonized_in": "SGDK_GLOBAL secao 37",
+      "enforced_by": "audit_procedural_asset_provenance.py",
+      "enforcement_state": "measured"
     },
     {
       "id": "bisect_before_theorizing",
       "bucket": "boas_praticas",
       "severity": "high",
       "lesson": "Um desligamento por vez encontra em minutos o que a teoria nao encontra em horas.",
-      "evidence": "Dois builds gastos em hipoteses plausiveis num crash cujo endereco 0x23080000 ja apontava RTS em vez de RTE."
+      "evidence": "Dois builds gastos em hipoteses plausiveis num crash cujo endereco 0x23080000 ja apontava RTS em vez de RTE.",
+      "canonized_in": "SGDK_GLOBAL secao 33",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "silent_failure_path_invalidates_claims",
       "bucket": "boas_praticas",
       "severity": "high",
       "lesson": "Caminho de erro sem contador transforma qualquer claim de contagem em ficcao.",
-      "evidence": "brandEnsureShard retornava mudo em NULL; so um contador provou spawned=56, failed=0."
+      "evidence": "brandEnsureShard retornava mudo em NULL; so um contador provou spawned=56, failed=0.",
+      "canonized_in": "SGDK_GLOBAL secao 37",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "gate_must_fail_in_test",
       "bucket": "boas_praticas",
       "severity": "high",
       "lesson": "Todo gate novo e verificado nos dois sentidos, com fixture que passa e fixture que reprova, antes de valer.",
-      "evidence": "O gate de model sheet tinha definicao furada de ciclo fechado: a fixture deliberadamente aberta passou no primeiro teste."
+      "evidence": "O gate de model sheet tinha definicao furada de ciclo fechado: a fixture deliberadamente aberta passou no primeiro teste.",
+      "canonized_in": "SGDK_GLOBAL secao 37",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "gate_that_cries_wolf_is_ignored",
       "bucket": "boas_praticas",
       "severity": "medium",
       "lesson": "Calibre contra falso positivo antes de publicar. Gate que reprova projeto saudavel sera desligado.",
-      "evidence": "A primeira versao do detector de tiles em C reprovava 9 de 9 projetos por confundir enderecamento de VRAM e paleta autoral com arte por codigo."
+      "evidence": "A primeira versao do detector de tiles em C reprovava 9 de 9 projetos por confundir enderecamento de VRAM e paleta autoral com arte por codigo.",
+      "canonized_in": "SGDK_GLOBAL secao 37",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "contract_must_match_the_rom",
       "bucket": "boas_praticas",
       "severity": "high",
       "lesson": "Contrato descrevendo coreografia nao implementada e falso verde. Reconcilie apos cada entrega de runtime.",
-      "evidence": "Contrato declarava 56 estilhacos com 18/20 medidos enquanto a ROM rodava 32 com outra geometria."
+      "evidence": "Contrato declarava 56 estilhacos com 18/20 medidos enquanto a ROM rodava 32 com outra geometria.",
+      "canonized_in": "SGDK_GLOBAL secao 29",
+      "enforced_by": "audit_promotion_claims.ps1",
+      "enforcement_state": "measured"
     },
     {
       "id": "unmeasured_headroom_is_timidity",
       "bucket": "boas_praticas",
       "severity": "medium",
       "lesson": "Meca o degrau seguinte antes de fechar um orcamento. Pare quando MEDIR o estouro, nao quando sentir receio; e declare a justificativa quando a direcao pedir menos.",
-      "evidence": "32 estilhacos a 16/20 pareciam o teto; corrigir o aliasing levou a 56 a 16/20, densidade visual 3,5x maior pelo mesmo custo."
+      "evidence": "32 estilhacos a 16/20 pareciam o teto; corrigir o aliasing levou a 56 a 16/20, densidade visual 3,5x maior pelo mesmo custo.",
+      "canonized_in": "SGDK_GLOBAL secao 30",
+      "enforced_by": "audit_scene_headroom.py",
+      "enforcement_state": "measured"
     },
     {
       "id": "continuity_needs_declared_exits",
       "bucket": "producao",
       "severity": "high",
       "lesson": "Proibir corte a preto sem declarar COMO cada elemento sai produz acumulo. Continuidade nao e ausencia de remocao: e ter saida desenhada por scroll, fade ou substituicao para cada elemento que entra.",
-      "evidence": "Ato 3 com quatro elementos vivos na mesma faixa y=80..128 em F451 (bigorna, FORGE, MISAEL, MASTER) e zero remocoes no codigo. O contrato dizia apenas 'nunca use VDP_clearPlane'."
+      "evidence": "Ato 3 com quatro elementos vivos na mesma faixa y=80..128 em F451 (bigorna, FORGE, MISAEL, MASTER) e zero remocoes no codigo. O contrato dizia apenas 'nunca use VDP_clearPlane'.",
+      "canonized_in": "SGDK_GLOBAL secao 35",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "gates_do_not_see_composition",
       "bucket": "boas_praticas",
       "severity": "high",
       "lesson": "Todo gate construido mede hardware. Empilhar elementos na mesma faixa da tela passa em residencia, scanline, provenance e compreensao de marca. Composicao se pega com planta baixa, nao com validador.",
-      "evidence": "O ato 3 tem 0 sprites, 865 de 1740 tiles e over_budget 0 \u2014 todos os gates verdes \u2014 com quatro wordmarks empilhados."
+      "evidence": "O ato 3 tem 0 sprites, 865 de 1740 tiles e over_budget 0 \u2014 todos os gates verdes \u2014 com quatro wordmarks empilhados.",
+      "canonized_in": "SGDK_GLOBAL secao 35",
+      "enforced_by": "",
+      "enforcement_state": "prose_only"
     },
     {
       "id": "measurement_tools_need_self_check",
       "bucket": "boas_praticas",
       "severity": "structural",
       "lesson": "Antes de a leitura de uma ferramenta valer em qualquer claim, o self-check dela precisa passar, exercitando os dois sentidos: uma fixture que passa e uma que reprova.",
-      "evidence": "Tres ferramentas de medicao com defeito na mesma sessao \u2014 simulador sem o limite de pixel, probe amostrando 4 de 224 linhas, e dois campos exportando a constante 1. Duas produziram bug reportado que nao existia, uma quase aprovou hardware estourado, e nenhuma acusou defeito sozinha."
+      "evidence": "Tres ferramentas de medicao com defeito na mesma sessao \u2014 simulador sem o limite de pixel, probe amostrando 4 de 224 linhas, e dois campos exportando a constante 1. Duas produziram bug reportado que nao existia, uma quase aprovou hardware estourado, e nenhuma acusou defeito sozinha.",
+      "canonized_in": "SGDK_GLOBAL secao 34",
+      "enforced_by": "validate_measurement_tools.py",
+      "enforcement_state": "measured"
     },
     {
       "id": "stale_tool_copy_passes_its_own_self_check",
       "bucket": "boas_praticas",
       "severity": "structural",
       "lesson": "Self-check que passa nao prova que a ferramenta esta atual. Copia local de ferramenta de medicao tem que ser identica a canonica, senao ela verifica a si mesma contra a propria versao obsoleta.",
-      "evidence": "Cinco copias do vdp_scanline_simulator em v1.0.0 nos projetos. O self-check delas passa com exit 0, e elas aprovam uma cena com 512 px numa linha contra teto de 320 \u2014 status ok, blockers vazio. Quatro estavam em .agent/scripts, ou seja em uso."
+      "evidence": "Cinco copias do vdp_scanline_simulator em v1.0.0 nos projetos. O self-check delas passa com exit 0, e elas aprovam uma cena com 512 px numa linha contra teto de 320 \u2014 status ok, blockers vazio. Quatro estavam em .agent/scripts, ou seja em uso.",
+      "canonized_in": "SGDK_GLOBAL secao 34",
+      "enforced_by": "validate_measurement_tools.py",
+      "enforcement_state": "measured"
     }
-  ]
+  ],
+  "canonization_audit": {
+    "date": "2026-08-18",
+    "lessons": 20,
+    "canonized": 20,
+    "measured": 6,
+    "prose_only": 14,
+    "note": "Secao 35 e 36 sao prosa declarada. A secao 37 exige que isso seja dito em voz alta em vez de parecer coberto."
+  }
 }

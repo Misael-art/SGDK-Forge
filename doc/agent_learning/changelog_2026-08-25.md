@@ -58,3 +58,24 @@ Status: `doctrine_canonized_and_drift_cured`
     real do GOTHAM_OVERDRIVE (`doc/spec_assets_dark_deco.md`, 11 assets);
   - `out/logs/tooling_capability_report.json`.
 - nenhum claim de imagem gerada; nenhuma tecnica promovida a MESTRE.
+
+## Protocolo de insatisfacao mensuravel (prompt magico do Ramo C)
+
+- novo bloco opcional `successor_quality_protocol` no schema
+  `successor_asset_directive.schema.json`: o modelo sucessor NAO aceita
+  primeira versao e NAO julga por sensacao;
+- `iteration_policy`: min_rounds=3 mesmo se "pareceu bom"; apos max rounds sem
+  passar, lacuna declarada honestamente (§38) — rebaixar piso e proibido;
+- `numeric_floors` com ferramenta de medicao por piso: luma >=34
+  (`audit_luma_floor.py`), paleta 9-bit exata, silhueta B/N no tamanho alvo,
+  grid 8px/index 0, dithering funcional;
+- `rejection_triggers`: reprova automatica (gradiente continuo, canal fora dos
+  8 valores, downscale detectado, contorno <1px, fundo brigando com silhueta);
+- `blind_critic_floor` default **8.5/10** (Kirby tirou 5.8 sem este protocolo);
+  endurecer por projeto e livre, amolecer exige aprovacao humana registrada;
+- `final_judgment` ancorado em gates imparciais — auto-satisfacao do gerador
+  nunca e anchor de aceitacao (§36: adjetivo sem piso e defeito; §38: sensacao
+  nao decide);
+- prompt magico canonico literal adicionado ao template markdown;
+- Ramo C na skill passa a exigir o protocolo; diretriz ja emitida hoje foi
+  regenerada com o protocolo populado para os assets dark deco (schema valido).

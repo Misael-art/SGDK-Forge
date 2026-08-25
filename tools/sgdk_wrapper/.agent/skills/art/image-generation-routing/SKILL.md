@@ -24,8 +24,11 @@ RAMO B — host tem requisitos e preparo
 RAMO C — nem agente nem host
     Nao ha canal nativo, API/CLI falhou por estrutura, host sem GPU/runtime ou
     install recusada. Desfecho OBRIGATORIO: emitir successor_asset_directive
-    (diretriz para modelo sucessor capaz) e registrar blocked_image_tooling com
-    outcome_branch=C. Bloqueio morto sem diretriz e anti-padrao.
+    (diretriz para modelo sucessor capaz) COM o successor_quality_protocol
+    populado (prompt magico: pisos numericos + rejeicao automatica + crítico
+    cego >= blind_critic_floor) e registrar blocked_image_tooling com
+    outcome_branch=C. Bloqueio morto sem diretriz, ou diretriz sem protocolo
+    de insatisfacao mensuravel, sao anti-padrao.
 ```
 
 Estados de capacidade permitidos (sem quarto estado): `capaz_com_prova_agora`,
@@ -265,6 +268,8 @@ Schemas novos (canonicos):
 - alegar canal nativo por fama do modelo ou memoria de outra sessao, sem `probe_attempted`
 - confundir "host capaz" com "host preparado": GPU existente nao dispensa healthcheck e install medida
 - declarar bloqueio no Ramo C sem emitir `successor_asset_directive`
+- emitir `successor_asset_directive` sem `successor_quality_protocol` (insatisfacao sem piso numerico nao protocola nada)
+- aceitar round do gerador antes de `min_rounds` ou por sensacao de qualidade — julgamento final e dos gates (`final_judgment`), nunca auto-satisfacao
 - gerar prompt sem rodar `route` ou declarar canal selecionado
 - declarar Bonsai/ComfyUI bloqueante quando o agente atual possui geracao nativa callable ou inline
 - declarar `BLOCKED_IMAGE_TOOLING` sem rodar `healthcheck` do perfil recomendado

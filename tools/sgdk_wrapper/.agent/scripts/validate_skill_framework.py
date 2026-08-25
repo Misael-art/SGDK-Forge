@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 AGENT_ROOT = ROOT / "tools" / "sgdk_wrapper" / ".agent"
+WRAPPER_ROOT = ROOT / "tools" / "sgdk_wrapper"
 SKILLS_ROOT = AGENT_ROOT / "skills"
 LEGACY_ROOT = AGENT_ROOT / "legacy" / "skills"
 BRIDGE_ROOT = ROOT / ".agents" / "skills"
@@ -52,7 +53,10 @@ def directory_hash(path: Path) -> str:
     payload = bytearray()
     for file_path in sorted(p for p in path.rglob("*") if p.is_file()):
         relative = file_path.relative_to(path).as_posix()
-        file_hash = hashlib.sha256(file_path.read_bytes()).hexdigest()
+        file_bytes = file_path.read_bytes()
+        if file_path.suffix.lower() in {".md", ".json", ".yaml", ".yml", ".txt"}:
+            file_bytes = file_bytes.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        file_hash = hashlib.sha256(file_bytes).hexdigest()
         payload.extend(relative.encode("utf-8"))
         payload.extend(b"\0")
         payload.extend(file_hash.encode("ascii"))
@@ -227,6 +231,40 @@ def check_forbidden_terms(errors: list[str]) -> None:
                 errors.append(f"forbidden term {term!r}: {rel(path, AGENT_ROOT)}")
 
 
+def check_skill_path_references(errors: list[str]) -> None:
+    """Secao 38: skill que cita path inexistente planta autoengano no proximo
+    agente. Calibrado contra falso positivo (secao 37): so verifica referencias
+    ancoradas na arvore do workspace (`tools/...`, `.agent/...`), sem wildcard,
+    sem placeholder `<...>`, sem espaco. Refs relativas a projeto
+    (`doc/10-memory-bank.md`, `out/logs/*.json`) existem por projeto e NAO sao
+    verificaveis na raiz — nunca sao marcadas."""
+    import re
+
+    pattern = re.compile(r"`([^`\n]+?)`")
+    anchored_prefixes = ("tools/", ".agent/")
+    checked = 0
+    for path in sorted(SKILLS_ROOT.rglob("SKILL.md")):
+        text = read_text(path)
+        for raw in pattern.findall(text):
+            ref = raw.strip()
+            if not any(ref.startswith(p) for p in anchored_prefixes):
+                continue
+            if any(ch in ref for ch in "*<>?") or " " in ref:
+                continue
+            if not ref.endswith((".md", ".json", ".py", ".ps1", ".sh")):
+                continue
+            checked += 1
+            candidates = [ROOT / ref]
+            if ref.startswith(".agent/"):
+                candidates.append(WRAPPER_ROOT / ref)
+            if not any(c.exists() for c in candidates):
+                errors.append(
+                    f"skill cites nonexistent path {ref!r}: {rel(path, AGENT_ROOT)}"
+                )
+    if checked:
+        print(f"anchored path references checked: {checked}")
+
+
 def main() -> int:
     errors: list[str] = []
     active = skill_dirs(SKILLS_ROOT)
@@ -239,6 +277,7 @@ def main() -> int:
     check_lifecycle(active, legacy, errors)
     check_pipeline_references(errors)
     check_forbidden_terms(errors)
+    check_skill_path_references(errors)
     if errors:
         print("Skill framework validation failed:")
         for error in errors:

@@ -1,8 +1,8 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
-**Última atualização:** 2026-07-30
+**Última atualização:** 2026-08-25
 **Escopo:** Repositório MegaDrive_DEV (workspace global)
-**Projeto em foco:** Shadow Dancer Hamoopig, Pequeno Príncipe, engines SGDK 211, reorganização workspace, assimilação do engine scan pass 2
+**Projeto em foco:** Doutrina de capacidade com prova (seção 38), roteamento visual em 3 ramos, diretriz para modelo sucessor, cura de drift de schemas ai_imagegen
 
 > **DIRETRIZ:** Este é o bloco de memória primário para o workspace global.
 > Leia integralmente antes de decisões que afetem múltiplos projetos.
@@ -34,6 +34,14 @@
 ---
 
 ## 2. O QUE ACABOU DE ACONTECER (2026-04-02)
+
+### Doutrina de capacidade com prova e Ramo C de roteamento visual (2026-08-25)
+- Criada `SGDK_GLOBAL.md` §38: sonda real obrigatoria antes de prometer capacidade; vocabulario `capaz_com_prova_agora` / `capaz_apos_preparo_medido` / `nao_capaz_neste_host`; proibido claim por memoria, fama do modelo ou suposicao.
+- `image-generation-routing` agora abre com a arvore obrigatoria de 3 ramos: A (nativo com prova -> gerar), B (host preparado -> circuito local), C (nem agente nem host -> emitir `successor_asset_directive`). Bloqueio morto sem diretriz e anti-padrao.
+- Novo contrato machine-readable: `tools/sgdk_wrapper/schemas/successor_asset_directive.schema.json` + template `tools/sgdk_wrapper/.agent/references/successor_asset_directive_template.md`.
+- Drift curado: 7 schemas citados como canonicos pela skill e inexistentes em disco foram criados em `tools/ai_imagegen/reports/schema/`; path errado no tdd-authoring corrigido; `validate_skill_framework.py` agora reprova skill que cita path ancorado (`tools/...`, `.agent/...`) inexistente (calibrado contra falso positivo conforme §37); `imagegen_tool.py self-check` novo (PASS).
+- Prova viva neste host (Linux, AMD VanGogh sem VRAM dedicada, 2.8GB RAM livres, ComfyUI/modelos ausentes): sondas reais -> `nao_capaz_neste_host`, desfecho Ramo C com artefatos schema-validos em `out/logs/generation_channel_decision.json`, `out/logs/successor_asset_directive_2026-08-25.json` (aponta para a spec real do GOTHAM_OVERDRIVE) e `out/logs/tooling_capability_report.json`.
+- Detalhe completo: `doc/agent_learning/changelog_2026-08-25.md`.
 
 ### Pontes de IDE e skills canonicas (2026-06-06)
 - `.agents/skills` foi convertido de junction absoluta para symlink relativo apontando para `../tools/sgdk_wrapper/.agent/skills`.

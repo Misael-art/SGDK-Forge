@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "tools/ai_imagegen/reports/schema/asset_lineage_record.schema.json",
+  "title": "Asset Lineage Record",
+  "description": "Linhagem por asset gerado: canal, persistencia real e prompt. Nao alegar caminho de arquivo que nao existe (persisted_to_filepath=false exige output_path=null).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "lineage_id",
+    "timestamp",
+    "generation_channel",
+    "image_rendered_inline",
+    "persisted_to_filesystem",
+    "source_prompt"
+  ],
+  "properties": {
+    "lineage_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generation_channel": {
+      "enum": [
+        "native_chat_image_generation_callable",
+        "native_chat_inline_generation",
+        "api_cli_generation",
+        "deck_safe_sd15",
+        "sdxl_lowvram",
+        "cpu_fallback",
+        "flux_schnell_gguf",
+        "bonsai_4b_ternary",
+        "bonsai_4b_binary"
+      ]
+    },
+    "tool_callable": {
+      "type": ["boolean", "null"]
+    },
+    "image_rendered_inline": {
+      "type": "boolean"
+    },
+    "persisted_to_filesystem": {
+      "type": "boolean"
+    },
+    "output_path": {
+      "type": ["string", "null"],
+      "description": "Somente quando persisted_to_filesystem=true; caminho relativo ao projeto."
+    },
+    "chat_asset_label": {
+      "type": ["string", "null"]
+    },
+    "prompt_hash": {
+      "type": ["string", "null"],
+      "description": "sha256 do prompt usado."
+    },
+    "source_prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset_role": {
+      "enum": [
+        "concept_art",
+        "tileset_concept",
+        "dither_mask",
+        "contrast_study",
+        "animated_sprite_final",
+        "hud_final",
+        "res_direct",
+        "aaa_final_asset",
+        "other"
+      ]
+    },
+    "initial_status": {
+      "enum": ["source_candidate", "premium_source_accepted", "aceito_com_restricoes", "reprovado_como_fonte_AAA"],
+      "description": "Saidas locais/Bonsai nascem source_candidate; premium_source_accepted so com revisao humana."
+    },
+    "prompt_pack_path": {
+      "type": ["string", "null"]
+    },
+    "vendor_manifest_sha256": {
+      "type": ["string", "null"]
+    },
+    "license_ack_sha256": {
+      "type": ["string", "null"]
+    }
+  }
+}

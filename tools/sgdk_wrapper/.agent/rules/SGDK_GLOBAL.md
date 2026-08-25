@@ -858,3 +858,46 @@ Duas metades da mesma regra, e este workspace errou as duas.
 Corolario da secao 15: antes de escrever regra nova, **procure a existente e leia o enforcement**.
 A proibicao de arte procedural ja existia em 8 lugares em prosa e nao era medida em nenhum — 78
 de 136 simbolos violavam. Quando a regra ja esta escrita, o gap e medicao, nao vocabulario.
+
+## 38. Capacidade declarada com prova antes de promessa
+
+Agente que promete o que nao sondou engana o usuario duas vezes: na promessa e na correcao
+tarde. Este workspace ja perdeu tempo nos dois sentidos — agente alegando gerar imagem nativa
+sem ter canal nenhum, e skill canonica citando schemas que nao existiam em disco.
+
+**Regra:** antes de aceitar ou iniciar qualquer tarefa dependente de capacidade (gerar imagem,
+buildar, rodar emulador, tocar audio), o agente executa uma **sonda real** — comando rodado,
+output capturado — e declara a capacidade em um de tres estados:
+
+```
+capaz_com_prova_agora      -> sonda passou agora, nesta sessao
+capaz_apos_preparo_medido  -> sonda falhou por preparo ausente, custo de preparo medido e declarado
+nao_capaz_neste_host       -> sonda falhou por limite estrutural do host/agente, declarado sem promessa futura
+```
+
+Nao existe quarto estado. "Acho que consigo", "deve funcionar" e "um modelo como eu normalmente
+faz isso" sao proibidos como base de decisao.
+
+**Proibições duras:**
+
+- Prometer resultado ao usuario antes da sonda.
+- Basear claim de capacidade em memoria de outra sessao, em fama do modelo ou em documentacao
+  desatualizada.
+- Silenciar quando a sonda contradiz a suposicao inicial — a correcao e imediata e explicita.
+
+**Arvore de roteamento quando existem multiplas vias** (caso concreto: geracao visual):
+
+```
+Ramo A: agente gera nativo com prova   -> gera e persiste agora
+Ramo B: host tem requisitos            -> prepara via circuito local e gera
+Ramo C: nem agente nem host            -> emite diretriz para modelo sucessor capaz
+```
+
+O Ramo C e entrega, nao bloqueio morto: `successor_asset_directive` com papel, contexto,
+assets, proveniencia exigida e gates de chegada. Skill dona: `image-generation-routing`.
+
+**Limite declarado:** isto mede honestidade de claim na porta de entrada da tarefa, nao
+qualidade da execucao. Sonda que passa nao garante asset bom; sonda que nao passa impede
+promessa falsa. Enforcement: toda decisao de canal/capacidade registra report JSON com os
+campos `probe_attempted`, `probe_output` e estado final do vocabulario — sem report, o claim
+nao existe.

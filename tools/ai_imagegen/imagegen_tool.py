@@ -335,6 +335,85 @@ def recommend_profile(os_info: dict, ram_gb: float, gpu: dict) -> str:
 # --- Commands ---
 
 
+def cmd_self_check(args):
+    """Secao 34/38: a ferramenta prova a integridade dos proprios artefatos
+    antes de ser usada como fonte de medicao/roteamento."""
+    checks = []
+
+    def add(name, ok, detail):
+        checks.append({"check": name, "ok": bool(ok), "detail": detail})
+
+    def try_json(path):
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                return json.load(fh), None
+        except Exception as exc:
+            return None, str(exc)
+
+    manifest, err = try_json(MODELS_DIR / "manifest.json")
+    if err:
+        add("models_manifest_parses", False, err)
+    else:
+        ids = [m.get("id") for m in manifest.get("models", [])]
+        add(
+            "models_manifest_parses",
+            bool(ids) and all(ids),
+            f"{len(ids)} model ids: {ids[:4]}{'...' if len(ids) > 4 else ''}",
+        )
+
+    profiles, err = try_json(PROFILE_PATH)
+    if err:
+        add("profiles_config_parses", False, err)
+    else:
+        names = sorted((profiles.get("profiles") or {}).keys())
+        add("profiles_config_parses", bool(names), f"profiles: {names}")
+
+    canonical_schemas = [
+        "capability_report.schema.json",
+        "generation_channel_decision.schema.json",
+        "asset_lineage_record.schema.json",
+    ]
+    for name in canonical_schemas:
+        _, err = try_json(REPORTS_DIR / "schema" / name)
+        add(f"schema_{name}", err is None, err or "ok")
+
+    successor_schema = (
+        SCRIPT_DIR.parent
+        / "sgdk_wrapper"
+        / "schemas"
+        / "successor_asset_directive.schema.json"
+    )
+    _, err = try_json(successor_schema)
+    add("schema_successor_asset_directive", err is None, err or "ok")
+
+    skill_path = (
+        SCRIPT_DIR.parent
+        / "sgdk_wrapper"
+        / ".agent"
+        / "skills"
+        / "art"
+        / "image-generation-routing"
+        / "SKILL.md"
+    )
+    add("routing_skill_present", skill_path.exists(), str(skill_path))
+
+    passed = all(c["ok"] for c in checks)
+    report = {
+        "tool": "imagegen_tool",
+        "self_check": "pass" if passed else "fail",
+        "timestamp": now_iso(),
+        "checks": checks,
+    }
+    if args.json:
+        print(json.dumps(report, indent=2))
+    else:
+        for c in checks:
+            mark = "PASS" if c["ok"] else "FAIL"
+            print(f"[{mark}] {c['check']}: {c['detail']}")
+        print(f"SELF-CHECK: {report['self_check'].upper()}")
+    return report
+
+
 def cmd_status(args):
     os_info = detect_os_info()
     disk_free_gb = detect_disk_free_gb()
@@ -1868,15 +1947,23 @@ def main():
     p_status = sub.add_parser("status", help="Show host capability report")
     p_status.set_defaults(func=cmd_status)
 
+    p_selfcheck = sub.add_parser(
+        "self-check",
+        help="Prove integrity of this tool's own artifacts (SGDK_GLOBAL.md secao 34)",
+    )
+    p_selfcheck.set_defaults(func=cmd_self_check)
+
     p_route = sub.add_parser("route", help="Decide generation channel (native vs local)")
     p_route.add_argument(
         "--native-callable",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
+        type=parse_bool_auto,
+        default=None,
         help="Agent has callable native image gen",
     )
     p_route.add_argument(
         "--native-inline",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
+        type=parse_bool_auto,
+        default=None,
         help="Agent has inline native image gen",
     )
     p_route.set_defaults(func=cmd_route)

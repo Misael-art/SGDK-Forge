@@ -413,6 +413,7 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Preflight host | `tools/sgdk_wrapper/preflight_host.ps1` |
 | Ordem de trabalho de cena | `tools/sgdk_wrapper/.agent/workflows/scene-direction-first.md` |
 | Licoes da curadoria 2026-08-17 | `doc/curation/lessons_2026-08-17.json` |
+| Prompt modelo de direcionamento | `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md` |
 | Diretriz de bloqueio estetico | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` (8.2 e 17) |
 | Proveniencia de asset (contrato) | `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json` |
 | Proveniencia de asset (auditor) | `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` |

@@ -60,7 +60,6 @@ Status: `doctrine_canonized_and_drift_cured`
 - nenhum claim de imagem gerada; nenhuma tecnica promovida a MESTRE.
 
 ## Protocolo de insatisfacao mensuravel (prompt magico do Ramo C)
-
 - novo bloco opcional `successor_quality_protocol` no schema
   `successor_asset_directive.schema.json`: o modelo sucessor NAO aceita
   primeira versao e NAO julga por sensacao;
@@ -79,3 +78,23 @@ Status: `doctrine_canonized_and_drift_cured`
 - prompt magico canonico literal adicionado ao template markdown;
 - Ramo C na skill passa a exigir o protocolo; diretriz ja emitida hoje foi
   regenerada com o protocolo populado para os assets dark deco (schema valido).
+
+## Prompt modelo de direcionamento de projeto (doc/prompts_modelo/)
+
+- criado `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md` v1.0.0:
+  contrato-base para reconciliar qualquer mega-prompt/direcionamento externo;
+- Bloco 1: preambulo de capacidade §38 (tres estados + arvore A/B/C);
+- Bloco 2: protocolo de reconciliacao com 8 correcoes, cada uma com gate
+  provado (herdar prior art, nomenclatura, gates canonicos do wrapper,
+  proveniencia IA obrigatoria, vertical slice primeiro, fatos de hardware,
+  deduplicacao bloqueante em F0, budget antes de iniciar);
+- Bloco 3: prompt magico literal (min_rounds=3, pisos numericos com
+  ferramenta, blind_critic_floor >=8.5, julgamento final imparcial, lacuna
+  honesta §38) + regra de que identificacao cega sozinha nao fecha gate;
+- Bloco 4: esqueleto F0-F3 com placeholders alinhado ao esqueleto real do
+  `modelo/` (documento paralelo inventado = orfao);
+- Bloco 5: REGISTRO DE INCREMENTOS com regras de auto-incremento (licao
+  medida com fonte citada; alteracao de doutrina exige humano) e primeira
+  linha registrada (fonte: avaliacao do mega-prompt Kirby AX ALPHA — 7/10,
+  buracos de proveniencia IA, escopo sem slice, gates duplicados);
+- ponteiro adicionado na REFERENCIA RAPIDA do AGENTS.md raiz.

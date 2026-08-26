@@ -256,6 +256,31 @@ static void export_visual_probe_to_sram(void)
     SRAM_disable();
 }
 
+static void export_tile_stream_to_sram(void)
+{
+    /* Bloco "TSTR": telemetria de streaming do scene_demo (P2).
+       8 contadores u32 exportados como 16 words hi/lo. */
+    extern u32 gTileStreamStats[8];
+    u32 offset = 0x300;
+    u16 i;
+
+    SRAM_enable();
+    SRAM_writeByte(offset + 0, 'T');
+    SRAM_writeByte(offset + 1, 'S');
+    SRAM_writeByte(offset + 2, 'T');
+    SRAM_writeByte(offset + 3, 'R');
+    sram_write_u16be(offset + 4, 1);          /* schema */
+    sram_write_u16be(offset + 6, 8 + 16 * 2); /* total bytes */
+
+    offset += 8;
+    for (i = 0; i < 8; i++) {
+        u32 v = gTileStreamStats[i];
+        sram_write_visual_word(&offset, (u16)((v >> 16) & 0xFFFF));
+        sram_write_visual_word(&offset, (u16)(v & 0xFFFF));
+    }
+    SRAM_disable();
+}
+
 void MDRuntimeProbe_tick(void)
 {
     u16 cpuLoad = SYS_getCPULoad();
@@ -323,6 +348,7 @@ void MDRuntimeProbe_tick(void)
     if (samplesRecorded > 0 && (samplesRecorded != s_lastExportSamples) && ((gApp.totalFrames - s_lastExportFrame) >= 60u)) {
         MDRuntimeProbe_exportToSRAM();
         export_visual_probe_to_sram();
+        export_tile_stream_to_sram();
         s_lastExportSamples = samplesRecorded;
         s_lastExportFrame = gApp.totalFrames;
     }

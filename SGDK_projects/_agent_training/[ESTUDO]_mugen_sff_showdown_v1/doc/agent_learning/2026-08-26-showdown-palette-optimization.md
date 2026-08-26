@@ -67,3 +67,13 @@ ruído de pipeline de vídeo, não dado.
 
 Instrumentar contagem de tiles carregados via DMA queue no runtime (fecha o
 hard limit) e só depois avaliar escape por erro nas bandas BG_A.
+
+## Adendo P2 (mesmo dia): code_loaded_tiles MEDIDO
+
+- Bloco TSTR novo na probe (SRAM 0x300, 8 contadores u32) + leitor Python.
+- Sessao selada `…120420Z…`: 1.157 tiles por passe, pico residente
+  1157/1190 -> **margem real de 33 tiles (2,77%)**, nao os 64 estimados.
+- Licao: `resetTileCache()` por passe significava que a "folga" antiga era
+  media/estatica; pico real so aparece com contador dentro do acquire.
+- Consequencia: P3 (varredura de cantos) e agora gate critico antes de
+  qualquer expansao de janela ou animacao.

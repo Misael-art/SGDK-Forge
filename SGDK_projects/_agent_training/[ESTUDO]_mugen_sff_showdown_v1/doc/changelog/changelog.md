@@ -1,5 +1,129 @@
 # Changelog - MUGEN SFF Showdown Study
 
+## 2026-06-15 - Route A multi-plano vista no BlastEm
+
+- Supersede a rodada `route_b_compare_flat_degraded` de 2026-06-14.
+- Exportador SGDK atualizado para `route_a_multi_plane_streaming_context_palette_v2`:
+  - `BG_B` carrega o plano distante com simplificacao controlada de VRAM;
+  - `BG_A` carrega midground, agua/reflexos, rochas e floor anchor;
+  - mapa custom agora grava, por frame, `BG_B` seguido de `BG_A`;
+  - janela de streaming reduzida para 41x29 tiles;
+  - culling de `BG_B` sob tiles totalmente opacos de `BG_A`.
+- Bins regenerados e sincronizados com o viewer:
+  - `showdown_tiles_4bpp.bin`: `2870` tiles unicos;
+  - `showdown_maps_u16.bin`: `92160` bytes;
+  - `showdown_palettes_u16.bin`: `128` bytes;
+  - `nearest_color_remaps`: `235880`.
+- Runtime SGDK alterado:
+  - dois mapas de janela (`BG_B` e `BG_A`);
+  - cache compartilhado de `1190` tiles;
+  - layout VDP explicito: tile data ate `38592`, primeiro tilemap em `49152`;
+  - upload de tiles em lotes pequenos para evitar travamento inicial;
+  - `BG_B` far delta `43/100,285/1000`;
+  - `BG_A` mid/floor delta `71/100,635/1000` e `1/1`;
+  - `HSCROLL_LINE` em ambos os planos, com distorcao de agua em `BG_A`.
+- Camera SGDK preservada como fixture de luta:
+  - P1/P2 virtuais em world x `314`/`454`, floor y `471`;
+  - camera X segue ponto medio;
+  - camera Y usa zona morta e `verticalfollow=1/2` para super jump;
+  - autopan livre continua desativado como evidencia.
+- Build direto SGDK 2.11 debug passou; ROM `sgdk_viewer/showdown_viewer/out/rom.bin`, SHA256 `7e4f6a2e2149ff19b9788ffd3034adb556d595e1163b6af8c575ff09533ece2a`.
+- BlastEm evidence passou com screenshot e SRAM:
+  - `sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png`;
+  - `sgdk_viewer/showdown_viewer/out/evidence/blastem/save.sram`;
+  - `sgdk_viewer/showdown_viewer/out/logs/blastem_evidence.json`;
+  - readiness source `post_close_sram_heartbeat`.
+- `visual_vdp_dump.bin` continua ausente; portanto `validado_budget=false`.
+- Auditoria binaria/VDP: `analysis/showdown_vdp_contract_audit_v001.json` com `status=pass`, `diff_pixels=0`, CRAM valida, tiles 4bpp validos, cache `1190`, max local tile index `1205`.
+- Relatorios regenerados: camera, paleta, budget e board `work/diagnostics/showdown_recovery_comparison_v001.png`.
+- Adicionado fluxo pedagogico ASCII `doc/showdown_recovery_ascii_decision_flow.md`, cobrindo V00..V05, intervencoes humanas H01..H03, sintaxe de decisao e passagem para a proxima versao.
+- Testes Python: `22 passed`.
+- Validacoes:
+  - `validate_project_context`: ok, `context=exercise`, `blockers=0`;
+  - `validate_project_methodology`: passed, `blockers=0`;
+  - `validate_project_hygiene`: blocked, `blockers=3`;
+  - `validate_resources -WorkDir` no estudo: failed, `errors=8`, `warnings=5`;
+  - `validate_resources -WorkDir` no viewer: failed, `errors=1`, `warnings=10`;
+  - `audit_project_learning -Mode Capture`: `lessons=13`, `candidates=9`, `canonical_promotion_performed=false`.
+- Status honesto: `route_a_runtime_reworked_emulator_seen_budget_dump_pending`, nao AAA, nao asset autoral final, nao `validado_budget`.
+
+## 2026-06-14 - Follow-up paleta viva, camera foco duplo e line scroll parcial
+
+- Supersede a tentativa de recovery anterior de 2026-06-14 para o build observado mais recente.
+- Paleta reforcada: `semantic_role_palette_v1` agora prioriza anchors cromaticos vivos por papel visual antes das cores mais frequentes da fonte.
+- Metricas atuais de paleta:
+  - source: `76` cores uteis, saturacao media `0.3805`;
+  - export preview: `42` cores uteis, saturacao media `0.5185`, distancia RGB media `33.7969`;
+  - BlastEm normalizado: saturacao media `0.4638`, distancia RGB media `72.4376`, `62.1275%` dos pixels acima de distancia 40.
+- Testes adicionados/atualizados:
+  - `tools/tests/test_showdown_semantic_palette.py`;
+  - `tools/tests/test_showdown_fight_camera.py`;
+  - suite Python: `22 passed`.
+- Camera SGDK alterada para fixture de luta com foco duplo:
+  - P1/P2 virtuais iniciam em world x `314`/`454`, floor y `471`;
+  - camera X segue o ponto medio;
+  - camera Y fica travada no chao ate a zona morta vertical e aplica `verticalfollow=1/2` no super jump;
+  - entrada fria ao abrir a cena evita que o A do menu acione salto na evidencia inicial.
+- Adicionada reparacao parcial de profundidade dentro do fallback:
+  - `BG_A` usa `HSCROLL_LINE`;
+  - linhas distantes usam delta `43/100`, midground `71/100`, floor `1/1`;
+  - agua usa offset horizontal por linha entre y `88..176`.
+- Regerados e sincronizados bins SGDK:
+  - `showdown_tiles_4bpp.bin`: `2244` tiles unicos;
+  - `showdown_maps_u16.bin`: `46080` bytes;
+  - `showdown_palettes_u16.bin`: `128` bytes;
+  - `nearest_color_remaps`: `390536`.
+- Adicionada auditoria binaria `analysis/showdown_vdp_contract_audit_v001.json`: CRAM explicita, nibbles 0..15, descritor custom 12-bit, palette ids por celula e roundtrip do preview com `diff_pixels=0`.
+- Build canonico via wrapper continua bloqueado antes da compilacao porque o Python de sistema do asset preparation nao possui `PIL`; build direto debug SGDK 2.11 foi usado apenas como evidencia de laboratorio.
+- ROM observada no BlastEm: `sgdk_viewer/showdown_viewer/out/rom.bin`, SHA256 `80b91d451261a38b2db115eaa0f2558328bcd25f5dc03e0b89131bd093ffcd80`.
+- Evidencia BlastEm atual:
+  - screenshot `sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png`;
+  - SRAM presente;
+  - report `sgdk_viewer/showdown_viewer/out/logs/blastem_evidence.json`;
+  - `visual_vdp_dump.bin` ausente.
+- Gerados/atualizados: `analysis/showdown_camera_report_v001.json`, `analysis/showdown_recovery_palette_measurement_v001.json`, `analysis/showdown_budget_report_v001.json`, `work/diagnostics/showdown_recovery_comparison_v001.png`.
+- Validacoes finais desta rodada:
+  - `validate_project_context`: ok, `context=exercise`, `blockers=0`;
+  - `validate_project_methodology`: passed, `blockers=0`;
+  - `validate_project_hygiene`: blocked, `blockers=3`;
+  - `freshness_audit`: warning, `stale=0`, `missing_required=2`;
+  - `validate_resources -WorkDir`: failed, `errors=8`, `warnings=5`;
+  - `audit_project_learning -Mode Capture`: `lessons=13`, `candidates=9`, `canonical_promotion_performed=false`.
+- Resultado de rota: continua `route_b_compare_flat_degraded`, agora como `lab_flattened_reference_with_camera_palette_line_scroll_repair`; `route_a_multi_plane` ainda nao foi implementada. A auditoria de descritor passou, mas a perda cromatica perceptiva ainda bloqueia aprovacao artistica.
+- Status final desta rodada: `blocked_rework_required`, `validado_budget=false`, `ready_for_aaa=false`.
+
+## 2026-06-14 - Recovery parcial camera/paleta, parallax ainda bloqueado
+
+- Criados/atualizados contratos de recovery:
+  - `doc/contracts/camera_motion_contract_v001.json`;
+  - `doc/contracts/parallax_layer_contract_v001.json`;
+  - `doc/contracts/palette_vitality_report_v001.json`;
+  - `doc/contracts/showdown_route_decision_record_v001.json`.
+- Substituida a exportacao `banded_palette_v1_world` por `semantic_role_palette_v1`, separando papeis visuais de ceu/predios, vegetacao, agua/reflexos e rochas/chao.
+- Adicionado teste `tools/tests/test_showdown_semantic_palette.py`; suite Python do estudo passou com `11 passed`.
+- Regerados bins SGDK:
+  - `showdown_tiles_4bpp.bin`: `2242` tiles unicos;
+  - `showdown_maps_u16.bin`: `46080` bytes;
+  - `showdown_palettes_u16.bin`: `128` bytes;
+  - `nearest_color_remaps`: `149137`.
+- Atualizado o viewer SGDK para desativar autopan como evidencia de camera e alinhar constantes de cache/tile com o novo export.
+- Build canonico via wrapper falhou antes da compilacao porque o Python de sistema usado pelo asset preparation nao possui `PIL`; build direto debug SGDK 2.11 foi usado apenas como evidencia de laboratorio.
+- ROM observada: `sgdk_viewer/showdown_viewer/out/rom.bin`, SHA256 `535cac333cea8d3410a36fa054b9cc7188d43246f7cfef447b387cb993060564`, `262144` bytes.
+- Capturada evidencia BlastEm atual:
+  - screenshot `sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png`;
+  - SRAM `sgdk_viewer/showdown_viewer/out/evidence/blastem/save.sram`;
+  - report `sgdk_viewer/showdown_viewer/out/logs/blastem_evidence.json`;
+  - session log `sgdk_viewer/showdown_viewer/out/evidence/blastem/evidence_session_20260614_062303_2883de4b.log`.
+- Evidencia incompleta: `visual_vdp_dump.bin` ausente; `session_manifest.json` agregado permaneceu stale de 2026-06-08, embora o log JSONL atual e `blastem_evidence.json` registrem a nova captura.
+- Gerados relatórios:
+  - comparacao lado a lado `work/diagnostics/showdown_recovery_comparison_v001.png`;
+  - camera `analysis/showdown_camera_report_v001.json`;
+  - paleta `analysis/showdown_recovery_palette_measurement_v001.json`;
+  - budget `analysis/showdown_budget_report_v001.json`.
+- Resultado visual: paleta mais viva, mas BlastEm ainda mostra artefato de borda direita; source/blastem normalizado tem distancia RGB media `68.2465` e `49.8549%` dos pixels acima de distancia 40.
+- Resultado de rota: `route_a_multi_plane` permanece nao implementada; ROM atual e `route_b_compare_flat_degraded` com reparos de camera/paleta, portanto `lab_flattened_reference`.
+- Status final desta tentativa: `blocked_rework_required`, `validado_budget=false`, `ready_for_aaa=false`.
+
 ## 2026-06-13 - Curadoria camera/paleta reprovada
 
 - Classificado o root do estudo como `exercise` em `doc/project_context_manifest.json`.
@@ -21,6 +145,19 @@
   - `validate_resources`: failed, `errors=8`, `warnings=6`, `checked=0`;
   - `audit_project_learning` via Python embutido: `lessons=13`, `candidates=9`, `canonical_promotion_performed=false`.
 - Status permanece `controlled_training_area`, `lab_not_delivery=true`, `ready_for_aaa=false`, `validado_budget=false`.
+
+## 2026-07-19 - Discovery de arte laboratorial corrigido
+
+- Atualizado `doc/art_diagnostic_report.json` com o cenario
+  `4_lab_nested_art_review`, substituindo o falso `3_no_art`.
+- Inventariados separadamente 9 fontes, 3 evidencias, 5 recursos ativos e 73
+  imagens de trabalho; o viewer `sgdk_viewer/showdown_viewer` foi identificado
+  com hygiene manifest local.
+- O discovery nao segue symlinks nem diretorios externos e o teste de
+  regressao do pipeline passou 46/46.
+- Esta mudanca corrige apenas classificacao e roteamento de arte. O estudo
+  permanece `controlled_training_area`, `lab_not_delivery=true`,
+  `ready_for_aaa=false` e `validado_budget=false`.
 
 ## 2026-06-08 - Full-world camera streaming fixture
 

@@ -7,7 +7,9 @@
 - `lab_not_delivery=true`
 - `ready_for_aaa=false`
 - Root is the authority for the study; `sgdk_viewer/showdown_viewer/` is an embedded proof viewer, not an independent delivery project.
-- Curadoria 2026-06-13: o resultado atual esta `rework_required` para composicao, camera e paleta. A ROM aparece no BlastEm, mas nao preserva a qualidade visual do stage.
+- Curadoria 2026-06-13: o resultado foi `rework_required` para composicao, camera e paleta.
+- Recovery route A 2026-06-15: a ROM atual implementa `route_a_multi_plane` em runtime SGDK com `BG_B` distante, `BG_A` mid/floor, camera de foco duplo, super jump fixture, line scroll e culling de `BG_B` atras de tiles opacos de `BG_A`.
+- Status atual: `route_a_runtime_reworked_emulator_seen_budget_dump_pending`. A cena foi vista no BlastEm com screenshot e SRAM, mas nao ha `visual_vdp_dump.bin`; portanto nao declarar `validado_budget`, `ready_for_aaa` ou asset autoral final.
 
 ## Operational Truth
 
@@ -22,18 +24,34 @@
 - Reconstructed frames: 4
 - World size: 768x480 px, 96x60 tiles. This preserves the original MUGEN camera extent instead of downscaling the stage to 320x224.
 - Viewer viewport: 320x224 px. Camera scroll bounds: x `0..448`, y `0..256`; default/MUGEN start scroll is `224,256`.
-- Raw tiles across all frames: 23040
-- Global unique ROM tiles: 2253
-- Runtime model: tile graphics + tilemap window streaming. The SGDK viewer streams a 42x30 tile window from custom map words into a local VDP cache.
-- Streaming cache estimate: max observed active-window unique tiles `1087`; cache capacity `1151`; estimated cache VRAM `36832` bytes.
-- Dedup saving ratio: `0.902214`
-- H/V/HV flip reuse measured: `5/12/4`
+- Raw tiles across all frames/planes: 46080
+- Global unique ROM tiles: 2870
+- Runtime model: route A multi-plane streaming. `showdown_maps_u16.bin` stores, per frame, `BG_B` then `BG_A`; runtime streams a 41x29 tile window into a shared local VDP cache.
+- Streaming cache estimate with BG_B occlusion culling: max active-window unique tiles `1174`; cache capacity `1190`; estimated tile VRAM `38080` bytes; tile data ends at `38592`, before first tilemap at `49152`.
+- Max active-window unique tiles without BG_B culling: `1630`; max culled BG_B cells in a window: `753`.
+- Dedup saving ratio: `0.937717`
+- H/V/HV flip reuse measured: `184/140/68`
 - Lossy tile merge: disabled (`0` merges). The fixture keeps exact global tiles for the streaming route.
 - Visual reconstruction gate: `pass`, matte/magenta/transparent ratio `0.0` on all four 768x480 reconstructed frames.
-- BlastEm screenshot visual check: `pass`, exact/near-magenta ratio `0.0` inside the active captured viewport.
-- Palette status: `pass_with_degradation`; final export fits four banded sub-palettes but uses `187569` nearest-color remaps.
-- Preliminary budget: `streaming_lab_proof`, not `validado_budget`.
-- Budget caveat: `res_graph_report` still warns `RG_CODETILE001` because runtime code streams tiles and no VDP dump/telemetry proves the actual live VRAM state.
+- Palette status: `vivid_anchor_palette_repaired_export_pending_art_review`; manual contextual MD palettes replace the blind banded palette and separate sky/buildings, vegetation, water/reflections and rocks/floor. Current nearest-color remaps: `235880`.
+- Latest palette metrics: source useful colors `76`, source saturation `0.3805`; export preview useful colors `44`, source/export mean RGB distance `26.4448`; BlastEm normalized crop source/blastem mean RGB distance `69.5612`. Visual board shows the BlastEm route follows the export preview, but this remains a controlled fixture, not final authored art.
+- Runtime camera/depth status: dual-focus fixture camera is implemented; `BG_B` uses far delta `43/100,285/1000`, `BG_A` uses mid/floor bands `71/100,635/1000` and `1/1`, and both planes receive line-scroll offsets.
+- Preliminary budget: `documented_not_validated_budget`, not `validado_budget`.
+- Budget caveat: `analysis/showdown_vdp_contract_audit_v001.json` passes bin/CRAM/tile/map/VRAM-layout checks, but `visual_vdp_dump.bin` is absent; budget is documented and audited, not `validado_budget`.
+
+## 2026-06-15 Route A Runtime Recovery Snapshot
+
+- Route outcome: `route_a_multi_plane` implemented in the current ROM.
+- Runtime changes: two SGDK planes (`BG_B` far, `BG_A` mid/floor), shared streaming cache, 41x29 window, BG_B occlusion culling under opaque BG_A cells, explicit VRAM layout (`BG_A=0xC000`, WINDOW `0xD000`, `BG_B=0xE000`, HScroll `0xF000`, SAT `0xF800`), and small batched tile uploads.
+- Camera contract: default camera `x=224`, `y=256`; floor anchor screen Y `215`; virtual fighters start at world x `314`/`454`, floor y `471`; X follows midpoint; Y uses deadzone plus `verticalfollow=1/2` for super jump.
+- Build: direct SGDK 2.11 debug make passed and generated `sgdk_viewer/showdown_viewer/out/rom.bin`.
+- ROM SHA256: `7e4f6a2e2149ff19b9788ffd3034adb556d595e1163b6af8c575ff09533ece2a`.
+- BlastEm evidence: `sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png`, `save.sram`, and `sgdk_viewer/showdown_viewer/out/logs/blastem_evidence.json`; readiness source `post_close_sram_heartbeat`; `visual_vdp_dump.bin` absent.
+- Reports: `analysis/showdown_camera_report_v001.json`, `analysis/showdown_recovery_palette_measurement_v001.json`, `analysis/showdown_budget_report_v001.json`, `analysis/showdown_vdp_contract_audit_v001.json`, and `work/diagnostics/showdown_recovery_comparison_v001.png`.
+- Pedagogical decision flow: `doc/showdown_recovery_ascii_decision_flow.md` maps V00..V05, human interventions H01..H03, decision syntax, route status and next-version syntax.
+- Python tests: `22 passed`.
+- Validation snapshot: `validate_project_context` ok; `validate_project_methodology` passed; `validate_project_hygiene` blocked with 3 blockers; final `freshness_audit` warning with `stale=0`, `missing_required=2`; `validate_resources -WorkDir` failed at study root with 8 errors/5 warnings and at viewer root with 1 error/10 warnings; `audit_project_learning -Mode Capture` recorded 13 lessons and 9 candidates with no canonical promotion.
+- Closeout status: not `blocked_rework_required` for the visual route anymore, but still `route_a_runtime_reworked_emulator_seen_budget_dump_pending`; no `validado_budget` or AAA/final claim.
 
 ## 2026-06-08 Emulator Evidence Snapshot
 
@@ -65,6 +83,46 @@
   - `validate_resources`: failed, `errors=8`, `warnings=6`, `checked=0`; this is expected for the current lab root because technique manifests, hygiene, visual gate and freshness are not delivery-clean.
   - `audit_project_learning` fallback via bundled Python: `lessons=13`, `candidates=9`, `canonical_promotion_performed=false`.
 
+## 2026-06-14 Recovery Attempt Snapshot
+
+- Route outcome: `route_b_compare_flat_degraded_runtime_with_palette_camera_repair`; `route_a_multi_plane` was contracted but not implemented in this ROM.
+- ROM: `sgdk_viewer/showdown_viewer/out/rom.bin`, SHA256 `535cac333cea8d3410a36fa054b9cc7188d43246f7cfef447b387cb993060564`, size `262144` bytes.
+- Build status: `buildado_debug_make`; wrapper build failed before compilation because the system Python used by asset preparation lacks `PIL`. Direct debug make was used only for lab evidence.
+- BlastEm evidence: screenshot `sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png`, SRAM `sgdk_viewer/showdown_viewer/out/evidence/blastem/save.sram`, report `sgdk_viewer/showdown_viewer/out/logs/blastem_evidence.json`.
+- Evidence caveat: `blastem_evidence.json` has the new ROM hash and screenshot/SRAM status, but `out/evidence/blastem/session_manifest.json` remained stale from 2026-06-08; the current session log is `out/evidence/blastem/evidence_session_20260614_062303_2883de4b.log`.
+- Visual VDP dump: absent; current SRAM exposes `MDRT` heartbeat but no auditavel `VLAB` block.
+- Camera report: `analysis/showdown_camera_report_v001.json`; default camera stays at `x=224`, `y=256`, floor anchor screen Y `215`, autopan disabled as evidence, D-pad marked lab-only.
+- Palette report: `analysis/showdown_recovery_palette_measurement_v001.json`; palette is more vibrant, but nearest-color remaps and the BlastEm right-edge artifact block visual approval.
+- Budget report: `analysis/showdown_budget_report_v001.json`; global tile id limit fits, but budget is not validated without VDP dump/frame telemetry and the runtime still streams a single flat BG_A window.
+- Comparison board: `work/diagnostics/showdown_recovery_comparison_v001.png`.
+- Final validations:
+  - `validate_project_context`: ok, `context=exercise`, `blockers=0`;
+  - `validate_project_methodology`: passed, `blockers=0`;
+  - `validate_project_hygiene`: blocked, `blockers=3`;
+  - `freshness_audit`: warning, `stale=0`, `missing_required=2`;
+  - `validate_resources -WorkDir`: failed, `errors=8`, `warnings=5`;
+  - Python tests: `22 passed`;
+  - `audit_project_learning -Mode Capture`: `lessons=13`, `candidates=9`, `canonical_promotion_performed=false`.
+- Closeout status: `blocked_rework_required`, not `testado_em_emulador` final, not `validado_budget`, not `ready_for_aaa`.
+
+## 2026-06-14 Follow-up Recovery Snapshot
+
+- Supersedes the earlier 2026-06-14 recovery attempt for the current ROM/evidence.
+- Route outcome: `route_b_compare_flat_degraded_runtime_with_palette_camera_line_scroll_repair`; `route_a_multi_plane` remains contracted but not implemented.
+- ROM: `sgdk_viewer/showdown_viewer/out/rom.bin`, SHA256 `80b91d451261a38b2db115eaa0f2558328bcd25f5dc03e0b89131bd093ffcd80`.
+- Build status: canonical wrapper build still fails before compilation because the host Python used by asset preparation lacks `PIL`; direct SGDK 2.11 debug make was used only for lab evidence.
+- BlastEm evidence: screenshot `sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png`, SRAM present, report `sgdk_viewer/showdown_viewer/out/logs/blastem_evidence.json`.
+- Visual VDP dump: absent; no `validado_budget` claim is allowed.
+- Camera report: `analysis/showdown_camera_report_v001.json`; default camera `x=224`, `y=256`, floor anchor screen Y `215`, dual-focus fixture starts P1/P2 at world x `314`/`454`, floor y `471`.
+- Camera runtime: D-pad now moves virtual fighters rather than free camera; A/B trigger super jump fixture; vertical dead zone and `verticalfollow=1/2` are implemented with integer math.
+- Depth runtime: `BG_A` uses row-multicamera streaming and `HSCROLL_LINE`; far band uses `43/100`, mid band `71/100`, floor band `1/1`, water line-scroll y range `88..176`.
+- Depth caveat: this is still one streamed BG_A route; no BG_B far plane, sprite graft foreground, or true MUGEN BG0/BG1/BG2/BG3 split exists in this ROM.
+- Palette report: `analysis/showdown_recovery_palette_measurement_v001.json`; export saturation rose to `0.534`, BlastEm crop saturation `0.4819`, but nearest-color remaps remain `390536` and perceptual loss is still visible.
+- VDP contract audit: `analysis/showdown_vdp_contract_audit_v001.json`, status `pass`, bin preview roundtrip `diff_pixels=0`, invalid CRAM words `0`, invalid tile nibbles `0`.
+- Budget report: `analysis/showdown_budget_report_v001.json`; unique tiles `2244`, max active-window unique tiles `1074`, cache capacity `1138`, estimated cache VRAM `36416`, line-scroll DMA estimate `448` bytes/frame.
+- Comparison board: `work/diagnostics/showdown_recovery_comparison_v001.png`.
+- Closeout status: `blocked_rework_required`, not `testado_em_emulador` final, not `validado_budget`, not `ready_for_aaa`.
+
 ## Required Evidence Chain
 
 Root -> `doc/viewer_aggregate_manifest.json` -> `sgdk_viewer/showdown_viewer/out/rom.bin` -> BlastEm evidence under `evidence/` or viewer `out/evidence/`.
@@ -73,11 +131,14 @@ Root -> `doc/viewer_aggregate_manifest.json` -> `sgdk_viewer/showdown_viewer/out
 
 - This is a training/lab fixture, not an AAA delivery.
 - No `ready_for_aaa` declaration is allowed.
-- `flattened_mugen_parallax`: BG0/BG1/BG2/BG3 possuem deltas distintos, mas o viewer atual achata tudo em um unico `BG_A`.
-- `fighting_stage_camera_contract_missing`: nao ha contrato que preserve chao, zoffset, foco dos lutadores e verticalfollow.
-- `palette_vibrancy_lost`: a paleta encaixa tecnicamente, mas perde cores vibrantes e separacao de materiais.
+- `flattened_mugen_parallax`: BG0/BG1/BG2/BG3 possuem deltas distintos; o viewer atual tem apenas row-multicamera/line-scroll parcial dentro de um unico `BG_A`, nao um split multi-plano real.
+- `fighting_stage_camera_contract_partial`: contrato existe e autopan foi removido como evidencia; ha fixture de foco duplo/deadzone/super jump, mas ainda nao ha integracao com entidades finais de lutador nem telemetria de camera.
+- `palette_vibrancy_partial`: a paleta semantica recupera cor e saturacao, mas ainda ha `390536` remaps e perda perceptiva no BlastEm normalizado.
 - `visual_gate_too_narrow`: o gate mede matte/magenta e conflitos, mas nao mede fidelidade perceptiva, vitalidade de paleta ou composicao.
-- `nested_lab_art_not_detected`: `art_diagnostic.py` retorna `3_no_art` no root porque nao entende arte em `work/`, `analysis/`, `evidence/` e viewer aninhado.
+- `nested_lab_art_not_detected` foi encerrado em 2026-07-19: o diagnostico
+  retorna `4_lab_nested_art_review`, separa 9 fontes, 3 evidencias, 5 recursos
+  ativos e 73 imagens de trabalho, e identifica o viewer SGDK aninhado. Isso
+  corrige discovery apenas; nao promove qualidade, budget ou runtime.
 - `tools/mugen2sgdk` should be wrapped or improved only with explicit human approval.
 - Any future claim of HV flip savings must remain report-backed; current full-world Showdown fixture reports H/V/HV matches `5/12/4`.
 - `validate_resources.ps1` still reports methodology/resource blockers for canonical closeout, including local `.agent` degraded mode, missing visual delivery/scene closeout gates, stale freshness/documentation, and missing VDP measurement evidence for code-loaded tiles.

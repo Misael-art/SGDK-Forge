@@ -77,9 +77,9 @@
   "maps_bin": "work/sgdk_bins/showdown_maps_u16.bin",
   "palettes_bin": "work/sgdk_bins/showdown_palettes_u16.bin",
   "sha256": {
-    "tiles_bin": "d83715fc2fdf2a166059f94bef63c0d4359a7191d2c394f71610cfe83467dfc3",
-    "maps_bin": "c6210e098abd0de1cb994b3bc3d99ca0ce314d92b88148b425ae8c670fbad888",
-    "palettes_bin": "f92d51f376313b8ad398db2dc9713ee0f0801dc55d85ddc3c07f817e822d2218"
+    "tiles_bin": "f7bdf0eca90bb9d230817ec5e172b1c3ab4743a1bd4c5be50af16c70febf46a4",
+    "maps_bin": "64682c0cb428babce8dc90fe0d2a0fb91fe96f5c3bc871aa52bb0c33ded8dcf1",
+    "palettes_bin": "b9cd44c2248784c139957f099675037e3f772dc5cab6dd72bd32a21324d94d34"
   },
   "frames": 4,
   "world": {
@@ -93,14 +93,27 @@
     "h": 224
   },
   "runtime_streaming": {
-    "strategy": "tile_graphics_and_tilemap_window_streaming",
-    "map_word_format": "bits0_11_global_tile_id_bit12_hflip_bit13_vflip_bits14_15_palette",
-    "window_tiles_w": 42,
-    "window_tiles_h": 30,
-    "window_bytes_per_update": 2520,
-    "max_window_unique_tiles": 1087,
-    "streaming_cache_capacity_tiles": 1151,
-    "estimated_streaming_cache_vram_bytes": 36832,
+    "strategy": "route_a_multi_plane_streaming_context_palette_v2",
+    "route_status": "route_a_multi_plane",
+    "plane_count": 2,
+    "plane_order": [
+      "BG_B",
+      "BG_A"
+    ],
+    "map_word_format": "per frame: BG_B map then BG_A map; bits0_11_global_tile_id_bit12_hflip_bit13_vflip_bits14_15_palette",
+    "window_tiles_w": 41,
+    "window_tiles_h": 29,
+    "window_bytes_per_update": 4756,
+    "max_window_unique_tiles": 1178,
+    "max_window_unique_tiles_without_bg_b_cull": 1635,
+    "max_bg_b_culled_cells": 753,
+    "streaming_cache_capacity_tiles": 1194,
+    "estimated_streaming_cache_vram_bytes": 38208,
+    "blank_global_tile_id": 1283,
+    "bg_b_occlusion_culling": {
+      "enabled": true,
+      "rule": "when the BG_A screen cell references a fully opaque tile, the BG_B cell streams the all-zero tile instead of its far-plane source tile"
+    },
     "camera": {
       "mugen_start": {
         "x": 0,
@@ -129,48 +142,409 @@
       "verticalfollow": 0.5
     }
   },
+  "diagnostic_previews": {
+    "exported_bin_viewport_default": "work/diagnostics/exported_bin_viewport_default.png",
+    "preview_camera_px": {
+      "x": 224,
+      "y": 256
+    }
+  },
   "tile_user_index": 16,
-  "raw_tiles": 23040,
-  "unique_tiles": 2253,
-  "exact_unique_tiles_before_lossy_merge": 2253,
+  "raw_tiles": 46080,
+  "unique_tiles": 2872,
+  "exact_unique_tiles_before_lossy_merge": 2872,
   "global_tile_id_limit_ok": true,
   "global_tile_id_limit_status": "global_ids_fit_custom_12bit_map",
   "dedup": {
-    "raw_tiles": 23040,
-    "unique_tiles": 2253,
-    "exact_unique_tiles_before_lossy_merge": 2253,
+    "raw_tiles": 46080,
+    "unique_tiles": 2872,
+    "exact_unique_tiles_before_lossy_merge": 2872,
     "lossy_tile_merge_threshold_pixels": 0,
     "lossy_tile_merges": 0,
-    "reused_tiles": 20787,
-    "saving_ratio": 0.902214,
-    "matches_normal_or_exact": 23019,
-    "matches_hflip": 5,
-    "matches_vflip": 12,
-    "matches_hvflip": 4,
+    "reused_tiles": 43208,
+    "saving_ratio": 0.937674,
+    "matches_normal_or_exact": 45708,
+    "matches_hflip": 180,
+    "matches_vflip": 128,
+    "matches_hvflip": 64,
     "quality_note": "No near-duplicate tile merge is used in the final streaming route; global ROM tiles are decoded into a local VDP window cache."
   },
   "palettes": {
     "subpalette_count": 4,
     "slots_per_subpalette": 16,
-    "global_palette_source": "first reconstructed world frame quantized to 64 colors",
-    "strategy": "banded_palette_v1_world",
-    "bands_y_tiles": [
+    "global_palette_source": "optimized lloyd tile-aware MD palettes (optimize_showdown_palettes.py)",
+    "strategy": "optimized_context_palette_route_a",
+    "roles": [
+      "sky_and_distant_buildings",
+      "live_vegetation",
+      "water_and_reflections",
+      "rocks_floor_foreground"
+    ],
+    "bands_y_tiles_legacy_reference": [
       0,
       22,
       40,
       52,
       60
     ],
-    "tile_palette_assignments": 23040,
+    "tile_palette_assignments": 46080,
+    "tile_palette_role_counts": {
+      "sky_and_distant_buildings": 29720,
+      "live_vegetation": 3628,
+      "water_and_reflections": 8781,
+      "rocks_floor_foreground": 3951
+    },
+    "source_unique_colors_by_role": {
+      "sky_and_distant_buildings": 54,
+      "live_vegetation": 55,
+      "water_and_reflections": 54,
+      "rocks_floor_foreground": 56
+    },
     "palette_sizes": [
-      1,
-      16,
-      16,
+      15,
+      15,
+      15,
       15
     ],
-    "nearest_color_remaps": 187569,
-    "remap_policy": "missing global colors are mapped to the nearest RGB color in the selected MD subpalette instead of slot 0",
-    "greedy_baseline_violations": 7004,
+    "palette_slots_rgb": [
+      [
+        [
+          102,
+          170,
+          238
+        ],
+        [
+          68,
+          102,
+          238
+        ],
+        [
+          102,
+          136,
+          238
+        ],
+        [
+          136,
+          170,
+          238
+        ],
+        [
+          170,
+          170,
+          204
+        ],
+        [
+          204,
+          204,
+          238
+        ],
+        [
+          68,
+          68,
+          136
+        ],
+        [
+          102,
+          102,
+          170
+        ],
+        [
+          34,
+          34,
+          68
+        ],
+        [
+          34,
+          0,
+          34
+        ],
+        [
+          68,
+          68,
+          68
+        ],
+        [
+          102,
+          102,
+          102
+        ],
+        [
+          136,
+          136,
+          170
+        ],
+        [
+          136,
+          102,
+          170
+        ],
+        [
+          170,
+          136,
+          204
+        ],
+        [
+          68,
+          102,
+          170
+        ]
+      ],
+      [
+        [
+          102,
+          170,
+          238
+        ],
+        [
+          34,
+          0,
+          34
+        ],
+        [
+          34,
+          34,
+          68
+        ],
+        [
+          68,
+          68,
+          68
+        ],
+        [
+          102,
+          102,
+          68
+        ],
+        [
+          136,
+          136,
+          68
+        ],
+        [
+          136,
+          136,
+          102
+        ],
+        [
+          170,
+          170,
+          102
+        ],
+        [
+          170,
+          204,
+          102
+        ],
+        [
+          204,
+          238,
+          102
+        ],
+        [
+          170,
+          204,
+          204
+        ],
+        [
+          102,
+          136,
+          102
+        ],
+        [
+          68,
+          102,
+          102
+        ],
+        [
+          68,
+          136,
+          204
+        ],
+        [
+          68,
+          68,
+          136
+        ],
+        [
+          136,
+          170,
+          170
+        ]
+      ],
+      [
+        [
+          102,
+          170,
+          238
+        ],
+        [
+          68,
+          136,
+          238
+        ],
+        [
+          102,
+          136,
+          238
+        ],
+        [
+          102,
+          170,
+          238
+        ],
+        [
+          170,
+          238,
+          238
+        ],
+        [
+          34,
+          0,
+          34
+        ],
+        [
+          34,
+          34,
+          68
+        ],
+        [
+          68,
+          68,
+          170
+        ],
+        [
+          68,
+          102,
+          204
+        ],
+        [
+          34,
+          68,
+          136
+        ],
+        [
+          136,
+          136,
+          68
+        ],
+        [
+          136,
+          204,
+          238
+        ],
+        [
+          136,
+          170,
+          238
+        ],
+        [
+          136,
+          238,
+          238
+        ],
+        [
+          102,
+          204,
+          204
+        ],
+        [
+          68,
+          136,
+          204
+        ]
+      ],
+      [
+        [
+          102,
+          170,
+          238
+        ],
+        [
+          34,
+          0,
+          34
+        ],
+        [
+          34,
+          34,
+          68
+        ],
+        [
+          68,
+          68,
+          68
+        ],
+        [
+          102,
+          102,
+          102
+        ],
+        [
+          238,
+          238,
+          170
+        ],
+        [
+          238,
+          238,
+          204
+        ],
+        [
+          238,
+          204,
+          136
+        ],
+        [
+          238,
+          204,
+          170
+        ],
+        [
+          238,
+          170,
+          136
+        ],
+        [
+          204,
+          170,
+          102
+        ],
+        [
+          204,
+          170,
+          136
+        ],
+        [
+          204,
+          136,
+          102
+        ],
+        [
+          170,
+          136,
+          102
+        ],
+        [
+          170,
+          136,
+          68
+        ],
+        [
+          136,
+          68,
+          68
+        ]
+      ]
+    ],
+    "nearest_color_remaps": 205283,
+    "nearest_color_remaps_by_assigned_role": {
+      "sky_and_distant_buildings": 27328,
+      "live_vegetation": 44944,
+      "water_and_reflections": 80743,
+      "rocks_floor_foreground": 52268
+    },
+    "remap_policy": "visible pixels are mapped to nearest visible slot 1..15 in the selected semantic MD subpalette; slot 0 stays reserved as safe backdrop",
+    "greedy_baseline_violations": 0,
     "raw_per_tile_palette_conflicts": 0
   },
   "violations": []

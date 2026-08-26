@@ -30,16 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "d99f8d12adb5ef39e1ebf0d758d18370cd8de1174254d014d9331e8ba2f5bdd7",
+    "rom_sha256": "83451f9e564cdde44e7a20aa31d4ec07011965ce7b3df85f7b455a2e4ee2b0e0",
     "blastem_status": "testado_em_blastem_sealed_bundle",
-    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/screenshot.png",
-    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/save.sram",
-    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/evidence_manifest.json",
-    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/screenshot_semantic_gate_report.json",
-    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/visual_vdp_dump.bin",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
     "frame_animation_enabled": false,
-    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/runtime_metrics.json"
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -120,5 +120,20 @@
       "cram_slot_mean_delta": 1.6
     },
     "exporter_flag": "SHOWDOWN_PALETTES_JSON"
+  },
+  "code_loaded_tiles_measured_v002": {
+    "status": "MEASURED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_v002.json",
+    "reader_tool": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/tools/diagnostics/read_tile_stream_stats.py",
+    "tiles_requested_total": 1157,
+    "tiles_dma_total": 1157,
+    "upload_calls": 73,
+    "max_resident_single_pass": 1157,
+    "cache_capacity": 1190,
+    "margin_tiles": 33,
+    "margin_ratio": 0.0277,
+    "overflow_events": 0,
+    "dma_bytes_total": 37024,
+    "honest_note": "Margem real (33) menor que a estimativa estatica anterior (64); P3 de varredura de cantos e obrigatorio antes de qualquer expansao."
   }
 }

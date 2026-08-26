@@ -1,21 +1,19 @@
 {
-  "schema_version": "1.1.0",
-  "status": "semantic_remap_measured",
-  "strategy": "optimized_context_palette_route_a",
-  "roles": [
-    "sky_and_distant_buildings",
-    "live_vegetation",
-    "water_and_reflections",
-    "rocks_floor_foreground"
-  ],
-  "bands_y_tiles_legacy_reference": [
-    0,
-    22,
-    40,
-    52,
-    60
-  ],
-  "palette_slots_rgb": [
+  "schema_version": "1.0.0",
+  "generator": "optimize_showdown_palettes.py",
+  "method": "lloyd_tile_aware_kmeans_md9bit_index0_backdrop_singlepass",
+  "k_slots": 15,
+  "outer_iterations": 3,
+  "deterministic": true,
+  "metrics": {
+    "total_visible_pixels": 1841769,
+    "baseline_manual_remapped": 302574,
+    "optimized_remapped_estimate": 208310,
+    "improvement_ratio": 0.3115,
+    "weighted_mean_dist_baseline": 17.004,
+    "weighted_mean_dist_optimized": 12.848
+  },
+  "palettes": [
     [
       [
         102,
@@ -344,32 +342,5 @@
         68
       ]
     ]
-  ],
-  "tile_palette_role_counts": {
-    "sky_and_distant_buildings": 29720,
-    "live_vegetation": 3628,
-    "water_and_reflections": 8781,
-    "rocks_floor_foreground": 3951
-  },
-  "source_unique_colors_by_role": {
-    "sky_and_distant_buildings": 54,
-    "live_vegetation": 55,
-    "water_and_reflections": 54,
-    "rocks_floor_foreground": 56
-  },
-  "violations_total": 0,
-  "violations": [],
-  "nearest_color_remaps": 205283,
-  "palette_source": "optimized_json",
-  "nearest_color_remaps_by_assigned_role": {
-    "sky_and_distant_buildings": 27328,
-    "live_vegetation": 44944,
-    "water_and_reflections": 80743,
-    "rocks_floor_foreground": 52268
-  },
-  "raw_greedy_baseline_violations_total": 0,
-  "raw_per_tile_palette_conflicts_total": 0,
-  "lossy_tile_merge_threshold_pixels": 0,
-  "lossy_tile_merges": 0,
-  "curation_note": "Route A manual contextual palette uses bridge colors for mixed-material tiles and emits two SGDK planes; any remaining nearest-color remap remains measured evidence, not artistic approval."
+  ]
 }

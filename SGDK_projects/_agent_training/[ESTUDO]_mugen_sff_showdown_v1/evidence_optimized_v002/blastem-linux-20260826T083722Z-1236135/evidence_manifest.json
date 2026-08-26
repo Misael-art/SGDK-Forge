@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-26T08:37:53.806865+00:00",
+  "tool_name": "seal_fresh_evidence_bundle",
+  "tool_version": "1.0.0",
+  "status": "rejected",
+  "session_id": "blastem-linux-20260826T083722Z-1236135",
+  "session_started_at": "2026-08-26T08:37:22.670044+00:00",
+  "session_completed_at": "2026-08-26T08:37:53.413534+00:00",
+  "rom_sha256": "ff9f6603a72f679ebb450dae70ad927f718f8dbc378f8788d45b62422fcfb46b",
+  "expected_rom_sha256": "ff9f6603a72f679ebb450dae70ad927f718f8dbc378f8788d45b62422fcfb46b",
+  "emulator": {
+    "ref": "app/com.retrodev.blastem/x86_64/stable",
+    "commit": "c1f3f4435e9d009fa001322e26e73e785fe443fcedfae1f3187836685c602221"
+  },
+  "artifacts": [
+    {
+      "name": "rom",
+      "path": "rom.bin",
+      "session_id": "blastem-linux-20260826T083722Z-1236135",
+      "rom_sha256": "ff9f6603a72f679ebb450dae70ad927f718f8dbc378f8788d45b62422fcfb46b",
+      "sha256": "ff9f6603a72f679ebb450dae70ad927f718f8dbc378f8788d45b62422fcfb46b",
+      "size_bytes": 393216,
+      "captured_at": "2026-08-26T08:37:22.542726+00:00"
+    },
+    {
+      "name": "screenshot",
+      "path": "screenshot.png",
+      "session_id": "blastem-linux-20260826T083722Z-1236135",
+      "rom_sha256": "ff9f6603a72f679ebb450dae70ad927f718f8dbc378f8788d45b62422fcfb46b",
+      "sha256": "9f08b2ec9f9ea693a54fa6e11ef0b9ff92cd4b564c98956fa4cb88c244a00190",
+      "size_bytes": 32733,
+      "captured_at": "2026-08-26T08:37:46.908271+00:00"
+    },
+    {
+      "name": "sram",
+      "path": "save.sram",
+      "session_id": "blastem-linux-20260826T083722Z-1236135",
+      "rom_sha256": "ff9f6603a72f679ebb450dae70ad927f718f8dbc378f8788d45b62422fcfb46b",
+      "sha256": "507fbdce8c12fe94d20f9f8a455063adbf74b0bc2a27d101164f0b3b349545e3",
+      "size_bytes": 32768,
+      "captured_at": "2026-08-26T08:37:53.343304+00:00"
+    }
+  ],
+  "semantic_capture_valid": true,
+  "blockers": [
+    "vlab_block_missing",
+    "artifact_missing:vdp_dump",
+    "artifact_missing:runtime_metrics"
+  ],
+  "claim_limit": "Bundle identity and freshness only; no broad gameplay, audio, performance or AAA claim is inferred."
+}

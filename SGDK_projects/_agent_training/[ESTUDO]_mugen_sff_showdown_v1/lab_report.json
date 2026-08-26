@@ -30,15 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "4b0ce91f5e370a8d6fd4e842a511c7f6c2e52a8f49ee4f2419696c972305fe2e",
-    "blastem_status": "testado_em_blastem_minimal",
-    "screenshot": "evidence/blastem_showdown_screenshot.png",
-    "save_sram": "evidence/blastem_showdown_save.sram",
-    "session_manifest": "evidence/blastem_session_manifest.json",
-    "visual_check": "evidence/blastem_screenshot_visual_check.json",
-    "visual_vdp_dump": null,
+    "rom_sha256": "d99f8d12adb5ef39e1ebf0d758d18370cd8de1174254d014d9331e8ba2f5bdd7",
+    "blastem_status": "testado_em_blastem_sealed_bundle",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
-    "frame_animation_enabled": false
+    "frame_animation_enabled": false,
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -55,8 +56,10 @@
     "estimated_streaming_cache_vram_bytes": 36832,
     "full_resident_preliminary": false,
     "validado_budget": false,
-    "palette_status": "pass_with_degradation",
-    "nearest_color_remaps": 187569
+    "palette_status": "optimized_lloyd_v002",
+    "nearest_color_remaps": 205283,
+    "nearest_color_remaps_baseline_manual": 235880,
+    "palette_improvement_ratio": 0.1297
   },
   "reconstruction_gate": {
     "visual_integrity_status": "pass",
@@ -96,10 +99,26 @@
     "Wrapper rebuild path was attempted but degraded/timed out in consultive validation; direct SGDK 2.11 debug make was used for final lab evidence.",
     "Showdown is visible in BlastEm without catastrophic magenta matte.",
     "The stage is preserved as a 768x480 world with camera, not resized to 320x224.",
-    "Banded palette approximation still causes visible color degradation and needs curation.",
     "Runtime uses code-loaded/streamed tiles; VDP budget remains estimated until dump or telemetry exists.",
     "Frame animation is disabled because full-window frame reloads caused tile tearing during capture.",
     "visual_vdp_dump.bin absent.",
-    "ready_for_aaa remains false."
-  ]
+    "ready_for_aaa remains false.",
+    "Paleta otimizada v002 reduz remaps oficiais de 235880 para 205283 (-13%); bandas BG_A forcam pid por posicao e ainda limitam ganho adicional.",
+    "Screenshots de hosts/emuladores diferentes nao sao comparaveis por contagem de cores (shader interpola); A/B valido exige mesmo emulador e mesma ROM base."
+  ],
+  "palette_optimization_v002": {
+    "tool": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/tools/palette/optimize_showdown_palettes.py",
+    "palettes_json": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/optimized_palettes_v002.json",
+    "method": "lloyd_tile_aware_kmeans_md9bit_index0_backdrop",
+    "official_remaps_manual": 235880,
+    "official_remaps_optimized": 205283,
+    "ab_same_emulator": {
+      "manual_bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_manual_ab/blastem-linux-20260826T084700Z-1245941",
+      "optimized_bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_optimized_v002/blastem-linux-20260826T084143Z-1243803",
+      "pixels_changed_ratio": 0.4285,
+      "cram_slots_changed": 14,
+      "cram_slot_mean_delta": 1.6
+    },
+    "exporter_flag": "SHOWDOWN_PALETTES_JSON"
+  }
 }

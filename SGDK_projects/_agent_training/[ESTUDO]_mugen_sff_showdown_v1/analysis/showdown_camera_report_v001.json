@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-15T03:14:00.028830+00:00",
+  "status": "dual_focus_fixture_runtime_route_a_multi_plane",
+  "camera_px": {
+    "x": 224,
+    "y": 256
+  },
+  "bounds_px": {
+    "min_x": 0,
+    "max_x": 448,
+    "min_y": 0,
+    "max_y": 256
+  },
+  "mugen_contract": {
+    "zoffset": 215,
+    "boundleft": -224,
+    "boundright": 224,
+    "boundhigh": -240,
+    "boundlow": 0,
+    "verticalfollow": 0.5
+  },
+  "floor_anchor": {
+    "screen_y": 215,
+    "world_y_at_default_camera": 471
+  },
+  "fighter_focus": {
+    "p1startx": -70,
+    "p2startx": 70,
+    "runtime_fixture_world_start": {
+      "p1": {
+        "x": 314,
+        "floor_y": 471
+      },
+      "p2": {
+        "x": 454,
+        "floor_y": 471
+      }
+    },
+    "world_focus_x_at_default_camera": 384
+  },
+  "runtime_camera_model": {
+    "model": "dual_focus_midpoint_fixture",
+    "camera_x_rule": "camera_x follows clamp(((p1_world_x + p2_world_x) / 2) - viewport_w/2, 0, 448)",
+    "camera_y_rule": "camera_y stays at 256 until airborne_delta exceeds 100 px, then applies verticalfollow 1/2 and clamps 0..256",
+    "fighter_visibility_rule": "fixture clamps each fighter to stage x and caps horizontal separation to 224 px",
+    "floor_anchor_rule": "floor anchor remains zoffset=215 at the default fight camera",
+    "super_jump_fixture": {
+      "p1_trigger": "BUTTON_A",
+      "p2_trigger": "BUTTON_B",
+      "arc_ticks": 96,
+      "rise_ticks": 48,
+      "height_step_px": 6
+    },
+    "exploration_input": {
+      "status": "disabled_as_camera_logic",
+      "p1_horizontal": "LEFT/RIGHT",
+      "p2_horizontal": "hold C + LEFT/RIGHT"
+    }
+  },
+  "runtime_parallax_model": {
+    "model": "BG_B_BG_A_multi_plane_window_streaming_with_row_multicamera_and_line_scroll",
+    "far_band": {
+      "screen_y_lt": 72,
+      "x_delta": "43/100",
+      "y_delta": "285/1000"
+    },
+    "mid_band": {
+      "screen_y_lt": 176,
+      "x_delta": "71/100",
+      "y_delta": "635/1000"
+    },
+    "floor_band": {
+      "screen_y_gte": 176,
+      "x_delta": "1/1",
+      "y_delta": "1/1"
+    },
+    "water_line_scroll": {
+      "screen_y_range": [
+        88,
+        176
+      ],
+      "status": "implemented_as_line_scroll_offset_gradient"
+    },
+    "claim_limit": "route_a depth is implemented as two SGDK planes plus row-multicamera and BG_B occlusion culling; foreground priority split remains a lab approximation without fighter sprite overlap capture"
+  },
+  "autopan_status": "disabled_as_evidence",
+  "manual_dpad_status": "fighter_fixture_input_only",
+  "parallax_camera_status": {
+    "horizontal_depth_contract_documented": true,
+    "runtime_multi_plane_status": "BG_B_BG_A_route_a_window_streaming",
+    "water_line_scroll_status": "implemented_partial",
+    "current_runtime_route": "route_a_multi_plane"
+  },
+  "blockers": [
+    "camera uses study fixture points, not final fighter entities",
+    "foreground priority/sprite-graft behavior is not validated against real fighter sprites",
+    "moving-camera parallax capture is still required for full camera QA"
+  ]
+}

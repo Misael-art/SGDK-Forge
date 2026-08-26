@@ -77,3 +77,13 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
   media/estatica; pico real so aparece com contador dentro do acquire.
 - Consequencia: P3 (varredura de cantos) e agora gate critico antes de
   qualquer expansao de janela ou animacao.
+
+## Adendo P3 (mesmo dia): cantos seguros, passe dinamico nao tanto
+
+- Varredura centro+4 cantos (TSTR v2): pior canto SE = 1105/1190 (folga 7,1%).
+- MAS o passe dinamico da demo (frames animados + pan continuo) atingiu
+  1157/1190 — folga real de operacao e 2,77%, nao a 7% dos cantos estaticos.
+- Licao: estresse por posicoes extremas NAO substitui telemetria da operacao
+  viva; o pior caso morou no caminho normal, nao nos cantos. Os dois numeros
+  so apareceram porque TSTR acumula max global E picos por parada.
+- Decisao registrada: P3b (janela menor ou LRU) trava P6.

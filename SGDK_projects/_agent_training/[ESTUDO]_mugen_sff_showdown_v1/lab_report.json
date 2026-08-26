@@ -30,16 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "83451f9e564cdde44e7a20aa31d4ec07011965ce7b3df85f7b455a2e4ee2b0e0",
+    "rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
     "blastem_status": "testado_em_blastem_sealed_bundle",
-    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/screenshot.png",
-    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/save.sram",
-    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/evidence_manifest.json",
-    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/screenshot_semantic_gate_report.json",
-    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/visual_vdp_dump.bin",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
     "frame_animation_enabled": false,
-    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_tstr_v002/blastem-linux-20260826T120420Z-1976255/runtime_metrics.json"
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -135,5 +135,23 @@
     "overflow_events": 0,
     "dma_bytes_total": 37024,
     "honest_note": "Margem real (33) menor que a estimativa estatica anterior (64); P3 de varredura de cantos e obrigatorio antes de qualquer expansao."
+  },
+  "vram_margin_sweep_p3": {
+    "status": "MEASURED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p3_sweep.json",
+    "stops": {
+      "center": 818,
+      "nw": 657,
+      "ne": 689,
+      "sw": 1094,
+      "se": 1105
+    },
+    "capacity": 1190,
+    "worst_static_stop": "se (1105, margem 85 = 7,14%)",
+    "all_within_capacity": true,
+    "overflow_events": 0,
+    "dynamic_pass_peak": 1157,
+    "honest_verdict": "Cantos seguros com folga >=7%; porem passe DINAMICO da demo (frames animados + pan) ja atingiu 1157/1190 (folga 2,77%). Reducao de janela ou eviction LRU obrigat\u00f3rios ANTES de P6 (animacoes SFF).",
+    "next_steps_pointer": "doc/plano_continuidade_showdown.md"
   }
 }

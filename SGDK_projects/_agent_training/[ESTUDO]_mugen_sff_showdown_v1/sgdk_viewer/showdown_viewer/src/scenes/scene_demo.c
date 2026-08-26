@@ -112,6 +112,15 @@ static void drawPause(void)
 u32 gTileStreamStats[8];
 static u16 sStreamPassPeak;
 
+/* Varredura P3: centro + 4 cantos do mundo, pico/requisicoes por parada.
+   Arrays nao-static: a probe (runtime_probe.c) exporta via bloco TSTR. */
+u16 sSweepPeakPerStop[5];
+u16 sSweepReqPerStop[5];
+u16 sSweepStopsDone;
+static u16 sSweepActive;
+static u16 sSweepStop;
+static u16 sSweepReqMark;
+
 static void statFlushBatch(u16 count)
 {
     gTileStreamStats[1] += count;
@@ -122,6 +131,11 @@ static void statEndStreamingPass(void)
 {
     if (sStreamPassPeak > (u16) gTileStreamStats[4]) {
         gTileStreamStats[4] = sStreamPassPeak;
+    }
+    if (sSweepActive && (sSweepStop < 5)) {
+        sSweepPeakPerStop[sSweepStop] = sStreamPassPeak;
+        sSweepReqPerStop[sSweepStop] = (u16)(gTileStreamStats[0] - sSweepReqMark);
+        sSweepStopsDone |= (u16)(1 << sSweepStop);
     }
     sStreamPassPeak = 0;
 }
@@ -624,6 +638,32 @@ void SCENE_demoEnter(void)
     resetLastRowSources();
     streamCameraWindow();
     applyCamera();
+
+    /* P3: varredura centro + 4 cantos do mundo (768x480, bounds 0..448 / 0..256).
+       Cada parada = um passe completo de streaming com telemetria propria. */
+    {
+        static const u16 sweepX[5] = { 224, 0, 448, 0, 448 };
+        static const u16 sweepY[5] = { 128, 0, 0, 256, 256 };
+        u16 i;
+
+        sSweepActive = 1;
+        for (i = 0; i < 5; i++) {
+            sSweepStop = i;
+            sSweepReqMark = (u16) gTileStreamStats[0];
+            sCameraX = sweepX[i];
+            sCameraY = sweepY[i];
+            streamCameraWindow();
+            applyCamera();
+        }
+        sSweepActive = 0;
+
+        /* restaura posicao padrao do stage */
+        sCameraX = CAMERA_DEFAULT_X;
+        sCameraY = CAMERA_DEFAULT_Y;
+        streamCameraWindow();
+        applyCamera();
+    }
+
     VDP_setEnable(TRUE);
 }
 

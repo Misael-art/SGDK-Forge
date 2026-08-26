@@ -258,9 +258,13 @@ static void export_visual_probe_to_sram(void)
 
 static void export_tile_stream_to_sram(void)
 {
-    /* Bloco "TSTR": telemetria de streaming do scene_demo (P2).
-       8 contadores u32 exportados como 16 words hi/lo. */
+    /* Bloco "TSTR" v2: telemetria de streaming do scene_demo.
+       8 contadores u32 (hi/lo) + varredura P3: 5 picos u16, 5 pedidos u16,
+       mascara de paradas concluidas. Total = 8 + 32 + 22 = 62 bytes. */
     extern u32 gTileStreamStats[8];
+    extern u16 sSweepPeakPerStop[5];
+    extern u16 sSweepReqPerStop[5];
+    extern u16 sSweepStopsDone;
     u32 offset = 0x300;
     u16 i;
 
@@ -269,8 +273,8 @@ static void export_tile_stream_to_sram(void)
     SRAM_writeByte(offset + 1, 'S');
     SRAM_writeByte(offset + 2, 'T');
     SRAM_writeByte(offset + 3, 'R');
-    sram_write_u16be(offset + 4, 1);          /* schema */
-    sram_write_u16be(offset + 6, 8 + 16 * 2); /* total bytes */
+    sram_write_u16be(offset + 4, 2);          /* schema v2 */
+    sram_write_u16be(offset + 6, 62);         /* total bytes */
 
     offset += 8;
     for (i = 0; i < 8; i++) {
@@ -278,6 +282,13 @@ static void export_tile_stream_to_sram(void)
         sram_write_visual_word(&offset, (u16)((v >> 16) & 0xFFFF));
         sram_write_visual_word(&offset, (u16)(v & 0xFFFF));
     }
+    for (i = 0; i < 5; i++) {
+        sram_write_visual_word(&offset, sSweepPeakPerStop[i]);
+    }
+    for (i = 0; i < 5; i++) {
+        sram_write_visual_word(&offset, sSweepReqPerStop[i]);
+    }
+    sram_write_visual_word(&offset, sSweepStopsDone);
     SRAM_disable();
 }
 

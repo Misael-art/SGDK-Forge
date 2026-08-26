@@ -33,7 +33,16 @@
 - ALERTA para o proximo agente: margem real (33) e MENOR que a estimativa
   estatica antiga (64). P3 deixou de ser rotina e virou gate critico.
 
-### PENDING — P3: Margem VRAM sob camera movendo (estresse real) — CRITICO
+### DONE — P3: Varredura de cantos medida (2026-08-26)
+- TSTR v2 (5 paradas): center 818, nw 657, ne 689, sw 1094, se 1105.
+- Todos < 1190, zero overflow; pior canto SE com margem 85 (7,14%).
+- Bundle selado `evidence_sweep_p3/…131919Z…`; report `analysis/tile_stream_stats_p3_sweep.json`.
+
+### PENDING — P3b: Folga do passe DINAMICO (gate critico antes de P6)
+- Dado novo: passe dinamico da demo (frames animados + pan) atingiu
+  1157/1190 — folga 2,77%, abaixo do piso de 5%.
+- Aceite: OU janela reduzida (41x29 -> 40x28, -69 slots) OU eviction LRU por
+  linha implementados, com TSTR provando pico dinamico <= 90% da capacidade.
 - Objetivo: varrer camera pelos 4 cantos do mundo 768×480 e provar que
   `max_resident < CACHE_TILE_CAPACITY` com folga declarada.
 - Contexto P2: margem medida no centro = 33 tiles (2,77%). Cantos podem pedir
@@ -43,7 +52,7 @@
   folga >= 5% ou plano de reducao de janela/eviction LRU documentado.
 
 ### PENDING — P4: Escape por erro nas bandas BG_A (fidelidade extra)
-- Pre-condicao: P3 verde (mudanca de pid pode alterar unique tiles).
+- Pre-condicao: P3b resolvido (mudanca de pid pode alterar unique tiles).
 - Objetivo: replicar o escape 1.45x do BG_B nas bandas BG_A; refazer
   otimizacao; medir remaps de novo.
 - Aceite: remaps < 205283 E dedup <= limite E anti-magenta pass AND A/B

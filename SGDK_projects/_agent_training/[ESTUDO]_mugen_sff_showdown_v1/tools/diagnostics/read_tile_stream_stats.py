@@ -32,12 +32,13 @@ def parse(sram_path: Path) -> dict:
     if off < 0:
         raise ValueError("tstr_block_missing")
     schema, total = struct.unpack_from(">HH", raw, off + 4)
-    if schema != 1 or total != 40:
+    if schema not in (1, 2):
         raise ValueError(f"tstr_layout_unexpected schema={schema} total={total}")
     words = struct.unpack_from(">16H", raw, off + 8)
     stats = [(words[i * 2] << 16) | words[i * 2 + 1] for i in range(8)]
-    return {
+    rep = {
         "schema_version": "1.0.0",
+        "tstr_schema": schema,
         "source": str(sram_path),
         "counters": {
             "tiles_requested_total": stats[0],
@@ -50,6 +51,18 @@ def parse(sram_path: Path) -> dict:
             "magic": f"0x{stats[7]:08X}",
         },
     }
+    if schema >= 2:
+        sw = struct.unpack_from(">11H", raw, off + 8 + 32)
+        stop_names = ["center", "nw", "ne", "sw", "se"]
+        stops = {}
+        for i, name in enumerate(stop_names):
+            stops[name] = {
+                "peak_resident": sw[i],
+                "tiles_requested": sw[5 + i],
+                "recorded": bool(sw[10] & (1 << i)),
+            }
+        rep["corner_sweep"] = {"stops_done_mask": sw[10], "stops": stops}
+    return rep
 
 
 def main() -> int:
@@ -71,14 +84,32 @@ def main() -> int:
     c["overflow_consistent"] = (
         (c["overflow_events_total"] == 0) if peak and cap and peak <= cap else (c["overflow_events_total"] > 0)
     )
-    rep["verdict"] = {
+    verdict = {
         "code_loaded_tiles_measured": True,
         "peak_within_capacity": bool(cap and peak <= cap),
         "dma_bytes_total": c["tiles_dma_uploaded_total"] * 32,
     }
+    sweep = rep.get("corner_sweep")
+    if sweep and all(s["recorded"] for s in sweep["stops"].values()):
+        worst_name, worst = max(
+            sweep["stops"].items(), key=lambda kv: kv[1]["peak_resident"]
+        )
+        sweep["worst_stop"] = {
+            "name": worst_name,
+            "peak_resident": worst["peak_resident"],
+            "margin_tiles": cap - worst["peak_resident"] if cap else None,
+            "margin_ratio": round((cap - worst["peak_resident"]) / cap, 4) if cap else None,
+        }
+        verdict["sweep_all_within_capacity"] = bool(
+            cap and all(s["peak_resident"] <= cap for s in sweep["stops"].values())
+        )
+        verdict["worst_margin_tiles"] = sweep["worst_stop"]["margin_tiles"]
+    rep["verdict"] = verdict
     out_path.write_text(json.dumps(rep, indent=2), encoding="utf-8")
     print(json.dumps(rep["counters"], indent=2))
-    print("verdict:", json.dumps(rep["verdict"]))
+    if sweep:
+        print("corner_sweep:", json.dumps(sweep, indent=2))
+    print("verdict:", json.dumps(verdict))
     return 0
 
 

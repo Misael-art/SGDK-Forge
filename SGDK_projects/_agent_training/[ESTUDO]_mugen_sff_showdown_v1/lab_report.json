@@ -151,7 +151,13 @@
     "all_within_capacity": true,
     "overflow_events": 0,
     "dynamic_pass_peak": 1157,
-    "honest_verdict": "Cantos seguros com folga >=7%; porem passe DINAMICO da demo (frames animados + pan) ja atingiu 1157/1190 (folga 2,77%). Reducao de janela ou eviction LRU obrigat\u00f3rios ANTES de P6 (animacoes SFF).",
-    "next_steps_pointer": "doc/plano_continuidade_showdown.md"
-  }
+    "honest_verdict": "CORRIGIDO pelo soak 420s (\u2026132347Z\u2026): apos a varredura de entrada a demo NAO re-streama (contadores identicos ao capture curto). Nao ha passe dinamico hoje; '1157' era o passe de restauracao para a posicao padrao (224,256). Margem estavel de 33 (2,77%) na visao default; risco so ativa com P6 (animacoes SFF trocam tiles por frame).",
+    "next_steps_pointer": "doc/plano_continuidade_showdown.md",
+    "soak_420s": {
+      "bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p3b_soak/blastem-linux-20260826T132347Z-2118854",
+      "counters_vs_short_capture": "identicos",
+      "conclusion": "zero re-stream em idle"
+    }
+  },
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P3b->P4->P5->P6)"
 }

@@ -87,3 +87,17 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
   viva; o pior caso morou no caminho normal, nao nos cantos. Os dois numeros
   so apareceram porque TSTR acumula max global E picos por parada.
 - Decisao registrada: P3b (janela menor ou LRU) trava P6.
+
+## Adendo P3b (mesmo dia): o soak corrigiu minha propria interpretacao
+
+- Hipotese que eu publiquei no adendo P3 ("passe dinamico da demo atingiu
+  1157") estava ERRADA. Soak de 420s: contadores congelados pos-varredura —
+  demo estatica nao re-streama nada em idle.
+- O 1157 era o passe de RESTAURACAO para (224,256), posicao padrao — apenas
+  mais um passe estatico, o maior de todos os medidos.
+- Licao dupla: (1) hipotese sobre causa sem soak vira narrativa; o soak de
+  sessao longa e a sonda barata que desmente. (2) max_resident acumulado
+  entre capturas diferentes NAO identifica qual passe foi o autor — por isso
+  TSTR v2 agora grava picos POR parada com mascara.
+- Estado final honesto: margem default = 33/2,77% estavel; risco de overflow
+  so existe quando P6 ligar animacoes; gate quantificado no plano (P3b).

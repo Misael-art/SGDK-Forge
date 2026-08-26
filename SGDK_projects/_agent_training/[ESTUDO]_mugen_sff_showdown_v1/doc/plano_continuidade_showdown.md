@@ -38,18 +38,15 @@
 - Todos < 1190, zero overflow; pior canto SE com margem 85 (7,14%).
 - Bundle selado `evidence_sweep_p3/…131919Z…`; report `analysis/tile_stream_stats_p3_sweep.json`.
 
-### PENDING — P3b: Folga do passe DINAMICO (gate critico antes de P6)
-- Dado novo: passe dinamico da demo (frames animados + pan) atingiu
-  1157/1190 — folga 2,77%, abaixo do piso de 5%.
-- Aceite: OU janela reduzida (41x29 -> 40x28, -69 slots) OU eviction LRU por
-  linha implementados, com TSTR provando pico dinamico <= 90% da capacidade.
-- Objetivo: varrer camera pelos 4 cantos do mundo 768×480 e provar que
-  `max_resident < CACHE_TILE_CAPACITY` com folga declarada.
-- Contexto P2: margem medida no centro = 33 tiles (2,77%). Cantos podem pedir
-  mais. Se qualquer passe estourar: reduzir janela (41x29 -> 40x28 = -69 slots)
-  ou implementar eviction LRU por linha; re-medir com o mesmo TSTR.
-- Aceite: varredura scripted (input gravado ou loop automatico no demo),
-  folga >= 5% ou plano de reducao de janela/eviction LRU documentado.
+### PENDING — P3b: Gate de folga DURANTE P6 (reframed pelo soak 420s)
+- Soak provou: demo estatica nao re-streama (contadores congelados pos-varredura);
+  'pico dinamico 1157' corrigido para 'passe de restauracao da posicao padrao'.
+- Hoje NAO ha risco de overflow em operacao. O risco nasce quando P6 ligar
+  animacoes SFF (bg2 troca tiles entre frames -> passes variam).
+- Gate para habilitar P6: com animacoes ligadas, rodar burst/soak e exigir
+  TSTR com overflow_events_total==0 E requested/passe <= 1071 (90% de 1190).
+  Se estourar: janela 40x28 (-69 slots) ou eviction LRU por epoca.
+- Ferramentas prontas: TSTR v2 + read_tile_stream_stats.py ja medem isso.
 
 ### PENDING — P4: Escape por erro nas bandas BG_A (fidelidade extra)
 - Pre-condicao: P3b resolvido (mudanca de pid pode alterar unique tiles).

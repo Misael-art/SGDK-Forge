@@ -2,15 +2,20 @@
 ## 0. Estado Derivado dos Artefatos
 
 - Fonte: `doc/changelog` + `validation_report.json`
-- Ultima sincronizacao: `herdada_do_template_2026-06-03` (STALE — sera regenerada no primeiro build deste projeto)
+- Ultima sincronizacao: `2026-07-29T13:37:12.8268296-03:00`
 - Changelog canonico: `doc/changelog/changelog.md`
-- AVISO: o bloco acima do template descrevia builds do projeto-modelo (`build_v001/v002`), que NAO existem neste projeto. `out/` foi removido no nascimento (Vibe Playable). Nenhuma ROM, evidencia ou runtime_metrics deste projeto existe ainda.
+- Assets versionados rastreados: 12
+- Ultimo build versionado: build_v003
+- ROM vigente: `e1fc0dd5180ffb09f74087248f1d4d363ace93b5c1a74f0e307c1b8f3e05c1c6` (`262144` bytes)
+- Validation summary: errors=0 warnings=0
+- Blockers vigentes: nenhum
+- Evidencia de emulador: nao_avaliado
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-07-03 (sessao 5 — correcao level-art modular do CAIS_01)
-**Fase atual:** `pre_producao_documentada_com_template_tecnico` (vocabulário do parecer 2026-07-03). NÃO é protótipo, NÃO é vertical slice, NÃO é jogo. Bloqueios curatoriais tratados: slice scope contract (anti-falso-verde), streaming do cais contratado, direção de arte com trio MD-nativo e RATIFICAÇÃO HUMANA PENDENTE, rota de arte corrigida para concept-first, e agora rota do CAIS corrigida para `dock_scene_kit` modular + montagem autoral pelo agente. Painéis prontos do cais ficam `mood_reference_only`, não fonte de produção.
-**Proxima fase:** gerar/curar `dock_scene_kit` modular conforme `doc/contracts/level_art_assembly_contract.json` → montar `world_layout_board` 1344x224 pelo agente (object placement + parallax + ecology + collision visual) → ratificação humana do board/contact sheet → model sheet pixel autoral 3.5 heads (TAÍNA primeiro) → lineart 1px → key poses → strips → conversão VDP + laudo de budget. RUNTIME SÓ DEPOIS.
+**Ultima atualizacao:** 2026-08-29 (CRIA idle nativo 48x64 no CAIS_01, PAL3)
+**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA no cais v04. Faltam VLAB/dump VDP, IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
+**Proxima fase:** parecer humano da CRIA nativa; walk/telegraph da CRIA no mesmo grid; ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -22,6 +27,13 @@
 
 ### O que existe e funciona
 
+- Build Linux atual existe: `out/rom.bin`, 262144 bytes, SHA-256 `e6b84c604a2dd26662e2e4603ff79a276351cb77447bb9e8d4874a2c6ffaab15`, comprovado por `out/logs/linux_wine_build_report.json`.
+- O seletor canônico `out/logs/sgdk_build_route_report.json` classificou este host como `linux`, rota `linux_wine_bridge`, com `gcc.exe` 13.2.0, `libmd.a` de origem LTO 16.1.0 incompatível para link direto e biblioteca staged 13.2.0 sem LTO compatível.
+- Evidência BlastEm da ROM atual existe em `out/blastem_env_taina_idle_guard_v02/blastem-linux-20260729T094431Z-325801/`: cena 3, screenshot, GIF, 12 quadros, SRAM e `runtime_metrics.json`. A captura sem VLAB/dump VDP é parcial e não fecha `testado_em_emulador`.
+- `validate_resources.ps1` atualizado em 2026-07-08: `emulator_evidence_reason=ok`, `boot_emulador=ok`, `aggregate_status=emulator_observed_budget_pending`, `max_delivery_status=technical_artifact_only`; 0 erros/8 warnings.
+- `scene_contract_compile_report.json` existe e compilou 4 cenas em modo production, mas o lint interno não rodou (`lint_ran=false`, `lint_status=error`); tratar como observação parcial, não fechamento.
+- `res_graph_report.json` existe e passou 10 declarações em 1 `.res` sem issues/missing sources; porém `vram_residency_status=not_measured`, `measurement_level=estimated` e `tile_stats` das imagens falharam no host Linux por dependência de imagem/.NET. Não promove `validado_budget`.
+- `visual_delivery_gate_report.json` existe em `out/logs/` e bloqueia explicitamente promoção visual: TAÍNA v05 melhora cabelo/rosto/guarda/roupa sobre v04, mas segue bloqueada por deriva chibi de escala e animation gate ausente; cena/tilemap/paleta não convertidos e captura BlastEm cobre apenas boot/menu.
 - FASE 2 completa (2026-07-03): `doc/contracts/tdd_contract.json` (FSM, pools, DMA ownership, NTSC-first, tecnicas com registry) + `doc/contracts/brawler_belt_scroll_design_contract.json` (roster TAINA/JACO, 6 arquetipos com frame data, 3 stages com boss, combat/balance) + `mechanic_contract.json` (combo_de_mare), `level_blueprint.json` (cais_01), `enemy_roster.json`. TODOS 100% validos nos schemas; `audit_game_design_contracts`: passed, blockers=0; `validate_brawler_belt_scroll_specialization`: passed=11 failed=0.
 - FASE 3 (direção): `doc/art/` com art_direction_decision_record (angular_cps2_fighter, confianca 0.70), concept_art_direction_brief, master_style_manifest, moodboard_manifest, brand_identity_manifest (planned), style_drift_policy, art_asset_diagnostic (rota 3_no_art), art_generation_brief.md pronto para disparo.
 - 16 PRDs materializados (art bible, palette master, benchmark, rom mastering, ci, code review etc.); `check_prd_readiness`: ok, blockers=0 (target prototype).
@@ -34,13 +46,18 @@
 
 ### O que e placeholder
 
-- Todos os assets de gameplay: NENHUMA arte de TAÍNA, inimigos ou cais existe (`blocked_no_premium_source`).
+- Assets de gameplay: concepts/source candidates existem; TAÍNA tem linearts técnicos v01-v05 em `data/processed/characters/taina/lineart/`, mas nenhum está aprovado/promovido para `res/`. Inimigos e cais ainda dependem de conversão/curadoria VDP.
+- Exceção já promovida sob aprovação específica: `taina_idle_guard_48x64_v02.png` está em `res/`, compilada e observada no BlastEm; os linearts históricos continuam negativos/não promovidos.
 - Branding herdada usa logos do template; precisará de art pass com a identidade MARÉ BRAVA.
 - Áudio: nenhuma música/SFX do projeto; direção declarada no GDD apenas.
 
 ### O que falta para o slice ser completo
 
-- CANAL DE GERAÇÃO (blocker ativo): `out/logs/generation_channel_decision.json` = bloqueado. Sem callable nativo, sem API key no host, Bonsai exige NVIDIA (host é AMD VanGogh), ComfyUI local não instalado. Opções: instalar perfil `deck_safe_sd15` (download 4.2GB, qualidade exige revisão humana) ou fornecer API externa.
+- CANAL DE GERAÇÃO (corrigido em 2026-07-09): quando a sessão do agente expõe
+  ferramenta nativa de imagem, `out/logs/generation_channel_decision.json`
+  deve selecionar `native_chat_image_generation_callable` e `next_action:
+  use_native_channel`. Bonsai sem licença, host AMD e ComfyUI offline não são
+  blockers nesse cenário; viram apenas fallback local se não houver nativo/API.
 - Gerar premium source do CAIS_01 conforme `doc/art/art_generation_brief.md` + aprovação humana + conversão VDP.
 - FASE 4: laudo `megadrive-vdp-budget-analyst` do CAIS_01.
 - FASE 5: runtime C (FSM, combate, wave manager, câmera, HUD, XGM2).
@@ -49,20 +66,36 @@
 ### Snapshot dos gates QA
 
 - visual_lab_aprovado: false (sem arte)
-- gameplay_rom_aprovada: false (sem ROM)
+- gameplay_rom_aprovada: false (ROM existe, mas gameplay/performance/audio/hardware real nao foram provados)
 - ready_for_aaa: false
-- freshness_audit: nao_executado neste projeto
-- scene_closeout_gate: nao_aplicavel ainda
+- freshness_audit: warning com `stale_count=0` e `missing_required_count=1` (`build_output.log` ausente)
+- scene_closeout_gate: ausente
+- build: sucesso_com_warnings
+- boot_emulador: ok (BlastEm, escopo boot/menu)
+- performance: nao_medido
+- audio: nao_testado
 
 ### Ambiente de producao (host)
 
-- Host atual: Manjaro Linux. Loop build→BlastEm foi PROVADO neste host em 2026-07-03 usando SMOKE_TEST (toolchain Windows do SDK via Wine/binfmt + binutils m68k nativos; BlastEm sob Wine a 59.8 fps com screenshot interno e save.sram).
-- Receita completa na memória do agente do workspace; pontos-chave: symlink sem espaços para o SDK, `LIBGCC=<gdk>/lib/libgcc.a` no make, symlink `tmp` na raiz do cartão SD apontando para o tmp do sistema, fonte Arial registrada no prefixo Wine para o BlastEm.
+- Host atual: Manjaro Linux. A rota canônica de compilação é decidida por `tools/sgdk_wrapper/select_sgdk_build_route.py`.
+- Linux: usar `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh --project-root <projeto>`. A bridge materializa staging em `out/host_tools/`, reconstrói `libmd.a` sem LTO com o GCC 13 empacotado e preserva o SDK de origem.
+- Windows: usar `tools/sgdk_wrapper/build.bat <projeto>`. Antes do build, o seletor deve provar que `gcc.exe` e a `libmd.a` LTO possuem major compatível; em mismatch, restaurar/reconstruir a biblioteca com o compilador empacotado.
+- Proibido misturar as rotas: `.bat`/PowerShell sob Wine não é a rota Linux, e a bridge Linux não é workaround para um SDK incoerente no Windows.
 - Guard de ambiente roda com `pwsh` + `USERPROFILE=$HOME` + shim `powershell→pwsh`; Graphify com `-SkipGraphify` até o fix de `Get-Item -Force`.
 
 ---
 
 ## 2. O QUE ACABOU DE ACONTECER
+
+**2026-07-04 (sessão 6) — Prompt mestre e contrato de aceite para agente de imagem**
+
+- Pedido humano aplicado: o agente de imagem deve gerar matéria-prima premium organizada (`concept_art` / `source_candidate`), não level pronto, sprite final, tilemap final ou asset para `res/`.
+- Criado `doc/art/prompt_pack/06_image_agent_master_prompt.md` como handoff autocontido para outro agente de imagem, com leituras obrigatórias, paleta, estilo, negative prompt, fluxo, asset IDs e status proibidos.
+- Atualizados prompts 00-05: IDs de assets por pasta, geração de 4 variações, descarte em subpastas, relatórios obrigatórios, teste de silhueta, teste monocromático de logo, HUD/FX separados e `dock_pickups_small_props`.
+- Criados `doc/art/prompt_revision_report.md` e `doc/art/asset_acceptance_report.json`.
+- `data/source_art/premium_source_manifest.json` recebeu política de status; `bgb_loop` reclassificado para `mood_reference_only` (referência de bandas BG_B, não source direto para `res/`).
+- `doc/art/art_asset_diagnostic.json` atualizado: o projeto não está mais em `3_no_art`; há concepts, mas todos seguem bloqueados para promoção até nova curadoria, ratificação humana e conversão VDP.
+- Diagnóstico operacional rodado via `art_diagnostic.py`: cenário `2_res_inadequate_check`; concepts/source PNGs aparecem como RGB/RGBA não indexados e reforçam que nada pode ir para `res/` sem pipeline VDP.
 
 **2026-07-03 (sessão 5) — Correção de autoria do level art do CAIS_01**
 
@@ -111,7 +144,9 @@
 - Cadeia de contratos emitida e 100% verde: TDD + brawler design + mechanic + level + enemy + frame data (auditoria passed, validador de especialização 11/0, schemas via jsonschema).
 - Direção de arte congelada em `angular_cps2_fighter` (confiança 0.70 > limiar 0.65) com manifesto de estilo, moodboard, brand identity (planned) e política de drift.
 - 16 PRDs materializados; PRD readiness ok. Higiene e metodologia corrigidas e passed.
-- Canal de geração de imagem BLOQUEADO no host (sem nativo/API; Bonsai exige NVIDIA; ComfyUI não instalado) — brief de geração pronto em `doc/art/art_generation_brief.md`.
+- Canal de geração de imagem reclassificado: native-first. Em superfície Codex/ChatGPT
+  capaz, usar geração nativa; Bonsai/ComfyUI ficam como fallback local, não como
+  blocker de concept art.
 - Fix canônico correlato em `tools/sgdk_wrapper/validate_brawler_belt_scroll_specialization.ps1` (pwsh 7.5+: OrderedDictionary + DateKind), CI 23/23.
 
 **2026-07-03 — Nascimento do projeto + FASE 1 (sessão Linux)**
@@ -152,14 +187,14 @@
 
 ## 5. ROTEIRO DE FECHAMENTO
 
-- build/rebuild canonico: nao_executado (sem runtime ainda — correto para FASE 1)
-- contratos recompilados: nao_aplicavel
-- grafo de recursos: nao_aplicavel
-- validator: project_context ok (blockers=0)
-- captura BlastEm: nao_aplicavel (sem ROM do projeto)
-- regressao de cena: nao_aplicavel
-- freshness audit: pendente para proxima fase
-- closeout gate: nao_aplicavel
+- build/rebuild canonico: `build_v001` gerado via overlay temporário `/tmp/sgdk_win_overlay` usando SDK canônico `sdk/sgdk-2.11`; ROM snapshotada.
+- contratos recompilados: `out/logs/scene_contract_compile_report.json` presente; 4 cenas compiladas, lint interno não executado (`lint_status=error`), então não fechar como gate limpo.
+- grafo de recursos: `out/logs/res_graph_report.json` presente; 10 declarações ok, 0 issues, 5 imagens/5 áudios; budget VDP ainda não medido (`vram_residency_status=not_measured`) e tile stats falharam no host Linux.
+- validator: `validate_resources.ps1` concluído com 0 erros/8 warnings; blockers atuais: `visual_gate_blocked`, `visual_direction_failed`, `animation_gate_failed`, `scene_tilemap_conversion_report_missing`, `per_tile_palette_conflict_report_missing`, `freshness_audit_stale`, `scene_closeout_gate_missing`.
+- captura BlastEm: boot/menu observado e selado por screenshot manual fallback; `evidence_closeout_report.json` status `ok/sealed`; sem SRAM/VDP dump.
+- regressao de cena: ausente/nao executada.
+- freshness audit: warning com `stale_count=0`; falta apenas `build_output.log` como artefato obrigatório de freshness. Não reconstruir só para gerar log sem necessidade, pois rebuild pós-captura mudaria o contrato de evidência.
+- closeout gate: ausente; nao declarar cena fechada.
 
 ---
 
@@ -173,3 +208,529 @@
 - Genero: `doc/genre_specialization_manifest.json`
 - Diretrizes agente: `doc/00-diretrizes-agente.md`
 - Plano de provas QA: `doc/14-plano-de-provas-qa.md`
+
+---
+
+## 7. ATUALIZACAO 2026-07-08 — TAÍNA animation planning + v07 scale probe
+
+- Criados contratos de animação para a TAÍNA em `doc/art/characters/taina/animation/`: `animation_state_plan_v01.json`, `frame_budget_table_v01.json`, `pivot_and_scale_contract_v01.json`, `motion_phase_map_p0_v01.json`, `animation_direction_contract_v01.json` e `animation_planning_gate_report_v01.json`.
+- Os contratos fixam célula 48x64, pivot bottom-center, alvo de 48px visíveis, P0 de estados de brawler, timing em VBlanks e regra de não assar FX na sheet do corpo. Status honesto: planejamento declarado, não evidência de animação.
+- Gerados probes técnicos TAÍNA v06/v07; v07 é PNG indexado `P`, 192x64, índices `[0,1]`, index 0 magenta, cor visível na grade 9-bit, SHA-256 `b8342103628317977961f3e9ae764cd4c43b04280c66594ac601906faed2c6d1`.
+- Relatório `doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v07.json`: v07 reduz drift de escala (v05 ~61–62px visíveis; v07 52px), mas regride identidade/hair/face e continua `visual_pass=false`. Uso permitido apenas como evidência negativa/scale probe.
+- Atualizados `native_grid_translation_report_v01.json`, `lineart_blocking_report_v01.json`, `visual_dna_manifest.json` e `out/logs/visual_delivery_gate_report.json`. Nenhum asset foi promovido para `res/`; sem key poses, sem contact sheet, sem pivot overlay, sem foot contact/frame delta e sem BlastEm de animação.
+
+## 8. ATUALIZACAO 2026-07-09 — TAÍNA native image source candidates
+
+- Retomada a rota correta de geração visual pela capacidade nativa `native_chat_image_generation_callable`, conforme `doc/art/prompt_pack/06_image_agent_master_prompt.md` e `out/logs/generation_channel_decision.json`.
+- Geradas 4 variações de `taina_identity_turnaround`; aceitas 2 como `source_candidate`: `data/source_art/concept/taina_identity_turnaround/taina_identity_turnaround_v01.png` (SHA-256 `d8e7036c8d79aa6cd03e8309ec883e287b27ca2986f8cad27f844cdf6b67710a`) e `taina_identity_turnaround_v02.png` (SHA-256 `715ebf7c75679391e6ccc31e9a2383a64b6029089d8fd079cf16bec177ef88ba`).
+- Duas variações foram arquivadas em `data/source_art/concept/taina_identity_turnaround/descartes/` por drift de anatomia alta/ilustrativa.
+- Criados `doc/art/characters/taina/taina_identity_turnaround_native_callable_review_v01.json`, prompt log em `doc/art/generated_prompts/taina_identity_turnaround/taina_identity_turnaround_native_callable_v01.md` e contact sheets `doc/art/characters/taina/review/taina_identity_turnaround_native_callable_contact_sheet_320x224_v01.png` / `_16c_v01.png`.
+- Resultado honesto: a identidade fonte melhorou e sobrevive melhor à miniatura 320x224/16c, mas continua concept source. Próximo passo real: model sheet pixel 3.5 heads e lineart 1px a partir desse source; sem `res/`, sem build novo, sem ROM nova e sem evidência BlastEm nova.
+
+## 9. ATUALIZACAO 2026-07-28 — parecer historico de direcao de arte
+
+- Adicionado `doc/21-relatorio-direcao-de-arte-ver-001.md`: auditoria documental e visual do fluxo de criacao de assets ate 2026-07-09.
+- O parecer separa a heranca de template de 2026-06-03 da producao de MARE BRAVA e consolida o inventario atual: 19 `source_candidate`, 4 referencias de mood/landmark, provas offline e linearts TAINA nao promovidos.
+- Nenhum asset, manifest, recurso SGDK, ROM, budget ou status tecnico foi alterado por este parecer. O estado operacional permanece `technical_artifact_only` / `emulator_observed_budget_pending`, com o bloqueio visual vigente.
+
+## 10. ATUALIZACAO 2026-07-28 — linha do tempo visual
+
+- Adicionado `doc/22-linha-do-tempo-visual-ver-001.md`, com as imagens reais que marcam concept, prova VDP, montagem modular do CAIS_01, lote autoral e revisoes v04–v07/native source da TAINA.
+- O documento e somente um apendice de leitura historica: nao promove nenhum concept, lineart ou branding herdado a arte final e nao muda o estado operacional.
+
+## 11. ATUALIZACAO 2026-07-28 — protocolo local contra degradacao de iteracao visual
+
+- Criado `doc/art/characters/taina/iteration_control_protocol.md`. O protocolo consolida os contratos ja existentes em uma rotina obrigatoria para o proximo candidato da TAÍNA: fonte autoral como incumbente, lista `must_preserve`, uma correcao por vez e comparacao em escala nativa antes de aceitar qualquer ganho tecnico.
+- A licao local L10 foi registrada em `doc/agent_learning/failure_patterns.md`; o ledger nao foi editado manualmente porque e derivado dos markdowns.
+- Consequencia de direcao: uma versao com grid, escala ou PNG melhores, mas que perca cabelo, face, assimetria, materiais ou guarda, recebe `cohesion_drift` e continua evidencia negativa. Nenhum asset, `res/`, ROM, budget ou status de entrega foi alterado.
+- Selecao humana complementar: a imagem 04 da linha do tempo (`authorial_style_validation_contact_sheet_v01.png`) e a baseline de direcao; as imagens 05/06, de revisoes posteriores da TAÍNA, sao retrocessos e ficam restritas a comparacao/evidencia negativa.
+
+## 12. ATUALIZACAO 2026-07-28 — linhagem visual travada para a proxima producao da TAÍNA
+
+- Criado `doc/contracts/visual_source_of_truth_taina_v01.json`, validando a imagem 04 como baseline humana de direcao e a fonte individual autoral da TAÍNA como origem permitida para a proxima lineart.
+- Os candidatos v05, v06 e v07 foram travados como `obsolete_for_generation_source`: so podem aparecer como evidencia negativa/comparacao, nunca como `source`, `baseline`, `reference_for_generation`, `img2img_base`, `generation_source` ou `image_reference`.
+- Proxima etapa autorizada: nova `lineart_blocking_1px` que parte da fonte autoral, do DNA visual e do gate arte+gameplay; continua sem color blocking, sprite final, `res/`, ROM, budget ou promocao de status.
+- Cartao de autoria criado: `doc/art/characters/taina/taina_lineart_v08_authoring_card.md` fecha o entregavel, a escala, o pivot, os marcadores a preservar e os criterios de reprovacao da v08. A producao fisica da prancha ainda e pendente; o cartao nao e asset.
+- Persona de producao ativada: `art-director`, com `doc/art/characters/taina/taina_v08_visual_breakdown.md` como breakdown de linha, leitura, materiais, herancas tecnicas e veto contra arte generica. Nenhuma promocao visual foi liberada.
+- Rascunho de direcao v08 gerado em `rascunho/taina_lineart_v08/taina_lineart_v08_directional_draft_v01.png` e revisado em `doc/art/characters/taina/taina_lineart_v08_directional_draft_review_v01.json`. Ele preserva a identidade da imagem 04, mas esta fora do grid/celula nativos e fica `directional_review_only`, sem uso como fonte, sprite, `res/` ou runtime.
+
+## 13. ATUALIZACAO 2026-07-28 — primeiro ciclo idle direcional da TAÍNA
+
+- Aprovacao humana recebida para iniciar sprites pelo fluxo de strip e animacao. O primeiro recorte e somente `idle_guard`, com seis celulas previstas de 48×64 px, pivot `(24,60)` e `ground_y=60`; contrato em `doc/art/characters/taina/animation/taina_idle_guard_strip_v01.json`.
+- Gerada a prancha direcional `rascunho/taina_idle_guard_v01/taina_idle_guard_directional_draft_v01.png` e registrado o parecer em `doc/art/characters/taina/animation/taina_idle_guard_directional_draft_review_v01.json`.
+- Diagnostico honesto: a prancha preserva cabelo, rosto, guarda e assimetria melhor que v05-v07, mas e RGB 2172×724, tem traco editorial e ainda nao mede pivot, pe, delta ou paleta. Portanto e guia de redesenho, nao sprite nativo, `data/`, `res/` ou evidencia runtime.
+- Proximo gate: redesenhar as seis celulas na grade nativa, medir contato/pivot, validar index 0/paleta/tiles, gerar preview e somente entao submeter ao parecer de arte. Nenhuma ROM, budget ou estado tecnico foi promovido.
+
+## 14. ATUALIZACAO 2026-07-28 — strip nativa idle_guard em staging de `res`
+
+- Produzida `data/processed/characters/taina/animation/taina_idle_guard_native_48x64_v01.png`: strip horizontal de seis celulas 48×64, PNG indexado, 14 indices usados, indice 0 reservado e paleta ajustada a passos 9-bit. A mesma copia esta em `res/sprites/characters/taina/taina_idle_guard_48x64_v01.png` e declarada como `spr_taina_idle_guard` em `res/resources.res`.
+- A integridade medida passou: bbox de 48 px de altura, top y=11, pe y=58, sem clipping, matte, ilhas externas ou FX embutido. Preview e reports em `doc/art/characters/taina/review/` e `doc/art/characters/taina/animation/`.
+- Limite honesto: a declaracao nao foi compilada pelo ResComp porque o host atual nao tem Java; tambem nao ha ROM/emulador com o sprite. Status e `res_candidate_waiting_for_rescomp`, nao `testado_em_emulador`.
+
+## 15. ATUALIZACAO 2026-07-29 — preparacao recuperavel do host Linux
+
+- O ambiente efemero da sessao perdeu `pwsh`, Java e Wine apesar de a receita anterior estar documentada. Em 2026-07-29, com autorizacao humana, foram instalados pelo host Manjaro via `bigsudo pacman -S --needed --noconfirm powershell-bin jre17-openjdk wine`.
+- Receita operacional: apos a instalacao, renovar o ambiente (`source /etc/profile` ou novo shell), executar `tools/sgdk_wrapper/assert_agent_environment.ps1`, `preflight_host.ps1` e recriar o overlay `/tmp/sgdk_win_overlay` antes do build. O Wine registra binfmt via hook; se executaveis `.exe` nao abrirem, usar `bigsudo systemctl restart systemd-binfmt` e revalidar.
+- Esta atualizacao prepara o host; nao promove ROM, emulador, budget ou estado de entrega por si so.
+
+## 16. ATUALIZACAO 2026-07-29 — ResComp da strip passou; link da ROM bloqueado por LTO do SDK
+
+- `assert_agent_environment.ps1 -SkipGraphify` retornou `agent_environment_status=ready` e `preflight_host.ps1` reencontrou GDK, make, Java, Python e ImageMagick.
+- A declaracao correta da strip e `SPRITE spr_taina_idle_guard ... 6 8 FAST 6`: ResComp interpreta largura/altura em **tiles**, portanto 6×8 = 48×64 px. Ele compilou os seis frames, cada um com 2 sprites VDP e 24 tiles; `res/resources.rs` foi regenerado com sucesso.
+- O build pelo overlay recompilou fontes e recursos, mas o link falhou de modo deterministico: `sdk/sgdk-2.11/lib/libmd.a` carrega bytecode LTO 16, enquanto `sdk/sgdk-2.11/bin/gcc.exe` espera LTO 13. Nao existe `m68k-elf-gcc` alternativo neste host para casar com a biblioteca.
+- Dependencias `.d` e objetos `.o` herdados foram movidos, de forma recuperavel, para `out/dependency_backup_20260729_host_recovery/` e `out/object_backup_20260729_host_recovery/`; a nova compilacao confirmou que o blocker nao era cache do projeto.
+- Estado real: o sprite esta `rescomp_compiled`, mas a ROM nova continua bloqueada por `sdk_lto_version_mismatch`; nao ha prova em emulador para esta versao.
+
+## 17. ATUALIZACAO 2026-07-29 — rota Linux isolada fecha o build; emulador continua pendente
+
+- O parecer da seção 16 descreve corretamente a falha da tentativa direta, mas
+  o blocker foi superado por uma rota específica de host, sem alterar o código
+  do jogo nem a biblioteca canônica de origem.
+- `tools/sgdk_wrapper/select_sgdk_build_route.py` provou: host `linux`;
+  `gcc.exe` 13.2.0; `libmd.a` de origem com LTO 16.1.0 incompatível para link
+  direto; biblioteca staged produzida por GCC 13.2.0, sem LTO e compatível.
+- A rota selecionada foi
+  `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh --project-root <projeto>`.
+  ResComp, fontes C e link terminaram com exit code 0.
+- A blindagem foi acoplada às entradas reais: a bridge Linux chama o seletor
+  antes de preparar o staging; o `build.bat` Windows chama o preflight de rota
+  depois de resolver o ambiente e antes de entrar no make.
+- ROM atual: 262144 bytes, SHA-256
+  `8ed8f28bde41cc4987718079f7584c6d90cbe1cad22a73f1b953857b367a434d`.
+  Evidências:
+  `out/logs/linux_wine_build_report.json` e
+  `out/logs/sgdk_build_route_report.json`.
+- Regra permanente: em Linux, usar staging + bridge e preservar o SDK de
+  origem; em Windows, usar o wrapper batch e bloquear se compilador/biblioteca
+  LTO não forem coerentes. ResComp/C verdes seguidos de erro no link são
+  incidente de toolchain até prova contrária, não autorização para editar
+  assets ou runtime.
+- Limite honesto: a ROM atual ainda não foi observada no BlastEm. A prova
+  histórica da ROM `5c1489...e75` não transfere para `8ed8...434d`; status
+  máximo atual é `buildado_emulator_pending`.
+
+## 18. ATUALIZACAO 2026-07-29 — TAÍNA v01 observada no runtime e reprovada visualmente
+
+- A strip `spr_taina_idle_guard` foi integrada a `scene_demo.c` e a cena recebeu
+  injeção QA de boot por bloco assinado `SBIS` em SRAM. A rota normal de boot
+  continua inalterada; a injeção existe somente para captura determinística.
+- Build pela bridge Linux passou. ROM: 262144 bytes, SHA-256
+  `3c4c6c5d4294a9f0042e1bbfdd1e66b7f2b2b3eca167489f23b54d2add99eb44`.
+- A cena 3 foi vista no BlastEm. Evidência parcial:
+  `out/blastem_env_taina_idle_guard_v01/blastem-linux-20260729T090809Z-192035/`,
+  contendo screenshot, GIF, 12 frames, SRAM e métricas. O sprite apareceu e a
+  animação executou; a captura não fechou o seal canônico porque faltam bloco
+  VLAB e dump VDP.
+- Parecer de arte: `technical_runtime_pass_visual_fail`. A v01 perdeu massa e
+  ganchos do cabelo, face/expressão, proporção heroica, assimetria material e
+  gesto de guarda da imagem 04. Ela permanece evidência técnica/negativa e foi
+  travada como fonte obsoleta para novas gerações.
+- Estado correto: `buildado` com observação parcial no BlastEm; não
+  `testado_em_emulador`, não aprovado visualmente, não AAA e não validado em
+  budget.
+
+## 19. ATUALIZACAO 2026-07-29 — reconstrução autoral v02 e regra de pose-mestre
+
+- Uma nova prancha foi gerada usando exclusivamente
+  `taina_identity_turnaround_authorial_v01.png`, correspondente à imagem 04.
+  A autoria visual voltou a aparecer: corpo alto/atlético, cabelo dominante,
+  face angular, guarda elevada, top laranja, wraps/faixa teal e calça índigo.
+- A prancha `rascunho/taina_idle_guard_v02/taina_idle_guard_authorial_study_v02.png`
+  é RGB 2172×724 com 160957 cores e antialiasing; portanto é guia direcional,
+  não asset nativo.
+- Um proxy 288×64/14 cores foi produzido somente para diagnóstico. O primeiro
+  quadro preserva identidade suficiente para virar incumbente de redesenho
+  (`taina_idle_guard_key_pose_v02.png`, 48×64, ground y=60), mas ainda exige
+  limpeza manual de face, cabelo, mãos e diagonal da guarda.
+- O strip gerado foi reprovado: o eixo horizontal deriva 7 px, a bbox varia
+  3 px e cabeça/corpo são redesenhados entre frames. Isso é morphing, não
+  animação.
+- Regra local permanente: aprovar uma pose-mestre nativa e derivar todos os
+  frames por edição pixel controlada. É proibido gerar seis poses independentes
+  e usar semelhança geral como continuidade. Relatório:
+  `doc/art/characters/taina/animation/taina_idle_guard_v02_authorial_reconstruction_report.json`.
+- Nenhum arquivo em `data/processed`, `res/` ou recurso SGDK foi substituído
+  pela v02; build e evidência runtime continuam referentes à v01 reprovada.
+
+## 20. ATUALIZACAO 2026-07-29 — idle_guard v02 promovida, buildada e observada no BlastEm
+
+- O diretor de arte humano aprovou o resultado visual v02 e autorizou a
+  continuidade. A pose-mestre limpa 48×64 foi fixada como incumbente; v01,
+  proxy v02 com morphing e linearts v05-v07 continuam proibidos como fontes.
+- Os cinco quadros derivados foram produzidos por edição de clusters sobre a
+  mesma topologia: contorno, guarda, mãos, pés, pivot e bbox permaneceram
+  fixos. O ciclo usa holds NTSC `[11,7,10,7,11,12]`; torso, cabelo e faixa
+  respondem em fases diferentes.
+- Strip promovida:
+  `res/sprites/characters/taina/taina_idle_guard_48x64_v02.png`, SHA-256
+  `5d17c164815eecf821cdd83dd45125fa0c57601facc7566307bc3c1cf6a58cde`.
+  PNG indexado 4-bit, 16 entradas de paleta, 11 índices usados, 10 cores
+  visíveis, grade de cor 9-bit e seis células 48×64.
+- ResComp mediu 2 partes de metasprite e 24 tiles únicos por quadro. O ciclo
+  completo contém 40 tiles únicos/1280 bytes. A ROM foi buildada pela bridge
+  Linux: 262144 bytes, SHA-256
+  `e6b84c604a2dd26662e2e4603ff79a276351cb77447bb9e8d4874a2c6ffaab15`.
+- BlastEm abriu a cena 3 a 60.2 fps no snapshot da janela. A captura parcial
+  registrou 151 frames, 32 amostras, 0 frames acima do budget, CPU máximo 28%,
+  p95 27% e pressão máxima observada de 1 sprite por scanline.
+- Parecer: `technical_runtime_pass_visual_direction_pass_partial_evidence`.
+  A silhueta, identidade e materiais sobrevivem em 320×224 e o ciclo não
+  apresenta morphing. O bundle não foi selado por falta de VLAB e
+  `visual_vdp_dump.bin`; portanto o projeto continua `buildado` com observação
+  parcial, não `testado_em_emulador` e não AAA.
+- Aprendizado L13: uma pose-mestre aprovada e edição localizada de clusters
+  preservam autoria; gerar quadros independentes não é uma rota aceita.
+- Os contratos ativos de planejamento e budget foram sincronizados com a
+  escala humana aprovada de 59 px, a strip v02 e seus holds. A referência
+  antiga à v05/escala de 48 px foi removida da rota ativa para impedir
+  regressão por um agente futuro.
+**2026-07-04 (sessão 7) — Contrato de traço autoral e lote visual de validação**
+
+- Parecer humano aplicado: `angular_cps2_fighter` era um rótulo amplo demais e permitia arte tecnicamente competente, porém genérica e intercambiável.
+- Criado `doc/art/authorial_line_style_contract.json` com assinatura de contorno/sombra/gesto, gramática de rosto/mãos, hooks de silhueta por personagem, assimetria de figurino, marcas de material e blockers explícitos.
+- Framework canônico endurecido em `art_style_catalog.json`, `SGDK_GLOBAL.md`, `art-creator.md`, `art-director.md` e documentos de qualidade visual; ausência do contrato agora bloqueia claims AAA/estáveis.
+- Prompts 00-06 revisados para transportar a gramática autoral, não apenas referências ou adjetivos de estilo.
+- Geradas 7 imagens: 6 candidatas autorais e 1 descarte auditável por texto indevido. Manifesto/hashes: `data/source_art/concept/authorial_style_validation_2026_07_04/generation_batch_manifest.json`.
+- Contact sheet: `data/processed/contact_sheets/authorial_style_validation_contact_sheet_v01.png`.
+- Status honesto: lote `source_candidate` aguardando ratificação humana; continuam bloqueados `no_pixel_model_sheet`, `dock_scene_kit_not_decomposed`, `budget_not_measured` e `blastem_evidence_missing`.
+
+**2026-07-08 — TAÍNA lineart 48x64: v03/v04 registrados como falha visual rastreável**
+
+- Produzidos candidatos técnicos `taina_lineart_clean_native_48x64_candidate_v03.png` e `v04.png` em `data/processed/characters/taina/lineart/`; ambos são PNG `P`, 192x64, índices `[0,1]`, índice 0 magenta de pipeline e cor visível na grade 9-bit.
+- Criados `model_sheet_to_sprite_fidelity_report_v03.json` e `model_sheet_to_sprite_fidelity_report_v04.json`; decisão conservadora: ambos `rejected_as_clean_native_source`, uso permitido apenas como evidência negativa/referência de grid.
+- Atualizados `lineart_blocking_report_v01.json`, `native_grid_translation_report_v01.json` e `visual_dna_manifest.json` para blocker atual `model_sheet_to_sprite_fidelity_failed_v04`.
+- Diagnóstico de arte global rodado em `out/logs/art_asset_diagnostic_report.json`: 44 assets analisados, 15 ok, 29 precisam conversão; os linearts TAÍNA v01-v04 aparecem tecnicamente ok, mas a promoção visual segue bloqueada.
+- Status honesto: sem color blocking, sem key poses, sem promoção para `res/`, sem build/ROM/emulador. Próxima rota: modelo/sheet nativo hand-authored ou tracing supervisionado do source aprovado, travando primeiro cabeça, hair hooks, face wedge e guarda diagonal.
+
+**2026-07-08 — Build técnico v001 gerado; entrega segue bloqueada por visual/emulador**
+
+- Preflight passou com variáveis temporárias Linux (`USERPROFILE`, `LOCALAPPDATA`, `ProgramFiles`) para contornar suposições Windows do checker; GDK canônico local, `make`, Java, Python e ImageMagick encontrados.
+- Build Linux direto falhou primeiro por caminho com espaço no GDK e depois por mismatch `m68k-elf-gcc` 16.1.0 vs `libmd.a` LTO 13.0.
+- Rota de smoke técnico bem-sucedida: overlay temporário `/tmp/sgdk_win_overlay` com symlinks para os binários Windows do `sdk/sgdk-2.11`, executados via Wine/binfmt; `make` terminou com código 0.
+- ROM gerada e snapshotada em `doc/changelog/roms/build_v001/rom.bin`: 262144 bytes, SHA-256 `5c1489fa944be7f62a06192beef4c783c3f0f2d2939b59d08958b996b0131e75`; metadata em `doc/changelog/roms/build_v001/build_meta.json`.
+- `validate_resources.ps1` reconheceu a ROM, mas fechou com 1 erro/7 warnings: `visual_gate_blocked`, `visual_delivery_gate_missing`, `res_graph_missing_for_visual_delivery`, `scene_tilemap_conversion_report_missing`, `per_tile_palette_conflict_report_missing`, `freshness_audit_stale`, `scene_closeout_gate_missing`.
+- Status honesto: `buildado`/smoke técnico. Ainda não é `testado_em_emulador`, não tem BlastEm, não tem gameplay/performance/audio provados e não remove o bloqueio visual da TAÍNA.
+
+## 21. ATUALIZACAO 2026-07-29 — direção do primeiro jab aberta sob gate de pose-chave
+
+- A próxima ação foi separada corretamente como `combo_hit_1_jab`; o rótulo
+  antigo `light_jab_cross` continua apenas como agrupamento de planejamento.
+  O GDD permanece soberano: combo `jab -> cross -> low_kick`, com cada golpe
+  tendo asset e janela de cancelamento próprios.
+- Foi gerada uma única pose direcional de contato ativo usando somente a fonte
+  autoral e a pose-mestre idle v02:
+  `rascunho/taina_light_jab_cross_v01/taina_light_jab_active_directional_study_v01.png`,
+  SHA-256
+  `8b3c1a73623c7e279141c67fbe410ac6296d3b8b97ca53b7d08f9d8d626cac48`.
+- Parecer: identidade, topologia, linha de ataque, guarda traseira, olhos e
+  apoio dos pés passam como direção. A imagem é RGB 1024×1536, possui
+  antialiasing e fundo cinza variável; fica `directional_review_only`.
+- O envelope proposto para a ação é 64×64, pivot `(24,60)` e altura visível
+  fixa de 59 px. A largura extra preserva o alcance do punho sem encolher a
+  personagem para caber na célula idle 48×64.
+- Contrato de produção:
+  `doc/art/characters/taina/animation/taina_combo_hit_1_jab_production_contract_v01.json`.
+  Ele fixa cinco fases `[3,2,2,3,4]`, frame ativo 2, hitstop de 2 frames,
+  hitbox seed 24×16 na ponta do punho e proíbe geração independente dos
+  quadros.
+- Estado real: nenhuma lineart nativa, strip, `/data/processed`, `/res`, build
+  ou ROM nova foi produzida nesta etapa. O próximo gate é aprovação humana da
+  direção ativa, seguida de redesenho 1 px nativo.
+
+## 22. ATUALIZACAO 2026-07-29 — primeira pose pixel nativa do jab em revisão
+
+- O diretor de arte humano aprovou a direção da pose ativa com `Prossiga`.
+  Essa aprovação cobre a direção high-res, não a nova candidata pixel.
+- Um builder reprodutível foi criado em
+  `tools/art/build_taina_combo_hit_1_jab_key_pose_v01.py`. A rota preserva a
+  cabeça, a paleta, a escala de 59 px e a base corporal da idle v02; não usa
+  v01, proxy v02 ou linearts v05-v07.
+- Candidata nativa:
+  `rascunho/taina_combo_hit_1_jab_v01/taina_combo_hit_1_jab_active_key_pose_64x64_v01.png`,
+  SHA-256
+  `a468a9099bb88264f58f4e0d54c959cbaa3929017166ad2cc695dcc0597a6ff6`.
+- Medições: 64×64, PNG P 4-bit, 10 cores visíveis, bbox `[15,2,59,60]`,
+  altura visível 59 px, uma ilha conectada, pivot `(24,60)`, sem clipping,
+  AA, alpha parcial ou FX assado.
+- O primeiro ensaio interno do builder foi descartado antes do gate porque
+  ampliava demais o punho e blocava o tronco. Aprendizado aplicado: numa ação
+  nova, preservar a maior quantidade possível da topologia humana aprovada e
+  limitar alterações aos clusters cinéticos necessários.
+- Estado real:
+  `technical_pass_human_visual_review_pending`. O alcance lê em 320×224, mas
+  escala do punho e posição da guarda traseira aguardam parecer humano. Os
+  outros quatro frames, strip, `/res`, build e ROM continuam bloqueados.
+
+## 23. ATUALIZACAO 2026-07-29 — primeiro jab promovido, buildado e observado parcialmente
+
+- O diretor de arte humano aprovou a pose pixel nativa com `Prossiga`. A
+  aprovação liberou a derivação controlada, mas não substituiu os gates
+  técnicos.
+- Cinco quadros 64×64 foram derivados da mesma topologia: antecipação,
+  lançamento, contato ativo, recoil e recuperação. Holds NTSC:
+  `[3,2,2,3,4]`, total de 14 VBlanks. Pivot `(24,60)`, altura visível de
+  59 px e contato de solo `y=60` permanecem fixos.
+- Strip promovida:
+  `res/sprites/characters/taina/taina_combo_hit_1_jab_64x64_v01.png`,
+  SHA-256
+  `169f66374bb0d4b0916826c77fc3e0f00e3183d43f526a40db443f2b5a4ca876`.
+  O mesmo hash existe em `data/processed`.
+- `validate_strip` passou; a auditoria de artefatos passou com zero findings.
+  O PNG é P 4-bit, tem dez cores visíveis na grade Mega Drive, uma única ilha
+  conectada por quadro e nenhum AA, alpha parcial ou FX assado.
+- ResComp passou. Frames 0–4 usam respectivamente `[24,28,28,28,24]` tiles
+  e `[2,2,3,2,2]` partes de metasprite. O pico é o contato ativo: 28 tiles
+  (896 bytes brutos) e três partes. A ação isolada cabe; a pressão combinada
+  com inimigos, HUD e FX ainda não foi medida.
+- O runtime troca de `spr_taina_idle_guard` para
+  `spr_taina_combo_hit_1_jab`, toca manualmente os cinco quadros e restaura a
+  idle. `C` e `X` disparam o golpe: o suporte a `C` corrige a falha descoberta
+  no primeiro ensaio, em que um mapeamento apenas para `X` não atendia o pad
+  padrão de três botões.
+- Build Linux pela bridge passou. ROM: 262144 bytes, SHA-256
+  `0c281347c4d1673855a45a646cd639a395d0ea7279e15cd0b28c49d538db3822`.
+  A mesma identidade foi capturada no BlastEm, cena 3, janela a 60,1 fps.
+- O burst visual mostra antecipação, extensão total, recoil e retorno à
+  guarda. A silhueta, a escala, o cabelo e os materiais da TAÍNA v02
+  permanecem legíveis. Evidência:
+  `out/blastem_env_taina_combo_hit_1_jab_v01/blastem-linux-20260729T111215Z-598254/`.
+- O selo canônico foi rejeitado por `vlab_block_missing`,
+  `artifact_missing:vdp_dump` e `artifact_missing:runtime_metrics`.
+  Consequentemente, o estado máximo é
+  `buildado_runtime_animation_observed_partial_evidence`; não
+  `testado_em_emulador`, não budget completo e não AAA.
+- O hitstop de dois VBlanks continua contrato de gameplay, ainda não
+  implementado: esta integração prova somente reprodução visual, não colisão,
+  dano, cancelamento ou confirmação de impacto.
+
+## 24. ATUALIZACAO 2026-07-29 — contact sheet corrigida e recurso do jab deduplicado
+
+- A prancha 6×8 revisada pelo humano não era spritesheet: continha 48 amostras
+  temporais consecutivas do BlastEm. As repetições de idle pertenciam à janela
+  de captura e nunca foram 48 frames residentes em VRAM.
+- A revisão revelou, porém, uma duplicação real: frames físicos 0 e 4 do jab
+  eram idênticos, e o frame 0 também era idêntico à idle aprovada.
+- O recurso runtime v02 agora armazena somente três desenhos novos:
+  lançamento, contato ativo e recoil. Antecipação e recuperação reutilizam
+  `spr_taina_idle_guard` frame 0. As cinco fases e holds `[3,2,2,3,4]`
+  permanecem inalterados.
+- Novo asset:
+  `res/sprites/characters/taina/taina_combo_hit_1_jab_runtime_unique_64x64_v02.png`,
+  192×64, três células 64×64, SHA-256
+  `3032acffd192412005fd61ef30e95f8307a7806a4ed30ca253f67efca1aca783`.
+- ResComp passou: `[28,28,28]` tiles e `[2,3,2]` partes. O recurso bruto caiu
+  de 3668 para 2862 bytes, economia de 806 bytes/21,97%. O pico VRAM continua
+  28 tiles/896 bytes porque o frame ativo não mudou.
+- O marcador de mundo `START` em BG_B foi removido. Ele aparecia através dos
+  pixels transparentes; nenhum pixel da personagem estava oculto ou destruído,
+  portanto nenhuma reconstrução do sprite foi necessária.
+- Todos os rótulos visíveis `START` foram removidos da cena de revisão; o
+  controle continua respondendo ao botão `BUTTON_START`, mas o texto não
+  contamina nenhuma captura.
+- ROM final desta correção: 262144 bytes, SHA-256
+  `825dc80baa346129512ea0ef0c0eba2ab09d2a4080824a07bdeb75ded532dd2a`.
+  A cena 3 abriu no BlastEm e a captura confirma o fundo limpo, sem ocorrência
+  visual de `START`.
+- Limite honesto: o transporte automático não acionou o jab na captura desta
+  ROM. O playback observado na ROM anterior não é transferido para o novo
+  hash. Estado atual:
+  `buildado_final_rom_boot_observed_attack_playback_recapture_pending`.
+
+## 25. ATUALIZACAO 2026-07-29 — locomocao P0 e primeiro recorte modular do CAIS_01
+
+- A fonte visual permaneceu restrita à TAÍNA idle v02 aprovada. Os linearts
+  v05, v06 e v07 não foram usados. O builder determinístico
+  `tools/art/build_taina_p0_locomotion_v01.py` produziu três strips sem
+  duplicação física: caminhada de combate com seis quadros, corrida/avanço
+  com quatro e pulo com oito.
+- Os três relatórios `sprite_artifact_report.v2` passaram sem clipping,
+  artefatos de borda, ilhas desconectadas ou matte residual. Todos os assets
+  usam PAL1, pivot inferior coerente e células 48×64 ou 64×64. Ainda são
+  `runtime_candidates`: a observação prova leitura e funcionamento, não
+  aprovação artística quadro a quadro.
+- O runtime de `APP_SCENE_DEMO` agora alterna idle, andar, correr, pular e
+  jab. A corrida usa `B/Z`, o pulo `A/Y` e o jab `C/X`. O pulo escolhe
+  takeoff, subida, ápice, queda e pouso a partir da velocidade vertical; o
+  jab preserva cinco fases lógicas reutilizando idle na antecipação e
+  recuperação.
+- ResComp mediu os picos isolados: idle 40 tiles/2 partes, andar 32/5,
+  corrida 48/6, pulo 33/4 e jab 28/3. O pior estado isolado é a corrida,
+  48 tiles ou 1536 bytes. Pressão combinada com inimigos, HUD e FX ainda não
+  foi medida.
+- O primeiro recorte do CAIS_01 foi construído por montagem modular nativa,
+  sem reduzir um panorama pronto. BG_B/PAL0 contém céu, silhueta industrial e
+  mar; BG_A/PAL2 contém borda do píer, piso, caixas, cabeço, corda, poste,
+  rede e espuma que sinaliza o ring-out à direita. É uma sala travada de
+  320×224, não o mundo streamado final.
+- ResComp deduplicou o cenário para 95 tiles em BG_B e 109 em BG_A: 204
+  tiles/6528 bytes de gráficos, além de 4480 bytes de mapas. Parallax,
+  streaming, foreground de oclusão e animação da espuma continuam pendentes.
+- Build Linux pela bridge passou. ROM atual: 262144 bytes, SHA-256
+  `e1fc0dd5180ffb09f74087248f1d4d363ace93b5c1a74f0e307c1b8f3e05c1c6`.
+- O BlastEm mostrou a composição atual e capturas sincronizadas comprovam
+  idle, andar, correr, pulo em subida/ápice/queda e extensão do jab na mesma
+  ROM. Prancha:
+  `out/evidence/taina_cais01_runtime_v01/taina_cais01_runtime_contact_sheet_v01.png`.
+- O primeiro roteiro de captura de movimento abriu a cena errada e foi
+  movido para `out/evidence/rejected/`; ele não conta como evidência. Duas
+  tentativas posteriores erraram a duração dos eventos `pressed` e também
+  não foram usadas para reivindicar pulo/golpe até a recaptura correta.
+- O selo formal continua bloqueado por `vlab_block_missing`,
+  `artifact_missing:vdp_dump` e `artifact_missing:runtime_metrics`.
+  Status máximo desta rodada:
+  `buildado_runtime_observed_partial`; não `testado_em_emulador`, não
+  `validado_budget`, não arte final e não AAA.
+- A auditoria global encontrou 62 assets em `/res`: 29 `ok`, 33 herdados ou
+  antigos ainda necessitando conversão. Os cinco recursos novos desta rodada
+  aparecem como `ok`, mas isso não limpa a dívida visual global.
+
+## 26. ATUALIZACAO 2026-07-29 — passe de densidade visual v02 do CAIS_01
+
+- O feedback humano registrou que o teste funcional ainda estava abaixo dos
+  melhores jogos comerciais do Mega Drive em paleta, detalhe do lutador,
+  profundidade do fundo e iluminação. A regra foi incorporada ao feedback bank
+  como `Teste Funcional Nao Atinge Densidade Comercial`.
+- O cenário v02 foi reconstruído diretamente da direção autoral do kit do cais,
+  sem usar o PNG runtime v01 como fonte. BG_B agora tem 512×224 para suportar
+  scroll por bandas, com cinco degraus de céu, cidade, guindastes, barco e mar;
+  BG_A mantém 320×224 e ganhou madeira com nós/desgaste, fascia, props, espuma,
+  lampião e reflexos molhados.
+- O runtime usa `HSCROLL_TILE` com 28 linhas de tile, quatro bandas de
+  profundidade e 112 bytes de tabela por quadro via `DMA_QUEUE`. O lampião
+  atualiza apenas PAL2 índices 14–15, quatro estados, 4 bytes a cada 8
+  VBlanks. Não há H-Int, alpha ou falso gradiente.
+- Foi adicionada sombra de contato separada com três células, compartilhando
+  os escuros de PAL1. O ResComp mediu pico de 8 tiles/256 bytes e uma parte;
+  combinada ao pior estado atual da TAÍNA, são 56 tiles e sete partes.
+- ResComp mediu 249 tiles em BG_B e 277 em BG_A: 526 tiles/16832 bytes de
+  gráficos e 5824 bytes de tilemaps. Esse é budget do recorte; inimigos, HUD e
+  hit FX ainda não estão incluídos.
+- Build Linux pela bridge passou. ROM: 262144 bytes, SHA-256
+  `52856afcda732128e13012797a1acab7732ef56f85bdbe698c31742246efd70c`.
+  O BlastEm confirmou cena, parallax, pulso de paleta e sombra. Comparação:
+  `out/evidence/cais01_visual_v02_hash52856/cais01_runtime_compare_v01_v02.png`.
+- O pacote formal foi rejeitado por `vlab_block_missing`,
+  `artifact_missing:vdp_dump` e `artifact_missing:runtime_metrics`. O
+  `validate_resources.ps1` confirmou metodologia, higiene e caminhos do
+  `.res`, mas ficou prolongado na agregação posterior e foi interrompido; não
+  conta como validação completa.
+- A TAÍNA runtime não foi usada como fonte de refinamento. O próximo passe está
+  congelado em
+  `doc/art/characters/taina/taina_visual_detail_reseed_brief_v03.json`: voltar
+  à imagem 04/concept autoral, redesenhar model sheet pixel 48×64 e obter
+  aprovação humana antes de recriar strips.
+- Status máximo:
+  `buildado_runtime_observed_partial`. O cenário melhorou de forma observável,
+  mas arte final, `validado_budget`, `testado_em_emulador` e AAA permanecem
+  bloqueados.
+
+## 27. ATUALIZACAO 2026-07-29 — passe de assinatura visual v03 do CAIS_01
+
+- O direcionamento humano pediu um porto ao pôr do sol no patamar dos jogos
+  comerciais mais avançados do Mega Drive. Streets of Rage 2/3 e Sonic 2
+  foram usados somente como referência técnica de contraste, hierarquia,
+  textura e scroll; nenhum tile, layout, sprite ou paleta foi copiado. A fonte
+  autoral continua sendo
+  `data/source_art/concept/authorial_style_validation_2026_07_04/dock_scene_kit_authorial_v01.png`.
+- `tools/art/build_cais01_signature_pass_v03.py` reconstrói os dois planos em
+  512×224. BG_B/PAL0 recebeu sol com borda ditherizada, cidade distante
+  violeta, cidade próxima quase preta, janelas quentes, dois guindastes,
+  reflexo solar quebrado e clusters de água. BG_A/PAL2 recebeu píer integral,
+  manchas de óleo, marcas de pneus, rachaduras, pregos, reflexos, stencil MB,
+  caixas, corda, poste e sinalização de ring-out.
+- O runtime passou de `HSCROLL_TILE` para `HSCROLL_LINE`, com owner único
+  `SCENE_demo` e sem H-Int. As 224 linhas usam quatro regimes: céu 1/8,
+  cidade distante 1/4, cidade próxima 1/2 e água 1/4 mais onda variável. BG_A
+  acompanha a câmera em 1/1. As duas tabelas custam exatamente 896 bytes de
+  DMA por quadro; o fallback é `HSCROLL_PLANE`.
+- A TAÍNA recebeu apenas uma paleta runtime de contraluz, com penumbra
+  violeta quase preta, borda quente e acento turquesa. A geometria não foi
+  refinada a partir de strips runtime: o reseed de detalhe permanece obrigado
+  a voltar para a imagem 04/model sheet autoral.
+- Foram adicionados dois sprites de fumaça 32×32/4 quadros compartilhando
+  PAL0 e duas partículas de poeira 16×16/4 quadros compartilhando PAL2.
+  ResComp mediu 12 tiles/uma parte por fumaça e até 4 tiles/uma parte por
+  poeira.
+- A primeira captura da v03 revelou que a sombra checker v02 ficava ruidosa
+  sob a nova PAL1. A sombra v03 foi refeita com núcleo sólido quase preto e
+  borda violeta esparsa; a segunda captura confirmou a correção. Aprendizado:
+  uma solução de transparência aceitável numa paleta pode falhar quando essa
+  paleta é reinterpretada; todo compartilhamento deve ser revisto no contexto
+  runtime final.
+- ResComp mediu 431 tiles em BG_B e 384 em BG_A: 815 tiles/26080 bytes de
+  gráficos. O pior conjunto autorado visível atual — corrida da TAÍNA, sombra,
+  duas fumaças e duas poeiras — soma 88 tiles/2816 bytes e 11 partes de
+  sprite. O teto conservador de DMA em um quadro de troca simultânea é 4356
+  bytes, ainda estimativa; scanline e DMA reais não foram instrumentados.
+- Build Linux pela rota `linux_wine_bridge` passou. ROM: 262144 bytes,
+  SHA-256
+  `9c2e3e9d82e4fa4ef678bd0a087ffd74a950bd5711ad4748c6a9278fc476ce4d`.
+  O BlastEm abriu diretamente a cena 3 e confirmou composição, parallax por
+  linha, água, contraluz, fumaça, poeira, pulso do lampião e sombra corrigida.
+  Comparação e animação:
+  `out/evidence/cais01_signature_v03_hash9c2e3e/`.
+- O pacote canônico continua rejeitado por `vlab_block_missing`,
+  `artifact_missing:vdp_dump` e `artifact_missing:runtime_metrics`. Também
+  faltam inimigos, HUD e hit FX no orçamento conjunto. Status máximo:
+  `buildado_runtime_observed_partial`; não `testado_em_emulador`, não
+  `validado_budget`, não arte final e não AAA.
+
+## 28. ATUALIZACAO 2026-07-29 — alinhamento autoral v04 do CAIS_01
+
+- A revisão humana reconheceu os efeitos técnicos da v03, mas reprovou sua
+  coesão: céu, skyline, piso e props pareciam colados e genéricos. O caso foi
+  registrado no feedback bank como
+  `Efeito Tecnico Forte Sobre Composicao Generica`.
+- A v04 separa explicitamente as fontes. `bgb_loop_mar_ceu_v01.png` fornece
+  ritmo de nuvens e massa portuária; `cais_arena1_entrada_v01.png` fornece
+  composição de caixas/poste/rede/faixa; o kit autoral aprovado fornece marcas
+  de madeira, corda, rede e metal. Painéis antigos continuam apenas
+  mood/landmark reference e nunca viraram panorama final ou downscale direto.
+- `tools/art/build_cais01_art_alignment_pass_v04.py` redesenha os dois planos
+  em 512×224 no grid nativo. A composição recupera nuvens horizontais, porto
+  industrial compacto, sol central ditherizado, uma caixa grande com duas
+  menores à esquerda, poste/rede à direita e madeira com veios, nós,
+  rachaduras, pregos e óleo.
+- A primeira captura v04 mostrou a corda enrolada atrás da cabeça da TAÍNA e
+  uma mancha de óleo confundindo a sombra de contato. Ambos foram deslocados;
+  a captura final deixa a silhueta livre. A TAÍNA não teve geometria nem
+  textura derivada de strip runtime: detalhe de tecido continua exigindo
+  reseed pela imagem 04/model sheet aprovado.
+- As técnicas v03 foram preservadas: `HSCROLL_LINE` via DMA em VBlank, sem
+  H-Int; reflexo quebrado, fumaça, poeira, palette cycling e contraluz runtime.
+- Pixel strict passou: PNG P, 512×224, grid 8×8, índice 0 magenta, até 15
+  cores visíveis por plano, cores no grid de 9 bits e zero alpha parcial.
+  ResComp mediu 484 tiles em BG_B e 385 em BG_A: 869 tiles/27808 bytes.
+  Com o envelope atual de 948 tiles de usuário, restam 79; decisão de budget:
+  `cabe com recuo`. Novos detalhes devem reutilizar tiles, e o mundo de
+  1344px exige streaming.
+- Build Linux pela bridge passou. ROM final: 262144 bytes, SHA-256
+  `825e687c8f0513f2d2d9f634f980be83426a2b84a457b0ddef6978271bfba429`.
+  O BlastEm abriu a cena 3; a janela registrou 61,1 fps e a comparação
+  v03/v04 está em
+  `doc/art/environments/cais01/review/cais01_runtime_compare_v03_v04.png`.
+- O selo formal foi rejeitado por `vlab_block_missing`,
+  `artifact_missing:vdp_dump` e `artifact_missing:runtime_metrics`. Status
+  máximo: `buildado_runtime_observed_partial`; não `testado_em_emulador`, não
+  `validado_budget`, não arte final e não AAA.
+- `validate_resources.ps1` confirmou metodologia, higiene e os caminhos
+  `.res`, então entrou na agregação prolongada sem concluir por mais de dois
+  minutos e foi interrompido. Nenhum `validation_report.json` completo foi
+  emitido. O freshness audit permanece `warning` por esse relatório ausente,
+  `res_graph` stale, build output ausente e falta de scene contract compile.
+
+## 29. ATUALIZACAO 2026-08-29 — CRIA idle nativo no CAIS_01
+
+- Primeiro ciclo do pipeline F-R2 no jogo: construction Imagine 3/4 a partir
+  da prancha autoral, lineart de construcao, pixels nativos 48x64, PAL3,
+  idle 4 frames com chinelos plantados. O video de idle levantou o pe e foi
+  recusado como fonte de pixel.
+- ROM sha256
+  `854a18bea4fc8bdff7d71908bc52d8796d7a08a3b77753a479ff16810720de54`.
+  BlastEm cena 3 `blastem-linux-20260829T162243Z-2229911`. TAÍNA e CRIA
+  visiveis no cais; a CRIA foi deslocada para fora da corda do lampiao.
+- ResComp: 29-30 tiles / 3-4 partes por quadro. Bundle canonico rejeitado
+  (`vlab_block_missing`, `vdp_dump`, `runtime_metrics`).
+- A CRIA nativa ainda e mais blocada que a TAÍNA v02. Sem walk, telegraph,
+  hit, IA ou ESTIVADOR. `visual_pass=false`. `ready_for_aaa=false`.
+  Parecer humano da strip nativa ainda pendente.

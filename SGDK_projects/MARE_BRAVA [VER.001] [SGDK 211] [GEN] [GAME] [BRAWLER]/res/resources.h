@@ -13,5 +13,16 @@ extern const Image img_brand_engine_logo;
 extern const Image img_brand_author_logo;
 extern const Image img_brand_project_logo;
 extern const Image img_brand_presents_text;
+extern const Image img_cais01_bg_b_mar_ceu;
+extern const Image img_cais01_bg_a_pier_modular;
+extern const SpriteDefinition spr_taina_idle_guard;
+extern const SpriteDefinition spr_cria_idle_lean;
+extern const SpriteDefinition spr_taina_walk_combat_step;
+extern const SpriteDefinition spr_taina_dash_or_step_in;
+extern const SpriteDefinition spr_taina_jump_rise_fall_landing;
+extern const SpriteDefinition spr_taina_combo_hit_1_jab;
+extern const SpriteDefinition spr_taina_ground_shadow;
+extern const SpriteDefinition spr_cais01_smoke;
+extern const SpriteDefinition spr_cais01_lamp_dust;
 
 #endif // _RES_RESOURCES_H_

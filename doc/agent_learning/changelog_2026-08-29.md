@@ -124,3 +124,14 @@ com GIF no BlastEm (`blastem-linux-20260829T160037Z-2172149`).
 Screenshot ainda parece walk; alcance do soco curto; pernas ainda
 salsicha. Kit R2 de motion do fixture fechado (idle+walk+punch).
 Continua lab. Nao e `ready_for_aaa`. `visual_pass=false`.
+
+## MARE_BRAVA — CRIA idle nativo (2026-08-29j)
+
+Pipeline F-R2 no jogo: construction Imagine (nao prompt de sprite sheet
+MD), lineart 1px, color hue-shift, idle 4 frames 48x64, PAL3.
+Video recusado como downscale (pe no ar). ROM
+`854a18bea4fc8bdff7d71908bc52d8796d7a08a3b77753a479ff16810720de54`
+com TAÍNA+CRIA no BlastEm cena 3
+(`blastem-linux-20260829T162243Z-2229911`). CRIA ainda abaixo da
+TAÍNA v02. Sem IA, sem ESTIVADOR. Continua `visual_pass=false` e
+`ready_for_aaa=false`.

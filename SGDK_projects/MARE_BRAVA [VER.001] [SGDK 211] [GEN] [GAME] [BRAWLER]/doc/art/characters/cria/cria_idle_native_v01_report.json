@@ -1,0 +1,54 @@
+{
+  "asset_kind": "animation_strip",
+  "action": "idle_lean_nervous",
+  "character": "cria",
+  "cell": [
+    48,
+    64
+  ],
+  "frames": 4,
+  "timing_vblank": [
+    8,
+    7,
+    8,
+    7
+  ],
+  "pivot": {
+    "x": 24,
+    "y": 60,
+    "role": "foot_plant"
+  },
+  "facing": "left_opponent",
+  "pixel_route": "locked_48x64_not_video_downscale",
+  "source_construction": [
+    "data/source_art/concept/cria_identity_model_sheet/cria_idle_construction_34_v01.png",
+    "data/source_art/concept/cria_identity_model_sheet/cria_idle_lineart_construction_v01.png"
+  ],
+  "source_motion_ref_only": "data/source_art/motion/cria_idle_source.mp4",
+  "video_drift": "harvest_lifted_back_foot_refused_as_pixel_source",
+  "must_preserve": [
+    "forward_lean",
+    "backwards_cap_red_visor",
+    "pointy_elbows",
+    "flip_flops_planted",
+    "red_star_and_wrist",
+    "wiry_thin_mass"
+  ],
+  "bbox_frame0": [
+    5,
+    4,
+    39,
+    61
+  ],
+  "visible_height": 58,
+  "foot_y": [
+    61,
+    61,
+    61,
+    61
+  ],
+  "unique_indices_frame0": 14,
+  "palette_slot": "PAL3_enemy_roster",
+  "not_aaa_claim": true,
+  "res": "res/sprites/characters/cria/cria_idle_lean_48x64_v01.png"
+}

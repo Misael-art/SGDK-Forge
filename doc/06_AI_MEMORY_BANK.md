@@ -67,8 +67,11 @@
   ROM `8b182016…ee6033` com GIF no BlastEm. (2026-08-29i) punch 4
   fases 8-4-10-12 na mesma sheet 192x192; ROM `a34c2d0f…cd79da`
   com GIF no BlastEm (screenshot ainda parece walk; alcance curto).
-  Continua laboratorio. Nao declarar que o Forge ja gera no piso
-  Rheo/Pigsy.
+  Continua laboratorio. (2026-08-29j) o mesmo pipeline entrou no
+  MARE_BRAVA: CRIA idle nativo 48x64 PAL3 no CAIS_01; ROM
+  `854a18be…20de54` com TAÍNA+CRIA no BlastEm. Continua
+  `visual_pass=false` / `ready_for_aaa=false`. Nao declarar que o
+  Forge ja gera no piso Rheo/Pigsy.
 - Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
   por concept high-res; fake pixel art do gerador e rejeicao, nao input
   de quantize.

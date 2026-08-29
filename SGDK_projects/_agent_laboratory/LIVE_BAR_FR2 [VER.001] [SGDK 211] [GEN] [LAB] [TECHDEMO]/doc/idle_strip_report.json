@@ -1,0 +1,46 @@
+{
+  "asset_kind": "animation_strip",
+  "action": "idle_guard_breathing",
+  "frames": 4,
+  "cell": [
+    48,
+    64
+  ],
+  "time_vblank": 12,
+  "source_motion": [
+    "data/source_art/motion/hero_idle_source.mp4",
+    "data/source_art/motion/thug_idle_source.mp4"
+  ],
+  "pixel_route": "locked_48x64_deltas_not_video_downscale",
+  "phases": [
+    {
+      "i": 0,
+      "name": "rest"
+    },
+    {
+      "i": 1,
+      "name": "inhale"
+    },
+    {
+      "i": 2,
+      "name": "peak_fist_bob"
+    },
+    {
+      "i": 3,
+      "name": "settle"
+    }
+  ],
+  "pivot": {
+    "hero": [
+      24,
+      63
+    ],
+    "thug": [
+      24,
+      63
+    ],
+    "role": "foot_plant"
+  },
+  "foot_lock": true,
+  "not_aaa_claim": true
+}

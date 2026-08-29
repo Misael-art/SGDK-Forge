@@ -14,7 +14,7 @@
     "stage_reauthored_as_tiles": "pass",
     "plane_hierarchy_player_wins": "pass",
     "hardware_serves_the_picture": "not_applicable",
-    "motion_proven_from_output": "fail",
+    "motion_proven_from_output": "pass",
     "promised_fps_with_promised_density": "not_applicable",
     "source_basic_elite_rom_comparison_when_translated": "pass",
     "crt_240p_reading": "not_applicable",
@@ -30,24 +30,26 @@
     "compare_flat_lab_not_dual_plane",
     "vlab_block_missing",
     "visual_vdp_dump_missing",
-    "lab_not_delivery"
+    "lab_not_delivery",
+    "not_an_aaa_game"
   ],
   "evidence": {
     "native_320x224": true,
-    "motion_if_moving": false,
+    "motion_if_moving": true,
     "source_basic_elite_rom": true,
     "blastem_bundle": true,
     "paths": [
       "out/rom.bin",
-      "out/evidence/blastem-linux-20260829T145400Z-2004886/screenshot.png",
-      "data/processed/dock/in_scene_320x224.png",
-      "doc/changelog/roms/build_v004/rom.bin",
-      "doc/changelog/roms/build_v004/screenshot.png"
+      "out/evidence/blastem-linux-20260829T150425Z-2031269/screenshot.png",
+      "out/evidence/blastem-linux-20260829T150425Z-2031269/runtime_animation.gif",
+      "data/processed/motion/hero_idle.gif",
+      "data/processed/motion/thug_idle.gif",
+      "doc/changelog/roms/build_v005/rom.bin"
     ]
   },
   "authorship": {
     "benchmark_used_as": "quality_bar",
     "their_pixels_in_source_art": false
   },
-  "notes": "Native dock 8x8 vocabulary (99 unique tiles vs 931 quantize). IMAGE compare_flat on BG_B. Plane index 0 never painted; backdrop = PAL2 fog. ROM 131072 B sha256 2411a37d0472f59aaccf1228ec3811b5ef0128ee97ceb350b27ccff70663b3ed. Resources ~7KB vs 33KB. visual_pass=false. lab_not_delivery=true. No motion."
+  "notes": "Idle 4-frame from Imagine video harvest translated as locked-grid deltas (not downscale). PAL2 water cycle slots 4-6. ROM sha256 e3720f3210180dbf70e55fb65f5fe31703e64d60b5fcce630487f3b8691dca99. GIF from BlastEm burst. F-R2 remains lab fixture, not an aaa_game. visual_pass=false. ready_for_aaa=false."
 }

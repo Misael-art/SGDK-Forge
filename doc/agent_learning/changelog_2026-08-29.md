@@ -94,3 +94,13 @@ plano nao pintado (VDP transparente; backdrop = nevoa PAL2). Recursos
 7 KB vs 33 KB. ROM
 `2411a37d0472f59aaccf1228ec3811b5ef0128ee97ceb350b27ccff70663b3ed`
 vista no BlastEm. Nao e palco dual-plane nem `visual_pass`. Sem motion.
+
+## F-R2 idle + agua (2026-08-29g)
+
+Video Imagine de guarda no lugar → harvest; pixels do idle sao deltas
+no sprite 48x64 travado (4 frames, pes plantados, time=12). Ciclo PAL2
+slots 4-6 na agua. ROM
+`e3720f3210180dbf70e55fb65f5fe31703e64d60b5fcce630487f3b8691dca99`
+com GIF de burst no BlastEm. Continua `lab_not_delivery`. Nao e
+`ready_for_aaa`. O patamar AAA pede cena de `aaa_game` + humano, nao
+esta fixture sozinha.

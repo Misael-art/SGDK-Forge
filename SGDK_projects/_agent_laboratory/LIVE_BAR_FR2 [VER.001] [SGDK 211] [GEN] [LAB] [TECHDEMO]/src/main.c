@@ -4,8 +4,8 @@
 /*
  * LIVE_BAR_FR2 — lab fixture for palette roles (R2).
  * PAL0 player, PAL1 enemy, PAL2 dock BG, PAL3 spare FX.
- * lab_not_delivery: sprites color-blocked on locked 48x64 lineart.
- * Dock is native 8x8 vocabulary on PAL2 (compare_flat, not photo quantize).
+ * lab_not_delivery: native sprites with 4-frame idle; dock 8x8 compare_flat.
+ * PAL2 water slots 4-6 cycle as declared atmosphere, not alpha.
  */
 
 int main(bool hardReset)
@@ -15,6 +15,8 @@ int main(bool hardReset)
     Sprite *thug;
     Sprite *fx;
     u16 frame = 0;
+    u16 pal2[16];
+    u16 i;
 
     (void)hardReset;
 
@@ -27,6 +29,8 @@ int main(bool hardReset)
     PAL_setPalette(PAL3, spr_fx.palette->data, DMA);
     /* Plane index 0 is transparent; backdrop must not be PAL0 magenta. PAL2 fog = 32+11. */
     VDP_setBackgroundColor(43);
+    for (i = 0; i < 16; i++)
+        pal2[i] = img_dock.palette->data[i];
 
     tileIndex = TILE_USER_INDEX;
     VDP_drawImageEx(
@@ -42,6 +46,10 @@ int main(bool hardReset)
     hero = SPR_addSprite(&spr_hero, 72, 144, TILE_ATTR(PAL0, TRUE, FALSE, FALSE));
     thug = SPR_addSprite(&spr_thug, 200, 144, TILE_ATTR(PAL1, TRUE, FALSE, FALSE));
     fx = SPR_addSprite(&spr_fx, 152, 96, TILE_ATTR(PAL3, TRUE, FALSE, FALSE));
+    if (hero != NULL)
+        SPR_setAnim(hero, 0);
+    if (thug != NULL)
+        SPR_setAnim(thug, 0);
 
     VDP_setTextPalette(PAL3);
     VDP_drawText("FR2 PAL0 hero PAL1 thug", 1, 0);
@@ -54,8 +62,14 @@ int main(bool hardReset)
         {
             SPR_setVisibility(fx, (frame & 8) ? VISIBLE : HIDDEN);
         }
-        (void)hero;
-        (void)thug;
+        if ((frame & 31) == 0)
+        {
+            u16 tmp = pal2[4];
+            pal2[4] = pal2[5];
+            pal2[5] = pal2[6];
+            pal2[6] = tmp;
+            PAL_setPalette(PAL2, pal2, DMA);
+        }
         SPR_update();
         SYS_doVBlankProcess();
     }

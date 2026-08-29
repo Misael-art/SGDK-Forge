@@ -1,27 +1,20 @@
 # 10 - Memory Bank — LIVE_BAR_FR2
 
 **Ultima atualizacao:** 2026-08-29
-**Fase:** laboratorio F-R2 fase 2 (cais nativo 8x8 + sprites coloridos)
+**Fase:** laboratorio F-R2 (idle nativo + ciclo de agua)
 **lab_not_delivery:** true
 
 ## O que e
 
-Fixture R2: PAL0 jogador, PAL1 inimigo, PAL2 cais, PAL3 FX folga.
-
-## Fontes
-
-- Concept Imagine: `data/source_art/{hero,thug,dock}_source.jpg`
-- Sprites: lineart + color blocking nativos 48x64
-- Cais: `tools/build_native_dock.py` (vocabulario 8x8, PAL2)
-- Quantize v001: `data/processed/obsolete_downscale/` (nao e fonte)
+Fixture R2: PAL0 jogador, PAL1 inimigo, PAL2 cais, PAL3 FX.
 
 ## Status
 
 - documentado: sim
-- implementado: sim
-- buildado: sim (`out/rom.bin` 131072 B, sha256 `2411a37d0472f59aaccf1228ec3811b5ef0128ee97ceb350b27ccff70663b3ed`)
-- testado_em_emulador: parcial — BlastEm screenshot + SRAM + semantic gate `passed` (`blastem-linux-20260829T145400Z-2004886`); bundle canonico rejeitado
+- implementado: sim (idle 4 frames, water cycle)
+- buildado: sim (`out/rom.bin` 131072 B, sha256 `e3720f3210180dbf70e55fb65f5fe31703e64d60b5fcce630487f3b8691dca99`)
+- testado_em_emulador: parcial — BlastEm screenshot + runtime_animation.gif + semantic gate `passed`
 - ready_for_aaa: false
-- live_scene_bar: `needs_review` (pixel nativo da cena passou; motion falhou; compare_flat)
+- live_scene_bar: `needs_review` (piso compartilhado da fixture passou no recorte; nao e aaa_game)
 
-Evidencia v004 (cais nativo): `out/evidence/blastem-linux-20260829T145400Z-2004886/screenshot.png`
+Evidencia v005: `out/evidence/blastem-linux-20260829T150425Z-2031269/`

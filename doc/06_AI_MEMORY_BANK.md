@@ -61,9 +61,10 @@
   (2026-08-29d) redesenhou heroi/thug em lineart 1 px nativo 48x64;
   (2026-08-29e) color blocking com rampas hue-shift; ROM
   `f694b841…0c73f9` color blocking; (2026-08-29f) cais nativo 8x8
-  (99 tiles vs 931), ROM `2411a37d…63b3ed` no BlastEm. Nao e
-  `visual_pass`. Sem motion. Nao declarar que o Forge ja gera no
-  piso Rheo/Pigsy.
+  (99 tiles vs 931); (2026-08-29g) idle 4 frames + ciclo de agua,
+  ROM `e3720f32…1dca99` com GIF no BlastEm. Continua laboratorio.
+  Nao e `ready_for_aaa`. Nao declarar que o Forge ja gera no piso
+  Rheo/Pigsy.
 - Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
   por concept high-res; fake pixel art do gerador e rejeicao, nao input
   de quantize.

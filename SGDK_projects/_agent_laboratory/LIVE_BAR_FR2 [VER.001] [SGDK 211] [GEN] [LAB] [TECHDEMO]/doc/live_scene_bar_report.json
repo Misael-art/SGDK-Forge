@@ -40,17 +40,18 @@
     "blastem_bundle": true,
     "paths": [
       "out/rom.bin",
-      "out/evidence/blastem-linux-20260829T150425Z-2031269/screenshot.png",
-      "out/evidence/blastem-linux-20260829T150425Z-2031269/runtime_animation.gif",
-      "data/processed/motion/hero_idle.gif",
-      "data/processed/motion/thug_idle.gif",
-      "doc/changelog/roms/build_v006/rom.bin",
-      "doc/changelog/roms/build_v006/runtime_animation.gif"
+      "out/evidence/blastem-linux-20260829T160037Z-2172149/screenshot.png",
+      "out/evidence/blastem-linux-20260829T160037Z-2172149/runtime_animation.gif",
+      "data/processed/motion/hero_punch.gif",
+      "data/processed/motion/thug_punch.gif",
+      "data/processed/motion/hero_iwp_sheet.png",
+      "doc/changelog/roms/build_v007/rom.bin",
+      "doc/changelog/roms/build_v007/runtime_animation.gif"
     ]
   },
   "authorship": {
     "benchmark_used_as": "quality_bar",
     "their_pixels_in_source_art": false
   },
-  "notes": "Walk 4-frame on locked 48x64 (contact/pass/contact/pass) plus idle. ROM sha256 8b1820166e50fd125f3252397922c8922f63e8b591e2e7f9c66013a07aee6033. BlastEm GIF proves stride change. F-R2 remains lab, not aaa_game. visual_pass=false. ready_for_aaa=false."
+  "notes": "Punch 4-frame (anticipation/active/hitstop/recovery, 8-4-10-12) on locked 48x64 plus idle+walk. ROM sha256 a34c2d0fd8f074b0dee1cb84c6468b91a36f8647da168f91fa1071a1d9cd79da. Native sheet proves four punch phases; BlastEm still screenshot looks like walk; punch travel is short; legs still sausage. F-R2 remains lab, not aaa_game. visual_pass=false. ready_for_aaa=false."
 }

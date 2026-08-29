@@ -4,8 +4,8 @@
 /*
  * LIVE_BAR_FR2 — lab fixture for palette roles (R2).
  * PAL0 player, PAL1 enemy, PAL2 dock BG, PAL3 spare FX.
- * lab_not_delivery: idle + walk strips; dock 8x8 compare_flat.
- * PAL2 water slots 4-6 cycle. Anim 0 idle, anim 1 walk (2s each).
+ * lab_not_delivery: idle / walk / punch. Dock 8x8 compare_flat.
+ * Punch timing 8-4-10-12. PAL2 water cycle.
  */
 
 int main(bool hardReset)
@@ -54,7 +54,7 @@ int main(bool hardReset)
         SPR_setAnim(thug, 0);
 
     VDP_setTextPalette(PAL3);
-    VDP_drawText("FR2 idle/walk PAL0-3 LAB", 1, 0);
+    VDP_drawText("FR2 idle walk punch LAB", 1, 0);
     VDP_drawText("PAL2 water cycle", 1, 1);
 
     while (TRUE)
@@ -72,13 +72,19 @@ int main(bool hardReset)
             pal2[6] = tmp;
             PAL_setPalette(PAL2, pal2, DMA);
         }
-        want = (s16)((frame / 120) & 1);
+        want = (s16)((frame / 120) % 3);
         if (want != lastAnim)
         {
             if (hero != NULL)
+            {
+                SPR_setAnimationLoop(hero, want != 2);
                 SPR_setAnim(hero, want);
+            }
             if (thug != NULL)
+            {
+                SPR_setAnimationLoop(thug, want != 2);
                 SPR_setAnim(thug, want);
+            }
             lastAnim = want;
         }
         SPR_update();

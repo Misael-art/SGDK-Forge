@@ -112,3 +112,15 @@ como fase de gait; pixels no grid travado. ROM
 `8b1820166e50fd125f3252397922c8922f63e8b591e2e7f9c66013a07aee6033`
 com GIF no BlastEm (pernas mudam entre frames). Continua lab. Nao e
 `ready_for_aaa`.
+
+## F-R2 punch 4 fases (2026-08-29i)
+
+Sheet 192x192: idle + walk + punch (anticipation/active/hitstop/
+recovery, times 8-4-10-12, loop off). Video Imagine so como fase;
+pixels no grid 48x64 travado. Corda do heroi fica no punho, nao vira
+laco. Thug = cruzado de esquerda. ROM
+`a34c2d0fd8f074b0dee1cb84c6468b91a36f8647da168f91fa1071a1d9cd79da`
+com GIF no BlastEm (`blastem-linux-20260829T160037Z-2172149`).
+Screenshot ainda parece walk; alcance do soco curto; pernas ainda
+salsicha. Kit R2 de motion do fixture fechado (idle+walk+punch).
+Continua lab. Nao e `ready_for_aaa`. `visual_pass=false`.

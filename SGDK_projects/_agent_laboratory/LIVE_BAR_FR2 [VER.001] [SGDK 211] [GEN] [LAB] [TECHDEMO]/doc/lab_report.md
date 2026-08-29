@@ -5,10 +5,13 @@
 Prova do axioma R2 (paleta com papel): quatro paletas SGDK
 carregadas com papeis distintos numa cena 320x224.
 
-## Fase 2 (esta entrega)
+## Fase 2
 
-Sprites do heroi e do thug sao `lineart_blocking_1px` no grid nativo
-48x64. Nao sao downscale da pintura. Cor de material ainda nao comecou.
+1. Lineart 1 px nativo 48x64 (build_v002).
+2. Color blocking no lineart travado (build_v003): rampas 9-bit com
+   hue shift. Painel lineart / basic / elite / ROM.
+   Tinta de construcao preservada. Outline = dark_shadow, nao vai a
+   palette swap.
 
 O cais continua quantize da fonte Imagine.
 

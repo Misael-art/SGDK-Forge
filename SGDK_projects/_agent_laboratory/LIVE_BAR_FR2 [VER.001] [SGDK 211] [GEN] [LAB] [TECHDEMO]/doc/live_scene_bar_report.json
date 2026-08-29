@@ -8,7 +8,7 @@
   "status": "needs_review",
   "shared_floor": {
     "native_pixel_not_shrunken_photo": "fail",
-    "material_three_ramps_minimum": "fail",
+    "material_three_ramps_minimum": "pass",
     "silhouette_reads_320x224_and_in_black_white": "pass",
     "palette_roles_declared": "pass",
     "stage_reauthored_as_tiles": "fail",
@@ -16,7 +16,7 @@
     "hardware_serves_the_picture": "not_applicable",
     "motion_proven_from_output": "fail",
     "promised_fps_with_promised_density": "not_applicable",
-    "source_basic_elite_rom_comparison_when_translated": "fail",
+    "source_basic_elite_rom_comparison_when_translated": "pass",
     "crt_240p_reading": "not_applicable",
     "authorship_craft_not_their_pixels": "pass"
   },
@@ -28,7 +28,6 @@
   },
   "blockers": [
     "dock_still_quantized_source",
-    "color_blocking_not_started",
     "vlab_block_missing",
     "visual_vdp_dump_missing",
     "lab_not_delivery"
@@ -36,19 +35,19 @@
   "evidence": {
     "native_320x224": true,
     "motion_if_moving": false,
-    "source_basic_elite_rom": false,
+    "source_basic_elite_rom": true,
     "blastem_bundle": true,
     "paths": [
       "out/rom.bin",
-      "out/evidence/blastem-linux-20260829T140943Z-1899126/screenshot.png",
-      "out/evidence/blastem-linux-20260829T140943Z-1899126/screenshot_semantic_gate_report.json",
-      "doc/changelog/roms/build_v002/rom.bin",
-      "doc/changelog/roms/build_v002/screenshot.png"
+      "out/evidence/blastem-linux-20260829T142829Z-1942264/screenshot.png",
+      "data/processed/color/contact_lineart_basic_elite_320x224.png",
+      "doc/changelog/roms/build_v003/rom.bin",
+      "doc/changelog/roms/build_v003/screenshot.png"
     ]
   },
   "authorship": {
     "benchmark_used_as": "quality_bar",
     "their_pixels_in_source_art": false
   },
-  "notes": "Phase 2 lineart. ROM 131072 bytes sha256 4c07c842ab5509c79a05743836e663ffcb9bb1f5d3f359e25ee8069749f5642d. Hero/thug are native 48x64 lineart_blocking_1px (not photo downscale). Dock remains Imagine quantize, so scene-level native_pixel stays fail. BlastEm screenshot shows both fighters as lineart on the dock; semantic gate passed; canonical bundle rejected (vlab/vdp_dump/runtime_metrics). Color ramps not started. visual_pass=false. lab_not_delivery=true."
+  "notes": "Color blocking on locked 48x64 lineart. ROM 131072 bytes sha256 f694b841e8f1450b481d45b5be5a35ac1a25eb3dc96fe5d24e00a592e10c73f9. Hero teal vest / thug red tank read in BlastEm. Skin/vest/tank/shorts have 3-step hue-shift ramps. Outline is lineart ink, not a swap slot. Dock remains Imagine quantize so native_pixel of the SCENE stays fail. visual_pass=false. lab_not_delivery=true."
 }

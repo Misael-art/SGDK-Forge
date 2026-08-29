@@ -59,8 +59,9 @@
   `runtime_proof_status` desta barra: `PARCIAL_LAB`. F-R2 fase 1 teve ROM
   com paletas de papel (R2) mas sprites em downscale. F-R2 fase 2
   (2026-08-29d) redesenhou heroi/thug em lineart 1 px nativo 48x64;
-  ROM `4c07c842…f5642d` vista no BlastEm. Nao e `visual_pass`. Cais
-  ainda quantize; cor ainda nao comecou. Nao declarar que o Forge ja
+  (2026-08-29e) color blocking com rampas hue-shift; ROM
+  `f694b841…0c73f9` vista no BlastEm (teal vs vermelho). Nao e
+  `visual_pass`. Cais ainda quantize. Nao declarar que o Forge ja
   gera no piso Rheo/Pigsy.
 - Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
   por concept high-res; fake pixel art do gerador e rejeicao, nao input

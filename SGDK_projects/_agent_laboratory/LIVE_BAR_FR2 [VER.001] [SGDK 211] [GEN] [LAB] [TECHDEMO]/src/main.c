@@ -4,8 +4,8 @@
 /*
  * LIVE_BAR_FR2 — lab fixture for palette roles (R2).
  * PAL0 player, PAL1 enemy, PAL2 dock BG, PAL3 spare FX.
- * lab_not_delivery: sprites are lineart_blocking_1px on the 48x64 grid.
- * Color blocking / material ramps are not started.
+ * lab_not_delivery: sprites are color-blocked on locked 48x64 lineart.
+ * Outline slot is the lineart ink. Material ramps are 9-bit hue-shift.
  */
 
 int main(bool hardReset)

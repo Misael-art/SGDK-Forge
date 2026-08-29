@@ -75,3 +75,13 @@ BlastEm screenshot mostra os dois lutadores em lineart no cais;
 semantic gate `passed`; bundle canonico ainda rejeitado (VLAB/dump).
 Cais continua quantize. Cor/rampas nao comecaram. `visual_pass=false`.
 `lab_not_delivery=true`.
+
+## F-R2 fase 2b — color blocking com rampas (2026-08-29e)
+
+Color blocking no lineart 48x64 travado. Silhueta nao mexeu. Tinta de
+construcao (corda, abertura do colete, alcas) preservada. Rampas 9-bit
+com hue shift: pele, colete teal, tanque vermelho, bermuda. Outline =
+dark_shadow, fora de swap. Painel lineart/basic/elite. ROM
+`f694b841e8f1450b481d45b5be5a35ac1a25eb3dc96fe5d24e00a592e10c73f9`
+vista no BlastEm: heroi teal vs thug vermelho no cais. Cais ainda
+quantize. `visual_pass=false`. `lab_not_delivery=true`.

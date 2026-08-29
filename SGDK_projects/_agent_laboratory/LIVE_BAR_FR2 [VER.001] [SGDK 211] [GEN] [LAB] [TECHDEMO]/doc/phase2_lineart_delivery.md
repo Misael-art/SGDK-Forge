@@ -1,6 +1,6 @@
 # F-R2 phase 2 — lineart_blocking_1px at 48x64
 
-`lab_not_delivery=true`. Color blocking is not started.
+`lab_not_delivery=true`. Color blocking is on the locked lineart.
 
 ## Scale
 
@@ -23,10 +23,16 @@ hero = asymmetric raised fist + mullet; thug = barrel + hook + double guard.
 - Ink maps to outline/dark_shadow in `palette_role_map`; not a swap slot
 - Builder: `tools/build_lineart_blocking_1px.py`
 
+## Color blocking
+
+- Paper fill discarded; materials painted on locked silhouette
+- Construction ink kept (rope wraps, vest opening, tank straps)
+- Solid ink fills (hair / bra / beard) became material masses
+- `material_color_ramp_plan.json` + `palette_role_map.json`
+- basic = flat base; elite = hue-shift ramps. Elite goes to `res/sprites/`
+
 ## Deferred
 
-- `material_color_ramp_plan` / hue-shift ramps
-- color blocking
 - motion / GIF
 - dock native tiles (still quantized Imagine)
 

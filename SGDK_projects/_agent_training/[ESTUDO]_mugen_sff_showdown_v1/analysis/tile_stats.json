@@ -77,9 +77,9 @@
   "maps_bin": "work/sgdk_bins/showdown_maps_u16.bin",
   "palettes_bin": "work/sgdk_bins/showdown_palettes_u16.bin",
   "sha256": {
-    "tiles_bin": "f7bdf0eca90bb9d230817ec5e172b1c3ab4743a1bd4c5be50af16c70febf46a4",
-    "maps_bin": "64682c0cb428babce8dc90fe0d2a0fb91fe96f5c3bc871aa52bb0c33ded8dcf1",
-    "palettes_bin": "b9cd44c2248784c139957f099675037e3f772dc5cab6dd72bd32a21324d94d34"
+    "tiles_bin": "571be3df0d3ee6b654b847096a9269720b4fe85600271721689036ec78881172",
+    "maps_bin": "c0cfa5f3105260f87147f98fa380a3aa4003fdf9be5c8765f47e1a06c800e5d8",
+    "palettes_bin": "00869ba80de53874ac0fa9a82ab88609264e00e93d736b6e7ab3df65eafc717c"
   },
   "frames": 4,
   "world": {
@@ -104,12 +104,12 @@
     "window_tiles_w": 41,
     "window_tiles_h": 29,
     "window_bytes_per_update": 4756,
-    "max_window_unique_tiles": 1178,
-    "max_window_unique_tiles_without_bg_b_cull": 1635,
-    "max_bg_b_culled_cells": 753,
-    "streaming_cache_capacity_tiles": 1194,
-    "estimated_streaming_cache_vram_bytes": 38208,
-    "blank_global_tile_id": 1283,
+    "max_window_unique_tiles": 1172,
+    "max_window_unique_tiles_without_bg_b_cull": 1634,
+    "max_bg_b_culled_cells": 754,
+    "streaming_cache_capacity_tiles": 1188,
+    "estimated_streaming_cache_vram_bytes": 38016,
+    "blank_global_tile_id": 1280,
     "bg_b_occlusion_culling": {
       "enabled": true,
       "rule": "when the BG_A screen cell references a fully opaque tile, the BG_B cell streams the all-zero tile instead of its far-plane source tile"
@@ -151,21 +151,21 @@
   },
   "tile_user_index": 16,
   "raw_tiles": 46080,
-  "unique_tiles": 2872,
-  "exact_unique_tiles_before_lossy_merge": 2872,
+  "unique_tiles": 2878,
+  "exact_unique_tiles_before_lossy_merge": 2878,
   "global_tile_id_limit_ok": true,
   "global_tile_id_limit_status": "global_ids_fit_custom_12bit_map",
   "dedup": {
     "raw_tiles": 46080,
-    "unique_tiles": 2872,
-    "exact_unique_tiles_before_lossy_merge": 2872,
+    "unique_tiles": 2878,
+    "exact_unique_tiles_before_lossy_merge": 2878,
     "lossy_tile_merge_threshold_pixels": 0,
     "lossy_tile_merges": 0,
-    "reused_tiles": 43208,
-    "saving_ratio": 0.937674,
-    "matches_normal_or_exact": 45708,
-    "matches_hflip": 180,
-    "matches_vflip": 128,
+    "reused_tiles": 43202,
+    "saving_ratio": 0.937543,
+    "matches_normal_or_exact": 45724,
+    "matches_hflip": 168,
+    "matches_vflip": 124,
     "matches_hvflip": 64,
     "quality_note": "No near-duplicate tile merge is used in the final streaming route; global ROM tiles are decoded into a local VDP window cache."
   },
@@ -189,16 +189,16 @@
     ],
     "tile_palette_assignments": 46080,
     "tile_palette_role_counts": {
-      "sky_and_distant_buildings": 29720,
-      "live_vegetation": 3628,
-      "water_and_reflections": 8781,
-      "rocks_floor_foreground": 3951
+      "sky_and_distant_buildings": 30120,
+      "live_vegetation": 5104,
+      "water_and_reflections": 7265,
+      "rocks_floor_foreground": 3591
     },
     "source_unique_colors_by_role": {
-      "sky_and_distant_buildings": 54,
-      "live_vegetation": 55,
-      "water_and_reflections": 54,
-      "rocks_floor_foreground": 56
+      "sky_and_distant_buildings": 52,
+      "live_vegetation": 79,
+      "water_and_reflections": 49,
+      "rocks_floor_foreground": 31
     },
     "palette_sizes": [
       15,
@@ -337,13 +337,13 @@
         ],
         [
           204,
-          238,
-          102
+          204,
+          170
         ],
         [
           170,
-          204,
-          204
+          238,
+          238
         ],
         [
           102,
@@ -357,18 +357,18 @@
         ],
         [
           68,
-          136,
-          204
+          102,
+          170
         ],
         [
-          68,
+          34,
           68,
           136
         ],
         [
-          136,
+          102,
           170,
-          170
+          204
         ]
       ],
       [
@@ -394,17 +394,17 @@
         ],
         [
           170,
-          238,
+          204,
           238
         ],
         [
           34,
-          0,
-          34
+          34,
+          68
         ],
         [
           34,
-          34,
+          68,
           68
         ],
         [
@@ -423,9 +423,9 @@
           136
         ],
         [
+          102,
           136,
-          136,
-          68
+          102
         ],
         [
           136,
@@ -467,17 +467,17 @@
         [
           34,
           34,
-          68
+          34
         ],
         [
           68,
-          68,
+          34,
           68
         ],
         [
+          136,
           102,
-          102,
-          102
+          68
         ],
         [
           238,
@@ -536,12 +536,12 @@
         ]
       ]
     ],
-    "nearest_color_remaps": 205283,
+    "nearest_color_remaps": 175699,
     "nearest_color_remaps_by_assigned_role": {
-      "sky_and_distant_buildings": 27328,
-      "live_vegetation": 44944,
-      "water_and_reflections": 80743,
-      "rocks_floor_foreground": 52268
+      "sky_and_distant_buildings": 26512,
+      "live_vegetation": 77938,
+      "water_and_reflections": 48715,
+      "rocks_floor_foreground": 22534
     },
     "remap_policy": "visible pixels are mapped to nearest visible slot 1..15 in the selected semantic MD subpalette; slot 0 stays reserved as safe backdrop",
     "greedy_baseline_violations": 0,

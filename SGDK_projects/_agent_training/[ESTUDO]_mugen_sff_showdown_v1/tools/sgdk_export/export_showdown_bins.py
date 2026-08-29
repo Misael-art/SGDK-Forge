@@ -446,6 +446,10 @@ def _contextual_palette_id_for_tile(
             context_pid = 1
         else:
             context_pid = 1
+
+        nearest_pid, scores = _nearest_context_palette_id(tile_rgbs, palettes)
+        if scores[context_pid] > scores[nearest_pid] * 1.45:
+            return nearest_pid
         return context_pid
 
     if tile_y >= 42:

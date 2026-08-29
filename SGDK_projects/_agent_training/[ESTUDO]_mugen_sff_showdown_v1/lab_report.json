@@ -30,16 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+    "rom_sha256": "0e97fc7245ab949a6fc09a9cd29df8e0010eafb944afbbe602d199bd5d4c8f12",
     "blastem_status": "testado_em_blastem_sealed_bundle",
-    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/screenshot.png",
-    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/save.sram",
-    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/evidence_manifest.json",
-    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/screenshot_semantic_gate_report.json",
-    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/visual_vdp_dump.bin",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
     "frame_animation_enabled": false,
-    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_sweep_p3/blastem-linux-20260826T131919Z-2117429/runtime_metrics.json"
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -159,5 +159,53 @@
       "conclusion": "zero re-stream em idle"
     }
   },
-  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P3b->P4->P5->P6)"
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P5->P6)",
+  "palette_optimization_p4_escape": {
+    "status": "MEASURED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
+    "method": "escape 1.45x nas bandas BG_A + re-otimiza\u00e7\u00e3o Lloyd",
+    "manual_remaps_new_logic": 184078,
+    "optimized_remaps": 175699,
+    "improvement_vs_manual_new_logic": 0.0455,
+    "improvement_vs_original_manual_old_logic": 0.2551,
+    "unique_tiles": 2878,
+    "cache_capacity": 1190
+  },
+  "vram_margin_sweep_p4": {
+    "status": "MEASURED",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
+    "bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975",
+    "stops": {
+      "center": {
+        "peak_resident": 814,
+        "tiles_requested": 814,
+        "recorded": true
+      },
+      "nw": {
+        "peak_resident": 653,
+        "tiles_requested": 653,
+        "recorded": true
+      },
+      "ne": {
+        "peak_resident": 693,
+        "tiles_requested": 693,
+        "recorded": true
+      },
+      "sw": {
+        "peak_resident": 1090,
+        "tiles_requested": 1090,
+        "recorded": true
+      },
+      "se": {
+        "peak_resident": 1106,
+        "tiles_requested": 1106,
+        "recorded": true
+      }
+    },
+    "worst_static": "se (1106, margem 84 = 7.06%)",
+    "dynamic_peak": 1152,
+    "margin_tiles": 38,
+    "all_within_capacity": true,
+    "honest_verdict": "Escape BG_A mant\u00e9m margem VRAM (38 vs 33) e melhora fidelidade. P4 medido com sucesso; pr\u00f3ximo \u00e9 P5/P6."
+  }
 }

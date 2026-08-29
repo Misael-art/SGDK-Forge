@@ -101,3 +101,10 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
   TSTR v2 agora grava picos POR parada com mascara.
 - Estado final honesto: margem default = 33/2,77% estavel; risco de overflow
   so existe quando P6 ligar animacoes; gate quantificado no plano (P3b).
+
+## Adendo P4 (2026-08-29): escape BG_A + re-otimização
+
+- Bandas BG_A forçavam pid por posição Y; BG_B já tinha escape por erro 1.45×. P4 replicou escape no BG_A.
+- Resultado oficial exporter: manual com escape 184.078 vs otimizado 175.699 → −4,5% adicional; vs baseline original 235.880 → −25,5% acumulado.
+- Margem VRAM pós-mudança: 38 tiles (vs 33), pior canto 1106, tudo dentro; método validado sem regressão.
+- Lição: ganho de fidelidade sem custo de VRAM quando bandas são aproximação nossa, não característica original MUGEN.

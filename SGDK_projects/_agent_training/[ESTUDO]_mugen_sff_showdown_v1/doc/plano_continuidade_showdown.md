@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.0.0 · **atualizado:** 2026-08-26 · **mantenedor:** proximo agente
+**versao:** 1.1.0 · **atualizado:** 2026-08-29 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -48,12 +48,11 @@
   Se estourar: janela 40x28 (-69 slots) ou eviction LRU por epoca.
 - Ferramentas prontas: TSTR v2 + read_tile_stream_stats.py ja medem isso.
 
-### PENDING — P4: Escape por erro nas bandas BG_A (fidelidade extra)
-- Pre-condicao: P3b resolvido (mudanca de pid pode alterar unique tiles).
-- Objetivo: replicar o escape 1.45x do BG_B nas bandas BG_A; refazer
-  otimizacao; medir remaps de novo.
-- Aceite: remaps < 205283 E dedup <= limite E anti-magenta pass AND A/B
-  mesmo-emulador mostra melhoria sem regressao de silhueta.
+### DONE — P4: Escape por erro nas bandas BG_A + re-otimização (2026-08-29)
+- Patch: `export_showdown_bins.py` BG_A agora com escape 1.45× igual ao BG_B.
+- Medida oficial: manual novo 184.078 → otimizado 175.699 (**−4,5%** sobre manual novo; **−25,5%** vs manual original 235.880).
+- Evidência selada `evidence_p4_escape/…150342Z…`; margem VRAM mantida 38 (vs 33), pior canto 1106/1190.
+- Próximo agente herda paletas v002 já com escape; não reverter.
 
 ### PENDING — P5: Performance sustentada provada
 - Objetivo: captura burst (varios minutos / burst_count do capturador) com

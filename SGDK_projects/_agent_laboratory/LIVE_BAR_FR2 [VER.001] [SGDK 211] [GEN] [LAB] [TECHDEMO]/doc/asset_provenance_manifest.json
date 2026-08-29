@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "records": [
+    {
+      "symbol": "img_dock",
+      "path": "res/bgs/dock_320x224.png",
+      "source_kind": "ai_generated",
+      "acceptance_status": "debug_lab",
+      "generated_by": "imagine+quantize9bit",
+      "authored_source": "data/source_art/dock_source.jpg"
+    },
+    {
+      "symbol": "spr_hero",
+      "path": "res/sprites/hero_48x64.png",
+      "source_kind": "ai_generated",
+      "acceptance_status": "debug_lab",
+      "generated_by": "imagine+chroma+quantize9bit",
+      "authored_source": "data/source_art/hero_source.jpg"
+    },
+    {
+      "symbol": "spr_thug",
+      "path": "res/sprites/thug_48x64.png",
+      "source_kind": "ai_generated",
+      "acceptance_status": "debug_lab",
+      "generated_by": "imagine+chroma+quantize9bit",
+      "authored_source": "data/source_art/thug_source.jpg"
+    },
+    {
+      "symbol": "spr_fx",
+      "path": "res/sprites/fx_spark_16x16.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "debug_lab",
+      "generated_by": "python_spark",
+      "notes": "PAL3 spare-role marker only"
+    }
+  ]
+}

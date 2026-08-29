@@ -1,0 +1,50 @@
+{
+  "schema": "live_scene_bar_report.v1",
+  "bar_id": "live_scene_bar_rheo_pigsy_craft",
+  "project": "LIVE_BAR_FR2 [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "target": { "kind": "scene", "id": "fr2_palette_roles" },
+  "school": "rheo_density",
+  "schools": ["rheo_density", "sgdk_base_not_ceiling"],
+  "status": "needs_review",
+  "shared_floor": {
+    "native_pixel_not_shrunken_photo": "fail",
+    "material_three_ramps_minimum": "fail",
+    "silhouette_reads_320x224_and_in_black_white": "pass",
+    "palette_roles_declared": "pass",
+    "stage_reauthored_as_tiles": "fail",
+    "plane_hierarchy_player_wins": "pass",
+    "hardware_serves_the_picture": "not_applicable",
+    "motion_proven_from_output": "fail",
+    "promised_fps_with_promised_density": "not_applicable",
+    "source_basic_elite_rom_comparison_when_translated": "fail",
+    "crt_240p_reading": "not_applicable",
+    "authorship_craft_not_their_pixels": "pass"
+  },
+  "axioms_applied": {
+    "R2": "pass",
+    "R9": "pass",
+    "G1": "pass"
+  },
+  "blockers": [
+    "fake_pixel_art_rejection",
+    "vlab_block_missing",
+    "visual_vdp_dump_missing",
+    "lab_not_delivery"
+  ],
+  "evidence": {
+    "native_320x224": true,
+    "motion_if_moving": false,
+    "source_basic_elite_rom": false,
+    "blastem_bundle": true,
+    "paths": [
+      "out/rom.bin",
+      "out/evidence/blastem-linux-20260829T134220Z-1830965/screenshot.png",
+      "out/evidence/blastem-linux-20260829T134220Z-1830965/screenshot_semantic_gate_report.json"
+    ]
+  },
+  "authorship": {
+    "benchmark_used_as": "quality_bar",
+    "their_pixels_in_source_art": false
+  },
+  "notes": "ROM 131072 bytes sha256 292004cc024618828cbb6430d1e569fa3449abc38a5290c67428692965e63b59. BlastEm screenshot shows PAL0 hero, PAL1 thug, PAL2 dock, PAL3 text/fx. Capture bundle rejected for missing VLAB/runtime_metrics/vdp_dump. Sprites are Imagine downscale+quantize, not elite native redraw. lab_not_delivery=true. R2 palette roles are visible in emulator; AAA visual_pass remains false."
+}

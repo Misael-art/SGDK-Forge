@@ -28,6 +28,7 @@
 #define DEMO_CRIA_WALK_FRAME_COUNT 4
 #define DEMO_CRIA_TELEGRAPH_FRAME_COUNT 4
 #define DEMO_CRIA_HIT_FRAME_COUNT 4
+#define DEMO_CRIA_RECOVER_FRAME_COUNT 4
 
 #define DEMO_ACCEL (FIX16(1) >> 3)
 #define DEMO_FRICTION (FIX16(1) >> 4)
@@ -89,6 +90,10 @@ static const u8 sCriaTelDuration[DEMO_CRIA_TELEGRAPH_FRAME_COUNT] = { 3, 3, 4, 2
 static u8 sCriaHitFrame;
 static u8 sCriaHitTicks;
 static const u8 sCriaHitDuration[DEMO_CRIA_HIT_FRAME_COUNT] = { 3, 4, 6, 5 };
+static bool sCriaRecovering;
+static u8 sCriaRecFrame;
+static u8 sCriaRecTicks;
+static const u8 sCriaRecDuration[DEMO_CRIA_RECOVER_FRAME_COUNT] = { 4, 5, 6, 8 };
 static u16 sCriaClock;
 static s16 sBgAScrollLines[DEMO_SCROLL_LINES];
 static s16 sBgBScrollLines[DEMO_SCROLL_LINES];
@@ -625,6 +630,9 @@ static void demoUpdateCria(void)
         sCriaTelTicks = 0;
         sCriaHitFrame = 0;
         sCriaHitTicks = 0;
+        sCriaRecovering = FALSE;
+        sCriaRecFrame = 0;
+        sCriaRecTicks = 0;
     }
 
     SPR_setPosition(
@@ -662,16 +670,37 @@ static void demoUpdateCria(void)
     }
 
     if (sCriaMode == 3) {
-        /* Hold hitstop (frame 2). Recover exists on the strip for the later
-         * ATTACK->RECOVER chain; the 2s showcase must stay readable as a punch. */
-        if (sCriaHitFrame >= 2) {
+        if (sCriaRecovering) {
+            if (sCriaRecFrame >= (DEMO_CRIA_RECOVER_FRAME_COUNT - 1)) {
+                return;
+            }
+            sCriaRecTicks++;
+            if (sCriaRecTicks < sCriaRecDuration[sCriaRecFrame]) {
+                return;
+            }
+            sCriaRecTicks = 0;
+            sCriaRecFrame++;
+            SPR_setFrame(sCriaSprite, sCriaRecFrame);
             return;
         }
+
         sCriaHitTicks++;
         if (sCriaHitTicks < sCriaHitDuration[sCriaHitFrame]) {
             return;
         }
         sCriaHitTicks = 0;
+        if (sCriaHitFrame >= 2) {
+            if (!SPR_setDefinition(sCriaSprite, &spr_cria_recover_lean)) {
+                VDP_drawTextFill("CRIA SPRITE ALLOC FAILED", 7, 11, 23);
+                return;
+            }
+            SPR_setAutoAnimation(sCriaSprite, FALSE);
+            SPR_setAnimAndFrame(sCriaSprite, 0, 0);
+            sCriaRecovering = TRUE;
+            sCriaRecFrame = 0;
+            sCriaRecTicks = 0;
+            return;
+        }
         sCriaHitFrame++;
         SPR_setFrame(sCriaSprite, sCriaHitFrame);
         return;
@@ -801,6 +830,9 @@ void SCENE_demoEnter(void)
     sCriaTelTicks = 0;
     sCriaHitFrame = 0;
     sCriaHitTicks = 0;
+    sCriaRecovering = FALSE;
+    sCriaRecFrame = 0;
+    sCriaRecTicks = 0;
     sCriaClock = 0;
     sCriaSprite = SPR_addSprite(
         &spr_cria_idle_lean,

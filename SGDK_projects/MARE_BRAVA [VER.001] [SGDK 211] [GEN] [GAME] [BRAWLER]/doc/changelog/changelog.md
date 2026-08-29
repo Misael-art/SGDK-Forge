@@ -1,5 +1,16 @@
 # Changelog Canonico - MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
+## 2026-08-29 — CRIA recover nativo apos haymaker (build_v008)
+
+- Follow/retract/settle/hold 4-5-6-8. Punho armado recua da esquerda para
+  o peito. Video recusado (recoil virou walk). Demo: hitstop 6 vbl depois
+  troca para a strip de recover e segura o hold.
+- ROM
+  `0bde1dd0cd9e3ed7b2958e88b3c1fbb8690cf5f6e4bdf5b29c2ab16b7b60b9a9`
+  BlastEm `blastem-linux-20260829T171301Z-2363210`. Burst 1 = punho a
+  esquerda; burst 16 = unload.
+- Continua `visual_pass=false`, `ready_for_aaa=false`.
+
 ## 2026-08-29 — CRIA haymaker nativo apos telegraph (build_v007)
 
 - Launch/active/hitstop/recover 3-4-6-5 no grid 48x64. Pulseira no braco

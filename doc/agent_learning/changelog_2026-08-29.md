@@ -155,3 +155,10 @@ Haymaker nativo launch/active/hitstop/recover. Video bateu com o braco
 da frente e foi recusado. ROM
 `c63092cf27dbb6fbcd87f684f02f89051e2b307b5957c7011d75b35a74d83de6`.
 Burst prova punho a esquerda. Continua `visual_pass=false`.
+
+## MARE_BRAVA — CRIA recover nativo (2026-08-29n)
+
+Recover nativo follow/retract/settle/hold. Video virou walk e foi
+recusado. ROM
+`0bde1dd0cd9e3ed7b2958e88b3c1fbb8690cf5f6e4bdf5b29c2ab16b7b60b9a9`.
+Burst prova unload depois do golpe. Continua `visual_pass=false`.

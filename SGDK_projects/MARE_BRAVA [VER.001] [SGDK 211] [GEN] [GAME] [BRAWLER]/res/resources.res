@@ -20,6 +20,7 @@ SPRITE spr_cria_idle_lean "sprites/characters/cria/cria_idle_lean_48x64_v01.png"
 SPRITE spr_cria_walk_lean "sprites/characters/cria/cria_walk_lean_48x64_v01.png" 6 8 FAST 0
 SPRITE spr_cria_telegraph_lean "sprites/characters/cria/cria_telegraph_lean_48x64_v01.png" 6 8 FAST 0
 SPRITE spr_cria_hit_lean "sprites/characters/cria/cria_hit_lean_48x64_v01.png" 6 8 FAST 0
+SPRITE spr_cria_recover_lean "sprites/characters/cria/cria_recover_lean_48x64_v01.png" 6 8 FAST 0
 
 // TAÍNA P0 locomotion candidates. Every strip contains one action and only
 // unique physical drawings; timing remains manual to preserve the VBlank map.

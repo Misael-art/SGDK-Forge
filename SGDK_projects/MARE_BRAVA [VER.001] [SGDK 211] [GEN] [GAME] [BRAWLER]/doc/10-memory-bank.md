@@ -13,9 +13,9 @@
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-08-29 (CRIA idle+walk+telegraph+hit nativo 48x64, PAL3)
-**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA (idle / walk / telegraph / hit 2s) no cais v04. Faltam VLAB/dump VDP, IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
-**Proxima fase:** recover da CRIA como strip propria, IA, ESTIVADOR, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
+**Ultima atualizacao:** 2026-08-29 (CRIA idle+walk+telegraph+hit+recover nativo 48x64, PAL3)
+**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA (idle / walk / telegraph / hit->recover 2s) no cais v04. Faltam VLAB/dump VDP, IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
+**Proxima fase:** IA da CRIA, ESTIVADOR, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -780,3 +780,21 @@
   2-3 partes. Bundle canonico rejeitado (VLAB/dump).
 - Continua `visual_pass=false` / `ready_for_aaa=false`. Sem IA, recover
   como estado proprio, ou ESTIVADOR.
+
+## 33. ATUALIZACAO 2026-08-29 — CRIA recover nativo apos haymaker
+
+- Strip propria follow/retract/settle/hold, times 4-5-6-8. O punho
+  armado recua da esquerda (hitstop) para o peito / hang traseiro.
+  Pulseira permanece no braco armado. Dois chinelos plantados. Video
+  Imagine so referencia — harvest virou walk (cabeca pra cima) e foi
+  recusado como pixel.
+- Runtime: no slice de 2 s do golpe, hit toca launch+active+hitstop e
+  troca `SPR_setDefinition` para recover; segura o hold. Sem H-flip.
+- ROM sha256
+  `0bde1dd0cd9e3ed7b2958e88b3c1fbb8690cf5f6e4bdf5b29c2ab16b7b60b9a9`.
+  BlastEm `blastem-linux-20260829T171301Z-2363210`. Burst frame 1
+  (punho a esquerda) vs frame 16 (unload). ResComp 28-32 tiles /
+  2 partes. Bundle canonico rejeitado (VLAB/dump).
+- Continua `visual_pass=false` / `ready_for_aaa=false`. Sem IA ou
+  ESTIVADOR. Kit de motion da CRIA no slice: idle, walk, telegraph,
+  hit, recover.

@@ -34,7 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 45 /* P6 medido: reload completo a cada 45f causa 7 overflows e 15 over_budget em 120s; incremental necessario para AAA */
+#define FRAME_ANIMATION_INTERVAL_FRAMES 45 /* P6b medido: incremental delta reduz DMA mas sem eviction a uniao estoura; ver p6_incremental_report */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70
@@ -87,6 +87,8 @@ static u8 sTileOpacityState[GLOBAL_UNIQUE_TILES];
 static u8 sWindowAOpaque[WINDOW_TILES_W * WINDOW_TILES_H];
 static u16 sWindowMapA[WINDOW_TILES_W * WINDOW_TILES_H];
 static u16 sWindowMapB[WINDOW_TILES_W * WINDOW_TILES_H];
+static u16 sWindowGlobalA[WINDOW_TILES_W * WINDOW_TILES_H];
+static u16 sWindowGlobalB[WINDOW_TILES_W * WINDOW_TILES_H];
 static u32 sTileUploadBatch[TILE_UPLOAD_BATCH_TILES * 8];
 static s16 sLineScrollA[VIEWPORT_H];
 static s16 sLineScrollB[VIEWPORT_H];
@@ -370,6 +372,89 @@ static void streamCameraWindow(void)
     u16 blankSlot;
     u16 wy;
     u16 wx;
+    u16 isFrameOnlyChange = 0;
+
+    if ((sFrameIndex != sLastFrameIndex) && (sLastFrameIndex != EMPTY_SLOT) && (sLastTileX != EMPTY_SLOT)) {
+        u16 cameraMoved = 0;
+        if ((bgBTileX != sLastBgBTileX) || (bgBTileY != sLastBgBTileY)) {
+            cameraMoved = 1;
+        } else {
+            for (wy = 0; wy < WINDOW_TILES_H; wy++) {
+                const u16 screenY = wy << 3;
+                const u16 rowCameraX = layerCameraXForScreenY(screenY);
+                const u16 rowCameraY = layerCameraYForScreenY(screenY);
+                const u16 tileX = rowCameraX >> 3;
+                const u16 tileY = min(WORLD_TILES_H - 1, (rowCameraY >> 3) + wy);
+                if ((tileX != sLastRowTileX[wy]) || (tileY != sLastRowTileY[wy])) {
+                    cameraMoved = 1;
+                    break;
+                }
+            }
+        }
+        if (!cameraMoved) {
+            isFrameOnlyChange = 1;
+        }
+    }
+
+    if (isFrameOnlyChange) {
+        /* P6b incremental: delta entre frames, sem resetTileCache. */
+        blankSlot = sGlobalToSlot[BLANK_GLOBAL_TILE_ID];
+        if (blankSlot == EMPTY_SLOT) {
+            blankSlot = acquireTileSlot(BLANK_GLOBAL_TILE_ID);
+        }
+        for (wy = 0; wy < WINDOW_TILES_H; wy++) {
+            const u16 screenY = wy << 3;
+            const u16 rowCameraX = layerCameraXForScreenY(screenY);
+            const u16 rowCameraY = layerCameraYForScreenY(screenY);
+            const u16 tileX = rowCameraX >> 3;
+            const u16 srcY = min(WORLD_TILES_H - 1, (rowCameraY >> 3) + wy);
+            for (wx = 0; wx < WINDOW_TILES_W; wx++) {
+                const u16 srcX = min(WORLD_TILES_W - 1, tileX + wx);
+                const u16 raw = frameMapA[(srcY * WORLD_TILES_W) + srcX];
+                const u16 globalTileId = raw & MAP_TILE_ID_MASK;
+                const u16 index = (wy * WINDOW_TILES_W) + wx;
+                if (sWindowGlobalA[index] != globalTileId) {
+                    const u16 slot = acquireTileSlot(globalTileId);
+                    sWindowGlobalA[index] = globalTileId;
+                    sWindowAOpaque[index] = globalTileIsOpaqueForOverlay(globalTileId);
+                    sWindowMapA[index] = customMapWordToSgdkAttr(raw, slot);
+                } else if (globalTileId != sWindowGlobalA[index]) {
+                    sWindowAOpaque[index] = globalTileIsOpaqueForOverlay(globalTileId);
+                }
+            }
+            sLastRowTileX[wy] = tileX;
+            sLastRowTileY[wy] = srcY;
+        }
+        for (wy = 0; wy < WINDOW_TILES_H; wy++) {
+            const u16 srcY = min(WORLD_TILES_H - 1, bgBTileY + wy);
+            for (wx = 0; wx < WINDOW_TILES_W; wx++) {
+                const u16 index = (wy * WINDOW_TILES_W) + wx;
+                if (sWindowAOpaque[index]) {
+                    sWindowMapB[index] = TILE_USER_INDEX + blankSlot;
+                    sWindowGlobalB[index] = BLANK_GLOBAL_TILE_ID;
+                } else {
+                    const u16 srcX = min(WORLD_TILES_W - 1, bgBTileX + wx);
+                    const u16 raw = frameMapB[(srcY * WORLD_TILES_W) + srcX];
+                    const u16 globalTileId = raw & MAP_TILE_ID_MASK;
+                    if (sWindowGlobalB[index] != globalTileId) {
+                        const u16 slot = acquireTileSlot(globalTileId);
+                        sWindowGlobalB[index] = globalTileId;
+                        sWindowMapB[index] = customMapWordToSgdkAttr(raw, slot);
+                    }
+                }
+            }
+        }
+        flushTileUploadBatch();
+        VDP_setTileMapDataRect(BG_B, sWindowMapB, 0, 0, WINDOW_TILES_W, WINDOW_TILES_H, WINDOW_TILES_W, CPU);
+        VDP_setTileMapDataRect(BG_A, sWindowMapA, 0, 0, WINDOW_TILES_W, WINDOW_TILES_H, WINDOW_TILES_W, CPU);
+        statEndStreamingPass();
+        sLastTileX = sCameraX >> 3;
+        sLastTileY = sCameraY >> 3;
+        sLastBgBTileX = bgBTileX;
+        sLastBgBTileY = bgBTileY;
+        sLastFrameIndex = sFrameIndex;
+        return;
+    }
 
     resetTileCache();
     blankSlot = acquireTileSlot(BLANK_GLOBAL_TILE_ID);
@@ -391,6 +476,7 @@ static void streamCameraWindow(void)
 
             sWindowAOpaque[index] = globalTileIsOpaqueForOverlay(globalTileId);
             sWindowMapA[index] = customMapWordToSgdkAttr(raw, slot);
+            sWindowGlobalA[index] = globalTileId;
         }
         sLastRowTileX[wy] = tileX;
         sLastRowTileY[wy] = srcY;
@@ -404,12 +490,14 @@ static void streamCameraWindow(void)
 
             if (sWindowAOpaque[index]) {
                 sWindowMapB[index] = TILE_USER_INDEX + blankSlot;
+                sWindowGlobalB[index] = BLANK_GLOBAL_TILE_ID;
             } else {
                 const u16 srcX = min(WORLD_TILES_W - 1, bgBTileX + wx);
                 const u16 raw = frameMapB[(srcY * WORLD_TILES_W) + srcX];
                 const u16 globalTileId = raw & MAP_TILE_ID_MASK;
                 const u16 slot = acquireTileSlot(globalTileId);
                 sWindowMapB[index] = customMapWordToSgdkAttr(raw, slot);
+                sWindowGlobalB[index] = globalTileId;
             }
         }
     }

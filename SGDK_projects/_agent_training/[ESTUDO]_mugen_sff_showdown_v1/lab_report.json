@@ -159,7 +159,7 @@
       "conclusion": "zero re-stream em idle"
     }
   },
-  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6b \u00fanico pending)",
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6c \u00fanico pending)",
   "palette_optimization_p4_escape": {
     "status": "MEASURED",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
@@ -226,5 +226,10 @@
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6_animation_report.json",
     "verdict": "REPROVADO para reload completo (7 overflows, 15 over_budget); requer streaming incremental",
     "rom_current_sha": "revertido para DISABLED ap\u00f3s medi\u00e7\u00e3o"
+  },
+  "animation_p6b": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6b_incremental_report.json",
+    "verdict": "REPROVADO sem eviction (121 overflows cap1190, 7 com cap1400); incremental reduz DMA mas acumula uni\u00e3o"
   }
 }

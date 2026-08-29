@@ -122,3 +122,8 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - Veredito honesto: reload completo por frame NÃO é AAA — exige streaming incremental (delta entre mapas) + double-buffer.
 - ROM corrente revertida para `FRAME_ANIMATION_ENABLED=0` para manter bundles selados sem overflows; evidências P6 guardadas como material de aprendizado.
 - Próximo incremento AAA real: implementar diff incremental de tiles entre frames e medir novamente via TSTR per-frame.
+
+## Adendo P6b (2026-08-29): incremental delta sem eviction — REPROVADO
+
+- Incremental sem reset: DMA −33% mas cache acumula união dos frames; 1190→121 overflows (piora), 1400→7 overflows.
+- Lição: workaround parcial sem eviction troca um gargalo por outro; AAA exige eviction por época.

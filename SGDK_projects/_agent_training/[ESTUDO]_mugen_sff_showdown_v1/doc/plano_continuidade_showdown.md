@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.2.0 · **atualizado:** 2026-08-29 · **mantenedor:** proximo agente
+**versao:** 1.3.0 · **atualizado:** 2026-08-29 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -65,9 +65,15 @@
 - ROM revertida para DISABLED para manter selo verde; evidências em `evidence_p6_*` + `analysis/p6_animation_report.json`.
 - Próximo AAA real: implementar diff incremental e re-medir via TSTR.
 
-### PENDING — P6b: Animação incremental AAA (herdeiro de P6)
-- Objetivo: animar via delta de tiles (sem resetTileCache completo) + double-buffer.
-- Aceite: animação visível + 0 overflows + 0 over_budget em soak 120s + margem VRAM mantida.
+### MEASURED_WITH_LIMITATION — P6b: Incremental delta sem eviction (2026-08-29)
+- Método: delta entre frames sem reset; DMA 10112→6698 (−33%) mas cache acumula.
+- Medida: 1190 cap → 121 overflows (piora), 1400 cap → 7 overflows, max 1276, over_budget 15.
+- Veredito: **REPROVADO sem eviction**. Report: `analysis/p6b_incremental_report.json`.
+- Evidências: `evidence_p6b_soak` (1190) e `evidence_p6b_soak2` (1400) selados.
+
+### PENDING — P6c: Eviction por época + double-buffer (AAA real)
+- Objetivo: ao encher, evictar slots não usados na janela atual; animação sem reset completo e sem overflow.
+- Aceite: 0 overflows + 0 over_budget em soak 120s com animação ligada.
 
 ## Limites estruturais lembrados
 - Host Linux: build SO via `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh`;

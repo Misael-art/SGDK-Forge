@@ -13,9 +13,9 @@
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-08-29 (CRIA idle+walk+telegraph+hit+recover nativo 48x64, PAL3)
-**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA (idle / walk / telegraph / hit->recover 2s) no cais v04. Faltam VLAB/dump VDP, IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
-**Proxima fase:** IA da CRIA, ESTIVADOR, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
+**Ultima atualizacao:** 2026-08-29 (CRIA IA perseguidor + kit de motion 48x64, PAL3)
+**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA jogavel + CRIA com FSM APPROACH/TELEGRAPH/ATTACK/RECOVER no cais v04. Faltam VLAB/dump VDP, HP/HUD, ESTIVADOR, áudio de gameplay e closeout.
+**Proxima fase:** ESTIVADOR, HP/HUD, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -798,3 +798,18 @@
 - Continua `visual_pass=false` / `ready_for_aaa=false`. Sem IA ou
   ESTIVADOR. Kit de motion da CRIA no slice: idle, walk, telegraph,
   hit, recover.
+
+## 34. ATUALIZACAO 2026-08-29 — CRIA IA perseguidor
+
+- O ciclo de 2 s saiu. `src/entities/cria.c` implementa o chain do
+  roster: APPROACH (walk 1.5 px/vbl para a esquerda) -> TELEGRAPH 12 vbl
+  -> ATTACK 13 vbl -> RECOVER 23 vbl -> cooldown 24. Sem H-flip. Spawn
+  em x=288 (esquerda do lampiao). Strike 40 px, aggro 200, faixa y 12.
+- Hit no active/hitstop empurra a Taina 8 px e toca `AUDIO_CUE_STRIKE`.
+  HP/HUD ainda nao entram.
+- ROM sha256
+  `6bf9e359ae6ed13f926db7e4ab631943bc001291c67e2aa6249358b5ca968686`.
+  BlastEm `blastem-linux-20260829T172244Z-2390350`: burst 1 approach,
+  burst 20 telegraph, still do golpe atravessando a Taina. Bundle
+  canonico rejeitado (VLAB/dump).
+- Continua `visual_pass=false` / `ready_for_aaa=false`. Sem ESTIVADOR.

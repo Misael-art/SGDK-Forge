@@ -162,3 +162,10 @@ Recover nativo follow/retract/settle/hold. Video virou walk e foi
 recusado. ROM
 `0bde1dd0cd9e3ed7b2958e88b3c1fbb8690cf5f6e4bdf5b29c2ab16b7b60b9a9`.
 Burst prova unload depois do golpe. Continua `visual_pass=false`.
+
+## MARE_BRAVA — CRIA IA perseguidor (2026-08-29o)
+
+FSM APPROACH/TELEGRAPH/ATTACK/RECOVER no runtime. Hit empurra 8 px;
+HP nao ligado. ROM
+`6bf9e359ae6ed13f926db7e4ab631943bc001291c67e2aa6249358b5ca968686`.
+Burst prova a corrida e o telegraph. Continua `visual_pass=false`.

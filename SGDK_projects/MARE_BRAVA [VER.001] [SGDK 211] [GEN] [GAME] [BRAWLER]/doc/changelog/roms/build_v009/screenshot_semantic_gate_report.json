@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-29T17:23:02.606177+00:00",
+  "tool_name": "screenshot_semantic_gate",
+  "tool_version": "1.0.0",
+  "screenshot_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/out/evidence/blastem-linux-20260829T172244Z-2390350/screenshot.png",
+  "screenshot_sha256": "2b5c3c63b029b7c77fca31a86ef7fd414163631f7d3941f76101e683b15d0ba8",
+  "rom_sha256": "6bf9e359ae6ed13f926db7e4ab631943bc001291c67e2aa6249358b5ca968686",
+  "evidence_session_id": "blastem-linux-20260829T172244Z-2390350",
+  "status": "passed",
+  "decision": "accepted_semantic_capture",
+  "semantic_capture_valid": true,
+  "blocker_code": null,
+  "failure_reason": null,
+  "width": 640,
+  "height": 480,
+  "dominant_ratio": 0.123672,
+  "edge_density": 0.127248,
+  "metrics": {
+    "dominant_color_rgb": [
+      174,
+      119,
+      49
+    ],
+    "luminance_variance": 1673.060067,
+    "unique_colors": 348,
+    "sampled_pixels": 76800,
+    "edge_pairs": 153040
+  },
+  "thresholds": {
+    "edge_color_delta": 48,
+    "minimum_edge_density": 0.04,
+    "maximum_dominant_ratio": 0.985,
+    "minimum_luminance_variance": 1.0
+  },
+  "reasons": [],
+  "claim_impacts": {
+    "visual": "capture_semantically_valid_not_quality_proof",
+    "gameplay": "not_proven_by_screenshot_alone",
+    "performance": "not_proven_by_screenshot_alone"
+  }
+}

@@ -1,6 +1,7 @@
 #include <genesis.h>
 
 #include "core/app.h"
+#include "entities/cria.h"
 #include "game_vars.h"
 #include "resources.h"
 #include "system/audio.h"
@@ -21,14 +22,6 @@
 #define DEMO_JAB_PHASE_COUNT 5
 #define DEMO_SCROLL_LINES 224
 #define DEMO_LAMP_PALETTE_INDEX 46
-#define DEMO_CRIA_WORLD_X 256
-#define DEMO_CRIA_PIVOT_X 24
-#define DEMO_CRIA_GROUND_Y 60
-#define DEMO_CRIA_IDLE_FRAME_COUNT 4
-#define DEMO_CRIA_WALK_FRAME_COUNT 4
-#define DEMO_CRIA_TELEGRAPH_FRAME_COUNT 4
-#define DEMO_CRIA_HIT_FRAME_COUNT 4
-#define DEMO_CRIA_RECOVER_FRAME_COUNT 4
 
 #define DEMO_ACCEL (FIX16(1) >> 3)
 #define DEMO_FRICTION (FIX16(1) >> 4)
@@ -60,7 +53,6 @@ static Sprite* sSmokeSprite0;
 static Sprite* sSmokeSprite1;
 static Sprite* sLampDustSprite0;
 static Sprite* sLampDustSprite1;
-static Sprite* sCriaSprite;
 static s16 sCameraX;
 static DemoAnimationState sAnimState;
 static u8 sIdleFrame;
@@ -76,25 +68,6 @@ static bool sJabActive;
 static u8 sJabFrame;
 static u8 sJabFrameTicks;
 static const u8 sJabPhaseDuration[DEMO_JAB_PHASE_COUNT] = { 3, 2, 2, 3, 4 };
-static u8 sCriaIdleFrame;
-static u8 sCriaIdleFrameTicks;
-static const u8 sCriaIdleDuration[DEMO_CRIA_IDLE_FRAME_COUNT] = { 8, 7, 8, 7 };
-static u8 sCriaWalkFrame;
-static u8 sCriaWalkTicks;
-static const u8 sCriaWalkDuration[DEMO_CRIA_WALK_FRAME_COUNT] = { 5, 4, 5, 4 };
-static bool sCriaWalking;
-static u8 sCriaMode;
-static u8 sCriaTelFrame;
-static u8 sCriaTelTicks;
-static const u8 sCriaTelDuration[DEMO_CRIA_TELEGRAPH_FRAME_COUNT] = { 3, 3, 4, 2 };
-static u8 sCriaHitFrame;
-static u8 sCriaHitTicks;
-static const u8 sCriaHitDuration[DEMO_CRIA_HIT_FRAME_COUNT] = { 3, 4, 6, 5 };
-static bool sCriaRecovering;
-static u8 sCriaRecFrame;
-static u8 sCriaRecTicks;
-static const u8 sCriaRecDuration[DEMO_CRIA_RECOVER_FRAME_COUNT] = { 4, 5, 6, 8 };
-static u16 sCriaClock;
 static s16 sBgAScrollLines[DEMO_SCROLL_LINES];
 static s16 sBgBScrollLines[DEMO_SCROLL_LINES];
 static const s8 sWaterWave[16] = {
@@ -589,135 +562,6 @@ static void demoDrawHud(void)
      * Formal HUD ownership remains a later WINDOW-plane task. */
 }
 
-static const SpriteDefinition* demoCriaDefinition(u8 mode)
-{
-    if (mode == 1) {
-        return &spr_cria_walk_lean;
-    }
-    if (mode == 2) {
-        return &spr_cria_telegraph_lean;
-    }
-    if (mode == 3) {
-        return &spr_cria_hit_lean;
-    }
-    return &spr_cria_idle_lean;
-}
-
-static void demoUpdateCria(void)
-{
-    u8 wantMode;
-
-    if (sCriaSprite == NULL) {
-        return;
-    }
-
-    sCriaClock++;
-    wantMode = (u8)((sCriaClock / 120) % 4);
-    if (wantMode != sCriaMode) {
-        if (!SPR_setDefinition(sCriaSprite, demoCriaDefinition(wantMode))) {
-            VDP_drawTextFill("CRIA SPRITE ALLOC FAILED", 7, 11, 23);
-            return;
-        }
-        SPR_setAutoAnimation(sCriaSprite, FALSE);
-        SPR_setAnimAndFrame(sCriaSprite, 0, 0);
-        sCriaMode = wantMode;
-        sCriaWalking = (wantMode == 1);
-        sCriaIdleFrame = 0;
-        sCriaIdleFrameTicks = 0;
-        sCriaWalkFrame = 0;
-        sCriaWalkTicks = 0;
-        sCriaTelFrame = 0;
-        sCriaTelTicks = 0;
-        sCriaHitFrame = 0;
-        sCriaHitTicks = 0;
-        sCriaRecovering = FALSE;
-        sCriaRecFrame = 0;
-        sCriaRecTicks = 0;
-    }
-
-    SPR_setPosition(
-        sCriaSprite,
-        DEMO_CRIA_WORLD_X - sCameraX - DEMO_CRIA_PIVOT_X,
-        DEMO_GROUND_Y - DEMO_CRIA_GROUND_Y
-    );
-
-    if (sCriaMode == 1) {
-        sCriaWalkTicks++;
-        if (sCriaWalkTicks < sCriaWalkDuration[sCriaWalkFrame]) {
-            return;
-        }
-        sCriaWalkTicks = 0;
-        sCriaWalkFrame++;
-        if (sCriaWalkFrame >= DEMO_CRIA_WALK_FRAME_COUNT) {
-            sCriaWalkFrame = 0;
-        }
-        SPR_setFrame(sCriaSprite, sCriaWalkFrame);
-        return;
-    }
-
-    if (sCriaMode == 2) {
-        if (sCriaTelFrame >= (DEMO_CRIA_TELEGRAPH_FRAME_COUNT - 1)) {
-            return;
-        }
-        sCriaTelTicks++;
-        if (sCriaTelTicks < sCriaTelDuration[sCriaTelFrame]) {
-            return;
-        }
-        sCriaTelTicks = 0;
-        sCriaTelFrame++;
-        SPR_setFrame(sCriaSprite, sCriaTelFrame);
-        return;
-    }
-
-    if (sCriaMode == 3) {
-        if (sCriaRecovering) {
-            if (sCriaRecFrame >= (DEMO_CRIA_RECOVER_FRAME_COUNT - 1)) {
-                return;
-            }
-            sCriaRecTicks++;
-            if (sCriaRecTicks < sCriaRecDuration[sCriaRecFrame]) {
-                return;
-            }
-            sCriaRecTicks = 0;
-            sCriaRecFrame++;
-            SPR_setFrame(sCriaSprite, sCriaRecFrame);
-            return;
-        }
-
-        sCriaHitTicks++;
-        if (sCriaHitTicks < sCriaHitDuration[sCriaHitFrame]) {
-            return;
-        }
-        sCriaHitTicks = 0;
-        if (sCriaHitFrame >= 2) {
-            if (!SPR_setDefinition(sCriaSprite, &spr_cria_recover_lean)) {
-                VDP_drawTextFill("CRIA SPRITE ALLOC FAILED", 7, 11, 23);
-                return;
-            }
-            SPR_setAutoAnimation(sCriaSprite, FALSE);
-            SPR_setAnimAndFrame(sCriaSprite, 0, 0);
-            sCriaRecovering = TRUE;
-            sCriaRecFrame = 0;
-            sCriaRecTicks = 0;
-            return;
-        }
-        sCriaHitFrame++;
-        SPR_setFrame(sCriaSprite, sCriaHitFrame);
-        return;
-    }
-
-    sCriaIdleFrameTicks++;
-    if (sCriaIdleFrameTicks < sCriaIdleDuration[sCriaIdleFrame]) {
-        return;
-    }
-    sCriaIdleFrameTicks = 0;
-    sCriaIdleFrame++;
-    if (sCriaIdleFrame >= DEMO_CRIA_IDLE_FRAME_COUNT) {
-        sCriaIdleFrame = 0;
-    }
-    SPR_setFrame(sCriaSprite, sCriaIdleFrame);
-}
-
 static void demoDrawPause(void)
 {
     VDP_drawTextFill("==== PAUSE ====", 12, 11, 16);
@@ -820,30 +664,8 @@ void SCENE_demoEnter(void)
         SPR_setFrame(sPlayerSprite, 0);
     }
 
-    sCriaIdleFrame = 0;
-    sCriaIdleFrameTicks = 0;
-    sCriaWalkFrame = 0;
-    sCriaWalkTicks = 0;
-    sCriaWalking = FALSE;
-    sCriaMode = 0;
-    sCriaTelFrame = 0;
-    sCriaTelTicks = 0;
-    sCriaHitFrame = 0;
-    sCriaHitTicks = 0;
-    sCriaRecovering = FALSE;
-    sCriaRecFrame = 0;
-    sCriaRecTicks = 0;
-    sCriaClock = 0;
-    sCriaSprite = SPR_addSprite(
-        &spr_cria_idle_lean,
-        DEMO_CRIA_WORLD_X - sCameraX - DEMO_CRIA_PIVOT_X,
-        DEMO_GROUND_Y - DEMO_CRIA_GROUND_Y,
-        TILE_ATTR(PAL3, TRUE, FALSE, FALSE)
-    );
-    if (sCriaSprite != NULL) {
-        SPR_setAnim(sCriaSprite, 0);
-        SPR_setAutoAnimation(sCriaSprite, FALSE);
-        SPR_setFrame(sCriaSprite, 0);
+    if (!CRIA_enter(sCameraX)) {
+        VDP_drawTextFill("CRIA SPRITE ALLOC FAILED", 7, 11, 23);
     }
 }
 
@@ -864,6 +686,7 @@ void SCENE_demoUpdate(void)
     }
 
     if (INPUT_pressed(BUTTON_MODE)) {
+        CRIA_exit();
         SCENE_cleanupLineScroll(BG_A);
         VDP_setHorizontalScroll(BG_B, 0);
         APP_changeScene(APP_SCENE_MENU);
@@ -871,10 +694,22 @@ void SCENE_demoUpdate(void)
     }
 
     demoUpdatePlayer();
+    {
+        s16 criaKnockback = 0;
+
+        CRIA_update(sPlayer.x, sPlayer.y, sPlayer.grounded, sCameraX, &criaKnockback);
+        if (criaKnockback != 0) {
+            sPlayer.x += FIX16(criaKnockback);
+            if (sPlayer.x < FIX16(DEMO_PLAYER_MIN_X)) {
+                sPlayer.x = FIX16(DEMO_PLAYER_MIN_X);
+            } else if (sPlayer.x > FIX16(DEMO_PLAYER_MAX_X)) {
+                sPlayer.x = FIX16(DEMO_PLAYER_MAX_X);
+            }
+        }
+    }
     demoUpdateCamera();
     demoUpdateEnvironmentFx();
     demoUpdatePlayerAnimation();
     demoDrawPlayer();
-    demoUpdateCria();
     demoDrawHud();
 }

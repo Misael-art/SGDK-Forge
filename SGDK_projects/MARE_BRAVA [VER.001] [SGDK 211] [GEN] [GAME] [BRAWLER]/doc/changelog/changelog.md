@@ -1,5 +1,16 @@
 # Changelog Canonico - MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
+## 2026-08-29 — CRIA IA perseguidor (build_v009)
+
+- FSM APPROACH->TELEGRAPH->ATTACK->RECOVER. Spawn x=288, aggro 200,
+  strike 40, 1.5 px/vbl, sem H-flip. Hit conecta com recuo 8 px e SFX;
+  HP ainda nao esta ligado.
+- ROM
+  `6bf9e359ae6ed13f926db7e4ab631943bc001291c67e2aa6249358b5ca968686`
+  BlastEm `blastem-linux-20260829T172244Z-2390350`. Burst 1 = approach;
+  burst 20 = telegraph; still = golpe na Taina.
+- Continua `visual_pass=false`, `ready_for_aaa=false`.
+
 ## 2026-08-29 — CRIA recover nativo apos haymaker (build_v008)
 
 - Follow/retract/settle/hold 4-5-6-8. Punho armado recua da esquerda para

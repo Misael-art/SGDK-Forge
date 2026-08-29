@@ -69,9 +69,10 @@
   com GIF no BlastEm (screenshot ainda parece walk; alcance curto).
   Continua laboratorio. (2026-08-29j) o mesmo pipeline entrou no
   MARE_BRAVA: CRIA idle nativo 48x64 PAL3 no CAIS_01; ROM
-  `854a18be…20de54` com TAÍNA+CRIA no BlastEm. Continua
-  `visual_pass=false` / `ready_for_aaa=false`. Nao declarar que o
-  Forge ja gera no piso Rheo/Pigsy.
+  `854a18be…20de54` com TAÍNA+CRIA no BlastEm. (2026-08-29k) CRIA
+  walk 4 fases; ROM `4e9248a4…8a7847` burst prova passada.
+  Continua `visual_pass=false` / `ready_for_aaa=false`. Nao declarar
+  que o Forge ja gera no piso Rheo/Pigsy.
 - Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
   por concept high-res; fake pixel art do gerador e rejeicao, nao input
   de quantize.

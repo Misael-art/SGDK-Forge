@@ -25,6 +25,7 @@
 #define DEMO_CRIA_PIVOT_X 24
 #define DEMO_CRIA_GROUND_Y 60
 #define DEMO_CRIA_IDLE_FRAME_COUNT 4
+#define DEMO_CRIA_WALK_FRAME_COUNT 4
 
 #define DEMO_ACCEL (FIX16(1) >> 3)
 #define DEMO_FRICTION (FIX16(1) >> 4)
@@ -75,6 +76,11 @@ static const u8 sJabPhaseDuration[DEMO_JAB_PHASE_COUNT] = { 3, 2, 2, 3, 4 };
 static u8 sCriaIdleFrame;
 static u8 sCriaIdleFrameTicks;
 static const u8 sCriaIdleDuration[DEMO_CRIA_IDLE_FRAME_COUNT] = { 8, 7, 8, 7 };
+static u8 sCriaWalkFrame;
+static u8 sCriaWalkTicks;
+static const u8 sCriaWalkDuration[DEMO_CRIA_WALK_FRAME_COUNT] = { 5, 4, 5, 4 };
+static bool sCriaWalking;
+static u16 sCriaClock;
 static s16 sBgAScrollLines[DEMO_SCROLL_LINES];
 static s16 sBgBScrollLines[DEMO_SCROLL_LINES];
 static const s8 sWaterWave[16] = {
@@ -571,8 +577,26 @@ static void demoDrawHud(void)
 
 static void demoUpdateCria(void)
 {
+    bool wantWalk;
+
     if (sCriaSprite == NULL) {
         return;
+    }
+
+    sCriaClock++;
+    wantWalk = ((sCriaClock / 120) % 2) == 1;
+    if (wantWalk != sCriaWalking) {
+        if (!SPR_setDefinition(sCriaSprite, wantWalk ? &spr_cria_walk_lean : &spr_cria_idle_lean)) {
+            VDP_drawTextFill("CRIA SPRITE ALLOC FAILED", 7, 11, 23);
+            return;
+        }
+        SPR_setAutoAnimation(sCriaSprite, FALSE);
+        SPR_setAnimAndFrame(sCriaSprite, 0, 0);
+        sCriaWalking = wantWalk;
+        sCriaIdleFrame = 0;
+        sCriaIdleFrameTicks = 0;
+        sCriaWalkFrame = 0;
+        sCriaWalkTicks = 0;
     }
 
     SPR_setPosition(
@@ -580,6 +604,21 @@ static void demoUpdateCria(void)
         DEMO_CRIA_WORLD_X - sCameraX - DEMO_CRIA_PIVOT_X,
         DEMO_GROUND_Y - DEMO_CRIA_GROUND_Y
     );
+
+    if (sCriaWalking) {
+        sCriaWalkTicks++;
+        if (sCriaWalkTicks < sCriaWalkDuration[sCriaWalkFrame]) {
+            return;
+        }
+        sCriaWalkTicks = 0;
+        sCriaWalkFrame++;
+        if (sCriaWalkFrame >= DEMO_CRIA_WALK_FRAME_COUNT) {
+            sCriaWalkFrame = 0;
+        }
+        SPR_setFrame(sCriaSprite, sCriaWalkFrame);
+        return;
+    }
+
     sCriaIdleFrameTicks++;
     if (sCriaIdleFrameTicks < sCriaIdleDuration[sCriaIdleFrame]) {
         return;
@@ -696,6 +735,10 @@ void SCENE_demoEnter(void)
 
     sCriaIdleFrame = 0;
     sCriaIdleFrameTicks = 0;
+    sCriaWalkFrame = 0;
+    sCriaWalkTicks = 0;
+    sCriaWalking = FALSE;
+    sCriaClock = 0;
     sCriaSprite = SPR_addSprite(
         &spr_cria_idle_lean,
         DEMO_CRIA_WORLD_X - sCameraX - DEMO_CRIA_PIVOT_X,

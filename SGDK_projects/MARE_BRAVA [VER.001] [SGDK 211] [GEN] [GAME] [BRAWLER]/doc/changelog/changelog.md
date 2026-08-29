@@ -1,5 +1,13 @@
 # Changelog Canonico - MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
+## 2026-08-29 — CRIA walk 4 fases nativo (build_v005)
+
+- Walk 3/4: contact/pass/contact/pass, 5-4-5-4, um pe plantado, passada 4 px.
+- Video recusado (dois pes no ar). Pixels no grid travado da idle.
+- ROM `4e9248a42f64e78590e85e4506729cc4bf9ad52e63298d3b3570104d1e8a7847`
+  BlastEm `blastem-linux-20260829T163328Z-2259788`. Burst prova a passada.
+- Continua `visual_pass=false`, `ready_for_aaa=false`.
+
 ## 2026-08-29 — CRIA idle nativo 48x64 no CAIS_01 (build_v004)
 
 - Pipeline F-R2 aplicado ao jogo: Imagine construction (nao sprite sheet MD)

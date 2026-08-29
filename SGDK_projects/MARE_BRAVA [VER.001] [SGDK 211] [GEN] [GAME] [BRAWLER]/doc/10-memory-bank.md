@@ -13,9 +13,9 @@
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-08-29 (CRIA idle nativo 48x64 no CAIS_01, PAL3)
-**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA no cais v04. Faltam VLAB/dump VDP, IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
-**Proxima fase:** parecer humano da CRIA nativa; walk/telegraph da CRIA no mesmo grid; ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
+**Ultima atualizacao:** 2026-08-29 (CRIA idle+walk nativo 48x64 no CAIS_01, PAL3)
+**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA (idle 2s / walk 2s) no cais v04. Faltam VLAB/dump VDP, telegraph/IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
+**Proxima fase:** telegraph de corrida da CRIA, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -734,3 +734,16 @@
 - A CRIA nativa ainda e mais blocada que a TAÍNA v02. Sem walk, telegraph,
   hit, IA ou ESTIVADOR. `visual_pass=false`. `ready_for_aaa=false`.
   Parecer humano da strip nativa ainda pendente.
+
+## 30. ATUALIZACAO 2026-08-29 — CRIA walk 4 fases nativo
+
+- Walk 3/4 no grid 48x64: contact_L / pass_R / contact_R / pass_L, times
+  5-4-5-4. Um chinelo sempre plantado; passada ~4 px. Video Imagine so
+  como referencia — harvest saiu aereo e foi recusado como pixel.
+- Runtime troca idle/walk a cada 2 s via `SPR_setDefinition`. Sem H-flip.
+- ROM sha256
+  `4e9248a42f64e78590e85e4506729cc4bf9ad52e63298d3b3570104d1e8a7847`.
+  BlastEm `blastem-linux-20260829T163328Z-2259788`: burst frame 1 (pass)
+  vs frame 4 (contact) muda a passada. ResComp 27-32 tiles / 2-4 partes.
+- Continua `visual_pass=false` / `ready_for_aaa=false`. Sem telegraph, IA
+  ou ESTIVADOR.

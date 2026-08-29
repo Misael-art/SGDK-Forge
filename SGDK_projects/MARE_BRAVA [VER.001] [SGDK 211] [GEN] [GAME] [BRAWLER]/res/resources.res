@@ -17,6 +17,7 @@ SPRITE spr_taina_idle_guard "sprites/characters/taina/taina_idle_guard_48x64_v02
 
 // CRIA: native 48x64 nervous lean idle. PAL3 enemy roster. No H-flip (cap visor).
 SPRITE spr_cria_idle_lean "sprites/characters/cria/cria_idle_lean_48x64_v01.png" 6 8 FAST 0
+SPRITE spr_cria_walk_lean "sprites/characters/cria/cria_walk_lean_48x64_v01.png" 6 8 FAST 0
 
 // TAÍNA P0 locomotion candidates. Every strip contains one action and only
 // unique physical drawings; timing remains manual to preserve the VBlank map.

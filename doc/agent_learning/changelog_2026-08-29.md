@@ -135,3 +135,9 @@ com TAÍNA+CRIA no BlastEm cena 3
 (`blastem-linux-20260829T162243Z-2229911`). CRIA ainda abaixo da
 TAÍNA v02. Sem IA, sem ESTIVADOR. Continua `visual_pass=false` e
 `ready_for_aaa=false`.
+
+## MARE_BRAVA — CRIA walk 4 fases (2026-08-29k)
+
+Walk nativo 48x64 contact/pass. Video aereo recusado. ROM
+`4e9248a42f64e78590e85e4506729cc4bf9ad52e63298d3b3570104d1e8a7847`
+BlastEm burst mostra passada. Continua `visual_pass=false`.

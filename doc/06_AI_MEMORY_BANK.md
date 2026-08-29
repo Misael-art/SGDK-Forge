@@ -56,9 +56,12 @@
   nao de sprite sheet MD), art-translation-to-vdp, aaa-pipeline-guardian,
   benchmark_usage_policy, radar, modelo `00-diretrizes-agente.md`.
 - Plano de capacidade: `doc/03_art/19_plan_pixel_art_live_scene_capability.md`.
-  `runtime_proof_status` desta barra: `NAO_INICIADA`. Nao declarar que o
-  Forge ja gera nesse nivel. Proximo passo honesto: Fase 1 (fonte premium
-  persistida, default MARE_BRAVA) com Ramo A.
+  `runtime_proof_status` desta barra: `PARCIAL_LAB`. F-R2 fase 1 teve ROM
+  com paletas de papel (R2) mas sprites em downscale. F-R2 fase 2
+  (2026-08-29d) redesenhou heroi/thug em lineart 1 px nativo 48x64;
+  ROM `4c07c842…f5642d` vista no BlastEm. Nao e `visual_pass`. Cais
+  ainda quantize; cor ainda nao comecou. Nao declarar que o Forge ja
+  gera no piso Rheo/Pigsy.
 - Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
   por concept high-res; fake pixel art do gerador e rejeicao, nao input
   de quantize.

@@ -62,3 +62,16 @@ leve sob DMA alto; 1000 sprites e 97% CPU nao sao default de produto.
 
 Cadeia de modos: brief + project-opening + laboratory-mode +
 scene-direction-first passo 4 + agent-session-bootstrap.
+
+## F-R2 fase 2 — lineart nativo 48x64 (2026-08-29d)
+
+LIVE_BAR_FR2 reconstruiu heroi e thug no grid 48x64 com
+`lineart_blocking_1px` (1 px, tinta temporaria, papel de construcao).
+Nao e downscale da pintura. Fontes Imagine + desenhos de construcao
+em `data/source_art/`. Downscale v001 marcado
+`obsolete_for_generation_source`. ROM 131072 B sha256
+`4c07c842ab5509c79a05743836e663ffcb9bb1f5d3f359e25ee8069749f5642d`.
+BlastEm screenshot mostra os dois lutadores em lineart no cais;
+semantic gate `passed`; bundle canonico ainda rejeitado (VLAB/dump).
+Cais continua quantize. Cor/rampas nao comecaram. `visual_pass=false`.
+`lab_not_delivery=true`.

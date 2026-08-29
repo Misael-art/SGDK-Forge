@@ -1,0 +1,41 @@
+{
+  "schema": "native_grid_translation_report.v1",
+  "project": "LIVE_BAR_FR2 [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "translation_target": "sprite_single",
+  "phase": "lineart_blocking_1px",
+  "method": "part_clusters_on_48x64_then_1px_outline",
+  "not_used": [
+    "photo_downscale",
+    "nearest_neighbor_of_painting_as_final",
+    "pixel_art_prompted_as_final",
+    "obsolete_downscale_as_generation_source"
+  ],
+  "sources": {
+    "hero_concept": "data/source_art/hero_source.jpg",
+    "thug_concept": "data/source_art/thug_source.jpg",
+    "hero_construction": "data/source_art/hero_lineart_source.jpg",
+    "thug_construction": "data/source_art/thug_lineart_source.jpg"
+  },
+  "outputs": {
+    "hero": "res/sprites/hero_48x64.png",
+    "thug": "res/sprites/thug_48x64.png"
+  },
+  "grid": [48, 64],
+  "index0": "#FF00FF",
+  "visible_colors_per_sprite": 2,
+  "color_blocking_started": false,
+  "fake_pixel_art_rejection": {
+    "downscale_route": "rejected",
+    "native_route": "this_file"
+  },
+  "basic_vs_elite": {
+    "basic": "obsolete_downscale chroma+quantize",
+    "elite_this_phase": "native 48x64 lineart blocking",
+    "elite_color": "not_started"
+  },
+  "fidelity_notes": [
+    "Hero keeps raised rope-wrapped fist, mullet, open vest, sports-bra mass, two boots, guard stance.",
+    "Thug keeps barrel torso, both fists up, belt hook, beard/hair mass, horse stance.",
+    "Joints and boot shafts are still simplified. Not visual_pass. Not AAA."
+  ]
+}

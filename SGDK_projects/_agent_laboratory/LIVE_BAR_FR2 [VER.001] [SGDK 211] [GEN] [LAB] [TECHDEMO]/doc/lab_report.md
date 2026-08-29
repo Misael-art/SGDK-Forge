@@ -5,6 +5,11 @@
 Prova do axioma R2 (paleta com papel): quatro paletas SGDK
 carregadas com papeis distintos numa cena 320x224.
 
-Sprite/BG sao traducao por quantize de fonte Imagine, nao redesenho
-elite. Nao fecha `ready_for_aaa`. Fecha apenas: ROM lab que *mostra*
-PAL0/PAL1/PAL2/PAL3 ao mesmo tempo.
+## Fase 2 (esta entrega)
+
+Sprites do heroi e do thug sao `lineart_blocking_1px` no grid nativo
+48x64. Nao sao downscale da pintura. Cor de material ainda nao comecou.
+
+O cais continua quantize da fonte Imagine.
+
+Nao fecha `ready_for_aaa`. Nao fecha `visual_pass`.

@@ -4,8 +4,8 @@
 /*
  * LIVE_BAR_FR2 — lab fixture for palette roles (R2).
  * PAL0 player, PAL1 enemy, PAL2 dock BG, PAL3 spare FX.
- * lab_not_delivery: sprites are native-grid translations of Imagine
- * sources, not elite redraws.
+ * lab_not_delivery: sprites are lineart_blocking_1px on the 48x64 grid.
+ * Color blocking / material ramps are not started.
  */
 
 int main(bool hardReset)

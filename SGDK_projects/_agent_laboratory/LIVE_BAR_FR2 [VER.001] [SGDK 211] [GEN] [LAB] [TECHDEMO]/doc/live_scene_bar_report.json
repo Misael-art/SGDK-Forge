@@ -23,10 +23,12 @@
   "axioms_applied": {
     "R2": "pass",
     "R9": "pass",
-    "G1": "pass"
+    "G1": "pass",
+    "P1": "pass"
   },
   "blockers": [
-    "fake_pixel_art_rejection",
+    "dock_still_quantized_source",
+    "color_blocking_not_started",
     "vlab_block_missing",
     "visual_vdp_dump_missing",
     "lab_not_delivery"
@@ -38,13 +40,15 @@
     "blastem_bundle": true,
     "paths": [
       "out/rom.bin",
-      "out/evidence/blastem-linux-20260829T134220Z-1830965/screenshot.png",
-      "out/evidence/blastem-linux-20260829T134220Z-1830965/screenshot_semantic_gate_report.json"
+      "out/evidence/blastem-linux-20260829T140943Z-1899126/screenshot.png",
+      "out/evidence/blastem-linux-20260829T140943Z-1899126/screenshot_semantic_gate_report.json",
+      "doc/changelog/roms/build_v002/rom.bin",
+      "doc/changelog/roms/build_v002/screenshot.png"
     ]
   },
   "authorship": {
     "benchmark_used_as": "quality_bar",
     "their_pixels_in_source_art": false
   },
-  "notes": "ROM 131072 bytes sha256 292004cc024618828cbb6430d1e569fa3449abc38a5290c67428692965e63b59. BlastEm screenshot shows PAL0 hero, PAL1 thug, PAL2 dock, PAL3 text/fx. Capture bundle rejected for missing VLAB/runtime_metrics/vdp_dump. Sprites are Imagine downscale+quantize, not elite native redraw. lab_not_delivery=true. R2 palette roles are visible in emulator; AAA visual_pass remains false."
+  "notes": "Phase 2 lineart. ROM 131072 bytes sha256 4c07c842ab5509c79a05743836e663ffcb9bb1f5d3f359e25ee8069749f5642d. Hero/thug are native 48x64 lineart_blocking_1px (not photo downscale). Dock remains Imagine quantize, so scene-level native_pixel stays fail. BlastEm screenshot shows both fighters as lineart on the dock; semantic gate passed; canonical bundle rejected (vlab/vdp_dump/runtime_metrics). Color ramps not started. visual_pass=false. lab_not_delivery=true."
 }

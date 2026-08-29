@@ -1,5 +1,16 @@
 # Changelog Canonico - MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
+## 2026-08-29 — CRIA haymaker nativo apos telegraph (build_v007)
+
+- Launch/active/hitstop/recover 3-4-6-5 no grid 48x64. Pulseira no braco
+  armado; o punho viaja da direita (telegraph) para a esquerda (Taina).
+- Video recusado (jab do braco da frente). Dois pes plantados. Demo segura
+  o hitstop. ROM
+  `c63092cf27dbb6fbcd87f684f02f89051e2b307b5957c7011d75b35a74d83de6`
+  BlastEm `blastem-linux-20260829T165936Z-2328459`. Burst frame 16 = punho
+  estendido; o still pos-warmup caiu no idle.
+- Continua `visual_pass=false`, `ready_for_aaa=false`.
+
 ## 2026-08-29 — CRIA telegraph 12 vbl nativo (build_v006)
 
 - Coil/load/peak/hold 3-3-4-2, braco armado, dois pes plantados.

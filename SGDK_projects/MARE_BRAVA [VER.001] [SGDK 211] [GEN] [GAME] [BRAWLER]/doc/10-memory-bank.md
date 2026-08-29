@@ -13,9 +13,9 @@
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-08-29 (CRIA idle+walk+telegraph nativo 48x64, PAL3)
-**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA (idle / walk / telegraph 2s) no cais v04. Faltam VLAB/dump VDP, ataque/IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
-**Proxima fase:** ataque da CRIA apos o telegraph, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
+**Ultima atualizacao:** 2026-08-29 (CRIA idle+walk+telegraph+hit nativo 48x64, PAL3)
+**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA (idle / walk / telegraph / hit 2s) no cais v04. Faltam VLAB/dump VDP, IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
+**Proxima fase:** recover da CRIA como strip propria, IA, ESTIVADOR, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -761,3 +761,22 @@
   3-4 partes. Bundle canonico rejeitado (VLAB/dump).
 - Continua `visual_pass=false` / `ready_for_aaa=false`. Sem ataque, IA ou
   ESTIVADOR.
+
+## 32. ATUALIZACAO 2026-08-29 — CRIA haymaker nativo apos telegraph
+
+- Golpe no grid 48x64: launch / active / hitstop / recover, times 3-4-6-5.
+  O punho armado viaja da direita (cock do telegraph) para a esquerda
+  (Taina). Pulseira permanece no braco armado. Dois chinelos plantados.
+  Video Imagine so referencia — harvest bateu com o braco da frente e
+  foi recusado como pixel.
+- Runtime: idle / walk / telegraph / hit a cada 2 s; hit toca launch+
+  active+hitstop e segura o hitstop (recover existe na strip para o
+  chain ATTACK->RECOVER). Sem H-flip.
+- ROM sha256
+  `c63092cf27dbb6fbcd87f684f02f89051e2b307b5957c7011d75b35a74d83de6`.
+  BlastEm `blastem-linux-20260829T165936Z-2328459`. Burst frame 1
+  (telegraph, punho a direita) vs frame 16 (haymaker, punho a esquerda).
+  Still pos-warmup caiu no idle do ciclo seguinte. ResComp 28-32 tiles /
+  2-3 partes. Bundle canonico rejeitado (VLAB/dump).
+- Continua `visual_pass=false` / `ready_for_aaa=false`. Sem IA, recover
+  como estado proprio, ou ESTIVADOR.

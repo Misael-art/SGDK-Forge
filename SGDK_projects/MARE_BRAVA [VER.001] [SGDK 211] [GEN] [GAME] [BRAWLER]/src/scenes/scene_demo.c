@@ -27,6 +27,7 @@
 #define DEMO_CRIA_IDLE_FRAME_COUNT 4
 #define DEMO_CRIA_WALK_FRAME_COUNT 4
 #define DEMO_CRIA_TELEGRAPH_FRAME_COUNT 4
+#define DEMO_CRIA_HIT_FRAME_COUNT 4
 
 #define DEMO_ACCEL (FIX16(1) >> 3)
 #define DEMO_FRICTION (FIX16(1) >> 4)
@@ -85,6 +86,9 @@ static u8 sCriaMode;
 static u8 sCriaTelFrame;
 static u8 sCriaTelTicks;
 static const u8 sCriaTelDuration[DEMO_CRIA_TELEGRAPH_FRAME_COUNT] = { 3, 3, 4, 2 };
+static u8 sCriaHitFrame;
+static u8 sCriaHitTicks;
+static const u8 sCriaHitDuration[DEMO_CRIA_HIT_FRAME_COUNT] = { 3, 4, 6, 5 };
 static u16 sCriaClock;
 static s16 sBgAScrollLines[DEMO_SCROLL_LINES];
 static s16 sBgBScrollLines[DEMO_SCROLL_LINES];
@@ -588,6 +592,9 @@ static const SpriteDefinition* demoCriaDefinition(u8 mode)
     if (mode == 2) {
         return &spr_cria_telegraph_lean;
     }
+    if (mode == 3) {
+        return &spr_cria_hit_lean;
+    }
     return &spr_cria_idle_lean;
 }
 
@@ -600,7 +607,7 @@ static void demoUpdateCria(void)
     }
 
     sCriaClock++;
-    wantMode = (u8)((sCriaClock / 120) % 3);
+    wantMode = (u8)((sCriaClock / 120) % 4);
     if (wantMode != sCriaMode) {
         if (!SPR_setDefinition(sCriaSprite, demoCriaDefinition(wantMode))) {
             VDP_drawTextFill("CRIA SPRITE ALLOC FAILED", 7, 11, 23);
@@ -616,6 +623,8 @@ static void demoUpdateCria(void)
         sCriaWalkTicks = 0;
         sCriaTelFrame = 0;
         sCriaTelTicks = 0;
+        sCriaHitFrame = 0;
+        sCriaHitTicks = 0;
     }
 
     SPR_setPosition(
@@ -649,6 +658,22 @@ static void demoUpdateCria(void)
         sCriaTelTicks = 0;
         sCriaTelFrame++;
         SPR_setFrame(sCriaSprite, sCriaTelFrame);
+        return;
+    }
+
+    if (sCriaMode == 3) {
+        /* Hold hitstop (frame 2). Recover exists on the strip for the later
+         * ATTACK->RECOVER chain; the 2s showcase must stay readable as a punch. */
+        if (sCriaHitFrame >= 2) {
+            return;
+        }
+        sCriaHitTicks++;
+        if (sCriaHitTicks < sCriaHitDuration[sCriaHitFrame]) {
+            return;
+        }
+        sCriaHitTicks = 0;
+        sCriaHitFrame++;
+        SPR_setFrame(sCriaSprite, sCriaHitFrame);
         return;
     }
 
@@ -774,6 +799,8 @@ void SCENE_demoEnter(void)
     sCriaMode = 0;
     sCriaTelFrame = 0;
     sCriaTelTicks = 0;
+    sCriaHitFrame = 0;
+    sCriaHitTicks = 0;
     sCriaClock = 0;
     sCriaSprite = SPR_addSprite(
         &spr_cria_idle_lean,

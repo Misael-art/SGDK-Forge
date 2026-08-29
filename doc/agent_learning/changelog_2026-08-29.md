@@ -148,3 +148,10 @@ Telegraph nativo coil/load/peak/hold. Cue: corrida inclinada com braco
 armado. Video trocou a pulseira de braco e foi recusado. ROM
 `ed032430c6903e211efe4c2bd04090995171f1e49613ec6ab062f84d609ae36f`.
 Continua `visual_pass=false`.
+
+## MARE_BRAVA — CRIA haymaker nativo (2026-08-29m)
+
+Haymaker nativo launch/active/hitstop/recover. Video bateu com o braco
+da frente e foi recusado. ROM
+`c63092cf27dbb6fbcd87f684f02f89051e2b307b5957c7011d75b35a74d83de6`.
+Burst prova punho a esquerda. Continua `visual_pass=false`.

@@ -34,6 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
+#define FRAME_ANIMATION_INTERVAL_FRAMES 45 /* P6 medido: reload completo a cada 45f causa 7 overflows e 15 over_budget em 120s; incremental necessario para AAA */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70
@@ -700,9 +701,11 @@ void SCENE_demoUpdate(void)
     sTick++;
     updateCamera();
 #if FRAME_ANIMATION_ENABLED
-    if ((sTick & 0x0F) == 0) {
+    if ((sTick % FRAME_ANIMATION_INTERVAL_FRAMES) == 0) {
         sFrameIndex = (u16)((sFrameIndex + 1) % FRAME_COUNT);
     }
+#else
+    (void)FRAME_ANIMATION_INTERVAL_FRAMES;
 #endif
     applyCamera();
 }

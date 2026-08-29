@@ -59,9 +59,15 @@
 - Report: `analysis/p5_performance_report.json` — claim `proven_for_sample_window`, nota de 32-sample window limitação honesta.
 - Próximo soak burst pode ampliar janela amostral se P6 aumentar carga.
 
-### PENDING — P6: Animacoes SFF (frame_animation_enabled=false hoje)
-- Objetivo: animar ao menos 1 layer BG com budget DMA medido pelo P2/P5.
-- Aceite: animacao visivel em BlastEm + gates verdes + A/B.
+### MEASURED_WITH_LIMITATION — P6: Animacoes SFF (2026-08-29)
+- Teste: FRAME_ANIMATION_ENABLED=1 interval 45f; animação visível (61% pixels) mas soak 120s: overflow=7, over_budget=15.
+- Veredito: **REPROVADO para reload completo**. AAA exige streaming incremental/delta entre frames.
+- ROM revertida para DISABLED para manter selo verde; evidências em `evidence_p6_*` + `analysis/p6_animation_report.json`.
+- Próximo AAA real: implementar diff incremental e re-medir via TSTR.
+
+### PENDING — P6b: Animação incremental AAA (herdeiro de P6)
+- Objetivo: animar via delta de tiles (sem resetTileCache completo) + double-buffer.
+- Aceite: animação visível + 0 overflows + 0 over_budget em soak 120s + margem VRAM mantida.
 
 ## Limites estruturais lembrados
 - Host Linux: build SO via `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh`;

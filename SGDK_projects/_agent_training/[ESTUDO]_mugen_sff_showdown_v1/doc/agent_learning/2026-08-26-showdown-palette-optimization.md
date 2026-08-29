@@ -114,3 +114,11 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - Soak 120s selado (…155104Z…): VLAB 32 samples, 0 over_budget_frames, max_cpu 88, p50=82 p95=88 p99=88 (MDRT samples 31 vals).
 - Claim honesto: proven_for_sample_window (32 amostras); ampliar janela amostral em P6 se carga subir.
 - Método: captura longa + parsing SRAM MDRT/VLAB em analysis/p5_performance_report.json.
+
+## Adendo P6 (2026-08-29): animação SFF medida e REPROVADA como AAA (crítico ativo)
+
+- Habilitado `FRAME_ANIMATION_ENABLED=1` interval 45f: animação VISÍVEL (burst 61% pixels mudam entre frames), mas soak 120s prova custo:
+  TSTR overflow=7, VLAB over_budget=15 frames, max_cpu 409 (unidade probe).
+- Veredito honesto: reload completo por frame NÃO é AAA — exige streaming incremental (delta entre mapas) + double-buffer.
+- ROM corrente revertida para `FRAME_ANIMATION_ENABLED=0` para manter bundles selados sem overflows; evidências P6 guardadas como material de aprendizado.
+- Próximo incremento AAA real: implementar diff incremental de tiles entre frames e medir novamente via TSTR per-frame.

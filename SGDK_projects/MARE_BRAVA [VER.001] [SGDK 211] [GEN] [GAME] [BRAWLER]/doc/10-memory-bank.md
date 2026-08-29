@@ -13,9 +13,9 @@
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-08-29 (CRIA idle+walk nativo 48x64 no CAIS_01, PAL3)
-**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA (idle 2s / walk 2s) no cais v04. Faltam VLAB/dump VDP, telegraph/IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
-**Proxima fase:** telegraph de corrida da CRIA, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
+**Ultima atualizacao:** 2026-08-29 (CRIA idle+walk+telegraph nativo 48x64, PAL3)
+**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA + CRIA (idle / walk / telegraph 2s) no cais v04. Faltam VLAB/dump VDP, ataque/IA da CRIA, ESTIVADOR, HUD, áudio de gameplay e closeout.
+**Proxima fase:** ataque da CRIA apos o telegraph, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
@@ -747,3 +747,17 @@
   vs frame 4 (contact) muda a passada. ResComp 27-32 tiles / 2-4 partes.
 - Continua `visual_pass=false` / `ready_for_aaa=false`. Sem telegraph, IA
   ou ESTIVADOR.
+
+## 31. ATUALIZACAO 2026-08-29 — CRIA telegraph 12 vbl nativo
+
+- Cue do roster: corrida inclinada com braco armado. 4 fases coil/load/peak/
+  hold, times 3-3-4-2 = 12 VBlanks. Dois chinelos plantados. Pulseira no
+  braco armado de tras (o video trocou para a frente e foi recusado).
+- Runtime: idle / walk / telegraph a cada 2 s; telegraph toca uma vez e
+  segura o hold.
+- ROM sha256
+  `ed032430c6903e211efe4c2bd04090995171f1e49613ec6ab062f84d609ae36f`.
+  BlastEm `blastem-linux-20260829T164437Z-2288660`. ResComp 33-34 tiles /
+  3-4 partes. Bundle canonico rejeitado (VLAB/dump).
+- Continua `visual_pass=false` / `ready_for_aaa=false`. Sem ataque, IA ou
+  ESTIVADOR.

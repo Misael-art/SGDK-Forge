@@ -18,6 +18,7 @@ extern const Image img_cais01_bg_a_pier_modular;
 extern const SpriteDefinition spr_taina_idle_guard;
 extern const SpriteDefinition spr_cria_idle_lean;
 extern const SpriteDefinition spr_cria_walk_lean;
+extern const SpriteDefinition spr_cria_telegraph_lean;
 extern const SpriteDefinition spr_taina_walk_combat_step;
 extern const SpriteDefinition spr_taina_dash_or_step_in;
 extern const SpriteDefinition spr_taina_jump_rise_fall_landing;

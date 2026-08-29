@@ -26,6 +26,7 @@
 #define DEMO_CRIA_GROUND_Y 60
 #define DEMO_CRIA_IDLE_FRAME_COUNT 4
 #define DEMO_CRIA_WALK_FRAME_COUNT 4
+#define DEMO_CRIA_TELEGRAPH_FRAME_COUNT 4
 
 #define DEMO_ACCEL (FIX16(1) >> 3)
 #define DEMO_FRICTION (FIX16(1) >> 4)
@@ -80,6 +81,10 @@ static u8 sCriaWalkFrame;
 static u8 sCriaWalkTicks;
 static const u8 sCriaWalkDuration[DEMO_CRIA_WALK_FRAME_COUNT] = { 5, 4, 5, 4 };
 static bool sCriaWalking;
+static u8 sCriaMode;
+static u8 sCriaTelFrame;
+static u8 sCriaTelTicks;
+static const u8 sCriaTelDuration[DEMO_CRIA_TELEGRAPH_FRAME_COUNT] = { 3, 3, 4, 2 };
 static u16 sCriaClock;
 static s16 sBgAScrollLines[DEMO_SCROLL_LINES];
 static s16 sBgBScrollLines[DEMO_SCROLL_LINES];
@@ -575,28 +580,42 @@ static void demoDrawHud(void)
      * Formal HUD ownership remains a later WINDOW-plane task. */
 }
 
+static const SpriteDefinition* demoCriaDefinition(u8 mode)
+{
+    if (mode == 1) {
+        return &spr_cria_walk_lean;
+    }
+    if (mode == 2) {
+        return &spr_cria_telegraph_lean;
+    }
+    return &spr_cria_idle_lean;
+}
+
 static void demoUpdateCria(void)
 {
-    bool wantWalk;
+    u8 wantMode;
 
     if (sCriaSprite == NULL) {
         return;
     }
 
     sCriaClock++;
-    wantWalk = ((sCriaClock / 120) % 2) == 1;
-    if (wantWalk != sCriaWalking) {
-        if (!SPR_setDefinition(sCriaSprite, wantWalk ? &spr_cria_walk_lean : &spr_cria_idle_lean)) {
+    wantMode = (u8)((sCriaClock / 120) % 3);
+    if (wantMode != sCriaMode) {
+        if (!SPR_setDefinition(sCriaSprite, demoCriaDefinition(wantMode))) {
             VDP_drawTextFill("CRIA SPRITE ALLOC FAILED", 7, 11, 23);
             return;
         }
         SPR_setAutoAnimation(sCriaSprite, FALSE);
         SPR_setAnimAndFrame(sCriaSprite, 0, 0);
-        sCriaWalking = wantWalk;
+        sCriaMode = wantMode;
+        sCriaWalking = (wantMode == 1);
         sCriaIdleFrame = 0;
         sCriaIdleFrameTicks = 0;
         sCriaWalkFrame = 0;
         sCriaWalkTicks = 0;
+        sCriaTelFrame = 0;
+        sCriaTelTicks = 0;
     }
 
     SPR_setPosition(
@@ -605,7 +624,7 @@ static void demoUpdateCria(void)
         DEMO_GROUND_Y - DEMO_CRIA_GROUND_Y
     );
 
-    if (sCriaWalking) {
+    if (sCriaMode == 1) {
         sCriaWalkTicks++;
         if (sCriaWalkTicks < sCriaWalkDuration[sCriaWalkFrame]) {
             return;
@@ -616,6 +635,20 @@ static void demoUpdateCria(void)
             sCriaWalkFrame = 0;
         }
         SPR_setFrame(sCriaSprite, sCriaWalkFrame);
+        return;
+    }
+
+    if (sCriaMode == 2) {
+        if (sCriaTelFrame >= (DEMO_CRIA_TELEGRAPH_FRAME_COUNT - 1)) {
+            return;
+        }
+        sCriaTelTicks++;
+        if (sCriaTelTicks < sCriaTelDuration[sCriaTelFrame]) {
+            return;
+        }
+        sCriaTelTicks = 0;
+        sCriaTelFrame++;
+        SPR_setFrame(sCriaSprite, sCriaTelFrame);
         return;
     }
 
@@ -738,6 +771,9 @@ void SCENE_demoEnter(void)
     sCriaWalkFrame = 0;
     sCriaWalkTicks = 0;
     sCriaWalking = FALSE;
+    sCriaMode = 0;
+    sCriaTelFrame = 0;
+    sCriaTelTicks = 0;
     sCriaClock = 0;
     sCriaSprite = SPR_addSprite(
         &spr_cria_idle_lean,

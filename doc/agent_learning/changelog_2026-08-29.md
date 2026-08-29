@@ -141,3 +141,10 @@ TAÍNA v02. Sem IA, sem ESTIVADOR. Continua `visual_pass=false` e
 Walk nativo 48x64 contact/pass. Video aereo recusado. ROM
 `4e9248a42f64e78590e85e4506729cc4bf9ad52e63298d3b3570104d1e8a7847`
 BlastEm burst mostra passada. Continua `visual_pass=false`.
+
+## MARE_BRAVA — CRIA telegraph 12 vbl (2026-08-29l)
+
+Telegraph nativo coil/load/peak/hold. Cue: corrida inclinada com braco
+armado. Video trocou a pulseira de braco e foi recusado. ROM
+`ed032430c6903e211efe4c2bd04090995171f1e49613ec6ab062f84d609ae36f`.
+Continua `visual_pass=false`.

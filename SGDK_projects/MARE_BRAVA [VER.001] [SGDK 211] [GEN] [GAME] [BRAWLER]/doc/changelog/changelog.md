@@ -1,5 +1,13 @@
 # Changelog Canonico - MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
+## 2026-08-29 — CRIA telegraph 12 vbl nativo (build_v006)
+
+- Coil/load/peak/hold 3-3-4-2, braco armado, dois pes plantados.
+- Video recusado (pulseira no braco da frente). ROM
+  `ed032430c6903e211efe4c2bd04090995171f1e49613ec6ab062f84d609ae36f`
+  BlastEm `blastem-linux-20260829T164437Z-2288660`.
+- Continua `visual_pass=false`, `ready_for_aaa=false`.
+
 ## 2026-08-29 — CRIA walk 4 fases nativo (build_v005)
 
 - Walk 3/4: contact/pass/contact/pass, 5-4-5-4, um pe plantado, passada 4 px.

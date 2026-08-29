@@ -71,6 +71,7 @@
   MARE_BRAVA: CRIA idle nativo 48x64 PAL3 no CAIS_01; ROM
   `854a18be…20de54` com TAÍNA+CRIA no BlastEm. (2026-08-29k) CRIA
   walk 4 fases; ROM `4e9248a4…8a7847` burst prova passada.
+  (2026-08-29l) CRIA telegraph 12 vbl; ROM `ed032430…9ae36f`.
   Continua `visual_pass=false` / `ready_for_aaa=false`. Nao declarar
   que o Forge ja gera no piso Rheo/Pigsy.
 - Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos

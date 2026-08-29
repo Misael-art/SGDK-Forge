@@ -85,3 +85,12 @@ dark_shadow, fora de swap. Painel lineart/basic/elite. ROM
 `f694b841e8f1450b481d45b5be5a35ac1a25eb3dc96fe5d24e00a592e10c73f9`
 vista no BlastEm: heroi teal vs thug vermelho no cais. Cais ainda
 quantize. `visual_pass=false`. `lab_not_delivery=true`.
+
+## F-R2 fase 2c — cais nativo 8x8 (2026-08-29f)
+
+Cais reautorado com vocabulario de tiles 8x8 (99 unicos vs 931 da
+pintura quantizada). `compare_flat` num IMAGE 320x224. Indice 0 do
+plano nao pintado (VDP transparente; backdrop = nevoa PAL2). Recursos
+7 KB vs 33 KB. ROM
+`2411a37d0472f59aaccf1228ec3811b5ef0128ee97ceb350b27ccff70663b3ed`
+vista no BlastEm. Nao e palco dual-plane nem `visual_pass`. Sem motion.

@@ -4,10 +4,11 @@
     {
       "symbol": "img_dock",
       "path": "res/bgs/dock_320x224.png",
-      "source_kind": "ai_generated",
+      "source_kind": "native_grid_tiles",
       "acceptance_status": "debug_lab",
-      "generated_by": "imagine+quantize9bit",
-      "authored_source": "data/source_art/dock_source.jpg"
+      "generated_by": "build_native_dock.py",
+      "authored_source": "data/source_art/dock_source.jpg",
+      "obsolete_generation_source": "data/processed/obsolete_downscale/dock_320x224_v001_quantize.png"
     },
     {
       "symbol": "spr_hero",

@@ -7,11 +7,11 @@
   "schools": ["rheo_density", "sgdk_base_not_ceiling"],
   "status": "needs_review",
   "shared_floor": {
-    "native_pixel_not_shrunken_photo": "fail",
+    "native_pixel_not_shrunken_photo": "pass",
     "material_three_ramps_minimum": "pass",
     "silhouette_reads_320x224_and_in_black_white": "pass",
     "palette_roles_declared": "pass",
-    "stage_reauthored_as_tiles": "fail",
+    "stage_reauthored_as_tiles": "pass",
     "plane_hierarchy_player_wins": "pass",
     "hardware_serves_the_picture": "not_applicable",
     "motion_proven_from_output": "fail",
@@ -27,7 +27,7 @@
     "P1": "pass"
   },
   "blockers": [
-    "dock_still_quantized_source",
+    "compare_flat_lab_not_dual_plane",
     "vlab_block_missing",
     "visual_vdp_dump_missing",
     "lab_not_delivery"
@@ -39,15 +39,15 @@
     "blastem_bundle": true,
     "paths": [
       "out/rom.bin",
-      "out/evidence/blastem-linux-20260829T142829Z-1942264/screenshot.png",
-      "data/processed/color/contact_lineart_basic_elite_320x224.png",
-      "doc/changelog/roms/build_v003/rom.bin",
-      "doc/changelog/roms/build_v003/screenshot.png"
+      "out/evidence/blastem-linux-20260829T145400Z-2004886/screenshot.png",
+      "data/processed/dock/in_scene_320x224.png",
+      "doc/changelog/roms/build_v004/rom.bin",
+      "doc/changelog/roms/build_v004/screenshot.png"
     ]
   },
   "authorship": {
     "benchmark_used_as": "quality_bar",
     "their_pixels_in_source_art": false
   },
-  "notes": "Color blocking on locked 48x64 lineart. ROM 131072 bytes sha256 f694b841e8f1450b481d45b5be5a35ac1a25eb3dc96fe5d24e00a592e10c73f9. Hero teal vest / thug red tank read in BlastEm. Skin/vest/tank/shorts have 3-step hue-shift ramps. Outline is lineart ink, not a swap slot. Dock remains Imagine quantize so native_pixel of the SCENE stays fail. visual_pass=false. lab_not_delivery=true."
+  "notes": "Native dock 8x8 vocabulary (99 unique tiles vs 931 quantize). IMAGE compare_flat on BG_B. Plane index 0 never painted; backdrop = PAL2 fog. ROM 131072 B sha256 2411a37d0472f59aaccf1228ec3811b5ef0128ee97ceb350b27ccff70663b3ed. Resources ~7KB vs 33KB. visual_pass=false. lab_not_delivery=true. No motion."
 }

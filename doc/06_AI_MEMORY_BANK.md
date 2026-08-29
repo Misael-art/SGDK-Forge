@@ -60,9 +60,10 @@
   com paletas de papel (R2) mas sprites em downscale. F-R2 fase 2
   (2026-08-29d) redesenhou heroi/thug em lineart 1 px nativo 48x64;
   (2026-08-29e) color blocking com rampas hue-shift; ROM
-  `f694b841…0c73f9` vista no BlastEm (teal vs vermelho). Nao e
-  `visual_pass`. Cais ainda quantize. Nao declarar que o Forge ja
-  gera no piso Rheo/Pigsy.
+  `f694b841…0c73f9` color blocking; (2026-08-29f) cais nativo 8x8
+  (99 tiles vs 931), ROM `2411a37d…63b3ed` no BlastEm. Nao e
+  `visual_pass`. Sem motion. Nao declarar que o Forge ja gera no
+  piso Rheo/Pigsy.
 - Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
   por concept high-res; fake pixel art do gerador e rejeicao, nao input
   de quantize.

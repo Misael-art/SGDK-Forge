@@ -4,8 +4,8 @@
 /*
  * LIVE_BAR_FR2 — lab fixture for palette roles (R2).
  * PAL0 player, PAL1 enemy, PAL2 dock BG, PAL3 spare FX.
- * lab_not_delivery: sprites are color-blocked on locked 48x64 lineart.
- * Outline slot is the lineart ink. Material ramps are 9-bit hue-shift.
+ * lab_not_delivery: sprites color-blocked on locked 48x64 lineart.
+ * Dock is native 8x8 vocabulary on PAL2 (compare_flat, not photo quantize).
  */
 
 int main(bool hardReset)
@@ -25,6 +25,8 @@ int main(bool hardReset)
     PAL_setPalette(PAL1, spr_thug.palette->data, DMA);
     PAL_setPalette(PAL2, img_dock.palette->data, DMA);
     PAL_setPalette(PAL3, spr_fx.palette->data, DMA);
+    /* Plane index 0 is transparent; backdrop must not be PAL0 magenta. PAL2 fog = 32+11. */
+    VDP_setBackgroundColor(43);
 
     tileIndex = TILE_USER_INDEX;
     VDP_drawImageEx(

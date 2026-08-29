@@ -159,7 +159,7 @@
       "conclusion": "zero re-stream em idle"
     }
   },
-  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P5->P6)",
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6 \u00fanico pending)",
   "palette_optimization_p4_escape": {
     "status": "MEASURED",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
@@ -207,5 +207,16 @@
     "margin_tiles": 38,
     "all_within_capacity": true,
     "honest_verdict": "Escape BG_A mant\u00e9m margem VRAM (38 vs 33) e melhora fidelidade. P4 medido com sucesso; pr\u00f3ximo \u00e9 P5/P6."
+  },
+  "performance_p5": {
+    "status": "MEASURED",
+    "bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p5_soak/blastem-linux-20260829T155104Z-2141375",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p5_performance_report.json",
+    "soak_seconds": 120,
+    "vlab_over_budget": 0,
+    "mdrt_p50": 82,
+    "mdrt_p95": 88,
+    "mdrt_p99": 88,
+    "verdict": "proven_for_sample_window (32 samples, 0 over_budget, max_cpu 88% < 100)"
   }
 }

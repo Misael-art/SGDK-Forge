@@ -108,3 +108,9 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - Resultado oficial exporter: manual com escape 184.078 vs otimizado 175.699 → −4,5% adicional; vs baseline original 235.880 → −25,5% acumulado.
 - Margem VRAM pós-mudança: 38 tiles (vs 33), pior canto 1106, tudo dentro; método validado sem regressão.
 - Lição: ganho de fidelidade sem custo de VRAM quando bandas são aproximação nossa, não característica original MUGEN.
+
+## Adendo P5 (2026-08-29): performance sustentada medida
+
+- Soak 120s selado (…155104Z…): VLAB 32 samples, 0 over_budget_frames, max_cpu 88, p50=82 p95=88 p99=88 (MDRT samples 31 vals).
+- Claim honesto: proven_for_sample_window (32 amostras); ampliar janela amostral em P6 se carga subir.
+- Método: captura longa + parsing SRAM MDRT/VLAB em analysis/p5_performance_report.json.

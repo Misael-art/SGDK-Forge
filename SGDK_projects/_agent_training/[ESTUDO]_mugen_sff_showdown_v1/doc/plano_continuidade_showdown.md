@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.1.0 · **atualizado:** 2026-08-29 · **mantenedor:** proximo agente
+**versao:** 1.2.0 · **atualizado:** 2026-08-29 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -54,10 +54,10 @@
 - Evidência selada `evidence_p4_escape/…150342Z…`; margem VRAM mantida 38 (vs 33), pior canto 1106/1190.
 - Próximo agente herda paletas v002 já com escape; não reverter.
 
-### PENDING — P5: Performance sustentada provada
-- Objetivo: captura burst (varios minutos / burst_count do capturador) com
-  frametime estavel; substituir claim `unproven` por p50/p95/p99.
-- Aceite: p99 <= 16.67ms na cena mais pesada OU slowdown documentado.
+### DONE — P5: Performance sustentada provada (2026-08-29)
+- Soak 120s selado `evidence_p5_soak/…155104Z…`: VLAB 32 samples, 0 over_budget, max_cpu 88%, p50=82 p95=88 p99=88 (MDRT samples).
+- Report: `analysis/p5_performance_report.json` — claim `proven_for_sample_window`, nota de 32-sample window limitação honesta.
+- Próximo soak burst pode ampliar janela amostral se P6 aumentar carga.
 
 ### PENDING — P6: Animacoes SFF (frame_animation_enabled=false hoje)
 - Objetivo: animar ao menos 1 layer BG com budget DMA medido pelo P2/P5.

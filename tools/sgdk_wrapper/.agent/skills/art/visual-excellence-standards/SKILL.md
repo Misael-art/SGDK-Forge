@@ -22,6 +22,11 @@ Todo asset deve ser tratado como recurso de hardware:
 
 Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sobrevive ao VDP do Mega Drive.
 
+Piso vivo 2026: `doc/03_art/18_live_scene_bar.md`. Handles RheoGamer/PigsyRetro
+sao oficio (densidade arcade legal; traducao de fonte rica), nunca source_art.
+Abaixo dos 12 checks da barra → `needs_review`. Sem
+`out/logs/live_scene_bar_report.json` o claim visual nao existe.
+
 ## Contrato Operacional
 
 ### Entrada minima
@@ -30,7 +35,7 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - `context_pack_manifest` quando a arte nasceu de sourcing, IA ou referencia externa
 - `art_direction_decision_record`, `master_style_manifest`, `style_drift_policy`, `asset_lineage_record` e `style_memory_index` quando existirem
 - `doc/03_art/02_visual_feedback_bank.md` e barra de qualidade quando existirem
-- `premium_source_manifest`, `source_to_rom_asset_map` e `benchmark_match_report` quando houver alegacao de `AAA`, `pronto`, `delivery` ou promocao para ROM
+- `premium_source_manifest`, `source_to_rom_asset_map`, `benchmark_match_report` e `live_scene_bar_report` quando houver alegacao de `AAA`, `pronto`, `delivery` ou promocao para ROM
 - contexto de composicao (`layer_plan` / `shared_canvas_contract`) quando houver multi-plano
 - `camera_motion_contract` e `parallax_layer_contract` quando houver palco de
   luta, camera horizontal/vertical, fonte MUGEN/DEF, Tiled parallax ou cena com
@@ -112,6 +117,12 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 ### Passa quando
 
 - a leitura em 320x224 nativo foi considerada
+- para `aaa_game`, vertical slice, asset critico ou `ready_for_aaa`, existe
+  `live_scene_bar_report` valido contra
+  `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json` com
+  `status=passed`; ausencia ou `failed` bloqueia `elite_ready`
+- handles Rheo/Pigsy (e qualquer praticante da cena viva) entram so como
+  `benchmark_used_as: quality_bar`; pixels deles em `data/source_art` bloqueiam
 - para arte nova, `art_direction_decision_record` consultou `art_style_catalog.json` antes de qualquer julgamento de excelencia; legado sem record fica `art_direction_pre_canonical`, nao AAA novo
 - se houver `master_style_manifest`, assets novos foram comparados contra paleta, line weight, iluminacao, densidade e limite de drift
 - se houver `style_drift_policy`, drift nao corrigido gera `style_drift_uncorrected` e bloqueia `elite_ready`
@@ -374,12 +385,13 @@ Se houver `human_visual_review_missing_for_aaa`, `visual_vdp_dump_missing`,
 ## Leitura obrigatoria
 
 Antes de qualquer iteracao visual relevante:
-1. Ler [doc/03_art/02_visual_feedback_bank.md](doc/03_art/02_visual_feedback_bank.md)
-2. Ler [doc/03_art/00_visual_quality_bar.md](doc/03_art/00_visual_quality_bar.md)
-3. Ler [doc/03_art/01_visual_cohesion_system.md](doc/03_art/01_visual_cohesion_system.md)
-4. Ler `references/source_to_rom_visual_gate.md` quando houver entrega, ROM ou asset critico
-5. Conferir o budget da cena e a funcao do asset no gameplay
-6. Se a fonte for complexa, exigir `semantic_parse_report` antes de julgar a traducao
+1. Ler [doc/03_art/18_live_scene_bar.md](doc/03_art/18_live_scene_bar.md) (piso vivo; brief se o contexto estiver curto)
+2. Ler [doc/03_art/02_visual_feedback_bank.md](doc/03_art/02_visual_feedback_bank.md)
+3. Ler [doc/03_art/00_visual_quality_bar.md](doc/03_art/00_visual_quality_bar.md)
+4. Ler [doc/03_art/01_visual_cohesion_system.md](doc/03_art/01_visual_cohesion_system.md)
+5. Ler `references/source_to_rom_visual_gate.md` quando houver entrega, ROM ou asset critico
+6. Conferir o budget da cena e a funcao do asset no gameplay
+7. Se a fonte for complexa, exigir `semantic_parse_report` antes de julgar a traducao
 
 ## Metricas canonicas
 
@@ -570,8 +582,7 @@ Anti-padroes:
 
 ### Identidade minima de front-end
 
-Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
-[GAME] [ACTION_RACING]`, evidencia `E1_project_artifact`.
+Regra generalizada para identidade minima de front-end.
 
 Em `aaa_game`, logo, fonte, menu e creditos entram cedo como contrato de
 primeira impressao. Nao precisam ser arte final no planejamento, mas precisam
@@ -811,10 +822,13 @@ Reprovar imediatamente quando houver:
 - projeto, cena ou front-end tecnicamente limpo, mas sem momento assinatura,
   sem identidade autoral ou sem resposta aos gaps aceitos no
   `creative_director_radar`
+- `live_scene_bar_failed`, `name_drop_without_craft`, `pixel_art_prompted_as_final`,
+  `hardware_used_as_excuse` ou `fake_pixel_art_rejection`
 
-## Curadoria 2026-06-03 - Celestial Chase: perceptual_motion_gate e critical_visual_rework_blocker
+## Curadoria - perceptual_motion_gate e critical_visual_rework_blocker
 
-Licao extraida do projeto `Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]` (LAB/TECHDEMO, `technical_ready=true` mas `creative_ready=false` e `ready_for_aaa=false`):
+Regra generalizada para separar readiness tecnico, criativo e AAA em
+LAB/TECHDEMO.
 
 ### `perceptual_motion_gate` antes de promover critico
 
@@ -852,13 +866,10 @@ Para projetos em `LAB/TECHDEMO` (claim_ceiling `technical_lab_validated`):
 
 Esse piso evita que "ta rodando" vire "ta pronto".
 
-## Curadoria 2026-06-28 - Visual-first project lifecycle
+## Curadoria - Visual-first project lifecycle
 
-Licao extraida da comparacao entre `BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN]
-[GAME] [ACTION_PLATFORMER]`, `Celestial Chase Revive [VER.001] [SGDK 211]
-[GEN] [GAME] [ACTION_RACING]`, `Celestial Chase visual benchmark [VER.001]
-[SGDK 211] [GEN] [LAB] [TECHDEMO]`, `_agent_training`, `_agent_laboratory` e
-`SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]`.
+Regra generalizada a partir de comparacao de rotas de producao, sem promover
+projetos em amadurecimento a referencia canonica.
 
 ### Rota visual-first economiza tempo e tokens
 
@@ -872,16 +883,15 @@ entrega:
 5. conversao VDP e budget;
 6. runtime e BlastEm.
 
-`BLUE_CIRCUIT` mostrou o padrao positivo: mesmo inacabado, o projeto avancou
-com menos diagnostico repetido porque bloqueou o runtime final ate existir rota
-visual, fonte premium e gates humanos. Isso nao aprova automaticamente os
-assets; apenas reduz improviso e mantem o agente no caminho certo.
+O padrao positivo bloqueia o runtime final ate existir rota visual, fonte
+premium e gates humanos. Isso nao aprova automaticamente os assets; apenas
+reduz improviso e mantem o agente no caminho certo.
 
 ### Runtime tecnico com visual bloqueado nao e maturidade AAA
 
-`Celestial Chase Revive` mostrou o anti-padrao de custo: ROM, rotas BlastEm e
-first playable tecnico podem coexistir com `creative_quality=blocked` quando a
-arte ainda e placeholder, procedural, pouco autoral ou abaixo da promessa AAA.
+ROM, rotas BlastEm e first playable tecnico podem coexistir com
+`creative_quality=blocked` quando a arte ainda e placeholder, procedural, pouco
+autoral ou abaixo da promessa AAA.
 
 Nessa situacao, a proxima iteracao visual nao deve ser "mais um build" nem
 "mais um refresh de screenshot". Deve atacar um destes blockers:
@@ -889,6 +899,7 @@ Nessa situacao, a proxima iteracao visual nao deve ser "mais um build" nem
 - `blocked_no_premium_source`;
 - `blocked_no_human_asset_approval`;
 - `blocked_no_vdp_conversion`;
+- `live_scene_bar_failed` / `live_scene_bar_report_missing`;
 - `visual_gate_blocked`;
 - `visual_direction_failed`;
 - `perceptual_motion_unvalidated`;

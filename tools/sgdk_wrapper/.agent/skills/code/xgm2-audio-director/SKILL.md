@@ -16,6 +16,12 @@ Esta skill existe para o gap puro de audio senior no workspace.
 - `z80-pcm-custom-driver`
   - dono de drivers Z80 customizados, streaming PCM avancado, manipulacao direta de DAC/YM2612, PSG por registrador e qualquer tecnica alem do wrapper XGM2; esta skill coordena mas nao implementa low-level
 
+Piso da cena viva (escola Diggo): `doc/03_art/18_live_scene_bar.md` axiomas
+D1-D3. Identidade Neo Geo/arcade se **traduz** para YM2612/PSG/PCM. Dump de
+sample nao e arrange. Trilha e co-autora da cena. Tech demo 3D (Shannon)
+prova audio **carregado** no DMA; XGM2 pode perder para XGM1 nesse recorte
+— declare o driver real (S2/S3).
+
 ## Ler antes de agir
 
 1. `doc/05_technical/93_16bit_hardware_mastery_registry.json`
@@ -107,6 +113,7 @@ Esta skill existe para o gap puro de audio senior no workspace.
 
 - tocar tudo no mesmo canal por conveniencia
 - tentar soar como SNES por acumulacao de samples/eco, ignorando que o Mega Drive depende de FM/PSG/DAC e budget de barramento
+- dump de PCM Neo Geo/arcade como BGM final (`chip_identity_not_translated`, D1/D3)
 - usar sample orchestral longo como identidade principal sem ROM budget, sample audit e fallback FM/PSG
 - dizer "FM synth" sem declarar patch palette, canal dono e papel perceptivo
 - usar DAC/PCM sem reconhecer tradeoff com FM_CH6/ownership XGM2

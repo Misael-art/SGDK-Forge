@@ -225,6 +225,32 @@ pode compilar sem asset externo, e em troca fica preso a `delivery_claim_ceiling
 
 Regra completa: `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secoes 8.2 e 17.
 
+---
+
+## BARRA VIVA DA CENA (PISO VISUAL 2026)
+
+O piso visual de `aaa_game`, vertical slice, asset critico e `ready_for_aaa`
+nao e "compilou" nem "parece 16-bit". E o oficio observado na cena viva do
+Mega Drive, decodificado em `doc/03_art/18_live_scene_bar.md`.
+
+Handles da cena viva sao **ponteiros para oficio**, nunca fonte de pixel
+nem prompt de copia. Lista e mapeamento (sem escola duplicada):
+`doc/03_art/18_live_scene_bar.md`.
+
+Tetos de concepcao (ler no modo ativo, nao recopiar):
+`doc/03_art/live_scene_bar_parameters.json`
+
+Tese: VRAM e CRAM sao a primeira decisao de arte. Sem decisao artistica,
+hardware produz lixo visivel. SGDK e base, nao teto. Driver de som e FPS
+se medem na cena pesada **com audio**. 320×224 4:3 e o gate.
+
+Falhou um dos 12 checks = `needs_review`. Sem
+`out/logs/live_scene_bar_report.json` o claim visual nao existe.
+
+Brief (por modo): `tools/sgdk_wrapper/.agent/references/live_scene_bar_agent_brief.md`
+Plano: `doc/03_art/19_plan_pixel_art_live_scene_capability.md`
+Regra: `SGDK_GLOBAL.md` secao 39.
+
 **Cada projeto carrega essa diretriz e seu proprio estado medido** em
 `doc/00-diretrizes-agente.md`, entre os marcadores `diretriz-bloqueio-estetico v1`.
 Agente que assume continuidade le esse bloco antes de tocar em arte. Projeto novo herda
@@ -414,7 +440,13 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Ordem de trabalho de cena | `tools/sgdk_wrapper/.agent/workflows/scene-direction-first.md` |
 | Licoes da curadoria 2026-08-17 | `doc/curation/lessons_2026-08-17.json` |
 | Prompt modelo de direcionamento | `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md` |
+| Barra viva da cena (piso Rheo/Pigsy = oficio) | `doc/03_art/18_live_scene_bar.md` |
+| Tetos de concepcao da barra viva | `doc/03_art/live_scene_bar_parameters.json` |
+| Brief da barra viva | `tools/sgdk_wrapper/.agent/references/live_scene_bar_agent_brief.md` |
+| Plano de capacidade pixel | `doc/03_art/19_plan_pixel_art_live_scene_capability.md` |
+| Laudo da barra viva | `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json` |
 | Diretriz de bloqueio estetico | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` (8.2 e 17) |
+| Barra viva (regra global) | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secao 39 |
 | Proveniencia de asset (contrato) | `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json` |
 | Proveniencia de asset (auditor) | `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` |
 | Injetar diretriz nos projetos | `tools/sgdk_wrapper/apply_aesthetic_directive.py` |

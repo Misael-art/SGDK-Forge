@@ -88,6 +88,8 @@ Regra:
 ## Contrato De Roteamento
 
 1. Carregue `AGENTS.md`, `SGDK_GLOBAL.md` e `ARCHITECTURE.md`.
+   Em trabalho visual, audio, luta, 3D ou `aaa_game`, carregue tambem
+   `doc/03_art/live_scene_bar_parameters.json` e o `mode_policy` do modo.
 2. Se o pedido for direto, execute o pedido e nao force menu.
 3. Se o pedido pedir menu ou estiver ambiguo, mostre o menu.
 4. Ao escolher um modo, registre transicao com confirmacao humana.

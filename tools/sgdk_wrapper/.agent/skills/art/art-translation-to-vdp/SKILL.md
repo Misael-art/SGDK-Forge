@@ -272,12 +272,13 @@ Exemplo canonico:
 
 ## Checklist obrigatorio
 
-1. Ler `doc/03_art/00_visual_quality_bar.md`
-2. Ler `doc/03_art/01_visual_cohesion_system.md`
-3. Ler `doc/03_art/02_visual_feedback_bank.md`
-4. Aplicar `visual-excellence-standards`
-5. Validar contra `megadrive-pixel-strict-rules`
-6. Quando houver cena real, consultar `megadrive-vdp-budget-analyst`
+1. Ler `doc/03_art/18_live_scene_bar.md` (P1-P4, P8, R4 sao o piso desta skill)
+2. Ler `doc/03_art/00_visual_quality_bar.md`
+3. Ler `doc/03_art/01_visual_cohesion_system.md`
+4. Ler `doc/03_art/02_visual_feedback_bank.md`
+5. Aplicar `visual-excellence-standards`
+6. Validar contra `megadrive-pixel-strict-rules`
+7. Quando houver cena real, consultar `megadrive-vdp-budget-analyst`
 
 Competencias complementares obrigatorias por contexto:
 
@@ -754,7 +755,7 @@ O laudo deve sair acompanhado de um painel visual lado a lado para validacao hum
 - `emulator_ok`
   - foi visto rodando com evidencia
 
-### Curadoria 2026-06-03 - Celestial Chase: motion_gif + pivos + contact points
+### Curadoria - motion_gif + pivos + contact points
 
 Licao: aprovacao de sprite sheet de animacao via screenshot estatico nao comprova movimento, continuidade de poses nem leitura sob FX. Antes de promover um sprite strip para `elite_ready` ou `delivered`, a traducao deve produzir:
 
@@ -782,6 +783,7 @@ Primeiro:
 
 - quantizacao cega
 - downscale sem redesenho
+- tratar a barra viva (Rheo/Pigsy) como licenca para dump de palco arcade ou de high-color; o oficio e reautoria + curadoria 9-bit
 - excesso de detalhe fino
 - dithering decorativo
 - fidelidade servil a imagem-fonte

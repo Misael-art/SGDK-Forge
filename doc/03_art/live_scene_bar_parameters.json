@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "bar_id": "live_scene_bar_rheo_pigsy_craft",
+  "doc": "doc/03_art/18_live_scene_bar.md",
+  "note": "Numeros de concepcao. Observed practice, not invented hardware. Headers SGDK 2.11 beat this file on API names.",
+  "display": {
+    "mode": "H40",
+    "width": 320,
+    "height": 224,
+    "aspect": "4:3",
+    "widescreen_is_not_gate": true,
+    "mode7_vanity_forbidden": true
+  },
+  "cram": {
+    "palettes_simultaneous": 4,
+    "entries_per_palette": 16,
+    "visible_colors_per_block": 15,
+    "index0_transparent": true,
+    "rgb_9bit_steps": [0, 34, 68, 102, 136, 170, 204, 238],
+    "roster_recolors": "shared_chart_not_private_16_per_skin",
+    "midframe_palette_swap": "h_int_opt_in_not_default"
+  },
+  "vram": {
+    "bytes": 65536,
+    "fighting_or_dense_stage_tile_ceiling_bg_fg": 980,
+    "ceiling_kind": "observed_practice_pyron_not_hard_chip_limit",
+    "dump_forbidden": true,
+    "second_pass_after_fit": true
+  },
+  "sprites": {
+    "sat_max": 80,
+    "per_scanline_h40": 20,
+    "pixels_per_scanline_h40": 320,
+    "per_scanline_h32": 16,
+    "pixels_per_scanline_h32": 256,
+    "multiplex_beyond_sat": "opt_in_lab_or_signature_with_measured_cpu_dma",
+    "extreme_multiplex_observed": "shannon_demos_not_product_default"
+  },
+  "timing": {
+    "product_2d_arcade_fps": 60,
+    "software_3d_fps": "declare_measured_with_music",
+    "platform_critical_lag_frames": 0,
+    "benchmark_with_audio_loaded": true,
+    "cpu_dma_percent": "declare_measured_not_a_target_to_hit"
+  },
+  "dma_audio": {
+    "graphics_and_audio_one_budget": true,
+    "xgm_family_default": true,
+    "xgm_vs_xgm2": "measure_on_heaviest_scene",
+    "xgm2_not_automatically_lighter_under_heavy_dma": true,
+    "sample_dump_forbidden_as_final_bgm": true
+  },
+  "sgdk": {
+    "role": "base_not_ceiling",
+    "api_truth": "sdk/sgdk-2.11/inc/",
+    "custom_dma_multiplex_asm_when_quality_requires": true
+  },
+  "workflow": {
+    "order": [
+      "limits",
+      "storyboard_pixels",
+      "choreography",
+      "measure",
+      "budget",
+      "asset_contract",
+      "source_then_native_translate",
+      "second_pass_detail",
+      "rom",
+      "evidence"
+    ],
+    "measure_every_build": ["tiles", "scanline_sprites", "dma", "cpu", "fps", "audio_alive"]
+  },
+  "mode_policy": {
+    "create_new_project": "declare_ceilings_in_gdd_spec_before_art",
+    "analyze_existing_project": "compare_measured_numbers_to_this_file",
+    "train_agent": "teach_parameters_as_binary_not_handle_names",
+    "laboratory": "extreme_multiplex_3d_raycast_plane_scroll_only_here_lab_not_delivery",
+    "curation": "promote_number_or_axiom_only_with_rom_proof"
+  },
+  "not_canon": [
+    "4_to_8_simultaneous_palettes",
+    "xgm2_always_lighter_under_heavy_dma",
+    "1000_sprites_as_product_default",
+    "97_percent_cpu_as_target",
+    "widescreen_or_mode7_as_delivery_gate",
+    "60fps_claim_without_measured_scene_plus_audio"
+  ]
+}

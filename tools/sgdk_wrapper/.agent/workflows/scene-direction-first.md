@@ -42,6 +42,7 @@ Nenhum desses e erro de arte. Todos sao **consequencia de perguntar tarde**.
 2. STORYBOARD       o que se ve, quadro-chave a quadro-chave, com posicao na tela
 3. COREOGRAFIA      o que se move, para onde, em quantos quadros, com que peso
 4. MEDICAO          scanline, pixel por linha, VRAM, DMA, CPU — antes de qualquer arte
+                    Tetos: `doc/03_art/live_scene_bar_parameters.json` (nao inventar numeros)
 5. ORCAMENTO        decisoes de streaming, residencia, teto por ato
 6. CONTRATO DE ASSET  derivado dos passos 2-5, com ancoras de posicao e restricoes
 7. MODEL SHEET      direcao provada, aprovada por humano

@@ -43,6 +43,11 @@ Carregue esta skill antes de:
 
 Esta skill nao redige prompts, nao escolhe estilo e nao converte para VDP. Para isso, use `art-creation-sourcing`, `art-direction-selector`, `art-conversion-pipeline` ou `art-translation-to-vdp`.
 
+Quando o canal for nativo (Ramo A) e o projeto for `aaa_game`, o output
+valido e **fonte premium** (concept, volume, material), nunca sprite
+sheet Mega Drive como imagem final. Piso: `doc/03_art/18_live_scene_bar.md`.
+`pixel_art_prompted_as_final` e anti-padrao mesmo com canal excelente.
+
 ---
 
 ## Entrada minima
@@ -271,6 +276,7 @@ Schemas novos (canonicos):
 - emitir `successor_asset_directive` sem `successor_quality_protocol` (insatisfacao sem piso numerico nao protocola nada)
 - aceitar round do gerador antes de `min_rounds` ou por sensacao de qualidade — julgamento final e dos gates (`final_judgment`), nunca auto-satisfacao
 - gerar prompt sem rodar `route` ou declarar canal selecionado
+- no Ramo A, pedir sprite sheet Mega Drive / fake pixel art como fonte final (`pixel_art_prompted_as_final`); a barra viva exige concept forte + traducao
 - declarar Bonsai/ComfyUI bloqueante quando o agente atual possui geracao nativa callable ou inline
 - declarar `BLOCKED_IMAGE_TOOLING` sem rodar `healthcheck` do perfil recomendado
 - usar `procedural_renderer` como fonte final

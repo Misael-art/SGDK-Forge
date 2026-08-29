@@ -901,3 +901,64 @@ qualidade da execucao. Sonda que passa nao garante asset bom; sonda que nao pass
 promessa falsa. Enforcement: toda decisao de canal/capacidade registra report JSON com os
 campos `probe_attempted`, `probe_output` e estado final do vocabulario — sem report, o claim
 nao existe.
+
+## 39. Barra viva da cena — piso visual 2026 (oficio, nao handle)
+
+A barra comercial de 1994 em `doc/03_art/00_visual_quality_bar.md` continua
+necessaria e **nao suficiente**. O piso de `aaa_game`, vertical slice, asset
+critico, HUD heroico, title, boss, lutador, brawler, cena assinatura e
+`ready_for_aaa` e o oficio da cena viva do Mega Drive, decodificado em
+`doc/03_art/18_live_scene_bar.md`.
+
+Ponteiros publicos (qualidade, nunca source_art) — oficio, nao IP:
+
+- `RheoGamer` = densidade arcade no VDP legal.
+- `PigsyRetro` = traducao de arte rica para pixel nativo MD.
+- `GabrielPyron` = palco restaged ao teto de tiles (~980 BG+FG).
+- `ReySilveira28` = conversao de palco com segundo passe; gate 320x224 4:3.
+- `RDiggoSilva` = identidade de chip YM2612, nao dump Neo Geo.
+- `MXRetroDev` = carta de paletas compartilhadas do roster
+  (https://x.com/MXRetroDev/status/1900597106068296043).
+- `birt_shannon` = 3D/DMA, inversao de planos, FPS honesto com musica
+  (https://x.com/birt_shannon/status/2077723799316013354).
+- `danielmoura79` = HAMOOPIG: luta e contrato de engine
+  (https://x.com/danielmoura79/status/1824963016586056183).
+
+Citar o handle sem aplicar o oficio e `name_drop_without_craft`. Copiar
+pixels, PCM, paleta, pose, palco ou IP dos trabalhos deles e `clone_risk`.
+
+**Tese:** VRAM e CRAM sao a primeira decisao de arte. Sem decisao artistica,
+conhecimento de hardware produz lixo visivel. Arte de outra plataforma e
+materia-prima, nunca `quantize()` cego. SGDK e base, nao teto.
+
+**Parametros (nao recopiar nesta regra):** `doc/03_art/live_scene_bar_parameters.json`
+H40 320x224; 4 paletas; ~980 tiles BG+FG em palco denso (observado);
+SAT 80 / 20 por linha H40; 60 fps no 2D ou recuo; 3D declara FPS com musica;
+0 lag em plataforma critica; XGM/XGM2 medidos na cena pesada (XGM2 nao e
+automaticamente mais leve sob DMA alto). Widescreen e Mode 7 de vitrine
+nao fecham gate. 1000+ sprites e lab/assinatura, nao default.
+
+**Proibicoes duras:**
+
+- Aceitar asset abaixo dos 12 checks compartilhados da barra.
+- Pedir "pixel art sprite sheet Mega Drive" ao gerador como fonte final.
+- Downscale ou quantizacao global como traducao elite.
+- Usar "e Mega Drive" como desculpa para pobreza quando o budget nao foi medido.
+- Promover para `elite_ready`, `delivery` ou `ready_for_aaa` sem
+  `out/logs/live_scene_bar_report.json`.
+- Guardar pixels dos ports observados (KOF, Fatal Fury, Metal Slug, SotN,
+  Shinobi, Mario, Pocket Bravery) em `data/source_art`.
+
+**Enforcement:**
+
+- Laudo contra `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json`.
+- Falhou um check → teto `needs_review`.
+- `ready_for_aaa=true` exige `live_scene_bar_report.status=passed` no slice.
+- Juiz: `visual-excellence-standards`. Traducao: `art-translation-to-vdp`.
+- Guardian: claim visual vivo roteia para esta secao.
+- Status de prova em ROM desta barra no Forge: `NAO_INICIADA` ate a Fase 6
+  de `doc/03_art/19_plan_pixel_art_live_scene_capability.md`.
+
+Blockers: `live_scene_bar_failed`, `live_scene_bar_report_missing`,
+`name_drop_without_craft`, `pixel_art_prompted_as_final`,
+`hardware_used_as_excuse`, `fake_pixel_art_rejection`.

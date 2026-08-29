@@ -163,3 +163,30 @@ tiles: custa como arte unica e costuma ainda parecer repetitivo.
 como progresso visual se reduzir os blockers acima.
 
 <!-- END: diretriz-bloqueio-estetico v4 -->
+
+<!-- BEGIN: live-scene-bar v1 -->
+
+## Barra viva da cena — leia antes de gerar ou promover arte
+
+Piso visual deste projeto: `doc/03_art/18_live_scene_bar.md` (workspace).
+Brief: `tools/sgdk_wrapper/.agent/references/live_scene_bar_agent_brief.md`.
+
+RheoGamer = densidade arcade no VDP legal. PigsyRetro = traducao de arte
+rica para pixel nativo. Pyron = palco ao teto de VRAM. Chev = segundo
+passe, gate 320x224. Diggo = YM2612 com identidade. MX = carta de paletas
+do roster. Shannon = 3D/DMA com FPS real. Daniel/HAMOOPIG = luta e
+contrato. Oficio, nao copia. Pixels/PCM deles nunca entram em
+`data/source_art`.
+
+VRAM e CRAM sao a primeira decisao de arte. Sem decisao artistica o
+hardware produz lixo visivel. Nao pedir sprite sheet Mega Drive ao
+gerador como fonte final. Fonte forte → lineart 1px → paleta com papel
+→ ROM 320x224.
+
+Tetos numericos: `doc/03_art/live_scene_bar_parameters.json` (H40 320x224,
+4 paletas, ~980 tiles de palco denso, 60 fps 2D ou recuo, 0 lag em
+plataforma critica). Closeout visual de `aaa_game` exige
+`out/logs/live_scene_bar_report.json` com `status=passed`. Falhou um
+dos 12 checks → `needs_review`.
+
+<!-- END: live-scene-bar v1 -->

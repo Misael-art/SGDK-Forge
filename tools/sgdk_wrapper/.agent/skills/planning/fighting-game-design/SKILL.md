@@ -26,6 +26,11 @@ Orquestrador fino. Delega; nao duplica.
 - para audio: use `xgm2-audio-director`
 - para QA/playtest: use `rom-mastering` e `sgdk-code-reviewer`
 
+Piso da cena viva (escola HAMOOPIG / Daniel Moura): `doc/03_art/18_live_scene_bar.md`
+axiomas H1-H5. Lutador sem FSM, hitbox e frame data e fantasia. A engine
+ja existe no workspace; nao reescrever luta ruim nem copiar roster dos
+videos. Palco de luta tambem puxa Pyron/Chev/MX (Y1, C1-C4, M1-M4).
+
 ## Ler antes de agir
 
 1. `tools/sgdk_wrapper/schemas/genre_specialization_registry.schema.json`

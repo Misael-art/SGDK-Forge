@@ -1,5 +1,29 @@
 # Visual Quality Bar — Mega Drive AAA
 
+## Piso vivo (2026) — leia primeiro
+
+A pergunta "isso poderia estar em um jogo comercial AAA de 1994?" continua
+obrigatoria e **nao fecha** `aaa_game`.
+
+O piso de qualquer acao visual neste workspace e o oficio da cena viva,
+nao o handle:
+
+- documento: `doc/03_art/18_live_scene_bar.md`
+- JSON: `doc/03_art/live_scene_bar.json`
+- brief: `tools/sgdk_wrapper/.agent/references/live_scene_bar_agent_brief.md`
+
+`RheoGamer` = densidade arcade no VDP legal. `PigsyRetro` = traducao de
+arte rica para pixel nativo. Completam o piso: Pyron (palco ~980 tiles),
+Chev (segundo passe, 320x224 4:3), Diggo (YM2612 com identidade),
+MXRetroDev (carta de paletas do roster), Shannon (3D/DMA/FPS honesto),
+Daniel Moura (HAMOOPIG: luta e contrato). Citar os nomes e entregar
+chapado e reprovacao. Pixels/PCM dos trabalhos deles nunca entram em
+`data/source_art`.
+
+Sem `out/logs/live_scene_bar_report.json`, o claim visual nao existe.
+
+---
+
 Toda entrega visual DEVE ser comparável aos maiores clássicos de 16-bits. O Benchmark exige especificamente:
 - Streets of Rage 2
 - Sonic 3
@@ -39,6 +63,12 @@ media 46 — contraste de -8, ou seja mais escuro que o proprio fundo.
 "Isso poderia estar em um jogo comercial AAA de 1994?"
 
 Se a resposta não for um categórico "SIM" → REFAZER COMPLETAMENTE.
+
+Segundo teste, obrigatorio para `aaa_game`:
+"Isto passa os 12 checks da barra viva (`18_live_scene_bar.md`)?"
+
+Se a resposta nao for um categorico "SIM" com laudo em disco → o teto e
+`needs_review`. Nao e entrega.
 
 ## Complemento: Assinatura Do Projeto
 

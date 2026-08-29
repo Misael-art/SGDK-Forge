@@ -1,8 +1,8 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
-**Última atualização:** 2026-08-25
+**Última atualização:** 2026-08-29
 **Escopo:** Repositório MegaDrive_DEV (workspace global)
-**Projeto em foco:** Doutrina de capacidade com prova (seção 38), roteamento visual em 3 ramos, diretriz para modelo sucessor, cura de drift de schemas ai_imagegen
+**Projeto em foco:** Barra viva da cena (oficio Rheo/Pigsy como piso, nao handle), plano para gerar pixel art nesse nivel, SGDK_GLOBAL §39
 
 > **DIRETRIZ:** Este é o bloco de memória primário para o workspace global.
 > Leia integralmente antes de decisões que afetem múltiplos projetos.
@@ -34,6 +34,34 @@
 ---
 
 ## 2. O QUE ACABOU DE ACONTECER (2026-04-02)
+
+### Barra viva da cena — oficio Rheo/Pigsy como piso (2026-08-29)
+
+- Piso visual 2026 canonizado: `doc/03_art/18_live_scene_bar.md` +
+  `doc/03_art/live_scene_bar.json` + schema
+  `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json`.
+- Handles `RheoGamer` / `PigsyRetro` decodificados em axiomas (R1-R10,
+  P1-P10) e 12 checks binarios. Expansao 2026-08-29b: Pyron (Y1-Y3 palco
+  ~980 tiles), Chev (C1-C4 segundo passe / 320x224), Diggo (D1-D3 chip
+  identity), MXRetroDev carta FFMD (M1-M4 paleta de roster), Shannon 3D
+  Update 8 (S1-S5 DMA/inversao/FPS), Daniel Moura HAMOOPIG (H1-H5).
+  Citar o nome sem o oficio e `name_drop_without_craft`. Pixels/PCM dos
+  ports deles sao `clone_risk`.
+- 2026-08-29c: tetos em `live_scene_bar_parameters.json`. G1/G2, D4, Z1, S6.
+  Nao duplicar ensaio. XGM2 nao e automaticamente mais leve sob DMA alto.
+- Tese: VRAM/CRAM sao a primeira decisao de arte; sem decisao artistica
+  o hardware produz lixo; fonte de outra plataforma nao se quantiza cega.
+- Amarra: AGENTS.md, SGDK_GLOBAL §39, `00_visual_quality_bar.md`,
+  visual-excellence-standards, art-creation-sourcing (prompts de fonte,
+  nao de sprite sheet MD), art-translation-to-vdp, aaa-pipeline-guardian,
+  benchmark_usage_policy, radar, modelo `00-diretrizes-agente.md`.
+- Plano de capacidade: `doc/03_art/19_plan_pixel_art_live_scene_capability.md`.
+  `runtime_proof_status` desta barra: `NAO_INICIADA`. Nao declarar que o
+  Forge ja gera nesse nivel. Proximo passo honesto: Fase 1 (fonte premium
+  persistida, default MARE_BRAVA) com Ramo A.
+- Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
+  por concept high-res; fake pixel art do gerador e rejeicao, nao input
+  de quantize.
 
 ### Doutrina de capacidade com prova e Ramo C de roteamento visual (2026-08-25)
 - Criada `SGDK_GLOBAL.md` §38: sonda real obrigatoria antes de prometer capacidade; vocabulario `capaz_com_prova_agora` / `capaz_apos_preparo_medido` / `nao_capaz_neste_host`; proibido claim por memoria, fama do modelo ou suposicao.

@@ -30,6 +30,7 @@ Nao substitui especialistas.
 - ausencia de contrato vira blocker
 - evidencia esta fresca e vinculada ao mesmo hash
 - `ready_for_aaa` exige todos os gates aplicaveis
+- `ready_for_aaa` exige `live_scene_bar_report.status=passed` no slice visual (`doc/03_art/18_live_scene_bar.md`); ausencia vira `live_scene_bar_report_missing`
 - a decisao pode ser reproduzida pelos mesmos arquivos
 
 ### Handoff para proxima etapa
@@ -50,6 +51,7 @@ Nao substitui especialistas.
 | input | `input-system-sgdk` |
 | VDP/CRAM/DMA/scanline | `megadrive-vdp-budget-analyst` |
 | evidencia BlastEm | `emulator-vdp-evidence-curator` |
+| pixel art AAA / barra viva / Rheo / Pigsy | `visual-excellence-standards` + `art-translation-to-vdp`; laudo `live_scene_bar_report` |
 
 ## Regras
 

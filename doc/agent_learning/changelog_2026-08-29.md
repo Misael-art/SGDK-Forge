@@ -104,3 +104,11 @@ slots 4-6 na agua. ROM
 com GIF de burst no BlastEm. Continua `lab_not_delivery`. Nao e
 `ready_for_aaa`. O patamar AAA pede cena de `aaa_game` + humano, nao
 esta fixture sozinha.
+
+## F-R2 walk 3/4 (2026-08-29h)
+
+Sheet 192x128: idle + walk 4 fases (contact/pass). Video Imagine so
+como fase de gait; pixels no grid travado. ROM
+`8b1820166e50fd125f3252397922c8922f63e8b591e2e7f9c66013a07aee6033`
+com GIF no BlastEm (pernas mudam entre frames). Continua lab. Nao e
+`ready_for_aaa`.

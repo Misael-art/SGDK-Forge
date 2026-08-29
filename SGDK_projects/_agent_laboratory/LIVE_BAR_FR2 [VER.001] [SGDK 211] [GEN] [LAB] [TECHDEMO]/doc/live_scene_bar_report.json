@@ -44,12 +44,13 @@
       "out/evidence/blastem-linux-20260829T150425Z-2031269/runtime_animation.gif",
       "data/processed/motion/hero_idle.gif",
       "data/processed/motion/thug_idle.gif",
-      "doc/changelog/roms/build_v005/rom.bin"
+      "doc/changelog/roms/build_v006/rom.bin",
+      "doc/changelog/roms/build_v006/runtime_animation.gif"
     ]
   },
   "authorship": {
     "benchmark_used_as": "quality_bar",
     "their_pixels_in_source_art": false
   },
-  "notes": "Idle 4-frame from Imagine video harvest translated as locked-grid deltas (not downscale). PAL2 water cycle slots 4-6. ROM sha256 e3720f3210180dbf70e55fb65f5fe31703e64d60b5fcce630487f3b8691dca99. GIF from BlastEm burst. F-R2 remains lab fixture, not an aaa_game. visual_pass=false. ready_for_aaa=false."
+  "notes": "Walk 4-frame on locked 48x64 (contact/pass/contact/pass) plus idle. ROM sha256 8b1820166e50fd125f3252397922c8922f63e8b591e2e7f9c66013a07aee6033. BlastEm GIF proves stride change. F-R2 remains lab, not aaa_game. visual_pass=false. ready_for_aaa=false."
 }

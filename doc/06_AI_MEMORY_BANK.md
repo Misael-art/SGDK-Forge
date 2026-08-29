@@ -63,8 +63,9 @@
   `f694b841…0c73f9` color blocking; (2026-08-29f) cais nativo 8x8
   (99 tiles vs 931); (2026-08-29g) idle 4 frames + ciclo de agua,
   ROM `e3720f32…1dca99` com GIF no BlastEm. Continua laboratorio.
-  Nao e `ready_for_aaa`. Nao declarar que o Forge ja gera no piso
-  Rheo/Pigsy.
+  Nao e `ready_for_aaa`. (2026-08-29h) walk 4 fases na mesma sheet;
+  ROM `8b182016…ee6033` com GIF no BlastEm. Continua laboratorio.
+  Nao declarar que o Forge ja gera no piso Rheo/Pigsy.
 - Prompts "pixel art sprite sheet Mega Drive" na Rota A foram substituidos
   por concept high-res; fake pixel art do gerador e rejeicao, nao input
   de quantize.

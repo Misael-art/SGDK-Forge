@@ -4,15 +4,10 @@
 
 Axioma R2: PAL0 heroi, PAL1 thug, PAL2 cais, PAL3 FX.
 
-## Ciclos fechados
+Idle (anim 0, 4 frames) e walk 3/4 (anim 1, 4 frames) no mesmo
+SPRITE. ROM troca a cada 2 s. Agua PAL2 cicla.
 
-1. Lineart 1 px 48x64
-2. Color blocking hue-shift
-3. Cais nativo 8x8 (99 vs 931 tiles)
-4. Idle 4 frames (video Imagine → harvest → deltas no grid travado)
-5. Ciclo de agua PAL2 (slots 4-6), nao alpha
+Walk: contact R / pass L / contact L / pass R. Pes: um sempre no
+chao y=63. Pixels nativos, nao downscale do video.
 
-Prova de motion: GIF do BlastEm em
-`doc/changelog/roms/build_v005/runtime_animation.gif`
-
-Nao e jogo AAA. Nao fecha `ready_for_aaa` nem `visual_pass`.
+Nao e jogo AAA. `ready_for_aaa=false`. `visual_pass=false`.

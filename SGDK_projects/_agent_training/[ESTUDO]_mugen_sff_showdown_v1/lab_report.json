@@ -30,16 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "2a8f56826e93d2909644cec04a61494b687453d5823cd21719852716777a5250",
+    "rom_sha256": "98801cdd6f1d270e33dd5a6f51d72af10b404878fa08d4a57544f6caad5b04f8",
     "blastem_status": "testado_em_blastem_sealed_bundle",
-    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final3/blastem-linux-20260830T113023Z-2330763/screenshot.png",
-    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final3/blastem-linux-20260830T113023Z-2330763/save.sram",
-    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final3/blastem-linux-20260830T113023Z-2330763/evidence_manifest.json",
-    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final3/blastem-linux-20260830T113023Z-2330763/screenshot_semantic_gate_report.json",
-    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final3/blastem-linux-20260830T113023Z-2330763/visual_vdp_dump.bin",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final5/blastem-linux-20260830T143338Z-3017340/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final5/blastem-linux-20260830T143338Z-3017340/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final5/blastem-linux-20260830T143338Z-3017340/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final5/blastem-linux-20260830T143338Z-3017340/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final5/blastem-linux-20260830T143338Z-3017340/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
     "frame_animation_enabled": false,
-    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final3/blastem-linux-20260830T113023Z-2330763/runtime_metrics.json"
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final5/blastem-linux-20260830T143338Z-3017340/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -159,7 +159,7 @@
       "conclusion": "zero re-stream em idle"
     }
   },
-  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6h \u00fanico pending)",
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6i \u00fanico pending)",
   "palette_optimization_p4_escape": {
     "status": "MEASURED",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
@@ -256,5 +256,16 @@
     "status": "MEASURED_WITH_LIMITATION",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6g_sweep_spread_report.json",
     "verdict": "sweep espalhado over_budget 7->8 (piora), pr\u00f3ximo otimizar custo por tile"
+  },
+  "animation_p6h": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6h_precompute_report.json",
+    "verdict": "precompute NEUTRO (8/32 over_budget); custo dominante = re-upload full-window; anim AAA exige dirty-region (P6i)"
+  },
+  "cache_overview": {
+    "gate": "PASS",
+    "overflow": "0",
+    "eviction": "funciona",
+    "max_res": "1190/1190"
   }
 }

@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.8.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
+**versao:** 1.9.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -99,8 +99,15 @@
 - Medida: soak 120s `evidence_p6g_soak/…113617Z…` overflow 0 ✅, over_budget **8** (vs 7 do throttle puro), max_cpu 250.
 - Veredito: **REPROVADO** — overhead de 5 frames extras supera economia; report `analysis/p6g_sweep_spread_report.json`.
 
-### PENDING — P6h: Otimizar custo CPU por tile (AAA real)
-- Objetivo: zerar over_budget restante (7→0) cacheando sTileOpacity/sNeeded e precomputando isOpaque.
+### MEASURED_WITH_LIMITATION — P6h: precomputeOpacityTable (2026-08-30)
+- Método: tabela de opacidade pré-preenchida no enter, eliminando scan lazy 32B/tile.
+- Medida: soak 120s `evidence_p6h_soak/…142715Z…` overflow 0 ✅, over_budget **8**, max_cpu 250 — NEUTRO vs P6e (7/249).
+- Conclusão: o custo dominante NÃO é o scan de opacidade (cache já quente); é o **re-upload full-window no tick**. Cache gate PASS; animação AAA precisa de dirty-region.
+- Report: `analysis/p6h_precompute_report.json`.
+- Default verde fixado (animation OFF): `evidence_clean_final5/…143338Z…` **0 overflows, 0 over_budget, max_cpu 89**.
+
+### PENDING — P6i: Animação via dirty-region delta (AAA real)
+- Objetivo: no tick de animação, re-enviar só a região mudada (delta de tiles), não o full-window 41×29.
 - Aceite: 0 overflows + 0 over_budget em soak 120s com animação 90f ligada.
 
 ## Limites estruturais lembrados

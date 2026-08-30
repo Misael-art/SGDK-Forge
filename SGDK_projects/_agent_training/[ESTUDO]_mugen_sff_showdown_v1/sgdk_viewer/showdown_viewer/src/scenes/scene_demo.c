@@ -34,7 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6g medido sweep espalhado: over_budget 7→8 (piora); próximo é otimizar custo CPU por tile; revertido para DISABLED */
+#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6h medido: precompute neutro (8/32 over_budget); teto e o re-upload full-window no tick; animation AAA exige dirty-region delta (P6i) */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70
@@ -96,6 +96,10 @@ static s16 sLineScrollA[VIEWPORT_H];
 static s16 sLineScrollB[VIEWPORT_H];
 
 static u16 clampSignedToRange(s16 value, u16 minValue, u16 maxValue);
+static u16 acquireTileSlot(u16 globalTileId);
+static void flushTileUploadBatch(void);
+static u16 globalTileIsOpaqueForOverlay(u16 globalTileId);
+static u16 customMapWordToSgdkAttr(u16 raw, u16 slot);
 
 static const u16* getFramePlaneMap(const u16* maps, u16 frame, u16 plane)
 {
@@ -167,6 +171,17 @@ static void resetTileOpacityCache(void)
 
     for (i = 0; i < GLOBAL_UNIQUE_TILES; i++) {
         sTileOpacityState[i] = 0;
+    }
+}
+
+static void precomputeOpacityTable(void)
+{
+    /* P6h: tabela de opacidade preenchida UMA vez, zerando o scan lazy de
+       32 bytes por tile que acontecia a cada frame de animacao. */
+    u16 i;
+    resetTileOpacityCache();
+    for (i = 0; i < GLOBAL_UNIQUE_TILES; i++) {
+        (void) globalTileIsOpaqueForOverlay(i);
     }
 }
 
@@ -759,6 +774,7 @@ void SCENE_demoEnter(void)
     gTileStreamStats[5] = CACHE_TILE_CAPACITY;
     gTileStreamStats[6] = GLOBAL_UNIQUE_TILES;
     gTileStreamStats[7] = 0x54533130UL; /* "TS10" */
+    precomputeOpacityTable();
 
     VDP_setTextPlane(WINDOW);
     VDP_setEnable(FALSE);

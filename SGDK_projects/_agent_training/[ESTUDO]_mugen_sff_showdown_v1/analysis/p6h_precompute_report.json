@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "status": "measured_with_limitation",
+  "method": "precomputeOpacityTable (elimina scan lazy 32B/tile) + eviction + incremental, interval 90f",
+  "soak_evidence": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6h_soak/blastem-linux-20260830T142715Z-2989190",
+  "TSTR": {"requested":6727,"overflow":0,"max_res":1190,"cap":1190},
+  "VLAB": {"over_budget_frames":8,"max_cpu_load":250,"sample_count":32},
+  "comparison": {
+    "P6e_throttle_90f": {"over_budget":7,"max_cpu":249},
+    "P6h_precompute": {"over_budget":8,"max_cpu":250}
+  },
+  "verdict": {
+    "precompute_effect": "NEUTRO (cache lazy ja quente nos ciclos repetidos)",
+    "root_cause": "re-upload full-window no tick de animacao e o custo dominante",
+    "aaa_gate_anim": "REPROVADO por design (7-8/32 over_budget em todas configs)",
+    "cache_gate": "PASS (0 overflow, eviction ok)",
+    "next_required": "P6i: upload por dirty-region (delta) em vez de re-upload full-window"
+  }
+}

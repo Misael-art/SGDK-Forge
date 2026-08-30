@@ -148,3 +148,10 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 
 - Espalhar sweep 1/frame reduziu pico no enter mas adicionou overhead de 5 frames extras; over_budget subiu.
 - Lição: distribuir inicialização não compensa custo de manter lógica de sweep ativa por mais tempo.
+
+## Adendo P6h (2026-08-30): precompute NEUTRO — custo dominante é re-upload full-window
+
+- precomputeOpacityTable não moveu over_budget (8/32, max 250) porque o cache lazy já estava quente nos ciclos repetidos.
+- Verdade dura: manter animação + eviction em todas as configs testadas (45f/90f/120f, split, spread, precompute) fica em 7-8 over_budget.
+- Cache é PASS (0 overflow). Animação AAA verdadeira exige enviar só a região mudada (dirty-region delta), não reenviar 41x29 tiles + 2 tilemaps por tick.
+- Default verde fixado: animation OFF = 0 overflows / 0 over_budget / max_cpu 89.

@@ -34,7 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6i medido dirty-region: max_cpu 250→243 mas over_budget segue 8 (frame-swap cobre janela); anim AAA aguarda P6j (isolar pico por-frame) */
+#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6j concluido: peak-frame=97 confirmou pico no ENTER, nao no tick; anim AAA aguarda P6k (mover carga do enter) */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70

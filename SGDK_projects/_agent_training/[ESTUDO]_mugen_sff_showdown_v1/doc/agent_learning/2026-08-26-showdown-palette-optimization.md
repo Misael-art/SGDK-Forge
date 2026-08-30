@@ -161,3 +161,10 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - VDP_setTileMapDataRect sub-rect no tick: max_cpu 250→243 mas over_budget segue 8.
 - Causa: animação SFF (bg2) espalha mudança por quase toda a janela, então o retângulo sujo ≈ full-window.
 - Lição: dirty-region só ajuda quando a mudança é localizada; para animação de camada integral, a otimização certa é jogar o trabalho no VBlank (scroll/tilemap no VBlank vs CPU).
+
+## Adendo P6j (2026-08-30): peak-frame identifica a causa — pico no ENTER
+
+- VLAB metric_words 24→32 com peak-frame (words 26..31) portado do canonico.
+- soak 120s anim ON: peak_cpu_frame=97 → pico é o ENTER (sweep de cantos + stream inicial), NÃO o tick de animação (multiplos de 90).
+- Loção: instrumentação por-frame destrói hipóteses; o "over_budget constante" era trabalho de inicialização, não a animação.
+- Default verde mantido 0/0/89. Próximo: descarregar workload do enter (P6k).

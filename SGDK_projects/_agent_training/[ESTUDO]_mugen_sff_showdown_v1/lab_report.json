@@ -30,16 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "2ff2f792aa9c647b4934e06fd8558e5080c36e8bb8f26c3b255f652d6cf0b71b",
+    "rom_sha256": "9a85ab67c075ba3c351564423c68d45ba84060cb8934ef26c675dabe12f43f03",
     "blastem_status": "testado_em_blastem_sealed_bundle",
-    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final6/blastem-linux-20260830T145424Z-3080403/screenshot.png",
-    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final6/blastem-linux-20260830T145424Z-3080403/save.sram",
-    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final6/blastem-linux-20260830T145424Z-3080403/evidence_manifest.json",
-    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final6/blastem-linux-20260830T145424Z-3080403/screenshot_semantic_gate_report.json",
-    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final6/blastem-linux-20260830T145424Z-3080403/visual_vdp_dump.bin",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
     "frame_animation_enabled": false,
-    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final6/blastem-linux-20260830T145424Z-3080403/runtime_metrics.json"
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -159,7 +159,7 @@
       "conclusion": "zero re-stream em idle"
     }
   },
-  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6j \u00fanico pending)",
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6k \u00fanico pending)",
   "palette_optimization_p4_escape": {
     "status": "MEASURED",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
@@ -278,5 +278,12 @@
     "overflow": "0",
     "eviction": "ok",
     "max_resident": "1190/1190"
+  },
+  "instrumentation_p6j": {
+    "status": "DONE",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6j_peak_frame_report.json",
+    "metric_words": "24->32 (peak-frame words 26..31)",
+    "peak_cpu_frame": 97,
+    "verdict": "pico no ENTER (sweep+stream), nao no tick animacao; causa dos 7-8 over_budget identificada"
   }
 }

@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.10.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
+**versao:** 1.11.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -113,10 +113,15 @@
 - Report: `analysis/p6i_dirty_region_report.json`. Código dirty-region mantido (melhoria leve/inofensiva).
 - Default verde fixado: `evidence_clean_final6/…145424Z…` 0/0/89.
 
-### PENDING — P6j: Instrumentar pico de CPU por frame (isolar causa real)
-- Objetivo: usar o peak-frame do VLAB (words 26..31: quadro de cada pico) para confirmar se os 7-8 over_budget são tick de animação, enter/sweep ou scroll.
-- Aceite: identificação acionável da frame de pico; então atacar a causa específica (ex.: mover scroll/sweep p/ vblank, reduzir scanline DMA).
-- Nota: probe atual do viewer ja emite peak-frame? Verificar words 26..31; se ausente, portar como no bloco VLAB canonico do Celestial Chase.
+### DONE — P6j: Instrumentação de peak-frame VLAB (isolar causa) (2026-08-30)
+- Portado VLAB metric_words 24→32 com peak-frame (words 26..31: scanline/cpu/sprite) como no canonico Celestial Chase.
+- Leitura: soak `evidence_p6j_soak/…151815Z…` peak_cpu_frame=**97** → pico no ENTER (sweep+stream inicial), NÃO no tick de animação. max_scanline=0, max_cpu=243.
+- Veredito: a causa do over_budget persistente (7-8) é o trabalho de streaming no ENTER, não a animação.
+- Report: `analysis/p6j_peak_frame_report.json`. Default verde mantido: `evidence_clean_final7/…152838Z…` 0/0/89.
+
+### PENDING — P6k: Descarregar trabalho do ENTER (AAA real)
+- Objetivo: mover sweep de cantos + stream inicial para pós-enter (ex.: frame 30+) ou VBlank, para zerar os 8 over_budget com animação ligada.
+- Aceite: 0 overflows + 0 over_budget em soak 120s com animação 90f ligada (peak_frame fora da janela de enter).
 
 ## Limites estruturais lembrados
 - Host Linux: build SO via `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh`;

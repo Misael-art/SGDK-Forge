@@ -22,7 +22,7 @@
    24 words de metrica + 64 words de paleta CRAM, magic "VLAB". */
 #define PROBE_VLAB_OFFSET 0x200
 #define PROBE_VLAB_SCHEMA_VERSION 1
-#define PROBE_VLAB_METRIC_WORDS 24
+#define PROBE_VLAB_METRIC_WORDS 32
 #define PROBE_VLAB_PALETTE_WORDS 64
 #define PROBE_VLAB_TOTAL_BYTES (8 + ((PROBE_VLAB_METRIC_WORDS + PROBE_VLAB_PALETTE_WORDS) * 2))
 
@@ -43,6 +43,12 @@ static u16 s_sceneWarmupFrames;
 static u32 s_heartbeatCounter;
 static u16 s_scanlineCursor;
 static u16 s_vlabPalette[PROBE_VLAB_PALETTE_WORDS];
+static u16 s_peakCpuFrameHi;
+static u16 s_peakCpuFrameLo;
+static u16 s_peakScanlineFrameHi;
+static u16 s_peakScanlineFrameLo;
+static u16 s_peakSpriteFrameHi;
+static u16 s_peakSpriteFrameLo;
 
 static u16 measure_max_scanline_sprites(void)
 {
@@ -125,6 +131,14 @@ static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
     s_lastExportFrame = 0;
     s_sceneWarmupFrames = PROBE_SCENE_WARMUP_FRAMES;
     s_scanlineCursor = 0;
+    s_peakCpuFrameHi = 0;
+    s_peakCpuFrameLo = 0;
+    s_peakScanlineFrameHi = 0;
+    s_peakScanlineFrameLo = 0;
+    s_peakSpriteFrameHi = 0;
+    s_peakSpriteFrameLo = 0;
+    g_mdRuntimeProbe[24] = 0;
+    g_mdRuntimeProbe[25] = 0;
 }
 
 static u16 clamp_u16(s32 value)
@@ -248,6 +262,14 @@ static void export_visual_probe_to_sram(void)
     sram_write_visual_word(&offset, g_mdRuntimeProbe[16]);
     sram_write_visual_word(&offset, g_mdRuntimeProbe[17]);
     sram_write_visual_word(&offset, g_mdRuntimeProbe[4]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[24]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[25]);
+    sram_write_visual_word(&offset, s_peakScanlineFrameHi);
+    sram_write_visual_word(&offset, s_peakScanlineFrameLo);
+    sram_write_visual_word(&offset, s_peakCpuFrameHi);
+    sram_write_visual_word(&offset, s_peakCpuFrameLo);
+    sram_write_visual_word(&offset, s_peakSpriteFrameHi);
+    sram_write_visual_word(&offset, s_peakSpriteFrameLo);
 
     for (i = 0; i < PROBE_VLAB_PALETTE_WORDS; i++) {
         sram_write_visual_word(&offset, s_vlabPalette[i]);
@@ -333,6 +355,8 @@ void MDRuntimeProbe_tick(void)
     }
     if (cpuLoad > g_mdRuntimeProbe[11]) {
         g_mdRuntimeProbe[11] = cpuLoad;
+        s_peakCpuFrameHi = (u16)((gApp.totalFrames >> 16) & 0xFFFF);
+        s_peakCpuFrameLo = (u16)(gApp.totalFrames & 0xFFFF);
     }
     if (s_hasPrevSample && jitter > g_mdRuntimeProbe[13]) {
         g_mdRuntimeProbe[13] = jitter;
@@ -341,11 +365,17 @@ void MDRuntimeProbe_tick(void)
     maxScanlineSprites = measure_max_scanline_sprites();
     if (maxScanlineSprites > g_mdRuntimeProbe[14]) {
         g_mdRuntimeProbe[14] = maxScanlineSprites;
+        s_peakScanlineFrameHi = (u16)((gApp.totalFrames >> 16) & 0xFFFF);
+        s_peakScanlineFrameLo = (u16)(gApp.totalFrames & 0xFFFF);
     }
 
     if (g_mdRuntimeProbe[15] < 1) g_mdRuntimeProbe[15] = 1;
     g_mdRuntimeProbe[16] = clamp_u16(SPR_getNumActiveSprite());
-    g_mdRuntimeProbe[17] = 1;
+    if (g_mdRuntimeProbe[16] > g_mdRuntimeProbe[17]) {
+        g_mdRuntimeProbe[17] = g_mdRuntimeProbe[16];
+        s_peakSpriteFrameHi = (u16)((gApp.totalFrames >> 16) & 0xFFFF);
+        s_peakSpriteFrameLo = (u16)(gApp.totalFrames & 0xFFFF);
+    }
 
     if (samplesRecorded < MD_RUNTIME_PROBE_MAX_SAMPLES) {
         g_mdRuntimeProbe[PROBE_SAMPLE_OFFSET + samplesRecorded] = cpuLoad;

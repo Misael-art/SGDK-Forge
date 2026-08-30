@@ -73,6 +73,11 @@ function Read-JsonObject {
     if (-not (Test-Path -LiteralPath $Path)) { return $null }
     try {
         $raw = Get-Content -LiteralPath $Path -Raw -Encoding UTF8
+        # DateKind String (PowerShell 7.5+) keeps ISO timestamps as strings so
+        # schema "type: string" checks do not see System.DateTime instances.
+        if ((Get-Command ConvertFrom-Json).Parameters.Keys -contains 'DateKind') {
+            return ($raw | ConvertFrom-Json -DateKind String)
+        }
         return ($raw | ConvertFrom-Json)
     } catch {
         Write-Log 'ERROR' "Invalid JSON in $Path : $($_.Exception.Message)"
@@ -490,7 +495,16 @@ $report = [ordered]@{
 }
 
 if ($null -ne $reportSchema) {
-    $reportErrors = @(Test-JsonSchema -Instance $report -Schema $reportSchema -Path '$.report')
+    # Self-validate the serialized form: $report is an OrderedDictionary, which
+    # Test-JsonSchema cannot walk; the JSON round-trip yields PSCustomObjects and
+    # matches exactly what is written to disk below. DateKind String keeps ISO
+    # timestamps as strings instead of DateTime (PowerShell 7.5+).
+    $convertFromJsonArgs = @{}
+    if ((Get-Command ConvertFrom-Json).Parameters.Keys -contains 'DateKind') {
+        $convertFromJsonArgs['DateKind'] = 'String'
+    }
+    $reportForValidation = $report | ConvertTo-Json -Depth 8 | ConvertFrom-Json @convertFromJsonArgs
+    $reportErrors = @(Test-JsonSchema -Instance $reportForValidation -Schema $reportSchema -Path '$.report')
     if ($reportErrors.Count -gt 0) {
         Write-Log 'ERROR' "Report self-validation failed: $($reportErrors.Count) issue(s)"
         foreach ($e in $reportErrors) { Write-Log 'ERROR' "  $e" }

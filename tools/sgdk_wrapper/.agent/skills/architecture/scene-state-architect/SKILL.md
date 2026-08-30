@@ -142,3 +142,13 @@ Esta skill deve proteger explicitamente:
   - setor mutavel, `RAM shadow copy` e pool local de tiles com dono claro
 - `microbuffer boundaries`
   - regiao de simulacao pequena, cadence explicita e sem concorrencia invisivel com outros sistemas de cena
+
+## Nota de curadoria (curation_batch_2026_06_16)
+
+Origem: itens de Window Plane/HUD do lote `curation_batch_2026_06_16`, evidencia
+`E1_text`, expansao candidata. Apenas registra ownership/reset; nao cria contrato
+ou schema novo e nao promete AAA/runtime.
+
+- Window Plane/HUD, callbacks globais, palette cycling, H-Int e scroll managers
+  exigem owner unico e reset simetrico na troca de cena; nenhum desses pode
+  ganhar segundo dono implicito ao trocar de estado.

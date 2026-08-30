@@ -51,8 +51,8 @@ if not exist "%TEMPLATE_DIR%" (
 )
 
 echo [INFO] Creating project "%NEW_PROJ_NAME%" from canonical SGDK model...
-xcopy /E /I /Y /Q "%TEMPLATE_DIR%\*" "%TARGET_DIR%\" >nul
-if ERRORLEVEL 1 (
+robocopy "%TEMPLATE_DIR%" "%TARGET_DIR%" /E /XD ".agent" "out" /R:1 /W:1 /MT:16 /NFL /NDL /NJH /NJS /NP >nul
+if ERRORLEVEL 8 (
     echo [ERROR] Failed to copy project template.
     if exist "%TARGET_DIR%" rmdir /S /Q "%TARGET_DIR%"
     exit /b 1
@@ -65,19 +65,30 @@ if exist "%TARGET_DIR%\.agent" (
     rmdir /S /Q "%TARGET_DIR%\.agent"
 )
 
+REM Vibe Playable template seeds are structural only. Runtime evidence must never be born from the template.
+if exist "%TARGET_DIR%\out" (
+    rmdir /S /Q "%TARGET_DIR%\out"
+)
+
 REM Personaliza placeholders do template para o nome real do projeto.
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
-    "$targetDir = '%TARGET_DIR%'; $projName = '%NEW_PROJ_NAME%';" ^
-    "$files = @(Get-ChildItem -LiteralPath $targetDir -Recurse -File -Include '*.md','*.json' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName);" ^
+    "$ErrorActionPreference = 'Stop';" ^
+    "$targetDir = $env:TARGET_DIR; $projName = $env:NEW_PROJ_NAME;" ^
+    "$files = Get-ChildItem -LiteralPath $targetDir -Recurse -File -ErrorAction SilentlyContinue | Where-Object { @('.md', '.json') -contains $_.Extension.ToLowerInvariant() };" ^
     "foreach ($file in $files) {" ^
-    "  if (Test-Path -LiteralPath $file) {" ^
-    "    $content = Get-Content -LiteralPath $file -Raw -Encoding UTF8;" ^
-    "    $content = $content.Replace('__PROJECT_NAME__', $projName);" ^
-    "    Set-Content -LiteralPath $file -Value $content -Encoding UTF8;" ^
-    "  }" ^
+    "  $content = [System.IO.File]::ReadAllText($file.FullName, [System.Text.Encoding]::UTF8);" ^
+    "  $content = $content.Replace('__PROJECT_NAME__', $projName);" ^
+    "  [System.IO.File]::WriteAllText($file.FullName, $content, [System.Text.Encoding]::UTF8);" ^
     "}"
 if ERRORLEVEL 1 (
     echo [ERROR] Failed to personalize template placeholders.
+    if "%CREATED_TARGET%"=="1" if exist "%TARGET_DIR%" rmdir /S /Q "%TARGET_DIR%"
+    exit /b 1
+)
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0reset_new_project_state.ps1" -ProjectRoot "%TARGET_DIR%" -ConfirmNewProjectSeed
+if ERRORLEVEL 1 (
+    echo [ERROR] Failed to reset inherited runtime/history state.
     if "%CREATED_TARGET%"=="1" if exist "%TARGET_DIR%" rmdir /S /Q "%TARGET_DIR%"
     exit /b 1
 )
@@ -102,6 +113,11 @@ if ERRORLEVEL 1 (
     echo [WARN] Review doc\13-spec-cenas.md and doc\scene-regression.json before the first validation pass.
 )
 
+REM Final safety pass: bootstrap helpers may create out/ for diagnostics, but new projects must not be born with runtime evidence.
+if exist "%TARGET_DIR%\out" (
+    rmdir /S /Q "%TARGET_DIR%\out"
+)
+
 echo [OK] Project created: %TARGET_DIR%
 echo.
 echo Next steps:
@@ -119,7 +135,16 @@ echo   11. Revise o companion gerado em doc\scene-contracts.json
 echo   12. Declare a identidade de front-end e o papel formal de menu/title antes do runtime.
 echo   13. Put raw art in res\data\ when needed.
 echo   14. Run build.bat to verify the canonical wrapper pipeline.
+echo   15. Vibe Playable seed installed: blocked_no_premium_source.
+echo   16. No approval, ROM, screenshot, SRAM, VDP dump or runtime panel was created by this bootstrap.
+echo   17. Next visual gates: premium source -^> human asset approval -^> VDP conversion -^> build -^> BlastEm evidence.
+echo.
+echo DIRETRIZ DE BLOQUEIO ESTETICO (ja em doc/00-diretrizes-agente.md):
+echo   - nenhum pixel de personagem, inimigo, boss ou cenario pode nascer de codigo;
+echo   - primitiva/ImageDraw serve apenas para telemetria, debug visual e UI transitoria;
+echo   - todo simbolo visual do .res exige registro em doc/asset_provenance_manifest.json;
+echo   - auditor: python3 ..\..\tools\sgdk_wrapper\audit_procedural_asset_provenance.py --project-root "%%CD%%" --shared-builder-root ..\..\tools\image-tools
 echo.
 echo REGRA DE OURO: sempre atualize a documentacao quando a verdade do projeto mudar.
 
-endlocal
+endlocal & exit /b 0

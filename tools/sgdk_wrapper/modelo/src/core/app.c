@@ -3,6 +3,7 @@
 #include "core/app.h"
 #include "game_vars.h"
 #include "scenes/scene_branding.h"
+#include "scenes/branding_v2.h"
 #include "scenes/scene_boot.h"
 #include "scenes/scene_demo.h"
 #include "scenes/scene_menu.h"
@@ -48,7 +49,7 @@ void APP_boot(bool hardReset)
     JOY_init();
     INPUT_init();
     AUDIO_init();
-    SPR_init();
+    SPR_initEx(16);   /* pool minimo: a cena de branding gerencia VRAM de sprite manualmente */
 
     gApp.currentScene = APP_SCENE_BRANDING;
     gApp.previousScene = APP_SCENE_BRANDING;
@@ -123,7 +124,7 @@ void APP_update(void)
     {
         switch (gApp.currentScene)
         {
-            case APP_SCENE_BRANDING: SCENE_brandingEnter(); break;
+            case APP_SCENE_BRANDING: SCENE_brandingV2Enter(); break;
             case APP_SCENE_BOOT: SCENE_bootEnter(); break;
             case APP_SCENE_MENU: SCENE_menuEnter(); break;
             case APP_SCENE_DEMO: SCENE_demoEnter(); break;
@@ -134,7 +135,7 @@ void APP_update(void)
 
     switch (gApp.currentScene)
     {
-        case APP_SCENE_BRANDING: SCENE_brandingUpdate(); break;
+        case APP_SCENE_BRANDING: SCENE_brandingV2Update(); break;
         case APP_SCENE_BOOT: SCENE_bootUpdate(); break;
         case APP_SCENE_MENU: SCENE_menuUpdate(); break;
         case APP_SCENE_DEMO: SCENE_demoUpdate(); break;

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sgdk-forge.local/schemas/aaa_source_to_skill_traceability_matrix.schema.json",
+  "title": "AAA Source To Skill Traceability Matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "status",
+    "curation_date",
+    "purpose",
+    "traceability_policy",
+    "sources"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "aaa_source_to_skill_traceability_matrix"
+    },
+    "status": {
+      "enum": [
+        "candidate_applied_not_verified",
+        "validated_curation",
+        "rejected"
+      ]
+    },
+    "curation_date": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "traceability_policy": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "source_id",
+          "source_reliability_level",
+          "source_summary",
+          "accepted_techniques",
+          "rejected_or_deferred_claims"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string"
+          },
+          "source_reliability_level": {
+            "type": "string"
+          },
+          "source_summary": {
+            "type": "string"
+          },
+          "accepted_techniques": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "rejected_or_deferred_claims": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

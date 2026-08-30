@@ -104,3 +104,11 @@ Toda tecnica precisa existir no registry canonico e servir a gameplay, narrativa
 - [menu principal]
 - [title screen]
 - [outras telas de front-end relevantes]
+
+## Vibe Playable Birth Route
+
+Projetos novos nascem com rota Vibe Playable preparada, mas bloqueada.
+
+Pedido natural de jogo/fase/personagem/FX deve acionar roteador visual antes de runtime definitivo.
+
+Nenhum asset, aprovacao humana ou evidencia BlastEm existe no template.

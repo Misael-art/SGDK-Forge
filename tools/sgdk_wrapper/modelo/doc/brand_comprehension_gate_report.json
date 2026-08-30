@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "art_gameplay_direction_gate",
+  "axis": "brand_comprehension_consequence",
+  "axis_approved_by": "human_curator",
+  "axis_approved_at": "2026-08-17",
+  "contract_id": "branding_sequence_v2",
+  "contract_path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/doc/branding_sequence_contract.json",
+  "summary": {
+    "techniques_total": 24,
+    "comprehension_bearing": 15,
+    "enabling_discipline": 9,
+    "weak_claims": 2
+  },
+  "findings": [
+    {
+      "code": "brand_comprehension_claim_weak",
+      "severity": "warning",
+      "subject": "column_scrolling",
+      "where": "declared",
+      "message": "claim fraco: precisa de prova perceptiva no runtime, senao vira decoracao. Nao pode ser apresentado como forte no closeout."
+    },
+    {
+      "code": "brand_comprehension_claim_weak",
+      "severity": "warning",
+      "subject": "expressive_text_presentation_system",
+      "where": "declared",
+      "message": "claim fraco: precisa de prova perceptiva no runtime, senao vira decoracao. Nao pode ser apresentado como forte no closeout."
+    }
+  ],
+  "human_judgement_still_required": "Este validador prova que nenhuma tecnica passou sem justificativa. Ele NAO julga se o claim e verdadeiro: isso e decisao humana no gate visual, contra screenshot e visual_vdp_dump reais.",
+  "blocking": false,
+  "blocking_statuses": []
+}

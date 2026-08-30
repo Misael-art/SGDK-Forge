@@ -28,7 +28,7 @@ Esta skill existe para impedir que arquitetura tecnica vire decisao improvisada 
 2. `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md`
 3. `tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md` (especialmente `references/sgdk_211_api_reality.json`)
 4. `tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/SKILL.md`
-5. `tools/sgdk_wrapper/.agent/architecture/scene-state-architect/SKILL.md`
+5. `tools/sgdk_wrapper/.agent/skills/architecture/scene-state-architect/SKILL.md`
 6. `mechanic_validation_report.json` (para state_fsm_map)
 7. `level_blueprint.json` (para state_fsm_map por cena)
 8. `enemy_design_report.json` (para memory_pool_map)

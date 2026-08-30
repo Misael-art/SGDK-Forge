@@ -1,0 +1,525 @@
+#!/usr/bin/env python3
+"""Seal a same-session BlastEm bundle with conservative identity/freshness checks."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.util
+import json
+import os
+import re
+import struct
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+
+TOOL_VERSION = "1.0.0"
+TEXT_TIME_TOLERANCE_SECONDS = 5.0
+WRAPPER_ROOT = Path(__file__).resolve().parent
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def iso_utc(timestamp: float | None = None) -> str:
+    moment = datetime.fromtimestamp(timestamp, timezone.utc) if timestamp is not None else datetime.now(timezone.utc)
+    return moment.isoformat()
+
+
+def parse_time(value: str) -> datetime:
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        raise ValueError("timestamp_without_timezone")
+    return parsed.astimezone(timezone.utc)
+
+
+def load_screenshot_gate() -> Any:
+    tool = WRAPPER_ROOT / "screenshot_semantic_gate.py"
+    spec = importlib.util.spec_from_file_location("screenshot_semantic_gate", tool)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"unable_to_import:{tool}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+# Espelha PROBE_VLAB_PALETTE_WORDS em system/runtime_probe.c. Se mudar la, muda aqui.
+PROBE_VLAB_PALETTE_WORDS = 64
+
+
+def extract_vlab(sram_path: Path, dump_path: Path) -> dict[str, Any]:
+    raw = sram_path.read_bytes()
+    offset = raw.find(b"VLAB")
+    if offset < 0 or offset + 8 > len(raw):
+        raise ValueError("vlab_block_missing")
+    schema_version, total_bytes = struct.unpack_from(">HH", raw, offset + 4)
+    if total_bytes < 8 or offset + total_bytes > len(raw):
+        raise ValueError("vlab_block_size_invalid")
+    payload = raw[offset : offset + total_bytes]
+    dump_path.write_bytes(payload)
+    word_count = (total_bytes - 8) // 2
+    words = list(struct.unpack_from(f">{word_count}H", payload, 8)) if word_count else []
+    if len(words) < 24:
+        raise ValueError("vlab_metrics_incomplete")
+    # A paleta tem tamanho FIXO (PROBE_VLAB_PALETTE_WORDS = 64) e vive no fim do
+    # bloco; o que sobra na frente e metrica. Derivar assim faz a leitura
+    # acompanhar a probe sozinha.
+    #
+    # A versao anterior cortava em `words[:24]` com 24 escrito na mao, enquanto a
+    # probe ja emitia 26 palavras. Os dois campos extras — spawned e failed do
+    # contador de alocacao — caiam no balde da paleta e nunca chegavam ao report.
+    # Quando a probe passou a 32, os seis quadros de pico sumiram do mesmo jeito,
+    # e o sintoma foi campo `None` num bundle cuja SRAM tinha o dado.
+    metric_count = max(24, len(words) - PROBE_VLAB_PALETTE_WORDS)
+    return {
+        "schema_version": schema_version,
+        "offset": offset,
+        "total_bytes": total_bytes,
+        "metric_word_count": metric_count,
+        "metric_words": words[:metric_count],
+        "palette_words": words[metric_count:],
+    }
+
+
+def build_runtime_metrics(
+    *,
+    session_id: str,
+    rom_sha256: str,
+    vlab: dict[str, Any],
+    sram_path: Path,
+    dump_path: Path,
+    window_title: str,
+    generated_at: str,
+) -> dict[str, Any]:
+    words = vlab["metric_words"]
+    fps_match = re.search(r"([0-9]+(?:\.[0-9]+)?)\s+fps", window_title, re.IGNORECASE)
+    return {
+        "schema_version": "1.0.0",
+        "generated_at": generated_at,
+        "tool_name": "seal_fresh_evidence_bundle",
+        "session_id": session_id,
+        "rom_sha256": rom_sha256,
+        "scope": "single_capture_snapshot",
+        "performance_claim": "unproven",
+        "window_title": window_title or None,
+        "window_fps_snapshot": float(fps_match.group(1)) if fps_match else None,
+        "vlab": {
+            "schema_version": vlab["schema_version"],
+            "source_sram_sha256": sha256(sram_path),
+            "visual_vdp_dump_sha256": sha256(dump_path),
+            "scene_id": words[0],
+            "frame_counter": (words[1] << 16) | words[2],
+            "screen_width": words[3],
+            "screen_height": words[4],
+            "plane_width": words[5],
+            "plane_height": words[6],
+            "hscroll_mode": words[7],
+            "vscroll_mode": words[8],
+            "frame_counter_snapshot": words[15],
+            "sample_count": words[16],
+            "over_budget_frames": words[17],
+            "max_cpu_load": words[18],
+            "max_cpu_jitter": words[19],
+            "max_scanline_sprites": words[20],
+            # [16] instantaneo no quadro do export, [17] maximo acumulado na cena.
+            # Os nomes antigos (max_sprite_links / active_sprite_count) descreviam
+            # o que os campos NAO faziam: [17] era a constante 1.
+            "active_sprite_count_at_export": words[21],
+            "max_active_sprites": words[22],
+            "target_fps": words[23],
+            # words[26..31]: quadro em que cada pico ocorreu, hi/lo.
+            # Maximo sem quadro diz que o teto foi violado e nao diz por quem.
+            # Ausentes em ROM com probe anterior a 2026-08-18: fica None.
+            "max_scanline_sprites_at_frame": _peak_frame(words, 26),
+            "max_cpu_load_at_frame": _peak_frame(words, 28),
+            "max_active_sprites_at_frame": _peak_frame(words, 30),
+            # words[24..25]: contador de alocacao de sprite. Existiam na probe
+            # desde sempre e nunca chegavam aqui por causa do corte em 24.
+            "sprite_alloc_spawned": words[24] if len(words) > 24 else None,
+            "sprite_alloc_failed": words[25] if len(words) > 25 else None,
+        },
+        "claim_limit": "A single window-title and VLAB snapshot does not prove sustained performance.",
+    }
+
+
+def _peak_frame(words, index):
+    """Le um par hi/lo. Devolve None quando a ROM foi compilada com a probe
+    antiga, que nao emite estas palavras — declarar ausencia e melhor que
+    devolver 0 e deixar parecer que o pico foi no quadro zero."""
+    if len(words) <= index + 1:
+        return None
+    return (words[index] << 16) | words[index + 1]
+
+
+def seal_bundle(
+    *,
+    session_root: Path,
+    session_id: str,
+    rom_path: Path,
+    screenshot_path: Path,
+    sram_path: Path,
+    expected_rom_sha256: str,
+    started_at: str,
+    completed_at: str,
+    emulator_ref: str,
+    emulator_commit: str,
+    window_title: str = "",
+) -> dict[str, Any]:
+    session_root = session_root.resolve()
+    session_root.mkdir(parents=True, exist_ok=True)
+    rom_path = rom_path.resolve()
+    screenshot_path = screenshot_path.resolve()
+    sram_path = sram_path.resolve()
+    dump_path = session_root / "visual_vdp_dump.bin"
+    metrics_path = session_root / "runtime_metrics.json"
+    semantic_path = session_root / "screenshot_semantic_gate_report.json"
+    manifest_path = session_root / "evidence_manifest.json"
+    freshness_path = session_root / "freshness_report.json"
+    blockers: list[str] = []
+    started = parse_time(started_at)
+    completed = parse_time(completed_at)
+    if completed < started:
+        raise ValueError("session_completed_before_start")
+
+    required_inputs = {"rom": rom_path, "screenshot": screenshot_path, "sram": sram_path}
+    for name, path in required_inputs.items():
+        if not path.is_file():
+            blockers.append(f"artifact_missing:{name}")
+
+    current_rom_sha256 = sha256(rom_path) if rom_path.is_file() else None
+    if current_rom_sha256 != expected_rom_sha256.lower():
+        blockers.append("rom_identity_mismatch")
+
+    vlab: dict[str, Any] | None = None
+    if sram_path.is_file():
+        try:
+            vlab = extract_vlab(sram_path, dump_path)
+        except ValueError as exc:
+            blockers.append(str(exc))
+
+    generated_at = iso_utc()
+    if vlab and current_rom_sha256:
+        metrics = build_runtime_metrics(
+            session_id=session_id,
+            rom_sha256=current_rom_sha256,
+            vlab=vlab,
+            sram_path=sram_path,
+            dump_path=dump_path,
+            window_title=window_title,
+            generated_at=generated_at,
+        )
+        metrics_path.write_text(json.dumps(metrics, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+
+    semantic_report: dict[str, Any] | None = None
+    if screenshot_path.is_file():
+        semantic_report = load_screenshot_gate().analyze_screenshot(
+            screenshot_path,
+            rom_path=rom_path if rom_path.is_file() else None,
+            evidence_session_id=session_id,
+        )
+        semantic_path.write_text(json.dumps(semantic_report, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+        if not semantic_report.get("semantic_capture_valid"):
+            blockers.append(str(semantic_report.get("blocker_code") or "screenshot_semantic_gate_failed"))
+
+    artifact_paths = {
+        "rom": rom_path,
+        "screenshot": screenshot_path,
+        "sram": sram_path,
+        "vdp_dump": dump_path,
+        "runtime_metrics": metrics_path,
+    }
+    artifact_records: list[dict[str, Any]] = []
+    min_epoch = started.timestamp() - TEXT_TIME_TOLERANCE_SECONDS
+    max_epoch = max(completed.timestamp(), datetime.now(timezone.utc).timestamp()) + TEXT_TIME_TOLERANCE_SECONDS
+    for name, path in artifact_paths.items():
+        if not path.is_file():
+            blockers.append(f"artifact_missing:{name}")
+            continue
+        modified = path.stat().st_mtime
+        if modified < min_epoch or modified > max_epoch:
+            blockers.append(f"artifact_stale:{name}")
+        artifact_records.append({
+            "name": name,
+            "path": os.path.relpath(path, session_root).replace(os.sep, "/"),
+            "session_id": session_id,
+            "rom_sha256": current_rom_sha256,
+            "sha256": sha256(path),
+            "size_bytes": path.stat().st_size,
+            "captured_at": iso_utc(modified),
+        })
+
+    blockers = list(dict.fromkeys(blockers))
+    sealed = not blockers
+    manifest = {
+        "schema_version": "1.0.0",
+        "generated_at": generated_at,
+        "tool_name": "seal_fresh_evidence_bundle",
+        "tool_version": TOOL_VERSION,
+        "status": "sealed" if sealed else "rejected",
+        "session_id": session_id,
+        "session_started_at": started_at,
+        "session_completed_at": completed_at,
+        "rom_sha256": current_rom_sha256,
+        "expected_rom_sha256": expected_rom_sha256.lower(),
+        "emulator": {"ref": emulator_ref, "commit": emulator_commit},
+        "artifacts": artifact_records,
+        "semantic_capture_valid": bool(semantic_report and semantic_report.get("semantic_capture_valid")),
+        "blockers": blockers,
+        "claim_limit": "Bundle identity and freshness only; no broad gameplay, audio, performance or AAA claim is inferred.",
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+    freshness = {
+        "schema_version": "1.0.0",
+        "generated_at": iso_utc(),
+        "tool_name": "fresh_evidence_bundle_audit",
+        "tool_version": TOOL_VERSION,
+        "status": "ok" if sealed else "blocked",
+        "session_id": session_id,
+        "rom_sha256": current_rom_sha256,
+        "same_session": sealed,
+        "artifact_count": len(artifact_records),
+        "required_artifact_count": len(artifact_paths),
+        "blockers": blockers,
+        "manifest_path": manifest_path.name,
+    }
+    freshness_path.write_text(json.dumps(freshness, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+    return {"sealed": sealed, "manifest": manifest, "freshness": freshness}
+
+
+def _fixture_sram(metric_words: list[int], palette_words: int = PROBE_VLAB_PALETTE_WORDS) -> bytes:
+    """Monta um bloco VLAB sintetico, com lixo antes para exercitar o find()."""
+    words = list(metric_words) + [0] * palette_words
+    total = 8 + len(words) * 2
+    return (b"\xAA" * 16 + b"VLAB" + struct.pack(">HH", 1, total)
+            + struct.pack(f">{len(words)}H", *words))
+
+
+def self_check() -> int:
+    """Duas leituras que devem bater e tres que devem recusar.
+
+    O caso 1 e a regressao que motivou este self-check: a leitura cortava as
+    metricas em 24 escrito na mao, entao toda palavra que a probe adicionasse
+    depois da 24a era silenciosamente lida como paleta. O sintoma foi campo
+    `None` num bundle cuja SRAM tinha o dado — e por dois anos os contadores
+    spawned/failed morreram assim sem ninguem notar.
+    """
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        dump = tmp / "d.bin"
+
+        def extract(metric: list[int]):
+            sram = tmp / "s.sram"
+            sram.write_bytes(_fixture_sram(metric))
+            return extract_vlab(sram, dump)
+
+        # 1. probe atual: 32 metricas, com quadro de pico que passa de 65535
+        m32 = list(range(24)) + [7, 3, 0x0001, 0x86A1, 0, 405, 0, 91]
+        v = extract(m32)
+        if v["metric_word_count"] != 32:
+            print(f"self-check failed: 32 metricas lidas como {v['metric_word_count']} "
+                  f"— o corte voltou a ser fixo", file=sys.stderr)
+            return 1
+        r = build_runtime_metrics(session_id="t", rom_sha256="t", vlab=v,
+                                  sram_path=tmp / "s.sram", dump_path=dump,
+                                  window_title="", generated_at="t")["vlab"]
+        if r["max_scanline_sprites_at_frame"] != (1 << 16) | 0x86A1:
+            print(f"self-check failed: par hi/lo reconstruido como "
+                  f"{r['max_scanline_sprites_at_frame']}, esperado 100001", file=sys.stderr)
+            return 1
+        if r["max_cpu_load_at_frame"] != 405 or r["max_active_sprites_at_frame"] != 91:
+            print("self-check failed: quadros de pico trocados de posicao", file=sys.stderr)
+            return 1
+        if r["sprite_alloc_spawned"] != 7 or r["sprite_alloc_failed"] != 3:
+            print("self-check failed: contador de alocacao nao chegou ao report",
+                  file=sys.stderr)
+            return 1
+
+        # 2. probe anterior: 26 metricas. Os campos novos precisam vir None, NUNCA 0.
+        v26 = extract(list(range(24)) + [5, 2])
+        if v26["metric_word_count"] != 26:
+            print(f"self-check failed: ROM antiga lida como {v26['metric_word_count']} "
+                  f"metricas", file=sys.stderr)
+            return 1
+        r26 = build_runtime_metrics(session_id="t", rom_sha256="t", vlab=v26,
+                                    sram_path=tmp / "s.sram", dump_path=dump,
+                                    window_title="", generated_at="t")["vlab"]
+        if r26["max_scanline_sprites_at_frame"] is not None:
+            print(f"self-check failed: ROM sem o campo devolveu "
+                  f"{r26['max_scanline_sprites_at_frame']} em vez de None — zero leria "
+                  f"como 'pico no quadro zero'", file=sys.stderr)
+            return 1
+        if r26["sprite_alloc_spawned"] != 5:
+            print("self-check failed: words[24] perdida na ROM de 26", file=sys.stderr)
+            return 1
+
+        # 3. sem bloco VLAB
+        bad = tmp / "sem.sram"
+        bad.write_bytes(b"\x00" * 256)
+        try:
+            extract_vlab(bad, dump)
+        except ValueError as exc:
+            if "vlab_block_missing" not in str(exc):
+                print(f"self-check failed: erro errado para VLAB ausente: {exc}",
+                      file=sys.stderr)
+                return 1
+        else:
+            print("self-check failed: SRAM sem VLAB foi aceita", file=sys.stderr)
+            return 1
+
+        # 4. total_bytes maior que a SRAM
+        trunc = tmp / "trunc.sram"
+        trunc.write_bytes(b"VLAB" + struct.pack(">HH", 1, 9999) + b"\x00" * 32)
+        try:
+            extract_vlab(trunc, dump)
+        except ValueError as exc:
+            if "vlab_block_size_invalid" not in str(exc):
+                print(f"self-check failed: erro errado para tamanho invalido: {exc}",
+                      file=sys.stderr)
+                return 1
+        else:
+            print("self-check failed: total_bytes impossivel foi aceito", file=sys.stderr)
+            return 1
+
+        # 5. metricas de menos
+        short = tmp / "short.sram"
+        short.write_bytes(_fixture_sram(list(range(10)), palette_words=0))
+        try:
+            extract_vlab(short, dump)
+        except ValueError as exc:
+            if "vlab_metrics_incomplete" not in str(exc):
+                print(f"self-check failed: erro errado para bloco curto: {exc}",
+                      file=sys.stderr)
+                return 1
+        else:
+            print("self-check failed: bloco com 10 metricas foi aceito", file=sys.stderr)
+            return 1
+
+    if _self_check_identity_and_freshness() != 0:
+        return 1
+
+    print("seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, "
+          "hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados, "
+          "identidade de ROM e frescor nos dois sentidos)")
+    return 0
+
+
+def _self_check_identity_and_freshness() -> int:
+    """As duas garantias que sustentam todo o resto do bundle.
+
+    `rom_identity_mismatch` e o que prende a evidencia a UM binario. Se ela
+    passar em silencio, todo numero selado fica preso a uma ROM nao verificada.
+    `artifact_stale` e o que impede selar captura de uma execucao anterior como
+    prova da atual — o erro que quase aconteceu nesta curadoria com uma rom.bin
+    tres dias mais velha que o codigo.
+
+    As fixtures usam screenshot INEXISTENTE de proposito: sem ele o gate
+    semantico externo nao roda, e as assertivas ficam sobre estes dois caminhos e
+    nao sobre a analise de imagem, que tem self-check proprio.
+    """
+    import os
+    import tempfile
+    import time
+
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        rom = tmp / "rom.bin"
+        rom.write_bytes(b"\x00" * 512)
+        sram = tmp / "s.sram"
+        sram.write_bytes(_fixture_sram(list(range(32))))
+        real = sha256(rom)
+
+        def seal(expected: str, root_name: str):
+            return seal_bundle(
+                session_root=tmp / root_name, session_id="t", rom_path=rom,
+                screenshot_path=tmp / "nao_existe.png", sram_path=sram,
+                expected_rom_sha256=expected, started_at=iso_utc(),
+                completed_at=iso_utc(), emulator_ref="t", emulator_commit="t",
+            )["manifest"]["blockers"]
+
+        # 1. sha divergente REPROVA
+        if "rom_identity_mismatch" not in seal("0" * 64, "b1"):
+            print("self-check failed: ROM divergente foi aceita — a evidencia deixaria "
+                  "de estar presa a um binario", file=sys.stderr)
+            return 1
+
+        # 2. sha correto NAO acusa
+        if "rom_identity_mismatch" in seal(real, "b2"):
+            print("self-check failed: ROM correta acusada como divergente", file=sys.stderr)
+            return 1
+
+        # 3. sha correto em MAIUSCULA nao acusa. hexdigest() e minusculo e so o
+        #    esperado passa por .lower(); um dos lados nao normalizado quebraria
+        #    todo bundle de quem escrevesse o sha em caixa alta.
+        if "rom_identity_mismatch" in seal(real.upper(), "b3"):
+            print("self-check failed: sha em maiuscula tratado como divergente",
+                  file=sys.stderr)
+            return 1
+
+        # 4. artefato velho REPROVA
+        antigo = time.time() - 3600.0
+        os.utime(rom, (antigo, antigo))
+        if not any(b.startswith("artifact_stale:") for b in seal(real, "b4")):
+            print("self-check failed: artefato de uma hora atras foi selado como fresco — "
+                  "isso deixaria captura de outra execucao virar prova desta",
+                  file=sys.stderr)
+            return 1
+
+        # 5. artefato recem-escrito NAO acusa
+        agora = time.time()
+        os.utime(rom, (agora, agora))
+        os.utime(sram, (agora, agora))
+        if any(b.startswith("artifact_stale:") for b in seal(real, "b5")):
+            print("self-check failed: artefato recem-escrito acusado como velho",
+                  file=sys.stderr)
+            return 1
+
+    return 0
+
+
+def main() -> int:
+    if "--self-check" in sys.argv[1:]:
+        return self_check()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--session-root", required=True)
+    parser.add_argument("--session-id", required=True)
+    parser.add_argument("--rom", required=True)
+    parser.add_argument("--screenshot", required=True)
+    parser.add_argument("--sram", required=True)
+    parser.add_argument("--expected-rom-sha256", required=True)
+    parser.add_argument("--started-at", required=True)
+    parser.add_argument("--completed-at", required=True)
+    parser.add_argument("--emulator-ref", required=True)
+    parser.add_argument("--emulator-commit", required=True)
+    parser.add_argument("--window-title", default="")
+    parser.add_argument("--self-check", action="store_true",
+                        help="Roda as fixtures de leitura do bloco VLAB e sai.")
+    args = parser.parse_args()
+    result = seal_bundle(
+        session_root=Path(args.session_root),
+        session_id=args.session_id,
+        rom_path=Path(args.rom),
+        screenshot_path=Path(args.screenshot),
+        sram_path=Path(args.sram),
+        expected_rom_sha256=args.expected_rom_sha256,
+        started_at=args.started_at,
+        completed_at=args.completed_at,
+        emulator_ref=args.emulator_ref,
+        emulator_commit=args.emulator_commit,
+        window_title=args.window_title,
+    )
+    print(json.dumps({"status": result["freshness"]["status"], "blockers": result["freshness"]["blockers"]}))
+    return 0 if result["sealed"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

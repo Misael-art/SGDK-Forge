@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "status": "measured_with_limitation",
+  "method": "streamCameraWindow incremental delta + eviction por época (sSlotToGlobal + sNeeded) + DMA_QUEUE, FRAME_ANIMATION_INTERVAL 45f",
+  "soak_evidence": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6d_soak/blastem-linux-20260830T012522Z-435450",
+  "TSTR": {"requested":6820,"dma":6820,"calls":435,"overflow":0,"max_res":1190,"cap":1190},
+  "VLAB": {"over_budget_frames":15,"max_cpu_load":317,"sample_count":32},
+  "verdict": {
+    "cache_overflow": "PASS (0 overflows, eviction funciona)",
+    "over_budget": "FAIL (15/32 frames > budget, max_cpu 317)",
+    "aaa_gate": "REPROVADO para CPU, mas cache OK",
+    "next_required": "throttle animação para 60-90f ou split DMA em múltiplos VBlanks"
+  }
+}

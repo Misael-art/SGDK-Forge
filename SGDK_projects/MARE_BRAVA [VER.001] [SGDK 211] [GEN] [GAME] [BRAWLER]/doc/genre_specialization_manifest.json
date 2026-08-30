@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "registry_source": "doc/07_game_design/genre_specialization_registry.json",
+  "active_specializations": [
+    {
+      "specialization_id": "brawler_belt_scroll",
+      "activation_reason": "Usuario escolheu explicitamente criar um belt scroller com benchmark Streets of Rage 2 no menu de sessao de 2026-07-03.",
+      "design_contract_path": "doc/contracts/brawler_belt_scroll_design_contract.json",
+      "evidence": {
+        "gdd_section_ref": "doc/11-gdd.md#project-brief",
+        "tdd_section_ref": "doc/contracts/tdd_contract.json"
+      },
+      "doc_refs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md",
+        "doc/00-project-brief.md"
+      ],
+      "freeze_axes_acknowledgement": true
+    }
+  ],
+  "human_authorization": {
+    "authorized_at": "2026-07-03T00:55:00-03:00",
+    "author_role": "project_owner",
+    "notes": "Resposta explicita: alvo=criar novo jogo; genero=brawler_belt_scroll."
+  }
+}

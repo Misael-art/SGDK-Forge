@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "cais_01_parallax_layer_contract_v1",
+  "scene_id": "cais_01",
+  "hardware_truth": "apenas BG_A + BG_B + WINDOW; profundidade extra APENAS via line-scroll (HScroll por linha) dentro do BG_B; sem terceiro plano; sem alpha blending",
+  "bgb_resident_loop": {
+    "size_px": "512x224",
+    "residency": "full_resident (tilemap_streaming_contract)",
+    "wrap": "nativo do plano"
+  },
+  "layers": [
+    {
+      "layer_id": "L0_sky_clouds",
+      "y_band_px": "0..64",
+      "scroll_ratio": 0.125,
+      "content": "bandas de ceu do entardecer + nuvens finas em contraluz",
+      "density": "minima",
+      "tiles_estimate": "<=40"
+    },
+    {
+      "layer_id": "L1_harbor_silhouette",
+      "y_band_px": "64..96",
+      "scroll_ratio": 0.25,
+      "content": "skyline do porto + guindastes distantes (landmark permanente); barcos distantes com drift",
+      "density": "baixa",
+      "tiles_estimate": "<=48"
+    },
+    {
+      "layer_id": "L2_sea_far",
+      "y_band_px": "96..128",
+      "scroll_ratio": 0.375,
+      "content": "fileiras de onda distantes",
+      "density": "baixa",
+      "tiles_estimate": "<=24"
+    },
+    {
+      "layer_id": "L3_sea_near",
+      "y_band_px": "128..160",
+      "scroll_ratio": 0.5,
+      "content": "fileiras de onda proximas com cristas claras",
+      "density": "media-baixa",
+      "tiles_estimate": "<=32"
+    },
+    {
+      "layer_id": "BG_A_gameplay",
+      "y_band_px": "64..224 (sobrepoe visualmente)",
+      "scroll_ratio": 1.0,
+      "content": "cais jogavel streamado por colunas",
+      "density": "controlada pela assembly_grammar"
+    }
+  ],
+  "line_scroll_mechanics": {
+    "table": "HScroll por linha (HSCROLL_LINE) no BG_B: 4 valores por frame (L0..L3), interpolados por banda",
+    "update_owner": "fila do VBlank (tdd_contract.vblank_dma_ownership)",
+    "cost": "tabela de 224 entradas escrita por DMA 1x/frame — ja contratada na tecnica line_scrolling",
+    "far_boat_drift": "offset adicional de +-1px em sub-banda de L1 a cada 8 frames (vida barata sem tiles novos)"
+  },
+  "palette_domain": "PAL0 cenario compartilhada entre BG_A e BG_B; hierarquia: BG_B com valores mais proximos (menos contraste) que BG_A; espuma/HUD em PAL3",
+  "gulls_note": "gaivotas sao SPRITES (ambient), nao camada BG; disputa de budget declarada no object_role_map",
+  "contrast_rule": "BG_B nunca compete com sprites: sem preto puro, sem highlight maximo fora do sol",
+  "status": "documentado; ratios a provar em runtime_metrics quando houver build"
+}

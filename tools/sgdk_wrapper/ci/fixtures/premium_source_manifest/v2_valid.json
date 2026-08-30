@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0.0",
+  "report_kind": "premium_source_manifest",
+  "production_source_ready": true,
+  "assets": [
+    {
+      "asset_id": "hero_elite_sprite",
+      "asset_role": "character",
+      "criticality": "critical",
+      "authoring_method": "hand_pixelled_model_sheet",
+      "source_origin": "fixture_human_authored_source",
+      "source_classification": "human_authored",
+      "tool": {
+        "name": "aseprite",
+        "version": "1.3.8",
+        "model": null
+      },
+      "source_files": [
+        {
+          "path": "data/source_art/hero_elite_model_sheet.aseprite",
+          "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "role": "model_sheet"
+        }
+      ],
+      "transformations": [
+        {
+          "step": "quantize_to_megadrive_palette",
+          "tool": "tools/sgdk_wrapper/convert_art_to_vdp.ps1",
+          "input_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "output_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "notes": "fixture conversion record"
+        }
+      ],
+      "variants": {
+        "basic": {
+          "path": "data/converted/hero_basic.png",
+          "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+          "role": "diagnostic_control"
+        },
+        "elite": {
+          "path": "data/converted/hero_elite.png",
+          "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "role": "approved_visual_candidate"
+        }
+      },
+      "license": {
+        "name": "fixture-only",
+        "author": "Fixture Human Artist",
+        "usage": "test fixture"
+      }
+    }
+  ]
+}

@@ -29,6 +29,12 @@ param(
     [string]$ChangeDiffSummary = "",
 
     [Parameter(Mandatory = $false)]
+    [string]$TargetBlocker = "",
+
+    [Parameter(Mandatory = $false)]
+    [switch]$RequireIntent,
+
+    [Parameter(Mandatory = $false)]
     [string]$OutputPath = "",
 
     [Parameter(Mandatory = $false)]
@@ -43,6 +49,7 @@ if ($ValidationReportPath -eq "") {
 
 $dominantBlocker = ""
 $dominantCategory = "other"
+$currentBlockers = @()
 
 if (Test-Path -LiteralPath $ValidationReportPath) {
     try {
@@ -51,27 +58,9 @@ if (Test-Path -LiteralPath $ValidationReportPath) {
         if ($data.blocking_statuses) {
             $blockers = @($data.blocking_statuses)
         }
+        $currentBlockers = @($blockers)
         if ($blockers.Count -gt 0) {
             $dominantBlocker = $blockers[0]
-
-            if ($dominantBlocker -match "visual_gate|artistic|placeholder|art_|visual_direction") {
-                $dominantCategory = "visual"
-            }
-            elseif ($dominantBlocker -match "perceptual|motion|animation") {
-                $dominantCategory = "perceptual_motion"
-            }
-            elseif ($dominantBlocker -match "runtime|boot|scene") {
-                $dominantCategory = "runtime"
-            }
-            elseif ($dominantBlocker -match "budget|vram|dma") {
-                $dominantCategory = "budget"
-            }
-            elseif ($dominantBlocker -match "evidence|emulator|blastem|sram") {
-                $dominantCategory = "evidence"
-            }
-            elseif ($dominantBlocker -match "doc|changelog|memory|manifest") {
-                $dominantCategory = "documentation"
-            }
         }
     }
     catch {
@@ -79,11 +68,42 @@ if (Test-Path -LiteralPath $ValidationReportPath) {
     }
 }
 
+function Get-BlockerCategory {
+    param([string]$Blocker)
+    if ($Blocker -match "visual_gate|artistic|placeholder|art_|visual_direction") { return "visual" }
+    if ($Blocker -match "perceptual|motion|animation") { return "perceptual_motion" }
+    if ($Blocker -match "runtime|boot|scene") { return "runtime" }
+    if ($Blocker -match "budget|vram|dma") { return "budget" }
+    if ($Blocker -match "evidence|emulator|blastem|sram") { return "evidence" }
+    if ($Blocker -match "doc|changelog|memory|manifest") { return "documentation" }
+    return "other"
+}
+
+$intentError = $null
+if ($RequireIntent -and $currentBlockers.Count -gt 0) {
+    if ([string]::IsNullOrWhiteSpace($TargetBlocker) -or
+        [string]::IsNullOrWhiteSpace($ChangeCategory) -or
+        [string]::IsNullOrWhiteSpace($ChangeDiffSummary) -or
+        $ChangeDiffSummary.Trim().Length -lt 16) {
+        $intentError = "build_intent_missing"
+    }
+    elseif ($TargetBlocker -notin $currentBlockers) {
+        $intentError = "target_blocker_not_current"
+    }
+    else {
+        $dominantBlocker = $TargetBlocker
+    }
+}
+
+$dominantCategory = Get-BlockerCategory -Blocker $dominantBlocker
 $attacksDominant = $false
 $exceptionForMeasurement = $false
 $validProgress = $true
 
-if ($dominantBlocker -ne "" -and $ChangeCategory -ne "") {
+if ($intentError) {
+    $validProgress = $false
+}
+elseif ($dominantBlocker -ne "" -and $ChangeCategory -ne "") {
     $visualCategories = @("visual", "art")
     $runtimeCategories = @("runtime")
     $nonAttackCategories = @("docs", "wrapper", "log", "schema")
@@ -130,7 +150,7 @@ if (-not $attacksDominant) {
 }
 
 $blocking = -not $validProgress
-$blockerCode = if ($blocking) { "meaningful_change_absent" } else { $null }
+$blockerCode = if ($intentError) { $intentError } elseif ($blocking) { "meaningful_change_absent" } else { $null }
 
 $report = [ordered]@{
     schema_version             = "1.0.0"
@@ -138,6 +158,9 @@ $report = [ordered]@{
     project_root               = $ProjectRoot
     dominant_blocker           = $dominantBlocker
     dominant_category          = $dominantCategory
+    current_blockers           = @($currentBlockers)
+    require_intent             = [bool]$RequireIntent
+    target_blocker             = $TargetBlocker
     change_diff_summary        = $ChangeDiffSummary
     change_category            = if ($ChangeCategory -ne "") { $ChangeCategory } else { "other" }
     attacks_dominant_blocker   = $attacksDominant
@@ -158,7 +181,7 @@ if ($OutputPath -ne "") {
 $report | ConvertTo-Json -Depth 10 | Write-Output
 
 if ($blocking) {
-    Write-Warning "[MEANINGFUL-CHANGE] BLOCKED: meaningful_change_absent - Change '$ChangeCategory' does not attack dominant blocker '$dominantBlocker' ($dominantCategory)."
+    Write-Warning "[MEANINGFUL-CHANGE] BLOCKED: $blockerCode - target='$TargetBlocker' category='$ChangeCategory' dominant='$dominantBlocker' ($dominantCategory)."
     exit 1
 }
 

@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_pipeline_skill_gate_map",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "default_gate": "aaa-pipeline-guardian",
+  "ready_for_aaa_rule": "blocked_until_all_relevant_skill_gates_have_evidence",
+  "phases": [
+    {
+      "phase": 1,
+      "name": "foundation",
+      "skills": [
+        "collision-system-architect",
+        "vram-streaming-dma-queue",
+        "tilemap-attribute-director",
+        "sprite-scanline-budgeter"
+      ],
+      "blocking_claims": [
+        "advanced collision",
+        "animated tile streaming",
+        "per-cell tilemap attributes",
+        "large sprite runtime"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "graphics_engine",
+      "skills": [
+        "shadow-highlight-scroll-fx",
+        "palette-cram-curator",
+        "hscroll-linescroll-road-fx",
+        "raster-palette-hint-director",
+        "dither-composite-transparency",
+        "software-tile-rasterizer"
+      ],
+      "blocking_claims": [
+        "Shadow/Highlight spectacle",
+        "vibrant color",
+        "pseudo-3D road or water",
+        "mid-frame palette effect",
+        "transparent-looking dither",
+        "CPU-rendered tile effect"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "entity_and_state_architecture",
+      "skills": [
+        "entity-polymorphism-architect",
+        "game-state-transition-architect",
+        "z80-audio-boundary-architect",
+        "articulated-sprite-architect",
+        "level-manifest-architect"
+      ],
+      "blocking_claims": [
+        "enemy catalog",
+        "state transition safety",
+        "PCM/Z80 audio boundary",
+        "multi-part sprite",
+        "level integration"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "asset_pipeline",
+      "skills": [
+        "sprite-asset-budget-curator",
+        "color-conversion-curator",
+        "sfx-prep-fm-psg-pcm"
+      ],
+      "blocking_claims": [
+        "production sprite sheet",
+        "high-color or cross-platform conversion",
+        "finished SFX set"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "documentation_and_case_studies",
+      "skills": [
+        "aaa-pipeline-guardian"
+      ],
+      "blocking_claims": [
+        "external technique absorbed",
+        "case study accepted"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "integrated_validation",
+      "skills": [
+        "aaa-pipeline-guardian",
+        "emulator-vdp-evidence-curator"
+      ],
+      "blocking_claims": [
+        "ready_for_aaa",
+        "testado_em_emulador",
+        "validado_budget",
+        "release candidate"
+      ]
+    }
+  ],
+  "global_blockers": [
+    "visual report without pixel/runtime evidence",
+    "build success presented as emulator validation",
+    "asset conversion without palette/index proof",
+    "advanced hardware claim without VDP budget",
+    "ready_for_aaa without aaa-pipeline-guardian output"
+  ]
+}

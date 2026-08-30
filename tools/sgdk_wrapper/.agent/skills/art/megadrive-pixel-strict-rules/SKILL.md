@@ -58,6 +58,32 @@ Qualquer cor fora deste grid de 512 cores sera rejeitada. Nao existe dithering a
 - Compartilhe tiles entre sprites e cenarios sempre que possivel.
 - Priorize reuso de tiles duplicados, espelhados ou com paleta alternada.
 
+## 8. Pivot, baseline, grid e dither (curation_batch_2026_06_16)
+
+Origem: `curation_records/case_character_proportion_pixel_art_platformer.json` e
+itens do lote `curation_batch_2026_06_16`, evidencia `E1_text`, expansao
+candidata. Refina as regras existentes de grid/escala; nao cria schema novo e
+nao promete AAA/runtime.
+
+- **Pivot e baseline em pixel inteiro.** Pivot e baseline/pes nunca caem em
+  posicao fracionaria no render final (fixed-point e apenas logica interna).
+- **Grid 8x8 e metatile 16x16 na composicao.** A composicao de sprite e cenario
+  deve respeitar o tile 8x8 e o metatile 16x16; quando o gameplay usa grade
+  16x16, a caixa visual do personagem deve alinhar a esse multiplo.
+- **Estabilidade de contato.** Pes/ponto de contato nao podem oscilar 1px entre
+  frames sem intencao documentada (ex.: respiracao declarada no
+  `subpixel_shading_motion_report`); oscilacao acidental vira blocker.
+- **Dither CRT-aware e tecnica declarada, nao "transparencia real".** Dithering
+  deve ser declarado como tecnica de composicao perceptiva; nunca apresentado
+  como alpha, semi-transparencia ou blending de hardware.
+- **Dither nao destroi leitura.** O padrao de dither nao pode degradar a leitura
+  do personagem principal; se competir com a silhueta/identidade, reduzir o
+  dither primeiro.
+- **Paleta perceptiva por contraste funcional.** A escolha de paleta prioriza
+  contraste funcional e hierarquia de leitura, nao apenas fidelidade a fonte.
+- A expansao continua candidata: exige fixture visual ou contrato de baseline
+  antes de promover para producao.
+
 ---
 
 ## Proibicoes absolutas

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "cais_01_background_ecology_card_v1",
+  "scene_id": "cais_01",
+  "principle": "nenhum loop e decorativo puro: cada um tem funcao de gameplay, narrativa ou atmosfera controlada (filosofia maximalista: FX principal gera efeito secundario)",
+  "loops": [
+    {
+      "loop_id": "foam_edge_loop",
+      "frames": 4,
+      "route": "tile_animation em BG_A (troca de pattern via fila DMA)",
+      "cost": "8 tiles x 4f = 32 patterns residentes",
+      "funcao": "HAZARD: comunica a zona de ring-out o tempo todo; intensidade sobe na arena 3",
+      "cut_priority": "NUNCA (sinal de gameplay)"
+    },
+    {
+      "loop_id": "lantern_flicker",
+      "frames": 3,
+      "route": "tile_animation (4 tiles x 3f, compartilhado por 3 lamp posts)",
+      "cost": "12 patterns",
+      "funcao": "lane_guide no entardecer + payoff (farolete)",
+      "cut_priority": "baixa"
+    },
+    {
+      "loop_id": "boat_bob",
+      "frames": 3,
+      "route": "tile_animation SOMENTE na linha d'agua do barco (8 tiles x 3f)",
+      "cost": "24 patterns",
+      "funcao": "vida do landmark arena 2 sem animar a placa inteira",
+      "cut_priority": "media"
+    },
+    {
+      "loop_id": "far_boat_drift",
+      "frames": 2,
+      "route": "hscroll offset por linha (sem tiles novos)",
+      "cost": "zero patterns",
+      "funcao": "profundidade viva no horizonte",
+      "cut_priority": "baixa (quase gratis)"
+    },
+    {
+      "loop_id": "net_sway",
+      "frames": 3,
+      "route": "tile_animation (6 tiles x 3f) na net wall",
+      "cost": "18 patterns",
+      "funcao": "transicao respiro2->payoff respira",
+      "cut_priority": "ALTA (primeiro corte)"
+    },
+    {
+      "loop_id": "cloth_flap",
+      "frames": 3,
+      "route": "tile_animation (4 tiles x 3f) na banca do mercado",
+      "cost": "12 patterns",
+      "funcao": "vida da arena 2",
+      "cut_priority": "ALTA (segundo corte)"
+    },
+    {
+      "loop_id": "gull_flap",
+      "frames": 3,
+      "route": "SPRITE ambient (2 gaivotas 16x16)",
+      "cost": "2 slots de sprite + 6 patterns",
+      "funcao": "vida + REACAO AO RING-OUT (dispersam no splash — liga ecologia ao gameplay)",
+      "cut_priority": "decidir no laudo de sprites/scanline (slice ja tem heroi+4+pickup+fx)"
+    }
+  ],
+  "budget_gate": "total de patterns de animacao alvo <=98 residentes; numero final so no laudo megadrive-vdp-budget-analyst apos conversao do kit",
+  "vinculo_gameplay_obrigatorio": "foam->ring-out; gulls->splash; lantern->golden path; boat_bob->landmark; comprovacao visual em BlastEm quando houver build",
+  "status": "documentado"
+}

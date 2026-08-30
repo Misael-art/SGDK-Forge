@@ -1,0 +1,304 @@
+{
+  "schema_version": "1.0.0",
+  "tool": "validate_measurement_tools",
+  "generated_at": "2026-08-18T16:15:17Z",
+  "rule_ref": "SGDK_GLOBAL.md secao 34",
+  "tools_checked": 9,
+  "passed": 9,
+  "results": [
+    {
+      "tool": "tools/sgdk_wrapper/audit_procedural_asset_provenance.py",
+      "exit_code": 0,
+      "output": "audit_procedural_asset_provenance self-check passed (reprova promocao, aceita placeholder)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/audit_tile_residency.py",
+      "exit_code": 0,
+      "output": "audit_tile_residency self-check passed (passa, estoura teto, sinaliza dedup baixo)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/audit_scene_headroom.py",
+      "exit_code": 0,
+      "output": "audit_scene_headroom self-check passed (3 estados, limiar de folga, estouro de limite)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/validate_model_sheet_contract.py",
+      "exit_code": 0,
+      "output": "validate_model_sheet_contract self-check passed (passa e reprova headroom, ciclo e escala)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/validate_brand_comprehension_gate.py",
+      "exit_code": 0,
+      "output": "validate_brand_comprehension_gate self-check passed (passa, reprova, vazio)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/audit_stage_occupancy.py",
+      "exit_code": 0,
+      "output": "audit_stage_occupancy self-check passed (empilhamento 4x, sucessao limpa, deriva de runtime, saida ausente)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/audit_luma_floor.py",
+      "exit_code": 0,
+      "output": "audit_luma_floor self-check passed (contraste 0 reprova, +170 passa, contorno preto passa, sem massa de realce reprova, fundo vazio recusa)",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/seal_fresh_evidence_bundle.py",
+      "exit_code": 0,
+      "output": "seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados, ",
+      "status": "passed"
+    },
+    {
+      "tool": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+      "exit_code": 0,
+      "output": "vdp_scanline_simulator self-check passed (both limits + headroom + h32)",
+      "status": "passed"
+    }
+  ],
+  "local_copies": [
+    {
+      "copy": "SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/.agent/scripts/vdp_scanline_simulator.py",
+      "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+      "kind": "tool",
+      "archived": false,
+      "in_sync": true
+    },
+    {
+      "copy": "SGDK_projects/GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/.agent/scripts/vdp_scanline_simulator.py",
+      "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+      "kind": "tool",
+      "archived": false,
+      "in_sync": true
+    },
+    {
+      "copy": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/.agent/scripts/vdp_scanline_simulator.py",
+      "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+      "kind": "tool",
+      "archived": false,
+      "in_sync": true
+    },
+    {
+      "copy": "SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/.agent/scripts/vdp_scanline_simulator.py",
+      "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+      "kind": "tool",
+      "archived": false,
+      "in_sync": true
+    },
+    {
+      "copy": "SGDK_projects/_agent_training/HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]/rascunho/local_agent_physical_backup_v002/scripts/vdp_scanline_simulator.py",
+      "canonical": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+      "kind": "tool",
+      "archived": true,
+      "in_sync": false,
+      "local_version": "1.0.0",
+      "canonical_version": "1.1.0"
+    },
+    {
+      "copy": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": true
+    },
+    {
+      "copy": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/_agent_laboratory/SCENE_TILEMAP_CURATION_FIXTURE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/sgdk_viewer/showdown_viewer/src/system/runtime_probe.c",
+      "canonical": "tools/sgdk_wrapper/modelo/src/system/runtime_probe.c",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": true
+    },
+    {
+      "copy": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/_agent_laboratory/SCENE_TILEMAP_CURATION_FIXTURE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    },
+    {
+      "copy": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/sgdk_viewer/showdown_viewer/inc/system/runtime_probe.h",
+      "canonical": "tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h",
+      "kind": "project_source",
+      "archived": false,
+      "in_sync": false,
+      "local_version": "unknown",
+      "canonical_version": "unknown"
+    }
+  ],
+  "stale_copies": 20,
+  "archived_stale_copies": 1,
+  "limitation": "Garante que o self-check existe, roda e passa. Nao julga se o self-check cobre o que deveria: isso continua sendo leitura humana.",
+  "blocking": true,
+  "blocking_statuses": [
+    "project_source_mirror_stale"
+  ]
+}

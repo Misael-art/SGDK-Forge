@@ -1,0 +1,195 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "vibe_playable_intent_rules",
+  "normalization": {
+    "case": "lower",
+    "strip_accents": true,
+    "collapse_whitespace": true
+  },
+  "owner_order": [
+    "skills/art/art-direction-selector",
+    "skills/art/art-asset-diagnostic",
+    "skills/art/art-creation-sourcing",
+    "skills/art/visual-excellence-standards",
+    "skills/art/art-translation-to-vdp",
+    "skills/hardware/megadrive-vdp-budget-analyst",
+    "skills/operation/sgdk-build-wrapper-operator",
+    "skills/operation/emulator-vdp-evidence-curator"
+  ],
+  "rules": [
+    {
+      "rule_id": "pt_gameplay_scene_fase",
+      "language": "pt",
+      "intent": "gameplay_scene",
+      "confidence": 0.94,
+      "keywords_any": ["fase", "cenario", "cena", "stage"],
+      "target_template": {
+        "type": "scene",
+        "role": "playable_stage",
+        "criticality": "critical",
+        "animation_required": false,
+        "assets": ["background", "foreground", "collision_map", "palette_plan"],
+        "owners": [
+          "skills/art/art-direction-selector",
+          "skills/art/art-asset-diagnostic",
+          "skills/art/art-creation-sourcing",
+          "skills/art/visual-excellence-standards",
+          "skills/art/art-translation-to-vdp",
+          "skills/hardware/megadrive-vdp-budget-analyst"
+        ]
+      }
+    },
+    {
+      "rule_id": "pt_player_heroi",
+      "language": "pt",
+      "intent": "character",
+      "confidence": 0.93,
+      "keywords_any": ["heroi", "heroina", "personagem", "jogador", "protagonista"],
+      "target_template": {
+        "type": "player_character",
+        "role": "hero",
+        "criticality": "critical",
+        "animation_required": true,
+        "assets": ["model_sheet", "sprite_sheet", "animation_preview", "palette_plan"],
+        "owners": [
+          "skills/art/art-direction-selector",
+          "skills/art/art-asset-diagnostic",
+          "skills/art/art-creation-sourcing",
+          "skills/art/visual-excellence-standards",
+          "skills/art/art-translation-to-vdp",
+          "skills/hardware/megadrive-vdp-budget-analyst"
+        ]
+      }
+    },
+    {
+      "rule_id": "pt_boss",
+      "language": "pt",
+      "intent": "boss",
+      "confidence": 0.95,
+      "keywords_any": ["boss", "chefe", "chefao"],
+      "target_template": {
+        "type": "boss",
+        "role": "boss",
+        "criticality": "critical",
+        "animation_required": true,
+        "assets": ["model_sheet", "sprite_sheet", "animation_preview", "impact_fx", "palette_plan"],
+        "owners": [
+          "skills/art/art-direction-selector",
+          "skills/art/art-asset-diagnostic",
+          "skills/art/art-creation-sourcing",
+          "skills/art/visual-excellence-standards",
+          "skills/art/art-translation-to-vdp",
+          "skills/hardware/megadrive-vdp-budget-analyst"
+        ]
+      }
+    },
+    {
+      "rule_id": "pt_animation",
+      "language": "pt",
+      "intent": "animation",
+      "confidence": 0.91,
+      "keywords_any": ["anime", "animacao", "golpe", "ataque", "pulo", "andando"],
+      "target_template": {
+        "type": "fx",
+        "role": "motion_or_action",
+        "criticality": "critical",
+        "animation_required": true,
+        "assets": ["key_poses", "sprite_sheet", "motion_preview", "pivot_report"],
+        "owners": [
+          "skills/art/art-direction-selector",
+          "skills/art/art-asset-diagnostic",
+          "skills/art/art-creation-sourcing",
+          "skills/art/visual-excellence-standards",
+          "skills/art/art-translation-to-vdp"
+        ]
+      }
+    },
+    {
+      "rule_id": "pt_ui_hud",
+      "language": "pt",
+      "intent": "ui",
+      "confidence": 0.9,
+      "keywords_any": ["hud", "menu", "titulo", "logo", "interface"],
+      "target_template": {
+        "type": "ui",
+        "role": "player_facing_ui",
+        "criticality": "critical",
+        "animation_required": false,
+        "assets": ["ui_sheet", "font_or_logo_source", "palette_plan"],
+        "owners": [
+          "skills/art/art-direction-selector",
+          "skills/art/art-asset-diagnostic",
+          "skills/art/art-creation-sourcing",
+          "skills/art/visual-excellence-standards",
+          "skills/art/art-translation-to-vdp"
+        ]
+      }
+    },
+    {
+      "rule_id": "en_gameplay_scene_level",
+      "language": "en",
+      "intent": "gameplay_scene",
+      "confidence": 0.94,
+      "keywords_any": ["level", "stage", "scene", "environment", "background"],
+      "target_template": {
+        "type": "scene",
+        "role": "playable_stage",
+        "criticality": "critical",
+        "animation_required": false,
+        "assets": ["background", "foreground", "collision_map", "palette_plan"],
+        "owners": [
+          "skills/art/art-direction-selector",
+          "skills/art/art-asset-diagnostic",
+          "skills/art/art-creation-sourcing",
+          "skills/art/visual-excellence-standards",
+          "skills/art/art-translation-to-vdp",
+          "skills/hardware/megadrive-vdp-budget-analyst"
+        ]
+      }
+    },
+    {
+      "rule_id": "en_player_hero",
+      "language": "en",
+      "intent": "character",
+      "confidence": 0.93,
+      "keywords_any": ["hero", "heroine", "character", "player", "protagonist"],
+      "target_template": {
+        "type": "player_character",
+        "role": "hero",
+        "criticality": "critical",
+        "animation_required": true,
+        "assets": ["model_sheet", "sprite_sheet", "animation_preview", "palette_plan"],
+        "owners": [
+          "skills/art/art-direction-selector",
+          "skills/art/art-asset-diagnostic",
+          "skills/art/art-creation-sourcing",
+          "skills/art/visual-excellence-standards",
+          "skills/art/art-translation-to-vdp",
+          "skills/hardware/megadrive-vdp-budget-analyst"
+        ]
+      }
+    },
+    {
+      "rule_id": "en_boss",
+      "language": "en",
+      "intent": "boss",
+      "confidence": 0.95,
+      "keywords_any": ["boss", "overlord", "monster", "creature"],
+      "target_template": {
+        "type": "boss",
+        "role": "boss",
+        "criticality": "critical",
+        "animation_required": true,
+        "assets": ["model_sheet", "sprite_sheet", "animation_preview", "impact_fx", "palette_plan"],
+        "owners": [
+          "skills/art/art-direction-selector",
+          "skills/art/art-asset-diagnostic",
+          "skills/art/art-creation-sourcing",
+          "skills/art/visual-excellence-standards",
+          "skills/art/art-translation-to-vdp",
+          "skills/hardware/megadrive-vdp-budget-analyst"
+        ]
+      }
+    }
+  ]
+}

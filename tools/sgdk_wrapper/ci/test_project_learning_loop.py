@@ -208,6 +208,61 @@ if SCRIPT.exists() and SCHEMA.exists() and WRAPPER.exists() and MODEL_LEDGER.exi
     assert_true("capture does not mutate the canonical agent tree", canonical_before == canonical_after)
     assert_true("auto-captured ledger contains no MESTRE status", "MESTRE_" not in json.dumps(ledger))
 
+    reset_fixture()
+    rom_hash = "d" * 64
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "failure_patterns.md",
+        """# Failure Patterns
+
+## Runtime evidence must keep one ROM identity
+
+- date: 2026-08-05
+- context: canonical evidence binding
+- symptom: a learning entry cited reports without proving they came from one ROM.
+- technical diagnosis: filenames alone do not establish provenance.
+- preventive heuristic: bind sealed bundle and passed gate to the same ROM SHA-256.
+- evidence: out/evidence/reference/evidence_manifest.json, out/evidence/reference/runtime_gate_report.json
+- check in ROM: compare both rom_sha256 fields before promotion.
+""",
+    )
+    write_text(
+        FIXTURE_ROOT / "out" / "evidence" / "reference" / "evidence_manifest.json",
+        json.dumps({"tool_name": "seal_fresh_evidence_bundle", "status": "sealed", "rom_sha256": rom_hash}),
+    )
+    write_text(
+        FIXTURE_ROOT / "out" / "evidence" / "reference" / "runtime_gate_report.json",
+        json.dumps({"gate_id": "runtime_observation", "status": "passed", "rom_sha256": rom_hash}),
+    )
+    result, _ = run_loop("capture")
+    bound_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    bound_evidence = bound_ledger["lessons"][0]["evidence"]
+    assert_true(
+        "learning evidence reaches E4 only with sealed bundle and passed same-ROM gate",
+        result.returncode == 0
+        and bound_evidence["grade"] == "E4_budget_and_regression"
+        and bound_evidence["freshness"] == "fresh"
+        and bound_evidence["gaps"] == [],
+        str(bound_evidence),
+    )
+
+    write_text(
+        FIXTURE_ROOT / "out" / "evidence" / "reference" / "runtime_gate_report.json",
+        json.dumps({"gate_id": "runtime_observation", "status": "passed", "rom_sha256": "e" * 64}),
+    )
+    result, mismatch_report = run_loop("capture")
+    mismatch_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    mismatch_evidence = mismatch_ledger["lessons"][0]["evidence"]
+    assert_true(
+        "learning evidence degrades when gate ROM identity diverges",
+        result.returncode == 0
+        and mismatch_evidence["grade"] == "E3_blastem"
+        and mismatch_evidence["freshness"] == "stale"
+        and "gate_report_rom_hash_mismatch" in mismatch_evidence["gaps"]
+        and "evidence_rom_hash_mismatch" in mismatch_report.get("warnings", []),
+        str(mismatch_evidence),
+    )
+    ledger = mismatch_ledger
+
     first_ids = [entry["lesson_id"] for entry in ledger["lessons"]]
     first_ledger_hash = hashlib.sha256(ledger_path.read_bytes()).hexdigest()
     result, _ = run_loop("capture")
@@ -254,6 +309,64 @@ if SCRIPT.exists() and SCHEMA.exists() and WRAPPER.exists() and MODEL_LEDGER.exi
         and candidate["lifecycle_status"] == "human_review_required"
         and candidate["canonical_patch_proposal"]["apply_status"] == "not_applied",
         str(candidate),
+    )
+
+    reset_fixture()
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "skill_promotion_candidates.md",
+        """# Skill Promotion Candidates
+
+| Data | Classificacao | Candidato | Problema resolvido | Evidencia minima | Risco | Proxima revisao humana |
+|---|---|---|---|---|---|---|
+| 2026-06-16 | `promotion_candidate` | planning_mode_pre_runtime_spec_closure_checklist | Planejamento AAA parecia completo sem contratos executaveis para runtime | doc/critical_gap_audit.json | medio | human review |
+""",
+    )
+    write_text(FIXTURE_ROOT / "doc" / "critical_gap_audit.json", "{}")
+    result, _ = run_loop("capture")
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    routed = ledger["lessons"][0]
+    assert_true(
+        "known planning candidate patches an existing owner instead of creating a skill",
+        routed["routing"]["deduplication"] == "matched_existing_owner"
+        and routed["canonical_patch_proposal"]["action"] == "patch_existing_owner"
+        and routed["routing"]["owner_skill"] == "planning/game-design-planning",
+        str(routed),
+    )
+
+    reset_fixture()
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "skill_promotion_candidates.md",
+        """# Skill Promotion Candidates
+
+| Data | Classificacao | Candidato | Problema resolvido | Evidencia minima | Risco | Proxima revisao humana |
+|---|---|---|---|---|---|---|
+| 2026-07-20 | `promotion_candidate` | doc_claim_sync_audit | status drift | doc/critical_gap_audit.json | alto | real report |
+| 2026-07-20 | `promotion_candidate` | independent_session_context_recovery | handoff drift | doc/critical_gap_audit.json | medio | independent session |
+| 2026-07-20 | `promotion_candidate` | configurable_full_window_runtime_probe | partial capture | doc/critical_gap_audit.json | medio | cross-project proof |
+| 2026-07-20 | `promotion_candidate` | sealed_sram_export_ownership | post-export corruption | doc/critical_gap_audit.json | alto | corruption fixture |
+| 2026-07-20 | `promotion_candidate` | hardware_evidence_adoption_gate | external proof gap | doc/critical_gap_audit.json | medio | hardware fixture |
+""",
+    )
+    write_text(FIXTURE_ROOT / "doc" / "critical_gap_audit.json", "{}")
+    result, _ = run_loop("capture")
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    routed_rules = {lesson["routing"].get("match_rule_id") for lesson in ledger["lessons"]}
+    expected_rules = {
+        "doc_claim_sync_audit_existing_owner",
+        "independent_session_context_recovery_existing_owner",
+        "configurable_full_window_runtime_probe_existing_owner",
+        "sealed_sram_export_ownership_existing_owner",
+        "hardware_evidence_adoption_gate_existing_owner",
+    }
+    assert_true(
+        "remediation candidates route to existing owners without creating duplicate skills",
+        result.returncode == 0
+        and routed_rules == expected_rules
+        and all(
+            lesson["canonical_patch_proposal"]["action"] == "patch_existing_owner"
+            for lesson in ledger["lessons"]
+        ),
+        str(ledger.get("lessons")),
     )
 
     reset_fixture()

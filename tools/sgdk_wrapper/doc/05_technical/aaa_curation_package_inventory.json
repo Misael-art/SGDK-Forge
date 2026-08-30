@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_curation_package_inventory",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Declare the expected inventory for the Mega Drive AAA video curation package so future agents can detect drift across skills, schemas, workflows, manifests and evidence gates.",
+  "expected_counts": {
+    "new_skills": 20,
+    "existing_skill_or_workflow_integrations": 15,
+    "schemas": 28,
+    "minimal_examples": 24,
+    "direct_source_cases": 6,
+    "aggregate_source_cases": 1,
+    "human_case_studies": 3,
+    "core_workflows": 14,
+    "canonical_rules": 1
+  },
+  "canonical_entrypoints": [
+    "tools/sgdk_wrapper/.agent/rules/AAA_VIDEO_CURATION.md",
+    "tools/sgdk_wrapper/doc/05_technical/aaa_next_agent_handoff.md",
+    "tools/sgdk_wrapper/doc/05_technical/aaa_video_curation_agent_bootstrap.md",
+    "tools/sgdk_wrapper/doc/05_technical/README.md",
+    "tools/sgdk_wrapper/validate_aaa_video_curation.ps1",
+    "tools/sgdk_wrapper/validate_aaa_video_curation.py"
+  ],
+  "new_skills": [
+    "collision-system-architect",
+    "vram-streaming-dma-queue",
+    "shadow-highlight-scroll-fx",
+    "entity-polymorphism-architect",
+    "game-state-transition-architect",
+    "aaa-pipeline-guardian",
+    "tilemap-attribute-director",
+    "palette-cram-curator",
+    "sprite-scanline-budgeter",
+    "hscroll-linescroll-road-fx",
+    "raster-palette-hint-director",
+    "dither-composite-transparency",
+    "z80-audio-boundary-architect",
+    "articulated-sprite-architect",
+    "software-tile-rasterizer",
+    "level-manifest-architect",
+    "sprite-asset-budget-curator",
+    "color-conversion-curator",
+    "sfx-prep-fm-psg-pcm",
+    "emulator-vdp-evidence-curator"
+  ],
+  "governance_artifacts": [
+    "aaa_video_curation_manifest.json",
+    "aaa_video_curation_decision_matrix.json",
+    "aaa_skill_contract_catalog.json",
+    "aaa_skill_activation_matrix.json",
+    "aaa_evidence_ladder.json",
+    "external_source_reliability_rubric.json",
+    "aaa_agent_proficiency_matrix.json",
+    "aaa_agent_proficiency_eval_suite.json",
+    "aaa_source_to_skill_traceability_matrix.json",
+    "aaa_curation_validation_recovery_plan.json",
+    "aaa_curation_risk_register.json",
+    "aaa_curation_memory_update.json",
+    "aaa_video_source_intake_template.json",
+    "aaa_validator_coverage_matrix.json",
+    "aaa_status_vocabulary_map.json",
+    "existing_skill_integration_manifest.json",
+    "aaa_video_curation_audit_report_2026-06-15.json"
+  ],
+  "core_workflows": [
+    "aaa-pipeline-guardian-workflow.md",
+    "external-technique-curation-workflow.md",
+    "aaa-skill-routing-workflow.md",
+    "aaa-evidence-ladder-workflow.md",
+    "external-source-reliability-gate.md",
+    "aaa-agent-proficiency-eval.md",
+    "aaa-source-traceability-audit.md",
+    "aaa-curation-validation-recovery.md",
+    "aaa-curation-package-inventory-audit.md",
+    "aaa-curation-risk-audit.md",
+    "aaa-curation-memory-capture.md",
+    "aaa-video-source-intake.md",
+    "aaa-validator-coverage-audit.md",
+    "aaa-status-vocabulary-gate.md"
+  ],
+  "phase5_new_skills": {
+    "status": "phase5_new_candidate_skill_applied",
+    "note": "Added on top of the original 20-skill curated set; expected_counts above intentionally describe the original curation package, not the Phase 5 additions.",
+    "skills": [
+      {
+        "skill_id": "input-system-sgdk",
+        "path": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk",
+        "new_schemas": [
+          "input_mapping_contract.schema.json",
+          "input_latency_contract.schema.json",
+          "multiplayer_input_plan.schema.json"
+        ]
+      },
+      {
+        "skill_id": "camera-system-sgdk",
+        "path": "tools/sgdk_wrapper/.agent/skills/code/camera-system-sgdk",
+        "reused_schemas": ["camera_behavior_contract.schema.json"],
+        "new_schemas": [
+          "camera_bounds_policy.schema.json",
+          "parallax_camera_contract.schema.json"
+        ]
+      }
+    ],
+    "deferred_not_created": [
+      { "skill": "porting-techniques-sgdk", "priority": "P2", "state": "backlog" },
+      { "skill": "software-polygon-renderer", "priority": "P3", "state": "deferred" },
+      { "skill": "fmv-compression-megadrive", "priority": "P4", "state": "deferred" }
+    ]
+  },
+  "phase6_case_studies": {
+    "status": "phase6_case_studies_materialized_candidate",
+    "library_path": "tools/sgdk_wrapper/.agent/lib_case/video-curation-2026-06-16",
+    "index": "tools/sgdk_wrapper/.agent/lib_case/video-curation-2026-06-16/index.json",
+    "case_studies_created": 16,
+    "declared_case_count_mismatch": "declared_14_listed_16",
+    "canonical_promotion": false,
+    "evidence_grade": "E1_text",
+    "note": "Reference case studies only; not counted in expected_counts above, which describe the original curation package."
+  },
+  "phase7_final_review": {
+    "status": "package_ready_for_review_not_committed",
+    "report": "tools/sgdk_wrapper/doc/05_technical/aaa_video_curation_final_review_2026-06-16.md",
+    "document_role": "auxiliary",
+    "commit_push_pending": true,
+    "commit_scope_recommendation": "tools/sgdk_wrapper only; separate from pre-existing SGDK_projects changes"
+  },
+  "status_constraints": {
+    "current_status": "candidate_applied_not_verified",
+    "promotion_allowed_only_after": [
+      "validator pass",
+      "workspace audits pass or blockers recorded",
+      "git status reviewed",
+      "commit output exists",
+      "push output exists when push is required"
+    ],
+    "never_promoted_by_inventory_alone": true
+  }
+}

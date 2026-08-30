@@ -1,0 +1,214 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_evidence_ladder",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Prevent validation theater by defining which evidence can promote Mega Drive/SGDK claims across documentation, implementation, build, emulator, VDP and AAA-readiness states.",
+  "global_rules": [
+    "A text report is never runtime evidence.",
+    "Build success is never emulator validation.",
+    "A screenshot is visual evidence only for the visible frame, not proof of performance, memory budget or full asset fidelity.",
+    "A failed or partial visual asset can be negative evidence, comparison evidence or runtime placeholder evidence, but never generation source truth.",
+    "The highest claim allowed is the lowest proven rung across code, art, hardware budget, audio and evidence."
+  ],
+  "rungs": [
+    {
+      "rung_id": "documented",
+      "rank": 1,
+      "meaning": "The technique, asset or plan exists only as documentation or prompt intent.",
+      "minimum_evidence": [
+        "machine-readable record or markdown note",
+        "source scope declared",
+        "owner skill or workflow declared"
+      ],
+      "insufficient_evidence": [
+        "high-confidence prose",
+        "external video summary alone",
+        "agent statement that implementation is straightforward"
+      ],
+      "allowed_claims": [
+        "documentado",
+        "candidate_plan"
+      ],
+      "forbidden_claims": [
+        "implementado",
+        "buildado",
+        "testado_em_emulador",
+        "ready_for_aaa"
+      ]
+    },
+    {
+      "rung_id": "contracted",
+      "rank": 2,
+      "meaning": "The work has a concrete SGDK/Mega Drive contract, inputs, outputs, blockers and handoffs.",
+      "minimum_evidence": [
+        "schema or contract artifact",
+        "required inputs listed",
+        "blockers listed",
+        "activated skill route"
+      ],
+      "insufficient_evidence": [
+        "skill name only",
+        "unowned checklist",
+        "visual aspiration without constraints"
+      ],
+      "allowed_claims": [
+        "contracted",
+        "candidate_for_implementation"
+      ],
+      "forbidden_claims": [
+        "implemented",
+        "validated_budget",
+        "ready_for_aaa"
+      ]
+    },
+    {
+      "rung_id": "implemented",
+      "rank": 3,
+      "meaning": "Code, asset, script or resource file exists in the project tree.",
+      "minimum_evidence": [
+        "file paths in the project",
+        "resource declarations when applicable",
+        "memory bank/changelog update when required"
+      ],
+      "insufficient_evidence": [
+        "planned filenames",
+        "diff summary without files",
+        "generated art not copied into project source truth"
+      ],
+      "allowed_claims": [
+        "implementado"
+      ],
+      "forbidden_claims": [
+        "buildado",
+        "testado_em_emulador",
+        "validado_budget",
+        "ready_for_aaa"
+      ]
+    },
+    {
+      "rung_id": "buildado",
+      "rank": 4,
+      "meaning": "The project builds and produces the expected ROM or generated asset output.",
+      "minimum_evidence": [
+        "build command output",
+        "out/rom.bin or declared output exists",
+        "resource validation clean when resources changed"
+      ],
+      "insufficient_evidence": [
+        "no-error assumption",
+        "old ROM from previous build",
+        "build log not tied to current worktree"
+      ],
+      "allowed_claims": [
+        "buildado"
+      ],
+      "forbidden_claims": [
+        "testado_em_emulador",
+        "validado_budget",
+        "ready_for_aaa"
+      ]
+    },
+    {
+      "rung_id": "testado_em_emulador",
+      "rank": 5,
+      "meaning": "The ROM or runtime scene was observed in the required emulator with traceable evidence.",
+      "minimum_evidence": [
+        "BlastEm gate evidence when required",
+        "dedicated screenshot",
+        "scene/state described",
+        "basic gameplay or visual behavior observed"
+      ],
+      "insufficient_evidence": [
+        "build success",
+        "screenshot from editor",
+        "BizHawk-only evidence when BlastEm is required",
+        "agent saying it should run"
+      ],
+      "allowed_claims": [
+        "testado_em_emulador"
+      ],
+      "forbidden_claims": [
+        "validado_budget",
+        "ready_for_aaa"
+      ]
+    },
+    {
+      "rung_id": "validado_budget",
+      "rank": 6,
+      "meaning": "Hardware budget claims are backed by VDP/VRAM/CRAM/SAT/DMA or equivalent evidence.",
+      "minimum_evidence": [
+        "VDP or visual dump when required",
+        "VRAM/CRAM/SAT/DMA budget report",
+        "scanline or sprite risk addressed when relevant",
+        "60fps/performance evidence when claimed"
+      ],
+      "insufficient_evidence": [
+        "single screenshot",
+        "palette claim without indexed or CRAM evidence",
+        "sprite claim without scanline budget",
+        "DMA claim without queue/size proof"
+      ],
+      "allowed_claims": [
+        "validado_budget",
+        "runtime_candidate"
+      ],
+      "forbidden_claims": [
+        "ready_for_aaa"
+      ]
+    },
+    {
+      "rung_id": "candidate_aaa",
+      "rank": 7,
+      "meaning": "The work has passed relevant domain gates and has sufficient emulator/VDP evidence to be reviewed as AAA candidate.",
+      "minimum_evidence": [
+        "aaa_pipeline_gate_report",
+        "all activated skill blockers resolved",
+        "human visual review when AAA visual quality is claimed",
+        "BlastEm/VDP evidence package when runtime visuals are claimed",
+        "memory bank and changelog updated"
+      ],
+      "insufficient_evidence": [
+        "all green text report without artifacts",
+        "partial candidate with missing visual review",
+        "missing VDP dump when the project declares it required"
+      ],
+      "allowed_claims": [
+        "candidate_aaa"
+      ],
+      "forbidden_claims": [
+        "final_aaa_release"
+      ]
+    }
+  ],
+  "claim_floor_rules": [
+    {
+      "claim": "AI-generated sprite sheet fidelity",
+      "minimum_rung": "candidate_aaa",
+      "extra_requirements": [
+        "approved model sheet source of truth",
+        "human visual review",
+        "indexed palette/frame alignment proof",
+        "obsolete rejected sheets excluded from generation sources"
+      ]
+    },
+    {
+      "claim": "advanced VDP scene",
+      "minimum_rung": "validado_budget",
+      "extra_requirements": [
+        "scroll_fx_contract or equivalent",
+        "palette/CRAM ownership",
+        "VDP evidence when runtime visual behavior is claimed"
+      ]
+    },
+    {
+      "claim": "release candidate",
+      "minimum_rung": "candidate_aaa",
+      "extra_requirements": [
+        "rom-mastering closeout",
+        "emulator-vdp-evidence-curator closeout",
+        "no unresolved guardian blockers"
+      ]
+    }
+  ]
+}

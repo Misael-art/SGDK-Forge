@@ -231,3 +231,37 @@ Regra:
 - combinar com `scene-direction-curator` para classificar a cena e selecionar archetype antes da traducao final
 - combinar com `megadrive-vdp-budget-analyst` antes de promover para runtime
 - combinar com `sgdk-runtime-coder` quando a decisao sair do laboratorio e entrar em `MAP`, `IMAGE`, scroll, H-Int ou sprite graft real
+
+## Curadoria 2026-06-15 - Tilemap, streaming e guardian
+
+Quando a composicao envolver tecnicas da curadoria de videos Mega Drive, aplicar
+as seguintes obrigacoes:
+
+- claim AAA ou tecnica avancada: exigir `aaa_pipeline_gate_report`;
+- stage/tilemap com atributos por celula: exigir `scene_tilemap_conversion_report`,
+  `tilemap_flag_report` e `per_tile_palette_conflict_report`;
+- mundo maior que a janela residente, tile animation ou dirty tiles: entregar
+  `dma_queue_contract` para `vram-streaming-dma-queue`;
+- Shadow/Highlight, H-Int, HSCROLL_LINE, VSCROLL_COLUMN ou palette cycling:
+  entregar `scroll_fx_contract` para `shadow-highlight-scroll-fx`;
+- se a rota escolhida for `compare_flat`, registrar que e prova honesta de ROM,
+  nao composicao AAA final.
+
+Nenhum stage importado, traduzido ou reconstruido deve ser aprovado como
+`ready_for_aaa` apenas por aparecer no emulador.
+
+## Curadoria 2026-06-17 - Parallax por bandas e linhas
+
+Origem: transcricao anexada sobre parallax no NES aplicado ao Mega Drive,
+evidencia `E1_text`, regra candidata.
+
+- Profundidade nao significa automaticamente mais planos ou mais assets:
+  decidir se a cena usa `BG_A/BG_B` separados, bandas dentro de um plano via
+  `HSCROLL_TILE`, linhas via `HSCROLL_LINE`, `WINDOW` fixa para HUD ou fallback
+  `compare_flat`.
+- Quando a profundidade vier de bandas/linhas, o `layer_plan` deve produzir um
+  `scanline_band_map` para a skill `hscroll-linescroll-road-fx`, com horizonte,
+  faixas, ratios, area de gameplay afetada e fallback visual.
+- Parallax de linha so e composicao valida se a arte foi autorada para aceitar
+  cortes horizontais; silhuetas, HUD, texto e colisao visual nao podem depender
+  de pixels distorcidos sem contrato proprio.

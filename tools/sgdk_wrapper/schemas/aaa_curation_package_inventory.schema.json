@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sgdk-forge.local/schemas/aaa_curation_package_inventory.schema.json",
+  "title": "AAA Curation Package Inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "status",
+    "curation_date",
+    "purpose",
+    "expected_counts",
+    "canonical_entrypoints",
+    "new_skills",
+    "governance_artifacts",
+    "core_workflows",
+    "status_constraints"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "aaa_curation_package_inventory"
+    },
+    "status": {
+      "enum": [
+        "candidate_applied_not_verified",
+        "validated_curation",
+        "rejected"
+      ]
+    },
+    "curation_date": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "expected_counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "canonical_entrypoints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "new_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "governance_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "core_workflows": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status_constraints": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

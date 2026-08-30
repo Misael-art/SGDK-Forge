@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]"
+  },
+  "specialization_id": "brawler_belt_scroll",
+  "registry_source": "doc/07_game_design/genre_specialization_registry.json",
+  "time_unit": "frames",
+  "camera": "horizontal_lanes",
+  "player_count": "1_to_2",
+  "enemy_count_on_screen_max": 8,
+  "pickup_drop": "health_and_score",
+  "stage_progression": "linear_with_bosses",
+  "iframe_on_hit": "on",
+  "player_roster": [
+    {
+      "id": "taina",
+      "display_name": "TAINA",
+      "role": "player_1",
+      "archetype": "balanced",
+      "starting_hp": 100,
+      "iframe_frames": 24,
+      "special_move_id": "empurrao_de_mare",
+      "lore_id": "taina_muay_thai_vila",
+      "head_metric": "M"
+    },
+    {
+      "id": "jaco",
+      "display_name": "JACO",
+      "role": "player_2",
+      "archetype": "speedster",
+      "starting_hp": 90,
+      "iframe_frames": 20,
+      "special_move_id": "roda_de_aco",
+      "lore_id": "jaco_capoeira_estaleiro",
+      "head_metric": "M"
+    }
+  ],
+  "enemy_archetypes": [
+    {
+      "id": "cria",
+      "display_name": "CRIA",
+      "archetype": "runner",
+      "enemy_archetype_frame_data_path": "doc/contracts/frame_data/cria.json",
+      "spawn_pattern": "off_screen_right"
+    },
+    {
+      "id": "estivador",
+      "display_name": "ESTIVADOR",
+      "archetype": "heavy",
+      "enemy_archetype_frame_data_path": "doc/contracts/frame_data/estivador.json",
+      "spawn_pattern": "off_screen_left"
+    },
+    {
+      "id": "fisga",
+      "display_name": "FISGA",
+      "archetype": "thrower",
+      "enemy_archetype_frame_data_path": "doc/contracts/frame_data/fisga.json",
+      "spawn_pattern": "off_screen_right"
+    },
+    {
+      "id": "capataz",
+      "display_name": "CAPATAZ DO CAIS",
+      "archetype": "boss",
+      "enemy_archetype_frame_data_path": "doc/contracts/frame_data/capataz.json",
+      "spawn_pattern": "door"
+    },
+    {
+      "id": "rainha_do_mercado",
+      "display_name": "RAINHA DO MERCADO",
+      "archetype": "boss",
+      "enemy_archetype_frame_data_path": "doc/contracts/frame_data/rainha_do_mercado.json",
+      "spawn_pattern": "door"
+    },
+    {
+      "id": "mare_alta",
+      "display_name": "MARE ALTA",
+      "archetype": "boss",
+      "enemy_archetype_frame_data_path": "doc/contracts/frame_data/mare_alta.json",
+      "spawn_pattern": "door"
+    }
+  ],
+  "pickup_catalog": [
+    {
+      "id": "espetinho",
+      "display_name": "Espetinho",
+      "category": "health",
+      "drop_chance_pct": 25,
+      "max_on_screen": 2,
+      "value": 30
+    },
+    {
+      "id": "moeda_do_cais",
+      "display_name": "Moeda do Cais",
+      "category": "score",
+      "drop_chance_pct": 40,
+      "max_on_screen": 4,
+      "value": 100
+    }
+  ],
+  "stages": [
+    {
+      "id": "cais",
+      "display_name": "Cais de Porto Bravo",
+      "lane_count": 3,
+      "wave_count": 3,
+      "boss_archetype_id": "capataz",
+      "boss_phases": 2,
+      "hazard_policy": "lethal_hazards",
+      "bg_music_loop_seconds": 32
+    },
+    {
+      "id": "mercado",
+      "display_name": "Mercado da Madrugada",
+      "lane_count": 3,
+      "wave_count": 4,
+      "boss_archetype_id": "rainha_do_mercado",
+      "boss_phases": 2,
+      "hazard_policy": "soft_hazards",
+      "bg_music_loop_seconds": 36
+    },
+    {
+      "id": "sede",
+      "display_name": "Sede do Sindicato",
+      "lane_count": 3,
+      "wave_count": 5,
+      "boss_archetype_id": "mare_alta",
+      "boss_phases": 3,
+      "hazard_policy": "soft_hazards",
+      "bg_music_loop_seconds": 40
+    }
+  ],
+  "modes": [
+    {
+      "id": "arcade",
+      "kind": "arcade",
+      "starting_lives": 3,
+      "continue_policy": "limited_3"
+    }
+  ],
+  "combat": {
+    "move_set": [
+      "punch",
+      "kick",
+      "jump",
+      "grab",
+      "special"
+    ],
+    "iframe_window_frames": 24,
+    "grab_throw_enabled": true,
+    "super_bar_max": 100,
+    "knockback_px": 24,
+    "hit_stun_frames": 12
+  },
+  "balance": {
+    "method": "playtest_then_curve",
+    "evidence_paths": [
+      "doc/balance/wave_playtest_plan.md"
+    ],
+    "dps_target_per_player": {
+      "taina": 20,
+      "jaco": 24
+    }
+  },
+  "doc_refs": [
+    "doc/11-gdd.md",
+    "doc/13-spec-cenas.md",
+    "doc/00-project-brief.md",
+    "doc/10-memory-bank.md",
+    "doc/contracts/slice_scope_contract.json"
+  ]
+}

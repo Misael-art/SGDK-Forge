@@ -26,6 +26,9 @@ param(
     [int]$Threshold = 3,
 
     [Parameter(Mandatory = $false)]
+    [int]$WarningThreshold = 2,
+
+    [Parameter(Mandatory = $false)]
     [string]$ValidationReportDir = ""
 )
 
@@ -37,26 +40,50 @@ if ($ValidationReportDir -eq "") {
 
 $buildsAnalyzed = @()
 $reportFiles = @()
+$buildMetaFiles = @(
+    Get-ChildItem -LiteralPath (Join-Path $ProjectRoot "doc\changelog\roms") `
+        -Filter "build_meta.json" `
+        -Recurse `
+        -File `
+        -ErrorAction SilentlyContinue
+)
 
-$primaryReport = Join-Path -Path $ValidationReportDir -ChildPath "validation_report.json"
-if (Test-Path -LiteralPath $primaryReport) {
-    $reportFiles += $primaryReport
-}
+if ($buildMetaFiles.Count -eq 0) {
+    $primaryReport = Join-Path -Path $ValidationReportDir -ChildPath "validation_report.json"
+    if (Test-Path -LiteralPath $primaryReport) {
+        $reportFiles += $primaryReport
+    }
 
-$historyPattern = Join-Path -Path $ValidationReportDir -ChildPath "validation_report_*.json"
-$historyFiles = Get-ChildItem -LiteralPath $ValidationReportDir -Filter "validation_report_*.json" -ErrorAction SilentlyContinue |
-    Sort-Object LastWriteTime -Descending |
-    Select-Object -First 10
+    $historyFiles = Get-ChildItem -LiteralPath $ValidationReportDir -Filter "validation_report_*.json" -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending |
+        Select-Object -First 10
 
-foreach ($f in $historyFiles) {
-    $reportFiles += $f.FullName
-}
-
-if ($reportFiles.Count -eq 0 -and (Test-Path -LiteralPath $primaryReport)) {
-    $reportFiles += $primaryReport
+    foreach ($f in $historyFiles) {
+        $reportFiles += $f.FullName
+    }
 }
 
 $allBlockerSets = @()
+foreach ($metaFile in $buildMetaFiles) {
+    try {
+        $data = Get-Content -LiteralPath $metaFile.FullName -Raw -Encoding UTF8 | ConvertFrom-Json
+        $blockers = @()
+        if ($data.validation_summary -and $data.validation_summary.blocking_statuses) {
+            $blockers = @($data.validation_summary.blocking_statuses)
+        }
+        $allBlockerSets += @{
+            timestamp = if ($data.timestamp) { [string]$data.timestamp } else { $metaFile.LastWriteTime.ToString("o") }
+            blockers = @($blockers | Sort-Object -Unique)
+            rom_sha256 = if ($data.rom_sha256) { [string]$data.rom_sha256 } else { $null }
+            source = $metaFile.FullName
+            source_kind = "build_meta"
+        }
+    }
+    catch {
+        continue
+    }
+}
+
 foreach ($rf in $reportFiles) {
     try {
         $content = Get-Content -LiteralPath $rf -Raw -Encoding UTF8
@@ -88,6 +115,7 @@ foreach ($rf in $reportFiles) {
             blockers   = ($blockers | Sort-Object -Unique)
             rom_sha256 = $romHash
             source     = $rf
+            source_kind = "validation_report"
         }
     }
     catch {
@@ -106,6 +134,7 @@ foreach ($bs in $allBlockerSets) {
         rom_sha256  = $bs.rom_sha256
         blockers    = $bs.blockers
         report_source = $bs.source
+        source_kind = $bs.source_kind
     }
     $idx++
 }
@@ -113,20 +142,50 @@ foreach ($bs in $allBlockerSets) {
 $recurringBlockers = @()
 $loopDetected = $false
 $commonBlockers = @()
+$warningCommonBlockers = @()
+$progressWarning = $false
+$blockersRemoved = 0
+
+function Get-CommonBlockers {
+    param([Parameter(Mandatory = $true)][object[]]$Sets)
+
+    if ($Sets.Count -eq 0) { return @() }
+    $common = @($Sets[0].blockers)
+    if ($Sets.Count -gt 1) {
+        foreach ($set in $Sets[1..($Sets.Count - 1)]) {
+            $common = @($common | Where-Object { $_ -in $set.blockers })
+        }
+    }
+    return @($common | Sort-Object -Unique)
+}
 
 if ($allBlockerSets.Count -ge $Threshold) {
     $recentSets = $allBlockerSets[-$Threshold..-1]
-    $commonBlockers = @($recentSets[0].blockers)
-    foreach ($bs in $recentSets[1..($recentSets.Count - 1)]) {
-        $commonBlockers = $commonBlockers | Where-Object { $_ -in $bs.blockers }
-    }
+    $commonBlockers = @(Get-CommonBlockers -Sets $recentSets)
 
     if ($commonBlockers -and $commonBlockers.Count -gt 0) {
         $uniqueBuildSignals = @($recentSets | ForEach-Object { $_.source }) | Sort-Object -Unique
         if ($uniqueBuildSignals.Count -ge $Threshold) {
             $loopDetected = $true
         }
-        foreach ($cb in $commonBlockers) {
+    }
+}
+
+if ($allBlockerSets.Count -ge 2) {
+    $previous = @($allBlockerSets[-2].blockers)
+    $current = @($allBlockerSets[-1].blockers)
+    $blockersRemoved = @($previous | Where-Object { $_ -notin $current }).Count
+}
+
+if ($WarningThreshold -gt 0 -and $allBlockerSets.Count -ge $WarningThreshold) {
+    $warningSets = $allBlockerSets[-$WarningThreshold..-1]
+    $warningCommonBlockers = @(Get-CommonBlockers -Sets $warningSets)
+    $progressWarning = ($warningCommonBlockers.Count -gt 0 -and $blockersRemoved -eq 0)
+}
+
+$recurringSource = if ($commonBlockers.Count -gt 0) { $commonBlockers } else { $warningCommonBlockers }
+if ($recurringSource.Count -gt 0) {
+        foreach ($cb in $recurringSource) {
             $category = "other"
             if ($cb -match "visual|artistic|placeholder|art_") { $category = "visual" }
             elseif ($cb -match "perceptual|motion|animation") { $category = "perceptual_motion" }
@@ -148,7 +207,6 @@ if ($allBlockerSets.Count -ge $Threshold) {
                 dominant_category  = $category
             }
         }
-    }
 }
 
 $decisionPath = Join-Path -Path $ProjectRoot -ChildPath "doc\operational_loop_decision.json"
@@ -210,6 +268,10 @@ $report = [ordered]@{
     project_root              = $ProjectRoot
     builds_analyzed           = $buildsAnalyzed
     recurring_blockers        = $recurringBlockers
+    history_source            = if ($buildMetaFiles.Count -gt 0) { "canonical_build_meta" } else { "validation_report_history" }
+    progress_warning          = $progressWarning
+    warning_threshold         = $WarningThreshold
+    warning_blockers          = $warningCommonBlockers
     loop_detected             = $loopDetected
     loop_threshold            = $Threshold
     strategic_decision_required = ($loopDetected -and (-not $decisionValid))
@@ -218,7 +280,7 @@ $report = [ordered]@{
     decision_valid            = if ($loopDetected) { $decisionValid } else { $null }
     decision_errors           = if ($loopDetected -and (-not $decisionValid)) { $decisionErrors } else { @() }
     progress_metrics          = [ordered]@{
-        blockers_removed         = 0
+        blockers_removed         = $blockersRemoved
         delivery_status_elevated = $false
         fresh_evidence_compatible = $false
         visual_art_approved      = $null
@@ -247,6 +309,10 @@ if ($blocking) {
     }
     Write-Warning $msg
     exit 1
+}
+
+if ($progressWarning -and -not $loopDetected) {
+    Write-Warning "[LOOP-DETECTOR] WARNING: repeated blockers in $WarningThreshold consecutive builds. A specific blocker-removal intent is required before another build."
 }
 
 exit 0

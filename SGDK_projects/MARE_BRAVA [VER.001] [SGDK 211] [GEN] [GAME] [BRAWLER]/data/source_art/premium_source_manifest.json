@@ -1,0 +1,162 @@
+{
+  "schema_version": "2.0.0",
+  "report_kind": "premium_source_manifest",
+  "template_seed": false,
+  "template_prevalidated": false,
+  "production_source_ready": false,
+  "generation_route": {
+    "channel": "humano_gerou_em_modelo_externo_via_prompt_pack",
+    "prompt_pack": "doc/art/prompt_pack/",
+    "scope": "concept_art (gate proibe animated_sprite_final por canal IA)",
+    "received_at": "2026-07-03"
+  },
+  "assets": [
+    {
+      "asset_id": "taina_turnaround",
+      "path": "data/source_art/taina_model_sheet/taina_turnaround_v01.png",
+      "sha256": "4c4e2c86514001410f74ffd12e59f7e775482324f3422e51203d625f4fc4800f",
+      "kind": "model_sheet_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "turnaround 4 vistas; identidade forte (top laranja, faixa, bandagens); DESVIO: proporcao realista ~6.5 heads em vez de 3.5 — compressao obrigatoria na etapa pixel"
+    },
+    {
+      "asset_id": "taina_key_poses",
+      "path": "data/source_art/taina_model_sheet/taina_key_poses_v01.png",
+      "sha256": "1e5e1ca7e04172bee98cfb9c7f0aacfd3f64d565c5742d43adcb684cb55e8c8d",
+      "kind": "pose_sheet_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "9 poses conforme prompt (guarda, walk, jab, cross, empurrao 2 maos, lowkick, hit, joelhada, down); tecnica muay thai legivel; mesmo desvio de proporcao"
+    },
+    {
+      "asset_id": "taina_hud_portrait",
+      "path": "data/source_art/taina_model_sheet/taina_hud_portrait_v01.png",
+      "sha256": "6b16ac1e3510eb2f4da3d74f2cf2b7178b0c9db579b8ee347d9ffa7276c69ece",
+      "kind": "portrait_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "expressoes para retrato 16x16 do HUD"
+    },
+    {
+      "asset_id": "cria_model_sheet",
+      "path": "data/source_art/cria_model_sheet/cria_model_sheet_v01.png",
+      "sha256": "b7c0fc86da993ba3f18d67a21f2c8069eda2144fb9815b3de5c237f82e11ef09",
+      "kind": "model_sheet_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "rusher magro inclinado, bone para tras, regata; silhueta 'rapido e fragil' aprovavel; paleta azul+vermelho no dominio pal2"
+    },
+    {
+      "asset_id": "cria_telegraph_alt",
+      "path": "data/source_art/cria_model_sheet/cria_model_sheet_v02_telegraph.png",
+      "sha256": "cba8c3453f4039c90a0cb0d48c4cb85d5bcea38dbd3ca99f584d07118190fd67",
+      "kind": "pose_sheet_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "variante com enfase no telegraph de 12 frames"
+    },
+    {
+      "asset_id": "estivador_model_sheet",
+      "path": "data/source_art/estivador_model_sheet/estivador_model_sheet_v01.png",
+      "sha256": "f39be3b8a0234e1ea1638870fbdae026726bfa6a68e9714fc09a7448b9cc7271",
+      "kind": "model_sheet_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "massa quadrada, colete de carga, corda no cinto; telegraph bracos abertos + grab + slam + poise; silhueta contrasta com CRIA/TAINA"
+    },
+    {
+      "asset_id": "estivador_telegraph_alt",
+      "path": "data/source_art/estivador_model_sheet/estivador_model_sheet_v02_telegraph.png",
+      "sha256": "c2ab8034ba0b80553e7dc5a225ee3b10d46b406d192e8efd548795efa93b5ad9",
+      "kind": "pose_sheet_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "variante com enfase no telegraph de 18 frames"
+    },
+    {
+      "asset_id": "cais_arena1",
+      "path": "data/source_art/cais_world/cais_arena1_entrada_v01.png",
+      "sha256": "a3f6d6c515f415c26ea04def00c097ebc3b17c86c58d5ff4ed476067174d83a6",
+      "kind": "world_panel_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "mood_reference_only",
+      "notes": "entrada do cais | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): rebaixado pelo level_art_assembly_contract: vale para paleta/materiais; NAO e fonte de tilemap/layout"
+    },
+    {
+      "asset_id": "cais_arena2",
+      "path": "data/source_art/cais_world/cais_arena2_barco_v01.png",
+      "sha256": "3f2e289d8e19168da8e42e3bb3781e23b5c7d2266894b13e262f84298c5cd463",
+      "kind": "world_panel_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "landmark_reference_only",
+      "notes": "meio do cais com barco atracado | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): referencia de landmarks (barco lacrado, guarita, banca); NAO e composicao final"
+    },
+    {
+      "asset_id": "cais_arena3",
+      "path": "data/source_art/cais_world/cais_arena3_beirada_ringout_v01.png",
+      "sha256": "9467551f9280456083eecb4324b2fa7c51a160f2a4949415586b3967910e93a0",
+      "kind": "world_panel_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "landmark_reference_only",
+      "notes": "beirada exposta; espuma de alto contraste na base = zona de ring-out; DESVIO ACEITO: texto diegetico ('interditado por sindicato', caixote da uniao) apesar de 'no text' — vira narrativa ambiental, mas conversao precisa tratar texto em tiles legiveis ou estilizar | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): referencia de beirada/farolete/contraste ring-out; NAO e zona de payoff pronta"
+    },
+    {
+      "asset_id": "bgb_loop",
+      "path": "data/source_art/cais_world/bgb_loop_mar_ceu_v01.png",
+      "sha256": "e04e16d22742ce036e3203cae8c4357dac5a39783ac8d2569a21c8214268dcb1",
+      "kind": "background_loop_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "modular_reference_usable",
+      "notes": "mar/ceu em bandas horizontais line-scroll friendly com guindastes na linha do horizonte; quase-tileavel (costura a fechar na conversao) | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): referencia direta das bandas do BG_B; precisa ser redesenhado em strips separadas (prompt D)"
+    },
+    {
+      "asset_id": "hud_frame",
+      "path": "data/source_art/hud_fx/hud_frame_study_v01.png",
+      "sha256": "bf0d4d91539f99cfcd82a2e97c3ed644f02762124d64bbc359b9bb5c7d02707f",
+      "kind": "hud_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "estudo de barra/retrato/score"
+    },
+    {
+      "asset_id": "fx_hitspark_splash",
+      "path": "data/source_art/hud_fx/fx_hitspark_splash_study_v01.png",
+      "sha256": "088866c9b6b64c3ed388335b0ad1dd6fe4b1a9830469f4df7a985faed4b3cf87",
+      "kind": "fx_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "hitspark 3 frames + burst 3 frames + splash 3 fases (subida/apice/queda) exatamente como o brief"
+    },
+    {
+      "asset_id": "logo_lettering_studies",
+      "path": "data/source_art/logo_mare_brava/logo_lettering_studies_v01.png",
+      "sha256": "e79a01a2e89c9469e0b30b6daadcdefde1cb7d4d4e09b952763a85ba528870de",
+      "kind": "logo_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "estudos de lettering alternativos"
+    },
+    {
+      "asset_id": "logo_escolhido",
+      "path": "data/source_art/logo_mare_brava/logo_escolhido_title_mock_v01.png",
+      "sha256": "7fc1826db16b43b1b4c8fd92afb39e701041fb692c301764467f6b21356f30d2",
+      "kind": "logo_concept",
+      "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "lockup escolhido pelo humano: onda quebrando no A final, mock de title em bandas; PRESS START placeholder pixelado"
+    }
+  ],
+  "global_deviations": [
+    "proporcao dos personagens veio realista (~6-6.5 heads) e nao 3.5 heads: os sheets valem como identidade/roupa/pose; a compressao de proporcao acontece no model sheet pixel autoral (lineart 1px)",
+    "cenario contem texto diegetico apesar do negative prompt: aceito como narrativa ambiental, tratar na conversao de tiles"
+  ],
+  "next_gate": "ratificacao humana da direcao com contact sheet 320x224 (data/processed/contact_sheets/) antes de qualquer conversao para res/",
+  "notes": "Concepts recebidos em 2026-07-03 via prompt pack. NENHUM asset aqui e final: rota autoral obrigatoria (model sheet pixel -> lineart 1px -> key poses -> strips).",
+  "level_art_route": {
+    "contract": "doc/contracts/level_art_assembly_contract.json",
+    "kit_inventory": "doc/contracts/dock_scene_kit_inventory.json",
+    "pending_boards": "6 boards modulares (prompts A-F de doc/art/prompt_pack/03) + railing kit complementar",
+    "save_to": "data/source_art/concept/cais_world_modular/"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_technique_curation_record",
+  "source": {
+    "source_id": "case_megadrive_graphics_pipeline",
+    "source_kind": "direct_user_summary",
+    "title_or_label": "Como o MEGADRIVE criava seus GRAFICOS?",
+    "url": "",
+    "availability": "available_in_thread"
+  },
+  "technique": {
+    "id": "vdp_memory_segment_discipline",
+    "name": "VDP memory segment discipline",
+    "summary": "Separate VRAM, CRAM, VSRAM, tile descriptors, DMA and line rendering when planning graphics or validating visual claims.",
+    "risk_domain": [
+      "vdp",
+      "dma",
+      "asset_pipeline"
+    ]
+  },
+  "classification": "improve_existing_skill",
+  "canonical_fit": {
+    "owner_paths": [
+      "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/hardware/vram-streaming-dma-queue/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/hardware/shadow-highlight-scroll-fx/SKILL.md"
+    ],
+    "new_artifacts": [
+      "vram_residency_report",
+      "dma_queue_contract",
+      "scroll_fx_contract"
+    ],
+    "blocked_by": []
+  },
+  "evidence": {
+    "grade": "E1_text",
+    "minimum_required_before_canonical": [
+      "VRAM residency fixture",
+      "CRAM/palette snapshot when palette claim exists",
+      "DMA budget report for streaming claim"
+    ],
+    "current_gaps": [
+      "no local runtime evidence in this session"
+    ]
+  },
+  "promotion_decision": {
+    "decision": "apply_as_candidate",
+    "rationale": "The concept reinforces existing VDP budget discipline and supports the new VRAM streaming and scroll FX contracts."
+  },
+  "accepted_concepts": [
+    "VRAM, CRAM, VSRAM, tile descriptors, DMA and line rendering must be planned as separate budgets.",
+    "megadrive-vdp-budget-analyst plus vram-streaming-dma-queue own this discipline."
+  ],
+  "rejected_or_deferred_claims": [
+    "Source is a direct user summary, not runtime telemetry, so segment-level budget figures are deferred until a fixture confirms them.",
+    "No visual or budget status promotion from the summary alone."
+  ],
+  "required_followups": [
+    "Produce a VRAM residency fixture and a DMA budget report for streaming claims.",
+    "Capture a CRAM/palette snapshot when a palette claim is made."
+  ],
+  "status": "candidate_applied_not_verified"
+}

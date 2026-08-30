@@ -183,3 +183,9 @@ Regra: cena so sobe de `testado_em_emulador` para `validado_budget` quando a evi
   - `save.sram` com bloco canonico `MDRT`
   - `visual_vdp_dump.bin` quando o fluxo visual canonico estiver habilitado
   - regressao deterministica chegando na cena jogavel
+
+## Vibe Playable Birth Defaults
+
+- `visual_route_required=unknown_until_router`
+- `critical_asset_default_status=blocked_no_premium_source`
+- `runtime_evidence_default_status=missing`

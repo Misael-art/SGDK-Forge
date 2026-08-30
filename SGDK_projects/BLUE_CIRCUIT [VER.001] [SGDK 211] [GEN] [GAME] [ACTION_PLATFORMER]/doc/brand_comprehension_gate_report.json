@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "art_gameplay_direction_gate",
+  "axis": "brand_comprehension_consequence",
+  "axis_approved_by": "human_curator",
+  "axis_approved_at": "2026-08-17",
+  "contract_id": "branding_sequence_legacy_template_inactive",
+  "contract_state": "inactive",
+  "contract_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/branding_sequence_contract.json",
+  "summary": {
+    "techniques_total": 0,
+    "comprehension_bearing": 0,
+    "enabling_discipline": 0,
+    "weak_claims": 0
+  },
+  "findings": [
+    {
+      "code": "exempt_inactive_contract",
+      "severity": "info",
+      "subject": "branding_sequence_legacy_template_inactive",
+      "where": "contract",
+      "message": "contrato declarado inativo/substituido: isento do eixo. A cena de marca ativa deste projeto precisa ser gateada onde ela vive."
+    }
+  ],
+  "human_judgement_still_required": "Este validador prova que nenhuma tecnica passou sem justificativa. Ele NAO julga se o claim e verdadeiro: isso e decisao humana no gate visual, contra screenshot e visual_vdp_dump reais.",
+  "blocking": false,
+  "blocking_statuses": []
+}

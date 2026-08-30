@@ -16,6 +16,12 @@ Esta skill existe para o gap puro de audio senior no workspace.
 - `z80-pcm-custom-driver`
   - dono de drivers Z80 customizados, streaming PCM avancado, manipulacao direta de DAC/YM2612, PSG por registrador e qualquer tecnica alem do wrapper XGM2; esta skill coordena mas nao implementa low-level
 
+Piso da cena viva (escola Diggo): `doc/03_art/18_live_scene_bar.md` axiomas
+D1-D3. Identidade Neo Geo/arcade se **traduz** para YM2612/PSG/PCM. Dump de
+sample nao e arrange. Trilha e co-autora da cena. Tech demo 3D (Shannon)
+prova audio **carregado** no DMA; XGM2 pode perder para XGM1 nesse recorte
+— declare o driver real (S2/S3).
+
 ## Ler antes de agir
 
 1. `doc/05_technical/93_16bit_hardware_mastery_registry.json`
@@ -107,6 +113,7 @@ Esta skill existe para o gap puro de audio senior no workspace.
 
 - tocar tudo no mesmo canal por conveniencia
 - tentar soar como SNES por acumulacao de samples/eco, ignorando que o Mega Drive depende de FM/PSG/DAC e budget de barramento
+- dump de PCM Neo Geo/arcade como BGM final (`chip_identity_not_translated`, D1/D3)
 - usar sample orchestral longo como identidade principal sem ROM budget, sample audit e fallback FM/PSG
 - dizer "FM synth" sem declarar patch palette, canal dono e papel perceptivo
 - usar DAC/PCM sem reconhecer tradeoff com FM_CH6/ownership XGM2
@@ -140,6 +147,46 @@ Regras:
 - `priority` do estado nao pode colidir com SFX criticos de gameplay
 - `bpm_hint` deve ser compativel com o ritmo declarado em `moodboard_manifest.palette_sharing_rules` (herdado do `art-direction-selector`)
 - O mapa deve nascer ANTES de `sgdk-runtime-coder` integrar audio no loop, para que o runtime nao tenha que descobrir ownership a posteriori
+
+## Curadoria candidata: composicao adaptativa e clock musical
+
+Origem: transcricao anexada em 2026-06-17 sobre criacao de musica para jogos,
+evidencia `E1_text`. Esta expansao e candidata, reusa contratos existentes e nao
+promove audio, ROM, runtime ou qualidade final sem prova auditiva/emulador.
+
+### Regras aceitas com traducao para Mega Drive
+
+- `vertical remixing` so e aceito como arranjo pre-planejado de estados, stems,
+  layers ou variantes exportadas. Nao assumir automacao livre de middleware
+  moderno.
+- `horizontal resequencing` vira `bar_beat_transition_plan`: BPM, assinatura de
+  compasso, frames por beat/bar em NTSC/PAL, pontos de troca permitidos,
+  stinger/bridge ids e fallback quando a janela musical for perdida.
+- Toda mudanca de estado musical precisa ser despachada por evento de gameplay;
+  o gameplay pede uma intencao, o audio director agenda a troca no ponto musical
+  permitido.
+- Loop musical final exige `seamless_loop_report` com inicio/fim do loop, limite
+  de compasso ou amostra, tratamento de clique, silencio morto e cauda sonora.
+- Cauda de reverb/tail wrapping e tecnica de exportacao/edicao de asset; nao e
+  reverb runtime gratuito no Mega Drive.
+- `adaptive_music_state_map` deve declarar intensidade, prioridade,
+  convivencia com SFX critico, ownership de canal e fallback audivel para cada
+  estado.
+
+### Rejeicoes explicitas desta fonte
+
+- FMOD, Wwise, RTPC, filtros dinamicos e mixagem continua nao sao capacidades
+  nativas assumidas no Mega Drive; quando a intencao for valida, traduza para
+  estados discretos, fades suportados, stingers, variantes pre-renderizadas ou
+  handoff para driver customizado.
+- Exemplo C de video/transcricao nao vira API canonica: qualquer chamada XGM2,
+  JOY, VDP ou debug UI deve ser confirmada nos headers SGDK 2.11 e pelas skills
+  donas antes de entrar em projeto.
+- Calculo de "tempo forte" nao pode usar numero magico: declare BPM,
+  assinatura, regiao NTSC/PAL e se a troca ocorre em beat, meio compasso ou
+  inicio de compasso.
+- Interface de debug com texto, leitura direta de controle ou limpeza de plano
+  em loop nao prova arquitetura de audio e nao deve ser copiada para producao.
 
 ## Integracao
 

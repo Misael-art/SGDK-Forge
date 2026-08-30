@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_technique_curation_record",
+  "source": {
+    "source_id": "case_16tile_tilemap_attributes",
+    "source_kind": "direct_transcript",
+    "title_or_label": "How to Create Level Maps Using 16 Tile for Sega Genesis & Mega Drive",
+    "url": "http://www.youtube.com/watch?v=wsSXSyjpW8M",
+    "availability": "available_in_thread"
+  },
+  "technique": {
+    "id": "per_cell_tilemap_attributes",
+    "name": "Per-cell tilemap attributes",
+    "summary": "Use tilemap descriptors to preserve palette, priority and H/V flip per 8x8 cell instead of flattening a background into a static image.",
+    "risk_domain": [
+      "vdp",
+      "asset_pipeline"
+    ]
+  },
+  "classification": "improve_existing_skill",
+  "canonical_fit": {
+    "owner_paths": [
+      "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/art/tiled-hybrid-parallax-curator/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md"
+    ],
+    "new_artifacts": [
+      "scene_tilemap_conversion_report",
+      "tilemap_flag_report",
+      "per_tile_palette_conflict_report"
+    ],
+    "blocked_by": []
+  },
+  "evidence": {
+    "grade": "E1_text",
+    "minimum_required_before_canonical": [
+      "local fixture with tilemap flags",
+      "palette conflict report",
+      "runtime screenshot or VDP dump for visual claim"
+    ],
+    "current_gaps": [
+      "no local validator execution in this session"
+    ]
+  },
+  "promotion_decision": {
+    "decision": "apply_as_candidate",
+    "rationale": "The technique strengthens existing tilemap and VDP owners and does not justify a standalone skill."
+  },
+  "accepted_concepts": [
+    "Per-8x8-cell tilemap descriptors carry palette, priority and H/V flip instead of flattening a background to a static image.",
+    "Palette anchoring per cell must be reconciled against the 4-palette CRAM budget.",
+    "SGDK MAP/TILESET integration is the canonical path to author 16-tile level maps."
+  ],
+  "rejected_or_deferred_claims": [
+    "Any implied claim that a converted tilemap is visually correct without a runtime screenshot or VDP dump is deferred until evidence exists.",
+    "No claim that this technique alone reaches testado_em_emulador or validado_budget."
+  ],
+  "required_followups": [
+    "Produce a local fixture with tilemap flags and a palette conflict report.",
+    "Capture a runtime screenshot or VDP dump before promoting any visual status."
+  ],
+  "status": "candidate_applied_not_verified"
+}

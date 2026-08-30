@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "visual_purpose": "Dar ao belt scroller identidade brasileira litoranea com linguagem de luta arcade angular: personagens de silhueta forte lutando num cais ao entardecer, com a agua como zona de payoff.",
+  "gameplay_readability_goal": "4 inimigos + heroina sempre distinguiveis por silhueta e paleta em 320x224; beirada d'agua legivel como zona especial a qualquer momento.",
+  "production_constraints": "sprites 44-56px, herois 48x48, strips por estado com janela de animacao ativa; paleta 15 cores + index 0 por dominio; geracao IA por estado com referencia fixa.",
+  "hardware_constraints": "Mega Drive VDP: 4 paletas de 16 cores, tiles 8x8, sem alpha; BG_B mar/ceu line-scroll, BG_A cais, HUD em WINDOW; vram_pressure high do estilo mitigada por cap de inimigos e streaming de strips.",
+  "tone_and_atmosphere": "calor de fim de tarde, suor, tensao urbana sem caricatura; groove percussivo; a cidade e personagem.",
+  "market_differentiation": "nenhum belt scroller 16-bit ocupa o espaco 'litoral brasileiro anos 90 com muay thai/capoeira e ring-out costeiro'.",
+  "style_selection_method": [
+    "gameplay_driven",
+    "tone_driven",
+    "market_driven"
+  ],
+  "nine_style_axes": {
+    "dimensionality": "2D side belt com profundidade por y-sort em faixa de 64px",
+    "fidelity_detail": "detalhe medio em personagem, alto em landmark do cenario (guindaste, barco), baixo em tile de repeticao",
+    "color_theory": "paleta quente de entardecer com sombras frias roxo-azuladas e hue shift declarado; espuma como accent",
+    "lighting_shadow": "cel shadow duro com ramp de 3 tons por material; rim quente do sol baixo apenas em keyframes",
+    "shape_language": "angular nos lutadores (planos musculares retos), organico no mar/espuma; vilões com massas quadradas, heroina com diagonais",
+    "surface_material": "madeira gasta, corda, metal enferrujado, agua viva; sem gradiente suave",
+    "ui_integration": "HUD em WINDOW com fonte propria derivada do logo, grid 8x8 estrito",
+    "motion_style": "antecipacao curta + impacto travado (hitstop); sem smear frames no slice",
+    "vfx_language": "hitspark geometrico 8x8, splash com 3 frames grandes, espuma da beirada em loop curto"
+  },
+  "five_approval_gates": {
+    "scope_style_constraints": "pass",
+    "silhouette_shape_language": "pass",
+    "value_hierarchy": "pass",
+    "palette_role_map": "pass",
+    "polish_vfx_gameplay_signal": "pass"
+  },
+  "references_used_as": [
+    "quality",
+    "scale",
+    "timing"
+  ],
+  "blocking_statuses": []
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-26T08:37:54.599925+00:00",
+  "tool_name": "fresh_evidence_bundle_audit",
+  "tool_version": "1.0.0",
+  "status": "blocked",
+  "session_id": "blastem-linux-20260826T083722Z-1236135",
+  "rom_sha256": "ff9f6603a72f679ebb450dae70ad927f718f8dbc378f8788d45b62422fcfb46b",
+  "same_session": false,
+  "artifact_count": 3,
+  "required_artifact_count": 5,
+  "blockers": [
+    "vlab_block_missing",
+    "artifact_missing:vdp_dump",
+    "artifact_missing:runtime_metrics"
+  ],
+  "manifest_path": "evidence_manifest.json"
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-26T13:30:57.968633+00:00",
+  "tool_name": "seal_fresh_evidence_bundle",
+  "tool_version": "1.0.0",
+  "status": "sealed",
+  "session_id": "blastem-linux-20260826T132347Z-2118854",
+  "session_started_at": "2026-08-26T13:23:47.307492+00:00",
+  "session_completed_at": "2026-08-26T13:30:57.245707+00:00",
+  "rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+  "expected_rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+  "emulator": {
+    "ref": "app/com.retrodev.blastem/x86_64/stable",
+    "commit": "c1f3f4435e9d009fa001322e26e73e785fe443fcedfae1f3187836685c602221"
+  },
+  "artifacts": [
+    {
+      "name": "rom",
+      "path": "rom.bin",
+      "session_id": "blastem-linux-20260826T132347Z-2118854",
+      "rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+      "sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+      "size_bytes": 393216,
+      "captured_at": "2026-08-26T13:23:47.253633+00:00"
+    },
+    {
+      "name": "screenshot",
+      "path": "screenshot.png",
+      "session_id": "blastem-linux-20260826T132347Z-2118854",
+      "rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+      "sha256": "9674abea783e1cc143ea7d1b513f7ffa04bd5ded49762e2ffbb2cb684894ff93",
+      "size_bytes": 32581,
+      "captured_at": "2026-08-26T13:30:50.685261+00:00"
+    },
+    {
+      "name": "sram",
+      "path": "save.sram",
+      "session_id": "blastem-linux-20260826T132347Z-2118854",
+      "rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+      "sha256": "eb03913037a068c30e73d72a18a0607054b3b40e09e7c63f38f955d20c44012a",
+      "size_bytes": 32768,
+      "captured_at": "2026-08-26T13:30:57.150971+00:00"
+    },
+    {
+      "name": "vdp_dump",
+      "path": "visual_vdp_dump.bin",
+      "session_id": "blastem-linux-20260826T132347Z-2118854",
+      "rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+      "sha256": "f886a8386c04e3ad84d8e48b8aca1d521847a43bf2dec3137b1b232aa38ce23f",
+      "size_bytes": 184,
+      "captured_at": "2026-08-26T13:30:57.968549+00:00"
+    },
+    {
+      "name": "runtime_metrics",
+      "path": "runtime_metrics.json",
+      "session_id": "blastem-linux-20260826T132347Z-2118854",
+      "rom_sha256": "9736f099df47c47ca60066deb69664cc900fdaf41fb0479a00ea2c47f5b8781a",
+      "sha256": "b25301aaa025fa19daf7019c836c83d4be98586988ea43eca8d71c416e2ced7b",
+      "size_bytes": 1399,
+      "captured_at": "2026-08-26T13:30:57.970192+00:00"
+    }
+  ],
+  "semantic_capture_valid": true,
+  "blockers": [],
+  "claim_limit": "Bundle identity and freshness only; no broad gameplay, audio, performance or AAA claim is inferred."
+}

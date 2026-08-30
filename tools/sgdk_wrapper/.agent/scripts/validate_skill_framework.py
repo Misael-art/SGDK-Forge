@@ -1,13 +1,8 @@
-#!/usr/bin/env python3
-"""Validate the MegaDrive_DEV Codex skill framework.
-
-This script checks the repo-native skill bridge, SKILL.md metadata,
-openai.yaml discovery metadata, framework manifest coverage, pipeline
-references, and known stale terminology that can confuse future agents.
-"""
+"""Validate the active SGDK skill framework and reversible legacy lifecycle."""
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -16,11 +11,18 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 AGENT_ROOT = ROOT / "tools" / "sgdk_wrapper" / ".agent"
+WRAPPER_ROOT = ROOT / "tools" / "sgdk_wrapper"
 SKILLS_ROOT = AGENT_ROOT / "skills"
+LEGACY_ROOT = AGENT_ROOT / "legacy" / "skills"
 BRIDGE_ROOT = ROOT / ".agents" / "skills"
-FORBIDDEN_TERMS = (
-    "megadrive-elite",
-    "blaze_applicability",
+MANIFEST_PATH = AGENT_ROOT / "framework_manifest.json"
+LIFECYCLE_PATH = AGENT_ROOT / "references" / "skill_lifecycle_registry.json"
+FORBIDDEN_TERMS = ("megadrive-elite", "blaze_applicability")
+CONTRACT_BLOCKS = (
+    ("entrada minima", r"(?i)entrada minima|entrada m.nima"),
+    ("saida minima", r"(?i)saida minima|sa.da minima"),
+    ("passa quando", r"(?i)passa quando"),
+    ("handoff", r"(?i)handoff"),
 )
 
 
@@ -36,165 +38,252 @@ def parse_frontmatter(text: str) -> tuple[list[str], dict[str, str]] | None:
     match = re.match(r"^---\s*\n(?P<body>.*?)\n---\s*\n", text, re.S)
     if not match:
         return None
-
     keys: list[str] = []
     values: dict[str, str] = {}
     for line in match.group("body").splitlines():
-        key_match = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
-        if key_match:
-            key = key_match.group(1)
+        item = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
+        if item:
+            key = item.group(1)
             keys.append(key)
-            values[key] = key_match.group(2).strip().strip("\"'")
+            values[key] = item.group(2).strip().strip("\"'")
     return keys, values
+
+
+def directory_hash(path: Path) -> str:
+    payload = bytearray()
+    for file_path in sorted(p for p in path.rglob("*") if p.is_file()):
+        relative = file_path.relative_to(path).as_posix()
+        file_bytes = file_path.read_bytes()
+        if file_path.suffix.lower() in {".md", ".json", ".yaml", ".yml", ".txt"}:
+            file_bytes = file_bytes.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        file_hash = hashlib.sha256(file_bytes).hexdigest()
+        payload.extend(relative.encode("utf-8"))
+        payload.extend(b"\0")
+        payload.extend(file_hash.encode("ascii"))
+        payload.extend(b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def skill_dirs(root: Path) -> dict[str, Path]:
+    result: dict[str, Path] = {}
+    if not root.exists():
+        return result
+    for skill_file in sorted(root.rglob("SKILL.md")):
+        skill_dir = skill_file.parent
+        result[skill_dir.relative_to(root).as_posix()] = skill_dir
+    return result
 
 
 def check_bridge(errors: list[str]) -> None:
     if not BRIDGE_ROOT.exists():
         errors.append(f"missing bridge: {rel(BRIDGE_ROOT)}")
-        return
-
-    if BRIDGE_ROOT.resolve() != SKILLS_ROOT.resolve():
+    elif BRIDGE_ROOT.resolve() != SKILLS_ROOT.resolve():
         errors.append(
-            "bridge target mismatch: "
-            f"{rel(BRIDGE_ROOT)} -> {BRIDGE_ROOT.resolve()} "
-            f"expected {SKILLS_ROOT.resolve()}"
+            f"bridge target mismatch: {rel(BRIDGE_ROOT)} -> "
+            f"{BRIDGE_ROOT.resolve()} expected {SKILLS_ROOT.resolve()}"
         )
 
 
-def check_skill_frontmatter(errors: list[str]) -> list[Path]:
-    skill_files = sorted(SKILLS_ROOT.rglob("SKILL.md"))
-    if not skill_files:
-        errors.append(f"no skills found under {rel(SKILLS_ROOT)}")
-        return []
+def check_active_structure(active: dict[str, Path], errors: list[str]) -> None:
+    for yaml_file in sorted(SKILLS_ROOT.rglob("agents/openai.yaml")):
+        skill_dir = yaml_file.parent.parent
+        if not (skill_dir / "SKILL.md").is_file():
+            errors.append(f"active skill metadata without SKILL.md: {rel(skill_dir)}")
 
-    for skill_file in skill_files:
-        parsed = parse_frontmatter(read_text(skill_file))
+    for skill_id, skill_dir in active.items():
+        skill_file = skill_dir / "SKILL.md"
+        text = read_text(skill_file)
+        parsed = parse_frontmatter(text)
         if parsed is None:
             errors.append(f"missing frontmatter: {rel(skill_file)}")
-            continue
-
-        keys, values = parsed
-        if keys != ["name", "description"]:
-            errors.append(f"frontmatter keys must be name,description: {rel(skill_file)}")
-
-        name = values.get("name", "")
-        if name != skill_file.parent.name:
-            errors.append(
-                f"skill name does not match folder: {rel(skill_file)} "
-                f"({name!r} != {skill_file.parent.name!r})"
-            )
-
-        if not values.get("description"):
-            errors.append(f"empty skill description: {rel(skill_file)}")
-
-    return skill_files
-
-
-def check_openai_yaml(skill_files: list[Path], errors: list[str]) -> None:
-    for skill_file in skill_files:
-        skill_name = skill_file.parent.name
-        yaml_file = skill_file.parent / "agents" / "openai.yaml"
-        if not yaml_file.exists():
-            errors.append(f"missing openai.yaml: {rel(yaml_file)}")
-            continue
-
-        text = read_text(yaml_file)
-        short = re.search(r'short_description:\s*"([^"]*)"', text)
-        prompt = re.search(r'default_prompt:\s*"([^"]*)"', text)
-        implicit = re.search(r"allow_implicit_invocation:\s*(true|false)", text)
-
-        if not short:
-            errors.append(f"missing short_description: {rel(yaml_file)}")
         else:
-            length = len(short.group(1))
-            if length < 25 or length > 64:
+            keys, values = parsed
+            if keys != ["name", "description"]:
+                errors.append(f"frontmatter keys must be name,description: {rel(skill_file)}")
+            if values.get("name") != skill_dir.name:
+                errors.append(
+                    f"skill name does not match folder: {rel(skill_file)} "
+                    f"({values.get('name')!r} != {skill_dir.name!r})"
+                )
+            if not values.get("description"):
+                errors.append(f"empty skill description: {rel(skill_file)}")
+
+        yaml_file = skill_dir / "agents" / "openai.yaml"
+        if not yaml_file.is_file():
+            errors.append(f"missing openai.yaml: {rel(yaml_file)}")
+        else:
+            yaml = read_text(yaml_file)
+            short = re.search(r'short_description:\s*"([^"]*)"', yaml)
+            prompt = re.search(r'default_prompt:\s*"([^"]*)"', yaml)
+            implicit = re.search(r"allow_implicit_invocation:\s*(true|false)", yaml)
+            if not short:
+                errors.append(f"missing short_description: {rel(yaml_file)}")
+            elif not 25 <= len(short.group(1)) <= 64:
                 errors.append(
                     f"short_description length must be 25-64 chars: "
-                    f"{rel(yaml_file)} ({length})"
+                    f"{rel(yaml_file)} ({len(short.group(1))})"
                 )
+            if not prompt:
+                errors.append(f"missing default_prompt: {rel(yaml_file)}")
+            elif f"${skill_dir.name}" not in prompt.group(1):
+                errors.append(f"default_prompt must mention ${skill_dir.name}: {rel(yaml_file)}")
+            if not implicit:
+                errors.append(f"missing allow_implicit_invocation policy: {rel(yaml_file)}")
 
-        if not prompt:
-            errors.append(f"missing default_prompt: {rel(yaml_file)}")
-        elif f"${skill_name}" not in prompt.group(1):
-            errors.append(f"default_prompt must mention ${skill_name}: {rel(yaml_file)}")
-
-        if not implicit:
-            errors.append(f"missing allow_implicit_invocation policy: {rel(yaml_file)}")
+        missing = [label for label, pattern in CONTRACT_BLOCKS if not re.search(pattern, text)]
+        if missing:
+            errors.append(f"skill missing contract blocks {missing}: {skill_id}/SKILL.md")
 
 
-def check_manifest(skill_files: list[Path], errors: list[str]) -> None:
-    manifest_file = AGENT_ROOT / "framework_manifest.json"
-    manifest = json.loads(read_text(manifest_file))
-    tracked = {item.replace("\\", "/") for item in manifest.get("tracked_paths", [])}
+def check_manifest(active: dict[str, Path], errors: list[str]) -> None:
+    try:
+        manifest = json.loads(read_text(MANIFEST_PATH))
+    except Exception as exc:
+        errors.append(f"framework manifest unreadable: {exc}")
+        return
+    tracked = {str(item).replace("\\", "/") for item in manifest.get("tracked_paths", [])}
+    for skill_id in active:
+        expected = f"skills/{skill_id}"
+        if expected not in tracked:
+            errors.append(f"skill missing from framework_manifest tracked_paths: {expected}")
+    for item in sorted(tracked):
+        if not re.match(r"^skills/[^/]+/[^/]+$", item):
+            continue
+        target = AGENT_ROOT / item
+        if not (target / "SKILL.md").is_file():
+            errors.append(f"framework_manifest references inactive or missing skill: {item}")
 
-    for skill_file in skill_files:
-        skill_path = rel(skill_file.parent, AGENT_ROOT)
-        if skill_path not in tracked:
-            errors.append(f"skill missing from framework_manifest tracked_paths: {skill_path}")
+
+def check_lifecycle(active: dict[str, Path], legacy: dict[str, Path], errors: list[str]) -> None:
+    try:
+        registry = json.loads(read_text(LIFECYCLE_PATH))
+    except Exception as exc:
+        errors.append(f"skill lifecycle registry unreadable: {exc}")
+        return
+    entries = registry.get("entries", [])
+    by_id: dict[str, dict] = {}
+    for entry in entries:
+        skill_id = entry.get("skill_id")
+        if not isinstance(skill_id, str) or not skill_id:
+            errors.append("lifecycle entry missing skill_id")
+            continue
+        if skill_id in by_id:
+            errors.append(f"duplicate lifecycle entry: {skill_id}")
+            continue
+        by_id[skill_id] = entry
+        lifecycle = entry.get("lifecycle")
+        if lifecycle == "active":
+            if skill_id not in active:
+                errors.append(f"active lifecycle skill missing: {skill_id}")
+            else:
+                words = len(re.findall(r"\S+", read_text(active[skill_id] / "SKILL.md")))
+                if words > int(entry.get("context_budget_words", 0)):
+                    errors.append(
+                        f"active skill exceeds context budget: {skill_id} "
+                        f"({words}>{entry.get('context_budget_words')})"
+                    )
+        else:
+            if skill_id in active:
+                errors.append(f"legacy lifecycle skill still active: {skill_id}")
+            if skill_id not in legacy:
+                errors.append(f"legacy lifecycle payload missing: {skill_id}")
+            elif directory_hash(legacy[skill_id]) != entry.get("content_sha256"):
+                errors.append(f"legacy lifecycle hash mismatch: {skill_id}")
+
+        for replacement in entry.get("replacement_skills", []):
+            if replacement not in active:
+                errors.append(f"replacement skill is not active: {skill_id} -> {replacement}")
+
+    for skill_id in legacy:
+        if skill_id not in by_id:
+            errors.append(f"legacy skill unregistered: {skill_id}")
+        elif by_id[skill_id].get("lifecycle") == "active":
+            errors.append(f"legacy payload marked active: {skill_id}")
 
 
 def check_pipeline_references(errors: list[str]) -> None:
     pipeline_file = AGENT_ROOT / "pipelines" / "aaa_scene_v1.json"
-    pipeline = json.loads(read_text(pipeline_file))
-
+    try:
+        pipeline = json.loads(read_text(pipeline_file))
+    except Exception as exc:
+        errors.append(f"pipeline unreadable: {exc}")
+        return
     for step in pipeline.get("steps", []):
-        paths = []
+        paths: list[str] = []
         if step.get("skill_path"):
             paths.append(step["skill_path"])
         paths.extend(step.get("supporting_skills") or [])
-
         for skill_path in paths:
             target = AGENT_ROOT / skill_path
-            if not target.exists() or not (target / "SKILL.md").exists():
+            if not (target / "SKILL.md").is_file():
                 errors.append(f"pipeline references missing skill: {skill_path}")
-
-
-def check_contract_blocks(skill_files: list[Path], errors: list[str]) -> None:
-    required = (
-        ("entrada minima", r"(?i)entrada minima|entrada m.nima"),
-        ("saida minima", r"(?i)saida minima|sa.da minima"),
-        ("passa quando", r"(?i)passa quando"),
-        ("handoff", r"(?i)handoff"),
-    )
-
-    for skill_file in skill_files:
-        text = read_text(skill_file)
-        missing = [label for label, pattern in required if not re.search(pattern, text)]
-        if missing:
-            errors.append(
-                f"skill missing contract blocks {missing}: "
-                f"{rel(skill_file, SKILLS_ROOT)}"
-            )
 
 
 def check_forbidden_terms(errors: list[str]) -> None:
     for path in sorted(AGENT_ROOT.rglob("*")):
+        if LEGACY_ROOT in path.parents:
+            continue
         if not path.is_file() or path.suffix.lower() not in {".md", ".json", ".yaml"}:
             continue
-
         text = read_text(path)
         for term in FORBIDDEN_TERMS:
             if term in text:
                 errors.append(f"forbidden term {term!r}: {rel(path, AGENT_ROOT)}")
 
 
+def check_skill_path_references(errors: list[str]) -> None:
+    """Secao 38: skill que cita path inexistente planta autoengano no proximo
+    agente. Calibrado contra falso positivo (secao 37): so verifica referencias
+    ancoradas na arvore do workspace (`tools/...`, `.agent/...`), sem wildcard,
+    sem placeholder `<...>`, sem espaco. Refs relativas a projeto
+    (`doc/10-memory-bank.md`, `out/logs/*.json`) existem por projeto e NAO sao
+    verificaveis na raiz — nunca sao marcadas."""
+    import re
+
+    pattern = re.compile(r"`([^`\n]+?)`")
+    anchored_prefixes = ("tools/", ".agent/")
+    checked = 0
+    for path in sorted(SKILLS_ROOT.rglob("SKILL.md")):
+        text = read_text(path)
+        for raw in pattern.findall(text):
+            ref = raw.strip()
+            if not any(ref.startswith(p) for p in anchored_prefixes):
+                continue
+            if any(ch in ref for ch in "*<>?") or " " in ref:
+                continue
+            if not ref.endswith((".md", ".json", ".py", ".ps1", ".sh")):
+                continue
+            checked += 1
+            candidates = [ROOT / ref]
+            if ref.startswith(".agent/"):
+                candidates.append(WRAPPER_ROOT / ref)
+            if not any(c.exists() for c in candidates):
+                errors.append(
+                    f"skill cites nonexistent path {ref!r}: {rel(path, AGENT_ROOT)}"
+                )
+    if checked:
+        print(f"anchored path references checked: {checked}")
+
+
 def main() -> int:
     errors: list[str] = []
+    active = skill_dirs(SKILLS_ROOT)
+    legacy = skill_dirs(LEGACY_ROOT)
+    if not active:
+        errors.append(f"no active skills found under {rel(SKILLS_ROOT)}")
     check_bridge(errors)
-    skill_files = check_skill_frontmatter(errors)
-    check_openai_yaml(skill_files, errors)
-    check_manifest(skill_files, errors)
+    check_active_structure(active, errors)
+    check_manifest(active, errors)
+    check_lifecycle(active, legacy, errors)
     check_pipeline_references(errors)
-    check_contract_blocks(skill_files, errors)
     check_forbidden_terms(errors)
-
+    check_skill_path_references(errors)
     if errors:
         print("Skill framework validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
-
-    print("Skill framework validation passed.")
+    print(f"Skill framework validation passed: {len(active)} active, {len(legacy)} legacy.")
     return 0
 
 

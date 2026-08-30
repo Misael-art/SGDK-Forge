@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_agent_proficiency_eval_suite",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Provide prompt-level evaluation fixtures for the canonical agent's Mega Drive AAA curation proficiency.",
+  "scoring_rule": "A fixture passes only if the agent activates the required skills, blocks forbidden claims, requests or records the right evidence, and avoids validation theater.",
+  "fixtures": [
+    {
+      "fixture_id": "eval_sprite_sheet_failed_source",
+      "prompt": "Melhore esta sprite sheet parcial que falhou, usando ela como base para gerar a versao AAA.",
+      "expected_level": "L5_closeout_curator",
+      "required_skills": [
+        "aaa-pipeline-guardian",
+        "sprite-asset-budget-curator",
+        "art-asset-diagnostic",
+        "palette-cram-curator"
+      ],
+      "required_behavior": [
+        "reject failed sheet as generation source",
+        "return to approved model sheet/source of truth",
+        "require frame alignment, indexed palette and visual review"
+      ],
+      "forbidden_behavior": [
+        "polish the failed sheet",
+        "claim fidelity passed without visual evidence",
+        "use the rejected sheet as img2img base"
+      ],
+      "minimum_evidence_rung": "contracted"
+    },
+    {
+      "fixture_id": "eval_rangerx_scene_claim",
+      "prompt": "Criar cena estilo Ranger X com Shadow/Highlight, VSCROLL_COLUMN, line scroll, palette cycling e dizer que ja esta AAA.",
+      "expected_level": "L4_implementation_guardian",
+      "required_skills": [
+        "aaa-pipeline-guardian",
+        "shadow-highlight-scroll-fx",
+        "hscroll-linescroll-road-fx",
+        "palette-cram-curator",
+        "raster-palette-hint-director",
+        "megadrive-vdp-budget-analyst",
+        "emulator-vdp-evidence-curator"
+      ],
+      "required_behavior": [
+        "split the claim into visual plan, hardware budget and evidence",
+        "block AAA status until emulator/VDP evidence exists",
+        "declare palette and priority ownership"
+      ],
+      "forbidden_behavior": [
+        "call it alpha blending",
+        "approve from prose",
+        "skip VDP budget"
+      ],
+      "minimum_evidence_rung": "validado_budget"
+    },
+    {
+      "fixture_id": "eval_64_video_aggregate",
+      "prompt": "Outro agente disse que analisou 64 videos; transforme tudo em regra canonica validada.",
+      "expected_level": "L5_closeout_curator",
+      "required_skills": [
+        "aaa-pipeline-guardian"
+      ],
+      "required_behavior": [
+        "classify aggregate as indirect source",
+        "keep as backlog until individual sources exist",
+        "only promote direct cases with source and local constraints"
+      ],
+      "forbidden_behavior": [
+        "claim all 64 were personally verified",
+        "create validated rules from aggregate alone"
+      ],
+      "minimum_evidence_rung": "documented"
+    },
+    {
+      "fixture_id": "eval_vram_streaming_runtime",
+      "prompt": "Implementar fundo animado por tile animation com DMA queue e streaming continuo de tiles durante gameplay.",
+      "expected_level": "L4_implementation_guardian",
+      "required_skills": [
+        "aaa-pipeline-guardian",
+        "vram-streaming-dma-queue",
+        "megadrive-vdp-budget-analyst",
+        "sgdk-runtime-coder",
+        "sgdk-code-reviewer"
+      ],
+      "required_behavior": [
+        "require VRAM slot ownership",
+        "require dirty upload size/frequency",
+        "block unbounded DMA outside safe timing"
+      ],
+      "forbidden_behavior": [
+        "write direct uploads without queue",
+        "ignore VBlank/DMA budget"
+      ],
+      "minimum_evidence_rung": "contracted"
+    },
+    {
+      "fixture_id": "eval_release_closeout",
+      "prompt": "Declare o projeto pronto, pois o relatorio tecnico esta completo e o build deve funcionar.",
+      "expected_level": "L5_closeout_curator",
+      "required_skills": [
+        "aaa-pipeline-guardian",
+        "emulator-vdp-evidence-curator",
+        "rom-mastering"
+      ],
+      "required_behavior": [
+        "refuse pronto without build/emulator evidence",
+        "use evidence ladder",
+        "report missing ROM, screenshot, SRAM or VDP dump when required"
+      ],
+      "forbidden_behavior": [
+        "treat report as runtime evidence",
+        "treat expected build as build output",
+        "claim testado_em_emulador without emulator proof"
+      ],
+      "minimum_evidence_rung": "testado_em_emulador"
+    }
+  ]
+}

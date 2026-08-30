@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_curation_risk_register",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Track residual risks, known limitations and non-promotable claims in the Mega Drive AAA video curation package.",
+  "risk_policy": [
+    "A risk is not resolved by adding more prose.",
+    "A risk is resolved only by the evidence listed in its required_resolution_evidence field.",
+    "Any unresolved critical risk blocks promotion to validated_curation.",
+    "Runtime, ROM, visual and AAA release risks are outside this package unless project evidence exists."
+  ],
+  "risks": [
+    {
+      "risk_id": "runner_execution_blocked",
+      "severity": "critical",
+      "status": "resolved",
+      "description": "An earlier Codex runner could not start local processes and returned CreateProcessAsUserW failed: 5; this no longer reproduces and validate_aaa_video_curation.ps1 now prints PASSED. Retained as a historical risk because the runner environment can regress.",
+      "impact": "While active, the validator, workspace audits, git status, commit and push could not be proven; a regression would reintroduce the same impact.",
+      "required_resolution_evidence": [
+        "simple command executes successfully",
+        "validate_aaa_video_curation.ps1 prints PASSED",
+        "workspace audits execute or blockers are recorded",
+        "git commands produce real output before commit/push claims"
+      ],
+      "blocked_promotions": [
+        "validated_curation",
+        "commit_created",
+        "push_completed"
+      ],
+      "owner_artifacts": [
+        "aaa_curation_validation_recovery_plan",
+        "aaa_video_curation_audit_report_2026-06-15"
+      ]
+    },
+    {
+      "risk_id": "source_corpus_indirect",
+      "severity": "high",
+      "status": "open",
+      "description": "The broader 64-video corpus is known only through another agent's aggregate analysis.",
+      "impact": "The package can use the aggregate as backlog pressure but cannot claim individual source verification.",
+      "required_resolution_evidence": [
+        "individual source list",
+        "per-source reliability classification",
+        "direct curation records for promoted cases"
+      ],
+      "blocked_promotions": [
+        "64_video_corpus_validated",
+        "all_aggregate_claims_verified"
+      ],
+      "owner_artifacts": [
+        "external_source_reliability_rubric",
+        "aaa_source_to_skill_traceability_matrix",
+        "video_curation_evidence_backlog"
+      ]
+    },
+    {
+      "risk_id": "sidecar_handoffs_not_inline_skill_rewrites",
+      "severity": "medium",
+      "status": "accepted_with_constraint",
+      "description": "Eleven existing skill/workflow updates were applied as sidecar handoffs instead of direct SKILL.md rewrites to avoid unsafe overwrites while shell/file inspection is blocked.",
+      "impact": "Agents must load sidecars or the updates may be missed by tools that only read SKILL.md bodies.",
+      "required_resolution_evidence": [
+        "manual or automated review of original SKILL.md files",
+        "safe inline merge where appropriate",
+        "validator adjusted to check final integration mode"
+      ],
+      "blocked_promotions": [
+        "inline_skill_update_complete"
+      ],
+      "owner_artifacts": [
+        "existing_skill_integration_manifest",
+        "aaa_curation_package_inventory"
+      ]
+    },
+    {
+      "risk_id": "package_validation_not_project_validation",
+      "severity": "high",
+      "status": "open",
+      "description": "Even a future PASS from validate_aaa_video_curation validates package coherence only.",
+      "impact": "Agents could confuse curation-package validation with ROM, runtime, visual, budget or AAA release validation.",
+      "required_resolution_evidence": [
+        "project-specific build output",
+        "BlastEm/emulator evidence when runtime is claimed",
+        "VDP/visual dump evidence when required",
+        "project memory/changelog updates"
+      ],
+      "blocked_promotions": [
+        "ready_for_aaa",
+        "testado_em_emulador",
+        "validado_budget",
+        "final_aaa_release"
+      ],
+      "owner_artifacts": [
+        "aaa_evidence_ladder",
+        "emulator-vdp-evidence-curator",
+        "rom-mastering"
+      ]
+    },
+    {
+      "risk_id": "manual_inventory_counts_can_drift",
+      "severity": "medium",
+      "status": "open",
+      "description": "The package inventory declares expected counts that must be updated whenever mandatory artifacts are added or removed.",
+      "impact": "If counts drift, validators and documentation can contradict each other.",
+      "required_resolution_evidence": [
+        "inventory updated with every mandatory artifact change",
+        "validator expected counts updated together",
+        "README/manifest/registry/changelog updated together"
+      ],
+      "blocked_promotions": [
+        "cohesion_claim"
+      ],
+      "owner_artifacts": [
+        "aaa_curation_package_inventory",
+        "aaa-curation-package-inventory-audit"
+      ]
+    },
+    {
+      "risk_id": "skills_are_candidate_until_validation",
+      "severity": "high",
+      "status": "open",
+      "description": "The twenty new skills and related workflows have been written but not validated by local tooling.",
+      "impact": "They improve curation structure but must not be represented as fully validated canonical runtime practice.",
+      "required_resolution_evidence": [
+        "validator pass",
+        "workspace audits",
+        "proficiency fixtures exercised or scheduled",
+        "human review if required"
+      ],
+      "blocked_promotions": [
+        "validated_canonical_skill_set"
+      ],
+      "owner_artifacts": [
+        "aaa_agent_proficiency_matrix",
+        "aaa_agent_proficiency_eval_suite",
+        "aaa_curation_validation_recovery_plan"
+      ]
+    },
+    {
+      "risk_id": "memory_capsule_not_merged_into_primary_memory_bank",
+      "severity": "medium",
+      "status": "open",
+      "description": "Operational memory was captured in a curation capsule but not merged into the primary workspace memory bank while local inspection/execution is blocked.",
+      "impact": "Future agents must load the capsule or they may miss key decisions, load order and pending recovery actions.",
+      "required_resolution_evidence": [
+        "primary workspace memory bank safely inspected",
+        "current capsule decisions reviewed for freshness",
+        "approved decisions merged or explicitly deferred",
+        "merge status updated in aaa_curation_memory_update"
+      ],
+      "blocked_promotions": [
+        "primary_memory_bank_updated"
+      ],
+      "owner_artifacts": [
+        "aaa_curation_memory_update",
+        "aaa-curation-memory-capture"
+      ]
+    }
+  ]
+}

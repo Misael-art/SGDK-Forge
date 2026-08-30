@@ -1,0 +1,197 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "canonical_learning_review",
+  "source_project": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "review_date": "2026-06-19",
+  "promotion_policy": "Promover imediatamente apenas invariantes comprovadas, independentes do host e de baixo risco. Automacoes novas permanecem em piloto ate passar em host limpo, projeto legado, projeto novo e executor degradado.",
+  "items": [
+    {
+      "id": "four_layer_diagnostic_separation",
+      "decision": "active_policy",
+      "lesson": "Separar host_executor, toolchain_wrapper, rom_runtime e creative_quality.",
+      "canonical_owner": "workflows/production-diagnostic-triage.md",
+      "evidence": [
+        "CreateProcessAsUserW failed antes do PowerShell iniciar",
+        "ROM valida coexistiu com falha posterior de quoting",
+        "bloqueio de foreground coexistiu com Title e SRAM validos"
+      ],
+      "required_validation": []
+    },
+    {
+      "id": "generated_metadata_authority",
+      "decision": "active_policy",
+      "lesson": "Metadados gerados pelo RESCOMP governam limites de animacao e frame.",
+      "canonical_owner": "skills/code/sgdk-runtime-coder",
+      "evidence": [
+        "spr_lumen_orb tinha numFrame 3 e o runtime selecionava frame 3"
+      ],
+      "required_validation": []
+    },
+    {
+      "id": "input_observation_required",
+      "decision": "active_policy",
+      "lesson": "Input enviado nao prova input recebido; exigir confirmacao da ROM.",
+      "canonical_owner": "skills/operation/emulator-vdp-evidence-curator",
+      "evidence": [
+        "automacao publicou input sem obter foreground",
+        "SRAM confirmou apenas READY e Title"
+      ],
+      "required_validation": []
+    },
+    {
+      "id": "rom_hash_bound_evidence",
+      "decision": "active_policy",
+      "lesson": "Toda evidencia de rota deve estar ligada ao hash exato da ROM.",
+      "canonical_owner": "skills/operation/emulator-vdp-evidence-curator",
+      "evidence": [
+        "builds v016 e v020 exigiram congelamento e recaptura da mesma ROM"
+      ],
+      "required_validation": []
+    },
+    {
+      "id": "technical_pass_creative_hold",
+      "decision": "active_policy",
+      "lesson": "Fechamento tecnico aprovado pode coexistir com promocao criativa bloqueada.",
+      "canonical_owner": "skills/governance/aaa-pipeline-guardian",
+      "evidence": [
+        "Sector 01 tecnicamente recuperado enquanto arte definitiva, audio e expansao permaneceram bloqueados"
+      ],
+      "required_validation": []
+    },
+    {
+      "id": "causal_fix_sequence",
+      "decision": "active_policy",
+      "lesson": "Reproduzir, provar causa, criar RED, corrigir o minimo, rebuildar e recapturar a mesma rota.",
+      "canonical_owner": "references/production_truth_protocol.md",
+      "evidence": [
+        "correcao de spr_lumen_orb foi isolada sem misturar estrada, arte ou audio"
+      ],
+      "required_validation": []
+    },
+    {
+      "id": "host_capability_preflight_v1",
+      "decision": "pilot_required",
+      "lesson": "Gerar relatorio machine-readable de executor, sessao, dependencias e capacidades de captura.",
+      "canonical_owner": "skills/operation/sgdk-build-wrapper-operator",
+      "evidence": [
+        "o mesmo projeto alternou entre executor funcional e CreateProcessAsUserW bloqueado"
+      ],
+      "required_validation": [
+        "clean_host",
+        "legacy_project",
+        "new_project",
+        "degraded_executor"
+      ]
+    },
+    {
+      "id": "staged_wrapper_result_contract_v1",
+      "decision": "pilot_required",
+      "lesson": "Distinguir compilacao, link, ROM, pos-processamento e documentacao.",
+      "canonical_owner": "skills/operation/sgdk-build-wrapper-operator",
+      "evidence": [
+        "build retornou ROM utilizavel apesar de erro posterior de quoting"
+      ],
+      "required_validation": [
+        "clean_host",
+        "legacy_project",
+        "new_project",
+        "degraded_executor"
+      ]
+    },
+    {
+      "id": "emulator_input_transport_negotiation_v1",
+      "decision": "pilot_required",
+      "lesson": "Negociar transporte por capacidade e sempre confirmar input na ROM.",
+      "canonical_owner": "skills/operation/emulator-vdp-evidence-curator",
+      "evidence": [
+        "SendInput dependente de foreground nao navegou a ROM"
+      ],
+      "required_validation": [
+        "native_emulator_input",
+        "window_directed_input",
+        "foreground_input",
+        "manual_assisted_capture"
+      ]
+    },
+    {
+      "id": "sprite_metadata_animation_linter_v1",
+      "decision": "pilot_required",
+      "lesson": "Comparar seletores de animacao/frame com numAnimation e numFrame gerados.",
+      "canonical_owner": "skills/code/sgdk-code-reviewer",
+      "evidence": [
+        "regressao host-side detectou modulo 4 contra tres frames validos"
+      ],
+      "required_validation": [
+        "multi_animation_sprite",
+        "definition_swap",
+        "dynamic_frame_expression",
+        "generated_metadata_change"
+      ]
+    },
+    {
+      "id": "closeout_dependency_dag_v1",
+      "decision": "pilot_required",
+      "lesson": "Modelar dependencias de closeout sem freshness e validators se invalidarem circularmente.",
+      "canonical_owner": "skills/governance/aaa-pipeline-guardian",
+      "evidence": [
+        "atualizacao de budget tornou contrato compilado stale durante o fechamento"
+      ],
+      "required_validation": [
+        "technical_closeout",
+        "creative_hold",
+        "documentation_update",
+        "recapture_required"
+      ]
+    },
+    {
+      "id": "vram_explicit_evidence_precedence_v1",
+      "decision": "pilot_required",
+      "lesson": "VDP dump e ranges explicitos devem prevalecer sobre scanners heuristicos.",
+      "canonical_owner": "skills/hardware/megadrive-vdp-budget-analyst",
+      "evidence": [
+        "scanner confundiu desenho de nametable com upload de tiles"
+      ],
+      "required_validation": [
+        "tile_upload",
+        "nametable_write",
+        "sprite_reservation",
+        "range_overlap"
+      ]
+    },
+    {
+      "id": "existing_project_truth_recovery_v1",
+      "decision": "pilot_required",
+      "lesson": "Preservar baseline, worktree, ultima ROM comprovada, historico e claims de projeto legado.",
+      "canonical_owner": "workflows/production-diagnostic-triage.md",
+      "evidence": [
+        "projeto alvo estava fora do indice Git e exigia preservacao do estado real"
+      ],
+      "required_validation": [
+        "dirty_worktree",
+        "untracked_project",
+        "stale_claims",
+        "external_absolute_paths"
+      ]
+    },
+    {
+      "id": "postmessage_as_universal_solution",
+      "decision": "rejected_pattern",
+      "lesson": "Nao canonizar transporte de input especifico de uma janela ou maquina.",
+      "canonical_owner": "references/production_truth_protocol.md",
+      "evidence": [
+        "o problema observado era capacidade de foreground e confirmacao, nao ausencia de uma API especifica"
+      ],
+      "required_validation": []
+    },
+    {
+      "id": "gate_relaxation_for_green",
+      "decision": "rejected_pattern",
+      "lesson": "Nao afrouxar contratos para converter blocker real em sucesso aparente.",
+      "canonical_owner": "skills/governance/aaa-pipeline-guardian",
+      "evidence": [
+        "divida TILE_ATTR_FULL foi mantida separada em vez de mascarada"
+      ],
+      "required_validation": []
+    }
+  ]
+}

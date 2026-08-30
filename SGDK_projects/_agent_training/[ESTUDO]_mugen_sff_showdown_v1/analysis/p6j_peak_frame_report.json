@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "status": "IDENTIFIED",
+  "method": "VLAB metric_words 32 (peak-frame words 26..31) portado da probe canonica Celestial Chase",
+  "soak_evidence": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6j_soak/blastem-linux-20260830T151815Z-3155050",
+  "TSTR": {"requested":6727,"overflow":0,"max_res":1190,"cap":1190},
+  "VLAB": {"over_budget_frames":8,"max_cpu_load":243,"max_cpu_load_at_frame":97,"sample_count":32},
+  "decision": {
+    "peak_cpu_frame": 97,
+    "interpretation": "Pico de CPU na frame 97 = ENTER/sweep de cantos + primeiro passe de streaming, NAO o tick de animacao (que dispararia em frames multiplos de 90).",
+    "why_not_animation_tick": "interval 90f; tick animado ocorreria perto de frame 90, 180, 270... pico em 97 cai na janela de inicializacao/primeiros passes.",
+    "actionable": "Descarregar o trabalho do ENTER (sweep de cantos + stream inicial) para o VBLANK ou pos-telemetro (pos 30 frames), nao no enter, para zerar os 8 over_budget persistente."
+  },
+  "cache_gate": "PASS (0 overflow, eviction ok, max_res 1190/1190)"
+}

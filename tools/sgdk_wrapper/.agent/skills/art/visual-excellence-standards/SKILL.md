@@ -22,6 +22,11 @@ Todo asset deve ser tratado como recurso de hardware:
 
 Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sobrevive ao VDP do Mega Drive.
 
+Piso vivo 2026: `doc/03_art/18_live_scene_bar.md`. Handles RheoGamer/PigsyRetro
+sao oficio (densidade arcade legal; traducao de fonte rica), nunca source_art.
+Abaixo dos 12 checks da barra → `needs_review`. Sem
+`out/logs/live_scene_bar_report.json` o claim visual nao existe.
+
 ## Contrato Operacional
 
 ### Entrada minima
@@ -30,7 +35,7 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 - `context_pack_manifest` quando a arte nasceu de sourcing, IA ou referencia externa
 - `art_direction_decision_record`, `master_style_manifest`, `style_drift_policy`, `asset_lineage_record` e `style_memory_index` quando existirem
 - `doc/03_art/02_visual_feedback_bank.md` e barra de qualidade quando existirem
-- `premium_source_manifest`, `source_to_rom_asset_map` e `benchmark_match_report` quando houver alegacao de `AAA`, `pronto`, `delivery` ou promocao para ROM
+- `premium_source_manifest`, `source_to_rom_asset_map`, `benchmark_match_report` e `live_scene_bar_report` quando houver alegacao de `AAA`, `pronto`, `delivery` ou promocao para ROM
 - contexto de composicao (`layer_plan` / `shared_canvas_contract`) quando houver multi-plano
 - `camera_motion_contract` e `parallax_layer_contract` quando houver palco de
   luta, camera horizontal/vertical, fonte MUGEN/DEF, Tiled parallax ou cena com
@@ -112,6 +117,12 @@ Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sob
 ### Passa quando
 
 - a leitura em 320x224 nativo foi considerada
+- para `aaa_game`, vertical slice, asset critico ou `ready_for_aaa`, existe
+  `live_scene_bar_report` valido contra
+  `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json` com
+  `status=passed`; ausencia ou `failed` bloqueia `elite_ready`
+- handles Rheo/Pigsy (e qualquer praticante da cena viva) entram so como
+  `benchmark_used_as: quality_bar`; pixels deles em `data/source_art` bloqueiam
 - para arte nova, `art_direction_decision_record` consultou `art_style_catalog.json` antes de qualquer julgamento de excelencia; legado sem record fica `art_direction_pre_canonical`, nao AAA novo
 - se houver `master_style_manifest`, assets novos foram comparados contra paleta, line weight, iluminacao, densidade e limite de drift
 - se houver `style_drift_policy`, drift nao corrigido gera `style_drift_uncorrected` e bloqueia `elite_ready`
@@ -374,12 +385,13 @@ Se houver `human_visual_review_missing_for_aaa`, `visual_vdp_dump_missing`,
 ## Leitura obrigatoria
 
 Antes de qualquer iteracao visual relevante:
-1. Ler [doc/03_art/02_visual_feedback_bank.md](doc/03_art/02_visual_feedback_bank.md)
-2. Ler [doc/03_art/00_visual_quality_bar.md](doc/03_art/00_visual_quality_bar.md)
-3. Ler [doc/03_art/01_visual_cohesion_system.md](doc/03_art/01_visual_cohesion_system.md)
-4. Ler `references/source_to_rom_visual_gate.md` quando houver entrega, ROM ou asset critico
-5. Conferir o budget da cena e a funcao do asset no gameplay
-6. Se a fonte for complexa, exigir `semantic_parse_report` antes de julgar a traducao
+1. Ler [doc/03_art/18_live_scene_bar.md](doc/03_art/18_live_scene_bar.md) (piso vivo; brief se o contexto estiver curto)
+2. Ler [doc/03_art/02_visual_feedback_bank.md](doc/03_art/02_visual_feedback_bank.md)
+3. Ler [doc/03_art/00_visual_quality_bar.md](doc/03_art/00_visual_quality_bar.md)
+4. Ler [doc/03_art/01_visual_cohesion_system.md](doc/03_art/01_visual_cohesion_system.md)
+5. Ler `references/source_to_rom_visual_gate.md` quando houver entrega, ROM ou asset critico
+6. Conferir o budget da cena e a funcao do asset no gameplay
+7. Se a fonte for complexa, exigir `semantic_parse_report` antes de julgar a traducao
 
 ## Metricas canonicas
 
@@ -568,6 +580,26 @@ Anti-padroes:
 - menu que parece overlay de debug
 - identidade visual desconectada do jogo
 
+### Identidade minima de front-end
+
+Regra generalizada para identidade minima de front-end.
+
+Em `aaa_game`, logo, fonte, menu e creditos entram cedo como contrato de
+primeira impressao. Nao precisam ser arte final no planejamento, mas precisam
+ter:
+
+- `brand_identity_manifest` para logo/title/press-start/front-end autoral
+- perfil de fonte/texto quando a tipografia carrega genero, tom ou narrativa
+- contrato de menu com input, feedback selecionado, layout e fallback
+- contrato de creditos quando houver cena de creditos planejada
+- teste futuro de leitura em 320x224, silhueta/monocromatico/thumbnail quando
+  houver logo
+
+Branding/texto puro com `VDP_drawText` e aceitavel como debug/seed, mas nao como
+identidade final. Mockup local pode orientar composicao somente quando tem hash
+e status `mockup_reference_only`; ele nao substitui pixel art final, captura
+BlastEm, paleta auditada ou visual delivery gate.
+
 ## HUD, interface e overlay
 
 - quando houver surface formal de UI, ler o `ui_decision_card` antes de julgar a imagem
@@ -695,6 +727,25 @@ Regra:
 - `cellular_microbuffer_sim`
   - so e elite quando uma ilha pequena parece organica sem trair o budget; aumentar a area sem necessidade e erro de direcao
 
+### Gate `high_color_illusion`
+
+Origem: itens de high-color/true-color do lote `curation_batch_2026_06_16`,
+evidencia `E1_text`, expansao candidata. Reusa os contratos/cards existentes
+(`raster_fx_ownership_map`, `palette_cycle_decision_card`, `scroll_fx_contract`,
+`palette_role_map`); nao cria schema novo e nao promete AAA/runtime.
+
+- toda cena que parecer ter mais cores que o limite real (60 visiveis em 4
+  sub-paletas) deve declarar a tecnica que produz a ilusao: H-Int palette swap,
+  Shadow/Highlight, palette cycling, dithering estrutural ou composicao por
+  planos. Ilusao high-color sem tecnica declarada fica `high_color_illusion_undeclared`.
+- gradiente suave real nao existe; usar rampas discretas, dither estrutural ou
+  troca de paleta. Claim de gradiente continuo sem tecnica vira blocker.
+- benchmark visual de jogo referencia e comparacao de restricoes (escala,
+  densidade, presenca, budget), nao licenca para copiar um resultado impossivel
+  no VDP.
+- producao real ainda exige screenshot e, quando o efeito depender de estado
+  mid-frame, VDP/CRAM/scroll dump; sem isso, no maximo `lab_evidence`.
+
 ### Fundo enorme nao e virtude por si so
 
 - Conversao direta de ilustracao inteira costuma gerar muitos tiles unicos e pouca inteligencia estrutural.
@@ -771,10 +822,13 @@ Reprovar imediatamente quando houver:
 - projeto, cena ou front-end tecnicamente limpo, mas sem momento assinatura,
   sem identidade autoral ou sem resposta aos gaps aceitos no
   `creative_director_radar`
+- `live_scene_bar_failed`, `name_drop_without_craft`, `pixel_art_prompted_as_final`,
+  `hardware_used_as_excuse` ou `fake_pixel_art_rejection`
 
-## Curadoria 2026-06-03 - Celestial Chase: perceptual_motion_gate e critical_visual_rework_blocker
+## Curadoria - perceptual_motion_gate e critical_visual_rework_blocker
 
-Licao extraida do projeto `Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]` (LAB/TECHDEMO, `technical_ready=true` mas `creative_ready=false` e `ready_for_aaa=false`):
+Regra generalizada para separar readiness tecnico, criativo e AAA em
+LAB/TECHDEMO.
 
 ### `perceptual_motion_gate` antes de promover critico
 
@@ -811,6 +865,64 @@ Para projetos em `LAB/TECHDEMO` (claim_ceiling `technical_lab_validated`):
 - `ready_for_aaa` permanece `false` ate o projeto sair de `LAB/TECHDEMO`.
 
 Esse piso evita que "ta rodando" vire "ta pronto".
+
+## Curadoria - Visual-first project lifecycle
+
+Regra generalizada a partir de comparacao de rotas de producao, sem promover
+projetos em amadurecimento a referencia canonica.
+
+### Rota visual-first economiza tempo e tokens
+
+Em `aaa_game`, o agente deve preferir a rota visual-first antes do runtime de
+entrega:
+
+1. identidade visual e cena assinatura no GDD/spec;
+2. fonte premium local com autoria, licenca, hash e papel no gameplay;
+3. aprovacao humana ou painel de aprovacao imutavel;
+4. `art_gameplay_direction_gate` com camera, interacoes e `must_preserve`;
+5. conversao VDP e budget;
+6. runtime e BlastEm.
+
+O padrao positivo bloqueia o runtime final ate existir rota visual, fonte
+premium e gates humanos. Isso nao aprova automaticamente os assets; apenas
+reduz improviso e mantem o agente no caminho certo.
+
+### Runtime tecnico com visual bloqueado nao e maturidade AAA
+
+ROM, rotas BlastEm e first playable tecnico podem coexistir com
+`creative_quality=blocked` quando a arte ainda e placeholder, procedural, pouco
+autoral ou abaixo da promessa AAA.
+
+Nessa situacao, a proxima iteracao visual nao deve ser "mais um build" nem
+"mais um refresh de screenshot". Deve atacar um destes blockers:
+
+- `blocked_no_premium_source`;
+- `blocked_no_human_asset_approval`;
+- `blocked_no_vdp_conversion`;
+- `live_scene_bar_failed` / `live_scene_bar_report_missing`;
+- `visual_gate_blocked`;
+- `visual_direction_failed`;
+- `perceptual_motion_unvalidated`;
+- `source_to_rom_visual_match` ausente ou abaixo do contrato;
+- `visual_delivery_gate_report` ausente, stale ou nao canonico.
+
+Se a mudanca proposta nao remove ou reduz um desses blockers, ela pode ser
+valida como smoke/lab, mas nao como progresso visual AAA.
+
+### Estagios visuais canonicos
+
+- `visual_first_ready_for_translation`: fonte e gate existem; falta conversao,
+  budget e runtime.
+- `technical_runtime_creative_blocked`: ROM ou rota existe; visual, animacao,
+  audio ou identidade ainda bloqueiam.
+- `lab_evidence_not_delivery`: laboratorio provou tecnica ou fixture, nao
+  produto.
+- `smoke_only`: boot/build valida estrutura, nao qualidade.
+- `ready_for_visual_closeout`: fonte, ROM, budget, motion/evidencia e gate
+  visual estao coerentes para closeout.
+
+O menor estagio entre direcao visual, fonte, budget, runtime e evidencia define
+o teto do projeto.
 
 ## Integracao com agentes
 

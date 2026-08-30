@@ -1,20 +1,375 @@
 {
   "schema_version": "1.1.0",
-  "status": "pass_with_degradation",
-  "strategy": "banded_palette_v1_world",
-  "bands_y_tiles": [
+  "status": "semantic_remap_measured",
+  "strategy": "optimized_context_palette_route_a",
+  "roles": [
+    "sky_and_distant_buildings",
+    "live_vegetation",
+    "water_and_reflections",
+    "rocks_floor_foreground"
+  ],
+  "bands_y_tiles_legacy_reference": [
     0,
     22,
     40,
     52,
     60
   ],
+  "palette_slots_rgb": [
+    [
+      [
+        102,
+        170,
+        238
+      ],
+      [
+        68,
+        102,
+        238
+      ],
+      [
+        102,
+        136,
+        238
+      ],
+      [
+        136,
+        170,
+        238
+      ],
+      [
+        170,
+        170,
+        204
+      ],
+      [
+        204,
+        204,
+        238
+      ],
+      [
+        68,
+        68,
+        136
+      ],
+      [
+        102,
+        102,
+        170
+      ],
+      [
+        34,
+        34,
+        68
+      ],
+      [
+        34,
+        0,
+        34
+      ],
+      [
+        68,
+        68,
+        68
+      ],
+      [
+        102,
+        102,
+        102
+      ],
+      [
+        136,
+        136,
+        170
+      ],
+      [
+        136,
+        102,
+        170
+      ],
+      [
+        170,
+        136,
+        204
+      ],
+      [
+        68,
+        102,
+        170
+      ]
+    ],
+    [
+      [
+        102,
+        170,
+        238
+      ],
+      [
+        34,
+        0,
+        34
+      ],
+      [
+        34,
+        34,
+        68
+      ],
+      [
+        68,
+        68,
+        68
+      ],
+      [
+        102,
+        102,
+        68
+      ],
+      [
+        136,
+        136,
+        68
+      ],
+      [
+        136,
+        136,
+        102
+      ],
+      [
+        170,
+        170,
+        102
+      ],
+      [
+        170,
+        204,
+        102
+      ],
+      [
+        204,
+        204,
+        170
+      ],
+      [
+        170,
+        238,
+        238
+      ],
+      [
+        102,
+        136,
+        102
+      ],
+      [
+        68,
+        102,
+        102
+      ],
+      [
+        68,
+        102,
+        170
+      ],
+      [
+        34,
+        68,
+        136
+      ],
+      [
+        102,
+        170,
+        204
+      ]
+    ],
+    [
+      [
+        102,
+        170,
+        238
+      ],
+      [
+        68,
+        136,
+        238
+      ],
+      [
+        102,
+        136,
+        238
+      ],
+      [
+        102,
+        170,
+        238
+      ],
+      [
+        170,
+        204,
+        238
+      ],
+      [
+        34,
+        34,
+        68
+      ],
+      [
+        34,
+        68,
+        68
+      ],
+      [
+        68,
+        68,
+        170
+      ],
+      [
+        68,
+        102,
+        204
+      ],
+      [
+        34,
+        68,
+        136
+      ],
+      [
+        102,
+        136,
+        102
+      ],
+      [
+        136,
+        204,
+        238
+      ],
+      [
+        136,
+        170,
+        238
+      ],
+      [
+        136,
+        238,
+        238
+      ],
+      [
+        102,
+        204,
+        204
+      ],
+      [
+        68,
+        136,
+        204
+      ]
+    ],
+    [
+      [
+        102,
+        170,
+        238
+      ],
+      [
+        34,
+        0,
+        34
+      ],
+      [
+        34,
+        34,
+        34
+      ],
+      [
+        68,
+        34,
+        68
+      ],
+      [
+        136,
+        102,
+        68
+      ],
+      [
+        238,
+        238,
+        170
+      ],
+      [
+        238,
+        238,
+        204
+      ],
+      [
+        238,
+        204,
+        136
+      ],
+      [
+        238,
+        204,
+        170
+      ],
+      [
+        238,
+        170,
+        136
+      ],
+      [
+        204,
+        170,
+        102
+      ],
+      [
+        204,
+        170,
+        136
+      ],
+      [
+        204,
+        136,
+        102
+      ],
+      [
+        170,
+        136,
+        102
+      ],
+      [
+        170,
+        136,
+        68
+      ],
+      [
+        136,
+        68,
+        68
+      ]
+    ]
+  ],
+  "tile_palette_role_counts": {
+    "sky_and_distant_buildings": 30120,
+    "live_vegetation": 5104,
+    "water_and_reflections": 7265,
+    "rocks_floor_foreground": 3591
+  },
+  "source_unique_colors_by_role": {
+    "sky_and_distant_buildings": 52,
+    "live_vegetation": 79,
+    "water_and_reflections": 49,
+    "rocks_floor_foreground": 31
+  },
   "violations_total": 0,
   "violations": [],
-  "nearest_color_remaps": 187569,
-  "raw_greedy_baseline_violations_total": 7004,
+  "nearest_color_remaps": 175699,
+  "palette_source": "optimized_json",
+  "nearest_color_remaps_by_assigned_role": {
+    "sky_and_distant_buildings": 26512,
+    "live_vegetation": 77938,
+    "water_and_reflections": 48715,
+    "rocks_floor_foreground": 22534
+  },
+  "raw_greedy_baseline_violations_total": 0,
   "raw_per_tile_palette_conflicts_total": 0,
   "lossy_tile_merge_threshold_pixels": 0,
   "lossy_tile_merges": 0,
-  "curation_note": "Final exported world tiles fit one of four banded subpalettes, but source colors were approximated; tile graphics are streamed per camera window to preserve world extent without lossy tile merging."
+  "curation_note": "Route A manual contextual palette uses bridge colors for mixed-material tiles and emits two SGDK planes; any remaining nearest-color remap remains measured evidence, not artistic approval."
 }

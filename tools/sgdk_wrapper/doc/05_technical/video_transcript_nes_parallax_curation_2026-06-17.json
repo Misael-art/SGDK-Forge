@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_video_transcript_curation_record",
+  "curation_id": "video_transcript_nes_parallax_2026_06_17",
+  "source_attachment": "C:/Users/misae/.codex/attachments/9b1a1c00-3a13-425b-a92f-1fb8002b4ba8/pasted-text.txt",
+  "evidence_grade": "E1_text",
+  "canonical_promotion": false,
+  "status_ceiling": "candidate_operational_rules",
+  "accepted_concepts": [
+    {
+      "concept_id": "platform_raster_translation_gate",
+      "owner_skill": "hscroll-linescroll-road-fx",
+      "accepted_as": "translation_rule",
+      "summary": "NES Sprite 0/MMC3 raster concepts are useful only as historical analogy; Mega Drive implementation must be expressed through VDP HSCROLL_LINE/HSCROLL_TILE/WINDOW/H-Int/plane ownership."
+    },
+    {
+      "concept_id": "scanline_band_map",
+      "owner_skill": "multi-plane-composition",
+      "accepted_as": "composition_output",
+      "summary": "Parallax depth can come from bands or lines inside a plane, not only separate BG_A/BG_B layers; composition must declare scanline bands, ratios, horizon and fallback."
+    },
+    {
+      "concept_id": "road_gradient_contract",
+      "owner_skill": "hscroll-linescroll-road-fx",
+      "accepted_as": "effect_contract",
+      "summary": "Pseudo-3D road/floor effects require horizon line, per-line ratio curve or LUT, camera source, transfer method, update cadence and cheaper fallback."
+    }
+  ],
+  "rejected_or_not_absorbed": [
+    {
+      "claim": "NES Sprite 0 hit or mapper IRQ workflow should be copied as Mega Drive architecture",
+      "reason": "Rejected. The Mega Drive has different VDP mechanisms; NES details are historical background, not implementation rules."
+    },
+    {
+      "claim": "Line scroll creates unlimited independent background layers",
+      "reason": "Rejected. It distorts or offsets one plane by row/line; it does not create new planes or independent tilemaps."
+    },
+    {
+      "claim": "The illustrative demo proves a ready runtime road/parallax engine",
+      "reason": "Rejected. It lacks budget, art authoring contract, camera/input ownership, fallback and emulator evidence."
+    },
+    {
+      "claim": "A linear proximity formula is sufficient for all pseudo-3D roads",
+      "reason": "Rejected. The curve must be authored and verified against the actual art, camera speed and gameplay readability."
+    }
+  ],
+  "updated_files": [
+    ".agent/skills/hardware/hscroll-linescroll-road-fx/SKILL.md",
+    ".agent/skills/art/multi-plane-composition/SKILL.md"
+  ],
+  "required_followups_before_production": [
+    "scanline_band_map",
+    "hscroll table ownership and update timing",
+    "formula or LUT for line offsets",
+    "per_frame_dma_budget_report or equivalent VDP budget review",
+    "camera behavior contract when the effect follows gameplay camera",
+    "art authoring check for band/line readability",
+    "fallback visual route",
+    "BlastEm evidence for runtime motion claims"
+  ]
+}

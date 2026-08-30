@@ -145,6 +145,27 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - compressao do `SPRITE` em `.res` altera ROM/load, nao reduz tiles residentes do frame descompactado
 - frame bonito em zoom nao vale se falhar em 320x224 nativo
 
+### Fundamentos de animacao como gates
+
+Origem: lote `curation_batch_2026_06_16` (itens de animacao), evidencia
+`E1_text`, expansao candidata. Refina os contratos existentes (`motion_phase_map`,
+`impact_frame_contract`, `recovery_curve_report`, `pivot_and_scale_contract`);
+nao cria schema novo e nao promete AAA/runtime.
+
+- squash/stretch apenas pre-renderizado e com preservacao de volume aparente; nao
+  ha escala em runtime para deformar o sprite
+- anticipation e obrigatorio para ataque, salto, dash, esquiva e dano/recovery
+- staging: a pose precisa ser lida em 1 frame na resolucao nativa `320x224`
+- follow-through obrigatorio para cabelo, tecido, arma e membros secundarios
+  quando existirem
+- timing sempre declarado em frames NTSC/PAL (VBlank), nunca como "sensacao" solta
+- legibilidade critica vence contexto visual: se FX competir com golpe, dano ou
+  telegraph, reduzir o FX primeiro, nunca o golpe
+- sprites multidirecionais preservam pivot, baseline, volume, silhueta e proporcao
+  entre todas as direcoes
+- a expansao continua candidata: exige fixture visual ou contrato de baseline
+  antes de promover para producao
+
 ## Gates de aprovacao
 
 - `mass_consistency`

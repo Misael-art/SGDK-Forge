@@ -1,0 +1,47 @@
+{
+  "schema": "palette_role_map.v1",
+  "project": "LIVE_BAR_FR2 [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "cram": {
+    "PAL0": "player_hero",
+    "PAL1": "enemy_thug",
+    "PAL2": "stage_dock",
+    "PAL3": "fx_spare"
+  },
+  "PAL0_hero": {
+    "0": { "hex": "#FF00FF", "role": "transparent", "swap": false },
+    "1": { "hex": "#220044", "role": "outline_dark_shadow", "swap": false },
+    "2": { "hex": "#CC8866", "role": "skin_highlight", "swap": false },
+    "3": { "hex": "#AA6644", "role": "skin_base", "swap": false },
+    "4": { "hex": "#884466", "role": "skin_shadow", "swap": false },
+    "5": { "hex": "#66EECC", "role": "vest_highlight", "swap": true },
+    "6": { "hex": "#22CCAA", "role": "vest_base", "swap": true },
+    "7": { "hex": "#2288AA", "role": "vest_shadow", "swap": true },
+    "8": { "hex": "#EECC44", "role": "hair_blonde", "swap": false },
+    "9": { "hex": "#22AAAA", "role": "hair_teal", "swap": false },
+    "10": { "hex": "#AA8844", "role": "pants_base", "swap": true },
+    "11": { "hex": "#886644", "role": "pants_shadow", "swap": true },
+    "12": { "hex": "#664422", "role": "boot", "swap": true },
+    "13": { "hex": "#CCAA22", "role": "rope_lace", "swap": false },
+    "14": { "hex": "#442244", "role": "bra", "swap": true },
+    "15": { "hex": "#EEEEEE", "role": "eye", "swap": false }
+  },
+  "PAL1_thug": {
+    "0": { "hex": "#FF00FF", "role": "transparent", "swap": false },
+    "1": { "hex": "#440022", "role": "outline_dark_shadow", "swap": false },
+    "2": { "hex": "#EECCAA", "role": "skin_highlight", "swap": false },
+    "3": { "hex": "#CCAA88", "role": "skin_base", "swap": false },
+    "4": { "hex": "#AA6688", "role": "skin_shadow", "swap": false },
+    "5": { "hex": "#EE6644", "role": "tank_highlight", "swap": true },
+    "6": { "hex": "#CC2222", "role": "tank_base", "swap": true },
+    "7": { "hex": "#880044", "role": "tank_shadow", "swap": true },
+    "8": { "hex": "#AACC44", "role": "shorts_highlight", "swap": true },
+    "9": { "hex": "#668822", "role": "shorts_base", "swap": true },
+    "10": { "hex": "#446644", "role": "shorts_shadow", "swap": true },
+    "11": { "hex": "#220022", "role": "hair_beard", "swap": false },
+    "12": { "hex": "#664422", "role": "boot", "swap": true },
+    "13": { "hex": "#CC6622", "role": "hook", "swap": false },
+    "14": { "hex": "#882200", "role": "hook_shadow", "swap": false },
+    "15": { "hex": "#EEEEEE", "role": "eye", "swap": false }
+  },
+  "notes": "Outline/dark_shadow is the lineart temp ink mapped forward. It is not a palette-swap slot. Vest vs tank is the functional color-code (teal player / red enemy) against a dock that already contains orange and muddy teal."
+}

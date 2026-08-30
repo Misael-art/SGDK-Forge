@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sgdk-forge.local/schemas/aaa_video_curation_manifest.schema.json",
+  "title": "AAA Video Curation Manifest",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "status",
+    "curation_date",
+    "scope",
+    "new_canonical_skills",
+    "machine_readable_contracts",
+    "validation",
+    "release_gate"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "aaa_video_curation_manifest"
+    },
+    "status": {
+      "enum": [
+        "candidate_applied_not_verified",
+        "validated_curation",
+        "rejected"
+      ]
+    },
+    "curation_date": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "source_status": {
+      "type": "object"
+    },
+    "runner_status": {
+      "type": "object"
+    },
+    "new_canonical_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "updated_existing_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "machine_readable_contracts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pipeline_docs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "direct_case_records": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "case_studies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validation": {
+      "type": "object"
+    },
+    "release_gate": {
+      "type": "object",
+      "required": [
+        "ready_for_aaa",
+        "reason"
+      ],
+      "properties": {
+        "ready_for_aaa": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "required_before_ready": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "cais_01_dock_scene_kit_inventory_v1",
+  "scene_id": "cais_01",
+  "status": "dock_scene_kit_missing",
+  "contract_ref": "doc/contracts/level_art_assembly_contract.json",
+  "source_audit": {
+    "audited_at": "2026-07-03",
+    "modular_reference_usable": [
+      {
+        "path": "data/source_art/cais_world/bgb_loop_mar_ceu_v01.png",
+        "usable_as": "referencia direta das bandas do BG_B (ceu/horizonte/mar em faixas line-scroll); guindastes da linha do horizonte reutilizaveis como silhueta 0.25x",
+        "limits": "nao e camada separada; precisa ser redesenhado em strips independentes (prompt D)"
+      },
+      {
+        "path": "data/source_art/hud_fx/fx_hitspark_splash_study_v01.png",
+        "usable_as": "referencia modular real: frames isolados de hitspark/burst/splash ja em pecas",
+        "limits": "escala e paleta a fechar na etapa pixel"
+      },
+      {
+        "path": "data/source_art/logo_mare_brava/logo_escolhido_title_mock_v01.png",
+        "usable_as": "referencia de identidade do front-end (fora do escopo do level kit)",
+        "limits": "nao participa do CAIS_01"
+      }
+    ],
+    "mood_reference_only": [
+      {
+        "path": "data/source_art/cais_world/cais_arena1_entrada_v01.png",
+        "keeps": "paleta, materiais (madeira/corda/rede), lamp post, caixotes",
+        "rejected_as": "tilemap final / layout de arena"
+      },
+      {
+        "path": "data/source_art/cais_world/cais_arena2_barco_v01.png",
+        "keeps": "landmark_reference_only: barco lacrado, guarita da balanca, banca do mercado",
+        "rejected_as": "tilemap final / composicao pronta"
+      },
+      {
+        "path": "data/source_art/cais_world/cais_arena3_beirada_ringout_v01.png",
+        "keeps": "landmark_reference_only: farolete, beirada com espuma, contraste agua/madeira; fita do sindicato como narrativa",
+        "rejected_as": "tilemap final / zona de payoff pronta"
+      }
+    ],
+    "not_level_material": [
+      "data/source_art/taina_model_sheet/*",
+      "data/source_art/cria_model_sheet/*",
+      "data/source_art/estivador_model_sheet/*",
+      "data/source_art/hud_fx/hud_frame_study_v01.png",
+      "data/source_art/logo_mare_brava/logo_lettering_studies_v01.png",
+      "data/source_art/branding_intro/*"
+    ],
+    "real_sourcing_gaps": "ver kit_boards abaixo — NENHUM board modular existe; todos os 6 estao pendentes de geracao via doc/art/prompt_pack/03 (prompts A-F) + 2 lacunas complementares"
+  },
+  "kit_boards": [
+    {
+      "board_id": "dock_floor_and_edge_tiles",
+      "prompt": "03/A",
+      "status": "missing",
+      "target_pieces": [
+        "boardwalk_straight_a/b/c",
+        "cracked_planks",
+        "missing_plank_hole",
+        "pier_edge_strip",
+        "dark_water_edge",
+        "foam_edge_4f_base",
+        "corner_piece",
+        "step_piece",
+        "rope_tied_post"
+      ],
+      "save_to": "data/source_art/concept/cais_world_modular/floor_edge/"
+    },
+    {
+      "board_id": "dock_props_and_obstructions",
+      "prompt": "03/B",
+      "status": "missing",
+      "target_pieces": [
+        "crate_single",
+        "crate_stack_medium",
+        "crate_stack_large",
+        "fish_crate_ice",
+        "barrel",
+        "coiled_rope",
+        "net_roll",
+        "pallet",
+        "lamp_post_rusty",
+        "market_stall_frame",
+        "scale_booth_parts",
+        "mooring_bollard",
+        "cargo_hook",
+        "anchor_chain"
+      ],
+      "save_to": "data/source_art/concept/cais_world_modular/props/"
+    },
+    {
+      "board_id": "large_landmark_plates",
+      "prompt": "03/C",
+      "status": "missing",
+      "target_pieces": [
+        "dock_entrance_arch",
+        "moored_boat_sealed",
+        "scale_booth_full",
+        "distant_crane_plate",
+        "final_lantern_farolete",
+        "large_net_wall",
+        "cargo_stack_silhouette",
+        "market_stall_skeleton"
+      ],
+      "save_to": "data/source_art/concept/cais_world_modular/landmarks/"
+    },
+    {
+      "board_id": "bgb_parallax_layers",
+      "prompt": "03/D",
+      "status": "missing",
+      "target_pieces": [
+        "sky_band_strip",
+        "cloud_strip_thin",
+        "harbor_silhouette_strip",
+        "far_cranes_silhouette",
+        "sea_rows_far",
+        "sea_rows_near",
+        "far_boat_silhouette_2var",
+        "gull_silhouette_3poses"
+      ],
+      "save_to": "data/source_art/concept/cais_world_modular/bgb_layers/"
+    },
+    {
+      "board_id": "foreground_occlusion_kit",
+      "prompt": "03/E",
+      "status": "missing",
+      "target_pieces": [
+        "front_piling_large",
+        "near_rope_loop",
+        "hanging_net_strip",
+        "broken_railing_fragment",
+        "underside_beam_diagonal",
+        "foreground_splash_shape"
+      ],
+      "save_to": "data/source_art/concept/cais_world_modular/foreground/"
+    },
+    {
+      "board_id": "background_ecology_loops",
+      "prompt": "03/F",
+      "status": "missing",
+      "target_pieces": [
+        "boat_bob_3f",
+        "far_boat_drift_2f",
+        "gull_flap_3f",
+        "lantern_flicker_3f",
+        "foam_loop_4f",
+        "cloth_flap_3f",
+        "net_sway_3f"
+      ],
+      "save_to": "data/source_art/concept/cais_world_modular/ecology/"
+    }
+  ],
+  "complementary_gaps": [
+    {
+      "gap_id": "railing_segments_bga",
+      "reason": "o placement map bloqueia trechos da beirada nas arenas 1-2 com guarda-corpo de madeira (ring-out restrito ate a arena 3); prompt B/E nao cobre grade de beirada em BG_A",
+      "prompt_suggestion": "Modular wooden dock railing kit for a 16-bit side-view beat-em-up: straight railing segments, broken gap piece, end posts, rope-railing variant, side-view, isolated pieces on neutral background, same warm sunset palette, hard cel shadows, no text, no characters."
+    },
+    {
+      "gap_id": "pickup_props",
+      "reason": "espetinho e moeda_do_cais nao pertencem a nenhum board do kit (sao sprites de gameplay); entram na etapa pixel dos personagens",
+      "prompt_suggestion": "nao gerar agora — rota sprite/pixel autoral"
+    }
+  ],
+  "portable_naming_rule": "todas as pecas salvas em snake_case ascii conforme 00_leia_primeiro.md",
+  "unblock_condition": "status vira dock_scene_kit_curated quando os 6 boards existirem em data/source_art/concept/cais_world_modular/, forem auditados contra os aceites do prompt 03 e registrados no premium_source_manifest"
+}

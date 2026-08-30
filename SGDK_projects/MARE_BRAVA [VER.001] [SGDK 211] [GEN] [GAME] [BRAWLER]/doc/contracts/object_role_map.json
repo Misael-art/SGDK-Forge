@@ -1,0 +1,299 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "cais_01_object_role_map_v1",
+  "scene_id": "cais_01",
+  "role_vocabulary": [
+    "cover",
+    "hazard",
+    "lane_guide",
+    "silhouette_landmark",
+    "occlusion_foreground",
+    "parallax_depth",
+    "ecology_loop",
+    "breakable_interactive_candidate",
+    "purely_decorative"
+  ],
+  "objects": [
+    {
+      "object_id": "boardwalk_floor_abc",
+      "plane": "BG_A",
+      "size_px": "32x32 metatiles",
+      "roles": [
+        "purely_decorative"
+      ],
+      "gameplay_link": "leitura do chao; ruido minimo atras dos sprites",
+      "budget_class": "tile_reuse_alto"
+    },
+    {
+      "object_id": "cracked_planks_variant",
+      "plane": "BG_A",
+      "size_px": "32x32",
+      "roles": [
+        "purely_decorative"
+      ],
+      "gameplay_link": "variacao escondida a cada 2-3 telas contra monotonia (seam rule)",
+      "budget_class": "tile_reuse_alto"
+    },
+    {
+      "object_id": "pier_edge_strip",
+      "plane": "BG_A",
+      "size_px": "16 px de altura, faixa inferior continua",
+      "roles": [
+        "hazard",
+        "lane_guide"
+      ],
+      "gameplay_link": "limite inferior da faixa de luta; zona de ring-out quando exposta",
+      "budget_class": "tile_reuse_alto"
+    },
+    {
+      "object_id": "foam_edge_loop",
+      "plane": "BG_A tile_animation",
+      "size_px": "faixa 16px, 4 frames",
+      "roles": [
+        "hazard",
+        "ecology_loop"
+      ],
+      "gameplay_link": "SINAL MAIS FORTE DA CENA: espuma viva marca onde o Empurrao de Mare mata; intensidade maior na arena 3",
+      "budget_class": "tile_anim_8_tiles_x4f"
+    },
+    {
+      "object_id": "railing_segment",
+      "plane": "BG_A",
+      "size_px": "32x24",
+      "roles": [
+        "lane_guide",
+        "cover"
+      ],
+      "gameplay_link": "bloqueia ring-out nas arenas 1-2 (rota de beirada restrita); quebra visual na transicao para arena 3 comunica 'agora cai'",
+      "budget_class": "tile_reuse_medio",
+      "sourcing": "complementary_gap railing_segments_bga"
+    },
+    {
+      "object_id": "crate_single",
+      "plane": "BG_A",
+      "size_px": "24x24",
+      "roles": [
+        "purely_decorative",
+        "breakable_interactive_candidate"
+      ],
+      "gameplay_link": "breakable = entra_depois (armas de chao futuras)",
+      "budget_class": "tile_reuse_medio"
+    },
+    {
+      "object_id": "crate_stack_large",
+      "plane": "BG_A",
+      "size_px": "48x48",
+      "roles": [
+        "cover",
+        "silhouette_landmark"
+      ],
+      "gameplay_link": "quebra linha de visao no topo da faixa; nunca no centro da arena",
+      "budget_class": "tiles_unicos_medio"
+    },
+    {
+      "object_id": "fish_crate_ice",
+      "plane": "BG_A",
+      "size_px": "32x16",
+      "roles": [
+        "purely_decorative"
+      ],
+      "gameplay_link": "narrativa do mercado (arena 2)",
+      "budget_class": "tile_reuse_medio"
+    },
+    {
+      "object_id": "barrel",
+      "plane": "BG_A",
+      "size_px": "16x24",
+      "roles": [
+        "purely_decorative",
+        "breakable_interactive_candidate"
+      ],
+      "gameplay_link": "breakable futuro",
+      "budget_class": "tile_reuse_medio"
+    },
+    {
+      "object_id": "lamp_post_rusty",
+      "plane": "BG_A",
+      "size_px": "16x64",
+      "roles": [
+        "lane_guide",
+        "ecology_loop"
+      ],
+      "gameplay_link": "ritmo vertical + flicker guia o olho no entardecer; um por zona",
+      "budget_class": "tiles_unicos_baixo + tile_anim_4_tiles_x3f"
+    },
+    {
+      "object_id": "market_stall_frame",
+      "plane": "BG_A",
+      "size_px": "64x48",
+      "roles": [
+        "silhouette_landmark",
+        "purely_decorative"
+      ],
+      "gameplay_link": "identidade da arena 2",
+      "budget_class": "tiles_unicos_medio"
+    },
+    {
+      "object_id": "scale_booth",
+      "plane": "BG_A",
+      "size_px": "48x56",
+      "roles": [
+        "silhouette_landmark",
+        "cover"
+      ],
+      "gameplay_link": "ancora da arena 2 (mercado da balanca); referencia no painel 2 (landmark_reference_only)",
+      "budget_class": "tiles_unicos_medio"
+    },
+    {
+      "object_id": "dock_entrance_arch",
+      "plane": "BG_A",
+      "size_px": "96x96",
+      "roles": [
+        "silhouette_landmark",
+        "lane_guide"
+      ],
+      "gameplay_link": "portal do golden path: atravessar o arco = inicio da arena 1",
+      "budget_class": "tiles_unicos_alto (1 uso)"
+    },
+    {
+      "object_id": "moored_boat_sealed",
+      "plane": "BG_A banda superior",
+      "size_px": "160x96",
+      "roles": [
+        "silhouette_landmark",
+        "ecology_loop"
+      ],
+      "gameplay_link": "ancora da arena 2; lacre do sindicato = narrativa sem texto legivel; boat_bob so nos tiles da linha d'agua",
+      "budget_class": "tiles_unicos_ALTO — medir; fallback: reduzir para 128px",
+      "sourcing": "prompt C"
+    },
+    {
+      "object_id": "large_net_wall",
+      "plane": "BG_A",
+      "size_px": "64x96",
+      "roles": [
+        "occlusion_foreground",
+        "lane_guide"
+      ],
+      "gameplay_link": "moldura da transicao respiro2->arena3; comprime o olhar antes do payoff",
+      "budget_class": "tiles_unicos_medio"
+    },
+    {
+      "object_id": "cargo_stack",
+      "plane": "BG_A",
+      "size_px": "80x64",
+      "roles": [
+        "cover",
+        "silhouette_landmark"
+      ],
+      "gameplay_link": "fecho visual da entrada (x~16); impede leitura de 'mundo antes do inicio'",
+      "budget_class": "tiles_unicos_medio"
+    },
+    {
+      "object_id": "final_lantern_farolete",
+      "plane": "BG_A",
+      "size_px": "24x80",
+      "roles": [
+        "silhouette_landmark",
+        "ecology_loop",
+        "lane_guide"
+      ],
+      "gameplay_link": "farol do payoff: flicker + posicao guiam ao fim; contraluz refuerza beirada",
+      "budget_class": "tiles_unicos_baixo + flicker_compartilhado_com_lamp_post"
+    },
+    {
+      "object_id": "front_piling_pair",
+      "plane": "FOREGROUND (BG_A priority high)",
+      "size_px": "32x120 por pilar",
+      "roles": [
+        "occlusion_foreground"
+      ],
+      "gameplay_link": "molduras nas bordas das arenas; NUNCA sobre a faixa central; candidato a priority split (sem 3o plano — e BG_A com prioridade alta sobre sprites)",
+      "budget_class": "tiles_unicos_baixo"
+    },
+    {
+      "object_id": "hanging_net_strip",
+      "plane": "FOREGROUND (BG_A priority high, topo)",
+      "size_px": "96x40",
+      "roles": [
+        "occlusion_foreground"
+      ],
+      "gameplay_link": "moldura superior ocasional; proibida sobre telegraphs/HUD",
+      "budget_class": "tile_reuse_medio"
+    },
+    {
+      "object_id": "underside_beam_diagonal",
+      "plane": "FOREGROUND",
+      "size_px": "64x32",
+      "roles": [
+        "occlusion_foreground",
+        "lane_guide"
+      ],
+      "gameplay_link": "marca transicoes de zona (honesta com o seam de streaming)",
+      "budget_class": "tile_reuse_medio"
+    },
+    {
+      "object_id": "foreground_splash_shape",
+      "plane": "SPRITE (fx_pool)",
+      "size_px": "32x32 3f",
+      "roles": [
+        "ecology_loop",
+        "hazard"
+      ],
+      "gameplay_link": "payoff do ring-out — consequencia mecanica, ja contratada no mechanic_contract",
+      "budget_class": "sprite_fx_ja_orcado"
+    },
+    {
+      "object_id": "sky_cloud_bands",
+      "plane": "BG_B",
+      "size_px": "512x96 strip",
+      "roles": [
+        "parallax_depth"
+      ],
+      "gameplay_link": "profundidade; menor contraste que BG_A",
+      "budget_class": "residente"
+    },
+    {
+      "object_id": "harbor_crane_silhouette",
+      "plane": "BG_B",
+      "size_px": "512x32 strip",
+      "roles": [
+        "parallax_depth",
+        "silhouette_landmark"
+      ],
+      "gameplay_link": "skyline permanente do porto; guindaste NAO cruza a costura do loop",
+      "budget_class": "residente"
+    },
+    {
+      "object_id": "sea_rows_far_near",
+      "plane": "BG_B",
+      "size_px": "512x96 strips",
+      "roles": [
+        "parallax_depth"
+      ],
+      "gameplay_link": "faixas de onda line-scroll; velocidade menor que BG_A",
+      "budget_class": "residente"
+    },
+    {
+      "object_id": "far_boat_drift",
+      "plane": "BG_B",
+      "size_px": "48x16 x2 var",
+      "roles": [
+        "parallax_depth",
+        "ecology_loop"
+      ],
+      "gameplay_link": "vida distante barata via offset de hscroll por linha (sem tiles novos)",
+      "budget_class": "hscroll_trick_zero_tiles"
+    },
+    {
+      "object_id": "gull_pair",
+      "plane": "SPRITE (ambient)",
+      "size_px": "16x16 3f x2",
+      "roles": [
+        "ecology_loop"
+      ],
+      "gameplay_link": "vida + reacao ao ring-out (dispersam no splash — maximalismo ligado a gameplay)",
+      "budget_class": "CORTAVEL: disputa sprite budget; decidir no laudo"
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "schema_version": "2.0.0",
+  "artifact_kind": "aaa_pipeline_curated_skill_map",
+  "status": "active",
+  "default_gate": "aaa-pipeline-guardian",
+  "lifecycle_registry": "references/skill_lifecycle_registry.json",
+  "routes": [
+    {
+      "trigger": "diagnosticar o estado inicial dos assets visuais",
+      "skills": [
+        "skills/art/art-asset-diagnostic"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "converter ou corrigir assets existentes para SGDK",
+      "skills": [
+        "skills/art/art-conversion-pipeline",
+        "skills/art/megadrive-pixel-strict-rules"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "traduzir imagem-fonte forte para sprite, tiles ou cena VDP",
+      "skills": [
+        "skills/art/art-translation-to-vdp",
+        "skills/art/megadrive-pixel-strict-rules"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "compor cena em profundidade com multiplos planos e parallax",
+      "skills": [
+        "skills/art/multi-plane-composition",
+        "skills/hardware/megadrive-vdp-budget-analyst"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "julgar legibilidade, contraste, paleta e qualidade perceptiva",
+      "skills": [
+        "skills/art/visual-excellence-standards",
+        "skills/art/megadrive-pixel-strict-rules"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "planejar VRAM, DMA, sprites, scroll ou pressao por scanline",
+      "skills": [
+        "skills/hardware/megadrive-vdp-budget-analyst",
+        "skills/hardware/vram-streaming-dma-queue"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "implementar shadow highlight, scroll avancado, H-Int ou palette cycling",
+      "skills": [
+        "skills/hardware/shadow-highlight-scroll-fx",
+        "skills/hardware/megadrive-vdp-budget-analyst"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "implementar runtime SGDK, cena, gameplay, HUD ou loop principal",
+      "skills": [
+        "skills/code/sgdk-runtime-coder",
+        "skills/architecture/scene-state-architect"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "projetar camera, colisao, input ou catalogo de entidades",
+      "skills": [
+        "skills/code/camera-system-sgdk",
+        "skills/code/collision-system-architect",
+        "skills/code/input-system-sgdk",
+        "skills/code/entity-polymorphism-architect"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "projetar transicoes de cena, fade, flush e ownership de estado",
+      "skills": [
+        "skills/architecture/game-state-transition-architect",
+        "skills/architecture/scene-state-architect"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "revisar formalmente codigo C SGDK e contratos de runtime",
+      "skills": [
+        "skills/code/sgdk-code-reviewer",
+        "skills/hardware/megadrive-vdp-budget-analyst"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "operar build, bootstrap e continuidade do wrapper SGDK",
+      "skills": [
+        "skills/operation/sgdk-build-wrapper-operator"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "coletar evidencia de ROM e fechar validacao em emulador",
+      "skills": [
+        "skills/operation/emulator-vdp-evidence-curator"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "preparar ROM candidata a entrega ou teste fisico",
+      "skills": [
+        "skills/operation/rom-mastering",
+        "skills/operation/emulator-vdp-evidence-curator"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "validar claims AAA, contratos, budget e evidencias",
+      "skills": [
+        "skills/governance/aaa-pipeline-guardian",
+        "skills/governance/truth-hierarchy-guard"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "planejar jogo ou selecionar especializacao de genero por opt-in",
+      "skills": [
+        "skills/planning/game-design-planning"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "especializar planejamento de luta, brawler, plataforma, corrida, RPG ou estrategia apos classificacao explicita",
+      "skills": [
+        "skills/planning/fighting-game-design",
+        "skills/planning/brawler-game-design",
+        "skills/planning/platformer-puzzle-game-design",
+        "skills/planning/racing-sports-adventure-game-design",
+        "skills/planning/rpg-game-design",
+        "skills/planning/strategy-game-design"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "diagnosticar falha de host, toolchain, runtime ou qualidade criativa sem misturar camadas",
+      "skills": [
+        "skills/operation/sgdk-build-wrapper-operator",
+        "skills/code/sgdk-runtime-coder",
+        "skills/operation/emulator-vdp-evidence-curator",
+        "skills/governance/aaa-pipeline-guardian"
+      ],
+      "decision": "canonical"
+    },
+    {
+      "trigger": "avaliar geracao de tiles por CPU em runtime",
+      "skills": [
+        "skills/code/sgdk-runtime-coder",
+        "skills/hardware/megadrive-vdp-budget-analyst"
+      ],
+      "decision": "experimental_requires_benchmark"
+    }
+  ]
+}

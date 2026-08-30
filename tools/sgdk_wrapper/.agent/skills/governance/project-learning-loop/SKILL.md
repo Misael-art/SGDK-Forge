@@ -75,6 +75,10 @@ Uma proposta local só pode chegar à fila canônica após:
 
 - Nao aplique automaticamente proposta canônica.
 - Nao crie skill nova quando regra, validator, schema, workflow, doc ou skill existente já possuir o problema.
+- O rotulo `promotion_candidate` nao autoriza `create_skill`; primeiro compare
+  titulo, problema e heuristica com `references/learning_owner_catalog.json`.
+- Candidato conhecido sem match no catalogo e falha de roteamento a revisar,
+  nao prova de gap puro.
 - Nao use evidência externa, stale ou apenas narrativa para elevar lifecycle.
 - Nao promova falha isolada ou solução ainda não comprovada.
 - Nao trate ausencia de `doc/agent_learning/` em projeto legado como falha de entrega.

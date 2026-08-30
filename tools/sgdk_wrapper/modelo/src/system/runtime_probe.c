@@ -22,6 +22,20 @@
 #define PROBE_SCANLINE_COUNT 224
 #define PROBE_SCANLINE_SAMPLE_GROUPS 4
 #define PROBE_SCANLINE_GROUP_LENGTH (PROBE_SCANLINE_COUNT / PROBE_SCANLINE_SAMPLE_GROUPS)
+#define PROBE_VLAB_OFFSET 0x200
+#define PROBE_VLAB_SCHEMA_VERSION 1
+/* 26 metricas + 3 pares hi/lo com o quadro de cada pico.
+ *
+ * PORQUE: uma captura do GOTHAM mediu max_scanline_sprites=21 contra o teto de
+ * 20 e nao houve como atribuir o pico a nada — o maximo era anonimo. Maximo sem
+ * quadro diz que o teto foi violado e nao diz por quem, o que nao fecha
+ * diagnostico nenhum.
+ *
+ * Os pares vao no FIM do bloco para nao deslocar words[0..25], que
+ * seal_fresh_evidence_bundle.py ja consome por indice fixo. */
+#define PROBE_VLAB_METRIC_WORDS 32
+#define PROBE_VLAB_PALETTE_WORDS 64
+#define PROBE_VLAB_TOTAL_BYTES (8 + ((PROBE_VLAB_METRIC_WORDS + PROBE_VLAB_PALETTE_WORDS) * 2))
 
 volatile u16 g_mdRuntimeProbe[MD_RUNTIME_PROBE_WORD_COUNT];
 
@@ -33,17 +47,40 @@ static u32 s_lastExportFrame;
 static u16 s_sceneWarmupFrames;
 static u32 s_heartbeatCounter;
 static u16 s_scanlineCursor;
+static u16 s_vlabPalette[PROBE_VLAB_PALETTE_WORDS];
+
+static u8 s_linePressure[PROBE_SCANLINE_COUNT];
+
+/*
+ * Conta TODAS as 224 linhas por quadro, em vez de amostrar 4 com cursor
+ * rotativo.
+ *
+ * PORQUE: a versao por amostragem olhava 4 linhas de 224 e girava o cursor um
+ * passo por quadro. Um pico transitorio numa linha especifica tinha chance
+ * baixissima de coincidir com a amostra, e a probe reportou 6 numa cena em que a
+ * varredura do simulador media 23 — falso verde para uma configuracao que
+ * violaria o limite de sprite por linha e causaria dropout no console.
+ *
+ * Custo: ~700 incrementos mais 224 comparacoes por quadro. Muito abaixo do que
+ * custava uma unica divisao de 32 bits no loop de gameplay.
+ */
+/* Grava gApp.totalFrames em (slot, slot+1) como hi/lo. Chamado no MESMO
+ * instante em que o maximo sobe, para o quadro descrever aquele pico. */
+static void probe_note_peak_frame(u16 slot)
+{
+    const u32 frame = gApp.totalFrames;
+    g_mdRuntimeProbe[slot] = (u16)((frame >> 16) & 0xFFFF);
+    g_mdRuntimeProbe[slot + 1] = (u16)(frame & 0xFFFF);
+}
 
 static u16 measure_max_scanline_sprites(void)
 {
     Sprite* cursor = firstSprite;
-    u16 sampleLines[PROBE_SCANLINE_SAMPLE_GROUPS];
-    u8 pressure[PROBE_SCANLINE_SAMPLE_GROUPS] = { 0, 0, 0, 0 };
-    u16 sample;
+    u16 line;
     u16 peak = 0;
 
-    for (sample = 0; sample < PROBE_SCANLINE_SAMPLE_GROUPS; sample++) {
-        sampleLines[sample] = s_scanlineCursor + (sample * PROBE_SCANLINE_GROUP_LENGTH);
+    for (line = 0; line < PROBE_SCANLINE_COUNT; line++) {
+        s_linePressure[line] = 0;
     }
 
     while (cursor != NULL) {
@@ -56,23 +93,21 @@ static u16 measure_max_scanline_sprites(void)
                 s16 start = (cursor->y - 0x80) + (s16)vdpSprite->offsetY;
                 s16 end = start + (s16)(((vdpSprite->size & 0x3) + 1) << 3);
 
-                for (sample = 0; sample < PROBE_SCANLINE_SAMPLE_GROUPS; sample++) {
-                    u16 scanline = sampleLines[sample];
-                    if (scanline >= start && scanline < end) {
-                        pressure[sample]++;
-                        if (pressure[sample] > peak) {
-                            peak = pressure[sample];
-                        }
+                /* Sprite estacionado fora da tela pode dar end negativo. Sem
+                 * este guarda o cast para u16 vira ~65000 e o loop escreve fora
+                 * do array, corrompendo memoria e impedindo o export do VLAB. */
+                if (end <= 0 || start >= (s16)PROBE_SCANLINE_COUNT) continue;
+                if (start < 0) start = 0;
+                if (end > (s16)PROBE_SCANLINE_COUNT) end = (s16)PROBE_SCANLINE_COUNT;
+
+                for (line = (u16)start; line < (u16)end; line++) {
+                    if (++s_linePressure[line] > peak) {
+                        peak = s_linePressure[line];
                     }
                 }
             }
         }
         cursor = cursor->next;
-    }
-
-    s_scanlineCursor++;
-    if (s_scanlineCursor >= PROBE_SCANLINE_GROUP_LENGTH) {
-        s_scanlineCursor = 0;
     }
 
     return peak;
@@ -82,6 +117,69 @@ static void sram_write_u16be(u32 offset, u16 value)
 {
     SRAM_writeByte(offset, (u8)((value >> 8) & 0xFF));
     SRAM_writeByte(offset + 1, (u8)(value & 0xFF));
+}
+
+static void sram_write_visual_word(u32 *offset, u16 value)
+{
+    sram_write_u16be(*offset, value);
+    *offset += 2;
+}
+
+static void export_visual_probe_to_sram(void)
+{
+    u32 offset = PROBE_VLAB_OFFSET;
+    u32 frame = gApp.totalFrames;
+    u16 i;
+
+    PAL_getColors(0, s_vlabPalette, PROBE_VLAB_PALETTE_WORDS);
+
+    SRAM_enable();
+    SRAM_writeByte(offset + 0, 'V');
+    SRAM_writeByte(offset + 1, 'L');
+    SRAM_writeByte(offset + 2, 'A');
+    SRAM_writeByte(offset + 3, 'B');
+    sram_write_u16be(offset + 4, PROBE_VLAB_SCHEMA_VERSION);
+    sram_write_u16be(offset + 6, PROBE_VLAB_TOTAL_BYTES);
+
+    offset += 8;
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[5]);
+    sram_write_visual_word(&offset, (u16)((frame >> 16) & 0xFFFF));
+    sram_write_visual_word(&offset, (u16)(frame & 0xFFFF));
+    sram_write_visual_word(&offset, VDP_getScreenWidth());
+    sram_write_visual_word(&offset, VDP_getScreenHeight());
+    sram_write_visual_word(&offset, VDP_getPlaneWidth());
+    sram_write_visual_word(&offset, VDP_getPlaneHeight());
+    sram_write_visual_word(&offset, VDP_getHorizontalScrollingMode());
+    sram_write_visual_word(&offset, VDP_getVerticalScrollingMode());
+    sram_write_visual_word(&offset, VDP_getBGAAddress());
+    sram_write_visual_word(&offset, VDP_getBGBAddress());
+    sram_write_visual_word(&offset, VDP_getWindowAddress());
+    sram_write_visual_word(&offset, VDP_getSpriteListAddress());
+    sram_write_visual_word(&offset, VDP_getHScrollTableAddress());
+    sram_write_visual_word(&offset, VDP_getBackgroundColor());
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[8]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[9]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[10]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[11]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[13]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[14]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[16]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[17]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[4]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[18]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[19]);
+    /* words[26..31]: quadro de cada pico, hi/lo. Anexados no fim do bloco. */
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[24]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[25]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[26]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[27]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[28]);
+    sram_write_visual_word(&offset, g_mdRuntimeProbe[29]);
+
+    for (i = 0; i < PROBE_VLAB_PALETTE_WORDS; i++) {
+        sram_write_visual_word(&offset, s_vlabPalette[i]);
+    }
+    SRAM_disable();
 }
 
 static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
@@ -98,6 +196,11 @@ static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
     g_mdRuntimeProbe[15] = 0;
     g_mdRuntimeProbe[16] = 0;
     g_mdRuntimeProbe[17] = 0;
+    g_mdRuntimeProbe[18] = 0;
+    g_mdRuntimeProbe[19] = 0;
+    for (i = 24; i <= 29; i++) {
+        g_mdRuntimeProbe[i] = 0;   /* quadros de pico zeram junto com os picos */
+    }
 
     for (i = 0; i < MD_RUNTIME_PROBE_MAX_SAMPLES; i++) {
         g_mdRuntimeProbe[PROBE_SAMPLE_OFFSET + i] = 0;
@@ -144,6 +247,12 @@ void MDRuntimeProbe_writeHeartbeat(void)
     SRAM_disable();
 
     s_heartbeatCounter++;
+}
+
+void MDRuntimeProbe_noteSpriteAlloc(u16 spawned, u16 failed)
+{
+    g_mdRuntimeProbe[18] = spawned;
+    g_mdRuntimeProbe[19] = failed;
 }
 
 void MDRuntimeProbe_init(void)
@@ -231,6 +340,7 @@ void MDRuntimeProbe_tick(void)
     }
     if (cpuLoad > g_mdRuntimeProbe[11]) {
         g_mdRuntimeProbe[11] = cpuLoad;
+        probe_note_peak_frame(26);
     }
     if (s_hasPrevSample && jitter > g_mdRuntimeProbe[13]) {
         g_mdRuntimeProbe[13] = jitter;
@@ -239,11 +349,23 @@ void MDRuntimeProbe_tick(void)
     maxScanlineSprites = measure_max_scanline_sprites();
     if (maxScanlineSprites > g_mdRuntimeProbe[14]) {
         g_mdRuntimeProbe[14] = maxScanlineSprites;
+        probe_note_peak_frame(24);
     }
 
     if (g_mdRuntimeProbe[15] < 1) g_mdRuntimeProbe[15] = 1;
+    /*
+     * [16] instantaneo, [17] MAXIMO acumulado na cena.
+     *
+     * A versao anterior gravava [17] = 1, uma constante, e exportava isso como
+     * `active_sprite_count`. O campo nunca mediu nada. E [16] guardava o valor
+     * do quadro do export, que no ato 3 e zero — entao os dois campos que
+     * existiam para responder "quantos sprites estao vivos" nao respondiam.
+     */
     g_mdRuntimeProbe[16] = clamp_u16(SPR_getNumActiveSprite());
-    g_mdRuntimeProbe[17] = 1;
+    if (g_mdRuntimeProbe[16] > g_mdRuntimeProbe[17]) {
+        g_mdRuntimeProbe[17] = g_mdRuntimeProbe[16];
+        probe_note_peak_frame(28);
+    }
 
     if (samplesRecorded < MD_RUNTIME_PROBE_MAX_SAMPLES) {
         g_mdRuntimeProbe[PROBE_SAMPLE_OFFSET + samplesRecorded] = cpuLoad;
@@ -254,8 +376,22 @@ void MDRuntimeProbe_tick(void)
     s_hasPrevSample = TRUE;
 
     samplesRecorded = g_mdRuntimeProbe[9];
-    if (samplesRecorded > 0 && (samplesRecorded != s_lastExportSamples) && ((gApp.totalFrames - s_lastExportFrame) >= 60u)) {
+    /*
+     * Re-exporta a cada 60 quadros ENQUANTO a cena roda, nao apenas quando a
+     * contagem de amostras muda.
+     *
+     * PORQUE: o buffer de amostras satura em 32 e a condicao antiga
+     * (`samplesRecorded != s_lastExportSamples`) parava de disparar. A probe
+     * exportava uma unica vez, no quadro 151, e o maximo acumulado cobria so
+     * F90-F151. Qualquer pico posterior — no caso desta cena, a convergencia
+     * dos estilhacos a partir de F152 — nunca chegava a SRAM, e a captura
+     * reportava um numero baixo com aparencia de aprovado.
+     *
+     * Agora a ultima exportacao carrega o maximo de toda a cena ate ali.
+     */
+    if (samplesRecorded > 0 && ((gApp.totalFrames - s_lastExportFrame) >= 60u)) {
         MDRuntimeProbe_exportToSRAM();
+        export_visual_probe_to_sram();
         s_lastExportSamples = samplesRecorded;
         s_lastExportFrame = gApp.totalFrames;
     }

@@ -1,0 +1,17 @@
+{
+  "schema": "linux_wine_build_report.v2",
+  "status": "buildado",
+  "bridge_method": "native GNU make plus Flatpak Wine wrappers for SGDK 2.11 Windows executables, LTO disabled to consume the fat-object section of the workspace libmd.a",
+  "method_source": "SGDK readme Linux recommendation plus Franticware/SGDK_wine",
+  "canonical_wrapper_status": "host_validation_executed_windows_batch_wrapper_blocked_by_wine_powershell_stub",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+  "gdk_root": "/mnt/sdcard/sgdk_forge_wine_211",
+  "started_at": "2026-08-29T16:33:09.906632+00:00",
+  "completed_at": "2026-08-29T16:33:27.923352+00:00",
+  "exit_code": 0,
+  "rom": {
+    "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/out/rom.bin",
+    "size_bytes": 262144,
+    "sha256": "4e9248a42f64e78590e85e4506729cc4bf9ad52e63298d3b3570104d1e8a7847"
+  }
+}

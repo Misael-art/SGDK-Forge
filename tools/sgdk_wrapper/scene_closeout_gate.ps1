@@ -253,9 +253,20 @@ if (-not $SkipSceneRegression) {
     }
 }
 
+[void]$steps.Add((New-Step -Name "promotion_claim_audit" -Kind "governance" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_promotion_claims.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+
 [void]$steps.Add((New-Step -Name "freshness_audit" -Kind "freshness" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "freshness_audit.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 
 [void]$steps.Add((New-Step -Name "validate_resources_final" -Kind "validation" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
+
+if (-not $SkipRuntimeCapture -and ($TargetScene -ge 0 -or $PlanOnly)) {
+    [void]$steps.Add((New-Step -Name "evidence_finalize" -Kind "evidence" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "finalize_emulator_evidence.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+} else {
+    $step = New-Step -Name "evidence_finalize" -Kind "evidence" -Command "powershell.exe" -Arguments @() -Required $false
+    $step.status = "skipped"
+    $step.skipped_reason = "Runtime capture not requested"
+    [void]$steps.Add($step)
+}
 
 [void]$steps.Add((New-Step -Name "project_learning_capture" -Kind "learning" -Command "powershell.exe" -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_project_learning.ps1"), "-ProjectRoot", $ProjectRoot, "-Mode", "Capture", "-OutputFormat", "Json") -Required $true))
 
@@ -284,6 +295,8 @@ $freshnessReportPath = Join-Path $ProjectRoot "out\logs\freshness_audit_report.j
 $sceneRegressionReportPath = Join-Path $ProjectRoot "out\logs\scene_regression_report.json"
 $runtimeMetricsPath = Join-Path $ProjectRoot "out\logs\runtime_metrics.json"
 $resGraphReportPath = Join-Path $ProjectRoot "out\logs\res_graph_report.json"
+$evidenceCloseoutReportPath = Join-Path $ProjectRoot "out\logs\evidence_closeout_report.json"
+$promotionClaimAuditPath = Join-Path $ProjectRoot "out\logs\promotion_claim_audit_report.json"
 $validationBlockingStatuses = @()
 $closeoutBlockingStatuses = @()
 $validationReportReadable = $false
@@ -429,6 +442,8 @@ $closeoutBlocked = (-not $failed) -and (-not $PlanOnly) -and ($closeoutBlockingS
             res_graph_report = if (Test-Path -LiteralPath $resGraphReportPath) { $resGraphReportPath } else { $null }
             scene_regression_report = if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sceneRegressionReportPath } else { $null }
             runtime_metrics = if (Test-Path -LiteralPath $runtimeMetricsPath) { $runtimeMetricsPath } else { $null }
+            evidence_closeout_report = if (Test-Path -LiteralPath $evidenceCloseoutReportPath) { $evidenceCloseoutReportPath } else { $null }
+            promotion_claim_audit_report = if (Test-Path -LiteralPath $promotionClaimAuditPath) { $promotionClaimAuditPath } else { $null }
             rom = if (Test-Path -LiteralPath (Join-Path $ProjectRoot "out\rom.bin")) { (Join-Path $ProjectRoot "out\rom.bin") } else { $null }
         }
     }

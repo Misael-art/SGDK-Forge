@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]"
+  },
+  "policy": {
+    "all_project_assets_inside_project": true,
+    "source_inputs_copied_to_rascunho": true,
+    "placeholder_never_promotes_to_aaa": true,
+    "visual_art_requires_artistic_gate": true
+  },
+  "assets": [
+    {
+      "asset_id": "sgdk_builtin_font_geometry",
+      "role": "neutral_runtime_fixture",
+      "source_path": null,
+      "runtime_path": "src/scenes/scene_demo.c",
+      "owner": "forge_reference",
+      "status": "implemented",
+      "promotion_allowed": false,
+      "technique_tags": ["procedural_geometry", "debug_lab"],
+      "evidence": ["doc/contracts/canonical_fixture_contract.json"]
+    }
+  ]
+}

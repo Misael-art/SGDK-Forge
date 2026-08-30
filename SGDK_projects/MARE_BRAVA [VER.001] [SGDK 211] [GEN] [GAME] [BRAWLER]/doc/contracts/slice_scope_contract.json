@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "cais_01_slice_scope_v1",
+  "project": {
+    "name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]"
+  },
+  "purpose": "Declarar o subconjunto do design contract de jogo que vale para o first playable slice. O contrato de genero (brawler_belt_scroll_design_contract.json) descreve o JOGO e carrega eixos congelados do registry; validador verde naquele contrato NAO significa slice implementado nem autoriza escopo de jogo completo no slice.",
+  "game_contract_ref": "doc/contracts/brawler_belt_scroll_design_contract.json",
+  "slice_overrides": {
+    "player_count": "1 (apenas TAINA; JACO/co-op = entra_depois)",
+    "enemy_count_on_screen_max": 4,
+    "enemy_count_note": "Cap de budget do slice (sprites/scanline), mais restrito que o eixo congelado 8 do genero.",
+    "hero_move_set": [
+      "punch",
+      "kick",
+      "jump",
+      "special"
+    ],
+    "hero_move_set_note": "Sem grab/throw do heroi no slice; grab existe apenas como mecanica do ESTIVADOR (inimigo).",
+    "super_bar": "ausente no slice; especial defensivo custa vida (GDD)",
+    "stages": "apenas cais_01 (3 arenas de onda), SEM boss; CAPATAZ e stages 2-3 sao futuros",
+    "enemy_archetypes_active": [
+      "cria",
+      "estivador"
+    ],
+    "pickups_active": [
+      "espetinho",
+      "moeda_do_cais"
+    ]
+  },
+  "false_green_guard": "Qualquer leitura de status deve cruzar este contrato: brawler validator verde = design de jogo valido; slice implementado exige build + BlastEm + evidencias deste projeto (hoje: buildado=false, testado_em_emulador=false).",
+  "status_atual": "pre_producao_documentada_com_template_tecnico",
+  "doc_refs": [
+    "doc/11-gdd.md",
+    "doc/13-spec-cenas.md",
+    "doc/10-memory-bank.md"
+  ]
+}

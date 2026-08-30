@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scroll_fx_contract.schema.json",
+  "title": "Scroll FX Contract",
+  "description": "Contract for Shadow/Highlight, HScroll, VScroll column, H-Int, palette cycling and raster-style scene effects on Mega Drive.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "project",
+    "scene_id",
+    "effect_role",
+    "owners",
+    "hscroll_policy",
+    "vscroll_policy",
+    "shadow_highlight_policy",
+    "palette_cycle_policy",
+    "hint_policy",
+    "budget",
+    "evidence",
+    "fallback_plan",
+    "status",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "scroll_fx_contract" },
+    "project": { "type": "string", "minLength": 1 },
+    "scene_id": { "type": "string", "minLength": 1 },
+    "effect_role": { "type": "string", "enum": ["water", "lava", "heat", "road", "fog", "lighting", "speed", "depth", "showcase", "other"] },
+    "owners": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scroll_owner", "cram_owner", "hint_owner"],
+      "properties": {
+        "scroll_owner": { "type": "string", "minLength": 1 },
+        "cram_owner": { "type": "string", "minLength": 1 },
+        "hint_owner": { "type": "string", "minLength": 1 }
+      }
+    },
+    "hscroll_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "table_owner", "band_count"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["none", "plane", "tile", "line"] },
+        "table_owner": { "type": "string", "minLength": 1 },
+        "band_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "vscroll_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "column_width_px"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["none", "plane", "column"] },
+        "column_width_px": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "shadow_highlight_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "sprite_palette_conflict_audited"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "sprite_palette_conflict_audited": { "type": "boolean" }
+      }
+    },
+    "palette_cycle_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "slots"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "slots": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "hint_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "single_owner", "reset_on_exit"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "single_owner": { "type": "boolean" },
+        "reset_on_exit": { "type": "boolean" }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "worst_frame_includes_sprites_hud_fx"],
+      "properties": {
+        "decision": { "type": "string", "enum": ["fits", "fits_with_rework", "blocked"] },
+        "worst_frame_includes_sprites_hud_fx": { "type": "boolean" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blastem_screenshot", "visual_vdp_dump"],
+      "properties": {
+        "blastem_screenshot": { "type": "string" },
+        "visual_vdp_dump": { "type": "string" }
+      }
+    },
+    "fallback_plan": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["ok", "needs_review", "blocked"] },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "status": "measured_with_limitation",
+  "test": "CACHE_TILE_CAPACITY 1480 + incremental delta, frame anim 45f",
+  "soak_evidence": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6c_soak/blastem-linux-20260829T164123Z-2280062",
+  "TSTR": {"requested":6784,"dma":6784,"calls":428,"overflow":7,"max_res":1276,"cap":1480},
+  "VLAB": {"over_budget_frames":15,"max_cpu_load":163,"sample_count":32},
+  "verdict": {
+    "overflow": "7 even with +210 slots (union still grows)",
+    "over_budget": "15 frames > budget (CPU spike from uploads)",
+    "aaa_gate": "REPROVADO",
+    "next_required": "eviction por época + DMA queue em VBlank (não CPU) para zerar overflows e over_budget"
+  }
+}

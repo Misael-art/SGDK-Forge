@@ -1,0 +1,7 @@
+interface:
+  display_name: "Emulator VDP Evidence Curator"
+  short_description: "Fecha evidencia BlastEm vinculada a ROM e artefatos"
+  default_prompt: "Use $emulator-vdp-evidence-curator para validar ROM, screenshot, SRAM e VDP dump, selar seus hashes e rejeitar evidencia stale antes de promover claims de runtime."
+
+policy:
+  allow_implicit_invocation: true

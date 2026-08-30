@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "status": "measured_with_limitation",
+  "method": "sweep de cantos espalhado 1/frame + eviction + DMA_QUEUE, interval 90f",
+  "soak_evidence": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6g_soak/blastem-linux-20260830T113617Z-2347596",
+  "TSTR": {"requested":6727,"overflow":0,"max_res":1190,"cap":1190},
+  "VLAB": {"over_budget_frames":8,"max_cpu_load":250,"sample_count":32},
+  "comparison": {
+    "P6e_throttle_90f_no_spread": {"over_budget":7},
+    "P6g_spread": {"over_budget":8}
+  },
+  "verdict": {
+    "sweep_spread_effect": "7 -> 8 (piora leve, overhead de 5 frames extras)",
+    "aaa_gate": "REPROVADO (8/32 >0)",
+    "next_required": "otimizar custo CPU por tile (precompute opacity, cache sNeeded) sem espalhar sweep"
+  }
+}

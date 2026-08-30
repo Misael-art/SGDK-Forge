@@ -1,0 +1,52 @@
+{
+  "schema_version": "2.0.0",
+  "report_kind": "premium_source_manifest",
+  "production_source_ready": true,
+  "assets": [
+    {
+      "asset_id": "hero_pillow_rectangles",
+      "asset_role": "character",
+      "criticality": "critical",
+      "authoring_method": "pillow_primitives_debug_script",
+      "source_origin": "procedural_debug_lab",
+      "source_classification": "procedural_debug",
+      "tool": {
+        "name": "python_pillow",
+        "version": "fixture",
+        "model": null
+      },
+      "source_files": [
+        {
+          "path": "debug_lab/hero_pillow_rectangles.py",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "role": "debug_script"
+        }
+      ],
+      "transformations": [
+        {
+          "step": "render_primitives",
+          "tool": "python_pillow",
+          "input_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "output_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      ],
+      "variants": {
+        "basic": {
+          "path": "debug_lab/hero_basic.png",
+          "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "role": "lab_not_delivery"
+        },
+        "elite": {
+          "path": "debug_lab/hero_fake_elite.png",
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "role": "lab_not_delivery"
+        }
+      },
+      "license": {
+        "name": "internal-debug",
+        "author": "script",
+        "usage": "debug only"
+      }
+    }
+  ]
+}

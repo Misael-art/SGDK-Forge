@@ -76,6 +76,42 @@ runtime metrics nao criam claims automaticamente.
   - exige `boss_parts.json` valido, pelo menos duas partes runtime, FK chain e
     budget de scanline
 
+## Passo 3a. Fechamento pre-runtime para `aaa_game`
+
+Licao candidata extraida de `Celestial Chase Revive [VER.001] [SGDK 211] [GEN]
+[GAME] [ACTION_RACING]`, evidencia `E1_project_artifact`. Use como gate
+proporcional para jogos AAA/vertical slice; nao aplique como burocracia em
+`exercise`, `technical_demo` pequeno, `consulting` ou `game_review`.
+
+Antes de abrir runtime jogavel, o agente deve verificar se o pacote de specs
+tem contratos executaveis para os pontos que costumam virar retrabalho:
+
+- formato de dados de fase/pista
+- colisao, hitbox e limites de gameplay
+- HUD/Window Plane e ownership de UI
+- animacao/sprite sheet e escala visual
+- tuning numerico de progressao/dificuldade
+- asset production spec e manifesto de mockups locais quando houver referencia
+- build system contract apontando para o wrapper central
+- boss/setpiece quando estiver no escopo
+- pause, game over, continue e retorno ao title
+- front-end identity minima: logo, fonte, menu e creditos quando o jogo tiver
+  title/menu
+
+Se estes contratos estiverem ausentes, o status maximo do planejamento e
+`documentado_incompleto`. Se existirem mas nao houver ROM, asset, budget ou
+BlastEm, o status maximo continua `documentado`.
+
+Mockups locais podem orientar direcao de arte somente quando possuem hash,
+origem local e `mockup_reference_only`; nunca sao arte final, prova visual ou
+evidencia de emulador.
+
+Para `aaa_game`, antes do primeiro runtime seed que promete fantasia jogavel,
+emitir ou revisar uma passagem de coesao criativa: ameaca/presenca antagonista,
+risco sistemico, identidade mecanica por setor, momento assinatura, audio como
+feedback e gancho de replay. Esta passagem nao prova diversao; ela impede que
+um pacote tecnicamente correto nasca generico.
+
 ## Passo 4. Validar
 
 ```powershell

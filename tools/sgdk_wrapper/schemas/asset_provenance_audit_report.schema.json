@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/asset_provenance_audit_report.schema.json",
+  "title": "Asset Provenance Audit Report",
+  "description": "Saida de audit_procedural_asset_provenance.py. Mede a diretriz de bloqueio estetico: nenhum grafico desenhado por codigo pode representar personagem, inimigo, boss ou cenario na compilacao final.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_root",
+    "project_name",
+    "validator_fixture",
+    "manifest_status",
+    "visual_symbols",
+    "findings",
+    "blocking",
+    "blocking_statuses"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_at": { "type": "string" },
+    "project_root": { "type": "string", "minLength": 1 },
+    "project_name": { "type": "string" },
+    "validator_fixture": { "type": "boolean" },
+    "context_type": { "type": "string" },
+    "manifest_status": {
+      "enum": ["absent", "invalid", "present"]
+    },
+    "visual_symbols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["res_symbol", "res_kind", "asset_path", "provenance"],
+        "properties": {
+          "res_symbol": { "type": "string" },
+          "res_kind": { "type": "string" },
+          "asset_path": { "type": "string" },
+          "res_file": { "type": "string" },
+          "provenance": {
+            "enum": [
+              "declared_final_authored",
+              "declared_non_final",
+              "declared_procedural_primitive_final",
+              "undeclared"
+            ]
+          },
+          "primitive_builders": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "primitive_builders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["path", "primitive_calls"],
+        "properties": {
+          "path": { "type": "string" },
+          "primitive_calls": { "type": "integer", "minimum": 0 },
+          "traced_symbols": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "runtime_authored_tiles": {
+      "type": "array",
+      "description": "Pixels de tile escritos como literal em C. Endereçamento de VRAM (TILE_USER_INDEX) e composicao de mapa (VDP_setTileMapXY, VDP_fillTileMapRect) nao entram aqui: sao uso legitimo de asset importado.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["file", "api", "line"],
+        "properties": {
+          "file": { "type": "string" },
+          "api": { "enum": ["authored_tile_data_upload", "authored_tile_data_array"] },
+          "line": { "type": "integer" },
+          "symbol": { "type": "string" },
+          "hex_words": { "type": "integer" },
+          "debug_scoped": { "type": "boolean" }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["code", "severity", "subject", "message"],
+        "properties": {
+          "code": {
+            "enum": [
+              "asset_provenance_manifest_absent",
+              "asset_provenance_manifest_invalid",
+              "asset_provenance_undeclared",
+              "procedural_asset_promoted_to_res",
+              "procedural_source_kind_declared_final",
+              "procedural_composed_without_authored_source",
+              "runtime_authored_tile_pixels_outside_debug",
+              "resources_res_missing_for_visual_delivery",
+              "validator_fixture_claiming_visual_delivery",
+              "provenance_symbol_not_in_res"
+            ]
+          },
+          "severity": { "enum": ["blocking", "warning", "info"] },
+          "subject": { "type": "string" },
+          "message": { "type": "string" },
+          "evidence": { "type": "string" }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "blocking": { "type": "boolean" },
+    "blocking_statuses": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

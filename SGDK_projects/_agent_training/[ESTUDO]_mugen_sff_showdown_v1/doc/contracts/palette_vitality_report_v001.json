@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-15T03:14:00.028830+00:00",
+  "status": "vivid_anchor_palette_repaired_export_pending_art_review",
+  "inputs": {
+    "source_viewport": "work/reconstructed_viewports/frame_0000_mugen_start.png",
+    "export_preview": "work/diagnostics/exported_bin_viewport_default.png",
+    "blastem_raw": "sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png",
+    "blastem_320": "work/diagnostics/blastem_showdown_semantic_palette_320.png"
+  },
+  "strategy": "manual_context_palette_v2_route_a",
+  "nearest_color_remaps": 235880,
+  "nearest_color_remaps_by_assigned_role": {
+    "sky_and_distant_buildings": 32976,
+    "live_vegetation": 41344,
+    "water_and_reflections": 112363,
+    "rocks_floor_foreground": 49197
+  },
+  "metrics": {
+    "source_viewport": {
+      "name": "source_viewport",
+      "useful_colors": 76,
+      "average_saturation": 0.3805
+    },
+    "export_preview": {
+      "name": "export_preview",
+      "useful_colors": 43,
+      "average_saturation": 0.3547,
+      "source_comparison": {
+        "mean_rgb_distance": 26.4448,
+        "pixels_distance_gt_40": 10078,
+        "percent_distance_gt_40": 14.0597
+      }
+    },
+    "blastem_320": {
+      "name": "blastem_320",
+      "useful_colors": 1605,
+      "average_saturation": 0.3333,
+      "source_comparison": {
+        "mean_rgb_distance": 69.5612,
+        "pixels_distance_gt_40": 38177,
+        "percent_distance_gt_40": 53.2603
+      }
+    }
+  },
+  "role_means_rgb": {
+    "source_viewport": {
+      "sky_and_distant_buildings": [
+        94.2132,
+        98.7736,
+        119.6625
+      ],
+      "live_vegetation": [
+        127.6857,
+        146.6182,
+        94.9562
+      ],
+      "water_and_reflections": [
+        94.5684,
+        93.6319,
+        131.1787
+      ],
+      "rocks_floor_foreground": [
+        166.5716,
+        150.3471,
+        141.8678
+      ]
+    },
+    "export_preview": {
+      "sky_and_distant_buildings": [
+        91.9276,
+        95.6368,
+        111.587
+      ],
+      "live_vegetation": [
+        114.7351,
+        129.8747,
+        101.5977
+      ],
+      "water_and_reflections": [
+        91.4458,
+        90.8744,
+        128.8967
+      ],
+      "rocks_floor_foreground": [
+        160.8869,
+        148.4662,
+        133.9906
+      ]
+    },
+    "blastem_320": {
+      "sky_and_distant_buildings": [
+        107.5346,
+        114.9278,
+        136.6609
+      ],
+      "live_vegetation": [
+        113.2315,
+        126.0645,
+        113.3533
+      ],
+      "water_and_reflections": [
+        110.204,
+        111.5064,
+        151.2527
+      ],
+      "rocks_floor_foreground": [
+        169.5563,
+        159.5871,
+        153.5901
+      ]
+    }
+  },
+  "role_separation_loss": {
+    "live_vegetation__vs__rocks_floor_foreground": {
+      "source": 61.2046,
+      "export_preview": 59.1692,
+      "blastem_320": 76.3217,
+      "export_loss": 2.0354,
+      "blastem_loss": -15.1171
+    },
+    "live_vegetation__vs__sky_and_distant_buildings": {
+      "source": 63.3877,
+      "export_preview": 42.2493,
+      "blastem_320": 26.6271,
+      "export_loss": 21.1384,
+      "blastem_loss": 36.7606
+    },
+    "live_vegetation__vs__water_and_reflections": {
+      "source": 72.5741,
+      "export_preview": 52.7162,
+      "blastem_320": 40.9634,
+      "export_loss": 19.8579,
+      "blastem_loss": 31.6107
+    },
+    "rocks_floor_foreground__vs__sky_and_distant_buildings": {
+      "source": 91.4986,
+      "export_preview": 89.7441,
+      "blastem_320": 78.4729,
+      "export_loss": 1.7545,
+      "blastem_loss": 13.0257
+    },
+    "rocks_floor_foreground__vs__water_and_reflections": {
+      "source": 92.3742,
+      "export_preview": 90.2774,
+      "blastem_320": 76.0855,
+      "export_loss": 2.0968,
+      "blastem_loss": 16.2887
+    },
+    "sky_and_distant_buildings__vs__water_and_reflections": {
+      "source": 13.0,
+      "export_preview": 17.72,
+      "blastem_320": 15.5885,
+      "export_loss": -4.72,
+      "blastem_loss": -2.5885
+    }
+  },
+  "visual_notes": [
+    "manual contextual MD palettes keep separate vivid roles for sky/buildings, vegetation, water/reflections and rocks/floor",
+    "BG_B simplification is constrained to the distant plane; floor and near rocks keep sharper palette mapping",
+    "BlastEm screenshot aligns with the default floor camera after input cooldown",
+    "nearest-color remap count remains measured evidence; this is a controlled fixture, not authorial final art approval"
+  ]
+}

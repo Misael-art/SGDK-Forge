@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "methodology_version": "2026.06.04",
+  "project": {
+    "name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+    "lifecycle": "new",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "active_workflow": "production-loop",
+  "required_skills": [
+    "art/visual-excellence-standards",
+    "code/sgdk-runtime-coder",
+    "governance/doc-sync-audit",
+    "governance/truth-hierarchy-guard",
+    "operation/sgdk-build-wrapper-operator"
+  ],
+  "required_validations": [
+    "preflight_host",
+    "validate_resources",
+    "scene_closeout_gate",
+    "freshness_audit",
+    "project_hygiene",
+    "project_context"
+  ],
+  "claims": {
+    "critical_motion": {
+      "applicability": "not_applicable",
+      "rationale": "Estado atual: documentado (planning). Nenhum claim de motion critico e promovido ainda; reclassificar para required quando strips de combate entrarem em producao com evidencia BlastEm (GIF, screenshot, SRAM, perceptual_check)."
+    },
+    "road_physics": {
+      "applicability": "not_applicable",
+      "rationale": "Belt scroller de cais; nao ha pista, chase nem pseudo-3D (pseudo3d_road_stack rejeitada no TDD)."
+    },
+    "modular_boss": {
+      "applicability": "not_applicable",
+      "rationale": "Bosses estao fora do first playable slice (entra_depois no GDD); reclassificar para required quando CAPATAZ entrar em producao."
+    }
+  }
+}

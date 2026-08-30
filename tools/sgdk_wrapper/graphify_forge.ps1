@@ -344,7 +344,13 @@ if ($Action -eq 'build') {
     $args = @('update', $resolvedRepoRoot, '--force')
     $captured = @()
     & graphify @args 2>&1 | Tee-Object -Variable captured | Out-Host
+    $graphifyExitCode = $LASTEXITCODE
     $updateOut = ($captured | Out-String)
+    if ($graphifyExitCode -ne 0) {
+        Write-Host 'graph_status=stale reason=graphify_update_failed'
+        Write-Host "graphify_exit_code=$graphifyExitCode"
+        exit 7
+    }
 
     $scope = Test-ForgeGraphScope -GraphJsonPath $graphJsonPath
     if (-not $scope.is_in_scope) {
@@ -365,7 +371,13 @@ if ($Action -eq 'update') {
     if ($Force) { $args += '--force' }
     $captured = @()
     & graphify @args 2>&1 | Tee-Object -Variable captured | Out-Host
+    $graphifyExitCode = $LASTEXITCODE
     $updateOut = ($captured | Out-String)
+    if ($graphifyExitCode -ne 0) {
+        Write-Host 'graph_status=stale reason=graphify_update_failed'
+        Write-Host "graphify_exit_code=$graphifyExitCode"
+        exit 7
+    }
 
     $scope = Test-ForgeGraphScope -GraphJsonPath $graphJsonPath
     if (-not $scope.is_in_scope) {

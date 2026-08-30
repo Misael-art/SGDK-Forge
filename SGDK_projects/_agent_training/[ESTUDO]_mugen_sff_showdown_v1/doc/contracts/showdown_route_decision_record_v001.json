@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "showdown_route_decision_record_v001",
+  "generated_at": "2026-06-14T07:53:00-03:00",
+  "context": {
+    "project_root": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1",
+    "context_type": "exercise",
+    "lab_not_delivery": true,
+    "ready_for_aaa": false,
+    "ip_fixture_policy": "MUGEN/IP/benchmark material is a controlled technical fixture only, not authorial final asset material."
+  },
+  "problem_statement": {
+    "current_runtime": "Stage appears in BlastEm through a single streamed BG_A world.",
+    "curation_status": "rework_required",
+    "dominant_blockers": [
+      "flattened_mugen_parallax",
+      "fighting_stage_camera_only_fixture_partial",
+      "palette_vibrancy_repaired_but_not_art_approved",
+      "visual_gate_too_narrow",
+      "nested_lab_art_not_detected"
+    ]
+  },
+  "route_matrix": [
+    {
+      "route_id": "route_a_multi_plane",
+      "classification": "real_depth_attempt",
+      "summary": "Split BG0/BG1-BG2/BG3 by semantic role and preserve MUGEN deltas through BG_B, BG_A, optional priority/sprite graft, line scroll, and window streaming where needed.",
+      "camera": {
+        "uses_contract": "doc/contracts/camera_motion_contract_v001.json",
+        "preserves_zoffset": true,
+        "preserves_verticalfollow": true,
+        "rejects_free_autopan_as_evidence": true
+      },
+      "parallax": {
+        "uses_contract": "doc/contracts/parallax_layer_contract_v001.json",
+        "bg0_delta": [
+          0.43,
+          0.285
+        ],
+        "bg1_bg2_delta": [
+          0.71,
+          0.635
+        ],
+        "bg3_delta": [
+          1.0,
+          1.0
+        ],
+        "sgdk_strategy": [
+          "BG_B for distant plane",
+          "BG_A for midground",
+          "priority split or sprite graft for foreground floor",
+          "optional line scroll for band separation",
+          "streaming only where resident set exceeds safe cache"
+        ]
+      },
+      "palette": {
+        "uses_report": "doc/contracts/palette_vitality_report_v001.json",
+        "strategy": "semantic_role_palette_v1",
+        "roles": [
+          "sky/buildings",
+          "vegetation",
+          "water/reflections",
+          "rocks/floor/foreground"
+        ]
+      },
+      "budget_risk": "high_until_measured",
+      "expected_decision": "cabe com recuo or blocked_rework_required depending on live VRAM/BlastEm evidence",
+      "allowed_status_if_evidence_passes": "controlled_training_case_reworked",
+      "not_allowed_status": "ready_for_aaa"
+    },
+    {
+      "route_id": "route_b_compare_flat_degraded",
+      "classification": "honest_fallback",
+      "summary": "Keep or regenerate a single-plane streamed world only as comparison/fallback.",
+      "camera": {
+        "may_preserve_floor_anchor": true,
+        "does_not_prove_fighting_camera_by_autopan": true
+      },
+      "parallax": {
+        "preserves_mugen_layer_deltas": false,
+        "known_loss": "BG0/BG1/BG2/BG3 deltas are flattened into one BG_A coordinate space"
+      },
+      "palette": {
+        "may_use_semantic_palette": true,
+        "does_not_fix_depth_by_itself": true
+      },
+      "budget_risk": "lower_than_route_a",
+      "allowed_status_if_chosen": "lab_flattened_reference",
+      "not_allowed_status": [
+        "elite_ready",
+        "visual_approved",
+        "ready_for_aaa",
+        "validado_budget_without_vdp_evidence"
+      ]
+    }
+  ],
+  "decision": {
+    "selected_route": "route_a_multi_plane",
+    "selection_reason": "The current ROM implements the required route_a split as BG_B far plane plus BG_A mid/floor overlay, keeps the dual-focus fighting-camera fixture, applies row-multicamera/line-scroll offsets, and uses BG_B occlusion culling so the two-plane route fits the documented VRAM layout.",
+    "fallback_policy": "If route_a cannot fit or cannot be captured cleanly in BlastEm, route_b may be emitted only as lab_flattened_reference and the closeout status becomes blocked_rework_required.",
+    "route_a_status": "implemented_in_current_rom_emulator_seen_budget_dump_pending",
+    "route_b_status": "superseded_lab_flattened_reference",
+    "requires_runtime_change": false,
+    "requires_new_palette_pass": false,
+    "requires_new_evidence": false
+  },
+  "budget_gate": {
+    "decision_before_runtime": "not_validated",
+    "must_measure": [
+      "active tiles for BG_B and BG_A",
+      "foreground sprite/priority cost",
+      "DMA/load cost",
+      "VRAM resident set",
+      "palette slot allocation",
+      "BlastEm screenshot and SRAM",
+      "VDP dump or telemetry before any budget claim"
+    ],
+    "current_known_numbers": {
+      "route_a_global_unique_tiles": 2870,
+      "route_a_max_window_unique_tiles": 1174,
+      "route_a_max_window_unique_tiles_without_bg_b_cull": 1630,
+      "route_a_cache_capacity_tiles": 1190,
+      "route_a_nearest_color_remaps": 235880,
+      "route_a_rom_sha256": "7e4f6a2e2149ff19b9788ffd3034adb556d595e1163b6af8c575ff09533ece2a",
+      "route_a_vdp_dump_present": false,
+      "vdp_contract_audit_status": "pass",
+      "line_scroll_dma_per_frame_bytes": 896,
+      "moving_camera_parallax_capture_present": false
+    }
+  },
+  "closeout_policy": {
+    "success_requires": [
+      "floor and fighting camera preserved",
+      "horizontal and vertical reading preserved",
+      "perceptive separation of plans",
+      "live water/vegetation/rocks colors",
+      "budget documented",
+      "memory bank and changelog updated"
+    ],
+    "if_any_fail": "blocked_rework_required",
+    "never_claim": [
+      "AAA delivery",
+      "asset authorial final",
+      "success from appears_in_blastem_only"
+    ]
+  },
+  "observed_evidence": {
+    "comparison_board": "work/diagnostics/showdown_recovery_comparison_v001.png",
+    "camera_report": "analysis/showdown_camera_report_v001.json",
+    "palette_report": "analysis/showdown_recovery_palette_measurement_v001.json",
+    "budget_report": "analysis/showdown_budget_report_v001.json",
+    "blastem_screenshot": "sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png",
+    "blastem_sram": "sgdk_viewer/showdown_viewer/out/evidence/blastem/save.sram"
+  },
+  "status": "route_a_runtime_reworked_emulator_seen_budget_dump_pending"
+}

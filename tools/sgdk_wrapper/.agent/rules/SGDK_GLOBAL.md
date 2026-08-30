@@ -84,6 +84,16 @@ Estas regras sao sempre ativas para qualquer projeto `MegaDrive_DEV` que use est
 - Superficies `.cursor`, `.serena`, `.superpowers`, `.trae`, `.agents` e `.claude` devem apontar para o mesmo workflow `tools/sgdk_wrapper/.agent/workflows/agent-startup-environment.md`.
 - Referencia: `doc/GRAPHIFY_OBSIDIAN_POLICY.md`.
 
+### 1.0.6 ai-memory (consultivo controlado)
+
+- `ai-memory` pode ser usado apenas como memoria auxiliar de handoff, busca e recall operacional.
+- O preparo automatico chama `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1`, que pode criar `.ai-memory.toml`, `doc/AI_MEMORY_POLICY.md` e `out/logs/ai_memory_integration_report.json`.
+- O wrapper nunca executa automaticamente `install-hooks --apply`, `install-mcp --apply`, `bootstrap`, `auto-improve` ou aprovacao de pending writes.
+- Qualquer auto-improvement do ai-memory deve permanecer pendente de revisao humana; use `[auto_improve] require_approval = true` e mantenha scheduler desabilitado durante piloto.
+- Pagina recuperada do ai-memory nao e fonte de verdade: abra os arquivos canonicos citados antes de decidir, editar ou promover status.
+- `ai-memory` nao fecha build, budget, `testado_em_emulador`, `MESTRE_*`, `stable`, `release`, `ready_for_aaa` nem closeout.
+- Projeto adotado por `adopt_project_methodology.ps1` deve receber marcador `.ai-memory.toml` local quando possivel, para evitar mistura de memoria entre projetos.
+
 ## 1.1 Prioridade arquitetural para cenas AAA compostas
 
 - Quando a cena tiver composicao em camadas, foreground/oclusao, staging visual e forte relacao entre sprite e cenario, trate `tilemap streaming guiado pela camera` como baseline arquitetural prioritario.
@@ -194,14 +204,23 @@ A credibilidade do espetaculo vem da consistencia visual. Para gerar ou instruir
 - **Trava 3:** Sem a aprovacao do `art-director` para validar shading/volume -> INVALIDO.
 - **Trava 4:** Sem `art_direction_decision_record` consultando `tools/sgdk_wrapper/.agent/references/art_style_catalog.json` antes de gerar, buscar, converter ou julgar arte -> INVALIDO.
 - **Trava 5:** Sem `art_gameplay_direction_gate` para model sheet, background, sprite art, animation strip, sprite sheet final, FX sheet, HUD heroico, title/menu ou asset critico -> INVALIDO.
+- **Trava 6:** Sem `authorial_line_contract` para asset critico autoral -> INVALIDO. O contrato deve declarar `line_signature`, `silhouette_hooks`, `face_grammar`, `hand_foot_grammar`, `costume_asymmetry`, `material_marks` e `generic_blockers`.
 - Todo feedback corretivo de arte deve passar antes por `doc/03_art/02_visual_feedback_bank.md` e pela skill `visual-excellence-standards`.
 - Drift de estilo no meio do projeto exige `style_drift_correction_brief` antes de regerar arte.
-- `art_direction_undeclared`, `style_catalog_not_consulted`, `style_drift_uncorrected`, `art_director_supervision_missing`, `game_design_context_missing`, `cohesion_drift` ou `director_gate_unapproved` bloqueiam `ready_for_aaa=true`, `AAA`, `stable`, `release` e `delivery`.
+- `art_direction_undeclared`, `style_catalog_not_consulted`, `style_drift_uncorrected`, `authorial_line_contract_missing`, `generic_prompt_style_blocker`, `art_director_supervision_missing`, `game_design_context_missing`, `cohesion_drift` ou `director_gate_unapproved` bloqueiam `ready_for_aaa=true`, `AAA`, `stable`, `release` e `delivery`.
 - Referencias esteticas sao ancoras tecnicas. Nunca transforme nome de artista, estudio, marca, jogo ou IP em prompt de copia; use descritores tecnicos neutros e `authoriality_gate_report`.
 
 ### 8.2 Gate visual fonte-ROM
 
 - `local_author_pixel_rasterization`, `procedural_renderer` e scripts locais `draw_*` so podem ser `debug_lab`, `visual_lab_control` ou `placeholder`; nunca fonte final de personagem, cenario, boss, HUD heroico ou asset AAA.
+- Todo simbolo visual de `res/*.res` (`IMAGE`, `SPRITE`, `TILESET`, `TILEMAP`, `MAP`, `BITMAP`) exige registro em `doc/asset_provenance_manifest.json` com `source_kind`, `acceptance_status` e `generated_by`. Simbolo sem registro e `asset_provenance_undeclared` e bloqueia entrega visual.
+- `source_kind: procedural_primitive` nunca pode ter `acceptance_status: final`. `procedural_composed_from_authored` exige `authored_source` persistida em `data/source_art/` com hash: codigo pode montar, recortar e paletizar arte autoral, nunca desenha-la.
+- PNG em disco nao prova autoria. O auditor casa cada arquivo do `.res` com os builders que o escrevem; declarar `hand_authored_pixel`, `ai_generated` ou `photo_or_render_derived` para arquivo produzido por builder de primitivas vira `procedural_asset_promoted_to_res`.
+- Pixels de tile escritos como literal `const u32` em C e enviados para VRAM fora de escopo de debug/telemetria viram `runtime_authored_tile_pixels_outside_debug`. Endereçamento de VRAM (`TILE_USER_INDEX`) e composicao de mapa (`VDP_setTileMapXY`, `VDP_fillTileMapRect`) com asset importado permanecem uso legitimo.
+- Grafico procedural e permitido apenas para telemetria, debug visual de elemento invisivel ao jogador e elemento transitorio de interface (barra de progresso simples). Nunca para personagem, inimigo, boss ou cenario.
+- `context_type: technical_demo` com intencao visual cumpre o mesmo gate de asset externo de `aaa_game`. A unica excecao e `validator_fixture: true` em `doc/project_context_manifest.json`, que em troca prende `delivery_claim_ceiling` em `none`, `concept`, `lab` ou `exercise` e nunca sustenta claim de entrega visual.
+- Enforcement: `tools/sgdk_wrapper/audit_procedural_asset_provenance.py`; contratos em `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json` e `asset_provenance_audit_report.schema.json`.
+- Cada projeto carrega a diretriz e seu estado medido em `doc/00-diretrizes-agente.md`, entre os marcadores `diretriz-bloqueio-estetico v1`. Agente que assume continuidade le esse bloco antes de tocar em arte; projeto novo herda o bloco do template `tools/sgdk_wrapper/modelo/`. Injecao e refresh idempotentes via `tools/sgdk_wrapper/apply_aesthetic_directive.py`, que falha com `--check` quando um projeto esta sem diretriz ou com medicao velha.
 - Arte premium so existe para o pipeline se estiver persistida em `data/source_art/` com `premium_source_manifest` e hash/timestamp. Imagem inline nao persistida e `generated_inline_pending_persistence`.
 - Benchmark tecnico nunca pode virar `source_art`; ele so orienta escala, densidade, timing, presenca, budget e qualidade. Thresholds e metodo de similaridade pertencem ao `benchmark_profile` e ao `authoriality_gate_report`, nao a uma regra global fixa.
 - `source_validity` passa antes de `source_to_rom_visual_match`. Fonte clone, benchmark-derived, sem autoria ou derivada sem autorizacao/licenca bloqueia a promocao mesmo que a imagem reduzida pareca parecida.
@@ -237,6 +256,9 @@ A credibilidade do espetaculo vem da consistencia visual. Para gerar ou instruir
 - Fallback procedural/debug/lab, `local_author_pixel_rasterization` ou `procedural_renderer` usados como asset final limitam `max_delivery_status` a `technical_lab_validated` e bloqueiam `creative_ready`.
 - Julgamento visual real bloqueia `visual_direction_failed` quando screenshot, contact sheet ou report indicar padrao repetitivo, painel textual, personagem generico, chuva estatica, mosaico debug ou asset procedural pobre.
 - Todo efeito precisa provar consequencia jogavel: rota muda, risco muda, timing muda, inimigo reage, camera comunica ou o jogador toma decisao diferente. Sem evidencia vira `gameplay_consequence_missing`.
+- Cena de marca sem gameplay (branding, title card, selo de autor) nao tem rota, risco nem decisao do jogador para a arte alterar. Nesse escopo — e somente nesse — o eixo de consequencia jogavel e substituido por `brand_comprehension_consequence`: cada decisao de arte precisa mudar o que o espectador entende sobre quem fez o jogo. Aprovado por curadoria humana em 2026-08-17. Cena jogavel continua obrigada ao eixo canonico; nunca use essa substituicao para escapar dele.
+- A substituicao so vale porque pode reprovar: toda tecnica declarada carrega `brand_comprehension_claim` com `brand_comprehension_negative_test` e `brand_comprehension_strength`, ou e classificada `enabling_discipline` (previne artefato, nao ensina nada ao espectador, isenta mas obrigatoria). Tecnica sem classificacao e espetaculo sem consequencia. Blockers: `brand_comprehension_missing`, `brand_comprehension_not_falsifiable`, `brand_comprehension_strength_undeclared`, `brand_comprehension_unjustified_technique`. Claim `weak` nao reprova, mas fica marcado e nao pode ser apresentado como forte no closeout.
+- Enforcement: `tools/sgdk_wrapper/validate_brand_comprehension_gate.py`. O validador prova que nenhuma tecnica passou sem justificativa; ele nao julga se o claim e verdadeiro, o que continua sendo decisao humana no gate visual contra screenshot e `visual_vdp_dump` reais.
 - Decision log precisa ser granular por eixo e decisao critica, com decisao, justificativa e evidencia; poucas linhas globais viram `decision_log_too_shallow`.
 - Cada eixo precisa de evidencia especifica: audio-sync exige timeline/cue report, particulas exigem movimento temporal observavel, level design exige rota jogavel, visual exige medicao real e animacao exige contratos/artefatos de movimento.
 
@@ -428,6 +450,9 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 
 - Se blockers dominantes forem visual/perceptual, bloquear trabalho de infraestrutura irrelevante.
 - O agente deve priorizar mudanca significativa que ataque o blocker dominante.
+- Para projeto `aaa_game` novo, retomado ou reaberto com intencao visual, seguir `tools/sgdk_wrapper/.agent/workflows/visual-first-project-lifecycle.md` antes de expandir runtime definitivo.
+- Se o estado for `technical_runtime_creative_blocked`, `lab_evidence_not_delivery` ou `smoke_only`, nova ROM/build/screenshot so conta como progresso se remover ou reduzir blocker visual real: fonte premium, aprovacao humana, direcao arte-gameplay, conversao VDP, evidencia perceptual de movimento ou `visual_delivery_gate_report` canonico.
+- A rota visual-first exige direcao, fonte e gate humano antes do runtime de entrega; runtime tecnico com placeholder e apenas smoke e nao substitui maturidade visual.
 
 ## 17. Placeholder quarantine
 
@@ -436,7 +461,7 @@ Quando o wrapper central rodar com `SGDK_RUNTIME_CAPTURE=1`, o artefato `out/log
 - Placeholder pode validar pipeline tecnico, paleta, ResComp, VRAM ou animacao, mas nao pode satisfazer `visual_direction_approved`.
 - HYBRIDO MUAY THAI usou geracao por PIL/ImageDraw; preservar aprendizado tecnico de PNG indexado/PLTE<=16/grid 9-bit, mas bloquear essa rota como solucao artistica final.
 - Bloqueio: `placeholder_promoted_to_aaa`.
-- Enforcement: `tools/sgdk_wrapper/audit_placeholder_quarantine.ps1`.
+- Enforcement: `tools/sgdk_wrapper/audit_placeholder_quarantine.ps1` detecta por tag/nome declarado; `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` mede a proveniencia real casando `.res` com builders. Arquivo com nome limpo produzido por `ImageDraw` passa pelo primeiro e reprova no segundo — rode os dois.
 
 ## 18. Qualidade tecnica vs qualidade artistica
 
@@ -537,6 +562,18 @@ Scripts wrapper e gate devem expor consistentemente os seguintes flags canonicos
 - Domínio: `capture_blastem_evidence.ps1`, `run_scene_regression.ps1`, scripts de conversao.
 - `-Force` nao desliga outras validacoes; continua respeitando `-WarnOnly` se ambos forem passados.
 
+## 29. Claim ceiling executavel
+
+- antes de `first_playable`, `gameplay_rom_aprovada`,
+  `performance=estavel`, `assets premium`, `scene closeout`,
+  `validado_budget`, `ready_for_aaa` ou avancar de fase, execute
+  `tools/sgdk_wrapper/audit_promotion_claims.ps1`;
+- evidencia declara escopo e SHA-256 da ROM vigente;
+- score tecnico de asset nunca equivale a aprovacao artistica;
+- trabalho paralelo de runtime/visual exige `integration_owner`;
+- divergencia entre memoria, validator e evidencia resolve pelo menor status
+  consistente, nunca pelo relatorio mais otimista.
+
 ### 28.4 Convencao de step-skip
 - Flags especificos de dominio como `-SkipBuild`, `-SkipRuntimeCapture`, `-SkipSceneRegression` permanece em `scene_closeout_gate.ps1`.
 - Eles sao ortogonais aos canonicos: `-SkipBuild -WarnOnly` pula build e degrada falhas restantes.
@@ -551,3 +588,377 @@ param(
 ```
 Scripts que consomem module `sgdk_artifact_contracts.psm1` herdam as helpers de envelope e fallback.
 Exit code: `0` se `status != error` ou `WarnOnly` esta ativo; caso contrario `1`.
+
+## 30. Doutrina de audacia — folga nao medida e timidez
+
+O teto do hardware e o **alvo**, nao a margem de seguranca. Entregar uma cena a 40% do
+orcamento sem ter medido ate onde dava nao e prudencia: e uma decisao que ninguem tomou.
+
+- **Audacia e sobre a ambicao, nunca sobre o claim.** Empurre o que voce tenta; meca o que
+  voce afirma. As duas coisas crescem juntas: quanto mais ousado o alvo, mais rigorosa
+  precisa ser a medicao. Ambicao alta com claim medido e o padrao; ambicao baixa e desperdicio
+  de hardware; claim alto sem medicao e falso verde, que o resto deste documento ja bloqueia.
+- **Antes de fechar um orcamento, meca o proximo degrau.** Se 32 objetos cabem, meca 48 e 64.
+  Pare quando **medir** o estouro, nao quando sentir receio. O numero que voce entrega tem que
+  ser o resultado de uma busca, nao o primeiro que funcionou.
+- **`unexploited_headroom`** e emitido por `tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py`
+  quando a utilizacao de pico fica abaixo de 60% sem justificativa. E **aviso, nunca blocker**:
+  limpa-se declarando `headroom_justification` no input. O objetivo e forcar uma decisao
+  consciente, nao proibir cenas leves.
+- **Direcao de arte, level design, leitura de gameplay e demais premissas vencem a densidade** —
+  mas precisam vencer **por declaracao**, nao por omissao. "Menos sprites porque a cena precisa
+  respirar" e uma razao legitima e declarada; silencio nao e.
+- **Falsa audacia** e a que parece ousada e piora o resultado: flicker para mascarar overflow,
+  efeito sem consequencia, densidade que destroi leitura de silhueta, tecnica citada por nome
+  em vez de por funcao. O canon ja bloqueia cada uma delas, e nenhuma vira permitida em nome
+  de ser ousado.
+- **Os dois limites por scanline sao medidos juntos.** O VDP impoe contagem de sprites **e**
+  pixels de sprite por linha ao mesmo tempo (H40: 20 e 320; H32: 16 e 256). Para sprites de
+  16px os dois fecham no mesmo ponto, o que faz parecer que existe so um. Claim de densidade
+  exige os dois.
+
+Caso canonico de audacia correta: a abertura `branding_sequence_v2` media 15 de 20 sprites por
+linha e foi declarada segura. Medir o degrau seguinte mostrou que 56 estilhacos cabiam no lugar
+de 32 — **+75% de densidade, sem tecnica nova e sem flicker**, apenas folga que estava sobrando
+na mesa. Registro em `doc/curation/ASSET_PROVENANCE_BASELINE_2026-08-17.md`.
+
+Caso canonico de falsa audacia, no mesmo episodio: multiplexacao com flicker foi proposta como
+rota para "dobrar os sprites". Ela e vedada pelo proprio skill de budget (`ausencia de flicker`
+e requisito de claim canonico) e, numa abertura de marca, degradaria a primeira impressao de
+acabamento em painel moderno. Parecia mais ousada e entregaria menos.
+
+
+## 31. Residencia de tiles medida no asset, antes do runtime
+
+`res_graph_audit.ps1` confere VRAM lendo um projeto **construido**: ele nao responde nada
+enquanto o runtime nao referencia os assets. Isso abre uma janela em que a arte esta pronta, o
+orcamento ja quebrou e ninguem consegue dizer.
+
+- **Residencia de tiles e medida no asset.** `tools/sgdk_wrapper/audit_tile_residency.py` le
+  `res/*.res`, abre cada asset e conta tiles unicos de 8x8 com deduplicacao por flip H/V, que e
+  o que de fato ocupa VRAM. Nao precisa de runtime.
+- **Teto util derivado, nao inventado:** 2048 tiles, menos as nametables de BG_A/BG_B a 64x32,
+  menos a SAT, menos a tabela de scroll por linha. O relatorio publica a derivacao.
+- **Asset com streaming ocupa a janela declarada**, nao o conjunto inteiro. O gate le
+  `vram_slots` do `dma_queue_contract` do projeto. Sem isso ele cobra o custo total de um asset
+  cuja decisao de streaming ja foi tomada, e a diferenca decide entre estourar e caber.
+- **`tile_residency_over_ceiling` bloqueia**: excesso de VRAM e fato de hardware.
+- **`low_tile_dedup_ratio` avisa**: fundo grande com menos de 30% de deduplicacao foi composto
+  como imagem fotografica e quantizado, nao autorado como conjunto de tiles. Custa como arte
+  unica e costuma **ainda parecer repetitivo** — o pior dos dois mundos. E sintoma, nao
+  violacao, entao nomeia o suspeito sem reprovar.
+- **`unexploited_vram_headroom`** abaixo de 40% de utilizacao, por simetria com a secao 30.
+
+Caso canonico: `branding_sequence_v2` entregou `img_forge_bg_b` com **2% de deduplicacao**
+(1093 tiles unicos de 1120), contra uma linha de contrato orcada em 640 para todo o conjunto de
+fundo. O agente de arte havia escrito que a parede "le como fiada", ou seja modular demais aos
+olhos; a medicao mostrou o oposto na VRAM. Percepcao e custo divergiram, e so a medicao
+explicou por que.
+
+## 32. Fatos de hardware e de SGDK pagos com build
+
+Cada item abaixo custou pelo menos um ciclo de build e captura na curadoria de 2026-08-17.
+Registro em `doc/curation/ASSET_PROVENANCE_BASELINE_2026-08-17.md`.
+
+- **Callback de H-Int precisa de `HINTERRUPT_CALLBACK`.** Handler declarado `void` faz o GCC
+  emitir `RTS`. H-Int e excecao de nivel 4 e a pilha tem SR+PC: `RTS` desempilha so o PC e o SR
+  vira a word alta do endereco de retorno. Sintoma exato: `M68K attempted to execute code at
+  unmapped address 0x23080000`, onde `0x2308` e o proprio SR. Custou dois builds atacando o
+  metodo de escrita no CRAM, que era risco secundario.
+- **O VDP impoe DOIS limites por scanline ao mesmo tempo**: H40 da 20 sprites **e** 320 pixels;
+  H32 da 16 e 256. Para sprites de 16px os dois fecham no mesmo ponto, o que faz parecer que
+  existe so um.
+- **Formula de setor acoplada a contagem gera duplicata invisivel.** `sector = index * 16 /
+  SHARD_COUNT` com 32 objetos da `index/2`; se `born` tambem for `index/2`, todo par consecutivo
+  nasce no mesmo quadro no mesmo angulo. Foram 16 pares perfeitamente sobrepostos: 32 sprites no
+  SAT rendendo 16 posicoes visiveis. Use stride coprimo do numero de setores (`index * 5 & 15`).
+  Corrigir isso **baixou** a pressao de scanline e destravou densidade que a medicao tinha
+  reprovado.
+- **`DIVS` de 32 bits no 68000 custa ~150 ciclos.** Um loop com 4 divisoes por objeto e 32
+  objetos consome ~15% do quadro. Precompute em `enter` e troque divisao por reciproco em ponto
+  fixo: `(delta * t^2 * (65536/dur^2)) >> 16`. Isso levou `over_budget_frames` de 12 para 0.
+- **Offset de VRAM nunca e escrito a mao.** Derive de `tileset->numTile`. Uma contagem propria
+  de dedup deu 304 onde o ResComp gerou 309, e os cinco tiles de diferenca sobrepuseram o
+  recurso seguinte e encheram a tela de lixo.
+- **`SPR_addSprite` com auto-alocacao esgota o pool em silencio e devolve `NULL`.** 56 objetos
+  alocando os proprios quadros pediam 1292 tiles contra reserva de 320. Use tileset
+  compartilhado com `SPR_setVRAMTileIndex` e `SPR_setAutoTileUpload(FALSE)`, e **conte as
+  falhas**: caminho de erro mudo transforma claim de contagem em ficcao.
+- **`VDP_setWindowVPos(FALSE, n)` liga a WINDOW nas fileiras 0..n-1; `TRUE` liga em n..27.**
+  Desenhar fora da metade ativa come a tela.
+- **Prioridade baixa com Shadow/Highlight ligado sai sombreada.** Wordmark que precisa ler pede
+  prioridade alta, ou o operador escurece o tile.
+- **Nibble impar nao existe no CRAM de 9 bits.** `0x0630` e `0x0CDD` sao invalidos; `0x0620` e
+  `0x0CCC` sao validos.
+- **`PAL_setColor` no indice 0 tem que rodar depois de carregar as paletas**, senao a carga
+  devolve o magenta de transparencia do PNG ao backdrop.
+- **Deduplicacao com flip H/V e o que ocupa VRAM**, nao a contagem bruta de tiles. Fundo
+  fotografico quantizado deduplica quase nada: 1120 tiles brutos viraram 1093 unicos, 2%, contra
+  73% de um irmao autorado com formas limpas.
+
+## 33. Hierarquia de evidencia visual
+
+Nem toda imagem de captura vale o mesmo. Julgar pelo artefato errado produz bug inexistente.
+
+```
+dump de VDP  >  screenshot  >  quadro de burst
+```
+
+- **Backdrop, paleta, prioridade e residencia se julgam pelo `visual_vdp_dump.bin`**, que
+  carrega o CRAM real. Foi assim que se provou que `PAL0[0]` era `0x0000` enquanto um PNG
+  mostrava borda magenta.
+- **O primeiro quadro de um burst com delay zero e invalido.** A janela do emulador ainda nao
+  terminou de compor e a superficie nao inicializada e gravada como magenta puro. Medido em
+  cinco sessoes: `screenshot.png` e `frame_3` pretos, so `frame_1` magenta. O
+  `capture_blastem_evidence_linux.sh` ja tem guarda; nao a remova.
+- **Amostra pontual de telemetria nao substitui varredura.** Uma probe que amostrava 4 de 224
+  scanlines por quadro reportou 6 onde a varredura media 23 — falso verde para configuracao que
+  causaria dropout no console. Probe de pressao conta **todas** as linhas.
+- **Probe que exporta uma vez so mede uma janela so.** Condicao de export atrelada a contagem
+  de amostras satura e congela: o maximo acumulado cobria F90-F151 e nenhum pico posterior
+  chegava a SRAM. Re-exporte periodicamente enquanto a cena roda.
+- **Numero medido em uma geometria nao transfere para outra.** "56 estilhacos cabem a 18/20" foi
+  medido com o logo em y=80; movido para y=64 o mesmo arranjo deu 22/20 e reprovou.
+- **Quando modelo e hardware divergem, o hardware manda** — e a divergencia fica registrada em
+  vez de ser resolvida por teoria.
+
+**Bissecte antes de teorizar.** Duas hipoteses plausiveis e dois builds foram gastos num crash
+cujo endereco ja apontava a causa. Um desligamento por vez encontra em minutos o que a teoria
+nao encontra em horas.
+
+## 34. Self-check obrigatorio em ferramenta de medicao
+
+Na curadoria de 2026-08-17 **tres ferramentas de medicao apresentaram defeito na mesma
+sessao**, e as tres davam leituras plausiveis:
+
+| Ferramenta | Defeito | Consequencia |
+|---|---|---|
+| `vdp_scanline_simulator.py` | media contagem de sprites e ignorava o limite de 320 px por linha | metade do orcamento por scanline descoberta em todo projeto que a usou |
+| `runtime_probe.c` | amostrava 4 de 224 scanlines por quadro | reportou 6 onde a varredura media 23: falso verde para configuracao que causaria dropout |
+| `runtime_probe.c` | dois campos exportavam a constante `1` | `active_sprite_count` nunca mediu nada |
+
+Duas delas me fizeram reportar bug que nao existia. Uma quase aprovou hardware estourado.
+**Nenhuma acusou defeito por conta propria.**
+
+- **Antes de a leitura de uma ferramenta valer em qualquer claim, o self-check dela precisa
+  passar.** Numero vindo de instrumento nao verificado nao sustenta contrato, report nem
+  promocao de status.
+- **O self-check exercita os DOIS sentidos:** uma fixture que passa e uma que reprova.
+  Ferramenta que so sabe dizer `ok` nao esta medindo — esta concordando.
+- **Cada blocker que a ferramenta pode emitir merece uma fixture** que o dispare. Blocker sem
+  fixture e blocker que ninguem sabe se funciona.
+- **Enforcement:** `tools/sgdk_wrapper/validate_measurement_tools.py` roda o self-check de
+  cada ferramenta canonica de medicao e reprova com
+  `measurement_tool_self_check_failed`, `..._no_self_check`, `..._missing` ou `..._timeout`.
+  O proprio meta-gate tem self-check e se submete a regra que aplica.
+- **Ferramenta nova de medicao entra na lista `MEASUREMENT_TOOLS`** no mesmo commit em que
+  nasce. Injetor e gerador ficam fora: eles nao produzem numero que vira claim.
+
+- **Copia local de ferramenta de medicao precisa estar identica a canonica.** Self-check que
+  passa **nao prova que a ferramenta esta atual**: uma copia da v1.0.0 do simulador passa no
+  proprio self-check, porque ele so testa o que aquela versao faz, e **aprova uma cena com
+  512 px numa linha contra um teto de 320**. Ferramenta obsoleta com self-check verde e pior
+  que ferramenta sem self-check, porque parece verificada. Blocker:
+  `measurement_tool_stale_copy`. Copia sob `out/`, `rascunho/` ou `__pycache__` e backup morto
+  e sai como aviso.
+
+Limite declarado: o meta-gate garante que o self-check existe, roda e passa. **Ele nao julga se
+o self-check cobre o que deveria** — isso continua sendo leitura humana, e e por isso que a
+mensagem de cada self-check diz em texto o que ele exercitou.
+
+Corolario da secao 33: quando modelo e hardware divergem, verifique o instrumento **antes** de
+escolher em quem acreditar. Nas tres vezes em que isso aconteceu nesta curadoria, o instrumento
+estava errado.
+
+## 35. Nenhum gate ve composicao
+
+Todo validador deste workspace mede **hardware**: residencia de tiles, pressao por scanline,
+procedencia de asset, compreensao de marca, orcamento de CPU. Nenhum deles olha para **onde as
+coisas estao na tela**.
+
+Medido: o ato 3 do branding do modelo tinha 0 sprites, 865 de 1740 tiles e `over_budget: 0` —
+**todos os gates verdes** — com quatro wordmarks empilhados na mesma faixa `y=80..128` no quadro
+451 (bigorna, FORGE, MISAEL, MASTER). A cena estava ilegivel e nenhum numero acusou.
+
+- **Composicao se pega com planta baixa, nao com validador.** Storyboard com posicao na tela,
+  por quadro-chave, antes do primeiro asset. Ver `workflows/scene-direction-first.md`.
+- **Continuidade nao e ausencia de remocao.** Proibir corte a preto sem dizer COMO cada elemento
+  sai produz acumulo. O contrato do ato 3 dizia apenas "nunca use `VDP_clearPlane`", e o
+  resultado foi zero remocoes no codigo. **Todo elemento que entra precisa de saida desenhada** —
+  scroll, fade, varredura ou substituicao — declarada no storyboard junto com a entrada.
+- **Gate verde nao e cena aprovada.** Aprovacao artistica se le em captura; ela nunca sai de um
+  exit code.
+
+Estado de enforcement: **medido** por `audit_stage_occupancy.py`. Declare um bloco
+`stage_occupancy` no storyboard com zonas (faixa + `max_concurrent`) e elementos (faixa + janela
+de quadros + `exit`). A varredura devolve o pior quadro por zona. Blockers:
+`stage_zone_over_capacity`, `element_without_declared_exit`,
+`declared_band_diverges_from_runtime`.
+
+**Declare a faixa com `runtime_ref` apontando para as constantes do C.** Declaracao envelhece: o
+`vertical_rhythm` deste storyboard ainda dizia baseline y=128 com `author_tile [8,12]` depois que
+o codigo ja tinha ido para `[8,3]` — descrevia uma cena que nao existia mais. Com `runtime_ref`, o
+gate reprova quando o runtime anda sem a planta baixa junto.
+
+Limite declarado: isto mede **sobreposicao de faixa**, a metade geometrica da composicao. Nao le
+hierarquia, peso, direcao de leitura nem ritmo. Ocupacao 1 nao significa cena bem composta, e a
+captura continua obrigatoria.
+
+## 36. Adjetivo de direcao precisa de piso numerico
+
+Palavra qualitativa em brief de arte vira defeito reproduzivel quando nao carrega numero.
+
+Medido: "leve, sem chanfro" para o PRESENTS produziu **99% da tinta num indice de luma 38 contra
+fundo de luma 46** — contraste de **-8**, texto mais escuro que o fundo. O adjetivo pedia
+discricao e o artista entregou discricao; o brief e que confundiu dois eixos.
+
+- **"Discreto" e sobre tamanho e peso. Nunca sobre contraste.** Elemento pequeno com contraste
+  alto le como discreto; elemento grande com contraste baixo le como borrao.
+- **Todo adjetivo de direcao carrega piso**: "leve" precisa de piso de luma, "sutil" precisa de
+  delta minimo, "denso" precisa de contagem.
+- **A direcao pode estar errada.** Quando o artista entrega diferente do pedido e a entrega le
+  melhor, corrija a direcao em vez de reprovar o trabalho. A silhueta "sobre transparente" era
+  aperto sem ganho, e foi a entrega que mostrou isso.
+
+Corolario da secao 30: o indice de paleta e **contrato** porque o runtime depende do papel dele;
+o valor hex e **semente** que o artista refina. Trocar hex e passe de arte; trocar papel quebra
+runtime.
+
+Estado de enforcement: **medido** por `audit_luma_floor.py`. Declare um bloco `luma_floor` com
+pares elemento/fundo, a regiao exata onde o elemento e carimbado e as camadas de fundo compostas
+de tras para frente.
+
+**O piso e 34** — um degrau de componente do Mega Drive (0,34,68,...,238). Contraste abaixo de um
+degrau nao existe no console. Blockers: `luma_contrast_below_floor` quando mais de um terco da
+tinta cai sob o piso, e `no_readable_highlight_mass` quando intencao de realce nao tem 20% de
+massa com contraste positivo.
+
+**A metrica e massa de tinta, nunca media de luma.** A primeira versao desta ferramenta usava
+media e reprovou o PRESENTS, que le muito bem: 58,8% da tinta dele e contorno preto, e contorno
+escuro e recurso de legibilidade, nao defeito. Media de contorno com preenchimento nao mede nada.
+Calibrar contra falso positivo antes de publicar e a secao 37.
+
+Limite declarado: mede **luma**, nao legibilidade. Tinta e fundo podem estar longe em luma e
+brigar por matiz; serifa fina ou fundo ruidoso continuam ilegiveis com contraste alto.
+
+## 37. Gate precisa reprovar em teste e ser calibrado contra falso positivo
+
+Duas metades da mesma regra, e este workspace errou as duas.
+
+- **Gate que nunca reprovou nao esta medindo.** Toda trava precisa de fixture que passa **e**
+  fixture que reprova, exercitadas no self-check da secao 34.
+- **Gate que reprova projeto saudavel sera desligado.** A primeira versao do detector de arte
+  procedural reprovou **9 de 9 projetos** por confundir enderecamento de VRAM (`TILE_USER_INDEX`,
+  `VDP_setTileMapXY`) e paleta autoral com desenho por codigo. Um gate assim nao protege nada:
+  ele treina o time a ignorar o vermelho. Calibre contra a arvore existente **antes** de publicar.
+- **Caminho de erro sem contador transforma claim de contagem em ficcao.** `brandEnsureShard`
+  retornava mudo em `NULL`; a contagem de 56 estilhacos so virou fato quando um contador provou
+  `spawned=56, failed=0`. Todo `return` de falha precisa incrementar algo que seja exportado.
+
+Corolario da secao 15: antes de escrever regra nova, **procure a existente e leia o enforcement**.
+A proibicao de arte procedural ja existia em 8 lugares em prosa e nao era medida em nenhum — 78
+de 136 simbolos violavam. Quando a regra ja esta escrita, o gap e medicao, nao vocabulario.
+
+## 38. Capacidade declarada com prova antes de promessa
+
+Agente que promete o que nao sondou engana o usuario duas vezes: na promessa e na correcao
+tarde. Este workspace ja perdeu tempo nos dois sentidos — agente alegando gerar imagem nativa
+sem ter canal nenhum, e skill canonica citando schemas que nao existiam em disco.
+
+**Regra:** antes de aceitar ou iniciar qualquer tarefa dependente de capacidade (gerar imagem,
+buildar, rodar emulador, tocar audio), o agente executa uma **sonda real** — comando rodado,
+output capturado — e declara a capacidade em um de tres estados:
+
+```
+capaz_com_prova_agora      -> sonda passou agora, nesta sessao
+capaz_apos_preparo_medido  -> sonda falhou por preparo ausente, custo de preparo medido e declarado
+nao_capaz_neste_host       -> sonda falhou por limite estrutural do host/agente, declarado sem promessa futura
+```
+
+Nao existe quarto estado. "Acho que consigo", "deve funcionar" e "um modelo como eu normalmente
+faz isso" sao proibidos como base de decisao.
+
+**Proibições duras:**
+
+- Prometer resultado ao usuario antes da sonda.
+- Basear claim de capacidade em memoria de outra sessao, em fama do modelo ou em documentacao
+  desatualizada.
+- Silenciar quando a sonda contradiz a suposicao inicial — a correcao e imediata e explicita.
+
+**Arvore de roteamento quando existem multiplas vias** (caso concreto: geracao visual):
+
+```
+Ramo A: agente gera nativo com prova   -> gera e persiste agora
+Ramo B: host tem requisitos            -> prepara via circuito local e gera
+Ramo C: nem agente nem host            -> emite diretriz para modelo sucessor capaz
+```
+
+O Ramo C e entrega, nao bloqueio morto: `successor_asset_directive` com papel, contexto,
+assets, proveniencia exigida e gates de chegada. Skill dona: `image-generation-routing`.
+
+**Limite declarado:** isto mede honestidade de claim na porta de entrada da tarefa, nao
+qualidade da execucao. Sonda que passa nao garante asset bom; sonda que nao passa impede
+promessa falsa. Enforcement: toda decisao de canal/capacidade registra report JSON com os
+campos `probe_attempted`, `probe_output` e estado final do vocabulario — sem report, o claim
+nao existe.
+
+## 39. Barra viva da cena — piso visual 2026 (oficio, nao handle)
+
+A barra comercial de 1994 em `doc/03_art/00_visual_quality_bar.md` continua
+necessaria e **nao suficiente**. O piso de `aaa_game`, vertical slice, asset
+critico, HUD heroico, title, boss, lutador, brawler, cena assinatura e
+`ready_for_aaa` e o oficio da cena viva do Mega Drive, decodificado em
+`doc/03_art/18_live_scene_bar.md`.
+
+Ponteiros publicos (qualidade, nunca source_art) — oficio, nao IP:
+
+- `RheoGamer` = densidade arcade no VDP legal.
+- `PigsyRetro` = traducao de arte rica para pixel nativo MD.
+- `GabrielPyron` = palco restaged ao teto de tiles (~980 BG+FG).
+- `ReySilveira28` = conversao de palco com segundo passe; gate 320x224 4:3.
+- `RDiggoSilva` = identidade de chip YM2612, nao dump Neo Geo.
+- `MXRetroDev` = carta de paletas compartilhadas do roster
+  (https://x.com/MXRetroDev/status/1900597106068296043).
+- `birt_shannon` = 3D/DMA, inversao de planos, FPS honesto com musica
+  (https://x.com/birt_shannon/status/2077723799316013354).
+- `danielmoura79` = HAMOOPIG: luta e contrato de engine
+  (https://x.com/danielmoura79/status/1824963016586056183).
+
+Citar o handle sem aplicar o oficio e `name_drop_without_craft`. Copiar
+pixels, PCM, paleta, pose, palco ou IP dos trabalhos deles e `clone_risk`.
+
+**Tese:** VRAM e CRAM sao a primeira decisao de arte. Sem decisao artistica,
+conhecimento de hardware produz lixo visivel. Arte de outra plataforma e
+materia-prima, nunca `quantize()` cego. SGDK e base, nao teto.
+
+**Parametros (nao recopiar nesta regra):** `doc/03_art/live_scene_bar_parameters.json`
+H40 320x224; 4 paletas; ~980 tiles BG+FG em palco denso (observado);
+SAT 80 / 20 por linha H40; 60 fps no 2D ou recuo; 3D declara FPS com musica;
+0 lag em plataforma critica; XGM/XGM2 medidos na cena pesada (XGM2 nao e
+automaticamente mais leve sob DMA alto). Widescreen e Mode 7 de vitrine
+nao fecham gate. 1000+ sprites e lab/assinatura, nao default.
+
+**Proibicoes duras:**
+
+- Aceitar asset abaixo dos 12 checks compartilhados da barra.
+- Pedir "pixel art sprite sheet Mega Drive" ao gerador como fonte final.
+- Downscale ou quantizacao global como traducao elite.
+- Usar "e Mega Drive" como desculpa para pobreza quando o budget nao foi medido.
+- Promover para `elite_ready`, `delivery` ou `ready_for_aaa` sem
+  `out/logs/live_scene_bar_report.json`.
+- Guardar pixels dos ports observados (KOF, Fatal Fury, Metal Slug, SotN,
+  Shinobi, Mario, Pocket Bravery) em `data/source_art`.
+
+**Enforcement:**
+
+- Laudo contra `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json`.
+- Falhou um check → teto `needs_review`.
+- `ready_for_aaa=true` exige `live_scene_bar_report.status=passed` no slice.
+- Juiz: `visual-excellence-standards`. Traducao: `art-translation-to-vdp`.
+- Guardian: claim visual vivo roteia para esta secao.
+- Status de prova em ROM desta barra no Forge: `NAO_INICIADA` ate a Fase 6
+  de `doc/03_art/19_plan_pixel_art_live_scene_capability.md`.
+
+Blockers: `live_scene_bar_failed`, `live_scene_bar_report_missing`,
+`name_drop_without_craft`, `pixel_art_prompted_as_final`,
+`hardware_used_as_excuse`, `fake_pixel_art_rejection`.

@@ -65,6 +65,7 @@ RELATIVE_REF_RE = re.compile(
     re.IGNORECASE,
 )
 ABSOLUTE_REF_RE = re.compile(r"(?:[A-Za-z]:[\\/]|\\\\)[^\s`|]+")
+SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 PRESERVED_LIFECYCLE = {
     "approved_for_canonical_patch",
     "implemented",
@@ -193,6 +194,88 @@ def normalize_relative_ref(value: str) -> str:
     return value.strip().strip("`.,;:()[]").replace("\\", "/")
 
 
+def evidence_rom_sha256(payload: dict[str, Any]) -> str | None:
+    candidates = (
+        payload.get("rom_sha256"),
+        payload.get("current_rom_sha256"),
+        payload.get("captured_rom_sha256"),
+        payload.get("expected_rom_sha256"),
+        (payload.get("evidence") or {}).get("rom_sha256")
+        if isinstance(payload.get("evidence"), dict)
+        else None,
+        (payload.get("rom") or {}).get("sha256")
+        if isinstance(payload.get("rom"), dict)
+        else None,
+    )
+    for candidate in candidates:
+        normalized = str(candidate or "").strip().lower()
+        if SHA256_RE.fullmatch(normalized):
+            return normalized
+    return None
+
+
+def classify_bound_evidence(
+    project_root: Path,
+    refs: set[str],
+    warnings: list[str],
+) -> tuple[str, str, list[str]]:
+    """Grade evidence only when bundle, gate and ROM identity are consistent."""
+    manifests: list[tuple[str, dict[str, Any], str | None]] = []
+    gates: list[tuple[str, dict[str, Any], str | None]] = []
+    for ref in sorted(refs):
+        if not ref.lower().endswith(".json"):
+            continue
+        payload = load_json(project_root / ref)
+        if not payload:
+            continue
+        rom_hash = evidence_rom_sha256(payload)
+        is_manifest = (
+            Path(ref).name.lower() == "evidence_manifest.json"
+            or str(payload.get("tool_name") or "") == "seal_fresh_evidence_bundle"
+        )
+        if is_manifest:
+            manifests.append((ref, payload, rom_hash))
+            continue
+        gate_status = str(payload.get("status") or payload.get("decision") or "").lower()
+        if "gate" in Path(ref).name.lower() or payload.get("gate_id") or payload.get("results"):
+            gates.append((ref, payload, rom_hash))
+
+    gaps: list[str] = []
+    sealed = [entry for entry in manifests if str(entry[1].get("status") or "").lower() == "sealed"]
+    if not sealed:
+        if manifests:
+            gaps.append("evidence_bundle_not_sealed")
+        return "E1_artifact", "unknown", gaps
+
+    manifest_hashes = {entry[2] for entry in sealed if entry[2]}
+    if len(manifest_hashes) != 1:
+        gaps.append("evidence_bundle_rom_identity_missing_or_divergent")
+        warnings.append("evidence_rom_hash_mismatch")
+        return "E1_artifact", "stale", gaps
+
+    rom_hash = next(iter(manifest_hashes))
+    if not gates:
+        gaps.append("gate_report_reference_missing")
+        return "E3_blastem", "fresh", gaps
+
+    gate_failures = []
+    gate_hash_mismatches = []
+    for ref, payload, gate_hash in gates:
+        status = str(payload.get("status") or payload.get("decision") or "").lower()
+        if status not in {"passed", "pass", "ok", "accepted", "sealed"}:
+            gate_failures.append(ref)
+        if gate_hash != rom_hash:
+            gate_hash_mismatches.append(ref)
+    if gate_hash_mismatches:
+        gaps.append("gate_report_rom_hash_mismatch")
+        warnings.append("evidence_rom_hash_mismatch")
+    if gate_failures:
+        gaps.append("referenced_gate_not_passed")
+    if gate_hash_mismatches or gate_failures:
+        return "E3_blastem", "stale", gaps
+    return "E4_budget_and_regression", "fresh", gaps
+
+
 def extract_evidence(
     project_root: Path,
     source_document: str,
@@ -214,23 +297,19 @@ def extract_evidence(
         if candidate.exists():
             refs.add(relative)
 
-    grade = "E1_artifact"
-    if "out/rom.bin" in refs:
+    grade, bound_freshness, binding_gaps = classify_bound_evidence(project_root, refs, warnings)
+    if grade == "E1_artifact" and "out/rom.bin" in refs:
         grade = "E2_build"
-    if any("blastem" in ref.lower() or ref.lower().endswith("emulator_session.json") for ref in refs):
-        grade = "E3_blastem"
-    if any("budget" in ref.lower() or "scene_regression_report" in ref.lower() for ref in refs):
-        grade = "E4_budget_and_regression"
 
-    freshness = "unknown"
+    freshness = bound_freshness
     freshness_report = load_json(project_root / "out" / "logs" / "freshness_audit_report.json")
     freshness_status = str(freshness_report.get("status") or "").lower()
-    if freshness_status:
+    if freshness_status and freshness != "stale":
         freshness = "stale" if freshness_status in {"stale", "blocked", "failed", "drift"} else "fresh"
-    elif not any(ref.startswith("out/") for ref in refs):
+    elif freshness == "unknown" and not any(ref.startswith("out/") for ref in refs):
         freshness = "not_applicable"
 
-    gaps: list[str] = []
+    gaps: list[str] = list(binding_gaps)
     if grade in {"E0_note_only", "E1_artifact"}:
         gaps.append("operational_evidence_missing")
     if freshness in {"unknown", "stale"}:

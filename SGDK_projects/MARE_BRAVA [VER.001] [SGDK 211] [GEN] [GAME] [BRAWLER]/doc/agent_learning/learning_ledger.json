@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]"
+  },
+  "policy": {
+    "local_auto_update": true,
+    "canonical_auto_mutation": false,
+    "human_approval_required": true,
+    "evidence_required": true
+  },
+  "generated_at": "2026-07-03T16:21:19Z",
+  "source_digest": "e66bf00df18c32980258f4ff01445ec8d40caf4731910a5bdd8cf12f17901095",
+  "lessons": [
+    {
+      "lesson_id": "lesson_ac2e5201cda28be4",
+      "title": "L02 proporcao estilizada ignorada por modelos de imagem",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "needs_human_review",
+      "lifecycle_status": "human_review_required",
+      "observed_at": "2026-07-03",
+      "problem_signature": "l02_proporcao_estilizada_ignorada_por_modelos_de_imagem",
+      "context": "prompts pediram explicitamente proporcao arcade 3.5 heads para sprites de 44-56px",
+      "observation": "modelos entregaram anatomia realista (~6.5 heads) em todos os sheets de personagem; o downscale direto para altura de jogo vira borrao (provado no contact sheet)",
+      "diagnosis": "modelos de imagem generalistas nao obedecem instrucao textual de proporcao estilizada com confiabilidade",
+      "resolution_or_preventive_heuristic": "pedir anatomia realista de proposito (identidade, roupa, pose) e declarar a compressao para 3-4 heads como etapa pixel autoral obrigatoria; atualizar template de prompt pack e concept_art_direction_system",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "workflow",
+        "deduplication": "matched_existing_owner",
+        "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+        "owner_skill": "art/art-translation-to-vdp",
+        "match_rule_id": "no_direct_downscale_for_critical_48x64_sprites"
+      },
+      "canonical_patch_proposal": {
+        "action": "patch_existing_owner",
+        "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+        "summary": "Review existing owner against project lesson: L02 proporcao estilizada ignorada por modelos de imagem",
+        "required_tests": [
+          "48x64 source-to-rom comparison fixture",
+          "fake pixel art rejection fixture",
+          "palette material mapping review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3a8c0dc929cee27b",
+      "title": "L03 texto diegetico emergente apesar do negative prompt",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-03",
+      "problem_signature": "l03_texto_diegetico_emergente_apesar_do_negative_prompt",
+      "context": "prompts de cenario com negative prompt 'no text'",
+      "observation": "modelo inseriu texto diegetico (fita 'interditado por sindicato', selo de uniao em caixote) no painel da arena 3",
+      "diagnosis": "elementos textuais fazem parte do vocabulario visual de docas/interdicao no treino do modelo",
+      "resolution_or_preventive_heuristic": "gate de concept classificar texto emergente como aceito_diegetico ou rejeitado em vez de reprovar automaticamente; neste caso foi ACEITO como narrativa ambiental do GDD; conversao a tiles precisa de politica para texto legivel",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/source_art/cais_world/cais_arena3_beirada_ringout_v01.png",
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_03a857463d333373",
+      "title": "L05 nomes de arquivo humanos quebram higiene",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-03",
+      "problem_signature": "l05_nomes_de_arquivo_humanos_quebram_higiene",
+      "context": "humano salvou os concepts gerados manualmente",
+      "observation": "nomes com espacos, acentos e dois-pontos (invalido em Windows) e dois arquivos na pasta errada, apesar do padrao declarado no prompt pack",
+      "diagnosis": "prompt pack declarou o padrao de pasta mas nao o nome exato de arquivo por prompt",
+      "resolution_or_preventive_heuristic": "prompt pack deve dar o nome de arquivo exato por prompt; agente normaliza para portable_descriptive_v1 no recebimento como rotina",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_7d42667e5e72ddd9",
+      "title": "L06 incompatibilidades do framework em pwsh linux",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-03",
+      "problem_signature": "l06_incompatibilidades_do_framework_em_pwsh_linux",
+      "context": "primeira producao completa do framework num host Manjaro Linux com pwsh 7.6",
+      "observation": "OrderedDictionary rejeitado pelo Test-JsonSchema; ConvertFrom-Json converte datas ISO em DateTime sem -DateKind String; .agent local precisa ser symlink absoluto; heuristica do GDD nao le acentos; higiene acusa literais de caminho em texto historico; validate_resources usa -WorkDir; audit_project_learning chama py",
+      "diagnosis": "framework desenvolvido e testado apenas em Windows PowerShell",
+      "resolution_or_preventive_heuristic": "fix ja commitado no validador do brawler; varrer validadores irmaos e adicionar CI multiplataforma (chips de curadoria abertos)",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/changelog/changelog.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2089af09924dcc0e",
+      "title": "L07 falso verde de contrato em fase de planejamento",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-03",
+      "problem_signature": "l07_falso_verde_de_contrato_em_fase_de_planejamento",
+      "context": "cadeia de contratos de design 100 por cento valida com projeto sem ROM nem arte",
+      "observation": "audit_game_design_contracts emitiu ready_for_aaa=true em pre-producao, criando impressao de prontidao",
+      "diagnosis": "auditor nao cruza evidencia de runtime antes de conceder o status maximo",
+      "resolution_or_preventive_heuristic": "slice_scope_contract como guarda anti-falso-verde local; no canonico, emitir design_contracts_ready em planejamento e reservar ready_for_aaa para quando houver evidencia",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/contracts/slice_scope_contract.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_6f5e26e4822bd06c",
+      "title": "L08 ledger e derivado dos markdowns e nao editavel a mao",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-03",
+      "problem_signature": "l08_ledger_e_derivado_dos_markdowns_e_nao_editavel_a_mao",
+      "context": "agente escreveu licoes estruturadas direto em learning_ledger.json",
+      "observation": "audit_project_learning -Mode Capture regenerou o ledger a partir dos markdowns e sobrescreveu as licoes escritas a mao",
+      "diagnosis": "o ledger e artefato DERIVADO (extract_project_learning.py parseia success/failure patterns por secoes ## com campos '- Campo: valor'); escrever nele viola o contrato da ferramenta",
+      "resolution_or_preventive_heuristic": "curar licoes SEMPRE nos markdowns no formato do parser (Data, Contexto, Falha observada/Padrao observado, Causa provavel, Mitigacao, Evidencia, Classificacao, Candidato) e deixar o capture derivar o ledger",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/agent_learning/learning_ledger.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_5b7fbd4d6e4d31ca",
+      "title": "L01 prompt pack para geracao humana assincrona",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-03",
+      "problem_signature": "l01_prompt_pack_para_geracao_humana_assincrona",
+      "context": "canal de geracao IA bloqueado no host (sem callable, sem API, Bonsai exige NVIDIA); arte de concept necessaria para o CAIS_01",
+      "observation": "prompt pack com prompts especificos (paleta hex, poses numeradas, negative prompt, criterios de aceite, caminho de salvamento) rendeu 15 concepts utilizaveis na primeira geracao feita pelo humano em modelo externo",
+      "diagnosis": "especificidade tecnica do prompt transfere a direcao de arte para qualquer canal disponivel sem perder o contrato visual",
+      "resolution_or_preventive_heuristic": "formalizar prompt_pack como saida padrao da art-creation-sourcing quando generation_channel_decision=blocked",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_0e40fb9fc2772009",
+      "title": "L04 contact sheet vdp como prova barata",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-03",
+      "problem_signature": "l04_contact_sheet_vdp_como_prova_barata",
+      "context": "direcao de arte pendente de ratificacao humana; necessidade de provar sobrevivencia da linguagem no VDP antes de converter",
+      "observation": "downscale 320x224 + quantizacao 15 cores + snap 9-bit (passo 36 por canal) separou objetivamente o que sobrevive (cenarios, BG loop, logo) do que nao sobrevive (personagem realista em 44-56px)",
+      "diagnosis": "a prova reproduz as restricoes reais do alvo com custo quase zero",
+      "resolution_or_preventive_heuristic": "incorporar o contact sheet VDP como gate padrao do art-translation-to-vdp via script canonico no wrapper",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png",
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    }
+  ],
+  "candidate_index": [
+    {
+      "lesson_id": "lesson_ac2e5201cda28be4",
+      "title": "L02 proporcao estilizada ignorada por modelos de imagem",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_3a8c0dc929cee27b",
+      "title": "L03 texto diegetico emergente apesar do negative prompt",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_03a857463d333373",
+      "title": "L05 nomes de arquivo humanos quebram higiene",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_7d42667e5e72ddd9",
+      "title": "L06 incompatibilidades do framework em pwsh linux",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_2089af09924dcc0e",
+      "title": "L07 falso verde de contrato em fase de planejamento",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_6f5e26e4822bd06c",
+      "title": "L08 ledger e derivado dos markdowns e nao editavel a mao",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    }
+  ],
+  "canonical_promotion_performed": false
+}

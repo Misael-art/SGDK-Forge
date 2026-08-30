@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "camera_motion_contract_v001",
+  "generated_at": "2026-06-14T07:53:00-03:00",
+  "study_status": {
+    "context_type": "exercise",
+    "lab_not_delivery": true,
+    "ready_for_aaa": false,
+    "claim_ceiling": "exercise"
+  },
+  "source": {
+    "def_path": "rascunho/inputs/showdown.def",
+    "reconstruction_report": "analysis/reconstruction.json",
+    "export_meta": "work/sgdk_bins/showdown_export_meta.json",
+    "curation_record": "doc/showdown_camera_palette_curation_2026-06-13.md"
+  },
+  "mugen_stage_camera": {
+    "viewport_px": {
+      "width": 320,
+      "height": 224,
+      "mugen_logical_height": 240
+    },
+    "start": {
+      "x": 0,
+      "y": 0
+    },
+    "bounds": {
+      "boundleft": -224,
+      "boundright": 224,
+      "boundhigh": -240,
+      "boundlow": 0
+    },
+    "verticalfollow": 0.5,
+    "tension": 50,
+    "zoffset": 215
+  },
+  "derived_runtime_camera": {
+    "world_px": {
+      "width": 768,
+      "height": 480
+    },
+    "scroll_bounds_px": {
+      "min_x": 0,
+      "max_x": 448,
+      "min_y": 0,
+      "max_y": 256
+    },
+    "mugen_start_scroll_px": {
+      "x": 224,
+      "y": 256
+    },
+    "viewer_default_scroll_px": {
+      "x": 224,
+      "y": 256
+    },
+    "initial_camera_px": {
+      "x": 224,
+      "y": 256
+    }
+  },
+  "floor_anchor": {
+    "screen_y_px": 215,
+    "visible_floor_margin_px": 9,
+    "meaning": "The fight floor must stay visible near the bottom of the 224 px Mega Drive viewport.",
+    "runtime_rule": "Camera Y must clamp so the floor anchor remains readable; free vertical explorer motion is not proof of fighting camera behavior."
+  },
+  "fighter_focus_contract": {
+    "p1_start": {
+      "x": -70,
+      "y": 0,
+      "z": 0,
+      "facing": 1
+    },
+    "p2_start": {
+      "x": 70,
+      "y": 0,
+      "z": 0,
+      "facing": -1
+    },
+    "focus_x_rule": "focus_x = clamp((p1_x + p2_x) / 2, boundleft, boundright)",
+    "focus_y_rule": "focus_y = clamp(camera_start_y + round(max(0, airborne_y_delta) * verticalfollow), boundhigh, boundlow)",
+    "initial_focus": {
+      "x": 0,
+      "y": 0
+    },
+    "initial_scroll_from_focus_px": {
+      "x": 224,
+      "y": 256
+    }
+  },
+  "runtime_implementation": {
+    "status": "dual_focus_fixture_runtime_route_a_multi_plane",
+    "file": "sgdk_viewer/showdown_viewer/src/scenes/scene_demo.c",
+    "implemented_rules": [
+      "camera_x follows midpoint of two virtual fighter points",
+      "fighter fixture starts at world x 314 and 454 around focus x 384",
+      "fighter horizontal separation is capped at 224 px",
+      "camera_y remains floor locked at 256 until airborne delta exceeds 100 px",
+      "super jump fixture applies verticalfollow 1/2 and clamps camera_y 0..256",
+      "scene-entry input cooldown prevents menu A from triggering an evidence jump",
+      "BG_B streams the far plane at 43/100 horizontal and 285/1000 vertical camera delta",
+      "BG_A streams mid/floor rows with 71/100 and 1/1 horizontal bands",
+      "BG_A and BG_B HSCROLL_LINE preserve sub-tile parallax; BG_A adds water reflection offset gradient",
+      "BG_B occlusion culling skips far-plane cells hidden by fully opaque BG_A tiles"
+    ],
+    "fixture_controls": {
+      "p1_horizontal": "LEFT/RIGHT",
+      "p2_horizontal": "hold C + LEFT/RIGHT",
+      "p1_super_jump": "A",
+      "p2_super_jump": "B"
+    },
+    "remaining_gaps": [
+      "fixture points are not final fighter entities",
+      "no runtime camera telemetry stream is attached",
+      "foreground priority/sprite-graft behavior is not validated against real fighter sprites",
+      "line-scroll parallax has not been captured with scripted moving-camera evidence"
+    ]
+  },
+  "runtime_acceptance": {
+    "must_preserve": [
+      "horizontal bounds left/right from DEF",
+      "vertical bounds high/low from DEF",
+      "floor anchor at zoffset=215",
+      "initial MUGEN start view",
+      "fighter midpoint focus",
+      "integer pixel final scroll"
+    ],
+    "rejected_as_evidence": [
+      "free D-pad explorer camera",
+      "autopan sweep as proof of fighting camera",
+      "camera that hides the floor at start",
+      "camera that ignores verticalfollow"
+    ],
+    "expected_sgdk_strategy": {
+      "camera_x": "integer pixel camera, clamped 0..448",
+      "camera_y": "integer pixel camera, clamped 0..256 and floor-anchor aware",
+      "subpixel": "not used for final scroll",
+      "autopan": "disabled for evidence capture unless explicitly labelled lab_sweep"
+    }
+  },
+  "evidence_requirements": {
+    "minimum": [
+      "source viewport at mugen_start",
+      "export preview at same camera",
+      "BlastEm screenshot at same camera",
+      "save.sram",
+      "camera report with initial scroll and floor anchor check"
+    ],
+    "budget_claim_extra": [
+      "visual_vdp_dump.bin or equivalent VDP/VRAM telemetry",
+      "runtime metrics tied to the ROM hash"
+    ]
+  },
+  "status": "active_contract"
+}

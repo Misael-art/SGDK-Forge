@@ -1,6 +1,6 @@
 # AAA Skill Curation Status — v3
 
-Ultima atualizacao: 2026-04-21
+Ultima atualizacao: 2026-08-29
 
 ## Escopo
 
@@ -67,11 +67,13 @@ Fontes canonicas:
 | `falta_doutrina` | Kinematics/experimentos especiais ainda fora da Fase 1; demais lacunas P0-P3 agora tem doutrina, mas nao prova runtime |
 | `falta_runtime_proof` | HUD/UI, tipografia, texto narrativo expressivo, menu/title, transicoes, raster/luz/feedback FX, boss/setpieces, tilemap avancado, audio senior, sprite animation, character design, multi-plano e tecnicas avancadas sem benchmark BlastEm |
 | `gap_puro` | forward kinematics, interlaced 448 como uso produtivo, SAT mid-frame reuse, mutable tile decals e cellular microbuffer |
+| `piso_vivo_escrito_prova_ausente` | barra viva da cena (`18_live_scene_bar.md`): doutrina INCORPORADA, `runtime_proof_status=NAO_INICIADA`; geracao de pixel nativo no nivel Rheo/Pigsy ainda nao vista em ROM |
 
 ### Prioridade objetiva
 
 | Prioridade | Registry ID | Trilha | Objetivo |
 |---|---|---|---|
+| `P0` | `live_scene_bar` | Pixel nativo no piso da cena viva | Executar `doc/03_art/19_plan_pixel_art_live_scene_capability.md` ate a primeira ROM com `live_scene_bar_report.status=passed` e aprovacao humana. Doutrina ja escrita; nao expandir schema no lugar de gerar fonte e traduzir |
 | `P0` | `feedback_fx_decision_system` | Raster + Lighting + Feedback FX | Canonizar H-Int, line/column scroll, palette split, Shadow/Highlight, palette cycling, hit sparks, particulas e feedback dramatizado com owner, reset e fallback |
 | `P1` | `boss_setpiece_design` | Boss/Setpieces | Canonizar boss gigante, plane takeover, partes, weak points, telegraph, camera/impact FX e scanline budget |
 | `P2` | `advanced_tilemap_design` | Tilemap Avancado | Canonizar streaming, metatiles, priority foreground, tile reuse, colisao visual, dano local e leitura de rota |

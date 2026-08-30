@@ -46,6 +46,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/sgdk_wrapper/assert_ag
 ```
 
 Essa guarda chama o preparo automaticamente, valida pontes de skills, instala/prepara Graphify quando necessario, serializa updates concorrentes por lock global e deixa o grafo consultivo `fresh`. Graphify deve ser usado somente via `pwsh` e pelo wrapper `tools/sgdk_wrapper/graphify_forge.ps1`; nunca use `graphify query` direto e nunca trate `graphify-out/` como fonte de verdade.
+Ela tambem prepara a camada opcional `ai-memory` de forma controlada via `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1`: cria apenas marcadores `.ai-memory.toml`, politica local e report consultivo. Nao instala hooks/MCP globais, nao roda bootstrap/auto-improve e nunca substitui memory bank, learning ledger, validators, Graphify, changelog ou evidencia de emulador. Politica: `doc/AI_MEMORY_POLICY.md`.
 O menu canonico `tools/sgdk_wrapper/show_agent_menu.ps1` tambem chama essa guarda automaticamente, exceto se `SGDK_SKIP_AGENT_ENVIRONMENT_GUARD=1`.
 
 ---
@@ -108,6 +109,157 @@ Regra de uso:
 ❌ Logica de build em projeto — apenas em tools/sgdk_wrapper/
 ❌ Inventar API do SGDK  — verificar header antes de usar
 ❌ Declarar "pronto" sem ROM rodando no emulador
+❌ Grafico desenhado por codigo como personagem, inimigo, boss ou cenario final
+❌ Simbolo visual em res/*.res sem proveniencia declarada
+❌ Fechar orcamento sem medir o degrau seguinte — folga nao medida e timidez
+❌ Usar leitura de ferramenta de medicao cujo --self-check nao passa
+```
+
+---
+
+## ORDEM DE TRABALHO DE CENA
+
+**Roteiro, storyboard, coreografia e medicao vem ANTES do contrato de asset.**
+
+```
+roteiro -> storyboard -> coreografia -> medicao -> orcamento
+        -> contrato de asset -> model sheet -> assets -> runtime -> evidencia
+```
+
+Coreografia e medicao **nao custam arte**: sao Python e planilha, erram barato e cedo. Quando
+entram depois da arte pronta, elas invalidam a arte. Na curadoria de 2026-08-17 isso custou:
+lista de assets de 8 para 9, martelo saindo de imagem estatica para sprite, brasa de 4 para 6
+quadros, um fundo inteiro re-autorado por deduplicacao nunca medida, e uma coreografia que
+media 36 sprites numa scanline contra um limite de 20.
+
+**Storyboard e planta baixa, nao concept art:** posicao em pixel de cada objeto, entradas e
+saidas por borda, sucessao de nomes e fontes, e o que permanece entre quadros-chave. A ancora
+de coordenada e o que faz assets se encaixarem em vez de flutuarem.
+
+**Adjetivo de direcao sem piso numerico vira defeito.** "Leve" sem piso de luma produziu um
+wordmark com contraste de -8 contra o proprio fundo.
+
+Workflow completo: `tools/sgdk_wrapper/.agent/workflows/scene-direction-first.md`.
+
+---
+
+## DOUTRINA DE AUDACIA
+
+**O teto do hardware e o alvo, nao a margem de seguranca.**
+
+Entregar uma cena a 40% do orcamento sem ter medido ate onde dava nao e prudencia: e uma
+decisao que ninguem tomou. Antes de fechar qualquer budget, meca o degrau seguinte. Se 32
+objetos cabem, meca 48 e 64. Pare quando **medir** o estouro, nao quando sentir receio.
+
+**Audacia e sobre a ambicao, nunca sobre o claim.** Empurre o que voce tenta; meca o que voce
+afirma. Quanto mais ousado o alvo, mais rigorosa precisa ser a medicao. Ambicao alta com claim
+medido e o padrao. Ambicao baixa desperdica hardware. Claim alto sem medicao e falso verde, e
+o resto deste documento ja bloqueia isso.
+
+**Direcao de arte, level design e as premissas do projeto vencem a densidade** — mas por
+declaracao, nunca por omissao. "Menos sprites porque a cena precisa respirar" e razao
+legitima; silencio nao e.
+
+**Falsa audacia** e a que parece ousada e piora o resultado: flicker para mascarar overflow,
+efeito sem consequencia, densidade que destroi leitura de silhueta. O canon bloqueia cada uma,
+e nenhuma vira permitida em nome de ser ousado.
+
+O VDP impoe **dois** limites por scanline ao mesmo tempo — H40: 20 sprites e 320 pixels; H32:
+16 e 256. Para sprites de 16px eles fecham no mesmo ponto, o que faz parecer que existe so um.
+
+```bash
+python3 tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py --input <cena>.json
+```
+
+`unexploited_headroom` e emitido abaixo de 60% de utilizacao. E aviso, nunca blocker: limpa-se
+declarando `headroom_justification`. O objetivo e forcar decisao consciente, nao proibir cena
+leve.
+
+Regra completa e casos canonicos: `SGDK_GLOBAL.md` secao 30.
+
+---
+
+## DIRETRIZ DE BLOQUEIO ESTETICO
+
+**Nenhum pixel de personagem, inimigo, boss ou cenario pode nascer de codigo.**
+
+Grafico procedural — primitivas, poligonos, retangulos, preenchimento solido, seja
+desenhado em C no runtime ou em Python por `PIL/ImageDraw` no pipeline — e permitido
+**apenas** para telemetria, debug visual de elemento invisivel ao jogador e elemento
+transitorio de interface como barra de progresso simples.
+
+Toda entrega visual consome arquivo de imagem externo importado por `res/resources.res`
+com `IMAGE`, `SPRITE`, `TILESET`, `TILEMAP` ou `MAP`, em pixel art indexada respeitando
+15 cores visiveis por bloco mais o index 0 transparente.
+
+**Um PNG desenhado por primitiva nao satisfaz essa regra por estar em disco.** O que
+decide e a proveniencia declarada, nao o formato nem o nome do arquivo:
+
+```
+doc/asset_provenance_manifest.json   ← um registro por simbolo visual do .res
+  source_kind: hand_authored_pixel | ai_generated | photo_or_render_derived
+             | procedural_composed_from_authored | procedural_primitive | sgdk_builtin
+  acceptance_status: final | placeholder | debug_lab | visual_lab_control
+```
+
+`source_kind: procedural_primitive` nunca pode ter `acceptance_status: final`.
+`procedural_composed_from_authored` exige fonte autoral persistida com hash.
+
+Enforcement executavel — roda antes de qualquer claim de entrega visual:
+
+```bash
+python3 tools/sgdk_wrapper/audit_procedural_asset_provenance.py \
+  --project-root "SGDK_projects/<projeto>" \
+  --shared-builder-root tools/image-tools
+```
+
+O auditor casa o `.res` com os builders que escrevem cada arquivo; declarar
+`hand_authored_pixel` para um asset escrito por builder de primitivas e detectado e
+bloqueado. Blockers: `asset_provenance_undeclared`, `procedural_asset_promoted_to_res`,
+`procedural_source_kind_declared_final`, `procedural_composed_without_authored_source`,
+`runtime_authored_tile_pixels_outside_debug`, `resources_res_missing_for_visual_delivery`.
+
+Unica excecao: projeto com `validator_fixture: true` em `doc/project_context_manifest.json`
+pode compilar sem asset externo, e em troca fica preso a `delivery_claim_ceiling` de
+`none`, `concept`, `lab` ou `exercise` — nunca sustenta claim de entrega visual.
+
+Regra completa: `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secoes 8.2 e 17.
+
+---
+
+## BARRA VIVA DA CENA (PISO VISUAL 2026)
+
+O piso visual de `aaa_game`, vertical slice, asset critico e `ready_for_aaa`
+nao e "compilou" nem "parece 16-bit". E o oficio observado na cena viva do
+Mega Drive, decodificado em `doc/03_art/18_live_scene_bar.md`.
+
+Handles da cena viva sao **ponteiros para oficio**, nunca fonte de pixel
+nem prompt de copia. Lista e mapeamento (sem escola duplicada):
+`doc/03_art/18_live_scene_bar.md`.
+
+Tetos de concepcao (ler no modo ativo, nao recopiar):
+`doc/03_art/live_scene_bar_parameters.json`
+
+Tese: VRAM e CRAM sao a primeira decisao de arte. Sem decisao artistica,
+hardware produz lixo visivel. SGDK e base, nao teto. Driver de som e FPS
+se medem na cena pesada **com audio**. 320×224 4:3 e o gate.
+
+Falhou um dos 12 checks = `needs_review`. Sem
+`out/logs/live_scene_bar_report.json` o claim visual nao existe.
+
+Brief (por modo): `tools/sgdk_wrapper/.agent/references/live_scene_bar_agent_brief.md`
+Plano: `doc/03_art/19_plan_pixel_art_live_scene_capability.md`
+Regra: `SGDK_GLOBAL.md` secao 39.
+
+**Cada projeto carrega essa diretriz e seu proprio estado medido** em
+`doc/00-diretrizes-agente.md`, entre os marcadores `diretriz-bloqueio-estetico v1`.
+Agente que assume continuidade le esse bloco antes de tocar em arte. Projeto novo herda
+o bloco do template `tools/sgdk_wrapper/modelo/`. Para injetar ou atualizar:
+
+```bash
+python3 tools/sgdk_wrapper/apply_aesthetic_directive.py \
+  --all-projects SGDK_projects --shared-builder-root tools/image-tools
+# --check falha com exit 1 se algum projeto estiver sem a diretriz ou com medicao velha
 ```
 
 ---
@@ -135,6 +287,10 @@ Narrativa + skills reais (sem nomes de agentes inexistentes): `tools/sgdk_wrappe
 
 Antes de qualquer trabalho em projeto novo ou antigo:
 
+- quando houver bootstrap, falha de executor, build inconsistente, recuperacao de
+  runtime, captura ou disputa entre status tecnico e criativo, siga
+  `tools/sgdk_wrapper/.agent/workflows/production-diagnostic-triage.md` antes de
+  atribuir causa ou alterar codigo;
 - execute `tools/sgdk_wrapper/adopt_project_methodology.ps1`
 - classifique `doc/project_context_manifest.json` com `aaa_game`, `technical_demo`, `exercise`, `game_review` ou `consulting`
 - valide o contexto com `tools/sgdk_wrapper/validate_project_context.ps1`; `unclassified` bloqueia producao, review final e consultoria
@@ -259,8 +415,12 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Regras globais | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` |
 | Menu/modos de sessao | `tools/sgdk_wrapper/.agent/workflows/agent-session-bootstrap.md` |
 | Preparo comum dos agentes | `tools/sgdk_wrapper/.agent/workflows/agent-startup-environment.md` |
+| Triagem host/toolchain/runtime/criativo | `tools/sgdk_wrapper/.agent/workflows/production-diagnostic-triage.md` |
+| Protocolo de verdade de producao | `tools/sgdk_wrapper/.agent/references/production_truth_protocol.md` |
 | Preparar ambiente dos agentes | `tools/sgdk_wrapper/prepare_agent_environment.ps1` |
 | Guard de ambiente dos agentes | `tools/sgdk_wrapper/assert_agent_environment.ps1` |
+| Integracao ai-memory consultiva | `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1` |
+| Politica ai-memory | `doc/AI_MEMORY_POLICY.md` |
 | Renderizar menu de sessao | `tools/sgdk_wrapper/show_agent_menu.ps1` |
 | Estado de sessao | `doc/agent_session_state.json` |
 | Troca de perspectiva | `tools/sgdk_wrapper/.agent/workflows/perspective-switch-gate.md` |
@@ -277,6 +437,24 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Painel humano de proficiencia | `doc/05_technical/93_16bit_hardware_mastery_matrix.md` |
 | Registry tecnico machine-readable | `doc/05_technical/93_16bit_hardware_mastery_registry.json` |
 | Preflight host | `tools/sgdk_wrapper/preflight_host.ps1` |
+| Ordem de trabalho de cena | `tools/sgdk_wrapper/.agent/workflows/scene-direction-first.md` |
+| Licoes da curadoria 2026-08-17 | `doc/curation/lessons_2026-08-17.json` |
+| Prompt modelo de direcionamento | `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md` |
+| Barra viva da cena (piso Rheo/Pigsy = oficio) | `doc/03_art/18_live_scene_bar.md` |
+| Tetos de concepcao da barra viva | `doc/03_art/live_scene_bar_parameters.json` |
+| Brief da barra viva | `tools/sgdk_wrapper/.agent/references/live_scene_bar_agent_brief.md` |
+| Plano de capacidade pixel | `doc/03_art/19_plan_pixel_art_live_scene_capability.md` |
+| Laudo da barra viva | `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json` |
+| Diretriz de bloqueio estetico | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` (8.2 e 17) |
+| Barra viva (regra global) | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secao 39 |
+| Proveniencia de asset (contrato) | `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json` |
+| Proveniencia de asset (auditor) | `tools/sgdk_wrapper/audit_procedural_asset_provenance.py` |
+| Injetar diretriz nos projetos | `tools/sgdk_wrapper/apply_aesthetic_directive.py` |
+| Gate de compreensao de marca | `tools/sgdk_wrapper/validate_brand_comprehension_gate.py` |
+| Doutrina de audacia | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secao 30 |
+| Pressao de scanline (2 limites) | `tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py` |
+| Residencia de tiles no asset | `tools/sgdk_wrapper/audit_tile_residency.py` |
+| Self-check das ferramentas de medicao | `tools/sgdk_wrapper/validate_measurement_tools.py` |
 | Pixel strict rules | `tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/` |
 | Budget VDP | `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/` |
 | Migracao batch | `doc/migrations/MIGRATION_BATCH_211.md` |

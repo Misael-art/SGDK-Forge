@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/collision_topology_report.schema.json",
+  "title": "Collision Topology Report",
+  "description": "Auditable contract for SGDK collision systems using multi-point probes, semi-solid platforms, hit/hurt/push boxes and tile material maps.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "project",
+    "coordinate_spaces",
+    "fixed_point_policy",
+    "body_classes",
+    "resolution_order",
+    "semi_solid_policy",
+    "tile_material_map",
+    "combat_boxes",
+    "runtime_budget",
+    "fixtures",
+    "status",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "collision_topology_report" },
+    "project": { "type": "string", "minLength": 1 },
+    "coordinate_spaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["world_space", "camera_space", "screen_space"],
+      "properties": {
+        "world_space": { "type": "string", "minLength": 1 },
+        "camera_space": { "type": "string", "minLength": 1 },
+        "screen_space": { "type": "string", "minLength": 1 }
+      }
+    },
+    "fixed_point_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position_format", "velocity_format", "snap_to_pixel_stage"],
+      "properties": {
+        "position_format": { "type": "string", "minLength": 1 },
+        "velocity_format": { "type": "string", "minLength": 1 },
+        "snap_to_pixel_stage": { "type": "string", "enum": ["before_collision", "after_collision", "render_only"] }
+      }
+    },
+    "body_classes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "role", "size_px", "probes"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "role": { "type": "string", "enum": ["player", "enemy", "boss", "projectile", "pickup", "hazard", "moving_platform", "other"] },
+          "size_px": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["w", "h"],
+            "properties": {
+              "w": { "type": "integer", "minimum": 1 },
+              "h": { "type": "integer", "minimum": 1 }
+            }
+          },
+          "probes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "role", "offset_px"],
+              "properties": {
+                "id": { "type": "string", "minLength": 1 },
+                "role": { "type": "string", "enum": ["foot_left", "foot_right", "head", "side_left", "side_right", "center", "custom"] },
+                "offset_px": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["x", "y"],
+                  "properties": {
+                    "x": { "type": "integer" },
+                    "y": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "resolution_order": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "enum": ["x_axis", "y_axis", "semi_solid", "slope", "pushbox", "combat", "trigger"] }
+    },
+    "semi_solid_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "requires_previous_frame_above", "drop_through_input"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "requires_previous_frame_above": { "type": "boolean" },
+        "drop_through_input": { "type": "string", "minLength": 1 }
+      }
+    },
+    "tile_material_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["material_id", "collision_class"],
+        "properties": {
+          "material_id": { "type": "string", "minLength": 1 },
+          "collision_class": { "type": "string", "enum": ["empty", "solid", "semi_solid", "slope_up", "slope_down", "ladder", "damage", "water", "trigger"] }
+        }
+      }
+    },
+    "combat_boxes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "separate_hit_hurt_push"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "separate_hit_hurt_push": { "type": "boolean" },
+        "frame_table_path": { "type": "string" }
+      }
+    },
+    "runtime_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_active_bodies", "max_probes_per_frame", "budget_decision"],
+      "properties": {
+        "max_active_bodies": { "type": "integer", "minimum": 0 },
+        "max_probes_per_frame": { "type": "integer", "minimum": 0 },
+        "budget_decision": { "type": "string", "enum": ["fits", "fits_with_rework", "blocked"] }
+      }
+    },
+    "fixtures": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "status": { "type": "string", "enum": ["ok", "needs_review", "blocked"] },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

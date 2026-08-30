@@ -1,0 +1,61 @@
+{
+  "contract": "lineart_blocking_1px",
+  "grid": [
+    48,
+    64
+  ],
+  "ink_hero": "#220044",
+  "ink_thug": "#440022",
+  "paper": "#EEEECC",
+  "index0": "#FF00FF",
+  "color_blocking_started": true,
+  "method": "native_part_clusters_then_1px_outline",
+  "not_used": [
+    "photo_downscale",
+    "obsolete_downscale_sprites_as_generation_source",
+    "pixel_art_prompted_as_final"
+  ],
+  "hero": {
+    "audit": {
+      "ink_pixels": 633,
+      "paper_pixels": 854,
+      "empty_pixels": 1585,
+      "orphan_ink": 0,
+      "outline_ink_2x2_blocks": 0,
+      "bbox": [
+        3,
+        0,
+        46,
+        63
+      ],
+      "bbox_area": 2816,
+      "filled_ratio": 0.484
+    },
+    "must_preserve_failures": [],
+    "pass": true
+  },
+  "thug": {
+    "audit": {
+      "ink_pixels": 661,
+      "paper_pixels": 1150,
+      "empty_pixels": 1261,
+      "orphan_ink": 0,
+      "outline_ink_2x2_blocks": 0,
+      "bbox": [
+        3,
+        0,
+        45,
+        63
+      ],
+      "bbox_area": 2752,
+      "filled_ratio": 0.59
+    },
+    "must_preserve_failures": [],
+    "pass": true
+  },
+  "palette_role_map_preview": {
+    "index0": "transparent",
+    "paper_temp": "construction fill; discarded at color blocking",
+    "ink_temp": "maps to outline/dark_shadow; not a palette-swap slot"
+  }
+}

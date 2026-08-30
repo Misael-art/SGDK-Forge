@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sgdk-forge.local/schemas/aaa_video_curation_audit_report.schema.json",
+  "title": "AAA Video Curation Audit Report",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "status",
+    "audit_date",
+    "scope",
+    "runner_status",
+    "release_status",
+    "required_next_steps"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "aaa_video_curation_audit_report"
+    },
+    "status": {
+      "enum": [
+        "candidate_applied_not_verified",
+        "validated_curation",
+        "rejected"
+      ]
+    },
+    "audit_date": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "source_integrity": {
+      "type": "object"
+    },
+    "artifacts_checked_by_design": {
+      "type": "object"
+    },
+    "runner_status": {
+      "type": "object",
+      "required": [
+        "validated_by_runner",
+        "commit_created",
+        "push_completed"
+      ],
+      "properties": {
+        "local_command_execution": {
+          "type": "string"
+        },
+        "validated_by_runner": {
+          "type": "boolean"
+        },
+        "commit_created": {
+          "type": "boolean"
+        },
+        "push_completed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "release_status": {
+      "type": "object",
+      "required": [
+        "ready_for_aaa"
+      ],
+      "properties": {
+        "ready_for_aaa": {
+          "type": "boolean"
+        },
+        "ready_for_rom_delivery": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "required_next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

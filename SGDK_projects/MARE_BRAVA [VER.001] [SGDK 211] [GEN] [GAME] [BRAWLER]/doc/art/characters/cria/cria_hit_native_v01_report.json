@@ -1,0 +1,97 @@
+{
+  "asset_kind": "animation_strip",
+  "action": "haymaker_armed_rear_fist",
+  "character": "cria",
+  "cell": [
+    48,
+    64
+  ],
+  "frames": 4,
+  "phases": [
+    "launch",
+    "active",
+    "hitstop",
+    "recover"
+  ],
+  "timing_vblank": [
+    3,
+    4,
+    6,
+    5
+  ],
+  "chain": "APPROACH->TELEGRAPH->ATTACK->RECOVER",
+  "pivot": {
+    "x": 24,
+    "y": 60,
+    "role": "foot_plant"
+  },
+  "facing": "left_opponent",
+  "pixel_route": "locked_48x64_not_video_downscale",
+  "source_construction": [
+    "data/source_art/concept/cria_identity_model_sheet/cria_hit_construction_34_v01.png",
+    "data/source_art/concept/cria_identity_model_sheet/cria_telegraph_construction_34_v01.png"
+  ],
+  "source_motion_ref_only": "data/source_art/motion/cria_hit_source.mp4",
+  "video_drift": "harvest_punched_with_front_arm_wristband_stayed_rear_refused_as_pixel_source",
+  "must_preserve": [
+    "forward_lean",
+    "backwards_cap_red_visor",
+    "armed_fist_travels_right_to_left",
+    "wristband_on_armed_arm",
+    "both_flipflops_planted",
+    "red_star"
+  ],
+  "bbox": [
+    [
+      4,
+      4,
+      37,
+      61
+    ],
+    [
+      5,
+      4,
+      37,
+      61
+    ],
+    [
+      1,
+      4,
+      37,
+      61
+    ],
+    [
+      7,
+      4,
+      37,
+      61
+    ]
+  ],
+  "foot_y": [
+    61,
+    61,
+    61,
+    61
+  ],
+  "planted_groups_y59": [
+    2,
+    2,
+    2,
+    2
+  ],
+  "fist_min_x": [
+    10,
+    6,
+    2,
+    12
+  ],
+  "fist_max_x": [
+    29,
+    29,
+    33,
+    29
+  ],
+  "palette_slot": "PAL3_enemy_roster",
+  "not_aaa_claim": true,
+  "res": "res/sprites/characters/cria/cria_hit_lean_48x64_v01.png"
+}

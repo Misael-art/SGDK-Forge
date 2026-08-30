@@ -582,3 +582,22 @@ Regra:
 6. BlastEm
 
 Se a analise saltar esta ordem, o parecer ainda nao esta maduro.
+
+## Curadoria 2026-06-15 - Mega Drive AAA video techniques
+
+Quando o prompt, PRD, TDD ou entrega acionar claims de tecnica avancada vindos
+da curadoria de videos Mega Drive, esta skill deve exigir os novos contratos
+antes de responder `cabe`:
+
+- colisao grande/semi-solida: ler `collision_topology_report`
+- streaming, dirty tiles ou tile animation: ler `dma_queue_contract`
+- Shadow/Highlight, H-Int, VSCROLL_COLUMN, HSCROLL_LINE ou palette cycling:
+  ler `scroll_fx_contract`
+- catalogo de entidades com function pointers: ler `entity_vtable_plan` quando
+  isso afetar pior quadro, spawn, sprites ou ciclo de vida
+- transicoes com fade/flush: ler `state_transition_contract`
+- claim AAA/release/ready_for_aaa: exigir `aaa_pipeline_gate_report`
+
+Sem esses contratos, o parecer maximo e `needs_review` ou `nao cabe`
+metodologico para o claim correspondente. Build verde ou resumo de video nao
+substitui budget, owner, fallback e evidencia runtime.

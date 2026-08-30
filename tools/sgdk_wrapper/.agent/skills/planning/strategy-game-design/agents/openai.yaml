@@ -1,11 +1,7 @@
 interface:
-  display_name: "Strategy Game Design (Orchestrator)"
-  short_description: "Orquestra strategy_tower_defense por opt-in e delega skills"
-  brand_color: "#1B9E77"
-  default_prompt: "Use $strategy-game-design APENAS quando o projeto declarou opt-in em doc/genre_specialization_manifest.json com specialization_id=strategy_tower_defense (ou strategy_tactical_turn_based em Wave 2+). Esta skill nao cria GDD nem TDD; ela orquestra systems-mechanics-validator, megadrive-vdp-budget-analyst, xgm2-audio-director, sgdk-runtime-coder e tdd-authoring. Emite strategy_tower_defense_design_contract.json (design de superficie) e strategy_tower_frame_data.json por torre. NUNCA infere ativacao por nome de pasta, codigo ou regex. time_unit=frames, grid=fixed_path, lane_count=1_to_3, tower_slots_max=24, wave_spawner=scripted, victory=survive_N_waves. Validator canonico: tools/sgdk_wrapper/validate_strategy_tower_defense_specialization.ps1."
+  display_name: "Strategy Game Design"
+  short_description: "Orquestra tower defense por opt-in explicito"
+  default_prompt: "Use $strategy-game-design somente com opt-in para strategy_tower_defense e delegue systems, entidades, input, budget, TDD e runtime."
 
 policy:
   allow_implicit_invocation: false
-
-dependencies:
-  tools: []

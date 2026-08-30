@@ -1,0 +1,239 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://sgdk-forge.local/schemas/vibe_playable_route_report.schema.json",
+  "title": "vibe_playable_route_report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "report_kind",
+    "generated_at",
+    "input_text",
+    "normalized_input",
+    "detected_intents",
+    "intent_confidence",
+    "matched_rules",
+    "ambiguity_fallback",
+    "visual_route_required",
+    "runtime_open_allowed",
+    "detected_targets",
+    "required_owners",
+    "dispatch",
+    "compact_context_bytes",
+    "runtime_admission",
+    "blocking_statuses",
+    "forbidden_claims_until_evidence"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.[0-9]+\\.[0-9]+$"
+    },
+    "report_kind": {
+      "type": "string",
+      "enum": ["vibe_playable_route_report"]
+    },
+    "template_seed": {
+      "type": "boolean"
+    },
+    "template_prevalidated": {
+      "type": "boolean"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "input_text": {
+      "type": "string"
+    },
+    "normalized_input": {
+      "type": "string"
+    },
+    "detected_language": {
+      "type": "string",
+      "enum": ["pt", "en", "unknown"]
+    },
+    "detected_intents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["intent", "confidence", "rule_id", "matched_terms"],
+        "properties": {
+          "intent": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "rule_id": { "type": "string" },
+          "matched_terms": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "intent_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "matched_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule_id", "intent", "confidence", "matched_terms"],
+        "properties": {
+          "rule_id": { "type": "string" },
+          "intent": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "matched_terms": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ambiguity_fallback": {
+      "type": "object",
+      "required": ["used", "reason"],
+      "properties": {
+        "used": { "type": "boolean" },
+        "reason": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ambiguity_status": {
+      "type": "string"
+    },
+    "fallback_decision": {
+      "type": "string"
+    },
+    "visual_route_required": {
+      "type": "boolean"
+    },
+    "runtime_open_allowed": {
+      "type": "boolean"
+    },
+    "technical_runtime_candidate": {
+      "type": "boolean"
+    },
+    "detected_targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "target_id",
+          "type",
+          "role",
+          "criticality",
+          "actions_requested",
+          "animation_required",
+          "assets",
+          "owners"
+        ],
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "pattern": "^target_[a-z0-9_]+$"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "scene",
+              "player_character",
+              "boss",
+              "enemy",
+              "creature",
+              "background",
+              "foreground",
+              "ui",
+              "fx",
+              "title_screen",
+              "unknown_visual"
+            ]
+          },
+          "role": { "type": "string" },
+          "criticality": {
+            "type": "string",
+            "enum": ["critical", "supporting", "debug"]
+          },
+          "actions_requested": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "animation_required": { "type": "boolean" },
+          "assets": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "owners": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_owners": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "dispatch": {
+      "type": "object",
+      "required": ["mode", "art_direction_selector_lifecycle", "owner"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["explicit_router_dispatch", "no_visual_dispatch"]
+        },
+        "art_direction_selector_lifecycle": {
+          "type": "object",
+          "required": ["allow_implicit_invocation", "activation_method"],
+          "properties": {
+            "allow_implicit_invocation": { "type": "boolean" },
+            "activation_method": { "type": "string" },
+            "reason": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "owner": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "compact_context": {
+      "type": "object"
+    },
+    "compact_context_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "runtime_admission": {
+      "type": "object",
+      "required": ["status", "reason", "runtime_admitted", "technical_runtime_admitted", "runtime_lab_admitted"],
+      "properties": {
+        "status": { "type": "string" },
+        "reason": { "type": "string" },
+        "runtime_admitted": { "type": "boolean" },
+        "technical_runtime_admitted": { "type": "boolean" },
+        "runtime_lab_admitted": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "graphify": {
+      "type": "object",
+      "properties": {
+        "required_for_routing": { "type": "boolean" },
+        "mode": { "type": "string" },
+        "timeout_seconds": { "type": "integer" },
+        "degradation": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "blocking_statuses": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "forbidden_claims_until_evidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

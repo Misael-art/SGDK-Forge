@@ -15,6 +15,7 @@
     8. test_project_hygiene_governance.ps1 (isolamento + rascunho + copias externas)
     9. test_changelog_status_sync.ps1 (memoria derivada sem snapshot artificial)
     10. test_project_learning_loop.py (captura local + propostas sem mutacao canonica)
+    10a. test_canonical_fixture_contracts.py (sete contratos neutros sem falso verde)
     11. test_genre_specialization_registry.ps1 (registry canonico v1)
     12. test_fighting_specialization_orchestrator.ps1 (orquestrador fino)
     13. test_fighting_specialization_contracts.ps1 (5 schemas + validator em fixture)
@@ -142,11 +143,13 @@ $artGameplayDirectionGateScript = Join-Path $ciDir "test_art_gameplay_direction_
 $projectContextScript = Join-Path $ciDir "test_project_context_governance.ps1"
 $methodologyScript = Join-Path $ciDir "test_project_methodology_governance.ps1"
 $bootstrapScript = Join-Path $ciDir "test_project_bootstrap_qaproof.ps1"
+$vibeTemplateBirthScript = Join-Path $ciDir "test_vibe_playable_template_birth.ps1"
 $freshnessScript = Join-Path $ciDir "test_freshness_audit.ps1"
 $hygieneScript = Join-Path $ciDir "test_project_hygiene_governance.ps1"
 $techniqueUsageScript = Join-Path $ciDir "test_technique_usage_governance.ps1"
 $statusSyncScript = Join-Path $ciDir "test_changelog_status_sync.ps1"
 $projectLearningScript = Join-Path $ciDir "test_project_learning_loop.py"
+$canonicalFixtureContractsScript = Join-Path $ciDir "test_canonical_fixture_contracts.py"
 $genreRegistryScript = Join-Path $ciDir "test_genre_specialization_registry.ps1"
 $fightingOrchestratorScript = Join-Path $ciDir "test_fighting_specialization_orchestrator.ps1"
 $fightingContractsScript = Join-Path $ciDir "test_fighting_specialization_contracts.ps1"
@@ -177,7 +180,8 @@ $racingRegistryScript = Join-Path $ciDir "test_racing_specialization_registry.ps
 $racingContractsScript = Join-Path $ciDir "test_racing_specialization_contracts.ps1"
 $racingMasterPromotionScript = Join-Path $ciDir "test_racing_master_promotion_guard.ps1"
 $racingValidatorSmokeScript = Join-Path $ciDir "test_racing_specialization_validator_smoke.ps1"
-$pythonExe = "py"
+$pythonExe = "uv"
+$pythonPrefixArgs = @("run", "--with", "jsonschema", "python")
 
 $runTimestamp = (Get-Date).ToString("o")
 $report = [ordered]@{
@@ -194,11 +198,13 @@ $report = [ordered]@{
     project_context_test = $null
     methodology_test = $null
     bootstrap_test = $null
+    vibe_template_birth_test = $null
     freshness_test = $null
     hygiene_test = $null
     technique_usage_test = $null
     status_sync_test = $null
     project_learning_test = $null
+    canonical_fixture_contracts_test = $null
     genre_registry_test = $null
     fighting_orchestrator_test = $null
     fighting_contracts_test = $null
@@ -272,11 +278,13 @@ $artGameplayDirectionGateRan = $false
 $projectContextRan = $false
 $methodologyRan = $false
 $bootstrapRan = $false
+$vibeTemplateBirthRan = $false
 $freshnessRan = $false
 $hygieneRan = $false
 $techniqueUsageRan = $false
 $statusSyncRan = $false
 $projectLearningRan = $false
+$canonicalFixtureContractsRan = $false
 $genreRegistryRan = $false
 $fightingOrchestratorRan = $false
 $fightingContractsRan = $false
@@ -319,6 +327,17 @@ if ($Mode -in @("full", "smoke")) {
     }
 }
 
+if ($Mode -in @("full", "smoke")) {
+    if (-not (Test-Path -LiteralPath $canonicalFixtureContractsScript)) {
+        Write-Host "[ERROR] canonical fixture contracts test not found: $canonicalFixtureContractsScript"
+        $report.canonical_fixture_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "canonical_fixture_contracts (seven neutral fixtures)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($canonicalFixtureContractsScript))
+        $report.canonical_fixture_contracts_test = $result
+        $canonicalFixtureContractsRan = $true
+    }
+}
+
 if ($Mode -in @("full", "audit", "smoke")) {
     if (-not (Test-Path -LiteralPath $auditScript)) {
         Write-Host "[ERROR] audit test not found: $auditScript"
@@ -335,7 +354,7 @@ if ($Mode -in @("full", "schema", "smoke")) {
         Write-Host "[ERROR] schema test not found: $schemaScript"
         $report.schema_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "schema_contract_gates (Python jsonschema)" -Command $pythonExe -CommandArgs @($schemaScript)
+        $result = Run-Step -Name "schema_contract_gates (Python jsonschema)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($schemaScript))
         $report.schema_test = $result
         $schemaRan = $true
     }
@@ -417,6 +436,16 @@ if ($Mode -in @("full", "smoke")) {
         $bootstrapRan = $true
     }
 }
+if ($Mode -in @("full", "smoke")) {
+    if (-not (Test-Path -LiteralPath $vibeTemplateBirthScript)) {
+        Write-Host "[ERROR] vibe template birth test not found: $vibeTemplateBirthScript"
+        $report.vibe_template_birth_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "vibe_playable_template_birth (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $vibeTemplateBirthScript)
+        $report.vibe_template_birth_test = $result
+        $vibeTemplateBirthRan = $true
+    }
+}
 
 if ($Mode -in @("full", "smoke")) {
     if (-not (Test-Path -LiteralPath $statusSyncScript)) {
@@ -434,7 +463,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] project learning test not found: $projectLearningScript"
         $report.project_learning_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "project_learning_loop (Python)" -Command $pythonExe -CommandArgs @($projectLearningScript)
+        $result = Run-Step -Name "project_learning_loop (Python)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($projectLearningScript))
         $report.project_learning_test = $result
         $projectLearningRan = $true
     }
@@ -779,11 +808,13 @@ if ($artGameplayDirectionGateRan -and $report.art_gameplay_direction_gate_test.e
 if ($projectContextRan -and $report.project_context_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($methodologyRan -and $report.methodology_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($bootstrapRan -and $report.bootstrap_test.exit_code -ne 0) { $combinedExit = 1 }
+if ($vibeTemplateBirthRan -and $report.vibe_template_birth_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($freshnessRan -and $report.freshness_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($hygieneRan -and $report.hygiene_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($techniqueUsageRan -and $report.technique_usage_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($statusSyncRan -and $report.status_sync_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($projectLearningRan -and $report.project_learning_test.exit_code -ne 0) { $combinedExit = 1 }
+if ($canonicalFixtureContractsRan -and $report.canonical_fixture_contracts_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($genreRegistryRan -and $report.genre_registry_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($fightingOrchestratorRan -and $report.fighting_orchestrator_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($fightingContractsRan -and $report.fighting_contracts_test.exit_code -ne 0) { $combinedExit = 1 }
@@ -829,11 +860,13 @@ Write-Host "art_gameplay_direction_gate_test exit_code: $(if ($null -eq $report.
 Write-Host "project_context_test exit_code: $(if ($null -eq $report.project_context_test) { 'not_run' } else { $report.project_context_test.exit_code })"
 Write-Host "methodology_test exit_code: $(if ($null -eq $report.methodology_test) { 'not_run' } else { $report.methodology_test.exit_code })"
 Write-Host "bootstrap_test exit_code: $(if ($null -eq $report.bootstrap_test) { 'not_run' } else { $report.bootstrap_test.exit_code })"
+Write-Host "vibe_template_birth_test exit_code: $(if ($null -eq $report.vibe_template_birth_test) { 'not_run' } else { $report.vibe_template_birth_test.exit_code })"
 Write-Host "freshness_test exit_code: $(if ($null -eq $report.freshness_test) { 'not_run' } else { $report.freshness_test.exit_code })"
 Write-Host "hygiene_test exit_code: $(if ($null -eq $report.hygiene_test) { 'not_run' } else { $report.hygiene_test.exit_code })"
 Write-Host "technique_usage_test exit_code: $(if ($null -eq $report.technique_usage_test) { 'not_run' } else { $report.technique_usage_test.exit_code })"
 Write-Host "status_sync_test exit_code: $(if ($null -eq $report.status_sync_test) { 'not_run' } else { $report.status_sync_test.exit_code })"
 Write-Host "project_learning_test exit_code: $(if ($null -eq $report.project_learning_test) { 'not_run' } else { $report.project_learning_test.exit_code })"
+Write-Host "canonical_fixture_contracts_test exit_code: $(if ($null -eq $report.canonical_fixture_contracts_test) { 'not_run' } else { $report.canonical_fixture_contracts_test.exit_code })"
 Write-Host "genre_registry_test exit_code: $(if ($null -eq $report.genre_registry_test) { 'not_run' } else { $report.genre_registry_test.exit_code })"
 Write-Host "fighting_orchestrator_test exit_code: $(if ($null -eq $report.fighting_orchestrator_test) { 'not_run' } else { $report.fighting_orchestrator_test.exit_code })"
 Write-Host "fighting_contracts_test exit_code: $(if ($null -eq $report.fighting_contracts_test) { 'not_run' } else { $report.fighting_contracts_test.exit_code })"

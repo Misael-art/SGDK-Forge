@@ -28,7 +28,16 @@ O formato padrão usa um nome livre seguido por **5 tags obrigatórias** delimit
 
 5. **`[TIPO]`**: A classificação da natureza do projeto.
    - Define se é uma Engine base, um Jogo fechado, ou projeto de Teste.
-   - *Valores comuns:* `[ENGINE]`, `[GAME]`, `[TEMPLATE]`, `[ESTUDO]`.
+   - *Valores canônicos:* `[ENGINE]`, `[GAME]`, `[TEMPLATE]`, `[ESTUDO]`, `[LAB]`,
+     `[TECHDEMO]`, `[RELEASE]`, `[FIXTURE]`.
+   - > **A tag é rótulo humano, não autoridade de máquina.** Nenhum validador decide
+     > política a partir dela. A classificação executável vive em
+     > `doc/project_context_manifest.json` (`context_type`, `delivery_claim_ceiling`,
+     > `validator_fixture`). Pasta marcada `[TECHDEMO]` com `context_type` divergente
+     > é incoerência de identidade e deve ser corrigida antes do closeout.
+   - `[TECHDEMO]` e `[RELEASE]` implicam entrega visual: cumprem integralmente a
+     diretriz de bloqueio estético (asset externo obrigatório, proveniência declarada).
+     Ver `AGENTS.md` e `SGDK_GLOBAL.md` seções 8.2 e 17.
 
 6. **`[GENERO]`**: A categorização ou gênero principal do jogo/engine.
    - *Valores comuns:* `[BRIGA DE RUA]`, `[LUTA]`, `[PLATAFORMA]`, `[RPG]`, `[AUDIO]`, `[TESTE]`.

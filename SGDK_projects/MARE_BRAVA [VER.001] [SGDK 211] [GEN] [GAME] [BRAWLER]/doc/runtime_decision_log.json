@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-29T17:23:00Z",
+  "scope": "cria_ai_perseguidor_v01",
+  "model": "scene_local_preload",
+  "decisions": [
+    {
+      "id": "cria_fsm_module",
+      "choice": "src/entities/cria.c instead of the 2s animation clock in scene_demo.c",
+      "reason": "enemy_roster.state_machine is APPROACH->TELEGRAPH->ATTACK->RECOVER"
+    },
+    {
+      "id": "facing",
+      "choice": "left locked, no H-flip",
+      "reason": "asymmetric backwards-cap visor; Cria rushes from the right"
+    },
+    {
+      "id": "hit_feedback",
+      "choice": "8px knockback + AUDIO_CUE_STRIKE on active/hitstop overlap",
+      "reason": "HP/HUD not wired; feedback_on_hit recuo without a Taina hurt strip"
+    }
+  ],
+  "apis_used": [
+    "SPR_addSprite",
+    "SPR_setDefinition",
+    "SPR_setAnimAndFrame",
+    "SPR_setFrame",
+    "SPR_setPosition",
+    "SPR_setAutoAnimation"
+  ],
+  "not_aaa_claim": true
+}

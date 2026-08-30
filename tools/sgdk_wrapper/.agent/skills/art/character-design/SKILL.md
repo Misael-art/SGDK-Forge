@@ -69,6 +69,28 @@ Esta skill existe para proteger a identidade visual do personagem dentro das res
   `visual_dna_manifest`, brief de direcao, lineart 1 px e key poses; a sheet
   ruim vira `obsolete_for_generation_source` e apenas evidencia negativa.
 
+### Proporcao de plataforma 2D
+
+Origem: `curation_records/case_character_proportion_pixel_art_platformer.json`
+(lote `curation_batch_2026_06_16`, evidencia `E1_text`, expansao candidata).
+Estas regras refinam o `character_scale_contract` existente; nao criam contrato
+ou schema novo e nao prometem AAA/runtime.
+
+- personagem jogavel de plataforma deve declarar `character_scale_contract`
+  (parte do `visual_dna_manifest.scale_contract`) antes de key poses
+- proporcao recomendada para plataforma 16-bit: caixa visual `16x32` ou multiplo
+  equivalente quando o gameplay usar grade `16x16`
+- escala de `3 a 4 cabecas` para sprites pequenos/medios, salvo justificativa
+  explicita por genero declarada no contrato
+- rosto/olhos so contam como leitura quando legiveis na resolucao nativa
+  `320x224`; detalhe facial invisivel nao justifica escala
+- o sprite visual pode exceder a hitbox, mas a hitbox deve ser fixa, menor que o
+  visual e documentada no contrato; margem visual nao e hitbox
+- toda escala de heroi, inimigo ou boss deve declarar papel, budget e leitura em
+  `320x224`
+- a expansao continua candidata: exige fixture visual ou contrato de baseline
+  antes de promover para producao
+
 ## Gates de aprovacao
 
 - `silhouette_recognition`

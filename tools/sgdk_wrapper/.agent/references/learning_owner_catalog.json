@@ -287,6 +287,135 @@
         "black capture rejection fixture",
         "recognizable gameplay screenshot check"
       ]
+    },
+    {
+      "id": "interactive_scenes_require_input_owner",
+      "match_any": [
+        "plano de cenas assumia `joy_getjoypad` direto nas cenas",
+        "input abstraction deve ser implementada antes de qualquer cena com interacao"
+      ],
+      "candidate_kind": "skill",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md",
+      "owner_skill": "code/input-system-sgdk",
+      "required_tests": [
+        "scene raw-input rejection fixture",
+        "input owner integration review"
+      ]
+    },
+    {
+      "id": "scene_palette_fade_ownership",
+      "match_any": [
+        "pal_fadeoutall`/`pal_fadeinall` chamados genericamente pelo scene manager",
+        "cada cena deve carregar sua paleta explicitamente no enter()",
+        "fade e responsabilidade da cena, nao do sm generico"
+      ],
+      "candidate_kind": "skill",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+      "owner_skill": "architecture/game-state-transition-architect",
+      "required_tests": [
+        "scene without palette fade rejection fixture",
+        "credits to title palette restore regression"
+      ]
+    },
+    {
+      "id": "front_end_identity_not_text_only",
+      "match_any": [
+        "branding scene planejada como `vdp_drawtext`",
+        "front_end_identity_minimum_contract",
+        "fonte, logo, menu e creditos podem ficar subespecificados"
+      ],
+      "candidate_kind": "skill",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+      "owner_skill": "art/visual-excellence-standards",
+      "required_tests": [
+        "text-only front-end rejection fixture",
+        "320x224 identity review"
+      ]
+    },
+    {
+      "id": "table_driven_cutscene_fsm",
+      "match_any": [
+        "cutscene com 7 estados",
+        "update() monolítica",
+        "update() monolitica"
+      ],
+      "candidate_kind": "skill",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+      "owner_skill": "art/cutscene-cinematic-direction",
+      "required_tests": [
+        "table-driven cutscene fixture",
+        "cutscene teardown review"
+      ]
+    },
+    {
+      "id": "placeholder_input_respects_game_flow",
+      "match_any": [
+        "race placeholder usava start para retornar ao title",
+        "bind provisorio sem consultar contrato de game flow"
+      ],
+      "candidate_kind": "skill",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md",
+      "owner_skill": "code/input-system-sgdk",
+      "required_tests": [
+        "reserved START binding fixture",
+        "scene-transition input reset regression"
+      ]
+    },
+    {
+      "id": "pre_runtime_spec_closure_existing_owner",
+      "match_any": [
+        "planning_mode_pre_runtime_spec_closure_checklist",
+        "planejamento aaa parecia completo sem contratos executaveis para runtime"
+      ],
+      "candidate_kind": "workflow",
+      "canonical_target": "tools/sgdk_wrapper/.agent/workflows/project-methodology-adoption.md",
+      "owner_skill": "planning/game-design-planning",
+      "required_tests": [
+        "aaa_game pre-runtime closure fixture",
+        "technical_demo proportionality fixture"
+      ]
+    },
+    {
+      "id": "central_build_contract_existing_owner",
+      "match_any": [
+        "central_build_contract_before_runtime_seed",
+        "pedido de makefile local conflita com wrapper canonico"
+      ],
+      "candidate_kind": "skill",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+      "owner_skill": "operation/sgdk-build-wrapper-operator",
+      "required_tests": [
+        "thin local wrapper fixture",
+        "external GDK rejection fixture"
+      ]
+    },
+    {
+      "id": "local_mockup_manifest_existing_owner",
+      "match_any": [
+        "local_mockup_manifest_for_planning_art",
+        "mockup sem hash pode virar evidencia falsa"
+      ],
+      "candidate_kind": "workflow",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+      "owner_skill": "art/art-translation-to-vdp",
+      "required_tests": [
+        "hashed mockup reference fixture",
+        "mockup cannot satisfy visual delivery regression"
+      ]
+    },
+    {
+      "id": "creative_cohesion_existing_owner",
+      "match_any": [
+        "creative_cohesion_pass_before_runtime_seed",
+        "specs tecnicamente corretas podem gerar um jogo generico"
+      ],
+      "candidate_kind": "workflow",
+      "canonical_target": "tools/sgdk_wrapper/.agent/workflows/production-loop.md",
+      "owner_skill": "planning/game-design-planning",
+      "required_tests": [
+        "aaa_game creative cohesion fixture",
+        "runtime evidence remains required regression"
+      ]
     }
   ]
 }

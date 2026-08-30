@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "cais_01_first_visual_package_gate_v1",
+  "project_id": "mare_brava",
+  "asset_id": "cais_01_first_visual_package",
+  "asset_kind": "mixed_package",
+  "evaluated_at": "2026-07-03_concepts_recebidos_contact_sheet_pronto",
+  "measurement_level": "planned_contract",
+  "art_director_review": {
+    "status": "pending_human",
+    "reviewer": "humano (ratificacao obrigatoria) + visual-excellence-standards",
+    "art_direction_decision_record": "doc/art/art_direction_decision_record.json",
+    "findings": [
+      "15 concepts recebidos via prompt pack e registrados como source_candidate no premium_source_manifest.",
+      "Prova VDP construida: cenarios/BG/logo sobrevivem a 320x224+15c+9bit; personagens exigem etapa pixel autoral (downscale direto vira borrao).",
+      "Desvios registrados: proporcao realista nos sheets (identidade ok, proporcao a comprimir), texto diegetico no cenario (aceito como narrativa, tratar em tiles).",
+      "Ratificacao humana da direcao continua PENDENTE — decidir com o contact sheet."
+    ]
+  },
+  "game_design_context": {
+    "status": "declared",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "gameplay_role": "pacote visual do first playable slice: heroina, 2 arquetipos, cais com beirada de ring-out, HUD e logo",
+    "camera_perspective": "belt scroll horizontal com y-sort em faixa de 64px",
+    "interaction_context": [
+      "beirada d'agua deve ler como zona especial a qualquer momento (mecanica ring-out)",
+      "telegraphs de CRIA (12f) e ESTIVADOR (18f) precisam ser legiveis na silhueta",
+      "4 inimigos + heroina distinguiveis por silhueta e paleta em 320x224"
+    ]
+  },
+  "identity_continuity_lock": {
+    "must_preserve": [
+      {
+        "id": "taina_silhouette",
+        "kind": "silhouette",
+        "expected": "diagonais de muay thai, 3.5 heads, 48px; guarda alta reconhecivel em 1 frame",
+        "status": "planned"
+      },
+      {
+        "id": "estivador_mass",
+        "kind": "silhouette",
+        "expected": "massa quadrada com bracos abertos no telegraph de grab",
+        "status": "planned"
+      },
+      {
+        "id": "beirada_espuma",
+        "kind": "palette_role",
+        "expected": "espuma da beirada sempre no dominio pal3, animavel, contraste com cais",
+        "status": "planned"
+      },
+      {
+        "id": "logo_onda",
+        "kind": "shape",
+        "expected": "quebra de onda na barra do A final do logo, legivel em miniatura e monocromatico",
+        "status": "planned"
+      }
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "planned",
+    "secondary_motion": [
+      "espuma da beirada em loop curto",
+      "respiracao no idle da TAINA"
+    ],
+    "expression_requirements": [
+      "antecipacao curta e impacto travado (hitstop) em todos os golpes"
+    ],
+    "state_fantasy_checks": [
+      "jab/cross/lowkick lem como muay thai, nao como boxe generico"
+    ]
+  },
+  "decision": {
+    "production_allowed": true,
+    "production_allowed_scope": "somente Etapa A do brief: concepts/model sheets via prompt pack (scope concept_art)",
+    "ready_for_generation": true,
+    "ready_for_generation_scope": "concept_art apenas; animated_sprite_final proibido por gate de canal",
+    "ready_for_conversion": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "RATIFICACAO HUMANA: avaliar data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png",
+      "model sheet pixel autoral 3.5 heads por personagem (compressao das identidades aprovadas)",
+      "lineart 1px -> key poses -> strips por acao (PNG indexado 15c+index0)",
+      "art-translation-to-vdp + megadrive-pixel-strict-rules + visual-excellence-standards",
+      "laudo megadrive-vdp-budget-analyst (tileset do cais + strips) antes do runtime"
+    ]
+  },
+  "blockers": [
+    "art_direction_pending_human_ratification",
+    "no_pixel_model_sheet"
+  ]
+}

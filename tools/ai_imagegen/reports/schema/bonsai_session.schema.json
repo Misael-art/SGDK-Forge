@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "tools/ai_imagegen/reports/schema/bonsai_session.schema.json",
+  "title": "Bonsai Session",
+  "description": "Estado da sessao do servidor Bonsai local, escrito por bonsai serve (BONSAI_SESSION_JSON). Prova de que o backend estava online para o generate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "backend",
+    "port",
+    "online",
+    "started_at",
+    "model_id",
+    "model_variant",
+    "license_ack_path",
+    "license_ack_sha256",
+    "license_passed"
+  ],
+  "properties": {
+    "backend": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Label do backend (gemlite+hqq, triton-windows, mflux+mlx)."
+    },
+    "port": {
+      "type": "integer"
+    },
+    "online": {
+      "type": "boolean"
+    },
+    "pid": {
+      "type": ["integer", "null"]
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "log_path": {
+      "type": "string"
+    },
+    "model_id": {
+      "enum": ["bonsai-4b-ternary", "bonsai-4b-binary"]
+    },
+    "model_variant": {
+      "enum": ["ternary", "binary"]
+    },
+    "license_ack_path": {
+      "type": "string"
+    },
+    "license_ack_sha256": {
+      "type": "string"
+    },
+    "license_passed": {
+      "type": "boolean"
+    },
+    "host_gpu_vendor": {
+      "type": "string"
+    },
+    "host_gpu_model": {
+      "type": "string"
+    },
+    "host_gpu_bonsai_compatible": {
+      "type": "boolean"
+    }
+  }
+}

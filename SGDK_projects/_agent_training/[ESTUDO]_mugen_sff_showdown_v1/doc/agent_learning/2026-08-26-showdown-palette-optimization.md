@@ -115,7 +115,6 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - Claim honesto: proven_for_sample_window (32 amostras); ampliar janela amostral em P6 se carga subir.
 - Método: captura longa + parsing SRAM MDRT/VLAB em analysis/p5_performance_report.json.
 
-## Adendo P6 (2026-08-29): animação SFF medida e REPROVADA como AAA (crítico ativo)
 
 - Habilitado `FRAME_ANIMATION_ENABLED=1` interval 45f: animação VISÍVEL (burst 61% pixels mudam entre frames), mas soak 120s prova custo:
   TSTR overflow=7, VLAB over_budget=15 frames, max_cpu 409 (unidade probe).
@@ -123,48 +122,48 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - ROM corrente revertida para `FRAME_ANIMATION_ENABLED=0` para manter bundles selados sem overflows; evidências P6 guardadas como material de aprendizado.
 - Próximo incremento AAA real: implementar diff incremental de tiles entre frames e medir novamente via TSTR per-frame.
 
-## Adendo P6b (2026-08-29): incremental delta sem eviction — REPROVADO
 
 - Incremental sem reset: DMA −33% mas cache acumula união dos frames; 1190→121 overflows (piora), 1400→7 overflows.
 - Lição: workaround parcial sem eviction troca um gargalo por outro; AAA exige eviction por época.
 
-## Adendo P6d (2026-08-30): eviction por época — overflow zerado, CPU ainda estoura
 
 - Implementado sSlotToGlobal + sNeeded + eviction do slot não usado na nova janela; DMA_QUEUE.
 - Soak 120s: overflow 121→0 ✅, max_res 1190/1190, mas over_budget 15/32, max_cpu 317.
 - Lição: eviction resolve VRAM, mas custo CPU do upload por frame ainda estoura budget; próximo é throttle/split.
 
-## Adendo P6e (2026-08-30): throttle 90f — over_budget 15→7 (-53%)
 
 - Interval 90f + eviction + DMA_QUEUE: soak 120s overflow 0 ✅, over_budget 7 (antes 15), max_cpu 249.
 - 120f piora (8), 90f é melhor compromisso; próximo é split de uploads em múltiplos VBlanks para zerar.
 
-## Adendo P6f (2026-08-30): split DMA 16/frame — piora over_budget
 
 - Split 16 tiles/frame + eviction: over_budget 7→11, max_cpu 249→299.
 - Lição: overhead de queue + tilemap updates por frame supera economia de DMA; próximo é cachear sTileOpacity/sNeeded.
 
-## Adendo P6g (2026-08-30): sweep espalhado — over_budget 7→8 (piora leve)
 
 - Espalhar sweep 1/frame reduziu pico no enter mas adicionou overhead de 5 frames extras; over_budget subiu.
 - Lição: distribuir inicialização não compensa custo de manter lógica de sweep ativa por mais tempo.
 
-## Adendo P6h (2026-08-30): precompute NEUTRO — custo dominante é re-upload full-window
 
 - precomputeOpacityTable não moveu over_budget (8/32, max 250) porque o cache lazy já estava quente nos ciclos repetidos.
 - Verdade dura: manter animação + eviction em todas as configs testadas (45f/90f/120f, split, spread, precompute) fica em 7-8 over_budget.
 - Cache é PASS (0 overflow). Animação AAA verdadeira exige enviar só a região mudada (dirty-region delta), não reenviar 41x29 tiles + 2 tilemaps por tick.
 - Default verde fixado: animation OFF = 0 overflows / 0 over_budget / max_cpu 89.
 
-## Adendo P6i (2026-08-30): dirty-region NEUTRO — frame-swap é difuso
 
 - VDP_setTileMapDataRect sub-rect no tick: max_cpu 250→243 mas over_budget segue 8.
 - Causa: animação SFF (bg2) espalha mudança por quase toda a janela, então o retângulo sujo ≈ full-window.
 - Lição: dirty-region só ajuda quando a mudança é localizada; para animação de camada integral, a otimização certa é jogar o trabalho no VBlank (scroll/tilemap no VBlank vs CPU).
 
-## Adendo P6j (2026-08-30): peak-frame identifica a causa — pico no ENTER
 
 - VLAB metric_words 24→32 com peak-frame (words 26..31) portado do canonico.
 - soak 120s anim ON: peak_cpu_frame=97 → pico é o ENTER (sweep de cantos + stream inicial), NÃO o tick de animação (multiplos de 90).
 - Loção: instrumentação por-frame destrói hipóteses; o "over_budget constante" era trabalho de inicialização, não a animação.
 - Default verde mantido 0/0/89. Próximo: descarregar workload do enter (P6k).
+
+## Consolidacao Fase P6 (2026-08-30): animacao frame-swap
+
+- Cache subsystem PASS: 0 overflow, eviction por epoca funcional, max_resident 1190/1190.
+- Animacao full-layer REPROVADA para AAA: 7-8 over_budget em TODAS as 7 variantes (throttle/split/spread/precompute/dirty-region/gate).
+- Instrumentacao peak-frame (words 26..31) foi decisiva: peak_cpu_frame=97 = 1o tick de animacao, NAO o ENTER (dado de controle anim OFF=0 desmentiu a hipotese do enter).
+- Melhorias retidas no codigo: incremental delta, eviction por epoca, throttle 90f, dirty-region sub-rect, gate de scan sNeeded (-34% pico CPU).
+- Licao transversal: quando 7 leveres convergem no mesmo resultado, pare de tentar o 8o; documente o limite estrutural (frame-swap full-layer) e reduz o caminho AAA para sub-regiao/plano dedicado.

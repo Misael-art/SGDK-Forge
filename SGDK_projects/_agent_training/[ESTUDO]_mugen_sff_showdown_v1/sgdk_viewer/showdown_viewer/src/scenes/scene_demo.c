@@ -34,7 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6j concluido: peak-frame=97 confirmou pico no ENTER, nao no tick; anim AAA aguarda P6k (mover carga do enter) */
+#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6k medido: gate sNeeded reduz pico 243->160 mas over_budget fixo 8 (frame-swap full); anim AAA = limite estrutural documentado */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70
@@ -471,34 +471,19 @@ static void streamCameraWindow(void)
     }
 
     if (isFrameOnlyChange) {
-        /* P6d incremental + eviction: popula needed da nova janela para eviction. */
-        u16 i;
+        /* P6d incremental + eviction. O scan de sNeeded so roda quando o cache
+           esta cheio (eviction seria necessaria); com folga, o tick nao paga o
+           scan de 2x~2400 e o cache cabe sem liberar slot. */
+        const u16 needEviction = (sCacheCount >= CACHE_TILE_CAPACITY);
         u16 dirtyAx = 0, dirtyAy = 0, dirtyAw = 0, dirtyAh = 0;
         u16 dirtyBx = 0, dirtyBy = 0, dirtyBw = 0, dirtyBh = 0;
-        for (i = 0; i < GLOBAL_UNIQUE_TILES; i++) {
-            sNeeded[i] = 0;
-        }
-        for (wy = 0; wy < WINDOW_TILES_H; wy++) {
-            const u16 screenY = wy << 3;
-            const u16 rowCameraX = layerCameraXForScreenY(screenY);
-            const u16 rowCameraY = layerCameraYForScreenY(screenY);
-            const u16 tileX = rowCameraX >> 3;
-            const u16 srcY = min(WORLD_TILES_H - 1, (rowCameraY >> 3) + wy);
-            for (wx = 0; wx < WINDOW_TILES_W; wx++) {
-                const u16 srcX = min(WORLD_TILES_W - 1, tileX + wx);
-                const u16 rawA = frameMapA[(srcY * WORLD_TILES_W) + srcX];
-                sNeeded[rawA & MAP_TILE_ID_MASK] = 1;
+
+        if (needEviction) {
+            u16 i;
+            for (i = 0; i < GLOBAL_UNIQUE_TILES; i++) {
+                sNeeded[i] = 0;
             }
         }
-        for (wy = 0; wy < WINDOW_TILES_H; wy++) {
-            const u16 srcY = min(WORLD_TILES_H - 1, bgBTileY + wy);
-            for (wx = 0; wx < WINDOW_TILES_W; wx++) {
-                const u16 srcX = min(WORLD_TILES_W - 1, bgBTileX + wx);
-                const u16 rawB = frameMapB[(srcY * WORLD_TILES_W) + srcX];
-                sNeeded[rawB & MAP_TILE_ID_MASK] = 1;
-            }
-        }
-        sNeeded[BLANK_GLOBAL_TILE_ID] = 1;
 
         blankSlot = sGlobalToSlot[BLANK_GLOBAL_TILE_ID];
         if (blankSlot == EMPTY_SLOT) {
@@ -515,6 +500,9 @@ static void streamCameraWindow(void)
                 const u16 raw = frameMapA[(srcY * WORLD_TILES_W) + srcX];
                 const u16 globalTileId = raw & MAP_TILE_ID_MASK;
                 const u16 index = (wy * WINDOW_TILES_W) + wx;
+                if (needEviction) {
+                    sNeeded[globalTileId] = 1;
+                }
                 if (sWindowGlobalA[index] != globalTileId) {
                     const u16 slot = acquireTileSlot(globalTileId);
                     sWindowGlobalA[index] = globalTileId;
@@ -540,6 +528,9 @@ static void streamCameraWindow(void)
                     const u16 srcX = min(WORLD_TILES_W - 1, bgBTileX + wx);
                     const u16 raw = frameMapB[(srcY * WORLD_TILES_W) + srcX];
                     const u16 globalTileId = raw & MAP_TILE_ID_MASK;
+                    if (needEviction) {
+                        sNeeded[globalTileId] = 1;
+                    }
                     if (sWindowGlobalB[index] != globalTileId) {
                         const u16 slot = acquireTileSlot(globalTileId);
                         sWindowGlobalB[index] = globalTileId;

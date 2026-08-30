@@ -30,16 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "9a85ab67c075ba3c351564423c68d45ba84060cb8934ef26c675dabe12f43f03",
+    "rom_sha256": "1cd8d7afea7de505693974bb4c2f487d3678b7199893a6c42f0784b1f88f28d4",
     "blastem_status": "testado_em_blastem_sealed_bundle",
-    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/screenshot.png",
-    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/save.sram",
-    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/evidence_manifest.json",
-    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/screenshot_semantic_gate_report.json",
-    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/visual_vdp_dump.bin",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final8/blastem-linux-20260830T172329Z-3546909/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final8/blastem-linux-20260830T172329Z-3546909/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final8/blastem-linux-20260830T172329Z-3546909/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final8/blastem-linux-20260830T172329Z-3546909/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final8/blastem-linux-20260830T172329Z-3546909/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
     "frame_animation_enabled": false,
-    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final7/blastem-linux-20260830T152838Z-3186434/runtime_metrics.json"
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final8/blastem-linux-20260830T172329Z-3546909/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -159,7 +159,7 @@
       "conclusion": "zero re-stream em idle"
     }
   },
-  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6k \u00fanico pending)",
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6l \u00fanico pending)",
   "palette_optimization_p4_escape": {
     "status": "MEASURED",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
@@ -220,12 +220,16 @@
     "verdict": "proven_for_sample_window (32 samples, 0 over_budget, max_cpu 88% < 100)"
   },
   "animation_p6": {
-    "status": "MEASURED_WITH_LIMITATION",
-    "burst_bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6_burst/blastem-linux-20260829T155759Z-2162966",
-    "soak_bundle": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6_soak/blastem-linux-20260829T155828Z-2164584",
-    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6_animation_report.json",
-    "verdict": "REPROVADO para reload completo (7 overflows, 15 over_budget); requer streaming incremental",
-    "rom_current_sha": "revertido para DISABLED ap\u00f3s medi\u00e7\u00e3o"
+    "status": "COMPLETED_WITH_DOCUMENTED_LIMITS",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6_animation_streaming_report.json",
+    "verdict": "cache PASS (0 overflow); animacao full-layer REPROVADA AAA (7-8 over_budget em 7 variantes); melhorias retidas; P6l pending sub-regiao",
+    "retained_improvements": [
+      "incremental delta",
+      "eviction por epoca",
+      "throttle 90f",
+      "dirty-region",
+      "gate sNeeded"
+    ]
   },
   "animation_p6b": {
     "status": "MEASURED_WITH_LIMITATION",

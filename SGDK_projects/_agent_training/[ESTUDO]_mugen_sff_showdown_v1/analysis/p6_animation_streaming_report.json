@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "status": "completed_with_documented_limits",
+  "scope": "P6 (P6..P6k): animacao SFF frame-swap no viewer com streaming incremental + eviction",
+  "summary": {
+    "cache_subsystem": "PASS — 0 overflow, eviction por epoca ok, max_resident 1190/1190",
+    "animation_aaa": "REPROVADO — 7-8 over_budget em TODAS as 7 variantes testadas"
+  },
+  "measured_variants": {
+    "P6_full_reload_45f": {"over_budget":15,"overflow":7,"max_cpu":409,"burst_pct":"61.9%","note":"baseline reload completo"},
+    "P6b_incremental_no_eviction": {"over_budget":15,"overflow":121,"max_cpu":409,"note":"sem eviction, cache acumula"},
+    "P6c_capacity_1480": {"over_budget":15,"overflow":7,"note":"ampliar VRAM nao zera"},
+    "P6d_eviction_dma_queue": {"over_budget":15,"overflow":0,"max_cpu":317,"note":"eviction zera overflow"},
+    "P6e_throttle_90f": {"over_budget":7,"overflow":0,"max_cpu":249,"note":"melhor config -53% vs 15"},
+    "P6f_split_dma": {"over_budget":11,"overflow":0,"max_cpu":299,"note":"split piora CPU"},
+    "P6g_sweep_spread": {"over_budget":8,"overflow":0,"max_cpu":250,"note":"spread piora leve"},
+    "P6h_precompute_opacity": {"over_budget":8,"overflow":0,"max_cpu":250,"note":"precompute neutro"},
+    "P6i_dirty_region": {"over_budget":8,"overflow":0,"max_cpu":243,"note":"dirty region neutro (frame-swap difuso)"},
+    "P6j_peak_frame": {"over_budget":8,"overflow":0,"max_cpu":243,"peak_frame":97,"note":"instrumentacao identifica pico no tick de animacao"},
+    "P6k_sneeded_gate": {"over_budget":8,"overflow":0,"max_cpu":160,"peak_frame":97,"note":"gate corta pico -34% mas over_budget fixo; MELHORIA RETIDA no codigo"}
+  },
+  "findings": {
+    "peak_cpu_frame_97": "coincide com 1o tick de animacao (~frame 90 + warmup), nao o ENTER (dado de controle: anim OFF mesmo enter = 0 over_budget)",
+    "gate_sneeded": "pico 243->160 (-34%), custo de eviction removido do tick quando cache tem folga; mantido no codigo"
+  },
+  "verdict": {
+    "cache_streaming": "AAA-OK (0 overflow, dentro de 1190, eviction funcional)",
+    "bg_animation_full_layer": "LIMITE ESTRUTURAL documentado — frame-swap total do layer BG nao zera over_budget em nenhum lever; AAA real exigiria animar sub-regiao ou usar plano dedicado/dupla janela",
+    "default_green": "animation OFF = evidence_clean_final8: 0 over_budget, max_cpu 89, peak_frame 95"
+  },
+  "retained_improvements_in_code": [
+    "incremental delta (P6b)",
+    "eviction por epoca sSlotToGlobal/sNeeded (P6d)",
+    "throttle 90f (P6e)",
+    "dirty-region sub-rect upload (P6i)",
+    "gate de scan sNeeded (P6k)"
+  ]
+}

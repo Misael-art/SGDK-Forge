@@ -34,7 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 45 /* P6b medido: incremental delta reduz DMA mas sem eviction a uniao estoura; ver p6_incremental_report */
+#define FRAME_ANIMATION_INTERVAL_FRAMES 45 /* P6b/P6c medidos: incremental delta reduz DMA mas sem eviction ainda REPROVADO; ver p6b report */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70

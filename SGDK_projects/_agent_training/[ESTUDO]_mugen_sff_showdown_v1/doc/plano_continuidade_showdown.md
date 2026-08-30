@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.3.0 · **atualizado:** 2026-08-29 · **mantenedor:** proximo agente
+**versao:** 1.4.0 · **atualizado:** 2026-08-29 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -71,7 +71,12 @@
 - Veredito: **REPROVADO sem eviction**. Report: `analysis/p6b_incremental_report.json`.
 - Evidências: `evidence_p6b_soak` (1190) e `evidence_p6b_soak2` (1400) selados.
 
-### PENDING — P6c: Eviction por época + double-buffer (AAA real)
+### MEASURED_WITH_LIMITATION — P6c: Capacity 1480 sem eviction (2026-08-29)
+- Teste: CACHE 1480 + incremental; soak 120s: overflow 7, max 1276, over_budget 15.
+- Veredito: **REPROVADO** — ampliar VRAM sozinho não zera; união ainda cresce.
+- Report: `analysis/p6c_capacity_test.json`; evidência `evidence_p6c_soak`.
+
+### PENDING — P6d: Eviction por época + double-buffer (AAA real)
 - Objetivo: ao encher, evictar slots não usados na janela atual; animação sem reset completo e sem overflow.
 - Aceite: 0 overflows + 0 over_budget em soak 120s com animação ligada.
 

@@ -155,3 +155,9 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - Verdade dura: manter animação + eviction em todas as configs testadas (45f/90f/120f, split, spread, precompute) fica em 7-8 over_budget.
 - Cache é PASS (0 overflow). Animação AAA verdadeira exige enviar só a região mudada (dirty-region delta), não reenviar 41x29 tiles + 2 tilemaps por tick.
 - Default verde fixado: animation OFF = 0 overflows / 0 over_budget / max_cpu 89.
+
+## Adendo P6i (2026-08-30): dirty-region NEUTRO — frame-swap é difuso
+
+- VDP_setTileMapDataRect sub-rect no tick: max_cpu 250→243 mas over_budget segue 8.
+- Causa: animação SFF (bg2) espalha mudança por quase toda a janela, então o retângulo sujo ≈ full-window.
+- Lição: dirty-region só ajuda quando a mudança é localizada; para animação de camada integral, a otimização certa é jogar o trabalho no VBlank (scroll/tilemap no VBlank vs CPU).

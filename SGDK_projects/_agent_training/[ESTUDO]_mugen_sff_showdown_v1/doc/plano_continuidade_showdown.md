@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.9.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
+**versao:** 1.10.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -106,9 +106,17 @@
 - Report: `analysis/p6h_precompute_report.json`.
 - Default verde fixado (animation OFF): `evidence_clean_final5/…143338Z…` **0 overflows, 0 over_budget, max_cpu 89**.
 
-### PENDING — P6i: Animação via dirty-region delta (AAA real)
-- Objetivo: no tick de animação, re-enviar só a região mudada (delta de tiles), não o full-window 41×29.
-- Aceite: 0 overflows + 0 over_budget em soak 120s com animação 90f ligada.
+### MEASURED_WITH_LIMITATION — P6i: Animação via dirty-region delta (2026-08-30)
+- Método: VDP_setTileMapDataRect sub-rect (dirty bounding box por plano) no tick de animação.
+- Medida: soak 120s `evidence_p6i_soak/…145116Z…` overflow 0 ✅, over_budget **8**, max_cpu **243** (vs 250 full-window).
+- Veredito: **REPROVADO** — frame-swap SFF é difuso (bg2 cobre quase a janela), dirty rect ≈ full-window. Cache PASS.
+- Report: `analysis/p6i_dirty_region_report.json`. Código dirty-region mantido (melhoria leve/inofensiva).
+- Default verde fixado: `evidence_clean_final6/…145424Z…` 0/0/89.
+
+### PENDING — P6j: Instrumentar pico de CPU por frame (isolar causa real)
+- Objetivo: usar o peak-frame do VLAB (words 26..31: quadro de cada pico) para confirmar se os 7-8 over_budget são tick de animação, enter/sweep ou scroll.
+- Aceite: identificação acionável da frame de pico; então atacar a causa específica (ex.: mover scroll/sweep p/ vblank, reduzir scanline DMA).
+- Nota: probe atual do viewer ja emite peak-frame? Verificar words 26..31; se ausente, portar como no bloco VLAB canonico do Celestial Chase.
 
 ## Limites estruturais lembrados
 - Host Linux: build SO via `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh`;

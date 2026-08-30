@@ -34,7 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6h medido: precompute neutro (8/32 over_budget); teto e o re-upload full-window no tick; animation AAA exige dirty-region delta (P6i) */
+#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6i medido dirty-region: max_cpu 250→243 mas over_budget segue 8 (frame-swap cobre janela); anim AAA aguarda P6j (isolar pico por-frame) */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70
@@ -421,6 +421,19 @@ static u16 windowSourceChanged(void)
     return FALSE;
 }
 
+static void dirtyExpand(u16* x, u16* y, u16* w, u16* h, u16 cx, u16 cy)
+{
+    /* P6i: expande o retangulo sujo para cobrir a celula (cx,cy). */
+    if (*w == 0) {
+        *x = cx; *y = cy; *w = 1; *h = 1;
+        return;
+    }
+    if (cx < *x) { *w += (u16)(*x - cx); *x = cx; }
+    else if (cx >= (*x + *w)) { *w = (u16)((cx - *x) + 1); }
+    if (cy < *y) { *h += (u16)(*y - cy); *y = cy; }
+    else if (cy >= (*y + *h)) { *h = (u16)((cy - *y) + 1); }
+}
+
 static void streamCameraWindow(void)
 {
     const u16* maps = (const u16*)bin_showdown_maps;
@@ -460,6 +473,8 @@ static void streamCameraWindow(void)
     if (isFrameOnlyChange) {
         /* P6d incremental + eviction: popula needed da nova janela para eviction. */
         u16 i;
+        u16 dirtyAx = 0, dirtyAy = 0, dirtyAw = 0, dirtyAh = 0;
+        u16 dirtyBx = 0, dirtyBy = 0, dirtyBw = 0, dirtyBh = 0;
         for (i = 0; i < GLOBAL_UNIQUE_TILES; i++) {
             sNeeded[i] = 0;
         }
@@ -505,8 +520,7 @@ static void streamCameraWindow(void)
                     sWindowGlobalA[index] = globalTileId;
                     sWindowAOpaque[index] = globalTileIsOpaqueForOverlay(globalTileId);
                     sWindowMapA[index] = customMapWordToSgdkAttr(raw, slot);
-                } else if (globalTileId != sWindowGlobalA[index]) {
-                    sWindowAOpaque[index] = globalTileIsOpaqueForOverlay(globalTileId);
+                    dirtyExpand(&dirtyAx, &dirtyAy, &dirtyAw, &dirtyAh, wx, wy);
                 }
             }
             sLastRowTileX[wy] = tileX;
@@ -517,8 +531,11 @@ static void streamCameraWindow(void)
             for (wx = 0; wx < WINDOW_TILES_W; wx++) {
                 const u16 index = (wy * WINDOW_TILES_W) + wx;
                 if (sWindowAOpaque[index]) {
-                    sWindowMapB[index] = TILE_USER_INDEX + blankSlot;
-                    sWindowGlobalB[index] = BLANK_GLOBAL_TILE_ID;
+                    if (sWindowGlobalB[index] != BLANK_GLOBAL_TILE_ID) {
+                        sWindowMapB[index] = TILE_USER_INDEX + blankSlot;
+                        sWindowGlobalB[index] = BLANK_GLOBAL_TILE_ID;
+                        dirtyExpand(&dirtyBx, &dirtyBy, &dirtyBw, &dirtyBh, wx, wy);
+                    }
                 } else {
                     const u16 srcX = min(WORLD_TILES_W - 1, bgBTileX + wx);
                     const u16 raw = frameMapB[(srcY * WORLD_TILES_W) + srcX];
@@ -527,13 +544,18 @@ static void streamCameraWindow(void)
                         const u16 slot = acquireTileSlot(globalTileId);
                         sWindowGlobalB[index] = globalTileId;
                         sWindowMapB[index] = customMapWordToSgdkAttr(raw, slot);
+                        dirtyExpand(&dirtyBx, &dirtyBy, &dirtyBw, &dirtyBh, wx, wy);
                     }
                 }
             }
         }
         flushTileUploadBatch();
-        VDP_setTileMapDataRect(BG_B, sWindowMapB, 0, 0, WINDOW_TILES_W, WINDOW_TILES_H, WINDOW_TILES_W, CPU);
-        VDP_setTileMapDataRect(BG_A, sWindowMapA, 0, 0, WINDOW_TILES_W, WINDOW_TILES_H, WINDOW_TILES_W, CPU);
+        if (dirtyBw > 0) {
+            VDP_setTileMapDataRect(BG_B, &sWindowMapB[(dirtyBy * WINDOW_TILES_W) + dirtyBx], dirtyBx, dirtyBy, dirtyBw, dirtyBh, WINDOW_TILES_W, DMA_QUEUE);
+        }
+        if (dirtyAw > 0) {
+            VDP_setTileMapDataRect(BG_A, &sWindowMapA[(dirtyAy * WINDOW_TILES_W) + dirtyAx], dirtyAx, dirtyAy, dirtyAw, dirtyAh, WINDOW_TILES_W, DMA_QUEUE);
+        }
         statEndStreamingPass();
         sLastTileX = sCameraX >> 3;
         sLastTileY = sCameraY >> 3;

@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "status": "measured_with_limitation",
+  "method": "dirty-region delta por plano (VDP_setTileMapDataRect sub-rect) + eviction, interval 90f",
+  "soak_evidence": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6i_soak/blastem-linux-20260830T145116Z-3071087",
+  "TSTR": {"requested":6727,"dma":6727,"calls":425,"overflow":0,"max_res":1190,"cap":1190},
+  "VLAB": {"over_budget_frames":8,"max_cpu_load":243,"sample_count":32},
+  "comparison": {
+    "P6h_full_window": {"over_budget":8,"max_cpu":250},
+    "P6i_dirty_region": {"over_budget":8,"max_cpu":243}
+  },
+  "verdict": {
+    "dirty_region_cpu": "250 -> 243 (melhoria leve)",
+    "over_budget": "8/32 (inalterado)",
+    "root_cause": "frame-swap SFF muda regiao ampla/difusa (bg2 cobre quase a janela); dirty rect ≈ full-window",
+    "aaa_gate_anim": "REPROVADO (over_budget constante ~7-8 em TODAS as variantes)",
+    "cache_gate": "PASS (0 overflow, eviction ok)",
+    "next_required": "P6j: instrumentar pico de CPU por frame (VLAB peak-frame) para isolar a causa real do over_budget"
+  }
+}

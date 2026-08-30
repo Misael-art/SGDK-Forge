@@ -127,3 +127,9 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 
 - Incremental sem reset: DMA −33% mas cache acumula união dos frames; 1190→121 overflows (piora), 1400→7 overflows.
 - Lição: workaround parcial sem eviction troca um gargalo por outro; AAA exige eviction por época.
+
+## Adendo P6d (2026-08-30): eviction por época — overflow zerado, CPU ainda estoura
+
+- Implementado sSlotToGlobal + sNeeded + eviction do slot não usado na nova janela; DMA_QUEUE.
+- Soak 120s: overflow 121→0 ✅, max_res 1190/1190, mas over_budget 15/32, max_cpu 317.
+- Lição: eviction resolve VRAM, mas custo CPU do upload por frame ainda estoura budget; próximo é throttle/split.

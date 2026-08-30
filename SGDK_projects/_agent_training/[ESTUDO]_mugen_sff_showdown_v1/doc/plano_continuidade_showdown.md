@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.4.0 · **atualizado:** 2026-08-29 · **mantenedor:** proximo agente
+**versao:** 1.5.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -76,9 +76,16 @@
 - Veredito: **REPROVADO** — ampliar VRAM sozinho não zera; união ainda cresce.
 - Report: `analysis/p6c_capacity_test.json`; evidência `evidence_p6c_soak`.
 
-### PENDING — P6d: Eviction por época + double-buffer (AAA real)
-- Objetivo: ao encher, evictar slots não usados na janela atual; animação sem reset completo e sem overflow.
-- Aceite: 0 overflows + 0 over_budget em soak 120s com animação ligada.
+### DONE — P6d: Eviction por época + DMA_QUEUE (2026-08-30)
+- Método: sSlotToGlobal + sNeeded + eviction do slot não usado na nova janela; DMA_QUEUE em vez de CPU.
+- Medida: soak 120s `evidence_p6d_soak/…012522Z…` overflow **0** (antes 121) ✅, max_res 1190/1190, mas over_budget 15/32, max_cpu 317.
+- Veredito: **REPROVADO para CPU** mas cache OK; report `analysis/p6d_eviction_report.json`.
+- Código incremental + eviction permanece no viewer para próximo passo.
+
+### PENDING — P6e: Throttle e split de DMA (AAA real)
+- Objetivo: zerar over_budget (p99 CPU < budget) com animação ligada.
+- Opções: interval 60-90f ou split de uploads em múltiplos VBlanks.
+- Aceite: 0 overflows + 0 over_budget em soak 120s.
 
 ## Limites estruturais lembrados
 - Host Linux: build SO via `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh`;

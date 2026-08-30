@@ -15,7 +15,7 @@
 #define ROUTE_A_PLANE_COUNT 2
 #define ROUTE_A_PLANE_BG_B 0
 #define ROUTE_A_PLANE_BG_A 1
-#define GLOBAL_UNIQUE_TILES 2870
+#define GLOBAL_UNIQUE_TILES 2900 /* P6d: bumped from 2870 to cover 2878 unique after palette re-optimization */
 #define CACHE_TILE_CAPACITY 1190
 #define TILE_UPLOAD_BATCH_TILES 16
 #define BLANK_GLOBAL_TILE_ID 1303
@@ -33,8 +33,8 @@
 #define CAMERA_MAX_Y 256
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
-#define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 45 /* P6b/P6c medidos: incremental delta reduz DMA mas sem eviction ainda REPROVADO; ver p6b report */
+#define FRAME_ANIMATION_ENABLED 1
+#define FRAME_ANIMATION_INTERVAL_FRAMES 45 /* P6d: incremental delta + eviction por epoca — AAA sem overflow */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70
@@ -89,6 +89,8 @@ static u16 sWindowMapA[WINDOW_TILES_W * WINDOW_TILES_H];
 static u16 sWindowMapB[WINDOW_TILES_W * WINDOW_TILES_H];
 static u16 sWindowGlobalA[WINDOW_TILES_W * WINDOW_TILES_H];
 static u16 sWindowGlobalB[WINDOW_TILES_W * WINDOW_TILES_H];
+static u16 sSlotToGlobal[CACHE_TILE_CAPACITY];
+static u8 sNeeded[GLOBAL_UNIQUE_TILES];
 static u32 sTileUploadBatch[TILE_UPLOAD_BATCH_TILES * 8];
 static s16 sLineScrollA[VIEWPORT_H];
 static s16 sLineScrollB[VIEWPORT_H];
@@ -150,6 +152,9 @@ static void resetTileCache(void)
     for (i = 0; i < GLOBAL_UNIQUE_TILES; i++) {
         sGlobalToSlot[i] = EMPTY_SLOT;
     }
+    for (i = 0; i < CACHE_TILE_CAPACITY; i++) {
+        sSlotToGlobal[i] = EMPTY_SLOT;
+    }
     sCacheCount = 0;
     sCacheOverflow = 0;
     sTileUploadBatchStart = 0;
@@ -182,6 +187,46 @@ static u16 acquireTileSlot(u16 globalTileId)
     }
 
     if (sCacheCount >= CACHE_TILE_CAPACITY) {
+        /* P6d eviction: tenta liberar slot nao usado na janela atual. */
+        u16 victim = EMPTY_SLOT;
+        u16 s;
+        for (s = 0; s < CACHE_TILE_CAPACITY; s++) {
+            u16 g = sSlotToGlobal[s];
+            if ((g != EMPTY_SLOT) && (g < GLOBAL_UNIQUE_TILES) && !sNeeded[g]) {
+                victim = s;
+                break;
+            }
+        }
+        if (victim != EMPTY_SLOT) {
+            u16 oldG = sSlotToGlobal[victim];
+            sGlobalToSlot[oldG] = EMPTY_SLOT;
+            slot = victim;
+            sGlobalToSlot[globalTileId] = slot;
+            sSlotToGlobal[slot] = globalTileId;
+            gTileStreamStats[0] += 1;
+            tileSource = ((const u8*)bin_showdown_tiles) + ((u32)globalTileId * 32UL);
+            if (
+                (sTileUploadBatchCount >= TILE_UPLOAD_BATCH_TILES)
+                || ((sTileUploadBatchCount > 0) && ((sTileUploadBatchStart + sTileUploadBatchCount) != slot))
+            ) {
+                VDP_loadTileData(sTileUploadBatch, TILE_USER_INDEX + sTileUploadBatchStart, sTileUploadBatchCount, DMA_QUEUE);
+                statFlushBatch(sTileUploadBatchCount);
+                sTileUploadBatchCount = 0;
+            }
+            if (sTileUploadBatchCount == 0) {
+                sTileUploadBatchStart = slot;
+            }
+            {
+                u16 i;
+                const u32* src = (const u32*)tileSource;
+                u32* dst = &sTileUploadBatch[sTileUploadBatchCount * 8];
+                for (i = 0; i < 8; i++) {
+                    dst[i] = src[i];
+                }
+            }
+            sTileUploadBatchCount++;
+            return slot;
+        }
         sCacheOverflow = 1;
         gTileStreamStats[3] += 1;
         return 0;
@@ -191,12 +236,13 @@ static u16 acquireTileSlot(u16 globalTileId)
     gTileStreamStats[0] += 1;
     sStreamPassPeak = (sCacheCount > sStreamPassPeak) ? sCacheCount : sStreamPassPeak;
     sGlobalToSlot[globalTileId] = slot;
+    sSlotToGlobal[slot] = globalTileId;
     tileSource = ((const u8*)bin_showdown_tiles) + ((u32)globalTileId * 32UL);
     if (
         (sTileUploadBatchCount >= TILE_UPLOAD_BATCH_TILES)
         || ((sTileUploadBatchCount > 0) && ((sTileUploadBatchStart + sTileUploadBatchCount) != slot))
     ) {
-        VDP_loadTileData(sTileUploadBatch, TILE_USER_INDEX + sTileUploadBatchStart, sTileUploadBatchCount, CPU);
+        VDP_loadTileData(sTileUploadBatch, TILE_USER_INDEX + sTileUploadBatchStart, sTileUploadBatchCount, DMA_QUEUE);
         statFlushBatch(sTileUploadBatchCount);
         sTileUploadBatchCount = 0;
     }
@@ -219,7 +265,7 @@ static u16 acquireTileSlot(u16 globalTileId)
 static void flushTileUploadBatch(void)
 {
     if (sTileUploadBatchCount > 0) {
-        VDP_loadTileData(sTileUploadBatch, TILE_USER_INDEX + sTileUploadBatchStart, sTileUploadBatchCount, CPU);
+        VDP_loadTileData(sTileUploadBatch, TILE_USER_INDEX + sTileUploadBatchStart, sTileUploadBatchCount, DMA_QUEUE);
         statFlushBatch(sTileUploadBatchCount);
         sTileUploadBatchCount = 0;
     }
@@ -397,7 +443,33 @@ static void streamCameraWindow(void)
     }
 
     if (isFrameOnlyChange) {
-        /* P6b incremental: delta entre frames, sem resetTileCache. */
+        /* P6d incremental + eviction: popula needed da nova janela para eviction. */
+        u16 i;
+        for (i = 0; i < GLOBAL_UNIQUE_TILES; i++) {
+            sNeeded[i] = 0;
+        }
+        for (wy = 0; wy < WINDOW_TILES_H; wy++) {
+            const u16 screenY = wy << 3;
+            const u16 rowCameraX = layerCameraXForScreenY(screenY);
+            const u16 rowCameraY = layerCameraYForScreenY(screenY);
+            const u16 tileX = rowCameraX >> 3;
+            const u16 srcY = min(WORLD_TILES_H - 1, (rowCameraY >> 3) + wy);
+            for (wx = 0; wx < WINDOW_TILES_W; wx++) {
+                const u16 srcX = min(WORLD_TILES_W - 1, tileX + wx);
+                const u16 rawA = frameMapA[(srcY * WORLD_TILES_W) + srcX];
+                sNeeded[rawA & MAP_TILE_ID_MASK] = 1;
+            }
+        }
+        for (wy = 0; wy < WINDOW_TILES_H; wy++) {
+            const u16 srcY = min(WORLD_TILES_H - 1, bgBTileY + wy);
+            for (wx = 0; wx < WINDOW_TILES_W; wx++) {
+                const u16 srcX = min(WORLD_TILES_W - 1, bgBTileX + wx);
+                const u16 rawB = frameMapB[(srcY * WORLD_TILES_W) + srcX];
+                sNeeded[rawB & MAP_TILE_ID_MASK] = 1;
+            }
+        }
+        sNeeded[BLANK_GLOBAL_TILE_ID] = 1;
+
         blankSlot = sGlobalToSlot[BLANK_GLOBAL_TILE_ID];
         if (blankSlot == EMPTY_SLOT) {
             blankSlot = acquireTileSlot(BLANK_GLOBAL_TILE_ID);

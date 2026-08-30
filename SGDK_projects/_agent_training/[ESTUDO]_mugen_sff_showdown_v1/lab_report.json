@@ -30,16 +30,16 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "d5ee71e40bd4d529dcf22726b63f459c528a68bc49de1906fb38a04e1bda582a",
+    "rom_sha256": "9a54a1216e63dae9f9f6ceed4b6cab46ea0cb987fb0bd977cb4231ab6e600aa0",
     "blastem_status": "testado_em_blastem_sealed_bundle",
-    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final/blastem-linux-20260830T012226Z-425198/screenshot.png",
-    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final/blastem-linux-20260830T012226Z-425198/save.sram",
-    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final/blastem-linux-20260830T012226Z-425198/evidence_manifest.json",
-    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final/blastem-linux-20260830T012226Z-425198/screenshot_semantic_gate_report.json",
-    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final/blastem-linux-20260830T012226Z-425198/visual_vdp_dump.bin",
+    "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6d_soak/blastem-linux-20260830T012522Z-435450/screenshot.png",
+    "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6d_soak/blastem-linux-20260830T012522Z-435450/save.sram",
+    "session_manifest": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6d_soak/blastem-linux-20260830T012522Z-435450/evidence_manifest.json",
+    "visual_check": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6d_soak/blastem-linux-20260830T012522Z-435450/screenshot_semantic_gate_report.json",
+    "visual_vdp_dump": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6d_soak/blastem-linux-20260830T012522Z-435450/visual_vdp_dump.bin",
     "runtime_strategy": "window_streamed_tile_graphics_and_tilemap",
     "frame_animation_enabled": false,
-    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final/blastem-linux-20260830T012226Z-425198/runtime_metrics.json"
+    "runtime_metrics": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6d_soak/blastem-linux-20260830T012522Z-435450/runtime_metrics.json"
   },
   "budget": {
     "raw_tiles": 23040,
@@ -159,7 +159,7 @@
       "conclusion": "zero re-stream em idle"
     }
   },
-  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6d \u00fanico pending)",
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6e \u00fanico pending)",
   "palette_optimization_p4_escape": {
     "status": "MEASURED",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
@@ -236,5 +236,10 @@
     "status": "MEASURED_WITH_LIMITATION",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6c_capacity_test.json",
     "verdict": "REPROVADO cap1480 ainda 7 overflows/15 over_budget; requer eviction"
+  },
+  "animation_p6d": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6d_eviction_report.json",
+    "verdict": "cache overflow PASS (0) mas over_budget 15/32 ainda FAIL; pr\u00f3ximo P6e throttle/split"
   }
 }

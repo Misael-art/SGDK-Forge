@@ -34,7 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6e medido throttle 90f: over_budget 15→7, próximo é split DMA; revertido para DISABLED para selo verde */
+#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6f medido split 16/frame: over_budget 7→11 (piora); próximo é otimizar custo CPU por tile; revertido para DISABLED */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70

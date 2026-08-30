@@ -138,3 +138,8 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 
 - Interval 90f + eviction + DMA_QUEUE: soak 120s overflow 0 ✅, over_budget 7 (antes 15), max_cpu 249.
 - 120f piora (8), 90f é melhor compromisso; próximo é split de uploads em múltiplos VBlanks para zerar.
+
+## Adendo P6f (2026-08-30): split DMA 16/frame — piora over_budget
+
+- Split 16 tiles/frame + eviction: over_budget 7→11, max_cpu 249→299.
+- Lição: overhead de queue + tilemap updates por frame supera economia de DMA; próximo é cachear sTileOpacity/sNeeded.

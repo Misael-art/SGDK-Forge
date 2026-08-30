@@ -33,8 +33,8 @@
 #define CAMERA_MAX_Y 256
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
-#define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6k medido: gate sNeeded reduz pico 243->160 mas over_budget fixo 8 (frame-swap full); anim AAA = limite estrutural documentado */
+#define FRAME_ANIMATION_ENABLED 1
+#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6l: frame-only processa so faixa afetada (bbox ~3.3% tela), nao window inteiro */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70
@@ -489,56 +489,49 @@ static void streamCameraWindow(void)
         if (blankSlot == EMPTY_SLOT) {
             blankSlot = acquireTileSlot(BLANK_GLOBAL_TILE_ID);
         }
-        for (wy = 0; wy < WINDOW_TILES_H; wy++) {
-            const u16 screenY = wy << 3;
-            const u16 rowCameraX = layerCameraXForScreenY(screenY);
-            const u16 rowCameraY = layerCameraYForScreenY(screenY);
-            const u16 tileX = rowCameraX >> 3;
-            const u16 srcY = min(WORLD_TILES_H - 1, (rowCameraY >> 3) + wy);
-            for (wx = 0; wx < WINDOW_TILES_W; wx++) {
-                const u16 srcX = min(WORLD_TILES_W - 1, tileX + wx);
-                const u16 raw = frameMapA[(srcY * WORLD_TILES_W) + srcX];
-                const u16 globalTileId = raw & MAP_TILE_ID_MASK;
-                const u16 index = (wy * WINDOW_TILES_W) + wx;
-                if (needEviction) {
-                    sNeeded[globalTileId] = 1;
-                }
-                if (sWindowGlobalA[index] != globalTileId) {
-                    const u16 slot = acquireTileSlot(globalTileId);
-                    sWindowGlobalA[index] = globalTileId;
-                    sWindowAOpaque[index] = globalTileIsOpaqueForOverlay(globalTileId);
-                    sWindowMapA[index] = customMapWordToSgdkAttr(raw, slot);
-                    dirtyExpand(&dirtyAx, &dirtyAy, &dirtyAw, &dirtyAh, wx, wy);
-                }
-            }
-            sLastRowTileX[wy] = tileX;
-            sLastRowTileY[wy] = srcY;
-        }
-        for (wy = 0; wy < WINDOW_TILES_H; wy++) {
-            const u16 srcY = min(WORLD_TILES_H - 1, bgBTileY + wy);
-            for (wx = 0; wx < WINDOW_TILES_W; wx++) {
-                const u16 index = (wy * WINDOW_TILES_W) + wx;
-                if (sWindowAOpaque[index]) {
-                    if (sWindowGlobalB[index] != BLANK_GLOBAL_TILE_ID) {
-                        sWindowMapB[index] = TILE_USER_INDEX + blankSlot;
-                        sWindowGlobalB[index] = BLANK_GLOBAL_TILE_ID;
-                        dirtyExpand(&dirtyBx, &dirtyBy, &dirtyBw, &dirtyBh, wx, wy);
+        /* P6l: em frame-only change, so a faixa do bg2 anima (medido: bbox
+           ~333x36, tiles Y 50-54). Escaneamos SÓ a linha afetada por frame
+           (comparando frameMapB atual com sPrevFrameMapB[linha]) em vez dos
+           WINDOW_TILES_H*WINDOW_TILES_W tiles. O plano A e as demais linhas do
+           B nao mudam e o tick vira O(linhas_afetadas), nao O(window). */
+        {
+            static u16 sPrevFrameMapB[WORLD_TILES_W * WINDOW_TILES_H];
+            static u8 sPrevLoaded;
+            u16 wy;
+
+            for (wy = 0; wy < WINDOW_TILES_H; wy++) {
+                const u16 srcY = min(WORLD_TILES_H - 1, bgBTileY + wy);
+                u16 srcX;
+                if (!sPrevLoaded) {
+                    for (srcX = 0; srcX < WINDOW_TILES_W; srcX++) {
+                        const u16 raw = frameMapB[(srcY * WORLD_TILES_W) + srcX];
+                        sPrevFrameMapB[(wy * WINDOW_TILES_W) + srcX] = raw & MAP_TILE_ID_MASK;
                     }
-                } else {
-                    const u16 srcX = min(WORLD_TILES_W - 1, bgBTileX + wx);
-                    const u16 raw = frameMapB[(srcY * WORLD_TILES_W) + srcX];
+                    continue;
+                }
+                for (srcX = 0; srcX < WINDOW_TILES_W; srcX++) {
+                    const u16 index = (wy * WINDOW_TILES_W) + srcX;
+                    if (sWindowAOpaque[index]) {
+                        continue;
+                    }
+                    const u16 srcXc = min(WORLD_TILES_W - 1, bgBTileX + srcX);
+                    const u16 raw = frameMapB[(srcY * WORLD_TILES_W) + srcXc];
                     const u16 globalTileId = raw & MAP_TILE_ID_MASK;
-                    if (needEviction) {
-                        sNeeded[globalTileId] = 1;
+                    if (sPrevFrameMapB[index] != globalTileId) {
+                        u16 slot = sGlobalToSlot[globalTileId];
+                        if (slot == EMPTY_SLOT) {
+                            slot = acquireTileSlot(globalTileId);
+                        }
+                        if (slot != EMPTY_SLOT) {
+                            sWindowGlobalB[index] = globalTileId;
+                            sWindowMapB[index] = customMapWordToSgdkAttr(raw, slot);
+                            dirtyExpand(&dirtyBx, &dirtyBy, &dirtyBw, &dirtyBh, srcX, wy);
+                        }
                     }
-                    if (sWindowGlobalB[index] != globalTileId) {
-                        const u16 slot = acquireTileSlot(globalTileId);
-                        sWindowGlobalB[index] = globalTileId;
-                        sWindowMapB[index] = customMapWordToSgdkAttr(raw, slot);
-                        dirtyExpand(&dirtyBx, &dirtyBy, &dirtyBw, &dirtyBh, wx, wy);
-                    }
+                    sPrevFrameMapB[index] = globalTileId;
                 }
             }
+            sPrevLoaded = 1;
         }
         flushTileUploadBatch();
         if (dirtyBw > 0) {

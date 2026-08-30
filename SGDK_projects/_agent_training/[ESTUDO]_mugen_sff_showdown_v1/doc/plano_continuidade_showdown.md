@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.12.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
+**versao:** 1.13.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -59,17 +59,21 @@
 - Report: `analysis/p5_performance_report.json` — claim `proven_for_sample_window`, nota de 32-sample window limitação honesta.
 - Próximo soak burst pode ampliar janela amostral se P6 aumentar carga.
 
-### CONCLUIDO (com limites documentados) — Fase P6: Animacao SFF frame-swap (P6..P6k)
+### CONCLUIDO — Fase P6: Animacao SFF frame-swap (P6..P6l)
 - Cache subsystem PASS: 0 overflow, eviction por epoca ok, max_resident 1190/1190.
-- Animacao full-layer REPROVADA para AAA: 7-8 over_budget em TODAS as 7 variantes (46f/90f/120f, split, spread, precompute, dirty-region).
-- Melhores: P6e throttle 90f (7/32) e P6k gate sNeeded (pico CPU 243->160, -34%).
-- Idem causa: peak_cpu_frame=97 = 1o tick de animacao (dado de controle: anim OFF mesmo enter = 0). Nao e o ENTER.
-- Melhorias retidas no codigo: incremental delta, eviction por epoca, throttle 90f, dirty-region, gate sNeeded.
-- Relatorio consolidado: `analysis/p6_animation_streaming_report.json`. Default verde: `evidence_clean_final8`.
+- **Animacao RESOLVIDA em P6l**: bg2 muda apenas 3.3% da tela (faixa Y403-439, ~168 tiles); o tick antigo re-escaneava os 1189 tiles do window (O(window)); band-scan processa so a faixa -> 0 over_budget.
+- Melhorias retidas: incremental delta, eviction por epoca, throttle 90f, dirty-region, gate sNeeded, **P6l band-scan**.
+- Relatorio consolidado: `analysis/p6_animation_streaming_report.json`.
 
-### PENDING — P6l: Animacao de sub-regiao (AAA real, herdeiro de P6)
-- Objetivo: animar apenas a regiao que muda de verdade (ex.: parallax plate / layer dedicada), nao o frame full-window — evitando o pico estrutural que nenhum lever eliminou.
-- Aceite: 0 overflows + 0 over_budget em soak 120s com animacao ligada.
+### DONE — P6l: Band-scan da faixa animada (2026-08-30)
+- Metodo: no frame-only change, processa SO a faixa do bg2 que muda (comparando frameMapB atual com snapshot anterior), nao o window inteiro.
+- Medida: soak 120s `evidence_p6l_soak/…181807Z…` **over_budget 0** (P6k era 8), max_cpu 94, overflow 0, max_res 1152/1190.
+- Descoberta que corrigiu a fase: diff real entre frames = 3.3% (bbox 337x36); o "limite estrutural" anterior era escopo O(window) no tick.
+- Aceite P6l cumprido: 0 overflows + 0 over_budget com animacao ligada. Esqueleto do frame pode ser expandido a partir daqui.
+
+### PENDING — P6m: Generalizar band-scan para multiplas faixas/camadas animadas
+- Objetivo: aplicar a otimizacao de banda a todas as camadas SFF animadas (nao so bg2), medindo cada uma.
+- Aceite: 0 over_budget mantido com N camadas animadas simultaneas.
 
 ## Limites estruturais lembrados
 - Host Linux: build SO via `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh`;

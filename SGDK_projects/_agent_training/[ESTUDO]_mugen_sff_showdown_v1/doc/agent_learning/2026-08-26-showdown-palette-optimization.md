@@ -167,3 +167,11 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - Instrumentacao peak-frame (words 26..31) foi decisiva: peak_cpu_frame=97 = 1o tick de animacao, NAO o ENTER (dado de controle anim OFF=0 desmentiu a hipotese do enter).
 - Melhorias retidas no codigo: incremental delta, eviction por epoca, throttle 90f, dirty-region sub-rect, gate de scan sNeeded (-34% pico CPU).
 - Licao transversal: quando 7 leveres convergem no mesmo resultado, pare de tentar o 8o; documente o limite estrutural (frame-swap full-layer) e reduz o caminho AAA para sub-regiao/plano dedicado.
+
+## Adendo P6l (2026-08-30): band-scan resolve a animacao — o 'limite estrutural' era escopo O(window)
+
+- Medicao de diff entre os 4 frames: bg2 muda apenas 3.3% da tela (bbox 337x36, faixa Y403-439, ~168 tiles).
+- O tick de frame-swap re-escaneava os WINDOW_TILES_W*WINDOW_TILES_H = 1189 tiles a cada tick (O(window)), mesmo quando so 168 mudavam.
+- Band-scan: no frame-only change, compara frameMapB atual com um snapshot anterior e processa SO a faixa que difere.
+- Resultado: soak 120s anim ON -> over_budget 0 (era 8), max_cpu 94 (era 160/243), overflow 0, max_res 1152/1190.
+- Licao transversal: quando um 'limite estrutural' persiste em muitos leveres, MEÇA o dado de entrada (diff entre frames) antes de aceitar a limitação — o gargalo pode ser escopo de loop, nao o hardware. O diff de 3.3% revelou que o tick era 30x mais caro que o necessario.

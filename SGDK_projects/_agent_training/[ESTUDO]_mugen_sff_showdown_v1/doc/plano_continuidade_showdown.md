@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.5.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
+**versao:** 1.6.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -82,10 +82,14 @@
 - Veredito: **REPROVADO para CPU** mas cache OK; report `analysis/p6d_eviction_report.json`.
 - Código incremental + eviction permanece no viewer para próximo passo.
 
-### PENDING — P6e: Throttle e split de DMA (AAA real)
-- Objetivo: zerar over_budget (p99 CPU < budget) com animação ligada.
-- Opções: interval 60-90f ou split de uploads em múltiplos VBlanks.
-- Aceite: 0 overflows + 0 over_budget em soak 120s.
+### DONE — P6e: Throttle 90f + eviction (2026-08-30)
+- Interval 90f (~0.66 fps) + eviction + DMA_QUEUE: soak 120s `evidence_p6e_soak/…013639Z…` overflow **0** ✅, over_budget **7** (antes 15, −53%), max_cpu 249, p50=82 p99=88.
+- Report: `analysis/p6e_throttle_report.json` — 120f piora (8 over_budget), 90f é melhor compromisso.
+- Veredito: **ainda REPROVADO para AAA** (7/32 >0) mas sequencialmente melhor; próximo é split DMA.
+
+### PENDING — P6f: Split de uploads em múltiplos VBlanks (AAA real)
+- Objetivo: zerar over_budget restante (7) distribuindo delta tiles em 2-3 VBlanks.
+- Aceite: 0 overflows + 0 over_budget em soak 120s com animação ligada.
 
 ## Limites estruturais lembrados
 - Host Linux: build SO via `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh`;

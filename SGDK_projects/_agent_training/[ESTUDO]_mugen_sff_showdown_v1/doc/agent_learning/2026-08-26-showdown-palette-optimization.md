@@ -133,3 +133,8 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 - Implementado sSlotToGlobal + sNeeded + eviction do slot não usado na nova janela; DMA_QUEUE.
 - Soak 120s: overflow 121→0 ✅, max_res 1190/1190, mas over_budget 15/32, max_cpu 317.
 - Lição: eviction resolve VRAM, mas custo CPU do upload por frame ainda estoura budget; próximo é throttle/split.
+
+## Adendo P6e (2026-08-30): throttle 90f — over_budget 15→7 (-53%)
+
+- Interval 90f + eviction + DMA_QUEUE: soak 120s overflow 0 ✅, over_budget 7 (antes 15), max_cpu 249.
+- 120f piora (8), 90f é melhor compromisso; próximo é split de uploads em múltiplos VBlanks para zerar.

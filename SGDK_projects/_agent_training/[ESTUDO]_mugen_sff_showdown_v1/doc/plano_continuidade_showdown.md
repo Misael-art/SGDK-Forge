@@ -1,6 +1,6 @@
 # Plano de Continuidade — Showdown SFF v1 (AAA por incrementos)
 
-**versao:** 1.7.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
+**versao:** 1.8.0 · **atualizado:** 2026-08-30 · **mantenedor:** proximo agente
 **regra-mae:** SGDK_GLOBAL §38 (sonda antes de promessa) · prompt modelo `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md`
 **estado na emissao:** paletas v002 seladas; ROM corrente `d99f8d12…`; viewer streaming 41×29 / cache 1190
 
@@ -94,8 +94,13 @@
 - Report: `analysis/p6f_split_report.json`; evidência burst mostra 5.32% diff.
 - ROM revertida para DISABLED para selo verde.
 
-### PENDING — P6g: Otimizar custo CPU por tile (AAA real)
-- Objetivo: zerar over_budget restante (7→0) sem aumentar intervalo; cachear sTileOpacity/sNeeded, precomputar isOpaque.
+### MEASURED_WITH_LIMITATION — P6g: Sweep espalhado 1/frame (2026-08-30)
+- Método: sweep de cantos espalhado 1 por frame para reduzir pico no enter.
+- Medida: soak 120s `evidence_p6g_soak/…113617Z…` overflow 0 ✅, over_budget **8** (vs 7 do throttle puro), max_cpu 250.
+- Veredito: **REPROVADO** — overhead de 5 frames extras supera economia; report `analysis/p6g_sweep_spread_report.json`.
+
+### PENDING — P6h: Otimizar custo CPU por tile (AAA real)
+- Objetivo: zerar over_budget restante (7→0) cacheando sTileOpacity/sNeeded e precomputando isOpaque.
 - Aceite: 0 overflows + 0 over_budget em soak 120s com animação 90f ligada.
 
 ## Limites estruturais lembrados

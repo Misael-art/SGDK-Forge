@@ -30,7 +30,7 @@
   "viewer": {
     "path": "sgdk_viewer/showdown_viewer",
     "rom": "sgdk_viewer/showdown_viewer/out/rom.bin",
-    "rom_sha256": "505a312f235735b64680204a0e791aec6469ac94c6e8417ca2ba5bf6648c1f7b",
+    "rom_sha256": "2a8f56826e93d2909644cec04a61494b687453d5823cd21719852716777a5250",
     "blastem_status": "testado_em_blastem_sealed_bundle",
     "screenshot": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final3/blastem-linux-20260830T113023Z-2330763/screenshot.png",
     "save_sram": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_clean_final3/blastem-linux-20260830T113023Z-2330763/save.sram",
@@ -159,7 +159,7 @@
       "conclusion": "zero re-stream em idle"
     }
   },
-  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6g \u00fanico pending)",
+  "next_steps_pointer": "doc/plano_continuidade_showdown.md (fila sequenciada P6h \u00fanico pending)",
   "palette_optimization_p4_escape": {
     "status": "MEASURED",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/tile_stream_stats_p4.json",
@@ -251,5 +251,10 @@
     "status": "MEASURED_WITH_LIMITATION",
     "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6f_split_report.json",
     "verdict": "split 16/frame piora over_budget 7->11; pr\u00f3ximo otimizar custo CPU por tile"
+  },
+  "animation_p6g": {
+    "status": "MEASURED_WITH_LIMITATION",
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/analysis/p6g_sweep_spread_report.json",
+    "verdict": "sweep espalhado over_budget 7->8 (piora), pr\u00f3ximo otimizar custo por tile"
   }
 }

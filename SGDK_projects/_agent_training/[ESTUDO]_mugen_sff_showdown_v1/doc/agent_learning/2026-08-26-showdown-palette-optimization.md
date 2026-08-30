@@ -143,3 +143,8 @@ hard limit) e só depois avaliar escape por erro nas bandas BG_A.
 
 - Split 16 tiles/frame + eviction: over_budget 7→11, max_cpu 249→299.
 - Lição: overhead de queue + tilemap updates por frame supera economia de DMA; próximo é cachear sTileOpacity/sNeeded.
+
+## Adendo P6g (2026-08-30): sweep espalhado — over_budget 7→8 (piora leve)
+
+- Espalhar sweep 1/frame reduziu pico no enter mas adicionou overhead de 5 frames extras; over_budget subiu.
+- Lição: distribuir inicialização não compensa custo de manter lógica de sweep ativa por mais tempo.

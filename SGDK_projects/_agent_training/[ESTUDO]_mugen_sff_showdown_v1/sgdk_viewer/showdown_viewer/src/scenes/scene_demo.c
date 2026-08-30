@@ -34,7 +34,7 @@
 #define FIGHT_FOCUS_WORLD_X (CAMERA_DEFAULT_X + (VIEWPORT_W / 2))
 #define FLOOR_ANCHOR_WORLD_Y (CAMERA_DEFAULT_Y + MUGEN_ZOFFSET)
 #define FRAME_ANIMATION_ENABLED 0
-#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6f medido split 16/frame: over_budget 7→11 (piora); próximo é otimizar custo CPU por tile; revertido para DISABLED */
+#define FRAME_ANIMATION_INTERVAL_FRAMES 90 /* P6g medido sweep espalhado: over_budget 7→8 (piora); próximo é otimizar custo CPU por tile; revertido para DISABLED */
 #define CAMERA_EXPLORATORY_INPUT_ENABLED 0
 #define CAMERA_FIGHT_INPUT_ENABLED 1
 #define FIGHTER_START_OFFSET_X 70
@@ -808,21 +808,9 @@ void SCENE_demoEnter(void)
         u16 i;
 
         sSweepActive = 1;
-        for (i = 0; i < 5; i++) {
-            sSweepStop = i;
-            sSweepReqMark = (u16) gTileStreamStats[0];
-            sCameraX = sweepX[i];
-            sCameraY = sweepY[i];
-            streamCameraWindow();
-            applyCamera();
-        }
-        sSweepActive = 0;
-
-        /* restaura posicao padrao do stage */
-        sCameraX = CAMERA_DEFAULT_X;
-        sCameraY = CAMERA_DEFAULT_Y;
-        streamCameraWindow();
-        applyCamera();
+        sSweepStop = 0;
+        sSweepStopsDone = 0;
+        /* sweep de cantos sera espalhado em SCENE_demoUpdate (1 por frame) para nao estourar CPU no enter */
     }
 
     VDP_setEnable(TRUE);
@@ -856,6 +844,28 @@ void SCENE_demoUpdate(void)
         VDP_setVerticalScroll(BG_B, 0);
         APP_changeScene(APP_SCENE_MENU);
         return;
+    }
+
+    if (sSweepActive) {
+        static const u16 sweepX[5] = { 224, 0, 448, 0, 448 };
+        static const u16 sweepY[5] = { 128, 0, 0, 256, 256 };
+        if (sSweepStop < 5) {
+            sSweepReqMark = (u16) gTileStreamStats[0];
+            sCameraX = sweepX[sSweepStop];
+            sCameraY = sweepY[sSweepStop];
+            streamCameraWindow();
+            applyCamera();
+            sSweepStop++;
+            return;
+        } else if (sSweepStop == 5) {
+            sCameraX = CAMERA_DEFAULT_X;
+            sCameraY = CAMERA_DEFAULT_Y;
+            streamCameraWindow();
+            applyCamera();
+            sSweepActive = 0;
+            sSweepStop = 6;
+            return;
+        }
     }
 
     sTick++;

@@ -1,0 +1,219 @@
+{
+  "actions": [
+    {
+      "action": "run",
+      "assessments": [
+        {
+          "evidence_kinds": [
+            "artifact_inspection"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "artifact_inspection",
+              "path": "evidence/run_diagnostic.json",
+              "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for squash_and_stretch",
+          "principle_id": "squash_and_stretch",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "artifact_inspection"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "artifact_inspection",
+              "path": "evidence/run_diagnostic.json",
+              "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for anticipation",
+          "principle_id": "anticipation",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "human_visual_review"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "human_visual_review",
+              "path": "evidence/run_human_decision.json",
+              "sha256": "231485f04cd7b01742daf5f82e0e708c03be40693b8a747c8ee8bfb29cee7433",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for staging",
+          "principle_id": "staging",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "artifact_inspection"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "artifact_inspection",
+              "path": "evidence/run_diagnostic.json",
+              "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for straight_ahead_and_pose_to_pose",
+          "principle_id": "straight_ahead_and_pose_to_pose",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "artifact_inspection"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "artifact_inspection",
+              "path": "evidence/run_diagnostic.json",
+              "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for follow_through_and_overlapping_action",
+          "principle_id": "follow_through_and_overlapping_action",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "artifact_inspection"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "artifact_inspection",
+              "path": "evidence/run_diagnostic.json",
+              "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for slow_in_and_slow_out",
+          "principle_id": "slow_in_and_slow_out",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "artifact_inspection"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "artifact_inspection",
+              "path": "evidence/run_diagnostic.json",
+              "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for arcs",
+          "principle_id": "arcs",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "artifact_inspection"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "artifact_inspection",
+              "path": "evidence/run_diagnostic.json",
+              "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for secondary_action",
+          "principle_id": "secondary_action",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "artifact_inspection"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "artifact_inspection",
+              "path": "evidence/run_diagnostic.json",
+              "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for timing",
+          "principle_id": "timing",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "human_visual_review"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "human_visual_review",
+              "path": "evidence/run_human_decision.json",
+              "sha256": "231485f04cd7b01742daf5f82e0e708c03be40693b8a747c8ee8bfb29cee7433",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for exaggeration",
+          "principle_id": "exaggeration",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "human_visual_review"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "human_visual_review",
+              "path": "evidence/run_human_decision.json",
+              "sha256": "231485f04cd7b01742daf5f82e0e708c03be40693b8a747c8ee8bfb29cee7433",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for solid_drawing",
+          "principle_id": "solid_drawing",
+          "status": "passed"
+        },
+        {
+          "evidence_kinds": [
+            "human_visual_review"
+          ],
+          "evidence_refs": [
+            {
+              "action": "run",
+              "evidence_kind": "human_visual_review",
+              "path": "evidence/run_human_decision.json",
+              "sha256": "231485f04cd7b01742daf5f82e0e708c03be40693b8a747c8ee8bfb29cee7433",
+              "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+            }
+          ],
+          "observation": "run: fixture evidence for appeal",
+          "principle_id": "appeal",
+          "status": "passed"
+        }
+      ],
+      "production_method": "hybrid",
+      "strip_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+    }
+  ],
+  "candidate_id": "fixture_run",
+  "schema_version": "1.0.0",
+  "status": "passed",
+  "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+}

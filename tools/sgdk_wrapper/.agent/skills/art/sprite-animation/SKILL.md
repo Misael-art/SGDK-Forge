@@ -22,8 +22,13 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 5. `references/premium_motion_direction_contract.md` quando houver personagem heroico, luta, boss, golpe, dano, hitstop, smear ou alegacao de qualidade premium/AAA
 6. `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md` quando houver risco de budget
 7. `art-direction-selector` quando estilo, personalidade visual ou linguagem de movimento ainda nao estiverem congelados
-8. `tools/sgdk_wrapper/schemas/visual_dna_manifest.schema.json`, `design_inheritance.schema.json`, `animation_strip_contract.schema.json` e `art_gameplay_direction_gate.schema.json` quando a entrega precisar ser machine-readable
-9. `tools/sgdk_wrapper/.agent/scripts/validate_strip.py` antes de aprovar strip gerada, recebida ou convertida
+8. `tools/sgdk_wrapper/schemas/visual_dna_manifest.schema.json`, `design_inheritance.schema.json`, `animation_strip_contract.schema.json`, `animation_candidate_manifest.schema.json`, `animation_principles_report.schema.json` e `art_gameplay_direction_gate.schema.json` quando a entrega precisar ser machine-readable
+9. `tools/sgdk_wrapper/.agent/scripts/validate_animation_strip_artifact.py` antes de aprovar strip gerada, recebida ou convertida; `validate_strip.py` e compatibilidade interna/legada
+10. `../native-sprite-production/SKILL.md` e `../native-sprite-production/references/source-route-triage-protocol.md` quando a fonte nao for pixel art nativa limpa
+11. `references/animation-validation-architecture.md` para produzir ou promover strips; ele define o gate ligado ao PNG, perfis de movimento, timing unico e agregacao de claims
+12. `references/animation-principles-for-megadrive.md` para planejar ou revisar qualquer acao; e a autoridade dos 12 principios adaptados ao VDP
+13. `references/canonical-animation-lifecycle.md` para producao completa; ele unifica o antigo fluxo de 12 itens, os 11 passes e os passes P0-P5
+14. `references/uninterrupted-forward-production-policy.md` quando o usuario pedir forward-test ou continuidade sem validacoes humanas intermediarias
 
 ## Quando usar
 
@@ -86,6 +91,10 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - `active_animation_window` quando o ciclo completo nao precisar ficar residente
 - `residency_strategy`
 - `delivery_findings`
+- `animation_candidate_gate_report` para qualquer strip candidata a revisao humana, `res/`, runtime ou claim visual
+- `animation_principles_report` por candidato, cobrindo cada acao e os 12 principios antes de `human_review_candidate`
+- `production_method` por acao: `pose_to_pose`, `straight_ahead` ou `hybrid`
+- `animation_lifecycle_stage` indicando qual das 12 etapas canonicas esta ativa
 
 ## Regras canonicas
 
@@ -109,6 +118,49 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - `slicing_cell_contract` declara se a celula veio de `max_bbox + padding` ou de celula fixa justificada; hardcode sem contrato volta para `rework`
 - se o relatorio apontar `FRAME_EDGE_CLIPPING`, `NON_INDEX0_BACKGROUND_MATTE`, `TRANSPARENCY_INDEX0_BACKGROUND_MISMATCH`, `SMALL_ISLAND_DEBRIS`, `STRAY_LARGE_COMPONENT`, `SCALE_INCONSISTENCY` ou `BAKED_FX_IN_CHARACTER_SHEET`, a acao volta para `rework`
 - producao deve seguir passes: model sheet, key poses, strips por acao, sheet final, QA
+- a ordem global e exclusivamente `references/canonical-animation-lifecycle.md`; listas legadas e P0-P5 sao subpasses mapeados, nunca ciclos concorrentes
+- os 12 principios sao gates transversais, nao etapas nem score; o report deve cobrir exatamente os IDs canonicos e ligar cada acao ao SHA do strip
+- `staging`, `timing`, `straight_ahead_and_pose_to_pose`, `solid_drawing` e `appeal` nunca sao `not_applicable` numa strip candidata a revisao humana
+- `staging`, `exaggeration`, `solid_drawing` e `appeal` exigem revisao visual humana; medida automatica sozinha nao os aprova
+- contrato novo usa `animation_strip_contract.schema_version=3.x` e vincula cada
+  strip a `state_lineart_lineage`: mesma acao, SHA-256 da lineart nativa aprovada
+  e key poses autorizadas, ao PNG real, timing, perfil de movimento e layout de
+  metasprite. Contratos 1.x/2.x permanecem legado auditavel, nao modelo para
+  producao nova
+- o contrato v3 precisa passar no schema canonico antes de qualquer medicao ou
+  claim. Campo desconhecido, enum inventado ou proveniencia ausente sao erro,
+  mesmo quando o PNG e os reports parecem coerentes
+- `production_provenance` vincula uma imagem autoral persistida e um record de
+  produtor hash-bound. ASCII, matriz de glifos, spans, `putpixel`, `ImageDraw`
+  ou qualquer raster de personagem nascido de codigo sao
+  `procedural_primitive`/`procedural_code_probe`: podem diagnosticar, nunca
+  provar autoria nativa, animacao final ou `hand_authored_pixel`
+- `fixed_cell` nao rebaixa clipping para info: contato de borda precisa ser
+  autorizado por frame/edge e fragmento coincidente entre celulas sempre bloqueia
+- lineart 1 px e medida no arquivo; silhueta preenchida, stroke grosso ou SHA
+  sem vinculo nao podem ser chamados de lineart
+- duracao existe uma vez em `timing_contract.frame_holds_vblank`; preview e
+  runtime consomem essa tabela e falham se divergirem
+- frames identicos usam hold de timing; reordenar celulas-fonte ou reutilizar o
+  mesmo frame em acoes diferentes exige declaracao e nunca prova movimento novo
+- escala, translacao, recolor ou recorte da mesma pose nao constituem frames
+  nativos novos. Cada key pose/inbetween autorado possui `source_frame_id`
+  distinto; probe mecanico usa `mechanical_affine_probe` e nao passa de evidencia
+- PNG cuja grade inteira seja replicacao exata 2x/3x/4x continua tendo a
+  resolucao efetiva menor. Deve ser rotulado como probe mecanico; nao pode
+  mascarar 16x16 como autoria nativa 32x32
+- `native_key_pose_lineart` exige autoria `hand_authored_native` ou
+  `assisted_native_reauthored`, metodo de derivacao e aprovacao hash-bound.
+  Contorno extraido de mascara, spans ou primitiva e `procedural_contour_probe`
+- contato de apoio precisa ser `pixel_derived` ou anotacao hash-bound. Coordenada
+  declarada sem vinculo ao pixel nao prova foot lock, pivot ou fisica
+- `sprite_artifact_report.visual_pass=true` nao e autoridade isolada. Fidelidade,
+  direcao e revisao visual cega precisam passar no agregado antes do gate humano
+- decomposicao de hardware vem de um unico `metasprite_layout`; diferenca entre
+  contrato, budget e runtime gera `metasprite_layout_conflict`
+- o shootout de filtros ocorre antes da autoria e escolhe apenas um guia causal;
+  nunca selecionar filtro por frame. Linearts, key poses e strips herdam a mesma
+  autoridade de identidade, escala, pivot, materiais e rota de guia
 - se uma sheet existente estiver reprovada, parcial, sem revisao humana, sem
   `visual_vdp_dump` ou marcada como `runtime_candidate_not_source`, ela e
   evidencia/comparacao, nao base de geracao. Nao pedir "melhore esta sprite
@@ -145,26 +197,25 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 - compressao do `SPRITE` em `.res` altera ROM/load, nao reduz tiles residentes do frame descompactado
 - frame bonito em zoom nao vale se falhar em 320x224 nativo
 
-### Fundamentos de animacao como gates
+### Principios de animacao como gates
 
-Origem: lote `curation_batch_2026_06_16` (itens de animacao), evidencia
-`E1_text`, expansao candidata. Refina os contratos existentes (`motion_phase_map`,
-`impact_frame_contract`, `recovery_curve_report`, `pivot_and_scale_contract`);
-nao cria schema novo e nao promete AAA/runtime.
+Os 12 principios canonicos vivem em
+`references/animation-principles-for-megadrive.md`: squash/stretch,
+anticipation, staging, straight-ahead/pose-to-pose, follow-through/overlap,
+slow-in/slow-out, arcs, secondary action, timing, exaggeration, solid drawing e
+appeal. Eles complementam os gates de hardware e pixel; nao sao substituidos por
+pivot, paleta, tiles ou compliance. Um asset pode passar tecnicamente e falhar
+artisticamente.
 
-- squash/stretch apenas pre-renderizado e com preservacao de volume aparente; nao
-  ha escala em runtime para deformar o sprite
-- anticipation e obrigatorio para ataque, salto, dash, esquiva e dano/recovery
-- staging: a pose precisa ser lida em 1 frame na resolucao nativa `320x224`
-- follow-through obrigatorio para cabelo, tecido, arma e membros secundarios
-  quando existirem
-- timing sempre declarado em frames NTSC/PAL (VBlank), nunca como "sensacao" solta
-- legibilidade critica vence contexto visual: se FX competir com golpe, dano ou
-  telegraph, reduzir o FX primeiro, nunca o golpe
-- sprites multidirecionais preservam pivot, baseline, volume, silhueta e proporcao
-  entre todas as direcoes
-- a expansao continua candidata: exige fixture visual ou contrato de baseline
-  antes de promover para producao
+Antes de abrir gate humano, `validate_animation_candidate.py` exige report
+hash-bound completo, metodo de producao por acao e evidencia visual humana para
+os principios artisticos. `needs_review` continua rework; nao e arredondado para
+`passed`.
+
+Quando houver politica explicita de producao continua, gate humano pendente nao
+encerra a iteracao: use revisao diagnostica do agente, mantenha tudo nao
+promovivel e siga a referencia de producao ininterrupta. Nunca rotule essa
+revisao como `human_visual_review`.
 
 ## Gates de aprovacao
 
@@ -227,6 +278,16 @@ nao cria schema novo e nao promete AAA/runtime.
 - duplicar direcao esquerda/direita em PNG
 - aprovar animacao sem calcular tiles unicos do ciclo
 - reprovar sheet grande sem antes avaliar janela ativa, scene-local preload e custo real de DMA por frame
+- fabricar idle/run/inhale por resize e deslocamento da mesma pose e rotular as
+  celulas com fases diferentes
+- declarar pontos de apoio constantes sem medi-los no PNG de cada frame
+- chamar contorno procedural da silhueta de lineart nativa aprovada
+- desenhar personagem/frames em ASCII, matriz, spans ou primitivas de codigo e
+  declarar o PNG resultante como autoria pixel nativa
+- declarar lineart aprovada quando o approval record esta `pending`,
+  `needs_review` ou `failed`
+- declarar `motion_semantic_candidate` antes de revisao cega reconhecer a acao
+  no playback sem receber o rotulo
 
 ## Senior Competencies
 
@@ -270,6 +331,10 @@ Regra:
 - combinar com `art-translation-to-vdp` quando a sheet vier de uma fonte high-res ou editorial
 - combinar com `sgdk-runtime-coder` quando a tarefa entrar em runtime, `.res`, callbacks ou troca de animacao em C
 - combinar com `forward-kinematics-rigging` quando o personagem ou boss exigir cadeias articuladas
+- sheet comum de personagem vira `SPRITE`/metasprite, nao `TILEMAP`
+- usar `tiled-hybrid-parallax-curator` para Tiled, tileset, flip flags, colisao/oclusao ou parallax modular
+- usar `multi-plane-composition` para BG_A/B, WINDOW, profundidade ou boss representado por plano
+- usar `vram-streaming-dma-queue` para tiles animados, dirty regions ou uploads por janela
 
 ## Contrato Operacional
 
@@ -339,7 +404,9 @@ Regra:
 - `visual_dna_manifest` e `design_inheritance` quando houver personagem, boss, roupa, paleta ou identidade autoral a preservar
 - `model_sheet_to_sprite_fidelity_report` quando houver model sheet aprovado como fonte visual da sheet
 - `animation_strip_contract` por strip de acao unica; exemplo canonico em `references/agentic_aaa_contracts/examples/animation_strip_contract.example.json`
-- `validate_strip_report` gerado por `scripts/validate_strip.py` quando houver JSON de strip
+- `validate_strip_report` gerado pelo entrypoint central `scripts/validate_animation_strip_artifact.py` quando houver JSON de strip
+- `motion_semantics_report` e `animation_candidate_gate_report` hash-bound ao mesmo strip
+- `animation_principles_report` hash-bound, com cobertura exata das acoes, 12 principios e `production_method`
 - `state_belongs_to_character_fantasy` comprovado por estado
 - `residency_strategy`
 - `delivery_findings`
@@ -360,7 +427,12 @@ Regra:
 - quando houver personagem novo ou mudanca de escala, `visual_dna_manifest.scale_contract` esta travado e nao contradiz FOV, hitbox, pivot, tile budget ou carga de animacao
 - quando houver `state_transition_motion_contract`, as transicoes preservam momentum e nao estalam de um estado para outro
 - cada `animation_strip` contem apenas uma acao, segue `motion_phase_map` e passa no `frame_delta_report`
-- cada `animation_strip_contract` passa em `validate_strip.py` ou registra blocker explicito (`metadata_only_asset_not_approved`, `multi_action_sheet`, `pivot_drift_over_threshold`, `bbox_drift_over_threshold` ou `palette_drift_over_threshold`)
+- cada `animation_strip_contract` passa em `validate_animation_strip_artifact.py` ou registra blocker explicito (`metadata_only_asset_not_approved`, `multi_action_sheet`, `pivot_drift_over_threshold`, `bbox_drift_over_threshold` ou `palette_drift_over_threshold`)
+- contrato v3 passa tambem em `validate_motion_semantics.py` e o conjunto passa em `validate_animation_candidate.py`; gate humano nao abre sobre candidato automatico reprovado
+- `motion_semantic_candidate` exige `blind_visual_review=passed`; fases nomeadas,
+  deltas e hashes apenas sustentam `technical_candidate` quando a acao nao foi
+  reconhecida cegamente
+- `animation_principles_report.status=passed`; cobertura incompleta, `needs_review`, falso `not_applicable` ou principio artistico aprovado so por medicao bloqueiam `human_review_candidate`
 - cada strip promovida passa em integridade de celula, index 0, escala e ausencia de FX embutido indevido
 - strips apresentam continuidade de pose, volume e pivot; se parecerem desenhos soltos, o status e `rejeitado_sem_fluxo_animacao`
 - estados P0 do genero estao cobertos; se faltarem, o status e `revisar_frame_roster`
@@ -383,3 +455,4 @@ Regra:
 - entregar sheet e tabela de timing para `art-conversion-pipeline`
 - entregar contagem de frames/tiles para `megadrive-vdp-budget-analyst`
 - entregar callbacks, anim ids e residencia para `sgdk-runtime-coder`
+- quando a representacao nao for `SPRITE`, registrar o gatilho arquitetural e rotear conforme `references/canonical-animation-lifecycle.md`; nunca criar tilemap apenas porque existe uma sheet

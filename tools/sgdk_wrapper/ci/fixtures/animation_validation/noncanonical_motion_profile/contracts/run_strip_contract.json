@@ -1,0 +1,181 @@
+{
+  "action": "run",
+  "approval_status": "approved_for_sheet",
+  "artifact": {
+    "allowed_boundary_contacts": [],
+    "cell_policy": "fixed_cell_coordinate_scoped",
+    "path": "strips/run_strip.png",
+    "sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0",
+    "transparent_index": 0
+  },
+  "asset_id": "fixture_run",
+  "asset_kind": "animation_strip",
+  "drift_thresholds": {
+    "bbox_px": 0,
+    "palette_changed_allowed": false,
+    "pivot_px": 0,
+    "scale_percent": 0
+  },
+  "frame_count": 4,
+  "frames": [
+    {
+      "h": 32,
+      "index": 0,
+      "lineage": {
+        "duplicate_role": "none",
+        "source_artifact": {
+          "path": "sources/frame_0.png",
+          "pixel_sha256": "97613ae9db765bf1dce72c6afc30c94669ea388820f4e48b8f3f3c992849b497",
+          "sha256": "1ae1ea4e4ad58d9f20929e2e0543f21c20c3fb7c131311dbb5cf0604d35d6d7e"
+        },
+        "source_frame_id": "run_native_key_0",
+        "source_frame_sha256": "1ae1ea4e4ad58d9f20929e2e0543f21c20c3fb7c131311dbb5cf0604d35d6d7e",
+        "transformation": "native_reauthored"
+      },
+      "phase": "contact_left",
+      "pivot_x": 16,
+      "pivot_y": 30,
+      "support": {
+        "contacts": [],
+        "grounded": false,
+        "measurement_method": "pixel_derived"
+      },
+      "w": 32,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "h": 32,
+      "index": 1,
+      "lineage": {
+        "duplicate_role": "none",
+        "source_artifact": {
+          "path": "sources/frame_1.png",
+          "pixel_sha256": "f0edd452142992b578db14d0df4675718da599b3930d459cdd0445473593fe05",
+          "sha256": "d13e8d80a19e619394be24af1cac89c529c0be6c2624cf8a6d4d2f21ff6cf595"
+        },
+        "source_frame_id": "run_native_key_1",
+        "source_frame_sha256": "d13e8d80a19e619394be24af1cac89c529c0be6c2624cf8a6d4d2f21ff6cf595",
+        "transformation": "native_reauthored"
+      },
+      "phase": "passing",
+      "pivot_x": 16,
+      "pivot_y": 30,
+      "support": {
+        "contacts": [],
+        "grounded": false,
+        "measurement_method": "pixel_derived"
+      },
+      "w": 32,
+      "x": 32,
+      "y": 0
+    },
+    {
+      "h": 32,
+      "index": 2,
+      "lineage": {
+        "duplicate_role": "none",
+        "source_artifact": {
+          "path": "sources/frame_2.png",
+          "pixel_sha256": "5e827cd22bee51e1a6e77bacd35da2ef29ef06b81f9eeae73e2ea6af1f256a79",
+          "sha256": "6b77b6dee92d7b47dbc72e53db74779912a7fc58d6951fc8ad675c49049b8fec"
+        },
+        "source_frame_id": "run_native_key_2",
+        "source_frame_sha256": "6b77b6dee92d7b47dbc72e53db74779912a7fc58d6951fc8ad675c49049b8fec",
+        "transformation": "native_reauthored"
+      },
+      "phase": "down_compression",
+      "pivot_x": 16,
+      "pivot_y": 30,
+      "support": {
+        "contacts": [],
+        "grounded": false,
+        "measurement_method": "pixel_derived"
+      },
+      "w": 32,
+      "x": 64,
+      "y": 0
+    },
+    {
+      "h": 32,
+      "index": 3,
+      "lineage": {
+        "duplicate_role": "none",
+        "source_artifact": {
+          "path": "sources/frame_3.png",
+          "pixel_sha256": "ca337f57120eea628fecee5cb212fbd4d3751454f170a75677d7054b1f5809af",
+          "sha256": "c39eb1240413b7045a35682f1af7b4ee56cec15004ee9f066f3d5e50ba3a4506"
+        },
+        "source_frame_id": "run_native_key_3",
+        "source_frame_sha256": "c39eb1240413b7045a35682f1af7b4ee56cec15004ee9f066f3d5e50ba3a4506",
+        "transformation": "native_reauthored"
+      },
+      "phase": "up_flight",
+      "pivot_x": 16,
+      "pivot_y": 30,
+      "support": {
+        "contacts": [],
+        "grounded": false,
+        "measurement_method": "pixel_derived"
+      },
+      "w": 32,
+      "x": 96,
+      "y": 0
+    }
+  ],
+  "metasprite_layout": {
+    "hardware_cells_per_frame": 1,
+    "peak_pixels_per_scanline": 32,
+    "peak_sprites_per_scanline": 1
+  },
+  "motion_phase_map": "contracts/motion_phase_map.json",
+  "motion_profile_id": "jump_float",
+  "pivot_policy": "bottom_center_feet",
+  "production_provenance": {
+    "authored_source": {
+      "path": "sources/source.png",
+      "sha256": "1ae1ea4e4ad58d9f20929e2e0543f21c20c3fb7c131311dbb5cf0604d35d6d7e"
+    },
+    "producer_kind": "validator_fixture",
+    "producer_record": {
+      "path": "reports/producer_record.json",
+      "sha256": "43f04c596008bd23a74d11a1541d8b0fbabcea9e02867fa2b7d6b823bc03843b",
+      "subject_sha256": "1ae1ea4e4ad58d9f20929e2e0543f21c20c3fb7c131311dbb5cf0604d35d6d7e"
+    },
+    "source_kind": "validator_fixture"
+  },
+  "schema_version": "3.0.0",
+  "state_lineart_lineage": {
+    "action": "run",
+    "approval_record": {
+      "path": "reports/lineart_approval.json",
+      "sha256": "4ae90bb87f64adf6cfbc4cae976e738ce1c22211db6aba402f157f6f18d0bd80",
+      "subject_sha256": "273e444e59728ac94091ccbaa1a63dafcd9433946e26b2b8b086b1a77a13561c"
+    },
+    "approval_status": "approved_for_strip_authoring",
+    "authorship_method": "hand_authored_native",
+    "derivation_method": "hand_drawn_native",
+    "key_pose_ids": [
+      "run_native_key_0",
+      "run_native_key_1",
+      "run_native_key_2",
+      "run_native_key_3"
+    ],
+    "lineart_role": "native_key_pose_lineart",
+    "source_asset_id": "fixture_run_lineart",
+    "source_path": "lineart/run_lineart.png",
+    "source_sha256": "273e444e59728ac94091ccbaa1a63dafcd9433946e26b2b8b086b1a77a13561c"
+  },
+  "strip_layout": "horizontal_single_action",
+  "timing_contract": {
+    "frame_holds_vblank": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "loop": true,
+    "vblank_hz": 60
+  },
+  "visual_dna_manifest": "contracts/visual_dna_manifest.json"
+}

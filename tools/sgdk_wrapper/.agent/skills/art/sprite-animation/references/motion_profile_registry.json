@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "profiles": {
+    "idle_breathing": {
+      "required_phase_patterns": ["hold|neutral|ready", "rise|inhale|settle|fall"],
+      "minimum_distinct_frames": 2,
+      "minimum_adjacent_change_ratio": 0.001,
+      "maximum_adjacent_change_ratio": 0.35,
+      "maximum_cycle_closure_ratio": 0.20,
+      "minimum_area_range_ratio": 0.0,
+      "maximum_centroid_range_ratio": 0.18,
+      "duplicate_policy": "forbid_png_duplicates_use_timing",
+      "notes": "Respiracao discreta; duracao pertence ao timing, nao a copias de PNG."
+    },
+    "run_cycle": {
+      "required_phase_patterns": ["contact", "passing", "down|compression", "up|flight"],
+      "minimum_distinct_frames": 4,
+      "minimum_adjacent_change_ratio": 0.006,
+      "maximum_adjacent_change_ratio": 0.55,
+      "maximum_cycle_closure_ratio": 0.30,
+      "minimum_area_range_ratio": 0.01,
+      "maximum_centroid_range_ratio": 0.28,
+      "duplicate_policy": "forbid_png_duplicates_use_timing",
+      "notes": "Ciclo precisa declarar fases biomecanicas; ordem de celulas nao substitui locomocao."
+    },
+    "inhale_or_charge": {
+      "required_phase_patterns": ["ready|anticipation", "open|expand", "hold|peak", "recover|settle"],
+      "minimum_distinct_frames": 4,
+      "minimum_adjacent_change_ratio": 0.003,
+      "maximum_adjacent_change_ratio": 0.60,
+      "maximum_cycle_closure_ratio": 0.45,
+      "minimum_area_range_ratio": 0.03,
+      "maximum_centroid_range_ratio": 0.35,
+      "duplicate_policy": "forbid_png_duplicates_use_timing",
+      "notes": "Expansao ou carga deve ser observavel; hold usa VBlank."
+    },
+    "attack": {
+      "required_phase_patterns": ["anticipation|startup", "active|impact", "follow|recovery"],
+      "minimum_distinct_frames": 3,
+      "minimum_adjacent_change_ratio": 0.006,
+      "maximum_adjacent_change_ratio": 0.72,
+      "maximum_cycle_closure_ratio": 0.70,
+      "minimum_area_range_ratio": 0.02,
+      "maximum_centroid_range_ratio": 0.55,
+      "duplicate_policy": "forbid_png_duplicates_use_timing",
+      "notes": "Ataque exige anticipation, active e recovery; hitstop e timing."
+    },
+    "hurt": {
+      "required_phase_patterns": ["impact|break", "recoil|airborne", "recover|down"],
+      "minimum_distinct_frames": 3,
+      "minimum_adjacent_change_ratio": 0.005,
+      "maximum_adjacent_change_ratio": 0.75,
+      "maximum_cycle_closure_ratio": 0.90,
+      "minimum_area_range_ratio": 0.01,
+      "maximum_centroid_range_ratio": 0.65,
+      "duplicate_policy": "forbid_png_duplicates_use_timing",
+      "notes": "Dano precisa comunicar direcao de forca e quebra de postura."
+    }
+  }
+}

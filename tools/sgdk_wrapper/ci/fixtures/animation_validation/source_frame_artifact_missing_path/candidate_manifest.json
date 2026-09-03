@@ -1,0 +1,60 @@
+{
+  "candidate_id": "fixture_run",
+  "delivery_claim_ceiling": "lab",
+  "human_gate_open": false,
+  "quality_target": "premium",
+  "reports": {
+    "animation_principles": {
+      "path": "reports/animation_principles.json",
+      "sha256": "37be98d55a17a4b01070cc01bdbf7792b3dd3945b9da84a183b9c2a23ecbecd3",
+      "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+    },
+    "art_direction": {
+      "path": "reports/art_direction.json",
+      "sha256": "e4f2a5d6abc7d10c0f4e7dfbb6963029ac21f4164e2e1adb98aa5b8e39f46a86",
+      "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+    },
+    "blind_visual_review": {
+      "path": "reports/blind_visual_review.json",
+      "sha256": "9d94bdb0f70c15e4a72f04a94ddf77e20c8dfdd5a23d342ab44544a86caf16f1",
+      "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+    },
+    "fidelity": {
+      "path": "reports/fidelity.json",
+      "sha256": "65773d5b302c3227e21797c0ef4a7e9620e18c592769ff9e1ac7765328e8c1b7",
+      "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+    },
+    "human_decision": {
+      "path": "reports/human_decision.json",
+      "sha256": "c590e079446f6aff1e6094464d2a86ce84ae089bfa9ebd95921d29c6942b8126",
+      "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+    },
+    "sprite_artifact": {
+      "path": "reports/sprite_artifact.json",
+      "sha256": "d98b85dcfb456c9b72aa7ddb3aa0e6ce88992792211021bde6c7bcf2065eb853",
+      "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+    }
+  },
+  "requested_claim": "technical_candidate",
+  "schema_version": "1.1.0",
+  "strips": [
+    {
+      "artifact_report": {
+        "path": "reports/strip_validation.json",
+        "sha256": "347ae7f3930649455341046544e0b8662eb540507ee064514f8889c391bee01e",
+        "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+      },
+      "contract": {
+        "path": "contracts/run_strip_contract.json",
+        "sha256": "a09f47aa9b991b80587a2f4cd04b2537b5a44256b170f4276d88ad912b747632",
+        "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+      },
+      "motion_report": {
+        "path": "reports/motion_validation.json",
+        "sha256": "55ceebcece947ded70cc273eaa1cced9844520c6c554be47520abafe1ec022ee",
+        "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+      }
+    }
+  ],
+  "validator_fixture": true
+}

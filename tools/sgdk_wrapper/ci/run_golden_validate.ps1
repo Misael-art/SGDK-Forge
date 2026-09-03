@@ -16,13 +16,20 @@ $ErrorActionPreference = "Stop"
 $ciRoot = $PSScriptRoot
 $wrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $ciRoot ".."))
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $wrapperRoot "..\.."))
+$powerShellHost = Get-Command pwsh -ErrorAction SilentlyContinue
+if ($null -eq $powerShellHost) {
+    $powerShellHost = Get-Command powershell -ErrorAction SilentlyContinue
+}
+if ($null -eq $powerShellHost) {
+    throw "Nenhum host PowerShell encontrado (pwsh/powershell)."
+}
 
 # Generalista regression-guard: validator de especializacoes nao pode quebrar
 # projetos gerais. Roda contra uma fixture sem doc/genre_specialization_manifest.json.
 # Executa antes da checagem de golden targets para garantir cobertura mesmo
 # quando o workspace nao tem projeto dourado.
 $generalistaTest = Join-Path $ciRoot "test_genre_specialization_generalista_unchanged.ps1"
-& powershell -NoProfile -ExecutionPolicy Bypass -File $generalistaTest
+& $powerShellHost.Source -NoProfile -ExecutionPolicy Bypass -File $generalistaTest
 if ($LASTEXITCODE -ne 0) {
     Write-Error "test_genre_specialization_generalista_unchanged.ps1 falhou."
     exit 1
@@ -67,7 +74,7 @@ if ($pf -eq 2) {
 
 $validate = Join-Path $wrapperRoot "validate_resources.ps1"
 foreach ($target in $goldenTargets) {
-    & powershell -NoProfile -ExecutionPolicy Bypass -File $validate -WorkDir $target.Path -CloseoutGate
+    & $powerShellHost.Source -NoProfile -ExecutionPolicy Bypass -File $validate -WorkDir $target.Path -CloseoutGate
     if ($LASTEXITCODE -ne 0) {
         Write-Error "validate_resources.ps1 falhou para $($target.Path)."
         exit 1

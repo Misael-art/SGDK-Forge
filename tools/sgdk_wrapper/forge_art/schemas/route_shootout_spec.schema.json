@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "forge-art route shootout specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_path", "source_triage_report_path", "source_class", "output_dir", "target", "route_policy", "include_negative_controls", "include_unavailable_placeholders", "scale_contract_path"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "source_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+    "source_triage_report_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+    "scale_contract_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+    "source_class": {"enum": ["high_res_full_body_character", "native_pixel_art_integer_scale", "unclassified_raster"]},
+    "output_dir": {"type": "string", "pattern": "^(?:out|rascunho)/[A-Za-z0-9_./-]+$"},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height", "anchor"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 8, "maximum": 512, "multipleOf": 8},
+        "height": {"type": "integer", "minimum": 8, "maximum": 512, "multipleOf": 8},
+        "anchor": {"enum": ["bottom_center", "center"]}
+      }
+    },
+    "route_policy": {"enum": ["all_applicable", "preferred_plus_challengers"]},
+    "include_negative_controls": {"type": "boolean"},
+    "include_unavailable_placeholders": {"type": "boolean"}
+  }
+}

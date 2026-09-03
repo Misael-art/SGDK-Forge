@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema", "type":"object", "additionalProperties":false,
+  "required":["schema_version","tool","tool_version","file","index0_role","oracle","width","height","bit_depth","color_type","plte_entries","visible_colors","content_sha256","scope","status","blocking","blocking_statuses","blockers","limitation"],
+  "properties": {"schema_version":{"const":"1.0.0"},"tool":{"const":"forge_art.pixel_contract"},"tool_version":{"type":"string"},"file":{"type":"string"},"index0_role":{"enum":["transparent0","unused0"]},"oracle":{"const":"rescomp"},"width":{"type":"integer","minimum":1},"height":{"type":"integer","minimum":1},"bit_depth":{"type":"integer"},"color_type":{"type":"integer"},"plte_entries":{"type":"integer"},"visible_colors":{"type":"integer"},"content_sha256":{"type":"string","pattern":"[0-9a-f]{64}"},"scope":{"type":"string"},"status":{"enum":["technical_candidate","rejected"]},"blocking":{"type":"boolean"},"blocking_statuses":{"type":"array"},"blockers":{"type":"array"},"limitation":{"type":"string"}}
+}

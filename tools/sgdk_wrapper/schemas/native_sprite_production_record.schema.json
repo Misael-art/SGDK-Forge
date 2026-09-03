@@ -1,0 +1,394 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Native sprite production record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "asset_id",
+    "asset_kind",
+    "source",
+    "scale_contract",
+    "producer_output",
+    "native_candidate",
+    "palette_contract",
+    "gates",
+    "runtime_evidence",
+    "promotion",
+    "status",
+    "next_action",
+    "provenance",
+    "scale_report",
+    "incumbent",
+    "methodology_reference"
+  ],
+  "properties": {
+    "schema_version": {"enum": ["1.3.0", "1.4.0"]},
+    "asset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "asset_kind": {"enum": ["sprite_single", "sprite_family", "animation_strip", "fx_sprite"]},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["interaction_channel", "source_kind", "producer_identity", "action_log", "human_approval"],
+      "properties": {
+        "interaction_channel": {
+          "type": "string",
+          "enum": ["native_image_tool", "cli_headless", "agent_operated_native_editor_draft", "human_pixel_editor", "generative_image_producer", "native_pixel_source"]
+        },
+        "source_kind": {"type": "string", "enum": ["ai_authored_pixel", "native_pixel", "hand_authored_pixel", "photo_or_render_derived", "procedural_primitive"]},
+        "producer_identity": {"type": "string"},
+        "action_log": {"type": "string"},
+        "human_approval": {"type": "string", "description": "path to a real human approval record, required when the channel claims human authorship"}
+      }
+    },
+    "scale_report": {
+      "type": ["object", "null"],
+      "description": "Measurable scale gate evidence (camera, hitbox, budget). Null while scale is locked/provisional without a formal gate pass.",
+      "additionalProperties": false,
+      "required": ["status", "camera_width", "camera_height", "hitbox", "notes"],
+      "properties": {
+        "status": {"enum": ["pending", "passed", "failed", "not_applicable"]},
+        "camera_width": {"type": "integer", "minimum": 8, "multipleOf": 8},
+        "camera_height": {"type": "integer", "minimum": 8, "multipleOf": 8},
+        "hitbox": {"type": "string"},
+        "notes": {"type": "string"},
+        "probes": {"type": "string"}
+      }
+    },
+    "budget_report": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["status", "tiles", "scanline_px", "notes"],
+      "properties": {
+        "status": {"enum": ["pending", "passed", "failed", "not_applicable"]},
+        "tiles": {"type": "integer", "minimum": 0},
+        "scanline_px": {"type": "integer", "minimum": 0},
+        "notes": {"type": "string"}
+      }
+    },
+    "visual_report": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["status", "sha256", "notes"],
+      "properties": {
+        "status": {"enum": ["pending", "passed", "failed", "not_applicable"]},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "notes": {"type": "string"}
+      }
+    },
+    "challenger_win": {
+      "type": ["object", "null"],
+      "description": "Challenger replaces the incumbent only when it wins perceptually AND systemically.",
+      "additionalProperties": false,
+      "required": ["perceptual_win", "system_win"],
+      "properties": {
+        "perceptual_win": {"type": "boolean"},
+        "system_win": {"type": "boolean"}
+      }
+    },
+    "incumbent": {
+      "type": ["object", "null"],
+      "description": "The best previously accepted visual route, for comparison only. NEVER a pixel source.",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "role": {"enum": ["comparison_only", "quality_reference_only", "methodology_reference"]}
+      }
+    },
+    "methodology_reference": {
+      "type": ["object", "null"],
+      "description": "The documented visual route (exercise_record / scale study). comparison/quality_reference_only, never pixels.",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "role": {"enum": ["methodology_reference", "comparison_only", "quality_reference_only"]}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "classification", "approval_status"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "classification": {"enum": ["concept_high_res", "ai_generated_high_res", "authored_raster", "native_pixel_source"]},
+        "approval_status": {"enum": ["approved_source", "pending_human", "rejected_source"]}
+      }
+    },
+    "scale_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "target_width", "target_height", "selected_width", "selected_height", "probes"],
+      "properties": {
+        "status": {"enum": ["locked", "provisional"]},
+        "target_width": {"type": "integer", "minimum": 8, "multipleOf": 8},
+        "target_height": {"type": "integer", "minimum": 8, "multipleOf": 8},
+        "selected_width": {"type": "integer", "minimum": 8, "multipleOf": 8},
+        "selected_height": {"type": "integer", "minimum": 8, "multipleOf": 8},
+        "probes": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["width", "height", "path", "technical_status", "visual_status", "promotable"],
+            "properties": {
+              "width": {"type": "integer", "minimum": 8, "multipleOf": 8},
+              "height": {"type": "integer", "minimum": 8, "multipleOf": 8},
+              "path": {"type": "string", "minLength": 1},
+              "technical_status": {"enum": ["passed", "failed"]},
+              "visual_status": {"enum": ["passed", "failed", "pending"]},
+              "promotable": {"const": false}
+            }
+          }
+        }
+      }
+    },
+    "producer_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "role", "interaction_channel", "width", "height", "mode", "visible_rgb_colors", "alpha_values"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "role": {"enum": ["visual_source", "native_candidate"]},
+        "interaction_channel": {"enum": ["native_image_tool", "human_pixel_editor", "cli_headless", "native_pixel_source"]},
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "mode": {"type": "string", "minLength": 1},
+        "visible_rgb_colors": {"type": "integer", "minimum": 1},
+        "alpha_values": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0, "maximum": 255}}
+      }
+    },
+    "native_candidate": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "method", "width", "height", "pixel_report", "visual_evidence", "shape_block_contract"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "method": {"enum": ["direct_native_grid", "authored_native_pixel", "assisted_native_translation", "mechanical_scale_probe"]},
+            "width": {"type": "integer", "minimum": 8, "multipleOf": 8},
+            "height": {"type": "integer", "minimum": 8, "multipleOf": 8},
+            "pixel_report": {"type": "string"},
+            "foreground_matte_report": {"type": "string", "description": "required by the semantic validator for assisted/mechanical translation from a source without trusted alpha"},
+            "visual_evidence": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["candidate_sha256", "native_1x", "nearest_preview", "light_background", "dark_background", "chroma_background", "preview_scale", "light_rgb", "dark_rgb", "chroma_rgb", "human_approval"],
+              "properties": {
+                "candidate_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "native_1x": {"type": "string", "minLength": 1, "description": "byte-identical to the candidate; the 1x native view"},
+                "nearest_preview": {"type": "string", "minLength": 1, "description": "distinct derived file; nearest zoom of the same candidate"},
+                "light_background": {"type": "string", "minLength": 1, "description": "distinct derived file; candidate on light bg"},
+                "dark_background": {"type": "string", "minLength": 1, "description": "distinct derived file; candidate on dark bg"},
+                "chroma_background": {"type": "string", "minLength": 1, "description": "distinct derived file; candidate on diagnostic chroma bg"},
+                "preview_scale": {"type": "integer", "minimum": 2, "maximum": 16},
+                "light_rgb": {
+                  "type": "array", "minItems": 3, "maxItems": 3,
+                  "items": {"type": "integer", "minimum": 0, "maximum": 255}
+                },
+                "dark_rgb": {
+                  "type": "array", "minItems": 3, "maxItems": 3,
+                  "items": {"type": "integer", "minimum": 0, "maximum": 255}
+                },
+                "chroma_rgb": {
+                  "type": "array", "minItems": 3, "maxItems": 3,
+                  "items": {"type": "integer", "minimum": 0, "maximum": 255}
+                },
+                "human_approval": {"type": "string"}
+              }
+            },
+            "shape_block_contract": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The native shape-block package: silhouette mask, semantic region map and contour overlay with the required semantic regions.",
+              "required": ["silhouette_mask", "semantic_region_map", "contour_overlay", "required_semantic_regions", "semantic_label_legend", "semantic_label_counts", "occupancy_metrics", "bbox"],
+              "properties": {
+                "silhouette_mask": {"$ref": "#/$defs/shape_artifact"},
+                "semantic_region_map": {"$ref": "#/$defs/shape_artifact"},
+                "contour_overlay": {"$ref": "#/$defs/shape_artifact"},
+                "required_semantic_regions": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {"type": "string"},
+                  "description": "must include head_or_face, hair, torso, arms_or_guard, hands, legs, feet, sash"
+                },
+                "semantic_label_legend": {
+                  "type": "object", "additionalProperties": false,
+                  "required": ["head_or_face", "hair", "torso", "arms_or_guard", "hands", "legs", "feet", "sash"],
+                  "properties": {
+                    "head_or_face": {"const": 1}, "hair": {"const": 2},
+                    "torso": {"const": 3}, "arms_or_guard": {"const": 4},
+                    "hands": {"const": 5}, "legs": {"const": 6},
+                    "feet": {"const": 7}, "sash": {"const": 8}
+                  }
+                },
+                "semantic_label_counts": {
+                  "type": "object", "additionalProperties": false,
+                  "required": ["head_or_face", "hair", "torso", "arms_or_guard", "hands", "legs", "feet", "sash"],
+                  "properties": {
+                    "head_or_face": {"type": "integer", "minimum": 1}, "hair": {"type": "integer", "minimum": 1},
+                    "torso": {"type": "integer", "minimum": 1}, "arms_or_guard": {"type": "integer", "minimum": 1},
+                    "hands": {"type": "integer", "minimum": 1}, "legs": {"type": "integer", "minimum": 1},
+                    "feet": {"type": "integer", "minimum": 1}, "sash": {"type": "integer", "minimum": 1}
+                  }
+                },
+                "occupancy_metrics": {"type": "object"},
+                "bbox": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "integer"}},
+                "reason_codes": {"type": "array", "items": {"type": "string"}}
+              }
+            },
+            "material_region_contract": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Independent material ownership map. It complements anatomy/shape semantics and prevents palette roles from leaking across skin, garments and accessories.",
+              "required": [
+                "status", "map_method", "source_reference",
+                "material_region_map", "material_boundary_overlay",
+                "material_label_legend", "material_label_counts",
+                "allowed_palette_indices", "shared_outline_indices",
+                "critical_boundaries", "blocking_statuses"
+              ],
+              "properties": {
+                "status": {"enum": ["pending", "passed", "failed"]},
+                "map_method": {"const": "explicit_material_ownership_map"},
+                "source_reference": {"$ref": "#/$defs/reference_artifact"},
+                "material_region_map": {"$ref": "#/$defs/shape_artifact"},
+                "material_boundary_overlay": {"$ref": "#/$defs/shape_artifact"},
+                "material_label_legend": {
+                  "type": "object",
+                  "minProperties": 2,
+                  "additionalProperties": {"type": "integer", "minimum": 1, "maximum": 15}
+                },
+                "material_label_counts": {
+                  "type": "object",
+                  "minProperties": 2,
+                  "additionalProperties": {"type": "integer", "minimum": 1}
+                },
+                "allowed_palette_indices": {
+                  "type": "object",
+                  "minProperties": 2,
+                  "additionalProperties": {
+                    "type": "array", "minItems": 1, "uniqueItems": true,
+                    "items": {"type": "integer", "minimum": 1, "maximum": 15}
+                  }
+                },
+                "shared_outline_indices": {
+                  "type": "array", "minItems": 1, "uniqueItems": true,
+                  "items": {"type": "integer", "minimum": 1, "maximum": 15}
+                },
+                "critical_boundaries": {
+                  "type": "array", "minItems": 1,
+                  "items": {
+                    "type": "object", "additionalProperties": false,
+                    "required": ["boundary_id", "material_a", "material_b", "minimum_contact_edges"],
+                    "properties": {
+                      "boundary_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+                      "material_a": {"type": "string", "minLength": 1},
+                      "material_b": {"type": "string", "minLength": 1},
+                      "minimum_contact_edges": {"type": "integer", "minimum": 1},
+                      "region": {
+                        "type": "array", "minItems": 4, "maxItems": 4,
+                        "description": "Optional half-open native-grid ROI [x0,y0,x1,y1] used to distinguish repeated material pairs.",
+                        "items": {"type": "integer", "minimum": 0}
+                      }
+                    }
+                  }
+                },
+                "blocking_statuses": {"type": "array", "items": {"type": "string"}}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "palette_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_visible_colors", "index0_role", "outline_role", "material_roles"],
+      "properties": {
+        "max_visible_colors": {"const": 15},
+        "index0_role": {"const": "transparent0"},
+        "outline_role": {"type": "string", "minLength": 1},
+        "material_roles": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["semantic_parse", "lineart", "color_blocking", "palette_lock", "pixel_contract", "native_visual", "scale", "budget", "human", "sgdk_integration", "emulator"],
+      "properties": {
+        "semantic_parse": {"$ref": "#/$defs/gate_status"},
+        "lineart": {"$ref": "#/$defs/gate_status"},
+        "color_blocking": {"$ref": "#/$defs/gate_status"},
+        "material_topology": {"$ref": "#/$defs/gate_status"},
+        "palette_lock": {"$ref": "#/$defs/gate_status"},
+        "pixel_contract": {"$ref": "#/$defs/gate_status"},
+        "native_visual": {"$ref": "#/$defs/gate_status"},
+        "scale": {"$ref": "#/$defs/gate_status"},
+        "budget": {"$ref": "#/$defs/gate_status"},
+        "human": {"$ref": "#/$defs/gate_status"},
+        "sgdk_integration": {"$ref": "#/$defs/gate_status"},
+        "emulator": {"$ref": "#/$defs/gate_status"}
+      }
+    },
+    "runtime_evidence": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rom_path", "rom_sha256", "screenshot", "vdp_dump"],
+          "properties": {
+            "rom_path": {"type": "string", "minLength": 1},
+            "rom_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "screenshot": {"type": "string", "minLength": 1},
+            "vdp_dump": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["promotable", "target"],
+      "properties": {
+        "promotable": {"type": "boolean"},
+        "target": {"enum": ["none", "data_processed", "res"]}
+      }
+    },
+    "status": {"enum": ["visual_source_ready", "native_authoring", "technical_candidate", "rework", "pending_scale_probe_generation", "pending_scale_decision", "ready_for_animation", "ready_for_res", "runtime_candidate", "delivery_candidate"]},
+    "next_action": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "gate_status": {"enum": ["not_started", "in_progress", "passed", "failed", "blocked", "not_applicable"]},
+    "shape_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "asset_id", "scale", "source"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "asset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+        "scale": {"pattern": "^[0-9]+x[0-9]+$"},
+        "source": {"type": "string", "minLength": 1}
+      }
+    },
+    "reference_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "role": {"const": "approved_material_topology_reference"}
+      }
+    }
+  }
+}

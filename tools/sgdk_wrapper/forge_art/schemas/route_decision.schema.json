@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["schema_version","route","rationale","constraint"],"properties":{"schema_version":{"const":"1.0.0"},"route":{"enum":["technical_conversion","assisted_native_translation"]},"rationale":{"type":"string"},"constraint":{"type":"string"}}}

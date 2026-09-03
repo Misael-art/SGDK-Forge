@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Canonical native pixel compliance report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "tool", "tool_version", "asset_id", "candidate_path",
+    "candidate_sha256", "content_sha256", "width", "height", "mode",
+    "bit_depth", "color_type", "transparent_index", "visible_colors",
+    "filled_pixels", "canvas_pixels", "bbox", "occupancy_pct", "status",
+    "blocking_statuses"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tool": {"const": "forge_art.pixel_contract"},
+    "tool_version": {"type": "string", "minLength": 1},
+    "asset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "candidate_path": {"type": "string", "minLength": 1},
+    "candidate_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "width": {"type": "integer", "minimum": 8, "multipleOf": 8},
+    "height": {"type": "integer", "minimum": 8, "multipleOf": 8},
+    "mode": {"const": "P"},
+    "bit_depth": {"enum": [1, 2, 4, 8]},
+    "color_type": {"const": 3},
+    "transparent_index": {"const": 0},
+    "visible_colors": {"type": "integer", "minimum": 1, "maximum": 15},
+    "filled_pixels": {"type": "integer", "minimum": 1},
+    "canvas_pixels": {"type": "integer", "minimum": 1},
+    "bbox": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "items": {"type": "integer", "minimum": 0}
+    },
+    "occupancy_pct": {"type": "number", "minimum": 0, "maximum": 100},
+    "status": {"enum": ["technical_candidate", "passed", "rejected"]},
+    "blocking_statuses": {"type": "array", "items": {"type": "string"}}
+  }
+}

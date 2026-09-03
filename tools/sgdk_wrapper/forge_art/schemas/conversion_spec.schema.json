@@ -1,0 +1,17 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema", "title":"forge-art technical conversion spec", "type":"object", "additionalProperties":false,
+  "required":["schema_version","route","asset_id","source","source_kind","target_width","target_height","index0_role","resize_policy","palette_strategy","max_visible_colors","dithering_strategy","transparency_policy","oracle","output_name","intended_use"],
+  "properties": {
+    "schema_version":{"const":"1.0.0"}, "route":{"const":"technical_conversion"}, "asset_id":{"type":"string","pattern":"[a-z0-9_]+"}, "source":{"type":"string","pattern":"(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9][A-Za-z0-9._/-]*"},
+    "source_kind":{"enum":["technical_fixture","concept","photo_or_render","authored_raster","native_pixel_source"]}, "target_width":{"type":"integer","minimum":8,"multipleOf":8}, "target_height":{"type":"integer","minimum":8,"multipleOf":8}, "index0_role":{"enum":["transparent0","unused0"]},
+    "resize_policy":{"const":"NEAREST"}, "palette_strategy":{"const":"weighted_kmedoids_v1"}, "max_visible_colors":{"type":"integer","minimum":1,"maximum":15}, "dithering_strategy":{"const":"none"}, "transparency_policy":{"enum":["opaque","binary_alpha","threshold","chroma_key"]}, "oracle":{"const":"rescomp"}, "output_name":{"type":"string","pattern":"[a-z0-9_-]+\\.png"},
+    "intended_use":{"enum":["neutral_fixture","basic_technical_control","mechanical_asset_conversion"]}, "alpha_threshold":{"type":"integer","minimum":0,"maximum":255}, "chroma_key_rgb":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"integer","minimum":0,"maximum":255}}
+  },
+  "allOf":[
+    {"if":{"properties":{"transparency_policy":{"const":"threshold"}}},"then":{"required":["alpha_threshold"]},"else":{"not":{"required":["alpha_threshold"]}}},
+    {"if":{"properties":{"transparency_policy":{"const":"chroma_key"}}},"then":{"required":["chroma_key_rgb"]},"else":{"not":{"required":["chroma_key_rgb"]}}},
+    {"if":{"properties":{"source_kind":{"const":"technical_fixture"}}},"then":{"properties":{"intended_use":{"const":"neutral_fixture"}}}},
+    {"if":{"properties":{"source_kind":{"enum":["concept","photo_or_render"]}}},"then":{"properties":{"intended_use":{"const":"basic_technical_control"}}}},
+    {"if":{"properties":{"intended_use":{"const":"mechanical_asset_conversion"}}},"then":{"properties":{"source_kind":{"enum":["authored_raster","native_pixel_source"]}}}}
+  ]
+}

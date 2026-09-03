@@ -98,6 +98,31 @@ Cada transição passa por um **gate executável** — confiança não é crité
 | Evidência | `capture_blastem_evidence` + screenshot semantic gate | captura branca ou sem informação |
 | Claims | `audit_promotion_claims.ps1` · claim ceiling | alegar AAA sem escopo aprovado |
 
+### Produção artística: imagem não é asset
+
+O ciclo artístico possui uma separação obrigatória entre direção, produção visual,
+autoria nativa, conversão, animação, budget e integração. Uma geração RGB/high-res
+pode resolver identidade ou pose e ainda ser apenas `visual_producer_output`;
+quantização ou downscale são no máximo `technical_candidate`. Só pixels decididos
+no grid alvo podem chegar a `native_candidate`.
+
+```mermaid
+flowchart LR
+    D["direção + fonte com hash"] --> V["produção visual"]
+    V --> N["autoria nativa no grid"]
+    N --> A["key poses + animação"]
+    A --> P["pixel strict + budget VDP"]
+    P --> H["gate visual/humano"]
+    H --> R["res/ + SGDK + BlastEm"]
+```
+
+O agente trabalha persistentemente em staging, troca de rota quando uma hipótese
+falha e consolida decisões humanas. Ele não usa GIMP por ponteiro para tarefas
+determinísticas, não promove filtros como arte nativa, não otimiza tiles destruindo
+identidade e não transforma validação estrutural em aprovação estética.
+
+Especificação completa: [`doc/03_art/20_canonical_art_production_lifecycle.md`](doc/03_art/20_canonical_art_production_lifecycle.md).
+
 ### Gate de entrega — 7 eixos simultâneos
 
 1. build sucesso (`out/rom.bin` existe)

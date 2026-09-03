@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "tool": "forge-art",
+  "tool_version": "1.2.0",
+  "consulted_at": "2026-09-01",
+  "components": [
+    {
+      "name": "SoftLK/SLK img2pixel",
+      "url": "https://github.com/Captain4LK/SoftLK-tools",
+      "license": "CC0",
+      "version_or_commit": "1d40275f5098667f36d1c4ed1ae0c0aff8d05233",
+      "role": "algorithm reference consulted",
+      "copied_code": false,
+      "integration_kind": "algorithm_studied_and_reimplemented",
+      "limitations": "No repository code is incorporated; forge-art uses its own deterministic weighted-k-medoids implementation."
+    },
+    {
+      "name": "tiledpalettequant",
+      "url": "https://github.com/rilden/tiledpalettequant",
+      "license": "MIT",
+      "version_or_commit": "e7658c2a900cd3828d71d41e96292a8787c05df7",
+      "role": "algorithm reference consulted",
+      "copied_code": false,
+      "integration_kind": "algorithm_studied_and_reimplemented",
+      "limitations": "No repository code is incorporated; no claim of derived implementation is made."
+    },
+    {
+      "name": "Pillow",
+      "url": "https://python-pillow.org/",
+      "license": "HPND",
+      "version_or_commit": "12.3.0",
+      "role": "runtime PNG decode/encode, deterministic route probes, evidence boards and indexed PNG encode",
+      "copied_code": false,
+      "integration_kind": "runtime_dependency",
+      "limitations": "Pillow is I/O only; forge_art.vdp_color remains the sole colour authority."
+    },
+    {
+      "name": "ImageMagick",
+      "url": "https://imagemagick.org/",
+      "license": "ImageMagick",
+      "version_or_commit": "7.1.2-29 local optional backend",
+      "role": "optional deterministic resampling backend for mechanical route shootouts",
+      "copied_code": false,
+      "integration_kind": "runtime_dependency",
+      "limitations": "Outputs are mechanical geometry probes only; the backend never approves, quantizes or authors native sprite art."
+    },
+    {
+      "name": "OpenCV",
+      "url": "https://opencv.org/",
+      "license": "Apache-2.0",
+      "version_or_commit": "5.0.0 local optional backend",
+      "role": "optional deterministic resampling backend for mechanical route shootouts",
+      "copied_code": false,
+      "integration_kind": "runtime_dependency",
+      "limitations": "Outputs are mechanical geometry probes only; missing OpenCV skips its routes without changing the source or claim ceiling."
+    },
+    {
+      "name": "GIMP",
+      "url": "https://www.gimp.org/",
+      "license": "GPL-3.0-or-later",
+      "version_or_commit": "3.2.4 local capability probe",
+      "role": "optional headless frontend for future curated GIMP-specific operations",
+      "copied_code": false,
+      "integration_kind": "development_dependency",
+      "limitations": "Not a colour oracle, not required by forge-art convert, no production operation registered, GUI pointer automation forbidden."
+    }
+  ]
+}

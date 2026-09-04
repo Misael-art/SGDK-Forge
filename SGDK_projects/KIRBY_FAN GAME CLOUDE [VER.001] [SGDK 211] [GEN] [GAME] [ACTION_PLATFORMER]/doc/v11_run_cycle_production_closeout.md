@@ -337,3 +337,27 @@ e não aprovado visualmente. Os diagnósticos não simulam revisão humana e man
 O próximo gate é autorar `up` do canvas vazio, montar um ciclo com as quatro
 poses reautorizadas, validar continuidade e somente então reabrir a integração
 do recurso no runtime.
+
+## Continuidade do ciclo — up r2 clean e run_cycle r6
+
+`run_up_r2` foi reexecutado em `out/v11_native_edit/run_up_r2_clean` após a
+remoção do pixel isolado `(29,16)`. O resultado foi `native-edit rc=0`, 36
+operações, SHA `45afd0c29fd213fe011b22ad8d8e261d57fe51069c013c2d03e5bb583e442a01`,
+conteúdo canônico `86f9cee8ce49a5bcef4f91236568d21363d4eeb2df12ae6cc24b77ba56ac1504`,
+e analyzer `rc=0`.
+
+O ciclo r6 foi então remontado com `contact r4_r3`, `down r2`, `passing r3` e
+`up r2 clean`, sem redimensionamento de autoria. A strip tem SHA
+`4f6717e3ccd227aa42fd7b25c5a23111019b9ded1d01a7beb92f9da745a518df` e o GIF
+tem SHA `3cc1ac67c0083504162c35998731f5091830b154a50d7331a3f032bd07e0a02d`.
+O analyzer retornou `rc=0/status=passed`: quatro componentes principais únicas,
+zero ilhas, zero resíduos, zero matte/FX, bbox global 30×15–20 px.
+
+As evidências 1×/2×/3×/8× e composições 320×224 claro/escuro/chroma estão em
+`out/v11_visual_production/run_cycle_r6/evidence/`; o diagnóstico hash-bound está
+em `out/v11_visual_production/run_cycle_r6/reports/agent_curated_diagnostic_review.json`.
+O passe estrutural não equivale a aprovação: a revisão cega mantém
+`technical_pass_visual_semantic_fail`, `visual_pass=false`,
+`human_gate_ready=false`, `animation_candidate=false` e
+`claim_ceiling=technical_temporal_probe`, porque a fidelidade ao R1, o acabamento
+facial/pés e o timing locomotivo ainda não são suficientes.

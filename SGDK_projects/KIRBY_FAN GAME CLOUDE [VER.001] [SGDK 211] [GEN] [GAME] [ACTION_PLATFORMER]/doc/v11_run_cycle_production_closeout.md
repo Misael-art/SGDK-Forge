@@ -223,3 +223,14 @@ GIF `a259a51a2d19bb72654b62a0b540671be6b555ebdf21333d4ec5f7853e4a1f17` e
 composição 320×224 `15f9e569305d01213a75d666a7dac31a0d98a861f6421a2da831bc3b23df3fb3`.
 Analyzer rc=0/status=passed, bbox 24×16–17 px, sem problemas estruturais; ainda
 faltam apex/float e landing, e a leitura artística permanece probe simplificado.
+
+O jump/float foi fechado tecnicamente com quatro poses: crouch, launch, apex e
+landing. O strip `out/v11_visual_production/jump_r3/jump_v11_candidate.png` tem
+SHA-256 `1e99ab309a6b0764d191841acba580329f0c64ada547800c1dce9566f16c6f7f`, o
+GIF tem SHA-256 `acbe05db27590593da62da1bd37bc42ece2e9fed2422d30dd7e675a07478018b`
+e a composição 320×224 tem SHA-256
+`d0bdad44b2be7dd4a21ad3f2ea84e7655b6c7be2681bc87ab24563df16f2928f`.
+O analyzer passou com bbox de largura 24–26 px e altura 16–17 px, sem problemas
+de borda, matte, ilhas ou FX assado; o contrato de pixels também passou. O conjunto
+mostra a sequência temporal e ainda é um probe visual simplificado, não um asset
+final nem uma prova de integração jogável.

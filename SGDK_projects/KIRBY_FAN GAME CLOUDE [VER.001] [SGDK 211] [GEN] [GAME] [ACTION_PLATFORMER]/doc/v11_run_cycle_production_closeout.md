@@ -391,3 +391,19 @@ O `native-edit` terminou com `rc=0`, 11 operações, SHA do candidato
 `interior_ratio=0`, `max_erosion_depth=0`, sem blockers. A lineart está vinculada
 ao diagnóstico B, mas a correspondência semântica e o acabamento ainda não
 foram aprovados; o gate humano permanece fechado.
+
+## Agregado r7 — hipótese B de contato
+
+O agregado r7 substituiu o contato A pela hipótese B e manteve `down r2`,
+`passing r3` e `up r2 clean`. A strip
+`out/v11_visual_production/run_cycle_r7/run_cycle_v11_r7_candidate.png` tem SHA
+`36b54d741621bd06697a8a61bdb6520822269df18d34c374161bb4fca9569593`; o GIF
+correspondente tem SHA `92cab6a2324e2e5e5e35fbccc35bd9a07350d71d769328761e8e6b5f88bce8e2`.
+
+O analyzer terminou com `rc=0/status=passed`: os quatro frames têm uma componente
+única, zero ilhas, zero resíduos, zero matte e bbox global 30×15–17 px. As
+evidências 1×/2×/3×/8× e composições 320×224 estão em
+`out/v11_visual_production/run_cycle_r7/evidence/`. A revisão do conjunto ainda
+é `technical_pass_visual_semantic_fail`: os deltas de silhueta são limitados,
+o acting de corrida é fraco, e down/passing/up ainda precisam de linearts
+independentes e acabamento visual. O r7 não foi integrado no runtime.

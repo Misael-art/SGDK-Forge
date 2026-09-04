@@ -212,3 +212,14 @@ rc=0/status=passed, bbox 24–26×17–19 px, sem problemas de borda, matte, ilh
 FX assado; contrato de pixels rc=0/status=`technical_candidate`. A revisão 8× mostra
 continuidade de abertura e fechamento da boca, mas a forma geral ainda é um probe
 esquemático; não há aprovação visual nem integração no runtime.
+
+O ramo jump/float iniciou com `jump_crouch` (SHA-256
+`f56b4306868cbfc7af31cb0f03c4043363abaf3bea99b2bb308b5d2b027750a8`) e
+`jump_launch` (SHA-256
+`d75e7da0c3b127292c567661133c68e4b4fc1b9edb02a855d59bc0cc31ee54d9`). O par foi
+selado como strip parcial `out/v11_visual_production/jump_r1/jump_v11_partial.png`
+(SHA-256 `5891dbb81110fb99dcb0eedbeb391d80f3e366d6f8a7f3b474fa8161774ef49e`),
+GIF `a259a51a2d19bb72654b62a0b540671be6b555ebdf21333d4ec5f7853e4a1f17` e
+composição 320×224 `15f9e569305d01213a75d666a7dac31a0d98a861f6421a2da831bc3b23df3fb3`.
+Analyzer rc=0/status=passed, bbox 24×16–17 px, sem problemas estruturais; ainda
+faltam apex/float e landing, e a leitura artística permanece probe simplificado.

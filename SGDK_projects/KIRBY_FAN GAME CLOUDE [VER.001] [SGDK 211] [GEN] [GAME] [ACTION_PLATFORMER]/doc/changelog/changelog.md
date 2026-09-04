@@ -842,3 +842,10 @@
 - Integrados temporariamente ao consumidor de revisão os strips indexados e a cena dedicada 11; a ROM foi compilada e executada no BlastEm com bundle de evidência selado e vinculado por SHA.
 - A validação canônica reprovou honestamente os quatro strips e o agregado: lineart diagnóstica/procedural, probe mecânico, escala inconsistente no run, perfil não canônico de jump/float e continuidade temporal insuficiente permanecem blockers.
 - Nenhuma declaração `native_reauthored`, `hand_authored_native` ou `hand_drawn_native`, nenhum gate humano e nenhuma promoção para `res/` foram feitos. O closeout completo está em `doc/v10_runtime_visual_review_closeout.md`.
+
+## 2026-09-04 - V11 produção visual completa em branch de revisão
+
+- Aberta `codex/kirby-full-visual-production-v11` a partir do tip v10, com decisão de escopo e teto de claims registrados em `doc/v11_full_visual_production_scope_decision.json`.
+- Implementado `forge-art native-edit`: bridge único de ações editoriais explícitas, schema versionado, staging-only, proteção da fonte, log de ações, SHA before/after, PNG P/4bpp e comparação nearest 8×.
+- Produzido o primeiro candidato nativo `run_contact` com 38 ações, R1 como única autoridade e pixel-contract sem blockers. O candidato foi integrado exclusivamente à cena 11 de revisão como `spr_native_run_contact_v11`.
+- A entrega continua sem aprovação visual humana, sem substituição do first playable e sem `ready_for_aaa`.

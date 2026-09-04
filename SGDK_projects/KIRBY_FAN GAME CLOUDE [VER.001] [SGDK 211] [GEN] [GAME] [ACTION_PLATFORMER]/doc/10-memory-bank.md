@@ -308,3 +308,12 @@ folga mensuravel e que o instrumento de cobranca funciona.
 - A ROM de revisão `2f2a7a2ce7c51f35ca8ee8fdf1c9ac2c784cc86150f15440da09bb329e8dcfbd` foi executada na cena dedicada 11 do BlastEm. O bundle foi selado com screenshot, SRAM e VDP dump, mas prova apenas consumo do recurso e snapshot de runtime.
 - Os quatro strips continuam reprovados pelos entrypoints canônicos por lineart diagnóstica, linhagem mecânica, inconsistência de escala/movimento e perfil não canônico. O agregado retorna `status=error`, `maximum_proven_claim=none`; não há promoção para `res/` nem gate humano.
 - Detalhes, comandos, hashes e o próximo gate causal estão em `doc/v10_runtime_visual_review_closeout.md`.
+
+## 21. V11 — produção visual completa autorizada em branch de revisão — 2026-09-04
+
+- Criada a branch `codex/kirby-full-visual-production-v11` a partir de `codex/kirby-visual-review-runtime-v10`; o histórico v10 permanece preservado.
+- Registrada a decisão de escopo em `doc/v11_full_visual_production_scope_decision.json`: produção de candidatos visuais e integração na branch de revisão autorizadas; aceitação humana, promoção mainline e `ready_for_aaa` continuam bloqueadas.
+- Implementado o único bridge solicitado, `forge-art native-edit`, com schema `tools/sgdk_wrapper/forge_art/schemas/native_edit_actions.schema.json`, ações explícitas, validação de limites/paleta, SHA before/after e saída staging-only.
+- Produzido `kirby_run_contact_v11` em 32×32 P/4bpp a partir de 38 ações editoriais, usando exclusivamente `data/source_art/r1/r1-01/concept.png` como autoridade (`591d3106...31303cd`); o candidato passou pixel-contract e nearest 8×.
+- O candidato foi integrado somente ao consumidor da cena 11 como `spr_native_run_contact_v11`, classificado `native_candidate`; placeholders do first playable, animações, stage, inimigos, boss e abilities não foram promovidos.
+- Estado honesto: `status=full_visual_runtime_candidate`, `visual_pass=false`, `human_gate_ready=false`, `final_acceptance=false`, `ready_for_aaa=false`. Próximo gate causal: revisão humana da pose em 1× e captura runtime vinculada à ROM v11.

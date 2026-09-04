@@ -33,10 +33,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 try:
-    from forge_art import convert, foreground_matte, gimp_batch, job, pixel_contract, source_route_triage, vdp_color
+    from forge_art import convert, foreground_matte, gimp_batch, job, native_edit, pixel_contract, source_route_triage, vdp_color
 except ImportError:  # execucao pelo caminho do arquivo
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from forge_art import convert, foreground_matte, gimp_batch, job, pixel_contract, source_route_triage, vdp_color
+    from forge_art import convert, foreground_matte, gimp_batch, job, native_edit, pixel_contract, source_route_triage, vdp_color
 
 CLI_VERSION = "1.2.0"
 
@@ -188,6 +188,7 @@ def cmd_self_check(args) -> int:
         # Deterministic contract fixtures only.  The optional host probe is a
         # separate command so forge-art never depends on GIMP being installed.
         "gimp_batch_contract": gimp_batch.self_check(),
+        "native_edit_contract": native_edit.self_check(),
     }
     summary = {
         name: {"passed": r["fixtures_passed"], "total": r["fixtures_total"],
@@ -235,6 +236,25 @@ def cmd_gimp_batch_preflight(args) -> int:
         return 3
     _emit(report)
     return 3 if report["blocking"] else 0
+
+
+def cmd_native_edit(args) -> int:
+    try:
+        report = native_edit.native_edit(
+            Path(args.project_root), Path(args.actions), Path(args.out)
+        )
+    except Exception as exc:
+        _emit({
+            "command": "native-edit",
+            "status": "rejected",
+            "blocking": True,
+            "blocker": getattr(exc, "blocker", "native_edit_failed"),
+            "error": str(exc),
+            "next_action": "corrija o action file; nenhuma saida parcial foi publicada",
+        })
+        return 1
+    _emit(report)
+    return 0
 
 
 def cmd_source_audit(args) -> int:
@@ -328,6 +348,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     gb.add_argument("--gimp", help="executavel GIMP 3; default: descoberta no PATH")
     gb.add_argument("--timeout-seconds", type=int, default=gimp_batch.DEFAULT_TIMEOUT_SECONDS)
+    ne = sub.add_parser(
+        "native-edit",
+        help="aplica acoes explicitas de pixel em staging; nunca gera por primitiva",
+    )
+    ne.add_argument("--project-root", required=True)
+    ne.add_argument("--actions", required=True)
+    ne.add_argument("--out", required=True)
     sa = sub.add_parser(
         "source-audit",
         help="classifica contaminacao visual e elegibilidade antes de qualquer rota",
@@ -366,6 +393,7 @@ def main(argv=None) -> int:
         "inspect": cmd_inspect, "validate": cmd_validate, "palette": cmd_palette,
         "translate": cmd_translate, "convert": cmd_convert,
         "gimp-batch-preflight": cmd_gimp_batch_preflight,
+        "native-edit": cmd_native_edit,
         "source-audit": cmd_source_audit,
         "route-shootout": cmd_route_shootout,
         "route-verify": cmd_route_verify,

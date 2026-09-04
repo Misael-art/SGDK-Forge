@@ -23,6 +23,7 @@ static u16 s_tileNext;
 static u16 s_reviewFrame;
 static u16 s_reviewTimer;
 static NativeReviewBackground s_background;
+static bool s_runCandidate;
 
 static void SCENE_nativeArtReviewDrawContext(void)
 {
@@ -75,7 +76,7 @@ static void SCENE_nativeArtReviewDraw(void)
 
     VDP_setTextPlane(BG_A);
     VDP_setTextPalette(PAL3);
-    VDP_drawText("V10 VISUAL REVIEW", 11, 1);
+    VDP_drawText("V11 NATIVE EDIT REVIEW", 9, 1);
     VDP_drawText("A/B: BACKGROUND   START: TITLE", 5, 26);
 }
 
@@ -86,6 +87,7 @@ void SCENE_nativeArtReviewEnter(void)
     s_background = NATIVE_REVIEW_BG_CONTEXT;
     s_reviewFrame = 0u;
     s_reviewTimer = 0u;
+    s_runCandidate = FALSE;
     SCENE_nativeArtReviewDraw();
 
     /* Position is top-left; pivot contract remains (16,31), baseline y=30. */
@@ -103,6 +105,7 @@ void SCENE_nativeArtReviewUpdate(void)
         SPR_reset();
         SPR_update();
         SCENE_nativeArtReviewDraw();
+        s_runCandidate = FALSE;
         s_idleSprite = SPR_addSprite(&spr_ph_kirby, 144, 96,
                                      TILE_ATTR(PAL2, TRUE, FALSE, FALSE));
         SPR_setFrame(s_idleSprite, s_reviewFrame);
@@ -115,12 +118,13 @@ void SCENE_nativeArtReviewUpdate(void)
         SPR_reset();
         SPR_update();
         SCENE_nativeArtReviewDraw();
-        s_idleSprite = SPR_addSprite(&spr_native_idle_elite, 144, 96,
+        s_runCandidate = TRUE;
+        s_idleSprite = SPR_addSprite(&spr_native_run_contact_v11, 144, 96,
                                      TILE_ATTR(PAL2, TRUE, FALSE, FALSE));
     }
 
     s_reviewTimer++;
-    if (s_reviewTimer >= 8u)
+    if (!s_runCandidate && s_reviewTimer >= 8u)
     {
         s_reviewTimer = 0u;
         s_reviewFrame = (s_reviewFrame + 1u) % 16u;

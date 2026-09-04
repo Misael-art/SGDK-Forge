@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "forge-art explicit native editor actions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "command", "asset_id", "frame_id", "canvas", "palette", "identity_source", "actions"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "command": {"const": "native-edit"},
+    "asset_id": {"type": "string", "pattern": "[a-z0-9_]+"},
+    "frame_id": {"type": "string", "pattern": "[a-z0-9_]+"},
+    "canvas": {"type": "object", "additionalProperties": false, "required": ["width", "height"], "properties": {"width": {"type": "integer", "const": 32}, "height": {"type": "integer", "const": 32}}},
+    "palette": {"type": "array", "minItems": 2, "maxItems": 16, "items": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "integer", "minimum": 0, "maximum": 238}}},
+    "identity_source": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "role"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "[a-f0-9]{64}"}, "role": {"const": "exclusive_visual_authority"}}},
+    "underlays": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "role"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "[a-f0-9]{64}"}, "role": {"const": "underlay_reference_only"}}}},
+    "actions": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["action_id", "asset_id", "frame_id", "operation", "region", "symptom", "visual_reference", "before_indices", "after_indices", "reason", "operator"], "properties": {
+      "action_id": {"type": "string", "pattern": "[a-z0-9_]+"}, "asset_id": {"type": "string"}, "frame_id": {"type": "string"},
+      "operation": {"enum": ["pencil_pixel", "pencil_run", "erase_pixel", "erase_run", "replace_color_in_selection", "move_selection_integer", "mirror_selection", "palette_slot_assignment", "copy_authored_cluster", "apply_local_patch"]},
+      "region": {"type": "object", "additionalProperties": false, "required": ["x", "y", "w", "h"], "properties": {"x": {"type": "integer"}, "y": {"type": "integer"}, "w": {"type": "integer"}, "h": {"type": "integer"}}},
+      "symptom": {"type": "string"}, "visual_reference": {"type": "string"}, "before_indices": {"type": "array", "items": {"type": "integer"}}, "after_indices": {"type": "array", "items": {"type": "integer"}}, "reason": {"type": "string"}, "operator": {"const": "agent_authored_pixel_via_editor_actions"},
+      "color_index": {"type": "integer"}, "before_color_index": {"type": "integer"}, "after_color_index": {"type": "integer"}, "dx": {"type": "integer"}, "dy": {"type": "integer"}, "axis": {"type": "string"}, "allow_mirror": {"type": "boolean"}, "slot": {"type": "integer"}, "rgb": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "integer"}},
+      "pixels": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["x", "y", "index"], "properties": {"x": {"type": "integer"}, "y": {"type": "integer"}, "index": {"type": "integer"}}}}
+    }} }
+  }
+}

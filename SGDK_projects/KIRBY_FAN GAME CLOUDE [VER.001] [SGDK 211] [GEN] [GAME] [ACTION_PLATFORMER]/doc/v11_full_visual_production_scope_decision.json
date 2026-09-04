@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "kirby_full_visual_production_v11",
+  "recorded_at": "2026-09-04",
+  "branch": "codex/kirby-full-visual-production-v11",
+  "base_branch": "codex/kirby-visual-review-runtime-v10",
+  "scope": {
+    "full_visual_candidate_production_authorized": true,
+    "review_branch_runtime_integration_authorized": true,
+    "human_final_acceptance_required": true,
+    "mainline_promotion_authorized": false,
+    "ready_for_aaa": false
+  },
+  "truth_state": {
+    "status": "full_visual_runtime_candidate",
+    "visual_pass": false,
+    "human_gate_ready": true,
+    "final_acceptance": false,
+    "ready_for_aaa": false
+  },
+  "historical_decisions": {
+    "v10_runtime_visual_review": "superseded_for_review_branch_scope",
+    "single_idle_isolated_review_only": "superseded_for_review_branch_scope",
+    "full_turnaround_and_first_playable_replacement_forbidden": "superseded_for_review_branch_scope"
+  },
+  "first_causal_package": {
+    "asset": "kirby_run_contact_v11",
+    "frame": "run_contact",
+    "identity_source": "data/source_art/r1/r1-01/concept.png",
+    "source_sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+    "bridge": "forge-art native-edit",
+    "action_file": "data/staging/v11_native_edit/run_contact_actions.json",
+    "output": "out/v11_native_edit/run_contact_v2",
+    "runtime_resource": "res/sprites/v11_review/run_contact_v11_candidate.png",
+    "runtime_scene": "APP_SCENE_NATIVE_ART_REVIEW",
+    "human_review": "required_before_any_mainline_or_final_promotion"
+  },
+  "forbidden_until_human_gate": [
+    "replace_first_playable_placeholder",
+    "promote_candidate_to_final",
+    "claim_visual_pass",
+    "claim_ready_for_aaa",
+    "merge_or_push_mainline"
+  ]
+}

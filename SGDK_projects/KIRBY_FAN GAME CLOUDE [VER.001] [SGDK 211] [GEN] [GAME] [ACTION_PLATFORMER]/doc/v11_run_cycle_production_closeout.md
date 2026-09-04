@@ -261,3 +261,56 @@ O resultado permanece `needs_rework`: o perfil único e os apoios alternados sã
 observáveis, mas os pés ainda estão blocados e o rosto é mais esquemático que o
 running do R1. `visual_pass=false`, `human_gate_ready=false` e
 `claim_ceiling=native_candidate` continuam obrigatórios.
+
+## Atualização de integração — run_cycle r4 e runtime BlastEm
+
+O ciclo agregado r4 foi montado somente com candidatos nativos produzidos pelo
+`native_edit`; não foram usados pixels de v04–v10. A strip tem 128×32, quatro
+frames 32×32 e SHA-256
+`884cb75dab145c31cacf2baae8b55a409521a94988a522ba3b751b2f4d2d45dd`. O GIF de
+quatro frames tem SHA-256
+`11373ff9e9cbfa63003da1dc8157013ed84903134267926f4678ae276806f9b3`.
+
+O analyzer do strip retornou `rc=0`, mas sua medição não autoriza promoção
+visual: o frame `down` possui `component_count=7`, `small_island_count=4` e
+`non_largest_component_pixels=58`. Esse blocker foi preservado no diagnóstico
+agregado, em vez de ser escondido pelo status textual do analyzer. As quatro
+poses também permanecem esquemáticas em 1×/8×; o ciclo é `needs_rework`.
+
+Evidência visual do agregado:
+
+- [strip 1×](../out/v11_visual_production/run_cycle_r4/evidence/run_cycle_r4_1x.png),
+  [2×](../out/v11_visual_production/run_cycle_r4/evidence/run_cycle_r4_2x.png),
+  [3×](../out/v11_visual_production/run_cycle_r4/evidence/run_cycle_r4_3x.png) e
+  [8×](../out/v11_visual_production/run_cycle_r4/evidence/run_cycle_r4_8x.png);
+- [composição 320×224 claro](../out/v11_visual_production/run_cycle_r4/evidence/run_cycle_r4_composition_light_320x224_1x.png),
+  [escuro](../out/v11_visual_production/run_cycle_r4/evidence/run_cycle_r4_composition_dark_320x224_1x.png) e
+  [chroma](../out/v11_visual_production/run_cycle_r4/evidence/run_cycle_r4_composition_chroma_320x224_1x.png);
+- [diagnóstico hash-bound](../out/v11_visual_production/run_cycle_r4/reports/agent_curated_diagnostic_review.json).
+
+A ROM nova foi construída pelo wrapper com `exit_code=0`, tamanho 262144 bytes e
+SHA-256 `a3e526634288fb6a83013c059fdca5221c40abff9efc5dd9835624c0ae6785c5`.
+
+Captura BlastEm da cena 4, sessão
+`blastem-linux-20260904T114255Z-3619436`, passou os gates de runtime com 61,1
+fps no título, cena 4, 0 hard failures, CPU p99 68%, pico de 26 sprites e 16
+sprites por scanline. Ela não prova o run porque o personagem ficou parcialmente
+fora da janela.
+
+Captura BlastEm da cena 5, sessão
+`blastem-linux-20260904T114357Z-3622671`, mostrou o personagem integrado e
+alcançou `11/11` estados locomotivos, com 0 frames acima do orçamento, CPU p99
+68% e pico de 18 sprites por scanline. O gate canônico falhou em
+`playtest_completed` (`finished=0`, passo 16) e emitiu apenas o aviso soft de
+cores rasterizadas; portanto a cobertura é parcial e não fecha gameplay.
+
+Arquivos da captura da cena 5: [screenshot](../out/evidence/v11_run_cycle_r4_playtest/blastem-linux-20260904T114357Z-3622671/screenshot.png),
+[gate report](../out/evidence/v11_run_cycle_r4_playtest/blastem-linux-20260904T114357Z-3622671/gate_report.json),
+[runtime metrics](../out/evidence/v11_run_cycle_r4_playtest/blastem-linux-20260904T114357Z-3622671/runtime_metrics.json),
+[SRAM](../out/evidence/v11_run_cycle_r4_playtest/blastem-linux-20260904T114357Z-3622671/save.sram) e
+[VDP dump](../out/evidence/v11_run_cycle_r4_playtest/blastem-linux-20260904T114357Z-3622671/visual_vdp_dump.bin).
+
+O estado canônico continua `technical_temporal_probe`,
+`animation_candidate=false`, `human_gate_ready=false` e `res_promotion=false`.
+O próximo gate causal é reautorizar `down` como pose nativa conectada, depois
+reconstruir o ciclo completo e repetir a medição antes de integrar outro ciclo.

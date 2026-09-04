@@ -380,3 +380,14 @@ bbox 30×16, uma componente, zero ilhas, zero matte e zero resíduos. A seleçã
 continua `needs_rework`: em 1× o acting ainda não é instantâneo, e a lineart
 independente e o timing ainda não foram fechados. O diagnóstico está em
 `out/v11_visual_production/run_contact_hypothesis_b/reports/agent_curated_diagnostic_review.json`.
+
+## Lineart independente — hipótese B
+
+A lineart da hipótese B foi autorada separadamente no grid 32×32 por
+`data/staging/v11_native_edit/run_contact_hypothesis_b_lineart_actions.json`.
+O `native-edit` terminou com `rc=0`, 11 operações, SHA do candidato
+`7ba5293cceb1f63b89609737aa49400ef01650990253f49ca6afbbc3e9830780`, e o
+`validate_lineart_topology.py --input` terminou com `rc=0/status=ok`: 84 pixels,
+`interior_ratio=0`, `max_erosion_depth=0`, sem blockers. A lineart está vinculada
+ao diagnóstico B, mas a correspondência semântica e o acabamento ainda não
+foram aprovados; o gate humano permanece fechado.

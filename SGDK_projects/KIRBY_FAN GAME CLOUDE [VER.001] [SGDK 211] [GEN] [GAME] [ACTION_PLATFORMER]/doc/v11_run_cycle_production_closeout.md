@@ -72,7 +72,7 @@ Medições do strip: quatro frames, largura de bbox 29–30 px, altura 17–22 p
 
 ```bash
 python3 tools/sgdk_wrapper/ci/test_native_edit.py
-# rc=0, native-edit physical suite: 7/7
+# rc=0, native-edit physical suite: 9/9
 python3 -m forge_art self-check
 # rc=0, 136/136 fixtures
 pwsh -NoProfile -ExecutionPolicy Bypass -File tools/sgdk_wrapper/ci/run_golden_validate.ps1
@@ -142,3 +142,49 @@ Produzir uma ação por vez para idle, inhale e jump/float pelo mesmo caminho
 1× antes de integrá-las ao stage. Somente após todas as quatro ações passarem os
 validadores técnicos e a revisão cega diagnóstica poderá ser solicitada revisão
 humana; este marco não abre o gate.
+
+## Continuidade v11 — idle e inhale (2026-09-04)
+
+O estado de verdade permanece `visual_pass=false`, `human_gate_ready=false`,
+`animation_candidate=false` e `res_promotion=false`. O registro de escopo foi
+corrigido para não afirmar gate humano aberto.
+
+Idle r3 foi produzido a partir de dois documentos explícitos de ações nativas no
+grid 32×32, sem resize/crop/quantização como autoria final:
+
+- `out/v11_native_edit/idle_neutral_r3/candidate.png` — SHA-256
+  `dab1718ce0e4918f46fe906b5095dfca464c943379f6873828d4ab8b3592f4f8`;
+- `out/v11_native_edit/idle_rise_r3/candidate.png` — SHA-256
+  `697e56a154f8e3fbb19a464af1d31555c9cc87eb5e273abd2d914ca1ec61dc35`;
+- strip `out/v11_visual_production/idle_r3/idle_v11_r3_candidate.png` — SHA-256
+  `d29a0c1fc4b3cf649d3fa163490039b15a23c36d319e3fbb0c43b5daa7b34abc`;
+- GIF `out/v11_visual_production/idle_r3/idle_v11_r3_candidate.gif` — SHA-256
+  `cb108467a9cd44787074e27c070fc9b40e4f225fc033a1fd35d2ae17ee58e3f9`.
+
+Comandos técnicos do idle r3:
+
+```bash
+python3 -m forge_art native-edit --project-root . \
+  --actions data/staging/v11_native_edit/idle_neutral_v11_actions.json \
+  --out out/v11_native_edit/idle_neutral_r3
+python3 -m forge_art native-edit --project-root . \
+  --actions data/staging/v11_native_edit/idle_rise_v11_actions.json \
+  --out out/v11_native_edit/idle_rise_r3
+python3 tools/image-tools/analyze_sprite_strip_integrity.py \
+  --image out/v11_visual_production/idle_r3/idle_v11_r3_candidate.png \
+  --frame-width 32 --frame-height 32 \
+  --output out/v11_visual_production/idle_r3/idle_strip_integrity.json \
+  --asset-kind character --asset-id kirby_idle_v11 --state-profile idle
+```
+
+Resultados: ambos `native-edit` rc=0; strip analyzer rc=0/status=passed,
+`edge_problem_frames=0`, `matte_problem_frames=0`, `island_problem_frames=0`,
+`baked_fx_frames=0`, bbox 24×17–19 px; contrato de pixels rc=0/status=
+`technical_candidate`. A revisão cega 1× ainda encontrou simplificação visual
+excessiva; portanto o pacote não entra em `res/` nem no runtime.
+
+Inhale antecipação foi executado nativamente em
+`out/v11_native_edit/inhale_anticipation_r3/candidate.png`, com rc=0 e SHA-bound
+ao R1. A hipótese foi descartada como `needs_rework` na inspeção 1× por volume
+quadrado e material ainda esquemático. Nenhuma declaração de aprovação visual foi
+emitida e as ações não foram integradas ao stage.

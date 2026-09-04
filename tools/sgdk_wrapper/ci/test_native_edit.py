@@ -50,6 +50,35 @@ def run(spec: dict, root: Path, output: str = "out/v11_native_edit/fixture") -> 
     return None
 
 
+def move_and_mirror_checks(root: Path) -> dict[str, bool]:
+    moved = base_spec(root)
+    moved["actions"].append({
+        "action_id": "move_one", "asset_id": "fixture_asset", "frame_id": "fixture_frame",
+        "operation": "move_selection_integer", "region": {"x": 1, "y": 1, "w": 1, "h": 1},
+        "dx": 1, "dy": 0, "symptom": "fixture", "visual_reference": "data/source.png",
+        "before_indices": [1], "after_indices": [1], "reason": "fixture", "operator": native_edit.OPERATOR,
+    })
+    symmetric = base_spec(root)
+    symmetric["actions"][0]["region"] = {"x": 1, "y": 1, "w": 1, "h": 1}
+    symmetric["actions"].append({
+        "action_id": "paint_two", "asset_id": "fixture_asset", "frame_id": "fixture_frame",
+        "operation": "pencil_pixel", "region": {"x": 2, "y": 1, "w": 1, "h": 1},
+        "color_index": 1, "symptom": "fixture", "visual_reference": "data/source.png",
+        "before_indices": [0], "after_indices": [1], "reason": "fixture", "operator": native_edit.OPERATOR,
+    })
+    symmetric["actions"].append({
+        "action_id": "mirror_symmetric", "asset_id": "fixture_asset", "frame_id": "fixture_frame",
+        "operation": "mirror_selection", "region": {"x": 1, "y": 1, "w": 2, "h": 1},
+        "axis": "horizontal", "allow_mirror": True, "symptom": "fixture",
+        "visual_reference": "data/source.png", "before_indices": [1], "after_indices": [1],
+        "reason": "fixture", "operator": native_edit.OPERATOR,
+    })
+    return {
+        "move": run(moved, root, "out/v11_native_edit/move") is None,
+        "mirror_noop": run(symmetric, root, "out/v11_native_edit/mirror_noop") == "action_noop",
+    }
+
+
 def main() -> int:
     checks: dict[str, bool] = {}
     with tempfile.TemporaryDirectory() as temp:
@@ -81,6 +110,7 @@ def main() -> int:
         run(copy.deepcopy(good), root, "out/v11_native_edit/clean")
         hashes = json.loads((clean / "artifact_hashes.json").read_text())
         checks["hash_manifest"] = hashes["execution_report_sha256"] == sha(clean / "execution_report.json") and hashes["candidate_sha256"] == sha(clean / "candidate.png")
+        checks.update(move_and_mirror_checks(root))
     failed = [name for name, ok in checks.items() if not ok]
     for name, ok in checks.items():
         print(f"[{'PASS' if ok else 'FAIL'}] {name}")

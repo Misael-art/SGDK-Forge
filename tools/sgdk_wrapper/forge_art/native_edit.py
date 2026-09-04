@@ -188,9 +188,6 @@ def _apply_action(image: Image.Image, action: dict[str, Any], palette: list[tupl
             raise NativeEditError("move_out_of_bounds", f"{action['action_id']}: dx={dx}, dy={dy}")
         source = [int(image.getpixel((px, py))) for py in range(y, y + h) for px in range(x, x + w)]
         _assert_before(image, [(px, py) for py in range(y, y + h) for px in range(x, x + w)], before, action["action_id"])
-        original = [row[:] for row in values]
-        if all(a == b for row_a, row_b in zip(original, values) for a, b in zip(row_a, reversed(row_b))):
-            raise NativeEditError("action_noop", f"{action['action_id']}: espelhamento nao altera selecao")
         for py in range(y, y + h):
             for px in range(x, x + w):
                 image.putpixel((px, py), 0)
@@ -205,6 +202,8 @@ def _apply_action(image: Image.Image, action: dict[str, Any], palette: list[tupl
             raise NativeEditError("mirror_axis_invalid", f"{action['action_id']}: somente horizontal")
         values = [[int(image.getpixel((px, py))) for px in range(x, x + w)] for py in range(y, y + h)]
         _assert_before(image, [(px, py) for py in range(y, y + h) for px in range(x, x + w)], before, action["action_id"])
+        if all(value == mirrored for row in values for value, mirrored in zip(row, reversed(row))):
+            raise NativeEditError("action_noop", f"{action['action_id']}: espelhamento nao altera selecao")
         for row, py in zip(values, range(y, y + h)):
             for value, px in zip(reversed(row), range(x, x + w)):
                 image.putpixel((px, py), value)

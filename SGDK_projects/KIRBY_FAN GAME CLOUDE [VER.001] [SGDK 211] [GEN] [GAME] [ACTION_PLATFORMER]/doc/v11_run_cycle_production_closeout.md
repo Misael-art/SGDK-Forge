@@ -361,3 +361,22 @@ O passe estrutural não equivale a aprovação: a revisão cega mantém
 `human_gate_ready=false`, `animation_candidate=false` e
 `claim_ceiling=technical_temporal_probe`, porque a fidelidade ao R1, o acabamento
 facial/pés e o timing locomotivo ainda não são suficientes.
+
+## Hipóteses artísticas do run_contact — seleção provisória B
+
+Foi produzida uma segunda hipótese real a partir do canvas vazio, sem pixels de
+v04–v10. A hipótese A foi mantida em
+`out/v11_native_edit/run_contact_r4_r3/candidate.png` (SHA
+`a8325235742eb020bd259d0867d13b3930d4e40a159a2422f84e8799d20d2fef`). A hipótese
+B está em `out/v11_native_edit/run_contact_hypothesis_b/candidate.png` (SHA
+`24c74a4b07a8b319afffe74c355aa1cc46af487674099958d2ae568ba623590c`) e foi
+selecionada provisoriamente por apresentar clusters de rosto, boca, luz e sombra
+mais observáveis em 8×, mantendo o perfil direito e o apoio de contato.
+
+As duas hipóteses foram comparadas em
+`out/v11_visual_production/run_contact_hypotheses/contact_A_vs_B_1x.png` e
+`contact_A_vs_B_8x.png`. B passou a medição estrutural com 327 pixels visíveis,
+bbox 30×16, uma componente, zero ilhas, zero matte e zero resíduos. A seleção
+continua `needs_rework`: em 1× o acting ainda não é instantâneo, e a lineart
+independente e o timing ainda não foram fechados. O diagnóstico está em
+`out/v11_visual_production/run_contact_hypothesis_b/reports/agent_curated_diagnostic_review.json`.

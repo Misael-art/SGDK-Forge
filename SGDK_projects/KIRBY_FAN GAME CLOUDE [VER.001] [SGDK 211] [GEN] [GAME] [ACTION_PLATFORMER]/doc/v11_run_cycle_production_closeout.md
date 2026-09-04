@@ -188,3 +188,16 @@ Inhale antecipação foi executado nativamente em
 ao R1. A hipótese foi descartada como `needs_rework` na inspeção 1× por volume
 quadrado e material ainda esquemático. Nenhuma declaração de aprovação visual foi
 emitida e as ações não foram integradas ao stage.
+
+O ramo de inhale avançou com duas key poses adicionais autoradas no grid: `inhale_open`
+(`out/v11_native_edit/inhale_open_r2/candidate.png`, SHA-256
+`50f211d9979a1bc1bea74bf3328deb07d689cd11f7859c59725c88538f62f31f`) e
+`inhale_expand` (`out/v11_native_edit/inhale_expand/candidate.png`, SHA-256
+`b34ebe020be9ed9b5c50110f36777170a23b78b9fadcd85ed89fdf605fa32f8f`). O strip parcial
+de três frames `out/v11_visual_production/inhale_r2/inhale_v11_partial_3f.png` tem
+SHA-256 `75381be040d413dd764395ea17eefe7ac4e028185676f8efdbc98a5464d0874e` e o GIF
+correspondente tem SHA-256 `f6be4b1bc3a04993b4b2f0c8d78b55c6a0837aeccc1274c9dc66f85cb34d3897`.
+O analyzer passou com bbox de largura 24–26 px, altura 17–19 px e zero problemas
+de borda, matte, ilhas ou FX assado; o contrato de pixels também passou. Ainda falta
+o release e a revisão visual de conjunto, portanto o ramo continua parcial e fora
+do runtime.

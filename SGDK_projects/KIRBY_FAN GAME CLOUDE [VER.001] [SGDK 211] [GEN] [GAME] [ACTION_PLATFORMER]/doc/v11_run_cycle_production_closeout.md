@@ -201,3 +201,14 @@ O analyzer passou com bbox de largura 24–26 px, altura 17–19 px e zero probl
 de borda, matte, ilhas ou FX assado; o contrato de pixels também passou. Ainda falta
 o release e a revisão visual de conjunto, portanto o ramo continua parcial e fora
 do runtime.
+
+O quarto estado `inhale_release` foi então autorado e executado com rc=0. O strip
+completo de quatro frames `out/v11_visual_production/inhale_r3/inhale_v11_candidate.png`
+tem SHA-256 `af55ac0c18b78b51b30aa629abd19b40c8fd53886e9e8a797f3bd415ebc31804`;
+o GIF tem SHA-256 `a3f3ddc6a0967c8420180ccb8fbc0f78a10da7c2c95a190b281f2107f1886ab5` e
+a composição 1× 320×224 tem SHA-256
+`e3d8991ab8852feded06d8e8f3198fa7b0b957826622f6ea81992843be98197f`. Strip analyzer
+rc=0/status=passed, bbox 24–26×17–19 px, sem problemas de borda, matte, ilhas ou
+FX assado; contrato de pixels rc=0/status=`technical_candidate`. A revisão 8× mostra
+continuidade de abertura e fechamento da boca, mas a forma geral ainda é um probe
+esquemático; não há aprovação visual nem integração no runtime.

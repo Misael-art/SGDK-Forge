@@ -314,3 +314,26 @@ O estado canônico continua `technical_temporal_probe`,
 `animation_candidate=false`, `human_gate_ready=false` e `res_promotion=false`.
 O próximo gate causal é reautorizar `down` como pose nativa conectada, depois
 reconstruir o ciclo completo e repetir a medição antes de integrar outro ciclo.
+
+## Continuidade de key poses — down r2 e passing r3
+
+`run_down_r2` foi reautorizado do canvas vazio por
+`data/staging/v11_native_edit/run_down_v11_r2_actions.json`: `native-edit rc=0`,
+44 operações, SHA `1ebb6c716057e4653bb01160bd90024288af149420ef3474ae613bb714d266fe`,
+conteúdo canônico `3578a9cc3d16abb7b0c851b3d74fbb6f1c2ac4d3616dc491bfbab64b442f2b66`.
+Sua medição é uma componente conectada, área 373, bbox 30×17, zero ilhas,
+matte ou resíduos. A revisão 1×/8× lê o squash lateral, mas rosto e clusters
+de pés ainda são esquemáticos; status `technical_candidate_needs_visual_rework`.
+
+`run_passing_r3` também foi reautorizado do canvas vazio por
+`data/staging/v11_native_edit/run_passing_v11_r3_actions.json`: `native-edit rc=0`,
+37 operações, SHA `ddc7683aee729bfb7d0d2c6386d5b2d69b9716603cb03e9d6832ace958f43678`,
+conteúdo canônico `7b773d90f109258c639d25231be0ee9f2828f84066db94dca42e6afcbd0e06a6`.
+Sua medição é uma componente conectada, área 321, bbox 30×15, zero ilhas,
+matte ou resíduos. A pose é um candidato passing lateral, ainda parcial em 1×
+e não aprovado visualmente. Os diagnósticos não simulam revisão humana e mantêm
+`visual_pass=false`, `human_gate_ready=false` e `animation_candidate=false`.
+
+O próximo gate é autorar `up` do canvas vazio, montar um ciclo com as quatro
+poses reautorizadas, validar continuidade e somente então reabrir a integração
+do recurso no runtime.

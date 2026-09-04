@@ -1,0 +1,70 @@
+{
+  "blockers": [
+    "animation_strip_schema_invalid",
+    "state_lineart_role_invalid",
+    "state_lineart_not_approved_for_strip",
+    "lineart_stroke_over_1px",
+    "native_lineart_approval_status_invalid"
+  ],
+  "metrics": {
+    "frame_boundary_policy": "coordinate_scoped",
+    "frame_count": 4,
+    "frame_mask_sha256": [
+      "15e596b70839c6897b8c876155bca06d518b0bc130991909fe84ff1c45733bd6",
+      "d5db5f69af9194728430c31c21cc330bddec53d4f17595e83af14eb543278b66",
+      "cee40033ce1a2d30c1af079ab5c5fbc329807bdc3d33bef7b126bb7302ac93f2",
+      "b5bb2742963ef35f9f7c9ee05cd2d06fc530317a06ae4883e40b82f15106df06"
+    ],
+    "frame_pixel_sha256": [
+      "303da11f50a5a55a29752d1bb1ae3cef22e51e7d0054adf493b6e5f239241ffb",
+      "23973e64c83f20e70d7074f30586b1007fc2ca7bdd044e4a6e16948a6c4abc78",
+      "ca6247fa5c98fd5145fd837e722287842a38607736ece343ca54063810f2c62a",
+      "0c41ab4289d0c730e8cd9e7d0484ec03936a7afedf2f2f7795a16e07ff4fa4ae"
+    ],
+    "horizontal_order": "ok",
+    "integer_replication_factor_by_frame": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "lineart_topology": {
+      "connected_components": 76,
+      "enclosed_negative_space_components": 56,
+      "first_erosion_interior_pixels": 2100,
+      "interior_ratio": 0.80676143,
+      "largest_component_pixels": 692,
+      "max_erosion_depth": 13,
+      "mode": "P",
+      "size": [
+        128,
+        32
+      ],
+      "visible_pixels": 2603
+    },
+    "max_bbox_drift_px": 0,
+    "max_pivot_drift_px": 0,
+    "preview_frame_holds_vblank": [
+      6,
+      6,
+      6,
+      6
+    ],
+    "production_provenance": {
+      "authored_source_sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+      "producer_kind": "assisted_native_translation",
+      "source_kind": "procedural_composed_from_authored"
+    },
+    "schema_errors": [
+      "$.state_lineart_lineage.lineart_role:const",
+      "$.state_lineart_lineage.approval_status:const"
+    ],
+    "strip_path": "out/forward_test_v10_runtime_visual_review/strips/kirby_jump_float.png",
+    "strip_sha256": "cef84e2cfb8f171bfa332883c8c7b324a2dd65fe61abf9cb721ed7ff195bc62d"
+  },
+  "status": "error",
+  "tool_name": "validate_strip",
+  "tool_version": "2.1.0",
+  "warnings": [],
+  "strip_sha256": "cef84e2cfb8f171bfa332883c8c7b324a2dd65fe61abf9cb721ed7ff195bc62d"
+}

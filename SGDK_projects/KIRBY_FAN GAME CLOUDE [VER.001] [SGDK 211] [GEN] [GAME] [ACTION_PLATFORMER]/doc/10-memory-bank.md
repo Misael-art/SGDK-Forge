@@ -300,3 +300,11 @@ folga mensuravel e que o instrumento de cobranca funciona.
 - Tentativa 02 foi materialmente distinta, mas o produtor externo rejeitou a saída com `HTTP 400`, `moderation_blocked`, etapa `output`, categoria `other`; nenhum arquivo ou pixel foi retornado. A rota foi encerrada após os dois ensaios autorizados, sem contornar moderação e sem resgate mecânico.
 - Registros causais: `data/staging/animation_curation_run_keyposes_20260903/native_grid_encoded_attempt_01_record.md`, `native_grid_encoded_attempt_02_record.md` e `native_grid_encoded_route_report.md`. O inventário e a triagem dos ramos independentes estão em `data/staging/visual_inventory_20260903/`.
 - Nenhuma rota autorizada produziu autoria nativa para run, inhale ou jump/float. Os guias high-res permanecem `visual_source`; não há nova strip, lineart final, recurso `res/`, alteração de runtime ou ROM.
+
+## 20. Pacote isolado v10 — revisão visual em runtime — 2026-09-04
+
+- Criado o ramo isolado `codex/kirby-visual-review-runtime-v10` com pacote de revisão visual em runtime; o estado permanece `runtime_visual_review_candidate`, `visual_pass=false`, `human_gate_ready=false` e `res_promotion=false`.
+- A integração usa apenas a autoridade R1 (`591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd`) e fontes/rotas persistidas. A linhagem é `assisted_native_translation`/`mechanical_affine_probe`; nenhuma declaração de autoria nativa foi feita.
+- A ROM de revisão `2f2a7a2ce7c51f35ca8ee8fdf1c9ac2c784cc86150f15440da09bb329e8dcfbd` foi executada na cena dedicada 11 do BlastEm. O bundle foi selado com screenshot, SRAM e VDP dump, mas prova apenas consumo do recurso e snapshot de runtime.
+- Os quatro strips continuam reprovados pelos entrypoints canônicos por lineart diagnóstica, linhagem mecânica, inconsistência de escala/movimento e perfil não canônico. O agregado retorna `status=error`, `maximum_proven_claim=none`; não há promoção para `res/` nem gate humano.
+- Detalhes, comandos, hashes e o próximo gate causal estão em `doc/v10_runtime_visual_review_closeout.md`.

@@ -1,0 +1,28 @@
+{
+  "record_id": "kirby_v10_idle_assisted_translation",
+  "status": "completed",
+  "source_kind": "procedural_composed_from_authored",
+  "producer_kind": "assisted_native_translation",
+  "subject_sha256": "fa9c2d913fe6b9be41bd98a764a7159289eecb92379c25b82efc1df60007687c",
+  "route": "im_lanczos3",
+  "mechanical_operations": {
+    "crop": true,
+    "resize": true,
+    "resampling": "Lanczos",
+    "quantization": true,
+    "palette_remap": true
+  },
+  "source_authority": {
+    "path": "data/source_art/r1/r1-01/concept.png",
+    "sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd"
+  },
+  "output": {
+    "path": "out/forward_test_v10_runtime_visual_review/strips/kirby_idle.png",
+    "sha256": "fa9c2d913fe6b9be41bd98a764a7159289eecb92379c25b82efc1df60007687c"
+  },
+  "lineart_source": {
+    "path": "out/forward_test_v10_runtime_visual_review/strips/kirby_idle.png",
+    "rasterizer": "diagnostic contour not native"
+  },
+  "review_status": "runtime_visual_review_candidate"
+}

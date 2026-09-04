@@ -1,0 +1,437 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-04T03:16:07Z",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "project_name": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "validator_fixture": false,
+  "context_type": "aaa_game",
+  "manifest_status": "present",
+  "visual_symbols": [
+    {
+      "res_symbol": "img_brand_fx_tiles",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_fx_tiles.png",
+      "res_file": "res/resources.res",
+      "res_line": 3,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_gotham_overdrive_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_brand_engine_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_engine_logo.png",
+      "res_file": "res/resources.res",
+      "res_line": 4,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v3_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v4_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_gotham_overdrive_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_brand_author_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_author_logo.png",
+      "res_file": "res/resources.res",
+      "res_line": 5,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_gotham_overdrive_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_brand_project_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_project_logo.png",
+      "res_file": "res/resources.res",
+      "res_line": 6,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v3_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v4_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_gotham_overdrive_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_brand_presents_text",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_presents_text.png",
+      "res_file": "res/resources.res",
+      "res_line": 7,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_gotham_overdrive_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_ph_sky",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/ph_sky.png",
+      "res_file": "res/resources.res",
+      "res_line": 19,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_ph_mount",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/ph_mount.png",
+      "res_file": "res/resources.res",
+      "res_line": 20,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_ph_hills",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/ph_hills.png",
+      "res_file": "res/resources.res",
+      "res_line": 21,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_ph_terrain",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/ph_terrain.png",
+      "res_file": "res/resources.res",
+      "res_line": 22,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_kirby",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/review_kirby.png",
+      "res_file": "res/resources.res",
+      "res_line": 24,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_v10_runtime_visual_review.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_native_idle_elite",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/native_idle_key_pose_elite_v01.png",
+      "res_file": "res/resources.res",
+      "res_line": 26,
+      "primitive_builders": [],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_fg",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/ph_fg.png",
+      "res_file": "res/resources.res",
+      "res_line": 27,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_enemy",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/ph_enemy.png",
+      "res_file": "res/resources.res",
+      "res_line": 28,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_particle",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/ph_particle.png",
+      "res_file": "res/resources.res",
+      "res_line": 29,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_branch",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/ph_branch.png",
+      "res_file": "res/resources.res",
+      "res_line": 30,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_boss_face",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/ph_boss_face.png",
+      "res_file": "res/resources.res",
+      "res_line": 31,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_apple",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/ph_apple.png",
+      "res_file": "res/resources.res",
+      "res_line": 32,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_ph_trunk",
+      "res_kind": "IMAGE",
+      "asset_path": "bgs/ph_trunk.png",
+      "res_file": "res/resources.res",
+      "res_line": 33,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_ph_title_hill",
+      "res_kind": "IMAGE",
+      "asset_path": "bgs/ph_title_hill.png",
+      "res_file": "res/resources.res",
+      "res_line": 38,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_ph_title_stars",
+      "res_kind": "IMAGE",
+      "asset_path": "bgs/ph_title_stars.png",
+      "res_file": "res/resources.res",
+      "res_line": 39,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "img_ph_title_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "gfx/ph_title_logo.png",
+      "res_file": "res/resources.res",
+      "res_line": 40,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
+      ],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_ability_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/review_fire_fx.png",
+      "res_file": "res/resources.res",
+      "res_line": 42,
+      "primitive_builders": [],
+      "provenance": "declared_non_final"
+    },
+    {
+      "res_symbol": "spr_ph_light",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/ph_light.png",
+      "res_file": "res/resources.res",
+      "res_line": 43,
+      "primitive_builders": [],
+      "provenance": "declared_non_final"
+    }
+  ],
+  "primitive_builders": [
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_kirby.py",
+      "primitive_calls": 3,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py",
+      "primitive_calls": 127,
+      "traced_symbols": [
+        "img_ph_hills",
+        "img_ph_mount",
+        "img_ph_sky",
+        "img_ph_terrain",
+        "img_ph_title_hill",
+        "img_ph_title_logo",
+        "img_ph_title_stars",
+        "img_ph_trunk",
+        "spr_ph_apple",
+        "spr_ph_boss_face",
+        "spr_ph_branch",
+        "spr_ph_enemy",
+        "spr_ph_fg",
+        "spr_ph_particle"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_v10_runtime_visual_review.py",
+      "primitive_calls": 1,
+      "traced_symbols": [
+        "spr_ph_kirby"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/analyze_source_semantics.py",
+      "primitive_calls": 14,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/analyze_translation_case.py",
+      "primitive_calls": 8,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_arara_gi_fighter_assets.py",
+      "primitive_calls": 7,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_axe_de_aco_fighter_assets.py",
+      "primitive_calls": 60,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+      "primitive_calls": 22,
+      "traced_symbols": [
+        "img_brand_author_logo",
+        "img_brand_engine_logo",
+        "img_brand_fx_tiles",
+        "img_brand_presents_text",
+        "img_brand_project_logo"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v2_assets.py",
+      "primitive_calls": 32,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v3_assets.py",
+      "primitive_calls": 87,
+      "traced_symbols": [
+        "img_brand_engine_logo",
+        "img_brand_project_logo"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v4_assets.py",
+      "primitive_calls": 45,
+      "traced_symbols": [
+        "img_brand_engine_logo",
+        "img_brand_project_logo"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_bvl_showcase_assets.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_bvl_v2_scene1_assets.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_bvl_v3_scene1_manifest_gate.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_gotham_overdrive_assets.py",
+      "primitive_calls": 212,
+      "traced_symbols": [
+        "img_brand_author_logo",
+        "img_brand_engine_logo",
+        "img_brand_fx_tiles",
+        "img_brand_presents_text",
+        "img_brand_project_logo"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_neon_rain_ninja_slice_assets.py",
+      "primitive_calls": 136,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/convert_axe_premium_sources.py",
+      "primitive_calls": 3,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/export_source_structure.py",
+      "primitive_calls": 14,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_anime_reference_budget_route.py",
+      "primitive_calls": 3,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_guided_anime_route.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_linefirst_anime_route.py",
+      "primitive_calls": 2,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_metal_slug_translation_case.py",
+      "primitive_calls": 2,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_visual_lab_assets.py",
+      "primitive_calls": 110,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/sprite_artifact_audit.py",
+      "primitive_calls": 2,
+      "traced_symbols": []
+    }
+  ],
+  "runtime_authored_tiles": [],
+  "findings": [],
+  "summary": {
+    "visual_symbols": 23,
+    "pixel_bearing_symbols": 23,
+    "declared_entries": 23,
+    "primitive_builders": 24,
+    "symbols_traced_to_primitive_builders": 20,
+    "blocking_findings": 0,
+    "warnings": 0
+  },
+  "blocking": false,
+  "blocking_statuses": []
+}

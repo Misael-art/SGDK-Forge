@@ -1,0 +1,26 @@
+{
+  "action": "jump_float",
+  "source_of_truth": "pixel_measurement",
+  "phases": [
+    {
+      "frame_index": 0,
+      "phase": "crouch",
+      "hold_vblank": 6
+    },
+    {
+      "frame_index": 1,
+      "phase": "launch",
+      "hold_vblank": 6
+    },
+    {
+      "frame_index": 2,
+      "phase": "apex_float",
+      "hold_vblank": 6
+    },
+    {
+      "frame_index": 3,
+      "phase": "landing",
+      "hold_vblank": 6
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-04T03:30:47.323408+00:00",
+  "session_id": "blastem-linux-20260904T033031Z-2046670",
+  "window_id": "16777236",
+  "window_title": "SAMPLE PROGRAM - BlastEm - 60.3 fps",
+  "emulator_exit_code": 1,
+  "target_scene": 11,
+  "requested_region": "ntsc",
+  "blastem_forced_region": "U",
+  "audio_driver": "disk",
+  "audio_path": "out/forward_test_v10_runtime_visual_review/blastem/blastem-linux-20260904T033031Z-2046670/audio.raw",
+  "audio_size_bytes": 5251072,
+  "animation_burst": {
+    "delay_seconds": 1.0,
+    "frame_count": 8,
+    "interval_seconds": 0.12,
+    "gif_path": "out/forward_test_v10_runtime_visual_review/blastem/blastem-linux-20260904T033031Z-2046670/runtime_animation.gif",
+    "gif_size_bytes": 88067,
+    "claim_limit": "Burst proves only the states visible in these captured frames."
+  },
+  "close_note": "BlastEm Flatpak flushes SRAM on X11 window close; this build may report BadWindow after the flush."
+}

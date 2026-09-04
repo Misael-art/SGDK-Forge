@@ -835,3 +835,10 @@
 - Persistidos os registros de tentativa e o relatório de fechamento em `data/staging/animation_curation_run_keyposes_20260903/`.
 - Persistidos inventário gráfico completo e triagem dos ramos independentes em `data/staging/visual_inventory_20260903/`.
 - Sem nova arte final, sem promoção para `res/`, sem alteração de runtime ou ROM e sem mudança em v04–v09.
+
+## 2026-09-04 - pacote v10 de revisão visual em runtime
+
+- Criado pacote isolado de revisão em runtime a partir da autoridade R1 e de rotas visuais persistidas; a produção permanece `assisted_native_translation` e `technical_temporal_probe`.
+- Integrados temporariamente ao consumidor de revisão os strips indexados e a cena dedicada 11; a ROM foi compilada e executada no BlastEm com bundle de evidência selado e vinculado por SHA.
+- A validação canônica reprovou honestamente os quatro strips e o agregado: lineart diagnóstica/procedural, probe mecânico, escala inconsistente no run, perfil não canônico de jump/float e continuidade temporal insuficiente permanecem blockers.
+- Nenhuma declaração `native_reauthored`, `hand_authored_native` ou `hand_drawn_native`, nenhum gate humano e nenhuma promoção para `res/` foram feitos. O closeout completo está em `doc/v10_runtime_visual_review_closeout.md`.

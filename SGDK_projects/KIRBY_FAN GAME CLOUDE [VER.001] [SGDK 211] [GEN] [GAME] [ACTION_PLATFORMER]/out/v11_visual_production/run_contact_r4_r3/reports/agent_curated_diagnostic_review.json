@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "review_type": "agent_curated_diagnostic_review",
+  "reviewer": "agent",
+  "human_review_simulated": false,
+  "action": "run_contact",
+  "candidate_path": "out/v11_native_edit/run_contact_r4_r3/candidate.png",
+  "candidate_sha256": "a8325235742eb020bd259d0867d13b3930d4e40a159a2422f84e8799d20d2fef",
+  "identity_source": {
+    "path": "data/source_art/r1/r1-01/concept.png",
+    "sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd"
+  },
+  "inspection_surfaces": ["1x", "2x", "3x", "8x", "320x224", "background_light", "background_dark", "background_chroma"],
+  "observations": {
+    "readable_action_without_label": "partial",
+    "viewpoint_continuity": "single_right_profile",
+    "silhouette": "coherent_lateral_mass",
+    "face": "eyes_and_cheek_survive_but_are_schematic",
+    "feet": "alternated_supports_visible_but_blocky",
+    "r1_fidelity": "needs_rework",
+    "art_direction": "needs_rework",
+    "lineart": "independent_native_1px_candidate",
+    "mechanical_source": "not_used",
+    "background_or_gutter": "absent"
+  },
+  "decision": "needs_rework",
+  "visual_pass": false,
+  "human_gate_ready": false,
+  "claim_ceiling": "native_candidate",
+  "next_causal_gate": "re-author feet and face clusters on the same native 32x32 action bridge, then author the next key pose only after the contact silhouette is coherent at 1x"
+}

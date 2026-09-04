@@ -6,8 +6,8 @@ Branch: `codex/kirby-full-visual-production-v11`
 ## Estado honesto
 
 ```text
-status=full_visual_runtime_candidate
-claim_ceiling=run_cycle_visual_runtime_candidate
+status=technical_temporal_probe
+claim_ceiling=technical_temporal_probe
 visual_pass=false
 human_gate_ready=false
 final_acceptance=false
@@ -234,3 +234,30 @@ O analyzer passou com bbox de largura 24–26 px e altura 16–17 px, sem proble
 de borda, matte, ilhas ou FX assado; o contrato de pixels também passou. O conjunto
 mostra a sequência temporal e ainda é um probe visual simplificado, não um asset
 final nem uma prova de integração jogável.
+## Atualizacao de continuidade — run_contact r4/r4_r2/r4_r3
+
+As tentativas `run_contact_r3`, `run_contact_r4` e `run_contact_r4_r2` permanecem
+descartadas ou superseded por acabamento/ilhas observadas; nenhuma delas foi usada
+como fonte de pixels para a seguinte. A hipótese atual foi reautorizada do canvas
+vazio pelo action file `data/staging/v11_native_edit/run_contact_v11_r4_actions.json`.
+
+Resultado técnico do reseal `run_contact_r4_r3`:
+
+- `native-edit`: `rc=0`, 49 operações, 32×32, 9 cores visíveis, alpha/index 0,
+  fonte R1 inalterada;
+- candidato: `out/v11_native_edit/run_contact_r4_r3/candidate.png`, SHA-256
+  `a8325235742eb020bd259d0867d13b3930d4e40a159a2422f84e8799d20d2fef`;
+- conteúdo canônico: `1d2736a15248eda82564293766dd0157db370164f6547a0922e456a2f658d8b1`;
+- analyzer: `rc=0`, `status=passed`, bbox `30×20`, área conectada `403`, ilhas
+  pequenas `0`, resíduos externos `0`;
+- lineart independente: `out/v11_native_edit/run_contact_r4_lineart_r3/candidate.png`,
+  SHA-256 `ac1f7c7053cbb4dc2d706918aa6f53d44b5705a2f16983edd8873ec355b55bab`,
+  `validate_lineart_topology.py rc=0`.
+
+Revisão cega diagnóstica do agente em 1×, 2×, 3×, 8×, 320×224 e fundos claro,
+escuro e chroma foi registrada em
+`out/v11_visual_production/run_contact_r4_r3/reports/agent_curated_diagnostic_review.json`.
+O resultado permanece `needs_rework`: o perfil único e os apoios alternados são
+observáveis, mas os pés ainda estão blocados e o rosto é mais esquemático que o
+running do R1. `visual_pass=false`, `human_gate_ready=false` e
+`claim_ceiling=native_candidate` continuam obrigatórios.

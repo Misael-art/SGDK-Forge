@@ -24,8 +24,9 @@ Comandos de rechecagem:
 
 ```text
 cd tools/sgdk_wrapper
+PROJECT_ROOT="../../SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]"
 python3 -m forge_art self-check
-python3 -m forge_art validate ../../SGDK_projects/KIRBY_FAN.../out/v11_native_edit/run_contact_v2/candidate.png --index0-role transparent0
+python3 -m forge_art validate "$PROJECT_ROOT/out/v11_native_edit/run_contact_v2/candidate.png" --index0-role transparent0
 ```
 
 ## Evidência real
@@ -36,6 +37,21 @@ Bundle BlastEm selado:
 - ROM SHA: `55b5759a27e18e0064653a285b80dcef378397c777f63704ed05025faa2e3b8c`
 - cena 11 correta; 600 frames; 60,2 fps; CPU p99 21%; hard gates pass
 - screenshot, SRAM, VDP dump e métricas estão vinculados ao mesmo ROM SHA
+
+## Auditoria de continuidade — 2026-09-04
+
+- Técnico: `candidate.png` e `candidate_8x.png` conferem com os hashes do
+  relatório; o contrato P/4bpp/index-0 transparente passou sem blockers.
+- 1×: a leitura do personagem é baixa fora de zoom; o sprite ocupa pouco do
+  quadro e exige inspeção ampliada para distinguir pose e detalhes faciais.
+- 8×: a silhueta é legível e a paleta é consistente, mas corpo e os dois pés
+  aparecem como componentes separados; confirmar com a referência R1 se essa
+  separação é intencional para o contato ou um artefato de pose.
+- Runtime: BlastEm provou consumo no review scene 11 e passou os hard gates,
+  mas a captura não prova qualidade visual, coesão de animação ou aceitação
+  humana; não há burst de animação neste bundle.
+- Resultado: nenhum defeito técnico do pacote exige correção nesta rodada. O
+  próximo passo continua dependente da revisão humana em 1×/8×.
 
 ## Próxima ação obrigatória
 

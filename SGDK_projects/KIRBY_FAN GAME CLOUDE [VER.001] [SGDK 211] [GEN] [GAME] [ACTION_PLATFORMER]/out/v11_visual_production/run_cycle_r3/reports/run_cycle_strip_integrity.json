@@ -1,0 +1,541 @@
+{
+  "schema": "sprite_strip_integrity_report.v1",
+  "tool": "analyze_sprite_strip_integrity.py",
+  "image_path": "out/v11_visual_production/run_cycle_r3/run_cycle_v11_r3_candidate.png",
+  "mode": "P",
+  "size": [
+    128,
+    32
+  ],
+  "frame_width": 32,
+  "frame_height": 32,
+  "frame_count": 4,
+  "background_rgba": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "background_palette_index": 0,
+  "asset_id": "kirby_run_cycle_v11_r3",
+  "asset_kind": "character",
+  "state_profile": "run",
+  "boundary_contact_policy": "block_on_any_boundary_contact",
+  "palette_domain": "",
+  "palette_domain_report": "",
+  "declared_fx_indices": null,
+  "measurement_level": "measured",
+  "scale_profile_thresholds": {
+    "standing": 1.35,
+    "dash": 1.55,
+    "hop": 1.65,
+    "crouch": 1.7,
+    "grounded": 3.8,
+    "knockdown": 5.0,
+    "getup": 5.0,
+    "throw": 3.2,
+    "fx": 4.0
+  },
+  "status": "passed",
+  "summary": {
+    "edge_problem_frames": 0,
+    "matte_problem_frames": 0,
+    "island_problem_frames": 0,
+    "baked_fx_frames": 0,
+    "bbox_width_min": 29,
+    "bbox_width_max": 30,
+    "bbox_height_min": 17,
+    "bbox_height_max": 22
+  },
+  "findings": [],
+  "frames": [
+    {
+      "frame": 1,
+      "non_background_pixels": 359,
+      "bbox": [
+        1,
+        7,
+        30,
+        28
+      ],
+      "bbox_size": [
+        30,
+        22
+      ],
+      "edge_counts": {
+        "left": 13,
+        "right": 12,
+        "top": 0,
+        "bottom": 4
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 8,
+        "small_island_count": 5,
+        "small_island_pixels": 8,
+        "external_small_island_count": 2,
+        "external_small_island_pixels": 4,
+        "largest_component_area": 261,
+        "non_largest_component_pixels": 98,
+        "external_non_largest_component_pixels": 4,
+        "largest_stray_component_area": 51,
+        "largest_stray_component_box": [
+          19,
+          21,
+          28,
+          27
+        ],
+        "largest_external_stray_component_area": 2,
+        "largest_external_stray_component_box": [
+          25,
+          28,
+          26,
+          28
+        ],
+        "component_boxes": [
+          {
+            "area": 261,
+            "bbox": [
+              1,
+              7,
+              30,
+              19
+            ]
+          },
+          {
+            "area": 51,
+            "bbox": [
+              19,
+              21,
+              28,
+              27
+            ]
+          },
+          {
+            "area": 39,
+            "bbox": [
+              3,
+              21,
+              11,
+              26
+            ]
+          },
+          {
+            "area": 2,
+            "bbox": [
+              29,
+              24,
+              29,
+              25
+            ]
+          },
+          {
+            "area": 2,
+            "bbox": [
+              25,
+              28,
+              26,
+              28
+            ]
+          },
+          {
+            "area": 2,
+            "bbox": [
+              21,
+              28,
+              22,
+              28
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              9,
+              27,
+              9,
+              27
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              5,
+              27,
+              5,
+              27
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 2,
+      "non_background_pixels": 284,
+      "bbox": [
+        1,
+        8,
+        30,
+        25
+      ],
+      "bbox_size": [
+        30,
+        18
+      ],
+      "edge_counts": {
+        "left": 6,
+        "right": 5,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 7,
+        "small_island_count": 4,
+        "small_island_pixels": 8,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 226,
+        "non_largest_component_pixels": 58,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 31,
+        "largest_stray_component_box": [
+          20,
+          22,
+          27,
+          25
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 226,
+            "bbox": [
+              2,
+              8,
+              28,
+              19
+            ]
+          },
+          {
+            "area": 31,
+            "bbox": [
+              20,
+              22,
+              27,
+              25
+            ]
+          },
+          {
+            "area": 19,
+            "bbox": [
+              4,
+              21,
+              10,
+              23
+            ]
+          },
+          {
+            "area": 3,
+            "bbox": [
+              29,
+              15,
+              30,
+              16
+            ]
+          },
+          {
+            "area": 2,
+            "bbox": [
+              2,
+              17,
+              3,
+              17
+            ]
+          },
+          {
+            "area": 2,
+            "bbox": [
+              1,
+              15,
+              1,
+              16
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              28,
+              17,
+              28,
+              17
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 3,
+      "non_background_pixels": 254,
+      "bbox": [
+        2,
+        6,
+        30,
+        22
+      ],
+      "bbox_size": [
+        29,
+        17
+      ],
+      "edge_counts": {
+        "left": 4,
+        "right": 12,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 9,
+        "small_island_count": 7,
+        "small_island_pixels": 29,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 201,
+        "non_largest_component_pixels": 53,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 24,
+        "largest_stray_component_box": [
+          12,
+          19,
+          19,
+          22
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 201,
+            "bbox": [
+              3,
+              6,
+              28,
+              17
+            ]
+          },
+          {
+            "area": 24,
+            "bbox": [
+              12,
+              19,
+              19,
+              22
+            ]
+          },
+          {
+            "area": 9,
+            "bbox": [
+              24,
+              19,
+              30,
+              21
+            ]
+          },
+          {
+            "area": 6,
+            "bbox": [
+              25,
+              18,
+              30,
+              18
+            ]
+          },
+          {
+            "area": 6,
+            "bbox": [
+              13,
+              18,
+              18,
+              18
+            ]
+          },
+          {
+            "area": 3,
+            "bbox": [
+              29,
+              13,
+              30,
+              14
+            ]
+          },
+          {
+            "area": 2,
+            "bbox": [
+              3,
+              15,
+              4,
+              15
+            ]
+          },
+          {
+            "area": 2,
+            "bbox": [
+              2,
+              13,
+              2,
+              14
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              28,
+              15,
+              28,
+              15
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 4,
+      "non_background_pixels": 263,
+      "bbox": [
+        1,
+        5,
+        30,
+        22
+      ],
+      "bbox_size": [
+        30,
+        18
+      ],
+      "edge_counts": {
+        "left": 9,
+        "right": 15,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 11,
+        "small_island_count": 8,
+        "small_island_pixels": 21,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 204,
+        "non_largest_component_pixels": 59,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 19,
+        "largest_stray_component_box": [
+          23,
+          18,
+          30,
+          21
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 204,
+            "bbox": [
+              2,
+              5,
+              29,
+              15
+            ]
+          },
+          {
+            "area": 19,
+            "bbox": [
+              23,
+              18,
+              30,
+              21
+            ]
+          },
+          {
+            "area": 19,
+            "bbox": [
+              3,
+              19,
+              10,
+              22
+            ]
+          },
+          {
+            "area": 6,
+            "bbox": [
+              24,
+              17,
+              29,
+              17
+            ]
+          },
+          {
+            "area": 6,
+            "bbox": [
+              4,
+              18,
+              9,
+              18
+            ]
+          },
+          {
+            "area": 3,
+            "bbox": [
+              30,
+              11,
+              30,
+              13
+            ]
+          },
+          {
+            "area": 2,
+            "bbox": [
+              1,
+              11,
+              1,
+              12
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              28,
+              14,
+              28,
+              14
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              22,
+              6,
+              22,
+              6
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              3,
+              14,
+              3,
+              14
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              2,
+              13,
+              2,
+              13
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

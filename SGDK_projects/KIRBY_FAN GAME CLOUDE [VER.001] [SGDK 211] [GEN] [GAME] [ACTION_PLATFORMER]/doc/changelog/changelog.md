@@ -849,3 +849,13 @@
 - Implementado `forge-art native-edit`: bridge único de ações editoriais explícitas, schema versionado, staging-only, proteção da fonte, log de ações, SHA before/after, PNG P/4bpp e comparação nearest 8×.
 - Produzido o primeiro candidato nativo `run_contact` com 38 ações, R1 como única autoridade e pixel-contract sem blockers. O candidato foi integrado exclusivamente à cena 11 de revisão como `spr_native_run_contact_v11`.
 - A entrega continua sem aprovação visual humana, sem substituição do first playable e sem `ready_for_aaa`.
+
+## 2026-09-04 - V11 marco causal do run cycle
+
+- Endurecido o bridge `forge-art native-edit`: schema condicional por operação, IDs únicos, detecção de no-op, atomicidade, staging-only, proteção de `data/`/`res/` e sidecar de hashes.
+- `tools/sgdk_wrapper/ci/test_native_edit.py` passou 7/7; `python3 -m forge_art self-check` passou 136/136; `run_golden_validate.ps1` passou 8/8 no guard generalista, registrando que nenhum projeto dourado foi encontrado.
+- Produzido `run_cycle` r3 por autoria editorial nativa em 32×32, com quatro poses distintas e R1 como única autoridade. Strip SHA `d09d2627fd4538b0f828023acd2e45bbc19cbcf868877b80de143daed3fb1dea`; GIF SHA `49bcfab264d89506e4edd9d5d7497969117f50ece19b5a558bafd5852ed74e62`.
+- Integrado o strip ao consumidor real da cena 4 somente quando o estado de Kirby é `KIRBY_RUN`; build `rc=0`, ROM SHA `68f59e9c072a1671b723e8677c40c046f552684b93e5c6daf719a4439f972a10`.
+- BlastEm selou `blastem-linux-20260904T094658Z-3181717` com screenshot/SRAM/VDP dump hash-bound, cena 4, 59,6 fps snapshot, CPU 72, 16 sprites/scanline, 26 ativos e zero over-budget. Isso não é claim de performance sustentada nem aprovação visual.
+- O playtest scene 5 foi descartado por ausência de VLAB/VDP dump/runtime metrics. `visual_pass=false`, `human_gate_ready=false`, `final_acceptance=false`, `ready_for_aaa=false` e `res_promotion=false` continuam obrigatórios.
+- Closeout detalhado em `doc/v11_run_cycle_production_closeout.md`; próximos estados visuais são idle, inhale e jump/float.

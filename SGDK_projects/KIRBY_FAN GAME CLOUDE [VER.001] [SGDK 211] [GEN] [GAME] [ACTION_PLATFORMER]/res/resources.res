@@ -26,6 +26,9 @@ SPRITE spr_ph_kirby   "sprites/review_kirby.png" 4 4 BEST
 SPRITE spr_native_idle_elite "sprites/native_idle_key_pose_elite_v01.png" 4 4 BEST
 // v11 native-edit candidate: review-scene integration only; not promoted art.
 SPRITE spr_native_run_contact_v11 "sprites/v11_review/run_contact_v11_candidate.png" 1 1 BEST
+// v11 run key-pose review candidate: used only while Kirby is running in the
+// real stage; idle/air states continue to use the existing review resource.
+SPRITE spr_native_run_cycle_v11 "sprites/v11_review/run_cycle_v11_candidate.png" 4 4 BEST
 SPRITE spr_ph_fg      "sprites/ph_fg.png"    4 2 BEST
 SPRITE spr_ph_enemy    "sprites/ph_enemy.png"    2 2 BEST
 SPRITE spr_ph_particle "sprites/ph_particle.png" 1 1 BEST

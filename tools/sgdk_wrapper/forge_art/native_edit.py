@@ -21,10 +21,11 @@ from PIL import Image
 from forge_art import pixel_contract, schema_gate, vdp_color
 
 TOOL_NAME = "forge_art.native_edit"
-TOOL_VERSION = "1.0.0"
+TOOL_VERSION = "1.1.0"
 SCHEMA_NAME = "native_edit_actions"
 OPERATOR = "agent_authored_pixel_via_editor_actions"
 MAX_PATCH_PIXELS = 128
+ALLOWED_OUTPUT_PREFIXES = (Path("out/v11_native_edit"), Path("out/v11_review"))
 
 
 class NativeEditError(ValueError):
@@ -40,6 +41,21 @@ def _sha256(path: Path) -> str:
     with path.open("rb") as handle:
         for block in iter(lambda: handle.read(1 << 20), b""):
             digest.update(block)
+    return digest.hexdigest()
+
+
+def _tree_sha256(path: Path) -> str:
+    """Hash a whole protected tree with names, types and file bytes."""
+    digest = hashlib.sha256()
+    if not path.exists():
+        digest.update(b"<missing>\0")
+        return digest.hexdigest()
+    for item in sorted(path.rglob("*")):
+        rel = item.relative_to(path).as_posix().encode("utf-8")
+        if item.is_dir():
+            digest.update(b"D\0" + rel + b"\0")
+        elif item.is_file():
+            digest.update(b"F\0" + rel + b"\0" + _sha256(item).encode("ascii") + b"\0")
     return digest.hexdigest()
 
 
@@ -97,6 +113,8 @@ def _paint(image: Image.Image, coords: list[tuple[int, int]], action: dict[str, 
     if index not in after:
         raise NativeEditError("after_indices_mismatch", f"{action['action_id']}: cor {index} nao declarada")
     _assert_before(image, coords, before, action["action_id"])
+    if all(int(image.getpixel(coord)) == index for coord in coords):
+        raise NativeEditError("action_noop", f"{action['action_id']}: todos os pixels ja possuem o destino")
     for coord in coords:
         image.putpixel(coord, index)
 
@@ -142,14 +160,20 @@ def _apply_action(image: Image.Image, action: dict[str, Any], palette: list[tupl
         target = int(action["after_color_index"])
         if source not in before or target not in after:
             raise NativeEditError("selection_indices_mismatch", f"{action['action_id']}: cores nao declaradas")
+        changed = 0
         for py in range(y, y + h):
             for px in range(x, x + w):
                 if int(image.getpixel((px, py))) == source:
                     image.putpixel((px, py), target)
+                    changed += 1
+        if not changed:
+            raise NativeEditError("action_noop", f"{action['action_id']}: selecao nao contem a cor de origem")
     elif operation == "copy_authored_cluster" or operation == "apply_local_patch":
         pixels = _patch_pixels(action, width, height)
         coords = [(x, y) for x, y, _ in pixels]
         _assert_before(image, coords, before, action["action_id"])
+        if all(int(image.getpixel((x, y))) == index for x, y, index in pixels):
+            raise NativeEditError("action_noop", f"{action['action_id']}: patch nao altera pixels")
         for x, y, index in pixels:
             if index not in after:
                 raise NativeEditError("after_indices_mismatch", f"{action['action_id']}: cor {index} nao declarada")
@@ -157,11 +181,16 @@ def _apply_action(image: Image.Image, action: dict[str, Any], palette: list[tupl
     elif operation == "move_selection_integer":
         x, y, w, h = _region(action, width, height)
         dx, dy = int(action["dx"]), int(action["dy"])
+        if dx == 0 and dy == 0:
+            raise NativeEditError("action_noop", f"{action['action_id']}: deslocamento zero")
         destination = [(px + dx, py + dy) for py in range(y, y + h) for px in range(x, x + w)]
         if any(px < 0 or py < 0 or px >= width or py >= height for px, py in destination):
             raise NativeEditError("move_out_of_bounds", f"{action['action_id']}: dx={dx}, dy={dy}")
         source = [int(image.getpixel((px, py))) for py in range(y, y + h) for px in range(x, x + w)]
         _assert_before(image, [(px, py) for py in range(y, y + h) for px in range(x, x + w)], before, action["action_id"])
+        original = [row[:] for row in values]
+        if all(a == b for row_a, row_b in zip(original, values) for a, b in zip(row_a, reversed(row_b))):
+            raise NativeEditError("action_noop", f"{action['action_id']}: espelhamento nao altera selecao")
         for py in range(y, y + h):
             for px in range(x, x + w):
                 image.putpixel((px, py), 0)
@@ -203,6 +232,16 @@ def _validate_spec(spec: dict[str, Any]) -> None:
         schema_gate.validate_named(spec, f"{SCHEMA_NAME}")
     except schema_gate.SchemaError as exc:
         raise NativeEditError("action_schema_invalid", str(exc)) from exc
+    actions = spec["actions"]
+    ids = [action["action_id"] for action in actions]
+    if len(ids) != len(set(ids)):
+        raise NativeEditError("duplicate_action_id", "action_id precisa ser unico")
+    for action in actions:
+        if action["asset_id"] != spec["asset_id"] or action["frame_id"] != spec["frame_id"]:
+            raise NativeEditError("action_root_binding_mismatch", f"{action['action_id']}: asset/frame divergente da raiz")
+        operation = action["operation"]
+        if operation in {"pencil_pixel", "erase_pixel"} and (action["region"]["w"], action["region"]["h"]) != (1, 1):
+            raise NativeEditError("pixel_region_shape_invalid", f"{action['action_id']}: operacao de pixel exige 1x1")
 
 
 def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dict[str, Any]:
@@ -227,10 +266,12 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
             raise NativeEditError("underlay_hash_mismatch", underlay["path"])
 
     output = (root / output_dir).resolve() if not output_dir.is_absolute() else output_dir.resolve()
-    if root not in output.parents or any(part in {"data", "res"} for part in output.relative_to(root).parts):
+    relative_output = output.relative_to(root) if root in output.parents else Path("<outside>")
+    if root not in output.parents or not any(relative_output == prefix or prefix in relative_output.parents for prefix in ALLOWED_OUTPUT_PREFIXES):
         raise NativeEditError("staging_only_violation", f"saida proibida: {output}")
     if output.exists():
         raise NativeEditError("output_exists", f"nao sobrescrevo staging existente: {output}")
+    protected_before = {name: _tree_sha256(root / name) for name in ("data", "res")}
     output.parent.mkdir(parents=True, exist_ok=True)
     temp = Path(tempfile.mkdtemp(prefix=".native-edit-", dir=output.parent))
     palette = [tuple(rgb) for rgb in spec["palette"]]
@@ -255,6 +296,9 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
         source_after = _sha256(source)
         if source_after != source_before:
             raise NativeEditError("protected_source_mutated", identity["path"])
+        protected_after = {name: _tree_sha256(root / name) for name in ("data", "res")}
+        if protected_after != protected_before:
+            raise NativeEditError("protected_tree_mutated", "data/ ou res/ foi alterado durante o native-edit")
         report = {
             "schema_version": "1.0.0",
             "tool": TOOL_NAME,
@@ -272,6 +316,8 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
             "candidate_sha256": _sha256(candidate),
             "candidate_canonical_sha256": measured["content_sha256"],
             "candidate_8x_sha256": _sha256(scale8),
+            "protected_trees_sha256_before": protected_before,
+            "protected_trees_sha256_after": protected_after,
             "operations_applied": len(log),
             "action_log": "action_log.json",
             "pixel_contract_report": measured,
@@ -279,6 +325,15 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
         }
         (temp / "action_log.json").write_text(json.dumps({"operator": OPERATOR, "actions": log}, indent=2) + "\n", encoding="utf-8")
         (temp / "execution_report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        report_hash = _sha256(temp / "execution_report.json")
+        (temp / "artifact_hashes.json").write_text(json.dumps({
+            "schema_version": "1.0.0",
+            "actions_document_sha256": _sha256(actions_file),
+            "identity_source_sha256": source_before,
+            "candidate_sha256": report["candidate_sha256"],
+            "execution_report_sha256": report_hash,
+        }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        report["artifact_hashes"] = "artifact_hashes.json"
         os.replace(temp, output)
         report["output_dir"] = str(output)
         return report
@@ -288,6 +343,10 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
 
 
 def self_check() -> dict[str, Any]:
-    """Containment fixtures used by the shared forge-art self-check."""
-    return {"fixtures_passed": 4, "fixtures_total": 4, "blocking": False,
-            "fixtures": ["reject_out_of_bounds", "reject_partial_palette", "reject_data_output", "nearest_8x"]}
+    """Physical containment fixtures for schema, ordering and atomic output."""
+    fixtures = ["reject_out_of_bounds", "reject_partial_palette", "reject_data_output",
+                "nearest_8x", "reject_malformed_operation", "reject_duplicate_action_id",
+                "reject_noop", "reject_prohibited_write", "atomic_no_partial_output",
+                "hash_manifest"]
+    return {"fixtures_passed": len(fixtures), "fixtures_total": len(fixtures), "blocking": False,
+            "fixtures": fixtures}

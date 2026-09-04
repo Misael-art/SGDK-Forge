@@ -20,6 +20,13 @@
       "symptom": {"type": "string"}, "visual_reference": {"type": "string"}, "before_indices": {"type": "array", "items": {"type": "integer"}}, "after_indices": {"type": "array", "items": {"type": "integer"}}, "reason": {"type": "string"}, "operator": {"const": "agent_authored_pixel_via_editor_actions"},
       "color_index": {"type": "integer"}, "before_color_index": {"type": "integer"}, "after_color_index": {"type": "integer"}, "dx": {"type": "integer"}, "dy": {"type": "integer"}, "axis": {"type": "string"}, "allow_mirror": {"type": "boolean"}, "slot": {"type": "integer"}, "rgb": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "integer"}},
       "pixels": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["x", "y", "index"], "properties": {"x": {"type": "integer"}, "y": {"type": "integer"}, "index": {"type": "integer"}}}}
-    }} }
+    }, "allOf": [
+      {"if": {"properties": {"operation": {"enum": ["pencil_pixel", "pencil_run"]}}}, "then": {"required": ["color_index"]}},
+      {"if": {"properties": {"operation": {"const": "replace_color_in_selection"}}}, "then": {"required": ["before_color_index", "after_color_index"]}},
+      {"if": {"properties": {"operation": {"const": "move_selection_integer"}}}, "then": {"required": ["dx", "dy"]}},
+      {"if": {"properties": {"operation": {"const": "mirror_selection"}}}, "then": {"required": ["axis", "allow_mirror"]}},
+      {"if": {"properties": {"operation": {"const": "palette_slot_assignment"}}}, "then": {"required": ["slot", "rgb"]}},
+      {"if": {"properties": {"operation": {"enum": ["copy_authored_cluster", "apply_local_patch"]}}}, "then": {"required": ["pixels"]}}
+    ]} }
   }
 }

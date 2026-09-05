@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_model_sheet_to_lineart_fidelity_v03",
+  "generated_at": "2026-07-08",
+  "asset_id": "taina",
+  "candidate": {
+    "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v03.png",
+    "sha256": "0b9cfe892a22b06d8e4ff79b0d4c7d159fe4cf67cc4ef492ccfea08aa2dcfe40",
+    "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v03.png",
+    "review_8x_sha256": "34f5cebeb04f86682072fce24704cbdd46917b1b719f359d88015f355017cf52",
+    "comparison_board_8x": "doc/art/characters/taina/review/taina_lineart_v03_source_basic_v02_compare_8x_v01.png",
+    "comparison_board_8x_sha256": "ac3564b13ae42811f18fdb9e4ae45de0c13befa529888500dacbf1df2687c83d",
+    "asset_kind": "lineart_blocking_1px_candidate"
+  },
+  "technical_check": {
+    "technical_pass": true,
+    "png_indexed": true,
+    "png_mode": "P",
+    "dimensions_px": {
+      "w": 192,
+      "h": 64
+    },
+    "dimensions_multiple_of_8": true,
+    "cell_px": {
+      "w": 48,
+      "h": 64
+    },
+    "view_count": 4,
+    "used_indices": [
+      0,
+      1
+    ],
+    "index0_is_pipeline_magenta": true,
+    "visible_colors_on_9bit_grid_excluding_index0": true,
+    "visible_colors_max_15": true,
+    "has_alpha_channel": false
+  },
+  "cell_metrics": [
+    {
+      "cell": 0,
+      "bbox_xywh": [
+        8,
+        7,
+        35,
+        50
+      ],
+      "visible_pixels": 358
+    },
+    {
+      "cell": 1,
+      "bbox_xywh": [
+        8,
+        7,
+        37,
+        50
+      ],
+      "visible_pixels": 367
+    },
+    {
+      "cell": 2,
+      "bbox_xywh": [
+        11,
+        7,
+        32,
+        50
+      ],
+      "visible_pixels": 288
+    },
+    {
+      "cell": 3,
+      "bbox_xywh": [
+        7,
+        7,
+        38,
+        50
+      ],
+      "visible_pixels": 348
+    }
+  ],
+  "delta_from_v02": {
+    "improvements": [
+      "larger silhouettes and stronger pose coverage within the 48x64 cells",
+      "hair and sash hooks are more explicit than v02",
+      "source/basic/v02 comparison board was produced before any color pass"
+    ],
+    "remaining_failures": [
+      "head reads too smooth and oversized instead of preserving the irregular tied curl mass",
+      "face collapses into a blank dark mass, losing brow, nose and compact jaw attitude",
+      "guard and arms still read as generic mirrored symbols rather than TAINA's diagonal fighting stance",
+      "lineart lacks the source-specific nuance needed before color blocking"
+    ]
+  },
+  "must_preserve_summary": {
+    "curly_hair_mass": "partial_but_too_smooth",
+    "wedge_face": "failed_blank_mass",
+    "orange_top_dark_trousers": "partial_pending_color",
+    "teal_wraps_and_sash": "partial",
+    "muay_thai_guard": "failed_generic_arm_symbol",
+    "scale_3_5_heads_48px": "partial_but_head_weight_wrong"
+  },
+  "visual_findings": {
+    "visual_pass": false,
+    "status": "failed_fidelity",
+    "primary_failure": "identity_lost_in_symbolic_redraw",
+    "secondary_failures": [
+      "face_or_eye_readability_lost",
+      "hair_mass_simplified_to_helmet",
+      "guard_pose_not_specific_enough",
+      "authorial_line_signature_not_recovered"
+    ]
+  },
+  "decision": {
+    "status": "rejected_as_clean_native_source",
+    "accepted_use": "negative_evidence_and_grid_reference_only",
+    "ready_for_color_blocking": false,
+    "ready_for_key_pose_generation": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "do not polish v03 into a colored sheet",
+      "return to approved source/model-sheet visual DNA instead of using v03 as source",
+      "prioritize head, face wedge, hair hooks and diagonal guard silhouette before body detailing"
+    ]
+  },
+  "blocking_statuses": [
+    "identity_lost_in_symbolic_redraw",
+    "face_or_eye_readability_lost",
+    "clean_native_lineart_visual_pass_pending",
+    "no_res_promotion_allowed"
+  ]
+}

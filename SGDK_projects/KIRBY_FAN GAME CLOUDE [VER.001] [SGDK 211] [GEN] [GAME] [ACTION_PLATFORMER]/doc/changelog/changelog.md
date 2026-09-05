@@ -859,3 +859,20 @@
 - BlastEm selou `blastem-linux-20260904T094658Z-3181717` com screenshot/SRAM/VDP dump hash-bound, cena 4, 59,6 fps snapshot, CPU 72, 16 sprites/scanline, 26 ativos e zero over-budget. Isso não é claim de performance sustentada nem aprovação visual.
 - O playtest scene 5 foi descartado por ausência de VLAB/VDP dump/runtime metrics. `visual_pass=false`, `human_gate_ready=false`, `final_acceptance=false`, `ready_for_aaa=false` e `res_promotion=false` continuam obrigatórios.
 - Closeout detalhado em `doc/v11_run_cycle_production_closeout.md`; próximos estados visuais são idle, inhale e jump/float.
+## 2026-09-04 — congelamento da producao visual como estudo de caso
+
+- Produção de novos pixels encerrada sem alterar sprites, `res/`, runtime ou ROM.
+- Criado `doc/art/visual_workset_manifest.json` com
+  `state=frozen_case_study`, `production_sources=[]` e raízes/roles proibidos.
+- R1 foi preservada somente como `quality_reference_only`; V04-v11 e staging
+  permanecem evidência histórica, não fonte de geração.
+- Lições positivas e negativas consolidadas em
+  `doc/art/case_studies/kirby_visual_production_v11.md`.
+- `spr_native_run_contact_v11` e `spr_native_run_cycle_v11` foram corrigidos no
+  manifesto para `procedural_primitive` + `visual_lab_control`. O rótulo antigo
+  de autoria nativa foi invalidado; os PNGs permaneceram byte a byte em `res/`
+  apenas como consumidores históricos do estudo.
+- Auditoria de proveniência após a correção: `verdict=OK`, 25/25 símbolos
+  declarados. Esse resultado prova honestidade de origem, não qualidade final.
+- Teto mantido: `technical_runtime_creative_blocked`; sem `visual_pass`,
+  promoção ou claim AAA.

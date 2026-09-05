@@ -12,7 +12,7 @@ static void audioStopPsg(void)
     PSG_setEnvelope(2, PSG_ENVELOPE_MIN);
 }
 
-static void audioPulsePsg(u8 channel, u16 tone, u8 envelope, u8 frames)
+void AUDIO_pulsePsg(u8 channel, u16 tone, u8 envelope, u8 frames)
 {
     PSG_setFrequency(channel, tone);
     PSG_setEnvelope(channel, envelope);
@@ -41,11 +41,11 @@ void AUDIO_playCue(AudioCue cue)
     {
         case AUDIO_CUE_MENU:
             AUDIO_stopAll();
-            audioPulsePsg(0, 440, 5, 5);
+            AUDIO_pulsePsg(0, 440, 5, 5);
             break;
         case AUDIO_CUE_JUMP:
             AUDIO_stopAll();
-            audioPulsePsg(0, 720, 3, 6);
+            AUDIO_pulsePsg(0, 720, 3, 6);
             break;
         case AUDIO_CUE_LAND:
             AUDIO_stopAll();
@@ -55,31 +55,31 @@ void AUDIO_playCue(AudioCue cue)
             break;
         case AUDIO_CUE_STRIKE:
             AUDIO_stopAll();
-            audioPulsePsg(1, 180, 2, 8);
+            AUDIO_pulsePsg(1, 180, 2, 8);
             break;
         case AUDIO_CUE_PAUSE:
             AUDIO_stopAll();
-            audioPulsePsg(0, 320, 4, 4);
+            AUDIO_pulsePsg(0, 320, 4, 4);
             break;
         case AUDIO_CUE_BRAND_ENGINE_HIT:
             XGM2_playPCMEx(brand_bell_forge, sizeof(brand_bell_forge), SOUND_PCM_CH2, 12, FALSE, FALSE);
-            audioPulsePsg(0, 260, 2, 14);
+            AUDIO_pulsePsg(0, 260, 2, 14);
             break;
         case AUDIO_CUE_BRAND_AUTHOR_CLICK:
             XGM2_playPCMEx(brand_typewriter_click, sizeof(brand_typewriter_click), SOUND_PCM_CH3, 4, TRUE, FALSE);
-            audioPulsePsg(1, 920, 7, 2);
+            AUDIO_pulsePsg(1, 920, 7, 2);
             break;
         case AUDIO_CUE_BRAND_AUTHOR_BELL:
             XGM2_playPCMEx(brand_bell_terminal, sizeof(brand_bell_terminal), SOUND_PCM_CH2, 10, FALSE, FALSE);
-            audioPulsePsg(0, 700, 5, 10);
+            AUDIO_pulsePsg(0, 700, 5, 10);
             break;
         case AUDIO_CUE_BRAND_PROJECT_WHOOSH:
             XGM2_playPCMEx(brand_stamp_whoosh, sizeof(brand_stamp_whoosh), SOUND_PCM_CH2, 11, FALSE, FALSE);
-            audioPulsePsg(0, 190, 2, 12);
+            AUDIO_pulsePsg(0, 190, 2, 12);
             break;
         case AUDIO_CUE_BRAND_PROJECT_TAIL:
             XGM2_playPCMEx(brand_reverb_tail, sizeof(brand_reverb_tail), SOUND_PCM_CH3, 8, FALSE, FALSE);
-            audioPulsePsg(2, 1160, 4, 8);
+            AUDIO_pulsePsg(2, 1160, 4, 8);
             break;
         default:
             sCueFrames = 0;

@@ -3,6 +3,7 @@
 #include "core/app.h"
 #include "game_vars.h"
 #include "resources.h"
+#include "system/audio.h"
 #include "system/input.h"
 
 #define BRAND_PHASE_ENGINE 0
@@ -32,17 +33,22 @@ static const u16 BRAND_PROJECT_FLASH[5] = {
     0x0E40, 0x0E80, 0x0EA0, 0x0EE0, 0x0EEE
 };
 
-static void brandStopPsg(void)
+static void brandStopAudio(void)
 {
-    PSG_setEnvelope(0, PSG_ENVELOPE_MIN);
-    PSG_setEnvelope(1, PSG_ENVELOPE_MIN);
-    PSG_setEnvelope(2, PSG_ENVELOPE_MIN);
+    AUDIO_stopAll();
 }
 
-static void brandPulsePsg(u8 channel, u16 tone, u8 envelope)
+static void brandPulseAudio(u8 channel, u16 tone, u8 envelope)
 {
-    PSG_setFrequency(channel, tone);
-    PSG_setEnvelope(channel, envelope);
+    (void)tone;
+    (void)envelope;
+    if (channel == 2) {
+        AUDIO_playCue(AUDIO_CUE_STRIKE);
+    } else if (channel == 1) {
+        AUDIO_playCue(AUDIO_CUE_PICKUP);
+    } else {
+        AUDIO_playCue(AUDIO_CUE_MENU);
+    }
 }
 
 static void brandResetScroll(void)
@@ -111,8 +117,8 @@ static void brandEnterEngine(void)
         FALSE
     );
     VDP_setVerticalScroll(BG_A, 42);
-    brandPulsePsg(0, 260, 2);
-    brandPulsePsg(1, 520, 6);
+    brandPulseAudio(0, 260, 2);
+    brandPulseAudio(1, 520, 6);
 }
 
 static void brandUpdateEngine(u16 frame)
@@ -131,11 +137,11 @@ static void brandUpdateEngine(u16 frame)
     }
 
     if (frame == 18) {
-        brandPulsePsg(0, 210, 1);
+        brandPulseAudio(0, 210, 1);
     } else if (frame == 46) {
-        brandPulsePsg(1, 780, 4);
+        brandPulseAudio(1, 780, 4);
     } else if (frame == 76) {
-        brandStopPsg();
+        brandStopAudio();
     }
 }
 
@@ -154,7 +160,7 @@ static void brandEnterAuthor(void)
         FALSE
     );
     VDP_setHorizontalScroll(BG_A, 0);
-    brandPulsePsg(0, 640, 4);
+    brandPulseAudio(0, 640, 4);
 }
 
 static void brandUpdateAuthor(u16 frame)
@@ -175,11 +181,11 @@ static void brandUpdateAuthor(u16 frame)
     }
 
     if (frame == 34) {
-        brandPulsePsg(1, 920, 5);
+        brandPulseAudio(1, 920, 5);
     } else if (frame == 68) {
-        brandPulsePsg(0, 700, 6);
+        brandPulseAudio(0, 700, 6);
     } else if (frame == 100) {
-        brandStopPsg();
+        brandStopAudio();
     }
 }
 
@@ -215,8 +221,8 @@ static void brandEnterProject(void)
         FALSE
     );
     VDP_setScrollingMode(HSCROLL_LINE, VSCROLL_PLANE);
-    brandPulsePsg(0, 190, 1);
-    brandPulsePsg(1, 380, 5);
+    brandPulseAudio(0, 190, 1);
+    brandPulseAudio(1, 380, 5);
 }
 
 static void brandUpdateProject(u16 frame)
@@ -249,11 +255,11 @@ static void brandUpdateProject(u16 frame)
     }
 
     if (frame == 28) {
-        brandPulsePsg(2, 1160, 4);
+        brandPulseAudio(2, 1160, 4);
     } else if (frame == 62) {
-        brandPulsePsg(0, 150, 1);
+        brandPulseAudio(0, 150, 1);
     } else if (frame == 112) {
-        brandStopPsg();
+        brandStopAudio();
     }
 }
 
@@ -276,7 +282,7 @@ static void brandSetPhase(u8 phase)
 
 static void brandExitToBoot(void)
 {
-    brandStopPsg();
+    brandStopAudio();
     brandResetScroll();
     APP_changeScene(APP_SCENE_BOOT);
 }
@@ -285,7 +291,7 @@ void SCENE_brandingEnter(void)
 {
     gApp.showDebugHud = FALSE;
     sBrandPhase = 0xFF;
-    brandStopPsg();
+    brandStopAudio();
     brandResetScreen();
 }
 
@@ -318,4 +324,3 @@ void SCENE_brandingUpdate(void)
 
     brandExitToBoot();
 }
-

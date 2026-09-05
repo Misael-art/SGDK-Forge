@@ -22,8 +22,8 @@ data/ (bruto)
   │      └─ Corrigir transparencia (#FF00FF como index 0)
   │
   ├─ 3. CONVERSAO
-  │      ├─ ROTA GUI: photo2sgdk.exe  (controle visual preciso)
-  │      └─ ROTA CLI: batch_resize_index.py  (lote automatizado)
+  │      ├─ ROTA A: technical_conversion  -> technical_candidate
+  │      └─ ROTA B: assisted_native_translation -> exige humano
   │
   ├─ 4. VALIDACAO
   │      ├─ art_diagnostic.py (verificar resultado)
@@ -39,9 +39,13 @@ data/ (bruto)
 | Ferramenta | Caminho | Uso |
 |------------|---------|-----|
 | `photo2sgdk.exe` | `tools/photo2sgdk/run.bat` | GUI interativa — melhor para ajuste fino de paleta |
-| `batch_resize_index.py` | `tools/image-tools/` | CLI lote — melhor para muitos assets com spec definido |
+| ~~`batch_resize_index.py`~~ | `tools/image-tools/` | **DEPRECADO (forge-art P0.2)** — usava LANCZOS, salvava RGBA sobre a fonte e compunha BMP sobre branco. Hoje falha fechado explicando. |
 | `build_*.py` curados | `tools/image-tools/` | Builders de cena/showcase — melhor para casos com source pack, pose aprovada, `virtual_proof` e `case_manifest` ja definidos |
-| `fix_png_transparency_final.py` | `tools/image-tools/` | Corrigir transparencia em PNGs existentes |
+| ~~`fix_png_transparency_final.py`~~ | `tools/image-tools/` | **DEPRECADO (forge-art P0.2)** — compunha sobre preto e removia o marcador `transparency`; o nome dizia o oposto do que o codigo fazia. Hoje falha fechado explicando. |
+| `forge_art/vdp_color.py` | `tools/sgdk_wrapper/` | **Oraculo unico de cor.** ResComp e macro C do SGDK 2.11 divergem em 112 de 256 valores por canal; esta lib e a autoridade. `--self-check` positivo e negativo. |
+| `forge_art/pixel_contract.py` | `tools/sgdk_wrapper/` | **Contrato pixel-strict executavel.** Le PLTE no nivel de chunk, mede index 0, grade 9-bit, bit depth e SHA-256 canonico. Nunca escreve. |
+| `forge_art/gimp_batch.py` | `tools/sgdk_wrapper/` | Preflight opcional GIMP 3 headless. Nao e oraculo de cor, nao aceita script arbitrario e ainda nao possui operacao de producao registrada. |
+| `normalize_indexed_sgdk_png.py` | `tools/image-tools/` | Normaliza PNG **ja indexado**: compacta PLTE e fixa o papel do index 0. Nao converte, nao quantiza. |
 | `mergePaletteSGDK.py` | `tools/paletteMergerForSGDK-main/` | Combinar paletas de multiplos assets |
 | `ImageMagick` | `tools/ImageMagick/` | Manipulacao geral de imagens |
 | `autofix_sprite_res.ps1` | `tools/sgdk_wrapper/` | Corrigir .res automaticamente |
@@ -56,14 +60,30 @@ Escolha a ferramenta pela natureza do caso, nao por habito:
 
 | Caso | Rota correta |
 |------|--------------|
-| lote generico de PNGs em `/data` | `batch_resize_index.py` |
+| lote generico de PNGs **ja indexados** em `/data` | `normalize_indexed_sgdk_png.py` + `forge_art/pixel_contract.py` |
+| fonte nao indexada que precisa virar candidata tecnica | `forge-art convert` (rota `technical_conversion`) — saida nasce `technical_candidate` |
+| fonte high-res de personagem, boss ou cenario de identidade | **nenhuma rota automatica.** `assisted_native_translation` (`art-translation-to-vdp`): construcao em canvas nativo, paleta por material, aprovacao humana registrada |
+| concept/high-res com destino a sprite, sheet, objeto ou FX autoral | `native-sprite-production`; `forge-art convert` e apenas controle/probe `technical_candidate_non_promotable` ate existir autoria nativa |
 | sprite heroico isolado com ajuste fino de paleta | `photo2sgdk.exe` |
 | cena ou showcase com pack multi-camada, pose aprovada, `virtual_proof` ou `case_manifest` | builder dedicado em `tools/image-tools/build_*.py` |
+| filtro deterministico exclusivo de GIMP/GEGL | GIMP batch somente depois de preflight e registro estatico da operacao; nunca GUI automatizada |
 
 Regra critica:
 
+- `forge-art convert` nao e produtor semantico nem autor de sprite final; ele
+  mede uma hipotese de conversao, preserva lineage e escreve em staging
+- uma saida convertida pode ser adotada depois como
+  `assisted_native_translation`, mas apenas fora do job, pelo record de sprite,
+  com fidelidade, leitura 1x, escala, budget e humano aprovados
+- resize/quantizacao usado para comparar escalas deve ser marcado
+  `mechanical_scale_probe`; seu hash nao pode aparecer como candidato promovido
+- escala `locked` nunca e alterada pela ferramenta; escala `provisional` exige
+  comparacao e budget antes de uma decisao humana
 - se o projeto ja tiver `doc/source_cases/**/case_manifest.json` ou um builder dedicado em `tools/image-tools`, reutilize essa rota antes de iniciar OCR, thumbnailing, crop manual ou tentativa de descobrir bbox no escuro
 - se a fonte veio de IA/high-res e pretende virar pixel art nativa, bloquear qualquer downscale que nao seja nearest-neighbor ou redesenho manual em grid nativo
+- se uma operacao deterministica estiver sendo feita por screenshots ou
+  ponteiro, classificar `interaction_channel_mismatch` e voltar para
+  CLI/headless; GIMP GUI fica restrito a intervencao humana
 - OCR nao e ferramenta de selecao de pose quando ja existir `animation_manifest` ou bbox curado em builder do projeto
 - warning visual em asset promovido volta para o builder/spec do asset; nao compense no runtime sem registrar tradeoff
 - antes de declarar promocao concluida, gere ou atualize manifesto do builder e rode `res_graph_audit.ps1`, `validate_resources.ps1` e `freshness_audit.ps1`
@@ -77,13 +97,15 @@ Exemplo canonico:
 - `BENCHMARK_VISUAL_LAB_V2` Cena 1 usa `python tools/image-tools/build_bvl_v2_scene1_assets.py`
 - esse builder ja conhece o pack de floresta vertical, a pose `stand` do Mega Man, o `virtual_proof` e os manifests da cena
 
-## Curadoria 2026-06-03 - Celestial Chase: source_baked_pixel_art_standard
+## Curadoria - source_baked_pixel_art_standard
 
-Licao extraida do projeto `Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]`: usuario entregou source art autoral **ja pixel-art** (PNG com pixels alinhados em 8x8, paleta quantizada, index 0 marcado, frames separados). O pipeline de downscaling desta skill NAO foi aplicado porque a fonte ja nasce pixel.
+Regra generalizada: quando a fonte autoral **ja e pixel-art** (PNG com pixels
+alinhados, paleta quantizada, index 0 marcado e frames separados), o pipeline
+de downscaling NAO deve ser aplicado porque a fonte ja nasce pixel.
 
 ### Quando NAO usar este pipeline
 
-Use este pipeline (`photo2sgdk`, `batch_resize_index.py`, `tile_dedup_hvflip_hashing`, `palette_remastering_slot_audit`, `arcade_tile_redraw_substitution`) APENAS quando a fonte for:
+Use este pipeline (`photo2sgdk`, `forge-art convert`, `tile_dedup_hvflip_hashing`, `palette_remastering_slot_audit`, `arcade_tile_redraw_substitution`) APENAS quando a fonte for:
 
 - foto, render 3D, concept art em alta resolucao, mockup AI, crop high-res.
 - pixel-art em resolucao maior que 8x8 (ex.: 16x16 fonte querendo virar 8x8 nativo).
@@ -94,7 +116,7 @@ Use este pipeline (`photo2sgdk`, `batch_resize_index.py`, `tile_dedup_hvflip_has
 Quando a fonte JA e pixel-art (8x8-aligned, paleta quantizada, frames separados):
 
 - NAO rodar `photo2sgdk`.
-- NAO rodar `batch_resize_index.py` (downscaling desnecessario e potencialmente destrutivo).
+- NAO rodar downscale de nenhum tipo (desnecessario e destrutivo em fonte ja pixel).
 - NAO rodar `tile_dedup_hvflip_hashing` alem de checagem final.
 - NAO aplicar `palette_remastering_slot_audit` alem de validacao.
 - Em vez disso, produzir os 3 specs canonicos:
@@ -109,7 +131,7 @@ Quando a fonte JA e pixel-art (8x8-aligned, paleta quantizada, frames separados)
 
 Sintomas de violacao:
 
-- PNG fonte ja 8x8-aligned mas ainda passa por `batch_resize_index.py` com `--scale 1.0` "so para confirmar".
+- PNG fonte ja 8x8-aligned mas ainda passa por reamostragem com escala 1.0 "so para confirmar".
 - `tile_dedup_hvflip_hashing` roda em sprite sheet ja planejado para tile-by-tile.
 - `palette_remastering_slot_audit` tenta "harmonizar" paleta ja canonica do autor.
 - `motion_gif` ausente mesmo com `animation_strip` presente.
@@ -271,73 +293,61 @@ call tools\photo2sgdk\run.bat
 
 ---
 
-## ROTA CLI: batch_resize_index.py
+## ROTA CLI (substituida pelo forge-art)
 
-**Quando usar:** muitos assets (5+), tiles de cenario, lotes de sprites secundarios.
+A rota `batch_resize_index.py` + `fix_png_transparency_final.py` foi **removida
+do caminho canonico** pelo P0.2 do plano forge-art. Os dois scripts hoje falham
+fechado e explicam a proxima acao.
 
-### Passo 1 — Criar spec JSON
+Motivo medido no proprio codigo anterior (git preserva a versao):
 
-```json
-{
-  "production": [
-    {
-      "name": "player_idle",
-      "png_rel": "production/player_idle.png",
-      "w": 32,
-      "h": 32,
-      "bmp_rel": "indexed/player_idle.bmp",
-      "bmp_w": 32,
-      "bmp_h": 32,
-      "transparency": true
-    },
-    {
-      "name": "enemy_walk",
-      "png_rel": "production/enemy_walk.png",
-      "w": 24,
-      "h": 32,
-      "bmp_rel": "indexed/enemy_walk.bmp",
-      "bmp_w": 24,
-      "bmp_h": 32,
-      "transparency": true
-    }
-  ],
-  "boards": [
-    { "rel": "boards/stage1_bg.png", "w": 320, "h": 224 }
-  ]
-}
-```
+- `batch_resize_index.py` usava `Image.Resampling.LANCZOS` no caminho de
+  producao, salvava **RGBA por cima do arquivo de entrada** quando
+  `transparency: true`, e compunha o BMP sobre branco;
+- `fix_png_transparency_final.py` compunha sobre **preto** usando o alpha como
+  mascara e entao fazia `info.pop("transparency")` — a ferramenta chamada de
+  "fix de transparencia" removia a transparencia por construcao.
 
-**Regras para o spec:**
-- `w` e `h` DEVEM ser multiplos de 8
-- `transparency: true` para sprites (index 0 sera transparente)
-- `transparency: false` para backgrounds e tilesets sem transparencia
-- `bmp_w`/`bmp_h` iguais a `w`/`h` na maioria dos casos
-
-### Passo 2 — Organizar arquivos
-
-```
-data/
-  production/
-    player_idle.png    ← assets brutos aqui
-    enemy_walk.png
-  boards/
-    stage1_bg.png
-  indexed/              ← sera criado automaticamente
-```
-
-### Passo 3 — Executar conversao
+Rota atual:
 
 ```bash
-python tools/image-tools/batch_resize_index.py \
-  --spec tools/image-tools/specs/<projeto>_spec.json \
-  --batch-root "<caminho_do_projeto>/data"
+# 1. cor: oraculo unico (ResComp e o default, porque e ele que escreve a ROM)
+python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert 0x22,0x44,0x66
+
+# 2. PNG JA indexado: normalizar PLTE e papel do index 0
+python3 tools/image-tools/normalize_indexed_sgdk_png.py transparent0 <arquivo.png>
+
+# 3. medir o candidato contra o contrato pixel-strict (nao escreve nada)
+python3 tools/sgdk_wrapper/forge_art/pixel_contract.py \
+  --validate <arquivo.png> --index0-role transparent0
 ```
 
-### Passo 4 — Corrigir transparencia se necessario
+O status maximo que qualquer uma dessas rotas produz e `technical_candidate`.
+`visually_approved` exige decisao humana registrada, e promocao para `res/`
+exige os **dois**.
+
+### GIMP 3 batch opcional
+
+Use apenas quando a operacao depender realmente de GIMP/GEGL e nao existir
+equivalente ja curado no `forge-art`, Pillow ou ImageMagick.
 
 ```bash
-python tools/image-tools/fix_png_transparency_final.py "<caminho_do_projeto>/data"
+PYTHONPATH=tools/sgdk_wrapper python3 -m forge_art \
+  gimp-batch-preflight --timeout-seconds 30
 ```
+
+O preflight prova o interpretador `python-fu-eval` em perfil isolado e sem
+GUI. Ele nao processa assets. Uma operacao de producao so pode ser registrada
+depois de possuir script estatico, spec declarativa, timeout, staging imutavel,
+fixtures positivas/negativas e validacao posterior por `pixel_contract.py`.
+
+Proibido:
+
+- automacao de ponteiro ou leitura repetida da GUI pelo agente;
+- Python-Fu gerado dinamicamente pelo prompt;
+- usar GIMP como segunda autoridade de paleta/9-bits;
+- escrever diretamente em `data/source_art/` ou `res/`;
+- promover a saida sem gate tecnico e decisao visual independente.
 
 ---
 

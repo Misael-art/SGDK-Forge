@@ -35,6 +35,7 @@ prova audio **carregado** no DMA; XGM2 pode perder para XGM1 nesse recorte
 9. `tools/sgdk_wrapper/schemas/audio_architecture_card.schema.json`
 10. `tools/sgdk_wrapper/schemas/composition_scope_contract.schema.json`
 11. `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/audio_architecture_card.example.json`
+12. `tools/audio-tools/README.md`
 
 ## Quando usar
 
@@ -235,6 +236,11 @@ promove audio, ROM, runtime ou qualidade final sem prova auditiva/emulador.
 - trilha modular/adaptativa possui stems/layers, transicoes e fallback antes da integracao
 - `sound_chip_identity_plan` declara escola sonora, papeis FM/PSG/DAC, politica para referencias SNES/sampleadas e suposicoes proibidas
 - samples foram auditados por formato antes da integracao
+- assets declarados em `.res` passaram por
+  `tools/audio-tools/audit_audio_provenance.py --verify-hashes`; path, tipo e
+  taxa precisam coincidir com `res/resources.res`
+- WAV PCM de 8 bits foi tratado como unsigned com centro 128; signed vale para
+  o payload SDAT/XGM2, nao para os bytes armazenados no container WAV
 - `validate_audio.ps1` e planejado ou executado quando houver audio em `.res`
 - audio nao mascara feedback critico de gameplay
 - toda tecnica de audio aplicada consta no registry/manifesto; driver Z80 customizado, DAC direto, PSG PCM ou CSM continuam restritos ao status humano vigente

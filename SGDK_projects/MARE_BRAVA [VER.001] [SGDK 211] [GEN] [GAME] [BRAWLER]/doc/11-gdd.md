@@ -111,8 +111,14 @@ Kit do jogador (acoes e movimentos): andar 8 direcoes, combo A-A-A, joelhada aer
 
 ## Character Scale Seed
 
-- TAÍNA: 48px altura (~3.5 heads), frame 48x48; inimigos 44px (CRIA) e 56px (ESTIVADOR)
-- Impacto: FOV 320x224 comporta 4 inimigos + herói com folga de leitura; hitbox dupla (corpo 16x40, golpe 24x16 na ponta do membro)
+- TAÍNA: shootout direcional concluído; a decisão humana autorizou uma única pose
+  nativa 56x80 em staging. Isso não altera o footprint de runtime/res vigente até
+  nova aprovação visual e promoção explícita. 48x64 não é reaberto nesta rodada;
+  64x96 fica reservado como fallback somente após duas iterações causais falharem.
+  Inimigos: 44px (CRIA) e 56px (ESTIVADOR).
+- Seed de colisão, ainda não confirmado em gameplay: corpo/hurtbox `16x40` e golpe/hitbox
+  `24x16` na ponta do membro. É um contrato inicial de design, não uma validação de
+  runtime; exige confirmação em gameplay e em cena com câmera 320x224.
 - Carga de animação alvo: herói 8 estados (idle, walk, jab, cross, lowkick, knee, special, hit/down) × 4-8 frames; inimigos 5 estados × 4-6 frames
 - Travamento: escala congela no `visual_dna_manifest.scale_contract` antes de key poses
 

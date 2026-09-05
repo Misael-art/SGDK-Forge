@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_frame_budget_table_v01",
+  "generated_at": "2026-07-08T21:18:32-03:00",
+  "updated_at": "2026-07-29",
+  "asset_id": "taina",
+  "status": "idle_guard_measured_other_states_declared",
+  "measurement_level": "mixed_measured_and_declared",
+  "frame_cell": {
+    "w_px": 48,
+    "h_px": 64,
+    "w_tiles": 6,
+    "h_tiles": 8,
+    "tiles_per_full_cell": 48,
+    "bytes_per_full_cell_uncompressed": 1536
+  },
+  "residency_policy": {
+    "full_p0_sheet_resident": false,
+    "reason": "48x64 fighter frames are expensive; resident budget must be per active animation window, not the entire P0 sheet.",
+    "active_animation_window_target_frames": 3,
+    "target_vram_bytes_per_active_window": 4608,
+    "allowed_runtime_strategies": [
+      "SGDK automatic sprite frame upload if measured safe",
+      "scene-local preload per state group",
+      "manual DMA streaming only after vram-streaming budget review"
+    ],
+    "not_allowed": [
+      "duplicating left/right directions in PNG",
+      "claiming FAST/BEST compression reduces resident frame tiles",
+      "promoting all P0 strips without VRAM residency measurement"
+    ]
+  },
+  "state_budget": [
+    {
+      "animation_id": "idle_guard",
+      "frames": 6,
+      "max_full_cell_tiles_if_unique": 288,
+      "target_resident_window_frames": 3,
+      "timing_vblanks": [11, 7, 10, 7, 11, 12],
+      "reuse_expectation": "torso, head mass and rooted feet reuse across all frames; hair/sash/shoulders change subtly",
+      "measured_complete_cycle_unique_tiles": 40,
+      "measured_complete_cycle_bytes": 1280,
+      "rescomp_metasprite_parts_per_frame": 2,
+      "runtime_status": "observed_partial_in_blastem"
+    },
+    {
+      "animation_id": "walk_combat_step",
+      "frames": 6,
+      "max_full_cell_tiles_if_unique": 288,
+      "target_resident_window_frames": 3,
+      "timing_vblanks": [5, 4, 5, 5, 4, 5],
+      "reuse_expectation": "torso and head reuse; legs, feet and sash carry most tile delta"
+    },
+    {
+      "animation_id": "dash_or_step_in",
+      "frames": 4,
+      "max_full_cell_tiles_if_unique": 192,
+      "target_resident_window_frames": 3,
+      "timing_vblanks": [3, 2, 3, 4],
+      "reuse_expectation": "guard/face reuse; lower body and sash show burst"
+    },
+    {
+      "animation_id": "combo_hit_1_jab",
+      "legacy_planning_group": "light_jab_cross",
+      "frames": 5,
+      "max_full_cell_tiles_if_unique": 240,
+      "target_resident_window_frames": 3,
+      "timing_vblanks": [3, 2, 2, 3, 4],
+      "reuse_expectation": "measured: grounded lower body and head topology reused; lead arm, shoulder and sash carry the change",
+      "measurement": {
+        "status": "rescomp_measured_runtime_observed_partial",
+        "rescomp_tiles_per_frame": [24, 28, 28, 28, 24],
+        "rescomp_metasprite_parts_per_frame": [2, 2, 3, 2, 2],
+        "offline_unique_tiles_complete_cycle": 41,
+        "offline_tile_bytes_complete_cycle": 1312
+      }
+    },
+    {
+      "animation_id": "medium_knee_or_low_kick",
+      "frames": 6,
+      "max_full_cell_tiles_if_unique": 288,
+      "target_resident_window_frames": 3,
+      "timing_vblanks": [4, 3, 2, 3, 4, 5],
+      "reuse_expectation": "active frame may have high delta; recovery should reuse torso and head"
+    },
+    {
+      "animation_id": "mare_push_special",
+      "frames": 8,
+      "max_full_cell_tiles_if_unique": 384,
+      "target_resident_window_frames": 3,
+      "timing_vblanks": [4, 3, 3, 2, 2, 4, 5, 6],
+      "reuse_expectation": "body frames must stay separate from tide FX sprites; no baked water in body sheet"
+    },
+    {
+      "animation_id": "hurt_light_heavy",
+      "frames": 4,
+      "max_full_cell_tiles_if_unique": 192,
+      "target_resident_window_frames": 3,
+      "timing_vblanks": [2, 4, 5, 5],
+      "reuse_expectation": "heavy silhouette change allowed only with scale preserved"
+    }
+  ],
+  "pass_fail": {
+    "planning_budget_exists": true,
+    "idle_guard_vram_measured": true,
+    "combo_hit_1_jab_vram_measured": true,
+    "full_p0_vram_measured": false,
+    "idle_guard_rom_playback_observed": true,
+    "combo_hit_1_jab_rom_playback_observed": true,
+    "full_p0_rom_playback_measured": false,
+    "can_unlock_animation_gate": false,
+    "reason": "The isolated idle_guard and combo_hit_1_jab pass their ResComp budgets and partial runtime observations. Other P0 states and the combined gameplay scene remain unmeasured."
+  }
+}

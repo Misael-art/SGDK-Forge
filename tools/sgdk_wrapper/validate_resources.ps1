@@ -22,6 +22,19 @@ $ProjectRoot = $pwd.Path
 . (Join-Path $PSScriptRoot "_lib\sgdk_common.ps1")
 Import-Module (Join-Path $PSScriptRoot 'lib\sgdk_artifact_contracts.psm1') -Force
 
+function Resolve-PowerShellHost {
+    $pwsh = Get-Command pwsh -ErrorAction SilentlyContinue
+    if ($null -ne $pwsh) { return $pwsh.Source }
+
+    $powershell = Get-Command powershell -ErrorAction SilentlyContinue
+    if ($null -ne $powershell) { return $powershell.Source }
+
+    $powershellExe = Get-Command powershell.exe -ErrorAction SilentlyContinue
+    if ($null -ne $powershellExe) { return $powershellExe.Source }
+
+    throw "Nenhum host PowerShell encontrado (pwsh/powershell/powershell.exe)."
+}
+
 function Write-Log($msg, $level = "INFO") {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $fullMsg = "[$timestamp] [$level] $msg"
@@ -708,7 +721,10 @@ function Get-AestheticRole($resourceKind, $resourceName, $resourcePath) {
     if ($resourceKind -eq "SPRITE") {
         return "sprite"
     }
-    if ($fingerprint -match 'hud|ui|font|icon|score|life|timer') {
+    if (
+        $fingerprint -match '(^|[_\-/\\\s])(hud|ui|font|icon|score|life|timer)([_\-/\\\s]|$)' -or
+        $fingerprint -match '(health|lifebar|ammo|energy|counter)'
+    ) {
         return "hud"
     }
     if ($fingerprint -match 'bg[_\- ]?b|parallax|far|distant|sky|back') {
@@ -2887,7 +2903,8 @@ function Validate-ProjectMethodology {
         $args += @("-WorkspaceRoot", $WorkspaceRoot)
     }
 
-    & powershell.exe @args | ForEach-Object { Write-Host "[validate_resources][methodology] $_" }
+    $powerShellHost = Resolve-PowerShellHost
+    & $powerShellHost @args | ForEach-Object { Write-Host "[validate_resources][methodology] $_" }
     if (-not (Test-Path -LiteralPath $reportPath -PathType Leaf)) {
         $msg = "validate_project_methodology.ps1 nao produziu project_methodology_report.json."
         Write-Log $msg "ERROR"
@@ -2970,7 +2987,8 @@ function Validate-ProjectHygiene {
         $args += @("-WorkspaceRoot", $WorkspaceRoot)
     }
 
-    & powershell.exe @args | ForEach-Object { Write-Host "[validate_resources][hygiene] $_" }
+    $powerShellHost = Resolve-PowerShellHost
+    & $powerShellHost @args | ForEach-Object { Write-Host "[validate_resources][hygiene] $_" }
     if (-not (Test-Path -LiteralPath $reportPath -PathType Leaf)) {
         $msg = "validate_project_hygiene.ps1 nao produziu project_hygiene_report.json."
         Write-Log $msg "ERROR"
@@ -3874,6 +3892,8 @@ $emulatorSessionPath = Join-Path $LOG_DIR "emulator_session.json"
 $visualAestheticReportPath = Join-Path $LOG_DIR "visual_aesthetic_report.json"
 $visualDeliveryGateReportPath = Join-Path $LOG_DIR "visual_delivery_gate_report.json"
 $visualSourceLineageReportPath = Join-Path $LOG_DIR "visual_source_lineage_report.json"
+$screenshotSemanticGateReportPath = Join-Path $LOG_DIR "screenshot_semantic_gate_report.json"
+$claimReconciliationReportPath = Join-Path $LOG_DIR "claim_reconciliation_report.json"
 $sceneRegressionReportPath = Join-Path $LOG_DIR "scene_regression_report.json"
 $sceneTilemapConversionReportPath = Join-Path $LOG_DIR "scene_tilemap_conversion_report.json"
 $tilemapFlagReportPath = Join-Path $LOG_DIR "tilemap_flag_report.json"
@@ -3887,6 +3907,7 @@ $pythonPath = Get-PythonPath
 $visualAnalyses = @()
 $visualLabBenchmark = $null
 $visualAnalyzerAvailable = $false
+$semanticScreenshotGateInvalid = $false
 $visualDeliveryGateReport = $null
 $runtimeMetrics = $null
 $emulatorSession = $null
@@ -5211,14 +5232,52 @@ if ($visualDeliveryGateReport) {
                 if ($null -eq $spriteArtifactReport) {
                     $gateFindings += ("{0}:sprite_artifact_report_invalid" -f $assetId)
                 } else {
+                    $spriteArtifactSchema = (Get-SafeString (Get-ObjectPropertyValue $spriteArtifactReport "schema" "") "").ToLowerInvariant()
+                    if ($spriteArtifactSchema -ne "sprite_artifact_report.v2") {
+                        $gateFindings += ("{0}:sprite_artifact_report_schema_v2_required" -f $assetId)
+                    }
                     $spriteArtifactStatus = (Get-SafeString (Get-ObjectPropertyValue $spriteArtifactReport "status" "") "").ToLowerInvariant()
                     if ($spriteArtifactStatus -and $spriteArtifactStatus -notin @("passed", "pass", "ok", "elite_ready")) {
                         $gateFindings += ("{0}:sprite_artifact_report_{1}" -f $assetId, $spriteArtifactStatus)
                     }
+                    if (-not (Test-TruthyValue (Get-ObjectPropertyValue $spriteArtifactReport "visual_pass" $false))) {
+                        $gateFindings += ("{0}:sprite_artifact_report_visual_pass_false" -f $assetId)
+                    }
+                    $requiredSpriteChecks = Get-ObjectPropertyValue $spriteArtifactReport "required_checks" $null
+                    foreach ($requiredSpriteCheck in @("edge_clipping", "detached_islands", "anatomy", "pivot", "foot_contact", "frame_delta", "action_coverage")) {
+                        if ($null -eq $requiredSpriteChecks -or -not (Test-TruthyValue (Get-ObjectPropertyValue $requiredSpriteChecks $requiredSpriteCheck $false))) {
+                            $gateFindings += ("{0}:sprite_artifact_report_{1}_missing" -f $assetId, $requiredSpriteCheck)
+                        }
+                    }
+                    $spriteActionCoverage = Get-ObjectPropertyValue $spriteArtifactReport "action_coverage" $null
+                    $spriteActionCoverageStatus = (Get-SafeString (Get-ObjectPropertyValue $spriteActionCoverage "status" "") "").ToLowerInvariant()
+                    if ($null -eq $spriteActionCoverage -or $spriteActionCoverageStatus -ne "passed") {
+                        $gateFindings += ("{0}:sprite_artifact_report_action_coverage_failed" -f $assetId)
+                    }
+                    foreach ($missingAction in @(Get-ObjectPropertyValue $spriteActionCoverage "missing_required_actions" @())) {
+                        if (-not [string]::IsNullOrWhiteSpace([string]$missingAction)) {
+                            $gateFindings += ("{0}:sprite_artifact_report_required_action_missing_{1}" -f $assetId, [string]$missingAction)
+                        }
+                    }
                     foreach ($spriteFinding in @($spriteArtifactReport.findings)) {
                         $spriteCode = Get-SafeString (Get-ObjectPropertyValue $spriteFinding "code" "") ""
                         $spriteSeverity = (Get-SafeString (Get-ObjectPropertyValue $spriteFinding "severity" "") "").ToLowerInvariant()
-                        if ($spriteCode -in @("FRAME_EDGE_CLIPPING", "FRAME_EMPTY", "NON_INDEX0_BACKGROUND_MATTE", "SMALL_ISLAND_DEBRIS", "STRAY_LARGE_COMPONENT", "SCALE_INCONSISTENCY", "BAKED_FX_IN_CHARACTER_SHEET")) {
+                        if ($spriteCode -in @(
+                            "FRAME_EDGE_CLIPPING",
+                            "FRAME_EMPTY",
+                            "NON_INDEX0_BACKGROUND_MATTE",
+                            "SMALL_ISLAND_DEBRIS",
+                            "STRAY_LARGE_COMPONENT",
+                            "SCALE_INCONSISTENCY",
+                            "BAKED_FX_IN_CHARACTER_SHEET",
+                            "ANATOMY_REVIEW_MISSING",
+                            "ANATOMY_INCOMPLETE",
+                            "PIVOT_DRIFT",
+                            "FOOT_CONTACT_MISSING",
+                            "FRAME_DELTA_TOO_LOW",
+                            "FRAME_DELTA_TOO_HIGH",
+                            "REQUIRED_ACTION_MISSING"
+                        )) {
                             $gateFindings += ("{0}:{1}" -f $assetId, $spriteCode)
                         } elseif ($spriteSeverity -eq "error") {
                             $gateFindings += ("{0}:sprite_artifact_error_{1}" -f $assetId, $spriteCode)
@@ -5348,25 +5407,78 @@ if ($emulatorSession) {
 }
 $existingPublishedCaptures = @($publishedCaptureFiles | Where-Object { Test-Path -LiteralPath $_ })
 $screenshotEvidenceCandidates = @(
-    $sessionEvidenceFiles,
-    $publishedCaptureFiles,
-    (Join-Path $pwd.Path "out\captures\benchmark_visual.png"),
     (Join-Path $pwd.Path "out\evidence\blastem\screenshot.png")
+    (Join-Path $pwd.Path "out\captures\benchmark_visual.png")
+    $publishedCaptureFiles
+    $sessionEvidenceFiles
 ) | ForEach-Object { $_ } | Where-Object {
     $candidate = Get-SafeString $_ ""
     $candidate -and ([System.IO.Path]::GetExtension($candidate).ToLowerInvariant() -eq ".png") -and (Test-Path -LiteralPath $candidate -PathType Leaf)
 } | Select-Object -Unique
 
-foreach ($screenshotPath in $screenshotEvidenceCandidates) {
-    $uniqueColorCount = Get-UniqueColorCountOrNull -Path $screenshotPath -StopAfter 3
-    if ($null -ne $uniqueColorCount -and $uniqueColorCount -le 3) {
-        $msg = "Screenshot de evidencia tem informacao visual baixa ($uniqueColorCount cor(es) unicas): $screenshotPath."
-        Write-Log $msg (Get-BlockingStatusLogLevel "blank_or_low_information_capture")
-        Add-BlockingStatus $results "blank_or_low_information_capture" $msg "emulator" $screenshotPath @{
-            unique_color_count = [int]$uniqueColorCount
-            screenshot_path = $screenshotPath
+if ($screenshotEvidenceCandidates.Count -gt 0) {
+    $semanticAnalyzerPath = Join-Path $PSScriptRoot "screenshot_semantic_gate.py"
+    $semanticScreenshotPath = [string]@($screenshotEvidenceCandidates)[0]
+    $semanticGateUnavailableReason = $null
+    if (-not $pythonPath) {
+        $semanticGateUnavailableReason = "Python nao foi localizado pelo wrapper."
+    } elseif (-not (Test-Path -LiteralPath $semanticAnalyzerPath -PathType Leaf)) {
+        $semanticGateUnavailableReason = "Analisador canonico ausente: $semanticAnalyzerPath"
+    } else {
+        try {
+            $semanticAnalyzerArgs = @($semanticAnalyzerPath, "--path", $semanticScreenshotPath, "--output", $screenshotSemanticGateReportPath, "--rom-path", $romPath)
+            if ($emulatorSession -and $emulatorSession.session_id) {
+                $semanticAnalyzerArgs += @("--session-id", [string]$emulatorSession.session_id)
+            }
+            & $pythonPath @semanticAnalyzerArgs 2>&1 | ForEach-Object {
+                Write-Log ("screenshot_semantic_gate: {0}" -f $_) "INFO"
+            }
+            $semanticGateExitCode = $LASTEXITCODE
+            if (-not (Test-Path -LiteralPath $screenshotSemanticGateReportPath -PathType Leaf)) {
+                $semanticGateUnavailableReason = "Analisador nao produziu o relatorio esperado."
+            } else {
+                try {
+                    $semanticGateReport = Get-Content -LiteralPath $screenshotSemanticGateReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+                    $results.evidence.screenshot_semantic_gate_report_path = $screenshotSemanticGateReportPath
+                    $results.evidence.screenshot_semantic_capture_valid = [bool]$semanticGateReport.semantic_capture_valid
+                    if ($semanticGateExitCode -ne 0 -or -not [bool]$semanticGateReport.semantic_capture_valid) {
+                        $semanticBlocker = Get-SafeString $semanticGateReport.blocker_code "blank_or_low_information_capture"
+                        $msg = "Screenshot de evidencia rejeitado pelo gate semantico canonico: $semanticScreenshotPath."
+                        Write-Log $msg (Get-BlockingStatusLogLevel $semanticBlocker)
+                        Add-BlockingStatus $results $semanticBlocker $msg "emulator" $semanticScreenshotPath @{
+                            screenshot_path = $semanticScreenshotPath
+                            report_path = $screenshotSemanticGateReportPath
+                            edge_density = $semanticGateReport.edge_density
+                            dominant_color_ratio = $semanticGateReport.dominant_ratio
+                            luminance_variance = $semanticGateReport.metrics.luminance_variance
+                            claim_impacts = $semanticGateReport.claim_impacts
+                        }
+                        $results.status_panel.visual_gate_ready = $false
+                        $results.status_panel.gameplay_rom_aprovada = $false
+                        $results.qa_axes.gameplay_basico = "unproven"
+                        $results.qa_axes.performance = "unproven"
+                        $semanticScreenshotGateInvalid = $true
+                    }
+                } catch {
+                    $semanticGateUnavailableReason = "Relatorio semantico ilegivel: $($_.Exception.Message)"
+                }
+            }
+        } catch {
+            $semanticGateUnavailableReason = "Falha ao executar analisador semantico: $($_.Exception.Message)"
         }
-        break
+    }
+    if ($semanticGateUnavailableReason) {
+        $msg = "Gate semantico de screenshot indisponivel; evidencia visual nao pode ser promovida. $semanticGateUnavailableReason"
+        Write-Log $msg (Get-BlockingStatusLogLevel "screenshot_semantic_gate_unavailable")
+        Add-BlockingStatus $results "screenshot_semantic_gate_unavailable" $msg "emulator" $semanticScreenshotPath @{
+            screenshot_path = $semanticScreenshotPath
+            report_path = $screenshotSemanticGateReportPath
+        }
+        $results.status_panel.visual_gate_ready = $false
+        $results.status_panel.gameplay_rom_aprovada = $false
+        $results.qa_axes.gameplay_basico = "unproven"
+        $results.qa_axes.performance = "unproven"
+        $semanticScreenshotGateInvalid = $true
     }
 }
 $sessionTimestamp = if ($emulatorSession) { Get-DateOrNull $emulatorSession.timestamp } else { $null }
@@ -6340,7 +6452,8 @@ if ($visualSourceContractPath) {
     $visualSourceValidatorPath = Join-Path $PSScriptRoot 'validate_visual_source_of_truth.ps1'
     if (Test-Path -LiteralPath $visualSourceValidatorPath) {
         try {
-            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $visualSourceValidatorPath `
+            $powerShellHost = Resolve-PowerShellHost
+            & $powerShellHost -NoProfile -ExecutionPolicy Bypass -File $visualSourceValidatorPath `
                 -ProjectRoot $pwd.Path `
                 -ContractPath $visualSourceContractPath `
                 -OutputPath $visualSourceLineageReportPath 2>&1 | ForEach-Object {
@@ -6378,12 +6491,76 @@ if ($visualSourceContractPath) {
     }
 }
 
+$claimReconcilerPath = Join-Path $PSScriptRoot "reconcile_claims.py"
+$claimReconciliationUnavailable = $null
+if (-not $pythonPath) {
+    $claimReconciliationUnavailable = "Python nao foi localizado pelo wrapper."
+} elseif (-not (Test-Path -LiteralPath $claimReconcilerPath -PathType Leaf)) {
+    $claimReconciliationUnavailable = "Reconciliador canonico ausente: $claimReconcilerPath"
+} else {
+    try {
+        & $pythonPath $claimReconcilerPath --project-root $pwd.Path --output $claimReconciliationReportPath --exclude-validation-report 2>&1 | ForEach-Object {
+            Write-Log ("claim_reconciliation: {0}" -f $_) "INFO"
+        }
+        if (Test-Path -LiteralPath $claimReconciliationReportPath -PathType Leaf) {
+            $claimReconciliationReport = Get-Content -LiteralPath $claimReconciliationReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+            $results.evidence.claim_reconciliation_report_path = $claimReconciliationReportPath
+            foreach ($claimBlocker in @($claimReconciliationReport.blocking_statuses)) {
+                $claimBlockerText = Get-SafeString $claimBlocker ""
+                if ($claimBlockerText) {
+                    Add-BlockingStatus $results $claimBlockerText "Reconciliacao canonica de claims bloqueou a promocao: $claimBlockerText." "claim_reconciliation" $claimReconciliationReportPath @{
+                        conflict_reasons = @($claimReconciliationReport.conflict_reasons)
+                    }
+                }
+            }
+            if (-not [bool]$claimReconciliationReport.resolved_claims.ready_for_aaa) {
+                $results.status_panel.ready_for_aaa = $false
+            }
+            if (-not [bool]$claimReconciliationReport.resolved_claims.technical_ready) {
+                $results.status_panel.technical_ready = $false
+            }
+            if (-not [bool]$claimReconciliationReport.resolved_claims.creative_ready) {
+                $results.status_panel.creative_ready = $false
+                $results.status_panel.visual_gate_ready = $false
+            }
+            if ([string]$claimReconciliationReport.resolved_claims.performance -eq "unproven") {
+                $results.qa_axes.performance = "unproven"
+            }
+        } else {
+            $claimReconciliationUnavailable = "Reconciliador nao produziu o report esperado."
+        }
+    } catch {
+        $claimReconciliationUnavailable = "Falha ao executar reconciliador: $($_.Exception.Message)"
+    }
+}
+if ($claimReconciliationUnavailable) {
+    Add-BlockingStatus $results "claim_reconciliation_unavailable" "Reconciliacao canonica indisponivel; claims fortes permanecem bloqueados. $claimReconciliationUnavailable" "claim_reconciliation" $claimReconciliationReportPath
+    $results.status_panel.ready_for_aaa = $false
+    $results.status_panel.technical_ready = $false
+    $results.status_panel.creative_ready = $false
+    $results.status_panel.visual_gate_ready = $false
+    $results.qa_axes.performance = "unproven"
+}
+
+if ($semanticScreenshotGateInvalid) {
+    $results.status_panel.visual_gate_ready = $false
+    $results.status_panel.visual_lab_aprovado = $false
+    $results.status_panel.gameplay_rom_aprovada = $false
+    $results.status_panel.blastem_gate = $false
+    $results.status_panel.testado_em_emulador = $false
+    $results.qa_axes.visual_elite = "unproven"
+    $results.qa_axes.gameplay_basico = "unproven"
+    $results.qa_axes.performance = "unproven"
+}
+
 $sourceArtifacts = @($REPORT_FILE)
 if (Test-Path -LiteralPath $runtimeMetricsPath) { $sourceArtifacts += $runtimeMetricsPath }
 if (Test-Path -LiteralPath $emulatorSessionPath) { $sourceArtifacts += $emulatorSessionPath }
 if (Test-Path -LiteralPath $visualAestheticReportPath) { $sourceArtifacts += $visualAestheticReportPath }
 if (Test-Path -LiteralPath $visualDeliveryGateReportPath) { $sourceArtifacts += $visualDeliveryGateReportPath }
 if (Test-Path -LiteralPath $visualSourceLineageReportPath) { $sourceArtifacts += $visualSourceLineageReportPath }
+if (Test-Path -LiteralPath $screenshotSemanticGateReportPath) { $sourceArtifacts += $screenshotSemanticGateReportPath }
+if (Test-Path -LiteralPath $claimReconciliationReportPath) { $sourceArtifacts += $claimReconciliationReportPath }
 if ($semanticAuditStatus.report_path -and (Test-Path -LiteralPath $semanticAuditStatus.report_path)) { $sourceArtifacts += $semanticAuditStatus.report_path }
 if ($gddSubstantialStatus.path -and (Test-Path -LiteralPath $gddSubstantialStatus.path)) { $sourceArtifacts += $gddSubstantialStatus.path }
 if (Test-Path -LiteralPath $sceneRegressionReportPath) { $sourceArtifacts += $sceneRegressionReportPath }
@@ -6574,7 +6751,7 @@ $results.canonical_summary = New-CanonicalValidationSummary `
 # Quando o projeto alvo tem contratos de design em doc/contracts/ ou similar
 # e product_status != technical_lab_validated, chama o auditor e anexa o
 # resultado ao validation_report.
-# 
+#
 # Saida do auditor: 3 buckets (blocking_statuses / creative_blocking_statuses /
 # technical_artifact_codes) + ready flags (technical_ready / creative_ready /
 # ready_for_aaa). A politica de claim_ceiling continua sendo aplicada em
@@ -6608,7 +6785,8 @@ if ((Test-Path -LiteralPath $auditScript) -and ($resolvedProductStatus -ne "tech
         if ($semanticAuditPath) { $auditArgs['SemanticAuditPath'] = $semanticAuditPath.FullName }
         $auditExit = 0
         try {
-            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript @auditArgs 2>&1 | ForEach-Object { Write-Host "[validate_resources] $_" }
+            $powerShellHost = Resolve-PowerShellHost
+            & $powerShellHost -NoProfile -ExecutionPolicy Bypass -File $auditScript @auditArgs 2>&1 | ForEach-Object { Write-Host "[validate_resources] $_" }
             $auditExit = $LASTEXITCODE
         } catch {
             Write-Host "[validate_resources] audit_game_design_contracts.ps1 falhou: $($_.Exception.Message)"

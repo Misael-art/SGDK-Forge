@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina",
+  "evaluated_at": "2026-07-28",
+  "status": "passed",
+  "approved_authorial_source": {
+    "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "role": "authorial_concept",
+    "approval_status": "approved_as_direction",
+    "sha256": "a453e4670e116460b110445cb6cf15144deac48d2c3799c8530c6fe691284ea5"
+  },
+  "human_visual_baseline": {
+    "timeline_image": "04",
+    "path": "data/processed/contact_sheets/authorial_style_validation_contact_sheet_v01.png",
+    "sha256": "96fe6e48da1a0d66f9f5479b9d68d647d55c4ab8eda97e56c6c2aee81a29be8b",
+    "decision": "approved_as_direction",
+    "scope": "assinatura autoral de MARE BRAVA; a TAÍNA deve herdar linha, silhueta, rosto, assimetria e materiais deste lote"
+  },
+  "allowed_generation_sources": [
+    {
+      "path": "doc/art/characters/taina/visual_dna_manifest.json",
+      "role": "visual_dna",
+      "source_status": "identity_contract"
+    },
+    {
+      "path": "doc/art/authorial_line_style_contract.json",
+      "role": "direction_brief",
+      "source_status": "direction_contract"
+    },
+    {
+      "path": "doc/art/characters/taina/art_gameplay_direction_gate.json",
+      "role": "art_gameplay_direction_gate",
+      "source_status": "direction_contract"
+    },
+    {
+      "path": "doc/human_approval_record.md",
+      "role": "human_review_record",
+      "source_status": "human_approval"
+    },
+    {
+      "path": "doc/art/characters/taina/iteration_control_protocol.md",
+      "role": "lineart_blocking",
+      "source_status": "lineart_gate"
+    },
+    {
+      "path": "doc/art/characters/taina/taina_v08_visual_breakdown.md",
+      "role": "direction_brief",
+      "source_status": "direction_brief"
+    }
+  ],
+  "forbidden_generation_sources": [
+    "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+    "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v06.png",
+    "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+    "doc/art/characters/taina/review/taina_lineart_v04_v05_compare_8x_v01.png",
+    "doc/art/characters/taina/review/taina_lineart_v05_v06_v07_compare_6x_v01.png"
+  ],
+  "obsolete_assets": [
+    {
+      "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": ["negative_evidence", "comparison_only", "do_not_use_for_generation"],
+      "reason": "O diretor de arte humano classificou a imagem 05 da linha do tempo como retrocesso; a proporcao chibi e a regressao de fidelidade nao podem orientar a proxima tentativa."
+    },
+    {
+      "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v06.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": ["negative_evidence", "comparison_only", "do_not_use_for_generation"],
+      "reason": "Probe intermediario pertencente a sequencia de retrocesso da imagem 06; nao preserva a baseline autoral escolhida."
+    },
+    {
+      "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": ["negative_evidence", "comparison_only", "do_not_use_for_generation"],
+      "reason": "Escala e contato melhoraram, mas cabelo, face e guarda regrediram; o diretor de arte humano classificou a imagem 06 como retrocesso."
+    }
+  ],
+  "directional_drafts_not_for_generation": [
+    {
+      "path": "rascunho/taina_lineart_v08/taina_lineart_v08_directional_draft_v01.png",
+      "review": "doc/art/characters/taina/taina_lineart_v08_directional_draft_review_v01.json",
+      "generation_source_status": "not_generation_source",
+      "allowed_usage": ["human_direction_review", "comparison_only"],
+      "reason": "Preserva direcao, mas e prancha ampliada fora do grid 48x64 e nao pode substituir a fonte autoral ou virar sprite por reducao direta."
+    }
+  ],
+  "lineage_scan_policy": {
+    "blocked_fields": ["source", "baseline", "reference_for_generation", "img2img_base", "generation_source", "image_reference"],
+    "scan_roots": ["doc/art", "data/source_art", "data/processed"]
+  },
+  "decision": {
+    "generation_source_locked": true,
+    "next_sprite_sheet_must_start_from_model_sheet": true,
+    "ready_for_aaa": false,
+    "next_authoring_step": "Assumir a persona art-director e seguir doc/art/characters/taina/taina_v08_visual_breakdown.md + taina_lineart_v08_authoring_card.md para criar uma nova lineart_blocking_1px a partir da fonte autoral e dos must_preserve; nao corrigir ou reutilizar v05/v06/v07."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_pixel_model_sheet_source_v01_fake_pixel_art_rejection",
+  "generated_at": "2026-07-06",
+  "asset": "data/source_art/concept/taina_pixel_model_sheet/taina_pixel_model_sheet_source_v01.png",
+  "sha256": "ed3c3b49da31c675eecd3e9c45521e709866cd9a33bcbcf26c29c436d99ac3ca",
+  "asset_role": "model_sheet_source_candidate",
+  "checks": {
+    "png_indexed": false,
+    "plte_max_16": false,
+    "colors_on_9bit_grid": false,
+    "dimensions_multiple_of_8": false,
+    "flat_chroma_key": false,
+    "native_48px_visible_height": false,
+    "hard_edge_without_aa": false,
+    "logical_pixel_grid_proven": false
+  },
+  "observations": {
+    "dimensions": "1774x887",
+    "mode": "TrueColor",
+    "unique_colors": 136150,
+    "background_variation": "corner srgb(234,12,227), center srgb(246,4,239)",
+    "visual_value": "preserva identidade e compressao melhor que o concept realista"
+  },
+  "decision": "rejected_as_native_asset_accepted_as_editorial_reference",
+  "technical_pass": false,
+  "visual_direction_pass": true,
+  "ready_for_res_promotion": false,
+  "ready_for_aaa": false,
+  "blockers": [
+    "NOT_INDEXED",
+    "TOO_MANY_COLORS",
+    "DIM_NOT_MULTIPLE_8",
+    "NON_UNIFORM_CHROMA_KEY",
+    "FAKE_PIXEL_ART_UNPROVEN_GRID",
+    "NATIVE_48PX_MODEL_SHEET_MISSING"
+  ],
+  "next_required_route": [
+    "lineart_blocking_1px em grid nativo",
+    "model sheet 48x64 por vista",
+    "paleta manual de 15 cores mais transparencia",
+    "contact sheet original_basic_elite"
+  ]
+}

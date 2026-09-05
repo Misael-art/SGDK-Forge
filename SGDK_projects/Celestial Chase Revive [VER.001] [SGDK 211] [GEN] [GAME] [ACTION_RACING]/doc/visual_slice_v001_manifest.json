@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "visual_slice_v001_manifest",
+  "status": "source_direction_established_runtime_pending",
+  "source_policy": "Project-owned authorial direction source. Not final res art, not ROM evidence, not ready_for_aaa.",
+  "root": "data/source_art/revive/visual_slice_v001",
+  "files": [
+    {
+      "asset_id": "visual_slice_v001_title_source",
+      "path": "data/source_art/revive/visual_slice_v001/title_frontend_source_v001.png",
+      "sha256": "55b904a54ff029da0fd75e1d1cf634e3ccb2e5629fff9fb5c38b19ef8e4d9c1e",
+      "role": "front-end title source direction"
+    },
+    {
+      "asset_id": "visual_slice_v001_sector01_source",
+      "path": "data/source_art/revive/visual_slice_v001/sector01_playfield_source_v001.png",
+      "sha256": "35e529894005834935cd62e5d487a13084542649c4a1be3744219f1c816f7e90",
+      "role": "Sector 01 playfield source direction"
+    },
+    {
+      "asset_id": "visual_slice_v001_contact_sheet",
+      "path": "data/processed/visual_slice_v001/visual_slice_contact_sheet_v001.png",
+      "sha256": "f38907052aa61ddff3801598e2a76bab9d6c1b8a38a130b9906dbaef90925f12",
+      "role": "human review contact sheet"
+    }
+  ],
+  "references": [
+    {
+      "title": "OutRun",
+      "inheritance": "fast road horizon and readable forward motion; inspiration_only, no asset copy"
+    },
+    {
+      "title": "Thunder Force IV",
+      "inheritance": "high contrast sci-fi silhouettes and parallax density discipline; inspiration_only"
+    },
+    {
+      "title": "Sonic 3 & Knuckles",
+      "inheritance": "clean foreground readability against colorful motion; inspiration_only"
+    }
+  ],
+  "blockers_before_rom": [
+    "convert_source_to_res_assets",
+    "palette_slot_audit",
+    "vram_residency_remeasure",
+    "blastem_capture",
+    "visual_vdp_dump"
+  ],
+  "generated_at": "2026-06-28T13:25:10.588669+00:00",
+  "tool_name": "build_visual_slice_v001",
+  "tool_version": "0.1.0"
+}

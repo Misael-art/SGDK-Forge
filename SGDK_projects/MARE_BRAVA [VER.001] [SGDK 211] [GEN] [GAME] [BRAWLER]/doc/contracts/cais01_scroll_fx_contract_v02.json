@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "cais01_scroll_fx_v02",
+  "status": "implemented_pending_emulator_evidence",
+  "owner": "SCENE_demo",
+  "mode": "HSCROLL_TILE",
+  "h_int_owner": "none",
+  "bands": [
+    {
+      "rows": "0..7",
+      "role": "sky_clouds",
+      "speed": "static"
+    },
+    {
+      "rows": "8..13",
+      "role": "skyline_horizon",
+      "speed": "very_slow"
+    },
+    {
+      "rows": "14..17",
+      "role": "far_water",
+      "speed": "slow_positive"
+    },
+    {
+      "rows": "18..21",
+      "role": "mid_water",
+      "speed": "slow_negative"
+    },
+    {
+      "rows": "22..27",
+      "role": "near_water",
+      "speed": "medium_positive"
+    }
+  ],
+  "update_method": "28 s16 rows per plane through DMA_QUEUE before VBlank",
+  "teardown": "restore HSCROLL_PLANE and zero both planes before scene change",
+  "fallback": "static v02 planes with HSCROLL_PLANE"
+}

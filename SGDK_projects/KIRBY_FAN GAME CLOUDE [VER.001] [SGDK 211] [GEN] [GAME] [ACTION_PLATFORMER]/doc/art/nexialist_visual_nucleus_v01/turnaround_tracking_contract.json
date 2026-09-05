@@ -1,0 +1,10 @@
+{
+  "schema_version": "turnaround_tracking_contract.v1",
+  "canonical_source_asset_id": "model_sheet_challenger_v03_a_cluster_strict",
+  "canonical_source_sha256": "989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241",
+  "approved_scope": "idle_single_key_pose_only",
+  "observed_constraints": ["round_body","arm_connection","foot_baseline","facial_axis","upper_left_light"],
+  "new_pose_policy": "each pose is authored against the source tracking points; no high_res_render quantization",
+  "full_turnaround_approval": false,
+  "status": "tracking_contract_active_pending_human_motion_gate"
+}

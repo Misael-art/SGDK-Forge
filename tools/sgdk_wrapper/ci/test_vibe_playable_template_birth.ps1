@@ -65,11 +65,34 @@ function Stop-TestProjectProcesses {
 
     $Pattern = [regex]::Escape($ProjectName)
     $CurrentPid = $PID
-    $Processes = @(Get-CimInstance Win32_Process | Where-Object {
-        $_.ProcessId -ne $CurrentPid -and
-        $_.CommandLine -and
-        $_.CommandLine -match $Pattern
-    })
+    $CimCommand = Get-Command Get-CimInstance -ErrorAction SilentlyContinue
+    if ($null -ne $CimCommand) {
+        $Processes = @(Get-CimInstance Win32_Process | Where-Object {
+            $_.ProcessId -ne $CurrentPid -and
+            $_.CommandLine -and
+            $_.CommandLine -match $Pattern
+        } | ForEach-Object {
+            [pscustomobject]@{ ProcessId = $_.ProcessId }
+        })
+    } else {
+        $Processes = @(Get-Process -ErrorAction SilentlyContinue | Where-Object {
+            if ($_.Id -eq $CurrentPid) {
+                return $false
+            }
+            $CommandLinePath = "/proc/$($_.Id)/cmdline"
+            if (-not (Test-Path -LiteralPath $CommandLinePath -PathType Leaf)) {
+                return $false
+            }
+            try {
+                $CommandLine = [System.IO.File]::ReadAllText($CommandLinePath).Replace([char]0, " ")
+                return $CommandLine -match $Pattern
+            } catch {
+                return $false
+            }
+        } | ForEach-Object {
+            [pscustomobject]@{ ProcessId = $_.Id }
+        })
+    }
 
     foreach ($Process in $Processes) {
         Stop-Process -Id $Process.ProcessId -Force -ErrorAction SilentlyContinue
@@ -149,21 +172,41 @@ function Assert-NewProjectBirth {
     $PremiumPath = Join-Path $ProjectRoot 'data\source_art\premium_source_manifest.json'
     $ApprovalPath = Join-Path $ProjectRoot 'doc\human_approval_record.md'
     $RuntimeSeedPath = Join-Path $ProjectRoot 'doc\contracts\runtime_admission_report.json'
+    $CinematicSeedPath = Join-Path $ProjectRoot 'doc\contracts\cinematic_storyboard_contract.json'
 
     Assert-True (Test-Path -LiteralPath $PremiumPath) 'new project missing premium source seed'
     Assert-True (Test-Path -LiteralPath $ApprovalPath) 'new project missing human approval record'
     Assert-True (Test-Path -LiteralPath $RuntimeSeedPath) 'new project missing runtime admission seed'
+    Assert-True (Test-Path -LiteralPath $CinematicSeedPath) 'new project missing cinematic storyboard seed'
     Assert-LegitimateSourceArtPresent -Root $ProjectRoot -RelativePaths $LegitimateTemplateSourceArt
 
     $Premium = Get-Json -Path $PremiumPath
     $RuntimeSeed = Get-Json -Path $RuntimeSeedPath
+    $CinematicSeed = Get-Json -Path $CinematicSeedPath
     $ApprovalText = Get-Content -Raw -LiteralPath $ApprovalPath
+    $MemoryText = Get-Content -Raw -LiteralPath (Join-Path $ProjectRoot 'doc\10-memory-bank.md')
+    $ChangelogText = Get-Content -Raw -LiteralPath (Join-Path $ProjectRoot 'doc\changelog\changelog.md')
+    $BrandingContract = Get-Json -Path (Join-Path $ProjectRoot 'doc\branding_sequence_contract.json')
 
     Assert-True ($Premium.production_source_ready -eq $false) 'new project premium source is prevalidated'
     Assert-Equal 0 @($Premium.assets).Count 'new project contains premium assets'
     Assert-True (-not ($ApprovalText -match 'decision:\s*approved')) 'new project has pre-signed approval'
     Assert-True (-not ($ApprovalText -match 'approved_by\s*:')) 'new project has approved_by'
     Assert-True (-not $RuntimeSeed.runtime_admitted) 'new project runtime seed admits production runtime'
+    Assert-True (-not $CinematicSeed.ready_for_aaa) 'new project cinematic seed claims ready_for_aaa'
+    Assert-True ($CinematicSeed.visual_source_gate.production_source_ready -eq $false) 'new project cinematic seed claims production source'
+    Assert-True ($CinematicSeed.approval.approval_status -eq 'not_approved') 'new project cinematic seed has unsafe approval status'
+    Assert-True ($MemoryText -match 'buildado:\s*nao') 'new project memory is not reset to not built'
+    Assert-True ($MemoryText -match 'testado_em_emulador:\s*nao') 'new project memory is not reset to emulator pending'
+    Assert-True (-not ($MemoryText -match '\b[0-9a-fA-F]{64}\b')) 'new project memory inherited a hash'
+    Assert-True (-not ($ChangelogText -match '\b[0-9a-fA-F]{64}\b')) 'new project changelog inherited a hash'
+    Assert-True (-not (Test-Path -LiteralPath (Join-Path $ProjectRoot 'doc\changelog\roms'))) 'new project inherited ROM snapshots'
+    Assert-True ($BrandingContract.runtime_capture_current.rom_sha256 -eq $null) 'new project branding contract inherited ROM identity'
+    Assert-True ($BrandingContract.verification_current.wrapper_build -eq 'not_built') 'new project branding contract inherited build status'
+
+    $PowerShellHost = (Get-Process -Id $PID).Path
+    $HygieneOutput = & $PowerShellHost -NoProfile -ExecutionPolicy Bypass -File (Join-Path $RepoRoot 'tools\sgdk_wrapper\validate_project_hygiene.ps1') -ProjectRoot $ProjectRoot 2>&1 | Out-String
+    Assert-True ($LASTEXITCODE -eq 0) "new project hygiene validator failed: $HygieneOutput"
 }
 
 function Invoke-ProcessWithTimeout {
@@ -217,7 +260,8 @@ $RequiredSchemas = @(
     'tools/sgdk_wrapper/schemas/premium_source_manifest.schema.json',
     'tools/sgdk_wrapper/schemas/runtime_admission_report.schema.json',
     'tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json',
-    'tools/sgdk_wrapper/schemas/visual_delivery_gate_report.schema.json'
+    'tools/sgdk_wrapper/schemas/visual_delivery_gate_report.schema.json',
+    'tools/sgdk_wrapper/schemas/cinematic_storyboard_contract.schema.json'
 )
 $MissingSchemas = @($RequiredSchemas | Where-Object { -not (Test-Path -LiteralPath $_) })
 if ($MissingSchemas.Count -ne 0) {
@@ -232,6 +276,7 @@ $RouteSeedPath = Join-Path $TemplateRoot 'doc\contracts\vibe_playable_route_repo
 $ArtSeedPath = Join-Path $TemplateRoot 'doc\contracts\art_gameplay_direction_gate.json'
 $VisualSeedPath = Join-Path $TemplateRoot 'doc\contracts\visual_delivery_gate_report.json'
 $RuntimeSeedPath = Join-Path $TemplateRoot 'doc\contracts\runtime_admission_report.json'
+$CinematicSeedPath = Join-Path $TemplateRoot 'doc\contracts\cinematic_storyboard_contract.json'
 $PremiumPath = Join-Path $TemplateRoot 'data\source_art\premium_source_manifest.json'
 $ApprovalPath = Join-Path $TemplateRoot 'doc\human_approval_record.md'
 $LegitimateTemplateSourceArt = @(
@@ -244,6 +289,7 @@ Assert-True (Test-Path -LiteralPath $RouteSeedPath) 'missing route seed'
 Assert-True (Test-Path -LiteralPath $ArtSeedPath) 'missing art gameplay seed'
 Assert-True (Test-Path -LiteralPath $VisualSeedPath) 'missing visual delivery seed'
 Assert-True (Test-Path -LiteralPath $RuntimeSeedPath) 'missing runtime admission seed'
+Assert-True (Test-Path -LiteralPath $CinematicSeedPath) 'missing cinematic storyboard seed'
 Assert-True (Test-Path -LiteralPath $PremiumPath) 'missing premium_source_manifest'
 Assert-True (Test-Path -LiteralPath $ApprovalPath) 'missing human approval record'
 Assert-LegitimateSourceArtPresent -Root $TemplateRoot -RelativePaths $LegitimateTemplateSourceArt
@@ -253,6 +299,7 @@ Assert-JsonMatchesSchema $PremiumPath 'tools/sgdk_wrapper/schemas/premium_source
 Assert-JsonMatchesSchema $RuntimeSeedPath 'tools/sgdk_wrapper/schemas/runtime_admission_report.schema.json'
 Assert-JsonMatchesSchema $ArtSeedPath 'tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json'
 Assert-JsonMatchesSchema $VisualSeedPath 'tools/sgdk_wrapper/schemas/visual_delivery_gate_report.schema.json'
+Assert-JsonMatchesSchema $CinematicSeedPath 'tools/sgdk_wrapper/schemas/cinematic_storyboard_contract.schema.json'
 
 Assert-True (-not (Test-Path -LiteralPath (Join-Path $TemplateRoot 'out'))) 'template contains out directory'
 Assert-NoRuntimeEvidence -Root $TemplateRoot
@@ -262,6 +309,7 @@ $Premium = Get-Json -Path $PremiumPath
 $RuntimeSeed = Get-Json -Path $RuntimeSeedPath
 $ArtSeed = Get-Json -Path $ArtSeedPath
 $VisualSeed = Get-Json -Path $VisualSeedPath
+$CinematicSeed = Get-Json -Path $CinematicSeedPath
 $ApprovalText = Get-Content -Raw -LiteralPath $ApprovalPath
 
 Assert-True ($RouteSeed.template_prevalidated -eq $false) 'route seed claims prevalidation'
@@ -276,6 +324,10 @@ Assert-True (-not $RuntimeSeed.visual_status_promotion_allowed) 'runtime seed pr
 Assert-Equal 'documented_visual_route_only' $RuntimeSeed.claim_ceiling 'runtime seed has unsafe claim ceiling'
 Assert-True ($VisualSeed.ready_for_aaa -eq $false) 'visual seed claims ready_for_aaa'
 Assert-True ($ArtSeed.decision.production_allowed -eq $false) 'art seed permits production'
+Assert-True ($CinematicSeed.template_prevalidated -eq $false) 'cinematic seed claims prevalidation'
+Assert-True ($CinematicSeed.ready_for_aaa -eq $false) 'cinematic seed claims ready_for_aaa'
+Assert-True ($CinematicSeed.visual_source_gate.production_source_ready -eq $false) 'cinematic seed claims production source'
+Assert-True ($CinematicSeed.approval.approval_status -eq 'not_approved') 'cinematic seed has unsafe approval status'
 Assert-True (-not ($ApprovalText -match 'decision:\s*approved')) 'template has pre-signed approval'
 Assert-True (-not ($ApprovalText -match 'approved_by\s*:')) 'template has approved_by'
 Assert-True (-not ($ApprovalText -match 'rom_sha256|screenshot|save\.sram|visual_vdp_dump|runtime_comparison_panel')) 'approval record contains runtime evidence'
@@ -309,26 +361,36 @@ $ShProjectRoot = Join-Path $ProjectsRoot $ShProjectName
 $BatOutput = ''
 $ShOutput = ''
 try {
-    Remove-TestProjectSafely -Path $BatProjectRoot -ExpectedLeaf $BatProjectName
-    $BatRun = Invoke-ProcessWithTimeout `
-        -FilePath (Join-Path $RepoRoot 'tools\sgdk_wrapper\new_project.bat') `
-        -ArgumentList """$BatProjectName""" `
-        -OutputPrefix 'new_project_bat'
-    $BatOutput = $BatRun.Output
-    if ($BatRun.ExitCode -ne 0 -and $BatOutput -notmatch '\[OK\] Project created') {
-        throw "new_project.bat failed: $BatOutput"
+    if ($IsWindows) {
+        Remove-TestProjectSafely -Path $BatProjectRoot -ExpectedLeaf $BatProjectName
+        $BatRun = Invoke-ProcessWithTimeout `
+            -FilePath (Join-Path $RepoRoot 'tools\sgdk_wrapper\new_project.bat') `
+            -ArgumentList """$BatProjectName""" `
+            -OutputPrefix 'new_project_bat'
+        $BatOutput = $BatRun.Output
+        if ($BatRun.ExitCode -ne 0 -and $BatOutput -notmatch '\[OK\] Project created') {
+            throw "new_project.bat failed: $BatOutput"
+        }
+        Assert-NewProjectBirth -ProjectRoot $BatProjectRoot -ProjectName $BatProjectName
+        Assert-True ($BatOutput -match 'blocked_no_premium_source') 'new_project.bat output does not explain blocker'
+    } else {
+        Write-Output 'new_project_bat_dynamic=skipped_non_windows_host'
     }
-    Assert-NewProjectBirth -ProjectRoot $BatProjectRoot -ProjectName $BatProjectName
-    Assert-True ($BatOutput -match 'blocked_no_premium_source') 'new_project.bat output does not explain blocker'
 
     $BashUsable = $false
     if ((Get-Command bash -ErrorAction SilentlyContinue) -and (Get-Command pwsh -ErrorAction SilentlyContinue)) {
-        $BashProbe = Invoke-ProcessWithTimeout `
-            -FilePath 'bash' `
-            -ArgumentList '--version' `
-            -OutputPrefix 'bash_probe' `
-            -TimeoutSeconds 30
-        $BashUsable = ($BashProbe.ExitCode -eq 0)
+        try {
+            $BashProbe = Invoke-ProcessWithTimeout `
+                -FilePath 'bash' `
+                -ArgumentList '--version' `
+                -OutputPrefix 'bash_probe' `
+                -TimeoutSeconds 30
+            $BashUsable = ($BashProbe.ExitCode -eq 0)
+        }
+        catch {
+            Write-Output "new_project_sh_dynamic=skipped_bash_probe_failed: $($_.Exception.Message)"
+            $BashUsable = $false
+        }
     }
 
     if ($BashUsable) {

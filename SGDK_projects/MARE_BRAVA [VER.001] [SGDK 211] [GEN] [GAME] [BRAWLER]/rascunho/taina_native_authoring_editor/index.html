@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TAÍNA — editor nativo por spec</title>
+<style>
+  :root { color-scheme: dark; font: 14px system-ui,sans-serif; background:#12141c; color:#e9edf7; }
+  body { margin:0; padding:16px; display:grid; gap:14px; grid-template-columns:minmax(560px,1fr) 360px; }
+  .panel { background:#1b1f2b; border:1px solid #3c455f; border-radius:8px; padding:12px; }
+  canvas { image-rendering:pixelated; image-rendering:crisp-edges; display:block; }
+  #editor { width:min(896px,100%); height:auto; aspect-ratio:7/10; background:repeating-conic-gradient(#d4d5db 0 25%,#a9aab3 0 50%) 50%/16px 16px; cursor:crosshair; }
+  .previews { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .previews canvas { width:100%; height:auto; border:1px solid #3c455f; }
+  button { display:inline-flex; align-items:center; gap:6px; margin:4px 2px; padding:7px 9px; border:1px solid #55617d; border-radius:5px; background:#29324a; color:inherit; cursor:pointer; }
+  button:hover { background:#35415e; } button.active { outline:2px solid #8dd0ff; }
+  #status { white-space:pre-wrap; line-height:1.45; } .small { font-size:12px; color:#b9c2d9; } h1,h2 { margin:.2em 0 .5em; }
+  img { width:100%; max-height:225px; object-fit:contain; background:#0e1017; border:1px solid #3c455f; }
+</style>
+<body>
+  <section class="panel">
+    <h1>TAÍNA — sessão nativa por spec</h1>
+    <canvas id="editor" width="896" height="1280" aria-label="Canvas lógico"></canvas>
+    <p id="coords">coord: — | ferramenta: lápis | índice: 1</p>
+    <div>
+      <button id="pencil" class="active">Lápis 1px</button><button id="eraser">Borracha</button><button id="fill">Flood fill</button>
+      <button id="grid">Grid 8×8: ligado</button><button id="clear">Limpar</button>
+      <button id="validate">Validar</button><button id="exportPng">Exportar PNG + log</button><button id="exportLog">Exportar log</button>
+    </div>
+    <p class="small">A sobreposição de referências não está conectada ao canvas lógico. Toda escrita passa por API local confinada.</p>
+  </section>
+  <aside class="panel">
+    <h2>Spec ativa</h2><div id="spec" class="small">Carregando…</div>
+    <h2>Referências — identidade/construção</h2>
+    <p class="small">Model sheet = identidade. A fonte 56×80 = direção/proporção. Nenhuma escreve pixels.</p>
+    <img alt="Model sheet aprovado de TAÍNA" src="/data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png">
+    <h2>Preview</h2><div class="previews"><canvas id="one" width="56" height="80"></canvas><canvas id="dark" width="56" height="80"></canvas><canvas id="scene" width="320" height="224"></canvas></div>
+    <h2>Validação</h2><div id="status">Aguardando ações de autoria.</div>
+  </aside>
+<script>
+(() => {
+  let spec, pixels=[]; let tool='pencil', grid=true, stroke=false;
+  const editor=document.querySelector('#editor'), ctx=editor.getContext('2d');
+  const one=document.querySelector('#one').getContext('2d'), dark=document.querySelector('#dark').getContext('2d'), scene=document.querySelector('#scene').getContext('2d');
+  const at=(x,y)=>y*spec.canvas.width+x, palette=()=>Object.fromEntries(spec.palette.map(p=>[p.index,p.hex]));
+  function render(){const W=spec.canvas.width,H=spec.canvas.height,S=editor.width/W,pal=palette();ctx.clearRect(0,0,editor.width,editor.height);for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=pixels[at(x,y)];if(i){ctx.fillStyle=pal[i];ctx.fillRect(x*S,y*S,S,S)}}if(grid){ctx.strokeStyle='rgba(90,180,255,.32)';ctx.lineWidth=1;for(let x=0;x<=W;x+=8){ctx.beginPath();ctx.moveTo(x*S+.5,0);ctx.lineTo(x*S+.5,H*S);ctx.stroke()}for(let y=0;y<=H;y+=8){ctx.beginPath();ctx.moveTo(0,y*S+.5, W*S,y*S+.5);ctx.stroke()}}paint(one,1,'#EEEEEE');paint(dark,1,'#000022');scene.fillStyle='#446666';scene.fillRect(0,0,320,224);scene.fillStyle='#222244';scene.fillRect(0,168,320,56);scene.imageSmoothingEnabled=false;scene.drawImage(one.canvas,0,0,W,H,132,84,W,H)}
+  function paint(target,scale,bg){target.imageSmoothingEnabled=false;target.fillStyle=bg;target.fillRect(0,0,target.canvas.width,target.canvas.height);const pal=palette();for(let y=0;y<spec.canvas.height;y++)for(let x=0;x<spec.canvas.width;x++){const i=pixels[at(x,y)];if(i){target.fillStyle=pal[i];target.fillRect(x*scale,y*scale,scale,scale)}}}
+  function position(e){const r=editor.getBoundingClientRect();return{x:Math.floor((e.clientX-r.left)*spec.canvas.width/r.width),y:Math.floor((e.clientY-r.top)*spec.canvas.height/r.height)}}
+  async function api(path,body){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json();if(!r.ok)throw new Error(j.error||'API rejected');return j}
+  function action(x,y){if(x<0||y<0||x>=spec.canvas.width||y>=spec.canvas.height)return null;if(tool==='eraser')return{kind:'eraser',x,y};return{kind:'pencil',x,y,color:spec.palette[1].hex}}
+  async function apply(actions){const result=await api('/api/apply',{actions});const s=await fetch('/api/session').then(r=>r.json());pixels=s.pixels;render();return result}
+  editor.addEventListener('pointermove',e=>{const p=position(e);document.querySelector('#coords').textContent=`coord: ${p.x}, ${p.y} | ferramenta: ${tool}`;if(stroke&&tool!=='fill'){const a=action(p.x,p.y);if(a)apply([a]).catch(err=>document.querySelector('#status').textContent=err.message)}});
+  editor.addEventListener('pointerdown',e=>{stroke=true;editor.setPointerCapture(e.pointerId);const p=position(e);const a=tool==='fill'?{kind:'fill',x:p.x,y:p.y,color:spec.palette[1].hex}:action(p.x,p.y);if(a)apply([a]).catch(err=>document.querySelector('#status').textContent=err.message)});editor.addEventListener('pointerup',()=>stroke=false);editor.addEventListener('pointerleave',()=>stroke=false);
+  function setTool(t){tool=t;document.querySelectorAll('#pencil,#eraser,#fill').forEach(b=>b.classList.toggle('active',b.id===t))}
+  document.querySelector('#pencil').onclick=()=>setTool('pencil');document.querySelector('#eraser').onclick=()=>setTool('eraser');document.querySelector('#fill').onclick=()=>setTool('fill');
+  document.querySelector('#grid').onclick=e=>{grid=!grid;e.target.textContent=`Grid 8×8: ${grid?'ligado':'desligado'}`;render()};
+  document.querySelector('#clear').onclick=()=>api('/api/session',{spec}).then(()=>location.reload()).catch(err=>document.querySelector('#status').textContent=err.message);
+  document.querySelector('#validate').onclick=()=>api('/api/validate',{}).then(j=>document.querySelector('#status').textContent=JSON.stringify(j,null,2)).catch(err=>document.querySelector('#status').textContent=err.message);
+  document.querySelector('#exportPng').onclick=()=>api('/api/export',{}).then(j=>document.querySelector('#status').textContent=JSON.stringify(j,null,2)).catch(err=>document.querySelector('#status').textContent=err.message);
+  document.querySelector('#exportLog').onclick=()=>api('/api/export-log',{}).then(j=>document.querySelector('#status').textContent=JSON.stringify(j,null,2)).catch(err=>document.querySelector('#status').textContent=err.message);
+  fetch('/api/session').then(r=>r.json()).then(j=>{spec=j.spec;pixels=j.pixels;document.querySelector('#spec').textContent=`${spec.asset_id}\ncanvas ${spec.canvas.width}×${spec.canvas.height}\npivot ${spec.canvas.pivot.join(',')}\npaleta ${spec.palette.length} entradas`;render()}).catch(err=>document.querySelector('#status').textContent=err.message)
+})();
+</script>
+</body></html>

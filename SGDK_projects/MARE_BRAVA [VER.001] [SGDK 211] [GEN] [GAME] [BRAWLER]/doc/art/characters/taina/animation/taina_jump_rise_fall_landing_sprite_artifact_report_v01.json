@@ -1,0 +1,448 @@
+{
+  "schema": "sprite_strip_integrity_report.v1",
+  "tool": "analyze_sprite_strip_integrity.py",
+  "image_path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_p0_locomotion_v01/taina_jump_rise_fall_landing_48x64_v01.png",
+  "mode": "P",
+  "size": [
+    384,
+    64
+  ],
+  "frame_width": 48,
+  "frame_height": 64,
+  "frame_count": 8,
+  "background_rgba": [
+    255,
+    0,
+    255,
+    0
+  ],
+  "background_palette_index": 0,
+  "asset_id": "taina_jump_rise_fall_landing",
+  "asset_kind": "animation_strip",
+  "state_profile": "jump",
+  "palette_domain": "",
+  "palette_domain_report": "",
+  "declared_fx_indices": null,
+  "measurement_level": "measured",
+  "scale_profile_thresholds": {
+    "standing": 1.35,
+    "dash": 1.55,
+    "hop": 1.65,
+    "crouch": 1.7,
+    "grounded": 3.8,
+    "knockdown": 5.0,
+    "getup": 5.0,
+    "throw": 3.2,
+    "fx": 4.0
+  },
+  "status": "passed",
+  "summary": {
+    "edge_problem_frames": 0,
+    "matte_problem_frames": 0,
+    "island_problem_frames": 0,
+    "baked_fx_frames": 0,
+    "bbox_width_min": 28,
+    "bbox_width_max": 37,
+    "bbox_height_min": 47,
+    "bbox_height_max": 59
+  },
+  "findings": [],
+  "frames": [
+    {
+      "frame": 1,
+      "non_background_pixels": 920,
+      "bbox": [
+        8,
+        5,
+        42,
+        59
+      ],
+      "bbox_size": [
+        35,
+        55
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 920,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 920,
+            "bbox": [
+              8,
+              5,
+              42,
+              59
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 2,
+      "non_background_pixels": 923,
+      "bbox": [
+        11,
+        2,
+        39,
+        58
+      ],
+      "bbox_size": [
+        29,
+        57
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 10,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 923,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 923,
+            "bbox": [
+              11,
+              2,
+              39,
+              58
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 3,
+      "non_background_pixels": 791,
+      "bbox": [
+        11,
+        2,
+        38,
+        51
+      ],
+      "bbox_size": [
+        28,
+        50
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 10,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 1,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 790,
+        "non_largest_component_pixels": 1,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 1,
+        "largest_stray_component_box": [
+          25,
+          51,
+          25,
+          51
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 790,
+            "bbox": [
+              11,
+              2,
+              38,
+              51
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              25,
+              51,
+              25,
+              51
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 4,
+      "non_background_pixels": 751,
+      "bbox": [
+        11,
+        2,
+        38,
+        48
+      ],
+      "bbox_size": [
+        28,
+        47
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 10,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 751,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 751,
+            "bbox": [
+              11,
+              2,
+              38,
+              48
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 5,
+      "non_background_pixels": 810,
+      "bbox": [
+        11,
+        2,
+        38,
+        52
+      ],
+      "bbox_size": [
+        28,
+        51
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 10,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 810,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 810,
+            "bbox": [
+              11,
+              2,
+              38,
+              52
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 6,
+      "non_background_pixels": 917,
+      "bbox": [
+        8,
+        2,
+        42,
+        57
+      ],
+      "bbox_size": [
+        35,
+        56
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 10,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 1,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 916,
+        "non_largest_component_pixels": 1,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 1,
+        "largest_stray_component_box": [
+          8,
+          57,
+          8,
+          57
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 916,
+            "bbox": [
+              8,
+              2,
+              42,
+              57
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              8,
+              57,
+              8,
+              57
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 7,
+      "non_background_pixels": 979,
+      "bbox": [
+        7,
+        5,
+        43,
+        60
+      ],
+      "bbox_size": [
+        37,
+        56
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 19
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 979,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 979,
+            "bbox": [
+              7,
+              5,
+              43,
+              60
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 8,
+      "non_background_pixels": 1007,
+      "bbox": [
+        9,
+        3,
+        41,
+        61
+      ],
+      "bbox_size": [
+        33,
+        59
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 3,
+        "bottom": 38
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 1007,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 1007,
+            "bbox": [
+              9,
+              3,
+              41,
+              61
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

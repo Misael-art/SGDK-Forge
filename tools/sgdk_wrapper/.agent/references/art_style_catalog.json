@@ -264,14 +264,22 @@
       "palette_signature": "high saturation fabric, warm skin, cool deep shadows",
       "line_weight": "clean 1-2 px outline with angular muscle planes",
       "lighting_model": "hard cel shadows with hue-shifted ramps",
-      "prompt_descriptors": ["angular arcade fighter anatomy", "sharp cel-shadow muscle planes", "vibrant limited palette", "clean outline pixel clusters", "expressive impact poses"],
-      "negative_descriptors": ["recolored commercial sprites", "neutral gray ramps", "soft AA edges"],
+      "authorial_line_contract": {
+        "required": true,
+        "purpose": "Prevent this style from collapsing into generic arcade-fighter concept art. Every project selecting it must declare its own line signature, silhouette hooks, facial grammar, material grammar and non-generic character/world marks before generation.",
+        "line_signature": ["outer contour is assertive but not uniformly black; line weight varies by silhouette importance", "internal lines are sparse angular cuts, not decorative sketch noise", "shadow borders create readable wedge shapes that can later become pixel clusters", "hands, feet, jaw, brow and costume edges receive deliberate graphic emphasis"],
+        "character_design_requirements": ["each playable or enemy character needs at least three silhouette hooks that survive as a black shape", "face grammar must be declared: brow, eyes, nose bridge, mouth attitude and hair mass", "body proportions must be expressive and game-scaled, not fashion-realistic", "costume asymmetry, material markers and accessories must be locked before key poses"],
+        "environment_design_requirements": ["stage objects need hand-drawn material marks, not generic prop icons", "foreground, BG_A and BG_B must share the same line logic while reducing contrast by depth", "large landmarks need a signature shape tied to gameplay, geography or story"],
+        "generation_blockers": ["authorial_line_contract_missing", "generic_prompt_style_blocker", "silhouette_hooks_undeclared", "face_grammar_undeclared", "material_grammar_undeclared"]
+      },
+      "prompt_descriptors": ["angular arcade fighter anatomy", "project-specific authorial line signature", "non-generic silhouette hooks", "expressive brow, jaw, hand and foot shapes", "costume asymmetry and material markers locked", "sharp cel-shadow muscle planes", "vibrant limited palette", "clean outline pixel clusters", "expressive impact poses"],
+      "negative_descriptors": ["recolored commercial sprites", "generic anime fighter face", "generic athletic body", "anonymous brawler costume", "uniform black outline everywhere", "decorative line noise", "neutral gray ramps", "soft AA edges"],
       "mega_drive_compatibility": "adapted",
       "vram_pressure_hint": "high",
       "reference_titles": ["Street Fighter Alpha 2", "Darkstalkers", "Pocket Fighter"],
       "inspiration_only": true,
       "clone_risk_method": "pose_silhouette_palette_distance",
-      "anti_patterns": ["cloning iconic poses", "using arcade scale without MD budget"]
+      "anti_patterns": ["cloning iconic poses", "using arcade scale without MD budget", "describing only a genre label without project-specific line contract", "accepting a pretty model sheet whose face, hands, silhouette and costume could belong to any game"]
     },
     {
       "style_id": "rubber_hose_1930s",

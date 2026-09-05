@@ -17,7 +17,11 @@ param(
     [Parameter(Mandatory = $false)]
     [int]$PerceptualNaturalidade = 0,
     [Parameter(Mandatory = $false)]
-    [int]$PerceptualImpacto = 0
+    [int]$PerceptualImpacto = 0,
+    [Parameter(Mandatory = $false)]
+    [string]$RomPath = "",
+    [Parameter(Mandatory = $false)]
+    [string]$EvidenceSessionId = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -153,13 +157,31 @@ $maxScanlineSprites = [int]$words[14]
 $fxPeakConcurrency = [int]$words[15]
 $spriteEnginePeak = [int]$words[16]
 $activeFx = [int]$words[17]
+$maxDmaQueueEntries = [int]$words[18]
+$maxDmaQueueTransferBytes = [int]$words[19]
+$probeWindowTarget = [int]$words[21]
+$probeWindowCompleteFlag = [int]$words[22]
 $budgetThreshold = [int]$words[23]
 if ($budgetThreshold -le 0) {
     $budgetThreshold = 100
 }
-if ($cpuLoadMax -le 0 -and $samplesRecorded -gt 0) {
-    $cpuLoadMax = ($samples | Measure-Object -Maximum).Maximum
+if ($samplesRecorded -gt 0) {
+    $sampleSeriesMax = [int](($samples | Measure-Object -Maximum).Maximum)
+    if ($sampleSeriesMax -gt $cpuLoadMax) {
+        $cpuLoadMax = $sampleSeriesMax
+    }
+    $sampleSeriesOverBudget = @($samples | Where-Object { $_ -gt $budgetThreshold }).Count
+    if ($sampleSeriesOverBudget -gt $overBudgetFrames) {
+        $overBudgetFrames = $sampleSeriesOverBudget
+    }
 }
+
+$hasWindowContract = $probeWindowTarget -gt 0
+$captureComplete = (
+    $samplesRecorded -ge $FrameWindow -and
+    (-not $hasWindowContract -or $probeWindowCompleteFlag -ne 0)
+)
+$captureStatus = if ($captureComplete) { 'ok' } else { 'partial' }
 
 $frameMetrics = [System.Collections.Generic.List[object]]::new()
 if ($samplesRecorded -gt 0) {
@@ -189,8 +211,12 @@ if ($samplesRecorded -gt 0) {
             sprite_count              = if ($i -eq $peakSpriteIndex) { $spriteEnginePeak } else { 0 }
             max_sprites_per_scanline  = if ($i -eq $peakSpriteIndex) { $maxScanlineSprites } else { 0 }
             fx_concurrency            = if ($i -eq $peakSpriteIndex) { $fxPeakConcurrency } else { $activeFx }
+            dma_queue_entries         = if ($i -eq $peakSpriteIndex) { $maxDmaQueueEntries } else { 0 }
+            dma_queue_transfer_bytes  = if ($i -eq $peakSpriteIndex) { $maxDmaQueueTransferBytes } else { 0 }
+            dma_ops                   = if ($i -eq $peakSpriteIndex) { $maxDmaQueueEntries } else { 0 }
+            dma_bytes_requested       = if ($i -eq $peakSpriteIndex) { $maxDmaQueueTransferBytes } else { 0 }
             measurement_source        = 'mdrt_sample_series'
-            capture_status            = if ($samplesRecorded -ge $FrameWindow) { 'ok' } else { 'partial' }
+            capture_status            = $captureStatus
         }) | Out-Null
     }
 
@@ -202,12 +228,19 @@ if ($samplesRecorded -gt 0) {
 $report = [ordered]@{
     schema_version = [int]$words[2]
     source = "blastem_sram"
-    capture_status = if ($samplesRecorded -ge $FrameWindow) { "ok" } else { "partial" }
+    rom_sha256 = if (-not [string]::IsNullOrWhiteSpace($RomPath) -and (Test-Path -LiteralPath $RomPath -PathType Leaf)) {
+        (Get-FileHash -LiteralPath $RomPath -Algorithm SHA256).Hash.ToLowerInvariant()
+    } else {
+        $null
+    }
+    evidence_session_id = if ([string]::IsNullOrWhiteSpace($EvidenceSessionId)) { $null } else { $EvidenceSessionId }
+    capture_status = $captureStatus
     frame_window = [int]$FrameWindow
     timeout_frame = [int]$TimeoutFrame
     probe_magic_hi = [int]$words[0]
     probe_magic_lo = [int]$words[1]
     target_fps = [int]$words[4]
+    region_mode = if ([int]$words[4] -eq 50) { 'PAL_50HZ' } elseif ([int]$words[4] -eq 60) { 'NTSC_60HZ' } else { 'unknown' }
     scene_id = $sceneId
     frames_seen = $framesSeen
     samples_recorded = [int]$samplesRecorded
@@ -218,6 +251,10 @@ $report = [ordered]@{
     fx_peak_concurrency = $fxPeakConcurrency
     sprite_engine_peak = $spriteEnginePeak
     active_fx = $activeFx
+    max_dma_queue_entries = $maxDmaQueueEntries
+    max_dma_queue_transfer_bytes = $maxDmaQueueTransferBytes
+    probe_window_target = $probeWindowTarget
+    probe_window_complete = ($probeWindowCompleteFlag -ne 0)
     budget_threshold = $budgetThreshold
     frame_cpu_ratio_avg = [math]::Round($avg, 2)
     frame_cpu_ratio_p95 = if ($samplesSorted.Count -gt 0) {

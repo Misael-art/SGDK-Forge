@@ -1,0 +1,26 @@
+{
+  "schema_version": "human_visual_decision.v1",
+  "decision": "reject_material_palette_reseed_as_visual_challengers",
+  "basic_sha256": "24bee2d802e9bda6cbbabd43637220b5c2c99b1d66ebdeba21fd24205fedd33a",
+  "elite_sha256": "753815ea994859cc52c35e701a505258cbb141896b44717fb7f8239aeb415f9b",
+  "reason": "semantic_flattening_destroyed_internal_drawing_and_identity",
+  "basic_elite_changed_pixels": 4,
+  "basic_elite_changed_ratio": 0.00271,
+  "preserve_as_visual_challenger": false,
+  "classification": {
+    "method": "diagnostic_semantic_color_blocking",
+    "acceptance_status": "visual_lab_control",
+    "promotable": false,
+    "allowed_as_pixel_source": false
+  },
+  "source_control": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+    "sha256": "6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3",
+    "scale": "56x80"
+  },
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "visual_pass": false,
+  "ready_for_aaa": false
+}

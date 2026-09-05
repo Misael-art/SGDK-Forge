@@ -9,9 +9,9 @@
  * Autoridade: doc/branding_sequence_contract.json. Se este header divergir do
  * contrato, o contrato ganha.
  *
- * ESTADO: documentado. Nada aqui esta implementado e nenhum dos 8 assets do
- * ato existe ainda. Os simbolos brand_* atuais sao placeholders desenhados por
- * primitiva e nunca podem ser promovidos a final.
+ * ESTADO: implementado + buildado. H-Int usa HINTERRUPT_CALLBACK (RTE).
+ * bg_b medido em 642 unique. Sem testado_em_emulador (falta vdp_dump e
+ * runtime_metrics no bundle).
  *
  * O v1 media over_budget_frames=1 com ZERO sprites, nenhum H-Int e duas
  * paletas ociosas. A causa provavel e o upload da tabela de HScroll por CPU
@@ -22,18 +22,24 @@
 
 /* ---- Linha do tempo (NTSC, 60fps) ------------------------------------- */
 
-#define BRAND_V2_ACT_IGNITION_START     0
-#define BRAND_V2_ACT_STRIKE_START     120   /* impacto do martelo            */
-#define BRAND_V2_ACT_SIGNATURE_START  300   /* cortina por coluna            */
-#define BRAND_V2_END                  520   /* handoff por fade de paleta    */
+#define BRAND_V2_ACT_PRELUDE_START      0   /* ceu, silencio, toque          */
+#define BRAND_V2_ACT_DESCENT_START     84   /* queda e calor                 */
+#define BRAND_V2_ACT_LOCK_START       168   /* ruinas, antecipacao           */
+#define BRAND_V2_HIT1                 228   /* 1o golpe: a materia           */
+#define BRAND_V2_HIT2                 312   /* 2o golpe: a identidade        */
+#define BRAND_V2_ACT_STRIKE_START     BRAND_V2_HIT1
+#define BRAND_V2_ACT_SIGNATURE_START  420   /* hold do FORGE, depois menu    */
+#define BRAND_V2_END                  420
 
 #define BRAND_V2_EMBER_FALL_START       8
 #define BRAND_V2_EMBER_FALL_END        96
-#define BRAND_V2_FLASH_FRAMES           2   /* CRAM masked, evita CRAM dots  */
-#define BRAND_V2_SHARD_SWARM_START    122
-#define BRAND_V2_LOGO_LOCK            180   /* sprite -> tilemap             */
+#define BRAND_V2_FLASH_FRAMES           2
+#define BRAND_V2_SHARD_SWARM_START    (BRAND_V2_HIT2 + 2)
+#define BRAND_V2_LOGO_LOCK            (BRAND_V2_HIT2 + 36)
 #define BRAND_V2_CURTAIN_END          360
 #define BRAND_V2_PRESENTS_IN          480
+#define BRAND_V2_SPARK_COUNT           12
+#define BRAND_V2_WALL_REVEAL          154   /* so depois do ceu ter saido */
 
 /* ---- Orcamento declarado (measurement_level: estimated) ---------------- */
 

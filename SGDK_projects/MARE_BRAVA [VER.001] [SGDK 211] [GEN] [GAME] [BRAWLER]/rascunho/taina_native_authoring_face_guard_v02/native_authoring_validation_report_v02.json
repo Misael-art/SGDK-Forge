@@ -1,0 +1,426 @@
+{
+  "status": "passed",
+  "errors": [],
+  "asset_id": "taina_48x64_native_authoring_face_guard_v02",
+  "candidate_sha256": "07cae129d3563846588dcf56f686fa993e88aa85165125794b6f9c5402b23203",
+  "source_sha256": "aecfd64804b9cad24110107c24a905ed98801be032ffe5fdca4699f673a0eb13",
+  "approved_visual_source_sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+  "authoring_source_sha256": "aecfd64804b9cad24110107c24a905ed98801be032ffe5fdca4699f673a0eb13",
+  "model_sheet_sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+  "scale": "48x64",
+  "comparison_only": [
+    "64x96"
+  ],
+  "visible_colors": 12,
+  "pixel_contract": {
+    "schema_version": "1.0.0",
+    "tool": "forge_art.pixel_contract",
+    "tool_version": "1.2.0",
+    "file": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/taina_48x64_native_authoring_face_guard_v02.png",
+    "index0_role": "transparent0",
+    "oracle": "rescomp",
+    "width": 48,
+    "height": 64,
+    "bit_depth": 4,
+    "color_type": 3,
+    "plte_entries": 16,
+    "visible_colors": 12,
+    "content_sha256": "26be7bd86f8a9d4e4409b6fe34b02dbe82722d1c657f3d72303d777b304fd759",
+    "scope": "static_contract",
+    "limitation": "Aprova sintaxe de hardware. Nao aprova silhueta, anatomia, material, identidade nem leitura; `technical_pass` nao implica `visual_pass`.",
+    "status": "technical_candidate",
+    "blocking": false,
+    "blocking_statuses": [],
+    "blockers": []
+  },
+  "shape_block": {
+    "paths": {
+      "silhouette_mask": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/shape_block/silhouette_mask.png",
+      "semantic_region_map": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/shape_block/semantic_region_map.png",
+      "contour_overlay": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/shape_block/contour_overlay.png"
+    },
+    "sha256": {
+      "silhouette_mask": "ab24a5747007b0900d0cefe022600bba7fffb1489732cc1206c0f5c451daca82",
+      "semantic_region_map": "387ac9551139eaad8a42363e24cd7968fe06d2194a1de2434f0310c4d93451cd",
+      "contour_overlay": "0bf524d051ad379a914623a0ab8e8835793041b6ba72bc9e4b3114986d74fb62"
+    },
+    "asset_id": "taina_48x64_native_authoring_face_guard_v02",
+    "scale": "48x64",
+    "counts": {
+      "head_or_face": 193,
+      "hair": 48,
+      "torso": 272,
+      "arms_or_guard": 19,
+      "hands": 38,
+      "legs": 200,
+      "feet": 39,
+      "sash": 127
+    },
+    "method": "candidate_derived_semantic_diagnostic_annotation"
+  },
+  "controls": {
+    "face_guard_control": {
+      "control_sha256": "1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830",
+      "changed_mask_pixels": 183,
+      "intersection_pixels": 837,
+      "candidate_only_pixels": 99,
+      "control_only_pixels": 84
+    },
+    "challenger_b_control": {
+      "control_sha256": "d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa",
+      "changed_mask_pixels": 355,
+      "intersection_pixels": 744,
+      "candidate_only_pixels": 192,
+      "control_only_pixels": 163
+    },
+    "elite_control": {
+      "control_sha256": "0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13",
+      "changed_mask_pixels": 355,
+      "intersection_pixels": 744,
+      "candidate_only_pixels": 192,
+      "control_only_pixels": 163
+    }
+  },
+  "budget": {
+    "asset_id": "taina_48x64_native_authoring_face_guard_v02",
+    "candidate_sha256": "07cae129d3563846588dcf56f686fa993e88aa85165125794b6f9c5402b23203",
+    "scale": "48x64",
+    "hardware_cells": {
+      "count": 4,
+      "decomposition": "2x2 <=32x32 VDP cells"
+    },
+    "hero_plus_four_enemies": {
+      "tool_name": "vdp_scanline_simulator",
+      "tool_version": "1.2.0",
+      "status": "ok",
+      "display_mode": "h40",
+      "limits": {
+        "sprites_per_scanline": 20,
+        "pixels_per_scanline": 320
+      },
+      "sprite_count": 5,
+      "hardware_sprite_count": 20,
+      "total_sprite_links": 20,
+      "max_sprites_per_scanline": 10,
+      "max_sprite_pixels_per_scanline": 248,
+      "over_limit_lines": [],
+      "over_pixel_limit_lines": [],
+      "headroom": {
+        "sprite_utilization": 0.5,
+        "pixel_utilization": 0.775,
+        "binding_limit": "sprite_pixels",
+        "peak_utilization": 0.775,
+        "unexploited_threshold": 0.6,
+        "justification": "static geometry challenger budget; no runtime claim",
+        "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+      },
+      "blockers": [],
+      "warnings": []
+    },
+    "next_3_plus_3_comparison_only": {
+      "tool_name": "vdp_scanline_simulator",
+      "tool_version": "1.2.0",
+      "status": "error",
+      "display_mode": "h40",
+      "limits": {
+        "sprites_per_scanline": 20,
+        "pixels_per_scanline": 320
+      },
+      "sprite_count": 7,
+      "hardware_sprite_count": 28,
+      "total_sprite_links": 28,
+      "max_sprites_per_scanline": 14,
+      "max_sprite_pixels_per_scanline": 348,
+      "over_limit_lines": [],
+      "over_pixel_limit_lines": [
+        {
+          "scanline": 128,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 129,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 130,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 131,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 132,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 133,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 134,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 135,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 136,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 137,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 138,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 139,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 140,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 141,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 142,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 143,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 144,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 145,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 146,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 147,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 148,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 149,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 150,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 151,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 152,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 153,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 154,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 155,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 156,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 157,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 158,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 159,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 160,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 161,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 162,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 163,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 164,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 165,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 166,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 167,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 168,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 169,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 170,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 171,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 172,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 173,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 174,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 175,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 176,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 177,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 178,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 179,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 180,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 181,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 182,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 183,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 184,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 185,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 186,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 187,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 188,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 189,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 190,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 191,
+          "sprite_pixels": 348
+        }
+      ],
+      "headroom": {
+        "sprite_utilization": 0.7,
+        "pixel_utilization": 1.087,
+        "binding_limit": "sprite_pixels",
+        "peak_utilization": 1.087,
+        "unexploited_threshold": 0.6,
+        "justification": "static geometry challenger budget; no runtime claim",
+        "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+      },
+      "blockers": [
+        "sprite_pixels_per_scanline_over_320"
+      ],
+      "warnings": []
+    },
+    "measurement_level": "measured"
+  },
+  "evidence": {
+    "native_1x": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/evidence/native_1x.png",
+    "nearest_8x": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/evidence/nearest_8x.png",
+    "light": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/evidence/light_background.png",
+    "dark": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/evidence/dark_background.png",
+    "chroma": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/evidence/chroma_background.png",
+    "camera_320x224": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/evidence/camera_320x224.png"
+  },
+  "review_panel": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v02/taina_native_authoring_face_guard_review_panel_v02.png",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "final_pose_approval": false,
+  "contamination": {
+    "data_changed": false,
+    "res_changed": false,
+    "staging_only": true
+  }
+}

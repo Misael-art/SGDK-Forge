@@ -22,6 +22,56 @@ Transformar imagem-fonte em recurso visual de Mega Drive preservando:
 
 sem tentar preservar, de forma ingenua, tudo o que o hardware nao suporta.
 
+## Regra critica para sprites 48x64
+
+Concept art high-res de personagem critico nao pode virar sprite 48x64 por
+downscale direto, quantizacao global ou limpeza cosmetica posterior. Essa rota
+normalmente destrói olhos, maos, roupas, materiais e contraste.
+
+A traducao correta e reconstruir em grid nativo:
+
+- silhueta e lineart 1 px primeiro;
+- clusters legiveis para cabeca, olhos, tronco, membros, maos, pes e roupa;
+- paleta manual por material, nao apenas por frequencia estatistica;
+- separacao PAL2/PAL3 quando feature, glow, fire ou gameplay signal precisarem
+  sobreviver ao VDP;
+- comparacao `original/basic/elite/rom` antes de promocao visual.
+
+Downscale pode servir como miniatura ou guia de proporcao. Nao e final art.
+
+Mesmo quando o agente redesenha em grid nativo, a folha ainda pode falhar se
+ela virar um boneco blocado/generico. Para sprite sheet derivado de model
+sheet aprovado, o redraw precisa passar por `model_sheet_to_sprite_fidelity_report`:
+
+- cada traço `must_preserve` do `visual_dna_manifest`/`design_inheritance`
+  precisa ser avaliado;
+- rosto/olhos, feature assinatura, roupa, materiais e acting por estado
+  precisam sobreviver em 48x64;
+- `technical_pass=true` com `visual_pass=false` bloqueia promocao;
+- falha exige retorno para `lineart_blocking_1px` por acao, nao polimento sobre
+  o PNG final.
+
+## Bloqueio anti-polimento do erro
+
+Quando uma sprite sheet, contact sheet, GIF, strip em `res/sprites/` ou pacote
+parcial falhar visualmente, faltar revisao humana, faltar `visual_vdp_dump` ou
+ficar em `runtime_candidate_not_source`, ela deve ser marcada como
+`obsolete_for_generation_source`. A proxima geracao nao pode usar esse PNG como
+`source`, `baseline`, `reference_for_generation`, `img2img_base`,
+`generation_source` ou `image_reference`.
+
+Rota permitida:
+
+- voltar ao model sheet aprovado/travado;
+- aplicar `visual_dna_manifest`, brief de direcao e `art_gameplay_direction_gate`;
+- redesenhar `lineart_blocking_1px` por estado/acao;
+- aprovar key poses antes de color blocking;
+- gerar nova sheet a partir do model sheet, nao reparar a sheet ruim.
+
+Se existir `doc/contracts/visual_source_of_truth*.json`, rode
+`tools/sgdk_wrapper/validate_visual_source_of_truth.ps1` antes de qualquer nova
+geracao, builder ou promocao visual.
+
 ## Quando usar
 
 Use esta skill quando:
@@ -30,6 +80,8 @@ Use esta skill quando:
 - existe concept art que precisa virar sprite ou tilemap
 - o asset parece forte no PC e fraco demais quando reduzido para o Mega Drive
 - e preciso preservar a "alma" da imagem em vez de apenas quantizar
+- a imagem-fonte veio do **Bonsai 4B** (1-bit dithered monochrome) e precisa virar
+  sprite/tilemap/tilemap_8x8 com paleta restrita e dithering VDP-compativel
 
 ## Nao use
 
@@ -37,6 +89,45 @@ Use esta skill quando:
 - para buscar assets na web
 - para converter automaticamente assets que ja foram desenhados para SGDK
 - para validacao puramente pixel-rigida sem problema de traducao visual
+
+## Caso: source Bonsai 1-bit dithered (Canonico)
+
+Quando `imagegen_circuit.py` emite um asset com `channel=local_bonsai_generation`
+e `asset_role` em `{concept_art, tileset_concept, dither_mask, contrast_study}`,
+o status inicial e `source_candidate`. A traducao para VDP segue o protocolo:
+
+1. **Localizar source**: `<P>/data/source_art/<role>/source.png`.
+2. **Ler manifest**: `premium_source_manifest.json` (status esperado:
+   `accepted_as_premium_source: false`, `license_or_generation_basis` cita
+   Bonsai 4B). O `prompt_pack_manifest.json` co-localizado em
+   `<P>/data/raw_ai/<run>/` registra prompt, model_variant (ternary/binary),
+   seed, dimensions, license_ack_sha256.
+3. **Diagnosticar tipo de source**: Bonsai 1-bit tende a cair em
+   `palette_separated_panorama` (se for cena) ou `tilemap` (se for
+   tileset_concept). Aplicar `source semantic parsing` canonico.
+4. **Mapping H/S canonico** (a chave da traducao 1-bit → VDP):
+   - Tom 1 (preto puro, "off") → indice 0 da paleta = transparente
+     (conforme contrato `megadrive-pixel-strict-rules`)
+   - Tom 2 (branco puro, "on") → indice 15 da paleta = cor principal
+   - Dither pattern observado → interpretado como mascara de iluminacao:
+     pares 1-bit adjacentes viram pares de cor (Highlight/Shadow) na
+     mesma paleta
+   - Aplicar `3+1 palette split` se o dithering tem 2 regioes de
+     luminancia bem distintas (foreground heroico vs fundo)
+5. **Quantizar com grade 9-bits** (cada canal em 0x00, 0x22, ..., 0xEE).
+   Bonsai 1-bit ja opera em dois tons, entao a quantizacao so precisa
+   garantir que pretos viram 0x000 e brancos viram 0xEEE.
+6. **Validar**: `megadrive-pixel-strict-rules` (PASS obrigatorio).
+7. **Curar 4-8 variantes** em `route_exploration_board`: variando
+   `dithering_plan` (ordem do pattern, escala), `palette_plan` (qual
+   trio de cores), `layer_plan` (single-plane vs 3+1).
+8. **Gate visual**: contact sheet + BlastEm screenshot.
+9. **Promover** para `res/` via `imagegen_tool.py convert` apenas
+   quando o pipeline externo retornar `premium_source_accepted`.
+
+Nunca pular o passo 1-3. O dithering 1-bit do Bonsai e semanticamente
+informativo (representa iluminacao via pattern), e destruir essa
+informacao via quantizacao cega e o anti-padrao classico.
 
 ## Entradas obrigatorias
 
@@ -51,6 +142,19 @@ Use esta skill quando:
 - `hardware_spec`
 - `hardware_expectations`
 - `intent_notes`
+- `visual_dna_manifest` e `design_inheritance` quando a traducao for personagem, boss, stage autoral ou HUD heroico
+- `art_gameplay_direction_gate` quando a traducao for model sheet, background,
+  sprite art, key pose, animation strip, sprite sheet final, FX sheet, HUD
+  heroico, title/menu ou asset critico
+- `model_sheet_to_sprite_fidelity_report` quando `translation_target=sprite_sheet` e houver model sheet aprovado
+- `animation_strip_contract` quando a traducao alvo for `sprite_sheet` com strips de acao
+- `fake_pixel_art_rejection` quando a fonte veio de IA, render high-res ou mockup que apenas parece pixel art
+- `camera_motion_contract` e `parallax_layer_contract` quando a fonte for
+  stage MUGEN/DEF, Tiled parallax, cena de luta com scroll X/Y ou background
+  com deltas por camada
+- `palette_vitality_check` quando a diretriz pedir cores vibrantes, quando a
+  fonte depender de contraste cromatico, ou quando a primeira rota gerar
+  nearest-color/remap massivo
 
 ## Contrato Operacional
 
@@ -62,6 +166,7 @@ Use esta skill quando:
 - `hardware_spec`
 - `hardware_expectations`
 - `intent_notes`
+- `art_gameplay_direction_gate` quando o alvo for asset critico ou autoral
 
 ### Saida minima
 
@@ -69,7 +174,19 @@ Use esta skill quando:
 - `translation_report`
 - pacote `basic`
 - pacote `elite`
+- painel humano de comparacao `original/basic/elite/rom` quando a traducao for portabilidade de cena ou scene_slice/tilemap
 - review estrutural de tileset e paleta
+- quando `translation_target` for `scene_slice` ou `tilemap`, e a conversao for critica (>=320x224 ou tecnica declarada ou entrega), gerar em `out/logs/`
+  - `scene_tilemap_conversion_report.json`
+  - `per_tile_palette_conflict_report.json`
+  - `tilemap_flag_report.json` quando houver dedup/HV flip ou otimizacao de tilemap
+- `animation_strip_contract` atualizado quando a traducao gerar strip horizontal de acao unica
+- `native_grid_translation_report` quando a fonte precisar virar pixel art nativa
+- `fake_pixel_art_rejection` quando aplicavel
+- `authorial_consistency_report` quando a traducao tocar asset critico autoral
+- `art_gameplay_direction_gate_report` quando a traducao depender de contexto de
+  art director + game design antes de gerar/converter/promover
+- `model_sheet_to_sprite_fidelity_report` quando a traducao gerar sprite sheet de personagem a partir de model sheet
 
 ### Saida opcional quando houver multiplas rotas viaveis
 
@@ -81,6 +198,19 @@ Use esta skill quando:
 ### Passa quando
 
 - o parsing semantico foi emitido antes de qualquer promocao final
+- a traducao nao aceita metadata-only como asset aprovado
+- strips de animacao preservam acao unica, pivot, escala, roupa, rosto, paleta e bbox declarados no `visual_dna_manifest`
+- se houver `art_gameplay_direction_gate`, a traducao preserva camera,
+  interacao, papel de gameplay e marcadores `must_preserve`; asset bonito fora
+  de contexto vira `director_gate_unapproved`
+- stage com multiplos deltas, zoffset ou verticalfollow nao pode virar sheet
+  plana unica sem `compare_flat` honesto; se a rota achatar parallax, declarar
+  `lab_flattened_reference` ou voltar para `multi-plane-composition`
+- traducao que encaixa em 4 sub-paletas mas perde vibracao, temperatura de
+  materiais, agua/ceu/vegetacao/rocha ou separacao de planos nao passa como
+  `elite`; usar `palette_vitality_check`, nao apenas `per_tile_palette_conflicts=0`
+- sprite sheet derivado de model sheet preserva os traços `must_preserve` em `model_sheet_to_sprite_fidelity_report`; `native redraw` sem fidelidade vira `generic_blocky_redraw`, nao `elite`
+- fonte IA/high-res nao foi promovida como sprite nativo sem nearest-neighbor/redesenho, indexacao limpa e rejeicao de fake pixel art
 - `elite` se sustenta melhor que `basic`
 - quando houver duas ou mais leituras fortes, a exploracao de rotas foi registrada antes da promocao final
 - o caso ja aponta sua classe dominante: `erro_de_asset`, `erro_de_recurso_sgdk`, `erro_de_budget` ou `erro_de_pipeline`
@@ -142,12 +272,13 @@ Exemplo canonico:
 
 ## Checklist obrigatorio
 
-1. Ler `doc/03_art/00_visual_quality_bar.md`
-2. Ler `doc/03_art/01_visual_cohesion_system.md`
-3. Ler `doc/03_art/02_visual_feedback_bank.md`
-4. Aplicar `visual-excellence-standards`
-5. Validar contra `megadrive-pixel-strict-rules`
-6. Quando houver cena real, consultar `megadrive-vdp-budget-analyst`
+1. Ler `doc/03_art/18_live_scene_bar.md` (P1-P4, P8, R4 sao o piso desta skill)
+2. Ler `doc/03_art/00_visual_quality_bar.md`
+3. Ler `doc/03_art/01_visual_cohesion_system.md`
+4. Ler `doc/03_art/02_visual_feedback_bank.md`
+5. Aplicar `visual-excellence-standards`
+6. Validar contra `megadrive-pixel-strict-rules`
+7. Quando houver cena real, consultar `megadrive-vdp-budget-analyst`
 
 Competencias complementares obrigatorias por contexto:
 
@@ -624,6 +755,19 @@ O laudo deve sair acompanhado de um painel visual lado a lado para validacao hum
 - `emulator_ok`
   - foi visto rodando com evidencia
 
+### Curadoria - motion_gif + pivos + contact points
+
+Licao: aprovacao de sprite sheet de animacao via screenshot estatico nao comprova movimento, continuidade de poses nem leitura sob FX. Antes de promover um sprite strip para `elite_ready` ou `delivered`, a traducao deve produzir:
+
+- `motion_gif` (ou `webp` animado) com todos os frames do ciclo, gerado a partir do proprio `resources.res` ou da sprite sheet pos-conversao. Nao confundir com o GIF entregue pelo autor da fonte; este deve ser o GIF **do output final** para validar a traducao.
+- `pivots.json` listando os pivos por frame: foot plant (corrida), hand contact (ataque/punch), torso pivot (idle), head pivot (balanco). Cada pivot declara `(x, y)` em pixels do tile e `(frame_index, role)`.
+- `contact_points.json` listando pontos de contato declarados por frame para checagem de legibilidade: `(frame_index, region, expected_visible_color_count)`.
+- `human_approval_record.md` com link para o `motion_gif` e data da aprovacao.
+
+Esses 4 arquivos sao parte do output obrigatorio do fluxo `art-translation-to-vdp` quando a saida for uma sprite sheet de animacao. Sem `motion_gif` + `pivots.json` + `contact_points.json` + `human_approval_record.md`, o asset nao passa pelo gate `gif_motion_approval_gate` no `validate_resources.ps1`.
+
+Aplicabilidade: este gate se aplica a arte traduzida de high-res para VDP. Para arte ja pixel-art nascida, ver `source_baked_pixel_art_standard` em `art-conversion-pipeline`; o mesmo conjunto `motion_gif + pivos + contact points` continua obrigatorio, mas o caminho de geracao e diferente.
+
 ## Regra de Ouro
 
 Se o feedback humano corrigir a traducao, o ajuste nao vai direto para o PNG.
@@ -639,6 +783,7 @@ Primeiro:
 
 - quantizacao cega
 - downscale sem redesenho
+- tratar a barra viva (Rheo/Pigsy) como licenca para dump de palco arcade ou de high-color; o oficio e reautoria + curadoria 9-bit
 - excesso de detalhe fino
 - dithering decorativo
 - fidelidade servil a imagem-fonte
@@ -651,3 +796,24 @@ Primeiro:
 - tratar `window alias`, `hscroll slack reuse` ou `SAT reuse` como tecnicas seguras por padrao
 - usar bug de sprite em `X = -128` como tecnica padrao
 - insistir em comparativo dual-plane em ROM quando o hardware pede `compare_flat`
+
+## Curadoria 2026-06-15 - Tecnicas externas e pipeline AAA
+
+Quando uma traducao visual for motivada por video, transcricao ou parecer
+externo, esta skill deve exigir `external_technique_curation_record` antes de
+promover nova regra, workflow ou skill.
+
+Quando o alvo prometer AAA, release, showcase ou tecnica avancada:
+
+- acionar `aaa-pipeline-guardian`;
+- exigir `aaa_pipeline_gate_report`;
+- para tilemap/cena, entregar `scene_tilemap_conversion_report` e, se houver
+  streaming ou animacao de tiles, `dma_queue_contract`;
+- para Shadow/Highlight, H-Int, VSCROLL_COLUMN, HSCROLL_LINE ou palette cycling,
+  entregar `scroll_fx_contract`;
+- para ports/conversoes SNES->MD, PC-98->MD ou high-colour, manter status
+  `backlog_pending_evidence` ate existir source, fixture, palette/material
+  report e prova visual.
+
+Resumo agregado de outro agente nao autoriza criar skill ou declarar
+`ready_for_aaa`; ele apenas abre backlog de curadoria.

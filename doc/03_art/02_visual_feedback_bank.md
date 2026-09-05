@@ -37,6 +37,42 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
 - check_em_rom:
 ```
 
+### Fonte SGDK lendo a paleta da forja
+
+- sintoma: o menu/boot depois da marca aparece com glifos distorcidos, cores de brasa ou ilegivel
+- diagnostico_tecnico: `VDP_drawText` usa a paleta de texto corrente. Depois do branding, PAL0 e a rampa da forja; a fonte SGDK pinta o corpo do glifo com o indice 15 dessa paleta. Sem `VDP_setTextPalette` propria e sem WINDOW opaca, o texto herda fuligem e HSCROLL residual
+- heuristica_preventiva: teardown da marca reseta scroll, S/H, H-Int e `VDP_setWindowOff`. O menu dono do front-end usa PAL3 so para texto, barra opaca no WINDOW e sombra 1px. Nunca desenhar menu de entrega em PAL0 de cena
+- metricas_afetadas:
+  - layer_separation
+  - silhouette_readability
+- benchmark_referencia:
+  - Contra: title/options de Gunstar Heroes / Streets of Rage 2 — ouro ou branco com sombra sobre painel escuro
+- check_em_rom: cena MENU apos F600 — FORGE legivel, opcoes ouro sobre barra, sem wave de HSCROLL
+
+### Cortina de coluna que deveria levantar so o topo
+
+- sintoma: o fogo da forja sobe, uma faixa preta corta a bigorna, e o "reveal" da coifa parece um void
+- diagnostico_tecnico: `VSCROLL_COLUMN` desloca a coluna inteira do plano, nao uma janela de scanlines. 56px de lift puxam o piso para o palco e envolvem o topo (letterbox/coifa preta) por baixo, visivel nos pixels transparentes de BG_A
+- heuristica_preventiva: se a intencao e revelar so o topo, use WINDOW (`VDP_setWindowVPos(FALSE, n)` diminuindo n) ou nao mova o plano. Nunca use scroll de coluna/linha como cortina local quando o mesmo plano carrega piso, fogo ou um objeto que precisa ficar travado
+- metricas_afetadas:
+  - layer_separation
+  - silhouette_readability
+- benchmark_referencia:
+  - Contra: openings de Mega Drive que travam o set e carimbam o nome (Thunder Force IV, Gunstar Heroes)
+- check_em_rom: ato 3 em F331 e F451 — fogo na mesma faixa do ato 2, bigorna sem costura preta
+
+### Wipe de palco que apaga a cama da cena
+
+- sintoma: o wordmark sai e leva a bigorna junto; fica um retangulo escuro atras do nome seguinte
+- diagnostico_tecnico: `VDP_clearTileMapRect` na faixa compartilhada com o tilemap de props remove os tiles do objeto permanente. Index 0 no wordmark nao salva o que o wipe ja apagou
+- heuristica_preventiva: elemento temporario sobre cama permanente sai por **restore** do tilemap original, nao por clear. Clear so e seguro onde o plano ja e transparente (parede acima de y=64 neste caso)
+- metricas_afetadas:
+  - layer_separation
+  - silhouette_readability
+- benchmark_referencia:
+  - Contra: title cards de Streets of Rage 2 / Shinobi III — o cenario permanece, o nome e que entra e sai
+- check_em_rom: F331 MISAEL com bigorna intacta; F451 MASTER com a mesma bigorna do F271
+
 ## Entradas iniciais
 
 ### Sprite Afundando no Fundo
@@ -1097,6 +1133,36 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
   cena assinatura provam a promessa do projeto; se a ROM apenas demonstra
   sistemas corretos, rebaixar claim ou emitir `signature_gap`
 
+### Arte Correta Mas Traco Generico
+
+- status: candidate_until_AUTHORIAL_LINE_CONTRACT_proof
+- sintoma: a imagem parece competente, limpa e "arcade", mas os personagens,
+  props, HUD ou cenario poderiam pertencer a qualquer outro jogo; falta uma
+  assinatura de desenho observavel em rosto, maos, silhueta, roupa, materiais e
+  landmarks.
+- diagnostico_tecnico: o prompt declarou genero, era ou benchmark de qualidade,
+  mas nao declarou `authorial_line_contract`; o agente otimizou para uma media
+  visual do dataset em vez de uma gramatica de traco do projeto.
+- heuristica_preventiva: antes de gerar ou aceitar asset critico, exigir
+  contrato de traco autoral com pelo menos: `line_signature`,
+  `silhouette_hooks`, `face_grammar`, `hand_foot_grammar`,
+  `costume_asymmetry`, `material_marks`, `environment_marks` e lista do que
+  seria considerado generico. Sem isso, bloquear com
+  `authorial_line_contract_missing` ou `generic_prompt_style_blocker`.
+- metricas_afetadas:
+  - style_cohesion
+  - product_identity
+  - silhouette_readability
+  - detail_density_8x8
+  - material_readability
+- benchmark_referencia:
+  - Comix Zone
+  - Streets of Rage 3
+  - Shinobi III
+- check_em_rom: reduzir o asset para escala nativa em um fundo claro, medio e
+  escuro; se o jogador nao reconhece a obra pelo traco, silhueta e material sem
+  ler texto ou manifesto, manter `visual_gate_blocked`.
+
 ### Stage Visivel Mas Achatado E Opaco
 
 - status: candidate_until_MUGEN_SFF_SHOWDOWN_rework_proof
@@ -1152,3 +1218,182 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
   `validate_visual_source_of_truth.ps1` e bloqueie qualquer uso como `source`,
   `baseline`, `reference_for_generation`, `img2img_base`, `generation_source`
   ou `image_reference`
+
+### Teste Funcional Nao Atinge Densidade Comercial
+
+- status: candidate_until_MARE_BRAVA_visual_v02_rom_proof
+- sintoma: a animacao funciona e o personagem aparece no cenario, mas a imagem
+  ainda parece um teste tecnico quando comparada aos melhores jogos comerciais
+  do Mega Drive: paleta curta sem riqueza perceptiva, sprite simples, fundo
+  basico e iluminacao sem resposta temporal
+- diagnostico_tecnico: os quatro eixos visuais foram tratados isoladamente; a
+  paleta ainda nao organiza rampas por material e temperatura, o sprite nao
+  preserva densidade de clusters da fonte autoral, BG_A e BG_B nao constroem
+  profundidade suficiente por silhuetas/parallax e a luz permanece apenas
+  pintada, sem estado de gameplay ou variacao controlada
+- heuristica_preventiva: depois da prova de movimento, exigir um passe conjunto
+  de `material_color_ramp_plan`, detalhe por clusters 8x8, separacao de planos,
+  parallax por bandas e luz/espuma/pulso com owner, budget e fallback; no Mega
+  Drive, substituir a ideia de "gradiente suave" por rampas discretas, dithering
+  funcional, palette cycling e raster FX somente quando houver contrato
+- metricas_afetadas:
+  - palette_efficiency
+  - detail_density_8x8
+  - silhouette_readability
+  - layer_separation
+  - material_readability
+  - style_cohesion
+- benchmark_referencia:
+  - Streets of Rage 3: volume dos lutadores, materiais e profundidade de palco
+  - Sonic the Hedgehog 3: palette cycling, parallax e riqueza cromatica
+  - Shinobi III: silhueta, atmosfera e efeitos subordinados ao gameplay
+- check_em_rom: comparar antes/depois na mesma resolucao nativa e no mesmo
+  enquadramento, vinculados ao hash da ROM; capturar idle e movimento no
+  BlastEm, auditar VDP/paletas e confirmar que o fundo/FX nao rouba a leitura do
+  lutador nem quebra o budget de 60 fps
+
+### Efeito Tecnico Forte Sobre Composicao Generica
+
+- status: candidate_until_MARE_BRAVA_cais01_v04_rom_proof
+- sintoma: parallax, line scroll, palette cycling, particulas e iluminacao
+  funcionam, mas ceu, skyline, piso e props parecem elementos colados ou
+  genericos quando comparados com a fonte autoral aprovada
+- diagnostico_tecnico: o passe de efeitos alterou a macrocomposicao antes de
+  congelar massas, landmarks e marcas de material; primitivas procedurais
+  substituíram nuvens horizontais, silhueta industrial compacta, agrupamento de
+  caixotes, rede, ferragens e irregularidade da madeira presentes nas fontes
+  selecionadas
+- heuristica_preventiva: antes de adicionar FX, registrar uma matriz de fonte
+  por regiao e congelar macrogeometria, hierarquia de massas, faixa jogavel,
+  landmarks e material marks; o passe tecnico pode animar, separar ou iluminar
+  essas formas, mas nao redesenha a composicao sem novo gate humano
+- metricas_afetadas:
+  - style_cohesion
+  - reference_alignment
+  - layer_separation
+  - detail_density_8x8
+  - material_readability
+  - gameplay_readability
+- benchmark_referencia:
+  - fontes autorais aprovadas do projeto para desenho e composicao
+  - Streets of Rage 2/3 apenas para contraste, leitura e densidade
+  - Sonic the Hedgehog 2 apenas para bandas de agua e parallax
+- check_em_rom: comparar no mesmo enquadramento a fonte de direcao, o passe
+  basico, o passe de efeitos e a captura BlastEm; confirmar que as nuvens,
+  silhueta industrial, grupo de caixotes, rede, poste e textura de madeira
+  continuam reconheciveis e que nenhum FX desloca ou apaga a faixa de luta
+
+### Matte Granulado Aprovado Como Sprite Nativo
+
+- status: rejected_until_BORDER_CONNECTED_MATTE_proof
+- sintoma: o sprite passa modo P, 4 bpp, index 0 e grade VDP, mas traz retangulo
+  claro, halo verde/cinza ou graos ao redor da silhueta
+- diagnostico_tecnico: fundo foi inferido por threshold global de brilho/croma;
+  LANCZOS/bilinear criou cores intermediarias; o snap VDP ainda converteu
+  indices diferentes para o mesmo RGB, inflando identidade de tile
+- heuristica_preventiva: quando alpha nao for confiavel, extrair apenas fundo
+  compativel conectado as bordas, emitir `foreground_matte_report`, binarizar
+  alpha antes do resize, usar NEAREST no caminho nativo e compactar aliases de
+  paleta depois do snap; light/dark/chroma sao evidencias do mesmo hash
+- metricas_afetadas:
+  - silhouette_readability
+  - edge_cleanliness
+  - palette_efficiency
+  - tile_identity_integrity
+  - source_to_native_fidelity
+- benchmark_referencia:
+  - sprites comerciais de luta/brawler com recorte duro e leitura limpa em 1x
+- check_em_rom: inspecionar 1x em fundo claro, escuro e cor-chave, depois no
+  BlastEm; qualquer franja que altere silhueta ou consuma tiles bloqueia visual
+
+### Metasprite Vertical Contado Como Pressao Horizontal
+
+- status: rejected_until_HARDWARE_CELL_SCANLINE_proof
+- sintoma: uma escala mais alta e descartada porque o total de celulas do
+  metasprite e somado em todas as scanlines do personagem
+- diagnostico_tecnico: celulas empilhadas em Y foram tratadas como se estivessem
+  simultaneamente na mesma linha, fabricando overflow de links
+- heuristica_preventiva: decompor cada objeto em celulas VDP de no maximo 32x32
+  (ou consumir `hardware_cells` reais) e acumular cada celula apenas no seu
+  intervalo Y; medir separadamente total de links, links/linha e pixels/linha
+- metricas_afetadas:
+  - sprite_links_total
+  - sprites_per_scanline
+  - sprite_pixels_per_scanline
+  - scale_decision_integrity
+- check_em_rom: confirmar a decomposicao do runtime e medir a pior composicao;
+  estimativa corrigida reabre o gate, mas nao substitui evidencia BlastEm
+
+### Cor De Roupa Vazando Para Pele
+
+- status: candidate_until_MARE_BRAVA_material_topology_rom_proof
+- sintoma: a roupa principal perde uma borda clara e sua cor aparece na barriga,
+  braco, axila ou outra area de pele; o sprite parece sujo, o contorno interno
+  enfraquece e o volume de roupa/corpo fica ambiguo em 1x
+- diagnostico_tecnico: o pipeline usou regiao anatomica ampla, posicao, matiz ou
+  luminancia para colorir (`torso`, `arms_or_guard`) sem um mapa independente de
+  propriedade de materiais. A mesma heuristica atravessou top, pele e wraps; AA
+  entre materiais mascarou a perda de topologia
+- heuristica_preventiva: depois do color blocking e antes do shading, exigir
+  `material_region_contract` com um proprietario por pixel, indices exclusivos
+  por material, outline compartilhado declarado e fronteiras criticas. Borda
+  dura de 1 px e o default; sombra da roupa fica do lado da roupa e sombra da
+  pele do lado da pele. Feedback local corrige primeiro a fronteira principal,
+  depois membros/acessorios, preservando pose e silhueta da candidata em rework
+- metricas_afetadas:
+  - material_readability
+  - palette_efficiency
+  - detail_density_8x8
+  - silhouette_readability
+  - style_cohesion
+- benchmark_referencia:
+  - Streets of Rage 3: separacao de pele, roupa e outline em lutadores pequenos
+  - Shinobi III: bordas duras e rampas com funcao em escala nativa
+  - Monster World IV: economia cromatica sem contaminar materiais adjacentes
+- check_em_rom: comparar fonte, candidato anterior e material-clean no mesmo
+  enquadramento 320x224. Em fundo claro, escuro e no palco real, barriga/bracos
+  devem permanecer pele, roupa deve manter sua silhueta e nenhum pixel de AA
+  cruzado pode piscar ou dissolver a fronteira durante a animacao
+
+## 2026-09-01 — source sanitation + causal route portfolio
+
+Escopo: raster high-res que precisa virar sprite nativa. Evidencia inicial:
+caso humano full-body em baixa resolucao; priors nao sao universais.
+
+### Fonte contaminada confundida com anatomia
+
+- sintoma: sombra de chao, poeira, fumaça, nuvem, particula, floor line,
+  checkerboard ou texto sobrevivem como pe, roupa, cabelo ou contorno
+- diagnostico_tecnico: a imagem entrou como `translation_source` sem
+  saneamento semantico; alpha/matte nao resolve oclusao de identidade
+- heuristica_preventiva: executar `forge-art source-audit`; manter a fonte
+  contaminada apenas no papel de referencia seguro e obter uma pose limpa
+- metricas_afetadas: `silhouette_readability`, `style_cohesion`,
+  `material_readability_under_vdp_limits`
+- check_em_rom: nao aplicavel antes da autoria nativa; gate fecha na fonte
+
+### Rotulo de filtro sem causalidade
+
+- sintoma: candidato chamado Lanczos/Mitchell, mas os pixels nasceram de
+  spans, mascaras ou coordenadas hardcoded
+- diagnostico_tecnico: o underlay foi apenas hash/metadata; nao participou do
+  caminho causal do output
+- heuristica_preventiva: `route_shootout_report` liga source hash, matte hash,
+  backend/versao/algoritmo/parametros e output hash; redraw posterior usa
+  `native_reauthoring_over_<route>_guide`
+- metricas_afetadas: lineage, `style_cohesion`, `silhouette_readability`
+- check_em_rom: proibido promover; volta ao shootout/autoria
+
+### Falso challenger
+
+- sintoma: BASIC/ELITE ou A/B diferem por recolor/near-duplicate sem hipotese
+  visual distinta
+- diagnostico_tecnico: delta numerico substituiu julgamento de identidade
+- heuristica_preventiva: painel fixa source/crop/matte/target/anchor, alerta
+  near-duplicates e nunca escolhe vencedor automaticamente
+- metricas_afetadas: `silhouette_readability`, `detail_density_8x8`,
+  `style_cohesion`
+- check_em_rom: gate humano nao abre se todas as rotas ja falham identidade
+
+Autoridades: `art/native-sprite-production/references/source-route-triage-protocol.md`
+e `tools/sgdk_wrapper/forge_art/route_prior_registry.json`.

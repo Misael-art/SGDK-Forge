@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": false
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Tecnicas estao selecionadas para planejamento. Nenhuma delas possui evidencia runtime do Revive ainda."
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "scene_id": "global_runtime",
+      "registry_id": "dma_transfer_safety",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["DMA_OPTIMIZADO", "DMA_QUEUE", "VBLANK_BUDGET_AUDIT"],
+      "owner_skills": ["sgdk-runtime-coder", "megadrive-vdp-budget-analyst"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/scene_budget_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Obrigatorio para toda cena. Uploads grandes apenas em preload/loading; updates por frame somente em VBlank."
+    },
+    {
+      "scene_id": "chase_core",
+      "registry_id": "line_scrolling",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["LINE_SCROLL", "PARALLAX", "PSEUDO_3D", "RASTER_EFFECTS", "VBLANK_BUDGET_AUDIT"],
+      "owner_skills": ["sgdk-runtime-coder", "megadrive-vdp-budget-analyst", "multi-plane-composition"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/scene_budget_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Base da sensacao de velocidade. No Revive, primeiro slice usa line scroll apenas se o budget do pior quadro provar cabimento."
+    },
+    {
+      "scene_id": "chase_core",
+      "registry_id": "pseudo3d_road_stack",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["PSEUDO_3D", "SOFTWARE_RENDERING", "LINE_SCROLL", "RASTER_EFFECTS", "PALETTE_MANAGEMENT_AVANCADO"],
+      "owner_skills": ["level-design-canonical", "sgdk-runtime-coder", "megadrive-vdp-budget-analyst"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/scene_budget_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Traduz referencia de corrida para tecnica real de Mega Drive. Proibido declarar Mode 7."
+    },
+    {
+      "scene_id": "chase_core",
+      "registry_id": "camera_scroll_management",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["CAMERA_MANAGEMENT", "PARALLAX", "FIXED_POINT_MATH"],
+      "owner_skills": ["scene-state-architect", "sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/runtime_metrics.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Shake, lookahead e pressao visual devem comunicar risco sem roubar leitura de faixa."
+    },
+    {
+      "scene_id": "chase_core",
+      "registry_id": "hitstop_camera_shake_feedback",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["HITSTOP", "CAMERA_SHAKE", "GAMEPLAY_FEEDBACK"],
+      "owner_skills": ["sgdk-runtime-coder", "visual-excellence-standards"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/runtime_metrics.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Cada impacto precisa ter consequencia mecanica real: dano, perda de ritmo, pressao ou janela de recuperacao."
+    },
+    {
+      "scene_id": "global_ui",
+      "registry_id": "window_plane_static_hud",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["HUD_UI", "WINDOW_PLANE"],
+      "owner_skills": ["scene-state-architect", "megadrive-vdp-budget-analyst"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/scene_budget_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "HUD deve ser plano fixo legivel, nao texto debug."
+    },
+    {
+      "scene_id": "global_runtime",
+      "registry_id": "palette_state_transitions",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["PALETTE_MANAGEMENT_AVANCADO", "PALETTE_TRANSITION", "PALETTE_FLASH"],
+      "owner_skills": ["sgdk-runtime-coder", "visual-excellence-standards", "megadrive-vdp-budget-analyst"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/scene_budget_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Usado para fase, Pulse, dano, cutscene e boss cue. Sem alpha blending real."
+    },
+    {
+      "scene_id": "final_boss",
+      "registry_id": "prerendered_sprite_scaling",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["PRERENDERED_SCALING", "SPRITE_ENGINEERING", "PSEUDO_3D"],
+      "owner_skills": ["visual-excellence-standards", "sgdk-runtime-coder", "megadrive-vdp-budget-analyst"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/sprite_scanline_pressure_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Boss aproxima por estagios pre-renderizados. Scaling continuo runtime fica fora de escopo."
+    },
+    {
+      "scene_id": "global_audio",
+      "registry_id": "xgm2_audio_architecture",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["AUDIO_ENGINEERING", "XGM2_AUDIO", "FM_SYNTHESIS", "YM2612_AUDIO", "PSG_AUDIO", "DAC_AUDIO"],
+      "owner_skills": ["xgm2-audio-director", "sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/audio_validation_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Trilha e SFX devem reagir a intro, pressao, upgrade, boss e resultado sem competir com alertas de gameplay."
+    },
+    {
+      "scene_id": "global_persistence",
+      "registry_id": "save_sram_checksum_redundancy",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["SAVE_SRAM", "CHECKSUM", "DATA_REDUNDANCY"],
+      "owner_skills": ["sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": "out/logs/runtime_metrics.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Persistencia prevista para upgrades desbloqueados e melhores tempos; so entra em runtime com magic, versao e checksum."
+    }
+  ]
+}

@@ -1,17 +1,17 @@
 {
-  "schema": "audio_event_matrix_v1",
+  "schema": "audio_event_matrix_v2",
   "events": [
-    {"source": "scene_enter", "event": "score_start", "action": "loop score on PCM_CH1"},
-    {"source": "pause", "event": "audio_pause", "action": "stop all PCM"},
-    {"source": "resume", "event": "audio_resume", "action": "restart score loop"},
+    {"source": "scene_enter", "event": "score_start", "action": "XGM2_play mus_chase_core on FM/PSG"},
+    {"source": "pause", "event": "audio_pause", "action": "XGM2_pause and stop PCM_CH2/PCM_CH3"},
+    {"source": "resume", "event": "audio_resume", "action": "XGM2_resume and restore FM/PSG intensity"},
     {"source": "jump", "event": "jump", "action": "PCM_CH3 priority 5"},
-    {"source": "land", "event": "land", "action": "PCM_CH3 priority 5"},
-    {"source": "pickup", "event": "pickup", "action": "PCM_CH3 priority 6"},
-    {"source": "pressure_threshold", "event": "pressure_warning", "action": "PCM_CH3 priority 8"},
+    {"source": "land", "event": "land", "action": "PCM_CH3 priority 4"},
+    {"source": "pickup", "event": "pickup", "action": "PCM_CH3 priority 7"},
+    {"source": "pressure_threshold", "event": "pressure_warning", "action": "PCM_CH3 priority 6"},
     {"source": "damage", "event": "damage", "action": "PCM_CH2 priority 13"},
-    {"source": "pulse", "event": "celestial_pulse", "action": "PCM_CH2 priority 12"},
-    {"source": "victory", "event": "victory", "action": "stop score and play PCM_CH2 priority 14"},
-    {"source": "failure", "event": "failure", "action": "stop score and play PCM_CH2 priority 15"},
-    {"source": "scene_exit", "event": "audio_stop", "action": "stop all PCM"}
+    {"source": "pulse", "event": "celestial_pulse", "action": "PCM_CH2 priority 15"},
+    {"source": "victory", "event": "victory", "action": "stop FM/PSG score and play PCM_CH2 priority 15"},
+    {"source": "failure", "event": "failure", "action": "stop FM/PSG score and play PCM_CH2 priority 15"},
+    {"source": "scene_exit", "event": "audio_stop", "action": "XGM2_stop and stop PCM_CH2/PCM_CH3"}
   ]
 }

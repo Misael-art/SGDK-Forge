@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "mare_brava_resource_loading_v01",
+  "scene_id": "cais_01",
+  "current_model": "scene_local_preload",
+  "target_model": "tilemap_streaming",
+  "reason": "Current all-assets resident audit exceeds the utility ceiling; the stage is authored as a world larger than the safe resident set.",
+  "rom_asset_cost": "rescomp_output_in_rom",
+  "vram_resident_set": {
+    "measured_tiles": 2117,
+    "utility_ceiling_tiles": 1740,
+    "status": "over_ceiling"
+  },
+  "load_time_dma_cost": "not_measured_for_streaming_window",
+  "per_frame_dma_cost": "known_hscroll_queue_only; sprite_and_streaming_worst_case_pending",
+  "active_animation_window": "not_implemented",
+  "scene_local_scope": ["img_cais01_bg_b_mar_ceu", "img_cais01_bg_a_pier_modular", "spr_taina_idle_guard", "spr_cria_idle_lean", "spr_cais01_smoke", "spr_cais01_lamp_dust"],
+  "fallback": "reduce resident stage window or split CAIS_01 into measured sub-scenes before promoting final art",
+  "status": "blocked_by_residency_measurement",
+  "blockers": ["tile_residency_over_ceiling", "streaming_window_not_implemented"]
+}

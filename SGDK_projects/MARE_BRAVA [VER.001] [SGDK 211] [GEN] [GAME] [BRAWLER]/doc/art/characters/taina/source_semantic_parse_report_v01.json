@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_pixel_model_sheet_source_v01_semantic_parse",
+  "generated_at": "2026-07-06",
+  "source_image": "data/source_art/concept/taina_pixel_model_sheet/taina_pixel_model_sheet_source_v01.png",
+  "source_sha256": "ed3c3b49da31c675eecd3e9c45521e709866cd9a33bcbcf26c29c436d99ac3ca",
+  "layout_classification": "editorial_board",
+  "translation_target": "sprite_single_model_sheet_views",
+  "source_inventory": [
+    {
+      "region": "view_front_guard",
+      "role": "character_identity_view",
+      "status": "keep_as_reference"
+    },
+    {
+      "region": "view_three_quarter_guard",
+      "role": "character_identity_view",
+      "status": "keep_as_reference"
+    },
+    {
+      "region": "view_side_guard",
+      "role": "turnaround_tracking_reference",
+      "status": "keep_as_reference"
+    },
+    {
+      "region": "view_back_guard",
+      "role": "turnaround_tracking_reference",
+      "status": "keep_as_reference"
+    },
+    {
+      "region": "magenta_background",
+      "role": "generation_matte",
+      "status": "drop"
+    }
+  ],
+  "observed_ir": {
+    "canvas": "1774x887",
+    "mode": "TrueColor",
+    "unique_colors": 136150,
+    "corner_color": "srgb(234,12,227)",
+    "center_background_color": "srgb(246,4,239)",
+    "figures": 4,
+    "labels_or_text": false,
+    "figure_overlap": false
+  },
+  "derived_structure_ir": {
+    "intended_views": [
+      "front",
+      "three_quarter",
+      "side",
+      "back"
+    ],
+    "shared_baseline": "visually_close_but_not_measured",
+    "logical_pixel_grid": "unknown",
+    "native_cell": "not_present",
+    "status": "provisional"
+  },
+  "soul_summary": "TAINA compacta com guarda alta, cabelo cacheado preso, top laranja, calca escura, bandagens e faixa verde assimetrica.",
+  "must_keep": [
+    "massa de cabelo",
+    "rosto em cunha",
+    "guarda alta diagonal",
+    "faixa lateral",
+    "bandagens em maos e canelas",
+    "contraste laranja_verde_roxo"
+  ],
+  "can_simplify": [
+    "dobras internas da calca",
+    "dedos individuais",
+    "micro-highlights de cabelo e pele",
+    "textura fina das bandagens"
+  ],
+  "must_drop": [
+    "fundo magenta nao uniforme",
+    "anti-aliasing e microvariacoes de cor",
+    "qualquer detalhe que nao sobreviva em 48px"
+  ],
+  "source_region_strategy": "usar as quatro vistas apenas como referencia de forma; redesenhar cada vista em celula nativa 48x64, sem quantizar a prancha inteira",
+  "status": "parsed_not_ready_for_conversion"
+}

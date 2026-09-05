@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/active_iteration.schema.json",
+  "title": "Active Causal Iteration State",
+  "description": "Machine-readable state for one active causal-persistence iteration, scoped to a single project. This is advisory state anchored to the project memory bank and never replaces the memory bank, contracts, validators or emulator evidence.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "workspace_root",
+    "status",
+    "iteration_count",
+    "active_claim",
+    "blocker_leaf",
+    "route",
+    "hypothesis",
+    "evidence_before",
+    "evidence_after",
+    "delta_status",
+    "memory_bank_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tool_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "memory_bank_path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Path to the project doc/10-memory-bank.md used to derive memory_bank_hash."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "in_progress",
+        "advanced",
+        "stalled",
+        "blocked_human",
+        "closed"
+      ]
+    },
+    "iteration_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "active_claim": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The single active claim the iteration is pursuing."
+    },
+    "blocker_leaf": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The leaf blocker that most limits the active claim."
+    },
+    "route": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The tool/representation/hypothesis route currently being tried."
+    },
+    "hypothesis": {
+      "type": "string",
+      "minLength": 8,
+      "description": "The falsifiable hypothesis this attempt tests, stated as what changes if it passes."
+    },
+    "evidence_before": {
+      "type": ["string", "null"],
+      "description": "Measured state before the attempt; a delta requires this to be present."
+    },
+    "evidence_after": {
+      "type": ["string", "null"],
+      "description": "Measured state after the attempt; null until the measurement runs."
+    },
+    "delta_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "advanced",
+        "no_change",
+        "regressed",
+        "stale_anchor"
+      ]
+    },
+    "cause": {
+      "type": "string",
+      "enum": [
+        "implementation_failure",
+        "tool_capability_failure",
+        "interaction_channel_mismatch",
+        "representation_mismatch",
+        "environment_failure",
+        "contract_or_spec_conflict",
+        "human_decision_required"
+      ],
+      "description": "Causal class of a failed attempt. Null while the attempt is pending or passed."
+    },
+    "routes_closed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["route", "reason"],
+        "properties": {
+          "route": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "human_gate_pending": {
+      "type": ["object", "null"],
+      "required": ["decision_question", "options", "depends_on_artifact"],
+      "properties": {
+        "decision_question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "depends_on_artifact": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "independent_branches": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Branches whose validity cannot be reversed by the pending human decision."
+    },
+    "memory_bank_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of the project doc/10-memory-bank.md at anchor time. Divergence is reported as stale_anchor, never a hard block."
+    },
+    "next_causal_action": {
+      "type": ["string", "null"],
+      "description": "The smallest next action that truly unblocks the work, when known."
+    },
+    "stop_reason": {
+      "type": ["string", "null"],
+      "description": "Why the iteration stopped, present only when status is closed."
+    }
+  },
+  "additionalProperties": false
+}

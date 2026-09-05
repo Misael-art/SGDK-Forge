@@ -1,9 +1,10 @@
-"""Explicit, staging-only native pixel editor bridge.
+"""Explicit, staging-only procedural pixel probe bridge.
 
-This module is intentionally small. It does not infer a sprite, resize a
-concept, or draw primitives. A caller supplies an action document containing
-the authored pixel decisions; the bridge only applies those decisions,
-audits their bounds/palette, and seals an indexed 4bpp candidate.
+This module is intentionally small. A caller supplies an action document and
+the bridge applies coordinate-addressed pixel decisions deterministically.
+Because the raster starts from a blank canvas and is born through putpixel/
+runs, its output is a procedural_code_probe.  It may diagnose layout or apply
+reproducible experiments, but it cannot prove native authorship or final art.
 """
 
 from __future__ import annotations
@@ -18,12 +19,12 @@ from typing import Any
 
 from PIL import Image
 
-from forge_art import pixel_contract, schema_gate, vdp_color
+from forge_art import pixel_contract, schema_gate, vdp_color, visual_workset
 
 TOOL_NAME = "forge_art.native_edit"
-TOOL_VERSION = "1.1.0"
+TOOL_VERSION = "1.2.0"
 SCHEMA_NAME = "native_edit_actions"
-OPERATOR = "agent_authored_pixel_via_editor_actions"
+OPERATOR = "procedural_code_probe"
 MAX_PATCH_PIXELS = 128
 ALLOWED_OUTPUT_PREFIXES = (Path("out/v11_native_edit"), Path("out/v11_review"))
 
@@ -245,6 +246,7 @@ def _validate_spec(spec: dict[str, Any]) -> None:
 
 def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dict[str, Any]:
     root = Path(project_root).resolve()
+    workset_report = visual_workset.enforce_operation(root, "procedural_edit_probe")
     actions_file = _portable_file(root, str(actions_path), "actions_file_invalid")
     try:
         spec = json.loads(actions_file.read_text(encoding="utf-8"))
@@ -254,6 +256,9 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
 
     identity = spec["identity_source"]
     source = _portable_file(root, identity["path"], "identity_source_invalid")
+    visual_workset.enforce_declared_source(
+        root, source, require_production_eligible=False
+    )
     source_before = _sha256(source)
     if source_before != identity["sha256"]:
         raise NativeEditError("identity_source_hash_mismatch", f"esperado {identity['sha256']}, obtido {source_before}")
@@ -306,7 +311,10 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
             "status": "completed",
             "asset_id": spec["asset_id"],
             "frame_id": spec["frame_id"],
-            "claim_ceiling": "native_candidate",
+            "claim_ceiling": "procedural_code_probe",
+            "authorship": "procedural_primitive",
+            "production_eligible": False,
+            "visual_workset": workset_report,
             "source_authority": identity,
             "underlays": underlay_hashes,
             "actions_sha256": _sha256(actions_file),
@@ -321,6 +329,10 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
             "action_log": "action_log.json",
             "pixel_contract_report": measured,
             "res_promotion": False,
+            "next_action": (
+                "use this output only as diagnostic evidence; native authorship "
+                "requires an independently authored raster or a capable visual producer"
+            ),
         }
         (temp / "action_log.json").write_text(json.dumps({"operator": OPERATOR, "actions": log}, indent=2) + "\n", encoding="utf-8")
         (temp / "execution_report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -342,10 +354,63 @@ def native_edit(project_root: Path, actions_path: Path, output_dir: Path) -> dic
 
 
 def self_check() -> dict[str, Any]:
-    """Physical containment fixtures for schema, ordering and atomic output."""
-    fixtures = ["reject_out_of_bounds", "reject_partial_palette", "reject_data_output",
-                "nearest_8x", "reject_malformed_operation", "reject_duplicate_action_id",
-                "reject_noop", "reject_prohibited_write", "atomic_no_partial_output",
-                "hash_manifest"]
-    return {"fixtures_passed": len(fixtures), "fixtures_total": len(fixtures), "blocking": False,
-            "fixtures": fixtures}
+    """Exercise the classification that previously produced a false native claim."""
+    checks: dict[str, bool] = {}
+    with tempfile.TemporaryDirectory(prefix="forge-art-native-edit-") as temp_root:
+        root = Path(temp_root)
+        (root / "data").mkdir()
+        (root / "res").mkdir()
+        source = root / "identity.png"
+        source.write_bytes(b"identity")
+        spec = {
+            "schema_version": "1.0.0",
+            "command": "native-edit",
+            "asset_id": "fixture_asset",
+            "frame_id": "fixture_frame",
+            "canvas": {"width": 32, "height": 32},
+            "palette": [[0, 0, 0], [34, 34, 34]],
+            "identity_source": {
+                "path": "identity.png",
+                "sha256": _sha256(source),
+                "role": "exclusive_visual_authority",
+            },
+            "actions": [{
+                "action_id": "paint_probe",
+                "asset_id": "fixture_asset",
+                "frame_id": "fixture_frame",
+                "operation": "pencil_pixel",
+                "region": {"x": 1, "y": 1, "w": 1, "h": 1},
+                "symptom": "fixture",
+                "visual_reference": "identity.png",
+                "before_indices": [0],
+                "after_indices": [1],
+                "reason": "fixture",
+                "operator": OPERATOR,
+                "color_index": 1,
+            }],
+        }
+        actions = root / "actions.json"
+        actions.write_text(json.dumps(spec), encoding="utf-8")
+        report = native_edit(root, Path("actions.json"), Path("out/v11_native_edit/fixture"))
+        checks["procedural_claim_ceiling"] = report["claim_ceiling"] == "procedural_code_probe"
+        checks["never_production_eligible"] = report["production_eligible"] is False
+        checks["never_promotable"] = report["res_promotion"] is False
+
+        legacy = json.loads(json.dumps(spec))
+        legacy["actions"][0]["operator"] = "agent_authored_pixel_via_editor_actions"
+        legacy_path = root / "legacy.json"
+        legacy_path.write_text(json.dumps(legacy), encoding="utf-8")
+        try:
+            native_edit(root, Path("legacy.json"), Path("out/v11_native_edit/legacy"))
+        except NativeEditError as exc:
+            checks["legacy_authorship_label_rejected"] = exc.blocker == "action_schema_invalid"
+        else:
+            checks["legacy_authorship_label_rejected"] = False
+
+    failed = [name for name, passed in checks.items() if not passed]
+    return {
+        "fixtures_passed": len(checks) - len(failed),
+        "fixtures_total": len(checks),
+        "blocking": bool(failed),
+        "fixtures": checks,
+    }

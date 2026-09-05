@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "text_surface_class": "dramatic_uppercase_arcade",
+  "language_policy": {
+    "runtime_first_slice": "english_uppercase_ascii",
+    "documentation_language": "pt_br_ascii",
+    "accented_runtime_text": "deferred_until_ptbr_core_accents_budget"
+  },
+  "font_roles": {
+    "logo_display": "wide luminous hard-edge title tiles",
+    "front_end_body": "8px uppercase custom bitmap font",
+    "hud_critical": "compact high-contrast digits and labels",
+    "narrative_text": "typewriter all-caps with short line length",
+    "credits": "paged uppercase body font with one-pixel shadow"
+  },
+  "readability_rules": [
+    "minimum one tile row breathing room above and below menu text",
+    "no text over moving high-contrast road stripes",
+    "one-pixel shadow or dedicated panel when background has palette motion",
+    "line length must fit 320x224 without horizontal scroll",
+    "SGDK default font is debug only"
+  ],
+  "timing_rules": {
+    "typewriter_chars_per_second": 18,
+    "minimum_page_hold_frames": 60,
+    "menu_cursor_pulse_frames": 32,
+    "credits_page_hold_frames": 150
+  },
+  "references": [
+    "doc/glyph_manifest.json",
+    "doc/brand_identity_manifest.json",
+    "doc/ui_pixel_surface_contract.json",
+    "doc/credits_contract.json"
+  ]
+}

@@ -141,6 +141,7 @@ versionado por build. Documento paralelo inventado = orfao.
 | Data | Fonte | Incremento | Evidencia |
 |---|---|---|---|
 | 2026-08-25 | avaliacao do mega-prompt Kirby AX ALPHA (sessao ox-alpha) | criacao do arquivo: 8 correcoes de reconciliacao + protocolo de insatisfacao (min_rounds=3, blind_critic_floor 8.5, lacuna honesta §38) | `doc/agent_learning/changelog_2026-08-25.md`; predecessor GROK BUILD com crítico cego 5.8/10 e fases ausentes; registry sem tecnica MESTRE_* |
+| 2026-08-30 | diagnostico da barreira de ferramentas visuais do MARE_BRAVA | prompt especializado versionado para implementar Visual Forge, separar `basic`/`elite`, testar determinismo/resiliencia e fechar o slice com claims honestos | `doc/prompts_modelo/prompt_mestre_visual_forge_e_mare_brava_aaa.md`; `doc/05_technical/visual_forge_toolchain_diagnostic_and_implementation_plan_2026-08-29.md` |
 
 ---
 

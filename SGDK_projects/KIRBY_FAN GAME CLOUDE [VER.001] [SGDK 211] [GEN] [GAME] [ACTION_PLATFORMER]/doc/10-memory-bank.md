@@ -1,3 +1,18 @@
+<!-- ACTIVE VISUAL WORKSET START -->
+## 0. Estado visual ativo — congelado em 2026-09-04
+
+- `state=frozen_case_study`; nenhuma nova pose, frame, strip ou versao visual esta autorizada.
+- Workset owner: `doc/art/visual_workset_manifest.json`.
+- Estudo: `doc/art/case_studies/kirby_visual_production_v11.md`.
+- V04-v11, `out/`, `data/staging/`, arquivos de runtime e controles em `res/`
+  sao evidencia/comparacao, nunca fonte de novos pixels.
+- Estado honesto: `technical_runtime_creative_blocked`,
+  `visual_assets=procedural_code_probe`, `visual_pass=false`,
+  `res_promotion=false`, `ready_for_aaa=false`.
+- Reativacao exige decisao humana explicita, novo `active_epoch`, novo workset e
+  produtor visual independente; abrir `v12` ou trocar rotulo nao reativa.
+<!-- ACTIVE VISUAL WORKSET END -->
+
 <!-- SGDK GENERATED STATUS START -->
 ## 0. Estado Derivado dos Artefatos
 
@@ -327,3 +342,31 @@ folga mensuravel e que o instrumento de cobranca funciona.
 - O recurso foi integrado ao estado real `KIRBY_RUN` da cena 4, sem hook de estado. Build canônico `rc=0`, ROM SHA `68f59e9c072a1671b723e8677c40c046f552684b93e5c6daf719a4439f972a10`; BlastEm selou a sessão `blastem-linux-20260904T094658Z-3181717` com cena 4, 59,6 fps snapshot, CPU 72, 16 sprites/scanline, 26 ativos e 0 over-budget.
 - O playtest scene 5 foi descartado por bundle incompleto (`vlab_block_missing`, `artifact_missing:vdp_dump`, `artifact_missing:runtime_metrics`). A captura interativa Left mostra o ator no estágio real, mas não aprova fidelidade nem continuidade do ciclo.
 - Estado honesto: `status=full_visual_runtime_candidate`, `claim_ceiling=run_cycle_visual_runtime_candidate`, `animation_candidate=false`, `human_gate_ready=false`, `final_acceptance=false`, `ready_for_aaa=false`, `res_promotion=false`. Próximo passo: produzir idle, inhale e jump/float nativos antes de qualquer gate humano.
+
+## 23. V11 — continuidade nativa em staging, sem promoção — 2026-09-04
+
+- O contato C foi refinado em staging sem usar v04–v10: r8 tem SHA `3e2845f52595d442e351d3c833bc506beacab50fb2e0496977641120fb0df03e`, analyzer `rc=0/status=passed`, bbox `30x18`, uma componente e zero resíduos; lineart r6 tem SHA `77ea5bda3204d3da01d159ec70ddbaed4133951ca2c11f0ad159d9722f7b3cbc`, `validate_lineart_topology rc=0/status=ok`, erosão máxima zero.
+- O agregado run r9 tem strip SHA `e8229f6bd29870071912de98f6f5de3f999e27a88721707ad6e7ad9be99fcc98`, GIF SHA `0fd0a1be329b69b505e70d4ffd0b37aaa4a062f6bab0be17dbaaa20853b0a6ff`, analyzer `rc=0/status=passed`; a leitura visual em 1x continua insuficiente para aprovar corrida.
+- Idle r4, inhale r5 e jump r4 foram reautorizados no grid nativo com paleta equivalente ao R1 e agregados em strips sem gutters. Integridade mecânica: idle `rc=0/status=passed` (áreas 322/284; bbox 24x19/24x17), inhale `rc=0/status=passed` (áreas 332/392/344/344; bbox 24x17/26x19/24x18/24x18), jump `rc=0/status=passed` (bboxes 24–26x16–17). Seus reports permanecem diagnósticos, sem lineart/contrato canônico completo e sem promoção.
+- O primeiro inhale com `montage` foi descartado por gutters físicos (`edge_problem_frames=6`, `island_problem_frames=2`); a correção usou `+append` para a strip e `montage` somente para contact sheet.
+- Foram geradas composições 320x224 1x em fundos claro/escuro/chroma e evidências 2x/3x/8x para os quatro ramos; nenhuma foi tratada como fonte de pixels de runtime.
+- O comparador de `validate_animation_candidate.py` agora normaliza listas/tuplas antes de comparar métricas JSON, eliminando somente o falso tamper estrutural. Self-checks de candidate, strip e motion passaram `rc=0`; o agregado segue `rc=1/status=error`, `maximum_proven_claim=technical_candidate`, `human_gate_ready=false`, com blockers `animation_principles_gate_failed`, `blind_action_recognition_failed` e `model_sheet_to_sprite_fidelity_unproven`.
+- Estado honesto preservado: `animation_candidate=false`, `human_gate_ready=false`, `res_promotion=false`, `claim_ceiling=technical_temporal_probe`. Nada foi alterado em `res/`, runtime ou ROM.
+## 24. v11 canonical strip continuation — 2026-09-04
+
+- Idle r5 is a technical strip pass: `idle_r5_r1_native_contract_v3.json`,
+  strip SHA `f2623456d67c65d42b2a2ae4da61751f3e193ab49f37d7681c61091a9d5a79b7`.
+- Inhale r8 is a technical and canonical-motion pass:
+  `inhale_r8_r1_native_contract_v5.json`, strip SHA
+  `729a2afd6381e14b592a5651374ab4d53a04d5c70be5b492e4cdb851787e79f8`.
+  Its four frame masks are distinct and the motion validator returned rc=0.
+- Jump r5 strip validation returned rc=0, but motion validation returned rc=1
+  with `noncanonical_motion_profile`. No private motion registry was created.
+- All three actions have direct 32x32 native-edit lineart probes with topology
+  reports free of fill/erosion blockers. This is technical evidence only; the
+  agent review still rejects final visual identity and semantic continuity.
+- No `res/`, runtime, ROM, v04-v10, or protected historical artifact was changed
+  by this continuation. New v11 staging and derived evidence remain untracked.
+- Truth labels remain `technical_pass_visual_semantic_fail`,
+  `technical_temporal_probe`, `animation_candidate=false`,
+  `human_gate_ready=false`, and `res_promotion=false`.

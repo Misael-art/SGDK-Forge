@@ -1,0 +1,15 @@
+{
+  "schema_version": "human_decision_record.v1",
+  "recorded_at": "2026-08-31",
+  "decision": "rework_before_native_translation",
+  "asset_id": "model_sheet_challenger_v02",
+  "sha256": "0d9be1e502eddedf1a364498180102fdc6e49b8ff7a48fa580d4b1ed36b8880a",
+  "accepted_as": "turnaround_volume_reference_only",
+  "translation_authorized": false,
+  "promotable": false,
+  "reason": "v02 improves topology but drifts into smooth/glossy rendering, gradients, antialiasing and 3D volume.",
+  "exclusive_reference_scope": ["volume_continuity", "five_angles", "baseline", "arm_connection", "facial_orientation"],
+  "not_allowed_as": ["pixel_source", "finish_reference", "native_model_sheet", "sprite_source", "res_source"],
+  "next_challengers": ["model_sheet_challenger_v03_a_cluster_strict", "model_sheet_challenger_v03_b_silhouette_first"],
+  "global_claim_ceiling": "model_sheet_challengers_pending_human_decision"
+}

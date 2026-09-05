@@ -168,13 +168,13 @@ Regra: cena so sobe de `testado_em_emulador` para `validado_budget` quando a evi
   - HUD exclusivamente em `WINDOW`
   - máximo 4 inimigos ativos + herói + 1 pickup/FX (trava de design)
 - resource_budget_model:
-  - `scene_local_scope`: tilemap cais_01, TAÍNA (48x48, 8 estados), CRIA (44px, 5 estados), ESTIVADOR (56px, 5 estados), espetinho, FX splash, fonte/HUD
+  - `scene_local_scope`: tilemap cais_01, TAÍNA (native-authoring target 56x80; runtime/res remains 48x64 until promotion, 8 states), CRIA (48x64 runtime footprint, 5 states), ESTIVADOR (56x64 planning footprint, 5 states), espetinho, FX splash, fonte/HUD
   - `rom_asset_cost`: `nao_medido` (medir via res_graph_report)
   - `vram_resident_set`: tiles do cais + strips ativos dos 3 personagens + HUD; laudo `megadrive-vdp-budget-analyst` obrigatório antes do runtime
   - `load_time_dma_cost`: permitido apenas na entrada da cena
   - `per_frame_dma_cost`: `nao_medido` (alvo: só strips de animação ativos)
   - `active_animation_window`: janela por estado de animação; estados inativos não residentes
-  - `scanline_sprite_pressure`: `nao_medido` (risco declarado: 4 inimigos na mesma faixa de y; mitigação: espaçamento por wave manager)
+  - `scanline_sprite_pressure`: `planning_budget` in `rascunho/taina_native_scale_shootout_v01/native_scale_runtime_budget_report_v01.json`; runtime/res measurement remains pending until the 56x80 native pose exists and is integrated
   - `runtime_loading_model`: `tilemap_streaming` no BG_A (cais 1344px, janela 64x32, máx 2 colunas/frame) + `full_resident_loop` no BG_B + `scene_local_preload` só para sprites/HUD — contrato completo com seam policy e custos em `doc/contracts/tilemap_streaming_contract.json` (veredito curatorial: `scene_local_preload` para 1344px NÃO cabe metodologicamente)
   - `fallback_plan`: reduzir para 3 inimigos ativos → remover FX splash → reduzir estados de animação, nesta ordem, antes de sacrificar 60fps; para o mapa: fallbacks ordenados do contrato de streaming (1024px → 2 sub-cenas → densidade)
 - riscos de VDP:

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_idle_guard_56x80_native_authoring_v04",
+  "method": "agent_curated_diagnostic_annotation_from_explicit_action_palette_ownership",
+  "required_regions": [
+    "head_or_face",
+    "hair",
+    "torso",
+    "arms_or_guard",
+    "hands",
+    "legs",
+    "feet",
+    "sash"
+  ],
+  "label_legend": {
+    "head_or_face": 1,
+    "hair": 2,
+    "torso": 3,
+    "arms_or_guard": 4,
+    "hands": 5,
+    "legs": 6,
+    "feet": 7,
+    "sash": 8
+  },
+  "label_counts": {
+    "head_or_face": 124,
+    "hair": 104,
+    "torso": 754,
+    "arms_or_guard": 198,
+    "hands": 27,
+    "legs": 401,
+    "feet": 110,
+    "sash": 209
+  },
+  "bbox": [
+    8,
+    2,
+    53,
+    80
+  ],
+  "filled_pixels": 1927,
+  "occupancy_pct": 43.01
+}

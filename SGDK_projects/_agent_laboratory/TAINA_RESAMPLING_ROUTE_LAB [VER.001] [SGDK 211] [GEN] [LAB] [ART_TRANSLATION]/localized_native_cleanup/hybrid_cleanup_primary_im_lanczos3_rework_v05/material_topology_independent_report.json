@@ -1,0 +1,432 @@
+{
+  "schema_version": "independent_material_topology_report.v3_two_layer",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+  "sha256": "6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3",
+  "annotation_sha256": "56127ff951fa72f0ad1022751cd3cf6861895a1471dbb67e384d5388abda1d02",
+  "owner_assignment_method": "external_reviewed_semantic_annotation_from_visual_review_seed",
+  "palette_indices_not_used_for_owner_assignment": true,
+  "results": {
+    "material_map_accuracy": {
+      "status": "passed",
+      "basis": "explicit_two_layer_annotation; no fallback"
+    },
+    "material_boundary_topology": {
+      "status": "passed",
+      "basis": "expected owner pair and all authored segments"
+    },
+    "palette_role_conformance": {
+      "status": "failed",
+      "basis": "owner ramp plus coordinate-authorized shared shade roles"
+    },
+    "visual_material_readability": {
+      "status": "pending_human_review",
+      "reason": "diagnostic map cannot prove 1x artistic readability"
+    }
+  },
+  "ownership_annotation_error": 0,
+  "material_palette_leakage": 829,
+  "boundary_status": {
+    "segments": {
+      "hair_skin_face": {
+        "expected_owner_a": "hair",
+        "expected_owner_b": "skin",
+        "orientation": "horizontal_face",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              24,
+              9,
+              "hair"
+            ],
+            "b": [
+              25,
+              9,
+              "skin"
+            ],
+            "expected_pair": [
+              "hair",
+              "skin"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              25,
+              2,
+              "hair"
+            ],
+            "b": [
+              26,
+              2,
+              "skin"
+            ],
+            "expected_pair": [
+              "hair",
+              "skin"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      },
+      "orange_top_skin_hem": {
+        "expected_owner_a": "orange_top",
+        "expected_owner_b": "skin",
+        "orientation": "horizontal_hem",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              29,
+              32,
+              "orange_top"
+            ],
+            "b": [
+              30,
+              32,
+              "skin"
+            ],
+            "expected_pair": [
+              "orange_top",
+              "skin"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              25,
+              32,
+              "orange_top"
+            ],
+            "b": [
+              25,
+              33,
+              "skin"
+            ],
+            "expected_pair": [
+              "orange_top",
+              "skin"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      },
+      "orange_top_skin_axilla_left": {
+        "expected_owner_a": "orange_top",
+        "expected_owner_b": "skin",
+        "orientation": "vertical_left_axilla",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              21,
+              21,
+              "skin"
+            ],
+            "b": [
+              22,
+              21,
+              "orange_top"
+            ],
+            "expected_pair": [
+              "orange_top",
+              "skin"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              31,
+              21,
+              "skin"
+            ],
+            "b": [
+              31,
+              22,
+              "orange_top"
+            ],
+            "expected_pair": [
+              "orange_top",
+              "skin"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      },
+      "orange_top_skin_axilla_right": {
+        "expected_owner_a": "orange_top",
+        "expected_owner_b": "skin",
+        "orientation": "vertical_right_axilla",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              31,
+              22,
+              "orange_top"
+            ],
+            "b": [
+              32,
+              22,
+              "skin"
+            ],
+            "expected_pair": [
+              "orange_top",
+              "skin"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              31,
+              23,
+              "orange_top"
+            ],
+            "b": [
+              32,
+              23,
+              "skin"
+            ],
+            "expected_pair": [
+              "orange_top",
+              "skin"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      },
+      "wraps_skin_left_wrist": {
+        "expected_owner_a": "teal_fabric",
+        "expected_owner_b": "skin",
+        "orientation": "horizontal_left_wrap",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              20,
+              23,
+              "skin"
+            ],
+            "b": [
+              21,
+              23,
+              "teal_fabric"
+            ],
+            "expected_pair": [
+              "teal_fabric",
+              "skin"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              20,
+              24,
+              "skin"
+            ],
+            "b": [
+              21,
+              24,
+              "teal_fabric"
+            ],
+            "expected_pair": [
+              "teal_fabric",
+              "skin"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      },
+      "wraps_skin_right_wrist": {
+        "expected_owner_a": "teal_fabric",
+        "expected_owner_b": "skin",
+        "orientation": "horizontal_right_wrap",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              40,
+              24,
+              "teal_fabric"
+            ],
+            "b": [
+              40,
+              25,
+              "skin"
+            ],
+            "expected_pair": [
+              "teal_fabric",
+              "skin"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              39,
+              25,
+              "teal_fabric"
+            ],
+            "b": [
+              40,
+              25,
+              "skin"
+            ],
+            "expected_pair": [
+              "teal_fabric",
+              "skin"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      },
+      "sash_trousers": {
+        "expected_owner_a": "teal_fabric",
+        "expected_owner_b": "indigo_trousers",
+        "orientation": "horizontal_sash",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              22,
+              40,
+              "teal_fabric"
+            ],
+            "b": [
+              22,
+              41,
+              "indigo_trousers"
+            ],
+            "expected_pair": [
+              "teal_fabric",
+              "indigo_trousers"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              21,
+              41,
+              "teal_fabric"
+            ],
+            "b": [
+              22,
+              41,
+              "indigo_trousers"
+            ],
+            "expected_pair": [
+              "teal_fabric",
+              "indigo_trousers"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      },
+      "skin_trousers_left_ankle": {
+        "expected_owner_a": "skin",
+        "expected_owner_b": "indigo_trousers",
+        "orientation": "vertical_left_ankle",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              15,
+              68,
+              "indigo_trousers"
+            ],
+            "b": [
+              15,
+              69,
+              "skin"
+            ],
+            "expected_pair": [
+              "skin",
+              "indigo_trousers"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              16,
+              68,
+              "indigo_trousers"
+            ],
+            "b": [
+              16,
+              69,
+              "skin"
+            ],
+            "expected_pair": [
+              "skin",
+              "indigo_trousers"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      },
+      "skin_trousers_right_ankle": {
+        "expected_owner_a": "skin",
+        "expected_owner_b": "indigo_trousers",
+        "orientation": "vertical_right_ankle",
+        "expected_segments": 2,
+        "matched_segments": 2,
+        "observed_segments": [
+          {
+            "a": [
+              40,
+              68,
+              "indigo_trousers"
+            ],
+            "b": [
+              40,
+              69,
+              "skin"
+            ],
+            "expected_pair": [
+              "skin",
+              "indigo_trousers"
+            ],
+            "pair_match": true
+          },
+          {
+            "a": [
+              41,
+              68,
+              "indigo_trousers"
+            ],
+            "b": [
+              41,
+              69,
+              "skin"
+            ],
+            "expected_pair": [
+              "skin",
+              "indigo_trousers"
+            ],
+            "pair_match": true
+          }
+        ],
+        "status": true
+      }
+    },
+    "contract_complete": true,
+    "status": true
+  },
+  "not_approved_by_coverage_alone": true,
+  "status": "failed_requires_localized_material_cleanup"
+}

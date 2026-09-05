@@ -40,6 +40,8 @@ def validate(instance: Any, schema: dict[str, Any], location: str = "$") -> None
             for index, value in enumerate(instance): validate(value, schema["items"], f"{location}[{index}]")
     elif typ == "string":
         if not isinstance(instance, str): raise SchemaError(f"{location}: expected string")
+        if "minLength" in schema and len(instance) < schema["minLength"]: raise SchemaError(f"{location}: string shorter than minimum")
+        if "maxLength" in schema and len(instance) > schema["maxLength"]: raise SchemaError(f"{location}: string longer than maximum")
         if "pattern" in schema and re.fullmatch(schema["pattern"], instance) is None: raise SchemaError(f"{location}: string violates portable contract")
     elif typ == "integer":
         if not isinstance(instance, int) or isinstance(instance, bool): raise SchemaError(f"{location}: expected integer")

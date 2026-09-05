@@ -1,0 +1,192 @@
+{
+  "schema_version": "1.0.0",
+  "context_type": "aaa_game",
+  "context_status": "active",
+  "delivery_claim_ceiling": "vertical_slice",
+  "documentation_profile": "full_game",
+  "project_intent": {
+    "one_sentence_goal": "Criar um jogo curto autoral de acao/plataforma para Mega Drive com correr, pular, atirar, um inimigo comum e um mini-boss.",
+    "success_definition": "O projeto so pode ser promovido quando a vertical slice tiver documentacao, assets premium aprovados, conversao VDP, build canonico e evidencia BlastEm rastreavel.",
+    "non_goals": [
+      "Copiar personagens, nomes, sprites, musicas, layout de fases ou identidade visual de qualquer franquia protegida",
+      "Declarar pronto sem ROM observada no BlastEm",
+      "Usar asset procedural, placeholder ou debug como arte final",
+      "Expandir o escopo alem de uma fase curta, um heroi, um inimigo comum, um mini-boss, titulo e fim nesta versao"
+    ]
+  },
+  "blocking_policy": {
+    "levels": [
+      "blocking",
+      "phase_blocking",
+      "recommended",
+      "optional",
+      "not_applicable"
+    ],
+    "documents": [
+      {
+        "path": "doc/project_context_manifest.json",
+        "role": "classificacao do contexto de trabalho",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise",
+          "game_review",
+          "consulting"
+        ]
+      },
+      {
+        "path": "doc/00-project-brief.md",
+        "role": "one-pager, pilares, escopo e nao-escopo",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise"
+        ]
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "role": "design jogavel, loop, regras e fantasia",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/15-tdd.md",
+        "role": "arquitetura tecnica executavel e orcamentos",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "role": "contrato de cenas, tecnicas e evidencia",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo"
+        ]
+      },
+      {
+        "path": "doc/14-plano-de-provas-qa.md",
+        "role": "plano de validacao proporcional ao contexto",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo"
+        ]
+      },
+      {
+        "path": "doc/16-ldd.md",
+        "role": "layout, ritmo, progressao e navegacao de fases",
+        "requirement": "phase_blocking",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/17-audio-design.md",
+        "role": "direcao musical, SFX e integracao com gameplay",
+        "requirement": "phase_blocking",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/18-asset-register.json",
+        "role": "inventario vivo de assets, owners e status",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo"
+        ]
+      },
+      {
+        "path": "doc/19-roadmap-risk-register.md",
+        "role": "milestones, riscos, cortes e decisoes de producao",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/20-release-marketing-legal.md",
+        "role": "release, marca, localizacao, loja e direitos",
+        "requirement": "phase_blocking",
+        "required_for_contexts": [
+          "aaa_game"
+        ]
+      },
+      {
+        "path": "doc/21-review-consulting-context.md",
+        "role": "escopo de review ou consultoria e limites de parecer",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "game_review",
+          "consulting"
+        ]
+      },
+      {
+        "path": "doc/project_methodology_manifest.json",
+        "role": "metodologia, claims e validacoes obrigatorias",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise"
+        ]
+      },
+      {
+        "path": "doc/project_hygiene_manifest.json",
+        "role": "higiene, isolamento e entradas externas",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise"
+        ]
+      },
+      {
+        "path": "doc/technique_usage_manifest.json",
+        "role": "manifesto de tecnicas catalogadas e evidencias",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo"
+        ]
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "role": "estado operacional real",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise",
+          "game_review",
+          "consulting"
+        ]
+      },
+      {
+        "path": "doc/changelog/changelog.md",
+        "role": "registro cronologico de mudancas",
+        "requirement": "blocking",
+        "required_for_contexts": [
+          "aaa_game",
+          "technical_demo",
+          "exercise"
+        ]
+      }
+    ]
+  },
+  "context_decision_record": {
+    "selected_by": "human",
+    "rationale": "O pedido e criar um jogo curto com fase, personagem jogavel, inimigo, mini-boss, title e fim; isso e um jogo real com perfil full_game, nao uma demo tecnica isolada.",
+    "evidence_or_prompt": "Solicitacao humana em 2026-06-25: jogo curto de acao/plataforma autoral inspirado em run-jump-shoot classico, sem copiar IP protegida, seguindo rota Vibe Playable.",
+    "human_confirmation_required_for_mode_change": true,
+    "last_reviewed_at": "2026-06-25"
+  }
+}

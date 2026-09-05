@@ -123,7 +123,7 @@ foreach ($rf in $reportFiles) {
     }
 }
 
-$allBlockerSets = $allBlockerSets | Sort-Object { $_.timestamp }
+$allBlockerSets = @($allBlockerSets | Sort-Object { $_.timestamp })
 
 $buildsAnalyzed = @()
 $idx = 1

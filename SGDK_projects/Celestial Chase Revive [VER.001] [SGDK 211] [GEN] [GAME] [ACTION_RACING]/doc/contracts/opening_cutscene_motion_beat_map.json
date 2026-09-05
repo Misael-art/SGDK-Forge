@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "beats": [
+    {"state_id": "OP_00_BLACK_STINGER", "beat": "hold", "reason": "scale and quiet"},
+    {"state_id": "OP_01_LIGHTHOUSE_WIDE", "beat": "pan_or_scroll", "reason": "show height of Farol-Matriz"},
+    {"state_id": "OP_02_LIO_CLOSEUP", "beat": "blink_or_reaction", "reason": "portrait feels alive"},
+    {"state_id": "OP_03_CORE_INSERT", "beat": "palette_pulse", "reason": "object becomes active"},
+    {"state_id": "OP_04_HART_SHADOW", "beat": "impact_motion", "reason": "Mestre Perseguidor enters as threat"},
+    {"state_id": "OP_05_GATE_BREAK", "beat": "pan_or_scroll", "reason": "handoff to road"},
+    {"state_id": "OP_06_CONTROL_HANDOFF", "beat": "hud_enter", "reason": "gameplay starts clearly"}
+  ]
+}

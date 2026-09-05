@@ -1,8 +1,8 @@
-{
+﻿{
   "schema_version": "1.0.0",
-  "project_profile": "lab",
-  "compiled_at": "2026-06-03T14:23:09.1936274Z",
-  "compiled_from": "doc/13-spec-cenas.md",
+  "project_profile": "production",
+  "compiled_at": "2026-07-08T20:45:55.3265004Z",
+  "compiled_from": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/doc/13-spec-cenas.md",
   "scenes": [
     {
       "scene_id": "branding_sequence",
@@ -59,21 +59,29 @@
       "regression_required": true
     },
     {
+      "scene_id": "cais_01",
+      "scene_role": "gameplay",
+      "boot_mode": "unsupported",
+      "compile_origin": "canonical_block",
+      "source_heading": "### Cena 2 - First Playable Slice (`CAIS_01`)",
+      "cleanup_required": true
+    },
+    {
       "scene_id": "first_playable_slice",
       "scene_role": "gameplay",
       "boot_mode": "unsupported",
       "compile_origin": "merged_with_regression",
-      "source_heading": "### Cena 2 - `first_playable_slice`",
+      "source_heading": "### Cena 2 - `first_playable_slice` (`cais_01`)",
       "resource_budget_model": {
-        "scene_local_scope": "mapa inicial, actor principal, HUD seguro e efeitos minimos",
-        "rom_asset_cost": "nao_medido",
-        "vram_resident_set": "tiles do slice, fonte/HUD em WINDOW, sprites do loop base",
+        "scene_local_scope": "tilemap cais_01, TAÍNA (48x48, 8 estados), CRIA (44px, 5 estados), ESTIVADOR (56px, 5 estados), espetinho, FX splash, fonte/HUD",
+        "rom_asset_cost": "nao_medido (medir via res_graph_report)",
+        "vram_resident_set": "tiles do cais + strips ativos dos 3 personagens + HUD; laudo megadrive-vdp-budget-analyst obrigatório antes do runtime",
         "load_time_dma_cost": "permitido apenas na entrada da cena",
-        "per_frame_dma_cost": "nao_medido",
-        "active_animation_window": "manter residente so o que participa do loop central",
-        "scanline_sprite_pressure": "nao_medido",
-        "runtime_loading_model": "scene_local_preload",
-        "fallback_plan": "simplificar composicao antes de vender efeito caro como default"
+        "per_frame_dma_cost": "nao_medido (alvo: só strips de animação ativos)",
+        "active_animation_window": "janela por estado de animação; estados inativos não residentes",
+        "scanline_sprite_pressure": "nao_medido (risco declarado: 4 inimigos na mesma faixa de y; mitigação: espaçamento por wave manager)",
+        "runtime_loading_model": "tilemap_streaming no BG_A (cais 1344px, janela 64x32, máx 2 colunas/frame) + full_resident_loop no BG_B + scene_local_preload só para sprites/HUD — contrato completo com seam policy e custos em doc/contracts/tilemap_streaming_contract.json (veredito curatorial: scene_local_preload para 1344px NÃO cabe metodologicamente)",
+        "fallback_plan": "reduzir para 3 inimigos ativos → remover FX splash → reduzir estados de animação, nesta ordem, antes de sacrificar 60fps; para o mapa: fallbacks ordenados do contrato de streaming (1024px → 2 sub-cenas → densidade)"
       },
       "cleanup_required": true,
       "capture_kind": "evidence_bundle",

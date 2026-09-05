@@ -1,0 +1,39 @@
+﻿{
+  "schema_version": "1.0.0",
+  "project_root_policy": "all_project_material_inside_project",
+  "naming_policy": "portable_descriptive_v1",
+  "scratch_policy": {
+    "root": "rascunho",
+    "raw_inputs": "rascunho/entrada_bruta",
+    "processed_inputs": "rascunho/processado",
+    "temporary": "rascunho/temporario"
+  },
+  "allowed_root_entries": [
+    ".agent",
+    ".ai-memory.toml",
+    ".cursor",
+    ".mddev",
+    ".vscode",
+    "data",
+    "doc",
+    "inc",
+    "out",
+    "rascunho",
+    "rds",
+    "res",
+    "src",
+    "README.md",
+    "build.bat",
+    "clean.bat",
+    "rebuild.bat",
+    "resolve_wrapper.bat",
+    "run.bat",
+    "sgdk_wrapper_env.bat"
+  ],
+  "canonical_shared_dependencies": [
+    "tools/sgdk_wrapper",
+    "sdk/sgdk-2.11",
+    "tools/emuladores"
+  ],
+  "external_inputs": []
+}

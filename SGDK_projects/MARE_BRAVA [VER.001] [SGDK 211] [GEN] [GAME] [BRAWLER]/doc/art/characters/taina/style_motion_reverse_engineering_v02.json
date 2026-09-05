@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_style_motion_reverse_engineering_v02",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina",
+  "status": "locked",
+  "source_of_truth": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+  "approved_native_anchor": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+  "primitive_shape_language": {
+    "hair": "large irregular compact mass above and behind the head",
+    "torso": "tall angular athletic wedge",
+    "guard": "raised diagonal arm blocks around face and chest",
+    "lower_body": "broad indigo trouser masses tapering toward wrapped feet",
+    "asymmetry": "teal sash mass hangs on screen-right"
+  },
+  "proportion_matrix": {
+    "cell": "48x64",
+    "visible_height_px": 59,
+    "visible_width_px": 24,
+    "character_read": "tall athletic adult, never chibi",
+    "head_and_hair": "identity-dominant but subordinate to full body height",
+    "hands_and_feet": "slightly enlarged for native readability"
+  },
+  "line_weight_policy": {
+    "outer_contour": "one logical pixel, dark indigo/blue",
+    "inner_lines": "one logical pixel only where material or joint separation requires it",
+    "forbidden": [
+      "antialiasing",
+      "double corners",
+      "isolated purple halo pixels",
+      "frame-specific outline thickness"
+    ]
+  },
+  "shading_model": {
+    "palette_domain": "PAL1",
+    "visible_colors": 10,
+    "light_direction": "upper front",
+    "skin_and_orange": "warm highlights with dark red-brown shadows",
+    "teal_and_indigo": "cool shadow masses",
+    "micro_motion": "internal palette-cluster motion only; external silhouette remains locked for idle"
+  },
+  "extreme_pose_limits": {
+    "idle": "no external scale change, no foot displacement, no head redesign",
+    "future_attacks": "may exceed idle envelope only under a dedicated action contract",
+    "identity_must_survive": [
+      "curly_hair_mass",
+      "wedge_face",
+      "high_guard",
+      "orange_top",
+      "teal_wraps_and_sash",
+      "indigo_baggy_pants",
+      "wrapped_bare_feet"
+    ]
+  }
+}

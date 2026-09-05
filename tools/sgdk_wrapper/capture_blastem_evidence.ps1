@@ -49,13 +49,14 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$ToolVersion = '0.1.0'
+$ToolVersion = '0.2.0'
 
 # ---------------------------------------------------------------------------
 # Import modules
 # ---------------------------------------------------------------------------
 $libDir = Join-Path $PSScriptRoot 'lib'
 Import-Module (Join-Path $libDir 'blastem_evidence.psm1') -Force
+. (Join-Path $PSScriptRoot '_lib\sgdk_common.ps1')
 $contractsModule = Import-Module (Join-Path $libDir 'sgdk_artifact_contracts.psm1') -Force -Global -PassThru
 $NewArtifactEnvelope = $contractsModule.ExportedCommands['New-SgdkArtifactEnvelope']
 $SetArtifactFailure = $contractsModule.ExportedCommands['Set-SgdkArtifactFailure']
@@ -456,6 +457,7 @@ try {
 $finalScreenshotPath = Join-Path $OutputRoot 'screenshot.png'
 $finalSramPath = Join-Path $OutputRoot 'save.sram'
 $finalVdpDumpPath = Join-Path $OutputRoot 'visual_vdp_dump.bin'
+$semanticCaptureReportPath = Join-Path $logsDir 'screenshot_semantic_gate_report.json'
 $artifact['screenshot_present'] = (Test-Path -LiteralPath $finalScreenshotPath)
 $artifact['sram_present'] = (Test-Path -LiteralPath $finalSramPath)
 $artifact['vdp_dump_present'] = (Test-Path -LiteralPath $finalVdpDumpPath)
@@ -467,6 +469,35 @@ if (-not $artifact['session_manifest_path']) {
     }
 }
 $artifact['duration_ms'] = [int]((Get-Date) - $startTime).TotalMilliseconds
+$semanticCaptureValid = $false
+$semanticCaptureReport = $null
+if ($artifact['screenshot_present']) {
+    $semanticAuditScript = Join-Path $PSScriptRoot 'audit_screenshot_semantics.ps1'
+    $currentPowerShellHost = (Get-Process -Id $PID).Path
+    & $currentPowerShellHost -NoProfile -ExecutionPolicy Bypass -File $semanticAuditScript `
+        -ProjectRoot $ProjectRoot `
+        -ScreenshotPath $finalScreenshotPath `
+        -OutputPath $semanticCaptureReportPath `
+        -RomPath $RomPath `
+        -EvidenceSessionId $session.SessionId `
+        -WarnOnly | Out-Host
+    if (Test-Path -LiteralPath $semanticCaptureReportPath -PathType Leaf) {
+        try {
+            $semanticCaptureReport = Get-Content -LiteralPath $semanticCaptureReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+            $semanticCaptureValid = [bool]$semanticCaptureReport.semantic_capture_valid
+        } catch {
+            $semanticCaptureValid = $false
+        }
+    }
+}
+$artifact['semantic_capture_valid'] = [bool]$semanticCaptureValid
+$artifact['semantic_capture_report_path'] = if (Test-Path -LiteralPath $semanticCaptureReportPath -PathType Leaf) { $semanticCaptureReportPath } else { $null }
+if ($artifact['screenshot_present'] -and -not $semanticCaptureValid) {
+    $artifact['evidence_status'] = if ($WarnOnly) { 'warn' } else { 'error' }
+    $artifact['status'] = if ($WarnOnly) { 'warn' } else { 'error' }
+    $semanticFailure = if ($semanticCaptureReport -and $semanticCaptureReport.failure_reason) { [string]$semanticCaptureReport.failure_reason } else { 'Screenshot semantic integrity gate failed.' }
+    $artifact['failure_reason'] = $semanticFailure
+}
 
 if ($artifact['session_completed'] -and $session) {
     $romItem = if (Test-Path -LiteralPath $RomPath) { Get-Item -LiteralPath $RomPath } else { $null }
@@ -482,10 +513,11 @@ if ($artifact['session_completed'] -and $session) {
         emulator = "blastem"
         reference_emulator = "blastem"
         launch_status = "captured_closed"
-        status = "ok"
+        status = if ($semanticCaptureValid) { "ok" } else { "blocked" }
         boot_emulador = "ok"
-        gameplay_basico = "funcional"
-        performance = "estavel"
+        visual = if ($semanticCaptureValid) { "capture_semantically_valid_not_quality_proof" } else { "unproven" }
+        gameplay_basico = if ($semanticCaptureValid) { "not_proven_by_screenshot_alone" } else { "unproven" }
+        performance = if ($semanticCaptureValid) { "not_proven_by_screenshot_alone" } else { "unproven" }
         audio = "ok"
         audio_scope = "not_required_no_audio_resources_declared"
         hardware_real = "blastem_reference_emulator"
@@ -501,6 +533,8 @@ if ($artifact['session_completed'] -and $session) {
         blastem_evidence_path = $artifactPath
         session_manifest_path = if ($artifact['session_manifest_path']) { $artifact['session_manifest_path'] } else { $null }
         screenshot_path = if ($artifact['screenshot_present']) { $finalScreenshotPath } else { $null }
+        semantic_capture_valid = [bool]$semanticCaptureValid
+        semantic_capture_report_path = if (Test-Path -LiteralPath $semanticCaptureReportPath -PathType Leaf) { $semanticCaptureReportPath } else { $null }
         sram_path = if ($artifact['sram_present']) { $finalSramPath } else { $null }
         vdp_dump_path = if ($artifact['vdp_dump_present']) { $finalVdpDumpPath } else { $null }
         vdp_dump_status = if ($artifact['vdp_dump_present']) { "captured" } else { "not_generated_mdrt_only" }
@@ -532,7 +566,8 @@ if ($artifact['session_completed'] -and (Test-Path -LiteralPath $evidenceFinaliz
     if ($WarnOnly) {
         $finalizerArgs += '-WarnOnly'
     }
-    & powershell.exe @finalizerArgs | Out-Host
+    $currentPowerShellHost = (Get-Process -Id $PID).Path
+    & $currentPowerShellHost @finalizerArgs | Out-Host
     $finalizerExitCode = $LASTEXITCODE
     $artifact['evidence_closeout_report_path'] = $evidenceCloseoutPath
     if (Test-Path -LiteralPath $evidenceCloseoutPath -PathType Leaf) {

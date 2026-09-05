@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "status": "completed_for_specs",
+  "audit_date": "2026-06-16",
+  "input_critique_score_experience": 68,
+  "target_after_pass": "raise design intent before runtime, not claim fun proven",
+  "findings": [
+    {
+      "issue": "fantasy_of_chase_not_visceral",
+      "before": "pursuer mostly final boss and pressure meter",
+      "after": "pursuer presence contract with BG_B silhouette, audio cues and pressure-linked states",
+      "artifact": "doc/pursuer_presence_contract.json"
+    },
+    {
+      "issue": "sectors_skin_without_mechanical_soul",
+      "before": "sector themes and speed curve",
+      "after": "unique mechanical identity per sector",
+      "artifact": "doc/sector_mechanic_identity_contract.json"
+    },
+    {
+      "issue": "lumen_currency_without_risk",
+      "before": "collect and spend",
+      "after": "Lumen pressure bands create save/spend tension",
+      "artifact": "doc/lumen_pressure_economy_contract.json"
+    },
+    {
+      "issue": "low_replayability",
+      "before": "records mentioned, no loop",
+      "after": "sector stars, score criteria and unlock plan",
+      "artifact": "doc/replayability_score_contract.json"
+    },
+    {
+      "issue": "music_not_gameplay",
+      "before": "short audio design with states",
+      "after": "reactive music layers by Pressure, Lumen and boss phase",
+      "artifact": "doc/reactive_music_gameplay_contract.json"
+    },
+    {
+      "issue": "missing_signature_moment",
+      "before": "opening and boss approach candidates",
+      "after": "shattered_lane_gauntlet setpiece in Sector 03 -> 04 transition",
+      "artifact": "doc/signature_setpiece_contract.json"
+    }
+  ],
+  "status_limit": "documentado",
+  "not_proven_until": [
+    "runtime_seed_exists",
+    "assets_exist",
+    "audio_assets_exist",
+    "BlastEm_capture_exists",
+    "human_perceptual_playtest_exists"
+  ]
+}

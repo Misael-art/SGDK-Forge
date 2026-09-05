@@ -1,6 +1,6 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
-**Última atualização:** 2026-08-29
+**Última atualização:** 2026-09-02
 **Escopo:** Repositório MegaDrive_DEV (workspace global)
 **Projeto em foco:** Barra viva da cena (oficio Rheo/Pigsy como piso, nao handle), plano para gerar pixel art nesse nivel, SGDK_GLOBAL §39
 
@@ -35,7 +35,42 @@
 
 ## 2. O QUE ACABOU DE ACONTECER (2026-04-02)
 
+### Gate canonico de animacao ligado ao artefato (2026-09-02)
+
+- `sprite-animation` deixou de aceitar metadados como prova suficiente para
+  producao nova. `animation_strip_contract` v3 vincula PNG, lineart, timing em
+  VBlank, perfil de movimento, suporte/contato e layout de metasprite.
+- Entry point novo e central:
+  `tools/sgdk_wrapper/.agent/scripts/validate_animation_strip_artifact.py`.
+  O nome unico impede que copias locais congeladas de `validate_strip.py`
+  enfraquecam silenciosamente o gate; contratos 1.x/2.x ficam apenas legados.
+- Validadores novos medem lineart 1 px, semantica temporal e agregado de claims.
+  Blockers permanentes cobrem fragmento de celula, silhueta preenchida chamada
+  de lineart, reorder/duplicacao de frames, foot slide, timing divergente,
+  reuso entre acoes, conflito de metasprite e `visual_pass` auto-declarado.
+- `motion_profile_registry.json` e generico por familia de movimento, nao por
+  personagem. Timing tem uma unica autoridade e preview deterministico consome
+  essa tabela.
+- Revisao visual cega continua indispensavel para identidade, acting e apelo;
+  automacao recusa contradicoes, mas nao transforma julgamento artistico em
+  score unico. ROM/BlastEm continuam necessarios para claim de runtime.
+- Prova da curadoria: `test_animation_validation.py` 9/9 suites, 14 blockers
+  adversariais declarados; meta-gate isolado 4/4; art pipeline 128/128;
+  forge-art 126/126. Auditor global segue BLOCKED por dividas preexistentes
+  (validator nativo sem self-check, copias antigas do simulador/runtime_probe).
+
 ### Barra viva da cena — oficio Rheo/Pigsy como piso (2026-08-29)
+
+- **Correcao de baseline visual (2026-08-29):** a avaliacao de arte nunca pode ser
+  relativa ao placeholder, ao build ou a uma captura. O contrato unico e
+  `tools/sgdk_wrapper/.agent/references/production_visual_quality_contract.md`;
+  ele bloqueia promocao quando forem perdidos anatomia, materiais, marcos de
+  design, modularidade real de cenario ou funcao visual do FX. Cada projeto
+  precisa de uma prancha local com fontes rastreaveis e hash; ela e referencia
+  de oficio, nao permissao para copiar pixels. Os probes procedurais do FR2 e
+  de MARE_BRAVA sao integracao tecnica, nunca baseline de qualidade nem prova
+  de arte final. O contrato e regra global e os workflows visuais apenas o
+  consomem, para evitar criterios duplicados ou contraditorios.
 
 - Piso visual 2026 canonizado: `doc/03_art/18_live_scene_bar.md` +
   `doc/03_art/live_scene_bar.json` + schema
@@ -2728,3 +2763,237 @@ Status: `documentado`.
 - Registrar que folga de highlight e ciclo de brasa passam porque o gate le a tabela de
   paleta do PNG, nao o painel C. Perder os rotulos do painel C custa revisao humana, nao
   verificacao mecanica.
+
+## 2026-08-30 — Visual Forge: memoria canonica do diagnostico e execucao
+
+Status: `documentado`; implementacao ainda nao iniciada por este registro.
+
+- Diagnostico, inventario de ferramentas, falhas do conversor atual, arquitetura
+  de duas rotas, plano P0-P3 e matriz de testes foram persistidos em
+  `doc/05_technical/visual_forge_toolchain_diagnostic_and_implementation_plan_2026-08-29.md`.
+- Prompt operacional completo foi persistido em
+  `doc/prompts_modelo/prompt_mestre_visual_forge_e_mare_brava_aaa.md`.
+- Decisao canonica: GUI/pointer automation nao pode ser dependencia do core.
+  A suite deve ser CLI, deterministica, retomavel, atomica, cacheada por hash e
+  incapaz de sobrescrever fonte ou promover automaticamente para `res/`.
+- Duas rotas permanecem separadas: `technical_conversion` gera conformance e
+  controle `basic`; `assisted_native_translation` produz `elite` preservando
+  identidade. `technical_pass`, `visual_pass`, `budget_pass` e `emulator_pass`
+  sao eixos independentes.
+- Biblioteca de cor unica deve separar CRAM/vdp_code, RGB de autoria
+  `{00,22,44,66,88,AA,CC,EE}` e RGB de display; RGBA4444 nao substitui paleta
+  VDP.
+- P0 bloqueia Lanczos, RGBA final, PLTE inflada, composicao sobre preto,
+  overwrite in-place e testes que aceitam esses comportamentos.
+- Primeira aplicacao e MARE_BRAVA. O projeto recebeu
+  `doc/contracts/visual_toolchain_reconciliation_v01.json` e
+  `doc/23-visual-forge-adoption-plan.md`.
+- As fontes 1086x1448 da TAÍNA sao artisticamente aprovadas como referencias,
+  nao assets runtime. Ainda nao existe lineart 48x64 aprovada.
+- Nenhum claim foi promovido por esta documentacao: ferramenta e jogo continuam
+  pendentes de implementacao, testes e evidencia.
+
+## 2026-08-30 — Curadoria CLI-first e persistencia causal
+
+Status: `implementado_e_testado_no_escopo_tecnico`; sem claim visual/AAA.
+
+- Criado `tools/sgdk_wrapper/.agent/workflows/causal-persistence-loop.md` como
+  owner transversal de blocker repetido, troca de rota e parada crítica.
+- Operação determinística por screenshot/ponteiro passou a ser
+  `interaction_channel_mismatch`; GUI automatizada não é rota de produção.
+- `forge_art.gimp_batch` implementa preflight GIMP 3 headless com processo sem
+  shell, perfil XDG isolado, timeout, schema fechado e rejeição de operação
+  arbitrária.
+- Preflight local: GIMP 3.2.4, `python-fu-eval`, sentinel observado, exit 0.
+  Existem zero operações GIMP de produção registradas; GIMP continua opcional.
+- `forge-art self-check` passou 107/107; `test_art_pipeline.py` passou 116/116;
+  auditor isolado do forge-art passou 1/1.
+- A hierarquia de ferramentas ficou: forge-art para VDP/indexação,
+  Pillow/ImageMagick para mecânica, GIMP batch para operação GIMP/GEGL curada e
+  produtor visual capaz para tradução semântica.
+- Plano compartilhado, prompt mestre, plano do MARE_BRAVA, contrato de
+  reconciliação, memory bank e changelog foram sincronizados com hashes novos.
+- TAÍNA continua sem lineart nativa aprovada; nenhum `res/`, build ou ROM foi
+  promovido por esta curadoria.
+
+## 2026-08-30 — Curadoria canônica de produção de sprites nativas
+
+Status: `implementado_e_testado_no_escopo_de_orquestracao`; sem claim visual,
+ROM ou AAA para projeto específico.
+
+- A regressão observada em MARE_BRAVA foi generalizada como falha de processo:
+  o agente confundia fonte visual forte, redução mecânica e autoria nativa,
+  otimizava conformidade antes de legibilidade e não possuía gate explícito de
+  escala/densidade.
+- Criada a skill `art/native-sprite-production` e o workflow
+  `native-sprite-production-loop.md` para qualquer projeto SGDK. Eles separam
+  `identity_source`, `visual_producer_output`, `mechanical_scale_probe`,
+  `native_author_output` e `runtime_asset`.
+- Criados schema e validador `validate_native_sprite_production.py`. O gate
+  rederiva hash, dimensões, modo, alpha, paleta e pixel contract; probes jamais
+  compram aprovação visual ou promoção.
+- A revisão nativa exige evidência do mesmo hash em 1x, nearest ampliado, fundo
+  claro e fundo escuro. O validador rederiva as três transformações e a
+  aprovação humana cita o SHA-256 exato. Contagem de cores é medida, nunca
+  estimada por olhar.
+- O loop causal ganhou `scale_density_mismatch`: escala `locked` exige nova
+  autoria no grid; escala `provisional` exige comparação medida; mudança de
+  câmera, hitbox ou workload abre gate humano somente depois do budget.
+- Geração por IA continua válida como produtora visual. RGB/high-res é
+  `visual_source`; `forge-art convert` sozinho é controle/probe. Uma saída pode
+  ser adotada como `assisted_native_translation` depois de fidelidade, leitura
+  1x, escala, budget e aprovação humana independentes; o job técnico não compra
+  essa promoção.
+- A skill foi registrada no lifecycle, no framework manifest e no pipeline AAA.
+  O claim permanece limitado ao funcionamento do processo; nenhuma sprite
+  específica foi canonizada por esta curadoria.
+- Evidência da curadoria: validador de sprite `12/12`, persistência causal
+  `10/10`, forge-art `107/107`, art pipeline `116/116`, lifecycle `passed` e
+  auditor isolado da nova ferramenta `1/1`.
+- O meta-gate global encontrou todas as 14/14 ferramentas com self-check
+  passando, mas mantém `verdict=BLOCKED` por 18 cópias preexistentes de
+  `runtime_probe` em nove projetos. MARE_BRAVA e a nova skill não são a causa;
+  esse blocker não invalida o auditor isolado nem autoriza claim global.
+
+## 2026-09-02 — Curadoria canônica dos princípios e lifecycle de animação
+
+Status: `implementado_e_testado_no_escopo_canonico`; sem alteração de projeto, `res/`, ROM ou
+claim AAA.
+
+- Os 12 princípios clássicos foram adaptados ao Mega Drive como gates
+  transversais, sem score estético automático. Staging, exaggeration, solid
+  drawing e appeal exigem revisão visual humana vinculada ao SHA.
+- Criado um lifecycle global único de 12 etapas. Os antigos 11 passes e P0-P5
+  permanecem como subpasses mapeados, eliminando três ordens concorrentes.
+- `animation_candidate_manifest` passou a declarar `quality_target` e aceitar
+  `animation_principles_report`; o agregado bloqueia cobertura incompleta,
+  método ausente, falso `not_applicable`, hash/action divergente e aprovação
+  artística apenas por automação.
+- A arquitetura distingue sheet `SPRITE` de `TILEMAP` e roteia tilemap/planos/
+  streaming apenas por gatilho real de composição ou hardware.
+- Evidencia: animation validation `10/10`, corpus adversarial `18/18`, schemas e
+  exemplo Draft-07 validos, tres skills em `quick_validate`, measurement gate
+  isolado `4/4`, art pipeline `128/128` e forge-art `126/126`.
+- Teto: curadoria do framework; não prova qualidade de uma animação específica.
+
+## 2026-09-01 — Curadoria canônica de saneamento e portfólio causal de rotas
+
+Status: `implementado_e_testado_no_escopo_de_triagem`; sem claim de arte
+nativa, `res/`, ROM ou AAA.
+
+- `native-sprite-production`, `art-translation-to-vdp`,
+  `visual-excellence-standards` e o workflow nativo passaram a compartilhar o
+  protocolo `source-route-triage-protocol.md`.
+- `forge-art source-audit` bloqueia fonte direta contaminada por checkerboard,
+  sombra de chao, floor line, poeira, fumaça, nuvem, particula, texto,
+  oclusao, pose sobreposta ou extremidade cortada. O arquivo pode sobreviver
+  como referencia segura, mas nao compra traducao de pixels escondidos.
+- `forge-art route-shootout` executa rotas aplicaveis sob o mesmo source,
+  matte, target, anchor e canvas; cada output liga hashes, backend, versao,
+  algoritmo e parametros. GIMP GUI continua proibido e rotas indisponiveis
+  ficam skips explicitos.
+- `route_prior_registry.json` separa prior preferido, challenger, experimento,
+  controle negativo e host-optional por classe de fonte. O caso full-body
+  orienta essa classe; nearest continua correto para escala inteira de pixel
+  art nativa.
+- Nenhum filtro produz sprite nativa. O handoff correto e
+  `native_reauthoring_over_<route>_guide`; spans/primitivas, recolor semantico,
+  falso lineart, near-duplicate e rotulo sem causalidade sao vetados.
+- Evidencia: `forge-art self-check` 119/119, art pipeline 128/128, tres skills
+  passaram `quick_validate`; o shootout E2E exercitou Pillow, ImageMagick e
+  OpenCV sem escrever em `res/` e sem vencedor automatico.
+
+## 2026-09-01 — Linhagem de lineart por estado na animacao
+
+Status: `implementado_e_testado_no_contrato`; sem claim de asset, ROM ou AAA.
+
+- Novas strips usam `animation_strip_contract` 2.x e vinculam acao, key poses
+  e SHA-256 da lineart nativa aprovada em `state_lineart_lineage`.
+- O shootout escolhe um guia causal antes da autoria; filtro, matte, escala ou
+  produtor nao podem variar independentemente por frame.
+- Contratos 1.x continuam aceitos como legado com aviso, evitando invalidar
+  projetos existentes; nao sao modelo para producao nova.
+- Schema, exemplo, `validate_strip.py`, `sprite-animation`,
+  `native-sprite-production` e workflow nativo foram reconciliados.
+- Evidencia: contract pack passou, validator self-check passou, as duas skills
+  passaram quick validation e lifecycle terminou com `status=ok`.
+
+## 2026-09-02 — Curadoria contra falsa animacao e gate humano prematuro
+
+Status: `implementado_e_testado_no_escopo_canonico`; nenhum projeto, `res/`,
+ROM ou asset foi promovido pela curadoria.
+
+- O forward-test de Kirby r1 revelou um falso verde reproduzivel: uma unica
+  pose foi reduzida/deslocada quatro vezes e rotulada como fases de idle, run e
+  inhale. Lineart era contorno procedural, contatos eram coordenadas declaradas
+  e o report dos 12 principios nao estava valido/vinculado.
+- `validate_motion_semantics` 1.1.0 agora reprova pose unica mascarada como
+  animacao, probe afim como movimento, lineart procedural declarada nativa e
+  contato de apoio sem medicao no artefato ou anotacao hash-bound.
+- `validate_animation_candidate` 1.2.0 revalida esses invariantes no agregado,
+  rejeita report de movimento anterior ao gate vigente e tipos de evidencia dos
+  principios fora do schema.
+- `animation_strip_contract` passou a declarar autoria/derivacao/aprovacao da
+  lineart e metodo de medicao do apoio. O corpus adversarial cresceu para 25
+  blockers.
+- Criada a politica `deferred_nonpromotional_review`: quando o usuario pede
+  forward-test continuo, o agente continua rework e prototipos reversiveis em
+  staging sem simular aprovacao humana, promover para `res/` ou elevar claim.
+- Revalidacao do pacote Kirby v03 r1 agora reprova corretamente com
+  `single_pose_affine_animation_masquerade`,
+  `native_lineart_authorship_unproven`, `native_lineart_approval_unbound` e
+  `support_contact_not_artifact_bound`; o agregado tambem invalida reports de
+  movimento antigos e blockers contratuais ainda abertos.
+- Evidencia: animation validation 10/10, fixtures 25/25, tres skills em
+  `quick_validate`, ferramentas modificadas 1/1 isoladamente, art pipeline
+  128/128 e forge-art 126/126.
+
+## 2026-09-02 — Fechamento de autoria raster e claim semântico de animação
+
+Status: `implementado_e_testado_no_escopo_canonico`; o pacote Kirby v04 foi
+somente fixture negativa e nenhum arquivo de projeto ou `res/` foi alterado.
+
+- O forward-test v04 revelou um segundo falso verde: frames descritos como
+  nativos eram matrizes ASCII 16x16 expandidas 2x, linearts vinham do contorno
+  automático da máscara e o contrato nem passava no schema canônico.
+- Contrato v3 agora exige `production_provenance`, bitmap autoral persistido e
+  record de produtor hash-bound. `procedural_primitive` e
+  `procedural_code_probe` não compram autoria nativa.
+- Os validadores passaram a aplicar o schema embutido sem dependência opcional,
+  detectar replicação inteira 2x/3x/4x, ler o status real da aprovação da
+  lineart e exigir reconhecimento visual cego antes de
+  `motion_semantic_candidate`.
+- Revalidação real do idle v04 bloqueou por
+  `animation_strip_schema_invalid`, `native_pixel_integer_scale_masquerade`,
+  `native_lineart_approval_status_invalid` e
+  `animation_production_provenance_missing`; o agregado caiu para claim `none`.
+- Evidência: três self-checks canônicos passaram, animation validation `10/10`,
+  corpus adversarial `30/30`, exemplo v3 válido, skill em `quick_validate` e
+  art pipeline `128/128`.
+## 2026-09-04 — Workset visual, congelamento e autoria procedural reclassificada
+
+Status: `testado`; nenhuma arte, `res/`, runtime ou ROM foi promovida por esta
+curadoria.
+
+- O caso Kirby Cloude v11 foi congelado como estudo positivo/negativo após a
+  produção confundir histórico alcançável, probe técnico e autoria nativa.
+- `visual_workset_manifest` passou a declarar `active_epoch`, únicas fontes
+  elegíveis, referências sem direito a pixels, raízes/roles proibidos e estado
+  `frozen_case_study`.
+- `forge-art native-edit`, por partir de canvas vazio e escrever pixels por
+  coordenadas/runs, foi corrigido para `procedural_code_probe`; nunca mais
+  sustenta `native_candidate`, `hand_authored_pixel` ou promoção.
+- `convert`, `route-shootout` e `native-edit` consultam o workset quando ele
+  existe. Projeto congelado falha fechado antes da produção.
+- O auditor de proveniência agora valida o manifesto contra o schema integral;
+  enum inventado ou campo desconhecido não concede proveniência.
+- `art_diagnostic.py` ganhou modo padrão `active_only`; archive, staging,
+  rejeitados e superseded deixam de aparecer como candidatos, e listas extensas
+  são resumidas. `--include-history` permanece disponível para forense.
+- Autoridade de qualidade, formato técnico, estrutura de movimento, semântica
+  visual e autoria continuam gates independentes.
+- Provas de fechamento: `forge-art` 136/136, pipeline de arte 133/133,
+  `native-edit` físico 11/11, self-check de proveniência aprovado, workset
+  congelado válido e cinco skills aprovadas por `quick_validate.py`. Ataques
+  reais por `native-edit`, `convert` e `route-shootout` foram recusados com
+  `visual_production_frozen`; nenhum diretório de produção foi criado.

@@ -1,0 +1,44 @@
+{
+  "build_version": "build_v002",
+  "rom_sha256": "e6b84c604a2dd26662e2e4603ff79a276351cb77447bb9e8d4874a2c6ffaab15",
+  "size_bytes": 262144,
+  "timestamp": "2026-07-29T06:52:24.2222439-03:00",
+  "source_commit_when_available": "b345c6ab39a9dced491ca54c91469f815db3803f",
+  "validation_summary": null,
+  "emulator_evidence_status": "nao_avaliado",
+  "status_panel_snapshot": null,
+  "qa_axes_snapshot": null,
+  "linked_asset_versions": [
+    {
+      "asset_id": "img_brand_fx_tiles",
+      "version": "v001",
+      "source_path": "/res/branding/brand_fx_tiles.png"
+    },
+    {
+      "asset_id": "img_brand_engine_logo",
+      "version": "v001",
+      "source_path": "/res/branding/brand_engine_logo.png"
+    },
+    {
+      "asset_id": "img_brand_author_logo",
+      "version": "v001",
+      "source_path": "/res/branding/brand_author_logo.png"
+    },
+    {
+      "asset_id": "img_brand_project_logo",
+      "version": "v001",
+      "source_path": "/res/branding/brand_project_logo.png"
+    },
+    {
+      "asset_id": "img_brand_presents_text",
+      "version": "v001",
+      "source_path": "/res/branding/brand_presents_text.png"
+    },
+    {
+      "asset_id": "spr_taina_idle_guard",
+      "version": "v001",
+      "source_path": "/res/sprites/characters/taina/taina_idle_guard_48x64_v02.png"
+    }
+  ],
+  "notes": "TAINA idle_guard v02 aprovada visualmente, promovida para res, buildada e observada na cena 3 do BlastEm. Evidencia parcial: faltam bloco VLAB e visual_vdp_dump.bin; sem claim testado_em_emulador ou AAA."
+}

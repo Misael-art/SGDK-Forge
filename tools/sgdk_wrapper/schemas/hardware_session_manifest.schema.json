@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hardware_session_manifest.schema.json",
+  "title": "Mega Drive hardware or FPGA session manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "session_id",
+    "status",
+    "device",
+    "region",
+    "load_method",
+    "rom",
+    "captures",
+    "observations",
+    "tester_attestation"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "session_id": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["pending_external_test", "captured", "accepted", "rejected"] },
+    "device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "manufacturer", "model", "revision", "video_standard"],
+      "properties": {
+        "kind": { "enum": ["original_console", "fpga", null] },
+        "manufacturer": { "type": ["string", "null"] },
+        "model": { "type": ["string", "null"] },
+        "revision": { "type": ["string", "null"] },
+        "video_standard": { "enum": ["NTSC_60HZ", "PAL_50HZ", null] }
+      }
+    },
+    "region": { "enum": ["J", "U", "E", "JUE", null] },
+    "load_method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "device", "firmware"],
+      "properties": {
+        "kind": { "enum": ["flashcart", "programmed_cartridge", "fpga_sd", null] },
+        "device": { "type": ["string", "null"] },
+        "firmware": { "type": ["string", "null"] }
+      }
+    },
+    "rom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+        "size_bytes": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    },
+    "captures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "path", "sha256", "proves"],
+        "properties": {
+          "kind": { "enum": ["video", "photo_sequence", "logic_capture"] },
+          "path": { "type": "string", "minLength": 1 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "proves": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "enum": ["boot", "input", "audio", "gameplay"] }
+          }
+        }
+      }
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boot", "input", "audio", "gameplay", "timing_decision", "audio_decision", "issues"],
+      "properties": {
+        "boot": { "enum": ["pass", "fail", "pending"] },
+        "input": { "enum": ["pass", "fail", "pending"] },
+        "audio": { "enum": ["pass", "fail", "pending"] },
+        "gameplay": { "enum": ["pass", "fail", "pending"] },
+        "timing_decision": { "enum": ["pass", "fail", "accepted_with_known_issue", "pending"] },
+        "audio_decision": { "enum": ["pass", "fail", "accepted_with_known_issue", "pending"] },
+        "issues": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "tester_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["performed_by", "performed_at", "truthful"],
+      "properties": {
+        "performed_by": { "type": ["string", "null"] },
+        "performed_at": { "type": ["string", "null"] },
+        "truthful": { "type": "boolean" }
+      }
+    }
+  }
+}

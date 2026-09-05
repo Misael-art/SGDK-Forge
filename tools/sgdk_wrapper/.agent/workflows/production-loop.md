@@ -21,6 +21,10 @@ Workflow canonico de entrada:
 - `workflows/project-context-classification.md`
 - `workflows/project-methodology-adoption.md`
 - `workflows/route-decision-gate.md`
+- `workflows/causal-persistence-loop.md` quando houver pedido de continuidade,
+  blocker repetido ou falha de uma unica ferramenta
+- `workflows/native-sprite-production-loop.md` quando concept, raster high-res
+  ou arte de IA tiver destino sprite, sheet, objeto ou FX autoral
 - `workflows/visual-first-project-lifecycle.md` quando o trabalho for
   `aaa_game`, vertical slice, reseed, retomada com `visual_gate_blocked` ou
   projeto preso em runtime seed/placeholder
@@ -57,6 +61,9 @@ Regra:
   `lab_evidence_not_delivery`, `smoke_only` ou `visual_gate_blocked`, abrir
   `workflows/visual-first-project-lifecycle.md` antes de novo runtime; novo
   build so e progresso quando remove o blocker dominante
+- uma ferramenta individual falhar nao encerra a iteracao: classifique a causa
+  e siga `causal-persistence-loop.md`; pare apenas no blocker critico definido
+  ali ou quando o escopo autorizado terminar
 
 ### 1. Escopo, planejamento e mecanica
 
@@ -88,6 +95,7 @@ Skill canonica de apoio quando o projeto estiver nascendo ou precisar de reseed:
 - quando a UI formal envolver health bar, fonte, caixa, micro-icone, cursor ou atlas pixel-perfect de entrega, declarar `ui_pixel_surface_contract`
 - quando a UI tiver peso tipografico real, derivar `glyph_manifest` de strings reais e anexar `typography_role`, `font_render_mode`, `charset_profile`, `glyph_budget_class`, `font_owner` e `fallback_font_plan` ao mesmo card
 - quando texto, fala, alerta cinetico, painel, balao, retrato, typewriter voice ou flavor text tiver peso dramatico, anexar `text_presentation_profile` ao mesmo card
+- quando abertura, cutscene, briefing, final, retrato falante ou painel narrativo tiver claim AAA, emitir `cinematic_storyboard_contract` valido contra `tools/sgdk_wrapper/schemas/cinematic_storyboard_contract.schema.json` e referenciar o arquivo em `doc/scene-contracts.json > cutscene_contract.cinematic_storyboard_contract`
 - quando a iteracao envolver transicao formal entre cenas, zonas, atos, menu, cutscene ou estado visual, declarar `scene_transition_card` antes de abrir arte/runtime
 - quando a transicao tocar HUD, menu, title, overlay ou texto critico, referenciar tambem o `ui_decision_card`
 - quando a iteracao envolver menu, title screen ou front-end, o mesmo card deve usar `profile_kind=front_end_profile`
@@ -180,6 +188,7 @@ Skills oficiais:
 3. `art/multi-plane-composition`
 4. `art/scene-direction-curator` quando houver cenario competente, monumental, signature-only ou tecnica de plano
 5. `art/art-translation-to-vdp`
+5b. `art/native-sprite-production` quando o alvo for sprite, sheet, objeto ou FX autoral
 6. `art/visual-excellence-standards`
 7. `hardware/megadrive-vdp-budget-analyst`
 
@@ -187,6 +196,9 @@ Saida minima:
 
 - laudos e artefatos de arte completos
 - quando a cena nascer sem arte, `context_pack_manifest`, `master_style_manifest`, `art_generation_brief` e `asset_lineage_record` antes de qualquer promocao para `res/`
+- sprite/sheet/objeto/FX autoral derivado de concept ou high-res mantem
+  `native_sprite_production_record`; fonte, probe, candidata e runtime nao
+  compartilham status por conveniencia
 - arte premium aceita deve ser persistida em `data/source_art/` com `premium_source_manifest`; imagem inline pendente ou prompt sem arquivo nao entra em `res/`
 - se a rota visual terminar em `blocked_image_tooling` ou `blocked_no_premium_source`, pare a producao visual antes do runtime; qualquer ROM posterior e apenas smoke test com `lab_not_delivery=true`
 - se o projeto ja possui ROM ou rota tecnica mas segue com `visual_gate_blocked`,
@@ -200,6 +212,11 @@ Saida minima:
 - `local_author_pixel_rasterization`, `procedural_renderer` e scripts locais de desenho ficam restritos a `data/debug_lab/` e nao podem ser fonte final de asset critico AAA
 - sprite heroico com gi branco ou tecido claro exige `white_material_palette_contract`: sombras frias azul/roxo, highlights limpos/quentes, distancia tonal minima e funcao declarada por slot; `PALETTE_WASTE` bloqueia visual delivery
 - personagem heroico, lutador, boss, golpe, dano, smear, hitstop ou alegacao premium/AAA exige `animation_direction_contract`; golpes precisam de timing/spacing, anticipation, active, hitstop, follow-through e recovery; dano precisa de direcao de forca e quebra de postura; smear, flash e shading motion precisam de contratos proprios quando aplicaveis
+- acoes prometidas para o slice em `animation_state_plan` devem coincidir com
+  `sprite_artifact_report.v2.action_coverage.required_actions` e com o
+  `runtime_animation_timing_map`; acao sem strip ou sem runtime deve ser
+  implementada ou removida/reclassificada no contrato, nunca aprovada por
+  intencao
 - personagem novo ou alteracao de escala exige `visual_dna_manifest.scale_contract` travado; mudar escala depois de key poses exige reseed, nao resize silencioso
 - material critico exige `material_color_ramp_plan` com hue shift ou justificativa; straight shading lavado bloqueia asset premium
 - quantizacao automatica nao substitui palette pass manual

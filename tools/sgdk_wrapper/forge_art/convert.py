@@ -11,7 +11,7 @@ from typing import Iterable
 
 from PIL import Image
 
-from forge_art import job, pixel_contract, schema_gate, vdp_color
+from forge_art import job, pixel_contract, schema_gate, vdp_color, visual_workset
 
 TOOL_NAME = "forge_art.convert"
 TOOL_VERSION = "1.0.0"
@@ -187,6 +187,7 @@ def verify_published_conversion(root: Path, spec_file: Path, spec: dict, source:
 
 def convert(root: Path, spec_path: Path) -> dict:
     root = Path(root).resolve()
+    visual_workset.enforce_operation(root, "technical_conversion")
     raw_spec = Path(spec_path)
     if raw_spec.is_absolute():
         resolved_spec = raw_spec.resolve()
@@ -196,6 +197,9 @@ def convert(root: Path, spec_path: Path) -> dict:
     spec_file_hash_before = _hash(resolved_spec)
     spec = load_spec(resolved_spec)
     source = _portable_project_file(root, Path(spec["source"]), "conversion_source_missing_or_escaped")
+    visual_workset.enforce_declared_source(
+        root, source, require_production_eligible=True
+    )
     source_hash_before = _hash(source)
     job_spec = job.JobSpec(
         asset_id=spec["asset_id"], sources=(source, resolved_spec), route=job.ROUTE_TECHNICAL,

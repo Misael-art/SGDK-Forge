@@ -36,7 +36,11 @@ Esta skill senta entre as outras:
 6. `doc/05_technical/92_sgdk_engine_pattern_registry.json`
 7. `references/build_and_emulator_gate.md`
 8. `doc/10-memory-bank.md` do projeto alvo
-9. header relevante em `sdk/sgdk-2.11/inc/`
+9. `doc/project_methodology_manifest.json`
+10. `doc/project_hygiene_manifest.json`
+11. `doc/technique_usage_manifest.json` e `tdd_contract.json > technique_selection`
+12. `tools/sgdk_wrapper/schemas/camera_behavior_contract.schema.json` quando camera, scroll, boss room, plataforma, chase ou shake afetarem gameplay
+13. header relevante em `sdk/sgdk-2.11/inc/`
 
 Se `doc/10-memory-bank.md` nao existir no projeto, registre o fallback para `doc/06_AI_MEMORY_BANK.md` no `context_pack_manifest`.
 
@@ -61,9 +65,12 @@ Se `doc/10-memory-bank.md` nao existir no projeto, registre o fallback para `doc
 - `resource_loading_model` quando houver streaming, preload, animacao grande ou asset scene-local
 - `scene_direction_runtime_contract` quando houver `scene_direction_record` monumental, signature-only, bioma-chave ou setpiece de fundo
 - `runtime_animation_timing_map` quando houver lutador, ataque, dano, hitstop, smear, flash frame ou animacao premium
+- `motion_physics_contract` e `state_transition_motion_contract` quando a animacao depender de gravidade, contato, recovery, landing, hurt/getup ou retorno de cutscene
 - `idle_breathing_cycle_contract`, `facial_expression_phase_map`, `cloth_secondary_animation_contract` e `hand_pose_keyframe_contract` quando a animacao premium depender desses sub-contratos
 - `cutscene_runtime_contract` quando houver abertura, cutscene, cena de contexto, briefing, painel narrativo ou final
 - `production_runtime_contract` quando houver alvo AAA, stable, release, jogo completo ou projeto piloto
+- `cpu_frame_budget_report`, `fixed_point_math_contract`, `dma_queue_contract` e `z80_task_ownership_contract` quando tocar hot loop, DMA, audio driver, ASM ou matematica de gameplay
+- contratos de game feel (`input_latency_contract`, `movement_curve_report`, `camera_behavior_contract`, `hitbox_sprite_alignment_report`, `enemy_readability_report`, `playable_scene_design_card`) quando a mudanca afetar controle, camera, combate ou leitura
 - `visual_delivery_gate_report` quando a ROM usar asset critico e houver alegacao de `AAA`, `pronto` ou `delivery`
 - `build_evidence`
 - `emulator_evidence`
@@ -83,12 +90,16 @@ Se `doc/10-memory-bank.md` nao existir no projeto, registre o fallback para `doc
 - `route_decision_record` ou `scene_architecture_triage` quando a cena envolver assets grandes, parallax, foreground/oclusao ou familia tecnica ainda nao congelada
 - `ui_decision_card` quando houver HUD/UI formal
 - `text_presentation_profile` quando texto, fala, alerta cinetico ou flavor tiver peso dramatico
-- `cutscene_fsm_script`, `cutscene_panel_layout`, `cutscene_resource_plan`, `cutscene_text_timing_map` e `cutscene_teardown_plan` quando `scene_role=cutscene`
+- `cutscene_fsm_script`, `cutscene_panel_layout`, `cutscene_resource_plan`, `cutscene_text_timing_map`, `cutscene_motion_beat_map` e `cutscene_teardown_plan` quando `scene_role=cutscene`
 - contratos de animacao viva aplicaveis (`idle_breathing_cycle_contract`, `facial_expression_phase_map`, `cloth_secondary_animation_contract`, `hand_pose_keyframe_contract`) quando o alvo for AAA e o personagem for hero/fighter/boss
+- `motion_physics_contract` e `state_transition_motion_contract` quando locomocao, pulo, queda, golpe, dano, boss ou transicao de estado forem criticos
 - `production_runtime_contract`, `scene_manager_contract`, `input_abstraction_contract`, `save_system_contract` e `region_timing_contract` quando o alvo for AAA/stable/release
 - `scene_transition_card` quando houver transicao formal
 - `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` ou `audio_architecture_card` quando houver espetaculo runtime formal
 - `scene_direction_record`, `parallax_layer_contract`, `palette_cycle_decision_card`, `raster_fx_ownership_map` e `background_ecology_card` quando houver cenario monumental, signature-only, bioma-chave ou setpiece de fundo
+- `project_methodology_manifest.json` classificado; claims `critical_motion`, `road_physics` e `modular_boss` em `required` acionam obrigatoriamente seus contratos e owner skills antes do runtime
+- `tdd_contract.json > technique_selection.application_plan` cobrindo cada tecnica a implementar; runtime nao inventa tecnica fora do TDD/manifesto
+- `camera_behavior_contract` quando a cena tiver scroll jogavel, plataforma, chase, boss room, camera trigger, look-ahead, screen shake ou culling dependente de viewport
 
 ### Saida minima
 
@@ -97,6 +108,10 @@ Se `doc/10-memory-bank.md` nao existir no projeto, registre o fallback para `doc
 - `api_reality_check`
 - `scene_reset_plan` quando houver transicao de cena
 - `debug_order_check` quando estiver corrigindo visibilidade, tilemap, sprite ou composicao
+- `fixed_point_math_contract` se qualquer movimento, camera ou FX usar sub-pixel
+- `camera_runtime_report` quando houver `camera_behavior_contract`, citando dead zone, look-ahead, smoothing, clamp, triggers, shake, culling e snap final
+- `dma_queue_contract` validado por `tools/sgdk_wrapper/.agent/scripts/dma_queue_planner.py` quando houver DMA por frame
+- `cpu_frame_budget_report` com `float_or_double=false`, `heap_in_loop=false` e justificativa de ASM ou fallback C quando aplicavel
 
 ## Ordem Conservadora de Debug Grafico
 
@@ -128,6 +143,14 @@ Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug s
 - a escolha entre `IMAGE`, `MAP`, streaming e `SPR_initEx` fica rastreavel
 - o `runtime_decision_log` declara qual modelo foi usado: `full_resident`, `scene_local_preload`, `animation_window_streaming`, `tilemap_streaming` ou `fallback_reduced_residency`
 - runtime separa custo ROM/compressao, tiles residentes em VRAM, DMA de loading/preload e DMA por frame
+- runtime usa `fix16`, `fix32`, LUT ou inteiros explicitos para gameplay; `float`/`double` continuam bloqueados
+- camera de gameplay nao gruda rigidamente no player por habito: se usar follow direto, precisa justificar `fixed_room`, `fighting_stage_lock` ou outro modelo no `camera_behavior_contract`
+- camera com scroll usa coordenada interna `integer`, `fix16` ou `fix32`, mas a posicao final enviada a scroll/sprite space deve ser `integer_pixels_only`
+- `dead_zone`, `lookahead`, `smoothing`, `clamp`, `trigger_zones`, `screen_shake` e `culling_policy` devem vir do contrato; runtime nao inventa valores silenciosos
+- `screen_shake` e aplicado como evento de gameplay com offset limitado, decaimento declarado, snap inteiro final e sem mostrar vazio fora do mapa
+- culling baseado em camera usa margem segura e nao pode remover telegraph, projeteis ativos, boss ou hazard antes de ficarem legiveis
+- runtime nao agenda DMA fora do VBlank/loading; `dma_queue_planner.py` precisa passar quando o contrato existir
+- polling de input acontece no inicio do frame e o `input_latency_contract` declara resposta em ate 1 frame quando possivel
 - quando houver UI formal, o runtime cita `ui_architecture_choice`, ownership e fallback usados
 - quando houver texto expressivo, o runtime cita `text_surface_class`, timing, owner, audio, teardown e fallback usados
 - quando houver cutscene, o runtime cita `cutscene_fsm_script`, estado inicial, triggers, text timing, resource plan, palette script, audio cue map e teardown usados
@@ -136,8 +159,15 @@ Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug s
 - quando houver espetaculo runtime formal, o runtime cita cards, owners, budget, teardown e fallback usados
 - quando houver cenario monumental, o runtime cita `scene_direction_record`, tecnicas assinadas, owners de scroll/CRAM/H-Int/tiles, fallback e downgrade usado
 - runtime implementa parallax, palette cycle, raster FX e ecologia de fundo somente com owner unico, reset simetrico e budget aceito
+- runtime recusa tecnica `LABORATORIO` fora de lab e recusa otimização de baixo nivel sem benchmark isolado, fallback C/seguro e evidencia planejada
+- todo arquivo especifico, script auxiliar, log, experimento ou rascunho criado durante runtime fica dentro do projeto; temporarios ficam em `rascunho/`
 - runtime nunca declara Mode 7 no Mega Drive; referencias desse tipo ficam redirecionadas para `pseudo3d_road_stack`, line scroll, zmap ou paineis pre-renderizados
 - quando houver golpe/dano premium, o runtime implementa o `runtime_animation_timing_map` a partir de `animation_direction_contract`: startup, anticipation, active, hitstop, follow-through, recovery, cancel/return e frame hold nao podem virar cadencia uniforme por habito
+- toda acao marcada como pertencente ao slice em `animation_state_plan` deve
+  aparecer em `sprite_artifact_report.v2.action_coverage.required_actions` e no
+  `runtime_animation_timing_map`; se a implementacao ou o strip nao existem, a
+  promessa deve ser removida/reclassificada no contrato antes do closeout
+- quando houver `motion_physics_contract` ou `state_transition_motion_contract`, o runtime preserva center of mass, foot contact, landing, recovery, cancel/return, bridge frames e frame holds; reduzir isso por budget exige fallback documentado e rebaixa status visual
 - quando houver contratos de animacao viva, o runtime preserva loops, duracoes, holds, expression frames, cloth settle e hand pose transitions declarados; reduzir por budget exige `fallback_reduced_residency` e rebaixa o status visual
 - hit spark, dust, flash e camera shake sao eventos de gameplay sincronizados ao `impact_frame_contract`, nao pixels baked-in no personagem
 - quando houver anexo tipografico, o runtime cita `font_render_mode`, `font_owner` e `fallback_font_plan` usados
@@ -145,6 +175,7 @@ Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug s
 - o runtime nao declara `pronto`, `AAA`, `delivery` ou `ready_for_aaa=true` se o gate visual tiver `needs_review`, `perceptual_quality=nao_medido`, `source_to_rom_visual_match < 8`, `benchmark_match` abaixo de `benchmark_profile.required_match`, `blocked_image_tooling`, `blocked_no_premium_source`, `lab_not_delivery`, ou `local_author_pixel_rasterization` como fonte final de asset critico
 - o runtime nao declara `pronto`, `AAA`, `delivery` ou `ready_for_aaa=true` quando uma animacao critica tiver `animation_direction_contract` ausente, hitstop nao implementado, active/recovery divergente do mapa ou FX/flash acoplado indevidamente a paleta do personagem
 - o runtime nao declara `pronto`, `AAA`, `delivery` ou `ready_for_aaa=true` se `scene_role=cutscene` nao possuir FSM, resource plan por estado, text timing map, owner de surfaces e evidencia da cena correta
+- o runtime nao inicia implementacao de road physics, boss modular ou movimento critico com claim `review_required`, nem cria claim por inferencia textual
 - o runtime nao declara `pronto`, `AAA`, `stable`, `release`, `delivery` ou `ready_for_aaa=true` sem scene manager, input abstraction, save/SRAM quando aplicavel, region/timing, ROM mastering, code review e CI/local CI reportados
 - o runtime nao declara `pronto`, `AAA`, `delivery` ou `ready_for_aaa=true` se `res/resources.res` estiver ausente em projeto visual/gameplay, se `res_graph_report.method=no_res_files`, ou se `res_graph_report.vram.status=code_loaded_tiles_unmeasured`
 - a captura BlastEm registra `runtime_metrics.json` ou evidencia equivalente sem vazar para fora de `out/blastem_env_*`
@@ -156,6 +187,7 @@ Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug s
 
 - entregar a ROM e o `runtime_decision_log` para `validate_resources.ps1`
 - entregar identidade da ROM e evidencia para `doc/changelog` e `doc/10-memory-bank.md`
+- atualizar `doc/10-memory-bank.md` e `doc/changelog/changelog.md` sempre que implementacao ou arquitetura mudar, antes do closeout
 
 ## Regras canonicas imediatas
 
@@ -185,6 +217,57 @@ Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug s
 - no Windows, o sandbox do BlastEm deve alinhar `HOME/USERPROFILE` com `AppData\\Local` e gravar `blastem.cfg` no ramo efetivo que o emulador resolve
 - `save_path` e `screenshot_path` precisam viver dentro de `ui {}` no cfg gerado; fora disso o BlastEm pode cair no default `$USERDATA/blastem/$ROMNAME`
 
+## Padroes C/SGDK e Window Plane (curation_batch_2026_06_16)
+
+Origem: itens de headers/structs/enums e Window Plane/HUD do lote
+`curation_batch_2026_06_16`, evidencia `E1_text`, expansao candidata. Reusa os
+contratos existentes (`plane_ownership_map`, `ui_pixel_surface_contract`,
+`fx_ownership_map`, reset de cena); nao cria schema novo e nao promete
+AAA/runtime.
+
+### Padroes C/SGDK
+
+- headers declaram apenas o contrato publico minimo; estado privado fica no `.c`
+  do modulo (`static`), nao exposto no header.
+- structs/enums que importam para runtime usam tipos explicitos `u8`, `u16`,
+  `s16`, `u32` ou `fix16`; nada de `int` para dados sensiveis de VDP, input,
+  frame timing ou serializacao.
+- todo modulo que possuir recursos, callbacks, DMA, palette cycling, Window Plane
+  ou sprites deve expor `init`/`update`/`deinit` com ciclo de vida simetrico.
+
+### Licoes de runtime seed e placeholder
+
+Regra generalizada para runtime seed e placeholders.
+
+- `int main(bool hardReset)` e assinatura SGDK aceitavel; loops, timers,
+  indices de cena, frame counters e dados de VDP/input continuam usando
+  `u8/u16/s16/u32/fix16` conforme o dominio.
+- `VDP_drawText`, `sprintf` e texto ASCII por frame sao aceitaveis em seed,
+  smoke test ou placeholder declarado; em cena de entrega, texto mutavel precisa
+  de cadencia, dirty region, cache/fonte e budget.
+- Seed de boot com screenshot/SRAM prova somente o escopo do seed; nao prova
+  title final, cutscene, Sector 01, gameplay, audio, budget ou visual AAA.
+- Cenas interativas devem consumir uma abstracao de input validada; se o runtime
+  chama `JOY_readJoypad` dentro de cada cena, voltar para `input-system-sgdk`.
+- Cutscene com muitos beats nao deve virar `update()` monolitico; usar tabela de
+  passos ou FSM de dados e rotear direcao visual para `cutscene-cinematic-direction`.
+- Placeholder de corrida, menu ou cutscene precisa declarar o que e fake e qual
+  gate futuro o substitui; texto "SIMULATING..." nao e evidencia de mecanica.
+
+### Contrato de Window Plane / HUD estatico
+
+- `WINDOW` e subplano estatico do Plane A; nao tratar como terceiro plano
+  scrollavel nem como camada extra de parallax.
+- HUD fixo deve declarar owner, area em tiles, paleta, prioridade, reset e
+  convivencia com o Plane A (qual regiao o WINDOW cobre e o que sobra para
+  gameplay).
+- Window Plane nao pode consumir a mesma regiao logica de gameplay sem passar
+  por `scene-state-architect` para resolver ownership/reset.
+- mudancas de HUD durante o gameplay com mutacao de tile exigem cadencia de
+  atualizacao declarada e budget de VRAM/VDP.
+- a expansao continua candidata: producao real exige GDD/TDD, budget de
+  CPU/frame, resource lifetime e code review.
+
 ## Roteamento antes de runtime
 
 Antes de alterar C, `.res` ou builder, confirme qual rota autorizou a cena:
@@ -196,6 +279,25 @@ Antes de alterar C, `.res` ou builder, confirme qual rota autorizou a cena:
 - `fallback_reduced_residency`: reducao assumida, registrada e visualmente honesta
 
 Se a cena for `aaa_layered` e nao houver `route_decision_record`/`scene_architecture_triage`, pare o runtime e produza esse registro. O agente deve escolher a familia tecnica antes de tentar encaixar assets por tentativa e erro.
+
+## Curadoria 2026-06-03: streaming, SAT e CRAM
+
+Quando o registry apontar uma tecnica com `curation_source_ids` do lote `curation_2026_06_03_megadrive_video_text_batch`, implemente apenas o que estiver autorizado pelo status humano e pelo manifesto do projeto.
+
+- `sprite_frame_vram_slot_streaming`
+  - so escreva runtime depois de existir `resource_loading_model=animation_window_streaming`, `active_animation_window`, mapa de slots de VRAM e `dma_queue_contract`;
+  - nao trate sheet inteira de lutador/boss como residente por reflexo; se o frame atual/proximo nao couber, use recuo documentado.
+- `animation_lookahead_dma_queue`
+  - prever o proximo frame durante a logica normal e disparar upload apenas no VBlank/loading;
+  - `DMA` nao e processamento em background gratuito: durante DMA ha disputa de barramento e o pior quadro precisa caber.
+- `large_metasprite_vblank_fit_audit`
+  - antes de chamar APIs de sprite ou `VDP_loadTileData`, conferir `tiles_unicos * 32` contra o envelope seguro do VBlank.
+- `sat_double_buffering` e `sprite_midframe_sat_reuse`
+  - ficam `LABORATORIO`; nao usar em projeto de entrega sem benchmark isolado, ownership de `SPR_update` e prova BlastEm de SAT limpa.
+- `cram_dot_masking_strategy`
+  - mid-frame CRAM exige `h_int_ownership_map`, linhas de escrita, plano de mascaramento e teardown; screenshot sem dots visiveis em BlastEm e gate minimo.
+- `sprite_band_slot_allocator` e `ghost_afterimage_sprites`
+  - reservar slots de HUD, personagens, projeteis e hitboxes antes de adicionar rastro, blur, particulas ou multiplexing.
 
 ## Classificacao de conhecimento
 
@@ -223,6 +325,50 @@ Regra:
 - `load_time_dma_cost` pode ser alto quando a cena esta em loading honesto.
 - `per_frame_dma_cost` precisa caber no pior VBlank de gameplay.
 - `scanline_sprite_pressure` continua limite de leitura e hardware mesmo quando VRAM cabe.
+
+## Curadoria - status declarativos e visual_lab_static_floor
+
+Regra generalizada: "rodou no BlastEm" nao basta para promover runtime a
+entregue. `gameplay_basico`, `performance` e `audio` tecnicamente positivos
+podem coexistir com `creative_ready=false`; e obrigatorio separar "rodou" de
+"esta pronto".
+
+### Taxonomia obrigatoria de status de runtime
+
+Toda cena/projeto em laboratorio ou entrega deve declarar explicitamente, no `doc/10-memory-bank.md` e em `validation_report.json`, o estado de cada dimensao:
+
+| Dimensao | Valores | Significado |
+|---|---|---|
+| `runtime_funcional` | `true` / `false` | Build compila e roda sem crash no BlastEm |
+| `animacao_observada` | `true` / `false` | Animacao de sprites foi observada em screenshot multi-frame ou VDP dump (nao so declarada em codigo) |
+| `movimento_aprovado` | `true` / `false` | `motion_gif` ou `visual_vdp_dump.bin` foi revisado por humano e registrado em `human_approval_record.md` |
+| `visual_aprovado` | `true` / `false` | `perceptual_check` (fluidez/leitura/naturalidade/impacto) com valores nao-zero; `visual_aesthetic_report.critical_assets[*].status != rework` (ou override documentado) |
+| `gameplay_aprovado` | `true` / `false` | Game loop completo (input -> sim -> render -> feedback) com `gameplay_basico=funcional`, `performance=estavel`, `audio=ok`, `hardware_real=blastem_reference_emulator` |
+
+Hierarquia obrigatoria: `runtime_funcional` -> `animacao_observada` -> `movimento_aprovado` -> `visual_aprovado` -> `gameplay_aprovado`. Pular estagio exige `human_approval_record.md` explicito e registrado em `agent_learning/success_patterns.md` ou `failure_patterns.md`.
+
+### Piso `visual_lab_static_floor` para LAB/TECHDEMO
+
+Em projetos com `claim_ceiling=technical_lab_validated` (LAB/TECHDEMO), o piso de aceitacao e:
+
+- `runtime_funcional=true` e `animacao_observada=true` sao suficientes para `technical_ready=true`.
+- `movimento_aprovado`, `visual_aprovado` e `gameplay_aprovado` NAO precisam ser todos `true` para `technical_ready`.
+- `ready_for_aaa` permanece `false` ate o projeto sair de `LAB/TECHDEMO`.
+- A promocao de qualquer asset critico para `MESTRE_*` continua exigindo todos os 5 estagios `true` + benchmark dedicado + BlastEm + budget + docs.
+
+Esse piso existe para nao bloquear pesquisa de runtime honesta, sem contaminar a barra de entrega.
+
+### Flag `asset_promovido_nao_usado`
+
+Quando o painel humano promove um asset para `MESTRE_*` ou `elite_ready` mas o codigo de runtime nao instancia o asset (sprite nao eh `SPR_addSprite`, image nao eh `VDP_drawImage`, sample nao eh `XGM2_*`), registrar `asset_promovido_nao_usado` em `doc/agent_learning/failure_patterns.md` com:
+
+- `asset_id`
+- `data_promocao`
+- `data_constatacao`
+- `motivo` (ex.: asset nao cabe no plano, asset substituido por procedural, asset fora de escopo da cena)
+- `decisao` (rebaixar para `TEORICA_PRIORITARIA`, abrir bug, realocar)
+
+Sintoma tipico: `out/logs/visual_aesthetic_report.json` lista asset como `elite_ready` mas `out/rom.bin` nao contem referencia a ele no `resources.res`. Cross-check via `res_graph_report.json`.
 
 ## Senior Competencies
 
@@ -252,6 +398,10 @@ Esta skill deve ser lida como dona operacional das seguintes competencias senior
   - `zmap`, curves, hills, banding e budget de raster
 - `software_affine_pseudo3d`
   - transformacao por software tratada como trilha separada do road-stack
+- `road_stack_runtime_budget`
+  - nao multiplicar/dividir dentro de loop de 224 linhas por frame quando a mesma curva pode virar tabela, diferenca finita ou acumulador fix16/fix32
+  - quando a tabela visual puder atualizar a 30 Hz sem quebrar leitura, manter gameplay/input/collision a 60 Hz e registrar o tradeoff
+  - qualquer mudanca em equacao de estrada, line scroll ou deformacao por scanline exige nova amostra `runtime_metrics`/MDRT antes de alegar 60fps
 - `mutable_tile_decal_mutation`
   - dano persistente local via `RAM shadow copy`, `mutable tile pool` e dirty uploads limitados
 - `cellular_microbuffer_sim`
@@ -351,11 +501,13 @@ Quando houver `scene_transition_card`, o runtime deve:
 Quando houver `cutscene_scene_contract`, o runtime deve:
 
 - consumir `cutscene_fsm_script`, `cutscene_panel_layout`, `cutscene_resource_plan`, `cutscene_palette_script`, `cutscene_text_timing_map`, `cutscene_audio_cue_map`, `cutscene_teardown_plan` e `cutscene_evidence_plan`
+- consumir `cutscene_motion_beat_map` e `cutscene_panel_animation_contract` quando a cutscene tiver painel narrativo expressivo, retrato, pan, blink, mouth, reaction ou impact motion
 - implementar a cutscene como tabela de estados, nao como sequencia solta de `if` e timers sem nome
 - cada estado deve possuir `enter`, `update`, `advance` e `exit` rastreaveis no `runtime_decision_log`
 - declarar owner unico de `BG_B`, `BG_A`, `WINDOW`, sprites, CRAM, H-Int, scroll, audio e glyph cache
 - tratar texto como sistema temporizado: cadence, pausas por pontuacao, input para acelerar/avancar e limite de linhas
 - tratar portrait blink/mouth frames, pans, holds, palette cycling e fades seletivos como eventos de estado
+- justificar explicitamente painel estatico; painel morto sem beat visual ou `stillness_justification` nao fecha cutscene AAA
 - carregar apenas o set residente do estado atual ou o bloco explicitamente herdado por `state_handoff`
 - full-screen cutscene image so pode entrar se o contrato trouxer justificativa e budget; fallback padrao e painel/pan/crop
 - se usar H-Int/raster, registrar callback owner, custo e reset simetrico
@@ -412,6 +564,7 @@ Sem esse contrato, o cenario pode ser bonito em asset, mas nao fecha como cenari
 Quando houver `ui_decision_card`, o runtime deve:
 
 - consumir `ui_architecture_choice`, `plane_ownership_map` e `fallback_plan` antes de escrever qualquer HUD
+- consumir `ui_pixel_surface_contract` quando houver health bar, fonte, caixa, micro-icone, cursor ou atlas pixel-perfect de entrega
 - consumir `fx_ownership_map` antes de ligar split, wobble, palette cycling ou qualquer FX de interface
 - registrar no `runtime_decision_log` se a rota final ficou elite ou fallback
 - impedir segundo owner implicito de `WINDOW`, `H-Int` ou paleta especial
@@ -425,6 +578,8 @@ Quando houver `ui_decision_card`, o runtime deve:
 - `display_font_plus_body_font`
   - reservar para title/menu/front-end com `profile_kind=front_end_profile`
 - nunca usar compositor proporcional caro por frame em HUD de combate
+- nunca atualizar health bar ou UI por escala fracionaria; fill, cursor, texto e icones devem operar em pixels inteiros no render final
+- health bar deve implementar container, buffer de dano latente, fill ativo, threshold critico e fallback conforme `ui_pixel_surface_contract`
 - `glyph_manifest` fecha o subset real de glifos; sem ele nao subir charset expandido nem cache temporario caro
 - `panel_sequence_text`
   - pre-carregar ou trocar paineis apenas em cadence segura; fallback e painel unico ou caixa fixa
@@ -451,6 +606,8 @@ Defaults de implementacao:
 
 Nao aprovar por default:
 - menu com texto critico em plano rolavel
+- health bar como retangulo simples sem buffer de dano quando o contrato exige leitura de impacto
+- UI pixel art com subpixel motion, AA, blur ou free-scale no runtime
 - selecao so por troca de cor
 - idle completamente morto
 - efeito especial sem contrato de teardown
@@ -462,11 +619,20 @@ Quando houver FX:
 ## Anti-padroes
 
 - inventar getter SGDK inexistente
+- prender camera no player sem deadzone, clamp ou justificativa de cena fixa
+- suavizar camera com valores fracionarios sem snap inteiro no render final
+- usar shake como ruido permanente ou esconder falta de impacto de animacao
+- desligar fisica/render de objetos fora da camera sem margem e excecoes de telegraph
 - chamar `SYS_doVBlankProcess()` dentro da cena em vez do loop principal
 - redeclarar globais em mais de um `.c`
 - confiar em build manual sem wrapper e sem caminho absoluto
 - chamar a cena de pronta sem ROM rodando em BlastEm
 - aceitar `save.sram` fora do sandbox do projeto como prova valida
+- promover seed com `VDP_drawText` e placeholders para gameplay real
+- manter `sprintf`/redesenho de texto todo frame em cena de entrega sem budget
+  e dirty update
+- usar `int` em contadores sensiveis de frame, VDP, input ou serializacao; a
+  excecao pratica e a assinatura `int main(...)` exigida pelo C/SGDK
 
 ## Lib case obrigatoria
 

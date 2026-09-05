@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "cais01_vdp_budget_estimate_v02",
+  "status": "rescomp_measured_runtime_observed_partial",
+  "tiles": {
+    "bg_b_total": 1792,
+    "bg_b_unique_exact": 258,
+    "bg_a_total": 1120,
+    "bg_a_unique_exact": 299,
+    "shadow_total": 36,
+    "shadow_unique_exact": 19
+  },
+  "rescomp_measurement": {
+    "bg_b_tiles": 249,
+    "bg_a_tiles": 277,
+    "background_tiles_total": 526,
+    "background_graphics_bytes": 16832,
+    "background_tilemap_bytes": 5824,
+    "shadow_peak_tiles": 8,
+    "shadow_peak_bytes": 256,
+    "shadow_peak_metasprite_parts": 1,
+    "worst_taina_plus_shadow_tiles": 56,
+    "worst_taina_plus_shadow_metasprite_parts": 7
+  },
+  "unique_bytes_before_rescomp": 18432,
+  "per_frame_dma": {
+    "hscroll_tables_bytes": 112,
+    "palette_cycle_bytes_every_8_vblanks": 4,
+    "sprite_shadow": "normal SGDK sprite frame update"
+  },
+  "scanline_delta": "one additional shadow metasprite below fighter",
+  "runtime_evidence": {
+    "rom_sha256": "52856afcda732128e13012797a1acab7732ef56f85bdbe698c31742246efd70c",
+    "screenshot": "out/blastem_env_cais01_visual_v02_hash52856/blastem-linux-20260729T184437Z-843744/screenshot.png",
+    "status": "observed_partial_bundle_rejected_without_vlab_vdp_dump_runtime_metrics"
+  },
+  "remaining_blocker": "inimigos, HUD, hit FX e worst-frame combinado ainda nao medidos"
+}

@@ -29,14 +29,28 @@ python tools/sgdk_wrapper/art_diagnostic.py --project "<caminho_do_projeto>"
 # Com output JSON para relatorio persistente
 python tools/sgdk_wrapper/art_diagnostic.py --project "<caminho>" --output doc/art_diagnostic_report.json
 
+# Somente quando a auditoria pedir historia completa (saida muito maior)
+python tools/sgdk_wrapper/art_diagnostic.py --project "<caminho>" --include-history
+
 # Analisar .res especifico
 python tools/sgdk_wrapper/art_diagnostic.py --project "<caminho>" --res-file res/sprite.res
 ```
 
 Exit codes:
-- `0` = todos os assets ok
-- `1` = issues criticos ou assets inadequados
+- `0` = grafo ativo `.res` limpo (issues em fonte nao referenciada podem existir)
+- `1` = recurso ativo inadequado ou, sem grafo `.res`, fonte que exige conversao
 - `2` = nenhuma arte encontrada (cenario 3)
+
+O report separa `source_asset_status`, `active_res_asset_status` e
+`build_blocking_issues`. Somente issues criticos de assets referenciados pelo
+grafo `.res` podem ser descritos como risco de build. Arte em `/data`,
+`rascunho/`, contact sheets e evidencia continuam auditaveis, mas nao podem
+contaminar o veredito do recurso ativo.
+
+O modo padrao e `active-only`: exclui `archive`, `staging`, evidencias e epocas
+superseded da lista de candidatos e limita listas extensas no JSON. Historia so
+entra com `--include-history`; nunca vira fonte elegivel por ter sido descoberta.
+Quando existir, valide `doc/art/visual_workset_manifest.json` antes de rotear.
 
 ## Contrato Operacional
 
@@ -83,7 +97,7 @@ Exit codes:
 |--------|----------|---------|
 | `COLORS_NOT_9BIT` | Cores fora do grid 9-bits MD | VDP trunca bits — cores imprecisas |
 | `NO_MAGENTA_TRANSPARENT` | Index 0 nao e #FF00FF | Transparencia pode falhar |
-| `SPRITE_TOO_LARGE` | Sprite > 32x32 px sem metasprite | Requer multiplas entradas OAM |
+| `SPRITE_TOO_LARGE` | Imagem candidata excede 32x32, mas pode ser strip/sheet | Exigir metadado de celula; largura total do strip nao prova metasprite |
 | `RGBA_NOT_INDEXED` | Canal alpha presente mas nao indexado | Alpha perdido na conversao |
 
 ---
@@ -168,6 +182,8 @@ Execute mentalmente para cada asset antes de aceitar:
 - [ ] Todas as cores no grid 9-bits (R, G, B em multiplos de 0x22)
 - [ ] Dimensoes multiplas de 8 (largura E altura)
 - [ ] Bounding box sem bordas vazias desnecessarias
+- [ ] Em strip/sheet, limite e budget avaliados por frame/celula do `.res`, nunca pela largura total da imagem
+- [ ] Sprite critico possui `sprite_artifact_report.v2` com clipping, ilhas, anatomia, pivot, contato de pes, delta entre frames e cobertura das acoes prometidas
 - [ ] Tiles duplicados/espelhaveis identificados
 - [ ] Sem tecnicas proibidas (AA, alpha parcial, baked light, sombra assada)
 

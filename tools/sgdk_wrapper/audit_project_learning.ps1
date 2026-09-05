@@ -29,7 +29,21 @@ $resolvedRoot = try {
 $modeValue = $Mode.ToLowerInvariant()
 $formatValue = $OutputFormat.ToLowerInvariant()
 
-& py $extractor `
+function Resolve-PythonHost {
+    $python = Get-Command python -ErrorAction SilentlyContinue
+    if ($null -ne $python) { return $python.Source }
+
+    $python3 = Get-Command python3 -ErrorAction SilentlyContinue
+    if ($null -ne $python3) { return $python3.Source }
+
+    $py = Get-Command py -ErrorAction SilentlyContinue
+    if ($null -ne $py) { return $py.Source }
+
+    throw "Nenhum interpretador Python encontrado (python/python3/py)."
+}
+
+$pythonHost = Resolve-PythonHost
+& $pythonHost $extractor `
     --project-root $resolvedRoot `
     --mode $modeValue `
     --output-format $formatValue

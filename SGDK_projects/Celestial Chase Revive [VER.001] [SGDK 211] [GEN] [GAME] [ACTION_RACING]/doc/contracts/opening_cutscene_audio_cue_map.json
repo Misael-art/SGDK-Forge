@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "cues": [
+    {"state_id": "OP_00_BLACK_STINGER", "cue": "opening_drone"},
+    {"state_id": "OP_01_LIGHTHOUSE_WIDE", "cue": "beacon_bell"},
+    {"state_id": "OP_02_LIO_CLOSEUP", "cue": "voice_hint_short"},
+    {"state_id": "OP_03_CORE_INSERT", "cue": "lumen_shimmer"},
+    {"state_id": "OP_04_HART_SHADOW", "cue": "hart_impact"},
+    {"state_id": "OP_05_GATE_BREAK", "cue": "race_intro_start"}
+  ],
+  "priority": "hart_impact and race_intro_start override text blips"
+}

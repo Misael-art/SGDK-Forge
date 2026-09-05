@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "state_map_id": "mare_brava_cais01_audio_states_v01",
+  "states": [
+    {"state_id": "exploration", "label": "Entrada calma", "trigger": "cais_01_enter", "channels": [{"channel": "bgm_base", "layer": "core", "intensity": 0.35, "track_id": "cais01_theme_pending"}], "sfx_priority": 6, "fallback": {"fallback_state_id": "menu", "reason": "Sem faixa de fase, manter silencio controlado."}},
+    {"state_id": "stealth", "label": "Respiro", "trigger": "breathing_zone_enter", "channels": [{"channel": "bgm_base", "layer": "core", "intensity": 0.25, "track_id": "cais01_theme_pending"}], "sfx_priority": 6, "fallback": {"fallback_state_id": "exploration", "reason": "Estado discreto nao tem faixa propria no slice."}},
+    {"state_id": "suspicion", "label": "Telegraph", "trigger": "enemy_telegraph_started", "channels": [{"channel": "bgm_base", "layer": "core", "intensity": 0.45, "track_id": "cais01_theme_pending"}, {"channel": "stinger", "layer": "stinger", "intensity": 0.7, "track_id": "stinger_enemy_pending"}], "sfx_priority": 10, "fallback": {"fallback_state_id": "exploration", "reason": "PSG fallback de alerta."}},
+    {"state_id": "alert", "label": "Combate", "trigger": "wave_spawned", "channels": [{"channel": "bgm_base", "layer": "core", "intensity": 0.65, "track_id": "cais01_theme_pending"}, {"channel": "bgm_layer_drums", "layer": "core", "intensity": 0.55, "track_id": "cais01_drums_pending"}], "sfx_priority": 12, "fallback": {"fallback_state_id": "exploration", "reason": "Manter SFX sem BGM se layer faltar."}},
+    {"state_id": "boss", "label": "Boss futuro", "trigger": "boss_room_enter", "channels": [{"channel": "bgm_base", "layer": "core", "intensity": 0.9, "track_id": "boss_theme_future"}], "sfx_priority": 12, "fallback": {"fallback_state_id": "alert", "reason": "Boss esta fora do slice atual."}},
+    {"state_id": "blackout", "label": "Queda", "trigger": "player_down", "channels": [{"channel": "stinger", "layer": "stinger", "intensity": 0.4, "track_id": "down_stinger_pending"}], "sfx_priority": 10, "fallback": {"fallback_state_id": "exploration", "reason": "Silencio curto preserva leitura de queda."}},
+    {"state_id": "victory_or_release", "label": "Demo clear", "trigger": "wave_clear", "channels": [{"channel": "stinger", "layer": "stinger", "intensity": 0.8, "track_id": "clear_stinger_pending"}], "sfx_priority": 10, "fallback": {"fallback_state_id": "menu", "reason": "Retorno ao menu sem reiniciar trilha inexistente."}}
+  ],
+  "transitions": [
+    {"from_state": "exploration", "to_state": "suspicion", "trigger": "enemy_telegraph_started", "crossfade_ms": 120, "duck_sfx_during_transition": false},
+    {"from_state": "suspicion", "to_state": "alert", "trigger": "wave_spawned", "crossfade_ms": 240, "duck_sfx_during_transition": false},
+    {"from_state": "alert", "to_state": "stealth", "trigger": "wave_clear_to_breathing_zone", "crossfade_ms": 300, "duck_sfx_during_transition": true},
+    {"from_state": "alert", "to_state": "blackout", "trigger": "player_down", "crossfade_ms": 80, "duck_sfx_during_transition": false},
+    {"from_state": "alert", "to_state": "victory_or_release", "trigger": "wave_clear_final", "crossfade_ms": 120, "duck_sfx_during_transition": false}
+  ],
+  "status": "planned_blocked_by_source_audio"
+}

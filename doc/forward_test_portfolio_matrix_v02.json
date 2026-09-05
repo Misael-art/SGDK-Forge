@@ -1,0 +1,23 @@
+{
+  "schema_version": "forward_test_portfolio_matrix.v2",
+  "date": "2026-09-02",
+  "workspace": "SGDK_projects",
+  "supersedes": ["doc/forward_test_portfolio_matrix_v01.json", "doc/forward_test_consolidated_gate_v01.md"],
+  "selection_rule": "all eligible GAME roots retained; lab/training controls excluded",
+  "res_modified": false,
+  "runtime_modified": false,
+  "projects": [
+    {"path": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]", "eligibility": "eligible", "actor": "blue_player", "source": "project-local model sheet", "scale": "48x64 primary; 48x48 challenger", "decision": "v01_route_history_native_authoring_pending", "claim_ceiling": "mechanical_geometry_probe"},
+    {"path": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]", "eligibility": "eligible", "actor": "lio", "source": "no identity authority found in examined local sources", "scale": "not_authorized", "decision": "blocked_no_identity_authority", "claim_ceiling": "source_audit_only"},
+    {"path": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]", "eligibility": "eligible", "actor": "kirby_player", "source": "data/source_art/model_sheet_v01/hero_model_sheet_v01.png", "scale": "32x32 native same-canvas", "decision": "v02_native_same_canvas_route_verified_animation_not_run", "claim_ceiling": "mechanical_geometry_probe"},
+    {"path": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]", "eligibility": "eligible", "actor": "kirby_player", "source": "data/source_art/ai_quantized/r1/kirby_sheet_32x8_q.png", "source_sha256": "91317062374382e6c2a361e23538623732440b8daf61ddbf205fb8ce8690caec", "scale": "32x32 native same-canvas", "decision": "native_animation_candidate", "claim_ceiling": "native_animation_candidate", "staging": "out/forward_test_v02/"},
+    {"path": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]", "eligibility": "eligible", "actor": "taina_player", "source": "v01 canonical-authority correction pending", "scale": "56x80 primary; 64x96 comparison_only", "decision": "v01_route_history_native_authoring_pending", "claim_ceiling": "mechanical_geometry_probe"}
+  ],
+  "eligible_project_count": 5,
+  "eligible_with_v02_staging": 1,
+  "route_verified_v02": 2,
+  "human_approval_records_simulated": false,
+  "res_promotion_allowed": false,
+  "runtime_or_emulator_claim": false,
+  "global_claim_ceiling": "native_animation_candidate"
+}

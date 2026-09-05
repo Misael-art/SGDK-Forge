@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "selected_style_id": "analog_cel_anime_90s_plus_vibrant_16bit_gameplay",
+  "palette_direction": {
+    "background": "deep indigo, teal and gold accents with clear value separation",
+    "hero": "warm light body accents against cool shadows",
+    "boss": "dark violet/iron silhouette with red-gold core",
+    "ui": "high contrast gold/white on dark surfaces"
+  },
+  "line_weight": "hard pixel clusters, no soft antialiasing",
+  "lighting_model": "cel shadow shapes and palette-state changes, not blur",
+  "density_rule": "dense horizon, readable midground, clean gameplay lane",
+  "drift_limit": "assets may vary detail by scene but must preserve Lio silhouette, Lumen color role and boss horn language",
+  "anti_patterns": [
+    "soft AI gradient",
+    "purple-blue soup",
+    "debug UI",
+    "benchmark-derived palette clone",
+    "FX baked into character frames"
+  ]
+}

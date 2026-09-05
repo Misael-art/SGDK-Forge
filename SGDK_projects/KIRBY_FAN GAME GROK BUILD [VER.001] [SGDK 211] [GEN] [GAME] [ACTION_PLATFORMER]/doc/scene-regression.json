@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "project": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "scenes": [
+    {
+      "scene_id": "branding_sequence",
+      "scene_key": "branding_sequence",
+      "boot_mode": "direct_boot",
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 0,
+      "baseline_root": "doc\\baselines\\branding_sequence"
+    },
+    {
+      "scene_id": "front_end_main_menu",
+      "scene_key": "front_end_main_menu",
+      "boot_mode": "unsupported",
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 1,
+      "baseline_root": "doc\\baselines\\front_end_main_menu"
+    },
+    {
+      "scene_id": "first_playable_slice",
+      "scene_key": "first_playable_slice",
+      "boot_mode": "unsupported",
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 2,
+      "baseline_root": "doc\\baselines\\first_playable_slice"
+    }
+  ]
+}

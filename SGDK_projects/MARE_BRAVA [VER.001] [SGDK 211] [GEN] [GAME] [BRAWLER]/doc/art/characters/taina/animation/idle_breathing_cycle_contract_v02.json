@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_idle_breathing_cycle_v02",
+  "generated_at": "2026-07-29",
+  "animation_id": "idle_guard",
+  "applicability": "required",
+  "reason": "TAÍNA is the hero fighter and the idle must communicate disciplined readiness.",
+  "status": "measured_offline",
+  "measurement_level": "measured",
+  "frame_budget_impact_estimate": "six frames, 40 unique tiles, 1280 resident bytes for the complete cycle",
+  "breath_areas": [
+    "chest highlight clusters",
+    "shoulder light clusters",
+    "hair internal cluster",
+    "sash internal cluster"
+  ],
+  "cycle_length_frames": 6,
+  "inhale_frames": [1, 2],
+  "hold_frames": [2, 3],
+  "exhale_frames": [3, 4],
+  "settle_frames": [4, 5, 0],
+  "amplitude_per_area": {
+    "chest": "one_to_two_internal_pixels",
+    "shoulders": "internal_ramp_only",
+    "hair": "one_internal_pixel_delayed",
+    "sash": "one_internal_pixel_delayed",
+    "feet": "zero",
+    "external_silhouette": "zero"
+  },
+  "personality_modifier": "focused_tense_disciplined",
+  "loop_closure_rule": "frame 5 differs from frame 0 by eight internal pixels and returns without bbox, pivot or mass change",
+  "timing_vblanks": [11, 7, 10, 7, 11, 12]
+}

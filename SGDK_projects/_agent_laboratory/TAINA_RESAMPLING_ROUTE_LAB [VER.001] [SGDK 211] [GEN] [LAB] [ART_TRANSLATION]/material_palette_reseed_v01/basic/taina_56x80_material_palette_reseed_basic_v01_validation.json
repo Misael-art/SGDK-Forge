@@ -1,0 +1,165 @@
+{
+  "schema_version": "taina_material_palette_reseed_validation.v1",
+  "asset_id": "taina_56x80_material_palette_reseed_basic_v01",
+  "sha256": "24bee2d802e9bda6cbbabd43637220b5c2c99b1d66ebdeba21fd24205fedd33a",
+  "scale": "56x80",
+  "variant": "BASIC",
+  "method": "diagnostic_semantic_color_blocking",
+  "acceptance_status": "visual_lab_control",
+  "promotable": false,
+  "allowed_as_pixel_source": false,
+  "source_asset": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+    "sha256": "6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3"
+  },
+  "model_sheet_sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+  "annotation": {
+    "file": "material_owner_shade_annotation_v01.json",
+    "sha256": "56127ff951fa72f0ad1022751cd3cf6861895a1471dbb67e384d5388abda1d02"
+  },
+  "preserved": [
+    "silhouette",
+    "pose",
+    "pivot",
+    "ground_contact",
+    "macrogeometry"
+  ],
+  "global_nearest_remap": false,
+  "human_decision": {
+    "decision": "reject_material_palette_reseed_as_visual_challengers",
+    "reason": "semantic_flattening_destroyed_internal_drawing_and_identity",
+    "basic_elite_changed_pixels": 4,
+    "basic_elite_changed_ratio": 0.00271,
+    "preserve_as_visual_challenger": false
+  },
+  "new_resize_or_filter": false,
+  "validation": {
+    "width": 56,
+    "height": 80,
+    "mode": "P",
+    "bit_depth": 4,
+    "color_type": 3,
+    "index0_transparent": true,
+    "alpha_binary": true,
+    "visible_colors": 10,
+    "used_indices": [
+      1,
+      2,
+      3,
+      6,
+      8,
+      9,
+      11,
+      12,
+      14,
+      15
+    ],
+    "plte_entries": 16,
+    "plte_rgb_indices_0_15": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        32,
+        32,
+        32
+      ],
+      [
+        32,
+        0,
+        32
+      ],
+      [
+        64,
+        32,
+        64
+      ],
+      [
+        96,
+        64,
+        32
+      ],
+      [
+        128,
+        64,
+        32
+      ],
+      [
+        160,
+        96,
+        64
+      ],
+      [
+        192,
+        128,
+        96
+      ],
+      [
+        192,
+        64,
+        0
+      ],
+      [
+        224,
+        96,
+        0
+      ],
+      [
+        224,
+        128,
+        64
+      ],
+      [
+        0,
+        64,
+        64
+      ],
+      [
+        0,
+        128,
+        128
+      ],
+      [
+        0,
+        160,
+        160
+      ],
+      [
+        0,
+        0,
+        64
+      ],
+      [
+        32,
+        32,
+        128
+      ]
+    ],
+    "semantic_translation_mismatches": [],
+    "status": "passed"
+  },
+  "diagnostics": {
+    "previews": [
+      "preview_nearest_2x.png",
+      "preview_nearest_3x.png",
+      "preview_nearest_8x.png"
+    ],
+    "backgrounds": [
+      "background_light.png",
+      "background_dark.png",
+      "background_chroma.png"
+    ],
+    "silhouette": "silhouette_black.png",
+    "composition": "composition_320x224.png"
+  },
+  "visual_material_readability": "pending_human_review",
+  "human_gate_status": "rejected_as_visual_challengers",
+  "visual_status": "rejected_as_visual_challenger",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "visual_pass": false,
+  "ready_for_aaa": false
+}

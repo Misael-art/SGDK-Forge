@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "input_mapping_contract",
+  "scene_id": "stage_01_blue_circuit",
+  "hardware": {
+    "ports": [
+      "JOY_1"
+    ],
+    "pad_support": "3_button_and_6_button_detected",
+    "reader": "src/system/input.c",
+    "policy": "INPUT_update once per frame before APP_update"
+  },
+  "actions": {
+    "move_left": [
+      "BUTTON_LEFT"
+    ],
+    "move_right": [
+      "BUTTON_RIGHT"
+    ],
+    "jump": [
+      "BUTTON_A",
+      "BUTTON_Y"
+    ],
+    "shoot": [
+      "BUTTON_B",
+      "BUTTON_X",
+      "BUTTON_Z"
+    ],
+    "pause": [
+      "BUTTON_START"
+    ],
+    "return_to_title": [
+      "BUTTON_MODE"
+    ]
+  },
+  "transitions": {
+    "title_to_stage": [
+      "BUTTON_START",
+      "BUTTON_A"
+    ],
+    "end_to_title": [
+      "BUTTON_START",
+      "BUTTON_A"
+    ]
+  },
+  "status": "documented_for_runtime"
+}

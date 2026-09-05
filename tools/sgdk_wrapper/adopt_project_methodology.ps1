@@ -38,6 +38,16 @@ function Write-JsonUtf8 {
     )
 }
 
+function Resolve-PowerShellHost {
+    foreach ($candidate in @('pwsh', 'powershell', 'powershell.exe')) {
+        $command = Get-Command $candidate -ErrorAction SilentlyContinue
+        if ($null -ne $command) {
+            return $command.Source
+        }
+    }
+    throw 'Nenhum host PowerShell encontrado (pwsh/powershell/powershell.exe).'
+}
+
 $resolvedProject = [System.IO.Path]::GetFullPath($ProjectRoot)
 if (-not (Test-Path -LiteralPath $resolvedProject -PathType Container)) {
     throw "ProjectRoot inexistente: $resolvedProject"
@@ -147,6 +157,34 @@ foreach ($learningTemplate in @(Get-ChildItem -LiteralPath $learningTemplateRoot
         [System.IO.File]::WriteAllText($learningTarget, $content, [System.Text.Encoding]::UTF8)
     }
     $created += $learningTarget
+}
+
+$aiMemoryScript = Join-Path $PSScriptRoot 'prepare_ai_memory_integration.ps1'
+if (Test-Path -LiteralPath $aiMemoryScript -PathType Leaf) {
+    $workspaceRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
+    $aiArgs = @(
+        '-NoProfile',
+        '-ExecutionPolicy', 'Bypass',
+        '-File', $aiMemoryScript,
+        '-RepoRoot', $workspaceRoot,
+        '-ProjectRoot', $resolvedProject,
+        '-Mode', 'Prepare',
+        '-OutputFormat', 'Json'
+    )
+    $powerShellHost = Resolve-PowerShellHost
+    $aiOut = (& $powerShellHost @aiArgs 2>&1 | Out-String)
+    if ($LASTEXITCODE -eq 0) {
+        try {
+            $aiReport = $aiOut | ConvertFrom-Json
+            if (@('created', 'updated') -contains [string]$aiReport.actions.project_marker_write_status) {
+                $created += (Join-Path $resolvedProject '.ai-memory.toml')
+            }
+        } catch {
+            Write-Warning "ai-memory report unreadable; continuing methodology adoption."
+        }
+    } else {
+        Write-Warning "ai-memory consultive marker was not prepared; continuing methodology adoption."
+    }
 }
 
 $scratchRoot = Join-Path $resolvedProject 'rascunho'

@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "status": "completed_for_specs",
+  "audit_date": "2026-06-16",
+  "overall_status": "documentado",
+  "gaps": [
+    {
+      "id": "track_data_format",
+      "severity": "critical",
+      "before": "missing",
+      "after": "documented",
+      "artifacts": ["doc/track_data_format_contract.json", "doc/sector_01_track_plan.json"],
+      "remaining_blockers": ["runtime_array_implementation_missing", "sector_01_runtime_capture_missing"]
+    },
+    {
+      "id": "collision_system",
+      "severity": "critical",
+      "before": "missing",
+      "after": "documented",
+      "artifacts": ["doc/collision_system_contract.json", "doc/entity_archetype_manifest.json"],
+      "remaining_blockers": ["collision_fixtures_not_implemented", "hitbox_overlay_capture_missing"]
+    },
+    {
+      "id": "hud_wireframe",
+      "severity": "critical",
+      "before": "partial",
+      "after": "documented",
+      "artifacts": ["doc/hud_layout_contract.json", "doc/hud_wireframe.md"],
+      "remaining_blockers": ["hud_atlas_missing", "native_readability_capture_missing"]
+    },
+    {
+      "id": "sprite_animation_system",
+      "severity": "critical",
+      "before": "missing",
+      "after": "documented",
+      "artifacts": ["doc/sprite_animation_contract.json"],
+      "remaining_blockers": ["sprite_sheets_missing", "frame_delta_report_missing"]
+    },
+    {
+      "id": "difficulty_tuning",
+      "severity": "critical",
+      "before": "missing",
+      "after": "documented",
+      "artifacts": ["doc/progression_tuning_tables.json"],
+      "remaining_blockers": ["runtime_metrics_missing", "playtest_data_missing"]
+    },
+    {
+      "id": "asset_production_spec",
+      "severity": "critical",
+      "before": "partial",
+      "after": "documented",
+      "artifacts": ["doc/asset_production_spec.json", "doc/concept_art_pack_manifest.json"],
+      "remaining_blockers": ["final_pixel_art_missing", "palette_audit_missing", "res_graph_missing"]
+    },
+    {
+      "id": "build_system",
+      "severity": "critical",
+      "before": "missing",
+      "after": "documented",
+      "artifacts": ["doc/build_system_contract.json"],
+      "remaining_blockers": ["runtime_seed_missing", "resources_res_missing", "build_policy_disabled_until_runtime_seed"]
+    },
+    {
+      "id": "boss_attack_patterns",
+      "severity": "critical",
+      "before": "partial",
+      "after": "documented",
+      "artifacts": ["doc/boss_attack_pattern_contract.json", "doc/boss_setpiece_card.json"],
+      "remaining_blockers": ["boss_runtime_missing", "sprite_scanline_pressure_report_missing"]
+    },
+    {
+      "id": "pause_gameover_continue_flow",
+      "severity": "critical",
+      "before": "missing",
+      "after": "documented",
+      "artifacts": ["doc/game_flow_contract.json", "doc/scene_manager_contract.json"],
+      "remaining_blockers": ["flow_runtime_missing", "transition_regression_missing"]
+    },
+    {
+      "id": "concept_reference_art",
+      "severity": "critical",
+      "before": "missing",
+      "after": "mockup_reference_documented",
+      "artifacts": ["doc/concept_art_brief.md", "doc/concept_art_pack_manifest.json"],
+      "remaining_blockers": ["premium_source_art_missing", "visual_delivery_gate_missing", "blastem_capture_missing"]
+    }
+  ],
+  "minor_gaps_status": {
+    "internationalization": "deferred",
+    "configuration_screen": "deferred",
+    "credits_text": "documented_initial_cards",
+    "non_opening_cutscenes": "future_architectural",
+    "tutorial": "documented_as_invisible_tutorial",
+    "save_load_flow": "partially_documented",
+    "error_handling_edge_cases": "partially_documented"
+  }
+}

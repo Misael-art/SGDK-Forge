@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_combo_hit_1_jab_runtime_timing_map_v01",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_combo_hit_1_jab",
+  "runtime_scene": "APP_SCENE_DEMO",
+  "resource": "spr_taina_combo_hit_1_jab",
+  "runtime_asset": "res/sprites/characters/taina/taina_combo_hit_1_jab_runtime_unique_64x64_v02.png",
+  "frame_durations_vblanks": [3, 2, 2, 3, 4],
+  "logical_phase_to_physical_frame": [
+    { "phase": "anticipation", "definition": "spr_taina_idle_guard", "frame": 0 },
+    { "phase": "launch", "definition": "spr_taina_combo_hit_1_jab", "frame": 0 },
+    { "phase": "active_contact", "definition": "spr_taina_combo_hit_1_jab", "frame": 1 },
+    { "phase": "follow_through_recoil", "definition": "spr_taina_combo_hit_1_jab", "frame": 2 },
+    { "phase": "recovery_bridge", "definition": "spr_taina_idle_guard", "frame": 0 }
+  ],
+  "physical_unique_attack_frames": 3,
+  "total_vblanks": 14,
+  "impact_frame": 2,
+  "input": {
+    "three_button_pad": "BUTTON_C",
+    "six_button_pad": "BUTTON_X",
+    "reason": "The first integration exposed an X-only accessibility defect on the default three-button BlastEm mapping; C/X now trigger the same visual action."
+  },
+  "sgdk_calls_verified": [
+    "SPR_setDefinition",
+    "SPR_setAnimAndFrame",
+    "SPR_setFrame"
+  ],
+  "return_state": "spr_taina_idle_guard",
+  "collision_hit_confirm": "not_implemented_in_this_visual_integration",
+  "runtime_hitstop": "contracted_as_2_vblanks_on_confirm_but_pending_collision_integration",
+  "claim_limit": "This map proves visual playback timing only, not combat collision, damage, cancel windows or hitstop behavior."
+}

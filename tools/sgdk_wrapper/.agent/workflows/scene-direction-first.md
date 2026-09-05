@@ -120,6 +120,12 @@ So agora. Derivado dos passos 2 a 5, carregando:
 Model sheet aprovado antes do pacote; assets; runtime; evidencia. E ao final, **reconciliar o
 contrato com o que roda** — contrato que descreve coreografia nao implementada e falso verde.
 
+Antes do model sheet, a aprovacao precisa comparar o papel visual contra a
+`quality_reference_board` do projeto conforme
+`tools/sgdk_wrapper/.agent/references/production_visual_quality_contract.md`. A comparacao preserva
+anatomia, materiais, landmarks e funcao das camadas; ela nunca e uma aprovacao
+relativa ao placeholder anterior.
+
 ---
 
 ## Regras que caem fora da ordem

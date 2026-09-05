@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/harness_context_snapshot.schema.json",
+  "title": "Harness Context Snapshot",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "tool",
+    "generated_at",
+    "workspace_root",
+    "project_root",
+    "objective",
+    "harness",
+    "host",
+    "git",
+    "tools",
+    "canonical_context",
+    "orchestration_policy",
+    "status",
+    "blockers",
+    "claim_ceiling"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "harness_context_snapshot"},
+    "tool": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"const": "harness_orchestration"},
+        "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"}
+      },
+      "additionalProperties": false
+    },
+    "generated_at": {"type": "string", "format": "date-time"},
+    "workspace_root": {"type": "string", "minLength": 1},
+    "project_root": {"type": ["string", "null"]},
+    "objective": {"type": "string", "minLength": 1},
+    "harness": {
+      "type": "object",
+      "required": [
+        "surface",
+        "subagents_available",
+        "max_concurrency",
+        "supports_wait",
+        "supports_interrupt",
+        "permission_profile",
+        "selected_skills",
+        "selected_pipelines"
+      ],
+      "properties": {
+        "surface": {"enum": ["codex_desktop", "codex_cli", "ide", "generic"]},
+        "subagents_available": {"type": "boolean"},
+        "max_concurrency": {"type": "integer", "minimum": 1, "maximum": 64},
+        "supports_wait": {"type": "boolean"},
+        "supports_interrupt": {"type": "boolean"},
+        "permission_profile": {"enum": ["read_only", "workspace_write", "unrestricted", "unknown"]},
+        "selected_skills": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9-]+/[a-z0-9-]+$"}
+        },
+        "selected_pipelines": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_-]+$"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "host": {
+      "type": "object",
+      "required": ["os", "architecture", "python", "execution_mode"],
+      "properties": {
+        "os": {"type": "string", "minLength": 1},
+        "architecture": {"type": "string", "minLength": 1},
+        "python": {"type": "string", "minLength": 1},
+        "execution_mode": {"enum": ["native", "wsl"]}
+      },
+      "additionalProperties": false
+    },
+    "git": {
+      "type": "object",
+      "required": ["branch", "scope", "dirty", "dirty_path_count", "dirty_path_examples"],
+      "properties": {
+        "branch": {"type": ["string", "null"]},
+        "scope": {"type": "string"},
+        "dirty": {"type": "boolean"},
+        "dirty_path_count": {"type": "integer", "minimum": 0},
+        "dirty_path_examples": {"type": "array", "maxItems": 20, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "state"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "path": {"type": ["string", "null"]},
+          "state": {"enum": ["found", "not_found"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "canonical_context": {
+      "type": "object",
+      "required": ["sources", "digest", "stale_state_policy"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["role", "path", "exists", "sha256", "size_bytes"],
+            "properties": {
+              "role": {"type": "string"},
+              "path": {"type": "string"},
+              "exists": {"type": "boolean"},
+              "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+              "size_bytes": {"type": "integer", "minimum": 0}
+            },
+            "additionalProperties": false
+          }
+        },
+        "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "stale_state_policy": {"const": "reject_or_refresh"}
+      },
+      "additionalProperties": false
+    },
+    "orchestration_policy": {
+      "type": "object",
+      "required": [
+        "coordinator_is_single_claim_owner",
+        "coordinator_is_single_promotion_owner",
+        "default_worker_access",
+        "default_worker_slots",
+        "maximum_context_capsule_words",
+        "maximum_result_summary_words",
+        "full_history_fork_default"
+      ],
+      "properties": {
+        "coordinator_is_single_claim_owner": {"const": true},
+        "coordinator_is_single_promotion_owner": {"const": true},
+        "default_worker_access": {"const": "read_only"},
+        "default_worker_slots": {"type": "integer", "minimum": 0, "maximum": 3},
+        "maximum_context_capsule_words": {"type": "integer", "minimum": 100, "maximum": 1200},
+        "maximum_result_summary_words": {"type": "integer", "minimum": 50, "maximum": 600},
+        "full_history_fork_default": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "status": {"enum": ["ready", "blocked"]},
+    "blockers": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "claim_ceiling": {"const": "orchestration_diagnostic_only"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"harness": {"properties": {"subagents_available": {"const": false}}}}},
+      "then": {"properties": {"harness": {"properties": {"max_concurrency": {"const": 1}}}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "ready"}}},
+      "then": {"properties": {"blockers": {"maxItems": 0}}},
+      "else": {"properties": {"blockers": {"minItems": 1}}}
+    }
+  ],
+  "additionalProperties": false
+}

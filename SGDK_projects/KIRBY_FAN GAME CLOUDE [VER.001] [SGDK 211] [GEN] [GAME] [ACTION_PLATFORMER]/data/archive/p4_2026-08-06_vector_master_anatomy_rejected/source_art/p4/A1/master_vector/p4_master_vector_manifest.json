@@ -1,0 +1,29 @@
+{
+  "schema": "p4_master_vector_manifest_v1",
+  "asset_id": "A1",
+  "asset_name": "ph_kirby.png",
+  "frame": 0,
+  "animation": "idle",
+  "status": "proposal_waiting_human_visual_approval",
+  "source": "rascunho/comparison_sources/p3/concept_frames_hd.png",
+  "master_vector": "ph_kirby_frame_00_idle_master_vector_v2.svg",
+  "previous_proposal": "ph_kirby_frame_00_idle_master_vector_v1.svg",
+  "revision_reason": "v1 rejected: oversized and detached limbs weakened the approved character anatomy",
+  "construction": {
+    "background": "#FF00FF solid",
+    "fills": "flat solid fills only",
+    "shading": "strict hard-edged cel shading",
+    "gradients": false,
+    "filters": false,
+    "soft_shadows": false,
+    "raster_pixelization": false
+  },
+  "blocked_next_steps": [
+    "scale_to_32x32_pre_pixel_form",
+    "rgb333_pal2_quantization",
+    "15_color_indexing",
+    "sprite_sheet_assembly",
+    "res_promotion"
+  ],
+  "approval_required": "human_visual_approval_of_the_master_vector"
+}

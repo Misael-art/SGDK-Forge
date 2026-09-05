@@ -1,5 +1,15 @@
 # 04 - Recursos e Pipeline
 
+> **NOTA DE RECONCILIACAO 2026-08-30:** a descricao `res/data/` abaixo e
+> legado do template e nao deve orientar novas mutacoes. O layout vigente e:
+> `data/source_art/` para fontes aprovadas, `data/raw_ai/` para staging,
+> `data/processed/` para candidatos e `res/` somente para assets promovidos.
+> A nova rota planejada, seus gates e testes vivem em
+> `doc/23-visual-forge-adoption-plan.md` e
+> `doc/contracts/visual_toolchain_reconciliation_v01.json`. O historico abaixo
+> foi preservado para auditoria e sera reescrito apenas durante a implementacao
+> validada do Visual Forge.
+
 ## Solucao Canonica
 
 O fluxo canonico deste workspace e:

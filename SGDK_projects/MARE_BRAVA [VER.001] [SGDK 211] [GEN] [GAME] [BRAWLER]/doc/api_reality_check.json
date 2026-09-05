@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-30T18:12:00Z",
+  "scope": "taina_idle_guard_v02_and_combo_hit_1_jab_manual_timing",
+  "status": "passed",
+  "sgdk_version": "2.11",
+  "headers_checked": ["sdk/sgdk-2.11/inc/sprite_eng.h", "sdk/sgdk-2.11/inc/sram.h"],
+  "verified_facts": [
+    "SPR_addSprite recebe SpriteDefinition, x, y e TILE_ATTR.",
+    "SpriteDefinition.w e SpriteDefinition.h são dimensões em pixels no runtime gerado.",
+    "SPR_setPosition usa coordenadas inteiras de tela.",
+    "SPR_setAnim, SPR_setFrame e SPR_setAutoAnimation existem no SGDK 2.11.",
+    "SPR_setDefinition e SPR_setAnimAndFrame existem no SGDK 2.11 e permitem trocar a definição idle/jab sem recriar o Sprite.",
+    "SPR_setFrame recebe Sprite* e frame s16; a cadência manual pode usar contador u8 por VBlank.",
+    "SRAM_readByte, SRAM_writeByte, SRAM_enable e SRAM_disable existem no SGDK 2.11.",
+    "FIX32, F16_toFix32 e F32_toInt existem em sdk/sgdk-2.11/inc/maths.h.",
+    "PAL_setColors e VDP_setHorizontalScrollLine aceitam DMA_QUEUE em sdk/sgdk-2.11/inc/pal.h e sdk/sgdk-2.11/inc/vdp.h."
+  ],
+  "invented_api_count": 0
+}

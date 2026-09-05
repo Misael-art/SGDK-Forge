@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "authoring_mode": "explicit_pixel_patch",
+  "source_candidate_sha256": "1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830",
+  "visual_source_sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+  "target_asset_id": "taina_48x64_native_a2_weight_sash_v01",
+  "target_scale": "48x64",
+  "palette_indices_allowed": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "groups": [
+    {
+      "id": "asymmetric_hair_clusters",
+      "region": "hair",
+      "justification": "Give the asymmetrical hair a readable left hook and highlight rhythm at 1x without changing the face side.",
+      "operations": [
+        {"x":10,"y":8,"old_index":0,"new_index":2},
+        {"x":11,"y":8,"old_index":0,"new_index":1},
+        {"x":10,"y":9,"old_index":0,"new_index":1},
+        {"x":12,"y":10,"old_index":0,"new_index":2},
+        {"x":13,"y":10,"old_index":1,"new_index":2}
+      ]
+    },
+    {
+      "id": "sash_trouser_separation",
+      "region": "sash_and_legs",
+      "justification": "Create a deliberate dark contour between the teal sash and indigo trousers, removing material fusion while retaining the sash tail.",
+      "operations": [
+        {"x":28,"y":34,"old_index":12,"new_index":1},
+        {"x":29,"y":34,"old_index":10,"new_index":1},
+        {"x":30,"y":34,"old_index":9,"new_index":1},
+        {"x":28,"y":35,"old_index":9,"new_index":1},
+        {"x":29,"y":35,"old_index":10,"new_index":1},
+        {"x":30,"y":35,"old_index":8,"new_index":1},
+        {"x":28,"y":36,"old_index":10,"new_index":1},
+        {"x":29,"y":36,"old_index":10,"new_index":1},
+        {"x":30,"y":36,"old_index":10,"new_index":1},
+        {"x":28,"y":37,"old_index":12,"new_index":1},
+        {"x":29,"y":37,"old_index":10,"new_index":1},
+        {"x":40,"y":39,"old_index":0,"new_index":10},
+        {"x":40,"y":40,"old_index":0,"new_index":10}
+      ]
+    },
+    {
+      "id": "hip_and_leg_weight",
+      "region": "legs",
+      "justification": "Open the inner upper-leg notch while keeping the lower feet and baseline fixed, so the wide stance reads as weight rather than one fused mass.",
+      "operations": [
+        {"x":20,"y":39,"old_index":12,"new_index":0},
+        {"x":24,"y":39,"old_index":12,"new_index":0},
+        {"x":20,"y":40,"old_index":12,"new_index":0},
+        {"x":24,"y":40,"old_index":12,"new_index":0},
+        {"x":19,"y":40,"old_index":12,"new_index":0}
+      ]
+    },
+    {
+      "id": "arm_torso_break",
+      "region": "arms_or_guard_and_torso",
+      "justification": "Add two explicit contour pixels where the forward arm meets the orange torso, preserving the diagonal guard read.",
+      "operations": [
+        {"x":28,"y":24,"old_index":7,"new_index":1},
+        {"x":29,"y":24,"old_index":7,"new_index":1},
+        {"x":33,"y":23,"old_index":12,"new_index":1},
+        {"x":34,"y":23,"old_index":12,"new_index":4}
+      ]
+    }
+  ],
+  "patch_sha256": "7e10c36680ee6aa9f42af0cf0ffe09cc614c097640f6edcb7fd055011a2a243e",
+  "result_png_sha256": "041e6fd184bdff499f110075245be570f1597d9085689f7657ca2c55ed878ae0"
+}

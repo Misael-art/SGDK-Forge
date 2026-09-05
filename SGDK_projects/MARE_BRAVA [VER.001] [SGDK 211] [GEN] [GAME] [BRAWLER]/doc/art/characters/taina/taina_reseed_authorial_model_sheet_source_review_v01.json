@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_reseed_authorial_model_sheet_source_v01",
+  "reviewed_at": "2026-08-29",
+  "review_scope": "approved_authorial_source_for_pixel_translation",
+  "asset_path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+  "channel": "codex_builtin_image_generation",
+  "observed_strengths": [
+    "Face, tied curly hair, raised guard, teal wraps, orange top, indigo trousers and asymmetric sash remain legible.",
+    "Front, three-quarter, side and back construction views maintain one costume language.",
+    "The jab, low kick and defensive recovery expose useful action intent for later pose planning."
+  ],
+  "blocking_gaps": [
+    "High-resolution concept art; no pixel-grid, palette or 48x64-cell validity.",
+    "Anatomy is taller than the 3.5-head production target.",
+    "It is not a key-pose contract, animation strip, runtime asset or res source."
+  ],
+  "human_approval": {
+    "approved_at": "2026-08-29",
+    "record": "doc/human_approval_record.md",
+    "scope": "authorial source for native pixel model-sheet translation"
+  },
+  "decision": "approved_authorial_source_for_pixel_translation",
+  "allowed_next_step": "Create a hand-authored 48x64 3.5-head pixel model sheet; do not promote or convert this source directly to res/."
+}

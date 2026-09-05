@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": false
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "camera_scroll_management foi selecionada apenas como tecnica documentada para o primeiro slice. Sem ROM, budget ou BlastEm, ela nao esta promovida."
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "scene_id": "stage_01_blue_circuit",
+      "registry_id": "camera_scroll_management",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": [
+        "CAMERA_MANAGEMENT",
+        "CAMERA_DEADZONE",
+        "CAMERA_LOOKAHEAD",
+        "INTEGER_RENDER_SNAP"
+      ],
+      "owner_skills": [
+        "camera-system-sgdk",
+        "scene-state-architect",
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "evidence": {
+        "rom_sha256": null,
+        "blastem_evidence_paths": [],
+        "budget_report_path": null,
+        "validation_report_path": null,
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md"
+      ],
+      "notes": "Selecionada para dead zone, look-ahead leve, clamp e snap inteiro. Status maximo atual: documentado."
+    }
+  ]
+}

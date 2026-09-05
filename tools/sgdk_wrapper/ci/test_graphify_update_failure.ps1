@@ -33,10 +33,20 @@ try {
     } | ConvertTo-Json -Depth 10
     Write-Utf8Text -Path (Join-Path $graphOut "graph.json") -Text $graph
 
-    Write-Utf8Text -Path (Join-Path $fakeBin "graphify.cmd") -Text "@echo off`r`necho simulated graphify refusal 1>&2`r`nexit /b 9`r`n"
+    $fakeGraphify = if ($IsWindows) {
+        Join-Path $fakeBin "graphify.cmd"
+    } else {
+        Join-Path $fakeBin "graphify"
+    }
+    if ($IsWindows) {
+        Write-Utf8Text -Path $fakeGraphify -Text "@echo off`r`necho simulated graphify refusal 1>&2`r`nexit /b 9`r`n"
+    } else {
+        Write-Utf8Text -Path $fakeGraphify -Text "#!/bin/sh`necho simulated graphify refusal 1>&2`nexit 9`n"
+        & chmod +x $fakeGraphify
+    }
 
     $oldPath = $env:PATH
-    $env:PATH = "$fakeBin;$oldPath"
+    $env:PATH = "$fakeBin$([System.IO.Path]::PathSeparator)$oldPath"
     $output = (& pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper `
         -Action update -RepoRoot $fixtureRoot 2>&1 | Out-String)
     $exitCode = $LASTEXITCODE
@@ -46,6 +56,28 @@ try {
     }
     if (Test-Path -LiteralPath (Join-Path $graphOut "FORGE_FRESHNESS.json")) {
         throw "failed graphify update wrote a fresh snapshot"
+    }
+
+    if ($IsWindows) {
+        Write-Utf8Text -Path $fakeGraphify -Text "@echo off`r`nping -n 6 127.0.0.1 >nul`r`nexit /b 0`r`n"
+    } else {
+        Write-Utf8Text -Path $fakeGraphify -Text "#!/bin/sh`nsleep 5`nexit 0`n"
+        & chmod +x $fakeGraphify
+    }
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
+    $timeoutOutput = (& pwsh -NoProfile -ExecutionPolicy Bypass -File $graphifyWrapper `
+        -Action update -RepoRoot $fixtureRoot -GraphifyTimeoutSeconds 1 2>&1 | Out-String)
+    $timeoutExitCode = $LASTEXITCODE
+    $sw.Stop()
+
+    if ($timeoutExitCode -eq 0) {
+        throw "graphify timeout was incorrectly accepted:`n$timeoutOutput"
+    }
+    if ($timeoutOutput -notmatch 'graphify_timeout') {
+        throw "graphify timeout did not report graphify_timeout:`n$timeoutOutput"
+    }
+    if ($sw.Elapsed.TotalSeconds -gt 10) {
+        throw "graphify timeout did not return promptly: $($sw.Elapsed.TotalSeconds)s"
     }
 
     Write-Host "[PASS] graphify update failure remains stale"

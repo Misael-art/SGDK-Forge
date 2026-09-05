@@ -84,6 +84,9 @@ ui_pixel_surface_schema = load_schema("ui_pixel_surface_contract.schema.json")
 creative_director_radar_schema = load_schema("creative_director_radar.schema.json")
 agent_session_state_schema = load_schema("agent_session_state.schema.json")
 operational_loop_decision_schema = load_schema("operational_loop_decision.schema.json")
+cinematic_storyboard_schema = load_schema("cinematic_storyboard_contract.schema.json")
+screenshot_semantic_gate_schema = load_schema("screenshot_semantic_gate_report.schema.json")
+claim_reconciliation_schema = load_schema("claim_reconciliation_report.schema.json")
 
 print("=== mechanic_contract.schema.json ===")
 
@@ -932,6 +935,8 @@ bad_session_mode["current_mode"] = "ship_without_blastem"
 expect_fail("session state rejects invalid mode", agent_session_state_schema, bad_session_mode)
 
 bad_idle_project = json.loads(json.dumps(agent_session_state))
+bad_idle_project["current_mode"] = "idle"
+bad_idle_project["current_perspective"] = "none"
 bad_idle_project["active_project"] = "SGDK_projects/sample_project"
 expect_fail("idle session cannot keep active project", agent_session_state_schema, bad_idle_project)
 
@@ -964,6 +969,243 @@ expect_pass("operational loop decision with meaningful_change_summary PASSES sch
 bad_loop_decision_no_progress = json.loads(json.dumps(valid_loop_decision))
 bad_loop_decision_no_progress["progress_justification"] = {}
 expect_fail("operational loop decision without progress justification is REJECTED", operational_loop_decision_schema, bad_loop_decision_no_progress)
+
+print()
+print("=== cinematic_storyboard_contract.schema.json ===")
+
+valid_cinematic_storyboard = {
+    "schema_version": "1.0.0",
+    "contract_id": "intro_castle_storyboard_v1",
+    "scene_id": "intro_castle_panning",
+    "scene_role": "cutscene",
+    "status_ceiling": "planning_only",
+    "ready_for_aaa": False,
+    "source_authority": {
+        "roteiro_ref": "doc/12-roteiro.md#intro",
+        "spec_ref": "doc/13-spec-cenas.md#intro_castle_panning",
+        "context_pack_manifest_ref": "doc/context_pack_manifest.json",
+        "reference_profile": [
+            {"game": "Phantasy Star IV", "inheritance": "panel rhythm and portrait readability"},
+            {"game": "Valis III", "inheritance": "dramatic cuts and anime framing"},
+            {"game": "Shinobi III", "inheritance": "high-contrast silhouette discipline"},
+        ],
+    },
+    "cinematic_direction": {
+        "intention": "ominous reveal before player control",
+        "narrative_structure": "cloud pan, castle reveal, thunder beat, controlled text entry",
+        "cinematic_language_methods": ["pan_scroll", "hold_frame", "palette_flash"],
+        "selected_fake_cinema_tools": ["pan_scroll", "hold_frame", "lighting_as_narrative"],
+        "signature_moment": "thunder flash silhouettes the castle before dialogue",
+    },
+    "state_machine": {
+        "runtime_model": "table_driven_fsm",
+        "states": [
+            {
+                "state_id": "castle_pan",
+                "narrative_purpose": "establish scale and danger",
+                "shot_type": "pan",
+                "entry_load": {"assets": ["cloud_tiles", "castle_silhouette"], "palettes": ["PAL0", "PAL1"]},
+                "render_surfaces": {"BG_B": "cloud_loop", "BG_A": "castle_silhouette", "WINDOW": "none", "sprites": []},
+                "palette_domains": [
+                    {"slot": "PAL0", "owner": "background"},
+                    {"slot": "PAL1", "owner": "castle"},
+                ],
+                "text_block": {"mode": "none"},
+                "advance_trigger": "WAIT_FRAMES",
+                "duration_frames": 120,
+                "dynamic_fx": ["hscroll_plane", "palette_flash"],
+                "motion_beats": [{"beat_type": "pan_or_scroll", "start_frame": 0, "duration_frames": 120, "purpose": "slow reveal"}],
+                "animation_link": {"mode": "none"},
+                "audio_cue": {"cue_id": "sfx_thunder", "trigger_frame": 60},
+                "exit_teardown": "reset_scroll_and_palette_flash",
+            }
+        ],
+    },
+    "cutscene_resource_plan": {
+        "states": [
+            {
+                "state_id": "castle_pan",
+                "vram_resident_set": {"bg_b_tiles": 96, "bg_a_tiles": 180, "font_tiles": 0, "sprite_tiles": 0},
+                "load_time_dma_cost": {"bytes": 8832, "phase": "scene_entry"},
+                "per_frame_dma_cost": {"bytes": 0, "cadence": "none"},
+                "palette_domains": ["PAL0", "PAL1"],
+                "glyph_cache": {"mode": "none", "tiles": 0},
+                "sprite_pressure": {"max_sprites_total": 0, "max_sprites_per_scanline": 0},
+                "state_teardown": "clear_scroll_tables_restore_palettes",
+                "budget_decision": "planned",
+            }
+        ]
+    },
+    "hardware_ownership": {
+        "window_owner": "none",
+        "cram_owner": "cutscene_palette_script",
+        "scroll_owner": "cutscene_fsm",
+        "audio_owner": "cutscene_audio_cues",
+        "h_int": {"in_use": False},
+    },
+    "text_timing_map": {
+        "glyph_manifest_ref": "doc/pipeline/cutscene/intro_glyph_manifest.json",
+        "font_surface_owner": "WINDOW",
+        "base_frames_per_glyph": 2,
+        "punctuation_pauses": {"comma": 8, "period": 16, "ellipsis": 28, "line_break": 10},
+        "advance_controls": {"accelerate_button": "A", "advance_button": "START", "skip_policy": "complete_current_block_first"},
+    },
+    "visual_source_gate": {
+        "production_source_ready": False,
+        "premium_source_manifest_ref": "doc/contracts/premium_source_manifest.json",
+        "human_approval_record_ref": "doc/contracts/human_approval_record.md",
+        "visual_delivery_gate_report_ref": "out/logs/visual_delivery_gate_report.json",
+        "blocked_statuses": ["blocked_no_premium_source", "visual_gate_blocked"],
+    },
+    "evidence_plan": {
+        "blastem_required": True,
+        "screenshot_required": True,
+        "runtime_metrics_scene_id": "intro_castle_panning",
+        "visual_vdp_dump_required": True,
+        "save_sram_required": True,
+        "baseline_comparison_required": True,
+        "freshness_audit_required": True,
+    },
+    "approval": {
+        "human_approval_required": True,
+        "approval_status": "not_approved",
+        "approval_record_ref": "doc/contracts/human_approval_record.md",
+    },
+}
+expect_pass("cinematic storyboard planning contract PASSES", cinematic_storyboard_schema, valid_cinematic_storyboard)
+
+cinematic_storyboard_example = json.loads(
+    (
+        ROOT
+        / "tools"
+        / "sgdk_wrapper"
+        / ".agent"
+        / "references"
+        / "agentic_aaa_contracts"
+        / "examples"
+        / "cinematic_storyboard_contract.example.json"
+    ).read_text(encoding="utf-8")
+)
+expect_pass("cinematic storyboard canonical example PASSES schema", cinematic_storyboard_schema, cinematic_storyboard_example)
+
+bad_cinematic_no_budget = json.loads(json.dumps(valid_cinematic_storyboard))
+bad_cinematic_no_budget["cutscene_resource_plan"]["states"] = []
+expect_fail("cinematic storyboard without per-state budget is REJECTED", cinematic_storyboard_schema, bad_cinematic_no_budget)
+
+bad_cinematic_ready_without_source = json.loads(json.dumps(valid_cinematic_storyboard))
+bad_cinematic_ready_without_source["status_ceiling"] = "ready_for_aaa_candidate"
+bad_cinematic_ready_without_source["ready_for_aaa"] = True
+bad_cinematic_ready_without_source["visual_source_gate"]["production_source_ready"] = False
+expect_fail("cinematic storyboard cannot claim ready_for_aaa without production source", cinematic_storyboard_schema, bad_cinematic_ready_without_source)
+
+bad_cinematic_h_int_no_owner = json.loads(json.dumps(valid_cinematic_storyboard))
+bad_cinematic_h_int_no_owner["hardware_ownership"]["h_int"] = {"in_use": True}
+expect_fail("cinematic storyboard using H-Int without owner is REJECTED", cinematic_storyboard_schema, bad_cinematic_h_int_no_owner)
+
+print("=== screenshot_semantic_gate_report.schema.json ===")
+valid_semantic_capture_report = {
+    "schema_version": "1.0.0",
+    "generated_at": "2026-07-18T12:00:00+00:00",
+    "tool_name": "screenshot_semantic_gate",
+    "tool_version": "1.0.0",
+    "screenshot_path": "/tmp/capture.png",
+    "screenshot_sha256": "a" * 64,
+    "rom_sha256": "b" * 64,
+    "evidence_session_id": "session-schema-1",
+    "status": "passed",
+    "decision": "accepted_semantic_capture",
+    "semantic_capture_valid": True,
+    "blocker_code": None,
+    "failure_reason": None,
+    "width": 320,
+    "height": 224,
+    "dominant_ratio": 0.75,
+    "edge_density": 0.08,
+    "metrics": {
+        "dominant_color_rgb": [0, 0, 0],
+        "luminance_variance": 1200.0,
+        "unique_colors": 48,
+        "sampled_pixels": 71680,
+        "edge_pairs": 142816,
+    },
+    "thresholds": {
+        "edge_color_delta": 48,
+        "minimum_edge_density": 0.04,
+        "maximum_dominant_ratio": 0.985,
+        "minimum_luminance_variance": 1.0,
+    },
+    "reasons": [],
+    "claim_impacts": {
+        "visual": "capture_semantically_valid_not_quality_proof",
+        "gameplay": "not_proven_by_screenshot_alone",
+        "performance": "not_proven_by_screenshot_alone",
+    },
+}
+expect_pass("semantic screenshot report PASSES", screenshot_semantic_gate_schema, valid_semantic_capture_report)
+
+bad_semantic_capture_report = json.loads(json.dumps(valid_semantic_capture_report))
+bad_semantic_capture_report["status"] = "failed"
+bad_semantic_capture_report["decision"] = "rejected_low_information"
+bad_semantic_capture_report["semantic_capture_valid"] = False
+bad_semantic_capture_report["blocker_code"] = "blank_or_low_information_capture"
+bad_semantic_capture_report["failure_reason"] = "low information"
+bad_semantic_capture_report["claim_impacts"] = {
+    "visual": "unproven",
+    "gameplay": "unproven",
+    "performance": "unproven",
+}
+expect_pass("rejected semantic screenshot report PASSES", screenshot_semantic_gate_schema, bad_semantic_capture_report)
+
+contradictory_semantic_report = json.loads(json.dumps(bad_semantic_capture_report))
+contradictory_semantic_report["semantic_capture_valid"] = True
+expect_fail("failed semantic report cannot claim valid capture", screenshot_semantic_gate_schema, contradictory_semantic_report)
+
+print("=== claim_reconciliation_report.schema.json ===")
+valid_claim_reconciliation = {
+    "schema_version": "1.0.0",
+    "generated_at": "2026-07-18T12:00:00+00:00",
+    "tool_name": "reconcile_claims",
+    "tool_version": "1.0.0",
+    "project_root": "/tmp/project",
+    "status": "passed",
+    "policy": "lowest_proven_status_wins",
+    "include_validation_report": False,
+    "blocking_statuses": [],
+    "conflict_reasons": [],
+    "resolved_claims": {
+        "ready_for_aaa": True,
+        "technical_ready": True,
+        "creative_ready": True,
+        "performance": "stable",
+    },
+    "observations": {
+        "partial_capture": False,
+        "perceptual_metrics_zero": False,
+        "blocked_report_present": False,
+        "strong_claim_present": True,
+    },
+    "identity_reconciliation": {
+        "rom_sha256_values": ["c" * 64],
+        "session_id_values": ["session-clean"],
+        "missing_rom_identity_reports": [],
+        "missing_session_id_reports": [],
+        "same_rom": True,
+        "same_evidence_session": True,
+    },
+    "reports": [],
+}
+expect_pass("consistent claim reconciliation report PASSES", claim_reconciliation_schema, valid_claim_reconciliation)
+
+blocked_claim_reconciliation = json.loads(json.dumps(valid_claim_reconciliation))
+blocked_claim_reconciliation["status"] = "blocked"
+blocked_claim_reconciliation["blocking_statuses"] = ["report_status_conflict"]
+blocked_claim_reconciliation["conflict_reasons"] = ["blocked_report_conflicts_with_positive_ready_claim"]
+blocked_claim_reconciliation["resolved_claims"]["ready_for_aaa"] = False
+expect_pass("blocked claim reconciliation report PASSES", claim_reconciliation_schema, blocked_claim_reconciliation)
+
+contradictory_claim_reconciliation = json.loads(json.dumps(blocked_claim_reconciliation))
+contradictory_claim_reconciliation["resolved_claims"]["ready_for_aaa"] = True
+expect_fail("blocked reconciliation cannot keep ready_for_aaa", claim_reconciliation_schema, contradictory_claim_reconciliation)
 
 print()
 print("=== Resumo ===")

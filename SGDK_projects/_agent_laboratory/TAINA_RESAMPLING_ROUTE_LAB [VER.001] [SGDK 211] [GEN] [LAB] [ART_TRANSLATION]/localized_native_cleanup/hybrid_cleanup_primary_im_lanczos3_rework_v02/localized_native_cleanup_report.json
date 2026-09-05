@@ -1,0 +1,40 @@
+{
+  "schema_version": "localized_native_cleanup_rework.v2",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v02",
+  "status": "technical_pass_visual_rework",
+  "method": "mechanical_palette_remap_with_minimal_native_patches",
+  "native_cleanup": "incomplete",
+  "material_topology": "not_run",
+  "semantic_map": "derived_diagnostic_not_independent",
+  "parent": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v01",
+    "sha256": "cb6ff5c695c5e7b76e80d84ebd497f8f55e162561c0f2caeb0f345604c31529e",
+    "path": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v01/hybrid_cleanup_primary_im_lanczos3_rework_v01.png"
+  },
+  "target": "56x80",
+  "regions": [
+    "silhouette",
+    "hair",
+    "face_eye",
+    "guard",
+    "top_hem",
+    "abdomen",
+    "sash",
+    "trousers",
+    "feet_ground"
+  ],
+  "patch_count": 44,
+  "patch_log": "cleanup_actions.json",
+  "independent_topology_map": "independent_material_topology_map.png",
+  "independent_topology_report": "material_topology_independent_report.json",
+  "output": {
+    "path": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v02/hybrid_cleanup_primary_im_lanczos3_rework_v02.png",
+    "sha256": "222a936c435403632336384a3c9456fecba71569ab3ae143317912cbd8b78965"
+  },
+  "claim_ceiling": "localized_native_cleanup_candidate",
+  "human_gate_status": "pending_human_decision",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "action_log_sha256": "e08d6e17464e791516cd71808232afb8ff3da258cbfa4e74719d1113c96a6d31"
+}

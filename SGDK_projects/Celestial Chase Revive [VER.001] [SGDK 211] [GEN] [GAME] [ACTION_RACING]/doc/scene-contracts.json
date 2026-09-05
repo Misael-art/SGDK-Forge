@@ -1,0 +1,375 @@
+﻿{
+    "schema_version":  "1.0.0",
+    "project_profile":  "production",
+    "compiled_at":  "2026-06-28T02:32:03.5515835Z",
+    "compiled_from":  "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]\\doc\\13-spec-cenas.md",
+    "scenes":  [
+                   {
+                       "scene_id":  "branding_sigil",
+                       "scene_role":  "menu",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 0 - `branding_sigil`",
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  90,
+                       "warmup_frames":  30,
+                       "expected_app_scene_id":  0,
+                       "bootstrap_scene_id":  0,
+                       "required_artifacts":  [
+                                                  "screenshot",
+                                                  "sram"
+                                              ],
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   },
+                   {
+                       "scene_id":  "title_menu",
+                       "scene_role":  "menu",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 1 - `title_menu`",
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  120,
+                       "warmup_frames":  30,
+                       "expected_app_scene_id":  1,
+                       "bootstrap_scene_id":  1,
+                       "required_artifacts":  [
+                                                  "screenshot",
+                                                  "sram"
+                                              ],
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   },
+                   {
+                       "scene_id":  "credits_roll",
+                       "scene_role":  "menu",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 12 - `credits_roll`",
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  150,
+                       "warmup_frames":  30,
+                       "expected_app_scene_id":  5,
+                       "bootstrap_scene_id":  5,
+                       "required_artifacts":  [
+                                                  "screenshot",
+                                                  "sram"
+                                              ],
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   },
+                   {
+                       "scene_id":  "opening_catalyst_cutscene",
+                       "scene_role":  "cutscene",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 2 - `opening_catalyst_cutscene`",
+                       "cleanup_required":  true,
+                       "cutscene_contract":  {
+                                                 "schema_version":  "1.0.0",
+                                                 "scene_id":  "opening_catalyst_cutscene",
+                                                 "scene_role":  "cutscene",
+                                                 "status":  "planned",
+                                                 "cutscene_mode":  "mixed",
+                                                 "fsm_script":  "doc/contracts/opening_cutscene_fsm_script.json",
+                                                 "resource_plan":  "doc/contracts/opening_cutscene_resource_plan.json",
+                                                 "panel_layout":  "doc/contracts/opening_cutscene_panel_layout.json",
+                                                 "palette_script":  "doc/contracts/opening_cutscene_palette_script.json",
+                                                 "text_timing_map":  "doc/contracts/opening_cutscene_text_timing_map.json",
+                                                 "audio_cue_map":  "doc/contracts/opening_cutscene_audio_cue_map.json",
+                                                 "glyph_manifest":  "doc/glyph_manifest.json",
+                                                 "advance_model":  "MIXED",
+                                                 "teardown_plan":  [
+                                                                       "clear_window",
+                                                                       "reset_scroll",
+                                                                       "restore_palette_owner",
+                                                                       "release_cutscene_sprites",
+                                                                       "handoff_to_race"
+                                                                   ],
+                                                 "evidence_plan":  "doc/contracts/opening_cutscene_evidence_plan.json",
+                                                 "uses_fullscreen_bitmap":  false,
+                                                 "dynamic_fx":  [
+                                                                    "fade_in",
+                                                                    "vertical_pan",
+                                                                    "palette_warm_crack",
+                                                                    "blink",
+                                                                    "reaction_frame",
+                                                                    "palette_pulse",
+                                                                    "shake",
+                                                                    "flash",
+                                                                    "hscroll_start",
+                                                                    "letterbox_retract",
+                                                                    "hud_enter"
+                                                                ],
+                                                 "cinematic_storyboard_contract":  "doc/contracts/opening_cinematic_storyboard_contract.json",
+                                                 "fsm_states":  [
+                                                                    {
+                                                                        "state_id":  "OP_00_BLACK_STINGER",
+                                                                        "shot_type":  "panel_hold",
+                                                                        "duration_frames":  60,
+                                                                        "render_surfaces":  [
+                                                                                                "BG_A"
+                                                                                            ],
+                                                                        "text_block":  "THE SKY ROAD SLEPT.",
+                                                                        "advance_trigger":  "WAIT_FRAMES_OR_TEXT_DONE",
+                                                                        "dynamic_fx":  [
+                                                                                           "fade_in"
+                                                                                       ],
+                                                                        "audio_cue":  "opening_drone"
+                                                                    },
+                                                                    {
+                                                                        "state_id":  "OP_01_LIGHTHOUSE_WIDE",
+                                                                        "shot_type":  "establishing",
+                                                                        "duration_frames":  150,
+                                                                        "render_surfaces":  [
+                                                                                                "BG_B",
+                                                                                                "BG_A"
+                                                                                            ],
+                                                                        "text_block":  "UNTIL THE LAST BEACON CRACKED.",
+                                                                        "advance_trigger":  "WAIT_FRAMES_OR_INPUT_AFTER_TEXT",
+                                                                        "dynamic_fx":  [
+                                                                                           "vertical_pan",
+                                                                                           "palette_warm_crack"
+                                                                                       ],
+                                                                        "audio_cue":  "beacon_bell"
+                                                                    },
+                                                                    {
+                                                                        "state_id":  "OP_02_LIO_CLOSEUP",
+                                                                        "shot_type":  "portrait",
+                                                                        "duration_frames":  120,
+                                                                        "render_surfaces":  [
+                                                                                                "BG_A",
+                                                                                                "WINDOW",
+                                                                                                "sprites"
+                                                                                            ],
+                                                                        "text_block":  "LIO, RUN.",
+                                                                        "advance_trigger":  "TEXT_DONE_PLUS_INPUT",
+                                                                        "dynamic_fx":  [
+                                                                                           "blink",
+                                                                                           "reaction_frame"
+                                                                                       ],
+                                                                        "audio_cue":  "voice_hint_short"
+                                                                    },
+                                                                    {
+                                                                        "state_id":  "OP_03_CORE_INSERT",
+                                                                        "shot_type":  "object_insert",
+                                                                        "duration_frames":  90,
+                                                                        "render_surfaces":  [
+                                                                                                "BG_A",
+                                                                                                "sprites"
+                                                                                            ],
+                                                                        "text_block":  "CARRY THE LUMEN.",
+                                                                        "advance_trigger":  "WAIT_FRAMES_OR_INPUT_AFTER_TEXT",
+                                                                        "dynamic_fx":  [
+                                                                                           "palette_pulse"
+                                                                                       ],
+                                                                        "audio_cue":  "lumen_shimmer"
+                                                                    },
+                                                                    {
+                                                                        "state_id":  "OP_04_HART_SHADOW",
+                                                                        "shot_type":  "reaction",
+                                                                        "duration_frames":  150,
+                                                                        "render_surfaces":  [
+                                                                                                "BG_B",
+                                                                                                "BG_A",
+                                                                                                "WINDOW"
+                                                                                            ],
+                                                                        "text_block":  "DO NOT LET IT REMEMBER YOUR NAME.",
+                                                                        "advance_trigger":  "WAIT_FRAMES_OR_INPUT_AFTER_TEXT",
+                                                                        "dynamic_fx":  [
+                                                                                           "shake",
+                                                                                           "flash"
+                                                                                       ],
+                                                                        "audio_cue":  "hart_impact"
+                                                                    },
+                                                                    {
+                                                                        "state_id":  "OP_05_GATE_BREAK",
+                                                                        "shot_type":  "transition",
+                                                                        "duration_frames":  120,
+                                                                        "render_surfaces":  [
+                                                                                                "BG_B",
+                                                                                                "BG_A"
+                                                                                            ],
+                                                                        "text_block":  "THE ROAD AWAKENS.",
+                                                                        "advance_trigger":  "WAIT_FRAMES",
+                                                                        "dynamic_fx":  [
+                                                                                           "hscroll_start",
+                                                                                           "palette_ramp"
+                                                                                       ],
+                                                                        "audio_cue":  "race_intro_start"
+                                                                    },
+                                                                    {
+                                                                        "state_id":  "OP_06_CONTROL_HANDOFF",
+                                                                        "shot_type":  "transition",
+                                                                        "duration_frames":  60,
+                                                                        "render_surfaces":  [
+                                                                                                "BG_B",
+                                                                                                "BG_A",
+                                                                                                "WINDOW",
+                                                                                                "sprites"
+                                                                                            ],
+                                                                        "text_block":  "",
+                                                                        "advance_trigger":  "WAIT_FRAMES",
+                                                                        "dynamic_fx":  [
+                                                                                           "letterbox_retract",
+                                                                                           "hud_enter"
+                                                                                       ],
+                                                                        "audio_cue":  "start_beat"
+                                                                    }
+                                                                ],
+                                                 "palette_domains":  {
+                                                                         "PAL0":  "BG_B atmosphere",
+                                                                         "PAL1":  "BG_A panels",
+                                                                         "PAL2":  "Lio/core sprites",
+                                                                         "PAL3":  "text/UI accents"
+                                                                     }
+                                             },
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  180,
+                       "warmup_frames":  30,
+                       "expected_app_scene_id":  2,
+                       "bootstrap_scene_id":  2,
+                       "required_artifacts":  [
+                                                  "screenshot",
+                                                  "sram"
+                                              ],
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   },
+                   {
+                       "scene_id":  "race_start_handoff",
+                       "scene_role":  "cutscene",
+                       "boot_mode":  "unsupported",
+                       "compile_origin":  "canonical_block",
+                       "source_heading":  "### Cena 3 - `race_start_handoff`",
+                       "cleanup_required":  true,
+                       "cutscene_contract":  {
+                                                 "schema_version":  "1.0.0",
+                                                 "scene_id":  "race_start_handoff",
+                                                 "scene_role":  "cutscene",
+                                                 "status":  "planned",
+                                                 "cutscene_mode":  "mixed",
+                                                 "fsm_script":  "doc/contracts/race_start_handoff_fsm_script.json",
+                                                 "resource_plan":  "doc/contracts/race_start_handoff_resource_plan.json",
+                                                 "panel_layout":  "doc/contracts/race_start_handoff_panel_layout.json",
+                                                 "palette_script":  "doc/contracts/race_start_handoff_palette_script.json",
+                                                 "text_timing_map":  "doc/contracts/race_start_handoff_text_timing_map.json",
+                                                 "glyph_manifest":  "doc/glyph_manifest.json",
+                                                 "advance_model":  "WAIT_FRAMES",
+                                                 "teardown_plan":  "doc/contracts/race_start_handoff_teardown_plan.json",
+                                                 "evidence_plan":  "doc/contracts/race_start_handoff_evidence_plan.json",
+                                                 "uses_fullscreen_bitmap":  false,
+                                                 "dynamic_fx":  [
+                                                                    "letterbox_retract",
+                                                                    "hud_enter"
+                                                                ],
+                                                 "cinematic_storyboard_contract":  "doc/contracts/race_start_handoff_cinematic_storyboard_contract.json",
+                                                 "status_limit":  "documentado_until_scene_route_exists"
+                                             }
+                   },
+                   {
+                       "scene_id":  "sector_01_farol_quebrado",
+                       "scene_role":  "gameplay",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 4 - `sector_01_farol_quebrado`",
+                       "cleanup_required":  true,
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  900,
+                       "warmup_frames":  60,
+                       "expected_app_scene_id":  3,
+                       "bootstrap_scene_id":  3,
+                       "required_artifacts":  [
+                                                  "screenshot",
+                                                  "sram"
+                                              ],
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   },
+                   {
+                       "scene_id":  "upgrade_beacon_intermission",
+                       "scene_role":  "menu",
+                       "boot_mode":  "unsupported",
+                       "compile_origin":  "canonical_block",
+                       "source_heading":  "### Cena 5 - `upgrade_beacon_intermission`"
+                   },
+                   {
+                       "scene_id":  "sector_02_meteor_garden",
+                       "scene_role":  "gameplay",
+                       "boot_mode":  "unsupported",
+                       "compile_origin":  "canonical_block",
+                       "source_heading":  "### Cena 6 - `sector_02_meteor_garden`",
+                       "cleanup_required":  true
+                   },
+                   {
+                       "scene_id":  "sector_03_glass_bridge",
+                       "scene_role":  "gameplay",
+                       "boot_mode":  "unsupported",
+                       "compile_origin":  "canonical_block",
+                       "source_heading":  "### Cena 7 - `sector_03_glass_bridge`",
+                       "cleanup_required":  true
+                   },
+                   {
+                       "scene_id":  "shattered_lane_gauntlet",
+                       "scene_role":  "gameplay",
+                       "boot_mode":  "unsupported",
+                       "compile_origin":  "canonical_block",
+                       "source_heading":  "### Cena 13 - `shattered_lane_gauntlet`",
+                       "cleanup_required":  true
+                   },
+                   {
+                       "scene_id":  "sector_04_shadow_tunnel",
+                       "scene_role":  "gameplay",
+                       "boot_mode":  "unsupported",
+                       "compile_origin":  "canonical_block",
+                       "source_heading":  "### Cena 8 - `sector_04_shadow_tunnel`",
+                       "cleanup_required":  true
+                   },
+                   {
+                       "scene_id":  "boss_approach_crown_road",
+                       "scene_role":  "boss",
+                       "boot_mode":  "unsupported",
+                       "compile_origin":  "canonical_block",
+                       "source_heading":  "### Cena 9 - `boss_approach_crown_road`",
+                       "cleanup_required":  true
+                   },
+                   {
+                       "scene_id":  "final_boss_master_pursuer",
+                       "scene_role":  "boss",
+                       "boot_mode":  "unsupported",
+                       "compile_origin":  "canonical_block",
+                       "source_heading":  "### Cena 10 - `final_boss_master_pursuer`",
+                       "cleanup_required":  true
+                   },
+                   {
+                       "scene_id":  "ending_result",
+                       "scene_role":  "menu",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 11 - `ending_result`",
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  90,
+                       "warmup_frames":  30,
+                       "expected_app_scene_id":  4,
+                       "bootstrap_scene_id":  4,
+                       "required_artifacts":  [
+                                                  "screenshot",
+                                                  "sram"
+                                              ],
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   }
+               ]
+}

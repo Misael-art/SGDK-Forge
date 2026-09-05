@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina",
+  "evaluated_at": "2026-08-30",
+  "measurement_level": "human_visual_review",
+  "source_model_sheet": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "approval_status": "approved_as_direction"
+  },
+  "candidate_sprite_sheet": {
+    "path": "data/processed/characters/taina/lineart/taina_reseed_native_lineart_48x64_v03.png",
+    "sha256": "a9a678480abed70c7ba1d5dc7bfd1a892e5fe84b8f9c2d9a1315bb700c9cab12",
+    "cell_w": 48,
+    "cell_h": 64
+  },
+  "visual_dna_refs": [
+    "doc/art/characters/taina/visual_dna_manifest.json",
+    "doc/art/characters/taina/design_inheritance.json",
+    "doc/art/authorial_line_style_contract.json",
+    "doc/art/characters/taina/art_gameplay_direction_gate_reseed_v02.json"
+  ],
+  "status": "failed",
+  "must_preserve_checks": [
+    {"id": "curly_tied_hair_mass", "expected": "irregular tied curly hair mass", "observed": "upper mass present but too blocky", "status": "weak"},
+    {"id": "wedge_face_brow", "expected": "strong brow, wedge nose, compact jaw", "observed": "not legible at native scale", "status": "failed"},
+    {"id": "orange_top_and_indigo_pants", "expected": "costume silhouette hooks survive lineart", "observed": "torso and wide lower mass are indicated", "status": "weak"},
+    {"id": "teal_wraps_right_sash", "expected": "wraps and right-side asymmetry survive", "observed": "clusters exist but are generic", "status": "weak"},
+    {"id": "muay_thai_guard", "expected": "high diagonal guard and readable contacts", "observed": "limbs/feet exist, diagonal guard is not convincing", "status": "failed"}
+  ],
+  "frame_state_checks": [
+    {"id": "native_cell", "expected": "single 48x64 cell", "observed": "48x64 indexed cell", "status": "passed", "evidence": ["pixel_compliance_report_v03.json"]},
+    {"id": "hard_edge_lineart", "expected": "1px hard-edge dark ink", "observed": "single visible indexed ink color, no interpolation", "status": "passed", "evidence": ["native_author_stamp_report_v03.json"]},
+    {"id": "identity_read_at_1x", "expected": "TAÍNA reads from face/guard/sash hooks", "observed": "generic block silhouette", "status": "failed"}
+  ],
+  "blockers": ["model_sheet_to_sprite_fidelity_failed", "signature_feature_loss", "face_or_eye_readability_lost", "costume_marker_loss", "generic_blocky_redraw"],
+  "decision": {
+    "technical_pass": true,
+    "visual_pass": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": ["change visual producer/representation", "redraw from approved model sheet only", "defer basic and elite promotion until this report passes"]
+  }
+}

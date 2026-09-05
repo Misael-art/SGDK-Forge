@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "hibrido_v010_runtime_fx_stage_direction_gate",
+  "evaluated_at": "2026-06-14T13:48:21Z",
+  "status": "passed_for_monumental_runtime_lab_assets",
+  "scope": "authorial_aaa_arena_stage_and_separate_runtime_fx_only",
+  "character_body_generation_allowed": false,
+  "approved_sources": [
+    "data/source_art/hibrido_fighter_v010/source_concept.png",
+    "doc/contracts/visual_dna_manifest_v010.json",
+    "doc/contracts/art_gameplay_direction_gate_v010.json",
+    "doc/contracts/visual_source_of_truth_v010.json"
+  ],
+  "forbidden_sources": [
+    "data/processed/spritesheets/*",
+    "res/sprites/hibrido/*",
+    "contact_sheet_or_gif_as_generation_source"
+  ],
+  "stage_direction": {
+    "role": "monumental tournament arena background for 320x224 readability proof",
+    "camera": "side_view_close_combat",
+    "reference_image_policy": "attached Capcom arena image is used only as composition grammar: crowd depth, LED boards, spotlight cones, ring perspective and spectacle density. No logo, brand, character, mascot, statue or layout is copied.",
+    "contrast_policy": "BG_B is visually rich but keeps the playable center calmer than the surrounding arena so fighter outline, face, wraps and lava cracks remain readable.",
+    "gameplay_relation": "ring floor and ropes establish contact plane, reach distance and close-combat spectacle without hiding hitboxes.",
+    "palette_domain": "PAL0, deep blue arena, cyan/violet spotlights, red ropes, gold LED accents and cold metal highlights",
+    "signature_elements": [
+      "HYBRIDO/FORGE authorial LED boards",
+      "central hybrid idol silhouette",
+      "side statue silhouettes",
+      "multi-band audience bowl",
+      "hard-dithered spotlight cones",
+      "perspective ring mat with restrained center read zone"
+    ]
+  },
+  "fx_direction": {
+    "role": "separate runtime feedback overlays for impact, lava burst and foot contact",
+    "palette_domain": "PAL3",
+    "body_sheet_policy": "no baked hit sparks, lava flare, dust or flash in character body strips",
+    "gameplay_signal": [
+      "jab/guard contact: fast hit spark",
+      "knee/teep active: lava burst or contact spark",
+      "walk/knee/teep plant: foot dust"
+    ]
+  },
+  "vdp_budget_policy": {
+    "rom_resource_strategy": "IMAGE stage plus SPRITE FX strips",
+    "expected_recuos": [
+      "only current action body resident",
+      "one active FX overlay at a time in the viewer",
+      "SPR_initEx(128) when stage tile count needs additional background VRAM",
+      "future two-fighter scene needs worst-frame scanline capture"
+    ]
+  },
+  "decision": {
+    "production_allowed": true,
+    "ready_for_aaa": false,
+    "remaining_blockers": [
+      "human_visual_review_missing_for_aaa",
+      "visual_vdp_dump_missing",
+      "runtime_60fps_metrics_missing"
+    ]
+  }
+}

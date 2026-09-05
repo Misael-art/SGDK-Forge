@@ -18,7 +18,7 @@ from typing import Any, Iterable
 
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
-from forge_art import foreground_matte, schema_gate
+from forge_art import foreground_matte, schema_gate, visual_workset
 
 
 TOOL_NAME = "forge_art.source_route_triage"
@@ -750,7 +750,13 @@ def run_shootout(project_root: Path, spec: dict[str, Any], *,
 
 
 def run_shootout_from_spec(project_root: Path, spec_path: Path) -> dict[str, Any]:
-    return run_shootout(project_root, _load_json(spec_path))
+    root = project_root.resolve()
+    visual_workset.enforce_operation(root, "mechanical_route_shootout")
+    spec = _load_json(spec_path)
+    visual_workset.enforce_declared_source(
+        root, spec["source_path"], require_production_eligible=True
+    )
+    return run_shootout(root, spec)
 
 
 def verify_shootout_file(project_root: Path, report_path: Path) -> dict[str, Any]:

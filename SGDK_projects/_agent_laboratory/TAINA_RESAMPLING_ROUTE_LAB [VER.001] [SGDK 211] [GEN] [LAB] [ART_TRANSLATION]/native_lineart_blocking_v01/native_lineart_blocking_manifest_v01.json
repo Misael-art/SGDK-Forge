@@ -1,0 +1,65 @@
+{
+  "schema_version": "taina_native_lineart_blocking_manifest.v1",
+  "stage": "native_lineart_blocking_v01",
+  "identity_authority": {
+    "file": "inputs/model_sheet_v02.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a"
+  },
+  "underlays": {
+    "A_underlay_im_lanczos3": {
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/hybrid_cleanup_primary_im_lanczos3_v01.png",
+      "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1",
+      "role": "guide_only_not_pixel_source"
+    },
+    "B_underlay_im_mitchell_netravali": {
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/hybrid_cleanup_challenger_im_mitchell_netravali_v01.png",
+      "sha256": "8e8eb7cbb6d0aaa8906f88f7a12c4352f431d41cd823f57e958c41c3d19bcd61",
+      "role": "guide_only_not_pixel_source"
+    }
+  },
+  "candidates": {
+    "A": {
+      "asset_id": "taina_56x80_native_lineart_blocking_a_v01",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/native_lineart_blocking_v01/A/taina_56x80_native_lineart_blocking_a_v01.png",
+      "sha256": "5895613ff2d10f904c959915f4da16e41de5b069bde7558c415cd3ebb0543011",
+      "report": "A/taina_56x80_native_lineart_blocking_a_v01_report.json"
+    },
+    "B": {
+      "asset_id": "taina_56x80_native_lineart_blocking_b_v01",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/native_lineart_blocking_v01/B/taina_56x80_native_lineart_blocking_b_v01.png",
+      "sha256": "1c9e7bbd9bdd8a98142d2784f050745cc7bcf5152d4e223ae39943f93bfd69e1",
+      "report": "B/taina_56x80_native_lineart_blocking_b_v01_report.json"
+    }
+  },
+  "source_file_unchanged": true,
+  "forbidden_pixel_sources": [
+    "BASIC",
+    "ELITE",
+    "v02_regressiva",
+    "G2",
+    "RGB_diagnostic_maps",
+    "v05"
+  ],
+  "comparison": {
+    "pixels_different": 120,
+    "visible_pixel_denominator": 1742,
+    "difference_ratio": 0.06888633754305395,
+    "near_duplicate": false,
+    "affected_regions": {
+      "face": 12,
+      "hair": 24,
+      "guard": 12,
+      "sash": 27,
+      "feet": 12
+    },
+    "meaningful_visual_alternatives": true,
+    "intended_gain": "recover internal drawing, identity, gaze, guard separation and volume before color"
+  },
+  "human_gate_status": "pending_human_decision",
+  "decision_required": "select_one_structurally_valid_lineart_candidate",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "visual_pass": false,
+  "ready_for_aaa": false
+}

@@ -1,0 +1,253 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_lineart_blocking_basic_v01",
+  "generated_at": "2026-07-08",
+  "asset_id": "taina",
+  "asset_kind": "lineart_blocking_1px_basic_translation",
+  "measurement_level": "tool_measured_plus_visual_inspection",
+  "source": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_lineart_blocking_source_v01.png",
+    "sha256": "2b1bbea259911ddc01e729c2662c863eee6335efd8e90b2c8fb10d2497735864",
+    "status": "editorial_reference_only",
+    "reason": "TrueColor high-color source with non-uniform magenta field; usable for visual direction and extraction guidance, not as native sprite asset."
+  },
+  "contracts_used": {
+    "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+    "design_inheritance": "doc/art/characters/taina/design_inheritance.json",
+    "art_gameplay_direction_gate": "doc/art/characters/taina/art_gameplay_direction_gate.json",
+    "fake_pixel_art_rejection": "doc/art/characters/taina/fake_pixel_art_rejection_v01.json",
+    "native_grid_translation_report": "doc/art/characters/taina/native_grid_translation_report_v01.json",
+    "animation_planning_gate_report": "doc/art/characters/taina/animation/animation_planning_gate_report_v01.json"
+  },
+  "outputs": {
+    "basic_strip": {
+      "path": "data/processed/characters/taina/lineart/taina_lineart_basic_48x64_v01.png",
+      "sha256": "839e3924ad3d24f4a79ecda46e0f333d8c192c2ddd37bb5f00e2c372046c4734",
+      "dimensions_px": {
+        "w": 192,
+        "h": 64
+      },
+      "cell_px": {
+        "w": 48,
+        "h": 64
+      },
+      "view_count": 4,
+      "allowed_use": "basic_translation_control_and_lineart_blocking_reference_only"
+    },
+    "review_8x": {
+      "path": "doc/art/characters/taina/review/taina_lineart_basic_48x64_review_8x_v01.png",
+      "sha256": "0ae9616891c66bcae8b5ed5e8a6dcca4e3485da59fce9702004d6d99ade58ea6"
+    },
+    "route_board_area_thresholds": {
+      "path": "doc/art/characters/taina/review/taina_lineart_basic_area_routes_8x_v01.png",
+      "sha256": "4b16ea279e15319a9292f1ba42b0e2ad187f7d8b018220786efefe7383d8bd2b",
+      "selected_route": "area_downsample_threshold_64"
+    },
+    "source_crop_review": {
+      "path": "doc/art/characters/taina/review/taina_lineart_basic_source_crops_review_v01.png"
+    },
+    "clean_native_candidate": {
+      "latest_path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+      "latest_sha256": "b8342103628317977961f3e9ae764cd4c43b04280c66594ac601906faed2c6d1",
+      "latest_review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v07.png",
+      "latest_review_8x_sha256": "dced76ca7c32fd2b65d89eba4608d45f4fcb1cba350af006828dc489e14dfc57",
+      "best_identity_candidate_so_far": {
+        "version": "v05",
+        "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+        "sha256": "3fe2aa6de8f51170a32b66b3dfb5bda793e54d929a9b498d6b974129c945c615",
+        "reason": "melhor preservacao parcial de cabelo/rosto/guarda, apesar de escala chibi e gate de animacao ausente"
+      },
+      "previous_candidate": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v01.png",
+      "failed_candidates": [
+        {
+          "version": "v01",
+          "fidelity_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v01.json",
+          "failure_class": "generic_blocky_redraw"
+        },
+        {
+          "version": "v02",
+          "fidelity_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v02.json",
+          "failure_class": "generic_blocky_redraw"
+        },
+        {
+          "version": "v03",
+          "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v03.png",
+          "sha256": "0b9cfe892a22b06d8e4ff79b0d4c7d159fe4cf67cc4ef492ccfea08aa2dcfe40",
+          "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v03.png",
+          "fidelity_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v03.json",
+          "failure_class": "identity_lost_in_symbolic_redraw"
+        },
+        {
+          "version": "v04",
+          "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v04.png",
+          "sha256": "2c73c04ce4ace109c51613836616d84afa0db8f88d6c7bd3412ff832188a3145",
+          "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v04.png",
+          "fidelity_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v04.json",
+          "failure_class": "clean_but_generic_native_symbol"
+        },
+        {
+          "version": "v05",
+          "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+          "sha256": "3fe2aa6de8f51170a32b66b3dfb5bda793e54d929a9b498d6b974129c945c615",
+          "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v05.png",
+          "fidelity_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v05.json",
+          "failure_class": "partial_visual_improvement_scale_and_animation_blocked"
+        },
+        {
+          "version": "v06",
+          "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v06.png",
+          "sha256": "b1d58f956edda4a93634507b6728003b672dc6adb7ae805280a4f98eb13c1ec2",
+          "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v06.png",
+          "failure_class": "scale_probe_identity_regressed"
+        },
+        {
+          "version": "v07",
+          "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+          "sha256": "b8342103628317977961f3e9ae764cd4c43b04280c66594ac601906faed2c6d1",
+          "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v07.png",
+          "fidelity_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v07.json",
+          "failure_class": "scale_probe_not_promoted_identity_regressed"
+        }
+      ],
+      "fidelity_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v07.json",
+      "animation_planning_gate_report": "doc/art/characters/taina/animation/animation_planning_gate_report_v01.json",
+      "status": "technical_pass_scale_probe_but_visual_fail_not_promoted"
+    }
+  },
+  "generation_method": {
+    "type": "deterministic_basic_control",
+    "source_mask": "dark_ink_mask",
+    "mask_rule": "r<150 && g<65 && b<185 && (r+g+b)<360",
+    "scale_rule": "fit visible figure to 48px height inside 48x64 cell, bottom aligned with 4px safety margin",
+    "selected_threshold": 64,
+    "cleanup": "remove isolated one-pixel fragments without connected support",
+    "native_redraw": false,
+    "final_asset_claim": false,
+    "anti_polish_note": "This file is a measured basic/control translation from the approved direction source; it is not a polished sprite sheet and must not be used as a generation source for final art if it fails visual fidelity."
+  },
+  "pixel_compliance": {
+    "technical_pass": true,
+    "png_indexed": true,
+    "png_mode": "P",
+    "dimensions_multiple_of_8": true,
+    "used_indices": [
+      0,
+      1
+    ],
+    "used_color_count": 2,
+    "palette_index_0": [
+      255,
+      0,
+      255
+    ],
+    "index0_is_pipeline_magenta": true,
+    "palette_index_1": [
+      34,
+      0,
+      68
+    ],
+    "visible_colors_on_9bit_grid_excluding_index0": true,
+    "has_alpha_channel": false,
+    "visible_colors_max_15": true,
+    "notes": [
+      "Transparent/chroma index 0 follows the project PNG convention #FF00FF; visible ink color is snapped to the Mega Drive 9-bit grid."
+    ]
+  },
+  "cell_metrics": [
+    {
+      "cell": 0,
+      "view_label": "view_01_frontish",
+      "bbox_xywh": [
+        13,
+        13,
+        22,
+        46
+      ],
+      "visible_pixels": 336,
+      "occupied_8x8_tiles": 22
+    },
+    {
+      "cell": 1,
+      "view_label": "view_02_three_quarterish",
+      "bbox_xywh": [
+        14,
+        13,
+        19,
+        46
+      ],
+      "visible_pixels": 347,
+      "occupied_8x8_tiles": 19
+    },
+    {
+      "cell": 2,
+      "view_label": "view_03_side",
+      "bbox_xywh": [
+        16,
+        13,
+        15,
+        46
+      ],
+      "visible_pixels": 260,
+      "occupied_8x8_tiles": 14
+    },
+    {
+      "cell": 3,
+      "view_label": "view_04_backish",
+      "bbox_xywh": [
+        13,
+        13,
+        21,
+        46
+      ],
+      "visible_pixels": 319,
+      "occupied_8x8_tiles": 20
+    }
+  ],
+  "visual_excellence_check": {
+    "visual_status": "partial_basic_control_only",
+    "silhouette_readability": "partial_pass",
+    "lineart_cleanliness": "rework_required",
+    "scale_contract_match": "partial_pass_visible_height_46px_within_48px_target",
+    "identity_preservation": "partial",
+    "observed_strengths": [
+      "compact 48px body target is respected",
+      "guard posture, hair mass, sash/cloth mass and broad trouser silhouette remain readable",
+      "views share a stable bottom alignment and similar body scale"
+    ],
+    "observed_blockers": [
+      "not a true native hand-redrawn 1px lineart pass",
+      "hair and torso collapse into dark masses in some views",
+      "face, hands, wraps and small costume identity hooks are not proven at native scale",
+      "line weight is mechanically derived and inconsistent",
+      "clean native candidates v01 through v04 failed visual fidelity and must remain negative evidence only",
+      "v05 improves hair/face/guard/outfit readability but remains blocked by scale drift and missing animation gate",
+      "v06/v07 improve scale metrics but regress hair/face identity and remain negative evidence only",
+      "animation planning contracts v01 exist but measured key poses/contact/pivot evidence does not"
+    ],
+    "visual_pass": false
+  },
+  "decision": {
+    "accepted_as": "basic_translation_control",
+    "ready_for_color_blocking": false,
+    "ready_for_key_pose_generation": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "stop producing declarative primitive redraws as candidate sources",
+      "draw a fresh v08 from the approved model sheet and contracts v01, not from v05/v06/v07 as a source",
+      "preserve v05 hair, face wedge and diagonal guard improvements while enforcing the v07 scale lesson",
+      "use animation_direction_contract_v01 before any key-pose or strip attempt",
+      "repeat model_sheet_to_sprite_fidelity_report only after a materially improved clean native lineart candidate exists",
+      "produce source/basic/new-candidate comparison panel before any color blocking",
+      "keep all current generated lineart files out of res/"
+    ]
+  },
+  "status": "basic_control_and_v07_scale_probe_produced_visual_rework_required",
+  "blocking_statuses": [
+    "clean_native_lineart_blocking_1px_visual_pass_pending",
+    "scale_probe_identity_regressed_v07",
+    "animation_planning_created_but_visual_evidence_missing_v01",
+    "source_basic_candidate_panel_required_for_next_attempt",
+    "no_res_promotion_allowed"
+  ]
+}

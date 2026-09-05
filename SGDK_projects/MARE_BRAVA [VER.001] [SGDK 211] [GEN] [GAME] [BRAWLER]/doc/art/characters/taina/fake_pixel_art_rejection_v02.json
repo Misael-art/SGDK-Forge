@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_reseed_native_lineart",
+  "status": "technical_asset_rejected_construction_reference_allowed",
+  "evidence_path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02.png",
+  "evidence_sha256": "70ea460cca819084cda5f2b439f3068afba8731e026fe52dbd56aee95276edc1",
+  "measured": {"width": 1086, "height": 1448, "mode": "RGB", "unique_rgb_colors": 30353},
+  "rejection_reasons": ["not_48x64_logical_canvas", "no_proven_integral_16x_grid", "not_indexed", "nontransparent_checkerboard_background", "not_pixel_compliance_candidate"],
+  "forbidden_actions": ["nearest_reduce_to_final", "quantize_as_elite", "promote_to_res", "use_as_generation_source"],
+  "allowed_usage": ["construction_reference", "comparison_only", "not_direct_runtime_asset"],
+  "next_action": "Create lineart in the editor on the declared 48x64 canvas; do not polish or downscale this construction reference."
+}

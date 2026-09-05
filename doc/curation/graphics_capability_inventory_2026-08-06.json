@@ -1,0 +1,311 @@
+{
+  "schema": "graphics_capability_inventory_v1",
+  "generated_at": "2026-08-06",
+  "scope": [
+    "/mnt/sdcard/SGDKForge/SGDK_projects",
+    "/mnt/sdcard/SGDKForge/SGDK_Engines"
+  ],
+  "summary": {
+    "initiatives": 10,
+    "visual_files": 700,
+    "documented_lessons": 166,
+    "engines_initiatives": 0,
+    "caveat": "Technical validation is not equivalent to visual approval."
+  },
+  "initiatives": [
+    {
+      "id": "blue_circuit",
+      "root": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "category": "game",
+      "methodology": "Human-approved model/storyboard gates, 24x32 key-pose reconstruction, mandatory sprite artifact report, contact sheet and animated evidence.",
+      "status": "technical_pass_visual_gate_open",
+      "diagnostic": {
+        "scenario": "2_res_inadequate_check",
+        "discovered_art": 42,
+        "diagnostic_assets": 21,
+        "source_assets": 12,
+        "active_assets": 9,
+        "active_technical_ok": 9,
+        "blockers": 0
+      },
+      "lessons": 15,
+      "adopted_patterns": [
+        "technical_pass_visual_fail",
+        "sprite_artifact_report_v2",
+        "pivot_and_foot_contact_checks",
+        "fresh_blastem_visual_session"
+      ],
+      "representative_evidence": "out/evidence/sprite_rework_20260723/blue_player_contact_sheet_v002.png"
+    },
+    {
+      "id": "celestial_chase_revive",
+      "root": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+      "category": "game",
+      "methodology": "Procedural Pillow placeholders plus SVG mockup planning, followed by SGDK runtime integration.",
+      "status": "technical_first_playable_creative_blocked",
+      "diagnostic": {
+        "scenario": "2_res_inadequate_check",
+        "discovered_art": 77,
+        "diagnostic_assets": 15,
+        "source_assets": 4,
+        "active_assets": 11,
+        "active_technical_ok": 11,
+        "blockers": 0
+      },
+      "lessons": 18,
+      "adopted_patterns": [
+        "separate_mockup_from_final_asset",
+        "procedural_art_is_placeholder",
+        "runtime_text_is_not_visual_identity"
+      ]
+    },
+    {
+      "id": "celestial_chase_visual_benchmark",
+      "root": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "category": "laboratory_benchmark",
+      "methodology": "Premium source, compare-flat review, tile-aware construction, automated tests, SGDK integration, screenshot matte/color gate and selective baseline promotion.",
+      "status": "strong_lab_visual_gate_open",
+      "diagnostic": {
+        "scenario": "2_res_inadequate_check",
+        "discovered_art": 131,
+        "diagnostic_assets": 55,
+        "source_assets": 34,
+        "active_assets": 21,
+        "active_technical_ok": 21,
+        "blockers": 0
+      },
+      "lessons": 18,
+      "adopted_patterns": [
+        "compare_flat",
+        "tile_aware_builder",
+        "screenshot_matte_gate",
+        "selective_baseline_promotion",
+        "multi_frame_evidence"
+      ],
+      "representative_evidence": "doc/baselines/first_playable_slice/screenshot.png"
+    },
+    {
+      "id": "forge_reference",
+      "root": "SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "category": "technical_fixture",
+      "methodology": "Neutral contract and branding fixture for project identity and evidence plumbing.",
+      "status": "technical_fixture_not_visual_benchmark",
+      "diagnostic": {
+        "scenario": "1_data_and_res_check",
+        "discovered_art": 11,
+        "diagnostic_assets": 8,
+        "source_assets": 8,
+        "source_adequate": 5,
+        "source_needs_conversion": 3,
+        "active_assets": 0,
+        "blockers": 0
+      },
+      "lessons": 1,
+      "adopted_patterns": [
+        "contract_fixture",
+        "rom_identity_evidence"
+      ],
+      "representative_evidence": "data/processed/branding_intro/brand_engine_logo.png"
+    },
+    {
+      "id": "kirby_fan_game_cloude",
+      "root": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "category": "game_and_art_study",
+      "methodology": "Four recorded art routes: P1 procedural placeholder, P2 generated HD proposal, P3 HD preservation plus nearest-neighbor quantization, P4 vector master before pixelization.",
+      "status": "p1_p2_p3_p4_archived_visual_rejected",
+      "diagnostic": {
+        "scenario": "2_res_inadequate_check",
+        "discovered_art": 162,
+        "diagnostic_assets": 99,
+        "source_assets": 77,
+        "active_assets": 22,
+        "active_technical_ok": 22,
+        "blockers": 0
+      },
+      "lessons": 64,
+      "adopted_patterns": [
+        "archive_failed_attempts",
+        "concept_to_application_comparison",
+        "anatomy_gate_before_quantization",
+        "technical_pass_does_not_imply_visual_pass"
+      ],
+      "rejected_patterns": [
+        "procedural_final_character_art",
+        "pure_nearest_neighbor_downscale",
+        "vector_cleanliness_as_anatomy_proxy"
+      ],
+      "representative_evidence": "doc/art/evidence/a1_concept_to_application_comparison.png",
+      "latest_archive": "data/archive/p4_2026-08-06_vector_master_anatomy_rejected"
+    },
+    {
+      "id": "mare_brava",
+      "root": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "category": "game",
+      "methodology": "Art bible and prompt pack, premium source, VDP-survival review, model/lineart/key-pose gates, semantic scene decomposition and modular multi-plane reconstruction.",
+      "status": "preferred_visual_first_research_route",
+      "diagnostic": {
+        "scenario": "2_res_inadequate_check",
+        "discovered_art": 131,
+        "diagnostic_assets": 65,
+        "source_assets": 50,
+        "active_assets": 15,
+        "active_technical_ok": 15,
+        "blockers": 0
+      },
+      "lessons": 19,
+      "adopted_patterns": [
+        "art_bible",
+        "style_manifest",
+        "vdp_survival_contact_sheet",
+        "pose_master",
+        "semantic_layer_plan",
+        "modular_multi_plane_scene"
+      ],
+      "rejected_patterns": [
+        "direct_character_downscale",
+        "generate_all_animation_frames_independently"
+      ],
+      "representative_evidence": "doc/art/characters/taina/review/taina_idle_guard_contact_sheet_8x_v02.png"
+    },
+    {
+      "id": "smoke_test",
+      "root": "SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+      "category": "laboratory_fixture",
+      "methodology": "Deterministic procedural branding and native resource/FX build for pipeline smoke testing.",
+      "status": "technical_lab_needs_visual_review",
+      "diagnostic": {
+        "scenario": "2_res_inadequate_check",
+        "discovered_art": 44,
+        "diagnostic_assets": 24,
+        "source_assets": 8,
+        "active_assets": 16,
+        "active_technical_ok": 16,
+        "blockers": 0
+      },
+      "lessons": 0,
+      "adopted_patterns": [
+        "deterministic_builder",
+        "native_resource_smoke_test"
+      ],
+      "representative_evidence": "res/branding/brand_engine_logo_v3.png"
+    },
+    {
+      "id": "scene_tilemap_curation_fixture",
+      "root": "SGDK_projects/_agent_laboratory/SCENE_TILEMAP_CURATION_FIXTURE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "category": "laboratory_fixture",
+      "methodology": "Indexed 320x224 source fixture, tile conversion, deduplication, flip flags and conflict analysis.",
+      "status": "technical_lab_only",
+      "diagnostic": {
+        "scenario": "2_res_inadequate_check",
+        "discovered_art": 15,
+        "diagnostic_assets": 14,
+        "source_assets": 8,
+        "active_assets": 6,
+        "active_technical_ok": 6,
+        "blockers": 0
+      },
+      "lessons": 0,
+      "adopted_patterns": [
+        "indexed_scene_fixture",
+        "tile_dedup",
+        "flip_flag_analysis",
+        "palette_conflict_analysis"
+      ],
+      "representative_evidence": "rascunho/fixture_scene_320x224_indexed.png"
+    },
+    {
+      "id": "hybrido_muay_thai",
+      "root": "SGDK_projects/_agent_training/HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]",
+      "category": "agent_training",
+      "methodology": "Iterative v001-v012 character study moving from procedural/downscale routes to native lineart, controlled strips, pivot/contact evidence and source-of-truth gates.",
+      "status": "research_rework_unclosed",
+      "diagnostic": {
+        "scenario": "2_res_inadequate_check",
+        "discovered_art": 132,
+        "diagnostic_assets": 77,
+        "source_assets": 66,
+        "active_assets": 11,
+        "active_technical_ok": 11,
+        "blockers": 0
+      },
+      "lessons": 18,
+      "adopted_patterns": [
+        "visual_source_of_truth",
+        "anatomy_acting_material_turnaround_gates",
+        "native_lineart",
+        "pivot_contact_runtime_candidate"
+      ],
+      "rejected_patterns": [
+        "generic_blocky_technical_pass",
+        "uncontrolled_direct_downscale"
+      ],
+      "representative_evidence": "data/processed/reports/hibrido_v010_delivery_comparison_board.png"
+    },
+    {
+      "id": "mugen_sff_showdown",
+      "root": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1",
+      "category": "agent_training_and_nested_viewer",
+      "methodology": "SFF1/DEF parsing, stage reconstruction, tiles/dedup/flip/palette planning, exported binary assets and nested SGDK viewer with camera/streaming evidence.",
+      "status": "lab_palette_and_resident_budget_pending",
+      "diagnostic": {
+        "scenario": "4_lab_nested_art_review",
+        "discovered_art": 90,
+        "source_assets": 9,
+        "evidence_assets": 3,
+        "active_assets": 5,
+        "laboratory_assets": 73,
+        "generated_assets": 3,
+        "nested_projects": 1,
+        "blockers": 0
+      },
+      "lessons": 13,
+      "adopted_patterns": [
+        "crop_is_not_conversion",
+        "composition_as_executable_contract",
+        "full_world_camera_streaming",
+        "separate_rom_tiles_from_resident_budget",
+        "source_export_runtime_comparison"
+      ],
+      "representative_evidence": "work/diagnostics/showdown_recovery_comparison_v001.png"
+    }
+  ],
+  "tooling": {
+    "central": [
+      "art_diagnostic.py",
+      "SGDK ResComp",
+      "SGDK wrapper",
+      "BlastEm",
+      "SRAM evidence",
+      "VLAB"
+    ],
+    "common_libraries": [
+      "Pillow",
+      "NumPy",
+      "ImageMagick",
+      "rsvg-convert"
+    ],
+    "project_specific": [
+      "build_blue_player_v002.py",
+      "build_chase_first_playable_assets.py",
+      "validate_chase_visual_screenshot.py",
+      "build_p1_kirby.py",
+      "build_p1_remaining_assets.py",
+      "build_taina_*",
+      "build_cais01_*",
+      "build_hibrido_v001..v012",
+      "sff_v1.py",
+      "def_stage.py",
+      "visual_gate.py",
+      "tile_codec.py",
+      "tile_dedup.py",
+      "palette_plan.py",
+      "run_showdown_pipeline.py",
+      "export_showdown_bins.py"
+    ],
+    "not_established_as_available": [
+      "imagegen_circuit/ComfyUI",
+      "Aseprite",
+      "GraphicsGale"
+    ]
+  }
+}

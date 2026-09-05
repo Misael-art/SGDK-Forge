@@ -31,6 +31,8 @@ archives/
 .venv/
 .vscode/
 .obsidian/
+.ai-memory/
+ai-memory-data/
 .claude/
 .cursor/
 # Regras Cursor versionadas (ex.: jornada SGDK AAA)
@@ -42,12 +44,15 @@ archives/
 .superpowers/
 .trae/
 .mypy_cache/
+.mimosa/
 
 # Agent discovery/materialization bridges.
 # Canonical source stays versioned at tools/sgdk_wrapper/.agent/.
 .agents/skills/
-SGDK_projects/**/.agent/
-SGDK_Engines/**/.agent/
+# Materialized project bridges are symlinks, so these patterns intentionally
+# omit a trailing slash (a slash-only directory rule does not match symlinks).
+SGDK_projects/**/.agent
+SGDK_Engines/**/.agent
 
 # AI Image Generation: pesos, caches e gerações brutas nunca entram no repo.
 tools/ai_imagegen/runtime/
@@ -81,6 +86,7 @@ Desktop.ini
 
 # Temporários e saídas
 tmp/
+/tmp
 .tmp/
 output/
 

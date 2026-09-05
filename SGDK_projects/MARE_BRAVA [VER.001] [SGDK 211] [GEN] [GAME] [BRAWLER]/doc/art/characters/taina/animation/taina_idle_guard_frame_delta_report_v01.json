@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_idle_guard_v01",
+  "measurement_level": "measured",
+  "status": "technical_pass_visual_review_required",
+  "cell_pixels": 3072,
+  "adjacent_frame_deltas": [
+    {"from": 0, "to": 1, "different_pixels": 553, "ratio": 0.180013},
+    {"from": 1, "to": 2, "different_pixels": 327, "ratio": 0.106445},
+    {"from": 2, "to": 3, "different_pixels": 274, "ratio": 0.089193},
+    {"from": 3, "to": 4, "different_pixels": 422, "ratio": 0.137370},
+    {"from": 4, "to": 5, "different_pixels": 591, "ratio": 0.192383},
+    {"from": 5, "to": 0, "different_pixels": 648, "ratio": 0.210938}
+  ],
+  "non_background_pixels_by_frame": [854, 836, 836, 838, 858, 847],
+  "mass_variation_percent_from_min_to_max": 2.631579,
+  "pivot_drift_px": 0,
+  "finding": "Há alteração real entre quadros e a massa permanece estável, mas a captura BlastEm mostra atuação pequena e identidade insuficiente. Delta técnico não equivale a movimento premium.",
+  "evidence": [
+    "doc/art/characters/taina/review/taina_idle_guard_native_preview_v01.gif",
+    "out/blastem_env_taina_idle_guard_v01/blastem-linux-20260729T090809Z-192035/runtime_animation.gif"
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "schema_version": "hybrid_cleanup_shootout.v1",
+  "decision": "approve_hybrid_cleanup_shootout",
+  "scale": "56x80",
+  "primary_route": "im_lanczos3",
+  "primary_sha256": "933caee8829970d0f8877712396b19b57e5843ef73481aceb047cf338cde72be",
+  "challenger_route": "im_mitchell_netravali",
+  "challenger_sha256": "ee524888bd0be4e146a3236a9480565772b8fa8e752818bf2c9717bf702b17b5",
+  "control_route": "im_catmull_rom",
+  "control_sha256": "169426ebbf40eb01631154610cd73fff959afde8540dfa5943c3528225b20cd5",
+  "selected_base_pixels_may_survive": true,
+  "blind_pixel_promotion": false,
+  "res_promotion": false,
+  "normal_production_paused": true,
+  "candidates": [
+    {
+      "schema_version": "hybrid_cleanup_candidate.v1",
+      "asset_id": "hybrid_cleanup_primary_im_lanczos3_v01",
+      "status": "hybrid_cleanup_candidate",
+      "route_id": "im_lanczos3",
+      "source_raw": {
+        "path": "route_reports/im_lanczos3/raw_rgba_56x80.png",
+        "sha256": "933caee8829970d0f8877712396b19b57e5843ef73481aceb047cf338cde72be",
+        "pixels_may_survive": true
+      },
+      "target": "56x80",
+      "method": "mechanical_palette_remap_with_minimal_native_patches",
+      "alpha_policy": "binary_index0; source pixels below threshold removed; transparent RGB zero",
+      "alpha_threshold": 128,
+      "palette": {
+        "visible_colors": 14,
+        "rgb333": true,
+        "roles": {
+          "0": "transparent0",
+          "1": "outline_deep_shadow",
+          "2": "hair_deep",
+          "3": "hair_base",
+          "4": "hair_highlight",
+          "5": "skin_shadow",
+          "6": "skin_base",
+          "7": "skin_highlight",
+          "8": "top_shadow",
+          "9": "top_base",
+          "10": "top_highlight",
+          "11": "teal_shadow",
+          "12": "teal_base",
+          "13": "teal_highlight",
+          "14": "indigo_shadow",
+          "15": "indigo_base"
+        }
+      },
+      "native_pixel_patch_count": 5,
+      "matte_drop_count": 479,
+      "action_log": "cleanup_actions.json",
+      "claim_ceiling": "hybrid_cleanup_candidate",
+      "blind_pixel_promotion": false,
+      "human_approval": "pending",
+      "output": {
+        "path": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/hybrid_cleanup_primary_im_lanczos3_v01.png",
+        "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1"
+      },
+      "action_log_sha256": "6493e506e986f437872c01545a40e8e44adcf580f75eabb7bd55c5c72725311b",
+      "evidence": {
+        "nearest_2x": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/preview_nearest_2x.png",
+        "nearest_3x": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/preview_nearest_3x.png",
+        "nearest_8x": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/preview_nearest_8x.png",
+        "light": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/background_light.png",
+        "dark": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/background_dark.png",
+        "chroma": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/background_chroma.png",
+        "composition": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/composition_320x224.png"
+      }
+    },
+    {
+      "schema_version": "hybrid_cleanup_candidate.v1",
+      "asset_id": "hybrid_cleanup_challenger_im_mitchell_netravali_v01",
+      "status": "hybrid_cleanup_candidate",
+      "route_id": "im_mitchell_netravali",
+      "source_raw": {
+        "path": "route_reports/im_mitchell_netravali/raw_rgba_56x80.png",
+        "sha256": "ee524888bd0be4e146a3236a9480565772b8fa8e752818bf2c9717bf702b17b5",
+        "pixels_may_survive": true
+      },
+      "target": "56x80",
+      "method": "mechanical_palette_remap_with_minimal_native_patches",
+      "alpha_policy": "binary_index0; source pixels below threshold removed; transparent RGB zero",
+      "alpha_threshold": 128,
+      "palette": {
+        "visible_colors": 15,
+        "rgb333": true,
+        "roles": {
+          "0": "transparent0",
+          "1": "outline_deep_shadow",
+          "2": "hair_deep",
+          "3": "hair_base",
+          "4": "hair_highlight",
+          "5": "skin_shadow",
+          "6": "skin_base",
+          "7": "skin_highlight",
+          "8": "top_shadow",
+          "9": "top_base",
+          "10": "top_highlight",
+          "11": "teal_shadow",
+          "12": "teal_base",
+          "13": "teal_highlight",
+          "14": "indigo_shadow",
+          "15": "indigo_base"
+        }
+      },
+      "native_pixel_patch_count": 6,
+      "matte_drop_count": 343,
+      "action_log": "cleanup_actions.json",
+      "claim_ceiling": "hybrid_cleanup_candidate",
+      "blind_pixel_promotion": false,
+      "human_approval": "pending",
+      "output": {
+        "path": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/hybrid_cleanup_challenger_im_mitchell_netravali_v01.png",
+        "sha256": "8e8eb7cbb6d0aaa8906f88f7a12c4352f431d41cd823f57e958c41c3d19bcd61"
+      },
+      "action_log_sha256": "f533f18c3bacc3428dcd3a9b425f2f6c17122362b97c6276302e240e6e85d004",
+      "evidence": {
+        "nearest_2x": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/preview_nearest_2x.png",
+        "nearest_3x": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/preview_nearest_3x.png",
+        "nearest_8x": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/preview_nearest_8x.png",
+        "light": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/background_light.png",
+        "dark": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/background_dark.png",
+        "chroma": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/background_chroma.png",
+        "composition": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/composition_320x224.png"
+      }
+    },
+    {
+      "schema_version": "hybrid_cleanup_candidate.v1",
+      "asset_id": "hybrid_cleanup_control_im_catmull_rom_v01",
+      "status": "hybrid_cleanup_candidate",
+      "route_id": "im_catmull_rom",
+      "source_raw": {
+        "path": "route_reports/im_catmull_rom/raw_rgba_56x80.png",
+        "sha256": "169426ebbf40eb01631154610cd73fff959afde8540dfa5943c3528225b20cd5",
+        "pixels_may_survive": true
+      },
+      "target": "56x80",
+      "method": "mechanical_palette_remap_with_minimal_native_patches",
+      "alpha_policy": "binary_index0; source pixels below threshold removed; transparent RGB zero",
+      "alpha_threshold": 128,
+      "palette": {
+        "visible_colors": 14,
+        "rgb333": true,
+        "roles": {
+          "0": "transparent0",
+          "1": "outline_deep_shadow",
+          "2": "hair_deep",
+          "3": "hair_base",
+          "4": "hair_highlight",
+          "5": "skin_shadow",
+          "6": "skin_base",
+          "7": "skin_highlight",
+          "8": "top_shadow",
+          "9": "top_base",
+          "10": "top_highlight",
+          "11": "teal_shadow",
+          "12": "teal_base",
+          "13": "teal_highlight",
+          "14": "indigo_shadow",
+          "15": "indigo_base"
+        }
+      },
+      "native_pixel_patch_count": 3,
+      "matte_drop_count": 276,
+      "action_log": "cleanup_actions.json",
+      "claim_ceiling": "hybrid_cleanup_candidate",
+      "blind_pixel_promotion": false,
+      "human_approval": "pending",
+      "output": {
+        "path": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/hybrid_cleanup_control_im_catmull_rom_v01.png",
+        "sha256": "e4376a53b4aec651b50f57676e2550a14ba738dd01196a850f46a2762fcde45c"
+      },
+      "action_log_sha256": "03552e7b92fd8a077dcf334c95d918c2e666bffea40b799cdc2064eb1f5179ac",
+      "evidence": {
+        "nearest_2x": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/preview_nearest_2x.png",
+        "nearest_3x": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/preview_nearest_3x.png",
+        "nearest_8x": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/preview_nearest_8x.png",
+        "light": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/background_light.png",
+        "dark": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/background_dark.png",
+        "chroma": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/background_chroma.png",
+        "composition": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/composition_320x224.png"
+      }
+    }
+  ],
+  "human_gate_status": "pending_human_decision",
+  "claim_ceiling": "hybrid_cleanup_candidate"
+}

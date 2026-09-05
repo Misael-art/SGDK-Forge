@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-29",
+  "status": "rescomp_measured_runtime_metrics_pending",
+  "decision": "cabe com recuo",
+  "claim_ceiling": "budget_candidate_not_validado_budget",
+  "rom_sha256": "825e687c8f0513f2d2d9f634f980be83426a2b84a457b0ddef6978271bfba429",
+  "scene_local_scope": "CAIS_01 512x224 resident slice; full 1344px world remains a future streaming scope",
+  "backgrounds": {
+    "bg_b": {
+      "role": "clouds_compact_harbor_sun_and_water",
+      "tiles_rescomp": 484,
+      "tile_bytes": 15488,
+      "tilemap_bytes_resource": 3584,
+      "palette": "PAL0"
+    },
+    "bg_a": {
+      "role": "industrial_pier_crates_lamp_net_and_material_marks",
+      "tiles_rescomp": 385,
+      "tile_bytes": 12320,
+      "tilemap_bytes_resource": 3584,
+      "palette": "PAL2"
+    },
+    "combined_tiles_rescomp": 869,
+    "combined_tile_bytes": 27808,
+    "available_user_tiles_with_default_sprite_reserve": 948,
+    "remaining_user_tiles": 79,
+    "remaining_percent": 8.33
+  },
+  "resource_budget_semantics": {
+    "rom_asset_cost": "ResComp summary 58384 bytes total resources; background FAST packing changes ROM/load behavior, not resident tiles.",
+    "vram_resident_set": "870 background tiles plus system/font and the default 420-tile sprite engine reserve already excluded by the 948 user-tile envelope.",
+    "load_time_dma_cost": "Both IMAGE resources load during SCENE_demo enter; not measured in cycles.",
+    "per_frame_dma_cost": {
+      "line_scroll_tables_bytes": 896,
+      "palette_cycle_bytes_estimate": 4,
+      "visible_sprite_frame_uploads_conservative_bytes": 2816,
+      "conservative_total_bytes": 3716,
+      "evidence_level": "estimated_pending_runtime_metrics"
+    },
+    "active_animation_window": "one TAÍNA frame, one contact-shadow frame, two smoke frames and two dust frames at a time",
+    "scanline_sprite_pressure": {
+      "total_visible_vdp_parts_worst_authored_estimate": 11,
+      "max_sprites_per_scanline": "unmeasured",
+      "status": "simulator_or_vdp_dump_required"
+    }
+  },
+  "scroll_and_fx": {
+    "hscroll_mode": "HSCROLL_LINE",
+    "owner": "SCENE_demo",
+    "h_int_owner": "none",
+    "palette_cycle_owner": "SCENE_demo",
+    "fallback": "HSCROLL_PLANE plus static PAL0/PAL2 and hidden ecology sprites"
+  },
+  "recuo_obrigatorio": [
+    "congelar a unicidade do slice v04; novos detalhes devem reutilizar tiles",
+    "usar streaming de janela para o mundo de 1344px em vez de manter o level inteiro residente",
+    "reduzir tiles unicos antes de adicionar outro landmark residente",
+    "nao promover para validado_budget sem runtime_metrics, scanline audit e visual_vdp_dump"
+  ],
+  "blockers": [
+    "runtime_metrics_missing",
+    "visual_vdp_dump_missing",
+    "sprite_scanline_pressure_unmeasured",
+    "full_world_streaming_not_implemented"
+  ]
+}

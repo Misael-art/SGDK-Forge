@@ -1,0 +1,134 @@
+{
+  "schema_version": "taina_native_lineart_validation.v1",
+  "asset_id": "taina_56x80_native_lineart_blocking_a_v02",
+  "sha256": "7828a5fb8d658661adc5d45eeffcc859e5f995f98c4f13a2d6389c24ddb4b5d6",
+  "scale": "56x80",
+  "variant": "A",
+  "method": "agent_authored_native_lineart_blocking",
+  "acceptance_status": "visual_lab_control",
+  "source_kind": "procedural_composed_from_authored",
+  "source_file_unchanged": true,
+  "output_pixels_reassigned": 1679,
+  "identity_authority": {
+    "file": "inputs/model_sheet_v02.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a"
+  },
+  "underlay_guide": {
+    "path": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/hybrid_cleanup_primary_im_lanczos3_v01.png",
+    "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1",
+    "role": "guide_only_not_pixel_source"
+  },
+  "forbidden_sources": [
+    "material_palette_reseed_v01",
+    "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+    "material_owner_shade_annotation_v01"
+  ],
+  "features_required": [
+    "athletic_silhouette_1x",
+    "eye_and_gaze",
+    "hair_face_separation",
+    "asymmetric_curly_hair_front_lock",
+    "two_separate_arms",
+    "diagonal_guard",
+    "legible_fists",
+    "top_hem",
+    "exposed_abdomen",
+    "wraps",
+    "sash_knot_and_fall",
+    "wide_trousers_leg_separation",
+    "planted_feet",
+    "pivot_and_ground_line"
+  ],
+  "feature_regions": {
+    "face": [
+      [
+        24,
+        8,
+        33,
+        17
+      ]
+    ],
+    "hair": [
+      [
+        11,
+        0,
+        35,
+        15
+      ]
+    ],
+    "guard": [
+      [
+        14,
+        18,
+        45,
+        31
+      ]
+    ],
+    "hem": [
+      [
+        19,
+        29,
+        37,
+        33
+      ]
+    ],
+    "sash": [
+      [
+        20,
+        35,
+        44,
+        47
+      ]
+    ],
+    "feet": [
+      [
+        7,
+        67,
+        48,
+        79
+      ]
+    ]
+  },
+  "identity_report": "taina_56x80_native_lineart_blocking_a_v02_identity_report.json",
+  "pixel_evidence": {
+    "preview_nearest": [
+      "preview_nearest_2x.png",
+      "preview_nearest_3x.png",
+      "preview_nearest_8x.png"
+    ],
+    "silhouette": "silhouette_black.png",
+    "backgrounds": [
+      "background_light.png",
+      "background_dark.png",
+      "background_chroma.png"
+    ],
+    "composition": "composition_320x224.png",
+    "crops": [
+      "crop_face.png",
+      "crop_hair.png",
+      "crop_guard.png",
+      "crop_hem.png",
+      "crop_sash.png",
+      "crop_feet.png"
+    ],
+    "contour": "internal_contour_map.png",
+    "overlay": "overlay_model_sheet_diagnostic.png"
+  },
+  "pixel_contract": {
+    "width": 56,
+    "height": 80,
+    "mode": "P",
+    "bit_depth": 4,
+    "index0_transparent": true,
+    "visible_colors": 3,
+    "grid": "8x8"
+  },
+  "human_visual_gate": "pending_human_decision",
+  "visual_status": "structural_lineart_candidate_not_yet_human_passed",
+  "promotable": false,
+  "allowed_as_pixel_source": false,
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "ready_for_aaa": false
+}

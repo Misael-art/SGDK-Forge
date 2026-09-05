@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_combo_hit_1_jab",
+  "asset_kind": "animation_strip",
+  "action": "combo_hit_1_jab",
+  "strip_layout": "horizontal_single_action",
+  "frame_count": 5,
+  "metadata_only": false,
+  "frames": [
+    {
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64,
+      "pivot_x": 24,
+      "pivot_y": 60,
+      "phase": "anticipation",
+      "hold_frames": 3
+    },
+    {
+      "index": 1,
+      "x": 64,
+      "y": 0,
+      "w": 64,
+      "h": 64,
+      "pivot_x": 24,
+      "pivot_y": 60,
+      "phase": "launch",
+      "hold_frames": 2
+    },
+    {
+      "index": 2,
+      "x": 128,
+      "y": 0,
+      "w": 64,
+      "h": 64,
+      "pivot_x": 24,
+      "pivot_y": 60,
+      "phase": "active_contact",
+      "hold_frames": 2
+    },
+    {
+      "index": 3,
+      "x": 192,
+      "y": 0,
+      "w": 64,
+      "h": 64,
+      "pivot_x": 24,
+      "pivot_y": 60,
+      "phase": "follow_through_recoil",
+      "hold_frames": 3
+    },
+    {
+      "index": 4,
+      "x": 256,
+      "y": 0,
+      "w": 64,
+      "h": 64,
+      "pivot_x": 24,
+      "pivot_y": 60,
+      "phase": "recovery_bridge",
+      "hold_frames": 4
+    }
+  ],
+  "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+  "motion_phase_map": "doc/art/characters/taina/animation/taina_combo_hit_1_jab_motion_phase_map_v01.json",
+  "style_motion_reverse_engineering": "doc/art/characters/taina/style_motion_reverse_engineering_v02.json",
+  "turnaround_tracking_contract": "doc/art/characters/taina/turnaround_tracking_contract_v02.json",
+  "motion_physics_contract": "doc/art/characters/taina/animation/taina_combo_hit_1_jab_production_contract_v01.json",
+  "state_transition_motion_contract": "doc/art/characters/taina/animation/taina_combo_hit_1_jab_motion_phase_map_v01.json",
+  "pivot_policy": "custom_declared",
+  "palette_hash": "169da076da21cac2155e42971c90a8b9c6ceed66c6088336d0c29f0949abd132",
+  "drift_thresholds": {
+    "pivot_px": 0,
+    "bbox_px": 24,
+    "palette_changed_allowed": false,
+    "scale_percent": 0
+  },
+  "approval_status": "approved_for_sheet",
+  "blockers": []
+}

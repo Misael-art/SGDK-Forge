@@ -38,6 +38,18 @@
       "decision": "runtime probe consumes a checksum-valid one-shot SBIS scene bootstrap from SRAM",
       "reason": "allows canonical BlastEm capture of a target scene without player-visible debug input",
       "fallback": "navigate the front-end with a validated BlastEm input script"
+    },
+    {
+      "id": "xgm2_single_audio_owner",
+      "decision": "XGM2 exclusively owns FM and PSG music; project SFX use only PCM_CH2 and PCM_CH3 through AUDIO_playPCM",
+      "reason": "prevents direct PSG writes and the former PCM_CH1 score loop from conflicting with the XGM2 driver",
+      "fallback": "drop optional PCM_CH3 cues before changing channel ownership"
+    },
+    {
+      "id": "audio_runtime_probe",
+      "decision": "AUD2 telemetry is exported at SRAM offset 0x800 and bound to the captured ROM hash",
+      "reason": "proves music/SFX simultaneity, accepted requests and XGM2 load without relying on intent",
+      "fallback": "block the audio claim when AUD2 is absent or hash identity is stale"
     }
   ],
   "fixed_review_findings": [
@@ -49,13 +61,18 @@
     "out/rom.bin",
     "out/logs/res_graph_report.json",
     "out/logs/audio_validation_report.json",
+    "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/xgm2_audio_probe.json",
+    "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio_capture_analysis.json",
     "out/logs/runtime_metrics.json",
     "out/logs/emulator_session.json",
     "out/evidence/blastem/screenshot.png",
     "out/evidence/blastem/save.sram"
   ],
   "blockers": [
-    "current runtime changes require fresh build and BlastEm evidence",
+    "human audio review remains pending",
     "perceptual motion still requires human approval"
+  ],
+  "warnings": [
+    "XGM2 reported one missed frame across 1363 driver frames"
   ]
 }

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "profile_kind": "gameplay_and_front_end_profile",
+  "surfaces": {
+    "branding_sigil": "BG_A logo over BG_B sky, no WINDOW text",
+    "title_menu": "BG_A/B with WINDOW command area",
+    "credits": "paged BG_A/WINDOW text over calm BG_B revived sky",
+    "race_hud": "WINDOW fixed HUD",
+    "upgrade": "BG_A cards plus WINDOW help line",
+    "boss": "reduced WINDOW HUD"
+  },
+  "attention_profile": {
+    "front_end": ["logo readability", "selected command", "cursor pulse", "background restraint"],
+    "credits": ["credit block heading", "credit lines", "return hint"],
+    "race": ["lane", "Lio", "hazard telegraph", "Lumen", "pressure"],
+    "boss": ["weak point", "lane safety", "Pulse state", "integrity"]
+  },
+  "hud_density": "compact",
+  "plane_ownership_map": {
+    "WINDOW": "scene-specific UI owner",
+    "BG_A": "gameplay road/cards",
+    "BG_B": "atmosphere",
+    "sprites": "cursor, actors, FX"
+  },
+  "formal_contracts": [
+    "doc/brand_identity_manifest.json",
+    "doc/ui_pixel_surface_contract.json",
+    "doc/hud_layout_contract.json",
+    "doc/front_end_menu_contract.json",
+    "doc/credits_contract.json",
+    "doc/text_presentation_profile.json"
+  ],
+  "fallback": "reduce ornament and animations before reducing legibility"
+}

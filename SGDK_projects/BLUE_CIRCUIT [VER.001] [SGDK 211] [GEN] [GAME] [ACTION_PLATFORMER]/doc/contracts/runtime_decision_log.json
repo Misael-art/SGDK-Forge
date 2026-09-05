@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "runtime_decision_log",
+  "scene_id": "stage_01_blue_circuit",
+  "updated_at": "2026-06-27",
+  "status": "pre_runtime_contract_ready",
+  "resource_loading_model": "full_resident",
+  "scene_manager": "existing APP_changeScene / APP_update template scene switch",
+  "input_model": "existing INPUT_update snapshot consumed by scenes",
+  "camera_model": "deadzone_lookahead with integer scroll snap",
+  "render_model": {
+    "background": "VDP_drawImageEx BG_B img_bc_stage_bg",
+    "foreground": "VDP_drawImageEx BG_A img_bc_stage_fg with index0 transparency",
+    "sprites": "SGDK sprite engine with SPR_addSprite and SPR_setPosition"
+  },
+  "teardown": [
+    "SPR_reset",
+    "VDP_clearPlane BG_A",
+    "VDP_clearPlane BG_B",
+    "VDP_setHorizontalScroll BG_A/BG_B to 0",
+    "clear text rows used by scene"
+  ],
+  "claims_not_made": [
+    "ready_for_aaa",
+    "validado_budget",
+    "testado_em_emulador"
+  ]
+}

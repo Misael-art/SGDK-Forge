@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "ledger_id": "autonomy_ledger_2026-07-20",
+  "events": [
+    {
+      "schema_version": "1.0.0",
+      "event_id": "7f78a9df-e179-4457-978f-15c590dcb3ca",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T03:30:00Z",
+      "event_type": "session_started",
+      "task_id": null,
+      "reason_code": "session_boundary",
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "72e5c871-0c53-4341-984f-11daa7083792",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T03:35:00Z",
+      "event_type": "task_started",
+      "task_id": "P1-003",
+      "reason_code": null,
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "c6fcf25e-4d46-433b-804c-87fe9558675a",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T04:08:00Z",
+      "event_type": "task_reworked",
+      "task_id": "P1-003",
+      "reason_code": "implementation_defect",
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "bfc23276-e943-4fd7-b009-c2e1cb5981f3",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T04:11:00Z",
+      "event_type": "task_reworked",
+      "task_id": "P1-003",
+      "reason_code": "validation_failure",
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "a750729e-3924-4b03-91ab-1f9e372d0533",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T04:23:00Z",
+      "event_type": "task_completed",
+      "task_id": "P1-003",
+      "reason_code": "acceptance_met",
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "19b58acf-bacd-40e4-9fae-c6bd95c114bd",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T04:24:00Z",
+      "event_type": "task_started",
+      "task_id": "P1-004",
+      "reason_code": null,
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "a6ac5c65-bb36-46df-abe6-d04cc4175c8d",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T04:32:00Z",
+      "event_type": "task_blocked",
+      "task_id": "P1-004",
+      "reason_code": "external_dependency",
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "b0909534-3169-4bd7-a3b7-dcf598b02c79",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T04:33:00Z",
+      "event_type": "task_started",
+      "task_id": "P1-005",
+      "reason_code": null,
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    },
+    {
+      "schema_version": "1.0.0",
+      "event_id": "9dc67e85-a0b3-4624-97de-3eb8c6e71c9e",
+      "session_id": "remediation-20260720-p1",
+      "timestamp": "2026-07-20T04:38:00Z",
+      "event_type": "task_completed",
+      "task_id": "P1-005",
+      "reason_code": "acceptance_met",
+      "intervention_category": null,
+      "sensitive_content_stored": false
+    }
+  ]
+}

@@ -1,11 +1,13 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-04T08:50:52Z",
+  "generated_at": "2026-09-04T21:13:47Z",
   "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
   "project_name": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
   "validator_fixture": false,
   "context_type": "aaa_game",
   "manifest_status": "present",
+  "manifest_schema": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json",
+  "manifest_schema_errors": [],
   "visual_symbols": [
     {
       "res_symbol": "img_brand_fx_tiles",
@@ -145,11 +147,20 @@
       "provenance": "declared_non_final"
     },
     {
+      "res_symbol": "spr_native_run_cycle_v11",
+      "res_kind": "SPRITE",
+      "asset_path": "sprites/v11_review/run_cycle_v11_candidate.png",
+      "res_file": "res/resources.res",
+      "res_line": 31,
+      "primitive_builders": [],
+      "provenance": "declared_non_final"
+    },
+    {
       "res_symbol": "spr_ph_fg",
       "res_kind": "SPRITE",
       "asset_path": "sprites/ph_fg.png",
       "res_file": "res/resources.res",
-      "res_line": 29,
+      "res_line": 32,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -160,7 +171,7 @@
       "res_kind": "SPRITE",
       "asset_path": "sprites/ph_enemy.png",
       "res_file": "res/resources.res",
-      "res_line": 30,
+      "res_line": 33,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -171,7 +182,7 @@
       "res_kind": "SPRITE",
       "asset_path": "sprites/ph_particle.png",
       "res_file": "res/resources.res",
-      "res_line": 31,
+      "res_line": 34,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -182,7 +193,7 @@
       "res_kind": "SPRITE",
       "asset_path": "sprites/ph_branch.png",
       "res_file": "res/resources.res",
-      "res_line": 32,
+      "res_line": 35,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -193,7 +204,7 @@
       "res_kind": "SPRITE",
       "asset_path": "sprites/ph_boss_face.png",
       "res_file": "res/resources.res",
-      "res_line": 33,
+      "res_line": 36,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -204,7 +215,7 @@
       "res_kind": "SPRITE",
       "asset_path": "sprites/ph_apple.png",
       "res_file": "res/resources.res",
-      "res_line": 34,
+      "res_line": 37,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -215,7 +226,7 @@
       "res_kind": "IMAGE",
       "asset_path": "bgs/ph_trunk.png",
       "res_file": "res/resources.res",
-      "res_line": 35,
+      "res_line": 38,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -226,7 +237,7 @@
       "res_kind": "IMAGE",
       "asset_path": "bgs/ph_title_hill.png",
       "res_file": "res/resources.res",
-      "res_line": 40,
+      "res_line": 43,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -237,7 +248,7 @@
       "res_kind": "IMAGE",
       "asset_path": "bgs/ph_title_stars.png",
       "res_file": "res/resources.res",
-      "res_line": 41,
+      "res_line": 44,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -248,7 +259,7 @@
       "res_kind": "IMAGE",
       "asset_path": "gfx/ph_title_logo.png",
       "res_file": "res/resources.res",
-      "res_line": 42,
+      "res_line": 45,
       "primitive_builders": [
         "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/builders/build_p1_remaining_assets.py"
       ],
@@ -259,7 +270,7 @@
       "res_kind": "SPRITE",
       "asset_path": "sprites/review_fire_fx.png",
       "res_file": "res/resources.res",
-      "res_line": 44,
+      "res_line": 47,
       "primitive_builders": [],
       "provenance": "declared_non_final"
     },
@@ -268,7 +279,7 @@
       "res_kind": "SPRITE",
       "asset_path": "sprites/ph_light.png",
       "res_file": "res/resources.res",
-      "res_line": 45,
+      "res_line": 48,
       "primitive_builders": [],
       "provenance": "declared_non_final"
     }
@@ -433,9 +444,9 @@
   "runtime_authored_tiles": [],
   "findings": [],
   "summary": {
-    "visual_symbols": 24,
-    "pixel_bearing_symbols": 24,
-    "declared_entries": 24,
+    "visual_symbols": 25,
+    "pixel_bearing_symbols": 25,
+    "declared_entries": 25,
     "primitive_builders": 24,
     "symbols_traced_to_primitive_builders": 20,
     "blocking_findings": 0,

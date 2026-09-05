@@ -26,7 +26,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from forge_art import schema_gate
+
 SCHEMA_VERSION = "1.0.0"
+PROVENANCE_SCHEMA_PATH = Path(__file__).with_name("schemas") / "asset_provenance_manifest.schema.json"
 
 # Resource kinds that put pixels on screen. WAV/XGM/BIN are out of scope.
 VISUAL_RES_KINDS = {"IMAGE", "SPRITE", "TILESET", "TILEMAP", "MAP", "BITMAP", "PALETTE"}
@@ -266,17 +269,32 @@ def load_context(project_root: Path) -> dict[str, Any]:
     return data
 
 
+def validate_manifest_schema(manifest: Any) -> list[str]:
+    """Return compact schema errors; semantic checks remain owned by audit()."""
+    if not isinstance(manifest, dict):
+        return ["$: expected object"]
+    schema = read_json(PROVENANCE_SCHEMA_PATH)
+    if not isinstance(schema, dict):
+        return ["$: canonical schema missing or invalid"]
+    try:
+        schema_gate.validate(manifest, schema)
+    except schema_gate.SchemaError as exc:
+        return [str(exc)]
+    return []
+
+
 def audit(project_root: Path, extra_roots: list[Path]) -> dict[str, Any]:
     context = load_context(project_root)
     context_type = str(context.get("context_type", "unknown"))
 
     manifest_path = project_root / "doc" / "asset_provenance_manifest.json"
     manifest = read_json(manifest_path)
+    manifest_schema_errors: list[str] = []
     if manifest is None:
         manifest_status = "absent" if not manifest_path.exists() else "invalid"
         entries: list[dict[str, Any]] = []
-    elif not isinstance(manifest, dict) or not isinstance(manifest.get("entries"), list):
-        manifest_status = "invalid"
+    elif (manifest_schema_errors := validate_manifest_schema(manifest)):
+        manifest_status = "invalid_schema"
         entries = []
     else:
         manifest_status = "present"
@@ -307,6 +325,15 @@ def audit(project_root: Path, extra_roots: list[Path]) -> dict[str, Any]:
         )
 
     pixel_symbols = [s for s in symbols if s["res_kind"] in PIXEL_BEARING_KINDS]
+
+    if manifest_schema_errors:
+        add(
+            "asset_provenance_manifest_schema_invalid",
+            "blocking",
+            "doc/asset_provenance_manifest.json",
+            "Manifesto nao satisfaz o schema canonico; enums inventados e campos desconhecidos nao concedem proveniencia.",
+            " | ".join(manifest_schema_errors[:5]),
+        )
 
     if not pixel_symbols and not fixture_declared:
         add(
@@ -460,6 +487,8 @@ def audit(project_root: Path, extra_roots: list[Path]) -> dict[str, Any]:
         "validator_fixture": fixture_declared,
         "context_type": context_type,
         "manifest_status": manifest_status,
+        "manifest_schema": PROVENANCE_SCHEMA_PATH.as_posix(),
+        "manifest_schema_errors": manifest_schema_errors,
         "visual_symbols": symbols,
         "primitive_builders": builders,
         "runtime_authored_tiles": runtime_hits,
@@ -514,7 +543,7 @@ def print_report(report: dict[str, Any]) -> None:
 
 
 def self_check() -> int:
-    """Builder de primitivas alimentando o .res reprova; placeholder declarado passa."""
+    """Prove primitive blocking, honest placeholder and schema enforcement."""
     import tempfile
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
@@ -541,11 +570,20 @@ def self_check() -> int:
             encoding="utf-8")
         ok = audit(root, [])
 
+        invalid_manifest = json.loads((root / "doc" / "asset_provenance_manifest.json").read_text())
+        invalid_manifest["entries"][0]["source_kind"] = "native_pixel_source"
+        (root / "doc" / "asset_provenance_manifest.json").write_text(
+            json.dumps(invalid_manifest), encoding="utf-8"
+        )
+        invalid = audit(root, [])
+
     if "procedural_asset_promoted_to_res" not in bad["blocking_statuses"]:
         print("self-check failed: promocao procedural nao detectada", file=sys.stderr); return 1
     if ok["blocking"]:
         print(f"self-check failed: placeholder honesto reprovado {ok['blocking_statuses']}", file=sys.stderr); return 1
-    print("audit_procedural_asset_provenance self-check passed (reprova promocao, aceita placeholder)")
+    if "asset_provenance_manifest_schema_invalid" not in invalid["blocking_statuses"]:
+        print("self-check failed: enum inventado nao foi reprovado pelo schema", file=sys.stderr); return 1
+    print("audit_procedural_asset_provenance self-check passed (promocao, placeholder e schema)")
     return 0
 
 

@@ -1,0 +1,22 @@
+﻿{
+  "schema_version": "1.0.0",
+  "status": "measured",
+  "generated_at": "2026-06-28T13:49:48.3914967Z",
+  "scope": "gameplay_scene_3",
+  "notes": [
+    "Cena jogavel carrega stage_01_bg em BG_B a partir de TILE_USER_INDEX. Title logo pertence ao menu e nao fica residente na cena 3."
+  ],
+  "res_graph_evidence": {
+    "measurement_level": "rescomp_source_hash_snapshot",
+    "rom_sha256": "ff8fb909620a13f5fdf402f03b1bdac292244a23096dac50ac80f3ad98bdd160",
+    "build_log": "",
+    "reserved_font_resource": "",
+    "resident_resources": [
+      {
+        "resource_name": "img_bc_stage_bg",
+        "unique_tiles": 940,
+        "measurement_method": "source_png_unique"
+      }
+    ]
+  }
+}

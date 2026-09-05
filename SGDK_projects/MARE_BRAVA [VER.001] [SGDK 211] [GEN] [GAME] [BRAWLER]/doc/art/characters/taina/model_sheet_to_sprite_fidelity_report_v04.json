@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_model_sheet_to_lineart_fidelity_v04",
+  "generated_at": "2026-07-08",
+  "asset_id": "taina",
+  "candidate": {
+    "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v04.png",
+    "sha256": "2c73c04ce4ace109c51613836616d84afa0db8f88d6c7bd3412ff832188a3145",
+    "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v04.png",
+    "review_8x_sha256": "6dba1cc2c1109a11704d4f71873912a6aa5e3cc724906f501ddab65ea7284327",
+    "comparison_board_8x": "doc/art/characters/taina/review/taina_lineart_v04_source_basic_v03_compare_8x_v01.png",
+    "comparison_board_8x_sha256": "ac9bf1239f7edeaaa8e85551e54e7c9940dcca5ee8d4a42eb2e7094173d840f4",
+    "asset_kind": "lineart_blocking_1px_candidate"
+  },
+  "technical_check": {
+    "technical_pass": true,
+    "png_indexed": true,
+    "png_mode": "P",
+    "dimensions_px": {
+      "w": 192,
+      "h": 64
+    },
+    "dimensions_multiple_of_8": true,
+    "cell_px": {
+      "w": 48,
+      "h": 64
+    },
+    "view_count": 4,
+    "used_indices": [
+      0,
+      1
+    ],
+    "index0_is_pipeline_magenta": true,
+    "visible_colors_on_9bit_grid_excluding_index0": true,
+    "visible_colors_max_15": true,
+    "has_alpha_channel": false
+  },
+  "cell_metrics": [
+    {
+      "cell": 0,
+      "bbox_xywh": [
+        8,
+        7,
+        36,
+        50
+      ],
+      "visible_pixels": 341
+    },
+    {
+      "cell": 1,
+      "bbox_xywh": [
+        8,
+        7,
+        37,
+        50
+      ],
+      "visible_pixels": 339
+    },
+    {
+      "cell": 2,
+      "bbox_xywh": [
+        11,
+        7,
+        33,
+        50
+      ],
+      "visible_pixels": 282
+    },
+    {
+      "cell": 3,
+      "bbox_xywh": [
+        7,
+        7,
+        38,
+        50
+      ],
+      "visible_pixels": 340
+    }
+  ],
+  "delta_from_v03": {
+    "improvements": [
+      "slightly cleaner contour density",
+      "some hair hooks and lower-body masses are less noisy than v03",
+      "source/basic/v03 comparison board was produced before any color pass"
+    ],
+    "remaining_failures": [
+      "still reads as a simplified line-symbol puppet rather than the approved TAINA model",
+      "head and hair remain helmet-like despite added hooks",
+      "face does not preserve the brow, nose and jaw identity from the source",
+      "guard is too horizontal and same-height across arms, weakening the diagonal fighting stance",
+      "the candidate is not safe to use as the source for color blocking or animation"
+    ]
+  },
+  "must_preserve_summary": {
+    "curly_hair_mass": "partial_but_helmet_read",
+    "wedge_face": "failed_source_identity_not_preserved",
+    "orange_top_dark_trousers": "partial_pending_color",
+    "teal_wraps_and_sash": "partial",
+    "muay_thai_guard": "failed_too_horizontal",
+    "scale_3_5_heads_48px": "partial_but_authorial_read_failed"
+  },
+  "visual_findings": {
+    "visual_pass": false,
+    "status": "failed_fidelity",
+    "primary_failure": "clean_but_generic_native_symbol",
+    "secondary_failures": [
+      "face_or_eye_readability_lost",
+      "hair_mass_simplified_to_helmet",
+      "guard_pose_too_horizontal",
+      "source_specific_nuance_missing"
+    ]
+  },
+  "decision": {
+    "status": "rejected_as_clean_native_source",
+    "accepted_use": "negative_evidence_and_grid_reference_only",
+    "ready_for_color_blocking": false,
+    "ready_for_key_pose_generation": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "stop producing declarative primitive redraws as candidate sources",
+      "create or obtain a hand-authored native pixel model sheet that traces the approved source crop's head, hair and diagonal guard first",
+      "prove source inheritance with a side-by-side fidelity panel before any color blocking",
+      "keep v01-v04 out of res/ and use them only as negative evidence"
+    ]
+  },
+  "blocking_statuses": [
+    "clean_but_generic_native_symbol",
+    "face_or_eye_readability_lost",
+    "clean_native_lineart_visual_pass_pending",
+    "model_sheet_to_sprite_fidelity_failed_v04",
+    "no_res_promotion_allowed"
+  ]
+}

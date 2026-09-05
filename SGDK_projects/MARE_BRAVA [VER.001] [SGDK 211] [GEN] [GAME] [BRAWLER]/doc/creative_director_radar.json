@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "mare_brava",
+  "radar_id": "mare_brava_slice_radar_v01",
+  "source_authority": {
+    "gdd_ref": "doc/11-gdd.md",
+    "project_bible_ref": "doc/00-project-brief.md",
+    "genre_or_specialization_ref": "doc/genre_specialization_manifest.json",
+    "curation_source_note": "Radar materializado do GDD aprovado e dos contratos do slice; benchmarks sao barras de qualidade e nao fontes de copia."
+  },
+  "project_promise": {
+    "one_sentence": "Um belt scroller costeiro brasileiro onde cada golpe move a mare e o cais vira arma.",
+    "target_player_feeling": "Peso fisico, tensao espacial e orgulho de uma identidade costeira autoral.",
+    "non_generic_identity": "Ring-out na agua, fauna do cais e percussao FM unem mecanica, mundo e som.",
+    "first_10_seconds_test": "Em dez segundos o jogador deve reconhecer o cais, a faixa de luta e a leitura de risco da agua sem texto explicativo."
+  },
+  "benchmark_axis_matrix": [
+    {
+      "axis": "mechanics",
+      "benchmark_title": "Streets of Rage 2",
+      "benchmark_role": "mechanical_pattern",
+      "inherited_quality": "Resposta imediata e controle de crowd legivel.",
+      "project_specific_translation": "Combo A-A-A com knockback direcional e ring-out costeiro.",
+      "forbidden_copy_boundary": "Nao copiar personagens, arenas, golpes ou layouts.",
+      "evidence_metric": "Hitstop e dano observados em frames controlados no BlastEm.",
+      "status": "planned"
+    },
+    {
+      "axis": "game_feel",
+      "benchmark_title": "Shinobi III",
+      "benchmark_role": "technical_feasibility_reference",
+      "inherited_quality": "Antecipacao, impacto e recovery comunicam intencao.",
+      "project_specific_translation": "Telegraph de CRIA/ESTIVADOR e hitstop 2/3/5 frames.",
+      "forbidden_copy_boundary": "Nao copiar poses iconicas ou coreografia.",
+      "evidence_metric": "Frame data e captura multi-frame com estado observado.",
+      "status": "planned"
+    },
+    {
+      "axis": "visual_identity",
+      "benchmark_title": "Comix Zone",
+      "benchmark_role": "visual_density_reference",
+      "inherited_quality": "Linha angular e planos fortes sobrevivem a paleta restrita.",
+      "project_specific_translation": "Materiais de madeira, agua e tecido com silhuetas autorais de 3.5 cabecas.",
+      "forbidden_copy_boundary": "Nao copiar traco, personagens, vinhetas ou composicao.",
+      "evidence_metric": "Leitura 320x224 e pixel contract com fontes autorais.",
+      "status": "planned"
+    },
+    {
+      "axis": "audio",
+      "benchmark_title": "YM2612 arcade brasileiro",
+      "benchmark_role": "audio_reference",
+      "inherited_quality": "Timbre FM da identidade e SFX critico audivel.",
+      "project_specific_translation": "Percussao FM curta, baixo de mar e SFX de impacto/espuma sem mascaramento.",
+      "forbidden_copy_boundary": "Nao copiar melodias, samples ou arranjos.",
+      "evidence_metric": "Audio validation, loop report e captura BlastEm com audio.",
+      "status": "planned"
+    },
+    {
+      "axis": "technical_spectacle",
+      "benchmark_title": "Mega Drive H40",
+      "benchmark_role": "technical_feasibility_reference",
+      "inherited_quality": "Parallax e feedback cabem com ownership deterministico.",
+      "project_specific_translation": "Line scroll no BG_B, wave-lock e shake apenas em ring-out.",
+      "forbidden_copy_boundary": "Nao vender efeito isolado sem consequencia jogavel.",
+      "evidence_metric": "Pior frame, DMA/VBlank, sprites por scanline e hash da ROM.",
+      "status": "planned"
+    }
+  ],
+  "signature_pillars": [
+    {
+      "pillar_id": "peso_de_mare",
+      "axis": "game_feel",
+      "player_visible_payoff": "O terceiro golpe desloca o inimigo e muda a geometria do combate.",
+      "production_artifacts": ["doc/contracts/mechanic_contract.json", "doc/contracts/frame_data/cria.json"],
+      "status": "planned"
+    },
+    {
+      "pillar_id": "cais_como_arma",
+      "axis": "level_design",
+      "player_visible_payoff": "A espuma e a beirada transformam posicionamento em risco/recompensa.",
+      "production_artifacts": ["doc/contracts/level_blueprint.json", "doc/contracts/object_placement_map.json"],
+      "status": "planned"
+    },
+    {
+      "pillar_id": "identidade_costeira",
+      "axis": "visual_identity",
+      "player_visible_payoff": "Silhuetas, materiais e landmarks contam Porto Bravo sem depender de texto.",
+      "production_artifacts": ["doc/art/master_style_manifest.json", "doc/contracts/level_art_assembly_contract.json"],
+      "status": "planned"
+    },
+    {
+      "pillar_id": "percussao_de_impacto",
+      "axis": "audio",
+      "player_visible_payoff": "O ouvido distingue golpe, alerta, espuma e respiro da arena.",
+      "production_artifacts": ["doc/audio_architecture_card.json", "doc/sfx_priority_matrix.json"],
+      "status": "planned"
+    }
+  ],
+  "proactive_gap_radar": [
+    {
+      "gap_id": "taina_native_lineart",
+      "axis": "visual_identity",
+      "current_symptom": "TAINA ainda nao possui lineart nativa 48x64 aceita.",
+      "why_it_limits_the_game": "Sem a silhueta nativa, nenhum sprite critico pode entrar no slice como arte final.",
+      "proposed_director_move": "Obter lineart 1px autoral e executar basic+elite antes da promocao.",
+      "target_docs": ["doc/art/characters/taina/taina_reseed_native_translation_contract_v01.json", "doc/active_iteration.json"],
+      "owner_skill": "art-translation-to-vdp",
+      "priority": "signature",
+      "decision_state": "accepted",
+      "acceptance_evidence": "lineart_blocking_1px + translation reports + aprovacao humana"
+    },
+    {
+      "gap_id": "dock_scene_kit",
+      "axis": "level_design",
+      "current_symptom": "CAIS possui contrato de montagem, mas o kit modular completo ainda nao foi entregue.",
+      "why_it_limits_the_game": "Sem boards reutilizaveis, o mundo vira panorama e nao level montavel.",
+      "proposed_director_move": "Produzir floor/edge, props, landmarks, BG_B e foreground como candidatos separados.",
+      "target_docs": ["doc/contracts/level_art_assembly_contract.json", "doc/contracts/object_placement_map.json"],
+      "owner_skill": "multi-plane-composition",
+      "priority": "high",
+      "decision_state": "accepted",
+      "acceptance_evidence": "kit inventory + assembly report + pixel contract"
+    },
+    {
+      "gap_id": "stage_audio_identity",
+      "axis": "audio",
+      "current_symptom": "So existem WAVs de branding; CAIS nao tem BGM nem loop auditado.",
+      "why_it_limits_the_game": "A percussao FM e parte da promessa e o gameplay nao pode fechar sem identidade sonora.",
+      "proposed_director_move": "Autorizar uma composicao core_loop_10m com loop e protecao de SFX.",
+      "target_docs": ["doc/audio_architecture_card.json", "doc/composition_scope_contract.json", "doc/17-audio-design.md"],
+      "owner_skill": "code/xgm2-audio-director",
+      "priority": "high",
+      "decision_state": "accepted",
+      "acceptance_evidence": "source musical + seamless_loop_report + validate_audio + BlastEm"
+    },
+    {
+      "gap_id": "combined_scene_budget",
+      "axis": "technical_spectacle",
+      "current_symptom": "A residencia total estimada e 2117 tiles contra teto util de 1740.",
+      "why_it_limits_the_game": "A cena nao pode carregar todos os assets e manter o claim de hardware real.",
+      "proposed_director_move": "Separar residencia por cena e janela de animacao, medir o pior frame e cortar por contrato.",
+      "target_docs": ["doc/07-budget-vram-dma.md", "doc/contracts/tilemap_streaming_contract.json"],
+      "owner_skill": "megadrive-vdp-budget-analyst",
+      "priority": "high",
+      "decision_state": "accepted",
+      "acceptance_evidence": "tile residency + DMA queue + runtime_metrics com ROM hash"
+    },
+    {
+      "gap_id": "full_combat_playtest",
+      "axis": "mechanics",
+      "current_symptom": "O jab foi observado, mas combo de tres hits, iframe e ring-out ainda nao foram isolados.",
+      "why_it_limits_the_game": "Um dano observado nao prova o loop completo nem a ausencia de exploits.",
+      "proposed_director_move": "Roteirizar tres cenarios de BlastEm e registrar estado ROM-side.",
+      "target_docs": ["doc/contracts/mechanic_contract.json", "doc/14-plano-de-provas-qa.md"],
+      "owner_skill": "collision-system-architect",
+      "priority": "high",
+      "decision_state": "accepted",
+      "acceptance_evidence": "capture de ts1/ts2/ts3 + SRAM observada + relatorio de playtest"
+    }
+  ],
+  "signature_scene_candidates": [
+    {
+      "scene_id": "cais_01_arena3",
+      "signature_moment": "A heroina encadeia o terceiro golpe na faixa de espuma e envia o ESTIVADOR para a agua.",
+      "gameplay_payoff": "Ring-out economiza vida e encerra uma composicao de alto risco.",
+      "visual_payoff": "Espuma, splash e silhueta contra o por-do-sol tornam a regra legivel.",
+      "audio_payoff": "Impacto seco, pausa de hitstop e splash ocupam prioridades distintas.",
+      "technical_showcase": "Wave-lock, line scroll, janela de sprites e shake limitado ao evento.",
+      "fallback": "Knockback sem shake e splash reduzido preservam a decisao se o budget apertar."
+    }
+  ],
+  "do_not_copy_policy": {
+    "benchmark_usage": "quality_bar_only",
+    "forbidden_uses": ["asset_copy", "layout_copy", "character_copy", "music_copy", "logo_copy"],
+    "authorial_translation_required": true,
+    "clone_risk_gate_required": true
+  },
+  "decision_policy": {
+    "proactivity_required": true,
+    "feature_creep_guard": true,
+    "gdd_tdd_sync_required": true,
+    "human_scope_approval_required": true,
+    "no_silent_scope_expansion": true
+  },
+  "approval_status": "ready_for_human_review",
+  "blockers": ["taina_native_48x64_lineart_visual_fidelity_pending", "stage_audio_source_missing", "combined_scene_budget_missing"]
+}

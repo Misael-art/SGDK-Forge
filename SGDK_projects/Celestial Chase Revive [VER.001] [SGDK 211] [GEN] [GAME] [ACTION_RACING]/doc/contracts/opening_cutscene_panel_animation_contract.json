@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "animations": [
+    {"id": "lio_blink", "frames": 2, "loop": "single_or_slow"},
+    {"id": "lumen_pulse", "frames": 3, "loop": "slow_pulse"},
+    {"id": "gate_crack_flash", "frames": 2, "loop": "none"}
+  ],
+  "budget_rule": "small animation cells only; no full panel animation in first slice"
+}

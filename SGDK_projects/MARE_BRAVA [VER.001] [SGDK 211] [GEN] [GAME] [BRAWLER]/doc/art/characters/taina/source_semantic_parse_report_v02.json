@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_reseed_native_lineart",
+  "status": "parsed_for_lineart_only",
+  "approved_authorial_source": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "layout_classification": "editorial_board"
+  },
+  "keep_regions": ["three_quarter_guard", "front_full_body", "head_and_face", "hair_mass", "right_side_sash_tail"],
+  "drop_regions": ["white_editorial_background", "palette_swatch_row", "impact_starburst", "ground_sketch_lines"],
+  "must_preserve": ["irregular tied curly hair mass", "slanted brow and wedge face", "high diagonal Muay Thai guard", "burned orange top silhouette", "wide indigo trouser mass", "teal wraps and right-side sash", "two readable bare feet"],
+  "logical_canvas": {"width": 48, "height": 64, "pivot": {"x": 24, "y": 60}},
+  "route": "assisted_native_translation",
+  "claim_ceiling": "semantic_parse_only"
+}

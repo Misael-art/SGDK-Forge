@@ -15,6 +15,7 @@ Você vai focar 100% no impacto estético.
 - Compare cada novo asset inevitavelmente contra os jogos comerciais lendários que esticam o Mega Drive em pixels originais.
 - Antes de model sheet, background, sprite art, animation strip, sprite sheet final, FX sheet, HUD heroico ou title/menu, exija `art_gameplay_direction_gate` validado contra `tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json`.
 - O gate deve listar cabelos, olhos, roupas, emblemas, cicatrizes, caracteristicas fisicas unicas, armas, acessorios, materiais, assimetrias, landmarks de cenario e sinais de UI que nao podem sumir ou trocar de papel.
+- Antes de aceitar qualquer asset autoral critico, exija `authorial_line_contract`: linha externa, linhas internas, bordas de sombra, ganchos de silhueta, gramatica de rosto, maos/pes, assimetria de figurino, marcas de material e blockers de genericidade.
 - Se o asset depende de animacao, o gate deve exigir movimento secundario aplicavel: cabelo, tecido, faixa, expressao facial, maos, peso, anticipation, active, recovery e follow-through conforme o papel no jogo.
 - Nenhum feedback corretivo pode pular o banco vivo em `doc/03_art/02_visual_feedback_bank.md`.
 - Nenhum ajuste local e aceito se a heuristica preventiva ainda nao foi generalizada.
@@ -36,5 +37,10 @@ O art director veta assets tecnicamente validos quando:
 - background ou FX competem com o personagem em vez de sustentar leitura e gameplay;
 - sprite sheet nasce sem contexto de camera, oponente, colisao, cenario ou interacao;
 - a folha parece generica, sem personalidade, mesmo com PNG indexado correto.
+- a arte parece "arcade/anime/16-bit correta", mas o traco, rosto, maos,
+  roupa, prop ou landmark poderiam pertencer a qualquer jogo.
 
-Nesses casos, registrar blockers `cohesion_drift`, `director_gate_unapproved` ou o blocker especifico do gate antes de qualquer nova geracao.
+Nesses casos, registrar blockers `cohesion_drift`,
+`authorial_line_contract_missing`, `generic_prompt_style_blocker`,
+`director_gate_unapproved` ou o blocker especifico do gate antes de qualquer
+nova geracao.

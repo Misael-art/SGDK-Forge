@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina",
+  "evaluated_at": "2026-08-29",
+  "status": "human_source_decision_passed_validator_passed",
+  "validator": {
+    "tool": "tools/sgdk_wrapper/validate_visual_source_of_truth.ps1",
+    "status": "passed",
+    "validated_at": "2026-08-31T19:14:55-03:00",
+    "report_path": "out/logs/visual_source_lineage_report.json",
+    "report_sha256": "341e81b822e6c906ade5d47c44a3c0c7ab7519dd34ac64a1198779068a5c4288"
+  },
+  "approved_authorial_source": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "role": "authorial_concept",
+    "approval_status": "approved_as_direction",
+    "source_status": "approved_authorial_source_for_pixel_translation",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a"
+  },
+  "allowed_generation_sources": [
+    {
+      "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+      "role": "model_sheet",
+      "source_status": "approved_authorial_model_sheet"
+    },
+    {
+      "path": "doc/art/characters/taina/visual_dna_manifest.json",
+      "role": "visual_dna",
+      "source_status": "identity_contract"
+    },
+    {
+      "path": "doc/art/authorial_line_style_contract.json",
+      "role": "direction_brief",
+      "source_status": "direction_contract"
+    },
+    {
+      "path": "doc/art/characters/taina/art_gameplay_direction_gate_reseed_v02.json",
+      "role": "art_gameplay_direction_gate",
+      "source_status": "direction_contract"
+    },
+    {
+      "path": "doc/human_approval_record.md",
+      "role": "human_review_record",
+      "source_status": "human_approval"
+    },
+    {
+      "path": "doc/art/characters/taina/taina_reseed_native_translation_contract_v01.json",
+      "role": "lineart_blocking",
+      "source_status": "lineart_gate"
+    }
+  ],
+  "forbidden_generation_sources": [
+    "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+    "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v06.png",
+    "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+    "res/sprites/characters/taina/*.png"
+  ],
+  "obsolete_assets": [
+    {
+      "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "negative_evidence",
+        "comparison_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "Retrocesso de proporcao e fidelidade; nunca orientar novo desenho."
+    },
+    {
+      "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v06.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "negative_evidence",
+        "comparison_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "Probe intermediario que nao preserva a baseline autoral."
+    },
+    {
+      "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "negative_evidence",
+        "comparison_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "Contato melhorou, mas cabelo, face e guarda regrediram."
+    },
+    {
+      "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v01.png",
+      "generation_source_status": "approved_visual_construction_reference_not_identity_source",
+      "allowed_usage": [
+        "construction_reference",
+        "comparison_only",
+        "not_direct_runtime_asset"
+      ],
+      "reason": "Aprovada visualmente pelo humano; RGB 1086x1448 impede somente promocao direta para runtime."
+    },
+    {
+      "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02a.png",
+      "generation_source_status": "approved_visual_construction_reference_not_identity_source",
+      "allowed_usage": [
+        "construction_reference",
+        "comparison_only",
+        "not_direct_runtime_asset"
+      ],
+      "reason": "Aprovada visualmente pelo humano; RGB 1086x1448 impede somente promocao direta para runtime."
+    },
+    {
+      "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02b.png",
+      "generation_source_status": "approved_visual_construction_reference_not_identity_source",
+      "allowed_usage": [
+        "construction_reference",
+        "comparison_only",
+        "not_direct_runtime_asset"
+      ],
+      "reason": "Aprovada visualmente pelo humano; RGBA 1086x1448 impede somente promocao direta para runtime."
+    },
+    {
+      "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02.png",
+      "generation_source_status": "approved_visual_construction_reference_not_native",
+      "allowed_usage": ["construction_reference", "comparison_only", "not_direct_runtime_asset"],
+      "reason": "Direcao visual aprovada pelo humano; tecnicamente rejeitada como asset nativo: RGB 1086x1448, xadrez assado e sem canvas logico 48x64. Permitida apenas como referencia lateral de construcao; nao reduzir, quantizar ou usar como fonte."
+    }
+  ],
+  "partial_runtime_candidates": [
+    {
+      "path": "res/sprites/characters/taina/taina_idle_guard_48x64_v02.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "runtime_status": "runtime_candidate_not_aaa_not_source",
+      "missing_gates": [
+        "approved_reseed_fidelity",
+        "visual_delivery",
+        "live_scene_bar"
+      ]
+    },
+    {
+      "path": "res/sprites/characters/taina/taina_combo_hit_1_jab_runtime_unique_64x64_v02.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "runtime_status": "runtime_evidence_only_not_source",
+      "missing_gates": [
+        "approved_reseed_fidelity",
+        "complete_motion_proof",
+        "visual_delivery"
+      ]
+    }
+  ],
+  "lineage_scan_policy": {
+    "blocked_fields": [
+      "source",
+      "baseline",
+      "reference_for_generation",
+      "img2img_base",
+      "generation_source",
+      "image_reference"
+    ],
+    "scan_roots": [
+      "doc/art",
+      "data/source_art",
+      "data/processed"
+    ]
+  },
+  "decision": {
+    "generation_source_locked": true,
+    "next_sprite_sheet_must_start_from_model_sheet": true,
+    "scale_gate": "reopened_for_controlled_native_shootout",
+    "scale_shootout": ["48x64", "56x80", "64x96"],
+    "ready_for_aaa": false,
+    "next_authoring_step": "Gerar uma única idle guard por hipótese a partir do model sheet; comparar 48x64, 56x80 e 64x96 sem resize silencioso; key poses, strips e res continuam bloqueados."
+  },
+  "status_disambiguation": {
+    "human_source_decision": "passed",
+    "human_source_decision_at": "2026-08-29",
+    "human_source_decision_scope": "aprova a fonte autoral como direcao; NAO aprova nenhum asset nativo",
+    "automated_validator": "passed",
+    "automated_validator_tool": "tools/sgdk_wrapper/validate_visual_source_of_truth.ps1",
+    "automated_validator_last_attempt": "2026-08-31",
+    "automated_validator_outcome": "passed; report persisted at out/logs/visual_source_lineage_report.json",
+    "why_this_field_exists": "um unico campo 'status: passed' fazia a decisao humana sobre a FONTE parecer aprovacao do validador sobre o CONTRATO. Sao coisas diferentes e so uma delas aconteceu."
+  },
+  "lineage_migrated_at": "2026-08-30",
+  "native_asset_state": "nenhuma TAINA 48x64 nativa aprovada; rota assisted_native_translation nao gera pixel por codigo (`python3 -m forge_art translate` registra o encaminhamento ao produtor capaz)"
+}

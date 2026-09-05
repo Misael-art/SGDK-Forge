@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "race_start_handoff",
+  "status": "planned",
+  "resource_model": "handoff_reuse_with_explicit_owner_reset",
+  "states": [
+    {
+      "state_id": "handoff_00_anchor",
+      "vram_resident_set": {"cutscene_tail_tiles": "reuse", "road_runtime_tiles": "preloaded_or_static"},
+      "load_time_dma_cost": "none unless race road tiles were not preloaded",
+      "per_frame_dma_cost": "none",
+      "budget_decision": "planned"
+    },
+    {
+      "state_id": "handoff_01_letterbox_release",
+      "vram_resident_set": {"hud_tiles": "resident_or_preloaded", "road_runtime_tiles": "resident"},
+      "load_time_dma_cost": "small hud preload if not resident",
+      "per_frame_dma_cost": "window/tile reveal only",
+      "budget_decision": "planned"
+    },
+    {
+      "state_id": "handoff_02_control_release",
+      "vram_resident_set": {"player_sprite_tiles": "resident", "hud_tiles": "resident"},
+      "load_time_dma_cost": "none",
+      "per_frame_dma_cost": "player frame and SAT only",
+      "budget_decision": "planned"
+    }
+  ],
+  "fallback": "hard cut to runtime road after one black frame if letterbox transition conflicts with WINDOW ownership"
+}

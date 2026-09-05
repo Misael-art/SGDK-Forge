@@ -1,0 +1,241 @@
+{
+  "tool": "build_model_sheet_v01",
+  "views": [
+    "front",
+    "three_quarter",
+    "side",
+    "three_quarter_back",
+    "back"
+  ],
+  "palette_slots_used": 12,
+  "palette_on_lattice": true,
+  "cells": [
+    {
+      "view": "front",
+      "ramp_areas": [
+        197,
+        80,
+        64,
+        42,
+        32
+      ],
+      "monotonic_falloff": true,
+      "opaque_pct": 65.62,
+      "center_idx0_pct": 0.0,
+      "body_px": 415,
+      "foot_px": 68,
+      "outline_closed": true,
+      "distinct": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "light_centroid": [
+        -3.77,
+        -3.94
+      ],
+      "dark_centroid": [
+        5.44,
+        6.72
+      ],
+      "light_direction_respected": true,
+      "eye_boxes": [
+        [
+          5,
+          7
+        ],
+        [
+          4,
+          7
+        ]
+      ]
+    },
+    {
+      "view": "three_quarter",
+      "ramp_areas": [
+        203,
+        77,
+        62,
+        42,
+        30
+      ],
+      "monotonic_falloff": true,
+      "opaque_pct": 65.23,
+      "center_idx0_pct": 0.0,
+      "body_px": 414,
+      "foot_px": 68,
+      "outline_closed": true,
+      "distinct": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "light_centroid": [
+        -3.85,
+        -3.87
+      ],
+      "dark_centroid": [
+        5.83,
+        6.47
+      ],
+      "light_direction_respected": true,
+      "eye_boxes": [
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          7
+        ]
+      ]
+    },
+    {
+      "view": "side",
+      "ramp_areas": [
+        217,
+        85,
+        64,
+        41,
+        31
+      ],
+      "monotonic_falloff": true,
+      "opaque_pct": 64.06,
+      "center_idx0_pct": 0.0,
+      "body_px": 438,
+      "foot_px": 64,
+      "outline_closed": true,
+      "distinct": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "light_centroid": [
+        -3.91,
+        -3.64
+      ],
+      "dark_centroid": [
+        5.52,
+        6.56
+      ],
+      "light_direction_respected": true,
+      "eye_boxes": [
+        [
+          4,
+          7
+        ]
+      ]
+    },
+    {
+      "view": "three_quarter_back",
+      "ramp_areas": [
+        230,
+        96,
+        64,
+        41,
+        29
+      ],
+      "monotonic_falloff": true,
+      "opaque_pct": 64.45,
+      "center_idx0_pct": 0.0,
+      "body_px": 460,
+      "foot_px": 68,
+      "outline_closed": true,
+      "distinct": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11
+      ],
+      "light_centroid": [
+        -3.62,
+        -3.54
+      ],
+      "dark_centroid": [
+        5.93,
+        6.36
+      ],
+      "light_direction_respected": true
+    },
+    {
+      "view": "back",
+      "ramp_areas": [
+        230,
+        96,
+        64,
+        42,
+        32
+      ],
+      "monotonic_falloff": true,
+      "opaque_pct": 65.62,
+      "center_idx0_pct": 0.0,
+      "body_px": 464,
+      "foot_px": 68,
+      "outline_closed": true,
+      "distinct": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11
+      ],
+      "light_centroid": [
+        -3.62,
+        -3.54
+      ],
+      "dark_centroid": [
+        5.44,
+        6.72
+      ],
+      "light_direction_respected": true
+    }
+  ],
+  "findings": [],
+  "status": "pass",
+  "ramp_stops": [
+    0.4945,
+    0.188,
+    -0.1062,
+    -0.3434
+  ],
+  "ref_ramp_share": [
+    154,
+    64,
+    43,
+    29,
+    25
+  ]
+}

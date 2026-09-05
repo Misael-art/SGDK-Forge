@@ -1,0 +1,36 @@
+{
+  "schema_version": "native_idle_key_pose_palette_role_map.v1",
+  "shared_geometry": {
+    "silhouette_source": "native_idle_key_pose_basic_v01.xpm",
+    "silhouette_sha256": "7181a2e694236711430f9f2bdcfcca461c3ab92c7cc2ca68dfec77328c0e33f3",
+    "lineart_policy": "same 1px contour and same 692 visible pixels in BASIC and ELITE",
+    "light_direction": "upper_left",
+    "shadow_direction": "lower_right",
+    "skin_dither": false
+  },
+  "basic": {
+    "asset_id": "native_idle_key_pose_basic_v01",
+    "visible_colors": 9,
+    "roles": {
+      "transparent0": [0],
+      "outline_shared": [1],
+      "body_pink": [2, 3, 7],
+      "eyes": [4, 5],
+      "cheeks": [6],
+      "feet_red": [8, 9]
+    }
+  },
+  "elite": {
+    "asset_id": "native_idle_key_pose_elite_v01",
+    "visible_colors": 12,
+    "roles": {
+      "transparent0": [0],
+      "outline_shared": [1],
+      "body_pink": [2, 3, 4, 9],
+      "eyes": [5, 6],
+      "cheeks": [7, 8],
+      "feet_red": [10, 11, 12]
+    }
+  },
+  "decision": "ELITE adds only internal body, cheek and foot clusters; anatomy, silhouette, lineart, pivot and baseline are unchanged."
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_idle_guard_facial_expression_v02",
+  "generated_at": "2026-07-29",
+  "animation_id": "idle_guard",
+  "applicability": "warning",
+  "reason": "The face is an identity hook, but its native area is too small for a reliable animated blink without risking wedge-face degradation.",
+  "status": "focused_face_locked_no_blink_in_v02",
+  "measurement_level": "measured",
+  "frame_budget_impact_estimate": "no additional frames",
+  "emotion_arc": "focused guard throughout the loop",
+  "eye_blink_pattern": "not_used_in_v02; future dedicated facial pass required",
+  "asymmetry_policy": "wedge-face lighting remains stable; no frame-specific facial redraw",
+  "eyebrow_independence": "not_readable_at_current_native_scale",
+  "pain_keyframe_anchors": "not_applicable_idle",
+  "blocker_for_future_hurt_or_cutscene": "dedicated_facial_keyframes_required"
+}

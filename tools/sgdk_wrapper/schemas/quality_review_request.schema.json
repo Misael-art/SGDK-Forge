@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/quality_review_request.schema.json",
+  "title": "Quality Review Request",
+  "type": "object",
+  "required": [
+    "schema_version", "artifact_kind", "review_id", "review_stage",
+    "project_context", "project_root", "as_of", "current_claim_ceiling",
+    "changed_domains", "risk_flags", "requested_domains",
+    "commercial_intent", "narrative_weight", "audio_weight", "artifacts",
+    "producer_ids"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "quality_review_request"},
+    "review_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{2,63}$"},
+    "review_stage": {"enum": ["foundation", "pre_growth", "vertical_slice", "release_candidate"]},
+    "project_context": {"enum": ["aaa_game", "technical_demo", "exercise", "game_review", "consulting"]},
+    "project_root": {"type": "string", "minLength": 1},
+    "as_of": {"type": "string", "format": "date"},
+    "current_claim_ceiling": {"type": "string", "minLength": 1},
+    "changed_domains": {"$ref": "#/definitions/domain_list_nonempty"},
+    "risk_flags": {
+      "type": "array", "uniqueItems": true,
+      "items": {"enum": [
+        "scope_growth", "identity_drift", "gameplay_unproven", "level_rhythm",
+        "narrative_drift", "commercial_release", "audio_masking",
+        "art_regression", "animation_semantics", "runtime_risk",
+        "hardware_pressure", "claim_risk"
+      ]}
+    },
+    "requested_domains": {
+      "type": "array", "maxItems": 3, "uniqueItems": true,
+      "items": {"$ref": "#/definitions/domain"}
+    },
+    "commercial_intent": {"type": "boolean"},
+    "narrative_weight": {"enum": ["none", "light", "substantial"]},
+    "audio_weight": {"enum": ["none", "supporting", "critical"]},
+    "artifacts": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "role"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "role": {"enum": [
+            "design_doc", "gdd", "script", "level_blueprint", "mechanic_report",
+            "rom", "emulator_capture", "input_trace", "visual_asset",
+            "art_direction", "audio_capture", "audio_contract",
+            "market_source_pack", "code_diff", "hardware_report", "other"
+          ]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "producer_ids": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "definitions": {
+    "domain": {"enum": [
+      "game_design", "gameplay", "mechanics", "level_design", "narrative",
+      "market", "art", "animation", "audio", "code", "hardware", "governance"
+    ]},
+    "domain_list_nonempty": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"$ref": "#/definitions/domain"}
+    }
+  },
+  "additionalProperties": false
+}

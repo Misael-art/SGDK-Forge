@@ -13,6 +13,10 @@
 #define CRIA_LANE_PX 12
 #define CRIA_COOLDOWN_FRAMES 24
 #define CRIA_KNOCKBACK_PX (-8)
+#define CRIA_MAX_HP 40
+#define CRIA_HURT_FRAMES 12
+#define CRIA_IFRAME_FRAMES 8
+#define CRIA_PLAYER_HIT_RANGE 56
 #define CRIA_IDLE_COUNT 4
 #define CRIA_WALK_COUNT 4
 #define CRIA_TEL_COUNT 4
@@ -24,7 +28,8 @@ typedef enum CriaAiState {
     CRIA_AI_APPROACH,
     CRIA_AI_TELEGRAPH,
     CRIA_AI_ATTACK,
-    CRIA_AI_RECOVER
+    CRIA_AI_RECOVER,
+    CRIA_AI_HURT
 } CriaAiState;
 
 static Sprite *sSprite;
@@ -33,6 +38,11 @@ static CriaAiState sState;
 static u8 sFrame;
 static u8 sTicks;
 static u8 sCooldown;
+static u8 sHealth;
+static u8 sHurtFrames;
+static u8 sIframes;
+static fix16 sKnockbackVelocity;
+static bool sActive;
 static bool sHitLanded;
 static const u8 sIdleDuration[CRIA_IDLE_COUNT] = { 8, 7, 8, 7 };
 static const u8 sWalkDuration[CRIA_WALK_COUNT] = { 5, 4, 5, 4 };
@@ -73,6 +83,14 @@ static bool criaSetState(CriaAiState state)
     sTicks = 0;
     sHitLanded = FALSE;
     return TRUE;
+}
+
+static void criaClampWorldX(void)
+{
+    if (F16_toInt(sX) < CRIA_MIN_X) {
+        sX = FIX16(CRIA_MIN_X);
+        sKnockbackVelocity = 0;
+    }
 }
 
 static s16 criaDeltaX(fix16 playerX)
@@ -158,6 +176,11 @@ bool CRIA_enter(s16 cameraX)
     sFrame = 0;
     sTicks = 0;
     sCooldown = 0;
+    sHealth = CRIA_MAX_HP;
+    sHurtFrames = 0;
+    sIframes = 0;
+    sKnockbackVelocity = 0;
+    sActive = TRUE;
     sHitLanded = FALSE;
     sSprite = SPR_addSprite(
         &spr_cria_idle_lean,
@@ -174,6 +197,46 @@ bool CRIA_enter(s16 cameraX)
     return TRUE;
 }
 
+bool CRIA_receiveHit(fix16 attackerX, bool attackerFacingRight, u8 damage, s16 knockbackPx)
+{
+    s16 distance;
+
+    if (!sActive || (sSprite == NULL) || (sIframes > 0)) {
+        return FALSE;
+    }
+
+    distance = F16_toInt(sX) - F16_toInt(attackerX);
+    if ((attackerFacingRight && ((distance < 0) || (distance > CRIA_PLAYER_HIT_RANGE))) ||
+        (!attackerFacingRight && ((distance > 0) || (distance < -CRIA_PLAYER_HIT_RANGE)))) {
+        return FALSE;
+    }
+
+    if (damage >= sHealth) {
+        sHealth = 0;
+        sActive = FALSE;
+        sKnockbackVelocity = 0;
+        SPR_setPosition(sSprite, -64, -64);
+        return TRUE;
+    }
+
+    sHealth -= damage;
+    sIframes = CRIA_IFRAME_FRAMES;
+    sHurtFrames = CRIA_HURT_FRAMES;
+    sKnockbackVelocity = FIX16(knockbackPx);
+    criaSetState(CRIA_AI_HURT);
+    return TRUE;
+}
+
+bool CRIA_isActive(void)
+{
+    return sActive;
+}
+
+u8 CRIA_getHealth(void)
+{
+    return sHealth;
+}
+
 void CRIA_update(fix16 playerX, fix16 playerY, bool playerGrounded, s16 cameraX, s16 *knockbackX)
 {
     s16 dx;
@@ -182,6 +245,43 @@ void CRIA_update(fix16 playerX, fix16 playerY, bool playerGrounded, s16 cameraX,
         *knockbackX = 0;
     }
     if (sSprite == NULL) {
+        return;
+    }
+    if (!sActive) {
+        SPR_setPosition(sSprite, -64, -64);
+        return;
+    }
+
+    if (sIframes > 0) {
+        sIframes--;
+    }
+
+    if (sState == CRIA_AI_HURT) {
+        sX += sKnockbackVelocity;
+        if (sKnockbackVelocity > 0) {
+            sKnockbackVelocity -= FIX16(1) >> 2;
+            if (sKnockbackVelocity < 0) {
+                sKnockbackVelocity = 0;
+            }
+        } else if (sKnockbackVelocity < 0) {
+            sKnockbackVelocity += FIX16(1) >> 2;
+            if (sKnockbackVelocity > 0) {
+                sKnockbackVelocity = 0;
+            }
+        }
+        criaClampWorldX();
+        if (sHurtFrames > 0) {
+            sHurtFrames--;
+        }
+        if (sHurtFrames == 0) {
+            sCooldown = CRIA_COOLDOWN_FRAMES;
+            criaSetState(CRIA_AI_IDLE);
+        }
+        SPR_setPosition(
+            sSprite,
+            F16_toInt(sX) - cameraX - CRIA_PIVOT_X,
+            CRIA_WORLD_Y - CRIA_GROUND_Y
+        );
         return;
     }
 
@@ -219,9 +319,7 @@ void CRIA_update(fix16 playerX, fix16 playerY, bool playerGrounded, s16 cameraX,
                 break;
             }
             sX -= FIX16(1) + (FIX16(1) >> 1);
-            if (F16_toInt(sX) < CRIA_MIN_X) {
-                sX = FIX16(CRIA_MIN_X);
-            }
+            criaClampWorldX();
             criaTickWalk();
             break;
 
@@ -250,6 +348,10 @@ void CRIA_update(fix16 playerX, fix16 playerY, bool playerGrounded, s16 cameraX,
                 criaSetState(CRIA_AI_IDLE);
             }
             break;
+
+        /* Handled before this switch so hurt recoil cannot run normal AI. */
+        case CRIA_AI_HURT:
+            break;
     }
 
     SPR_setPosition(
@@ -266,5 +368,10 @@ void CRIA_exit(void)
     sFrame = 0;
     sTicks = 0;
     sCooldown = 0;
+    sHealth = 0;
+    sHurtFrames = 0;
+    sIframes = 0;
+    sKnockbackVelocity = 0;
+    sActive = FALSE;
     sHitLanded = FALSE;
 }

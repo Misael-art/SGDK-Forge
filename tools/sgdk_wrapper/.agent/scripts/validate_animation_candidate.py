@@ -39,6 +39,17 @@ MOTION_CONTRACT_BLOCKERS = {
 }
 
 
+def _json_normalize(value: Any) -> Any:
+    """Make in-memory validator values comparable to their JSON encoding."""
+    if isinstance(value, tuple):
+        return [_json_normalize(item) for item in value]
+    if isinstance(value, list):
+        return [_json_normalize(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _json_normalize(item) for key, item in value.items()}
+    return value
+
+
 def _evidence_ref_is_bound(
     ref: Any, expected_action: str, expected_subject: str, project_root: Path,
     blockers: list[str], *, allow_human: bool = True
@@ -87,7 +98,7 @@ def _rederive_child_reports(
     if (
         strip_report.get("status") != derived_strip.status
         or persisted_strip_blockers != expected_strip_blockers
-        or strip_report.get("metrics") != derived_strip.metrics
+        or _json_normalize(strip_report.get("metrics")) != _json_normalize(derived_strip.metrics)
     ):
         blockers.append("child_validation_report_tampered")
     derived_motion = validate_motion_semantics(contract, project_root, load_object(DEFAULT_REGISTRY), DEFAULT_REGISTRY)
@@ -96,7 +107,7 @@ def _rederive_child_reports(
     if (
         motion_report.get("status") != derived_motion.get("status")
         or persisted_motion_blockers != expected_motion_blockers
-        or motion_report.get("metrics") != derived_motion.get("metrics")
+        or _json_normalize(motion_report.get("metrics")) != _json_normalize(derived_motion.get("metrics"))
     ):
         blockers.append("child_validation_report_tampered")
     if motion_report.get("tool_name") != "validate_motion_semantics" or motion_report.get("tool_version") != MOTION_TOOL_VERSION:

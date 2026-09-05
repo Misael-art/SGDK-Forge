@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "taina_native_48x64_lineart",
+  "evaluated_at": "2026-08-29",
+  "approved_input_only": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "accepted_asset": null,
+  "attempt_policy": "isolated representation routes; a rejected output never becomes an input to a later route",
+  "attempts": [
+    {
+      "id": "A",
+      "route": "codex_builtin_image_generation",
+      "artifact": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v01.png",
+      "result": "human_approved_visual_source_not_direct_runtime_asset",
+      "blockers": ["1086x1448_not_48x64", "rgb_not_indexed", "not_native_1px_lineart", "no_tile_grid_proof"]
+    },
+    {
+      "id": "B",
+      "route": "interactive_gimp_3_2_local_editor",
+      "result": "blocked_before_artifact",
+      "evidence": "GIMP 3.2.4 was invoked both directly and through the desktop launcher; it terminated during plugin initialization and exposed no compositor window.",
+      "blockers": ["local_editor_unavailable_for_interactive_pixel_authoring"]
+    },
+    {
+      "id": "C",
+      "route": "codex_builtin_image_generation_isolated_reprompt",
+      "artifacts": [
+        {
+          "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02a.png",
+          "sha256": "0981854f49ee897a66b8247ada43cf2800745a10e72abe6568c2e9adf09ba855",
+          "observed": "1086x1448 RGB"
+        },
+        {
+          "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02b.png",
+          "sha256": "07c94fde1e2ac30d1c1d049487e6f1f7958ddea2d2760092c4abf91b65fe790b",
+          "observed": "1086x1448 RGBA"
+        }
+      ],
+      "result": "human_approved_visual_sources_not_direct_runtime_assets",
+      "blockers": ["generator_did_not_obey_native_dimensions", "not_indexed", "no_8x8_grid", "not_an_accepted_native_lineart"]
+    },
+    {
+      "id": "D",
+      "route": "author_stamp_8x8_grid_v01",
+      "artifact": "data/processed/characters/taina/lineart/taina_reseed_native_lineart_48x64_v01.png",
+      "sha256": "cac85ac5d327a03483b58e2d2430ee938900a868a0eb9c33b6d8e1636686623d",
+      "result": "technical_pass_visual_rework",
+      "observed": "48x64 indexed 4bpp, index 0 transparent, 1 visible color, 6x8 tile grid; mass-filled construction was not a clean readable lineart blocking.",
+      "blockers": ["lineart_blocking_visual_pass_pending", "generic_blocky_redraw"]
+    },
+    {
+      "id": "E",
+      "route": "author_stamp_8x8_grid_v02_contour",
+      "artifact": "data/processed/characters/taina/lineart/taina_reseed_native_lineart_48x64_v02.png",
+      "sha256": "e86e5aa4d24422c5e3fb132de51a086e942eeb619a1cf20451934e0cd99b6093",
+      "result": "technical_pass_visual_rework",
+      "observed": "48x64 indexed 4bpp, index 0 transparent, 1 visible color, 6x8 tile grid; contour map improved negative space but lost anatomy/guard clarity.",
+      "blockers": ["lineart_blocking_visual_pass_pending", "face_or_eye_readability_lost", "pose_acting_loss"]
+    },
+    {
+      "id": "F",
+      "route": "author_stamp_8x8_grid_v03_connected_silhouette",
+      "artifact": "data/processed/characters/taina/lineart/taina_reseed_native_lineart_48x64_v03.png",
+      "sha256": "a9a678480abed70c7ba1d5dc7bfd1a892e5fe84b8f9c2d9a1315bb700c9cab12",
+      "result": "technical_pass_visual_review_required",
+      "observed": "48x64 indexed 4bpp, index 0 transparent, 1 visible color, 6x8 tile grid; connected silhouette and foot contacts are measured, but face/guard remain generic at native scale.",
+      "blockers": ["lineart_blocking_visual_pass_pending", "generic_blocky_redraw", "face_or_eye_readability_lost"]
+    }
+  ],
+  "decision": "historical_generator_and_GIMP_routes_closed; author_stamp_v01_v03 measured but not promoted because the native lineart visual gate remains open",
+  "decision_superseded_at": "2026-08-30",
+  "gate_classification": "representation_mismatch_not_human",
+  "current_policy": {
+    "deterministic_operations": "forge-art_or_cli_headless",
+    "gimp_batch": "optional_only_for_registered_static_operations_after_preflight",
+    "gimp_gui": "human_only",
+    "pointer_automation": "forbidden_as_production_route",
+    "semantic_native_translation": "capable_visual_producer_required"
+  },
+  "safe_next_input": "a capable-producer-authored native 48x64 indexed PNG that starts only from the approved model sheet and translation contract",
+  "prohibited_workaround": "do not use GUI pointer automation or nearest-neighbor, crop, quantize, trace, or repair any rejected image into a final asset"
+}

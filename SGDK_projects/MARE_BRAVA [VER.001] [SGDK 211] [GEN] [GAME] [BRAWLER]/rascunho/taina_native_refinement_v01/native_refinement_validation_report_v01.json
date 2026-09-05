@@ -1,0 +1,86 @@
+{
+  "approved_source_sha_matches": true,
+  "candidates": [
+    {
+      "name": "basic",
+      "path": "rascunho/taina_native_refinement_v01/taina_48x64_refined_basic_v01.png",
+      "sha256": "e78f77d92614eb0ec2c7a0ec529d7649db025a0a793b93f3b749323708a7b403",
+      "manifest_sha_matches": true,
+      "size": [
+        48,
+        64
+      ],
+      "size_passed": true,
+      "alpha_binary": true,
+      "visible_colors": 9,
+      "visible_colors_passed": true,
+      "silhouette_preserved_pixel_for_pixel": true,
+      "native_1x_byte_identical": true,
+      "nearest_dimensions": [
+        384,
+        512
+      ],
+      "shape_block_reused_from": "taina_48x64_challenger_b",
+      "shape_block_source_sha256": "d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa",
+      "shape_block_valid": true,
+      "matte_report_valid": true,
+      "shape_block_artifacts": {
+        "silhouette_mask": {
+          "path": "rascunho/taina_native_refinement_v01/taina_48x64_refined_basic_v01/shape_block/silhouette_mask.png",
+          "sha256": "26085e79d6d3133311eb181afb0947d268a8438cded0a50c5bfa7825d48b7e9b"
+        },
+        "semantic_region_map": {
+          "path": "rascunho/taina_native_refinement_v01/taina_48x64_refined_basic_v01/shape_block/semantic_region_map.png",
+          "sha256": "87d313262b55987793d1d83c764e1ffb01d2ee69e02bc8d459fa81e15ee6b460"
+        },
+        "contour_overlay": {
+          "path": "rascunho/taina_native_refinement_v01/taina_48x64_refined_basic_v01/shape_block/contour_overlay.png",
+          "sha256": "81ca95179a8ed795352676a8728807e142e923ff2ba87d8fe9081a5af043bccd"
+        }
+      }
+    },
+    {
+      "name": "elite",
+      "path": "rascunho/taina_native_refinement_v01/taina_48x64_refined_elite_v01.png",
+      "sha256": "0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13",
+      "manifest_sha_matches": true,
+      "size": [
+        48,
+        64
+      ],
+      "size_passed": true,
+      "alpha_binary": true,
+      "visible_colors": 11,
+      "visible_colors_passed": true,
+      "silhouette_preserved_pixel_for_pixel": true,
+      "native_1x_byte_identical": true,
+      "nearest_dimensions": [
+        384,
+        512
+      ],
+      "shape_block_reused_from": "taina_48x64_challenger_b",
+      "shape_block_source_sha256": "d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa",
+      "shape_block_valid": true,
+      "matte_report_valid": true,
+      "shape_block_artifacts": {
+        "silhouette_mask": {
+          "path": "rascunho/taina_native_refinement_v01/taina_48x64_refined_elite_v01/shape_block/silhouette_mask.png",
+          "sha256": "26085e79d6d3133311eb181afb0947d268a8438cded0a50c5bfa7825d48b7e9b"
+        },
+        "semantic_region_map": {
+          "path": "rascunho/taina_native_refinement_v01/taina_48x64_refined_elite_v01/shape_block/semantic_region_map.png",
+          "sha256": "87d313262b55987793d1d83c764e1ffb01d2ee69e02bc8d459fa81e15ee6b460"
+        },
+        "contour_overlay": {
+          "path": "rascunho/taina_native_refinement_v01/taina_48x64_refined_elite_v01/shape_block/contour_overlay.png",
+          "sha256": "81ca95179a8ed795352676a8728807e142e923ff2ba87d8fe9081a5af043bccd"
+        }
+      }
+    }
+  ],
+  "res_touched": false,
+  "automatic_winner": null,
+  "status": "passed",
+  "human_visual_gate": "not_started",
+  "promotion": "blocked_until_basic_elite_visual_decision"
+}

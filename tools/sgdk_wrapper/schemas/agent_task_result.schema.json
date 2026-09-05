@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/agent_task_result.schema.json",
+  "title": "Agent Task Result Envelope",
+  "type": "object",
+  "required": [
+    "schema_version", "artifact_kind", "task_id", "status", "context_digest",
+    "claim_ceiling", "summary_words", "raw_log_embedded", "files_read",
+    "files_written", "commands", "evidence", "blockers_removed", "new_blockers",
+    "next_causal_action", "usage"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "agent_task_result"},
+    "task_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["passed", "failed", "blocked", "stale", "needs_review"]},
+    "context_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "claim_ceiling": {"type": "string", "minLength": 1},
+    "summary_words": {"type": "integer", "minimum": 0, "maximum": 600},
+    "raw_log_embedded": {"const": false},
+    "files_read": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/hashed_file"}
+    },
+    "files_written": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/hashed_file"}
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["command_id", "exit_code", "log_path", "log_sha256"],
+        "properties": {
+          "command_id": {"type": "string", "minLength": 1},
+          "exit_code": {"type": "integer"},
+          "log_path": {"type": ["string", "null"]},
+          "log_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/hashed_file"}
+    },
+    "blockers_removed": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "new_blockers": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "next_causal_action": {"type": ["string", "null"]},
+    "usage": {
+      "type": "object",
+      "required": [
+        "model", "reasoning_effort", "input_tokens", "cached_input_tokens",
+        "output_tokens", "tool_calls", "elapsed_ms", "context_capsule_words",
+        "result_words", "duplicate_files_read", "validation_cache_hits"
+      ],
+      "properties": {
+        "model": {"type": ["string", "null"]},
+        "reasoning_effort": {"type": ["string", "null"]},
+        "input_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "cached_input_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "output_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "tool_calls": {"type": "integer", "minimum": 0},
+        "elapsed_ms": {"type": "integer", "minimum": 0},
+        "context_capsule_words": {"type": "integer", "minimum": 0, "maximum": 1200},
+        "result_words": {"type": "integer", "minimum": 0, "maximum": 600},
+        "duplicate_files_read": {"type": "integer", "minimum": 0},
+        "validation_cache_hits": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "hashed_file": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

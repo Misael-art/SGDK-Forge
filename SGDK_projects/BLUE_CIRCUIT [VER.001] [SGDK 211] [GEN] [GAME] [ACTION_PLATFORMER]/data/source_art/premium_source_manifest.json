@@ -1,0 +1,49 @@
+﻿{
+  "schema_version": "2.0.0",
+  "report_kind": "premium_source_manifest",
+  "template_seed": false,
+  "template_prevalidated": false,
+  "production_source_ready": true,
+  "assets": [
+    {
+      "asset_id": "storyboard_candidate_v001",
+      "asset_kind": "storyboard_review_board",
+      "local_path": "data/source_art/storyboard/blue_circuit_storyboard_candidate_v001.png",
+      "sha256": "97db884c6ecdfe2d779e7b0076df29c24d52f4df49d440d931df057a56ee89da",
+      "bytes": 1915935,
+      "source_channel": "codex_builtin_imagegen",
+      "authoring_basis": "Generated original candidate from project GDD/TDD/spec; no protected IP source images used.",
+      "license_or_generation_basis": "workspace-local AI generation approved by the human on 2026-06-27 for VDP translation; not a final runtime asset",
+      "accepted_as_premium_source": true,
+      "human_gate": "gate_1_storyboard",
+      "status": "human_approved_for_vdp_translation"
+    },
+    {
+      "asset_id": "model_sheet_candidate_v001",
+      "asset_kind": "authorial_model_sheet_review_board",
+      "local_path": "data/source_art/model_sheet/blue_circuit_model_sheet_candidate_v001.png",
+      "sha256": "7605f6857f5afa84e2ac20466bb04eccdefd4678755676cbfcd0640f92f220d7",
+      "bytes": 1694627,
+      "source_channel": "codex_builtin_imagegen",
+      "authoring_basis": "Generated original model sheet candidate for player, line_sentry and breaker_core from project direction.",
+      "license_or_generation_basis": "workspace-local AI generation approved by the human on 2026-06-27 for VDP translation; not a final runtime asset",
+      "accepted_as_premium_source": true,
+      "human_gate": "gate_2_model_sheet",
+      "status": "human_approved_for_vdp_translation"
+    },
+    {
+      "asset_id": "spritesheet_candidate_v001",
+      "asset_kind": "spritesheet_review_board",
+      "local_path": "data/source_art/spritesheet/blue_circuit_spritesheet_candidate_v001.png",
+      "sha256": "93031904367b4ad1d53a9c77a1506e23d4f8dd7dddf5112e00ba5492c3119e98",
+      "bytes": 1756733,
+      "source_channel": "codex_builtin_imagegen",
+      "authoring_basis": "Generated original spritesheet review board from the project direction and model-sheet prompt.",
+      "license_or_generation_basis": "workspace-local AI generation approved by the human on 2026-06-27 for VDP translation; not a final runtime asset",
+      "accepted_as_premium_source": true,
+      "human_gate": "gate_3_spritesheet",
+      "status": "human_approved_for_vdp_translation"
+    }
+  ],
+  "notes": "Three local visual candidates were human-approved on 2026-06-27 as production source for VDP translation. None is converted for VDP, promoted to res/, or proven in runtime until the technical gates pass."
+}

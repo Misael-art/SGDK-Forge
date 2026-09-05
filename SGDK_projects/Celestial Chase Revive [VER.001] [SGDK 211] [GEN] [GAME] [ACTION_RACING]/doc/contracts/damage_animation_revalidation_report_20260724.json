@@ -1,0 +1,51 @@
+{
+  "schema": "damage_animation_revalidation_report.v1",
+  "generated_at": "2026-07-24T03:50:00Z",
+  "status": "runtime_contract_pass_visual_asset_fail",
+  "runtime_contract": {
+    "source": "src/scenes/race_scene.c",
+    "animation": "ANIM_DAMAGE",
+    "frame_count": 3,
+    "frame_hold": 6,
+    "priority": "damage_over_jump_and_pulse",
+    "blink_policy": "one hidden interval out of four",
+    "static_regression": "tools/sgdk_wrapper/ci/test_celestial_damage_animation.py",
+    "static_regression_status": "passed",
+    "compiler_status": "passed"
+  },
+  "sprite_artifact": {
+    "report": "out/logs/sprite_artifact_report.json",
+    "status": "technical_pass_visual_fail",
+    "frames_checked": 19,
+    "blocking_findings": 77,
+    "rejection": "doc/contracts/lio_visual_rejection_20260723.json"
+  },
+  "build": {
+    "status": "buildado",
+    "report": "out/logs/linux_wine_build_report.json",
+    "rom": "out/rom.bin",
+    "rom_sha256": "a69050c105c6da29ff47dc098438e2da07b93a34cf03916949168b249adccd26",
+    "rom_size_bytes": 131072
+  },
+  "blastem": {
+    "session_id": "blastem-linux-20260724T034731Z-512798",
+    "session_root": "out/evidence/blastem_revalidation_20260723/blastem-linux-20260724T034731Z-512798",
+    "scene_id": 3,
+    "runtime_animation": "out/evidence/blastem_revalidation_20260723/blastem-linux-20260724T034731Z-512798/runtime_animation.gif",
+    "runtime_animation_sha256": "e593eda6976e7da038cc05fabdf8dd4f099194f15419c5e6d1f04c0feec4a6d6",
+    "damage_contact_sheet": "out/evidence/blastem_revalidation_20260723/blastem-linux-20260724T034731Z-512798/runtime_damage_contact_sheet.png",
+    "damage_contact_sheet_sha256": "a9e16772d686ac892d2c123d8a1042e050ac369d23a6cd6e248f0fc3437c58bc",
+    "runtime_damage_observed": true,
+    "vdp_dump_present": true,
+    "runtime_metrics_present": true,
+    "semantic_gate": "rejected_low_information",
+    "semantic_blocker": "blank_or_low_information_capture"
+  },
+  "decision": {
+    "damage_animation_contract_fulfilled": true,
+    "sprite_visual_pass": false,
+    "scene_visual_pass": false,
+    "ready_for_aaa": false,
+    "claim_limit": "The burst proves that the ROM selects and advances the damage animation. It does not approve Lio's anatomy, silhouette or the low-information race composition; those remain explicitly failed."
+  }
+}

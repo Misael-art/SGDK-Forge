@@ -1,0 +1,39 @@
+{
+  "schema_version": "palette_contract.v1",
+  "scene_id": "vegetable_valley_golden_scene",
+  "hardware": {"visible_palette_slots":4,"slots_per_palette":16,"visible_colors_total_ceiling":58,"reserved_shadow_highlight_slots":"per project doc/PALETTES.md; do not treat operators as ordinary colors"},
+  "roles": [
+    {"consumer":"PAL0","role":"BG_B_distance","colors_target":12,"ramp":"cool cyan_blue_violet with low contrast","note":"mountains and sky share quiet values; no actor colors"},
+    {"consumer":"PAL1","role":"BG_A_playable_terrain","colors_target":12,"ramp":"leaf_green amber ochre umber","note":"grass cap and soil edge must be separable at 1x"}
+  ],
+  "distribution_options": [
+    {
+      "option": "A",
+      "name": "hero_dedicated_enemy_fx_separate",
+      "ownership": {"PAL0":"BG_B_distance", "PAL1":"BG_A_terrain_and_foreground", "PAL2":"hero_dedicated", "PAL3":"enemy_compatible_ramp_and_inhale_fx"},
+      "visual_goal": "maximum hero separation and clear causal FX",
+      "risk": "PAL3 contention between enemy and FX; requires measured slot audit",
+      "decision_status": "preferred_for_next_native_study",
+      "study_reference": "rascunho/nexialist_visual_nucleus_v01/palette_distribution_study_v01.png"
+    },
+    {
+      "option": "B",
+      "name": "hero_enemy_harmonized_foreground_pal1",
+      "ownership": {"PAL0":"BG_B_distance", "PAL1":"BG_A_terrain_and_foreground", "PAL2":"hero_and_enemy_shared_harmonized_ramp", "PAL3":"inhale_fx_and_emissive_accents"},
+      "visual_goal": "most unified character family",
+      "risk": "less hero separation and tighter shared ramp; foreground must stay in PAL1",
+      "decision_status": "comparison_only"
+    },
+    {
+      "option": "C",
+      "name": "hero_dedicated_fx_dedicated_enemy_compatible",
+      "ownership": {"PAL0":"BG_B_distance", "PAL1":"BG_A_terrain_and_foreground", "PAL2":"hero_dedicated", "PAL3":"inhale_fx_dedicated_with_enemy_compatible_subset"},
+      "visual_goal": "strongest ability signal and energy",
+      "risk": "FX can dominate hero/enemy; requires perceptual contrast and scanline review",
+      "decision_status": "comparison_only"
+    }
+  ],
+  "visual_study": {"asset_id":"vegetable_valley_palette_distribution_study_v01", "sha256":"2019635295fe4041b7d71b5ad6a977373562c3639cd1c03da72018fcfede040f", "presentation":"1x thumbnail + nearest-neighbor enlargement + same 320x224 composition in each option", "status":"visual_lab_control_only"},
+  "hero_material_contract": {"light_direction":"upper_left", "skin_steps":5, "area_order":"lightest largest, each darker step smaller", "outline":"dedicated dark slot", "feet":"two warm saturated steps plus one highlight", "eye":"deep plum oval plus one pale specular", "contact":"dedicated base shadow", "alpha":"none", "index0":"transparent"},
+  "validation_before_native_promotion": ["RGB333 lattice", "15 visible colors per consumer", "no alpha partial", "Shadow/Highlight slot audit", "palette_vitality_check at 1x and 320x224", "per_tile_palette_conflict_report"]
+}

@@ -1,4 +1,4 @@
-<# 
+<#
 .SYNOPSIS
     Smoke test for tools/sgdk_wrapper/scene_closeout_gate.ps1 plan mode.
 #>
@@ -48,7 +48,7 @@ Assert-True ($report.status -eq "ok") "Expected common status ok, got '$($report
 Assert-True ([int]$report.summary.planned -ge 1) "Expected planned steps"
 
 $stepNames = @($report.steps | ForEach-Object { $_.name })
-foreach ($expected in @("build", "scene_contract_compiler", "res_graph_audit", "validate_resources", "runtime_capture", "scene_regression", "promotion_claim_audit", "freshness_audit", "evidence_finalize")) {
+foreach ($expected in @("build", "scene_contract_compiler", "res_graph_audit", "validate_resources", "runtime_capture", "screenshot_semantic_gate", "scene_regression", "promotion_claim_audit", "fresh_evidence_bundle_audit", "freshness_audit", "doc_sync_audit", "evidence_finalize")) {
     Assert-True ($stepNames -contains $expected) "Expected planned step '$expected'"
 }
 $compilerStep = $report.steps | Where-Object { $_.name -eq "scene_contract_compiler" } | Select-Object -First 1
@@ -66,7 +66,7 @@ $FakeToolDir = Join-Path ([System.IO.Path]::GetTempPath()) ("sgdk_scene_closeout
 New-Item -ItemType Directory -Force -Path $FakeToolDir | Out-Null
 [System.IO.File]::WriteAllText((Join-Path $FakeToolDir "py.bat"), "@echo off`r`nexit /b 0`r`n", [System.Text.Encoding]::ASCII)
 $OriginalPath = $env:PATH
-$env:PATH = "$FakeToolDir;$env:PATH"
+$env:PATH = "$FakeToolDir$([System.IO.Path]::PathSeparator)$env:PATH"
 
 & $ScriptUnderTest -ProjectRoot $BlockedProjectRoot -SceneId "visual_gate_fixture" -SkipBuild -SkipRuntimeCapture -SkipSceneRegression
 $blockedNoWarnExit = $LASTEXITCODE

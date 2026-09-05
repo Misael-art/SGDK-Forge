@@ -1,0 +1,8 @@
+{
+  "schema_version": "frame_budget_table.v1",
+  "native_frame": {"width":32,"height":32,"tiles":16,"bytes_4bpp":512,"hardware_sprite_links":1,"max_sprite_pixels_per_scanline":32},
+  "package": {"idle":1,"new_key_poses":3,"total_review_frames":4,"final_animation":false},
+  "runtime_baseline": {"run":4,"jump":1,"float":2,"inhale":1,"source":"src/entities/kirby.c"},
+  "budget_status": "isolated_idle_blastem_passed_motion_offline_only",
+  "headroom_policy": "measure_current_scene_and_next_density_before_any_promotion"
+}

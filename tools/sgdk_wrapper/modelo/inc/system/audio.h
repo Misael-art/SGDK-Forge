@@ -13,12 +13,14 @@ typedef enum AudioCue {
     AUDIO_CUE_BRAND_AUTHOR_CLICK,
     AUDIO_CUE_BRAND_AUTHOR_BELL,
     AUDIO_CUE_BRAND_PROJECT_WHOOSH,
-    AUDIO_CUE_BRAND_PROJECT_TAIL
+    AUDIO_CUE_BRAND_PROJECT_TAIL,
+    AUDIO_CUE_BRAND_HAMMER_SLAM
 } AudioCue;
 
 void AUDIO_init(void);
 void AUDIO_update(void);
 void AUDIO_stopAll(void);
 void AUDIO_playCue(AudioCue cue);
+void AUDIO_startBrandBgm(void);
 
 #endif

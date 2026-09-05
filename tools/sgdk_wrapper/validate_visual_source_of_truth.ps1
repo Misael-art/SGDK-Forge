@@ -10,10 +10,11 @@
 
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][string]$ProjectRoot,
+    [string]$ProjectRoot = "",
     [string]$ContractPath = "",
     [string]$SchemaPath = "",
-    [string]$OutputPath = ""
+    [string]$OutputPath = "",
+    [switch]$SelfCheck
 )
 
 Set-StrictMode -Version Latest
@@ -22,7 +23,7 @@ $ErrorActionPreference = 'Stop'
 if (-not $SchemaPath) {
     $SchemaPath = Join-Path $PSScriptRoot 'schemas\visual_source_of_truth.schema.json'
 }
-if (-not $OutputPath) {
+if (-not $OutputPath -and $ProjectRoot) {
     $OutputPath = Join-Path $ProjectRoot 'out\logs\visual_source_lineage_report.json'
 }
 
@@ -65,9 +66,28 @@ function Test-VisualPatternMatch {
     return ($p -like $pat)
 }
 
+function Test-LineageScalar {
+    param([object]$Value)
+    if ($null -eq $Value) { return $true }
+    if ($Value -is [string] -or $Value -is [char] -or $Value -is [bool] -or
+        $Value -is [datetime] -or $Value.GetType().IsEnum -or $Value.GetType().IsValueType) {
+        return $true
+    }
+    return $false
+}
+
+function Test-LineageContainer {
+    param([object]$Value)
+    if (Test-LineageScalar $Value) { return $false }
+    if ($Value -is [System.Collections.IDictionary]) { return $true }
+    if ($Value -is [System.Collections.IEnumerable] -and -not ($Value -is [string])) { return $true }
+    return ($Value -is [pscustomobject])
+}
+
 function Test-ValueContainsForbiddenPath {
-    param([object]$Value, [string[]]$ForbiddenPatterns)
+    param([object]$Value, [string[]]$ForbiddenPatterns, [int]$Depth = 0, [int]$MaxDepth = 64)
     if ($null -eq $Value) { return $false }
+    if ($Depth -gt $MaxDepth) { return $false }
 
     if ($Value -is [string]) {
         $normalized = Normalize-VisualPath $Value
@@ -78,15 +98,23 @@ function Test-ValueContainsForbiddenPath {
         return $false
     }
 
-    if ($Value -is [System.Collections.IEnumerable] -and -not ($Value -is [string])) {
-        foreach ($item in $Value) {
-            if (Test-ValueContainsForbiddenPath $item $ForbiddenPatterns) { return $true }
+    if ($Value -is [System.Collections.IDictionary]) {
+        foreach ($key in $Value.Keys) {
+            if (Test-ValueContainsForbiddenPath $Value[$key] $ForbiddenPatterns ($Depth + 1) $MaxDepth) { return $true }
         }
         return $false
     }
 
+    if ($Value -is [System.Collections.IEnumerable] -and -not ($Value -is [string])) {
+        foreach ($item in $Value) {
+            if (Test-ValueContainsForbiddenPath $item $ForbiddenPatterns ($Depth + 1) $MaxDepth) { return $true }
+        }
+        return $false
+    }
+
+    if (-not (Test-LineageContainer $Value)) { return $false }
     foreach ($prop in $Value.PSObject.Properties) {
-        if (Test-ValueContainsForbiddenPath $prop.Value $ForbiddenPatterns) { return $true }
+        if (Test-ValueContainsForbiddenPath $prop.Value $ForbiddenPatterns ($Depth + 1) $MaxDepth) { return $true }
     }
     return $false
 }
@@ -127,19 +155,41 @@ function Test-ObjectForLineageReference {
         [string]$FieldPath,
         [string]$FilePath,
         [string[]]$BlockedFields,
-        [string[]]$ForbiddenPatterns
+        [string[]]$ForbiddenPatterns,
+        [int]$Depth = 0,
+        [int]$MaxDepth = 64
     )
 
     if ($null -eq $Node) { return }
+    if ($Depth -gt $MaxDepth) {
+        Add-Finding 'visual_lineage_depth_limit' 'ERROR' "Objeto JSON excede a profundidade maxima de linhagem ($MaxDepth)." $FilePath $FieldPath
+        return
+    }
+    if (Test-LineageScalar $Node) { return }
+
+    if ($Node -is [System.Collections.IDictionary]) {
+        foreach ($key in $Node.Keys) {
+            $name = [string]$key
+            $nextFieldPath = if ($FieldPath) { "$FieldPath.$name" } else { $name }
+            $value = $Node[$key]
+            if (($name.ToLowerInvariant() -in $BlockedFields) -and (Test-ValueContainsForbiddenPath $value $ForbiddenPatterns 0 $MaxDepth)) {
+                Add-Finding 'visual_lineage_forbidden_reference' 'ERROR' "Campo de linhagem visual usa sprite sheet derivada/reprovada como origem de geracao." $FilePath $nextFieldPath
+            }
+            Test-ObjectForLineageReference $value $nextFieldPath $FilePath $BlockedFields $ForbiddenPatterns ($Depth + 1) $MaxDepth
+        }
+        return
+    }
 
     if ($Node -is [System.Collections.IEnumerable] -and -not ($Node -is [string])) {
         $index = 0
         foreach ($item in $Node) {
-            Test-ObjectForLineageReference $item "$FieldPath[$index]" $FilePath $BlockedFields $ForbiddenPatterns
+            Test-ObjectForLineageReference $item "$FieldPath[$index]" $FilePath $BlockedFields $ForbiddenPatterns ($Depth + 1) $MaxDepth
             $index++
         }
         return
     }
+
+    if (-not (Test-LineageContainer $Node)) { return }
 
     foreach ($prop in $Node.PSObject.Properties) {
         $name = [string]$prop.Name
@@ -152,9 +202,7 @@ function Test-ObjectForLineageReference {
                 -File $FilePath `
                 -Field $nextFieldPath
         }
-        if ($null -ne $prop.Value -and -not ($prop.Value -is [string])) {
-            Test-ObjectForLineageReference $prop.Value $nextFieldPath $FilePath $BlockedFields $ForbiddenPatterns
-        }
+        Test-ObjectForLineageReference $prop.Value $nextFieldPath $FilePath $BlockedFields $ForbiddenPatterns ($Depth + 1) $MaxDepth
     }
 }
 
@@ -209,6 +257,45 @@ $generationSourceLocked = $false
 $nextSpriteSheetMustStartFromModelSheet = $false
 $readyForAaa = $false
 
+function Invoke-VisualSourceSelfCheck {
+    $results = @()
+    $blocked = @('res/sprites/taina/candidates_v05/*')
+    $script:findings = @(); $script:blockingStatuses = @(); $script:creativeBlockingStatuses = @()
+    $deep = [ordered]@{ leaf = 'safe' }
+    for ($i = 0; $i -lt 20; $i++) { $deep = [pscustomobject]@{ child = $deep } }
+    $timer = [Diagnostics.Stopwatch]::StartNew()
+    Test-ObjectForLineageReference ([pscustomobject]@{ data = $deep; flags = @(1, $true, $false, 9) }) '' 'deep.json' @('source') $blocked
+    $timer.Stop()
+    $results += [pscustomobject]@{ name = 'deep_json_and_scalar_arrays_finish'; passed = (($script:findings.Count -eq 0) -and ($timer.ElapsedMilliseconds -lt 5000)) }
+
+    $script:findings = @(); $script:blockingStatuses = @(); $script:creativeBlockingStatuses = @()
+    Test-ObjectForLineageReference ([pscustomobject]@{ source = 'res/sprites/taina/candidates_v05/a.png' }) '' 'direct.json' @('source') $blocked
+    $results += [pscustomobject]@{ name = 'direct_forbidden_source_detected'; passed = ($script:blockingStatuses -contains 'visual_lineage_forbidden_reference') }
+
+    $script:findings = @(); $script:blockingStatuses = @(); $script:creativeBlockingStatuses = @()
+    Test-ObjectForLineageReference ([pscustomobject]@{ nested = [pscustomobject]@{ source = 'res/sprites/taina/candidates_v05/a.png' } }) '' 'nested.json' @('source') $blocked
+    $results += [pscustomobject]@{ name = 'deep_forbidden_source_detected'; passed = ($script:blockingStatuses -contains 'visual_lineage_forbidden_reference') }
+
+    $script:findings = @(); $script:blockingStatuses = @(); $script:creativeBlockingStatuses = @()
+    Test-ObjectForLineageReference ([pscustomobject]@{ evidence = 'res/sprites/taina/candidates_v05/a.png'; comparison = 'res/sprites/taina/candidates_v05/a.png' }) '' 'history.json' @('source') $blocked
+    $results += [pscustomobject]@{ name = 'historical_evidence_text_allowed'; passed = ($script:findings.Count -eq 0) }
+
+    $temp = Join-Path ([IO.Path]::GetTempPath()) ('visual_source_selfcheck_' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Force -Path $temp | Out-Null
+    try {
+        Set-Content -LiteralPath (Join-Path $temp 'visual_source_of_truth_taina_v01.json') -Value '{}' -Encoding UTF8
+        Set-Content -LiteralPath (Join-Path $temp 'visual_source_of_truth_taina_v02.json') -Value '{}' -Encoding UTF8
+        $selected = Get-ChildItem -LiteralPath $temp -Filter 'visual_source_of_truth*.json' -File | Sort-Object @{ Expression = { if ($_.Name -match '_v(\d+)\.json$') { [int]$Matches[1] } else { -1 } }; Descending = $true }, FullName | Select-Object -First 1
+        $results += [pscustomobject]@{ name = 'selects_highest_contract_version'; passed = ($selected.Name -eq 'visual_source_of_truth_taina_v02.json') }
+    } finally { Remove-Item -LiteralPath $temp -Recurse -Force -ErrorAction SilentlyContinue }
+    $failed = @($results | Where-Object { -not $_.passed })
+    [pscustomobject]@{ command = 'validate_visual_source_of_truth'; self_check = $true; fixtures = $results; fixtures_passed = $results.Count - $failed.Count; fixtures_total = $results.Count; blocking = ($failed.Count -gt 0) } | ConvertTo-Json -Depth 6
+    if ($failed.Count -gt 0) { exit 1 }
+    exit 0
+}
+
+if ($SelfCheck) { Invoke-VisualSourceSelfCheck }
+
 try {
     if (-not (Test-Path -LiteralPath $ProjectRoot)) {
         Add-Finding 'visual_project_root_missing' 'ERROR' "ProjectRoot nao encontrado." "" "" $ProjectRoot
@@ -219,7 +306,9 @@ try {
         $contractsRoot = Join-Path $ProjectRoot 'doc\contracts'
         if (Test-Path -LiteralPath $contractsRoot) {
             $candidate = Get-ChildItem -LiteralPath $contractsRoot -Filter 'visual_source_of_truth*.json' -File -ErrorAction SilentlyContinue |
-                Sort-Object LastWriteTime -Descending |
+                Sort-Object @{ Expression = {
+                    if ($_.Name -match '_v(\d+)\.json$') { [int]$Matches[1] } else { -1 }
+                }; Descending = $true }, FullName |
                 Select-Object -First 1
             if ($candidate) { $ContractPath = $candidate.FullName }
         }

@@ -416,6 +416,20 @@ Registre aqui escolhas que evitaram tentativa-e-erro ou mudanca de rota.
 - `validate_resources.ps1 -CloseoutGate`: `ready_for_aaa=false`.
 - `project_hygiene_ready=true` e `technique_usage_ready=true`.
 - Blockers vigentes: `perceptual_motion_unvalidated`, `gdd_substantial_insufficient`, `visual_gate_blocked`, `procedural_fallback_as_final`, `visual_direction_failed`, `emulator_evidence_stale`, `freshness_audit_stale`, `scene_closeout_gate_stale`.
+
+## 10. P1-002 - PIPELINE XGM2 FM/PSG 2026-07-19
+
+- O score PCM em `PCM_CH1` foi removido. `mus_chase_core` agora e XGM2 real gerado de um VGM original com duas vozes YM2612 FM e pulso SN76489 PSG.
+- Ownership vigente: XGM2 possui FM/PSG, PCM_CH1 permanece reservado, PCM_CH2 possui cues criticos/resultado e PCM_CH3 possui movimento/UI/pressao.
+- Chamadas PSG diretas do branding foram removidas; todos os cues entram pelo owner unico `src/system/audio.c`.
+- O runtime ganhou telemetria `AUD2` em SRAM `0x800`: carga XGM2, DMA wait, missed frames, simultaneidade e requests/accepts de SFX.
+- `validate_audio.ps1`: 10 declaracoes, 1 musica, 9 samples, 39,5 KiB, 0,96% do budget, zero issues.
+- Build SGDK 2.11 Linux nativo via `registry.gitlab.com/doragasu/docker-sgdk:v2.11`; ROM SHA-256 `8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450`, 262144 bytes.
+- Bundle BlastEm atual: `blastem-linux-20260720T032218Z-267076`; frescor/hash passaram sem blockers.
+- Prova objetiva: 270 amostras, 8 music+SFX, 5/5 SFX aceitos, DMA wait maximo 0, captura WAV de 24,064 s nao silenciosa e sem clipping.
+- Warning: 1 missed frame XGM2 em 1.363 frames e pico de carga 92; qualquer expansao de PCM exige nova prova.
+- P1-002 fica `technical_complete_pending_external_human_audio_review`: o agente nao fabrica aprovacao auditiva. Template em `doc/human_audio_review_p1_002.md`.
+- Claims permanecem LAB/TECHDEMO; `ready_for_aaa=false`. Blockers visuais e perceptivos historicos continuam fora do escopo deste fechamento de audio.
 - `scene_contract_compile_report.json` permanece stale; nenhuma evidencia antiga foi tratada como atual.
 
 ## 9. ENCAPSULAMENTO DO LEGADO 2026-06-04
@@ -438,77 +452,24 @@ Registre aqui escolhas que evitaram tentativa-e-erro ou mudanca de rota.
 - `project_hygiene_ready=true`, `technique_usage_ready=true`, `ready_for_aaa=false`.
 - Blockers vigentes: `perceptual_motion_unvalidated`, `gdd_substantial_insufficient`, `visual_gate_blocked`, `procedural_fallback_as_final`, `visual_direction_failed`, `emulator_evidence_stale`, `freshness_audit_stale`, `scene_closeout_gate_stale`.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## 11. CURADORIA DO NUCLEO DE AUDIO 2026-09-05
+
+- `tools/audio-tools/` foi auditado por medicao externa, nao apenas por seus
+  self-checks. A suite independente passou `15/15`; os seis modulos tambem
+  passaram seus self-checks individuais.
+- A auditoria corrigiu falsos verdes importantes: WAV PCM 8-bit usa bytes
+  unsigned com silencio em 128, enquanto o payload SDAT/XGM2 e signed; os
+  offsets canonicos do header VGM sao `0x08` para versao e `0x24` para rate;
+  o clipper preserva a taxa real da fonte; e o auditor vincula ID, tipo, taxa,
+  caminho e hash ao `resources.res`.
+- `chase_hit.wav` foi regenerado como PCM_U8 de 13.300 Hz, 3.192 frames, pico
+  signed 95, ultimo byte 128 e SHA-256
+  `b3cec871911e70d90bccb7d5cb1a2ea2ac2ac8fc97a1985c6ac47bd7caf242b7`.
+  Continua classificado como `lab`, nunca como audio final.
+- O manifesto `doc/sfx_bank_manifest.json` passou com 10/10 simbolos,
+  verificacao de hashes e zero blockers. `validate_audio.ps1` confirmou 10
+  declaracoes, 9 samples, 1 musica e 39,5 KiB estimados, sem issues.
+- Rebuild SGDK 2.11 apos a correcao passou; `out/rom.bin` tem 262.144 bytes e
+  SHA-256 `3804672073ef40823d8b1f82bcf41fd2503f472ede95f7e9247c906b7ccbef28`.
+- Nao houve nova escuta humana nem captura de audio no BlastEm para esse hash.
+  Portanto o teto permanece tecnico/LAB e `ready_for_aaa=false`.

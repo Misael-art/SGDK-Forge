@@ -1,0 +1,233 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_p0_locomotion_build_v01",
+  "generated_at": "2026-07-29",
+  "status": "buildado_runtime_observed_partial_human_polish_review_pending",
+  "source_of_truth": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+  "forbidden_sources_used": [],
+  "asset_kind": "animation_strip",
+  "animations": {
+    "walk_combat_step_48x64": {
+      "frame_count": 6,
+      "cell_px": {
+        "w": 48,
+        "h": 64
+      },
+      "timing_vblanks": [
+        5,
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "pivot_px": {
+        "x": 24,
+        "y": 60
+      },
+      "frame_bboxes": [
+        [
+          7,
+          2,
+          44,
+          61
+        ],
+        [
+          9,
+          3,
+          39,
+          62
+        ],
+        [
+          14,
+          2,
+          39,
+          62
+        ],
+        [
+          6,
+          2,
+          44,
+          61
+        ],
+        [
+          11,
+          3,
+          42,
+          62
+        ],
+        [
+          14,
+          2,
+          39,
+          62
+        ]
+      ],
+      "adjacent_pixel_deltas": [
+        693,
+        727,
+        573,
+        710,
+        726,
+        594
+      ],
+      "unique_frame_hashes": 6,
+      "evidence": {
+        "strip": "rascunho/taina_p0_locomotion_v01/taina_walk_combat_step_48x64_v01.png",
+        "motion_gif": "rascunho/taina_p0_locomotion_v01/taina_walk_combat_step_48x64_preview_v01.gif",
+        "contact_sheet": "doc/art/characters/taina/review/taina_walk_combat_step_48x64_contact_6x_v01.png",
+        "pivot_overlay": "doc/art/characters/taina/review/taina_walk_combat_step_48x64_pivot_overlay_6x_v01.png",
+        "res_runtime_candidate": "res/sprites/characters/taina/taina_walk_combat_step_48x64_v01.png"
+      },
+      "promotion_status": "res_runtime_candidate_not_final"
+    },
+    "dash_or_step_in_64x64": {
+      "frame_count": 4,
+      "cell_px": {
+        "w": 64,
+        "h": 64
+      },
+      "timing_vblanks": [
+        3,
+        2,
+        3,
+        4
+      ],
+      "pivot_px": {
+        "x": 24,
+        "y": 60
+      },
+      "frame_bboxes": [
+        [
+          7,
+          4,
+          44,
+          62
+        ],
+        [
+          4,
+          3,
+          51,
+          60
+        ],
+        [
+          1,
+          2,
+          59,
+          61
+        ],
+        [
+          8,
+          3,
+          50,
+          62
+        ]
+      ],
+      "adjacent_pixel_deltas": [
+        1017,
+        1034,
+        1199,
+        974
+      ],
+      "unique_frame_hashes": 4,
+      "evidence": {
+        "strip": "rascunho/taina_p0_locomotion_v01/taina_dash_or_step_in_64x64_v01.png",
+        "motion_gif": "rascunho/taina_p0_locomotion_v01/taina_dash_or_step_in_64x64_preview_v01.gif",
+        "contact_sheet": "doc/art/characters/taina/review/taina_dash_or_step_in_64x64_contact_6x_v01.png",
+        "pivot_overlay": "doc/art/characters/taina/review/taina_dash_or_step_in_64x64_pivot_overlay_6x_v01.png",
+        "res_runtime_candidate": "res/sprites/characters/taina/taina_dash_or_step_in_64x64_v01.png"
+      },
+      "promotion_status": "res_runtime_candidate_not_final"
+    },
+    "jump_rise_fall_landing_48x64": {
+      "frame_count": 8,
+      "cell_px": {
+        "w": 48,
+        "h": 64
+      },
+      "timing_vblanks": [
+        4,
+        3,
+        4,
+        4,
+        4,
+        4,
+        3,
+        5
+      ],
+      "pivot_px": {
+        "x": 24,
+        "y": 60
+      },
+      "frame_bboxes": [
+        [
+          8,
+          5,
+          43,
+          60
+        ],
+        [
+          11,
+          2,
+          40,
+          59
+        ],
+        [
+          11,
+          2,
+          39,
+          52
+        ],
+        [
+          11,
+          2,
+          39,
+          49
+        ],
+        [
+          11,
+          2,
+          39,
+          53
+        ],
+        [
+          8,
+          2,
+          43,
+          58
+        ],
+        [
+          7,
+          5,
+          44,
+          61
+        ],
+        [
+          9,
+          3,
+          42,
+          62
+        ]
+      ],
+      "adjacent_pixel_deltas": [
+        745,
+        515,
+        325,
+        367,
+        457,
+        869,
+        688,
+        713
+      ],
+      "unique_frame_hashes": 8,
+      "evidence": {
+        "strip": "rascunho/taina_p0_locomotion_v01/taina_jump_rise_fall_landing_48x64_v01.png",
+        "motion_gif": "rascunho/taina_p0_locomotion_v01/taina_jump_rise_fall_landing_48x64_preview_v01.gif",
+        "contact_sheet": "doc/art/characters/taina/review/taina_jump_rise_fall_landing_48x64_contact_6x_v01.png",
+        "pivot_overlay": "doc/art/characters/taina/review/taina_jump_rise_fall_landing_48x64_pivot_overlay_6x_v01.png",
+        "res_runtime_candidate": "res/sprites/characters/taina/taina_jump_rise_fall_landing_48x64_v01.png"
+      },
+      "promotion_status": "res_runtime_candidate_not_final"
+    }
+  }
+}

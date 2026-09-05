@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_animation_direction_v011",
+  "status": "arcade_hi_bit_runtime_candidate_generated",
+  "cell_px": [
+    96,
+    96
+  ],
+  "pivot_px": [
+    32,
+    88
+  ],
+  "ground_y": 88,
+  "runtime_actions": [
+    {
+      "id": "idle",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "walk_step",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "guard_block",
+      "frames": 3,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "jab",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "knee",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "teep",
+      "frames": 4,
+      "fx_policy": "runtime FX separated"
+    },
+    {
+      "id": "hurt",
+      "frames": 3,
+      "fx_policy": "runtime FX separated"
+    }
+  ],
+  "evidence": {
+    "contact_sheet": "data/processed/spritesheets/hibrido_fighter_arcade_hi_bit_sprite_sheet_96x96_v011.png",
+    "pivot_overlay": "data/processed/reports/hibrido_fighter_arcade_hi_bit_pivot_overlay_v011.png",
+    "motion_preview": "data/processed/reports/hibrido_fighter_arcade_hi_bit_motion_preview_v011.gif",
+    "stage_sprite_mockup": "data/processed/reports/hibrido_v011_runtime_stage_sprite_mockup.png"
+  },
+  "approval_gate": {
+    "technical_gate": "pending_build",
+    "visual_gate": "needs_human_review_for_aaa",
+    "ready_for_aaa": false
+  }
+}

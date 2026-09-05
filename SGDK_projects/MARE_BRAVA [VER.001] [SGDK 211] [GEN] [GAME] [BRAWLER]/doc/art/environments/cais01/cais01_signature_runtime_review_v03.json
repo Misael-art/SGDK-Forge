@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-29",
+  "status": "visual_iteration_passed_runtime_observation_partial_evidence",
+  "rom": {
+    "size_bytes": 262144,
+    "sha256": "9c2e3e9d82e4fa4ef678bd0a087ffd74a950bd5711ad4748c6a9278fc476ce4d"
+  },
+  "blastem_session": "out/blastem_env_cais01_signature_v03_hash9c2e3e/blastem-linux-20260729T193507Z-995915",
+  "evidence": {
+    "comparison": "out/evidence/cais01_signature_v03_hash9c2e3e/cais01_runtime_compare_v02_v03.png",
+    "contact_sheet": "out/evidence/cais01_signature_v03_hash9c2e3e/cais01_runtime_fx_contact_sheet_v03.png",
+    "animation": "out/evidence/cais01_signature_v03_hash9c2e3e/cais01_runtime_animation_v03.gif"
+  },
+  "direction_mapping": [
+    {
+      "request": "deep_contrast_and_textured_shadow",
+      "result": "near city uses near-black mass against the sunset; TAÍNA and contact shadow use a backlit near-black violet hierarchy",
+      "status": "observed"
+    },
+    {
+      "request": "two_city_depth_layers",
+      "result": "far and near city bands coexist in BG_B and use distinct camera ratios through HSCROLL_LINE",
+      "status": "observed"
+    },
+    {
+      "request": "dithered_sun_without_smooth_glow",
+      "result": "sun edge and inner transition use hard native-grid dithering",
+      "status": "observed"
+    },
+    {
+      "request": "industrial_smoke",
+      "result": "two four-frame sprite emitters share PAL0 and remain subordinate to gameplay",
+      "status": "observed"
+    },
+    {
+      "request": "raster_water_and_sunset_reflection",
+      "result": "water lines move with phase-shifted offsets and distort a broken orange-pink reflection",
+      "status": "observed"
+    },
+    {
+      "request": "industrial_floor_detail",
+      "result": "oil, tyre marks, cracks, nails, plank variation, warm rim and cargo stencil are present over the 512px pier",
+      "status": "observed"
+    },
+    {
+      "request": "dust_or_fog_near_lamp",
+      "result": "two small dust emitters share PAL2; full-screen fog was intentionally omitted to preserve fighter and ring-out readability",
+      "status": "observed"
+    }
+  ],
+  "runtime_correction": {
+    "finding": "v02 checker contact shadow became noisy under the v03 backlight palette",
+    "fix": "replace full checker coverage with a solid near-black core and sparse violet edge",
+    "verification": "second BlastEm capture on the final ROM hash"
+  },
+  "remaining_visual_debt": [
+    "TAÍNA geometry/detail still requires an image-04 reseed and approved pixel model sheet",
+    "enemies, HUD and hit FX are absent from the combined composition",
+    "some world-edge crates and net require camera traversal review",
+    "runtime scanline and DMA instrumentation is absent"
+  ],
+  "claim_ceiling": "buildado_runtime_observed_partial_not_aaa"
+}

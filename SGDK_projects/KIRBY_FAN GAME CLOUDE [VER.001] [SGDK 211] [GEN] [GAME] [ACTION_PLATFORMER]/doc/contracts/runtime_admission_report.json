@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "runtime_admission_report",
+  "template_seed": false,
+  "template_prevalidated": true,
+  "generated_at": "2026-09-01T00:00:00Z",
+  "admission_type": "isolated_native_idle_runtime_visual_proof",
+  "status": "isolated_runtime_visual_proof_passed",
+  "runtime_admitted": true,
+  "technical_runtime_admitted": false,
+  "runtime_lab_admitted": true,
+  "visual_status_promotion_allowed": false,
+  "claim_ceiling": "testado_em_emulador_for_isolated_idle_review_only",
+  "manual_approval_required": true,
+  "route_report_ref": "doc/contracts/vibe_playable_route_report.json",
+  "route_report_sha256": null,
+  "technical_change_scope_ref": null,
+  "technical_change_scope_sha256": null,
+  "lab_reason": null,
+  "input_fingerprint": "bdebb673ac8f5619232e2ab537b85ebb83cf944e29ef87e6695612cca466cbab",
+  "blocking_statuses": ["motion_package_human_gate_pending", "first_playable_replacement_forbidden", "complete_sheet_forbidden"],
+  "forbidden_claims": [
+    "visual_excellence_passed",
+    "asset_approval_fresh",
+    "ready_for_aaa"
+  ],
+  "evidence_refs": ["doc/contracts/human_decision_record_native_idle_key_pose_elite_v01.json", "doc/contracts/native_idle_key_pose_runtime_proof_record.json", "doc/art/nexialist_visual_nucleus_v01/native_idle_key_pose_runtime_validation_report.json", "out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/evidence_manifest.json"]
+}

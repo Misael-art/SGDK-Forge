@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "p0_004_legacy_hash_reconciliation_2026_07_19",
+  "generated_at": "2026-07-19T23:12:00-03:00",
+  "item_id": "P0-004",
+  "status": "completed",
+  "runtime_promoted": false,
+  "review": {
+    "introduction_commit": "35dab34df2a8f12a577e9a30e0ab9f0092db0443",
+    "record_count": 13,
+    "payloads_changed_since_introduction": 0,
+    "blocking_records_before_update": 0,
+    "classification": "registry_obsolete_at_introduction",
+    "cause": "cross_language_path_ordering_divergence",
+    "review_conclusion": "All 13 clean working payloads matched their introduction commit under the canonical algorithm; only the registry values were obsolete for the Python validator."
+  },
+  "canonical_hash_algorithm": {
+    "id": "sha256_directory_manifest_text_lf_normalized_v1",
+    "relative_paths": true,
+    "path_separator": "/",
+    "path_order": "utf8_ordinal",
+    "text_line_endings": "lf",
+    "manifest_record": "relative_path + NUL + file_sha256 + LF"
+  },
+  "classified_skill_ids": [
+    "architecture/level-manifest-architect",
+    "art/color-conversion-curator",
+    "art/dither-composite-transparency",
+    "art/palette-cram-curator",
+    "art/sprite-asset-budget-curator",
+    "art/tilemap-attribute-director",
+    "audio/sfx-prep-fm-psg-pcm",
+    "audio/z80-audio-boundary-architect",
+    "code/articulated-sprite-architect",
+    "code/software-tile-rasterizer",
+    "hardware/hscroll-linescroll-road-fx",
+    "hardware/raster-palette-hint-director",
+    "hardware/sprite-scanline-budgeter"
+  ],
+  "evidence": {
+    "pre_reconciliation_report": {
+      "path": "out/remediation/P0-004/pre_reconciliation_report.json",
+      "sha256": "96f7c3d3a28ea27deb33a9d0e48f9c700908e93b31ffb509df9999ad22d6bd8d",
+      "status": "reviewable",
+      "classification_counts": {
+        "registry_obsolete_at_introduction": 13
+      }
+    },
+    "post_reconciliation_report": {
+      "path": "out/remediation/P0-004/post_reconciliation_report.json",
+      "sha256": "473b2fd66bcdff35afc18e7049d964af76b723b170b39c79be30dad0a5b83a82",
+      "status": "reviewable",
+      "classification_counts": {
+        "already_consistent": 13
+      }
+    },
+    "lifecycle_audit_report": {
+      "path": "out/remediation/P0-004/lifecycle_post.json",
+      "sha256": "20f7d21b85cc1416c6ec94ed9089b8901e31caeac9313ac570f5483984bc1cc5",
+      "status": "ok",
+      "active": 13,
+      "legacy": 13,
+      "errors": 0
+    }
+  },
+  "tests": {
+    "validate_skill_framework": "passed: 47 active, 13 legacy",
+    "legacy_restoration_test": "passed",
+    "powershell_lifecycle_audit": "passed"
+  },
+  "acceptance_checks": {
+    "every_divergence_classified": true,
+    "registry_updated_only_after_payload_review": true,
+    "validate_skill_framework_passes": true,
+    "legacy_restoration_test_passes": true
+  },
+  "claim_limit": "Framework lifecycle integrity only; no ROM, runtime, visual quality, performance or AAA claim was promoted."
+}

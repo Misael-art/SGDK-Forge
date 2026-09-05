@@ -33,6 +33,11 @@ tools/ai_imagegen/
 
 ## CLI (Ring 2)
 
+O roteamento e **native-first**. Em Codex/ChatGPT com ferramenta de imagem
+nativa, `route`/`preflight` devem selecionar
+`native_chat_image_generation_callable` por default. ComfyUI e Bonsai sao
+fallbacks locais quando o agente atual nao possui canal nativo/API.
+
 ```powershell
 # Diagnostico de host
 python tools/ai_imagegen/imagegen_tool.py --json status
@@ -79,14 +84,15 @@ python tools/ai_imagegen/imagegen_tool.py bonsai generate `
 ## CLI (Ring 1, project-aware)
 
 ```powershell
-# Preflight read-only (sempre funciona, retorna selected_source)
+# Preflight read-only (sempre funciona, retorna selected_source; auto-detecta nativo)
 .\tools\ai_imagegen\run_imagegen_circuit.ps1 preflight `
     --project "<NOME DO PROJETO>" `
     --asset-role concept_art `
     --write-decision `
     --json
 
-# Run real (requer license ack + host + asset_role permitido)
+# Run real pelo circuit para backend local. Se selected_source for nativo,
+# o proximo passo e usar a ferramenta de imagem da sessao e persistir lineage.
 .\tools\ai_imagegen\run_imagegen_circuit.ps1 run `
     --project "<NOME DO PROJETO>" `
     --asset-role concept_art `
@@ -119,7 +125,10 @@ Exit codes (espelham `imagegen_circuit.py`):
 
 ## Triplo gate (Bonsai)
 
-Cada gate e bloqueante. A ordem canonica e: **license > scope > host**.
+Cada gate e bloqueante somente para o fallback Bonsai. Eles nao bloqueiam
+geracao quando `native_chat_image_generation_callable` ou
+`native_chat_inline_generation` estiver selecionado. A ordem canonica local e:
+**license > scope > host**.
 
 | Gate | Falha → | selected_source |
 |---|---|---|
@@ -131,7 +140,7 @@ Cada gate e bloqueante. A ordem canonica e: **license > scope > host**.
 
 1. `data/raw_ai/<run_id>/output.png` — saida bruta. NAO promovida.
 2. `data/source_art/<role>/source.png` — `premium_source_manifest.json` com
-   status `source_candidate` (Bonsai v1). Requer traducao VDP + BlastEm
+   status `source_candidate` (nativo/API/local). Requer traducao VDP + BlastEm
    gate para virar `premium_source_accepted`.
 3. `data/processed/` — candidatos convertidos (apos `imagegen_tool.py convert`).
 4. `res/` — promocao final, **somente** apos `batch_resize_index.py` +

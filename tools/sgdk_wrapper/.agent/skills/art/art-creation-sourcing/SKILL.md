@@ -71,19 +71,19 @@ Sem Arte
    │
    ├── ROTA A: GERACAO COM IA ─────────────────────────────────
    │     1. Definir spec visual (bible artistica resumida)
-   │     2. Gerar prompts de pixel art precisos
-   │     3. Gerar imagens (Stable Diffusion, DALL-E, Ideogram, etc.)
-   │     4. Converter com photo2sgdk ou batch_resize_index.py
-   │     5. Ajustar paleta e transparencia
-   │     6. Validar e promover para res/
+   │     2. Gerar uma fonte/pose semantica por vez
+   │     3. Persistir, medir e classificar como visual_source
+   │     4. Reinterpretar no grid com native-sprite-production
+   │     5. Validar pixel, visual, escala e budget separadamente
+   │     6. Aprovar e somente entao promover para res/
    │
    └── ROTA B: BUSCA E DOWNLOAD NA WEB ────────────────────────
          1. Identificar estilo visual do jogo
          2. Buscar em repositorios de assets livres (CC0/CC-BY)
          3. Baixar sprite sheets e tilesets
          4. Avaliar compatibilidade (dimensoes, estilo)
-         5. Converter com batch_resize_index.py
-         6. Validar e promover para res/
+         5. Classificar: nativo, conversao tecnica ou traducao interpretativa
+         6. Validar lineage/licenca e seguir a skill dona antes de res/
 ```
 
 ---
@@ -243,7 +243,7 @@ Veja o runbook completo em `tools/sgdk_wrapper/.agent/workflows/ai-imagegen-circ
 # e pode chamar APIs externas de imagem via MCP ou HTTP
 ```
 
-### Passo 4 — Ps-gerado: ajuste obrigatorio
+### Passo 4 — Pos-gerado: classificacao e handoff obrigatorios
 
 Toda arte gerada por IA precisara de ajuste antes do SGDK:
 
@@ -251,17 +251,21 @@ Toda arte gerada por IA precisara de ajuste antes do SGDK:
 # 1. Inspecionar o que foi gerado
 python tools/sgdk_wrapper/art_diagnostic.py --project "<projeto>"
 
-# 2. Corrigir issues (quase sempre necessario)
-python tools/image-tools/fix_png_transparency_final.py "<asset>.png"
+# 2. Para sprite/objeto/FX autoral, criar e validar o record operacional
+python3 tools/sgdk_wrapper/validate_native_sprite_production.py \
+  --project-root "<projeto>" \
+  --record "<projeto>/doc/art/<asset>/native_sprite_production_record.json"
 
-# 3. Converter para indexado com paleta correta
-python tools/image-tools/batch_resize_index.py \
-  --spec tools/image-tools/specs/<spec>.json \
-  --batch-root "<projeto>/data"
-
-# 4. Abrir no photo2sgdk para ajuste fino de paleta
-call tools\photo2sgdk\run.bat
+# 3. Se a fonte estiver perto do padrao e a rota for apenas tecnica, executar
+# forge-art convert com spec registrada. A saida continua technical_candidate.
+PYTHONPATH=tools/sgdk_wrapper python3 -m forge_art convert \
+  --project-root "<projeto>" \
+  --spec "<projeto>/doc/art/<asset>/conversion_spec.json"
 ```
+
+`fix_png_transparency_final.py` e `batch_resize_index.py` sao rotas depreciadas
+e falham fechado. GIMP GUI/ponteiro nao e automacao de producao; operacao
+deterministica usa CLI/headless, e decisao de forma usa autoria visual/nativa.
 
 ---
 
@@ -461,5 +465,8 @@ Consistencia vence brilho isolado.
 
 - usar `art-conversion-pipeline` para assets brutos que ja estejam perto do padrao SGDK
 - usar `art-translation-to-vdp` quando houver imagem-fonte forte que exige reinterpretacao
+- usar `native-sprite-production` quando a reinterpretacao tiver destino
+  sprite, sheet, objeto ou FX autoral; o gerador entrega `visual_source`, nao
+  promete PNG nativo pela aparencia
 - usar `visual-excellence-standards` antes de congelar direcao visual final
 - entregar `context_pack_manifest`, `master_style_manifest` e `asset_lineage_record` junto com qualquer asset bruto

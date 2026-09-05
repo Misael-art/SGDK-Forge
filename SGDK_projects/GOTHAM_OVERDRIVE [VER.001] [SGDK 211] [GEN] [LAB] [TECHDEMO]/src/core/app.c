@@ -1,0 +1,157 @@
+#include <genesis.h>
+
+#include "core/app.h"
+#include "game_vars.h"
+#include "scenes/scene_branding.h"
+#include "scenes/scene_boot.h"
+#include "scenes/scene_demo.h"
+#include "scenes/scene_menu.h"
+#include "scenes/scene_techdemo.h"
+#include "system/audio.h"
+#include "system/input.h"
+#include "system/runtime_probe.h"
+
+static void APP_drawDebugHud(void)
+{
+    char line[40];
+    const char* regionName = (gApp.region == APP_REGION_PAL) ? "PAL" : "NTSC";
+
+    sprintf(line, "SCN:%-8s FRM:%05lu %s", APP_sceneName(gApp.currentScene), gApp.totalFrames, regionName);
+    VDP_drawTextFill(line, HUD_TEXT_X, HUD_ROW_HUD_GLOBAL, HUD_TEXT_LEN);
+}
+
+static void APP_drawTransitionHud(void)
+{
+    char line[40];
+
+    if (gApp.transitionFrames == 0) {
+        VDP_clearTextArea(0, 0, VDP_TEXT_COLS, 1);
+        return;
+    }
+
+    sprintf(line, ">> %s", APP_sceneName(gApp.transitionTarget));
+    VDP_drawTextFill(line, 1, 0, 38);
+}
+
+void APP_boot(bool hardReset)
+{
+    (void) hardReset;
+
+    VDP_setScreenWidth320();
+    VDP_setScreenHeight224();
+    VDP_setPlaneSize(64, 32, TRUE);
+    VDP_setTextPlane(BG_A);
+    VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
+    VDP_setBackgroundColor(0);
+    PAL_setColor(0, RGB24_TO_VDPCOLOR(0x000000));
+
+    JOY_init();
+    INPUT_init();
+    AUDIO_init();
+    SPR_init();
+
+    gApp.currentScene = APP_SCENE_TECHDEMO;
+    gApp.previousScene = APP_SCENE_TECHDEMO;
+    gApp.transitionTarget = APP_SCENE_TECHDEMO;
+    gApp.totalFrames = 0;
+    gApp.sceneFrames = 0;
+    gApp.transitionFrames = 0;
+    gApp.region = SYS_isPAL() ? APP_REGION_PAL : APP_REGION_NTSC;
+    gApp.targetFps = (gApp.region == APP_REGION_PAL) ? 50 : 60;
+    gApp.sceneNeedsEnter = TRUE;
+    gApp.showDebugHud = FALSE;
+    gApp.paused = FALSE;
+
+    MDRuntimeProbe_init();
+}
+
+void SCENE_cleanupLineScroll(VDPPlane plane)
+{
+    VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
+    VDP_setHorizontalScroll(plane, 0);
+    VDP_setVerticalScroll(plane, 0);
+}
+
+void APP_changeScene(AppScene nextScene)
+{
+    SPR_reset();
+    SPR_update();
+
+    if (gApp.currentScene == nextScene) {
+        gApp.sceneFrames = 0;
+        gApp.sceneNeedsEnter = TRUE;
+        return;
+    }
+
+    gApp.previousScene = gApp.currentScene;
+    gApp.currentScene = nextScene;
+    gApp.transitionTarget = nextScene;
+    gApp.sceneFrames = 0;
+    gApp.transitionFrames = 12;
+    gApp.sceneNeedsEnter = TRUE;
+    gApp.paused = FALSE;
+}
+
+const char* APP_sceneName(AppScene scene)
+{
+    switch (scene)
+    {
+        case APP_SCENE_BRANDING: return "BRAND";
+        case APP_SCENE_BOOT:     return "BOOT";
+        case APP_SCENE_MENU:     return "MENU";
+        case APP_SCENE_DEMO:     return "DEMO";
+        case APP_SCENE_TECHDEMO: return "GOTHAM";
+        default: return "UNKNOWN";
+    }
+}
+
+void APP_update(void)
+{
+    if (INPUT_pressed(BUTTON_MODE)) {
+        gApp.showDebugHud = !gApp.showDebugHud;
+        if (!gApp.showDebugHud) {
+            VDP_clearTextArea(0, HUD_ROW_HUD_GLOBAL, VDP_TEXT_COLS, HUD_ROWS);
+        }
+    }
+
+    if (gApp.sceneNeedsEnter)
+    {
+        switch (gApp.currentScene)
+        {
+            case APP_SCENE_BRANDING: SCENE_brandingEnter(); break;
+            case APP_SCENE_BOOT:     SCENE_bootEnter(); break;
+            case APP_SCENE_MENU:     SCENE_menuEnter(); break;
+            case APP_SCENE_DEMO:     SCENE_demoEnter(); break;
+            case APP_SCENE_TECHDEMO: SCENE_techdemoEnter(); break;
+            default: SCENE_techdemoEnter(); break;
+        }
+        gApp.sceneNeedsEnter = FALSE;
+    }
+
+    switch (gApp.currentScene)
+    {
+        case APP_SCENE_BRANDING: SCENE_brandingUpdate(); break;
+        case APP_SCENE_BOOT:     SCENE_bootUpdate(); break;
+        case APP_SCENE_MENU:     SCENE_menuUpdate(); break;
+        case APP_SCENE_DEMO:     SCENE_demoUpdate(); break;
+        case APP_SCENE_TECHDEMO: SCENE_techdemoUpdate(); break;
+        default: SCENE_techdemoUpdate(); break;
+    }
+
+    if (gApp.showDebugHud && gApp.currentScene != APP_SCENE_TECHDEMO) {
+        APP_drawDebugHud();
+    }
+
+    if (gApp.transitionFrames > 0) {
+        APP_drawTransitionHud();
+        gApp.transitionFrames--;
+        if (gApp.transitionFrames == 0) {
+            VDP_clearTextArea(0, 0, VDP_TEXT_COLS, 1);
+        }
+    }
+
+    AUDIO_update();
+
+    gApp.totalFrames++;
+    gApp.sceneFrames++;
+}

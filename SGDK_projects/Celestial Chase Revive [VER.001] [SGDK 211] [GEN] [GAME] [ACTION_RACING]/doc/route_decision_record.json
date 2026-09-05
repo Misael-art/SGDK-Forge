@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "context_type": "aaa_game",
+  "dominant_route": "scene_architecture",
+  "first_skill": "planning/game-design-planning",
+  "first_tool": "contracts_and_docs",
+  "resource_loading_model": "scene_local_preload",
+  "asset_strategy": "authorial_premium_source_art_before_res",
+  "baseline_technique": "tilemap/scene-local preload with BG_B atmosphere, BG_A road, WINDOW HUD and sprites for actors",
+  "evidence_required": [
+    "build",
+    "validation_report",
+    "runtime_metrics",
+    "scene_regression",
+    "BlastEm screenshot",
+    "save.sram",
+    "visual_vdp_dump.bin",
+    "freshness_audit",
+    "scene_closeout_gate"
+  ],
+  "forbidden_shortcuts_until_evidence": [
+    "Mode 7 claim",
+    "alpha blending claim",
+    "procedural fallback as final art",
+    "benchmark-derived source art",
+    "ready_for_aaa"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_native_author_stamp_v02",
+  "status": "authored_native_candidate",
+  "route": "author_stamp_8x8_grid",
+  "source_of_truth": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "source_policy": "approved_model_sheet_only; v01_candidate_not_read",
+  "output": "data/processed/characters/taina/lineart/taina_reseed_native_lineart_48x64_v02.png",
+  "canvas_px": {
+    "w": 48,
+    "h": 64
+  },
+  "tile_grid": {
+    "cols": 6,
+    "rows": 8,
+    "tile_px": 8
+  },
+  "scale": "1:1",
+  "ink_model": "single hard-edge 1px temporary dark ink",
+  "transparent_slot": {
+    "index": 0,
+    "authoring_matte": "magenta_key_only",
+    "png_encoding": "tRNS index 0"
+  },
+  "ink_pixels": 754,
+  "checks_before_pixel_contract": {
+    "dimensions_multiple_of_8": true,
+    "anti_aliasing": false,
+    "interpolation": false,
+    "trace_or_crop_of_rejected_candidate": false,
+    "procedural_primitives": false
+  },
+  "next_owner": "megadrive-pixel-strict-rules"
+}

@@ -72,15 +72,15 @@ saiu.
 
 | Quadros | Elemento | Entra por | Sai por |
 |---|---|---|---|
-| ate F300 | **FORGE** (ato 2) | pouso dos estilhacos | **scroll vertical para cima**, sob a cortina, F300-330 |
-| F300-360 | cortina de coluna | — | levanta a COIFA e revela o PALCO vazio |
-| F330-430 | **MISAEL** | scroll de baixo para o PALCO, F330-360 | **scroll para cima**, F420-440 |
-| F430-500 | **MASTER** | scroll de baixo, F430-460 | fade de paleta na entrega |
-| F480-520 | **PRESENTS** | fade de paleta no WINDOW | fade de paleta na entrega |
+| ate F318 | **FORGE** (ato 2) | pouso dos estilhacos | **restore do tilemap de props**, F318-325 |
+| F330-428 | **MISAEL** | carimbo na parede (y=24-56) | wipe so da faixa y<64, F428-434 |
+| F440-600 | **MASTER** | carimbo na parede (y=8-56) | hold ate o handoff |
+| F480-600 | **PRESENTS** | carimbo em BG_A y=26, sobre o fogo (sem WINDOW) | hold ate o handoff |
 
-O FORGE sair para cima **por baixo da cortina** e o que liga o ato 2 ao 3 sem corte: a cortina
-sobe, o logo sobe junto e desaparece atras da coifa. Continuidade por movimento, nao por
-sobreposicao.
+A forja **nao se move**. `VSCROLL_COLUMN` nao consegue levantar so a COIFA: o scroll de
+coluna desloca o plano inteiro, sobe o fogo e envolve o topo preto por baixo da bigorna.
+Continuidade e a oficina ficar no lugar e cada nome ter saida. Wipe em y>=64 apaga o ferro
+— FORGE sai restaurando `img_forge_bg_a_props`, nao com `VDP_clearTileMapRect`.
 
 ### Ritmo vertical: baseline comum, nao centro comum
 
@@ -88,8 +88,8 @@ MISAEL tem 32px e MASTER tem 48px. Centrados na zona, ficariam com bases em altu
 diferentes e a sucessao leria como dois elementos em posicoes distintas — nao como um palco
 sendo cedido de um para o outro.
 
-**Alinhados pela base em `y=128`**, 16 px acima da zona FORJA, a troca le como substituicao no
-mesmo lugar:
+**Alinhados pela base em `y=56`**, um tijolo acima da bigorna (ink de BG_A comeca em y=64),
+a troca le como carimbo na parede, nao como placa em cima do ferro:
 
 | Elemento | Altura | Tile y | Ocupa | Base |
 |---|---|---|---|---|

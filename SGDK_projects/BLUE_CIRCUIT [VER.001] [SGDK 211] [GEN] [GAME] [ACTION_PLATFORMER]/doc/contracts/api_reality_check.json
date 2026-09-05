@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "api_reality_check",
+  "checked_at": "2026-06-27",
+  "status": "passed_for_planned_runtime_symbols",
+  "headers_checked": [
+    "sdk/sgdk-2.11/inc/sprite_eng.h",
+    "sdk/sgdk-2.11/inc/vdp.h",
+    "sdk/sgdk-2.11/inc/vdp_bg.h",
+    "sdk/sgdk-2.11/inc/pal.h",
+    "sdk/sgdk-2.11/inc/snd/xgm2.h"
+  ],
+  "facts": [
+    "SPR_init(void) and SPR_initEx(u16 vramSize) are SGDK 2.11 signatures.",
+    "SPR_addSprite(const SpriteDefinition*, s16, s16, u16) is valid.",
+    "SPR_setPosition(Sprite*, s16, s16) and SPR_setAnimAndFrame(Sprite*, s16, s16) are valid.",
+    "VDP_drawImageEx(VDPPlane, const Image*, u16, u16, u16, bool, bool) is valid.",
+    "PAL_setPalette(u16, const u16*, TransferMethod) is valid; deprecated VDP palette wrappers are not used."
+  ]
+}

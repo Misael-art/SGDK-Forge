@@ -15,6 +15,9 @@ VDP e runtime/evidencia. Esta skill organiza os handoffs; nao substitui os owner
 
 ## Ler antes de agir
 
+0. `tools/sgdk_wrapper/.agent/references/visual-workset-and-freeze-contract.md`
+   quando houver historico, probes, rejeicoes ou retomada; valide o workset
+   antes de selecionar qualquer fonte
 1. `tools/sgdk_wrapper/.agent/workflows/native-sprite-production-loop.md`
 2. `references/source-route-triage-protocol.md` quando a entrada nao for pixel art nativa limpa
 3. `references/generation-and-scale-protocol.md` quando houver geracao por IA, fonte high-res ou duvida de escala
@@ -30,6 +33,8 @@ VDP e runtime/evidencia. Esta skill organiza os handoffs; nao substitui os owner
 
 - projeto/papel de gameplay/camera, fonte aprovada com hash, `must_preserve`,
   escala `locked`/`provisional`, materiais e `native_sprite_production_record`
+- `visual_workset_manifest` com `active_epoch` e fontes elegiveis; projeto
+  `frozen_case_study` nao aceita nova producao
 
 ### Saida minima
 
@@ -63,6 +68,8 @@ Veredito `passed` e requisito de promocao; veredito `failed` e consumido pelo
 ### Passa quando
 
 - produtor visual e autor nativo sao papeis separados
+- fonte pertence a `production_sources` do workset vigente; busca por nome,
+  proximidade no diretorio, runtime anterior ou status historico nao autoriza pixels
 - fonte high-res passa por `source-audit`; sombra de chao, poeira, fumaça,
   nuvem, particula, checkerboard, texto ou oclusao nao podem ser confundidos
   com corpo, cabelo, roupa ou pe. Fonte contaminada fica reference-only e pede
@@ -95,6 +102,9 @@ Veredito `passed` e requisito de promocao; veredito `failed` e consumido pelo
 
 - falha visual nao encerra o projeto; classifique e mude produtor, representacao, escala de probe ou hipotese
 - duas tentativas equivalentes encerram a rota, nao o asset
+- duas iteracoes com o mesmo blocker visual e sem ganho observavel em identidade,
+  pose ou acting encerram tambem a representacao/produtor; novo validator ou
+  novo build nao conta como delta artistico
 - cor vazando entre materiais pede patch causal sobre a candidata em rework, nao
   regeneracao integral: registre sintoma, material dono, fronteira esperada,
   indices permitidos e pixels/segmentos alterados
@@ -123,6 +133,8 @@ runtime exige ROM no BlastEm. A tabela completa vive no workflow.
 - abrir gate humano entre opcoes que ja falham fonte, silhueta ou identidade
 - usar uma sheet reprovada como nova fonte de geracao
 - desenhar personagem final por primitivas ou script procedural
+- usar canvas vazio + spans/`putpixel`/coordenadas como prova de autoria nativa;
+  esse resultado e sempre `procedural_code_probe`, ainda que o log seja explicito
 - declarar numero de cores por inspecao visual; medir PNG/PLTE
 - resolver perda de rosto/maos/pes adicionando detalhe high-res
 - trocar 48x64 por 64x96 sem gate de camera, gameplay e budget

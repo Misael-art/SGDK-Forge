@@ -8,7 +8,8 @@
   "confidence_threshold": 0.65,
   "selected_style_id": "angular_cps2_fighter",
   "catalog_path": "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
-  "catalog_entry_hash": "ad18a63c7cfa8c41c54c7073bc752cfc399370c5053d214e7df6514858799a5e",
+"catalog_entry_hash": "14ce75a741b3a11f7c689a51a60ac307f4c9d0070d8cf1ec23b05772b061201d",
+"authorial_line_contract_ref": "doc/art/authorial_line_style_contract.json",
   "inputs_consulted": [
     "doc/11-gdd.md",
     "doc/13-spec-cenas.md",
@@ -19,7 +20,7 @@
       "style_id": "angular_cps2_fighter",
       "score": 3.95,
       "why_fit": "afinidade exata beat_em_up/fighting; humor sharp/agressivo/arcade casa com 'peso de mare'; outline 1-2px legivel para crowd de 4 inimigos; linguagem de impacto (poses expressivas) serve hitstop",
-      "risks": "vram_pressure high (mitigada por animation window streaming + cap de 4 inimigos + escala MD 44-56px); risco de clone da linguagem Capcom (delimitado por authoriality gate e proibicao de poses iconicas)"
+"risks": "vram_pressure high (mitigada por animation window streaming + cap de 4 inimigos + escala MD 44-56px); risco de clone ou arte arcade generica (delimitado por authoriality gate, proibicao de poses iconicas e authorial_line_style_contract)"
     },
     {
       "style_id": "kinetic_loose_line_action",

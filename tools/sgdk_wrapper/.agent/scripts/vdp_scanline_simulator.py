@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Estimate Mega Drive sprite pressure per scanline.
 
-Input: JSON object with a sprites array. Each sprite needs x, y, w, h, and may
-provide sprite_links. If sprite_links is omitted, the script estimates hardware
-links from 32x32 sprite cells. Output: JSON pressure report.
+Input: JSON object with a sprites array. Each logical sprite needs x, y, w, h.
+The script decomposes it into real <=32x32 VDP cells, so vertically stacked
+cells contribute only to the scanlines they actually cover. An exact
+hardware_cells list may be supplied when the engine layout is already known.
 """
 
 from __future__ import annotations
@@ -16,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 
-TOOL_VERSION = "1.1.0"
+TOOL_VERSION = "1.2.0"
 VISIBLE_LINES = 224
 TOTAL_SPRITE_LINK_LIMIT = 80
 
@@ -47,6 +48,27 @@ def _estimated_links(w: int, h: int) -> int:
     return max(1, math.ceil(max(1, w) / 32) * math.ceil(max(1, h) / 32))
 
 
+def _geometry_cells(sprite: dict[str, Any]) -> list[dict[str, int]]:
+    """Decompose one logical rectangle into legal VDP hardware cells."""
+    explicit = sprite.get("hardware_cells")
+    if isinstance(explicit, list):
+        cells = []
+        for cell in explicit:
+            if not isinstance(cell, dict):
+                continue
+            cells.append({"x": _int(cell.get("x")), "y": _int(cell.get("y")),
+                          "w": _int(cell.get("w")), "h": _int(cell.get("h"))})
+        return cells
+    x, y = _int(sprite.get("x")), _int(sprite.get("y"))
+    w, h = max(1, _int(sprite.get("w"), 1)), max(1, _int(sprite.get("h"), 1))
+    cells = []
+    for oy in range(0, h, 32):
+        for ox in range(0, w, 32):
+            cells.append({"x": x + ox, "y": y + oy,
+                          "w": min(32, w - ox), "h": min(32, h - oy)})
+    return cells
+
+
 def simulate(data: dict[str, Any]) -> dict[str, Any]:
     sprites = data.get("sprites") or []
     mode_name = str(data.get("display_mode", DEFAULT_DISPLAY_MODE)).lower()
@@ -69,17 +91,22 @@ def simulate(data: dict[str, Any]) -> dict[str, Any]:
             blockers.append(f"invalid_sprite_entry:{idx}")
             continue
 
-        y = _int(sprite.get("y"))
-        h = _int(sprite.get("h"), 1)
-        w = _int(sprite.get("w"), 1)
-        links = _int(sprite.get("sprite_links"), _estimated_links(w, h))
-        total_links += max(0, links)
-
-        start = max(0, y)
-        end = min(VISIBLE_LINES, y + h)
-        for line in range(start, end):
-            pressure[line] += links
-            pixel_pressure[line] += max(0, w)
+        cells = _geometry_cells(sprite)
+        if not cells or any(c["w"] <= 0 or c["h"] <= 0 or c["w"] > 32 or c["h"] > 32
+                            for c in cells):
+            blockers.append(f"invalid_hardware_cells:{idx}")
+            continue
+        declared_links = sprite.get("sprite_links")
+        if declared_links is not None and _int(declared_links) != len(cells):
+            warnings.append(f"sprite_links_disagree_with_geometry:{idx}:"
+                            f"declared={_int(declared_links)}:derived={len(cells)}")
+        total_links += len(cells)
+        for cell in cells:
+            start = max(0, cell["y"])
+            end = min(VISIBLE_LINES, cell["y"] + cell["h"])
+            for line in range(start, end):
+                pressure[line] += 1
+                pixel_pressure[line] += cell["w"]
 
     max_pressure = max(pressure) if pressure else 0
     max_pixels = max(pixel_pressure) if pixel_pressure else 0
@@ -122,6 +149,7 @@ def simulate(data: dict[str, Any]) -> dict[str, Any]:
         "display_mode": mode_name,
         "limits": {"sprites_per_scanline": sprite_limit, "pixels_per_scanline": pixel_limit},
         "sprite_count": len(sprites),
+        "hardware_sprite_count": total_links,
         "total_sprite_links": total_links,
         "max_sprites_per_scanline": max_pressure,
         "max_sprite_pixels_per_scanline": max_pixels,
@@ -161,6 +189,10 @@ def self_check() -> int:
     timid = simulate({"sprites": [{"name": "lone", "x": 10, "y": 10, "w": 16, "h": 16, "sprite_links": 1}]})
     h32 = simulate({"display_mode": "h32",
                     "sprites": [{"name": f"n{i}", "x": 0, "y": 40, "w": 16, "h": 16, "sprite_links": 1} for i in range(17)]})
+    tall32 = simulate({"sprites": [{"name": "enemy", "x": 0, "y": 0, "w": 32, "h": 48}],
+                       "headroom_justification": "fixture"})
+    tall64 = simulate({"sprites": [{"name": "hero", "x": 0, "y": 0, "w": 64, "h": 96}],
+                       "headroom_justification": "fixture"})
 
     if ok["status"] != "ok":
         print("self-check failed: simple scene rejected", file=sys.stderr)
@@ -183,7 +215,13 @@ def self_check() -> int:
     if h32["status"] != "error" or "sprites_per_scanline_over_16" not in h32["blockers"]:
         print("self-check failed: h32 limits not applied", file=sys.stderr)
         return 1
-    print("vdp_scanline_simulator self-check passed (both limits + headroom + h32)")
+    if tall32["total_sprite_links"] != 2 or tall32["max_sprites_per_scanline"] != 1:
+        print("self-check failed: 32x48 vertical cells counted on every scanline", file=sys.stderr)
+        return 1
+    if tall64["total_sprite_links"] != 6 or tall64["max_sprites_per_scanline"] != 2:
+        print("self-check failed: 64x96 vertical cells counted on every scanline", file=sys.stderr)
+        return 1
+    print("vdp_scanline_simulator self-check passed (geometry cells + both limits + headroom + h32)")
     return 0
 
 

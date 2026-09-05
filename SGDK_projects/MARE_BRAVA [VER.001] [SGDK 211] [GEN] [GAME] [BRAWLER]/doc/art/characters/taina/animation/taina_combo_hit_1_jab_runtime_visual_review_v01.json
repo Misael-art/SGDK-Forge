@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_combo_hit_1_jab",
+  "review_kind": "approved_key_pose_to_rom_visual_review",
+  "generated_at": "2026-07-29",
+  "status": "buildado_runtime_animation_observed_partial_evidence",
+  "delivery_status": "runtime_candidate_combo_hit_1_jab",
+  "ready_for_aaa": false,
+  "source_of_truth": {
+    "approved_idle_master": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+    "approved_active_key_pose": "rascunho/taina_combo_hit_1_jab_v01/taina_combo_hit_1_jab_active_key_pose_64x64_v01.png",
+    "runtime_strip": "res/sprites/characters/taina/taina_combo_hit_1_jab_64x64_v01.png"
+  },
+  "runtime_evidence": {
+    "rom_sha256": "0c281347c4d1673855a45a646cd639a395d0ea7279e15cd0b28c49d538db3822",
+    "rom_size_bytes": 262144,
+    "session_id": "blastem-linux-20260729T111215Z-598254",
+    "scene_id": 3,
+    "window_title": "SAMPLE PROGRAM - BlastEm - 60.1 fps",
+    "screenshot": "out/blastem_env_taina_combo_hit_1_jab_v01/blastem-linux-20260729T111215Z-598254/screenshot.png",
+    "animation_gif": "out/blastem_env_taina_combo_hit_1_jab_v01/blastem-linux-20260729T111215Z-598254/runtime_animation.gif",
+    "unique_source_frame_contact_sheet": "doc/art/characters/taina/review/taina_combo_hit_1_jab_contact_sheet_6x_v01.png",
+    "runtime_temporal_burst_contact_sheet": "out/blastem_env_taina_combo_hit_1_jab_v01/blastem-linux-20260729T111215Z-598254/runtime_attack_contact_sheet.png",
+    "runtime_temporal_burst_note": "This 6x8 board contains 48 consecutive emulator samples and is not a sprite sheet. Repeated idle samples are expected because the attack lasts 14 VBlanks and the capture window continues after recovery.",
+    "sram": "out/blastem_env_taina_combo_hit_1_jab_v01/blastem-linux-20260729T111215Z-598254/save.sram",
+    "semantic_capture_valid": true,
+    "bundle_sealed": false,
+    "bundle_blockers": [
+      "vlab_block_missing",
+      "artifact_missing:vdp_dump",
+      "artifact_missing:runtime_metrics"
+    ]
+  },
+  "technical_checks": {
+    "png_pixel_strict": "passed",
+    "strip_integrity": "passed",
+    "artifact_audit": "passed_zero_findings",
+    "rescomp": "passed",
+    "build": "passed",
+    "sprite_visible": true,
+    "animation_visible": true,
+    "input_c_and_x": "passed_visual_trigger",
+    "pivot_and_ground_contact": "passed_offline_and_visually_observed",
+    "active_frame_peak_tiles": 28,
+    "active_frame_metasprite_parts": 3
+  },
+  "visual_findings": [
+    "The five-state burst visibly traverses anticipation, launch, full extension, recoil and recovery; repeated cells in the 48-sample burst are temporal observations, not ROM sprite frames.",
+    "The orange, indigo and teal material split remains readable at native scene scale.",
+    "Head scale, dominant hair silhouette and grounded lower body remain continuous with the approved idle v02.",
+    "The active frame has materially greater reach without shrinking the body or clipping the fist.",
+    "No independent-frame morphing is visible; the action returns to the idle definition after fourteen VBlanks."
+  ],
+  "decision": "Accept the five-frame jab strip as the current runtime candidate in res. Do not present the 48-sample BlastEm burst as a sprite sheet. Remove the overlapping START world marker and recapture before using runtime evidence for visual review. Keep the broader status at buildado with partial BlastEm observation until VLAB, visual VDP dump, runtime metrics and combined gameplay pressure are captured."
+}

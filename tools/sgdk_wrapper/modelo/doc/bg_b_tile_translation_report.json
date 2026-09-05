@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "translation_report",
+  "translation_target": "tilemap",
+  "res_symbol": "img_forge_bg_b",
+  "source": "data/source_art/branding_v2/raw/forge_bg_b_v02.jpg",
+  "semantic_parse": {
+    "layout_classification": "scene_plane_bg_b",
+    "must_keep": ["running_bond_wall", "diagonal_timber_beam", "ember_fire_bed", "iron_brackets"],
+    "can_simplify": ["per_brick_jpeg_speckle", "unique_dither"],
+    "must_drop": ["magenta_fire_holes", "photographic_grain"]
+  },
+  "tile_reuse_plan": "remap PAL0 then replace near-duplicate 8x8 cells with authored medoids plus HV flip",
+  "hardware_budget_review": {
+    "before_unique_with_flip": 870,
+    "after_unique_with_flip": 642,
+    "target": 644,
+    "verdict": "cabe com recuo",
+    "note": "ResComp-style flip count hits the brief. Unique without flip is 717."
+  },
+  "pixels_are_authored_crops": true,
+  "acceptance_status": "placeholder",
+  "honest_art_debt": "v02 wall is cleaner and more tileable than v01, but flatter and less irregular than the locked model-sheet wall."
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "entity_vtable_plan",
+  "scene_id": "stage_01_blue_circuit",
+  "status": "documented_for_runtime",
+  "pool": {
+    "max_entities": 8,
+    "allocation": "static_array",
+    "failure_policy": "spawn_request_ignored_and_reported_in_debug_counter"
+  },
+  "archetypes": [
+    {
+      "id": "line_sentry",
+      "states": [
+        "idle",
+        "telegraph",
+        "fire",
+        "hit",
+        "dead"
+      ],
+      "callbacks": [
+        "update",
+        "on_hit"
+      ]
+    },
+    {
+      "id": "breaker_core",
+      "states": [
+        "sleep",
+        "telegraph",
+        "volley",
+        "vulnerable",
+        "damaged",
+        "defeated"
+      ],
+      "callbacks": [
+        "update",
+        "on_hit"
+      ],
+      "boss_modular_claim": "not_applicable_single_body_miniboss"
+    },
+    {
+      "id": "pulse_projectile",
+      "states": [
+        "active",
+        "expired"
+      ],
+      "callbacks": [
+        "update"
+      ]
+    }
+  ],
+  "update_order": [
+    "player",
+    "player_projectile",
+    "enemy",
+    "mini_boss",
+    "camera",
+    "render"
+  ]
+}

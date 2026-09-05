@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "track_data_format_v001",
+  "design_decision": "lane_event_track",
+  "reason": "A discrete lane runner needs deterministic event timing more than a free tile collision matrix. Visual road tiles may change without invalidating gameplay data.",
+  "coordinate_spaces": {
+    "track_step": "one authored beat; 16 NTSC frames in first slice",
+    "frame": "runtime NTSC frame counter",
+    "lane_id": "0 left, 1 center, 2 right",
+    "screen_px": "integer pixels after camera/projection",
+    "world_progress_q8_8": "forward progress in fixed Q8.8 units"
+  },
+  "constants": {
+    "lanes": 3,
+    "step_frames_ntsc": 16,
+    "player_y_px": 168,
+    "lane_x_px": [112, 160, 208],
+    "lane_width_px": 40,
+    "playfield_top_px": 24,
+    "playfield_bottom_px": 216,
+    "telegraph_min_steps": 2,
+    "max_events_per_sector": 96,
+    "max_active_events": 10
+  },
+  "c_struct_layout": {
+    "TrackSegment": [
+      "u16 start_step",
+      "u16 duration_steps",
+      "u16 speed_q8_8",
+      "u16 pressure_rate_q8_8_per_sec",
+      "s8 road_curve",
+      "u8 visual_state",
+      "u8 spawn_profile",
+      "u8 flags"
+    ],
+    "TrackEvent": [
+      "u16 start_step",
+      "u8 lane_mask",
+      "u8 event_kind",
+      "u8 variant",
+      "u8 telegraph_steps",
+      "u8 active_steps",
+      "s16 value",
+      "u8 flags"
+    ]
+  },
+  "event_kind_enum": {
+    "0": "none",
+    "1": "lumen_orb",
+    "2": "low_stone",
+    "3": "astral_mark",
+    "4": "pressure_gate",
+    "5": "pulse_tutorial_target",
+    "6": "beacon_key",
+    "7": "time_spark",
+    "8": "meteor_diagonal",
+    "9": "boss_wave",
+    "10": "boss_weakpoint_window",
+    "11": "pursuer_shadow_hint",
+    "12": "meteor_warning",
+    "13": "meteor_impact_persistent",
+    "14": "glass_lane_warning",
+    "15": "glass_lane_missing",
+    "16": "shadow_hazard_short_telegraph",
+    "17": "audio_first_warning",
+    "18": "shattered_lane_break",
+    "19": "debris_fall",
+    "20": "safe_lane_rebuild"
+  },
+  "lane_mask_bits": {
+    "bit0": "lane_0_left",
+    "bit1": "lane_1_center",
+    "bit2": "lane_2_right",
+    "bit3": "all_lanes_marker"
+  },
+  "runtime_conversion": {
+    "event_frame": "event.start_step * step_frames_ntsc",
+    "telegraph_frame_count": "event.telegraph_steps * step_frames_ntsc",
+    "active_frame_count": "event.active_steps * step_frames_ntsc",
+    "speed_px_per_frame": "speed_q8_8 >> 8 plus fractional accumulator",
+    "hazard_screen_y": "projection table indexed by remaining frames until active"
+  },
+  "collision_link": {
+    "collision_contract": "doc/collision_system_contract.json",
+    "entity_manifest": "doc/entity_archetype_manifest.json",
+    "sector_01_plan": "doc/sector_01_track_plan.json"
+  },
+  "tile_policy": {
+    "road_visual_tiles_are_not_collision": true,
+    "tile_collision_first_slice": "not_used",
+    "future_tile_material_map_required_for_free_roam": true
+  },
+  "validation_rules": [
+    "every damaging event must have telegraph_steps >= 2",
+    "Sector identity events must map to sector_mechanic_identity_contract",
+    "no more than max_active_events may overlap",
+    "first appearance of each hazard kind must have a safe lane",
+    "lane_mask must never create unavoidable damage unless event_kind is scripted_control_lock",
+    "pickup events must not share active window with unavoidable tutorial hazard",
+    "track data must be compileable to const C arrays without malloc"
+  ],
+  "compile_targets": {
+    "header": "inc/data/track_data.h",
+    "sector_01_source": "src/data/track_sector_01.c",
+    "runtime_owner": "src/race/race_track.c",
+    "build_status": "future_runtime_seed"
+  }
+}

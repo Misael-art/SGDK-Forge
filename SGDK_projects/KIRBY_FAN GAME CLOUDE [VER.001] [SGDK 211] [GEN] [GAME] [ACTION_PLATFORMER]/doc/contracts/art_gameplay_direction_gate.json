@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "vegetable_valley_visual_nucleus_v01_gate",
+  "project_id": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "asset_id": "vegetable_valley_visual_nucleus_v01",
+  "asset_kind": "scene_direction_and_authorial_model_sheet",
+  "evaluated_at": "2026-08-31T21:00:00Z",
+  "measurement_level": "declared_candidate",
+  "art_director_review": {
+    "status": "direction_locked_idle_runtime_review_authorized",
+    "reviewer": "visual-excellence-standards",
+    "art_direction_decision_record": "doc/art/nexialist_visual_nucleus_v01.md",
+    "findings": ["Route A — Sunlit Cultivation is human-locked as visual direction only.", "The golden-scene concept is human-approved only as composition, lighting, depth, layers and density reference.", "model_sheet_challenger_v01 remains needs_rework; v02 remains turnaround_volume_reference_only; v03-B remains comparison_only.", "v03-A remains the canonical visual source by exact SHA. ELITE idle key pose is human-approved for isolated runtime visual proof only; it is not first_playable replacement or final animation."]
+  },
+  "game_design_context": {
+    "status": "reconciled_from_memory_bank_and_runtime",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "gameplay_role": "Vegetable Valley first playable slice: movement, inhale/ability choice, enemy threat, raised ledge and gap readability",
+    "camera_perspective": "320x224 H40 side-on platformer camera with current dead-zone and parallax architecture",
+    "interaction_context": ["hero remains focal against BG_A/BG_B", "enemy separates from terrain and wind effect", "ability FX communicates direction and gameplay consequence", "foreground leaves do not cover collision edge or actor feet"]
+  },
+  "identity_continuity_lock": {
+    "must_preserve": [
+      {"id":"round_body","kind":"silhouette","expected":"spherical rosy body with separated arm-stubs","status":"candidate"},
+      {"id":"oval_eyes","kind":"face","expected":"tall dark oval eyes with pale highlight","status":"candidate"},
+      {"id":"small_red_feet","kind":"contact","expected":"small saturated feet touching baseline","status":"candidate"},
+      {"id":"upper_left_light","kind":"material","expected":"single upper-left key light and lower-right terminator","status":"candidate"},
+      {"id":"garden_valley","kind":"scene","expected":"cultivated valley, green/amber terrain, cool distant depth","status":"candidate"}
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "candidate_for_approval",
+    "secondary_motion": ["wind ribbon and leaves follow inhale direction", "feet retain ground contact on run contact pose"],
+    "expression_requirements": ["neutral, determined, surprised, hurt, happy remain distinct at native scale"],
+    "state_fantasy_checks": ["inhale is an active gameplay verb, not decorative FX", "raised ledge and gap remain readable during motion"]
+  },
+  "decision": {
+    "production_allowed": false,
+    "single_idle_native_key_pose_translation_allowed": true,
+    "isolated_idle_runtime_review_allowed": true,
+    "up_to_three_key_pose_motion_proof_allowed": true,
+    "ready_for_generation": true,
+    "ready_for_conversion": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": ["human_asset_approval_bound_to_hashes", "art-translation-to-vdp", "native-sprite-production", "pixel_strict_and_palette_validation", "vdp_budget_and_blastem_evidence"]
+  },
+  "blockers": ["full_turnaround_not_approved", "motion_package_human_gate_pending", "concept_art_not_native_asset", "res_promotion_forbidden", "first_playable_replacement_forbidden"]
+}

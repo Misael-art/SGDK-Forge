@@ -452,7 +452,7 @@ Se o laudo disser `nao cabe`, ele deve dizer qual das opcoes falhou: resident se
   - `SAT reuse`
   - quirks e exploits de sprite
 
-## Curadoria 2026-06-03 - Celestial Chase: resposta tecnica vs resposta perceptiva
+## Curadoria - resposta tecnica vs resposta perceptiva
 
 Licao: o budget classico do VDP (`scanline pressure`, `tile budget`, `palette budget`, `DMA budget`) responde a pergunta "cabe?". Mas o sistema antigo nao separava isso da pergunta "perceptivel?". Resultado: budget aprovado por todos os numeros, mas o jogador nao ve o efeito por causa de FX competindo, sprites muito pequenos, ou paleta colapsando sob Highlight.
 

@@ -1,0 +1,108 @@
+{
+  "$schema": "tools/sgdk_wrapper/schemas/camera_behavior_contract.schema.json",
+  "schema_version": "1.0.0",
+  "artifact_kind": "camera_behavior_contract",
+  "scene_id": "stage_01_blue_circuit",
+  "camera_role": "platformer",
+  "model": "deadzone_lookahead",
+  "coordinate_model": "integer_only",
+  "target_anchor": {
+    "subject": "player_blue_circuit",
+    "x_offset_px": 0,
+    "y_offset_px": 0,
+    "vertical_priority": "grounded_feet"
+  },
+  "dead_zone": {
+    "enabled": true,
+    "left_px": 96,
+    "right_px": 120,
+    "top_px": 48,
+    "bottom_px": 80,
+    "reason": "Small action-platformer room needs player readability and hazard anticipation without camera jitter."
+  },
+  "smoothing": {
+    "enabled": true,
+    "method": "fixed_step",
+    "frames_to_target": 8,
+    "max_speed_px_per_frame": 6
+  },
+  "lookahead": {
+    "enabled": true,
+    "x_px": 24,
+    "y_px": 0,
+    "switch_frames": 12,
+    "source": "facing"
+  },
+  "clamp": {
+    "enabled": true,
+    "min_x_px": 0,
+    "max_x_px": 192,
+    "min_y_px": 0,
+    "max_y_px": 0,
+    "empty_space_policy": "forbidden"
+  },
+  "render_snap": {
+    "final_position": "integer_pixels_only",
+    "scroll_register_units": "pixels",
+    "sprite_camera_space": "world_minus_camera_integer",
+    "subpixel_jitter_guard": true
+  },
+  "trigger_zones": [
+    {
+      "trigger_id": "mini_boss_lock",
+      "bounds_px": {
+        "x": 420,
+        "y": 0,
+        "w": 92,
+        "h": 224
+      },
+      "mode": "boss_room_lock",
+      "enter_behavior": "lock camera to final room and activate breaker_core",
+      "exit_behavior": "no exit in vertical slice; end scene after mini-boss defeat"
+    }
+  ],
+  "screen_shake": {
+    "allowed": true,
+    "max_offset_px": 4,
+    "max_duration_frames": 12,
+    "decay": "linear",
+    "snap_after_shake": true,
+    "gameplay_events": [
+      "breaker_core_hit",
+      "breaker_core_defeated"
+    ]
+  },
+  "culling_policy": {
+    "enabled": true,
+    "margin_px": 32,
+    "disable_physics_outside_view": false,
+    "telegraph_safe": true,
+    "exceptions": [
+      "player",
+      "active_projectile",
+      "breaker_core"
+    ]
+  },
+  "runtime_owner": {
+    "module": "src/scenes/scene_demo.c",
+    "update_function": "stageUpdateCamera",
+    "reset_function": "stageReset"
+  },
+  "fallback": "If scroll/budget fails, use fixed_room camera with the same gameplay bounds and record fallback_reduced_residency.",
+  "evidence_required": [
+    {
+      "evidence_type": "blastem_screenshot",
+      "path": "out/blastem_env_*/screenshots/stage_01_blue_circuit.png",
+      "passed": false
+    },
+    {
+      "evidence_type": "runtime_metrics",
+      "path": "out/logs/runtime_metrics.json",
+      "passed": false
+    }
+  ],
+  "blockers": [
+    "blocked_no_build",
+    "blocked_no_blastem_evidence"
+  ]
+}

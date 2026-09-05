@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "r3_surgical_source_correction_manifest",
+  "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "round": "r3",
+  "delivered_at": "2026-07-29",
+  "producer_signature": "Codex",
+  "scope": "R3-02 only; R2-01, R2-03 and R2-04 are closed and untouched.",
+  "policy": {
+    "r1_and_r2_preserved": true,
+    "no_new_art": true,
+    "no_new_palette_colors": true,
+    "status": "source_candidate_pending_human_judgment",
+    "res_promotion_allowed": false
+  },
+  "delivery": {
+    "id": "r3-02",
+    "parent": "r2/r2-02/layers.png",
+    "file": "r3-02/layers.png",
+    "sha256": "1abb5af3fc6a1e815ad357f4cbdf772f6660f958e2120010b78db9346e8b3a0e",
+    "acceptance": {
+      "palette_colors_before": 47,
+      "palette_colors_after": 42,
+      "maximum_palette_colors": 45,
+      "new_colors": [],
+      "layer_5_luminance": 0.270037,
+      "allowed_luminance_range": [0.23, 0.28],
+      "layers_1_to_4_pixel_diff": 0,
+      "illegal_rgb333_project_grid_pixels": 0
+    }
+  },
+  "evidence": {
+    "validation_report": "r3_validation_report.json",
+    "notes": "r3-02/notes.md",
+    "reproducible_builder": "../../../rascunho/temporario/r3_palette_collapse.py"
+  },
+  "handoff": {
+    "read_first": ["r3_delivery_manifest.json", "r3_validation_report.json", "r3-02/notes.md", "doc/art/R2_VERDICT_AND_R3_PACK.md"],
+    "do_not": ["do not overwrite R1 or R2", "do not alter R2-01/R2-03/R2-04", "do not promote this source study to res/"],
+    "next_gate": "human art judgment, then native 8x8 translation and normal SGDK/BlastEm gates"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "target": "NTSC_60",
+  "pal_policy": "detect SYS_isPAL and scale timers by targetFps",
+  "animation_timing": "frame durations expressed in gameplay ticks with region conversion",
+  "audio_cadence": "music tempo authored for NTSC first; PAL review required",
+  "evidence_required": ["runtime_metrics_ntsc", "pal_smoke_test_when_available"]
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_ai_visual_package_v012",
+  "status": "advanced_source_vdp_candidate",
+  "source_model_sheet": "data/source_art/hibrido_fighter_v012/source_concept.png",
+  "source_sprite_sheet": "data/source_art/hibrido_sprite_sheet_v012/source_pixel_sheet.png",
+  "source_stage": "data/source_art/hibrido_stage_pixel_v012/source_pixel_stage.png",
+  "source_hashes": {
+    "model_sheet": "89b4d1aa28523b8311c6ab8ce81f01923279b3bdc1d7e825767ce1919341871e",
+    "sprite_sheet": "f64bca2651741662267d0c12133ef550fcc9b1415109f31f4a1fd0d5ad9cd05a",
+    "stage": "a1e7a2f3eb37b1126807ae9d8c19ea82c04730593888b4d0cef5eff96f31bdec"
+  },
+  "scale_contract": {
+    "scale_class": "arcade_hi_bit_macro_96",
+    "scale_lock_status": "locked_for_v012_candidate",
+    "nominal_bbox_px": {
+      "w": 96,
+      "h": 96
+    },
+    "pivot_px": [
+      48,
+      88
+    ],
+    "ground_y": 88,
+    "scale_change_policy": "requires_new_ai_source_or_manual_redraw"
+  }
+}

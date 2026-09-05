@@ -29,14 +29,32 @@ function Get-DirectoryContentHash {
     param([Parameter(Mandatory = $true)][string]$Path)
 
     $baseFull = [System.IO.Path]::GetFullPath($Path).TrimEnd("\", "/") + [System.IO.Path]::DirectorySeparatorChar
-    $items = foreach ($file in Get-ChildItem -LiteralPath $Path -File -Recurse | Sort-Object FullName) {
-        $fileFull = [System.IO.Path]::GetFullPath($file.FullName)
+    $files = @(Get-ChildItem -LiteralPath $Path -File -Recurse | ForEach-Object {
+        $fileFull = [System.IO.Path]::GetFullPath($_.FullName)
         if (-not $fileFull.StartsWith($baseFull, [System.StringComparison]::OrdinalIgnoreCase)) {
             throw "skill_file_outside_payload:$fileFull"
         }
-        $relative = $fileFull.Substring($baseFull.Length).Replace("\", "/")
-        $fileHash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-        "$relative`0$fileHash`n"
+        [pscustomobject]@{
+            File = $_
+            Relative = $fileFull.Substring($baseFull.Length).Replace("\", "/")
+        }
+    } | Sort-Object -Property @{ Expression = {
+        [System.Convert]::ToHexString([System.Text.Encoding]::UTF8.GetBytes([string]$_.Relative))
+    } })
+    $items = foreach ($item in $files) {
+        $fileBytes = [System.IO.File]::ReadAllBytes($item.File.FullName)
+        if ([System.IO.Path]::GetExtension($item.File.Name).ToLowerInvariant() -in @(".md", ".json", ".yaml", ".yml", ".txt")) {
+            $text = [System.Text.Encoding]::UTF8.GetString($fileBytes).Replace("`r`n", "`n").Replace("`r", "`n")
+            $fileBytes = [System.Text.Encoding]::UTF8.GetBytes($text)
+        }
+        $fileSha = [System.Security.Cryptography.SHA256]::Create()
+        try {
+            $fileHash = ([System.BitConverter]::ToString($fileSha.ComputeHash($fileBytes))).Replace("-", "").ToLowerInvariant()
+        }
+        finally {
+            $fileSha.Dispose()
+        }
+        "$($item.Relative)`0$fileHash`n"
     }
     $bytes = [System.Text.Encoding]::UTF8.GetBytes([string]::Concat($items))
     $sha = [System.Security.Cryptography.SHA256]::Create()

@@ -5,6 +5,7 @@
 #include "game_vars.h"
 #include "resources.h"
 #include "system/audio.h"
+#include "system/camera.h"
 #include "system/input.h"
 
 #define DEMO_WORLD_TILES 64
@@ -22,6 +23,12 @@
 #define DEMO_JAB_PHASE_COUNT 5
 #define DEMO_SCROLL_LINES 224
 #define DEMO_LAMP_PALETTE_INDEX 46
+#define DEMO_PLAYER_MAX_HP 100
+#define DEMO_PLAYER_IFRAME_FRAMES 24
+#define DEMO_CRIA_DAMAGE 5
+#define DEMO_JAB_DAMAGE 15
+#define DEMO_JAB_KNOCKBACK_PX 8
+#define DEMO_JAB_HITSTOP_FRAMES 2
 
 #define DEMO_ACCEL (FIX16(1) >> 3)
 #define DEMO_FRICTION (FIX16(1) >> 4)
@@ -35,6 +42,8 @@ typedef struct DemoPlayer {
     fix16 y;
     fix16 vx;
     fix16 vy;
+    u8 health;
+    u8 invulnerabilityFrames;
     bool grounded;
 } DemoPlayer;
 
@@ -53,7 +62,6 @@ static Sprite* sSmokeSprite0;
 static Sprite* sSmokeSprite1;
 static Sprite* sLampDustSprite0;
 static Sprite* sLampDustSprite1;
-static s16 sCameraX;
 static DemoAnimationState sAnimState;
 static u8 sIdleFrame;
 static u8 sIdleFrameTicks;
@@ -65,8 +73,11 @@ static u8 sLandingTicks;
 static const u8 sWalkFrameDuration[DEMO_WALK_FRAME_COUNT] = { 5, 4, 5, 5, 4, 5 };
 static const u8 sDashFrameDuration[DEMO_DASH_FRAME_COUNT] = { 3, 2, 3, 4 };
 static bool sJabActive;
+static bool sJabHitResolved;
 static u8 sJabFrame;
 static u8 sJabFrameTicks;
+static u8 sHitstopFrames;
+static bool sPlayerFacingRight;
 static const u8 sJabPhaseDuration[DEMO_JAB_PHASE_COUNT] = { 3, 2, 2, 3, 4 };
 static s16 sBgAScrollLines[DEMO_SCROLL_LINES];
 static s16 sBgBScrollLines[DEMO_SCROLL_LINES];
@@ -106,8 +117,8 @@ static void demoDrawStaticWorld(void)
     VDP_setVerticalScroll(BG_A, 0);
     VDP_setVerticalScroll(BG_B, 0);
     for (row = 0; row < DEMO_SCROLL_LINES; row++) {
-        sBgAScrollLines[row] = -sCameraX;
-        sBgBScrollLines[row] = -(sCameraX >> 3);
+        sBgAScrollLines[row] = -CAMERA_getX();
+        sBgBScrollLines[row] = -(CAMERA_getX() >> 3);
     }
     VDP_setHorizontalScrollLine(
         BG_A,
@@ -151,8 +162,11 @@ static void demoResetPlayer(void)
     sPlayer.y = FIX16(DEMO_GROUND_Y);
     sPlayer.vx = 0;
     sPlayer.vy = 0;
+    sPlayer.health = DEMO_PLAYER_MAX_HP;
+    sPlayer.invulnerabilityFrames = 0;
     sPlayer.grounded = TRUE;
-    sCameraX = 80;
+    CAMERA_init(0, DEMO_CAMERA_MAX_X, 80);
+    sPlayerFacingRight = TRUE;
 }
 
 static void demoApplyHorizontalInput(void)
@@ -161,8 +175,10 @@ static void demoApplyHorizontalInput(void)
 
     if (INPUT_held(BUTTON_LEFT)) {
         sPlayer.vx -= DEMO_ACCEL;
+        sPlayerFacingRight = FALSE;
     } else if (INPUT_held(BUTTON_RIGHT)) {
         sPlayer.vx += DEMO_ACCEL;
+        sPlayerFacingRight = TRUE;
     } else if (sPlayer.vx > 0) {
         sPlayer.vx -= DEMO_FRICTION;
         if (sPlayer.vx < 0) {
@@ -190,6 +206,7 @@ static void demoStartJab(void)
 
     sAnimState = DEMO_ANIM_JAB;
     sJabActive = TRUE;
+    sJabHitResolved = FALSE;
     sJabFrame = 0;
     sJabFrameTicks = 0;
     SPR_setAutoAnimation(sPlayerSprite, FALSE);
@@ -237,9 +254,13 @@ static void demoUpdatePlayer(void)
 {
     bool wasGrounded = sPlayer.grounded;
 
+    if (sPlayer.invulnerabilityFrames > 0) {
+        sPlayer.invulnerabilityFrames--;
+    }
+
     demoApplyHorizontalInput();
 
-    if ((INPUT_pressed(BUTTON_A) || INPUT_pressed(BUTTON_Y)) && sPlayer.grounded) {
+    if ((INPUT_pressed(BUTTON_C) || INPUT_pressed(BUTTON_Y)) && sPlayer.grounded) {
         sPlayer.vy = DEMO_JUMP_SPEED;
         sPlayer.grounded = FALSE;
         sJumpStartTicks = 4;
@@ -247,8 +268,7 @@ static void demoUpdatePlayer(void)
         AUDIO_playCue(AUDIO_CUE_JUMP);
     }
 
-    if (INPUT_pressed(BUTTON_C) || INPUT_pressed(BUTTON_X)) {
-        AUDIO_playCue(AUDIO_CUE_STRIKE);
+    if (INPUT_pressed(BUTTON_A)) {
         demoStartJab();
     }
 
@@ -275,17 +295,22 @@ static void demoUpdatePlayer(void)
     }
 }
 
-static void demoUpdateCamera(void)
+static void demoTryJabHit(void)
 {
-    s16 targetX = F16_toInt(sPlayer.x) - 144;
-
-    if (targetX < 0) {
-        targetX = 0;
-    } else if (targetX > DEMO_CAMERA_MAX_X) {
-        targetX = DEMO_CAMERA_MAX_X;
+    if (!sJabActive || sJabHitResolved || (sJabFrame != 2)) {
+        return;
     }
 
-    sCameraX += (targetX - sCameraX) >> 3;
+    sJabHitResolved = TRUE;
+    if (CRIA_receiveHit(
+            sPlayer.x,
+            sPlayerFacingRight,
+            DEMO_JAB_DAMAGE,
+            sPlayerFacingRight ? DEMO_JAB_KNOCKBACK_PX : -DEMO_JAB_KNOCKBACK_PX
+        )) {
+        AUDIO_playCue(AUDIO_CUE_STRIKE);
+        sHitstopFrames = DEMO_JAB_HITSTOP_FRAMES;
+    }
 }
 
 static void demoUpdateEnvironmentFx(void)
@@ -297,20 +322,20 @@ static void demoUpdateEnvironmentFx(void)
     for (row = 0; row < DEMO_SCROLL_LINES; row++) {
         s16 bgBScroll;
 
-        sBgAScrollLines[row] = -sCameraX;
+        sBgAScrollLines[row] = -CAMERA_getX();
         if (row < 48) {
-            bgBScroll = -(sCameraX >> 3);
+            bgBScroll = -(CAMERA_getX() >> 3);
         } else if (row < 80) {
-            bgBScroll = -(sCameraX >> 2);
+            bgBScroll = -(CAMERA_getX() >> 2);
         } else if (row < 112) {
-            bgBScroll = -(sCameraX >> 1);
+            bgBScroll = -(CAMERA_getX() >> 1);
         } else {
             s16 wave = sWaterWave[(phase + (row >> 1)) & 15];
 
             if (row >= 160) {
                 wave <<= 1;
             }
-            bgBScroll = -(sCameraX >> 2) + wave;
+            bgBScroll = -(CAMERA_getX() >> 2) + wave;
         }
         sBgBScrollLines[row] = bgBScroll;
     }
@@ -340,17 +365,17 @@ static void demoUpdateEnvironmentFx(void)
     }
 
     if (sSmokeSprite0 != NULL) {
-        SPR_setPosition(sSmokeSprite0, 210 - (sCameraX >> 1), 52);
+        SPR_setPosition(sSmokeSprite0, 210 - (CAMERA_getX() >> 1), 52);
         SPR_setFrame(sSmokeSprite0, fxFrame);
     }
     if (sSmokeSprite1 != NULL) {
-        SPR_setPosition(sSmokeSprite1, 430 - (sCameraX >> 1), 58);
+        SPR_setPosition(sSmokeSprite1, 430 - (CAMERA_getX() >> 1), 58);
         SPR_setFrame(sSmokeSprite1, (fxFrame + 2) & 3);
     }
     if (sLampDustSprite0 != NULL) {
         SPR_setPosition(
             sLampDustSprite0,
-            373 - sCameraX,
+            373 - CAMERA_getX(),
             60 + sWaterWave[(phase + 3) & 15]
         );
         SPR_setFrame(sLampDustSprite0, fxFrame);
@@ -358,7 +383,7 @@ static void demoUpdateEnvironmentFx(void)
     if (sLampDustSprite1 != NULL) {
         SPR_setPosition(
             sLampDustSprite1,
-            389 - sCameraX,
+            389 - CAMERA_getX(),
             72 + sWaterWave[(phase + 11) & 15]
         );
         SPR_setFrame(sLampDustSprite1, (fxFrame + 1) & 3);
@@ -376,7 +401,7 @@ static void demoDrawPlayer(void)
         return;
     }
 
-    screenPivotX = F16_toInt(sPlayer.x) - sCameraX;
+    screenPivotX = F16_toInt(sPlayer.x) - CAMERA_getX();
     screenGroundY = F16_toInt(sPlayer.y);
     if (sGroundShadowSprite != NULL) {
         airHeight = DEMO_GROUND_Y - screenGroundY;
@@ -394,9 +419,9 @@ static void demoDrawPlayer(void)
         screenGroundY - DEMO_PLAYER_GROUND_Y
     );
 
-    if (sPlayer.vx < 0) {
+    if (!sPlayerFacingRight) {
         SPR_setHFlip(sPlayerSprite, TRUE);
-    } else if (sPlayer.vx > 0) {
+    } else {
         SPR_setHFlip(sPlayerSprite, FALSE);
     }
 }
@@ -558,8 +583,11 @@ static void demoUpdatePlayerAnimation(void)
 
 static void demoDrawHud(void)
 {
-    /* The first CAIS_01 visual slice keeps the combat field unobstructed.
-     * Formal HUD ownership remains a later WINDOW-plane task. */
+    char line[40];
+
+    /* Technical telemetry only. Product HUD remains blocked on authored UI. */
+    sprintf(line, "T:%03u  C:%03u", sPlayer.health, CRIA_getHealth());
+    VDP_drawTextFill(line, 1, 1, 14);
 }
 
 static void demoDrawPause(void)
@@ -585,13 +613,15 @@ void SCENE_demoEnter(void)
     sJumpStartTicks = 0;
     sLandingTicks = 0;
     sJabActive = FALSE;
+    sJabHitResolved = FALSE;
     sJabFrame = 0;
     sJabFrameTicks = 0;
+    sHitstopFrames = 0;
     demoDrawStaticWorld();
 
     sSmokeSprite0 = SPR_addSprite(
         &spr_cais01_smoke,
-        210 - (sCameraX >> 1),
+        210 - (CAMERA_getX() >> 1),
         52,
         TILE_ATTR(PAL0, FALSE, FALSE, FALSE)
     );
@@ -603,7 +633,7 @@ void SCENE_demoEnter(void)
 
     sSmokeSprite1 = SPR_addSprite(
         &spr_cais01_smoke,
-        430 - (sCameraX >> 1),
+        430 - (CAMERA_getX() >> 1),
         58,
         TILE_ATTR(PAL0, FALSE, FALSE, FALSE)
     );
@@ -615,7 +645,7 @@ void SCENE_demoEnter(void)
 
     sLampDustSprite0 = SPR_addSprite(
         &spr_cais01_lamp_dust,
-        373 - sCameraX,
+        373 - CAMERA_getX(),
         60,
         TILE_ATTR(PAL2, FALSE, FALSE, FALSE)
     );
@@ -627,7 +657,7 @@ void SCENE_demoEnter(void)
 
     sLampDustSprite1 = SPR_addSprite(
         &spr_cais01_lamp_dust,
-        389 - sCameraX,
+        389 - CAMERA_getX(),
         72,
         TILE_ATTR(PAL2, FALSE, FALSE, FALSE)
     );
@@ -664,7 +694,7 @@ void SCENE_demoEnter(void)
         SPR_setFrame(sPlayerSprite, 0);
     }
 
-    if (!CRIA_enter(sCameraX)) {
+    if (!CRIA_enter(CAMERA_getX())) {
         VDP_drawTextFill("CRIA SPRITE ALLOC FAILED", 7, 11, 23);
     }
 }
@@ -693,12 +723,28 @@ void SCENE_demoUpdate(void)
         return;
     }
 
+    if (sHitstopFrames > 0) {
+        sHitstopFrames--;
+        demoUpdateEnvironmentFx();
+        demoDrawPlayer();
+        demoDrawHud();
+        return;
+    }
+
     demoUpdatePlayer();
+    demoTryJabHit();
     {
         s16 criaKnockback = 0;
 
-        CRIA_update(sPlayer.x, sPlayer.y, sPlayer.grounded, sCameraX, &criaKnockback);
-        if (criaKnockback != 0) {
+        CAMERA_update(sPlayer.x, sPlayerFacingRight);
+        CRIA_update(sPlayer.x, sPlayer.y, sPlayer.grounded, CAMERA_getX(), &criaKnockback);
+        if ((criaKnockback != 0) && (sPlayer.invulnerabilityFrames == 0)) {
+            if (sPlayer.health > DEMO_CRIA_DAMAGE) {
+                sPlayer.health -= DEMO_CRIA_DAMAGE;
+            } else {
+                sPlayer.health = 0;
+            }
+            sPlayer.invulnerabilityFrames = DEMO_PLAYER_IFRAME_FRAMES;
             sPlayer.x += FIX16(criaKnockback);
             if (sPlayer.x < FIX16(DEMO_PLAYER_MIN_X)) {
                 sPlayer.x = FIX16(DEMO_PLAYER_MIN_X);
@@ -707,7 +753,6 @@ void SCENE_demoUpdate(void)
             }
         }
     }
-    demoUpdateCamera();
     demoUpdateEnvironmentFx();
     demoUpdatePlayerAnimation();
     demoDrawPlayer();

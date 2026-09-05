@@ -1,0 +1,14 @@
+{
+  "schema_version": "animation_state_plan.v1",
+  "runtime_source": "src/entities/kirby.c",
+  "states": [
+    {"state":"idle","runtime_enum":"KIRBY_IDLE","current_frames":1,"proof_status":"approved_idle_runtime_review"},
+    {"state":"run","runtime_enum":"KIRBY_RUN","current_frames":4,"proof_status":"key_pose_roster_pending"},
+    {"state":"jump","runtime_enum":"KIRBY_JUMP","current_frames":1,"proof_status":"key_pose_roster_pending"},
+    {"state":"float","runtime_enum":"KIRBY_FLOAT","current_frames":2,"proof_status":"not_authored_this_round"},
+    {"state":"inhale","runtime_enum":"KIRBY_INHALE","current_frames":1,"proof_status":"not_authored_this_round"}
+  ],
+  "direction_rule": "idle remains three_quarter_front; gameplay lateral poses are separate authored poses and are never inferred by automatic hflip",
+  "scope": "up_to_three_new_key_poses_and_reversible_motion_proof_only",
+  "final_sheet": false
+}

@@ -22,6 +22,7 @@
     "rds",
     "res",
     "src",
+    "tools",
     "README.md",
     "build.bat",
     "clean.bat",
@@ -35,5 +36,41 @@
     "sdk/sgdk-2.11",
     "tools/emuladores"
   ],
-  "external_inputs": []
+  "external_inputs": [
+    {
+      "source": "user_supplied_quality_reference_cria",
+      "copied_to": "rascunho/entrada_bruta/quality_reference/cria_production_reference_v01.png",
+      "purpose": "quality_reference_only for CRIA anatomy, materials and action review",
+      "license_or_authorization": "user supplied for project-internal quality direction; not reusable source art",
+      "sha256": "369d2da898f62396a6fa2f7dc0e60fc9e0f47e7dedffffad4dcf319429d6249b"
+    },
+    {
+      "source": "user_supplied_quality_reference_taina",
+      "copied_to": "rascunho/entrada_bruta/quality_reference/taina_production_reference_v01.png",
+      "purpose": "quality_reference_only for TAINA anatomy, materials and action review",
+      "license_or_authorization": "user supplied for project-internal quality direction; not reusable source art",
+      "sha256": "4bf436d41dfbe316cc230ad8fdecc72c84a7fef349c6cbbabe2f58d8ec109f9d"
+    },
+    {
+      "source": "user_supplied_quality_reference_cais_modular_kit",
+      "copied_to": "rascunho/entrada_bruta/quality_reference/cais_modular_kit_reference_v01.png",
+      "purpose": "quality_reference_only for CAIS modularity, material and depth review",
+      "license_or_authorization": "user supplied for project-internal quality direction; not reusable source art",
+      "sha256": "f255dbad71ae457fb07e4f1693f25e395a7de04be5e93119b0578a97241ce1d2"
+    },
+    {
+      "source": "user_supplied_quality_reference_combined_production_sheet",
+      "copied_to": "rascunho/entrada_bruta/quality_reference/mare_brava_production_sheet_reference_v01.png",
+      "purpose": "quality_reference_only for cross-asset production coherence review",
+      "license_or_authorization": "user supplied for project-internal quality direction; not reusable source art",
+      "sha256": "eff726e967ad7af0daebe8f6950ad08ceff6b081b0a54a535811c18405f15faa"
+    },
+    {
+      "source": "user_supplied_continuity_approval_2026_08_29",
+      "copied_to": "rascunho/entrada_bruta/continuity_prompts/mare_brava_continuity_approval_20260829.md",
+      "purpose": "project-scoped human approval and autonomous production handoff",
+      "license_or_authorization": "user instruction for this project",
+      "sha256": "3ddf55f403c78d62b09e600971c93b9a0f8e66e4af27cb1db6f1417e52ef742c"
+    }
+  ]
 }

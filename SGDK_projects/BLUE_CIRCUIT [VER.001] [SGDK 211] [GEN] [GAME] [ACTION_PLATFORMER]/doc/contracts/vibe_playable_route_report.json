@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "vibe_playable_route_report",
+  "template_seed": false,
+  "template_prevalidated": false,
+  "generated_at": "2026-06-25",
+  "input_text": "Criar jogo curto de acao/plataforma inspirado em run-jump-shoot classico, sem copiar IP protegida.",
+  "normalized_input": "blue_circuit_short_action_platformer",
+  "detected_language": "pt-BR",
+  "detected_intents": [
+    "new_project",
+    "aaa_game",
+    "short_vertical_slice",
+    "action_platformer",
+    "vibe_playable"
+  ],
+  "intent_confidence": 0.95,
+  "matched_rules": [
+    "new_game_request",
+    "front_end_required",
+    "runtime_blocked_until_visual_gate"
+  ],
+  "ambiguity_fallback": {
+    "used": false,
+    "reason": "pedido direto e escopo curto explicito"
+  },
+  "ambiguity_status": "resolved",
+  "fallback_decision": "no_fallback",
+  "visual_route_required": true,
+  "runtime_open_allowed": false,
+  "technical_runtime_candidate": false,
+  "detected_targets": [
+    "title_screen",
+    "stage_01_blue_circuit",
+    "player",
+    "line_sentry",
+    "breaker_core",
+    "ending_screen"
+  ],
+  "required_owners": [
+    "art/art-asset-diagnostic",
+    "art/art-translation-to-vdp",
+    "art/visual-excellence-standards",
+    "hardware/megadrive-vdp-budget-analyst",
+    "code/sgdk-runtime-coder",
+    "operation/emulator-vdp-evidence-curator"
+  ],
+  "dispatch": {
+    "mode": "visual_first",
+    "art_direction_selector_lifecycle": {
+      "allow_implicit_invocation": false,
+      "activation_method": "after_documented_direction_and_human_asset_source",
+      "reason": "Assets criticos precisam de direcao, source premium e aprovacao antes de runtime."
+    },
+    "owner": "art/art-asset-diagnostic"
+  },
+  "compact_context": {
+    "status": "documented_direction_ready_visual_blocked",
+    "owners": [
+      "sgdk-build-wrapper-operator",
+      "aaa-pipeline-guardian",
+      "scene-state-architect",
+      "input-system-sgdk",
+      "collision-system-architect",
+      "camera-system-sgdk",
+      "entity-polymorphism-architect"
+    ],
+    "files": [
+      "doc/00-project-brief.md",
+      "doc/11-gdd.md",
+      "doc/15-tdd.md",
+      "doc/13-spec-cenas.md",
+      "doc/14-plano-de-provas-qa.md"
+    ]
+  },
+  "compact_context_bytes": 0,
+  "runtime_admission": {
+    "status": "blocked_no_premium_source",
+    "reason": "Runtime de entrega nao abre antes de fonte premium, aprovacao humana, conversao VDP, build e evidencia BlastEm.",
+    "runtime_admitted": false,
+    "technical_runtime_admitted": false,
+    "runtime_lab_admitted": false
+  },
+  "graphify": {
+    "required_for_routing": false,
+    "mode": "environment_guard_only",
+    "timeout_seconds": 60,
+    "degradation": "canonical_files_remain_authoritative"
+  },
+  "blocking_statuses": [
+    "blocked_no_premium_source",
+    "blocked_no_human_asset_approval",
+    "blocked_no_vdp_conversion",
+    "blocked_no_blastem_evidence"
+  ],
+  "forbidden_claims_until_evidence": [
+    "runtime_admitted",
+    "visual_excellence_passed",
+    "asset_approval_fresh",
+    "runtime_evidence_fresh",
+    "ready_for_aaa"
+  ]
+}

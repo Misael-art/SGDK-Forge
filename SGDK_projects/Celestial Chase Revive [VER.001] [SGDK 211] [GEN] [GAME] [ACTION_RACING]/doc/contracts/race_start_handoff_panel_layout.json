@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "race_start_handoff",
+  "status": "planned",
+  "layout_policy": "The final cutscene road composition must align with the first runtime lane positions.",
+  "surfaces": {
+    "BG_B": "race sky already visible or faded in",
+    "BG_A": "road perspective with three lane anchors",
+    "WINDOW": "letterbox first, HUD after release",
+    "sprites": "Lio runtime sprite appears before input unlock"
+  },
+  "pixel_rules": [
+    "lane center positions remain 112, 160, 208",
+    "no text remains on the frame where input unlocks",
+    "HUD appears after WINDOW ownership is reset"
+  ]
+}

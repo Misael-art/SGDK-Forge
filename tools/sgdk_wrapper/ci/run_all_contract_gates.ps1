@@ -137,6 +137,7 @@ if (-not (Test-Path -LiteralPath $OutputDir)) {
 $reportPath = Join-Path $OutputDir "contract_gates_report.json"
 
 $agentStartupScript = Join-Path $ciDir "test_agent_startup_environment.ps1"
+$aiMemoryIntegrationScript = Join-Path $ciDir "test_ai_memory_integration.ps1"
 $auditScript = Join-Path $ciDir "test_game_design_contract_gates.ps1"
 $schemaScript = Join-Path $ciDir "test_schema_contract_gates.py"
 $artGameplayDirectionGateScript = Join-Path $ciDir "test_art_gameplay_direction_gate.ps1"
@@ -144,12 +145,14 @@ $projectContextScript = Join-Path $ciDir "test_project_context_governance.ps1"
 $methodologyScript = Join-Path $ciDir "test_project_methodology_governance.ps1"
 $bootstrapScript = Join-Path $ciDir "test_project_bootstrap_qaproof.ps1"
 $vibeTemplateBirthScript = Join-Path $ciDir "test_vibe_playable_template_birth.ps1"
+$canonicalAgentRegressionsScript = Join-Path $ciDir "test_canonical_agent_regressions.py"
 $freshnessScript = Join-Path $ciDir "test_freshness_audit.ps1"
 $hygieneScript = Join-Path $ciDir "test_project_hygiene_governance.ps1"
 $techniqueUsageScript = Join-Path $ciDir "test_technique_usage_governance.ps1"
 $statusSyncScript = Join-Path $ciDir "test_changelog_status_sync.ps1"
 $projectLearningScript = Join-Path $ciDir "test_project_learning_loop.py"
 $canonicalFixtureContractsScript = Join-Path $ciDir "test_canonical_fixture_contracts.py"
+$nativeSpriteSemanticScript = Join-Path $ciDir "test_native_sprite_semantic_gate.py"
 $genreRegistryScript = Join-Path $ciDir "test_genre_specialization_registry.ps1"
 $fightingOrchestratorScript = Join-Path $ciDir "test_fighting_specialization_orchestrator.ps1"
 $fightingContractsScript = Join-Path $ciDir "test_fighting_specialization_contracts.ps1"
@@ -180,8 +183,46 @@ $racingRegistryScript = Join-Path $ciDir "test_racing_specialization_registry.ps
 $racingContractsScript = Join-Path $ciDir "test_racing_specialization_contracts.ps1"
 $racingMasterPromotionScript = Join-Path $ciDir "test_racing_master_promotion_guard.ps1"
 $racingValidatorSmokeScript = Join-Path $ciDir "test_racing_specialization_validator_smoke.ps1"
-$pythonExe = "uv"
-$pythonPrefixArgs = @("run", "--with", "jsonschema", "python")
+$pythonDependencyBootstrap = [ordered]@{
+    status = "not_required"
+    blocker = $null
+    mechanism = "uv_ephemeral"
+    output = $null
+}
+if ($IsLinux) {
+    $linuxShimDir = Join-Path $wrapperRoot "linux_shims"
+    $env:PATH = "$linuxShimDir$([System.IO.Path]::PathSeparator)$env:PATH"
+    $pythonBootstrapScript = Join-Path $wrapperRoot "ensure_linux_python_deps.sh"
+    if (-not (Test-Path -LiteralPath $pythonBootstrapScript -PathType Leaf)) {
+        $pythonDependencyBootstrap.status = "blocked"
+        $pythonDependencyBootstrap.blocker = "python_dependency_bootstrap_missing"
+        $pythonDependencyBootstrap.output = $pythonBootstrapScript
+    } else {
+        try {
+            $bootstrapOutput = & bash $pythonBootstrapScript 2>&1 | Out-String
+            $pythonDependencyBootstrap.output = $bootstrapOutput.Trim()
+            if ($LASTEXITCODE -eq 0) {
+                $pythonDependencyBootstrap.status = "ready"
+                $pythonDependencyBootstrap.mechanism = "workspace_hash_locked_target"
+                $pythonTarget = Join-Path $workspaceRoot "out/host_tools/python/site-packages"
+                $env:PYTHONPATH = if ($env:PYTHONPATH) { "$pythonTarget$([System.IO.Path]::PathSeparator)$env:PYTHONPATH" } else { $pythonTarget }
+            } else {
+                $pythonDependencyBootstrap.status = "blocked"
+                $pythonDependencyBootstrap.blocker = "python_dependency_bootstrap_failed"
+            }
+        } catch {
+            $pythonDependencyBootstrap.status = "blocked"
+            $pythonDependencyBootstrap.blocker = "python_dependency_bootstrap_failed"
+            $pythonDependencyBootstrap.output = $_.Exception.Message
+        }
+    }
+    $pythonCommand = Get-Command python3 -ErrorAction SilentlyContinue
+    $pythonExe = if ($pythonCommand) { $pythonCommand.Source } else { "python3" }
+    $pythonPrefixArgs = @()
+} else {
+    $pythonExe = "uv"
+    $pythonPrefixArgs = @("run", "--with", "jsonschema", "python")
+}
 
 $runTimestamp = (Get-Date).ToString("o")
 $report = [ordered]@{
@@ -191,7 +232,9 @@ $report = [ordered]@{
     mode = $Mode
     workspace_root = $workspaceRoot
     wrapper_root = $wrapperRoot
+    python_dependency_bootstrap = $pythonDependencyBootstrap
     agent_startup_test = $null
+    ai_memory_integration_test = $null
     audit_test = $null
     schema_test = $null
     art_gameplay_direction_gate_test = $null
@@ -199,6 +242,7 @@ $report = [ordered]@{
     methodology_test = $null
     bootstrap_test = $null
     vibe_template_birth_test = $null
+    canonical_agent_regressions_test = $null
     freshness_test = $null
     hygiene_test = $null
     technique_usage_test = $null
@@ -272,6 +316,7 @@ function Run-Step {
 }
 
 $agentStartupRan = $false
+$aiMemoryIntegrationRan = $false
 $auditRan = $false
 $schemaRan = $false
 $artGameplayDirectionGateRan = $false
@@ -279,6 +324,7 @@ $projectContextRan = $false
 $methodologyRan = $false
 $bootstrapRan = $false
 $vibeTemplateBirthRan = $false
+$canonicalAgentRegressionsRan = $false
 $freshnessRan = $false
 $hygieneRan = $false
 $techniqueUsageRan = $false
@@ -328,6 +374,17 @@ if ($Mode -in @("full", "smoke")) {
 }
 
 if ($Mode -in @("full", "smoke")) {
+    if (-not (Test-Path -LiteralPath $canonicalAgentRegressionsScript)) {
+        Write-Host "[ERROR] canonical agent regressions not found: $canonicalAgentRegressionsScript"
+        $report.canonical_agent_regressions_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "canonical_agent_regressions (synthetic Python fixtures)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($canonicalAgentRegressionsScript))
+        $report.canonical_agent_regressions_test = $result
+        $canonicalAgentRegressionsRan = $true
+    }
+}
+
+if ($Mode -in @("full", "smoke")) {
     if (-not (Test-Path -LiteralPath $canonicalFixtureContractsScript)) {
         Write-Host "[ERROR] canonical fixture contracts test not found: $canonicalFixtureContractsScript"
         $report.canonical_fixture_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
@@ -335,6 +392,17 @@ if ($Mode -in @("full", "smoke")) {
         $result = Run-Step -Name "canonical_fixture_contracts (seven neutral fixtures)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($canonicalFixtureContractsScript))
         $report.canonical_fixture_contracts_test = $result
         $canonicalFixtureContractsRan = $true
+    }
+}
+
+if ($Mode -in @("full", "smoke")) {
+    if (-not (Test-Path -LiteralPath $aiMemoryIntegrationScript)) {
+        Write-Host "[ERROR] ai-memory integration test not found: $aiMemoryIntegrationScript"
+        $report.ai_memory_integration_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "ai_memory_integration (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $aiMemoryIntegrationScript)
+        $report.ai_memory_integration_test = $result
+        $aiMemoryIntegrationRan = $true
     }
 }
 
@@ -350,7 +418,11 @@ if ($Mode -in @("full", "audit", "smoke")) {
 }
 
 if ($Mode -in @("full", "schema", "smoke")) {
-    if (-not (Test-Path -LiteralPath $schemaScript)) {
+    if ($pythonDependencyBootstrap.status -eq "blocked") {
+        Write-Host "[ERROR] canonical Python dependency bootstrap failed: $($pythonDependencyBootstrap.blocker)"
+        $report.schema_test = @{ exit_code = 2; duration_seconds = 0; error = $pythonDependencyBootstrap.blocker; blocking_status = $pythonDependencyBootstrap.blocker }
+        $schemaRan = $true
+    } elseif (-not (Test-Path -LiteralPath $schemaScript)) {
         Write-Host "[ERROR] schema test not found: $schemaScript"
         $report.schema_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
@@ -436,6 +508,7 @@ if ($Mode -in @("full", "smoke")) {
         $bootstrapRan = $true
     }
 }
+
 if ($Mode -in @("full", "smoke")) {
     if (-not (Test-Path -LiteralPath $vibeTemplateBirthScript)) {
         Write-Host "[ERROR] vibe template birth test not found: $vibeTemplateBirthScript"
@@ -466,6 +539,17 @@ if ($Mode -in @("full", "smoke")) {
         $result = Run-Step -Name "project_learning_loop (Python)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($projectLearningScript))
         $report.project_learning_test = $result
         $projectLearningRan = $true
+    }
+}
+
+if ($Mode -in @("full", "smoke")) {
+    if (-not (Test-Path -LiteralPath $nativeSpriteSemanticScript)) {
+        Write-Host "[ERROR] native sprite semantic gate test not found: $nativeSpriteSemanticScript"
+        $report.native_sprite_semantic_gate_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "native_sprite_semantic_gate (Python)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($nativeSpriteSemanticScript))
+        $report.native_sprite_semantic_gate_test = $result
+        $nativeSpriteSemanticRan = $true
     }
 }
 
@@ -802,6 +886,7 @@ if ($Mode -in @("full", "smoke")) {
 # Determina status combinado
 $combinedExit = 0
 if ($agentStartupRan -and $report.agent_startup_test.exit_code -ne 0) { $combinedExit = 1 }
+if ($aiMemoryIntegrationRan -and $report.ai_memory_integration_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($auditRan -and $report.audit_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($schemaRan -and $report.schema_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($artGameplayDirectionGateRan -and $report.art_gameplay_direction_gate_test.exit_code -ne 0) { $combinedExit = 1 }
@@ -809,6 +894,7 @@ if ($projectContextRan -and $report.project_context_test.exit_code -ne 0) { $com
 if ($methodologyRan -and $report.methodology_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($bootstrapRan -and $report.bootstrap_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($vibeTemplateBirthRan -and $report.vibe_template_birth_test.exit_code -ne 0) { $combinedExit = 1 }
+if ($canonicalAgentRegressionsRan -and $report.canonical_agent_regressions_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($freshnessRan -and $report.freshness_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($hygieneRan -and $report.hygiene_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($techniqueUsageRan -and $report.technique_usage_test.exit_code -ne 0) { $combinedExit = 1 }
@@ -854,6 +940,7 @@ $report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $reportPath -Encodi
 Write-Host ""
 Write-Host "=== Resumo ==="
 Write-Host "agent_startup_test exit_code: $(if ($null -eq $report.agent_startup_test) { 'not_run' } else { $report.agent_startup_test.exit_code })"
+Write-Host "ai_memory_integration_test exit_code: $(if ($null -eq $report.ai_memory_integration_test) { 'not_run' } else { $report.ai_memory_integration_test.exit_code })"
 Write-Host "audit_test exit_code: $(if ($null -eq $report.audit_test) { 'not_run' } else { $report.audit_test.exit_code })"
 Write-Host "schema_test exit_code: $(if ($null -eq $report.schema_test) { 'not_run' } else { $report.schema_test.exit_code })"
 Write-Host "art_gameplay_direction_gate_test exit_code: $(if ($null -eq $report.art_gameplay_direction_gate_test) { 'not_run' } else { $report.art_gameplay_direction_gate_test.exit_code })"
@@ -861,6 +948,7 @@ Write-Host "project_context_test exit_code: $(if ($null -eq $report.project_cont
 Write-Host "methodology_test exit_code: $(if ($null -eq $report.methodology_test) { 'not_run' } else { $report.methodology_test.exit_code })"
 Write-Host "bootstrap_test exit_code: $(if ($null -eq $report.bootstrap_test) { 'not_run' } else { $report.bootstrap_test.exit_code })"
 Write-Host "vibe_template_birth_test exit_code: $(if ($null -eq $report.vibe_template_birth_test) { 'not_run' } else { $report.vibe_template_birth_test.exit_code })"
+Write-Host "canonical_agent_regressions_test exit_code: $(if ($null -eq $report.canonical_agent_regressions_test) { 'not_run' } else { $report.canonical_agent_regressions_test.exit_code })"
 Write-Host "freshness_test exit_code: $(if ($null -eq $report.freshness_test) { 'not_run' } else { $report.freshness_test.exit_code })"
 Write-Host "hygiene_test exit_code: $(if ($null -eq $report.hygiene_test) { 'not_run' } else { $report.hygiene_test.exit_code })"
 Write-Host "technique_usage_test exit_code: $(if ($null -eq $report.technique_usage_test) { 'not_run' } else { $report.technique_usage_test.exit_code })"

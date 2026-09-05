@@ -7,8 +7,56 @@
 #include "scenes/scene_demo.h"
 #include "scenes/scene_menu.h"
 #include "system/audio.h"
+#include "system/camera.h"
 #include "system/input.h"
 #include "system/runtime_probe.h"
+
+#define APP_EVIDENCE_BOOT_OFFSET 0x120
+#define APP_EVIDENCE_BOOT_VERSION 1
+#define APP_EVIDENCE_BOOT_LENGTH 12
+#define APP_EVIDENCE_BOOT_CHECK_SEED 0xA55A
+
+static u16 APP_readSramU16BE(u32 offset)
+{
+    return ((u16) SRAM_readByte(offset) << 8) | SRAM_readByte(offset + 1);
+}
+
+static AppScene APP_consumeEvidenceBootScene(void)
+{
+    AppScene selected = APP_SCENE_BRANDING;
+    u16 version;
+    u16 length;
+    u16 scene;
+    u16 checksum;
+
+    SRAM_enable();
+
+    if (SRAM_readByte(APP_EVIDENCE_BOOT_OFFSET + 0) == 'S' &&
+        SRAM_readByte(APP_EVIDENCE_BOOT_OFFSET + 1) == 'B' &&
+        SRAM_readByte(APP_EVIDENCE_BOOT_OFFSET + 2) == 'I' &&
+        SRAM_readByte(APP_EVIDENCE_BOOT_OFFSET + 3) == 'S') {
+        version = APP_readSramU16BE(APP_EVIDENCE_BOOT_OFFSET + 4);
+        length = APP_readSramU16BE(APP_EVIDENCE_BOOT_OFFSET + 6);
+        scene = APP_readSramU16BE(APP_EVIDENCE_BOOT_OFFSET + 8);
+        checksum = APP_readSramU16BE(APP_EVIDENCE_BOOT_OFFSET + 10);
+
+        if (version == APP_EVIDENCE_BOOT_VERSION &&
+            length == APP_EVIDENCE_BOOT_LENGTH &&
+            scene <= APP_SCENE_DEMO &&
+            checksum == (APP_EVIDENCE_BOOT_CHECK_SEED ^ version ^ length ^ scene)) {
+            selected = (AppScene) scene;
+        }
+    }
+
+    /* One-shot test hook: never persist a forced boot into later normal runs. */
+    SRAM_writeByte(APP_EVIDENCE_BOOT_OFFSET + 0, 0);
+    SRAM_writeByte(APP_EVIDENCE_BOOT_OFFSET + 1, 0);
+    SRAM_writeByte(APP_EVIDENCE_BOOT_OFFSET + 2, 0);
+    SRAM_writeByte(APP_EVIDENCE_BOOT_OFFSET + 3, 0);
+    SRAM_disable();
+
+    return selected;
+}
 
 static void APP_drawDebugHud(void)
 {
@@ -50,9 +98,9 @@ void APP_boot(bool hardReset)
     AUDIO_init();
     SPR_init();
 
-    gApp.currentScene = APP_SCENE_BRANDING;
-    gApp.previousScene = APP_SCENE_BRANDING;
-    gApp.transitionTarget = APP_SCENE_BRANDING;
+    gApp.currentScene = APP_consumeEvidenceBootScene();
+    gApp.previousScene = gApp.currentScene;
+    gApp.transitionTarget = gApp.currentScene;
     gApp.totalFrames = 0;
     gApp.sceneFrames = 0;
     gApp.transitionFrames = 0;
@@ -81,6 +129,7 @@ void APP_changeScene(AppScene nextScene)
      */
     SPR_reset();
     SPR_update();
+    CAMERA_reset();
 
     if (gApp.currentScene == nextScene) {
         gApp.sceneFrames = 0;
@@ -111,7 +160,7 @@ const char* APP_sceneName(AppScene scene)
 
 void APP_update(void)
 {
-    if (INPUT_pressed(BUTTON_C)) {
+    if (INPUT_pressed(BUTTON_X)) {
         gApp.showDebugHud = !gApp.showDebugHud;
         if (!gApp.showDebugHud) {
             /* Clear only the canonical HUD row; row 27 is owned by scene hints. */

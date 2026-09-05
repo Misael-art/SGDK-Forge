@@ -407,3 +407,233 @@ evidências 1×/2×/3×/8× e composições 320×224 estão em
 é `technical_pass_visual_semantic_fail`: os deltas de silhueta são limitados,
 o acting de corrida é fraco, e down/passing/up ainda precisam de linearts
 independentes e acabamento visual. O r7 não foi integrado no runtime.
+
+## Hipótese C e agregado r8 — fechamento estrutural, falha semântica preservada
+
+A hipótese C foi reexecutada do canvas 32×32 com paleta de autoria equivalente ao
+R1, sem usar pixels de v04–v10. O resultado final está em
+`out/v11_native_edit/run_contact_hypothesis_c_r5/candidate.png`: `native-edit
+rc=0`, 37 operações, SHA do arquivo
+`2956297f54d26dd33cba834776634fda319836e96b8defd5b834f0ecb45bc746` e SHA de
+conteúdo canônico `4011bf9b85a28a715fb62f3927ea21563542a1f3ba01d68f488a8fc2b931da96`.
+O analyzer retornou `rc=0/status=passed`, uma componente, zero ilhas e bbox
+30×16 com 340 pixels visíveis.
+
+A lineart C foi autorada em arquivo separado por
+`data/staging/v11_native_edit/run_contact_hypothesis_c_lineart_actions.json`.
+Após duas correções topológicas cirúrgicas, o `native-edit` terminou com
+`rc=0` e `validate_lineart_topology.py --input` com `rc=0/status=ok`: 84
+pixels visíveis, `first_erosion_interior_pixels=0`, `max_erosion_depth=0` e SHA
+`fd76ac1913672db1ae7e0952b94cab42d7ce7eed07db482c14315dced68725ed`.
+
+O agregado r8 foi montado sem redimensionamento de autoria com C, down r2,
+passing r3 e up r2 clean. A strip
+`out/v11_visual_production/run_cycle_r8/run_cycle_r8.png` tem SHA
+`514477bee2e91ce5ed00225de27abb7ffed413cc0325a013fc8084cd48695e9d`; o GIF
+tem SHA `7c133625af20dc1dadd1c45f5ed2042d4b236ab9ac56a05c4761d22b3047f824`.
+O analyzer retornou `rc=0/status=passed`: frames com áreas 340/373/321/316,
+bbox 30×16, 30×17, 30×15 e 30×15, uma componente por frame e zero ilhas ou
+resíduos. As superfícies 1×/2×/3×/8× e as composições 320×224 claro/escuro/
+chroma estão em `out/v11_visual_production/run_cycle_r8/evidence/`; o
+diagnóstico está em
+`out/v11_visual_production/run_cycle_r8/reports/agent_curated_diagnostic_review.json`.
+
+A comparação cega B/C está em
+`out/v11_visual_production/run_contact_hypotheses/contact_B_vs_C_r8_1x.png`
+e `contact_B_vs_C_r8_8x.png`. C é a hipótese provisória mais fiel à paleta
+observável do R1, mas o agregado continua
+`technical_pass_visual_semantic_fail`, `visual_pass=false`,
+`human_gate_ready=false`, `animation_candidate=false` e
+`claim_ceiling=technical_temporal_probe`: a ação ainda não é imediatamente
+reconhecível como corrida em 1×, há quebra de acabamento/paleta entre C e os
+demais frames, e down/passing/up não têm linearts independentes fechadas. Nada
+foi integrado em `res/`, runtime ou ROM.
+
+## Linearts nativas dos quatro key frames — probe fechada tecnicamente
+
+Foram autoradas no grid 32×32, em arquivos de ações separados, as linearts de
+down, passing e up: `run_down_lineart_actions.json`,
+`run_passing_lineart_actions.json` e `run_up_lineart_actions.json`. Cada uma
+teve `native-edit rc=0` e `validate_lineart_topology.py rc=0/status=ok`, com
+alpha binário, `first_erosion_interior_pixels=0` e `max_erosion_depth=0`.
+Os SHAs dos PNGs são respectivamente
+`8a1b7c30b79c34d1ac0dccc3a10dfb6c5ec487e2923d39871e78c63b773f05f5`,
+`86a7a496b0ab206c4a984a20289c70d5b350d77cefc067b67b517663a1f5bcf1` e
+`bb2bdcacda187a2d48f7b6fcaff0b3c4650c782530ced1f9603f05a3de43c37b`.
+A lineart C permanece com SHA
+`fd76ac1913672db1ae7e0952b94cab42d7ce7eed07db482c14315dced68725ed`.
+
+A evidência conjunta está em
+`out/v11_visual_production/run_cycle_r8/evidence/run_cycle_r8_lineart_contact_sheet_8x.png`.
+O fechamento topológico não promove a arte: as quatro linearts ainda são
+diagnósticos autorados e precisam de revisão semântica contra os volumes reais,
+olhos, pés e materiais antes de qualquer claim de animação.
+
+## Harmonização R1 do agregado — novo staging isolado
+
+As tabelas de cor de down, passing e up foram ajustadas nos próprios specs
+nativos para a equivalência de autoria observável do R1; nenhum pixel foi
+redimensionado ou quantizado. As novas saídas são
+`run_down_r3_r1_palette/candidate.png` SHA
+`d58c8bb8684da7c9e1f247b4f4d9102e01c0ec5e6ab34513005751cd11bb115b`,
+`run_passing_r4_r1_palette/candidate.png` SHA
+`a8cb4f83417d5efad74c9ac48d1e0078311956c6a8bcd709e4a980267acf4154` e
+`run_up_r3_r1_palette/candidate.png` SHA
+`5ef62978c7f14a081e37bbd8432d5564b2a822321712342ba9dde80a08b71a77`.
+
+O agregado isolado `run_cycle_r8_r1_palette` tem strip SHA
+`4789cce1ac9654ff75b20017130dc4f9561936989b52fccb11e6da0efd7a983c` e GIF
+SHA `69334ef1ee527b082e5564f9e3618eccfacb64f280d0c0440cf4d8e3ce941a65`.
+O analyzer retornou `rc=0/status=passed`, com áreas 340/373/321/316, uma
+componente por frame, zero ilhas e bbox 30×16/17/15/15. A revisão diagnóstica
+hash-bound está em
+`out/v11_visual_production/run_cycle_r8_r1_palette/reports/agent_curated_diagnostic_review.json`.
+Visualmente, a paleta agora é coerente, mas a leitura de corrida em 1× ainda é
+parcial e o conjunto permanece `technical_pass_visual_semantic_fail`, sem gate
+humano, sem candidato de animação e sem integração em runtime.
+
+## Agregado r8 com suporte corrigido — validators canônicos fechados, sem promoção
+
+O staging `out/v11_visual_production/run_cycle_r8_r1_palette_support/` corrige
+causalmente o falso contato dos frames grounded: os contatos declarados agora
+tocam pixels visíveis em `y=21`, e o frame up permanece sem contato. A strip tem
+SHA `f60fdc628936c306563a3ad47f9f5e093101609fb46836cc1fc47ff6be74a0b4`; o GIF
+com timing medido `[4,3,3,3]` tem SHA
+`3d2092a2a844c2ebfcd914c02fd7cfd044bdfe50832a419c156ceac05d1fcb1e`; a
+lineart nativa separada tem SHA
+`7f6c6a82cc832e3fe5cccf5d5e2af6498c7368e0cbd412dda9d6f01e87860329`.
+
+O analyzer da strip terminou em `rc=0/status=passed`: áreas `340/336/321/316`,
+bboxes `30×16/30×15/30×15/30×15`, uma componente por frame e zero ilhas ou
+resíduos. O contrato v3 tem SHA
+`8d3460e805c7c6aad2181396f13a6306058e5b8df3be5b7c0326fe2d445a5299`. Os
+entrypoints canônicos terminaram:
+
+- `validate_animation_strip_artifact.py`: `rc=0`, `status=ok`, `blockers=[]`;
+- `validate_motion_semantics.py`: `rc=0`, `status=ok`, `blockers=[]`;
+- GIF holds rederivados: `[4,3,3,3]`;
+- motion: quatro frames distintos, sem slide, sem drift de pivot, fases
+  `contact_left/down_compression/passing/up_flight`.
+
+O agregado foi revalidado por
+`validate_animation_candidate.py`: `rc=1`, `status=error`,
+`maximum_proven_claim=technical_candidate`, `human_gate_ready=false`. Os
+blockers honestos são `animation_principles_gate_failed`,
+`blind_action_recognition_failed` e `model_sheet_to_sprite_fidelity_unproven`;
+não há decisão humana simulada. A revisão diagnóstica e os relatórios
+hash-bound estão no mesmo diretório de reports; o manifest é
+`data/staging/v11_native_edit/run_cycle_r8_r1_palette_support_candidate_manifest.json`.
+
+O comparador do validator de candidato também recebeu uma correção estrutural:
+listas serializadas e tuplas rederivadas são normalizadas antes da comparação.
+Isso removeu o falso `child_validation_report_tampered` sem relaxar qualquer
+verificação de pixels, hashes, autoria, motion profile ou revisão visual. O
+resultado permanece probe técnico-temporal, não candidato de animação; não houve
+alteração em `res/`, runtime ou ROM.
+
+## Continuidade de ramos independentes — idle, inhale e jump
+
+O contato C r8 foi reautorado no grid nativo sem o topo horizontal que sugeria
+topete: `native-edit rc=0`, SHA do PNG
+`3e2845f52595d442e351d3c833bc506beacab50fb2e0496977641120fb0df03e`, analyzer
+`rc=0/status=passed`, bbox `30×18`, 372 pixels visíveis, uma componente e zero
+resíduos. A lineart correspondente r6 terminou em `rc=0/status=ok`, 88 pixels,
+erosão máxima zero, SHA
+`77ea5bda3204d3da01d159ec70ddbaed4133951ca2c11f0ad159d9722f7b3cbc`.
+
+O ramo idle foi produzido diretamente por dois specs nativos R1-paletted,
+`idle_neutral_r1_palette` e `idle_rise_r1_palette`, e agregado em
+`out/v11_visual_production/idle_r4_r1_native/`. O strip tem SHA
+`a830edb2900b1878b9b41aea0420464c664f289d2429900b1521e144332f5abc`, GIF SHA
+`695f288bd39bc86adfd859307966c8ef97522bfc3f4918e07f7b35d05f319ed9`, holds
+`200/200 ms`, e analyzer `rc=0/status=passed`: áreas `322/284`, bboxes
+`24×19/24×17`, uma componente, sem matte, ilhas ou bordas. É evidência de
+respiração pequena em duas poses nativas, ainda sem contrato canônico completo
+ou revisão semântica fechada.
+
+O ramo inhale foi corrigido após uma primeira composição com gutters, que foi
+descartada por `edge_problem_frames=6` e `island_problem_frames=2`. O strip
+sem gutters em `out/v11_visual_production/inhale_r5_r1_native/` tem SHA
+`e178ff4542776dbfc4d36c92675d01fdae08e190a67af19a385dc5d555fd0a34`, GIF SHA
+`2a2bed8838474297a3c2dac95eb5e33d83976392bdbe2a899c811bb0c3e4b31f`, holds
+`80/80/120/80 ms`, e analyzer `rc=0/status=passed`: áreas `332/392/344/344`,
+bboxes `24×17/26×19/24×18/24×18`, sem matte, ilhas ou bordas. O 8× mostra
+antecipação, abertura, expansão/hold e release, mas a expressão ainda é
+esquemática; permanece probe, não aprovação visual.
+
+O ramo jump foi igualmente agregado sem gutters em
+`out/v11_visual_production/jump_r4_r1_native/`. Strip SHA
+`3c31c3b23bfca4fec484a382f8c57ae1edf331c97059e280709ad94473d19e96`, GIF SHA
+`e1737f3208aa97d169a236575e1a4e277c3ad3fdf6df319494c5d6def26cb6d2`, holds
+`80/60/120/80 ms`, analyzer `rc=0/status=passed`, áreas e bboxes dentro de
+`24–26×16–17`, sem matte, ilhas ou bordas. O conjunto tem quatro estados
+visuais distintos, mas ainda não prova continuidade perceptiva de crouch,
+launch, apex e landing.
+
+Todos os novos ramos mantêm a fonte exclusiva R1
+`591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd`, não usam
+pixels v04–v10, e não foram promovidos a `res/`, runtime ou ROM.
+
+As composições diagnósticas 320×224 em escala 1× foram geradas separadamente
+para `idle_r4_r1_native`, `run_cycle_r9_r1_palette_support`,
+`inhale_r5_r1_native` e `jump_r4_r1_native`, cada uma em fundo claro, escuro e
+chroma. As superfícies 2×/3×/8× permanecem separadas; os PNGs são evidência,
+não novos assets de runtime.
+
+O idle r4 tem contact sheet 8×
+`out/v11_visual_production/idle_r4_r1_native/evidence/idle_r4_r1_native_8x.png`;
+inhale r5, `out/v11_visual_production/inhale_r5_r1_native/evidence/inhale_r5_r1_native_8x.png`;
+jump r4, `out/v11_visual_production/jump_r4_r1_native/evidence/jump_r4_r1_native_8x.png`.
+As três ações continuam sem lineart/contrato agregado canônico e, portanto,
+não são candidatas de animação.
+## v11 continuation — canonical idle and inhale closure, jump blocker
+
+The v11 staging branch now contains independently authored 32x32 lineart and
+artifact-bound strips for the current idle and inhale probes. These are not
+runtime assets and do not change `res/`, runtime, ROM, or protected versions.
+
+| action | strip validator | motion validator | current reading |
+|---|---:|---:|---|
+| idle r5 | rc=0 / ok | not promoted | technical pass; round probe still lacks final arm/anatomy fidelity |
+| run r9 | rc=0 / ok | candidate aggregate rc=1 | locomotion remains visually unproven |
+| inhale r8 | rc=0 / ok | rc=0 / ok | four distinct masks; visual semantics still schematic |
+| jump r5 | rc=0 / ok | rc=1 | `noncanonical_motion_profile`; no private registry entry was added |
+
+Canonical strip evidence:
+
+- idle contract: `data/staging/v11_native_edit/idle_r5_r1_native_contract_v3.json`
+- idle strip SHA-256: `f2623456d67c65d42b2a2ae4da61751f3e193ab49f37d7681c61091a9d5a79b7`
+- inhale contract: `data/staging/v11_native_edit/inhale_r8_r1_native_contract_v5.json`
+- inhale strip SHA-256: `729a2afd6381e14b592a5651374ab4d53a04d5c70be5b492e4cdb851787e79f8`
+- jump contract: `data/staging/v11_native_edit/jump_r5_r1_native_contract_v4.json`
+- jump strip SHA-256: `9aca561e85b84f865b0ccaec5c8873624bb7898a27addee44644299b2544b8ef`
+
+The canonical entrypoint re-derived frame pixels, source lineage, timing,
+integer scale, and lineart topology. Inhale required two corrective iterations:
+the first contract had a 63-character frame pixel SHA, and open/release shared
+one silhouette mask; the release source was natively refined with four lateral
+erase operations. The final motion report is clean with adjacent mask deltas
+`[0.06640625, 0.046875, 0.00390625]` and four distinct frames.
+
+Evidence files:
+
+- [inhale contact sheet](../out/v11_visual_production/inhale_r8_r1_native/inhale_r8_r1_native_contact_sheet.png)
+- [inhale 8x](../out/v11_visual_production/inhale_r8_r1_native/inhale_r8_r1_native_8x.png)
+- [inhale GIF](../out/v11_visual_production/inhale_r8_r1_native/inhale_r8_r1_native_timed.gif)
+- [jump contact sheet](../out/v11_visual_production/jump_r5_r1_native/jump_r5_r1_native_contact_sheet.png)
+- [jump 8x](../out/v11_visual_production/jump_r5_r1_native/jump_r5_r1_native_8x.png)
+- [jump GIF](../out/v11_visual_production/jump_r5_r1_native/jump_r5_r1_native_timed.gif)
+
+Current truth remains:
+
+`status=technical_pass_visual_semantic_fail`
+
+`claim_ceiling=technical_temporal_probe`
+
+`animation_candidate=false`, `human_gate_ready=false`, `res_promotion=false`.
+
+The visual review rejects these probes as final art because the body contours,
+feet volumes, and action-specific poses are not yet comparable to the R1 model
+sheet at 1x. The next causal route is to obtain an authorized native pixel
+producer or human-authored 32x32 key pose, then re-author one action at a time;
+jump also requires a justified canonical registry change before motion can pass.

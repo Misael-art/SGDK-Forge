@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_combo_hit_1_jab_runtime_unique_v02",
+  "review_kind": "duplicate_frame_removal_and_background_cleanup",
+  "generated_at": "2026-07-29",
+  "status": "buildado_final_rom_boot_observed_attack_playback_recapture_pending",
+  "ready_for_aaa": false,
+  "runtime_asset": {
+    "path": "res/sprites/characters/taina/taina_combo_hit_1_jab_runtime_unique_64x64_v02.png",
+    "sha256": "3032acffd192412005fd61ef30e95f8307a7806a4ed30ca253f67efca1aca783",
+    "geometry_px": [192, 64],
+    "cell_px": [64, 64],
+    "physical_unique_frames": 3,
+    "review_board": "doc/art/characters/taina/review/taina_combo_hit_1_jab_runtime_unique_contact_6x_v02.png"
+  },
+  "logical_animation": {
+    "phases": ["anticipation", "launch", "active_contact", "follow_through_recoil", "recovery_bridge"],
+    "timing_vblanks": [3, 2, 2, 3, 4],
+    "idle_reused_for_phases": [0, 4]
+  },
+  "background_cleanup": {
+    "removed_statement": "VDP_drawText(\"START\", 2, 19);",
+    "character_pixels_reconstructed": false,
+    "reason": "The marker was BG_B text visible only through transparent sprite pixels; it never overwrote the PNG.",
+    "corrected_screenshot": "out/blastem_env_taina_combo_hit_1_jab_v05/blastem-linux-20260729T154818Z-349182/screenshot.png",
+    "corrected_screenshot_sha256": "27c429d1fed2efef42fe4cac03bf0413c047708423732bbcb472498021c31bdc",
+    "visible_start_labels": 0
+  },
+  "runtime_evidence": {
+    "rom_sha256": "825dc80baa346129512ea0ef0c0eba2ab09d2a4080824a07bdeb75ded532dd2a",
+    "rom_size_bytes": 262144,
+    "session_id": "blastem-linux-20260729T154818Z-349182",
+    "scene_id": 3,
+    "window_title": "SAMPLE PROGRAM - BlastEm - 60.2 fps",
+    "semantic_capture_valid": true,
+    "background_marker_absent": true,
+    "attack_playback_visible_in_this_capture": false,
+    "bundle_sealed": false,
+    "bundle_blockers": [
+      "vlab_block_missing",
+      "artifact_missing:vdp_dump",
+      "artifact_missing:runtime_metrics"
+    ]
+  },
+  "decision": "Accept the three-cell resource optimization and START-marker removal. The final ROM boot and corrected background are observed. Do not transfer the old ROM attack-playback claim to this hash; recapture a focused C/X attack burst before restoring runtime_animation_observed status."
+}

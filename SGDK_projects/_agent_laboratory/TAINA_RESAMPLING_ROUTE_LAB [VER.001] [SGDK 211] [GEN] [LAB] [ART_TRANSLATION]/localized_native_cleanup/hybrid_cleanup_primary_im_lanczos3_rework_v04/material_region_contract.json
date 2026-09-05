@@ -1,0 +1,175 @@
+{
+  "schema_version": "material_region_contract.v1",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v04",
+  "sha256": "791074aa6919ac0bac78a60693c12daee8f03169b216996758a8a272bc6b214e",
+  "stage": "v04_independent_contract",
+  "owner_source": "hand_authored_disjoint_coordinate_masks_plus_silhouette_visibility",
+  "palette_indices_not_used_for_owner_assignment": true,
+  "visible_pixel_count": 1479,
+  "owner_counts": {
+    "transparent": 3001,
+    "outline_shared": 0,
+    "hair": 133,
+    "skin": 277,
+    "top": 89,
+    "wraps": 145,
+    "sash": 147,
+    "trousers": 532,
+    "feet": 156
+  },
+  "unassigned_visible_pixels": 0,
+  "overlap_policy": "disjoint priority masks; exactly one owner emitted per visible pixel",
+  "materials": {
+    "outline_shared": {
+      "count": 0,
+      "indices_allowed": [
+        1
+      ],
+      "ramp": {
+        "shadow": 1,
+        "base": 1,
+        "highlight": 1
+      }
+    },
+    "hair": {
+      "count": 133,
+      "indices_allowed": [
+        2,
+        3,
+        4
+      ],
+      "ramp": {
+        "shadow": 2,
+        "base": 4,
+        "highlight": 4
+      }
+    },
+    "skin": {
+      "count": 277,
+      "indices_allowed": [
+        5,
+        6,
+        7
+      ],
+      "ramp": {
+        "shadow": 5,
+        "base": 7,
+        "highlight": 7
+      }
+    },
+    "top": {
+      "count": 89,
+      "indices_allowed": [
+        8,
+        9,
+        10
+      ],
+      "ramp": {
+        "shadow": 8,
+        "base": 10,
+        "highlight": 10
+      }
+    },
+    "wraps": {
+      "count": 145,
+      "indices_allowed": [
+        11,
+        12,
+        13
+      ],
+      "ramp": {
+        "shadow": 11,
+        "base": 13,
+        "highlight": 13
+      }
+    },
+    "sash": {
+      "count": 147,
+      "indices_allowed": [
+        11,
+        12,
+        13
+      ],
+      "ramp": {
+        "shadow": 11,
+        "base": 13,
+        "highlight": 13
+      }
+    },
+    "trousers": {
+      "count": 532,
+      "indices_allowed": [
+        14,
+        15
+      ],
+      "ramp": {
+        "shadow": 14,
+        "base": 15,
+        "highlight": 15
+      }
+    },
+    "feet": {
+      "count": 156,
+      "indices_allowed": [
+        5,
+        6,
+        7
+      ],
+      "ramp": {
+        "shadow": 5,
+        "base": 7,
+        "highlight": 7
+      }
+    }
+  },
+  "shared_deep_shadow_indices": [
+    1,
+    2
+  ],
+  "critical_boundaries": {
+    "hair_skin": {
+      "pair": [
+        "hair",
+        "skin"
+      ],
+      "count": 15,
+      "status": true
+    },
+    "top_skin_hem_axilla": {
+      "pair": [
+        "top",
+        "skin"
+      ],
+      "count": 14,
+      "status": true
+    },
+    "wraps_skin_and_fists": {
+      "pair": [
+        "skin",
+        "wraps"
+      ],
+      "count": 26,
+      "status": true
+    },
+    "sash_trousers": {
+      "pair": [
+        "sash",
+        "trousers"
+      ],
+      "count": 33,
+      "status": true
+    },
+    "feet_trousers": {
+      "pair": [
+        "feet",
+        "trousers"
+      ],
+      "count": 17,
+      "status": true
+    }
+  },
+  "leakage_count": 510,
+  "status": "failed_requires_localized_material_cleanup",
+  "artistic_validation": "pending_human_review",
+  "notes": "Coverage is necessary but not sufficient. Leakage status is evaluated independently against material ownership and allowed ramps."
+}

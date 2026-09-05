@@ -1,0 +1,22 @@
+{
+  "contract_id": "branding_sequence_legacy_template_inactive",
+  "status": "inactive_replaced_by_blue_circuit_title_screen",
+  "applies_to": "none_for_current_blue_circuit_slice",
+  "reason": "This project was reseeded on 2026-06-25 as a short action platformer. Branding evidence copied from the canonical template is not evidence for this game.",
+  "active_front_end_scene": "title_screen",
+  "active_scene_spec": "doc/13-spec-cenas.md",
+  "active_gdd": "doc/11-gdd.md",
+  "forbidden_as_evidence": [
+    "template ROM hashes",
+    "template BlastEm screenshots",
+    "template branding assets",
+    "template build metadata"
+  ],
+  "next_required_route": [
+    "premium_source_manifest",
+    "human_asset_approval",
+    "title_screen_vdp_conversion",
+    "build",
+    "blastem_evidence"
+  ]
+}

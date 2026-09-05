@@ -1,0 +1,13 @@
+{
+  "schema_version": "golden_scene_gate.v1",
+  "gate_id": "vegetable_valley_golden_scene_reference",
+  "decision_source": "human_decision_2026-08-31",
+  "status": "locked_composition_reference_only",
+  "asset_id": "vegetable_valley_golden_scene_concept_v01",
+  "sha256": "a52b366d8881d43133830fdafcf552bc93bba533dc25d729db96c7bdbf11e561",
+  "path": "rascunho/nexialist_visual_nucleus_v01/vegetable_valley_golden_scene_concept_v01.png",
+  "approved_as": ["composition_reference", "lighting_reference", "depth_reference", "layer_reference", "density_reference", "gameplay_relationship_reference"],
+  "forbidden_as": ["bitmap_for_conversion", "native_sgdk_asset", "res_source", "pixel_trace_source", "aaa_evidence"],
+  "required_decomposition": ["BG_B", "BG_A", "foreground_priority", "sprites"],
+  "notes": "The scene must be semantically re-authored as modular native assets after separate gates."
+}

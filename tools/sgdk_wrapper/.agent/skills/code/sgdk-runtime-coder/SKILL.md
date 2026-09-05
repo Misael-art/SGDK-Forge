@@ -163,6 +163,10 @@ Se essa ordem for quebrada, registre o motivo no `runtime_decision_log`. Debug s
 - todo arquivo especifico, script auxiliar, log, experimento ou rascunho criado durante runtime fica dentro do projeto; temporarios ficam em `rascunho/`
 - runtime nunca declara Mode 7 no Mega Drive; referencias desse tipo ficam redirecionadas para `pseudo3d_road_stack`, line scroll, zmap ou paineis pre-renderizados
 - quando houver golpe/dano premium, o runtime implementa o `runtime_animation_timing_map` a partir de `animation_direction_contract`: startup, anticipation, active, hitstop, follow-through, recovery, cancel/return e frame hold nao podem virar cadencia uniforme por habito
+- toda acao marcada como pertencente ao slice em `animation_state_plan` deve
+  aparecer em `sprite_artifact_report.v2.action_coverage.required_actions` e no
+  `runtime_animation_timing_map`; se a implementacao ou o strip nao existem, a
+  promessa deve ser removida/reclassificada no contrato antes do closeout
 - quando houver `motion_physics_contract` ou `state_transition_motion_contract`, o runtime preserva center of mass, foot contact, landing, recovery, cancel/return, bridge frames e frame holds; reduzir isso por budget exige fallback documentado e rebaixa status visual
 - quando houver contratos de animacao viva, o runtime preserva loops, duracoes, holds, expression frames, cloth settle e hand pose transitions declarados; reduzir por budget exige `fallback_reduced_residency` e rebaixa o status visual
 - hit spark, dust, flash e camera shake sao eventos de gameplay sincronizados ao `impact_frame_contract`, nao pixels baked-in no personagem
@@ -233,8 +237,7 @@ AAA/runtime.
 
 ### Licoes de runtime seed e placeholder
 
-Origem: `Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME]
-[ACTION_RACING]`, evidencia `E1_project_artifact`, expansao candidata.
+Regra generalizada para runtime seed e placeholders.
 
 - `int main(bool hardReset)` e assinatura SGDK aceitavel; loops, timers,
   indices de cena, frame counters e dados de VDP/input continuam usando
@@ -323,9 +326,12 @@ Regra:
 - `per_frame_dma_cost` precisa caber no pior VBlank de gameplay.
 - `scanline_sprite_pressure` continua limite de leitura e hardware mesmo quando VRAM cabe.
 
-## Curadoria 2026-06-03 - Celestial Chase: status declarativos e visual_lab_static_floor
+## Curadoria - status declarativos e visual_lab_static_floor
 
-Licao extraida do projeto `Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]`: o sistema antigo aceitava "ta rodando no BlastEm" como prova suficiente para promover runtime a entregue. O resultado foi `gameplay_basico=funcional` + `performance=estavel` + `audio=ok` mas `creative_ready=false` e 4 blockers ativos. Faltava separar "rodou" de "esta pronto".
+Regra generalizada: "rodou no BlastEm" nao basta para promover runtime a
+entregue. `gameplay_basico`, `performance` e `audio` tecnicamente positivos
+podem coexistir com `creative_ready=false`; e obrigatorio separar "rodou" de
+"esta pronto".
 
 ### Taxonomia obrigatoria de status de runtime
 

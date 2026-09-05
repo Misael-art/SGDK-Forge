@@ -1,0 +1,186 @@
+{
+  "schema_version": "localized_artistic_cleanup_action_log.v5",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+  "parent_asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v04",
+  "parent_sha256": "791074aa6919ac0bac78a60693c12daee8f03169b216996758a8a272bc6b214e",
+  "method": "mechanical_palette_remap_with_minimal_native_patches",
+  "native_cleanup": "incomplete",
+  "material_topology": "failed_requires_localized_material_cleanup",
+  "semantic_map": "derived_diagnostic_not_independent",
+  "patches": [
+    {
+      "region": "hair",
+      "symptom": "hair mass and contour groups still merge at 1x",
+      "x": 16,
+      "y": 5,
+      "before": 3,
+      "after": 0,
+      "reason": "open_outer_curl_notch_4"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass and contour groups still merge at 1x",
+      "x": 15,
+      "y": 6,
+      "before": 4,
+      "after": 0,
+      "reason": "open_outer_curl_notch_5"
+    },
+    {
+      "region": "hair",
+      "symptom": "hair mass and contour groups still merge at 1x",
+      "x": 17,
+      "y": 11,
+      "before": 2,
+      "after": 0,
+      "reason": "open_outer_curl_notch_6"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state gaze and hair-face separation",
+      "x": 27,
+      "y": 10,
+      "before": 4,
+      "after": 6,
+      "reason": "forehead_skin_plane"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state gaze and hair-face separation",
+      "x": 28,
+      "y": 12,
+      "before": 1,
+      "after": 6,
+      "reason": "eye_socket_skin_plane"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state gaze and hair-face separation",
+      "x": 29,
+      "y": 13,
+      "before": 7,
+      "after": 6,
+      "reason": "cheek_plane"
+    },
+    {
+      "region": "face_eye",
+      "symptom": "face cluster does not state gaze and hair-face separation",
+      "x": 30,
+      "y": 13,
+      "before": 5,
+      "after": 6,
+      "reason": "cheek_plane"
+    },
+    {
+      "region": "guard",
+      "symptom": "wrap, fist and forearm boundaries merge",
+      "x": 21,
+      "y": 21,
+      "before": 6,
+      "after": 1,
+      "reason": "left_fist_wrap_separator"
+    },
+    {
+      "region": "guard",
+      "symptom": "wrap, fist and forearm boundaries merge",
+      "x": 23,
+      "y": 24,
+      "before": 11,
+      "after": 1,
+      "reason": "left_wrap_forearm_separator"
+    },
+    {
+      "region": "guard",
+      "symptom": "wrap, fist and forearm boundaries merge",
+      "x": 36,
+      "y": 24,
+      "before": 0,
+      "after": 1,
+      "reason": "right_wrap_forearm_separator"
+    },
+    {
+      "region": "abdomen",
+      "symptom": "skin highlights remain point-like instead of planar",
+      "x": 27,
+      "y": 30,
+      "before": 10,
+      "after": 6,
+      "reason": "join_abdomen_plane"
+    },
+    {
+      "region": "abdomen",
+      "symptom": "skin highlights remain point-like instead of planar",
+      "x": 29,
+      "y": 30,
+      "before": 10,
+      "after": 6,
+      "reason": "join_abdomen_plane"
+    },
+    {
+      "region": "abdomen",
+      "symptom": "skin highlights remain point-like instead of planar",
+      "x": 27,
+      "y": 33,
+      "before": 7,
+      "after": 6,
+      "reason": "join_abdomen_plane"
+    },
+    {
+      "region": "sash",
+      "symptom": "knot and tail do not read as one accessory",
+      "x": 21,
+      "y": 39,
+      "before": 4,
+      "after": 12,
+      "reason": "knot_neck"
+    },
+    {
+      "region": "sash",
+      "symptom": "knot and tail do not read as one accessory",
+      "x": 35,
+      "y": 42,
+      "before": 2,
+      "after": 12,
+      "reason": "tail_continuity"
+    },
+    {
+      "region": "trousers",
+      "symptom": "inner-knee shadow breaks leg volume",
+      "x": 23,
+      "y": 44,
+      "before": 15,
+      "after": 14,
+      "reason": "left_inner_knee_shadow"
+    },
+    {
+      "region": "trousers",
+      "symptom": "inner-knee shadow breaks leg volume",
+      "x": 26,
+      "y": 44,
+      "before": 2,
+      "after": 14,
+      "reason": "left_inner_knee_shadow"
+    },
+    {
+      "region": "trousers",
+      "symptom": "inner-knee shadow breaks leg volume",
+      "x": 31,
+      "y": 44,
+      "before": 2,
+      "after": 14,
+      "reason": "right_inner_knee_shadow"
+    }
+  ],
+  "patch_count": 18,
+  "null_patches_count": 5,
+  "global_palette_remap": false,
+  "source_regeneration": false,
+  "resize_or_filter": false,
+  "patches_attempted": 23,
+  "patches_effective": 18,
+  "patches_noop": 5,
+  "material_topology_meter": "material_topology_measurement_report.json",
+  "v05_pixels_modified": false,
+  "material_annotation": "material_owner_shade_annotation_v01.json",
+  "shade_role_map": "material_owner_shade_annotation_v01.json"
+}

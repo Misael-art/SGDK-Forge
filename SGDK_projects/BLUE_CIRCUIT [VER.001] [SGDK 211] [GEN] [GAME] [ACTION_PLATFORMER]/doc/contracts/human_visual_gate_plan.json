@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "blue_circuit",
+  "created_at": "2026-06-27",
+  "status": "approved_for_vdp_translation",
+  "human_validation_scope": [
+    "storyboard",
+    "model_sheet",
+    "spritesheet"
+  ],
+  "non_human_validations_owned_by_pipeline": [
+    "context",
+    "methodology",
+    "hygiene",
+    "source_hashing",
+    "clone_risk_review",
+    "vdp_conversion",
+    "pixel_strict_validation",
+    "vram_dma_sprite_budget",
+    "tdd_fixtures",
+    "sgdk_build",
+    "blastem_evidence",
+    "freshness_audit",
+    "scene_closeout"
+  ],
+  "gates": [
+    {
+      "gate_id": "gate_1_storyboard",
+      "human_decision_required": true,
+      "candidate_path": "data/source_art/storyboard/blue_circuit_storyboard_candidate_v001.png",
+      "sha256": "97db884c6ecdfe2d779e7b0076df29c24d52f4df49d440d931df057a56ee89da",
+      "decision_status": "approved_2026_06_27",
+      "passes_when": [
+        "six-beat vertical slice reads clearly",
+        "identity is original and non-derivative",
+        "title, stage, enemy, hazard, mini-boss and ending are understandable",
+        "no protected character, layout, logo, palette or UI identity is copied"
+      ],
+      "blocks_until_passed": [
+        "model_sheet_lock",
+        "stage_art_translation",
+        "runtime_asset_promotion"
+      ]
+    },
+    {
+      "gate_id": "gate_2_model_sheet",
+      "human_decision_required": true,
+      "candidate_path": "data/source_art/model_sheet/blue_circuit_model_sheet_candidate_v001.png",
+      "sha256": "7605f6857f5afa84e2ac20466bb04eccdefd4678755676cbfcd0640f92f220d7",
+      "decision_status": "approved_2026_06_27",
+      "passes_when": [
+        "player is a human rescue maintenance technician, not a protected armored robot archetype",
+        "line_sentry and breaker_core are readable original machines",
+        "must-preserve features are clear for pixel translation",
+        "silhouette and color roles support 16-bit gameplay readability"
+      ],
+      "blocks_until_passed": [
+        "sprite_source_lock",
+        "model_sheet_to_sprite_fidelity_report",
+        "final_spritesheet_approval"
+      ]
+    },
+    {
+      "gate_id": "gate_3_spritesheet",
+      "human_decision_required": true,
+      "candidate_path": "data/source_art/spritesheet/blue_circuit_spritesheet_candidate_v001.png",
+      "sha256": "93031904367b4ad1d53a9c77a1506e23d4f8dd7dddf5112e00ba5492c3119e98",
+      "decision_status": "approved_2026_06_27",
+      "passes_when": [
+        "player states read at native scale",
+        "pivot/contact points look stable enough for VDP redraw",
+        "line_sentry and breaker_core states communicate telegraph, active and damage",
+        "sprite sheet preserves the approved model-sheet identity"
+      ],
+      "blocks_until_passed": [
+        "vdp_conversion",
+        "res_promotion",
+        "sprite_runtime_integration"
+      ]
+    }
+  ],
+  "blocking_policy": {
+    "candidate_assets_may_be_reviewed": true,
+    "candidate_assets_may_be_converted_to_final_vdp": true,
+    "candidate_assets_may_be_promoted_to_res": false,
+    "candidate_assets_may_be_claimed_ready": false,
+    "blastem_required_for_delivery": true
+  }
+}

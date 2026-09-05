@@ -11,6 +11,7 @@ Permitidos na raiz:
 - `AGENTS.md`
 - `README.md`
 - arquivos de configuracao ja canonicos e existentes
+- `.ai-memory.toml` como marcador consultivo controlado por `tools/sgdk_wrapper/prepare_ai_memory_integration.ps1`
 - documentos historicos explicitamente mantidos por curadoria
 
 Todo material operacional de projeto deve ficar dentro do proprio projeto em `SGDK_projects/<project>/` ou `SGDK_Engines/<project>/`.

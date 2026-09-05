@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "scene_ids": [
+    "branding_sigil",
+    "title_menu",
+    "records_menu",
+    "credits_roll"
+  ],
+  "menu_entries": [
+    {
+      "id": "start_run",
+      "label": "START RUN",
+      "default_selected": true,
+      "action": "enter_opening_cutscene_or_race_start",
+      "availability": "first_slice"
+    },
+    {
+      "id": "upgrades",
+      "label": "UPGRADES",
+      "default_selected": false,
+      "action": "open_upgrade_preview",
+      "availability": "after_first_upgrade"
+    },
+    {
+      "id": "records",
+      "label": "RECORDS",
+      "default_selected": false,
+      "action": "open_records_screen",
+      "availability": "after_sram_contract"
+    },
+    {
+      "id": "credits",
+      "label": "CREDITS",
+      "default_selected": false,
+      "action": "open_credits_roll",
+      "availability": "first_slice"
+    }
+  ],
+  "input_policy": {
+    "up_down": "move_selection_one_entry",
+    "a_or_start": "confirm",
+    "b": "return_or_cancel",
+    "debounce_frames": 8,
+    "wrap_selection": true
+  },
+  "visual_policy": {
+    "cursor": "lumen_pulse_sprite_or_8x8_tile_arrow",
+    "selection_feedback": "one step brightness pulse plus short audio tick",
+    "forbidden": [
+      "VDP_drawText_debug_menu_final",
+      "free_scaled_font",
+      "logo_obscured_by_menu",
+      "menu_text_over_critical_title_strokes"
+    ]
+  },
+  "vdp_plan": {
+    "BG_B": "deep sky and beacon silhouettes",
+    "BG_A": "title logo, road/crown metaphor and static menu frame",
+    "WINDOW": "reserved for footer hint only when needed",
+    "SPRITES": "cursor pulse and optional logo sparkle",
+    "tile_budget_ref": "doc/13-spec-cenas.md"
+  },
+  "audio_hooks": [
+    "menu_move",
+    "menu_confirm",
+    "menu_cancel",
+    "title_stinger"
+  ],
+  "validation_plan": {
+    "required_evidence": [
+      "BlastEm title screenshot",
+      "front_end atlas budget report",
+      "menu input regression",
+      "brand identity readability check"
+    ],
+    "status": "planned"
+  }
+}

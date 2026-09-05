@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "sector_id": "sector_01_farol_quebrado",
+  "track_format_ref": "doc/track_data_format_contract.json",
+  "duration_steps": 96,
+  "duration_frames_ntsc": 1536,
+  "design_goal": "teach lane movement, jump, Lumen pickup and Pulse under low pressure",
+  "segments": [
+    {
+      "segment_id": "s01_read",
+      "start_step": 0,
+      "duration_steps": 24,
+      "speed_q8_8": 320,
+      "pressure_rate_q8_8_per_sec": 128,
+      "road_curve": 0,
+      "visual_state": 0,
+      "spawn_profile": 0,
+      "flags": ["tutorial_safe"]
+    },
+    {
+      "segment_id": "s01_choose",
+      "start_step": 24,
+      "duration_steps": 28,
+      "speed_q8_8": 384,
+      "pressure_rate_q8_8_per_sec": 192,
+      "road_curve": 1,
+      "visual_state": 1,
+      "spawn_profile": 1,
+      "flags": ["first_combination"]
+    },
+    {
+      "segment_id": "s01_pulse",
+      "start_step": 52,
+      "duration_steps": 24,
+      "speed_q8_8": 448,
+      "pressure_rate_q8_8_per_sec": 256,
+      "road_curve": -1,
+      "visual_state": 2,
+      "spawn_profile": 2,
+      "flags": ["pulse_teach"]
+    },
+    {
+      "segment_id": "s01_exit",
+      "start_step": 76,
+      "duration_steps": 20,
+      "speed_q8_8": 512,
+      "pressure_rate_q8_8_per_sec": 320,
+      "road_curve": 0,
+      "visual_state": 3,
+      "spawn_profile": 3,
+      "flags": ["beacon_reward"]
+    }
+  ],
+  "events": [
+    {"start_step": 4, "lane_mask": 2, "event_kind": "lumen_orb", "variant": 0, "telegraph_steps": 0, "active_steps": 4, "value": 5, "flags": ["first_pickup"]},
+    {"start_step": 6, "lane_mask": 7, "event_kind": "pursuer_shadow_hint", "variant": 0, "telegraph_steps": 1, "active_steps": 3, "value": 0, "flags": ["first_pursuer_presence", "non_damaging"]},
+    {"start_step": 8, "lane_mask": 1, "event_kind": "lumen_orb", "variant": 0, "telegraph_steps": 0, "active_steps": 4, "value": 5, "flags": ["encourage_lane_left"]},
+    {"start_step": 12, "lane_mask": 4, "event_kind": "lumen_orb", "variant": 0, "telegraph_steps": 0, "active_steps": 4, "value": 5, "flags": ["encourage_lane_right"]},
+    {"start_step": 16, "lane_mask": 2, "event_kind": "low_stone", "variant": 0, "telegraph_steps": 3, "active_steps": 2, "value": 1, "flags": ["first_jump_hazard"]},
+    {"start_step": 22, "lane_mask": 5, "event_kind": "lumen_orb", "variant": 1, "telegraph_steps": 0, "active_steps": 4, "value": 5, "flags": ["choice_reward"]},
+    {"start_step": 28, "lane_mask": 1, "event_kind": "astral_mark", "variant": 0, "telegraph_steps": 3, "active_steps": 2, "value": 1, "flags": ["first_lane_hazard"]},
+    {"start_step": 32, "lane_mask": 2, "event_kind": "lumen_orb", "variant": 0, "telegraph_steps": 0, "active_steps": 4, "value": 5, "flags": ["safe_center"]},
+    {"start_step": 36, "lane_mask": 4, "event_kind": "low_stone", "variant": 0, "telegraph_steps": 3, "active_steps": 2, "value": 1, "flags": ["jump_or_switch"]},
+    {"start_step": 42, "lane_mask": 2, "event_kind": "pressure_gate", "variant": 0, "telegraph_steps": 2, "active_steps": 4, "value": 8, "flags": ["teach_pressure"]},
+    {"start_step": 48, "lane_mask": 7, "event_kind": "lumen_orb", "variant": 2, "telegraph_steps": 0, "active_steps": 4, "value": 10, "flags": ["pulse_resource_topoff"]},
+    {"start_step": 56, "lane_mask": 5, "event_kind": "astral_mark", "variant": 1, "telegraph_steps": 3, "active_steps": 3, "value": 1, "flags": ["center_safe"]},
+    {"start_step": 60, "lane_mask": 2, "event_kind": "pulse_tutorial_target", "variant": 0, "telegraph_steps": 4, "active_steps": 5, "value": 0, "flags": ["clearable_by_pulse"]},
+    {"start_step": 66, "lane_mask": 4, "event_kind": "lumen_orb", "variant": 0, "telegraph_steps": 0, "active_steps": 4, "value": 5, "flags": ["post_pulse_reward"]},
+    {"start_step": 70, "lane_mask": 3, "event_kind": "low_stone", "variant": 1, "telegraph_steps": 3, "active_steps": 2, "value": 1, "flags": ["right_safe"]},
+    {"start_step": 78, "lane_mask": 2, "event_kind": "beacon_key", "variant": 0, "telegraph_steps": 1, "active_steps": 6, "value": 1, "flags": ["sector_goal"]},
+    {"start_step": 84, "lane_mask": 7, "event_kind": "pressure_gate", "variant": 1, "telegraph_steps": 4, "active_steps": 4, "value": 10, "flags": ["mini_setpiece_no_damage"]},
+    {"start_step": 90, "lane_mask": 2, "event_kind": "lumen_orb", "variant": 2, "telegraph_steps": 0, "active_steps": 4, "value": 10, "flags": ["exit_reward"]}
+  ],
+  "success_criteria": {
+    "minimum_lumen_expected": 25,
+    "pulse_should_be_used_before_step": 70,
+    "max_expected_damage_new_player": 1,
+    "target_pressure_exit_range": [20, 45],
+    "upgrade_unlock": "pulse_core_confirmed"
+  },
+  "known_tuning_risks": [
+    "duration may be too short for first-time Pulse understanding",
+    "pressure_gate values must be tuned only after runtime capture",
+    "lane_x projection may need adjustment after final player sprite dimensions"
+  ]
+}

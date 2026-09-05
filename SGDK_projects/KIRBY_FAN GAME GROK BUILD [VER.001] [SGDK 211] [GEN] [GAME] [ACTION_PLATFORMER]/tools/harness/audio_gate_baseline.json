@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "purpose": "Baseline de violacoes HERDADAS DO TEMPLATE dos gates de audio A1/A3. NAO e uma isencao permanente. O gate falha em qualquer violacao NOVA fora desta lista.",
+  "created_at": "2026-07-29",
+  "owner": "src/audio/xgm_router.c (EXISTE desde 2026-08-06 e ja e o dono unico das cenas do jogo)",
+  "expiry_condition": "CORRIGIDA em 2026-08-06. A condicao anterior era 'quando xgm_router.c existir' — ele existe e a divida CONTINUA, porque as violacoes estao em src/system/audio.c e src/scenes/scene_branding.c, que pertencem as cenas do TEMPLATE (branding/menu/demo) e seguem sendo chamadas por app.c. A condicao real e: esta baseline chega a zero quando as cenas do template forem substituidas pelo titulo proprio do jogo e AUDIO_init/AUDIO_update sairem de app.c.",
+  "why_not_fixed_now": "As cenas do jogo (STAGE, BOSS, GAMEOVER) ja usam exclusivamente o router e nao contem nenhuma violacao. Reescrever o audio das cenas do template antes de elas serem removidas seria trabalho jogado fora.",
+  "entries": [
+    {
+      "gate": "A1",
+      "file": "src/scenes/scene_branding.c",
+      "reason": "cena de branding do template usa PSG procedural direto"
+    },
+    {
+      "gate": "A1",
+      "file": "src/system/audio.c",
+      "reason": "audio placeholder do template; sera substituido por audio/xgm_router.c"
+    },
+    {
+      "gate": "A3",
+      "file": "src/system/audio.c",
+      "reason": "template usa SOUND_PCM_CH1, que o SOUNDMAP reserva para a musica"
+    }
+  ]
+}

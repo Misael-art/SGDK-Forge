@@ -35,5 +35,7 @@ void MDRuntimeProbe_init(void);
 void MDRuntimeProbe_tick(void);
 void MDRuntimeProbe_exportToSRAM(void);
 void MDRuntimeProbe_writeHeartbeat(void);
+/* brandEnsureShard falha em silencio; a cena reporta spawned/failed aqui. */
+void MDRuntimeProbe_noteSpriteAlloc(u16 spawned, u16 failed);
 
 #endif

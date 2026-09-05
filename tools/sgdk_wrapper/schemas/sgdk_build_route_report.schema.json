@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://megadrive-dev.local/schemas/sgdk_build_route_report.schema.json",
+  "title": "SGDK build route report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "generated_at",
+    "status",
+    "host_platform",
+    "selected_route",
+    "command",
+    "rule",
+    "project_root",
+    "repo_root",
+    "canonical_gdk",
+    "compiler",
+    "source_library",
+    "linux_stage",
+    "blockers",
+    "warnings",
+    "status_ceiling_after_build"
+  ],
+  "properties": {
+    "schema": { "const": "sgdk_build_route_report.v1" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["ready", "blocked"] },
+    "host_platform": { "type": "string", "minLength": 1 },
+    "selected_route": {
+      "enum": ["linux_wine_bridge", "windows_batch_wrapper", "unsupported_host"]
+    },
+    "command": { "type": ["string", "null"] },
+    "rule": { "type": "string", "minLength": 1 },
+    "project_root": { "type": ["string", "null"] },
+    "repo_root": { "type": "string", "minLength": 1 },
+    "canonical_gdk": { "type": "string", "minLength": 1 },
+    "compiler": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "version"],
+      "properties": {
+        "path": { "type": "string" },
+        "version": { "type": ["string", "null"] }
+      }
+    },
+    "source_library": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "producer_version", "lto_detected", "direct_link_compatible"],
+      "properties": {
+        "path": { "type": "string" },
+        "producer_version": { "type": ["string", "null"] },
+        "lto_detected": { "type": "boolean" },
+        "direct_link_compatible": { "type": ["boolean", "null"] }
+      }
+    },
+    "linux_stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "library_path",
+        "producer_version",
+        "lto_detected",
+        "link_compatible",
+        "source_sdk_mutated"
+      ],
+      "properties": {
+        "path": { "type": "string" },
+        "library_path": { "type": "string" },
+        "producer_version": { "type": ["string", "null"] },
+        "lto_detected": { "type": ["boolean", "null"] },
+        "link_compatible": { "type": ["boolean", "null"] },
+        "source_sdk_mutated": { "const": false }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "message": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "status_ceiling_after_build": { "const": "buildado_emulator_pending" }
+  }
+}

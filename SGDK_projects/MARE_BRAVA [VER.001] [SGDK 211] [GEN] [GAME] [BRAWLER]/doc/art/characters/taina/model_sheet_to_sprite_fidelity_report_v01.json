@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_model_sheet_to_lineart_fidelity_v01",
+  "generated_at": "2026-07-08",
+  "asset_id": "taina",
+  "source_model_sheet": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_lineart_blocking_source_v01.png",
+    "sha256": "2b1bbea259911ddc01e729c2662c863eee6335efd8e90b2c8fb10d2497735864",
+    "status": "direction_reference_only"
+  },
+  "candidate": {
+    "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v01.png",
+    "sha256": "9755eafdb1b2a300c80068a076eafb1d1bd5ae970cf0845ae4b29cccb940c436",
+    "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v01.png",
+    "review_8x_sha256": "66ae3f9880ba4937590df0e3784c3b4056880de726e16902c57ed32333329c6e",
+    "asset_kind": "lineart_blocking_1px_candidate"
+  },
+  "technical_check": {
+    "technical_pass": true,
+    "png_indexed": true,
+    "png_mode": "P",
+    "dimensions_px": {
+      "w": 192,
+      "h": 64
+    },
+    "dimensions_multiple_of_8": true,
+    "used_indices": [
+      0,
+      1
+    ],
+    "index0_is_pipeline_magenta": true,
+    "visible_colors_on_9bit_grid_excluding_index0": true,
+    "ready_for_res_promotion": false
+  },
+  "must_preserve_fidelity": [
+    {
+      "id": "curly_hair_mass",
+      "expected": "massa cacheada presa, curta e irregular",
+      "observed": "massa de cabelo existe, mas vira bloco simplificado em vistas frontais/laterais",
+      "status": "partial",
+      "blocker": "hair_mass_simplified"
+    },
+    {
+      "id": "wedge_face",
+      "expected": "sobrancelha forte, nariz em cunha, mandibula compacta",
+      "observed": "face frontal tem marcadores, mas perfil/3-4 perdem cunha e atitude facial",
+      "status": "failed",
+      "blocker": "face_or_eye_readability_lost"
+    },
+    {
+      "id": "orange_top_dark_trousers",
+      "expected": "top laranja queimado e calca roxo-escura larga",
+      "observed": "sem color blocking ainda; a silhueta de calca larga existe, mas o top nao prova identidade material",
+      "status": "partial",
+      "blocker": "material_palette_semantics_pending"
+    },
+    {
+      "id": "teal_wraps_and_sash",
+      "expected": "bandagens verdes e faixa pendendo de um lado",
+      "observed": "faixa existe como cauda grafica; bandagens aparecem como linhas genericas e ainda nao sao distintas",
+      "status": "partial",
+      "blocker": "wraps_not_yet_distinct"
+    },
+    {
+      "id": "muay_thai_guard",
+      "expected": "guarda alta diagonal com punhos e pes ampliados",
+      "observed": "guarda alta e punhos ampliados sao legiveis, mas punhos quadrados demais reduzem naturalidade",
+      "status": "partial",
+      "blocker": "hand_foot_grammar_too_blocky"
+    },
+    {
+      "id": "scale_3_5_heads_48px",
+      "expected": "aproximadamente 3.5 cabecas e altura visivel alvo de 48px",
+      "observed": "altura e bbox cabem no contrato, mas a proporcao le como chibi/generica em vez de TAINA autoral",
+      "status": "failed",
+      "blocker": "generic_blocky_redraw"
+    }
+  ],
+  "visual_findings": {
+    "visual_pass": false,
+    "status": "failed_fidelity",
+    "primary_failure": "generic_blocky_redraw",
+    "secondary_failures": [
+      "face_or_eye_readability_lost",
+      "hand_foot_grammar_too_blocky",
+      "hair_mass_simplified",
+      "wraps_not_yet_distinct"
+    ],
+    "positive_evidence": [
+      "native grid dimensions and pivot region are stable",
+      "guard posture and sash direction are present",
+      "line is hard-edge and one temporary dark color"
+    ],
+    "negative_evidence": [
+      "candidate reads as schematic construction rather than faithful TAINA lineart",
+      "line grammar lacks the expressive contour and compact jaw/face of the approved direction",
+      "small identity hooks do not survive strongly enough for color blocking"
+    ]
+  },
+  "decision": {
+    "status": "rejected_as_clean_native_source",
+    "accepted_use": "negative_evidence_and_grid_reference_only",
+    "ready_for_color_blocking": false,
+    "ready_for_key_pose_generation": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "produce a second native lineart pass using the source model sheet plus the basic extraction as proportion guide",
+      "prioritize face/jaw, hair silhouette, wraps, sash and non-square hand/foot grammar before any color",
+      "compare source/basic/native candidate at 1x and 8x before updating visual_dna approval"
+    ]
+  },
+  "blocking_statuses": [
+    "generic_blocky_redraw",
+    "face_or_eye_readability_lost",
+    "clean_native_lineart_visual_pass_pending",
+    "no_res_promotion_allowed"
+  ]
+}

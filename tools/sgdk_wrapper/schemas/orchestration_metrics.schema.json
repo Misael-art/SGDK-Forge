@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/orchestration_metrics.schema.json",
+  "title": "Orchestration Cost and Causal Metrics",
+  "type": "object",
+  "required": [
+    "schema_version", "artifact_kind", "tool", "generated_at", "run_id", "status",
+    "result_counts", "usage", "causal_efficiency", "invalid_result_task_ids",
+    "quality_claim", "ready_for_aaa", "claim_ceiling"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "orchestration_metrics"},
+    "tool": {"type": "object"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "run_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["passed", "needs_review"]},
+    "result_counts": {
+      "type": "object",
+      "required": ["expected", "observed", "valid", "invalid", "missing_task_ids", "duplicate_task_ids"],
+      "properties": {
+        "expected": {"type": "integer", "minimum": 1},
+        "observed": {"type": "integer", "minimum": 0},
+        "valid": {"type": "integer", "minimum": 0},
+        "invalid": {"type": "integer", "minimum": 0},
+        "missing_task_ids": {"type": "array", "items": {"type": "string"}},
+        "duplicate_task_ids": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "usage": {
+      "type": "object",
+      "required": [
+        "input_tokens", "cached_input_tokens", "output_tokens", "observed_total_tokens",
+        "uncached_token_proxy", "cache_fraction", "tool_calls", "elapsed_sum_ms",
+        "elapsed_max_ms", "context_capsule_words", "result_words",
+        "duplicate_files_read", "validation_cache_hits"
+      ],
+      "properties": {
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "cached_input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "observed_total_tokens": {"type": "integer", "minimum": 0},
+        "uncached_token_proxy": {"type": "integer", "minimum": 0},
+        "cache_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "tool_calls": {"type": "integer", "minimum": 0},
+        "elapsed_sum_ms": {"type": "integer", "minimum": 0},
+        "elapsed_max_ms": {"type": "integer", "minimum": 0},
+        "context_capsule_words": {"type": "integer", "minimum": 0},
+        "result_words": {"type": "integer", "minimum": 0},
+        "duplicate_files_read": {"type": "integer", "minimum": 0},
+        "validation_cache_hits": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "causal_efficiency": {
+      "type": "object",
+      "required": ["blockers_removed", "blockers_removed_count", "blockers_removed_per_10000_observed_tokens"],
+      "properties": {
+        "blockers_removed": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "blockers_removed_count": {"type": "integer", "minimum": 0},
+        "blockers_removed_per_10000_observed_tokens": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "invalid_result_task_ids": {"type": "array", "items": {"type": "string"}},
+    "quality_claim": {"const": "unproven"},
+    "ready_for_aaa": {"const": false},
+    "claim_ceiling": {"const": "process_metrics_only"}
+  },
+  "additionalProperties": false
+}

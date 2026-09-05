@@ -1,0 +1,53 @@
+{
+  "schema": "p1_source_delivery_manifest.v1",
+  "generated_at": "2026-08-06",
+  "round": "p1_production",
+  "status": "source_candidate_complete",
+  "technical_validation": {
+    "status": "passed",
+    "delivered": 16,
+    "total": 16,
+    "failed": 0,
+    "report": "data/source_art/p1/p1_asset_validation_report.json"
+  },
+  "visual_review": {
+    "status": "passed_for_source_candidate",
+    "runtime_promotion": false,
+    "contact_sheets": [
+      "data/source_art/p1/evidence/group_a_contact_sheet.png",
+      "data/source_art/p1/evidence/group_b_contact_sheet.png",
+      "data/source_art/p1/evidence/group_c_d_contact_sheet.png",
+      "data/source_art/p1/evidence/group_e_contact_sheet.png"
+    ],
+    "reason_runtime_promotion_is_false": "Assets have not been integrated into resources.res, built, or observed in a fresh BlastEm session."
+  },
+  "a1_motion_gate": {
+    "status": "passed_offline",
+    "artifact_report": "data/source_art/p1/A1/sprite_artifact_report.json",
+    "native_grid_report": "data/source_art/p1/A1/native_grid_translation_report.json",
+    "contact_sheet": "data/source_art/p1/A1/evidence/contact_sheet.png",
+    "animated_captures_root": "data/source_art/p1/A1/evidence/animated",
+    "runtime_gate": "pending_blastem"
+  },
+  "assets": [
+    {"id":"A1","file":"ph_kirby.png","sha256":"2f0f17b67380a105194686ad70c065dd64506f47ae7a4b84b966d75195ed6115"},
+    {"id":"A2","file":"ph_enemy.png","sha256":"0da13130ebc53f3521ed841e257c1f1acbb6fe30c9d43a9e0a752c5396552da6"},
+    {"id":"A3","file":"ph_particle.png","sha256":"a7b84be7c97b4495a1138eccdef31540ddfdf7b496386f08e2772a54d78898d2"},
+    {"id":"B1","file":"ph_sky.png","sha256":"62877470f3f212cb005c11cf935a4ef5d7fc667c81980ed657ad54f7a5e5cb71"},
+    {"id":"B2","file":"ph_mount.png","sha256":"dd392486ad21f06ee545da265c0c2dbbfa3cc678c7363e4565b9c9a87c26fb9c"},
+    {"id":"B3","file":"ph_hills.png","sha256":"a4884ced13245861bae9deaebd439484eeef30faa3bc7a39fcd035e553c0a0a5"},
+    {"id":"B4","file":"ph_terrain.png","sha256":"c6d0cab7f45afb6a6c8d892a8c57c44f224235e42af4da70d762ec98bdeca103"},
+    {"id":"B5","file":"ph_fg.png","sha256":"3ab922842173b5cf53b475cc0652c86c9453f8ea63c455a88fe08fcb00cf8e5c"},
+    {"id":"C1","file":"ph_trunk.png","sha256":"f606f3f2437f99665ad76c6cae93b08f51b58a22e39fbdbd34a8cfb8740f50e9"},
+    {"id":"C2","file":"ph_boss_face.png","sha256":"ac5d47ed45363004b5769d440384a351d6a31c6ca6da3a498f9f04284d28c218"},
+    {"id":"C3","file":"ph_branch.png","sha256":"3c737a67fa5b3f5f6598183b37d0e5760f3d7eb7c7f8bdb28fbdef955741753d"},
+    {"id":"C4","file":"ph_apple.png","sha256":"e022b9f0fb7f8afb8ef22ef002c7e02cb0139e11e5111d93bfcfe458fd6b3194"},
+    {"id":"D1","file":"ph_ability_fx.png","sha256":"c79771bceff5fc30e6a7f8e592f6d68989bca7c0e7909d7be7a3989817ad31c6"},
+    {"id":"E1","file":"ph_title_stars.png","sha256":"51d7a3321c9b82b615b91b30288492e8007400904df2da88bce0bfc9f3b7b321"},
+    {"id":"E2","file":"ph_title_hill.png","sha256":"3e80c9249de3b514b245efa76b2b6da10fda211b8df4ffe75e0f0c888875b29f"},
+    {"id":"E3","file":"ph_title_logo.png","sha256":"1439ded56fc1963a2cf3d268953b375cd49838248b979d7567aa45d5e119a10d"}
+  ],
+  "excluded": [
+    {"id":"C5","file":"ph_light.png","reason":"do_not_redraw contract; existing Shadow/Highlight mask retained"}
+  ]
+}

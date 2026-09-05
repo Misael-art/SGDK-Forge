@@ -1,0 +1,25 @@
+## concept.png — prompt exato
+
+Use case: illustration-story
+Asset type: source concept art for a non-commercial 16-bit Mega Drive side-view platformer; it is a reference study, never a final ROM asset.
+Primary request: An original, cheerful, sweet, sunny countryside valley platformer scene with five clearly separated depth layers. No characters, logos, watermarks, or title text.
+Scene/backdrop: light-blue sky constructed from exactly 12 broad, discrete horizontal flat-color bands descending to a cream-yellow horizon; round plump clouds. Blue-purple distant mountain silhouettes. Saturated rounded hills and spherical tree canopies. Bright green grass-topped brown-earth playable platforms, simple flowers, and a narrow waterfall falling behind the terrain.
+Style/medium: handcrafted original 16-bit Mega Drive pixel-art scene; no copied game art; crisp nearest-neighbor pixel clusters, chunky dark outlines only where useful, flat RGB333-compatible colors, intentional functional dithering only.
+Composition/framing: 1280x896 landscape, a 4x concept-scale representation of 320x224. The five depth layers must read in grayscale: 1 sky brightest broad horizontal bands; 2 distant mountains, visibly paler/desaturated; 3 rounded hills/tree layer, darker and more saturated; 4 playable terrain; 5 foreground grass/foliage which would cross in front of a future player but leaves route readability. Reserve the bottom 40 game-pixels (160 pixels at this scale) as uncluttered horizontal space for HUD. Side-scrolling playable route clear from left to right.
+Lighting/mood: bright daytime, playful, pastoral, toy-like, nothing grim or realistic.
+Color palette: maximum 45 opaque colors and every RGB channel must be one of 0, 36, 73, 109, 146, 182, 219, 255. Flat bands only, no colors outside this RGB333 grid.
+Constraints: 5 layers must remain separable for parallax; sky bands countable and each band flat; mountain layer lighter and less saturated than hill layer; terrain solid and obvious; waterfall must stay behind terrain; no alpha blending, no airbrush, no smooth gradients, no soft shadows, no text, no frame.
+Avoid: screenshots copied from any game, generic AI painted landscape, alpha haze, perspective camera, foreground that hides the path, black silhouettes, characters, branding.
+
+## layers.png — prompt exato
+
+Use case: illustration-story
+Asset type: a five-layer parallax production breakdown for a non-commercial original 16-bit Mega Drive platformer. Source reference only, never final ROM art.
+Primary request: One 1280x896 landscape canvas split into five wide horizontal stacked strips, each strip a separate, unambiguous parallax layer from the exact same cute sunny countryside valley scene. Use accurate, legible Portuguese-free numeric labels only if necessary; the layer identity must be visually obvious even without words. From top to bottom: 1) sky only, 12 broad discrete flat horizontal bands light blue to cream-yellow horizon plus plump round clouds; 2) pale desaturated blue-purple distant mountain silhouettes only; 3) richer rounded hills and spherical tree canopies only; 4) brown earth and bright green grass-topped playable platform surfaces only, including a narrow waterfall BEHIND terrain silhouette; 5) sparse close grass and foliage only, designed to sit in front of a future hero.
+Scene/backdrop: every layer shown alone on the same neutral medium-gray checker-free flat backdrop, carefully separated with thin neutral dividers. No character.
+Style/medium: original handmade 16-bit Mega Drive pixel-art technical layer-study, nearest-neighbor clusters, no copied game designs.
+Composition/framing: shared side-view camera alignment across the five strips; each strip spans full width; bottom safe HUD band visibly uncluttered; do not make this a collage of unrelated pictures.
+Lighting/mood: playful, soft pastel, highly readable in grayscale.
+Color palette: at most 45 colors, use only RGB333 channel values 0,36,73,109,146,182,219,255; clear value separation between every adjacent layer.
+Constraints: no alpha blending, no smooth gradients, no soft shadows, no painted textures, no logo, no watermark, no decorative frame, no title text. This must function as a direct layer separation study for scroll speeds.
+Avoid: scene composition rather than layer breakdown, merged layers, player character, fuzzy raster art, illegible tiny text.

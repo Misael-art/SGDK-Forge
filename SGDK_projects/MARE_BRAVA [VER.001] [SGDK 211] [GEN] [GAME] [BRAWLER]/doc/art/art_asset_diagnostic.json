@@ -1,18 +1,19 @@
 {
   "schema_version": "1.0.0",
   "diagnostic_id": "mare_brava_asset_diag_v1",
-  "generated_at": "2026-07-03",
+  "generated_at": "2026-07-04",
   "inventory": {
-    "data/source_art": "vazio (projeto recem-nascido)",
-    "res/": "apenas branding herdada do template (fora do escopo de gameplay)",
-    "rascunho/": "vazio"
+    "data/source_art": "15 concepts recebidos em 2026-07-03 + assets de branding source; todos permanecem source_candidate ou referencia curatorial",
+    "data/source_art/concept": "pendente para a nova rodada organizada por asset_id",
+    "res/": "branding herdada/processada; gameplay ainda nao promovido para res/",
+    "rascunho/": "sem material ativo nesta revisao"
   },
-  "asset_route_decision": "3_no_art",
-  "rationale": "Nenhum asset de gameplay existe. Rota: geracao IA como premium source via image-generation-routing + art-creation-sourcing, persistindo em data/source_art/ com premium_source_manifest e aprovacao humana antes de conversao VDP.",
+  "asset_route_decision": "2_res_inadequate_check_plus_concept_source_candidates",
+  "rationale": "O projeto ja possui concepts em data/source_art, mas eles nao sao assets finais nem PNGs VDP. A rota correta e nova geracao/curadoria em data/source_art/concept/<asset_id>/ como source_candidate, seguida de contact sheet 320x224 + ratificacao humana antes de qualquer conversao VDP.",
   "critical_assets_needed": [
     {
       "asset_id": "taina_sheet",
-      "kind": "sprite_sheet",
+      "kind": "identity_model_sheet_concept",
       "states": [
         "idle",
         "walk",
@@ -23,11 +24,11 @@
         "special",
         "hit_down"
       ],
-      "frame_size": "48x48"
+      "frame_size": "compressao autoral posterior para 48x48"
     },
     {
       "asset_id": "cria_sheet",
-      "kind": "sprite_sheet",
+      "kind": "enemy_identity_and_telegraph_concepts",
       "states": [
         "walk",
         "telegraph",
@@ -39,7 +40,7 @@
     },
     {
       "asset_id": "estivador_sheet",
-      "kind": "sprite_sheet",
+      "kind": "enemy_identity_and_telegraph_concepts",
       "states": [
         "walk",
         "grab_telegraph",
@@ -50,8 +51,8 @@
       "frame_size": "56x56"
     },
     {
-      "asset_id": "cais_tilemap",
-      "kind": "background_tilemap",
+      "asset_id": "dock_scene_kit",
+      "kind": "modular_scene_kit_concepts",
       "planes": "BG_A cais jogavel + BG_B mar/ceu line-scroll",
       "size": "1344x224 (BG_A), 512x224 loop (BG_B)"
     },
@@ -61,12 +62,15 @@
       "ref": "doc/art/brand_identity_manifest.json"
     },
     {
-      "asset_id": "hud_pack",
-      "kind": "hud_element",
+      "asset_id": "hud_fx_pack",
+      "kind": "hud_fx_concepts",
       "itens": "health bar 40x8, fonte 8x8, retrato 16x16, hitspark/splash FX"
     }
   ],
   "blockers": [
-    "blocked_no_premium_source"
+    "dock_scene_kit_missing",
+    "human_ratification_pending",
+    "no_pixel_model_sheet",
+    "no_res_promotion_allowed"
   ]
 }

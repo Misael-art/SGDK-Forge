@@ -20,7 +20,7 @@ Regras:
 - os gates finais de `visual_lab_aprovado`, `audio`, `hardware_real` e `ready_for_aaa` devem ter trilha explicita em `doc/14-plano-de-provas-qa.md`.
 
 
-<!-- BEGIN: diretriz-bloqueio-estetico v4 -->
+<!-- BEGIN: diretriz-bloqueio-estetico v5 -->
 
 ## Diretriz de bloqueio estetico — leia antes de tocar em arte
 
@@ -50,32 +50,64 @@ simbolo visual do `.res`:
 Contrato: `tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json`.
 Regra completa: `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` secoes 8.2 e 17.
 
-### Estado medido em 2026-08-17
+### Rota de conversao vigente — nao redescubra, nao improvise
+
+A suite canonica e `forge-art` (`tools/sgdk_wrapper/forge_art/`). Ela existe porque
+conversao automatica resolve **conformidade**, nunca **qualidade artistica**:
+
+```text
+technical_pass != visual_pass != budget_pass != emulator_pass != ready_for_aaa
+```
+
+Toda saida de maquina nasce `technical_candidate`. Ela so vira `visually_approved`
+com decisao humana registrada. Promocao para `res/` exige os **dois**.
+
+| Preciso de | Use |
+|---|---|
+| converter cor para o CRAM | `python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B` |
+| medir um PNG contra o contrato pixel-strict | `python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate <png> --index0-role transparent0` |
+| normalizar PNG **ja indexado** (PLTE inflada, papel do index 0) | `python3 tools/image-tools/normalize_indexed_sgdk_png.py transparent0 <png>` |
+| traduzir fonte high-res de personagem/cenario de identidade | **nenhuma rota automatica.** Skill `art/art-translation-to-vdp`, construcao em canvas nativo |
+
+**Mortos — falham fechado de proposito, nao tente reviver:**
+
+- `tools/image-tools/batch_resize_index.py` — usava LANCZOS em pixel nativo, salvava
+  RGBA por cima da fonte e compunha BMP sobre branco;
+- `tools/image-tools/fix_png_transparency_final.py` — compunha sobre preto e removia o
+  marcador `transparency`; o nome dizia o oposto do que o codigo fazia.
+
+**Dois oraculos de cor existem e divergem em 112 de 256 valores por canal.** O ResComp
+(`Util.java:38`) trunca; o macro C (`pal.h:35`) arredonda. O default e o ResComp, porque
+e ele que escreve os bytes que vao para a ROM. Nunca crie uma segunda tabela de cor:
+tabela divergente e blocker P0.
+
+**Grade de autoria e `00,22,44,66,88,AA,CC,EE`** — a unica que faz round-trip exato nos
+dois oraculos. A grade de exibicao quebra em 387 das 512 cores sob o macro C.
+
+Fonte em `data/` e **read-only** para a suite. Interpolacao em caminho de pixel nativo e
+blocker (`non_nearest_downscale`). RGBA nunca e saida final.
+
+### Estado medido em 2026-08-30
 
 | Metrica | Valor |
 |---|---|
-| Simbolos visuais no `.res` | 15 |
-| Rastreados a builder de primitivas | **11** |
-| Proveniencia declarada | 0 |
-| Manifesto de proveniencia | `absent` |
-| Veredito | **BLOCKED** |
+| Simbolos visuais no `.res` | 20 |
+| Rastreados a builder de primitivas | **12** |
+| Proveniencia declarada | 20 |
+| Manifesto de proveniencia | `present` |
+| Veredito | **OK** |
 
-Blockers ativos:
+Simbolos escritos por builder de primitivas (12) — nenhum pode ser `final`:
 
-- `asset_provenance_manifest_absent`
-- `asset_provenance_undeclared`
-- `procedural_asset_promoted_to_res`
-
-Simbolos escritos por builder de primitivas (11) — nenhum pode ser `final`:
-
-- `img_brand_fx_tiles` <- build_branding_intro_assets.py
-- `img_brand_engine_logo` <- build_branding_intro_assets.py, build_branding_v3_assets.py, build_branding_v4_assets.py
-- `img_brand_author_logo` <- build_branding_intro_assets.py
-- `img_brand_project_logo` <- build_branding_intro_assets.py, build_branding_v3_assets.py, build_branding_v4_assets.py
-- `img_brand_presents_text` <- build_branding_intro_assets.py
+- `img_brand_fx_tiles` <- build_branding_intro_assets.py, build_gotham_overdrive_assets.py
+- `img_brand_engine_logo` <- build_branding_intro_assets.py, build_branding_v3_assets.py, build_branding_v4_assets.py, build_gotham_overdrive_assets.py
+- `img_brand_author_logo` <- build_branding_intro_assets.py, build_gotham_overdrive_assets.py
+- `img_brand_project_logo` <- build_branding_intro_assets.py, build_branding_v3_assets.py, build_branding_v4_assets.py, build_gotham_overdrive_assets.py
+- `img_brand_presents_text` <- build_branding_intro_assets.py, build_gotham_overdrive_assets.py
 - `img_cais01_bg_b_mar_ceu` <- build_cais01_art_alignment_pass_v04.py
 - `img_cais01_bg_a_pier_modular` <- build_cais01_art_alignment_pass_v04.py
 - `spr_taina_idle_guard` <- build_cais01_art_alignment_pass_v04.py, build_cais01_signature_pass_v03.py, build_cais01_visual_pass_v02.py
+- `spr_cria_idle_lean` <- build_cria_idle_native_v01.py
 - `spr_taina_ground_shadow` <- build_cais01_signature_pass_v03.py
 - `spr_cais01_smoke` <- build_cais01_signature_pass_v03.py
 - `spr_cais01_lamp_dust` <- build_cais01_signature_pass_v03.py
@@ -187,4 +219,4 @@ tiles: custa como arte unica e costuma ainda parecer repetitivo.
 **Build limpo, ROM no BlastEm e screenshot nao substituem este gate.** Nova build so conta
 como progresso visual se reduzir os blockers acima.
 
-<!-- END: diretriz-bloqueio-estetico v4 -->
+<!-- END: diretriz-bloqueio-estetico v5 -->

@@ -1,0 +1,26 @@
+{
+  "asset_id": "taina_idle_guard_56x80_assisted_native_translation_v01",
+  "claim_ceiling": "documentado \u2014 nenhum pixel foi produzido por esta chamada",
+  "command": "translate",
+  "forbidden_shortcuts": [
+    "resize interpolado (Lanczos/bilinear/bicubico) da fonte high-res",
+    "quantizacao direta da ilustracao como se fosse asset final",
+    "dithering em lineart, rosto, olhos, maos ou sprite 56x80",
+    "composicao sobre preto para 'resolver' transparencia"
+  ],
+  "handoff_to": "pixel artist humano, ou agente com capacidade de producao nativa comprovada em referencia da mesma geracao",
+  "next_action": "encaminhe este registro ao produtor capaz; quando a imagem existir, me\u00e7a com `python3 -m forge_art validate` e so entao registre a decisao humana no diretorio do job",
+  "recorded_at": "2026-09-01T01:18:44Z",
+  "required_from_producer": [
+    "construcao no canvas nativo declarado (56x80), nunca downscale",
+    "regioes semanticas declaradas antes do primeiro pixel",
+    "paleta escolhida por funcao (luz, material, leitura), nao por frequencia estatistica",
+    "comparacao ampliada 8x anexada",
+    "aprovacao humana registrada ANTES de qualquer animacao ou promocao"
+  ],
+  "route": "assisted_native_translation",
+  "schema_version": "1.0.0",
+  "source": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_56x80_visual_source_v01.png",
+  "status": "blocked_pending_capable_producer",
+  "why": "Rota B e construcao em canvas nativo com decisao de silhueta, anatomia, material e leitura. Quantizar ou vetorizar a fonte high-res nao produz isso: produz um asset tecnicamente conforme e visualmente reprovado. Ferramenta nenhuma desta suite substitui essa decisao."
+}

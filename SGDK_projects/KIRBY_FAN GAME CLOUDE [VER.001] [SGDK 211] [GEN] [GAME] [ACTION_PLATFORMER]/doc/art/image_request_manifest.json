@@ -1,0 +1,239 @@
+{
+  "schema_version": "1.0.0",
+  "round": "art_loop_closed_r1_scope",
+  "generated_at": "2026-07-29",
+  "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "instructions_doc": "doc/art/AI_IMAGE_PROMPT_PACK.md",
+  "output_root": "data/source_art/r1",
+  "status_vocabulary": [
+    "not_requested",
+    "requested",
+    "delivered",
+    "judged_pass",
+    "judged_reject"
+  ],
+  "legal_vdp_channel_values": [
+    0,
+    36,
+    73,
+    109,
+    146,
+    182,
+    219,
+    255
+  ],
+  "forbidden_asset_roles": [
+    "animated_sprite_final",
+    "hud_final",
+    "res_direct",
+    "aaa_final_asset"
+  ],
+  "promotion_policy": "Nenhuma entrega vai para res/ nesta rodada. Status maximo alcancavel e source_candidate.",
+  "requests": [
+    {
+      "id": "r1-01",
+      "asset_role": "concept_art",
+      "title": "Folha de personagem do heroi",
+      "canvas": "1024x768",
+      "max_colors": 15,
+      "priority": "MAXIMA",
+      "expected_files": [
+        "concept.png",
+        "prompt_used.txt",
+        "notes.md"
+      ],
+      "output_dir": "data/source_art/r1/r1-01",
+      "status": "judged_pass_with_fixes",
+      "verdict": "10/15 cores, 0.00% ilegal, chave limpa. 3 de 4 poses leem a 28px; pose floating colapsa. Meio-tom rosa em 0.58% (alvo 8-12%). Rampa de rosa do brief estava errada (erro do diretor), corrigida.",
+      "judged_at": "2026-07-29",
+      "delivered_at": "2026-07-29",
+      "producer_signature": "Codex"
+    },
+    {
+      "id": "r1-02",
+      "asset_role": "layer_study",
+      "title": "Chave de cena e estudo de 5 camadas - Fase 1",
+      "canvas": "1280x896",
+      "max_colors": 45,
+      "priority": "MAXIMA",
+      "expected_files": [
+        "concept.png",
+        "layers.png",
+        "prompt_used.txt",
+        "notes.md"
+      ],
+      "output_dir": "data/source_art/r1/r1-02",
+      "status": "judged_pass_with_fixes",
+      "verdict": "41/45 cores, 0.00% ilegal. 5 camadas separaveis; ceu com 11 faixas (alvo 10-14); perspectiva atmosferica correta e medida. DEFEITO: camada 5 lum 0.370 > camada 4 lum 0.340, colapsam em cinza.",
+      "judged_at": "2026-07-29",
+      "delivered_at": "2026-07-29",
+      "producer_signature": "Codex"
+    },
+    {
+      "id": "r1-03",
+      "asset_role": "concept_art",
+      "title": "Whispy Woods boss articulado em pecas",
+      "canvas": "1024x1024",
+      "max_colors": 15,
+      "priority": "alta",
+      "expected_files": [
+        "concept.png",
+        "prompt_used.txt",
+        "notes.md"
+      ],
+      "output_dir": "data/source_art/r1/r1-03",
+      "status": "judged_reject",
+      "verdict": "Conteudo modular correto (7 segmentos, 3 curvaturas). REPROVADO por chave de transparencia: fundo dominante (255,0,219) 56.4%, tres magentas coexistindo. Tambem 15/15 cores sem folga para flash de dano.",
+      "judged_at": "2026-07-29",
+      "delivered_at": "2026-07-29",
+      "producer_signature": "Codex"
+    },
+    {
+      "id": "r1-04",
+      "asset_role": "concept_art",
+      "title": "Cinco chapeus de copy ability + FX",
+      "canvas": "1024x512",
+      "max_colors": 15,
+      "priority": "alta",
+      "expected_files": [
+        "concept.png",
+        "prompt_used.txt",
+        "notes.md"
+      ],
+      "output_dir": "data/source_art/r1/r1-04",
+      "status": "judged_pass_with_fixes",
+      "verdict": "15/15 cores, 0.00% ilegal. Chave (255,0,255) 74.5% correta, mas franja de quantizacao (219,0,219) 1.58% e (219,36,182) 0.6%.",
+      "judged_at": "2026-07-29",
+      "delivered_at": "2026-07-29",
+      "producer_signature": "Codex"
+    },
+    {
+      "id": "r1-05",
+      "asset_role": "tileset_concept",
+      "title": "Vocabulario de terreno da Fase 1",
+      "canvas": "1024x1024",
+      "max_colors": 15,
+      "priority": "alta",
+      "expected_files": [
+        "concept.png",
+        "prompt_used.txt",
+        "notes.md"
+      ],
+      "output_dir": "data/source_art/r1/r1-05",
+      "status": "judged_pass",
+      "verdict": "15/15 cores, 0.00% ilegal. Grade 8px visivel, provas de ladrilhamento 3x3, cachoeira 3 quadros, solido distinguivel de decoracao. Sem correcao.",
+      "judged_at": "2026-07-29",
+      "delivered_at": "2026-07-29",
+      "producer_signature": "Codex"
+    },
+    {
+      "id": "r1-06",
+      "asset_role": "palette_study",
+      "title": "Fase 2 lago e faixa submersa",
+      "canvas": "1280x896",
+      "max_colors": 45,
+      "priority": "media",
+      "expected_files": [
+        "concept.png",
+        "above_below.png",
+        "distortion.png",
+        "prompt_used.txt",
+        "notes.md"
+      ],
+      "output_dir": "data/source_art/r1/r1-06",
+      "status": "judged_pass",
+      "verdict": "41/39/37 cores, 0.00% ilegal. 3 arquivos entregues. Regra de derivacao de paleta enunciada e utilizavel; vira tabela no PALETTES.md. Ressalva autodeclarada: geometria do comparativo nao e modular identica.",
+      "judged_at": "2026-07-29",
+      "delivered_at": "2026-07-29",
+      "producer_signature": "Codex"
+    },
+    {
+      "id": "r1-07",
+      "asset_role": "concept_art",
+      "title": "Tela de titulo",
+      "canvas": "1280x896",
+      "max_colors": 45,
+      "priority": "media",
+      "expected_files": [
+        "concept.png",
+        "prompt_used.txt",
+        "notes.md"
+      ],
+      "output_dir": "data/source_art/r1/r1-07",
+      "status": "judged_pass",
+      "verdict": "30/45 cores, 0.00% ilegal. 17 cores distintas no ceu (alvo 16-20). Espaco de logo reservado, zero texto. Sem correcao.",
+      "judged_at": "2026-07-29",
+      "delivered_at": "2026-07-29",
+      "producer_signature": "Codex"
+    }
+  ],
+  "round_r1_summary": {
+    "judged_at": "2026-07-29",
+    "method": "medicao programatica sobre o PNG entregue, nao inspecao visual",
+    "color_legality_gate": "7/7 pass — 0.00% de pixels ilegais em todos os 11 entregaveis",
+    "color_budget_gate": "7/7 pass",
+    "pass": 4,
+    "pass_with_fixes": 3,
+    "reject": 1,
+    "note": "pass=4 conta r1-05/r1-06/r1-07 aprovados sem correcao; os 3 com correcao e o reprovado seguem em source_candidate",
+    "verdict_doc": "doc/art/R1_VERDICT_AND_R2_PACK.md",
+    "director_error_corrected": "a rampa de rosa do protagonista especificada no pacote R1 era salmao, nao rosa chiclete; corrigida na secao 5 do verdict doc"
+  },
+  "round_r2_summary": {
+    "judged_at": "2026-07-29",
+    "method": "verificacao independente com PIL+numpy; relatorio do Codex conferido, nao aceito por confianca",
+    "r1_preserved": true,
+    "color_legality_gate": "4/4 pass — 0.00% ilegal",
+    "results": {
+      "r2-01": "APROVADO — rampa canonica 5/5 adotada, zero tom salmao restante; pose floating corrigida: largura da silhueta no topo 6->19 px a 28px; 12/15 cores",
+      "r2-02": "APROVADO NA INTENCAO, REPROVADO NO TETO — lum camada 5 0.3703->0.2496 na janela; camadas 1-4 pixel diff EXATAMENTE 0; mas 39->47 cores contra teto 45",
+      "r2-03": "APROVADO — chave unica (255,0,255) 63.01%; (255,0,219) e (219,0,219) = 0 px; 13/13 cores; exact RGB replacement sem resampling",
+      "r2-04": "APROVADO — franja proibida = 0 px; chave unica 76.69%; 13/13 cores"
+    },
+    "r2_02_root_cause": "autodeclarado pelo Codex: 4454 px de micro-dither adicionados para caber na janela de luminancia apos snap na grade discreta RGB333; 5 das 8 cores novas sao ruido abaixo de 0.03%",
+    "director_errors_corrected": [
+      "formula de luminancia nao estava especificada: eu usava 0.299/0.587/0.114, Codex usava sRGB 0.2126/0.7152/0.0722. Canonizada a sRGB",
+      "criterio de luminancia em float sobre grade discreta forca dithering: migrado para 'remapear em degraus de paleta existentes, zero cores novas'",
+      "'area do corpo' ambiguo no criterio de meio-tom: 2.58% na minha medicao vs 10.00% na deles; intencao atingida, criterio aceito"
+    ],
+    "verdict_doc": "doc/art/R2_VERDICT_AND_R3_PACK.md",
+    "open_items": [
+      "R3-02: colapsar 5 cores de ruido para <=45 cores"
+    ]
+  },
+  "round_r3_summary": {
+    "judged_at": "2026-07-29",
+    "method": "verificacao independente, formula canonica sRGB",
+    "result": "APROVADO",
+    "measured": {
+      "cores": "39 -> 47 -> 42 (teto 45)",
+      "ilegais_rgb333": "0.00%",
+      "cores_ruido_removidas": 5,
+      "cores_novas_vs_r2": 0,
+      "camadas_1_a_4_pixel_diff": 0,
+      "lum_camada_5": 0.2579
+    },
+    "value_ladder_normative": {
+      "camada_1_ceu": 0.7339,
+      "camada_2_montanhas": 0.5024,
+      "camada_3_colinas": 0.4526,
+      "camada_4_terreno": 0.3401,
+      "camada_5_primeiro_plano": 0.2579,
+      "note": "monotonicamente decrescente; gap mais fragil e camada2->3 (0.0498), separado tambem por saturacao 0.269 vs 0.339"
+    },
+    "verdict_doc": "doc/art/R2_VERDICT_AND_R3_PACK.md"
+  },
+  "loop_closure": {
+    "closed_at": "2026-07-29",
+    "reason": "criterio do brief: /loop ate o critico hesitar ou errar. Nas tres ultimas rodadas os defeitos foram dos criterios do diretor, nao da arte. Continuar geraria retrabalho, nao qualidade.",
+    "final_state": "7 pedidos em source_candidate, 100% legais em RGB333",
+    "promotion_status": "nenhuma promocao para res/; nenhuma arte vista rodando em ROM",
+    "next_blocker": "doc/PALETTES.md e doc/VRAMMAP.md — trabalho do diretor, nao do agente de imagem",
+    "palettes_md_mandatory_inputs": [
+      "formula de luminancia canonica: L = (0.2126R + 0.7152G + 0.0722B)/255",
+      "rampa de rosa do protagonista: 255,219,255 / 255,182,219 / 255,146,182 / 219,73,146 / 146,36,109",
+      "escada de valor de 5 camadas de round_r3_summary.value_ladder_normative",
+      "regra de derivacao de paleta submersa proposta no r1-06 (precisa virar tabela, nao operacao cega)"
+    ]
+  }
+}

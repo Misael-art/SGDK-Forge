@@ -16,6 +16,77 @@
   "techniques": [
     {
       "scene_id": "chase_first_playable",
+      "registry_id": "xgm2_audio_architecture",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": [
+        "AUDIO_ENGINEERING",
+        "XGM2_AUDIO",
+        "FM_SYNTHESIS",
+        "YM2612_AUDIO",
+        "PSG_AUDIO",
+        "DAC_AUDIO"
+      ],
+      "owner_skills": [
+        "xgm2-audio-director",
+        "sgdk-runtime-coder",
+        "scene-state-architect"
+      ],
+      "evidence": {
+        "rom_sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+        "blastem_evidence_paths": [
+          "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/screenshot.png",
+          "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/save.sram",
+          "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio.wav",
+          "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/xgm2_audio_probe.json",
+          "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio_capture_analysis.json"
+        ],
+        "budget_report_path": "doc/dac_stream_budget_report.json",
+        "validation_report_path": "out/logs/audio_validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md",
+        "doc/audio_architecture_card.json",
+        "doc/audio_channel_ownership_report.json",
+        "doc/z80_task_ownership_contract.json"
+      ],
+      "notes": "FM/PSG music and PCM_CH2/CH3 SFX are proven simultaneous in current-ROM BlastEm. One missed XGM2 frame and pending human audio review keep the technique at LABORATORIO."
+    },
+    {
+      "scene_id": "chase_first_playable",
+      "registry_id": "xgm2_pcm_multiplexing",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": [
+        "AUDIO_ENGINEERING",
+        "MULTIPLEXING",
+        "PCM_AUDIO",
+        "XGM2_AUDIO",
+        "YM2612_AUDIO",
+        "DAC_AUDIO"
+      ],
+      "owner_skills": ["xgm2-audio-director", "sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+        "blastem_evidence_paths": [
+          "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/xgm2_audio_probe.json"
+        ],
+        "budget_report_path": "doc/dac_stream_budget_report.json",
+        "validation_report_path": "out/logs/audio_validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": [
+        "doc/13-spec-cenas.md",
+        "doc/10-memory-bank.md",
+        "doc/changelog/changelog.md",
+        "doc/audio_channel_ownership_report.json",
+        "doc/dac_stream_budget_report.json"
+      ],
+      "notes": "PCM_CH1 is reserved; critical cues own CH2 and optional/UI cues own CH3. Runtime accepted 5/5 requests with eight simultaneous music/SFX samples."
+    },
+    {
+      "scene_id": "chase_first_playable",
       "registry_id": "source_baked_pixel_art_standard",
       "human_proficiency_status": "TEORICA_PRIORITARIA",
       "technique_tags": [

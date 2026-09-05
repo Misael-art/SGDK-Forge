@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "powershell": {
+    "version": "7.6.2",
+    "platform": "linux-x64",
+    "url": "https://github.com/PowerShell/PowerShell/releases/download/v7.6.2/powershell-7.6.2-linux-x64.tar.gz",
+    "sha256": "6cbcfbf20e376aa62ffd91c973493c41a7a52ddfd5a5db3ff9bc12f0d0fe9292",
+    "install_scope": "workspace_out",
+    "rollback": "Remove out/host_tools/powershell/7.6.2 after confirming no process uses it."
+  },
+  "java": {
+    "distribution": "Eclipse Temurin",
+    "version": "21.0.11+10",
+    "platform": "linux-x64-hotspot-jre",
+    "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz",
+    "sha256": "e5038aae3ca9ff670bc696496b0728dbd23d280026bad30291cb919221ecfdcb",
+    "install_scope": "workspace_out",
+    "rollback": "Remove out/host_tools/java/21.0.11+10 after confirming no process uses it."
+  },
+  "python_contract_dependencies": {
+    "python_constraint": ">=3.11",
+    "lock_file": "tools/sgdk_wrapper/linux_python_requirements.lock",
+    "install_scope": "workspace_out",
+    "target": "out/host_tools/python/site-packages",
+    "rollback": "Remove out/host_tools/python/site-packages; downloaded wheels are cache-only."
+  },
+  "blastem_linux": {
+    "distribution": "Flathub official BlastEm application",
+    "version": "0.6.2",
+    "ref": "app/com.retrodev.blastem/x86_64/stable",
+    "commit": "c1f3f4435e9d009fa001322e26e73e785fe443fcedfae1f3187836685c602221",
+    "upstream": "https://www.retrodev.com/blastem/",
+    "remote": "flathub",
+    "install_scope": "flatpak_user",
+    "rollback": "flatpak --user uninstall com.retrodev.blastem after preserving required evidence."
+  }
+}

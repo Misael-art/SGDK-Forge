@@ -1,0 +1,25 @@
+{
+  "schema_version": "tool_inventory.v1",
+  "captured_at": "2026-09-01",
+  "host": "Linux x86_64 / Wayland KDE",
+  "available": {
+    "ImageMagick": "7.1.2-29 Q16-HDRI",
+    "Pillow": "12.3.0",
+    "OpenCV": "5.0.0",
+    "GIMP Console": "3.2.4",
+    "FFmpeg": "n9.0.1"
+  },
+  "unavailable_non_blocking": {
+    "GraphicsMagick": "unavailable",
+    "libvips_pyvips": "unavailable",
+    "Krita": "unavailable",
+    "Aseprite": "unavailable"
+  },
+  "policy": {
+    "global_install": false,
+    "pointer_gui": false,
+    "external_downloads": false,
+    "write_root": "/mnt/sdcard/Projects/Sgdk Forge"
+  },
+  "note": "GIMP is available for batch probing; its deterministic export bridge must pass a self-check before any route is considered executed. Missing optional tools do not block the matrix."
+}

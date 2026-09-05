@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "catalog_consulted": "tools/sgdk_wrapper/.agent/references/scene_archetype_catalog.json",
+  "scene_profile": "signature_only",
+  "selected_archetype": "pseudo3d_road_stack",
+  "rationale": "The core scene is a speed setpiece with fake depth and road pressure. Mega Drive cannot use Mode 7, so the design uses pseudo3d_road_stack and line scroll/fallback flat floor.",
+  "signature_techniques": ["pseudo3d_road_stack", "line_scrolling", "zmap_depth_bands", "palette_state_transitions"],
+  "gameplay_function": "communicate speed, lane safety, pressure and boss approach",
+  "fallback_profile": "competent_flat_floor_line_scroll",
+  "experimental_override_required": false,
+  "blockers_until_runtime": ["monumental_promised_without_budget", "visual_evidence_missing"]
+}

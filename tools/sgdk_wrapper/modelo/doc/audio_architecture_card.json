@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "branding_sequence_v2",
+  "audio_role": "cutscene",
+  "xgm2_mode": "standard_with_pcm",
+  "channel_ownership_map": {
+    "FM_CH1": { "owner": "BGM_FORGE_BASS", "stealable": false, "notes": "low FM bed" },
+    "FM_CH2": { "owner": "BGM_FORGE_BELL", "stealable": false, "notes": "metallic downbeat" },
+    "FM_CH3": { "owner": "BGM_FORGE_PAD", "stealable": false, "notes": "heat pad" },
+    "FM_CH4": { "owner": "BGM_UNUSED", "stealable": true },
+    "FM_CH5": { "owner": "BGM_UNUSED", "stealable": true },
+    "FM_CH6_DAC": { "owner": "XGM2_PCM", "stealable": true, "notes": "slam and brand SFX" },
+    "PSG_CH1": { "owner": "SFX_THUMP", "stealable": true, "notes": "stolen for slam body" },
+    "PSG_CH2": { "owner": "BGM_PSG", "stealable": true },
+    "PSG_CH3": { "owner": "SFX_NOISE", "stealable": true },
+    "PSG_NOISE": { "owner": "SFX_SLAM_NOISE", "stealable": true }
+  },
+  "sfx_priority_table": [
+    {
+      "event": "hammer_slam",
+      "priority": 15,
+      "channel": "PCM_CH2",
+      "steals_lower_priority": true
+    },
+    {
+      "event": "brand_whoosh",
+      "priority": 11,
+      "channel": "PCM_CH2",
+      "steals_lower_priority": true
+    },
+    {
+      "event": "menu_tick",
+      "priority": 5,
+      "channel": "PSG_CH1",
+      "steals_lower_priority": false
+    }
+  ],
+  "dac_budget": {
+    "dac_used": true,
+    "sample_rate_hz": 13300,
+    "max_concurrent_pcm": 2,
+    "clipping_policy": "unsigned 8-bit headroom 8 counts; reject 0x00/0xFF clip"
+  },
+  "sound_chip_identity_plan": {
+    "target_sound_school": "mega_drive_fm_psg_dac",
+    "fm_patch_palette": [
+      {
+        "role": "bass",
+        "timbre_goal": "tight low FM that leaves space for the slam",
+        "channel_owner": "FM_CH1",
+        "patch_notes": "alg 4, short-ish sustain, D2/G2 walk"
+      },
+      {
+        "role": "fx",
+        "timbre_goal": "inharmonic metal bell on downbeats",
+        "channel_owner": "FM_CH2",
+        "patch_notes": "alg 5, high operator ratios"
+      },
+      {
+        "role": "pad",
+        "timbre_goal": "slow heat under the forge",
+        "channel_owner": "FM_CH3"
+      }
+    ],
+    "psg_usage": {
+      "role": "ember pulse in the loop; slam steals tone0 + noise",
+      "noise_use": "white noise CLOCK4 under the hammer PCM",
+      "fallback": "keep slam PCM if PSG is busy"
+    },
+    "dac_pcm_usage": {
+      "used": true,
+      "purpose": "hammer slam and brand stamps; not a sample orchestra",
+      "channel_tradeoff_acknowledged": true,
+      "sample_budget_policy": "13300 Hz unsigned 8-bit, CH2/CH3 only, music has no PCM"
+    },
+    "reference_translation_policy": "impact is FM+PCM+noise, not a SNES hit with echo.",
+    "forbidden_assumptions": [
+      "native_snes_echo",
+      "unbounded_sample_ram",
+      "dac_without_channel_tradeoff"
+    ]
+  },
+  "fallback_plan": "if XGM2 music fails to loop, AUDIO_update retriggers XGM2_play; slam remains PCM+PSG even without BGM",
+  "approval_status": "needs_review",
+  "blockers": [
+    "lab_composed_vgm_not_human_score",
+    "slam_is_synthesized_placeholder"
+  ]
+}

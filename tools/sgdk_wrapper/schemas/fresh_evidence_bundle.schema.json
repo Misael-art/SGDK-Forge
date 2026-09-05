@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://megadrive-dev.local/schemas/fresh_evidence_bundle.schema.json",
+  "title": "Fresh same-session emulator evidence bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "status",
+    "session_id",
+    "session_started_at",
+    "session_completed_at",
+    "rom_sha256",
+    "expected_rom_sha256",
+    "emulator",
+    "artifacts",
+    "semantic_capture_valid",
+    "blockers",
+    "claim_limit"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "tool_name": { "const": "seal_fresh_evidence_bundle" },
+    "tool_version": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["sealed", "rejected"] },
+    "session_id": { "type": "string", "minLength": 1 },
+    "session_started_at": { "type": "string", "format": "date-time" },
+    "session_completed_at": { "type": "string", "format": "date-time" },
+    "rom_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+    "expected_rom_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "emulator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "commit"],
+      "properties": {
+        "ref": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "path", "session_id", "rom_sha256", "sha256", "size_bytes", "captured_at"],
+        "properties": {
+          "name": { "enum": ["rom", "screenshot", "sram", "vdp_dump", "runtime_metrics"] },
+          "path": { "type": "string", "minLength": 1 },
+          "session_id": { "type": "string", "minLength": 1 },
+          "rom_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "size_bytes": { "type": "integer", "minimum": 1 },
+          "captured_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "semantic_capture_valid": { "type": "boolean" },
+    "blockers": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "claim_limit": { "type": "string", "minLength": 1 }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "sealed" } } },
+      "then": {
+        "properties": {
+          "artifacts": { "minItems": 5 },
+          "semantic_capture_valid": { "const": true },
+          "blockers": { "maxItems": 0 }
+        }
+      }
+    }
+  ]
+}

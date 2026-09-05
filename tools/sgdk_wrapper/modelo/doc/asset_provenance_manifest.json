@@ -47,6 +47,127 @@
       "acceptance_status": "placeholder",
       "generated_by": "tools/image-tools/build_branding_intro_assets.py",
       "notes": "Desenhado por primitiva (build_presents). Nunca pode ser final."
+    },
+    {
+      "res_symbol": "img_starfield_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/starfield_320x224.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/translate_starfield_v02.py",
+      "authored_source": "data/source_art/branding_v2/raw/starfield_v02b.jpg",
+      "authored_source_hash": "16b6f8fc459f76060c9fe9239838144ea136b754c3170fc8f5bf4217d0aada54",
+      "notes": "Act I plate translated from native image_gen concept B. Navy field, pulse on PAL0[1]/[2], 24px heat hem. 4-bit indexed, unique tiles 30. Not final; awaits human review."
+    },
+    {
+      "res_symbol": "img_forge_bg_b",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/forge_bg_b_320x224.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/forge_bg_b_v02.jpg",
+      "authored_source_hash": "4c532835d54a299ec1fcd234055be4e50d961c675a7783ad953500b2abcd308b",
+      "notes": "Re-autoria modular v02 + compose de crops 8x8 autorados. unique_with_flip=642 no alvo 644. Aguarda BlastEm; nao e final."
+    },
+    {
+      "res_symbol": "img_forge_bg_a_props",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/forge_bg_a_props_320x224.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/forge_anvil_iso_v01.jpg",
+      "authored_source_hash": "f966f4044ee86a05d0f6e428f734585fd9d4531ca8ddeaf76f5d9dd7e4e007d1",
+      "notes": "Bigorna registrada com face em (128,104) e 32x16 limpos para a cicatriz. Sem martelo. Aguarda revisao humana."
+    },
+    {
+      "res_symbol": "spr_forge_ember",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_ember_16x16_strip.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/ember_v04.jpg",
+      "authored_source_hash": "08a6db2fc26ef1c82a34eb582509d7c04ef28aedf2ba1f1ab95c5cabebd1c3d0",
+      "notes": "6 quadros: rotacao 0/35/100/195, esmagamento, assentamento."
+    },
+    {
+      "res_symbol": "spr_forge_shard",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_shard_16x16_strip.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/shard_v05.jpg",
+      "authored_source_hash": "11724b175042b4e6f36dc9c4c852365c8db26531a7765733321939654cbd475a",
+      "notes": "4 angulos 0/28/81/157 para flip H/V somar orientacao."
+    },
+    {
+      "res_symbol": "spr_forge_hammer",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_hammer_48x48_strip.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/hammer_smear_v01.jpg",
+      "authored_source_hash": "122a1ddd933d2b80bd0ef9ed436d42a4be539a814be0c2b9926eb1dab7367158",
+      "notes": "7 quadros 48x48. Quadro 4 e smear desenhado, nao blur. Fonte primaria do smear; demais poses no lineage."
+    },
+    {
+      "res_symbol": "img_logo_engine_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_engine_224x64.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/logo_forge_v02.jpg",
+      "authored_source_hash": "06d459bd25162d861175005c33eb38066cd5745f1174e64bd3f21122fc875e9d",
+      "notes": "FORGE em PAL1. Degrau de luz em [13] (~4.5% dos pixels visiveis), [14] reservado. Canal max <= 0xCC. Mossa no R."
+    },
+    {
+      "res_symbol": "img_logo_author_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_author_192x32.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/logo_misael_v01.jpg",
+      "authored_source_hash": "58cd601ba106839aa7c088f03f839383a0f4916ae973ebbebd23809f9f2894ce",
+      "notes": "MISAEL em PAL2. Aguarda revisao humana."
+    },
+    {
+      "res_symbol": "img_logo_project_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_project_224x48.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/logo_master_v01.jpg",
+      "authored_source_hash": "7be8be6b7d9785856e91434756daba38db1979f017d3a356114aff36028e8631",
+      "notes": "MASTER em PAL2. Aguarda revisao humana."
+    },
+    {
+      "res_symbol": "img_presents_text_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/presents_text_96x16.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/presents_v01.jpg",
+      "authored_source_hash": "3eae13ad6b5e921ae29e6964cae9099effd62ef5059b12e4c5938228e1c4e2f9",
+      "notes": "PRESENTS: corpo em PAL2[9/12] (luma>=100), contorno 1px do ink autorado. Placeholder ate revisao humana."
+    },
+    {
+      "res_symbol": "img_presents_bar_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/presents_bar_8x8.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/rebuild_presents_contrast.py",
+      "authored_source": "res/branding/forge_bg_b_320x224.png",
+      "authored_source_hash": "03a9cd073b6a0be5aefd98b979590b323d60be4efee1776db444ed15766a1f1a",
+      "notes": "Tile opaco da barra WINDOW, crop de fuligem autorada do bg_b. Nao e primitiva."
     }
   ]
 }

@@ -5,9 +5,9 @@
   "driver": "XGM2",
   "tasks": [
     {
-      "task": "looped_score",
-      "owner": "XGM2_PCM_CH1",
-      "priority": 7
+      "task": "looped_fm_psg_score",
+      "owner": "XGM2_FM_PSG",
+      "priority": "exclusive"
     },
     {
       "task": "critical_hit_pulse_result",
@@ -20,10 +20,17 @@
       "priority": 4
     }
   ],
+  "pcm_ch1_policy": "reserved for XGM2 music internals; project does not assign a sample",
   "custom_driver_allowed": false,
-  "pause_policy": "stop all PCM; resume restarts score loop",
+  "pause_policy": "XGM2_pause plus PCM_CH2/PCM_CH3 stop; XGM2_resume restores the score without direct PSG writes",
   "fallback": "drop pressure cue before replacing critical cues",
-  "blockers": [
-    "BlastEm audio listen required"
-  ]
+  "runtime_evidence": {
+    "rom_sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+    "session_id": "blastem-linux-20260720T032218Z-267076",
+    "simultaneous_music_sfx_samples": 8,
+    "sfx_accepted": 5,
+    "sfx_requested": 5
+  },
+  "blockers": ["human_audio_review_pending"],
+  "warnings": ["one_xgm2_missed_frame_observed"]
 }

@@ -145,16 +145,24 @@ $validationPath = Join-Path $LogDir "validation_report.json"
 $emulatorSessionPath = Join-Path $LogDir "emulator_session.json"
 $closeoutPath = Join-Path $LogDir "scene_closeout_gate_report.json"
 $budgetPath = Join-Path $LogDir "scene_budget_report.json"
+$freshEvidenceManifestPath = Join-Path $ProjectRoot "out\evidence\blastem\evidence_manifest.json"
+$freshEvidenceAuditPath = Join-Path $LogDir "fresh_evidence_bundle_audit_report.json"
 
 $validation = Get-JsonOrNull -Path $validationPath
 $emulatorSession = Get-JsonOrNull -Path $emulatorSessionPath
 $closeout = Get-JsonOrNull -Path $closeoutPath
 $budget = Get-JsonOrNull -Path $budgetPath
+$freshEvidenceManifest = Get-JsonOrNull -Path $freshEvidenceManifestPath
+$freshEvidenceAudit = Get-JsonOrNull -Path $freshEvidenceAuditPath
 
 $validationBlockers = @(Get-BlockingStatuses -Report $validation)
 $validationClean = ($validation -and $validationBlockers.Count -eq 0)
-$emulatorHashMatches = ($emulatorSession -and ([string]$emulatorSession.rom_sha256).ToLowerInvariant() -eq $romSha256)
-$emulatorOk = ($emulatorSession -and [string]$emulatorSession.emulator -eq "blastem" -and [string]$emulatorSession.boot_emulador -eq "ok" -and [bool]$emulatorHashMatches)
+$freshEvidenceHashMatches = ($freshEvidenceManifest -and ([string]$freshEvidenceManifest.rom_sha256).ToLowerInvariant() -eq $romSha256)
+$freshEvidenceOk = ($freshEvidenceManifest -and [string]$freshEvidenceManifest.status -eq "sealed" -and @($freshEvidenceManifest.blockers).Count -eq 0 -and [bool]$freshEvidenceManifest.semantic_capture_valid -and $freshEvidenceAudit -and [string]$freshEvidenceAudit.status -eq "ok" -and [bool]$freshEvidenceHashMatches)
+$legacyEmulatorHashMatches = ($emulatorSession -and ([string]$emulatorSession.rom_sha256).ToLowerInvariant() -eq $romSha256)
+$legacyEmulatorOk = ($emulatorSession -and [string]$emulatorSession.emulator -eq "blastem" -and [string]$emulatorSession.boot_emulador -eq "ok" -and [bool]$legacyEmulatorHashMatches)
+$emulatorHashMatches = [bool]($freshEvidenceHashMatches -or $legacyEmulatorHashMatches)
+$emulatorOk = [bool]($freshEvidenceOk -or $legacyEmulatorOk)
 $closeoutOk = ($closeout -and [string]$closeout.status -eq "ok")
 $budgetOk = ($budget -and ([string]$budget.status).ToLowerInvariant() -in @("ok", "pass", "passed"))
 $checksumOk = ($null -ne $headerChecksum -and $headerChecksum -eq $sgdkChecksum)
@@ -176,12 +184,24 @@ $requiredChecks = @(
     $romRangeOk
 )
 $masteringOk = -not ($requiredChecks -contains $false)
+$freshEvidenceRoot = Split-Path $freshEvidenceManifestPath -Parent
+$freshScreenshot = $null
+$freshSram = $null
+$freshVdpDump = $null
+if ($freshEvidenceManifest) {
+    foreach ($artifact in @($freshEvidenceManifest.artifacts)) {
+        $artifactPath = Join-Path $freshEvidenceRoot ([string]$artifact.path)
+        if ([string]$artifact.name -eq "screenshot") { $freshScreenshot = $artifactPath }
+        if ([string]$artifact.name -eq "sram") { $freshSram = $artifactPath }
+        if ([string]$artifact.name -eq "vdp_dump") { $freshVdpDump = $artifactPath }
+    }
+}
 
 $report = [ordered]@{
     schema_version = "1.0.0"
     generated_at = (Get-Date).ToUniversalTime().ToString("o")
     tool_name = "write_rom_mastering_report"
-    tool_version = "0.1.0"
+    tool_version = "0.2.0"
     project_root = $ProjectRoot
     rom_path = $RomPath
     rom_sha256 = $romSha256
@@ -211,15 +231,18 @@ $report = [ordered]@{
         emulator_session = $emulatorSessionPath
         scene_closeout_gate_report = $closeoutPath
         scene_budget_report = $budgetPath
-        screenshot = if ($emulatorSession -and $emulatorSession.PSObject.Properties.Name -contains "screenshot_path") { $emulatorSession.screenshot_path } else { $null }
-        save_sram = if ($emulatorSession -and $emulatorSession.PSObject.Properties.Name -contains "sram_path") { $emulatorSession.sram_path } else { $null }
-        visual_vdp_dump = if ($emulatorSession -and $emulatorSession.PSObject.Properties.Name -contains "vdp_dump_path") { $emulatorSession.vdp_dump_path } else { $null }
+        fresh_evidence_manifest = $freshEvidenceManifestPath
+        fresh_evidence_audit = $freshEvidenceAuditPath
+        screenshot = if ($freshScreenshot) { $freshScreenshot } elseif ($emulatorSession -and $emulatorSession.PSObject.Properties.Name -contains "screenshot_path") { $emulatorSession.screenshot_path } else { $null }
+        save_sram = if ($freshSram) { $freshSram } elseif ($emulatorSession -and $emulatorSession.PSObject.Properties.Name -contains "sram_path") { $emulatorSession.sram_path } else { $null }
+        visual_vdp_dump = if ($freshVdpDump) { $freshVdpDump } elseif ($emulatorSession -and $emulatorSession.PSObject.Properties.Name -contains "vdp_dump_path") { $emulatorSession.vdp_dump_path } else { $null }
     }
     checks = [ordered]@{
         validation_clean = [bool]$validationClean
         validation_blocking_statuses = @($validationBlockers)
         blastem_hash_matches_rom = [bool]$emulatorHashMatches
         blastem_boot_ok = [bool]$emulatorOk
+        fresh_evidence_ok = [bool]$freshEvidenceOk
         closeout_ok = [bool]$closeoutOk
         budget_ok = [bool]$budgetOk
         checksum_ok = [bool]$checksumOk
@@ -231,7 +254,7 @@ $report = [ordered]@{
     qa_link = [ordered]@{
         emulator = "BlastEm"
         rom_hash_source = "out/rom.bin"
-        emulator_hash_source = "out/logs/emulator_session.json"
+        emulator_hash_source = if ($freshEvidenceManifest) { "out/evidence/blastem/evidence_manifest.json" } else { "out/logs/emulator_session.json" }
     }
 }
 

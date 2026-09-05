@@ -1,0 +1,30 @@
+{
+  "schema_version": "visual_nucleus_validation_summary.v1",
+  "validated_at": "2026-09-01",
+  "claim_ceiling": "testado_em_emulador_for_isolated_idle_review_only",
+  "res_promotion": false,
+  "emulator_status": "blastem_isolated_scene_11_passed",
+  "runtime_validation_report": "doc/art/nexialist_visual_nucleus_v01/native_idle_key_pose_runtime_validation_report.json",
+  "checks": {
+    "art_diagnostic": {"status": "pass_with_routing", "result": "2_res_inadequate_check", "active_assets_ok": 22, "source_assets_needing_conversion": 28, "source_assets_inadequate": 8, "build_blockers": 0},
+    "project_context": {"status": "pass", "classification": "aaa_game", "phase": "planning"},
+    "learning_audit": {"status": "pass", "lessons": 65, "candidates": 46, "canonical_promotions": 0},
+    "json_integrity": {"status": "pass"},
+    "git_diff_check": {"status": "pass"},
+    "provenance_audit": {"status": "pass", "visual_symbols": 22, "pixel_bearing": 22, "primitive_builders": 23, "traced": 21, "blocking": []},
+    "tile_residency_audit": {"status": "pass", "worst_case_tiles": 853, "usable_tiles": 1740, "utilization_percent": 49},
+    "measurement_tools": {"status": "relevant_tools_pass", "suite_result": "13/14", "unrelated_failure": "validate_native_sprite_production.py has no self-check"},
+    "vdp_scanline_self_check": {"status": "pass"},
+    "golden_scene_offline_pressure": {"status": "pass", "max_sprites_per_scanline": 4, "max_pixels_per_scanline": 128},
+    "next_density_offline_pressure": {"status": "pass", "hardware_sprite_links": 20, "max_sprites_per_scanline": 7, "max_pixels_per_scanline": 192},
+    "stress_probe_offline_pressure": {"status": "error_by_design", "max_sprites_per_scanline": 19, "max_pixels_per_scanline": 336, "blocker": "sprite_pixels_per_scanline_over_320"},
+    "methodology": {"status": "blocked", "reason": "future critical_motion evidence signals are not present"},
+    "hygiene": {"status": "blocked", "reason": "pre-existing orphan/noncanonical/external-path findings"}
+    ,"resource_validation": {"status": "pass_with_warnings", "errors": 0, "warnings": 34, "checked_res_files": 1, "primary_findings": ["missing_local_agent_path", "missing_res_graph_report", "missing_audio_validation_report", "missing_freshness_report", "missing_scene_closeout_report", "visual_gate_has_rework_asset", "native_idle_semantic_validator_passed", "blastem_runtime_proof_isolated_only"]},
+    "challenger_v03_assets": {"status": "persisted_visual_source", "a_sha256": "989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241", "b_sha256": "85a93885fec97490a8c220f3a35e66538e1a829e3c21f8c3392768c563b52f88", "translation_authorized": true, "translation_scope": "v03_a_source_and_elite_idle_only", "native_scale": "32x32", "res_promotion": false},
+    "mechanical_scale_probes": {"status": "diagnostic_only", "dimensions": ["32x32", "64x64_nearest", "256x256_nearest", "320x224", "black_silhouette_32x32"], "high_res_microcolors": "measurement_only; blocks native sprite use, not model-sheet source status", "exact_scale_report": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_scale_exactness_report.json", "report": "mechanical_scale_probe_report.json"},
+    "native_key_pose_candidates": {"status": "elite_human_approved_runtime_proof_passed_isolated_only", "basic_asset_id": "native_idle_key_pose_basic_v01", "basic_sha256": "473bcdeab5b1b7edf7d32aeafe4d5d7f49aedb780684e94fddfde66c5aec3ecd", "basic_role": "comparison_control", "elite_asset_id": "native_idle_key_pose_elite_v01", "elite_sha256": "58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29", "same_geometry": true, "res_scope": "isolated_review_only", "runtime_integration": "isolated_review_passed_scene_11", "records": ["doc/art/nexialist_visual_nucleus_v01/native_idle_key_pose_basic_native_sprite_production_record.json", "doc/art/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_native_sprite_production_record.json"], "budget_report": "doc/art/nexialist_visual_nucleus_v01/native_idle_key_pose_budget_report.json"},
+    "motion_key_pose_package": {"status": "animation_candidate", "package_id": "native_motion_key_pose_package_v01", "new_pose_count": 3, "scale": "32x32", "complete_sheet": false, "human_gate": "pending"}
+  },
+  "interpretation": "The ELITE idle pose is human-approved within its exact limited scope and passed the dedicated scene 11 build/ResComp/BlastEm proof. The three-pose motion package remains an animation candidate and does not certify a complete sheet, gameplay replacement, sustained performance or AAA delivery."
+}

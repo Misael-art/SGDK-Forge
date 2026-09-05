@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_idle_guard_directional_draft_review_v01",
+  "asset_id": "taina_idle_guard_v01",
+  "reviewed_at": "2026-07-28",
+  "artifact": {
+    "path": "rascunho/taina_idle_guard_v01/taina_idle_guard_directional_draft_v01.png",
+    "sha256": "00e58afbc4a7c237ab6f91e65f13faeaf3a1ec929bef6c8127983850dda7ec79",
+    "dimensions_px": { "w": 2172, "h": 724 },
+    "format": "png_rgb",
+    "classification": "directional_animation_board_not_native_sprite_sheet"
+  },
+  "source_of_truth": {
+    "approved_visual_reference": "data/processed/contact_sheets/authorial_style_validation_contact_sheet_v01.png",
+    "identity_source": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "forbidden_generation_sources": [
+      "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+      "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v06.png",
+      "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png"
+    ]
+  },
+  "visual_review": {
+    "preserved": [
+      "angular_focused_face",
+      "tied_curly_hair_mass",
+      "high_guard",
+      "asymmetric_sash",
+      "baggy_pants_mass",
+      "six_frame_single_action_layout"
+    ],
+    "not_yet_proven": [
+      "48x64_cell_integrity",
+      "8x8_tile_grid",
+      "mega_drive_palette_and_index_0",
+      "measured_pivot_lock",
+      "measured_foot_contact_lock",
+      "readable_breathing_and_secondary_delay_at_native_scale",
+      "frame_delta_and_loop_closure"
+    ],
+    "finding": "The board carries the approved identity better than v05-v07, but its high-resolution editorial line and near-static frame deltas make it directional evidence only. It is not a native pixel strip and cannot enter data/res.",
+    "approval_status": "needs_native_redraw_and_measurement",
+    "res_promotion": "blocked"
+  },
+  "contract_validation": {
+    "report": "doc/art/characters/taina/animation/taina_idle_guard_strip_validate_report_v01.json",
+    "status": "ok_for_declared_strip_metadata_only",
+    "scope_limit": "Validator confirmed one-action horizontal order and declared zero pivot drift; it did not measure the high-resolution draft image or validate VDP pixels."
+  },
+  "next_required_pass": [
+    "redraw_six_cells_on_48x64_native_grid",
+    "enforce_pivot_24_60_and_ground_y_60",
+    "measure_foot_contact_and_bbox_drift",
+    "quantize_to_declared_character_palette_with_index_0",
+    "run_validate_strip_and_pixel_strict_validation",
+    "create_preview_and_pivot_overlay_before_art_review"
+  ]
+}

@@ -1,0 +1,324 @@
+{
+  "schema_version": "1.0.0",
+  "round": "p1_production_archived_visual_rejected",
+  "generated_at": "2026-08-06",
+  "instructions_doc": "doc/art/PRODUCTION_ASSET_PACK.md",
+  "output_root": "data/source_art/archive/p1_2026-08-06_visual_rejected/p1",
+  "superseded_by": "doc/art/p2_hd_arcade_direction.md",
+  "approval_status": "archived_visual_rejected",
+  "legal_channel_values": [
+    0,
+    36,
+    73,
+    109,
+    146,
+    182,
+    219,
+    255
+  ],
+  "transparency_key": [
+    255,
+    0,
+    255
+  ],
+  "transparency_key_rule": "cor RESERVADA, excluida da quantizacao. Falhou no R1-03 quando o quantizador a moveu para (255,0,219).",
+  "forbidden_palette_indices": {
+    "PAL3": [
+      14,
+      15
+    ],
+    "why": "operadores de Shadow/Highlight; nao desenham cor"
+  },
+  "max_simultaneous_colors_on_screen": 58,
+  "luminance_formula": "L = (0.2126*R + 0.7152*G + 0.0722*B) / 255",
+  "value_ladder": {
+    "camada1_ceu": 0.734,
+    "camada2_montanhas": 0.502,
+    "camada3_colinas": 0.453,
+    "camada4_terreno": 0.34,
+    "camada5_primeiro_plano": 0.258,
+    "rule": "monotonicamente decrescente do fundo para a frente"
+  },
+  "pal2_locked_ramp": {
+    "1": [
+      255,
+      219,
+      255
+    ],
+    "2": [
+      255,
+      182,
+      219
+    ],
+    "3": [
+      255,
+      146,
+      182
+    ],
+    "4": [
+      219,
+      73,
+      146
+    ],
+    "5": [
+      146,
+      36,
+      109
+    ],
+    "6": [
+      109,
+      36,
+      73
+    ],
+    "7": [
+      219,
+      73,
+      73
+    ],
+    "8": [
+      146,
+      36,
+      36
+    ],
+    "9": [
+      36,
+      36,
+      73
+    ],
+    "10": [
+      255,
+      255,
+      255
+    ]
+  },
+  "do_not_redraw": [
+    "ph_light.png"
+  ],
+  "promotion_policy": "Entrega vira source_candidate. A promocao para res/ exige validacao mecanica + gate visual em BlastEm.",
+  "assets": [
+    {
+      "id": "A1",
+      "file": "ph_kirby.png",
+      "target_dir": "res/sprites",
+      "width": 256,
+      "height": 32,
+      "max_colors": 15,
+      "palette": "PAL2",
+      "role": "personagem, 8 frames de 32x32",
+      "priority": "MAXIMA",
+      "output_dir": "data/source_art/p1/A1",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "A2",
+      "file": "ph_enemy.png",
+      "target_dir": "res/sprites",
+      "width": 32,
+      "height": 16,
+      "max_colors": 8,
+      "palette": "PAL2",
+      "role": "inimigo, 2 frames de 16x16",
+      "priority": "MAXIMA",
+      "output_dir": "data/source_art/p1/A2",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "A3",
+      "file": "ph_particle.png",
+      "target_dir": "res/sprites",
+      "width": 24,
+      "height": 8,
+      "max_colors": 4,
+      "palette": "PAL2",
+      "role": "particula, 3 frames de 8x8",
+      "priority": "media",
+      "output_dir": "data/source_art/p1/A3",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "B1",
+      "file": "ph_sky.png",
+      "target_dir": "res/gfx",
+      "width": 512,
+      "height": 80,
+      "max_colors": 6,
+      "palette": "PAL0",
+      "role": "nuvens sobre magenta; o ceu e o backdrop",
+      "priority": "alta",
+      "output_dir": "data/source_art/p1/B1",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "B2",
+      "file": "ph_mount.png",
+      "target_dir": "res/gfx",
+      "width": 512,
+      "height": 56,
+      "max_colors": 4,
+      "palette": "PAL0",
+      "role": "montanhas distantes, lum 0.502",
+      "priority": "alta",
+      "output_dir": "data/source_art/p1/B2",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "B3",
+      "file": "ph_hills.png",
+      "target_dir": "res/gfx",
+      "width": 512,
+      "height": 88,
+      "max_colors": 6,
+      "palette": "PAL0",
+      "role": "colinas, lum 0.453",
+      "priority": "alta",
+      "output_dir": "data/source_art/p1/B3",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "B4",
+      "file": "ph_terrain.png",
+      "target_dir": "res/gfx",
+      "width": 512,
+      "height": 64,
+      "max_colors": 10,
+      "palette": "PAL1",
+      "role": "terreno, lum 0.340, vaos em 160-208 e 320-352",
+      "priority": "alta",
+      "output_dir": "data/source_art/p1/B4",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "B5",
+      "file": "ph_fg.png",
+      "target_dir": "res/sprites",
+      "width": 32,
+      "height": 16,
+      "max_colors": 4,
+      "palette": "PAL1",
+      "role": "tufo de primeiro plano, lum 0.258",
+      "priority": "alta",
+      "output_dir": "data/source_art/p1/B5",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "C1",
+      "file": "ph_trunk.png",
+      "target_dir": "res/bgs",
+      "width": 64,
+      "height": 96,
+      "max_colors": 6,
+      "palette": "PAL3",
+      "role": "tronco do boss, tiles",
+      "priority": "media",
+      "output_dir": "data/source_art/p1/C1",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "C2",
+      "file": "ph_boss_face.png",
+      "target_dir": "res/sprites",
+      "width": 96,
+      "height": 32,
+      "max_colors": 8,
+      "palette": "PAL3",
+      "role": "rosto do boss, 2 frames de 48x32",
+      "priority": "media",
+      "output_dir": "data/source_art/p1/C2",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "C3",
+      "file": "ph_branch.png",
+      "target_dir": "res/sprites",
+      "width": 16,
+      "height": 16,
+      "max_colors": 6,
+      "palette": "PAL3",
+      "role": "UM segmento de galho, rotacionavel",
+      "priority": "media",
+      "output_dir": "data/source_art/p1/C3",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "C4",
+      "file": "ph_apple.png",
+      "target_dir": "res/sprites",
+      "width": 32,
+      "height": 16,
+      "max_colors": 5,
+      "palette": "PAL3",
+      "role": "maca, 2 frames de 16x16",
+      "priority": "media",
+      "output_dir": "data/source_art/p1/C4",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "D1",
+      "file": "ph_ability_fx.png",
+      "target_dir": "res/sprites",
+      "width": 240,
+      "height": 16,
+      "max_colors": 14,
+      "palette": "PAL3",
+      "role": "15 frames: 5 abilities x 3, distintas por FORMA",
+      "priority": "alta",
+      "output_dir": "data/source_art/p1/D1",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "E1",
+      "file": "ph_title_stars.png",
+      "target_dir": "res/bgs",
+      "width": 512,
+      "height": 96,
+      "max_colors": 4,
+      "palette": "PAL0",
+      "role": "campo de estrelas sobre magenta",
+      "priority": "baixa",
+      "output_dir": "data/source_art/p1/E1",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "E2",
+      "file": "ph_title_hill.png",
+      "target_dir": "res/bgs",
+      "width": 512,
+      "height": 64,
+      "max_colors": 5,
+      "palette": "PAL0",
+      "role": "silhueta de colina com arvore",
+      "priority": "baixa",
+      "output_dir": "data/source_art/p1/E2",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    },
+    {
+      "id": "E3",
+      "file": "ph_title_logo.png",
+      "target_dir": "res/gfx",
+      "width": 224,
+      "height": 48,
+      "max_colors": 10,
+      "palette": "PAL1",
+      "role": "logotipo autoral, unico asset com texto",
+      "priority": "baixa",
+      "output_dir": "data/source_art/p1/E3",
+      "status": "source_candidate",
+      "verdict": "technical_pass_visual_source_candidate"
+    }
+  ]
+}

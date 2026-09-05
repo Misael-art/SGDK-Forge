@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-29T17:23:00Z",
-  "scope": "cria_ai_perseguidor_v01",
+  "generated_at": "2026-08-30T18:12:00Z",
+  "scope": "cais_01_camera_branding_ownership_v01",
   "model": "scene_local_preload",
   "decisions": [
     {
@@ -18,6 +18,23 @@
       "id": "hit_feedback",
       "choice": "8px knockback + AUDIO_CUE_STRIKE on active/hitstop overlap",
       "reason": "HP/HUD not wired; feedback_on_hit recuo without a Taina hurt strip"
+    },
+    {
+      "id": "camera_owner",
+      "choice": "src/system/camera.c owns fix32 camera position, deadzone, lookahead, clamp and reset",
+      "reason": "Avoid scene-local camera state and keep render coordinates integer-only; CAIS_01 current image window clamps to 0..192 px.",
+      "evidence": "BlastEm session blastem-linux-20260830T180348Z-3682089 booted scene 3; camera regression remains pending input-driven capture."
+    },
+    {
+      "id": "branding_dma_audio_ownership",
+      "choice": "scene_branding queues CRAM/HScroll updates and routes PSG pulses through AUDIO_pulsePsg",
+      "reason": "TDD forbids direct PSG while XGM2 is loaded and requires queued VDP transfers from scene update.",
+      "evidence": "Build 144fb573b088375c68f71d4255282db315052fe0f8de351e595806e6b734abd4 compiled with no API/link errors."
+    },
+    {
+      "id": "residency_boundary",
+      "choice": "Keep current full image load as technical probe; promote CAIS_01 to tilemap_streaming only after measured residency split",
+      "reason": "Current audit measures 2117 unique tiles against a 1740-tile utility ceiling; treating the whole world as resident would be an over-budget claim."
     }
   ],
   "apis_used": [
@@ -26,7 +43,23 @@
     "SPR_setAnimAndFrame",
     "SPR_setFrame",
     "SPR_setPosition",
-    "SPR_setAutoAnimation"
+    "SPR_setAutoAnimation",
+    "CAMERA_init",
+    "CAMERA_update",
+    "CAMERA_reset",
+    "CAMERA_getX",
+    "FIX32",
+    "F32_toInt",
+    "F16_toFix32",
+    "PAL_setColors with DMA_QUEUE",
+    "VDP_setHorizontalScrollLine with DMA_QUEUE"
   ],
-  "not_aaa_claim": true
+  "not_aaa_claim": true,
+  "rom_sha256": "144fb573b088375c68f71d4255282db315052fe0f8de351e595806e6b734abd4",
+  "blockers": [
+    "tile_residency_over_ceiling",
+    "camera_blastem_input_regression_pending",
+    "stage_bgm_source_missing",
+    "taina_native_48x64_lineart_missing"
+  ]
 }

@@ -1,0 +1,175 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "boss_id": "master_pursuer",
+  "boss_card_ref": "doc/boss_setpiece_card.json",
+  "collision_ref": "doc/collision_system_contract.json",
+  "design_decision": "race_boss_with_attack_entities_and_pulse_weakpoints",
+  "global_rules": {
+    "boss_body_collision": "visual_only",
+    "damage_to_player": "only through authored attack entities",
+    "damage_to_boss": "charged Pulse must overlap active weakpoint window",
+    "safe_lane_rule": "every attack pattern must leave at least one readable safe lane unless scripted control lock is active",
+    "pressure_rule": "pressure remains active during boss but cannot instantly kill during weakpoint hitstop"
+  },
+  "weak_points": [
+    {
+      "id": "left_horn",
+      "phase": 1,
+      "hits_required": 2,
+      "active_window_frames": 48,
+      "lane_alignment": "left_or_center",
+      "break_effect": "reduces lateral_wave frequency by 35 percent"
+    },
+    {
+      "id": "right_horn",
+      "phase": 1,
+      "hits_required": 2,
+      "active_window_frames": 48,
+      "lane_alignment": "right_or_center",
+      "break_effect": "removes one lane_lock_shadow variant"
+    },
+    {
+      "id": "front_hoof",
+      "phase": 2,
+      "hits_required": 3,
+      "active_window_frames": 40,
+      "lane_alignment": "lane_under_hoof_after_slam",
+      "break_effect": "shockwave active_steps reduced by 1"
+    },
+    {
+      "id": "chest_core",
+      "phase": 3,
+      "hits_required": 4,
+      "active_window_frames": 36,
+      "lane_alignment": "center lane during core expose",
+      "break_effect": "boss defeated"
+    }
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "horn_pressure",
+      "goal": "break both horns",
+      "pressure_per_second": 2,
+      "speed_q8_8": 512,
+      "patterns": ["lateral_wave_left_right", "lane_lock_shadow", "lumen_refill_column"]
+    },
+    {
+      "phase": 2,
+      "name": "hoof_impact",
+      "goal": "break front hoof",
+      "pressure_per_second": 3,
+      "speed_q8_8": 576,
+      "patterns": ["hoof_slam_center", "double_shockwave", "falling_debris_gap"]
+    },
+    {
+      "phase": 3,
+      "name": "core_confrontation",
+      "goal": "hit chest core four times",
+      "pressure_per_second": 4,
+      "speed_q8_8": 640,
+      "patterns": ["core_beam_sweep", "triple_lane_crush", "lumen_burst_then_core"]
+    }
+  ],
+  "attack_patterns": [
+    {
+      "id": "lateral_wave_left_right",
+      "telegraph_frames": 48,
+      "active_frames": 32,
+      "lane_sequence": [0, 1, 2],
+      "hazard_body": "boss_wave",
+      "player_response": "move opposite or jump low variant",
+      "cooldown_frames": 90
+    },
+    {
+      "id": "lane_lock_shadow",
+      "telegraph_frames": 64,
+      "active_frames": 48,
+      "lane_sequence": [0, 2],
+      "hazard_body": "astral_mark",
+      "player_response": "commit center or Pulse clear minor locks",
+      "cooldown_frames": 120
+    },
+    {
+      "id": "lumen_refill_column",
+      "telegraph_frames": 16,
+      "active_frames": 96,
+      "lane_sequence": [1],
+      "hazard_body": "lumen_orb",
+      "player_response": "collect to charge Pulse",
+      "cooldown_frames": 180
+    },
+    {
+      "id": "hoof_slam_center",
+      "telegraph_frames": 72,
+      "active_frames": 24,
+      "lane_sequence": [1],
+      "hazard_body": "boss_wave",
+      "player_response": "leave center, return for weakpoint window",
+      "cooldown_frames": 110
+    },
+    {
+      "id": "double_shockwave",
+      "telegraph_frames": 56,
+      "active_frames": 36,
+      "lane_sequence": [0, 2],
+      "hazard_body": "boss_wave",
+      "player_response": "center lane, then jump or Pulse",
+      "cooldown_frames": 120
+    },
+    {
+      "id": "falling_debris_gap",
+      "telegraph_frames": 48,
+      "active_frames": 40,
+      "lane_sequence": [0, 1],
+      "hazard_body": "meteor_diagonal",
+      "player_response": "read safe right lane",
+      "cooldown_frames": 100
+    },
+    {
+      "id": "core_beam_sweep",
+      "telegraph_frames": 72,
+      "active_frames": 48,
+      "lane_sequence": [0, 1, 2, 1],
+      "hazard_body": "astral_mark",
+      "player_response": "follow sweep gap and hold Pulse",
+      "cooldown_frames": 130
+    },
+    {
+      "id": "triple_lane_crush",
+      "telegraph_frames": 96,
+      "active_frames": 24,
+      "lane_sequence": [0, 2, 1],
+      "hazard_body": "boss_wave",
+      "player_response": "react to telegraph order, no random lanes",
+      "cooldown_frames": 160
+    },
+    {
+      "id": "lumen_burst_then_core",
+      "telegraph_frames": 32,
+      "active_frames": 72,
+      "lane_sequence": [0, 1, 2],
+      "hazard_body": "lumen_orb_then_boss_weakpoint",
+      "player_response": "collect, align center, Pulse chest core",
+      "cooldown_frames": 180
+    }
+  ],
+  "phase_transition_rules": [
+    "phase transition freezes hazard spawn for 45 frames",
+    "boss visual stage changes during control-safe hold",
+    "HUD weakpoint markers update before attacks resume",
+    "all old attack entities are cleared before next phase"
+  ],
+  "failure_rules": {
+    "integrity_zero": "enter game_over_result",
+    "pressure_100": "enter chase_caught_result unless boss final hit is resolving",
+    "timeout": "not used in first boss spec"
+  },
+  "validation_plan": [
+    "each pattern has one safe lane in authored fixtures",
+    "each weakpoint can be hit with charged Pulse in a deterministic replay",
+    "worst-frame scanline pressure measured before runtime delivery",
+    "boss never hides HUD, lane or active telegraph"
+  ]
+}

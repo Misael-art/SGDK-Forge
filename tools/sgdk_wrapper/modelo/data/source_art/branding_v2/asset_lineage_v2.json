@@ -1,0 +1,151 @@
+{
+  "schema": "asset_lineage_record.v1",
+  "phase": "branding_sequence_v2_assets",
+  "generation_channel": "native_chat_image_generation_callable",
+  "procedural_generation_used_as_asset_source": false,
+  "assembler": "assemble_branding_v2_assets.py",
+  "source_format_decision": {
+    "choice": "keep_jpg_then_posterize_denoise_before_remap",
+    "persist_cleaned_png_lossless": true
+  },
+  "authored_sources": {
+    "bg_b": {
+      "path": "data/source_art/branding_v2/raw/forge_bg_b_v01.jpg",
+      "sha256": "2d2991416f26a67dd6cba3e390c48c8ee912d84b2755a0f8e3df1d21a7530bdf"
+    },
+    "anvil": {
+      "path": "data/source_art/branding_v2/raw/forge_anvil_iso_v01.jpg",
+      "sha256": "f966f4044ee86a05d0f6e428f734585fd9d4531ca8ddeaf76f5d9dd7e4e007d1"
+    },
+    "logo_engine": {
+      "path": "data/source_art/branding_v2/raw/logo_forge_v02.jpg",
+      "sha256": "06d459bd25162d861175005c33eb38066cd5745f1174e64bd3f21122fc875e9d"
+    },
+    "logo_author": {
+      "path": "data/source_art/branding_v2/raw/logo_misael_v01.jpg",
+      "sha256": "58cd601ba106839aa7c088f03f839383a0f4916ae973ebbebd23809f9f2894ce"
+    },
+    "logo_project": {
+      "path": "data/source_art/branding_v2/raw/logo_master_v01.jpg",
+      "sha256": "7be8be6b7d9785856e91434756daba38db1979f017d3a356114aff36028e8631"
+    },
+    "presents": {
+      "path": "data/source_art/branding_v2/raw/presents_v01.jpg",
+      "sha256": "3eae13ad6b5e921ae29e6964cae9099effd62ef5059b12e4c5938228e1c4e2f9"
+    },
+    "hammer_rest": {
+      "path": "data/source_art/branding_v2/raw/hammer_rest_v02.jpg",
+      "sha256": "d2c7b7a50ba97059d9c5d250875fbf8fbecbf40d63ba7039547f6d6cc6c8f285"
+    },
+    "hammer_down1": {
+      "path": "data/source_art/branding_v2/raw/hammer_frames/f008.png",
+      "sha256": "a4a303dd5c419caa481c5f39460f2719f3d9f6ed7458d4deeb556061b01670e7"
+    },
+    "hammer_down2": {
+      "path": "data/source_art/branding_v2/raw/hammer_frames/f018.png",
+      "sha256": "16c82a64a255d83aeccbd6dbcd6e81b853f046b3e1cbaa9056ecf3c678f1edca"
+    },
+    "hammer_smear": {
+      "path": "data/source_art/branding_v2/raw/hammer_smear_v01.jpg",
+      "sha256": "122a1ddd933d2b80bd0ef9ed436d42a4be539a814be0c2b9926eb1dab7367158"
+    },
+    "hammer_recoil": {
+      "path": "data/source_art/branding_v2/raw/hammer_frames/f045.png",
+      "sha256": "91d778daf8694bbc05ddfccef0d802ca8c687bf66c86812f3b9fbdc053b06163"
+    },
+    "hammer_settle": {
+      "path": "data/source_art/branding_v2/raw/hammer_frames/f055.png",
+      "sha256": "ebcec24a5bded2de61ebd255ac475f99ddf5d8f35a0a98a086614cf08e4853e9"
+    },
+    "ember": {
+      "path": "data/source_art/branding_v2/raw/ember_v04.jpg",
+      "sha256": "08a6db2fc26ef1c82a34eb582509d7c04ef28aedf2ba1f1ab95c5cabebd1c3d0"
+    },
+    "ember_squash": {
+      "path": "data/source_art/branding_v2/raw/ember_squash_v01.jpg",
+      "sha256": "2939e0839578de4fe73f49af685243311acb17c4f44e9c5c5d22522691b2f147"
+    },
+    "ember_settle": {
+      "path": "data/source_art/branding_v2/raw/ember_settle_v01.jpg",
+      "sha256": "87760e3ed0d159f4b18e22b72738e3b9b4ea7dac50f81be9ab4b82cd94aa2b77"
+    },
+    "shard": {
+      "path": "data/source_art/branding_v2/raw/shard_v05.jpg",
+      "sha256": "11724b175042b4e6f36dc9c4c852365c8db26531a7765733321939654cbd475a"
+    }
+  },
+  "outputs": {
+    "img_forge_bg_a_props": {
+      "path": "res/branding/forge_bg_a_props_320x224.png",
+      "sha256": "b20fd153c4f0c4d34f8817470e656b834c56e1a577ebf6738643d03e8b76f20a",
+      "size": [
+        320,
+        224
+      ]
+    },
+    "img_forge_bg_b": {
+      "path": "res/branding/forge_bg_b_320x224.png",
+      "sha256": "6fc0aa4ad565a883b520b6ed09e4847ccfe8760b4837b7a30512c2343ed18a7e",
+      "size": [
+        320,
+        224
+      ]
+    },
+    "img_logo_engine_v2": {
+      "path": "res/branding/logo_engine_224x64.png",
+      "sha256": "7a5e900ab31ad50cf6aa352a4cb4f41764036aecec7a068ca29d07f7335f844c",
+      "size": [
+        224,
+        64
+      ]
+    },
+    "spr_forge_hammer": {
+      "path": "res/branding/spr_forge_hammer_48x48_strip.png",
+      "sha256": "72d0f0e1730b13f35aaae3947159ea066453ba73af3c704d527590aebd95b83f",
+      "size": [
+        336,
+        48
+      ]
+    },
+    "spr_forge_ember": {
+      "path": "res/branding/spr_forge_ember_16x16_strip.png",
+      "sha256": "1d1f972c7a7378a24609d0fab42ff1271831f0c003c41324f22fa0cde8f16b9d",
+      "size": [
+        96,
+        16
+      ]
+    },
+    "spr_forge_shard": {
+      "path": "res/branding/spr_forge_shard_16x16_strip.png",
+      "sha256": "bce54295e1baab74d9a1612f97bd5c94fb39452baac16f39e48bc211492c5c81",
+      "size": [
+        64,
+        16
+      ]
+    },
+    "img_logo_author_v2": {
+      "path": "res/branding/logo_author_192x32.png",
+      "sha256": "0545c7175b7c63f5568a27bf7d79b76afc23c3988fe8ba38e8f8afa55fee978f",
+      "size": [
+        192,
+        32
+      ]
+    },
+    "img_logo_project_v2": {
+      "path": "res/branding/logo_project_224x48.png",
+      "sha256": "a4c6ae524e147f01eb80fd4a09120325388bcd7dd62314ec23a8be89debc5a57",
+      "size": [
+        224,
+        48
+      ]
+    },
+    "img_presents_text_v2": {
+      "path": "res/branding/presents_text_96x16.png",
+      "sha256": "69ff5a663cd1a864466f558a3149d2d66dff0a77eb46d33fc69a6cae98a48d73",
+      "size": [
+        96,
+        16
+      ]
+    }
+  }
+}

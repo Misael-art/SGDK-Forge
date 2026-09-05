@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0.0",
+  "recorded_at": "2026-08-31",
+  "status": "rework_required",
+  "asset": "taina_idle_guard_48x64",
+  "scale": "48x64_locked",
+  "human_feedback_class": "material_boundary_integrity",
+  "approved_material_topology_reference": {
+    "asset_id": "face_and_guard_topology_visual_source_v01",
+    "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+    "sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+    "observed_costume_rule": "the burned-orange garment is a crop top; abdomen and uncovered upper arms remain skin"
+  },
+  "authorized_rework_patch_base": {
+    "asset_id": "taina_48x64_native_a1_face_guard_feet_v01",
+    "path": "rascunho/taina_native_headless_authoring_v01/a1_face_guard_feet_native_pass/taina_48x64_native_a1_face_guard_feet_v01.png",
+    "sha256": "1033e5a387047c320b9f2bbf6b0bddaafb2d29fd9b74810a40af8001c0947794",
+    "role": "explicit_pixel_patch_base_only",
+    "disposition": "authorized only for the documented material-boundary patch; never identity source, visual source of truth or generation source; preserve pose, silhouette, face, guard, hair, feet and pivot"
+  },
+  "other_controls": [
+    {
+      "asset_id": "taina_48x64_native_a2_weight_sash_v01",
+      "path": "rascunho/taina_native_headless_authoring_v01/a2_weight_sash_native_pass/taina_48x64_native_a2_weight_sash_v01.png",
+      "sha256": "041e6fd184bdff499f110075245be570f1597d9085689f7657ca2c55ed878ae0",
+      "severity": "medium_high",
+      "role": "comparison_only"
+    },
+    {
+      "asset_id": "taina_48x64_geometry_face_guard_v01",
+      "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/taina_48x64_geometry_face_guard_v01.png",
+      "sha256": "1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830",
+      "severity": "high",
+      "role": "mechanical_probe_comparison_only"
+    }
+  ],
+  "observable_symptoms": [
+    {
+      "priority": 1,
+      "region_id": "top_hem_exposed_abdomen",
+      "severity": "blocking",
+      "symptom": "orange pixels descend irregularly below the crop-top hem into exposed abdomen",
+      "effect": "garment/body separation and chest volume become ambiguous at 1x"
+    },
+    {
+      "priority": 2,
+      "region_id": "spectator_left_upper_arm",
+      "severity": "high",
+      "symptom": "orange garment ramp invades uncovered skin near upper arm and elbow",
+      "effect": "arm, top and wrap merge into one noisy warm cluster"
+    },
+    {
+      "priority": 3,
+      "region_id": "spectator_right_upper_arm",
+      "severity": "medium",
+      "symptom": "orange pixels enter uncovered skin near shoulder and inner arm",
+      "effect": "axilla and shoulder garment boundary lose clarity"
+    }
+  ],
+  "technical_diagnosis": {
+    "root_cause": "position_hue_classifier_used_anatomical_regions_as_material_ownership",
+    "implementation_evidence": "build_taina_native_geometry_challengers_v01.py material_palette_image.choose_role maps a broad warm torso band to orange; torso and arms_or_guard conflate distinct materials",
+    "why_a1_a2_inherited_it": "their explicit patches targeted face, guard, feet, weight and sash but retained the probe palette assignment outside those patch regions",
+    "not_a_scale_problem": true,
+    "not_a_pixel_contract_problem": true,
+    "not_a_reason_to_regenerate_full_character": true
+  },
+  "correction_contract": {
+    "target_asset_id": "taina_48x64_native_a1_material_clean_v01",
+    "route": "explicit_native_pixel_patch_from_incumbent_control",
+    "operation_order": [
+      "top_hem_exposed_abdomen",
+      "spectator_left_upper_arm",
+      "spectator_right_upper_arm",
+      "wrap_skin_boundary_audit"
+    ],
+    "must_preserve": [
+      "48x64 canvas",
+      "pose and outer silhouette unless one documented boundary pixel requires correction",
+      "face and eye read",
+      "diagonal guard",
+      "hair asymmetry",
+      "feet and ground contact",
+      "sash direction",
+      "pivot and ground line",
+      "palette size and VDP grid"
+    ],
+    "material_roles": {
+      "hair": [2],
+      "skin": [3, 4, 5],
+      "orange_top": [6, 7, 8],
+      "teal_cloth": [9, 10, 11],
+      "indigo_trousers": [12, 13, 14]
+    },
+    "shared_outline_indices": [1],
+    "cross_material_aa_policy": "forbidden_by_default; no orange/skin mixed ramp; garment shadow stays on garment side and skin shadow stays on skin side",
+    "edge_policy": "hard_1px_boundary_preferred",
+    "critical_boundaries": [
+      {
+        "boundary_id": "top_hem_exposes_abdomen",
+        "material_a": "orange_top",
+        "material_b": "skin",
+        "review_region": "central torso"
+      },
+      {
+        "boundary_id": "left_top_to_skin",
+        "material_a": "orange_top",
+        "material_b": "skin",
+        "review_region": "spectator-left shoulder and upper arm"
+      },
+      {
+        "boundary_id": "right_top_to_skin",
+        "material_a": "orange_top",
+        "material_b": "skin",
+        "review_region": "spectator-right shoulder and inner arm"
+      },
+      {
+        "boundary_id": "wraps_to_skin",
+        "material_a": "teal_cloth",
+        "material_b": "skin",
+        "review_region": "both forearms"
+      }
+    ]
+  },
+  "required_output_contract": {
+    "native_sprite_record_schema": "1.4.0",
+    "required_gate": "material_topology",
+    "required_artifacts": [
+      "material_region_map.png",
+      "material_boundary_overlay.png",
+      "material_palette_leakage_report.json",
+      "native_1x.png",
+      "nearest_8x.png",
+      "light_background.png",
+      "dark_background.png",
+      "chroma_background.png",
+      "camera_320x224.png",
+      "native_pixel_edit_patch.json"
+    ],
+    "blocking_codes": [
+      "material_palette_leakage",
+      "material_palette_role_overlap",
+      "material_boundary_overlay_not_derived",
+      "critical_material_boundary_missing",
+      "garment_boundary_drift",
+      "cross_material_aa_noise",
+      "source_material_topology_lost"
+    ]
+  },
+  "claim_ceiling": {
+    "current": "native_candidate_rework",
+    "promotable": false,
+    "res_promotion": false,
+    "animation_authorization": false,
+    "visual_pass": false,
+    "ready_for_aaa": false
+  },
+  "next_action": "produce one A1 material-clean challenger in staging, validate schema 1.4 material topology and return a human comparison panel; do not regenerate the full character"
+}

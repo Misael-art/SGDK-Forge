@@ -1,0 +1,13 @@
+{
+  "schema_version": "native_idle_key_pose_scale_exactness.v1",
+  "method": "pixel-index repetition check from the 32x32 candidate; no interpolation; transparent index and visible palette index are compared logically",
+  "rule": "probe[x,y] == source[x//scale,y//scale] for every pixel",
+  "results": [
+    {"asset_id": "native_idle_key_pose_basic_v01", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_basic_v01.png", "probe": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_basic_v01_2x_nearest.png", "scale": 2, "size": "64x64", "pixel_index_exact": true, "alpha_exact": true},
+    {"asset_id": "native_idle_key_pose_basic_v01", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_basic_v01.png", "probe": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_basic_v01_8x_nearest.png", "scale": 8, "size": "256x256", "pixel_index_exact": true, "alpha_exact": true},
+    {"asset_id": "native_idle_key_pose_elite_v01", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png", "probe": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_2x_nearest.png", "scale": 2, "size": "64x64", "pixel_index_exact": true, "alpha_exact": true},
+    {"asset_id": "native_idle_key_pose_elite_v01", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png", "probe": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_8x_nearest.png", "scale": 8, "size": "256x256", "pixel_index_exact": true, "alpha_exact": true}
+  ],
+  "overall": "passed",
+  "rgba_matte_note": "Transparent RGB matte values are not used as visual pixels; the indexed pixel and binary alpha tests are exact."
+}

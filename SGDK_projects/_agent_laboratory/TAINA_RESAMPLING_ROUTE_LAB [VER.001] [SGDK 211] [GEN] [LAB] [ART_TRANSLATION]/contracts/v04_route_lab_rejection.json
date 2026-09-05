@@ -1,0 +1,36 @@
+{
+  "schema_version": "human_native_pose_route_lab_decision.v1",
+  "decision": "rejected_requires_route_lab",
+  "classification": "technical_pass_visual_fail",
+  "human_status": "human_rejected",
+  "asset_id": "taina_idle_guard_56x80_native_authoring_v04",
+  "sha256": "0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e",
+  "scale": "56x80",
+  "reasons": [
+    "anatomy_simplified_into_block_mass",
+    "face_or_eye_readability_lost",
+    "signature_feature_loss",
+    "generic_blocky_redraw",
+    "shoulder_arm_attachment_ambiguous",
+    "guard_pose_collapsed",
+    "torso_hip_relationship_distorted",
+    "leg_and_foot_structure_unconvincing",
+    "source_similarity_insufficient"
+  ],
+  "classification_tags": [
+    "negative_evidence_only",
+    "obsolete_for_generation_source",
+    "promotable_false"
+  ],
+  "preserve_as": "technical_control_only",
+  "v01_v04_source_policy": "forbidden_as_source_baseline_img2img_generation_source_or_new_pixels",
+  "route_lab_required": true,
+  "scale_remains_locked": "56x80",
+  "comparison_only": ["64x96"],
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "visual_pass": false,
+  "aaa_claim": false,
+  "next_gate": "resampling_route_lab_human_gate"
+}

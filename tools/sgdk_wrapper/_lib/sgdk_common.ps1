@@ -4,7 +4,10 @@ function SGDK_GetMagickPath {
     if ($cmdMagick -and $cmdMagick.Source -and ($cmdMagick.Source -notmatch 'WindowsApps')) {
         $candidates += $cmdMagick.Source
     }
-    $searchRoots = @((Join-Path $env:ProgramFiles 'ImageMagick*'))
+    $searchRoots = @()
+    if (-not [string]::IsNullOrWhiteSpace($env:ProgramFiles)) {
+        $searchRoots += (Join-Path $env:ProgramFiles 'ImageMagick*')
+    }
     $pf86 = [Environment]::GetEnvironmentVariable('ProgramFiles(x86)')
     if (-not [string]::IsNullOrWhiteSpace($pf86)) {
         $searchRoots += (Join-Path $pf86 'ImageMagick*')
@@ -33,7 +36,7 @@ function SGDK_GetPythonPath {
             return $false
         }
     }
-    foreach ($name in @('python', 'py')) {
+    foreach ($name in @('python', 'python3', 'py')) {
         $cmd = Get-Command $name -ErrorAction SilentlyContinue
         if ($cmd -and (Test-UsablePythonExe $cmd.Source)) {
             return $cmd.Source

@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "p1_001_nested_lab_art_discovery_2026_07_19",
+  "item_id": "P1-001",
+  "completed_at": "2026-07-19T23:52:44-03:00",
+  "status": "completed",
+  "owner": "art-asset-diagnostic",
+  "decision": {
+    "acceptance_passed": true,
+    "runtime_promoted": false,
+    "ready_for_aaa": false,
+    "claim_limit": "discovery_and_classification_only"
+  },
+  "before": {
+    "scenario_detected": "3_no_art",
+    "exit_code": 2,
+    "report": "out/remediation/P1-001/pre_mugen_art_diagnostic.json",
+    "sha256": "b9d096765468b23522bfa42a0f37060d1c3400127adfde261b9e2d32e5deba95"
+  },
+  "implementation": {
+    "diagnostic": {
+      "path": "tools/sgdk_wrapper/art_diagnostic.py",
+      "sha256": "56d15966c09e3db42633fbc77191922a7f316bfbc4c074f642bbc73668408d06"
+    },
+    "regression_suite": {
+      "path": "tools/sgdk_wrapper/test_art_pipeline.py",
+      "sha256": "7e2d5a1fd6e1403d28a811b87911f635061620e13f9369e85226e45601a4e45c"
+    },
+    "changes": [
+      "added scenario 4_lab_nested_art_review for lab roots with art outside top-level data/res",
+      "separated source_art, evidence_art, active_res_art, lab_work_art, analysis_art and generated_artifacts",
+      "detected nested SGDK projects through res contracts plus src/main.c and reported their hygiene manifest",
+      "confined discovery to project root and skipped all symlink files/directories",
+      "replaced deprecated Image.getdata usage with get_flattened_data plus compatibility fallback"
+    ]
+  },
+  "acceptance_checks": [
+    {
+      "check": "nested_lab_fixture_not_3_no_art",
+      "status": "passed",
+      "evidence": "synthetic fixture returned 4_lab_nested_art_review with exit code 0"
+    },
+    {
+      "check": "ownership_categories_separated",
+      "status": "passed",
+      "evidence": "fixture and MUGEN reports expose independent source, evidence and active res inventories"
+    },
+    {
+      "check": "external_directory_not_followed",
+      "status": "passed",
+      "evidence": "external symlink fixture was skipped and produced SYMLINK_DIRECTORY_SKIPPED"
+    },
+    {
+      "check": "pillow_deprecation_resolved",
+      "status": "passed",
+      "evidence": "suite passed with DeprecationWarning promoted to error"
+    }
+  ],
+  "tests": {
+    "command": "python3 tools/sgdk_wrapper/test_art_pipeline.py",
+    "result": "passed",
+    "passed": 46,
+    "failed": 0,
+    "log": "out/remediation/P1-001/test_art_pipeline.log",
+    "log_sha256": "2c446d1f8bc821ca29ce19e88d0a9da566290a7716f479384b7b78281a5666ca"
+  },
+  "mugen_validation": {
+    "project": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1",
+    "scenario_detected": "4_lab_nested_art_review",
+    "exit_code": 0,
+    "discovered_artifacts": 90,
+    "inventory_counts": {
+      "source_art": 9,
+      "evidence_art": 3,
+      "active_res_art": 5,
+      "lab_work_art": 73,
+      "analysis_art": 0,
+      "generated_artifacts": 3
+    },
+    "nested_projects": 1,
+    "external_directories_followed": false,
+    "hygiene_manifest_present": true,
+    "report": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/doc/art_diagnostic_report.json",
+    "report_sha256": "23839ea022bec02477d8d9c7237451eb1616b5fa82c4b247dc85fee2e7fa4d68"
+  },
+  "limitations": [
+    "the diagnostic inventories laboratory art but does not approve conversion quality or VDP compliance",
+    "the MUGEN study remains a controlled training fixture with existing hygiene, freshness, budget and closeout blockers",
+    "no ROM, runtime, visual quality, performance or AAA claim is promoted"
+  ]
+}

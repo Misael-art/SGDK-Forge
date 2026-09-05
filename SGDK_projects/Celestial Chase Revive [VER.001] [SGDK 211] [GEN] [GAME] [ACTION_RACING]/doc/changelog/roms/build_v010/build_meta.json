@@ -1,0 +1,40 @@
+﻿{
+    "build_version":  "build_v010",
+    "rom_sha256":  "c4c5dc61044e78fec7a5e842033348b72995a339503f7ceb2fb1706b2e662d52",
+    "size_bytes":  131072,
+    "timestamp":  "2026-06-17T13:49:47.5135765-03:00",
+    "source_commit_when_available":  "45986c0f57a4067f5279fa267655a2a2422d71f8",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  7,
+                               "blocking_statuses":  [
+                                                         "visual_gate_blocked",
+                                                         "visual_delivery_gate_missing",
+                                                         "emulator_evidence_stale",
+                                                         "scene_tilemap_conversion_report_missing",
+                                                         "per_tile_palette_conflict_report_missing",
+                                                         "freshness_audit_stale",
+                                                         "scene_closeout_gate_missing"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "rom_identity_mismatch",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "parcial_runtime_seed_route",
+                             "performance":  "nao_medido_completo",
+                             "audio":  "not_required_no_audio_resources_declared",
+                             "hardware_real":  "blastem_reference_emulator"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_brand_engine_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding_image.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

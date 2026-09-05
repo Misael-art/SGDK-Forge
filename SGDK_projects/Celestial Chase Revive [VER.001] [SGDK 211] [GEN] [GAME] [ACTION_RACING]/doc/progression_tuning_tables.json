@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "unit_policy": {
+    "speed": "Q8.8 pixels per frame",
+    "time": "NTSC frames unless otherwise stated",
+    "pressure": "0..100 integer",
+    "lumen": "integer resource"
+  },
+  "creative_contract_refs": {
+    "lumen_pressure_economy": "doc/lumen_pressure_economy_contract.json",
+    "pursuer_presence": "doc/pursuer_presence_contract.json",
+    "replayability_score": "doc/replayability_score_contract.json"
+  },
+  "player_constants": {
+    "lane_change_frames_base": 8,
+    "lane_change_frames_drift_step": 6,
+    "jump_duration_frames": 36,
+    "jump_low_hazard_clear_threshold_px": 10,
+    "pulse_cost_lumen": 20,
+    "pulse_cooldown_frames": 60,
+    "damage_invulnerability_frames": 60,
+    "max_integrity": 3,
+    "max_lumen_soft_cap": 99
+  },
+  "lumen_pressure_bands": [
+    {"lumen_min": 0, "lumen_max": 19, "extra_pressure_per_second": 0},
+    {"lumen_min": 20, "lumen_max": 39, "extra_pressure_per_second": 1},
+    {"lumen_min": 40, "lumen_max": 59, "extra_pressure_per_second": 2},
+    {"lumen_min": 60, "lumen_max": 99, "extra_pressure_per_second": 3}
+  ],
+  "sector_tuning": [
+    {
+      "sector": "sector_01_farol_quebrado",
+      "speed_start_q8_8": 320,
+      "speed_peak_q8_8": 512,
+      "pressure_per_second_start": 1,
+      "pressure_per_second_peak": 2,
+      "lumen_pressure_grace_frames": 1200,
+      "hazard_spawn_gap_frames_min": 64,
+      "hazard_spawn_gap_frames_max": 160,
+      "expected_completion_seconds": 25,
+      "target_hits_new_player": 0,
+      "target_hits_learning_player": 1
+    },
+    {
+      "sector": "sector_02_meteor_garden",
+      "speed_start_q8_8": 448,
+      "speed_peak_q8_8": 640,
+      "pressure_per_second_start": 2,
+      "pressure_per_second_peak": 3,
+      "lumen_pressure_grace_frames": 0,
+      "hazard_spawn_gap_frames_min": 48,
+      "hazard_spawn_gap_frames_max": 120,
+      "expected_completion_seconds": 35,
+      "target_hits_new_player": 1,
+      "target_hits_learning_player": 2
+    },
+    {
+      "sector": "sector_03_glass_bridge",
+      "speed_start_q8_8": 512,
+      "speed_peak_q8_8": 704,
+      "pressure_per_second_start": 2,
+      "pressure_per_second_peak": 4,
+      "lumen_pressure_grace_frames": 0,
+      "hazard_spawn_gap_frames_min": 44,
+      "hazard_spawn_gap_frames_max": 100,
+      "expected_completion_seconds": 40,
+      "target_hits_new_player": 1,
+      "target_hits_learning_player": 2
+    },
+    {
+      "sector": "sector_04_shadow_tunnel",
+      "speed_start_q8_8": 576,
+      "speed_peak_q8_8": 768,
+      "pressure_per_second_start": 3,
+      "pressure_per_second_peak": 5,
+      "lumen_pressure_grace_frames": 0,
+      "hazard_spawn_gap_frames_min": 40,
+      "hazard_spawn_gap_frames_max": 90,
+      "expected_completion_seconds": 45,
+      "target_hits_new_player": 2,
+      "target_hits_learning_player": 3
+    },
+    {
+      "sector": "final_boss_master_pursuer",
+      "speed_start_q8_8": 448,
+      "speed_peak_q8_8": 640,
+      "pressure_per_second_start": 2,
+      "pressure_per_second_peak": 5,
+      "lumen_pressure_grace_frames": 0,
+      "hazard_spawn_gap_frames_min": 48,
+      "hazard_spawn_gap_frames_max": 96,
+      "expected_completion_seconds": 75,
+      "target_hits_new_player": 2,
+      "target_hits_learning_player": 4
+    }
+  ],
+  "resource_values": {
+    "lumen_orb_small": 5,
+    "lumen_orb_large": 10,
+    "beacon_key": 1,
+    "time_spark_pressure_reduction": 12,
+    "pulse_pressure_reduction": 18,
+    "hit_pressure_gain": 15,
+    "missed_beacon_pressure_gain": 10
+  },
+  "upgrade_costs": [
+    {"id": "pulse_core", "cost_lumen": 0, "unlock": "story_required_after_catalyst", "effect": "enable Pulse"},
+    {"id": "drift_step", "cost_lumen": 40, "unlock": "upgrade_01", "effect": "lane_change_frames 8 to 6"},
+    {"id": "guard_shard", "cost_lumen": 50, "unlock": "upgrade_01", "effect": "first hit consumes 25 Lumen instead of integrity"},
+    {"id": "star_wake", "cost_lumen": 60, "unlock": "upgrade_02", "effect": "pickup attraction box +8px"},
+    {"id": "pulse_reinforce", "cost_lumen": 60, "unlock": "upgrade_02", "effect": "Pulse pressure reduction +6"},
+    {"id": "overdrive_gate", "cost_lumen": 80, "unlock": "sector_04_exit", "effect": "speed +12 percent, score +50 percent, pressure +1 per second"}
+  ],
+  "powerup_durations": [
+    {"id": "comet_veil", "duration_frames": 180, "effect": "ignore one hazard hit; does not damage boss"},
+    {"id": "time_spark", "duration_frames": 120, "effect": "pressure drain over duration"},
+    {"id": "echo_double", "duration_frames": 150, "effect": "absorbs one light hit if visual budget allows"},
+    {"id": "beacon_key", "duration_frames": 0, "effect": "sector progress or upgrade gate"}
+  ],
+  "tuning_validation": [
+    "sector_01 must be clearable without upgrades",
+    "new player target hit count must stay within target after first playable capture",
+    "pressure should rarely reach 100 before sector_04 unless player repeatedly fails",
+    "saving Lumen for upgrades must measurably increase pressure risk",
+    "using Pulse must drop Lumen pressure band and provide immediate relief",
+    "all numbers are provisional until runtime metrics exist"
+  ]
+}

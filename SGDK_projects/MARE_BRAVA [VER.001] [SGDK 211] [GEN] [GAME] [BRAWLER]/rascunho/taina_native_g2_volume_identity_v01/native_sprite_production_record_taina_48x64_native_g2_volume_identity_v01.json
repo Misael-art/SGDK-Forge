@@ -1,0 +1,334 @@
+{
+  "schema_version": "1.4.0",
+  "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+  "asset_kind": "sprite_single",
+  "source": {
+    "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+    "sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+    "classification": "ai_generated_high_res",
+    "approval_status": "approved_source"
+  },
+  "scale_contract": {
+    "status": "provisional",
+    "target_width": 48,
+    "target_height": 64,
+    "selected_width": 48,
+    "selected_height": 64,
+    "probes": [
+      {
+        "width": 48,
+        "height": 64,
+        "path": "rascunho/taina_native_g2_volume_identity_v01/taina_48x64_native_g2_volume_identity_v01.png",
+        "technical_status": "passed",
+        "visual_status": "failed",
+        "promotable": false
+      },
+      {
+        "width": 64,
+        "height": 96,
+        "path": "rascunho/taina_visual_challengers_v03/candidates/taina_64x96_challenger_b/taina_64x96_challenger_b.png",
+        "technical_status": "passed",
+        "visual_status": "pending",
+        "promotable": false
+      }
+    ]
+  },
+  "producer_output": {
+    "path": "rascunho/taina_native_g2_volume_identity_v01/taina_48x64_native_g2_volume_identity_v01.png",
+    "role": "native_candidate",
+    "interaction_channel": "cli_headless",
+    "width": 48,
+    "height": 64,
+    "mode": "P",
+    "visible_rgb_colors": 15,
+    "alpha_values": [
+      0,
+      255
+    ]
+  },
+  "native_candidate": {
+    "path": "rascunho/taina_native_g2_volume_identity_v01/taina_48x64_native_g2_volume_identity_v01.png",
+    "method": "mechanical_scale_probe",
+    "width": 48,
+    "height": 64,
+    "pixel_report": "rascunho/taina_native_g2_volume_identity_v01/pixel_compliance_report.json",
+    "foreground_matte_report": "rascunho/taina_native_g2_volume_identity_v01/foreground_matte_report_v01.json",
+    "visual_evidence": {
+      "candidate_sha256": "e35ad9f4477d7d1912b94505932a547e639cdea8b8085e2062362db3f21dcb30",
+      "native_1x": "rascunho/taina_native_g2_volume_identity_v01/evidence/native_1x.png",
+      "nearest_preview": "rascunho/taina_native_g2_volume_identity_v01/evidence/nearest_8x.png",
+      "light_background": "rascunho/taina_native_g2_volume_identity_v01/evidence/light_background.png",
+      "dark_background": "rascunho/taina_native_g2_volume_identity_v01/evidence/dark_background.png",
+      "chroma_background": "rascunho/taina_native_g2_volume_identity_v01/evidence/chroma_background.png",
+      "preview_scale": 8,
+      "light_rgb": [
+        238,
+        238,
+        230
+      ],
+      "dark_rgb": [
+        28,
+        30,
+        38
+      ],
+      "chroma_rgb": [
+        238,
+        0,
+        238
+      ],
+      "human_approval": "doc/art/characters/taina/human_source_authoring_approval_v01.json"
+    },
+    "shape_block_contract": {
+      "silhouette_mask": {
+        "path": "rascunho/taina_native_g2_volume_identity_v01/silhouette_mask.png",
+        "sha256": "63b0d498fc7ad093691defd3118f4517bbc2639a08b8da1041e840715129bbd9",
+        "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+        "scale": "48x64",
+        "source": "rascunho/taina_native_g2_volume_identity_v01/taina_48x64_native_g2_volume_identity_v01.png"
+      },
+      "semantic_region_map": {
+        "path": "rascunho/taina_native_g2_volume_identity_v01/semantic_region_map.png",
+        "sha256": "f583d05bf54c7e9b81cb87207327ebec9131b8bbd2b752bcb31b2dc1c61be1c6",
+        "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+        "scale": "48x64",
+        "source": "rascunho/taina_native_g2_volume_identity_v01/taina_48x64_native_g2_volume_identity_v01.png"
+      },
+      "contour_overlay": {
+        "path": "rascunho/taina_native_g2_volume_identity_v01/contour_overlay.png",
+        "sha256": "85f35cee9f1f76b22eeed136302a9e9ba30f578272dd9e0f2d28eeef700d656a",
+        "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+        "scale": "48x64",
+        "source": "rascunho/taina_native_g2_volume_identity_v01/taina_48x64_native_g2_volume_identity_v01.png"
+      },
+      "required_semantic_regions": [
+        "head_or_face",
+        "hair",
+        "torso",
+        "arms_or_guard",
+        "hands",
+        "legs",
+        "feet",
+        "sash"
+      ],
+      "semantic_label_legend": {
+        "head_or_face": 1,
+        "hair": 2,
+        "torso": 3,
+        "arms_or_guard": 4,
+        "hands": 5,
+        "legs": 6,
+        "feet": 7,
+        "sash": 8
+      },
+      "semantic_label_counts": {
+        "head_or_face": 53,
+        "hair": 138,
+        "torso": 172,
+        "arms_or_guard": 145,
+        "hands": 24,
+        "legs": 379,
+        "feet": 58,
+        "sash": 65
+      },
+      "occupancy_metrics": {
+        "width": 48,
+        "height": 64,
+        "filled_pixels": 1034,
+        "canvas_pixels": 3072,
+        "occupancy_pct": 33.66
+      },
+      "bbox": [
+        4,
+        3,
+        47,
+        64
+      ]
+    },
+    "material_region_contract": {
+      "status": "passed",
+      "map_method": "explicit_material_ownership_map",
+      "source_reference": {
+        "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+        "sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+        "role": "approved_material_topology_reference"
+      },
+      "material_region_map": {
+        "path": "rascunho/taina_native_g2_volume_identity_v01/material_region_map.png",
+        "sha256": "dd67f9fc098999f1e622fc781dae01d6d981e77f5a2ad3f3873e6fc5c3aba81d",
+        "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+        "scale": "48x64",
+        "source": "rascunho/taina_native_g2_volume_identity_v01/taina_48x64_native_g2_volume_identity_v01.png"
+      },
+      "material_boundary_overlay": {
+        "path": "rascunho/taina_native_g2_volume_identity_v01/material_boundary_overlay.png",
+        "sha256": "45ec5e338dc6a0943c09052da194367196391bbf617d514c185f4f23d8006c89",
+        "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+        "scale": "48x64",
+        "source": "rascunho/taina_native_g2_volume_identity_v01/taina_48x64_native_g2_volume_identity_v01.png"
+      },
+      "material_label_legend": {
+        "hair": 1,
+        "skin": 2,
+        "orange_top": 3,
+        "teal_cloth": 4,
+        "indigo_trousers": 5
+      },
+      "material_label_counts": {
+        "hair": 121,
+        "skin": 344,
+        "orange_top": 95,
+        "teal_cloth": 135,
+        "indigo_trousers": 339
+      },
+      "allowed_palette_indices": {
+        "hair": [
+          2,
+          13
+        ],
+        "skin": [
+          3,
+          4,
+          5
+        ],
+        "orange_top": [
+          6,
+          7,
+          8
+        ],
+        "teal_cloth": [
+          9,
+          10,
+          11
+        ],
+        "indigo_trousers": [
+          12,
+          14,
+          15
+        ]
+      },
+      "shared_outline_indices": [
+        1
+      ],
+      "critical_boundaries": [
+        {
+          "boundary_id": "top_hem_exposes_abdomen",
+          "material_a": "orange_top",
+          "material_b": "skin",
+          "region": [
+            16,
+            30,
+            32,
+            38
+          ],
+          "minimum_contact_edges": 4
+        },
+        {
+          "boundary_id": "left_top_to_skin",
+          "material_a": "orange_top",
+          "material_b": "skin",
+          "region": [
+            12,
+            20,
+            22,
+            30
+          ],
+          "minimum_contact_edges": 1
+        },
+        {
+          "boundary_id": "right_top_to_skin",
+          "material_a": "orange_top",
+          "material_b": "skin",
+          "region": [
+            28,
+            20,
+            38,
+            30
+          ],
+          "minimum_contact_edges": 1
+        },
+        {
+          "boundary_id": "wraps_to_skin",
+          "material_a": "teal_cloth",
+          "material_b": "skin",
+          "region": [
+            9,
+            18,
+            44,
+            31
+          ],
+          "minimum_contact_edges": 2
+        }
+      ],
+      "blocking_statuses": []
+    }
+  },
+  "palette_contract": {
+    "max_visible_colors": 15,
+    "index0_role": "transparent0",
+    "outline_role": "single dark marine/purple ink shared by material boundaries",
+    "material_roles": [
+      "hair",
+      "skin",
+      "orange_top",
+      "teal_cloth",
+      "indigo_trousers"
+    ]
+  },
+  "gates": {
+    "semantic_parse": "passed",
+    "lineart": "passed",
+    "color_blocking": "passed",
+    "material_topology": "passed",
+    "palette_lock": "passed",
+    "pixel_contract": "passed",
+    "native_visual": "failed",
+    "scale": "in_progress",
+    "budget": "passed",
+    "human": "failed",
+    "sgdk_integration": "not_started",
+    "emulator": "not_started"
+  },
+  "runtime_evidence": null,
+  "promotion": {
+    "promotable": false,
+    "target": "none"
+  },
+  "status": "technical_candidate",
+  "next_action": "reopen_scale_with_independent_native_48x64_and_64x96; no_animation_or_res",
+  "provenance": {
+    "interaction_channel": "cli_headless",
+    "source_kind": "procedural_primitive",
+    "producer_identity": "procedural_raster_authoring_visual_lab_control",
+    "action_log": "tools/art/build_taina_native_g2_volume_identity_v01.py",
+    "human_approval": "doc/art/characters/taina/human_g2_visual_rejection_v01.json"
+  },
+  "scale_report": {
+    "status": "pending",
+    "camera_width": 320,
+    "camera_height": 224,
+    "hitbox": "undeclared_requires_collision_contract",
+    "notes": "scale_gate_reopened_by_human_review: hitbox remains undeclared; 48x64 is the incumbent target and 64x96 is comparison_only until an independent native shootout and human scale decision.",
+    "probes": "rascunho/taina_visual_challengers_v03/scale_budget_report_v03.json"
+  },
+  "budget_report": {
+    "status": "passed",
+    "tiles": 20,
+    "scanline_px": 248,
+    "notes": "budget_pass limited to static TAINA + four enemies; next 3+3 is comparison_only."
+  },
+  "visual_report": {
+    "status": "failed",
+    "sha256": "e35ad9f4477d7d1912b94505932a547e639cdea8b8085e2062362db3f21dcb30",
+    "notes": "technical_pass_visual_fail; source_detail_lost; generic_blocky_redraw; identity_hooks_lost. Maps and lineart are internal consistency evidence only, not independent proof of fidelity or quality. No score or automatic winner."
+  },
+  "incumbent": {
+    "path": "rascunho/taina_native_material_clean_rework_v01/taina_48x64_native_a1_material_clean_v01.png",
+    "sha256": "54df9fd341ad57bdc2c02c62db6366119c7d511ba8e14862666cf487366b2567",
+    "role": "comparison_only"
+  },
+  "methodology_reference": {
+    "path": "doc/art/characters/taina/taina_material_topology_correction_request_v01.json",
+    "sha256": "f1f71735824bca9f323dbd3dfeb4d763b5b8b3b7dcba4b3603cc9274c3907e79",
+    "role": "methodology_reference"
+  }
+}

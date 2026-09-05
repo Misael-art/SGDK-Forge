@@ -1,22 +1,26 @@
 {
-  "schema": "sample_format_audit_v1",
+  "schema": "audio_source_audit_v2",
   "status": "generated_pending_validate_audio_and_blastem_listen",
   "generation_basis": "project_local_original_synthesis",
   "driver": "XGM2",
-  "assets": [
-    {
-      "path": "res/audio/chase/chase_score_loop.wav",
-      "sha256": "494640395cb0f4a8e5319daf55c595bcc578d963d18d82249fec82abcec4374b",
-      "channels": 1,
-      "bits_per_sample": 8,
-      "sample_rate_hz": 13300,
-      "duration_seconds": 8.0,
-      "dc_offset": 0.05,
-      "peak": 63,
-      "first_sample": 128,
-      "last_sample": 128,
-      "loop_boundary_silent": true
-    },
+  "music": {
+    "format": "VGM",
+    "version": "1.50",
+    "rate_hz": 60,
+    "total_samples": 352800,
+    "duration_seconds": 8.0,
+    "loop_samples": 352800,
+    "sn76489_clock_hz": 3579545,
+    "ym2612_clock_hz": 7670454,
+    "uses_fm": true,
+    "uses_psg": true,
+    "wait_60hz_commands": 480,
+    "path": "res/audio/chase/chase_core_fm_psg.vgm",
+    "sha256": "2349f781f0ca06c705f6940398d7b180b8edadeaf5588561355cd2ff1afbd6d4",
+    "source_size_bytes": 1349,
+    "composition_basis": "project_local_original_fm_psg_sequence"
+  },
+  "pcm_sfx": [
     {
       "path": "res/audio/chase/chase_menu.wav",
       "sha256": "f257bdc4aa4eface1f38d63e63613d438b5956a7f044fd7b01a5d6e178b97fce",
@@ -58,16 +62,16 @@
     },
     {
       "path": "res/audio/chase/chase_hit.wav",
-      "sha256": "a104ea8126f1cc5c7a4602c00e870c9740b4df084405a3a73eb231b9acae9d53",
+      "sha256": "b3cec871911e70d90bccb7d5cb1a2ea2ac2ac8fc97a1985c6ac47bd7caf242b7",
       "channels": 1,
       "bits_per_sample": 8,
       "sample_rate_hz": 13300,
       "duration_seconds": 0.24,
-      "dc_offset": -0.287,
-      "peak": 94,
-      "first_sample": 128,
+      "dc_offset": 0.294,
+      "peak": 95,
+      "first_sample": 139,
       "last_sample": 128,
-      "loop_boundary_silent": true
+      "loop_boundary_silent": false
     },
     {
       "path": "res/audio/chase/chase_pulse.wav",
@@ -136,8 +140,9 @@
     }
   ],
   "delivery_findings": [
-    "All sources are mono PCM WAV at 13.3 kHz and 8-bit.",
-    "Every sample begins and ends at unsigned PCM center 128.",
-    "The score loop remains pending a human headphone loop check in BlastEm."
+    "The score is an original loop with YM2612 FM and SN76489 PSG commands.",
+    "All SFX sources are mono PCM WAV at 13.3 kHz and 8-bit.",
+    "Every PCM sample begins and ends at unsigned PCM center 128.",
+    "The ResComp XGM2 conversion and human headphone review remain runtime gates."
   ]
 }

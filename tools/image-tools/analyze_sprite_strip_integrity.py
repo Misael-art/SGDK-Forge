@@ -316,16 +316,27 @@ def analyze(args: argparse.Namespace) -> dict[str, Any]:
         if bbox[3] == frame_height - 1:
             touching_edges.append("bottom")
         if touching_edges:
-            edge_problem_frames += 1
-            add_finding(
-                findings,
-                "FRAME_EDGE_CLIPPING",
-                "error",
-                "Visible pixels touch the frame boundary; enlarge or recut the cell before SGDK promotion.",
-                frame=frame_number,
-                edges=touching_edges,
-                bbox=list(bbox),
-            )
+            if args.allow_declared_native_cell_boundary:
+                add_finding(
+                    findings,
+                    "BOUNDARY_CONTACT_DECLARED",
+                    "info",
+                    "Visible pixels touch a declared fixed native-cell boundary; contract review remains required.",
+                    frame=frame_number,
+                    edges=touching_edges,
+                    bbox=list(bbox),
+                )
+            else:
+                edge_problem_frames += 1
+                add_finding(
+                    findings,
+                    "FRAME_EDGE_CLIPPING",
+                    "error",
+                    "Visible pixels touch the frame boundary; enlarge or recut the cell before SGDK promotion.",
+                    frame=frame_number,
+                    edges=touching_edges,
+                    bbox=list(bbox),
+                )
 
         component_report = mask_components(mask, args.min_island_area)
         if component_report["external_small_island_count"] >= args.max_small_islands or component_report["external_small_island_pixels"] >= args.max_small_island_pixels:
@@ -384,7 +395,12 @@ def analyze(args: argparse.Namespace) -> dict[str, Any]:
             color_bbox_w = max_x - min_x + 1
             color_bbox_h = max_y - min_y + 1
             touches_outer = min_x == 0 or min_y == 0 or max_x == frame_width - 1 or max_y == frame_height - 1
-            if touches_outer or color_bbox_h >= frame_height * 0.70 or color_bbox_w >= frame_width * 0.70:
+            # A dominant body fill is expected in compact native sprites. Size
+            # alone is not evidence of a baked matte: the color must also
+            # reach the outer frame, where a background rectangle can enter.
+            # This keeps the check conservative without rejecting a round hero
+            # whose main material spans most of the cell interior.
+            if touches_outer and (color_bbox_h >= frame_height * 0.70 or color_bbox_w >= frame_width * 0.70):
                 large_color_findings.append(
                     {
                         "rgba": color_to_list(color),
@@ -473,7 +489,7 @@ def analyze(args: argparse.Namespace) -> dict[str, Any]:
     severities = {item["severity"] for item in findings}
     if any(item["code"] in BLOCKING_CODES for item in findings) or "error" in severities:
         status = "rework"
-    elif findings:
+    elif "warning" in severities:
         status = "needs_review"
     else:
         status = "passed"
@@ -492,6 +508,7 @@ def analyze(args: argparse.Namespace) -> dict[str, Any]:
         "asset_id": args.asset_id,
         "asset_kind": args.asset_kind,
         "state_profile": args.state_profile,
+        "boundary_contact_policy": "declared_fixed_native_cell" if args.allow_declared_native_cell_boundary else "block_on_any_boundary_contact",
         "palette_domain": args.palette_domain,
         "palette_domain_report": args.palette_domain_report,
         "declared_fx_indices": sorted(fx_indices) if fx_indices is not None else None,
@@ -538,6 +555,11 @@ def main() -> int:
     parser.add_argument("--asset-kind", default="character_animation_strip")
     parser.add_argument("--state-profile", default="standing")
     parser.add_argument("--asset-id", default="")
+    parser.add_argument(
+        "--allow-declared-native-cell-boundary",
+        action="store_true",
+        help="accept explicit fixed-cell boundary contact as an info finding; default remains clipping blocker",
+    )
     args = parser.parse_args()
 
     report = analyze(args)

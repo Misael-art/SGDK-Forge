@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "transition_role": "cutscene_to_race_and_race_to_upgrade",
+  "continuity_model": "visual_handoff",
+  "player_control_policy": "locked_during_fade_load_and_cutscene_handoff",
+  "camera_motion_contract": "integer scroll acceleration from 0 to race speed over 60 frames",
+  "fx_ownership_map": {
+    "palette_fade": "scene_manager",
+    "WINDOW": "current scene owner",
+    "scroll": "incoming scene owner",
+    "audio_stinger": "system_audio"
+  },
+  "runtime_state_handoff": {
+    "opening_to_race": ["reset typewriter", "retract letterbox", "load race HUD", "start road scroll"],
+    "race_to_upgrade": ["freeze hazards", "save run summary", "load upgrade cards"]
+  },
+  "teardown_reset_plan": ["HScroll zero", "VScroll zero", "WINDOW clear", "sprites release", "palette restore"],
+  "fallback_plan": "hard fade to black with explicit loading if visual handoff is unstable"
+}

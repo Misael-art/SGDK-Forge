@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-20T04:37:23.440173+00:00",
+  "tool_name": "derive_autonomy_metrics",
+  "tool_version": "1.0.0",
+  "status": "ok",
+  "ledger_id": "autonomy_ledger_2026-07-20",
+  "session_filter": "remediation-20260720-p1",
+  "sessions_observed": [
+    "remediation-20260720-p1"
+  ],
+  "events_observed": 9,
+  "task_counts": {
+    "started": 3,
+    "completed": 2,
+    "blocked": 1,
+    "reworked": 1
+  },
+  "derived_rates": {
+    "completion_rate": 0.6667,
+    "blocked_task_rate": 0.3333,
+    "reworked_task_rate": 0.3333,
+    "first_attempt_success_rate": 0.5,
+    "autonomous_completion_rate": 1.0
+  },
+  "human_interventions": {
+    "total": 0,
+    "by_category": {},
+    "sensitive_content_stored": false
+  },
+  "quality_claim": "unproven",
+  "ready_for_aaa": false,
+  "claim_limit": "Autonomy metrics describe process events only and cannot promote technical, creative, gameplay, audio, hardware, release, or AAA quality."
+}

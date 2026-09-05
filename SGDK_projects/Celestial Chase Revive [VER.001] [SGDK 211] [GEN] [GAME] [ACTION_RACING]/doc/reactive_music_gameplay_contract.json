@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "reactive_music_gameplay_v001",
+  "design_thesis": "Music is gameplay feedback. Pressure and Lumen change arrangement density before the player reads the HUD.",
+  "runtime_owner": "src/system/audio.c",
+  "driver_route": "XGM2 first",
+  "pressure_layers": [
+    {"pressure_min": 0, "pressure_max": 24, "music_state": "race_intro", "fm": "melody+bass", "psg": "sparkle accents", "dac": "off", "function": "flow"},
+    {"pressure_min": 25, "pressure_max": 49, "music_state": "race_pressure", "fm": "melody+bass+counterline", "psg": "light percussion", "dac": "off", "function": "pursuit awareness"},
+    {"pressure_min": 50, "pressure_max": 74, "music_state": "race_pressure_plus", "fm": "strong bass ostinato", "psg": "faster percussion", "dac": "optional low hits", "function": "tension"},
+    {"pressure_min": 75, "pressure_max": 99, "music_state": "race_climax", "fm": "reduced melody, urgent harmony", "psg": "dense pulse", "dac": "heavy beat if budget allows", "function": "panic"},
+    {"pressure_min": 100, "pressure_max": 100, "music_state": "caught_or_boss_approach", "fm": "boss motif", "psg": "alarm", "dac": "impact", "function": "failure or forced transition"}
+  ],
+  "lumen_layers": [
+    {"lumen_min": 0, "lumen_max": 19, "cue": "none"},
+    {"lumen_min": 20, "lumen_max": 39, "cue": "soft shimmer every 4 bars"},
+    {"lumen_min": 40, "lumen_max": 59, "cue": "harmonic shimmer plus distant horn response"},
+    {"lumen_min": 60, "lumen_max": 99, "cue": "overbright shimmer and pursuer breath, no more than once per 2 seconds"}
+  ],
+  "boss_layers": [
+    {"phase": 1, "layer": "horn_motif", "unlock": "boss_phase_1"},
+    {"phase": 2, "layer": "hoof_percussion", "unlock": "boss_phase_2"},
+    {"phase": 3, "layer": "full_theme", "unlock": "chest_core_phase"}
+  ],
+  "transition_policy": {
+    "normal_layer_change": "bar_boundary",
+    "pressure_spike": "stinger_bridge",
+    "damage": "duck_music_12_frames",
+    "critical_sfx_priority": "damage and telegraph always win over music layers"
+  },
+  "fallback": {
+    "no_pcm": "FM+PSG only; pressure still changes arrangement density",
+    "low_budget": "switch between pre-rendered XGM2 states instead of live layer mixing",
+    "boss": "single final_boss track with phase stingers"
+  },
+  "validation_plan": [
+    "Pressure layer transitions do not mask damage or telegraph SFX.",
+    "Lumen overbright cue is audible but not annoying.",
+    "Boss phase stingers align with weakpoint state.",
+    "Audio state is logged in runtime metrics before delivery."
+  ]
+}

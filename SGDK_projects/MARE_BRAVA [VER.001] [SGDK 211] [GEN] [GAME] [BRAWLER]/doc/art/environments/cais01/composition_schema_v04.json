@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "cais_01",
+  "viewport_px": [320, 224],
+  "world_slice_px": [512, 224],
+  "initial_camera_x": 80,
+  "anchors": [
+    {
+      "id": "cargo_group_left",
+      "world_x": "82..154",
+      "shape": "one_large_two_small",
+      "role": "left_frame_and_material_signature"
+    },
+    {
+      "id": "combat_lane",
+      "world_x": "154..334",
+      "screen_y": "158..220",
+      "role": "unobstructed_gameplay"
+    },
+    {
+      "id": "industrial_lamp",
+      "world_x": "334..368",
+      "role": "right_vertical_anchor_and_palette_cycle_source"
+    },
+    {
+      "id": "net_fence",
+      "world_x": "368..441",
+      "role": "right_frame_and_ringout_language"
+    }
+  ],
+  "negative_space": {
+    "behind_fighter": "no high-contrast cloud edge, window cluster or prop tangent",
+    "lane": "oil and wood marks remain below silhouette contrast"
+  },
+  "seams": {
+    "horizontal_loop": "BG_B forms cross x=0/511 with compatible color bands",
+    "camera_crop": "all principal anchors readable at x=80 viewport"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_pivot_and_scale_contract_v02",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina",
+  "status": "locked_by_human_key_pose_approval",
+  "measurement_level": "measured",
+  "source_scale_contract": "doc/art/characters/taina/visual_dna_manifest.json",
+  "approved_key_pose": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+  "frame_cell_px": {
+    "w": 48,
+    "h": 64
+  },
+  "pivot": {
+    "role": "bottom_center_feet",
+    "x_px": 24,
+    "y_px": 60,
+    "ground_y": 60,
+    "integer_pixel_required": true,
+    "horizontal_drift_allowed_px": 0,
+    "vertical_drift_allowed_px": 0
+  },
+  "visible_figure_contract": {
+    "measured_bbox": {
+      "left": 15,
+      "top": 2,
+      "right": 38,
+      "bottom": 60,
+      "width": 24,
+      "height": 59
+    },
+    "locked_visible_height_px": 59,
+    "locked_foot_y_px": 60,
+    "reason_for_revision": "The human art director approved the v02 authorial result. Reducing it to the former 46-50px target would repeat the documented identity degradation.",
+    "runtime_follow_up": [
+      "verify camera composition at 320x224",
+      "verify collision and hurtbox fit",
+      "verify head clearance for future attack envelopes"
+    ]
+  },
+  "forbidden_changes": [
+    "runtime_scaling",
+    "automatic_resize",
+    "frame_specific_pivot",
+    "independent_frame_generation",
+    "silent_visible_height_reduction"
+  ],
+  "ready_for_idle_derivation": true,
+  "ready_for_res_promotion": false
+}

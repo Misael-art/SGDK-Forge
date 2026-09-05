@@ -39,9 +39,19 @@
       "usage": "four-argument SGDK 2.11 call with DMA_QUEUE"
     },
     {
+      "api": "XGM2_play",
+      "header": "sdk/sgdk-2.11/inc/snd/xgm2.h",
+      "usage": "play mus_chase_core compiled from FM/PSG VGM"
+    },
+    {
       "api": "XGM2_playPCMEx",
       "header": "sdk/sgdk-2.11/inc/snd/xgm2.h",
-      "usage": "three fixed PCM channels with explicit priorities"
+      "usage": "PCM_CH2 and PCM_CH3 only, with explicit priorities"
+    },
+    {
+      "api": "XGM2_getCPULoad/XGM2_getDMAWaitTime/XGM2_getDebugMissedFrames",
+      "header": "sdk/sgdk-2.11/inc/snd/xgm2.h",
+      "usage": "AUD2 SRAM telemetry sampled every four runtime frames"
     },
     {
       "api": "Z80_loadDriver",

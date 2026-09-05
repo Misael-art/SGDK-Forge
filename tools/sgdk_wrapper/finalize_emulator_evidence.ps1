@@ -46,6 +46,10 @@ $evidenceFiles = @()
 $evidenceArtifacts = @()
 $missingEvidenceFiles = @()
 $evidence = $null
+$semanticScreenshotPath = $null
+$semanticCaptureReportPath = Join-Path $ProjectRoot "out\logs\screenshot_semantic_gate_report.json"
+$semanticCaptureReport = $null
+$semanticCaptureValid = $null
 
 if (-not (Test-Path -LiteralPath $RomPath -PathType Leaf)) {
     $blockerCode = "rom_missing_for_evidence_closeout"
@@ -86,11 +90,36 @@ else {
                 $missingEvidenceFiles += $resolvedEvidencePath
                 continue
             }
+            if (-not $semanticScreenshotPath -and [System.IO.Path]::GetExtension($resolvedEvidencePath).ToLowerInvariant() -eq ".png") {
+                $semanticScreenshotPath = $resolvedEvidencePath
+            }
             $fileInfo = Get-Item -LiteralPath $resolvedEvidencePath
             $evidenceArtifacts += [ordered]@{
                 path = $resolvedEvidencePath
                 size_bytes = [long]$fileInfo.Length
                 sha256 = (Get-FileHash -LiteralPath $resolvedEvidencePath -Algorithm SHA256).Hash.ToLowerInvariant()
+            }
+        }
+
+        if ($semanticScreenshotPath) {
+            $semanticAuditScript = Join-Path $PSScriptRoot "audit_screenshot_semantics.ps1"
+            $currentPowerShellHost = (Get-Process -Id $PID).Path
+            & $currentPowerShellHost -NoProfile -ExecutionPolicy Bypass -File $semanticAuditScript `
+                -ProjectRoot $ProjectRoot `
+                -ScreenshotPath $semanticScreenshotPath `
+                -OutputPath $semanticCaptureReportPath `
+                -RomPath $RomPath `
+                -EvidenceSessionId $(if ($evidence.PSObject.Properties.Name -contains "session_id" -and $evidence.session_id) { [string]$evidence.session_id } else { "" }) `
+                -WarnOnly | Out-Host
+            if (Test-Path -LiteralPath $semanticCaptureReportPath -PathType Leaf) {
+                try {
+                    $semanticCaptureReport = Get-Content -LiteralPath $semanticCaptureReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+                    $semanticCaptureValid = [bool]$semanticCaptureReport.semantic_capture_valid
+                } catch {
+                    $semanticCaptureValid = $false
+                }
+            } else {
+                $semanticCaptureValid = $false
             }
         }
 
@@ -114,6 +143,10 @@ else {
             $blockerCode = "emulator_evidence_artifact_missing"
             $failureReason = "One or more captured evidence artifacts no longer exist."
         }
+        elseif ($semanticScreenshotPath -and -not [bool]$semanticCaptureValid) {
+            $blockerCode = if ($semanticCaptureReport -and $semanticCaptureReport.blocker_code) { [string]$semanticCaptureReport.blocker_code } else { "screenshot_semantic_gate_unavailable" }
+            $failureReason = if ($semanticCaptureReport -and $semanticCaptureReport.failure_reason) { [string]$semanticCaptureReport.failure_reason } else { "Screenshot semantic integrity could not be proven." }
+        }
     }
     catch {
         $blockerCode = "emulator_evidence_unreadable"
@@ -126,7 +159,7 @@ $report = [ordered]@{
     schema_version = "1.0.0"
     generated_at = (Get-Date).ToUniversalTime().ToString("o")
     tool_name = "finalize_emulator_evidence"
-    tool_version = "1.0.0"
+    tool_version = "1.1.0"
     project_root = $ProjectRoot
     status = if ($sealed) { "ok" } elseif ($WarnOnly) { "warn" } else { "error" }
     seal_status = if ($sealed) { "sealed" } else { "rejected" }
@@ -140,6 +173,9 @@ $report = [ordered]@{
     evidence_files = @($evidenceFiles)
     evidence_artifacts = @($evidenceArtifacts)
     missing_evidence_files = @($missingEvidenceFiles)
+    semantic_capture_report_path = if (Test-Path -LiteralPath $semanticCaptureReportPath -PathType Leaf) { $semanticCaptureReportPath } else { $null }
+    semantic_capture_valid = $semanticCaptureValid
+    semantic_capture_claim_impacts = if ($semanticCaptureReport) { $semanticCaptureReport.claim_impacts } else { $null }
     freeze_then_capture_contract = [ordered]@{
         build_before_capture = $true
         rebuild_after_capture_allowed = $false

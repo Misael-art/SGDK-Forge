@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "cais_01",
+  "audio_role": "bgm_sfx",
+  "xgm2_mode": "standard_with_pcm",
+  "channel_ownership_map": {
+    "FM_CH1": {"owner": "cais01_bgm_bass", "stealable": false, "notes": "Baixo FM; arranjo deve reservar espaco para impacto."},
+    "FM_CH2": {"owner": "cais01_bgm_lead", "stealable": false, "notes": "Lead/percussao melodica."},
+    "FM_CH3": {"owner": "cais01_bgm_pad", "stealable": true, "notes": "Pad de mar; pode ser reduzido em alerta."},
+    "FM_CH4": {"owner": "cais01_bgm_arp", "stealable": true, "notes": "Arpejo de intensidade."},
+    "FM_CH5": {"owner": "cais01_bgm_percussion", "stealable": true, "notes": "Percussao FM curta; cai antes de SFX critico."},
+    "FM_CH6_DAC": {"owner": "xgm2_pcm_director", "stealable": true, "notes": "PCM reservado a impactos e splash, maximo 2 simultaneos."},
+    "PSG_CH1": {"owner": "cais01_ui_accent", "stealable": true, "notes": "Acento de pickup e menu; nunca mascara alerta."},
+    "PSG_CH2": {"owner": "cais01_fallback_tone", "stealable": true, "notes": "Fallback de estalo de impacto."},
+    "PSG_CH3": {"owner": "cais01_ambience_tone", "stealable": true, "notes": "Drones curtos opcionais; pode silenciar em gameplay intenso."},
+    "PSG_NOISE": {"owner": "cais01_water_noise", "stealable": true, "notes": "Espuma/agua com prioridade baixa."}
+  },
+  "sfx_priority_table": [
+    {"event": "ring_out_splash", "priority": 15, "channel": "FM_CH6_DAC", "steals_lower_priority": true},
+    {"event": "player_hit", "priority": 14, "channel": "FM_CH6_DAC", "steals_lower_priority": true},
+    {"event": "enemy_telegraph", "priority": 12, "channel": "PSG_CH2", "steals_lower_priority": true},
+    {"event": "footstep", "priority": 5, "channel": "PSG_NOISE", "steals_lower_priority": false},
+    {"event": "pickup", "priority": 7, "channel": "PSG_CH1", "steals_lower_priority": false}
+  ],
+  "dac_budget": {"dac_used": true, "sample_rate_hz": 13300, "max_concurrent_pcm": 2, "clipping_policy": "priorizar impacto e cortar agua/ambiente antes de clipar"},
+  "sound_chip_identity_plan": {
+    "target_sound_school": "mega_drive_fm_psg_dac",
+    "fm_patch_palette": [
+      {"role": "bass", "timbre_goal": "baixo FM seco e quente para o peso de mare", "channel_owner": "FM_CH1"},
+      {"role": "lead", "timbre_goal": "lead percussivo curto para movimento no cais", "channel_owner": "FM_CH2"},
+      {"role": "percussion", "timbre_goal": "ataques FM metalicos sem ocupar o DAC", "channel_owner": "FM_CH5"},
+      {"role": "stinger", "timbre_goal": "stinger grave de alerta do estivador", "channel_owner": "FM_CH3"}
+    ],
+    "psg_usage": {"role": "acentos e fallback de alerta", "noise_use": "agua/espuma de baixa prioridade", "fallback": "reduzir layers FM e manter PSG_CH2 para impacto"},
+    "dac_pcm_usage": {"used": true, "purpose": "splash e impacto critico curtos", "channel_tradeoff_acknowledged": true, "sample_budget_policy": "maximo 2 PCM simultaneos; sem voz ou sample longo no slice"},
+    "reference_translation_policy": "Referencias de arcade informam funcao e energia; timbres sao reorquestrados para FM/PSG/DAC do Mega Drive.",
+    "forbidden_assumptions": ["snes_reverb", "dedicated_sample_ram", "free_pcm_channels", "direct_psg_from_gameplay"]
+  },
+  "fallback_plan": "Se a faixa nao estiver pronta, silenciar BGM e manter SFX de gameplay audivel; se o DAC pressionar, usar fallback PSG e reduzir agua.",
+  "approval_status": "needs_review",
+  "blockers": ["stage_bgm_source_missing", "blastem_audio_proof_missing"]
+}

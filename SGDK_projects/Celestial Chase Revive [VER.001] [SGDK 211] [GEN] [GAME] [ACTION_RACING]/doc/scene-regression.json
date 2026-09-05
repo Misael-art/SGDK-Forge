@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "status": "sector01_closeout",
+  "scenes": [
+    {
+      "scene_id": "branding_sigil",
+      "boot_mode": "sram_bootstrap",
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 90,
+      "warmup_frames": 30,
+      "expected_app_scene_id": 0,
+      "bootstrap_scene_id": 0,
+      "required_artifacts": ["screenshot", "sram"],
+      "comparison_artifacts": ["screenshot"]
+    },
+    {
+      "scene_id": "title_menu",
+      "boot_mode": "sram_bootstrap",
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 120,
+      "warmup_frames": 30,
+      "expected_app_scene_id": 1,
+      "bootstrap_scene_id": 1,
+      "required_artifacts": ["screenshot", "sram"],
+      "comparison_artifacts": ["screenshot"]
+    },
+    {
+      "scene_id": "opening_catalyst_cutscene",
+      "boot_mode": "sram_bootstrap",
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 180,
+      "warmup_frames": 30,
+      "expected_app_scene_id": 2,
+      "bootstrap_scene_id": 2,
+      "required_artifacts": ["screenshot", "sram"],
+      "comparison_artifacts": ["screenshot"]
+    },
+    {
+      "scene_id": "sector_01_farol_quebrado",
+      "boot_mode": "sram_bootstrap",
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 900,
+      "warmup_frames": 60,
+      "expected_app_scene_id": 3,
+      "bootstrap_scene_id": 3,
+      "required_artifacts": ["screenshot", "sram"],
+      "comparison_artifacts": ["screenshot"]
+    },
+    {
+      "scene_id": "ending_result",
+      "boot_mode": "sram_bootstrap",
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 90,
+      "warmup_frames": 30,
+      "expected_app_scene_id": 4,
+      "bootstrap_scene_id": 4,
+      "required_artifacts": ["screenshot", "sram"],
+      "comparison_artifacts": ["screenshot"]
+    },
+    {
+      "scene_id": "credits_roll",
+      "boot_mode": "sram_bootstrap",
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 150,
+      "warmup_frames": 30,
+      "expected_app_scene_id": 5,
+      "bootstrap_scene_id": 5,
+      "required_artifacts": ["screenshot", "sram"],
+      "comparison_artifacts": ["screenshot"]
+    }
+  ],
+  "notes": "IDs alinhados ao enum SceneId atual. Baselines visuais continuam pendentes de capturas BlastEm da ROM final."
+}

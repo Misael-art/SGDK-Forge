@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-19",
+  "scope": "race_scene.c sprite helpers and SPR_setAnim, SPR_setFrame and SPR_setAnimAndFrame calls",
+  "decision": "confirmed_cause_fixed_and_emulator_validated",
+  "rom": {
+    "build_variant": "build_v020",
+    "path": "out/rom.bin",
+    "sha256": "4c8302405accc7d414e2f29e0f77f3c4cdbac1f34f7d5760e5934ff48342d60e",
+    "size_bytes": 131072
+  },
+  "generated_sprite_metadata": [
+    {"definition": "spr_lio_all", "numAnimation": 5, "numFrame_by_animation": [6, 6, 3, 4, 2]},
+    {"definition": "spr_lumen_orb", "numAnimation": 1, "numFrame_by_animation": [3]},
+    {"definition": "spr_low_stone", "numAnimation": 1, "numFrame_by_animation": [2]},
+    {"definition": "spr_astral_mark", "numAnimation": 1, "numFrame_by_animation": [3]},
+    {"definition": "spr_beacon_key", "numAnimation": 1, "numFrame_by_animation": [3]},
+    {"definition": "spr_pursuer_shadow", "numAnimation": 1, "numFrame_by_animation": [1]}
+  ],
+  "confirmed_invalid_installation": {
+    "sprite_definition": "spr_lumen_orb",
+    "animation": 0,
+    "invalid_frame": 3,
+    "valid_frame_range": "0..2",
+    "previous_expression": "(frame_counter / 8) % 4",
+    "failure_mechanism": "the invalid index reached SPR_update and indexed animation->frames[3]"
+  },
+  "current_call_audit": {
+    "player_run": {"animation": 0, "selected_frames": "0..5", "numFrame": 6, "status": "valid"},
+    "player_jump": {"animation": 1, "selected_frames": "0..5", "numFrame": 6, "status": "valid"},
+    "player_pulse": {"animation": 3, "selected_frames": "0..3", "numFrame": 4, "status": "valid"},
+    "hazards_and_pickups": {"animation": 0, "selected_frames": "0..numFrame-1", "status": "valid_by_definition"},
+    "title_cursor": {"definition": "spr_beacon_key", "animation": 0, "selected_frames": "0..2", "numFrame": 3, "status": "valid"}
+  },
+  "regression": {
+    "python": "14_passed",
+    "powershell": "passed",
+    "blastem_success_route": "passed",
+    "blastem_failure_route": "passed",
+    "address_error_reproduced": false
+  }
+}

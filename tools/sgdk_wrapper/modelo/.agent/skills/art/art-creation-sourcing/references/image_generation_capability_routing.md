@@ -9,6 +9,8 @@ Classify generation capability in this order:
 1. `native_chat_image_generation_callable`
    - A callable tool such as `image_gen` / `imagegen`.
    - Can usually return or save an image artifact.
+   - Default route for Codex/ChatGPT agent surfaces when the callable is
+     available; do not fall through to local tooling in this case.
 2. `native_chat_inline_generation`
    - The chat/model can render an image inline in the conversation.
    - Valid real generation even when no callable tool is exposed.
@@ -19,7 +21,7 @@ Classify generation capability in this order:
    - Local ComfyUI via `tools/ai_imagegen/imagegen_tool.py`.
    - Fallback when native/API is unavailable.
    - Profiles: `deck_safe_sd15` (Steam Deck/OLED default), `sdxl_lowvram`, `flux_schnell_gguf` (experimental).
-   - Entry points: `python tools/ai_imagegen/imagegen_tool.py route --native-callable false --native-inline false --json`
+   - Entry points: `python tools/ai_imagegen/imagegen_tool.py --json route`
    - Install when absent: `python tools/ai_imagegen/imagegen_tool.py install --profile deck-safe --dry-run`
    - Full decision flow in tool CLI (`status`, `healthcheck`, `route`, `generate`).
 5. `procedural_renderer`
@@ -29,7 +31,9 @@ Classify generation capability in this order:
 
 ## Blocking rule
 
-Only declare `BLOCKED_IMAGE_TOOLING` when no real channel exists:
+Only declare `BLOCKED_IMAGE_TOOLING` when no real channel exists. A blocked
+Bonsai/ComfyUI host is not a blocker when native callable/inline generation is
+available in the current agent session.
 
 - no callable native generation
 - no inline native generation

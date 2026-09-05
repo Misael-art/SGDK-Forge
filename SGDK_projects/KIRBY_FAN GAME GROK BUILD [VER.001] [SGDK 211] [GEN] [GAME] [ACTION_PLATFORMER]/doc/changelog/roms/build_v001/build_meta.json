@@ -1,0 +1,59 @@
+{
+  "build_version": "build_v001",
+  "rom_sha256": "5c1baf95c2d4646f5bd01f74eac9b6a1b1fce604ce8f99fd523e325147977dab",
+  "size_bytes": 262144,
+  "timestamp": "2026-06-03T10:56:07.3006878-03:00",
+  "source_commit_when_available": null,
+  "validation_summary": {
+    "errors": 0,
+    "warnings": 7,
+    "blocking_statuses": [
+      "gdd_substantial_insufficient",
+      "agent_context_degraded",
+      "visual_gate_blocked",
+      "visual_direction_failed",
+      "freshness_audit_missing",
+      "scene_closeout_gate_missing"
+    ]
+  },
+  "emulator_evidence_status": "sem_sessao",
+  "status_panel_snapshot": {
+    "visual_lab_aprovado": false,
+    "gameplay_rom_aprovada": false,
+    "ready_for_aaa": false
+  },
+  "qa_axes_snapshot": {
+    "gameplay_basico": "nao_testado",
+    "performance": "nao_testado",
+    "audio": "nao_testado",
+    "hardware_real": "nao_testado"
+  },
+  "linked_asset_versions": [
+    {
+      "asset_id": "img_brand_fx_tiles",
+      "version": "v001",
+      "source_path": "res/branding/brand_fx_tiles.png"
+    },
+    {
+      "asset_id": "img_brand_engine_logo",
+      "version": "v001",
+      "source_path": "res/branding/brand_engine_logo.png"
+    },
+    {
+      "asset_id": "img_brand_author_logo",
+      "version": "v001",
+      "source_path": "res/branding/brand_author_logo.png"
+    },
+    {
+      "asset_id": "img_brand_project_logo",
+      "version": "v001",
+      "source_path": "res/branding/brand_project_logo.png"
+    },
+    {
+      "asset_id": "img_brand_presents_text",
+      "version": "v001",
+      "source_path": "res/branding/brand_presents_text.png"
+    }
+  ],
+  "notes": "Fase 0 branding: preserved existing brand_* PNG baseline, added WAV XGM2 cue declarations/assets, integrated runtime_probe boot/tick, generated explicit blocked visual_delivery_gate_report."
+}

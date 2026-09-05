@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.4.0",
+  "asset_id": "taina_idle_guard_56x80_native_authoring_v04",
+  "status": "passed",
+  "map_method": "explicit_material_ownership_map",
+  "source_reference": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "role": "approved_material_topology_reference"
+  },
+  "material_label_legend": {
+    "hair": 1,
+    "skin": 2,
+    "orange_top": 3,
+    "teal_cloth": 4,
+    "indigo_trousers": 5
+  },
+  "material_label_counts": {
+    "hair": 165,
+    "skin": 876,
+    "orange_top": 134,
+    "teal_cloth": 279,
+    "indigo_trousers": 473
+  },
+  "allowed_palette_indices": {
+    "hair": [
+      2,
+      3,
+      4
+    ],
+    "skin": [
+      5,
+      6,
+      7
+    ],
+    "orange_top": [
+      8,
+      9,
+      10
+    ],
+    "teal_cloth": [
+      11,
+      12,
+      13
+    ],
+    "indigo_trousers": [
+      14,
+      15
+    ]
+  },
+  "shared_outline_indices": [
+    1
+  ],
+  "critical_boundaries": [
+    {
+      "boundary_id": "top_hem_exposes_abdomen",
+      "material_a": "orange_top",
+      "material_b": "skin",
+      "region": [
+        20,
+        24,
+        36,
+        44
+      ],
+      "minimum_contact_edges": 2
+    },
+    {
+      "boundary_id": "wraps_to_skin",
+      "material_a": "teal_cloth",
+      "material_b": "skin",
+      "region": [
+        10,
+        18,
+        46,
+        32
+      ],
+      "minimum_contact_edges": 2
+    }
+  ],
+  "blocking_statuses": []
+}

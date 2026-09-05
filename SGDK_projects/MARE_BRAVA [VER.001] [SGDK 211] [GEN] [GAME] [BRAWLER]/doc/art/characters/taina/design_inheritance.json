@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina",
+  "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+  "model_sheet": {
+    "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "sha256": "a453e4670e116460b110445cb6cf15144deac48d2c3799c8530c6fe691284ea5",
+    "status": "needs_review"
+  },
+  "inheritance_rules": {
+    "must_preserve": [
+      "cabelo cacheado preso em massa curta irregular",
+      "sobrancelha inclinada, nariz em cunha e mandibula compacta",
+      "top laranja queimado, calca roxo-escura larga e bandagens verdes",
+      "faixa verde assimetrica pendendo de um lado",
+      "guarda alta diagonal, punhos e pes grandes",
+      "aproximadamente 3.5 cabecas e altura visivel alvo de 48px"
+    ],
+    "may_vary": [
+      "numero de dobras internas por vista",
+      "distribuicao de highlights pequenos",
+      "abertura dos pes conforme a vista"
+    ],
+    "must_reject": [
+      "clone_risk_high",
+      "anatomy_drift",
+      "pivot_drift",
+      "palette_drift",
+      "outfit_drift",
+      "face_drift",
+      "bbox_drift",
+      "metadata_only_asset"
+    ]
+  },
+  "derivative_policy": {
+    "derivative_of": null,
+    "derivative_license_status": "not_derivative",
+    "clone_risk_score": 0.1,
+    "clone_risk_method": "revisao de silhueta, roupa, rosto e paleta contra referencias usadas somente como barra tecnica"
+  },
+  "approval_status": "needs_review",
+  "blockers": [
+    "pixel_model_sheet_not_yet_measured",
+    "model_sheet_to_sprite_fidelity_not_applicable_until_native_candidate"
+  ]
+}

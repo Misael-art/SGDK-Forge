@@ -1,0 +1,129 @@
+{
+  "schema_version": "3.0.0",
+  "asset_id": "kirby_idle_r5_r1_native",
+  "asset_kind": "animation_strip",
+  "action": "idle",
+  "strip_layout": "horizontal_single_action",
+  "frame_count": 2,
+  "artifact": {
+    "path": "out/v11_visual_production/idle_r5_r1_native/idle_r5_r1_native.png",
+    "sha256": "f2623456d67c65d42b2a2ae4da61751f3e193ab49f37d7681c61091a9d5a79b7",
+    "transparent_index": 0,
+    "cell_policy": "fixed_cell_coordinate_scoped",
+    "allowed_boundary_contacts": []
+  },
+  "frames": [
+    {
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "w": 32,
+      "h": 32,
+      "pivot_x": 16,
+      "pivot_y": 26,
+      "phase": "neutral",
+      "lineage": {
+        "source_frame_id": "idle_neutral_r1_palette",
+        "source_frame_sha256": "a282267b085136e57dab44ef815649993ded4f2d3fd56480a3f211ef6be51b4f",
+        "source_artifact": {
+          "path": "out/v11_native_edit/idle_neutral_r1_palette/candidate.png",
+          "sha256": "a282267b085136e57dab44ef815649993ded4f2d3fd56480a3f211ef6be51b4f",
+          "pixel_sha256": "46766f0c708fe41dab8315ff5d34e0f0e45f958ba18581b297e9c9defe0e7aa1"
+        },
+        "transformation": "native_reauthored",
+        "duplicate_role": "none"
+      },
+      "support": {
+        "grounded": true,
+        "measurement_method": "pixel_derived",
+        "contacts": [
+          {"id": "left_support", "x": 9, "y": 25},
+          {"id": "right_support", "x": 22, "y": 25}
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "x": 32,
+      "y": 0,
+      "w": 32,
+      "h": 32,
+      "pivot_x": 16,
+      "pivot_y": 25,
+      "phase": "rise",
+      "lineage": {
+        "source_frame_id": "idle_rise_r1_palette",
+        "source_frame_sha256": "6018efefe1b18be6996e437bad29c03034ae3ea180ed77443d751c61ab1b1568",
+        "source_artifact": {
+          "path": "out/v11_native_edit/idle_rise_r1_palette/candidate.png",
+          "sha256": "6018efefe1b18be6996e437bad29c03034ae3ea180ed77443d751c61ab1b1568",
+          "pixel_sha256": "6749b643822a38f8edb804462a74953925955c475187ea83251631a2b42dafb7"
+        },
+        "transformation": "native_reauthored",
+        "duplicate_role": "none"
+      },
+      "support": {
+        "grounded": true,
+        "measurement_method": "pixel_derived",
+        "contacts": [
+          {"id": "left_support", "x": 9, "y": 24},
+          {"id": "right_support", "x": 22, "y": 24}
+        ]
+      }
+    }
+  ],
+  "visual_dna_manifest": "doc/art/nexialist_visual_nucleus_v01/animation_direction_contract.json",
+  "motion_phase_map": "doc/art/nexialist_visual_nucleus_v01/motion_phase_map.json",
+  "motion_profile_id": "idle_breathing",
+  "pivot_policy": "bottom_center_feet",
+  "drift_thresholds": {
+    "pivot_px": 1,
+    "bbox_px": 4,
+    "palette_changed_allowed": false,
+    "scale_percent": 8
+  },
+  "timing_contract": {
+    "vblank_hz": 60,
+    "loop": true,
+    "frame_holds_vblank": [12, 12],
+    "preview": {
+      "path": "out/v11_visual_production/idle_r5_r1_native/idle_r5_r1_native_timed.gif",
+      "sha256": "695f288bd39bc86adfd859307966c8ef97522bfc3f4918e07f7b35d05f319ed9"
+    }
+  },
+  "metasprite_layout": {
+    "hardware_cells_per_frame": 1,
+    "peak_sprites_per_scanline": 1,
+    "peak_pixels_per_scanline": 24
+  },
+  "state_lineart_lineage": {
+    "action": "idle",
+    "lineart_role": "native_key_pose_lineart",
+    "source_asset_id": "kirby_idle_r5_r1_native_lineart",
+    "source_path": "out/v11_visual_production/idle_r5_r1_native/idle_r5_r1_native_lineart.png",
+    "source_sha256": "7e816e44cf2d6caf093aa1de2839ac033092a227e4e251ec637dd35a7fe60f0a",
+    "approval_status": "approved_for_strip_authoring",
+    "authorship_method": "assisted_native_reauthored",
+    "derivation_method": "hand_drawn_native",
+    "approval_record": {
+      "path": "data/staging/v11_native_edit/idle_r5_r1_native_lineart_approval.json",
+      "sha256": "97235da33bbe8218cd48b9d1395b39cf96a12a327ca46c861ef759a72d9494fd",
+      "subject_sha256": "7e816e44cf2d6caf093aa1de2839ac033092a227e4e251ec637dd35a7fe60f0a"
+    },
+    "key_pose_ids": ["idle_neutral_r1_palette", "idle_rise_r1_palette"]
+  },
+  "production_provenance": {
+    "source_kind": "hand_authored_pixel",
+    "producer_kind": "assisted_native_translation",
+    "authored_source": {
+      "path": "data/source_art/r1/r1-01/concept.png",
+      "sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd"
+    },
+    "producer_record": {
+      "path": "data/staging/v11_native_edit/idle_r5_r1_native_producer_record.json",
+      "sha256": "d47458be951deff8ddd438217411ef2e657de78339ab0d361d601f4cd4ee39fd",
+      "subject_sha256": "f2623456d67c65d42b2a2ae4da61751f3e193ab49f37d7681c61091a9d5a79b7"
+    }
+  },
+  "approval_status": "needs_review"
+}

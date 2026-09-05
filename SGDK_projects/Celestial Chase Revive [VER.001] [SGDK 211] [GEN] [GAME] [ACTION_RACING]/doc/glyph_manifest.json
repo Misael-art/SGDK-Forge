@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "charset_profile": "uppercase_ascii_plus_digits_basic_punctuation",
+  "glyphs": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?-/",
+  "font_render_mode": "fixed_custom_hud_font_first",
+  "glyph_budget_class": "small",
+  "font_owner": "race_hud_or_cutscene_text_owner",
+  "role_map": {
+    "logo_display": "custom large bitmap title, not SGDK font",
+    "front_end_body": "menu, records and credits",
+    "hud_critical": "Lumen, pressure, integrity and Pulse labels",
+    "narrative_text": "cutscene typewriter and ending cards"
+  },
+  "credits_extension_policy": "real names may request extra glyphs only after budget review",
+  "fallback_font_plan": "debug SGDK font allowed only for smoke tests, never visual delivery"
+}

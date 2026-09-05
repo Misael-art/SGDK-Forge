@@ -278,10 +278,12 @@
     "level_art_assembly_not_built",
     "dock_scene_kit_missing",
     "panorama_first_pipeline_rejected",
-    "object_role_map_missing",
-    "world_layout_board_missing",
     "budget_not_measured",
     "blastem_evidence_missing"
   ],
-  "next_required_action": "Gerar ou curar o dock_scene_kit modular e montar o world_layout_board 1344x224 pelo agente antes de qualquer nova conversao de cenario."
+  "resolved_statuses": [
+    "object_role_map_missing",
+    "world_layout_board_missing"
+  ],
+  "next_required_action": "Curar/decompor o dock_scene_kit modular em familias A-G, normalizar escalas/costuras/loops, executar conversao VDP preliminar e montar CAIS_01 pelo agente antes de qualquer promocao para res/."
 }

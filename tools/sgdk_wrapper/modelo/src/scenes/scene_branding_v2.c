@@ -50,37 +50,36 @@
 #define SWEEP_SPEED             3
 #define HAZE_LINES             48
 #define HAZE_AMP_START          6
-#define CURTAIN_COLUMNS        20
 
 /* ---- Zonas de tela do storyboard (doc/act3_storyboard.md) --------------
- * COIFA      y   0..56    o que a cortina levanta
- * PALCO      y  56..144   UM wordmark por vez, nunca dois
- * FORJA      y 144..200   bigorna e brasa, permanece a cena toda
- * ASSINATURA y 200..224   plano WINDOW, so o PRESENTS
+ * PAREDE     y   0..64    wordmarks do ato 3; BG_A transparente
+ * FORJA      y  64..200   bigorna e brasa; permanece a cena toda
+ * ASSINATURA y 200..224   plano WINDOW; fogo travado + PRESENTS
  *
- * O PALCO e a regra que faltava. A versao anterior desenhava cada wordmark por
- * cima do anterior e nao removia nada: em F451 estavam vivos ao mesmo tempo a
- * bigorna, o FORGE, o MISAEL e o MASTER, todos em y=80..128.
+ * VSCROLL_COLUMN foi retirado: nao consegue levantar so a COIFA, move o fogo
+ * e envolve o topo preto por baixo da bigorna. Wipe de palco em y>=64 apaga
+ * o ferro — FORGE sai por restore do tilemap de props.
  */
-#define STAGE_TX                6      /* x 48  */
-#define STAGE_TY                8      /* y 64  */
-#define STAGE_TW               28      /* 224px */
-#define STAGE_TH               10      /* 80px, cobre logo do ato 2 e wordmarks */
 
 /*
- * Ritmo vertical do PALCO: BASELINE COMUM, nao centro comum.
- *
- * MISAEL tem 32px e MASTER tem 48px. Centrados na zona eles ficariam com bases
- * em alturas diferentes e a sucessao leria como dois elementos em posicoes
- * distintas, nao como um palco unico sendo cedido de um para o outro.
- * Alinhados pela base em y=128 — 16px acima da zona FORJA — a troca le como
- * substituicao no mesmo lugar.
+ * A bigorna em BG_A comeca em y=64. Qualquer wipe/clear nessa faixa apaga o
+ * ferro. Os nomes do ato 3 vivem na parede (BG_A e transparente em y<64),
+ * alinhados pela base em y=56 — um tijolo acima da bigorna.
  */
-#define STAGE_BASELINE_Y      128
+#define NAME_TX                 6
+#define NAME_TY                 1      /* y 8   */
+#define NAME_TW                28
+#define NAME_TH                 7      /* y 8..64, nao toca a bigorna */
 #define AUTHOR_TILE_X           8      /* 192px centrado em 320 */
-#define AUTHOR_TILE_Y          12      /* base 96+32  = 128 */
+#define AUTHOR_TILE_Y           3      /* base 24+32  = 56 */
+#define AUTHOR_TW              24
+#define AUTHOR_TH               4
 #define PROJECT_TILE_X          6      /* 224px centrado em 320 */
-#define PROJECT_TILE_Y         10      /* base 80+48  = 128 */
+#define PROJECT_TILE_Y          1      /* base  8+48  = 56 */
+#define PROJECT_TW             28
+#define PROJECT_TH              6
+#define PRESENTS_TW            12
+#define PRESENTS_TH             2
 
 #define ACT3_FORGE_FADE_OUT   300      /* FORGE comeca a sair sob a cortina */
 #define ACT3_AUTHOR_WIPE      318      /* varredura do FORGE, 1 fileira/quadro */
@@ -115,7 +114,7 @@
  * anterior hardcodou 304 tiles para o bg_a e o ResComp gerou 309: os cinco de
  * diferenca sobrepuseram o logo e encheram a tela de tiles de lixo.
  */
-static u16 sVramBgB, sVramBgA, sVramLogo, sVramShard, sVramEmber, sVramHammer;
+static u16 sVramStars, sVramBgB, sVramBgA, sVramLogo, sVramShard, sVramEmber, sVramHammer;
 static u16 sVramAuthor, sVramProject, sVramPresents;
 static u16 sEmberFrameBase[EMBER_FRAME_MAX];
 static u16 sShardFrameBase[SHARD_FRAME_MAX];
@@ -129,7 +128,6 @@ static u8   sHIntArmed;
 static u8   sHIntReady;
 static u16  sHIntLine;
 static s16  sHScroll[224];
-static s16  sVScroll[CURTAIN_COLUMNS];
 static Sprite *sEmber;
 static Sprite *sGhost[EMBER_GHOSTS];
 static Sprite *sHammer;
@@ -160,6 +158,32 @@ static u8   sLogoDrawn;
 static u8   sHazeArmed;
 static u16  sShardSpawned;
 static u16  sShardFailed;
+static Sprite *sSpark[BRAND_V2_SPARK_COUNT];
+static s16  sSparkX[BRAND_V2_SPARK_COUNT];
+static s16  sSparkY[BRAND_V2_SPARK_COUNT];
+static s16  sSparkVX[BRAND_V2_SPARK_COUNT];
+static s16  sSparkVY[BRAND_V2_SPARK_COUNT];
+static u8   sSparkKind[BRAND_V2_SPARK_COUNT];
+static u8   sSparkOn[BRAND_V2_SPARK_COUNT];
+static s16  sSkyScrollX;
+static s16  sSkyScrollY;
+static u8   sWallDrawn;
+static u8   sHit2Done;
+/*
+ * Tilemaps da parede/logo descompactados no preludio. VDP_setTileMapEx em
+ * IMAGE BEST desempacota o APLIB inteiro a cada chamada — F154/F155 mediram
+ * o pico de cpu 160 / over_budget 9 na janela F151-F211. O probe ignora os
+ * primeiros 90 quadros; o unpack vive la. Sem malloc: buffers estaticos.
+ */
+#define BRAND_MAP_CAP          (40 * 28)
+#define BRAND_LOGO_MAP_CAP     ((LOGO_W / 8) * (LOGO_H / 8))
+static u16 sMapB[BRAND_MAP_CAP];
+static u16 sMapA[BRAND_MAP_CAP];
+static u16 sMapLogo[BRAND_LOGO_MAP_CAP];
+static TileMap sTmB;
+static TileMap sTmA;
+static TileMap sTmLogo;
+static u8 sMapsReady;   /* bit0=B bit1=A bit2=logo */
 
 /* Rampa de brasa de PAL0[9..12]: o ciclo precisa fechar, senao aparece salto. */
 static const u16 EMBER_CYCLE[BRAND_V2_EMBER_CYCLE_COUNT] = {
@@ -254,6 +278,22 @@ static s16 brandLerp(s16 from, s16 to, u16 num, u16 den)
     return from + (s16)(((s32)(to - from) * (s32)num) / (s32)den);
 }
 
+static u16 brandNibble(u16 color, u16 shift)
+{
+    return (color >> shift) & 0x000E;
+}
+
+static u16 brandLerpColor(u16 from, u16 to, u16 num, u16 den)
+{
+    u16 r, g, b;
+
+    if (den == 0) return to;
+    r = brandNibble(from, 0) + (u16)(((s16)brandNibble(to, 0) - (s16)brandNibble(from, 0)) * (s16)num / (s16)den);
+    g = brandNibble(from, 4) + (u16)(((s16)brandNibble(to, 4) - (s16)brandNibble(from, 4)) * (s16)num / (s16)den);
+    b = brandNibble(from, 8) + (u16)(((s16)brandNibble(to, 8) - (s16)brandNibble(from, 8)) * (s16)num / (s16)den);
+    return (u16)((r & 0x000E) | ((g & 0x000E) << 4) | ((b & 0x000E) << 8));
+}
+
 static void brandShardTarget(u16 index, s16 *outX, s16 *outY)
 {
     const u16 col = index % SHARD_COLS;
@@ -326,25 +366,181 @@ static void brandSetSharedFrame(Sprite *spr, const u16 *bases, u8 count, u8 fram
     SPR_setFrame(spr, frame);
 }
 
+static void brandHammerLoadSlot(u8 frame)
+{
+    const u8 slot = (u8)(frame & 1u);
+    const u16 base = sVramHammer + (slot * HAMMER_SLOT_TILES);
+    const Animation *anim;
+
+    if (sHammerSlotLoaded[slot] && sHammerSlotFrame[slot] == frame) return;
+    anim = spr_forge_hammer.animations[0];
+    if (frame >= anim->numFrame) return;
+    VDP_loadTileSet(anim->frames[frame]->tileset, base, DMA_QUEUE);
+    sHammerSlotLoaded[slot] = 1;
+    sHammerSlotFrame[slot] = frame;
+}
+
 static void brandHammerSetFrame(u8 frame)
 {
     const u8 slot = (u8)(frame & 1u);
     const u16 base = sVramHammer + (slot * HAMMER_SLOT_TILES);
 
-    if (!sHammerSlotLoaded[slot] || sHammerSlotFrame[slot] != frame) {
-        const Animation *anim = spr_forge_hammer.animations[0];
-        if (frame < anim->numFrame) {
-            VDP_loadTileSet(anim->frames[frame]->tileset, base, DMA_QUEUE);
-            sHammerSlotLoaded[slot] = 1;
-            sHammerSlotFrame[slot] = frame;
-        }
-    }
+    brandHammerLoadSlot(frame);
     SPR_setVRAMTileIndex(sHammer, (s16)base);
     SPR_setFrame(sHammer, frame);
     sHammerFrame = frame;
 }
 
-/* ---- Ato 1: ignicao ---------------------------------------------------- */
+static u8 brandPrepMap(TileMap *dst, u16 *buf, u16 cap, const TileMap *src)
+{
+    const u32 cells = (u32)src->w * (u32)src->h;
+
+    if (cells == 0 || cells > cap) return 0;
+    dst->tilemap = buf;
+    return (unpackTileMap(src, dst) != NULL) ? 1 : 0;
+}
+
+static void brandBakeMap(u16 *buf, u16 cells, u16 pal, u16 prio, u16 vram)
+{
+    u16 i;
+    const u16 base = TILE_ATTR_FULL(pal, prio, FALSE, FALSE, vram);
+
+    /* Assa paleta/prioridade/indice no preludio. O reveal usa
+     * VDP_setTileMapDataRect (sem override por celula). */
+    for (i = 0; i < cells; i++) buf[i] = (u16)(base + buf[i]);
+}
+
+static void brandUnpackNextMap(void)
+{
+    /* Um mapa por quadro: cada APLIB 40x28 foi o pico medido no display. */
+    if (!(sMapsReady & 1u)) {
+        if (brandPrepMap(&sTmB, sMapB, BRAND_MAP_CAP, img_forge_bg_b.tilemap)) {
+            brandBakeMap(sMapB, (u16)((u32)sTmB.w * (u32)sTmB.h),
+                         BRAND_V2_PAL_FORGE, FALSE, sVramBgB);
+            sMapsReady |= 1u;
+        }
+        return;
+    }
+    if (!(sMapsReady & 2u)) {
+        if (brandPrepMap(&sTmA, sMapA, BRAND_MAP_CAP, img_forge_bg_a_props.tilemap)) {
+            brandBakeMap(sMapA, (u16)((u32)sTmA.w * (u32)sTmA.h),
+                         BRAND_V2_PAL_FORGE, TRUE, sVramBgA);
+            sMapsReady |= 2u;
+        }
+        return;
+    }
+    if (!(sMapsReady & 4u)) {
+        if (brandPrepMap(&sTmLogo, sMapLogo, BRAND_LOGO_MAP_CAP,
+                         img_logo_engine_v2.tilemap)) {
+            brandBakeMap(sMapLogo, (u16)((u32)sTmLogo.w * (u32)sTmLogo.h),
+                         BRAND_V2_PAL_METAL, TRUE, sVramLogo);
+            sMapsReady |= 4u;
+        }
+    }
+}
+
+/* ---- Fagulhas: o fio condutor dos quatro atos -------------------------- */
+
+static void brandSparkInit(void)
+{
+    u16 i;
+
+    for (i = 0; i < BRAND_V2_SPARK_COUNT; i++) {
+        sSparkKind[i] = (u8)(i & 1u);
+        sSparkX[i] = (s16)((20 + (i * 23)) << 2);
+        sSparkY[i] = (s16)((-24 - (s16)(i * 11)) << 2);
+        if (sSparkKind[i]) {
+            sSparkVX[i] = (s16)(((i & 3) - 1));
+            sSparkVY[i] = (s16)(2 + (i & 3));
+        } else {
+            sSparkVX[i] = 0;
+            sSparkVY[i] = 1;
+        }
+        sSparkOn[i] = 0;
+        sSpark[i] = SPR_addSpriteEx(&spr_forge_ember, -32, -32,
+                                    TILE_ATTR(BRAND_V2_PAL_FX, TRUE, FALSE, FALSE), 0);
+        if (sSpark[i] != NULL) {
+            SPR_setVRAMTileIndex(sSpark[i], (s16)sEmberFrameBase[0]);
+            SPR_setAutoTileUpload(sSpark[i], FALSE);
+            SPR_setVisibility(sSpark[i], HIDDEN);
+        }
+    }
+}
+
+static void brandSparkWake(u16 maxOn)
+{
+    u16 i;
+
+    if (maxOn > BRAND_V2_SPARK_COUNT) maxOn = BRAND_V2_SPARK_COUNT;
+    for (i = 0; i < maxOn; i++) {
+        if (!sSparkOn[i] && sSpark[i] != NULL) {
+            sSparkOn[i] = 1;
+            SPR_setVisibility(sSpark[i], VISIBLE);
+        }
+    }
+}
+
+static void brandSparkKick(void)
+{
+    u16 i;
+
+    for (i = 0; i < BRAND_V2_SPARK_COUNT; i++) {
+        const u16 sector = (i * 5u) & 15u;
+        sSparkOn[i] = 1;
+        sSparkX[i] = (s16)(ANVIL_X << 2);
+        sSparkY[i] = (s16)(ANVIL_Y << 2);
+        sSparkVX[i] = (s16)((FAN_COS[sector] * 3) / 16);
+        sSparkVY[i] = (s16)((FAN_SIN[sector] * 2) / 16) - 3;
+        if (sSpark[i] != NULL) SPR_setVisibility(sSpark[i], VISIBLE);
+    }
+}
+
+static void brandSparkConverge(u16 t, u16 dur)
+{
+    u16 i;
+
+    if (dur == 0) dur = 1;
+    for (i = 0; i < BRAND_V2_SPARK_COUNT; i++) {
+        s16 tx, ty;
+        brandShardTarget(i, &tx, &ty);
+        sSparkX[i] = (s16)(brandLerp((s16)(sSparkX[i] >> 2), tx, t, dur) << 2);
+        sSparkY[i] = (s16)(brandLerp((s16)(sSparkY[i] >> 2), ty, t, dur) << 2);
+    }
+}
+
+static void brandSparkUpdate(u16 f, u8 mode)
+{
+    u16 i;
+
+    for (i = 0; i < BRAND_V2_SPARK_COUNT; i++) {
+        if (!sSparkOn[i] || sSpark[i] == NULL) continue;
+
+        if (mode == 0) {
+            /* preludio/descida: queda com ritmos diferentes */
+            sSparkX[i] += sSparkVX[i];
+            sSparkY[i] += sSparkVY[i];
+            if ((sSparkY[i] >> 2) > 220) {
+                sSparkY[i] = (s16)((-16 - (s16)(i * 3)) << 2);
+                sSparkX[i] = (s16)((12 + ((i * 29 + f) & 255)) << 2);
+            }
+        } else if (mode == 1) {
+            /* lock: pairar com respiracao */
+            sSparkX[i] += (s16)(((f + i) & 8) ? 1 : -1);
+            if (sSparkY[i] < (ANVIL_Y << 2)) sSparkY[i] += 1;
+        } else if (mode == 2) {
+            /* pos-impacto 1: explosao com peso */
+            sSparkX[i] += sSparkVX[i];
+            sSparkY[i] += sSparkVY[i];
+            sSparkVY[i] += 1;
+        }
+
+        SPR_setPosition(sSpark[i], (s16)(sSparkX[i] >> 2), (s16)(sSparkY[i] >> 2));
+        brandSetSharedFrame(sSpark[i], sEmberFrameBase, sEmberFrameCount,
+                            sSparkKind[i] ? (u8)((f >> 2) & 3) : (u8)(4 + ((f >> 3) & 1)));
+    }
+}
+
+/* ---- Ato I: preludio etereo -------------------------------------------- */
 
 static void brandEnterIgnition(void)
 {
@@ -352,20 +548,22 @@ static void brandEnterIgnition(void)
 
     SPR_reset();
     VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
-    VDP_setHilightShadow(TRUE);
+    VDP_setHilightShadow(FALSE);
+    VDP_clearPlane(BG_A, TRUE);
 
-    PAL_setPalette(BRAND_V2_PAL_FORGE, img_forge_bg_b.palette->data, DMA);
+    PAL_setPalette(BRAND_V2_PAL_FORGE, img_starfield_v2.palette->data, DMA);
     PAL_setPalette(BRAND_V2_PAL_METAL, img_logo_engine_v2.palette->data, DMA);
     PAL_setPalette(BRAND_V2_PAL_WORDMARK, img_logo_author_v2.palette->data, DMA);
     PAL_setPalette(BRAND_V2_PAL_FX, spr_forge_ember.palette->data, DMA);
-
+    PAL_setColor(0, 0x0000);
     VDP_setBackgroundColor(0);
-    sVramBgB    = TILE_USER_INDEX;
+
+    sVramStars  = TILE_USER_INDEX;
+    sVramBgB    = sVramStars + img_starfield_v2.tileset->numTile;
     sVramBgA    = sVramBgB + img_forge_bg_b.tileset->numTile;
     sVramLogo   = sVramBgA + img_forge_bg_a_props.tileset->numTile;
     sVramShard  = sVramLogo + img_logo_engine_v2.tileset->numTile;
     VDP_loadTileSet(img_logo_engine_v2.tileset, sVramLogo, DMA);
-    /* Todos os quadros, nao so o 0: maxNumTile e o teto DE UM quadro. */
     sVramEmber  = brandLoadAnimFrames(&spr_forge_shard, sVramShard,
                                       sShardFrameBase, SHARD_FRAME_MAX,
                                       &sShardFrameCount);
@@ -373,27 +571,15 @@ static void brandEnterIgnition(void)
                                       sEmberFrameBase, EMBER_FRAME_MAX,
                                       &sEmberFrameCount);
 
-    VDP_drawImageEx(BG_B, &img_forge_bg_b,
-                    TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, FALSE, FALSE, FALSE, sVramBgB),
-                    0, 0, FALSE, TRUE);
-    VDP_drawImageEx(BG_A, &img_forge_bg_a_props,
-                    TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, TRUE, FALSE, FALSE, sVramBgA),
+    VDP_loadTileSet(img_forge_bg_b.tileset, sVramBgB, DMA);
+    VDP_loadTileSet(img_forge_bg_a_props.tileset, sVramBgA, DMA);
+    VDP_drawImageEx(BG_B, &img_starfield_v2,
+                    TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, FALSE, FALSE, FALSE, sVramStars),
                     0, 0, FALSE, TRUE);
 
-    PAL_setColor(0, 0x0000);   /* depois das paletas: o magenta nao vai para a borda */
-
-    sEmber = SPR_addSpriteEx(&spr_forge_ember, 232, -16,
-                             TILE_ATTR(BRAND_V2_PAL_FX, TRUE, FALSE, FALSE), 0);
-    SPR_setVRAMTileIndex(sEmber, (s16)sEmberFrameBase[0]);
-    SPR_setAutoTileUpload(sEmber, FALSE);
-    for (i = 0; i < EMBER_GHOSTS; i++) {
-        sGhost[i] = SPR_addSpriteEx(&spr_forge_ember, -32, -32,
-                                    TILE_ATTR(BRAND_V2_PAL_FX, FALSE, FALSE, FALSE), 0);
-        SPR_setVRAMTileIndex(sGhost[i], (s16)sEmberFrameBase[0]);
-        SPR_setAutoTileUpload(sGhost[i], FALSE);
-        SPR_setVisibility(sGhost[i], HIDDEN);
-    }
-    sHammer = SPR_addSpriteEx(&spr_forge_hammer, 150, -48,
+    sEmber = NULL;
+    for (i = 0; i < EMBER_GHOSTS; i++) sGhost[i] = NULL;
+    sHammer = SPR_addSpriteEx(&spr_forge_hammer, HAMMER_X, HAMMER_WINDUP_Y,
                               TILE_ATTR(BRAND_V2_PAL_METAL, TRUE, FALSE, FALSE), 0);
     SPR_setAutoTileUpload(sHammer, FALSE);
     sHammerSlotLoaded[0] = 0;
@@ -403,68 +589,144 @@ static void brandEnterIgnition(void)
 
     sTrailHead = 0;
     sHammerFrame = 0;
-    brandAcquireHInt();
-    AUDIO_playCue(AUDIO_CUE_BRAND_ENGINE_HIT);
+    sSkyScrollX = 0;
+    sSkyScrollY = 0;
+    sWallDrawn = 0;
+    sHit2Done = 0;
+    sMapsReady = 0;
+    brandSparkInit();
+    AUDIO_startBrandBgm();
+}
+
+static void brandRevealWall(void)
+{
+    /* Quatro metades. Mapas assados no preludio: DataRect + DMA_QUEUE, sem
+     * APLIB e sem override por celula. Fallback Empacotado continua 2 Ex. */
+    if (sWallDrawn >= 4) return;
+
+    if ((sMapsReady & 3u) == 3u) {
+        if (sWallDrawn == 0) {
+            VDP_setTileMapDataRect(BG_B, sMapB, 0, 0, 40, 14, 40, DMA_QUEUE);
+        } else if (sWallDrawn == 1) {
+            VDP_setTileMapDataRect(BG_B, sMapB + (14 * 40), 0, 14, 40, 14, 40, DMA_QUEUE);
+            VDP_setVerticalScroll(BG_B, 0);
+            VDP_setHorizontalScroll(BG_B, 0);
+            sSkyScrollY = 0;
+        } else if (sWallDrawn == 2) {
+            VDP_setTileMapDataRect(BG_A, sMapA, 0, 0, 40, 14, 40, DMA_QUEUE);
+        } else {
+            VDP_setTileMapDataRect(BG_A, sMapA + (14 * 40), 0, 14, 40, 14, 40, DMA_QUEUE);
+        }
+        sWallDrawn++;
+        return;
+    }
+
+    if (sWallDrawn == 0) {
+        VDP_setTileMapEx(BG_B, img_forge_bg_b.tilemap,
+                         TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, FALSE, FALSE, FALSE, sVramBgB),
+                         0, 0, 0, 0, 40, 28, CPU);
+        VDP_setVerticalScroll(BG_B, 0);
+        VDP_setHorizontalScroll(BG_B, 0);
+        sSkyScrollY = 0;
+        sWallDrawn = 2;
+        return;
+    }
+    if (sWallDrawn < 4) {
+        VDP_setTileMapEx(BG_A, img_forge_bg_a_props.tilemap,
+                         TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, TRUE, FALSE, FALSE, sVramBgA),
+                         0, 0, 0, 0, 40, 28, CPU);
+        sWallDrawn = 4;
+    }
+}
+
+static void brandApplyForgeLight(u16 t, u16 span)
+{
+    u16 i;
+    const u16 *hot = img_forge_bg_b.palette->data;
+
+    if (span == 0) span = 1;
+    if (t > span) t = span;
+    for (i = 1; i < 16; i++) {
+        PAL_setColor(i, brandLerpColor(0x0002, hot[i], t, span));
+    }
+    PAL_setColor(0, 0x0000);
 }
 
 static void brandUpdateIgnition(u16 f)
 {
-    /* PAL0[9..12] gira em CRAM: a forja respira antes da primeira imagem. */
-    if ((f & 7) == 0) {
-        u16 i;
-        for (i = 0; i < BRAND_V2_EMBER_CYCLE_COUNT; i++) {
-            PAL_setColor(BRAND_V2_EMBER_CYCLE_FIRST + i,
-                         EMBER_CYCLE[(i + (f >> 3)) & (BRAND_V2_EMBER_CYCLE_COUNT - 1)]);
+    /* Ato I: pulso organico + toque da criacao no mesmo quadro. */
+    if (f < BRAND_V2_ACT_DESCENT_START) {
+        if ((f & 7) == 0) {
+            const u16 pulse = (u16)((f >> 3) & 3);
+            static const u16 STAR[4] = { 0x0444, 0x0666, 0x0AAA, 0x0666 };
+            PAL_setColor(1, STAR[pulse]);
+            PAL_setColor(2, STAR[(pulse + 1) & 3]);
         }
+        if (INPUT_held(BUTTON_LEFT))  sSkyScrollX -= 1;
+        if (INPUT_held(BUTTON_RIGHT)) sSkyScrollX += 1;
+        if (INPUT_held(BUTTON_UP))    sSkyScrollY -= 1;
+        if (INPUT_held(BUTTON_DOWN))  sSkyScrollY += 1;
+        if (sSkyScrollX > 24) sSkyScrollX = 24;
+        if (sSkyScrollX < -24) sSkyScrollX = -24;
+        if (sSkyScrollY > 16) sSkyScrollY = 16;
+        if (sSkyScrollY < -16) sSkyScrollY = -16;
+        VDP_setHorizontalScroll(BG_B, sSkyScrollX);
+        VDP_setVerticalScroll(BG_B, sSkyScrollY);
+        if ((f >= 8) && (f <= 10)) brandUnpackNextMap();
+        /* Martelo oculto: quadro 1 no slot 1, quadro 2 no slot 0. */
+        if (f == 12) brandHammerLoadSlot(1);
+        if (f == 13) brandHammerLoadSlot(2);
+        brandSparkWake((u16)(2 + (f / 16)));
+        brandSparkUpdate(f, 0);
+        return;
     }
 
-    if (f >= BRAND_V2_EMBER_FALL_START && f <= BRAND_V2_EMBER_FALL_END) {
-        const u16 t = f - BRAND_V2_EMBER_FALL_START;
-        const u16 span = BRAND_V2_EMBER_FALL_END - BRAND_V2_EMBER_FALL_START;
-        /* horizontal linear com arrasto; vertical acelerando: peso legivel */
-        const s16 x = brandLerp(232, ANVIL_X, t, span);
-        const s16 y = (s16)(-16 + (((s32)(ANVIL_Y + 16) * t * t) / ((s32)span * span)));
-        u16 g;
+    /* Ato II: gravidade. O ceu sai por VSCROLL; a paleta do ceu NAO vira
+     * parede. A forja so acende depois do tilemap novo pousar. */
+    if (f < BRAND_V2_ACT_LOCK_START) {
+        const u16 t = f - BRAND_V2_ACT_DESCENT_START;
+        const u16 span = BRAND_V2_ACT_LOCK_START - BRAND_V2_ACT_DESCENT_START;
+        s16 fall;
 
-        SPR_setPosition(sEmber, x, y);
-        brandSetSharedFrame(sEmber, sEmberFrameBase, sEmberFrameCount, (u8)((f >> 2) & 3));
-
-        sEmberTrailX[sTrailHead] = x;
-        sEmberTrailY[sTrailHead] = y;
-        sTrailHead = (u8)((sTrailHead + 1) % (EMBER_GHOSTS * 2 + 2));
-
-        for (g = 0; g < EMBER_GHOSTS; g++) {
-            const u8 back = (u8)((sTrailHead + (EMBER_GHOSTS * 2 + 2)
-                                  - ((g + 1) * 2)) % (EMBER_GHOSTS * 2 + 2));
-            if (t > (g + 1) * 2) {
-                SPR_setVisibility(sGhost[g], VISIBLE);
-                SPR_setPosition(sGhost[g], sEmberTrailX[back], sEmberTrailY[back]);
-                brandSetSharedFrame(sGhost[g], sEmberFrameBase, sEmberFrameCount,
-                                    (u8)((f >> 2) & 3));
-            }
+        fall = (s16)(((s32)t * (s32)t * 168) / ((s32)span * (s32)span));
+        if (sWallDrawn == 0) {
+            VDP_setVerticalScroll(BG_B, (s16)(sSkyScrollY + fall));
+            VDP_setHorizontalScroll(BG_B, sSkyScrollX);
         }
-    } else if (f > BRAND_V2_EMBER_FALL_END) {
-        u16 g;
-        for (g = 0; g < EMBER_GHOSTS; g++) SPR_setVisibility(sGhost[g], HIDDEN);
-        SPR_setPosition(sEmber, ANVIL_X, ANVIL_Y);
-        brandSetSharedFrame(sEmber, sEmberFrameBase, sEmberFrameCount,
-                            (u8)((f & 8) ? 5 : 4));   /* esmagamento e assentamento */
+        if (f >= BRAND_V2_WALL_REVEAL) {
+            brandRevealWall();
+            brandApplyForgeLight((u16)(f - BRAND_V2_WALL_REVEAL),
+                                 (u16)(BRAND_V2_ACT_LOCK_START - BRAND_V2_WALL_REVEAL));
+        }
+        brandSparkWake(BRAND_V2_SPARK_COUNT);
+        brandSparkUpdate(f, 0);
+        return;
     }
 
-    /* Windup sobe, depois o martelo CAI na bigorna. A versao anterior so
-     * subia e o contacto nunca acontecia (y minimo = 48, face em 104). */
-    if (f >= 96) {
-        const u16 t = f - 96;
+    /* Ato III: o mundo silencia. A bigorna respira. O martelo sobe. */
+    {
+        const u16 t = f - BRAND_V2_ACT_LOCK_START;
         s16 y;
         u8 frame;
 
+        if (sWallDrawn < 4) brandRevealWall();
+        VDP_setHorizontalScroll(BG_B, 0);
+        VDP_setVerticalScroll(BG_B, 0);
+        brandApplyForgeLight(64, 64);
+        brandSparkUpdate(f, 1);
+
         SPR_setVisibility(sHammer, VISIBLE);
-        if (t < 12) {
-            y = brandLerp(HAMMER_CONTACT_Y - 8, HAMMER_WINDUP_Y, t, 12);
-            frame = (t < 6) ? 1u : 2u;
+        if (t < 20) {
+            y = brandLerp(HAMMER_CONTACT_Y - 8, HAMMER_WINDUP_Y, t, 20);
+            frame = (t < 10) ? 1u : 2u;
         } else {
-            y = brandLerp(HAMMER_WINDUP_Y, HAMMER_CONTACT_Y, (u16)(t - 12), 12);
+            y = brandLerp(HAMMER_WINDUP_Y, HAMMER_CONTACT_Y,
+                          (u16)(t - 20),
+                          (u16)(BRAND_V2_HIT1 - BRAND_V2_ACT_LOCK_START - 20));
             frame = 3u;
+            /* Quadro 4 mora no slot 0; o 3 esta no slot 1. Prefetch agora
+             * para o HIT1 nao descompactar FAST no mesmo quadro do slam. */
+            if (t == 21) brandHammerLoadSlot(4);
         }
         SPR_setPosition(sHammer, HAMMER_X, y);
         brandHammerSetFrame(frame);
@@ -489,21 +751,37 @@ static void brandEnsureShard(u16 i)
     SPR_setAutoTileUpload(sShard[i], FALSE);
 }
 
-static void brandEnterStrike(void)
+static void brandPrepareShards(u16 base)
 {
     u16 i;
 
-    /* Flash e ciclo de brasa precisam do indice 9 inteiro; o raster sai. */
-    brandReleaseHInt();
+    for (i = 0; i < SHARD_COUNT; i++) {
+        const u16 row = i / SHARD_COLS;
+        sShard[i] = NULL;
+        sShardLanded[i] = 0;
+        sShardBorn[i] = (u16)(base + (i / SHARD_SPAWN_PER_FRAME));
+        sShardConv[i] = (u16)(sShardBorn[i] + 12 + (row * SHARD_ROW_STAGGER));
+        sShardDur[i] = (u16)(20 + (i % 7));
+        sShardRecip[i] = (u16)(65535u / ((u32)sShardDur[i] * (u32)sShardDur[i]));
+        brandShardExplodePos(i, 16, &sShardEX[i], &sShardEY[i]);
+        brandShardTarget(i, &sShardTX[i], &sShardTY[i]);
+    }
+}
+
+static void brandEnterStrike(void)
+{
+    /* 1o golpe: a materia. O mundo reage; o nome ainda nao existe. */
     sShardSpawned = 0;
     sShardFailed = 0;
     MDRuntimeProbe_noteSpriteAlloc(0, 0);
-    for (i = 0; i < SHARD_COUNT; i++) {
-        sShard[i] = NULL;
-        sShardLanded[i] = 0;
-    }
-    sShakeLeft = 6;
-    AUDIO_playCue(AUDIO_CUE_BRAND_PROJECT_WHOOSH);
+    sShakeLeft = 10;
+    sHit2Done = 0;
+    brandSparkKick();
+    /* Poeira dos seculos: tijolo estoura de luz um instante. */
+    PAL_setColor(4, 0x068A);
+    PAL_setColor(5, 0x08AC);
+    PAL_setColor(15, 0x0AAA);
+    AUDIO_playCue(AUDIO_CUE_BRAND_HAMMER_SLAM);
 }
 
 static void brandStrikeFlashAndShake(u16 t)
@@ -516,13 +794,17 @@ static void brandStrikeFlashAndShake(u16 t)
             PAL_setColor(BRAND_V2_EMBER_CYCLE_FIRST + i, 0x0EEE);
     } else if (t == 2) {
         u16 i;
+        const u16 *hot = img_forge_bg_b.palette->data;
         for (i = 0; i < BRAND_V2_EMBER_CYCLE_COUNT; i++)
             PAL_setColor(BRAND_V2_EMBER_CYCLE_FIRST + i, EMBER_CYCLE[i]);
+        PAL_setColor(4, hot[4]);
+        PAL_setColor(5, hot[5]);
+        PAL_setColor(15, hot[15]);
     }
 
     if (sShakeLeft) {
-        static const s16 SHAKE[6] = { 3, 2, 2, 1, 1, 0 };
-        const s16 dy = SHAKE[6 - sShakeLeft];
+        static const s16 SHAKE[10] = { 7, 5, 4, 3, 3, 2, 2, 1, 1, 0 };
+        const s16 dy = SHAKE[10 - sShakeLeft];
         VDP_setVerticalScroll(BG_A, dy);
         VDP_setVerticalScroll(BG_B, (s16)(dy >> 1));
         sShakeLeft--;
@@ -604,12 +886,17 @@ static void brandDrawLogo(void)
 {
     u16 i;
 
-    /* Tiles ja residentes. drawImageEx descompactava APLIB+LZ4W no display
-     * e recarregava o tileset por cima do martelo/FX. */
-    VDP_setTileMapEx(BG_A, img_logo_engine_v2.tilemap,
-                     TILE_ATTR_FULL(BRAND_V2_PAL_METAL, TRUE, FALSE, FALSE, sVramLogo),
-                     LOGO_X0 / 8, LOGO_Y0 / 8,
-                     0, 0, LOGO_W / 8, LOGO_H / 8, DMA_QUEUE);
+    /* Tiles ja residentes. Mapa assado no preludio: DataRect sem override. */
+    if (sMapsReady & 4u) {
+        VDP_setTileMapDataRect(BG_A, sMapLogo,
+                               LOGO_X0 / 8, LOGO_Y0 / 8,
+                               LOGO_W / 8, LOGO_H / 8, sTmLogo.w, DMA_QUEUE);
+    } else {
+        VDP_setTileMapEx(BG_A, img_logo_engine_v2.tilemap,
+                         TILE_ATTR_FULL(BRAND_V2_PAL_METAL, TRUE, FALSE, FALSE, sVramLogo),
+                         LOGO_X0 / 8, LOGO_Y0 / 8,
+                         0, 0, LOGO_W / 8, LOGO_H / 8, CPU);
+    }
     for (i = 0; i < SHARD_COUNT; i++) {
         if (sShard[i] != NULL) SPR_setVisibility(sShard[i], HIDDEN);
         sShardLanded[i] = 1;
@@ -625,66 +912,133 @@ static void brandSpecularSweep(u16 t)
 
 static void brandUpdateStrike(u16 f)
 {
-    const u16 t = f - BRAND_V2_ACT_STRIKE_START;
+    const u16 t = f - BRAND_V2_HIT1;
 
     brandStrikeFlashAndShake(t);
 
-    if (f < BRAND_V2_ACT_STRIKE_START + HAMMER_RECOIL_FRAMES) {
-        s16 y;
-        u8 frame;
-
+    if (f < BRAND_V2_HIT2) {
+        /* Recuo do 1o golpe, depois o martelo sobe de novo. */
         if (t < HAMMER_CONTACT_HOLD) {
-            y = HAMMER_CONTACT_Y;
-            frame = 4u;
+            brandHammerSetFrame(4);
+            SPR_setPosition(sHammer, HAMMER_X, HAMMER_CONTACT_Y);
+        } else if (t < 40) {
+            brandHammerSetFrame(5);
+            SPR_setPosition(sHammer, HAMMER_X,
+                            brandLerp(HAMMER_CONTACT_Y, HAMMER_WINDUP_Y,
+                                      (u16)(t - HAMMER_CONTACT_HOLD), 24));
         } else {
-            y = brandLerp(HAMMER_CONTACT_Y, HAMMER_WINDUP_Y,
-                          (u16)(t - HAMMER_CONTACT_HOLD),
-                          (u16)(HAMMER_RECOIL_FRAMES - HAMMER_CONTACT_HOLD));
-            frame = 5u;
+            const u16 w = (u16)(t - 40);
+            const u16 span = (u16)(BRAND_V2_HIT2 - BRAND_V2_HIT1 - 40);
+            brandHammerSetFrame(3);
+            SPR_setPosition(sHammer, HAMMER_X,
+                            brandLerp(HAMMER_WINDUP_Y, HAMMER_CONTACT_Y, w, span));
         }
-        brandHammerSetFrame(frame);
-        SPR_setPosition(sHammer, HAMMER_X, y);
-    } else if (f == BRAND_V2_ACT_STRIKE_START + HAMMER_RECOIL_FRAMES) {
+        brandSparkUpdate(f, 2);
+        return;
+    }
+
+    /* 2o golpe: a identidade. As mesmas fagulhas voltam para o nome. */
+    if (!sHit2Done) {
+        u16 i;
+        sHit2Done = 1;
+        sShakeLeft = 12;
+        AUDIO_playCue(AUDIO_CUE_BRAND_HAMMER_SLAM);
+        sShakeLeft = 10;
+        /* Sem enxame de 56 estilhacos: F331 mediu over_budget 20. As fagulhas
+         * do preludio e que forjam o nome. */
+        for (i = 0; i < BRAND_V2_SPARK_COUNT; i++) {
+            sSparkVX[i] = 0;
+            sSparkVY[i] = 0;
+        }
+    }
+
+    if (f < BRAND_V2_HIT2 + HAMMER_CONTACT_HOLD) {
+        brandHammerSetFrame(4);
+        SPR_setPosition(sHammer, HAMMER_X, HAMMER_CONTACT_Y);
+    } else if (f < BRAND_V2_HIT2 + HAMMER_RECOIL_FRAMES) {
+        brandHammerSetFrame(5);
+        SPR_setPosition(sHammer, HAMMER_X,
+                        brandLerp(HAMMER_CONTACT_Y, HAMMER_WINDUP_Y,
+                                  (u16)(f - BRAND_V2_HIT2 - HAMMER_CONTACT_HOLD),
+                                  (u16)(HAMMER_RECOIL_FRAMES - HAMMER_CONTACT_HOLD)));
+    } else {
         SPR_setVisibility(sHammer, HIDDEN);
     }
 
-    if (f >= SHARD_SPAWN_BASE) brandUpdateShards(f);
-
-    if (f >= BRAND_V2_LOGO_LOCK) {
-        const u16 st = f - BRAND_V2_LOGO_LOCK;
-        brandSpecularSweep(st);
-        brandHeatHaze(st);
+    if (f < BRAND_V2_LOGO_LOCK) {
+        brandSparkConverge((u16)(f - BRAND_V2_HIT2),
+                           (u16)(BRAND_V2_LOGO_LOCK - BRAND_V2_HIT2));
+        brandSparkUpdate(f, 3);
+    } else {
+        u16 i;
+        brandSpecularSweep((u16)(f - BRAND_V2_LOGO_LOCK));
+        for (i = 0; i < BRAND_V2_SPARK_COUNT; i++) {
+            if (sSpark[i] != NULL) SPR_setVisibility(sSpark[i], HIDDEN);
+        }
+        if ((f & 7) == 0) {
+            u16 c;
+            for (c = 0; c < BRAND_V2_EMBER_CYCLE_COUNT; c++) {
+                PAL_setColor(BRAND_V2_EMBER_CYCLE_FIRST + c,
+                             EMBER_CYCLE[(c + (f >> 3)) & 3]);
+            }
+        }
     }
 }
 
 /* ---- Ato 3: assinatura ------------------------------------------------- */
 
 /*
- * Saida por substituicao: limpa o PALCO no tilemap de BG_A.
+ * FORGE sai restaurando o tilemap original de BG_A numa unica chamada.
  *
- * A regra de continuidade do contrato proibia VDP_clearPlane e nao dizia como
- * cada elemento sai, entao virou "nunca remova nada". Limpar a REGIAO do palco
- * nao e corte a preto: o que aparece por baixo e a forja em BG_B, e a cena
- * segue continua.
+ * Uma fileira por quadro descompactava o APLIB inteiro de props 8 vezes
+ * (F331: cpu 196, over_budget 10). Uma chamada so descompacta uma vez.
  */
-static void brandClearStage(void)
+static void brandRestoreForge(void)
 {
-    VDP_clearTileMapRect(BG_A, STAGE_TX, STAGE_TY, STAGE_TW, STAGE_TH);
+    VDP_setTileMapEx(BG_A, img_forge_bg_a_props.tilemap,
+                     TILE_ATTR_FULL(BRAND_V2_PAL_FORGE, TRUE, FALSE, FALSE, sVramBgA),
+                     LOGO_X0 / 8, LOGO_Y0 / 8,
+                     LOGO_X0 / 8, LOGO_Y0 / 8,
+                     LOGO_W / 8, LOGO_H / 8, CPU);
 }
 
 /*
- * Saida por varredura: apaga UMA fileira de tiles por quadro.
- *
- * Substitui PAL_fadeOutPalette, que a bisseccao mediu levando
- * over_budget_frames de 0 para 8 e cpu_load de 96 para 105. Uma fileira por
- * quadro custa 28 escritas de tilemap, e ainda le melhor: o wordmark e varrido
- * de cima para baixo em vez de simplesmente escurecer.
+ * Nomes do ato 3 vivem em y<64, onde BG_A e transparente. Limpar essa faixa
+ * so revela a parede em BG_B. Nao desce ate a bigorna.
  */
-static void brandWipeStageRow(u16 step)
+static void brandWipeNameRow(u16 step)
 {
-    if (step < STAGE_TH) {
-        VDP_clearTileMapRect(BG_A, STAGE_TX, (u16)(STAGE_TY + step), STAGE_TW, 1);
+    if (step < NAME_TH) {
+        VDP_clearTileMapRect(BG_A, NAME_TX, (u16)(NAME_TY + step), NAME_TW, 1);
     }
+}
+
+static void brandForgeBreathe(u16 f)
+{
+    /* Sem haze de linha no ato 3: HSCROLL_LINE + unpack de tilemap no mesmo
+     * quadro encheu a fila (F331/F451: over_budget 17, cpu 201) e o carimbo
+     * do MASTER nao chegou a pousar. A brasa continua pela CRAM. */
+    if ((f & 7) == 0) {
+        u16 i;
+        for (i = 0; i < BRAND_V2_EMBER_CYCLE_COUNT; i++) {
+            PAL_setColor(BRAND_V2_EMBER_CYCLE_FIRST + i,
+                         EMBER_CYCLE[(i + (f >> 3)) & (BRAND_V2_EMBER_CYCLE_COUNT - 1)]);
+        }
+    }
+}
+
+static void brandWordmarkPulse(u16 f)
+{
+    /* PAL2[8,9,12]: ouro dos nomes e do PRESENTS. Ciclo curto, sem varrer CRAM. */
+    static const u16 GOLD8[4]  = { 0x0088, 0x00AA, 0x00CC, 0x00AA };
+    static const u16 GOLD9[4]  = { 0x00AA, 0x00CC, 0x00EE, 0x00CC };
+    static const u16 GOLD12[4] = { 0x00CE, 0x00EE, 0x0AEE, 0x00EE };
+    const u16 ph = (f >> 3) & 3u;
+
+    if ((f & 7) != 0) return;
+    PAL_setColor((BRAND_V2_PAL_WORDMARK * 16) + 8,  GOLD8[ph]);
+    PAL_setColor((BRAND_V2_PAL_WORDMARK * 16) + 9,  GOLD9[ph]);
+    PAL_setColor((BRAND_V2_PAL_WORDMARK * 16) + 12, GOLD12[ph]);
 }
 
 static void brandEnterSignature(void)
@@ -696,76 +1050,63 @@ static void brandEnterSignature(void)
     sVramAuthor   = sVramHammer + (HAMMER_WINDOW_SLOTS * HAMMER_SLOT_TILES);
     sVramProject  = sVramAuthor + img_logo_author_v2.tileset->numTile;
     sVramPresents = sVramProject + img_logo_project_v2.tileset->numTile;
+    VDP_loadTileSet(img_logo_author_v2.tileset, sVramAuthor, DMA);
+    VDP_loadTileSet(img_logo_project_v2.tileset, sVramProject, DMA);
+    VDP_loadTileSet(img_presents_text_v2.tileset, sVramPresents, DMA);
 
-    VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_COLUMN);
-
-    /* O FORGE sai por fade de PAL1 enquanto a cortina sobe: o ato 2 se despede
-     * por luz e movimento, nao por sobreposicao. O tilemap dele so e limpo em
-     * ACT3_AUTHOR_IN, quando o fade ja terminou. */
+    /* Sem VSCROLL_COLUMN e sem HSCROLL_LINE: a cortina de coluna corta a
+     * bigorna; a haze de linha no ato 3 compete com o carimbo dos nomes. */
+    VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
+    VDP_setHorizontalScroll(BG_A, 0);
+    VDP_setHorizontalScroll(BG_B, 0);
+    VDP_setVerticalScroll(BG_A, 0);
+    VDP_setVerticalScroll(BG_B, 0);
+    sHazeArmed = 0;
 }
 
 static void brandUpdateSignature(u16 f)
 {
-    const u16 t = f - BRAND_V2_ACT_SIGNATURE_START;
-    u16 c;
+    brandForgeBreathe(f);
+    if (f >= ACT3_AUTHOR_IN) brandWordmarkPulse(f);
 
-    if (t <= 60) {
-        /* Cortina por coluna: offsets escalonados do centro para as bordas.
-         * Uniforme leria como slide de software. */
-        for (c = 0; c < CURTAIN_COLUMNS; c++) {
-            const u16 dist = (c < (CURTAIN_COLUMNS / 2))
-                           ? ((CURTAIN_COLUMNS / 2) - c) : (c - (CURTAIN_COLUMNS / 2));
-            const s16 delay = (s16)(dist * 2);
-            const s16 prog = (s16)t - delay;
-            sVScroll[c] = (prog <= 0) ? 0 : (s16)(prog * 4);
-        }
-        VDP_setVerticalScrollTile(BG_B, 0, sVScroll, CURTAIN_COLUMNS, DMA_QUEUE);
-    }
-
-    /* PALCO: um wordmark por vez. Quem entra, entra porque o anterior saiu.
-     * Antes desta correcao nada era removido e F451 tinha bigorna, FORGE,
-     * MISAEL e MASTER vivos na mesma faixa y=80..128. */
-    /* FORGE sai varrido, uma fileira por quadro, enquanto a cortina sobe. */
-    if (f >= ACT3_AUTHOR_WIPE && f < ACT3_AUTHOR_IN) {
-        brandWipeStageRow((u16)(f - ACT3_AUTHOR_WIPE));
+    /* FORGE cede o palco restaurando a bigorna, nao abrindo um buraco. */
+    if (f == ACT3_AUTHOR_WIPE) {
+        brandRestoreForge();
     }
 
     if (f == ACT3_AUTHOR_IN) {
-        VDP_drawImageEx(BG_A, &img_logo_author_v2,
-                        TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
-                                       sVramAuthor),
-                        AUTHOR_TILE_X, AUTHOR_TILE_Y, FALSE, TRUE);
+        /* CPU: o carimbo tem de pousar neste quadro, nao na fila. */
+        VDP_setTileMapEx(BG_A, img_logo_author_v2.tilemap,
+                         TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
+                                        sVramAuthor),
+                         AUTHOR_TILE_X, AUTHOR_TILE_Y,
+                         0, 0, AUTHOR_TW, AUTHOR_TH, CPU);
+        AUDIO_playCue(AUDIO_CUE_BRAND_AUTHOR_BELL);
     }
 
-    if (f == ACT3_AUTHOR_FADE_OUT) {
-    }
-
-    /* MISAEL cede o palco pela mesma varredura. */
     if (f >= ACT3_PROJECT_WIPE && f < ACT3_PROJECT_IN) {
-        brandWipeStageRow((u16)(f - ACT3_PROJECT_WIPE));
+        brandWipeNameRow((u16)(f - ACT3_PROJECT_WIPE));
     }
 
     if (f == ACT3_PROJECT_IN) {
-        VDP_drawImageEx(BG_A, &img_logo_project_v2,
-                        TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
-                                       sVramProject),
-                        PROJECT_TILE_X, PROJECT_TILE_Y, FALSE, TRUE);
+        VDP_setTileMapEx(BG_A, img_logo_project_v2.tilemap,
+                         TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
+                                        sVramProject),
+                         PROJECT_TILE_X, PROJECT_TILE_Y,
+                         0, 0, PROJECT_TW, PROJECT_TH, CPU);
+        AUDIO_playCue(AUDIO_CUE_BRAND_PROJECT_WHOOSH);
     }
 
     if (f == BRAND_V2_PRESENTS_IN) {
-        /* F480 mediu: FALSE,22 cobria as 22 fileiras de CIMA (tela preta) e o
-         * draw em y=23 ficava fora da WINDOW. TRUE,22 = fileiras 22-27. */
-        VDP_setWindowVPos(TRUE, 22);
-        VDP_drawImageEx(WINDOW, &img_presents_text_v2,
-                        TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
-                                       sVramPresents),
-                        14, 23, FALSE, TRUE);
-    }
-
-    /* Entrega por fade de paleta, sem corte a preto. */
-    if (f >= (BRAND_V2_END - 10)) {
-        const u16 step = f - (BRAND_V2_END - 10);
-        PAL_fadeOutAll(10 - step, TRUE);
+        /* Sem WINDOW: unpack do tilemap cheio de BG_B na WINDOW apagou o
+         * MASTER em F511. O fogo ja esta em BG_B; BG_A e transparente
+         * abaixo da bigorna (y>=210). O ouro pousa em cima do piso. */
+        VDP_setWindowOff();
+        VDP_setTileMapEx(BG_A, img_presents_text_v2.tilemap,
+                         TILE_ATTR_FULL(BRAND_V2_PAL_WORDMARK, TRUE, FALSE, FALSE,
+                                        sVramPresents),
+                         14, 26, 0, 0, PRESENTS_TW, PRESENTS_TH, CPU);
+        AUDIO_playCue(AUDIO_CUE_BRAND_PROJECT_TAIL);
     }
 }
 
@@ -784,6 +1125,12 @@ void SCENE_brandingV2Enter(void)
     memset(sShardLanded, 0, sizeof(sShardLanded));
     sShardSpawned = 0;
     sShardFailed = 0;
+    sWallDrawn = 0;
+    sHit2Done = 0;
+    sMapsReady = 0;
+    sSkyScrollX = 0;
+    sSkyScrollY = 0;
+    memset(sSpark, 0, sizeof(sSpark));
     MDRuntimeProbe_noteSpriteAlloc(0, 0);
     AUDIO_stopAll();
 }
@@ -797,7 +1144,8 @@ void SCENE_brandingV2Exit(void)
     VDP_setHorizontalScroll(BG_B, 0);
     VDP_setVerticalScroll(BG_A, 0);
     VDP_setVerticalScroll(BG_B, 0);
-    VDP_setWindowVPos(FALSE, 0);
+    VDP_setWindowOff();
+    VDP_setTextPlane(BG_A);
     SPR_reset();
     SPR_update();
     AUDIO_stopAll();
@@ -807,24 +1155,22 @@ void SCENE_brandingV2Update(void)
 {
     const u16 f = gApp.sceneFrames;
 
-    if (INPUT_pressed(BUTTON_START) || INPUT_pressed(BUTTON_A)) {
+    /* START salta. A no preludio e o toque da criacao, nao skip. */
+    if (INPUT_pressed(BUTTON_START)) {
         SCENE_brandingV2Exit();
-        APP_changeScene(APP_SCENE_BOOT);
+        APP_changeScene(APP_SCENE_MENU);
         return;
     }
 
-    if (f < BRAND_V2_ACT_STRIKE_START) {
+    if (f < BRAND_V2_HIT1) {
         if (sAct != 0) { sAct = 0; brandEnterIgnition(); }
         brandUpdateIgnition(f);
-    } else if (f < BRAND_V2_ACT_SIGNATURE_START) {
+    } else if (f < BRAND_V2_END) {
         if (sAct != 1) { sAct = 1; brandEnterStrike(); }
         brandUpdateStrike(f);
-    } else if (f < BRAND_V2_END) {
-        if (sAct != 2) { sAct = 2; brandEnterSignature(); }
-        brandUpdateSignature(f);
     } else {
         SCENE_brandingV2Exit();
-        APP_changeScene(APP_SCENE_BOOT);
+        APP_changeScene(APP_SCENE_MENU);
         return;
     }
 

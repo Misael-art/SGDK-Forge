@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "cais01_visual_pass_build_v02",
+  "generated_at": "2026-07-29",
+  "status": "res_runtime_candidate_pending_rom_visual_review",
+  "route": "art_translation_to_vdp_and_multi_plane_composition",
+  "source_direction": "data/source_art/concept/authorial_style_validation_2026_07_04/dock_scene_kit_authorial_v01.png",
+  "basic_control": "cais01_modular_slice_virtual_proof_v01.png",
+  "elite_candidate": "doc/art/environments/cais01/review/cais01_visual_pass_virtual_proof_v02.png",
+  "playfield_proof": "doc/art/environments/cais01/review/cais01_visual_pass_playfield_proof_v02.png",
+  "comparison": "doc/art/environments/cais01/review/cais01_visual_pass_compare_v01_v02.png",
+  "promoted_paths": [
+    "res/backgrounds/cais01/cais01_bg_b_mar_ceu_512x224_v02.png",
+    "res/backgrounds/cais01/cais01_bg_a_pier_modular_320x224_v02.png",
+    "res/sprites/fx/taina_ground_shadow_48x16_3f_v02.png"
+  ],
+  "delivery_findings": [
+    "background and FX are runtime candidates, not final art",
+    "TAINA sprite-detail reseed remains blocked on pixel model-sheet gate",
+    "ResComp measurements and BlastEm evidence are required"
+  ]
+}

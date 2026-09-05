@@ -1,12 +1,23 @@
 {
-  "schema": "audio_channel_ownership_report_v1",
-  "status": "implemented_in_contract_pending_runtime",
+  "schema": "audio_channel_ownership_report_v2",
+  "status": "runtime_verified_pending_human_review",
+  "driver": "XGM2",
+  "owners": {
+    "fm_and_psg": "mus_chase_core through XGM2 only",
+    "pcm_ch1": "reserved by XGM2; no project sample assigned",
+    "pcm_ch2": "critical gameplay and result SFX",
+    "pcm_ch3": "movement, UI, pickup and pressure SFX"
+  },
   "conflicts": [],
+  "forbidden_paths": ["direct PSG_* calls while XGM2 is loaded", "PCM_CH1 score loop"],
   "protected_events": ["damage", "celestial_pulse", "victory", "failure"],
   "dropped_first_under_contention": ["pressure_warning", "pickup"],
-  "delivery_findings": [
-    "Score ownership is isolated on PCM_CH1.",
-    "Critical cues cannot be masked by movement or UI cues.",
-    "Audio must be stopped symmetrically on pause and scene exit."
-  ]
+  "runtime": {
+    "session_id": "blastem-linux-20260720T032218Z-267076",
+    "simultaneous_music_sfx_samples": 8,
+    "sfx_requests": 5,
+    "sfx_accepted": 5,
+    "dma_wait_max": 0
+  },
+  "blockers": ["human_audio_review_pending"]
 }

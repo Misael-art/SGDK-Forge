@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "animation_id": "taina_combo_hit_1_jab",
+  "frame_count": 5,
+  "phase_sequence": [
+    {
+      "frame": 0,
+      "phase": "anticipation",
+      "hold_vblanks": 3,
+      "note": "Guarda aprovada comprime a intenção antes do disparo curto."
+    },
+    {
+      "frame": 1,
+      "phase": "launch",
+      "hold_vblanks": 2,
+      "note": "O cotovelo libera o tronco e o punho percorre metade do alcance."
+    },
+    {
+      "frame": 2,
+      "phase": "active_contact",
+      "hold_vblanks": 2,
+      "note": "Extensão máxima; frame de hitstop; sem FX assado."
+    },
+    {
+      "frame": 3,
+      "phase": "follow_through_recoil",
+      "hold_vblanks": 3,
+      "note": "O punho recolhe abaixo da linha ativa e a ponta da faixa abre um pixel."
+    },
+    {
+      "frame": 4,
+      "phase": "recovery_bridge",
+      "hold_vblanks": 4,
+      "note": "Retorno à guarda idle aprovada sem mudança de pivot ou escala."
+    }
+  ],
+  "impact_frame": 2,
+  "hitstop_hold_frame": 2,
+  "total_vblanks": 14,
+  "state_transition": {
+    "from": "idle_guard",
+    "to": "combo_hit_1_jab",
+    "return": "idle_guard_or_combo_hit_2_cross_cancel",
+    "snap_to_idle": false
+  }
+}

@@ -1,0 +1,2690 @@
+{
+  "project_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "scenario_detected": "2_res_inadequate_check",
+  "summary": "Projeto tem 22 asset(s) ativos referenciados em /res: 22 ok, 0 precisam conversao, 0 inadequados, 0 ausentes. Ha tambem 78 asset(s) fonte em /data; issues de fonte roteiam conversao, mas nao bloqueiam o build enquanto nao forem referenciados pelo grafo .res.",
+  "total_assets": 100,
+  "ok": 64,
+  "needs_conversion": 28,
+  "inadequate": 8,
+  "absent": 0,
+  "assets": [
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_00_idle_md.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "8 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_00_idle_md \"sprite/frame_00_idle_md.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_01_run_contact_md.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "7 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_01_run_contact_md \"sprite/frame_01_run_contact_md.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_02_run_passing_md.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 6,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "7 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_02_run_passing_md \"sprite/frame_02_run_passing_md.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_03_run_contact_opposite_md.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 6,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "8 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_03_run_contact_opposite_md \"sprite/frame_03_run_contact_opposite_md.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_06_float_md.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 5,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "6 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_06_float_md \"sprite/frame_06_float_md.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_00_idle_hd_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1254,
+      "height": 1254,
+      "color_count": 31996,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1254x1254 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1256x1256 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "31996 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_01_run_contact/frame_01_run_contact_hd_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1254,
+      "height": 1254,
+      "color_count": 33393,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1254x1254 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1256x1256 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "33393 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_02_run_passing/frame_02_run_passing_hd_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1254,
+      "height": 1254,
+      "color_count": 30761,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1254x1254 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1256x1256 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "30761 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_03_run_contact_opposite/frame_03_run_contact_opposite_hd_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1254,
+      "height": 1254,
+      "color_count": 35309,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1254x1254 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1256x1256 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "35309 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_06_float/frame_06_float_hd_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1254,
+      "height": 1254,
+      "color_count": 34225,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1254x1254 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1256x1256 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "34225 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_00_idle.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "8 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_00_idle \"sprite/frame_00_idle.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_01_run_contact.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "7 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_01_run_contact \"sprite/frame_01_run_contact.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_02_run_passing.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 6,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "7 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_02_run_passing \"sprite/frame_02_run_passing.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_03_run_contact_opposite.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 6,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "8 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_03_run_contact_opposite \"sprite/frame_03_run_contact_opposite.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_06_float.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 5,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "6 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE frame_06_float \"sprite/frame_06_float.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p4_2026-08-06_vector_master_anatomy_rejected/source_art/p4/A1/master_vector/ph_kirby_frame_00_idle_master_vector_v1_preview.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 512,
+      "height": 512,
+      "color_count": 1897,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "1897 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/archive/p4_2026-08-06_vector_master_anatomy_rejected/source_art/p4/A1/master_vector/ph_kirby_frame_00_idle_master_vector_v2_preview.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 512,
+      "height": 512,
+      "color_count": 1553,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "1553 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/processed/branding_intro/brand_author_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 64,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/processed/branding_intro/brand_engine_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 80,
+      "color_count": 14,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/processed/branding_intro/brand_fx_tiles.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 128,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/processed/branding_intro/brand_presents_text.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 112,
+      "height": 24,
+      "color_count": 3,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/processed/branding_intro/brand_project_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 88,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2120,
+      "height": 288,
+      "color_count": 162,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "162 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/idle_vs_float_silhouette.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 560,
+      "height": 296,
+      "color_count": 70,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "70 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/obsolete_technical_pass_visual_fail/ph_kirby_pre_rework.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 256,
+      "height": 32,
+      "color_count": 9,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "10 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/ph_kirby.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 256,
+      "height": 32,
+      "color_count": 10,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "10 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/reference/generated_key_pose_board.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2172,
+      "height": 724,
+      "color_count": 75043,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2172x724 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2176x728 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "75043 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A2/ph_enemy.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 16,
+      "color_count": 7,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_enemy \"sprite/ph_enemy.png\" 4 2 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A3/ph_particle.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 24,
+      "height": 8,
+      "color_count": 3,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_particle \"sprite/ph_particle.png\" 3 1 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B1/ph_sky.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 80,
+      "color_count": 4,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "5 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B2/ph_mount.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 56,
+      "color_count": 4,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "4 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B3/ph_hills.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 88,
+      "color_count": 5,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "6 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B4/ph_terrain.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 64,
+      "color_count": 8,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "10 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B5/ph_fg.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 16,
+      "color_count": 4,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "4 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_fg \"sprite/ph_fg.png\" 4 2 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/C1/ph_trunk.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 96,
+      "color_count": 6,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/C2/ph_boss_face.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 96,
+      "height": 32,
+      "color_count": 6,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "info",
+          "message": "Imagem candidata a sprite mede 96x32px; o tamanho total pode representar strip/sheet e nao uma celula.",
+          "suggestion": "Validar cada frame no contrato .res e no sprite_artifact_report.v2; nao usar a largura total do strip como limite de uma entrada VDP."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_boss_face \"sprite/ph_boss_face.png\" 12 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/C3/ph_branch.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 16,
+      "height": 16,
+      "color_count": 5,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_branch \"sprite/ph_branch.png\" 2 2 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/C4/ph_apple.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 16,
+      "color_count": 5,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_apple \"sprite/ph_apple.png\" 4 2 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/D1/ph_ability_fx.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 16,
+      "color_count": 12,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/E1/ph_title_stars.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 96,
+      "color_count": 3,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "4 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/E2/ph_title_hill.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 64,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "5 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/E3/ph_title_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 48,
+      "color_count": 4,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/evidence/group_a_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1048,
+      "height": 454,
+      "color_count": 215,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1048x454 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1048x456 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "215 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/evidence/group_b_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 536,
+      "height": 578,
+      "color_count": 207,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 536x578 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 536x584 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "207 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/evidence/group_c_d_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 744,
+      "height": 786,
+      "color_count": 248,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 744x786 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 744x792 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "248 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/archive/p1_2026-08-06_visual_rejected/p1/evidence/group_e_contact_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 536,
+      "height": 358,
+      "color_count": 157,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 536x358 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 536x360 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "157 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/branding_intro/production/author_panel_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1536,
+      "height": 1024,
+      "color_count": 71668,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "71668 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/branding_intro/production/engine_mark_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2098,
+      "height": 750,
+      "color_count": 71253,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2098x750 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2104x752 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "71253 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/branding_intro/production/project_crest_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2068,
+      "height": 760,
+      "color_count": 101263,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2068x760 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2072x760 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "101263 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/model_sheet_v01/hero_model_sheet_v01.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 160,
+      "height": 32,
+      "color_count": 11,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "info",
+          "message": "Imagem candidata a sprite mede 160x32px; o tamanho total pode representar strip/sheet e nao uma celula.",
+          "suggestion": "Validar cada frame no contrato .res e no sprite_artifact_report.v2; nao usar a largura total do strip como limite de uma entrada VDP."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE hero_model_sheet_v01 \"sprite/hero_model_sheet_v01.png\" 20 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-01/concept.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 1024,
+      "height": 768,
+      "color_count": 9,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "8 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-01/concept_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1448,
+      "height": 1086,
+      "color_count": 104434,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1448x1086 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1448x1088 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "104434 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-02/concept.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 1280,
+      "height": 896,
+      "color_count": 40,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "40 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-02/concept_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1498,
+      "height": 1050,
+      "color_count": 320567,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1498x1050 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1504x1056 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "320567 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-02/layers.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 1280,
+      "height": 896,
+      "color_count": 38,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "38 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-02/layers_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1498,
+      "height": 1050,
+      "color_count": 193568,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1498x1050 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1504x1056 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "193568 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-03/concept.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 14,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-03/concept_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1254,
+      "height": 1254,
+      "color_count": 222006,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1254x1254 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1256x1256 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "222006 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-04/concept.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 1024,
+      "height": 512,
+      "color_count": 14,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-04/concept_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1774,
+      "height": 887,
+      "color_count": 168122,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1774x887 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1776x888 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "168122 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-05/concept.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 14,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-05/concept_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1254,
+      "height": 1254,
+      "color_count": 327013,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1254x1254 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1256x1256 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "327013 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-06/above_below.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 1280,
+      "height": 896,
+      "color_count": 40,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "40 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-06/above_below_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1498,
+      "height": 1050,
+      "color_count": 463155,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1498x1050 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1504x1056 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "463155 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-06/concept.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 1280,
+      "height": 896,
+      "color_count": 38,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "38 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-06/concept_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1498,
+      "height": 1050,
+      "color_count": 351187,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1498x1050 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1504x1056 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "351187 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-06/distortion.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 1280,
+      "height": 896,
+      "color_count": 36,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "36 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-06/distortion_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1498,
+      "height": 1050,
+      "color_count": 211779,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1498x1050 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1504x1056 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "211779 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-07/concept.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 1280,
+      "height": 896,
+      "color_count": 29,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "29 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-07/concept_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1498,
+      "height": 1050,
+      "color_count": 49620,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1498x1050 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1504x1056 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "49620 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-01/concept.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 1024,
+      "height": 768,
+      "color_count": 11,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "10 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-01/floating_pose_generated.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1649,
+      "height": 954,
+      "color_count": 44868,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 1649x954 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 1656x960 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "44868 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-01/floating_pose_r1_crop.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 304,
+      "height": 176,
+      "color_count": 9,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "8 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-01/floating_pose_r2_crop.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 304,
+      "height": 176,
+      "color_count": 10,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "10 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-02/layers.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 1280,
+      "height": 896,
+      "color_count": 46,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "46 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-03/concept.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 12,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-04/concept.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 1024,
+      "height": 512,
+      "color_count": 12,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r3/r3-02/layers.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 1280,
+      "height": 896,
+      "color_count": 41,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "41 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B"
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/bgs/ph_title_hill.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 64,
+      "color_count": 3,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/bgs/ph_title_stars.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 96,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/bgs/ph_trunk.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 96,
+      "color_count": 4,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/branding/brand_author_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 64,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/branding/brand_engine_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 80,
+      "color_count": 14,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/branding/brand_fx_tiles.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 128,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/branding/brand_presents_text.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 112,
+      "height": 24,
+      "color_count": 3,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/branding/brand_project_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 88,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/gfx/ph_hills.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 88,
+      "color_count": 4,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/gfx/ph_mount.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 56,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/gfx/ph_sky.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 80,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/gfx/ph_terrain.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 64,
+      "color_count": 7,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/gfx/ph_title_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 48,
+      "color_count": 6,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_ability_fx.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 16,
+      "color_count": 14,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_apple.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 16,
+      "color_count": 3,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_apple \"sprite/ph_apple.png\" 4 2 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_boss_face.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 96,
+      "height": 32,
+      "color_count": 5,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "info",
+          "message": "Imagem candidata a sprite mede 96x32px; o tamanho total pode representar strip/sheet e nao uma celula.",
+          "suggestion": "Validar cada frame no contrato .res e no sprite_artifact_report.v2; nao usar a largura total do strip como limite de uma entrada VDP."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_boss_face \"sprite/ph_boss_face.png\" 12 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_branch.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 16,
+      "height": 16,
+      "color_count": 4,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_branch \"sprite/ph_branch.png\" 2 2 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_enemy.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 16,
+      "color_count": 4,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_enemy \"sprite/ph_enemy.png\" 4 2 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_fg.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 16,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_fg \"sprite/ph_fg.png\" 4 2 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_kirby.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 256,
+      "height": 32,
+      "color_count": 9,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_light.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 32,
+      "color_count": 1,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "info",
+          "message": "Imagem candidata a sprite mede 64x32px; o tamanho total pode representar strip/sheet e nao uma celula.",
+          "suggestion": "Validar cada frame no contrato .res e no sprite_artifact_report.v2; nao usar a largura total do strip como limite de uma entrada VDP."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "1 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_light \"sprite/ph_light.png\" 8 4 FAST 5"
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/res/sprites/ph_particle.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 24,
+      "height": 8,
+      "color_count": 2,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        }
+      ],
+      "res_suggestion": "SPRITE ph_particle \"sprite/ph_particle.png\" 3 1 FAST 5"
+    }
+  ],
+  "source_asset_status": {
+    "total": 78,
+    "ok": 42,
+    "needs_conversion": 28,
+    "inadequate": 8,
+    "absent": 0,
+    "critical_issues": 87
+  },
+  "active_res_asset_status": {
+    "total": 22,
+    "ok": 22,
+    "needs_conversion": 0,
+    "inadequate": 0,
+    "absent": 0,
+    "critical_issues": 0
+  },
+  "build_blocking_issues": [],
+  "discovered_artifacts": 167,
+  "art_inventory": {
+    "source_art": {
+      "count": 72,
+      "paths": [
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_00_idle_md.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_01_run_contact_md.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_02_run_passing_md.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_03_run_contact_opposite_md.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/processed/p3_frame_concepts/A1/frame_06_float_md.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_00_idle_hd_source.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_01_run_contact/frame_01_run_contact_hd_source.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_02_run_passing/frame_02_run_passing_hd_source.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_03_run_contact_opposite/frame_03_run_contact_opposite_hd_source.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/raw_ai/p3_frame_concepts/A1/frame_06_float/frame_06_float_hd_source.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_00_idle.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_01_run_contact.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_02_run_passing.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_03_run_contact_opposite.png",
+        "data/archive/p3_2026-08-06_geometry_preserved_pixelization_rejected/source_art/p3/A1/frame_06_float.png",
+        "data/archive/p4_2026-08-06_vector_master_anatomy_rejected/source_art/p4/A1/master_vector/ph_kirby_frame_00_idle_master_vector_v1_preview.png",
+        "data/archive/p4_2026-08-06_vector_master_anatomy_rejected/source_art/p4/A1/master_vector/ph_kirby_frame_00_idle_master_vector_v2_preview.png",
+        "data/processed/branding_intro/brand_author_logo.png",
+        "data/processed/branding_intro/brand_engine_logo.png",
+        "data/processed/branding_intro/brand_fx_tiles.png",
+        "data/processed/branding_intro/brand_presents_text.png",
+        "data/processed/branding_intro/brand_project_logo.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/obsolete_technical_pass_visual_fail/ph_kirby_pre_rework.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/ph_kirby.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/reference/generated_key_pose_board.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A2/ph_enemy.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A3/ph_particle.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B1/ph_sky.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B2/ph_mount.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B3/ph_hills.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B4/ph_terrain.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/B5/ph_fg.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/C1/ph_trunk.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/C2/ph_boss_face.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/C3/ph_branch.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/C4/ph_apple.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/D1/ph_ability_fx.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/E1/ph_title_stars.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/E2/ph_title_hill.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/E3/ph_title_logo.png",
+        "data/source_art/branding_intro/production/author_panel_source.png",
+        "data/source_art/branding_intro/production/engine_mark_source.png",
+        "data/source_art/branding_intro/production/project_crest_source.png",
+        "data/source_art/model_sheet_v01/hero_model_sheet_v01.png",
+        "data/source_art/r1/r1-01/concept.png",
+        "data/source_art/r1/r1-01/concept_generated.png",
+        "data/source_art/r1/r1-02/concept.png",
+        "data/source_art/r1/r1-02/concept_generated.png",
+        "data/source_art/r1/r1-02/layers.png",
+        "data/source_art/r1/r1-02/layers_generated.png",
+        "data/source_art/r1/r1-03/concept.png",
+        "data/source_art/r1/r1-03/concept_generated.png",
+        "data/source_art/r1/r1-04/concept.png",
+        "data/source_art/r1/r1-04/concept_generated.png",
+        "data/source_art/r1/r1-05/concept.png",
+        "data/source_art/r1/r1-05/concept_generated.png",
+        "data/source_art/r1/r1-06/above_below.png",
+        "data/source_art/r1/r1-06/above_below_generated.png",
+        "data/source_art/r1/r1-06/concept.png",
+        "data/source_art/r1/r1-06/concept_generated.png",
+        "data/source_art/r1/r1-06/distortion.png",
+        "data/source_art/r1/r1-06/distortion_generated.png",
+        "data/source_art/r1/r1-07/concept.png",
+        "data/source_art/r1/r1-07/concept_generated.png",
+        "data/source_art/r2/r2-01/concept.png",
+        "data/source_art/r2/r2-01/floating_pose_generated.png",
+        "data/source_art/r2/r2-01/floating_pose_r1_crop.png",
+        "data/source_art/r2/r2-01/floating_pose_r2_crop.png",
+        "data/source_art/r2/r2-02/layers.png",
+        "data/source_art/r2/r2-03/concept.png",
+        "data/source_art/r2/r2-04/concept.png",
+        "data/source_art/r3/r3-02/layers.png"
+      ]
+    },
+    "evidence_art": {
+      "count": 73,
+      "paths": [
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/animated/float.gif",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/animated/idle.gif",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/animated/inhale.gif",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/animated/jump.gif",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/animated/run.gif",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/contact_sheet.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/A1/evidence/idle_vs_float_silhouette.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/evidence/group_a_contact_sheet.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/evidence/group_b_contact_sheet.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/evidence/group_c_d_contact_sheet.png",
+        "data/source_art/archive/p1_2026-08-06_visual_rejected/p1/evidence/group_e_contact_sheet.png",
+        "doc/art/evidence/a1_attempts_comparison_board.png",
+        "doc/art/evidence/a1_concept_to_application_comparison.png",
+        "doc/art/evidence/p3_a1_partial_contact_sheet.png",
+        "out/evidence/ability2/blastem-linux-20260806T133932Z-1917920/screenshot.png",
+        "out/evidence/ability_final/blastem-linux-20260806T134241Z-1925897/screenshot.png",
+        "out/evidence/audio_final/blastem-linux-20260806T091243Z-1133480/screenshot.png",
+        "out/evidence/audio_proof/blastem-linux-20260806T090422Z-1111500/screenshot.png",
+        "out/evidence/audio_proof2/blastem-linux-20260806T090642Z-1116979/screenshot.png",
+        "out/evidence/audio_silent/blastem-linux-20260806T090844Z-1122983/screenshot.png",
+        "out/evidence/audio_stage/blastem-linux-20260806T090304Z-1108213/screenshot.png",
+        "out/evidence/bootstrap_smoke/blastem-linux-20260729T145605Z-184545/screenshot.png",
+        "out/evidence/boss_arena1/blastem-linux-20260806T005515Z-3175153/screenshot.png",
+        "out/evidence/boss_arena5/blastem-linux-20260806T010027Z-3201591/screenshot.png",
+        "out/evidence/boss_arena_final/blastem-linux-20260806T010217Z-3206248/screenshot.png",
+        "out/evidence/boss_lever1/blastem-linux-20260806T004639Z-3149962/screenshot.png",
+        "out/evidence/boss_run1/blastem-linux-20260806T002630Z-3080985/screenshot.png",
+        "out/evidence/boss_run4/blastem-linux-20260806T004510Z-3141551/screenshot.png",
+        "out/evidence/bosstest1/blastem-linux-20260806T011031Z-3229899/screenshot.png",
+        "out/evidence/bosstest4/blastem-linux-20260806T011436Z-3247685/screenshot.png",
+        "out/evidence/bosstest_final/blastem-linux-20260806T011701Z-3253431/screenshot.png",
+        "out/evidence/fase1_enemies/blastem-linux-20260730T082112Z-1568733/screenshot.png",
+        "out/evidence/fase1_final/blastem-linux-20260730T082820Z-1596301/screenshot.png",
+        "out/evidence/fase1_hintfix/blastem-linux-20260730T082729Z-1593426/screenshot.png",
+        "out/evidence/fase1_noflash/blastem-linux-20260730T082531Z-1587666/screenshot.png",
+        "out/evidence/fase1_pan_early/blastem-linux-20260730T045241Z-1057293/screenshot.png",
+        "out/evidence/fase1_parallax_w12/blastem-linux-20260730T045410Z-1061189/screenshot.png",
+        "out/evidence/fase1_parallax_w7/blastem-linux-20260730T045353Z-1060394/screenshot.png",
+        "out/evidence/fase1_quota8/blastem-linux-20260730T081605Z-1473740/screenshot.png",
+        "out/evidence/fase1_settled/blastem-linux-20260730T082233Z-1577338/screenshot.png",
+        "out/evidence/fase1_stage/blastem-linux-20260730T044813Z-1045650/screenshot.png",
+        "out/evidence/fase1_stress24/blastem-linux-20260730T081411Z-1463333/screenshot.png",
+        "out/evidence/fase1_v2/blastem-linux-20260730T045045Z-1052721/screenshot.png",
+        "out/evidence/gameover1/blastem-linux-20260806T012504Z-3282191/screenshot.png",
+        "out/evidence/gameover2/blastem-linux-20260806T012726Z-3288229/screenshot.png",
+        "out/evidence/lake_fix/blastem-linux-20260806T140956Z-2017080/screenshot.png",
+        "out/evidence/lake_opt/blastem-linux-20260806T141823Z-2036463/screenshot.png",
+        "out/evidence/lake_w4/blastem-linux-20260806T135338Z-1963263/screenshot.png",
+        "out/evidence/model_sheet_route/REVIEW_BOARD.png",
+        "out/evidence/model_sheet_route/hero_model_sheet_v01_x8.png",
+        "out/evidence/model_sheet_route/ref_vs_ours.png",
+        "out/evidence/model_sheet_route/tier_comparison.png",
+        "out/evidence/playtest_run1/blastem-linux-20260806T001108Z-3031785/screenshot.png",
+        "out/evidence/probe_final/blastem-linux-20260730T084218Z-1638263/screenshot.png",
+        "out/evidence/probe_krb1/blastem-linux-20260730T083403Z-1610042/screenshot.png",
+        "out/evidence/probe_krb1b/blastem-linux-20260730T083804Z-1622575/screenshot.png",
+        "out/evidence/probe_p5/blastem-linux-20260730T084942Z-1685969/screenshot.png",
+        "out/evidence/probe_prio/blastem-linux-20260730T083955Z-1629288/screenshot.png",
+        "out/evidence/probe_prio_fix/blastem-linux-20260730T084112Z-1634237/screenshot.png",
+        "out/evidence/probe_scene_demo/blastem-linux-20260729T150654Z-218744/screenshot.png",
+        "out/evidence/probe_vlab_smoke/blastem-linux-20260729T150455Z-212306/screenshot.png",
+        "out/evidence/probe_vramdiag/blastem-linux-20260730T084739Z-1665788/screenshot.png",
+        "out/evidence/r5_final/blastem-linux-20260806T143341Z-2072205/screenshot.png",
+        "out/evidence/r5_lever2/blastem-linux-20260806T142548Z-2053355/screenshot.png",
+        "out/evidence/r5_light/blastem-linux-20260806T142322Z-2047481/screenshot.png",
+        "out/evidence/r5_revert/blastem-linux-20260806T143118Z-2066606/screenshot.png",
+        "out/evidence/r5_table/blastem-linux-20260806T142845Z-2060509/screenshot.png",
+        "out/evidence/stage_after_water/blastem-linux-20260806T141223Z-2022214/screenshot.png",
+        "out/evidence/stage_regress/blastem-linux-20260806T065040Z-821058/screenshot.png",
+        "out/evidence/title1/blastem-linux-20260806T091848Z-1148513/screenshot.png",
+        "out/evidence/title2/blastem-linux-20260806T092102Z-1154945/screenshot.png",
+        "out/evidence/title3/blastem-linux-20260806T092310Z-1161201/screenshot.png",
+        "out/evidence/title_final/blastem-linux-20260806T092458Z-1166633/screenshot.png"
+      ]
+    },
+    "active_res_art": {
+      "count": 22,
+      "paths": [
+        "res/bgs/ph_title_hill.png",
+        "res/bgs/ph_title_stars.png",
+        "res/bgs/ph_trunk.png",
+        "res/branding/brand_author_logo.png",
+        "res/branding/brand_engine_logo.png",
+        "res/branding/brand_fx_tiles.png",
+        "res/branding/brand_presents_text.png",
+        "res/branding/brand_project_logo.png",
+        "res/gfx/ph_hills.png",
+        "res/gfx/ph_mount.png",
+        "res/gfx/ph_sky.png",
+        "res/gfx/ph_terrain.png",
+        "res/gfx/ph_title_logo.png",
+        "res/sprites/ph_ability_fx.png",
+        "res/sprites/ph_apple.png",
+        "res/sprites/ph_boss_face.png",
+        "res/sprites/ph_branch.png",
+        "res/sprites/ph_enemy.png",
+        "res/sprites/ph_fg.png",
+        "res/sprites/ph_kirby.png",
+        "res/sprites/ph_light.png",
+        "res/sprites/ph_particle.png"
+      ]
+    },
+    "lab_work_art": {
+      "count": 0,
+      "paths": []
+    },
+    "analysis_art": {
+      "count": 0,
+      "paths": []
+    },
+    "generated_artifacts": {
+      "count": 0,
+      "paths": []
+    }
+  },
+  "nested_projects": [],
+  "discovery_policy": {
+    "scope": "project_root_only",
+    "follow_symlinks": false,
+    "external_directories_followed": false,
+    "hygiene_manifest": {
+      "path": "doc/project_hygiene_manifest.json",
+      "present": true
+    }
+  },
+  "discovery_warnings": [],
+  "recommended_actions": [],
+  "conversion_commands": [
+    "# Medir conformidade pixel-strict dos assets ativos:",
+    "python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate <png> --index0-role transparent0",
+    "# Validar recursos:",
+    "powershell -File tools\\sgdk_wrapper\\validate_resources.ps1",
+    "# Auto-fix sprite.res:",
+    "powershell -File tools\\sgdk_wrapper\\autofix_sprite_res.ps1"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_combo_hit_1_jab_vdp_budget_v01",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_combo_hit_1_jab",
+  "decision": "cabe_isolated_action",
+  "measurement_level": "rescomp_measured_scene_budget_partial",
+  "rom_asset_cost": {
+    "compression": "FAST",
+    "rescomp_bytes": 3668,
+    "status": "rescomp_and_build_passed"
+  },
+  "rescomp_frames": [
+    { "frame": 0, "metasprite_parts": 2, "tiles": 24, "tile_bytes": 768 },
+    { "frame": 1, "metasprite_parts": 2, "tiles": 28, "tile_bytes": 896 },
+    { "frame": 2, "metasprite_parts": 3, "tiles": 28, "tile_bytes": 896 },
+    { "frame": 3, "metasprite_parts": 2, "tiles": 28, "tile_bytes": 896 },
+    { "frame": 4, "metasprite_parts": 2, "tiles": 24, "tile_bytes": 768 }
+  ],
+  "peak_active_frame": {
+    "frame": 2,
+    "metasprite_parts": 3,
+    "tiles": 28,
+    "tile_bytes": 896
+  },
+  "offline_complete_cycle": {
+    "unique_nonempty_tiles": 41,
+    "uncompressed_tile_bytes": 1312,
+    "note": "Offline PNG deduplication; ResComp also deduplicated frames 0 and 4 against the idle resource."
+  },
+  "palette": {
+    "domain": "PAL1",
+    "shared_with_idle_guard": true,
+    "visible_colors": 10
+  },
+  "scanline_sprite_pressure": {
+    "isolated_rescomp_peak_parts": 3,
+    "full_gameplay_with_enemies_hud_and_fx": "not_measured"
+  },
+  "claim_ceiling": "single_action_rescomp_budget_pass_full_scene_vdp_dump_and_combined_pressure_pending"
+}

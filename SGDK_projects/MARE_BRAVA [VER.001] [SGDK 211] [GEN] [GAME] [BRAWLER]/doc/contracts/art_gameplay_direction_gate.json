@@ -4,17 +4,20 @@
   "project_id": "mare_brava",
   "asset_id": "cais_01_first_visual_package",
   "asset_kind": "mixed_package",
-  "evaluated_at": "2026-07-03_concepts_recebidos_contact_sheet_pronto",
+  "evaluated_at": "2026-07-05_direcao_autoral_ratificada_assets_ainda_nao_promovidos",
   "measurement_level": "planned_contract",
+  "authorial_line_contract": "doc/art/authorial_line_style_contract.json",
   "art_director_review": {
-    "status": "pending_human",
-    "reviewer": "humano (ratificacao obrigatoria) + visual-excellence-standards",
+    "status": "direction_ratified_assets_pending_pixel_gate",
+    "reviewer": "owner humano via prompt de continuacao de 2026-07-05 + visual-excellence-standards",
     "art_direction_decision_record": "doc/art/art_direction_decision_record.json",
     "findings": [
       "15 concepts recebidos via prompt pack e registrados como source_candidate no premium_source_manifest.",
       "Prova VDP construida: cenarios/BG/logo sobrevivem a 320x224+15c+9bit; personagens exigem etapa pixel autoral (downscale direto vira borrao).",
       "Desvios registrados: proporcao realista nos sheets (identidade ok, proporcao a comprimir), texto diegetico no cenario (aceito como narrativa, tratar em tiles).",
-      "Ratificacao humana da direcao continua PENDENTE — decidir com o contact sheet."
+      "Correcao 2026-07-04: prompts e geracoes sem contrato de traco autoral geram arte competente porem generica; o contrato autoral agora existe e permanece obrigatorio.",
+      "Ratificacao humana de 2026-07-05: direcao artistica e contrato de traco foram declarados curados e congelados como direcao de producao.",
+      "A ratificacao congela a direcao; nao promove concepts, model sheets, strips, tilemaps ou assets para res/."
     ]
   },
   "game_design_context": {
@@ -38,15 +41,39 @@
         "status": "planned"
       },
       {
+        "id": "taina_authorial_face_and_sash",
+        "kind": "authorial_line",
+        "expected": "sobrancelha forte, nariz em cunha, cabelo cacheado preso, faixa lateral e bandagens como marcas de traco; nao pode virar lutadora generica",
+        "status": "planned"
+      },
+      {
+        "id": "cria_forward_wiry_hook",
+        "kind": "authorial_line",
+        "expected": "tronco inclinado, cotovelos pontudos, bone virado e energia de rusher fragil; nao pode virar capanga punk generico",
+        "status": "planned"
+      },
+      {
         "id": "estivador_mass",
         "kind": "silhouette",
         "expected": "massa quadrada com bracos abertos no telegraph de grab",
         "status": "planned"
       },
       {
+        "id": "estivador_work_material_hook",
+        "kind": "authorial_line",
+        "expected": "luvas enormes, corda no cinto, colete de carga, botas pesadas e rosto largo; nao pode virar bodybuilder limpo",
+        "status": "planned"
+      },
+      {
         "id": "beirada_espuma",
         "kind": "palette_role",
         "expected": "espuma da beirada sempre no dominio pal3, animavel, contraste com cais",
+        "status": "planned"
+      },
+      {
+        "id": "cais_material_marks",
+        "kind": "authorial_line",
+        "expected": "tábuas lascadas em cunha, cordas torcidas, redes com losangos grandes, pilastras com cracas simplificadas e landmarks portuarios de Porto Bravo",
         "status": "planned"
       },
       {
@@ -72,14 +99,13 @@
   },
   "decision": {
     "production_allowed": true,
-    "production_allowed_scope": "somente Etapa A do brief: concepts/model sheets via prompt pack (scope concept_art)",
+    "production_allowed_scope": "concepts, model sheets pixel 3.5 heads, lineart 1px, key poses e decomposicao modular; promocao para res/ continua bloqueada pelos gates VDP",
     "ready_for_generation": true,
     "ready_for_generation_scope": "concept_art apenas; animated_sprite_final proibido por gate de canal",
     "ready_for_conversion": false,
     "ready_for_res_promotion": false,
     "ready_for_aaa": false,
     "next_required_route": [
-      "RATIFICACAO HUMANA: avaliar data/processed/contact_sheets/vdp_survival_contact_sheet_v01.png",
       "model sheet pixel autoral 3.5 heads por personagem (compressao das identidades aprovadas)",
       "lineart 1px -> key poses -> strips por acao (PNG indexado 15c+index0)",
       "art-translation-to-vdp + megadrive-pixel-strict-rules + visual-excellence-standards",
@@ -87,7 +113,6 @@
     ]
   },
   "blockers": [
-    "art_direction_pending_human_ratification",
     "no_pixel_model_sheet"
   ]
 }

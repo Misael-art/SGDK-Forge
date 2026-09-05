@@ -2,7 +2,8 @@
 
 Este arquivo lista candidatos locais que talvez merecam virar skill, workflow, regra, script ou `lib_case` canonico no futuro.
 
-Nenhum item aqui esta promovido.
+Itens permanecem pendentes salvo quando uma decisao humana explicita e sua
+evidencia forem registradas em `canonical_promotion_review.md`.
 
 | Data | Classificacao | Candidato | Problema resolvido | Evidencia minima | Risco | Proxima revisao humana |
 |---|---|---|---|---|---|---|
@@ -28,3 +29,13 @@ Nenhum item aqui esta promovido.
 | L07 | audit_game_design_contracts | status design_contracts_ready em planejamento (chip task_1e7be1cf) |
 
 Nenhuma promocao automatica: `canonical_auto_mutation=false`; revisao humana obrigatoria.
+
+## 2026-07-29 — Promocao humana aplicada
+
+| Lesson | Skill/ferramenta alvo | Decisao | Evidencia |
+|---|---|---|---|
+| L11/L12 | `sgdk-build-wrapper-operator`, `production-diagnostic-triage`, `preflight_host.ps1`, `select_sgdk_build_route.py` | `promoted_with_explicit_human_authorization` | `out/logs/sgdk_build_route_report.json`, `out/logs/linux_wine_build_report.json`, ROM SHA-256 `8ed8f28b...434d`, regressao 5/5 |
+
+A promocao e limitada ao roteamento/diagnostico de build. Nao promove a ROM a
+`testado_em_emulador`, nao valida gameplay/arte/audio/performance e nao torna
+outros candidatos automaticamente aprovados.

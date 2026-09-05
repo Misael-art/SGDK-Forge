@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "name": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "display_name": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "version": "0.1.0-runtime-seed",
+  "sgdk_version": "2.11",
+  "layout": "flat",
+  "project_root": ".",
+  "sgdk_root": ".",
+  "build_policy": "enabled",
+  "kind": "game",
+  "category": "action_racing",
+  "notes": "Authorial AAA-target Mega Drive action racing project seeded from the Celestial Chase visual benchmark as technical reference only. Runtime seed is enabled for first boot ROM; gameplay remains prototype scope until Sector 01 exists and is tested.",
+  "source_analysis": {
+    "technical_reference_project": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+    "technical_reference_policy": "benchmark informs scale, risks, budget envelopes and evidence requirements; it is not source art, not production evidence and not a delivery claim for Revive"
+  },
+  "scene_contracts": {
+    "source_spec_path": "doc/13-spec-cenas.md",
+    "regression_manifest_path": "doc/scene-regression.json",
+    "compiled_path": "doc/scene-contracts.json",
+    "compile_mode": "planning"
+  },
+  "qa_proof_plan": {
+    "path": "doc/14-plano-de-provas-qa.md",
+    "required_for_new_projects": true
+  },
+  "methodology": {
+    "manifest_path": "doc/project_methodology_manifest.json",
+    "context_manifest_path": "doc/project_context_manifest.json",
+    "hygiene_manifest_path": "doc/project_hygiene_manifest.json",
+    "technique_usage_manifest_path": "doc/technique_usage_manifest.json",
+    "validator_report_path": "out/logs/project_methodology_report.json",
+    "required_for_closeout": true
+  },
+  "validation_artifacts": {
+    "validation_report_path": "out/logs/validation_report.json",
+    "project_context_report_path": "out/logs/project_context_report.json",
+    "project_methodology_report_path": "out/logs/project_methodology_report.json",
+    "project_hygiene_report_path": "out/logs/project_hygiene_report.json",
+    "runtime_metrics_path": "out/logs/runtime_metrics.json",
+    "scene_budget_report_path": "out/logs/scene_budget_report.json",
+    "scene_regression_report_path": "out/logs/scene_regression_report.json",
+    "emulator_session_path": "out/logs/emulator_session.json"
+  }
+}

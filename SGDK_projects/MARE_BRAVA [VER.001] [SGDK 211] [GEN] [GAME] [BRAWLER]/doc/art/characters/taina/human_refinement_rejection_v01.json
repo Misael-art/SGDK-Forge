@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "decision": "rejected_for_final_native_pose",
+  "rejected_assets": [
+    {
+      "asset_id": "taina_48x64_refined_basic_v01",
+      "sha256": "e78f77d92614eb0ec2c7a0ec529d7649db025a0a793b93f3b749323708a7b403"
+    },
+    {
+      "asset_id": "taina_48x64_refined_elite_v01",
+      "sha256": "0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13"
+    }
+  ],
+  "reason": "procedural_palette_cleanup_without_material_native_geometry_refinement",
+  "best_technical_control": {
+    "asset_id": "taina_48x64_refined_elite_v01",
+    "sha256": "0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13",
+    "role": "best_technical_control_only"
+  },
+  "scale_remains_locked": "48x64",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "next_route": "new_native_geometry_refinement_hypothesis_before_new_candidate_generation",
+  "previous_decision": "doc/art/characters/taina/human_direction_scale_decision_v03.json"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "localized_native_cleanup_manifest.v5",
+  "decision": "approve_localized_native_cleanup",
+  "frozen_checkpoint": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v04",
+    "sha256": "791074aa6919ac0bac78a60693c12daee8f03169b216996758a8a272bc6b214e",
+    "role": "incumbent_for_rework_only",
+    "pose_final_approval": false
+  },
+  "current_rework": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+    "path": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/hybrid_cleanup_primary_im_lanczos3_rework_v05.png",
+    "sha256": "6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3",
+    "status": "technical_pass_visual_rework",
+    "method": "mechanical_palette_remap_with_minimal_native_patches",
+    "native_cleanup": "incomplete",
+    "material_topology": "failed_requires_localized_material_cleanup",
+    "semantic_map": "derived_diagnostic_not_independent",
+    "claim_ceiling": "localized_native_cleanup_candidate"
+  },
+  "human_gate_status": "pending_human_decision",
+  "next_gate": "approved_for_final_native_pose",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false
+}

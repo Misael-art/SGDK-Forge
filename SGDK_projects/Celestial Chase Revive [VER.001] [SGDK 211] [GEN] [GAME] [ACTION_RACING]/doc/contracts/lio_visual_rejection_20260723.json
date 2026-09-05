@@ -1,0 +1,20 @@
+{
+  "schema": "sprite_strip_rejection_report.v1",
+  "generated_at": "2026-07-23T00:00:00-03:00",
+  "asset_id": "celestial_lio_runtime_sheet_v001",
+  "sheet": "res/sprites/lio_all.png",
+  "sha256": "92b98974ec921fc7414479a0d4f73b41ddffce4c153896961ffb702cb25aeb7e",
+  "status": "technical_pass_visual_fail",
+  "sprite_artifact_report": "out/logs/sprite_artifact_report.json",
+  "blocking_summary": {
+    "frames_checked": 19,
+    "blocking_findings": 77,
+    "primary_failure": "rectangular placeholder anatomy without articulated limbs"
+  },
+  "runtime_contract": {
+    "damage_animation_promised": true,
+    "damage_animation_runtime_fix": "src/scenes/race_scene.c",
+    "visual_approval": false,
+    "note": "The runtime now selects ANIM_DAMAGE, but runtime correctness does not upgrade the rejected art."
+  }
+}

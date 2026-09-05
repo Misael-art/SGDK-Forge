@@ -14,6 +14,7 @@
     5) SRAM com wordCount < 64                            -> deve throw
     6) SRAM com payload truncado (declara 100, tem 50)    -> deve throw
     7) SRAM com 1800 samples realistas                    -> sucesso + avg calculado
+    9) Contrato de janela e metricas DMA                  -> campos preservados
 
 .NOTES
   Exit 0: todos os cenarios passaram.
@@ -56,6 +57,10 @@ function New-SyntheticMdrt {
         [int]$SceneId = 1,
         [int]$SchemaVersion = 3,
         [int[]]$SampleValues = @(),
+        [int]$MaxDmaQueueEntries = 0,
+        [int]$MaxDmaQueueTransferBytes = 0,
+        [int]$ProbeWindowTarget = 0,
+        [int]$ProbeWindowComplete = 0,
         [int]$PayloadWordCountOverride = -1
     )
 
@@ -80,6 +85,10 @@ function New-SyntheticMdrt {
     Write-U16BE $buf ($payloadStart + (5 * 2)) $SceneId   # idx=5
     Write-U16BE $buf ($payloadStart + (8 * 2)) $SamplesRecorded # frames_seen idx=8
     Write-U16BE $buf ($payloadStart + (9 * 2)) $SamplesRecorded # samples_recorded idx=9
+    Write-U16BE $buf ($payloadStart + (18 * 2)) $MaxDmaQueueEntries
+    Write-U16BE $buf ($payloadStart + (19 * 2)) $MaxDmaQueueTransferBytes
+    Write-U16BE $buf ($payloadStart + (21 * 2)) $ProbeWindowTarget
+    Write-U16BE $buf ($payloadStart + (22 * 2)) $ProbeWindowComplete
 
     # Samples em idx 32..32+samples
     $i = 0
@@ -239,6 +248,30 @@ try {
         Write-Host ("[{0,-42}] {1}" -f 'C8: frame_metrics sinteticos', 'OK')
     } else {
         Write-Host ("[{0,-42}] {1}" -f 'C8: frame_metrics sinteticos', 'FAIL')
+        $script:failures++
+    }
+
+    # Case 9: contrato de janela completo e picos DMA preservados
+    $script:cases++
+    $p9 = Join-Path $tempRoot 'c9_window_dma.sram'
+    $p9Samples = 1..900 | ForEach-Object { 43 }
+    $words9 = 32 + $p9Samples.Count
+    Save-Binary $p9 (New-SyntheticMdrt -WordCount $words9 -SamplesRecorded 900 -TargetFps 60 -SceneId 3 -SampleValues $p9Samples -MaxDmaQueueEntries 7 -MaxDmaQueueTransferBytes 3584 -ProbeWindowTarget 900 -ProbeWindowComplete 1)
+    $p9Out = Join-Path $tempRoot 'c9_window_dma.json'
+    & $parser -SramPath $p9 -OutputPath $p9Out -SramOffset 0x200 -FrameWindow 900 | Out-Null
+    $p9Json = Get-Content -LiteralPath $p9Out -Raw -Encoding UTF8 | ConvertFrom-Json
+    $p9Ok = (
+        $p9Json.capture_status -eq 'ok' -and
+        $p9Json.region_mode -eq 'NTSC_60HZ' -and
+        $p9Json.probe_window_target -eq 900 -and
+        $p9Json.probe_window_complete -eq $true -and
+        $p9Json.max_dma_queue_entries -eq 7 -and
+        $p9Json.max_dma_queue_transfer_bytes -eq 3584
+    )
+    if ($p9Ok) {
+        Write-Host ("[{0,-42}] {1}" -f 'C9: janela completa + DMA', 'OK')
+    } else {
+        Write-Host ("[{0,-42}] {1}" -f 'C9: janela completa + DMA', 'FAIL')
         $script:failures++
     }
 }

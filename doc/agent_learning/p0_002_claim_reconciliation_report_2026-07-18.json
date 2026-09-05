@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "p0_002_claim_reconciliation_2026_07_18",
+  "generated_at": "2026-07-18T23:40:00-03:00",
+  "item_id": "P0-002",
+  "status": "completed",
+  "policy": "lowest_proven_status_wins",
+  "runtime_promoted": false,
+  "ready_for_aaa_promoted": false,
+  "implementation": {
+    "reconciler": "tools/sgdk_wrapper/reconcile_claims.py",
+    "schema": "tools/sgdk_wrapper/schemas/claim_reconciliation_report.schema.json",
+    "validator_integration": "tools/sgdk_wrapper/validate_resources.ps1",
+    "screenshot_identity_binding": [
+      "tools/sgdk_wrapper/screenshot_semantic_gate.py",
+      "tools/sgdk_wrapper/audit_screenshot_semantics.ps1"
+    ]
+  },
+  "blue_circuit_observation": {
+    "report": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/claim_reconciliation_report.json",
+    "status": "blocked",
+    "blocking_statuses": [
+      "runtime_capture_partial",
+      "perceptual_metrics_zero",
+      "report_rom_identity_missing",
+      "report_evidence_session_missing",
+      "report_status_conflict"
+    ],
+    "conflict_reasons": [
+      "partial_capture_conflicts_with_stable_performance",
+      "zero_perceptual_metrics_conflict_with_creative_ready",
+      "blocked_report_conflicts_with_positive_ready_claim",
+      "ready_claims_diverge_between_reports",
+      "positive_claim_report_set_lacks_rom_identity",
+      "positive_claim_report_set_lacks_evidence_session"
+    ],
+    "resolved_claims": {
+      "ready_for_aaa": false,
+      "technical_ready": false,
+      "creative_ready": false,
+      "performance": "unproven"
+    }
+  },
+  "tests": [
+    {
+      "path": "tools/sgdk_wrapper/ci/test_claim_reconciliation.py",
+      "result": "passed",
+      "cases": 4,
+      "coverage": [
+        "blocked_gate_overrides_positive_claims",
+        "partial_capture_and_zero_perceptual_metrics_lower_claims",
+        "identity_mismatch_is_explicit_conflict",
+        "consistent_full_evidence_preserves_positive_claims"
+      ]
+    },
+    {
+      "schema": "tools/sgdk_wrapper/schemas/claim_reconciliation_report.schema.json",
+      "result": "passed",
+      "validated_report": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/claim_reconciliation_report.json"
+    }
+  ],
+  "acceptance_checks": {
+    "blocked_gate_forces_ready_for_aaa_false": true,
+    "partial_capture_forces_performance_unproven": true,
+    "zero_perceptual_metrics_force_creative_ready_false": true,
+    "divergent_reports_emit_report_status_conflict": true,
+    "rom_and_session_identity_are_required_and_reconciled": true
+  },
+  "execution_note": "A reexecucao completa de validate_resources no host compartilhado foi interrompida apos forte contencao externa de I/O; a integracao foi validada por parser, report real independente, schema e regressao deterministica. Nenhum status foi promovido por esta limitacao operacional."
+}

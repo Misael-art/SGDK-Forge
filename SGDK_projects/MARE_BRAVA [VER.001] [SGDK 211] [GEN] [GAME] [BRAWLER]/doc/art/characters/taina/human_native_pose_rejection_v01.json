@@ -1,0 +1,20 @@
+{
+  "schema_version": "human_native_pose_decision.v1",
+  "decision": "rejected_for_final_native_pose",
+  "classification": "technical_pass_visual_fail",
+  "asset_id": "taina_idle_guard_56x80_native_authoring_v04",
+  "sha256": "0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e",
+  "scale": "56x80",
+  "reasons": [
+    "anatomy_simplified_into_block_mass",
+    "face_or_eye_readability_lost",
+    "signature_feature_loss",
+    "generic_blocky_redraw"
+  ],
+  "preserve_as": "technical_control_only",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "aaa_claim": false,
+  "next_gate": "causal_native_rework_at_56x80"
+}

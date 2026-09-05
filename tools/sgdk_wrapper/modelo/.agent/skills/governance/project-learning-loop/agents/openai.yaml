@@ -1,0 +1,11 @@
+interface:
+  display_name: "Project Learning Loop"
+  short_description: "Captura aprendizado local e propõe patches seguros"
+  brand_color: "#65737E"
+  default_prompt: "Use $project-learning-loop para auditar ou capturar aprendizado local, deduplicar owners e gerar propostas canônicas não aplicadas."
+
+policy:
+  allow_implicit_invocation: false
+
+dependencies:
+  tools: []

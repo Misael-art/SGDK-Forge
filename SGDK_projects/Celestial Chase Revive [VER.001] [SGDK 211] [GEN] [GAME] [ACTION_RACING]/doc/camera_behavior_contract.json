@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "owner": "race_road",
+  "camera_model": "integer lane runner camera with scripted forward acceleration",
+  "deadzone": "not_applicable_for_forward_runner",
+  "lookahead": "pressure-based horizon offset, integer pixels only",
+  "shake": {
+    "max_frames": 6,
+    "max_pixels_x": 3,
+    "max_pixels_y": 2,
+    "owner": "race_rules_or_boss_setpiece"
+  },
+  "clamp": "road panels define safe scroll gutters",
+  "reset": "all scroll offsets zeroed on scene exit"
+}

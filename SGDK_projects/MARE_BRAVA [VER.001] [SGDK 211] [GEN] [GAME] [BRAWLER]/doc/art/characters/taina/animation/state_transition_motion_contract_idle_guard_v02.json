@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_idle_guard_state_transition_v02",
+  "generated_at": "2026-07-29",
+  "status": "declared",
+  "from_state": "idle_guard",
+  "to_state": "idle_guard_or_future_action",
+  "trigger": "loop_end_or_gameplay_input",
+  "bridge_frames": {
+    "loop": "frame_5_to_frame_0",
+    "future_action": "interrupt allowed from frame 0, 1, 4 or 5; attack-specific anticipation remains required"
+  },
+  "momentum_policy": "idle has zero root displacement; future action owns any center-of-mass transfer",
+  "return_rule": "future action recovery must return to frame 0 or frame 5 without changing pivot or scale",
+  "runtime_timing_note": "manual VBlank timing required to reproduce [11,7,10,7,11,12]"
+}

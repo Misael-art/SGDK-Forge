@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "collision_system_v001",
+  "collision_space_contract": {
+    "logic_space": "lane_id plus integer screen_px for narrow-phase AABB",
+    "forward_axis": "track_step/frame timing, not free world Y movement",
+    "camera_space": "camera affects drawing only; collision uses event projection and player lane",
+    "fixed_point_policy": "Q8.8 for speed/progress, integer pixels for final AABB"
+  },
+  "collision_layers": {
+    "player_hurt": 1,
+    "player_pickup": 2,
+    "player_pulse": 3,
+    "solid_hazard": 4,
+    "low_hazard": 5,
+    "aerial_hazard": 6,
+    "pickup": 7,
+    "boss_weakpoint": 8,
+    "trigger_only": 9
+  },
+  "entity_body_catalog": [
+    {
+      "body_id": "lio_player",
+      "visual_bbox_px": {"w": 24, "h": 32},
+      "hurtbox_px": {"x": 5, "y": 8, "w": 14, "h": 22},
+      "pickup_box_px": {"x": 2, "y": 4, "w": 20, "h": 28},
+      "pushbox_px": null,
+      "probes": ["center", "feet_left", "feet_right"],
+      "notes": "Hurtbox is deliberately smaller than sprite to preserve fair reading."
+    },
+    {
+      "body_id": "lumen_orb",
+      "visual_bbox_px": {"w": 16, "h": 16},
+      "collect_box_px": {"x": 2, "y": 2, "w": 12, "h": 12},
+      "layer": "pickup"
+    },
+    {
+      "body_id": "low_stone",
+      "visual_bbox_px": {"w": 32, "h": 16},
+      "hitbox_px": {"x": 2, "y": 4, "w": 28, "h": 10},
+      "layer": "low_hazard",
+      "jump_clear_rule": "ignored when player.jump_height_px >= 10"
+    },
+    {
+      "body_id": "astral_mark",
+      "visual_bbox_px": {"w": 40, "h": 16},
+      "hitbox_px": {"x": 0, "y": 4, "w": 40, "h": 10},
+      "layer": "solid_hazard",
+      "jump_clear_rule": "not_clearable_by_jump"
+    },
+    {
+      "body_id": "meteor_diagonal",
+      "visual_bbox_px": {"w": 24, "h": 24},
+      "hitbox_px": {"x": 3, "y": 3, "w": 18, "h": 18},
+      "layer": "aerial_hazard",
+      "jump_clear_rule": "not_clearable_by_jump"
+    },
+    {
+      "body_id": "boss_wave",
+      "visual_bbox_px": {"w": 48, "h": 16},
+      "hitbox_px": {"x": 0, "y": 3, "w": 48, "h": 10},
+      "layer": "solid_hazard",
+      "jump_clear_rule": "clearable_only_if_variant_low"
+    },
+    {
+      "body_id": "boss_weakpoint",
+      "visual_bbox_px": {"w": 24, "h": 24},
+      "hitbox_px": {"x": 2, "y": 2, "w": 20, "h": 20},
+      "layer": "boss_weakpoint",
+      "damage_rule": "requires charged Pulse during active window"
+    }
+  ],
+  "layer_interaction_matrix": [
+    {"a": "player_hurt", "b": "solid_hazard", "result": "damage"},
+    {"a": "player_hurt", "b": "low_hazard", "result": "damage_unless_jump_clear"},
+    {"a": "player_hurt", "b": "aerial_hazard", "result": "damage"},
+    {"a": "player_pickup", "b": "pickup", "result": "collect"},
+    {"a": "player_pulse", "b": "solid_hazard", "result": "clear_if_clearable"},
+    {"a": "player_pulse", "b": "low_hazard", "result": "clear_if_clearable"},
+    {"a": "player_pulse", "b": "boss_weakpoint", "result": "damage_boss_if_charged"}
+  ],
+  "damage_response": {
+    "integrity_loss": 1,
+    "invulnerability_frames": 60,
+    "lane_lock_frames": 12,
+    "hitstop_frames": 6,
+    "camera_shake_ref": "doc/camera_behavior_contract.json",
+    "pressure_gain_on_hit": 15,
+    "lumen_loss_on_hit": 10,
+    "guard_shard_override": {
+      "lumen_cost": 25,
+      "integrity_loss": 0,
+      "pressure_gain": 8,
+      "invulnerability_frames": 45
+    }
+  },
+  "pulse_collision": {
+    "activation_cost_lumen": 20,
+    "startup_frames": 4,
+    "active_frames": 10,
+    "lane_mask": "current_lane_plus_adjacent_for_clearable_minor_hazards",
+    "forward_window_px": 72,
+    "pressure_reduction": 18,
+    "boss_damage_requires": "boss_weakpoint_window_active"
+  },
+  "runtime_budget": {
+    "max_active_hazards_first_slice": 6,
+    "max_active_pickups_first_slice": 4,
+    "max_collision_pairs_per_frame_first_slice": 24,
+    "broadphase": "lane_mask and active window before AABB",
+    "narrowphase": "integer AABB overlap"
+  },
+  "regression_fixtures": [
+    "jump_clears_low_stone_center_lane",
+    "jump_does_not_clear_astral_mark",
+    "pickup_collects_without_damage_same_step",
+    "damage_grants_invulnerability",
+    "guard_shard_prevents_integrity_loss",
+    "pulse_clears_tutorial_target",
+    "boss_weakpoint_requires_charged_pulse"
+  ],
+  "blocking_notes": [
+    "No runtime collision may be implemented from visual tile color.",
+    "No single full-sprite AABB for Lio is allowed.",
+    "Collision must be stable under camera shake because shake is visual-only."
+  ]
+}

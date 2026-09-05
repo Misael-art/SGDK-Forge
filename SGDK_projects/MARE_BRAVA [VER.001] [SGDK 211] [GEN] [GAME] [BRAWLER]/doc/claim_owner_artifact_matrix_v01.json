@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "workspace_scope_isolation": true,
+  "freshness_status": {
+    "report": "out/logs/freshness_audit_report.json",
+    "status": "warning",
+    "remaining_blockers": [
+      "FRESH_MISSING_REQUIRED:validation_report",
+      "FRESH_MISSING_REQUIRED:build_output",
+      "scene_contract_lint_error"
+    ]
+  },
+  "rom": {
+    "path": "out/rom.bin",
+    "sha256": "e07fa63b6aa6e7bec542814950eb9190f7a5e04732da362c27f01b84398dfd5e"
+  },
+  "claims": [
+    {
+      "claim": "approved TAÍNA source for pixel translation",
+      "owner": "art-translation-to-vdp",
+      "artifact": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+      "hash": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+      "measurement": "human approval recorded; high-res source only",
+      "status": "approved_authorial_source_for_pixel_translation",
+      "next_blocker": "hand-authored native 48x64 lineart; contract=doc/art/characters/taina/taina_reseed_native_translation_contract_v01.json"
+    },
+    {
+      "claim": "TAÍNA jab damages CRIA",
+      "owner": "collision-system-architect + sgdk-runtime-coder",
+      "artifact": "out/evidence/cais01_combat_jab_input_keyboard_capture/blastem-linux-20260829T230057Z-984247/screenshot.png",
+      "hash": "e07fa63b6aa6e7bec542814950eb9190f7a5e04732da362c27f01b84398dfd5e",
+      "measurement": "C:040 -> C:025 after one observed input",
+      "status": "testado_em_emulador_limited",
+      "next_blocker": "isolated invulnerability and complete combat proof"
+    },
+    {
+      "claim": "scene 3 technical runtime observation",
+      "owner": "emulator-vdp-evidence-curator",
+      "artifact": "out/evidence/cais01_combat_seed/blastem-linux-20260829T220742Z-874842/evidence_manifest.json",
+      "hash": "e07fa63b6aa6e7bec542814950eb9190f7a5e04732da362c27f01b84398dfd5e",
+      "measurement": "320x224, VLAB, VDP dump, 60.2 fps snapshot, max 4 sprites/scanline",
+      "status": "testado_em_emulador_limited",
+      "next_blocker": "sustained complete-scene budget and audio"
+    },
+    {
+      "claim": "AAA vertical slice",
+      "owner": "aaa-pipeline-guardian",
+      "artifact": "doc/aaa_pipeline_gate_report.json",
+      "hash": "not_applicable",
+      "measurement": "live scene bar, production assets, budget, audio and closeout absent",
+      "status": "blocked",
+      "next_blocker": "production TAÍNA model sheet"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "project_root": "../..",
+  "asset_id": "blue_circuit_player_v002",
+  "sheet": "out/evidence/sprite_rework_20260723/blue_player_all_v002.png",
+  "cell": {"w": 24, "h": 32},
+  "pivot": {"x": 12, "y": 29},
+  "pivot_tolerance_px": 4,
+  "transparent_index": 0,
+  "frame_delta_min": 0.01,
+  "frame_delta_max": 0.48,
+  "actions": [
+    {
+      "name": "run",
+      "row": 0,
+      "start": 0,
+      "count": 6,
+      "grounded": [true, false, true, false, true, false],
+      "hold_ms": 70,
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "head, torso, two arms, two legs and both boots present"},
+        {"status": "passed", "note": "passing pose retains complete limbs and tool hand"},
+        {"status": "passed", "note": "contact pose retains complete anatomy"},
+        {"status": "passed", "note": "airborne stride retains complete anatomy"},
+        {"status": "passed", "note": "opposite contact pose retains complete anatomy"},
+        {"status": "passed", "note": "recovery stride retains complete anatomy"}
+      ]
+    },
+    {
+      "name": "shoot",
+      "row": 1,
+      "start": 0,
+      "count": 3,
+      "grounded": [true, true, true],
+      "hold_ms": 90,
+      "frame_delta_min": 0.005,
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "anticipation pose keeps support arm, firing arm and both legs"},
+        {"status": "passed", "note": "firing extension keeps wrist tool attached to forearm"},
+        {"status": "passed", "note": "release pose keeps complete silhouette without detached effect"}
+      ]
+    },
+    {
+      "name": "jump",
+      "row": 2,
+      "start": 0,
+      "count": 4,
+      "grounded": [true, false, false, true],
+      "hold_ms": 100,
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "takeoff pose is anatomically complete"},
+        {"status": "passed", "note": "ascent pose keeps hands and boots readable"},
+        {"status": "passed", "note": "apex tuck keeps both legs distinct"},
+        {"status": "passed", "note": "landing pose restores baseline and complete anatomy"}
+      ]
+    },
+    {
+      "name": "idle",
+      "row": 3,
+      "start": 0,
+      "count": 1,
+      "grounded": [true],
+      "hold_ms": 140,
+      "manual_anatomy_review": [
+        {"status": "passed", "note": "neutral pose preserves model-sheet identity and complete anatomy"}
+      ]
+    }
+  ],
+  "previews": {
+    "contact_sheet": "out/evidence/sprite_rework_20260723/blue_player_contact_sheet_v002.png",
+    "animation_root": "out/evidence/sprite_rework_20260723/animations",
+    "scale": 7,
+    "animation_scale": 8
+  }
+}

@@ -1,14 +1,25 @@
 {
-  "schema": "dac_stream_budget_report_v1",
+  "schema": "dac_stream_budget_report_v2",
   "driver": "XGM2",
   "sample_rate_hz": 13300,
-  "max_concurrent_pcm": 3,
+  "max_concurrent_pcm": 2,
+  "music_pcm_channels": 0,
+  "sfx_pcm_channels": ["PCM_CH2", "PCM_CH3"],
   "streaming_model": "XGM2 ROM-backed PCM playback; no custom ring buffer",
-  "contention_risk": "medium_until_runtime_metrics",
+  "runtime_metrics": {
+    "rom_sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+    "samples": 270,
+    "max_xgm2_cpu_load": 92,
+    "max_dma_wait": 0,
+    "missed_frames": 1,
+    "driver_frames": 1363
+  },
+  "contention_risk": "low_for_ownership_medium_for_peak_z80_load",
   "mitigation": [
-    "Keep per-frame VDP DMA below the documented 7168-byte envelope.",
-    "Never update hero and pursuer animation frames in the same VBlank.",
-    "Drop optional pressure cue before a critical cue.",
-    "Inspect XGM2 missed frames and DMA wait in BlastEm."
-  ]
+    "reserve PCM_CH1 for XGM2 music internals",
+    "drop optional pressure cue before a critical cue",
+    "keep critical cues on PCM_CH2 and UI cues on PCM_CH3",
+    "retest missed-frame count after any new PCM or VDP DMA load"
+  ],
+  "status": "budget_declared_runtime_warning"
 }

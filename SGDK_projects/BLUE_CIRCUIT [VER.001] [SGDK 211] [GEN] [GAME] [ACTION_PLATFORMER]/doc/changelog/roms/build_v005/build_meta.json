@@ -1,0 +1,80 @@
+﻿{
+    "build_version":  "build_v005",
+    "rom_sha256":  "ff8fb909620a13f5fdf402f03b1bdac292244a23096dac50ac80f3ad98bdd160",
+    "size_bytes":  262144,
+    "timestamp":  "2026-06-28T10:45:20.2166254-03:00",
+    "source_commit_when_available":  "1b6e5371d636bc6ea80176f9a498276c26e3a01e",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  7,
+                               "blocking_statuses":  [
+                                                         "visual_gate_blocked",
+                                                         "visual_direction_failed",
+                                                         "audio_validation_stale",
+                                                         "emulator_evidence_stale",
+                                                         "whole_image_unique_ratio_high_without_justification",
+                                                         "freshness_audit_stale",
+                                                         "scene_closeout_gate_stale"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "runtime_metrics_stale",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "stale",
+                             "performance":  "estavel",
+                             "audio":  "ok",
+                             "hardware_real":  "blastem_reference_emulator"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_bc_title_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/title_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_bc_stage_bg",
+                                      "version":  "v002",
+                                      "source_path":  "res/blue_circuit/stage_01_bg.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_player_idle",
+                                      "version":  "v002",
+                                      "source_path":  "res/blue_circuit/player_idle.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_player_run",
+                                      "version":  "v002",
+                                      "source_path":  "res/blue_circuit/player_run.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_player_jump",
+                                      "version":  "v002",
+                                      "source_path":  "res/blue_circuit/player_jump.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_player_shoot",
+                                      "version":  "v002",
+                                      "source_path":  "res/blue_circuit/player_shoot.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_line_sentry_idle",
+                                      "version":  "v002",
+                                      "source_path":  "res/blue_circuit/line_sentry_idle.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_breaker_core_idle",
+                                      "version":  "v002",
+                                      "source_path":  "res/blue_circuit/breaker_core_idle.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_projectile_pulse",
+                                      "version":  "v002",
+                                      "source_path":  "res/blue_circuit/projectile_pulse.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

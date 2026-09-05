@@ -10,13 +10,22 @@ Do not generate character images before these exist:
 - `pose_roster.md`: exact poses/keyframes to request from the image model.
 - `frame_budget_table.md`: frame count, frame size and VBlank timing per action.
 - `pivot_and_scale_contract.md`: frame box, pivot, ground/contact rule, camera, scale and invariant proportions.
+- `style_motion_reverse_engineering.md`: primitive shape language, proportion matrix, line weight and shading model when inheriting a style, benchmark or authorial direction.
+- `turnaround_tracking_contract.md`: tracking lines and volume anchors for front, side, back and 3/4 views when rotation or multiple directions are required.
+- `motion_physics_contract.md`: center of mass, gravity/contact, arcs, timing/spacing intent and secondary motion order for critical movement.
+- `state_transition_motion_contract.md`: bridge frames or transition rules between gameplay/cutscene states.
 - `asset_kind_declaration.md`: classify each image as `model_sheet`, `key_pose_sheet`, `animation_strip`, or `final_sprite_sheet`.
 - `idle_breathing_cycle_contract.md`: required for hero/fighter/boss idle in AAA when the body is readable.
 - `facial_expression_phase_map.md`: required for hero/fighter/boss/NPC faces in AAA when the face is readable.
 - `cloth_secondary_animation_contract.md`: required when cloth, hair, sash, cape, jacket or loose accessory is visible in critical motion.
 - `hand_pose_keyframe_contract.md`: required when hands, claws, grips, weapons or gestures are readable in 320x224.
+- `visual_dna_manifest.json`: validates identity, palette, material, scale and forbidden drift using `tools/sgdk_wrapper/schemas/visual_dna_manifest.schema.json`.
+- `design_inheritance.json`: proves the strip inherits from an approved model sheet and does not use a benchmark as source art.
+- `animation_strip_contract.json`: one horizontal action strip validated by `tools/sgdk_wrapper/.agent/scripts/validate_strip.py`.
 
 If any artifact is missing, status is `blocked_animation_planning`.
+
+Machine-readable examples live in `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/`.
 
 ## Asset kinds
 
@@ -35,11 +44,17 @@ Rules:
 
 ## Production passes
 
-1. `model_sheet`: neutral stance front/side/back plus gameplay pose. Locks design.
-2. `key_poses`: idle, locomotion extremes, crouch/jump, anticipation, contact, hurt, victory.
-3. `animation_strips`: one action per generation request. No full sheet yet.
-4. `full_sheet_assembly`: only after accepted strips.
-5. `qa`: continuity, pivots, timing, overlays and budget.
+1. `style_motion_reverse_engineering`: style as constraints, not copying.
+2. `model_sheet`: neutral stance front/side/back plus gameplay pose. Locks design.
+3. `turnaround_tracking_contract`: lines and volumes prove 3D consistency before motion.
+4. `key_poses`: idle, locomotion extremes, crouch/jump, anticipation, contact, hurt, victory.
+5. `motion_physics_contract`: mass, gravity, arcs, contact and inertia.
+6. `silhouette_blocking`: black/solid poses prove timing and action before color.
+7. `animation_strips`: one action per generation request. No full sheet yet.
+8. `state_transition_motion_contract`: bridges state changes before final assembly.
+9. `pixel_perfect_animation_pass`: line cleaning, jaggie removal, cluster motion and shading motion.
+10. `full_sheet_assembly`: only after accepted strips.
+11. `qa`: continuity, pivots, timing, overlays and budget.
 
 Never generate a full production sheet before accepted model sheet and key poses.
 
@@ -54,6 +69,109 @@ Every frame in a strip must preserve:
 - clear anticipation, contact/action and recovery where applicable
 
 Reject if frames look like separate drawings instead of a movement.
+
+## Style and volume contracts
+
+### `style_motion_reverse_engineering`
+
+Use when the work claims a style, benchmark family, authorial model sheet or
+genre-specific visual language.
+
+Minimum fields:
+
+- `primitive_shape_language`: circle/box/triangle dominance and body block logic.
+- `proportion_matrix`: head count, eye placement, limbs, hands, feet and scale.
+- `line_weight_policy`: outer contour, inner line and silhouette priorities.
+- `shading_model`: tones per material, light direction, hue shift and dither rules.
+- `extreme_pose_limits`: what can exaggerate, smear or distort without identity drift.
+
+Blockers:
+
+- `style_named_but_not_decomposed`
+- `proportion_matrix_drift`
+- `line_weight_drift_between_frames`
+- `shading_model_inconsistent`
+
+### `turnaround_tracking_contract`
+
+Use when any asset needs front/side/back/3-4 views, rotation, multi-direction
+movement, weapon/body turn or cutscene angle reuse.
+
+Minimum fields:
+
+- `front_view_anchor`, `side_view_anchor`, `back_view_anchor`, `three_quarter_anchor`
+- `tracking_lines`: head top, eyes, nose, chin, shoulder, elbow, wrist, waist, knee, ankle, ground
+- `volume_primitives`: head, torso, pelvis and limbs as simple 3D volumes
+- `foreshortening_policy`: near-side expansion, far-side compression and hidden forms
+- `pivot_and_hurtbox_policy`: stable pivot, ground_y and fair collision envelope
+
+Blockers:
+
+- `turnaround_tracking_missing`
+- `joint_height_drift`
+- `volume_float_between_angles`
+- `foreshortening_unplanned`
+- `hurtbox_unfair_after_rotation`
+
+### `motion_physics_contract`
+
+Use for locomotion, jump, landing, attack, hurt, throw, boss, vehicle and any
+motion claiming premium/AAA feel.
+
+Minimum fields:
+
+- `key_pose_sequence`: neutral, anticipation, action/contact, follow-through, recovery
+- `center_of_mass_curve`: pixel or phase movement of body weight
+- `gravity_and_contact_model`: foot lock, airborne phase, landing compression and return
+- `arc_path_map`: hands, weapon, head, cloth, hair, projectile or hit spark paths
+- `timing_spacing_intent`: slow-in/slow-out, burst frames and held frames
+- `secondary_motion_order`: body first, loose parts later, with delay/damping
+
+Blockers:
+
+- `motion_physics_missing`
+- `center_of_mass_jump`
+- `gravity_not_readable`
+- `arc_path_linear_on_organic_motion`
+- `secondary_motion_order_wrong`
+
+### `state_transition_motion_contract`
+
+Use before assembling a final sheet or wiring runtime states.
+
+Minimum fields:
+
+- `from_state`, `to_state`, `trigger`, `bridge_frames`, `momentum_policy`
+- `return_rule`: recovery, landing, getup, cancel, interrupt or cutscene return
+- `runtime_timing_note`: VBlank duration or frame callback requirement
+
+Blockers:
+
+- `state_transition_missing`
+- `snap_to_idle`
+- `landing_ignores_fall_speed`
+- `hurt_getup_breaks_ground_y`
+- `cutscene_return_state_dirty`
+
+## Pixel-perfect pass
+
+Before palette final or promotion, save a `pixel_perfect_animation_pass` with:
+
+- `line_cleaning_report`: diagonals, curves, double corners and orphan pixels.
+- `subpixel_shading_motion_report`: internal light/shadow shifts that simulate
+  micro-motion without changing the outer silhouette.
+- `cluster_motion_review`: base, shadow and highlight clusters move with anatomy,
+  cloth or material.
+- `fake_pixel_art_rejection`: no AA, blur, soft gradient, fractional pixel edge,
+  interpolated downscale or 256-entry PLTE.
+
+Blockers:
+
+- `jaggies_or_double_corners`
+- `orphan_pixels_in_motion`
+- `subpixel_shading_uses_new_noise_colors`
+- `cluster_motion_noise`
+- `fake_pixel_art_artifact`
 
 ## Motion phase map
 

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_arcade_hi_bit_v011",
+  "evaluated_at": "2026-06-14T14:14:34Z",
+  "route_change_reason": "human quality correction: 48x64 was insufficient for AAA-grade face, anatomy and material readability",
+  "scale_contract": {
+    "native_resolution": "320x224",
+    "nominal_bbox_px": {
+      "w": 96,
+      "h": 96
+    },
+    "pivot_policy": "locked bottom-center pivot at 32,88 with stable ground_y 88",
+    "scale_class": "arcade_hi_bit_medium_large",
+    "scale_lock_status": "locked_for_v011_candidate",
+    "scale_change_policy": "v011 supersedes v010 runtime-lab candidate for AAA visual route"
+  },
+  "must_preserve": [
+    "hair_silhouette",
+    "eyes_focus",
+    "face_personality",
+    "athletic_anatomy",
+    "lava_arm",
+    "lava_fissures",
+    "black_gold_shorts",
+    "red_biceps_band",
+    "dirty_white_wraps",
+    "bronze_skin",
+    "material_roles",
+    "asymmetry_lock"
+  ],
+  "decision": {
+    "production_allowed": true,
+    "ready_for_res_promotion": true,
+    "ready_for_aaa": false,
+    "remaining_blockers": [
+      "human_visual_review_missing_for_aaa",
+      "visual_vdp_dump_missing",
+      "runtime_60fps_metrics_missing"
+    ]
+  }
+}

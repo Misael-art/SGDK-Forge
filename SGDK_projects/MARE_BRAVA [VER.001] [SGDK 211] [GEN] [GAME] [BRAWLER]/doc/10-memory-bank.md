@@ -1,25 +1,197 @@
 <!-- SGDK GENERATED STATUS START -->
 ## 0. Estado Derivado dos Artefatos
 
-- Fonte: `doc/changelog` + `validation_report.json`
-- Ultima sincronizacao: `2026-07-29T13:37:12.8268296-03:00`
+- Fonte: `doc/changelog` + `doc/aaa_pipeline_gate_report.json` + `out/logs/freshness_audit_report.json`
+- Ultima sincronizacao: `2026-08-30T14:50:00-03:00`
 - Changelog canonico: `doc/changelog/changelog.md`
 - Assets versionados rastreados: 12
 - Ultimo build versionado: build_v003
-- ROM vigente: `e1fc0dd5180ffb09f74087248f1d4d363ace93b5c1a74f0e307c1b8f3e05c1c6` (`262144` bytes)
-- Validation summary: errors=0 warnings=0
-- Blockers vigentes: nenhum
-- Evidencia de emulador: nao_avaliado
+- ROM vigente: `144fb573b088375c68f71d4255282db315052fe0f8de351e595806e6b734abd4` (`262144` bytes)
+- Validation summary: `errors=0`, `warnings=10`, `checked=20` (validacao de recursos concluida em 2026-08-30)
+- Blockers vigentes: `taina_native_48x64_lineart_visual_fidelity_pending` (a representação 48x64 já foi produzida; o blocker anterior foi corrigido de `taina_native_48x64_lineart_missing` para `taina_native_48x64_lineart_representation_mismatch`), `tile_residency_over_ceiling`, `stage_bgm_source_missing`, `freshness_audit_stale`
+- Evidencia de emulador: sessao BlastEm selada por hash em `out/evidence/blastem`, com `emulator_session.json` canonico
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker — MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]
 
-**Ultima atualizacao:** 2026-08-29 (CRIA IA perseguidor + kit de motion 48x64, PAL3)
-**Fase atual:** `buildado_runtime_observed_partial` / `technical_artifact_only`. NÃO é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`. A ROM atual mostra TAÍNA jogavel + CRIA com FSM APPROACH/TELEGRAPH/ATTACK/RECOVER no cais v04. Faltam VLAB/dump VDP, HP/HUD, ESTIVADOR, áudio de gameplay e closeout.
-**Proxima fase:** ESTIVADOR, HP/HUD, ou reseed de detalhe da TAÍNA a partir da imagem 04. Não declarar AAA.
+**Ultima atualizacao:** 2026-08-30 (Visual Forge P0.1-P0.6; migracao de lineage da TAÍNA executada; runtime_probe reconciliado e buildado)
+**Fase atual:** `technical_runtime_visual_translation_authorized`. A ROM atual é uma prova técnica de integração; seus assets procedurais não constituem baseline visual. Não é vertical slice, NÃO é `ready_for_aaa`, NÃO é `visual_pass`.
+**Proxima fase:** model sheet pixel nativo da TAÍNA a partir da fonte aprovada; congelar expansão de conteúdo sobre a arte provisória até que TAÍNA, CRIA, CAIS e FX tenham proveniência final, qualidade, budget e evidência.
+
+### Sessao MODO GO — 2026-08-30 — S0 a S6 + ownership de runtime
+
+- S0 foi reaberto com contexto `aaa_game`, teto `vertical_slice` e rota
+  `source_translation` registrada em `doc/route_decision_record.json`.
+- S1–S6 receberam os artefatos de radar criativo, mecânicas, level design,
+  enemy design, áudio adaptativo e transições. O design está documentado, mas
+  não sustenta `game_production_ready` enquanto áudio de gameplay e provas
+  vivas forem pendentes.
+- A ownership da câmera saiu do contrato para o runtime em
+  `src/system/camera.c`; `scene_demo.c` agora consume `CAMERA_getX()` e a
+  câmera usa fix32 interno, deadzone, lookahead, clamp de 192 px e snap inteiro.
+- `scene_branding.c` deixou de escrever PSG diretamente: os pulsos passam por
+  `AUDIO_pulsePsg()`. Atualizações de CRAM e HScroll por linha usam a fila DMA.
+- Build limpo pela rota `linux_wine_bridge` gerou ROM de 262144 bytes com SHA
+  `144fb573b088375c68f71d4255282db315052fe0f8de351e595806e6b734abd4`.
+- `validate_resources.ps1`: `errors=0`, `warnings=10`; isto é build/validação
+  estrutural, não prova de boot, gameplay, áudio ou performance em BlastEm.
+- `audit_tile_residency.py` permanece bloqueado em `2117/1740` tiles únicos
+  (122% do teto utilitário); a resolução arquitetural continua sendo
+  `tilemap_streaming`/residência por janela, não reduzir o claim por silêncio.
+- Estado honesto: `buildado`, `testado_em_emulador=false`,
+  `validado_budget=false`, `ready_for_aaa=false`.
+
+### Evidência BlastEm e revisão de runtime — 2026-08-30
+
+- A rota Linux preparada pelo workspace executou BlastEm 0.6.2 via Flatpak e
+  selou `out/blastem_evidence/blastem-linux-20260830T180348Z-3682089/` para a
+  ROM `144fb573b088375c68f71d4255282db315052fe0f8de351e595806e6b734abd4`.
+  O pacote contém screenshot, `save.sram`, `visual_vdp_dump.bin`,
+  `runtime_metrics.json`, áudio raw e manifesto selado; a auditoria de
+  evidência reportou `status=ok`, blockers=0.
+- A screenshot é informativa (320×224, 401 cores únicas, sem captura vazia) e
+  mostra CAIS_01 com TAÍNA e CRIA. O `runtime_metrics` identifica cena 3,
+  frame 151, snapshot de 59.7 fps, 7 sprites ativos e 4 sprites máximos por
+  scanline; isso prova boot/cena/semântica, não estabilidade sustentada.
+- O mesmo snapshot mediu `max_cpu_load=172` e `over_budget_frames=61` em 32
+  amostras. Performance fica bloqueada até reduzir redraw/DMA/residência e
+  repetir a captura na mesma hash.
+- `audit_tile_residency.py` com self-check passou, mas o parecer real continua
+  bloqueado: 2.117 tiles simultâneos contra teto utilitário de 1.740 (122%).
+  A próxima rota é `tilemap_streaming` ou escopo residente por janela, nunca
+  esconder o excesso por compressão ROM.
+- `scene_closeout_gate.ps1 -WarnOnly -SkipRuntimeCapture` gerou status
+  `warn`; a captura posterior fechou o pacote de evidência, mas gameplay por
+  input e regressão de câmera ainda não foram isolados.
+- Revisão de código: `review_passed_with_risk`. APIs SGDK 2.11 foram conferidas,
+  sem `float/double`, heap no loop ou PSG direto fora do owner de áudio; riscos
+  restantes são performance, residência, áudio de gameplay e arte nativa.
+- Sync final desta iteração: `validate_resources.ps1` concluiu com
+  `errors=0`, `warnings=10`, e o `fresh_evidence_bundle_audit_report` canônico
+  passou com blockers=0 usando `out/evidence/blastem/evidence_manifest.json`.
+  O closeout terminou com 11/13 passos sucedidos, 1 pulado e 1 bloqueado.
+  Freshness ainda aponta `runtime_metrics`/`emulator_session` stale e o gate
+  global segue bloqueado por visual, tilemap, changelog e performance; nenhum
+  status verde foi inferido.
+
+### Reconciliacao operacional vigente — 2026-08-30
+
+- O contrato machine-readable vigente e
+  `doc/contracts/visual_toolchain_reconciliation_v01.json`.
+- As tres imagens 1086x1448 sao **aprovadas artisticamente** pelo owner como
+  referencias de construcao. O tamanho, RGB/RGBA e a ausencia de grid nativo
+  impedem somente a promocao direta para `res/` e qualquer claim final.
+- **[2026-08-30] Migracao de lineage executada.** As tres imagens saíram de
+  `rejected/` para
+  `data/source_art/concept/taina_pixel_model_sheet/construction_reference/`.
+  O conteudo nao mudou: os tres SHA-256 declarados em
+  `visual_source_of_truth_taina_v02.json`,
+  `premium_source_manifest.json` e
+  `taina_derived_visual_sources_human_approval_v01.json` foram reconferidos
+  contra os arquivos movidos e batem. Os 5 contratos que citavam o caminho
+  antigo foram repontados; o changelog nao foi reescrito, recebeu entrada nova.
+- A pasta `rejected/` continua existindo e agora contem **apenas**
+  `taina_native_pixel_model_sheet_candidate_rejected_v01.png`, que e de fato
+  rejeitada e nao e citada por contrato nenhum. Nome e status coincidem.
+- GIMP foi recuperado depois da tentativa historica, mas a automacao de
+  ponteiro nao ofereceu precisao/observabilidade suficiente. GUI deixa de ser
+  dependencia do pipeline; o core planejado e CLI deterministico.
+- Ainda nao existe lineart 48x64 aceita. Conversao automatica da fonte pode
+  gerar apenas `basic_control`; a candidata `elite` exige reconstrucao nativa e
+  `model_sheet_to_sprite_fidelity_report`.
+- Diagnostico, arquitetura, matriz de ferramentas, testes e roadmap estao em
+  `../../doc/05_technical/visual_forge_toolchain_diagnostic_and_implementation_plan_2026-08-29.md`.
+- Plano local: `doc/23-visual-forge-adoption-plan.md`. Prompt de execucao:
+  `../../doc/prompts_modelo/prompt_mestre_visual_forge_e_mare_brava_aaa.md`.
+- O registro e plano nao promovem nenhum PNG, nao alteram a ROM e mantem
+  `ready_for_aaa=false`.
+- Validacoes de registro em 2026-08-30: contexto `ok`, metodologia `passed` e
+  higiene `passed`. O gate de source of truth permanece `blocked` por
+  `visual_lineage_scan_read_failed` em JSONs profundos; e falha do parser/gate,
+  nao da arte, e precisa de regressao antes de qualquer claim de lineage limpo.
 
 > **DIRETRIZ:** Este e o bloco de memoria primario do projeto.
 > Leia integralmente antes de qualquer codigo ou decisao.
 > Atualize ao encerrar sessoes relevantes.
+
+### Baseline visual ratificado em 2026-08-29
+
+- **ROM vigente:** `e07fa63b6aa6e7bec542814950eb9190f7a5e04732da362c27f01b84398dfd5e`
+  (`out/rom.bin`, 262144 bytes). Hashes que aparecem nas entradas históricas
+  abaixo são contexto auditável, nunca identidade da ROM atual.
+- Nova prancha-fonte da TAÍNA em
+  `data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png`
+  (SHA-256 `324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a`)
+  está registrada como `approved_authorial_source_for_pixel_translation` pelo
+  owner humano. Ela preserva os marcadores de identidade, mas é conceito
+  high-res e ainda falha a escala pixel de 3.5 cabeças; autoriza o model sheet
+  48x64, não a promoção direta para `res/`.
+- `doc/contracts/visual_source_of_truth_taina_v02.json` trava essa prancha
+  como origem da próxima geração e rebaixa explicitamente todos os PNGs
+  runtime da TAÍNA para evidência, jamais fonte. O contrato de tradução
+  `doc/art/characters/taina/taina_reseed_native_translation_contract_v01.json`
+  autoriza apenas a lineart 1 px em 48×64; ainda não existe pixel novo nem
+  model sheet convertido.
+- **[estado de 2026-08-29, SUPERADO em 2026-08-30 — ler o bloco de
+  reconciliacao no topo deste arquivo antes de agir]** O gate físico da lineart
+  48×64 tentou três rotas isoladas. A e C geraram ilustrações 1086×1448
+  descritas na época como *rejeitadas*; **essa leitura foi revista**: o owner
+  as aprovou artisticamente como referência de construção, e o que as impede é
+  tamanho/RGB/ausência de grid nativo, não julgamento visual. B não abriu um
+  editor interativo no host **naquela data**; o GIMP foi recuperado depois, e
+  mesmo assim a GUI deixou de ser dependência do pipeline.
+  O relatório `doc/art/characters/taina/taina_reseed_native_lineart_gate_attempts_v01.json`
+  sela os resultados e exige um PNG nativo indexado de autoria externa ou em
+  editor funcional. Não há novo asset jogável, conversão, mudança de ROM ou
+  claim de progresso visual além dessa evidência negativa.
+- `doc/asset_provenance_manifest.json` agora declara os 20 símbolos visuais
+  ativos. Todos estão classificados como `procedural_primitive` e
+  `placeholder`; o auditor de proveniência passou sem blockers porque o estado
+  deixou de ser oculto, não porque algum asset foi aprovado como arte final.
+- `doc/art/quality_reference_board.md` e a referencia local obrigatoria de
+  qualidade. Os quatro PNGs copiados em `rascunho/entrada_bruta/quality_reference/`
+  sao `quality_reference_only`, com hash no manifesto de higiene; nunca viram
+  source art para copiar.
+- Nenhuma avaliacao pode aprovar asset por melhora relativa ao placeholder,
+  build verde ou screenshot. Personagem deve preservar anatomia, rosto,
+  figurino, materiais e intencao de movimento; CAIS deve nascer de kit modular;
+  FX deve ter fases por clusters e consequencia de jogo/mundo.
+- O runtime atual CAIS/TAÍNA/CRIA/FX fica reclassificado como
+  `technical_style_probe`, proibido como baseline ou fonte de nova geracao.
+- `doc/aaa_pipeline_gate_report.json` e
+  `doc/claim_owner_artifact_matrix_v01.json` reconciliam a ROM
+  `e07fa63b6aa6e7bec542814950eb9190f7a5e04732da362c27f01b84398dfd5e`.
+  O menor status consistente é `runtime_candidate`: fonte da TAÍNA e jab
+  possuem evidência limitada; produção visual, slice, budget, áudio e AAA
+  continuam bloqueados.
+
+### Incremento técnico de combate — pendente de prova em emulador
+
+- O primeiro seed jogável de combate agora separa explicitamente hit e hurt:
+  jab da TAÍNA causa 15 de dano uma vez no frame ativo, e a CRIA possui 40 HP,
+  8 VBlanks de invulnerabilidade, estado de hurt/recuo e desativação ao zerar
+  HP. O ataque da CRIA aplica 5 de dano e 24 VBlanks de invulnerabilidade à
+  TAÍNA. Isto é lógica técnica, não confirmação de feeling, balanceamento ou
+  combate final.
+- O contrato vivo é
+  `doc/contracts/cais01_combat_seed_collision_topology_v01.json`. Coordenadas
+  de colisão permanecem em mundo (`fix16`); câmera somente apresenta. Solid,
+  push, hit, hurt e futuros grabs seguem domínios separados.
+- Para promover este incremento além de `implementado`, faltam build limpo e
+  prova controlada no BlastEm de dano único do jab e invulnerabilidade de ambos
+  os combatentes. O build limpo e a sessão selada da ROM
+  `e07fa63b6aa6e7bec542814950eb9190f7a5e04732da362c27f01b84398dfd5e`
+  existem em `out/evidence/cais01_combat_seed/blastem-linux-20260829T220742Z-874842/`:
+  screenshot, SRAM, VLAB/VDP dump e métricas pertencem ao mesmo hash.
+- A sessão mede cena 3, 320×224, snapshot de 60.2 fps, `max_cpu_load=95`,
+  `max_scanline_sprites=4` e sete sprites ativos. É uma observação de cena,
+  não prova sustentada de performance ou budget final.
+- O binding do BlastEm é `a -> gamepads.1.a`, mas requer o toggle de captura
+  `Control_R`. Com foco, captura ligada e um único `a`, a sessão selada
+  `blastem-linux-20260829T230057Z-984247` observou `C:040 -> C:025`: o jab
+  causa exatamente 15 de dano na CRIA. A invulnerabilidade de 24 VBlanks da
+  TAÍNA continua não isolada em emulador. Relatório:
+  `out/logs/cais01_combat_seed_evidence_review_v01.json`. HUD continua
+  telemetria técnica até existir UI autorada.
 
 ---
 
@@ -27,7 +199,7 @@
 
 ### O que existe e funciona
 
-- Build Linux atual existe: `out/rom.bin`, 262144 bytes, SHA-256 `e6b84c604a2dd26662e2e4603ff79a276351cb77447bb9e8d4874a2c6ffaab15`, comprovado por `out/logs/linux_wine_build_report.json`.
+- Build Linux atual existe: `out/rom.bin`, 262144 bytes, SHA-256 `e07fa63b6aa6e7bec542814950eb9190f7a5e04732da362c27f01b84398dfd5e`, comprovado pelo build bridge e pelas sessões seladas de 2026-08-29. O SHA `e6b84c...` abaixo pertence a uma entrada histórica e não sustenta claim atual.
 - O seletor canônico `out/logs/sgdk_build_route_report.json` classificou este host como `linux`, rota `linux_wine_bridge`, com `gcc.exe` 13.2.0, `libmd.a` de origem LTO 16.1.0 incompatível para link direto e biblioteca staged 13.2.0 sem LTO compatível.
 - Evidência BlastEm da ROM atual existe em `out/blastem_env_taina_idle_guard_v02/blastem-linux-20260729T094431Z-325801/`: cena 3, screenshot, GIF, 12 quadros, SRAM e `runtime_metrics.json`. A captura sem VLAB/dump VDP é parcial e não fecha `testado_em_emulador`.
 - `validate_resources.ps1` atualizado em 2026-07-08: `emulator_evidence_reason=ok`, `boot_emulador=ok`, `aggregate_status=emulator_observed_budget_pending`, `max_delivery_status=technical_artifact_only`; 0 erros/8 warnings.
@@ -68,7 +240,7 @@
 - visual_lab_aprovado: false (sem arte)
 - gameplay_rom_aprovada: false (ROM existe, mas gameplay/performance/audio/hardware real nao foram provados)
 - ready_for_aaa: false
-- freshness_audit: warning com `stale_count=0` e `missing_required_count=1` (`build_output.log` ausente)
+- freshness_audit: warning atual com `stale_count=0` e `missing_required_count=2` (`out/logs/validation_report.json` e `out/logs/build_output.log` ausentes). O compilador de contratos e o grafo de recursos foram renovados em 2026-08-29; o lint do compilador segue `error`, portanto a renovação não é aprovação de cena.
 - scene_closeout_gate: ausente
 - build: sucesso_com_warnings
 - boot_emulador: ok (BlastEm, escopo boot/menu)
@@ -813,3 +985,811 @@
   burst 20 telegraph, still do golpe atravessando a Taina. Bundle
   canonico rejeitado (VLAB/dump).
 - Continua `visual_pass=false` / `ready_for_aaa=false`. Sem ESTIVADOR.
+
+## 35. ATUALIZACAO 2026-08-30 — fechamento Convert e gate visual TAÍNA v02
+
+- `forge-art convert` agora e rota técnica testada: self-check 103/103 e
+  `test_art_pipeline` 111/111. O cache agora
+  revalida semanticamente `conversion_report`; remover `metrics` e resselar
+  hashes/estado é rejeitado por `cached_conversion_report_invalid`.
+- O audit isolado da ferramenta (`--tool forge_art/__main__.py`) passou 1/1.
+  O audit global continua bloqueado por `runtime_probe` em nove projetos
+  alheios; isso não inclui MARE_BRAVA e não autoriza claim global.
+- `validate_visual_source_of_truth.ps1` foi corrigido: percorre somente
+  objetos/dicionários e listas, tem limite explícito de profundidade e escolhe
+  a maior versão `_vNN`. Com contrato explícito v02, terminou em ~6 s,
+  varreu 141 arquivos e registrou `status=passed`, sem overflow.
+- O BASIC técnico da prancha aprovada existe somente no job imutável
+  `4ceca437f5dc5b2c`, hash canônico
+  `6e94afcc14954a338175ba24440129351c3a5db4c077bab4c111902ba0402efd`.
+  É controle comparativo `technical_candidate`, não ELITE, não arte nativa e
+  não promovível.
+- Uma tentativa raster de lineart foi preservada como evidência negativa em
+  `data/source_art/concept/taina_pixel_model_sheet/rejected/` (SHA
+  `70ea460cca819084cda5f2b439f3068afba8731e026fe52dbd56aee95276edc1`).
+  Mede 1086×1448 RGB, não prova grid lógico 48×64 e não deve ser reduzida,
+  quantizada, usada como fonte ou promovida.
+- Estado registrado naquele ciclo: faltava autoria de lineart 1px no canvas
+  48×64. A suposição de que isso exigia GIMP interativo foi superada pela
+  curadoria CLI-first abaixo; o gate artístico continua válido.
+
+## 36. ATUALIZACAO 2026-08-30 — persistencia causal e GIMP CLI-first
+
+- Operação determinística por screenshots/ponteiro foi classificada como
+  `interaction_channel_mismatch`. Automação de GUI deixou de ser rota de
+  produção; GIMP GUI fica opcional e humano.
+- `forge_art.gimp_batch` foi adicionado como adaptador headless restrito. O
+  contrato rejeita scripts/operações arbitrárias e não registra nenhuma
+  operação de produção por enquanto.
+- Preflight real passou no GIMP 3.2.4 (`/usr/bin/gimp-3.2`) com
+  `python-fu-eval`, `sentinel_observed=true`, exit 0. Warnings de plugins e
+  recursos desativados foram preservados; uma operação futura que dependa
+  desses recursos não poderá usar `-d/-f` cegamente.
+- `forge-art self-check` passou 107/107 após a curadoria. Isso prova o contrato
+  técnico do adaptador, não qualidade visual.
+- Ordem ativa: `forge-art` para VDP/indexação; Pillow/ImageMagick para
+  transformações mecânicas; GIMP batch apenas para operação GIMP/GEGL estática
+  e testada; produtor visual capaz para tradução semântica da TAÍNA.
+- O histórico das três tentativas foi preservado, mas a decisão
+  `native_pixel_authoring_in_progress_in_recovered_gimp` foi substituída por
+  `cli_first_gui_human_only`.
+- Nenhum PNG de produção, `res/`, build ou ROM foi alterado. TAÍNA continua
+  sem lineart nativa aprovada; `visual_pass=false` e `ready_for_aaa=false`.
+- Próxima ação causal: obter uma candidata nativa 48×64 de produtor visual
+  capaz, validar por `forge-art validate`, comparar em escala e abrir decisão
+  humana antes de color blocking ou animação.
+
+## 2026-08-30 — tentativa de autoria nativa TAÍNA e reclassificação causal
+
+- O blocker de produção foi corrigido para `taina_native_48x64_lineart_representation_mismatch`: A/C devolveram 1086×1448 RGB/RGBA, B/GIMP falhou no init, e a direção já estava aprovada. Produzir a lineart não é gate humano; a única decisão humana remanescente é fonte/licença de BGM/SFX.
+- A rota `author_stamp_8x8_grid` foi executada em três mapas explícitos de pixels, sempre somente a partir do model sheet aprovado SHA `324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a`; nenhum candidato rejeitado ou runtime candidate foi lido como fonte.
+- D/v01, E/v02 e F/v03 foram exportados em escala 1:1, canvas 48×64, 6×8 tiles, PNG indexed color type 3, 4bpp, index 0 transparente e uma cor visível na grade 9-bit. `pixel_contract --self-check` passou 19/19 e F passou sem blockers com hash `a9a678480abed70c7ba1d5dc7bfd1a892e5fe84b8f9c2d9a1315bb700c9cab12`.
+- A inspeção 1x/8x marcou os três como candidatos técnicos, não como lineart visual aprovada: face, guarda diagonal e assimetria ainda estão genéricas. Isso é `lineart_blocking_visual_pass_pending`/`generic_blocky_redraw`, não decisão humana. Basic/elite foram adiados e nenhum PNG foi promovido para `res/`.
+- Artefatos: `native_author_stamp_report_v01/v02/v03.json`, `pixel_compliance_report_v03.json`, `native_grid_translation_report_v02.json`, `lineart_blocking_report_v02.json` e tentativas atualizadas. A rota author-stamp fica fechada após três evidências; próxima ação é trocar a representação/produtor visual capaz, então revalidar antes de basic+elite.
+- Estado: `visual_pass=false`, `creative_ready=false`, `ready_for_aaa=false`.
+
+## 38. ATUALIZACAO 2026-08-30 — candidato nativo editor e reconciliação de fonte
+
+- A referência visual v02 foi movida de `rejected/` para `construction_reference/`
+  sem alterar bytes; SHA256 `70ea460cca819084cda5f2b439f3068afba8731e026fe52dbd56aee95276edc1`.
+  Continua `rejected_not_native_grid_candidate` para uso técnico e agora é
+  `approved_visual_construction_reference_not_native` para construção; o
+  histórico está em `doc/history/taina_visual_source_reconciliation_2026-08-30.json`.
+- A rota do editor produziu lineart autoral 48×64, 1 px, 198 pixels. O PNG
+  indexado `taina_reseed_native_lineart_editor_candidate_v01_indexed.png` tem
+  SHA256 `9d6cd24ac58a0fdd50bb65ee200af01befb5fce35feabdffd6335c5b81b0daa3`.
+  O registro `native_sprite_production_record.json` e o validador passaram.
+- O pixel contract passou sem blockers; a prancha de revisão mostra identidade
+  ainda genérica, portanto o status fica `technical_candidate`, sem BASIC/ELITE,
+  `res/`, ROM ou claim AAA. `visual_pass=false` e `ready_for_aaa=false`.
+- Regressão final do ciclo: `forge-art self-check` 107/107 e
+  `test_art_pipeline.py` 116/116; `validate_native_sprite_production.py`,
+  contexto, higiene e metodologia passaram. `git diff --check` está limpo.
+- Uma segunda execução de `forge-art convert` retornou `cache_hit=true` para
+  o mesmo job `22db1183a4d6a166`, repetindo todos os hashes de saída e o selo
+  `e2ddd7d7249a504fb959eee5c11db92091961acadebb6afe872da5cde90e2792`.
+- O manifesto de terceiros agora diferencia explicitamente
+  `algorithm_studied_and_reimplemented` (SoftLK/tiledpalettequant),
+  `runtime_dependency` (Pillow) e `development_dependency` (GIMP); não há
+  alegação de código copiado.
+
+## 39. ATUALIZACAO 2026-08-30 — recuperacao de conhecimento e hardening do validator
+
+- **Recuperado o exercicio vencedor** `rascunho/taina_visual_challenger_exercise_v01/exercise_record.json`
+  como `methodology_reference` (NUNCA fonte de pixels). Ele registra:
+  `native_48x64_visual_gate=failed_face_hands_feet_and_presence`,
+  `native_64x96_visual_gate=promising_pending_human_scale_camera_and_vdp_budget_gate`,
+  `native_48x64_claim=false`, e `next_causal_step` = abrir scale gate formal
+  comparando 48x64 direto-nativo contra 64x96 na camera real 320x224. A recaída
+  para lineart esparsa (2 cores visiveis, 198 cliques) veio de discretizar a
+  producao direto para 48x64 sem passar pela escada (silhueta -> regioes
+  semanticas -> clusters -> color blocking -> palette clean) nem checar a escala.
+- **Rota fechada** `binary_pointer_editor_as_primary_visual_producer`: o editor
+  nativo e `qa_corrective`, nunca produtor visual primario. O produtor visual e
+  modelo de imagem + representacoes intermediarias; Pillow/ImageMagick/forge-art
+  so fazem operacoes deterministicas.
+- **Curatia de proveniencia** `taina_reseed_native_lineart_editor_candidate_v01`
+  reprovada pelo validador semantico com 5 blockers: `provenance_human_unproven`,
+  `visual_evidence_not_distinct` (1 painel nos 4 papeis), `native_1x_not_candidate`,
+  `palette_lock_on_binary_lineart`, `scale_pass_without_report`. Mantida apenas
+  como `technical_pass_visual_fail` / evidencia negativa.
+- **Incumbente comparativa** preservada (pose anterior com 11-14 cores, leitura
+  muito superior). Challenger so substitui incumbent se vencer perceptiva E
+  sistemicamente (regra de incumbencia). Nunca usar incumbent como fonte de pixels.
+- **Hardening**: `validate_native_sprite_production.py` agora e fonte executavel
+  da verdade semantica (CLI `--project-root`/`--record` + posicional; resolve
+  paths com seguranca; re-deriva pixel contract e medicao do disco; exige 4
+  evidencias distintas do mesmo hash com native_1x byte-a-byte; conferencia de
+  proveniencia, scale/visual/budget/human independentes; incumbent + referencial
+  metodologica com hash). Schema `native_sprite_production_record.schema.json`
+  elevado a 1.1.0 com provenance/scale_report/incumbent/methodology_reference
+  obrigatorios e visual_evidence obrigatoria. `aaa-pipeline-guardian` apenas
+  CONSUME o veredito (`native_sprite_semantic_gate_failed`), sem duplicar logica.
+- Estado: `visual_pass=false`, `ready_for_aaa=false`, `res/` nao alterado.
+  Proxima acao causal: reabrir scale gate formal (48x64 vs 64x96).
+
+## 40. ATUALIZACAO 2026-08-31 — probes de escala 48x64 vs 64x96 + validador semantico v2.2
+
+- **Validador semantico endurecido** (`validate_native_sprite_production.py` v2.2):
+  mede `filled_pixels` excluindo transparencia (a candidata antiga mede **198 px visiveis**,
+  nao 3072), re-deriva pixel contract + `content_sha256` do disco, exige 4 evidencias
+  DISTINTAS e determinadas (native_1x byte-a-byte, nearest NEAREST, light/dark recompostos),
+  valida schema Draft 2020-12 exclusivamente com `jsonschema` completo, fecha proveniencia via
+  campo `provenance`, mantem scale/visual/budget/human independentes, exige incumbent +
+  methodology_reference e bloqueia challenger sem `perceptual_win`+`system_win`. O
+  `shape_block_contract` agora e obrigatorio sempre que existe candidata, exige tres
+  artefatos nativos distintos e o schema foi elevado a `1.2.0`.
+- **Probes gerados** por reducao mecanica NEAREST da figura extraida do model sheet aprovado,
+  classificados como `photo_or_render_derived` / `mechanical_scale_probe`. Nao sao autoria
+  nativa, nao provam traducao artistica e nao podem alimentar pixels finais. O roteador atual
+  detecta `native_chat_image_generation_callable`; a antiga alegacao `selected_source=blocked`
+  nao descreve mais o host corrente:
+  - `taina_probe_48x64_native_indexed.png`: 48x64, 15 cores, **796 px visiveis** (25.91%),
+    30 tiles unicos/48 (0.62 dedup), 960B VRAM, metasprite 2x2 = 4 sprites VDP, 48px/scanline.
+  - `taina_probe_64x96_native_indexed.png`: 64x96, 15 cores, **1396 px visiveis** (22.72%),
+    49 tiles unicos/96 (0.51 dedup), 1568B VRAM, metasprite 2x3 = 6 sprites VDP, 64px/scanline.
+  Ambas as poses estaticas isoladas cabem nos limites citados de H40. Isso nao mede animacao,
+  camera real, coexistencia com inimigos/FX, DMA ou pior scanline da cena. Saida:
+  `technical_candidate` (`basic_technical_control`), `visual_status=pending`,
+  `promotable=false`.
+- **Comparacao**: 64x96 tem 1.75x mais pixels visiveis e 1.63x mais tiles unicos que 48x64,
+  preservando proporcionalmente mais massa/identidade (o que o exercise_record ja antecipava:
+  48x64 visual_gate=failed_face_hands_feet_and_presence; 64x96 promising). Ambos sao
+  probes, nenhum promotable; a decisao de escala permanece de gate humano APOS medicao de
+  camera real e budget completo.
+- **Estado corrigido**: status=`pending_scale_probe_generation`, `visual_pass=false`,
+  `ready_for_aaa=false`, `res/` nao alterado. O record agora falha fechado porque os tres
+  papeis de shape block apontam para artefatos high-res/reutilizados, nao para silhueta,
+  mapa semantico e overlay distintos em grade nativa. O gate de escala esta `in_progress`;
+  o gate humano permanece `not_started` ate existir comparacao visual e budget completos.
+
+## 41. ATUALIZACAO 2026-08-31 — pacote de challengers visuais TAINA v02
+
+- O canal de produção visual confirmado é `native_chat_image_generation_callable`,
+  sempre referenciado ao model sheet aprovado (`324951fb...c0cf87a`). Foram persistidos
+  dois challengers em 48x64 e dois em 64x96 dentro de `rascunho/`, sem alterar `res/`.
+- Cada pacote contém PNG indexado em resolução exata, evidência 1x, nearest 8x, fundos
+  claro/escuro e três artefatos shape block nativos distintos: `silhouette_mask`,
+  `semantic_region_map` e `contour_overlay`. O mapa semântico traz oito rótulos
+  obrigatórios com contagens rederiváveis, e cada artefato tem hash e link explícito.
+- `validate_native_sprite_production.py` está em v2.3 e a suíte adversarial permanente
+  está em 22/22. O registro atual passa o gate semântico, mas permanece
+  `technical_candidate`, `promotable=false`, com `native_visual`, `scale`, `budget` e
+  `human` em aberto.
+- Painel e relatório: 48x64 A é a recomendação preliminar por equilíbrio visual/sistema;
+  64x96 A é fallback de fidelidade. No worst case hero + quatro inimigos, 48x64 mede
+  20 links/linha (limite H40) e 64x96 mede 22 (overflow). Isso não substitui captura em
+  emulador nem decisão humana.
+- Próxima ação causal: gate humano no painel comparativo, confirmar escala e candidato;
+  só então iniciar autoria nativa refinada/animação, integração SGDK e evidência BlastEm.
+
+## 42. CORRECAO DE CURADORIA 2026-08-31 — v02 reaberto antes do gate humano
+
+- A conclusao da secao 41 foi reaberta: 48x64 A continha um matte retangular
+  claro; 48x64 B continha halo conectado. O builder usava threshold global e
+  LANCZOS. O mapa semantico era geometrico por bandas e fabricava rotulos de um
+  pixel. Portanto o pacote v02 nao sustenta `semantic_parse=passed` nem gate
+  humano final; permanece evidencia de retrabalho.
+- O pixel contract v1.2 agora bloqueia `palette_alias_indices`. O schema nativo
+  v1.3 e o validador v2.4 exigem `foreground_matte_report` para traducao
+  assistida/mecanica, silhueta igual a mascara do candidato, uniao semantica
+  exata, regioes com area significativa e contorno 4-neighbor rederivado.
+- O simulador VDP v1.2 decompoe celulas <=32x32 por faixa Y. No mesmo cenario
+  teorico (TAINA + quatro inimigos), 48x64 mede 12 links totais, pico 6/linha e
+  176 px/linha; 64x96 mede 14 totais, pico 6/linha e 192 px/linha. O antigo
+  resultado 20/22 links por linha era erro de medicao; a escala 64x96 esta
+  reaberta, ainda pendente de layout real, camera, gameplay e BlastEm.
+- Regeneracao temporaria com matte conectado as bordas + NEAREST removeu o
+  retangulo/halo e manteve os quatro candidatos tecnicamente conformes, sem
+  tocar `res/`. O parser anatomico automatico continuou fraco (bracos/guarda
+  com 0-9 pixels), logo a proxima rota exige mapa semantico realmente curado e
+  refinamento nativo, nao rotulos forjados.
+- Regressao da curadoria: forge-art 111/111, gate semantico 28/28 e self-check
+  do simulador passaram. Estado: `technical_candidate`, `visual_pass=false`,
+  `human=not_started`, `ready_for_aaa=false`, `res/` intacto.
+
+## 43. ATUALIZACAO 2026-08-31 — pacote visual TAINA v03 pronto para gate humano
+
+- A guarda de ambiente foi executada por `pwsh` porque o alias `powershell` não
+  existe neste host; `agent_environment_status=ready`, Graphify fresco e
+  `persistence_route_report.json` emitido.
+- Núcleo provado antes da produção: `forge-art` 111/111, art pipeline 116/116,
+  semantic gate 28/28, simulador VDP 1.2 self-check aprovado e auditor isolado
+  de ferramenta `verdict=OK` 1/1. O diagnóstico classificou
+  `2_res_inadequate_check`, com 20 assets ativos sem blockers de build.
+- O pacote `rascunho/taina_visual_challengers_v03/` foi gerado sem sobrescrever
+  v02 e sem tocar `res/`. Hashes SHA-256 de bytes: A48
+  `20e9c3b8cdb3d8620954b016131e1338b71087924518b24b1bebf9eed372e5dc`, B48
+  `d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa`, A64
+  `a7af68da88e977f2160a3304628be3cadc3bc5d71a8a6cea4b37ff119ffc314e`, B64
+  `8b8b334e66094fb9db6b135c35e72b152279b2089f57a593f4713809f6aca200`.
+- O matte usa `border_connected_color_flood_v1` com reports aprovados; os
+  candidatos usam NEAREST, PNG P/4bpp, índice 0 transparente, alpha binário,
+  paleta VDP sem aliases e sem halo/retângulo/franja. O mapa semântico foi
+  curado como anotação anatômica por pose, não por bandas horizontais ou tokens;
+  auditoria do pacote passou 4/4.
+- Budget corrigido em `scale_budget_report_v03.json`: no caso TAÍNA + 2 CRIA +
+  2 ESTIVADOR, 48x64 mede 20 links totais, pico 10 sprites/scanline e 248 px;
+  64x96 mede 22 links, pico 10 e 264 px. Ambos cabem em H40. O próximo degrau
+  3 CRIA + 3 ESTIVADOR estoura pixels: 348 px e 364 px. Tiles/únicos: A48
+  48/29, B48 48/30, A64 96/53, B64 96/64; VRAM única 928/960/1696/2048 B.
+  Hitbox segue `undeclared_requires_collision_contract`.
+- Painel `taina_visual_comparison_panel_v03.png` inclui model sheet aprovado,
+  incumbent `comparison_only`, quatro candidatos, 1x/NEAREST 8x,
+  light/dark/chroma, câmera 320x224, footprint/pivot/ground cue e métricas.
+  Challenger B é apenas `human_preference_prior`; não há score ou recomendação
+  automática.
+- Record está em `technical_candidate`, `promotable=false`, `human=not_started`,
+  `visual_pass=false`, `ready_for_aaa=false`; semantic/pixel/budget técnicos
+  passaram e escala/visual continuam independentes. O validador semântico passou
+  sem erros. Próxima ação: decisão humana por `asset_id + SHA-256` e escala.
+  Não iniciar animação, `res/`, integração SGDK ou BlastEm antes da decisão.
+
+## 44. ATUALIZACAO 2026-08-31 — decisão humana e refinamento nativo TAINA B
+
+- Decisão humana persistida em `doc/art/characters/taina/human_direction_scale_decision_v03.json`:
+  `approved_for_native_refinement_only`, asset `taina_48x64_challenger_b`, SHA-256
+  `d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa`, escala 48x64.
+  O escopo não autoriza `res/`, animação final, ROM nem claim AAA; uma nova decisão
+  visual BASIC/ELITE é obrigatória.
+- O record foi atualizado para `native_authoring`, com aprovação humana em andamento,
+  escala de produto registrada para o ramo de refinamento, mas gates visual, pixel final,
+  integração e emulador permanecem independentes; `promotable=false`.
+- O pacote `rascunho/taina_native_refinement_v01/` contém duas variantes derivadas
+  somente do B aprovado: `taina_48x64_refined_basic_v01.png` (SHA-256
+  `e78f77d92614eb0ec2c7a0ec529d7649db025a0a793b93f3b749323708a7b403`, 9 cores)
+  e `taina_48x64_refined_elite_v01.png` (SHA-256
+  `0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13`, 11 cores).
+  Ambas preservam a silhueta pixel a pixel, usam limpeza de clusters sem interpolação,
+  P/4bpp, índice 0 transparente e shape block herdado do B como contrato de forma.
+- Validação específica passou: dois candidatos, alpha binário, 48x64, até 15 cores,
+  silhueta preservada e `native_1x` byte-identical. Forge-art passou nos dois.
+  Budget corrigido: ambos 48/30 tiles bruto/único, 960 B VRAM/DMA, 20 links,
+  pico 10 sprites e 248 px no caso TAÍNA + quatro inimigos; próximo degrau 3+3 mede
+  348 px e estoura o limite de 320.
+- O painel `taina_native_refinement_comparison_panel_v01.png` não pontua nem escolhe
+  automaticamente. O próximo gate é visual humano BASIC versus ELITE. `res/` não foi
+  tocado e nenhuma animação, integração SGDK, ROM ou BlastEm foi iniciada.
+
+## 45. ATUALIZACAO 2026-08-31 — reconciliação documental v03 e gate BASIC/ELITE
+
+- O manifest v03 foi corrigido para separar `identity_source` (model sheet aprovado,
+  SHA `324951fb...c0cf87a`) de `translation_input_sources`: os quatro producer outputs
+  persistidos do v02, cada um com path e SHA-256. A anotação passou a se chamar
+  `agent_curated_diagnostic_annotation`; ela continua diagnóstica, não aprovação humana.
+- O budget v03 agora declara `budget_pass_scope=hero_plus_four_enemies_only`.
+  O cenário 3+3 permanece somente `comparison_only_not_budget_pass`. A escala está
+  travada em 48x64 para este slice; 64x96 está explicitamente `comparison_only`.
+- O painel v03 foi regenerado com fonte Unicode que renderiza corretamente `TAÍNA`.
+- A decisão humana continua limitada a `approved_for_native_refinement_only`; não foi
+  convertida em `visual_pass`, `ready_for_res` ou claim AAA. O record permanece
+  `native_authoring`, `human=in_progress`, `promotable=false`.
+- O gate BASIC/ELITE está pronto com hashes: BASIC
+  `e78f77d92614eb0ec2c7a0ec529d7649db025a0a793b93f3b749323708a7b403`; ELITE
+  `0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13`. Ambos passaram
+  a auditoria nativa específica, forge-art, shape/silhueta, palette role map e budget.
+
+## 46. FECHAMENTO 2026-08-31 — gate BASIC/ELITE pronto para decisão
+
+- Correção de portabilidade concluída: manifests de refinamento usam caminhos relativos
+  ao workspace, sem alterar os hashes dos PNGs. Cada variante possui `palette_role_map`,
+  `foreground_matte_report`, `silhouette_mask`, `semantic_region_map`, `contour_overlay`
+  e evidências 1x/8x/light/dark/chroma/câmera.
+- Painéis v03 e de refinamento foram regenerados com fonte Unicode; `TAÍNA` está renderizado
+  corretamente. Não existe score estético ou vencedor automático.
+- Tentativa ImageGen de edição foi descartada: retornou canvas grande com checkerboard
+  assado e deriva de proporção/pose; não entrou no projeto. Uma primeira serialização dos
+  refinamentos também foi descartada por PLTE 256/8bpp; a versão final P/4bpp passou.
+- Validações finais: forge-art 111/111, art pipeline 116/116, semantic gate 28/28,
+  v03 4/4, refinamento 2/2, VDP self-check, measurement audit, proveniência e record
+  sem erros. Teto atual: `native_authoring`/review de pose; sem animação, `res/`, ROM,
+  runtime ou AAA.
+
+## 47. DECISAO HUMANA 2026-08-31 — rejeição do refinamento nativo
+
+- A decisão humana foi `rejected_for_final_native_pose` para BASIC
+  (`taina_48x64_refined_basic_v01`, SHA-256
+  `e78f77d92614eb0ec2c7a0ec529d7649db025a0a793b93f3b749323708a7b403`) e ELITE
+  (`taina_48x64_refined_elite_v01`, SHA-256
+  `0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13`). Motivo
+  registrado: `procedural_palette_cleanup_without_material_native_geometry_refinement`.
+- ELITE foi preservado somente como `best_technical_control`; isso não é aprovação
+  visual final nem autorização de promoção.
+- A escala continua travada em 48x64 para este slice. 64x96 permanece
+  `comparison_only`; a rejeição não reabre a escala.
+- O record entrou em `rework`, com `native_visual=failed`, `human=failed` e
+  `promotable=false`. O próximo trabalho exige nova hipótese de refinamento geométrico
+  nativo por material antes de gerar novos candidatos.
+- `res/`, animação, integração SGDK, ROM/BlastEm e claims `visual_pass`/AAA continuam
+  bloqueados. Os PNGs rejeitados permanecem preservados como evidência técnica e
+  negativa; nenhum pixel novo foi produzido nesta decisão.
+
+## 48. RODADA 2026-08-31 — challengers de geometria nativa em gate humano
+
+- A correção documental confirmou `gates.scale=passed` porque o contrato está locked;
+  `native_visual=failed` e `human=failed` permaneceram independentes no record.
+- Foram produzidas três hipóteses independentes a partir apenas do model sheet aprovado:
+  A `FACE_AND_GUARD_TOPOLOGY`, B `SILHOUETTE_AND_WEIGHT` e C
+  `INTEGRATED_NATIVE_REDRAW`. Nenhuma usa pixels de B/ELITE; esses arquivos aparecem
+  somente como controles de comparação.
+- A tradução usa matte conectado às bordas quando necessário, NEAREST e color blocking
+  por rampa fixa de material; não usa GIMP, ponteiro, interpolação proibida, primitiva,
+  morphology, neighbor voting ou quantização estatística. O fundo opaco de C foi
+  tratado pelo matte conectado, com relatório persistido.
+- Em 1x, A favorece leitura de face/guarda; B favorece centro de massa, separação de
+  pernas e baseline; C favorece reconstrução compacta integrada. As perdas observáveis
+  estão no parecer, sem score numérico ou vencedor automático.
+- Todos os três passam o preflight técnico: 48x64, P/4bpp, PLTE 16, 12–13 cores
+  visíveis, índice 0 transparente, aliases ausentes, shape coverage completa e
+  evidências derivadas do mesmo SHA. Budget idêntico de cena: TAÍNA + quatro inimigos
+  = 20 links, pico de 10 sprites e 248 pixels/scanline; 3+3 = 28 links e 348 pixels,
+  mantido somente como comparação acima de H40.
+- Contenção passou: `data_unchanged=true`, `res_unchanged=true`, staging-only e
+  `res_promotion=false`. O pacote está em `pending_human_decision`; animação, `res/`,
+  ROM e AAA continuam bloqueados.
+
+## 49. DECISAO HUMANA 2026-08-31 — fonte A aprovada para nova autoria nativa
+
+- A decisão exata foi `approved_as_visual_source_for_native_authoring` para
+  `face_and_guard_topology_visual_source_v01`, SHA-256
+  `b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf`, com alvo
+  48x64.
+- O PNG nativo derivado `taina_48x64_geometry_face_guard_v01`, SHA-256
+  `1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830`, foi marcado
+  explicitamente como `technical_control_only`; não é aprovação de pose final.
+- A próxima autoria deve refinar geometria nativa por material a partir da fonte A,
+  sem usar pixels dos controles rejeitados. 48x64 permanece travado e 64x96 continua
+  `comparison_only`.
+- `res/`, animação, integração SGDK, ROM/BlastEm e claims finais continuam bloqueados;
+  o próximo gate é revisão humana da nova autoria nativa.
+
+## 50. AUTORIA NATIVA 2026-08-31 — fonte A, nova candidata em gate humano
+
+- A decisão humana aprovou somente `face_and_guard_topology_visual_source_v01`, SHA-256
+  `b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf`, para autoria
+  nativa com alvo 48x64. O candidato anterior A, SHA-256
+  `1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830`, permanece
+  `technical_control_only`.
+- A primeira autoria intermediária v02 foi descartada em revisão 1x por ainda comprimir
+  o rosto. A v03 foi produzida a partir de uma saída visual nova derivada da fonte A,
+  sem pixels dos controles rejeitados.
+- Nova candidata: `taina_48x64_native_authoring_face_guard_v03`, SHA-256
+  `e3a35e5fad1a77c3931a0b3e0cf30e1f877b25e8fcf3d3ac87b5ca1d4a3f4d33`; 12 cores
+  visíveis, 48x64, 4 células VDP, 20 links e 248 pixels/scanline no caso TAÍNA + quatro
+  inimigos. A comparação mudou 90 pixels de máscara contra o controle A.
+- O pacote v03 está em `pending_human_decision`. `res/`, animação, SGDK, ROM/BlastEm e
+  claims de pose final/AAA continuam bloqueados.
+
+## 51. AUTORIA NATIVA HEADLESS 2026-08-31 — A1/A2 em gate humano
+
+- O pacote `taina_native_geometry_challengers_v01` foi reclassificado: A, B e C são
+  `technical_candidate/mechanical_translation_probe`, produzidos por NEAREST, mapping
+  mecânico de materiais e anotações coordenadas. Não são `native_author_output`.
+- Os mapas antigos foram marcados como `diagnostic_coordinate_annotations`; o semantic
+  gate anteriormente aprovado pertence somente ao record legado de
+  `taina_48x64_challenger_b`.
+- A fonte humana continua sendo `face_and_guard_topology_visual_source_v01`, SHA-256
+  `b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf`. O probe A,
+  SHA-256 `1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830`,
+  permanece apenas como controle técnico.
+- Foram produzidas por patches explícitos duas candidatas nativas: A1
+  `taina_48x64_native_a1_face_guard_feet_v01`, SHA-256
+  `1033e5a387047c320b9f2bbf6b0bddaafb2d29fd9b74810a40af8001c0947794`, e A2
+  `taina_48x64_native_a2_weight_sash_v01`, SHA-256
+  `041e6fd184bdff499f110075245be570f1597d9085689f7657ca2c55ed878ae0`.
+- Cada variante possui patch com hashes, lineart/blocking, semantic map autoral por
+  runs irregulares cobrindo exatamente a silhueta, contour, palette role map, evidências
+  1x/8x/fundos/câmera, mask delta, budget e record temporário próprio. Ambos passaram
+  o validator nativo com `errors=[]`.
+- A1 enfatiza face, mandíbula, olho, separação de punhos e contato dos pés; A2 enfatiza
+  peso da base, separação sash/calça e assimetria do cabelo. Sem score e sem vencedor
+  automático. `res/`, animação, ROM/BlastEm e AAA continuam bloqueados.
+
+## 52. CURADORIA 2026-08-31 — topologia de materiais antes do shading
+
+- O feedback humano reprovou a separação top/pele em A1, A2 e PROBE A. A barra
+  inferior do crop top deixa laranja invadir a barriga; os braços também herdam
+  pixels laranja, com maior gravidade no braço esquerdo do espectador.
+- A causa foi localizada no classificador posicional/de matiz do probe: `torso` e
+  `arms_or_guard` são regiões anatômicas amplas e não provam propriedade de
+  material. Os patches A1/A2 corrigiram outras regiões e herdaram esse erro.
+- A1 permanece o melhor controle visual e foi autorizada somente como
+  `explicit_pixel_patch_base`, nunca como fonte de identidade/geração. A próxima hipótese é
+  `taina_48x64_native_a1_material_clean_v01`: patch mínimo e explícito, preservando
+  pose, silhueta, rosto, guarda, cabelo, pés, sash, pivot e escala; não regenerar o
+  personagem inteiro.
+- O contrato causal está em
+  `doc/art/characters/taina/taina_material_topology_correction_request_v01.json`.
+  Ordem: barra do top/barriga, braço esquerdo, braço direito, wraps. Borda dura de
+  1 px é o default; nenhum AA híbrido laranja/pele.
+- O framework ganhou `native_sprite_production_record` 1.4.0 backward-compatible e
+  `material_region_contract`, com mapa de proprietário, overlay de fronteiras,
+  índices permitidos, outline compartilhado e fronteiras críticas. O validator
+  rederiva vazamento e mantém records 1.3.0 legados válidos.
+- Até um novo candidato passar material topology, pixel, visual e decisão humana,
+  `res/`, animação derivada, integração, ROM/BlastEm e claims AAA continuam
+  bloqueados.
+
+## 53. REWORK 2026-08-31 — material-clean native challenger em gate humano
+
+- A Source A aprovada foi revalidada por SHA-256 `b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf`; a base autorizada A1 foi revalidada por SHA-256 `1033e5a387047c320b9f2bbf6b0bddaafb2d29fd9b74810a40af8001c0947794`. Nenhum dos dois bytes foi alterado.
+- Produzida a candidata `taina_48x64_native_a1_material_clean_v01`, SHA-256 `54df9fd341ad57bdc2c02c62db6366119c7d511ba8e14862666cf487366b2567`, somente por patch literal nativo. Patch SHA-256: `6bdeaba407613f675712ff5c23a1404a229125552533cfe84a494a5dbd959bfe`; 70 operações com `old_index` conferido.
+- A hipótese mudou a topologia interna, não a escala nem a silhueta: 7 pixels laranja viraram hem compartilhado; 14 pixels laranja do abdômen viraram pele; 22 pixels laranja dos braços viraram pele; 20 pixels teal e 7 pixels índigo da ROI abdominal foram reatribuídos a pele/contorno para restaurar a propriedade material demonstrada pela Source A.
+- A candidata preserva 48x64, pivot/ground contact, pose, guarda, cabelo assimétrico, rosto, sash e máscara externa da A1. Mantém 12 cores visíveis, P/4bpp, PLTE 16, índice 0 transparente, alpha binário, 48 tiles brutos/30 únicos e 4 células VDP.
+- O record novo usa `schema_version=1.4.0` e `material_region_contract`: mapa completo de proprietário, rampas exclusivas, outline compartilhado no índice 1, overlay derivado, relatório de vazamento e quatro fronteiras críticas. `material_topology=passed`; `native_visual` e `human` permanecem em andamento por exigência do schema enquanto o pacote está `pending_human_decision`.
+- Evidências persistidas: 1x, nearest 8x, claro, escuro, chroma, câmera 320x224, crops de abdômen/braço esquerdo/braço direito, mapa material, overlay, painel Source A/A1/nova candidata e manifests vinculados ao mesmo SHA.
+- Validações: forge-art self-check 111/111; art pipeline 116/116; semantic fixtures 36/36; validator do record sem erros; pixel contract técnico sem blockers; material leakage report `passed`; provenance audit `OK blocking=[]`; VDP 4-inimigos `ok` (20 links, 10 sprites/scanline, 248 px/scanline) e 3+3 `error` apenas no controle comparison-only (348 px/scanline). O overlay inicialmente marcou transparência como fronteira; essa falha foi corrigida para derivar somente fronteiras entre materiais visíveis, e o validator passou.
+- `audit_tile_residency` global permanece bloqueado por estado preexistente de todos os assets simultâneos (2117 tiles contra teto util de 1740); não é atribuído a esta candidata e não foi corrigido nesta rodada. O `res/` e `data/` permaneceram inalterados.
+- Teto: `technical_candidate`, `material_topology=passed`, pacote `pending_human_decision`, `promotable=false`; sem visual_pass, ready_for_res, animação, integração SGDK, ROM/BlastEm, `ready_for_aaa` ou claim AAA. Próximo gate exclusivo: aprovação/rejeição humana do SHA acima como pose nativa final.
+
+## 55. REJEIÇÃO HUMANA G2 E REABERTURA DE ESCALA — 2026-08-31
+
+- A decisão humana rejeitou `taina_48x64_native_g2_volume_identity_v01`, SHA-256
+  `e35ad9f4477d7d1912b94505932a547e639cdea8b8085e2062362db3f21dcb30`, como pose final.
+  A classificação obrigatória é `technical_pass_visual_fail`, `source_detail_lost`,
+  `generic_blocky_redraw` e `identity_hooks_lost`. O PNG, spans, lineart e mapas do pacote
+  foram preservados somente como evidência negativa; não podem ser fonte de geração.
+- A linhagem foi corrigida: a imagem `face_and_guard_topology_visual_source_v01.png`,
+  SHA-256 `b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf`, é
+  `ai_generated_high_res` e `visual_source_for_native_authoring`; a única fonte de
+  decisões de pixel é o model sheet v02, SHA-256
+  `324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a`.
+- A saída do builder `build_taina_native_g2_volume_identity_v01.py` foi reclassificada
+  como `procedural_primitive`/`visual_lab_control`, nunca `hand_authored_pixel`. Os mapas
+  derivados da tabela de tokens são agora explicitamente `agent_curated_diagnostic_annotation`
+  e evidência de consistência interna, não prova independente de lineart, semântica,
+  fidelidade ou qualidade.
+- `scale_gate_reopened_by_human_review=true` foi registrado. O record usa
+  `scale=in_progress` e `scale_report=pending` porque `hitbox` continua
+  `undeclared_requires_collision_contract`; 48x64 permanece o incumbent e 64x96 é
+  `comparison_only` até um shootout nativo independente.
+- Não há no host editor nativo de pixels disponível; GIMP pointer/batch e
+  Python/PIL/ImageDraw/rasterização procedural estão proibidos para esta autoria. Por
+  divergência de proveniência, nenhum challenger novo 48x64/64x96 foi fabricado. O
+  bloqueio está registrado em `doc/art/characters/taina/native_authoring_blocker_v01.json`.
+- Estado operacional: `status=native_candidate`, `promotable=false`, `res_unchanged=true`,
+  `ready_for_aaa=false`. `res/`, animação, integração SGDK, ROM/BlastEm e qualquer claim
+  de pose final continuam bloqueados.
+
+## 54. DECISÃO HUMANA E G2 GEOMETRIA NATIVA — 2026-08-31 (REGISTRO HISTÓRICO SUPERADO)
+
+- A decisão humana rejeitou `taina_48x64_refined_basic_v01`, SHA-256
+  `e78f77d92614eb0ec2c7a0ec529d7649db025a0a793b93f3b749323708a7b403`, e
+  `taina_48x64_refined_elite_v01`, SHA-256
+  `0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13`, por
+  `procedural_palette_cleanup_without_material_native_geometry_refinement`.
+  O ELITE rejeitado permanece somente como `technical_control_only`; A1 material-clean
+  permanece somente como `material_topology_control_only`. A decisão foi persistida em
+  `doc/art/characters/taina/human_material_clean_rejection_v01.json`.
+- O registro técnico da época descreveu G2 como autoria nativa produzida a partir da
+  Source A. Essa descrição foi corrigida pela decisão humana posterior: a saída é
+  `procedural_primitive`/`visual_lab_control`, não `hand_authored_pixel`; candidato:
+  `taina_48x64_native_g2_volume_identity_v01`, SHA-256
+  `e35ad9f4477d7d1912b94505932a547e639cdea8b8085e2062362db3f21dcb30`.
+- A hipótese G2 tinha esses objetivos de geometria, mas a revisão 1x observou perda de
+  detalhe de fonte, desenho genérico blocado e perda de hooks de identidade. Os 15
+  índices, mapas e 48 tiles brutos/37 únicos continuam somente evidência técnica.
+- O record 1.4.0, shape block, semantic map, contour, material map/boundary overlay,
+  leakage report, paleta, evidências 1x/nearest/fundos/câmera/crops e comparação com
+  Source A/MATERIAL CLEAN estão em `rascunho/taina_native_g2_volume_identity_v01/`.
+- O record passa `validate_native_sprite_production` sem erros como controle técnico;
+  `native_visual=failed`, `human=failed` e `scale=in_progress`.
+- Budget medido: TAÍNA + quatro inimigos = 20 links, 10 sprites/scanline e 248
+  pixels/scanline, H40 OK. O degrau 3+3 = 28 links, 14 sprites e 348 pixels/scanline,
+  acima de 320, permanece comparison-only. `res/`, animação, SGDK, ROM/BlastEm e
+  claims finais continuam bloqueados; a decisão humana sobre o SHA G2 já foi rejeitada
+  e a escala foi reaberta para um shootout nativo independente.
+
+## 56. DECISÃO HUMANA 56x80 E AUTORIA NATIVA EM STAGING — 2026-08-31
+
+- A decisão humana vigente é `approved_for_native_authoring_scale` para
+  `taina_idle_guard_56x80_visual_source_v01`, SHA-256
+  `32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f`, escala
+  56x80. O escopo é uma única pose idle/guard nativa em staging; não autoriza
+  `res/`, animação completa, ROM, `visual_pass` ou AAA.
+- O shootout contém fontes AI independentes 48x64
+  `331ef5f4d0a16d8dee525229333c558fc0954c07b49a7ef2d7c46d606aa51301`, 56x80
+  `32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f` e 64x96
+  `b16e0cbebd5c4595ec875384476a8622cdafc5d3265160bdb71780265d613e8d`. Como
+  mudam pose, anatomia e acabamento, são hipóteses direcionais e não isolamento
+  puro de escala. Controles rejeitados não foram usados como fonte de pixels.
+- O record operacional é `doc/art/characters/taina/native_scale_shootout_record_v01.json`;
+  o record anterior do challenger B foi marcado `historical_superseded`.
+  Requests 56x80 e 64x96 agora declaram suas próprias escalas, sem `sprite 48x64`.
+- O budget atual é `planning_budget`, baseado nos footprints reais declarados:
+  TAÍNA 56x80, CRIA 48x64 e ESTIVADOR 56x64. TAÍNA + 4 CRIAs = 22 links,
+  10 sprites/scanline e 248 pixels/scanline; TAÍNA + 2 CRIAs + 2 ESTIVADORES =
+  22 links, 10 sprites e 264 pixels/scanline; próximo stress 3 CRIAs + 3
+  ESTIVADORES = 30 links, 14 sprites e 368 pixels/scanline, acima de 320. O
+  fixture anterior com inimigos 32x48 foi invalidado e não entra no claim. Sem
+  sprite nativo integrado e ROM observada, isso não é `validado_budget`.
+- Próxima ação: autoria nativa direta 56x80 em ordem silhueta/volumes/materiais,
+  depois paleta VDP. 64x96 só é fallback após duas iterações causais falharem;
+  48x64 não é reaberto nesta rodada. `res/`, animação e ROM seguem bloqueados.
+
+## 57. BLOCKER NATIVO REPRODUZIDO E BUDGET CORRIGIDO — 2026-08-31
+
+- A rota autorizada foi tentada duas vezes: a primeira produziu checkerboard
+  assado; a segunda produziu uma fonte RGB de alta resolução com leitura visual
+  melhor, porém sem autoria de pixels no grid 56x80. O registro exato está em
+  `rascunho/taina_native_authoring_56x80_v01/native_authoring_failure_report_v01.json`.
+- A tradução assistida foi exercitada e parou corretamente em
+  `blocked_pending_capable_producer`, sem inventar um PNG. GIMP só foi submetido
+  a preflight batch, sem operações registradas; Aseprite não foi encontrado.
+  Portanto o blocker atual é reproduzido após duas tentativas e substitui a
+  formulação anterior de ausência de tentativa.
+- Budget corrigido: TAÍNA 56x80 + 4 CRIAs 48x64 = 22 links, 10 sprites e 248
+  pixels/scanline; composição + 2 CRIAs + 2 ESTIVADORES 56x64 = 22 links, 10
+  sprites e 264 pixels/scanline; stress 3+3 = 30 links, 14 sprites e 368
+  pixels/scanline. Estado: `planning_budget`, não `validado_budget`.
+- Nenhuma evidência de candidato nativo foi fabricada. `res/`, animação,
+  integração, ROM, `visual_pass` e AAA seguem bloqueados.
+
+## 58. RECUPERAÇÃO DA ROTA NATIVA LOCAL E CANDIDATO 56x80 — 2026-08-31
+
+- O blocker histórico foi preservado, mas superseded: a rota `editor_api_save` local
+  foi exercitada com sessão 56x80, ações explícitas `pencil`/`eraser`/`fill`, restore,
+  export PNG/log e validações negativas de path, `res/` e dimensões fora do grid.
+  Self-check: 11/11.
+- Foram produzidas quatro iterações causais em grid nativo: v01 SHA-256
+  `7bfd7f57ec51f4a368917e7fc6e4655640ebae8cf4209ece219de14b3922aba8`, v02
+  `23e1d3704797ba3c48306268d6e18f00dd4b3a3cfc870927ca40edfadbb6d404`, v03
+  `2430a61f6f3c40b6cd26ed212215bc035f1bd76dffa9b2343316fa0eb7babc0c` e v04
+  `0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e`.
+  A v04 muda geometria, clusters de face/guarda e hierarquia de materiais; não é
+  simples requantização da fonte 56x80 aprovada.
+- O model sheet v02, SHA-256 `324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a`,
+  continua sendo a fonte exclusiva de identidade. A fonte 56x80 aprovada,
+  SHA-256 `32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f`,
+  foi usada somente para direção e proporção. As três fontes do shootout mudam
+  pose, anatomia e acabamento; não são comparação isolada de escala.
+- O record operacional é
+  `doc/art/characters/taina/native_authoring_route_recovery_record_v01.json`; o
+  estado de recuperação é apontado por
+  `doc/art/characters/taina/native_authoring_route_recovery_state_v01.json`.
+  O shootout e o failure report anterior agora apontam para esse estado/record e
+  não aparentam ser o estado vigente.
+- v04 é P/4bpp 56x80, PLTE 16, índice 0 transparente, alpha binário e 15 cores
+  visíveis. Evidências incluem 1x/2x/3x/nearest 8x, claro/escuro/chroma, silhueta,
+  semantic/contour, materiais, crops, composição 320x224, comparação e reports.
+  `native_visual` e `human` continuam em andamento; o pacote está pendente de gate
+  humano e não é `visual_pass`.
+- Budget continua `planning_budget`: quatro CRIAs = 22 links, pico 10 sprites e
+  248 px/scanline; composição mista = 22/10/264; stress 3+3 = 30/14/368 e está
+  fora do budget_pass. Sem res/ e ROM medida, não há `validado_budget`.
+- Teto honesto: `native_candidate_pending_human_decision`; `res/`, animação,
+  integração SGDK, ROM/BlastEm, `visual_pass`, ready_for_res e AAA continuam
+  proibidos.
+
+## 59. REJEIÇÃO HUMANA DA V04 — 2026-09-01
+
+- A candidata `taina_idle_guard_56x80_native_authoring_v04`, SHA-256
+  `0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e`, recebeu
+  `technical_pass_visual_fail` e `human_rejected`.
+- Motivos observáveis registrados: `anatomy_simplified_into_block_mass`,
+  `face_or_eye_readability_lost`, `signature_feature_loss` e
+  `generic_blocky_redraw`.
+- A decisão está vinculada em
+  `doc/art/characters/taina/human_native_pose_rejection_v01.json`. A v04 fica
+  preservada como `technical_control_only`; não é fonte de pixels nem pose final.
+- O record operacional permanece em `rework`: `pixel_contract`, escala e
+  `material_topology` continuam tecnicamente válidos, enquanto
+  `native_visual` e `human` estão falhos. 56x80 continua travado; 64x96 segue
+  `comparison_only` e 48x64 não foi reaberto.
+- Próximo trabalho autorizado: novo rework nativo causal em 56x80, sem promoção
+  para `res/`, animação, integração SGDK, ROM, `visual_pass` ou AAA.
+
+## 60. LABORATÓRIO DE ROTAS DE REDUÇÃO — 2026-09-01
+
+- A decisão humana exata `rejected_requires_route_lab` foi registrada para v04 em
+  `doc/art/characters/taina/human_native_pose_route_lab_rejection_v01.json`,
+  vinculada ao SHA-256
+  `0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e`. v04 e
+  v01-v03 permanecem apenas evidência negativa/controle técnico e são proibidos
+  como fonte, baseline ou entrada de geração.
+- A produção normal de TAÍNA foi pausada. O laboratório isolado operacional é
+  `SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]`.
+  Ele contém cópias locais, hashes e contratos; não escreve em `res/`.
+- O experimento fixo separa identidade (model sheet v02), direção/proporção
+  (fonte aprovada 56x80) e evidência negativa (v04). As três fontes do shootout
+  alteram pose, anatomia e acabamento; portanto não foram tratadas como
+  comparação isolada de escala.
+- O laboratório executou probes mecânicos reproduzíveis, probes de paleta e dois
+  guias de autoria nativa. Nenhum é pose final. O teto atual é
+  `resampling_route_lab_evidence`; o gate humano de rota ainda está pendente.
+- 56x80 continua travado; 64x96 é somente comparação. `res/`, animação,
+  integração SGDK, ROM/BlastEm, `visual_pass`, `ready_for_res` e AAA seguem
+  não autorizados.
+
+## 61. SHOOTOUT DE LIMPEZA HÍBRIDA — 2026-09-01
+
+- A decisão humana `approve_hybrid_cleanup_shootout` foi registrada em
+  `doc/art/characters/taina/human_hybrid_cleanup_shootout_decision_v01.json`.
+  Ela aprova somente o estudo híbrido em 56x80, com pixels das bases podendo
+  sobreviver, mas com promoção cega explicitamente falsa.
+- Bases aprovadas: `im_lanczos3` SHA-256
+  `933caee8829970d0f8877712396b19b57e5843ef73481aceb047cf338cde72be`,
+  `im_mitchell_netravali` SHA-256
+  `ee524888bd0be4e146a3236a9480565772b8fa8e752818bf2c9717bf702b17b5` e
+  `im_catmull_rom` SHA-256
+  `169426ebbf40eb01631154610cd73fff959afde8540dfa5943c3528225b20cd5`.
+- Foram produzidas três variantes de limpeza híbrida, cada uma com matte
+  binário, paleta semântica e patches nativos explícitos. Todas permanecem
+  `technical_candidate`/`human_gate_status=pending_human_decision`.
+- Nenhuma variante foi promovida para `res/`, animação, runtime, ROM,
+  `visual_pass` ou AAA; 56x80 continua travado e 64x96 continua somente
+  comparação.
+
+## 62. INCUMBENT HÍBRIDO SELECIONADO PARA REWORK LOCALIZADO — 2026-09-01
+
+- A decisão humana selecionou `hybrid_cleanup_primary_im_lanczos3_v01`, SHA-256
+  `3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1`, em
+  56x80, com escopo exclusivo `localized_native_cleanup_only`.
+- O rework gerado é
+  `hybrid_cleanup_primary_im_lanczos3_rework_v01`, SHA-256
+  `cb6ff5c695c5e7b76e80d84ebd497f8f55e162561c0f2caeb0f345604c31529e`.
+  A intervenção removeu a faixa de sombra de chão assada entre os pés, removeu
+  um pixel órfão do sash e aplicou separadores locais de rosto/guarda/sash.
+- O candidato permanece `technical_candidate`, com validação pixel-strict
+  independente e `human_gate_status=pending_human_decision`. Nenhuma promoção
+  para `res/`, animação, runtime, ROM, `visual_pass` ou AAA ocorreu.
+
+## 63. CORREÇÃO DE MÉTODO E REWORK ARTÍSTICO DA PRIMARY — 2026-09-01
+
+- A revisão humana corrigiu a descrição da rota: `method=mechanical_palette_remap_with_minimal_native_patches`;
+  `native_cleanup=incomplete`; `material_topology=not_run`; e
+  `semantic_map=derived_diagnostic_not_independent`. O mapa semântico derivado
+  diretamente do índice de paleta não é segmentação artística independente.
+- A tentativa v02 de remapeamento amplo foi descartada como regressão visual:
+  achatou pele, top, cabelo e calça em massas e não pode ser fonte, baseline ou
+  candidata vigente. O registro está em `DISCARDED_VISUAL_REGRESSION.md` no
+  laboratório.
+- A v03 foi produzida somente sobre o controle v01 selecionado, preservando sua
+  macrogeometria e registrando 44 patches não nulos nas regiões cabelo, rosto,
+  guarda, top/abdômen, sash, calças e pés. Candidata vigente:
+  `hybrid_cleanup_primary_im_lanczos3_rework_v03`, SHA-256
+  `99160ec422010d2ac68fbb4b10cc03db72012316508882e1b9b8cf336ec51a33`.
+- O PNG passou o contrato técnico P/4bpp (56x80, 14 cores visíveis, PLTE 16,
+  índice 0 transparente, sem blocker). A faixa central da linha 77 ficou com
+  zero pixels visíveis; os pixels restantes são os dois intervalos de contato
+  dos pés. Isso não prova `visual_pass`.
+- O estado operacional aponta para v03 e permanece
+  `technical_pass_visual_rework`, `human_gate_status=pending_human_decision`.
+  `material_topology=not_run`; o mapa independente é só hipótese diagnóstica.
+  Não houve promoção para `res/`, animação, runtime, ROM, `visual_pass` ou AAA.
+
+## 64. V03 CONGELADA E V04 DE REWORK LOCALIZADO — 2026-09-01
+
+- A decisão humana aprovou `hybrid_cleanup_primary_im_lanczos3_rework_v03`
+  somente como checkpoint intermediário: `decision=approve_localized_native_cleanup`,
+  SHA-256 `99160ec422010d2ac68fbb4b10cc03db72012316508882e1b9b8cf336ec51a33`,
+  escala 56x80. A v03 é incumbent congelada, não `visual_pass` nem pose final.
+- A v04 foi produzida somente sobre a v03, sem resize, filtro ou remapeamento
+  global. Candidata atual:
+  `hybrid_cleanup_primary_im_lanczos3_rework_v04`, SHA-256
+  `791074aa6919ac0bac78a60693c12daee8f03169b216996758a8a272bc6b214e`.
+  Foram registrados 36 patches não nulos em rosto, cabelo, guarda, abdômen,
+  sash e calças.
+- O mapa de materiais v04 atribui cada pixel visível a cabelo, pele, top, wraps,
+  sash, calças, pés ou contorno compartilhado, independentemente do índice de
+  paleta. O estado é `independent_candidate_pending_human_review`, não
+  `material_topology=passed`.
+- Estado atual: `technical_pass_visual_rework`, teto
+  `localized_native_cleanup_candidate`, gate humano pendente. Próximo gate
+  positivo separado: `approved_for_final_native_pose`. `res/`, animação,
+  integração, ROM, `visual_pass` e AAA continuam bloqueados.
+
+## 65. V05 DE REWORK LOCALIZADO — 2026-09-01
+
+- A v04 foi rejeitada pela decisão humana somente como pose final e preservada
+  como incumbent. A v05 atual foi produzida exclusivamente sobre ela, sem
+  reabrir v03, v02, G2 ou rotas manuais rejeitadas.
+- Candidata de laboratório:
+  `hybrid_cleanup_primary_im_lanczos3_rework_v05`, SHA-256
+  `6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3`, escala
+  travada 56x80. Método honesto:
+  `mechanical_palette_remap_with_minimal_native_patches`; `native_cleanup` é
+  incompleto e `semantic_map` é diagnóstico derivado, não segmentação artística.
+- Contratos materiais independentes foram produzidos para v04 e v05. A v05 tem
+  cobertura geométrica exata e leakage de 505 ocorrências; logo
+  `material_topology=failed_requires_localized_material_cleanup`.
+- Validação técnica da v05: P/4bpp, 56x80, 15 cores visíveis, PLTE 16, índice 0
+  transparente, alpha binário, sem blocker. Isso não é `visual_pass`.
+- O estado operacional aponta para
+  `doc/art/characters/taina/taina_localized_cleanup_operational_record_v05.json`
+  e permanece `technical_pass_visual_rework`, `pending_human_decision`, com
+  `res`, animação, SGDK, ROM, `visual_pass` e AAA falsos.
+- O budget corrigido permanece `planning_budget`, usando footprints reais:
+  TAÍNA 56x80 + quatro CRIA 48x64 = 22 links, pico 10 sprites e 248 pixels por
+  scanline; 2 CRIA + 2 ESTIVADOR = 22 links, pico 10 e 264 pixels; 3 CRIA + 3
+  ESTIVADOR = 30 links, pico 14 e 368 pixels, acima do limite H40 de 320.
+
+## 66. MEDIDOR DE TOPOLOGIA V02 — 2026-09-01
+
+- A v05 permanece incumbent visual de diagnóstico, sem alteração de pixels e
+  sem v06. SHA-256 mantido:
+  `6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3`.
+- Corrigida a contagem do rework para 23 tentativas, 18 efetivas e 5 no-op em
+  `cleanup_actions`, validation report, review index e registros operacionais.
+- A topologia retangular deixou de ser canônica. O medidor usa mapa externo
+  pixel-accurate, autorado contra v05/model sheet, com proprietários
+  `outline_shared`, `hair`, `skin`, `orange_top`, `teal_fabric` e
+  `indigo_trousers`, sem inferência por índice de paleta.
+- Fixtures adversariais: 8/8. Rederivação: v04 ownership annotation error 4 /
+  palette leakage 832; v05 ownership annotation error 0 / palette leakage 827.
+  `ambiguous_requires_human_review` permanece verdadeiro; não há autorização
+  para v06, patches, animação ou `res/`.
+
+## 67. CONTRATO DE TOPOLOGIA V03 EM DUAS CAMADAS — 2026-09-01
+
+- A v05 continua congelada como controle visual diagnóstico, sem alteração de
+  pixels e sem v06. SHA-256 confirmado:
+  `6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3`.
+- O medidor agora persiste e relê
+  `material_owner_shade_annotation_v01.json`: `material_owner_map` contém
+  somente transparent, hair, skin, orange_top, teal_fabric e
+  indigo_trousers; `shade_role_map` contém outline_shared,
+  deep_shadow_shared, shadow, base e highlight. Não existe fallback para skin.
+  Pés são skin; wraps e sash são sub-regiões semânticas de teal_fabric; os
+  papéis compartilhados são autorizados por coordenadas explícitas.
+- A matriz `owner × index × shade_role`, PLTE RGB 0–15, leakage completo por
+  material, índice e componente conectado, overlays e comparação com o mapa
+  legado foram persistidos e vinculados ao SHA da v05.
+- A medição v03 separa os quatro eixos: `material_map_accuracy=passed`,
+  `material_boundary_topology=passed`, `palette_role_conformance=failed` e
+  `visual_material_readability=pending_human_review`. A anotação tem cobertura
+  geométrica exata e zero `unassigned_visible_pixel`, mas isso não é aprovação.
+- Leakage confiável: 829 pixels em 44 componentes conectados; leakage histórico
+  do mapa legado com fallback: 827. A diferença é diagnóstica e não autoriza
+  829 patches. Fixtures semânticas permanentes: 10/10.
+- Como os conflitos atravessam interiores de cabelo, pele, top, teal e calças,
+  a decisão de rota foi abrir `material_palette_reseed_v01` em staging, mantendo
+  a v05 como controle. BASIC e ELITE foram produzidos por
+  `material_owner + shade_role`, sem nearest-color ou remapeamento global, e
+  foram rejeitados como challengers visuais. BASIC SHA-256
+  `24bee2d802e9bda6cbbabd43637220b5c2c99b1d66ebdeba21fd24205fedd33a`; ELITE
+  SHA-256 `753815ea994859cc52c35e701a505258cbb141896b44717fb7f8239aeb415f9b`.
+- Estado honesto permanece `pending_human_decision`,
+  `native_cleanup=incomplete`, `material_topology=failed_requires_localized_material_cleanup`,
+  `visual_pass=false`, `res_promotion=false`, `animation_authorization=false`,
+  `rom_authorization=false` e `ready_for_aaa=false`. Nenhuma autorização para
+  pose final foi solicitada.
+
+## 68. REJEIÇÃO HUMANA DO RESEED DE PALETA — 2026-09-01
+
+- Decisão exata: `reject_material_palette_reseed_as_visual_challengers`.
+  Motivo: `semantic_flattening_destroyed_internal_drawing_and_identity`.
+- BASIC e ELITE permanecem apenas como evidência rejeitada. A decisão registra
+  `basic_elite_changed_pixels=4` e `basic_elite_changed_ratio=0.00271`; esses
+  valores não são score de qualidade.
+- A v05 continua controle congelado em 56x80, SHA-256
+  `6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3`. Não há
+  autorização para nova arte, `res/`, animação, ROM, `visual_pass` ou AAA.
+- A classificação dos challengers é `method=diagnostic_semantic_color_blocking`,
+  `acceptance_status=visual_lab_control`, `promotable=false` e
+  `allowed_as_pixel_source=false`.
+
+## 69. BLOCKING NATIVO 56x80 — GATE HUMANO A/B — 2026-09-01
+
+- A decisão humana `reject_material_palette_reseed_as_visual_challengers` foi
+  preservada com os SHA BASIC `24bee2d802e9bda6cbbabd43637220b5c2c99b1d66ebdeba21fd24205fedd33a`
+  e ELITE `753815ea994859cc52c35e701a505258cbb141896b44717fb7f8239aeb415f9b`.
+  Ambos são apenas `visual_lab_control` e não são fonte de pixels.
+- Foram tentadas três passagens de lineart blocking em staging. v01 e v02
+  foram descartadas por leitura observável de massa genérica/guarda ambígua.
+  A v03 vigente usa o model sheet v02 como autoridade de identidade e os
+  underlays apenas como guias; não usa pixels de v05, G2, RGB maps ou reseed.
+- A candidata A é `taina_56x80_native_lineart_blocking_a_v03`, SHA-256
+  `cd911846f1eab6f05e59be714fdf0520a021ea88b9fdc008f2279112133c10ff`.
+  A candidata B é `taina_56x80_native_lineart_blocking_b_v03`, SHA-256
+  `2783c59c6c26e645825295d570c70d2a1ea01be1580fa02c306e35017e045264`.
+  A/B diferem em 93 pixels de 1678 visíveis e em face, cabelo, guarda, hem,
+  sash e pés; isso não é score estético.
+- A etapa permanece `pending_human_decision`, `visual_pass=false`,
+  `promotable=false`, `res_promotion=false`, `animation_authorization=false`,
+  `rom_authorization=false` e `ready_for_aaa=false`. Não há autorização para
+  materiais finais, animação, `res/`, SGDK, ROM ou claim AAA.
+- O budget que já havia sido corrigido continua `planning_budget` e não foi
+  promovido por estas linearts: TAÍNA 56x80 + quatro CRIA 48x64 = 22 links,
+  pico 10 sprites/scanline e 248 pixels; 2 CRIA + 2 ESTIVADOR = 22 links,
+  264 pixels; 3 CRIA + 3 ESTIVADOR = 30 links e 368 pixels, acima do H40.

@@ -1,0 +1,45 @@
+{
+  "schema_version": "taina_material_palette_reseed_manifest.v1",
+  "stage": "material_palette_reseed_v01",
+  "status": "rejected_as_visual_challengers",
+  "source_asset": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+    "sha256": "6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3",
+    "pixels_modified": false
+  },
+  "method": "diagnostic_semantic_color_blocking",
+  "acceptance_status": "visual_lab_control",
+  "promotable": false,
+  "allowed_as_pixel_source": false,
+  "palette_assignment": "material_owner_plus_shade_role",
+  "global_nearest_remap": false,
+  "human_decision": {
+    "decision": "reject_material_palette_reseed_as_visual_challengers",
+    "basic_sha256": "24bee2d802e9bda6cbbabd43637220b5c2c99b1d66ebdeba21fd24205fedd33a",
+    "elite_sha256": "753815ea994859cc52c35e701a505258cbb141896b44717fb7f8239aeb415f9b",
+    "reason": "semantic_flattening_destroyed_internal_drawing_and_identity",
+    "basic_elite_changed_pixels": 4,
+    "basic_elite_changed_ratio": 0.00271,
+    "preserve_as_visual_challenger": false
+  },
+  "challengers": {
+    "basic": {
+      "asset_id": "taina_56x80_material_palette_reseed_basic_v01",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/material_palette_reseed_v01/basic/taina_56x80_material_palette_reseed_basic_v01.png",
+      "sha256": "24bee2d802e9bda6cbbabd43637220b5c2c99b1d66ebdeba21fd24205fedd33a",
+      "validation": "passed"
+    },
+    "elite": {
+      "asset_id": "taina_56x80_material_palette_reseed_elite_v01",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/material_palette_reseed_v01/elite/taina_56x80_material_palette_reseed_elite_v01.png",
+      "sha256": "753815ea994859cc52c35e701a505258cbb141896b44717fb7f8239aeb415f9b",
+      "validation": "passed"
+    }
+  },
+  "human_gate_status": "rejected_as_visual_challengers",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "visual_pass": false,
+  "ready_for_aaa": false
+}

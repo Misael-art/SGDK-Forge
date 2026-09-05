@@ -1,0 +1,54 @@
+{
+  "schema_version": "technical_palette_probe.v1",
+  "route_id": "cv_area",
+  "status": "technical_palette_probe",
+  "input_raw": {
+    "path": "route_reports/cv_area/raw_rgba_56x80.png",
+    "sha256": "9002496f1a3ae404dbafba14a848f4cbb96f37072fbba2d327bc69e616a215bd"
+  },
+  "output": {
+    "path": "palette_probe_reports/cv_area/technical_palette_probe_56x80.png",
+    "sha256": "23fe5e00c8e896649f59769177ec31987933fd1f05cf0d4351540954c4483a36"
+  },
+  "target": "56x80",
+  "palette": {
+    "visible_colors": 15,
+    "rgb333": true,
+    "roles": {
+      "0": "transparent0",
+      "1": "outline_deep_shadow",
+      "2": "hair_deep",
+      "3": "hair_base",
+      "4": "hair_highlight",
+      "5": "skin_shadow",
+      "6": "skin_base",
+      "7": "skin_highlight",
+      "8": "top_shadow",
+      "9": "top_base",
+      "10": "top_highlight",
+      "11": "teal_shadow",
+      "12": "teal_base",
+      "13": "teal_highlight",
+      "14": "indigo_shadow",
+      "15": "indigo_base"
+    }
+  },
+  "alpha_policy": "index0_from_raw_alpha_zero; silhouette_support_preserved_for_all_alpha_nonzero",
+  "partial_alpha_input_pixels": 541,
+  "material_region_map": {
+    "path": "palette_probe_reports/cv_area/material_region_map.png",
+    "sha256": "7155a38fcb3c7452b4febf8c80ec00de6bba1fe300b9171d343ce7b1d28dec7b",
+    "status": "diagnostic_owner_map"
+  },
+  "material_boundary_overlay": {
+    "path": "palette_probe_reports/cv_area/material_boundary_overlay.png",
+    "sha256": "01690b2a9f86eef39480fdcab6b4df5346fdff5e38b7ab6679ecc513ff794b20"
+  },
+  "matte_halo": {
+    "status": "diagnostic",
+    "partial_alpha_input_pixels": 541,
+    "halo_cleaning": "not_applied"
+  },
+  "claim_ceiling": "technical_palette_probe",
+  "not_native_candidate": true
+}

@@ -9,8 +9,8 @@
     "human_approval_required": true,
     "evidence_required": true
   },
-  "generated_at": "2026-07-03T16:21:19Z",
-  "source_digest": "e66bf00df18c32980258f4ff01445ec8d40caf4731910a5bdd8cf12f17901095",
+  "generated_at": "2026-08-30T14:41:43Z",
+  "source_digest": "92ae1c2eeb3470a024701b335abda4354d8612c314600c77bd88c49934090c8e",
   "lessons": [
     {
       "lesson_id": "lesson_ac2e5201cda28be4",
@@ -295,6 +295,388 @@
       }
     },
     {
+      "lesson_id": "lesson_26b753a898379a9f",
+      "title": "L09 falso blocker de Bonsai/ComfyUI quando ha geracao nativa",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-09",
+      "problem_signature": "l09_falso_blocker_de_bonsai_comfyui_quando_ha_geracao_nativa",
+      "context": "MARE_BRAVA precisava continuar gerando concept/source assets; a sessao Codex atual possui ferramenta nativa de imagem, mas o relatorio antigo `generation_channel_decision.json` marcava `license_blocked` por Bonsai sem licenca e host AMD",
+      "observation": "o agente gastou energia tratando Bonsai/ComfyUI como bloqueio principal, apesar de a rota mais simples ser gerar pela capacidade nativa do modelo e salvar como `source_candidate`",
+      "diagnosis": "roteamento local estava defaultando `native_callable=false` quando a flag nao era passada, e docs antigas descreviam Bonsai como gate dominante",
+      "resolution_or_preventive_heuristic": "`imagegen_tool.py`/`imagegen_circuit.py` agora auto-detectam Codex/ChatGPT como `native_chat_image_generation_callable`; skills/docs declaram native-first; Bonsai/ComfyUI so bloqueiam quando nao houver nativo/API",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/generation_channel_decision.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_445c27b99891031e",
+      "title": "L10 iteracao tecnica nao pode substituir a fonte autoral",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-28",
+      "problem_signature": "l10_iteracao_tecnica_nao_pode_substituir_a_fonte_autoral",
+      "context": "revisoes de lineart TA\u00cdNA v05 e v07 buscaram resolver escala, grid e pivot dentro da celula 48x64.",
+      "observation": "o diretor de arte humano classificou as imagens 05 e 06 da linha do tempo como retrocessos de fidelidade grafica. v05 caiu em proporcao chibi; a sequencia posterior perde cabelo, face e leitura da guarda. O fluxo deixava uma iteracao tecnicamente mais adequada aparentar progresso mesmo quando degradava a identidade.",
+      "diagnosis": "os contratos de identidade e os relat\u00f3rios de fidelidade existiam, mas faltava uma regra operacional que congelasse a fonte autoral como incumbente e proibisse usar candidatos reprovados como referencia da proxima tentativa.",
+      "resolution_or_preventive_heuristic": "congelar a imagem 04 da linha do tempo como baseline de direcao; antes de cada iteracao, carregar visual DNA, gate arte+gameplay e contrato de traco; declarar `must_preserve`; corrigir apenas um eixo por vez; comparar lado a lado em escala nativa; bloquear promocao e reutilizacao como fonte se qualquer marcador de identidade regredir. Seguir `doc/art/characters/taina/iteration_control_protocol.md`.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/art/characters/taina/iteration_control_protocol.md",
+          "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v05.json",
+          "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v07.json",
+          "doc/art/characters/taina/review/taina_lineart_v04_v05_compare_8x_v01.png",
+          "doc/art/characters/taina/review/taina_lineart_v05_v06_v07_compare_6x_v01.png"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_38ead2805870e0ba",
+      "title": "L11 misturar rota Linux e Windows mascara incompatibilidade LTO",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l11_misturar_rota_linux_e_windows_mascara_incompatibilidade_lto",
+      "context": "compila\u00e7\u00e3o da strip `taina_idle_guard` no host Manjaro Linux com o SGDK 2.11 can\u00f4nico do workspace",
+      "observation": "ResComp e fontes C passaram, mas a tentativa de link direto falhou; o fluxo Windows via `.bat`/PowerShell sob Wine tamb\u00e9m n\u00e3o representava uma rota Linux confi\u00e1vel e o incidente aparentava ser bloqueio do projeto",
+      "diagnosis": "`sdk/sgdk-2.11/bin/gcc.exe` \u00e9 GCC 13.2.0, enquanto a `sdk/sgdk-2.11/lib/libmd.a` cont\u00e9m LTO produzido por GCC 16.1.0; o agente n\u00e3o possu\u00eda um gate expl\u00edcito que escolhesse a rota pelo host e comparasse a proveni\u00eancia antes do link",
+      "resolution_or_preventive_heuristic": "executar `select_sgdk_build_route.py` antes do build; em Linux usar staging isolado + `build_sgdk_wine_bridge.sh` e biblioteca sem LTO; em Windows usar `build.bat` e bloquear mismatch at\u00e9 restaurar/reconstruir `libmd.a` com o compilador empacotado; nunca editar C/`.res` quando a evid\u00eancia localiza a falha no link/toolchain",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/linux_wine_build_report.json",
+          "out/logs/sgdk_build_route_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_78221a7c35a26c41",
+      "title": "L12 gerar todos os frames por IA produz morphing em vez de anima\u00e7\u00e3o",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l12_gerar_todos_os_frames_por_ia_produz_morphing_em_vez_de_anima_o",
+      "context": "reconstru\u00e7\u00e3o da idle guard da TA\u00cdNA a partir da fonte autoral aprovada como imagem 04, com pedido de seis quadros numa \u00fanica prancha",
+      "observation": "a dire\u00e7\u00e3o de arte voltou no quadro isolado, mas cabe\u00e7a, corpo, dire\u00e7\u00e3o do rosto e eixo de apoio foram redesenhados ao longo da sequ\u00eancia; no proxy 48x64 houve 7 px de drift horizontal e 3 px de drift de altura",
+      "diagnosis": "o modelo de imagem resolveu cada pose como uma nova ilustra\u00e7\u00e3o semanticamente semelhante, sem conservar topologia pixel, pivot e massas do quadro anterior",
+      "resolution_or_preventive_heuristic": "gerar ou desenhar apenas uma pose-mestre; aprov\u00e1-la em escala nativa; congelar pivot, ground e clusters de identidade; derivar os demais quadros por edi\u00e7\u00e3o pixel controlada sobre a pose-mestre; medir bbox, contato dos p\u00e9s e delta antes de qualquer promo\u00e7\u00e3o",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/art/characters/taina/animation/taina_idle_guard_v02_authorial_reconstruction_report.json",
+          "rascunho/taina_idle_guard_v02/taina_idle_guard_native_proxy_v02_8x.png"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_a7bbb888fb5ef563",
+      "title": "L13 captura automatizada sem confirmar cena e janela de input gera falsa evidencia",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l13_captura_automatizada_sem_confirmar_cena_e_janela_de_input_gera_falsa_evidencia",
+      "context": "captura de idle, andar, correr, pulo e jab da ROM com o primeiro recorte do CAIS_01",
+      "observation": "a primeira execu\u00e7\u00e3o manual abriu a cena de boot porque o SRAM foi associado ao basename errado; nas duas tentativas seguintes, toques instant\u00e2neos n\u00e3o atravessaram um frame de leitura de `INPUT_pressed`, fazendo pulo e jab parecerem ausentes",
+      "diagnosis": "a automa\u00e7\u00e3o validava apenas exist\u00eancia do PNG, n\u00e3o identidade da cena nem dura\u00e7\u00e3o m\u00ednima do input; eventos de borda dependem de `keydown/keyup` sustentado por VBlanks suficientes",
+      "resolution_or_preventive_heuristic": "iniciar a ROM pela inje\u00e7\u00e3o SBIS oficial com `--target-scene`; confirmar visualmente `SCN:DEMO`; para a\u00e7\u00f5es `pressed`, sustentar a tecla por pelo menos alguns frames e capturar dentro da janela ativa; mover qualquer sess\u00e3o de cena errada para `out/evidence/rejected` e nunca agreg\u00e1-la \u00e0 prancha aceita",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/evidence/taina_cais01_runtime_v01/taina_cais01_runtime_contact_sheet_v01.png"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_4e2498fca6d46604",
+      "title": "L14 efeito tecnico nao substitui composicao autoral",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l14_efeito_tecnico_nao_substitui_composicao_autoral",
+      "context": "passe v03 do CAIS_01 com HSCROLL_LINE, reflexo, fuma\u00e7a, poeira, palette cycling e contraluz funcionando no BlastEm",
+      "observation": "apesar da evolu\u00e7\u00e3o t\u00e9cnica, o c\u00e9u, a cidade, o piso e os props perderam alinhamento com as fontes aprovadas e passaram a parecer formas gen\u00e9ricas coladas; a t\u00e9cnica elevou o movimento, mas n\u00e3o a autoria visual",
+      "diagnosis": "o passe de efeitos come\u00e7ou antes de existir uma matriz de fonte por regi\u00e3o e alterou macrogeometria, landmarks e material marks que deveriam ter permanecido congelados",
+      "resolution_or_preventive_heuristic": "antes de novo passe t\u00e9cnico, registrar source matrix, scene direction record, depth role map e composition schema; congelar massas, faixa jog\u00e1vel, landmarks e materiais; permitir que FX apenas animem, separem ou iluminem essas formas; comparar fonte, basic, elite e BlastEm no mesmo enquadramento",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/art/environments/cais01/review/cais01_runtime_compare_v03_v04.png",
+          "doc/contracts/cais01_visual_source_matrix_v04.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_784b7d932bba2b24",
+      "title": "L15 selo de arquivo nao valida semantica de relatorio",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-30",
+      "problem_signature": "l15_selo_de_arquivo_nao_valida_semantica_de_relatorio",
+      "context": "cache de `forge-art convert` com job e `output_hashes` resselados.",
+      "observation": "remover `metrics` de `conversion_report.json`, recalcular os hashes publicados e o selo do estado ainda permitia retorno de cache; os bytes estavam coerentes, mas o relat\u00f3rio n\u00e3o obedecia seu schema nem descrevia a convers\u00e3o.",
+      "diagnosis": "o n\u00facleo imut\u00e1vel de jobs valida linhagem e evid\u00eancia pixel gen\u00e9ricas, mas n\u00e3o conhece os campos sem\u00e2nticos de cada produtor de relat\u00f3rio.",
+      "resolution_or_preventive_heuristic": "manter `job.py` gen\u00e9rico e obrigar cada rota a revalidar seu relat\u00f3rio publicado. `verify_published_conversion()` valida schema, rederiva paleta/m\u00e9tricas, remede o PNG e casa hashes, rota, fonte, spec e estrat\u00e9gias.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3fee43dfe5b4f74e",
+      "title": "L16 automacao de ponteiro nao e rota de producao deterministica",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-30",
+      "problem_signature": "l16_automacao_de_ponteiro_nao_e_rota_de_producao_deterministica",
+      "context": "tentativa de construir e exportar lineart 48x64 no GIMP por observacao da area de trabalho e cliques do agente.",
+      "observation": "alto consumo de contexto, baixa precisao de pixel e encerramento sem artefato verificavel, apesar de o GIMP possuir modo batch.",
+      "diagnosis": "`interaction_channel_mismatch`; uma operacao automatizavel foi roteada para GUI e o historico documental ainda dizia que a autoria estava em progresso no GIMP recuperado.",
+      "resolution_or_preventive_heuristic": "CLI-first; usar forge-art/Pillow/ImageMagick para mecanica, GIMP batch apenas para operacao estatica registrada e GUI somente humana. Duas tentativas equivalentes sem evidencia encerram a rota, nao o projeto.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
       "lesson_id": "lesson_5b7fbd4d6e4d31ca",
       "title": "L01 prompt pack para geracao humana assincrona",
       "source_kind": "success_pattern",
@@ -303,10 +685,10 @@
       "lifecycle_status": "evidence_incomplete",
       "observed_at": "2026-07-03",
       "problem_signature": "l01_prompt_pack_para_geracao_humana_assincrona",
-      "context": "canal de geracao IA bloqueado no host (sem callable, sem API, Bonsai exige NVIDIA); arte de concept necessaria para o CAIS_01",
+      "context": "rota local de geracao IA bloqueada no host (Bonsai/ComfyUI), mas arte de concept necessaria para o CAIS_01; a partir de 2026-07-09, canal nativo callable/inline deve vencer esse bloqueio quando existir",
       "observation": "prompt pack com prompts especificos (paleta hex, poses numeradas, negative prompt, criterios de aceite, caminho de salvamento) rendeu 15 concepts utilizaveis na primeira geracao feita pelo humano em modelo externo",
       "diagnosis": "especificidade tecnica do prompt transfere a direcao de arte para qualquer canal disponivel sem perder o contrato visual",
-      "resolution_or_preventive_heuristic": "formalizar prompt_pack como saida padrao da art-creation-sourcing quando generation_channel_decision=blocked",
+      "resolution_or_preventive_heuristic": "formalizar prompt_pack como insumo padrao da art-creation-sourcing para qualquer canal; se `generation_channel_decision` selecionar nativo, gerar pela ferramenta da sessao em vez de instalar Bonsai/ComfyUI",
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
@@ -382,6 +764,285 @@
         },
         "apply_status": "not_applied"
       }
+    },
+    {
+      "lesson_id": "lesson_a84d23e03a9383af",
+      "title": "L12 staging Linux sem LTO recupera build sem contaminar o SDK",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l12_staging_linux_sem_lto_recupera_build_sem_contaminar_o_sdk",
+      "context": "build SGDK 2.11 de MARE_BRAVA em Manjaro Linux ap\u00f3s mismatch LTO comprovado no link direto",
+      "observation": "copiar o SDK para staging controlado, encapsular os execut\u00e1veis Windows com a bridge Wine, reconstruir `libmd.a` sem LTO usando o GCC 13 empacotado e compilar o projeto com `LTO=0` produziu ROM v\u00e1lida sem modificar a biblioteca can\u00f4nica",
+      "diagnosis": "objetos fat preservam c\u00f3digo link\u00e1vel sem exigir que o plugin LTO 13 consuma bytecode LTO 16, e o staging separa a adapta\u00e7\u00e3o de host da fonte can\u00f4nica",
+      "resolution_or_preventive_heuristic": "reutilizar somente no host Linux por meio de `build_sgdk_wine_bridge.sh`, sempre precedido por `select_sgdk_build_route.py`; no Windows exigir coer\u00eancia nativa do SDK em vez de usar esta bridge",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "out/logs/linux_wine_build_report.json"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_6e7e749ac45517fd",
+      "title": "L13 pose-mestre aprovada e edicao de clusters preservam autoria na animacao",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l13_pose_mestre_aprovada_e_edicao_de_clusters_preservam_autoria_na_animacao",
+      "context": "segunda vers\u00e3o da `idle_guard` da TA\u00cdNA, ap\u00f3s a v01 perder identidade e o primeiro strip v02 gerado como seis imagens independentes produzir morphing",
+      "observation": "limpar e aprovar um unico quadro 48x64, congelar contorno, pivot, pes, maos e guarda, e derivar os outros cinco quadros movendo apenas clusters internos de torso, cabelo e faixa produziu um ciclo sem drift e reconhecivel no BlastEm",
+      "diagnosis": "todos os quadros compartilham a mesma topologia pixel e a mesma pose estrutural; a anima\u00e7\u00e3o descreve mudan\u00e7a temporal localizada em vez de redesenhar a personagem",
+      "resolution_or_preventive_heuristic": "para novos estados, come\u00e7ar por uma pose-mestre humana aprovada; declarar clusters imut\u00e1veis e m\u00f3veis; derivar quadros por edi\u00e7\u00e3o pixel; medir bbox, massa, pivot, contato e delta; somente depois compilar e revisar no emulador",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/art/characters/taina/animation/taina_idle_guard_frame_delta_report_v02.json",
+          "doc/art/characters/taina/animation/taina_idle_guard_runtime_visual_review_v02.json",
+          "res/sprites/characters/taina/taina_idle_guard_48x64_v02.png"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_58c596d70c80b455",
+      "title": "L14 acao principal deve ter entrada equivalente em pads de tres e seis botoes",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l14_acao_principal_deve_ter_entrada_equivalente_em_pads_de_tres_e_seis_botoes",
+      "context": "primeira integra\u00e7\u00e3o visual de `combo_hit_1_jab` na cena demo, testada no BlastEm com mapeamento padr\u00e3o de pad de tr\u00eas bot\u00f5es",
+      "observation": "a anima\u00e7\u00e3o estava correta e buildada, mas n\u00e3o aparecia na captura porque o primeiro runtime aceitava somente `BUTTON_X`; adicionar `BUTTON_C` como entrada equivalente tornou o golpe acess\u00edvel no pad de tr\u00eas bot\u00f5es sem remover `X` no pad de seis bot\u00f5es",
+      "diagnosis": "`X` n\u00e3o existe no controle original de tr\u00eas bot\u00f5es e a captura f\u00edsica do BlastEm envia a tecla correspondente a `C`",
+      "resolution_or_preventive_heuristic": "a\u00e7\u00f5es essenciais devem declarar uma entrada prim\u00e1ria A/B/C e, opcionalmente, um alias X/Y/Z; teste de anima\u00e7\u00e3o no emulador deve usar o perfil de pad declarado antes de atribuir falha ao asset",
+      "scope_limits": [
+        "n\u00e3o define o mapeamento final do jogo; apenas impede que uma a\u00e7\u00e3o essencial dependa exclusivamente de um bot\u00e3o ausente no pad de tr\u00eas bot\u00f5es"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_66f0ff0e613c2be5",
+      "title": "L15 burst temporal de emulador nao e spritesheet",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l15_burst_temporal_de_emulador_nao_e_spritesheet",
+      "context": "revis\u00e3o humana da prancha 6\u00d78 montada a partir de 48 screenshots consecutivos do BlastEm",
+      "observation": "uma montagem temporal sem r\u00f3tulo de proveni\u00eancia foi interpretada como sheet de 48 quadros; as repeti\u00e7\u00f5es de idle pareciam desperd\u00edcio de VRAM e o texto BG_B parecia assado no sprite",
+      "diagnosis": "contact sheet de captura e spritesheet f\u00edsico usaram a mesma gram\u00e1tica visual de grade, sem cabe\u00e7alho que diferenciasse amostras temporais de c\u00e9lulas de recurso",
+      "resolution_or_preventive_heuristic": "toda prancha de runtime deve declarar `runtime_temporal_burst`, ROM, intervalo e contagem de amostras; a prancha de frames \u00fanicos deve vir separada e apontar diretamente para o PNG em `/res`",
+      "scope_limits": [
+        "a prancha temporal continua \u00fatil para timing e estabilidade, mas nunca mede sozinha contagem de frames, ROM ou VRAM"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/art/characters/taina/animation/taina_combo_hit_1_jab_contact_sheet_classification_correction_v01.json",
+          "doc/art/characters/taina/review/taina_combo_hit_1_jab_runtime_unique_contact_6x_v02.png"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_c60042a5e7f7fa0f",
+      "title": "L16 montagem modular nativa preserva leitura e reduz tiles",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "l16_montagem_modular_nativa_preserva_leitura_e_reduz_tiles",
+      "context": "primeiro recorte jog\u00e1vel do CAIS_01 ap\u00f3s o contrato rejeitar panorama pronto como cen\u00e1rio final",
+      "observation": "construir c\u00e9u, ind\u00fastria, quatro bandas de mar, piso e props diretamente na grade de 8\u00d78/16\u00d716 preservou a dire\u00e7\u00e3o quente/fria, manteve o centro livre para combate e resultou em 204 tiles ap\u00f3s ResComp",
+      "diagnosis": "m\u00f3dulos com fun\u00e7\u00e3o expl\u00edcita repetem formas deliberadamente e permitem que o compressor deduplique padr\u00f5es; a composi\u00e7\u00e3o nasce para BG_A/B e para a silhueta do jogador em vez de ser achatada depois",
+      "resolution_or_preventive_heuristic": "continuar o cais por salas modulares; declarar papel, plano, paleta, colis\u00e3o e sinal de gameplay de cada m\u00f3dulo antes da promo\u00e7\u00e3o; usar panorama somente como refer\u00eancia direcional",
+      "scope_limits": [
+        "o n\u00famero de 204 tiles vale apenas para a primeira sala travada 320\u00d7224; n\u00e3o prova streaming, parallax ou budget da fase completa"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/art/environments/cais01/cais01_modular_slice_build_v01.json",
+          "doc/art/environments/cais01/cais01_vdp_budget_report_v01.json",
+          "out/blastem_env_cais01_slice_v01/blastem-linux-20260729T162222Z-466584/screenshot.png"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_db4e22b335a8ee24",
+      "title": "L17 preflight headless separa capacidade de ferramenta de producao artistica",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-30",
+      "problem_signature": "l17_preflight_headless_separa_capacidade_de_ferramenta_de_producao_artistica",
+      "context": "curadoria do Visual Forge depois de a rota GIMP interativa consumir contexto sem exportar uma candidata segura.",
+      "observation": "um preflight curto em perfil XDG isolado provou GIMP 3.2.4 + `python-fu-eval` sem abrir GUI, enquanto o registro `registered_production_operations=[]` impediu transformar capacidade do host em falso claim de conversao.",
+      "diagnosis": "separar probe, operacao registrada, contrato pixel e gate visual torna cada claim reproduzivel e evita que a ferramenta opcional contamine o core.",
+      "resolution_or_preventive_heuristic": "manter o preflight independente do `convert`; registrar operacoes GIMP somente com script estatico, spec, timeout, staging e fixtures; validar toda saida pelo forge-art.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "fresh",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
     }
   ],
   "candidate_index": [
@@ -428,6 +1089,70 @@
     {
       "lesson_id": "lesson_6f5e26e4822bd06c",
       "title": "L08 ledger e derivado dos markdowns e nao editavel a mao",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_26b753a898379a9f",
+      "title": "L09 falso blocker de Bonsai/ComfyUI quando ha geracao nativa",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_445c27b99891031e",
+      "title": "L10 iteracao tecnica nao pode substituir a fonte autoral",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_38ead2805870e0ba",
+      "title": "L11 misturar rota Linux e Windows mascara incompatibilidade LTO",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_78221a7c35a26c41",
+      "title": "L12 gerar todos os frames por IA produz morphing em vez de anima\u00e7\u00e3o",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_a7bbb888fb5ef563",
+      "title": "L13 captura automatizada sem confirmar cena e janela de input gera falsa evidencia",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_4e2498fca6d46604",
+      "title": "L14 efeito tecnico nao substitui composicao autoral",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_784b7d932bba2b24",
+      "title": "L15 selo de arquivo nao valida semantica de relatorio",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_3fee43dfe5b4f74e",
+      "title": "L16 automacao de ponteiro nao e rota de producao deterministica",
       "lifecycle_status": "evidence_incomplete",
       "evidence_grade": "E1_artifact",
       "action": "none",

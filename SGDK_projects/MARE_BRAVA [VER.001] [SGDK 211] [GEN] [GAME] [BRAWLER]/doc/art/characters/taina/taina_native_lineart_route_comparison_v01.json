@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "source_hash": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+  "routes": [
+    {"route": "A_image_generation", "status": "rejected", "reason": "high_res_raster_not_native_grid"},
+    {"route": "B_human_pixel_editor", "status": "technical_candidate", "reason": "48x64 authored native pixels; visual rework still required"},
+    {"route": "C_gimp_batch", "status": "not_selected", "reason": "mechanical operations cannot author semantic identity"}
+  ],
+  "selected_route": "B_human_pixel_editor",
+  "ceiling": "technical_candidate",
+  "no_automatic_promotion": true
+}

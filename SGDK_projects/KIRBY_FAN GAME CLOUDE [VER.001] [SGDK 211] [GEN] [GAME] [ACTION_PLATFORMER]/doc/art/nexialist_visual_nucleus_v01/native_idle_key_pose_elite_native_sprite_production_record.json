@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.4.0",
+  "asset_id": "native_idle_key_pose_elite_v01",
+  "asset_kind": "sprite_single",
+  "source": {
+    "path": "rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v03_a_cluster_strict.png",
+    "sha256": "989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241",
+    "classification": "ai_generated_high_res",
+    "approval_status": "approved_source"
+  },
+  "scale_contract": {
+    "status": "locked",
+    "target_width": 32,
+    "target_height": 32,
+    "selected_width": 32,
+    "selected_height": 32,
+    "probes": [
+      {"width": 64, "height": 64, "path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_2x_nearest.png", "technical_status": "passed", "visual_status": "passed", "promotable": false},
+      {"width": 256, "height": 256, "path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_8x_nearest.png", "technical_status": "passed", "visual_status": "passed", "promotable": false}
+    ]
+  },
+  "producer_output": {
+    "path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png",
+    "role": "native_candidate",
+    "interaction_channel": "native_pixel_source",
+    "width": 32,
+    "height": 32,
+    "mode": "P",
+    "visible_rgb_colors": 12,
+    "alpha_values": [0, 255]
+  },
+  "native_candidate": {
+    "path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png",
+    "method": "authored_native_pixel",
+    "width": 32,
+    "height": 32,
+    "pixel_report": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_pixel_compliance_report.json",
+    "visual_evidence": {
+      "candidate_sha256": "58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29",
+      "native_1x": "rascunho/nexialist_visual_nucleus_v01/evidence/native_idle_key_pose_elite_v01_native_1x.png",
+      "nearest_preview": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_8x_nearest.png",
+      "light_background": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_on_light.png",
+      "dark_background": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_on_dark.png",
+      "chroma_background": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_on_chroma.png",
+      "preview_scale": 8,
+      "light_rgb": [238, 238, 238],
+      "dark_rgb": [0, 0, 34],
+      "chroma_rgb": [0, 238, 170],
+      "human_approval": "doc/contracts/human_decision_record_native_idle_key_pose_elite_v01.json; approved for native idle key pose and isolated runtime visual proof"
+    },
+    "shape_block_contract": {
+      "silhouette_mask": {"path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_shape_mask.png", "sha256": "c2d472554704196352ac9aa3285a525e2686d44907ec152a0390b3bc78fad1e8", "asset_id": "native_idle_key_pose_elite_v01", "scale": "32x32", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png"},
+      "semantic_region_map": {"path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_semantic_region_map.png", "sha256": "a6ca7c9d59eb1f90574e7c3f0c7431904cde9efd94106552845c132bc34b3886", "asset_id": "native_idle_key_pose_elite_v01", "scale": "32x32", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png"},
+      "contour_overlay": {"path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_contour_overlay.png", "sha256": "222d32fa72c16f39e7ab91f610d93f31fdcaaf52c101cd0fc0a92e513fd92295", "asset_id": "native_idle_key_pose_elite_v01", "scale": "32x32", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png"},
+      "required_semantic_regions": ["head_or_face", "hair", "torso", "arms_or_guard", "hands", "legs", "feet", "sash"],
+      "semantic_label_legend": {"head_or_face": 1, "hair": 2, "torso": 3, "arms_or_guard": 4, "hands": 5, "legs": 6, "feet": 7, "sash": 8},
+      "semantic_label_counts": {"head_or_face": 184, "hair": 34, "torso": 133, "arms_or_guard": 79, "hands": 13, "legs": 133, "feet": 98, "sash": 18},
+      "occupancy_metrics": {"filled_pixels": 692, "canvas_pixels": 1024, "occupancy_pct": 67.58},
+      "bbox": [0, 1, 32, 31],
+      "reason_codes": ["explicit_native_grid_authorship", "hair_label_is_upper_left_rim_schema_alias_no_physical_hair", "sash_label_is_arm_body_seam_schema_alias_no_physical_sash", "semantic_map_matches_candidate_mask", "same_geometry_as_basic_variant", "human_visual_gate_passed_limited_scope"]
+    },
+    "material_region_contract": {
+      "status": "passed",
+      "map_method": "explicit_material_ownership_map",
+      "source_reference": {"path": "rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v03_a_cluster_strict.png", "sha256": "989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241", "role": "approved_material_topology_reference"},
+      "material_region_map": {"path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_material_region_map.png", "sha256": "35fc3cc719677194202d338f06188c0ef658aeabf16f028c966e0a5439c1511b", "asset_id": "native_idle_key_pose_elite_v01", "scale": "32x32", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png"},
+      "material_boundary_overlay": {"path": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_material_boundary_overlay.png", "sha256": "376a29604724453327b3b230cff66e344eb59e054f15f10200683247fe36c481", "asset_id": "native_idle_key_pose_elite_v01", "scale": "32x32", "source": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png"},
+      "material_label_legend": {"body_pink": 1, "cheeks": 2, "feet_red": 3, "eyes": 4},
+      "material_label_counts": {"body_pink": 621, "cheeks": 6, "feet_red": 45, "eyes": 20},
+      "allowed_palette_indices": {"body_pink": [2, 3, 4, 9], "cheeks": [7, 8], "feet_red": [10, 11, 12], "eyes": [5, 6]},
+      "shared_outline_indices": [1],
+      "critical_boundaries": [
+        {"boundary_id": "body_eyes_separation", "material_a": "body_pink", "material_b": "eyes", "minimum_contact_edges": 28, "region": [8, 9, 24, 17]},
+        {"boundary_id": "body_cheeks_separation", "material_a": "body_pink", "material_b": "cheeks", "minimum_contact_edges": 16, "region": [6, 11, 26, 20]},
+        {"boundary_id": "body_feet_contact", "material_a": "body_pink", "material_b": "feet_red", "minimum_contact_edges": 7, "region": [0, 25, 32, 32]}
+      ],
+      "blocking_statuses": []
+    }
+  },
+  "palette_contract": {"max_visible_colors": 15, "index0_role": "transparent0", "outline_role": "index 1 dark continuous outline", "material_roles": ["body_pink", "cheeks", "feet_red", "eyes"]},
+  "gates": {"semantic_parse": "passed", "lineart": "passed", "color_blocking": "passed", "material_topology": "passed", "palette_lock": "passed", "pixel_contract": "passed", "native_visual": "passed", "scale": "passed", "budget": "passed", "human": "passed", "sgdk_integration": "passed", "emulator": "passed"},
+  "runtime_evidence": {"rom_path": "out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/rom.bin", "rom_sha256": "d37077b2d1c6e8c2f65a24ee0ffd4e64ebac57d37ef75520d5d7c1aef7cce8ad", "screenshot": "out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/screenshot.png", "vdp_dump": "out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/visual_vdp_dump.bin"},
+  "promotion": {"promotable": false, "target": "none"},
+  "status": "runtime_candidate",
+  "next_action": "request human decision for limited animation strip; keep first_playable hero and res promotion unchanged",
+  "provenance": {"interaction_channel": "agent_operated_native_editor_draft", "source_kind": "hand_authored_pixel", "producer_identity": "Codex explicit native XPM pixel-grid authoring", "action_log": "native_idle_key_pose_elite_v01.xpm; same silhouette and lineart as BASIC; elite material ramps only; no direct quantization; no mechanical probe reuse", "human_approval": "doc/contracts/human_decision_record_native_idle_key_pose_elite_v01.json; exact SHA approved for isolated runtime visual proof"},
+  "scale_report": {"status": "passed", "camera_width": 320, "camera_height": 224, "hitbox": "coarse_body: x0=0,y1=1,x1=32,y2=26; pivot=(16,31); feet contact y=30", "notes": "32x32 native candidate; 64x64 is exact 2x and 256x256 is exact 8x from the same 32x32 probe; scale lock is human-approved for this idle pose only", "probes": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_2x_nearest.png; rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01_8x_nearest.png"},
+  "budget_report": {"status": "passed", "tiles": 16, "scanline_px": 32, "notes": "Isolated 32x32 key pose occupies 16 unique 8x8 tiles and 512 bytes in 4bpp; one hardware sprite link and max 32 sprite pixels on a scanline. Offline estimate only; no scene/runtime claim."},
+  "visual_report": {"status": "passed", "sha256": "58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29", "notes": "Human-approved ELITE idle key pose; hard-edge clusters preserve the approved source topology, pose, pivot and scale. Isolated scene 11 proof passed in BlastEm; this does not authorize first_playable replacement, final animation or res promotion."},
+  "challenger_win": null,
+  "incumbent": {"path": "rascunho/nexialist_visual_nucleus_v01/model_sheet_challenger_v03_a_cluster_strict.png", "sha256": "989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241", "role": "comparison_only"},
+  "methodology_reference": {"path": "doc/art/model_sheet_route/visual_dna_manifest.json", "sha256": "9b66ffbd1c58a532d5450517604d26741ac2efdddb084abdb5ffe98df25b80eb", "role": "methodology_reference"}
+}

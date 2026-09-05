@@ -39,15 +39,16 @@ sheet + BlastEm screenshot.
 | Host | Resposta canonica |
 |---|---|
 | Bonsai instalado + license ack + GPU NVIDIA + VRAM >= 4 + RAM >= 6 + asset_role permitido | `selected_source: bonsai_4b_ternary` ou `bonsai_4b_binary` |
-| License ack ausente/invalido | `selected_source: license_blocked` |
-| asset_role na allowlist | `selected_source: scope_blocked` |
-| GPU AMD/Intel (Bonsai nao roda), VRAM<4, RAM<6 | `selected_source: blocked_host_capability` |
 | Native callable/inline disponivel | `selected_source: native_chat_image_generation_callable` ou `native_chat_inline_generation` |
+| License ack ausente/invalido e sem canal nativo/API | `selected_source: license_blocked` |
+| asset_role fora da allowlist e sem canal nativo/API | `selected_source: scope_blocked` |
+| GPU AMD/Intel (Bonsai nao roda), VRAM<4, RAM<6 e sem canal nativo/API | `selected_source: blocked_host_capability` |
 
-No host atual (Windows + AMD Radeon RX 670 + 1.9 GB RAM livre + ComfyUI
-offline) a resposta canonica e `license_blocked` (gate de license dispara
-primeiro). Apos license assinado, gate de host passaria a falhar com
-`blocked_host_capability` (AMD != NVIDIA).
+No host atual, quando a sessao do agente expoe geracao nativa, a resposta
+canonica e `native_chat_image_generation_callable`; Bonsai/ComfyUI nao entram
+como blocker. Se a mesma auditoria for executada em CLI puro, sem nativo/API,
+o fallback local continua respeitando o gate Bonsai (`license_blocked` antes
+de `blocked_host_capability`).
 
 ## Arquivos tocados (Fase A)
 
@@ -89,7 +90,12 @@ primeiro). Apos license assinado, gate de host passaria a falhar com
 `flux_schnell_gguf` permanece (com `status: deprecated_pending_bonsai_validation`).
 Workflow ComfyUI correspondente tambem permanece.
 
-## Pre-flight (ja provado em build mode)
+## Pre-flight local/Bonsai, sem canal nativo (ja provado em build mode)
+
+Os resultados abaixo continuam validos apenas quando o roteamento e forçado
+para fallback local, por exemplo com `--native-callable false --native-inline
+false` ou em CLI puro sem Codex/ChatGPT. Em sessao com geracao nativa, o
+resultado esperado e `native_chat_image_generation_callable`.
 
 - `python imagegen_tool.py preflight --asset-role concept_art --json`
   → `selected_source: license_blocked` (CA1 OK)
@@ -101,7 +107,7 @@ Workflow ComfyUI correspondente tambem permanece.
 - `imagegen_circuit.py preflight` end-to-end via `run_imagegen_circuit.ps1`
   → retorna `license_blocked` com `gates.license.block_reasons=["bonsai_license_ack.json not found"]`
 
-## Auditoria Fase B (2026-06-01, todos PASS)
+## Auditoria Fase B local/Bonsai (2026-06-01, todos PASS)
 
 | ID | Descricao | Resultado |
 |---|---|---|
@@ -131,8 +137,9 @@ Workflow ComfyUI correspondente tambem permanece.
 - **Bonsai backend NUNCA e default**; so e opt-in
 - **Asset role** fora da allowlist ou dentro da blocklist e rejeitado
   ANTES de chamar o backend
-- **License ack** ausente ou schema invalido bloqueia TUDO (mesmo CA1
-  dry-run retorna `license_blocked`)
+- **License ack** ausente ou schema invalido bloqueia o fallback Bonsai (mesmo
+  CA1 local dry-run retorna `license_blocked`), mas nao bloqueia canal nativo
+  quando `native_chat_image_generation_callable`/inline estiver disponivel
 
 ## Proximas fases (NAO executadas neste turno)
 

@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0.0",
+  "project": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "status": "planning",
+  "source_art_policy": {
+    "premium_source_required": true,
+    "root": "data/source_art",
+    "mockup_manifest": "doc/concept_art_pack_manifest.json",
+    "benchmark_used_as": "scale_density_timing_budget_reference_only",
+    "clone_risk_required": true
+  },
+  "assets": [
+    {
+      "asset_id": "title_logo_branding_sigil",
+      "kind": "brand_logo_tileset",
+      "scene": "branding_sigil",
+      "status": "planned",
+      "required_contracts": ["brand_identity_manifest", "ui_pixel_surface_contract", "visual_delivery_gate_report"],
+      "target_surface": ["BG_A"]
+    },
+    {
+      "asset_id": "front_end_custom_font",
+      "kind": "bitmap_font_tileset",
+      "scene": "global_front_end",
+      "status": "planned",
+      "required_contracts": ["glyph_manifest", "text_presentation_profile", "ui_pixel_surface_contract"],
+      "target_surface": ["BG_A", "WINDOW"]
+    },
+    {
+      "asset_id": "title_menu_cursor",
+      "kind": "menu_cursor_sprite",
+      "scene": "title_menu",
+      "status": "planned",
+      "required_contracts": ["front_end_menu_contract", "ui_decision_card"],
+      "target_surface": ["sprites"]
+    },
+    {
+      "asset_id": "credits_page_cards",
+      "kind": "credits_text_surface",
+      "scene": "credits_roll",
+      "status": "planned",
+      "required_contracts": ["credits_contract", "glyph_manifest", "ui_pixel_surface_contract"],
+      "target_surface": ["BG_A", "WINDOW"]
+    },
+    {
+      "asset_id": "opening_farol_matriz_panel_set",
+      "kind": "cutscene_panel",
+      "scene": "opening_catalyst_cutscene",
+      "status": "planned",
+      "required_contracts": ["cutscene_scene_contract", "premium_source_manifest", "source_validity_report"],
+      "target_surface": ["BG_B", "BG_A"]
+    },
+    {
+      "asset_id": "lio_authorial_model_sheet",
+      "kind": "character_model_sheet",
+      "scene": "global",
+      "status": "planned",
+      "required_contracts": ["authorial_model_sheet", "visual_dna_manifest", "clone_risk_report"],
+      "target_surface": ["source_art"]
+    },
+    {
+      "asset_id": "lio_run_strip",
+      "kind": "sprite_animation_strip",
+      "scene": "race",
+      "status": "planned",
+      "required_contracts": ["animation_direction_contract", "motion_phase_map", "sprite_artifact_report"],
+      "target_surface": ["sprites"]
+    },
+    {
+      "asset_id": "astral_road_bg_b",
+      "kind": "background_layer",
+      "scene": "race",
+      "status": "planned",
+      "required_contracts": ["authorial_stage_concept", "scene_tilemap_conversion_report", "palette_slot_audit"],
+      "target_surface": ["BG_B"]
+    },
+    {
+      "asset_id": "astral_road_bg_a",
+      "kind": "background_layer",
+      "scene": "race",
+      "status": "planned",
+      "required_contracts": ["scene_tilemap_conversion_report", "per_tile_palette_conflict_report"],
+      "target_surface": ["BG_A"]
+    },
+    {
+      "asset_id": "hud_lumen_window",
+      "kind": "ui_surface",
+      "scene": "race",
+      "status": "planned",
+      "required_contracts": ["ui_decision_card", "glyph_manifest", "ui_pixel_surface_contract"],
+      "target_surface": ["WINDOW"]
+    },
+    {
+      "asset_id": "upgrade_cards",
+      "kind": "ui_card_set",
+      "scene": "upgrade",
+      "status": "planned",
+      "required_contracts": ["ui_decision_card", "glyph_manifest"],
+      "target_surface": ["BG_A", "WINDOW"]
+    },
+    {
+      "asset_id": "master_pursuer_model_sheet",
+      "kind": "boss_model_sheet",
+      "scene": "final_boss",
+      "status": "planned",
+      "required_contracts": ["authorial_model_sheet", "boss_setpiece_card", "clone_risk_report"],
+      "target_surface": ["source_art"]
+    },
+    {
+      "asset_id": "master_pursuer_stage_strip",
+      "kind": "boss_sprite_or_plane_sequence",
+      "scene": "final_boss",
+      "status": "planned",
+      "required_contracts": ["boss_setpiece_card", "sprite_scanline_pressure_report", "vram_residency_report"],
+      "target_surface": ["sprites", "BG_A", "BG_B"]
+    },
+    {
+      "asset_id": "pursuer_presence_silhouette_set",
+      "kind": "background_silhouette_scale_set",
+      "scene": "global_race",
+      "status": "planned",
+      "required_contracts": ["pursuer_presence_contract", "palette_slot_audit", "vram_residency_report"],
+      "target_surface": ["BG_B"]
+    },
+    {
+      "asset_id": "shattered_lane_gauntlet_tiles",
+      "kind": "signature_setpiece_tile_fx",
+      "scene": "transition_sector_03_to_sector_04",
+      "status": "planned",
+      "required_contracts": ["signature_setpiece_contract", "scene_tilemap_conversion_report", "per_tile_palette_conflict_report"],
+      "target_surface": ["BG_A", "sprites"]
+    },
+    {
+      "asset_id": "sector_identity_hazard_set",
+      "kind": "hazard_and_telegraph_set",
+      "scene": "sectors_02_03_04",
+      "status": "planned",
+      "required_contracts": ["sector_mechanic_identity_contract", "collision_system_contract", "sprite_scanline_pressure_report"],
+      "target_surface": ["sprites", "BG_A"]
+    },
+    {
+      "asset_id": "replay_result_cards",
+      "kind": "ui_result_surface",
+      "scene": "ending_result",
+      "status": "planned",
+      "required_contracts": ["replayability_score_contract", "ui_pixel_surface_contract", "save_system_contract"],
+      "target_surface": ["BG_A", "WINDOW"]
+    },
+    {
+      "asset_id": "music_state_pack_v001",
+      "kind": "xgm2_music_pack",
+      "scene": "global_audio",
+      "status": "planned",
+      "required_contracts": ["audio_architecture_card", "reactive_music_gameplay_contract", "audio_validation_report"],
+      "target_surface": ["audio"]
+    }
+  ]
+}

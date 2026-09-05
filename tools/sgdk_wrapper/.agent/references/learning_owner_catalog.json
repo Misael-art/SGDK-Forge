@@ -416,6 +416,76 @@
         "aaa_game creative cohesion fixture",
         "runtime evidence remains required regression"
       ]
+    },
+    {
+      "id": "doc_claim_sync_audit_existing_owner",
+      "match_any": [
+        "doc_claim_sync_audit",
+        "memory bank, changelog e reports podem manter hashes ou status de momentos diferentes"
+      ],
+      "candidate_kind": "validator",
+      "canonical_target": "tools/sgdk_wrapper/audit_doc_sync.py",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "required_tests": [
+        "doc sync contradiction regression",
+        "real project doc_sync_report"
+      ]
+    },
+    {
+      "id": "independent_session_context_recovery_existing_owner",
+      "match_any": [
+        "independent_session_context_recovery",
+        "nova sessao encontre blocker, rom, claim ceiling e proxima acao"
+      ],
+      "candidate_kind": "workflow",
+      "canonical_target": "tools/sgdk_wrapper/.agent/workflows/handoff.md",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "required_tests": [
+        "independent session recovery fixture",
+        "historical status non-promotion regression"
+      ]
+    },
+    {
+      "id": "configurable_full_window_runtime_probe_existing_owner",
+      "match_any": [
+        "configurable_full_window_runtime_probe",
+        "janela completa, regiao e conclusao explicita"
+      ],
+      "candidate_kind": "validator",
+      "canonical_target": "tools/sgdk_wrapper/parse_blastem_sram_runtime.ps1",
+      "owner_skill": "operation/emulator-vdp-evidence-curator",
+      "required_tests": [
+        "complete and partial window parser regression",
+        "cross-project configurable window fixture"
+      ]
+    },
+    {
+      "id": "sealed_sram_export_ownership_existing_owner",
+      "match_any": [
+        "sealed_sram_export_ownership",
+        "heartbeat ou outro produtor altere um payload de evidencia depois do selo"
+      ],
+      "candidate_kind": "workflow",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md",
+      "owner_skill": "operation/emulator-vdp-evidence-curator",
+      "required_tests": [
+        "post-export corruption fixture",
+        "SRAM offset ownership regression"
+      ]
+    },
+    {
+      "id": "hardware_evidence_adoption_gate_existing_owner",
+      "match_any": [
+        "hardware_evidence_adoption_gate",
+        "novos projetos que aleguem hardware/release"
+      ],
+      "candidate_kind": "workflow",
+      "canonical_target": "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/SKILL.md",
+      "owner_skill": "operation/rom-mastering",
+      "required_tests": [
+        "hardware manifest adoption fixture",
+        "external evidence remains blocking regression"
+      ]
     }
   ]
 }

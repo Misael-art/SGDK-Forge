@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "3.0.0",
   "asset_id": "hero_idle_strip",
   "asset_kind": "animation_strip",
   "action": "idle",
@@ -8,6 +8,59 @@
   "metadata_only": false,
   "visual_dna_manifest": "visual_dna_manifest.example.json",
   "motion_phase_map": "hero_idle_motion_phase_map.md",
+  "state_lineart_lineage": {
+    "action": "idle",
+    "lineart_role": "native_key_pose_lineart",
+    "source_asset_id": "hero_idle_key_pose_lineart",
+    "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_path": "data/processed/hero/idle_lineart_48x64.png",
+    "approval_status": "approved_for_strip_authoring",
+    "authorship_method": "hand_authored_native",
+    "derivation_method": "hand_drawn_native",
+    "approval_record": {
+      "path": "doc/art/hero/idle_lineart_approval.json",
+      "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "subject_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "key_pose_ids": [
+      "idle_breath_low",
+      "idle_breath_high"
+    ]
+  },
+  "artifact": {
+    "path": "data/processed/hero/hero_idle_strip.png",
+    "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "transparent_index": 0,
+    "cell_policy": "fixed_cell_coordinate_scoped",
+    "allowed_boundary_contacts": [
+      { "frame_index": 0, "edge": "bottom", "reason": "feet touch declared ground line" },
+      { "frame_index": 1, "edge": "bottom", "reason": "feet touch declared ground line" }
+    ]
+  },
+  "motion_profile_id": "idle_breathing",
+  "timing_contract": {
+    "vblank_hz": 60,
+    "loop": true,
+    "frame_holds_vblank": [8, 8]
+  },
+  "metasprite_layout": {
+    "hardware_cells_per_frame": 2,
+    "peak_sprites_per_scanline": 2,
+    "peak_pixels_per_scanline": 48
+  },
+  "production_provenance": {
+    "source_kind": "hand_authored_pixel",
+    "producer_kind": "pixel_editor_export",
+    "authored_source": {
+      "path": "data/source_art/hero/idle_key_poses.png",
+      "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "producer_record": {
+      "path": "doc/art/hero/idle_pixel_production_record.json",
+      "sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+      "subject_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+  },
   "style_motion_reverse_engineering": "hero_style_motion_reverse_engineering.md",
   "turnaround_tracking_contract": "hero_turnaround_tracking_contract.md",
   "motion_physics_contract": "hero_idle_motion_physics_contract.md",
@@ -20,7 +73,7 @@
     "palette_changed_allowed": false,
     "scale_percent": 0
   },
-  "approval_status": "approved_for_sheet",
+  "approval_status": "needs_review",
   "frames": [
     {
       "index": 0,
@@ -30,8 +83,18 @@
       "h": 64,
       "pivot_x": 24,
       "pivot_y": 63,
-      "phase": "breath_low",
-      "hold_frames": 8
+      "phase": "neutral_hold",
+      "lineage": {
+        "source_frame_id": "idle_breath_low",
+        "source_frame_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "transformation": "native_reauthored",
+        "duplicate_role": "none"
+      },
+      "support": {
+        "grounded": true,
+        "measurement_method": "pixel_derived",
+        "contacts": [{ "id": "feet", "x": 24, "y": 63 }]
+      }
     },
     {
       "index": 1,
@@ -41,8 +104,18 @@
       "h": 64,
       "pivot_x": 24,
       "pivot_y": 63,
-      "phase": "breath_high",
-      "hold_frames": 8
+      "phase": "inhale_rise",
+      "lineage": {
+        "source_frame_id": "idle_breath_high",
+        "source_frame_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "transformation": "native_reauthored",
+        "duplicate_role": "none"
+      },
+      "support": {
+        "grounded": true,
+        "measurement_method": "pixel_derived",
+        "contacts": [{ "id": "feet", "x": 24, "y": 63 }]
+      }
     }
   ],
   "blockers": []

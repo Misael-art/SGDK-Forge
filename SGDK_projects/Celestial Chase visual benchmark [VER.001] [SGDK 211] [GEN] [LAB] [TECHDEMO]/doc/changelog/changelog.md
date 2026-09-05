@@ -995,3 +995,34 @@
 - Emulator evidence: runtime_metrics_stale
 - Notes: BG_A road polish and cohesive road VScroll; ROM 984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9; scene regression 3/3; motion frame stack generated; visual gate remains blocked honestly.
 
+## 2026-07-19 - P1-002 XGM2 FM/PSG runtime proof
+
+- Task: remediate `P1-002` by replacing the PCM score bed with native FM/PSG XGM2 music and explicit PCM ownership.
+- Skills: `sgdk-runtime-coder`, `megadrive-vdp-budget-analyst`, `emulator-vdp-evidence-curator`, `rom-mastering`; canonical owner `xgm2-audio-director` was unavailable in this session.
+- Runtime: `src/system/audio.c` now owns XGM2 music, PCM_CH2/CH3 priorities and AUD2 SRAM telemetry; branding no longer writes PSG directly.
+- Asset: `res/audio/chase/chase_core_fm_psg.vgm`, SHA-256 `2349f781f0ca06c705f6940398d7b180b8edadeaf5588561355cd2ff1afbd6d4`.
+- Validation: 1 XGM2 music + 9 PCM SFX, zero audio issues, 0.96% estimated ROM budget.
+- ROM: SHA-256 `8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450`, 262144 bytes, built with SGDK Docker v2.11.
+- BlastEm: session `blastem-linux-20260720T032218Z-267076`, 8 simultaneous music/SFX samples, 5/5 SFX accepted, max DMA wait 0; 24.064-second WAV is non-silent and unclipped.
+- Warning: one XGM2 missed frame in 1363 driver frames.
+- Status: technical evidence complete; human audio review remains pending, so P1-002 is not marked complete and no AAA/release claim is made.
+
+## 2026-09-05 - Curadoria e endurecimento de `tools/audio-tools`
+
+- Revisados os seis modulos de audio com self-checks individuais e suite
+  externa `tools/sgdk_wrapper/ci/test_audio_tools.py` (`15/15`).
+- Corrigidos: bias PCM_U8 de WAV, offsets de header VGM, preservacao de sample
+  rate no loop clipper, selecao PAL/NTSC automatica, restore do self-check do
+  conversor, amplitude efetiva do sintetizador e binding estrito entre
+  manifesto e `resources.res`.
+- Adicionados schema estrito de banco SFX, README operacional, hashes de
+  ferramenta/entrada/saida e fixtures adversariais para traversal, IDs
+  duplicados, binding divergente e formatos invalidos.
+- `chase_hit.wav` foi regenerado corretamente em 13.300 Hz e permanece
+  `acceptance_status=lab`; SHA-256
+  `b3cec871911e70d90bccb7d5cb1a2ea2ac2ac8fc97a1985c6ac47bd7caf242b7`.
+- Auditor real: 10/10 simbolos, zero blockers. Validador de audio: zero issues.
+- Rebuild: ROM 262.144 bytes, SHA-256
+  `3804672073ef40823d8b1f82bcf41fd2503f472ede95f7e9247c906b7ccbef28`.
+- Sem nova prova auditiva em emulador; nenhum claim visual, auditivo final ou
+  `ready_for_aaa` foi promovido.

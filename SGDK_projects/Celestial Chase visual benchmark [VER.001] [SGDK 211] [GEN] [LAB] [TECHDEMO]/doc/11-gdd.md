@@ -148,11 +148,11 @@ A ambicao tecnica e sustentar 60 FPS NTSC com duas tabelas de line scroll, pool 
 
 ### Tecnicas Escolhidas
 
-As tecnicas escolhidas usam `registry_id` documentado no manifesto: `line_scrolling`, `pseudo3d_road_stack`, `camera_scroll_management`, `hitstop_camera_shake_feedback`, `window_plane_static_hud`, `dma_transfer_safety` e `palette_state_transitions`.
+As tecnicas escolhidas usam `registry_id` documentado no manifesto: `line_scrolling`, `pseudo3d_road_stack`, `camera_scroll_management`, `hitstop_camera_shake_feedback`, `window_plane_static_hud`, `dma_transfer_safety`, `palette_state_transitions`, `xgm2_audio_architecture` e `xgm2_pcm_multiplexing`.
 
 ### Direcao Sonora
 
-A direcao sonora usa um pulso musical original em loop, cues curtos de movimento/coleta e eventos prioritarios para dano, Pulse, vitoria e falha. A identidade musical cresce por cadencia de pressao sem substituir a leitura mecanica.
+A direcao sonora usa duas vozes YM2612 FM e um pulso SN76489 PSG em loop XGM2, com PCM apenas para cues curtos. XGM2 possui FM/PSG, PCM_CH1 fica reservado, PCM_CH2 protege dano/Pulse/resultado e PCM_CH3 atende movimento/UI/pressao. A identidade musical cresce por volume de estado sem substituir a leitura mecanica.
 
 ## Technical, Visual and Audio Ambition
 
@@ -172,6 +172,8 @@ A direcao sonora usa um pulso musical original em loop, cues curtos de movimento
 | `window_plane_static_hud` | manter integridade, Pulse e pressao legiveis | HUD runtime | faixa superior compacta | HUD em BG_A sem scroll |
 | `dma_transfer_safety` | impedir upload inseguro durante gameplay | app/runtime | fila SGDK e VBlank | preload de cena |
 | `palette_state_transitions` | diferenciar as tres fases | scene runtime | poucas entradas CRAM por tick | paleta fixa aprovada |
+| `xgm2_audio_architecture` | traduzir a perseguicao em FM/PSG nativos | system/audio | audio card, VGM, BlastEm e review humano | manter duas vozes FM e remover PSG opcional |
+| `xgm2_pcm_multiplexing` | manter SFX legiveis sobre a musica | system/audio | PCM_CH2/CH3, AUD2 e budget DAC | remover pressure/pickup antes de cues criticos |
 
 `prerendered_sprite_scaling` fica adiado: os strips aprovados nao oferecem os estagios necessarios sem nova aprovacao visual.
 

@@ -7,7 +7,9 @@ opcionais e nunca dependencia de nucleo.
 Estado honesto dos comandos — o proprio `--help` diz o que existe:
 
   IMPLEMENTADOS   inspect, validate, palette, convert, source-audit,
-                  route-shootout, route-verify, self-check, gimp-batch-preflight
+                  route-shootout, route-verify, workset-validate, self-check,
+                  gimp-batch-preflight
+  PROBE PROCEDURAL native-edit (nao e autoria artistica nem fonte promovivel)
   NAO IMPLEMENTADOS  atlas, tiles, compare, promote
   ROTEADO PARA HUMANO  translate
 
@@ -33,12 +35,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 try:
-    from forge_art import convert, foreground_matte, gimp_batch, job, native_edit, pixel_contract, source_route_triage, vdp_color
+    from forge_art import convert, foreground_matte, gimp_batch, job, native_edit, pixel_contract, source_route_triage, vdp_color, visual_workset
 except ImportError:  # execucao pelo caminho do arquivo
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from forge_art import convert, foreground_matte, gimp_batch, job, native_edit, pixel_contract, source_route_triage, vdp_color
+    from forge_art import convert, foreground_matte, gimp_batch, job, native_edit, pixel_contract, source_route_triage, vdp_color, visual_workset
 
-CLI_VERSION = "1.2.0"
+CLI_VERSION = "1.3.0"
 
 #: Comandos declarados no plano que ainda nao existem. Cada um carrega o
 #: motivo de nao ter sido escrito e a proxima acao causal, para que a
@@ -189,6 +191,7 @@ def cmd_self_check(args) -> int:
         # separate command so forge-art never depends on GIMP being installed.
         "gimp_batch_contract": gimp_batch.self_check(),
         "native_edit_contract": native_edit.self_check(),
+        "visual_workset": visual_workset.self_check(),
     }
     summary = {
         name: {"passed": r["fixtures_passed"], "total": r["fixtures_total"],
@@ -218,7 +221,15 @@ def cmd_not_implemented(name: str) -> int:
 def cmd_convert(args) -> int:
     try: state=convert.convert(Path(args.project_root),Path(args.spec))
     except Exception as exc:
-        _emit({"command":"convert","status":"rejected","blocking":True,"blockers":[str(exc)],"next_action":"fix declarative conversion spec or source"}); return 1
+        blocker = getattr(exc, "blocker", "conversion_rejected")
+        next_action = (
+            "mantenha o projeto congelado; reativacao exige decisao humana e novo workset"
+            if blocker == "visual_production_frozen"
+            else "corrija o spec declarativo ou a fonte"
+        )
+        _emit({"command":"convert","status":"rejected","blocking":True,
+               "blocker": blocker, "blockers":[str(exc)],
+               "next_action": next_action}); return 1
     _emit(state); return 0
 
 
@@ -250,7 +261,26 @@ def cmd_native_edit(args) -> int:
             "blocking": True,
             "blocker": getattr(exc, "blocker", "native_edit_failed"),
             "error": str(exc),
-            "next_action": "corrija o action file; nenhuma saida parcial foi publicada",
+            "next_action": (
+                "corrija o action file e respeite o visual workset; projeto "
+                "congelado nao aceita producao. Nenhuma saida parcial foi publicada"
+            ),
+        })
+        return 1
+    _emit(report)
+    return 0
+
+
+def cmd_workset_validate(args) -> int:
+    try:
+        report = visual_workset.validate_project_workset(Path(args.project_root))
+    except Exception as exc:
+        _emit({
+            "command": "workset-validate",
+            "status": "rejected",
+            "blocking": True,
+            "blocker": getattr(exc, "blocker", "visual_workset_validation_failed"),
+            "error": str(exc),
         })
         return 1
     _emit(report)
@@ -277,10 +307,17 @@ def cmd_route_shootout(args) -> int:
         report = source_route_triage.run_shootout_from_spec(
             Path(args.project_root), Path(args.spec))
     except Exception as exc:
+        blocker = getattr(exc, "blocker", "route_shootout_rejected")
+        next_action = (
+            "mantenha o projeto congelado; reativacao exige decisao humana e novo workset"
+            if blocker == "visual_production_frozen"
+            else "passe primeiro source-audit e use novo output_dir em out/ ou rascunho/; nenhuma rota escreve em data/ ou res/"
+        )
         _emit({
             "command": "route-shootout", "status": "rejected", "blocking": True,
+            "blocker": blocker,
             "blockers": [str(exc)],
-            "next_action": "passe primeiro source-audit e use novo output_dir em out/ ou rascunho/; nenhuma rota escreve em data/ ou res/",
+            "next_action": next_action,
         })
         return 1
     _emit({
@@ -350,11 +387,19 @@ def build_parser() -> argparse.ArgumentParser:
     gb.add_argument("--timeout-seconds", type=int, default=gimp_batch.DEFAULT_TIMEOUT_SECONDS)
     ne = sub.add_parser(
         "native-edit",
-        help="aplica acoes explicitas de pixel em staging; nunca gera por primitiva",
+        help=(
+            "rasteriza acoes coordenadas em staging como procedural_code_probe; "
+            "nao comprova autoria artistica e nunca e promovivel"
+        ),
     )
     ne.add_argument("--project-root", required=True)
     ne.add_argument("--actions", required=True)
     ne.add_argument("--out", required=True)
+    wv = sub.add_parser(
+        "workset-validate",
+        help="valida fontes elegiveis, referencias e congelamento visual do projeto",
+    )
+    wv.add_argument("--project-root", required=True)
     sa = sub.add_parser(
         "source-audit",
         help="classifica contaminacao visual e elegibilidade antes de qualquer rota",
@@ -394,6 +439,7 @@ def main(argv=None) -> int:
         "translate": cmd_translate, "convert": cmd_convert,
         "gimp-batch-preflight": cmd_gimp_batch_preflight,
         "native-edit": cmd_native_edit,
+        "workset-validate": cmd_workset_validate,
         "source-audit": cmd_source_audit,
         "route-shootout": cmd_route_shootout,
         "route-verify": cmd_route_verify,

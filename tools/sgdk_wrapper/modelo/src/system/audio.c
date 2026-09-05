@@ -4,6 +4,7 @@
 #include "system/audio.h"
 
 static u8 sCueFrames = 0;
+static u8 sBgmWanted = 0;
 
 static void audioStopPsg(void)
 {
@@ -21,10 +22,18 @@ static void audioPulsePsg(u8 channel, u16 tone, u8 envelope, u8 frames)
 
 void AUDIO_stopAll(void)
 {
+    sBgmWanted = 0;
     audioStopPsg();
     XGM2_stopPCM(SOUND_PCM_CH1);
     XGM2_stopPCM(SOUND_PCM_CH2);
     XGM2_stopPCM(SOUND_PCM_CH3);
+    XGM2_stop();
+}
+
+void AUDIO_startBrandBgm(void)
+{
+    sBgmWanted = 1;
+    XGM2_play(mus_forge_brand);
 }
 
 void AUDIO_init(void)
@@ -81,6 +90,17 @@ void AUDIO_playCue(AudioCue cue)
             XGM2_playPCMEx(brand_reverb_tail, sizeof(brand_reverb_tail), SOUND_PCM_CH3, 8, FALSE, FALSE);
             audioPulsePsg(2, 1160, 4, 8);
             break;
+        case AUDIO_CUE_BRAND_HAMMER_SLAM:
+            /* Nao para a trilha. PCM no CH2 (musica nao usa sample) + ruido
+             * branco e um tom grave: o console "treme" com o flash visual. */
+            XGM2_playPCMEx(brand_hammer_slam, sizeof(brand_hammer_slam),
+                           SOUND_PCM_CH2, 15, FALSE, FALSE);
+            PSG_setNoise(PSG_NOISE_TYPE_WHITE, PSG_NOISE_FREQ_CLOCK4);
+            PSG_setEnvelope(2, 1);
+            PSG_setFrequency(0, 72);
+            PSG_setEnvelope(0, 1);
+            sCueFrames = 18;
+            break;
         default:
             sCueFrames = 0;
             break;
@@ -89,6 +109,10 @@ void AUDIO_playCue(AudioCue cue)
 
 void AUDIO_update(void)
 {
+    if (sBgmWanted && !XGM2_isPlaying()) {
+        XGM2_play(mus_forge_brand);
+    }
+
     if (sCueFrames == 0) {
         return;
     }

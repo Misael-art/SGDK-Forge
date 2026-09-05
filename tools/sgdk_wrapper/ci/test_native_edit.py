@@ -109,7 +109,10 @@ def main() -> int:
         clean = root / "out/v11_native_edit/clean"
         run(copy.deepcopy(good), root, "out/v11_native_edit/clean")
         hashes = json.loads((clean / "artifact_hashes.json").read_text())
+        execution = json.loads((clean / "execution_report.json").read_text())
         checks["hash_manifest"] = hashes["execution_report_sha256"] == sha(clean / "execution_report.json") and hashes["candidate_sha256"] == sha(clean / "candidate.png")
+        checks["procedural_claim_ceiling"] = execution["claim_ceiling"] == "procedural_code_probe"
+        checks["never_production_eligible"] = execution["production_eligible"] is False
         checks.update(move_and_mirror_checks(root))
     failed = [name for name, ok in checks.items() if not ok]
     for name, ok in checks.items():

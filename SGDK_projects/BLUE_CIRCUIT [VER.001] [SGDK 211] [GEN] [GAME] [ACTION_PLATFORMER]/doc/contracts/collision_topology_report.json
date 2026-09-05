@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "collision_topology_report",
+  "scene_id": "stage_01_blue_circuit",
+  "status": "documented_for_runtime",
+  "coordinate_space": "world_pixels",
+  "materials": [
+    {
+      "id": "solid_floor",
+      "resolution": "axis_separated_x_then_y",
+      "one_way": false
+    },
+    {
+      "id": "charge_bridge_hazard",
+      "resolution": "damage_or_blocked_by_jump_timing",
+      "one_way": false
+    },
+    {
+      "id": "goal_terminal",
+      "resolution": "scene_end_trigger",
+      "one_way": false
+    }
+  ],
+  "bodies": {
+    "player": {
+      "solid_box": [
+        -8,
+        -28,
+        16,
+        28
+      ],
+      "hurt_box": [
+        -9,
+        -30,
+        18,
+        30
+      ],
+      "probes": [
+        "feet_left",
+        "feet_right",
+        "head",
+        "side_left",
+        "side_right"
+      ]
+    },
+    "line_sentry": {
+      "hurt_box": [
+        -14,
+        -12,
+        28,
+        20
+      ]
+    },
+    "breaker_core": {
+      "hurt_box": [
+        -24,
+        -28,
+        48,
+        48
+      ]
+    }
+  },
+  "non_goals": [
+    "slopes",
+    "one_way_platforms",
+    "wall_jump",
+    "dash"
+  ]
+}

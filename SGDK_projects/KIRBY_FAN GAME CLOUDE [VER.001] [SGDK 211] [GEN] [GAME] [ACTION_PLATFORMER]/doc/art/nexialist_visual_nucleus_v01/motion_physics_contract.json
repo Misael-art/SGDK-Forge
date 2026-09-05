@@ -1,0 +1,8 @@
+{
+  "schema_version": "motion_physics_contract.v1",
+  "grounded": {"contact_foot_y":30,"baseline_tolerance_px":0,"slide_forbidden":true},
+  "airborne": {"intent":"body lifts while feet separate intentionally","baseline_policy":"not_grounded","squash_stretch":"not_used_this_round"},
+  "weight": {"contact":"lower body carries landing","passing":"center of mass transfers laterally","airborne":"no ground shadow baked into sprite"},
+  "physics_source":"src/entities/kirby.c fix16 state machine",
+  "status":"draft_until_motion_proof_and_runtime_metrics"
+}

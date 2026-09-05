@@ -1,0 +1,54 @@
+{
+  "schema_version": "technical_palette_probe.v1",
+  "route_id": "im_box_area",
+  "status": "technical_palette_probe",
+  "input_raw": {
+    "path": "route_reports/im_box_area/raw_rgba_56x80.png",
+    "sha256": "a5cfc5d36b2b5b113149eec171a8da185c1f445af03b645a8e1f7ae8be21c66c"
+  },
+  "output": {
+    "path": "palette_probe_reports/im_box_area/technical_palette_probe_56x80.png",
+    "sha256": "26acc9b257a7fe66dec2d0eac25b1fcc6bdb2ddaac4e64f8f254f6fdfea19cc5"
+  },
+  "target": "56x80",
+  "palette": {
+    "visible_colors": 15,
+    "rgb333": true,
+    "roles": {
+      "0": "transparent0",
+      "1": "outline_deep_shadow",
+      "2": "hair_deep",
+      "3": "hair_base",
+      "4": "hair_highlight",
+      "5": "skin_shadow",
+      "6": "skin_base",
+      "7": "skin_highlight",
+      "8": "top_shadow",
+      "9": "top_base",
+      "10": "top_highlight",
+      "11": "teal_shadow",
+      "12": "teal_base",
+      "13": "teal_highlight",
+      "14": "indigo_shadow",
+      "15": "indigo_base"
+    }
+  },
+  "alpha_policy": "index0_from_raw_alpha_zero; silhouette_support_preserved_for_all_alpha_nonzero",
+  "partial_alpha_input_pixels": 532,
+  "material_region_map": {
+    "path": "palette_probe_reports/im_box_area/material_region_map.png",
+    "sha256": "000f94f4552691dd5fbd54322f56330510641a405c88dd1c114e785ebcbd0147",
+    "status": "diagnostic_owner_map"
+  },
+  "material_boundary_overlay": {
+    "path": "palette_probe_reports/im_box_area/material_boundary_overlay.png",
+    "sha256": "cac0767037b7f3269699f74b7817f736e0458bd05e6a747a24735484015900f8"
+  },
+  "matte_halo": {
+    "status": "diagnostic",
+    "partial_alpha_input_pixels": 532,
+    "halo_cleaning": "not_applied"
+  },
+  "claim_ceiling": "technical_palette_probe",
+  "not_native_candidate": true
+}

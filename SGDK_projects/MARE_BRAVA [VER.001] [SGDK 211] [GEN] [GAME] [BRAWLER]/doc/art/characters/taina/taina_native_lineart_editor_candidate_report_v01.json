@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_native_lineart_editor_candidate_v01",
+  "route": "assisted_native_translation",
+  "interaction_channel": "human_pixel_editor",
+  "source_model_sheet": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "approval_status": "approved_as_direction"
+  },
+  "authored_input": {
+    "path": "rascunho/taina_native_authoring_editor/exports/taina_reseed_native_lineart_editor_candidate_v01.png",
+    "sha256": "c7ef565e4a6c51a9b8df85b07cad814650ae952ea63ad41d64cc62932737dc88",
+    "actions_path": "rascunho/taina_native_authoring_editor/exports/taina_reseed_native_lineart_editor_candidate_v01.actions.json",
+    "actions_sha256": "48701071e13701566410bd495e2134e56d3e5cfae8e9579ea31393b6932104b6"
+  },
+  "candidate": {
+    "path": "data/processed/characters/taina/native_lineart/taina_reseed_native_lineart_editor_candidate_v01_indexed.png",
+    "sha256": "9d6cd24ac58a0fdd50bb65ee200af01befb5fce35feabdffd6335c5b81b0daa3",
+    "width": 48,
+    "height": 64,
+    "visible_pixels": 198,
+    "visible_colors": 1,
+    "alpha": "binary",
+    "index0": "transparent0",
+    "pivot": [24, 60]
+  },
+  "technical_gate": "passed",
+  "visual_gate": "pending_rework",
+  "promotion": "forbidden_until_human_visual_approval",
+  "next_action": "redraw face/eyes, diagonal guard and costume asymmetry while preserving 48x64 native grid"
+}

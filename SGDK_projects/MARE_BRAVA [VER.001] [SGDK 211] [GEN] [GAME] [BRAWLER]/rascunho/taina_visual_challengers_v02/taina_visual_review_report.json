@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "status": "superseded_rework_required",
+  "scores_status": "invalidated_unmeasured_assistant_opinion",
+  "panel": "rascunho/taina_visual_challengers_v02/taina_visual_comparison_panel.png",
+  "budget_report": "rascunho/taina_visual_challengers_v02/scale_budget_report.json",
+  "source_of_truth": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "incumbent_cells": 4,
+  "scores": {
+    "taina_48x64_challenger_a": {
+      "identity": 9,
+      "silhouette": 9,
+      "face": 8,
+      "hands": 8,
+      "feet": 8,
+      "guard": 9,
+      "hair": 9,
+      "sash": 8,
+      "movement": 8,
+      "model_sheet": 8,
+      "camera": 9,
+      "system": 8
+    },
+    "taina_48x64_challenger_b": {
+      "identity": 8,
+      "silhouette": 8,
+      "face": 8,
+      "hands": 9,
+      "feet": 8,
+      "guard": 9,
+      "hair": 8,
+      "sash": 9,
+      "movement": 9,
+      "model_sheet": 8,
+      "camera": 8,
+      "system": 8
+    },
+    "taina_64x96_challenger_a": {
+      "identity": 9,
+      "silhouette": 9,
+      "face": 9,
+      "hands": 9,
+      "feet": 9,
+      "guard": 9,
+      "hair": 9,
+      "sash": 9,
+      "movement": 9,
+      "model_sheet": 9,
+      "camera": 8,
+      "system": 6
+    },
+    "taina_64x96_challenger_b": {
+      "identity": 8,
+      "silhouette": 8,
+      "face": 8,
+      "hands": 8,
+      "feet": 9,
+      "guard": 8,
+      "hair": 8,
+      "sash": 8,
+      "movement": 8,
+      "model_sheet": 8,
+      "camera": 8,
+      "system": 6
+    }
+  },
+  "decision_rule": "perceptual_win AND system_win",
+  "recommendation": {
+    "target_scale": null,
+    "candidate": null,
+    "reason": "v02 recommendation invalidated by matte contamination, semantic token labels and incorrect vertical-cell scanline accounting",
+    "perceptual_win": false,
+    "system_win": false,
+    "requires_human_approval": true
+  },
+  "notes": [
+    "Legacy scores below are invalidated and must not be used for selection.",
+    "No challenger is promoted; no res/ file is changed.",
+    "64x96 remains a valid visual challenger and is not discarded before the human gate."
+  ]
+}

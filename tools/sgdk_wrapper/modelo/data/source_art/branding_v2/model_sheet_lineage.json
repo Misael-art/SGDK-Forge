@@ -1,0 +1,97 @@
+{
+  "schema": "asset_lineage_record.v1",
+  "asset": "model_sheet_forge_v02.png",
+  "supersedes": "model_sheet_forge_v01.png",
+  "generation_channel": "native_chat_image_generation_callable",
+  "tool_callable": "image_gen+image_edit",
+  "procedural_generation_used_as_asset_source": false,
+  "assembler": "assemble_model_sheet.py",
+  "source_format_decision": {
+    "choice": "keep_jpg_then_posterize_denoise_before_remap",
+    "persist_cleaned_png_lossless": true,
+    "cleaned_dir": "data/source_art/branding_v2/raw_png",
+    "reason": "The session image tools write JPEG. Decoding and saving PNG without a clean pass would keep ringing and blocking. A 3x3 median plus snap to the Mega Drive 9-bit grid runs before palette remap; the cleaned PNG is what the sheet consumes."
+  },
+  "rotation_policy": {
+    "ember_angles_deg": [
+      0,
+      35,
+      100,
+      195
+    ],
+    "shard_angles_deg": [
+      0,
+      28,
+      81,
+      157
+    ],
+    "note": "Angles avoid 90/180/270 so H/V flip adds orientations instead of repeating a pair."
+  },
+  "assembler_ops": [
+    "median_denoise",
+    "posterize_9bit",
+    "crop",
+    "nearest_neighbor_resize",
+    "nearest_neighbor_rotate",
+    "chroma_key",
+    "palette_remap",
+    "paste"
+  ],
+  "authored_sources": {
+    "panel_a": {
+      "path": "data/source_art/branding_v2/raw/forge_scene_v06.jpg",
+      "sha256": "2900e902f2ee04c3a835b68c645ef289d59a39b895e8364ae192e34bab19948c",
+      "cleaned_png": "data/source_art/branding_v2/raw_png/forge_scene_v06.png",
+      "cleaned_sha256": "9d3e4b09c70230e18004156d258f3550c3b8f881d048ec5da8d3c3715cc8077c"
+    },
+    "panel_b": {
+      "path": "data/source_art/branding_v2/raw/silhouette_v03.jpg",
+      "sha256": "1c213e6b0f222035fed5ae9060e694aa08c15f7d9b87f1346b500e7c9fbbaa5b",
+      "cleaned_png": "data/source_art/branding_v2/raw_png/silhouette_v03.png",
+      "cleaned_sha256": "c8b20197bca4fd444a39d64f5bff9953ea1c6e9a17043e8655b480303ddb5131"
+    },
+    "panel_c": {
+      "path": "data/source_art/branding_v2/raw/palette_ramps_v02.jpg",
+      "sha256": "308adae18787b93b9a729ef1bd6dced102c126623e6176ecea9db517f12b6c63",
+      "cleaned_png": "data/source_art/branding_v2/raw_png/palette_ramps_v02.png",
+      "cleaned_sha256": "ab0b4ddddd31d19ff2bd40fb66b39c4301a09b3b1bbf0d00655977452023fb05"
+    },
+    "panel_d": {
+      "path": "data/source_art/branding_v2/raw/wordmark_forja_v06.jpg",
+      "sha256": "c020fca67c2e017b97d4b110d8b5c6c6abbb272447718c3a44538d94267a5e40",
+      "cleaned_png": "data/source_art/branding_v2/raw_png/wordmark_forja_v06.png",
+      "cleaned_sha256": "1605ba6d8612e537745ceb495c1d391b6ddefdd9ddda02579299252f9fd27871"
+    },
+    "ember": {
+      "path": "data/source_art/branding_v2/raw/ember_v04.jpg",
+      "sha256": "08a6db2fc26ef1c82a34eb582509d7c04ef28aedf2ba1f1ab95c5cabebd1c3d0",
+      "cleaned_png": "data/source_art/branding_v2/raw_png/ember_v04.png",
+      "cleaned_sha256": "30f44730ca96db9a2a0b3d23ae033ad10861f9b6da1deb4af25d26c2dc36fb5d"
+    },
+    "shard": {
+      "path": "data/source_art/branding_v2/raw/shard_v04.jpg",
+      "sha256": "a08a7978ab508db70f1a92e51bc6eaede65fc14b1bc891431d90a9192e29b8b5",
+      "cleaned_png": "data/source_art/branding_v2/raw_png/shard_v04.png",
+      "cleaned_sha256": "600e66afcf86925a1f92c43ad41185fbc7aab30bc0c6ed486e01e2aed52d616a"
+    },
+    "label_4x": {
+      "path": "data/source_art/branding_v2/raw/label_4x_v01.jpg",
+      "sha256": "7c77845db1fe35a54a715b1dcfb8ec1c8fa5f85455807e881fd34f8926902b50",
+      "cleaned_png": "data/source_art/branding_v2/raw_png/label_4x_v01.png",
+      "cleaned_sha256": "d87e2dd1acad919ac73b7e544e40b77f6c29acde2352fd6a434caaf9eff008b7"
+    },
+    "glyphs": {
+      "path": "data/source_art/branding_v2/raw/glyphs_v01.jpg",
+      "sha256": "66a325572b12b56ca7e8319b93feee0cce1c4c70d3509ad1fe95235550f84b9e",
+      "cleaned_png": "data/source_art/branding_v2/raw_png/glyphs_v01.png",
+      "cleaned_sha256": "0f57a87cea80b7c349a93b5ea2f5f662e44d2b4ab5c01d1d1e72a2c5dd4595a8"
+    }
+  },
+  "output_sha256": "1c0bbfe9bb7d517e1683adf7960a083ca8078ef2796ba62381e5ed014e158cb0",
+  "canvas": [
+    512,
+    384
+  ],
+  "palette_entries": 64,
+  "panel_d_palette": "PAL1"
+}

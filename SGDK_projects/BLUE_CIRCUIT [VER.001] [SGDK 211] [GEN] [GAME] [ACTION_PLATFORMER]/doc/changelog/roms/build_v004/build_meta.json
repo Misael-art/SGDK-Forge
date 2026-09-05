@@ -1,0 +1,106 @@
+﻿{
+    "build_version":  "build_v004",
+    "rom_sha256":  "7339b17d7706aa576c1bf3dce7ddd01c0e154a4260bb30bf30e09c4861a4557f",
+    "size_bytes":  262144,
+    "timestamp":  "2026-06-27T23:02:04.3632485-03:00",
+    "source_commit_when_available":  "1b6e5371d636bc6ea80176f9a498276c26e3a01e",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  4,
+                               "blocking_statuses":  [
+                                                         "visual_gate_blocked",
+                                                         "visual_direction_failed",
+                                                         "scene_closeout_gate_stale"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "ok",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "funcional",
+                             "performance":  "estavel",
+                             "audio":  "ok",
+                             "hardware_real":  "blastem_reference_emulator"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_brand_fx_tiles",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_fx_tiles.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_engine_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_engine_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_author_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_author_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_project_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_project_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_presents_text",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_presents_text.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_bc_title_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/title_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_bc_stage_bg",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/stage_01_bg.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_bc_stage_fg",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/stage_01_fg.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_player_idle",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/player_idle.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_player_run",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/player_run.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_player_jump",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/player_jump.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_player_shoot",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/player_shoot.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_line_sentry_idle",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/line_sentry_idle.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_breaker_core_idle",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/breaker_core_idle.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_bc_projectile_pulse",
+                                      "version":  "v001",
+                                      "source_path":  "res/blue_circuit/projectile_pulse.png"
+                                  }
+                              ],
+    "notes":  "ROM build_v004 hash 7339b17d7706aa576c1bf3dce7ddd01c0e154a4260bb30bf30e09c4861a4557f captured in BlastEm with SDL_AUDIODRIVER=dummy; target_scene=3 matched runtime_scene_id=3; screenshot and fresh save.sram recorded. Status remains technical_ready_creative_blocked because visual_gate_blocked and visual_direction_failed remain active; scene_closeout_gate_report is stale after report refresh."
+}

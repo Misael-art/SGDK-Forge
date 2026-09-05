@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0.0",
+  "report_kind": "premium_source_manifest",
+  "template_seed": false,
+  "template_prevalidated": false,
+  "production_source_ready": false,
+  "producer_signature": "Codex",
+  "accepted_as_premium_source": false,
+  "license_or_generation_basis": "R1 source concepts were generated through Codex built-in image generation for this non-commercial fan game. They are original concept references only; no external or extracted game assets are included.",
+  "source_delivery_manifest": "r3/r3_delivery_manifest.json",
+  "assets": [
+    { "asset_id": "r1-01", "role": "concept_art", "path": "r1/r1-01/concept.png", "status": "source_candidate_pending_human_judgment" },
+    { "asset_id": "r1-02", "role": "layer_study", "path": "r1/r1-02/concept.png", "status": "source_candidate_pending_human_judgment" },
+    { "asset_id": "r1-03", "role": "concept_art", "path": "r1/r1-03/concept.png", "status": "source_candidate_pending_human_judgment" },
+    { "asset_id": "r1-04", "role": "concept_art", "path": "r1/r1-04/concept.png", "status": "source_candidate_pending_human_judgment" },
+    { "asset_id": "r1-05", "role": "tileset_concept", "path": "r1/r1-05/concept.png", "status": "source_candidate_pending_human_judgment" },
+    { "asset_id": "r1-06", "role": "palette_study", "path": "r1/r1-06/concept.png", "status": "source_candidate_pending_human_judgment" },
+    { "asset_id": "r1-07", "role": "concept_art", "path": "r1/r1-07/concept.png", "status": "source_candidate_pending_human_judgment" },
+    { "asset_id": "r2-01", "role": "concept_art_correction", "path": "r2/r2-01/concept.png", "status": "source_candidate_pending_human_judgment", "parent": "r1-01" },
+    { "asset_id": "r2-02", "role": "layer_study_correction", "path": "r2/r2-02/layers.png", "status": "source_candidate_pending_human_judgment", "parent": "r1-02" },
+    { "asset_id": "r2-03", "role": "concept_art_correction", "path": "r2/r2-03/concept.png", "status": "source_candidate_pending_human_judgment", "parent": "r1-03" },
+    { "asset_id": "r2-04", "role": "concept_art_correction", "path": "r2/r2-04/concept.png", "status": "source_candidate_pending_human_judgment", "parent": "r1-04" },
+    { "asset_id": "r3-02", "role": "layer_study_palette_correction", "path": "r3/r3-02/layers.png", "status": "source_candidate_pending_human_judgment", "parent": "r2-02" }
+  ],
+  "notes": "Every request retains notes and a delivery manifest. R2 preserves R1 and adds only surgical correction variants; R2-01 also retains the raw localized image-edit output. Normalized PNGs are RGB333/canvas reference material, not direct SGDK resources."
+}

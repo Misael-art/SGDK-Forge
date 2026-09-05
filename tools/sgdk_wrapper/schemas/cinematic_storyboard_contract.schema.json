@@ -1,0 +1,420 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://sgdk-forge.local/schemas/cinematic_storyboard_contract.schema.json",
+  "title": "Cinematic Storyboard Contract",
+  "description": "Machine-readable cutscene/storyboard contract for high-quality Mega Drive cinematic scenes before runtime integration.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "contract_id",
+    "scene_id",
+    "scene_role",
+    "status_ceiling",
+    "ready_for_aaa",
+    "source_authority",
+    "cinematic_direction",
+    "state_machine",
+    "cutscene_resource_plan",
+    "hardware_ownership",
+    "text_timing_map",
+    "visual_source_gate",
+    "evidence_plan",
+    "approval"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.[0-9]+\\.[0-9]+$"
+    },
+    "contract_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "minLength": 1
+    },
+    "scene_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "minLength": 1
+    },
+    "scene_role": {
+      "const": "cutscene"
+    },
+    "status_ceiling": {
+      "type": "string",
+      "enum": [
+        "planning_only",
+        "lab_only",
+        "production_candidate",
+        "ready_for_aaa_candidate"
+      ]
+    },
+    "ready_for_aaa": {
+      "type": "boolean"
+    },
+    "source_authority": {
+      "type": "object",
+      "required": [
+        "roteiro_ref",
+        "spec_ref",
+        "context_pack_manifest_ref",
+        "reference_profile"
+      ],
+      "properties": {
+        "roteiro_ref": { "type": "string", "minLength": 1 },
+        "spec_ref": { "type": "string", "minLength": 1 },
+        "context_pack_manifest_ref": { "type": "string", "minLength": 1 },
+        "reference_profile": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": ["game", "inheritance"],
+            "properties": {
+              "game": { "type": "string", "minLength": 1 },
+              "inheritance": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "cinematic_direction": {
+      "type": "object",
+      "required": [
+        "intention",
+        "narrative_structure",
+        "cinematic_language_methods",
+        "selected_fake_cinema_tools",
+        "signature_moment"
+      ],
+      "properties": {
+        "intention": { "type": "string", "minLength": 1 },
+        "narrative_structure": { "type": "string", "minLength": 1 },
+        "cinematic_language_methods": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "selected_fake_cinema_tools": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "cut_change",
+              "pan_scroll",
+              "sprite_staging",
+              "hold_frame",
+              "lighting_as_narrative",
+              "sound_as_primary_force",
+              "strong_static_composition",
+              "palette_flash",
+              "portrait_blink_mouth",
+              "panel_sequence"
+            ]
+          }
+        },
+        "signature_moment": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "state_machine": {
+      "type": "object",
+      "required": ["runtime_model", "states"],
+      "properties": {
+        "runtime_model": {
+          "type": "string",
+          "enum": ["table_driven_fsm", "single_state_hold", "scripted_step_table"]
+        },
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/cutscene_state" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "cutscene_resource_plan": {
+      "type": "object",
+      "required": ["states"],
+      "properties": {
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/state_budget" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "hardware_ownership": {
+      "type": "object",
+      "required": ["window_owner", "cram_owner", "scroll_owner", "audio_owner", "h_int"],
+      "properties": {
+        "window_owner": { "type": "string", "minLength": 1 },
+        "cram_owner": { "type": "string", "minLength": 1 },
+        "scroll_owner": { "type": "string", "minLength": 1 },
+        "audio_owner": { "type": "string", "minLength": 1 },
+        "h_int": {
+          "type": "object",
+          "required": ["in_use"],
+          "properties": {
+            "in_use": { "type": "boolean" },
+            "owner": { "type": "string", "minLength": 1 },
+            "teardown_reset_plan": { "type": "string", "minLength": 1 },
+            "fallback_plan": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": true,
+          "allOf": [
+            {
+              "if": {
+                "properties": { "in_use": { "const": true } },
+                "required": ["in_use"]
+              },
+              "then": {
+                "required": ["owner", "teardown_reset_plan", "fallback_plan"]
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "text_timing_map": {
+      "type": "object",
+      "required": [
+        "glyph_manifest_ref",
+        "font_surface_owner",
+        "base_frames_per_glyph",
+        "punctuation_pauses",
+        "advance_controls"
+      ],
+      "properties": {
+        "glyph_manifest_ref": { "type": "string", "minLength": 1 },
+        "font_surface_owner": { "type": "string", "minLength": 1 },
+        "base_frames_per_glyph": { "type": "integer", "minimum": 1 },
+        "punctuation_pauses": {
+          "type": "object",
+          "required": ["comma", "period", "ellipsis", "line_break"],
+          "properties": {
+            "comma": { "type": "integer", "minimum": 0 },
+            "period": { "type": "integer", "minimum": 0 },
+            "ellipsis": { "type": "integer", "minimum": 0 },
+            "line_break": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": true
+        },
+        "advance_controls": {
+          "type": "object",
+          "required": ["accelerate_button", "advance_button", "skip_policy"],
+          "properties": {
+            "accelerate_button": { "type": "string", "minLength": 1 },
+            "advance_button": { "type": "string", "minLength": 1 },
+            "skip_policy": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "visual_source_gate": {
+      "type": "object",
+      "required": [
+        "production_source_ready",
+        "premium_source_manifest_ref",
+        "human_approval_record_ref",
+        "visual_delivery_gate_report_ref",
+        "blocked_statuses"
+      ],
+      "properties": {
+        "production_source_ready": { "type": "boolean" },
+        "premium_source_manifest_ref": { "type": "string", "minLength": 1 },
+        "human_approval_record_ref": { "type": "string", "minLength": 1 },
+        "visual_delivery_gate_report_ref": { "type": "string", "minLength": 1 },
+        "blocked_statuses": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": true
+    },
+    "evidence_plan": {
+      "type": "object",
+      "required": [
+        "blastem_required",
+        "screenshot_required",
+        "runtime_metrics_scene_id",
+        "visual_vdp_dump_required",
+        "save_sram_required",
+        "baseline_comparison_required",
+        "freshness_audit_required"
+      ],
+      "properties": {
+        "blastem_required": { "type": "boolean" },
+        "screenshot_required": { "type": "boolean" },
+        "runtime_metrics_scene_id": { "type": "string", "minLength": 1 },
+        "visual_vdp_dump_required": { "type": "boolean" },
+        "save_sram_required": { "type": "boolean" },
+        "baseline_comparison_required": { "type": "boolean" },
+        "freshness_audit_required": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "approval": {
+      "type": "object",
+      "required": ["human_approval_required", "approval_status", "approval_record_ref"],
+      "properties": {
+        "human_approval_required": { "type": "boolean" },
+        "approval_status": {
+          "type": "string",
+          "enum": ["not_approved", "pending", "approved"]
+        },
+        "approval_record_ref": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    }
+  },
+  "definitions": {
+    "cutscene_state": {
+      "type": "object",
+      "required": [
+        "state_id",
+        "narrative_purpose",
+        "shot_type",
+        "entry_load",
+        "render_surfaces",
+        "palette_domains",
+        "text_block",
+        "advance_trigger",
+        "duration_frames",
+        "dynamic_fx",
+        "motion_beats",
+        "animation_link",
+        "audio_cue",
+        "exit_teardown"
+      ],
+      "properties": {
+        "state_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "narrative_purpose": { "type": "string", "minLength": 1 },
+        "shot_type": {
+          "type": "string",
+          "enum": ["establishing", "portrait", "reaction", "object_insert", "panel_hold", "pan", "flash", "dialogue", "transition"]
+        },
+        "entry_load": { "type": "object", "additionalProperties": true },
+        "render_surfaces": { "type": "object", "additionalProperties": true },
+        "palette_domains": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "object", "required": ["slot", "owner"], "additionalProperties": true }
+        },
+        "text_block": { "type": "object", "additionalProperties": true },
+        "advance_trigger": {
+          "type": "string",
+          "enum": ["WAIT_INPUT", "WAIT_FRAMES", "TEXT_DONE", "AUDIO_CUE_DONE", "MIXED"]
+        },
+        "duration_frames": { "type": "integer", "minimum": 1 },
+        "dynamic_fx": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "motion_beats": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["beat_type", "start_frame", "duration_frames", "purpose"],
+            "properties": {
+              "beat_type": {
+                "type": "string",
+                "enum": ["hold", "blink_or_mouth", "pan_or_scroll", "reaction_frame", "impact_motion", "stillness_justification"]
+              },
+              "start_frame": { "type": "integer", "minimum": 0 },
+              "duration_frames": { "type": "integer", "minimum": 1 },
+              "purpose": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": true
+          }
+        },
+        "animation_link": { "type": "object", "additionalProperties": true },
+        "audio_cue": { "type": "object", "additionalProperties": true },
+        "exit_teardown": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "state_budget": {
+      "type": "object",
+      "required": [
+        "state_id",
+        "vram_resident_set",
+        "load_time_dma_cost",
+        "per_frame_dma_cost",
+        "palette_domains",
+        "glyph_cache",
+        "sprite_pressure",
+        "state_teardown",
+        "budget_decision"
+      ],
+      "properties": {
+        "state_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "vram_resident_set": { "type": "object", "additionalProperties": true },
+        "load_time_dma_cost": { "type": "object", "additionalProperties": true },
+        "per_frame_dma_cost": { "type": "object", "additionalProperties": true },
+        "palette_domains": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "glyph_cache": { "type": "object", "additionalProperties": true },
+        "sprite_pressure": { "type": "object", "additionalProperties": true },
+        "state_teardown": { "type": "string", "minLength": 1 },
+        "budget_decision": {
+          "type": "string",
+          "enum": ["planned", "cabe", "cabe_com_recuo", "nao_cabe", "needs_review"]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "ready_for_aaa": { "const": true } },
+        "required": ["ready_for_aaa"]
+      },
+      "then": {
+        "properties": {
+          "status_ceiling": { "const": "ready_for_aaa_candidate" },
+          "visual_source_gate": {
+            "properties": {
+              "production_source_ready": { "const": true }
+            },
+            "required": ["production_source_ready"]
+          },
+          "approval": {
+            "properties": {
+              "approval_status": { "const": "approved" }
+            },
+            "required": ["approval_status"]
+          },
+          "evidence_plan": {
+            "properties": {
+              "blastem_required": { "const": true },
+              "screenshot_required": { "const": true },
+              "visual_vdp_dump_required": { "const": true },
+              "baseline_comparison_required": { "const": true },
+              "freshness_audit_required": { "const": true }
+            },
+            "required": [
+              "blastem_required",
+              "screenshot_required",
+              "visual_vdp_dump_required",
+              "baseline_comparison_required",
+              "freshness_audit_required"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": true
+}

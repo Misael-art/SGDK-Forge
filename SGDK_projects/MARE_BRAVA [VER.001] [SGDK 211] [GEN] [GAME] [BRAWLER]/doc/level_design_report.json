@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "mare_brava_level_cais01_v01",
+  "timestamp": "2026-08-30T17:45:00Z",
+  "target_scope": "cais_01",
+  "status": "passed",
+  "reviews": {
+    "golden_path": {"waypoint_count": 7, "landmarks_visible": true, "risk_markers_telegraphed": true, "telegraph_chain_complete": true, "status": "passed"},
+    "phase_rhythm": {"phases_present": ["calm", "pressure", "payoff"], "calm_pressure_payoff_present": true, "boss_phase_present": false, "breathing_zone_count": 2, "status": "passed"},
+    "mechanic_reuse": {"core_mechanics_covered": ["combo_de_mare"], "missing_core_mechanic_ids": [], "status": "passed"},
+    "narrative_environmental": {"story_beats_count": 2, "no_text_required_satisfied": true, "status": "passed"},
+    "pattern_break": {"previous_scope_id": "none_first_playable", "palette_differentiation": "not_applicable", "rhythm_variation": "not_applicable", "status": "not_applicable"}
+  },
+  "issues": [{"code": "level_runtime_camera_pending", "severity": "warn", "message": "Camera contract foi emitido; runtime e evidencia ainda faltam."}],
+  "blocking_statuses": []
+}

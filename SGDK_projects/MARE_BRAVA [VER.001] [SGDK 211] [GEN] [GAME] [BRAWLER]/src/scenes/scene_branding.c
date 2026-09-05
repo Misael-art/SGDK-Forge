@@ -38,12 +38,6 @@ static void brandStopPsg(void)
     AUDIO_stopAll();
 }
 
-static void brandPulsePsg(u8 channel, u16 tone, u8 envelope)
-{
-    PSG_setFrequency(channel, tone);
-    PSG_setEnvelope(channel, envelope);
-}
-
 static void brandResetScroll(void)
 {
     u16 i;
@@ -67,10 +61,10 @@ static void brandResetScreen(void)
     brandResetScroll();
     VDP_clearPlane(BG_A, TRUE);
     VDP_clearPlane(BG_B, TRUE);
-    PAL_setPalette(PAL0, palette_black, CPU);
-    PAL_setPalette(PAL1, palette_black, CPU);
-    PAL_setPalette(PAL2, palette_black, CPU);
-    PAL_setPalette(PAL3, palette_black, CPU);
+    PAL_setPalette(PAL0, palette_black, DMA_QUEUE);
+    PAL_setPalette(PAL1, palette_black, DMA_QUEUE);
+    PAL_setPalette(PAL2, palette_black, DMA_QUEUE);
+    PAL_setPalette(PAL3, palette_black, DMA_QUEUE);
     VDP_setTextPalette(PAL1);
     VDP_setBackgroundColor(0);
 }
@@ -100,7 +94,7 @@ static void brandEnterEngine(void)
 {
     brandResetScreen();
     brandDrawFxTiles();
-    PAL_setPalette(PAL1, img_brand_engine_logo.palette->data, CPU);
+    PAL_setPalette(PAL1, img_brand_engine_logo.palette->data, DMA_QUEUE);
     VDP_drawImageEx(
         BG_A,
         &img_brand_engine_logo,
@@ -112,8 +106,8 @@ static void brandEnterEngine(void)
     );
     VDP_setVerticalScroll(BG_A, 42);
     AUDIO_playCue(AUDIO_CUE_BRAND_ENGINE_HIT);
-    brandPulsePsg(0, 260, 2);
-    brandPulsePsg(1, 520, 6);
+    AUDIO_pulsePsg(0, 260, 2, 14);
+    AUDIO_pulsePsg(1, 520, 6, 14);
 }
 
 static void brandUpdateEngine(u16 frame)
@@ -128,13 +122,13 @@ static void brandUpdateEngine(u16 frame)
     brandAnimateFx(frame, -1);
 
     if ((frame & 7) == 0) {
-        PAL_setColor(16 + 14, BRAND_ENGINE_SHIMMER[(frame >> 3) & 3]);
+        PAL_setColors(16 + 14, &BRAND_ENGINE_SHIMMER[(frame >> 3) & 3], 1, DMA_QUEUE);
     }
 
     if (frame == 18) {
-        brandPulsePsg(0, 210, 1);
+        AUDIO_pulsePsg(0, 210, 1, 8);
     } else if (frame == 46) {
-        brandPulsePsg(1, 780, 4);
+        AUDIO_pulsePsg(1, 780, 4, 8);
     } else if (frame == 76) {
         brandStopPsg();
     }
@@ -144,7 +138,7 @@ static void brandEnterAuthor(void)
 {
     brandResetScreen();
     brandDrawFxTiles();
-    PAL_setPalette(PAL1, img_brand_author_logo.palette->data, CPU);
+    PAL_setPalette(PAL1, img_brand_author_logo.palette->data, DMA_QUEUE);
     VDP_drawImageEx(
         BG_A,
         &img_brand_author_logo,
@@ -156,7 +150,7 @@ static void brandEnterAuthor(void)
     );
     VDP_setHorizontalScroll(BG_A, 0);
     AUDIO_playCue(AUDIO_CUE_BRAND_AUTHOR_CLICK);
-    brandPulsePsg(0, 640, 4);
+    AUDIO_pulsePsg(0, 640, 4, 8);
 }
 
 static void brandUpdateAuthor(u16 frame)
@@ -167,7 +161,7 @@ static void brandUpdateAuthor(u16 frame)
     brandAnimateFx(frame, 1);
 
     if ((frame & 3) == 0) {
-        PAL_setColor(16 + 6, BRAND_AUTHOR_SCAN[(frame >> 2) & 3]);
+        PAL_setColors(16 + 6, &BRAND_AUTHOR_SCAN[(frame >> 2) & 3], 1, DMA_QUEUE);
     }
 
     if (frame > 42 && frame < 126) {
@@ -180,9 +174,9 @@ static void brandUpdateAuthor(u16 frame)
     }
 
     if (frame == 34) {
-        brandPulsePsg(1, 920, 5);
+        AUDIO_pulsePsg(1, 920, 5, 8);
     } else if (frame == 68) {
-        brandPulsePsg(0, 700, 6);
+        AUDIO_pulsePsg(0, 700, 6, 8);
     } else if (frame == 110) {
         AUDIO_playCue(AUDIO_CUE_BRAND_AUTHOR_BELL);
     } else if (frame == 100) {
@@ -202,7 +196,7 @@ static void brandEnterProject(void)
 {
     brandResetScreen();
     brandDrawFxTiles();
-    PAL_setPalette(PAL1, img_brand_project_logo.palette->data, CPU);
+    PAL_setPalette(PAL1, img_brand_project_logo.palette->data, DMA_QUEUE);
     VDP_drawImageEx(
         BG_A,
         &img_brand_project_logo,
@@ -223,8 +217,8 @@ static void brandEnterProject(void)
     );
     VDP_setScrollingMode(HSCROLL_LINE, VSCROLL_PLANE);
     AUDIO_playCue(AUDIO_CUE_BRAND_PROJECT_WHOOSH);
-    brandPulsePsg(0, 190, 1);
-    brandPulsePsg(1, 380, 5);
+    AUDIO_pulsePsg(0, 190, 1, 12);
+    AUDIO_pulsePsg(1, 380, 5, 12);
 }
 
 static void brandUpdateProject(u16 frame)
@@ -250,22 +244,22 @@ static void brandUpdateProject(u16 frame)
             }
         }
 
-        VDP_setHorizontalScrollLine(BG_A, 0, sBrandLineScroll, 224, CPU);
+        VDP_setHorizontalScrollLine(BG_A, 0, sBrandLineScroll, 224, DMA_QUEUE);
     }
     brandAnimateFx(frame, -1);
 
     if (frame < 48) {
-        PAL_setColor(16 + 10, BRAND_PROJECT_FLASH[(frame / 8) % 5]);
-        PAL_setColor(16 + 11, BRAND_PROJECT_FLASH[(frame / 6) % 5]);
+        PAL_setColors(16 + 10, &BRAND_PROJECT_FLASH[(frame / 8) % 5], 1, DMA_QUEUE);
+        PAL_setColors(16 + 11, &BRAND_PROJECT_FLASH[(frame / 6) % 5], 1, DMA_QUEUE);
     } else if ((frame & 15) == 0) {
-        PAL_setColor(16 + 9, BRAND_PROJECT_FLASH[(frame >> 4) & 3]);
+        PAL_setColors(16 + 9, &BRAND_PROJECT_FLASH[(frame >> 4) & 3], 1, DMA_QUEUE);
     }
 
     if (frame == 28) {
         AUDIO_playCue(AUDIO_CUE_BRAND_PROJECT_TAIL);
-        brandPulsePsg(2, 1160, 4);
+        AUDIO_pulsePsg(2, 1160, 4, 8);
     } else if (frame == 62) {
-        brandPulsePsg(0, 150, 1);
+        AUDIO_pulsePsg(0, 150, 1, 8);
     } else if (frame == 112) {
         brandStopPsg();
     }

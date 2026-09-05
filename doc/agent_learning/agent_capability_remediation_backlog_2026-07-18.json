@@ -1,0 +1,581 @@
+{
+  "schema_version": "1.0.0",
+  "backlog_id": "agent_capability_remediation_2026_07_18",
+  "created_at": "2026-07-18",
+  "scope": "workspace_agent_framework",
+  "source_diagnostic": "doc/agent_learning/agent_capability_diagnostic_2026-07-18.md",
+  "execution_prompt": "doc/agent_learning/agent_remediation_execution_prompt_2026-07-18.md",
+  "decision": {
+    "status": "rejected_as_complete_autonomous_game_agent",
+    "classification": "functional_with_human_supervision",
+    "claim_ceiling": "technical_vertical_slice_candidate",
+    "ready_for_aaa": false,
+    "runtime_promoted_by_this_artifact": false
+  },
+  "execution_policy": {
+    "selection": "one_ready_item_at_a_time",
+    "dominant_blocker": "P2-001",
+    "last_completed_item": "P1-005",
+    "last_advanced_item": "P1-005 completed with event-derived autonomy metrics",
+    "lowest_proven_status_wins": true,
+    "fresh_same_session_evidence_required": true,
+    "blastem_required_for_runtime_claims": true,
+    "memory_and_changelog_update_required": true
+  },
+  "learning_curation": {
+    "status": "captured_validated_pending_maturity",
+    "checkpoint": "doc/agent_learning/remediation_learning_curation_checkpoint_2026-07-20.json",
+    "project_ledger": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/agent_learning/learning_ledger.json",
+    "resume_order": [
+      "P2-001",
+      "P2-002",
+      "P2-003",
+      "P1-002",
+      "P1-004",
+      "P1-006"
+    ],
+    "resume_when_mature": true,
+    "lesson_count": 15,
+    "candidate_count": 10,
+    "learning_loop_regression": "34_of_34_passed",
+    "canonical_auto_mutation": false,
+    "canonical_promotion_performed": false
+  },
+  "environment_limitations": [
+    "worktree_preexisting_dirty_state"
+  ],
+  "items": [
+    {
+      "id": "P0-001",
+      "priority": "P0",
+      "title": "Bloquear captura branca ou de baixa informacao",
+      "status": "completed",
+      "completed_at": "2026-07-18T22:54:00-03:00",
+      "owner": "emulator-vdp-evidence-curator",
+      "supporting_owners": [
+        "sgdk-build-wrapper-operator",
+        "visual-excellence-standards"
+      ],
+      "problem": "O gate visual aprovou screenshot praticamente branco de BLUE_CIRCUIT.",
+      "candidate_input": "tools/image-tools/screenshot_integrity.py",
+      "target_areas": [
+        "tools/sgdk_wrapper",
+        "scene_closeout_gate",
+        "visual_delivery_gate",
+        "emulator_evidence"
+      ],
+      "acceptance_checks": [
+        "A captura canonica branca de BLUE_CIRCUIT falha com blocker explicito.",
+        "Capturas controles de Celestial Chase Revive e MUGEN nao falham apenas por serem escuras.",
+        "O report inclui SHA-256, dimensoes, dominant_ratio, edge_density e decisao.",
+        "Falha de integridade semantica forca visual, gameplay e performance para false ou unproven.",
+        "Existe teste de regressao automatizado para captura branca e captura valida."
+      ],
+      "evidence_required": [
+        "test_output",
+        "semantic_capture_report",
+        "negative_fixture",
+        "positive_control"
+      ],
+      "dependencies": [],
+      "evidence_paths": [
+        "doc/agent_learning/p0_001_screenshot_semantic_remediation_report_2026-07-18.json",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/screenshot_semantic_gate_report.json",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/validation_report.json"
+      ]
+    },
+    {
+      "id": "P0-002",
+      "priority": "P0",
+      "title": "Reconciliar claims pelo menor status provado",
+      "status": "completed",
+      "completed_at": "2026-07-18T23:40:00-03:00",
+      "owner": "aaa-pipeline-guardian",
+      "supporting_owners": [
+        "sgdk-build-wrapper-operator",
+        "emulator-vdp-evidence-curator"
+      ],
+      "problem": "Runtime perceptual zero, captura parcial e memory bank bloqueado coexistem com creative_ready positivo.",
+      "target_areas": [
+        "validation_report",
+        "visual_delivery_gate_report",
+        "runtime_admission_report",
+        "memory_bank_reconciliation"
+      ],
+      "acceptance_checks": [
+        "Um gate bloqueado nunca pode coexistir com ready_for_aaa true.",
+        "capture_status partial impede claim de performance estavel.",
+        "Metrica perceptual zero impede creative_ready true.",
+        "Reports divergentes geram blocker report_status_conflict.",
+        "Todos os reports de uma decisao apontam para a mesma ROM e evidence session."
+      ],
+      "evidence_required": [
+        "claim_reconciliation_report",
+        "conflict_regression_tests"
+      ],
+      "dependencies": [
+        "P0-001"
+      ],
+      "evidence_paths": [
+        "doc/agent_learning/p0_002_claim_reconciliation_report_2026-07-18.json",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/claim_reconciliation_report.json"
+      ]
+    },
+    {
+      "id": "P0-003",
+      "priority": "P0",
+      "title": "Restaurar validacao de schemas em ambiente reproduzivel",
+      "status": "completed",
+      "completed_at": "2026-07-18T23:48:00-03:00",
+      "owner": "sgdk-build-wrapper-operator",
+      "supporting_owners": [
+        "aaa-pipeline-guardian"
+      ],
+      "problem": "test_schema_contract_gates.py nao iniciou por ausencia de jsonschema.",
+      "target_areas": [
+        "python_dependency_bootstrap",
+        "contract_gate_runner",
+        "ci_smoke"
+      ],
+      "acceptance_checks": [
+        "Dependencia jsonschema e instalada ou provisionada por mecanismo canonico e fixado.",
+        "test_schema_contract_gates.py executa ate o fim.",
+        "Ambiente limpo reproduz o resultado sem instalacao manual ad hoc.",
+        "Falha de dependencia produz blocker claro, nao skip silencioso."
+      ],
+      "evidence_required": [
+        "dependency_manifest",
+        "schema_test_log"
+      ],
+      "dependencies": [],
+      "evidence_paths": [
+        "doc/agent_learning/p0_003_reproducible_schema_environment_report_2026-07-18.json",
+        "out/remediation/P0-003/schema_mode/contract_gates_report.json"
+      ]
+    },
+    {
+      "id": "P0-004",
+      "priority": "P0",
+      "title": "Reconciliar os 13 hashes lifecycle divergentes",
+      "status": "completed",
+      "completed_at": "2026-07-19T23:12:00-03:00",
+      "owner": "aaa-pipeline-guardian",
+      "supporting_owners": [
+        "sgdk-build-wrapper-operator"
+      ],
+      "problem": "validate_skill_framework.py falha porque payloads legacy nao correspondem aos hashes registrados.",
+      "target_areas": [
+        "tools/sgdk_wrapper/.agent/legacy",
+        "skill_lifecycle_registry",
+        "framework_manifest"
+      ],
+      "acceptance_checks": [
+        "Cada divergencia e classificada como corrupcao, mudanca intencional ou registro obsoleto.",
+        "Nenhum hash e atualizado sem review do payload correspondente.",
+        "validate_skill_framework.py passa.",
+        "Teste de restauracao legacy continua passando."
+      ],
+      "evidence_required": [
+        "hash_reconciliation_report",
+        "framework_validation_log"
+      ],
+      "dependencies": [],
+      "evidence_paths": [
+        "doc/agent_learning/p0_004_legacy_hash_reconciliation_report_2026-07-19.json",
+        "out/remediation/P0-004/pre_reconciliation_report.json",
+        "out/remediation/P0-004/post_reconciliation_report.json",
+        "out/remediation/P0-004/lifecycle_post.json"
+      ]
+    },
+    {
+      "id": "P0-005",
+      "priority": "P0",
+      "title": "Selar bundle fresco de evidencia da mesma sessao",
+      "status": "completed",
+      "completed_at": "2026-07-19T23:44:00-03:00",
+      "owner": "emulator-vdp-evidence-curator",
+      "supporting_owners": [
+        "rom-mastering",
+        "sgdk-build-wrapper-operator"
+      ],
+      "problem": "Bundles possuem hashes validos, mas freshness e coerencia temporal estao bloqueadas.",
+      "target_areas": [
+        "evidence_manifest",
+        "freshness_audit",
+        "scene_closeout_gate"
+      ],
+      "acceptance_checks": [
+        "ROM, screenshot, SRAM, VDP dump e metricas compartilham session_id.",
+        "Todos os artefatos registram SHA-256 completo e timestamp.",
+        "Artefato stale ou de outra ROM bloqueia o closeout.",
+        "Captura passa o gate semantico P0-001."
+      ],
+      "evidence_required": [
+        "fresh_evidence_bundle",
+        "evidence_manifest",
+        "freshness_report"
+      ],
+      "dependencies": [
+        "P0-001",
+        "P0-002"
+      ],
+      "evidence_paths": [
+        "doc/agent_learning/p0_005_fresh_same_session_evidence_report_2026-07-19.json",
+        "out/remediation/P0-005/fresh_bundle/blastem-linux-20260720T023600Z-152199/evidence_manifest.json",
+        "out/remediation/P0-005/fresh_bundle/blastem-linux-20260720T023600Z-152199/freshness_report.json",
+        "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/out/logs/fresh_evidence_bundle_audit_report.json"
+      ]
+    },
+    {
+      "id": "P1-001",
+      "priority": "P1",
+      "title": "Corrigir discovery de arte em projetos laboratoriais aninhados",
+      "status": "completed",
+      "completed_at": "2026-07-19T23:52:44-03:00",
+      "owner": "art-asset-diagnostic",
+      "supporting_owners": [
+        "art-conversion-pipeline"
+      ],
+      "problem": "MUGEN foi classificado como 3_no_art apesar de possuir work, analysis, evidence e viewer SGDK aninhado.",
+      "target_areas": [
+        "tools/sgdk_wrapper/art_diagnostic.py",
+        "art_diagnostic_fixtures"
+      ],
+      "acceptance_checks": [
+        "Fixture com work/analysis/evidence e subprojeto aninhado nao retorna 3_no_art.",
+        "O report separa source art, evidence art e res ativo.",
+        "Nenhum diretorio externo e seguido sem hygiene manifest.",
+        "Aviso de Image.getdata e corrigido ou registrado com teste de compatibilidade."
+      ],
+      "evidence_required": [
+        "art_discovery_test",
+        "mugen_diagnostic_report"
+      ],
+      "dependencies": [],
+      "evidence_paths": [
+        "doc/agent_learning/p1_001_nested_lab_art_discovery_report_2026-07-19.json",
+        "out/remediation/P1-001/test_art_pipeline.log",
+        "out/remediation/P1-001/pre_mugen_art_diagnostic.json",
+        "out/remediation/P1-001/post_mugen_art_diagnostic.json",
+        "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/doc/art_diagnostic_report.json"
+      ]
+    },
+    {
+      "id": "P1-002",
+      "priority": "P1",
+      "title": "Provar pipeline musical FM PSG XGM2",
+      "status": "blocked_external_human_review",
+      "owner": "xgm2-audio-director",
+      "supporting_owners": [
+        "sgdk-runtime-coder",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "problem": "Reports de audio passam budget, mas registram total_xgm igual a zero e predominio de samples PCM.",
+      "target_areas": [
+        "audio_architecture_card",
+        "xgm2_resources",
+        "audio_runtime_validation"
+      ],
+      "acceptance_checks": [
+        "Existe musica XGM2 com canais FM e/ou PSG declarados.",
+        "Musica e SFX executam simultaneamente sem conflito de ownership.",
+        "PCM possui prioridade e budget explicitos.",
+        "Captura BlastEm e review auditivo humano sao anexados."
+      ],
+      "evidence_required": [
+        "xgm_asset",
+        "audio_architecture_card",
+        "runtime_capture",
+        "human_audio_review"
+      ],
+      "dependencies": [
+        "P0-005"
+      ],
+      "technical_progress": {
+        "status": "complete",
+        "rom_sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+        "blastem_session_id": "blastem-linux-20260720T032218Z-267076",
+        "acceptance_passed": [
+          "xgm2_fm_psg_declared",
+          "music_and_sfx_simultaneous",
+          "pcm_priority_and_budget",
+          "blastem_capture"
+        ],
+        "warnings": ["one_xgm2_missed_frame_observed"],
+        "report": "doc/agent_learning/p1_002_xgm2_fm_psg_runtime_report_2026-07-19.json"
+      },
+      "external_blocker": {
+        "id": "human_audio_review_pending",
+        "review_template": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/doc/human_audio_review_p1_002.md",
+        "audio_capture": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio.wav"
+      }
+    },
+    {
+      "id": "P1-003",
+      "priority": "P1",
+      "title": "Provar 60 fps em janela completa",
+      "status": "completed",
+      "completed_at": "2026-07-20T01:23:00-03:00",
+      "owner": "emulator-vdp-evidence-curator",
+      "supporting_owners": [
+        "megadrive-vdp-budget-analyst",
+        "sgdk-runtime-coder"
+      ],
+      "problem": "BLUE_CIRCUIT possui captura parcial e screenshot com titulo 48.3 fps.",
+      "target_areas": [
+        "runtime_probe",
+        "performance_capture",
+        "validation_report"
+      ],
+      "acceptance_checks": [
+        "A janela planejada de frames e observada integralmente.",
+        "NTSC 60 Hz e PAL 50 Hz sao distinguidos.",
+        "P95 de carga, over-budget frames, sprites e DMA sao registrados.",
+        "Capture partial nunca gera performance stable."
+      ],
+      "evidence_required": [
+        "runtime_metrics",
+        "performance_capture",
+        "budget_report"
+      ],
+      "dependencies": [
+        "P0-002",
+        "P0-005"
+      ],
+      "evidence_paths": [
+        "doc/agent_learning/p1_003_full_window_performance_report_2026-07-20.json",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/runtime_metrics.json",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/runtime_metrics_pal.json",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/performance_capture_report.json",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/performance_budget_report.json"
+      ],
+      "technical_progress": {
+        "status": "complete",
+        "rom_sha256": "40b924f7895386458c7810204464fe47207c40b7f97d0c4585e840ee8d21bbf5",
+        "ntsc_session_id": "blastem-linux-20260720T040940Z-424385",
+        "pal_session_id": "blastem-linux-20260720T041233Z-435741",
+        "ntsc_samples": 900,
+        "pal_samples": 750,
+        "report": "doc/agent_learning/p1_003_full_window_performance_report_2026-07-20.json"
+      }
+    },
+    {
+      "id": "P1-004",
+      "priority": "P1",
+      "title": "Adicionar gate de hardware real ou FPGA",
+      "status": "blocked_external_hardware_evidence",
+      "owner": "rom-mastering",
+      "supporting_owners": [
+        "emulator-vdp-evidence-curator"
+      ],
+      "problem": "Nao foi encontrada evidencia de console, flashcart, MiSTer ou FPGA equivalente.",
+      "target_areas": [
+        "hardware_test_protocol",
+        "rom_mastering_report"
+      ],
+      "acceptance_checks": [
+        "Dispositivo, regiao, revisao e metodo de carga sao identificados.",
+        "ROM SHA-256 e o mesmo do bundle aprovado.",
+        "Video/captura demonstra boot, input, audio e gameplay.",
+        "Problemas de timing ou audio recebem decisao explicita."
+      ],
+      "evidence_required": [
+        "hardware_session_manifest",
+        "hardware_capture",
+        "rom_hash"
+      ],
+      "dependencies": [
+        "P0-005"
+      ],
+      "evidence_paths": [
+        "doc/agent_learning/p1_004_hardware_gate_report_2026-07-20.json",
+        "tools/sgdk_wrapper/schemas/hardware_session_manifest.schema.json",
+        "tools/sgdk_wrapper/validate_hardware_session.py",
+        "tools/sgdk_wrapper/ci/test_hardware_session_gate.py",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/hardware_test_protocol.md",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/hardware_test_gate_report.json",
+        "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/rom_mastering_report.json"
+      ],
+      "technical_progress": {
+        "status": "complete",
+        "regression": "3_cases_passed",
+        "rom_sha256": "40b924f7895386458c7810204464fe47207c40b7f97d0c4585e840ee8d21bbf5",
+        "report": "doc/agent_learning/p1_004_hardware_gate_report_2026-07-20.json"
+      },
+      "external_blocker": {
+        "id": "physical_or_fpga_session_missing",
+        "required_manifest": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/hardware_session_manifest.json"
+      }
+    },
+    {
+      "id": "P1-005",
+      "priority": "P1",
+      "title": "Instrumentar autonomia e intervencoes humanas",
+      "status": "completed",
+      "completed_at": "2026-07-20T01:39:00-03:00",
+      "owner": "aaa-pipeline-guardian",
+      "supporting_owners": [
+        "game-design-planning"
+      ],
+      "problem": "Nao ha dados para calcular autonomia, first-attempt success ou custo de reorientacao.",
+      "target_areas": [
+        "autonomy_ledger",
+        "session_closeout",
+        "project_learning"
+      ],
+      "acceptance_checks": [
+        "Cada sessao registra tarefas iniciadas, concluidas, bloqueadas e refeitas.",
+        "Intervencoes humanas sao classificadas sem armazenar conteudo sensivel.",
+        "Taxas sao derivadas dos eventos, nao preenchidas manualmente.",
+        "Metricas nao promovem qualidade sem gates tecnicos e criativos."
+      ],
+      "evidence_required": [
+        "autonomy_ledger_schema",
+        "sample_session",
+        "derived_metrics_report"
+      ],
+      "dependencies": [],
+      "evidence_paths": [
+        "doc/agent_learning/p1_005_autonomy_instrumentation_report_2026-07-20.json",
+        "doc/agent_learning/autonomy_ledger_2026-07-20.json",
+        "doc/agent_learning/autonomy_metrics_report_2026-07-20.json",
+        "tools/sgdk_wrapper/schemas/autonomy_ledger.schema.json",
+        "tools/sgdk_wrapper/record_autonomy_event.py",
+        "tools/sgdk_wrapper/derive_autonomy_metrics.py",
+        "tools/sgdk_wrapper/ci/test_autonomy_ledger.py"
+      ]
+    },
+    {
+      "id": "P1-006",
+      "priority": "P1",
+      "title": "Produzir benchmark de jogo curto completo",
+      "status": "blocked_by_dependency",
+      "owner": "game-design-planning",
+      "supporting_owners": [
+        "scene-state-architect",
+        "sgdk-runtime-coder",
+        "rom-mastering"
+      ],
+      "problem": "Nao existe prova de jogo completo com inicio, progressao, boss e fechamento.",
+      "target_areas": [
+        "SGDK_projects",
+        "gdd",
+        "scene_spec",
+        "complete_game_evidence"
+      ],
+      "acceptance_checks": [
+        "Escopo de 15 a 30 minutos aprovado no GDD.",
+        "Boot/menu, gameplay, progressao, boss, resultado ou creditos e retorno funcionam.",
+        "Todos os sete eixos de QA sao reportados.",
+        "Evidencia BlastEm e hardware usam a mesma ROM.",
+        "Autonomia e intervencoes sao medidas durante a producao."
+      ],
+      "evidence_required": [
+        "complete_game_rom",
+        "validation_report",
+        "blastem_bundle",
+        "hardware_bundle",
+        "autonomy_report"
+      ],
+      "dependencies": [
+        "P0-001",
+        "P0-002",
+        "P0-003",
+        "P0-004",
+        "P0-005",
+        "P1-002",
+        "P1-003",
+        "P1-004",
+        "P1-005"
+      ]
+    },
+    {
+      "id": "P2-001",
+      "priority": "P2",
+      "title": "Eliminar drift entre memoria e reports",
+      "status": "ready_for_assignment",
+      "owner": "aaa-pipeline-guardian",
+      "supporting_owners": [
+        "sgdk-build-wrapper-operator"
+      ],
+      "problem": "BLUE_CIRCUIT apresenta decisoes e hashes divergentes entre memory bank e reports.",
+      "target_areas": [
+        "doc_sync_audit",
+        "memory_bank",
+        "changelog",
+        "generated_status_blocks"
+      ],
+      "acceptance_checks": [
+        "Bloco gerado e corpo narrativo concordam sobre ROM e status.",
+        "Report stale nao permanece como claim ativo.",
+        "Doc sync audit bloqueia contradicao de status forte."
+      ],
+      "evidence_required": [
+        "doc_sync_report",
+        "regression_test"
+      ],
+      "dependencies": [
+        "P0-002"
+      ]
+    },
+    {
+      "id": "P2-002",
+      "priority": "P2",
+      "title": "Testar retomada em sessao independente",
+      "status": "blocked_by_dependency",
+      "owner": "game-state-transition-architect",
+      "supporting_owners": [
+        "aaa-pipeline-guardian"
+      ],
+      "problem": "Continuidade entre sessoes existe como processo, mas nao foi medida nesta auditoria.",
+      "target_areas": [
+        "session_bootstrap",
+        "memory_bank",
+        "handoff_contract"
+      ],
+      "acceptance_checks": [
+        "Novo agente identifica blocker dominante apenas pelos artefatos canonicos.",
+        "Nao precisa de reorientacao humana para reproduzir o diagnostico.",
+        "Nao promove status com base em memoria historica."
+      ],
+      "evidence_required": [
+        "independent_session_log",
+        "context_recovery_report"
+      ],
+      "dependencies": [
+        "P2-001"
+      ]
+    },
+    {
+      "id": "P2-003",
+      "priority": "P2",
+      "title": "Promover tecnica somente com runtime proof",
+      "status": "blocked_by_dependency",
+      "owner": "aaa-pipeline-guardian",
+      "supporting_owners": [
+        "megadrive-vdp-budget-analyst",
+        "emulator-vdp-evidence-curator"
+      ],
+      "problem": "O registry possui zero tecnicas em MESTRE e grande volume teorico/laboratorial.",
+      "target_areas": [
+        "93_16bit_hardware_mastery_registry.json",
+        "benchmark_visual_lab",
+        "technique_promotion_gate"
+      ],
+      "acceptance_checks": [
+        "Promocao aponta para fixture, ROM, BlastEm, budget e aprovacao humana.",
+        "Tecnica experimental possui fallback.",
+        "Hash e escopo observado sao registrados.",
+        "Nenhuma promocao e inferida de documentacao ou codigo apenas."
+      ],
+      "evidence_required": [
+        "technique_promotion_report",
+        "runtime_bundle"
+      ],
+      "dependencies": [
+        "P0-005",
+        "P1-003"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "lumen_pressure_economy_v001",
+  "design_thesis": "Lumen is not safe currency; it is bait. Saving for upgrades increases the risk of being found.",
+  "runtime_owner": "src/race/race_rules.c",
+  "lumen_pressure_bands": [
+    {"lumen_min": 0, "lumen_max": 19, "extra_pressure_per_second": 0, "visual_state": "safe_glow", "audio_state": "none"},
+    {"lumen_min": 20, "lumen_max": 39, "extra_pressure_per_second": 1, "visual_state": "soft_lumen_trail", "audio_state": "distant_horn_possible"},
+    {"lumen_min": 40, "lumen_max": 59, "extra_pressure_per_second": 2, "visual_state": "bright_lumen_trail", "audio_state": "hoof_sub_pulse"},
+    {"lumen_min": 60, "lumen_max": 99, "extra_pressure_per_second": 3, "visual_state": "overbright_lumen_trail", "audio_state": "near_breath_noise"}
+  ],
+  "spend_vs_save_loop": {
+    "pulse_cost_lumen": 20,
+    "pulse_pressure_reduction": 18,
+    "guard_shard_hit_cost_lumen": 25,
+    "upgrade_savings_target_low": 40,
+    "upgrade_savings_target_high": 80,
+    "dramatic_question": "Do I spend light to survive this moment, or carry it long enough to evolve?"
+  },
+  "collection_rules": [
+    "Lumen pickup always grants value before pressure band is recalculated.",
+    "Crossing a pressure band plays a subtle warning cue.",
+    "Lumen pressure penalty is disabled during noninteractive cutscene and upgrade selection.",
+    "Lumen pressure penalty is reduced by 50 percent during first 20 seconds of Sector 01."
+  ],
+  "ui_rules": {
+    "lumen_counter_warn_at": 40,
+    "lumen_counter_danger_at": 60,
+    "pressure_meter_should_hint_lumen_cause": true,
+    "hud_contract_ref": "doc/hud_layout_contract.json"
+  },
+  "tuning_defaults": {
+    "sector_01_lumen_pressure_grace_frames": 1200,
+    "pressure_tick_interval_frames": 60,
+    "max_pressure_from_lumen_per_second": 3,
+    "pressure_floor_after_pulse": 0
+  },
+  "validation_plan": [
+    "Collecting to 40 Lumen increases pressure rate in metrics.",
+    "Using Pulse drops Lumen band and reduces pressure.",
+    "Upgrade savings creates measurable pressure risk.",
+    "Player can clear Sector 01 without understanding advanced economy."
+  ]
+}

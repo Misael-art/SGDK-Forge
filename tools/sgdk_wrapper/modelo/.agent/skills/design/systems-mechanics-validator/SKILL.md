@@ -50,7 +50,7 @@ Esta skill existe para impedir que mecanicas entrem em codigo apenas com "ah, is
 | Lei | Pergunta canonica | Bloqueio se falhar |
 |-----|-------------------|---------------------|
 | 1 - Agencia | input latency <= 1 frame? cancel window declarada? | `mechanic_no_skill_expression` |
-| 2 - Feedback/Juice | toda acao tem flash + particula + camera shake + SFX correlato? | `mechanic_feedback_missing` |
+| 2 - Feedback/Juice | toda acao tem resposta visual + SFX + resposta de camera adequada ao impacto? | `mechanic_feedback_missing` |
 | 3 - Fluxo | tutorial invisivel? curva de dificuldade dosada? save points? | `mechanic_underused` |
 | 4 - Consistencia | contrato de cor/forma respeitado? "vermelho = perigo" mantido? | (sem bloqueio direto; reporta em feedback_model) |
 | 5 - Recompensa | drop/chave proporcional ao desafio? gating por drop raro? | `mechanic_no_goal_link` |
@@ -89,7 +89,7 @@ Substituir "alto dano" por "+42 dano fisico" sempre.
 Cada mecanica core deve ter pelo menos 3 layers de feedback:
 - visual (flash, smear, palette shift, sprite replacement)
 - audio (SFX prioritario ou voice bite)
-- camera/haptic (camera shake, screen freeze, controller rumble quando aplicavel)
+- camera/haptic (shake, screen freeze, impulse, focus shift ou nenhuma resposta quando justificado)
 
 ## Bloqueios emitidos
 
@@ -134,4 +134,5 @@ Cada mecanica core deve ter pelo menos 3 layers de feedback:
 - `law_compliance_audit` - audita cada mecanica contra as 5 leis
 - `pillar_completeness` - audita cada mecanica contra os 5 pilares
 - `juice_consistency` - garante feedback multimodal (visual + audio + camera)
+- `camera_feedback_discipline` - camera reforca impacto ou legibilidade, mas nao vira ruido padrao
 - `rng_modeling` - toda probabilidade documentada com taxa e seed strategy

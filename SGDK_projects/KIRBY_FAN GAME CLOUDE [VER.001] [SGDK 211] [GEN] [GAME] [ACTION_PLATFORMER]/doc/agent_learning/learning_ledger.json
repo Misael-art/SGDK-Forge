@@ -1,0 +1,3395 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]"
+  },
+  "policy": {
+    "local_auto_update": true,
+    "canonical_auto_mutation": false,
+    "human_approval_required": true,
+    "evidence_required": true
+  },
+  "generated_at": "2026-08-31T21:49:01Z",
+  "source_digest": "32a8b18e1a2edb5bb2729469025b5ee72e0332ec11581a0199e2ca0411cfda03",
+  "lessons": [
+    {
+      "lesson_id": "lesson_210f9f12264eb6fd",
+      "title": "\"PRESS START\" no titulo custou TRES capturas: (1) no plano WINDOW nao apareceu, (2) em BG_A com `VDP_setTextPriority(TRUE)` saiu como bloco cinza solido em vez de glifos, (3) so funcionou com S/H DESLIGADO",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "press_start_no_titulo_custou_tres_capturas_1_no_plano_window_nao_apareceu_2_em_bg_a_com_vdp_settextpriority_true_saiu_como_bloco_cinza_solido_em_vez_de_glifos_3_so_funcionou_com_s_h_desligado",
+      "context": "texto sob Shadow/Highlight global",
+      "observation": "\"PRESS START\" no titulo custou TRES capturas: (1) no plano WINDOW nao apareceu, (2) em BG_A com `VDP_setTextPriority(TRUE)` saiu como bloco cinza solido em vez de glifos, (3) so funcionou com S/H DESLIGADO",
+      "diagnosis": "(1) o WINDOW nao tem tamanho ate `VDP_setWindowVPos` ser chamado; (2) a fonte do SGDK nao coexiste com S/H global sem tratamento especial",
+      "resolution_or_preventive_heuristic": "**Cena sem efeito que dependa de S/H deve rodar com S/H desligado.** `doc/PALETTES.md` 2.2 trava S/H para cenas de GAMEPLAY por causa do vortex de inalar; titulo e game over nao tem essa necessidade. Brigar com a fonte custou mais que aceitar isso",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/PALETTES.md",
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3ff401f5c6af4782",
+      "title": "3 subagentes Opus lancados em paralelo; TODOS morreram com `You've hit your session limit` sem nenhum concluir. Harness chegou a ~80%, os outros a ~0%",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "3_subagentes_opus_lancados_em_paralelo_todos_morreram_com_you_ve_hit_your_session_limit_sem_nenhum_concluir_harness_chegou_a_80_os_outros_a_0",
+      "context": "orquestracao de subagentes",
+      "observation": "3 subagentes Opus lancados em paralelo; TODOS morreram com `You've hit your session limit` sem nenhum concluir. Harness chegou a ~80%, os outros a ~0%",
+      "diagnosis": "Fan-out paralelo de agentes Opus consome o orcamento da sessao mais rapido do que qualquer um deles termina",
+      "resolution_or_preventive_heuristic": "Serializar: 1 subagente por vez, ou escrever documentos localmente. Fan-out paralelo so para tarefas curtas e independentes",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_1f39f787d8203c9e",
+      "title": "A primeira parada do gradiente passou a durar mais scanlines, em AMBAS as cenas (lago e fase normal). Visualmente o topo virou uma faixa amarela grande",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "a_primeira_parada_do_gradiente_passou_a_durar_mais_scanlines_em_ambas_as_cenas_lago_e_fase_normal_visualmente_o_topo_virou_uma_faixa_amarela_grande",
+      "context": "gradiente de ceu apos as mudancas de agua",
+      "observation": "A primeira parada do gradiente passou a durar mais scanlines, em AMBAS as cenas (lago e fase normal). Visualmente o topo virou uma faixa amarela grande",
+      "diagnosis": "**NAO DETERMINADO.** O H-int esta correto na leitura, `s_skyStop` reseta em `RASTER_frameStart`, e todos os gates passam (parallax exato, cpu p99 59%)",
+      "resolution_or_preventive_heuristic": "**Nao tentar consertar por comparacao de screenshot** \u2014 foi exatamente o erro que custou uma sessao inteira na medicao de parallax. A correcao e exportar `s_skyStop` e `s_hintLine` no bloco KRB1 e LER, como foi feito para o parallax. Registrado como defeito aberto no proprio codigo",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ca680025d1bd837d",
+      "title": "A rampa de rosa que EU especifiquei no pacote R1 (`255,182,182` / `255,146,146` / `219,109,146`) produziu um Kirby salmao, puxado para o laranja, nao o rosa chiclete das referencias",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "a_rampa_de_rosa_que_eu_especifiquei_no_pacote_r1_255_182_182_255_146_146_219_109_146_produziu_um_kirby_salmao_puxado_para_o_laranja_nao_o_rosa_chiclete_das_referencias",
+      "context": "contrato de arte / paleta do protagonista",
+      "observation": "A rampa de rosa que EU especifiquei no pacote R1 (`255,182,182` / `255,146,146` / `219,109,146`) produziu um Kirby salmao, puxado para o laranja, nao o rosa chiclete das referencias",
+      "diagnosis": "Escolhi os tres tons pela grade RGB333 sem checar o matiz contra a referencia; a rampa nao tem lean de magenta",
+      "resolution_or_preventive_heuristic": "Rampa corrigida para `255,219,255` / `255,182,219` / `255,146,182` / `219,73,146` / `146,36,109`. Ao especificar paleta de personagem, validar MATIZ contra referencia antes de travar, nao so legalidade de canal",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/art/R1_VERDICT_AND_R2_PACK.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_eff19a446cc7b47b",
+      "title": "Adicionei `APP_SCENE_STAGE_PLAYTEST = 5` ao enum e liguei o dispatch, mas a captura com `--target-scene 5` teria caido silenciosamente na cena default",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "adicionei_app_scene_stage_playtest_5_ao_enum_e_liguei_o_dispatch_mas_a_captura_com_target_scene_5_teria_caido_silenciosamente_na_cena_default",
+      "context": "adicionar cena nova",
+      "observation": "Adicionei `APP_SCENE_STAGE_PLAYTEST = 5` ao enum e liguei o dispatch, mas a captura com `--target-scene 5` teria caido silenciosamente na cena default",
+      "diagnosis": "PROBE_resolveBootScene` valida `sceneId < sceneCount`, e `sceneCount` vem de `APP_SCENE_COUNT`, um `#define` em `src/core/app.c` \u2014 arquivo DIFERENTE do enum em `inc/game_vars.h`. Esquecer de subir a constante nao gera erro de compilacao, so um fallback mudo",
+      "resolution_or_preventive_heuristic": "Ao adicionar cena: enum em `inc/game_vars.h` + `APP_SCENE_COUNT` em `src/core/app.c` + nome em `APP_sceneName` + `case` no enter e no update. Sao 4 lugares. O gate `scene_identity` pega o fallback, entao SEMPRE conferir esse gate na primeira captura de uma cena nova",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2149c806c8e51e30",
+      "title": "Arena do boss renderizou inteira em roxo escuro. O backdrop apontava para o indice 0 de uma paleta cuja entrada 0 e a CHAVE DE TRANSPARENCIA magenta `(255,0,255)`; com S/H global e sem tile de prioridade cobrindo, o backdrop renderiza SOMBREADO, e magenta pela metade e exatamente aquele roxo",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "arena_do_boss_renderizou_inteira_em_roxo_escuro_o_backdrop_apontava_para_o_indice_0_de_uma_paleta_cuja_entrada_0_e_a_chave_de_transparencia_magenta_255_0_255_com_s_h_global_e_sem_tile_de_prioridade_cobrindo_o_backdrop_renderiza_sombreado_e_magenta_pela_metade_e_exatamente_aquele_roxo",
+      "context": "backdrop sob Shadow/Highlight",
+      "observation": "Arena do boss renderizou inteira em roxo escuro. O backdrop apontava para o indice 0 de uma paleta cuja entrada 0 e a CHAVE DE TRANSPARENCIA magenta `(255,0,255)`; com S/H global e sem tile de prioridade cobrindo, o backdrop renderiza SOMBREADO, e magenta pela metade e exatamente aquele roxo",
+      "diagnosis": "Reaproveitei a paleta de uma imagem cujo indice 0 e chave de transparencia, sem dar ao backdrop uma cor real",
+      "resolution_or_preventive_heuristic": "Em cena com S/H, **dar ao indice do backdrop uma cor de verdade** com `PAL_setColor`. Chave de transparencia nunca deve ser o backdrop",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_19ddea5003ff4d1a",
+      "title": "As cores do screenshot NAO estao na grade RGB333: medi `(119,87,49)` onde a paleta tem `(109,73,36)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "as_cores_do_screenshot_nao_estao_na_grade_rgb333_medi_119_87_49_onde_a_paleta_tem_109_73_36",
+      "context": "cor no screenshot vs cor no CRAM",
+      "observation": "As cores do screenshot NAO estao na grade RGB333: medi `(119,87,49)` onde a paleta tem `(109,73,36)",
+      "diagnosis": "BlastEm converte cor de 9 bits para RGB com uma curva de DAC mais realista que `n*255/7`. O screenshot nao e uma amostra fiel do CRAM",
+      "resolution_or_preventive_heuristic": "Legalidade RGB333 so pode ser verificada no CRAM via VLAB, nunca no PNG. O gate `cram_rgb333_legal` ja faz certo; NAO adicionar um gate equivalente sobre screenshot, ele daria falso negativo",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3faf36f03e57fd3c",
+      "title": "Auditoria de prioridade lia 0 entradas de BG_A e eu registrei a causa como \"nao determinada\", levantando suspeita de delay de leitura de VRAM ou restricao em display ativo. **ESSA LICAO ESTAVA ERRADA.** As leituras sempre funcionaram: diagnostico cru devolveu `0xA083` (tile 131, prioridade 1, paleta 1) para BG_A linha 22",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "auditoria_de_prioridade_lia_0_entradas_de_bg_a_e_eu_registrei_a_causa_como_nao_determinada_levantando_suspeita_de_delay_de_leitura_de_vram_ou_restricao_em_display_ativo_essa_licao_estava_errada_as_leituras_sempre_funcionaram_diagnostico_cru_devolveu_0xa083_tile_131_prioridade_1_paleta_1_para_bg_a_linha_22",
+      "context": "probe / leitura de VRAM \u2014 **LICAO CORRIGIDA**",
+      "observation": "Auditoria de prioridade lia 0 entradas de BG_A e eu registrei a causa como \"nao determinada\", levantando suspeita de delay de leitura de VRAM ou restricao em display ativo. **ESSA LICAO ESTAVA ERRADA.** As leituras sempre funcionaram: diagnostico cru devolveu `0xA083` (tile 131, prioridade 1, paleta 1) para BG_A linha 22",
+      "diagnosis": "A causa real foi um `str.replace` meu que NAO APLICOU (a string alvo tinha mudado), deixando o passo de amostragem em 128 bytes = linhas 0-15, onde BG_A esta vazio. Eu acreditei que a edicao tinha aplicado e culpei o hardware",
+      "resolution_or_preventive_heuristic": "**Verificar que toda edicao por script APLICOU antes de interpretar o resultado.** `grep` no valor novo, nao confiar no print do proprio script. Segunda ocorrencia da mesma classe de erro nesta sessao (a primeira foi o bloco de telemetria caindo em `SCENE_stageEnter`)",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_13a00e9ed3a4ce95",
+      "title": "Build e capturas passaram a falhar com `fallocate: Nao ha espaco disponivel no dispositivo`, em 0.07 s, antes de compilar. O host tinha 46 GB livres, o que mascarou o problema por varias tentativas",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "build_e_capturas_passaram_a_falhar_com_fallocate_nao_ha_espaco_disponivel_no_dispositivo_em_0_07_s_antes_de_compilar_o_host_tinha_46_gb_livres_o_que_mascarou_o_problema_por_varias_tentativas",
+      "context": "ambiente / flatpak bloqueado",
+      "observation": "Build e capturas passaram a falhar com `fallocate: Nao ha espaco disponivel no dispositivo`, em 0.07 s, antes de compilar. O host tinha 46 GB livres, o que mascarou o problema por varias tentativas",
+      "diagnosis": "**`/run/user/1000` (XDG_RUNTIME_DIR, tmpfs de 1,5 GB) estava 100% cheio.** O flatpak precisa de espaco la para montar o sandbox, entao `flatpak run` falhava na largada. Os 1,5 GB inteiros eram `codex-desktop/tmp/pytest-of-misael` \u2014 tres `Metroid.state` de 512 MB de testes de OUTRO app",
+      "resolution_or_preventive_heuristic": "**Quando flatpak falhar com ENOSPC, checar `/run/user/$UID`, nao so `df` do projeto.** Provavelmente e a mesma causa dos `window_timeout` intermitentes do BlastEm, que eu havia atribuido a processos orfaos \u2014 aquele diagnostico estava incompleto. Nao deletei: dados de outro app",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_aa5eb3f99671b323",
+      "title": "Com o holofote a arena foi a 106%. Gastei imediatamente a **alavanca 2** do \u00a75.1 (7 -> 5 segmentos do galho) sem antes procurar desperdicio \u2014 violando a licao que eu mesmo tinha registrado na sessao da arena",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "com_o_holofote_a_arena_foi_a_106_gastei_imediatamente_a_alavanca_2_do_5_1_7_5_segmentos_do_galho_sem_antes_procurar_desperdicio_violando_a_licao_que_eu_mesmo_tinha_registrado_na_sessao_da_arena",
+      "context": "gastei degradacao antes de procurar desperdicio",
+      "observation": "Com o holofote a arena foi a 106%. Gastei imediatamente a **alavanca 2** do \u00a75.1 (7 -> 5 segmentos do galho) sem antes procurar desperdicio \u2014 violando a licao que eu mesmo tinha registrado na sessao da arena",
+      "diagnosis": "Reflexo de pegar a ferramenta documentada em vez de investigar. A alavanca funcionou (106% -> 92%), o que mascarou o erro de ordem",
+      "resolution_or_preventive_heuristic": "**Ordem correta: desperdicio -> otimizacao sem perda -> degradacao.** E quando a degradacao for inevitavel, deve pagar quem CAUSOU o custo: aqui o holofote (feature nova) foi reduzido de 5 para 3 sprites e resolveu os 3 frames restantes, em vez de cortar mais o boss",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_a6343549e3ff95e8",
+      "title": "Com Shadow/Highlight global, `VDP_clearTextArea` em BG_A gerava 16 de 16 entradas amostradas em prioridade 0",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "com_shadow_highlight_global_vdp_cleartextarea_em_bg_a_gerava_16_de_16_entradas_amostradas_em_prioridade_0",
+      "context": "prioridade de tile vs area de texto",
+      "observation": "Com Shadow/Highlight global, `VDP_clearTextArea` em BG_A gerava 16 de 16 entradas amostradas em prioridade 0",
+      "diagnosis": "VDP_clearTextArea` preenche a area com o glifo BRANCO da fonte, cujo indice de tile e NAO ZERO e cuja prioridade e 0. Sao invisiveis, mas continuam sendo tiles de fundo em prioridade 0",
+      "resolution_or_preventive_heuristic": "Em cena com S/H ligado, usar `VDP_clearPlane` e NAO `VDP_clearTextArea`. Corrigido: BG_A saiu de 16/16 violacoes para 0",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3eade6a118741916",
+      "title": "Correlacao cruzada da banda do terreno devolveu +42 px, inconsistente com a camera inferida das outras bandas (~118 px)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "correlacao_cruzada_da_banda_do_terreno_devolveu_42_px_inconsistente_com_a_camera_inferida_das_outras_bandas_118_px",
+      "context": "medicao de parallax por screenshot",
+      "observation": "Correlacao cruzada da banda do terreno devolveu +42 px, inconsistente com a camera inferida das outras bandas (~118 px)",
+      "diagnosis": "O terreno usa padrao xadrez periodico; correlacao cruzada em sinal periodico aliasa e trava num lag errado",
+      "resolution_or_preventive_heuristic": "Medir deslocamento por FEICAO UNICA (borda de vao, marco assimetrico), nao por correlacao, quando a textura for periodica. Ou instrumentar o probe para exportar a tabela de HScroll",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_85ddad13807b8b39",
+      "title": "Desligar a musica para isolar a fonte do sinal devolveu RMS MAIOR sem musica (27550) do que com (16906) \u2014 resultado impossivel que expos a leitura errada do formato",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "desligar_a_musica_para_isolar_a_fonte_do_sinal_devolveu_rms_maior_sem_musica_27550_do_que_com_16906_resultado_impossivel_que_expos_a_leitura_errada_do_formato",
+      "context": "teste de controle que salvou o diagnostico",
+      "observation": "Desligar a musica para isolar a fonte do sinal devolveu RMS MAIOR sem musica (27550) do que com (16906) \u2014 resultado impossivel que expos a leitura errada do formato",
+      "diagnosis": "O teste de controle nao \"funcionou\" no sentido de confirmar a hipotese; ele produziu um absurdo, e o absurdo foi o sinal util",
+      "resolution_or_preventive_heuristic": "Quando um teste de controle devolve algo fisicamente impossivel, **o instrumento esta errado, nao o sistema**. Parar e checar o instrumento antes de teorizar sobre o sistema",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_34847f1e69f44faf",
+      "title": "doc/10-memory-bank.md` recem-criado afirmava ROM `22a80b7c...` de 262144 bytes, `build_v002`, 5 assets versionados e blockers `visual_direction_failed`, tudo datado de mai/jun 2026 \u2014 antes do projeto existir",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "doc_10_memory_bank_md_recem_criado_afirmava_rom_22a80b7c_de_262144_bytes_build_v002_5_assets_versionados_e_blockers_visual_direction_failed_tudo_datado_de_mai_jun_2026_antes_do_projeto_existir",
+      "context": "bootstrap de projeto novo",
+      "observation": "doc/10-memory-bank.md` recem-criado afirmava ROM `22a80b7c...` de 262144 bytes, `build_v002`, 5 assets versionados e blockers `visual_direction_failed`, tudo datado de mai/jun 2026 \u2014 antes do projeto existir",
+      "diagnosis": "new_project.sh` copia o memory bank do template COM o conteudo do template dentro; so os placeholders `__PROJECT_NAME__` sao substituidos",
+      "resolution_or_preventive_heuristic": "Primeira sessao de qualquer projeto novo DEVE zerar `doc/10-memory-bank.md`. E a autoridade #1 da HIERARQUIA DE VERDADE; herdado sujo, ele faz a sessao 2 decidir sobre fatos inexistentes",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/10-memory-bank.md",
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_41f6e38a52e9ac99",
+      "title": "Duas capturas seguidas falharam com `reason=window_timeout` e `blastem.log` de 0 bytes. Matei o processo `blastem.bin` orfao por PID e AINDA falhou",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "duas_capturas_seguidas_falharam_com_reason_window_timeout_e_blastem_log_de_0_bytes_matei_o_processo_blastem_bin_orfao_por_pid_e_ainda_falhou",
+      "context": "captura / `window_timeout",
+      "observation": "Duas capturas seguidas falharam com `reason=window_timeout` e `blastem.log` de 0 bytes. Matei o processo `blastem.bin` orfao por PID e AINDA falhou",
+      "diagnosis": "O bloqueio nao era o processo `blastem.bin` e sim uma **instancia flatpak presa** da execucao anterior, visivel em `flatpak ps` e nao em `ps -eo comm",
+      "resolution_or_preventive_heuristic": "Ao ver `window_timeout`, checar **`flatpak ps`** alem de `ps`. A instancia costuma se liberar sozinha em ~1 min; a tentativa seguinte funcionou sem intervencao",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_51be820bb8bfdec4",
+      "title": "Entre 17 e 31 entradas CONTIGUAS de CRAM (PAL0[1..15] + PAL1 inteira) sobrescritas com um verde uniforme `0x04A0`, de forma NAO DETERMINISTICA (numero de entradas variava por execucao). PAL2/PAL3 intactas. Tela ficava verde",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "entre_17_e_31_entradas_contiguas_de_cram_pal0_1_15_pal1_inteira_sobrescritas_com_um_verde_uniforme_0x04a0_de_forma_nao_deterministica_numero_de_entradas_variava_por_execucao_pal2_pal3_intactas_tela_ficava_verde",
+      "context": "raster / H-interrupt vs DMA",
+      "observation": "Entre 17 e 31 entradas CONTIGUAS de CRAM (PAL0[1..15] + PAL1 inteira) sobrescritas com um verde uniforme `0x04A0`, de forma NAO DETERMINISTICA (numero de entradas variava por execucao). PAL2/PAL3 intactas. Tela ficava verde",
+      "diagnosis": "O H-int escreve `VDP_CTRL_PORT` (endereco de CRAM) e depois `VDP_DATA_PORT`. O SGDK faz flush da fila de DMA dentro de `SYS_doVBlankProcess`, e um DMA tambem e \"escreve a porta de controle, depois transfere\". Quando o H-int caia ENTRE esses dois passos, sobrescrevia o endereco pendente e o DMA da tabela de HScroll aterrissava no CRAM",
+      "resolution_or_preventive_heuristic": "**Nenhuma interrupcao pode cair no meio de uma sequencia de portas do VDP.** Mascarar o H-int durante TODO o VBlank via `SYS_setVIntCallback` e re-armar no inicio do frame. O H-int em si estava correto isolado; a vitima era o codigo interrompido. Vale para qualquer projeto que combine H-int com fila de DMA do SGDK",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_d469051850071999",
+      "title": "Eu media luminancia com `0.299/0.587/0.114` e o executor com sRGB `0.2126/0.7152/0.0722`. Mesma imagem, dois numeros (0.2496 vs 0.269899). Passou por sorte, nao por acordo",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "eu_media_luminancia_com_0_299_0_587_0_114_e_o_executor_com_srgb_0_2126_0_7152_0_0722_mesma_imagem_dois_numeros_0_2496_vs_0_269899_passou_por_sorte_nao_por_acordo",
+      "context": "criterio de aceite de arte / formula",
+      "observation": "Eu media luminancia com `0.299/0.587/0.114` e o executor com sRGB `0.2126/0.7152/0.0722`. Mesma imagem, dois numeros (0.2496 vs 0.269899). Passou por sorte, nao por acordo",
+      "diagnosis": "Nao especifiquei a formula no criterio de aceite",
+      "resolution_or_preventive_heuristic": "Toda metrica numerica em pedido de arte precisa vir com a FORMULA. Canonizada no projeto: `L = (0.2126R + 0.7152G + 0.0722B)/255",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "doc/art/R2_VERDICT_AND_R3_PACK.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_7b444189c9b819d2",
+      "title": "fix16ToInt(..)` faz o build FALHAR com `error: This method is deprecated`, nao warning",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "fix16toint_faz_o_build_falhar_com_error_this_method_is_deprecated_nao_warning",
+      "context": "migracao SGDK 2.11",
+      "observation": "fix16ToInt(..)` faz o build FALHAR com `error: This method is deprecated`, nao warning",
+      "diagnosis": "SGDK 2.11 marca os helpers fix16 antigos com `_Pragma(\"GCC error ...\")",
+      "resolution_or_preventive_heuristic": "Usar `F16_toInt(..)`. Vale a pena varrer a tabela de migracao do AGENTS.md por outros helpers com o mesmo tratamento antes de escrever codigo novo",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_bb2c32dc6810b748",
+      "title": "Gradiente de ceu por H-int escrevendo o indice 1 de PAL0 deixou a faixa das montanhas MAGENTA na tela",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "gradiente_de_ceu_por_h_int_escrevendo_o_indice_1_de_pal0_deixou_a_faixa_das_montanhas_magenta_na_tela",
+      "context": "raster / gradiente de ceu",
+      "observation": "Gradiente de ceu por H-int escrevendo o indice 1 de PAL0 deixou a faixa das montanhas MAGENTA na tela",
+      "diagnosis": "VDP_setBackgroundColor(0)` aponta o backdrop para CRAM[0], que era a chave magenta do PNG. Onde ambos os planos eram transparentes aparecia a chave",
+      "resolution_or_preventive_heuristic": "Gradiente de ceu deve dirigir o BACKDROP (CRAM 0), nao um indice de tile. Beneficio extra: o ceu passa a custar 1 entrada de CRAM e ZERO tiles",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_972fa0223eb31403",
+      "title": "Inseri `SKY_NIGHT` e `s_useNight` DEPOIS do H-int que os usa; build quebrou com `undeclared",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "inseri_sky_night_e_s_usenight_depois_do_h_int_que_os_usa_build_quebrou_com_undeclared",
+      "context": "ordem de declaracao em C, 3a ocorrencia",
+      "observation": "Inseri `SKY_NIGHT` e `s_useNight` DEPOIS do H-int que os usa; build quebrou com `undeclared",
+      "diagnosis": "Terceira vez nesta sessao que uma insercao por script cai depois do primeiro uso",
+      "resolution_or_preventive_heuristic": "Ao inserir simbolo novo em C por script, ancorar na DEFINICAO relacionada (aqui, logo apos `SKY_GRADIENT`), nunca numa funcao arbitraria",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3cb945be6ee7ff9c",
+      "title": "Li `audio.raw` do BlastEm como int16 e conclui que a musica era uma \"onda quadrada em escala cheia\" com pico de -0.1 dBFS e RMS de -5.7 dBFS. **Tudo errado.** O arquivo e **float32, 48 kHz, estereo** \u2014 o pico real era -18.5 dBFS, com folga saudavel",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "li_audio_raw_do_blastem_como_int16_e_conclui_que_a_musica_era_uma_onda_quadrada_em_escala_cheia_com_pico_de_0_1_dbfs_e_rms_de_5_7_dbfs_tudo_errado_o_arquivo_e_float32_48_khz_estereo_o_pico_real_era_18_5_dbfs_com_folga_saudavel",
+      "context": "analise de audio / formato do dump",
+      "observation": "Li `audio.raw` do BlastEm como int16 e conclui que a musica era uma \"onda quadrada em escala cheia\" com pico de -0.1 dBFS e RMS de -5.7 dBFS. **Tudo errado.** O arquivo e **float32, 48 kHz, estereo** \u2014 o pico real era -18.5 dBFS, com folga saudavel",
+      "diagnosis": "Assumi o formato em vez de conferir. O proprio `blastem.log` do bundle dizia, em texto claro: `Initialized audio at frequency 48000 with a 1024 sample buffer, 32-bit float format",
+      "resolution_or_preventive_heuristic": "**Conferir o formato no log antes de interpretar qualquer dump binario.** A informacao estava a um `grep` de distancia. Pior: eu MUDEI CODIGO (silenciei PSG, subi TL) com base na leitura errada, e quase reivindiquei ter consertado um problema que nunca existiu",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_7e3e802f477edeec",
+      "title": "linux_blastem_capture_status=blocked reason=window_timeout` e o processo `blastem.bin` ficou pendurado, travando a captura seguinte",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "linux_blastem_capture_status_blocked_reason_window_timeout_e_o_processo_blastem_bin_ficou_pendurado_travando_a_captura_seguinte",
+      "context": "captura BlastEm em Linux",
+      "observation": "linux_blastem_capture_status=blocked reason=window_timeout` e o processo `blastem.bin` ficou pendurado, travando a captura seguinte",
+      "diagnosis": "Timeout da janela deixa o emulador orfao; a proxima captura disputa o X11",
+      "resolution_or_preventive_heuristic": "Antes de reexecutar captura apos timeout, matar o `blastem.bin` orfao por PID. NAO usar `pkill -f blastem`: o padrao casa com o proprio comando do agente e mata o shell",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_d367a62df480a2fc",
+      "title": "Meu primeiro suspeito pela corrupcao de CRAM foi o flash de paleta da habilidade (`PAL_setColor`), porque era a unica escrita de paleta nova. Estava ERRADO: desliguei o flash e a corrupcao persistiu (17 entradas)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "meu_primeiro_suspeito_pela_corrupcao_de_cram_foi_o_flash_de_paleta_da_habilidade_pal_setcolor_porque_era_a_unica_escrita_de_paleta_nova_estava_errado_desliguei_o_flash_e_a_corrupcao_persistiu_17_entradas",
+      "context": "diagnostico por eliminacao",
+      "observation": "Meu primeiro suspeito pela corrupcao de CRAM foi o flash de paleta da habilidade (`PAL_setColor`), porque era a unica escrita de paleta nova. Estava ERRADO: desliguei o flash e a corrupcao persistiu (17 entradas)",
+      "diagnosis": "Escolhi o suspeito pela proximidade temporal da mudanca, nao por mecanismo. O flash escrevia 1 entrada; o defeito afetava 31. A aritmetica ja dizia que nao fechava",
+      "resolution_or_preventive_heuristic": "Quando o sintoma tem ESCALA muito maior que o suspeito (1 entrada vs 31), descartar o suspeito por aritmetica ANTES de gastar um build para testa-lo",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_91c8466d965daacc",
+      "title": "Na primeira versao o pan congelava `KIRBY_update` e `ENEMY_updateAll` inteiros. Kirby e os inimigos ficaram FLUTUANDO no ar durante todo o pan porque a gravidade nunca rodava",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "na_primeira_versao_o_pan_congelava_kirby_update_e_enemy_updateall_inteiros_kirby_e_os_inimigos_ficaram_flutuando_no_ar_durante_todo_o_pan_porque_a_gravidade_nunca_rodava",
+      "context": "pan de abertura de cena",
+      "observation": "Na primeira versao o pan congelava `KIRBY_update` e `ENEMY_updateAll` inteiros. Kirby e os inimigos ficaram FLUTUANDO no ar durante todo o pan porque a gravidade nunca rodava",
+      "diagnosis": "Confundi \"jogador sem controle\" com \"mundo parado\"",
+      "resolution_or_preventive_heuristic": "Durante cutscene/pan, suprimir apenas o INPUT (passar `held=0, pressed=0`), nunca a simulacao. Pan sobre mundo vivo le como intencional; sobre mundo congelado le como bug de fisica",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_d487c0697ac34b78",
+      "title": "O efeito R3 (distorcao senoidal da agua) nao aparecia: a tabela de HScroll nunca era reconstruida",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "o_efeito_r3_distorcao_senoidal_da_agua_nao_aparecia_a_tabela_de_hscroll_nunca_era_reconstruida",
+      "context": "otimizacao que quebrou efeito animado",
+      "observation": "O efeito R3 (distorcao senoidal da agua) nao aparecia: a tabela de HScroll nunca era reconstruida",
+      "diagnosis": "A otimizacao \"pular rebuild quando a camera nao move\", que eu havia adicionado para salvar a arena do boss (96%->78% de CPU), tambem pula a reconstrucao quando a distorcao e ANIMADA. Camera parada nao significa tabela estatica",
+      "resolution_or_preventive_heuristic": "Otimizacao baseada em \"entrada nao mudou\" precisa considerar TODAS as entradas, nao so a obvia. A condicao virou `(cameraX == s_lastCameraX) && (s_waterline < 0)`. Toda otimizacao de cache deve listar o que a invalida",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_8d974252215eab15",
+      "title": "O efeito R4 (troca de paleta submersa) nunca disparava",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "o_efeito_r4_troca_de_paleta_submersa_nunca_disparava",
+      "context": "derivar scanline de um contador saturado",
+      "observation": "O efeito R4 (troca de paleta submersa) nunca disparava",
+      "diagnosis": "Eu derivava a scanline de `stop * LINES_PER_STOP`, mas `stop` satura em `RASTER_SKY_STOPS` (12), logo a linha calculada travava em 144 \u2014 e a linha d'agua estava em 150. O H-int continua disparando o frame inteiro, mas o contador do gradiente nao",
+      "resolution_or_preventive_heuristic": "Nao reutilizar um contador que SATURA como se fosse um relogio. Um contador de linha proprio (`s_hintLine`) que so incrementa resolve",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_d64c21eb0fb8f011",
+      "title": "O executor declarou no proprio relatorio a metrica que o reprovava (`palette_colors: 47`) e o hack que usou para atingir o alvo (`palette_snap_micro_dither ... purpose: enter the requested luminance interval`), em vez de esconder",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "o_executor_declarou_no_proprio_relatorio_a_metrica_que_o_reprovava_palette_colors_47_e_o_hack_que_usou_para_atingir_o_alvo_palette_snap_micro_dither_purpose_enter_the_requested_luminance_interval_em_vez_de_esconder",
+      "context": "loop construtor/critico com agente externo",
+      "observation": "O executor declarou no proprio relatorio a metrica que o reprovava (`palette_colors: 47`) e o hack que usou para atingir o alvo (`palette_snap_micro_dither ... purpose: enter the requested luminance interval`), em vez de esconder",
+      "diagnosis": "Exigir relatorio mecanico com numeros por criterio, e nao apenas \"feito\", torna o desvio visivel e barato de corrigir",
+      "resolution_or_preventive_heuristic": "Manter a exigencia de relatorio mensuravel por criterio em todo handoff de arte. Verificar de forma independente de qualquer modo \u2014 confiei no numero e medi de novo; foi o que revelou a divergencia de formula",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "data/source_art/r2/r2_mechanical_validation.json",
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_c3538351c3f6df15",
+      "title": "O prompt piscava (34 de 60 frames ligado) e duas capturas o pegaram no frame apagado \u2014 indistinguivel de \"nao renderiza\"",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "o_prompt_piscava_34_de_60_frames_ligado_e_duas_capturas_o_pegaram_no_frame_apagado_indistinguivel_de_nao_renderiza",
+      "context": "prompt piscante vs captura estatica",
+      "observation": "O prompt piscava (34 de 60 frames ligado) e duas capturas o pegaram no frame apagado \u2014 indistinguivel de \"nao renderiza\"",
+      "diagnosis": "Screenshot estatico nao consegue provar animacao; so consegue pega-la desligada",
+      "resolution_or_preventive_heuristic": "**Affordance essencial nao pisca.** Se um elemento precisa ser provado por captura, ele tem de estar sempre visivel. Animacao e para o jogador, nao para o gate",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_c016daf894e19d73",
+      "title": "O script do boss segurava B do inicio ao fim. Resultado: `kirby_hurt` ficou NAO, porque Kirby engolia toda maca antes de ser atingido \u2014 o caminho de dano NELE nunca era exercitado",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "o_script_do_boss_segurava_b_do_inicio_ao_fim_resultado_kirby_hurt_ficou_nao_porque_kirby_engolia_toda_maca_antes_de_ser_atingido_o_caminho_de_dano_nele_nunca_era_exercitado",
+      "context": "script de playtest que se auto-impede",
+      "observation": "O script do boss segurava B do inicio ao fim. Resultado: `kirby_hurt` ficou NAO, porque Kirby engolia toda maca antes de ser atingido \u2014 o caminho de dano NELE nunca era exercitado",
+      "diagnosis": "Um script otimo em jogar e pessimo em cobrir. Jogar bem evita justamente os estados que precisam ser provados",
+      "resolution_or_preventive_heuristic": "Script de cobertura precisa **tomar dano de proposito**. Inseri 300 frames parado sem inalar antes de contra-atacar. `kirby_hurt` passou a SIM",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_6f0ff93c1051a974",
+      "title": "Olhei a captura do lago, vi a distorcao e a paleta submersa funcionando, e ia declarar R3/R4 prontos. Os gates diziam outra coisa: **cpu p99 111% e 306 frames acima do budget** \u2014 a cena nao cabia num frame",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "olhei_a_captura_do_lago_vi_a_distorcao_e_a_paleta_submersa_funcionando_e_ia_declarar_r3_r4_prontos_os_gates_diziam_outra_coisa_cpu_p99_111_e_306_frames_acima_do_budget_a_cena_nao_cabia_num_frame",
+      "context": "screenshot como prova de performance",
+      "observation": "Olhei a captura do lago, vi a distorcao e a paleta submersa funcionando, e ia declarar R3/R4 prontos. Os gates diziam outra coisa: **cpu p99 111% e 306 frames acima do budget** \u2014 a cena nao cabia num frame",
+      "diagnosis": "F16_sin()` chamado uma vez POR LINHA POR FRAME para ~74 linhas. Um efeito pode estar visualmente perfeito e ainda assim nao caber no orcamento; screenshot nao mede tempo",
+      "resolution_or_preventive_heuristic": "**Rodar os gates ANTES de declarar um efeito pronto, sempre.** Corrigido com tabela de 64 entradas pre-computada: mesma imagem, **111% -> 71%, 306 -> 0 frames**. Trigonometria por frame em MD e quase sempre tabela, nao funcao",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3051f49e44a1a92b",
+      "title": "parallax_layer_speeds` reprovou o terreno no lago: media `hs_terrain=2` com `camera_x=0",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "parallax_layer_speeds_reprovou_o_terreno_no_lago_media_hs_terrain_2_com_camera_x_0",
+      "context": "gate lendo duas coisas na mesma amostra",
+      "observation": "parallax_layer_speeds` reprovou o terreno no lago: media `hs_terrain=2` com `camera_x=0",
+      "diagnosis": "O probe amostrava `s_hscrollA[200]`, que agora carrega o scroll de parallax **mais** a ondulacao da agua. Dois efeitos somados numa amostra so, e o gate so conhece a formula de um deles",
+      "resolution_or_preventive_heuristic": "Telemetria deve publicar o valor da grandeza que o gate mede, nao o valor final da porta. Passei a publicar `-cameraX` (o parallax puro); a ondulacao e outro assunto e precisa do proprio gate se um dia importar",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_1093ef10b4b7f3b7",
+      "title": "Pedi \"luminancia media da camada 5 entre 0.24 e 0.27\". O executor precisou adicionar 4454 px de micro-dither para caber na janela apos snap na grade RGB333, criando 8 cores novas e estourando o teto de 45 cores (foi para 47)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "pedi_luminancia_media_da_camada_5_entre_0_24_e_0_27_o_executor_precisou_adicionar_4454_px_de_micro_dither_para_caber_na_janela_apos_snap_na_grade_rgb333_criando_8_cores_novas_e_estourando_o_teto_de_45_cores_foi_para_47",
+      "context": "criterio de aceite de arte / luminancia",
+      "observation": "Pedi \"luminancia media da camada 5 entre 0.24 e 0.27\". O executor precisou adicionar 4454 px de micro-dither para caber na janela apos snap na grade RGB333, criando 8 cores novas e estourando o teto de 45 cores (foi para 47)",
+      "diagnosis": "Janela apertada em ponto flutuante sobre espaco discreto de 8 niveis por canal e praticamente inalcancavel sem dithering; o criterio empurrou o executor para o defeito",
+      "resolution_or_preventive_heuristic": "Criterio de valor em espaco indexado deve ser em DEGRAUS DE PALETA, nao em float: \"remapear para tons ja existentes, 2 degraus abaixo da camada vizinha, zero cores novas\". Teto de cores e gate mais forte que alvo de luminancia",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "data/source_art/r2/r2_mechanical_validation.json",
+          "doc/agent_learning/failure_patterns.md",
+          "doc/art/R2_VERDICT_AND_R3_PACK.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_53c676e86df30328",
+      "title": "Pedir autocritica honesta em `notes.md` fez o agente externo prever o proprio defeito antes do julgamento (colapso das bochechas a 28px; geometria nao modular no R1-06)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "pedir_autocritica_honesta_em_notes_md_fez_o_agente_externo_prever_o_proprio_defeito_antes_do_julgamento_colapso_das_bochechas_a_28px_geometria_nao_modular_no_r1_06",
+      "context": "julgamento de arte por medicao",
+      "observation": "Pedir autocritica honesta em `notes.md` fez o agente externo prever o proprio defeito antes do julgamento (colapso das bochechas a 28px; geometria nao modular no R1-06)",
+      "diagnosis": "Criterio de aceite explicito + pedido de autocritica reduz alegacao de conformidade falsa",
+      "resolution_or_preventive_heuristic": "Manter \"diga do que voce nao gostou\" em todo pacote de pedido de arte",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_b892592dc39c6d30",
+      "title": "playtest_completed` reprovou: script de ~2400 frames (40 s) sob captura de 32 s parou no passo 6 de 7",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "playtest_completed_reprovou_script_de_2400_frames_40_s_sob_captura_de_32_s_parou_no_passo_6_de_7",
+      "context": "duracao de script vs janela de captura",
+      "observation": "playtest_completed` reprovou: script de ~2400 frames (40 s) sob captura de 32 s parou no passo 6 de 7",
+      "diagnosis": "Escrevi o script sem somar a duracao contra o `--warmup-seconds` da captura",
+      "resolution_or_preventive_heuristic": "Somar os frames do script e garantir folga. Encurtei para ~1610 frames (~27 s) sob captura de 30 s. O gate `playtest_completed` existe exatamente para pegar isso",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_20af4ac5866637ef",
+      "title": "playtest_coverage` reprovou uma captura de boss por faltar 8 dos 11 estados de locomocao",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "playtest_coverage_reprovou_uma_captura_de_boss_por_faltar_8_dos_11_estados_de_locomocao",
+      "context": "gate exigindo o que a cena nao promete",
+      "observation": "playtest_coverage` reprovou uma captura de boss por faltar 8 dos 11 estados de locomocao",
+      "diagnosis": "O gate assumia que TODA captura de playtest tenta cobrir locomocao. O script do boss cobre o loop de combate; locomocao e trabalho do script de fase",
+      "resolution_or_preventive_heuristic": "Gate precisa saber o CONTEXTO. Detecta captura de boss pelos bits de combate e reporta locomocao como informativo. Um gate que reprova a cena por nao fazer algo que ela nunca prometeu treina o time a ignorar gates",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3e25fb2f5296933f",
+      "title": "PLAYTEST_STATE_ABILITY_USED` nao foi inserido no header: o `replace` nao casou por diferenca de ESPACAMENTO no comentario alinhado",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "playtest_state_ability_used_nao_foi_inserido_no_header_o_replace_nao_casou_por_diferenca_de_espacamento_no_comentario_alinhado",
+      "context": "edicao por script, 4a ocorrencia",
+      "observation": "PLAYTEST_STATE_ABILITY_USED` nao foi inserido no header: o `replace` nao casou por diferenca de ESPACAMENTO no comentario alinhado",
+      "diagnosis": "Quarta vez na mesma sessao. Ancorei numa string com espacamento que eu supus, sem conferir o arquivo",
+      "resolution_or_preventive_heuristic": "Para insercao em header com comentarios alinhados, usar a ferramenta de edicao que **falha alto** quando o alvo nao casa, em vez de `str.replace` que falha em silencio. E sempre `grep` no simbolo novo antes de buildar",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_8dc8b372212329dc",
+      "title": "Portei do projeto irmao GROK BUILD o gate de solidez de indice (`center_idx0 < 5%`, `opaque > 35%`) e previ que ele explicaria por que P1..P4 foram reprovadas. **Nao explicou.** O Kirby do P1 passa nos 8 frames com `center_idx0=0.0%`, `opaque=50-60%` e **9 tons de corpo** \u2014 mais tons que o placeholder atual (5) e mais que o R6 do GROK (6), que foi aceito com nota 7.2 em personagem",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-08",
+      "problem_signature": "portei_do_projeto_irmao_grok_build_o_gate_de_solidez_de_indice_center_idx0_5_opaque_35_e_previ_que_ele_explicaria_por_que_p1_p4_foram_reprovadas_nao_explicou_o_kirby_do_p1_passa_nos_8_frames_com_center_idx0_0_0_opaque_50_60_e_9_tons_de_corpo_mais_tons_que_o_placeholder_atual_5_e_mais_que_o_r6_do_grok_6_que_foi_aceito_com_nota_7_2_em_personagem",
+      "context": "hipotese minha, falsificada pela medicao",
+      "observation": "Portei do projeto irmao GROK BUILD o gate de solidez de indice (`center_idx0 < 5%`, `opaque > 35%`) e previ que ele explicaria por que P1..P4 foram reprovadas. **Nao explicou.** O Kirby do P1 passa nos 8 frames com `center_idx0=0.0%`, `opaque=50-60%` e **9 tons de corpo** \u2014 mais tons que o placeholder atual (5) e mais que o R6 do GROK (6), que foi aceito com nota 7.2 em personagem",
+      "diagnosis": "Confundi duas classes de falha. O gate mede **corpo virou buraco de hardware** (indice 0 = transparencia do VDP), que foi o que matou a integracao de arte AI do GROK. O que matou o P1 foi **forma/apelo procedural**, que nao tem assinatura em histograma de indice. Minha hipotese secundaria (riqueza tonal como proxy de qualidade) tambem morreu no mesmo dado",
+      "resolution_or_preventive_heuristic": "**Manter o gate, mas nao vende-lo como o que nao e.** Ele e seguro barato contra um defeito real e invisivel em preview \u2014 achou 1 defeito legitimo no P3 (`frame_06_float`, `center_idx0=20.8%`). Nao substitui model sheet aprovado por humano. Esta e a razao de `technical_pass_visual_fail` ser um STATUS NOMEADO e nao um numero: a classe de falha que sobra e justamente a que nenhuma estatistica de pixel captura",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "unknown",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/solidity_p1_vs_archive.json"
+        ],
+        "gaps": [
+          "evidence_freshness_unproven",
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_daeefbba61504463",
+      "title": "Primeira versao da auditoria de prioridade usava passo de 128 bytes (1 linha de nametable) e cobria so as linhas 0-15, perdendo o terreno nas linhas 22-29. O gate reportava \"0 de 0 amostrados\" e isso parecia aprovacao",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "primeira_versao_da_auditoria_de_prioridade_usava_passo_de_128_bytes_1_linha_de_nametable_e_cobria_so_as_linhas_0_15_perdendo_o_terreno_nas_linhas_22_29_o_gate_reportava_0_de_0_amostrados_e_isso_parecia_aprovacao",
+      "context": "amostragem de telemetria",
+      "observation": "Primeira versao da auditoria de prioridade usava passo de 128 bytes (1 linha de nametable) e cobria so as linhas 0-15, perdendo o terreno nas linhas 22-29. O gate reportava \"0 de 0 amostrados\" e isso parecia aprovacao",
+      "diagnosis": "Escolhi o passo sem conferir contra o layout real das camadas",
+      "resolution_or_preventive_heuristic": "Amostragem deve cobrir o INTERVALO ONDE O CONTEUDO ESTA, e o relatorio precisa mostrar o denominador. \"0 de 0\" e vacuo e tem de ser visivelmente diferente de \"0 de 16\"",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_dc07ff9e5c11283e",
+      "title": "Quantizacao do agente externo desviou a chave de transparencia: R1-03 entregou fundo `(255,0,219)` 56.4% em vez de `(255,0,255)`, com tres magentas coexistindo; R1-04 ficou com franja `(219,0,219)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "quantizacao_do_agente_externo_desviou_a_chave_de_transparencia_r1_03_entregou_fundo_255_0_219_56_4_em_vez_de_255_0_255_com_tres_magentas_coexistindo_r1_04_ficou_com_franja_219_0_219",
+      "context": "pipeline de imagegen externa",
+      "observation": "Quantizacao do agente externo desviou a chave de transparencia: R1-03 entregou fundo `(255,0,219)` 56.4% em vez de `(255,0,255)`, com tres magentas coexistindo; R1-04 ficou com franja `(219,0,219)",
+      "diagnosis": "O quantizador trata a chave como cor comum e a move para o vizinho mais proximo da paleta reduzida",
+      "resolution_or_preventive_heuristic": "Pedido de arte deve declarar a chave como cor RESERVADA, excluida da quantizacao, e o julgamento deve MEDIR a chave (nao olhar). Gate: zero pixel magenta fora de `(255,0,255)",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_fe1180a975552d0d",
+      "title": "Rodar `gates.py` num bundle antigo (KRB1 de 20 words) apos a ROM passar a emitir 23 words derrubou o gate inteiro com `KeyError: 'playtest_step'",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "rodar_gates_py_num_bundle_antigo_krb1_de_20_words_apos_a_rom_passar_a_emitir_23_words_derrubou_o_gate_inteiro_com_keyerror_playtest_step",
+      "context": "versionamento do bloco de telemetria",
+      "observation": "Rodar `gates.py` num bundle antigo (KRB1 de 20 words) apos a ROM passar a emitir 23 words derrubou o gate inteiro com `KeyError: 'playtest_step'",
+      "diagnosis": "O leitor assumia que todo campo declarado existe. Bloco de telemetria e um FORMATO VERSIONADO: bundles antigos ficam no disco e continuam sendo lidos",
+      "resolution_or_preventive_heuristic": "Todo campo novo no bloco precisa de leitura tolerante (`if campo not in block`) que degrade para SKIP com o motivo. **Gate que crasha e pior que gate que avisa**: uma excecao torna o relatorio inteiro ilegivel em vez de deixar um gate inconclusivo",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2d711f8a86104954",
+      "title": "scene_demo` do template gasta 90 scanlines/frame na secao `scene`, so desenhando texto",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "scene_demo_do_template_gasta_90_scanlines_frame_na_secao_scene_so_desenhando_texto",
+      "context": "custo de cena",
+      "observation": "scene_demo` do template gasta 90 scanlines/frame na secao `scene`, so desenhando texto",
+      "diagnosis": "VDP_drawText` e caro; nao e representativo do custo de jogo real",
+      "resolution_or_preventive_heuristic": "Nao usar a cena de texto como baseline de performance. Medir de novo quando houver tilemap real",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_8e93b75a83d3f075",
+      "title": "screenshot_color_count` reprovou com 262 cores contra teto de 174 numa cena correta. O teto vinha de \"entradas de CRAM uteis x 3\" (normal/sombra/highlight do S/H)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "screenshot_color_count_reprovou_com_262_cores_contra_teto_de_174_numa_cena_correta_o_teto_vinha_de_entradas_de_cram_uteis_x_3_normal_sombra_highlight_do_s_h",
+      "context": "modelo do gate de cor de screenshot",
+      "observation": "screenshot_color_count` reprovou com 262 cores contra teto de 174 numa cena correta. O teto vinha de \"entradas de CRAM uteis x 3\" (normal/sombra/highlight do S/H)",
+      "diagnosis": "**O modelo quebra com raster.** O gradiente de ceu percorre UMA entrada de CRAM por 12 stops dentro do mesmo frame, entao essa unica entrada rende ate 36 cores de tela sozinha. O teto nao e derivavel sem conhecer os stops de cada cena",
+      "resolution_or_preventive_heuristic": "Gate rebaixado para SOFT, com o motivo escrito nele. A restricao REAL de hardware e ocupacao de CRAM, que `color_budget` ja cobra contra o limite verdadeiro de 58. **Enfraquecer um gate tem de ser dito em voz alta**: este media a grandeza errada em cena com raster",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_c686476fe2b70f1f",
+      "title": "sh_enabled` chegou como 0 na arena mesmo com `VDP_setHilightShadow(TRUE)` chamado",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "sh_enabled_chegou_como_0_na_arena_mesmo_com_vdp_sethilightshadow_true_chamado",
+      "context": "ordem de publicacao na telemetria",
+      "observation": "sh_enabled` chegou como 0 na arena mesmo com `VDP_setHilightShadow(TRUE)` chamado",
+      "diagnosis": "PROBE_STAGE_reset()` zera todos os campos publicados e rodava DEPOIS do publish do S/H, apagando-o silenciosamente",
+      "resolution_or_preventive_heuristic": "Publicar sempre DEPOIS do reset. Melhor ainda: o gate pegou isso, o que confirma que vale ter telemetria de INTENCAO mesmo sem poder ler o hardware",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_96af320002afd724",
+      "title": "Tentei medir o deslocamento da camada 4 por 4 caminhos: correlacao cruzada (aliasou no padrao periodico), borda de vao com limiar de soma de canais (contagem de bordas divergiu), centroide rosa do Kirby com mascara larga (pegou 12568 px, incluindo faixas lavanda do ceu) e com mascara estreita (nao achou o Kirby numa das capturas). Nenhum deu numero confiavel",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "tentei_medir_o_deslocamento_da_camada_4_por_4_caminhos_correlacao_cruzada_aliasou_no_padrao_periodico_borda_de_vao_com_limiar_de_soma_de_canais_contagem_de_bordas_divergiu_centroide_rosa_do_kirby_com_mascara_larga_pegou_12568_px_incluindo_faixas_lavanda_do_ceu_e_com_mascara_estreita_nao_achou_o_kirby_numa_das_capturas_nenhum_deu_numero_confiavel",
+      "context": "medicao de camera por forense de screenshot",
+      "observation": "Tentei medir o deslocamento da camada 4 por 4 caminhos: correlacao cruzada (aliasou no padrao periodico), borda de vao com limiar de soma de canais (contagem de bordas divergiu), centroide rosa do Kirby com mascara larga (pegou 12568 px, incluindo faixas lavanda do ceu) e com mascara estreita (nao achou o Kirby numa das capturas). Nenhum deu numero confiavel",
+      "diagnosis": "Screenshot e uma projecao com muitas fontes de ambiguidade: padrao periodico, cores parecidas entre elementos, e a curva de DAC do emulador. Forense de imagem e a ferramenta ERRADA para medir estado interno",
+      "resolution_or_preventive_heuristic": "Instrumentar o probe para exportar `cameraX` e amostras da tabela de HScroll no bloco VLAB. A medicao passa de forense para leitura direta e exata. **Parar de insistir em forense quando o dado existe na ROM**",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_c49214706a0609a2",
+      "title": "tools/sgdk_wrapper/build.sh` falha com `make.exe\": .../makefile.gen: No such file or directory`; `new_project.sh` falha com `cp.exe: cannot stat",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "tools_sgdk_wrapper_build_sh_falha_com_make_exe_makefile_gen_no_such_file_or_directory_new_project_sh_falha_com_cp_exe_cannot_stat",
+      "context": "build em host Linux",
+      "observation": "tools/sgdk_wrapper/build.sh` falha com `make.exe\": .../makefile.gen: No such file or directory`; `new_project.sh` falha com `cp.exe: cannot stat",
+      "diagnosis": "env.sh` prepende `$GDK/bin` ao PATH e esse dir tem symlinks `cp -> cp.exe`, `mkdir -> mkdir.exe`, `rm -> rm.exe`; coreutils POSIX fica sombreado por binario Windows sob Wine, que nao entende `/mnt/...",
+      "resolution_or_preventive_heuristic": "Usar SEMPRE `build_sgdk_wine_bridge.sh`. Para `new_project.sh`, copiar para tmp e reinjetar `/usr/bin` no PATH depois do `source env.sh`. NAO editar o canonico sem aprovacao humana.",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "unknown",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md",
+          "out/logs/linux_wine_build_report.json"
+        ],
+        "gaps": [
+          "evidence_freshness_unproven",
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_e97a1ae2479e9255",
+      "title": "Troquei `F16_cos/F16_sin` da cadeia do boss por uma tabela de 64 entradas esperando o mesmo ganho que a tabela deu na agua. Resultado: **cpu p99 92% -> 107%, frames estourados 3 -> 225**. Revertido",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "troquei_f16_cos_f16_sin_da_cadeia_do_boss_por_uma_tabela_de_64_entradas_esperando_o_mesmo_ganho_que_a_tabela_deu_na_agua_resultado_cpu_p99_92_107_frames_estourados_3_225_revertido",
+      "context": "tabela que virou PESSIMIZACAO",
+      "observation": "Troquei `F16_cos/F16_sin` da cadeia do boss por uma tabela de 64 entradas esperando o mesmo ganho que a tabela deu na agua. Resultado: **cpu p99 92% -> 107%, frames estourados 3 -> 225**. Revertido",
+      "diagnosis": "Meu indexador fazia `deg % 360` e `deg * 64 / 360` \u2014 **duas divisoes de 32 bits por segmento**, e o 68000 nao tem divisao rapida. O `F16_cos` do SGDK ja e tabela com indexacao barata",
+      "resolution_or_preventive_heuristic": "**Tabela nao e automaticamente mais rapida que funcao.** Ela ganhou em `raster.c` porque o indice era MASCARA (`& 63`); perdeu aqui porque exigiu divisao. O que importa e o custo do INDICE, nao a existencia da tabela",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3af25abb44effa22",
+      "title": "A arena do boss estourou o budget (cpu p99 96%, 19 de 32 frames). Em vez de gastar a alavanca 2 da escada de degradacao, procurei DESPERDICIO primeiro: a camera da arena e estatica e eu reconstruia a tabela de HScroll de 224 linhas x 2 planos todo frame com valores identicos. Pular o rebuild quando a camera nao move: **p99 96% -> 78%, frames estourados 19 -> 0, DMA 1792 -> 896 B**, com resultado renderizado byte-identico",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "a_arena_do_boss_estourou_o_budget_cpu_p99_96_19_de_32_frames_em_vez_de_gastar_a_alavanca_2_da_escada_de_degradacao_procurei_desperdicio_primeiro_a_camera_da_arena_e_estatica_e_eu_reconstruia_a_tabela_de_hscroll_de_224_linhas_x_2_planos_todo_frame_com_valores_identicos_pular_o_rebuild_quando_a_camera_nao_move_p99_96_78_frames_estourados_19_0_dma_1792_896_b_com_resultado_renderizado_byte_identico",
+      "context": "otimizacao antes de degradacao",
+      "observation": "A arena do boss estourou o budget (cpu p99 96%, 19 de 32 frames). Em vez de gastar a alavanca 2 da escada de degradacao, procurei DESPERDICIO primeiro: a camera da arena e estatica e eu reconstruia a tabela de HScroll de 224 linhas x 2 planos todo frame com valores identicos. Pular o rebuild quando a camera nao move: **p99 96% -> 78%, frames estourados 19 -> 0, DMA 1792 -> 896 B**, com resultado renderizado byte-identico",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Otimizacao so vem antes de degradacao quando ela e provadamente sem perda. Se mudasse um pixel, seria degradacao disfarcada"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_1c82771adfd7c3d1",
+      "title": "ability_moveset_fires` reprova qualquer captura que CONCEDA uma copy ability sem que nenhum moveset dispare. Esse era exatamente o estado real do projeto por varias sessoes: o chapeu aparecia e nao fazia nada",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "ability_moveset_fires_reprova_qualquer_captura_que_conceda_uma_copy_ability_sem_que_nenhum_moveset_dispare_esse_era_exatamente_o_estado_real_do_projeto_por_varias_sessoes_o_chapeu_aparecia_e_nao_fazia_nada",
+      "context": "gate que exige que a recompensa FUNCIONE",
+      "observation": "ability_moveset_fires` reprova qualquer captura que CONCEDA uma copy ability sem que nenhum moveset dispare. Esse era exatamente o estado real do projeto por varias sessoes: o chapeu aparecia e nao fazia nada",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Vale para qualquer recompensa de gameplay: se o jogo concede algo, o gate deve exigir prova de que aquilo faz efeito, nao so de que foi concedido"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_4085a1b7677ea028",
+      "title": "Adicionar colisao por contato (pontas de 4 galhos + 8 macas + zona de inalar contra Kirby) custou **12 pontos de CPU**: p99 78% -> 90%. Nao e desprezivel, e escala com o numero de pares testados",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "adicionar_colisao_por_contato_pontas_de_4_galhos_8_macas_zona_de_inalar_contra_kirby_custou_12_pontos_de_cpu_p99_78_90_nao_e_desprezivel_e_escala_com_o_numero_de_pares_testados",
+      "context": "custo de colisao AABB",
+      "observation": "Adicionar colisao por contato (pontas de 4 galhos + 8 macas + zona de inalar contra Kirby) custou **12 pontos de CPU**: p99 78% -> 90%. Nao e desprezivel, e escala com o numero de pares testados",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "O custo aqui e de N pares por frame sem broad-phase. Antes de otimizar colisao em outro lugar, MEDIR: pode ser irrelevante numa cena com poucas entidades"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_f1fee56f0e490ce8",
+      "title": "Declarar a grade de cor legal do hardware (8 valores por canal) e a escala real de destino (28px) DENTRO do pedido, antes de qualquer geracao. Resultado: 11 de 11 entregaveis vieram com 0.00% de pixels ilegais na primeira rodada",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "declarar_a_grade_de_cor_legal_do_hardware_8_valores_por_canal_e_a_escala_real_de_destino_28px_dentro_do_pedido_antes_de_qualquer_geracao_resultado_11_de_11_entregaveis_vieram_com_0_00_de_pixels_ilegais_na_primeira_rodada",
+      "context": "pacote de pedido de arte",
+      "observation": "Declarar a grade de cor legal do hardware (8 valores por canal) e a escala real de destino (28px) DENTRO do pedido, antes de qualquer geracao. Resultado: 11 de 11 entregaveis vieram com 0.00% de pixels ilegais na primeira rodada",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Vale para pedido a agente externo capaz de quantizar. Nao vale como atalho para pular a traducao manual para grade nativa"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_c100b18fa78ab283",
+      "title": "Encerrar o loop quando os defeitos passam a ser dos CRITERIOS do critico e nao do trabalho. Aconteceu por 3 rodadas seguidas (janela de luminancia em float sobre grade discreta, formula nao especificada, \"area do corpo\" ambigua, rampa de rosa errada no contrato)",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "encerrar_o_loop_quando_os_defeitos_passam_a_ser_dos_criterios_do_critico_e_nao_do_trabalho_aconteceu_por_3_rodadas_seguidas_janela_de_luminancia_em_float_sobre_grade_discreta_formula_nao_especificada_area_do_corpo_ambigua_rampa_de_rosa_errada_no_contrato",
+      "context": "criterio de parada de loop iterativo",
+      "observation": "Encerrar o loop quando os defeitos passam a ser dos CRITERIOS do critico e nao do trabalho. Aconteceu por 3 rodadas seguidas (janela de luminancia em float sobre grade discreta, formula nao especificada, \"area do corpo\" ambigua, rampa de rosa errada no contrato)",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao usar como desculpa para parar cedo. So vale quando o executor entregou exatamente o pedido em todas as rodadas recentes e as falhas foram rastreadas ao criterio"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/art/R2_VERDICT_AND_R3_PACK.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_529c14c8644930d2",
+      "title": "Exigir relatorio mecanico com numero POR CRITERIO, nao \"feito\". O executor declarou espontaneamente a metrica que o reprovava (`palette_colors: 47` contra teto 45) e o hack usado para atingir o alvo (`micro_dither ... purpose: enter the requested luminance interval`)",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "exigir_relatorio_mecanico_com_numero_por_criterio_nao_feito_o_executor_declarou_espontaneamente_a_metrica_que_o_reprovava_palette_colors_47_contra_teto_45_e_o_hack_usado_para_atingir_o_alvo_micro_dither_purpose_enter_the_requested_luminance_interval",
+      "context": "handoff com agente externo",
+      "observation": "Exigir relatorio mecanico com numero POR CRITERIO, nao \"feito\". O executor declarou espontaneamente a metrica que o reprovava (`palette_colors: 47` contra teto 45) e o hack usado para atingir o alvo (`micro_dither ... purpose: enter the requested luminance interval`)",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Verificar de forma independente de qualquer modo: foi a re-medicao que revelou que as duas partes usavam formulas de luminancia diferentes"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "data/source_art/r2/r2_mechanical_validation.json",
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_79fda719479477f7",
+      "title": "Input gravado **no lado da ROM** (tabela compilada) em vez de injetar teclas no emulador. Frame-exato, versionado, sem depender de foco de janela ou timing do X11. Cobertura de 11/11 estados, incluindo `swallow` e `ability`, com `enemies_alive` caindo de 4 para 2 como corroboracao independente",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "input_gravado_no_lado_da_rom_tabela_compilada_em_vez_de_injetar_teclas_no_emulador_frame_exato_versionado_sem_depender_de_foco_de_janela_ou_timing_do_x11_cobertura_de_11_11_estados_incluindo_swallow_e_ability_com_enemies_alive_caindo_de_4_para_2_como_corroboracao_independente",
+      "context": "playtest scriptado",
+      "observation": "Input gravado **no lado da ROM** (tabela compilada) em vez de injetar teclas no emulador. Frame-exato, versionado, sem depender de foco de janela ou timing do X11. Cobertura de 11/11 estados, incluindo `swallow` e `ability`, com `enemies_alive` caindo de 4 para 2 como corroboracao independente",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao substitui teste humano de game feel; prova que o estado foi ALCANCADO, nao que e divertido"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_5c8747f7b4872316",
+      "title": "Julgar arte por MEDICAO em vez de inspecao visual. Script com PIL+numpy conferindo legalidade RGB333 pixel a pixel, contagem de cores, luminancia por camada, chave de transparencia e downscale real para 28px. Achou 2 defeitos que o olho nao pegaria (chave virada para `(255,0,219)` em 56% dos pixels; camada de primeiro plano mais clara que o terreno por 0.030)",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-29",
+      "problem_signature": "julgar_arte_por_medicao_em_vez_de_inspecao_visual_script_com_pil_numpy_conferindo_legalidade_rgb333_pixel_a_pixel_contagem_de_cores_luminancia_por_camada_chave_de_transparencia_e_downscale_real_para_28px_achou_2_defeitos_que_o_olho_nao_pegaria_chave_virada_para_255_0_219_em_56_dos_pixels_camada_de_primeiro_plano_mais_clara_que_o_terreno_por_0_030",
+      "context": "loop construtor/critico com agente externo de imagem",
+      "observation": "Julgar arte por MEDICAO em vez de inspecao visual. Script com PIL+numpy conferindo legalidade RGB333 pixel a pixel, contagem de cores, luminancia por camada, chave de transparencia e downscale real para 28px. Achou 2 defeitos que o olho nao pegaria (chave virada para `(255,0,219)` em 56% dos pixels; camada de primeiro plano mais clara que o terreno por 0.030)",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao substitui julgamento estetico humano. Mede conformidade, nao beleza. Nao prova nada sobre a arte rodando em ROM"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/art/R1_VERDICT_AND_R2_PACK.md",
+          "doc/art/R2_VERDICT_AND_R3_PACK.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_212fc00c806388f9",
+      "title": "O boss falhou `zero_over_budget_frames` (2 frames, cpu p99 87%). Apliquei a **alavanca 1 exatamente como o ARCHITECTURE.md \u00a75.1 previa** (interpolar a cada 2 frames em vez de todo frame): cpu p99 87% -> 75%, frames acima do budget 2 -> 0, veredito FAIL -> PASS",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "o_boss_falhou_zero_over_budget_frames_2_frames_cpu_p99_87_apliquei_a_alavanca_1_exatamente_como_o_architecture_md_5_1_previa_interpolar_a_cada_2_frames_em_vez_de_todo_frame_cpu_p99_87_75_frames_acima_do_budget_2_0_veredito_fail_pass",
+      "context": "escada de degradacao documentada",
+      "observation": "O boss falhou `zero_over_budget_frames` (2 frames, cpu p99 87%). Apliquei a **alavanca 1 exatamente como o ARCHITECTURE.md \u00a75.1 previa** (interpolar a cada 2 frames em vez de todo frame): cpu p99 87% -> 75%, frames acima do budget 2 -> 0, veredito FAIL -> PASS",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "So funciona porque a escada foi escrita ANTES de existir o problema. Escada inventada depois do fato vira racionalizacao"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_deb196606f2a7c59",
+      "title": "O gate de prioridade reportou corretamente \"amostrou 0 entradas, isso nao prova nada\" na cena do boss, em vez de dar PASS silencioso. O tronco esta nas colunas 16-23 e a amostragem so le a coluna 0",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "o_gate_de_prioridade_reportou_corretamente_amostrou_0_entradas_isso_nao_prova_nada_na_cena_do_boss_em_vez_de_dar_pass_silencioso_o_tronco_esta_nas_colunas_16_23_e_a_amostragem_so_le_a_coluna_0",
+      "context": "gate anti-vacuidade",
+      "observation": "O gate de prioridade reportou corretamente \"amostrou 0 entradas, isso nao prova nada\" na cena do boss, em vez de dar PASS silencioso. O tronco esta nas colunas 16-23 e a amostragem so le a coluna 0",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Confirma que vale a pena gastar codigo para distinguir \"0 de 0\" de \"0 de N\""
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_b8f1990e977ba9ff",
+      "title": "O pacote R1 PROIBIA papeis `animated_sprite_final`/`res_direct` porque IA nao acerta grade de 8px e paleta indexada. Inverti isso no P1 \u2014 mas com justificativa medida: as 11 entregas de R1/R2/R3 vieram com **0.00% de pixels ilegais** e o R3 reduziu paleta sem cor nova",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "o_pacote_r1_proibia_papeis_animated_sprite_final_res_direct_porque_ia_nao_acerta_grade_de_8px_e_paleta_indexada_inverti_isso_no_p1_mas_com_justificativa_medida_as_11_entregas_de_r1_r2_r3_vieram_com_0_00_de_pixels_ilegais_e_o_r3_reduziu_paleta_sem_cor_nova",
+      "context": "pedir arte final com base em evidencia, nao esperanca",
+      "observation": "O pacote R1 PROIBIA papeis `animated_sprite_final`/`res_direct` porque IA nao acerta grade de 8px e paleta indexada. Inverti isso no P1 \u2014 mas com justificativa medida: as 11 entregas de R1/R2/R3 vieram com **0.00% de pixels ilegais** e o R3 reduziu paleta sem cor nova",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao inverter uma proibicao por conveniencia. So porque o executor ja provou a capacidade especifica que a proibicao protegia"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "doc/art/PRODUCTION_ASSET_PACK.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_b66f9bf84d9b55c3",
+      "title": "O selador canonico rejeitou a tela de game over com `blank_or_low_information_capture`. Em vez de contestar o gate ou baixar o limiar, aceitei o diagnostico: para alvo AAA uma tela que e um vazio E um defeito. Refiz com o mundo visivel atras da mensagem e o gradiente mudando de humor. Passou, e a tela ficou melhor \u2014 nao so aprovada",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "o_selador_canonico_rejeitou_a_tela_de_game_over_com_blank_or_low_information_capture_em_vez_de_contestar_o_gate_ou_baixar_o_limiar_aceitei_o_diagnostico_para_alvo_aaa_uma_tela_que_e_um_vazio_e_um_defeito_refiz_com_o_mundo_visivel_atras_da_mensagem_e_o_gradiente_mudando_de_humor_passou_e_a_tela_ficou_melhor_nao_so_aprovada",
+      "context": "aceitar a reprovacao de um gate alheio",
+      "observation": "O selador canonico rejeitou a tela de game over com `blank_or_low_information_capture`. Em vez de contestar o gate ou baixar o limiar, aceitei o diagnostico: para alvo AAA uma tela que e um vazio E um defeito. Refiz com o mundo visivel atras da mensagem e o gradiente mudando de humor. Passou, e a tela ficou melhor \u2014 nao so aprovada",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao vale quando o gate mede a grandeza errada (ver `screenshot_color_count`). A pergunta e: o gate esta descrevendo um defeito real do produto?"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2f160f32af4aec09",
+      "title": "PALETTES.md` \u00a76.1 limitava o H-int a 1 word de CRAM com teto `[NAO MEDIDO]`, e \u00a76.3 descrevia 16. Em vez de escolher uma das duas por intuicao, tornei a contagem CONFIGURAVEL (`RASTER_setWaterCramWords`) para uma captura poder subir ate aparecer lixo. 4 words provados",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "palettes_md_6_1_limitava_o_h_int_a_1_word_de_cram_com_teto_nao_medido_e_6_3_descrevia_16_em_vez_de_escolher_uma_das_duas_por_intuicao_tornei_a_contagem_configuravel_raster_setwatercramwords_para_uma_captura_poder_subir_ate_aparecer_lixo_4_words_provados",
+      "context": "resolver contradicao de contrato medindo",
+      "observation": "PALETTES.md` \u00a76.1 limitava o H-int a 1 word de CRAM com teto `[NAO MEDIDO]`, e \u00a76.3 descrevia 16. Em vez de escolher uma das duas por intuicao, tornei a contagem CONFIGURAVEL (`RASTER_setWaterCramWords`) para uma captura poder subir ate aparecer lixo. 4 words provados",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "So vale quando o custo de errar e visivel na captura. Para efeito que falha em silencio, medir de outro jeito"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_4e13811635aa3da3",
+      "title": "sprites_per_scanline` mediu 19 de 20 com 6 inimigos + 8 tufos + 12 tiros nas mesmas linhas \u2014 um sprite do flicker. Em vez de esperar quebrar, gastei a alavanca documentada em ARCHITECTURE.md 5 (particulas -> primeiro plano -> projeteis): camada 5 de 8 para 6 tufos. Resultado 18/20",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "sprites_per_scanline_mediu_19_de_20_com_6_inimigos_8_tufos_12_tiros_nas_mesmas_linhas_um_sprite_do_flicker_em_vez_de_esperar_quebrar_gastei_a_alavanca_documentada_em_architecture_md_5_particulas_primeiro_plano_projeteis_camada_5_de_8_para_6_tufos_resultado_18_20",
+      "context": "gastar a alavanca de degradacao ANTES de quebrar",
+      "observation": "sprites_per_scanline` mediu 19 de 20 com 6 inimigos + 8 tufos + 12 tiros nas mesmas linhas \u2014 um sprite do flicker. Em vez de esperar quebrar, gastei a alavanca documentada em ARCHITECTURE.md 5 (particulas -> primeiro plano -> projeteis): camada 5 de 8 para 6 tufos. Resultado 18/20",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "So funciona porque a ordem de degradacao foi escrita ANTES do problema. Escada inventada na hora e racionalizacao"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_af99224ff3c15e9c",
+      "title": "Substituir `F16_sin()` por uma tabela de 64 entradas `s8` pre-computada devolveu **40 pontos de CPU** (111% -> 71%) com imagem identica. No 68000 sem FPU, seno por frame e quase sempre tabela",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "substituir_f16_sin_por_uma_tabela_de_64_entradas_s8_pre_computada_devolveu_40_pontos_de_cpu_111_71_com_imagem_identica_no_68000_sem_fpu_seno_por_frame_e_quase_sempre_tabela",
+      "context": "trigonometria em tempo real no 68000",
+      "observation": "Substituir `F16_sin()` por uma tabela de 64 entradas `s8` pre-computada devolveu **40 pontos de CPU** (111% -> 71%) com imagem identica. No 68000 sem FPU, seno por frame e quase sempre tabela",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Tabela custa ROM. Para calculo raro (uma vez por cena) a funcao e mais barata em espaco e igual em tempo"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2e9a63ea5b3d46fb",
+      "title": "Suspeitei que a secao `sprite` (104 scanlines para 5 sprites) fosse custo que explodiria no boss. Medi com 25 sprites: caiu para 53. Com 9: 43. **A hipotese estava errada** \u2014 a secao e pico ruidoso e nao escala com contagem de sprite. O que escala e `cpu_load_p99` (39% -> 60% -> 43%)",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "suspeitei_que_a_secao_sprite_104_scanlines_para_5_sprites_fosse_custo_que_explodiria_no_boss_medi_com_25_sprites_caiu_para_53_com_9_43_a_hipotese_estava_errada_a_secao_e_pico_ruidoso_e_nao_escala_com_contagem_de_sprite_o_que_escala_e_cpu_load_p99_39_60_43",
+      "context": "interpretacao de telemetria",
+      "observation": "Suspeitei que a secao `sprite` (104 scanlines para 5 sprites) fosse custo que explodiria no boss. Medi com 25 sprites: caiu para 53. Com 9: 43. **A hipotese estava errada** \u2014 a secao e pico ruidoso e nao escala com contagem de sprite. O que escala e `cpu_load_p99` (39% -> 60% -> 43%)",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Medir antes de otimizar. Um pico isolado de telemetria nao e um custo por unidade ate que se prove escala"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_551c6e2b9a479fec",
+      "title": "Teste de estresse deliberado: subir a camada 5 de 4 para 24 tufos numa unica fileira horizontal. Resultado: `sprites_per_frame` 25/80 PASSOU mas `sprites_per_scanline` 24/20 **FALHOU**. Provou que para uma faixa horizontal de sprites o limite que morde e o POR SCANLINE, nao o por frame",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-07-30",
+      "problem_signature": "teste_de_estresse_deliberado_subir_a_camada_5_de_4_para_24_tufos_numa_unica_fileira_horizontal_resultado_sprites_per_frame_25_80_passou_mas_sprites_per_scanline_24_20_falhou_provou_que_para_uma_faixa_horizontal_de_sprites_o_limite_que_morde_e_o_por_scanline_nao_o_por_frame",
+      "context": "orcamento de sprite / camada de primeiro plano",
+      "observation": "Teste de estresse deliberado: subir a camada 5 de 4 para 24 tufos numa unica fileira horizontal. Resultado: `sprites_per_frame` 25/80 PASSOU mas `sprites_per_scanline` 24/20 **FALHOU**. Provou que para uma faixa horizontal de sprites o limite que morde e o POR SCANLINE, nao o por frame",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao generalizar: para sprites espalhados verticalmente o limite por frame volta a ser o dominante"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ce0b8554613ca42b",
+      "title": "Um sprite de hardware do MD vai ate 4x4 tiles = 32x32 px. **Kirby de 32x32 custa UM sprite, nao quatro.** Medido: Kirby + 8 tufos + 4 inimigos = 13 entidades = 15 sprites de hardware. O orcamento de 80 e muito mais folgado do que a intuicao \"1 sprite por 8x8\" sugere",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "um_sprite_de_hardware_do_md_vai_ate_4x4_tiles_32x32_px_kirby_de_32x32_custa_um_sprite_nao_quatro_medido_kirby_8_tufos_4_inimigos_13_entidades_15_sprites_de_hardware_o_orcamento_de_80_e_muito_mais_folgado_do_que_a_intuicao_1_sprite_por_8x8_sugere",
+      "context": "orcamento de sprite / tamanho de hardware",
+      "observation": "Um sprite de hardware do MD vai ate 4x4 tiles = 32x32 px. **Kirby de 32x32 custa UM sprite, nao quatro.** Medido: Kirby + 8 tufos + 4 inimigos = 13 entidades = 15 sprites de hardware. O orcamento de 80 e muito mais folgado do que a intuicao \"1 sprite por 8x8\" sugere",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "O limite POR SCANLINE (20) continua contando sprites, nao tiles, mas um sprite largo ocupa muitos pixels da cota de 320 px/linha. Sprite grande economiza contagem e gasta largura"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ffc948e7bf50e255",
+      "title": "validate_assets.py` ganhou `--self-test`, que roda os mesmos checks contra os PLACEHOLDERS atuais em vez das entregas pendentes. Provou que os checks disparam de verdade \u2014 achou costura de ladrilhamento em 3 assets que eu nao sabia que existia, e mostrou a escada de valor com numeros reais (0.511 / 0.419 / 0.361 / 0.308)",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-08-06",
+      "problem_signature": "validate_assets_py_ganhou_self_test_que_roda_os_mesmos_checks_contra_os_placeholders_atuais_em_vez_das_entregas_pendentes_provou_que_os_checks_disparam_de_verdade_achou_costura_de_ladrilhamento_em_3_assets_que_eu_nao_sabia_que_existia_e_mostrou_a_escada_de_valor_com_numeros_reais_0_511_0_419_0_361_0_308",
+      "context": "validador de asset com autoteste",
+      "observation": "validate_assets.py` ganhou `--self-test`, que roda os mesmos checks contra os PLACEHOLDERS atuais em vez das entregas pendentes. Provou que os checks disparam de verdade \u2014 achou costura de ladrilhamento em 3 assets que eu nao sabia que existia, e mostrou a escada de valor com numeros reais (0.511 / 0.419 / 0.361 / 0.308)",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Autoteste contra dado conhecido so vale se o dado conhecido nao for trivialmente perfeito. Placeholder gerado por script quase passa em tudo, entao ele testa o CANO, nao o criterio"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "unknown",
+        "refs": [
+          "doc/agent_learning/success_patterns.md",
+          "out/logs/asset_validation_report.json"
+        ],
+        "gaps": [
+          "evidence_freshness_unproven",
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    }
+  ],
+  "candidate_index": [
+    {
+      "lesson_id": "lesson_210f9f12264eb6fd",
+      "title": "\"PRESS START\" no titulo custou TRES capturas: (1) no plano WINDOW nao apareceu, (2) em BG_A com `VDP_setTextPriority(TRUE)` saiu como bloco cinza solido em vez de glifos, (3) so funcionou com S/H DESLIGADO",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_3ff401f5c6af4782",
+      "title": "3 subagentes Opus lancados em paralelo; TODOS morreram com `You've hit your session limit` sem nenhum concluir. Harness chegou a ~80%, os outros a ~0%",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_1f39f787d8203c9e",
+      "title": "A primeira parada do gradiente passou a durar mais scanlines, em AMBAS as cenas (lago e fase normal). Visualmente o topo virou uma faixa amarela grande",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_ca680025d1bd837d",
+      "title": "A rampa de rosa que EU especifiquei no pacote R1 (`255,182,182` / `255,146,146` / `219,109,146`) produziu um Kirby salmao, puxado para o laranja, nao o rosa chiclete das referencias",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_eff19a446cc7b47b",
+      "title": "Adicionei `APP_SCENE_STAGE_PLAYTEST = 5` ao enum e liguei o dispatch, mas a captura com `--target-scene 5` teria caido silenciosamente na cena default",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_2149c806c8e51e30",
+      "title": "Arena do boss renderizou inteira em roxo escuro. O backdrop apontava para o indice 0 de uma paleta cuja entrada 0 e a CHAVE DE TRANSPARENCIA magenta `(255,0,255)`; com S/H global e sem tile de prioridade cobrindo, o backdrop renderiza SOMBREADO, e magenta pela metade e exatamente aquele roxo",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_19ddea5003ff4d1a",
+      "title": "As cores do screenshot NAO estao na grade RGB333: medi `(119,87,49)` onde a paleta tem `(109,73,36)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_3faf36f03e57fd3c",
+      "title": "Auditoria de prioridade lia 0 entradas de BG_A e eu registrei a causa como \"nao determinada\", levantando suspeita de delay de leitura de VRAM ou restricao em display ativo. **ESSA LICAO ESTAVA ERRADA.** As leituras sempre funcionaram: diagnostico cru devolveu `0xA083` (tile 131, prioridade 1, paleta 1) para BG_A linha 22",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_13a00e9ed3a4ce95",
+      "title": "Build e capturas passaram a falhar com `fallocate: Nao ha espaco disponivel no dispositivo`, em 0.07 s, antes de compilar. O host tinha 46 GB livres, o que mascarou o problema por varias tentativas",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_aa5eb3f99671b323",
+      "title": "Com o holofote a arena foi a 106%. Gastei imediatamente a **alavanca 2** do \u00a75.1 (7 -> 5 segmentos do galho) sem antes procurar desperdicio \u2014 violando a licao que eu mesmo tinha registrado na sessao da arena",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_a6343549e3ff95e8",
+      "title": "Com Shadow/Highlight global, `VDP_clearTextArea` em BG_A gerava 16 de 16 entradas amostradas em prioridade 0",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_3eade6a118741916",
+      "title": "Correlacao cruzada da banda do terreno devolveu +42 px, inconsistente com a camera inferida das outras bandas (~118 px)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_85ddad13807b8b39",
+      "title": "Desligar a musica para isolar a fonte do sinal devolveu RMS MAIOR sem musica (27550) do que com (16906) \u2014 resultado impossivel que expos a leitura errada do formato",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_34847f1e69f44faf",
+      "title": "doc/10-memory-bank.md` recem-criado afirmava ROM `22a80b7c...` de 262144 bytes, `build_v002`, 5 assets versionados e blockers `visual_direction_failed`, tudo datado de mai/jun 2026 \u2014 antes do projeto existir",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_41f6e38a52e9ac99",
+      "title": "Duas capturas seguidas falharam com `reason=window_timeout` e `blastem.log` de 0 bytes. Matei o processo `blastem.bin` orfao por PID e AINDA falhou",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_51be820bb8bfdec4",
+      "title": "Entre 17 e 31 entradas CONTIGUAS de CRAM (PAL0[1..15] + PAL1 inteira) sobrescritas com um verde uniforme `0x04A0`, de forma NAO DETERMINISTICA (numero de entradas variava por execucao). PAL2/PAL3 intactas. Tela ficava verde",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_d469051850071999",
+      "title": "Eu media luminancia com `0.299/0.587/0.114` e o executor com sRGB `0.2126/0.7152/0.0722`. Mesma imagem, dois numeros (0.2496 vs 0.269899). Passou por sorte, nao por acordo",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_7b444189c9b819d2",
+      "title": "fix16ToInt(..)` faz o build FALHAR com `error: This method is deprecated`, nao warning",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_bb2c32dc6810b748",
+      "title": "Gradiente de ceu por H-int escrevendo o indice 1 de PAL0 deixou a faixa das montanhas MAGENTA na tela",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_972fa0223eb31403",
+      "title": "Inseri `SKY_NIGHT` e `s_useNight` DEPOIS do H-int que os usa; build quebrou com `undeclared",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_3cb945be6ee7ff9c",
+      "title": "Li `audio.raw` do BlastEm como int16 e conclui que a musica era uma \"onda quadrada em escala cheia\" com pico de -0.1 dBFS e RMS de -5.7 dBFS. **Tudo errado.** O arquivo e **float32, 48 kHz, estereo** \u2014 o pico real era -18.5 dBFS, com folga saudavel",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_7e3e802f477edeec",
+      "title": "linux_blastem_capture_status=blocked reason=window_timeout` e o processo `blastem.bin` ficou pendurado, travando a captura seguinte",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_d367a62df480a2fc",
+      "title": "Meu primeiro suspeito pela corrupcao de CRAM foi o flash de paleta da habilidade (`PAL_setColor`), porque era a unica escrita de paleta nova. Estava ERRADO: desliguei o flash e a corrupcao persistiu (17 entradas)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_91c8466d965daacc",
+      "title": "Na primeira versao o pan congelava `KIRBY_update` e `ENEMY_updateAll` inteiros. Kirby e os inimigos ficaram FLUTUANDO no ar durante todo o pan porque a gravidade nunca rodava",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_d487c0697ac34b78",
+      "title": "O efeito R3 (distorcao senoidal da agua) nao aparecia: a tabela de HScroll nunca era reconstruida",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_8d974252215eab15",
+      "title": "O efeito R4 (troca de paleta submersa) nunca disparava",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_d64c21eb0fb8f011",
+      "title": "O executor declarou no proprio relatorio a metrica que o reprovava (`palette_colors: 47`) e o hack que usou para atingir o alvo (`palette_snap_micro_dither ... purpose: enter the requested luminance interval`), em vez de esconder",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_c3538351c3f6df15",
+      "title": "O prompt piscava (34 de 60 frames ligado) e duas capturas o pegaram no frame apagado \u2014 indistinguivel de \"nao renderiza\"",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_c016daf894e19d73",
+      "title": "O script do boss segurava B do inicio ao fim. Resultado: `kirby_hurt` ficou NAO, porque Kirby engolia toda maca antes de ser atingido \u2014 o caminho de dano NELE nunca era exercitado",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_6f0ff93c1051a974",
+      "title": "Olhei a captura do lago, vi a distorcao e a paleta submersa funcionando, e ia declarar R3/R4 prontos. Os gates diziam outra coisa: **cpu p99 111% e 306 frames acima do budget** \u2014 a cena nao cabia num frame",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_3051f49e44a1a92b",
+      "title": "parallax_layer_speeds` reprovou o terreno no lago: media `hs_terrain=2` com `camera_x=0",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_1093ef10b4b7f3b7",
+      "title": "Pedi \"luminancia media da camada 5 entre 0.24 e 0.27\". O executor precisou adicionar 4454 px de micro-dither para caber na janela apos snap na grade RGB333, criando 8 cores novas e estourando o teto de 45 cores (foi para 47)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_53c676e86df30328",
+      "title": "Pedir autocritica honesta em `notes.md` fez o agente externo prever o proprio defeito antes do julgamento (colapso das bochechas a 28px; geometria nao modular no R1-06)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_b892592dc39c6d30",
+      "title": "playtest_completed` reprovou: script de ~2400 frames (40 s) sob captura de 32 s parou no passo 6 de 7",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_20af4ac5866637ef",
+      "title": "playtest_coverage` reprovou uma captura de boss por faltar 8 dos 11 estados de locomocao",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_3e25fb2f5296933f",
+      "title": "PLAYTEST_STATE_ABILITY_USED` nao foi inserido no header: o `replace` nao casou por diferenca de ESPACAMENTO no comentario alinhado",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_8dc8b372212329dc",
+      "title": "Portei do projeto irmao GROK BUILD o gate de solidez de indice (`center_idx0 < 5%`, `opaque > 35%`) e previ que ele explicaria por que P1..P4 foram reprovadas. **Nao explicou.** O Kirby do P1 passa nos 8 frames com `center_idx0=0.0%`, `opaque=50-60%` e **9 tons de corpo** \u2014 mais tons que o placeholder atual (5) e mais que o R6 do GROK (6), que foi aceito com nota 7.2 em personagem",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_daeefbba61504463",
+      "title": "Primeira versao da auditoria de prioridade usava passo de 128 bytes (1 linha de nametable) e cobria so as linhas 0-15, perdendo o terreno nas linhas 22-29. O gate reportava \"0 de 0 amostrados\" e isso parecia aprovacao",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_dc07ff9e5c11283e",
+      "title": "Quantizacao do agente externo desviou a chave de transparencia: R1-03 entregou fundo `(255,0,219)` 56.4% em vez de `(255,0,255)`, com tres magentas coexistindo; R1-04 ficou com franja `(219,0,219)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_fe1180a975552d0d",
+      "title": "Rodar `gates.py` num bundle antigo (KRB1 de 20 words) apos a ROM passar a emitir 23 words derrubou o gate inteiro com `KeyError: 'playtest_step'",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_2d711f8a86104954",
+      "title": "scene_demo` do template gasta 90 scanlines/frame na secao `scene`, so desenhando texto",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_8e93b75a83d3f075",
+      "title": "screenshot_color_count` reprovou com 262 cores contra teto de 174 numa cena correta. O teto vinha de \"entradas de CRAM uteis x 3\" (normal/sombra/highlight do S/H)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_c686476fe2b70f1f",
+      "title": "sh_enabled` chegou como 0 na arena mesmo com `VDP_setHilightShadow(TRUE)` chamado",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_96af320002afd724",
+      "title": "Tentei medir o deslocamento da camada 4 por 4 caminhos: correlacao cruzada (aliasou no padrao periodico), borda de vao com limiar de soma de canais (contagem de bordas divergiu), centroide rosa do Kirby com mascara larga (pegou 12568 px, incluindo faixas lavanda do ceu) e com mascara estreita (nao achou o Kirby numa das capturas). Nenhum deu numero confiavel",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_c49214706a0609a2",
+      "title": "tools/sgdk_wrapper/build.sh` falha com `make.exe\": .../makefile.gen: No such file or directory`; `new_project.sh` falha com `cp.exe: cannot stat",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_e97a1ae2479e9255",
+      "title": "Troquei `F16_cos/F16_sin` da cadeia do boss por uma tabela de 64 entradas esperando o mesmo ganho que a tabela deu na agua. Resultado: **cpu p99 92% -> 107%, frames estourados 3 -> 225**. Revertido",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    }
+  ],
+  "canonical_promotion_performed": false
+}

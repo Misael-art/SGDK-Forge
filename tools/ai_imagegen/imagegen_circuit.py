@@ -8,11 +8,12 @@ Purpose:
     persist a source-candidate image for a specific project. Coordinates
     `imagegen_tool.py` (Ring 2) plus a triple gate (license + host + scope)
     plus a multi-path master_style_manifest lookup, and never writes anything
-    under `res/`.
+    under `res/`. Native callable/inline channels win before local gates.
 
 Design rules (locked, do not relax):
     - Native channels (callable / inline) win over local.
-    - Bonsai is opt-in; if any gate fails, the circuit returns a structured
+    - Bonsai is opt-in fallback; if native/API is unavailable and any Bonsai
+      gate fails, the circuit returns a structured
       `generation_channel_decision.json` and writes NOTHING.
     - Initial status of any Bonsai output is `source_candidate` only. Promotion
       to `premium_source_accepted` is out of scope and requires the human
@@ -30,7 +31,8 @@ Usage:
     python tools/ai_imagegen/imagegen_circuit.py preflight \\
         --project "..." --asset-role concept_art [--style-manifest PATH] [--json]
 
-    # Real run, requires all gates to pass
+    # Real run: native selection returns next_action=use_native_channel; local
+    # Bonsai run requires all Bonsai gates to pass
     python tools/ai_imagegen/imagegen_circuit.py run \\
         --project "..." --asset-role concept_art \\
         --prompt "1-bit Bonsai tree silhouette, monochrome, hard dithering" \\
@@ -76,6 +78,7 @@ from imagegen_tool import (  # noqa: E402
     _license_gate_status,
     _host_gate_status,
     _scope_gate_status,
+    parse_bool_auto,
     BONSAI_ALLOWED_SCOPES,
     BONSAI_FORBIDDEN_SCOPES,
     cmd_bonsai_generate,
@@ -426,13 +429,13 @@ def main():
     p_pf.add_argument("--style-manifest", default=None)
     p_pf.add_argument(
         "--native-callable",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
-        default=False,
+        type=parse_bool_auto,
+        default=None,
     )
     p_pf.add_argument(
         "--native-inline",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
-        default=False,
+        type=parse_bool_auto,
+        default=None,
     )
     p_pf.add_argument(
         "--write-decision",
@@ -459,13 +462,13 @@ def main():
     )
     p_run.add_argument(
         "--native-callable",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
-        default=False,
+        type=parse_bool_auto,
+        default=None,
     )
     p_run.add_argument(
         "--native-inline",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
-        default=False,
+        type=parse_bool_auto,
+        default=None,
     )
     p_run.add_argument("--prompt", default="")
     p_run.add_argument("--negative", default="")

@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://sgdk-forge.local/schemas/sfx_bank_manifest.schema.json",
+  "title": "SGDK Forge SFX Bank Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "bank", "driver", "entries"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "bank": {"type": "string", "minLength": 1},
+    "driver": {"const": "XGM2"},
+    "ntsc": {"type": "boolean"},
+    "pcm_channels": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 1, "maximum": 3}
+    },
+    "generated_by": {"type": "string", "minLength": 1},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/entry"}
+    }
+  },
+  "definitions": {
+    "safe_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "type", "file", "driver", "source_kind",
+        "acceptance_status", "sha256"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"},
+        "type": {"enum": ["sfx", "music"]},
+        "file": {"$ref": "#/definitions/safe_path"},
+        "driver": {"const": "XGM2"},
+        "rate": {"enum": [6650, 13300]},
+        "channel": {"type": "integer", "minimum": 1, "maximum": 3},
+        "priority": {"type": "integer", "minimum": 0, "maximum": 15},
+        "source_kind": {
+          "enum": [
+            "hand_authored", "ai_generated", "photo_or_render_derived",
+            "procedural_composed_from_authored", "procedural_primitive",
+            "synthesized", "licensed_reference", "sgdk_builtin", "unverified"
+          ]
+        },
+        "acceptance_status": {
+          "enum": [
+            "final", "placeholder", "lab", "debug_lab",
+            "visual_lab_control", "licensed_reference"
+          ]
+        },
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "provenance_note": {"type": "string"},
+        "asset_version": {"type": "integer", "minimum": 1},
+        "origin": {"type": "string"},
+        "loop_scope": {"type": "string"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"type": {"const": "sfx"}}},
+          "then": {"required": ["rate", "channel", "priority"]}
+        },
+        {
+          "if": {"properties": {"acceptance_status": {"const": "final"}}},
+          "then": {
+            "not": {
+              "properties": {
+                "source_kind": {"enum": ["procedural_primitive", "synthesized", "unverified"]}
+              },
+              "required": ["source_kind"]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

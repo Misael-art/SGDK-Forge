@@ -1,0 +1,12 @@
+{
+  "schema_version": "state_transition_motion_contract.v1",
+  "transitions": [
+    {"from":"idle","to":"run","required_read":"contact_pose_before_passing","status":"draft"},
+    {"from":"run","to":"jump","required_read":"last_grounded_contact_to_airborne","status":"draft"},
+    {"from":"jump","to":"float","required_read":"airborne_pose_not_run_pose","status":"not_authored"},
+    {"from":"any","to":"inhale","required_read":"active_face_and_directional_effect","status":"not_authored"}
+  ],
+  "automatic_state_art_swap": false,
+  "final_animation_authorized": false,
+  "next_gate": "approved_for_limited_animation_strip_bound_to_package_sha"
+}

@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "sprite_animation_v001",
+  "runtime_owner": "src/race/race_player.c",
+  "timing_unit": "NTSC frames",
+  "player_lio": {
+    "metasprite_cell_px": {"w": 24, "h": 32},
+    "tile_cell": {"w_tiles": 3, "h_tiles": 4, "tiles_per_frame": 12},
+    "pivot_px": {"x": 12, "y": 28},
+    "collision_ref": "doc/collision_system_contract.json",
+    "state_machine": [
+      {
+        "state": "run",
+        "frames": 6,
+        "hold_frames_each": 4,
+        "loop": true,
+        "tile_budget_unique_target": 72,
+        "notes": "main always-moving state; foot contact alternates every 8 frames"
+      },
+      {
+        "state": "lane_change_left",
+        "frames": 4,
+        "duration_frames": 8,
+        "loop": false,
+        "x_offset_curve_px": [0, -8, -24, -48],
+        "tile_budget_unique_target": 24,
+        "notes": "can reuse run legs with torso lean if budget requires"
+      },
+      {
+        "state": "lane_change_right",
+        "frames": 4,
+        "duration_frames": 8,
+        "loop": false,
+        "x_offset_curve_px": [0, 8, 24, 48],
+        "tile_budget_unique_target": 24,
+        "notes": "mirror of left change when silhouette remains readable"
+      },
+      {
+        "state": "jump",
+        "frames": 6,
+        "duration_frames": 36,
+        "loop": false,
+        "y_offset_curve_px": [0, -8, -16, -20, -12, 0],
+        "tile_budget_unique_target": 72,
+        "collision_rule": "low_hazard clear when jump_height_px >= 10"
+      },
+      {
+        "state": "damage",
+        "frames": 3,
+        "duration_frames": 24,
+        "loop": false,
+        "x_shake_px": [0, -2, 2, 0],
+        "tile_budget_unique_target": 36,
+        "notes": "damage animation cannot hide invulnerability feedback"
+      },
+      {
+        "state": "pulse_cast",
+        "frames": 4,
+        "duration_frames": 14,
+        "loop": false,
+        "tile_budget_unique_target": 24,
+        "notes": "body keeps lane; pulse ring may be separate FX sprite"
+      }
+    ],
+    "transition_rules": [
+      "run may enter lane_change, jump, damage or pulse_cast",
+      "lane_change can be buffered into jump after frame 4",
+      "damage overrides all except scene transition",
+      "pulse_cast does not move collision center",
+      "all final sprite positions snap to integer pixels"
+    ],
+    "first_slice_residency_target_tiles": 144,
+    "product_residency_target_tiles": 192
+  },
+  "hazards": [
+    {
+      "id": "lumen_orb",
+      "cell_px": {"w": 16, "h": 16},
+      "frames": 4,
+      "hold_frames_each": 8,
+      "tiles_per_frame": 4,
+      "unique_tiles_target": 16
+    },
+    {
+      "id": "low_stone",
+      "cell_px": {"w": 32, "h": 16},
+      "frames": 2,
+      "hold_frames_each": 12,
+      "tiles_per_frame": 8,
+      "unique_tiles_target": 16
+    },
+    {
+      "id": "astral_mark",
+      "cell_px": {"w": 40, "h": 16},
+      "frames": 3,
+      "hold_frames_each": 8,
+      "tiles_per_frame": 10,
+      "unique_tiles_target": 30
+    }
+  ],
+  "master_pursuer": {
+    "mode": "setpiece_first_modular_later",
+    "approach_stages": [
+      {"stage": "far_silhouette", "surface": "BG_B", "frame_count": 1, "tile_target": 96},
+      {"stage": "mid_crown", "surface": "BG_A", "frame_count": 2, "tile_target": 160},
+      {"stage": "near_hoof", "surface": "BG_A_plus_sprites", "frame_count": 3, "tile_target": 220},
+      {"stage": "boss_core_window", "surface": "mixed", "frame_count": 3, "tile_target": 256}
+    ],
+    "weakpoint_sprites": {
+      "cell_px": {"w": 24, "h": 24},
+      "states": ["closed", "telegraph", "active", "broken"],
+      "tiles_per_frame": 9,
+      "resident_target_tiles": 72
+    },
+    "modular_boss_activation_rule": "Only activate modular claim after sprite_scanline_pressure_report and vram_residency_report pass."
+  },
+  "validation_plan": [
+    "frame contact sheet for Lio run/jump/damage/pulse",
+    "hitbox overlay per action",
+    "frame delta report for pivot stability",
+    "sprite scanline pressure report for active worst frame",
+    "BlastEm capture before visual delivery"
+  ]
+}

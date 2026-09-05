@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "camera_behavior_contract",
+  "scene_id": "cais_01",
+  "camera_role": "action",
+  "model": "fighting_stage_lock",
+  "coordinate_model": "fix32_internal",
+  "target_anchor": {"subject": "taina_grounded_feet", "x_offset_px": 0, "y_offset_px": 0, "vertical_priority": "grounded_feet"},
+  "dead_zone": {"enabled": true, "left_px": 16, "right_px": 16, "top_px": 8, "bottom_px": 8, "reason": "Preservar leitura da faixa de luta e evitar jitter durante combo."},
+  "smoothing": {"enabled": true, "method": "fixed_step", "frames_to_target": 4, "max_speed_px_per_frame": 4},
+  "lookahead": {"enabled": true, "x_px": 32, "y_px": 0, "switch_frames": 4, "source": "facing"},
+  "clamp": {"enabled": true, "min_x_px": 0, "max_x_px": 192, "min_y_px": 0, "max_y_px": 0, "empty_space_policy": "forbidden"},
+  "render_snap": {"final_position": "integer_pixels_only", "scroll_register_units": "pixels", "sprite_camera_space": "world_minus_camera_integer", "subpixel_jitter_guard": true},
+  "trigger_zones": [
+    {"trigger_id": "wave_lock_1", "bounds_px": {"x": 160, "y": 0, "w": 320, "h": 224}, "mode": "anchor_lock", "enter_behavior": "travar camera no arena1 ate grupo zerar", "exit_behavior": "liberar para respiro1"},
+    {"trigger_id": "wave_lock_2", "bounds_px": {"x": 560, "y": 0, "w": 320, "h": 224}, "mode": "anchor_lock", "enter_behavior": "travar camera no arena2 ate grupo zerar", "exit_behavior": "liberar para respiro2"},
+    {"trigger_id": "wave_lock_3", "bounds_px": {"x": 960, "y": 0, "w": 320, "h": 224}, "mode": "anchor_lock", "enter_behavior": "travar camera no payoff da beirada", "exit_behavior": "liberar para saida"}
+  ],
+  "screen_shake": {"allowed": true, "max_offset_px": 3, "max_duration_frames": 4, "decay": "linear", "snap_after_shake": true, "gameplay_events": ["ring_out_only"]},
+  "culling_policy": {"enabled": true, "margin_px": 32, "disable_physics_outside_view": false, "telegraph_safe": true, "exceptions": ["wave_spawn_gate"]},
+  "runtime_owner": {"module": "src/system/camera.c", "update_function": "CAMERA_update", "reset_function": "CAMERA_reset"},
+  "fallback": "Camera fixa por segmento, preservando clamp, integer snap e wave-lock.",
+  "evidence_required": [
+    {"evidence_type": "camera_regression", "path": "out/logs/scene_regression_report.json", "passed": false},
+    {"evidence_type": "blastem_capture", "path": "out/evidence/cais01_camera/", "passed": false}
+  ],
+  "blockers": ["camera_blastem_evidence_missing"]
+}

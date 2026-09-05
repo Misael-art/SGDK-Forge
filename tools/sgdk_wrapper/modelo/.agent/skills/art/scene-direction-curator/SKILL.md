@@ -124,6 +124,9 @@ Campos minimos:
 - "Mode 7" em Mega Drive e um blocker semantico. Redirecione para `pseudo3d_road_stack`, `line_scroll_floor`, `zmap_road`, `palette_depth_bands` ou paineis pre-renderizados.
 - Cenario monumental precisa de funcao: risco, maravilhamento, velocidade, isolamento, escala, ameaca, transicao ou leitura de rota.
 - Parallax sem funcao vira `decorative_only_blocked` em AAA.
+- Background ou layer sheet nao nasce isolado: precisa declarar camera,
+  profundidade, leitura do sprite, interacoes de gameplay e supervisao do art
+  director em `art_gameplay_direction_gate`.
 - H-Int e raster FX possuem owner unico. Segundo owner sem chain declarada gera `raster_fx_owner_collision`.
 - Palette cycling nao pode disputar slots com jogador, HUD, FX de dano ou Shadow/Highlight sem `palette_cycle_decision_card`.
 - `signature_only` exige fallback e budget antes de runtime.
@@ -158,6 +161,9 @@ Campos minimos:
 - `scene_direction_record`
 - `scene_signature_techniques`
 - `fallback_profile`
+- `art_gameplay_direction_gate` quando a iteracao produzir background plate,
+  layer sheet, foreground, setpiece visual, boss arena, title/menu scenic
+  background ou qualquer cenario autoral critico
 - `parallax_layer_contract` quando aplicavel
 - `palette_cycle_decision_card` quando aplicavel
 - `raster_fx_ownership_map` quando aplicavel
@@ -173,6 +179,9 @@ Campos minimos:
 - cenario monumental tem funcao de gameplay ou narrativa, nao apenas decoracao
 - fallback e rebaixamento estao documentados antes de runtime
 - budget preliminar nao contradiz o perfil escolhido
+- `art_gameplay_direction_gate` passa quando a cena gerar background/layers
+  criticos; sem isso, o cenario fica `needs_review` mesmo que a imagem seja
+  bonita
 
 ### Handoff
 
@@ -180,3 +189,21 @@ Campos minimos:
 - para `visual-excellence-standards`: entregar funcao narrativa, anti-padroes e risco decorative-only
 - para `megadrive-vdp-budget-analyst`: entregar cards com custo de pior quadro e ownership
 - para `sgdk-runtime-coder`: entregar owner de H-Int/CRAM/scroll/tiles, reset e fallback
+
+## Curadoria 2026-06-15 - Guardian e scroll FX
+
+Quando uma cena usar material da curadoria Mega Drive AAA ou prometer
+Shadow/Highlight, H-Int, VSCROLL_COLUMN, HSCROLL_LINE, palette cycling,
+tile animation, Ranger X-like lighting, pseudo-3D ou `ready_for_aaa`, esta skill
+deve:
+
+- acionar `aaa-pipeline-guardian` antes de fechar o perfil da cena;
+- produzir ou exigir `aaa_pipeline_gate_report`;
+- entregar `scroll_fx_contract` para `shadow-highlight-scroll-fx`;
+- entregar `dma_queue_contract` quando background vivo depender de tile
+  animation, dirty tiles ou streaming;
+- manter `ready_for_aaa=false` enquanto faltar BlastEm, VDP dump quando
+  necessario, ou budget do pior quadro.
+
+Tecnica historica vista em video e referencia de curadoria, nao permissao para
+aplicar hack sem owner, fallback e evidencia.

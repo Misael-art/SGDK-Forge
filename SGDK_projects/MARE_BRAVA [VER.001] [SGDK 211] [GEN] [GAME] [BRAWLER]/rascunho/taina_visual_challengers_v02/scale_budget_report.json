@@ -1,0 +1,648 @@
+{
+  "schema_version": "1.0.0",
+  "status": "superseded_invalid_scanline_model",
+  "superseded_by": "vdp_scanline_simulator/1.2.0",
+  "invalidation_reason": "v1.1 applied total vertically stacked metasprite links to every scanline",
+  "source": "exact_resolution_candidate_pngs",
+  "res_touched": false,
+  "scales": [
+    {
+      "scale": "48x64",
+      "width": 48,
+      "height": 64,
+      "visible_pixels": 2352,
+      "visible_bbox_width": 42,
+      "visible_bbox_height": 56,
+      "worst_pose_scanline_peak_px": 42,
+      "raw_tiles": 48,
+      "unique_tiles": 48,
+      "vram_raw_bytes": 1536,
+      "vram_unique_bytes": 1536,
+      "dma_upload_upper_bound_bytes": 1536,
+      "metasprite_entries_32px_cells": 4,
+      "coexistence_scene": {
+        "hero_plus_four_enemies": {
+          "tool_name": "vdp_scanline_simulator",
+          "tool_version": "1.1.0",
+          "status": "ok",
+          "display_mode": "h40",
+          "limits": {
+            "sprites_per_scanline": 20,
+            "pixels_per_scanline": 320
+          },
+          "sprite_count": 5,
+          "total_sprite_links": 20,
+          "max_sprites_per_scanline": 20,
+          "max_sprite_pixels_per_scanline": 176,
+          "over_limit_lines": [],
+          "over_pixel_limit_lines": [],
+          "headroom": {
+            "sprite_utilization": 1.0,
+            "pixel_utilization": 0.55,
+            "binding_limit": "sprite_count",
+            "peak_utilization": 1.0,
+            "unexploited_threshold": 0.6,
+            "justification": "close-combat composition measured for TAINA review",
+            "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+          },
+          "blockers": [],
+          "warnings": [
+            "scanline_pressure_near_limit"
+          ]
+        }
+      },
+      "camera": {
+        "width": 320,
+        "height": 224,
+        "ground_y": 192,
+        "footprint": [
+          120,
+          96,
+          48,
+          64
+        ],
+        "hitbox": [
+          120,
+          96,
+          48,
+          64
+        ]
+      }
+    },
+    {
+      "scale": "48x64",
+      "width": 48,
+      "height": 64,
+      "visible_pixels": 903,
+      "visible_bbox_width": 30,
+      "visible_bbox_height": 60,
+      "worst_pose_scanline_peak_px": 23,
+      "raw_tiles": 48,
+      "unique_tiles": 30,
+      "vram_raw_bytes": 1536,
+      "vram_unique_bytes": 960,
+      "dma_upload_upper_bound_bytes": 960,
+      "metasprite_entries_32px_cells": 4,
+      "coexistence_scene": {
+        "hero_plus_four_enemies": {
+          "tool_name": "vdp_scanline_simulator",
+          "tool_version": "1.1.0",
+          "status": "ok",
+          "display_mode": "h40",
+          "limits": {
+            "sprites_per_scanline": 20,
+            "pixels_per_scanline": 320
+          },
+          "sprite_count": 5,
+          "total_sprite_links": 20,
+          "max_sprites_per_scanline": 20,
+          "max_sprite_pixels_per_scanline": 176,
+          "over_limit_lines": [],
+          "over_pixel_limit_lines": [],
+          "headroom": {
+            "sprite_utilization": 1.0,
+            "pixel_utilization": 0.55,
+            "binding_limit": "sprite_count",
+            "peak_utilization": 1.0,
+            "unexploited_threshold": 0.6,
+            "justification": "close-combat composition measured for TAINA review",
+            "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+          },
+          "blockers": [],
+          "warnings": [
+            "scanline_pressure_near_limit"
+          ]
+        }
+      },
+      "camera": {
+        "width": 320,
+        "height": 224,
+        "ground_y": 192,
+        "footprint": [
+          120,
+          96,
+          48,
+          64
+        ],
+        "hitbox": [
+          120,
+          96,
+          48,
+          64
+        ]
+      }
+    },
+    {
+      "scale": "64x96",
+      "width": 64,
+      "height": 96,
+      "visible_pixels": 1810,
+      "visible_bbox_width": 44,
+      "visible_bbox_height": 88,
+      "worst_pose_scanline_peak_px": 32,
+      "raw_tiles": 96,
+      "unique_tiles": 53,
+      "vram_raw_bytes": 3072,
+      "vram_unique_bytes": 1696,
+      "dma_upload_upper_bound_bytes": 1696,
+      "metasprite_entries_32px_cells": 6,
+      "coexistence_scene": {
+        "hero_plus_four_enemies": {
+          "tool_name": "vdp_scanline_simulator",
+          "tool_version": "1.1.0",
+          "status": "error",
+          "display_mode": "h40",
+          "limits": {
+            "sprites_per_scanline": 20,
+            "pixels_per_scanline": 320
+          },
+          "sprite_count": 5,
+          "total_sprite_links": 22,
+          "max_sprites_per_scanline": 22,
+          "max_sprite_pixels_per_scanline": 192,
+          "over_limit_lines": [
+            {
+              "scanline": 112,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 113,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 114,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 115,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 116,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 117,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 118,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 119,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 120,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 121,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 122,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 123,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 124,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 125,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 126,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 127,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 128,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 129,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 130,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 131,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 132,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 133,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 134,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 135,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 136,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 137,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 138,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 139,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 140,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 141,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 142,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 143,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 144,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 145,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 146,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 147,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 148,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 149,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 150,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 151,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 152,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 153,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 154,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 155,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 156,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 157,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 158,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 159,
+              "sprite_links": 22
+            }
+          ],
+          "over_pixel_limit_lines": [],
+          "headroom": {
+            "sprite_utilization": 1.1,
+            "pixel_utilization": 0.6,
+            "binding_limit": "sprite_count",
+            "peak_utilization": 1.1,
+            "unexploited_threshold": 0.6,
+            "justification": "close-combat composition measured for TAINA review",
+            "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+          },
+          "blockers": [
+            "sprites_per_scanline_over_20"
+          ],
+          "warnings": []
+        }
+      },
+      "camera": {
+        "width": 320,
+        "height": 224,
+        "ground_y": 192,
+        "footprint": [
+          120,
+          96,
+          64,
+          96
+        ],
+        "hitbox": [
+          120,
+          96,
+          64,
+          96
+        ]
+      }
+    },
+    {
+      "scale": "64x96",
+      "width": 64,
+      "height": 96,
+      "visible_pixels": 2160,
+      "visible_bbox_width": 56,
+      "visible_bbox_height": 87,
+      "worst_pose_scanline_peak_px": 41,
+      "raw_tiles": 96,
+      "unique_tiles": 63,
+      "vram_raw_bytes": 3072,
+      "vram_unique_bytes": 2016,
+      "dma_upload_upper_bound_bytes": 2016,
+      "metasprite_entries_32px_cells": 6,
+      "coexistence_scene": {
+        "hero_plus_four_enemies": {
+          "tool_name": "vdp_scanline_simulator",
+          "tool_version": "1.1.0",
+          "status": "error",
+          "display_mode": "h40",
+          "limits": {
+            "sprites_per_scanline": 20,
+            "pixels_per_scanline": 320
+          },
+          "sprite_count": 5,
+          "total_sprite_links": 22,
+          "max_sprites_per_scanline": 22,
+          "max_sprite_pixels_per_scanline": 192,
+          "over_limit_lines": [
+            {
+              "scanline": 112,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 113,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 114,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 115,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 116,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 117,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 118,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 119,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 120,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 121,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 122,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 123,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 124,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 125,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 126,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 127,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 128,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 129,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 130,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 131,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 132,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 133,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 134,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 135,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 136,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 137,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 138,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 139,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 140,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 141,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 142,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 143,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 144,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 145,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 146,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 147,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 148,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 149,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 150,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 151,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 152,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 153,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 154,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 155,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 156,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 157,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 158,
+              "sprite_links": 22
+            },
+            {
+              "scanline": 159,
+              "sprite_links": 22
+            }
+          ],
+          "over_pixel_limit_lines": [],
+          "headroom": {
+            "sprite_utilization": 1.1,
+            "pixel_utilization": 0.6,
+            "binding_limit": "sprite_count",
+            "peak_utilization": 1.1,
+            "unexploited_threshold": 0.6,
+            "justification": "close-combat composition measured for TAINA review",
+            "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+          },
+          "blockers": [
+            "sprites_per_scanline_over_20"
+          ],
+          "warnings": []
+        }
+      },
+      "camera": {
+        "width": 320,
+        "height": 224,
+        "ground_y": 192,
+        "footprint": [
+          120,
+          96,
+          64,
+          96
+        ],
+        "hitbox": [
+          120,
+          96,
+          64,
+          96
+        ]
+      }
+    }
+  ]
+}

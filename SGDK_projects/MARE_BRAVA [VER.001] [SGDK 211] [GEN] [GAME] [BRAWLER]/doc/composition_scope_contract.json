@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "cais_01_theme_scope_v01",
+  "scene_id": "cais_01",
+  "track_id": "cais01_theme_pending",
+  "scope": "core_loop_10m",
+  "intended_use": "stage_bgm",
+  "status_ceiling": "vertical_slice_candidate",
+  "identity_note": "Percussao FM, baixo de mare e tensao costeira; a faixa deve respirar para impacto e alerta.",
+  "loop_plan": {
+    "bar_count": 8,
+    "duration_seconds": 32,
+    "seamless_loop_report_path": "doc/audio/seamless_loop_report_cais01.json",
+    "click_free_strategy": "loop em limite de compasso com zero-crossing e teste de repeticao",
+    "pause_resume_behavior": "pausar no estado de pausa e retomar no proximo frame musical sem reiniciar",
+    "fatigue_risk_notes": "Evitar camada de percussao constante durante a breathing zone."
+  },
+  "sfx_protection": {
+    "frequency_masking_plan_path": "doc/audio/frequency_masking_plan_cais01.json",
+    "critical_sfx": ["player_hit", "enemy_telegraph", "ring_out_splash"],
+    "masking_strategy": "duck de FM_CH3/CH4 durante impacto e prioridade DAC/PSG para alerta"
+  },
+  "promotion_criteria": [
+    "source musical autoral persistido no projeto",
+    "seamless_loop_report sem clique, corte ou silencio morto",
+    "frequency_masking_plan validado com SFX criticos",
+    "validate_audio sem issues",
+    "audio observado em BlastEm com ROM hash atual"
+  ],
+  "blockers": ["stage_bgm_source_missing", "seamless_loop_report_missing", "frequency_masking_plan_missing"]
+}

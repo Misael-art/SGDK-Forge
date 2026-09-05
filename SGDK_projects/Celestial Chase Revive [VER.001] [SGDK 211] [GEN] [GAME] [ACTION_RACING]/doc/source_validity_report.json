@@ -1,0 +1,30 @@
+{
+  "schema": "source_validity_report.v1",
+  "status": "authorial_source_direction_present",
+  "source_validity": true,
+  "source_scope": "visual_direction_source_only",
+  "premium_source_manifest": "doc/visual_slice_v001_manifest.json",
+  "accepted_for_res_promotion": false,
+  "reason": "visual_slice_v001 is project-owned source direction, but must still be converted, audited and seen in BlastEm before asset promotion.",
+  "required_before_asset_promotion": true,
+  "source_files": [
+    {
+      "asset_id": "visual_slice_v001_title_source",
+      "path": "data/source_art/revive/visual_slice_v001/title_frontend_source_v001.png",
+      "sha256": "55b904a54ff029da0fd75e1d1cf634e3ccb2e5629fff9fb5c38b19ef8e4d9c1e",
+      "role": "front-end title source direction"
+    },
+    {
+      "asset_id": "visual_slice_v001_sector01_source",
+      "path": "data/source_art/revive/visual_slice_v001/sector01_playfield_source_v001.png",
+      "sha256": "35e529894005834935cd62e5d487a13084542649c4a1be3744219f1c816f7e90",
+      "role": "Sector 01 playfield source direction"
+    },
+    {
+      "asset_id": "visual_slice_v001_contact_sheet",
+      "path": "data/processed/visual_slice_v001/visual_slice_contact_sheet_v001.png",
+      "sha256": "f38907052aa61ddff3801598e2a76bab9d6c1b8a38a130b9906dbaef90925f12",
+      "role": "human review contact sheet"
+    }
+  ]
+}

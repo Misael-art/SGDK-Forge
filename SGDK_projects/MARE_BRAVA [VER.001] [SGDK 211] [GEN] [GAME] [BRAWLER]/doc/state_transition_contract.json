@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "mare_brava_app_transitions_v01",
+  "scene_manager_owner": "src/core/app.c",
+  "non_reentrant": true,
+  "transitions": [
+    {"from": "BOOT", "to": "BRANDING", "trigger": "init_completo", "input_policy": "locked_until_ready", "fade": "none"},
+    {"from": "BRANDING", "to": "TITLE", "trigger": "sequence_complete_or_start", "input_policy": "start_allowed", "fade": "palette_fade"},
+    {"from": "TITLE", "to": "GAMEPLAY_CAIS01", "trigger": "start_pressed", "input_policy": "locked_during_preload", "fade": "palette_fade"},
+    {"from": "GAMEPLAY_CAIS01", "to": "DEMO_CLEAR", "trigger": "final_wave_clear", "input_policy": "locked_during_result", "fade": "cut_or_palette_fade"},
+    {"from": "GAMEPLAY_CAIS01", "to": "GAME_OVER", "trigger": "hp_zero_no_lives", "input_policy": "locked_during_result", "fade": "palette_fade"}
+  ],
+  "teardown_reset_plan": ["flush_or_invalidate_pending_dma", "SPR_reset", "clear_BG_A_BG_B_WINDOW", "reset_camera_scroll_and_HInt", "stop_scene_audio", "clear_scene_input_latches"],
+  "rollback_policy": "On preload failure, return to TITLE after deterministic cleanup; no scene id swap before cleanup completes.",
+  "status": "contracted_runtime_not_complete"
+}

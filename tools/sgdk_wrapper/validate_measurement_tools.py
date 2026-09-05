@@ -45,6 +45,24 @@ MEASUREMENT_TOOLS = [
     "tools/sgdk_wrapper/audit_luma_floor.py",
     "tools/sgdk_wrapper/seal_fresh_evidence_bundle.py",
     "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+    # forge-art P0.1: a conversao de cor produz numero que vira claim de
+    # conformidade, entao ela se submete a secao 34 como qualquer instrumento.
+    "tools/sgdk_wrapper/forge_art/vdp_color.py",
+    "tools/sgdk_wrapper/forge_art/pixel_contract.py",
+    # job.py orquestra, mas emite `source_intact` e cache hit — dois claims.
+    # Na duvida entre instrumento e gerador, entra na lista: a secao 34 so
+    # conhece um erro caro, e e o de nao medir.
+    "tools/sgdk_wrapper/forge_art/job.py",
+    "tools/sgdk_wrapper/forge_art/__main__.py",
+    # Revalida dimensoes, modo, PLTE, lineage, escala e gates de uma sprite;
+    # o report fornecido pelo produtor nao e aceito como prova de si mesmo.
+    "tools/sgdk_wrapper/validate_native_sprite_production.py",
+    # Gate de animacao ligado ao artefato: celula/lineart/movimento/claim sao
+    # medidos novamente, em vez de confiar em reports auto-declarados.
+    "tools/sgdk_wrapper/.agent/scripts/validate_lineart_topology.py",
+    "tools/sgdk_wrapper/.agent/scripts/validate_animation_strip_artifact.py",
+    "tools/sgdk_wrapper/.agent/scripts/validate_motion_semantics.py",
+    "tools/sgdk_wrapper/.agent/scripts/validate_animation_candidate.py",
 ]
 
 TIMEOUT_SECONDS = 120

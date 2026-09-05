@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-29",
+  "status": "res_runtime_candidate_pending_rom_review",
+  "source_matrix": "doc/contracts/cais01_visual_source_matrix_v04.json",
+  "art_gameplay_gate": "doc/contracts/cais01_art_gameplay_direction_gate_v04.json",
+  "scene_direction": "doc/art/environments/cais01/cais01_scene_direction_record_v04.json",
+  "source_region_map": "doc/art/environments/cais01/cais01_source_region_map_v04.json",
+  "derived_structure_ir": "doc/art/environments/cais01/cais01_derived_structure_ir_v04.json",
+  "basic": "doc/art/environments/cais01/review/cais01_art_alignment_basic_v04.png",
+  "elite": "doc/art/environments/cais01/review/cais01_art_alignment_elite_v04.png",
+  "comparison": "doc/art/environments/cais01/review/cais01_original_basic_elite_v04.png",
+  "tile_estimate": {
+    "bg_b": {
+      "total": 1792,
+      "unique_exact": 502
+    },
+    "bg_a": {
+      "total": 1792,
+      "unique_exact": 394
+    },
+    "combined_unique_exact": 896
+  },
+  "promoted_paths": [
+    "res/backgrounds/cais01/cais01_bg_b_harbor_sunset_512x224_v04.png",
+    "res/backgrounds/cais01/cais01_bg_a_industrial_pier_512x224_v04.png"
+  ],
+  "claim_ceiling": "runtime_candidate",
+  "not_changed": [
+    "taina_sprite_geometry",
+    "smoke_sprite",
+    "dust_sprite",
+    "contact_shadow",
+    "line_scroll_runtime"
+  ]
+}

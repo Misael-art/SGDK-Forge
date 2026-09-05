@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "mare_brava_enemy_cais01_v01",
+  "timestamp": "2026-08-30T17:45:00Z",
+  "target_scope": "cais_01",
+  "status": "warn",
+  "enemy_results": [
+    {"enemy_id": "cria", "role": "perseguidor", "head_metric": "M", "tactical_function": "Rusher que cria pressao e conduz o jogador ao alcance do grappler.", "telegraph_complete": true, "synergy_count": 1, "status": "passed", "issues": []},
+    {"enemy_id": "estivador", "role": "bloqueador", "head_metric": "L", "tactical_function": "Grappler que pune permanencia e protege a aproximacao da CRIA.", "telegraph_complete": true, "synergy_count": 1, "status": "passed", "issues": []}
+  ],
+  "head_metric_audit": {"counts_per_metric": {"S": 0, "M": 1, "L": 1, "XL": 0}, "boss_xl_compliance": true, "non_boss_xl_violations": [], "boss_with_lt_3_states": []},
+  "synergy_composition_map": [{"composition_id": "cria_estivador_bait", "members": ["cria", "estivador"], "synergy_type": "bait", "validated": true}],
+  "issues": [{"code": "enemy_stinger_id_pending", "severity": "warn", "message": "Os cues de alerta existem no roster, mas ids de stinger ainda nao foram ligados ao audio director."}],
+  "blocking_statuses": []
+}

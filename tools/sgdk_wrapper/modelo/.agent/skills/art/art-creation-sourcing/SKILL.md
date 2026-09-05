@@ -19,9 +19,12 @@ Leia sob demanda:
 
 - `references/context_orchestration_v1.md` para `context_pack_manifest`, `asset_lineage_record`, `style_memory_index` e `qa_correction_loop`
 - `references/master_style_manifest.md` para manter identidade visual entre o primeiro e o decimo asset
-- `../art-direction-selector/SKILL.md` e `tools/sgdk_wrapper/.agent/references/art_style_catalog.json` antes de escrever `master_style_manifest` novo
+- `../art-direction-selector/SKILL.md`, `doc/03_art/17_concept_art_direction_system.md` e `tools/sgdk_wrapper/.agent/references/art_style_catalog.json` antes de escrever `master_style_manifest` novo
 - `references/image_generation_capability_routing.md` antes de declarar bloqueio de geracao visual
 - `../art-conversion-pipeline/references/canonical_asset_structure.md` para separar fonte premium, raw, processed, debug lab e `res/`
+- `tools/sgdk_wrapper/schemas/project_bible.schema.json`, `visual_dna_manifest.schema.json`, `design_inheritance.schema.json` e `art_gameplay_direction_gate.schema.json` quando o asset nascer autoral e precisar de rastro machine-readable
+- `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/benchmark_usage_policy.md` antes de usar benchmarks em brief ou prompt
+- `doc/03_art/18_live_scene_bar.md` (ou o brief) antes de qualquer prompt; o piso e o oficio Rheo/Pigsy, nao "pixel art sprite sheet Mega Drive"
 
 Ferramenta local:
 
@@ -33,8 +36,12 @@ Regra:
 
 - nao pedir ou emitir Chain of Thought; use artefatos de decisao rastreaveis
 - nao gerar proposta visual sem declarar quais fontes canonicas foram consultadas
-- nao gerar prompt, buscar asset ou aceitar imagem sem `art_direction_decision_record` e `master_style_manifest`; manifest legado sem decision record fica `art_direction_pre_canonical` e nao fecha AAA novo
-- usar os `prompt_descriptors` tecnicos do `art_style_catalog.json`; nomes de artistas, estudios, marcas, jogos ou IP ficam como referencias tecnicas e nunca como comando de copia
+- nao gerar prompt, buscar asset ou aceitar imagem sem `concept_art_direction_brief`, `art_direction_decision_record` e `master_style_manifest`; manifest legado sem decision record fica `art_direction_pre_canonical` e nao fecha AAA novo
+- nao gerar prompt, buscar asset ou aceitar imagem de model sheet, background,
+  sprite art, key pose, animation strip, sprite sheet final, FX sheet, HUD
+  heroico, title/menu ou asset critico sem `art_gameplay_direction_gate`
+  aprovado ou explicitamente `needs_review` com bloqueio de promocao
+- usar os `prompt_descriptors` tecnicos do `art_style_catalog.json`; nomes de artistas, estudios, marcas, jogos ou IP ficam como referencias tecnicas e nunca como comando de copia; RheoGamer/PigsyRetro sao barra de oficio (`quality_bar`), nunca comando de copia nem source_art
 - se a arte gerada por IA for personagem animado, carregar `art/sprite-animation` antes de qualquer prompt de imagem
 - falha de API/CLI nao bloqueia se houver geracao nativa inline no chat; registrar `generated_inline_pending_persistence` quando a imagem renderizou mas ainda nao foi salva
 - `local_author_pixel_rasterization` e `procedural_renderer` so podem gerar `debug_lab`, `visual_lab_control` ou `placeholder`; nunca fonte final de personagem, cenario, boss, HUD heroico ou asset AAA
@@ -44,11 +51,18 @@ Regra:
 
 ## As duas rotas
 
-Rota A agora sempre comeca por `context_pack_manifest`, `art_direction_decision_record`, `master_style_manifest` e `art_generation_brief`. O prompt de imagem vem depois desses artefatos, e cada resultado precisa de `asset_lineage_record`.
+Rota A agora sempre comeca por `context_pack_manifest`, `concept_art_direction_brief`, `art_direction_decision_record`, `master_style_manifest`, `art_gameplay_direction_gate` para asset critico e `art_generation_brief`. O prompt de imagem vem depois desses artefatos, e cada resultado precisa de `asset_lineage_record`.
 
 Quando uma geracao for aceita como fonte artistica, o primeiro destino canonico e `data/source_art/`, nao `res/`. `data/raw_ai/` guarda saidas brutas; `data/debug_lab/` guarda controles procedurais; `data/processed/` guarda candidatos convertidos. O handoff para conversao deve incluir `premium_source_manifest` e lineage com caminho real existente.
 
-Para personagem, inimigo ou boss animado, a Rota A tambem exige `asset_kind_declaration`, `animation_state_plan`, `pose_roster`, `frame_budget_table` e `pivot_and_scale_contract` de `sprite-animation` antes do primeiro `visual_proof_anchor`. O agente deve gerar model sheet, key poses e strips por acao antes de montar sheet final; prompt generico de "sprite sheet completo" e bloqueado. `key_pose_sheet` nunca equivale a `animation_strip`; cada strip deve conter uma unica acao e um `motion_phase_map`.
+Para personagem, inimigo ou boss animado, a Rota A tambem exige `asset_kind_declaration`, `animation_state_plan`, `pose_roster`, `frame_budget_table`, `pivot_and_scale_contract` e `art_gameplay_direction_gate` de `sprite-animation` antes do primeiro `visual_proof_anchor`. O agente deve gerar model sheet, key poses e strips por acao antes de montar sheet final; prompt generico de "sprite sheet completo" e bloqueado. `key_pose_sheet` nunca equivale a `animation_strip`; cada strip deve conter uma unica acao e um `motion_phase_map`.
+
+Para personagem critico, heroi, lutador, boss, NPC expressivo ou asset autoral,
+a geracao/concepcao tambem deve produzir `lineart_blocking_1px` antes de
+`color blocking`: lineart hard-edge de 1 px, em uma unica cor escura temporaria
+(azul escuro, roxo escuro ou equivalente), sem AA/blur, sem degraus
+desnecessarios, double corners ou pixels orfaos. A etapa existe para julgar
+forma, roupa, cabelo, anatomia e silhueta antes de saturacao, rampas e shading.
 
 Antes de declarar `BLOCKED_IMAGE_TOOLING`, emita `tooling_capability_report` e `generation_channel_decision`. A ausencia de ferramenta callable nao prova ausencia de imagem: se o chat renderiza imagem inline, a rota segue como `native_chat_inline_generation`.
 
@@ -92,6 +106,14 @@ Antes de gerar qualquer arte, definir:
 **clone_risk_policy:** authoriality_gate_required
 **prompt_descriptor_policy:** neutral_technical_descriptors_only
 
+## Concept Art Direction Brief
+
+**visual_purpose:** funcao da arte no jogo
+**gameplay_readability_goal:** leitura esperada em 1 frame
+**style_selection_method:** production_driven/gameplay_driven/tone_driven/market_driven
+**nine_style_axes:** dimensionalidade, fidelidade, cor, luz, formas, materiais, UI, movimento e VFX
+**five_approval_gates:** escopo, silhueta, valores, paleta e polish/VFX com sinal de gameplay
+
 ## Master Style Manifest
 
 **style_anchor_id:** (ex: project_aegis_style_v1)
@@ -109,73 +131,110 @@ Antes de gerar qualquer arte, definir:
   - Destaque: #XXXXXX
   - Contorno: #000000
 **Line weight alvo:** 1 px ou regra equivalente por escala
+**Lineart blocking:** `lineart_blocking_1px` para personagem critico antes de cor
 **Iluminacao:** top-left/top-down declarada e constante
 **Limite de drift:** default 15% para variancia cromatica/valor antes de `revisar`
 ```
 
-### Passo 2 — Prompts de pixel art para IA
+### Passo 2 — Prompts de FONTE, nao de sprite final
 
-**Estrutura de prompt de alta qualidade:**
+Pedir "pixel art sprite sheet Mega Drive, no AA, 15 cores" ao gerador
+como fonte final e `pixel_art_prompted_as_final` (barra viva, axioma P1).
+O gerador entrega fake pixel art. A barra manda: fonte forte → traduzir.
 
-```
-[TECNICA] pixel art sprite sheet, [PERSONAGEM], [ESTILO],
-[DIMENSAO] pixel canvas, [PALETA], transparent background,
-[ANIMACOES], front view, [REFERENCIAS],
-clean outlines, no anti-aliasing, no gradients,
-limited palette [N] colors, Mega Drive style
-```
-
-**Exemplos prontos:**
+**Estrutura de prompt de fonte premium:**
 
 ```
-# Personagem de plataforma (estilo Sonic/Mega Man):
-pixel art sprite sheet, platformer hero character,
-32x32 pixel canvas, anime 90s style,
-blue and white color scheme with yellow highlights,
-idle animation 4 frames, run animation 6 frames,
-transparent background, clean black outlines,
-no anti-aliasing, 15 color palette max,
-Mega Drive Genesis style, Streets of Rage inspired
-
-# Inimigo (estilo briga de rua):
-pixel art enemy sprite, muscular thug character,
-24x32 pixel canvas, 90s arcade fighting game style,
-dark outfit with red details, walk cycle 6 frames,
-attack animation 4 frames, hurt frame 1, death 2 frames,
-transparent background, hard pixel edges,
-Streets of Rage 2 color palette quality,
-Mega Drive 15 color limit
-
-# Background tile (cenario urbano):
-pixel art tileset, urban alley background tiles,
-8x8 pixel tiles seamless, 90s beat em up style,
-dark asphalt and brick walls, dim lighting,
-15 color palette, dithered shadows,
-Streets of Rage 2 / Shinobi III quality,
-Mega Drive Genesis resolution 320x224
+Pintura/concept do [SUJEITO] em [POSE/ACAO], [MATERIAL DOMINANTE],
+luz [DIRECAO] dura, silhueta legivel, volume em 3 planos de valor,
+fundo simples ou chroma so se for recorte. Estilo descrito por
+descritores tecnicos do catalogo — nunca nome de jogo/artista/IP.
 ```
 
-**Dicas para prompts de alta qualidade:**
-- Sempre mencionar: "no anti-aliasing", "no gradients", "hard pixel edges"
-- Especificar numero maximo de cores: "15 color palette max"
-- Referenciar jogos MD especificos para calibrar estilo
-- Pedir "transparent background" para sprites
-- Mencionar "8x8 tile grid" para tilesets
-- Para sprite sheets, especificar frames e animacoes
-- Herdar `style_anchor_id`, paleta, iluminacao, densidade de pixels e line weight do `master_style_manifest`
-- Para personagem central, pedir prancha ortografica simples antes de poses complexas
-- Usar green screen/chroma key apenas como artefato bruto de IA; o asset SGDK final deve sair indexado com index 0 transparente conforme contrato do projeto
+**Exemplos alinhados a barra:**
+
+```
+# Personagem (fonte, depois lineart 1px no tamanho alvo):
+full-body character concept, three-quarter stance, readable silhouette,
+hard directional light from upper left, leather and metal materials
+with clear light/base/shadow, isolated subject, flat backdrop
+
+# Inimigo de rua (densidade arcade = escala do GDD, nao 24x32 no prompt):
+stocky fighter concept, weight in the hips, costume asymmetry,
+impact-ready pose, material ramps visible, no background clutter
+
+# Cenario (fonte de plano, depois reautoria em tiles — nunca dump):
+wide establishing painting of a dock at dusk, foreground structure
+vs distant atmosphere, one focal mass, lighting that will survive
+a 9-bit ramp, composition that can split into BG_B sky and BG_A ground
+```
+
+**Depois da fonte, nao no gerador:**
+- lineart 1 px no tamanho alvo (48x64 / 64x96 / o que o GDD travar)
+- paleta semantica 9-bit com papel por slot (R2/P5)
+- strips por acao unica; video→harvest para movimento
+- tileset por modularizacao, nao pela pintura inteira (R4)
+
+**Dicas:**
+- Herdar `style_anchor_id`, paleta alvo, iluminacao e line weight do `master_style_manifest`
+- Nunca usar "Streets of Rage inspired" / "Shinobi quality" / handles Rheo/Pigsy como comando de copia; herdar so o eixo tecnico (silhueta, rampa, densidade)
+- Green screen so como bruto; o SGDK final sai indexado com index 0
+- Se o gerador devolver fake pixel art, rejeitar e regenerar como concept — nao "corrigir" com quantize
 
 ### Passo 3 — Ferramentas de geracao de imagem
 
-**Opcoes recomendadas (ordem de qualidade para pixel art):**
+A partir de 2026-07-09, a geracao em Rota A passo 3 e **native-first**.
+O agente usa `imagegen_circuit.py`/`imagegen_tool.py route` para registrar a
+decisao, mas se a sessao atual expõe uma ferramenta nativa de imagem
+(`native_chat_image_generation_callable` ou `native_chat_inline_generation`),
+esse e o caminho primario. Nao bloquear concept art por Bonsai sem licenca,
+host AMD ou ComfyUI offline quando o modelo atual consegue gerar a imagem.
+Bonsai/ComfyUI sao fallback local opt-in quando nativo/API nao existem.
 
-| Ferramenta | Qualidade | Disponibilidade |
-|------------|-----------|-----------------|
-| Stable Diffusion (PixelArt LoRA) | Excelente | Local/API |
-| Ideogram v2 | Muito bom | Web/API |
-| DALL-E 3 | Bom | API OpenAI |
-| Midjourney | Bom | Discord/Web |
+```powershell
+# Dry-run read-only (sempre funciona; auto-detecta Codex/ChatGPT nativo)
+.\tools\ai_imagegen\run_imagegen_circuit.ps1 preflight `
+    --project "<NOME DO PROJETO>" `
+    --asset-role concept_art `
+    --style-manifest "<P>/doc/art/master_style_manifest.json" `
+    --write-decision `
+    --json
+
+# Run real pelo circuit apenas para backend local. Se preflight retornar
+# native_chat_image_generation_callable/native_chat_inline_generation, use a
+# ferramenta nativa da sessao, salve em data/source_art/ e registre lineage.
+.\tools\ai_imagegen\run_imagegen_circuit.ps1 run `
+    --project "<NOME DO PROJETO>" `
+    --asset-role concept_art `
+    --prompt "..." `
+    --seed 42 `
+    --json
+```
+
+Veja o runbook completo em `tools/sgdk_wrapper/.agent/workflows/ai-imagegen-circuit.md`.
+
+**Escopos Bonsai (v1, license-gated):**
+
+| Escopo | Significado | Aceito |
+|---|---|---|
+| `concept_art` | Imagem-fonte forte para re-trabalho VDP | sim |
+| `tileset_concept` | Conceito de tileset antes de modularizar | sim |
+| `dither_mask` | Mascara 1-bit dithered como base de mapeamento H/S | sim |
+| `contrast_study` | Estudo de contraste branco/preto + material | sim |
+| `animated_sprite_final` | Sprite animado pronto para `res/` | **nao** |
+| `hud_final` | HUD heroico pronto para `res/` | **nao** |
+| `res_direct` | Asset para `res/` direto | **nao** |
+| `aaa_final_asset` | Asset final AAA direto | **nao** |
+
+**Opcoes de canais (em ordem de prioridade, espelha image-generation-routing):**
+
+| Canal | Qualidade | Disponibilidade |
+|---|---|---|
+| Native chat (callable ou inline) | Excelente | Quando o chat expõe |
+| API/CLI externa (OpenAI, Ideogram, etc.) | Muito bom | Billing + chave |
+| Local ComfyUI (`imagegen_tool.py generate`) | Bom | Local |
+| Local Bonsai 4B (`imagegen_circuit.py run` com `--asset-role concept_art` etc.) | Bom (1-bit friendly) | NVIDIA/Apple Silicon + license ack |
+| `procedural_renderer` | Placeholder | `debug_lab` apenas |
 
 **Para gerar via API (automacao):**
 ```python
@@ -366,6 +425,8 @@ Consistencia vence brilho isolado.
 - `tooling_capability_report` quando houver geracao por IA
 - `generation_channel_decision` quando houver geracao por IA
 - `master_style_manifest`
+- `project_bible` quando o projeto ainda nao tiver identidade autoral machine-readable
+- `visual_dna_manifest` e `design_inheritance` para personagem principal, boss, cenario autoral ou HUD heroico
 - `art_generation_brief`
 - decisao de rota: IA, web, hibrido ou bloqueado
 - lista de prompts ou fontes candidatas com justificativa
@@ -385,6 +446,11 @@ Consistencia vence brilho isolado.
 - se nenhuma rota persistivel produzir fonte premium para asset critico, declare `blocked_image_tooling` ou `blocked_no_premium_source` e pare antes do runtime visual de producao
 - runtime textual, procedural ou proxy criado depois desse bloqueio e somente `debug_lab` com `lab_not_delivery=true`
 - o `master_style_manifest` define paleta, escala, iluminacao, line weight e limite de drift
+- personagem critico possui `lineart_blocking_1px` aprovado antes de color blocking, paleta final ou shading
+- o benchmark foi usado apenas como qualidade tecnica, escala, densidade ou timing; nunca como fonte visual ou comando de copia
+- a geracao de fonte respeitou a barra viva: concept/volume primeiro, nunca sprite sheet Mega Drive como output do gerador
+- `live_scene_bar_report` entra no handoff quando o asset for critico ou o projeto for `aaa_game`
+- `visual_dna_manifest` e `design_inheritance` existem antes de gerar key poses ou animation strips autorais
 - a rota escolhida respeita escopo, licenca e identidade visual do projeto
 - nenhuma arte externa entra no build sem credito/licenca rastreavel
 - nenhuma arte gerada por IA e tratada como pronta sem conversao e revisao VDP

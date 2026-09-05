@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "pursuer_presence_v001",
+  "design_thesis": "The player must see, hear and feel the Master Pursuer long before the final boss.",
+  "runtime_owner": "src/race/pursuer_presence.c",
+  "pressure_link": {
+    "pressure_0_24": "distant silhouette, no attack influence",
+    "pressure_25_49": "silhouette visible in BG_B horizon, low horn motif",
+    "pressure_50_74": "larger silhouette, shadow flicker, occasional lane warning",
+    "pressure_75_99": "near silhouette, hoof tremor, music pressure layer",
+    "pressure_100": "caught state or forced boss approach according to scene rules"
+  },
+  "sector_presence_scale": [
+    {"sector": "sector_01_farol_quebrado", "bg_b_scale_label": "far", "tile_target": 48, "role": "proof that the chase exists"},
+    {"sector": "sector_02_meteor_garden", "bg_b_scale_label": "approaching", "tile_target": 72, "role": "meteor impacts feel guided by the pursuer"},
+    {"sector": "sector_03_glass_bridge", "bg_b_scale_label": "looming", "tile_target": 96, "role": "glass lanes crack under its rhythm"},
+    {"sector": "sector_04_shadow_tunnel", "bg_b_scale_label": "near", "tile_target": 128, "role": "silhouette becomes tunnel darkness"},
+    {"sector": "boss_approach_crown_road", "bg_b_scale_label": "dominant", "tile_target": 180, "role": "setpiece handoff into boss"},
+    {"sector": "final_boss_master_pursuer", "bg_b_scale_label": "materialized", "tile_target": 256, "role": "boss presence"}
+  ],
+  "visual_signals": [
+    {
+      "id": "horizon_silhouette",
+      "surface": "BG_B",
+      "activation": "sector_start and pressure >= 25",
+      "gameplay_function": "communicates chase proximity"
+    },
+    {
+      "id": "shadow_crossing_lane",
+      "surface": "BG_A_or_sprite_overlay",
+      "activation": "pressure >= 50 before selected attack events",
+      "gameplay_function": "pre-telegraph for pursuer-caused hazards"
+    },
+    {
+      "id": "hoof_tremor",
+      "surface": "camera_shake",
+      "activation": "pressure >= 75 or setpiece beat",
+      "gameplay_function": "warns high danger without hiding lane"
+    }
+  ],
+  "audio_signals": [
+    {"id": "distant_horn", "pressure_min": 25, "priority": "low", "function": "presence"},
+    {"id": "hoof_sub_pulse", "pressure_min": 50, "priority": "medium", "function": "pressure cadence"},
+    {"id": "near_breath_noise", "pressure_min": 75, "priority": "medium", "function": "panic without masking telegraph"},
+    {"id": "caught_stinger", "pressure_min": 100, "priority": "high", "function": "failure or forced approach"}
+  ],
+  "budget_policy": {
+    "first_slice": "single small BG_B silhouette plus optional palette flash; no giant sprite",
+    "fallback": "use palette and audio motif if silhouette budget is not available",
+    "forbidden": [
+      "boss silhouette covering safe lane",
+      "shadow telegraph without gameplay meaning",
+      "large pursuer sprite before scanline budget report"
+    ]
+  },
+  "validation_plan": [
+    "Sector 01 screenshot shows pursuer hint without covering playfield",
+    "Pressure 25/50/75 visual states captured",
+    "Audio cues do not mask damage or telegraph SFX",
+    "BlastEm capture required before any visual delivery claim"
+  ]
+}

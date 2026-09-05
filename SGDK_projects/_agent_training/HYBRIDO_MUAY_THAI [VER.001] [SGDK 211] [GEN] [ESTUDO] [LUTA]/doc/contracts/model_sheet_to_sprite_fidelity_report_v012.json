@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_ai_sprite_sheet_v012",
+  "status": "passed_for_candidate_human_review_required",
+  "technical_pass": true,
+  "visual_pass": true,
+  "source_model_sheet": "data/source_art/hibrido_fighter_v012/source_concept.png",
+  "candidate_sprite_sheet": "data/processed/spritesheets/hibrido_fighter_ai_sprite_sheet_96x96_v012.png",
+  "must_preserve_checks": {
+    "hair": "passed",
+    "eyes_face": "passed",
+    "athletic_anatomy": "passed",
+    "lava_arm": "passed",
+    "shorts_gold_trim": "passed",
+    "wraps_red_band": "passed",
+    "materials": "passed",
+    "asymmetry": "passed"
+  },
+  "ready_for_res_promotion": true,
+  "ready_for_aaa": false,
+  "blockers": [
+    "human_visual_review_missing_for_aaa",
+    "visual_vdp_dump_missing"
+  ]
+}

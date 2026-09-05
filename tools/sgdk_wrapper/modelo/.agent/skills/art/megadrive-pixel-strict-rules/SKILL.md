@@ -58,6 +58,32 @@ Qualquer cor fora deste grid de 512 cores sera rejeitada. Nao existe dithering a
 - Compartilhe tiles entre sprites e cenarios sempre que possivel.
 - Priorize reuso de tiles duplicados, espelhados ou com paleta alternada.
 
+## 8. Pivot, baseline, grid e dither (curation_batch_2026_06_16)
+
+Origem: `curation_records/case_character_proportion_pixel_art_platformer.json` e
+itens do lote `curation_batch_2026_06_16`, evidencia `E1_text`, expansao
+candidata. Refina as regras existentes de grid/escala; nao cria schema novo e
+nao promete AAA/runtime.
+
+- **Pivot e baseline em pixel inteiro.** Pivot e baseline/pes nunca caem em
+  posicao fracionaria no render final (fixed-point e apenas logica interna).
+- **Grid 8x8 e metatile 16x16 na composicao.** A composicao de sprite e cenario
+  deve respeitar o tile 8x8 e o metatile 16x16; quando o gameplay usa grade
+  16x16, a caixa visual do personagem deve alinhar a esse multiplo.
+- **Estabilidade de contato.** Pes/ponto de contato nao podem oscilar 1px entre
+  frames sem intencao documentada (ex.: respiracao declarada no
+  `subpixel_shading_motion_report`); oscilacao acidental vira blocker.
+- **Dither CRT-aware e tecnica declarada, nao "transparencia real".** Dithering
+  deve ser declarado como tecnica de composicao perceptiva; nunca apresentado
+  como alpha, semi-transparencia ou blending de hardware.
+- **Dither nao destroi leitura.** O padrao de dither nao pode degradar a leitura
+  do personagem principal; se competir com a silhueta/identidade, reduzir o
+  dither primeiro.
+- **Paleta perceptiva por contraste funcional.** A escolha de paleta prioriza
+  contraste funcional e hierarquia de leitura, nao apenas fidelidade a fonte.
+- A expansao continua candidata: exige fixture visual ou contrato de baseline
+  antes de promover para producao.
+
 ---
 
 ## Proibicoes absolutas
@@ -68,7 +94,7 @@ Estas tecnicas **nao existem** no hardware e devem ser bloqueadas em qualquer et
 2. **Canal Alpha / Opacidade parcial** — nao existe. Pixel e 100% visivel ou 100% transparente (index 0). Sem semi-transparencia.
 3. **Baked Lighting complexo** — proibido assar iluminacao gradiente nos tiles. Use shadow/highlight do VDP (modo S/H) ou engine para simular. Dithering manual controlado e aceito.
 4. **Sombras assadas na arte** — proibido pintar sombra como parte do sprite. Use shadow bit do VDP ou sprites de sombra simples via engine.
-5. **Sub-pixels** — nao existem. Toda movimentacao e em incrementos de pixel inteiro no render final. Posicao sub-pixel e apenas logica interna (fixed-point), nunca visual.
+5. **Sub-pixels reais** — nao existem. Toda movimentacao e em incrementos de pixel inteiro no render final. Posicao sub-pixel e apenas logica interna (fixed-point), nunca visual. Micro-movimento por mudanca de luz/sombra interna so e permitido como `subpixel_shading_motion_report`, sem AA, blur, nova cor de ruído ou alteracao da silhueta externa.
 6. **Gradientes suaves** — com 15 cores por paleta e 512 cores totais, gradientes suaves sao impossiveis. Use dithering manual de 2-3 cores ou ramp curto.
 7. **Rotacao por hardware** — nao existe. Pre-renderize frames rotacionados como tiles individuais.
 
@@ -79,6 +105,7 @@ Estas tecnicas **nao existem** no hardware e devem ser bloqueadas em qualquer et
 Antes de aceitar qualquer imagem no pipeline:
 
 - [ ] Formato PNG indexado (8-bit ou 4-bit)
+- [ ] Se veio de IA/high-res, downscale foi feito por nearest-neighbor ou foi redesenhado manualmente em grid nativo
 - [ ] Index 0 da paleta = transparente (magenta no fonte)
 - [ ] Maximo 15 cores visiveis na paleta do tile
 - [ ] Todas as cores dentro do grid 9-bits (multiplos de 0x22)
@@ -86,6 +113,57 @@ Antes de aceitar qualquer imagem no pipeline:
 - [ ] Bounding box sem bordas vazias desnecessarias
 - [ ] Tiles duplicados ou espelhaveis identificados para reuso
 - [ ] Nenhuma tecnica proibida presente (AA, alpha, baked light, sombra assada)
+- [ ] Sem fake pixel art: bordas nao tem interpolacao, halo, subpixel fracionario, blur, gradient suave ou PLTE inflada
+- [ ] UI, fonte, health bar e icones usam posicionamento inteiro e nao dependem de free-scale, AA ou interpolacao
+
+## Gate `fake_pixel_art_rejection`
+
+Todo asset gerado por IA, render high-res, mockup ou source nao-nativo deve
+passar por este gate antes de virar sprite, tileset ou sheet final.
+
+Bloqueia:
+
+- downscale bicubico, bilinear, lanczos ou qualquer interpolacao suave;
+- anti-aliasing automatico em bordas, olhos, cabelo, armas ou outline;
+- paleta com microvariacoes da mesma cor apos quantizacao;
+- fundo de chroma-key nao uniforme ou nao-indexado;
+- PLTE com 256 entradas quando o asset deveria ter ate 16;
+- pixels orfaos, halos ou fragmentos fora da celula do personagem;
+- gradiente suave tentando substituir rampa curta/dithering manual.
+- health bar, fonte ou moldura de UI com borda interna suavizada, fill escalado por fracao ou atlas produzido por interpolacao.
+
+Passa quando:
+
+- a arte foi desenhada em grid nativo ou reduzida por nearest-neighbor;
+- a paleta foi indexada, limpa e snapped para 9-bits;
+- bordas sao hard-edge;
+- a limpeza manual removeu jaggies, ilhas e residuos;
+- `sprite_artifact_report` nao contem blockers de celula quando for strip.
+- UI final com leitura pixel-perfect possui `ui_pixel_surface_contract` quando houver fonte, health bar, micro-icone, caixa ou cursor de entrega.
+
+### Limite do gate pixel-strict
+
+Pixel-strict aprova sintaxe de hardware. Ele nao aprova semantica visual.
+
+Um asset pode passar PNG indexado, PLTE <= 16, grid 9-bit e dimensoes multiplas
+de 8, mas ainda reprovar se:
+
+- anatomia/topologia de personagem tiver membro extra, membro desconectado ou
+  extremidade amorfa;
+- acting facial estiver congelado em golpes, dano ou esforco fisico;
+- feature assinatura, roupa, olhos ou material dominante nao forem legiveis em
+  48x64 no BlastEm;
+- a paleta tecnicamente valida destruir a identidade cromatica do concept.
+
+Nesses casos, registrar `technical_pass_visual_fail` e entregar para
+`visual-excellence-standards`/`art-translation-to-vdp`; nao promover.
+
+Conformidade pixel-strict tambem nao autoriza linhagem visual. Se a sheet foi
+reprovada, parcial, sem revisao humana, sem `visual_vdp_dump` ou marcada como
+`runtime_candidate_not_source`, ela deve ser `obsolete_for_generation_source`.
+O proximo asset nao pode nascer de reparo, upscale, img2img ou refinamento
+desse PNG; deve voltar ao model sheet aprovado/travado e passar por
+`visual_source_of_truth`.
 
 ## Contrato Operacional
 
@@ -96,6 +174,10 @@ Antes de aceitar qualquer imagem no pipeline:
 - `master_style_manifest` e `asset_lineage_record` quando o asset veio de sourcing/IA
 - linha `.res` pretendida quando houver integracao SGDK
 - contexto se o asset e sprite, `IMAGE`, `TILESET`, `MAP` ou `PALETTE`
+- `ui_pixel_surface_contract` quando o asset for UI final, health bar, fonte, micro-icone, caixa ou cursor com exigencia pixel-perfect
+- se o asset veio do Bonsai 4B: `prompt_pack_manifest.json` co-localizado
+  (model_variant, license_ack_sha256, asset_role esperado em
+  `{concept_art, tileset_concept, dither_mask, contrast_study}`)
 
 ### Saida minima
 
@@ -104,6 +186,9 @@ Antes de aceitar qualquer imagem no pipeline:
 - confirmacao de grid 8x8, index 0, PLTE e grid 9-bits
 - sinalizacao quando a conformidade tecnica ainda contradiz o `master_style_manifest`
 - decisao: `aprovado`, `aprovado_com_ajustes` ou `rejeitado`
+- quando asset_role ∈ forbidden_scopes (`animated_sprite_final`, `hud_final`,
+  `res_direct`, `aaa_final_asset`): registrar `res/asset_role_forbidden` e
+  rejeitar independente da conformidade tecnica
 
 ### Passa quando
 
@@ -111,9 +196,60 @@ Antes de aceitar qualquer imagem no pipeline:
 - index 0 e transparente conforme contrato do pipeline
 - dimensoes e bounding box nao desperdicam tiles sem justificativa
 - nenhuma tecnica inexistente do VDP foi usada como atalho visual
+- se asset_role ∈ forbidden_scopes: NAO PASSA. Redirecionar para outro canal.
+- health bar, fonte ou caixa de UI que usa borda/fill anti-aliased, escala fracionaria ou suavizacao fica `rejeitado`, mesmo que compile.
 
 ### Handoff para proxima etapa
 
 - entregar blockers para `art-conversion-pipeline` quando houver correcao mecanica
 - entregar assets aprovados para `megadrive-vdp-budget-analyst`
 - entregar riscos de leitura para `visual-excellence-standards` quando a conformidade tecnica ainda nao garante qualidade
+
+## Caso especial: source Bonsai 1-bit dithered → paleta MD 16-cores
+
+Quando o asset e uma saida do `imagegen_circuit.py run --asset-role
+{concept_art, tileset_concept, dither_mask, contrast_study}` e foi gerado
+pelo Bonsai 4B, o source chega em 2 tons (preto + branco puros, com
+dithering pattern como portador de informacao de luminancia). O contrato
+de traducao para o VDP:
+
+1. **Tom 0 (preto puro)** → mapeia para **indice 0** da paleta =
+   transparente (conforme regra geral "Index 0 obrigatoriamente
+   transparente"). Isso so faz sentido se o asset for uma mascara
+   (`dither_mask`); para `concept_art` e `tileset_concept`, o tom 0
+   vira **indice 1** (cor base escura) e nao transparente.
+2. **Tom 1 (branco puro)** → mapeia para **indice 15** (cor principal)
+   ou para um trio Highlight/Shadow/Base dependendo do papel no
+   `master_style_manifest`.
+3. **Dither pattern** (pares adjacentes de pixels preto/branco) →
+   interpretado como **mascara H/S**:
+   - Cada par preto/branco vizinho vira um par de indices Highlight
+     (luminancia alta) e Shadow (luminancia baixa) na mesma paleta.
+   - Padroes 2x2 Bayer, 4x4 ordered, e diagonais comuns no Bonsai 1-bit
+     devem virar ate 3 tons (Highlight / Base / Shadow) por plano, nao
+     mais — para respeitar a regra de 3 tons por paleta.
+4. **Validacao pixel-strict obrigatoria**:
+   - [ ] Source original tem apenas 2 tons? Caso contrario, asset ja
+         foi quantizado uma vez — abrir issue no `visual_feedback_bank`
+         e tratar como `provisional` ate nova geracao.
+   - [ ] Dimensoes multiplas de 8 (largura E altura)?
+   - [ ] BitDepth = 4, colorType = 3 (indexed)?
+   - [ ] PLTE com no maximo 16 entradas?
+   - [ ] Grade 9-bits: cada canal R, G, B em 0x00, 0x22, 0x44, 0x66,
+         0x88, 0xAA, 0xCC, 0xEE? Bonsai 1-bit ja respeita por construcao.
+   - [ ] Index 0 = transparente (apenas para `dither_mask`); para
+         outros roles, index 0 = cor base escura e o slot transparente
+         vem do pipeline de chroma-key previo, nao do source.
+5. **Anti-padroes** especificos para Bonsai:
+   - Tratar o output 1-bit como "preto e branco" sem ler o dither
+     pattern (destroi a informacao H/S).
+   - Aplicar blur/AA no source antes de indexar (proibido pelo
+     regulamento geral).
+   - Aceitar 256 cores no PLTE (inflacao de paleta; quebra reuso
+     de tiles).
+   - Promover direto para `res/` sem o gate de
+     `art-translation-to-vdp` + BlastEm.
+6. **Handoff pos-validacao**: o asset passa para
+   `art-translation-to-vdp` se o `master_style_manifest` pede
+   `basic`+`elite` paralelo, ou direto para
+   `imagegen_tool.py convert` se o brief ja congela uma unica rota.

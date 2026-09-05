@@ -502,6 +502,21 @@
       "handoff_to": []
     }
   ],
+  "independent_quality_review": {
+    "pipeline_ref": "pipelines/quality_review_v1.json",
+    "owner_skill": "skills/governance/independent-quality-review",
+    "checkpoints": [
+      "after_S1_before_S2",
+      "after_S6_before_S7",
+      "after_S7_before_S8",
+      "after_S8_before_S9"
+    ],
+    "activation": "milestone_or_material_multidisciplinary_delta",
+    "maximum_domains_per_checkpoint": 3,
+    "reviewer_access": "read_only",
+    "scope_policy": "opportunity_requires_human_scope_decision",
+    "claim_policy": "review_never_promotes_claims"
+  },
   "global_blocking_statuses": [
     "feature_creep",
     "prd_readiness_blocked",
@@ -521,6 +536,8 @@
     "project_hygiene_manifest_missing",
     "project_hygiene_manifest_invalid",
     "project_documentation_sync_stale",
+    "independent_quality_review_blocked",
+    "quality_review_stale",
     "tdd_technique_selection_missing"
     ,
     "creative_director_radar_missing",
@@ -541,6 +558,7 @@
     "blastem_evidence": "from emulator_session.json",
     "visual_delivery_gate": "from visual_delivery_gate_report",
     "signature_director_gate": "from creative_director_radar and project docs when product_status is vertical_slice_candidate or ready_for_aaa",
+    "independent_quality_review": "latest applicable checkpoint report is hash-bound and not revise_before_growth",
     "all_conditions": "AND of all above"
   }
 }

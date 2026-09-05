@@ -15,6 +15,8 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
 
 ## Ler antes de agir
 
+0. `tools/sgdk_wrapper/.agent/references/visual-workset-and-freeze-contract.md`
+   quando a producao tiver historico, arquivo, probes ou retomada
 1. `doc/03_art/07_sprite_animation_standards.md`
 2. `doc/03_art/02_visual_feedback_bank.md`
 3. `tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/SKILL.md`
@@ -135,6 +137,11 @@ Esta skill existe para garantir que animacao de sprite no Mega Drive seja:
   ou qualquer raster de personagem nascido de codigo sao
   `procedural_primitive`/`procedural_code_probe`: podem diagnosticar, nunca
   provar autoria nativa, animacao final ou `hand_authored_pixel`
+- todo frame novo herda o `active_epoch` e uma fonte elegivel do
+  `visual_workset_manifest`; arquivo em `out/`, staging, archive, `res/`,
+  evidencia negativa ou epoca superseded permanece inalcançavel como fonte
+- `frozen_case_study` bloqueia key pose, inbetween, strip, sheet e promocao;
+  somente auditoria do estudo permanece autorizada
 - `fixed_cell` nao rebaixa clipping para info: contato de borda precisa ser
   autorizado por frame/edge e fragmento coincidente entre celulas sempre bloqueia
 - lineart 1 px e medida no arquivo; silhueta preenchida, stroke grosso ou SHA
@@ -288,6 +295,8 @@ revisao como `human_visual_review`.
   `needs_review` ou `failed`
 - declarar `motion_semantic_candidate` antes de revisao cega reconhecer a acao
   no playback sem receber o rotulo
+- chamar `motion_structure_pass` de semantica/acting: delta, fase e timing
+  provam estrutura; reconhecimento cego, fidelidade e apelo provam a acao
 
 ## Senior Competencies
 

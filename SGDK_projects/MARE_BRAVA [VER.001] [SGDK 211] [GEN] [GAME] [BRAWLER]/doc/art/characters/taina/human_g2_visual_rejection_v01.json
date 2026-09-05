@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "recorded_at": "2026-08-31",
+  "decision": "rejected_for_final_native_pose",
+  "asset_id": "taina_48x64_native_g2_volume_identity_v01",
+  "sha256": "e35ad9f4477d7d1912b94505932a547e639cdea8b8085e2062362db3f21dcb30",
+  "scale": "48x64",
+  "classification": [
+    "technical_pass_visual_fail",
+    "source_detail_lost",
+    "generic_blocky_redraw",
+    "identity_hooks_lost"
+  ],
+  "reason": "procedural_geometry_did_not_preserve_source_detail_or_identity_hooks",
+  "preserve_as": "negative_evidence_only",
+  "forbidden_as": [
+    "source",
+    "baseline",
+    "reference_for_generation",
+    "img2img_base",
+    "generation_source",
+    "image_reference"
+  ],
+  "lineage_correction": {
+    "visual_source_path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+    "visual_source_sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+    "visual_source_classification": "ai_generated_high_res",
+    "visual_source_role": "visual_source_for_native_authoring",
+    "exclusive_pixel_decision_source": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "exclusive_pixel_decision_source_sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "producer_output_source_kind": "procedural_primitive",
+    "producer_output_acceptance_status": "visual_lab_control",
+    "producer_script": "tools/art/build_taina_native_g2_volume_identity_v01.py",
+    "diagnostic_annotation": "agent_curated_diagnostic_annotation",
+    "maps_independence": "internal_consistency_evidence_only"
+  },
+  "scale_gate_reopened_by_human_review": true,
+  "scale_state": {
+    "incumbent": "48x64",
+    "comparison_only": ["64x96"],
+    "hitbox_status": "undeclared_requires_collision_contract",
+    "next_gate": "independent_native_48x64_vs_64x96_shootout"
+  },
+  "res_promotion": false,
+  "animation_authorization": false,
+  "ready_for_aaa": false
+}

@@ -1,0 +1,35 @@
+# Canonical repository text normalization.
+# Git stores text with LF so Linux, Wine and PowerShell tooling produce stable diffs.
+* text=auto eol=lf
+
+# Binary assets must never be newline-normalized.
+*.7z binary
+*.a binary
+*.avi binary
+*.bin binary
+*.bmp binary
+*.bz2 binary
+*.class binary
+*.dll binary
+*.exe binary
+*.flac binary
+*.gif binary
+*.gz binary
+*.ico binary
+*.jar binary
+*.jpg binary
+*.jpeg binary
+*.mp3 binary
+*.ogg binary
+*.pdf binary
+*.png binary
+*.rar binary
+*.rom binary
+*.so binary
+*.tar binary
+*.tgz binary
+*.wav binary
+*.xcf binary
+*.xgc binary
+*.xgm binary
+*.zip binary

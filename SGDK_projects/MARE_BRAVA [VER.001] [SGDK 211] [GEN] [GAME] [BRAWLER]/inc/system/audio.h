@@ -20,5 +20,6 @@ void AUDIO_init(void);
 void AUDIO_update(void);
 void AUDIO_stopAll(void);
 void AUDIO_playCue(AudioCue cue);
+void AUDIO_pulsePsg(u8 channel, u16 tone, u8 envelope, u8 frames);
 
 #endif

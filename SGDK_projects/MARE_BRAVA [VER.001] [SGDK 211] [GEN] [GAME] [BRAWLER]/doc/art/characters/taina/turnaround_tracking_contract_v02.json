@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_turnaround_tracking_contract_v02",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina",
+  "status": "not_applicable_to_single_angle_idle",
+  "applicability": "warning",
+  "reason": "The v02 deliverable is one right-facing three-quarter idle action. No rotation or second gameplay angle is produced in this pass.",
+  "three_quarter_anchor": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+  "tracking_lines": {
+    "head_top_y": 2,
+    "shoulder_band_y": "13_to_19",
+    "waist_y": "25_to_29",
+    "ground_y": 60
+  },
+  "pivot_and_hurtbox_policy": "pivot remains 24,60 for every idle frame; future angles require a new measured contract",
+  "blocker_for_future_multidirectional_work": "turnaround_tracking_must_be_expanded_before_walk_or_attack_changes_angle"
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-29",
+  "status": "res_runtime_candidate_pending_rom_review",
+  "source_direction": "dock_scene_kit_authorial_v01",
+  "basic": "cais01_visual_pass_playfield_proof_v02.png",
+  "elite": "doc/art/environments/cais01/review/cais01_signature_runtime_proof_v03.png",
+  "comparison": "doc/art/environments/cais01/review/cais01_signature_compare_v02_v03.png",
+  "tile_estimate": {
+    "bg_b": {
+      "tiles_total": 1792,
+      "tiles_unique_exact": 448
+    },
+    "bg_a": {
+      "tiles_total": 1792,
+      "tiles_unique_exact": 411
+    },
+    "smoke": {
+      "tiles_total": 64,
+      "tiles_unique_exact": 51
+    },
+    "dust": {
+      "tiles_total": 16,
+      "tiles_unique_exact": 13
+    },
+    "contact_shadow": {
+      "tiles_total": 36,
+      "tiles_unique_exact": 18
+    }
+  },
+  "promoted_paths": [
+    "res/backgrounds/cais01/cais01_bg_b_harbor_sunset_512x224_v03.png",
+    "res/backgrounds/cais01/cais01_bg_a_industrial_pier_512x224_v03.png",
+    "res/sprites/fx/cais01_smoke_32x32_4f_v01.png",
+    "res/sprites/fx/cais01_lamp_dust_16x16_4f_v01.png",
+    "res/sprites/fx/taina_ground_shadow_48x16_3f_v03.png"
+  ],
+  "claim_ceiling": "runtime_candidate"
+}

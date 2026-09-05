@@ -1,0 +1,60 @@
+{
+  "schema_version": "taina_localized_cleanup_operational_record.v3",
+  "record_kind": "operational_state_pointer_not_final_production_record",
+  "status": "technical_pass_visual_rework",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+  "sha256": "6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3",
+  "scale": "56x80",
+  "method": "mechanical_palette_remap_with_minimal_native_patches",
+  "native_cleanup": "incomplete",
+  "material_topology": "failed_requires_localized_material_cleanup",
+  "semantic_map": "derived_diagnostic_not_independent",
+  "parent_incumbent": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v04",
+    "sha256": "791074aa6919ac0bac78a60693c12daee8f03169b216996758a8a272bc6b214e",
+    "decision": "rejected_for_final_native_pose",
+    "preserve_as": "incumbent_for_localized_rework_v05"
+  },
+  "lab_output": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/hybrid_cleanup_primary_im_lanczos3_rework_v05.png",
+  "material_region_contract": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/material_region_contract.json",
+  "material_leakage_report": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/material_leakage_report.json",
+  "material_owner_map": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/material_owner_shade_annotation_v01.json",
+  "material_annotation": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/material_owner_shade_annotation_v01.json",
+  "shade_role_map": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/material_owner_shade_annotation_v01.json",
+  "material_topology_measurement_report": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/material_topology_measurement_report.json",
+  "owner_index_shade_confusion_matrix": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/owner_index_shade_confusion_matrix.json",
+  "material_topology_fixture_report": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/material_topology_fixture_report.json",
+  "patch_accounting": {
+    "patches_attempted": 23,
+    "patches_effective": 18,
+    "patches_noop": 5
+  },
+  "v05_pixels_modified_during_meter_repair": false,
+  "next_route": "native_lineart_blocking_v03_pending_human_decision",
+  "current_staging_record": "doc/art/characters/taina/taina_native_lineart_blocking_operational_record_v03.json",
+  "last_human_decision": {
+    "decision": "reject_material_palette_reseed_as_visual_challengers",
+    "basic_sha256": "24bee2d802e9bda6cbbabd43637220b5c2c99b1d66ebdeba21fd24205fedd33a",
+    "elite_sha256": "753815ea994859cc52c35e701a505258cbb141896b44717fb7f8239aeb415f9b",
+    "reason": "semantic_flattening_destroyed_internal_drawing_and_identity",
+    "basic_elite_changed_pixels": 4,
+    "basic_elite_changed_ratio": 0.00271
+  },
+  "claim_ceiling": "assisted_native_translation_lineart_blocking_control",
+  "human_gate_status": "pending_human_decision",
+  "promotion": {
+    "res": false,
+    "animation": false,
+    "runtime": false,
+    "rom": false,
+    "visual_pass": false,
+    "aaa": false
+  },
+  "scale_policy": {
+    "locked": "56x80",
+    "comparison_only": [
+      "64x96"
+    ],
+    "reopened": []
+  }
+}

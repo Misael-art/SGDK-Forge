@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_idle_guard_cloth_secondary_v02",
+  "generated_at": "2026-07-29",
+  "animation_id": "idle_guard",
+  "applicability": "required",
+  "reason": "Hair and asymmetric teal sash are locked identity hooks.",
+  "status": "measured_offline",
+  "measurement_level": "measured",
+  "frame_budget_impact_estimate": "no extra frames beyond the six-frame cycle",
+  "cloth_regions": [
+    "curly_hair_internal_highlight",
+    "teal_sash_internal_highlight"
+  ],
+  "delay_frames": {
+    "hair_after_torso": 1,
+    "sash_after_torso": 2
+  },
+  "damping_curve": "stepped_ease_out",
+  "bounce_amplitude": "one_internal_pixel",
+  "inertia_direction": "hair lateral, sash downward settle",
+  "rest_pose": "frame_0",
+  "critical_actions": [
+    "idle_guard"
+  ],
+  "external_silhouette_policy": "locked_for_v02_idle"
+}

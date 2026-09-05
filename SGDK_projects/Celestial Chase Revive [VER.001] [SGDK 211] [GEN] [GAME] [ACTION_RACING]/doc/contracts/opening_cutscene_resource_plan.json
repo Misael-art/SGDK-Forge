@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "resource_model": "state_local_preload",
+  "resident_sets": [
+    {"state_group": "black_and_lighthouse", "surfaces": ["BG_B", "BG_A", "WINDOW"], "sprite_pressure": "low"},
+    {"state_group": "lio_and_core", "surfaces": ["BG_A", "WINDOW", "sprites"], "sprite_pressure": "low"},
+    {"state_group": "hart_and_gate", "surfaces": ["BG_B", "BG_A", "sprites"], "sprite_pressure": "medium"}
+  ],
+  "load_time_dma_cost": "allowed between states with control locked",
+  "per_frame_dma_cost": "text updates and small sprite animation only",
+  "fallback": "reduce panel size and use pan/crop"
+}

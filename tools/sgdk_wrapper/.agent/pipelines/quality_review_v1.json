@@ -1,0 +1,43 @@
+{
+  "pipeline_id": "quality_review_v1",
+  "schema_version": "1.0.0",
+  "description": "Revisao multidisciplinar independente, proporcional e read-only antes de crescimento caro.",
+  "owner_skill": "skills/governance/independent-quality-review",
+  "workflow_ref": "workflows/independent-quality-review.md",
+  "maximum_parallel_domains": 3,
+  "checkpoints": [
+    {
+      "id": "Q1_foundation",
+      "after": "S1_gdd_scope",
+      "before": "S2_tdd_authoring",
+      "focus": ["game_design", "narrative", "market"],
+      "market_condition": "commercial_intent_or_explicit_request"
+    },
+    {
+      "id": "Q2_pre_growth",
+      "after": "S6_audio_adaptive_state",
+      "before": "S7_scene_pipeline_call",
+      "focus": ["mechanics", "level_design", "gameplay", "audio"]
+    },
+    {
+      "id": "Q3_vertical_slice",
+      "after": "S7_scene_pipeline_call",
+      "before": "S8_runtime_product_integration",
+      "focus": ["gameplay", "art", "animation", "audio", "hardware"]
+    },
+    {
+      "id": "Q4_release_candidate",
+      "after": "S8_runtime_product_integration",
+      "before": "S9_product_validation_closeout",
+      "focus": ["governance", "gameplay", "code", "hardware", "audio", "market"]
+    }
+  ],
+  "invariants": [
+    "producer_cannot_approve_own_work",
+    "reviewers_are_read_only",
+    "taste_and_opportunity_do_not_block",
+    "scope_growth_requires_human_decision",
+    "reports_are_hash_bound",
+    "quality_review_never_promotes_claims"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "localized_native_cleanup_rework.v3",
+  "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v03",
+  "status": "technical_pass_visual_rework",
+  "method": "mechanical_palette_remap_with_minimal_native_patches",
+  "native_cleanup": "incomplete",
+  "material_topology": "not_run",
+  "semantic_map": "derived_diagnostic_not_independent",
+  "parent": {
+    "asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v01",
+    "sha256": "cb6ff5c695c5e7b76e80d84ebd497f8f55e162561c0f2caeb0f345604c31529e",
+    "path": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v01/hybrid_cleanup_primary_im_lanczos3_rework_v01.png"
+  },
+  "target": "56x80",
+  "patch_count": 44,
+  "patch_log": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v03/cleanup_actions.json",
+  "independent_topology_map": "independent_material_topology_map.png",
+  "independent_topology_report": "material_topology_independent_report.json",
+  "palette_role_map": "palette_role_map.png",
+  "matte_halo_report": "matte_halo_report.json",
+  "ground_contact_report": "ground_contact_report.json",
+  "output": {
+    "path": "localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v03/hybrid_cleanup_primary_im_lanczos3_rework_v03.png",
+    "sha256": "99160ec422010d2ac68fbb4b10cc03db72012316508882e1b9b8cf336ec51a33"
+  },
+  "claim_ceiling": "localized_native_cleanup_candidate",
+  "human_gate_status": "pending_human_decision",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "action_log_sha256": "8a2c1be696dffec8cacaccd0672b77be9fcda1e31ea5d33059c06c478af514ec"
+}

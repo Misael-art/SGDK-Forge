@@ -2,16 +2,23 @@
   "schema_version": "1.0.0",
   "artifact_id": "cais_01_dock_scene_kit_inventory_v1",
   "scene_id": "cais_01",
-  "status": "dock_scene_kit_missing",
+  "status": "dock_scene_kit_source_board_present_not_decomposed",
   "contract_ref": "doc/contracts/level_art_assembly_contract.json",
   "source_audit": {
-    "audited_at": "2026-07-03",
+    "audited_at": "2026-07-04",
     "modular_reference_usable": [
       {
         "path": "data/source_art/cais_world/bgb_loop_mar_ceu_v01.png",
         "usable_as": "referencia direta das bandas do BG_B (ceu/horizonte/mar em faixas line-scroll); guindastes da linha do horizonte reutilizaveis como silhueta 0.25x",
-        "limits": "nao e camada separada; precisa ser redesenhado em strips independentes (prompt D)"
+        "limits": "nao e camada separada, nao e source direto para res/; precisa ser redesenhado em strips independentes (prompt D)"
       },
+      {
+        "path": "data/source_art/concept/authorial_style_validation_2026_07_04/dock_scene_kit_authorial_v01.png",
+        "usable_as": "source_candidate combinado para piso, borda, props, pilastras, landmarks, ecologia e pickups",
+        "limits": "pecas ainda agrupadas; escalas, frames, costuras e familias A-G precisam ser decompostos e normalizados antes da traducao VDP"
+      }
+    ],
+    "non_level_reference_only": [
       {
         "path": "data/source_art/hud_fx/fx_hitspark_splash_study_v01.png",
         "usable_as": "referencia modular real: frames isolados de hitspark/burst/splash ja em pecas",
@@ -48,13 +55,13 @@
       "data/source_art/logo_mare_brava/logo_lettering_studies_v01.png",
       "data/source_art/branding_intro/*"
     ],
-    "real_sourcing_gaps": "ver kit_boards abaixo — NENHUM board modular existe; todos os 6 estao pendentes de geracao via doc/art/prompt_pack/03 (prompts A-F) + 2 lacunas complementares"
+    "real_sourcing_gaps": "o board combinado autoral cobre sementes das 7 familias, mas nao substitui os outputs separados: faltam decomposicao, variantes de costura, escalas normalizadas e loops multi-frame completos"
   },
   "kit_boards": [
     {
       "board_id": "dock_floor_and_edge_tiles",
       "prompt": "03/A",
-      "status": "missing",
+      "status": "covered_in_combined_source_candidate_needs_decomposition",
       "target_pieces": [
         "boardwalk_straight_a/b/c",
         "cracked_planks",
@@ -71,7 +78,7 @@
     {
       "board_id": "dock_props_and_obstructions",
       "prompt": "03/B",
-      "status": "missing",
+      "status": "covered_in_combined_source_candidate_needs_decomposition",
       "target_pieces": [
         "crate_single",
         "crate_stack_medium",
@@ -93,7 +100,7 @@
     {
       "board_id": "large_landmark_plates",
       "prompt": "03/C",
-      "status": "missing",
+      "status": "partially_covered_missing_entrance_arch_and_net_wall",
       "target_pieces": [
         "dock_entrance_arch",
         "moored_boat_sealed",
@@ -109,7 +116,7 @@
     {
       "board_id": "bgb_parallax_layers",
       "prompt": "03/D",
-      "status": "missing",
+      "status": "partially_covered_missing_sky_cloud_and_horizon_strips",
       "target_pieces": [
         "sky_band_strip",
         "cloud_strip_thin",
@@ -125,7 +132,7 @@
     {
       "board_id": "foreground_occlusion_kit",
       "prompt": "03/E",
-      "status": "missing",
+      "status": "partially_covered_needs_explicit_occlusion_scale",
       "target_pieces": [
         "front_piling_large",
         "near_rope_loop",
@@ -139,7 +146,7 @@
     {
       "board_id": "background_ecology_loops",
       "prompt": "03/F",
-      "status": "missing",
+      "status": "pose_seeds_present_multiframe_loops_missing",
       "target_pieces": [
         "boat_bob_3f",
         "far_boat_drift_2f",
@@ -150,6 +157,22 @@
         "net_sway_3f"
       ],
       "save_to": "data/source_art/concept/cais_world_modular/ecology/"
+    },
+    {
+      "board_id": "dock_pickups_small_props",
+      "prompt": "03/G",
+      "status": "partially_covered_markers_and_glints_missing",
+      "target_pieces": [
+        "espetinho_pickup",
+        "moeda_do_cais_pickup",
+        "small_fish_crate_reward",
+        "foam_score_sparkle",
+        "broken_plank_marker",
+        "buoy_marker",
+        "lantern_pickup_glint",
+        "rope_knot_marker"
+      ],
+      "save_to": "data/source_art/concept/cais_world_modular/pickups/"
     }
   ],
   "complementary_gaps": [
@@ -157,13 +180,8 @@
       "gap_id": "railing_segments_bga",
       "reason": "o placement map bloqueia trechos da beirada nas arenas 1-2 com guarda-corpo de madeira (ring-out restrito ate a arena 3); prompt B/E nao cobre grade de beirada em BG_A",
       "prompt_suggestion": "Modular wooden dock railing kit for a 16-bit side-view beat-em-up: straight railing segments, broken gap piece, end posts, rope-railing variant, side-view, isolated pieces on neutral background, same warm sunset palette, hard cel shadows, no text, no characters."
-    },
-    {
-      "gap_id": "pickup_props",
-      "reason": "espetinho e moeda_do_cais nao pertencem a nenhum board do kit (sao sprites de gameplay); entram na etapa pixel dos personagens",
-      "prompt_suggestion": "nao gerar agora — rota sprite/pixel autoral"
     }
   ],
   "portable_naming_rule": "todas as pecas salvas em snake_case ascii conforme 00_leia_primeiro.md",
-  "unblock_condition": "status vira dock_scene_kit_curated quando os 6 boards existirem em data/source_art/concept/cais_world_modular/, forem auditados contra os aceites do prompt 03 e registrados no premium_source_manifest"
+  "unblock_condition": "status vira dock_scene_kit_curated quando o board combinado for decomposto nas 7 familias em data/source_art/concept/cais_world_modular/, as lacunas declaradas forem geradas, escalas/costuras/frames forem auditados contra o prompt 03 e cada familia for registrada no premium_source_manifest"
 }

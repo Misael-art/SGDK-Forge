@@ -1,0 +1,16 @@
+{
+  "schema_version": "budget_preliminary.v1",
+  "scene_id": "vegetable_valley_golden_scene",
+  "measurement_level": "estimated_from_existing_runtime_plus_offline_layout",
+  "decision": "cabe com recuo",
+  "reason": "Current runtime baseline has measured 25/80 sprites, 18/20 scanline, peak DMA 1792 B/frame and CPU p99 60% in the ability scene; the new art is not integrated, so scene residency and tile counts are not yet measured.",
+  "rom_asset_cost": {"status":"not_measured", "route":"scene_local_preload", "compression":"BEST_for_static_assets_after_native_translation"},
+  "vram_resident_set": {"status":"preliminary_only", "formula":"BG_B_unique + BG_A_unique + system_16 + font_96 + sprite_reserve", "target":"measure rescomp raw tiles for each 320x224 panel before promotion", "current_project_reference":"maps_addr_0xC000; default sprite reserve 420; existing memory bank reports VRAM gate pass for placeholder baseline"},
+  "load_time_dma_cost": {"status":"allowed_at_scene_entry", "target":"preload scene-local BG_A/BG_B tiles, actor frames and FX before control handoff", "not_allowed":"mid-gameplay bulk upload"},
+  "per_frame_dma_cost": {"baseline_measured_bytes":1792, "target_ceiling_bytes":4096, "planned_delta":"keep line-scroll table and only dirty FX/tile updates; no full map redraw"},
+  "active_animation_window": {"hero":"idle/run/inhale key frames only during first slice", "enemy":"idle/walk/impact subset", "fx":"birth_peak_dissipate clusters", "background":"line-scroll and palette/raster state, no per-frame full background upload"},
+  "scene_local_scope":["Vegetable Valley BG_A/BG_B tile kits","hero active window","one enemy archetype","inhale wind FX","sparse foreground leaf graft","HUD glyphs"],
+  "scanline_sprite_pressure": {"reference_baseline":"18/20 measured in ability scene; 19/20 before foreground reduction", "new_scene_target":"<=16/20 worst frame before integration", "policy":"hero and enemy never degrade; particles then foreground then projectiles", "proof":"vdp_scanline_simulator with golden_scene and next_density layouts"},
+  "next_density_measurement_required": "Try 2 enemies + 4 FX cells + 6 foreground cells, then 3 enemies + 8 FX cells + 8 foreground cells; stop only at measured count/pixel overflow.",
+  "fallback_plan":["remove optional leaf graft", "reduce FX to two hardware cells", "preserve collision edge and hero/enemy silhouette", "compare_flat if paired BG tiles exceed resident window"]
+}

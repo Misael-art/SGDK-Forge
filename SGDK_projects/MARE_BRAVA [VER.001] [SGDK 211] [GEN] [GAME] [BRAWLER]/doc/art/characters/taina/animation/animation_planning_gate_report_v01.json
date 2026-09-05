@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_animation_planning_gate_report_v01",
+  "generated_at": "2026-07-08T21:18:32-03:00",
+  "updated_at": "2026-07-29",
+  "asset_id": "taina",
+  "status": "idle_guard_v02_and_combo_hit_1_jab_v01_passed_other_states_pending",
+  "measurement_level": "measured_offline_plus_partial_blastem_observation",
+  "contracts": {
+    "animation_state_plan": "doc/art/characters/taina/animation/animation_state_plan_v01.json",
+    "frame_budget_table": "doc/art/characters/taina/animation/frame_budget_table_v01.json",
+    "pivot_and_scale_contract": "doc/art/characters/taina/animation/pivot_and_scale_contract_v02.json",
+    "motion_phase_map": "doc/art/characters/taina/animation/motion_phase_map_p0_v01.json",
+    "animation_direction_contract": "doc/art/characters/taina/animation/animation_direction_contract_v01.json"
+  },
+  "gate_results": {
+    "animation_planning_contracts_exist": true,
+    "scale_contract_locked": true,
+    "current_candidate_matches_scale_contract": true,
+    "key_pose_frames_exist": true,
+    "animation_strip_exists": true,
+    "contact_sheet_exists": true,
+    "pivot_overlay_exists": true,
+    "foot_contact_report_exists": true,
+    "frame_delta_report_exists": true,
+    "runtime_animation_preview_exists": true,
+    "blastem_animation_evidence_exists": true,
+    "idle_guard_animation_gate_passed": true,
+    "combo_hit_1_jab_animation_gate_passed": true,
+    "full_p0_animation_gate_passed": false
+  },
+  "decision": {
+    "visual_status": "idle_guard_and_first_jab_approved_other_states_pending",
+    "ready_for_next_key_pose_generation": true,
+    "ready_for_color_blocking": true,
+    "idle_guard_ready_for_res_promotion": true,
+    "ready_for_aaa": false,
+    "accepted_use": "idle_guard_runtime_incumbent_plus_combo_hit_1_jab_runtime_candidate",
+    "not_accepted_as": [
+      "full_p0_animation_set",
+      "full_gameplay_vdp_budget",
+      "sealed_emulator_evidence",
+      "aaa_closeout"
+    ]
+  },
+  "blockers_replaced_or_refined": {
+    "animation_gate_not_started": "idle_guard_v02_passed_other_states_pending",
+    "scale_ratio_chibi_drift": "v02_human_approved_59px_scale_locked"
+  },
+  "next_required_route": [
+    "Use only the approved v02 master topology; do not return to v05-v07 or the v01 strip.",
+    "Author combo_hit_2_cross from the approved topology at the locked 59px visible scale.",
+    "Derive frames by controlled pixel edits and repeat bbox, pivot, foot-contact and frame-delta gates.",
+    "Measure the combined gameplay budget and capture VLAB plus visual_vdp_dump.bin before a broader emulator claim."
+  ]
+}

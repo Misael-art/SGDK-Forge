@@ -281,8 +281,8 @@ python3 tools/sgdk_wrapper/apply_aesthetic_directive.py \
 
 ## PIPELINE DE PRODUCAO
 
-Ordem **canonica** (cena AAA, machine-readable): `tools/sgdk_wrapper/.agent/pipelines/aaa_scene_v1.json`  
-Roteamento curto: `tools/sgdk_wrapper/.agent/workflows/aaa-scene-pipeline.md`  
+Ordem **canonica** (cena AAA, machine-readable): `tools/sgdk_wrapper/.agent/pipelines/aaa_scene_v1.json`
+Roteamento curto: `tools/sgdk_wrapper/.agent/workflows/aaa-scene-pipeline.md`
 Narrativa + skills reais (sem nomes de agentes inexistentes): `tools/sgdk_wrapper/.agent/workflows/production-loop.md`.
 
 Antes de qualquer trabalho em projeto novo ou antigo:
@@ -437,12 +437,14 @@ O build e o closeout devem usar `sdk/sgdk-2.11/` deste workspace; `GDK` herdado 
 | Painel humano de proficiencia | `doc/05_technical/93_16bit_hardware_mastery_matrix.md` |
 | Registry tecnico machine-readable | `doc/05_technical/93_16bit_hardware_mastery_registry.json` |
 | Preflight host | `tools/sgdk_wrapper/preflight_host.ps1` |
+| Política de persistência por operação | `tools/sgdk_wrapper/host_operation_router.py` (report: `out/logs/persistence_route_report.json`) |
 | Ordem de trabalho de cena | `tools/sgdk_wrapper/.agent/workflows/scene-direction-first.md` |
 | Licoes da curadoria 2026-08-17 | `doc/curation/lessons_2026-08-17.json` |
 | Prompt modelo de direcionamento | `doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md` |
 | Barra viva da cena (piso Rheo/Pigsy = oficio) | `doc/03_art/18_live_scene_bar.md` |
 | Tetos de concepcao da barra viva | `doc/03_art/live_scene_bar_parameters.json` |
 | Brief da barra viva | `tools/sgdk_wrapper/.agent/references/live_scene_bar_agent_brief.md` |
+| Brief de concepcao artistica | `tools/sgdk_wrapper/.agent/references/conception_agent_brief.md` |
 | Plano de capacidade pixel | `doc/03_art/19_plan_pixel_art_live_scene_capability.md` |
 | Laudo da barra viva | `tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json` |
 | Diretriz de bloqueio estetico | `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` (8.2 e 17) |

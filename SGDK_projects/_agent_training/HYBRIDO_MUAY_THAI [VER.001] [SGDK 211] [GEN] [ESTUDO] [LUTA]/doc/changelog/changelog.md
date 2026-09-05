@@ -605,3 +605,134 @@ Este arquivo registra snapshots reais de assets e ROMs do projeto.
   - nenhum claim de `ready_for_aaa`;
   - proxima sheet deve nascer do model sheet aprovado, nao de reparo do sheet
     parcial.
+## 2026-06-14T10:44:14.6775486-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots:
+  - img_hibrido_training_stage_v010 -> v001 (res/bg/hibrido_training_stage_320x224_v010.png)
+  - spr_hibrido_fx_hitspark_v010 -> v001 (res/sprites/hibrido_fx/hibrido_fx_hitspark_32x32_strip_v010.png)
+  - spr_hibrido_fx_lava_burst_v010 -> v001 (res/sprites/hibrido_fx/hibrido_fx_lava_burst_32x32_strip_v010.png)
+  - spr_hibrido_fx_dust_v010 -> v001 (res/sprites/hibrido_fx/hibrido_fx_dust_32x16_strip_v010.png)
+- ROM: build_v007 (sha256 b06659adddece55ee6f1dc1f51ca16f589c5645ca0d1b3bb18e0d3b4fa54ad4f, 131072 bytes)
+- Validation: errors=0, warnings=7
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, changelog_missing, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-14T10:46:08.7937436-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v007 (sha256 b06659adddece55ee6f1dc1f51ca16f589c5645ca0d1b3bb18e0d3b4fa54ad4f, 131072 bytes)
+- Validation: errors=0, warnings=6
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-14T11:12:52.3797678-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots:
+  - img_hibrido_training_stage_v010 -> v002 (res/bg/hibrido_training_stage_320x224_v010.png)
+  - spr_hibrido_idle_body_v011 -> v001 (res/sprites/hibrido/hibrido_idle_body_96x96_strip_v011.png)
+  - spr_hibrido_walk_step_body_v011 -> v001 (res/sprites/hibrido/hibrido_walk_step_body_96x96_strip_v011.png)
+  - spr_hibrido_guard_block_body_v011 -> v001 (res/sprites/hibrido/hibrido_guard_block_body_96x96_strip_v011.png)
+  - spr_hibrido_jab_body_v011 -> v001 (res/sprites/hibrido/hibrido_jab_body_96x96_strip_v011.png)
+  - spr_hibrido_knee_body_v011 -> v001 (res/sprites/hibrido/hibrido_knee_body_96x96_strip_v011.png)
+  - spr_hibrido_teep_body_v011 -> v001 (res/sprites/hibrido/hibrido_teep_body_96x96_strip_v011.png)
+  - spr_hibrido_hurt_body_v011 -> v001 (res/sprites/hibrido/hibrido_hurt_body_96x96_strip_v011.png)
+- ROM: build_v008 (sha256 1887ae22874561c80108deb7dcc1ddca913bc2f675fd1684a33c35e2cc675ceb, 131072 bytes)
+- Validation: errors=0, warnings=9
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, changelog_missing, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-14T11:14:00.2041113-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v008 (sha256 1887ae22874561c80108deb7dcc1ddca913bc2f675fd1684a33c35e2cc675ceb, 131072 bytes)
+- Validation: errors=0, warnings=6
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-14T11:18:32.0400832-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v008 (sha256 1887ae22874561c80108deb7dcc1ddca913bc2f675fd1684a33c35e2cc675ceb, 131072 bytes)
+- Validation: errors=0, warnings=10
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, scene_tilemap_conversion_report_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-14T11:19:52.5142853-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v008 (sha256 1887ae22874561c80108deb7dcc1ddca913bc2f675fd1684a33c35e2cc675ceb, 131072 bytes)
+- Validation: errors=0, warnings=8
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, scene_tilemap_conversion_report_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-15T00:17:17.3759687-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots:
+  - img_hibrido_arena_stage_v012 -> v001 (res/bg/hibrido_arena_stage_320x224_v012.png)
+  - spr_hibrido_idle_body_v012 -> v001 (res/sprites/hibrido/hibrido_idle_body_96x96_strip_v012.png)
+  - spr_hibrido_walk_step_body_v012 -> v001 (res/sprites/hibrido/hibrido_walk_step_body_96x96_strip_v012.png)
+  - spr_hibrido_guard_block_body_v012 -> v001 (res/sprites/hibrido/hibrido_guard_block_body_96x96_strip_v012.png)
+  - spr_hibrido_jab_body_v012 -> v001 (res/sprites/hibrido/hibrido_jab_body_96x96_strip_v012.png)
+  - spr_hibrido_knee_body_v012 -> v001 (res/sprites/hibrido/hibrido_knee_body_96x96_strip_v012.png)
+  - spr_hibrido_teep_body_v012 -> v001 (res/sprites/hibrido/hibrido_teep_body_96x96_strip_v012.png)
+  - spr_hibrido_hurt_body_v012 -> v001 (res/sprites/hibrido/hibrido_hurt_body_96x96_strip_v012.png)
+- ROM: build_v009 (sha256 c83ccec0cd2c0c5b9fc29bbceab333ec49463883482a4a32d7da4a141112a363, 262144 bytes)
+- Validation: errors=0, warnings=10
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, changelog_missing, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-15T00:18:16.2843912-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v009 (sha256 c83ccec0cd2c0c5b9fc29bbceab333ec49463883482a4a32d7da4a141112a363, 262144 bytes)
+- Validation: errors=0, warnings=7
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, animation_gate_failed, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-15T00:31:35.5667412-03:00 - build_snapshot
+
+- Task: build_snapshot
+- Asset snapshots: nenhum hash novo
+- ROM: build_v009 (sha256 c83ccec0cd2c0c5b9fc29bbceab333ec49463883482a4a32d7da4a141112a363, 262144 bytes)
+- Validation: errors=0, warnings=8
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-15T00:32:30.5870586-03:00 - post_validate_refresh
+
+- Task: post_validate_refresh
+- Asset snapshots: nenhum hash novo
+- ROM: build_v009 (sha256 c83ccec0cd2c0c5b9fc29bbceab333ec49463883482a4a32d7da4a141112a363, 262144 bytes)
+- Validation: errors=0, warnings=6
+- Blockers: gdd_substantial_insufficient, visual_gate_blocked, emulator_evidence_stale, freshness_audit_stale, scene_closeout_gate_missing
+- Emulator evidence: rom_identity_mismatch
+
+## 2026-06-15T12:18:29.3043583-03:00 - visual_version_decision_flow_ascii
+
+- Task: documentar fluxo pedagogico de versoes e tomada de decisao visual.
+- Novo documento:
+  - `doc/visual_version_decision_flow_ascii.md`
+- Conteudo:
+  - fluxo ASCII macro v001 -> v012;
+  - sintaxe padronizada por versao (`INPUT`, `SYNTAX`, `OUTPUT`, `HUMAN`, `STATUS`, `NEXT_SYNTAX`);
+  - registro das intervencoes humanas que reprovaram ou redirecionaram v002, v003, v005, v006, v009, v011 e v012;
+  - regra final de que v012 permanece candidata visual/VDP, nao entrega AAA, ate evidencia fresca de runtime.
+- Asset snapshots: nenhum hash novo de runtime por esta entrada documental.
+- ROM: sem novo build nesta entrada.
+- Status: documentacao/processo atualizado; `ready_for_aaa=false` preservado.
+- Validacao apos documento:
+  - `validate_project_context`: ok (`exercise`);
+  - `validate_project_methodology`: passed;
+  - `validate_project_hygiene`: passed;
+  - `res_graph_audit`: PASS, 11 declaracoes OK;
+  - `validate_resources`: errors=0, warnings=8, checked=11;
+  - `freshness_audit`: warning por `out/logs/build_output.log` stale, pois o
+    ajuste v012 de VRAM ainda precisa de rebuild para atualizar a evidencia de build.

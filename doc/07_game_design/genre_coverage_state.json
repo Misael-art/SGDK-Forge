@@ -1,0 +1,334 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Genre Specialization Coverage State",
+  "state_id": "genre_coverage_state",
+  "authority": "diagnostic_consultive_state",
+  "purpose": "Registrar o estagio REAL de cobertura de genero por projeto, com evidencia verificavel, para que diagnosticos futuros leiam e atualizem o mesmo arquivo em vez de recomecar a auditoria.",
+  "not_authority_for": [
+    "promocao de fase de especializacao (isso exige registry + matrix + changelog + aprovacao humana)",
+    "status de entrega (documentado/implementado/buildado/testado_em_emulador vive em doc/10-memory-bank.md do projeto)",
+    "substituir doc/07_game_design/genre_specialization_registry.json como registro canonico"
+  ],
+  "canonical_sources": {
+    "registry": "doc/07_game_design/genre_specialization_registry.json",
+    "human_panel": "doc/07_game_design/genre_specialization_matrix.md",
+    "opt_in_manifest_per_project": "doc/genre_specialization_manifest.json",
+    "manifest_schema": "tools/sgdk_wrapper/schemas/genre_specialization_manifest.schema.json",
+    "registry_ci": "tools/sgdk_wrapper/ci/test_genre_specialization_registry.ps1",
+    "naming_standard": "doc/PADRAO_NOMENCLATURA.md"
+  },
+  "last_audit": {
+    "date": "2026-08-01",
+    "agent_environment_status": "ready",
+    "graph_status": "fresh",
+    "method": "leitura de manifestos canonicos + execucao de validator + inventario de ROM/evidencia; nenhuma inferencia por nome de pasta"
+  },
+
+  "attribution_rules": {
+    "statement": "Tag [GENERO] do diretorio NAO e atribuicao de genero. E rotulo de nomenclatura.",
+    "forbidden_inferences_source": "genre_specialization_registry.json#forbidden_inferences",
+    "forbidden_inferences": [
+      "project_folder_name",
+      "source_code_keyword",
+      "gdd_keyword_without_manifest",
+      "regex_match",
+      "file_extension"
+    ],
+    "evidence_levels": [
+      {
+        "level": "A",
+        "name": "genero_atribuido",
+        "requires": [
+          "doc/genre_specialization_manifest.json presente e valido",
+          "design contract presente",
+          "validator dedicado com status=ok",
+          "human_authorization registrada com data e razao"
+        ],
+        "meaning": "especializacao de genero ativa e verificada. Unico nivel que conta como cobertura."
+      },
+      {
+        "level": "B",
+        "name": "intencao_documentada",
+        "requires": [
+          "doc/project_context_manifest.json#project_intent",
+          ".mddev/project.json#category"
+        ],
+        "meaning": "o que o projeto pretende ser. NAO e cobertura."
+      },
+      {
+        "level": "C",
+        "name": "existencia_tecnica",
+        "requires": [
+          "out/rom.bin",
+          "evidencia BlastEm (screenshot / save.sram / visual_vdp_dump.bin)",
+          "doc/10-memory-bank.md"
+        ],
+        "meaning": "existe ROM e runtime observado. NAO implica genero."
+      }
+    ],
+    "false_positive_pattern": {
+      "description": "Um *_specialization_report.json com status=ok e manifest_status=absent significa 'caminho generalista passou limpo', NAO cobertura do genero.",
+      "observed_instance": "SGDK_projects/Celestial Chase visual benchmark [...]/out/logs/fighting_specialization_report.json"
+    }
+  },
+
+  "registry_snapshot": {
+    "observed_at": "2026-08-01",
+    "registry_schema_version": "3.0.0",
+    "known_specializations": 38,
+    "active": 6,
+    "deferred": 32,
+    "families": 8,
+    "active_ids": [
+      "brawler_belt_scroll",
+      "fighting_2d_traditional",
+      "platformer_precision_2d",
+      "racing_arcade",
+      "rpg_turn_based_jrpg",
+      "strategy_tower_defense"
+    ],
+    "family_counts": {
+      "fighting": 6,
+      "horror": 6,
+      "strategy": 5,
+      "platformer_puzzle": 5,
+      "racing_sports_adventure": 5,
+      "rpg": 4,
+      "fps": 4,
+      "brawler": 3
+    }
+  },
+
+  "coverage_summary": {
+    "specializations_with_level_a": 1,
+    "specializations_active_without_project": 5,
+    "coverage_ratio_over_active": "1/6",
+    "coverage_ratio_over_registry": "1/38",
+    "statement": "Cobertura registrada nao significa dominio. Um subgenero active sem projeto opt-in continua com cobertura zero."
+  },
+
+  "projects": [
+    {
+      "project": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "folder_genre_tag": "BRAWLER",
+      "context_type": "aaa_game",
+      "context_status": "active",
+      "delivery_claim_ceiling": "vertical_slice",
+      "evidence_level": "A",
+      "assigned_specialization": "brawler_belt_scroll",
+      "opt_in_manifest": "doc/genre_specialization_manifest.json",
+      "human_authorization": "2026-07-03T00:55:00-03:00 (project_owner)",
+      "validator": "tools/sgdk_wrapper/validate_brawler_belt_scroll_specialization.ps1",
+      "validator_report": "out/logs/brawler_specialization_report.json",
+      "validator_status": "ok",
+      "validator_summary": "passed=11 warned=0 failed=0; 6 arquetipos validos; 3 blockers phase-aware dormentes; phase=vertical_slice",
+      "rom_sha256": "825e687c8f0513f2d2d9f634f980be83426a2b84a457b0ddef6978271bfba429",
+      "rom_date": "2026-07-29",
+      "evidence_counts": { "png": 53, "save_sram": 2, "visual_vdp_dump": 0 },
+      "evidence_bound_to_rom": true,
+      "evidence_note": "diretorio out/evidence/cais01_art_alignment_v04_hash825e687 casa com o hash da ROM atual",
+      "methodology_report_status": "passed",
+      "notes": "Unica cobertura de genero real do workspace."
+    },
+    {
+      "project": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+      "path": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+      "folder_genre_tag": "ACTION_RACING",
+      "context_type": "aaa_game",
+      "context_status": "classified",
+      "delivery_claim_ceiling": "vertical_slice",
+      "evidence_level": "C",
+      "assigned_specialization": null,
+      "candidate_specialization": "racing_arcade",
+      "candidate_validator_exists": true,
+      "gap": "sem doc/genre_specialization_manifest.json; roda como generalista",
+      "rom_sha256": "a69050c105c6da29ff47dc098438e2da07b93a34cf03916949168b249adccd26",
+      "rom_date": "2026-07-24",
+      "evidence_counts": { "png": 57, "save_sram": 48, "visual_vdp_dump": 6 },
+      "methodology_report_status": "passed",
+      "notes": "Maior volume de evidencia de runtime do workspace. Menor custo para fechar um segundo genero."
+    },
+    {
+      "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "path": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "folder_genre_tag": "ACTION_PLATFORMER",
+      "context_type": "aaa_game",
+      "context_status": "active",
+      "delivery_claim_ceiling": "vertical_slice",
+      "evidence_level": "C",
+      "assigned_specialization": null,
+      "candidate_specialization": "platformer_precision_2d",
+      "candidate_validator_exists": true,
+      "gap": "sem opt-in de genero; metodologia bloqueada",
+      "rom_sha256": "267230654a987c78e45fcebc4c9c9f23e7b2a3f69290eac75c5f64a3b2522c16",
+      "rom_date": "2026-07-30",
+      "evidence_counts": { "png": 22, "save_sram": 22, "visual_vdp_dump": 21 },
+      "methodology_report_status": "blocked"
+    },
+    {
+      "project": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "path": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "folder_genre_tag": "ACTION_PLATFORMER",
+      "context_type": "aaa_game",
+      "context_status": "active",
+      "delivery_claim_ceiling": "vertical_slice",
+      "evidence_level": "C",
+      "assigned_specialization": null,
+      "candidate_specialization": "platformer_precision_2d",
+      "candidate_validator_exists": true,
+      "gap": "sem opt-in de genero; roda como generalista",
+      "rom_sha256": "b2fbb1bcc916bd30e26693064e4d5371df7ede2216b72b0a85dd6700c022e0b5",
+      "rom_date": "2026-07-24",
+      "evidence_counts": { "png": 11, "save_sram": 5, "visual_vdp_dump": 3 },
+      "methodology_report_status": "passed"
+    },
+    {
+      "project": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "path": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "folder_genre_tag": "TECHDEMO",
+      "context_type": "technical_demo",
+      "context_status": "classified",
+      "delivery_claim_ceiling": "technical_demo",
+      "evidence_level": "C",
+      "assigned_specialization": null,
+      "genre_applicable": false,
+      "gap": "LAB/TECHDEMO nao carrega genero. Report fighting existente e caminho generalista (manifest_status=absent), nao cobertura.",
+      "rom_sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+      "rom_date": "2026-07-20",
+      "evidence_counts": { "png": 38, "save_sram": 161, "visual_vdp_dump": 2 },
+      "methodology_report_status": "blocked"
+    },
+    {
+      "project": "HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]",
+      "path": "SGDK_projects/_agent_training/HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]",
+      "folder_genre_tag": "LUTA",
+      "context_type": "exercise",
+      "context_status": "active",
+      "delivery_claim_ceiling": "exercise",
+      "evidence_level": "C",
+      "assigned_specialization": null,
+      "genre_applicable": false,
+      "gap": "treino nao promove genero. Tag [LUTA] nao credencia fighting_2d_traditional.",
+      "rom_sha256": "c83ccec0cd2c0c5b9fc29bbceab333ec49463883482a4a32d7da4a141112a363",
+      "rom_date": "2026-06-15",
+      "evidence_counts": { "png": 1, "save_sram": 6, "visual_vdp_dump": 0 },
+      "methodology_report_status": "passed"
+    },
+    {
+      "project": "SCENE_TILEMAP_CURATION_FIXTURE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "path": "SGDK_projects/_agent_laboratory/SCENE_TILEMAP_CURATION_FIXTURE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "folder_genre_tag": "TECHDEMO",
+      "evidence_level": "C",
+      "assigned_specialization": null,
+      "genre_applicable": false,
+      "rom_sha256": "18aec2f55902aa572a7c49fbc15de27c2e2c8e8ad2f2693a691537f1289459ae",
+      "rom_date": "2026-06-06",
+      "evidence_counts": { "png": 1, "save_sram": 4, "visual_vdp_dump": 0 },
+      "methodology_report_status": "blocked"
+    },
+    {
+      "project": "SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+      "path": "SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+      "folder_genre_tag": null,
+      "evidence_level": "C",
+      "assigned_specialization": null,
+      "genre_applicable": false,
+      "rom_sha256": "9c5a7e22515b9ebf03c9bc32e4c43d0ac6d3251cf72d32ee043f9c391f4eaaac",
+      "rom_date": "2026-07-03",
+      "evidence_counts": { "png": 0, "save_sram": 0, "visual_vdp_dump": 0 },
+      "notes": "Zero evidencia de emulador. Smoke estrutural do wrapper."
+    },
+    {
+      "project": "[ESTUDO]_mugen_sff_showdown_v1",
+      "path": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1",
+      "context_type": "exercise",
+      "evidence_level": "B",
+      "assigned_specialization": null,
+      "genre_applicable": false,
+      "rom_sha256": null,
+      "notes": "Sem out/rom.bin no root do estudo. Viewer aninhado showdown_viewer permanece context_type=unclassified."
+    }
+  ],
+
+  "zero_coverage_families": [
+    {
+      "family": "rpg",
+      "active_specialization": "rpg_turn_based_jrpg",
+      "validator_exists": true,
+      "projects_on_disk": 0,
+      "statement": "Cobertura zero em disco. Nenhum projeto, nenhuma ROM. Nao estimar por proximidade."
+    },
+    {
+      "family": "strategy",
+      "active_specialization": "strategy_tower_defense",
+      "validator_exists": true,
+      "projects_on_disk": 0,
+      "statement": "Cobertura zero em disco. Nenhum projeto, nenhuma ROM."
+    },
+    {
+      "family": "fighting",
+      "active_specialization": "fighting_2d_traditional",
+      "validator_exists": true,
+      "projects_on_disk": 0,
+      "statement": "Cobertura zero. HYBRIDO_MUAY_THAI e exercise e nao credencia; report do benchmark e generalista."
+    },
+    {
+      "family": "horror",
+      "active_specialization": null,
+      "validator_exists": false,
+      "projects_on_disk": 0,
+      "statement": "Nenhum subgenero active. Nao e gap: e nao-promocao registrada."
+    },
+    {
+      "family": "fps",
+      "active_specialization": null,
+      "validator_exists": false,
+      "projects_on_disk": 0,
+      "statement": "Nenhum subgenero active. Nao e gap: e nao-promocao registrada."
+    }
+  ],
+
+  "divergences_found": [
+    {
+      "id": "matrix_registry_active_count_mismatch",
+      "severity": "documentation_stale",
+      "observed": "genre_specialization_registry.json (schema 3.0.0) declara 38 entries / 6 active. genre_specialization_matrix.md declara v2 com 20 active + 8 future_knowledge + 10 future_architetural.",
+      "authority_resolution": "O registry JSON e canonico; tools/sgdk_wrapper/ci/test_genre_specialization_registry.ps1 assere 38 entries e exatamente 6 active. O matrix .md esta stale.",
+      "also_stale": [
+        "doc/WORKSPACE_STRUCTURE.md linha ~34 (descreve v2 = 20 active)",
+        "doc/WORKSPACE_STRUCTURE.md linha ~51 (descreve CI v2 esperando 20 active)"
+      ],
+      "action_required": "curadoria humana explicita para reconciliar matrix + WORKSPACE_STRUCTURE com o registry v3",
+      "status": "open"
+    },
+    {
+      "id": "mddev_inherits_template_identity",
+      "severity": "bootstrap_inheritance",
+      "observed": ".mddev/project.json de BLUE_CIRCUIT, KIRBY_FAN GAME CLOUDE e MARE_BRAVA mantem kind=template, category=reference e a nota herdada 'Base oficial pedagogica...' do modelo.",
+      "impact": "category do .mddev nao pode ser lida como genero nem como tipo real de projeto. Para MARE_BRAVA o genero real vive no manifesto opt-in.",
+      "status": "open"
+    },
+    {
+      "id": "agents_md_references_missing_template",
+      "severity": "documentation_stale",
+      "observed": "AGENTS.md cita SGDK_templates/base-elite/ como template canonico, mas o diretorio nao existe. SGDK_Engines/ esta vazio.",
+      "authority_resolution": "doc/template_registry.json define tools/sgdk_wrapper/modelo como CANONICAL_BOOTSTRAP.",
+      "status": "open"
+    }
+  ],
+
+  "next_diagnostic_protocol": {
+    "statement": "Diagnostico futuro deve ATUALIZAR este arquivo, nao criar outro.",
+    "steps": [
+      "1. Rodar tools/sgdk_wrapper/assert_agent_environment.ps1 e confirmar agent_environment_status=ready.",
+      "2. Reler doc/07_game_design/genre_specialization_registry.json e atualizar registry_snapshot (active_ids pode mudar com promocao humana).",
+      "3. Localizar todo doc/genre_specialization_manifest.json em SGDK_projects/**; cada um exige o validator correspondente executado com -ProjectRoot absoluto.",
+      "4. Recalcular sha256 de out/rom.bin por projeto e conferir se o diretorio de evidencia BlastEm ainda casa com o hash atual; hash divergente invalida evidence_bound_to_rom.",
+      "5. Atualizar coverage_summary e last_audit.",
+      "6. Nao rebaixar nem promover status de entrega a partir deste arquivo; a autoridade e doc/10-memory-bank.md do projeto."
+    ],
+    "validator_invocation_note": "Os validators de especializacao usam -ProjectRoot (caminho ABSOLUTO), nao -ProjectPath.",
+    "glob_note": "Nomes de projeto contem colchetes; glob de shell/python trata [..] como classe de caracteres. Usar glob.escape() ou iteracao literal de caminho."
+  }
+}

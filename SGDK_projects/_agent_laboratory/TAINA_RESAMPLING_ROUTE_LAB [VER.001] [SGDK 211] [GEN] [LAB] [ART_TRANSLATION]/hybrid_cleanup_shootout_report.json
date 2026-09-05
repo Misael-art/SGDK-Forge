@@ -1,0 +1,52 @@
+{
+  "schema_version": "hybrid_cleanup_shootout_report.v1",
+  "decision": "approve_hybrid_cleanup_shootout",
+  "scale": "56x80",
+  "bases": {
+    "primary": {
+      "route_id": "im_lanczos3",
+      "sha256": "933caee8829970d0f8877712396b19b57e5843ef73481aceb047cf338cde72be"
+    },
+    "challenger": {
+      "route_id": "im_mitchell_netravali",
+      "sha256": "ee524888bd0be4e146a3236a9480565772b8fa8e752818bf2c9717bf702b17b5"
+    },
+    "control": {
+      "route_id": "im_catmull_rom",
+      "sha256": "169426ebbf40eb01631154610cd73fff959afde8540dfa5943c3528225b20cd5"
+    }
+  },
+  "observations": {
+    "hybrid_cleanup_primary_im_lanczos3_v01": "mais contraste local; exige vigilancia de halos e microjaggies",
+    "hybrid_cleanup_challenger_im_mitchell_netravali_v01": "contorno mais calmo; perde parte da separacao fina em mao/sash",
+    "hybrid_cleanup_control_im_catmull_rom_v01": "controle intermediario; menos contraste e menor ruido de borda"
+  },
+  "no_numeric_score": true,
+  "no_automatic_winner": true,
+  "candidates": [
+    {
+      "asset_id": "hybrid_cleanup_primary_im_lanczos3_v01",
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/hybrid_cleanup_primary_im_lanczos3_v01.png",
+      "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1",
+      "route_id": "im_lanczos3",
+      "observation": "mais contraste local; exige vigilancia de halos e microjaggies"
+    },
+    {
+      "asset_id": "hybrid_cleanup_challenger_im_mitchell_netravali_v01",
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/hybrid_cleanup_challenger_im_mitchell_netravali_v01.png",
+      "sha256": "8e8eb7cbb6d0aaa8906f88f7a12c4352f431d41cd823f57e958c41c3d19bcd61",
+      "route_id": "im_mitchell_netravali",
+      "observation": "contorno mais calmo; perde parte da separacao fina em mao/sash"
+    },
+    {
+      "asset_id": "hybrid_cleanup_control_im_catmull_rom_v01",
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_control_im_catmull_rom_v01/hybrid_cleanup_control_im_catmull_rom_v01.png",
+      "sha256": "e4376a53b4aec651b50f57676e2550a14ba738dd01196a850f46a2762fcde45c",
+      "route_id": "im_catmull_rom",
+      "observation": "controle intermediario; menos contraste e menor ruido de borda"
+    }
+  ],
+  "claim_ceiling": "hybrid_cleanup_candidate",
+  "human_gate_status": "pending_human_decision",
+  "res_promotion": false
+}

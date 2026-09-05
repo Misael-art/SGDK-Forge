@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "setpiece_id": "shattered_lane_gauntlet",
+  "placement": "transition_sector_03_to_sector_04",
+  "design_thesis": "The moment players remember: the Master Pursuer breaks the road and leaves only one lane for three seconds.",
+  "runtime_owner": "src/race/signature_setpiece.c",
+  "sequence": [
+    {"beat": "hoof_shadow", "duration_frames": 45, "control": "enabled", "safe_lanes": [0, 1, 2], "effect": "large shadow crosses all lanes"},
+    {"beat": "impact_hold", "duration_frames": 18, "control": "limited", "safe_lanes": [1], "effect": "hitstop, camera shake, two lanes crack"},
+    {"beat": "single_lane_run", "duration_frames": 180, "control": "enabled", "safe_lanes": [1], "effect": "only center lane stable; debris falls around it"},
+    {"beat": "lane_rebuild", "duration_frames": 72, "control": "enabled", "safe_lanes": [0, 1, 2], "effect": "side lanes return with luminous cracks"},
+    {"beat": "shadow_tunnel_entry", "duration_frames": 60, "control": "enabled", "safe_lanes": [0, 1, 2], "effect": "audio shifts to shadow tunnel layer"}
+  ],
+  "track_event_requirements": [
+    "lane_mask supports single safe lane windows",
+    "debris hazards must leave center readable",
+    "camera shake cannot move final collision AABB",
+    "no instant kill; one hit max during setpiece unless player ignores all telegraphs"
+  ],
+  "vdp_budget_policy": {
+    "first_implementation": "BG_A crack tiles plus small debris sprites; no giant boss sprite required",
+    "fallback": "palette flash, shake and lane mask if crack art is not ready",
+    "blocked": "signature setpiece cannot be claimed without runtime capture"
+  },
+  "audio_plan": {
+    "impact": "boss_hoof_stinger",
+    "single_lane": "music drops bass for 1 bar then returns with pressure layer",
+    "entry": "shadow_tunnel_theme_layer"
+  },
+  "validation_plan": [
+    "Setpiece has deterministic replay fixture.",
+    "Only one lane is safe for exactly 180 frames in first spec.",
+    "Player can survive without taking damage if centered before impact.",
+    "BlastEm capture required before this becomes the official signature moment."
+  ]
+}

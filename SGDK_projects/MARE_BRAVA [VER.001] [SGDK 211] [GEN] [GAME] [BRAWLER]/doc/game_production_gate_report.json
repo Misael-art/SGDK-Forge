@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "mare_brava_game_production_gate_v01",
+  "timestamp": "2026-08-30T18:02:00Z",
+  "target_scope": "cais_01_vertical_slice",
+  "product_status": "vertical_slice_candidate",
+  "claim_ceiling": "vertical_slice_candidate",
+  "scope_id": "cais_01",
+  "gates": {
+    "mechanics_gate": {
+      "report_ref": "doc/mechanic_validation_report.json",
+      "status": "warn",
+      "ready": false,
+      "blocking_statuses": ["mechanic_flow_playtest_pending"]
+    },
+    "level_design_gate": {
+      "report_ref": "doc/level_design_report.json",
+      "status": "passed",
+      "ready": true,
+      "blocking_statuses": []
+    },
+    "enemy_design_gate": {
+      "report_ref": "doc/enemy_design_report.json",
+      "status": "warn",
+      "ready": false,
+      "blocking_statuses": ["enemy_stinger_audio_pending"]
+    },
+    "tdd_gate": {
+      "report_ref": "doc/contracts/tdd_contract.json",
+      "status": "passed",
+      "ready": true,
+      "blocking_statuses": []
+    },
+    "audio_adaptive_gate": {
+      "report_ref": "doc/audio_architecture_card.json",
+      "status": "failed",
+      "ready": false
+    },
+    "scene_pipeline_gate": {
+      "report_ref": "out/logs/scene_closeout_gate_report.json",
+      "status": "warn",
+      "ready": false
+    },
+    "qa_gate": {
+      "report_ref": "out/logs/qa_emulator_report.json",
+      "status": "missing",
+      "ready": false
+    }
+  },
+  "technical_ready": false,
+  "creative_ready": false,
+  "summary": {
+    "game_production_ready": false,
+    "mechanics_ready": false,
+    "level_design_ready": true,
+    "enemy_design_ready": false,
+    "tdd_ready": true,
+    "blocking_statuses_count": 9,
+    "creative_blocking_statuses_count": 2,
+    "all_blocking_statuses": [
+      "mechanic_flow_playtest_pending",
+      "enemy_stinger_audio_pending",
+      "stage_bgm_source_missing",
+      "audio_validation_gameplay_assets_missing",
+      "visual_gate_blocked",
+      "tile_residency_over_ceiling",
+      "scene_closeout_gate_warn",
+      "blastem_evidence_missing",
+      "qa_emulator_report_missing"
+    ],
+    "all_creative_blocking_statuses": [
+      "lineart_blocking_visual_pass_pending",
+      "model_sheet_to_sprite_fidelity_failed"
+    ]
+  },
+  "ready_for_aaa_local": false,
+  "ready_for_aaa_invalidated_by": [
+    "validation_report_blocking_statuses",
+    "visual_delivery_gate_blocked",
+    "live_scene_bar_report_missing_or_not_passed",
+    "audio_validation_gameplay_assets_missing",
+    "fresh_evidence_bundle_missing",
+    "blastem_evidence_missing"
+  ]
+}

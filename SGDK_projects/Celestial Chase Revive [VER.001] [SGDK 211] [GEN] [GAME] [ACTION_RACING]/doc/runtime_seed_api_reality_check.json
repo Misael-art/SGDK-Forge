@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-06-16",
+  "status": "checked",
+  "sgdk_version": "2.11",
+  "checked_symbols": [
+    {
+      "symbol": "PAL_setColor",
+      "header": "sdk/sgdk-2.11/inc/pal.h",
+      "used": true
+    },
+    {
+      "symbol": "RGB24_TO_VDPCOLOR",
+      "header": "sdk/sgdk-2.11/inc/pal.h",
+      "used": true
+    },
+    {
+      "symbol": "VDP_setScreenWidth320",
+      "header": "sdk/sgdk-2.11/inc/vdp.h",
+      "used": true
+    },
+    {
+      "symbol": "VDP_setPlaneSize",
+      "header": "sdk/sgdk-2.11/inc/vdp.h",
+      "used": true
+    },
+    {
+      "symbol": "VDP_clearPlane",
+      "header": "sdk/sgdk-2.11/inc/vdp_bg.h",
+      "used": true
+    },
+    {
+      "symbol": "VDP_drawText",
+      "header": "sdk/sgdk-2.11/inc/vdp_bg.h",
+      "used": true
+    },
+    {
+      "symbol": "SRAM_writeByte",
+      "header": "sdk/sgdk-2.11/inc/sram.h",
+      "used": true
+    }
+  ],
+  "deprecated_api_used": false,
+  "float_or_double_used": false,
+  "heap_used": false
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "race_start_handoff",
+  "status": "planned",
+  "required_evidence": [
+    "BlastEm screenshot before input unlock",
+    "BlastEm screenshot after HUD appears",
+    "runtime_metrics scene_id",
+    "save.sram when probe active",
+    "visual_vdp_dump.bin when promoted beyond planning",
+    "freshness_audit"
+  ],
+  "current_evidence": [],
+  "claim_limit": "documentado_until_boot_route_and_capture_exist"
+}

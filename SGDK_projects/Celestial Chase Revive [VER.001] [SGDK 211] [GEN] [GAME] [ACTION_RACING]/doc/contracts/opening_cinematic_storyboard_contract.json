@@ -1,0 +1,535 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "opening_catalyst_cutscene_storyboard_v1",
+  "scene_id": "opening_catalyst_cutscene",
+  "scene_role": "cutscene",
+  "status_ceiling": "planning_only",
+  "ready_for_aaa": false,
+  "source_authority": {
+    "roteiro_ref": "doc/12-roteiro.md#cutscene-principal-opening_catalyst_cutscene",
+    "spec_ref": "doc/13-spec-cenas.md#cena-2-opening_catalyst_cutscene",
+    "context_pack_manifest_ref": "doc/context_pack_manifest.json",
+    "reference_profile": [
+      {
+        "game": "Phantasy Star IV",
+        "inheritance": "panel rhythm, readable portrait staging and short dramatic text beats"
+      },
+      {
+        "game": "Valis III",
+        "inheritance": "anime close-up framing, emotional eye read and hard-edged 16-bit composition"
+      },
+      {
+        "game": "Shinobi III",
+        "inheritance": "strong silhouette separation, speed staging and readable action handoff"
+      }
+    ]
+  },
+  "cinematic_direction": {
+    "intention": "Introduce the beacon rupture, bind Lio to the Lumen core and make the pursuit visible before control starts.",
+    "narrative_structure": "quiet scale, rupture, personal command, object charge, threat reveal, road awakening and clean control handoff",
+    "cinematic_language_methods": [
+      "panel sequence with short text",
+      "scroll-pan reveals instead of video playback",
+      "palette and audio stingers for the catalyst event",
+      "single-frame reaction and shake for impact",
+      "letterbox withdrawal into the playable road"
+    ],
+    "selected_fake_cinema_tools": [
+      "panel_sequence",
+      "pan_scroll",
+      "hold_frame",
+      "lighting_as_narrative",
+      "sound_as_primary_force",
+      "palette_flash",
+      "portrait_blink_mouth",
+      "strong_static_composition"
+    ],
+    "signature_moment": "The Master Pursuer appears as a horn-crown silhouette in the horizon while the Lumen brightens, making the chase visible before the HUD exists."
+  },
+  "state_machine": {
+    "runtime_model": "table_driven_fsm",
+    "states": [
+      {
+        "state_id": "op_00_black_stinger",
+        "narrative_purpose": "Open in silence and scale before the world breaks.",
+        "shot_type": "panel_hold",
+        "entry_load": {
+          "assets": ["black_panel", "small_lumen_dot"],
+          "palettes": ["pal3_text_accent"],
+          "maps": []
+        },
+        "render_surfaces": {
+          "BG_B": "cleared",
+          "BG_A": "black hold panel",
+          "WINDOW": "typewriter text band",
+          "sprites": ["small_lumen_dot_optional"]
+        },
+        "palette_domains": [
+          {"slot": "PAL0", "owner": "cutscene_clear"},
+          {"slot": "PAL3", "owner": "cutscene_text"}
+        ],
+        "text_block": {
+          "speaker": "narrator",
+          "string_id": "op_00",
+          "max_lines": 1,
+          "anchor": "bottom_window"
+        },
+        "advance_trigger": "MIXED",
+        "duration_frames": 60,
+        "dynamic_fx": ["fade_in"],
+        "motion_beats": [
+          {
+            "beat_type": "hold",
+            "start_frame": 0,
+            "duration_frames": 60,
+            "purpose": "Let the first light feel isolated before scale is revealed."
+          }
+        ],
+        "animation_link": {
+          "mode": "palette_breathe",
+          "frames": 2,
+          "loop": "slow"
+        },
+        "audio_cue": {
+          "cue_id": "opening_drone",
+          "trigger_frame": 0,
+          "priority": "low"
+        },
+        "exit_teardown": "keep_text_owner_clear_bg_a"
+      },
+      {
+        "state_id": "op_01_lighthouse_wide",
+        "narrative_purpose": "Show the Farol-Matriz cracking and establish that the sky road is an engineered mythic space.",
+        "shot_type": "establishing",
+        "entry_load": {
+          "assets": ["lighthouse_wide_panel", "crack_tiles"],
+          "palettes": ["pal0_sky_depth", "pal1_beacon_panel"],
+          "maps": ["lighthouse_wide_map"]
+        },
+        "render_surfaces": {
+          "BG_B": "sky depth plate",
+          "BG_A": "lighthouse panel and crack overlay",
+          "WINDOW": "typewriter text band",
+          "sprites": []
+        },
+        "palette_domains": [
+          {"slot": "PAL0", "owner": "cutscene_sky"},
+          {"slot": "PAL1", "owner": "lighthouse_panel"},
+          {"slot": "PAL3", "owner": "cutscene_text"}
+        ],
+        "text_block": {
+          "speaker": "narrator",
+          "string_id": "op_01",
+          "max_lines": 2,
+          "anchor": "bottom_window"
+        },
+        "advance_trigger": "MIXED",
+        "duration_frames": 150,
+        "dynamic_fx": ["vertical_pan", "palette_warm_crack"],
+        "motion_beats": [
+          {
+            "beat_type": "pan_or_scroll",
+            "start_frame": 12,
+            "duration_frames": 96,
+            "purpose": "Reveal height and crack direction without loading a full video."
+          }
+        ],
+        "animation_link": {
+          "mode": "tile_crack_swap",
+          "frames": 2,
+          "loop": "none"
+        },
+        "audio_cue": {
+          "cue_id": "beacon_bell",
+          "trigger_frame": 32,
+          "priority": "medium"
+        },
+        "exit_teardown": "hold_pal0_clear_bg_a_crack_tiles"
+      },
+      {
+        "state_id": "op_02_lio_closeup",
+        "narrative_purpose": "Make the catalyst personal and give Lio a readable command before gameplay.",
+        "shot_type": "portrait",
+        "entry_load": {
+          "assets": ["lio_close_panel", "lio_blink_cells"],
+          "palettes": ["pal1_lio_portrait", "pal3_text"],
+          "maps": ["lio_close_map"]
+        },
+        "render_surfaces": {
+          "BG_B": "dimmed sky residue",
+          "BG_A": "Lio portrait panel",
+          "WINDOW": "typewriter text band",
+          "sprites": ["eye_blink_cell_optional"]
+        },
+        "palette_domains": [
+          {"slot": "PAL1", "owner": "lio_portrait"},
+          {"slot": "PAL2", "owner": "lio_blink_or_highlight"},
+          {"slot": "PAL3", "owner": "cutscene_text"}
+        ],
+        "text_block": {
+          "speaker": "unknown_voice",
+          "string_id": "op_02",
+          "max_lines": 1,
+          "anchor": "bottom_window"
+        },
+        "advance_trigger": "MIXED",
+        "duration_frames": 120,
+        "dynamic_fx": ["blink", "reaction_frame"],
+        "motion_beats": [
+          {
+            "beat_type": "blink_or_mouth",
+            "start_frame": 36,
+            "duration_frames": 8,
+            "purpose": "Give the portrait life without full dialogue animation."
+          },
+          {
+            "beat_type": "reaction_frame",
+            "start_frame": 72,
+            "duration_frames": 12,
+            "purpose": "Make RUN land as a decision, not exposition."
+          }
+        ],
+        "animation_link": {
+          "mode": "portrait_cell_swap",
+          "frames": 2,
+          "loop": "single"
+        },
+        "audio_cue": {
+          "cue_id": "voice_hint_short",
+          "trigger_frame": 18,
+          "priority": "medium"
+        },
+        "exit_teardown": "release_lio_portrait_cells_keep_text_owner"
+      },
+      {
+        "state_id": "op_03_core_insert",
+        "narrative_purpose": "Define Lumen as object, risk and resource before it becomes an economy.",
+        "shot_type": "object_insert",
+        "entry_load": {
+          "assets": ["lumen_core_insert", "hand_silhouette"],
+          "palettes": ["pal1_hand_panel", "pal2_lumen_core"],
+          "maps": ["lumen_insert_map"]
+        },
+        "render_surfaces": {
+          "BG_B": "cleared or dim atmosphere",
+          "BG_A": "hands and Lumen insert",
+          "WINDOW": "typewriter text band",
+          "sprites": ["lumen_pulse_cell"]
+        },
+        "palette_domains": [
+          {"slot": "PAL1", "owner": "core_insert_panel"},
+          {"slot": "PAL2", "owner": "lumen_pulse"},
+          {"slot": "PAL3", "owner": "cutscene_text"}
+        ],
+        "text_block": {
+          "speaker": "unknown_voice",
+          "string_id": "op_03",
+          "max_lines": 1,
+          "anchor": "bottom_window"
+        },
+        "advance_trigger": "MIXED",
+        "duration_frames": 90,
+        "dynamic_fx": ["palette_pulse"],
+        "motion_beats": [
+          {
+            "beat_type": "stillness_justification",
+            "start_frame": 0,
+            "duration_frames": 90,
+            "purpose": "Hold the object clearly so the later HUD symbol is recognized."
+          }
+        ],
+        "animation_link": {
+          "mode": "lumen_palette_and_cell_pulse",
+          "frames": 3,
+          "loop": "slow"
+        },
+        "audio_cue": {
+          "cue_id": "lumen_shimmer",
+          "trigger_frame": 12,
+          "priority": "medium"
+        },
+        "exit_teardown": "preserve_pal2_lumen_identity_release_insert_panel"
+      },
+      {
+        "state_id": "op_04_hart_shadow",
+        "narrative_purpose": "Turn the pursuer into a visible force and connect carried Lumen to danger.",
+        "shot_type": "reaction",
+        "entry_load": {
+          "assets": ["pursuer_horizon_panel", "horn_shadow_tiles"],
+          "palettes": ["pal0_dark_horizon", "pal1_shadow_panel"],
+          "maps": ["pursuer_horizon_map"]
+        },
+        "render_surfaces": {
+          "BG_B": "dark horn-crown horizon",
+          "BG_A": "foreground crack and shadow frame",
+          "WINDOW": "typewriter text band",
+          "sprites": ["small_shard_flash_optional"]
+        },
+        "palette_domains": [
+          {"slot": "PAL0", "owner": "pursuer_horizon"},
+          {"slot": "PAL1", "owner": "shadow_foreground"},
+          {"slot": "PAL3", "owner": "cutscene_text"}
+        ],
+        "text_block": {
+          "speaker": "unknown_voice",
+          "string_id": "op_04",
+          "max_lines": 2,
+          "anchor": "bottom_window"
+        },
+        "advance_trigger": "MIXED",
+        "duration_frames": 150,
+        "dynamic_fx": ["shake", "flash"],
+        "motion_beats": [
+          {
+            "beat_type": "impact_motion",
+            "start_frame": 42,
+            "duration_frames": 12,
+            "purpose": "Make the threat felt physically without hiding text."
+          }
+        ],
+        "animation_link": {
+          "mode": "palette_flash_then_shadow_hold",
+          "frames": 2,
+          "loop": "none"
+        },
+        "audio_cue": {
+          "cue_id": "hart_impact",
+          "trigger_frame": 42,
+          "priority": "high"
+        },
+        "exit_teardown": "reset_shake_offsets_clear_flash_state"
+      },
+      {
+        "state_id": "op_05_gate_break",
+        "narrative_purpose": "Convert the cinematic road into the playable road.",
+        "shot_type": "transition",
+        "entry_load": {
+          "assets": ["gate_break_panel", "road_perspective_tiles"],
+          "palettes": ["pal0_sky_to_race", "pal1_road_panel"],
+          "maps": ["gate_break_map"]
+        },
+        "render_surfaces": {
+          "BG_B": "race sky transition",
+          "BG_A": "gate and first road perspective",
+          "WINDOW": "typewriter text band",
+          "sprites": []
+        },
+        "palette_domains": [
+          {"slot": "PAL0", "owner": "race_sky_bridge"},
+          {"slot": "PAL1", "owner": "road_gate_panel"},
+          {"slot": "PAL3", "owner": "cutscene_text"}
+        ],
+        "text_block": {
+          "speaker": "narrator",
+          "string_id": "op_05",
+          "max_lines": 1,
+          "anchor": "bottom_window"
+        },
+        "advance_trigger": "WAIT_FRAMES",
+        "duration_frames": 120,
+        "dynamic_fx": ["hscroll_start", "palette_ramp"],
+        "motion_beats": [
+          {
+            "beat_type": "pan_or_scroll",
+            "start_frame": 16,
+            "duration_frames": 88,
+            "purpose": "Make the first road lines match the gameplay lane perspective."
+          }
+        ],
+        "animation_link": {
+          "mode": "scroll_pan_only",
+          "frames": 1,
+          "loop": "none"
+        },
+        "audio_cue": {
+          "cue_id": "race_intro_start",
+          "trigger_frame": 20,
+          "priority": "high"
+        },
+        "exit_teardown": "freeze_scroll_for_handoff_state"
+      },
+      {
+        "state_id": "op_06_control_handoff",
+        "narrative_purpose": "Remove cinematic ownership, reveal HUD and hand control to lane movement cleanly.",
+        "shot_type": "transition",
+        "entry_load": {
+          "assets": ["lio_runtime_sprite", "hud_tiles", "road_runtime_tiles"],
+          "palettes": ["pal0_race_sky", "pal1_road", "pal2_lio", "pal3_hud"],
+          "maps": ["race_start_preview"]
+        },
+        "render_surfaces": {
+          "BG_B": "race sky",
+          "BG_A": "runtime road preview",
+          "WINDOW": "HUD enter after owner reset",
+          "sprites": ["Lio runtime sprite"]
+        },
+        "palette_domains": [
+          {"slot": "PAL0", "owner": "race_bg"},
+          {"slot": "PAL1", "owner": "race_road"},
+          {"slot": "PAL2", "owner": "player_sprite"},
+          {"slot": "PAL3", "owner": "race_hud"}
+        ],
+        "text_block": {
+          "speaker": "none",
+          "string_id": "none",
+          "max_lines": 0,
+          "anchor": "none"
+        },
+        "advance_trigger": "WAIT_FRAMES",
+        "duration_frames": 60,
+        "dynamic_fx": ["letterbox_retract", "hud_enter"],
+        "motion_beats": [
+          {
+            "beat_type": "pan_or_scroll",
+            "start_frame": 0,
+            "duration_frames": 60,
+            "purpose": "Ease the eye from panel layout into lane-read gameplay."
+          }
+        ],
+        "animation_link": {
+          "mode": "runtime_sprite_idle_to_run",
+          "frames": 2,
+          "loop": "handoff_only"
+        },
+        "audio_cue": {
+          "cue_id": "start_beat",
+          "trigger_frame": 48,
+          "priority": "high"
+        },
+        "exit_teardown": "handoff_to_race_start_handoff_contract"
+      }
+    ]
+  },
+  "cutscene_resource_plan": {
+    "states": [
+      {
+        "state_id": "op_00_black_stinger",
+        "vram_resident_set": {"bg_tiles": 8, "font_tiles": 64, "sprite_tiles": 4},
+        "load_time_dma_cost": {"bytes": 2048, "phase": "scene_entry"},
+        "per_frame_dma_cost": {"bytes": 0, "cadence": "none"},
+        "palette_domains": ["PAL3"],
+        "glyph_cache": {"mode": "uppercase_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 1, "max_sprites_per_scanline": 1},
+        "state_teardown": "clear_optional_lumen_dot",
+        "budget_decision": "planned"
+      },
+      {
+        "state_id": "op_01_lighthouse_wide",
+        "vram_resident_set": {"bg_b_tiles": 96, "bg_a_tiles": 160, "font_tiles": 64, "sprite_tiles": 0},
+        "load_time_dma_cost": {"bytes": 12288, "phase": "state_preload_control_locked"},
+        "per_frame_dma_cost": {"bytes": 0, "cadence": "scroll_register_only"},
+        "palette_domains": ["PAL0", "PAL1", "PAL3"],
+        "glyph_cache": {"mode": "uppercase_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 0, "max_sprites_per_scanline": 0},
+        "state_teardown": "release_crack_overlay_tiles",
+        "budget_decision": "planned"
+      },
+      {
+        "state_id": "op_02_lio_closeup",
+        "vram_resident_set": {"bg_a_tiles": 180, "font_tiles": 64, "sprite_tiles": 12},
+        "load_time_dma_cost": {"bytes": 14336, "phase": "state_preload_control_locked"},
+        "per_frame_dma_cost": {"bytes": 128, "cadence": "blink_cell_only"},
+        "palette_domains": ["PAL1", "PAL2", "PAL3"],
+        "glyph_cache": {"mode": "uppercase_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 2, "max_sprites_per_scanline": 2},
+        "state_teardown": "release_portrait_cells",
+        "budget_decision": "planned"
+      },
+      {
+        "state_id": "op_03_core_insert",
+        "vram_resident_set": {"bg_a_tiles": 128, "font_tiles": 64, "sprite_tiles": 12},
+        "load_time_dma_cost": {"bytes": 10240, "phase": "state_preload_control_locked"},
+        "per_frame_dma_cost": {"bytes": 96, "cadence": "palette_or_small_cell"},
+        "palette_domains": ["PAL1", "PAL2", "PAL3"],
+        "glyph_cache": {"mode": "uppercase_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 2, "max_sprites_per_scanline": 2},
+        "state_teardown": "release_core_insert_panel",
+        "budget_decision": "planned"
+      },
+      {
+        "state_id": "op_04_hart_shadow",
+        "vram_resident_set": {"bg_b_tiles": 120, "bg_a_tiles": 120, "font_tiles": 64, "sprite_tiles": 8},
+        "load_time_dma_cost": {"bytes": 12800, "phase": "state_preload_control_locked"},
+        "per_frame_dma_cost": {"bytes": 0, "cadence": "register_shake_and_palette"},
+        "palette_domains": ["PAL0", "PAL1", "PAL3"],
+        "glyph_cache": {"mode": "uppercase_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 4, "max_sprites_per_scanline": 4},
+        "state_teardown": "reset_shake_and_flash",
+        "budget_decision": "planned"
+      },
+      {
+        "state_id": "op_05_gate_break",
+        "vram_resident_set": {"bg_b_tiles": 96, "bg_a_tiles": 160, "font_tiles": 64, "sprite_tiles": 0},
+        "load_time_dma_cost": {"bytes": 12288, "phase": "state_preload_control_locked"},
+        "per_frame_dma_cost": {"bytes": 0, "cadence": "scroll_register_only"},
+        "palette_domains": ["PAL0", "PAL1", "PAL3"],
+        "glyph_cache": {"mode": "uppercase_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 0, "max_sprites_per_scanline": 0},
+        "state_teardown": "freeze_scroll_for_runtime_handoff",
+        "budget_decision": "planned"
+      },
+      {
+        "state_id": "op_06_control_handoff",
+        "vram_resident_set": {"runtime_road_tiles": 32, "hud_tiles": 64, "player_tiles": 64},
+        "load_time_dma_cost": {"bytes": 8192, "phase": "handoff_preload_control_locked"},
+        "per_frame_dma_cost": {"bytes": 128, "cadence": "hud_enter_and_sprite_frame"},
+        "palette_domains": ["PAL0", "PAL1", "PAL2", "PAL3"],
+        "glyph_cache": {"mode": "hud_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 6, "max_sprites_per_scanline": 4},
+        "state_teardown": "call_race_start_handoff",
+        "budget_decision": "planned"
+      }
+    ]
+  },
+  "hardware_ownership": {
+    "window_owner": "opening_cutscene_text_owner_until_op_06_then_release_to_race_hud",
+    "cram_owner": "opening_cutscene_palette_script",
+    "scroll_owner": "opening_cutscene_fsm",
+    "audio_owner": "opening_cutscene_audio_cue_map",
+    "h_int": {
+      "in_use": false
+    }
+  },
+  "text_timing_map": {
+    "glyph_manifest_ref": "doc/glyph_manifest.json",
+    "font_surface_owner": "WINDOW",
+    "base_frames_per_glyph": 3,
+    "punctuation_pauses": {
+      "comma": 8,
+      "period": 16,
+      "ellipsis": 28,
+      "line_break": 12
+    },
+    "advance_controls": {
+      "accelerate_button": "A",
+      "advance_button": "START",
+      "skip_policy": "complete_current_text_then_advance_after_safety_window"
+    }
+  },
+  "visual_source_gate": {
+    "production_source_ready": false,
+    "premium_source_manifest_ref": "doc/concept_art_pack_manifest.json",
+    "human_approval_record_ref": "doc/human_approval_record.md",
+    "visual_delivery_gate_report_ref": "out/logs/visual_delivery_gate_report.json",
+    "blocked_statuses": [
+      "visual_gate_blocked",
+      "premium_source_art_missing",
+      "human_approval_missing",
+      "blastem_cutscene_capture_missing"
+    ]
+  },
+  "evidence_plan": {
+    "blastem_required": true,
+    "screenshot_required": true,
+    "runtime_metrics_scene_id": "opening_catalyst_cutscene",
+    "visual_vdp_dump_required": true,
+    "save_sram_required": true,
+    "baseline_comparison_required": true,
+    "freshness_audit_required": true
+  },
+  "approval": {
+    "human_approval_required": true,
+    "approval_status": "not_approved",
+    "approval_record_ref": "doc/human_approval_record.md"
+  }
+}

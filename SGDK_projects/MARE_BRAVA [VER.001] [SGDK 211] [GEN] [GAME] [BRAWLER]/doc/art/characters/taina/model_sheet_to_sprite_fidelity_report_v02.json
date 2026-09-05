@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_model_sheet_to_lineart_fidelity_v02",
+  "generated_at": "2026-07-08",
+  "asset_id": "taina",
+  "candidate": {
+    "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v02.png",
+    "sha256": "15bd59d0be5feeaadfa1f3b9bde968e77e8fc655fb135c604f299538ddaa5135",
+    "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v02.png",
+    "review_8x_sha256": "2876b1808d4435605440fb0925474f1db84316b6671b336404bae62a483a0501",
+    "asset_kind": "lineart_blocking_1px_candidate"
+  },
+  "technical_check": {
+    "technical_pass": true,
+    "png_indexed": true,
+    "png_mode": "P",
+    "dimensions_px": {
+      "w": 192,
+      "h": 64
+    },
+    "dimensions_multiple_of_8": true,
+    "used_indices": [
+      0,
+      1
+    ],
+    "index0_is_pipeline_magenta": true,
+    "visible_colors_on_9bit_grid_excluding_index0": true
+  },
+  "delta_from_v01": {
+    "improvements": [
+      "punhos menos quadrados",
+      "cabelo menos blocado",
+      "massa geral ligeiramente mais compacta"
+    ],
+    "remaining_failures": [
+      "proporcao ainda le como chibi/generica",
+      "face e mandibula ainda nao preservam a atitude da fonte",
+      "bandagens e roupa continuam pouco distinguiveis sem cor",
+      "lineart nao tem assinatura expressiva suficiente para autorizar color blocking"
+    ]
+  },
+  "must_preserve_summary": {
+    "curly_hair_mass": "partial",
+    "wedge_face": "failed",
+    "orange_top_dark_trousers": "partial_pending_color",
+    "teal_wraps_and_sash": "partial",
+    "muay_thai_guard": "partial",
+    "scale_3_5_heads_48px": "failed_generic_chibi_read"
+  },
+  "visual_findings": {
+    "visual_pass": false,
+    "status": "failed_fidelity",
+    "primary_failure": "generic_blocky_redraw",
+    "secondary_failures": [
+      "face_or_eye_readability_lost",
+      "hand_foot_grammar_still_too_blocky",
+      "authorial_line_signature_not_recovered"
+    ]
+  },
+  "decision": {
+    "status": "rejected_as_clean_native_source",
+    "accepted_use": "negative_evidence_and_grid_reference_only",
+    "ready_for_color_blocking": false,
+    "ready_for_key_pose_generation": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "stop drawing from geometric primitives alone",
+      "derive v03 from the high-res source using source crop proportions plus manual pixel cleanup",
+      "lock face/jaw and hair hooks first, then limbs/sash, before any color"
+    ]
+  },
+  "blocking_statuses": [
+    "generic_blocky_redraw",
+    "face_or_eye_readability_lost",
+    "clean_native_lineart_visual_pass_pending",
+    "no_res_promotion_allowed"
+  ]
+}

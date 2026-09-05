@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "cais_01",
+  "mechanics": {
+    "combo_de_mare": {
+      "visual": ["hitspark_8x8", "third_hit_palette_flash", "ring_out_splash"],
+      "audio": ["sfx_hit_light", "sfx_hit_heavy", "sfx_ring_out_splash"],
+      "camera": ["hitstop_2_3_5_frames", "ring_out_shake_4_frames"],
+      "gameplay_consequence": "knockback changes enemy placement and may produce ring-out"
+    }
+  },
+  "status": "declared_pending_runtime_measurement"
+}

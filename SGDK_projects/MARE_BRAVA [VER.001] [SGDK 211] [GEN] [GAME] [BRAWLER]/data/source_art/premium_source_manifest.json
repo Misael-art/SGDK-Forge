@@ -4,12 +4,44 @@
   "template_seed": false,
   "template_prevalidated": false,
   "production_source_ready": false,
+  "status_policy": {
+    "new_image_outputs": "source_candidate",
+    "old_cais_panels": "mood_reference_only_or_landmark_reference_only",
+    "prohibited_statuses": [
+      "ready_for_conversion",
+      "ready_for_res_promotion",
+      "ready_for_aaa",
+      "sprite_final",
+      "tilemap_final",
+      "production_tilemap_source"
+    ]
+  },
   "generation_route": {
     "channel": "humano_gerou_em_modelo_externo_via_prompt_pack",
     "prompt_pack": "doc/art/prompt_pack/",
     "scope": "concept_art (gate proibe animated_sprite_final por canal IA)",
     "received_at": "2026-07-03"
   },
+  "generation_batches": [
+    {
+      "batch_id": "mare_brava_authorial_style_validation_2026_07_04",
+      "channel": "codex_builtin_image_generation",
+      "manifest": "data/source_art/concept/authorial_style_validation_2026_07_04/generation_batch_manifest.json",
+      "status": "source_candidate_batch_pending_human_ratification"
+    },
+    {
+      "batch_id": "taina_identity_turnaround_native_callable_2026_07_09",
+      "channel": "native_chat_image_generation_callable",
+      "manifest": "doc/art/characters/taina/taina_identity_turnaround_native_callable_review_v01.json",
+      "status": "source_candidate_batch_pending_pixel_translation"
+    },
+    {
+      "batch_id": "taina_reseed_authorial_model_sheet_2026_08_29",
+      "channel": "codex_builtin_image_generation",
+      "manifest": "doc/art/characters/taina/taina_reseed_authorial_model_sheet_source_review_v01.json",
+      "status": "approved_authorial_source_pending_pixel_translation"
+    }
+  ],
   "assets": [
     {
       "asset_id": "taina_turnaround",
@@ -107,8 +139,8 @@
       "sha256": "e04e16d22742ce036e3203cae8c4357dac5a39783ac8d2569a21c8214268dcb1",
       "kind": "background_loop_concept",
       "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
-      "status": "modular_reference_usable",
-      "notes": "mar/ceu em bandas horizontais line-scroll friendly com guindastes na linha do horizonte; quase-tileavel (costura a fechar na conversao) | RECLASSIFICADO 2026-07-03 (level_art_assembly_contract): referencia direta das bandas do BG_B; precisa ser redesenhado em strips separadas (prompt D)"
+      "status": "mood_reference_only",
+      "notes": "mar/ceu em bandas horizontais line-scroll friendly com guindastes na linha do horizonte; quase-tileavel, mas NAO e camada final residente nem source direto para res/ | RECLASSIFICADO 2026-07-04: usar apenas como referencia de clima, bandas BG_B e line-scroll; redesenhar em strips separadas (prompt 03/D)"
     },
     {
       "asset_id": "hud_frame",
@@ -145,18 +177,137 @@
       "license": "gerada_pelo_owner_do_projeto_para_o_projeto",
       "status": "source_candidate",
       "notes": "lockup escolhido pelo humano: onda quebrando no A final, mock de title em bandas; PRESS START placeholder pixelado"
+    },
+    {
+      "asset_id": "taina_identity_turnaround_authorial",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+      "sha256": "a453e4670e116460b110445cb6cf15144deac48d2c3799c8530c6fe691284ea5",
+      "kind": "model_sheet_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "correcao de traco autoral: rosto, contorno, faixa e bandagens definidos; ainda nao e model sheet pixel 3.5 heads"
+    },
+    {
+      "asset_id": "cria_estivador_silhouette_authorial",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/cria_estivador_silhouette_authorial_v01.png",
+      "sha256": "0daf5caee0340397a497d7a47df07db3bf2bd1648f91e01ba1cefe872ad8f6b8",
+      "kind": "character_identity_and_silhouette_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "CRIA=seta nervosa; ESTIVADOR=bloco quadrado; board conjunto para identidade e telegraph"
+    },
+    {
+      "asset_id": "dock_scene_kit_authorial",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/dock_scene_kit_authorial_v01.png",
+      "sha256": "afa085f6f785f6a2c28f91f17d53b6999b42fc08519ea2c35d08715910f4bfce",
+      "kind": "modular_scene_kit_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "board modular sem texto; piso, props, pilastras, landmarks, ecologia e pickups; recorte/conversao/montagem ainda pendentes"
+    },
+    {
+      "asset_id": "logo_mare_brava_authorial_studies",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/logo_mare_brava_authorial_studies_v01.png",
+      "sha256": "838f07aaa7bcb7b27726dea902b3ac69a2e6f7c9cc57c00de6452b0ae08b6982",
+      "kind": "logo_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "texto exato e leitura forte; integracao da onda com o A final requer ratificacao humana"
+    },
+    {
+      "asset_id": "hud_fx_authorial_studies",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/hud_fx_authorial_studies_v01.png",
+      "sha256": "97128bb2af88cf18c5350b0e779c6af35fb6e359592f0a10c793d0eeb87ae577",
+      "kind": "hud_fx_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "HUD, retrato, chip damage, digitos e FX coesos; separar por funcao antes da traducao VDP"
+    },
+    {
+      "asset_id": "taina_action_key_poses_authorial",
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_action_key_poses_authorial_v01.png",
+      "sha256": "4882e18dab44868079c3ccf6653b9334c59fa2a970bee8ac780581e7a2623296",
+      "kind": "pose_sheet_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "gestos e empurrao de duas maos legiveis; nao e strip nem sprite final"
+    },
+    {
+      "asset_id": "taina_identity_turnaround_native_callable_v01",
+      "path": "data/source_art/concept/taina_identity_turnaround/taina_identity_turnaround_v01.png",
+      "sha256": "d8e7036c8d79aa6cd03e8309ec883e287b27ca2986f8cad27f844cdf6b67710a",
+      "kind": "model_sheet_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "geracao nativa 2026-07-09; candidata principal para retomar a identidade compacta da TAINA; sobrevive melhor em miniatura 320x224/16c, mas ainda nao e model sheet pixel, lineart 1px ou fonte pronta para res/"
+    },
+    {
+      "asset_id": "taina_identity_turnaround_native_callable_v02",
+      "path": "data/source_art/concept/taina_identity_turnaround/taina_identity_turnaround_v02.png",
+      "sha256": "715ebf7c75679391e6ccc31e9a2383a64b6029089d8fd079cf16bec177ef88ba",
+      "kind": "model_sheet_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "source_candidate",
+      "notes": "geracao nativa 2026-07-09; segunda candidata com silhueta compacta e hooks legiveis; uso permitido como referencia de traducao pixel autoral, sem promocao direta"
+    },
+    {
+      "asset_id": "taina_reseed_authorial_model_sheet_source_v01",
+      "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+      "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+      "kind": "model_sheet_concept",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "approved_authorial_source_for_pixel_translation",
+      "notes": "Aprovada pelo owner humano em 2026-08-29 para tradução pixel autoral. Preserva cabelo, guarda, faixa assimetrica, bandagens e materiais; e uma prancha high-res (1536x1024), nao pixel art, nao strip e nao arte pronta para res/. A traducao deve comprimir para 3.5 heads e passar pelos gates de fidelidade, pixel strict, budget e BlastEm."
+    },
+    {
+      "asset_id": "taina_reseed_native_lineart_candidate_imagegen_v01",
+      "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v01.png",
+      "sha256": "4de4b9beaa48b1b1959ee738dbb9afd9cdd08f5587e31ce09ddadf78f55ad736",
+      "kind": "lineart_candidate",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "rejected_not_generation_source",
+      "notes": "Candidata imagegen de 2026-08-29. Preserva parte da identidade, mas e RGB 1086x1448 e nao respeita celula 48x64, lineart 1px nativa ou grid 8x8. Mantida apenas como evidencia negativa; nao e asset, baseline ou fonte de geracao."
+    },
+    {
+      "asset_id": "taina_reseed_native_lineart_candidate_imagegen_v02a",
+      "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02a.png",
+      "sha256": "0981854f49ee897a66b8247ada43cf2800745a10e72abe6568c2e9adf09ba855",
+      "kind": "lineart_candidate",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "rejected_not_generation_source",
+      "notes": "Tentativa C isolada, rejeitada: RGB 1086x1448 em vez de sprite nativo 48x64 indexado. Evidencia negativa apenas."
+    },
+    {
+      "asset_id": "taina_reseed_native_lineart_candidate_imagegen_v02",
+      "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02.png",
+      "sha256": "70ea460cca819084cda5f2b439f3068afba8731e026fe52dbd56aee95276edc1",
+      "kind": "visual_construction_reference",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "approved_visual_construction_reference_not_native",
+      "notes": "Direcao visual aprovada pelo owner; tecnicamente rejeitada como sprite nativo (1086x1448 RGB, sem celula 48x64/grid 8x8). Uso exclusivo como referencia de construcao e comparacao; nao reduzir, quantizar ou promover."
+    },
+    {
+      "asset_id": "taina_reseed_native_lineart_candidate_imagegen_v02b",
+      "path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02b.png",
+      "sha256": "07c94fde1e2ac30d1c1d049487e6f1f7958ddea2d2760092c4abf91b65fe790b",
+      "kind": "lineart_candidate",
+      "license": "gerada_no_canal_codex_para_o_projeto",
+      "status": "rejected_not_generation_source",
+      "notes": "Tentativa C isolada, rejeitada: RGBA 1086x1448 em vez de sprite nativo 48x64 indexado. Evidencia negativa apenas."
     }
   ],
   "global_deviations": [
     "proporcao dos personagens veio realista (~6-6.5 heads) e nao 3.5 heads: os sheets valem como identidade/roupa/pose; a compressao de proporcao acontece no model sheet pixel autoral (lineart 1px)",
-    "cenario contem texto diegetico apesar do negative prompt: aceito como narrativa ambiental, tratar na conversao de tiles"
+    "cenario contem texto diegetico apesar do negative prompt: aceito como narrativa ambiental, tratar na conversao de tiles",
+    "novo lote nativo 2026-07-09 melhora compactacao visual da TAINA, mas continua concept source; model sheet pixel 3.5 heads e lineart 1px seguem pendentes"
   ],
-  "next_gate": "ratificacao humana da direcao com contact sheet 320x224 (data/processed/contact_sheets/) antes de qualquer conversao para res/",
-  "notes": "Concepts recebidos em 2026-07-03 via prompt pack. NENHUM asset aqui e final: rota autoral obrigatoria (model sheet pixel -> lineart 1px -> key poses -> strips).",
+  "next_gate": "usar a fonte autoral aprovada da TAINA para model sheet pixel 3.5 heads; depois lineart 1px, key poses e prova VDP antes de qualquer conversao para res/",
+  "notes": "Concepts recebidos em 2026-07-03, lote autoral gerado em 2026-07-04 e novo lote nativo da TAINA gerado em 2026-07-09. NENHUM asset aqui e final: rota autoral obrigatoria (model sheet pixel -> lineart 1px -> key poses -> strips; kit do cais -> recorte -> traducao VDP -> montagem pelo agente).",
   "level_art_route": {
     "contract": "doc/contracts/level_art_assembly_contract.json",
     "kit_inventory": "doc/contracts/dock_scene_kit_inventory.json",
-    "pending_boards": "6 boards modulares (prompts A-F de doc/art/prompt_pack/03) + railing kit complementar",
-    "save_to": "data/source_art/concept/cais_world_modular/"
+    "pending_boards": "board autoral combinado existe como source_candidate; separar em familias A-G, normalizar escala/costuras e converter antes da montagem",
+    "save_to": "data/source_art/concept/authorial_style_validation_2026_07_04/",
+    "active_blocker": "dock_scene_kit_not_decomposed"
   }
 }

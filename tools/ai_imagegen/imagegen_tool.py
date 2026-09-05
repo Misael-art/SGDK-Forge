@@ -58,6 +58,76 @@ def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def parse_bool_auto(value):
+    """Argparse helper: accepts true/false/auto for native channel flags."""
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return value
+    normalized = str(value).strip().lower()
+    if normalized in ("auto", ""):
+        return None
+    if normalized in ("true", "1", "yes", "y", "on"):
+        return True
+    if normalized in ("false", "0", "no", "n", "off"):
+        return False
+    raise argparse.ArgumentTypeError("expected true, false, or auto")
+
+
+def _env_truthy(value: str | None) -> bool:
+    return (value or "").strip().lower() in ("true", "1", "yes", "y", "on")
+
+
+def _detect_native_channel_default() -> tuple[bool, bool, str]:
+    """Best-effort default for agent surfaces.
+
+    Shell tools cannot introspect the model's callable tool list directly. The
+    safest practical default is:
+    - explicit env override wins;
+    - Codex Desktop/Codex agent sessions default to callable native imagegen;
+    - plain CLI/human shells default to no native channel.
+    """
+    override = (
+        os.environ.get("SGDK_NATIVE_IMAGEGEN_CHANNEL")
+        or os.environ.get("AI_IMAGEGEN_NATIVE_CHANNEL")
+        or ""
+    ).strip().lower()
+    if override in ("callable", "native_callable", "native-chat-callable"):
+        return True, False, "env_override_callable"
+    if override in ("inline", "native_inline", "native-chat-inline"):
+        return False, True, "env_override_inline"
+    if override in ("none", "false", "off", "local", "blocked"):
+        return False, False, "env_override_no_native"
+
+    if _env_truthy(os.environ.get("SGDK_NATIVE_IMAGEGEN_AVAILABLE")):
+        return True, False, "env_sgdk_native_imagegen_available"
+
+    codex_markers = (
+        "CODEX_THREAD_ID",
+        "CODEX_INTERNAL_ORIGINATOR_OVERRIDE",
+        "CODEX_DESKTOP_LAUNCH_ACTION_SOCKET",
+    )
+    if any(os.environ.get(k) for k in codex_markers):
+        return True, False, "auto_codex_agent_surface"
+
+    return False, False, "auto_no_native_channel_detected"
+
+
+def resolve_native_channel_flags(native_callable, native_inline) -> tuple[bool, bool, str]:
+    """Resolve explicit/auto native image generation channel flags."""
+    explicit_callable = parse_bool_auto(native_callable)
+    explicit_inline = parse_bool_auto(native_inline)
+
+    if explicit_callable is not None or explicit_inline is not None:
+        return (
+            bool(explicit_callable),
+            bool(explicit_inline) if explicit_callable is not True else False,
+            "explicit_cli_flags",
+        )
+
+    return _detect_native_channel_default()
+
+
 def load_json(path: Path):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -479,8 +549,10 @@ def _profile_healthcheck(profile_key: str, profile_cfg: dict) -> dict:
 
 
 def cmd_route(args):
-    native_callable = bool(args.native_callable) if args.native_callable is not None else False
-    native_inline = bool(args.native_inline) if args.native_inline is not None else False
+    native_callable, native_inline, native_detection = resolve_native_channel_flags(
+        args.native_callable,
+        args.native_inline,
+    )
     os_info = detect_os_info()
     gpu = detect_gpu()
     ram_free_gb = detect_ram_free_gb()
@@ -498,6 +570,7 @@ def cmd_route(args):
             "callable": native_callable,
             "inline": native_inline,
             "fallback_only": not native_callable and not native_inline,
+            "detection": native_detection,
         },
         "selected_source": None,
         "profile_used": None,
@@ -545,6 +618,7 @@ def cmd_route(args):
         print(f"Run ID: {run_id}")
         print(f"Selected source: {dec['selected_source']}")
         print(f"Profile used: {dec['profile_used']}")
+        print(f"Native detection: {native_detection}")
         print(f"Rationale: {dec['rationale']}")
     return dec
 
@@ -953,37 +1027,40 @@ def cmd_convert(args):
         print(json.dumps(lineage, indent=2))
         return lineage
 
-    # Invoke tools/image-tools/batch_resize_index.py
-    # batch_root must be the directory that contains the production/ and indexed/ subdirs
-    # referenced by spec.png_rel / spec.bmp_rel (e.g. "production/source.png").
-    first_prod = (
-        spec_data.get("production", [{}])[0] if isinstance(spec_data.get("production"), list) else {}
+    # A conversao automatica foi REMOVIDA daqui, e nao substituida.
+    #
+    # Este bloco chamava tools/image-tools/batch_resize_index.py, que fazia
+    # downscale Lanczos e emitia RGBA — destruindo o index 0 e criando pixel
+    # intermediario. Aquele script hoje falha fechado de proposito.
+    #
+    # O substituto canonico (`python3 -m forge_art convert`) AINDA NAO EXISTE.
+    # Chamar o script morto daqui so produziria um erro confuso a jusante, e
+    # improvisar outro resize aqui recriaria exatamente o defeito. Entao este
+    # comando registra a linhagem, declara o bloqueio e para.
+    lineage["conversion_log"] = ""
+    lineage["status"] = "blocked_no_canonical_converter"
+    lineage["blocked_since"] = "2026-08-30"
+    lineage["why"] = (
+        "batch_resize_index.py foi aposentado (downscale Lanczos + saida RGBA, "
+        "destruia o index 0). `forge-art convert` ainda nao foi implementado."
     )
-    png_rel = first_prod.get("png_rel", "")
-    if png_rel and "/" in png_rel and source.parent.name == png_rel.split("/", 1)[0]:
-        batch_root = source.parent.parent
-    else:
-        batch_root = source.parent
-    batch_tool = REPO_ROOT / "tools" / "image-tools" / "batch_resize_index.py"
-    if not batch_tool.exists():
-        print(f"ERROR: missing converter {batch_tool}", file=sys.stderr)
-        sys.exit(4)
-    ok, out, err = run_cmd(
-        [
-            sys.executable,
-            str(batch_tool),
-            "--spec",
-            str(spec),
-            "--batch-root",
-            str(batch_root),
-        ],
-        timeout=600,
+    lineage["next_action"] = (
+        "converta manualmente respeitando o contrato (PNG modo P, PLTE <= 16, "
+        "<= 15 cores visiveis, index 0 conforme o papel declarado, nearest "
+        "apenas) e MECA com "
+        "`python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate "
+        "<png> --index0-role <papel>`; se a fonte for high-res de identidade, "
+        "a rota e assisted_native_translation e a producao vai para um "
+        "produtor capaz — registre com `python3 -m forge_art translate`"
     )
-    lineage["conversion_log"] = (out + "\n" + err).strip()
     lineage_path = DATA_SOURCE_ART / f"{lineage_id}.json"
     save_json(lineage_path, lineage)
 
-    print(json.dumps({"ok": ok, "lineage": str(lineage_path)}, indent=2))
+    print(json.dumps({"ok": False, "status": lineage["status"],
+                      "lineage": str(lineage_path),
+                      "next_action": lineage["next_action"]}, indent=2))
+    print(f"[BLOCKED] {lineage['why']}", file=sys.stderr)
+    sys.exit(4)
     if not ok:
         sys.exit(5)
     return lineage
@@ -1388,6 +1465,10 @@ def _build_preflight_report(
     asset_role_required=False makes the scope gate a soft advisory (used by
     'just show me the host capability' dry-runs).
     """
+    native_callable, native_inline, native_detection = resolve_native_channel_flags(
+        native_callable,
+        native_inline,
+    )
     license_gate = _license_gate_status()
     host_gate = _host_gate_status()
 
@@ -1421,12 +1502,10 @@ def _build_preflight_report(
         selected_source = "native_chat_image_generation_callable"
         profile_used = "native_chat_image_generation_callable"
         rationale = "Native callable generation available; local toolchain not needed."
-        fallback_chain.insert(0, selected_source)
     elif native_inline:
         selected_source = "native_chat_inline_generation"
         profile_used = "native_chat_inline_generation"
         rationale = "No callable interface, inline generation available."
-        fallback_chain.insert(0, selected_source)
     else:
         if not license_gate["passed"]:
             selected_source = "license_blocked"
@@ -1459,6 +1538,7 @@ def _build_preflight_report(
             "callable": native_callable,
             "inline": native_inline,
             "fallback_only": not native_callable and not native_inline,
+            "detection": native_detection,
         },
         "selected_source": selected_source,
         "profile_used": profile_used,
@@ -2024,13 +2104,13 @@ def main():
     )
     p_pre.add_argument(
         "--native-callable",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
-        default=False,
+        type=parse_bool_auto,
+        default=None,
     )
     p_pre.add_argument(
         "--native-inline",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
-        default=False,
+        type=parse_bool_auto,
+        default=None,
     )
     p_pre.add_argument("--out", default=None, help="Optional path to save preflight report")
     p_pre.set_defaults(func=cmd_preflight)

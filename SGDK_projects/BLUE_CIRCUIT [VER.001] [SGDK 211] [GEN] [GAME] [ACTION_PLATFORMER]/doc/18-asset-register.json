@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]"
+  },
+  "policy": {
+    "all_project_assets_inside_project": true,
+    "source_inputs_copied_to_rascunho": true,
+    "placeholder_never_promotes_to_aaa": true,
+    "visual_art_requires_artistic_gate": true
+  },
+  "assets": [
+    {
+      "asset_id": "storyboard_candidate_v001",
+      "role": "human_validation_storyboard",
+      "source_path": "data/source_art/storyboard/blue_circuit_storyboard_candidate_v001.png",
+      "runtime_path": null,
+      "owner": "art/cutscene-cinematic-direction",
+      "status": "human_approved_for_vdp_translation",
+      "promotion_allowed": false,
+      "technique_tags": [
+        "human_gate_storyboard",
+        "review_candidate"
+      ],
+      "evidence": [
+        "sha256:97db884c6ecdfe2d779e7b0076df29c24d52f4df49d440d931df057a56ee89da",
+        "doc/contracts/human_visual_gate_plan.json"
+      ]
+    },
+    {
+      "asset_id": "player_model_sheet",
+      "role": "player_authorial_model",
+      "source_path": "data/source_art/model_sheet/blue_circuit_model_sheet_candidate_v001.png",
+      "runtime_path": null,
+      "owner": "art/art-asset-diagnostic",
+      "status": "human_approved_for_vdp_translation",
+      "promotion_allowed": false,
+      "technique_tags": [
+        "human_gate_model_sheet",
+        "authorial_model_sheet_candidate"
+      ],
+      "evidence": [
+        "sha256:7605f6857f5afa84e2ac20466bb04eccdefd4678755676cbfcd0640f92f220d7",
+        "doc/contracts/human_visual_gate_plan.json"
+      ]
+    },
+    {
+      "asset_id": "player_sprite_sheet",
+      "role": "player_runtime_animation",
+      "source_path": "data/source_art/spritesheet/blue_circuit_spritesheet_candidate_v001.png",
+      "runtime_path": null,
+      "owner": "art/art-translation-to-vdp",
+      "status": "human_approved_for_vdp_translation",
+      "promotion_allowed": false,
+      "technique_tags": [
+        "human_gate_spritesheet",
+        "spritesheet_review_candidate"
+      ],
+      "evidence": [
+        "sha256:93031904367b4ad1d53a9c77a1506e23d4f8dd7dddf5112e00ba5492c3119e98",
+        "doc/contracts/human_visual_gate_plan.json"
+      ]
+    },
+    {
+      "asset_id": "stage_01_tileset",
+      "role": "stage_background_and_solids",
+      "source_path": "data/source_art/storyboard/blue_circuit_storyboard_candidate_v001.png",
+      "runtime_path": null,
+      "owner": "art/multi-plane-composition",
+      "status": "human_approved_for_vdp_translation",
+      "promotion_allowed": false,
+      "technique_tags": [
+        "storyboard_driven_stage_art",
+        "review_candidate"
+      ],
+      "evidence": [
+        "sha256:97db884c6ecdfe2d779e7b0076df29c24d52f4df49d440d931df057a56ee89da"
+      ]
+    },
+    {
+      "asset_id": "line_sentry_sprite_sheet",
+      "role": "common_enemy_runtime_animation",
+      "source_path": "data/source_art/model_sheet/blue_circuit_model_sheet_candidate_v001.png",
+      "runtime_path": null,
+      "owner": "art/art-translation-to-vdp",
+      "status": "human_approved_for_vdp_translation",
+      "promotion_allowed": false,
+      "technique_tags": [
+        "human_gate_model_sheet",
+        "human_gate_spritesheet"
+      ],
+      "evidence": [
+        "sha256:7605f6857f5afa84e2ac20466bb04eccdefd4678755676cbfcd0640f92f220d7",
+        "sha256:93031904367b4ad1d53a9c77a1506e23d4f8dd7dddf5112e00ba5492c3119e98"
+      ]
+    },
+    {
+      "asset_id": "breaker_core_sprite_sheet",
+      "role": "mini_boss_runtime_animation",
+      "source_path": "data/source_art/model_sheet/blue_circuit_model_sheet_candidate_v001.png",
+      "runtime_path": null,
+      "owner": "art/art-translation-to-vdp",
+      "status": "human_approved_for_vdp_translation",
+      "promotion_allowed": false,
+      "technique_tags": [
+        "human_gate_model_sheet",
+        "human_gate_spritesheet"
+      ],
+      "evidence": [
+        "sha256:7605f6857f5afa84e2ac20466bb04eccdefd4678755676cbfcd0640f92f220d7",
+        "sha256:93031904367b4ad1d53a9c77a1506e23d4f8dd7dddf5112e00ba5492c3119e98"
+      ]
+    },
+    {
+      "asset_id": "title_logo_and_menu",
+      "role": "front_end_identity",
+      "source_path": "data/source_art/storyboard/blue_circuit_storyboard_candidate_v001.png",
+      "runtime_path": null,
+      "owner": "art/visual-excellence-standards",
+      "status": "human_approved_for_vdp_translation",
+      "promotion_allowed": false,
+      "technique_tags": [
+        "human_gate_storyboard",
+        "brand_identity_candidate"
+      ],
+      "evidence": [
+        "sha256:97db884c6ecdfe2d779e7b0076df29c24d52f4df49d440d931df057a56ee89da"
+      ]
+    },
+    {
+      "asset_id": "hud_minimal",
+      "role": "gameplay_readability",
+      "source_path": null,
+      "runtime_path": null,
+      "owner": "art/visual-excellence-standards",
+      "status": "blocked_no_premium_source",
+      "promotion_allowed": false,
+      "technique_tags": [],
+      "evidence": []
+    }
+  ]
+}

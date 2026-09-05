@@ -1,0 +1,41 @@
+{
+  "schema_version": "native_idle_key_pose_translation_report.v1",
+  "status": "elite_human_approved_isolated_runtime_proof_passed",
+  "source_asset_id": "model_sheet_challenger_v03_a_cluster_strict",
+  "source_sha256": "989d1a2398e9609dffe3e4f673e95b73e081ddffdcba9764829684498d8c6241",
+  "source_role": "approved_model_sheet_source_limited_scope",
+  "translation_target": "single_idle_native_key_pose",
+  "pose_orientation": "three_quarter_front_idle",
+  "native_scale": "32x32",
+  "route": "cluster_strict",
+  "authoring_method": "explicit_native_grid_pixel_authorship_from_approved_model_sheet_reference; no direct quantization or mechanical probe reuse",
+  "shared_geometry": {
+    "silhouette": "body spherical, external attached arms, small red feet, stable baseline",
+    "lineart": "continuous dark 1px contour with arm/body seam retained",
+    "pivot": [16, 31],
+    "baseline_y": 30,
+    "bbox": [0, 1, 32, 31]
+  },
+  "variants": {
+    "basic": {"asset_id":"native_idle_key_pose_basic_v01", "visible_colors":9, "palette_policy":"7-9 visible colors; 9 used", "role":"comparison_control", "promotable":false},
+    "elite": {"asset_id":"native_idle_key_pose_elite_v01", "visible_colors":12, "palette_policy":"10-12 visible colors; 12 used", "role":"human_approved_idle_runtime_review_only", "sha256":"58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29", "promotable_for_runtime_review_only":true}
+  },
+  "visual_review": {
+    "one_x": "eyes, small mouth, cheeks, arms and feet remain readable; human visual approval passed for ELITE limited scope",
+    "same_silhouette_basic_elite": "passed_by_pixel_mask_comparison",
+    "same_lineart_basic_elite": "passed_by_contour_map_comparison",
+    "front_or_three_quarter_acting": "three_quarter_front indicated by asymmetric external arm emphasis and eye axis; human approval passed for ELITE idle",
+    "ground_shadow": false,
+    "skin_dither": false,
+    "aa_or_interpolation": false
+  },
+  "evidence": {
+    "comparison_panel": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_model_sheet_basic_elite_comparison_panel_v01.png",
+    "route_a_320x224_probe": "rascunho/nexialist_visual_nucleus_v01/route_a_native_composition_320x224.png",
+    "palette_role_map": "rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_palette_role_map.json"
+  },
+  "claim_ceiling": "testado_em_emulador_for_isolated_idle_review_only",
+  "res_promotion": false,
+  "runtime_integration": "isolated_review_only",
+  "runtime_proof_record": "doc/contracts/native_idle_key_pose_runtime_proof_record.json"
+}

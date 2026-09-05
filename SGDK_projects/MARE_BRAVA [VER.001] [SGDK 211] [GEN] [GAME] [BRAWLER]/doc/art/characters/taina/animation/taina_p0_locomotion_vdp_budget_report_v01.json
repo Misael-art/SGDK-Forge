@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_p0_locomotion_vdp_budget_v01",
+  "generated_at": "2026-07-29",
+  "status": "buildado_runtime_observed_partial",
+  "measurement_level": "rescomp_measured_and_blastem_visual_observation_without_vdp_dump",
+  "palette_owner": "PAL1",
+  "runtime_allocation_model": "one_active_sprite_definition_at_a_time",
+  "animations": [
+    {
+      "asset_id": "taina_idle_guard_v02",
+      "logical_frames": 6,
+      "peak_tiles": 40,
+      "peak_tile_bytes": 1280,
+      "peak_metasprite_parts": 2
+    },
+    {
+      "asset_id": "taina_walk_combat_step_v01",
+      "logical_frames": 6,
+      "peak_tiles": 32,
+      "peak_tile_bytes": 1024,
+      "peak_metasprite_parts": 5
+    },
+    {
+      "asset_id": "taina_dash_or_step_in_v01",
+      "logical_frames": 4,
+      "peak_tiles": 48,
+      "peak_tile_bytes": 1536,
+      "peak_metasprite_parts": 6
+    },
+    {
+      "asset_id": "taina_jump_rise_fall_landing_v01",
+      "logical_frames": 8,
+      "peak_tiles": 33,
+      "peak_tile_bytes": 1056,
+      "peak_metasprite_parts": 4
+    },
+    {
+      "asset_id": "taina_combo_hit_1_jab_runtime_unique_v02",
+      "logical_phases": 5,
+      "physical_attack_frames": 3,
+      "peak_tiles": 28,
+      "peak_tile_bytes": 896,
+      "peak_metasprite_parts": 3
+    }
+  ],
+  "worst_isolated_state": {
+    "asset_id": "taina_dash_or_step_in_v01",
+    "peak_tiles": 48,
+    "peak_tile_bytes": 1536,
+    "peak_metasprite_parts": 6
+  },
+  "evidence": {
+    "runtime_contact_sheet": "out/evidence/taina_cais01_runtime_v01/taina_cais01_runtime_contact_sheet_v01.png",
+    "rom_sha256": "e1fc0dd5180ffb09f74087248f1d4d363ace93b5c1a74f0e307c1b8f3e05c1c6",
+    "build_report": "out/logs/linux_wine_build_report.json"
+  },
+  "blockers": [
+    "visual_vdp_dump_missing",
+    "runtime_metrics_missing_for_current_rom",
+    "enemy_hud_fx_combined_pressure_not_measured",
+    "human_frame_by_frame_polish_review_pending"
+  ],
+  "claim_limit": "Os cinco estados compilam e foram observados na ROM atual; isto nao constitui budget combinado validado nem arte final."
+}

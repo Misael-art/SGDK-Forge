@@ -1,0 +1,78 @@
+{
+  "project_root": "../..",
+  "asset_id": "celestial_lio_runtime_sheet_v001",
+  "sheet": "res/sprites/lio_all.png",
+  "cell": {"w": 24, "h": 32},
+  "pivot": {"x": 12, "y": 28},
+  "pivot_tolerance_px": 3,
+  "transparent_index": 0,
+  "frame_delta_min": 0.01,
+  "frame_delta_max": 0.55,
+  "actions": [
+    {
+      "name": "run",
+      "row": 0,
+      "start": 0,
+      "count": 6,
+      "grounded": [true, false, true, false, true, false],
+      "hold_ms": 70,
+      "manual_anatomy_review": [
+        {"status": "failed", "note": "torso is a rectangular placeholder; arms and legs do not read anatomically"},
+        {"status": "failed", "note": "silhouette lacks articulated limbs"},
+        {"status": "failed", "note": "silhouette lacks articulated limbs"},
+        {"status": "failed", "note": "silhouette lacks articulated limbs"},
+        {"status": "failed", "note": "silhouette lacks articulated limbs"},
+        {"status": "failed", "note": "silhouette lacks articulated limbs"}
+      ]
+    },
+    {
+      "name": "jump",
+      "row": 1,
+      "start": 0,
+      "count": 6,
+      "grounded": [true, false, false, false, false, true],
+      "hold_ms": 100,
+      "manual_anatomy_review": [
+        {"status": "failed", "note": "takeoff is not anatomically articulated"},
+        {"status": "failed", "note": "jump frame is a block translation rather than a pose"},
+        {"status": "failed", "note": "jump frame is a block translation rather than a pose"},
+        {"status": "failed", "note": "apex lacks readable tucked limbs"},
+        {"status": "failed", "note": "descent lacks readable limbs"},
+        {"status": "failed", "note": "landing lacks readable foot contact"}
+      ]
+    },
+    {
+      "name": "damage",
+      "row": 2,
+      "start": 0,
+      "count": 3,
+      "grounded": [true, true, true],
+      "hold_ms": 110,
+      "manual_anatomy_review": [
+        {"status": "failed", "note": "damage silhouette is placeholder-level and lacks a clear recoil line"},
+        {"status": "failed", "note": "damage delta changes blocks without readable anatomy"},
+        {"status": "failed", "note": "recovery does not restore a clear articulated pose"}
+      ]
+    },
+    {
+      "name": "pulse",
+      "row": 3,
+      "start": 0,
+      "count": 4,
+      "grounded": [true, true, true, true],
+      "hold_ms": 90,
+      "manual_anatomy_review": [
+        {"status": "failed", "note": "pulse anticipation lacks articulated arms"},
+        {"status": "failed", "note": "pulse action is not readable as a body pose"},
+        {"status": "failed", "note": "pulse action is not readable as a body pose"},
+        {"status": "failed", "note": "pulse recovery remains a rectangular placeholder"}
+      ]
+    }
+  ],
+  "previews": {
+    "contact_sheet": "out/evidence/sprite_rework_20260723/lio_contact_sheet_v001.png",
+    "animation_root": "out/evidence/sprite_rework_20260723/animations",
+    "scale": 7,
+    "animation_scale": 8
+  }
+}

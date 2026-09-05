@@ -1,6 +1,15 @@
 # Prompt 03 — Cais de Porto Bravo (dock_scene_kit modular do CAIS_01)
 
-Salvar em: `data/source_art/concept/cais_world_modular/`
+Salvar cada asset board em `data/source_art/concept/<asset_id>/`, usando estes
+IDs:
+
+- `dock_floor_edge_tile_kit`
+- `dock_props_obstruction_kit`
+- `dock_large_landmark_plates`
+- `dock_bg_b_parallax_layers`
+- `dock_foreground_occlusion_kit`
+- `dock_background_ecology_loops`
+- `dock_pickups_small_props`
 
 Escopo: `concept_art` para `scene_kit`. A saída deste prompt NÃO é panorama
 final, NÃO é tilemap final e NÃO vai direto para `res/`.
@@ -21,6 +30,7 @@ Leia antes de usar:
 - `doc/contracts/level_art_assembly_contract.json`
 - `doc/contracts/level_blueprint.json`
 - `doc/contracts/tilemap_streaming_contract.json`
+- `doc/art/authorial_line_style_contract.json`
 - `doc/11-gdd.md`
 - `doc/13-spec-cenas.md`
 
@@ -39,6 +49,21 @@ O resultado deve permitir que o agente monte:
 - foreground/oclusão com prioridade visual;
 - ecology loops pequenos e baratos;
 - landmarks únicos sem roubar leitura dos sprites.
+
+## Contrato de traco do cais
+
+Acrescente este bloco a todos os prompts do CAIS:
+
+```
+Authorial line contract for Porto Bravo dock: hand-drawn line economy, not
+generic vector props. Wooden planks have wedge cracks, chipped edges and a few
+deliberate nail marks; ropes have chunky twisted segments; nets use large
+irregular diamond holes; foreground pilings are dark heavy shapes with vertical
+wood cuts and simplified barnacles; foam is cut into bold white shapes that
+signal ring-out. Use variable dark contour, sparse internal cuts and hard
+trapezoid shadow clusters. Every object must feel drawn for MARE_BRAVA, not
+like a generic dock asset pack.
+```
 
 ## Prompt A — dock floor and edge tile kit
 
@@ -176,6 +201,28 @@ Aceite:
 - [ ] loops cabem como tile animation ou sprite graft após budget;
 - [ ] nada depende de alpha blending, blur ou subpixel.
 
+## Prompt G — pickups and small gameplay props
+
+```
+Small pickup and gameplay prop concept sheet for a 16-bit Brazilian dock
+beat-em-up, isolated objects on a neutral background, not a finished scene.
+
+Create compact readable objects: grilled skewer health pickup ("espetinho"),
+dock coin pickup ("moeda_do_cais"), small fish crate reward prop, tiny foam
+score sparkle, simple broken plank marker, small buoy marker, lantern pickup
+glint, rope knot marker. Each object must be readable at 320x224 and suitable
+for later pixel-art compression. Flat cel shapes, hard edges, limited palette
+off-white #F2F2E0, danger red #CC2244, teal #3A6B7A, dark #111122, no gradients,
+no text, no brands, no UI glass, no photorealism.
+```
+
+Aceite:
+
+- [ ] espetinho e moeda_do_cais leem sem texto;
+- [ ] objetos pequenos não parecem HUD moderno;
+- [ ] cada item tem papel de gameplay, pontuação ou telegraph ambiental;
+- [ ] nenhum pickup exige detalhe fino que desaparece em 320x224.
+
 ## Critérios globais de aceite
 
 - [ ] O pacote gera `scene_kit`, não panorama pronto.
@@ -185,6 +232,7 @@ Aceite:
 - [ ] A beirada de água é um sinal de mecânica, não só espuma bonita.
 - [ ] Não há texto legível obrigatório; narrativa deve vir de forma, objeto e disposição.
 - [ ] Nenhuma saída é `final_asset`; tudo entra como `source_candidate`.
+- [ ] `dock_pickups_small_props` cobre espetinho e moeda_do_cais sem virar UI.
 
 ## Saída esperada após receber as imagens
 
@@ -197,5 +245,6 @@ produzir:
 - `object_placement_map`;
 - `parallax_layer_contract`;
 - `background_ecology_card`;
+- `asset_acceptance_report`;
 - `scene_tilemap_conversion_report` preliminar;
 - contact sheet 320x224 para ratificação humana.

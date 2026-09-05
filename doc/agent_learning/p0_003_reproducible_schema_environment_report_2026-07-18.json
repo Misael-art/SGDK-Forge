@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "p0_003_reproducible_schema_environment_2026_07_18",
+  "generated_at": "2026-07-18T23:48:00-03:00",
+  "item_id": "P0-003",
+  "status": "completed",
+  "runtime_promoted": false,
+  "dependency_manifest": {
+    "path": "tools/sgdk_wrapper/linux_host_dependencies.json",
+    "sha256": "3ededcb71cca75d4b033b47e26e980804dca03f892f8a2f639316cb6c34de32a"
+  },
+  "python_lock": {
+    "path": "tools/sgdk_wrapper/linux_python_requirements.lock",
+    "sha256": "1b41a91598616f29e044422de776cdac80aab58b4b7bef89d7daeb6ceccc0595",
+    "jsonschema_version": "4.25.1",
+    "transitive_dependencies_hash_locked": true
+  },
+  "bootstrap": {
+    "path": "tools/sgdk_wrapper/ensure_linux_python_deps.sh",
+    "install_scope": "out/host_tools/python/site-packages",
+    "manual_global_install_required": false,
+    "dependency_failure_blocker": "python_dependency_bootstrap_failed",
+    "clean_target_rebuild": "passed",
+    "clean_target_version": "4.25.1"
+  },
+  "linux_entrypoint": "tools/sgdk_wrapper/run_contract_gates_linux.sh",
+  "powershell_compatibility_shim": "tools/sgdk_wrapper/linux_shims/powershell.exe",
+  "test_run": {
+    "mode": "schema",
+    "report": "out/remediation/P0-003/schema_mode/contract_gates_report.json",
+    "report_sha256": "ce08f597867421d5235ca1eb58a82186901824536bb8bcb9c000e898125c253d",
+    "combined_status": "passed",
+    "combined_exit_code": 0,
+    "schema_cases": "84/84",
+    "art_gameplay_direction_cases": "12/12",
+    "dependency_mechanism": "workspace_hash_locked_target"
+  },
+  "acceptance_checks": {
+    "jsonschema_provisioned_by_pinned_canonical_mechanism": true,
+    "schema_test_runs_to_completion": true,
+    "clean_environment_reproduces_without_manual_install": true,
+    "dependency_failure_has_explicit_blocker": true
+  }
+}

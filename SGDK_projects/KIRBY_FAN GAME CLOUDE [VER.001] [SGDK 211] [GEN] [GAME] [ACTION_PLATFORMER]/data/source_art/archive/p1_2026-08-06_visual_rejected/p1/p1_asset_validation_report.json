@@ -1,0 +1,496 @@
+{
+  "round": "p1_production",
+  "delivered": 16,
+  "total": 16,
+  "failed": 0,
+  "status": "pass",
+  "assets": [
+    {
+      "id": "A1",
+      "file": "ph_kirby.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "256x32, expected 256x32"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "10 colours excluding the key, ceiling 15"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "A2",
+      "file": "ph_enemy.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "32x16, expected 32x16"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "6 colours excluding the key, ceiling 8"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "A3",
+      "file": "ph_particle.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "24x8, expected 24x8"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "3 colours excluding the key, ceiling 4"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "B1",
+      "file": "ph_sky.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "512x80, expected 512x80"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "4 colours excluding the key, ceiling 6"
+        },
+        {
+          "check": "horizontal_tiling",
+          "status": "pass",
+          "detail": "0 of 80 rows differ between the left and right edge"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "B2",
+      "file": "ph_mount.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "512x56, expected 512x56"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "4 colours excluding the key, ceiling 4"
+        },
+        {
+          "check": "horizontal_tiling",
+          "status": "pass",
+          "detail": "0 of 56 rows differ between the left and right edge"
+        },
+        {
+          "check": "value_ladder",
+          "status": "pass",
+          "detail": "mean luminance 0.512, target 0.502 (+/-0.06)"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "B3",
+      "file": "ph_hills.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "512x88, expected 512x88"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "5 colours excluding the key, ceiling 6"
+        },
+        {
+          "check": "horizontal_tiling",
+          "status": "pass",
+          "detail": "0 of 88 rows differ between the left and right edge"
+        },
+        {
+          "check": "value_ladder",
+          "status": "pass",
+          "detail": "mean luminance 0.462, target 0.453 (+/-0.06)"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "B4",
+      "file": "ph_terrain.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "512x64, expected 512x64"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "8 colours excluding the key, ceiling 10"
+        },
+        {
+          "check": "horizontal_tiling",
+          "status": "pass",
+          "detail": "0 of 64 rows differ between the left and right edge"
+        },
+        {
+          "check": "value_ladder",
+          "status": "pass",
+          "detail": "mean luminance 0.324, target 0.340 (+/-0.06)"
+        },
+        {
+          "check": "terrain_gaps",
+          "status": "pass",
+          "detail": "0 required gap(s) are not transparent: []"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "B5",
+      "file": "ph_fg.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "32x16, expected 32x16"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "4 colours excluding the key, ceiling 4"
+        },
+        {
+          "check": "value_ladder",
+          "status": "pass",
+          "detail": "mean luminance 0.200, target 0.258 (+/-0.06)"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "C1",
+      "file": "ph_trunk.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "64x96, expected 64x96"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "6 colours excluding the key, ceiling 6"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "C2",
+      "file": "ph_boss_face.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "96x32, expected 96x32"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "6 colours excluding the key, ceiling 8"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "C3",
+      "file": "ph_branch.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "16x16, expected 16x16"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "5 colours excluding the key, ceiling 6"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "C4",
+      "file": "ph_apple.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "32x16, expected 32x16"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "5 colours excluding the key, ceiling 5"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "D1",
+      "file": "ph_ability_fx.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "240x16, expected 240x16"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "12 colours excluding the key, ceiling 14"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "E1",
+      "file": "ph_title_stars.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "512x96, expected 512x96"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "3 colours excluding the key, ceiling 4"
+        },
+        {
+          "check": "horizontal_tiling",
+          "status": "pass",
+          "detail": "0 of 96 rows differ between the left and right edge"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "E2",
+      "file": "ph_title_hill.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "512x64, expected 512x64"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "2 colours excluding the key, ceiling 5"
+        },
+        {
+          "check": "horizontal_tiling",
+          "status": "pass",
+          "detail": "0 of 64 rows differ between the left and right edge"
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "E3",
+      "file": "ph_title_logo.png",
+      "checks": [
+        {
+          "check": "dimensions",
+          "status": "pass",
+          "detail": "224x48, expected 224x48"
+        },
+        {
+          "check": "rgb333_legal",
+          "status": "pass",
+          "detail": "0 pixels with a channel off the 8-value lattice"
+        },
+        {
+          "check": "transparency_key",
+          "status": "pass",
+          "detail": "0 magenta-ish colour(s) that are not exactly (255, 0, 255): []"
+        },
+        {
+          "check": "colour_ceiling",
+          "status": "pass",
+          "detail": "4 colours excluding the key, ceiling 10"
+        }
+      ],
+      "status": "pass"
+    }
+  ]
+}

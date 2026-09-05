@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "framework_id": "sgdk-forge-agent-framework",
-  "framework_version": "2026.06.19",
+  "framework_version": "2026.09.05",
   "source_root": "tools/sgdk_wrapper/.agent",
   "tracked_paths": [
     "ARCHITECTURE.md",
@@ -20,6 +20,7 @@
     "skills/art/image-generation-routing",
     "skills/art/megadrive-pixel-strict-rules",
     "skills/art/multi-plane-composition",
+    "skills/art/native-sprite-production",
     "skills/art/scene-direction-curator",
     "skills/art/sprite-animation",
     "skills/art/tiled-hybrid-parallax-curator",
@@ -34,23 +35,28 @@
     "skills/code/xgm2-audio-director",
     "skills/code/z80-pcm-custom-driver",
     "skills/design/enemy-design-canonical",
+    "skills/design/gameplay-experience-reviewer",
     "skills/design/level-design-canonical",
     "skills/design/systems-mechanics-validator",
     "skills/governance/aaa-pipeline-guardian",
     "skills/governance/doc-sync-audit",
+    "skills/governance/independent-quality-review",
     "skills/governance/project-learning-loop",
     "skills/governance/truth-hierarchy-guard",
     "skills/hardware/megadrive-vdp-budget-analyst",
     "skills/hardware/shadow-highlight-scroll-fx",
     "skills/hardware/vram-streaming-dma-queue",
     "skills/operation/emulator-vdp-evidence-curator",
+    "skills/operation/harness-orchestration",
     "skills/operation/rom-mastering",
     "skills/operation/sgdk-build-wrapper-operator",
     "skills/operation/status-panel-maintainer",
     "skills/planning/brawler-game-design",
     "skills/planning/fighting-game-design",
     "skills/planning/game-design-planning",
+    "skills/planning/narrative-design-reviewer",
     "skills/planning/platformer-puzzle-game-design",
+    "skills/planning/product-market-reviewer",
     "skills/planning/racing-sports-adventure-game-design",
     "skills/planning/rpg-game-design",
     "skills/planning/strategy-game-design",
@@ -63,11 +69,14 @@
     "lib_case"
   ],
   "pipelines": [
-    "pipelines/aaa_scene_v1.json"
+    "pipelines/aaa_scene_v1.json",
+    "pipelines/game_production_v1.json",
+    "pipelines/quality_review_v1.json"
   ],
   "wrapper_files": [
     "../assert_agent_environment.ps1",
     "../prepare_agent_environment.ps1",
+    "../prepare_ai_memory_integration.ps1",
     "../preflight_host.ps1",
     "../validate_resources.ps1",
     "../validate_audio.ps1",
@@ -78,7 +87,17 @@
     "../finalize_emulator_evidence.ps1",
     "../audit_skill_lifecycle.ps1",
     "../audit_project_learning.ps1",
-    "../show_agent_menu.ps1"
+    "../validate_native_sprite_production.py",
+    "../harness_orchestration.py",
+    "../quality_review_router.py",
+    "../show_agent_menu.ps1",
+    "../../audio-tools/audio_core.py",
+    "../../audio-tools/vgm_to_xgm2.py",
+    "../../audio-tools/sample_convert.py",
+    "../../audio-tools/sfx_synth.py",
+    "../../audio-tools/loop_clipper.py",
+    "../../audio-tools/audit_audio_provenance.py",
+    "../../audio-tools/README.md"
   ],
   "schemas": [
     "../schemas"

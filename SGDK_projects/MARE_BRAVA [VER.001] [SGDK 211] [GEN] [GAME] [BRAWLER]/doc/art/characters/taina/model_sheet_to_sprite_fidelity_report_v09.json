@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_reseed_native_lineart_editor_candidate_v01",
+  "source_model_sheet_sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+  "candidate_sha256": "9d6cd24ac58a0fdd50bb65ee200af01befb5fce35feabdffd6335c5b81b0daa3",
+  "checks": {
+    "hair_mass": "weak",
+    "face_wedge": "failed",
+    "diagonal_guard": "failed",
+    "orange_top_indigo_pants": "weak",
+    "teal_sash_wraps": "weak",
+    "feet_contact": "passed"
+  },
+  "technical_pass": true,
+  "visual_pass": false,
+  "blockers": ["face_or_eye_readability_lost", "signature_feature_loss", "generic_blocky_redraw"],
+  "decision": "rework_before_color_blocking"
+}

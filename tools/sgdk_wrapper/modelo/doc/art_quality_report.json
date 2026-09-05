@@ -1,0 +1,5396 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-17T13:16:23",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo",
+  "gdd_reference": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/doc/11-gdd.md",
+  "assets": [
+    {
+      "asset_path": "res/branding/brand_author_logo.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.62, bbox: 212x52"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 224x64, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/brand_engine_logo.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.80, bbox: 206x61"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 224x80, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 3/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 9, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/brand_fx_tiles.png",
+      "asset_role": "background",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 1,
+          "notes": "Fill ratio: 1.00, bbox: 128x32"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 128x32, role: background"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 6/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 14, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/brand_presents_text.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.59, bbox: 96x18"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 112x24, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 5/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 11, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/brand_project_logo.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 1,
+          "notes": "Fill ratio: 1.00, bbox: 220x72"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 240x88, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 5/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 11, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/forge_bg_a_props_320x224.png",
+      "asset_role": "background",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.63, bbox: 226x146"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 320x224, role: background"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 6/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/forge_bg_b_320x224.png",
+      "asset_role": "background",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 1,
+          "notes": "Fill ratio: 1.00, bbox: 320x224"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 320x224, role: background"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 6/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/logo_author_192x32.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.71, bbox: 116x28"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 192x32, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/logo_engine_224x64.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.75, bbox: 194x60"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 224x64, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 13, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/logo_project_224x48.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.67, bbox: 182x44"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 224x48, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/presents_text_96x16.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.42, bbox: 70x12"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 96x16, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/spr_forge_ember_16x16_strip.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.54, bbox: 96x16"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 96x16, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/spr_forge_hammer_48x48_strip.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.36, bbox: 336x48"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 336x48, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 13, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "res/branding/spr_forge_shard_16x16_strip.png",
+      "asset_role": "hero",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.40, bbox: 60x12"
+        },
+        "scale": {
+          "conforms_to_canon": false,
+          "head_metric": "L",
+          "notes": "Size: 64x16, role: hero \u2014 escala fora do canon para o role."
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/256"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 256"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": false,
+      "failure_reasons": [
+        "Escala fora do canon."
+      ]
+    },
+    {
+      "asset_path": "data/source_art/branding_intro/production/author_panel_source.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1536x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_intro/production/engine_mark_source.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 2098x750, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_intro/production/project_crest_source.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 2068x760, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/model_sheet_forge_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.65, bbox: 512x318"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 512x384, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 6/64"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 64"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/model_sheet_forge_v02.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.58, bbox: 512x318"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 512x384, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 6/64"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 64"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f001.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f002.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f003.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f004.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f005.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f006.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f007.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f008.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f009.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f010.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f011.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f012.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f013.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f014.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f015.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f016.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f017.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f018.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f019.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f020.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f021.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f022.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f023.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f024.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f025.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f026.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f027.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f028.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f029.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f030.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f031.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f032.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f033.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f034.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f035.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f036.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f037.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f038.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f039.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f040.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f041.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f042.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f043.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f044.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f045.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f046.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f047.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f048.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f049.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f050.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f051.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f052.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f053.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f054.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f055.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f056.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f057.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f058.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f059.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f060.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f061.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f062.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f063.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f064.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f065.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f066.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f067.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f068.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f069.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f070.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f071.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f072.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw/hammer_frames/f073.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 544x544, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/ember_settle_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1024x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/ember_squash_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1024x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/ember_v04.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1024x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/forge_anvil_iso_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1248x832, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/forge_bg_b_v01.png",
+      "asset_role": "background",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1248x832, role: background"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/forge_scene_v06.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1280x720, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/glyphs_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1408x704, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/hammer_rest_v02.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1024x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/hammer_smear_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1024x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/label_4x_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1024x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/logo_forge_v02.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1408x704, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/logo_master_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1408x704, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/logo_misael_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1408x704, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/palette_ramps_v02.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1408x704, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/presents_v01.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1408x704, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/shard_v04.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1024x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/shard_v05.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1024x1024, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 2,
+          "notes": "Dimensao quadrada; pose estatica provavel."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/silhouette_v03.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1280x720, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/wordmark_forja_v05.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1408x704, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/source_art/branding_v2/raw_png/wordmark_forja_v06.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 0,
+          "notes": "Modo nao analisavel para silhueta."
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 1408x704, role: other"
+        },
+        "lineart": {
+          "score": 2,
+          "notes": "Modo nao indexado; lineart nao avaliado com precisao."
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 2,
+          "notes": "Modo nao indexado; appeal nao avaliado com precisao."
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/processed/branding_intro/brand_author_logo.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.62, bbox: 212x52"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 224x64, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 4/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 12, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/processed/branding_intro/brand_engine_logo.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.80, bbox: 206x61"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 224x80, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 3/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 9, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/processed/branding_intro/brand_fx_tiles.png",
+      "asset_role": "background",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 1,
+          "notes": "Fill ratio: 1.00, bbox: 128x32"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 128x32, role: background"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 6/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 14, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/processed/branding_intro/brand_presents_text.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 4,
+          "notes": "Fill ratio: 0.59, bbox: 96x18"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 112x24, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 5/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 11, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    },
+    {
+      "asset_path": "data/processed/branding_intro/brand_project_logo.png",
+      "asset_role": "other",
+      "is_placeholder": false,
+      "placeholder_tag": null,
+      "evaluations": {
+        "silhouette": {
+          "score": 1,
+          "notes": "Fill ratio: 1.00, bbox: 220x72"
+        },
+        "scale": {
+          "conforms_to_canon": true,
+          "head_metric": null,
+          "notes": "Size: 240x88, role: other"
+        },
+        "lineart": {
+          "score": 4,
+          "notes": "Dark palette entries: 5/16"
+        },
+        "pose": {
+          "readability": 3,
+          "notes": "Proporcao horizontal; pode ser sprite de acao."
+        },
+        "appeal": {
+          "score": 5,
+          "notes": "Unique hue buckets: 11, palette entries: 16"
+        },
+        "animation_coherence": {
+          "applicable": false,
+          "score": null,
+          "notes": "Requer strip de animacao para avaliar."
+        },
+        "gdd_adherence": {
+          "applicable": true,
+          "conforms": true,
+          "notes": "Aderencia basica ao GDD verificada por presenca de keywords."
+        },
+        "aaa_pattern_adherence": {
+          "applicable": false,
+          "conforms": true,
+          "notes": "Avaliacao basica; requer revisao humana para AAA."
+        }
+      },
+      "artistic_pass": true,
+      "failure_reasons": []
+    }
+  ],
+  "overall_artistic_pass": false,
+  "placeholder_assets_found": false,
+  "blocking": true,
+  "blocker_code": "artistic_gate_failed"
+}

@@ -9,6 +9,22 @@ Esta skill e o cerebro estetico do workspace MegaDrive_DEV.
 
 Quando a entrada principal for uma imagem-fonte high-res, concept art ou arte de IA que precise ser reinterpretada para o VDP, use esta skill em conjunto com `art-translation-to-vdp`.
 
+Quando o alvo for sprite, sheet, objeto ou FX autoral, use tambem
+`native-sprite-production`. O julgamento nativo exige o mesmo hash em quatro
+vistas: 1x, ampliacao nearest, fundo claro e fundo escuro. E proibido aprovar
+por zoom sem verificar 1x ou estimar cores visualmente: conte PLTE/indices com a
+ferramenta pixel-strict.
+
+Quando houver historico ou varias epocas, leia
+`tools/sgdk_wrapper/.agent/references/visual-workset-and-freeze-contract.md`.
+Somente `production_sources` do `active_epoch` podem possuir pixels novos;
+material arquivado ou de runtime continua inelegivel mesmo que pareca melhor.
+
+Se a candidata passar tecnicamente e falhar em rosto, maos, pes, guarda,
+contato ou feature assinatura, o status e `technical_pass_visual_fail`. Registre
+`scale_density_mismatch` quando a densidade nao couber; nao compense com AA,
+microcores, detalhe high-res ou troca silenciosa de escala.
+
 Se o `source` vier como prancha editorial, spritesheet com residuos, tile/object sheet ou board misto, a primeira pergunta nao e "qual paleta usar?".
 A primeira pergunta e "o que dessa prancha e cena util e o que e ruido semantico?".
 
@@ -21,6 +37,15 @@ Todo asset deve ser tratado como recurso de hardware:
 - potencial de reuso via flip e duplicata
 
 Nao existe "imagem bonita" isolada do hardware. Existe composicao visual que sobrevive ao VDP do Mega Drive.
+
+## Contrato de qualidade de producao
+
+Antes de elogiar, aprovar ou promover um asset, leia
+`tools/sgdk_wrapper/.agent/references/production_visual_quality_contract.md`. Quando o projeto possuir
+uma `quality_reference_board`, ela e o baseline do papel visual do asset. Nao
+aceite melhoria relativa a placeholder, build verde ou screenshot como qualidade
+de producao. Registre `source_detail_lost`, `flattened_scene_or_fake_modularity`
+ou `decorative_fx_only` quando aplicavel e retorne ao asset/contrato dono.
 
 Piso vivo 2026: `doc/03_art/18_live_scene_bar.md`. Handles RheoGamer/PigsyRetro
 sao oficio (densidade arcade legal; traducao de fonte rica), nunca source_art.
@@ -67,6 +92,8 @@ Abaixo dos 12 checks da barra → `needs_review`. Sem
 - `white_material_palette_contract` quando sprite heroico usar gi branco ou tecido claro
 - `sprite_artifact_report` quando asset critico for personagem animado, lutador, inimigo grande ou boss
 - `model_sheet_to_sprite_fidelity_report` com decisao por traço `must_preserve` quando houver source/model sheet e sprite sheet derivado
+- `native_sprite_production_record` validado quando concept, raster high-res ou
+  arte de IA tiver destino sprite/sheet/objeto/FX autoral
 
 ### Saida minima
 
@@ -216,6 +243,8 @@ Abaixo dos 12 checks da barra → `needs_review`. Sem
 - quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior, a leitura de gameplay vence excesso visual, ruido e ambiguidade
 - quando houver tipografia relevante, fonte-display, fonte-body, acentos e separacao contra o fundo ficam julgados
 - baseline visual so pode ser atualizado depois de captura deterministica, `expected_app_scene_id` confirmado e `freshness_audit_report.json` sem stale bloqueante
+- `frozen_case_study` nunca atualiza baseline nem recebe nova arte; seus
+  artefatos servem somente como evidencia positiva/negativa das regras extraidas
 - baseline comparativo e obrigatorio para validacao visual AAA; screenshot capturada sem baseline persistido prova execucao, nao prova regressao visual
 - `visual_vdp_dump.bin` e obrigatorio para entrega AAA e tambem quando screenshot indicar faixa indevida, plano descoberto, garbage/tile corruption, conflito de paleta ou suspeita VRAM
 - `workspace_scope_isolation=true` deve constar quando o workspace global estiver sujo; sujeira fora do projeto nao pode entrar no score nem ser usada como prova de entrega
@@ -354,6 +383,27 @@ Qualquer falha acima deixa `visual_pass=false`, mesmo quando
 `technical_pass=true`. A proxima rota e voltar para `lineart_blocking_1px` por
 estado/acao; nao remendar o PNG final nem compensar no runtime.
 
+## Gate de topologia de materiais
+
+Mapa anatomico e mapa de materiais respondem perguntas diferentes. `torso`
+nao decide onde um crop top termina; `arms_or_guard` nao decide se um pixel e
+pele, manga, bracelete ou outline. Depois do color blocking e antes de sombra:
+
+- exigir `material_region_contract` em candidatos novos (`schema_version=1.4.0`)
+- atribuir um proprietario a cada pixel visivel e uma rampa exclusiva a cada
+  material; somente outline/deep shadow declarado pode ser compartilhado
+- declarar fronteiras criticas de figurino/material e inspeciona-las em 1x
+- reprovar cor de roupa dentro de pele, cor de pele dentro de roupa e qualquer
+  AA hibrido sem papel explicito como `material_palette_leakage`
+- preferir borda dura de 1 px. Sombra de roupa permanece no lado da roupa;
+  sombra de pele permanece no lado da pele
+
+Ao receber feedback humano sobre vazamento, preserve a candidata em rework e aplique o
+menor patch causal: primeiro a fronteira mais legivel/identitaria, depois as
+secundarias. Regeneracao integral so e permitida se a topologia, e nao apenas a
+cor, estiver errada. O review deve mostrar mapa de materiais, overlay de
+fronteiras, 1x e nearest; zoom sozinho nao aprova.
+
 ## Gate de fonte visual canonica
 
 Para personagem, lutador, boss, NPC expressivo ou asset autoral gerado em
@@ -442,6 +492,17 @@ Estas metricas devem ser usadas pelo agente, pelo `analyze_aesthetic.py` e pelo 
 ## Exploracao controlada de rotas visuais
 
 Quando o usuario pedir alternativas, ou quando uma cena critica admitir duas leituras fortes sem quebrar o hardware, esta skill deve julgar as rotas como uma familia controlada, nao como experimentos soltos.
+
+Para sprite derivado de raster high-res, consumir tambem
+`../native-sprite-production/references/source-route-triage-protocol.md` e o
+`route_shootout_report`. Reprovar antes do julgamento estetico quando:
+
+- a fonte direta contem sombra, poeira, fumaça, nuvem, particula, floor line,
+  checkerboard ou oclusao que pode ser confundida com anatomia/material;
+- o nome da rota nao esta ligado causalmente ao output;
+- a alternativa e uma mascara/recolor/near-duplicate, e nao uma hipotese visual;
+- personagem foi desenhado por primitivas, spans ou coordenadas hardcoded;
+- uma probe mecanica esta sendo apresentada como lineart ou sprite nativa.
 
 Entregas esperadas:
 

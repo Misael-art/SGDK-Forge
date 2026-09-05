@@ -1,0 +1,12 @@
+{
+  "schema_version": "taina_landmark_contract.v1",
+  "scale": "56x80",
+  "landmarks": [
+    "hair_top_and_width", "head_center", "eye_line", "chin", "shoulder_left", "shoulder_right",
+    "elbow_left", "elbow_right", "wrist_left", "wrist_right", "thorax_center", "waist",
+    "hip_left", "hip_right", "knee_left", "knee_right", "ankle_left", "ankle_right",
+    "heel_left", "toe_left", "heel_right", "toe_right", "ground_line", "balance_axis", "guard_action_line"
+  ],
+  "measurement_rule": "derive occupancy and fixed ROI observability per route; mark missing or ambiguous when reduction does not support a landmark; never synthesize a visual winner from the measurements",
+  "roi_contract": {"head": [8, 0, 48, 24], "guard": [4, 14, 52, 36], "waist_hip": [8, 28, 50, 50], "knees": [4, 48, 52, 68], "feet_ground": [0, 66, 56, 80]}
+}

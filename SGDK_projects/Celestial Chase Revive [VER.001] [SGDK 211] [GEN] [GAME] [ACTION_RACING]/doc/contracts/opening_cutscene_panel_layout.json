@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "layout_policy": "panel/crop by default; fullscreen only with tile and palette justification",
+  "text_anchor": "bottom WINDOW or lower BG_A band",
+  "focus_rules": [
+    "do not cover face",
+    "do not cover Lumen core",
+    "do not cover road handoff"
+  ],
+  "panel_targets": [
+    {"state_id": "OP_01_LIGHTHOUSE_WIDE", "type": "wide_panel"},
+    {"state_id": "OP_02_LIO_CLOSEUP", "type": "portrait_panel"},
+    {"state_id": "OP_03_CORE_INSERT", "type": "object_insert"},
+    {"state_id": "OP_04_HART_SHADOW", "type": "horizon_panel"}
+  ]
+}

@@ -93,9 +93,9 @@
     {
       "pool_id": "audio_cues",
       "type": "sfx_channel",
-      "size": 3,
+      "size": 2,
       "owner": "src/system/audio.c",
-      "lifecycle": "single priority arbiter over PSG/XGM2 channels"
+      "lifecycle": "priority-controlled XGM2 PCM_CH2 and PCM_CH3; PCM_CH1 remains reserved"
     }
   ],
   "vblank_dma_ownership": {
@@ -123,14 +123,16 @@
     "decision": "WINDOW owns the fixed compact top HUD; BG_A owns the lower climax letterbox bar."
   },
   "audio_ownership": {
-    "driver": "hybrid",
+    "driver": "XGM2",
     "channel_owners": [
-      "XGM2 owns adaptive music when xgm2 asset is present",
-      "PSG channel 0 owns UI and jump cues",
-      "PSG channel 1 owns danger and Pulse cues",
-      "PSG noise channel owns impact and dust cues"
+      "XGM2 exclusively owns FM and PSG for mus_chase_core",
+      "PCM_CH1 is reserved and unused by project samples",
+      "PCM_CH2 owns critical gameplay and result cues",
+      "PCM_CH3 owns movement, UI, pickup and pressure cues"
     ],
-    "sample_rate_hz": 14000,
+    "sample_rate_hz": 13300,
+    "music_source": "res/audio/chase/chase_core_fm_psg.vgm",
+    "runtime_probe_offset": "0x800",
     "adaptive_music_state_map_ref": "doc/adaptive_music_state_map.json"
   },
   "save_scope": "none",
@@ -166,7 +168,9 @@
       "cinematic_letterbox",
       "window_plane_static_hud",
       "dma_transfer_safety",
-      "palette_state_transitions"
+      "palette_state_transitions",
+      "xgm2_audio_architecture",
+      "xgm2_pcm_multiplexing"
     ],
     "deferred_or_rejected_registry_ids": [
       "cram_overdrive_midline",
@@ -189,13 +193,18 @@
       "CINEMATIC_LETTERBOX",
       "WINDOW_HUD",
       "DMA",
-      "PALETTE"
+      "PALETTE",
+      "XGM2_AUDIO",
+      "FM_SYNTHESIS",
+      "PSG_AUDIO",
+      "PCM_AUDIO"
     ],
     "owner_skills": [
       "code/sgdk-runtime-coder",
       "hardware/megadrive-vdp-budget-analyst",
       "architecture/scene-state-architect",
-      "art/visual-excellence-standards"
+      "art/visual-excellence-standards",
+      "xgm2-audio-director"
     ],
     "selection_rationale": "The v009 techniques directly communicate Z-axis speed, articulated threat, phase escalation and physical impact while keeping a safe VBlank-only implementation path.",
     "fallback_strategy": "Prune far claw, one afterimage and cloud grafts before reducing road depth or returning to a monolithic pursuer.",

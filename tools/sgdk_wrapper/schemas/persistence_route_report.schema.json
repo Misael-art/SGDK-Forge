@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/persistence_route_report.schema.json",
+  "title": "Persistence / Host-Operation Route Report",
+  "description": "Machine-readable decision of how a kind of artifact must be created, stored and validated on the current host. Twin of sgdk_build_route_report; governs persistence, GUI policy, write confinement and provenance.",
+  "type": "object",
+  "required": [
+    "schema",
+    "generated_at",
+    "status",
+    "operation",
+    "gui_policy",
+    "gui_state",
+    "route",
+    "command",
+    "host",
+    "tools_found",
+    "write_confinement",
+    "forbidden_routes",
+    "blockers",
+    "warnings"
+  ],
+  "properties": {
+    "schema": {"const": "persistence_route_report.v1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "status": {"type": "string", "enum": ["ready", "blocked"]},
+    "operation": {"type": "string"},
+    "gui_policy": {
+      "type": "string",
+      "enum": ["headless_required", "direct_api_required", "human_interactive", "gui_agent_forbidden", "external_drop_quarantine"]
+    },
+    "gui_state": {"type": "string"},
+    "route": {"type": "string"},
+    "command": {"type": ["string", "null"]},
+    "preferred_target": {"type": ["string", "null"]},
+    "host": {
+      "type": "object",
+      "required": ["os", "distribution", "arch", "desktop", "session_type", "execution_mode"],
+      "properties": {
+        "os": {"type": "string"},
+        "distribution": {"type": "string"},
+        "arch": {"type": "string"},
+        "desktop": {"type": "string"},
+        "session_type": {"type": "string"},
+        "session_variant": {"type": ["string", "null"]},
+        "execution_mode": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "tools_found": {
+      "type": "object",
+      "properties": {
+        "python3": {"$ref": "#/definitions/ToolState"},
+        "magick": {"$ref": "#/definitions/ToolState"},
+        "convert": {"$ref": "#/definitions/ToolState"},
+        "gimp": {"$ref": "#/definitions/ToolState"},
+        "pwsh": {"$ref": "#/definitions/ToolState"},
+        "forge_art_module": {"$ref": "#/definitions/ToolState"}
+      },
+      "additionalProperties": {"$ref": "#/definitions/ToolState"}
+    },
+    "write_confinement": {
+      "type": "object",
+      "required": ["allowed_roots", "blocked_roots", "rule"],
+      "properties": {
+        "allowed_roots": {"type": "array", "items": {"type": "string"}},
+        "blocked_roots": {"type": "array", "items": {"type": "string"}},
+        "rule": {"type": "string"}
+      }
+    },
+    "forbidden_routes": {"type": "object", "additionalProperties": {"type": "string"}},
+    "suggested_selfchecks": {"type": "array", "items": {"type": "string"}},
+    "rule": {"type": "string"},
+    "source_of_truth_note": {"type": "string"},
+    "project_root": {"type": ["string", "null"]},
+    "repo_root": {"type": "string"},
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string"},
+          "message": {"type": "string"}
+        }
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}}
+  },
+  "definitions": {
+    "ToolState": {
+      "type": "object",
+      "required": ["name", "path", "state"],
+      "properties": {
+        "name": {"type": "string"},
+        "path": {"type": ["string", "null"]},
+        "state": {"type": "string", "enum": ["found", "not_found", "selfcheck_passed", "selected"]}
+      }
+    }
+  },
+  "additionalProperties": true
+}

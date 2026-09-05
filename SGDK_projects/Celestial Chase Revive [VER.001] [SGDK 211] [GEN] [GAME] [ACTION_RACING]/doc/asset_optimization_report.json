@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planning_stub",
+  "compression_policy": "compression affects ROM/load, not resident VRAM",
+  "required_reports": ["res_graph_report", "scene_tilemap_conversion_report", "per_tile_palette_conflict_report", "tilemap_flag_report"],
+  "dedup_policy": "dedup/HV flip must be measured, not assumed",
+  "current_measurement": "none"
+}

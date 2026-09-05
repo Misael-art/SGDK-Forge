@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "cais01_art_gameplay_direction_gate_v04",
+  "project_id": "mare_brava",
+  "asset_id": "cais01_background_planes_v04",
+  "asset_kind": "background_plate",
+  "evaluated_at": "2026-07-29_human_feedback_direction_lock",
+  "measurement_level": "human_visual_review",
+  "art_director_review": {
+    "status": "passed",
+    "reviewer": "human-art-director",
+    "art_direction_decision_record": "doc/art/art_direction_decision_record.json",
+    "master_style_manifest": "doc/art/master_style_manifest.json",
+    "findings": [
+      "O passe v03 provou profundidade e efeitos, mas perdeu coesao e alinhamento com a composicao autoral.",
+      "Nuvens horizontais, horizonte industrial compacto, madeira irregular, grupo de caixas, poste e rede foram ratificados como formas obrigatorias da v04.",
+      "HSCROLL_LINE, reflexo quebrado, fumaca, poeira e palette cycling permanecem como infraestrutura tecnica subordinada ao desenho."
+    ]
+  },
+  "game_design_context": {
+    "status": "passed",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "scene_direction_record": "doc/art/environments/cais01/cais01_scene_direction_record_v04.json",
+    "gameplay_role": "first playable dock slice with readable belt lane and future ring-out language",
+    "camera_perspective": "three_quarter",
+    "interaction_context": [
+      "faixa de luta deve permanecer limpa no viewport 320x224",
+      "caixas e rede enquadram a arena sem cobrir telegraphs",
+      "movimento da agua reforca risco e profundidade sem roubar a leitura dos lutadores"
+    ]
+  },
+  "identity_continuity_lock": {
+    "must_preserve": [
+      {
+        "id": "long_horizontal_clouds",
+        "kind": "background_landmark",
+        "expected": "massas alongadas e baixas que ampliam a escala horizontal do porto",
+        "status": "locked"
+      },
+      {
+        "id": "compact_industrial_horizon",
+        "kind": "silhouette",
+        "expected": "massa portuaria continua com chamines, tanques, antenas e guindastes integrados",
+        "status": "locked"
+      },
+      {
+        "id": "authorial_dock_materials",
+        "kind": "material",
+        "expected": "madeira lascada, corda torcida, rede irregular, metal oxidado e ferragens aparentes",
+        "status": "locked"
+      },
+      {
+        "id": "one_large_two_small_crates",
+        "kind": "background_landmark",
+        "expected": "grupo assimetrico a esquerda legivel no enquadramento inicial",
+        "status": "locked"
+      },
+      {
+        "id": "taina_runtime_source_lock",
+        "kind": "silhouette",
+        "expected": "nenhuma geometria ou textura nova derivada da strip runtime; reseed somente pela fonte aprovada",
+        "status": "locked"
+      }
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "passed",
+    "secondary_motion": [
+      "fumaca industrial lenta",
+      "poeira na luz do poste",
+      "reflexo solar quebrado pela rolagem por linha"
+    ],
+    "expression_requirements": [
+      "efeitos permanecem subordinados ao lutador e ao contato com o piso"
+    ],
+    "state_fantasy_checks": [
+      "o cais parece ativo e perigoso sem virar uma vitrine de efeitos"
+    ]
+  },
+  "background_scene_context": {
+    "depth_role_map": "doc/art/environments/cais01/depth_role_map_v04.json",
+    "layer_plan": "doc/art/environments/cais01/layer_plan_v04.json",
+    "sprite_readability_policy": "negative space and low-contrast water behind fighters; no high-contrast prop tangent",
+    "interactive_elements": [
+      "walkable_lane",
+      "ringout_water_language",
+      "crate_collision_candidates"
+    ]
+  },
+  "decision": {
+    "production_allowed": true,
+    "ready_for_generation": true,
+    "ready_for_conversion": true,
+    "ready_for_res_promotion": true,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "preservar a v04 como baseline visual do recorte CAIS_01",
+      "obter visual_vdp_dump e runtime_metrics da ROM vigente",
+      "implementar streaming do mundo completo antes de ampliar o recorte",
+      "reseed da TAÍNA somente pela imagem 04/model sheet aprovado"
+    ]
+  },
+  "blockers": []
+}

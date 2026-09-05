@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "base_chars_per_second_ntsc": 18,
+  "punctuation_pauses_frames": {
+    "comma": 8,
+    "period": 16,
+    "ellipsis": 28,
+    "line_break": 12
+  },
+  "strings": [
+    {"id": "op_00", "text": "THE SKY ROAD SLEPT."},
+    {"id": "op_01", "text": "UNTIL THE LAST BEACON CRACKED."},
+    {"id": "op_02", "text": "LIO, RUN."},
+    {"id": "op_03", "text": "CARRY THE LUMEN."},
+    {"id": "op_04", "text": "DO NOT LET IT REMEMBER YOUR NAME."},
+    {"id": "op_05", "text": "THE ROAD AWAKENS."}
+  ],
+  "safety": "truncate before drawing; never use unsafe fixed-width draw with longer source text"
+}

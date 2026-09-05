@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/orchestration_taskset.schema.json",
+  "title": "Orchestration Taskset",
+  "type": "object",
+  "required": ["schema_version", "artifact_kind", "run_id", "tasks"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "artifact_kind": {"const": "orchestration_taskset"},
+    "run_id": {"type": "string", "pattern": "^[a-zA-Z0-9._-]+$"},
+    "tasks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "task_id",
+          "objective",
+          "task_kind",
+          "owner_skill",
+          "dependencies",
+          "read_only",
+          "isolated_write",
+          "write_paths",
+          "protected_paths",
+          "input_artifacts",
+          "output_paths",
+          "expected_seconds",
+          "context_words",
+          "result_words",
+          "model_tier",
+          "claim_ceiling",
+          "human_decision_required",
+          "shared_capability_blocker"
+        ],
+        "properties": {
+          "task_id": {"type": "string", "pattern": "^[a-zA-Z0-9._-]+$"},
+          "objective": {"type": "string", "minLength": 1},
+          "task_kind": {
+            "enum": [
+              "inventory", "documentation_audit", "log_analysis", "test_execution",
+              "budget_analysis", "source_audit", "code_review", "visual_review",
+              "claim_decision", "promotion", "human_gate", "integration",
+              "canonical_memory_update", "git_integration", "implementation",
+              "asset_production", "runtime_production", "documentation_update",
+              "external_dependency"
+            ]
+          },
+          "owner_skill": {"type": "string", "pattern": "^[a-z0-9-]+/[a-z0-9-]+$"},
+          "dependencies": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "read_only": {"type": "boolean"},
+          "isolated_write": {"type": "boolean"},
+          "write_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "protected_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "input_artifacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["path", "sha256"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "output_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "expected_seconds": {"type": "integer", "minimum": 0},
+          "context_words": {"type": "integer", "minimum": 0},
+          "result_words": {"type": "integer", "minimum": 0},
+          "model_tier": {"enum": ["economical", "balanced", "high_capability"]},
+          "claim_ceiling": {"type": "string", "minLength": 1},
+          "human_decision_required": {"type": "boolean"},
+          "shared_capability_blocker": {"type": "boolean"},
+          "acceptance_commands": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "prohibitions": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"read_only": {"const": true}}},
+            "then": {"properties": {"write_paths": {"maxItems": 0}, "isolated_write": {"const": false}}}
+          },
+          {
+            "if": {"properties": {"isolated_write": {"const": true}}},
+            "then": {"properties": {"read_only": {"const": false}, "write_paths": {"minItems": 1}}}
+          }
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

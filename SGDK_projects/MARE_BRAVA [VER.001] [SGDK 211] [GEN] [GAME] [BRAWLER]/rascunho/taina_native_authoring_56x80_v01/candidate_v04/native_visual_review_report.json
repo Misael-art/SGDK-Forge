@@ -1,0 +1,54 @@
+{
+  "schema_version": "native_visual_review.v1",
+  "status": "human_rejected",
+  "candidate_asset_id": "taina_idle_guard_56x80_native_authoring_v04",
+  "candidate_sha256": "0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e",
+  "scale": "56x80",
+  "source_role_policy": {
+    "identity_source": {
+      "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+      "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+      "role": "identity_only"
+    },
+    "approved_direction_source": {
+      "path": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_56x80_visual_source_v01.png",
+      "sha256": "32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f",
+      "role": "proportion_and_direction_only"
+    },
+    "pixel_copy_from_sources": false
+  },
+  "observations": {
+    "gains": [
+      "1x reads as a standing brawler with a diagonal two-arm guard",
+      "eye/gaze marks and asymmetric hair with front lock are present",
+      "orange top is separated from the exposed skin abdomen by a clean hem",
+      "teal wraps, lateral sash with knot/tail, indigo wide trousers and planted feet are visible"
+    ],
+    "losses_or_risks": [
+      "face remains compact at native 1x and needs human perceptual confirmation",
+      "fists and elbows are readable as clusters but still have limited internal articulation",
+      "warm-dark outline is consistent but less neutral than a black control",
+      "leg and foot clusters are readable but retain rough native-authoring edges"
+    ],
+    "comparison": "v04 is materially richer than v01-v03 because geometry and material topology were changed in the native grid, not merely requantized; the candidate still requires a human visual gate."
+  },
+  "review_panel": "rascunho/taina_native_authoring_56x80_v01/candidate_v04/comparison_model_source_candidate_panel.png",
+  "iteration_hashes": {
+    "v01": "7bfd7f57ec51f4a368917e7fc6e4655640ebae8cf4209ece219de14b3922aba8",
+    "v02": "23e1d3704797ba3c48306268d6e18f00dd4b3a3cfc870927ca40edfadbb6d404",
+    "v03": "2430a61f6f3c40b6cd26ed212215bc035f1bd76dffa9b2343316fa0eb7babc0c",
+    "v04": "0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e"
+  },
+  "no_numeric_aesthetic_score": true,
+  "human_decision": {
+    "decision": "technical_pass_visual_fail",
+    "record": "doc/art/characters/taina/human_native_pose_rejection_v01.json",
+    "reasons": [
+      "anatomy_simplified_into_block_mass",
+      "face_or_eye_readability_lost",
+      "signature_feature_loss",
+      "generic_blocky_redraw"
+    ],
+    "preserve_as": "technical_control_only"
+  }
+}

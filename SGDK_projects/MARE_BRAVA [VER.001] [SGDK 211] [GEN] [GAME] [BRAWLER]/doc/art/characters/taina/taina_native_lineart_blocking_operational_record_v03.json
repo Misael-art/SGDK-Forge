@@ -1,0 +1,50 @@
+{
+  "schema_version": "taina_native_lineart_blocking_operational_record.v1",
+  "asset_family": "taina",
+  "stage": "native_lineart_blocking_v03",
+  "scale": "56x80",
+  "identity_authority": {
+    "path_in_lab": "inputs/model_sheet_v02.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a"
+  },
+  "underlays": {
+    "im_lanczos3": {
+      "role": "direction_only_not_pixel_source",
+      "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1"
+    },
+    "im_mitchell_netravali": {
+      "role": "direction_only_not_pixel_source",
+      "sha256": "8e8eb7cbb6d0aaa8906f88f7a12c4352f431d41cd823f57e958c41c3d19bcd61"
+    }
+  },
+  "candidates": {
+    "A": {
+      "asset_id": "taina_56x80_native_lineart_blocking_a_v03",
+      "path_in_lab": "native_lineart_blocking_v03/A/taina_56x80_native_lineart_blocking_a_v03.png",
+      "sha256": "cd911846f1eab6f05e59be714fdf0520a021ea88b9fdc008f2279112133c10ff"
+    },
+    "B": {
+      "asset_id": "taina_56x80_native_lineart_blocking_b_v03",
+      "path_in_lab": "native_lineart_blocking_v03/B/taina_56x80_native_lineart_blocking_b_v03.png",
+      "sha256": "2783c59c6c26e645825295d570c70d2a1ea01be1580fa02c306e35017e045264"
+    }
+  },
+  "comparison": {
+    "pixels_different": 93,
+    "visible_pixel_denominator": 1678,
+    "difference_ratio": 0.05542312276519666,
+    "affected_regions": ["face", "hair", "guard", "hem", "sash", "feet"],
+    "scores_not_produced": true
+  },
+  "method": "agent_authored_native_lineart_blocking",
+  "acceptance_status": "visual_lab_control",
+  "human_visual_gate": "pending_human_decision",
+  "native_cleanup": "lineart_blocking_only",
+  "visual_pass": false,
+  "promotable": false,
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "ready_for_aaa": false,
+  "next_decision": "select_A_or_B_lineart_direction_before_material_authoring"
+}

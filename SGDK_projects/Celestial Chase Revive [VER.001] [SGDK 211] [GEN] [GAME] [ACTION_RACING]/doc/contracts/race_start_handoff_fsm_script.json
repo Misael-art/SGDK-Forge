@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "race_start_handoff",
+  "status": "planned",
+  "runtime_model": "table_driven_fsm",
+  "states": [
+    {
+      "state_id": "handoff_00_anchor",
+      "duration_frames": 20,
+      "entry_action": "lock_input_and_snapshot_cutscene_scroll",
+      "exit_action": "prepare_window_owner_release"
+    },
+    {
+      "state_id": "handoff_01_letterbox_release",
+      "duration_frames": 28,
+      "entry_action": "retract_letterbox_and_reveal_runtime_road",
+      "exit_action": "clear_cutscene_text_layer"
+    },
+    {
+      "state_id": "handoff_02_control_release",
+      "duration_frames": 12,
+      "entry_action": "show_hud_prime_player_run_anim",
+      "exit_action": "unlock_input_enter_sector_01"
+    }
+  ],
+  "input_policy": "No lane input is accepted until the final state exits."
+}

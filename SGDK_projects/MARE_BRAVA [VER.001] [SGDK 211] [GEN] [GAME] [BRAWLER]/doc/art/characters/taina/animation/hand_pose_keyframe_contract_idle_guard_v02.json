@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_idle_guard_hand_pose_v02",
+  "generated_at": "2026-07-29",
+  "animation_id": "idle_guard",
+  "applicability": "required",
+  "reason": "The raised high guard is a locked silhouette and gameplay-readability hook.",
+  "status": "locked",
+  "measurement_level": "measured",
+  "frame_budget_impact_estimate": "no additional frames",
+  "hand_states": [
+    "guard_hook"
+  ],
+  "transitions": "hand masses remain fixed throughout idle; action strips must author dedicated fist, palm and grip states",
+  "finger_articulation_level": "low_native_scale",
+  "iconic_pose_references": [
+    "approved_image_04_high_guard"
+  ],
+  "readability_at_native": "guard silhouette remains identical in all six frames"
+}

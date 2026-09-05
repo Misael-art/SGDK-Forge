@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0.0",
+  "project": "GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "assets": [
+    {
+      "id": "img_gotham_skyline_bgb",
+      "path": "res/bgs/img_gotham_skyline_bgb.png",
+      "type": "background",
+      "dimensions": "320x224",
+      "tiles": "40x28",
+      "palette": "PAL0",
+      "status": "ready"
+    },
+    {
+      "id": "img_gotham_roadway_bga",
+      "path": "res/bgs/img_gotham_roadway_bga.png",
+      "type": "background",
+      "dimensions": "320x224",
+      "tiles": "40x28",
+      "palette": "PAL1",
+      "status": "ready"
+    },
+    {
+      "id": "spr_batmobile",
+      "path": "res/sprites/spr_batmobile.png",
+      "type": "sprite",
+      "dimensions": "192x24",
+      "frame_size": "48x24",
+      "frames": 4,
+      "tiles_per_frame": "6x3",
+      "palette": "PAL2",
+      "status": "ready"
+    },
+    {
+      "id": "spr_boss_chassis",
+      "path": "res/sprites/spr_boss_chassis.png",
+      "type": "sprite",
+      "dimensions": "64x48",
+      "frame_size": "64x48",
+      "frames": 1,
+      "tiles_per_frame": "8x6",
+      "palette": "PAL3",
+      "status": "ready"
+    },
+    {
+      "id": "spr_boss_turret",
+      "path": "res/sprites/spr_boss_turret.png",
+      "type": "sprite",
+      "dimensions": "256x32",
+      "frame_size": "32x32",
+      "frames": 8,
+      "tiles_per_frame": "4x4",
+      "palette": "PAL3",
+      "status": "ready"
+    },
+    {
+      "id": "spr_boss_tread_left",
+      "path": "res/sprites/spr_boss_tread_left.png",
+      "type": "sprite",
+      "dimensions": "128x16",
+      "frame_size": "32x16",
+      "frames": 4,
+      "tiles_per_frame": "4x2",
+      "palette": "PAL3",
+      "status": "ready"
+    },
+    {
+      "id": "spr_boss_tread_right",
+      "path": "res/sprites/spr_boss_tread_right.png",
+      "type": "sprite",
+      "dimensions": "128x16",
+      "frame_size": "32x16",
+      "frames": 4,
+      "tiles_per_frame": "4x2",
+      "palette": "PAL3",
+      "status": "ready"
+    },
+    {
+      "id": "spr_boss_missile_pod",
+      "path": "res/sprites/spr_boss_missile_pod.png",
+      "type": "sprite",
+      "dimensions": "48x24",
+      "frame_size": "24x24",
+      "frames": 2,
+      "tiles_per_frame": "3x3",
+      "palette": "PAL3",
+      "status": "ready"
+    },
+    {
+      "id": "spr_drone",
+      "path": "res/sprites/spr_drone.png",
+      "type": "sprite",
+      "dimensions": "48x16",
+      "frame_size": "24x16",
+      "frames": 2,
+      "tiles_per_frame": "3x2",
+      "palette": "PAL3",
+      "status": "ready"
+    },
+    {
+      "id": "spr_projectiles",
+      "path": "res/sprites/spr_projectiles.png",
+      "type": "sprite",
+      "dimensions": "64x16",
+      "frame_size": "16x16",
+      "frames": 4,
+      "tiles_per_frame": "2x2",
+      "palette": "PAL2/PAL3",
+      "status": "ready"
+    },
+    {
+      "id": "spr_particles",
+      "path": "res/sprites/spr_particles.png",
+      "type": "sprite",
+      "dimensions": "64x16",
+      "frame_size": "16x16",
+      "frames": 4,
+      "tiles_per_frame": "2x2",
+      "palette": "PAL3",
+      "status": "ready"
+    }
+  ]
+}

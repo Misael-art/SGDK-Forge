@@ -15,7 +15,7 @@ u8   gLoseID;
 bool gContinueOption;
 bool gAudioSfxEnabled = TRUE;
 bool gAudioMusicEnabled = TRUE;
-u8   gRoom = 1;
+u8   gRoom = 0; /* SCENE_OPENING */
 u8   gTimerExit;
 u8   gDescompressionExit;
 s8   gClockTimer=60;

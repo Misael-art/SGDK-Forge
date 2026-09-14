@@ -28,18 +28,9 @@
 #include "collision.h"
 #include "debug.h"
 #include "timing.h"
+#include "scene.h"
+#include "opening.h"
 
-static void copy_palette_slot(u16 *destination, const Palette *source)
-{
-	u16 colorCount = 0;
-
-	memset(destination, 0, 16 * sizeof(u16));
-	if(source && source->data)
-	{
-		colorCount = (source->length < 16) ? source->length : 16;
-		memcpy(destination, source->data, colorCount * sizeof(u16));
-	}
-}
 
 
 /* Um tick logico completo: contadores, cena e toda a simulacao.  Um frame
@@ -57,35 +48,21 @@ static void run_logic_tick(void)
 		if(gPing4  == 3){ gPing4 = -1; } gPing4++;  //var 'gPing4'  (25%) variacao: 0 ; 1 ; 2 ; 3
 		if(gPing10 == 9){ gPing10= -1; } gPing10++; //var 'gPing10' (10%) variacao: 0 ; 1 ; 2 ; 3 ; 4 ; 5 ; 6 ; 7 ; 8 ; 9
 		
-		if(gRoom==1) //TELA HAMOOPIG --------------------------------------------------------------
+		if(gRoom==SCENE_OPENING) //ABERTURA -------------------------------------------------------
+		{
+			FUNCAO_INPUT_SYSTEM();
+			if(gFrames==1){ FUNCAO_OPENING_INIT(); }
+			else{ FUNCAO_OPENING_UPDATE(); }
+		}
+
+		if(gRoom==SCENE_TITLE) //TITULO -----------------------------------------------------------
 		{
 			FUNCAO_INPUT_SYSTEM(); //Verifica os joysticks 
-			
-			//inicializacao
-			if(gFrames==1)
-			{
-				//XGM_startPlay(music_stage8);
-				//XGM_isPlaying(); //FIX
-
-				//PAL_setPaletteColors(0, (u16 *)palette_black, CPU); 
-				//BG_B
-				VDP_loadTileSet(room_0_bgb.tileset, 1, DMA); //Load the tileset
-				VDP_setTileMapEx(BG_B,room_0_bgb.tilemap, TILE_ATTR_FULL(PAL2, 0, FALSE, FALSE, 1), 0, 0, 0, 0, 40, 28, DMA);
-				//BG_A
-				VDP_loadTileSet(room_0_bga.tileset, 501, DMA); //Load the tileset
-				VDP_setTileMapEx(BG_A,room_0_bga.tilemap, TILE_ATTR_FULL(PAL3, 0, FALSE, FALSE, 501), 0, 0, 0, 0, 40, 28, DMA);
-				
-				//FADE IN
-				copy_palette_slot(&palette[32], room_0_bgb.palette);
-				copy_palette_slot(&palette[48], room_0_bga.palette);
-				PAL_fadeIn(0, (4 * 16) - 1, palette, 20, FALSE);   
-			}
-			
 			if(gFrames==1){ FUNCAO_TITLE_INIT(); }
 			else{ FUNCAO_TITLE_UPDATE(); }
 		}
-		
-		if(gRoom==2) //CHARACTER SELECT -----------------------------------------------------------
+
+		if(gRoom == SCENE_SELECT) //CHARACTER SELECT -----------------------------------------------------------
 		{
 			FUNCAO_INPUT_SYSTEM();
 			if(gFrames==1)
@@ -98,7 +75,7 @@ static void run_logic_tick(void)
 			}
 		}
 
-		if(gRoom==9) //DESCOMPRESSION -------------------------------------------------------------
+		if(gRoom == SCENE_DECOMPRESSION) //DESCOMPRESSION -------------------------------------------------------------
 		{
 			GE[1].sprite = SPR_addSpriteExSafe(&spr_point,  0, 225, TILE_ATTR(PAL3, FALSE, FALSE, FALSE), SPR_FLAG_AUTO_VISIBILITY | SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
 			GE[2].sprite = SPR_addSpriteExSafe(&spr_point,  0, 225, TILE_ATTR(PAL3, FALSE, FALSE, FALSE), SPR_FLAG_AUTO_VISIBILITY | SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
@@ -109,14 +86,13 @@ static void run_logic_tick(void)
 				if (GE[1].sprite){ SPR_releaseSprite(GE[1].sprite); GE[1].sprite = NULL; }
 				if (GE[2].sprite){ SPR_releaseSprite(GE[2].sprite); GE[2].sprite = NULL; }
 				if (GE[3].sprite){ SPR_releaseSprite(GE[3].sprite); GE[3].sprite = NULL; }
-				gRoom=gDescompressionExit;
-				gFrames=1; 
+				SCENE_request(gDescompressionExit);
 				CLEAR_VDP();
 			}
 			
 		}
 		
-		if(gRoom==10) //IN GAME -------------------------------------------------------------------
+		if(gRoom == SCENE_FIGHT) //IN GAME -------------------------------------------------------------------
 		{
 			//buffer de especiais para P1
 			if(P[1].hitPause==0 && P[1].bufferSpecial!=0){
@@ -227,7 +203,7 @@ static void run_logic_tick(void)
 				
 				/* A victory animation can change rooms. Do not mutate the old fight
 				   after its owner has handed control to the after-match scene. */
-				if(gRoom==10)
+				if(gRoom == SCENE_FIGHT)
 				{
 					dmaStageMark = DMA_getQueueTransferSize();
 					FUNCAO_FSM(); //FSM = Finite State Machine (Maquina de Estados)
@@ -241,7 +217,7 @@ static void run_logic_tick(void)
 			
 		}
 		
-		if(gRoom==11) //AFTER MATCH ---------------------------------------------------------------
+		if(gRoom == SCENE_AFTER_MATCH) //AFTER MATCH ---------------------------------------------------------------
 		{
 			FUNCAO_INPUT_SYSTEM(); //Verifica os joysticks 
 			hud_message_update();
@@ -251,23 +227,24 @@ static void run_logic_tick(void)
 				VDP_clearPlane(BG_A, TRUE);
 				hud_window_off();
 				gPauseSystem=0;
-				gRoom=10;
-				gFrames=0;
+				SCENE_request(SCENE_FIGHT);
 			}
 			else if(P[1].key_JOY_START_status==1 || P[2].key_JOY_START_status==1)
 			{
 				XGM_stopPlay();
 				CLEAR_VDP();
 				gPauseSystem=0;
-				gRoom=2;
-				gFrames=0;
+				SCENE_request(SCENE_SELECT);
 			}
 		}
 
-		if(gRoom==12) //ROUND RESET COMMIT --------------------------------------------------------
+		if(gRoom==SCENE_ROUND_RESET) //ROUND RESET COMMIT ------------------------------------------
 		{
 			FUNCAO_ROUND_RESTART();
 		}
+
+		/* Ponto UNICO de commit de cena: uma troca por tick, sempre aqui. */
+		SCENE_commit();
 		
 }
 
@@ -350,23 +327,22 @@ int main(bool hardReset) /************** MAIN **************/
 	//////////////////////////////////////////////////////I.A. (config)
 	
 	/* --- CONTRATO DE CENAS ------------------------------------------------
-	   O dispatch abaixo e uma CADEIA de `if(gRoom==N)`, nao um switch: uma
-	   cena que troca gRoom cai no bloco da cena seguinte DENTRO DA MESMA
-	   iteracao, desde que esse bloco venha depois na ordem textual.
+	   As trocas de cena passam por SCENE_request/SCENE_commit (inc/scene.h).
+	   Nenhum bloco abaixo escreve gRoom ou gFrames: o commit acontece num
+	   ponto unico, no fim do tick, e sempre zera gFrames para que o tick
+	   seguinte o leve a 1 e a cena inicialize.
 
-	   Ordem textual dos blocos: 1 -> 2 -> 9 -> 10 -> 11 -> 12.
+	   A convencao POSICIONAL antiga morreu com isso.  Antes, escolher
+	   gFrames=0 ou 1 dependia de o bloco alvo vir antes ou depois na cadeia
+	   de ifs, e reordenar blocos quebrava as transicoes.  Hoje a ordem
+	   textual dos blocos e indiferente ao fluxo.
 
-	   Por isso a convencao de gFrames ao trocar de cena e posicional:
-	     - alvo DEPOIS do bloco atual  => gFrames=1 (o bloco alvo roda ja
-	       nesta iteracao e ve gFrames==1, entao inicializa);
-	     - alvo ANTES do bloco atual   => gFrames=0 (so roda na proxima
-	       iteracao, onde o gFrames++ do topo o leva a 1).
-	   Trocar a ordem dos blocos, ou converter para switch, quebra todas as
-	   transicoes. Ao adicionar uma cena nova, insira o bloco na posicao que
-	   respeite essa regra e escolha gFrames de acordo.
+	   Ordem atual: OPENING(0) -> TITLE(1) -> SELECT(2) -> 9 -> FIGHT(10)
+	   -> AFTER_MATCH(11) -> ROUND_RESET(12).  Os numeros preservam os valores
+	   historicos de gRoom porque a sonda HPRB exporta a cena na SRAM.
 
-	   gRoom 9 (DESCOMPRESSION) nao tem produtor: nada atribui gRoom=9 hoje.
-	   Mantido como ponto de extensao via gDescompressionExit.
+	   gRoom 9 (DESCOMPRESSION) continua sem produtor: nada pede essa cena
+	   hoje.  Mantido como ponto de extensao via gDescompressionExit.
 	   --------------------------------------------------------------------- */
 	/* --- CONTRATO DE TAXA LOGICA -----------------------------------------
 	   Um tick descartado nao roda NADA: nem gFrames, nem input, nem logica.
@@ -395,7 +371,7 @@ int main(bool hardReset) /************** MAIN **************/
 			/* START sozinho congela/retoma a luta.  MODE+START ja e o atalho
 			   historico que liga o debug em input.c, entao so pausa quando
 			   MODE nao esta pressionado -- senao o combo dispararia os dois. */
-			if(gRoom == 10 && (edge & BUTTON_START) && !(joy & BUTTON_MODE))
+			if(gRoom == SCENE_FIGHT && (edge & BUTTON_START) && !(joy & BUTTON_MODE))
 			{
 				gFreeStepArmed = !gFreeStepArmed;
 				gFreeStepAdvance = FALSE;
@@ -412,7 +388,7 @@ int main(bool hardReset) /************** MAIN **************/
 			   tick que roda FUNCAO_INICIALIZACAO.  Congelando antes dele, com
 			   STEP ligado la no titulo, a luta nunca carregaria cenario nem
 			   lutadores -- so uma tela vazia esperando o primeiro step. */
-			if(gFreeStepArmed && gRoom == 10 && gFrames > 1)
+			if(gFreeStepArmed && gRoom == SCENE_FIGHT && gFrames > 1)
 			{
 				frozen = !gFreeStepAdvance;
 				gFreeStepAdvance = FALSE;
@@ -420,7 +396,7 @@ int main(bool hardReset) /************** MAIN **************/
 
 			/* O painel acompanha a pausa, nao o congelamento do frame. */
 			{
-				bool wantPanel = (gFreeStepArmed && gRoom == 10) ? TRUE : FALSE;
+				bool wantPanel = (gFreeStepArmed && gRoom == SCENE_FIGHT) ? TRUE : FALSE;
 				if(wantPanel && !pausePanelUp){ FUNCAO_DEBUG_PAUSE_ENTER(); }
 				if(!wantPanel && pausePanelUp){ FUNCAO_DEBUG_PAUSE_EXIT(); }
 				pausePanelUp = wantPanel;
@@ -430,7 +406,7 @@ int main(bool hardReset) /************** MAIN **************/
 			{
 				/* C avanca 1 tick; B e a saida de emergencia, porque nao ha
 				   como voltar ao menu de titulo a partir da luta. */
-				if(gFreeStepArmed && gRoom == 10)
+				if(gFreeStepArmed && gRoom == SCENE_FIGHT)
 				{
 					if(edge & BUTTON_C){ gFreeStepAdvance = TRUE; }
 					if(edge & BUTTON_B){ gFreeStepArmed = FALSE; }

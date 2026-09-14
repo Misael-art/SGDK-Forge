@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "hud.h"
 #include "globals.h"
+#include "scene.h"
 #include "timing.h"
 #include "sprite.h"
 #include "hud_gfx.h"
@@ -234,7 +235,7 @@ void hud_message_clear(void)
 void hud_message_update(void)
 {
 	u8 message = 0;
-	if(gRoom == 11){ message = (gWinnerID == 1) ? 7 : 8; }
+	if(gRoom == SCENE_AFTER_MATCH){ message = (gWinnerID == 1) ? 7 : 8; }
 	else if(gPauseKoTimer > 0 && gPauseKoTimer < 330){ message = 3; }
 	else if(P[1].state == 611 || P[1].state == 612){ message = 4; }
 	else if(P[2].state == 611 || P[2].state == 612){ message = 5; }

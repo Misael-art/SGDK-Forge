@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "select.h"
 #include "globals.h"
+#include "scene.h"
 #include "sprite.h"
 #include "ken.h"
 #include "musgo.h"
@@ -168,6 +169,5 @@ void FUNCAO_SELECT_EXIT()
 	if(sPreview[0]){ SPR_releaseSprite(sPreview[0]); sPreview[0] = NULL; }
 	if(sPreview[1]){ SPR_releaseSprite(sPreview[1]); sPreview[1] = NULL; }
 	CLEAR_VDP();
-	gRoom = 10;
-	gFrames = 1;
+	SCENE_request(SCENE_FIGHT);
 }

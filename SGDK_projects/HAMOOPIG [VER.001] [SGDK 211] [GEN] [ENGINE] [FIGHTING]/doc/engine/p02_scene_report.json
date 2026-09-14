@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "document_kind": "p02_scene_report",
+  "not_a_canonical_validation_report": true,
+  "task": "P02",
+  "executed_at": "2026-09-14",
+
+  "implementation": {
+    "new_modules": ["inc/scene.h", "src/scene.c", "inc/opening.h", "src/opening.c"],
+    "scene_manager": "SCENE_request agenda; SCENE_commit efetiva num ponto unico no fim do tick e SEMPRE zera gFrames. O tick seguinte o leva a 1 e a cena inicializa.",
+    "convencao_eliminada": "A escolha manual entre gFrames=0 e gFrames=1 dependia da POSICAO TEXTUAL do bloco alvo na cadeia de ifs. As 8 atribuicoes foram migradas e nenhum produtor escreve mais gRoom nem gFrames.",
+    "custo_aceito": "Transicoes que antes caiam no bloco alvo na mesma iteracao agora custam 1 tick a mais (16,7 ms). Em troca, a ordem textual dos blocos virou irrelevante.",
+    "ids_preservados": "SCENE_* mantem os valores historicos de gRoom porque a sonda HPRB exporta a cena na SRAM; mudar os numeros invalidaria as capturas anteriores.",
+    "opening_state_machine": "FADE_IN 18 ticks -> HOLD 120 -> FADE_OUT 15 -> CLEAR_VDP -> SCENE_request(SCENE_TITLE). O HOLD so comeca quando o fade termina de fato.",
+    "title_phases": "LOADING (tela preta, DMA da composicao) -> FADE_IN 15 ticks -> ACTIVE. Nenhum input e lido antes de ACTIVE.",
+    "duracoes_sem_conversao_de_regiao": "Depois do P01 o tick vale 1/60 s nas duas regioes, entao as duracoes em ticks ja sao region-independentes. O plano previa conversao por regiao; ela deixou de ser necessaria.",
+    "numeros_crus_eliminados": "Todas as comparacoes gRoom==N e gRoom!=N em main/init/input/graphics/hud passaram a usar SCENE_*."
+  },
+
+  "acceptance": {
+    "one_scene_update_per_tick": {
+      "status": "passed",
+      "evidencia": "tests/test_scene_contract.py compila SCENE_request/SCENE_commit reais no host: commit sem pedido nao altera estado; o primeiro pedido vence e o segundo do mesmo tick e ignorado; um segundo commit nao repete a troca. Invariantes estruturais: SCENE_commit aparece uma unica vez e esta em main.c; nenhum .c escreve gRoom ou gFrames a mao."
+    },
+    "fade_and_skip_sequence": {
+      "status": "partial",
+      "passou": "A maquina de estados existe, as duracoes estao no contrato e a borda do skip e consumida na abertura (KEY_FREE), entao nao vaza como confirmacao para o titulo. Capturas em t=2s (abertura) e t=5s/12s (titulo) mostram as duas cenas distintas.",
+      "nao_passou": "A SUAVIDADE do fade nao foi verificada. Quadros isolados nao provam continuidade temporal; exige video e percepcao que eu nao tenho. O skip por botao tambem nao foi exercitado com input real nesta rodada."
+    },
+    "separate_title_composition": {
+      "status": "partial",
+      "passou": "Estruturalmente sao duas cenas: a abertura carrega e possui a arte com os creditos; o titulo faz CLEAR_VDP, recarrega e compoe o proprio painel. O ganho concreto e visivel: os creditos completos ('NOT produced by or under license from SEGA ENTERPRISES LTD or SNK. DONT SELL THIS GAME!') agora aparecem inteiros na abertura, em vez de ficarem escondidos atras do painel do menu.",
+      "nao_passou": "O titulo reutiliza o MESMO BG_A da abertura, que tem os creditos embutidos na arte. Sobram fragmentos ('OR', ':OM', 'LTD', 'ME!') a direita do painel.",
+      "por_que_nao_foi_corrigido": "Medi a regiao: os fragmentos ocupam as celulas x=19..21, mas a partir de x=22 ja e o corpo do personagem. Mascarar sem a fonte da arte arrisca cortar o porco. Resolver de verdade pede um BG_A proprio do titulo, sem os creditos -- entrega de ARTE, nao de codigo."
+    }
+  },
+
+  "defect_found_and_fixed_during_p02": {
+    "sintoma": "Painel do titulo preenchido de preto e sem nenhuma letra.",
+    "causa": "PAL_fadeIn opera sobre as 64 cores, mas palette[] so tinha PAL2 e PAL3 preenchidas. O fade levava PAL1 -- a paleta do texto do menu -- para preto DEPOIS de ela ter sido carregada.",
+    "evidencia": "out/emulator_evidence/p02_t4, p02_t7, p02_t12 (antes) vs p02b_t5, p02b_t12 (depois)",
+    "guarda": "tests/test_title_menu_contract.py passou a exigir palette[16] no fade do titulo."
+  },
+
+  "stale_test_updated": {
+    "arquivo": "tests/test_title_menu_contract.py",
+    "motivo": "Guardava tokens do desenho antigo (TITLE_OPENING_FRAMES, TITLE_PHASE_OPENING, 'gRoom = 2') que o P02 removeu de proposito.",
+    "o_que_foi_feito": "A INTENCAO foi carregada para o desenho novo -- itens de menu, ciclo de vida, ausencia de auto-advance, gate antes do menu ativo -- e ganhou tres invariantes do P02: entrega via gerenciador, abertura separada e PAL1 no fade. Nao apaguei assercoes que falhavam."
+  },
+
+  "regression": {
+    "cadeia_completa": "Com auto-drive temporario, a captura chegou a last_scene=10 (luta) em 810 frames de video, com a sonda decodificando e measurement_trustworthy=true. As 8 transicoes migradas continuam funcionando.",
+    "suite": "7 de 7 testes de host passando."
+  },
+
+  "visual_review": "pending_visual_review",
+  "review_notes": [
+    "Suavidade e ritmo do fade de abertura e do fade-in do titulo.",
+    "Se o tempo de HOLD de 2 s e adequado para ler os creditos.",
+    "Se os fragmentos de credito remanescentes no titulo sao aceitaveis ate existir arte propria."
+  ],
+
+  "followups": [
+    {"id": "title_bg_sem_creditos", "target": "P07/arte", "detail": "BG_A proprio do titulo, sem os creditos embutidos. Sem isso separate_title_composition nao fecha."},
+    {"id": "fade_video_review", "target": "P10", "detail": "Gravar video da abertura ate o titulo estavel para revisao de continuidade."},
+    {"id": "skip_com_input_real", "target": "P10", "detail": "Exercitar A/START durante o HOLD e confirmar que nao confirma START no titulo."},
+    {"id": "carga_de_cena_acima_do_envelope", "target": "P08", "detail": "Herdado do P01: o frame de carga da luta enfileira 8448 B contra 7782 do envelope NTSC, dominado pelo tilemap 512x256 em FUNCAO_INICIALIZACAO. A carga em lotes que o plano pede para o titulo vale tambem para a luta."}
+  ]
+}

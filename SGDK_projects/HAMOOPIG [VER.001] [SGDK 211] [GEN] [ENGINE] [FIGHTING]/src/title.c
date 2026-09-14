@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "title.h"
 #include "globals.h"
+#include "scene.h"
 #include "gfx.h"
 #include "hud_gfx.h"
 #include "sprite.h"
@@ -24,7 +25,10 @@
 #define TITLE_DEBUG_PANEL_Y 6
 #define TITLE_DEBUG_PANEL_H 20
 #define TITLE_PANEL_MAX_H TITLE_DEBUG_PANEL_H
-#define TITLE_OPENING_FRAMES 120
+/* O titulo carrega a composicao com a tela protegida e so entao revela.
+   O tempo de CARGA e medido separado do fade: misturar os dois faz um DMA
+   lento parecer um fade lento. */
+#define TITLE_FADE_IN_TICKS 15u  /* 0,25 s */
 
 u8 titlePage = TITLE_PAGE_MAIN;
 u8 titleCursor = TITLE_MAIN_START;
@@ -36,14 +40,27 @@ static u16 sTitleBlackTile;
 static bool sTitleReady;
 static bool sTitleDirty;
 static u8 sTitlePhase;
+static u16 sTitleFadeTicks;
 
 static void title_render_main(void);
+
+static void copy_title_palette(u16 *destination, const Palette *source)
+{
+	u16 colorCount = 0;
+	memset(destination, 0, 16 * sizeof(u16));
+	if(source && source->data)
+	{
+		colorCount = (source->length < 16) ? source->length : 16;
+		memcpy(destination, source->data, colorCount * sizeof(u16));
+	}
+}
 static void title_menu_sfx(void);
 
 enum
 {
-	TITLE_PHASE_OPENING = 0,
-	TITLE_PHASE_ACTIVE = 1
+	TITLE_PHASE_LOADING = 0,  /* tela protegida, DMA da composicao */
+	TITLE_PHASE_FADE_IN = 1,
+	TITLE_PHASE_ACTIVE  = 2
 };
 
 /* A small, authorial-looking chevron uses the same PAL1 as the menu font.
@@ -140,15 +157,25 @@ static void title_restore_artwork(void)
 		0, 0, 0, 0, 40, 28, DMA);
 }
 
-static void title_enter_menu(void)
+/* Carrega a composicao PROPRIA do titulo.  A abertura ja fez CLEAR_VDP, entao
+   isto nao desenha por cima da arte dela: sao duas cenas com composicoes
+   distintas, e os creditos da abertura nao ficam mais atras do painel. */
+static void title_load_composition(void)
 {
-	if(sTitlePhase != TITLE_PHASE_OPENING){ return; }
-	/* Keep the opening artwork resident and reveal the menu in one VBlank-safe
-	   tilemap update.  A nested full-palette fade here used to leave the title
-	   half-dark on real hardware, so the transition is intentionally a clean
-	   cut after the timed splash hold. */
-	sTitlePhase = TITLE_PHASE_ACTIVE;
+	PAL_setColors(0, (u16*)palette_black, 64, CPU);
+
+	VDP_loadTileSet(room_0_bgb.tileset, 1, DMA);
+	VDP_setTileMapEx(BG_B, room_0_bgb.tilemap,
+		TILE_ATTR_FULL(PAL2, 0, FALSE, FALSE, 1), 0, 0, 0, 0, 40, 28, DMA);
+	VDP_loadTileSet(room_0_bga.tileset, 501, DMA);
 	title_restore_artwork();
+
+	VDP_loadTileSet(&ts_hud_message_font, TITLE_FONT_TILE_BASE, DMA);
+	VDP_loadTileData(kTitleCursorTile, TITLE_CURSOR_TILE, 1, CPU);
+	sTitleBlackTile = TITLE_CURSOR_TILE + 1;
+	VDP_loadTileData(kTitleBlackTile, sTitleBlackTile, 1, CPU);
+	sTitleReady = TRUE;
+
 	title_render_main();
 }
 
@@ -233,8 +260,7 @@ static void title_start_game(void)
 	PAL_fadeOutAll(8, FALSE);
 	FUNCAO_TITLE_EXIT();
 	CLEAR_VDP();
-	gRoom = 2;
-	gFrames = 1;
+	SCENE_request(SCENE_SELECT);
 }
 
 void FUNCAO_TITLE_INIT(void)
@@ -244,41 +270,48 @@ void FUNCAO_TITLE_INIT(void)
 		SYS_die("Title font overlaps title artwork");
 		return;
 	}
-	if(!sTitleReady)
-	{
-		VDP_loadTileSet(&ts_hud_message_font, TITLE_FONT_TILE_BASE, DMA);
-		VDP_loadTileData(kTitleCursorTile, TITLE_CURSOR_TILE, 1, CPU);
-		sTitleBlackTile = TITLE_CURSOR_TILE + 1;
-		VDP_loadTileData(kTitleBlackTile, sTitleBlackTile, 1, CPU);
-		PAL_setPalette(PAL1, spr_hud_energy_y.palette->data, CPU);
-		sTitleReady = TRUE;
-	}
 	titlePage = TITLE_PAGE_MAIN;
 	titleCursor = TITLE_MAIN_START;
 	/* A pagina de debug usa um painel maior; reentrar no titulo tem de voltar
 	   a geometria do menu, senao o primeiro commit desenha no lugar errado. */
 	sPanelY = TITLE_MENU_PANEL_Y;
 	sPanelH = TITLE_MENU_PANEL_H;
-	sTitlePhase = TITLE_PHASE_OPENING;
+	sTitlePhase = TITLE_PHASE_LOADING;
 	sTitleDirty = TRUE;
+	sTitleFadeTicks = 0;
 }
 
 void FUNCAO_TITLE_UPDATE(void)
 {
-	if(!sTitleReady){ return; }
-	if(sTitlePhase == TITLE_PHASE_OPENING)
+	if(sTitlePhase == TITLE_PHASE_LOADING)
 	{
-		/* Any first button press skips only the splash.  It is deliberately not
-		   reused as a menu confirmation on the same frame. */
-		if(gFrames >= TITLE_OPENING_FRAMES ||
-			P[1].key_JOY_UP_status == KEY_PRESSED || P[1].key_JOY_DOWN_status == KEY_PRESSED ||
-			P[1].key_JOY_A_status == KEY_PRESSED || P[1].key_JOY_START_status == KEY_PRESSED ||
-			P[1].key_JOY_B_status == KEY_PRESSED)
+		title_load_composition();
+		/* O fade e sobre as 64 cores, entao palette[] precisa conter TODAS as
+		   quatro paletas de destino.  Deixar PAL1 zerada aqui fazia o fade
+		   levar a paleta do texto para preto DEPOIS de ela ter sido carregada:
+		   o painel aparecia preenchido e sem letra nenhuma.  Medido no
+		   BlastEm: p02_t4/t7/t12 antes desta correcao. */
+		memset(&palette[0], 0, 16 * sizeof(u16));  /* PAL0: sem uso no titulo */
+		copy_title_palette(&palette[16], spr_hud_energy_y.palette);
+		copy_title_palette(&palette[32], room_0_bgb.palette);
+		copy_title_palette(&palette[48], room_0_bga.palette);
+		PAL_fadeIn(0, (4 * 16) - 1, palette, TITLE_FADE_IN_TICKS, TRUE);
+		sTitlePhase = TITLE_PHASE_FADE_IN;
+		sTitleFadeTicks = 0;
+		return;
+	}
+	if(sTitlePhase == TITLE_PHASE_FADE_IN)
+	{
+		/* Nenhum input e lido durante o fade: a borda que pulou a abertura nao
+		   pode virar confirmacao aqui. */
+		sTitleFadeTicks++;
+		if(sTitleFadeTicks >= TITLE_FADE_IN_TICKS && !PAL_isDoingFade())
 		{
-			title_enter_menu();
+			sTitlePhase = TITLE_PHASE_ACTIVE;
 		}
 		return;
 	}
+	if(!sTitleReady){ return; }
 	if(titlePage == TITLE_PAGE_MAIN)
 	{
 		if(P[1].key_JOY_UP_status == KEY_PRESSED || P[1].key_JOY_DOWN_status == KEY_PRESSED)

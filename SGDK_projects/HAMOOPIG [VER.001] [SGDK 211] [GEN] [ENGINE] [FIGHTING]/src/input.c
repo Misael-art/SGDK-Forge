@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "input.h"
 #include "globals.h"
+#include "scene.h"
 #include "player.h"
 
 void FUNCAO_INPUT_SYSTEM()
@@ -98,7 +99,7 @@ void FUNCAO_INPUT_SYSTEM()
 		JOY1_MODE  = FALSE; JOY2_MODE  = FALSE;
 		/* The fight freezes movement during KO/round transitions, but room 11
 		   still owns A/START as menu input. */
-		if(gRoom != 11)
+		if(gRoom != SCENE_AFTER_MATCH)
 		{
 			JOY1_A = FALSE; JOY2_A = FALSE;
 			JOY1_START = FALSE; JOY2_START = FALSE;
@@ -461,11 +462,11 @@ void FUNCAO_INPUT_SYSTEM()
 	//---
 	
 	// MODE/SELECT sozinho: troca o lutador (Ryo <-> Ken). MODE+START continua debug.
-	if(gRoom==10 && P[1].key_JOY_MODE_status==1 && P[1].key_JOY_START_status==0)
+	if(gRoom == SCENE_FIGHT && P[1].key_JOY_MODE_status==1 && P[1].key_JOY_START_status==0)
 	{
 		FUNCAO_CYCLE_FIGHTER(1);
 	}
-	if(gRoom==10 && P[2].key_JOY_MODE_status==1 && P[2].key_JOY_START_status==0)
+	if(gRoom == SCENE_FIGHT && P[2].key_JOY_MODE_status==1 && P[2].key_JOY_START_status==0)
 	{
 		FUNCAO_CYCLE_FIGHTER(2);
 	}

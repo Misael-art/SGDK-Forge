@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "init.h"
 #include "globals.h"
+#include "scene.h"
 #include "timing.h"
 #include "gfx.h"
 #include "sprite.h"
@@ -325,7 +326,7 @@ void FUNCAO_ROUND_RESTART()
 	u8 nextRound = (u8)(gRound + 1);
 	/* Wait for a visible result and the actual landing, independently of
 	   the winner's authored animation duration (Musgo idle is only 32 ticks). */
-	if(gRoom == 10)
+	if(gRoom == SCENE_FIGHT)
 	{
 		if(gResultTimer < 180){ return; }
 		if(P[1].energiaBase == 0 || P[2].energiaBase == 0)
@@ -339,24 +340,22 @@ void FUNCAO_ROUND_RESTART()
 	gPodeMover=0;
 	gPauseSystem=0;
 	gPauseKoTimer=0;
-	if(gRoom==10 && (p1Wins>=ROUNDS_TO_WIN || p2Wins>=ROUNDS_TO_WIN))
+	if(gRoom == SCENE_FIGHT && (p1Wins>=ROUNDS_TO_WIN || p2Wins>=ROUNDS_TO_WIN))
 	{
 		gWinnerID = (p1Wins>=ROUNDS_TO_WIN) ? 1 : 2;
 		gLoseID = (gWinnerID==1) ? 2 : 1;
 		gContinueOption = FALSE;
-		gRoom=11;
-		gFrames=1;
+		SCENE_request(SCENE_AFTER_MATCH);
 		return;
 	}
-	if(gRoom==10)
+	if(gRoom == SCENE_FIGHT)
 	{
 		/* Leave the animation owner first. The reset is committed by main
 		   after the animation call returns, never inside its player loop. */
-		gRoom=12;
-		gFrames=0;
+		SCENE_request(SCENE_ROUND_RESET);
 		return;
 	}
-	if(gRoom!=12){ return; }
+	if(gRoom != SCENE_ROUND_RESET){ return; }
 
 	/* Full scene-owned reset: clears projectiles, hit pause, input buffers,
 	   positions, health, clock, HUD and sprite state symmetrically. */
@@ -364,8 +363,7 @@ void FUNCAO_ROUND_RESTART()
 	P[1].wins=p1Wins;
 	P[2].wins=p2Wins;
 	gRound=nextRound;
-	gRoom=10;
-	gFrames=1;
+	SCENE_request(SCENE_FIGHT);
 }
 
 void CLEAR_VDP()

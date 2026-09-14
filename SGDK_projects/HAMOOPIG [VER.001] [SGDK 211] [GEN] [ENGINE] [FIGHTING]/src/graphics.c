@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "graphics.h"
 #include "globals.h"
+#include "scene.h"
 #include "player.h"
 #include "fsm.h"
 #include "init.h"
@@ -147,7 +148,7 @@ void FUNCAO_ANIMACAO()
 					{
 						P[i].animFrame = P[i].animFrameTotal;
 						FUNCAO_ROUND_RESTART();
-						if(gRoom != 10){ FUNCAO_SPR_POSITION(); return; }
+						if(gRoom != SCENE_FIGHT){ FUNCAO_SPR_POSITION(); return; }
 					}
 					if(P[i].state==618){ PLAYER_STATE(i,100); } //end Rage Explosion
 					if(P[i].state>=700 && P[i].state<=790){ PLAYER_STATE(i,100); } //end magias
@@ -195,7 +196,7 @@ void FUNCAO_SCREEN_HEIGHT_APPLY()
 {
 	u16 want = 224;
 
-	if(gScreen240 && gRegionIsPal && gRoom == 10 && gBG_Height >= 240){ want = 240; }
+	if(gScreen240 && gRegionIsPal && gRoom == SCENE_FIGHT && gBG_Height >= 240){ want = 240; }
 	if(want == gScreenH){ return; }
 
 	gScreenH = want;

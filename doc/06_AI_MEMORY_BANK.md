@@ -22,7 +22,7 @@
 - **Art diagnostic output (2026-06-06):** `art_diagnostic.py` e ASCII-safe por default; `--unicode` e opcional e nenhum gate depende dele.
 - **Curadoria cena/tilemap (2026-06-06):** conversão de cenário não pode ser "aprovada" sem reports estruturais (dedup/HV flip, flags, sub-paletas) e schema válido; enforcement é closeout/delivery (warning fora do closeout).
 - **Scripts de projeto:** build.bat, clean.bat, run.bat delegam ao wrapper (2–3 níveis `..` conforme profundidade).
-- **13/13 projetos compiláveis** geram ROM com sucesso (AGENTS.md).
+- **Historico nao recertificado nesta sessao:** registro anterior de 13/13 projetos compilaveis, sem vinculo atual comum de hash/evidencia. Nao usar como baseline vigente.
 
 ### Projetos principais
 | Projeto | Tipo | Memory Bank próprio |
@@ -2997,3 +2997,50 @@ curadoria.
   congelado válido e cinco skills aprovadas por `quick_validate.py`. Ataques
   reais por `native-edit`, `convert` e `route-shootout` foram recusados com
   `visual_production_frozen`; nenhum diretório de produção foi criado.
+
+
+### Auditoria de capacidade AAA E2E — 2026-09-07
+
+- Pedido: diagnostico profundo do Forge frente a referencias Mega Drive e plano registrado; sem implementar as correcoes propostas.
+- Documento: [diagnostico e plano](diagnostics/2026_09_06_aaa_e2e/diagnostico_e_plano_aaa_e2e.md). Inventarios, hashes e logs no mesmo diretorio.
+- Resultado: capacidade AAA ponta a ponta nao demonstrada; nenhuma ROM executada ou promovida nesta auditoria.
+- Medicao: 19/19 self-checks centrais passaram; meta-gate BLOCKED por 23 copias/fontes ativas divergentes. Roteador 44/44, harness 71/71 e contratos de fixture 10/10 passaram via uv com jsonschema.
+- Registry observado: 114 entradas, nenhuma marcada blastem_proven/senior_default; isso nao apaga provas locais fora do registro.
+- Prioridades: instrumentos/evidencia e CI confiaveis; slice autoral integrado; repetibilidade e percurso completo. Corrigir chave de cache SDK e acoplamento de caminho Linux em mudancas futuras delimitadas.
+- Revisao independente incompleta: hardware interrompido pelo servico; envelopes/conselho nao integralmente validados. Apontamentos usados no diagnostico foram conferidos localmente; nao ha aprovacao independente de produto.
+- Preservadas alteracoes preexistentes. Este registro nao atualiza automaticamente o estado dos projetos nem a contagem historica 13/13.
+
+
+## Curadoria autorizada — 2026-09-07 — proficiencia e cadeia Linux
+
+Pedido humano: implementar diagnostico E2E e adaptar referencias visuais/sonoras
+a este host. Implementacao, limites e testes em
+`doc/diagnostics/2026_09_07_proficiency/implementation_report.md`.
+
+- CI de recursos exige fixture existente e falha sem alvo; runner Linux E2E
+  independente passou em FORGE_REFERENCE com build, BlastEm e FREF observados.
+- 349 amostras, zero violacoes, ROM `79020498f34d0ca4b8d2907659c82d4f605c77ecf5a8a650a09e478c1002f337`.
+- SDK fingerprint por conteudo, parametros e bridge; alias por workspace e
+  lock sem FD herdado por Wine. Cold build teve hang preservado nos logs;
+  nao declarar portabilidade total nem confiabilidade de cold start provada.
+- Nova skill megadrive-music-composition + partitura PSG -> VGM -> XGM2
+  testada NTSC/PAL. Nao implementa arranjo FM completo nem prova mix em jogo.
+- Adaptacao pixel-art usa forge-art e traducao nativa existentes. Suites de
+  arte 135/135, audio 15/15, contratos 10/10; skill passou quick_validate.
+- Meta-gate 19/19 self-checks, mas 23 divergencias ativas persistem com diffs.
+  Nenhuma .agent local foi sobrescrita; nenhuma ROM antiga foi recertificada
+  por copia de instrumento. MARE_BRAVA continua piloto recomendado, sem
+  promocao de qualidade visual/sonora ou ready_for_aaa.
+
+
+### Atualizacao vigente — 2026-09-08
+
+A execucao E2E 20260907T203646582966Z recompilou libmd e ROM na mesma
+sessao Flatpak/Wine e passou no BlastEm. FREF: frame 360, 319 amostras,
+zero violacoes e observed/required=7. O hang de cold build relatado acima
+e historico anterior a essa correcao/prova, nao blocker vigente deste recorte.
+Report detalhado e bundle em `doc/diagnostics/2026_09_07_proficiency/implementation_report.md`.
+CI ampla continua bloqueada por .agent local 2026.06.19 com architecture_drift;
+a cura de caminhos ausentes preservou todo arquivo existente.
+23 divergencias de instrumentos, integracao do piloto e qualidade de jogo
+completo continuam pendentes. Nenhuma promocao AAA.

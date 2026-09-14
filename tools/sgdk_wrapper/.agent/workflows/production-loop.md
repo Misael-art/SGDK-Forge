@@ -64,6 +64,10 @@ Regra:
 - uma ferramenta individual falhar nao encerra a iteracao: classifique a causa
   e siga `causal-persistence-loop.md`; pare apenas no blocker critico definido
   ali ou quando o escopo autorizado terminar
+- quando houver dois ou mais ramos potencialmente independentes, use
+  `operation/harness-orchestration` e materialize `work_frontier_snapshot`
+  antes do taskset: o blocker suspende somente seu no e descendentes; claim,
+  promocao, integracao e memoria final permanecem serializados no coordenador
 
 ### 1. Escopo, planejamento e mecanica
 

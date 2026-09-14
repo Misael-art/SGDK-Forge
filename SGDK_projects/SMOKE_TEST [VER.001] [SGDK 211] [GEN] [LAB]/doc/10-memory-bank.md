@@ -2,18 +2,18 @@
 ## 0. Estado Derivado dos Artefatos
 
 - Fonte: `doc/changelog` + `validation_report.json`
-- Ultima sincronizacao: `2026-06-05T17:13:49.3909615-03:00`
+- Ultima sincronizacao: `2026-09-09T12:34:00-03:00`
 - Changelog canonico: `doc/changelog/changelog.md`
 - Assets versionados rastreados: 16
-- Ultimo build versionado: build_v038
-- ROM vigente: `9c5a7e22515b9ebf03c9bc32e4c43d0ac6d3251cf72d32ee043f9c391f4eaaac` (`262144` bytes)
-- Validation summary: errors=0 warnings=5
-- Blockers vigentes: gdd_substantial_insufficient, visual_gate_blocked, audio_validation_stale, emulator_evidence_stale
-- Evidencia de emulador: runtime_metrics_stale
+- Ultimo build observado: `linux_wine_bridge` (primeiro build do probe passou; retry posterior bloqueado pelo host Flatpak/Wine)
+- ROM vigente: `d8e9f570b32752df0aa4873f9a44263041dce966748c4d9b2382402ba75e3db0` (`262144` bytes)
+- Validation summary: errors=2 warnings=11
+- Blockers vigentes: project_methodology_manifest_invalid, external_path_reference_outside_project, gdd_substantial_insufficient, visual_gate_blocked, visual_delivery_gate_missing, audio_validation_missing, changelog_missing, res_graph_missing_for_visual_delivery, scene_tilemap_conversion_report_missing, per_tile_palette_conflict_report_missing, freshness_audit_missing, scene_closeout_gate_missing, claim_sources_missing
+- Evidencia de emulador: BlastEm Linux fresh bundle `runtime_probe_f01/blastem-linux-20260909T152405Z-2412067`
 - Gate visual: visual_lab_aprovado=False
 - Gate gameplay: gameplay_rom_aprovada=False
 - Gate AAA: ready_for_aaa=False
-- QA runtime: gameplay=stale performance=estavel audio=ok hardware_real=blastem_reference_emulator
+- QA runtime: gameplay=observed_scene_2_only performance=unproven audio=sidecar_not_listenable hardware_real=blastem_linux_flatpak
 <!-- SGDK GENERATED STATUS END -->
 # 10 - Memory Bank & Context Tracker - SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]
 
@@ -154,7 +154,16 @@
 
 ---
 
-## 3. DECISOES PENDENTES
+## 3. F01 — merge do runtime probe canônico e evidência Linux (2026-09-09)
+
+- A divergência local de `src/system/runtime_probe.c` e `inc/system/runtime_probe.h` foi mesclada com a fonte canônica do wrapper. Os hashes dos dois arquivos agora coincidem com `tools/sgdk_wrapper/modelo`.
+- O probe compilou e linkou em um build `linux_wine_bridge`; a ROM observada é `d8e9f570b32752df0aa4873f9a44263041dce966748c4d9b2382402ba75e3db0` (262144 bytes).
+- A captura Linux exclusiva selou janela BlastEm, screenshot, SRAM, `visual_vdp_dump.bin` parcial real derivado do bloco VLAB e manifest na sessão `blastem-linux-20260909T152405Z-2412067`. O selo reporta `semantic_capture_valid=true` e `freshness_report.status=ok`.
+- O VLAB observou `scene_id=2`, 32 amostras, `max_scanline_sprites=0`, zero frames acima do orçamento e janela em 60.0 fps. O alvo solicitado era 3, mas a fixture permaneceu em 2; nenhum claim de cena 3 foi feito.
+- O retry de rebuild após normalização de line endings foi bloqueado antes da compilação por `org.freedesktop.Platform.GL.default has invalid merge-dirs`. Isso é blocker do host Flatpak/Wine, não falha do código; não instalar substitutos nem reclassificar como erro do probe.
+- A medição confirma o contrato do probe no fixture LAB, mas não promove o projeto a AAA nem resolve budget VDP, arte final, áudio, metodologia e demais gates.
+
+## 4. DECISOES PENDENTES
 
 - Validar ROM v035 no BlastEm com captura dedicada dos 3 slots.
 - Decidir se baseline comparativo e VDP dump valem o custo para promover o LAB.

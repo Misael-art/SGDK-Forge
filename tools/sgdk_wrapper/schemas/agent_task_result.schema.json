@@ -1,20 +1,21 @@
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "sgdk_wrapper/schemas/agent_task_result.schema.json",
   "title": "Agent Task Result Envelope",
   "type": "object",
   "required": [
-    "schema_version", "artifact_kind", "task_id", "status", "context_digest",
+    "schema_version", "artifact_kind", "task_id", "status", "context_digest", "work_frontier_digest",
     "claim_ceiling", "summary_words", "raw_log_embedded", "files_read",
     "files_written", "commands", "evidence", "blockers_removed", "new_blockers",
     "next_causal_action", "usage"
   ],
   "properties": {
-    "schema_version": {"const": "1.0.0"},
+    "schema_version": {"const": "1.1.0"},
     "artifact_kind": {"const": "agent_task_result"},
     "task_id": {"type": "string", "minLength": 1},
     "status": {"enum": ["passed", "failed", "blocked", "stale", "needs_review"]},
     "context_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "work_frontier_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
     "claim_ceiling": {"type": "string", "minLength": 1},
     "summary_words": {"type": "integer", "minimum": 0, "maximum": 600},
     "raw_log_embedded": {"const": false},

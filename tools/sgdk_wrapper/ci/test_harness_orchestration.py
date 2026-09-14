@@ -35,6 +35,7 @@ def base_task(task_id: str, kind: str, **overrides):
         "objective": f"Execute {task_id}",
         "task_kind": kind,
         "owner_skill": "operation/harness-orchestration",
+        "identity_scope": None,
         "dependencies": [],
         "read_only": True,
         "isolated_write": False,
@@ -69,8 +70,8 @@ def main() -> int:
     checks = 0
     module = load_module()
     intrinsic = module.self_check()
-    assert intrinsic == {"status": "passed", "passed": 24, "total": 24, "failed": []}
-    checks += 24
+    assert intrinsic == {"status": "passed", "passed": 30, "total": 30, "failed": []}
+    checks += 30
 
     with tempfile.TemporaryDirectory(prefix="harness_orchestration_") as raw:
         root = Path(raw)
@@ -140,7 +141,7 @@ def main() -> int:
             ),
         ]
         taskset = {
-            "schema_version": "1.0.0",
+            "schema_version": "1.1.0",
             "artifact_kind": "orchestration_taskset",
             "run_id": "fixture-run",
             "tasks": tasks,
@@ -168,12 +169,77 @@ def main() -> int:
         assert planned_models["claim"] == "high_capability"
         checks += 7
 
+        frontier_path = root / "frontier.json"
+        frontier_result = run_cli(
+            "frontier",
+            "--workspace-root", str(root),
+            "--project-root", str(project),
+            "--active-epoch", "fixture-epoch",
+            "--claim-ceiling", "technical_candidate",
+            "--dominant-blocker", "native_authoring_unavailable",
+            "--blocked-node", "visual",
+            "--independent-node", "budget",
+            "--eligible-source", "doc/10-memory-bank.md",
+            "--forbidden-source", "out/legacy_probe.png",
+            "--next-causal-action", "run budget while visual stays blocked",
+            "--output", str(frontier_path),
+        )
+        assert frontier_result.returncode == 0, frontier_result.stdout + frontier_result.stderr
+        frontier = json.loads(frontier_path.read_text(encoding="utf-8"))
+        validate_schema("work_frontier_snapshot.schema.json", frontier)
+        assert frontier["eligible_sources"][0]["sha256"]
+
+        frontier_tasks = [
+            base_task("visual", "asset_production", identity_scope="fighter_a", read_only=False, expected_seconds=180),
+            base_task("animation", "asset_production", identity_scope="fighter_a", dependencies=["visual"], read_only=False),
+            base_task("budget", "budget_analysis"),
+        ]
+        frontier_taskset_path = root / "frontier_taskset.json"
+        frontier_plan_path = root / "frontier_plan.json"
+        frontier_taskset_path.write_text(json.dumps({
+            "schema_version": "1.1.0",
+            "artifact_kind": "orchestration_taskset",
+            "run_id": "frontier-run",
+            "tasks": frontier_tasks,
+        }), encoding="utf-8")
+        compiled = run_cli(
+            "plan", "--context", str(context_path),
+            "--taskset", str(frontier_taskset_path),
+            "--frontier", str(frontier_path),
+            "--output", str(frontier_plan_path),
+        )
+        assert compiled.returncode == 0, compiled.stdout + compiled.stderr
+        frontier_plan = json.loads(frontier_plan_path.read_text(encoding="utf-8"))
+        validate_schema("orchestration_plan.schema.json", frontier_plan)
+        frontier_modes = {item["task_id"]: item["execution_mode"] for item in frontier_plan["tasks"]}
+        assert frontier_modes == {
+            "visual": "blocked_by_frontier",
+            "animation": "blocked_by_frontier",
+            "budget": "subagent_read_only",
+        }
+        assert frontier_plan["summary"]["blocked_count"] == 2
+        assert frontier_plan["summary"]["coordinator_count"] == 0
+        assert [task_id for wave in frontier_plan["waves"] for task_id in wave["task_ids"]] == ["budget"]
+        original_memory = (project / "doc" / "10-memory-bank.md").read_text(encoding="utf-8")
+        (project / "doc" / "10-memory-bank.md").write_text("changed after frontier\n", encoding="utf-8")
+        stale_frontier = run_cli(
+            "plan", "--context", str(context_path),
+            "--taskset", str(frontier_taskset_path),
+            "--frontier", str(frontier_path),
+            "--output", str(root / "stale_frontier_plan.json"),
+        )
+        assert stale_frontier.returncode == 2
+        assert "frontier_eligible_source_stale:doc/10-memory-bank.md" in stale_frontier.stderr
+        (project / "doc" / "10-memory-bank.md").write_text(original_memory, encoding="utf-8")
+        checks += 10
+
         result = {
-            "schema_version": "1.0.0",
+            "schema_version": "1.1.0",
             "artifact_kind": "agent_task_result",
             "task_id": "inventory",
             "status": "passed",
             "context_digest": plan["context_digest"],
+            "work_frontier_digest": plan["work_frontier_digest"],
             "claim_ceiling": "documentado",
             "summary_words": 40,
             "raw_log_embedded": False,

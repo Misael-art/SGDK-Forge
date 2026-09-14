@@ -26,6 +26,8 @@ VDP e runtime/evidencia. Esta skill organiza os handoffs; nao substitui os owner
 5. `doc/03_art/02_visual_feedback_bank.md` e a barra visual do projeto
 6. `doc/11-gdd.md`, `doc/13-spec-cenas.md` e o contrato de escala do personagem
 7. `../sprite-animation/references/uninterrupted-forward-production-policy.md` quando o usuario pedir forward-test sem gates humanos intermediarios
+8. `references/fighting-full-body-semantic-guard.md` quando o asset for lutador
+   de corpo inteiro; o gate roda antes de shootout, autoria ou escolha de escala
 
 ## Contrato operacional
 
@@ -35,6 +37,8 @@ VDP e runtime/evidencia. Esta skill organiza os handoffs; nao substitui os owner
   escala `locked`/`provisional`, materiais e `native_sprite_production_record`
 - `visual_workset_manifest` com `active_epoch` e fontes elegiveis; projeto
   `frozen_case_study` nao aceita nova producao
+- para `fighting_full_body_sprite`, contrato semantico/escala validado antes
+  de produzir pixels; retrato, HUD/icon e matriz textual nunca definem escala
 
 ### Saida minima
 
@@ -75,7 +79,8 @@ Veredito `passed` e requisito de promocao; veredito `failed` e consumido pelo
   com corpo, cabelo, roupa ou pe. Fonte contaminada fica reference-only e pede
   model sheet limpo
 - quando houver mais de uma rota mecanica aplicavel, `route-shootout` produz o
-  painel causal antes da autoria cara; prior historico ordena a busca, nunca
+  painel causal de no maximo primary/challenger/control antes da autoria cara;
+  quarta rota exige hipotese materialmente nova registrada. Prior historico ordena a busca, nunca
   escolhe vencedor nem transforma filtro em arte nativa
 - imagem RGB/high-res, fake pixel art ou checkerboard assado fica `visual_source`; nunca `native_candidate`
 - `forge-art convert` sozinho produz controle/probe; traducao assistida ainda
@@ -102,6 +107,8 @@ Veredito `passed` e requisito de promocao; veredito `failed` e consumido pelo
 
 - falha visual nao encerra o projeto; classifique e mude produtor, representacao, escala de probe ou hipotese
 - duas tentativas equivalentes encerram a rota, nao o asset
+- validacao, build, documentacao ou nova evidencia da mesma imagem nao contam
+  como tentativa artistica; retry artistico exige pixels ou hipotese causal nova
 - duas iteracoes com o mesmo blocker visual e sem ganho observavel em identidade,
   pose ou acting encerram tambem a representacao/produtor; novo validator ou
   novo build nao conta como delta artistico
@@ -135,6 +142,8 @@ runtime exige ROM no BlastEm. A tabela completa vive no workflow.
 - desenhar personagem final por primitivas ou script procedural
 - usar canvas vazio + spans/`putpixel`/coordenadas como prova de autoria nativa;
   esse resultado e sempre `procedural_code_probe`, ainda que o log seja explicito
+- usar retrato, icon, HUD, XPM/matriz textual, thumbnail ou probe procedural
+  para inferir escala de lutador de corpo inteiro
 - declarar numero de cores por inspecao visual; medir PNG/PLTE
 - resolver perda de rosto/maos/pes adicionando detalhe high-res
 - trocar 48x64 por 64x96 sem gate de camera, gameplay e budget

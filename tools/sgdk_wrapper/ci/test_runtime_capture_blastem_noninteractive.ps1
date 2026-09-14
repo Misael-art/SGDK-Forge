@@ -54,6 +54,8 @@ $invokeBlock = Get-FunctionBlock -Source $content -FunctionName 'Invoke-BlastEmR
 $closeBlock = Get-FunctionBlock -Source $content -FunctionName 'Close-BlastEmForRuntimeCapture'
 
 Write-Host '--- Assertions ---'
+Assert-True 'backend Win32 falha cedo em host nao Windows' ($content -match 'host_executor_route_mismatch')
+Assert-True 'guard de host vem antes do modulo Win32' ($content.IndexOf('host_executor_route_mismatch') -lt $content.IndexOf('Import-Module -Name $BlastEmAutomationModule'))
 Assert-True 'capture_begin usa modo sram_bootstrap_only' ($invokeBlock -match 'navigation_mode\s*=\s*"sram_bootstrap_only"')
 Assert-True 'navegacao extra eh ignorada explicitamente' ($invokeBlock -match 'navigation_ignored')
 Assert-True 'Invoke-BlastEmNavigation nao e chamado no runtime capture' (-not ($invokeBlock -match 'Invoke-BlastEmNavigation'))

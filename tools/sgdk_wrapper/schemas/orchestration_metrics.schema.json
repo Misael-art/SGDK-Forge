@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "sgdk_wrapper/schemas/orchestration_metrics.schema.json",
   "title": "Orchestration Cost and Causal Metrics",
   "type": "object",
@@ -9,7 +9,7 @@
     "quality_claim", "ready_for_aaa", "claim_ceiling"
   ],
   "properties": {
-    "schema_version": {"const": "1.0.0"},
+    "schema_version": {"const": "1.1.0"},
     "artifact_kind": {"const": "orchestration_metrics"},
     "tool": {"type": "object"},
     "generated_at": {"type": "string", "format": "date-time"},

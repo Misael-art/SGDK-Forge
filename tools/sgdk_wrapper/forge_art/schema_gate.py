@@ -16,11 +16,41 @@ def load_schema(name: str) -> dict[str, Any]:
 
 
 def validate(instance: Any, schema: dict[str, Any], location: str = "$") -> None:
+    if "oneOf" in schema:
+        matches = 0
+        for branch in schema["oneOf"]:
+            try:
+                validate(instance, branch, location)
+            except SchemaError:
+                continue
+            matches += 1
+        if matches != 1:
+            raise SchemaError(f"{location}: expected exactly one oneOf match, got {matches}")
+        return
     if "const" in schema and instance != schema["const"]:
         raise SchemaError(f"{location}: expected const {schema['const']!r}")
     if "enum" in schema and instance not in schema["enum"]:
         raise SchemaError(f"{location}: value {instance!r} is not allowed")
     typ = schema.get("type")
+    if isinstance(typ, list):
+        type_matches = {
+            "null": instance is None,
+            "object": isinstance(instance, dict),
+            "array": isinstance(instance, list),
+            "string": isinstance(instance, str),
+            "integer": isinstance(instance, int) and not isinstance(instance, bool),
+            "number": isinstance(instance, (int, float)) and not isinstance(instance, bool),
+            "boolean": isinstance(instance, bool),
+        }
+        if not any(type_matches.get(name, False) for name in typ):
+            raise SchemaError(f"{location}: expected one of types {typ}")
+        if instance is None:
+            return
+        typ = next(name for name in typ if type_matches.get(name, False))
+    if typ == "null":
+        if instance is not None:
+            raise SchemaError(f"{location}: expected null")
+        return
     if typ == "object" and not isinstance(instance, dict):
         raise SchemaError(f"{location}: expected object")
     if isinstance(instance, dict) and (typ == "object" or "properties" in schema or "required" in schema):
@@ -36,6 +66,9 @@ def validate(instance: Any, schema: dict[str, Any], location: str = "$") -> None
         if not isinstance(instance, list): raise SchemaError(f"{location}: expected array")
         if "minItems" in schema and len(instance) < schema["minItems"]: raise SchemaError(f"{location}: too few items")
         if "maxItems" in schema and len(instance) > schema["maxItems"]: raise SchemaError(f"{location}: too many items")
+        if schema.get("uniqueItems"):
+            serialized = [json.dumps(value, ensure_ascii=False, sort_keys=True) for value in instance]
+            if len(serialized) != len(set(serialized)): raise SchemaError(f"{location}: duplicate items")
         if "items" in schema:
             for index, value in enumerate(instance): validate(value, schema["items"], f"{location}[{index}]")
     elif typ == "string":
@@ -51,6 +84,7 @@ def validate(instance: Any, schema: dict[str, Any], location: str = "$") -> None
     elif typ == "number":
         if not isinstance(instance, (int, float)) or isinstance(instance, bool): raise SchemaError(f"{location}: expected number")
         if "minimum" in schema and instance < schema["minimum"]: raise SchemaError(f"{location}: below minimum")
+        if "exclusiveMinimum" in schema and instance <= schema["exclusiveMinimum"]: raise SchemaError(f"{location}: not above exclusive minimum")
         if "maximum" in schema and instance > schema["maximum"]: raise SchemaError(f"{location}: above maximum")
     elif typ == "boolean" and not isinstance(instance, bool):
         raise SchemaError(f"{location}: expected boolean")

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "title_menu_persistent_frontend_20260914",
+  "title": "Tela de título persistente deve separar splash, menu e seletor",
+  "source_kind": "implementation",
+  "observed_at": "2026-09-14",
+  "problem_signature": "title_splash_auto_advance_and_transition_tearing",
+  "observation": "gRoom==1 avançava incondicionalmente após 120 frames e, ao abrir o menu, o fade/DMA concorrente interrompia a arte HAMOOPIG.",
+  "change": "Módulo src/title.c com páginas MAIN/OPTIONS, input P1 por KEY_PRESSED, fonte atlas 16x16, flags de áudio de sessão e separação explícita splash→menu; o mapa original é restaurado antes do painel.",
+  "prevention": "Manter o front-end como cena formal; nunca usar timeout automático para substituir confirmação do jogador.",
+  "evidence": {
+    "build": "out/logs/linux_wine_build_report.json",
+    "rom_sha256": "68baca0e2845a00d057e0d8b892102247f5674350194dcf8509b07e895734d7d",
+    "host_test": "rascunho/temporario/test_title_menu_contract.py",
+    "emulator_visual": "out/emulator_evidence/title-transition-final-20260914/{opening_2s.png,menu_12s.png}",
+    "gate_status": "manual_visual_pass; canonical_bundle_blocked_missing_vlab_vdp_runtime"
+  },
+  "status": "implemented_transition_fix_manual_visual_pass; canonical_bundle_blocked_missing_vlab_vdp_runtime"
+}

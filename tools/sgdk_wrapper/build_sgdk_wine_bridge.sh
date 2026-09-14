@@ -20,7 +20,7 @@ if [[ -z "$project_root" ]]; then
     echo "wine_bridge_status=blocked reason=project_root_required"
     exit 2
 fi
-for command_name in flatpak python3 sha256sum make; do
+for command_name in flatpak python3 sha256sum make flock; do
     if ! command -v "$command_name" >/dev/null 2>&1; then
         echo "wine_bridge_status=blocked reason=dependency_missing dependency=$command_name"
         exit 2
@@ -31,9 +31,18 @@ project_root="$(cd "$project_root" && pwd)"
 source_gdk="$repo_root/sdk/sgdk-2.11"
 tool_root="$repo_root/out/host_tools/sgdk_wine_flatpak"
 staged_gdk="$tool_root/sgdk-2.11"
-gdk_link="/mnt/sdcard/sgdk_forge_wine_211"
+workspace_id="$(printf '%s' "$repo_root" | sha256sum | cut -c1-20)"
+alias_root="${XDG_DATA_HOME:-$HOME/.local/share}/sgdk_forge"
+mkdir -p "$alias_root"
+gdk_link="$alias_root/sdk_$workspace_id"
+if [[ "$gdk_link" == *" "* ]]; then
+    echo "wine_bridge_status=blocked reason=sdk_alias_path_contains_spaces"
+    exit 2
+fi
+flatpak_access=(--filesystem="$repo_root" --filesystem="$project_root" --filesystem="$alias_root")
 wine_app="org.winehq.Wine//wow64-24.08"
 route_report="$project_root/out/logs/sgdk_build_route_report.json"
+echo "wine_bridge_phase=select_route"
 if ! python3 "$script_dir/select_sgdk_build_route.py" \
     --repo-root "$repo_root" \
     --project-root "$project_root" \
@@ -51,13 +60,23 @@ if ! flatpak --user info org.winehq.Wine >/dev/null 2>&1; then
     exit 2
 fi
 
-source_marker="$(sha256sum "$source_gdk/makefile.gen" | awk '{print $1}')"
-staged_marker_path="$tool_root/source_makefile.sha256"
+mkdir -p "$tool_root"
+# Hold through compilation: staging and libmd are shared by this workspace.
+echo "wine_bridge_phase=acquire_workspace_lock"
+exec 9>"$tool_root/build.lock"
+flock -x 9
+trap 'flock -u 9' EXIT
+identity_report="$project_root/out/logs/sdk_content_identity.json"
+echo "wine_bridge_phase=fingerprint_sdk"
+source_marker="$(python3 "$script_dir/sdk_content_identity.py" \
+    --sdk-root "$source_gdk" --bridge "${BASH_SOURCE[0]}" --output "$identity_report")"
+staged_marker_path="$tool_root/source_content.sha256"
 staged_marker=""
 if [[ -f "$staged_marker_path" ]]; then
     staged_marker="$(tr -d '\r\n' < "$staged_marker_path")"
 fi
 if [[ "$source_marker" != "$staged_marker" || ! -d "$staged_gdk/bin" ]]; then
+    echo "wine_bridge_phase=refresh_sdk_staging"
     mkdir -p "$tool_root"
     staging_copy="$tool_root/.sgdk-2.11.staging"
     rm -rf -- "$staging_copy"
@@ -66,12 +85,16 @@ if [[ "$source_marker" != "$staged_marker" || ! -d "$staged_gdk/bin" ]]; then
     rm -rf -- "$staged_gdk"
     mv "$staging_copy" "$staged_gdk"
     printf '%s\n' "$source_marker" > "$staged_marker_path"
-    rm -f -- "$tool_root/libmd_no_lto.sha256"
+    rm -f -- "$tool_root/libmd_no_lto.sha256" "$tool_root/libmd_no_lto.in_progress"
 fi
 
-python3 - "$staged_gdk" "$repo_root" "$wine_app" "$gdk_link" <<'PY'
+ln -sfn "$staged_gdk" "$gdk_link"
+echo "wine_bridge_phase=resolve_wine_paths"
+wine_gdk_link="$(flatpak --user run "${flatpak_access[@]}" --command=winepath "$wine_app" -w "$gdk_link" 9>&- | tr '\\' '/')"
+python3 - "$staged_gdk" "$repo_root" "$wine_app" "$gdk_link" "$wine_gdk_link" "$project_root" "$alias_root" <<'PY'
 import os
 import stat
+import shlex
 import sys
 from pathlib import Path
 
@@ -79,7 +102,8 @@ gdk = Path(sys.argv[1])
 repo = Path(sys.argv[2])
 wine_app = sys.argv[3]
 host_gdk_link = sys.argv[4]
-wine_gdk_link = "E:/sgdk_forge_wine_211"
+wine_gdk_link = sys.argv[5]
+access = " ".join(shlex.quote("--filesystem=" + value) for value in (str(repo), sys.argv[6], sys.argv[7]))
 bin_dir = gdk / "bin"
 for executable in sorted(bin_dir.glob("*.exe")):
     wrapper = executable.with_suffix("")
@@ -91,8 +115,8 @@ for executable in sorted(bin_dir.glob("*.exe")):
         "#!/usr/bin/env bash\n"
         "set -euo pipefail\n"
         'bin_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"\n'
-        f'host_gdk_link="{host_gdk_link}"\n'
-        f"wine_gdk_link='{wine_gdk_link}'\n"
+        f"host_gdk_link={shlex.quote(host_gdk_link)}\n"
+        f"wine_gdk_link={shlex.quote(wine_gdk_link)}\n"
         'converted=()\n'
         'for arg in "$@"; do\n'
         '    if [[ "$arg" == @* && -f "${arg#@}" ]]; then\n'
@@ -102,7 +126,7 @@ for executable in sorted(bin_dir.glob("*.exe")):
         '        if [[ "${SGDK_WINE_INSIDE_FLATPAK:-0}" == "1" ]]; then\n'
         '            wine_response="$(winepath -w "$converted_response")"\n'
         '        else\n'
-        f'            wine_response="$(flatpak --user run --filesystem="/mnt/sdcard" --command=winepath {wine_app} -w "$converted_response")"\n'
+        f'            wine_response="$(flatpak --user run {access} --command=winepath {wine_app} -w "$converted_response")"\n'
         '        fi\n'
         '        converted+=("@$wine_response")\n'
         '    else\n'
@@ -113,8 +137,8 @@ for executable in sorted(bin_dir.glob("*.exe")):
         f'    wine_exe="$(winepath -w "$bin_dir/{executable.name}")"\n'
         '    exec wine "$wine_exe" "${converted[@]}"\n'
         'fi\n'
-        f'wine_exe="$(flatpak --user run --filesystem="/mnt/sdcard" --command=winepath {wine_app} -w "$bin_dir/{executable.name}")"\n'
-        f'exec flatpak --user run --filesystem="/mnt/sdcard" --command=wine {wine_app} "$wine_exe" "${{converted[@]}}"\n',
+        f'wine_exe="$(flatpak --user run {access} --command=winepath {wine_app} -w "$bin_dir/{executable.name}")"\n'
+        f'exec flatpak --user run {access} --command=wine {wine_app} "$wine_exe" "${{converted[@]}}"\n',
         encoding="utf-8",
     )
     wrapper.chmod(wrapper.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
@@ -164,6 +188,7 @@ while IFS= read -r -d '' assembly_source; do
     fi
 done < <(find "$source_gdk/src" -type f -name '*.s' -print0)
 java_path="$("$script_dir/ensure_linux_java.sh" | tail -n 1)"
+echo "wine_bridge_phase=prepare_make"
 export WINEDEBUG=-all
 # Windows-generated dependencies may contain drive paths that native make
 # interprets as /m68k/.... Rebuild objects so LTO=0 and changed resources are
@@ -193,45 +218,44 @@ if [[ "$lib_rebuild_required" == "true" ]]; then
         : > "$lib_progress_marker"
     fi
     rm -f -- "$staged_gdk/lib/libmd.a" "$staged_gdk/cmd_"
-    set +e
-    flatpak --user run --filesystem="/mnt/sdcard" --command=sh "$wine_app" -c '
-        export PATH="$1:$PATH"
-        export SGDK_WINE_INSIDE_FLATPAK=1
-        export WINEDEBUG=-all
-        cd "$2"
-        make GDK="$2" -f "$2/makelib_wine.gen" release
-    ' sh "$(dirname "$java_path")" "$gdk_link"
-    lib_build_rc=$?
-    set -e
-    if [[ $lib_build_rc -ne 0 || ! -f "$staged_gdk/lib/libmd.a" ]]; then
-        echo "wine_bridge_status=blocked reason=libmd_rebuild_failed exit_code=$lib_build_rc"
-        exit "${lib_build_rc:-2}"
-    fi
-    sha256sum "$staged_gdk/lib/libmd.a" | awk '{print $1}' > "$lib_marker_path"
-    rm -f -- "$lib_progress_marker"
 fi
 started_at="$(python3 -c 'from datetime import datetime,timezone; print(datetime.now(timezone.utc).isoformat())')"
+echo "wine_bridge_phase=make library_rebuild=$lib_rebuild_required"
+build_log="$project_root/out/logs/build_output.log"
+mkdir -p "$(dirname "$build_log")"
+: > "$build_log"
 set +e
-flatpak --user run --filesystem="/mnt/sdcard" --command=sh "$wine_app" -c '
+flatpak --user run "${flatpak_access[@]}" --filesystem="$(dirname "$java_path")" --command=sh "$wine_app" -c '
+    set -eu
     export PATH="$1:$PATH"
     export SGDK_WINE_INSIDE_FLATPAK=1
     export WINEDEBUG=-all
+    # Keep libmd and the project in one Wine mount/process environment.
+    if [ "$4" = "true" ]; then
+        cd "$3"
+        make GDK="$3" -f "$3/makelib_wine.gen" release
+        test -s "$3/lib/libmd.a"
+        sha256sum "$3/lib/libmd.a" | cut -d " " -f 1 > "$5/libmd_no_lto.sha256"
+        rm -f "$5/libmd_no_lto.in_progress"
+    fi
     cd "$2"
     make GDK="$3" LTO=0 -f "$3/makefile_wine.gen"
-' sh "$(dirname "$java_path")" "$project_root" "$gdk_link"
+    test -s out/rom.bin
+' sh "$(dirname "$java_path")" "$project_root" "$gdk_link" "$lib_rebuild_required" "$tool_root" 9>&- 2>&1 | tee "$build_log"
 build_rc=$?
 set -e
 completed_at="$(python3 -c 'from datetime import datetime,timezone; print(datetime.now(timezone.utc).isoformat())')"
 
 report_path="$project_root/out/logs/linux_wine_build_report.json"
 mkdir -p "$(dirname "$report_path")"
-python3 - "$report_path" "$project_root" "$gdk_link" "$started_at" "$completed_at" "$build_rc" <<'PY'
+python3 - "$report_path" "$project_root" "$gdk_link" "$started_at" "$completed_at" "$build_rc" "$identity_report" <<'PY'
 import hashlib
 import json
 import sys
 from pathlib import Path
 
-report_path, project_root, gdk_root, started_at, completed_at, build_rc = sys.argv[1:]
+report_path, project_root, gdk_root, started_at, completed_at, build_rc, identity_path = sys.argv[1:]
+identity = json.loads(Path(identity_path).read_text())
 rom = Path(project_root) / "out/rom.bin"
 digest = hashlib.sha256(rom.read_bytes()).hexdigest() if rom.is_file() else None
 report = {
@@ -242,6 +266,8 @@ report = {
     "canonical_wrapper_status": "host_validation_executed_windows_batch_wrapper_blocked_by_wine_powershell_stub",
     "project_root": project_root,
     "gdk_root": gdk_root,
+    "sdk_content_sha256": identity["sha256"],
+    "sdk_identity_report": identity_path,
     "started_at": started_at,
     "completed_at": completed_at,
     "exit_code": int(build_rc),

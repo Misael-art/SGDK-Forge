@@ -29,6 +29,10 @@ misturadas durante producao ou recuperacao de projetos.
    - ResComp e fontes C aprovados seguidos de erro no link provam que a triagem
      deve continuar na toolchain, nao em assets ou runtime.
 4. Congele o ultimo binario comprovado e seu hash antes de investigar runtime.
+   Antes de BlastEm, execute `select_blastem_capture_route.py`. No Linux,
+   `DISPLAY` + Flatpak/xdotool/import selecionam a ponte Linux; WinForms nao e
+   dependencia. No Windows, a rota e PowerShell/Win32. Divergencia vira
+   `host_executor_route_mismatch`, nunca `emulator_dependency_missing`.
 5. Classifique `rom_runtime` somente com observacao da ROM, telemetria ou
    evidencia rastreavel.
 6. Avalie `creative_quality` separadamente e apenas depois da verdade tecnica.

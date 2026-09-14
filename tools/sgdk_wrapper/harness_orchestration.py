@@ -28,8 +28,8 @@ from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-VERSION = "1.0.0"
-SCHEMA_VERSION = "1.0.0"
+VERSION = "1.1.0"
+SCHEMA_VERSION = "1.1.0"
 
 TRUTH_FILES = (
     "doc/10-memory-bank.md",
@@ -337,6 +337,154 @@ def build_snapshot(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
+def build_frontier(args: argparse.Namespace) -> dict[str, Any]:
+    workspace = Path(args.workspace_root).resolve()
+    if not workspace.is_dir():
+        raise ContractError(f"workspace_root_missing:{workspace}")
+    project = resolve_project(workspace, args.project_root)
+    if project is None:
+        raise ContractError("project_root_required_for_frontier")
+    blocked_nodes = sorted(set(args.blocked_node))
+    independent_nodes = sorted(set(args.independent_node))
+    if not blocked_nodes and not independent_nodes:
+        raise ContractError("frontier_requires_at_least_one_node")
+    overlap = sorted(set(blocked_nodes) & set(independent_nodes))
+    if overlap:
+        raise ContractError(f"frontier_node_both_blocked_and_independent:{','.join(overlap)}")
+    if blocked_nodes and not args.dominant_blocker:
+        raise ContractError("dominant_blocker_required_for_blocked_nodes")
+    eligible_sources: list[dict[str, str]] = []
+    for raw in args.eligible_source:
+        normalized = normalize_scope(raw)
+        path = (project / normalized).resolve()
+        if not inside(project, path) or not path.is_file():
+            raise ContractError(f"eligible_source_missing_or_external:{raw}")
+        eligible_sources.append({"path": normalized, "sha256": sha256_file(path)})
+    forbidden_sources = [
+        {"path": normalize_scope(raw), "reason": "forbidden_by_active_frontier"}
+        for raw in sorted(set(args.forbidden_source))
+    ]
+    forbidden_paths = {item["path"] for item in forbidden_sources}
+    conflicting_sources = sorted(item["path"] for item in eligible_sources if item["path"] in forbidden_paths)
+    if conflicting_sources:
+        raise ContractError(f"frontier_source_both_eligible_and_forbidden:{','.join(conflicting_sources)}")
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "artifact_kind": "work_frontier_snapshot",
+        "tool": {"name": "harness_orchestration", "version": VERSION},
+        "generated_at": utc_now(),
+        "project_root": project.relative_to(workspace).as_posix(),
+        "active_epoch": args.active_epoch,
+        "claim_ceiling": args.claim_ceiling,
+        "dominant_blocker": args.dominant_blocker,
+        "blocked_nodes": blocked_nodes,
+        "independent_nodes": independent_nodes,
+        "eligible_sources": eligible_sources,
+        "forbidden_sources": forbidden_sources,
+        "next_causal_action": args.next_causal_action,
+        "status": "active" if independent_nodes else "fully_blocked",
+    }
+
+
+def validate_frontier(frontier: dict[str, Any]) -> None:
+    required = {
+        "schema_version", "artifact_kind", "tool", "generated_at", "project_root",
+        "active_epoch", "claim_ceiling", "dominant_blocker", "blocked_nodes",
+        "independent_nodes", "eligible_sources", "forbidden_sources",
+        "next_causal_action", "status",
+    }
+    missing = sorted(required - set(frontier))
+    if missing:
+        raise ContractError(f"frontier_required_fields_missing:{','.join(missing)}")
+    if frontier.get("schema_version") != SCHEMA_VERSION:
+        raise ContractError("invalid_frontier_schema_version")
+    if frontier.get("artifact_kind") != "work_frontier_snapshot":
+        raise ContractError("invalid_frontier_artifact_kind")
+    blocked = frontier.get("blocked_nodes")
+    independent = frontier.get("independent_nodes")
+    if not isinstance(blocked, list) or not isinstance(independent, list):
+        raise ContractError("frontier_nodes_missing")
+    if len(blocked) != len(set(blocked)) or len(independent) != len(set(independent)):
+        raise ContractError("frontier_duplicate_node")
+    overlap = sorted(set(blocked) & set(independent))
+    if overlap:
+        raise ContractError(f"frontier_node_both_blocked_and_independent:{','.join(overlap)}")
+    if blocked and not frontier.get("dominant_blocker"):
+        raise ContractError("frontier_dominant_blocker_missing")
+    if frontier.get("status") not in {"active", "fully_blocked"}:
+        raise ContractError("invalid_frontier_status")
+    expected_status = "active" if independent else "fully_blocked"
+    if frontier.get("status") != expected_status:
+        raise ContractError("frontier_status_does_not_match_nodes")
+    if not blocked and not independent:
+        raise ContractError("frontier_requires_at_least_one_node")
+    if not isinstance(frontier.get("active_epoch"), str) or not frontier["active_epoch"]:
+        raise ContractError("frontier_active_epoch_missing")
+    if not isinstance(frontier.get("next_causal_action"), str) or not frontier["next_causal_action"]:
+        raise ContractError("frontier_next_causal_action_missing")
+    eligible = frontier.get("eligible_sources")
+    forbidden = frontier.get("forbidden_sources")
+    if not isinstance(eligible, list) or not isinstance(forbidden, list):
+        raise ContractError("frontier_source_lists_missing")
+    for item in eligible:
+        if not isinstance(item, dict) or set(item) != {"path", "sha256"}:
+            raise ContractError("frontier_eligible_source_invalid")
+        normalize_scope(item["path"])
+        if not re.fullmatch(r"[0-9a-f]{64}", item["sha256"]):
+            raise ContractError(f"frontier_eligible_source_hash_invalid:{item['path']}")
+    for item in forbidden:
+        if not isinstance(item, dict) or set(item) != {"path", "reason"}:
+            raise ContractError("frontier_forbidden_source_invalid")
+        normalize_scope(item["path"])
+        if not isinstance(item["reason"], str) or not item["reason"]:
+            raise ContractError(f"frontier_forbidden_source_reason_missing:{item['path']}")
+    eligible_paths = {item["path"] for item in eligible}
+    forbidden_paths = {item["path"] for item in forbidden}
+    conflicts = sorted(eligible_paths & forbidden_paths)
+    if conflicts:
+        raise ContractError(f"frontier_source_both_eligible_and_forbidden:{','.join(conflicts)}")
+
+
+def revalidate_frontier_sources(context: dict[str, Any], frontier: dict[str, Any]) -> None:
+    workspace_raw = context.get("workspace_root")
+    project_raw = context.get("project_root")
+    if not isinstance(workspace_raw, str) or not isinstance(project_raw, str):
+        raise ContractError("context_roots_missing_for_frontier")
+    workspace = Path(workspace_raw).resolve()
+    project = Path(project_raw).resolve()
+    expected_relative = project.relative_to(workspace).as_posix()
+    if frontier["project_root"] != expected_relative:
+        raise ContractError("frontier_project_root_mismatch")
+    for source in frontier["eligible_sources"]:
+        path = (project / source["path"]).resolve()
+        if not inside(project, path) or not path.is_file():
+            raise ContractError(f"frontier_eligible_source_missing:{source['path']}")
+        if sha256_file(path) != source["sha256"]:
+            raise ContractError(f"frontier_eligible_source_stale:{source['path']}")
+
+
+def blocked_task_ids(tasks: list[dict[str, Any]], frontier: dict[str, Any] | None) -> set[str]:
+    if frontier is None:
+        return set()
+    validate_frontier(frontier)
+    task_ids = {task["task_id"] for task in tasks}
+    blocked = set(frontier["blocked_nodes"]) & task_ids
+    changed = True
+    while changed:
+        changed = False
+        for task in tasks:
+            if task["task_id"] not in blocked and any(dep in blocked for dep in task["dependencies"]):
+                blocked.add(task["task_id"])
+                changed = True
+    mislabeled = sorted(blocked & set(frontier["independent_nodes"]))
+    if mislabeled:
+        raise ContractError(f"independent_node_depends_on_blocked_node:{','.join(mislabeled)}")
+    undeclared_runnable = sorted(task_ids - blocked - set(frontier["independent_nodes"]))
+    if undeclared_runnable:
+        raise ContractError(f"runnable_task_missing_from_work_frontier:{','.join(undeclared_runnable)}")
+    return blocked
+
+
 def validate_context(context: dict[str, Any]) -> None:
     if context.get("artifact_kind") != "harness_context_snapshot":
         raise ContractError("invalid_context_artifact_kind")
@@ -376,6 +524,11 @@ def validate_taskset(taskset: dict[str, Any]) -> list[dict[str, Any]]:
             raise ContractError(f"invalid_task_kind:{task_id}")
         if task.get("model_tier") not in VALID_MODEL_TIERS:
             raise ContractError(f"invalid_model_tier:{task_id}")
+        identity_scope = task.get("identity_scope")
+        if identity_scope is not None and (not isinstance(identity_scope, str) or not identity_scope):
+            raise ContractError(f"invalid_identity_scope:{task_id}")
+        if task.get("task_kind") == "asset_production" and not identity_scope:
+            raise ContractError(f"asset_production_identity_scope_required:{task_id}")
         for key in ("dependencies", "write_paths", "protected_paths", "input_artifacts", "output_paths"):
             if not isinstance(task.get(key), list):
                 raise ContractError(f"task_list_missing:{task_id}:{key}")
@@ -508,7 +661,9 @@ def _topological_levels(tasks: list[dict[str, Any]]) -> list[list[str]]:
     return levels
 
 
-def build_plan(context: dict[str, Any], taskset: dict[str, Any]) -> dict[str, Any]:
+def build_plan(
+    context: dict[str, Any], taskset: dict[str, Any], frontier: dict[str, Any] | None = None
+) -> dict[str, Any]:
     validate_context(context)
     tasks = validate_taskset(taskset)
     selected_skills = set(context["harness"].get("selected_skills", []))
@@ -523,9 +678,21 @@ def build_plan(context: dict[str, Any], taskset: dict[str, Any]) -> dict[str, An
         ):
             raise ContractError(f"write_lease_overlaps_protected_path:{task['task_id']}")
     writer_conflicts = overlapping_writer_ids(tasks)
+    if frontier is not None:
+        validate_frontier(frontier)
+        revalidate_frontier_sources(context, frontier)
+    frontier_blocked = blocked_task_ids(tasks, frontier)
+    frontier_digest = None
+    if frontier is not None:
+        frontier_digest = hashlib.sha256(
+            json.dumps(frontier, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
     planned: list[dict[str, Any]] = []
     for task in tasks:
-        mode, reasons = decide_task(task, context, writer_conflicts)
+        if task["task_id"] in frontier_blocked:
+            mode, reasons = "blocked_by_frontier", ["blocked_node_or_descendant"]
+        else:
+            mode, reasons = decide_task(task, context, writer_conflicts)
         selected_model_tier = recommended_model_tier(
             task["task_kind"], task["owner_skill"]
         )
@@ -540,6 +707,7 @@ def build_plan(context: dict[str, Any], taskset: dict[str, Any]) -> dict[str, An
                 "objective": task["objective"],
                 "task_kind": task["task_kind"],
                 "owner_skill": task["owner_skill"],
+                "identity_scope": task.get("identity_scope"),
                 "dependencies": task["dependencies"],
                 "execution_mode": mode,
                 "decision_reasons": reasons,
@@ -550,6 +718,7 @@ def build_plan(context: dict[str, Any], taskset: dict[str, Any]) -> dict[str, An
                     "inherit_full_history": False,
                     "maximum_words": task["context_words"],
                     "canonical_context_digest": context["canonical_context"]["digest"],
+                    "work_frontier_digest": frontier_digest,
                     "input_artifacts": task["input_artifacts"],
                     "required_output_paths": task["output_paths"],
                     "claim_ceiling": task["claim_ceiling"],
@@ -581,14 +750,32 @@ def build_plan(context: dict[str, Any], taskset: dict[str, Any]) -> dict[str, An
             for task_id in level
             if planned_by_id[task_id]["execution_mode"].startswith("subagent_")
         ]
-        local = [task_id for task_id in level if task_id not in delegated]
-        for offset in range(0, len(delegated), max(1, worker_slots)):
+        local = [
+            task_id for task_id in level
+            if task_id not in delegated
+            and planned_by_id[task_id]["execution_mode"] != "blocked_by_frontier"
+        ]
+        remaining_delegated = list(delegated)
+        while remaining_delegated:
+            batch: list[str] = []
+            used_identity_scopes: set[str] = set()
+            for task_id in list(remaining_delegated):
+                identity_scope = planned_by_id[task_id].get("identity_scope")
+                if identity_scope and identity_scope in used_identity_scopes:
+                    continue
+                batch.append(task_id)
+                if identity_scope:
+                    used_identity_scopes.add(identity_scope)
+                if len(batch) >= max(1, worker_slots):
+                    break
+            for task_id in batch:
+                remaining_delegated.remove(task_id)
             wave_number += 1
             waves.append(
                 {
                     "wave": wave_number,
                     "mode": "parallel_workers",
-                    "task_ids": delegated[offset : offset + max(1, worker_slots)],
+                    "task_ids": batch,
                 }
             )
         for task_id in local:
@@ -608,6 +795,7 @@ def build_plan(context: dict[str, Any], taskset: dict[str, Any]) -> dict[str, An
         "generated_at": utc_now(),
         "run_id": taskset["run_id"],
         "context_digest": context["canonical_context"]["digest"],
+        "work_frontier_digest": frontier_digest,
         "coordinator_policy": {
             "single_claim_owner": True,
             "single_promotion_owner": True,
@@ -620,7 +808,12 @@ def build_plan(context: dict[str, Any], taskset: dict[str, Any]) -> dict[str, An
         "summary": {
             "task_count": len(planned),
             "delegated_count": delegated_count,
-            "coordinator_count": len(planned) - delegated_count,
+            "coordinator_count": len(planned) - delegated_count - len(frontier_blocked),
+            "blocked_count": len(frontier_blocked),
+            "runnable_count": len(planned) - len(frontier_blocked),
+            "identity_serial_groups": sorted({
+                task["identity_scope"] for task in planned if task.get("identity_scope")
+            }),
             "writer_conflict_task_ids": sorted(writer_conflicts),
             "worker_slots": worker_slots,
             "maximum_worker_context_and_result_words": expected_worker_words,
@@ -660,10 +853,15 @@ def validate_result(plan: dict[str, Any], result: dict[str, Any]) -> dict[str, A
     task = task_from_plan(plan, task_id)
     findings: list[str] = []
 
+    if task.get("execution_mode") == "blocked_by_frontier":
+        findings.append("result_returned_for_blocked_frontier_node")
+
     if result.get("status") not in VALID_STATUSES:
         findings.append("invalid_result_status")
     if result.get("context_digest") != plan.get("context_digest"):
         findings.append("stale_context_digest")
+    if result.get("work_frontier_digest") != plan.get("work_frontier_digest"):
+        findings.append("stale_work_frontier_digest")
     if result.get("claim_ceiling") != task["result_contract"]["claim_ceiling"]:
         findings.append("worker_claim_ceiling_mismatch")
     if result.get("raw_log_embedded") is not False:
@@ -812,6 +1010,8 @@ def derive_metrics(plan: dict[str, Any], results: list[dict[str, Any]]) -> dict[
 def self_check() -> dict[str, Any]:
     context = {
         "artifact_kind": "harness_context_snapshot",
+        "workspace_root": "/tmp/harness-fixture",
+        "project_root": "/tmp/harness-fixture/SGDK_projects/fixture",
         "harness": {
             "subagents_available": True,
             "max_concurrency": 4,
@@ -832,6 +1032,7 @@ def self_check() -> dict[str, Any]:
             "objective": task_id,
             "task_kind": kind,
             "owner_skill": "operation/harness-orchestration",
+            "identity_scope": None,
             "dependencies": [],
             "read_only": True,
             "isolated_write": False,
@@ -866,7 +1067,7 @@ def self_check() -> dict[str, Any]:
     mode, _ = decide_task(claim, context, set())
     checks.append(("keeps_claim_local", mode == "coordinator_local"))
 
-    blocked = task("blocked", "asset_production", shared_capability_blocker=True)
+    blocked = task("blocked", "asset_production", identity_scope="fighter_a", shared_capability_blocker=True)
     mode, _ = decide_task(blocked, context, set())
     checks.append(("does_not_multiply_shared_blocker", mode == "coordinator_local"))
 
@@ -914,6 +1115,7 @@ def self_check() -> dict[str, Any]:
         "task_id": "read",
         "status": "passed",
         "context_digest": "a" * 64,
+        "work_frontier_digest": None,
         "claim_ceiling": "documentado",
         "summary_words": 20,
         "raw_log_embedded": False,
@@ -929,6 +1131,93 @@ def self_check() -> dict[str, Any]:
     checks.append(("accepts_valid_result", validate_result(plan, result)["status"] == "passed"))
     stale = dict(result, context_digest="b" * 64)
     checks.append(("rejects_stale_result", "stale_context_digest" in validate_result(plan, stale)["findings"]))
+
+    visual = task("visual", "asset_production", identity_scope="fighter_a", read_only=False, expected_seconds=180)
+    animation = task("animation", "asset_production", identity_scope="fighter_a", dependencies=["visual"], read_only=False)
+    budget = task("budget", "budget_analysis")
+    frontier = {
+        "schema_version": SCHEMA_VERSION,
+        "artifact_kind": "work_frontier_snapshot",
+        "tool": {"name": "harness_orchestration", "version": VERSION},
+        "generated_at": "2026-01-01T00:00:00Z",
+        "project_root": "SGDK_projects/fixture",
+        "active_epoch": "fixture",
+        "claim_ceiling": "technical_candidate",
+        "dominant_blocker": "native_authoring_unavailable",
+        "blocked_nodes": ["visual"],
+        "independent_nodes": ["budget"],
+        "eligible_sources": [],
+        "forbidden_sources": [],
+        "next_causal_action": "continue budget",
+        "status": "active",
+    }
+    propagated = blocked_task_ids([visual, animation, budget], frontier)
+    checks.append(("propagates_blocker_to_descendants", propagated == {"visual", "animation"}))
+    try:
+        blocked_task_ids(
+            [visual, animation, budget],
+            {**frontier, "independent_nodes": ["animation", "budget"]},
+        )
+        mislabeled_descendant_rejected = False
+    except ContractError as exc:
+        mislabeled_descendant_rejected = str(exc) == "independent_node_depends_on_blocked_node:animation"
+    checks.append(("rejects_blocked_descendant_labeled_independent", mislabeled_descendant_rejected))
+    try:
+        validate_frontier({**frontier, "blocked_nodes": [], "independent_nodes": [], "status": "fully_blocked"})
+        empty_frontier_rejected = False
+    except ContractError as exc:
+        empty_frontier_rejected = str(exc) == "frontier_requires_at_least_one_node"
+    checks.append(("rejects_empty_frontier", empty_frontier_rejected))
+    with tempfile.TemporaryDirectory(prefix="harness_frontier_self_check_") as raw:
+        fixture_workspace = Path(raw)
+        fixture_project = fixture_workspace / "SGDK_projects" / "fixture"
+        fixture_project.mkdir(parents=True)
+        frontier_context = dict(context)
+        frontier_context["workspace_root"] = str(fixture_workspace)
+        frontier_context["project_root"] = str(fixture_project)
+        frontier_plan = build_plan(
+            frontier_context,
+            {
+                "schema_version": SCHEMA_VERSION,
+                "artifact_kind": "orchestration_taskset",
+                "run_id": "frontier",
+                "tasks": [visual, animation, budget],
+            },
+            frontier,
+        )
+    checks.append((
+        "runs_only_independent_frontier_nodes",
+        frontier_plan["summary"]["blocked_count"] == 2
+        and frontier_plan["summary"]["runnable_count"] == 1
+        and [task_id for wave in frontier_plan["waves"] for task_id in wave["task_ids"]] == ["budget"],
+    ))
+    stale_frontier_result = dict(result, task_id="budget", work_frontier_digest="f" * 64)
+    checks.append((
+        "rejects_stale_work_frontier",
+        "stale_work_frontier_digest" in validate_result(frontier_plan, stale_frontier_result)["findings"],
+    ))
+
+    pose_a = task(
+        "pose_a", "asset_production", identity_scope="fighter_a", read_only=False,
+        isolated_write=True, write_paths=["out/pose_a"], expected_seconds=180,
+    )
+    pose_b = task(
+        "pose_b", "asset_production", identity_scope="fighter_a", read_only=False,
+        isolated_write=True, write_paths=["out/pose_b"], expected_seconds=180,
+    )
+    identity_plan = build_plan(
+        context,
+        {
+            "schema_version": SCHEMA_VERSION,
+            "artifact_kind": "orchestration_taskset",
+            "run_id": "identity-serialization",
+            "tasks": [pose_a, pose_b],
+        },
+    )
+    checks.append((
+        "serializes_same_identity_asset_workers",
+        all(len(wave["task_ids"]) == 1 for wave in identity_plan["waves"]),
+    ))
 
     writer_plan = build_plan(
         context,
@@ -1052,9 +1341,23 @@ def parser() -> argparse.ArgumentParser:
     probe.add_argument("--pipeline", action="append", default=[], help="Selected pipeline id without .json. Repeat as needed.")
     probe.add_argument("--output", type=Path, required=True)
 
+    frontier = sub.add_parser("frontier", help="Create a compact node-scoped work frontier snapshot.")
+    frontier.add_argument("--workspace-root", required=True)
+    frontier.add_argument("--project-root", required=True)
+    frontier.add_argument("--active-epoch", required=True)
+    frontier.add_argument("--claim-ceiling", required=True)
+    frontier.add_argument("--dominant-blocker")
+    frontier.add_argument("--blocked-node", action="append", default=[])
+    frontier.add_argument("--independent-node", action="append", default=[])
+    frontier.add_argument("--eligible-source", action="append", default=[])
+    frontier.add_argument("--forbidden-source", action="append", default=[])
+    frontier.add_argument("--next-causal-action", required=True)
+    frontier.add_argument("--output", type=Path, required=True)
+
     plan = sub.add_parser("plan", help="Compile tasks into a conservative execution DAG.")
     plan.add_argument("--context", type=Path, required=True)
     plan.add_argument("--taskset", type=Path, required=True)
+    plan.add_argument("--frontier", type=Path)
     plan.add_argument("--output", type=Path, required=True)
 
     validate = sub.add_parser("validate-result", help="Validate one worker result against its lease and context.")
@@ -1077,8 +1380,15 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "probe":
             output = build_snapshot(args)
             atomic_write_json(args.output, output)
+        elif args.command == "frontier":
+            output = build_frontier(args)
+            atomic_write_json(args.output, output)
         elif args.command == "plan":
-            output = build_plan(load_json(args.context), load_json(args.taskset))
+            output = build_plan(
+                load_json(args.context),
+                load_json(args.taskset),
+                load_json(args.frontier) if args.frontier else None,
+            )
             atomic_write_json(args.output, output)
         elif args.command == "validate-result":
             output = validate_result(load_json(args.plan), load_json(args.result))
@@ -1090,7 +1400,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             output = self_check()
         print(json.dumps(output, ensure_ascii=False, indent=2))
-        return 0 if output.get("status") in {"ready", "passed"} else 1
+        return 0 if output.get("status") in {"ready", "passed", "active", "fully_blocked"} else 1
     except ContractError as exc:
         print(json.dumps({"status": "error", "blockers": [str(exc)]}, ensure_ascii=False), file=sys.stderr)
         return 2

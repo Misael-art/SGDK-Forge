@@ -113,6 +113,7 @@ def reconcile(project_root: str | Path, include_validation_report: bool = True) 
     blocked_report_present = False
     partial_capture = False
     perceptual_zero = False
+    current_rom_sha256 = _sha256(root / "out/rom.bin") if (root / "out/rom.bin").is_file() else None
 
     for name, path in _candidate_paths(root, include_validation_report):
         if not path.is_file():
@@ -269,6 +270,8 @@ def reconcile(project_root: str | Path, include_validation_report: bool = True) 
         "tool_name": "reconcile_claims",
         "tool_version": TOOL_VERSION,
         "project_root": str(root),
+        "rom_sha256": current_rom_sha256,
+        "session_id": next(iter(unique_sessions), None) if len(unique_sessions) == 1 else None,
         "status": "passed" if not blockers else "blocked",
         "policy": "lowest_proven_status_wins",
         "include_validation_report": include_validation_report,

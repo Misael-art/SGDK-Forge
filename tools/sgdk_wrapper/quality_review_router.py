@@ -314,6 +314,7 @@ def make_taskset(request: dict[str, Any], reviews: list[dict[str, Any]]) -> dict
                 "objective": f"Independently review {domain} for {request['review_id']}",
                 "task_kind": TASK_KINDS[domain],
                 "owner_skill": review["owner_skill"],
+                "identity_scope": None,
                 "dependencies": [],
                 "read_only": True,
                 "isolated_write": False,
@@ -347,7 +348,7 @@ def make_taskset(request: dict[str, Any], reviews: list[dict[str, Any]]) -> dict
             }
         )
     return {
-        "schema_version": SCHEMA_VERSION,
+        "schema_version": "1.1.0",
         "artifact_kind": "orchestration_taskset",
         "run_id": f"quality-{request['review_id']}",
         "tasks": tasks,

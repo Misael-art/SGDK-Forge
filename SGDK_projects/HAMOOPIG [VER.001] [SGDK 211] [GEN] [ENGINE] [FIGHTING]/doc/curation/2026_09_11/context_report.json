@@ -1,0 +1,75 @@
+﻿{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-12T00:54:36.8858125Z",
+  "tool_name": "validate_project_context",
+  "tool_version": "1.0.0",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "workspace_root": "/mnt/sdcard/Projects/Sgdk Forge",
+  "status": "ok",
+  "failure_reason": null,
+  "validation_status": "passed",
+  "phase": "planning",
+  "manifest_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/project_context_manifest.json",
+  "context_type": "technical_demo",
+  "documentation_profile": "demo",
+  "delivery_claim_ceiling": "prototype",
+  "ready": true,
+  "blocking_statuses": [],
+  "warnings": [
+    {
+      "level": "warning",
+      "status": "project_context_policy_incomplete",
+      "message": "Manifest nao declara um documento que o validador considera bloqueante para este contexto.",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/project_context_manifest.json",
+      "details": {
+        "missing_policy_path": "doc/project_methodology_manifest.json",
+        "context_type": "technical_demo"
+      }
+    },
+    {
+      "level": "warning",
+      "status": "project_context_policy_incomplete",
+      "message": "Manifest nao declara um documento que o validador considera bloqueante para este contexto.",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/project_context_manifest.json",
+      "details": {
+        "missing_policy_path": "doc/project_hygiene_manifest.json",
+        "context_type": "technical_demo"
+      }
+    },
+    {
+      "level": "warning",
+      "status": "project_context_policy_incomplete",
+      "message": "Manifest nao declara um documento que o validador considera bloqueante para este contexto.",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/project_context_manifest.json",
+      "details": {
+        "missing_policy_path": "doc/technique_usage_manifest.json",
+        "context_type": "technical_demo"
+      }
+    }
+  ],
+  "required_documents": [
+    "doc/project_context_manifest.json",
+    "doc/00-project-brief.md",
+    "doc/13-spec-cenas.md",
+    "doc/14-plano-de-provas-qa.md",
+    "doc/18-asset-register.json",
+    "doc/project_methodology_manifest.json",
+    "doc/project_hygiene_manifest.json",
+    "doc/technique_usage_manifest.json",
+    "doc/10-memory-bank.md",
+    "doc/changelog/changelog.md"
+  ],
+  "phase_blocking_documents": [
+    "doc/15-tdd.md"
+  ],
+  "non_blocking_documents": [
+    "doc/11-gdd.md",
+    "doc/15-tdd.md",
+    "doc/16-ldd.md",
+    "doc/17-audio-design.md",
+    "doc/19-roadmap-risk-register.md",
+    "doc/20-release-marketing-legal.md",
+    "doc/21-review-consulting-context.md"
+  ],
+  "details": []
+}

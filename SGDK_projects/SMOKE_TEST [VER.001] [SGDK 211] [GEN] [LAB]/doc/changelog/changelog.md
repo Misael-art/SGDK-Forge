@@ -6,6 +6,15 @@
 - documentacao minima materializada
 - scene regression declarada em `doc/scene-regression.json`
 - companion inicial esperado em `doc/scene-contracts.json`
+
+## 2026-09-09T12:34:00-03:00 - f01_runtime_probe_canonical_merge
+
+- Mesclado `inc/system/runtime_probe.h` e `src/system/runtime_probe.c` com o modelo canônico; hashes locais coincidem com o modelo.
+- Build inicial pela rota Linux `linux_wine_bridge` passou e gerou ROM `d8e9f570b32752df0aa4873f9a44263041dce966748c4d9b2382402ba75e3db0`.
+- Captura Linux exclusiva do BlastEm selada em `out/evidence/runtime_probe_f01/blastem-linux-20260909T152405Z-2412067`, com screenshot, SRAM, manifest e VLAB dump parcial real.
+- Escopo observado: `scene_id=2`, 32 amostras, `max_scanline_sprites=0`, zero over-budget e janela 60.0 fps; alvo solicitado 3 não foi reivindicado.
+- Retry de rebuild ficou bloqueado no host Flatpak/Wine por `org.freedesktop.Platform.GL.default has invalid merge-dirs`; sem instalação de substitutos e sem alteração do jogo/arte.
+- F01 reduzido de 18 para 16 divergências ativas no triage global; nenhum status AAA promovido.
 ## 2026-06-03T05:07:38.5529894-03:00 - build_snapshot
 
 - Task: build_snapshot

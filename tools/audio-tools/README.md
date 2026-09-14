@@ -8,6 +8,7 @@ diretório cobre conformidade e autoria de laboratório; não transforma um som 
 
 | Ferramenta | Entrada → saída | Claim máximo isolado |
 |---|---|---|
+| `psg_score.py` | partitura JSON autoral → VGM PSG NTSC/PAL com loop | candidato tecnico de composicao |
 | `audio_core.py` | funções numéricas WAV/VGM/XGM2 | conformidade numérica |
 | `vgm_to_xgm2.py` | VGM → XGM/XGC pelo jar oficial | conversão técnica |
 | `sample_convert.py` | WAV → payload PCM signed | payload compatível |
@@ -59,3 +60,12 @@ traversal, IDs duplicados e divergência de path/tipo/taxa contra
 
 SFX `synthesized` e `procedural_primitive` podem ser `lab` ou `placeholder`,
 nunca `final` apenas porque passaram nestas ferramentas.
+
+## Composicao nativa sem tracker
+
+`psg_score.py --score score.json --out sketch.vgm` compila tres vozes PSG
+com tempo em frames, sem depender de servico de IA. O contrato e a direcao
+vivem em `tools/sgdk_wrapper/.agent/skills/code/megadrive-music-composition/SKILL.md`.
+Regressao com conversor SGDK real: `python3 tools/sgdk_wrapper/ci/test_psg_score.py`.
+FM, ruido e PCM nao sao implementados por esse compilador; use fonte de
+tracker e a rota VGM/XGM2 para arranjo completo.

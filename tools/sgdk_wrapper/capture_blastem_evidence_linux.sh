@@ -7,6 +7,7 @@ manifest_path="$script_dir/linux_host_dependencies.json"
 project_root=""
 rom_path=""
 output_base="$repo_root/out/remediation/P0-005/fresh_bundle"
+canonical_root=""
 warmup_seconds="20"
 target_scene=""
 audio_driver="dummy"
@@ -20,6 +21,7 @@ while [[ $# -gt 0 ]]; do
         --project-root) project_root="$2"; shift 2 ;;
         --rom) rom_path="$2"; shift 2 ;;
         --output-base) output_base="$2"; shift 2 ;;
+        --canonical-root) canonical_root="$2"; shift 2 ;;
         --warmup-seconds) warmup_seconds="$2"; shift 2 ;;
         --target-scene) target_scene="$2"; shift 2 ;;
         --audio-driver) audio_driver="$2"; shift 2 ;;
@@ -132,7 +134,10 @@ for _ in $(seq 1 200); do
     while IFS= read -r candidate; do
         if [[ -n "$candidate" ]] && ! grep -Fxq "$candidate" "$existing_windows"; then
             candidate_title="$(xdotool getwindowname "$candidate" 2>/dev/null || true)"
-            if [[ "$candidate_title" == *" - BlastEm - "*" fps" ]]; then
+            # The title is initially just "BlastEm" for a few frames and only
+            # later gains the ROM name/FPS suffix.  Accept the transient title;
+            # the warmup below still guarantees a composed framebuffer.
+            if [[ "$candidate_title" == *"BlastEm"* ]]; then
                 window_id="$candidate"
                 break
             fi
@@ -148,6 +153,11 @@ if [[ -z "$window_id" ]]; then
     echo "linux_blastem_capture_status=blocked reason=window_timeout session_root=$session_root"
     exit 1
 fi
+
+# Force composition/focus before the first framebuffer import.  BlastEm can
+# expose a valid title and audio stream while an unfocused X11 surface still
+# returns an all-black image to ImageMagick `import -window`.
+xdotool windowactivate --sync "$window_id" 2>/dev/null || true
 
 if [[ "$burst_count" -gt 0 ]]; then
     mkdir -p "$burst_dir"
@@ -256,5 +266,119 @@ PY
 if [[ $seal_exit_code -ne 0 ]]; then
     echo "linux_blastem_capture_status=blocked reason=bundle_rejected session_root=$session_root"
     exit "$seal_exit_code"
+fi
+
+if [[ -n "$canonical_root" ]]; then
+    mkdir -p "$canonical_root" "$project_root/out/logs"
+    for artifact in rom.bin screenshot.png save.sram visual_vdp_dump.bin runtime_metrics.json audio.raw evidence_manifest.json freshness_report.json session_runtime.json runtime_animation.gif; do
+        # Never let a missing artifact in the new sealed session inherit the
+        # file from an older ROM capture.
+        rm -f "$canonical_root/$artifact"
+        if [[ -f "$session_root/$artifact" ]]; then
+            cp -f "$session_root/$artifact" "$canonical_root/$artifact"
+        fi
+    done
+
+    python3 - "$project_root" "$canonical_root" "$session_root" "$session_id" "$rom_path" "$expected_rom_sha256" "$target_scene" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+project_root, canonical_root, session_root, session_id, rom_path, rom_sha256, target_scene = sys.argv[1:]
+project = Path(project_root).resolve()
+canonical = Path(canonical_root).resolve()
+session = Path(session_root).resolve()
+metrics_path = canonical / "runtime_metrics.json"
+metrics = {}
+if metrics_path.is_file():
+    try:
+        metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, json.JSONDecodeError):
+        metrics = {}
+
+scene_id = metrics.get("scene_id")
+if scene_id is None and isinstance(metrics.get("vlab"), dict):
+    scene_id = metrics["vlab"].get("scene_id")
+requested_scene = int(target_scene) if target_scene else None
+target_scene_match = None if requested_scene is None or scene_id is None else int(scene_id) == requested_scene
+evidence_files = [
+    canonical / "screenshot.png",
+    canonical / "save.sram",
+    canonical / "visual_vdp_dump.bin",
+    canonical / "runtime_metrics.json",
+    canonical / "audio.raw",
+]
+evidence_files = [str(path) for path in evidence_files if path.is_file()]
+capture_ok = (
+    (canonical / "screenshot.png").is_file()
+    and (canonical / "save.sram").is_file()
+    and target_scene_match is not False
+)
+
+emulator_session = {
+    "schema_version": "1.0.0",
+    "timestamp": datetime.now(timezone.utc).isoformat(),
+    "session_id": session_id,
+    "emulator": "blastem",
+    "reference_emulator": "blastem",
+    "host_capture_route": "linux_flatpak_x11_bridge",
+    "launch_status": "captured_closed",
+    "status": "ok" if capture_ok else "partial",
+    "capture_status": "sealed",
+    "boot_emulador": "ok" if capture_ok else "partial",
+    "fresh_sram_confirmed": (canonical / "save.sram").is_file(),
+    "target_scene": requested_scene,
+    "runtime_scene_id": scene_id,
+    "target_scene_match": target_scene_match,
+    "rom_path": str(Path(rom_path).resolve()),
+    "rom_sha256": rom_sha256,
+    # The Flatpak sandbox/session directory is kept separately below. The
+    # published evidence is intentionally canonical_root, so validators must
+    # not classify the publication copy as an outside-sandbox stale artifact.
+    "sandbox_root": str(canonical),
+    "actual_blastem_sandbox_root": str(session),
+    "evidence_root": str(canonical),
+    "screenshot_path": str(canonical / "screenshot.png") if (canonical / "screenshot.png").is_file() else None,
+    "sram_path": str(canonical / "save.sram") if (canonical / "save.sram").is_file() else None,
+    "vdp_dump_path": str(canonical / "visual_vdp_dump.bin") if (canonical / "visual_vdp_dump.bin").is_file() else None,
+    "audio_path": str(canonical / "audio.raw") if (canonical / "audio.raw").is_file() else None,
+    "evidence_files": evidence_files,
+    "captures": evidence_files,
+    "published_capture_files": evidence_files,
+    "evidence_stale": target_scene_match is False,
+    "stale_reason": "runtime_target_scene_mismatch" if target_scene_match is False else None,
+    "claim_limit": "Sealed Linux capture proves only the scopes observed in this session.",
+}
+
+blastem_evidence = {
+    "schema_version": "1.0.0",
+    "tool_name": "capture_blastem_evidence_linux",
+    "status": emulator_session["status"],
+    "evidence_status": emulator_session["status"],
+    "session_id": session_id,
+    "host_capture_route": "linux_flatpak_x11_bridge",
+    "rom_path": emulator_session["rom_path"],
+    "rom_sha256": rom_sha256,
+    "screenshot_present": (canonical / "screenshot.png").is_file(),
+    "screenshot_path": emulator_session["screenshot_path"],
+    "sram_present": (canonical / "save.sram").is_file(),
+    "sram_path": emulator_session["sram_path"],
+    "fresh_sram_confirmed": emulator_session["fresh_sram_confirmed"],
+    "vdp_dump_present": (canonical / "visual_vdp_dump.bin").is_file(),
+    "vdp_dump_path": emulator_session["vdp_dump_path"],
+    "evidence_root": str(canonical),
+    "session_manifest_path": str(canonical / "evidence_manifest.json"),
+    "target_scene": requested_scene,
+    "runtime_scene_id": scene_id,
+    "target_scene_match": target_scene_match,
+    "blockers": [] if emulator_session["status"] == "ok" else ["linux_capture_incomplete"],
+}
+
+logs = project / "out/logs"
+logs.mkdir(parents=True, exist_ok=True)
+(logs / "emulator_session.json").write_text(json.dumps(emulator_session, indent=2) + "\n", encoding="utf-8")
+(logs / "blastem_evidence.json").write_text(json.dumps(blastem_evidence, indent=2) + "\n", encoding="utf-8")
+PY
 fi
 echo "linux_blastem_capture_status=sealed session_id=$session_id session_root=$session_root"

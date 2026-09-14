@@ -5882,10 +5882,21 @@ $resGraphStatus = Get-ObservedReportStatus `
     -ReportPath $resGraphReportPath `
     -DependencyPaths $resGraphDependencies
 
+# A conversao de tilemap depende das fontes e dos contratos, nao de relatorios
+# derivados. Usar scene_contract_compile/res_graph aqui criava um ciclo falso:
+# qualquer closeout reescrevia esses reports e marcava a conversao stale mesmo
+# quando nenhuma fonte visual havia mudado.
+$sceneTilemapSourceDependencies = @()
+$resRootForTilemap = Join-Path $pwd.Path "res"
+if (Test-Path -LiteralPath $resRootForTilemap -PathType Container) {
+    $sceneTilemapSourceDependencies = @(Get-ChildItem -LiteralPath $resRootForTilemap -Recurse -File -ErrorAction SilentlyContinue |
+        Where-Object { $_.Extension.ToLowerInvariant() -in @(".png", ".xpm", ".res") } |
+        Select-Object -ExpandProperty FullName)
+}
 $sceneTilemapConversionDependencies = @(
-    $sceneContractCompileReportPath,
-    $resGraphReportPath,
-    (Join-Path $pwd.Path "doc\technique_usage_manifest.json")
+    (Join-Path $pwd.Path "doc\13-spec-cenas.md"),
+    (Join-Path $pwd.Path "doc\technique_usage_manifest.json"),
+    $sceneTilemapSourceDependencies
 )
 $sceneTilemapConversionStatus = Get-ObservedReportStatus `
     -ReportPath $sceneTilemapConversionReportPath `
@@ -6090,13 +6101,17 @@ if ($resGraphStatus.report_present) {
         $resGraphMethod = (Get-SafeString (Get-ObjectPropertyValue $resGraphVram "method" "") "").ToLowerInvariant()
         $codeLoadedTiles = Get-ObjectPropertyValue $resGraphVram "code_loaded_tiles" $null
         $codeLoadedStatus = (Get-SafeString (Get-ObjectPropertyValue $codeLoadedTiles "status" "") "").ToLowerInvariant()
-        if ($visualDeliveryIntent -and ($resGraphVramStatus -eq "code_loaded_tiles_unmeasured" -or $codeLoadedStatus -eq "code_loaded_tiles_unmeasured")) {
+        $measuredEvidence = Get-ObjectPropertyValue $resGraphVram "measured_evidence" $null
+        $measuredEvidenceStatus = (Get-SafeString (Get-ObjectPropertyValue $measuredEvidence "status" "") "").ToLowerInvariant()
+        $hasExplicitVramEvidence = ($resGraphVramStatus -eq "ok" -and $measuredEvidenceStatus -eq "valid")
+        if ($visualDeliveryIntent -and ($resGraphVramStatus -eq "code_loaded_tiles_unmeasured" -or ($codeLoadedStatus -eq "code_loaded_tiles_unmeasured" -and -not $hasExplicitVramEvidence))) {
             $msg = "Runtime carrega/desenha tiles por codigo C e o budget VDP esta apenas estimado; entrega visual/AAA exige auditoria explicita ou dump VDP."
             Write-Log $msg (Get-BlockingStatusLogLevel "code_loaded_tiles_unmeasured")
             Add-BlockingStatus $results "code_loaded_tiles_unmeasured" $msg "res_graph" $resGraphStatus.report_path @{
                 res_graph_vram_status = $resGraphVramStatus
                 code_loaded_tiles_status = $codeLoadedStatus
                 measurement_level = Get-SafeString (Get-ObjectPropertyValue $resGraphVram "measurement_level" "") ""
+                measured_evidence_status = $measuredEvidenceStatus
             }
             $results.status_panel.validado_budget = $false
         }
@@ -6203,7 +6218,7 @@ if ($criticalSceneConversionIntent) {
     $tilemapFlagSchemaPath = Join-Path $PSScriptRoot "schemas\tilemap_flag_report.schema.json"
     $paletteConflictSchemaPath = Join-Path $PSScriptRoot "schemas\per_tile_palette_conflict_report.schema.json"
 
-    $sceneObserved = Get-ObservedReportStatus -ReportPath $sceneTilemapConversionReportPath -DependencyPaths @($sceneContractCompileReportPath, $resGraphReportPath, $techniqueManifestPathForCritical)
+    $sceneObserved = Get-ObservedReportStatus -ReportPath $sceneTilemapConversionReportPath -DependencyPaths $sceneTilemapConversionDependencies
     $flagObserved = Get-ObservedReportStatus -ReportPath $tilemapFlagReportPath -DependencyPaths @($sceneTilemapConversionReportPath, $techniqueManifestPathForCritical)
     $paletteObserved = Get-ObservedReportStatus -ReportPath $perTilePaletteConflictReportPath -DependencyPaths @($sceneTilemapConversionReportPath, $techniqueManifestPathForCritical)
 

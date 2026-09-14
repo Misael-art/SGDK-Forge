@@ -1,5 +1,16 @@
 # Changelog Canonico - KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]
 
+## 2026-09-09 — migração do simulador e regressão Linux
+
+- migradas as duas cópias locais do `vdp_scanline_simulator.py` para a versão
+  canônica 1.2.0, preservando os demais arquivos `.agent`;
+- hashes local/canônico reconciliados em
+  `5b0afd5b20d3993468a62c562f2cea2e14b767c5acfa7de12e2d7f880915b3ab`;
+- self-check aprovado com geometria de células, limites H40/H32 e headroom;
+- regressão `branding_sequence` executada pela rota Linux Flatpak, mas
+  bloqueada por mismatch de cena: esperado `0`, observado `2` (MENU);
+- nenhum `.res`, build ou ROM foi alterado por esta migração.
+
 ## Estado Inicial
 
 - projeto bootstrapado a partir do wrapper central

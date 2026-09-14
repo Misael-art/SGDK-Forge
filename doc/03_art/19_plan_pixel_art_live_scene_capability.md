@@ -201,3 +201,13 @@ O Forge so e "capaz de forma eficaz" quando:
 - isso foi visto no emulador.
 
 Ate la, o status honesto e: **piso escrito, capacidade nao provada**.
+
+
+## Adaptacao de referencias retro — 2026-09-07
+
+Referencia recebida de Pixel Art v2 foi contextualizada em
+`art-conversion-pipeline/references/retro-presets-megadrive.md`, na arvore
+canonica de skills. A rota reutiliza `forge-art`; MP4/GIF sao previews,
+filtro/dither nao substitui traducao nativa, e o oraculo de cor permanece unico.
+A regressao tecnica desta rodada nao altera o status das fases 2, 4 ou 6.
+Resultados: `doc/diagnostics/2026_09_07_proficiency/implementation_report.md`.

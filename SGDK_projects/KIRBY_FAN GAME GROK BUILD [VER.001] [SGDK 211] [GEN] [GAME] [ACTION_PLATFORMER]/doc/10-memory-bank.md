@@ -10,6 +10,18 @@
 - Gate AAA: `ready_for_aaa=False`
 <!-- SGDK GENERATED STATUS END -->
 
+## Atualizacao vigente — 2026-09-09: instrumento migrado e regressao de cena bloqueada
+
+- as duas cópias locais do `vdp_scanline_simulator.py` foram migradas para a
+  versão canônica 1.2.0; SHA local/canônico:
+  `5b0afd5b20d3993468a62c562f2cea2e14b767c5acfa7de12e2d7f880915b3ab`;
+- self-check passou nas cópias normal e aninhada, incluindo geometria de
+  células, limites H40/H32 e headroom;
+- regressão Linux/Flatpak de `branding_sequence` selou evidência, mas
+  observou `captured_app_scene_id=2` contra `expected_app_scene_id=0`;
+- a captura não certifica performance sustentada, áudio, arte final ou AAA;
+  `ready_for_aaa=false` permanece.
+
 # 10 — Memory Bank — KIRBY_FAN GAME GROK BUILD
 
 **Ultima atualizacao:** 2026-08-08

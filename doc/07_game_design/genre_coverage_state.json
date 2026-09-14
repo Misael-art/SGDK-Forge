@@ -100,9 +100,9 @@
   },
 
   "coverage_summary": {
-    "specializations_with_level_a": 1,
-    "specializations_active_without_project": 5,
-    "coverage_ratio_over_active": "1/6",
+    "specializations_with_level_a": 2,
+    "specializations_active_without_project": 4,
+    "coverage_ratio_over_active": "2/6",
     "coverage_ratio_over_registry": "1/38",
     "statement": "Cobertura registrada nao significa dominio. Um subgenero active sem projeto opt-in continua com cobertura zero."
   },
@@ -248,6 +248,29 @@
       "genre_applicable": false,
       "rom_sha256": null,
       "notes": "Sem out/rom.bin no root do estudo. Viewer aninhado showdown_viewer permanece context_type=unclassified."
+    },
+    {
+      "project": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+      "path": "SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+      "folder_genre_tag": "FIGHTING",
+      "context_type": "aaa_game",
+      "context_status": "active",
+      "delivery_claim_ceiling": "vertical_slice",
+      "evidence_level": "A",
+      "assigned_specialization": "fighting_2d_traditional",
+      "opt_in_manifest": "doc/genre_specialization_manifest.json",
+      "human_authorization": "2026-09-05 (project_owner via E2E activation)",
+      "validator": "tools/sgdk_wrapper/validate_fighting_specialization.ps1",
+      "validator_report": "out/logs/fighting_specialization_report.json",
+      "validator_status": "ok",
+      "validator_summary": "passed=11 warned=0 failed=0; roster=6; training mode declared; phase=vertical_slice",
+      "rom_sha256": "bc2120e83ae6ae280a6f2146c24c7b5e9989c161a112e8b829a72f528b748cb0",
+      "rom_date": "2026-09-05",
+      "evidence_counts": {"png": 0, "save_sram": 0, "visual_vdp_dump": 0},
+      "evidence_bound_to_rom": false,
+      "evidence_note": "Genero atribuido no nivel A; build Wine bridge selado pelo hash bc2120e83ae6ae280a6f2146c24c7b5e9989c161a112e8b829a72f528b748cb0; runtime, BlastEm e cobertura de hardware ainda nao foram promovidos.",
+      "methodology_report_status": "passed",
+      "notes": "Primeiro projeto opt-in fighting do workspace; build de prova concluido, sem evidencia de emulador. O relatorio do validador registra falha interna de self-validation por OrderedDictionary, embora o resumo de regras seja passed=11 warned=0 failed=0; nao confundir atribuicao de genero com entrega runtime."
     }
   ],
 
@@ -270,8 +293,8 @@
       "family": "fighting",
       "active_specialization": "fighting_2d_traditional",
       "validator_exists": true,
-      "projects_on_disk": 0,
-      "statement": "Cobertura zero. HYBRIDO_MUAY_THAI e exercise e nao credencia; report do benchmark e generalista."
+      "projects_on_disk": 1,
+      "statement": "TAIKETSU ULTRA REBIRTH e o projeto opt-in ativo; HYBRIDO_MUAY_THAI continua exercise e nao credencia."
     },
     {
       "family": "horror",

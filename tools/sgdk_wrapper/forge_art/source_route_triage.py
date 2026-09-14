@@ -22,7 +22,7 @@ from forge_art import foreground_matte, schema_gate, visual_workset
 
 
 TOOL_NAME = "forge_art.source_route_triage"
-TOOL_VERSION = "1.0.0"
+TOOL_VERSION = "1.1.0"
 REGISTRY_PATH = Path(__file__).with_name("route_prior_registry.json")
 EFFECT_FIELDS = (
     "ground_shadow", "dust_or_particles", "smoke_or_clouds", "floor_line",
@@ -532,15 +532,33 @@ def _selected_routes(registry: dict[str, Any], source_class: str, policy: str,
         for route_id in profile.get(category, []):
             category_for[route_id] = category
     if policy == "preferred_plus_challengers":
-        allowed = set(profile.get("preferred_prior", []) + profile.get("viable_challenger", []))
+        selected: list[str] = []
+
+        def take_first(candidates: list[str]) -> None:
+            for route_id in candidates:
+                if route_id not in selected:
+                    selected.append(route_id)
+                    return
+
+        preferred = profile.get("preferred_prior", [])
+        viable = profile.get("viable_challenger", [])
+        experimental = profile.get("experimental", [])
+        negative = profile.get("negative_control", [])
+        take_first(preferred or viable or experimental)
+        take_first(viable or preferred[1:] or experimental)
         if include_negative:
-            allowed.update(profile.get("negative_control", []))
-        if include_unavailable:
-            allowed.update(profile.get("host_optional_unavailable", []))
+            take_first(negative)
+        if len(selected) < 3:
+            take_first(experimental + preferred + viable)
+        allowed = set(selected[:3])
     else:
         allowed = set(category_for)
-    return [(route, category_for[route["route_id"]]) for route in registry["routes"]
-            if route["route_id"] in allowed]
+    by_id = {route["route_id"]: route for route in registry["routes"]}
+    if policy == "preferred_plus_challengers":
+        ordered_ids = [route_id for route_id in selected[:3] if route_id in by_id]
+    else:
+        ordered_ids = [route["route_id"] for route in registry["routes"] if route["route_id"] in allowed]
+    return [(by_id[route_id], category_for[route_id]) for route_id in ordered_ids]
 
 
 def _version(command: str, args: list[str]) -> str:
@@ -753,6 +771,11 @@ def run_shootout_from_spec(project_root: Path, spec_path: Path) -> dict[str, Any
     root = project_root.resolve()
     visual_workset.enforce_operation(root, "mechanical_route_shootout")
     spec = _load_json(spec_path)
+    if spec.get("route_policy") == "all_applicable" and (
+        "_agent_laboratory" not in {part.lower() for part in root.parts}
+        and "[LAB]" not in root.name.upper()
+    ):
+        raise TriageError("all_applicable_requires_agent_laboratory")
     visual_workset.enforce_declared_source(
         root, spec["source_path"], require_production_eligible=True
     )
@@ -834,6 +857,11 @@ def self_check() -> dict[str, Any]:
         }
         shootout = run_shootout(root, shootout_spec, allowed_backends={"Pillow"})
         add("shootout_emits_causal_routes", shootout["executed"] == len(PIL_FILTERS) and not shootout["verification"]["blocking"], str(shootout["verification"]))
+        bounded = _selected_routes(_registry(), "high_res_full_body_character",
+                                   "preferred_plus_challengers", True, True)
+        add("production_shootout_is_bounded_to_three_hypotheses",
+            [item[0]["route_id"] for item in bounded] ==
+            ["im_lanczos3", "im_catmull_rom", "im_nearest"], str(bounded))
         passed_route = next(route for route in shootout["routes"] if route["status"] == "passed")
         forged = json.loads(json.dumps(shootout)); forged_route = next(route for route in forged["routes"] if route["status"] == "passed")
         forged_route["algorithm"] = "FORGED"

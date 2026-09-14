@@ -84,10 +84,12 @@ PYTHONPATH=tools/sgdk_wrapper python3 -m forge_art route-shootout \
   --spec "<project>/<route_shootout_spec.json>"
 ```
 
-`all_applicable` is the default for a new source class or important asset. It
-runs every available deterministic backend and preserves unavailable routes as
-explicit skips. `preferred_plus_challengers` is allowed only after the source
-class already has useful evidence.
+`preferred_plus_challengers` is the production default: one primary, one
+materially different challenger and one control. `all_applicable` is reserved
+for a one-time laboratory calibration of a genuinely new source class and its
+a CLI aceita essa politica somente sob `_agent_laboratory`/`[LAB]`; seus
+resultados devem atualizar o prior registry antes de a producao continuar. Uma
+quarta rota produtiva exige hipotese causal nova, nao outro valor de parametro.
 
 Every executed route must bind:
 
@@ -151,6 +153,10 @@ End a route, not the asset, after two equivalent failures. Change producer,
 representation, source or hypothesis. Stop the asset only for missing rights or
 identity authority, an indispensable product decision, measured hardware
 impossibility, or real exhaustion of distinct safe routes.
+
+Validator reruns, schema fixes, reports, builds and previews do not count as
+artistic attempts. An artistic retry exists only when pixels or the causal
+production hypothesis changed and the delta is inspectable.
 
 No artifact from this protocol supports `visual_pass`, `ready_for_res`, ROM or
 AAA without the downstream native, technical, budget, human and emulator gates.

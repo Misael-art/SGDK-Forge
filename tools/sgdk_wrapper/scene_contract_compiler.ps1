@@ -55,6 +55,7 @@ if ([string]::IsNullOrWhiteSpace($RegressionPath)) {
 $ContractPath = Join-Path $ProjectRoot 'doc\scene-contracts.json'
 $LogDir = Join-Path $ProjectRoot 'out\logs'
 $ReportPath = Join-Path $LogDir 'scene_contract_compile_report.json'
+$SpecRelativePath = [System.IO.Path]::GetRelativePath($ProjectRoot, $SpecPath) -replace '\\', '/'
 
 # ---------------------------------------------------------------------------
 # Artifact envelope
@@ -457,7 +458,7 @@ $contract = [ordered]@{
     schema_version  = '1.0.0'
     project_profile = $Mode
     compiled_at     = (Get-Date).ToUniversalTime().ToString('o')
-    compiled_from   = $SpecPath
+    compiled_from   = $SpecRelativePath
     scenes          = @($contractScenes.ToArray())
 }
 
@@ -520,7 +521,14 @@ if (Test-Path -LiteralPath $lintScript -PathType Leaf) {
             '-WarnOnly'
         )
         $lintArgumentList = @('-NoProfile', '-ExecutionPolicy', 'Bypass') + $lintArgs
-        $lintOutput = & powershell.exe @lintArgumentList 2>&1
+        $lintExecutable = Get-Command powershell.exe -ErrorAction SilentlyContinue
+        if ($null -eq $lintExecutable) {
+            $lintExecutable = Get-Command pwsh -ErrorAction SilentlyContinue
+        }
+        if ($null -eq $lintExecutable) {
+            throw 'No PowerShell executable found for scene contract lint.'
+        }
+        $lintOutput = & $lintExecutable.Source @lintArgumentList 2>&1
         foreach ($line in @($lintOutput)) {
             if (-not [string]::IsNullOrWhiteSpace([string]$line)) {
                 Write-Host $line

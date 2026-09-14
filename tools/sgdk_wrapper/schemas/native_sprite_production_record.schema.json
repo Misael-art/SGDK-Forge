@@ -23,9 +23,17 @@
     "methodology_reference"
   ],
   "properties": {
-    "schema_version": {"enum": ["1.3.0", "1.4.0"]},
+    "schema_version": {"enum": ["1.3.0", "1.4.0", "1.5.0"]},
     "asset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
     "asset_kind": {"enum": ["sprite_single", "sprite_family", "animation_strip", "fx_sprite"]},
+    "asset_profile": {
+      "enum": ["generic_sprite", "fighting_full_body_sprite", "fighting_portrait", "fx_sprite"]
+    },
+    "semantic_guard_contract": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required by schema 1.5 for fighting_full_body_sprite; path to the hash-bound fighting semantic/scale contract."
+    },
     "provenance": {
       "type": "object",
       "additionalProperties": false,
@@ -35,7 +43,7 @@
           "type": "string",
           "enum": ["native_image_tool", "cli_headless", "agent_operated_native_editor_draft", "human_pixel_editor", "generative_image_producer", "native_pixel_source"]
         },
-        "source_kind": {"type": "string", "enum": ["ai_authored_pixel", "native_pixel", "hand_authored_pixel", "photo_or_render_derived", "procedural_primitive"]},
+        "source_kind": {"type": "string", "enum": ["ai_authored_pixel", "native_pixel", "hand_authored_pixel", "photo_or_render_derived", "procedural_primitive", "procedural_code_probe"]},
         "producer_identity": {"type": "string"},
         "action_log": {"type": "string"},
         "human_approval": {"type": "string", "description": "path to a real human approval record, required when the channel claims human authorship"}
@@ -366,6 +374,16 @@
     "status": {"enum": ["visual_source_ready", "native_authoring", "technical_candidate", "rework", "pending_scale_probe_generation", "pending_scale_decision", "ready_for_animation", "ready_for_res", "runtime_candidate", "delivery_candidate"]},
     "next_action": {"type": "string", "minLength": 1}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": "1.5.0"}}},
+      "then": {"required": ["asset_profile"]}
+    },
+    {
+      "if": {"properties": {"asset_profile": {"const": "fighting_full_body_sprite"}}, "required": ["asset_profile"]},
+      "then": {"required": ["semantic_guard_contract"]}
+    }
+  ],
   "$defs": {
     "gate_status": {"enum": ["not_started", "in_progress", "passed", "failed", "blocked", "not_applicable"]},
     "shape_artifact": {

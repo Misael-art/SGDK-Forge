@@ -9,7 +9,9 @@ probes, arquivos rejeitados ou mais de uma epoca visual.
 a participar da iteracao atual. Ele nao substitui proveniencia, contrato visual,
 GDD, pixel gate, budget ou aprovacao humana.
 
-- `production_sources`: unicas imagens que podem possuir pixels novos.
+- `production_sources`: unicas imagens que podem fornecer pixels ou underlay;
+  cada entrada declara um unico papel causal (`identity_authority`,
+  `translation_source` ou `native_incumbent`) e hash.
 - `reference_only_sources`: orientam qualidade, pose ou estudo; nunca fornecem
   pixels, underlay, img2img, baseline de geracao ou cluster copiavel.
 - `forbidden_source_roots`: historico, staging, evidencias e runtime que nao
@@ -48,3 +50,8 @@ spec ou builder continua ativo. A quarentena so existe quando o grafo de
 producao nao consegue alcanca-lo. `visual_lab_control`, `negative_evidence`,
 `procedural_code_probe`, `historical_superseded` e `runtime_evidence_only`
 nunca sao fontes de pixels.
+
+Retrato, icon, HUD, thumbnail, screenshot, mapa semantico, owner/shade map,
+silhueta derivada, edge map, XPM/matriz textual, evidencia de runtime e probe
+mecanico ficam obrigatoriamente fora de `production_sources`. Um artefato
+derivado nao pode retornar como autoridade, underlay ou fonte de escala.

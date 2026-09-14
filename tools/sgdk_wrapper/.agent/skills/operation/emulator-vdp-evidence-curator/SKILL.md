@@ -18,6 +18,7 @@ conta propria.
 - cena/estado esperado
 - claims visuais, VDP ou runtime a fechar
 - contratos de SRAM ou VDP dump aplicaveis
+- `out/logs/blastem_capture_route_report.json` fresco para o host atual
 
 ### Saida minima
 
@@ -30,6 +31,8 @@ conta propria.
 ### Passa quando
 
 - o hash capturado coincide com a ROM atual
+- a rota de captura pertence ao host declarado: Linux usa Flatpak/XWayland;
+  Windows usa PowerShell/Win32
 - todos os artefatos declarados existem e possuem hash no selo
 - a evidencia nao esta stale
 - o emulador e os artefatos satisfazem o claim declarado
@@ -45,6 +48,8 @@ conta propria.
   `testado_em_emulador` apenas por build.
 - BizHawk nao substitui o gate BlastEm.
 - Relatorio textual nao substitui screenshot, SRAM ou VDP dump exigido.
+- `System.Windows.Forms` ausente em Linux nao e blocker de emulador; e selecao
+  indevida do backend Windows e deve ser corrigida antes de atribuir causa ao host.
 
 ## Freeze, Capture, Seal
 

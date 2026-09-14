@@ -43,13 +43,13 @@
     },
     "artifacts": {
       "type": "array",
-      "maxItems": 5,
+      "maxItems": 6,
       "items": {
         "type": "object",
         "additionalProperties": false,
         "required": ["name", "path", "session_id", "rom_sha256", "sha256", "size_bytes", "captured_at"],
         "properties": {
-          "name": { "enum": ["rom", "screenshot", "sram", "vdp_dump", "runtime_metrics"] },
+          "name": { "enum": ["rom", "screenshot", "sram", "vdp_dump", "runtime_metrics", "audio_raw"] },
           "path": { "type": "string", "minLength": 1 },
           "session_id": { "type": "string", "minLength": 1 },
           "rom_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },

@@ -1,5 +1,19 @@
 # Changelog — GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]
 
+## 2026-09-09 — migração do simulador e regressão Linux
+
+- migrado `.agent/scripts/vdp_scanline_simulator.py` local para a versão
+  canônica 1.2.0, preservando os demais arquivos `.agent`;
+- hashes local e canônico reconciliados em
+  `5b0afd5b20d3993468a62c562f2cea2e14b767c5acfa7de12e2d7f880915b3ab`;
+- self-check aprovado com geometria de células, limites H40/H32 e headroom;
+- regressão `branding_sequence` executada pela rota Linux Flatpak e selada,
+  mas bloqueada por mismatch: esperado `scene_id=0`, observado `scene_id=4`;
+- telemetria do bundle registrou 661 frames acima do budget, pico de 21
+  sprites/scanline, carga CPU 213 e 91 sprites ativos;
+- `ready_for_aaa`/`technical_demo_ready` permanece falso até corrigir o
+  contrato de cena e o budget medido.
+
 ## [0.2.0] - 2026-08-29
 ### Adicionado
 - Síntese e injeção de 11 assets gráficos padrão AAA em pixel art autêntica dos anos 90 no estilo Dark Deco (Gotham Skyline BGB, Perspective Roadway BGA, Batmóvel 4 frames, Chassi Two-Face, Torre giratória 8 direções, Esteiras animadas, Pod lançador, Drones de ataque, Atlas de projéteis e Atlas de partículas).

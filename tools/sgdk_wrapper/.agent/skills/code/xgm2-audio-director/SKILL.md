@@ -25,7 +25,7 @@ prova audio **carregado** no DMA; XGM2 pode perder para XGM1 nesse recorte
 ## Ler antes de agir
 
 1. `doc/05_technical/93_16bit_hardware_mastery_registry.json`
-2. `sdk/sgdk-2.11/inc/xgm2.h`
+2. `sdk/sgdk-2.11/inc/snd/xgm2.h`
 3. samples oficiais relevantes em `sdk/sgdk-2.11/sample/`
 4. `tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/sgdk_211_api_reality.json`
 5. `references/audio_event_contract.json`
@@ -36,6 +36,10 @@ prova audio **carregado** no DMA; XGM2 pode perder para XGM1 nesse recorte
 10. `tools/sgdk_wrapper/schemas/composition_scope_contract.schema.json`
 11. `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/audio_architecture_card.example.json`
 12. `tools/audio-tools/README.md`
+
+Para criar notas, motivos e arranjo nativo, use tambem
+`../megadrive-music-composition/SKILL.md`. A composicao entrega VGM e fonte
+autoral; esta skill fecha ownership, eventos e prova da mix em runtime.
 
 ## Quando usar
 

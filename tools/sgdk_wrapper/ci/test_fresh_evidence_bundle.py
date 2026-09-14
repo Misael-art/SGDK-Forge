@@ -37,6 +37,8 @@ class FreshEvidenceBundleTests(unittest.TestCase):
                     image.paste(((x * 3) % 256, (y * 5) % 256, ((x + y) * 2) % 256), (x, y, x + 8, y + 8))
         image.save(screenshot)
         metric_words = [1, 0, 300, 320, 224, 64, 32, 3, 0, 0, 0, 0, 0, 0, 0, 22, 180, 35, 0, 8, 6, 0, 0, 60]
+        metric_words += [7, 3, 0, 10, 0, 20, 0, 30, 3584, 7, 7600, 0, 91, 4096, 2, 7600, 0, 92, 45]
+        metric_words += [4, 16, 500, 516, 100, 616, 20, 636, 20]
         palette_words = list(range(64))
         payload = b"VLAB" + struct.pack(">HH", 1, 8 + (len(metric_words) + len(palette_words)) * 2)
         payload += struct.pack(f">{len(metric_words) + len(palette_words)}H", *(metric_words + palette_words))
@@ -68,6 +70,12 @@ class FreshEvidenceBundleTests(unittest.TestCase):
             self.assertEqual(metrics["vlab"]["over_budget_frames"], 35)
             self.assertEqual(metrics["vlab"]["max_cpu_load"], 0)
             self.assertEqual(metrics["vlab"]["target_fps"], 60)
+            self.assertEqual(metrics["vlab"]["max_preload_dma_transfer_bytes"], 4096)
+            self.assertEqual(metrics["vlab"]["max_preload_dma_queue_entries"], 2)
+            self.assertEqual(metrics["vlab"]["preload_dma_observation_count"], 45)
+            self.assertEqual(metrics["vlab"]["runtime_vram_load_range_count"], 4)
+            self.assertFalse(metrics["vlab"]["runtime_vram_load_range_overflow"])
+            self.assertEqual(metrics["vlab"]["runtime_vram_load_ranges"][1]["tile_count"], 100)
 
     def test_different_rom_identity_is_blocked(self) -> None:
         with tempfile.TemporaryDirectory(prefix="sgdk_fresh_bundle_") as temp:

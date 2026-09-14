@@ -5,6 +5,9 @@ description: Use quando assets visuais ja existem e precisam ser convertidos ou 
 
 # Art Conversion Pipeline
 
+Para adaptar referencias de filtros/presets retro, leia
+[retro-presets-megadrive.md](references/retro-presets-megadrive.md).
+
 Use esta skill quando o projeto tiver assets brutos em `/data` ou assets inadequados em `/res` que precisam ser convertidos para o padrao SGDK.
 
 ---

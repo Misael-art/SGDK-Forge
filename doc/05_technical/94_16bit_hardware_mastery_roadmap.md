@@ -339,3 +339,15 @@ Falha de regressao:
 
 - rebaixa a tecnica para `candidate_with_evidence` ou `partial`
 - nunca manter `senior_default` com falha escondida
+
+
+## Execucao do diagnostico E2E — 2026-09-07
+
+A implementacao e os limites da rodada corrente estao em
+`doc/diagnostics/2026_09_07_proficiency/implementation_report.md`.
+CI de recursos exige FORGE_REFERENCE explicitamente. Runner Linux separado
+fecha build, captura e contratos ROM-side com hash unico. O SDK usa inventario
+de conteudo e serializacao de staging. A nova skill
+`code/megadrive-music-composition` liga partitura PSG ao conversor oficial XGM2;
+arranjo FM/PCM completo continua dependente de fonte autoral e prova integrada.
+Isso nao promove as entradas do registry a `blastem_proven` ou `senior_default`.

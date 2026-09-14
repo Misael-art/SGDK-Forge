@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "project_local",
+  "canonical_promotion_performed": false,
+  "rom_sha256": "532d44539809e40ad3ae8150532f27c91d7f638ee12d6b194cd53897f294a953",
+  "lessons": [
+    {
+      "id": "flatpak_config_override",
+      "cause": "Flatpak replaces XDG_CONFIG_HOME passed by --env; the packaged BlastEm patch treats that directory directly as its config directory.",
+      "change": "Set XDG_CONFIG_HOME inside the sandbox shell to the project directory containing blastem.cfg; preserve the complete packaged default configuration before adding P2 bindings.",
+      "source": "https://raw.githubusercontent.com/flathub/com.retrodev.blastem/master/0001-Add-support-for-Flatpak-config-data-dir-variables.patch",
+      "evidence": "out/emulator_evidence/visual_ko_20260913T114321Z/zero_2_result.png"
+    },
+    {
+      "id": "fight_entry_before_ko_sampling",
+      "cause": "A failed selection leaves both health sampling areas black; zero yellow alone falsely suggests KO. PAL also changes the vertical framing of the NTSC name template.",
+      "change": "Require visible fight HUD before the attack script. Cover the complete upper HUD band for PAL/NTSC sampling. Always review winner text and fighter state; do not approve by sample count.",
+      "implementation": "rascunho/temporario/capture_visual_ko.py"
+    },
+    {
+      "id": "isolated_emulator_state_and_audio",
+      "cause": "ROM copies all called rom.bin otherwise reuse the same global SRAM directory; desktop audio includes unrelated applications.",
+      "change": "Use session-local XDG_DATA_HOME; optional dedicated null sink with explicit PULSE_SINK, monitor capture and own-stream metadata. Unload only that temporary sink at exit.",
+      "implementation": "rascunho/temporario/capture_visual_ko.py",
+      "claim_limit": "Audio capture is not an artistic/listening approval; recording cadence is not ROM loop FPS."
+    },
+    {
+      "id": "verify_actual_pulse_route",
+      "cause": "Host audio policy sent the BlastEm stream to the DSP sink despite PULSE_SINK; the requested isolated monitor was empty and its WAV silent.",
+      "change": "Identify exactly one newly created blastem.bin sink-input, move only that stream to the session sink and verify actual assignment before capture.",
+      "rejected_audio": "out/emulator_evidence/visual_ko_20260913T114702Z/emulator_audio.wav",
+      "claim_limit": "PAL gameplay evidence remains usable; its silent audio is not a passing audio test."
+    }
+  ]
+}

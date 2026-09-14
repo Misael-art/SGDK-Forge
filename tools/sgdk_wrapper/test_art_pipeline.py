@@ -1014,6 +1014,18 @@ def test_cli_exists_and_fails_closed_on_unimplemented(tmp_dir: Path):
     }
     shootout_spec_path = project / "route_shootout_spec.json"
     shootout_spec_path.write_text(json.dumps(shootout_spec), encoding="utf-8")
+    excessive_spec = json.loads(json.dumps(shootout_spec))
+    excessive_spec["route_policy"] = "all_applicable"
+    excessive_spec["output_dir"] = "out/route_shootout_excessive_fixture"
+    excessive_spec_path = project / "route_shootout_excessive_spec.json"
+    excessive_spec_path.write_text(json.dumps(excessive_spec), encoding="utf-8")
+    excessive = subprocess.run([
+        sys.executable, "-m", "forge_art", "route-shootout",
+        "--project-root", str(project), "--spec", str(excessive_spec_path),
+    ], capture_output=True, text=True, cwd=str(SCRIPT_DIR))
+    assert_equal("production shootout rejeita all_applicable", 1, excessive.returncode)
+    assert_in("all_applicable fica restrito ao laboratorio",
+              "all_applicable_requires_agent_laboratory", excessive.stdout)
     shootout = subprocess.run([
         sys.executable, "-m", "forge_art", "route-shootout",
         "--project-root", str(project), "--spec", str(shootout_spec_path),

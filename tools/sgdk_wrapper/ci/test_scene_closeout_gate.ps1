@@ -53,6 +53,19 @@ foreach ($expected in @("build", "scene_contract_compiler", "res_graph_audit", "
 }
 $compilerStep = $report.steps | Where-Object { $_.name -eq "scene_contract_compiler" } | Select-Object -First 1
 Assert-True ($compilerStep -and (@($compilerStep.arguments) -contains "production")) "Expected closeout compiler to use production mode"
+$captureStep = $report.steps | Where-Object { $_.name -eq "runtime_capture" } | Select-Object -First 1
+$routeReportPath = Join-Path $LogDir "blastem_capture_route_report.json"
+Assert-True (Test-Path -LiteralPath $routeReportPath -PathType Leaf) "Expected host-bound BlastEm route report"
+$routeReport = Get-Content -LiteralPath $routeReportPath -Raw | ConvertFrom-Json
+$isWindowsHost = [System.Environment]::OSVersion.Platform -eq [System.PlatformID]::Win32NT
+if ($isWindowsHost) {
+    Assert-True ($routeReport.selected_route -eq "windows_powershell_blastem") "Windows plan selected the wrong BlastEm backend"
+    Assert-True ((@($captureStep.arguments) -join " ") -match "run_runtime_capture.ps1") "Windows plan did not select the Win32 capture script"
+} else {
+    Assert-True ($routeReport.selected_route -eq "linux_flatpak_blastem") "Linux plan selected the wrong BlastEm backend"
+    Assert-True ((@($captureStep.arguments) -join " ") -match "capture_blastem_evidence_linux.sh") "Linux plan did not select the Linux capture script"
+    Assert-True ((@($captureStep.arguments) -join " ") -notmatch "run_runtime_capture.ps1") "Linux plan leaked the Win32 capture script"
+}
 
 $BlockedProjectRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("sgdk_scene_closeout_blocked_test_{0}" -f ([guid]::NewGuid().ToString("N")))
 $BlockedDocDir = Join-Path $BlockedProjectRoot "doc"

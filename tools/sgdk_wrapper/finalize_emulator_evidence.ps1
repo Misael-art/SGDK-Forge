@@ -167,6 +167,7 @@ $report = [ordered]@{
     failure_reason = $failureReason
     rom_path = $RomPath
     evidence_path = $EvidencePath
+    session_id = if ($evidence -and ($evidence.PSObject.Properties.Name -contains "session_id")) { [string]$evidence.session_id } else { $null }
     captured_rom_sha256 = $capturedHash
     current_rom_sha256 = $currentHash
     rom_identity_stable = $sealed

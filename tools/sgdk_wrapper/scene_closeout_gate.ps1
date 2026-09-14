@@ -50,7 +50,7 @@ if (Test-Path -LiteralPath $modulePath -PathType Leaf) {
 }
 
 $script:ToolName = 'scene_closeout_gate'
-$script:ToolVersion = '0.4.0'
+$script:ToolVersion = '0.5.0'
 $script:WrittenOk = $false
 $script:FailureMessage = ''
 $script:ExitCode = 1
@@ -80,6 +80,7 @@ try {
         $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
     }
     $pythonHostPath = if ($null -ne $pythonCommand) { $pythonCommand.Source } else { "python" }
+    $isLinuxHost = ($PSVersionTable.PSEdition -eq "Core" -and [System.Environment]::OSVersion.Platform -eq [System.PlatformID]::Unix)
     $LogDir = Join-Path $ProjectRoot "out\logs"
     if (-not (Test-Path -LiteralPath $LogDir -PathType Container)) {
         New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
@@ -160,6 +161,39 @@ function Get-SceneRegressionCloseoutIntent {
     }
 }
 
+function Resolve-BlastEmCaptureRoute {
+    param(
+        [Parameter(Mandatory = $true)][string]$Root,
+        [Parameter(Mandatory = $true)][string]$PythonPath,
+        [Parameter(Mandatory = $true)][string]$SelectorPath,
+        [Parameter(Mandatory = $true)][string]$RouteReportPath,
+        [Parameter(Mandatory = $true)][int]$Target
+    )
+
+    $outputBase = Join-Path $Root "out\evidence\blastem_current"
+    # The wrapper location is authoritative. A stale MD_ROOT inherited from a
+    # different workspace must not redirect host/capture routing.
+    $selectorRepoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
+    $selectorArgs = @(
+        $SelectorPath,
+        "--repo-root", $selectorRepoRoot,
+        "--project-root", $Root,
+        "--target-scene", ([string]$Target),
+        "--output-base", $outputBase,
+        "--output", $RouteReportPath,
+        "--powershell-command", $powerShellHostPath
+    )
+    & $PythonPath @selectorArgs | Out-Null
+    if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $RouteReportPath -PathType Leaf)) {
+        throw "host_executor_route_mismatch: capture route selector failed. report=$RouteReportPath"
+    }
+    $route = Get-Content -LiteralPath $RouteReportPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ([string]$route.status -ne "selected") {
+        throw "host_executor_route_mismatch: capture route blocked. decision=$($route.decision) blockers=$(@($route.blockers) -join ',')"
+    }
+    return $route
+}
+
 function Invoke-CloseoutStep {
     param([Parameter(Mandatory = $true)]$Step)
 
@@ -230,7 +264,11 @@ if (-not $SkipBuild) {
 
 if (-not $SkipRuntimeCapture) {
     if ($TargetScene -ge 0) {
-        [void]$steps.Add((New-Step -Name "runtime_capture" -Kind "emulator" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "run_runtime_capture.ps1"), "-ProjectDir", $ProjectRoot, "-TargetScene", ([string]$TargetScene), "-Emulator", "blastem") -Required $true))
+        $captureRouteReportPath = Join-Path $LogDir "blastem_capture_route_report.json"
+        $captureRoute = Resolve-BlastEmCaptureRoute -Root $ProjectRoot -PythonPath $pythonHostPath -SelectorPath (Join-Path $ScriptRoot "select_blastem_capture_route.py") -RouteReportPath $captureRouteReportPath -Target $TargetScene
+        $captureCommand = [string]$captureRoute.command
+        $captureArguments = @($captureRoute.arguments | ForEach-Object { [string]$_ })
+        [void]$steps.Add((New-Step -Name "runtime_capture" -Kind "emulator" -Command $captureCommand -Arguments $captureArguments -Required $true))
     } else {
         $step = New-Step -Name "runtime_capture" -Kind "emulator" -Command $powerShellHostPath -Arguments @() -Required $false
         $step.status = "skipped"
@@ -255,14 +293,23 @@ if (-not $SkipRuntimeCapture -and $TargetScene -ge 0) {
 
 if (-not $SkipSceneRegression) {
     if ($sceneRegressionExpected -or $PlanOnly) {
-        $regressionArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "run_scene_regression.ps1"), "-ProjectRoot", $ProjectRoot)
+        $regressionCommand = $powerShellHostPath
+        if ($isLinuxHost) {
+            # The legacy runner imports the Win32/Forms automation module. On
+            # Linux, route regression through the host-selected Python runner;
+            # it delegates each capture to capture_blastem_evidence_linux.sh.
+            $regressionCommand = $pythonHostPath
+            $regressionArgs = @((Join-Path $ScriptRoot "run_scene_regression_host.py"), "--project-root", $ProjectRoot)
+        } else {
+            $regressionArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "run_scene_regression.ps1"), "-ProjectRoot", $ProjectRoot)
+        }
         if (-not [string]::IsNullOrWhiteSpace($SceneId)) {
-            $regressionArgs += @("-SceneId", $SceneId)
+            $regressionArgs += if ($isLinuxHost) { @("--scene-id", $SceneId) } else { @("-SceneId", $SceneId) }
         }
         if ($WarnOnly) {
-            $regressionArgs += @("-WarnOnly")
+            $regressionArgs += if ($isLinuxHost) { @("--warn-only") } else { @("-WarnOnly") }
         }
-        [void]$steps.Add((New-Step -Name "scene_regression" -Kind "emulator" -Command $powerShellHostPath -Arguments $regressionArgs -Required $true))
+        [void]$steps.Add((New-Step -Name "scene_regression" -Kind "emulator" -Command $regressionCommand -Arguments $regressionArgs -Required $true))
         [void]$steps.Add((New-Step -Name "validate_resources_after_scene_regression" -Kind "validation" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "validate_resources.ps1"), "-WorkDir", $ProjectRoot) -Required $true))
     } else {
         $step = New-Step -Name "scene_regression" -Kind "emulator" -Command $powerShellHostPath -Arguments @() -Required $false
@@ -274,9 +321,18 @@ if (-not $SkipSceneRegression) {
 
 [void]$steps.Add((New-Step -Name "promotion_claim_audit" -Kind "governance" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_promotion_claims.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
 
-$freshEvidenceManifestPath = Join-Path $ProjectRoot "out\evidence\blastem\evidence_manifest.json"
+# The host selector and Linux capture route seal into blastem_current. Keep the
+# legacy blastem path as a read-only compatibility fallback so closeout audits
+# the same bundle that the selected route actually produced.
+$freshEvidenceManifestPath = Join-Path $ProjectRoot "out\evidence\blastem_current\evidence_manifest.json"
+if (-not (Test-Path -LiteralPath $freshEvidenceManifestPath -PathType Leaf)) {
+    $legacyFreshEvidenceManifestPath = Join-Path $ProjectRoot "out\evidence\blastem\evidence_manifest.json"
+    if (Test-Path -LiteralPath $legacyFreshEvidenceManifestPath -PathType Leaf) {
+        $freshEvidenceManifestPath = $legacyFreshEvidenceManifestPath
+    }
+}
 if ((Test-Path -LiteralPath $freshEvidenceManifestPath -PathType Leaf) -or $PlanOnly) {
-    [void]$steps.Add((New-Step -Name "fresh_evidence_bundle_audit" -Kind "evidence" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_fresh_evidence_bundle.ps1"), "-ProjectRoot", $ProjectRoot) -Required $true))
+    [void]$steps.Add((New-Step -Name "fresh_evidence_bundle_audit" -Kind "evidence" -Command $powerShellHostPath -Arguments @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ScriptRoot "audit_fresh_evidence_bundle.ps1"), "-ProjectRoot", $ProjectRoot, "-ManifestPath", $freshEvidenceManifestPath, "-OutputPath", (Join-Path $ProjectRoot "out\logs\fresh_evidence_bundle_audit_report.json")) -Required $true))
 } else {
     $step = New-Step -Name "fresh_evidence_bundle_audit" -Kind "evidence" -Command $powerShellHostPath -Arguments @() -Required $false
     $step.status = "skipped"
@@ -362,7 +418,12 @@ if ((-not $PlanOnly) -and (Test-Path -LiteralPath $resGraphReportPath -PathType 
             if ($resGraphReport.vram.PSObject.Properties.Name -contains "code_loaded_tiles" -and $resGraphReport.vram.code_loaded_tiles) {
                 $codeLoadedStatus = [string]$resGraphReport.vram.code_loaded_tiles.status
             }
-            if ($resGraphVramStatus -eq "code_loaded_tiles_unmeasured" -or $codeLoadedStatus -eq "code_loaded_tiles_unmeasured") {
+            $measuredEvidenceStatus = ""
+            if ($resGraphReport.vram.PSObject.Properties.Name -contains "measured_evidence" -and $resGraphReport.vram.measured_evidence) {
+                $measuredEvidenceStatus = [string]$resGraphReport.vram.measured_evidence.status
+            }
+            $hasExplicitVramEvidence = ($resGraphVramStatus -eq "ok" -and $measuredEvidenceStatus -eq "valid")
+            if ($resGraphVramStatus -eq "code_loaded_tiles_unmeasured" -or ($codeLoadedStatus -eq "code_loaded_tiles_unmeasured" -and -not $hasExplicitVramEvidence)) {
                 $closeoutBlockingStatuses += "code_loaded_tiles_unmeasured"
             }
         }
@@ -511,6 +572,7 @@ $closeoutBlocked = (-not $failed) -and (-not $PlanOnly) -and ($closeoutBlockingS
         }
         steps = @($executed)
         observed_artifacts = [ordered]@{
+            blastem_capture_route = if (Test-Path -LiteralPath (Join-Path $LogDir "blastem_capture_route_report.json")) { (Join-Path $LogDir "blastem_capture_route_report.json") } else { $null }
             validation_report = if (Test-Path -LiteralPath $validationReportPath) { $validationReportPath } else { $null }
             freshness_audit_report = if (Test-Path -LiteralPath $freshnessReportPath) { $freshnessReportPath } else { $null }
             res_graph_report = if (Test-Path -LiteralPath $resGraphReportPath) { $resGraphReportPath } else { $null }

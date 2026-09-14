@@ -51,8 +51,11 @@ def load_screenshot_gate() -> Any:
     return module
 
 
-# Espelha PROBE_VLAB_PALETTE_WORDS em system/runtime_probe.c. Se mudar la, muda aqui.
+# Espelha os campos estruturais de system/runtime_probe.c. Se mudar la, muda aqui.
 PROBE_VLAB_PALETTE_WORDS = 64
+PROBE_VLAB_LEGACY_METRIC_WORDS = 43
+PROBE_VLAB_RANGE_CAPACITY = 4
+PROBE_VLAB_RANGE_WORD_OFFSET = PROBE_VLAB_LEGACY_METRIC_WORDS
 
 
 def extract_vlab(sram_path: Path, dump_path: Path) -> dict[str, Any]:
@@ -89,6 +92,32 @@ def extract_vlab(sram_path: Path, dump_path: Path) -> dict[str, Any]:
     }
 
 
+def extract_runtime_tile_ranges(words: list[int]) -> dict[str, Any]:
+    """Decode the optional scene-local tile-range extension.
+
+    Older ROMs end at the legacy metric block, so absence is represented as
+    None rather than as an empty observed result.
+    """
+    required_words = PROBE_VLAB_RANGE_WORD_OFFSET + 1 + (PROBE_VLAB_RANGE_CAPACITY * 2)
+    if len(words) < required_words:
+        return {"count": None, "overflow": None, "ranges": None}
+
+    raw_count = words[PROBE_VLAB_RANGE_WORD_OFFSET]
+    count = raw_count & 0x7FFF
+    overflow = bool(raw_count & 0x8000)
+    ranges = []
+    for index in range(min(count, PROBE_VLAB_RANGE_CAPACITY)):
+        word_index = PROBE_VLAB_RANGE_WORD_OFFSET + 1 + (index * 2)
+        start = words[word_index]
+        tile_count = words[word_index + 1]
+        ranges.append({
+            "start_tile": start,
+            "tile_count": tile_count,
+            "end_tile_exclusive": start + tile_count,
+        })
+    return {"count": count, "overflow": overflow, "ranges": ranges}
+
+
 def build_runtime_metrics(
     *,
     session_id: str,
@@ -100,6 +129,7 @@ def build_runtime_metrics(
     generated_at: str,
 ) -> dict[str, Any]:
     words = vlab["metric_words"]
+    runtime_ranges = extract_runtime_tile_ranges(words)
     fps_match = re.search(r"([0-9]+(?:\.[0-9]+)?)\s+fps", window_title, re.IGNORECASE)
     return {
         "schema_version": "1.0.0",
@@ -145,6 +175,21 @@ def build_runtime_metrics(
             # desde sempre e nunca chegavam aqui por causa do corte em 24.
             "sprite_alloc_spawned": words[24] if len(words) > 24 else None,
             "sprite_alloc_failed": words[25] if len(words) > 25 else None,
+            # words[32..36]: fila DMA observada antes do VBlank, capacidade
+            # declarada e quadro do maior upload. Ausentes em bundles legados.
+            "max_dma_queue_transfer_bytes": words[32] if len(words) > 32 else None,
+            "max_dma_queue_entries": words[33] if len(words) > 33 else None,
+            "dma_max_transfer_bytes": words[34] if len(words) > 34 else None,
+            "max_dma_queue_transfer_at_frame": _peak_frame(words, 35),
+            # words[37..42]: DMA de preload observado durante warmup.
+            "max_preload_dma_transfer_bytes": words[37] if len(words) > 37 else None,
+            "max_preload_dma_queue_entries": words[38] if len(words) > 38 else None,
+            "preload_dma_max_transfer_bytes": words[39] if len(words) > 39 else None,
+            "max_preload_dma_transfer_at_frame": _peak_frame(words, 40),
+            "preload_dma_observation_count": words[42] if len(words) > 42 else None,
+            "runtime_vram_load_range_count": runtime_ranges["count"],
+            "runtime_vram_load_range_overflow": runtime_ranges["overflow"],
+            "runtime_vram_load_ranges": runtime_ranges["ranges"],
         },
         "claim_limit": "A single window-title and VLAB snapshot does not prove sustained performance.",
     }
@@ -236,6 +281,9 @@ def seal_bundle(
         "vdp_dump": dump_path,
         "runtime_metrics": metrics_path,
     }
+    audio_path = session_root / "audio.raw"
+    if audio_path.is_file():
+        artifact_paths["audio_raw"] = audio_path
     artifact_records: list[dict[str, Any]] = []
     min_epoch = started.timestamp() - TEXT_TIME_TOLERANCE_SECONDS
     max_epoch = max(completed.timestamp(), datetime.now(timezone.utc).timestamp()) + TEXT_TIME_TOLERANCE_SECONDS
@@ -273,7 +321,7 @@ def seal_bundle(
         "artifacts": artifact_records,
         "semantic_capture_valid": bool(semantic_report and semantic_report.get("semantic_capture_valid")),
         "blockers": blockers,
-        "claim_limit": "Bundle identity and freshness only; no broad gameplay, audio, performance or AAA claim is inferred.",
+        "claim_limit": "Bundle identity and freshness only; audio_raw proves only a same-session non-empty sidecar, not audible BGM quality, mix, loop or AAA.",
     }
     manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
     freshness = {
@@ -322,11 +370,14 @@ def self_check() -> int:
             sram.write_bytes(_fixture_sram(metric))
             return extract_vlab(sram, dump)
 
-        # 1. probe atual: 32 metricas, com quadro de pico que passa de 65535
-        m32 = list(range(24)) + [7, 3, 0x0001, 0x86A1, 0, 405, 0, 91]
-        v = extract(m32)
-        if v["metric_word_count"] != 32:
-            print(f"self-check failed: 32 metricas lidas como {v['metric_word_count']} "
+        # 1. probe atual: 52 metricas, com quadros de pico que passam de 65535
+        m37 = list(range(24)) + [7, 3, 0x0001, 0x86A1, 0, 405, 0, 91]
+        m37 += [3584, 7, 7600, 0x0001, 0x1234]
+        m37 += [4096, 2, 7600, 0x0002, 0x2222, 90]
+        m37 += [4, 16, 500, 516, 100, 616, 20, 636, 20]
+        v = extract(m37)
+        if v["metric_word_count"] != 52:
+            print(f"self-check failed: 52 metricas lidas como {v['metric_word_count']} "
                   f"— o corte voltou a ser fixo", file=sys.stderr)
             return 1
         r = build_runtime_metrics(session_id="t", rom_sha256="t", vlab=v,
@@ -341,6 +392,25 @@ def self_check() -> int:
             return 1
         if r["sprite_alloc_spawned"] != 7 or r["sprite_alloc_failed"] != 3:
             print("self-check failed: contador de alocacao nao chegou ao report",
+                  file=sys.stderr)
+            return 1
+        if (r["max_dma_queue_transfer_bytes"] != 3584
+                or r["max_dma_queue_entries"] != 7
+                or r["dma_max_transfer_bytes"] != 7600
+                or r["max_dma_queue_transfer_at_frame"] != ((1 << 16) | 0x1234)
+                or r["max_preload_dma_transfer_bytes"] != 4096
+                or r["max_preload_dma_queue_entries"] != 2
+                or r["preload_dma_max_transfer_bytes"] != 7600
+                or r["max_preload_dma_transfer_at_frame"] != ((2 << 16) | 0x2222)
+                or r["preload_dma_observation_count"] != 90):
+            print("self-check failed: metricas DMA novas nao chegaram ao report",
+                  file=sys.stderr)
+            return 1
+        if (r["runtime_vram_load_range_count"] != 4
+                or r["runtime_vram_load_range_overflow"]
+                or r["runtime_vram_load_ranges"][0]["start_tile"] != 16
+                or r["runtime_vram_load_ranges"][3]["tile_count"] != 20):
+            print("self-check failed: faixas de residencia nao chegaram ao report",
                   file=sys.stderr)
             return 1
 
@@ -360,6 +430,10 @@ def self_check() -> int:
             return 1
         if r26["sprite_alloc_spawned"] != 5:
             print("self-check failed: words[24] perdida na ROM de 26", file=sys.stderr)
+            return 1
+        if r26["runtime_vram_load_range_count"] is not None:
+            print("self-check failed: ROM antiga recebeu faixa de residencia fantasma",
+                  file=sys.stderr)
             return 1
 
         # 3. sem bloco VLAB
@@ -407,7 +481,7 @@ def self_check() -> int:
     if _self_check_identity_and_freshness() != 0:
         return 1
 
-    print("seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, "
+    print("seal_fresh_evidence_bundle self-check passed (43, 37, 32 e 26 metricas sem corte fixo, "
           "hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados, "
           "identidade de ROM e frescor nos dois sentidos)")
     return 0

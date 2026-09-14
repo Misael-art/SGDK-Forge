@@ -1,0 +1,3091 @@
+{
+  "project_path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo",
+  "scenario_detected": "2_res_inadequate_check",
+  "summary": "Projeto tem 14 asset(s) ativos referenciados em /res: 14 ok, 0 precisam conversao, 0 inadequados, 0 ausentes. Ha tambem 103 asset(s) fonte em /data; issues de fonte roteiam conversao, mas nao bloqueiam o build enquanto nao forem referenciados pelo grafo .res.",
+  "total_assets": 117,
+  "ok": 19,
+  "needs_conversion": 96,
+  "inadequate": 2,
+  "absent": 0,
+  "assets": [
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/processed/branding_intro/brand_author_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 64,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/processed/branding_intro/brand_engine_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 80,
+      "color_count": 14,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/processed/branding_intro/brand_fx_tiles.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 128,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/processed/branding_intro/brand_presents_text.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 112,
+      "height": 24,
+      "color_count": 3,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/processed/branding_intro/brand_project_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 88,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_intro/production/author_panel_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1536,
+      "height": 1024,
+      "color_count": 71668,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "71668 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_intro/production/engine_mark_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2098,
+      "height": 750,
+      "color_count": 71253,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2098x750 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2104x752 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "71253 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_intro/production/project_crest_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2068,
+      "height": 760,
+      "color_count": 101263,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2068x760 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2072x760 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "101263 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/model_sheet_forge_v01.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 512,
+      "height": 384,
+      "color_count": 60,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "60 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/model_sheet_forge_v02.png",
+      "asset_type": "tileset",
+      "scenario": "inadequado",
+      "mode": "P",
+      "width": 512,
+      "height": 384,
+      "color_count": 60,
+      "has_transparency": true,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "60 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f001.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 15688,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "15688 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f002.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 16617,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "16617 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f003.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 16710,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "16710 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f004.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 17123,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "17123 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f005.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 17997,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "17997 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f006.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19620,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19620 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f007.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19815,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19815 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f008.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 22032,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "22032 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f009.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 21934,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "21934 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f010.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 24366,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "24366 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f011.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 24629,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "24629 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f012.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 26749,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "26749 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f013.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 26109,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "26109 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f014.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 27213,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "27213 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f015.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 26417,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "26417 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f016.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 28215,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "28215 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f017.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 26811,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "26811 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f018.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 27137,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "27137 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f019.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 25946,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "25946 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f020.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 25320,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "25320 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f021.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 24910,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "24910 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f022.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 26447,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "26447 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f023.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 28321,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "28321 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f024.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 33402,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "33402 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f025.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 34969,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "34969 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f026.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 43002,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "43002 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f027.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 44324,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "44324 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f028.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 47620,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "47620 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f029.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 45898,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "45898 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f030.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 45692,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "45692 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f031.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 43440,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "43440 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f032.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 43029,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "43029 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f033.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 41658,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "41658 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f034.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 45612,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "45612 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f035.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 46490,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "46490 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f036.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 47397,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "47397 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f037.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 44449,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "44449 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f038.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 39311,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "39311 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f039.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 36070,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "36070 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f040.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 30408,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "30408 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f041.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 27738,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "27738 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f042.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 24736,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "24736 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f043.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 24078,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "24078 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f044.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 23954,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "23954 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f045.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 23972,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "23972 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f046.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 24828,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "24828 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f047.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 25045,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "25045 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f048.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 27695,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "27695 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f049.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 27028,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "27028 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f050.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 29282,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "29282 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f051.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 27751,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "27751 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f052.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 28698,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "28698 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f053.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 26316,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "26316 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f054.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 25354,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "25354 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f055.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 22149,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "22149 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f056.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 20268,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "20268 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f057.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 20220,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "20220 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f058.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19900,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19900 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f059.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19875,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19875 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f060.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19836,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19836 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f061.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19754,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19754 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f062.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19797,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19797 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f063.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19805,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19805 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f064.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19844,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19844 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f065.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19855,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19855 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f066.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19782,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19782 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f067.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19780,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19780 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f068.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19870,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19870 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f069.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19885,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19885 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f070.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19828,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19828 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f071.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19816,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19816 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f072.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19826,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19826 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw/hammer_frames/f073.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 544,
+      "height": 544,
+      "color_count": 19819,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "19819 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/ember_settle_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 69,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "69 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/ember_squash_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 60,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "60 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/ember_v04.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 66,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "66 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/forge_anvil_iso_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1248,
+      "height": 832,
+      "color_count": 80,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "80 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/forge_bg_b_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1248,
+      "height": 832,
+      "color_count": 97,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "97 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/forge_scene_v06.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1280,
+      "height": 720,
+      "color_count": 96,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "96 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/glyphs_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1408,
+      "height": 704,
+      "color_count": 12,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/hammer_rest_v02.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 118,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "118 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/hammer_smear_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 106,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "106 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/label_4x_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 12,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/logo_forge_v02.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1408,
+      "height": 704,
+      "color_count": 61,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "61 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/logo_master_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1408,
+      "height": 704,
+      "color_count": 58,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "58 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/logo_misael_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1408,
+      "height": 704,
+      "color_count": 60,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "60 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/palette_ramps_v02.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1408,
+      "height": 704,
+      "color_count": 119,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "119 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/presents_v01.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1408,
+      "height": 704,
+      "color_count": 24,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "24 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/shard_v04.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 97,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "97 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/shard_v05.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1024,
+      "height": 1024,
+      "color_count": 92,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "92 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/silhouette_v03.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1280,
+      "height": 720,
+      "color_count": 14,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/wordmark_forja_v05.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1408,
+      "height": 704,
+      "color_count": 52,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "52 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/data/source_art/branding_v2/raw_png/wordmark_forja_v06.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1408,
+      "height": 704,
+      "color_count": 57,
+      "has_transparency": false,
+      "ownership": "source_art",
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB - nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "57 cores visiveis - limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/brand_author_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 64,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/brand_engine_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 80,
+      "color_count": 14,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/brand_fx_tiles.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 128,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": false,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/brand_presents_text.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 112,
+      "height": 24,
+      "color_count": 3,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/brand_project_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 88,
+      "color_count": 7,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/forge_bg_a_props_320x224.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 15,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/forge_bg_b_320x224.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 15,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/logo_author_192x32.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 192,
+      "height": 32,
+      "color_count": 9,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/logo_engine_224x64.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 64,
+      "color_count": 11,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/logo_project_224x48.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 48,
+      "color_count": 9,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/presents_text_96x16.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 96,
+      "height": 16,
+      "color_count": 3,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/spr_forge_ember_16x16_strip.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 96,
+      "height": 16,
+      "color_count": 9,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/spr_forge_hammer_48x48_strip.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 336,
+      "height": 48,
+      "color_count": 12,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res/branding/spr_forge_shard_16x16_strip.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 16,
+      "color_count": 8,
+      "has_transparency": true,
+      "ownership": "active_res_art",
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "info",
+          "message": "Imagem candidata a sprite mede 64x16px; o tamanho total pode representar strip/sheet e nao uma celula.",
+          "suggestion": "Validar cada frame no contrato .res e no sprite_artifact_report.v2; nao usar a largura total do strip como limite de uma entrada VDP."
+        }
+      ],
+      "res_suggestion": "SPRITE spr_forge_shard_16x16_strip \"sprite/spr_forge_shard_16x16_strip.png\" 8 2 FAST 5"
+    }
+  ],
+  "source_asset_status": {
+    "total": 103,
+    "ok": 5,
+    "needs_conversion": 96,
+    "inadequate": 2,
+    "absent": 0,
+    "critical_issues": 193
+  },
+  "active_res_asset_status": {
+    "total": 14,
+    "ok": 14,
+    "needs_conversion": 0,
+    "inadequate": 0,
+    "absent": 0,
+    "critical_issues": 0
+  },
+  "build_blocking_issues": [],
+  "discovered_artifacts": 159,
+  "art_inventory": {
+    "source_art": {
+      "count": 145,
+      "paths": [
+        "data/processed/branding_intro/brand_author_logo.png",
+        "data/processed/branding_intro/brand_engine_logo.png",
+        "data/processed/branding_intro/brand_fx_tiles.png",
+        "data/processed/branding_intro/brand_presents_text.png",
+        "data/processed/branding_intro/brand_project_logo.png",
+        "data/source_art/branding_intro/production/author_panel_source.png",
+        "data/source_art/branding_intro/production/engine_mark_source.png",
+        "data/source_art/branding_intro/production/project_crest_source.png",
+        "data/source_art/branding_v2/model_sheet_forge_v01.png",
+        "data/source_art/branding_v2/model_sheet_forge_v02.png",
+        "data/source_art/branding_v2/raw/ember_settle_v01.jpg",
+        "data/source_art/branding_v2/raw/ember_squash_v01.jpg",
+        "data/source_art/branding_v2/raw/ember_v01.jpg",
+        "data/source_art/branding_v2/raw/ember_v02.jpg",
+        "data/source_art/branding_v2/raw/ember_v03.jpg",
+        "data/source_art/branding_v2/raw/ember_v04.jpg",
+        "data/source_art/branding_v2/raw/forge_anvil_iso_v01.jpg",
+        "data/source_art/branding_v2/raw/forge_bg_b_v01.jpg",
+        "data/source_art/branding_v2/raw/forge_master_v01.jpg",
+        "data/source_art/branding_v2/raw/forge_scene_v01.jpg",
+        "data/source_art/branding_v2/raw/forge_scene_v02.jpg",
+        "data/source_art/branding_v2/raw/forge_scene_v03.jpg",
+        "data/source_art/branding_v2/raw/forge_scene_v04.jpg",
+        "data/source_art/branding_v2/raw/forge_scene_v05.jpg",
+        "data/source_art/branding_v2/raw/forge_scene_v06.jpg",
+        "data/source_art/branding_v2/raw/glyphs_v01.jpg",
+        "data/source_art/branding_v2/raw/hammer_frames/f001.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f002.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f003.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f004.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f005.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f006.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f007.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f008.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f009.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f010.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f011.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f012.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f013.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f014.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f015.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f016.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f017.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f018.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f019.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f020.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f021.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f022.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f023.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f024.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f025.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f026.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f027.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f028.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f029.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f030.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f031.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f032.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f033.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f034.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f035.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f036.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f037.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f038.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f039.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f040.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f041.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f042.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f043.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f044.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f045.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f046.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f047.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f048.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f049.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f050.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f051.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f052.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f053.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f054.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f055.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f056.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f057.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f058.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f059.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f060.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f061.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f062.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f063.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f064.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f065.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f066.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f067.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f068.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f069.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f070.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f071.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f072.png",
+        "data/source_art/branding_v2/raw/hammer_frames/f073.png",
+        "data/source_art/branding_v2/raw/hammer_rest_v01.jpg",
+        "data/source_art/branding_v2/raw/hammer_rest_v02.jpg",
+        "data/source_art/branding_v2/raw/hammer_smear_v01.jpg",
+        "data/source_art/branding_v2/raw/hammer_windup_v01.jpg",
+        "data/source_art/branding_v2/raw/label_4x_v01.jpg",
+        "data/source_art/branding_v2/raw/logo_forge_v01.jpg",
+        "data/source_art/branding_v2/raw/logo_forge_v02.jpg",
+        "data/source_art/branding_v2/raw/logo_master_v01.jpg",
+        "data/source_art/branding_v2/raw/logo_misael_v01.jpg",
+        "data/source_art/branding_v2/raw/palette_ramps_v01.jpg",
+        "data/source_art/branding_v2/raw/palette_ramps_v02.jpg",
+        "data/source_art/branding_v2/raw/presents_v01.jpg",
+        "data/source_art/branding_v2/raw/shard_v01.jpg",
+        "data/source_art/branding_v2/raw/shard_v02.jpg",
+        "data/source_art/branding_v2/raw/shard_v03.jpg",
+        "data/source_art/branding_v2/raw/shard_v04.jpg",
+        "data/source_art/branding_v2/raw/shard_v05.jpg",
+        "data/source_art/branding_v2/raw/silhouette_v01.jpg",
+        "data/source_art/branding_v2/raw/silhouette_v02.jpg",
+        "data/source_art/branding_v2/raw/silhouette_v03.jpg",
+        "data/source_art/branding_v2/raw/wordmark_forja_v01.jpg",
+        "data/source_art/branding_v2/raw/wordmark_forja_v02.jpg",
+        "data/source_art/branding_v2/raw/wordmark_forja_v03.jpg",
+        "data/source_art/branding_v2/raw/wordmark_forja_v04.jpg",
+        "data/source_art/branding_v2/raw/wordmark_forja_v05.jpg",
+        "data/source_art/branding_v2/raw/wordmark_forja_v06.jpg",
+        "data/source_art/branding_v2/raw_png/ember_settle_v01.png",
+        "data/source_art/branding_v2/raw_png/ember_squash_v01.png",
+        "data/source_art/branding_v2/raw_png/ember_v04.png",
+        "data/source_art/branding_v2/raw_png/forge_anvil_iso_v01.png",
+        "data/source_art/branding_v2/raw_png/forge_bg_b_v01.png",
+        "data/source_art/branding_v2/raw_png/forge_scene_v06.png",
+        "data/source_art/branding_v2/raw_png/glyphs_v01.png",
+        "data/source_art/branding_v2/raw_png/hammer_rest_v02.png",
+        "data/source_art/branding_v2/raw_png/hammer_smear_v01.png",
+        "data/source_art/branding_v2/raw_png/label_4x_v01.png",
+        "data/source_art/branding_v2/raw_png/logo_forge_v02.png",
+        "data/source_art/branding_v2/raw_png/logo_master_v01.png",
+        "data/source_art/branding_v2/raw_png/logo_misael_v01.png",
+        "data/source_art/branding_v2/raw_png/palette_ramps_v02.png",
+        "data/source_art/branding_v2/raw_png/presents_v01.png",
+        "data/source_art/branding_v2/raw_png/shard_v04.png",
+        "data/source_art/branding_v2/raw_png/shard_v05.png",
+        "data/source_art/branding_v2/raw_png/silhouette_v03.png",
+        "data/source_art/branding_v2/raw_png/wordmark_forja_v05.png",
+        "data/source_art/branding_v2/raw_png/wordmark_forja_v06.png"
+      ]
+    },
+    "evidence_art": {
+      "count": 0,
+      "paths": []
+    },
+    "active_res_art": {
+      "count": 14,
+      "paths": [
+        "res/branding/brand_author_logo.png",
+        "res/branding/brand_engine_logo.png",
+        "res/branding/brand_fx_tiles.png",
+        "res/branding/brand_presents_text.png",
+        "res/branding/brand_project_logo.png",
+        "res/branding/forge_bg_a_props_320x224.png",
+        "res/branding/forge_bg_b_320x224.png",
+        "res/branding/logo_author_192x32.png",
+        "res/branding/logo_engine_224x64.png",
+        "res/branding/logo_project_224x48.png",
+        "res/branding/presents_text_96x16.png",
+        "res/branding/spr_forge_ember_16x16_strip.png",
+        "res/branding/spr_forge_hammer_48x48_strip.png",
+        "res/branding/spr_forge_shard_16x16_strip.png"
+      ]
+    },
+    "lab_work_art": {
+      "count": 0,
+      "paths": []
+    },
+    "analysis_art": {
+      "count": 0,
+      "paths": []
+    },
+    "generated_artifacts": {
+      "count": 0,
+      "paths": []
+    }
+  },
+  "nested_projects": [],
+  "discovery_policy": {
+    "scope": "project_root_only",
+    "follow_symlinks": false,
+    "external_directories_followed": false,
+    "hygiene_manifest": {
+      "path": "doc/project_hygiene_manifest.json",
+      "present": true
+    }
+  },
+  "discovery_warnings": [],
+  "recommended_actions": [],
+  "conversion_commands": [
+    "# Corrigir transparencia automaticamente:",
+    "python tools/image-tools/fix_png_transparency_final.py /mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/modelo/res",
+    "# Validar recursos:",
+    "powershell -File tools\\sgdk_wrapper\\validate_resources.ps1",
+    "# Auto-fix sprite.res:",
+    "powershell -File tools\\sgdk_wrapper\\autofix_sprite_res.ps1"
+  ]
+}

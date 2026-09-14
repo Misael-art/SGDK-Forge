@@ -35,6 +35,7 @@ import argparse
 import hashlib
 import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -45,9 +46,11 @@ except ImportError:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from forge_art import pixel_contract, vdp_color
 
+from validate_fighting_sprite_semantics import validate_contract as validate_fighting_contract
+
 TOOL_NAME = "validate_native_sprite_production"
-TOOL_VERSION = "2.5.0"
-SCHEMA_VERSION = "1.4.0"
+TOOL_VERSION = "2.6.0"
+SCHEMA_VERSION = "1.5.0"
 
 # Semantic regions required for a legible native character silhouette.
 REQUIRED_REGIONS = {
@@ -643,6 +646,33 @@ def validate_record(project_root: Path | None, record_path: Path,
 
     gates = rec.get("gates", {})
 
+    project_category = None
+    project_manifest = project_root / ".mddev" / "project.json"
+    if project_manifest.is_file():
+        try:
+            project_category = json.loads(project_manifest.read_text(encoding="utf-8-sig")).get("category")
+        except (OSError, json.JSONDecodeError):
+            warn("project category could not be read from .mddev/project.json")
+    is_fighting_project = project_category == "fighting" or "[FIGHTING]" in project_root.name.upper()
+    asset_profile = rec.get("asset_profile")
+    if is_fighting_project and rec.get("schema_version") != "1.5.0":
+        warn("legacy fighting sprite record has no mandatory semantic profile; it cannot support a new promotion")
+        if promotable or promotion_target == "res":
+            fail("fighting_semantic_profile_required_for_promotion",
+                 "fighting sprite promotion requires schema 1.5.0 and an explicit asset_profile")
+    if rec.get("schema_version") == "1.5.0" and not asset_profile:
+        fail("asset_profile_missing", "schema 1.5.0 requires asset_profile")
+    if asset_profile == "fighting_full_body_sprite":
+        guard_raw = rec.get("semantic_guard_contract", "")
+        guard_path = _resolve(project_root, guard_raw)
+        if guard_path is None or not guard_path.is_file():
+            fail("fighting_semantic_guard_missing",
+                 f"semantic_guard_contract not found: {guard_raw!r}")
+        else:
+            guard_report = validate_fighting_contract(project_root, guard_path)
+            for blocker in guard_report.get("blockers", []):
+                fail("fighting_semantic_guard_failed", blocker)
+
     # --- source ---
     source = rec.get("source", {})
     src_path = _resolve(project_root, source.get("path", ""))
@@ -687,9 +717,17 @@ def validate_record(project_root: Path | None, record_path: Path,
 
     if prov_kind not in {
         "ai_authored_pixel", "native_pixel", "hand_authored_pixel",
-        "photo_or_render_derived", "procedural_primitive",
+        "photo_or_render_derived", "procedural_primitive", "procedural_code_probe",
     }:
         fail("provenance_source_kind_invalid", f"provenance.source_kind={prov_kind!r}")
+
+    source_suffix = src_path.suffix.lower() if src_path and src_path.is_file() else ""
+    if source_suffix == ".xpm" and prov_kind != "procedural_code_probe":
+        fail("textual_pixel_matrix_claims_native_authorship",
+             "XPM/textual pixel matrices must be classified as procedural_code_probe")
+    if prov_kind == "procedural_code_probe" and (promotable or promotion_target != "none"):
+        fail("procedural_code_probe_promoted",
+             "procedural_code_probe is diagnostic-only and cannot be promoted")
 
     # Human claim must be backed by a REAL human approval file, human identity,
     # a recorded decision, and the exact candidate SHA-256.
@@ -1140,6 +1178,8 @@ def validate_record(project_root: Path | None, record_path: Path,
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--self-check", action="store_true",
+                        help="Run the permanent positive/negative physical fixtures")
     parser.add_argument("--project-root", type=Path, default=None,
                         help="Absolute path to the project root (required for safe resolution)")
     parser.add_argument("--record", type=Path, default=None,
@@ -1150,6 +1190,25 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("record_pos", nargs="?", type=Path, default=None,
                         help="(compat) positional path to the record")
     args = parser.parse_args(argv)
+
+    if args.self_check:
+        fixture = Path(__file__).resolve().parent / "ci" / "test_native_sprite_semantic_gate.py"
+        try:
+            proc = subprocess.run(
+                [sys.executable, str(fixture)],
+                cwd=Path(__file__).resolve().parents[2],
+                capture_output=True,
+                text=True,
+                timeout=120,
+                check=False,
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            print(f"native sprite semantic self-check failed: {exc}", file=sys.stderr)
+            return 1
+        output = (proc.stdout + proc.stderr).strip().splitlines()
+        if output:
+            print(output[-1])
+        return 0 if proc.returncode == 0 else 1
 
     record_path = args.record or args.record_pos
     if record_path is None:

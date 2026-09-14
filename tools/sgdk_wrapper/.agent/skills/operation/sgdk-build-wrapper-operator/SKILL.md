@@ -88,11 +88,17 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - o projeto nao esta em contexto degradado silencioso
 - a ROM, o changelog e a memoria operacional apontam para o mesmo estado
 - para AAA/stable/release, preflight, testes CI locais/host, validator, mastering e code review foram registrados; se GitHub Actions/pre-commit/make paralelo/debug symbols nao existirem, status de pipeline fica `pipeline_gate_partial`
-- a automacao BlastEm usa exclusivamente `tools/sgdk_wrapper/lib/blastem_automation.psm1`
+- no Windows, a automacao BlastEm usa
+  `tools/sgdk_wrapper/lib/blastem_automation.psm1`; no Linux, usa
+  `capture_blastem_evidence_linux.sh` + `seal_fresh_evidence_bundle.py`
 - logs do emulador ficam em JSONL sob `out/logs/*_blastem.log`
 - artefatos de SRAM/screenshot ficam confinados a `out/blastem_env_*`
 - no Windows, o sandbox BlastEm precisa espelhar `Home/AppData/Local` e o `blastem.cfg` efetivo deve nascer nesse ramo
 - `qa_emulator_report.rom_sha256` aponta para a ROM testada e fica stale se houver rebuild posterior
+- antes de capturar, `select_blastem_capture_route.py` precisa registrar
+  `out/logs/blastem_capture_route_report.json`; Linux seleciona somente
+  `capture_blastem_evidence_linux.sh`, Windows seleciona somente
+  `run_runtime_capture.ps1`
 - scripts de entrada BlastEm usam `press_until_ready` quando o heartbeat `READY` existir
 
 ### Handoff para proxima etapa
@@ -121,6 +127,9 @@ Nao declarar barra AAA nem tile budget `cabe` sem passar por `skills/hardware/me
 - apos qualquer nova ROM, regressao, captura ou baseline, rodar `freshness_audit.ps1` e corrigir drift antes de promover status
 - ao encerrar uma cena, rodar `scene_closeout_gate.ps1`; se usar fluxo manual, registrar a justificativa no `runtime_decision_log`
 - quando usar BlastEm, preferir `press_until_ready:*` apoiado em heartbeat `READY` em SRAM `0x100` com rolling write pos-warmup (ROM-side) + FileSystemWatcher fast-path (wrapper-side)
+- nunca interpretar `System.Windows.Forms` ausente no Linux como dependencia do
+  BlastEm: isso prova `host_executor_route_mismatch`; confirme `DISPLAY` para a
+  ponte XWayland e volte ao seletor, sem instalar WinForms/Mono/Xvfb por tentativa
 - `press_until_ready` aceita knobs canonicas: `timeout_ms`, `interval_ms`, `hold`, `max_presses`, `flush_every` (forca ciclo ESC pause/resume para flushar SRAM), `rotate_key` (tentativa extra com tecla alternativa em timeout)
 - quando o input for persistido, usar `tools/sgdk_wrapper/schemas/blastem_input_script.schema.json` e exemplo `tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/blastem_input_script.example.json`
 - `save_path` e `screenshot_path` do BlastEm devem ser reescritos dentro do bloco `ui {}`; no topo do cfg a opcao pode ser ignorada
@@ -252,3 +261,21 @@ projeto.
 - aceitar closeout manual sem `scene_closeout_gate_report.json` executado
 - ignorar `sgdk_build_route_report.json`, misturar rota Linux/Windows ou
   classificar mismatch LTO de link como defeito do codigo do jogo
+- chamar `run_runtime_capture.ps1` no Linux ou
+  `capture_blastem_evidence_linux.sh` no Windows
+
+
+## Regressao reproduzivel da cadeia Linux
+
+`python3 tools/sgdk_wrapper/ci/run_reference_e2e.py` executa a fixture
+FORGE_REFERENCE existente, preflight, build e contratos FREF observados no
+BlastEm. O report `out/logs/reference_e2e_report.json` declara somente
+`technical_fixture_contracts`; nao prova qualidade de jogo, audio ou FPS
+sustentado. Alvo ausente falha fechado. `run_golden_validate.ps1` continua
+sendo validacao de recursos e nunca substitui essa execucao.
+
+O bridge identifica todos os arquivos do SDK e seus parametros de biblioteca
+em `sdk_content_identity.json`, mantem staging por workspace e serializa builds.
+Feche o descritor do lock nos processos Flatpak: servicos Wine sobreviventes
+nao podem herdar o lock. Mudanca de SDK/bridge invalida biblioteca e staging;
+nenhuma ROM historica e recertificada por essa invalidacao.

@@ -57,6 +57,9 @@ MEASUREMENT_TOOLS = [
     # Revalida dimensoes, modo, PLTE, lineage, escala e gates de uma sprite;
     # o report fornecido pelo produtor nao e aceito como prova de si mesmo.
     "tools/sgdk_wrapper/validate_native_sprite_production.py",
+    # Recalcula escala de lutador por bbox visivel, bloqueia retrato/icon como
+    # referencia de corpo inteiro e detecta identidade duplicada de projeto.
+    "tools/sgdk_wrapper/validate_fighting_sprite_semantics.py",
     # Gate de animacao ligado ao artefato: celula/lineart/movimento/claim sao
     # medidos novamente, em vez de confiar em reports auto-declarados.
     "tools/sgdk_wrapper/.agent/scripts/validate_lineart_topology.py",

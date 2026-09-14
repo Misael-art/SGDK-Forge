@@ -15,12 +15,14 @@ integração Git, memory bank final e resposta humana.
 - objetivo e claim vigente;
 - blocker causal dominante;
 - tarefas delimitadas com dependências;
+- `identity_scope` em toda `asset_production`; poses do mesmo personagem usam
+  o mesmo valor e nunca ocupam a mesma wave;
 - caminhos de leitura, escrita e proteção;
 - capacidade real do harness para criar/esperar/interromper workers.
 
 ## Decisão obrigatória
 
-Antes de delegar, gere o snapshot e o plano:
+Antes de delegar, gere o snapshot, o frontier e o plano:
 
 ```bash
 python3 tools/sgdk_wrapper/harness_orchestration.py probe \
@@ -30,15 +32,31 @@ python3 tools/sgdk_wrapper/harness_orchestration.py probe \
   --supports-interrupt --permission-profile workspace_write \
   --output "SGDK_projects/<projeto>/out/logs/harness_context_snapshot.json"
 
+python3 tools/sgdk_wrapper/harness_orchestration.py frontier \
+  --workspace-root . --project-root "SGDK_projects/<projeto>" \
+  --active-epoch "<epoch>" --claim-ceiling "<claim>" \
+  --dominant-blocker "<blocker>" --blocked-node "<node>" \
+  --independent-node "<node_independente>" \
+  --eligible-source "<fonte_relativa>" \
+  --forbidden-source "<fonte_proibida>" \
+  --next-causal-action "<acao>" \
+  --output "SGDK_projects/<projeto>/out/logs/work_frontier_snapshot.json"
+
 python3 tools/sgdk_wrapper/harness_orchestration.py plan \
   --context "SGDK_projects/<projeto>/out/logs/harness_context_snapshot.json" \
   --taskset <taskset.json> \
+  --frontier "SGDK_projects/<projeto>/out/logs/work_frontier_snapshot.json" \
   --output "SGDK_projects/<projeto>/out/logs/orchestration_plan.json"
 ```
 
 Obedeça `execution_mode`; não substitua a decisão por preferência pessoal.
 Escopos do taskset são relativos ao projeto; caminhos absolutos POSIX/Windows e
 travessia são proibidos.
+
+O blocker e por no: bloqueie o no causal e seus descendentes, continue apenas
+nos independentes declarados. Um gate humano nao congela o projeto inteiro.
+Workers e resultados carregam o hash do frontier; resultado de epoch/frontier
+antigo e stale e nao integra.
 
 ## Quando delegar
 
@@ -65,6 +83,7 @@ arquitetura ou causalidade que realmente o exija.
 
 - padrão read-only;
 - sem histórico completo; receber apenas a cápsula do plano;
+- devolver `context_digest` e `work_frontier_digest` exatamente como recebidos;
 - logs completos ficam em arquivo, nunca voltam ao coordenador;
 - toda entrada e saída relevante usa SHA-256;
 - output segue `agent_task_result.schema.json`;
@@ -97,6 +116,8 @@ python3 tools/sgdk_wrapper/harness_orchestration.py metrics \
 - o coordenador revalida hashes antes de integrar;
 - validação crítica final é refeita mesmo havendo cache;
 - paralelismo não promove asset, runtime, ROM ou AAA.
+- nos bloqueados nunca aparecem em waves; descendente rotulado como
+  independente quando depende de bloqueado falha fechado.
 
 ## Handoff
 

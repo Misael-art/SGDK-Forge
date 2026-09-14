@@ -1,15 +1,15 @@
 {
-  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "sgdk_wrapper/schemas/orchestration_plan.schema.json",
   "title": "Conservative Orchestration Plan",
   "type": "object",
   "required": [
     "schema_version", "artifact_kind", "tool", "generated_at", "run_id",
-    "context_digest", "coordinator_policy", "tasks", "waves", "summary",
+    "context_digest", "work_frontier_digest", "coordinator_policy", "tasks", "waves", "summary",
     "token_policy", "claim_ceiling", "status"
   ],
   "properties": {
-    "schema_version": {"const": "1.0.0"},
+    "schema_version": {"const": "1.1.0"},
     "artifact_kind": {"const": "orchestration_plan"},
     "tool": {
       "type": "object",
@@ -23,6 +23,7 @@
     "generated_at": {"type": "string", "format": "date-time"},
     "run_id": {"type": "string", "minLength": 1},
     "context_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "work_frontier_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
     "coordinator_policy": {
       "type": "object",
       "required": [
@@ -44,7 +45,7 @@
       "items": {
         "type": "object",
         "required": [
-          "task_id", "objective", "task_kind", "owner_skill", "dependencies",
+          "task_id", "objective", "task_kind", "owner_skill", "identity_scope", "dependencies",
           "execution_mode", "decision_reasons", "requested_model_tier", "model_tier", "expected_seconds",
           "context_capsule", "write_lease", "result_contract", "planning_warnings"
         ],
@@ -53,8 +54,9 @@
           "objective": {"type": "string", "minLength": 1},
           "task_kind": {"type": "string", "minLength": 1},
           "owner_skill": {"type": "string", "minLength": 1},
+          "identity_scope": {"type": ["string", "null"], "minLength": 1},
           "dependencies": {"type": "array", "items": {"type": "string"}},
-          "execution_mode": {"enum": ["coordinator_local", "subagent_read_only", "subagent_isolated_writer"]},
+          "execution_mode": {"enum": ["coordinator_local", "subagent_read_only", "subagent_isolated_writer", "blocked_by_frontier"]},
           "decision_reasons": {"type": "array", "minItems": 1, "items": {"type": "string"}},
           "requested_model_tier": {"enum": ["economical", "balanced", "high_capability"]},
           "model_tier": {"enum": ["economical", "balanced", "high_capability"]},
@@ -63,13 +65,14 @@
             "type": "object",
             "required": [
               "inherit_full_history", "maximum_words", "canonical_context_digest",
-              "input_artifacts", "required_output_paths", "claim_ceiling",
+              "work_frontier_digest", "input_artifacts", "required_output_paths", "claim_ceiling",
               "acceptance_commands", "prohibitions"
             ],
             "properties": {
               "inherit_full_history": {"const": false},
               "maximum_words": {"type": "integer", "minimum": 0, "maximum": 1200},
               "canonical_context_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "work_frontier_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
               "input_artifacts": {"type": "array"},
               "required_output_paths": {"type": "array", "items": {"type": "string"}},
               "claim_ceiling": {"type": "string", "minLength": 1},
@@ -106,7 +109,7 @@
     },
     "waves": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 0,
       "items": {
         "type": "object",
         "required": ["wave", "mode", "task_ids"],
@@ -122,12 +125,16 @@
       "type": "object",
       "required": [
         "task_count", "delegated_count", "coordinator_count", "writer_conflict_task_ids",
-        "worker_slots", "maximum_worker_context_and_result_words"
+        "worker_slots", "maximum_worker_context_and_result_words", "blocked_count", "runnable_count",
+        "identity_serial_groups"
       ],
       "properties": {
         "task_count": {"type": "integer", "minimum": 1},
         "delegated_count": {"type": "integer", "minimum": 0},
         "coordinator_count": {"type": "integer", "minimum": 0},
+        "blocked_count": {"type": "integer", "minimum": 0},
+        "runnable_count": {"type": "integer", "minimum": 0},
+        "identity_serial_groups": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "writer_conflict_task_ids": {"type": "array", "items": {"type": "string"}},
         "worker_slots": {"type": "integer", "minimum": 0, "maximum": 3},
         "maximum_worker_context_and_result_words": {"type": "integer", "minimum": 0}

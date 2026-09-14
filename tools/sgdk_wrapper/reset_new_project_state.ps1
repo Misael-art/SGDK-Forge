@@ -111,35 +111,39 @@ if (Test-Path -LiteralPath $romHistoryPath -PathType Container) {
 $brandingPath = Join-Path $docRoot "branding_sequence_contract.json"
 if (Test-Path -LiteralPath $brandingPath -PathType Leaf) {
     $branding = Get-Content -LiteralPath $brandingPath -Raw | ConvertFrom-Json
-    if ($null -ne $branding.runtime_capture_current) {
-        $branding.runtime_capture_current.rom_sha256 = $null
-        $branding.runtime_capture_current.blastem_status = "not_run"
-        $branding.runtime_capture_current.target_scene = $null
-        $branding.runtime_capture_current.runtime_scene_id = $null
-        $branding.runtime_capture_current.capture_status = "not_captured"
-        $branding.runtime_capture_current.frames_seen = 0
-        $branding.runtime_capture_current.samples_recorded = 0
-        $branding.runtime_capture_current.over_budget_frames = 0
-        $branding.runtime_capture_current.cpu_load_max = 0
-        $branding.runtime_capture_current.frame_cpu_ratio_p95 = 0
-        $branding.runtime_capture_current.sprite_engine_peak = 0
-        $branding.runtime_capture_current.max_scanline_sprites = 0
-        $branding.runtime_capture_current.screenshot_path = $null
-        $branding.runtime_capture_current.sram_path = $null
-        $branding.runtime_capture_current.runtime_metrics_path = $null
-        $branding.runtime_capture_current.visual_vdp_dump_path = $null
-        $branding.runtime_capture_current.visual_vdp_dump_status = "not_captured"
-        $branding.runtime_capture_current.performance_gate = "not_measured"
+    $runtimeCaptureProperty = $branding.PSObject.Properties['runtime_capture_current']
+    if ($null -ne $runtimeCaptureProperty) {
+        $runtimeCapture = $runtimeCaptureProperty.Value
+        $runtimeCapture.rom_sha256 = $null
+        $runtimeCapture.blastem_status = "not_run"
+        $runtimeCapture.target_scene = $null
+        $runtimeCapture.runtime_scene_id = $null
+        $runtimeCapture.capture_status = "not_captured"
+        $runtimeCapture.frames_seen = 0
+        $runtimeCapture.samples_recorded = 0
+        $runtimeCapture.over_budget_frames = 0
+        $runtimeCapture.cpu_load_max = 0
+        $runtimeCapture.frame_cpu_ratio_p95 = 0
+        $runtimeCapture.sprite_engine_peak = 0
+        $runtimeCapture.max_scanline_sprites = 0
+        $runtimeCapture.screenshot_path = $null
+        $runtimeCapture.sram_path = $null
+        $runtimeCapture.runtime_metrics_path = $null
+        $runtimeCapture.visual_vdp_dump_path = $null
+        $runtimeCapture.visual_vdp_dump_status = "not_captured"
+        $runtimeCapture.performance_gate = "not_measured"
     }
-    if ($null -ne $branding.verification_current) {
-        $branding.verification_current.direct_sgdk_make = "not_run"
-        $branding.verification_current.wrapper_build = "not_built"
-        $branding.verification_current.res_graph = "not_run"
-        $branding.verification_current.validate_audio = "not_run"
-        $branding.verification_current.blastem = "not_run"
-        $branding.verification_current.freshness = "not_run"
-        $branding.verification_current.scene_closeout_gate = "not_run"
-        $branding.verification_current.known_blockers = @(
+    $verificationProperty = $branding.PSObject.Properties['verification_current']
+    if ($null -ne $verificationProperty) {
+        $verification = $verificationProperty.Value
+        $verification.direct_sgdk_make = "not_run"
+        $verification.wrapper_build = "not_built"
+        $verification.res_graph = "not_run"
+        $verification.validate_audio = "not_run"
+        $verification.blastem = "not_run"
+        $verification.freshness = "not_run"
+        $verification.scene_closeout_gate = "not_run"
+        $verification.known_blockers = @(
             "project_not_built",
             "emulator_evidence_missing"
         )

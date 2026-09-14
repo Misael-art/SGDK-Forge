@@ -40,7 +40,7 @@ except ImportError:  # execucao pelo caminho do arquivo
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from forge_art import convert, foreground_matte, gimp_batch, job, native_edit, pixel_contract, source_route_triage, vdp_color, visual_workset
 
-CLI_VERSION = "1.3.0"
+CLI_VERSION = "1.4.0"
 
 #: Comandos declarados no plano que ainda nao existem. Cada um carrega o
 #: motivo de nao ter sido escrito e a proxima acao causal, para que a
@@ -308,11 +308,15 @@ def cmd_route_shootout(args) -> int:
             Path(args.project_root), Path(args.spec))
     except Exception as exc:
         blocker = getattr(exc, "blocker", "route_shootout_rejected")
-        next_action = (
-            "mantenha o projeto congelado; reativacao exige decisao humana e novo workset"
-            if blocker == "visual_production_frozen"
-            else "passe primeiro source-audit e use novo output_dir em out/ ou rascunho/; nenhuma rota escreve em data/ ou res/"
-        )
+        if str(exc) == "all_applicable_requires_agent_laboratory":
+            next_action = (
+                "use preferred_plus_challengers (primary/challenger/control); "
+                "all_applicable pertence somente a calibracao em _agent_laboratory"
+            )
+        elif blocker == "visual_production_frozen":
+            next_action = "mantenha o projeto congelado; reativacao exige decisao humana e novo workset"
+        else:
+            next_action = "passe primeiro source-audit e use novo output_dir em out/ ou rascunho/; nenhuma rota escreve em data/ ou res/"
         _emit({
             "command": "route-shootout", "status": "rejected", "blocking": True,
             "blocker": blocker,

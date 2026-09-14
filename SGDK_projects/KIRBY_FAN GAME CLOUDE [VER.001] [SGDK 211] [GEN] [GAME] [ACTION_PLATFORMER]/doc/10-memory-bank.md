@@ -13,6 +13,19 @@
   produtor visual independente; abrir `v12` ou trocar rotulo nao reativa.
 <!-- ACTIVE VISUAL WORKSET END -->
 
+## Atualizacao vigente — 2026-09-09: instrumento migrado e regressao de cena bloqueada
+
+- as duas famílias Kirby tiveram o `vdp_scanline_simulator.py` local migrado
+  para a versão canônica 1.2.0, com SHA
+  `5b0afd5b20d3993468a62c562f2cea2e14b767c5acfa7de12e2d7f880915b3ab`;
+- self-check passou em todas as três cópias locais, incluindo decomposição
+  geométrica, limites H40/H32 e headroom;
+- regressão Linux/Flatpak de `branding_sequence` selou screenshot, SRAM e
+  `visual_vdp_dump.bin`, mas encontrou `expected_app_scene_id=0` versus
+  `captured_app_scene_id=2` (MENU);
+- essa captura não promove arte, áudio, performance sustentada ou AAA;
+  `ready_for_aaa=false` permanece.
+
 <!-- SGDK GENERATED STATUS START -->
 ## 0. Estado Derivado dos Artefatos
 

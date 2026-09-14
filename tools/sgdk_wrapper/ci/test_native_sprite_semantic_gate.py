@@ -366,6 +366,31 @@ def main():
         tmp = Path(tmp)
         project_root, rp, rec = run_positive(tmp)
 
+        # Fighting assets cannot promote without the specialized full-body
+        # semantic/scale contract, even when the generic sprite package passes.
+        mddev = project_root / ".mddev"
+        mddev.mkdir(parents=True, exist_ok=True)
+        (mddev / "project.json").write_text(json.dumps({"category": "fighting"}), encoding="utf-8")
+        m = json.loads(json.dumps(rec))
+        m["schema_version"] = "1.5.0"
+        m["asset_profile"] = "fighting_full_body_sprite"
+        rp.write_text(json.dumps(m), encoding="utf-8")
+        r = validate_record(project_root, rp)
+        check("rejects_fighting_full_body_without_semantic_guard",
+              "fighting_semantic_guard_missing" in codes(r), f"got {codes(r)}")
+
+        xpm = project_root / "data" / "processed" / "candidate_source.xpm"
+        xpm.write_text("/* XPM */\nstatic char *x[]={\"1 1 1 1\",\". c #000000\",\".\"};\n", encoding="utf-8")
+        m = json.loads(json.dumps(rec))
+        m["source"]["path"] = str(xpm.relative_to(project_root))
+        m["source"]["sha256"] = sha(xpm)
+        rp.write_text(json.dumps(m), encoding="utf-8")
+        r = validate_record(project_root, rp)
+        check("rejects_xpm_claimed_as_native_source",
+              "textual_pixel_matrix_claims_native_authorship" in codes(r), f"got {codes(r)}")
+        (mddev / "project.json").unlink()
+        mddev.rmdir()
+
         # 1. candidate declared 48x64 but PNG 16x16.
         m = json.loads(json.dumps(rec))
         small = project_root / "data" / "processed" / "small.png"

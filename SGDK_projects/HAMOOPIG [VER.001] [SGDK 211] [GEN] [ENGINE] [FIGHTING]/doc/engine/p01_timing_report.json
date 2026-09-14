@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "document_kind": "p01_timing_report",
+  "not_a_canonical_validation_report": true,
+  "task": "P01",
+  "executed_at": "2026-09-14",
+  "rom_sha256": "bc827a873e3d1c103b04f23339a237a42bfe96fb2d8d949376a01cd9be412495",
+  "supersedes_baseline_rom": "e2ca583341b3f0784442b765df67080ebb02cd015b8e06494c570464e65be0f4",
+
+  "diagnosis_before_changing_anything": {
+    "instrucao_do_plano": "diagnosticar tres causas separadas; nao corrigir tudo trocando uma constante",
+    "causa_1_cadence_do_loop": "1 tick logico por VBlank. Em PAL isso da 50 ticks/s contra 60 em NTSC: o jogo inteiro rodava 17% mais lento em PAL, incluindo o letreiro de round, que conta gFrames.",
+    "causa_2_opcao_que_era_defeito": "O modo TICK 50 descartava 1 de cada 6 frames em NTSC para IMITAR a lentidao de PAL, e era oferecido ao jogador como opcao no menu de debug.",
+    "causa_3_relogio": "ROUND_CLOCK_TICKS=38: um decremento do mostrador nao era um segundo. A 60Hz cada unidade valia 0,633 s, entao uma partida de 99 terminava em ~63 s reais.",
+    "o_que_NAO_era_causa": "Os timers de gameplay (hitPause, rageTimerCountdown, fball.countDown, joyDirTimer, frameTimeAtual) ja decrementam dentro do dispatch, ou seja, por tick logico. Rodar o dispatch N vezes por frame os escala corretamente, sem tocar em nenhum deles."
+  },
+
+  "implementation": {
+    "new_modules": ["inc/timing.h", "src/timing.c"],
+    "main_loop": "O dispatch de cenas foi extraido para run_logic_tick(). O laco principal roda essa funcao 1 ou 2 vezes por frame de video; SPR_update, a sonda e SYS_doVBlankProcess continuam UMA vez por frame.",
+    "accumulator": "Inteiro, sem ponto flutuante: soma TIMING_LOGIC_HZ (60), desconta a taxa de video. NTSC 60/60 -> sempre 1 tick. PAL 60/50 -> padrao 1,1,1,1,2, ou seja 6 ticks a cada 5 frames.",
+    "edge_handling": "FUNCAO_INPUT_SYSTEM ja faz previousJoyState=currentJoyState no inicio de cada chamada. Na segunda subpassagem do mesmo frame o joypad nao mudou, entao a borda desaparece sozinha e o botao aparece como KEY_HOLD. Nenhuma alteracao foi necessaria em input.c.",
+    "clock": "gClockTimer passa a ser carregado de TIMING_roundClockTicks(): 60 no perfil NORMAL (um segundo real por unidade), 38 no LEGACY.",
+    "profiles": "gTimingProfile NORMAL e o default de entrega. O item TICK do menu de debug agora cicla NORM -> L60 -> L50 -> NORM, deixando explicito que os dois LEGACY sao diagnostico e nao opcao de jogo."
+  },
+
+  "acceptance": {
+    "logical_tick_replay_equivalence": {
+      "status": "partial",
+      "passou": "tests/test_timing_contract.py compila o acumulador REAL de src/timing.c no host (nao reimplementa a formula) e mede: NTSC 1 tick por frame; PAL alternando 1,1,1,1,2; 600 ticks em 10 s nas DUAS regioes; sem deriva em 5 min (18000 ticks exatos); teto por frame respeitado.",
+      "nao_passou": "Equivalencia de ESTADO por replay -- mesmos inputs e seed produzindo o mesmo estado final -- nao foi verificada. Exige um harness de replay deterministico que nao existe no projeto.",
+      "por_que_nao_foi_feito": "O harness de replay e trabalho proprio, com dependencia de gravacao de input por tick e de leitura de estado. Nao cabia em P01 sem transformar o escopo."
+    },
+    "no_lost_or_duplicated_edges": {
+      "status": "partial",
+      "argumento_estrutural": "A borda so pode existir quando currentJoyState difere de previousJoyState. Como previousJoyState e igualado a currentJoyState no topo de cada chamada, e o joypad e constante dentro de um frame de video, a segunda subpassagem nunca ve borda.",
+      "nao_medido": "Nenhum teste executa esse caminho. O ideal seria uma captura em PAL provando que um toque unico de ataque produz um golpe, nao dois -- nao foi feita.",
+      "risco_residual": "Baixo para perda de borda, porque o input e amostrado todo frame de video e a borda e consumida no primeiro tick. O caso nao coberto e um toque que comece e termine DENTRO do mesmo frame de video, que se perde -- igual ao hardware real."
+    },
+    "ntsc_pal_worst_frame": {
+      "status": "failed",
+      "medido_em": "BlastEm, sonda HPRB decodificada por tests/analyze_hprb_probe.py",
+      "ntsc": {"max_dma_queued_bytes": 8448, "envelope": 7782, "dma_status": "over_budget",
+               "max_vdp_sprites": 57, "max_sprites_per_scanline": 17,
+               "peak_dma_frame": 271, "peak_scanline_frame": 271, "peaks_from_same_frame": true},
+      "pal":  {"max_dma_queued_bytes": 8448, "envelope": 17408, "dma_status": "within_nominal",
+               "max_vdp_sprites": 56, "max_sprites_per_scanline": 17,
+               "peak_dma_frame": 226, "peak_scanline_frame": 226, "peaks_from_same_frame": true},
+      "leitura": "O pior frame NTSC enfileira 8448 bytes contra um envelope de 7782: 8,6% acima. Em PAL o mesmo valor cabe folgado. Sprites estao dentro do limite nas duas regioes.",
+      "atribuicao_nao_estabelecida": "NAO afirmo que P01 causou isso. Em NTSC o numero de ticks por frame e 1 antes e depois da mudanca, e nada em P01 toca o caminho de DMA. A medida anterior de 7352 bytes veio de OUTRA ROM e outro momento de cena, entao as duas nao sao comparaveis. Estabelecer causa exige medir a ROM pre-P01 na mesma cena."
+    }
+  },
+
+  "measurement_that_did_not_hold": {
+    "tentativa": "Comparar NTSC e PAL por relogio de parede para mostrar que PAL deixou de rodar mais lento.",
+    "resultado_bruto": {"ntsc_ticks_em_28s": 900, "pal_ticks_em_28s": 780},
+    "por_que_foi_descartado": "900 ticks em 28 s da 32 ticks/s, e 780 da 27,9 -- ambos muito abaixo dos 60 esperados. O BlastEm nao roda em tempo real neste host, e o tempo de aquecimento do script nao equivale a tempo emulado. A razao 780/900 mede velocidade do host, nao a taxa logica da ROM.",
+    "consequencia": "A prova da equivalencia entre regioes fica com o teste de host, que e deterministico. A captura serve so para mostrar que a ROM roda nas duas regioes, decodifica e nao regrediu em sprites."
+  },
+
+  "visual_review": "pending_visual_review",
+  "audio_review": "pending_audio_review",
+  "review_notes": [
+    "Sensacao de peso, resposta e ritmo depois da mudanca de 50 para 60 ticks em PAL nao pode ser julgada por quadros isolados; exige percepcao temporal.",
+    "Audio em PAL com frames de 2 ticks nao foi medido nem escutado."
+  ],
+
+  "followups": [
+    {"id": "ntsc_dma_over_budget", "target": "P08/P10", "detail": "8448 B enfileirados contra 7782 de envelope NTSC. Precisa de medicao dedicada do pior caso e da separacao entre enfileirado, transferido e backlog que o plano pede."},
+    {"id": "replay_harness", "target": "P10", "detail": "Sem harness de replay deterministico nao ha como fechar logical_tick_replay_equivalence nem a matriz de sequencias do P10."},
+    {"id": "pal_two_tick_frame_budget", "target": "P10", "detail": "O frame PAL que roda 2 ticks e o novo pior caso de CPU. Nao foi medido tempo de frame nem frame miss."},
+    {"id": "probe_scanline_hardcoded_224", "target": "P01_carry", "detail": "Herdado do P00 e ainda aberto: scanlinePeak() limita a 224 linhas e subestima o pico com H240."}
+  ]
+}

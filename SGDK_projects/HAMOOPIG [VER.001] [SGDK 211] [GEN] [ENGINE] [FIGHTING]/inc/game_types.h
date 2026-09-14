@@ -17,6 +17,10 @@
 #define DBG_DEFAULT  (DBG_BBOX | DBG_HBOX | DBG_TEXT)
 
 /* Taxa do tick logico.  Ver o contrato de taxa logica em main.c. */
+/* Perfis de tempo; contrato completo em inc/timing.h */
+#define TIMING_PROFILE_NORMAL 0u
+#define TIMING_PROFILE_LEGACY 1u
+
 #define LOGIC_RATE_60 60u
 #define LOGIC_RATE_50 50u
 #define WEAK   1

@@ -186,7 +186,8 @@ static void title_render_debug(void)
 	title_put_centered((gDebugFlags & DBG_PERF)     ? "PERF ON" : "PERF OFF", 8);
 	title_put_centered((gDebugFlags & DBG_FRAMEADV) ? "FRM ON"  : "FRM OFF",  10);
 	title_put_centered(gFreeStepArmed               ? "STEP ON" : "STEP OFF", 12);
-	title_put_centered((gLogicRate == LOGIC_RATE_50) ? "TICK 50" : "TICK 60", 14);
+	title_put_centered((gTimingProfile == TIMING_PROFILE_NORMAL) ? "TICK NORM"
+		: ((gLogicRate == LOGIC_RATE_50) ? "TICK L50" : "TICK L60"), 14);
 	/* 240 linhas so existe em console PAL; em NTSC a opcao e inerte. */
 	title_put_centered(!gRegionIsPal ? "240 NA" : (gScreen240 ? "240 ON" : "240 OFF"), 16);
 	title_put_centered("BACK", 18);
@@ -364,7 +365,17 @@ void FUNCAO_TITLE_UPDATE(void)
 					gFreeStepAdvance = FALSE;
 					break;
 				case TITLE_DEBUG_TICK:
-					gLogicRate = (gLogicRate == LOGIC_RATE_60) ? LOGIC_RATE_50 : LOGIC_RATE_60;
+					/* NORM -> L60 -> L50 -> NORM.  NORM e a politica de
+					   entrega (60 ticks/s nas duas regioes); os dois LEGACY
+					   existem para comparar com o comportamento antigo e sao
+					   diagnostico, nao opcao de jogo. */
+					if(gTimingProfile == TIMING_PROFILE_NORMAL)
+					{
+						gTimingProfile = TIMING_PROFILE_LEGACY;
+						gLogicRate = LOGIC_RATE_60;
+					}
+					else if(gLogicRate == LOGIC_RATE_60){ gLogicRate = LOGIC_RATE_50; }
+					else { gTimingProfile = TIMING_PROFILE_NORMAL; gLogicRate = LOGIC_RATE_60; }
 					break;
 				case TITLE_DEBUG_H240:
 					/* Inerte em NTSC: 240 linhas so existem no timing PAL.

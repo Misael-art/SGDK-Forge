@@ -28,7 +28,9 @@ extern u8   gSombraStyle;
 extern bool gDebug;
 extern u16  gDebugFlags;     /* mascara DBG_*; so vale se gDebug==1 */
 extern bool gRegionIsPal;    /* lido do VDP no boot, nao configuravel */
-extern u8   gLogicRate;      /* LOGIC_RATE_60 ou LOGIC_RATE_50 */
+extern u8   gLogicRate;      /* LOGIC_RATE_60 ou LOGIC_RATE_50; so vale no perfil LEGACY */
+extern u8   gTimingProfile;  /* TIMING_PROFILE_*; NORMAL e o default de entrega */
+extern u8   gSubTick;        /* 0 no primeiro tick do frame de video, 1 no segundo */
 extern bool gScreen240;      /* 240 linhas; so tem efeito em console PAL */
 extern bool gFreeStepArmed;  /* free-step ligado: logica congelada */
 extern bool gFreeStepAdvance;/* pedido de avancar exatamente 1 tick */

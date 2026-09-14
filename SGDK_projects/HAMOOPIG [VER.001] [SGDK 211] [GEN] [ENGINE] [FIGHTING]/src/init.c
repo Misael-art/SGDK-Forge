@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "init.h"
 #include "globals.h"
+#include "timing.h"
 #include "gfx.h"
 #include "sprite.h"
 #include "ken.h"
@@ -180,7 +181,7 @@ void FUNCAO_INICIALIZACAO()
 	if (GE[19].sprite){ SPR_releaseSprite(GE[19].sprite); GE[19].sprite = NULL; }
 	if (GE[20].sprite){ SPR_releaseSprite(GE[20].sprite); GE[20].sprite = NULL; }
 	
-	gClockTimer=ROUND_CLOCK_TICKS; //Relogio arcade; nao representa segundo real
+	gClockTimer=(s8)TIMING_roundClockTicks(); //NORMAL: 60 ticks = 1 segundo real
 	gClockLTimer=9; //Digito esquerdo do Relogio
 	gClockRTimer=9; //Digito direito do Relogio
 	gRound=1;       //Round Number

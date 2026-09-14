@@ -27,6 +27,7 @@
 #include "title.h"
 #include "collision.h"
 #include "debug.h"
+#include "timing.h"
 
 static void copy_palette_slot(u16 *destination, const Palette *source)
 {
@@ -41,182 +42,12 @@ static void copy_palette_slot(u16 *destination, const Palette *source)
 }
 
 
-int main(bool hardReset) /************** MAIN **************/
+/* Um tick logico completo: contadores, cena e toda a simulacao.  Um frame
+   de video roda esta funcao 1 ou 2 vezes (ver inc/timing.h).  Tudo que
+   deve acontecer uma vez por FRAME -- SPR_update, sonda, VBlank -- fica
+   fora daqui, no laco principal. */
+static void run_logic_tick(void)
 {
-	/* BlastEm/console soft reset keeps 68k RAM; CRAM is wiped.
-	   Without a hard reset, gFrames/gRoom survive and FUNCAO_INICIALIZACAO
-	   never reloads fighter palettes. SGDK 2.11: sdk/sgdk-2.11/inc/sys.h */
-	if(!hardReset)
-	{
-		SYS_hardReset();
-	}
-
-    //Inicializacao da VDP (Video Display Processor)
-	SYS_disableInts();
-	 VDP_init();                    //Inicializa a VDP (Video Display Processor)
-	 VDP_setScreenWidth320();       //Resolucao padrao de 320x224 (Largura)
-	 VDP_setScreenHeight224();      //Resolucao padrao de 320x224 (Altura)
-	 VDP_setTextPlane(BG_A);        //Textos serao desenhados no BG_A
-	 VDP_setTextPalette(PAL1);      //Textos serao desenhados com a ultima cor da PAL0
-	 SPR_init();       				//SPR_initEx(u16 vramSize)
-	 HAMOOPIG_probeInit();
-	 VDP_setBackgroundColor(0);     //Range 0-63 //4 Paletas de 16 cores = 64 cores
-	 /* A regiao e uma propriedade do console: IS_PAL_SYSTEM le o flag de
-	    status do VDP.  Nao existe API para forcar 50Hz num console NTSC, entao
-	    isto e detectado, nunca configurado.  O tick logico default acompanha a
-	    regiao para que o jogo nao mude de velocidade sem o usuario pedir. */
-	 gRegionIsPal = (IS_PAL_SYSTEM) ? TRUE : FALSE;
-	 gLogicRate = gRegionIsPal ? LOGIC_RATE_50 : LOGIC_RATE_60;
-	SYS_enableInts();
-	Z80_loadDriver(Z80_DRIVER_XGM, TRUE); 
-
-	//////////////////////////////////////////////////////I.A. (config)
-	fase = 4; //manter o valor igual a 1
-	faseMAX = 8; //configurado para 8 fases no maximo (escolher valor de 1 a 8)
-	
-	IAP2 = FALSE;
-
-	//DIFICULDADE DA IA
-
-	//SE O TEMPO DE ATAQUE ESTIVER ENTRE tempoMinIAataque E tempoMaxIAataque SIGNIFICA QUE O PLAYER 2 ATACA
-	tempoMinIAataque[1] =  60; //escolher valor de 2 a 255
-	tempoMinIAataque[2] =  60;
-	tempoMinIAataque[3] =  50;
-	tempoMinIAataque[4] =  50;
-	tempoMinIAataque[5] =  40;
-	tempoMinIAataque[6] =  30;
-	tempoMinIAataque[7] =  20;
-	tempoMinIAataque[8] =  10;
-
-	tempoMaxIAataque[1] = 100; //escolher valor de 2 a 255 (valor deve ser maior que o respectivo no tempoMinIAataque)
-	tempoMaxIAataque[2] = 100;
-	tempoMaxIAataque[3] = 100;
-	tempoMaxIAataque[4] = 100;
-	tempoMaxIAataque[5] =  55;
-	tempoMaxIAataque[6] =  60;
- 	tempoMaxIAataque[7] =  50;
-	tempoMaxIAataque[8] =  80;
-
-	//QUANTO MENOR O VALOR, MAIS A IA DO PLAYER 2 DEFENDE
-	defesaIA[1] =  50; //escolher valor de 10 a 255, valor menor ou igual a 10 = sempre defende
-	defesaIA[2] =  50;
-	defesaIA[3] =  10;
-	defesaIA[4] =  10;
-	defesaIA[5] =  90;
-	defesaIA[6] =  60;
-	defesaIA[7] =  30;
-	defesaIA[8] =  15;
-
-	P2fase[1] = 2; //escolha do Player 2 em cada fase: 1="haohmaru", 2="gillius"
-	P2fase[2] = 1;
-	P2fase[3] = 2;
-	P2fase[4] = 1;
-	P2fase[5] = 2;
-	P2fase[6] = 1;
-	P2fase[7] = 2;
-	P2fase[8] = 1;
-	//////////////////////////////////////////////////////I.A. (config)
-	
-	/* --- CONTRATO DE CENAS ------------------------------------------------
-	   O dispatch abaixo e uma CADEIA de `if(gRoom==N)`, nao um switch: uma
-	   cena que troca gRoom cai no bloco da cena seguinte DENTRO DA MESMA
-	   iteracao, desde que esse bloco venha depois na ordem textual.
-
-	   Ordem textual dos blocos: 1 -> 2 -> 9 -> 10 -> 11 -> 12.
-
-	   Por isso a convencao de gFrames ao trocar de cena e posicional:
-	     - alvo DEPOIS do bloco atual  => gFrames=1 (o bloco alvo roda ja
-	       nesta iteracao e ve gFrames==1, entao inicializa);
-	     - alvo ANTES do bloco atual   => gFrames=0 (so roda na proxima
-	       iteracao, onde o gFrames++ do topo o leva a 1).
-	   Trocar a ordem dos blocos, ou converter para switch, quebra todas as
-	   transicoes. Ao adicionar uma cena nova, insira o bloco na posicao que
-	   respeite essa regra e escolha gFrames de acordo.
-
-	   gRoom 9 (DESCOMPRESSION) nao tem produtor: nada atribui gRoom=9 hoje.
-	   Mantido como ponto de extensao via gDescompressionExit.
-	   --------------------------------------------------------------------- */
-	/* --- CONTRATO DE TAXA LOGICA -----------------------------------------
-	   Um tick descartado nao roda NADA: nem gFrames, nem input, nem logica.
-	   So atualiza sprites e espera o VBlank.  Assim o jogo inteiro desacelera
-	   junto, inclusive o letreiro de round, que conta gFrames.
-
-	   Consequencia intencional: com tick a 50Hz, a deteccao de borda de botao
-	   passa a ser relativa ao tick logico anterior, nao ao frame de video.
-	   Um toque que comece e termine dentro do frame descartado se perde --
-	   e exatamente o que acontece num console PAL de verdade.
-	   --------------------------------------------------------------------- */
-    while(TRUE) /// LOOP PRINCIPAL ///
-    {
-		{
-			static u8 rateAccum = 0;
-			static u16 stepPrevJoy = 0;
-			static bool pausePanelUp = FALSE;
-			bool runTick = TRUE;
-
-			/* Leitura crua do joypad de proposito: chamar FUNCAO_INPUT_SYSTEM
-			   aqui aplicaria efeitos colaterais (botao de ataque, troca de
-			   lutador com MODE) num frame em que a FSM pode estar congelada. */
-			u16 joy = JOY_readJoypad(JOY_1);
-			u16 edge = (u16)(joy & ~stepPrevJoy);
-			stepPrevJoy = joy;
-
-			/* START sozinho congela/retoma a luta.  MODE+START ja e o atalho
-			   historico que liga o debug em input.c, entao so pausa quando
-			   MODE nao esta pressionado -- senao o combo dispararia os dois. */
-			if(gRoom == 10 && (edge & BUTTON_START) && !(joy & BUTTON_MODE))
-			{
-				gFreeStepArmed = !gFreeStepArmed;
-				gFreeStepAdvance = FALSE;
-			}
-
-			/* Num console PAL a logica ja roda a 50Hz por hardware; so o
-			   console NTSC precisa descartar 1 de cada 6 frames. */
-			if(gLogicRate == LOGIC_RATE_50 && !gRegionIsPal)
-			{
-				rateAccum++;
-				if(rateAccum >= 6){ rateAccum = 0; runTick = FALSE; }
-			}
-
-			/* So congela a luta.  Se valesse em qualquer cena, ligar STEP no
-			   menu de titulo travaria o proprio menu que acabou de liga-lo.
-
-			   gFrames>1 nao e detalhe: a cena entra com gFrames=1 e e esse
-			   tick que roda FUNCAO_INICIALIZACAO.  Congelando antes dele, com
-			   STEP ligado la no titulo, a luta nunca carregaria cenario nem
-			   lutadores -- so uma tela vazia esperando o primeiro step. */
-			if(gFreeStepArmed && gRoom == 10 && gFrames > 1)
-			{
-				runTick = gFreeStepAdvance;
-				gFreeStepAdvance = FALSE;
-			}
-
-			/* O painel so existe na pausa de verdade: num frame descartado
-			   pelo tick de 50Hz nao ha nada a mostrar nem a limpar. */
-			{
-				bool wantPanel = (gFreeStepArmed && gRoom == 10) ? TRUE : FALSE;
-				if(wantPanel && !pausePanelUp){ FUNCAO_DEBUG_PAUSE_ENTER(); }
-				if(!wantPanel && pausePanelUp){ FUNCAO_DEBUG_PAUSE_EXIT(); }
-				pausePanelUp = wantPanel;
-			}
-
-			if(!runTick)
-			{
-				/* C avanca 1 tick; B e a saida de emergencia, porque nao ha
-				   como voltar ao menu de titulo a partir da luta. */
-				if(gFreeStepArmed && gRoom == 10)
-				{
-					if(edge & BUTTON_C){ gFreeStepAdvance = TRUE; }
-					if(edge & BUTTON_B){ gFreeStepArmed = FALSE; }
-					FUNCAO_DEBUG_PAUSE_UPDATE(edge);
-				}
-
-				SPR_update();
-				SYS_doVBlankProcess();
-				continue;
-			}
-		}
-
         gFrames++;
 
 		/* 240 linhas dependem de regiao, cena e altura do cenario -- por isso
@@ -438,6 +269,192 @@ int main(bool hardReset) /************** MAIN **************/
 			FUNCAO_ROUND_RESTART();
 		}
 		
+}
+
+
+int main(bool hardReset) /************** MAIN **************/
+{
+	/* BlastEm/console soft reset keeps 68k RAM; CRAM is wiped.
+	   Without a hard reset, gFrames/gRoom survive and FUNCAO_INICIALIZACAO
+	   never reloads fighter palettes. SGDK 2.11: sdk/sgdk-2.11/inc/sys.h */
+	if(!hardReset)
+	{
+		SYS_hardReset();
+	}
+
+    //Inicializacao da VDP (Video Display Processor)
+	SYS_disableInts();
+	 VDP_init();                    //Inicializa a VDP (Video Display Processor)
+	 VDP_setScreenWidth320();       //Resolucao padrao de 320x224 (Largura)
+	 VDP_setScreenHeight224();      //Resolucao padrao de 320x224 (Altura)
+	 VDP_setTextPlane(BG_A);        //Textos serao desenhados no BG_A
+	 VDP_setTextPalette(PAL1);      //Textos serao desenhados com a ultima cor da PAL0
+	 SPR_init();       				//SPR_initEx(u16 vramSize)
+	 HAMOOPIG_probeInit();
+	 VDP_setBackgroundColor(0);     //Range 0-63 //4 Paletas de 16 cores = 64 cores
+	 /* A regiao e uma propriedade do console: IS_PAL_SYSTEM le o flag de
+	    status do VDP.  Nao existe API para forcar 50Hz num console NTSC, entao
+	    isto e detectado, nunca configurado.  O tick logico default acompanha a
+	    regiao para que o jogo nao mude de velocidade sem o usuario pedir. */
+	 gRegionIsPal = (IS_PAL_SYSTEM) ? TRUE : FALSE;
+	 gLogicRate = gRegionIsPal ? LOGIC_RATE_50 : LOGIC_RATE_60;
+	 TIMING_init();
+	SYS_enableInts();
+	Z80_loadDriver(Z80_DRIVER_XGM, TRUE); 
+
+	//////////////////////////////////////////////////////I.A. (config)
+	fase = 4; //manter o valor igual a 1
+	faseMAX = 8; //configurado para 8 fases no maximo (escolher valor de 1 a 8)
+	
+	IAP2 = FALSE;
+
+	//DIFICULDADE DA IA
+
+	//SE O TEMPO DE ATAQUE ESTIVER ENTRE tempoMinIAataque E tempoMaxIAataque SIGNIFICA QUE O PLAYER 2 ATACA
+	tempoMinIAataque[1] =  60; //escolher valor de 2 a 255
+	tempoMinIAataque[2] =  60;
+	tempoMinIAataque[3] =  50;
+	tempoMinIAataque[4] =  50;
+	tempoMinIAataque[5] =  40;
+	tempoMinIAataque[6] =  30;
+	tempoMinIAataque[7] =  20;
+	tempoMinIAataque[8] =  10;
+
+	tempoMaxIAataque[1] = 100; //escolher valor de 2 a 255 (valor deve ser maior que o respectivo no tempoMinIAataque)
+	tempoMaxIAataque[2] = 100;
+	tempoMaxIAataque[3] = 100;
+	tempoMaxIAataque[4] = 100;
+	tempoMaxIAataque[5] =  55;
+	tempoMaxIAataque[6] =  60;
+ 	tempoMaxIAataque[7] =  50;
+	tempoMaxIAataque[8] =  80;
+
+	//QUANTO MENOR O VALOR, MAIS A IA DO PLAYER 2 DEFENDE
+	defesaIA[1] =  50; //escolher valor de 10 a 255, valor menor ou igual a 10 = sempre defende
+	defesaIA[2] =  50;
+	defesaIA[3] =  10;
+	defesaIA[4] =  10;
+	defesaIA[5] =  90;
+	defesaIA[6] =  60;
+	defesaIA[7] =  30;
+	defesaIA[8] =  15;
+
+	P2fase[1] = 2; //escolha do Player 2 em cada fase: 1="haohmaru", 2="gillius"
+	P2fase[2] = 1;
+	P2fase[3] = 2;
+	P2fase[4] = 1;
+	P2fase[5] = 2;
+	P2fase[6] = 1;
+	P2fase[7] = 2;
+	P2fase[8] = 1;
+	//////////////////////////////////////////////////////I.A. (config)
+	
+	/* --- CONTRATO DE CENAS ------------------------------------------------
+	   O dispatch abaixo e uma CADEIA de `if(gRoom==N)`, nao um switch: uma
+	   cena que troca gRoom cai no bloco da cena seguinte DENTRO DA MESMA
+	   iteracao, desde que esse bloco venha depois na ordem textual.
+
+	   Ordem textual dos blocos: 1 -> 2 -> 9 -> 10 -> 11 -> 12.
+
+	   Por isso a convencao de gFrames ao trocar de cena e posicional:
+	     - alvo DEPOIS do bloco atual  => gFrames=1 (o bloco alvo roda ja
+	       nesta iteracao e ve gFrames==1, entao inicializa);
+	     - alvo ANTES do bloco atual   => gFrames=0 (so roda na proxima
+	       iteracao, onde o gFrames++ do topo o leva a 1).
+	   Trocar a ordem dos blocos, ou converter para switch, quebra todas as
+	   transicoes. Ao adicionar uma cena nova, insira o bloco na posicao que
+	   respeite essa regra e escolha gFrames de acordo.
+
+	   gRoom 9 (DESCOMPRESSION) nao tem produtor: nada atribui gRoom=9 hoje.
+	   Mantido como ponto de extensao via gDescompressionExit.
+	   --------------------------------------------------------------------- */
+	/* --- CONTRATO DE TAXA LOGICA -----------------------------------------
+	   Um tick descartado nao roda NADA: nem gFrames, nem input, nem logica.
+	   So atualiza sprites e espera o VBlank.  Assim o jogo inteiro desacelera
+	   junto, inclusive o letreiro de round, que conta gFrames.
+
+	   Consequencia intencional: com tick a 50Hz, a deteccao de borda de botao
+	   passa a ser relativa ao tick logico anterior, nao ao frame de video.
+	   Um toque que comece e termine dentro do frame descartado se perde --
+	   e exatamente o que acontece num console PAL de verdade.
+	   --------------------------------------------------------------------- */
+    while(TRUE) /// LOOP PRINCIPAL ///
+    {
+		{
+			static u16 stepPrevJoy = 0;
+			static bool pausePanelUp = FALSE;
+			bool frozen = FALSE;
+
+			/* Leitura crua do joypad de proposito: chamar FUNCAO_INPUT_SYSTEM
+			   aqui aplicaria efeitos colaterais (botao de ataque, troca de
+			   lutador com MODE) num frame em que a FSM pode estar congelada. */
+			u16 joy = JOY_readJoypad(JOY_1);
+			u16 edge = (u16)(joy & ~stepPrevJoy);
+			stepPrevJoy = joy;
+
+			/* START sozinho congela/retoma a luta.  MODE+START ja e o atalho
+			   historico que liga o debug em input.c, entao so pausa quando
+			   MODE nao esta pressionado -- senao o combo dispararia os dois. */
+			if(gRoom == 10 && (edge & BUTTON_START) && !(joy & BUTTON_MODE))
+			{
+				gFreeStepArmed = !gFreeStepArmed;
+				gFreeStepAdvance = FALSE;
+			}
+
+			/* A taxa logica nao e mais decidida aqui: TIMING_ticksForThisFrame
+			   e a unica autoridade sobre quantos ticks o frame vale.  Este
+			   bloco cuida so de congelamento por pausa/free-step. */
+
+			/* So congela a luta.  Se valesse em qualquer cena, ligar STEP no
+			   menu de titulo travaria o proprio menu que acabou de liga-lo.
+
+			   gFrames>1 nao e detalhe: a cena entra com gFrames=1 e e esse
+			   tick que roda FUNCAO_INICIALIZACAO.  Congelando antes dele, com
+			   STEP ligado la no titulo, a luta nunca carregaria cenario nem
+			   lutadores -- so uma tela vazia esperando o primeiro step. */
+			if(gFreeStepArmed && gRoom == 10 && gFrames > 1)
+			{
+				frozen = !gFreeStepAdvance;
+				gFreeStepAdvance = FALSE;
+			}
+
+			/* O painel acompanha a pausa, nao o congelamento do frame. */
+			{
+				bool wantPanel = (gFreeStepArmed && gRoom == 10) ? TRUE : FALSE;
+				if(wantPanel && !pausePanelUp){ FUNCAO_DEBUG_PAUSE_ENTER(); }
+				if(!wantPanel && pausePanelUp){ FUNCAO_DEBUG_PAUSE_EXIT(); }
+				pausePanelUp = wantPanel;
+			}
+
+			if(frozen)
+			{
+				/* C avanca 1 tick; B e a saida de emergencia, porque nao ha
+				   como voltar ao menu de titulo a partir da luta. */
+				if(gFreeStepArmed && gRoom == 10)
+				{
+					if(edge & BUTTON_C){ gFreeStepAdvance = TRUE; }
+					if(edge & BUTTON_B){ gFreeStepArmed = FALSE; }
+					FUNCAO_DEBUG_PAUSE_UPDATE(edge);
+				}
+
+				SPR_update();
+				SYS_doVBlankProcess();
+				continue;
+			}
+		}
+
+        {
+            /* Um frame de video pode valer 1 ou 2 ticks logicos.  gSubTick diz
+               qual deles esta rodando: FUNCAO_INPUT_SYSTEM so produz borda no
+               primeiro, porque no segundo previousJoyState ja igualou
+               currentJoyState e o botao aparece como HOLD. */
+            u8 ticks = TIMING_ticksForThisFrame();
+            for(gSubTick = 0; gSubTick < ticks; gSubTick++)
+            {
+                run_logic_tick();
+            }
+            gSubTick = 0;
+        }
 		//--- FINALIZACOES ---//
 		// VDP_showFPS(1, 1, 1);        //Mostra a taxa de FPS
 		u16 dmaBeforeSpriteUpdate = DMA_getQueueTransferSize();

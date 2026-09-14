@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "hud.h"
 #include "globals.h"
+#include "timing.h"
 #include "sprite.h"
 #include "hud_gfx.h"
 
@@ -25,7 +26,7 @@ void FUNCAO_RELOGIO()
 				gClockRTimer=0;
 			}
 		}
-		gClockTimer=ROUND_CLOCK_TICKS;
+		gClockTimer=(s8)TIMING_roundClockTicks();
 		hud_window_draw_clock();
 	}
 }

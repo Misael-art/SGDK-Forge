@@ -10,10 +10,10 @@
   "baseline": {
     "commit": "3ceac2c4",
     "rom_path": "out/rom.bin",
-    "observed_rom_sha256": "e2ca583341b3f0784442b765df67080ebb02cd015b8e06494c570464e65be0f4",
-    "source_rom_binding": "verified_project_sources_only",
+    "observed_rom_sha256": "bc827a873e3d1c103b04f23339a237a42bfe96fb2d8d949376a01cd9be412495",
+    "source_rom_binding": "stale_after_P01",
     "fresh_emulator_session_in_this_planning_turn": false,
-    "source_rom_binding_method": "rebuild from cleaned build artifacts at commit 3ceac2c4; bit-identical sha256; library_rebuild=false"
+    "source_rom_binding_method": "P00 provou bit-identidade para e2ca5833; P01 mudou o codigo. Revalidar com rebuild limpo."
   },
   "executor_capabilities": {
     "shell": true,
@@ -82,7 +82,7 @@
       "depends_on": [
         "P00"
       ],
-      "status": "planned",
+      "status": "done_with_pending",
       "acceptance": [
         "logical_tick_replay_equivalence",
         "no_lost_or_duplicated_edges",
@@ -90,15 +90,25 @@
       ],
       "visual_review_required": true,
       "audio_review_required": true,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
-      "audio_review": null,
-      "budget": null,
-      "documentation": null,
-      "evidence": []
+      "implementation": "passed",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "passed",
+      "visual_review": "pending_visual_review",
+      "audio_review": "pending_audio_review",
+      "budget": "failed",
+      "documentation": "passed",
+      "evidence": [
+        "doc/engine/p01_timing_report.json",
+        "tests/test_timing_contract.py",
+        "out/emulator_evidence/p01_ntsc",
+        "out/emulator_evidence/p01_pal"
+      ],
+      "acceptance_result": {
+        "logical_tick_replay_equivalence": "partial",
+        "no_lost_or_duplicated_edges": "partial",
+        "ntsc_pal_worst_frame": "failed"
+      }
     },
     {
       "id": "P02",

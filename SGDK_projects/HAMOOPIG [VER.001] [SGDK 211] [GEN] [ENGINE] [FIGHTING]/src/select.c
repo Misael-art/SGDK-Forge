@@ -99,7 +99,6 @@ static void cycle_id(u8 *id)
 
 void FUNCAO_SELECT_UPDATE()
 {
-	if(gFrames > 120){ FUNCAO_SELECT_EXIT(); return; } //VALIDACAO
 
 	if(!sLocked[1])
 	{

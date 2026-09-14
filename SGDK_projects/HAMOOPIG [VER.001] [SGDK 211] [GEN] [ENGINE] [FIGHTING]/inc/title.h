@@ -18,10 +18,21 @@ typedef enum
 
 typedef enum
 {
-	TITLE_OPTION_SFX = 0,
-	TITLE_OPTION_MUSIC = 1,
-	TITLE_OPTION_DEBUG = 2,
-	TITLE_OPTION_BACK = 3
+	/* Ordem de leitura: audio, HUD, regra, apresentacao, ferramentas.
+	   DEFAULTS e acao, nao toggle, e por isso fica junto de BACK.
+	   So existem aqui opcoes cujo sistema ja existe -- o plano proibe botao
+	   inativo sem destino implementado (secao 3).  SPECIAL BAR e SPECIAL RULES
+	   entram no P05, HIT COUNT no P06, STAGE COLOR/MOTION/2 no P08 e P09. */
+	TITLE_OPTION_SFX      = 0,
+	TITLE_OPTION_MUSIC    = 1,
+	TITLE_OPTION_LIFEBAR  = 2,
+	TITLE_OPTION_TIMER    = 3,
+	TITLE_OPTION_TIMELIM  = 4,
+	TITLE_OPTION_OPENING  = 5,
+	TITLE_OPTION_FADE     = 6,
+	TITLE_OPTION_DEBUG    = 7,
+	TITLE_OPTION_DEFAULTS = 8,
+	TITLE_OPTION_BACK     = 9
 } TitleOptionItem;
 
 typedef enum

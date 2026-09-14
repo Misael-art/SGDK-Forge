@@ -2,6 +2,7 @@
 #include "opening.h"
 #include "scene.h"
 #include "globals.h"
+#include "config.h"
 #include "gfx.h"
 #include "graphics.h"
 
@@ -26,6 +27,16 @@ void FUNCAO_OPENING_INIT(void)
 	sPhaseTicks = 0;
 	sSkipRequested = FALSE;
 
+	/* OPENING OFF entrega o controle na hora, sem carregar nada: nao adianta
+	   montar a composicao para descarta-la no mesmo tick. */
+	if(!gConfig.showOpening)
+	{
+		sPhase = OPENING_PHASE_DONE;
+		CLEAR_VDP();
+		SCENE_request(SCENE_TITLE);
+		return;
+	}
+
 	/* Carrega com a tela ja preta: PAL_fadeIn abaixo e quem revela.  Sem isto
 	   o primeiro frame mostraria a arte em brilho total antes do fade. */
 	PAL_setColors(0, (u16*)palette_black, 64, CPU);
@@ -42,7 +53,10 @@ void FUNCAO_OPENING_INIT(void)
 
 	/* Um unico dono de CRAM: o fade e assincrono e conduzido por esta maquina
 	   de estados.  Nenhuma outra cena inicia fade enquanto a abertura roda. */
-	PAL_fadeIn(0, (4 * 16) - 1, palette, OPENING_FADE_IN_TICKS, TRUE);
+	/* FADE OFF e corte, nao fade rapido: a paleta vai direto ao destino com a
+	   composicao ja carregada, entao nao ha flash de recurso parcial. */
+	if(gConfig.useFade){ PAL_fadeIn(0, (4 * 16) - 1, palette, OPENING_FADE_IN_TICKS, TRUE); }
+	else { PAL_setColors(0, palette, 64, CPU); }
 }
 
 void FUNCAO_OPENING_UPDATE(void)
@@ -67,7 +81,7 @@ void FUNCAO_OPENING_UPDATE(void)
 		case OPENING_PHASE_FADE_IN:
 			/* O HOLD so comeca quando o fade termina de fato; contar os dois
 			   juntos encurtaria a leitura dos creditos. */
-			if(sPhaseTicks >= OPENING_FADE_IN_TICKS && !PAL_isDoingFade())
+			if(!gConfig.useFade || (sPhaseTicks >= OPENING_FADE_IN_TICKS && !PAL_isDoingFade()))
 			{
 				sPhase = OPENING_PHASE_HOLD;
 				sPhaseTicks = 0;
@@ -79,12 +93,13 @@ void FUNCAO_OPENING_UPDATE(void)
 			{
 				sPhase = OPENING_PHASE_FADE_OUT;
 				sPhaseTicks = 0;
-				PAL_fadeOutAll(OPENING_FADE_OUT_TICKS, TRUE);
+				if(gConfig.useFade){ PAL_fadeOutAll(OPENING_FADE_OUT_TICKS, TRUE); }
+				else { PAL_setColors(0, (u16*)palette_black, 64, CPU); }
 			}
 			break;
 
 		case OPENING_PHASE_FADE_OUT:
-			if(sPhaseTicks >= OPENING_FADE_OUT_TICKS && !PAL_isDoingFade())
+			if(!gConfig.useFade || (sPhaseTicks >= OPENING_FADE_OUT_TICKS && !PAL_isDoingFade()))
 			{
 				sPhase = OPENING_PHASE_DONE;
 				/* CLEAR_VDP antes de entregar: o titulo carrega a composicao

@@ -15,6 +15,7 @@
 #include "sound.h"
 #include "game_types.h"
 #include "globals.h"
+#include "config.h"
 #include "hamoopig_runtime_probe.h"
 #include "player.h"
 #include "input.h"
@@ -30,6 +31,7 @@
 #include "timing.h"
 #include "scene.h"
 #include "opening.h"
+#include "config.h"
 
 
 
@@ -149,7 +151,7 @@ static void run_logic_tick(void)
 			if(gFrames == 1){ 
 				gPodeMover=0;
 				FUNCAO_INICIALIZACAO(); //Inicializacao
-				if(gAudioMusicEnabled){ XGM_startPlay(bgm_ken_stage); }
+				if(gConfig.audioMusic){ XGM_startPlay(bgm_ken_stage); }
 			}
 			if(gFrames<=355){ 
 				FUNCAO_ROUND_INIT(); //Rotina de Letreiramento de inicio dos rounds
@@ -276,6 +278,7 @@ int main(bool hardReset) /************** MAIN **************/
 	 gRegionIsPal = (IS_PAL_SYSTEM) ? TRUE : FALSE;
 	 gLogicRate = gRegionIsPal ? LOGIC_RATE_50 : LOGIC_RATE_60;
 	 TIMING_init();
+	 CONFIG_setDefaults();
 	SYS_enableInts();
 	Z80_loadDriver(Z80_DRIVER_XGM, TRUE); 
 

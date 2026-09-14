@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "player.h"
 #include "globals.h"
+#include "config.h"
 #include "sprite.h"
 #include "sound.h"
 #include "graphics.h"
@@ -1033,7 +1034,7 @@ void PLAYER_STATE(u8 Player, u16 State)
 
 void FUNCAO_PLAY_SND(u8 Player, u16 State)
 {
-	if(!gAudioSfxEnabled){ return; }
+	if(!gConfig.audioSfx){ return; }
 	//P1 utiliza o 'P1_SFX' e 'SOUND_PCM_CH3'
 	//P2 utiliza o 'P2_SFX' e 'SOUND_PCM_CH4'
 	

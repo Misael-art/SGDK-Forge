@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "hud.h"
 #include "globals.h"
+#include "config.h"
 #include "scene.h"
 #include "timing.h"
 #include "sprite.h"
@@ -10,6 +11,10 @@ static void hud_window_draw_clock(void);
 
 void FUNCAO_RELOGIO()
 {
+	/* TIME LIMIT OFF nao para o relogio "visualmente": para a CONTAGEM, entao
+	   nao existe time-over. Esconder o mostrador e outra opcao (hudTimer). */
+	if(gMatchRules.timeLimit == CONFIG_TIME_OFF){ return; }
+
 	if(gClockTimer>0 && (gClockLTimer>0 || gClockRTimer>0) && (P[1].energiaBase>0 && P[2].energiaBase>0) ){ gClockTimer--; }
 
 	if(gClockTimer==0)
@@ -97,6 +102,15 @@ static void hud_window_draw_clock(void)
 	s8 right;
 
 	if(!sHudWindowActive){ return; }
+
+	/* Esconder e so apresentacao: gClockLTimer/gClockRTimer continuam correndo
+	   e o time-over continua valendo. */
+	{
+		SpriteVisibility v = gConfig.hudTimer ? VISIBLE : HIDDEN;
+		if(sHudClockSpriteL){ SPR_setVisibility(sHudClockSpriteL, v); }
+		if(sHudClockSpriteR){ SPR_setVisibility(sHudClockSpriteR, v); }
+	}
+
 	left = (s8)hud_clock_digit(gClockLTimer);
 	right = (s8)hud_clock_digit(gClockRTimer);
 	if(left == sHudClockDigitL && right == sHudClockDigitR){ return; }
@@ -115,6 +129,10 @@ static u8 hud_segment_count(s8 energy)
 static void hud_set_bar(Sprite **segments, u8 count, u16 baseX, u8 reverse)
 {
 	u8 i;
+	/* Apresentacao apenas: energia, dano e KO continuam iguais com a barra
+	   escondida. Por isso zera-se a contagem de segmentos visiveis, nao a
+	   energia. */
+	if(!gConfig.hudLifeBar){ count = 0; }
 	for(i = 0; i < HUD_BAR_SEGMENTS; i++)
 	{
 		Sprite *sprite = segments[i];

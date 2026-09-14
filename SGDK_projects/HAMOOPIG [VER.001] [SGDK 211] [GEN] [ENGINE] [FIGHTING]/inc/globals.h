@@ -15,8 +15,6 @@ extern bool gPodeMover;
 extern u8   gWinnerID;
 extern u8   gLoseID;
 extern bool gContinueOption;
-extern bool gAudioSfxEnabled;
-extern bool gAudioMusicEnabled;
 extern u8   gRoom;
 extern u8   gTimerExit;
 extern u8   gDescompressionExit;

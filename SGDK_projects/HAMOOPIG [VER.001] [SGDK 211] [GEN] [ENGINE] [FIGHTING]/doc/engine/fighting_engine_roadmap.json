@@ -10,8 +10,8 @@
   "baseline": {
     "commit": "3ceac2c4",
     "rom_path": "out/rom.bin",
-    "observed_rom_sha256": "0af60f184fb3b4520938f60a045d97d4373a255d403eccf15097e2b415f1659d",
-    "source_rom_binding": "stale_after_P02",
+    "observed_rom_sha256": "ea87521c6b55782eaa97b70ec67609d9700ec41c15dfb819d003e546b478da1a",
+    "source_rom_binding": "stale_after_P03",
     "fresh_emulator_session_in_this_planning_turn": false,
     "source_rom_binding_method": "P00 provou bit-identidade para e2ca5833; P01 mudou o codigo. Revalidar com rebuild limpo."
   },
@@ -154,7 +154,7 @@
       "depends_on": [
         "P02"
       ],
-      "status": "planned",
+      "status": "done_with_pending",
       "acceptance": [
         "every_menu_item_effect",
         "on_off_on_and_defaults",
@@ -162,15 +162,23 @@
       ],
       "visual_review_required": true,
       "audio_review_required": true,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
-      "audio_review": null,
-      "budget": null,
-      "documentation": null,
-      "evidence": []
+      "implementation": "passed",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "passed",
+      "visual_review": "pending_visual_review",
+      "audio_review": "not_run",
+      "budget": "not_run",
+      "documentation": "passed",
+      "evidence": [
+        "doc/engine/p03_config_report.json",
+        "out/emulator_evidence/p03_options2"
+      ],
+      "acceptance_result": {
+        "every_menu_item_effect": "partial",
+        "on_off_on_and_defaults": "passed",
+        "debug_page_regression": "not_run"
+      }
     },
     {
       "id": "P04",

@@ -2,6 +2,7 @@
 #include "init.h"
 #include "globals.h"
 #include "scene.h"
+#include "config.h"
 #include "timing.h"
 #include "gfx.h"
 #include "sprite.h"
@@ -13,6 +14,9 @@
 
 void FUNCAO_INICIALIZACAO()
 {
+	/* A regra da partida e congelada aqui: mexer no menu entre rounds nao
+	   pode trocar a regra no meio da partida. */
+	CONFIG_freezeMatchRules();
 	gPodeMover=0;
 	doubleHitStep=0;
 	gPauseSystem=0;
@@ -183,8 +187,10 @@ void FUNCAO_INICIALIZACAO()
 	if (GE[20].sprite){ SPR_releaseSprite(GE[20].sprite); GE[20].sprite = NULL; }
 	
 	gClockTimer=(s8)TIMING_roundClockTicks(); //NORMAL: 60 ticks = 1 segundo real
-	gClockLTimer=9; //Digito esquerdo do Relogio
-	gClockRTimer=9; //Digito direito do Relogio
+	/* Digitos iniciais vem da REGRA congelada, nao de gConfig: trocar o limite
+	   no menu entre rounds nao pode mudar a partida em andamento. */
+	if(gMatchRules.timeLimit == CONFIG_TIME_60){ gClockLTimer=6; gClockRTimer=0; }
+	else { gClockLTimer=9; gClockRTimer=9; }
 	gRound=1;       //Round Number
 	if(ClockL){ SPR_releaseSprite(ClockL); ClockL = NULL; }
 	if(ClockR){ SPR_releaseSprite(ClockR); ClockR = NULL; }

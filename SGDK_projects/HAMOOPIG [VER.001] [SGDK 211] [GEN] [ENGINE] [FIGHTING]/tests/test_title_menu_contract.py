@@ -21,6 +21,8 @@ def main():
     main_c = (ROOT / "src/main.c").read_text()
     opening = (ROOT / "src/opening.c").read_text()
     globals_h = (ROOT / "inc/globals.h").read_text()
+    config_h = (ROOT / "inc/config.h").read_text()
+    config_c = (ROOT / "src/config.c").read_text()
 
     # 1. Itens do menu continuam existindo.
     for token in ('"START"', '"OPTION"', '"SFX ON"', '"SFX OFF"',
@@ -34,8 +36,25 @@ def main():
     assert '#include "title.h"' in main_c
     assert 'FUNCAO_TITLE_INIT();' in main_c
     assert 'FUNCAO_TITLE_UPDATE();' in main_c
-    assert 'gAudioSfxEnabled' in globals_h
-    assert 'gAudioMusicEnabled' in globals_h
+    # P03: as preferencias de audio sairam de globals.h para GameConfig.
+    assert 'audioSfx' in config_h and 'audioMusic' in config_h, \
+        "as preferencias de audio devem viver em GameConfig"
+    assert 'gAudioSfxEnabled' not in globals_h, \
+        "o global antigo de SFX voltou; ha duas fontes de verdade"
+
+    # P03: defaults e validacao em um lugar so.
+    for token in ('CONFIG_setDefaults', 'CONFIG_validate', 'CONFIG_freezeMatchRules'):
+        assert token in config_h and token in config_c, f"config sem {token}"
+
+    # P03: regra congelada na partida, nunca lida direto de gConfig na luta.
+    hud_c = (ROOT / "src/hud.c").read_text()
+    assert 'gMatchRules.timeLimit' in hud_c, \
+        "a luta deve ler a regra congelada, nao gConfig"
+
+    # P03: nenhum item de menu sem sistema por tras (plano, secao 3).
+    for proibido in ('"SPECIAL BAR"', '"HIT COUNT"', '"STAGE 2"', '"STAGE COLOR"'):
+        assert proibido not in title, \
+            f"{proibido} nao tem sistema implementado; seria botao inerte"
 
     # 3. O titulo entrega o controle pelo gerenciador, nunca escrevendo gRoom.
     assert 'SCENE_request(SCENE_SELECT)' in title, \

@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "title.h"
 #include "globals.h"
+#include "config.h"
 #include "scene.h"
 #include "gfx.h"
 #include "hud_gfx.h"
@@ -23,7 +24,10 @@
 #define TITLE_MENU_PANEL_H 11
 #define TITLE_DEBUG_PANEL_Y 6
 #define TITLE_DEBUG_PANEL_H 20
-#define TITLE_PANEL_MAX_H TITLE_DEBUG_PANEL_H
+/* OPTIONS tem 10 itens + titulo = 11 slots de 2 linhas. */
+#define TITLE_OPT_PANEL_Y 4
+#define TITLE_OPT_PANEL_H 22
+#define TITLE_PANEL_MAX_H TITLE_OPT_PANEL_H
 /* O titulo carrega a composicao com a tela protegida e so entao revela.
    O tempo de CARGA e medido separado do fade: misturar os dois faz um DMA
    lento parecer um fade lento. */
@@ -206,17 +210,27 @@ static void title_render_main(void)
 	title_commit_map();
 }
 
+static const char *title_timelimit_label(void)
+{
+	if(gConfig.timeLimit == CONFIG_TIME_OFF){ return "TIME OFF"; }
+	return (gConfig.timeLimit == CONFIG_TIME_60) ? "TIME 60" : "TIME 99";
+}
+
 static void title_render_options(void)
 {
 	title_map_fill();
 	title_put_centered("OPTIONS", 0);
-	title_put_centered(gAudioSfxEnabled ? "SFX ON" : "SFX OFF", 2);
-	title_put_centered(gAudioMusicEnabled ? "MUSIC ON" : "MUSIC OFF", 4);
-	title_put_centered("DEBUG", 6);
-	title_put_centered("BACK", 8);
-	title_put_cursor((titleCursor == TITLE_OPTION_SFX) ? 2 :
-		(titleCursor == TITLE_OPTION_MUSIC) ? 4 :
-		(titleCursor == TITLE_OPTION_DEBUG) ? 6 : 8, TRUE);
+	title_put_centered(gConfig.audioSfx   ? "SFX ON"   : "SFX OFF",   2);
+	title_put_centered(gConfig.audioMusic ? "MUSIC ON" : "MUSIC OFF", 4);
+	title_put_centered(gConfig.hudLifeBar ? "LIFE ON"  : "LIFE OFF",  6);
+	title_put_centered(gConfig.hudTimer   ? "CLOCK ON" : "CLOCK OFF", 8);
+	title_put_centered(title_timelimit_label(), 10);
+	title_put_centered(gConfig.showOpening ? "INTRO ON" : "INTRO OFF", 12);
+	title_put_centered(gConfig.useFade    ? "FADE ON"  : "FADE OFF",  14);
+	title_put_centered("DEBUG", 16);
+	title_put_centered("DEFAULTS", 18);
+	title_put_centered("BACK", 20);
+	title_put_cursor((u8)(2 + (titleCursor * 2)), TRUE);
 	title_commit_map();
 }
 
@@ -250,6 +264,11 @@ static void title_goto_page(u8 page, u8 cursor)
 		sPanelY = TITLE_DEBUG_PANEL_Y;
 		sPanelH = TITLE_DEBUG_PANEL_H;
 	}
+	else if(page == TITLE_PAGE_OPTIONS)
+	{
+		sPanelY = TITLE_OPT_PANEL_Y;
+		sPanelH = TITLE_OPT_PANEL_H;
+	}
 	else
 	{
 		sPanelY = TITLE_MENU_PANEL_Y;
@@ -264,7 +283,7 @@ static void title_goto_page(u8 page, u8 cursor)
 
 static void title_menu_sfx(void)
 {
-	if(gAudioSfxEnabled)
+	if(gConfig.audioSfx)
 	{
 		XGM_setPCM(INGAME_SFX, snd_confirm, sizeof(snd_confirm));
 		XGM_startPlayPCM(INGAME_SFX, 1, SOUND_PCM_CH3);
@@ -312,7 +331,8 @@ void FUNCAO_TITLE_UPDATE(void)
 		copy_title_palette(&palette[16], spr_hud_energy_y.palette);
 		copy_title_palette(&palette[32], room_0_bgb.palette);
 		copy_title_palette(&palette[48], room_0_bga.palette);
-		PAL_fadeIn(0, (4 * 16) - 1, palette, TITLE_FADE_IN_TICKS, TRUE);
+		if(gConfig.useFade){ PAL_fadeIn(0, (4 * 16) - 1, palette, TITLE_FADE_IN_TICKS, TRUE); }
+		else { PAL_setColors(0, palette, 64, CPU); }
 		sTitlePhase = TITLE_PHASE_FADE_IN;
 		sTitleFadeTicks = 0;
 		return;
@@ -322,7 +342,7 @@ void FUNCAO_TITLE_UPDATE(void)
 		/* Nenhum input e lido durante o fade: a borda que pulou a abertura nao
 		   pode virar confirmacao aqui. */
 		sTitleFadeTicks++;
-		if(sTitleFadeTicks >= TITLE_FADE_IN_TICKS && !PAL_isDoingFade())
+		if(!gConfig.useFade || (sTitleFadeTicks >= TITLE_FADE_IN_TICKS && !PAL_isDoingFade()))
 		{
 			sTitlePhase = TITLE_PHASE_ACTIVE;
 		}
@@ -342,10 +362,11 @@ void FUNCAO_TITLE_UPDATE(void)
 			if(titleCursor == TITLE_MAIN_START){ title_start_game(); }
 			else
 			{
-				titlePage = TITLE_PAGE_OPTIONS;
-				titleCursor = TITLE_OPTION_SFX;
-				title_menu_sfx();
-				title_render_options();
+				/* Tem de passar por title_goto_page: e ela que ajusta a
+				   geometria do painel.  Trocar titlePage a mao deixava OPTIONS
+				   com a altura do menu principal, e o painel cortava em 5
+				   itens -- medido em out/emulator_evidence/p03_options. */
+				title_goto_page(TITLE_PAGE_OPTIONS, TITLE_OPTION_SFX);
 			}
 		}
 		return;
@@ -374,12 +395,44 @@ void FUNCAO_TITLE_UPDATE(void)
 			title_goto_page(TITLE_PAGE_MAIN, TITLE_MAIN_OPTION);
 			return;
 		}
-		/* SFX/MUSIC alternam com esquerda/direita ou com o botao de confirmar;
-		   DEBUG e BACK ja retornaram acima, entao nao caem aqui. */
+		if(titleCursor == TITLE_OPTION_DEFAULTS && confirm)
+		{
+			/* DEFAULTS e ACAO, nao toggle: restaura os valores e limpa estados
+			   de ferramenta que nao deveriam sobreviver a um reset. */
+			CONFIG_setDefaults();
+			gDebugFlags = DBG_DEFAULT;
+			gDebug = 0;
+			gFreeStepArmed = FALSE;
+			gFreeStepAdvance = FALSE;
+			gTimingProfile = TIMING_PROFILE_NORMAL;
+			gLogicRate = LOGIC_RATE_60;
+			gScreen240 = FALSE;
+			title_menu_sfx();
+			title_render_options();
+			return;
+		}
+
+		/* Um pressionamento gera UMA acao.  DEBUG, DEFAULTS e BACK ja
+		   retornaram acima, entao nao caem aqui. */
 		if(adjust || (confirm && titleCursor < TITLE_OPTION_DEBUG))
 		{
-			if(titleCursor == TITLE_OPTION_SFX){ gAudioSfxEnabled = !gAudioSfxEnabled; }
-			else if(titleCursor == TITLE_OPTION_MUSIC){ gAudioMusicEnabled = !gAudioMusicEnabled; }
+			switch(titleCursor)
+			{
+				case TITLE_OPTION_SFX:     gConfig.audioSfx   = !gConfig.audioSfx;   break;
+				case TITLE_OPTION_MUSIC:   gConfig.audioMusic = !gConfig.audioMusic; break;
+				case TITLE_OPTION_LIFEBAR: gConfig.hudLifeBar = !gConfig.hudLifeBar; break;
+				case TITLE_OPTION_TIMER:   gConfig.hudTimer   = !gConfig.hudTimer;   break;
+				case TITLE_OPTION_TIMELIM:
+					/* 99 -> 60 -> OFF -> 99 */
+					if(gConfig.timeLimit == CONFIG_TIME_99){ gConfig.timeLimit = CONFIG_TIME_60; }
+					else if(gConfig.timeLimit == CONFIG_TIME_60){ gConfig.timeLimit = CONFIG_TIME_OFF; }
+					else { gConfig.timeLimit = CONFIG_TIME_99; }
+					break;
+				case TITLE_OPTION_OPENING: gConfig.showOpening = !gConfig.showOpening; break;
+				case TITLE_OPTION_FADE:    gConfig.useFade     = !gConfig.useFade;     break;
+				default: break;
+			}
+			CONFIG_validate();
 			title_menu_sfx();
 			title_render_options();
 		}

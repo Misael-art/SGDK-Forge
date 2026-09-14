@@ -1,5 +1,15 @@
 # Changelog Canonico - HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]
 
+## 2026-09-14 - plano de evolução para modelo de engine
+
+- Registrado plano em `doc/engine/fighting_engine_improvement_plan.md` com 12 etapas,
+  contratos de especial/combos/configuração, separação abertura→título, timing,
+  HUD transparente, dois cenários e documentação de extensão.
+- Criado `doc/engine/fighting_engine_roadmap.json` com dependências e eixos de
+  evidência separados para agentes com e sem visão.
+- Revisão de fontes/atlas e validação de contexto/higiene; sem alteração de C/assets/ROM
+  e sem nova execução de emulador. Melhorias propostas continuam `planejado`.
+
 ## 2026-09-14 - tela de titulo e menu OPTION
 
 - `gRoom==1` deixou de avançar automaticamente após dois segundos e agora possui menu persistente `START`/`OPTION`.
@@ -150,6 +160,32 @@
 
 Analise registrada em `doc/curation/2026_09_11/curadoria_hamoopig.md`. Confirmados estaticamente: copia de paleta ultrapassa palette[64] por 4 bytes; facing de especial P2 compara x consigo; round restart vazio. Prioridade: integridade, round completo e provas simetricas antes de ampliar roster. Contexto planning passou; higiene bloqueada pelo icone da raiz. Nenhum C/asset/ROM alterado, nenhuma nova execucao BlastEm, nenhuma promocao canonica. ROM preservada: `1eb99f6c33cc6fe1c7fb776f5635f31b453a6419f27ff77cd4a215db9e6b00d6`.
 ## 2026-09-12T09:18:42.3760666-03:00 - Correção da animação final de derrota do Musgo
+
+## 2026-09-14 - P00/P01/P02 executados
+
+- P00: vinculo fonte->ROM PROVADO. Rebuild a partir de artefatos limpos deu ROM
+  bit-identica (`e2ca5833...be0f4`); o build e deterministico. Ressalva:
+  `library_rebuild=false`, entao vale para as fontes do projeto, nao para a cadeia toda.
+- P00: decoder HPRB endurecido. Quatro defeitos, tres produzindo FALSO VERDE --
+  bloco truncado, par schema/size cruzado e `samples==0` eram aceitos com
+  `decision='cabe'`. Agora ha `--self-check` com fixtures positivas e negativas.
+- P01: `inc/timing.h`/`src/timing.c`. Logica passa a 60 ticks/s nas DUAS regioes
+  (PAL alterna 1,1,1,1,2). Antes PAL rodava 17% mais lento. Relogio de round
+  passou de 38 para 60 ticks por unidade: uma unidade agora e um segundo real.
+- P01: o modo `TICK 50` era o defeito oferecido como opcao; virou perfil LEGACY,
+  explicitamente de diagnostico.
+- P01: o pico de DMA de 8448 B contra envelope NTSC de 7782 NAO e frame de combate.
+  E o frame de CARGA da cena, dominado pelo tilemap 512x256 de `FUNCAO_INICIALIZACAO`.
+  Confirmado nas duas regioes (frames 271 e 226, razao 1,199 = 1,2).
+- P02: `inc/scene.h`/`src/scene.c`. As 8 trocas de cena migraram para
+  `SCENE_request`/`SCENE_commit`; a convencao posicional de `gFrames=0/1` morreu.
+- P02: abertura virou cena propria (`opening.c`), com fade in/hold/fade out. Os
+  creditos agora aparecem inteiros, em vez de ficarem atras do painel do menu.
+- P02: corrigido painel de titulo sem letras -- `PAL_fadeIn` levava PAL1 a preto
+  porque `palette[]` nao continha as quatro paletas.
+- Pendente e declarado: arte propria do titulo sem creditos embutidos; revisao de
+  suavidade dos fades; harness de replay deterministico.
+
 
 - Task: Correção da animação final de derrota do Musgo
 - Asset snapshots:

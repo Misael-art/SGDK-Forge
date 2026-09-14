@@ -154,3 +154,35 @@ Analise registrada em `doc/curation/2026_09_11/curadoria_hamoopig.md`. Confirmad
   `68baca0e2845a00d057e0d8b892102247f5674350194dcf8509b07e895734d7d`.
 - O bundle canônico continua bloqueado por ausência de métricas VLAB/VDP/runtime;
   a captura manual não promove budget.
+
+## 2026-09-14 - Planejamento do modelo de engine de luta
+
+- Novo plano solicitado pelo usuário: `doc/engine/fighting_engine_improvement_plan.md`;
+  tarefas/dependências e handoff por capacidade em `doc/engine/fighting_engine_roadmap.json`.
+- Escopo planejado: timing/input, abertura separada com fade para título próprio,
+  opções ON/OFF, especial, combos, relógio transparente, cenário revisado e segundo palco amplo.
+- Inspeção desta rodada encontrou o commit `19eb8fae` e a ROM
+  `e2ca583341b3f0784442b765df67080ebb02cd015b8e06494c570464e65be0f4`.
+  Os hashes e claims anteriores permanecem históricos; vínculo fonte→ROM não foi revalidado.
+- Confirmados em código/asset: opções recentes de debug/pausa/tick/H240; especial
+  parcialmente comentado; atlas do relógio sem índice transparente 0; Showdown com
+  substituição aproximada de 1.629 tiles por 768 representantes.
+- Contexto planning e higiene passaram; auditoria de aprendizado encontrou contexto local.
+  Nenhum runtime, asset ou ROM alterado, nenhum novo teste de emulador nesta rodada.
+- Os próximos agentes devem registrar separadamente implementação, testes instrumentados,
+  revisão visual/auditiva e budget. Abertura/menu sobrepostos ainda não atendem ao novo
+  requisito de cenas distintas. Primeiro passo: P00 do plano.
+
+## 2026-09-14 - Execucao P00 a P02
+
+- O vinculo fonte->ROM que esta pagina dizia nao revalidado FOI revalidado no P00:
+  rebuild limpo produz ROM bit-identica. Cada tarefa seguinte invalida esse vinculo;
+  o roadmap marca `stale_after_PNN` ate novo rebuild.
+- Licao do P00: o decoder HPRB aprovava budget a partir de SRAM truncada ou sem
+  nenhuma amostra. Qualquer numero de DMA citado antes de 2026-09-14 a partir desse
+  decoder precisa ser reconferido com `--self-check` e com `samples>0`.
+- Licao do P01: `peak_dma_frame` e indice de FRAME DE VIDEO desde o boot, nao de tick
+  nem relativo a cena. Depois do P01, em PAL os dois contadores divergem em 1,2x.
+- Licao do P02: fade sobre 64 cores exige `palette[]` com as quatro paletas. Preencher
+  so as do cenario apaga o texto da UI depois de ele ter sido carregado.
+- ROM atual: `b64669e845453590668ba779f0f04d8145be6427e1e5f4934ce00ed84721c4ef`.

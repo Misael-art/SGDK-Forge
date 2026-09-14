@@ -8,7 +8,6 @@
 #include "sound.h"
 #include "init.h"
 #include "debug.h"
-#include "debug.h"
 
 /* The title artwork occupies tiles 1..529.  Keep the 16x16 message atlas
    and the one cursor tile above it, outside both title planes. */
@@ -167,8 +166,26 @@ static void title_load_composition(void)
 	VDP_loadTileSet(room_0_bgb.tileset, 1, DMA);
 	VDP_setTileMapEx(BG_B, room_0_bgb.tilemap,
 		TILE_ATTR_FULL(PAL2, 0, FALSE, FALSE, 1), 0, 0, 0, 0, 40, 28, DMA);
+	/* Os creditos legais vivem no BG_B, nao no BG_A -- medido em
+	   res/gfx/room_0_bgb.png.  Eles pertencem a ABERTURA; no titulo o painel
+	   opaco cobria so a metade esquerda deles e sobravam fragmentos
+	   ("OR", "LTD", "ME!") a direita.  Aqui a faixa inteira e apagada, para
+	   que o titulo tenha composicao propria.
+
+	   Limites medidos no asset: o texto ocupa as colunas 1..21 nas linhas
+	   14..25; o personagem so comeca na coluna 22.  Mascarar ate a coluna 21
+	   remove o texto sem encostar nele. */
+	VDP_fillTileMapRect(BG_B, 0, 0, 14, 22, 13);
+	/* A ultima coluna do texto invade a 22 nas linhas 18..23; ali o
+	   personagem so comeca na 24, entao da para limpar sem encostar nele. */
+	VDP_fillTileMapRect(BG_B, 0, 22, 18, 2, 6);
+
 	VDP_loadTileSet(room_0_bga.tileset, 501, DMA);
 	title_restore_artwork();
+	/* O "NOT" vermelho da primeira linha dos creditos vive no BG_A, linhas
+	   14..17 colunas 1..6 (medido em res/gfx/room_0_bga.png).  As colunas 7..21
+	   estao vazias ali, entao esta faixa nao encosta em nada mais. */
+	VDP_fillTileMapRect(BG_A, 0, 0, 14, 7, 4);
 
 	VDP_loadTileSet(&ts_hud_message_font, TITLE_FONT_TILE_BASE, DMA);
 	VDP_loadTileData(kTitleCursorTile, TITLE_CURSOR_TILE, 1, CPU);

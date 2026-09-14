@@ -322,7 +322,7 @@ Caminhos abaixo relativos ao projeto, salvo os explicitamente relativos ao works
 | `tests/test_title_menu_contract.py` | Smoke por tokens; substituir/complementar por execução do C |
 | `tests/capture_visual_ko.py` | Captura/input existente; inspecionar adequação a novas cenas |
 | `tests/analyze_hprb_probe.py` | Decoder existente, com self-check ainda a implementar |
-| `rascunho/temporario/audit_captured_audio_signal.py` (nao versionado) | Sinal de áudio; não escuta. Vive fora do git: promover antes de usar como gate |
+| `tests/audit_captured_audio_signal.py` | Sinal de áudio; não escuta. Tem `--self-check` (silêncio, RMS conhecido, clipping, entrada vazia) |
 | workspace: `tools/sgdk_wrapper/build_sgdk_wine_bridge.sh` | Build canônico |
 | workspace: `tools/sgdk_wrapper/capture_blastem_evidence_linux.sh` | Captura canônica |
 | workspace: `tools/sgdk_wrapper/finalize_emulator_evidence.ps1` | Selo de evidências; respeitar requisitos reais |

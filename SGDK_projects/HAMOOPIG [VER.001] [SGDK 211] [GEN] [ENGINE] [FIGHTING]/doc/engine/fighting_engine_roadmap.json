@@ -8,21 +8,22 @@
   "status": "planned",
   "implementation_started_by_this_plan": false,
   "baseline": {
-    "commit": "19eb8fae",
+    "commit": "3ceac2c4",
     "rom_path": "out/rom.bin",
     "observed_rom_sha256": "e2ca583341b3f0784442b765df67080ebb02cd015b8e06494c570464e65be0f4",
-    "source_rom_binding": "not_verified",
-    "fresh_emulator_session_in_this_planning_turn": false
+    "source_rom_binding": "verified_project_sources_only",
+    "fresh_emulator_session_in_this_planning_turn": false,
+    "source_rom_binding_method": "rebuild from cleaned build artifacts at commit 3ceac2c4; bit-identical sha256; library_rebuild=false"
   },
   "executor_capabilities": {
-    "shell": null,
-    "build": null,
-    "emulator_control": null,
-    "ram_vdp_inspection": null,
-    "capture_images": null,
-    "understand_images": null,
-    "understand_video": null,
-    "listen_audio": null
+    "shell": true,
+    "build": true,
+    "emulator_control": true,
+    "ram_vdp_inspection": "partial_sram_only",
+    "capture_images": true,
+    "understand_images": true,
+    "understand_video": false,
+    "listen_audio": false
   },
   "policy": {
     "unknown_result": null,
@@ -49,7 +50,7 @@
       "id": "P00",
       "title": "baseline_and_contracts",
       "depends_on": [],
-      "status": "planned",
+      "status": "done_with_pending",
       "acceptance": [
         "source_rom_identity",
         "measurement_tool_fixtures",
@@ -57,15 +58,23 @@
       ],
       "visual_review_required": false,
       "audio_review_required": false,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
-      "audio_review": null,
-      "budget": null,
-      "documentation": null,
-      "evidence": []
+      "implementation": "passed",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "not_run",
+      "visual_review": "not_applicable",
+      "audio_review": "not_applicable",
+      "budget": "not_run",
+      "documentation": "partial",
+      "evidence": [
+        "doc/engine/p00_baseline_report.json",
+        "tests/analyze_hprb_probe.py --self-check"
+      ],
+      "acceptance_result": {
+        "source_rom_identity": "passed",
+        "measurement_tool_fixtures": "passed",
+        "documentation_reconciled": "partial"
+      }
     },
     {
       "id": "P01",

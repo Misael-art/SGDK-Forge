@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "document_kind": "p00_baseline_report",
+  "not_a_canonical_validation_report": true,
+  "task": "P00",
+  "executed_at": "2026-09-14",
+  "executor_capabilities": {
+    "shell": true,
+    "build": true,
+    "emulator_control": true,
+    "ram_vdp_inspection": "partial: SRAM/HPRB apenas; sem dump de VDP nesta sessao",
+    "capture_images": true,
+    "understand_images": true,
+    "understand_video": false,
+    "listen_audio": false
+  },
+  "capability_notes": [
+    "Controle de emulador depende de ydotool + /dev/uinput e de consentimento do usuario por sessao; o daemon nao fica no ar.",
+    "understand_video=false: leio quadros isolados, nao percebo continuidade temporal. Suavidade de fade e sensacao de ritmo permanecem pending_visual_review.",
+    "listen_audio=false: posso medir RMS/peak com tests/audit_captured_audio_signal.py, nao escutar. Mix permanece pending_audio_review."
+  ],
+
+  "acceptance": {
+    "source_rom_identity": {
+      "status": "passed",
+      "method": "Removidos os artefatos de build (out/src, out/res, rom.out, *.o, symbol.txt, rom.bin), preservada out/emulator_evidence, e reconstruido pelo wrapper canonico.",
+      "baseline_sha256": "e2ca583341b3f0784442b765df67080ebb02cd015b8e06494c570464e65be0f4",
+      "rebuild_sha256": "e2ca583341b3f0784442b765df67080ebb02cd015b8e06494c570464e65be0f4",
+      "bit_identical": true,
+      "source_tree_clean_at_commit": "3ceac2c4",
+      "build_seconds": 73,
+      "caveat": "library_rebuild=false: a libmd do SGDK nao foi reconstruida. O vinculo esta provado para as fontes DO PROJETO contra uma biblioteca pre-construida fixa, nao para a cadeia inteira.",
+      "side_finding": "O build e deterministico: nenhum timestamp ou caminho absoluto vaza para a ROM."
+    },
+
+    "measurement_tool_fixtures": {
+      "status": "passed",
+      "tool": "tests/analyze_hprb_probe.py",
+      "self_check_added": true,
+      "audited_against": "src/hamoopig_runtime_probe.c (exportProbe)",
+      "defects_found_in_previous_decoder": [
+        {
+          "id": "schema1_crash",
+          "severity": "alto",
+          "symptom": "UnboundLocalError em stage_dma ao decodificar schema 1",
+          "cause": "stage_dma, peak_pre_at_max e peak_sprite_at_max so eram atribuidos no ramo dos schemas 2-5, mas usados incondicionalmente ao montar o result",
+          "confirms_plan_item": "corrigir tratamento de versoes antigas quando campos nao existirem"
+        },
+        {
+          "id": "silent_truncation",
+          "severity": "critico",
+          "symptom": "SRAM truncada decodificava como dma=0 samples=0 decision='cabe'",
+          "cause": "nenhuma checagem de comprimento; int.from_bytes de fatia vazia e 0",
+          "impact": "falso verde produzido a partir de zero dado medido"
+        },
+        {
+          "id": "loose_schema_size_pairing",
+          "severity": "alto",
+          "symptom": "schema 5 declarando size 32 era aceito e decodificado com o layout errado; saida dma=0 samples=0 decision='cabe'",
+          "cause": "a condicao era `schema in (2,3,4,5) and size in (32,36,46,50)`, aceitando qualquer produto cruzado"
+        },
+        {
+          "id": "samples_never_validated",
+          "severity": "alto",
+          "symptom": "samples==0 com picos zerados ainda reportava decision='cabe'",
+          "cause": "o campo era exibido mas nunca usado para invalidar o veredito"
+        }
+      ],
+      "fixtures": {
+        "positivas": ["schema5 nominal", "frame de 32 bits atravessando as duas words", "bit 15 da scene como regiao", "schema 1 legado com campos novos em None", "over budget NTSC"],
+        "negativas": ["assinatura ausente", "arquivo curto demais", "bloco truncado", "schema desconhecido", "size cruzado com schema"],
+        "avisos": ["samples zero", "samples saturado em 0xFFFF", "picos de frames distintos", "scanline saturada em 0xFF"]
+      },
+      "fixtures_proven_non_tautological": "As quatro negativas foram executadas contra o decoder anterior (commit 072eb07a): 1 crash e 3 falsos verdes. O decoder novo rejeita ou sinaliza todas.",
+      "regression_on_real_input": {
+        "sram": "out/emulator_evidence/visual_ko_20260914T025403Z/userdata/blastem/rom/save.sram",
+        "schema": 5, "frame": 1410, "samples": 1410,
+        "max_dma_queued_bytes": 7352, "max_sprites_per_scanline": 17,
+        "max_vdp_sprites": 57, "peaks_from_same_frame": true,
+        "region_inference": "NTSC", "decision": "cabe",
+        "nota": "ROM antiga, nao a do baseline. Serve como regressao de decodificacao, nao como medida da ROM atual."
+      }
+    },
+
+    "documentation_reconciled": {
+      "status": "partial",
+      "done": [
+        "Mapeadas as salas reais do runtime contra o contrato de cenas.",
+        "Registrado que doc/11-gdd.md nao contem placeholders, ao contrario do que o plano afirma.",
+        "Registrado o defeito de BOM que quebra leitura dos JSON de doc/."
+      ],
+      "blocked_needs_user_decision": [
+        "Reescrever o brief do GDD de 'porta direta' para 'modelo de engine extensivel' e arquivar o historico: e autoria do documento do usuario, nao ajuste mecanico.",
+        "Recompilar doc/scene-contracts.json com os IDs reais: o compilador e tooling compartilhado do workspace (scene_contract_compiler.ps1) e o usuario excluiu mudancas que afetem os outros 17 projetos."
+      ]
+    }
+  },
+
+  "scene_reconciliation": {
+    "runtime_rooms": [
+      {"gRoom": 1, "papel": "titulo + abertura no mesmo bloco", "contrato": "front_end_main_menu"},
+      {"gRoom": 2, "papel": "character select", "contrato": null},
+      {"gRoom": 9, "papel": "descompression", "contrato": null, "nota": "ponto de extensao morto: nada atribui gRoom=9"},
+      {"gRoom": 10, "papel": "luta", "contrato": "first_playable_slice"},
+      {"gRoom": 11, "papel": "after match", "contrato": null},
+      {"gRoom": 12, "papel": "reset de round", "contrato": null}
+    ],
+    "contract_scenes_without_runtime": ["branding_sequence"],
+    "contract_compiled_at": "2026-09-10T17:11:44Z",
+    "contract_compiled_from": "doc/13-spec-cenas.md",
+    "leitura": "O contrato descreve 3 cenas abstratas; o runtime tem 6 salas. branding_sequence e justamente a abertura separada que o P02 deve criar, entao a divergencia e esperada e vira criterio de aceite do P02, nao defeito a corrigir agora."
+  },
+
+  "host_test_coverage": {
+    "tests/test_health_contract.py": "passed",
+    "tests/test_timeover_contract.py": "passed",
+    "tests/test_stage_palette.py": "passed",
+    "tests/test_title_menu_contract.py": "passed",
+    "tests/analyze_hprb_probe.py --self-check": "passed",
+    "tests/audit_captured_audio_signal.py --self-check": "passed",
+    "tests/capture_visual_ko.py": "blocked_tooling",
+    "o_que_isso_NAO_cobre": [
+      "test_title_menu_contract procura tokens no fonte; nao executa o menu.",
+      "Nenhum teste cobre timing, gerenciamento de cenas, eventos de combate, especial, combos ou StageDefinition -- sao os modulos que P01-P09 vao criar.",
+      "capture_visual_ko exige emulador e display; nao roda em CI headless como esta."
+    ]
+  },
+
+  "findings_for_later_tasks": [
+    {
+      "id": "probe_scanline_hardcoded_224",
+      "target_task": "P01",
+      "severity": "medio",
+      "detail": "scanlinePeak() em src/hamoopig_runtime_probe.c:25 usa u8 lines[224] e limita a 224. Com H240 ativo as 16 ultimas linhas nao entram na conta, entao o pico de sprites por scanline e subestimado exatamente no modo de maior risco.",
+      "nao_corrigido_aqui": "Mexer no C muda a ROM e invalidaria o vinculo fonte-ROM que o P00 acabou de provar."
+    },
+    {
+      "id": "probe_does_not_export_screen_height",
+      "target_task": "P01",
+      "severity": "medio",
+      "detail": "A sonda exporta a regiao no bit 15 da scene, mas nao a altura. O decoder nao consegue distinguir PAL224 de PAL240, que tem envelopes de VBlank diferentes. Hoje esta registrado como aviso no relatorio."
+    },
+    {
+      "id": "dma_metric_is_queue_not_transfer",
+      "target_task": "P01/P10",
+      "severity": "alto",
+      "detail": "DMA_getQueueTransferSize() e o tamanho ENFILEIRADO antes do VBlank. O decoder antigo chamava isso de max_dma_bytes e comparava com o envelope, misturando enfileirado com transferido e ignorando backlog. Renomeado para max_dma_queued_bytes; a separacao em tres metricas que o plano pede continua pendente e exige mudanca na sonda."
+    },
+    {
+      "id": "dma_headroom_tight_on_old_rom",
+      "target_task": "P10",
+      "severity": "informativo",
+      "detail": "Na SRAM real medida, 7352 bytes enfileirados contra um envelope NTSC de 7782: 94,5% de ocupacao. ROM antiga, mas indica que a margem de DMA e estreita e merece medicao dedicada."
+    },
+    {
+      "id": "doc_json_bom_breaks_readers",
+      "target_task": "P00/backlog",
+      "severity": "medio",
+      "detail": "8 JSON sob doc/ tem BOM UTF-8, incluindo scene-contracts.json. json.load com encoding='utf-8' falha; exige utf-8-sig. Gerados por tooling PowerShell compartilhado do workspace, fora do escopo autorizado para alteracao."
+    },
+    {
+      "id": "capture_visual_ko_dangling_reference",
+      "target_task": "backlog",
+      "severity": "medio",
+      "detail": "tests/capture_visual_ko.py abre out/emulator_evidence/visual_ko_20260912T162335Z/00_musgo_selected.png como oraculo de selecao. out/ e gitignored, entao a flag --musgo quebra em clone limpo."
+    }
+  ],
+
+  "not_done_in_p00": [
+    "Guards e validadores metodologicos do workspace nao foram executados nesta rodada.",
+    "Nenhuma sessao nova de emulador foi aberta para o baseline: a regressao do decoder usou SRAM historica.",
+    "Nenhuma prova em hardware fisico."
+  ]
+}

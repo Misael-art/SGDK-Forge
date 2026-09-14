@@ -53,7 +53,12 @@ def decode(data: bytes) -> dict:
 
     vals = list(struct.unpack_from(f'>{words}H', data, off + 8))
 
-    frame = (vals[0] << 16) | vals[1]
+    # probeFrame conta FRAMES DE VIDEO: HAMOOPIG_probeTick e chamado uma vez
+    # por frame, fora de run_logic_tick.  Ate P01 isso coincidia com o numero
+    # de ticks logicos; em PAL com 60Hz logico nao coincide mais (1,2 tick por
+    # frame).  Chamar isto de "frame" sem qualificar levou a ler um indice de
+    # frame como se fosse gFrames da cena.
+    video_frame = (vals[0] << 16) | vals[1]
     if schema == 1:
         peak_dma_frame = peak_scanline_frame = None
         dma, active, vdp, scanline, samples, scene = vals[2:8]
@@ -101,10 +106,13 @@ def decode(data: bytes) -> dict:
     if region == 'PAL':
         warnings.append('envelope PAL unico: a sonda nao exporta altura, '
                         'entao 224 e 240 nao sao distinguidos')
+        warnings.append('em PAL 1 frame de video vale 1 ou 2 ticks logicos: '
+                        'video_frame NAO e contagem de ticks nem gFrames da cena')
 
     result = {
         'schema': schema, 'declared_size': size, 'words': words,
-        'frame': frame, 'peak_dma_frame': peak_dma_frame,
+        'video_frame': video_frame, 'frame_unit': 'video_frames_since_boot',
+        'peak_dma_frame': peak_dma_frame,
         'peak_scanline_frame': peak_scanline_frame,
         'peaks_from_same_frame': same_frame,
         # DMA_getQueueTransferSize() e o tamanho ENFILEIRADO antes do VBlank,
@@ -182,13 +190,13 @@ def self_check() -> int:
 
     # --- positivas: round-trip de valores conhecidos ---
     expect_ok('schema5 nominal', _schema5(),
-              schema=5, frame=600, max_dma_queued_bytes=5688,
+              schema=5, video_frame=600, max_dma_queued_bytes=5688,
               max_sprites_per_scanline=14, samples=600, last_scene=10,
               region_inference='NTSC', peaks_from_same_frame=True,
               measurement_trustworthy=True, decision='cabe')
 
     # frame de 32 bits atravessando a fronteira das duas words
-    expect_ok('frame 32 bits', _schema5(frame_hi=1, frame_lo=2), frame=65538)
+    expect_ok('frame 32 bits', _schema5(frame_hi=1, frame_lo=2), video_frame=65538)
 
     # bit 15 da scene e a regiao, nao o numero da cena
     expect_ok('regiao PAL', _schema5(scene=0x8000 | 10),
@@ -196,7 +204,7 @@ def self_check() -> int:
 
     # schema 1 legado: campos novos ausentes viram None, sem estourar
     expect_ok('schema1 legado', _block(1, [0, 300, 4096, 12, 40, 9, 300, 2]),
-              schema=1, frame=300, max_dma_queued_bytes=4096, samples=300,
+              schema=1, video_frame=300, max_dma_queued_bytes=4096, samples=300,
               max_pre_sprite_dma_bytes=None, max_stage_dma_delta_bytes=None,
               peak_pre_sprite_dma_at_max_bytes=None,
               peak_dma_frame=None, peaks_from_same_frame=None)

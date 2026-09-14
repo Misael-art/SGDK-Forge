@@ -1,0 +1,432 @@
+{
+  "schema_version": "1.0.0",
+  "document_kind": "project_local_planning_manifest",
+  "not_a_canonical_validation_report": true,
+  "created_at": "2026-09-14",
+  "project": "HAMOOPIG",
+  "plan": "doc/engine/fighting_engine_improvement_plan.md",
+  "status": "planned",
+  "implementation_started_by_this_plan": false,
+  "baseline": {
+    "commit": "19eb8fae",
+    "rom_path": "out/rom.bin",
+    "observed_rom_sha256": "e2ca583341b3f0784442b765df67080ebb02cd015b8e06494c570464e65be0f4",
+    "source_rom_binding": "not_verified",
+    "fresh_emulator_session_in_this_planning_turn": false
+  },
+  "executor_capabilities": {
+    "shell": null,
+    "build": null,
+    "emulator_control": null,
+    "ram_vdp_inspection": null,
+    "capture_images": null,
+    "understand_images": null,
+    "understand_video": null,
+    "listen_audio": null
+  },
+  "policy": {
+    "unknown_result": null,
+    "no_vision_action": "implement_and_instrument_then_mark_pending_visual_review",
+    "no_audio_perception_action": "measure_signal_then_mark_pending_audio_review",
+    "visual_capture_is_visual_approval": false,
+    "native_vision_executor_can_review": true,
+    "independent_review_when_canonical_gate_requires": true,
+    "continue_independent_tasks": true,
+    "source_art_required_for_final_stage": true,
+    "canonical_promotion_performed": false
+  },
+  "task_axis_statuses": [
+    "not_run",
+    "passed",
+    "failed",
+    "blocked_tooling",
+    "pending_visual_review",
+    "pending_audio_review",
+    "not_applicable"
+  ],
+  "tasks": [
+    {
+      "id": "P00",
+      "title": "baseline_and_contracts",
+      "depends_on": [],
+      "status": "planned",
+      "acceptance": [
+        "source_rom_identity",
+        "measurement_tool_fixtures",
+        "documentation_reconciled"
+      ],
+      "visual_review_required": false,
+      "audio_review_required": false,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P01",
+      "title": "timing_and_input",
+      "depends_on": [
+        "P00"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "logical_tick_replay_equivalence",
+        "no_lost_or_duplicated_edges",
+        "ntsc_pal_worst_frame"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": true,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P02",
+      "title": "opening_title_transition",
+      "depends_on": [
+        "P01"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "one_scene_update_per_tick",
+        "fade_and_skip_sequence",
+        "separate_title_composition"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": false,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P03",
+      "title": "options_and_config",
+      "depends_on": [
+        "P02"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "every_menu_item_effect",
+        "on_off_on_and_defaults",
+        "debug_page_regression"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": true,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P04",
+      "title": "combat_events_and_reset",
+      "depends_on": [
+        "P01"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "one_event_per_valid_hit",
+        "simultaneous_hits",
+        "round_reset_symmetry"
+      ],
+      "visual_review_required": false,
+      "audio_review_required": false,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P05",
+      "title": "special_meter",
+      "depends_on": [
+        "P04",
+        "P03"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "clamp_gain_spend",
+        "accepted_move_cost_once",
+        "display_vs_rule_toggle"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": false,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P06",
+      "title": "combo_counter",
+      "depends_on": [
+        "P04",
+        "P03"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "hitstun_recovery_end",
+        "projectile_throw_multihit",
+        "ko_hold_and_round_reset"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": false,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P07",
+      "title": "transparent_hud",
+      "depends_on": [
+        "P05",
+        "P06"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "all_timer_digits_masked",
+        "glyph_contours_preserved",
+        "sat_scanline_pixels_and_vram"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": false,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P08",
+      "title": "stage_renderer_and_showdown",
+      "depends_on": [
+        "P01",
+        "P07"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "camera_window_tile_budget",
+        "cram_color_translation",
+        "no_streaming_boundary_corruption"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": false,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P09",
+      "title": "second_wide_stage",
+      "depends_on": [
+        "P08",
+        "P03"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "authored_source_and_provenance",
+        "stage_select_disable_rematch",
+        "two_stage_camera_and_palette_regression"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": true,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P10",
+      "title": "integrated_qa",
+      "depends_on": [
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "36_ordered_matchups",
+        "100_scene_reset_cycles",
+        "same_rom_visual_audio_runtime_evidence"
+      ],
+      "visual_review_required": true,
+      "audio_review_required": true,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    },
+    {
+      "id": "P11",
+      "title": "reusable_engine_and_manual",
+      "depends_on": [
+        "P10"
+      ],
+      "status": "planned",
+      "acceptance": [
+        "quickstart_reproduced",
+        "extension_example_compiles",
+        "release_assets_and_controls_inventory"
+      ],
+      "visual_review_required": false,
+      "audio_review_required": false,
+      "implementation": null,
+      "build": null,
+      "host_tests": null,
+      "emulator_instrumentation": null,
+      "visual_review": null,
+      "audio_review": null,
+      "budget": null,
+      "documentation": null,
+      "evidence": []
+    }
+  ],
+  "matrix": {
+    "fighters": [
+      "ryo",
+      "ken",
+      "musgo"
+    ],
+    "ordered_pairs": 9,
+    "stages": [
+      "showdown_park",
+      "musgo_dock_proposed"
+    ],
+    "regions": [
+      "NTSC",
+      "PAL"
+    ],
+    "minimum_matchups": 36,
+    "all_toggle_combinations_claimed": false,
+    "critical_toggle_interactions": [
+      "display_vs_mechanics",
+      "timer_display_vs_time_limit",
+      "opening_vs_fade",
+      "audio_vs_pause",
+      "region_vs_logic_rate_vs_height",
+      "debug_master_vs_subflags",
+      "stage_enable_vs_selection"
+    ]
+  },
+  "handoff_template": {
+    "task_id": null,
+    "rom_sha256": null,
+    "source_revision": null,
+    "emulator_version": null,
+    "region": null,
+    "screen_height": null,
+    "options": null,
+    "seed": null,
+    "input_script": null,
+    "scene_id": null,
+    "frame_start": null,
+    "frame_end": null,
+    "screenshots": [],
+    "video": null,
+    "audio": null,
+    "probe": null,
+    "vdp_dump": null,
+    "metrics": null,
+    "visual_questions": [],
+    "audio_questions": [],
+    "reviewer": null,
+    "limitations": []
+  },
+  "proposed_not_yet_implemented": {
+    "normal_logic_hz": 60,
+    "special_meter_max": 32,
+    "special_gain_attacker": 4,
+    "special_gain_defender": 2,
+    "special_gain_block_attacker": 1,
+    "special_cost": 32,
+    "combo_display_from_hits": 2,
+    "combo_result_hold_ticks": 60,
+    "second_stage_target": [
+      768,
+      256
+    ],
+    "second_stage_minimum": [
+      512,
+      256
+    ],
+    "opening_hold_seconds": 2,
+    "fade_out_seconds": 0.25,
+    "title_fade_in_seconds": 0.25
+  },
+  "optional_followups": [
+    "training_dummy_and_refill",
+    "input_display",
+    "advanced_ai",
+    "sram_preferences",
+    "additional_fighters"
+  ],
+  "planning_checks": {
+    "context": "passed_for_planning",
+    "hygiene": "passed",
+    "learning_audit": "learning_context_present",
+    "roadmap_validation": "passed_json_dependencies_matrix_and_baseline_hash"
+  }
+}

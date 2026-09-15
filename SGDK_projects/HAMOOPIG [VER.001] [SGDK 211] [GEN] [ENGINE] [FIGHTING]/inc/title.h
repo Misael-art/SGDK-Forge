@@ -18,21 +18,33 @@ typedef enum
 
 typedef enum
 {
-	/* Ordem de leitura: audio, HUD, regra, apresentacao, ferramentas.
-	   DEFAULTS e acao, nao toggle, e por isso fica junto de BACK.
-	   So existem aqui opcoes cujo sistema ja existe -- o plano proibe botao
-	   inativo sem destino implementado (secao 3).  SPECIAL BAR e SPECIAL RULES
-	   entram no P05, HIT COUNT no P06, STAGE COLOR/MOTION/2 no P08 e P09. */
+	/* Ordem de leitura: audio, HUD, regra, ferramentas.  DEFAULTS e acao, nao
+	   toggle, e por isso fica junto de BACK.
+
+	   So existem aqui opcoes cujo efeito e OBSERVAVEL, nao so implementado --
+	   o plano proibe botao inativo sem destino (secao 3).  Tres grupos ficam
+	   de fora por motivos diferentes:
+
+	     sistema ausente   SPECIAL BAR e SPECIAL RULES (P05), HIT COUNT (P06),
+	                       TIMER BG (P07), STAGE COLOR/MOTION/2 (P08, P09).
+
+	     efeito inalcancavel  INTRO e FADE.  gConfig.showOpening e
+	                       gConfig.useFade estao implementados e corretos, mas
+	                       a abertura e o fade do titulo so rodam no BOOT, e o
+	                       unico produtor de SCENE_TITLE e a propria abertura.
+	                       Sem persistencia em SRAM a preferencia morre no
+	                       reset, entao o jogador jamais veria a diferenca.
+	                       Voltam ao menu junto com a persistencia ou com um
+	                       caminho de retorno ao titulo.
+	*/
 	TITLE_OPTION_SFX      = 0,
 	TITLE_OPTION_MUSIC    = 1,
 	TITLE_OPTION_LIFEBAR  = 2,
 	TITLE_OPTION_TIMER    = 3,
 	TITLE_OPTION_TIMELIM  = 4,
-	TITLE_OPTION_OPENING  = 5,
-	TITLE_OPTION_FADE     = 6,
-	TITLE_OPTION_DEBUG    = 7,
-	TITLE_OPTION_DEFAULTS = 8,
-	TITLE_OPTION_BACK     = 9
+	TITLE_OPTION_DEBUG    = 5,
+	TITLE_OPTION_DEFAULTS = 6,
+	TITLE_OPTION_BACK     = 7
 } TitleOptionItem;
 
 typedef enum

@@ -4,16 +4,17 @@
   "not_a_canonical_validation_report": true,
   "task": "P03",
   "executed_at": "2026-09-14",
-  "rom_sha256": "ea87521c6b55782eaa97b70ec67609d9700ec41c15dfb819d003e546b478da1a",
-
+  "rom_sha256": "3e46ac068062cfa83f305e85dd66b0c5822bcedd48766749e3a36c74e3ea1841",
   "scope_decision": {
     "regra_do_plano": "Secao 3, linha 167: 'Nao adicionar botao inativo sem destino implementado'.",
     "consequencia": "Dos 16 toggles propostos na tabela do plano, so entraram os 7 cujo sistema ja existe. SPECIAL BAR e SPECIAL RULES dependem do P05, HIT COUNT do P06, STAGE COLOR/MOTION/2 do P08 e P09, TIMER BG do P07.",
     "por_que_isso_importa": "Expor um toggle inerte transforma o menu em promessa falsa e faz o aceite every_menu_item_effect passar por vacuidade."
   },
-
   "implementation": {
-    "new_modules": ["inc/config.h", "src/config.c"],
+    "new_modules": [
+      "inc/config.h",
+      "src/config.c"
+    ],
     "duas_classes": "IMEDIATA (apresentacao: audio, HUD, intro, fade) vale na hora; REGRA (time limit) e congelada em MatchRules por CONFIG_freezeMatchRules em FUNCAO_INICIALIZACAO, para que mexer no menu entre rounds nao troque a regra da partida em andamento.",
     "migracao": "gAudioSfxEnabled e gAudioMusicEnabled sairam de globals.h para GameConfig. Nao ha mais duas fontes de verdade.",
     "efeitos_reais": {
@@ -26,38 +27,53 @@
     },
     "defaults": "DEFAULTS e ACAO, nao toggle. Restaura gConfig e tambem limpa estados de ferramenta que nao deveriam sobreviver a um reset: flags de debug, free-step, perfil de timing e 240 linhas."
   },
-
   "acceptance": {
     "on_off_on_and_defaults": {
       "status": "passed",
       "evidencia": "Input real via ydotool. TIME 99 -> TIME 60 -> TIME OFF, e DEFAULTS restaurou TIME 99. Capturas em out/emulator_evidence/p03_options2."
     },
     "every_menu_item_effect": {
-      "status": "partial",
-      "passou": "O valor exibido acompanha gConfig -- verificado para TIME com input real. A auditoria de audio confirmou que SFX/MUSIC nao tem produtor fora de guarda.",
-      "nao_passou": "O EFEITO em jogo de LIFE, CLOCK, INTRO e FADE nao foi capturado. Todos exigem entrar na luta ou reiniciar, e nao dirigi essas rotas nesta rodada."
+      "status": "passed",
+      "verificado_em_jogo": "LIFE OFF e CLOCK OFF ligados pelo menu e observados DENTRO da luta: as barras de vida e os digitos do relogio desaparecem, e o combate segue normal (out/emulator_evidence/p03_efeito/06_luta_hud_off.png).",
+      "verificado_no_menu": "TIME 99 -> 60 -> OFF com valor exibido acompanhando gConfig.",
+      "auditoria_de_audio": "Os tres produtores (FUNCAO_PLAY_SND com 32 chamadas PCM, title_menu_sfx e a BGM) estao todos atras de guarda.",
+      "gap_fechado_no_caminho": "MUSIC ON no meio da luta nao retomava a BGM: so existia o start em gFrames==1. Agora age na borda da preferencia -- nao por polling de XGM_isPlaying, que reiniciaria para sempre uma faixa que terminasse sozinha."
     },
     "debug_page_regression": {
-      "status": "not_run",
-      "motivo": "A pagina de debug nao foi reexercitada depois da mudanca de geometria do painel de OPTIONS. Ela tem geometria propria (Y=6 H=20) e nao foi tocada, mas nao verificar e diferente de verificar."
+      "status": "passed",
+      "evidencia": "out/emulator_evidence/p03_efeito -- DEBUG 1 (BOX ON, HIT ON, TEXT ON, PERF OFF, FRM OFF) e DEBUG 2 (STEP OFF, TICK NORM, 240 NA, BACK). Os 9 itens seguem presentes apos a repaginacao, com os valores corretos: TICK NORM e o default do P01 e 240 NA e o correto em NTSC. B volta para OPTIONS com o cursor em DEBUG."
     }
   },
-
   "defect_found_and_fixed": {
     "sintoma": "A pagina OPTIONS renderizava so 5 dos 10 itens, e o cursor sumia a partir do quinto.",
     "causa": "O caminho MAIN -> OPTIONS trocava titlePage a mao em vez de chamar title_goto_page, que e quem ajusta a geometria do painel. OPTIONS herdava a altura do menu principal (11 linhas, 5 slots).",
     "evidencia": "out/emulator_evidence/p03_options (truncado) vs p03_options2 (10 itens)."
   },
-
   "visual_review": "pending_visual_review",
   "review_notes": [
     "O painel de OPTIONS agora comeca na linha 4 e cobre o logo HAMOOPIG. Cabe decidir se e aceitavel ou se o menu deveria paginar em vez de crescer."
   ],
-
   "followups": [
-    {"id": "efeito_em_jogo_dos_toggles", "target": "P10", "detail": "Dirigir ate a luta com LIFE OFF, CLOCK OFF e TIME OFF e capturar o efeito."},
-    {"id": "debug_page_regression", "target": "P03_carry", "detail": "Reexercitar a pagina de debug apos a mudanca de geometria."},
-    {"id": "music_on_nao_retoma", "target": "P03_carry", "detail": "MUSIC ON durante a luta nao retoma a BGM: ela so toca em gFrames==1. O plano pede 'ON retoma faixa da cena pela politica documentada'."},
-    {"id": "toggles_que_faltam", "target": "P05/P06/P07/P08/P09", "detail": "SPECIAL BAR, SPECIAL RULES, HIT COUNT, TIMER BG, STAGE COLOR, STAGE MOTION, STAGE 2 entram junto com seus sistemas."}
-  ]
+    {
+      "id": "toggles_que_faltam",
+      "target": "P05/P06/P07/P08/P09",
+      "detail": "SPECIAL BAR, SPECIAL RULES, HIT COUNT, TIMER BG, STAGE COLOR, STAGE MOTION, STAGE 2 entram junto com seus sistemas."
+    },
+    {
+      "id": "intro_fade_dependem_de_persistencia",
+      "target": "P-later",
+      "detail": "gConfig.showOpening e gConfig.useFade estao implementados mas fora do menu ate existir SRAM ou um retorno ao titulo."
+    }
+  ],
+  "menu_pagination": {
+    "motivo": "O painel de OPTIONS crescia ate a linha 4 e o de debug ate a 6; os dois cobriam o logo HAMOOPIG, que ocupa as linhas 4..11 do BG_B.",
+    "solucao": "UMA geometria para todas as paginas (linha 13, altura 13 = 5 itens). Quem nao cabe pagina.",
+    "como_a_pagina_e_derivada": "pagina = cursor global / 5. Cima e Baixo viram de pagina sozinhos e nao existe estado de paginacao para dessincronizar.",
+    "evidencia": "out/emulator_evidence/p03_menu_final -- OPTIONS 1 e OPTIONS 2 com o logo inteiro visivel; p03_efeito -- DEBUG 1 e DEBUG 2."
+  },
+  "contradicao_encontrada_e_corrigida": {
+    "o_que_eu_tinha_feito": "Invoquei a regra do plano contra botao inerte para EXCLUIR SPECIAL BAR, HIT COUNT e STAGE, e no mesmo commit adicionei INTRO e FADE.",
+    "por_que_estava_errado": "A abertura e o fade do titulo so rodam no BOOT, o unico produtor de SCENE_TITLE e a propria abertura, e nao ha persistencia: CONFIG_setDefaults roda a cada boot. Logo a preferencia morre antes de poder ser observada -- sao inertes pela mesma regra que usei para excluir os outros.",
+    "o_que_fiz": "Removi INTRO e FADE do menu e mantive a implementacao (gConfig.showOpening, gConfig.useFade), que esta correta e pronta. Voltam junto com a persistencia em SRAM ou com um caminho de retorno ao titulo."
+  }
 }

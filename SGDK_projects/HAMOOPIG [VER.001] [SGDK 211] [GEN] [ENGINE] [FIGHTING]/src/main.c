@@ -31,7 +31,6 @@
 #include "timing.h"
 #include "scene.h"
 #include "opening.h"
-#include "config.h"
 
 
 
@@ -152,6 +151,23 @@ static void run_logic_tick(void)
 				gPodeMover=0;
 				FUNCAO_INICIALIZACAO(); //Inicializacao
 				if(gConfig.audioMusic){ XGM_startPlay(bgm_ken_stage); }
+			}
+
+			/* MUSIC e imediata nos dois sentidos: OFF para a faixa, ON retoma a
+			   faixa DESTA cena.  Antes so existia o start em gFrames==1, entao
+			   religar a musica no meio da luta nao trazia nada de volta.
+
+			   Age na BORDA da preferencia, nao por polling de XGM_isPlaying: se
+			   ficasse checando todo tick, uma faixa que terminasse sozinha
+			   seria reiniciada para sempre. */
+			{
+				static bool musicaLigadaAntes = TRUE;
+				if(gConfig.audioMusic != musicaLigadaAntes)
+				{
+					if(gConfig.audioMusic){ XGM_startPlay(bgm_ken_stage); }
+					else { XGM_stopPlay(); }
+					musicaLigadaAntes = gConfig.audioMusic;
+				}
 			}
 			if(gFrames<=355){ 
 				FUNCAO_ROUND_INIT(); //Rotina de Letreiramento de inicio dos rounds

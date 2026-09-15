@@ -17,17 +17,19 @@
 #define TITLE_PANEL_X 1
 #define TITLE_PANEL_W 18
 /* Cada glifo ocupa 2 linhas, entao um painel de H linhas comporta H/2 slots.
-   O menu normal cabe em 11 linhas (titulo + 4 itens); a pagina de debug tem
-   9 itens e precisa de 19.  Os dois sao ancorados pela mesma base (linha 25)
-   para que o painel cresca para cima, sobre a arte. */
-#define TITLE_MENU_PANEL_Y 15
-#define TITLE_MENU_PANEL_H 11
-#define TITLE_DEBUG_PANEL_Y 6
-#define TITLE_DEBUG_PANEL_H 20
-/* OPTIONS tem 10 itens + titulo = 11 slots de 2 linhas. */
-#define TITLE_OPT_PANEL_Y 4
-#define TITLE_OPT_PANEL_H 22
-#define TITLE_PANEL_MAX_H TITLE_OPT_PANEL_H
+
+   UMA geometria para todas as paginas, ancorada abaixo da arte.  O logo
+   HAMOOPIG ocupa as linhas 4..11 do BG_B, entao um painel que comece na 13
+   nunca o cobre.  Antes, OPTIONS crescia para cima ate a linha 4 e a pagina de
+   debug ate a 6 -- as duas engoliam o logo.
+
+   Quem nao cabe em 5 itens PAGINA.  A pagina e derivada do cursor global
+   (pagina = cursor / itens por pagina), entao Cima/Baixo viram de pagina
+   sozinhos e nao existe estado de paginacao para dessincronizar. */
+#define TITLE_PANEL_Y 13
+#define TITLE_PANEL_H 13
+#define TITLE_ITEMS_PER_PAGE 5
+#define TITLE_PANEL_MAX_H TITLE_PANEL_H
 /* O titulo carrega a composicao com a tela protegida e so entao revela.
    O tempo de CARGA e medido separado do fade: misturar os dois faz um DMA
    lento parecer um fade lento. */
@@ -36,8 +38,8 @@
 u8 titlePage = TITLE_PAGE_MAIN;
 u8 titleCursor = TITLE_MAIN_START;
 
-static u8 sPanelY = TITLE_MENU_PANEL_Y;
-static u8 sPanelH = TITLE_MENU_PANEL_H;
+static u8 sPanelY = TITLE_PANEL_Y;
+static u8 sPanelH = TITLE_PANEL_H;
 static u16 sTitleMap[TITLE_PANEL_W * TITLE_PANEL_MAX_H];
 static u16 sTitleBlackTile;
 static bool sTitleReady;
@@ -200,80 +202,104 @@ static void title_load_composition(void)
 	title_render_main();
 }
 
-static void title_render_main(void)
-{
-	title_map_fill();
-	title_put_centered("MAIN MENU", 0);
-	title_put_centered("START", 3);
-	title_put_centered("OPTION", 6);
-	title_put_cursor((titleCursor == TITLE_MAIN_START) ? 3 : 6, TRUE);
-	title_commit_map();
-}
-
 static const char *title_timelimit_label(void)
 {
 	if(gConfig.timeLimit == CONFIG_TIME_OFF){ return "TIME OFF"; }
 	return (gConfig.timeLimit == CONFIG_TIME_60) ? "TIME 60" : "TIME 99";
 }
 
+static const char *title_options_label(u8 item)
+{
+	switch(item)
+	{
+		case TITLE_OPTION_SFX:      return gConfig.audioSfx    ? "SFX ON"    : "SFX OFF";
+		case TITLE_OPTION_MUSIC:    return gConfig.audioMusic  ? "MUSIC ON"  : "MUSIC OFF";
+		case TITLE_OPTION_LIFEBAR:  return gConfig.hudLifeBar  ? "LIFE ON"   : "LIFE OFF";
+		case TITLE_OPTION_TIMER:    return gConfig.hudTimer    ? "CLOCK ON"  : "CLOCK OFF";
+		case TITLE_OPTION_TIMELIM:  return title_timelimit_label();
+		case TITLE_OPTION_DEBUG:    return "DEBUG";
+		case TITLE_OPTION_DEFAULTS: return "DEFAULTS";
+		default:                    return "BACK";
+	}
+}
+
+static const char *title_debug_label(u8 item)
+{
+	switch(item)
+	{
+		case TITLE_DEBUG_BBOX:     return (gDebugFlags & DBG_BBOX)     ? "BOX ON"  : "BOX OFF";
+		case TITLE_DEBUG_HBOX:     return (gDebugFlags & DBG_HBOX)     ? "HIT ON"  : "HIT OFF";
+		case TITLE_DEBUG_TEXT:     return (gDebugFlags & DBG_TEXT)     ? "TEXT ON" : "TEXT OFF";
+		case TITLE_DEBUG_PERF:     return (gDebugFlags & DBG_PERF)     ? "PERF ON" : "PERF OFF";
+		case TITLE_DEBUG_FRAMEADV: return (gDebugFlags & DBG_FRAMEADV) ? "FRM ON"  : "FRM OFF";
+		case TITLE_DEBUG_FREESTEP: return gFreeStepArmed               ? "STEP ON" : "STEP OFF";
+		case TITLE_DEBUG_TICK:
+			return (gTimingProfile == TIMING_PROFILE_NORMAL) ? "TICK NORM"
+				: ((gLogicRate == LOGIC_RATE_50) ? "TICK L50" : "TICK L60");
+		/* 240 linhas so existe em console PAL; em NTSC a opcao e inerte. */
+		case TITLE_DEBUG_H240:
+			return !gRegionIsPal ? "240 NA" : (gScreen240 ? "240 ON" : "240 OFF");
+		default:                   return "BACK";
+	}
+}
+
+static const char *title_main_label(u8 item)
+{
+	return (item == TITLE_MAIN_START) ? "START" : "OPTION";
+}
+
+/* Desenha a fatia da lista que contem o cursor.  O titulo carrega o numero da
+   pagina porque sem ele nao ha como saber que existe mais coisa abaixo. */
+static void title_render_paged(const char *titulo, u8 count, const char *(*label)(u8))
+{
+	u8 page = (u8)(titleCursor / TITLE_ITEMS_PER_PAGE);
+	u8 first = (u8)(page * TITLE_ITEMS_PER_PAGE);
+	u8 pages = (u8)((count + TITLE_ITEMS_PER_PAGE - 1) / TITLE_ITEMS_PER_PAGE);
+	u8 i;
+
+	title_map_fill();
+	if(pages > 1)
+	{
+		sprintf(gStr, "%s %u", titulo, (u16)(page + 1));
+		title_put_centered(gStr, 0);
+	}
+	else
+	{
+		title_put_centered(titulo, 0);
+	}
+
+	for(i = 0; i < TITLE_ITEMS_PER_PAGE && (u8)(first + i) < count; i++)
+	{
+		title_put_centered(label((u8)(first + i)), (u8)(2 + (i * 2)));
+	}
+	title_put_cursor((u8)(2 + ((titleCursor - first) * 2)), TRUE);
+	title_commit_map();
+}
+
+static void title_render_main(void)
+{
+	title_render_paged("MAIN MENU", 2, title_main_label);
+}
+
 static void title_render_options(void)
 {
-	title_map_fill();
-	title_put_centered("OPTIONS", 0);
-	title_put_centered(gConfig.audioSfx   ? "SFX ON"   : "SFX OFF",   2);
-	title_put_centered(gConfig.audioMusic ? "MUSIC ON" : "MUSIC OFF", 4);
-	title_put_centered(gConfig.hudLifeBar ? "LIFE ON"  : "LIFE OFF",  6);
-	title_put_centered(gConfig.hudTimer   ? "CLOCK ON" : "CLOCK OFF", 8);
-	title_put_centered(title_timelimit_label(), 10);
-	title_put_centered(gConfig.showOpening ? "INTRO ON" : "INTRO OFF", 12);
-	title_put_centered(gConfig.useFade    ? "FADE ON"  : "FADE OFF",  14);
-	title_put_centered("DEBUG", 16);
-	title_put_centered("DEFAULTS", 18);
-	title_put_centered("BACK", 20);
-	title_put_cursor((u8)(2 + (titleCursor * 2)), TRUE);
-	title_commit_map();
+	title_render_paged("OPTIONS", (u8)(TITLE_OPTION_BACK + 1), title_options_label);
 }
 
 static void title_render_debug(void)
 {
-	title_map_fill();
-	title_put_centered("DEBUG", 0);
-	title_put_centered((gDebugFlags & DBG_BBOX)     ? "BOX ON"  : "BOX OFF",  2);
-	title_put_centered((gDebugFlags & DBG_HBOX)     ? "HIT ON"  : "HIT OFF",  4);
-	title_put_centered((gDebugFlags & DBG_TEXT)     ? "TEXT ON" : "TEXT OFF", 6);
-	title_put_centered((gDebugFlags & DBG_PERF)     ? "PERF ON" : "PERF OFF", 8);
-	title_put_centered((gDebugFlags & DBG_FRAMEADV) ? "FRM ON"  : "FRM OFF",  10);
-	title_put_centered(gFreeStepArmed               ? "STEP ON" : "STEP OFF", 12);
-	title_put_centered((gTimingProfile == TIMING_PROFILE_NORMAL) ? "TICK NORM"
-		: ((gLogicRate == LOGIC_RATE_50) ? "TICK L50" : "TICK L60"), 14);
-	/* 240 linhas so existe em console PAL; em NTSC a opcao e inerte. */
-	title_put_centered(!gRegionIsPal ? "240 NA" : (gScreen240 ? "240 ON" : "240 OFF"), 16);
-	title_put_centered("BACK", 18);
-	title_put_cursor((u8)(2 + (titleCursor * 2)), TRUE);
-	title_commit_map();
+	title_render_paged("DEBUG", (u8)(TITLE_DEBUG_BACK + 1), title_debug_label);
 }
 
-/* Toda troca de pagina redesenha a arte antes de comitar o painel novo: as
-   paginas tem alturas diferentes e sobraria lixo da pagina anterior. */
+/* Todas as paginas tem a mesma geometria agora, mas a arte e redesenhada
+   assim mesmo: o painel anterior pode ter deixado tiles opacos onde a nova
+   pagina tem menos itens. */
 static void title_goto_page(u8 page, u8 cursor)
 {
 	titlePage = page;
 	titleCursor = cursor;
-	if(page == TITLE_PAGE_DEBUG)
-	{
-		sPanelY = TITLE_DEBUG_PANEL_Y;
-		sPanelH = TITLE_DEBUG_PANEL_H;
-	}
-	else if(page == TITLE_PAGE_OPTIONS)
-	{
-		sPanelY = TITLE_OPT_PANEL_Y;
-		sPanelH = TITLE_OPT_PANEL_H;
-	}
-	else
-	{
-		sPanelY = TITLE_MENU_PANEL_Y;
-		sPanelH = TITLE_MENU_PANEL_H;
-	}
+	sPanelY = TITLE_PANEL_Y;
+	sPanelH = TITLE_PANEL_H;
 	title_menu_sfx();
 	title_restore_artwork();
 	if(page == TITLE_PAGE_MAIN){ title_render_main(); }
@@ -310,8 +336,8 @@ void FUNCAO_TITLE_INIT(void)
 	titleCursor = TITLE_MAIN_START;
 	/* A pagina de debug usa um painel maior; reentrar no titulo tem de voltar
 	   a geometria do menu, senao o primeiro commit desenha no lugar errado. */
-	sPanelY = TITLE_MENU_PANEL_Y;
-	sPanelH = TITLE_MENU_PANEL_H;
+	sPanelY = TITLE_PANEL_Y;
+	sPanelH = TITLE_PANEL_H;
 	sTitlePhase = TITLE_PHASE_LOADING;
 	sTitleDirty = TRUE;
 	sTitleFadeTicks = 0;
@@ -428,8 +454,6 @@ void FUNCAO_TITLE_UPDATE(void)
 					else if(gConfig.timeLimit == CONFIG_TIME_60){ gConfig.timeLimit = CONFIG_TIME_OFF; }
 					else { gConfig.timeLimit = CONFIG_TIME_99; }
 					break;
-				case TITLE_OPTION_OPENING: gConfig.showOpening = !gConfig.showOpening; break;
-				case TITLE_OPTION_FADE:    gConfig.useFade     = !gConfig.useFade;     break;
 				default: break;
 			}
 			CONFIG_validate();

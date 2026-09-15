@@ -10,7 +10,7 @@
   "baseline": {
     "commit": "3ceac2c4",
     "rom_path": "out/rom.bin",
-    "observed_rom_sha256": "ea87521c6b55782eaa97b70ec67609d9700ec41c15dfb819d003e546b478da1a",
+    "observed_rom_sha256": "3e46ac068062cfa83f305e85dd66b0c5822bcedd48766749e3a36c74e3ea1841",
     "source_rom_binding": "stale_after_P03",
     "fresh_emulator_session_in_this_planning_turn": false,
     "source_rom_binding_method": "P00 provou bit-identidade para e2ca5833; P01 mudou o codigo. Revalidar com rebuild limpo."
@@ -172,12 +172,14 @@
       "documentation": "passed",
       "evidence": [
         "doc/engine/p03_config_report.json",
-        "out/emulator_evidence/p03_options2"
+        "out/emulator_evidence/p03_options2",
+        "out/emulator_evidence/p03_efeito",
+        "out/emulator_evidence/p03_menu_final"
       ],
       "acceptance_result": {
-        "every_menu_item_effect": "partial",
+        "every_menu_item_effect": "passed",
         "on_off_on_and_defaults": "passed",
-        "debug_page_regression": "not_run"
+        "debug_page_regression": "passed"
       }
     },
     {

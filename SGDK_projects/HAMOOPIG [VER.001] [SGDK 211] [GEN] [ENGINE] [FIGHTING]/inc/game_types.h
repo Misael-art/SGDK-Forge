@@ -4,7 +4,10 @@
 #include <genesis.h>
 
 //--- DEFINICOES ---//
-#define RELEASE 0
+/* Production runtime: hidden hitbox/axis sprites must not consume the sprite
+   pool when debug rendering is disabled.  Keep the debug path available by
+   rebuilding with RELEASE=0 in the development profile. */
+#define RELEASE 1
 
 /* Sub-toggles do modo debug (gDebugFlags).  gDebug continua sendo o
    liga/desliga mestre: se ele for 0, nada abaixo e desenhado. */
@@ -36,6 +39,9 @@
 #define CIGD 3
 #define BODYSPACE 15
 #define RAGETIMER 600
+#define SPECIAL_METER_MAX  32
+#define SPECIAL_METER_COST 32
+#define HIT_COMBO_WINDOW_TICKS 60u
 #define ROUND_CLOCK_TICKS 38
 #define ROUNDS_TO_WIN 2
 //SOUND DEFs
@@ -59,6 +65,7 @@ typedef struct {
 	u8 speedX;
 	bool active;
 	u8  countDown;
+	u8  instance;
 	s16 x;
 	s16 y;
 	u8  guardFlag;
@@ -115,6 +122,8 @@ struct PlayerDEF {
 
 	u8  hitPause;
 	u8  hitCounter;
+	u8  hitComboTimer;
+	u8  attackInstance;
 
 	u16 dataAnim[60];
 	u16 dataHBox[4];

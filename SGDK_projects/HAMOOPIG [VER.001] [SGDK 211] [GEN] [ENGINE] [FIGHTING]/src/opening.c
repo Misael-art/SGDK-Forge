@@ -5,6 +5,7 @@
 #include "config.h"
 #include "gfx.h"
 #include "graphics.h"
+#include "hamoopig_runtime_probe.h"
 
 static u8  sPhase;
 static u16 sPhaseTicks;
@@ -42,9 +43,11 @@ void FUNCAO_OPENING_INIT(void)
 	PAL_setColors(0, (u16*)palette_black, 64, CPU);
 
 	VDP_loadTileSet(room_0_bgb.tileset, 1, DMA);
+	HAMOOPIG_probeVramRange(1u, room_0_bgb.tileset->numTile);
 	VDP_setTileMapEx(BG_B, room_0_bgb.tilemap,
 		TILE_ATTR_FULL(PAL2, 0, FALSE, FALSE, 1), 0, 0, 0, 0, 40, 28, DMA);
 	VDP_loadTileSet(room_0_bga.tileset, 501, DMA);
+	HAMOOPIG_probeVramRange(501u, room_0_bga.tileset->numTile);
 	VDP_setTileMapEx(BG_A, room_0_bga.tilemap,
 		TILE_ATTR_FULL(PAL3, 0, FALSE, FALSE, 501), 0, 0, 0, 0, 40, 28, DMA);
 

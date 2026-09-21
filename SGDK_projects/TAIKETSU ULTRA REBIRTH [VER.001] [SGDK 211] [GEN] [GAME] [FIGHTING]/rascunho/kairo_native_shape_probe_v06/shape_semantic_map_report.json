@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "kairo_vant_front_pose_native_candidate_v06",
+  "method": "geometric_prescreen_annotation_from_technical_probe",
+  "required_regions": [
+    "head_or_face",
+    "hair",
+    "torso",
+    "arms_or_guard",
+    "hands",
+    "legs",
+    "feet",
+    "sash"
+  ],
+  "label_legend": {
+    "head_or_face": 1,
+    "hair": 2,
+    "torso": 3,
+    "arms_or_guard": 4,
+    "hands": 5,
+    "legs": 6,
+    "feet": 7,
+    "sash": 8
+  },
+  "label_counts": {
+    "head_or_face": 44,
+    "hair": 32,
+    "torso": 104,
+    "arms_or_guard": 27,
+    "hands": 45,
+    "legs": 134,
+    "feet": 106,
+    "sash": 94
+  },
+  "bbox": [
+    4,
+    2,
+    28,
+    40
+  ],
+  "filled_pixels": 586,
+  "canvas_pixels": 1280,
+  "occupancy_pct": 45.78,
+  "claim_ceiling": "mechanical_geometry_probe"
+}

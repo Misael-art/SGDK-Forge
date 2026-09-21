@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "kairo_vant_combat_idle_3quarter_assisted_native_grid_probe_c_diagnostic",
+  "method": "geometric_prescreen_annotation_from_technical_probe",
+  "required_regions": [
+    "head_or_face",
+    "hair",
+    "torso",
+    "arms_or_guard",
+    "hands",
+    "legs",
+    "feet",
+    "sash"
+  ],
+  "label_legend": {
+    "head_or_face": 1,
+    "hair": 2,
+    "torso": 3,
+    "arms_or_guard": 4,
+    "hands": 5,
+    "legs": 6,
+    "feet": 7,
+    "sash": 8
+  },
+  "label_counts": {
+    "head_or_face": 486,
+    "hair": 448,
+    "torso": 869,
+    "arms_or_guard": 144,
+    "hands": 312,
+    "legs": 1765,
+    "feet": 355,
+    "sash": 739
+  },
+  "bbox": [
+    3,
+    6,
+    86,
+    132
+  ],
+  "filled_pixels": 5118,
+  "canvas_pixels": 11968,
+  "occupancy_pct": 42.76,
+  "claim_ceiling": "mechanical_geometry_probe"
+}

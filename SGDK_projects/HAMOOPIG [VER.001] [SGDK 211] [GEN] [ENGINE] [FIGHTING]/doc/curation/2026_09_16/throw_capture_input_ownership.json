@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L118",
+  "date": "2026-09-16",
+  "topic": "throw_capture_input_ownership",
+  "source": "investigação da rota real de THROW no BlastEm",
+  "problem": "O capturador mantinha a tecla J (direção do P2) enquanto aproximava o P1 e só depois emitia W; isso podia afastar ou cruzar os lutadores antes da janela de 0–45 px.",
+  "change": "tests/capture_visual_ko.py agora aproxima P2 com J e P1 com Right em pernas limitadas, documenta que W é o Y do P1 e emite bordas Y somente após a aproximação.",
+  "result": "A rota executou no SHA 2ba2 e gerou captura válida, mas o HPRB ainda reportou combat_total_throws=0; a FSM/alcance precisa de uma rota determinística adicional.",
+  "evidence": [
+    "tests/capture_visual_ko.py",
+    "tests/test_throw_window_contract.py",
+    "out/emulator_evidence/visual_ko_20260916T203129Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T203129Z/userdata/blastem/rom/save.sram",
+    "out/logs/current_2ba_throw_hprb.json"
+  ],
+  "limitations": [
+    "nenhum evento THROW foi observado",
+    "a captura prova somente telemetria HPRB, não aprovação visual/gameplay",
+    "não alterar a condição da FSM sem evidência de distância/estado no mesmo tick"
+  ],
+  "status": "harness_corrected_runtime_throw_pending"
+}

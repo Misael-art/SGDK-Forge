@@ -3,18 +3,20 @@
   "source": "rascunho/showdown_native_crop_preview.png",
   "source_sha256": "1b9bc2e6bb96f0f27218cacc189477c5689dca687ef557bc91ca3d3ed5f4715f",
   "output": "res/gfx/showdown.png",
-  "output_sha256": "682e13887551ed3ec202708d4e20ac4735285375978cb30c0b04fe87929ac716",
+  "output_sha256": "c01599a5841c75144da3581fe20a46386e483c0aa6ffef4e53ae30b98c0cf2a6",
   "unique_source_tiles": 1629,
-  "tile_budget": 768,
-  "unique_output_tiles": 768,
+  "tile_budget": 864,
+  "unique_output_tiles": 864,
   "pixel_block_size": 1,
   "transparent_index": 0,
   "opaque_indices": [
     1,
     14
   ],
-  "mean_squared_rgb_error": 199.91342163085938,
-  "method": "weighted farthest source-tile representatives, nearest replacement",
+  "mean_squared_rgb_error": 138.7790323893229,
+  "method": "weighted farthest initialization plus Lloyd medoid refinement, nearest replacement",
+  "refine_iterations": 4,
+  "crop_box": null,
   "claim_ceiling": "prototype_compare_flat",
   "runtime_budget": "not_measured"
 }

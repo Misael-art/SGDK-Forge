@@ -1,0 +1,23 @@
+{
+  "lesson_id": "L108",
+  "date": "2026-09-16",
+  "topic": "throw_absolute_distance",
+  "source": "P04_runtime_probe_review",
+  "rom_sha256": "67111b6cf440c04174acb621d730b24246b339068be4720141d26cd266354919",
+  "problem": "A FSM derivava gDistancia com base na direção de P1; após uma separação que invertia a relação espacial, a diferença negativa era convertida para u16 e bloqueava qualquer teste de proximidade.",
+  "change": "gDistancia agora é calculada como valor absoluto de um delta s16 antes da defesa, ataques e agarrão. A validação relativa de direção continua exigindo input na direção do oponente.",
+  "result": "Build SGDK/Wine passou e a nova captura HSEM/HPRB reproduziu guarda e projéteis. O evento THROW ainda não apareceu, portanto a correção elimina um bloqueador de distância, mas não fecha a rota de agarrão.",
+  "limits": [
+    "P10 do SHA 9148 tornou-se histórico após este build e precisa ser recapturado para vínculo same-ROM",
+    "a rota de teclado ainda precisa sincronizar aproximação e borda Y",
+    "revisão visual, áudio e gameplay completo continuam pendentes"
+  ],
+  "artifacts": [
+    "src/fsm.c",
+    "tests/test_throw_window_contract.py",
+    "out/logs/throw_absolute_build.log",
+    "out/logs/semantics_hsem_6711.json",
+    "out/logs/semantics_hprb_6711.json"
+  ],
+  "status": "absolute_distance_fixed_throw_event_pending"
+}

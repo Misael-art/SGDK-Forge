@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "agent_task_result_validation",
+  "task_id": "review_code",
+  "status": "failed",
+  "findings": [
+    "input_hash_binding_missing_or_stale:doc/05_technical/93_16bit_hardware_mastery_registry.json",
+    "input_hash_binding_missing_or_stale:doc/06_AI_MEMORY_BANK.md",
+    "input_hash_binding_missing_or_stale:tools/sgdk_wrapper/.agent/ARCHITECTURE.md"
+  ],
+  "performance_warnings": [],
+  "result_may_be_integrated": false,
+  "claim_ceiling": "orchestration_validation_only"
+}

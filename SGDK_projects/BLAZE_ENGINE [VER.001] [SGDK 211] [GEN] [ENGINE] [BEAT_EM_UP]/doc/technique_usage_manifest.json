@@ -1,0 +1,66 @@
+﻿{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "BLAZE_ENGINE [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": false
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Técnicas declaradas para o protótipo; nenhum item abaixo promove o projeto a AAA."
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "scene_id": "room_11_gameplay",
+      "registry_id": "rescomp_metasprite_decomposition_audit",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["RESCOMP_METASPRITE_AUDIT", "METASPRITE_OPTIMIZATION", "SPRITE_SCANLINE_BUDGET", "SPRITE_ENGINEERING"],
+      "owner_skills": ["art-conversion-pipeline", "megadrive-vdp-budget-analyst"],
+      "evidence": {
+        "rom_sha256": "c8dbc5a3922f866de15b17b8e16a8958c14458b7a968b4e9881a3ccd19b4dd2b",
+        "blastem_evidence_paths": ["out/captures/blastem-linux-20260921T015549Z-936914/screenshot.png", "out/evidence/blastem/visual_vdp_dump.bin", "out/evidence/blastem/runtime_metrics.json"],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md", "doc/11-gdd.md"],
+      "notes": "Aplicado nos seis sprites oversized com a opção SGDK `NONE 1 1`; a captura agora mede VDP/runtime, mas o gameplay de combate ainda não foi promovido."
+    },
+    {
+      "scene_id": "room_8_credits",
+      "registry_id": "contextual_scene_transition_system",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["AUDIO_ENGINEERING", "H_INT", "PALETTE_MANAGEMENT_AVANCADO", "PSEUDO_3D", "SCENE_TRANSITION", "TEXT_PRESENTATION", "VRAM_TILE_INDEX_MANAGEMENT"],
+      "owner_skills": ["game-state-transition-architect", "scene-state-architect"],
+      "evidence": {
+        "rom_sha256": "c8dbc5a3922f866de15b17b8e16a8958c14458b7a968b4e9881a3ccd19b4dd2b",
+        "blastem_evidence_paths": ["out/captures/blastem-linux-20260921T015549Z-936914/screenshot.png", "out/evidence/blastem/runtime_metrics.json"],
+        "budget_report_path": null,
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md", "doc/11-gdd.md", "doc/15-tdd.md"],
+      "notes": "Registrada como técnica de arquitetura do legado; ainda não é uma refatoração modular completa do main.c."
+    },
+    {
+      "scene_id": "room_8_credits",
+      "registry_id": "runtime_profiling_cycle_budget",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["RUNTIME_PROFILING", "CPU_CYCLE_BUDGET", "FRAME_METRICS"],
+      "owner_skills": ["sgdk-runtime-coder", "megadrive-vdp-budget-analyst", "emulator-vdp-evidence-curator"],
+      "evidence": {
+        "rom_sha256": "c8dbc5a3922f866de15b17b8e16a8958c14458b7a968b4e9881a3ccd19b4dd2b",
+        "blastem_evidence_paths": ["out/evidence/blastem/visual_vdp_dump.bin", "out/evidence/blastem/save.sram", "out/evidence/blastem/runtime_metrics.json"],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md", "doc/11-gdd.md"],
+      "notes": "Sonda ROM-side SGDK 2.11 integrada; o bundle prova apenas a cena capturada e não uma sessão sustentada de gameplay."
+    }
+  ]
+}

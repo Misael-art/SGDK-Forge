@@ -21,3 +21,5 @@ SPRITE spr_ken_700  "sprite/ken/700.png"  12  12 FAST 0
 SPRITE spr_ken_710  "sprite/ken/710.png"  14  12 FAST 0
 SPRITE spr_ken_720  "sprite/ken/720.png"  14  13 FAST 0
 SPRITE spr_ken_730  "sprite/ken/730.png"  15  15 FAST 0
+SPRITE spr_ken_defeat_v1 "sprite/ken/defeat_v1.png" 16 12 FAST 0
+SPRITE spr_ken_victory_v1 "sprite/ken/victory_v1.png" 12 16 FAST 0

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "logic_presentation_cadence_evidence",
+  "rom_sha256": "edc9a23ff103bc1a7db6182f6f13d95567a464428eb7bdafc2db624ad53df427",
+  "blastem_bundle": "out/emulator_evidence/visual_ko_20260921T012445543185Z-809087/",
+  "report": "out/emulator_evidence/visual_ko_20260921T012445543185Z-809087/hcad_cadence_report.json",
+  "report_sha256": "5616f50c5acb3be21c2ee31848068e73e095af3a0d1c55ddb1c37d85ab7fd96c",
+  "region_hz": 60,
+  "timing_profile": 0,
+  "observed": {
+    "video_frames": 7260,
+    "logic_ticks": 7260,
+    "presentation_commits": 7260,
+    "zero_tick_frames": 0,
+    "one_tick_frames": 7260,
+    "two_tick_frames": 0,
+    "fight_video_frames": 6353,
+    "fight_logic_ticks": 6353,
+    "fight_presentation_commits": 6353,
+    "fight_zero_tick_frames": 0
+  },
+  "invariants": {
+    "cadence_invariant": true,
+    "fight_cadence_invariant": true
+  },
+  "claim": "ntsc_normal_cadence_measured",
+  "not_proven": [
+    "PAL_double_tick_route",
+    "free_step_zero_tick_route",
+    "sustained_performance_with_audio",
+    "visual_parity_with_reference_board"
+  ]
+}

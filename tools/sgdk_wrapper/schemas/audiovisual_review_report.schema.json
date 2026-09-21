@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/audiovisual_review_report.schema.json",
+  "title": "SGDK Audiovisual Review Report",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "tool_name", "tool_version"],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "tool_name": {"const": "audiovisual_review"},
+    "tool_version": {"type": "string"},
+    "stage": {"type": "string", "enum": ["V0_freeze", "V1_ingest_integrity", "V2_query", "V3_findings", "V4_gate", "V5_end_to_end"]},
+    "execution_status": {"type": "string", "enum": ["passed", "failed"]},
+    "steps": {"type": "object", "additionalProperties": true},
+    "hash_chain": {"type": "object", "additionalProperties": true},
+    "blocking_errors": {"type": "array", "items": {"type": "string"}},
+    "status": {"type": "string", "enum": ["passed", "failed", "blocked", "needs_review", "candidate_only", "ready_with_limits"]},
+    "capture_overhead": {
+      "type": ["object", "null"],
+      "description": "Paired host-phase overhead only; never a game-FPS, cadence or perceptual-motion claim.",
+      "properties": {
+        "status": {"const": "measured"},
+        "same_rom_sha256": {"const": true},
+        "cases": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["rom_sha256"],
+            "properties": {
+              "rom_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "successful_pairs": {"type": "array", "minItems": 2},
+        "observed_overhead": {
+          "type": "object",
+          "required": ["cadence_telemetry_complete", "phase_medians"],
+          "properties": {
+            "cadence_telemetry_complete": {"const": true},
+            "phase_medians": {"type": "object", "additionalProperties": true}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "artifact_identity": {"$ref": "#/$defs/axis"},
+    "media_temporal_integrity": {"$ref": "#/$defs/axis"},
+    "av_sync": {"$ref": "#/$defs/axis"},
+    "game_cadence": {"$ref": "#/$defs/axis"},
+    "review_validation": {"type": "object"},
+    "clips": {
+      "type": "object",
+      "properties": {
+        "video": {"type": ["object", "null"]},
+        "audio": {"type": ["object", "null"]},
+        "synchronization": {"type": "string"},
+        "claim_limit": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "synchronization": {
+      "type": "object",
+      "properties": {
+        "status": {"type": "string", "enum": ["passed", "needs_review"]},
+        "event_anchor": {"type": "string"},
+        "measured_event_sync_error_ms": {"type": ["number", "null"]},
+        "anchor_contract": {
+          "type": "object",
+          "properties": {
+            "status": {"type": "string", "enum": ["passed", "needs_review"]},
+            "event_anchor": {"type": "string"},
+            "method": {"type": ["string", "null"]},
+            "binding_status": {"type": ["string", "null"], "enum": ["passed", "needs_review", null]},
+            "binding_errors": {"type": "array", "items": {"type": "string"}},
+            "rejected_host_clock": {"type": "boolean"},
+            "measured_event_sync_error_ms": {"type": ["number", "null"]},
+            "evidence_refs": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "claims": {"type": "object"},
+    "claim_scopes": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+    "axes": {"type": "object", "additionalProperties": {"$ref": "#/$defs/axis"}}
+  },
+  "$defs": {
+    "axis": {
+      "type": "object",
+      "required": ["status", "reason"],
+      "properties": {
+        "status": {"type": "string", "enum": ["passed", "failed", "blocked", "needs_review", "unsupported"]},
+        "reason": {"type": "string"},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "approval": {"type": "boolean"}
+      }
+    }
+  }
+}

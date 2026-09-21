@@ -30,6 +30,7 @@ typedef unsigned char u8; typedef int bool;
 #define SCENE_SELECT 2u
 #define SCENE_FIGHT 10u
 u8 gRoom; unsigned long gFrames;
+void STAGE_ambient_off(void) {{}}
 {body}
 
 int main(void) {{

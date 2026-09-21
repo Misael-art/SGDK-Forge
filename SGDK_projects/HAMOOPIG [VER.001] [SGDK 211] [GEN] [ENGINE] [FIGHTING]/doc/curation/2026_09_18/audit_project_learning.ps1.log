@@ -1,0 +1,346 @@
+{
+  "schema_version": "1.0.0",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "mode": "audit",
+  "status": "learning_context_present",
+  "capture_status": "not_captured",
+  "is_blocking": false,
+  "canonical_promotion_performed": false,
+  "required_files": [
+    "README.md",
+    "success_patterns.md",
+    "failure_patterns.md",
+    "skill_promotion_candidates.md",
+    "canonical_promotion_review.md",
+    "learning_ledger.json"
+  ],
+  "present_files": [
+    "README.md",
+    "success_patterns.md",
+    "failure_patterns.md",
+    "skill_promotion_candidates.md",
+    "canonical_promotion_review.md",
+    "learning_ledger.json"
+  ],
+  "missing_files": [],
+  "lesson_count": 63,
+  "candidate_count": 39,
+  "candidate_index": [
+    {
+      "lesson_id": "lesson_f0609d697b10df9b",
+      "title": "17 frames do Showdown sao RGB identicos",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_533cb01651f73371",
+      "title": "Active frame do haymaker saiu do perfil para 3/4",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_169df62f1fd7e875",
+      "title": "Barra direita some mesmo sem HFlip",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_aa01ee9fb26f48a3",
+      "title": "Bundle BlastEm `blocked` (`vlab_block_missing`, sem visual_vdp_dump) mesmo com seletor visivel",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_742d6bf7460d684a",
+      "title": "Bundle do BlastEm recusa o ato I (`blank_or_low_information_capture`); VLAB `frame_counter` anda de 60 em 60",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_ed25fb1b04949665",
+      "title": "Concept 480x640 LANCZOS+quantizacao global vira sprite de luta lamacento contra o Ryo",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_72531e1fec6aba47",
+      "title": "Cortina de coluna corta a bigorna; wipe apaga o ferro; unpack APLIB 8x + WINDOW some com o MASTER",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_494b434cd485fe8d",
+      "title": "cpu 160 / ob 9 entre F151 e F211, atribuidos aos golpes",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_b2d2b2b079e0e72a",
+      "title": "Crash `0x23080000` no primeiro H-Int",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_9dd75d0bd6784619",
+      "title": "Expandir `is_bg` para ciano no `content_bands` desloca os indices e some o tatsu (band 75)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_5453639ff97ae966",
+      "title": "ffmpeg recusa `f%03d.png` e grava um so frame",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_e48cd3e5319ddf06",
+      "title": "Grade de 2 colunas RYO/KEN nao escala",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_28d6c317e125137c",
+      "title": "Halo rosa no strip depois do quantize",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_e027b321b3671cdf",
+      "title": "imagegen_tool.py route` pede ComfyUI",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_988966a7b94b7511",
+      "title": "Ken anda/anima mas nao bate nem toma hit",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_c57b86b81b3ff100",
+      "title": "Lutador cai e sobe saindo da tela",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_6873402ca4a025d8",
+      "title": "Lutadores parecem estar na agua amarela",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_287bb98509fcbd61",
+      "title": "Lutadores verdes/azuis apos o seletor",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_8a37502492a596c9",
+      "title": "Magenta no frame_1 do burst",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_bd1690fbdaef504a",
+      "title": "Menu distorcido apos a marca",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_e2e318235545a63e",
+      "title": "Muro-fantasma roxo no ceu",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_07879a33909fb958",
+      "title": "PRESENTS invisivel em F480",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_b3cedd88149f5e97",
+      "title": "quantize_shared` por estado + `putpalette` global deixa indices da paleta local",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_fd43f2a36738fab9",
+      "title": "Relogio `spr_n*` some depois do Ken grande spawnar",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_cb63a239e0c629ab",
+      "title": "Resize 18px\u21928px NEAREST comeu o amarelo da barra",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_6aceb34ba06a6d58",
+      "title": "Soft reset do BlastEm (Tab) deixa lutadores com paleta lixo",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_19c02102b4dbe934",
+      "title": "Sombra/chao viram blob vermelho-branco",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_2d9c97b5171a534d",
+      "title": "sVramAuthor = sVramBgA` apaga a bigorna em F451",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_e61cace24bcc0968",
+      "title": "Unique ~3191 tiles e 4 paletas ja tomadas; 3 camadas MUGEN nao cabem",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_906aa848c695cf7c",
+      "title": "VSCROLL_COLUMN` usado como cortina da COIFA envolve a bigorna de preto",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_58ef24e2a5639239",
+      "title": "WINDOW 5 rows (40px) cobre o V travel de 32px",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_7eb889af6b2afc44",
+      "title": "Patch em art-translation-to-vdp: downscale direto",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "patch_existing_owner",
+      "target_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md"
+    },
+    {
+      "lesson_id": "lesson_186bedf2ac0cd511",
+      "title": "Patch em emulator-vdp-evidence-curator: engine sem VLAB",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_9c4278da5fa43724",
+      "title": "Patch em emulator-vdp-evidence-curator: VLAB != beat",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_363b9149b1ac5e4c",
+      "title": "Patch em multi-plane-composition + camera-system-sgdk: palco CPS compare_flat",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_7b4ad6b6f1a23103",
+      "title": "Patch em sgdk-runtime-coder + fighting-game-design: checklist de onboarding de lutador",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_c90c03033d8a2e30",
+      "title": "Patch em sgdk-runtime-coder: unpack IMAGE BEST e load-time",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_294d987ea841ba50",
+      "title": "Patch em shadow-highlight-scroll-fx: VSCROLL_COLUMN nao e cortina",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_dcf8b3fef0a5ad18",
+      "title": "Patch em sprite-animation: harvest video-first",
+      "lifecycle_status": "human_review_required",
+      "evidence_grade": "E1_artifact",
+      "action": "create_skill",
+      "target_path": null
+    }
+  ],
+  "warnings": [],
+  "written_files": [],
+  "recurring_blockers": [],
+  "no_qualified_lessons_justification": null
+}

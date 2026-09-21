@@ -1,0 +1,27 @@
+{
+  "scope": "static_asset_budget",
+  "source": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/work/reconstructed_layers/frame_0000.png",
+  "source_sha256": "9eee7558aa1a13c4536825d30786aaf04bbd613bd34cace5eba0cb3211467cfe",
+  "output": "rascunho/showdown_lab_crop_candidate.png",
+  "output_sha256": "8b69e13d7338f6b2ae61b153bebcca39be64940cc3e3fb4296f94cd88ede4a7c",
+  "unique_source_tiles": 1602,
+  "tile_budget": 768,
+  "unique_output_tiles": 768,
+  "pixel_block_size": 1,
+  "transparent_index": 0,
+  "opaque_indices": [
+    1,
+    14
+  ],
+  "mean_squared_rgb_error": 201.30103556315103,
+  "method": "weighted farthest initialization plus Lloyd medoid refinement, nearest replacement",
+  "refine_iterations": 4,
+  "crop_box": [
+    128,
+    224,
+    640,
+    480
+  ],
+  "claim_ceiling": "prototype_compare_flat",
+  "runtime_budget": "not_measured"
+}

@@ -1,0 +1,32 @@
+{
+  "lesson_id": "L100",
+  "date": "2026-09-15",
+  "topic": "eeb5_integrated_revalidation",
+  "source": "fresh_rom_bound_p10_title_audio_reset_runs",
+  "rom_sha256": "eeb50ff819ba5e3027dd3a23067f2329038039027ef4b1a7a1add97cddf9f750",
+  "problem": "A correção de KO alterou a ROM; todas as evidências a187 precisavam ser invalidadas e refeitas no binário vigente.",
+  "change": "Recaptura dos 36 casos P10, retry dos três bundles transitórios, rota title-return, áudio PulseAudio isolado e 100 ciclos de boot/reset.",
+  "result": "36/36 P10 manifests/HPRB decodificados; picos 8024 B DMA, 41 sprites ativos, 60 links VDP e 17 por scanline; title-return 5 capturas; áudio 48 kHz/estéreo, 24,8 s, RMS -27,67 dBFS, pico 5808, sem clipping e rota exclusiva; 100/100 ciclos com processo/janela presentes.",
+  "limits": [
+    "P10 continua probe/runtime bounded, não gameplay completo por matchup",
+    "revisão visual independente e audição crítica não realizadas",
+    "pior-frame, streaming nativo e hardware físico continuam pendentes"
+  ],
+  "artifacts": [
+    "out/logs/p10_matrix_after_eeb5.log",
+    "out/logs/p10_matrix_after_eeb5_retry.log",
+    "out/logs/p10_single_matrix_retry.log",
+    "out/logs/p10_decode_after_eeb5.log",
+    "out/logs/p10_summary_after_eeb5.log",
+    "out/logs/title_return_after_eeb5.log",
+    "out/logs/audio_audit_after_eeb5.log",
+    "out/logs/scene_reset_after_eeb5.log",
+    "out/logs/p10_matrix_runner_report.json",
+    "out/logs/p10_matrix_hprb_summary.json",
+    "out/emulator_evidence/title_return_20260915T185421Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T185525Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T185525Z/audio_signal_report.json",
+    "out/emulator_evidence/scene_reset_cycles_20260915T185858Z/manifest.json"
+  ],
+  "status": "instrumental_revalidation_passed_sensorial_and_full_gameplay_pending"
+}

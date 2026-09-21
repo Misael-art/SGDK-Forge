@@ -5,12 +5,25 @@
 #include "player_ken_table.h"
 #include "musgo.h"
 
+#ifndef HAMOOPIG_DMA_LAB_DELAYED_FRAME
+#define HAMOOPIG_DMA_LAB_DELAYED_FRAME 1
+#endif
+#if HAMOOPIG_DMA_LAB_DELAYED_FRAME
+#undef SPR_FLAG_DISABLE_DELAYED_FRAME_UPDATE
+#define SPR_FLAG_DISABLE_DELAYED_FRAME_UPDATE 0
+#endif
+
 void PLAYER_STATE_KEN(u8 Player, u16 State)
 {
 	const KenStateAnim *a = ken_anim_for(State);
 	u8 i;
+	if((State == 570 || State == 611 || State == 612 || State == 615 || State == 700) && P[Player].sprite)
+	{
+		SPR_releaseSprite(P[Player].sprite);
+		P[Player].sprite = NULL;
+	}
 
-	if(State==100 || State==610 || State==607 || State==611 || State==612 || State==615
+	if(State==100 || State==570 || State==610 || State==607 || State==611 || State==612 || State==615
 		|| State==200 || State==201 || State==207 || State==208 || State==209 || State==608
 		|| State==410 || State==420 || State==471 || State==472
 		|| State==101 || State==102 || State==104 || State==105 || State==106
@@ -40,7 +53,7 @@ void PLAYER_STATE_KEN(u8 Player, u16 State)
 		P[Player].y -= (7 * 8) - 4;
 	}
 
-	P[Player].sprite = SPR_addSpriteExSafe(
+	P[Player].sprite = PLAYER_SET_SPRITE(Player,
 		a->def,
 		P[Player].x - P[Player].axisX,
 		P[Player].y - P[Player].axisY,

@@ -1,0 +1,402 @@
+[
+  {
+    "project": "SGDK_projects/KIRBY_FAN GAME GROK AX ALPHA [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+    "rom": null,
+    "reports": {}
+  },
+  {
+    "project": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+    "rom": {
+      "sha256": "b2fbb1bcc916bd30e26693064e4d5371df7ede2216b72b0a85dd6700c022e0b5",
+      "bytes": 262144
+    },
+    "reports": {
+      "validation_report.json": {
+        "blocking_statuses": [
+          "external_path_reference_outside_project",
+          "visual_gate_blocked",
+          "changelog_missing",
+          "emulator_evidence_stale",
+          "freshness_audit_stale",
+          "scene_closeout_gate_stale",
+          "perceptual_metrics_zero",
+          "report_rom_identity_mismatch",
+          "report_rom_identity_missing",
+          "report_evidence_session_missing",
+          "report_status_conflict"
+        ],
+        "summary": {
+          "checked": 9,
+          "recovered": 0,
+          "errors": 5,
+          "warnings": 6,
+          "closeout_gate": false
+        }
+      },
+      "scene_closeout_gate_report.json": {
+        "status": "warn",
+        "summary": {
+          "steps_total": 8,
+          "planned": 0,
+          "succeeded": 7,
+          "failed": 0,
+          "warnings": 0,
+          "skipped": 1,
+          "blocked": 1,
+          "validation_report_readable": true,
+          "validation_blocking_statuses": [
+            "visual_gate_blocked",
+            "visual_direction_failed",
+            "scene_tilemap_conversion_report_stale"
+          ],
+          "closeout_blocking_statuses": [
+            "vram_residency_collision_risk",
+            "visual_gate_blocked",
+            "visual_direction_failed",
+            "scene_tilemap_conversion_report_stale"
+          ],
+          "res_graph_vram_status": "collision_risk",
+          "res_graph_vram_overlap_count": 2
+        }
+      }
+    }
+  },
+  {
+    "project": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+    "rom": {
+      "sha256": "a69050c105c6da29ff47dc098438e2da07b93a34cf03916949168b249adccd26",
+      "bytes": 131072
+    },
+    "reports": {
+      "validation_report.json": {
+        "blocking_statuses": [
+          "external_path_reference_outside_project",
+          "visual_gate_blocked",
+          "changelog_missing",
+          "emulator_evidence_stale",
+          "code_loaded_tiles_unmeasured",
+          "freshness_audit_stale",
+          "scene_closeout_gate_stale",
+          "perceptual_metrics_zero",
+          "report_rom_identity_mismatch",
+          "report_rom_identity_missing",
+          "report_evidence_session_missing",
+          "report_status_conflict"
+        ],
+        "summary": {
+          "errors": 6,
+          "warnings": 7,
+          "closeout_gate": false,
+          "recovered": 0,
+          "checked": 11
+        }
+      },
+      "scene_closeout_gate_report.json": {
+        "status": "warn",
+        "summary": {
+          "steps_total": 8,
+          "planned": 0,
+          "succeeded": 5,
+          "failed": 0,
+          "warnings": 2,
+          "skipped": 1,
+          "blocked": 1,
+          "validation_report_readable": true,
+          "validation_blocking_statuses": [
+            "visual_gate_blocked",
+            "procedural_fallback_as_final",
+            "visual_direction_failed",
+            "code_loaded_tiles_unmeasured",
+            "scene_tilemap_conversion_report_stale"
+          ],
+          "closeout_blocking_statuses": [
+            "code_loaded_tiles_unmeasured",
+            "visual_gate_blocked",
+            "procedural_fallback_as_final",
+            "visual_direction_failed",
+            "scene_tilemap_conversion_report_stale"
+          ],
+          "res_graph_vram_status": "ok",
+          "res_graph_vram_overlap_count": 0
+        }
+      }
+    }
+  },
+  {
+    "project": "SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+    "rom": {
+      "sha256": "3804672073ef40823d8b1f82bcf41fd2503f472ede95f7e9247c906b7ccbef28",
+      "bytes": 262144
+    },
+    "reports": {
+      "validation_report.json": {
+        "blocking_statuses": [
+          "perceptual_motion_unvalidated",
+          "orphan_project_root_entry",
+          "external_path_reference_outside_project",
+          "visual_gate_blocked",
+          "changelog_missing",
+          "emulator_evidence_stale",
+          "scene_tilemap_conversion_report_stale",
+          "freshness_audit_stale",
+          "scene_closeout_gate_stale",
+          "runtime_capture_partial",
+          "perceptual_metrics_zero",
+          "report_rom_identity_mismatch",
+          "report_rom_identity_missing",
+          "report_evidence_session_missing",
+          "report_status_conflict"
+        ],
+        "summary": {
+          "warnings": 10,
+          "checked": 19,
+          "recovered": 0,
+          "closeout_gate": false,
+          "errors": 6
+        }
+      },
+      "scene_closeout_gate_report.json": {
+        "status": "blocked",
+        "summary": {
+          "steps_total": 8,
+          "planned": 0,
+          "succeeded": 8,
+          "failed": 0,
+          "warnings": 0,
+          "skipped": 0,
+          "blocked": 1,
+          "validation_report_readable": true,
+          "validation_blocking_statuses": [
+            "perceptual_motion_unvalidated",
+            "visual_gate_blocked",
+            "scene_tilemap_conversion_report_stale"
+          ],
+          "closeout_blocking_statuses": [
+            "perceptual_motion_unvalidated",
+            "visual_gate_blocked",
+            "scene_tilemap_conversion_report_stale"
+          ],
+          "res_graph_vram_status": "ok",
+          "res_graph_vram_overlap_count": 0
+        }
+      }
+    }
+  },
+  {
+    "project": "SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+    "rom": {
+      "sha256": "79020498f34d0ca4b8d2907659c82d4f605c77ecf5a8a650a09e478c1002f337",
+      "bytes": 131072
+    },
+    "reports": {}
+  },
+  {
+    "project": "SGDK_projects/GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+    "rom": {
+      "sha256": "20e7c2c9647fddabb890e63fd72036faaa7b9d26f5a828aaaf110031bb095e75",
+      "bytes": 262144
+    },
+    "reports": {}
+  },
+  {
+    "project": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GAME] [ACTION_PLATFORMER]",
+    "rom": null,
+    "reports": {}
+  },
+  {
+    "project": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER",
+    "rom": null,
+    "reports": {}
+  },
+  {
+    "project": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+    "rom": {
+      "sha256": "a3e526634288fb6a83013c059fdca5221c40abff9efc5dd9835624c0ae6785c5",
+      "bytes": 262144
+    },
+    "reports": {
+      "validation_report.json": {
+        "blocking_statuses": [
+          "perceptual_motion_unvalidated",
+          "project_methodology_manifest_invalid",
+          "modular_boss_runtime_invalid",
+          "orphan_project_root_entry",
+          "noncanonical_project_entry_name",
+          "external_path_reference_outside_project",
+          "gdd_substantial_insufficient",
+          "agent_context_degraded",
+          "visual_gate_blocked",
+          "visual_delivery_gate_missing",
+          "audio_validation_missing",
+          "changelog_missing",
+          "res_graph_missing_for_visual_delivery",
+          "technique_usage_manifest_empty",
+          "scene_tilemap_conversion_report_missing",
+          "per_tile_palette_conflict_report_missing",
+          "freshness_audit_missing",
+          "scene_closeout_gate_missing"
+        ],
+        "summary": {
+          "checked": 24,
+          "errors": 1,
+          "recovered": 0,
+          "warnings": 32,
+          "closeout_gate": false
+        }
+      }
+    }
+  },
+  {
+    "project": "SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+    "rom": {
+      "sha256": "49ec37304bedaaea6af5fdee50ec4f5dc9aad56e7e79896649442f29b82b5fd1",
+      "bytes": 262144
+    },
+    "reports": {}
+  },
+  {
+    "project": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+    "rom": {
+      "sha256": "144fb573b088375c68f71d4255282db315052fe0f8de351e595806e6b734abd4",
+      "bytes": 262144
+    },
+    "reports": {
+      "validation_report.json": {
+        "blocking_statuses": [
+          "visual_gate_blocked",
+          "changelog_missing",
+          "scene_tilemap_conversion_report_stale"
+        ],
+        "summary": {
+          "warnings": 10,
+          "closeout_gate": false,
+          "checked": 20,
+          "recovered": 0,
+          "errors": 0
+        }
+      },
+      "scene_closeout_gate_report.json": {
+        "status": "warn",
+        "summary": {
+          "steps_total": 13,
+          "planned": 0,
+          "succeeded": 11,
+          "failed": 0,
+          "warnings": 1,
+          "skipped": 1,
+          "blocked": 1,
+          "validation_report_readable": true,
+          "validation_blocking_statuses": [
+            "visual_gate_blocked",
+            "changelog_missing",
+            "scene_tilemap_conversion_report_stale"
+          ],
+          "closeout_blocking_statuses": [
+            "freshness_audit_stale",
+            "scene_regression_results_missing",
+            "visual_gate_blocked",
+            "changelog_missing",
+            "scene_tilemap_conversion_report_stale"
+          ],
+          "res_graph_vram_status": "not_measured",
+          "res_graph_vram_overlap_count": 0
+        }
+      }
+    }
+  },
+  {
+    "project": "SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+    "rom": {
+      "sha256": "9c5a7e22515b9ebf03c9bc32e4c43d0ac6d3251cf72d32ee043f9c391f4eaaac",
+      "bytes": 262144
+    },
+    "reports": {}
+  },
+  {
+    "project": "SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+    "rom": {
+      "sha256": "27deb2e6ed47948c1eb55b1e093a0d26b72bdd2257dc6cd0b03f0e89a2cc79cc",
+      "bytes": 262144
+    },
+    "reports": {
+      "validation_report.json": {
+        "blocking_statuses": [
+          "gdd_substantial_insufficient",
+          "visual_gate_blocked",
+          "visual_direction_failed",
+          "animation_gate_failed",
+          "audio_validation_missing",
+          "changelog_missing",
+          "scene_regression_incomplete",
+          "emulator_evidence_stale",
+          "code_loaded_tiles_unmeasured",
+          "scene_tilemap_conversion_report_missing",
+          "per_tile_palette_conflict_report_missing",
+          "report_rom_identity_mismatch",
+          "report_status_conflict"
+        ],
+        "summary": {
+          "recovered": 0,
+          "warnings": 19,
+          "closeout_gate": false,
+          "checked": 20,
+          "errors": 3
+        }
+      },
+      "scene_closeout_gate_report.json": {
+        "status": "warn",
+        "summary": {
+          "steps_total": 11,
+          "planned": 0,
+          "succeeded": 6,
+          "failed": 0,
+          "warnings": 3,
+          "skipped": 2,
+          "blocked": 1,
+          "validation_report_readable": true,
+          "validation_blocking_statuses": [
+            "gdd_substantial_insufficient",
+            "visual_gate_blocked",
+            "visual_direction_failed",
+            "animation_gate_failed",
+            "audio_validation_missing",
+            "changelog_missing",
+            "scene_regression_incomplete",
+            "emulator_evidence_stale",
+            "code_loaded_tiles_unmeasured",
+            "scene_tilemap_conversion_report_missing",
+            "per_tile_palette_conflict_report_missing",
+            "report_rom_identity_mismatch",
+            "report_status_conflict"
+          ],
+          "closeout_blocking_statuses": [
+            "code_loaded_tiles_unmeasured",
+            "freshness_audit_stale",
+            "gdd_substantial_insufficient",
+            "visual_gate_blocked",
+            "visual_direction_failed",
+            "animation_gate_failed",
+            "audio_validation_missing",
+            "changelog_missing",
+            "scene_regression_incomplete",
+            "emulator_evidence_stale",
+            "scene_tilemap_conversion_report_missing",
+            "per_tile_palette_conflict_report_missing",
+            "report_rom_identity_mismatch",
+            "report_status_conflict"
+          ],
+          "res_graph_vram_status": "not_measured",
+          "res_graph_vram_overlap_count": 0
+        }
+      },
+      "live_scene_bar_report.json": {
+        "status": "needs_review"
+      }
+    }
+  },
+  {
+    "project": "SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+    "rom": null,
+    "reports": {}
+  }
+]

@@ -37,7 +37,7 @@ static inline const MusgoStateAnim *musgo_anim_for(u16 state) {
     }
     case 104: {
         static const MusgoStateAnim a = {
-            &spr_musgo_104, 88, 120, 44, 120, 2,
+            &spr_musgo_104, 96, 120, 48, 120, 2,
             { 6, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
         return &a;
@@ -100,8 +100,8 @@ static inline const MusgoStateAnim *musgo_anim_for(u16 state) {
     }
     case 550: {
         static const MusgoStateAnim a = {
-            &spr_musgo_fall_v1, 120, 120, 60, 120, 2,
-            { 6, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+            &spr_musgo_550, 72, 88, 36, 88, 3,
+            { 4, 4, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
         return &a;
     }
@@ -114,7 +114,7 @@ static inline const MusgoStateAnim *musgo_anim_for(u16 state) {
     }
     case 700: {
         static const MusgoStateAnim a = {
-            &spr_musgo_700, 88, 120, 44, 120, 2,
+            &spr_musgo_700, 96, 120, 48, 120, 2,
             { 4, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
         return &a;
@@ -140,10 +140,11 @@ static inline const MusgoStateAnim *musgo_anim_for(u16 state) {
         };
         return &a;
     }
+    // defeat_v1 asset: authored terminal ground pose.
     case 570: {
         static const MusgoStateAnim a = {
-            &spr_musgo_defeat_v1, 128, 64, 64, 64, 1,
-            { 99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+            &spr_musgo_fall_v1, 120, 120, 60, 120, 2,
+            { 6, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
         return &a;
     }
@@ -165,13 +166,12 @@ static inline const MusgoStateAnim *musgo_anim_for(u16 state) {
     case 320: case 321: case 322: case 324: case 325: case 326:
         return musgo_anim_for(300);
     case 410: case 471: case 472: return musgo_anim_for(420);
-    case 502: case 503: case 504: case 505: case 506: case 507:
-    case 511: case 512: return musgo_anim_for(501);
-    case 551: return musgo_anim_for(550);
-    case 552: return musgo_anim_for(606);
+    case 502: case 503: case 506: case 511: case 512:
+    case 551: case 552: return musgo_anim_for(550);
     case 800: case 801: case 802: case 803: return musgo_anim_for(102);
     default: return musgo_anim_for(100);
     }
 }
 
 #endif
+

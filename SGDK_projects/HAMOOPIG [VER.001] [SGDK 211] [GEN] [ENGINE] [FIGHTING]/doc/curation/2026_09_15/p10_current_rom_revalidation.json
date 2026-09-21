@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L082",
+  "date": "2026-09-15",
+  "topic": "p10_revalidation_after_rom_change",
+  "source": "same_rom_matrix_rerun",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "Uma alteração de menu gerou novo SHA e tornou inválidos os probes P10 anteriores.",
+  "change": "Executar novamente os 36 casos com --include-observed e probe de combate limitado; repetir apenas a falha PAL com --retry-failed --probe-wait=2; atualizar o relatório agregado e os HPRB.",
+  "result": "36/36 probe_passed, 0 failed, 0 not_run; resumo HPRB decodificado no SHA atual, com pelo menos 1 HIT em cada caso. Dois casos PAL passaram após estabilização adicional.",
+  "limits": [
+    "status continua pending_visual_review",
+    "probe-short não prova luta completa nem audição crítica",
+    "telemetria máxima da matriz: 8.024 B DMA enfileirados, 41 sprites ativos, 60 links VDP e 17 sprites/scanline"
+  ],
+  "artifacts": [
+    "out/logs/p10_matrix_runner_report.json",
+    "out/logs/p10_matrix_hprb_summary.json",
+    "doc/engine/p10_qa_matrix.json",
+    "tests/test_p10_evidence_integrity.py"
+  ],
+  "status": "documented_current_rom_runtime_probe_pass"
+}

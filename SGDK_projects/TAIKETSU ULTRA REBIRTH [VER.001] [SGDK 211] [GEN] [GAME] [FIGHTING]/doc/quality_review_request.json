@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "quality_review_request",
+  "review_id": "taiketsu-d0-q1-foundation",
+  "review_stage": "foundation",
+  "project_context": "aaa_game",
+  "project_root": "SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "current_claim_ceiling": "vertical_slice",
+  "as_of": "2026-09-05",
+  "changed_domains": ["game_design", "narrative", "governance"],
+  "risk_flags": ["scope_growth", "narrative_drift", "claim_risk"],
+  "requested_domains": ["game_design", "narrative"],
+  "narrative_weight": "substantial",
+  "audio_weight": "supporting",
+  "commercial_intent": false,
+  "producer_ids": ["codex/taiketsu-coordinator", "project_owner"],
+  "artifacts": [
+    {
+      "path": "doc/00-project-brief.md",
+      "sha256": "df4aba243ed073674837beb54decbd5fa54229f8324fc6ce1a81e2438a89f479",
+      "role": "design_doc"
+    },
+    {
+      "path": "doc/11-gdd.md",
+      "sha256": "53b7d0e83afa8de4abec0bdaf33c184cdf98e08273b04086b339dbcee59d27b8",
+      "role": "gdd"
+    },
+    {
+      "path": "doc/12-roteiro.md",
+      "sha256": "3ca39086c5d553ca9f305605e18f95b512e9caaee9a7c88fbb4e28039bfd11b3",
+      "role": "script"
+    },
+    {
+      "path": "doc/13-spec-cenas.md",
+      "sha256": "a18d022a81c3633d40cf5121849ad8ebae9c3e88d77b73d1e692d39bcea95a4e",
+      "role": "design_doc"
+    },
+    {
+      "path": "doc/genre_specialization_manifest.json",
+      "sha256": "a2c66fe427c30289e19a2ce2fe6e234c94e886befb61392fc287fea6d6ec95b4",
+      "role": "other"
+    }
+  ]
+}

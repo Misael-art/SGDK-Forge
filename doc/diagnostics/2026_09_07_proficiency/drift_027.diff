@@ -1,0 +1,27 @@
+--- SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/inc/system/runtime_probe.h
++++ tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h
+@@ -1,4 +1,4 @@
+-﻿#ifndef SYSTEM_RUNTIME_PROBE_H
++#ifndef SYSTEM_RUNTIME_PROBE_H
+ #define SYSTEM_RUNTIME_PROBE_H
+ 
+ #include <genesis.h>
+@@ -28,7 +28,6 @@
+ #define MD_RUNTIME_PROBE_SRAM_OFFSET 0
+ #define MD_RUNTIME_PROBE_HEARTBEAT_OFFSET 0x100
+ #define MD_RUNTIME_PROBE_HEARTBEAT_PERIOD 30
+-#define MD_RUNTIME_PROBE_BOOTSTRAP_FORCE_CHASE_FAILURE 0x0002
+ 
+ extern volatile u16 g_mdRuntimeProbe[MD_RUNTIME_PROBE_WORD_COUNT];
+ 
+@@ -36,8 +35,7 @@
+ void MDRuntimeProbe_tick(void);
+ void MDRuntimeProbe_exportToSRAM(void);
+ void MDRuntimeProbe_writeHeartbeat(void);
+-bool MDRuntimeProbe_shouldHoldScene(void);
+-bool MDRuntimeProbe_consumeChaseFailureBootstrap(void);
++/* brandEnsureShard falha em silencio; a cena reporta spawned/failed aqui. */
++void MDRuntimeProbe_noteSpriteAlloc(u16 spawned, u16 failed);
+ 
+ #endif
+-

@@ -1,0 +1,364 @@
+{
+  "date": "2026-09-18",
+  "status": "prototype_partial_current_sha",
+  "current_rom_sha256": "3c82c14b3c959098f09b57de7a387147b970eb42fabb1bf8af986c20e46938f9",
+  "current_evidence_session": "out/emulator_evidence/visual_ko_20260921T023408630615Z-1134439/ (BlastEm BGB2 combat/result/rematch; Musgo contrast candidate; HCAD same-ROM)",
+  "current_semantics_session": "out/emulator_evidence/visual_ko_20260920T230426778949Z-380612/ (short combat probe; HPRB/HSEM not exported in this bundle)",
+  "current_assessment_20260920": {
+    "status": "prototype_partial_current_sha",
+    "stage_runtime": "regional_material_preserving_candidate_boots_and_reduces severe false rectangles",
+    "hud_plane": "WINDOW_full_screen_owner_with_authorial_life_and_special_surface_verified",
+    "visual_parity": "not_met",
+    "validation": "4_errors_87_warnings_after_current_run",
+    "next_visual_delta": "complete_roster_grid_hud_ko_fx_stage_depth_plus_independent_review",
+    "invalid_candidate_sessions": [
+      "out/emulator_evidence/visual_ko_20260920T194625287594Z-3922118/",
+      "out/emulator_evidence/visual_ko_20260920T194806313296Z-3929267/",
+      "out/emulator_evidence/visual_ko_20260920T195136362276Z-3941051/"
+    ]
+  },
+  "scope": "quality_parity_with_user_reference_images",
+  "milestones": [
+    "M0",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5"
+  ],
+  "items": [
+    {
+      "id": "V01",
+      "priority": "P0",
+      "milestone": "M0",
+      "title": "Direção e storyboard",
+      "owners": [
+        "arte",
+        "design",
+        "budget"
+      ],
+      "depends_on": [],
+      "acceptance": "Dois lutadores, um palco e ciclo completo com composição e custo por cena definidos.",
+      "status": "proposed"
+    },
+    {
+      "id": "V02",
+      "priority": "P0",
+      "milestone": "M1",
+      "title": "Vida e especial com semânticas distintas",
+      "owners": [
+        "ui",
+        "runtime"
+      ],
+      "depends_on": [
+        "V01"
+      ],
+      "acceptance": "Dano mínimo legível; trilho vazio, dano recente e consumo de especial corretos nos dois lados.",
+      "status": "implemented_partial",
+      "implemented_in": "src/hud.c + data/source_art/hud + res/hud_gfx.res",
+      "evidence": "out/emulator_evidence/visual_ko_20260920T060858990521Z-1139143/zero_1_settle.png",
+      "evidence_rom_sha256": "86b15dacb48a7df790cc68dde5b204309089f183ff84c9ad44339a95fa83d147",
+      "evidence_current_special": "out/emulator_evidence/visual_ko_20260920T061306821952Z-1151049/special_only_p1_try0_3.png",
+      "evidence_current_special_hprb": "out/emulator_evidence/visual_ko_20260920T061306821952Z-1151049/hprb_probe_report.json",
+      "evidence_current_special_hsem": "out/emulator_evidence/visual_ko_20260920T061306821952Z-1151049/hsem_probe_report.json",
+      "residual": "Trilho vazio, dano, especial distinto e KO foram confrontados no SHA atual; escuta crítica, consumo/recarga em sequência completa e revisão independente permanecem abertos."
+    },
+    {
+      "id": "V03",
+      "priority": "P0",
+      "milestone": "M1",
+      "title": "Retratos, nomes, vitórias e relógio",
+      "owners": [
+        "pixel_art",
+        "ui"
+      ],
+      "depends_on": [
+        "V01"
+      ],
+      "acceptance": "Identidade legível sobre cenários claros/escuros e durante efeitos de paleta.",
+      "status": "implemented_partial",
+      "implemented_in": "src/hud.c + data/source_art/hud/build_fighter_portraits.py",
+      "evidence": "out/emulator_evidence/visual_ko_20260920T060858990521Z-1139143/zero_1_settle.png",
+      "evidence_rom_sha256": "86b15dacb48a7df790cc68dde5b204309089f183ff84c9ad44339a95fa83d147",
+      "residual": "Retratos, nomes, relógio, SP e vitória/KO observados no BlastEm; cobertura integral das telas e revisão independente continuam abertas."
+    },
+    {
+      "id": "V04",
+      "priority": "P0",
+      "milestone": "M1",
+      "title": "Combo e letreiros de partida",
+      "owners": [
+        "ui",
+        "combate"
+      ],
+      "depends_on": [
+        "V01"
+      ],
+      "acceptance": "Número de hits correto e dominante; ROUND/FIGHT/KO com transição e input sincronizados.",
+      "status": "implemented_partial",
+      "implemented_in": "src/hud.c + tests/capture_visual_ko.py",
+      "evidence": "out/emulator_evidence/visual_ko_20260920T060858990521Z-1139143/zero_1_settle.png",
+      "evidence_rom_sha256": "86b15dacb48a7df790cc68dde5b204309089f183ff84c9ad44339a95fa83d147",
+      "evidence_additional_combat": "out/emulator_evidence/visual_ko_20260920T060858990521Z-1139143/combat_010.png",
+      "evidence_additional_ko": "out/emulator_evidence/visual_ko_20260920T060858990521Z-1139143/zero_1_settle.png",
+      "evidence_additional_result": "out/emulator_evidence/visual_ko_20260920T060858990521Z-1139143/after_combat.png",
+      "residual": "KO tem banner autoral ampliado, combo/round e resultado foram observados no SHA final; ROUND/FIGHT ainda usam atlas compacto e audição sincronizada permanece aberta."
+    },
+    {
+      "id": "V05",
+      "priority": "P0",
+      "milestone": "M2",
+      "title": "Cobertura de animações por ação",
+      "owners": [
+        "animacao",
+        "combate"
+      ],
+      "depends_on": [
+        "V01"
+      ],
+      "acceptance": "Nenhuma ação crítica usa alias visual incompatível; pivôs e contato consistentes.",
+      "status": "implemented_partial",
+      "implemented_in": "inc/player_ken_table.h + inc/player_musgo_table.h + src/player_ken.c + src/player_musgo.c + res/ken.res + data/source_art/ken/convert_ken_terminal.py",
+      "evidence": "out/emulator_evidence/visual_ko_20260919T232926387580Z-3579731/zero_1_result.png",
+      "evidence_rom_sha256": "8ac1bda70511fbd395af9a3fa3f49ca356e39dec31254b8f336f96a0a405e506",
+      "residual": "Ken agora tem vitória e derrota autorais ligadas a 611/612 e 570/615; a vitória foi observada no BlastEm. A cobertura de Ken derrotado, aliases de golpes críticos e revisão nativa completa de Ryo/Ken/Musgo ainda estão abertas."
+    },
+    {
+      "id": "V06",
+      "priority": "P0",
+      "milestone": "M2",
+      "title": "Revisão nativa do Musgo se selecionado",
+      "owners": [
+        "pixel_art",
+        "animacao"
+      ],
+      "depends_on": [
+        "V01"
+      ],
+      "acceptance": "Silhueta, rosto, materiais e bordas legíveis em tamanho de jogo nos fundos de teste.",
+      "status": "implemented_partial",
+      "implemented_in": "res/musgo.res + src/player_musgo.c",
+      "evidence": "out/emulator_evidence/visual_ko_20260919T122930Z/combat_025.png",
+      "evidence_rom_sha256": "c6019980e96f08492844d85407c1df5e3f67da22a5a0606cda58ad27b99231ba",
+      "residual": "Silhueta legível e reação observada; cobertura completa de ações e acabamento nativo ainda não aprovado."
+    },
+    {
+      "id": "V07",
+      "priority": "P0",
+      "milestone": "M3",
+      "title": "Reautoria de um palco",
+      "owners": [
+        "arte_ambiente"
+      ],
+      "depends_on": [
+        "V01"
+      ],
+      "acceptance": "Landmarks, materiais e faixa de luta legíveis em 320x224; módulos e paleta declarados.",
+      "status": "implemented_partial",
+      "implemented_in": "src/globals.c + res/gfx.res + data/source_art/stage2_swamp",
+      "evidence": "out/emulator_evidence/visual_ko_20260919T221705403442Z-3268880/01_round.png",
+      "evidence_rom_sha256": "7fd291d0757bd27e14dedb019ea2ba4c38c598fceb07b4927e455f7a559d7175",
+      "evidence_translation": "out/logs/scene_tilemap_conversion_report.json",
+      "evidence_current": "out/emulator_evidence/visual_ko_20260920T074931694042Z-1506141/zero_1_settle.png",
+      "evidence_current_rom_sha256": "9509ebbbdc6ea2f6c7036b8fba90f22de400976f119a0d4730a2e7ed6cb5a5f2",
+      "residual": "BGB2 foi reautorado a partir de fonte v02 persistida; 1200/1120/1040 tiles foram medidos e rejeitados pelo guard vivo, e 864 tiles é o teto compatível com HUD+sprite region. A tradução segue candidata, sem parallax/multi-plano real, sem revisão independente e sem fechamento da barra visual."
+    },
+    {
+      "id": "V08",
+      "priority": "P1",
+      "milestone": "M3",
+      "title": "Profundidade, ambiente e ocupação de planos",
+      "owners": [
+        "vdp",
+        "camera"
+      ],
+      "depends_on": [
+        "V07",
+        "V02",
+        "V04"
+      ],
+      "acceptance": "Movimento distinto da câmera, sem seams ou destruição do HUD no BG_A.",
+      "status": "implemented_partial",
+      "implemented_in": "src/stage.c + src/scene.c + src/main.c + res/sprite.res",
+      "evidence": "out/emulator_evidence/visual_ko_20260920T074931694042Z-1506141/zero_1_settle.png",
+      "evidence_rom_sha256": "9509ebbbdc6ea2f6c7036b8fba90f22de400976f119a0d4730a2e7ed6cb5a5f2",
+      "evidence_current_rom_sha256": "9509ebbbdc6ea2f6c7036b8fba90f22de400976f119a0d4730a2e7ed6cb5a5f2",
+      "budget_note": "Três instâncias PAL0 de 16x8, seis tiles máximos, atualizadas a cada oito frames; sem terceiro plano e sem claim de parallax.",
+      "residual": "Glints animados e separação de profundidade perceptual foram observados na captura same-ROM; a conversão continua compare-flat BG_B, sem parallax multi-plano independente, pior quadro combinado ou revisão independente."
+    },
+    {
+      "id": "V09",
+      "priority": "P1",
+      "milestone": "M2",
+      "title": "Resposta de impacto e golpe assinatura",
+      "owners": [
+        "combate",
+        "fx",
+        "audio"
+      ],
+      "depends_on": [
+        "V05"
+      ],
+      "acceptance": "Pose, contato, FX, som e hitstop coerentes sem alterar física indevidamente.",
+      "status": "implemented_partial",
+      "implemented_in": "src/fsm.c + src/hud.c + src/combat_event.c",
+      "evidence": "out/emulator_evidence/visual_ko_20260920T051517794165Z-904309/special_only_p1_try0_2.png",
+      "evidence_rom_sha256": "7431b4eed0b5d03039fa8dcb395509d562ae3e79f6308f59a2a2955ec6e3a08d",
+      "evidence_semantics_manifest": "out/emulator_evidence/visual_ko_20260920T051517794165Z-904309/manifest.json",
+      "evidence_hsem": "out/emulator_evidence/visual_ko_20260920T051517794165Z-904309/hsem_probe_report.json",
+      "evidence_hprb": "out/emulator_evidence/visual_ko_20260920T051517794165Z-904309/hprb_probe_report.json",
+      "evidence_current_guard": "out/emulator_evidence/visual_ko_20260920T052509378538Z-947249/guard_only_04.png",
+      "evidence_current_guard_hsem": "out/emulator_evidence/visual_ko_20260920T052509378538Z-947249/hsem_probe_report.json",
+      "evidence_current_guard_hprb": "out/emulator_evidence/visual_ko_20260920T052509378538Z-947249/hprb_probe_report.json",
+      "residual": "Na ROM final, especial, guarda e throw mostram impacto autoral; HPRB mede 3 projéteis/3 hits, 1 guard/0 hits e 2 throws/2 hits, todos dentro do envelope nominal. KO também foi validado em bundle separado; hitstop perceptível, escuta crítica e cobertura completa de golpes permanecem abertos."
+    },
+    {
+      "id": "V10",
+      "priority": "P0",
+      "milestone": "M4",
+      "title": "Seleção visual do elenco real",
+      "owners": [
+        "ui",
+        "estados"
+      ],
+      "depends_on": [
+        "V01",
+        "V03"
+      ],
+      "acceptance": "P1/P2, paletas, confirmação, desconfirmação e palco claros sem texto de debug como interface final.",
+      "status": "implemented_partial",
+      "implemented_in": "src/select.c + res/gfx.res",
+      "evidence": "out/emulator_evidence/visual_ko_20260919T025537Z/00_select.png",
+      "evidence_rom_sha256": "3ca61393cc365661dec9a3a1ee1b753ee27dd319bc972d0abb201cadb31a663a",
+      "evidence_additional": "out/emulator_evidence/visual_ko_20260919T032203Z/selected_final.png",
+      "evidence_additional_stage_label": "out/emulator_evidence/visual_ko_20260919T031934Z/00_stage2_selected.png",
+      "evidence_confirmation_flow": "out/emulator_evidence/visual_ko_20260919T050147Z/manifest.json",
+      "evidence_p2_confirmation": "out/emulator_evidence/visual_ko_20260919T050147Z/02_both_confirmed.png",
+      "evidence_previous": "out/emulator_evidence/visual_ko_20260920T051451465479Z-902783/selected_final.png",
+      "evidence_current": "out/emulator_evidence/visual_ko_20260921T023824721736Z-1156410/00_select.png",
+      "evidence_current_roster_asset": "res/sprite/select/roster_icons.png (72x24, 3 frames 24x24, placeholder)",
+      "evidence_current_rom_sha256": "3c82c14b3c959098f09b57de7a387147b970eb42fabb1bf8af986c20e46938f9",
+      "residual": "A faixa ampliada melhora a leitura de três identidades no BlastEm, mas não é a grade completa da referência. Confirmação dupla, mirror-match, revisão tipográfica e revisão visual independente permanecem abertas."
+    },
+    {
+      "id": "V11",
+      "priority": "P1",
+      "milestone": "M4",
+      "title": "Vozes, announcer e mix",
+      "owners": [
+        "audio"
+      ],
+      "depends_on": [
+        "V01",
+        "V04",
+        "V09"
+      ],
+      "acceptance": "Escuta crítica com duas vozes, BGM e SFX na cena pesada; prioridades documentadas.",
+      "status": "proposed"
+    },
+    {
+      "id": "V12",
+      "priority": "P1",
+      "milestone": "M4",
+      "title": "Unificação de título e transições",
+      "owners": [
+        "arte",
+        "estados"
+      ],
+      "depends_on": [
+        "V10"
+      ],
+      "acceptance": "Uma linguagem visual e retorno determinístico entre título, seleção, luta e resultado.",
+      "status": "implemented_partial",
+      "implemented_in": "src/title.c + tests/capture_title_return.py",
+      "evidence": "out/emulator_evidence/title_return_20260920T061912Z/01_title_initial.png",
+      "evidence_rom_sha256": "7fd291d0757bd27e14dedb019ea2ba4c38c598fceb07b4927e455f7a559d7175",
+      "evidence_options": "out/emulator_evidence/title_return_20260920T075901Z/options_scene_page.png",
+      "evidence_current_title": "out/emulator_evidence/title_return_20260920T075901Z/01_title_initial.png",
+      "evidence_current_title_rom_sha256": "9509ebbbdc6ea2f6c7036b8fba90f22de400976f119a0d4730a2e7ed6cb5a5f2",
+      "evidence_current_return": "out/emulator_evidence/title_return_20260920T075901Z/05_title_return_late.png",
+      "residual": "Título, opções e retorno foram recapturados no SHA atual; transições, tipografia e revisão visual independente continuam abertas."
+    },
+    {
+      "id": "V13",
+      "priority": "P0",
+      "milestone": "M5",
+      "title": "Pior quadro e ciclo completo",
+      "owners": [
+        "qa",
+        "vdp",
+        "gameplay"
+      ],
+      "depends_on": [
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "V07",
+        "V08",
+        "V09",
+        "V10",
+        "V11",
+        "V12"
+      ],
+      "acceptance": "Mesma ROM: combate representativo, partida/revanche, budget completo, áudio e revisão sensorial.",
+      "status": "implemented_partial",
+      "implemented_in": "tests/capture_visual_ko.py + VLAB/HPRB/HSEM runtime probe",
+      "evidence": "out/emulator_evidence/visual_ko_20260919T032351Z/evidence_manifest.json",
+      "evidence_rom_sha256": "3ca61393cc365661dec9a3a1ee1b753ee27dd319bc972d0abb201cadb31a663a",
+      "evidence_additional_timeout": "out/emulator_evidence/visual_ko_20260919T045421Z/evidence_manifest.json",
+      "evidence_current_combat": "out/emulator_evidence/visual_ko_20260921T023408630615Z-1134439/manifest.json",
+      "evidence_current_semantics": "out/emulator_evidence/visual_ko_20260920T064514671796Z-1263807/manifest.json",
+      "evidence_current_timeover": "out/emulator_evidence/visual_ko_20260919T124155Z/after_timeover_observation.png (SHA anterior; recaptura necessária)",
+      "evidence_current_rom_sha256": "3c82c14b3c959098f09b57de7a387147b970eb42fabb1bf8af986c20e46938f9",
+      "evidence_latest_stage_capture": "out/emulator_evidence/visual_ko_20260920T074931694042Z-1506141/zero_1_settle.png",
+      "evidence_latest_probe": "out/emulator_evidence/visual_ko_20260920T080009749866Z-1541958/manifest.json (visual special-only probe)",
+      "evidence_current_ko": "out/emulator_evidence/visual_ko_20260920T074931694042Z-1506141/zero_1_settle.png",
+      "evidence_current_result": "out/emulator_evidence/visual_ko_20260920T074931694042Z-1506141/zero_1_result.png",
+      "evidence_current_ko_hprb": "out/emulator_evidence/visual_ko_20260920T070346595817Z-1352074/hprb_report.json",
+      "evidence_current_ko_hsem": "out/emulator_evidence/visual_ko_20260920T070346595817Z-1352074/hsem_report.json",
+      "evidence_current_rematch": "out/emulator_evidence/visual_ko_20260920T065617081824Z-1329197/return_select_or_pause.png (retorno; revanche dedicada ainda pendente)",
+      "evidence_current_title": "out/emulator_evidence/title_return_20260920T075901Z/01_title_initial.png",
+      "evidence_current_options": "out/emulator_evidence/title_return_20260920T075901Z/options_scene_page.png",
+      "evidence_current_select": "out/emulator_evidence/visual_ko_20260921T020818911985Z-993126/00_select.png",
+      "evidence_current_cadence": "out/emulator_evidence/visual_ko_20260921T023408630615Z-1134439/hcad_cadence_report.json",
+      "evidence_current_projectile": "out/emulator_evidence/visual_ko_20260920T080009749866Z-1541958/special_only_p1_try0_2.png (projetil/FX autorais visiveis; SHA 9509ebbb)",
+      "evidence_current_throw": "out/emulator_evidence/visual_ko_20260920T061717479666Z-1164845/throw_only_contact_4.png (contato/recuperacao visiveis; probe sem SRAM)",
+      "evidence_current_guard": "out/emulator_evidence/visual_ko_20260920T061605480382Z-1160600/guard_only_05.png (impacto/guarda visivel; SHA 86b15dac)",
+      "evidence_current_partial": "out/emulator_evidence/visual_ko_20260919T221705403442Z-3268880/combat_005.png",
+      "evidence_current_hprb": "out/emulator_evidence/visual_ko_20260920T070346595817Z-1352074/hprb_report.json",
+      "evidence_current_hsem": "out/emulator_evidence/visual_ko_20260920T070346595817Z-1352074/hsem_report.json",
+      "evidence_current_throw_hsem": "not_emitted_by_isolated_probe",
+      "evidence_current_throw_hprb": "not_emitted_by_isolated_probe",
+      "evidence_current_guard_hsem": "not_emitted_by_isolated_probe",
+      "evidence_current_guard_hprb": "not_emitted_by_isolated_probe",
+      "evidence_current_audio": "out/emulator_evidence/visual_ko_20260919T225923273658Z-3454647/emulator_audio.wav",
+      "evidence_current_audio_manifest": "out/emulator_evidence/visual_ko_20260919T225923273658Z-3454647/manifest.json",
+      "evidence_current_audio_analysis": "out/emulator_evidence/visual_ko_20260919T225923273658Z-3454647/audio_analysis.json",
+      "evidence_current_blastem_bundle": "out/evidence/blastem/evidence_manifest.json",
+      "evidence_current_blastem_session": "blastem-linux-20260919T230119Z-3462151",
+      "evidence_current_blastem_closeout": "out/evidence/blastem/freshness_report.json",
+      "evidence_current_p10_matrix": "doc/engine/p10_qa_matrix.json",
+      "evidence_current_p10_summary": "out/logs/p10_matrix_hprb_summary.json (stale after final ROM; recapture required)",
+      "current_capture_failures": [
+    "KO runner first attempt entered PAUSE/DEBUG; final rerun closed KO and result on the final SHA",
+        "options capture required an input-settle delay; final options capture is valid"
+      ],
+      "residual": "Na ROM d9334271, KO, resultado, seleção, título, opções, especial e palco BGB2 têm capturas same-ROM; HCAD confirmou cadência NTSC normal e a janela observou 59.7-61.1 fps. Guarda/throw same-ROM, áudio auditado, P10, cobertura completa de animações, VRAM residency, performance sustentada e revisão independente continuam abertos; decisão permanece revise_before_growth"
+    },
+    {
+      "id": "V14",
+      "priority": "P2",
+      "milestone": "apos_M5",
+      "title": "Expansão de elenco e conteúdo",
+      "owners": [
+        "producao"
+      ],
+      "depends_on": [
+        "V13"
+      ],
+      "acceptance": "Novos personagens cumprem o padrão da fatia; sem multiplicação de placeholders.",
+      "status": "proposed"
+    }
+  ]
+}

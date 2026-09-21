@@ -1,0 +1,24 @@
+{
+  "lesson_id": "L107",
+  "date": "2026-09-16",
+  "topic": "throw_window_boundary",
+  "source": "P04_runtime_probe_review",
+  "rom_sha256": "9148c2afb7e95e77cab6d4c98266b49820d945466d879339b6071d772e6079de",
+  "problem": "O comando Y de agarrão aceitava apenas distância estritamente menor que 40; na borda de proximidade usada pelos ataques normais (40..45) a mesma entrada caía no golpe normal e não chegava à FSM de throw.",
+  "change": "A condição de agarrão foi alinhada à janela inclusiva 0..45 e permanece antes do despacho de defesa/ataques normais. Foi criado tests/test_throw_window_contract.py para proteger a precedência e a fronteira.",
+  "result": "Build SGDK/Wine passou e a matriz P10 foi recapturada 36/36 no mesmo SHA. A rota real HSEM/HPRB observou guarda e projéteis, mas ainda não emitiu COMBAT_EVENT_THROW; a alteração é uma correção de janela, não aprovação de gameplay de agarrão.",
+  "limits": [
+    "a captura semântica continua diagnóstica e não prova gameplay completo",
+    "a rota de teclado precisa de sincronização adicional de aproximação para produzir throw",
+    "não inferir throw a partir do contrato estático ou da proximidade mínima isolada"
+  ],
+  "artifacts": [
+    "src/fsm.c",
+    "tests/test_throw_window_contract.py",
+    "out/logs/throw_window_build_v2.log",
+    "out/logs/semantics_hsem_9148_v2.json",
+    "out/logs/semantics_hprb_9148_v2.json",
+    "out/logs/p10_matrix_hprb_summary.json"
+  ],
+  "status": "boundary_fixed_runtime_event_pending"
+}

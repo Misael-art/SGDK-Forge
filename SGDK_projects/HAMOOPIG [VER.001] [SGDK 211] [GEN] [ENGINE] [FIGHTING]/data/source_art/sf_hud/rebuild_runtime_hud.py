@@ -44,7 +44,9 @@ def main():
         im.save(path)
         outputs[symbol] = {'path': str(path.relative_to(ROOT)), 'sha256': digest(path), 'crop': box}
 
-    # Original bar ends on y=28. The old 18..34 crop included digit tops.
+    # Original bar ends on y=28. The runtime sprite definition owns the
+    # complete 128x16 authored plate and selects its pre-rendered health
+    # frame without allocating per-segment sprites.
     bar = indexed_crop((16,18,144,29),(128,16),(0,2))
     save(bar, 'energy_yellow_p1_window.png', 'ts_hud_p1_bar', [16,18,144,29])
     save(bar.transpose(Image.Transpose.FLIP_LEFT_RIGHT), 'energy_yellow_p2_window.png', 'ts_hud_p2_bar', [16,18,144,29])
@@ -53,7 +55,10 @@ def main():
     save(ko,'ko.png','spr_hud_ko',[162,1,192,15])
 
     glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    font = Image.new('P',(16*len(glyphs),16),11)
+    # The atlas is rendered directly on BG_A over the stage.  Index 0 is the
+    # SGDK transparent color; using the old PAL1 black (11) as the cell fill
+    # recreated a rectangle behind every ROUND/FIGHT/KO glyph.
+    font = Image.new('P',(16*len(glyphs),16),0)
     font.putpalette(bar.getpalette())
     for i,ch in enumerate(glyphs):
         if ch.isdigit():
@@ -62,7 +67,7 @@ def main():
             x,y = 16+12*(ord(ch)-ord('A')+1),112
         else:
             x,y = 16+12*(ord(ch)-ord('P')),124
-        glyph = indexed_crop((x,y,x+12,y+12),(16,16),(2,2))
+        glyph = indexed_crop((x,y,x+12,y+12),(16,16),(2,2),blank=0)
         font.paste(glyph,(16*i,0))
     save(font,'message_font.png','ts_hud_message_font','12x12 uppercase + digits; 16x16 padded cells, ROW order')
 

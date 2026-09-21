@@ -1,0 +1,72 @@
+{
+  "case_id": "taiketsu_ultra_rebirth_cinder_circuit_translation_analysis_20260906",
+  "project_name": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "source_image": "cinder_circuit_visual_source_v01.png",
+  "translation_target": "scene_slice",
+  "reference_profile": "cinder_circuit_authorial_stage_visual_lab",
+  "minimum_delta": 0.08,
+  "scene_truth_kind": "authorial_visual_source_candidate",
+  "layout_complexity": "single_frame_multiplane_candidate",
+  "semantic_parse_report": {
+    "source_layout_type": "single_frame",
+    "semantic_regions": [
+      {"id": "cinder_bg_b_atmosphere", "classification": "scene_plane_bg_b", "bbox": [210, 40, 1460, 500], "action": "keep"},
+      {"id": "cinder_bg_a_reactor_architecture", "classification": "scene_plane_bg_a", "bbox": [0, 80, 1672, 650], "action": "keep"},
+      {"id": "cinder_ground_arena", "classification": "scene_plane_ground", "bbox": [0, 470, 1672, 850], "action": "keep"},
+      {"id": "cinder_foreground_safety_rail", "classification": "scene_plane_foreground_composition", "bbox": [0, 590, 1672, 941], "action": "keep"}
+    ],
+    "auxiliary_regions": [],
+    "drop_regions": []
+  },
+  "source_inventory": {
+    "source_kind": "ai_generated",
+    "acceptance_status": "visual_lab_control",
+    "editorial_noise_present": false,
+    "text_or_branding_present": false
+  },
+  "drop_policy": {"drop_editorial_regions": true, "drop_text_and_logos": true},
+  "composition_schema": {
+    "shared_canvas": {"source_extent": [1672, 941], "target_extent": [320, 224], "visible_window": [0, 0, 320, 224]},
+    "roles": [
+      {"region_id": "cinder_bg_b_atmosphere", "composition_role": "bg_b", "order": 0},
+      {"region_id": "cinder_bg_a_reactor_architecture", "composition_role": "bg_a", "order": 1},
+      {"region_id": "cinder_ground_arena", "composition_role": "bg_a", "order": 2},
+      {"region_id": "cinder_foreground_safety_rail", "composition_role": "foreground_layer", "order": 3}
+    ]
+  },
+  "source_semantic_map": {
+    "source_layout_type": "single_frame",
+    "regions": [
+      {"id": "cinder_bg_b_atmosphere", "role": "bg_b"},
+      {"id": "cinder_bg_a_reactor_architecture", "role": "bg_a"},
+      {"id": "cinder_ground_arena", "role": "bg_a"},
+      {"id": "cinder_foreground_safety_rail", "role": "foreground_layer"}
+    ]
+  },
+  "hardware_expectations": {
+    "display": "320x224_h40_4_3",
+    "visible_colors_per_palette": 15,
+    "transparent_index": 0,
+    "tile_grid": "8x8",
+    "palette_roles": ["cool_bg_b", "steel_bg_a", "warm_lava_arena", "fighter_hud_reserve"]
+  },
+  "intent_notes": [
+    "This is a control study, not a final asset.",
+    "The elite slot is deliberately occupied by an underlay until native grid reauthoring exists.",
+    "Any direct conversion or quantization failure must remain visible in the report."
+  ],
+  "variants": {
+    "basic": {
+      "label": "BASIC blind-quantization control",
+      "analysis_units": [
+        {"name": "cinder_full_scene_control", "role": "bg_a", "asset": "translation/basic/cinder_circuit_basic_control.png", "semantic_region_id": "cinder_bg_a_reactor_architecture", "critical_visual": true}
+      ]
+    },
+    "elite": {
+      "label": "ELITE native reauthoring underlay (not promoted)",
+      "analysis_units": [
+        {"name": "cinder_full_scene_underlay", "role": "bg_a", "asset": "translation/elite_underlay/cinder_circuit_native_reauthoring_underlay_2x.png", "semantic_region_id": "cinder_bg_a_reactor_architecture", "critical_visual": true}
+      ]
+    }
+  }
+}

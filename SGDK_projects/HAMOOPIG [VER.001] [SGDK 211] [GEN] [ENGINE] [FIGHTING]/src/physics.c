@@ -20,7 +20,7 @@ void FUNCAO_PHYSICS() //FISICA!
 			}
 			
 			//velocidade da magia - Hadouken Type
-			if(P[i].state==700 && P[i].animFrame==5)
+			if(P[i].state==700 && P[i].animFrame==4)
 			{
 				if(P[i].attackPower==1){ P[i].fball.speedX = 2; }
 				if(P[i].attackPower==2){ P[i].fball.speedX = 4; }
@@ -185,7 +185,7 @@ void FUNCAO_PHYSICS() //FISICA!
 			}
 			
 			//Limites laterais
-			if(P[PR].x >= gBG_Width-30 && P[PR].stateMoveType == 2)
+			if(P[PR].x >= gLimiteCenarioD && P[PR].stateMoveType == 2)
 			{
 				if (P[PA].attackPower==1) { 
 					P[PA].hSpeed = 2; 
@@ -196,7 +196,7 @@ void FUNCAO_PHYSICS() //FISICA!
 					P[PA].x += P[PA].hSpeed*(P[PA].direcao*-1); 
 				}
 			}
-			if(P[PR].x <= 30 && P[PR].stateMoveType == 2)
+			if(P[PR].x <= gLimiteCenarioE && P[PR].stateMoveType == 2)
 			{
 				if (P[PA].attackPower==1) {
 					P[PA].hSpeed = 2;
@@ -249,7 +249,7 @@ void FUNCAO_PHYSICS() //FISICA!
 			if(i == 1){ PA = 2; PR = 1; }else{ PA = 1; PR = 2; }
 			
 			//Limites laterais
-			if(P[PR].x >= gBG_Width-30 && P[PR].stateMoveType == 2)
+			if(P[PR].x >= gLimiteCenarioD && P[PR].stateMoveType == 2)
 			{
 				if(P[PA].attackPower==1){
 					P[PA].hSpeed = 3;
@@ -260,7 +260,7 @@ void FUNCAO_PHYSICS() //FISICA!
 					P[PA].x += P[PA].hSpeed*(P[PA].direcao*-1); 
 				}
 			}
-			if(P[PR].x <= 30 && P[PR].stateMoveType == 2)
+			if(P[PR].x <= gLimiteCenarioE && P[PR].stateMoveType == 2)
 			{
 				if(P[PA].attackPower==1){ 
 					P[PA].hSpeed = 3; 
@@ -495,13 +495,20 @@ void FUNCAO_PHYSICS() //FISICA!
 				P[i].impulsoY-=1;
 			}
 			P[i].y += P[i].impulsoY;
-			if(P[i].direcao==1){ P[i].x-=2; }else{ P[i].x+=2; }
+			/*
+			 * 551 is the grounded settle phase.  The knock-back belongs to
+			 * 550 (airborne fall); continuing it here let a defeated fighter
+			 * walk out of the camera before state 570 could display the
+			 * authored grounded pose.
+			 */
 		}
 		
 		//'551' > Altura Piso
 		if(P[i].state==551 && P[i].y>gAlturaPiso)
 		{
 			P[i].y=gAlturaPiso;
+			if(P[i].x < gLimiteCenarioE) P[i].x = gLimiteCenarioE;
+			if(P[i].x > gLimiteCenarioD) P[i].x = gLimiteCenarioD;
 			PLAYER_STATE(i,570);
 		}
 		
@@ -543,6 +550,13 @@ void FUNCAO_PHYSICS() //FISICA!
 		{
 			P[i].fball.x += P[i].fball.speedX * P[i].fball.direcao;
 			SPR_setPosition( P[i].fball.spriteFBall, P[i].fball.x-camPosX, P[i].fball.y+camPosY );
+			/* spr_ryo_701 is a four-cell authored projectile sheet (7x6 tiles
+			   per cell). The legacy path spawned frame 0 and left it frozen,
+			   which made the signature special read as a static token. Animate
+			   only across the four real cells; no new VRAM upload is added. */
+			if(P[i].fball.spriteFBall){
+				SPR_setFrame(P[i].fball.spriteFBall, (u16)((gFrames >> 2) & 3u));
+			}
 			//if(P[i].fBallX<gLimiteCenarioE-100){ SPR_releaseSprite(P[i].fBall); P[i].fBallActive=0; P[i].fBallX=-255; P[i].fBallY=-255; }
 			//if(P[i].fBallX>gLimiteCenarioD+100){ SPR_releaseSprite(P[i].fBall); P[i].fBallActive=0; P[i].fBallX=-255; P[i].fBallY=-255; }
 
@@ -616,14 +630,14 @@ void FUNCAO_PHYSICS() //FISICA!
 		//-----------------------------------------------------------------------------------------
 		//corrige posX //limites do cenario //Essa parte tem que ficar aqui no final
 		//metoo novo, hamoopig 1.1
-		if (P[i].x < 30) {
-			P[i].x = 30;
+		if (P[i].x < gLimiteCenarioE) {
+			P[i].x = gLimiteCenarioE;
 			if (P[i].y < gAlturaPiso) {
 				P[i].x += 5;
 			}
 		}
-		if(P[i].x > gBG_Width-30) {
-			P[i].x = gBG_Width-30;
+		if(P[i].x > gLimiteCenarioD) {
+			P[i].x = gLimiteCenarioD;
 			if (P[i].y < gAlturaPiso) {
 				P[i].x -= 5;
 			}
@@ -652,6 +666,3 @@ void FUNCAO_PHYSICS() //FISICA!
 		}
 	}
 }
-
-
-

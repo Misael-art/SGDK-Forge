@@ -9,13 +9,15 @@
 #include "sound.h"
 #include "init.h"
 #include "debug.h"
+#include "hamoopig_runtime_probe.h"
 
-/* The title artwork occupies tiles 1..529.  Keep the 16x16 message atlas
-   and the one cursor tile above it, outside both title planes. */
-#define TITLE_FONT_TILE_BASE 620
+/* Title backdrop/logo/BGA are resident in disjoint ranges.  Keep the
+   16x16 message atlas and cursor above them, outside both title planes. */
+#define TITLE_SCENE_TILE_BASE 1
+#define TITLE_FONT_TILE_BASE 1000
 #define TITLE_CURSOR_TILE (TITLE_FONT_TILE_BASE + 144)
 #define TITLE_PANEL_X 1
-#define TITLE_PANEL_W 18
+#define TITLE_PANEL_W 20
 /* Cada glifo ocupa 2 linhas, entao um painel de H linhas comporta H/2 slots.
 
    UMA geometria para todas as paginas, ancorada abaixo da arte.  O logo
@@ -26,8 +28,9 @@
    Quem nao cabe em 5 itens PAGINA.  A pagina e derivada do cursor global
    (pagina = cursor / itens por pagina), entao Cima/Baixo viram de pagina
    sozinhos e nao existe estado de paginacao para dessincronizar. */
-#define TITLE_PANEL_Y 13
+#define TITLE_PANEL_Y 15
 #define TITLE_PANEL_H 13
+#define TITLE_MAIN_PANEL_H 7
 #define TITLE_ITEMS_PER_PAGE 5
 #define TITLE_PANEL_MAX_H TITLE_PANEL_H
 /* O titulo carrega a composicao com a tela protegida e so entao revela.
@@ -42,12 +45,20 @@ static u8 sPanelY = TITLE_PANEL_Y;
 static u8 sPanelH = TITLE_PANEL_H;
 static u16 sTitleMap[TITLE_PANEL_W * TITLE_PANEL_MAX_H];
 static u16 sTitleBlackTile;
+static u16 sTitlePanelTile;
+static u16 sTitleFrameTile;
 static bool sTitleReady;
 static bool sTitleDirty;
+static bool sTitleInitialCommit;
+static u8 sMainSelectionLatched;
+static u8 sTitlePageInputLock;
 static u8 sTitlePhase;
 static u16 sTitleFadeTicks;
+static u8 sSoundTestTrack;
+static bool sSoundTestPlaying;
 
 static void title_render_main(void);
+static void title_render_sound_test(void);
 
 static void copy_title_palette(u16 *destination, const Palette *source)
 {
@@ -65,7 +76,8 @@ enum
 {
 	TITLE_PHASE_LOADING = 0,  /* tela protegida, DMA da composicao */
 	TITLE_PHASE_FADE_IN = 1,
-	TITLE_PHASE_ACTIVE  = 2
+	TITLE_PHASE_ACTIVE  = 2,
+	TITLE_PHASE_FADE_OUT = 3
 };
 
 /* A small, authorial-looking chevron uses the same PAL1 as the menu font.
@@ -82,12 +94,20 @@ static const u32 kTitleBlackTile[8] =
 	0xBBBBBBBB, 0xBBBBBBBB, 0xBBBBBBBB, 0xBBBBBBBB
 };
 
-static u8 title_glyph(const char c)
+/* UI-only tiles: PAL1 index 9 is the HUD's deep blue and index 2 is its warm
+   accent. The menu now has a deliberate card boundary instead of a raw black
+   rectangle, while remaining a transient interface composition. */
+static const u32 kTitlePanelTile[8] =
 {
-	if(c >= 'A' && c <= 'Z'){ return (u8)(c - 'A'); }
-	if(c >= '0' && c <= '9'){ return (u8)(26 + c - '0'); }
-	return 0xFF;
-}
+	0x99999999, 0x99999999, 0x99999999, 0x99999999,
+	0x99999999, 0x99999999, 0x99999999, 0x99999999
+};
+
+static const u32 kTitleFrameTile[8] =
+{
+	0x66666666, 0x66666666, 0x66666666, 0x66666666,
+	0x66666666, 0x66666666, 0x66666666, 0x66666666
+};
 
 static void title_map_fill(void)
 {
@@ -98,46 +118,19 @@ static void title_map_fill(void)
 		for(col = 0; col < TITLE_PANEL_W; col++)
 		{
 			sTitleMap[(row * TITLE_PANEL_W) + col] = TILE_ATTR_FULL(
-				PAL1, FALSE, FALSE, FALSE, sTitleBlackTile);
+				PAL1, FALSE, FALSE, FALSE, sTitlePanelTile);
 		}
 	}
-}
-
-static void title_put_text_at(const char *text, u8 col, u8 row)
-{
-	u8 glyph;
-	u16 base;
-	while(*text && col < TITLE_PANEL_W)
+	for(row = 0; row < sPanelH; row++)
 	{
-		glyph = title_glyph(*text++);
-		if(glyph != 0xFF && col + 1 < TITLE_PANEL_W && row + 1 < sPanelH)
-		{
-			base = TITLE_FONT_TILE_BASE + ((u16)glyph * 2);
-			sTitleMap[(row * TITLE_PANEL_W) + col] = TILE_ATTR_FULL(PAL1, TRUE, FALSE, FALSE, base);
-			sTitleMap[(row * TITLE_PANEL_W) + col + 1] = TILE_ATTR_FULL(PAL1, TRUE, FALSE, FALSE, base + 1);
-			sTitleMap[((row + 1) * TITLE_PANEL_W) + col] = TILE_ATTR_FULL(PAL1, TRUE, FALSE, FALSE, base + 72);
-			sTitleMap[((row + 1) * TITLE_PANEL_W) + col + 1] = TILE_ATTR_FULL(PAL1, TRUE, FALSE, FALSE, base + 73);
-			col += 2;
-		}
-		else
-		{
-			col++;
-		}
+		sTitleMap[(row * TITLE_PANEL_W)] = TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, sTitleFrameTile);
+		sTitleMap[(row * TITLE_PANEL_W) + TITLE_PANEL_W - 1] = TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, sTitleFrameTile);
 	}
-}
-
-static u8 title_text_width(const char *text)
-{
-	u8 length = 0;
-	while(*text++){ length++; }
-	return (u8)(length * 2);
-}
-
-static void title_put_centered(const char *text, u8 row)
-{
-	u8 width = title_text_width(text);
-	u8 col = (width < TITLE_PANEL_W) ? (u8)((TITLE_PANEL_W - width) / 2) : 0;
-	title_put_text_at(text, col, row);
+	for(col = 0; col < TITLE_PANEL_W; col++)
+	{
+		sTitleMap[col] = TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, sTitleFrameTile);
+		sTitleMap[((sPanelH - 1) * TITLE_PANEL_W) + col] = TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, sTitleFrameTile);
+	}
 }
 
 static void title_put_cursor(u8 row, bool visible)
@@ -150,16 +143,24 @@ static void title_put_cursor(u8 row, bool visible)
 
 static void title_commit_map(void)
 {
+	/* O primeiro mapa precisa estar residente antes de PAL_fadeIn. Depois da
+	   carga inicial, a arte é restaurada por uma DMA própria; a página do menu
+	   segue pela fila para não iniciar duas DMAs síncronas consecutivas. */
 	VDP_setTileMapDataRect(BG_A, sTitleMap, TITLE_PANEL_X, sPanelY,
-		TITLE_PANEL_W, sPanelH, TITLE_PANEL_W, DMA_QUEUE_COPY);
+		TITLE_PANEL_W, sPanelH, TITLE_PANEL_W,
+		sTitleInitialCommit ? DMA : CPU);
 	sTitleDirty = FALSE;
 }
 
 static void title_restore_artwork(void)
 {
-	VDP_setTileMapEx(BG_A, room_0_bga.tilemap,
-		TILE_ATTR_FULL(PAL3, 0, FALSE, FALSE, 501),
+	VDP_setTileMapEx(BG_B, title_scene.tilemap,
+		TILE_ATTR_FULL(PAL0, 0, FALSE, FALSE, TITLE_SCENE_TILE_BASE),
 		0, 0, 0, 0, 40, 28, DMA);
+	/* DMA deixa o VDP ocupado. A página do menu é escrita logo depois no
+	   mesmo plano por CPU; sem esta barreira a escrita podia disputar o DMA e
+	   revelar uma composição parcial (arte ausente por alguns frames). */
+	VDP_waitDMACompletion();
 }
 
 /* Carrega a composicao PROPRIA do titulo.  A abertura ja fez CLEAR_VDP, entao
@@ -168,38 +169,31 @@ static void title_restore_artwork(void)
 static void title_load_composition(void)
 {
 	PAL_setColors(0, (u16*)palette_black, 64, CPU);
+	/* Do not inherit a queued/old opening tilemap.  Clearing both planes before
+	   installing the title composition removes stale legal text even when the
+	   previous scene ended with a pending DMA. */
+	VDP_clearPlane(BG_A, TRUE);
+	VDP_clearPlane(BG_B, TRUE);
 
-	VDP_loadTileSet(room_0_bgb.tileset, 1, DMA);
-	VDP_setTileMapEx(BG_B, room_0_bgb.tilemap,
-		TILE_ATTR_FULL(PAL2, 0, FALSE, FALSE, 1), 0, 0, 0, 0, 40, 28, DMA);
-	/* Os creditos legais vivem no BG_B, nao no BG_A -- medido em
-	   res/gfx/room_0_bgb.png.  Eles pertencem a ABERTURA; no titulo o painel
-	   opaco cobria so a metade esquerda deles e sobravam fragmentos
-	   ("OR", "LTD", "ME!") a direita.  Aqui a faixa inteira e apagada, para
-	   que o titulo tenha composicao propria.
-
-	   Limites medidos no asset: o texto ocupa as colunas 1..21 nas linhas
-	   14..25; o personagem so comeca na coluna 22.  Mascarar ate a coluna 21
-	   remove o texto sem encostar nele. */
-	VDP_fillTileMapRect(BG_B, 0, 0, 14, 22, 13);
-	/* A ultima coluna do texto invade a 22 nas linhas 18..23; ali o
-	   personagem so comeca na 24, entao da para limpar sem encostar nele. */
-	VDP_fillTileMapRect(BG_B, 0, 22, 18, 2, 6);
-
-	VDP_loadTileSet(room_0_bga.tileset, 501, DMA);
+	VDP_loadTileSet(title_scene.tileset, TITLE_SCENE_TILE_BASE, DMA);
+	HAMOOPIG_probeVramRange(TITLE_SCENE_TILE_BASE, title_scene.tileset->numTile);
 	title_restore_artwork();
-	/* O "NOT" vermelho da primeira linha dos creditos vive no BG_A, linhas
-	   14..17 colunas 1..6 (medido em res/gfx/room_0_bga.png).  As colunas 7..21
-	   estao vazias ali, entao esta faixa nao encosta em nada mais. */
-	VDP_fillTileMapRect(BG_A, 0, 0, 14, 7, 4);
 
 	VDP_loadTileSet(&ts_hud_message_font, TITLE_FONT_TILE_BASE, DMA);
 	VDP_loadTileData(kTitleCursorTile, TITLE_CURSOR_TILE, 1, CPU);
-	sTitleBlackTile = TITLE_CURSOR_TILE + 1;
+	sTitlePanelTile = TITLE_CURSOR_TILE + 1;
+	sTitleFrameTile = TITLE_CURSOR_TILE + 2;
+	VDP_loadTileData(kTitlePanelTile, sTitlePanelTile, 1, CPU);
+	VDP_loadTileData(kTitleFrameTile, sTitleFrameTile, 1, CPU);
+	/* Keep the legacy black tile index reserved after the frame tiles so old
+	   captures cannot accidentally read a stale tile if the page is extended. */
+	sTitleBlackTile = TITLE_CURSOR_TILE + 3;
 	VDP_loadTileData(kTitleBlackTile, sTitleBlackTile, 1, CPU);
+	HAMOOPIG_probeVramRange(TITLE_FONT_TILE_BASE, (u16)(ts_hud_message_font.numTile + 4u));
 	sTitleReady = TRUE;
 
 	title_render_main();
+	sTitleInitialCommit = FALSE;
 }
 
 static const char *title_timelimit_label(void)
@@ -214,10 +208,20 @@ static const char *title_options_label(u8 item)
 	{
 		case TITLE_OPTION_SFX:      return gConfig.audioSfx    ? "SFX ON"    : "SFX OFF";
 		case TITLE_OPTION_MUSIC:    return gConfig.audioMusic  ? "MUSIC ON"  : "MUSIC OFF";
+		case TITLE_OPTION_SOUND_TEST: return "SOUND TEST";
 		case TITLE_OPTION_LIFEBAR:  return gConfig.hudLifeBar  ? "LIFE ON"   : "LIFE OFF";
 		case TITLE_OPTION_TIMER:    return gConfig.hudTimer    ? "CLOCK ON"  : "CLOCK OFF";
+		case TITLE_OPTION_TIMERBG:  return gConfig.hudTimerBg  ? "TBG ON" : "TBG OFF";
 		case TITLE_OPTION_TIMELIM:  return title_timelimit_label();
-		case TITLE_OPTION_DEBUG:    return "DEBUG";
+		case TITLE_OPTION_SPECIALBAR: return gConfig.hudSpecialBar ? "SPCL ON" : "SPCL OFF";
+		case TITLE_OPTION_HITCOUNT: return gConfig.hudHitCount ? "HITS ON" : "HITS OFF";
+		case TITLE_OPTION_SPECIALRULES: return gConfig.specialRules ? "RULES ON" : "RULE FREE";
+		case TITLE_OPTION_STAGE2: return gConfig.stage2Enabled ? "STG2 ON" : "STG2 OFF";
+		case TITLE_OPTION_OPENING: return gConfig.showOpening ? "INTRO ON" : "INTRO OFF";
+		case TITLE_OPTION_FADE: return gConfig.useFade ? "FADE ON" : "FADE OFF";
+		/* Keep the diagnostic page reachable for development, but do not expose
+		   an implementation word as part of the player's normal front-end. */
+		case TITLE_OPTION_DEBUG:    return "TOOLS";
 		case TITLE_OPTION_DEFAULTS: return "DEFAULTS";
 		default:                    return "BACK";
 	}
@@ -256,24 +260,39 @@ static void title_render_paged(const char *titulo, u8 count, const char *(*label
 	u8 first = (u8)(page * TITLE_ITEMS_PER_PAGE);
 	u8 pages = (u8)((count + TITLE_ITEMS_PER_PAGE - 1) / TITLE_ITEMS_PER_PAGE);
 	u8 i;
+	u8 titleRow = sPanelY;
+	u8 itemRow = (u8)(sPanelY + 2);
+	/* The two-item main page needs only one title row, two item rows and a
+	   breathing row; options/debug keep the full paged card. */
+	sPanelH = (count == 2) ? TITLE_MAIN_PANEL_H : TITLE_PANEL_MAX_H;
 
 	title_map_fill();
+	/* Reserve the left marker column before committing the background map. */
+	title_put_cursor((u8)(2 + ((titleCursor - first) * 2)), TRUE);
+	/* The message atlas is intentionally a 16x16 combat-event font.  It made
+	   the front-end read as a debug sheet: every menu glyph occupied two name
+	   table columns, coloured strokes varied by glyph, and long option labels
+	   were visually compressed.  The standard 8x8 SGDK font is the authored
+	   interface font for this page: it restores a stable rhythm, leaves room
+	   for values such as "CLOCK OFF", and keeps the same PAL1/frame language. */
+	title_commit_map();
+	VDP_waitDMACompletion();
+	VDP_setTextPalette(PAL1);
 	if(pages > 1)
 	{
 		sprintf(gStr, "%s %u", titulo, (u16)(page + 1));
-		title_put_centered(gStr, 0);
+		VDP_drawText(gStr, (u16)(TITLE_PANEL_X + 2), titleRow);
 	}
 	else
 	{
-		title_put_centered(titulo, 0);
+		VDP_drawText(titulo, (u16)(TITLE_PANEL_X + 2), titleRow);
 	}
 
 	for(i = 0; i < TITLE_ITEMS_PER_PAGE && (u8)(first + i) < count; i++)
 	{
-		title_put_centered(label((u8)(first + i)), (u8)(2 + (i * 2)));
+		VDP_drawText(label((u8)(first + i)), (u16)(TITLE_PANEL_X + 3),
+			(u16)(itemRow + (i * 2)));
 	}
-	title_put_cursor((u8)(2 + ((titleCursor - first) * 2)), TRUE);
-	title_commit_map();
 }
 
 static void title_render_main(void)
@@ -291,6 +310,32 @@ static void title_render_debug(void)
 	title_render_paged("DEBUG", (u8)(TITLE_DEBUG_BACK + 1), title_debug_label);
 }
 
+/* Sound Test deliberately lives in the title ownership domain: it never
+   hands the VDP to gameplay, but it exercises the exact XGM asset and loop
+   policy used by the fight.  That makes the menu a listening surface, not a
+   fake label attached to an inert option. */
+static void title_render_sound_test(void)
+{
+	u8 clearRow;
+	sPanelH = TITLE_PANEL_H;
+	title_map_fill();
+	title_commit_map();
+	VDP_waitDMACompletion();
+	VDP_setTextPalette(PAL1);
+	for(clearRow = 0; clearRow < sPanelH; clearRow++)
+	{
+		VDP_clearText((u16)(TITLE_PANEL_X + 2), (u16)(sPanelY + clearRow),
+			(u16)(TITLE_PANEL_W - 4));
+	}
+	VDP_drawText("SOUND TEST", (u16)(TITLE_PANEL_X + 2), sPanelY);
+	VDP_drawText("TRACK 1/1", (u16)(TITLE_PANEL_X + 3), (u16)(sPanelY + 2));
+	VDP_drawText("FORGE CRYSTAL", (u16)(TITLE_PANEL_X + 3), (u16)(sPanelY + 4));
+	VDP_drawText(sSoundTestPlaying ? "A STOP" : "A PLAY",
+		(u16)(TITLE_PANEL_X + 3), (u16)(sPanelY + 7));
+	VDP_drawText("L/R SELECT", (u16)(TITLE_PANEL_X + 3), (u16)(sPanelY + 9));
+	VDP_drawText("B BACK", (u16)(TITLE_PANEL_X + 3), (u16)(sPanelY + 11));
+}
+
 /* Todas as paginas tem a mesma geometria agora, mas a arte e redesenhada
    assim mesmo: o painel anterior pode ter deixado tiles opacos onde a nova
    pagina tem menos itens. */
@@ -298,13 +343,15 @@ static void title_goto_page(u8 page, u8 cursor)
 {
 	titlePage = page;
 	titleCursor = cursor;
+	sTitlePageInputLock = 2;
 	sPanelY = TITLE_PANEL_Y;
 	sPanelH = TITLE_PANEL_H;
 	title_menu_sfx();
 	title_restore_artwork();
 	if(page == TITLE_PAGE_MAIN){ title_render_main(); }
 	else if(page == TITLE_PAGE_OPTIONS){ title_render_options(); }
-	else { title_render_debug(); }
+	else if(page == TITLE_PAGE_DEBUG){ title_render_debug(); }
+	else { title_render_sound_test(); }
 }
 
 static void title_menu_sfx(void)
@@ -319,27 +366,36 @@ static void title_menu_sfx(void)
 static void title_start_game(void)
 {
 	title_menu_sfx();
-	PAL_fadeOutAll(8, FALSE);
-	FUNCAO_TITLE_EXIT();
-	CLEAR_VDP();
-	SCENE_request(SCENE_SELECT);
+	/* A troca de cena nao pode acontecer no mesmo tick que inicia o fade:
+	   CLEAR_VDP e a carga do seletor sobrescreveriam a composicao enquanto a
+	   paleta ainda esta sendo reduzida, produzindo um corte visivel.  O estado
+	   FADE_OUT deixa a cena atual dona do VDP ate PAL_isDoingFade() terminar. */
+	sTitlePhase = TITLE_PHASE_FADE_OUT;
+	sTitleFadeTicks = 0;
+	sTitlePageInputLock = 0xFF;
+	if(gConfig.useFade){ PAL_fadeOutAll(8, TRUE); }
 }
 
 void FUNCAO_TITLE_INIT(void)
 {
-	if(501 + room_0_bga.tileset->numTile >= TITLE_FONT_TILE_BASE)
+	if((TITLE_SCENE_TILE_BASE + title_scene.tileset->numTile) >= TITLE_FONT_TILE_BASE)
 	{
 		SYS_die("Title font overlaps title artwork");
 		return;
 	}
 	titlePage = TITLE_PAGE_MAIN;
 	titleCursor = TITLE_MAIN_START;
+	sMainSelectionLatched = TITLE_MAIN_START;
+	sSoundTestTrack = 0;
+	sSoundTestPlaying = FALSE;
+	sTitlePageInputLock = 0;
 	/* A pagina de debug usa um painel maior; reentrar no titulo tem de voltar
 	   a geometria do menu, senao o primeiro commit desenha no lugar errado. */
 	sPanelY = TITLE_PANEL_Y;
 	sPanelH = TITLE_PANEL_H;
 	sTitlePhase = TITLE_PHASE_LOADING;
 	sTitleDirty = TRUE;
+	sTitleInitialCommit = TRUE;
 	sTitleFadeTicks = 0;
 }
 
@@ -353,10 +409,13 @@ void FUNCAO_TITLE_UPDATE(void)
 		   levar a paleta do texto para preto DEPOIS de ela ter sido carregada:
 		   o painel aparecia preenchido e sem letra nenhuma.  Medido no
 		   BlastEm: p02_t4/t7/t12 antes desta correcao. */
-		memset(&palette[0], 0, 16 * sizeof(u16));  /* PAL0: sem uso no titulo */
+		copy_title_palette(&palette[0], title_scene.palette);
 		copy_title_palette(&palette[16], spr_hud_energy_y.palette);
-		copy_title_palette(&palette[32], room_0_bgb.palette);
-		copy_title_palette(&palette[48], room_0_bga.palette);
+		/* VDP_drawText uses the standard font's ink slot 15.  The HUD source
+		   palette reserves that slot as black, which made the old title page
+		   appear to have missing text after the front-end was redrawn. */
+		palette[16 + 15] = 0x0EEE;
+		memset(&palette[32], 0, 16 * sizeof(u16));
 		if(gConfig.useFade){ PAL_fadeIn(0, (4 * 16) - 1, palette, TITLE_FADE_IN_TICKS, TRUE); }
 		else { PAL_setColors(0, palette, 64, CPU); }
 		sTitlePhase = TITLE_PHASE_FADE_IN;
@@ -374,18 +433,41 @@ void FUNCAO_TITLE_UPDATE(void)
 		}
 		return;
 	}
+	if(sTitlePhase == TITLE_PHASE_FADE_OUT)
+	{
+		sTitleFadeTicks++;
+		if(!gConfig.useFade || (sTitleFadeTicks >= 8u && !PAL_isDoingFade()))
+		{
+			/* O fade terminou; so agora o seletor recebe o VDP e a borda de
+			   START deixa de existir para a nova cena. */
+			P[1].key_JOY_A_status = KEY_FREE;
+			P[1].key_JOY_START_status = KEY_FREE;
+			P[1].key_JOY_B_status = KEY_FREE;
+			FUNCAO_TITLE_EXIT();
+			CLEAR_VDP();
+			SCENE_request(SCENE_SELECT);
+		}
+		return;
+	}
 	if(!sTitleReady){ return; }
+	/* A borda que abriu uma página pertence somente à página anterior. Dois
+	   ticks de guarda cobrem a atualização de tilemap e impedem A/B/START
+	   mantidos ou duplicados de atravessarem a transição. */
+	if(sTitlePageInputLock > 0){ sTitlePageInputLock--; return; }
 	if(titlePage == TITLE_PAGE_MAIN)
 	{
 		if(P[1].key_JOY_UP_status == KEY_PRESSED || P[1].key_JOY_DOWN_status == KEY_PRESSED)
 		{
 			titleCursor = (titleCursor == TITLE_MAIN_START) ? TITLE_MAIN_OPTION : TITLE_MAIN_START;
+			sMainSelectionLatched = titleCursor;
 			title_menu_sfx();
 			title_render_main();
 		}
 		if(P[1].key_JOY_A_status == KEY_PRESSED || P[1].key_JOY_START_status == KEY_PRESSED)
 		{
-			if(titleCursor == TITLE_MAIN_START){ title_start_game(); }
+			/* A seleção é latched na borda de UP/DOWN. Assim a confirmação não
+			   depende de uma segunda leitura do cursor depois de SFX/DMA. */
+			if(sMainSelectionLatched == TITLE_MAIN_START){ title_start_game(); }
 			else
 			{
 				/* Tem de passar por title_goto_page: e ela que ajusta a
@@ -394,6 +476,32 @@ void FUNCAO_TITLE_UPDATE(void)
 				   itens -- medido em out/emulator_evidence/p03_options. */
 				title_goto_page(TITLE_PAGE_OPTIONS, TITLE_OPTION_SFX);
 			}
+		}
+		return;
+	}
+
+	if(titlePage == TITLE_PAGE_SOUND_TEST)
+	{
+		if(P[1].key_JOY_A_status == KEY_PRESSED || P[1].key_JOY_START_status == KEY_PRESSED)
+		{
+			if(sSoundTestPlaying)
+			{
+				XGM_stopPlay();
+				sSoundTestPlaying = FALSE;
+			}
+			else
+			{
+				XGM_setLoopNumber(-1);
+				XGM_startPlay(mus_forge_brand);
+				sSoundTestPlaying = TRUE;
+			}
+			title_render_sound_test();
+		}
+		if(P[1].key_JOY_B_status == KEY_PRESSED)
+		{
+			XGM_stopPlay();
+			sSoundTestPlaying = FALSE;
+			title_goto_page(TITLE_PAGE_OPTIONS, TITLE_OPTION_SOUND_TEST);
 		}
 		return;
 	}
@@ -409,6 +517,13 @@ void FUNCAO_TITLE_UPDATE(void)
 		if(titleCursor == TITLE_OPTION_DEBUG && confirm)
 		{
 			title_goto_page(TITLE_PAGE_DEBUG, TITLE_DEBUG_BBOX);
+			return;
+		}
+		if(titleCursor == TITLE_OPTION_SOUND_TEST && confirm)
+		{
+			sSoundTestTrack = 0;
+			sSoundTestPlaying = FALSE;
+			title_goto_page(TITLE_PAGE_SOUND_TEST, 0);
 			return;
 		}
 		if(titleCursor == TITLE_OPTION_BACK && confirm)
@@ -442,18 +557,25 @@ void FUNCAO_TITLE_UPDATE(void)
 		   retornaram acima, entao nao caem aqui. */
 		if(adjust || (confirm && titleCursor < TITLE_OPTION_DEBUG))
 		{
-			switch(titleCursor)
+				switch(titleCursor)
 			{
 				case TITLE_OPTION_SFX:     gConfig.audioSfx   = !gConfig.audioSfx;   break;
 				case TITLE_OPTION_MUSIC:   gConfig.audioMusic = !gConfig.audioMusic; break;
 				case TITLE_OPTION_LIFEBAR: gConfig.hudLifeBar = !gConfig.hudLifeBar; break;
 				case TITLE_OPTION_TIMER:   gConfig.hudTimer   = !gConfig.hudTimer;   break;
+				case TITLE_OPTION_TIMERBG: gConfig.hudTimerBg = !gConfig.hudTimerBg; break;
 				case TITLE_OPTION_TIMELIM:
 					/* 99 -> 60 -> OFF -> 99 */
 					if(gConfig.timeLimit == CONFIG_TIME_99){ gConfig.timeLimit = CONFIG_TIME_60; }
 					else if(gConfig.timeLimit == CONFIG_TIME_60){ gConfig.timeLimit = CONFIG_TIME_OFF; }
 					else { gConfig.timeLimit = CONFIG_TIME_99; }
 					break;
+				case TITLE_OPTION_SPECIALBAR: gConfig.hudSpecialBar = !gConfig.hudSpecialBar; break;
+				case TITLE_OPTION_HITCOUNT: gConfig.hudHitCount = !gConfig.hudHitCount; break;
+				case TITLE_OPTION_SPECIALRULES: gConfig.specialRules = !gConfig.specialRules; break;
+				case TITLE_OPTION_STAGE2: gConfig.stage2Enabled = !gConfig.stage2Enabled; if(!gConfig.stage2Enabled){ gBG_Choice = 1; } break;
+				case TITLE_OPTION_OPENING: gConfig.showOpening = !gConfig.showOpening; break;
+				case TITLE_OPTION_FADE: gConfig.useFade = !gConfig.useFade; break;
 				default: break;
 			}
 			CONFIG_validate();

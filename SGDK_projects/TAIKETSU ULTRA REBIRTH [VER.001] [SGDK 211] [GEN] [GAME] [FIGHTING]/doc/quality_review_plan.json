@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "quality_review_plan",
+  "tool": {
+    "name": "quality_review_router",
+    "version": "1.0.0"
+  },
+  "generated_at": "2026-09-05T16:49:21.804733Z",
+  "review_id": "taiketsu-d0-q1-foundation",
+  "request_digest": "c24c2d92a8edcbbf20594df358ec0235422e97fbc9d0f3dc6f647cb01ff6c0ed",
+  "plan_digest": "94e67933eb9d382fd75aa3b5bdb4ee3b91be2ac3246eaf59b3397f142f8caa17",
+  "review_stage": "foundation",
+  "selected_reviews": [
+    {
+      "domain": "game_design",
+      "owner_skill": "planning/game-design-planning",
+      "score": 380,
+      "selection_reasons": [
+        "explicitly_requested",
+        "changed_domain",
+        "stage_priority:foundation",
+        "checkpoint_default",
+        "risk:scope_growth",
+        "risk:narrative_drift"
+      ],
+      "model_tier": "high_capability",
+      "evidence_requirements": [
+        "gdd_or_design_doc",
+        "project_promise",
+        "scope"
+      ]
+    },
+    {
+      "domain": "narrative",
+      "owner_skill": "planning/narrative-design-reviewer",
+      "score": 260,
+      "selection_reasons": [
+        "explicitly_requested",
+        "changed_domain",
+        "stage_priority:foundation",
+        "risk:narrative_drift"
+      ],
+      "model_tier": "high_capability",
+      "evidence_requirements": [
+        "gdd",
+        "script_when_substantial",
+        "level_or_scene_context"
+      ]
+    },
+    {
+      "domain": "governance",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "score": 200,
+      "selection_reasons": [
+        "changed_domain",
+        "risk:scope_growth",
+        "risk:claim_risk"
+      ],
+      "model_tier": "balanced",
+      "evidence_requirements": [
+        "claim_matrix",
+        "fresh_hash_bound_evidence"
+      ]
+    }
+  ],
+  "deferred_domains": [],
+  "required_harness_skills": [
+    "governance/aaa-pipeline-guardian",
+    "governance/independent-quality-review",
+    "operation/harness-orchestration",
+    "planning/game-design-planning",
+    "planning/narrative-design-reviewer"
+  ],
+  "status": "ready",
+  "blockers": [],
+  "claim_ceiling": "quality_review_plan_only"
+}

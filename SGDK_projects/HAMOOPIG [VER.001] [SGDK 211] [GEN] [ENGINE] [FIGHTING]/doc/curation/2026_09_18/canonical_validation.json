@@ -1,0 +1,67 @@
+[
+  {
+    "command": [
+      "python3",
+      "SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/tests/analyze_hprb_probe.py",
+      "--self-check"
+    ],
+    "exit_code": 0,
+    "log": "validation_0.log"
+  },
+  {
+    "command": [
+      "python3",
+      "tools/sgdk_wrapper/.agent/scripts/validate_skill_framework.py"
+    ],
+    "exit_code": 1,
+    "log": "validation_1.log"
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--with",
+      "jsonschema",
+      "python",
+      "tools/sgdk_wrapper/ci/test_schema_contract_gates.py"
+    ],
+    "exit_code": 0,
+    "log": "validation_2.log"
+  },
+  {
+    "command": [
+      "python3",
+      "/home/misael/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "tools/sgdk_wrapper/.agent/skills/code/collision-system-architect"
+    ],
+    "exit_code": 0,
+    "log": "validation_3.log"
+  },
+  {
+    "command": [
+      "python3",
+      "/home/misael/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "tools/sgdk_wrapper/.agent/skills/hardware/vram-streaming-dma-queue"
+    ],
+    "exit_code": 0,
+    "log": "validation_4.log"
+  },
+  {
+    "command": [
+      "python3",
+      "/home/misael/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect"
+    ],
+    "exit_code": 0,
+    "log": "validation_5.log"
+  },
+  {
+    "command": [
+      "python3",
+      "/home/misael/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+      "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator"
+    ],
+    "exit_code": 0,
+    "log": "validation_6.log"
+  }
+]

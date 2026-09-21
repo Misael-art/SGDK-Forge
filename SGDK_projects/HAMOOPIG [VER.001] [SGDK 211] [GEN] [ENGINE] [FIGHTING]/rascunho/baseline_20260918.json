@@ -1,0 +1,37 @@
+{
+  "captured_at": "2026-09-18",
+  "project": "HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "claim_ceiling": "prototype",
+  "context": "technical_demo",
+  "rom": {
+    "path": "out/rom.bin",
+    "sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc"
+  },
+  "build_route": {
+    "status": "ready",
+    "selected_route": "linux_wine_bridge",
+    "compiler_version": "13.2.0",
+    "source_library_producer_version": "16.1.0",
+    "direct_link_compatible": false,
+    "status_ceiling_after_build": "buildado_emulator_pending"
+  },
+  "validation": {
+    "context": "ok",
+    "hygiene": "blocked: orphan_project_root_entry, noncanonical_project_entry_name",
+    "learning_audit": "learning_context_present; 63 lessons; no canonical promotion",
+    "art_diagnostic": "2_res_inadequate_check; 132 active assets ok; 0 active build blockers; 124 source assets pending conversion; 2 source assets inadequate"
+  },
+  "evidence_state": {
+    "blastem_required_for_delivery": true,
+    "latest_rom_evidence_is_historical_or_partial": true,
+    "visual_review": "pending",
+    "audio_review": "pending",
+    "worst_frame_budget": "not_closed"
+  },
+  "preexisting_work": {
+    "git_dirty": true,
+    "dirty_path_count_at_baseline": 117,
+    "preservation_rule": "Do not revert, delete, or overwrite unrelated existing changes."
+  },
+  "next_item": "Run independent visual and worst-frame audits, then integrate one causal HUD/flow improvement and recapture the exact ROM."
+}

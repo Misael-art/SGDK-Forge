@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "special_meter_event_delta_20260915",
+  "title": "Aplicar política fixa de especial no consumo HIT/GUARD",
+  "source_kind": "implementation",
+  "observed_at": "2026-09-15",
+  "problem_signature": "special_meter_legacy_update_after_collision_event",
+  "observation": "O caminho de colisão aplicava energiaSP diretamente e o ledger não carregava esse efeito. Migrar somente o contador deixaria duas fontes de verdade para o medidor e faria a centralização perder o valor específico do golpe.",
+  "resolution_or_preventive_heuristic": "CombatEvent carrega ganhos fixos: HIT +4 atacante/+2 defensor e GUARD +1 atacante. FUNCAO_UPDATE_LIFESP(...,2,...) registra o delta legado para comparação e não o aplica em paralelo; o consumidor aplica clamp 0..32 uma vez. Chamadas sem evento preservam fallback direto.",
+  "evidence": {
+    "source": ["inc/combat_event.h", "src/combat_event.c", "src/player.c", "src/fsm.c"],
+    "tests": ["tests/test_health_contract.py", "tests/test_combo_contract.py", "tests/test_combat_event_contract.py"],
+    "build_log": "out/logs/continuation_p05_meter_event_build.log",
+    "rom_sha256": "5cef44779afe5356243d3ddcd486d40fd404b0461eca6dbcf4dfe257831d1de6",
+    "suite": "13/13_passed"
+  },
+  "status": "implemented_fixed_hit_guard_policy_p05_partial",
+  "limitations": [
+    "A política central está implementada, mas ainda não há captura de gameplay instrumentada para validar a sensação/balanceamento.",
+    "Dano/vida e classificação de chip/throw continuam na FSM.",
+    "A execução com medidor instrumentado no emulador ainda não foi capturada."
+  ]
+}

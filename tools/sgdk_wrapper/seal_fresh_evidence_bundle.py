@@ -56,6 +56,7 @@ PROBE_VLAB_PALETTE_WORDS = 64
 PROBE_VLAB_LEGACY_METRIC_WORDS = 43
 PROBE_VLAB_RANGE_CAPACITY = 4
 PROBE_VLAB_RANGE_WORD_OFFSET = PROBE_VLAB_LEGACY_METRIC_WORDS
+PROBE_VLAB_EXTRA_WORD_OFFSET = PROBE_VLAB_RANGE_WORD_OFFSET + 1 + (PROBE_VLAB_RANGE_CAPACITY * 2)
 
 
 def extract_vlab(sram_path: Path, dump_path: Path) -> dict[str, Any]:
@@ -190,6 +191,8 @@ def build_runtime_metrics(
             "runtime_vram_load_range_count": runtime_ranges["count"],
             "runtime_vram_load_range_overflow": runtime_ranges["overflow"],
             "runtime_vram_load_ranges": runtime_ranges["ranges"],
+            "initialization_cpu_peak": words[PROBE_VLAB_EXTRA_WORD_OFFSET] if len(words) > PROBE_VLAB_EXTRA_WORD_OFFSET else None,
+            "initialization_cpu_peak_at_frame": _peak_frame(words, PROBE_VLAB_EXTRA_WORD_OFFSET + 1) if len(words) > PROBE_VLAB_EXTRA_WORD_OFFSET + 2 else None,
         },
         "claim_limit": "A single window-title and VLAB snapshot does not prove sustained performance.",
     }
@@ -370,14 +373,15 @@ def self_check() -> int:
             sram.write_bytes(_fixture_sram(metric))
             return extract_vlab(sram, dump)
 
-        # 1. probe atual: 52 metricas, com quadros de pico que passam de 65535
+        # 1. probe atual: 55 metricas, com quadros de pico que passam de 65535
         m37 = list(range(24)) + [7, 3, 0x0001, 0x86A1, 0, 405, 0, 91]
         m37 += [3584, 7, 7600, 0x0001, 0x1234]
         m37 += [4096, 2, 7600, 0x0002, 0x2222, 90]
         m37 += [4, 16, 500, 516, 100, 616, 20, 636, 20]
+        m37 += [744, 0x0000, 0x1234]
         v = extract(m37)
-        if v["metric_word_count"] != 52:
-            print(f"self-check failed: 52 metricas lidas como {v['metric_word_count']} "
+        if v["metric_word_count"] != 55:
+            print(f"self-check failed: 55 metricas lidas como {v['metric_word_count']} "
                   f"— o corte voltou a ser fixo", file=sys.stderr)
             return 1
         r = build_runtime_metrics(session_id="t", rom_sha256="t", vlab=v,
@@ -411,6 +415,11 @@ def self_check() -> int:
                 or r["runtime_vram_load_ranges"][0]["start_tile"] != 16
                 or r["runtime_vram_load_ranges"][3]["tile_count"] != 20):
             print("self-check failed: faixas de residencia nao chegaram ao report",
+                  file=sys.stderr)
+            return 1
+        if (r["initialization_cpu_peak"] != 744
+                or r["initialization_cpu_peak_at_frame"] != 0x1234):
+            print("self-check failed: carga de inicializacao nao chegou ao report",
                   file=sys.stderr)
             return 1
 
@@ -481,7 +490,7 @@ def self_check() -> int:
     if _self_check_identity_and_freshness() != 0:
         return 1
 
-    print("seal_fresh_evidence_bundle self-check passed (43, 37, 32 e 26 metricas sem corte fixo, "
+    print("seal_fresh_evidence_bundle self-check passed (43, 37, 32, 26 e 55 metricas sem corte fixo, "
           "hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados, "
           "identidade de ROM e frescor nos dois sentidos)")
     return 0

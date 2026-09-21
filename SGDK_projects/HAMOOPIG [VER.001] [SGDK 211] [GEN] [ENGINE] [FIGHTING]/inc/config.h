@@ -20,9 +20,8 @@
    Preferencias duram a SESSAO.  SRAM e fase posterior; nao ha persistencia.
 
    REGRA DE ESCOPO desta tarefa (plano, secao 3, linha 167): "nao adicionar
-   botao inativo sem destino implementado".  Por isso aqui so existem opcoes
-   cujo sistema ja existe.  SPECIAL BAR e SPECIAL RULES dependem do P05,
-   HIT COUNT do P06, STAGE COLOR/MOTION/2 do P08 e P09.  Entram junto com eles.
+   botao inativo sem destino implementado".  Por isso cada item presente possui
+   um caminho real; TIMER BG usa uma moldura compacta e STAGE2 controla o pool.
    ------------------------------------------------------------------------- */
 
 /* TIME LIMIT.  OFF desliga o time-over; o mostrador some junto porque nao ha
@@ -38,6 +37,11 @@ typedef struct
 	bool audioMusic;
 	bool hudLifeBar;
 	bool hudTimer;
+	bool hudTimerBg;
+	bool hudSpecialBar;
+	bool hudHitCount;
+	bool specialRules;
+	bool stage2Enabled;
 	bool showOpening;
 	bool useFade;
 	/* regra */

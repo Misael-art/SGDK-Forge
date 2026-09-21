@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "kairo_vant",
+  "evaluated_at": "2026-09-05T17:20:00Z",
+  "status": "needs_review",
+  "source_path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+  "source_sha256": "e057e1a319163f5ad272f1cd2094483834209ef52453e58f09cab50ebb2d743c",
+  "approved_authorial_source": {
+    "path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+    "role": "authorial_concept",
+    "approval_status": "approved_as_direction",
+    "sha256": "e057e1a319163f5ad272f1cd2094483834209ef52453e58f09cab50ebb2d743c",
+    "note": "Identity authority for translation only; not a final sprite and not a substitute for human asset approval."
+  },
+  "allowed_generation_sources": [
+    {
+      "path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+      "role": "model_sheet",
+      "source_status": "approved_authorial_model_sheet",
+      "note": "Used as the locked identity source for native reauthoring."
+    },
+    {
+      "path": "doc/art/kairo_vant/visual_source_of_truth.json",
+      "role": "direction_brief",
+      "source_status": "direction_contract"
+    },
+    {
+      "path": "doc/art/kairo_vant/art_gameplay_direction_gate.json",
+      "role": "art_gameplay_direction_gate",
+      "source_status": "direction_contract"
+    }
+  ],
+  "forbidden_generation_sources": [
+    "res/fighting/fighters/*_probe.png",
+    "data/processed/*probe*.png",
+    "out/art/kairo_vant_route_shootout/*/raw_rgba.png",
+    "out/evidence/blastem/*",
+    "doc/art/*/*conversion.json"
+  ],
+  "obsolete_assets": [
+    {
+      "path": "res/fighting/fighters/kairo_vant_probe.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": ["comparison_only", "runtime_evidence_only", "do_not_use_for_generation"],
+      "reason": "Technical candidate retained only for the D1 probe; it cannot seed a new visual generation."
+    },
+    {
+      "path": "res/fighting/fighters/c1_probe.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": ["comparison_only", "runtime_evidence_only", "do_not_use_for_generation"],
+      "reason": "Byte-identical D1 control proxy; it is not Kairo final art."
+    }
+  ],
+  "partial_runtime_candidates": [
+    {
+      "path": "res/fighting/fighters/kairo_vant_probe.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "runtime_status": "runtime_candidate_not_aaa_not_source",
+      "missing_gates": ["native_visual_review", "human_asset_approval", "budget_and_blastem_evidence"]
+    },
+    {
+      "path": "res/fighting/fighters/c1_probe.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "runtime_status": "runtime_candidate_not_aaa_not_source",
+      "missing_gates": ["native_visual_review", "human_asset_approval", "budget_and_blastem_evidence"]
+    }
+  ],
+  "lineage_scan_policy": {
+    "blocked_fields": ["source", "baseline", "reference_for_generation", "img2img_base", "generation_source", "image_reference"],
+    "scan_roots": ["doc/contracts", "doc/art", "data/source_art", "data/builders", "out/logs"]
+  },
+  "must_preserve": [
+    "asymmetric comet-tail scarf silhouette",
+    "indigo sleeveless coat with cyan seam language",
+    "amber gauntlet accents",
+    "focused forward-facing expression",
+    "complete feet and grounded fighting stance"
+  ],
+  "can_simplify": [
+    "fine hair spikes",
+    "micro-folds in cloth",
+    "small armor facets",
+    "soft glow gradients"
+  ],
+  "must_drop": [
+    "soft anti-aliased transitions",
+    "background field",
+    "cast shadow or atmospheric effects"
+  ],
+  "native_scale_contract": {
+    "status": "rejected_32x40_route",
+    "target_width": 88,
+    "target_height": 136,
+    "minimum_height_from_roster_measurement": 128,
+    "anchor": "bottom_center",
+    "reason": "Previous 24px ruler was invalid because Jack/Ryo 000 were icons/portraits. Direct Jack/Ryo measurement makes C=128px the only GDD-compliant hypothesis; native authoring remains open."
+  },
+  "scale_contract": {
+    "authorized_targets": [
+      {"hypothesis": "A", "bbox_height": 102},
+      {"hypothesis": "B", "bbox_height": 115},
+      {"hypothesis": "C", "bbox_height": 128}
+    ],
+    "target_width": 88,
+    "target_height": 136,
+    "selected_width": 88,
+    "selected_height": 136,
+    "selection_status": "selected_by_gdd_minimum_pending_native_reauthoring_and_budget",
+    "benchmark_report": "doc/art/kairo_vant/fighter_scale_benchmark_report.json",
+    "route_decision": "rascunho/scale_correction_20260905/combat_idle_3quarter_route_decision.json"
+  },
+  "decision": {
+    "generation_source_locked": true,
+    "next_sprite_sheet_must_start_from_model_sheet": true,
+    "scale_reset_decision": "reject_32x40_fighter_route",
+    "scale_hypothesis_decision": "C_88x136_canvas_128px_visible_height_minimum",
+    "ready_for_aaa": false,
+    "human_approval_required": true
+  }
+}

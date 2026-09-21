@@ -1,0 +1,68 @@
+{
+  "schema_version": "source_triage_report.v1",
+  "tool": "forge_art.source_route_triage",
+  "tool_version": "1.0.0",
+  "source": {
+    "path": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_assisted_native_grid_probe_C_v02.png",
+    "sha256": "83c5b4afa1786d4b5a61a2063c7acc18a0531b4d07cb1644c3b8d511dcde070c"
+  },
+  "source_class": "native_pixel_art_integer_scale",
+  "intended_role": "translation_source",
+  "reviewer": "agent_curated_review",
+  "identity_binding": {
+    "identity_authority_path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+    "identity_authority_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+    "identity_authority_observed_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+    "visual_source_of_truth_contract": "doc/art/kairo_vant/visual_source_of_truth.json",
+    "derivation": "Assisted native-grid translation guide v02 generated to correct the C-scale visible-height miss. It is an opaque rendered guide and remains non-final until matte extraction, pixel contract, material review, native reauthoring and human visual approval pass."
+  },
+  "human_review_binding": null,
+  "matte_policy": "border_connected",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "The guide is a translation aid. Its neutral matte must be removed through the deterministic border-connected extractor; review 1x, nearest, light, dark and chroma views after extraction."
+  },
+  "automatic_measurements": {
+    "width": 88,
+    "height": 136,
+    "source_mode": "RGB",
+    "has_alpha_channel": false,
+    "alpha_extrema": [
+      255,
+      255
+    ],
+    "visible_pixels": 11968,
+    "partial_alpha_pixels": 0,
+    "opaque_pixels": 11968,
+    "alpha_bbox": [
+      0,
+      0,
+      88,
+      136
+    ]
+  },
+  "border_signal": {
+    "sampled_pixels": 444,
+    "quantized_border_buckets": 8,
+    "dominant_bucket_ratio": 0.6622,
+    "interpretation": "diagnostic_only_not_a_visual_contaminant_detector"
+  },
+  "status": "accepted_translation_source",
+  "route_exploration_allowed": true,
+  "blocking": false,
+  "blockers": [],
+  "warnings": [],
+  "safe_reference_roles": [],
+  "next_action": "run route-shootout; outputs remain mechanical guides",
+  "claim_ceiling": "source_triage_only"
+}

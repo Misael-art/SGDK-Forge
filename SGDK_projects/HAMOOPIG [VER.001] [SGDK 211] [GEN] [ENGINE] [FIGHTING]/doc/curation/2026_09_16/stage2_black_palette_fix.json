@@ -1,0 +1,26 @@
+{
+  "lesson_id": "L113",
+  "date": "2026-09-16",
+  "topic": "stage2_opaque_palette_zero_fix",
+  "source": "P09_stage_visual_review",
+  "rom_sha256": "30c2b7f779b98b9f594c7b605f6b8cc14a86793cddf804be846e5c30bc7ae873",
+  "problem": "A conversão do cais permitia que cores quase pretas arredondadas para RGB (0,0,0) ou entradas de paleta preenchidas fossem escolhidas como cores opacas, produzindo regiões pretas e quebrando a reserva do índice transparente.",
+  "change": "O conversor testa a cor após o snap de 9-bit, reserva índice 0 e limita a busca às entradas opacas efetivamente autoradas; quando necessário usa fallback escuro não preto.",
+  "result": "res/gfx/bgb2.png regenerado com zero pixels RGB (0,0,0), 12 entradas úteis e 864 tiles residentes. Captura real Stage 2 no BlastEm carregou o cenário e HPRB registrou 7008 B DMA, 40 sprites ativos e 17 sprites por linha.",
+  "limits": [
+    "a aparência de cor, contraste e profundidade ainda requer revisão visual independente",
+    "a mudança invalida evidências de gameplay de hashes anteriores; P10 deve ser recapturado no SHA 30c2",
+    "o cenário continua candidato prototype e sem aprovação estética"
+  ],
+  "artifacts": [
+    "data/source_art/stage2_swamp/convert_stage2.py",
+    "data/source_art/stage2_swamp/convert_stage2_report.json",
+    "res/gfx/bgb2.png",
+    "out/logs/stage2_black_fix_convert.log",
+    "out/logs/stage2_black_fix_build.log",
+    "out/logs/stage2_black_fix_capture.log",
+    "out/logs/stage2_black_fix_hprb.json",
+    "out/emulator_evidence/visual_ko_20260916T063825Z/manifest.json"
+  ],
+  "status": "palette_zero_regression_fixed_visual_review_pending"
+}

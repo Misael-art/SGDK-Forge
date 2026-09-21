@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "independent_quality_review",
+  "review_id": "hamoopig_vertical_slice_20260919",
+  "request_digest": "03d5433aa876393ea009a075883617af8c2a95c7035f1febc7daa30890abde75",
+  "plan_digest": "d71b86dc1d8a85dd6e294c50e3722ea58ca15c1a26899fb5f253a0e5ce1fa672",
+  "artifact_bindings": [
+    {"path": "out/rom.bin", "sha256": "df648176a73fa1ff67ba939f21226fc07d7da53e685da8d00eb986a3e56509fa", "role": "rom"},
+    {"path": "out/emulator_evidence/visual_ko_20260919T203454Z/combat_025.png", "sha256": "13814c2eda103644bdf91dcf24349d99dc258bfed51f16cac3bd38c60cdfd0e7", "role": "emulator_capture"},
+    {"path": "out/emulator_evidence/visual_ko_20260919T203454Z/manifest.json", "sha256": "7de236ccb018ad12638a3f907b7325ceecefff7923a3d9536bbe78f90d8a796b", "role": "hardware_report"},
+    {"path": "out/emulator_evidence/visual_ko_20260919T203704Z/hprb_probe_report.json", "sha256": "cb33138c32a8796957ed882713bd3fe8b4059cb47b39c449e575b749acc8cc93", "role": "hardware_report"},
+    {"path": "out/logs/validation_report.json", "sha256": "a8a23b9ef51c9a941b0ac2eff2460b96d1e8f09fe8c266575733e8bbc4ee6d61", "role": "other"},
+    {"path": "out/logs/freshness_audit_report.json", "sha256": "8f6ca5d3852eca2d653fb335665aa595d42963e344e42052953431b898183e3b", "role": "other"},
+    {"path": "out/logs/scene_closeout_gate_report.json", "sha256": "b1c9162bce6260544e462f60265d73965bfdc4724a0c0d41222be61730672b69", "role": "other"},
+    {"path": "out/emulator_evidence/visual_ko_20260919T192047Z/emulator_audio.wav", "sha256": "3812d3c1f750b3e41983a04fe436923449e919fdff36c7590a0a6b50eea4d92e", "role": "audio_capture"},
+    {"path": "src/hamoopig_runtime_probe.c", "sha256": "f93124c7cd668db82744456bc687350f1e413cec8d11482f47f0b916e06e1cb2", "role": "code_diff"},
+    {"path": "tests/capture_visual_ko.py", "sha256": "5f7bdab8b733e7e02e3f8b74fb2299209099f16441556d23f2d4a55a9120cfb7", "role": "input_trace"},
+    {"path": "tests/test_visual_probe_contract.py", "sha256": "8b173868ceb0799f283f8dbd0b3d5c6374f186431834388aa3056f5bb14836af", "role": "other"}
+  ],
+  "reviewers": [
+    {
+      "domain": "code",
+      "owner_skill": "code/sgdk-code-reviewer",
+      "reviewer_id": "sgdk-code-reviewer-readonly-20260919",
+      "producer_context_visible": false,
+      "status": "blocked",
+      "findings": [
+        {
+          "finding_id": "code_validation_truth_stale",
+          "classification": "risk",
+          "severity": "major",
+          "confidence": 0.98,
+          "blocks_growth": true,
+          "evidence": ["out/logs/validation_report.json is current for the 3ca613… build but reports errors=18, warnings=66, report_rom_identity_mismatch and report_evidence_session_mismatch", "out/logs/freshness_audit_report.json remains warning/stale"],
+          "player_impact": "A build can look green while closeout and runtime evidence describe another ROM.",
+          "smallest_correction": "Regenerate validation, freshness and closeout reports after the current build, then bind them to the current ROM hash.",
+          "correction_owner_skill": "operation/sgdk-build-wrapper-operator",
+          "acceptance_evidence": ["Fresh validation_report.json with current ROM SHA and closeout blockers resolved or explicitly tracked", "Freshness report with current dependencies and no stale required evidence"],
+          "scope_change_required": false
+        },
+        {
+          "finding_id": "code_capture_live_stop_residual",
+          "classification": "risk",
+          "severity": "major",
+          "confidence": 0.91,
+          "blocks_growth": true,
+          "evidence": ["out/emulator_evidence/visual_ko_20260919T045421Z/manifest.json has terminal_probe=null", "tests/capture_visual_ko.py uses a bounded timeout while SRAM is flushed only after emulator close"],
+          "player_impact": "The harness can finish by timeout without proving that the live route stopped at the first terminal; the sealed HDBG remains valid after close.",
+          "smallest_correction": "Add a close-and-read terminal handoff or keep the bounded timeout explicitly classified as non-self-stopping evidence.",
+          "correction_owner_skill": "operation/emulator-vdp-evidence-curator",
+          "acceptance_evidence": ["A capture manifest with terminal_probe populated from the same session, or an explicit timeout-only route contract", "Sealed screenshot/HDBG agreement on the same ROM SHA"],
+          "scope_change_required": false
+        }
+      ],
+      "external_sources": []
+    },
+    {
+      "domain": "hardware",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "reviewer_id": "megadrive-vdp-budget-analyst-readonly-20260919",
+      "producer_context_visible": false,
+      "status": "blocked",
+      "findings": [
+        {
+          "finding_id": "hardware_vram_residency_unmeasured",
+          "classification": "risk",
+          "severity": "major",
+          "confidence": 0.99,
+          "blocks_growth": true,
+          "evidence": ["out/emulator_evidence/visual_ko_20260919T045421Z/runtime_metrics.json reports runtime_vram_load_ranges=null", "out/logs/res_graph_report.json carries code_loaded_tiles_unmeasured", "out/logs/tile_residency_report.json is older than the current ROM and not bound to this capture"],
+          "player_impact": "Future fighters, FX or stage growth can silently collide with resident VRAM even though the current screenshot is clean.",
+          "smallest_correction": "Generate a current SHA-bound VRAM residency report and measure every VDP_loadTileData/VDP_loadTileSet range in the worst combat window.",
+          "correction_owner_skill": "hardware/megadrive-vdp-budget-analyst",
+          "acceptance_evidence": ["Current vram_residency_report with scene-local resident set and no overlaps", "Current runtime ranges linked to the same VLAB/SRAM and ROM hash"],
+          "scope_change_required": false
+        },
+        {
+          "finding_id": "hardware_cpu_jitter_uninstrumented",
+          "classification": "risk",
+          "severity": "major",
+          "confidence": 0.99,
+          "blocks_growth": true,
+          "evidence": ["src/hamoopig_runtime_probe.c writes CPU load and jitter as not instrumented", "runtime_metrics.json reports max_cpu_load=0 and max_cpu_jitter=0 while performance_claim=unproven"],
+          "player_impact": "A 60.2 fps window title snapshot cannot exclude frame-time spikes during the worst combat frame.",
+          "smallest_correction": "Instrument frame time and jitter and run a sustained soak including HUD, fighters, FX and result transitions.",
+          "correction_owner_skill": "code/sgdk-runtime-coder",
+          "acceptance_evidence": ["Same-SHA sustained capture with non-default CPU/jitter samples", "Worst-frame report identifying the combined DMA/sprite/CPU peak"],
+          "scope_change_required": false
+        },
+        {
+          "finding_id": "hardware_budget_close_to_ceiling",
+          "classification": "risk",
+          "severity": "major",
+          "confidence": 0.97,
+          "blocks_growth": true,
+          "evidence": ["HPRB current semantic capture reports 7424/7782 B DMA (95.4% NTSC)", "HPRB current semantic capture reports 12/20 sprites per scanline and 50/80 VDP links"],
+          "player_impact": "Adding projectile, hit spark or larger animation frames without a measured worst-frame envelope risks drops or flicker.",
+          "smallest_correction": "Treat the current slice as cabe com recuo and measure the combined worst frame before adding visual complexity.",
+          "correction_owner_skill": "hardware/megadrive-vdp-budget-analyst",
+          "acceptance_evidence": ["Worst-frame audit with peaks from the same frame and declared fallback", "BlastEm capture with over_budget_frames=0 for the expanded route"],
+          "scope_change_required": false
+        }
+      ],
+      "external_sources": []
+    },
+    {
+      "domain": "governance",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "reviewer_id": "aaa-pipeline-guardian-readonly-20260919",
+      "producer_context_visible": false,
+      "status": "blocked",
+      "findings": [
+        {
+          "finding_id": "governance_claim_ceiling_incomplete",
+          "classification": "risk",
+          "severity": "major",
+          "confidence": 0.99,
+          "blocks_growth": true,
+          "evidence": ["Current sealed DRAW bundle claim_limit is identity/freshness only", "Current HDBG proves one time-over terminal route; it does not prove complete gameplay, audio quality or AAA", "quality_review_plan.json defers gameplay and audio reviews by capacity"],
+          "player_impact": "Calling the project complete would overstate what the player has actually experienced and what the ROM guarantees.",
+          "smallest_correction": "Keep prototype_partial and run same-SHA gameplay, audio, art and independent reviews before any growth or AAA promotion.",
+          "correction_owner_skill": "governance/aaa-pipeline-guardian",
+          "acceptance_evidence": ["Same-SHA gameplay matrix including P2 confirmation, KO, rematch, DRAW and event classes", "Critical listening review plus live-scene and provenance gates"],
+          "scope_change_required": false
+        },
+        {
+          "finding_id": "governance_freshness_closeout_blocked",
+          "classification": "defect",
+          "severity": "major",
+          "confidence": 0.99,
+          "blocks_growth": true,
+          "evidence": ["validation_report.json current summary reports errors=18, warnings=66 and technical_incomplete", "blocking_statuses include freshness_audit_stale, audio_validation_missing, code_loaded_tiles_unmeasured and scene_closeout_gate_missing"],
+          "player_impact": "The delivery pipeline cannot distinguish a tested current route from stale or incomplete project-wide QA.",
+          "smallest_correction": "Regenerate project validation and closeout reports against 3ca613… and resolve or explicitly disposition each blocking status.",
+          "correction_owner_skill": "operation/sgdk-build-wrapper-operator",
+          "acceptance_evidence": ["Current validation_report.json with no report identity mismatch", "Scene closeout gate report and freshness report bound to the current ROM"],
+          "scope_change_required": false
+        },
+        {
+          "finding_id": "governance_provenance_hygiene_blocked",
+          "classification": "defect",
+          "severity": "critical",
+          "confidence": 0.98,
+          "blocks_growth": true,
+          "evidence": ["Project hygiene report flags orphan/noncanonical project entries", "asset_provenance_audit_report.json reports undeclared/procedural/promotion blockers and no final asset set", "technique_usage_manifest.json has an empty techniques list and documentation_sync=false"],
+          "player_impact": "Visual delivery and future maintenance remain non-reproducible even when one runtime slice is observable.",
+          "smallest_correction": "Resolve project hygiene, declare provenance for every promoted symbol, synchronize technique owners/budgets/fallbacks, then rerun the corresponding validators.",
+          "correction_owner_skill": "governance/aaa-pipeline-guardian",
+          "acceptance_evidence": ["Clean hygiene/provenance reports with no final asset blockers", "Synchronized technique_usage_manifest and doc/13/doc/10/changelog records"],
+          "scope_change_required": false
+        }
+      ],
+      "external_sources": []
+    }
+  ],
+  "synthesis": {
+    "growth_decision": "revise_before_growth",
+    "priority_finding_ids": ["governance_claim_ceiling_incomplete", "hardware_vram_residency_unmeasured", "governance_freshness_closeout_blocked"],
+    "cross_domain_conflicts": [
+      "The pre-patch code review found a VLAB extra-word defect; it was corrected before the current SHA, and the strengthened contract test plus sealer self-check now pass.",
+      "The current VDP snapshot is within nominal DMA/sprite limits, but hardware review cannot promote validado_budget without current residency and CPU/jitter measurements.",
+      "The DRAW/P2 captures are fresh and hash-bound, while project-wide validation, audio, gameplay completeness and provenance remain incomplete."
+    ]
+  },
+  "quality_claim": "unproven",
+  "ready_for_aaa": false,
+  "claim_ceiling": "independent_quality_review_only"
+}

@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "native_reauthoring_handoff",
+  "generated_at": "2026-09-05",
+  "status": "human_native_authoring_required",
+  "asset_id": "kairo_vant_combat_idle_3quarter",
+  "workset": {
+    "active_epoch": "d1_scale_reset_20260905",
+    "identity_authority": [
+      {
+        "path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+        "role": "identity_authority"
+      },
+      {
+        "path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+        "role": "identity_authority"
+      }
+    ],
+    "translation_guide": {
+      "path": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_visual_producer_output_v02_alpha_clean.png",
+      "sha256": "171846af73bdd131e85197aa4abf767a4ebb8720a3f029f154e8e29fa5d08b78",
+      "role": "visual_source_only"
+    },
+    "fitted_geometry_probe": {
+      "path": "rascunho/scale_correction_20260905/assisted_native_candidate_c_v02_fitted_diagnostics/kairo_vant_combat_idle_3quarter_assisted_native_grid_probe_c_v02_fitted_diagnostic_candidate.png",
+      "sha256": "9a54d03133232762470b3823002d772a762a9ecfe91d1b1aaafb45c0aa5a9eb8",
+      "role": "geometry_and_material_underlay_only",
+      "must_not_be_promoted": true
+    }
+  },
+  "locked_target": {
+    "canvas_px": [88, 136],
+    "visible_height_min_px": 128,
+    "ground_line": "bottom-most visible foot pixels align to y=135; preserve anchored contact",
+    "grid": "8x8 logical tiles",
+    "format": "indexed PNG, 4bpp, index0 transparent, maximum 15 visible colors",
+    "pose": "combat_idle_3quarter",
+    "camera": "same ground line as Jack/Ryo benchmark compositions"
+  },
+  "must_preserve": [
+    "full-body three-quarter fighting guard",
+    "focused face and readable gaze at 1x",
+    "dark hair with one cyan lock",
+    "indigo sleeveless coat with cyan structural seams",
+    "long asymmetrical scarf that does not occlude face, hands or feet",
+    "separated front and rear hands",
+    "amber gloves or bracers as a deliberate contrast anchor",
+    "dark voluminous pants",
+    "boots with readable sole/contact and amber hardware",
+    "athletic center of mass ready to advance"
+  ],
+  "native_authoring_order": [
+    "silhouette",
+    "lineart_clusters_1px",
+    "material_color_blocking",
+    "material_topology_boundaries",
+    "primary_shadow",
+    "minimal_highlights",
+    "contour_cleanup",
+    "palette_lock_and_index0_validation"
+  ],
+  "palette_roles": {
+    "index0": "transparent0",
+    "shared_outline": "deep_outline",
+    "skin": "base_shadow_highlight",
+    "hair": "deep_blue_with_cyan_signature",
+    "coat": "indigo_navy_with_cyan_trim",
+    "armor": "charcoal_blue",
+    "accent": "amber_gold",
+    "scarf": "blue_cyan_ramp"
+  },
+  "reject_if": [
+    "face_or_gaze disappears at 1x",
+    "hands merge with torso, scarf or gloves",
+    "coat, skin, scarf, gloves, pants or boots cross material ownership",
+    "visible height falls below 128px",
+    "candidate is only a resize or quantization of the high-res guide",
+    "AA, halo, microcolor noise, baked background or checkerboard remains",
+    "pose reads as frontal icon, chibi or platformer character",
+    "scarf hides identity-critical anatomy or feet lose contact"
+  ],
+  "required_evidence_after_authoring": [
+    "native_candidate_sha256",
+    "pixel_contract_report",
+    "lineart_blocking_1px",
+    "material_region_contract",
+    "1x_and_nearest_8x_views_on_light_dark_chroma_backgrounds",
+    "visual_review_linked_to_exact_sha",
+    "updated_offline_and_runtime_budget",
+    "human_visual_decision_linked_to_exact_sha"
+  ],
+  "forbidden_sources": [
+    "all 32x40 Kairo candidates",
+    "res/fighting/fighters/kairo_vant_probe.png",
+    "res/fighting/fighters/c1_probe.png",
+    "data/source_art/kairo_vant/kairo_vant_native_grid_authoring_v01.xpm",
+    "rascunho/scale_correction_20260905/generation_failures/*"
+  ],
+  "integration_policy": "Do not enter res/resources.res, animation, build or BlastEm until native visual, material, pixel, scale, budget and human gates pass."
+}

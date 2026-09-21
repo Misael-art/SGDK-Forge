@@ -20,6 +20,6 @@ extern const u8 snd_ryo_700[6912];
 extern const u8 snd_ryo_710[12800];
 extern const u8 snd_ryo_720[12800];
 extern const u8 snd_ryo_730[11776];
-extern const u8 bgm_ken_stage[5888];
+extern const u8 mus_forge_brand[2048];
 
 #endif // _RES_SOUND_H_

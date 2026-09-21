@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "fighting_sprite_semantic_contract",
+  "asset_id": "kairo_vant_combat_idle_full_body",
+  "profile": "fighting_full_body_sprite",
+  "project_identity": {
+    "canonical_directory_name": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]"
+  },
+  "source_assets": [
+    {
+      "path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+      "sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+      "semantic_role": "identity_model_sheet",
+      "classification": "ai_generated_high_res",
+      "allowed_use": "identity_authority",
+      "promotable": false
+    },
+    {
+      "path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v04.png",
+      "sha256": "31f4b41892a3f2775d51f8bc71b52b97622651123d286d8081d02c0eb5de088f",
+      "semantic_role": "visual_translation_source",
+      "classification": "ai_generated_high_res",
+      "allowed_use": "visual_translation",
+      "promotable": false
+    },
+    {
+      "path": "rascunho/scale_correction_20260905/reference_profiles/jack_100.png",
+      "sha256": "e5ae31a0e5601533f7f6cc0d59e3c2ea1dd6136d4df54d810adc265677ae9529",
+      "semantic_role": "fighter_full_body_frame_or_strip",
+      "classification": "native_pixel",
+      "allowed_use": "scale_reference",
+      "promotable": false
+    },
+    {
+      "path": "rascunho/scale_correction_20260905/reference_profiles/jack_410.png",
+      "sha256": "ded2897fd231c5b1d7f0797a2ccff4371b66dbb6dfc47f88a564df07d4aa3594",
+      "semantic_role": "fighter_full_body_frame_or_strip",
+      "classification": "native_pixel",
+      "allowed_use": "scale_reference",
+      "promotable": false
+    },
+    {
+      "path": "rascunho/scale_correction_20260905/reference_profiles/ryo_100.png",
+      "sha256": "1ff180a0737f5b3c8c156effc481de037d2daba1bce4993dda54598bbd7aa63b",
+      "semantic_role": "fighter_full_body_frame_or_strip",
+      "classification": "native_pixel",
+      "allowed_use": "scale_reference",
+      "promotable": false
+    }
+  ],
+  "scale_rule": {
+    "operator": "gte_ceil_multiplier_of_max_reference_visible_height",
+    "multiplier": 1.25,
+    "declared_minimum_visible_height_px": 128,
+    "gdd_binding": {
+      "path": "doc/11-gdd.md",
+      "sha256": "2776ac1e5a93f51d9d834d4e83cbc9c075b75b8bb3504652779677055dccaecc",
+      "rule_id": "kairo_idle_minimum_visible_height",
+      "formula_marker": "kairo_idle_minimum_visible_height:minimum_visible_height=ceil(1.25*max(full_body_reference_visible_height))"
+    },
+    "references": [
+      {
+        "path": "rascunho/scale_correction_20260905/reference_profiles/jack_100.png",
+        "sha256": "e5ae31a0e5601533f7f6cc0d59e3c2ea1dd6136d4df54d810adc265677ae9529",
+        "semantic_role": "fighter_full_body_frame_or_strip",
+        "cell_width": 56,
+        "cell_height": 80
+      },
+      {
+        "path": "rascunho/scale_correction_20260905/reference_profiles/jack_410.png",
+        "sha256": "ded2897fd231c5b1d7f0797a2ccff4371b66dbb6dfc47f88a564df07d4aa3594",
+        "semantic_role": "fighter_full_body_frame_or_strip",
+        "cell_width": 48,
+        "cell_height": 80
+      },
+      {
+        "path": "rascunho/scale_correction_20260905/reference_profiles/ryo_100.png",
+        "sha256": "1ff180a0737f5b3c8c156effc481de037d2daba1bce4993dda54598bbd7aa63b",
+        "semantic_role": "fighter_full_body_frame_or_strip",
+        "cell_width": 64,
+        "cell_height": 104
+      }
+    ]
+  },
+  "candidate": null,
+  "claim_ceiling": "semantic_scale_gate_only"
+}

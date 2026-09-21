@@ -4,10 +4,14 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/../.." && pwd)"
 project_root=""
+extra_flags=""
+output_dir="out"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --project-root) project_root="$2"; shift 2 ;;
+        --extra-flags) extra_flags="$2"; shift 2 ;;
+        --output-dir) output_dir="$2"; shift 2 ;;
         *) echo "wine_bridge_status=blocked reason=unknown_argument argument=$1"; exit 2 ;;
     esac
 done
@@ -18,6 +22,10 @@ if [[ "$(uname -s)" != "Linux" ]]; then
 fi
 if [[ -z "$project_root" ]]; then
     echo "wine_bridge_status=blocked reason=project_root_required"
+    exit 2
+fi
+if [[ "$output_dir" = /* || "$output_dir" == *..* || "$output_dir" == *" "* || "$output_dir" == "" ]]; then
+    echo "wine_bridge_status=blocked reason=invalid_output_dir output_dir=$output_dir"
     exit 2
 fi
 for command_name in flatpak python3 sha256sum make flock; do
@@ -239,24 +247,24 @@ flatpak --user run "${flatpak_access[@]}" --filesystem="$(dirname "$java_path")"
         rm -f "$5/libmd_no_lto.in_progress"
     fi
     cd "$2"
-    make GDK="$3" LTO=0 -f "$3/makefile_wine.gen"
-    test -s out/rom.bin
-' sh "$(dirname "$java_path")" "$project_root" "$gdk_link" "$lib_rebuild_required" "$tool_root" 9>&- 2>&1 | tee "$build_log"
+    make GDK="$3" LTO=0 EXTRA_FLAGS="$6" OUT="$7" -f "$3/makefile_wine.gen"
+    test -s "$7/rom.bin"
+' sh "$(dirname "$java_path")" "$project_root" "$gdk_link" "$lib_rebuild_required" "$tool_root" "$extra_flags" "$output_dir" 9>&- 2>&1 | tee "$build_log"
 build_rc=$?
 set -e
 completed_at="$(python3 -c 'from datetime import datetime,timezone; print(datetime.now(timezone.utc).isoformat())')"
 
 report_path="$project_root/out/logs/linux_wine_build_report.json"
 mkdir -p "$(dirname "$report_path")"
-python3 - "$report_path" "$project_root" "$gdk_link" "$started_at" "$completed_at" "$build_rc" "$identity_report" <<'PY'
+python3 - "$report_path" "$project_root" "$gdk_link" "$started_at" "$completed_at" "$build_rc" "$identity_report" "$output_dir" "$extra_flags" <<'PY'
 import hashlib
 import json
 import sys
 from pathlib import Path
 
-report_path, project_root, gdk_root, started_at, completed_at, build_rc, identity_path = sys.argv[1:]
+report_path, project_root, gdk_root, started_at, completed_at, build_rc, identity_path, output_dir, extra_flags = sys.argv[1:]
 identity = json.loads(Path(identity_path).read_text())
-rom = Path(project_root) / "out/rom.bin"
+rom = Path(project_root) / output_dir / "rom.bin"
 digest = hashlib.sha256(rom.read_bytes()).hexdigest() if rom.is_file() else None
 report = {
     "schema": "linux_wine_build_report.v2",
@@ -271,6 +279,8 @@ report = {
     "started_at": started_at,
     "completed_at": completed_at,
     "exit_code": int(build_rc),
+    "output_dir": output_dir,
+    "extra_flags": extra_flags,
     "rom": {
         "path": str(rom),
         "size_bytes": rom.stat().st_size if rom.is_file() else 0,

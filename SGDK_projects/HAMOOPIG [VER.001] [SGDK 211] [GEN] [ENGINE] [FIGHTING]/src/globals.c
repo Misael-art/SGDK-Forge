@@ -51,10 +51,14 @@ s16  camPosX = 0;
 s16  camPosXanterior = 0;
 s16  camPosY = 0;
 s16  camPosYanterior = 0;
+u8   gCameraShakeTicks = 0;
+u8   gCameraShakePhase = 0;
 s16  gMeioDaTela = 0;
 s16  gScrollValues[28] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 s16  gScrollValue;
-u8   gBG_Choice=1;
+/* The authored swamp dock is the visual baseline; SHOWDOWN remains selectable
+   from the front-end, but the default path must expose the reauthored stage. */
+u8   gBG_Choice=2;
 u8   Spark1_countDown;
 u8   Spark2_countDown;
 s16  PetalaPX[40];

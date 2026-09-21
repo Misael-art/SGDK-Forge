@@ -1,0 +1,234 @@
+{
+  "schema_version": "route_shootout_report.v1",
+  "tool": "forge_art.source_route_triage",
+  "tool_version": "1.1.0",
+  "source": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/kairo_vant_direct_pixel_art_source_v01.png",
+    "sha256": "0c3095038b69328a304a819ed9201ae3038467a1b88128b4fbd7de91ac88dae3"
+  },
+  "source_triage_report": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/source_triage_report.json",
+    "sha256": "30838a09baf34eea0c57346c6343eca8a6356109a328df33fdee2c71132d6bc4"
+  },
+  "canonical_source": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/canonical_source_rgba.png",
+    "sha256": "e31087d3648f90f84e3215875f9c85ddae859dce99c747a2df5657f681d224cd"
+  },
+  "source_class": "high_res_full_body_character",
+  "target": {
+    "size": [
+      88,
+      136
+    ],
+    "anchor": "bottom_center"
+  },
+  "scale_contract": {
+    "path": "doc/art/kairo_vant/visual_source_of_truth.json",
+    "sha256": "fc3d8117a5489d4d71d15cb8c4f4e974df17039591c2de376a1e11f16ede6149",
+    "authorized_targets": [
+      [
+        88,
+        136
+      ]
+    ]
+  },
+  "route_policy": "preferred_plus_challengers",
+  "registry": {
+    "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/forge_art/route_prior_registry.json",
+    "sha256": "f4a9ee8708c0b1d786ae18736a254a22ba87b36e4b6125b4f2723b33467a1bb1"
+  },
+  "matte_report": null,
+  "routes": [
+    {
+      "route_id": "im_lanczos3",
+      "backend": "ImageMagick",
+      "algorithm": "Lanczos",
+      "curatorial_prior": "preferred_prior",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Lanczos",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/raw_rgba.png",
+        "sha256": "a4c4d730525bf3c486df40fca506380771213db435e15eed893c25bc7de5f916"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4867,
+        "partial_alpha_pixels": 4375,
+        "bbox": [
+          9,
+          0,
+          82,
+          134
+        ],
+        "alpha_threshold_128_pixels": 4012
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "0c3095038b69328a304a819ed9201ae3038467a1b88128b4fbd7de91ac88dae3",
+        "canonical_source_sha256": "e31087d3648f90f84e3215875f9c85ddae859dce99c747a2df5657f681d224cd",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.1.0"
+      }
+    },
+    {
+      "route_id": "im_catmull_rom",
+      "backend": "ImageMagick",
+      "algorithm": "Catrom",
+      "curatorial_prior": "viable_challenger",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Catrom",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/raw_rgba.png",
+        "sha256": "bddd4821c78f0b39d65d2a0cbde6468374ed11032b686f1526356182ea01323a"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4460,
+        "partial_alpha_pixels": 3980,
+        "bbox": [
+          11,
+          0,
+          80,
+          132
+        ],
+        "alpha_threshold_128_pixels": 4010
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "0c3095038b69328a304a819ed9201ae3038467a1b88128b4fbd7de91ac88dae3",
+        "canonical_source_sha256": "e31087d3648f90f84e3215875f9c85ddae859dce99c747a2df5657f681d224cd",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.1.0"
+      }
+    },
+    {
+      "route_id": "im_nearest",
+      "backend": "ImageMagick",
+      "algorithm": "Point",
+      "curatorial_prior": "negative_control",
+      "status": "passed",
+      "reason": null,
+      "tool_version": "Version: ImageMagick 7.1.2-29 Q16-HDRI x86_64 b919b37fd:20260727 https://imagemagick.org",
+      "command": [
+        "magick",
+        "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/canonical_source_rgba.png",
+        "-alpha",
+        "on",
+        "-filter",
+        "Point",
+        "-resize",
+        "88x136",
+        "-gravity",
+        "South",
+        "-background",
+        "none",
+        "-extent",
+        "88x136",
+        "PNG32:/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/raw_rgba.png"
+      ],
+      "output": {
+        "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/raw_rgba.png",
+        "sha256": "04957b9b838f2a63e1f3ae319ffe2221daf83c907ab86a124d35df20884d958e"
+      },
+      "evidence": {
+        "raw": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/raw_rgba.png",
+        "nearest_8x": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/preview_nearest_8x.png",
+        "silhouette": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/silhouette.png",
+        "background_light": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/background_light.png",
+        "background_dark": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/background_dark.png",
+        "background_chroma": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/background_chroma.png",
+        "composition_320x224": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/composition_320x224.png"
+      },
+      "metrics": {
+        "visible_pixels": 4362,
+        "partial_alpha_pixels": 4352,
+        "bbox": [
+          11,
+          0,
+          80,
+          133
+        ],
+        "alpha_threshold_128_pixels": 4030
+      },
+      "claim_ceiling": "mechanical_geometry_probe",
+      "causal_binding": {
+        "source_sha256": "0c3095038b69328a304a819ed9201ae3038467a1b88128b4fbd7de91ac88dae3",
+        "canonical_source_sha256": "e31087d3648f90f84e3215875f9c85ddae859dce99c747a2df5657f681d224cd",
+        "executor": "forge_art.source_route_triage",
+        "executor_version": "1.1.0"
+      }
+    }
+  ],
+  "executed": 3,
+  "skipped": 0,
+  "near_duplicate_warnings": [],
+  "board": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/route_exploration_board.png",
+    "sha256": "0e1614d1810d3152b607b13dd896959f469733aabc3c483f7ffd2ca10d7bd729"
+  },
+  "automatic_winner": null,
+  "winner_policy": "visual_and_identity_review_required_before_native_reauthoring",
+  "native_candidate": false,
+  "promotable": false,
+  "res_promotion": false,
+  "claim_ceiling": "mechanical_geometry_probe",
+  "native_representation": null,
+  "verification": {
+    "status": "passed",
+    "blocking": false,
+    "blockers": [],
+    "claim_ceiling": "route_manifest_integrity_only"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "lesson_id": "L075",
+  "date": "2026-09-15",
+  "scope": "HAMOOPIG P07/P09/P10",
+  "title": "Sprites de lutador e HUD compacto precisam de proprietários estáveis na VRAM",
+  "symptom": "Após muitas trocas de estado, as metasprites dos lutadores e aliases do HUD exibiam tiles corrompidos. Ao iniciar outro round, a segunda criação do HUD podia abortar com 'HUD segment sprite allocation failed'.",
+  "cause": [
+    "PLAYER_STATE liberava e recriava um metasprite grande a cada transição, perturbando repetidamente o alocador móvel de VRAM e abrindo uma janela de upload atrasado.",
+    "Os 15 segmentos compartilhados do HUD não possuem tiles próprios; precisam acompanhar o tile index do segmento proprietário quando o SGDK compacta a região.",
+    "O caminho de reset de round não liberava os segmentos/dígitos compactos antes de hud_window_init, acumulando uma segunda cópia do HUD.",
+    "Os 16 sprites de cantos de hitbox/debug também sobreviviam ao reset e consumiam objetos do pool; a falha aparecia mais tarde como se fosse uma falha de alocação do HUD."
+  ],
+  "correction": [
+    "manter um Sprite por lutador durante o round e trocar a definição com SPR_setDefinition, posição, atributos e frame 0 por PLAYER_SET_SPRITE",
+    "sincronizar os aliases de barra e invalidar os contadores da barra especial quando o tile proprietário muda",
+    "chamar hud_window_off no início da inicialização de round antes de alocar o novo HUD",
+    "liberar todos os Rect* de hitbox/debug antes de reconstruir a luta e manter o contrato explícito no teste estático"
+  ],
+  "preventive_tests": [
+    "tests/test_dma_backpressure_contract.py",
+    "python3 tests/capture_visual_ko.py --stage2 --probe-short",
+    "python3 tests/capture_visual_ko.py --stage2 --specials"
+  ],
+  "evidence": {
+    "rom_sha256": "82501c1e6a41e19bdd42317c239ca4d9eb5f2e9bc690460e68122c40262e8871",
+    "build_log": "out/logs/continuation_p09_rect_release_build.log",
+    "clean_round_bundle": "out/emulator_evidence/visual_ko_20260915T072159Z/",
+    "directed_stress_bundle": "out/emulator_evidence/visual_ko_20260915T072642Z/",
+    "ko_reset_bundle": "out/emulator_evidence/visual_ko_20260915T074433Z/",
+    "latest_same_rom_bundle": "out/emulator_evidence/visual_ko_20260915T080351Z/",
+    "host_suite": "19 test_*.py files passed",
+    "observed": [
+      "boot e seleção Stage 2 chegaram ao round com HUD íntegro",
+      "stress dirigido alcançou 75 amostras de combate/KO sem o fatal de alocação do HUD",
+      "a captura corrigida mediu apenas a faixa da vida: combat_025.png mostra a vida de P2 zerada, special_reset_health.png mostra a vida restaurada após reset, e after_combat.png chega ao round seguinte",
+      "a repetição no SHA atual 14d8ac73... confirmou o mesmo KO/reset no BGB2 com HPRB schema 7 e sem fatal",
+      "janela do BlastEm manteve aproximadamente 60 fps durante a captura"
+    ]
+  },
+  "limitations": [
+    "A captura antiga tinha um detector que somava vida e especial; o harness foi corrigido para separar as duas linhas. A nova captura valida o reset visual, mas não substitui a revisão de gameplay por outro agente.",
+    "A revisão visual independente ainda deve julgar a animação de vitória/queda e o cenário pixelado; HPRB não prova qualidade artística.",
+    "Áudio isolado não foi revisado nesta sessão."
+  ],
+  "status": "implemented_build_passed_ko_zero_and_round_reset_visual_capture_partial_visual_audio_review_pending"
+}

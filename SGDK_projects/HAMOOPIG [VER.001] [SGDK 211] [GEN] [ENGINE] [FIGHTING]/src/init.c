@@ -11,9 +11,24 @@
 #include "hud.h"
 #include "player.h"
 #include "graphics.h"
+#include "combat_event.h"
+#include "stage.h"
+#include "hamoopig_runtime_probe.h"
 
 void FUNCAO_INICIALIZACAO()
 {
+	const StageDefinition *stage = STAGE_getDefinition(gBG_Choice);
+	const Image *stageImage = STAGE_getImage(gBG_Choice);
+	const u16 stageViewportW = stage->camera.viewportWidth;
+	const u16 stageViewportH = stage->camera.viewportHeight;
+	const u16 stagePlane = stage->bgPlane;
+	const u16 stagePalette = stage->paletteSlot;
+	/* Nenhum evento de uma luta anterior pode atravessar o commit de round. */
+	COMBAT_EVENTS_RESET_ROUND();
+	/* Round reset reuses SPR_init; retire the previous compact HUD before
+	   allocating the next pair of bars/digits, otherwise the second allocation
+	   can fail even though the fight sprites are valid. */
+	hud_window_off();
 	/* A regra da partida e congelada aqui: mexer no menu entre rounds nao
 	   pode trocar a regra no meio da partida. */
 	CONFIG_freezeMatchRules();
@@ -31,44 +46,55 @@ void FUNCAO_INICIALIZACAO()
 	//BG_B
 	gInd_tileset=1; //Antes de carregar o Background, definir o ponto de inicio de carregamento na VRAM
 	{
-		u16 stageTiles = (gBG_Choice == 1) ? gfx_showdown.tileset->numTile : gfx_bgb2.tileset->numTile;
-		u16 hudTiles = ts_hud_message_font.numTile + 1;
+		u16 stageTiles = stageImage->tileset->numTile;
+		u16 hudTiles = ts_hud_message_font.numTile + ts_hud_life_track.numTile +
+			ts_hud_special_segment.numTile + 1;
+		if(stage->loadingModel == STAGE_LOAD_RESIDENT && stageTiles > stage->tileBudget)
+		{
+			SYS_die("Stage exceeds declared tile budget");
+		}
 		if(gInd_tileset + stageTiles + hudTiles > TILE_SPRITE_INDEX)
 		{
 			SYS_die("Fight tiles overlap sprite VRAM");
 		}
 	}
 	
-	// Showdown park (compare_flat IMAGE). Extra 32px height is jump V headroom.
-	if(gBG_Choice==1){ 
-		gBG_Width = 512;
-		gBG_Height = 256;
-		gScrollValue=-(gBG_Width-320)/2;
-		VDP_loadTileSet(gfx_showdown.tileset,gInd_tileset,DMA); 
-		VDP_setTileMapEx(BG_B,gfx_showdown.tilemap,TILE_ATTR_FULL(PAL0,0,FALSE,FALSE,gInd_tileset),0,0,0,0,gBG_Width/8,gBG_Height/8,DMA_QUEUE);
-		PAL_setPalette(PAL0, gfx_showdown.palette->data, CPU);
-		gInd_tileset += gfx_showdown.tileset->numTile;
-		camPosX = (s16)((gBG_Width - 320) / 2);
-		camPosXanterior = -1;
-		camPosY = 0;
-		camPosYanterior = -1;
-		VDP_setHorizontalScroll(BG_B, -camPosX);
-		VDP_setVerticalScroll(BG_B, (s16)(gBG_Height - 224));
-	} 
-	
-	//Load the tileset 'BGB2'
-	if(gBG_Choice==2){ 
-		gBG_Width = 512;
-		gBG_Height = 224;
-		gScrollValue=-(gBG_Width-320)/2;
-		VDP_loadTileSet(gfx_bgb2.tileset,gInd_tileset,DMA); 
-		VDP_setTileMapEx(BG_B,gfx_bgb2.tilemap,TILE_ATTR_FULL(PAL0,0,FALSE,FALSE,gInd_tileset),0,0,0,0,gBG_Width/8,28,DMA_QUEUE);
-		PAL_setPalette(PAL0, gfx_bgb2.palette->data, CPU);
-		gInd_tileset += gfx_bgb2.tileset->numTile;
-	}
+	/* StageDefinition owns dimensions and resource selection.  The loader is
+	   deliberately data-driven so a streamed StageDefinition can replace this
+	   resident path without another name-specific branch in init.c. */
+	gBG_Width = stage->width;
+	gBG_Height = stage->height;
+	gLimiteCenarioE = stage->fightLeft;
+	gLimiteCenarioD = stage->fightRight;
+	gScrollValue=-(gBG_Width-stageViewportW)/2;
+	VDP_loadTileSet(stageImage->tileset,gInd_tileset,DMA);
+	HAMOOPIG_probeVramRange(gInd_tileset, stageImage->tileset->numTile);
+	VDP_setTileMapEx(stagePlane,stageImage->tilemap,
+		TILE_ATTR_FULL(stagePalette,0,FALSE,FALSE,gInd_tileset),0,0,0,0,
+		gBG_Width/8,gBG_Height/8,DMA_QUEUE);
+	PAL_setPalette(stagePalette, stageImage->palette->data, CPU);
+	gInd_tileset += stageImage->tileset->numTile;
+	STAGE_ambient_init();
+	camPosX = (s16)((gBG_Width - stageViewportW) / 2);
+	camPosXanterior = -1;
+	camPosY = 0;
+	camPosYanterior = -1;
+	gCameraShakeTicks = 0;
+	gCameraShakePhase = 0;
+	VDP_setHorizontalScroll(stagePlane, -camPosX);
+	VDP_setVerticalScroll(stagePlane, (s16)(gBG_Height - stageViewportH));
 
 	/* Runtime ceiling is TILE_SPRITE_INDEX, not a hard-coded 1532. */
-	hud_window_load(); 
+	hud_window_load();
+	/* WINDOW owns the fixed combat HUD.  Keep it full-screen with transparent
+	   zero tiles so the authored text/combo/special maps are actually visible
+	   over the stage without giving transient HUD writes back to BG_A. */
+	VDP_setWindowFullScreen();
+	HAMOOPIG_probeVramRange(
+		(u16) (gInd_tileset - (ts_hud_message_font.numTile + ts_hud_life_track.numTile +
+			ts_hud_special_segment.numTile + 1u)),
+		(u16) (ts_hud_message_font.numTile + ts_hud_life_track.numTile +
+			ts_hud_special_segment.numTile + 1u));
 	
 	//load palette HUD in PAL1, GFX load AFTER round intro...
 	//PALETA DA HUD!!!
@@ -82,6 +108,7 @@ void FUNCAO_INICIALIZACAO()
 	FUNCAO_SCREEN_HEIGHT_APPLY();
 
 	for(i=1; i<=2; i++) {
+		P[i].attackInstance = 0;
 		memset(P[i].key_JOY_status, KEY_FREE, sizeof(P[i].key_JOY_status));
 		memset(P[i].key_JOY_countdown, 0, sizeof(P[i].key_JOY_countdown));
 		memset(P[i].joyDirTimer, 0, sizeof(P[i].joyDirTimer));
@@ -90,6 +117,7 @@ void FUNCAO_INICIALIZACAO()
 		P[i].fball.spriteFBall=NULL;
 		P[i].fball.active=0;
 		P[i].fball.countDown=0;
+		P[i].fball.instance=0;
 		P[i].fball.x=-250;
 		P[i].fball.y=-250;
 		P[i].hSpeed=0;
@@ -123,6 +151,7 @@ void FUNCAO_INICIALIZACAO()
 	P[1].fball.active = 0;
 	P[1].bufferSpecial = 0;
 	P[1].hitCounter = 0;
+	P[1].hitComboTimer = 0;
 	P[1].stateMoveType = 0;
 	
 	//P2
@@ -147,6 +176,7 @@ void FUNCAO_INICIALIZACAO()
 	P[2].fball.active = 0;
 	P[2].bufferSpecial = 0;
 	P[2].hitCounter = 0;
+	P[2].hitComboTimer = 0;
 	P[2].stateMoveType = 0;
 
 
@@ -163,6 +193,26 @@ void FUNCAO_INICIALIZACAO()
 	{
 		P[2].sombra = SPR_addSpriteExSafe(&spr_sombra, P[2].x-32, P[2].y-2, TILE_ATTR(PAL1, FALSE, FALSE, FALSE), SPR_FLAG_AUTO_VISIBILITY | SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
 	}
+	/* Hitbox/debug corner sprites are room-owned too.  Round reset keeps the
+	   sprite engine alive, so every old handle must be released before the
+	   next batch is allocated; otherwise VRAM/object-pool pressure eventually
+	   surfaces as a misleading HUD allocation failure. */
+	if(Rect1BB1_Q1){ SPR_releaseSprite(Rect1BB1_Q1); Rect1BB1_Q1 = NULL; }
+	if(Rect1BB1_Q2){ SPR_releaseSprite(Rect1BB1_Q2); Rect1BB1_Q2 = NULL; }
+	if(Rect1BB1_Q3){ SPR_releaseSprite(Rect1BB1_Q3); Rect1BB1_Q3 = NULL; }
+	if(Rect1BB1_Q4){ SPR_releaseSprite(Rect1BB1_Q4); Rect1BB1_Q4 = NULL; }
+	if(Rect1HB1_Q1){ SPR_releaseSprite(Rect1HB1_Q1); Rect1HB1_Q1 = NULL; }
+	if(Rect1HB1_Q2){ SPR_releaseSprite(Rect1HB1_Q2); Rect1HB1_Q2 = NULL; }
+	if(Rect1HB1_Q3){ SPR_releaseSprite(Rect1HB1_Q3); Rect1HB1_Q3 = NULL; }
+	if(Rect1HB1_Q4){ SPR_releaseSprite(Rect1HB1_Q4); Rect1HB1_Q4 = NULL; }
+	if(Rect2BB1_Q1){ SPR_releaseSprite(Rect2BB1_Q1); Rect2BB1_Q1 = NULL; }
+	if(Rect2BB1_Q2){ SPR_releaseSprite(Rect2BB1_Q2); Rect2BB1_Q2 = NULL; }
+	if(Rect2BB1_Q3){ SPR_releaseSprite(Rect2BB1_Q3); Rect2BB1_Q3 = NULL; }
+	if(Rect2BB1_Q4){ SPR_releaseSprite(Rect2BB1_Q4); Rect2BB1_Q4 = NULL; }
+	if(Rect2HB1_Q1){ SPR_releaseSprite(Rect2HB1_Q1); Rect2HB1_Q1 = NULL; }
+	if(Rect2HB1_Q2){ SPR_releaseSprite(Rect2HB1_Q2); Rect2HB1_Q2 = NULL; }
+	if(Rect2HB1_Q3){ SPR_releaseSprite(Rect2HB1_Q3); Rect2HB1_Q3 = NULL; }
+	if(Rect2HB1_Q4){ SPR_releaseSprite(Rect2HB1_Q4); Rect2HB1_Q4 = NULL; }
 	
 	//reset Graphic Elements
 	if (GE[ 1].sprite){ SPR_releaseSprite(GE[ 1].sprite); GE[ 1].sprite = NULL; }
@@ -286,13 +336,14 @@ void FUNCAO_INICIALIZACAO()
 	FUNCAO_APPLY_FIGHTER_PALETTE(1);
 	FUNCAO_APPLY_FIGHTER_PALETTE(2);
 
-	/* P1/P2 bars use compact repeated sprites; KO stays sprite. */
+	/* P1/P2 bars and portraits are owned by the HUD.  KO is a transient
+	   message-layer event; the legacy ripped KO sprite is not part of the
+	   production surface because it collides with the clock and portraits. */
 	GE[3].sprite = NULL;
 	GE[4].sprite = NULL;
 	GE[5].sprite = NULL;
 	GE[6].sprite = NULL;
-	GE[7].sprite = SPR_addSpriteExSafe(&spr_hud_ko, 136, 2, TILE_ATTR(PAL1, FALSE, FALSE, FALSE), SPR_FLAG_DISABLE_DELAYED_FRAME_UPDATE | SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
-	if(GE[7].sprite){ SPR_setDepth(GE[7].sprite, 4); }
+	GE[7].sprite = NULL;
 	hud_window_init();
 	
 	//AXIS
@@ -400,6 +451,7 @@ void CLEAR_VDP()
 	 //VDP_releaseAllSprites();
 	 //SPR_defragVRAM();
 	 VDP_clearPlane(BG_A, TRUE);
+	 VDP_clearPlane(WINDOW, TRUE);
 	 VDP_clearPlane(BG_B, TRUE);	
 	 VDP_setTextPlane(BG_A);  
 	 VDP_setHorizontalScroll(BG_B, 0); 
@@ -411,6 +463,7 @@ void CLEAR_VDP()
 	 //PAL_setPaletteColors(0, (u16*) palette_black, CPU);
 	SYS_enableInts();
 	gInd_tileset=0;
+	HAMOOPIG_probeVramReset();
 }
 
 //EOF - END OF FILE; by GAMEDEVBOSS 2015-2022

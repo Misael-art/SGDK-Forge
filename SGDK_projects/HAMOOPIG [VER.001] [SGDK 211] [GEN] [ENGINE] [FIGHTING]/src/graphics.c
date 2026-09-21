@@ -6,10 +6,16 @@
 #include "fsm.h"
 #include "init.h"
 
+void HAMOOPIG_cameraShakeRequest(u8 frames)
+{
+	if(gCameraShakeTicks < frames){ gCameraShakeTicks = frames; }
+}
+
 void FUNCAO_ANIMACAO()
 {
 	//CONTROLE DE ANIMACAO E END ANIMATION
 	gASG_system = 0; //A.S.G.S. Anti Sprite Glitch System; (Evita a troca simultanea de sprites dos players)
+	PLAYER_SPRITE_WARMUP_TICK();
 	
 	for(i=1; i<=2; i++)
 	{
@@ -188,8 +194,8 @@ void FUNCAO_ANIMACAO()
      - console PAL, porque 240 linhas so existem no timing de 50Hz;
      - estar na luta (gRoom 10), porque titulo e select desenham tilemaps de 28
        linhas e a faixa extra exibiria lixo;
-     - um cenario com pelo menos 240px de altura -- o BG do gBG_Choice==2 tem
-       224 e nao tem o que mostrar ali.
+     - um cenario com pelo menos 240px de altura -- ambos os palcos atuais
+       medem 256px, enquanto a definicao ainda e a autoridade dessa capacidade.
    Por isso gScreen240 e o PEDIDO do usuario e gScreenH e o estado real. Tudo
    que faz conta de tela (piso, scroll vertical) le gScreenH, nunca 224 fixo. */
 void FUNCAO_SCREEN_HEIGHT_APPLY()
@@ -248,6 +254,20 @@ void FUNCAO_CAMERA_BGANIM()
 	camPosX = gMeioDaTela;
 	if( camPosX < 0 ){ camPosX = 0; } 
 	if( camPosX > (s16)(gBG_Width-320) ){ camPosX = (s16)(gBG_Width-320); }
+
+	/* Impact shake is a camera presentation effect, not a physics mutation.
+	   Apply it after bounds so the stage never exposes outside tiles.  The
+	   alternating two-pixel rhythm survives 320x224 while leaving BG_A/HUD
+	   anchored; the owner tick refreshes gameplay sprites after this call. */
+	if(gCameraShakeTicks > 0u)
+	{
+		s16 offset = (gCameraShakePhase & 1u) ? 2 : -2;
+		if(camPosX <= 0 && offset < 0){ offset = 0; }
+		if(camPosX >= (s16)(gBG_Width-320) && offset > 0){ offset = 0; }
+		camPosX += offset;
+		gCameraShakePhase = (u8)((gCameraShakePhase + 1u) & 3u);
+		gCameraShakeTicks--;
+	}
 
 	/* verticalfollow 0.5 from showdown.def. camPosY>0 looks up (jump). */
 	{
@@ -318,6 +338,3 @@ void FUNCAO_SAMSHOFX() //ESPECIFICO DO SAMURAI SHODOWN 2
 	*/
 	
 }
-
-
-

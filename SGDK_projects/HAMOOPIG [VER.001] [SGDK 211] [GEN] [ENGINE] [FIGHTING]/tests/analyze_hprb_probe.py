@@ -17,7 +17,7 @@ SIGNATURE = b'HPRB'
 # schema -> (size declarado, numero de words).  size = 8 + words*2, igual ao
 # HPRB_BYTES do C.  O par e FECHADO: aceitar size de um schema em outro faz o
 # decoder ler um layout diferente do que a ROM escreveu, em silencio.
-SCHEMA_SIZE = {1: (24, 8), 2: (32, 12), 3: (36, 14), 4: (46, 19), 5: (50, 21)}
+SCHEMA_SIZE = {1: (24, 8), 2: (32, 12), 3: (36, 14), 4: (46, 19), 5: (50, 21), 6: (68, 30), 7: (70, 31)}
 
 STAGE_NAMES = ['clock', 'health_hud', 'message_hud', 'animation', 'fsm']
 
@@ -72,6 +72,16 @@ def decode(data: bytes) -> dict:
     stage_dma = vals[14:19] if words >= 19 else None
     peak_pre_at_max = vals[19] if words >= 21 else None
     peak_sprite_at_max = vals[20] if words >= 21 else None
+    combat_total_events = vals[21] if words >= 30 else None
+    combat_total_hits = vals[22] if words >= 30 else None
+    combat_total_guards = vals[23] if words >= 30 else None
+    combat_total_throws = vals[24] if words >= 30 else None
+    combat_total_projectiles = vals[25] if words >= 30 else None
+    combat_total_double = vals[26] if words >= 30 else None
+    combat_total_ko = vals[27] if words >= 30 else None
+    combat_last_tick_events = vals[28] if words >= 30 else None
+    combat_last_tick_ko = vals[29] if words >= 30 else None
+    screen_height = vals[30] if words >= 31 else None
 
     # SGDK 2.11 H40 VBlank envelope from dma.h: NTSC ~7.6 KiB, PAL ~17 KiB.
     region = 'PAL' if (scene & 0x8000) else 'NTSC'
@@ -101,10 +111,11 @@ def decode(data: bytes) -> dict:
                 f'(frame {peak_scanline_frame}) sao de frames distintos; '
                 'nao os some como um pior caso unico')
 
-    # A altura de tela nao e exportada pela sonda, entao PAL224 e PAL240 caem no
-    # mesmo envelope. Limitacao conhecida, registrada em vez de mascarada.
-    if region == 'PAL':
-        warnings.append('envelope PAL unico: a sonda nao exporta altura, '
+    # Schemas 1--6 nao exportam a altura de tela. Schema 7 fecha essa lacuna;
+    # manter o aviso para evidencias legadas evita promover uma ausencia como
+    # se fosse PAL-224 ou PAL-240.
+    if region == 'PAL' and screen_height is None:
+        warnings.append('envelope PAL unico: schema legado nao exporta altura, '
                         'entao 224 e 240 nao sao distinguidos')
         warnings.append('em PAL 1 frame de video vale 1 ou 2 ticks logicos: '
                         'video_frame NAO e contagem de ticks nem gFrames da cena')
@@ -126,6 +137,16 @@ def decode(data: bytes) -> dict:
         'stage_names': STAGE_NAMES,
         'peak_pre_sprite_dma_at_max_bytes': peak_pre_at_max,
         'peak_sprite_dma_delta_at_max_bytes': peak_sprite_at_max,
+        'combat_total_events': combat_total_events,
+        'combat_total_hits': combat_total_hits,
+        'combat_total_guards': combat_total_guards,
+        'combat_total_throws': combat_total_throws,
+        'combat_total_projectiles': combat_total_projectiles,
+        'combat_total_double': combat_total_double,
+        'combat_total_ko': combat_total_ko,
+        'combat_last_tick_events': combat_last_tick_events,
+        'combat_last_tick_ko': combat_last_tick_ko,
+        'screen_height': screen_height,
         'last_scene': scene & 0x7FFF, 'region_inference': region,
         'limits': {'dma_queued_bytes': dma_limit, 'vdp_sprite_links': 80,
                    'sprites_per_scanline': 20},
@@ -165,6 +186,24 @@ def _schema5(**kw):
                       1200, 900, 100, 200, 300, 400, 500, 1100, 850])
 
 
+def _schema6(**kw):
+    data = list(struct.unpack_from('>21H', _schema5(), HPRB_OFFSET + 8))
+    values = {'events': 12, 'hits': 8, 'guards': 3, 'throws': 2,
+              'projectiles': 4, 'double': 1, 'ko': 1, 'last_events': 2,
+              'last_ko': 1}
+    values.update(kw)
+    data.extend([values['events'], values['hits'], values['guards'], values['throws'],
+                 values['projectiles'], values['double'], values['ko'],
+                 values['last_events'], values['last_ko']])
+    return _block(6, data)
+
+
+def _schema7(**kw):
+    data = list(struct.unpack_from('>30H', _schema6(), HPRB_OFFSET + 8))
+    data.append(kw.get('screen_height', 224))
+    return _block(7, data)
+
+
 def self_check() -> int:
     failures = []
 
@@ -195,6 +234,16 @@ def self_check() -> int:
               region_inference='NTSC', peaks_from_same_frame=True,
               measurement_trustworthy=True, decision='cabe')
 
+    expect_ok('schema6 combat telemetry', _schema6(),
+              schema=6, combat_total_events=12, combat_total_hits=8,
+              combat_total_guards=3, combat_total_throws=2,
+              combat_total_projectiles=4, combat_total_double=1,
+              combat_total_ko=1, combat_last_tick_events=2,
+              combat_last_tick_ko=1)
+
+    expect_ok('schema7 screen height', _schema7(screen_height=240),
+              schema=7, screen_height=240)
+
     # frame de 32 bits atravessando a fronteira das duas words
     expect_ok('frame 32 bits', _schema5(frame_hi=1, frame_lo=2), video_frame=65538)
 
@@ -208,6 +257,7 @@ def self_check() -> int:
               max_pre_sprite_dma_bytes=None, max_stage_dma_delta_bytes=None,
               peak_pre_sprite_dma_at_max_bytes=None,
               peak_dma_frame=None, peaks_from_same_frame=None)
+    expect_ok('schema6 sem screen height', _schema6(), screen_height=None)
 
     r = expect_ok('over budget NTSC', _schema5(dma=9000),
                   dma_status='over_budget', decision='cabe com recuo')

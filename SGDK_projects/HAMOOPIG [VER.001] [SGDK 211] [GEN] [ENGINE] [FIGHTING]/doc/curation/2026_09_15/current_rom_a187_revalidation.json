@@ -1,0 +1,26 @@
+{
+  "lesson_id": "L096",
+  "date": "2026-09-15",
+  "topic": "current_rom_a187_integrated_revalidation",
+  "source": "sgdk_wine_build_and_blastem_evidence_matrix",
+  "rom_sha256": "a1875f95c2c7c864b8c48adac34be3036c09fc30063354b65cbefd1fc8333bfe",
+  "problem": "A expansão do contrato StageDefinition alterou o binário; evidências de e170 não podiam continuar sustentando a ROM vigente.",
+  "change": "Recompilar com o loader orientado a dados, recapturar transição/título, KO/reset e áudio, e recapturar os 32 casos P10 cujo bundle ainda apontava para e170.",
+  "result": "Build passou; 36/36 probes P10 e HPRB foram vinculados ao SHA a187; title-return, transição, KO/reset e áudio isolado também têm manifests a187. O resumo mede 8024 B DMA, 41 sprites ativos, 61 links VDP e 17 por scanline.",
+  "limits": [
+    "P10 continua probe/runtime, não gameplay completo por caso",
+    "sinal de áudio foi medido, mas não auditado por escuta crítica",
+    "review visual independente, pior-frame e hardware real permanecem pendentes"
+  ],
+  "artifacts": [
+    "out/logs/stage_definition_metadata_build.log",
+    "out/rom.bin",
+    "out/logs/p10_matrix_runner_report.json",
+    "out/logs/p10_matrix_hprb_summary.json",
+    "out/emulator_evidence/visual_ko_20260915T150420Z/opening_title_transition.mp4",
+    "out/emulator_evidence/title_return_20260915T174415Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T171514Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T174520Z/audio_signal_report.json"
+  ],
+  "status": "revalidated_current_sha_with_pending_sensorial_gates"
+}

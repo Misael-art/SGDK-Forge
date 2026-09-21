@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L092",
+  "date": "2026-09-15",
+  "topic": "audio_stage2_864_current_rom",
+  "source": "isolated_blastem_audio_capture_after_stage2_promotion",
+  "rom_sha256": "e17027c059396f296ee417da773e1a145bb59efc10999d005cfc5b23679ecf56",
+  "problem": "A promoção do Stage 2 invalidou o relatório de áudio anterior, que estava ligado ao SHA do Showdown 864.",
+  "change": "Capturar o monitor PulseAudio exclusivo da nova sessão BlastEm e auditar o WAV sem confundir sinal elétrico com aprovação musical.",
+  "result": "WAV estéreo 48 kHz, 13.05 s, RMS -27.2056 dBFS, pico 5708, zero clipping, rota exclusiva e sinal presentes.",
+  "limits": [
+    "o agente não ouviu criticamente timbre, mix, ruído ou volume percebido",
+    "SFX individuais, pausa e retomada de BGM continuam sem audição dedicada",
+    "o relatório de sinal não fecha qualidade sensorial"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260915T134904Z/emulator_audio.wav",
+    "out/emulator_evidence/visual_ko_20260915T134904Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T134904Z/audio_signal_report.json",
+    "tests/audit_captured_audio_signal.py"
+  ],
+  "status": "documented_signal_route_pass_critical_listening_pending"
+}

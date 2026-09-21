@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "kairo_vant_front_pose_native_32x40",
+  "method": "geometric_prescreen_annotation_from_technical_probe",
+  "required_regions": [
+    "head_or_face",
+    "hair",
+    "torso",
+    "arms_or_guard",
+    "hands",
+    "legs",
+    "feet",
+    "sash"
+  ],
+  "label_legend": {
+    "head_or_face": 1,
+    "hair": 2,
+    "torso": 3,
+    "arms_or_guard": 4,
+    "hands": 5,
+    "legs": 6,
+    "feet": 7,
+    "sash": 8
+  },
+  "label_counts": {
+    "head_or_face": 49,
+    "hair": 32,
+    "torso": 108,
+    "arms_or_guard": 17,
+    "hands": 47,
+    "legs": 167,
+    "feet": 42,
+    "sash": 58
+  },
+  "bbox": [
+    8,
+    2,
+    31,
+    39
+  ],
+  "filled_pixels": 520,
+  "canvas_pixels": 1280,
+  "occupancy_pct": 40.62,
+  "claim_ceiling": "mechanical_geometry_probe"
+}

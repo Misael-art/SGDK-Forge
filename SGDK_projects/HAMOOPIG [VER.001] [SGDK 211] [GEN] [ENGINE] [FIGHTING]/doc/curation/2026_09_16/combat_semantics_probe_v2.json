@@ -1,0 +1,27 @@
+{
+  "lesson_id": "L106",
+  "date": "2026-09-16",
+  "topic": "real_keyboard_combat_semantics_route",
+  "source": "P04_runtime_probe_review",
+  "rom_sha256": "70bd7e57a667e4cedc1c2a56db92f5959b2b43fdfa75a02e436162167d5e9b35",
+  "problem": "A primeira rota de teclado usava LEFT para o recuo do P2 e tentava o especial com A; a sessão produzia poucos eventos e não exercitava as classes de guarda, projétil e agarrão.",
+  "change": "O roteiro agora alterna RULES=FREE pela tela real de opções, usa RIGHT como recuo do P2, X para o comando de especial, Y para agarrão, sincroniza a borda de guarda após o ataque e espera cada ciclo de ataque para não confundir a trava de overlap com ausência de contato.",
+  "result": "A captura real no BlastEm foi vinculada ao SHA `2342db83…`; HPRB schema 7 decodificou 1.860 frames, 7.000 B DMA, 41 sprites ativos, 60 links VDP e 17 sprites/scanline. A sessão registrou 11 HIT, 2 GUARD, 2 PROJECTILE e 3 DOUBLE; THROW ainda não foi emitido. HSEM registrou 149 frames de guarda e 43 de projétil ativo.",
+  "limits": [
+    "o roteiro é diagnóstico e não prova gameplay completo",
+    "o agarrão exige uma rota determinística adicional ou instrumentação de estado/posição; a sonda atual já fecha guarda e projétil",
+    "não inferir throw a partir do manifesto ou da imagem isolada"
+  ],
+  "artifacts": [
+    "tests/capture_visual_ko.py",
+    "src/hamoopig_runtime_probe.c::HSEM",
+    "out/logs/semantics_hsem_2342_v9.log",
+    "out/emulator_evidence/visual_ko_20260916T042349Z/manifest.json",
+    "out/logs/semantics_hprb_2342_v9.json",
+    "tests/analyze_hsem_probe.py",
+    "tests/test_hsem_probe_contract.py",
+    "out/logs/semantics_hsem_2342_v9.json",
+    "doc/engine/fighting_engine_roadmap.json"
+  ],
+  "status": "route_corrected_but_event_classes_pending"
+}

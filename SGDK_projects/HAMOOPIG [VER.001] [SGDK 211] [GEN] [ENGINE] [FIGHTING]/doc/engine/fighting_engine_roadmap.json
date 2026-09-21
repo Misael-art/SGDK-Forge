@@ -5,15 +5,94 @@
   "created_at": "2026-09-14",
   "project": "HAMOOPIG",
   "plan": "doc/engine/fighting_engine_improvement_plan.md",
-  "status": "planned",
-  "implementation_started_by_this_plan": false,
+  "status": "in_progress",
+  "implementation_started_by_this_plan": true,
   "baseline": {
-    "commit": "3ceac2c4",
+    "commit": "2eee6522",
     "rom_path": "out/rom.bin",
     "observed_rom_sha256": "3e46ac068062cfa83f305e85dd66b0c5822bcedd48766749e3a36c74e3ea1841",
-    "source_rom_binding": "stale_after_P03",
+    "source_rom_binding": "verified_by_p03_report_and_sha256",
     "fresh_emulator_session_in_this_planning_turn": false,
-    "source_rom_binding_method": "P00 provou bit-identidade para e2ca5833; P01 mudou o codigo. Revalidar com rebuild limpo."
+    "source_rom_binding_method": "HEAD 2eee6522 e p03_config_report.json apontam para a ROM vigente; sha256 conferido com out/rom.bin."
+  },
+  "latest_build": {
+    "built_at": "2026-09-16",
+    "rom_sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc",
+    "wrapper_report": "out/logs/build_throw_range100.log",
+    "status": "build_passed_after_throw_range_and_input_route_fix",
+    "static_suite": "33 test_files_passed; P10 36/36 probe cases current",
+    "emulator_visual_validation": "current-SHA title_return captured; independent review pending",
+    "source_identity_contract": "passed_host_only",
+    "projectile_chip_contract": "passed_host_only",
+    "throw_kind_contract": "passed_host_only",
+    "showdown_medoid_contract": "passed_static_and_exploratory_capture",
+    "stage_definition_contract": "passed_static_and_build",
+    "stage_bounds_contract": "passed_static_and_build",
+    "stage2_256_contract": "passed_static_build_and_ntsc_pal_h240_capture",
+    "ntsc_dma_backpressure_contract": "passed_static_and_ntsc_sram_probe",
+    "hud_segment_contract": "passed_static_and_emulator_visual_capture",
+    "hprb_schema6_contract": "passed_static_and_emulator_sram_decode",
+    "hprb_schema7_screen_height_contract": "passed_static_and_pal240_sram_decode",
+    "stable_fighter_sprite_contract": "passed_static_and_directed_stage2_capture",
+    "round_reset_sprite_release_contract": "passed_static_and_real_keyboard_ko_reset_capture",
+    "musgo_ko_grounded_contract": "passed_static_and_directed_70bd_capture",
+    "persistent_overlap_gate_contract": "passed_host_and_36_case_runtime_recapture",
+    "p10_current_rom_contract": "passed_36_of_36_probe_cases; HPRB schema 7 decoded; visual/audio review pending",
+    "p10_current_rom_summary": "out/logs/p10_summary_throw_range100.log",
+    "semantic_hsem_probe_contract": "passed_host_self_check_and_current_rom_hit_trace; throw trace pending on 16d3",
+    "throw_window_contract": "passed_static_build_and_real_keyboard_capture; HPRB throws=2",
+    "stage2_opaque_palette_contract": "passed_static_and_current_rom_capture; independent visual review pending"
+  },
+  "latest_exploratory_emulator_session": {
+    "path": "out/emulator_evidence/title_return_20260916T212630Z/",
+    "rom_sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc",
+    "capture": "current_rom_title_return_and_intro_fade",
+    "canonical": false,
+    "result": "current-SHA title/OPTIONS/INTRO/FADE return route captured with five non-empty framebuffers; P10 36-case probe matrix is also current; independent visual/audio review and full gameplay remain pending",
+    "limitations": [
+      "no VDP dump",
+      "runtime probe matrix decoded at out/logs/p10_summary_throw_range100.log (36 casos, SHA 4c273b)",
+      "no independent audio review; signal route is verified on SHA 16d3",
+      "stage2 route observed zero combat events; the earlier directed route remains the evidence for 16 HIT and 1 PROJECTILE",
+      "transparent message-font route was recaptured inside the eeb5 P10/title bundles; visual readability review remains pending",
+      "stage visual remains pending because both converted sources are study candidates and still visibly pixelated/quadriculada",
+      "the current 16d3 P10 bundles prove routes/telemetry only; full per-case gameplay and sensorial review remain pending",
+      "the reference-preview converter lowered static RGB MSE versus the previous lab crop, but the fresh stage screenshot still requires visual review for blockiness and saturation",
+      "schema 7 read screen_height=240 directly in the PAL H240 route; audio and independent VDP dump remain pending",
+      "the short NTSC route had no directed combat events; the probe is a budget/runtime sample, not gameplay coverage",
+      "the grounded KO capture was visually inspected here, but independent canonical visual review remains pending",
+      "the new cross-tick gate prevents repeated contact for one attackInstance; explicit multihit authoring remains a separate gameplay review",
+      "the current real-keyboard route produced THROW=2 in HPRB on SHA 4c273b; title return was recaptured on the same SHA; HIT/audio/transition/reset sensorial review and full gameplay coverage remain pending"
+    ]
+  },
+  "latest_throw_probe": {
+    "path": "out/emulator_evidence/visual_ko_20260916T205914Z/",
+    "rom_sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc",
+    "route": "bounded_P2_left_then_P1_forward_Y_edges",
+    "hsem": "out/logs/current_throw_range100_hsem.json",
+    "hprb": "out/logs/current_throw_range100_hprb.json",
+    "result": "real keyboard capture observed combat_total_throws=2 and throw_frames_p1=80; telemetry only, independent visual/gameplay review remains pending"
+  },
+  "latest_hit_probe": {
+    "path": "out/emulator_evidence/visual_ko_20260916T090920Z/",
+    "rom_sha256": "2ba2aaf883a489ac1d2966cc71b448b66a2f3561812dfd8f9c929fae1e06f5e8",
+    "hsem": null,
+    "hprb": "out/logs/current_2ba_hprb.json",
+    "result": "combat_total_hits=1; isolated audio captured; short route proves real damage event only, not combo or KO",
+    "audio": "out/emulator_evidence/visual_ko_20260916T090920Z/emulator_audio.wav",
+    "audio_signal": "out/logs/current_2ba_audio_signal.json"
+  },
+  "latest_reset_probe": {
+    "path": "out/emulator_evidence/scene_reset_cycles_20260916T092844Z/",
+    "rom_sha256": "2ba2aaf883a489ac1d2966cc71b448b66a2f3561812dfd8f9c929fae1e06f5e8",
+    "cycles": 100,
+    "result": "scene boot/reset stability passed; round-reset semantics remain separately bounded"
+  },
+  "latest_transition_probe": {
+    "path": "out/emulator_evidence/visual_ko_20260916T095216Z/",
+    "rom_sha256": "2ba2aaf883a489ac1d2966cc71b448b66a2f3561812dfd8f9c929fae1e06f5e8",
+    "video": "opening_title_transition.mp4",
+    "result": "opening-to-title-to-select route captured with real keyboard; temporal smoothness remains independent visual review"
   },
   "executor_capabilities": {
     "shell": true,
@@ -61,18 +140,20 @@
       "implementation": "passed",
       "build": "passed",
       "host_tests": "passed",
-      "emulator_instrumentation": "not_run",
+      "emulator_instrumentation": "same_rom_stage2_special_capture_partial",
       "visual_review": "not_applicable",
       "audio_review": "not_applicable",
       "budget": "not_run",
       "documentation": "partial",
       "evidence": [
         "doc/engine/p00_baseline_report.json",
-        "tests/analyze_hprb_probe.py --self-check"
+        "tests/analyze_hprb_probe.py --self-check",
+        "tests/test_hprb_screen_height_contract.py",
+        "out/emulator_evidence/visual_ko_20260915T062548Z/hprb_probe_report.json"
       ],
       "acceptance_result": {
         "source_rom_identity": "passed",
-        "measurement_tool_fixtures": "passed",
+        "measurement_tool_fixtures": "passed_schema7_screen_height",
         "documentation_reconciled": "partial"
       }
     },
@@ -96,7 +177,7 @@
       "emulator_instrumentation": "passed",
       "visual_review": "pending_visual_review",
       "audio_review": "pending_audio_review",
-      "budget": "failed",
+      "budget": "passed_ntsc_after_sprite_backpressure",
       "documentation": "passed",
       "evidence": [
         "doc/engine/p01_timing_report.json",
@@ -107,7 +188,7 @@
       "acceptance_result": {
         "logical_tick_replay_equivalence": "partial",
         "no_lost_or_duplicated_edges": "partial",
-        "ntsc_pal_worst_frame": "failed"
+        "ntsc_pal_worst_frame": "NTSC probe now within nominal envelope after delayed fighter-frame uploads; PAL-240 remains within envelope"
       }
     },
     {
@@ -140,11 +221,32 @@
         "out/emulator_evidence/p02b_t12",
         "out/emulator_evidence/p02_chain",
         "out/emulator_evidence/p02c_skip",
-        "out/emulator_evidence/p02d_final"
+        "out/emulator_evidence/p02d_final",
+        "out/emulator_evidence/current_rom_20260914_transition/",
+        "out/emulator_evidence/current_rom_20260914_final8/",
+        "out/emulator_evidence/current_rom_20260915_title_dma/",
+        "out/emulator_evidence/current_rom_20260915_options_cpu/",
+        "out/emulator_evidence/current_rom_20260915_options_dma_barrier/",
+        "out/emulator_evidence/visual_ko_20260915T035136Z/",
+        "out/emulator_evidence/visual_ko_20260915T053734Z/opening_title_transition.mp4",
+        "tests/test_title_return_contract.py",
+        "out/emulator_evidence/title_return_20260915T095040Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T130109Z/opening_title_transition.mp4"
+        ,"out/emulator_evidence/visual_ko_20260915T130109Z/manifest.json"
+        ,"doc/curation/2026_09_15/title_transition_current_rom.json"
+        ,"out/emulator_evidence/visual_ko_20260915T135842Z/opening_title_transition.mp4"
+        ,"out/emulator_evidence/visual_ko_20260915T135842Z/manifest.json"
+        ,"doc/curation/2026_09_15/title_transition_e170_current_rom.json"
+        ,"out/emulator_evidence/visual_ko_20260915T150420Z/opening_title_transition.mp4"
+        ,"out/emulator_evidence/visual_ko_20260915T150420Z/manifest.json"
+        ,"doc/curation/2026_09_15/title_transition_a187_current_rom.json"
+        ,"out/emulator_evidence/visual_ko_20260915T191614Z/opening_title_transition.mp4"
+        ,"out/emulator_evidence/visual_ko_20260915T191614Z/manifest.json"
+        ,"doc/curation/2026_09_15/title_transition_eeb5_current_rom.json"
       ],
       "acceptance_result": {
         "one_scene_update_per_tick": "passed",
-        "fade_and_skip_sequence": "partial",
+        "fade_and_skip_sequence": "current-SHA eeb5 60 fps framebuffer video (visual_ko_20260915T191614Z) shows opening hold, title composition, selector and combat with no observed map overlap; independent visual review and canonical runtime metrics remain pending",
         "separate_title_composition": "passed"
       }
     },
@@ -167,19 +269,30 @@
       "host_tests": "passed",
       "emulator_instrumentation": "passed",
       "visual_review": "pending_visual_review",
-      "audio_review": "not_run",
+      "audio_review": "pending_audio_review",
       "budget": "not_run",
       "documentation": "passed",
       "evidence": [
         "doc/engine/p03_config_report.json",
         "out/emulator_evidence/p03_options2",
         "out/emulator_evidence/p03_efeito",
-        "out/emulator_evidence/p03_menu_final"
+        "out/emulator_evidence/p03_menu_final",
+        "out/emulator_evidence/current_rom_20260915_options_dma_barrier/",
+        "out/emulator_evidence/current_rom_20260915_options_pages/"
+        ,"out/emulator_evidence/visual_ko_20260915T080946Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T080946Z/audio_signal_report.json"
+        ,"tests/test_title_return_contract.py"
+        ,"out/emulator_evidence/title_return_20260915T095040Z/manifest.json"
+        ,"out/emulator_evidence/title_return_20260916T062339Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T063136Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T063136Z/opening_title_transition.mp4"
+        ,"doc/curation/2026_09_16/current_rom_session_revalidation.json"
       ],
       "acceptance_result": {
         "every_menu_item_effect": "passed",
         "on_off_on_and_defaults": "passed",
-        "debug_page_regression": "passed"
+        "debug_page_regression": "passed",
+        "opening_fade_return": "same-ROM NTSC route passed on SHA f424: INTRO/FADE OFF returned SELECT directly to TITLE, ON returned through OPENING; five nonempty captures plus a transition video recorded, visual smoothness remains pending review"
       }
     },
     {
@@ -188,7 +301,7 @@
       "depends_on": [
         "P01"
       ],
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "one_event_per_valid_hit",
         "simultaneous_hits",
@@ -196,15 +309,65 @@
       ],
       "visual_review_required": false,
       "audio_review_required": false,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
+      "implementation": "event_ledger_with_same_tick_dedup_health_combo_meter_result_consumer_source_identity_victory_guard_and_hprb_schema6_runtime_telemetry",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "schema7_decoded_same_rom_stage2_ko_session",
       "visual_review": null,
       "audio_review": null,
       "budget": null,
-      "documentation": null,
-      "evidence": []
+      "documentation": "partial",
+      "evidence": [
+        "inc/combat_event.h",
+        "src/combat_event.c",
+        "src/player.c::FUNCAO_CONSUME_COMBAT_EVENTS",
+        "src/main.c::FUNCAO_CONSUME_COMBAT_EVENTS",
+        "tests/test_combat_event_contract.py",
+        "tests/test_combo_contract.py",
+        "tests/test_health_event_contract.py",
+        "tests/test_special_event_contract.py",
+        "out/logs/continuation_p04_combo_consumer_build.log",
+        "out/logs/continuation_p04_guard_events_build.log",
+        "out/logs/continuation_p04_dedup_build.log",
+        "out/logs/continuation_p04_health_consumer_build.log",
+        "out/logs/continuation_p04_health_consumer_simultaneous_build.log",
+        "out/logs/continuation_p04_event_result_reset_build.log"
+        ,"out/logs/continuation_p04_event_source_victory_build.log",
+        "out/logs/continuation_p04_projectile_chip_build.log",
+        "out/logs/continuation_p04_throw_kind_build.log"
+        ,"out/logs/continuation_p08_showdown_medoid_build.log",
+        "out/logs/continuation_p07_hud_segment_palette_build.log",
+        "out/logs/continuation_p04_runtime_event_probe_hit_capture.log",
+        "out/emulator_evidence/visual_ko_20260915T054142Z/hprb_probe_report.json"
+        ,"out/emulator_evidence/visual_ko_20260915T080351Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T080351Z/userdata/blastem/rom/save.sram",
+        "out/emulator_evidence/visual_ko_20260915T080351Z/hprb_probe_report.json"
+        ,"out/emulator_evidence/visual_ko_20260915T132543Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T132543Z/01_round.png"
+        ,"out/emulator_evidence/visual_ko_20260915T132543Z/userdata/blastem/rom/save.sram"
+        ,"out/logs/experimental_stage2_864_build.log"
+        ,"doc/curation/2026_09_15/stage2_864_rom_revalidation.json"
+        ,"out/emulator_evidence/visual_ko_20260915T140256Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T140256Z/zero_1_result.png"
+        ,"out/emulator_evidence/visual_ko_20260915T140256Z/special_reset_health.png"
+        ,"doc/curation/2026_09_15/ko_round_reset_e170_current_rom.json"
+        ,"out/emulator_evidence/visual_ko_20260915T171514Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T171514Z/special_reset_health.png"
+        ,"doc/curation/2026_09_15/current_rom_a187_revalidation.json"
+        ,"inc/game_types.h::attackInstance"
+        ,"src/combat_event.c::cross_tick_gate"
+        ,"tests/test_combat_event_contract.py::cross_tick_gate"
+        ,"out/logs/combat_event_persistent_gate_build.log"
+        ,"out/emulator_evidence/visual_ko_20260915T195013Z/manifest.json"
+        ,"doc/curation/2026_09_15/combat_event_persistent_gate.json"
+      ],
+      "acceptance_result": {
+        "one_event_per_valid_hit": "ledger emits HIT or GUARD events, suppresses duplicate attacker/defender/state/kind/source/instance tuples within a tick and across persistent overlap via attackInstance gates, and queues the first health delta for central consumption; directed runtime captures remain bounded probe evidence",
+        "simultaneous_hits": "two attacker records supported; same-ROM a187 directed route exercised HIT events and one KO, then restored both life bars and continued; simultaneous/guard/throw remain not covered by this route",
+        "round_reset_symmetry": "explicit ledger reset is called by FUNCAO_INICIALIZACAO and per-tick reset remains; same-ROM a187 route reached KO, displayed the winner message, restored life after reset and continued without fatal",
+        "source_identity": "body, projectile, throw and simultaneous collision sources are represented; projectile spawns advance a stable instance id; host contract and same-ROM throw trace pass; simultaneous-source coverage remains pending",
+        "runtime_telemetry": "HPRB schema 7 throw-only route on SHA f424 peaks at 7008 B queued DMA, 41 active sprites, 63 VDP links and 17 sprites per line; the same SRAM records 2 HIT and 2 THROW events. This validates event reachability, not full gameplay balance"
+      }
     },
     {
       "id": "P05",
@@ -213,7 +376,7 @@
         "P04",
         "P03"
       ],
-      "status": "planned",
+      "status": "done_with_pending",
       "acceptance": [
         "clamp_gain_spend",
         "accepted_move_cost_once",
@@ -221,15 +384,30 @@
       ],
       "visual_review_required": true,
       "audio_review_required": false,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
+      "implementation": "meter_clamp_plane_renderer_and_fixed_hit_guard_policy",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "not_run",
+      "visual_review": "pending_visual_review",
       "audio_review": null,
       "budget": null,
-      "documentation": null,
-      "evidence": []
+      "documentation": "partial",
+      "evidence": [
+        "tests/test_health_contract.py",
+        "tests/test_special_bar_contract.py",
+        "tests/test_combat_event_contract.py",
+        "tests/test_combo_contract.py",
+        "tests/test_special_event_contract.py",
+        "src/hud.c",
+        "src/player.c",
+        "src/combat_event.c",
+        "out/logs/continuation_p05_meter_event_build.log"
+      ],
+      "acceptance_result": {
+        "clamp_gain_spend": "HIT +4 attacker/+2 defender and GUARD +1 attacker are applied centrally; legacy per-move deltas are telemetry only",
+        "accepted_move_cost_once": "implemented_for_700_730; buffered_transition_not_double_charged",
+        "display_vs_rule_toggle": "SPCL ON/OFF, TBG ON/OFF and RULES ON/FREE are wired; same-ROM capture exercised the special route, while every toggle permutation remains pending"
+      }
     },
     {
       "id": "P06",
@@ -238,7 +416,7 @@
         "P04",
         "P03"
       ],
-      "status": "planned",
+      "status": "done_with_pending",
       "acceptance": [
         "hitstun_recovery_end",
         "projectile_throw_multihit",
@@ -246,15 +424,25 @@
       ],
       "visual_review_required": true,
       "audio_review_required": false,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
+      "implementation": "attacker_hit_counter_event_timer_and_bg_a_display",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "same_rom_stage2_ko_and_combo_capture_partial",
+      "visual_review": "pending_visual_review",
       "audio_review": null,
       "budget": null,
-      "documentation": null,
-      "evidence": []
+      "documentation": "partial",
+      "evidence": [
+        "src/fsm.c",
+        "src/hud.c",
+        "tests/test_special_bar_contract.py",
+        "tests/test_combo_contract.py"
+      ],
+      "acceptance_result": {
+        "hitstun_recovery_end": "counter lifetime is 60 logical ticks after the last valid hit; host regression passed; emulator pending",
+        "projectile_throw_multihit": "normal path is present; same-ROM HPRB reports projectile and throw events; explicit projectile/throw balance and multihit-specific route remain pending",
+        "ko_hold_and_round_reset": "same-ROM capture reached KO, displayed HITS and restored the next round; independent visual timing review remains pending"
+      }
     },
     {
       "id": "P07",
@@ -263,7 +451,7 @@
         "P05",
         "P06"
       ],
-      "status": "planned",
+      "status": "done_with_pending",
       "acceptance": [
         "all_timer_digits_masked",
         "glyph_contours_preserved",
@@ -271,15 +459,36 @@
       ],
       "visual_review_required": true,
       "audio_review_required": false,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
+      "implementation": "clock_atlas_mask_index0_segments_alias_tile_sync_and_round_reset_release",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "exploratory_capture_passed",
+      "visual_review": "pending_independent_review_hud_segment_fixed",
       "audio_review": null,
       "budget": null,
-      "documentation": null,
-      "evidence": []
+      "documentation": "passed",
+      "evidence": [
+        "data/source_art/sf_hud/convert_clock_mask.py",
+        "data/source_art/sf_hud/clock_mask_report.json",
+        "doc/ui_pixel_surface_contract.json",
+        "tests/test_clock_transparency.py",
+        "tests/test_hud_segment_contract.py",
+        "data/source_art/hud/normalize_segment.py",
+        "out/emulator_evidence/visual_ko_20260915T051731Z/combat_005.png",
+        "src/hud.c::hud_sync_segment_tile",
+        "src/init.c::hud_window_off",
+        "out/emulator_evidence/visual_ko_20260915T072159Z/01_round.png",
+        "out/emulator_evidence/visual_ko_20260915T074433Z/combat_025.png",
+        "out/emulator_evidence/visual_ko_20260915T074433Z/special_reset_health.png",
+        "out/emulator_evidence/visual_ko_20260915T074433Z/after_combat.png",
+        "doc/curation/2026_09_15/hud_alias_and_stable_fighter_sprite.json"
+      ],
+      "acceptance_result": {
+        "all_timer_digits_masked": "source background index 11 remapped to sprite index 0; static test passed",
+        "glyph_contours_preserved": "visible pixels remapped to shared PAL1; visual review pending",
+        "sat_scanline_pixels_and_vram": "build passed; emulator DMA/scanline measurements pending",
+        "life_bar_segment_transparency": "index 0 is transparent and index 2 matches shared PAL1 yellow; owner/alias synchronization is implemented, combat_025 shows the P2 life row fully absent at KO while the separate special row remains independent, and special_reset_health shows the next round restored; independent visual review remains pending"
+      }
     },
     {
       "id": "P08",
@@ -288,7 +497,7 @@
         "P01",
         "P07"
       ],
-      "status": "planned",
+      "status": "done_with_pending",
       "acceptance": [
         "camera_window_tile_budget",
         "cram_color_translation",
@@ -296,15 +505,77 @@
       ],
       "visual_review_required": true,
       "audio_review_required": false,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
+      "implementation": "showdown_and_stage2_converters_with_reference_preview_and_four_pass_lloyd_medoid_refinement; both resident stages now use 864-tile candidates and data-driven StageDefinition camera/loading metadata; native_streaming_route_still_pending",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "exploratory_capture_passed",
+      "visual_review": "pending_visual_review_stage_still_pixelated",
       "audio_review": null,
       "budget": null,
-      "documentation": null,
-      "evidence": []
+      "documentation": "partial",
+      "evidence": [
+        "data/source_art/showdown/convert_tile_budget.py",
+        "res/gfx/showdown.png",
+        "res/gfx/showdown.json",
+        "tests/test_stage_palette.py",
+        "tests/test_stage_vram_budget.py",
+        "out/logs/continuation_p08_showdown_medoid_build.log",
+      "out/logs/continuation_p08_lab_source_build.log",
+        "out/logs/continuation_p08_stage_definition_build.log",
+        "out/logs/continuation_p08_lab_source_suite.log",
+        "inc/stage.h",
+        "src/stage.c",
+        "tests/test_stage_definition_contract.py",
+        "data/source_art/showdown/lab_frame_0000_source.png",
+        "rascunho/showdown_native_crop_preview.png",
+        "res/gfx/showdown.json",
+        "out/emulator_evidence/visual_ko_20260915T053414Z/01_round.png",
+        "out/emulator_evidence/visual_ko_20260915T053414Z/hprb_probe_report.json",
+        "out/emulator_evidence/visual_ko_20260915T054808Z/01_round.png",
+        "out/emulator_evidence/visual_ko_20260915T054808Z/hprb_probe_report.json"
+        ,"out/logs/continuation_p09_stage_bounds_build.log",
+        "out/emulator_evidence/visual_ko_20260915T055443Z/01_round.png",
+        "out/emulator_evidence/visual_ko_20260915T055443Z/hprb_probe_report.json",
+        "out/logs/continuation_p09_stage2_256_build.log",
+        "out/emulator_evidence/visual_ko_20260915T060403Z/00_stage2_selected.png",
+        "out/emulator_evidence/visual_ko_20260915T060403Z/01_round.png",
+        "out/emulator_evidence/visual_ko_20260915T060403Z/hprb_probe_report.json",
+        "out/emulator_evidence/visual_ko_20260915T060720Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T060720Z/hprb_probe_report.json",
+        "out/logs/continuation_p09_stage2_pal_capture.log",
+        "out/emulator_evidence/visual_ko_20260915T061029Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T061029Z/hprb_probe_report.json",
+        "out/logs/continuation_p00_hprb_schema7_pal240_capture_clean.log",
+        "out/emulator_evidence/visual_ko_20260915T062548Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T062548Z/01_round.png",
+        "out/emulator_evidence/visual_ko_20260915T062548Z/hprb_probe_report.json"
+        ,"out/logs/continuation_p11_showdown_preview_refine_build.log",
+        "out/emulator_evidence/visual_ko_20260915T075323Z/01_round.png"
+        ,"rascunho/showdown_candidate_864.json"
+        ,"rascunho/showdown_candidate_1024.json"
+        ,"doc/curation/2026_09_15/showdown_budget_next_degree.json"
+        ,"out/emulator_evidence/visual_ko_20260915T132543Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T132543Z/01_round.png"
+        ,"out/emulator_evidence/visual_ko_20260915T132543Z/userdata/blastem/rom/save.sram"
+        ,"out/logs/experimental_stage2_864_build.log"
+        ,"out/logs/stage_definition_metadata_build.log"
+        ,"doc/curation/2026_09_15/stage_definition_metadata.json"
+        ,"data/source_art/stage2_swamp/convert_stage2_report.json"
+        ,"tests/analyze_stage_streaming.py"
+        ,"tests/test_stage_streaming_contract.py"
+        ,"out/logs/showdown_stream_window_report.json"
+        ,"doc/curation/2026_09_15/showdown_stream_window_measurement.json"
+      ],
+      "acceptance_result": {
+        "camera_window_tile_budget": "864 unique tiles and 512x256 runtime source now selected; 1024 was rejected because stage + atlas exceed TILE_SPRITE_INDEX=1020; the reference preview is converted with four medoid iterations and the 864 candidate passed a fresh NTSC HPRB smoke route",
+        "cram_color_translation": "14 opaque indices with 9-bit palette; static tests passed",
+        "no_streaming_boundary_corruption": "camera-window measurement reports a 588-tile unique peak for 42x30 with one-tile preload and no over-capacity window in the converted source; the Stage 2 864-tile candidate reached a fresh round/probe without observed boundary corruption, but VDP/runtime cache implementation and native streaming remain pending",
+        "quality_delta": "reference preview candidate uses source hash 1b9bc2e6bb96f0f27218cacc189477c5689dca687ef557bc91ca3d3ed5f4715f, 1629 source tiles, 138.7790 RGB MSE at 864 representatives and four medoid iterations; the fresh ROM reached the default Showdown round with HPRB within nominal limits, but the visual gate remains pending because tile reuse is still visible",
+        "provenance_limit": "source copied from _agent_training/[ESTUDO]_mugen_sff_showdown_v1 as a controlled study fixture; not authorial final art",
+        "stage_definition_loader": "StageDefinition now centralizes id, name, dimensions, floor, bounds, 240-line capability, image, plane/palette, loading model, tile budget, camera and provenance; init consumes the shared definition and rejects a resident image above its declared budget. Static contract and SGDK/Wine build passed; native streaming remains pending",
+        "stage_bounds": "physics now clamps and resolves edge pushback through gLimiteCenarioE/gLimiteCenarioD from the selected definition; host contract, build and fresh BlastEm regression passed",
+        "stage2_256": "Stage 2 is now 512x256 and marked PAL-240-capable; deterministic conversion, 864-tile promotion, static palette/tile contract, build and fresh NTSC BlastEm probe/round capture passed. Visual quality remains pending; HPRB DMA is within nominal envelopes after sprite back-pressure"
+      }
     },
     {
       "id": "P09",
@@ -313,7 +584,7 @@
         "P08",
         "P03"
       ],
-      "status": "planned",
+      "status": "done_with_pending",
       "acceptance": [
         "authored_source_and_provenance",
         "stage_select_disable_rematch",
@@ -321,15 +592,50 @@
       ],
       "visual_review_required": true,
       "audio_review_required": true,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
-      "audio_review": null,
-      "budget": null,
-      "documentation": null,
-      "evidence": []
+      "implementation": "stage_pool_toggle_selector_and_authored_stage2_conversion",
+      "build": "passed",
+      "host_tests": "passed",
+      "emulator_instrumentation": "ntsc_pal_hprb_stage2_round",
+      "visual_review": "pending_visual_review",
+      "audio_review": "pending_audio_review",
+      "budget": "NTSC_and_PAL_within_probe_envelope_after_backpressure",
+      "documentation": "passed",
+      "evidence": [
+        "src/select.c",
+        "src/init.c",
+        "inc/stage.h",
+        "src/stage.c",
+        "tests/test_stage_selection_contract.py",
+        "tests/test_stage_definition_contract.py",
+        "tests/test_stage2_palette.py",
+        "tests/test_hprb_screen_height_contract.py",
+        "data/source_art/stage2_swamp/convert_stage2_report.json",
+        "out/emulator_evidence/current_rom_20260914/",
+        "out/emulator_evidence/visual_ko_20260915T062548Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T062548Z/01_round.png",
+        "out/emulator_evidence/visual_ko_20260915T062548Z/hprb_probe_report.json"
+        ,"out/logs/continuation_p10_hud_cpu_dma_build.log"
+        ,"out/logs/continuation_p10_sprite_backpressure_build.log"
+        ,"out/emulator_evidence/visual_ko_20260915T063954Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T063954Z/01_round.png"
+        ,"out/emulator_evidence/visual_ko_20260915T063954Z/hprb_probe_report.json"
+        ,"out/logs/continuation_p10_pal240_capture_backpressure.log"
+        ,"out/emulator_evidence/visual_ko_20260915T064507Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T064507Z/01_round.png"
+        ,"out/emulator_evidence/visual_ko_20260915T064507Z/hprb_probe_report.json"
+        ,"out/logs/continuation_p10_pal240_capture_clean2.log"
+        ,"out/emulator_evidence/visual_ko_20260915T064928Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T064928Z/01_round.png"
+        ,"out/emulator_evidence/visual_ko_20260915T064928Z/hprb_probe_report.json"
+        ,"out/emulator_evidence/visual_ko_20260915T080351Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260915T080351Z/01_round.png"
+        ,"out/emulator_evidence/visual_ko_20260915T080351Z/hprb_probe_report.json"
+      ],
+      "acceptance_result": {
+        "authored_source_and_provenance": "source candidate preserved with prompt/hash; converted 512x256 Stage 2 uses opaque 9-bit palette and 864 tiles",
+        "stage_select_disable_rematch": "toggle and selector path implemented; same-ROM P1 C selection reached BGB2 and KO/reset; OFF/rematch coverage remains pending",
+        "two_stage_camera_and_palette_regression": "static palette/tile regression passed; current-SHA Stage 2 HPRB reports screen_height=224, 7008 B queued DMA, 60 VDP links and 17 sprites per line; full two-stage PAL/H240 gameplay and independent visual/audio review remain pending"
+      }
     },
     {
       "id": "P10",
@@ -344,7 +650,7 @@
         "P08",
         "P09"
       ],
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "36_ordered_matchups",
         "100_scene_reset_cycles",
@@ -352,15 +658,173 @@
       ],
       "visual_review_required": true,
       "audio_review_required": true,
-      "implementation": null,
-      "build": null,
-      "host_tests": null,
-      "emulator_instrumentation": null,
-      "visual_review": null,
-      "audio_review": null,
+      "implementation": "ordered_36_case_matrix and manifest-bound runner recaptured all 36 probes after the HUD identity overlay; one transient harness failure passed on retry; title/audio/scene-reset/transition routes are also fresh",
+      "build": "passed_same_rom_16d3; title fade-out state and full 36-case P10 recapture linked to current ROM",
+      "host_tests": "tests/test_qa_matrix_contract.py; tests/test_p10_evidence_integrity.py passed",
+      "emulator_instrumentation": "36_current_rom_hprb_schema7_with_combat_probe",
+      "visual_review": "pending_visual_review",
+      "audio_review": "pending_audio_review",
       "budget": null,
-      "documentation": null,
-      "evidence": []
+      "documentation": "partial",
+      "evidence": [
+        "doc/engine/p10_qa_matrix.json",
+        "tests/generate_qa_matrix.py",
+        "tests/test_qa_matrix_contract.py",
+        "tests/run_p10_matrix.py",
+        "tests/test_p10_runner_contract.py",
+        "tests/test_p10_evidence_integrity.py",
+        "tests/test_combat_semantics_route_contract.py",
+        "tests/analyze_hsem_probe.py",
+        "tests/test_hsem_probe_contract.py",
+        "tests/decode_p10_probe_bundles.py",
+        "tests/summarize_p10_hprb.py",
+        "tests/run_scene_reset_cycles.py",
+        "tests/test_scene_reset_cycles_contract.py",
+        "tests/blastem_qa.cfg",
+        "out/logs/p10_matrix_runner_report.json",
+        "out/logs/p10_matrix_hprb_summary.json",
+        "out/emulator_evidence/visual_ko_20260915T074433Z/",
+        "out/emulator_evidence/visual_ko_20260915T075323Z/",
+        "out/emulator_evidence/visual_ko_20260915T080351Z/hprb_probe_report.json",
+        "out/emulator_evidence/visual_ko_20260915T080946Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T080946Z/audio_signal_report.json",
+        "out/emulator_evidence/visual_ko_20260915T125437Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T125437Z/audio_signal_report.json",
+        "out/emulator_evidence/visual_ko_20260915T125437Z/emulator_audio.wav",
+        "out/emulator_evidence/visual_ko_20260915T134904Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T134904Z/audio_signal_report.json",
+        "out/emulator_evidence/visual_ko_20260915T134904Z/emulator_audio.wav",
+        "out/emulator_evidence/scene_reset_cycles_20260915T124852Z/manifest.json",
+        "out/emulator_evidence/scene_reset_cycles_20260915T134721Z/manifest.json",
+        "out/emulator_evidence/title_return_20260915T134809Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T140256Z/manifest.json",
+        "doc/curation/2026_09_15/ko_round_reset_e170_current_rom.json",
+        "out/emulator_evidence/title_return_20260915T174415Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T150420Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T150420Z/opening_title_transition.mp4",
+        "out/emulator_evidence/visual_ko_20260915T171514Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T171514Z/special_reset_health.png",
+        "out/emulator_evidence/visual_ko_20260915T174520Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T174520Z/audio_signal_report.json",
+        "out/emulator_evidence/visual_ko_20260915T174520Z/emulator_audio.wav",
+        "out/logs/p10_matrix_hprb_summary.json",
+        "doc/curation/2026_09_15/current_rom_a187_revalidation.json",
+        "doc/curation/2026_09_15/audio_a187_current_rom.json",
+        "out/logs/runtime_metrics.json",
+        "out/logs/performance_capture_report.json",
+        "out/logs/claim_reconciliation_report.json",
+        "out/logs/doc_sync_report.json",
+        "out/logs/experimental_showdown_864_build.log",
+        "doc/curation/2026_09_15/p10_combat_probe_current_rom.json",
+        "out/logs/p10_matrix_after_eeb5.log",
+        "out/logs/p10_matrix_after_eeb5_retry.log",
+        "out/logs/p10_single_matrix_retry.log",
+        "out/logs/p10_decode_after_eeb5.log",
+        "out/logs/p10_summary_after_eeb5.log",
+        "out/logs/title_return_after_eeb5.log",
+        "out/logs/audio_audit_after_eeb5.log",
+        "out/logs/scene_reset_after_eeb5.log",
+        "out/emulator_evidence/title_return_20260915T185421Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T185525Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T185525Z/audio_signal_report.json",
+        "out/emulator_evidence/scene_reset_cycles_20260915T185858Z/manifest.json",
+        "out/emulator_evidence/visual_ko_20260915T182445Z/manifest.json",
+        "doc/curation/2026_09_15/musgo_ko_grounded_pose.json",
+        "doc/curation/2026_09_15/eeb5_integrated_revalidation.json",
+        "tests/test_hud_message_transparency.py",
+        "out/emulator_evidence/visual_ko_20260915T105026Z/manifest.json",
+        "tests/test_title_return_contract.py",
+        "out/emulator_evidence/title_return_20260915T112050Z/manifest.json",
+        "doc/curation/2026_09_15/scene_reset_stress_current_rom.json",
+        "doc/curation/2026_09_15/hud_message_font_transparency.json",
+        "doc/curation/2026_09_15/audio_signal_current_rom.json",
+        "doc/curation/2026_09_15/stage2_864_rom_revalidation.json",
+        "doc/curation/2026_09_15/audio_stage2_864_current_rom.json"
+        ,"out/logs/p10_matrix_after_70bd.log"
+        ,"out/logs/p10_matrix_retry_70bd.log"
+        ,"out/emulator_evidence/title_return_20260916T031109Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T033649Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T034149Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T034149Z/audio_signal_report.json"
+        ,"out/emulator_evidence/scene_reset_cycles_20260916T034045Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T034127Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T034127Z/opening_title_transition.mp4"
+        ,"out/logs/p10_matrix_hprb_summary.json"
+        ,"doc/curation/2026_09_15/combat_event_persistent_gate.json"
+        ,"doc/curation/2026_09_15/6c6d_integrated_revalidation.json"
+        ,"doc/curation/2026_09_16/hud_identity_round_stars.json"
+        ,"doc/curation/2026_09_16/combat_semantics_probe_v2.json"
+        ,"doc/curation/2026_09_16/throw_window_boundary_fix.json"
+        ,"doc/curation/2026_09_16/throw_absolute_distance_fix.json"
+        ,"doc/curation/2026_09_16/throw_point_blank_route.json"
+        ,"out/logs/semantics_hsem_f424_v2.json"
+        ,"out/logs/semantics_hprb_f424_v2.json"
+        ,"out/logs/p10_matrix_after_throw_9148.log"
+        ,"out/logs/p10_matrix_after_throw_9148_retry5.log"
+        ,"tests/test_throw_window_contract.py"
+        ,"out/logs/semantic_throw_f424_v2_capture.log"
+        ,"doc/curation/2026_09_16/throw_runtime_keyboard_validation.json"
+        ,"out/logs/throw_only_f424_v7_capture.log"
+        ,"out/logs/throw_only_hsem_f424_v7.json"
+        ,"out/logs/throw_only_hprb_f424_v7.json"
+        ,"out/emulator_evidence/visual_ko_20260916T055426Z/manifest.json"
+        ,"out/logs/p10_matrix_f424_recapture.log"
+        ,"out/logs/p10_matrix_f424_retry_targeted.log"
+        ,"out/logs/p10_matrix_f424_retry_last.log"
+        ,"out/logs/p10_decode_f424.log"
+        ,"out/logs/p10_summary_f424.log"
+        ,"out/logs/p10_matrix_hprb_summary.json"
+        ,"out/emulator_evidence/title_return_20260916T062339Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T062527Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T062527Z/audio_signal_report.json"
+        ,"out/emulator_evidence/scene_reset_cycles_20260916T062909Z/manifest.json"
+        ,"doc/curation/2026_09_16/current_rom_session_revalidation.json"
+        ,"out/emulator_evidence/visual_ko_20260916T063328Z/manifest.json"
+        ,"out/logs/probe_combat_f424_hsem.json"
+        ,"out/logs/probe_combat_f424_hprb.json"
+        ,"doc/curation/2026_09_16/combat_probe_f424.json"
+        ,"doc/curation/2026_09_16/stage2_black_palette_fix.json"
+        ,"doc/curation/2026_09_16/throw_runtime_30c2.json"
+        ,"out/logs/p10_matrix_30c2_recapture.log"
+        ,"out/logs/p10_matrix_30c2_retry.log"
+        ,"out/logs/p10_decode_30c2.log"
+        ,"out/logs/p10_summary_30c2.log"
+        ,"out/emulator_evidence/title_return_20260916T065912Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T070442Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T070442Z/audio_signal_report.json"
+        ,"out/emulator_evidence/scene_reset_cycles_20260916T070901Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T070955Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T070141Z/manifest.json"
+        ,"doc/curation/2026_09_16/current_rom_30c2_session.json"
+        ,"out/emulator_evidence/visual_ko_20260916T035715Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T035715Z/userdata/blastem/rom/save.sram"
+        ,"out/logs/semantics_hprb_70bd_v2.json"
+        ,"doc/curation/2026_09_16/combat_semantics_probe_v2.json"
+        ,"doc/curation/2026_09_16/throw_window_boundary_fix.json"
+        ,"doc/curation/2026_09_16/throw_absolute_distance_fix.json"
+        ,"doc/curation/2026_09_16/throw_point_blank_route.json"
+        ,"out/logs/title_fade_out_build.log"
+        ,"out/logs/p10_matrix_16d3_recapture.log"
+        ,"out/logs/p10_matrix_16d3_retry.log"
+        ,"out/logs/p10_matrix_16d3_retry2.log"
+        ,"out/logs/p10_decode_16d3.log"
+        ,"out/logs/p10_summary_16d3.log"
+        ,"out/emulator_evidence/title_return_20260916T073955Z/manifest.json"
+        ,"out/emulator_evidence/visual_ko_20260916T074113Z/opening_title_transition.mp4"
+        ,"out/emulator_evidence/visual_ko_20260916T074150Z/audio_signal_report.json"
+        ,"out/emulator_evidence/scene_reset_cycles_20260916T074224Z/manifest.json"
+        ,"out/logs/probe_combat_16d3_hprb.json"
+        ,"out/logs/throw_only_16d3_retry_hprb.json"
+        ,"out/emulator_evidence/visual_ko_20260916T074916Z/manifest.json"
+        ,"out/logs/semantics_16d3_hsem.json"
+        ,"out/logs/semantics_16d3_hprb.json"
+        ,"doc/curation/2026_09_16/title_fade_out_transaction.json"
+      ],
+      "acceptance_result": {
+        "36_ordered_matchups": "all 36 cases now have fresh current-ROM probe manifests and decoded HPRB reports with P1/P2, stage and region verified; every case remains pending_visual_review and no gameplay/sensorial completion claim is made",
+        "100_scene_reset_cycles": "100/100 scene-reset cycles are proven on the current SHA 16d3",
+        "same_rom_visual_audio_runtime_evidence": "partial: 36 current-ROM probe/HPRB routes, one directed HIT, title_return, transition video, isolated audio signal and 100 resets are ROM-linked on SHA 16d3; THROW needs a deterministic retry; transition/KO visual review, critical audio listening, full per-case gameplay and worst-frame remain pending"
+      }
     },
     {
       "id": "P11",
@@ -368,7 +832,7 @@
       "depends_on": [
         "P10"
       ],
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "quickstart_reproduced",
         "extension_example_compiles",
@@ -376,15 +840,36 @@
       ],
       "visual_review_required": false,
       "audio_review_required": false,
-      "implementation": null,
+      "implementation": "quickstart_extension_controls_manuals_added; isolated copy reproduces manuals and compiles StageDefinition probe against a minimal SGDK stub",
       "build": null,
-      "host_tests": null,
+      "host_tests": "tests/test_p11_isolated_reproduction_contract.py; audit_doc_sync_ok",
       "emulator_instrumentation": null,
       "visual_review": null,
       "audio_review": null,
       "budget": null,
-      "documentation": null,
-      "evidence": []
+      "documentation": "partial",
+      "evidence": [
+        "doc/engine_quickstart.md",
+        "doc/engine_extension_guide.md",
+        "doc/controls_and_options.md",
+        "src/stage.c",
+        "src/title.c",
+        "src/combat_event.c",
+        "out/logs/doc_sync_report.json",
+        "tests/reproduce_p11_isolated.py",
+        "tests/test_p11_isolated_reproduction_contract.py",
+        "out/p11_isolated_reproduction_20260915T125901Z/report.json",
+        "doc/curation/2026_09_15/p11_current_rom_revalidation.json",
+        "doc/engine/release_inventory.json",
+        "out/p11_isolated_reproduction_20260915T192350Z/report.json",
+        "out/p11_isolated_reproduction_20260916T034717Z/report.json",
+        "doc/curation/2026_09_15/p11_release_inventory.json"
+      ],
+      "acceptance_result": {
+        "quickstart_reproduced": "manuals copied to an isolated bundle and path/limit checks passed; SGDK build remains a separate gate",
+        "extension_example_compiles": "StageDefinition source copied with a minimal SGDK type stub, host-compiled with -Wall -Wextra -Werror and data probe passed",
+        "release_assets_and_controls_inventory": "controls/options and asset ownership documented; candidate release inventory now checks required source/document paths and current ROM identity, while deferred visual/audio/gameplay/budget/hardware gates keep release status blocked"
+      }
     }
   ],
   "matrix": {
@@ -396,7 +881,7 @@
     "ordered_pairs": 9,
     "stages": [
       "showdown_park",
-      "musgo_dock_proposed"
+      "stage2_swamp_dock"
     ],
     "regions": [
       "NTSC",
@@ -448,8 +933,8 @@
     "combo_display_from_hits": 2,
     "combo_result_hold_ticks": 60,
     "second_stage_target": [
-      768,
-      256
+      512,
+      224
     ],
     "second_stage_minimum": [
       512,

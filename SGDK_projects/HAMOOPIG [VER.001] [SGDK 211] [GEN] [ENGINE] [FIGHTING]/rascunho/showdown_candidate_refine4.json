@@ -1,0 +1,22 @@
+{
+  "scope": "static_asset_budget",
+  "source": "rascunho/showdown_native_crop_preview.png",
+  "source_sha256": "1b9bc2e6bb96f0f27218cacc189477c5689dca687ef557bc91ca3d3ed5f4715f",
+  "output": "rascunho/showdown_candidate_refine4.png",
+  "output_sha256": "1781a5db23328da29fa8863dc1431bc247d21fdfaa686ee0385a0df096e59eaf",
+  "unique_source_tiles": 1629,
+  "tile_budget": 768,
+  "unique_output_tiles": 768,
+  "pixel_block_size": 1,
+  "transparent_index": 0,
+  "opaque_indices": [
+    1,
+    14
+  ],
+  "mean_squared_rgb_error": 177.02955118815103,
+  "method": "weighted farthest initialization plus Lloyd medoid refinement, nearest replacement",
+  "refine_iterations": 4,
+  "crop_box": null,
+  "claim_ceiling": "prototype_compare_flat",
+  "runtime_budget": "not_measured"
+}

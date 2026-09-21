@@ -114,8 +114,8 @@ static inline const KenStateAnim *ken_anim_for(u16 state) {
     }
     case 700: {
         static const KenStateAnim a = {
-            &spr_ken_700, 96, 96, 48, 96, 2,
-            { 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+            &spr_ken_100, 64, 96, 32, 96, 4,
+            { 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0 }
         };
         return &a;
     }
@@ -140,7 +140,22 @@ static inline const KenStateAnim *ken_anim_for(u16 state) {
         };
         return &a;
     }
-    case 610: case 607: case 611: case 612: case 615: return ken_anim_for(100);
+    // Authored terminal coverage: Ken no longer falls back to idle in KO/result.
+    case 570: case 615: {
+        static const KenStateAnim a = {
+            &spr_ken_defeat_v1, 128, 96, 64, 96, 1,
+            { 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+        };
+        return &a;
+    }
+    case 611: case 612: {
+        static const KenStateAnim a = {
+            &spr_ken_victory_v1, 96, 128, 48, 128, 1,
+            { 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+        };
+        return &a;
+    }
+    case 610: case 607: return ken_anim_for(100);
     case 608: case 209: case 207: case 208: return ken_anim_for(200);
     case 103: case 113: case 107: case 108: case 109: case 110: case 152: return ken_anim_for(102);
     case 154: return ken_anim_for(104);
@@ -152,7 +167,7 @@ static inline const KenStateAnim *ken_anim_for(u16 state) {
         return ken_anim_for(300);
     case 410: case 471: case 472: return ken_anim_for(420);
     case 502: case 503: case 506: case 511: case 512:
-    case 551: case 552: case 570: return ken_anim_for(550);
+    case 551: case 552: return ken_anim_for(550);
     case 800: case 801: case 802: case 803: return ken_anim_for(102);
     default: return ken_anim_for(100);
     }

@@ -1,0 +1,24 @@
+{
+  "lesson_id": "L078",
+  "date": "2026-09-15",
+  "topic": "p10_selection_runner",
+  "source": "same_rom_blastem_selection_batch",
+  "rom_sha256": "14d8ac73b4cf176d9c933e9645c52d6b8237a72e3fe26fa956d0e38ec320d440",
+  "problem": "A matriz enumerava 36 pares, mas o harness só conseguia provar o par default e não possuía um binding P2 reproduzível.",
+  "change": "Materializar o default.cfg empacotado e injetar somente um cluster P2 versionado; validar cada manifesto contra ROM, P1, P2, palco e região.",
+  "result": "36/36 casos com probe_passed, manifestos e HPRB decodificados no mesmo SHA; todos pending_visual_review; zero inferência de gameplay completo.",
+  "budget_observation": "P10 HPRB: NTSC 7024 B DMA enfileirados, 59 sprites VDP, 17 sprites/scanline; PAL 8024 B, 57, 17.",
+  "limits": [
+    "não prova luta completa por caso",
+    "não prova revisão visual ou audição",
+    "não fecha reset de round durante uma luta"
+  ],
+  "artifacts": [
+    "tests/run_p10_matrix.py",
+    "tests/blastem_qa.cfg",
+    "tests/test_p10_evidence_integrity.py",
+    "tests/decode_p10_probe_bundles.py",
+    "out/logs/p10_matrix_runner_report.json"
+  ],
+  "status": "documented_implementation_runtime_selection_pending_sensory_review"
+}

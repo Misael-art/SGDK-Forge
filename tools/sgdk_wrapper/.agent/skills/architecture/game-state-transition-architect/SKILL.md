@@ -51,3 +51,9 @@ acidental de recursos e callbacks.
 - carregar nova cena sobre fila DMA antiga
 - trocar scene id sem reset simetrico
 - usar delay fixo como mutex
+
+## Reset repetido e conclusao de transferencias
+
+Para retorno de menu ou reinicio de round, ler as secoes 4–5 do caso HAMOOPIG. Incluir aliases e sprites de debug no inventario; testar varios ciclos. Distinguir DMA ativo de jobs ainda enfileirados antes de escrita CPU no mesmo destino.
+
+[Aprendizado e fixtures HAMOOPIG](../../../references/hamoopig_engine_learning_2026_09_18.md).

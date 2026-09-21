@@ -1,0 +1,30 @@
+Implemente um pipeline de avaliação audiovisual rastreável para SGDK, usando HAMOOPIG como piloto. O objetivo é impedir que gravação, screenshot ou metadados sejam tratados como aprovação visual, temporal ou sonora.
+
+Workspace: /mnt/sdcard/Projects/Sgdk Forge
+Projeto: SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/
+Plano obrigatório dentro do projeto: doc/curation/2026_09_20/video_review/plano_avaliacao_audiovisual.md
+Referências de qualidade: /home/misael/Imagens/GAME/
+
+Leia AGENTS.md, memória operacional e skills de captura, VDP, animação, revisão visual, gameplay e áudio. Verifique o estado atual: há gravação em tests/capture_visual_ko.py, áudio isolado e probes de cadência. Reutilize e fortaleça esses caminhos, não crie um segundo pipeline incompatível.
+
+Implemente V0–V5 do plano. Não encerre após apenas gerar MP4 ou registrar suporte a vídeo. A entrega precisa provar: captura íntegra, consulta efetiva da mídia, achados temporais rastreáveis e gate que rejeita evidência insuficiente.
+
+PRIORIDADE 1 — CONFIABILIDADE
+Congele ROM/configuração e registre hashes. Investigue o bundle visual_ko_20260920T074931694042Z-1506141: o vídeo tem 10822 frames/194,683333 s, avg_frame_rate ~55,59 e log drop=858; MP4 sem áudio, WAV separado. Não chame isso de FPS do jogo nem descarte a evidência histórica. Use como regressão de integridade.
+Audite timestamps e descarte no pipeline; não use interpolação, normalização CFR ou remoção de duplicados para esconder perda. Preserve master, logs e versões. Sincronize áudio/vídeo e eventos com erro medido. Meça overhead de gravação com e sem captura. Conteúdos estáticos e hitstop legítimos não são frames perdidos.
+
+PRIORIDADE 2 — O AGENTE PRECISA CONSULTAR
+Faça preflight das ferramentas disponíveis para percepção de vídeo e áudio. Não afirme assistir ou ouvir o que não foi processado. Forneça player por evento, clipes com pré/pós-contexto, frames consecutivos numerados por PTS e ROIs. Se a ferramenta só vê imagens, use sequências como evidência limitada e mantenha avaliação temporal/sonora não suportada como needs_review até revisor capaz/humano. Salve reviewer, método, ferramentas e intervalos realmente vistos.
+
+PRIORIDADE 3 — REVISÃO COM CAUSA E CONTEXTO
+Correlacione input, cena, eventos de combate, frame emulado, ticks, apresentação e DMA quando disponíveis. Não confunda índice do vídeo com frame do console, FPS da janela com lógica, contador de apresentação com upload efetivo, nem glitch visual com overflow confirmado.
+Localize combo/especial/cenário, foot sliding, clipping, animações interrompidas, transições e áudio. Cada achado exige timestamp, SHA, ROI, confiança, hipótese, impacto e teste causal. Detecção automática gera candidato; não aprova estética. Avalie fluidez em velocidade normal e detalhes em quadros adjacentes. Declare cobertura não examinada.
+
+PRIORIDADE 4 — GATES E TESTES
+Integre ao wrapper/gates existentes, respeitando a governança para alterações canônicas. Separe integridade de captura, cadência técnica, qualidade visual, movimento, áudio e cobertura. Nenhum veredito substitui outro. Falha de captura impede claim temporal, sem apagar defeito visível.
+Crie fixtures positivas/negativas do plano, incluindo glitch de um frame, hitstop válido, PTS com buraco, áudio desalinhado, SHA errado, vídeo sem revisão e trecho não examinado. Rode self-check e regressões. Não altere thresholds para aprovar a saída corrente.
+
+ENTREGA
+Demonstre end-to-end no BlastEm: capturar, validar, indexar, consultar, emitir achado e bloquear/liberar apenas o claim sustentado. Entregue um caso real em que vídeo revele ou explique defeito que prints espaçados perderiam. Para correção de jogo fora do escopo do suporte, registre e encaminhe; não invente antes/depois.
+Atualize memória, changelog, schemas/skills afetados e documentação operacional. Preserve evidência original. Não promova HAMOOPIG a AAA nem aprove arte por infraestrutura pronta.
+Continue em ciclos causais enquanto houver trabalho autorizado e executável. Não pare em planejamento ou script isolado. Se existir bloqueio externo indispensável, registre provas, rotas tentadas e ação mínima necessária; não fabrique revisão perceptiva ou aprovação humana.

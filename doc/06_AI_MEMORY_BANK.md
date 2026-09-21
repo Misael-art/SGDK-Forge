@@ -3044,3 +3044,8 @@ CI ampla continua bloqueada por .agent local 2026.06.19 com architecture_drift;
 a cura de caminhos ausentes preservou todo arquivo existente.
 23 divergencias de instrumentos, integracao do piloto e qualidade de jogo
 completo continuam pendentes. Nenhuma promocao AAA.
+
+
+### Curadoria incremental HAMOOPIG — 2026-09-18
+
+Pedido humano explicito autorizou assimilacao instrucional durante projeto incompleto. Referencia canonica: `tools/sgdk_wrapper/.agent/references/hamoopig_engine_learning_2026_09_18.md`. Oito principios: identidade de evento, alcance apos pushbox, adiamento de upload, owners/aliases, transicao transacional, unidades de probe, cobertura observada e streaming comprovado. Quatro skills existentes receberam roteamento; sem skill duplicada, alteracao de runtime ou promocao MESTRE/AAA. Fonte e trilha: `SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/curation/2026_09_18/`. 33 testes host, self-check HPRB, 84 schemas e quatro validacoes individuais passaram. Framework geral tem falhas preexistentes; comparar baseline/pos-curadoria. Higiene do projeto permanece bloqueada. Nao transportar limites 100/588/864 nem tratar 36 probes como 36 partidas aprovadas.

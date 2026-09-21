@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v02.png",
+  "source_class": "high_res_full_body_character",
+  "intended_role": "translation_source",
+  "identity_authority_path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+  "identity_authority_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+  "matte_policy": "existing_alpha",
+  "visual_source_of_truth_contract": "doc/art/kairo_vant/visual_source_of_truth.json",
+  "derivation": "ImageGen visual producer output v02 generated from the approved model sheet; single front-neutral pose with actual alpha, used as a guide for native-grid reauthoring.",
+  "reviewer": "agent_curated_review",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Single front-neutral visual producer output with actual alpha; compact clustered guide for native 32x40 reauthoring. Not a native candidate or runtime asset."
+  }
+}

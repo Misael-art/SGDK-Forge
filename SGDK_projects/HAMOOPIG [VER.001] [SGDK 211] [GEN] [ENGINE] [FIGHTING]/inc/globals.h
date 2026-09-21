@@ -53,6 +53,8 @@ extern s16  camPosX;
 extern s16  camPosXanterior;
 extern s16  camPosY;
 extern s16  camPosYanterior;
+extern u8   gCameraShakeTicks;
+extern u8   gCameraShakePhase;
 extern s16  gMeioDaTela;
 extern s16  gScrollValues[28];
 extern s16  gScrollValue;

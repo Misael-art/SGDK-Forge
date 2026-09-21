@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "asset_kind": "title_backdrop_and_logo_overlay",
+  "source": "data/source_art/title/title_backdrop_generated_v01.png",
+  "source_sha256": "e934603f6ceeb57febddcfa0a44433f09c84dd2aabcf224b92bf63df8161eda3",
+  "logo_source": "res/gfx/room_0_bgb.png",
+  "logo_source_sha256": "6baa80416b01de95cd21adf1bfba7428e0aec587802fe3cd4183b3e650e9c838",
+  "backdrop": "res/gfx/title_backdrop.png",
+  "backdrop_sha256": "19bc3afeedb1e83c409793c34f661cc98b25081fc87d8050c433c75bc43a2601",
+  "logo_overlay": "res/gfx/title_logo_overlay.png",
+  "logo_overlay_sha256": "1d3324dbbdaf040d6f187082458db704681576e743025ad108f3c9d7cc4b63ec",
+  "scene": "res/gfx/title_scene.png",
+  "scene_sha256": "680c327e2ce54d5c8a56b5338244ca05f85011be21913daa5c64a0e63678bed9",
+  "dimensions": [
+    320,
+    224
+  ],
+  "palette_snap": "Mega Drive 9-bit, step 34; pure black avoided in backdrop",
+  "palette_rgb": [
+    [
+      0,
+      68,
+      204
+    ],
+    [
+      0,
+      34,
+      170
+    ],
+    [
+      0,
+      34,
+      136
+    ],
+    [
+      0,
+      34,
+      102
+    ],
+    [
+      0,
+      0,
+      102
+    ],
+    [
+      0,
+      0,
+      68
+    ],
+    [
+      0,
+      0,
+      136
+    ],
+    [
+      0,
+      0,
+      153
+    ],
+    [
+      0,
+      0,
+      170
+    ],
+    [
+      0,
+      0,
+      187
+    ],
+    [
+      0,
+      0,
+      204
+    ],
+    [
+      0,
+      0,
+      221
+    ],
+    [
+      0,
+      0,
+      238
+    ],
+    [
+      0,
+      0,
+      238
+    ]
+  ],
+  "unique_tiles_before_reuse": 6,
+  "unique_tiles_after_reuse": 6,
+  "tile_budget": 384,
+  "scene_unique_tiles_before_reuse": 289,
+  "scene_unique_tiles_after_reuse": 289,
+  "logo_background_flood_pixels": 51018,
+  "logo_transparent_pixels": 60608,
+  "provenance": "title_backdrop_generated_with_imagegen_prompt; logo_overlay_derived_from_existing_room_0_bgb_by_border_flood_only; native_scale_wordmark_and_anchored_pig_crop; fixed_palette_int32_mapping",
+  "claim_ceiling": "prototype_title_candidate",
+  "visual_review_required": true,
+  "emulator_validated": false
+}

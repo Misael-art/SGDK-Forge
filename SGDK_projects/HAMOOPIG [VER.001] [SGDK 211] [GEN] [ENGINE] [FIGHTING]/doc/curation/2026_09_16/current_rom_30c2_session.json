@@ -1,0 +1,27 @@
+{
+  "lesson_id": "L115",
+  "date": "2026-09-16",
+  "topic": "current_rom_30c2_session_revalidation",
+  "source": "P02_P04_P10_runtime_review",
+  "rom_sha256": "30c2b7f779b98b9f594c7b605f6b8cc14a86793cddf804be846e5c30bc7ae873",
+  "problem": "A correção de paleta do Stage 2 mudou a ROM e invalidou provas de combate, menu, transição, áudio e reset do SHA f424.",
+  "change": "Recaptura integral no mesmo binário: 36 casos P10, retorno ao título, vídeo de abertura/fade, áudio isolado, 100 resets, HIT dirigido e THROW real-keyboard.",
+  "result": "Todos os 36 bundles P10 foram decodificados; title_return tem 5 capturas; transição tem vídeo; áudio apresenta rota isolada, RMS -28,02 dBFS e zero clipping; reset 100/100; HIT=1 e THROW=2 nas rotas dirigidas.",
+  "limits": [
+    "P10 continua pending_visual_review",
+    "sinal de áudio não equivale a audição crítica",
+    "balanceamento, animação final, pior-frame e hardware real continuam pendentes"
+  ],
+  "artifacts": [
+    "out/logs/p10_matrix_30c2_recapture.log",
+    "out/logs/p10_matrix_30c2_retry.log",
+    "out/logs/p10_decode_30c2.log",
+    "out/logs/p10_summary_30c2.log",
+    "out/emulator_evidence/title_return_20260916T065912Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T070442Z/audio_signal_report.json",
+    "out/emulator_evidence/scene_reset_cycles_20260916T070901Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T070955Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T070141Z/manifest.json"
+  ],
+  "status": "current_rom_runtime_revalidated_visual_audio_gates_pending"
+}

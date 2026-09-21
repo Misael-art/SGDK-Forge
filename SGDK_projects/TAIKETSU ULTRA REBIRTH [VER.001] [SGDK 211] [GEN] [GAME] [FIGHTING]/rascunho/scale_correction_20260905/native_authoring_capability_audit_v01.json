@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "native_authoring_capability_audit",
+  "generated_at": "2026-09-06",
+  "asset_id": "kairo_vant_combat_idle_3quarter",
+  "host_tools": [
+    {
+      "tool": "gimp",
+      "executable": "/usr/bin/gimp-3.2",
+      "version": "3.2.4",
+      "batch_preflight": "failed",
+      "exit_code": -9,
+      "blocker": "gimp_batch_python_probe_timeout",
+      "sentinel_observed": false,
+      "claim_ceiling": "optional_batch_capability_only",
+      "gui_pointer_automation_allowed": false,
+      "production_operations_registered": []
+    },
+    {
+      "tool": "imagemagick",
+      "executable": "/usr/bin/magick",
+      "role": "mechanical_cli_operations_only",
+      "native_authorship_capable": false
+    }
+  ],
+  "unavailable_native_editors": [
+    "aseprite",
+    "libresprite",
+    "pixelorama",
+    "piskel",
+    "krita"
+  ],
+  "decision": "no_capable_native_authoring_backend_on_current_host",
+  "consequence": "Do not fabricate a native candidate with procedural pixels, do not integrate the technical probe, and wait for a human or demonstrably capable native pixel producer.",
+  "target_handoff": "rascunho/scale_correction_20260905/native_reauthoring_handoff_v01.json"
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "2.0.0",
+  "title": "Forge Crystal",
+  "source_score": "data/source_audio/forge_crystal_score.json",
+  "source_score_sha256": "fd6db96c8eadc39e84b38771bd8455d9696a50c2f5ed3b469d9ea7e54f2b9613",
+  "output": "res/music/mus_forge_brand.vgm",
+  "output_sha256": "2449b3d1a8c32e31179b257647b6decb05bcc80d7492ceffb151a4eca066418c",
+  "driver": "XGM1",
+  "chips": [
+    "SN76489"
+  ],
+  "voices": {
+    "lead": 0,
+    "bass": 1,
+    "crystal_counterline": 2,
+    "forge_noise": 3
+  },
+  "tempo_bpm": 150,
+  "meter": "4/4",
+  "tonal_center": "A minor",
+  "bars": 8,
+  "loop_frames_ntsc": 768,
+  "loop_seconds_ntsc": 12.8,
+  "pcm_in_bgm": false,
+  "sfx_pcm_channels_reserved": [
+    3,
+    4
+  ],
+  "status": "candidate_until_human_listening"
+}

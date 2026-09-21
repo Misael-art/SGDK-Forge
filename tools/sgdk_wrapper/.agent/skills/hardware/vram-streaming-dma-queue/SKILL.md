@@ -50,3 +50,9 @@ Transforma uploads em uma fila mensuravel com prioridade e validade por cena.
 - ponteiro temporario enfileirado
 - contar todos os assets do jogo como residentes
 - rebuild visual para esconder seam estrutural
+
+## Animacao, aliases e streaming medido
+
+Para metasprites grandes ou tiles compartilhados, ler as secoes 3–4 e 8 do caso HAMOOPIG. Contratar a coerencia entre frame adiado e hitbox, acompanhar aliases apos realocacao e distinguir janela calculada de streaming executado. Numeros de um palco nao sao tetos universais.
+
+[Aprendizado e fixtures HAMOOPIG](../../../references/hamoopig_engine_learning_2026_09_18.md).

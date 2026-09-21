@@ -1,0 +1,46 @@
+{
+  "schema_version": "route_decision.v1",
+  "asset_id": "kairo_vant_combat_idle_direct_pixel_art_v01",
+  "source": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/kairo_vant_direct_pixel_art_source_v01.png",
+    "sha256": "0c3095038b69328a304a819ed9201ae3038467a1b88128b4fbd7de91ac88dae3"
+  },
+  "source_triage_report": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/source_triage_report.json",
+    "sha256": "30838a09baf34eea0c57346c6343eca8a6356109a328df33fdee2c71132d6bc4"
+  },
+  "route_shootout_report": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/route_shootout_report.json",
+    "sha256": "ecb7fc6e6958f257655e8338e79b3b1fd2e37f6b680492c5f5e814b0bded907c"
+  },
+  "board": {
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/route_exploration_board.png",
+    "sha256": "0e1614d1810d3152b607b13dd896959f469733aabc3c483f7ffd2ca10d7bd729"
+  },
+  "target": {
+    "width": 88,
+    "height": 136,
+    "anchor": "bottom_center"
+  },
+  "primary_underlay": {
+    "route": "im_lanczos3",
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_lanczos3/raw_rgba.png",
+    "sha256": "a4c4d730525bf3c486df40fca506380771213db435e15eed893c25bc7de5f916"
+  },
+  "challenger_underlay": {
+    "route": "im_catmull_rom",
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_catmull_rom/raw_rgba.png",
+    "sha256": "bddd4821c78f0b39d65d2a0cbde6468374ed11032b686f1526356182ea01323a"
+  },
+  "control_underlay": {
+    "route": "im_nearest",
+    "path": "rascunho/scale_correction_20260909/direct_native_pixel_art_v01/route_shootout/routes/im_nearest/raw_rgba.png",
+    "sha256": "04957b9b838f2a63e1f3ae319ffe2221daf83c907ab86a124d35df20884d958e"
+  },
+  "decision": "native_reauthoring_over_im_lanczos3_guide",
+  "automatic_winner": null,
+  "human_visual_approval": "pending",
+  "claim_ceiling": "mechanical_geometry_probe",
+  "next_action": "Construir uma unica pose nativa no grid C a partir da fonte de identidade e do underlay primario; manter todas as rotas fora de res.",
+  "notes": "A hipótese direta de pixel art é nova, mas os três resultados continuam guias mecânicos. Nenhuma rota é arte nativa, visual pass ou asset final."
+}

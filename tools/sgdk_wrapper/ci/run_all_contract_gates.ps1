@@ -7,7 +7,8 @@
     1. test_agent_startup_environment.ps1 (guard comum de agentes + Graphify consultivo)
     2. test_game_design_contract_gates.ps1 (auditor 3-bucket + ready flags)
     3. test_schema_contract_gates.py (jsonschema Draft-07)
-    3a. test_art_gameplay_direction_gate.ps1 (gate art director + game design)
+    3a. test_audiovisual_review_contract.py (hash-bound AV review and coverage)
+    3b. test_art_gameplay_direction_gate.ps1 (gate art director + game design)
     4. test_project_context_governance.ps1 (contexto de trabalho + docs proporcionais)
     5. test_project_methodology_governance.ps1 (claims estruturados + gates)
     6. test_project_bootstrap_qaproof.ps1 (template limpo + manifests)
@@ -51,6 +52,7 @@
     - agent_startup_test: { exit_code, duration_seconds, output_tail }
     - audit_test: { passed, failed, total, exit_code }
     - schema_test: { passed, failed, total, exit_code }
+    - audiovisual_review_test: { exit_code, duration_seconds, output_tail }
     - art_gameplay_direction_gate_test: { passed, failed, total, exit_code }
     - project_context_test: { exit_code, duration_seconds, output_tail }
     - methodology_test: { passed, failed, total, exit_code }
@@ -140,6 +142,7 @@ $agentStartupScript = Join-Path $ciDir "test_agent_startup_environment.ps1"
 $aiMemoryIntegrationScript = Join-Path $ciDir "test_ai_memory_integration.ps1"
 $auditScript = Join-Path $ciDir "test_game_design_contract_gates.ps1"
 $schemaScript = Join-Path $ciDir "test_schema_contract_gates.py"
+$audiovisualReviewScript = Join-Path $ciDir "test_audiovisual_review_contract.py"
 $artGameplayDirectionGateScript = Join-Path $ciDir "test_art_gameplay_direction_gate.ps1"
 $projectContextScript = Join-Path $ciDir "test_project_context_governance.ps1"
 $methodologyScript = Join-Path $ciDir "test_project_methodology_governance.ps1"
@@ -237,6 +240,7 @@ $report = [ordered]@{
     ai_memory_integration_test = $null
     audit_test = $null
     schema_test = $null
+    audiovisual_review_test = $null
     art_gameplay_direction_gate_test = $null
     project_context_test = $null
     methodology_test = $null
@@ -319,6 +323,7 @@ $agentStartupRan = $false
 $aiMemoryIntegrationRan = $false
 $auditRan = $false
 $schemaRan = $false
+$audiovisualReviewRan = $false
 $artGameplayDirectionGateRan = $false
 $projectContextRan = $false
 $methodologyRan = $false
@@ -429,6 +434,17 @@ if ($Mode -in @("full", "schema", "smoke")) {
         $result = Run-Step -Name "schema_contract_gates (Python jsonschema)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($schemaScript))
         $report.schema_test = $result
         $schemaRan = $true
+    }
+}
+
+if ($Mode -in @("full", "schema", "smoke")) {
+    if (-not (Test-Path -LiteralPath $audiovisualReviewScript)) {
+        Write-Host "[ERROR] audiovisual review contract test not found: $audiovisualReviewScript"
+        $report.audiovisual_review_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
+    } else {
+        $result = Run-Step -Name "audiovisual_review_contract (hash-bound review and coverage)" -Command $pythonExe -CommandArgs ($pythonPrefixArgs + @($audiovisualReviewScript))
+        $report.audiovisual_review_test = $result
+        $audiovisualReviewRan = $true
     }
 }
 
@@ -889,6 +905,7 @@ if ($agentStartupRan -and $report.agent_startup_test.exit_code -ne 0) { $combine
 if ($aiMemoryIntegrationRan -and $report.ai_memory_integration_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($auditRan -and $report.audit_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($schemaRan -and $report.schema_test.exit_code -ne 0) { $combinedExit = 1 }
+if ($audiovisualReviewRan -and $report.audiovisual_review_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($artGameplayDirectionGateRan -and $report.art_gameplay_direction_gate_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($projectContextRan -and $report.project_context_test.exit_code -ne 0) { $combinedExit = 1 }
 if ($methodologyRan -and $report.methodology_test.exit_code -ne 0) { $combinedExit = 1 }

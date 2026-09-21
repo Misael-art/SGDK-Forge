@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Translate Showdown-at-the-Park GIF into a Mega Drive IMAGE.
 
-Capcom XMvSF park is study/placeholder (same policy as Ken). The GIF is a
-single 639x449 view; MUGEN def supplies camera bounds and layer deltas.
+Capcom XMvSF park is study/placeholder (same policy as Ken). The production
+candidate is the explicitly reviewed native preview; MUGEN def supplies camera
+bounds and layer deltas.
 
 VRAM cannot hold the native unique-tile count (~3191). This builder:
 - nearest-scales to 512x256
@@ -182,4 +183,6 @@ if __name__ == "__main__":
     # Active route: source-tile reuse at 1px. main() above is the retained
     # historical 4px comparison, no longer the production entry point.
     from convert_tile_budget import convert
-    convert(768, OUT_PNG)
+    # Keep the reproducible delivery path aligned with the reviewed candidate:
+    # four medoid passes reduce tile-reuse error without inventing pixels.
+    convert(768, OUT_PNG, refine=4)

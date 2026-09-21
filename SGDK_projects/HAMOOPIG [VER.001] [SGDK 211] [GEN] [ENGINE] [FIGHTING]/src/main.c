@@ -31,6 +31,8 @@
 #include "timing.h"
 #include "scene.h"
 #include "opening.h"
+#include "combat_event.h"
+#include "stage.h"
 
 
 
@@ -95,6 +97,7 @@ static void run_logic_tick(void)
 		
 		if(gRoom == SCENE_FIGHT) //IN GAME -------------------------------------------------------------------
 		{
+			COMBAT_EVENTS_BEGIN_TICK((u16)gFrames);
 			//buffer de especiais para P1
 			if(P[1].hitPause==0 && P[1].bufferSpecial!=0){
 				PLAYER_STATE(1, P[1].bufferSpecial);
@@ -132,16 +135,31 @@ static void run_logic_tick(void)
 			//codigo de "SLOW MOTION KO"
 			if((P[1].energiaBase==0 || P[2].energiaBase==0) && gFrames>100)
 			{
-				gPauseSystem=1;
-				gPauseKoTimer++;
-				if(gPauseKoTimer>=90 && gPauseKoTimer<=320)
-				{
-					if(gPing2==0){gPauseSystem=0;}
-					if(gPing2==1){gPauseSystem=1;}
-				}
-				if(gPauseKoTimer>320)
+				/* Never throttle the landing states.  550/551 own the
+				 * defeated fighter's fall; dropping every other logic tick here
+				 * could leave Musgo suspended in mid-air when the result screen
+				 * is sampled.  Slow motion remains available after both fighters
+				 * reached the terminal 570 pose. */
+				bool koNeedsLanding =
+					((P[1].energiaBase==0) && (P[1].state==550 || P[1].state==551)) ||
+					((P[2].energiaBase==0) && (P[2].state==550 || P[2].state==551));
+				if(koNeedsLanding)
 				{
 					gPauseSystem=0;
+				}
+				else
+				{
+					gPauseSystem=1;
+					gPauseKoTimer++;
+					if(gPauseKoTimer>=90 && gPauseKoTimer<=320)
+					{
+						if(gPing2==0){gPauseSystem=0;}
+						if(gPing2==1){gPauseSystem=1;}
+					}
+					if(gPauseKoTimer>320)
+					{
+						gPauseSystem=0;
+					}
 				}
 			}else{
 				gPauseKoTimer=0;
@@ -150,7 +168,8 @@ static void run_logic_tick(void)
 			if(gFrames == 1){ 
 				gPodeMover=0;
 				FUNCAO_INICIALIZACAO(); //Inicializacao
-				if(gConfig.audioMusic){ XGM_startPlay(bgm_ken_stage); }
+				HAMOOPIG_probeFightInit();
+				if(gConfig.audioMusic){ XGM_setLoopNumber(-1); XGM_startPlay(mus_forge_brand); }
 			}
 
 			/* MUSIC e imediata nos dois sentidos: OFF para a faixa, ON retoma a
@@ -164,7 +183,7 @@ static void run_logic_tick(void)
 				static bool musicaLigadaAntes = TRUE;
 				if(gConfig.audioMusic != musicaLigadaAntes)
 				{
-					if(gConfig.audioMusic){ XGM_startPlay(bgm_ken_stage); }
+					if(gConfig.audioMusic){ XGM_setLoopNumber(-1); XGM_startPlay(mus_forge_brand); }
 					else { XGM_stopPlay(); }
 					musicaLigadaAntes = gConfig.audioMusic;
 				}
@@ -213,6 +232,7 @@ static void run_logic_tick(void)
 			
 			if(gPauseSystem==0)
 			{
+				FUNCAO_UPDATE_HIT_COMBOS();
 				FUNCAO_INPUT_SYSTEM(); //Verifica os joysticks 
 				
 				dmaStageMark = DMA_getQueueTransferSize();
@@ -226,8 +246,17 @@ static void run_logic_tick(void)
 					dmaStageMark = DMA_getQueueTransferSize();
 					FUNCAO_FSM(); //FSM = Finite State Machine (Maquina de Estados)
 					HAMOOPIG_probeStageDma(5, dmaStageMark);
+					/* A FSM apenas produz eventos de colisão. O consumo é único e
+					   acontece depois dela, antes da física/efeitos, para que combo
+					   não seja duplicado por hitstop ou por uma segunda leitura. */
+					FUNCAO_CONSUME_COMBAT_EVENTS();
+					HAMOOPIG_probeCombatEvents();
 					FUNCAO_PHYSICS(); //Funcoes de Fisica
 					FUNCAO_CAMERA_BGANIM();
+					/* Camera owns the shake offset; refresh gameplay sprites after
+					   applying it so background and fighters move together while
+					   BG_A/HUD remains screen-locked. */
+					FUNCAO_SPR_POSITION();
 					FUNCAO_SAMSHOFX(); //Efeitos do jogo SS2
 					if(gDebug == 1){ FUNCAO_DEBUG(); } //Debug
 				}
@@ -253,6 +282,15 @@ static void run_logic_tick(void)
 				CLEAR_VDP();
 				gPauseSystem=0;
 				SCENE_request(SCENE_SELECT);
+			}
+			else if(P[1].key_JOY_B_status==1)
+			{
+				XGM_stopPlay();
+				CLEAR_VDP();
+				gPauseSystem=0;
+				/* B is the explicit return-to-title path used to make the
+				   OPENING/FADE session preferences observable after a match. */
+				SCENE_request(gConfig.showOpening ? SCENE_OPENING : SCENE_TITLE);
 			}
 		}
 
@@ -433,28 +471,34 @@ int main(bool hardReset) /************** MAIN **************/
 				}
 
 				SPR_update();
+				HAMOOPIG_probeVideoFrame(gRoom, 0u);
+				HAMOOPIG_captureMarker(gRoom);
 				SYS_doVBlankProcess();
 				continue;
 			}
 		}
 
+		u8 presentedTicks = 0u;
         {
             /* Um frame de video pode valer 1 ou 2 ticks logicos.  gSubTick diz
                qual deles esta rodando: FUNCAO_INPUT_SYSTEM so produz borda no
                primeiro, porque no segundo previousJoyState ja igualou
                currentJoyState e o botao aparece como HOLD. */
-            u8 ticks = TIMING_ticksForThisFrame();
-            for(gSubTick = 0; gSubTick < ticks; gSubTick++)
+			presentedTicks = TIMING_ticksForThisFrame();
+			for(gSubTick = 0; gSubTick < presentedTicks; gSubTick++)
             {
                 run_logic_tick();
             }
             gSubTick = 0;
-        }
+		}
 		//--- FINALIZACOES ---//
+		if(gRoom == SCENE_FIGHT){ STAGE_ambient_update(); }
 		// VDP_showFPS(1, 1, 1);        //Mostra a taxa de FPS
 		u16 dmaBeforeSpriteUpdate = DMA_getQueueTransferSize();
 		SPR_update();          //Atualiza (desenha) os sprites
-		HAMOOPIG_probeSpriteDma(dmaBeforeSpriteUpdate);
+			HAMOOPIG_probeSpriteDma(dmaBeforeSpriteUpdate);
+			HAMOOPIG_probeVideoFrame(gRoom, presentedTicks);
+			HAMOOPIG_captureMarker(gRoom);
         HAMOOPIG_probeTick(gRoom); //Snapshot diagnóstico antes do VBlank.
         SYS_doVBlankProcess(); //Wait for screen refresh and do all SGDK VBlank tasks
     }

@@ -3,12 +3,28 @@
 #include "globals.h"
 #include "player.h"
 #include "collision.h"
+#include "combat_event.h"
 #include "sound.h"
 #include "sprite.h"
 
 #ifndef HAMOOPIG_DMA_LAB_REDUCED
 #define HAMOOPIG_DMA_LAB_REDUCED 0
 #endif
+
+/* A mass-box separation can move a fighter across the opponent's origin in
+   the same frame that a close-range command is sampled.  For throws, the
+   meaningful direction is therefore the input toward the opponent, not a
+   stale facing bit from before the separation. */
+static bool fsm_throw_forward_held(u8 player, u8 enemy)
+{
+	if(P[player].x < P[enemy].x)
+		return (P[player].key_JOY_RIGHT_status == 1 || P[player].key_JOY_RIGHT_status == 2);
+	if(P[player].x > P[enemy].x)
+		return (P[player].key_JOY_LEFT_status == 1 || P[player].key_JOY_LEFT_status == 2);
+	return (P[player].direcao == 1)
+		? (P[player].key_JOY_RIGHT_status == 1 || P[player].key_JOY_RIGHT_status == 2)
+		: (P[player].key_JOY_LEFT_status == 1 || P[player].key_JOY_LEFT_status == 2);
+}
 
 void FUNCAO_FSM_DEFENSE(u8 player, u8 enemy){
 
@@ -164,6 +180,22 @@ void FUNCAO_FSM_NORMAL_ATTACKS(u8 player) {
 	if(P[player].key_JOY_C_status==1 && P[player].state==320){ PLAYER_STATE(player,326); }
 }
 
+static bool fsm_try_start_special(u8 player, u16 state)
+{
+	if(!FUNCAO_SPEND_SPECIAL(player)){ return FALSE; }
+	if(P[player].hitPause==0)
+	{
+		PLAYER_STATE(player, state);
+	}
+	else
+	{
+		/* O custo é pago na aceitação do comando; o buffer só guarda a
+		   transição e nunca pode cobrar duas vezes. */
+		P[player].bufferSpecial = state;
+	}
+	return TRUE;
+}
+
 void FUNCAO_FSM_SPECIAL_ATTACKS(u8 player) {
 
 	//MAGIAS STARTUP (FSM CHANGESTATE)!!!!!!
@@ -202,13 +234,8 @@ void FUNCAO_FSM_SPECIAL_ATTACKS(u8 player) {
 				if(Spark1_countDown>0){ SPR_releaseSprite(Spark[1]); Spark1_countDown=0; }
 				if(Spark2_countDown>0){ SPR_releaseSprite(Spark[2]); Spark2_countDown=0; }
 
-				if(P[player].hitPause==0){
-					PLAYER_STATE(player,730);
-					magic_avaliable=0; 
-				}else{
-					P[player].bufferSpecial = 730;
-					magic_avaliable=0; 
-				}
+				fsm_try_start_special(player,730);
+				magic_avaliable=0;
 			}
 			
 			//700
@@ -229,13 +256,8 @@ void FUNCAO_FSM_SPECIAL_ATTACKS(u8 player) {
 				if(Spark1_countDown>0){ SPR_releaseSprite(Spark[1]); Spark1_countDown=0; }
 				if(Spark2_countDown>0){ SPR_releaseSprite(Spark[2]); Spark2_countDown=0; }
 
-				if(P[player].hitPause==0){
-					PLAYER_STATE(player,700);
-					magic_avaliable=0;
-				}else{
-					P[player].bufferSpecial = 700;
-					magic_avaliable=0; 
-				}
+				fsm_try_start_special(player,700);
+				magic_avaliable=0;
 			}
 			
 			/*
@@ -298,7 +320,7 @@ void FUNCAO_FSM_SPECIAL_ATTACKS(u8 player) {
 	}
 	
 	//ryo MAGIA 701 (FIREBALL)
-	if(P[player].id==1 && P[player].state==700 && P[player].animFrame==12 && P[player].frameTimeAtual==1)
+	if(P[player].id==1 && P[player].state==700 && P[player].animFrame==4 && P[player].frameTimeAtual==1)
 	{
 		if(P[player].fball.active==TRUE){ 
 			if(P[player].fball.spriteFBall){ 
@@ -307,6 +329,8 @@ void FUNCAO_FSM_SPECIAL_ATTACKS(u8 player) {
 			} 
 		}
 		P[player].fball.active=TRUE;
+		P[player].fball.instance++;
+		if(P[player].fball.instance==0){ P[player].fball.instance=1; }
 		P[player].fball.x = P[player].x+(18*P[player].direcao);
 		if(P[player].direcao==-1){
 			P[player].fball.x-=70;
@@ -374,6 +398,11 @@ void FUNCAO_FSM_COLLISION(u8 player, u8 enemy) {
 			} 
 
 			P[enemy].stateMoveType = 2;
+			/* Guard é um evento válido, mas não inicia combo. O consumidor
+			   central poderá usar esta borda para o ganho de medidor sem
+			   confundir bloqueio com dano confirmado. */
+			COMBAT_EVENTS_EMIT_SOURCE(player, enemy, P[player].state, COMBAT_EVENT_GUARD,
+				COMBAT_EVENT_SOURCE_BODY, P[player].attackInstance);
 			
 			u8 AlturaDoHit = P[player].y+P[player].dataHBox[3];
 			P[player].dataHBox[0]=0; P[player].dataHBox[1]=0; P[player].dataHBox[2]=0; P[player].dataHBox[3]=0; //desativa a hitbox
@@ -428,7 +457,9 @@ void FUNCAO_FSM_COLLISION(u8 player, u8 enemy) {
 				} 
 				
 				P[enemy].stateMoveType = 2;
-				P[enemy].hitCounter++;
+				/* O contador pertence ao atacante: cada acerto válido soma uma vez;
+				   a janela temporal decide quando o combo expira. */
+				FUNCAO_REGISTER_HIT(player);
 
 				//golpes de longe
 				if(P[player].state==101)
@@ -572,10 +603,12 @@ void FUNCAO_FSM_COLLISION(u8 player, u8 enemy) {
 		}else{
 			
 			P[player].stateMoveType = 2;
-			P[player].hitCounter++;
+			COMBAT_EVENTS_EMIT_SOURCE(player, enemy, P[player].state, COMBAT_EVENT_HIT,
+				COMBAT_EVENT_SOURCE_DOUBLE, P[player].attackInstance);
 
 			P[enemy].stateMoveType = 2;
-			P[enemy].hitCounter++;
+			COMBAT_EVENTS_EMIT_SOURCE(enemy, player, P[enemy].state, COMBAT_EVENT_HIT,
+				COMBAT_EVENT_SOURCE_DOUBLE, P[enemy].attackInstance);
 
 			if(doubleHitStep==0)
 			{
@@ -649,6 +682,10 @@ void FUNCAO_FSM_COLLISION(u8 player, u8 enemy) {
 	{
 		if(FUNCAO_CHECK_GUARD(P[player].fball.guardFlag, enemy))
 		{
+			/* Emitir antes do chip garante que o delta de vida do projétil
+			   também seja consumido pelo ledger, como nos golpes corporais. */
+			COMBAT_EVENTS_EMIT_SOURCE(player, enemy, P[player].state, COMBAT_EVENT_GUARD,
+				COMBAT_EVENT_SOURCE_PROJECTILE, P[player].fball.instance);
 			//DEFENDEU! em pe
 			if(P[enemy].state>=107 && P[enemy].state<=109){
 				PLAYER_STATE(enemy,110);
@@ -667,7 +704,6 @@ void FUNCAO_FSM_COLLISION(u8 player, u8 enemy) {
 			} 
 
 			P[enemy].stateMoveType = 3;
-
 		}else{
 			//NAO DEFENDEU!
 			if(P[player].attackPower==1){
@@ -675,11 +711,13 @@ void FUNCAO_FSM_COLLISION(u8 player, u8 enemy) {
 			}else{
 				P[enemy].hitPause=20;
 			} 
+			P[enemy].stateMoveType = 3;
+			/* Registrar antes do delta de especial permite ao ledger carregar
+			   também a contribuição da magia para o consumidor central. */
+			COMBAT_EVENTS_EMIT_SOURCE(player, enemy, P[player].state, COMBAT_EVENT_HIT,
+				COMBAT_EVENT_SOURCE_PROJECTILE, P[player].fball.instance);
 			FUNCAO_UPDATE_LIFESP(enemy,1,-8); 
 			FUNCAO_UPDATE_LIFESP(enemy,2, 11);
-			
-			P[enemy].stateMoveType = 3;
-			P[enemy].hitCounter++;
 
 			/*
 			if(P[enemy].y<gAlturaPiso || (P[enemy].state>=300 && P[enemy].state<=326) )
@@ -805,10 +843,12 @@ void FUNCAO_FSM_COLLISION(u8 player, u8 enemy) {
 void FUNCAO_FSM()
 {
 	
-	if(P[1].direcao==1){
-		gDistancia = P[2].x - P[1].x;
-	}else{
-		gDistancia = P[1].x - P[2].x;
+	/* Distance is an unsigned gameplay metric.  Deriving it from P1's facing
+	   made a left-of-opponent pair produce a negative s16 that wrapped to a
+	   huge u16 after a mass-box turn, disabling close-range throws. */
+	{
+		s16 delta = (s16)(P[2].x - P[1].x);
+		gDistancia = (delta < 0) ? (u16)(-delta) : (u16)delta;
 	}
 
 	for(i=1; i<=2; i++)
@@ -965,10 +1005,20 @@ void FUNCAO_FSM()
 		
 		//------------------------------------------------------
 		//Agarrao
-		if(P[i].key_JOY_Y_status==1 && gDistancia < 40 &&
-		 ((P[i].direcao== 1 && (P[i].key_JOY_RIGHT_status==1 || P[i].key_JOY_RIGHT_status==2)) ||
-	      (P[i].direcao==-1 && (P[i].key_JOY_LEFT_status ==1 || P[i].key_JOY_LEFT_status ==2))) &&
-		  (P[i].state==100 || P[i].state==410 || P[i].state==420))
+		/* Throws share the close-range command window with the normal Y attack.
+		   The authored body boxes keep fighters about 94 px apart on the stock
+		   512 px stage, so the playable close band is 0..100 world pixels;
+		   keeping this check before NORMAL_ATTACKS prevents a valid grab from
+		   becoming state 152 instead. */
+		/* Physics may have moved/separated the pair after the global distance
+		   snapshot taken at FSM entry.  Use the live world X positions for the
+		   throw edge so a point-blank Y press cannot observe a stale range. */
+		s16 throwDelta = (s16)(P[2].x - P[1].x);
+		u16 throwDistance = (throwDelta < 0) ? (u16)(-throwDelta) : (u16)throwDelta;
+		if(P[i].key_JOY_Y_status==1 && throwDistance <= 100 &&
+			 (fsm_throw_forward_held(i, (i==1) ? 2 : 1) || throwDistance <= 30) &&
+			 (P[i].state==100 || P[i].state==410 || P[i].state==420 ||
+			  P[i].state==481 || P[i].state==606))
 		{ 
 			PLAYER_STATE(i,800); //Inicio do agarrao
 		}
@@ -1003,7 +1053,7 @@ void FUNCAO_FSM()
 		//Vitoria
 		if(
 		 (P[PA].state==100 || P[PA].state==200 || P[PA].state==410 || P[PA].state==420) 
-		 && (P[PA].state!=611 || P[PA].state!=612 || P[PA].state!=613 || P[PA].state!=614) 
+			 && (P[PA].state!=611 && P[PA].state!=612 && P[PA].state!=613 && P[PA].state!=614)
 		 && (P[PR].energiaBase<=0)
 		)
 		{
@@ -1353,13 +1403,13 @@ void FUNCAO_FSM_HITBOXES(u8 Player)
 				//Agarrao
 				case 800:
 				if(P[Player].animFrame==1){ P[Player].dataBBox[0]=-20; P[Player].dataBBox[1]=- 90; P[Player].dataBBox[2]= 25; P[Player].dataBBox[3]=  0; }
-				if(P[Player].animFrame==2){ P[Player].dataHBox[0]= 10; P[Player].dataHBox[1]=- 90; P[Player].dataHBox[2]= 65; P[Player].dataHBox[3]=-60; }
+				if(P[Player].animFrame==2){ P[Player].dataHBox[0]= 10; P[Player].dataHBox[1]=- 90; P[Player].dataHBox[2]=105; P[Player].dataHBox[3]=-60; }
 				if(P[Player].animFrame==4){ reset_HBox=1; }
 				break;
 
 				case 801:
 				if(P[Player].animFrame==1){ P[Player].dataBBox[0]=-20; P[Player].dataBBox[1]=- 90; P[Player].dataBBox[2]= 25; P[Player].dataBBox[3]=  0; }
-				if(P[Player].animFrame==3){ P[Player].dataHBox[0]= 10; P[Player].dataHBox[1]=- 90; P[Player].dataHBox[2]= 65; P[Player].dataHBox[3]=-60; }
+				if(P[Player].animFrame==3){ P[Player].dataHBox[0]= 10; P[Player].dataHBox[1]=- 90; P[Player].dataHBox[2]=105; P[Player].dataHBox[3]=-60; }
 				if(P[Player].animFrame==4){ reset_HBox=1; }
 				break;
 
@@ -1531,7 +1581,10 @@ void FUNCAO_FSM_HITBOXES(u8 Player)
 				case 801:
 				if(P[Player].animFrame==2){
 					P[Player].dataHBox[0]= 10; P[Player].dataHBox[1]=-90;
-					P[Player].dataHBox[2]= 60; P[Player].dataHBox[3]=-50;
+					/* The mass-box resolver leaves the stock fighters 100 px apart.
+					   Keep the command band at <=100 px and let the authored grab
+					   reach that legal close-contact edge. */
+					P[Player].dataHBox[2]=105; P[Player].dataHBox[3]=-50;
 				}
 				if(P[Player].animFrame==4){ reset_HBox=1; }
 				break;

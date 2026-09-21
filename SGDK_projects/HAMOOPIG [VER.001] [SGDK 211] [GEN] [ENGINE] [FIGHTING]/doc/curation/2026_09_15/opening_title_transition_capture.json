@@ -1,0 +1,36 @@
+{
+  "lesson_id": "L070",
+  "date": "2026-09-15",
+  "title": "A separação abertura→título precisa de vídeo desde o primeiro framebuffer",
+  "status": "capture_passed_visual_temporal_review_metrics_pending",
+  "symptom": "Screenshots do título não demonstravam se o menu aparecia por cima da abertura ou depois de um fade.",
+  "correction": [
+    "capture_visual_ko.py aceita --transition",
+    "ffmpeg começa antes da espera de boot e grava opening_title_transition.mp4",
+    "a sessão mantém a ROM e o percurso separados da captura de combate"
+  ],
+  "evidence": {
+    "capture": "out/emulator_evidence/visual_ko_20260915T053734Z/opening_title_transition.mp4",
+    "rom_sha256": "c9ae1c999525f31a387d06d491488870019d09eda95050954371d085f1a53849",
+    "video": {
+      "width": 640,
+      "height": 480,
+      "fps": 60,
+      "frames": 2946,
+      "duration_seconds": 49.1,
+      "observed_sequence": [
+        "black boot",
+        "opening artwork and credits",
+        "fade-out",
+        "clean black interval",
+        "title artwork and menu"
+      ]
+    }
+  },
+  "limitations": [
+    "a captura x11grab não substitui métrica de CRAM por frame",
+    "uma pequena linha colorida em uma amostra intermediária não foi reproduzida no frame estável e pode ser tearing do capturador; requer confirmação com VDP dump",
+    "skip, PAL e 100 ciclos continuam pendentes de bundle canônico"
+  ],
+  "provenance": "evidência de runtime do projeto; revisão visual feita pelo executor com visão, sem promoção AAA"
+}

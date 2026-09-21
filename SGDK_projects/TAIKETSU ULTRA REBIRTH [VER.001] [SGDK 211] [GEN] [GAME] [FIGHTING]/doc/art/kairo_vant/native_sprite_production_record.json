@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.4.0",
+  "asset_id": "kairo_vant_front_pose_native_32x40_negative_case",
+  "asset_kind": "sprite_single",
+  "classification": "negative_evidence",
+  "pixel_source_policy": "forbidden_as_pixel_source",
+  "source": {
+    "path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+    "sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+    "classification": "ai_generated_high_res",
+    "approval_status": "approved_source"
+  },
+  "scale_contract": {
+    "status": "rejected_32x40_route",
+    "target_width": 32,
+    "target_height": 40,
+    "selected_width": 32,
+    "selected_height": 40,
+    "probes": [
+      {
+        "width": 32,
+        "height": 40,
+        "path": "res/fighting/fighters/kairo_vant_probe.png",
+        "technical_status": "passed",
+        "visual_status": "failed",
+        "promotable": false
+      },
+      {
+        "width": 32,
+        "height": 40,
+        "path": "data/processed/kairo_vant/kairo_vant_front_pose_assisted_native_candidate_v02.png",
+        "technical_status": "passed",
+        "visual_status": "pending",
+        "promotable": false
+      },
+      {
+        "width": 32,
+        "height": 40,
+        "path": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png",
+        "technical_status": "passed",
+        "visual_status": "pending",
+        "promotable": false
+      }
+    ]
+  },
+  "producer_output": {
+    "path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+    "role": "visual_source",
+    "interaction_channel": "native_image_tool",
+    "width": 1774,
+    "height": 887,
+    "mode": "RGB",
+    "visible_rgb_colors": 139645,
+    "alpha_values": [255]
+  },
+  "native_candidate": {
+    "path": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png",
+    "method": "authored_native_pixel",
+    "width": 32,
+    "height": 40,
+    "pixel_report": "rascunho/kairo_native_shape_probe_v06/pixel_compliance_report.json",
+    "foreground_matte_report": "rascunho/kairo_native_shape_probe_v06/foreground_matte_report_v01.json",
+    "visual_evidence": {
+      "candidate_sha256": "2def2157cf78f3610d2dadde614dad500ee154ffee8215fc15e3977998af7fc6",
+      "native_1x": "rascunho/kairo_native_shape_probe_v06/evidence/native_1x.png",
+      "nearest_preview": "rascunho/kairo_native_shape_probe_v06/evidence/nearest_8x.png",
+      "light_background": "rascunho/kairo_native_shape_probe_v06/evidence/light_background.png",
+      "dark_background": "rascunho/kairo_native_shape_probe_v06/evidence/dark_background.png",
+      "chroma_background": "rascunho/kairo_native_shape_probe_v06/evidence/chroma_background.png",
+      "preview_scale": 8,
+      "light_rgb": [238, 238, 230],
+      "dark_rgb": [28, 30, 38],
+      "chroma_rgb": [238, 0, 238],
+      "human_approval": "pending_human_visual_review; assisted technical candidate only"
+    },
+    "shape_block_contract": {
+      "silhouette_mask": {
+        "path": "rascunho/kairo_native_shape_probe_v06/shape_block/silhouette_mask.png",
+        "sha256": "4ff9c9a851b48a7875b89032d3bd9cf51cb998e90cff959683c28db71ae566b2",
+        "asset_id": "kairo_vant_front_pose_native_32x40",
+        "scale": "32x40",
+        "source": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png"
+      },
+      "semantic_region_map": {
+        "path": "rascunho/kairo_native_shape_probe_v06/shape_block/semantic_region_map.png",
+        "sha256": "e911392e3ac3de1f158746e8896bbb1f76644bf070e2670a61266254d6f6bbee",
+        "asset_id": "kairo_vant_front_pose_native_32x40",
+        "scale": "32x40",
+        "source": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png"
+      },
+      "contour_overlay": {
+        "path": "rascunho/kairo_native_shape_probe_v06/shape_block/contour_overlay.png",
+        "sha256": "aec726dc51e934c4f7ef181ed9804ac6f869e303ed82efc127aaaa356391274a",
+        "asset_id": "kairo_vant_front_pose_native_32x40",
+        "scale": "32x40",
+        "source": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png"
+      },
+      "required_semantic_regions": ["head_or_face", "hair", "torso", "arms_or_guard", "hands", "legs", "feet", "sash"],
+      "semantic_label_legend": {
+        "head_or_face": 1,
+        "hair": 2,
+        "torso": 3,
+        "arms_or_guard": 4,
+        "hands": 5,
+        "legs": 6,
+        "feet": 7,
+        "sash": 8
+      },
+      "semantic_label_counts": {
+        "head_or_face": 44,
+        "hair": 32,
+        "torso": 104,
+        "arms_or_guard": 27,
+        "hands": 45,
+        "legs": 134,
+        "feet": 106,
+        "sash": 94
+      },
+      "occupancy_metrics": {
+        "filled_pixels": 586,
+        "canvas_pixels": 1280,
+        "occupancy_pct": 45.78
+      },
+      "bbox": [4, 2, 28, 40],
+      "reason_codes": [
+        "geometric_prescreen_only",
+        "hand_authored_pixel_matrix",
+        "native_grid_authoring_source_v01",
+        "route_shootout_primary_im_lanczos3_guide",
+        "human_visual_gate_pending"
+      ]
+    },
+    "material_region_contract": {
+      "status": "pending",
+      "map_method": "explicit_material_ownership_map",
+      "source_reference": {
+        "path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+        "sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+        "role": "approved_material_topology_reference"
+      },
+      "material_region_map": {
+        "path": "rascunho/kairo_native_shape_probe_v06/material_region_map.png",
+        "sha256": "5fe16b29e0946053a8d1185584c00f48342098e29609815c286c553bad4c6e44",
+        "asset_id": "kairo_vant_front_pose_native_32x40",
+        "scale": "32x40",
+        "source": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png"
+      },
+      "material_boundary_overlay": {
+        "path": "rascunho/kairo_native_shape_probe_v06/material_boundary_overlay.png",
+        "sha256": "ff31493fe156acd9efb8a8241eee6d800ec59894c1b0e1b4891696ad11434519",
+        "asset_id": "kairo_vant_front_pose_native_32x40",
+        "scale": "32x40",
+        "source": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png"
+      },
+      "material_label_legend": {
+        "skin_base_shadow_highlight": 1,
+        "hair_deep_blue_cyan_accent": 2,
+        "coat_navy_blue_cyan_trim": 3,
+        "armor_charcoal_blue": 4,
+        "gold_accent": 5,
+        "scarf_cyan_blue": 6
+      },
+      "material_label_counts": {
+        "skin_base_shadow_highlight": 276,
+        "hair_deep_blue_cyan_accent": 99,
+        "coat_navy_blue_cyan_trim": 55,
+        "armor_charcoal_blue": 134,
+        "gold_accent": 6,
+        "scarf_cyan_blue": 16
+      },
+      "allowed_palette_indices": {
+        "skin_base_shadow_highlight": [6, 7, 9],
+        "hair_deep_blue_cyan_accent": [2, 3],
+        "coat_navy_blue_cyan_trim": [4, 11],
+        "armor_charcoal_blue": [10],
+        "gold_accent": [8],
+        "scarf_cyan_blue": [5, 12]
+      },
+      "shared_outline_indices": [1],
+      "critical_boundaries": [
+        {
+          "boundary_id": "skin_meets_hair_in_native_grid_candidate",
+          "material_a": "skin_base_shadow_highlight",
+          "material_b": "hair_deep_blue_cyan_accent",
+          "minimum_contact_edges": 1,
+          "region": [0, 0, 32, 40]
+        }
+      ],
+      "blocking_statuses": ["geometric_prescreen_only", "human_visual_gate_pending"]
+    }
+  },
+  "palette_contract": {
+    "max_visible_colors": 15,
+    "index0_role": "transparent0",
+    "outline_role": "shared_deep_outline",
+    "material_roles": [
+      "skin_base_shadow_highlight",
+      "hair_deep_blue_cyan_accent",
+      "coat_navy_blue_cyan_trim",
+      "armor_charcoal_blue",
+      "gold_accent",
+      "scarf_cyan_blue"
+    ]
+  },
+  "gates": {
+    "semantic_parse": "passed",
+    "lineart": "not_started",
+    "color_blocking": "not_started",
+    "material_topology": "in_progress",
+    "palette_lock": "not_started",
+    "pixel_contract": "passed",
+    "native_visual": "blocked",
+    "scale": "in_progress",
+    "budget": "not_started",
+    "human": "blocked",
+    "sgdk_integration": "blocked",
+    "emulator": "blocked"
+  },
+  "scale_report": {
+    "status": "superseded_by_direct_jack_ryo_measurement",
+    "camera_width": 320,
+    "camera_height": 224,
+    "hitbox": "pending_d1_native_pose_measurement",
+    "notes": "32x40 is negative evidence only. Direct Jack/Ryo measurement produced A=102px, B=115px and C=128px; no 32x40 candidate may seed production.",
+    "probes": "res/fighting/fighters/kairo_vant_probe.png"
+  },
+  "budget_report": {
+    "status": "pending",
+    "tiles": 0,
+    "scanline_px": 0,
+    "notes": "Assisted technical candidate exists but metasprite, tile residency and scanline pressure remain unmeasured; do not animate or promote."
+  },
+  "visual_report": {
+    "status": "pending",
+    "sha256": "2def2157cf78f3610d2dadde614dad500ee154ffee8215fc15e3977998af7fc6",
+    "notes": "Native 32x40 hand-authored pixel-matrix candidate v06 is hash-bound across 1x, nearest and background evidence. Pixel contract passes; human visual review and gameplay-scale read remain pending."
+  },
+  "challenger_win": null,
+  "runtime_evidence": null,
+  "promotion": {
+    "promotable": false,
+    "target": "none"
+  },
+  "status": "rework",
+  "next_action": "Do not review or integrate this 32x40 route. Reauthor one combat_idle_3quarter pose at the measured C=128px target from the active identity/translation workset.",
+  "provenance": {
+    "interaction_channel": "generative_image_producer",
+    "source_kind": "procedural_code_probe",
+    "producer_identity": "Project-authored XPM logical pixel matrix guided by Kairo Vant approved visual sources",
+    "action_log": "Original identity/model-sheet sources, compact ImageGen guides, source triage and route shootouts remain hash-bound. Candidate v06 is a native 32x40 hand-authored pixel matrix with pixel-contract pass; no runtime or res promotion.",
+    "human_approval": "not_applicable_for_rejected_negative_case"
+  },
+  "incumbent": {
+    "path": "res/fighting/fighters/kairo_vant_probe.png",
+    "sha256": "03df27ae2f800158880f3314e9db092ada3b7a4880e806dead19f626b43e337e",
+    "role": "comparison_only"
+  },
+  "methodology_reference": {
+    "path": "out/art/kairo_vant_front_route_shootout/route_shootout_report.json",
+    "sha256": "f817c16067c70027870859c3e37ffb1f96b358599df09838a7d0fbc8d7e4245b",
+    "role": "methodology_reference"
+  }
+}

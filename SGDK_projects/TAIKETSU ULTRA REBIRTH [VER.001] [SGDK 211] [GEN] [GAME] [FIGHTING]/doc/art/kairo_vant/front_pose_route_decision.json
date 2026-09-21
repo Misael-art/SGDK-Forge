@@ -1,0 +1,46 @@
+{
+  "schema_version": "route_decision.v1",
+  "asset_id": "kairo_vant_front_pose_native_32x40",
+  "source": {
+    "path": "data/source_art/kairo_vant/kairo_vant_front_pose_source_v01.png",
+    "sha256": "8254a3bc86968efa849d573d77e6dc8323ec0cf79670cd567a601e7f8ff66b4f"
+  },
+  "source_triage_report": {
+    "path": "out/logs/front_pose_source_triage_report.json",
+    "sha256": "d80570534ca1216b754d6904c6faa2818724343edb89cf1aafdd965a4c7e7b84"
+  },
+  "route_shootout_report": {
+    "path": "out/art/kairo_vant_front_route_shootout/route_shootout_report.json",
+    "sha256": "f817c16067c70027870859c3e37ffb1f96b358599df09838a7d0fbc8d7e4245b"
+  },
+  "board": {
+    "path": "out/art/kairo_vant_front_route_shootout/route_exploration_board.png",
+    "sha256": "475da4834f8684055e3b69298b7580f92db4f07d606f2f484e8314e8d72304b4"
+  },
+  "target": {
+    "width": 32,
+    "height": 40,
+    "anchor": "bottom_center"
+  },
+  "primary_underlay": {
+    "route": "im_lanczos3",
+    "path": "out/art/kairo_vant_front_route_shootout/routes/im_lanczos3/raw_rgba.png",
+    "sha256": "b162e0ba5a370483d2a34384db7326d2470e5bd7c9f9f1842b7829b9d61c3ff9"
+  },
+  "challenger_underlay": {
+    "route": "im_mitchell_netravali",
+    "path": "out/art/kairo_vant_front_route_shootout/routes/im_mitchell_netravali/raw_rgba.png",
+    "sha256": "efcff85fd147dee8482c05a6f93b6b49ceb08b8235764b5f35afe6b64f68bef3"
+  },
+  "control_underlay": {
+    "route": "cv_nearest",
+    "path": "out/art/kairo_vant_front_route_shootout/routes/cv_nearest/raw_rgba.png",
+    "sha256": "aa9ab34be0030704c9b1bc0bc024277c8a49fe9e8b0e31f542ebdcfcd640fc9c"
+  },
+  "decision": "native_reauthoring_over_im_lanczos3_guide",
+  "automatic_winner": null,
+  "human_visual_approval": "pending",
+  "claim_ceiling": "mechanical_geometry_probe",
+  "next_action": "Construir uma unica pose nativa no grid 32x40 a partir do model sheet e do underlay primario; underlays continuam reference_only e nao entram em res.",
+  "notes": "The primary route is a causal guide only. No filter result is declared native art, visual pass, or final asset."
+}

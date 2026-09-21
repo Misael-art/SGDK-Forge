@@ -23,5 +23,7 @@ extern const SpriteDefinition spr_ken_700;
 extern const SpriteDefinition spr_ken_710;
 extern const SpriteDefinition spr_ken_720;
 extern const SpriteDefinition spr_ken_730;
+extern const SpriteDefinition spr_ken_defeat_v1;
+extern const SpriteDefinition spr_ken_victory_v1;
 
 #endif // _RES_KEN_H_

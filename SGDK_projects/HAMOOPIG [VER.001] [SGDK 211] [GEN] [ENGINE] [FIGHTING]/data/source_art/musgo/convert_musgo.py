@@ -88,6 +88,13 @@ def is_chroma(rgb) -> bool:
         return True
     if r >= 210 and b >= 190 and g <= 170:
         return True
+    # JPEG matte contamination also survives as dark wine/purple pixels.  It
+    # must never enter Musgo's shared gameplay palette: those pixels become a
+    # visible fringe once the sprite is shown over the swamp stage.
+    if r >= 90 and b >= 60 and g <= 90 and r + b > (g * 2) + 50:
+        return True
+    if r >= 50 and b >= 50 and g <= 52 and r + b > (g * 2) + 30:
+        return True
     return False
 
 
@@ -164,13 +171,31 @@ def extract_palette(frames: list[Image.Image]) -> list[tuple[int, int, int]]:
                 pix = px[x, y]
                 r, g, b = pix[:3]
                 a = pix[3] if len(pix) == 4 else 255
-                if a < 16 or (r, g, b) == MAGENTA or is_chroma((r, g, b)):
+                snapped = snap9((r, g, b))
+                if a < 16 or (r, g, b) == MAGENTA or is_chroma((r, g, b)) or is_chroma(snapped):
                     continue
-                acc[snap9((r, g, b))] += 1
+                acc[snapped] += 1
     colors = [c for c, _ in acc.most_common(15)]
     while len(colors) < 15:
         colors.append((0, 0, 0))
     return [MAGENTA] + colors[:15]
+
+
+def enhance_gameplay_contrast(palette: list[tuple[int, int, int]]) -> list[tuple[int, int, int]]:
+    """Keep Musgo's swamp identity while separating it from BGB2 at 1x.
+
+    The source art is brown/olive-heavy and several midtones collapse into
+    the dock vegetation. These snapped Mega Drive colors retain the original
+    role order (outline, shadow, material, highlight) but lift the green and
+    highlight steps so the silhouette survives over water and roots.
+    """
+    visible = [
+        (34, 34, 34), (68, 102, 34), (34, 68, 34), (68, 34, 34),
+        (102, 102, 34), (136, 136, 68), (34, 34, 34), (0, 0, 0),
+        (102, 102, 68), (136, 136, 68), (170, 136, 68), (102, 102, 102),
+        (170, 136, 34), (68, 68, 34), (238, 204, 136),
+    ]
+    return [palette[0]] + visible
 
 
 def palette_bytes(palette: list[tuple[int, int, int]]) -> list[int]:
@@ -191,10 +216,11 @@ def remap(im: Image.Image, palette: list[tuple[int, int, int]], raw: list[int]) 
             pix = sp[x, y]
             r, g, b = pix[:3]
             a = pix[3] if len(pix) == 4 else 255
-            if a < 16 or (r, g, b) == MAGENTA or is_chroma((r, g, b)):
+            snapped = snap9((r, g, b))
+            if a < 16 or (r, g, b) == MAGENTA or is_chroma((r, g, b)) or is_chroma(snapped):
                 dp[x, y] = 0
                 continue
-            s = snap9((r, g, b))
+            s = snapped
             best = 1
             bd = 10**9
             for i, c in enumerate(palette):
@@ -305,7 +331,7 @@ def main() -> None:
         }
 
     all_frames = [f for st in prepared.values() for f in st["frames"]]
-    palette = extract_palette(all_frames)
+    palette = enhance_gameplay_contrast(extract_palette(all_frames))
     raw = palette_bytes(palette)
 
     report = {
@@ -387,8 +413,38 @@ def main() -> None:
             "sources": meta["sources"],
         }
 
+    # Keep the separately authored terminal poses in the generated resource
+    # manifest as well as in the state table.  Without these lines a palette
+    # rebuild leaves valid C references pointing at missing ResComp symbols.
+    res_lines += [
+        'SPRITE spr_musgo_fall_v1 "sprite/musgo/fall_v1.png" 15 15 FAST 0',
+        'SPRITE spr_musgo_defeat_v1 "sprite/musgo/defeat_v1.png" 16 8 FAST 0',
+        'SPRITE spr_musgo_victory_v1 "sprite/musgo/victory_v1.png" 11 16 FAST 0',
+    ]
+
+    # These authored result poses are not ordinary action aliases.  Keep them
+    # in the generated table so a palette rebuild cannot silently regress the
+    # defeat/victory presentation back to crouch or idle.
+    h_lines += [
+        "    // defeat_v1 asset: authored terminal ground pose.",
+        "    case 570: {",
+        "        static const MusgoStateAnim a = {",
+        "            &spr_musgo_fall_v1, 120, 120, 60, 120, 2,",
+        "            { 6, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }",
+        "        };",
+        "        return &a;",
+        "    }",
+        "    case 611: case 612: {",
+        "        static const MusgoStateAnim a = {",
+        "            &spr_musgo_victory_v1, 88, 128, 44, 128, 1,",
+        "            { 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }",
+        "        };",
+        "        return &a;",
+        "    }",
+    ]
+
     aliases = [
-        ("    case 610: case 607: case 611: case 612: case 615: return musgo_anim_for(100);",),
+        ("    case 610: case 607: case 615: return musgo_anim_for(100);",),
         ("    case 608: case 209: case 207: case 208: return musgo_anim_for(200);",),
         ("    case 103: case 113: case 107: case 108: case 109: case 110: case 152: return musgo_anim_for(102);",),
         ("    case 154: return musgo_anim_for(104);",),
@@ -400,7 +456,7 @@ def main() -> None:
         ("        return musgo_anim_for(300);",),
         ("    case 410: case 471: case 472: return musgo_anim_for(420);",),
         ("    case 502: case 503: case 506: case 511: case 512:",),
-        ("    case 551: case 552: case 570: return musgo_anim_for(550);",),
+        ("    case 551: case 552: return musgo_anim_for(550);",),
         ("    case 800: case 801: case 802: case 803: return musgo_anim_for(102);",),
         ("    default: return musgo_anim_for(100);",),
     ]

@@ -10,6 +10,7 @@ extern const SpriteDefinition spr_spark0;
 extern const SpriteDefinition spr_spark1;
 extern const SpriteDefinition spr_spark2;
 extern const SpriteDefinition spr_spark3;
+extern const SpriteDefinition spr_stage_water_glint;
 extern const SpriteDefinition spr_n0;
 extern const SpriteDefinition spr_n1;
 extern const SpriteDefinition spr_n2;

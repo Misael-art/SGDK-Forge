@@ -51,3 +51,9 @@ Define topologia e ordem de resolucao antes do runtime.
 - one-way por posicao atual apenas
 - casos especiais sem tabela de materiais
 - colisao em screen-space
+
+## Contato persistente e alcance realizavel
+
+Quando houver combate, ler as secoes 1–2 do caso HAMOOPIG: identidade de ataque entre ticks, consumo unico, reset e alcance apos pushboxes. Exigir fixtures simetricas e de rearmamento; nao copiar contador u8 ou alcance local como padrao.
+
+[Aprendizado e fixtures HAMOOPIG](../../../references/hamoopig_engine_learning_2026_09_18.md).

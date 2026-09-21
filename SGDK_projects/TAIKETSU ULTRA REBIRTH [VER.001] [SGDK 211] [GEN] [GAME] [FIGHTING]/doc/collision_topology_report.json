@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "scene": "D1 fighting slice",
+  "spaces": ["world", "screen"],
+  "domains": {
+    "solid_box": "arena floor and side bounds",
+    "push_box": "fighter separation body box",
+    "hurt_box": "fighter vulnerable body box",
+    "hit_box": "attack-only forward box"
+  },
+  "implementation": "static_box_overlap_in_scene_demo_c",
+  "multi_point": false,
+  "one_way": false,
+  "slopes": false,
+  "critical_motion_status": "D1_probe_only",
+  "known_limit": "This probe intentionally keeps a flat floor and two actors; full multi-point/airborne topology is D2+ work."
+}

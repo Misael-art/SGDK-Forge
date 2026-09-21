@@ -1,0 +1,14 @@
+{
+  "scene_id": "combat_cinder_circuit_d1",
+  "status": "documented_measurement_plan",
+  "cutscene_resource_plan": {
+    "states": [
+      {"id":"enter_stage","resident":["img_forge_bg_b","img_forge_bg_a_props","fighter_active_jack","fighter_active_kairo","special_fx_window"]},
+      {"id":"dialogue_line_jack","resident":["img_forge_bg_b","img_forge_bg_a_props","fighter_active_jack","fighter_active_kairo","portrait_jack","portrait_kairo"]},
+      {"id":"dialogue_line_kairo","resident":["img_forge_bg_b","img_forge_bg_a_props","fighter_active_jack","fighter_active_kairo","portrait_jack","portrait_kairo"]},
+      {"id":"combat_special","resident":["img_forge_bg_b","img_forge_bg_a_props","fighter_active_jack","fighter_active_kairo","special_fx_window"]}
+    ]
+  },
+  "streaming_rule": "fighter_inactive_* nunca entra em resident; somente os dois lutadores ativos ficam em VRAM; retratos e FX usam janelas fora do golpe quando necessario.",
+  "measurement_note": "Os simbolos de lutador/retrato ainda nao existem em res/; audit_tile_residency deve reporta-los como unresolved ate a autoria e conversao VDP. Isso nao e um pass de budget final."
+}

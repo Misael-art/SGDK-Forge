@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "scene.h"
 #include "globals.h"
+#include "stage.h"
 
 static u8 sPending = SCENE_NONE;
 
@@ -22,6 +23,7 @@ bool SCENE_pending(void)
 void SCENE_commit(void)
 {
 	if(sPending == SCENE_NONE){ return; }
+	STAGE_ambient_off();
 	gRoom = sPending;
 	/* Sempre 0: o gFrames++ do topo do proximo tick leva a 1, e e esse 1 que
 	   toda cena usa como "inicialize agora".  Nenhum chamador escolhe mais

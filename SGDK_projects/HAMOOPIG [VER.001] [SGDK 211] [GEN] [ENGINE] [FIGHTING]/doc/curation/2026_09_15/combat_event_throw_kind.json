@@ -1,0 +1,24 @@
+{
+  "id": "L065",
+  "date": "2026-09-15",
+  "title": "Tipo THROW explícito e confirmado no ledger",
+  "scope": "HAMOOPIG P04",
+  "lesson": "Fonte THROW sozinha não comunica a semântica do evento. O tipo precisa ser distinguível de HIT e GUARD, mas a política de combo/medidor deve tratá-lo como acerto confirmado.",
+  "implementation": [
+    "COMBAT_EVENT_THROW foi adicionado ao contrato.",
+    "FUNCAO_REGISTER_HIT classifica estados 801/802 como THROW.",
+    "O consumidor aplica combo e ganho fixo de HIT/THROW uma vez."
+  ],
+  "evidence": {
+    "tests": "tests/test_combat_event_contract.py",
+    "suite": "14/14",
+    "build_log": "out/logs/continuation_p04_throw_kind_build.log",
+    "rom_sha256": "dfdb6cb181c22f9d3e151a694abdad3cf0a66ca1ec3b0664c9a346b3e3e3b3cd",
+    "emulator_capture": "out/emulator_evidence/visual_ko_20260915T050018Z/"
+  },
+  "limitations": [
+    "A sequência real de agarrão ainda não foi isolada em uma captura instrumentada do emulador.",
+    "A revisão visual e o budget de frame continuam fora deste contrato host."
+  ],
+  "status": "implemented_build_passed_host_contract_pending_emulator_trace"
+}

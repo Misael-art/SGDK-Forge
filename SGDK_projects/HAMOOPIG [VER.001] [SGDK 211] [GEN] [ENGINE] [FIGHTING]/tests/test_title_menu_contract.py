@@ -26,8 +26,24 @@ def main():
 
     # 1. Itens do menu continuam existindo.
     for token in ('"START"', '"OPTION"', '"SFX ON"', '"SFX OFF"',
-                  '"MUSIC ON"', '"MUSIC OFF"', '"BACK"', '"DEBUG"'):
+                  '"MUSIC ON"', '"MUSIC OFF"', '"SPCL ON"',
+                  '"SOUND TEST"',
+                  '"SPCL OFF"', '"HITS ON"', '"HITS OFF"',
+                  '"RULES ON"', '"RULE FREE"', '"STG2 ON"',
+                  '"STG2 OFF"', '"INTRO ON"', '"INTRO OFF"',
+                  '"FADE ON"', '"FADE OFF"', '"TBG ON"', '"TBG OFF"',
+                  '"BACK"', '"DEBUG"'):
         assert token in title, f"item de menu ausente: {token}"
+    # O painel possui 18 colunas e cada glyph ocupa 2 colunas: nenhum rótulo
+    # pode ultrapassar nove caracteres e ser truncado no framebuffer.
+    for label in ('SFX ON', 'SFX OFF', 'MUSIC ON', 'MUSIC OFF', 'SOUND TEST', 'LIFE ON',
+                  'LIFE OFF', 'CLOCK ON', 'CLOCK OFF', 'TBG ON', 'TBG OFF',
+                  'TIME 60', 'TIME 99', 'TIME OFF', 'SPCL ON', 'SPCL OFF',
+                  'HITS ON', 'HITS OFF', 'RULES ON', 'RULE FREE',
+                  'STG2 ON', 'STG2 OFF', 'DEBUG', 'DEFAULTS', 'BACK'):
+        assert len(label) <= 10, f"rotulo excede painel: {label}"
+    for label in ('INTRO ON', 'INTRO OFF', 'FADE ON', 'FADE OFF'):
+        assert len(label) <= 9, f"rotulo excede painel: {label}"
 
     # 2. Ciclo de vida do titulo, chamado pelo main.
     for token in ('FUNCAO_TITLE_INIT', 'FUNCAO_TITLE_UPDATE', 'FUNCAO_TITLE_EXIT',
@@ -39,6 +55,9 @@ def main():
     # P03: as preferencias de audio sairam de globals.h para GameConfig.
     assert 'audioSfx' in config_h and 'audioMusic' in config_h, \
         "as preferencias de audio devem viver em GameConfig"
+    for token in ('hudSpecialBar', 'hudHitCount', 'specialRules', 'stage2Enabled',
+                  'hudTimerBg', 'showOpening', 'useFade'):
+        assert token in config_h and token in config_c, f"config sem {token}"
     assert 'gAudioSfxEnabled' not in globals_h, \
         "o global antigo de SFX voltou; ha duas fontes de verdade"
 
@@ -52,9 +71,18 @@ def main():
         "a luta deve ler a regra congelada, nao gConfig"
 
     # P03: nenhum item de menu sem sistema por tras (plano, secao 3).
-    for proibido in ('"SPECIAL BAR"', '"HIT COUNT"', '"STAGE 2"', '"STAGE COLOR"'):
+    for proibido in ('"STAGE COLOR"', '"STAGE MOTION"'):
         assert proibido not in title, \
             f"{proibido} nao tem sistema implementado; seria botao inerte"
+
+    # OPENING e FADE possuem retorno observável pela seleção/pós-luta.
+    select_c = (ROOT / "src/select.c").read_text()
+    assert 'select_return_to_title' in select_c and 'SCENE_OPENING' in select_c
+    assert 'key_JOY_B_status == KEY_PRESSED' in select_c
+    assert 'gfx_select_surface' in select_c and 'VDP_setTileMapEx(BG_A' in select_c
+    assert 'VDP_drawText("FIGHTER SELECT", 13, 2)' in select_c
+    assert 'VDP_drawText("STAGE //", 12, 25)' in select_c
+    assert 'gConfig.showOpening ? SCENE_OPENING : SCENE_TITLE' in main_c
 
     # 3. O titulo entrega o controle pelo gerenciador, nunca escrevendo gRoom.
     assert 'SCENE_request(SCENE_SELECT)' in title, \
@@ -77,10 +105,30 @@ def main():
 
     # 5. O menu so fica ativo depois de carregar e revelar.  Era o papel do
     #    TITLE_PHASE_OPENING antigo; agora sao duas fases explicitas.
-    for token in ('TITLE_PHASE_LOADING', 'TITLE_PHASE_FADE_IN', 'TITLE_PHASE_ACTIVE'):
+    for token in ('TITLE_PHASE_LOADING', 'TITLE_PHASE_FADE_IN', 'TITLE_PHASE_ACTIVE',
+                  'TITLE_PHASE_FADE_OUT'):
         assert token in title, f"fase de titulo ausente: {token}"
     assert 'sTitlePhase = TITLE_PHASE_LOADING;' in title, \
         "FUNCAO_TITLE_INIT deve reentrar pela fase de carga"
+    assert 'TITLE_PANEL_W, sPanelH, TITLE_PANEL_W,' in title and 'sTitleInitialCommit ? DMA' in title, \
+        "o mapa inicial do título deve terminar antes do fade"
+    assert 'sTitleInitialCommit ? DMA : CPU' in title, \
+        "páginas posteriores devem evitar duas DMAs síncronas consecutivas"
+    assert 'VDP_waitDMACompletion();' in title, \
+        "a restauração do artwork deve terminar antes da escrita CPU do painel"
+    assert 'sMainSelectionLatched' in title and 'if(sMainSelectionLatched == TITLE_MAIN_START)' in title, \
+        "a confirmação deve usar a seleção principal latched"
+    assert 'sTitlePageInputLock = 2' in title and 'if(sTitlePageInputLock > 0)' in title, \
+        "a troca de página deve consumir a borda sem cascata"
+    assert 'PAL_fadeOutAll(8, TRUE)' in title and 'PAL_isDoingFade()' in title, \
+        "START deve aguardar o fade de saida antes de limpar o VDP"
+    assert 'sTitlePhase == TITLE_PHASE_FADE_OUT' in title and \
+           'FUNCAO_TITLE_EXIT();' in title, \
+        "a troca para o seletor deve ocorrer somente ao concluir o fade"
+    assert 'title_scene' in title, \
+        "o titulo deve possuir uma composicao de fundo propria"
+    assert 'VDP_clearPlane(BG_B, TRUE);' in title, \
+        "a carga do titulo deve limpar o tilemap da abertura antes do novo fundo"
 
     # 6. Separacao P02: a abertura nao pode ter voltado para dentro do titulo.
     assert 'TITLE_OPENING_FRAMES' not in title, \

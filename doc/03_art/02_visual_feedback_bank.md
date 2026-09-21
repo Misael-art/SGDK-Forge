@@ -75,6 +75,20 @@ Se uma correcao nao entrou aqui, ela ainda nao virou doutrina.
 
 ## Entradas iniciais
 
+### Cadência de lógica não pode ser inferida pelo FPS da janela
+
+- sintoma: a janela do emulador mostra cerca de 60 FPS, mas um combo, especial ou transição ainda pode parecer atrasado, duplicado ou congelado
+- diagnostico_tecnico: o probe media apenas picos de CPU/VDP e o contador de vídeo; não havia relação persistida entre ticks de lógica, frames apresentados e commits de renderização
+- heuristica_preventiva: toda cena crítica deve exportar um ledger separado que conte frames de vídeo, ticks lógicos por frame, frames sem tick, frames de dois ticks e commits de apresentação; FPS da janela continua sendo apenas contexto
+- metricas_afetadas:
+  - silhouette_readability
+  - layer_separation
+  - reuse_opportunity
+- benchmark_referencia:
+  - HAMOOPIG runtime cadence / BlastEm
+  - Streets of Rage 2 — resposta de impacto sem frame de apresentação perdido
+- check_em_rom: procurar o bloco HCAD no SRAM da mesma ROM e validar `presentation_commits == video_frames`, a soma `one_tick + 2*two_tick == logic_ticks` e os contadores específicos da luta antes de julgar glitch visual
+
 ### Sprite Afundando no Fundo
 
 - sintoma: o personagem some quando atravessa fundos com detalhe medio ou alto
@@ -1397,3 +1411,25 @@ caso humano full-body em baixa resolucao; priors nao sao universais.
 
 Autoridades: `art/native-sprite-production/references/source-route-triage-protocol.md`
 e `tools/sgdk_wrapper/forge_art/route_prior_registry.json`.
+
+## 2026-09-20 — health bar authored caps confundem captura de KO
+
+- sintoma: a SRAM mostra `energiaBase=0` e os estados de queda/vitoria, mas o
+  capturador continua vendo pixels amarelos e não gera `terminal_capture`
+- diagnostico_tecnico: a barra autoral passou a ter caps e trilho persistentes;
+  o detector antigo tratava qualquer amarelo como preenchimento de vida e
+  assumia que a moldura vazia seria totalmente escura
+- heuristica_preventiva: separar candidato visual de confirmação de gameplay;
+  medir ocupação do fill em uma região interna que exclua caps, conferir o
+  estado terminal na evidência SRAM somente depois da amostra visual e registrar
+  a transição `KO -> AFTER_MATCH -> rematch` em uma mesma sessão quando o
+  objetivo for qualidade de luta
+- metricas_afetadas: `feedback_readability`, `silhouette_readability`,
+  `runtime_evidence_completeness`, `gameplay_state_coverage`
+- benchmark_referencia:
+  - HAMOOPIG: estado FSM, impacto e resultado devem ser observáveis na luta
+  - Streets of Rage 3: barra vazia continua legível sem parecer vida cheia
+  - Shinobi III: sinal de derrota preserva a leitura do personagem e do palco
+- check_em_rom: no BlastEm, capturar o fill interno em 1x, confirmar `energia=0`
+  com estado de KO, capturar o letreiro/FX, aguardar `AFTER_MATCH` e confirmar
+  a revanche pela entrada A; SHA da ROM, SRAM e screenshots devem coincidir

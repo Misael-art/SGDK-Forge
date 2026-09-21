@@ -11,6 +11,11 @@ void CONFIG_setDefaults(void)
 	gConfig.audioMusic  = TRUE;
 	gConfig.hudLifeBar  = TRUE;
 	gConfig.hudTimer    = TRUE;
+	gConfig.hudTimerBg  = FALSE;
+	gConfig.hudSpecialBar = TRUE;
+	gConfig.hudHitCount = TRUE;
+	gConfig.specialRules = TRUE;
+	gConfig.stage2Enabled = TRUE;
 	gConfig.showOpening = TRUE;
 	gConfig.useFade     = TRUE;
 	gConfig.timeLimit   = CONFIG_TIME_99;

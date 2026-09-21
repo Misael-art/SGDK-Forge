@@ -1,0 +1,21 @@
+{
+  "lesson_id": "L088",
+  "date": "2026-09-15",
+  "topic": "p11_current_rom_revalidation",
+  "source": "isolated_manual_and_stage_extension_runner",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "A evidência P11 ainda apontava para uma cópia anterior dos manuais e precisava ser reexecutada após a promoção do cenário.",
+  "change": "Reexecutar `reproduce_p11_isolated.py --self-check` na árvore vigente; copiar os manuais e StageDefinition para uma pasta descartável, compilar com stub SGDK explícito e executar o probe SHOWDOWN/BGB2.",
+  "result": "A reprodução passou em `out/p11_isolated_reproduction_20260915T125901Z/report.json`; os três manuais, os dois StageDefinition e o probe host foram aprovados.",
+  "limits": [
+    "a reprodução é host-only e não prova build SGDK/Wine",
+    "não prova ROM no emulador, revisão visual/auditiva ou budget",
+    "o inventário completo de assets/controles de release ainda requer auditoria dedicada"
+  ],
+  "artifacts": [
+    "tests/reproduce_p11_isolated.py",
+    "tests/test_p11_isolated_reproduction_contract.py",
+    "out/p11_isolated_reproduction_20260915T125901Z/report.json"
+  ],
+  "status": "documented_host_reproduction_pass_release_inventory_pending"
+}

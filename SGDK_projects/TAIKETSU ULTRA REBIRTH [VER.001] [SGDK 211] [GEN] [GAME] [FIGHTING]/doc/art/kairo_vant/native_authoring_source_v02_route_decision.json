@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "kairo_vant_front_pose_assisted_probe_v02",
+  "source_path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v02.png",
+  "source_sha256": "7ce4f46f57248070792c77c402a2afc7cc0d2b21fb06dceb83b7254f045cf399",
+  "source_triage_report": {
+    "path": "out/logs/kairo_vant_native_authoring_source_v02_triage_report.json",
+    "sha256": "0892c370f99c50b4ff6dca01003ebb933e79536abf5a16aab96620e8c67fbda6"
+  },
+  "route_shootout": {
+    "report_path": "out/art/kairo_vant_native_authoring_v02_route_shootout/route_shootout_report.json",
+    "report_sha256": "e8c7d8e291c9353a9ab015512c8e0d2830be8ffeb27965386e3d5d6ebb4cfe6d",
+    "board_path": "out/art/kairo_vant_native_authoring_v02_route_shootout/route_exploration_board.png",
+    "board_sha256": "98746b9f6db2fb3712bc84576c4a78c13e95dccdba1fb5ee1b20fee25d1a48e5",
+    "executed": 20,
+    "skipped": 5,
+    "automatic_winner": null
+  },
+  "primary_guide": {
+    "route_id": "im_lanczos3",
+    "path": "out/art/kairo_vant_native_authoring_v02_route_shootout/routes/im_lanczos3/raw_rgba.png",
+    "sha256": "7e932c3a0d663dd61a2ecb6e9414304575dd4af7db090fa305a7f047f0bd6600",
+    "decision": "best_compromise_of_face_cluster_and_scarf_mass_for_native_reauthoring"
+  },
+  "challenger_guide": {
+    "route_id": "im_mitchell_netravali",
+    "path": "out/art/kairo_vant_native_authoring_v02_route_shootout/routes/im_mitchell_netravali/raw_rgba.png",
+    "sha256": "105aff51c22c3cfe4d516b631d3d408dcf8b35c366f7f0de5337fcffc522cc9e",
+    "decision": "softer_mass_distribution_challenger_for_face_and_coat_readability"
+  },
+  "control_guide": {
+    "route_id": "im_nearest",
+    "path": "out/art/kairo_vant_native_authoring_v02_route_shootout/routes/im_nearest/raw_rgba.png",
+    "sha256": "9328b0fd7d176ef4cf172c2c81e9b2949908f748fe44991879c8b72ce389ac74",
+    "decision": "negative_control_for_block_survival_and_edge_stairing"
+  },
+  "handoff": "native_reauthoring_over_im_lanczos3_guide",
+  "claim_ceiling": "mechanical_geometry_probe",
+  "human_visual_approval": "pending",
+  "promotion": {
+    "promotable": false,
+    "target": "none"
+  }
+}

@@ -64,6 +64,39 @@
       "promotion_allowed": false,
       "technique_tags": ["procedural_composed_from_authored"],
       "evidence": ["res/sprite.res", "rascunho/upstream_reference/hamoopi_complement_convert_report.json"]
+    },
+    {
+      "asset_id": "title_backdrop_v01",
+      "role": "title_screen_backdrop",
+      "source_path": "data/source_art/title/title_backdrop_generated_v01.png",
+      "runtime_path": "res/gfx/title_backdrop.png",
+      "owner": "projeto HAMOOPIG, candidato gerado com imagegen e quantizado deterministicamente",
+      "status": "candidate",
+      "promotion_allowed": false,
+      "technique_tags": ["imagegen_source", "mega_drive_9bit", "tile_reuse"],
+      "evidence": ["data/source_art/title/title_assets_report.json", "res/gfx.res"]
+    },
+    {
+      "asset_id": "title_logo_overlay_v01",
+      "role": "title_logo_transparent_overlay",
+      "source_path": "res/gfx/room_0_bgb.png",
+      "runtime_path": "res/gfx/title_logo_overlay.png",
+      "owner": "GameDevBoss/Daniel Moura artwork, transparent overlay derived by project tooling",
+      "status": "candidate",
+      "promotion_allowed": false,
+      "technique_tags": ["border_flood_transparency", "upstream_import"],
+      "evidence": ["data/source_art/title/title_assets_report.json", "res/gfx.res"]
+    },
+    {
+      "asset_id": "title_scene_v01",
+      "role": "title_screen_composite",
+      "source_path": "data/source_art/title/title_backdrop_generated_v01.png + res/gfx/room_0_bgb.png",
+      "runtime_path": "res/gfx/title_scene.png",
+      "owner": "projeto HAMOOPIG, composição determinística de fundo e logo existente",
+      "status": "candidate",
+      "promotion_allowed": false,
+      "technique_tags": ["indexed_composite", "mega_drive_9bit", "tile_reuse"],
+      "evidence": ["data/source_art/title/title_assets_report.json", "res/gfx.res"]
     }
   ]
 }

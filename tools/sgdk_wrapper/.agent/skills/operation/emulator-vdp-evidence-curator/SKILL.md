@@ -64,3 +64,9 @@ conta propria.
   sozinho gameplay, qualidade visual, audio, performance ou budget.
 - Recapturar e necessario somente quando a ROM muda de proposito ou quando os
   artefatos exigidos pelo claim estavam ausentes/defeituosos.
+
+## Semantica do probe e cobertura real
+
+Para telemetria ou matriz automatizada, ler as secoes 6–7 do caso HAMOOPIG. Declarar unidade, schema, saturacao, regioes e configuracao observada. Bytes enfileirados, contador de eventos e 36 probes curtos nao provam tempo de CPU, game feel nem partidas completas.
+
+[Aprendizado e fixtures HAMOOPIG](../../../references/hamoopig_engine_learning_2026_09_18.md).

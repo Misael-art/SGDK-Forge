@@ -23,6 +23,6 @@ WAV snd_ryo_710 "snd/snd_ryo_710.wav" XGM
 WAV snd_ryo_720 "snd/snd_ryo_720.wav" XGM
 WAV snd_ryo_730 "snd/snd_ryo_730.wav" XGM
 
-// Ken stage: MIDI reference transcribed to compact NTSC VGM (YM2612+PSG, no PCM).
-// MIDI never enters the ROM. Driver stays XGM1.
-XGM bgm_ken_stage "music/ken_stage.vgm" 0
+// Forge Crystal: score authoral HAMOOPIG, three PSG tone voices, NTSC 150 BPM.
+// The score source and deterministic compiler live in data/source_audio/.
+XGM mus_forge_brand "music/mus_forge_brand.vgm" 0

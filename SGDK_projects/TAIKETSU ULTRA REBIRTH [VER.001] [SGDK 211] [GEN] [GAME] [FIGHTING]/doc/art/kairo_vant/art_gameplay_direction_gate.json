@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "kairo_vant_d1_direction_gate",
+  "project_id": "taiketsu_ultra_rebirth",
+  "asset_id": "kairo_vant",
+  "asset_kind": "model_sheet",
+  "evaluated_at": "2026-09-05",
+  "measurement_level": "planned_contract",
+  "art_director_review": {
+    "status": "needs_review",
+    "reviewer": "visual-excellence-standards",
+    "art_direction_decision_record": "doc/art/kairo_vant/visual_source_of_truth.json",
+    "findings": [
+      "Identity source exists and is clean enough for staging, but native 1x visual approval is still pending.",
+      "The visual target is original and uses indigo/cyan/amber as a shared roster contrast plan."
+    ]
+  },
+  "game_design_context": {
+    "status": "passed",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "animation_state_plan": "doc/characters/kairo_vant/moveset_frame_data.json",
+    "scene_direction_record": "doc/aaa_d1_cinematic_storyboard.json",
+    "camera_behavior_contract": "doc/camera_behavior_contract.json",
+    "gameplay_role": "D1 opponent and first vertical-slice rival; powers fighter with readable projectile and aerial branch",
+    "camera_perspective": "side_view_close_combat",
+    "interaction_context": [
+      "Kairo must remain taller than Jack/Ryo at the locked D1 probe.",
+      "Scarf is a signature secondary-motion marker, not a hitbox shortcut.",
+      "Cyan energy must share the special-meter/FX language and remain readable over the stage.",
+      "Ground contact and hands must survive at 320x224 native size."
+    ]
+  },
+  "identity_continuity_lock": {
+    "visual_dna_manifest": "doc/art/kairo_vant/visual_source_of_truth.json",
+    "must_preserve": [
+      {"id": "comet_scarf", "kind": "signature_feature", "expected": "Asymmetric scarf tail creates the primary silhouette hook.", "status": "locked"},
+      {"id": "indigo_coat", "kind": "costume", "expected": "Sleeveless indigo coat with cyan seam language.", "status": "locked"},
+      {"id": "amber_gauntlets", "kind": "accessory", "expected": "Amber wrist/gauntlet accents distinguish the fighter from Jack and Ryo.", "status": "locked"},
+      {"id": "cyan_energy", "kind": "palette", "expected": "Cyan energy is reserved for powers and meter feedback.", "status": "locked"},
+      {"id": "grounded_stance", "kind": "silhouette", "expected": "Complete feet and forward pressure read at 1x.", "status": "locked"}
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "needs_review",
+    "secondary_motion": ["Scarf tail follows torso acceleration with one-frame delay in future strips."],
+    "expression_requirements": ["Focused neutral for idle; narrowed eyes and open mouth for CS-A/special."],
+    "state_fantasy_checks": ["Aerial power action must read as controlled stellar projection, not generic recolor." ]
+  },
+  "decision": {
+    "production_allowed": false,
+    "ready_for_generation": true,
+    "ready_for_conversion": true,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "fighter_scale_benchmark_and_three_hypothesis_shootout",
+      "native_grid_reauthoring_at_selected_scale",
+      "pixel_strict_validation",
+      "native_visual_review",
+      "budget_and_blastem_evidence",
+      "human_asset_approval"
+    ]
+  },
+  "blockers": ["director_gate_unapproved"]
+}

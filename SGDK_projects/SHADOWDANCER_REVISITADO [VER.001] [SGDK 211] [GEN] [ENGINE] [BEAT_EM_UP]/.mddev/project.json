@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "name": "SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]",
+  "display_name": "SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]",
+  "version": "1.0",
+  "sgdk_version": "2.11",
+  "layout": "flat",
+  "project_root": ".",
+  "sgdk_root": "../../sdk/sgdk-2.11",
+  "build_policy": "enabled",
+  "kind": "engine",
+  "category": "beat_em_up",
+  "genre": "beat_em_up",
+  "notes": "Conversao da base tecnica do beat em up Shadow Dancer para SGDK 2.11. Preserva o mapa virtual e o cache de tiles; nao promove o prototipo a jogo final.",
+  "scene_contracts": {"source_spec_path":"doc/13-spec-cenas.md","compiled_path":"doc/scene-contracts.json","compile_mode":"lab"},
+  "qa_proof_plan": {"path":"doc/14-plano-de-provas-qa.md","required_for_new_projects":true},
+  "methodology": {"manifest_path":"doc/project_methodology_manifest.json","technique_usage_manifest_path":"doc/technique_usage_manifest.json","validator_report_path":"out/logs/project_methodology_report.json","required_for_closeout":true},
+  "validation_artifacts": {"validation_report_path":"out/logs/validation_report.json","project_methodology_report_path":"out/logs/project_methodology_report.json","runtime_metrics_path":"out/logs/runtime_metrics.json","emulator_session_path":"out/logs/emulator_session.json"}
+}

@@ -7,7 +7,8 @@ typedef enum
 {
 	TITLE_PAGE_MAIN = 0,
 	TITLE_PAGE_OPTIONS = 1,
-	TITLE_PAGE_DEBUG = 2
+	TITLE_PAGE_DEBUG = 2,
+	TITLE_PAGE_SOUND_TEST = 3
 } TitlePage;
 
 typedef enum
@@ -18,33 +19,26 @@ typedef enum
 
 typedef enum
 {
-	/* Ordem de leitura: audio, HUD, regra, ferramentas.  DEFAULTS e acao, nao
-	   toggle, e por isso fica junto de BACK.
-
-	   So existem aqui opcoes cujo efeito e OBSERVAVEL, nao so implementado --
-	   o plano proibe botao inativo sem destino (secao 3).  Tres grupos ficam
-	   de fora por motivos diferentes:
-
-	     sistema ausente   SPECIAL BAR e SPECIAL RULES (P05), HIT COUNT (P06),
-	                       TIMER BG (P07), STAGE COLOR/MOTION/2 (P08, P09).
-
-	     efeito inalcancavel  INTRO e FADE.  gConfig.showOpening e
-	                       gConfig.useFade estao implementados e corretos, mas
-	                       a abertura e o fade do titulo so rodam no BOOT, e o
-	                       unico produtor de SCENE_TITLE e a propria abertura.
-	                       Sem persistencia em SRAM a preferencia morre no
-	                       reset, entao o jogador jamais veria a diferenca.
-	                       Voltam ao menu junto com a persistencia ou com um
-	                       caminho de retorno ao titulo.
-	*/
+	/* Ordem de leitura: audio, HUD, regra, cena e ferramentas.  DEFAULTS e
+	   acao, nao toggle, e por isso fica junto de BACK.  OPENING e FADE agora
+	   sao observaveis porque SELECT e AFTER_MATCH possuem uma rota real de
+	   retorno ao titulo; a preferencia sobrevive durante a sessao. */
 	TITLE_OPTION_SFX      = 0,
 	TITLE_OPTION_MUSIC    = 1,
-	TITLE_OPTION_LIFEBAR  = 2,
-	TITLE_OPTION_TIMER    = 3,
-	TITLE_OPTION_TIMELIM  = 4,
-	TITLE_OPTION_DEBUG    = 5,
-	TITLE_OPTION_DEFAULTS = 6,
-	TITLE_OPTION_BACK     = 7
+	TITLE_OPTION_SOUND_TEST = 2,
+	TITLE_OPTION_LIFEBAR  = 3,
+	TITLE_OPTION_TIMER    = 4,
+	TITLE_OPTION_TIMERBG  = 5,
+	TITLE_OPTION_TIMELIM  = 6,
+	TITLE_OPTION_SPECIALBAR = 7,
+	TITLE_OPTION_HITCOUNT = 8,
+	TITLE_OPTION_SPECIALRULES = 9,
+	TITLE_OPTION_STAGE2 = 10,
+	TITLE_OPTION_OPENING = 11,
+	TITLE_OPTION_FADE    = 12,
+	TITLE_OPTION_DEBUG    = 13,
+	TITLE_OPTION_DEFAULTS = 14,
+	TITLE_OPTION_BACK     = 15
 } TitleOptionItem;
 
 typedef enum

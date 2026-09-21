@@ -9,9 +9,16 @@ extern const SpriteDefinition spr_hud_energy_y_p2;
 extern const SpriteDefinition spr_hud_energy_r_p2;
 extern const SpriteDefinition spr_hud_ko;
 extern const SpriteDefinition spr_hud_energy_segment;
+extern const SpriteDefinition spr_hud_damage_segment;
 extern const SpriteDefinition spr_hud_clock_digit;
-extern const TileSet ts_hud_p1_bar;
-extern const TileSet ts_hud_p2_bar;
+extern const SpriteDefinition spr_hud_portrait_ryo;
+extern const SpriteDefinition spr_hud_portrait_ken;
+extern const SpriteDefinition spr_hud_portrait_musgo;
+extern const SpriteDefinition spr_select_roster;
+extern const SpriteDefinition spr_hud_life_track;
+extern const SpriteDefinition spr_hud_ko_banner;
+extern const TileSet ts_hud_life_track;
+extern const TileSet ts_hud_special_segment;
 extern const TileSet ts_hud_clock;
 extern const TileSet ts_hud_message_font;
 

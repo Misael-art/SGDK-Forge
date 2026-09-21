@@ -9,6 +9,9 @@ SPRITE spr_spark1  "sprite/spr_spark1.png"   4  4 NONE 4
 SPRITE spr_spark2  "sprite/spr_spark2.png"   6  6 NONE 4
 SPRITE spr_spark3  "sprite/spr_spark3.png"  13 15 NONE 4
 
+// BGB2 ambient water glints, PAL0 and derived from the authored stage plate.
+SPRITE spr_stage_water_glint "sprite/stage/water_glint.png" 2 1 FAST 0
+
 // HUD clock + ground shadow (HAMOOPI GPL v2, converted onto PAL1)
 SPRITE spr_n0      "sprite/hud/n0.png"      2  2 FAST 0
 SPRITE spr_n1      "sprite/hud/n1.png"      2  2 FAST 0

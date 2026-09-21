@@ -1,0 +1,171 @@
+﻿{
+  "schema_version": "1.0.0",
+  "project_profile": "production",
+  "compiled_at": "2026-09-09T16:50:49.0499855Z",
+  "compiled_from": "doc/13-spec-cenas.md",
+  "scenes": [
+    {
+      "scene_id": "front_end_main_menu",
+      "scene_role": "menu",
+      "boot_mode": "sram_bootstrap",
+      "compile_origin": "merged_with_regression",
+      "source_heading": "### Cena 0 - front_end_main_menu",
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 2,
+      "bootstrap_scene_id": 2,
+      "scene_key": "front_end_main_menu",
+      "required_artifacts": [
+        "screenshot",
+        "sram",
+        "vdp_dump"
+      ],
+      "comparison_artifacts": [
+        "screenshot"
+      ],
+      "navigation_sequence": [
+        "branding_sequence",
+        "front_end_main_menu"
+      ],
+      "regression_required": true
+    },
+    {
+      "scene_id": "stage_intro_cinder_circuit",
+      "scene_role": "cutscene",
+      "boot_mode": "sram_bootstrap",
+      "compile_origin": "merged_with_regression",
+      "source_heading": "### Cena 1 - stage_intro_cinder_circuit",
+      "cleanup_required": true,
+      "cutscene_contract": {
+        "schema_version": "1.0.0",
+        "contract_id": "stage_intro_cinder_circuit_d1",
+        "scene_id": "stage_intro_cinder_circuit",
+        "scene_role": "cutscene",
+        "status_ceiling": "planning_only",
+        "cutscene_mode": "mixed",
+        "fsm_script": "CS-C: ARENA_REVEAL -> CAMERA_SETTLE -> FIGHTER_REVEAL -> HANDOFF",
+        "resource_plan": "BG_B room_0_bgb resident; BG_A room_0_bga resident; portraits and fighter sheets are windowed and not yet production-approved.",
+        "panel_layout": "Full 320x224 stage plate; reveal line at y=176; fighters enter from x=40 and x=280 on the handoff beat.",
+        "palette_script": "PAL0 stage depth, PAL1 stage props, PAL2 active fighter window, PAL3 text; no H-Int in D1.",
+        "text_timing_map": "No dialogue text; stage title hold 60 frames, reveal hold 30 frames.",
+        "audio_cue_map": "stage_enter cue at frame 0; handoff impact cue at the fighter reveal boundary.",
+        "glyph_manifest": "SGDK default font during technical slice; final authorial font remains a separate art gate.",
+        "advance_model": "MIXED",
+        "teardown_plan": "Release title text and cutscene-only portrait window, preserve stage residency, transfer fighter and combat ownership.",
+        "evidence_plan": "BlastEm screenshot plus SRAM and visual VDP dump, all bound to the same ROM hash and runtime_state=CS-C.",
+        "uses_fullscreen_bitmap": false,
+        "dynamic_fx": [
+          "palette_fade",
+          "camera_pan"
+        ],
+        "h_int_owner": "none_d1"
+      },
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 3,
+      "bootstrap_scene_id": 3,
+      "scene_key": "stage_intro_cinder_circuit",
+      "required_artifacts": [
+        "screenshot",
+        "sram",
+        "vdp_dump"
+      ],
+      "comparison_artifacts": [
+        "screenshot"
+      ],
+      "navigation_sequence": [
+        "branding_sequence",
+        "front_end_main_menu",
+        "first_playable_slice",
+        "stage_intro_cinder_circuit"
+      ],
+      "regression_required": true
+    },
+    {
+      "scene_id": "dialogue_cinematic_d1",
+      "scene_role": "cutscene",
+      "boot_mode": "sram_bootstrap",
+      "compile_origin": "merged_with_regression",
+      "source_heading": "### Cena 2 - dialogue_cinematic_d1",
+      "cleanup_required": true,
+      "cutscene_contract": {
+        "schema_version": "1.0.0",
+        "contract_id": "dialogue_cinematic_d1_jack_to_kairo",
+        "scene_id": "dialogue_cinematic_d1",
+        "scene_role": "cutscene",
+        "status_ceiling": "planning_only",
+        "cutscene_mode": "portrait_dialog",
+        "fsm_script": "CS-E: JACK_LINE -> KAIRO_LINE -> BODY_BEAT -> HANDOFF",
+        "resource_plan": "Stage plates remain resident; only the ordered pair Jack -> Kairo owns the portrait and fighter animation windows.",
+        "panel_layout": "Two-body 3/4 composition with dialogue window on rows 19-23; speaker portrait swaps at the line boundary.",
+        "palette_script": "PAL0/BG_B stage, PAL1/BG_A depth, PAL2 active character window, PAL3 dialogue text; no H-Int in D1.",
+        "text_timing_map": "Jack line 96 frames, Kairo line 96 frames, body reaction 48 frames; A accelerates and START advances after TEXT_DONE.",
+        "audio_cue_map": "typewriter cue per line start; short speaker cue remains placeholder until final bank validation.",
+        "glyph_manifest": "SGDK default font during technical slice; final glyph_manifest is required before AAA promotion.",
+        "advance_model": "MIXED",
+        "teardown_plan": "Flush dialogue text, release portrait window, preserve combat fighter residency, reset camera scroll and transfer input ownership to combat.",
+        "evidence_plan": "Mid-line screenshot, animation contact sheet/GIF, SRAM and visual VDP dump bound to the same ROM hash and runtime_state=CS-E.",
+        "uses_fullscreen_bitmap": false,
+        "dynamic_fx": [
+          "portrait_blink",
+          "portrait_breath",
+          "camera_pan",
+          "speaker_cut"
+        ],
+        "h_int_owner": "none_d1"
+      },
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 3,
+      "bootstrap_scene_id": 3,
+      "scene_key": "dialogue_cinematic_d1",
+      "required_artifacts": [
+        "screenshot",
+        "sram",
+        "vdp_dump"
+      ],
+      "comparison_artifacts": [
+        "screenshot"
+      ],
+      "navigation_sequence": [
+        "branding_sequence",
+        "front_end_main_menu",
+        "first_playable_slice",
+        "dialogue_cinematic_d1"
+      ],
+      "regression_required": true
+    },
+    {
+      "scene_id": "combat_cinder_circuit",
+      "scene_role": "gameplay",
+      "boot_mode": "sram_bootstrap",
+      "compile_origin": "merged_with_regression",
+      "source_heading": "### Cena 3 - combat_cinder_circuit",
+      "cleanup_required": true,
+      "capture_kind": "evidence_bundle",
+      "capture_frame": 300,
+      "warmup_frames": 180,
+      "expected_app_scene_id": 3,
+      "bootstrap_scene_id": 3,
+      "scene_key": "combat_cinder_circuit",
+      "required_artifacts": [
+        "screenshot",
+        "sram",
+        "vdp_dump"
+      ],
+      "comparison_artifacts": [
+        "screenshot"
+      ],
+      "navigation_sequence": [
+        "branding_sequence",
+        "front_end_main_menu",
+        "first_playable_slice",
+        "combat_cinder_circuit"
+      ],
+      "regression_required": true
+    }
+  ]
+}

@@ -17,5 +17,7 @@ palette = im.getpalette()
 assert all(palette[3*i+c] % 34 == 0 for i in indices for c in range(3))
 assert report['output_sha256'] == hashlib.sha256(path.read_bytes()).hexdigest()
 assert report['source_sha256'] == hashlib.sha256((root/report['source']).read_bytes()).hexdigest()
-assert report['unique_output_tiles'] == 768
-print('PASS: opaque indices 1..14, 9-bit palette, source/output binding, 768-tile report')
+assert report['unique_output_tiles'] == 864
+assert report['source'] == 'rascunho/showdown_native_crop_preview.png'
+assert report['refine_iterations'] == 4
+print('PASS: opaque indices 1..14, 9-bit palette, source/output binding, 864-tile report')

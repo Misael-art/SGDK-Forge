@@ -30,6 +30,7 @@ tem 3 propriedades:
 | `test_agent_startup_environment.ps1` | PowerShell | Guard comum de agentes, preparo automatico, report `AGENT_ENVIRONMENT_REPORT.json` e uso consultivo do Graphify |
 | `test_game_design_contract_gates.ps1` | PowerShell | 60 tests do auditor v2.0.0 (3 buckets + 6 ready flags) |
 | `test_schema_contract_gates.py` | Python | 21 tests dos schemas (Draft-07, allOf, $ref) |
+| `test_audiovisual_review_contract.py` | Python | Separação AV, revisão qualificada hash-bound, cobertura estrita e consumo limitado de review |
 | `test_project_methodology_governance.ps1` | PowerShell | 16 testes de claims estruturados, adocao segura, naming, freshness e gates de movimento/estrada/boss |
 | `test_project_bootstrap_qaproof.ps1` | PowerShell | 18 testes de template limpo, naming, manifests, placeholders, adocao e descoberta Python do preflight |
 | `test_project_hygiene_governance.ps1` | PowerShell | Isolamento de projeto, `rascunho/`, orfaos e copia/hash de entradas externas |
@@ -157,6 +158,32 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/sgdk_wrapper/ci/te
   layout customizado devem ser excluidos via `-ProjectRoot`.
 
 ## Historia
+
+### Pipeline audiovisual rastreável
+
+Para uma build diagnóstica sem substituir `out/rom.bin`, use o bridge com
+`--extra-flags '-DHAMOOPIG_CAPTURE_MARKER' --output-dir out/<diagnostic-dir>`.
+O harness `tests/capture_visual_ko.py --rom=<rom>` registra o hash da ROM
+capturada. O marcador HANC é somente contexto runtime; rode
+`seal_runtime_marker_manifest.py`, `analyze_media_marker.py` e, apenas após
+revisão explícita, `bind_runtime_media_anchor.py`. Candidato automático,
+relógio de host, MP4, screenshot ou metadata não liberam sincronismo, áudio,
+movimento ou cobertura.
+
+Para consulta por evento, use `audiovisual_review.py query`: além do
+`query_report.json`, frames por índice-fonte e ROIs, ele gera `play_event.sh`,
+`event_video_clip.mkv` FFV1 lossless e `event_audio_clip.wav` nominal. O vídeo
+derivado é contado contra os índices solicitados; se a saída já contiver frames,
+a consulta falha em vez de misturar execuções. Clipes são conveniência de
+revisão: PTS do relatório é autoridade e áudio/vídeo não são declarados
+sincronizados sem `runtime_media_anchor` qualificado.
+
+Para fechar a cadeia sem confundir execução com aprovação, use também
+`audiovisual_review.py end-to-end` com `--freeze`, `--capture-manifest`,
+`--ingest`, `--query`, `--finding`, `--review`, `--gate` e `--out`. O recibo
+V5 retorna `execution_status=passed` somente quando todos os elos e hashes
+coincidem; `status=blocked` continua sendo o resultado correto quando claims
+perceptivos não são sustentados.
 
 - 2026-06-02: orchestrator `run_all_contract_gates.ps1` + consumer
   contract doc + smoke E2E.

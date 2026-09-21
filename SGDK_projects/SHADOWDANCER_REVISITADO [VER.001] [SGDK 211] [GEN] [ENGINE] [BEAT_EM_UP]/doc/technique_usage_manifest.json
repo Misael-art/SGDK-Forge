@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "SHADOWDANCER_REVISITADO [VER.001] [SGDK 211] [GEN] [ENGINE] [BEAT_EM_UP]",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": true
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Tecnicas limitadas ao slice do mapa virtual convertido."
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "scene_id": "stage_virtual_map",
+      "registry_id": "tile_cache_streaming_refcount",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["BOSS_SETPIECE", "DMA_STREAMING", "SOFTWARE_RENDERING", "VRAM_TILE_INDEX_MANAGEMENT"],
+      "owner_skills": ["sgdk-runtime-coder", "vram-streaming-dma-queue"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": null, "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Implementado em buffers estaticos; proficiencia e claim de runtime permanecem pendentes."
+    },
+    {
+      "scene_id": "stage_virtual_map",
+      "registry_id": "dma_transfer_safety",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["DMA_OPTIMIZADO", "DMA_QUEUE", "VBLANK_BUDGET_AUDIT"],
+      "owner_skills": ["sgdk-runtime-coder", "vram-streaming-dma-queue"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": null, "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md", "doc/15-tdd.md"],
+      "notes": "DMA imediato foi removido do callback; medicao de pior caso ainda pendente."
+    },
+    {
+      "scene_id": "stage_virtual_map",
+      "registry_id": "camera_scroll_management",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["CAMERA_MANAGEMENT", "PARALLAX", "FIXED_POINT_MATH", "CAMERA_DEADZONE", "CAMERA_LOOKAHEAD", "INTEGER_RENDER_SNAP"],
+      "owner_skills": ["sgdk-runtime-coder", "camera-system-sgdk"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": null, "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md", "doc/15-tdd.md"],
+      "notes": "Camera usa fixed-point interno e pixels inteiros na chamada de MAP_scrollTo."
+    },
+    {
+      "scene_id": "stage_virtual_map",
+      "registry_id": "rescomp_metasprite_decomposition_audit",
+      "human_proficiency_status": "TEORICA_STANDARD",
+      "technique_tags": ["RESCOMP_METASPRITE_AUDIT", "METASPRITE_OPTIMIZATION", "SPRITE_SCANLINE_BUDGET", "SPRITE_ENGINEERING"],
+      "owner_skills": ["sgdk-runtime-coder", "megadrive-vdp-budget-analyst"],
+      "evidence": {"rom_sha256": null, "blastem_evidence_paths": [], "budget_report_path": null, "validation_report_path": "out/logs/validation_report.json", "promotion_record_path": null},
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md", "doc/18-asset-register.json"],
+      "notes": "ResComp reportou frames dentro do limite de 16 sprites internos; pico de cena ainda precisa de evidencia."
+    }
+  ]
+}

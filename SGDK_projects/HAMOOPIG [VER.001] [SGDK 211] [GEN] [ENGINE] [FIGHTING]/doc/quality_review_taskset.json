@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "orchestration_taskset",
+  "run_id": "quality-hamoopig_vertical_slice_20260919",
+  "tasks": [
+    {
+      "task_id": "review_code",
+      "objective": "Independently review code for hamoopig_vertical_slice_20260919",
+      "task_kind": "code_review",
+      "owner_skill": "code/sgdk-code-reviewer",
+      "identity_scope": null,
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "out/rom.bin",
+          "sha256": "df648176a73fa1ff67ba939f21226fc07d7da53e685da8d00eb986a3e56509fa"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203454Z/combat_025.png",
+          "sha256": "13814c2eda103644bdf91dcf24349d99dc258bfed51f16cac3bd38c60cdfd0e7"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203454Z/manifest.json",
+          "sha256": "7de236ccb018ad12638a3f907b7325ceecefff7923a3d9536bbe78f90d8a796b"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203704Z/hprb_probe_report.json",
+          "sha256": "cb33138c32a8796957ed882713bd3fe8b4059cb47b39c449e575b749acc8cc93"
+        },
+        {
+          "path": "out/logs/validation_report.json",
+          "sha256": "a8a23b9ef51c9a941b0ac2eff2460b96d1e8f09fe8c266575733e8bbc4ee6d61"
+        },
+        {
+          "path": "out/logs/freshness_audit_report.json",
+          "sha256": "8f6ca5d3852eca2d653fb335665aa595d42963e344e42052953431b898183e3b"
+        },
+        {
+          "path": "out/logs/scene_closeout_gate_report.json",
+          "sha256": "b1c9162bce6260544e462f60265d73965bfdc4724a0c0d41222be61730672b69"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T192047Z/emulator_audio.wav",
+          "sha256": "3812d3c1f750b3e41983a04fe436923449e919fdff36c7590a0a6b50eea4d92e"
+        },
+        {
+          "path": "src/hamoopig_runtime_probe.c",
+          "sha256": "f93124c7cd668db82744456bc687350f1e413cec8d11482f47f0b916e06e1cb2"
+        },
+        {
+          "path": "tests/capture_visual_ko.py",
+          "sha256": "5f7bdab8b733e7e02e3f8b74fb2299209099f16441556d23f2d4a55a9120cfb7"
+        },
+        {
+          "path": "tests/test_visual_probe_contract.py",
+          "sha256": "8b173868ceb0799f283f8dbd0b3d5c6374f186431834388aa3056f5bb14836af"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "balanced",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    },
+    {
+      "task_id": "review_hardware",
+      "objective": "Independently review hardware for hamoopig_vertical_slice_20260919",
+      "task_kind": "budget_analysis",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "identity_scope": null,
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "out/rom.bin",
+          "sha256": "df648176a73fa1ff67ba939f21226fc07d7da53e685da8d00eb986a3e56509fa"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203454Z/combat_025.png",
+          "sha256": "13814c2eda103644bdf91dcf24349d99dc258bfed51f16cac3bd38c60cdfd0e7"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203454Z/manifest.json",
+          "sha256": "7de236ccb018ad12638a3f907b7325ceecefff7923a3d9536bbe78f90d8a796b"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203704Z/hprb_probe_report.json",
+          "sha256": "cb33138c32a8796957ed882713bd3fe8b4059cb47b39c449e575b749acc8cc93"
+        },
+        {
+          "path": "out/logs/validation_report.json",
+          "sha256": "a8a23b9ef51c9a941b0ac2eff2460b96d1e8f09fe8c266575733e8bbc4ee6d61"
+        },
+        {
+          "path": "out/logs/freshness_audit_report.json",
+          "sha256": "8f6ca5d3852eca2d653fb335665aa595d42963e344e42052953431b898183e3b"
+        },
+        {
+          "path": "out/logs/scene_closeout_gate_report.json",
+          "sha256": "b1c9162bce6260544e462f60265d73965bfdc4724a0c0d41222be61730672b69"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T192047Z/emulator_audio.wav",
+          "sha256": "3812d3c1f750b3e41983a04fe436923449e919fdff36c7590a0a6b50eea4d92e"
+        },
+        {
+          "path": "src/hamoopig_runtime_probe.c",
+          "sha256": "f93124c7cd668db82744456bc687350f1e413cec8d11482f47f0b916e06e1cb2"
+        },
+        {
+          "path": "tests/capture_visual_ko.py",
+          "sha256": "5f7bdab8b733e7e02e3f8b74fb2299209099f16441556d23f2d4a55a9120cfb7"
+        },
+        {
+          "path": "tests/test_visual_probe_contract.py",
+          "sha256": "8b173868ceb0799f283f8dbd0b3d5c6374f186431834388aa3056f5bb14836af"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "balanced",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    },
+    {
+      "task_id": "review_governance",
+      "objective": "Independently review governance for hamoopig_vertical_slice_20260919",
+      "task_kind": "documentation_audit",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "identity_scope": null,
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "out/rom.bin",
+          "sha256": "df648176a73fa1ff67ba939f21226fc07d7da53e685da8d00eb986a3e56509fa"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203454Z/combat_025.png",
+          "sha256": "13814c2eda103644bdf91dcf24349d99dc258bfed51f16cac3bd38c60cdfd0e7"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203454Z/manifest.json",
+          "sha256": "7de236ccb018ad12638a3f907b7325ceecefff7923a3d9536bbe78f90d8a796b"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T203704Z/hprb_probe_report.json",
+          "sha256": "cb33138c32a8796957ed882713bd3fe8b4059cb47b39c449e575b749acc8cc93"
+        },
+        {
+          "path": "out/logs/validation_report.json",
+          "sha256": "a8a23b9ef51c9a941b0ac2eff2460b96d1e8f09fe8c266575733e8bbc4ee6d61"
+        },
+        {
+          "path": "out/logs/freshness_audit_report.json",
+          "sha256": "8f6ca5d3852eca2d653fb335665aa595d42963e344e42052953431b898183e3b"
+        },
+        {
+          "path": "out/logs/scene_closeout_gate_report.json",
+          "sha256": "b1c9162bce6260544e462f60265d73965bfdc4724a0c0d41222be61730672b69"
+        },
+        {
+          "path": "out/emulator_evidence/visual_ko_20260919T192047Z/emulator_audio.wav",
+          "sha256": "3812d3c1f750b3e41983a04fe436923449e919fdff36c7590a0a6b50eea4d92e"
+        },
+        {
+          "path": "src/hamoopig_runtime_probe.c",
+          "sha256": "f93124c7cd668db82744456bc687350f1e413cec8d11482f47f0b916e06e1cb2"
+        },
+        {
+          "path": "tests/capture_visual_ko.py",
+          "sha256": "5f7bdab8b733e7e02e3f8b74fb2299209099f16441556d23f2d4a55a9120cfb7"
+        },
+        {
+          "path": "tests/test_visual_probe_contract.py",
+          "sha256": "8b173868ceb0799f283f8dbd0b3d5c6374f186431834388aa3056f5bb14836af"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "balanced",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    }
+  ]
+}

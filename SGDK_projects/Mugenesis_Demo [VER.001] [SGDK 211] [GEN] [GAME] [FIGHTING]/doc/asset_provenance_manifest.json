@@ -1,0 +1,1163 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "modelo",
+  "declared_at": "2026-08-17T00:00:00Z",
+  "entries": [
+    {
+      "res_symbol": "img_brand_fx_tiles",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_fx_tiles.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Desenhado por primitiva (build_fx_tiles). Nunca pode ser final. Re-autorar como arte externa antes de qualquer claim de entrega visual."
+    },
+    {
+      "res_symbol": "img_brand_engine_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_engine_logo.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Desenhado por primitiva (build_engine). Nunca pode ser final."
+    },
+    {
+      "res_symbol": "img_brand_author_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_author_logo.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Desenhado por primitiva (build_author). Nunca pode ser final."
+    },
+    {
+      "res_symbol": "img_brand_project_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_project_logo.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Desenhado por primitiva (build_project). Nunca pode ser final."
+    },
+    {
+      "res_symbol": "img_brand_presents_text",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_presents_text.png",
+      "source_kind": "procedural_primitive",
+      "acceptance_status": "placeholder",
+      "generated_by": "tools/image-tools/build_branding_intro_assets.py",
+      "notes": "Desenhado por primitiva (build_presents). Nunca pode ser final."
+    },
+    {
+      "res_symbol": "img_starfield_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/starfield_320x224.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/translate_starfield_v02.py",
+      "authored_source": "data/source_art/branding_v2/raw/starfield_v02b.jpg",
+      "authored_source_hash": "16b6f8fc459f76060c9fe9239838144ea136b754c3170fc8f5bf4217d0aada54",
+      "notes": "Act I plate translated from native image_gen concept B. Navy field, pulse on PAL0[1]/[2], 24px heat hem. 4-bit indexed, unique tiles 30. Not final; awaits human review."
+    },
+    {
+      "res_symbol": "img_forge_bg_b",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/forge_bg_b_320x224.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/forge_bg_b_v02.jpg",
+      "authored_source_hash": "4c532835d54a299ec1fcd234055be4e50d961c675a7783ad953500b2abcd308b",
+      "notes": "Re-autoria modular v02 + compose de crops 8x8 autorados. unique_with_flip=642 no alvo 644. Aguarda BlastEm; nao e final."
+    },
+    {
+      "res_symbol": "img_forge_bg_a_props",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/forge_bg_a_props_320x224.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/forge_anvil_iso_v01.jpg",
+      "authored_source_hash": "f966f4044ee86a05d0f6e428f734585fd9d4531ca8ddeaf76f5d9dd7e4e007d1",
+      "notes": "Bigorna registrada com face em (128,104) e 32x16 limpos para a cicatriz. Sem martelo. Aguarda revisao humana."
+    },
+    {
+      "res_symbol": "spr_forge_ember",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_ember_16x16_strip.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/ember_v04.jpg",
+      "authored_source_hash": "08a6db2fc26ef1c82a34eb582509d7c04ef28aedf2ba1f1ab95c5cabebd1c3d0",
+      "notes": "6 quadros: rotacao 0/35/100/195, esmagamento, assentamento."
+    },
+    {
+      "res_symbol": "spr_forge_shard",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_shard_16x16_strip.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/shard_v05.jpg",
+      "authored_source_hash": "11724b175042b4e6f36dc9c4c852365c8db26531a7765733321939654cbd475a",
+      "notes": "4 angulos 0/28/81/157 para flip H/V somar orientacao."
+    },
+    {
+      "res_symbol": "spr_forge_hammer",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_hammer_48x48_strip.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/hammer_smear_v01.jpg",
+      "authored_source_hash": "122a1ddd933d2b80bd0ef9ed436d42a4be539a814be0c2b9926eb1dab7367158",
+      "notes": "7 quadros 48x48. Quadro 4 e smear desenhado, nao blur. Fonte primaria do smear; demais poses no lineage."
+    },
+    {
+      "res_symbol": "img_logo_engine_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_engine_224x64.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/logo_forge_v02.jpg",
+      "authored_source_hash": "06d459bd25162d861175005c33eb38066cd5745f1174e64bd3f21122fc875e9d",
+      "notes": "FORGE em PAL1. Degrau de luz em [13] (~4.5% dos pixels visiveis), [14] reservado. Canal max <= 0xCC. Mossa no R."
+    },
+    {
+      "res_symbol": "img_logo_author_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_author_192x32.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/logo_misael_v01.jpg",
+      "authored_source_hash": "58cd601ba106839aa7c088f03f839383a0f4916ae973ebbebd23809f9f2894ce",
+      "notes": "MISAEL em PAL2. Aguarda revisao humana."
+    },
+    {
+      "res_symbol": "img_logo_project_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_project_224x48.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/logo_master_v01.jpg",
+      "authored_source_hash": "7be8be6b7d9785856e91434756daba38db1979f017d3a356114aff36028e8631",
+      "notes": "MASTER em PAL2. Aguarda revisao humana."
+    },
+    {
+      "res_symbol": "img_presents_text_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/presents_text_96x16.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/assemble_branding_v2_assets.py",
+      "authored_source": "data/source_art/branding_v2/raw/presents_v01.jpg",
+      "authored_source_hash": "3eae13ad6b5e921ae29e6964cae9099effd62ef5059b12e4c5938228e1c4e2f9",
+      "notes": "PRESENTS: corpo em PAL2[9/12] (luma>=100), contorno 1px do ink autorado. Placeholder ate revisao humana."
+    },
+    {
+      "res_symbol": "img_presents_bar_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/presents_bar_8x8.png",
+      "source_kind": "procedural_composed_from_authored",
+      "acceptance_status": "placeholder",
+      "generated_by": "data/source_art/branding_v2/rebuild_presents_contrast.py",
+      "authored_source": "res/branding/forge_bg_b_320x224.png",
+      "authored_source_hash": "03a9cd073b6a0be5aefd98b979590b323d60be4efee1776db444ed15766a1f1a",
+      "notes": "Tile opaco da barra WINDOW, crop de fuligem autorada do bg_b. Nao e primitiva."
+    },
+    {
+      "res_symbol": "mg_ken_g0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g0.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g10",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g10.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g20",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g20.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g21",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g21.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g25",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g25.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g40",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g40.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g42",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g42.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g120",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g120.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g121",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g121.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g130",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g130.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g131",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g131.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g132",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g132.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g150",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g150.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g151",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g151.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g200",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g200.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g201",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g201.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g210",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g210.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g215",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g215.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g220",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g220.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g250",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g250.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g260",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g260.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g261",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g261.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g265",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g265.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g270",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g270.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g271",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g271.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g272",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g272.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g274",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g274.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g275",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g275.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g280",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g280.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g400",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g400.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g405",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g405.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g410",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g410.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g420",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g420.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g425",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g425.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g430",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g430.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g600",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g600.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g605",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g605.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g620",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g620.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g625",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g625.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g650",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g650.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g660",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g660.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g665",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g665.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g700_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g700_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g710_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g710_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g720_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g720_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g740_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g740_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g745_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g745_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g750_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g750_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g760_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g760_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g765_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g765_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g766_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g766_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g767_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g767_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g768_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g768_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g780_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g780_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g781_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g781_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g800",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g800.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g805",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g805.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g810",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g810.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g820",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g820.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g825",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g825.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g900",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g900.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5000",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5000.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5010",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5010.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5020",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5020.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5030",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5030.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5031",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5031.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5040",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5040.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5041",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5041.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5060",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5060.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5070",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5070.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g5071",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5071.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g6000",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6000.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g6100",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6100.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g6200",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6200.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g6500",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6500.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g6600",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6600.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g6700",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6700.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g6800_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6800_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g7000",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g7000.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_g8000_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g8000_fx.png",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+      "notes": "Ken Masters ADV por Chok; uso local autorizado pelo usuario; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_0_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/0_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 0,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_0_1",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/0_1.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 0,1; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_0_2",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/0_2.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 0,2; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_1_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/1_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 1,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_1_1",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/1_1.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 1,1; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_1_2",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/1_2.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 1,2; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_2_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/2_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 2,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_2_1",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/2_1.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 2,1; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_3_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/3_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 3,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_3_1",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/3_1.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 3,1; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_3_2",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/3_2.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 3,2; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_7_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/7_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 7,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_7_1",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/7_1.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 7,1; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_8_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/8_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 8,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_8_1",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/8_1.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 8,1; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_8_2",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/8_2.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 8,2; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_9_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/9_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 9,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_9_1",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/9_1.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 9,1; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_10_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/10_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 10,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_12_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/12_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 12,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_12_5",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/12_5.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 12,5; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_20_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/20_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 20,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_21_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/21_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 21,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_22_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/22_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 22,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_23_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/23_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 23,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_9_2",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/9_2.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 9,2; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_25_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/25_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 25,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_30_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/30_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 30,0; redistribuicao nao verificada."
+    },
+    {
+      "res_symbol": "mg_ken_snd_35_0",
+      "res_kind": "WAV",
+      "asset_path": "mugen/ken/snd/35_0.wav",
+      "source_kind": "third_party_mugen_conversion",
+      "acceptance_status": "technical_candidate",
+      "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+      "notes": "Ken Masters ADV por Chok; som 35,0; redistribuicao nao verificada."
+    }
+  ]
+}

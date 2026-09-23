@@ -1,0 +1,1740 @@
+{
+  "character": {
+    "author": "Chok",
+    "def": "KenMastersADV/KenMastersADV.def",
+    "id": "ken",
+    "name": "Ken Masters ADV"
+  },
+  "classification": {
+    "authored_by_forge": [
+      "common_forge.cns (estados comuns)",
+      "runtime mg_*.c"
+    ],
+    "converted_data": "res/mugen/ken/ (technical_candidate; aprovacao visual humana pendente)",
+    "generated_code": [
+      "src/mg_gen/mg_ken.c",
+      "inc/mg_gen/mg_ken.h",
+      "res/mgres_ken.res"
+    ],
+    "original_data": "pacote MUGEN (somente leitura, fora do repositorio)",
+    "tool": "tools/mugen2sgdk_forge"
+  },
+  "fidelity": {
+    "anims": {
+      "blend_frames": 46,
+      "frames": 934,
+      "missing_sprites": [
+        [
+          820,
+          1
+        ]
+      ],
+      "total": 161
+    },
+    "commands": {
+      "total": 91,
+      "with_errors": 0
+    },
+    "controller_fidelity": {
+      "approximate": 72,
+      "direct": 702,
+      "unsupported": 22
+    },
+    "controller_notes": [
+      {
+        "fidelity": "unsupported",
+        "line": 4536,
+        "notes": [
+          "helpers sao personagens auxiliares completos (manual)"
+        ],
+        "state": -2,
+        "type": "helper"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 4563,
+        "notes": [
+          "multiplicador de ataque nao modelado"
+        ],
+        "state": -2,
+        "type": "attackmulset"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 192,
+        "notes": [
+          "poeira decorativa omitida"
+        ],
+        "state": 100,
+        "type": "makedust"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 707,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 200,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 759,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 201,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 811,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 210,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 863,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 215,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 915,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 218,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 967,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 220,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 1019,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 221,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 1551,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 400,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 1603,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 405,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 2551,
+        "notes": [
+          "usa anim do proprio personagem (anim de P2 nao suportada)"
+        ],
+        "state": 902,
+        "type": "changeanim2"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 2760,
+        "notes": [
+          "usa anim do proprio personagem (anim de P2 nao suportada)"
+        ],
+        "state": 912,
+        "type": "changeanim2"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 2989,
+        "notes": [
+          "usa anim do proprio personagem (anim de P2 nao suportada)"
+        ],
+        "state": 922,
+        "type": "changeanim2"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 2365,
+        "notes": [
+          "usa anim do proprio personagem (anim de P2 nao suportada)"
+        ],
+        "state": 982,
+        "type": "changeanim2"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 3385,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 1000,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 3416,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 1000,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 3531,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 1005,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 3562,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 1005,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 3692,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 1010,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 3723,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 1010,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 3754,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 1010,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 3974,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 2000,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4068,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 2100,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4165,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 2200,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4261,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 3000,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4330,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 3100,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4402,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 3200,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 361,
+        "notes": [
+          "tremor de queda omitido"
+        ],
+        "state": 5100,
+        "type": "fallenvshake"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 405,
+        "notes": [
+          "animacao de sistema (fightfx) indisponivel"
+        ],
+        "state": 5100,
+        "type": "gamemakeanim"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 430,
+        "notes": [
+          "sem vibracao no Mega Drive"
+        ],
+        "state": 5100,
+        "type": "forcefeedback"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 485,
+        "notes": [
+          "tremor de queda omitido"
+        ],
+        "state": 5110,
+        "type": "fallenvshake"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 533,
+        "notes": [
+          "animacao de sistema (fightfx) indisponivel"
+        ],
+        "state": 5110,
+        "type": "gamemakeanim"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 582,
+        "notes": [
+          "sem vibracao no Mega Drive"
+        ],
+        "state": 5110,
+        "type": "forcefeedback"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 590,
+        "notes": [
+          "sem vibracao no Mega Drive"
+        ],
+        "state": 5110,
+        "type": "forcefeedback"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 1071,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 6100,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 1099,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 6100,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6011,
+        "notes": [
+          "efeito de paleta por RGB exigiria CRAM dinamica (manual)"
+        ],
+        "state": 6600,
+        "type": "palfx"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5765,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 6700,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5830,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 6710,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5865,
+        "notes": [
+          "poeira decorativa omitida"
+        ],
+        "state": 6710,
+        "type": "makedust"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5902,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 6720,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5932,
+        "notes": [
+          "poeira decorativa omitida"
+        ],
+        "state": 6720,
+        "type": "makedust"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4465,
+        "notes": [
+          "anim 100: animacao comum indisponivel"
+        ],
+        "state": 8000,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 4473,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 8000,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4496,
+        "notes": [
+          "sparkno 3: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 8000,
+        "type": "projectile"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4614,
+        "notes": [
+          "anim 101: animacao comum indisponivel"
+        ],
+        "state": 8100,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 4622,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 8100,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4645,
+        "notes": [
+          "sparkno 3: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 8100,
+        "type": "projectile"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4698,
+        "notes": [
+          "anim 102: animacao comum indisponivel"
+        ],
+        "state": 8200,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 4706,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 8200,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4729,
+        "notes": [
+          "sparkno 3: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 8200,
+        "type": "projectile"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4793,
+        "notes": [
+          "anim 100: animacao comum indisponivel"
+        ],
+        "state": 9000,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 4801,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 9000,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4824,
+        "notes": [
+          "sparkno 3: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 9000,
+        "type": "projectile"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4882,
+        "notes": [
+          "anim 101: animacao comum indisponivel"
+        ],
+        "state": 9100,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 4890,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 9100,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4913,
+        "notes": [
+          "sparkno 3: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 9100,
+        "type": "projectile"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 4971,
+        "notes": [
+          "anim 102: animacao comum indisponivel"
+        ],
+        "state": 9200,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 4979,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 9200,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5002,
+        "notes": [
+          "sparkno 3: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 9200,
+        "type": "projectile"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5054,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 10000,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5086,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 10000,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5117,
+        "notes": [
+          "anim 100: animacao comum indisponivel"
+        ],
+        "state": 10000,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 5125,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 10000,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5260,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 10500,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5292,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 10500,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5323,
+        "notes": [
+          "anim 101: animacao comum indisponivel"
+        ],
+        "state": 10500,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 5331,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 10500,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5466,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 10800,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5498,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 10800,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5527,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 10800,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 5564,
+        "notes": [
+          "anim 102: animacao comum indisponivel"
+        ],
+        "state": 10800,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 5572,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 10800,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6064,
+        "notes": [
+          "anim: trigger 's30100'"
+        ],
+        "state": 12000,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6079,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 12000,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6299,
+        "notes": [
+          "anim 102: animacao comum indisponivel"
+        ],
+        "state": 20000,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6317,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 20000,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6326,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 20000,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6357,
+        "notes": [
+          "poeira decorativa omitida"
+        ],
+        "state": 20000,
+        "type": "makedust"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6404,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 20010,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6413,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 20010,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6577,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 20020,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6613,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 20020,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6130,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 20100,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6175,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 20110,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6220,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 20200,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6265,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 20210,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6676,
+        "notes": [
+          "anim 102: animacao comum indisponivel"
+        ],
+        "state": 25000,
+        "type": "superpause"
+      },
+      {
+        "fidelity": "unsupported",
+        "line": 6689,
+        "notes": [
+          "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)"
+        ],
+        "state": 25000,
+        "type": "afterimage"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6711,
+        "notes": [
+          "sparkxy: trigger 'animelem'",
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 25000,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6793,
+        "notes": [
+          "air.velocity: trigger 'animelem'",
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 25100,
+        "type": "hitdef"
+      },
+      {
+        "fidelity": "approximate",
+        "line": 6826,
+        "notes": [
+          "guard.sparkno 40: fightfx comum indisponivel; usa faisca padrao"
+        ],
+        "state": 25100,
+        "type": "hitdef"
+      }
+    ],
+    "controllers": {
+      "afterimage:unsupported": 17,
+      "assertspecial:direct": 2,
+      "attackmulset:unsupported": 1,
+      "changeanim2:approximate": 4,
+      "changeanim:direct": 27,
+      "changestate:direct": 180,
+      "ctrlset:direct": 1,
+      "envshake:direct": 2,
+      "explod:direct": 3,
+      "fallenvshake:approximate": 2,
+      "forcefeedback:approximate": 3,
+      "gamemakeanim:unsupported": 2,
+      "gravity:direct": 3,
+      "helper:unsupported": 1,
+      "hitdef:approximate": 41,
+      "hitdef:direct": 27,
+      "hitfalldamage:direct": 2,
+      "hitfallvel:direct": 1,
+      "makedust:approximate": 4,
+      "nothitby:direct": 20,
+      "null:direct": 4,
+      "palfx:unsupported": 1,
+      "playsnd:direct": 121,
+      "posadd:direct": 38,
+      "posfreeze:direct": 1,
+      "posset:direct": 16,
+      "poweradd:direct": 1,
+      "projectile:approximate": 6,
+      "projectile:direct": 6,
+      "removeexplod:direct": 1,
+      "selfstate:direct": 4,
+      "sprpriority:direct": 4,
+      "statetypeset:direct": 29,
+      "stopsnd:direct": 1,
+      "superpause:approximate": 12,
+      "targetbind:direct": 32,
+      "targetdrop:direct": 4,
+      "targetlifeadd:direct": 5,
+      "targetvelset:direct": 4,
+      "turn:direct": 7,
+      "varadd:direct": 1,
+      "varrandom:direct": 1,
+      "varset:direct": 6,
+      "veladd:direct": 19,
+      "velmul:direct": 4,
+      "velset:direct": 119,
+      "width:direct": 6
+    },
+    "missing_refs": [
+      {
+        "key": "stcommon",
+        "ref": "common1.cns",
+        "resolution": "substituido por common_forge.cns (estados comuns originais do Forge)"
+      }
+    ],
+    "sounds": {
+      "invalid": 0,
+      "seconds": 21.2,
+      "total": 33
+    },
+    "sprites": {
+      "linked": 105,
+      "total": 463
+    },
+    "states": {
+      "from_common_forge": [
+        10,
+        11,
+        12,
+        20,
+        40,
+        50,
+        120,
+        130,
+        131,
+        132,
+        140,
+        150,
+        152,
+        154,
+        170,
+        175,
+        5000,
+        5001,
+        5010,
+        5011,
+        5020,
+        5030,
+        5050,
+        5070,
+        5120,
+        5150,
+        5900
+      ],
+      "total": 126
+    }
+  },
+  "generator": {
+    "boxes": 1526,
+    "bytecode_bytes": 13661,
+    "controllers": 796,
+    "frames": 934,
+    "gated_controllers": 796,
+    "missing_frame_sprites": 64
+  },
+  "input": {
+    "package": "ken_masters_adv.zip",
+    "sha256": "822936f0de76a51db6174ffced7f1cbce6c54bb532fda4e68fd177bf6aaf25a3"
+  },
+  "license": {
+    "note": "Conteudo de terceiros. Saidas ficam fora do Git ate permissao do autor.",
+    "redistribution": "not_verified",
+    "status": "user_authorized_local_use"
+  },
+  "outputs": {
+    "inc/mg_gen/mg_ken.h": "e4c10fdb5c83a35e31742870f0b60ffba706ac6bf175228506d9bb23650c9b67",
+    "res/mgres_ken.res": "2b85073437e7ba37f90335d478db3aa7a922f9e024608155b2f45dbcb44dec0a",
+    "res/mugen/ken/sheets/g0.png": "bc564dba1aecfebe1aede1f0fc23c71d0d5bc935a2ba0c25fa3bedf004d913e2",
+    "res/mugen/ken/sheets/g10.png": "facef5a2f90f2ba41444a0ca7e140ea34be20085a37f752e0e20a474c28524b1",
+    "res/mugen/ken/sheets/g120.png": "50ef7d38fa8b07b06cca91e70275c8f53a736499daa09f9d6012d68bd391664b",
+    "res/mugen/ken/sheets/g121.png": "d86e988b36857b3ddaf05e9037cd6852711b705b0e4e34382719398dab8f5715",
+    "res/mugen/ken/sheets/g130.png": "134c9e66b2f0b7f28497680df101c2aaf0ab4db21d74a15427953b1823c0c1fb",
+    "res/mugen/ken/sheets/g131.png": "967e797bb3f34168b21f411c6146c99527220fd54f67427d897c9437daa7b36e",
+    "res/mugen/ken/sheets/g132.png": "f5c2b2c9519934b356fcf69fd0441a8d98c232099b421a73285371fedbb913f3",
+    "res/mugen/ken/sheets/g150.png": "09cdfa0dc4f2a2848577d87917a87742f4e6fbe1c80b91e002600a9568e7e27e",
+    "res/mugen/ken/sheets/g151.png": "20b4073b6680426e874fa4474f9342fb966bf2a14930283661b507d83b7c45ed",
+    "res/mugen/ken/sheets/g20.png": "65a8f86637eec15339d6dcde36974aa9c26bd2d13aebe5986a710d9d8b0c4d49",
+    "res/mugen/ken/sheets/g200.png": "7f769ed6cb6709c1365e63ca8e0bc52cced7852ecd883efe4a0d749670ef6501",
+    "res/mugen/ken/sheets/g201.png": "e35a1b26c94f3f73de0edc84f517ea05a24231bed68bbded22df156b8fdb435f",
+    "res/mugen/ken/sheets/g21.png": "6d69b53f08ce17745b224adbff669c96c3336aef95fcb455aede9947870ef5dc",
+    "res/mugen/ken/sheets/g210.png": "cc59d219194dc2583c34580c52bc94d5eb878c31373ff43e137c8b43eba03416",
+    "res/mugen/ken/sheets/g215.png": "c00a712048bb89b0bb31e2b405f3a026cc52c88d246b1f5a6bfd04e088bf7039",
+    "res/mugen/ken/sheets/g220.png": "0f814915e80b04e9880f84e64f8ba4be86eeca6e652bc3b7ed1c50367cf716dc",
+    "res/mugen/ken/sheets/g25.png": "367aa566e98f56b8a40472691d0df71b7ee5101490eeeb2ae593f9be4aae9274",
+    "res/mugen/ken/sheets/g250.png": "11883a080f7bcaf7e4b0490ca7e3c3d295d5cb7272505a222a2d5a97ce0ecf7a",
+    "res/mugen/ken/sheets/g260.png": "f1c9f4fd5366305b7725284a044ba327fa725ce2356ef747363efd246a451c17",
+    "res/mugen/ken/sheets/g261.png": "6c7e6ffea58ed362fac4a1a2c46dfcac9bdd0bee19f7a080971993532918f808",
+    "res/mugen/ken/sheets/g265.png": "4b5f828b39712f132b922b10cba7d8d6413384ff668bbe02c3f25e6c475717d1",
+    "res/mugen/ken/sheets/g270.png": "25fe09499643c085b5aa8b750b650533a0837bde038bf733da5c27fa215401ed",
+    "res/mugen/ken/sheets/g271.png": "054fcbde9f50493a9866ca6c53c43be06648d3c918f8f28dea79e75407359340",
+    "res/mugen/ken/sheets/g272.png": "9f572644188ef7304ffe7c50835af79cd11578f351819affa33dfda311be2160",
+    "res/mugen/ken/sheets/g274.png": "dc94df78fd9519da1514aa9f78d3cdd2b76aea22d193c0e6b8f93dead2fbcdf1",
+    "res/mugen/ken/sheets/g275.png": "e64ad428f8642bc87fdcff0db53c44a470ac374869006e8b194ef5700b061e7d",
+    "res/mugen/ken/sheets/g280.png": "9bdc0466884ff986349a03fadf1ae0c7a5b95ea3a857efa812d981ff93fcda48",
+    "res/mugen/ken/sheets/g40.png": "8dacb341a7089ca5ec8934bd7c01770da798b82ea9dd55129bfeda840f88aae4",
+    "res/mugen/ken/sheets/g400.png": "967a839acb40771e15c978c460578eca5802f7c47eae6414df5e6ef51b3167bb",
+    "res/mugen/ken/sheets/g405.png": "003cd98a7a49f04c7e06e4dac69660ce14325dac811331640069c1147a66b2af",
+    "res/mugen/ken/sheets/g410.png": "cfe827658590d24b54d330eadc1e600be0c39ae97bc604ee2ca8dce486bac723",
+    "res/mugen/ken/sheets/g42.png": "ddba2bd27afe1f191d7899d45de8c467240ae82c219c3ee88f893029ef7c1dc1",
+    "res/mugen/ken/sheets/g420.png": "4baeac0e2bb5af123d674f0c05d4de94cf092a93a65a5dc6f0251478bd6ebd2e",
+    "res/mugen/ken/sheets/g425.png": "35f97b425b38a3012ee328fee1ee1ba2ec9325467509e747df4d0d0cf9041335",
+    "res/mugen/ken/sheets/g430.png": "0b01e9c0c5650570bbb4f06ecc522dff30dd7c9bbaf71c875295ebb5d50d3756",
+    "res/mugen/ken/sheets/g5.png": "bf8749c5adedfbc8cd7bd7ab0fd90a2015fbab16e5caf6e7f001b9d0b20b814d",
+    "res/mugen/ken/sheets/g5000.png": "22972298473d3412d97b02f7c3ac26bd11a717334e2d2eb21de3c244604bea49",
+    "res/mugen/ken/sheets/g5010.png": "f965da095ae7ae1c86f354d248a27b51e5ebab6c609fba92b620d16b6e539f0e",
+    "res/mugen/ken/sheets/g5020.png": "7b9ad9a11e78f4ac580b9207ec877c3857c018f371be47cb59efa734b8702c92",
+    "res/mugen/ken/sheets/g5030.png": "c291f1bc79f19a6684b3f869bd8459e4963c4b542540505224d1bf8fee6177a3",
+    "res/mugen/ken/sheets/g5031.png": "64000fcfc2bf99051d53ee30de1f970f3078648e583388e9f5a74e4be63cd1c2",
+    "res/mugen/ken/sheets/g5040.png": "2aa8b509e42fee66843ed0cf1b72a7f76b665c2dbc3f1c71c9137321feaa984b",
+    "res/mugen/ken/sheets/g5041.png": "651c0ef1d2f7fc50d817461c4b13cc59017f79fa93136a8ee910e9652086c58a",
+    "res/mugen/ken/sheets/g5060.png": "2f7f26e2149a39b9e15766207835b8327573ff0da6bb3cee12f6cefbee81e404",
+    "res/mugen/ken/sheets/g5070.png": "fc56be1fe29833b9d268080268ff52ca25dbd4521c2123e85fd20e2cc4ac3a21",
+    "res/mugen/ken/sheets/g5071.png": "1130772fe5ea352291753dcbd23670d6dd04ba810d9030f4212be732b22e73fd",
+    "res/mugen/ken/sheets/g600.png": "d13032d3eb1399c77f51957be383666dcd70e0e3e7f2265a67ecd991c71304f1",
+    "res/mugen/ken/sheets/g6000.png": "536cfae47e4f536993a7ff36fc33c3b5f1db791d038b1dc2b51046f91c8b9b3e",
+    "res/mugen/ken/sheets/g605.png": "a30d77aeff464bb0f9a0bc546beca1e7d3a4932416168ae3267cb64e50b7a344",
+    "res/mugen/ken/sheets/g6100.png": "75bb86a18d00f6ede4c8e15134e8ffc11d5dcded99c8419f37164d3d7f8000cd",
+    "res/mugen/ken/sheets/g620.png": "73e6adfd51f485c2e0b5b59da4c3941a1cb5ee740328f1a93ca645163078e563",
+    "res/mugen/ken/sheets/g6200.png": "4f7cbdb6678b808bde3486edbfe5c7587abf8a04acba5c1dc8dc45f0e57a7207",
+    "res/mugen/ken/sheets/g625.png": "ee14d7d578adc2632aa433bf655b624cba5fa8539aad3b0993948d1bb2a91dc6",
+    "res/mugen/ken/sheets/g650.png": "c102ac2d530b316f039c780448f9d169423f695944ba7da8a818079774725cf7",
+    "res/mugen/ken/sheets/g6500.png": "07b0a3aea96307831ced752ff3a83418ad4d8031fdea21225687967b025b3e5d",
+    "res/mugen/ken/sheets/g660.png": "b22ab2919bfb298072577e00255299d2b61cf365d1b1b543b4d4c262598fa3d2",
+    "res/mugen/ken/sheets/g6600.png": "fe943cded74cd24e3f23d30b5f5ba244255a4f5cd9b9f56b496108f25cd0a841",
+    "res/mugen/ken/sheets/g665.png": "ba7650443d3c64a162886868dffc607d1ecdfa389c5798c310fd2bfd4d1199e8",
+    "res/mugen/ken/sheets/g6700.png": "e4059e5b4d38d4971cfd5a53e55eafe1356a66f40949406e3c8dae5e43687b78",
+    "res/mugen/ken/sheets/g6800_fx.png": "118082749d63095ae5800c54b7cfb97ff403d0b81a3d86270928f103e2113117",
+    "res/mugen/ken/sheets/g7000.png": "0b5f6146baac3aea281b3d914abeb075178e185fcb0e16b2874a765c84713a59",
+    "res/mugen/ken/sheets/g700_fx.png": "bb2caa9011c713c0cf7a00d7fe6942785564cc0d501de2b3afa579575150ad49",
+    "res/mugen/ken/sheets/g710_fx.png": "9f7dd480dcc69ad7b779be8657c6d367999b40db50f9d6cc538b6e3c4077d33c",
+    "res/mugen/ken/sheets/g720_fx.png": "77a99aff7466ca46d327d00d745ca3e71740dc2c15bfbdd2dbaaba666e3c1505",
+    "res/mugen/ken/sheets/g740_fx.png": "6cb5b69c090b29b66dad3ff1aaad789cd35e3e854c8f24cd7064e2de87df12cb",
+    "res/mugen/ken/sheets/g745_fx.png": "20f66db762aee64e888104d0ed444f120e8681bd459c405579f9ab0c81c737ad",
+    "res/mugen/ken/sheets/g750_fx.png": "fd27741db00cfda711de10a918a04229015ac5772f32bb4c5d9c1a64eb324d0b",
+    "res/mugen/ken/sheets/g760_fx.png": "b08609cbbe33157f5b99d013812874a0d2c2284745a586d70a5381ab28cd7035",
+    "res/mugen/ken/sheets/g765_fx.png": "1869ac65e0b3247a4cc68e5dbe84953bdb15bba22207e0e883ee1d2154e16e99",
+    "res/mugen/ken/sheets/g766_fx.png": "98fd3e3208ae7af0ee2e21144de5300c0c49038ad93174d795b391b28901f16f",
+    "res/mugen/ken/sheets/g767_fx.png": "b59e21fe38a723a055dd8d8fc7ee00b0d1d7b612797ca20062a285c5d20af249",
+    "res/mugen/ken/sheets/g768_fx.png": "9919ad91c4e8ff2de528aa0e5fcfe025e5990a5b50eeceb0c1d1aaccfa449c8d",
+    "res/mugen/ken/sheets/g780_fx.png": "79ef459f60ddcc8c10c48cf82fe1501b73bb224c71b83fa66f64ac5099bae34c",
+    "res/mugen/ken/sheets/g781_fx.png": "65197fd873bec3698daabb9fce0c60228f25fa0c4761a76b3aa19ce96ae19a1d",
+    "res/mugen/ken/sheets/g800.png": "057165abf400a6e3de2731c645f6c6edf63be1290994b9a49d1e881cef050c90",
+    "res/mugen/ken/sheets/g8000_fx.png": "6ef4860f641f7847db714c6f93333c3e8adee1adb80237b16d2b3d7a57053b26",
+    "res/mugen/ken/sheets/g805.png": "dfafbb43db75402d15c740564513831fae05b49a98dcc87f0b02e67a1537db15",
+    "res/mugen/ken/sheets/g810.png": "0833c7b48419e7c9cff26e23a254cffaab04b3a898f151a1fb6de1144b23874d",
+    "res/mugen/ken/sheets/g820.png": "093adc8790721c8ed5012609abb4e04a081427c412f64491d246464ebc7010d5",
+    "res/mugen/ken/sheets/g825.png": "992473880762b7ed9892a9a8aa303f2587541223290175f869f5bb8f00fb82c9",
+    "res/mugen/ken/sheets/g900.png": "988841e18bf466af339c88325c139c71d5d4074e68db9f74b6212d9910e2b010",
+    "res/mugen/ken/snd/0_0.wav": "cfdcc7cadf99beb4023c63de89c4c7000a8c4072a0789a3c1be31c195ddea692",
+    "res/mugen/ken/snd/0_1.wav": "8e45bcdf160099d6a4bdb0d1032c88aac268559d7a89a39da1c36e31486e31fc",
+    "res/mugen/ken/snd/0_2.wav": "67cefed92f155377ea8689dcb2ac6fecdec1d256d96063e5ada22854e2155d66",
+    "res/mugen/ken/snd/10_0.wav": "9cae2621259a68f9c7a73d86a670775d8b03e8fadcea285ab5597d07db18d354",
+    "res/mugen/ken/snd/12_0.wav": "5dfd7694d711da1cddaecc6c557205d54dc09c6e2f7b8ff417cc5a88edeb8291",
+    "res/mugen/ken/snd/12_5.wav": "25faf2a9e5ccd8ace0272b810dc88d56ca3f8038c9f42fbdc43e9fb00963697c",
+    "res/mugen/ken/snd/1_0.wav": "b484bec966ec3b1887141b28ebdb31fe58d9481699d1bb76aeca16730a7389c2",
+    "res/mugen/ken/snd/1_1.wav": "a5126d3f72bcfdf90cb1425c18d335e33ac0037eca0c063bc01b9f12e3fb27af",
+    "res/mugen/ken/snd/1_2.wav": "b11f33ba6bc9c7a40fff8dccda617d188c20d512e608d3c5f0eafe4f2788631b",
+    "res/mugen/ken/snd/20_0.wav": "1d35dd580f1c1373b6c2eda440023f0b108531eb1b338416eb288b1dd319ce13",
+    "res/mugen/ken/snd/21_0.wav": "71a689c162c25653994ab63782a2cc86b56d1bd8fb8a997dfc4427dbbef25d1d",
+    "res/mugen/ken/snd/22_0.wav": "d4bf83a64f8f72d3c91bceb460150a2b3644015c62530cdabf6355d4f2f0f01d",
+    "res/mugen/ken/snd/23_0.wav": "34cae067c99714ecf05ea5ab70e187ed541709af5ad318dd03769f4440161de6",
+    "res/mugen/ken/snd/25_0.wav": "495ca20576f23a10870f518b43ac9a60cf5ecbec795af8980162079bfc97d924",
+    "res/mugen/ken/snd/2_0.wav": "af187758b0f529a7a354689e71f5c427a56ea7f90d687ad85108cef3d737a284",
+    "res/mugen/ken/snd/2_1.wav": "58ff8c3415781c6e52d0b691fec353f016624a3fe08c1781e4bfe1923e52307d",
+    "res/mugen/ken/snd/30_0.wav": "8a25eea7b8e6c69468297ddc94b1fc953a87f30d76693e52f9f627b3ea1643f1",
+    "res/mugen/ken/snd/35_0.wav": "094354e328db9815fe667bdb8e6d049627a76560f7a4b3bafd9f60685769cbbf",
+    "res/mugen/ken/snd/3_0.wav": "cbff8a15c67d248b21488056b5b24dff239fa972a9f1fabeeae97dbc772ce315",
+    "res/mugen/ken/snd/3_1.wav": "f9aa0a4f98f24e721d9d727689d6aadee73500c551591d2a9b7836b3307dd312",
+    "res/mugen/ken/snd/3_2.wav": "f171a0172a5c3848eddffaf1e4a7b34193d42073c684411ae13be74e8f4576fc",
+    "res/mugen/ken/snd/7_0.wav": "97a590c2a0c00e0f8d996e96b98455e76e60b32c8b6450326f5b9dd5354f1286",
+    "res/mugen/ken/snd/7_1.wav": "4a3fb64b4e4b805267a52729261398d03478cc878776d34daa91b0107cf7d026",
+    "res/mugen/ken/snd/8_0.wav": "9dbb0f35cb1972a55d19edec8d0990e864bad709034e01e45bb2aaa8002938d1",
+    "res/mugen/ken/snd/8_1.wav": "f595561f59f234ee6b4df7df89b08289ae3dce6cea87b9f2a27f33ed7ac5be49",
+    "res/mugen/ken/snd/8_2.wav": "984f755f15c0ade78d044b972b4f4e8dfa3cecba2fbf489120087ad6e85d06f1",
+    "res/mugen/ken/snd/9_0.wav": "fe613cb9f20936a9cf1a12a7822da83f456699057f58fe75adbf7d658be683a4",
+    "res/mugen/ken/snd/9_1.wav": "e0531616178d4548f995557da06c3477c9d38595e54d94ba3cb2ffc3bd9e9d1c",
+    "res/mugen/ken/snd/9_2.wav": "790f87542b65dd7aaebd46fd23a076233d5afd1fa713518d870c1d7a6edd453b",
+    "src/mg_gen/mg_ken.c": "c16a61ee3808ddf41b10776b69ad2dd051a1655bc5213398c824e3da3c956754"
+  },
+  "schema": "mugen2sgdk_forge.character_report/v1",
+  "sounds": {
+    "converted": [
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 3763,
+        "seconds": 0.283,
+        "sound": [
+          0,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 4621,
+        "seconds": 0.347,
+        "sound": [
+          0,
+          1
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 6270,
+        "seconds": 0.471,
+        "sound": [
+          0,
+          2
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 2031,
+        "seconds": 0.153,
+        "sound": [
+          1,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 2783,
+        "seconds": 0.209,
+        "sound": [
+          1,
+          1
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 3336,
+        "seconds": 0.251,
+        "sound": [
+          1,
+          2
+        ]
+      },
+      {
+        "from": "2ch 44100Hz",
+        "rom_bytes": 3078,
+        "seconds": 0.231,
+        "sound": [
+          2,
+          0
+        ]
+      },
+      {
+        "from": "2ch 44100Hz",
+        "rom_bytes": 4666,
+        "seconds": 0.351,
+        "sound": [
+          2,
+          1
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 4459,
+        "seconds": 0.335,
+        "sound": [
+          3,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 4745,
+        "seconds": 0.357,
+        "sound": [
+          3,
+          1
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 7024,
+        "seconds": 0.528,
+        "sound": [
+          3,
+          2
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 4604,
+        "seconds": 0.346,
+        "sound": [
+          7,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 6645,
+        "seconds": 0.5,
+        "sound": [
+          7,
+          1
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 7630,
+        "seconds": 0.574,
+        "sound": [
+          8,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 7470,
+        "seconds": 0.562,
+        "sound": [
+          8,
+          1
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 3989,
+        "seconds": 0.3,
+        "sound": [
+          8,
+          2
+        ]
+      },
+      {
+        "from": "2ch 22050Hz",
+        "rom_bytes": 3261,
+        "seconds": 0.245,
+        "sound": [
+          9,
+          0
+        ]
+      },
+      {
+        "from": "2ch 22050Hz",
+        "rom_bytes": 2210,
+        "seconds": 0.166,
+        "sound": [
+          9,
+          1
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 11108,
+        "seconds": 0.835,
+        "sound": [
+          10,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 11641,
+        "seconds": 0.875,
+        "sound": [
+          12,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 3336,
+        "seconds": 0.251,
+        "sound": [
+          12,
+          5
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 16455,
+        "seconds": 1.237,
+        "sound": [
+          20,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 33110,
+        "seconds": 2.489,
+        "sound": [
+          21,
+          0
+        ]
+      },
+      {
+        "from": "2ch 22050Hz",
+        "rom_bytes": 3488,
+        "seconds": 0.262,
+        "sound": [
+          22,
+          0
+        ]
+      },
+      {
+        "from": "2ch 22050Hz",
+        "rom_bytes": 5709,
+        "seconds": 0.429,
+        "sound": [
+          23,
+          0
+        ]
+      },
+      {
+        "from": "2ch 22050Hz",
+        "rom_bytes": 3261,
+        "seconds": 0.245,
+        "sound": [
+          9,
+          2
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 8611,
+        "seconds": 0.647,
+        "sound": [
+          25,
+          0
+        ]
+      },
+      {
+        "from": "2ch 48000Hz",
+        "rom_bytes": 14758,
+        "seconds": 1.11,
+        "sound": [
+          30,
+          0
+        ]
+      },
+      {
+        "from": "1ch 22050Hz",
+        "rom_bytes": 20080,
+        "seconds": 1.51,
+        "sound": [
+          35,
+          0
+        ]
+      }
+    ],
+    "errors": [],
+    "rom_bytes_total": 214142,
+    "skipped_unused": 4
+  },
+  "sprites": {
+    "body_palette": {
+      "approx_indices": {
+        "224": 1,
+        "241": 8,
+        "246": 11,
+        "247": 11,
+        "255": 1
+      },
+      "approx_pixels": 3088,
+      "mugen_indices": [
+        225,
+        226,
+        228,
+        229,
+        230,
+        240,
+        242,
+        243,
+        244,
+        245,
+        248,
+        249,
+        250,
+        251,
+        252
+      ]
+    },
+    "fx_palette": {
+      "approx_indices": 34,
+      "approx_pixels": 87590,
+      "kept": 15,
+      "source_colors": 42
+    },
+    "hw_over_limit": [],
+    "images": 377,
+    "sheets": 81,
+    "split_groups": [],
+    "unsupported_images": [
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          0
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          1
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          2
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          3
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          4
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          5
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          6
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          7
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          8
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          9
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          10
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          11
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          12
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          13
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          14
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          320,
+          240
+        ],
+        "sprite": [
+          730,
+          15
+        ]
+      },
+      {
+        "hw_sprites": 20,
+        "reason": "exige 20 sprites de hardware (limite 16 por quadro); dividir manualmente",
+        "size": [
+          99,
+          130
+        ],
+        "sprite": [
+          760,
+          4
+        ]
+      },
+      {
+        "hw_sprites": 20,
+        "reason": "exige 20 sprites de hardware (limite 16 por quadro); dividir manualmente",
+        "size": [
+          103,
+          138
+        ],
+        "sprite": [
+          760,
+          5
+        ]
+      },
+      {
+        "hw_sprites": 20,
+        "reason": "exige 20 sprites de hardware (limite 16 por quadro); dividir manualmente",
+        "size": [
+          142,
+          105
+        ],
+        "sprite": [
+          8000,
+          0
+        ]
+      },
+      {
+        "hw_sprites": 25,
+        "reason": "exige 25 sprites de hardware (limite 16 por quadro); dividir manualmente",
+        "size": [
+          154,
+          130
+        ],
+        "sprite": [
+          8000,
+          9
+        ]
+      },
+      {
+        "hw_sprites": 30,
+        "reason": "exige 30 sprites de hardware (limite 16 por quadro); dividir manualmente",
+        "size": [
+          192,
+          156
+        ],
+        "sprite": [
+          8000,
+          10
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          268,
+          216
+        ],
+        "sprite": [
+          8000,
+          12
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          294,
+          239
+        ],
+        "sprite": [
+          8000,
+          13
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          310,
+          250
+        ],
+        "sprite": [
+          8000,
+          14
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          326,
+          264
+        ],
+        "sprite": [
+          8000,
+          15
+        ]
+      },
+      {
+        "reason": "maior que 248px (limite de frame do rescomp); dividir/reduzir manualmente",
+        "size": [
+          328,
+          266
+        ],
+        "sprite": [
+          8000,
+          16
+        ]
+      }
+    ],
+    "variants": [
+      "white",
+      "blue",
+      "turquoise",
+      "red",
+      "green",
+      "purple",
+      "black",
+      "blue2",
+      "green2",
+      "yellow",
+      "orange",
+      "gold"
+    ]
+  },
+  "tool_version": "0.3.0",
+  "warnings": []
+}

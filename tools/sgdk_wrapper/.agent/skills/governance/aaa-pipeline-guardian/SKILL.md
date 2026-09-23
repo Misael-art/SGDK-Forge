@@ -108,3 +108,11 @@ Nao substitui especialistas.
   `lineart_blocking_1px`
 - promover `mechanical_scale_probe` ou mudar a escala travada porque a versao
   maior parece melhor ampliada
+
+## Claim audiovisual
+
+Execucao V0-V5 concluida, ROM reproduzida ou hash selado prova infraestrutura e
+identidade, nao aprovacao do produto. O guardian deve consumir cada eixo
+separadamente: observacao do evento e legibilidade nao promovem `visual_quality`;
+qualidade exige criterios artisticos e comparacao de referencia; movimento exige
+playback capaz e continuidade; audio exige audicao e sincronismo medido.

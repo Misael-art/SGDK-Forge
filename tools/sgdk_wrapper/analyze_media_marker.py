@@ -166,17 +166,24 @@ def detect_audio(path: Path, tone_hz: float) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--video", required=True)
-    parser.add_argument("--audio", required=True)
+    parser.add_argument("--audio", help="optional WAV; omit for video-only marker candidates")
     parser.add_argument("--out", required=True)
     parser.add_argument("--tone-hz", type=float, default=3500.0)
     args = parser.parse_args()
-    video = Path(args.video).resolve(); audio = Path(args.audio).resolve()
+    video = Path(args.video).resolve()
     report = {"schema_version": "audiovisual_marker_analysis.v1", "tool": "analyze_media_marker",
-              "video": detect_video(video), "audio": detect_audio(audio, args.tone_hz),
+              "video": detect_video(video),
+              "audio": (detect_audio(Path(args.audio).resolve(), args.tone_hz)
+                        if args.audio else {
+                            "status": "unsupported",
+                            "events": [],
+                            "reason": "audio_not_captured; video-only marker candidates do not bind A/V sync",
+                            "claim_limit": "no audio audition or synchronization claim",
+                        }),
               "claim_limit": "candidate markers only; requires runtime HANC binding and review"}
     Path(args.out).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"status": report["video"]["status"], "video_events": len(report["video"]["events"]),
-                      "audio_events": len(report["audio"]["events"]), "out": str(Path(args.out))}))
+                      "audio_events": len(report["audio"].get("events", [])), "out": str(Path(args.out))}))
     return 0
 
 

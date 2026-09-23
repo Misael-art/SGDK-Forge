@@ -70,3 +70,13 @@ conta propria.
 Para telemetria ou matriz automatizada, ler as secoes 6–7 do caso HAMOOPIG. Declarar unidade, schema, saturacao, regioes e configuracao observada. Bytes enfileirados, contador de eventos e 36 probes curtos nao provam tempo de CPU, game feel nem partidas completas.
 
 [Aprendizado e fixtures HAMOOPIG](../../../references/hamoopig_engine_learning_2026_09_18.md).
+
+## Revisao audiovisual hash-bound
+
+Quando a entrega alegar observacao audiovisual, consumir o pipeline existente
+`audiovisual_review.py` em V0-V5. Manter separados `artifact_identity`,
+`media_temporal_integrity`, `av_sync`, `game_cadence`, `event_observed`,
+`visual_legibility`, `visual_quality`, `motion_quality`, `audio_quality` e
+`coverage`. `event_observed` ou screenshot nao aprovam qualidade, movimento ou
+som. Registrar reviewer, metodo, ferramentas e intervalos realmente vistos;
+sequencia de imagens e metadado sao evidencia limitada, nao playback/audicao.

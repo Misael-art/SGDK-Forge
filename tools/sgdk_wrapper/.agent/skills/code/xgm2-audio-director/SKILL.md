@@ -200,6 +200,14 @@ promove audio, ROM, runtime ou qualidade final sem prova auditiva/emulador.
 - combinar com `z80-pcm-custom-driver` quando audio AAA exigir drivers customizados, streaming PCM avancado, manipulacao de DAC ou efeitos alem do XGM2; esta skill define a arquitetura e ownership, z80-pcm-custom-driver implementa o low-level
 - combinar com `megadrive-vdp-budget-analyst` para coordenar DMA budget vs. bus contention com Z80 audio
 
+## Prova audiovisual de audio
+
+Separar `audio_signal_present`, sincronismo evento-audio e qualidade sonora.
+WAV/hash/ffprobe medem presença e integridade; nao sao audicao. `audio_quality`
+so pode passar com listener capaz ou revisor humano, intervalo realmente ouvido,
+audio preservado e erro de sincronismo medido. Captura sem WAV permanece
+`not_present`/`needs_review`, nunca silencio aprovado.
+
 ## Contrato Operacional
 
 ### Entrada minima

@@ -465,3 +465,11 @@ Regra:
 - entregar contagem de frames/tiles para `megadrive-vdp-budget-analyst`
 - entregar callbacks, anim ids e residencia para `sgdk-runtime-coder`
 - quando a representacao nao for `SPRITE`, registrar o gatilho arquitetural e rotear conforme `references/canonical-animation-lifecycle.md`; nunca criar tilemap apenas porque existe uma sheet
+
+## Correlacao audiovisual de animacao
+
+Achado temporal deve ligar pose, duracao em VBlank, contato/hitstop, upload ou
+residencia e estado de gameplay ao frame emulado. Hold legitimo e hitstop nao sao
+frame perdido; indice de video nao e frame do console. Sem playback normal e
+sequencia adjacente hash-bound, o resultado e `needs_review`; uma pose observada
+nao aprova fluxo, spacing, foot sliding ou qualidade artistica.

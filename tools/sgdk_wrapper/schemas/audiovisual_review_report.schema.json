@@ -12,7 +12,36 @@
     "stage": {"type": "string", "enum": ["V0_freeze", "V1_ingest_integrity", "V2_query", "V3_findings", "V4_gate", "V5_end_to_end"]},
     "execution_status": {"type": "string", "enum": ["passed", "failed"]},
     "steps": {"type": "object", "additionalProperties": true},
-    "hash_chain": {"type": "object", "additionalProperties": true},
+    "hash_chain": {
+      "type": "object",
+      "properties": {
+        "audio": {
+          "type": "object",
+          "properties": {
+            "status": {"type": "string", "enum": ["passed", "failed", "not_present"]},
+            "claim_limit": {"type": "string"}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "capture_artifacts": {
+      "type": "object",
+      "properties": {
+        "audio": {
+          "type": "object",
+          "properties": {
+            "present": {"type": "boolean"},
+            "optional": {"type": "boolean"},
+            "reason": {"type": "string"},
+            "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
     "blocking_errors": {"type": "array", "items": {"type": "string"}},
     "status": {"type": "string", "enum": ["passed", "failed", "blocked", "needs_review", "candidate_only", "ready_with_limits"]},
     "capture_overhead": {

@@ -601,3 +601,12 @@ antes de responder `cabe`:
 Sem esses contratos, o parecer maximo e `needs_review` ou `nao cabe`
 metodologico para o claim correspondente. Build verde ou resumo de video nao
 substitui budget, owner, fallback e evidencia runtime.
+
+## Limite dos probes audiovisuais
+
+HCAD/HAPE/HPRB medem apenas os campos declarados no seu schema e janela
+observada. Recalcular invariantes, validar regiao, tipos, overflow e identidade;
+nao confiar em `cadence_invariant` declarado. Contador de presentation nao prova
+upload efetivo, deadline de VBlank, sprites por scanline ou perceptibilidade. O
+budget continua exigindo pior quadro combinado e evidencia BlastEm/VDP quando
+aplicavel.

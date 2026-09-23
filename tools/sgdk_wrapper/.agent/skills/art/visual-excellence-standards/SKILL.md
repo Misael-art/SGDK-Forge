@@ -1068,3 +1068,12 @@ Regra:
 
 - esta skill pode reprovar arte tecnicamente valida se a leitura falhar
 - ela tambem pode aprovar recuo visual honesto quando isso preserva a cena no hardware
+
+## Evidencia audiovisual nao e aprovacao estetica
+
+No pipeline audiovisual, `event_observed` responde apenas se o evento declarado
+foi visto e `visual_legibility` responde se sua leitura local foi compreensivel.
+Nenhum dos dois libera `visual_quality`. Um veredito de qualidade exige criterios
+observaveis, leitura em 320x224, comparacao com a referencia/papel visual e
+evidencia hash-bound; oito frames, GIF, screenshot ou metadata sem essa comparacao
+ficam em `needs_review`.

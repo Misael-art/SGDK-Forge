@@ -39,6 +39,10 @@ def base_report(*, temporal: str = "passed", sync: str = "passed") -> dict:
 
 def qualified_event_review(**overrides: object) -> dict:
     review = {
+        "schema_version": "2.3.0",
+        "generated_at": "2026-09-22T00:00:00Z",
+        "tool_name": "audiovisual_review",
+        "tool_version": "2.6.0",
         "reviewer": "qualified_fixture_reviewer",
         "method": "sequential_frame_review_with_hash_bound_runtime_context",
         "evidence_root": str(TOOL.parent),
@@ -54,11 +58,17 @@ def qualified_event_review(**overrides: object) -> dict:
         }],
         "coverage": {"unexamined_intervals": ["0-2", "4-10"], "coverage_ratio": 0.2},
         "verdicts": {
+            "event_observed": {"status": "passed", "evidence_refs": ["audiovisual_review.py"]},
+            "visual_legibility": {"status": "passed", "evidence_refs": ["audiovisual_review.py"]},
             "visual_quality": {"status": "passed", "evidence_refs": ["audiovisual_review.py"]},
             "motion_quality": {"status": "needs_review", "evidence_refs": ["audiovisual_review.py"]},
             "audio_quality": {"status": "needs_review", "evidence_refs": ["audiovisual_review.py"]},
         },
     }
+    review["verdicts"]["visual_quality"].update({
+        "criteria_checked": ["native_320x224_readability", "silhouette_and_material_separation"],
+        "reference_comparison": {"status": "passed", "evidence_refs": ["audiovisual_review.py"]},
+    })
     review.update(overrides)
     return review
 
@@ -69,6 +79,58 @@ def test_axes_are_independent() -> None:
     assert result["claims"]["media_temporal_integrity"] == "blocked"
     assert result["claims"]["game_cadence"] == "released"
     assert result["claims"]["visual_approval"] == "blocked"
+
+
+def test_hcad_recomputes_invariants_and_rejects_invalid_identity_or_types() -> None:
+    good = {
+        "video_frames": 120,
+        "logic_ticks": 120,
+        "zero_tick_frames": 0,
+        "one_tick_frames": 120,
+        "two_tick_frames": 0,
+        "max_ticks_per_frame": 1,
+        "presentation_commits": 120,
+        "presentation_without_logic": 0,
+        "fight_video_frames": 60,
+        "fight_logic_ticks": 60,
+        "fight_presentation_commits": 60,
+        "fight_zero_tick_frames": 0,
+        "region_hz": 60,
+        "cadence_invariant": False,
+    }
+    manifest = {"rom_sha256": "c" * 64, "cadence_probe": good}
+    passed = MODULE.game_cadence_from_manifest(manifest, "c" * 64)
+    assert passed["status"] == "passed"
+    assert passed["recomputed_invariants"]["cadence_invariant"] is True
+    assert passed["probe"]["cadence_invariant"] is False
+
+    empty = dict(good, video_frames=0, logic_ticks=0, one_tick_frames=0,
+                 presentation_commits=0, fight_video_frames=0,
+                 fight_logic_ticks=0, fight_presentation_commits=0,
+                 max_ticks_per_frame=0)
+    empty_result = MODULE.game_cadence_from_manifest({"rom_sha256": "c" * 64,
+                                                       "cadence_probe": empty}, "c" * 64)
+    assert empty_result["status"] == "failed"
+    assert "empty_video_window" in empty_result["validation_errors"]
+
+    contradictory = dict(good, video_frames=100, logic_ticks=1,
+                         presentation_commits=2, cadence_invariant=True)
+    contradictory_result = MODULE.game_cadence_from_manifest(
+        {"rom_sha256": "c" * 64, "cadence_probe": contradictory}, "c" * 64)
+    assert contradictory_result["status"] == "failed"
+    assert "video_frame_tick_class_counts_mismatch" in contradictory_result["validation_errors"]
+    assert "presentation_count_mismatch" in contradictory_result["validation_errors"]
+
+    typed = dict(good, video_frames=True)
+    typed_result = MODULE.game_cadence_from_manifest(
+        {"rom_sha256": "c" * 64, "cadence_probe": typed}, "c" * 64)
+    assert typed_result["status"] == "failed"
+    assert "video_frames_must_be_integer" in typed_result["validation_errors"]
+
+    stale_result = MODULE.game_cadence_from_manifest(
+        {"rom_sha256": "d" * 64, "cadence_probe": good}, "c" * 64)
+    assert stale_result["status"] == "failed"
+    assert "manifest_rom_sha_mismatch" in stale_result["validation_errors"]
 
 
 def test_qualified_event_review_releases_only_supported_visual_scope() -> None:
@@ -84,6 +146,50 @@ def test_qualified_event_review_releases_only_supported_visual_scope() -> None:
     assert result["claim_scopes"]["audio_approval"] == "none"
 
 
+def test_observation_and_legibility_do_not_release_artistic_quality() -> None:
+    review = qualified_event_review(
+        verdicts={
+            "event_observed": {"status": "passed", "evidence_refs": ["audiovisual_review.py"]},
+            "visual_legibility": {"status": "passed", "evidence_refs": ["audiovisual_review.py"]},
+            "visual_quality": {"status": "needs_review", "evidence_refs": ["audiovisual_review.py"]},
+            "motion_quality": {"status": "needs_review", "evidence_refs": ["audiovisual_review.py"]},
+            "audio_quality": {"status": "needs_review", "evidence_refs": ["audiovisual_review.py"]},
+        }
+    )
+    result = MODULE.evaluate_gate(base_report(), review)
+    assert result["review_validation"]["qualified"] is True
+    assert result["claims"]["event_observed"] == "released"
+    assert result["claims"]["visual_legibility"] == "released"
+    assert result["claims"]["visual_approval"] == "blocked"
+
+
+def test_playback_and_audition_review_can_release_supported_axes() -> None:
+    review = qualified_event_review(
+        method_capabilities={"images_only": False, "video_playback": True, "audio_audition": True},
+        observed_intervals=[{
+            "event_id": "complete_review",
+            "start_seconds": 0.0,
+            "end_seconds": 10.0,
+            "actually_seen": True,
+            "evidence_refs": ["audiovisual_review.py"],
+        }],
+        coverage={"unexamined_intervals": [], "coverage_ratio": 1.0},
+        verdicts={axis: {"status": "passed", "evidence_refs": ["audiovisual_review.py"]}
+                  for axis in ("event_observed", "visual_legibility", "visual_quality", "motion_quality", "audio_quality")},
+    )
+    review["verdicts"]["visual_quality"].update({
+        "criteria_checked": ["native_320x224_readability", "silhouette_and_material_separation"],
+        "reference_comparison": {"status": "passed", "evidence_refs": ["audiovisual_review.py"]},
+    })
+    result = MODULE.evaluate_gate(base_report(temporal="passed", sync="passed"), review)
+    assert result["review_validation"]["qualified"] is True
+    assert result["claims"]["visual_approval"] == "released"
+    assert result["claims"]["temporal_motion_approval"] == "released"
+    assert result["claims"]["audio_approval"] == "released"
+    assert result["claims"]["coverage_complete"] == "released"
+    assert result["status"] == "passed"
+
+
 def test_missing_review_and_invalid_coverage_block_claims() -> None:
     no_review = MODULE.evaluate_gate(base_report())
     assert no_review["claims"]["visual_approval"] == "blocked"
@@ -95,6 +201,18 @@ def test_missing_review_and_invalid_coverage_block_claims() -> None:
     assert "unexamined_interval_0_invalid" in result["review_validation"]["errors"]
     assert result["claims"]["coverage_complete"] == "blocked"
     assert result["claims"]["visual_approval"] == "blocked"
+
+    null_unexamined = qualified_event_review(coverage={"unexamined_intervals": None})
+    null_result = MODULE.evaluate_gate(base_report(), null_unexamined)
+    assert null_result["review_validation"]["qualified"] is False
+    assert "unexamined_intervals_must_be_list" in null_result["review_validation"]["errors"]
+    assert null_result["claims"]["coverage_complete"] == "blocked"
+
+    empty_observed = qualified_event_review(observed_intervals=[])
+    empty_result = MODULE.evaluate_gate(base_report(), empty_observed)
+    assert empty_result["review_validation"]["qualified"] is False
+    assert "observed_intervals_missing_or_empty" in empty_result["review_validation"]["errors"]
+    assert empty_result["claims"]["coverage_complete"] == "blocked"
 
 
 def test_qualified_review_requires_resolvable_evidence_refs() -> None:
@@ -168,7 +286,7 @@ def test_v5_consumer_requires_hashes_and_finding_query_binding() -> None:
                        "end_seconds": 1, "actually_seen": True, "evidence_refs": ["seen.txt"]}],
                        "coverage": {"unexamined_intervals": [], "coverage_ratio": 1.0},
                        "verdicts": {axis: {"status": "needs_review", "evidence_refs": ["seen.txt"]}
-                                    for axis in ("visual_quality", "motion_quality", "audio_quality")}})
+                                    for axis in ("event_observed", "visual_legibility", "visual_quality", "motion_quality", "audio_quality")}})
         paths = {}
         for name, value in files.items():
             path = root / f"{name}.json"
@@ -197,6 +315,52 @@ def test_v5_consumer_requires_hashes_and_finding_query_binding() -> None:
         assert result["steps"]["finding_query_binding"]["status"] == "passed"
         assert result["steps"]["capture_overhead"]["status"] == "passed"
 
+        # A video-only capture is a supported artifact shape, not an audio
+        # approval.  V5 must consume it without inventing a WAV/hash while
+        # keeping the audio axis blocked.
+        audio_absent_capture = dict(files["capture"], audio_wav=None,
+                                     audio="not_captured_dummy_driver")
+        audio_absent_ingest = json.loads(json.dumps(files["ingest"]))
+        audio_absent_ingest["artifacts"]["audio"] = {
+            "present": False, "status": "not_present",
+        }
+        audio_absent_finding = json.loads(json.dumps(files["finding"]))
+        for item in audio_absent_finding["findings"]:
+            item.pop("audio_sha256", None)
+        audio_absent_review = json.loads(json.dumps(review))
+        audio_absent_review["source_media"].pop("audio_sha256", None)
+        audio_absent_capture_path = bundle / "manifest_audio_absent.json"
+        audio_absent_ingest_path = root / "ingest_audio_absent.json"
+        audio_absent_finding_path = root / "finding_audio_absent.json"
+        audio_absent_review_path = review_dir / "review_audio_absent.json"
+        audio_absent_capture_path.write_text(json.dumps(audio_absent_capture), encoding="utf-8")
+        audio_absent_ingest_path.write_text(json.dumps(audio_absent_ingest), encoding="utf-8")
+        audio_absent_finding_path.write_text(json.dumps(audio_absent_finding), encoding="utf-8")
+        audio_absent_review_path.write_text(json.dumps(audio_absent_review), encoding="utf-8")
+        audio_absent_gate_path = root / "gate_audio_absent.json"
+        audio_absent_gate = MODULE.evaluate_gate(
+            audio_absent_ingest,
+            dict(audio_absent_review, _manifest_dir=str(review_dir)),
+        )
+        audio_absent_gate_path.write_text(json.dumps(audio_absent_gate), encoding="utf-8")
+        audio_absent_args = type("Args", (), {
+            "freeze": str(paths["freeze"]),
+            "capture_manifest": str(audio_absent_capture_path),
+            "ingest": str(audio_absent_ingest_path),
+            "query": str(paths["query"]),
+            "finding": str(audio_absent_finding_path),
+            "review": str(audio_absent_review_path),
+            "gate": str(audio_absent_gate_path),
+            "overhead": str(overhead_path),
+            "out": str(root / "v5_audio_absent.json"),
+        })()
+        with redirect_stdout(io.StringIO()):
+            assert MODULE.end_to_end(audio_absent_args) == 0
+        audio_absent_result = json.loads((root / "v5_audio_absent.json").read_text(encoding="utf-8"))
+        assert audio_absent_result["execution_status"] == "passed"
+        assert audio_absent_result["hash_chain"]["audio"]["status"] == "not_present"
+        assert audio_absent_result["claims"]["audio_approval"] == "blocked"
+
         bad_review = dict(review, reviewer=None)
         bad_review_path = review_dir / "bad_review.json"
         bad_review_path.write_text(json.dumps(bad_review), encoding="utf-8")
@@ -212,11 +376,48 @@ def test_v5_consumer_requires_hashes_and_finding_query_binding() -> None:
             assert MODULE.end_to_end(bad_args) == 2
 
 
+def test_causal_compare_is_candidate_only_and_requires_same_capture_contract() -> None:
+    from PIL import Image
+
+    with tempfile.TemporaryDirectory(prefix="audiovisual_causal_contract_") as raw:
+        root = Path(raw)
+        with_dir = root / "with_video"
+        without_dir = root / "without_video"
+        with_dir.mkdir()
+        without_dir.mkdir()
+        (with_dir / "combat_window.mp4").write_bytes(b"video-master")
+        common = {"rom_sha256": "c" * 64, "config_sha256": "d" * 64,
+                  "requested_p1": "ryo", "requested_p2": "musgo", "video": "combat_window.mp4"}
+        (with_dir / "manifest.json").write_text(json.dumps(common), encoding="utf-8")
+        (without_dir / "manifest.json").write_text(json.dumps(dict(common, video=None)), encoding="utf-8")
+        for directory, red in ((with_dir, True), (without_dir, False)):
+            image = Image.new("RGB", (32, 32), (220, 30, 30) if red else (30, 30, 30))
+            image.save(directory / "special_only_p1_try0_0.png")
+        args = type("Args", (), {
+            "with_video_manifest": str(with_dir / "manifest.json"),
+            "without_video_manifest": str(without_dir / "manifest.json"),
+            "with_video_dir": str(with_dir), "without_video_dir": str(without_dir),
+            "out": str(root / "causal.json"), "query": None,
+            "hstr_with_video": None, "hstr_without_video": None,
+            "finding_id": "fixture-causal", "frame_prefix": "special_only_p1_try0_",
+            "roi": "0,0,32,32",
+        })()
+        with redirect_stdout(io.StringIO()):
+            assert MODULE.causal_compare(args) == 0
+        result = json.loads((root / "causal.json").read_text(encoding="utf-8"))
+        assert result["contract_same"] is True
+        assert result["visual_difference_candidate"] is True
+        assert result["finding"]["approval_status"] == "not_approved"
+        assert "not a confirmed game root cause" in result["finding"]["hypothesis"]
+
+
 def main() -> int:
     tests = [test_axes_are_independent, test_qualified_event_review_releases_only_supported_visual_scope,
+             test_playback_and_audition_review_can_release_supported_axes,
              test_missing_review_and_invalid_coverage_block_claims,
              test_qualified_review_requires_resolvable_evidence_refs,
-             test_v5_consumer_requires_hashes_and_finding_query_binding]
+             test_v5_consumer_requires_hashes_and_finding_query_binding,
+             test_causal_compare_is_candidate_only_and_requires_same_capture_contract]
     for test in tests:
         test()
     print(f"audiovisual_review_contract: {len(tests)} passed")

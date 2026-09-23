@@ -22,11 +22,11 @@ import wave
 from pathlib import Path
 from typing import Any
 
-TOOL_VERSION = "2.5.0"
-SCHEMA_VERSION = "2.2.0"
+TOOL_VERSION = "2.6.0"
+SCHEMA_VERSION = "2.3.0"
 AXES = ("artifact_identity", "media_temporal_integrity", "av_sync",
-        "game_cadence", "visual_quality", "motion_quality", "audio_quality",
-        "coverage")
+        "game_cadence", "event_observed", "visual_legibility", "visual_quality",
+        "motion_quality", "audio_quality", "coverage")
 
 
 def now() -> str:
@@ -299,8 +299,10 @@ def hcad_from_bundle(bundle: Path) -> dict[str, Any] | None:
 def game_cadence_from_manifest(manifest: dict[str, Any], rom_sha256: str | None,
                                bundle_probe: dict[str, Any] | None = None) -> dict[str, Any]:
     probe = manifest.get("cadence_probe") or bundle_probe
-    required = ("video_frames", "logic_ticks", "presentation_commits",
-                "zero_tick_frames", "cadence_invariant")
+    required = ("video_frames", "logic_ticks", "zero_tick_frames", "one_tick_frames",
+                "two_tick_frames", "max_ticks_per_frame", "presentation_commits",
+                "presentation_without_logic", "fight_video_frames", "fight_logic_ticks",
+                "fight_presentation_commits", "fight_zero_tick_frames", "region_hz")
     if not isinstance(probe, dict) or any(key not in probe for key in required):
         return {
             "status": "unsupported",
@@ -309,13 +311,90 @@ def game_cadence_from_manifest(manifest: dict[str, Any], rom_sha256: str | None,
             "rom_sha256": rom_sha256,
             "claim_limit": "media capture does not establish game cadence",
         }
-    passed = bool(probe.get("cadence_invariant")) and probe.get("zero_tick_frames") == 0
+    errors: list[str] = []
+    if not isinstance(rom_sha256, str) or not re.fullmatch(r"[0-9a-fA-F]{64}", rom_sha256):
+        errors.append("rom_identity_missing_or_invalid")
+    manifest_rom = manifest.get("rom_sha256")
+    if manifest_rom != rom_sha256:
+        errors.append("manifest_rom_sha_mismatch")
+    probe_rom = probe.get("rom_sha256")
+    if probe_rom is not None and probe_rom != rom_sha256:
+        errors.append("probe_rom_sha_mismatch")
+
+    values: dict[str, int] = {}
+    for key in required:
+        value = probe.get(key)
+        if isinstance(value, bool) or not isinstance(value, int):
+            errors.append(f"{key}_must_be_integer")
+            continue
+        if value < 0 or value > 0xFFFF:
+            errors.append(f"{key}_out_of_u16_range")
+            continue
+        values[key] = value
+
+    region = values.get("region_hz")
+    if region not in (50, 60):
+        errors.append("region_hz_unsupported_or_invalid")
+    video = values.get("video_frames", 0)
+    logic = values.get("logic_ticks", 0)
+    zero = values.get("zero_tick_frames", 0)
+    one = values.get("one_tick_frames", 0)
+    two = values.get("two_tick_frames", 0)
+    presentation = values.get("presentation_commits", 0)
+    without_logic = values.get("presentation_without_logic", 0)
+    fight_video = values.get("fight_video_frames", 0)
+    fight_logic = values.get("fight_logic_ticks", 0)
+    fight_presentation = values.get("fight_presentation_commits", 0)
+    fight_zero = values.get("fight_zero_tick_frames", 0)
+    max_ticks = values.get("max_ticks_per_frame", 0)
+    if video <= 0:
+        errors.append("empty_video_window")
+    if presentation <= 0:
+        errors.append("empty_presentation_window")
+    if video != zero + one + two:
+        errors.append("video_frame_tick_class_counts_mismatch")
+    if logic != one + (two * 2):
+        errors.append("logic_tick_count_mismatch")
+    expected_max = 2 if two else 1 if one else 0
+    if max_ticks != expected_max:
+        errors.append("max_ticks_per_frame_mismatch")
+    if video != presentation:
+        errors.append("presentation_count_mismatch")
+    if without_logic != 0:
+        errors.append("presentation_without_logic_nonzero")
+    if fight_video > video:
+        errors.append("fight_video_exceeds_video_window")
+    if fight_logic > logic:
+        errors.append("fight_logic_exceeds_logic_window")
+    if fight_presentation > presentation:
+        errors.append("fight_presentation_exceeds_presentation_window")
+    if fight_presentation != fight_video:
+        errors.append("fight_presentation_count_mismatch")
+    if fight_zero > fight_video:
+        errors.append("fight_zero_tick_exceeds_fight_window")
+    if zero != 0:
+        errors.append("zero_tick_frames_nonzero")
+    if fight_zero != 0:
+        errors.append("fight_zero_tick_frames_nonzero")
+    recomputed_invariant = not errors
+    recomputed_fight_invariant = (fight_video == fight_presentation and
+                                  fight_logic <= logic and fight_zero == 0)
+    passed = recomputed_invariant and recomputed_fight_invariant
+    reported_invariant = probe.get("cadence_invariant")
+    if reported_invariant is not None and not isinstance(reported_invariant, bool):
+        errors.append("cadence_invariant_must_be_boolean")
+        passed = False
     return {
         "status": "passed" if passed else "failed",
-        "reason": "HCAD logic/presentation invariant and zero-tick count" if passed else "HCAD invariant failed",
+        "reason": "recomputed HCAD logic/presentation invariant and zero-tick count" if passed else "HCAD invariant failed",
         "source": probe.get("source_report", "manifest.cadence_probe"),
         "rom_sha256": rom_sha256,
         "probe": probe,
+        "validation_errors": errors,
+        "recomputed_invariants": {
+            "cadence_invariant": recomputed_invariant,
+            "fight_cadence_invariant": recomputed_fight_invariant,
+        },
         "claim_limit": "measured game cadence for the observed HCAD window; not perceptual motion approval",
     }
 
@@ -795,10 +874,16 @@ def make_gameplay_finding(args: argparse.Namespace) -> int:
     report = load_json(Path(args.report).resolve())
     manifest = load_json(Path(args.manifest).resolve())
     query = load_json(Path(args.query).resolve())
+    causal_compare = None
+    causal_compare_arg = getattr(args, "causal_compare", None)
+    causal_compare_path = Path(causal_compare_arg).resolve() if causal_compare_arg else None
+    if causal_compare_path:
+        causal_compare = load_json(causal_compare_path)
     hsem = load_json(Path(args.hsem).resolve()) if args.hsem else None
     hprb = load_json(Path(args.hprb).resolve()) if args.hprb else None
     hcad = load_json(Path(args.hcad).resolve()) if args.hcad else None
     hstr = load_json(Path(args.hstr).resolve()) if args.hstr else None
+    hape = manifest.get("runtime_presentation_event")
     frames = query.get("frames", [])
     hprb_summary = None
     if hprb:
@@ -856,6 +941,17 @@ def make_gameplay_finding(args: argparse.Namespace) -> int:
             "records_in_query_interval": mapped_records,
             "evidence_scope": hstr.get("evidence_scope"),
         }
+    cross_mode_state = None
+    if isinstance(causal_compare, dict):
+        runtime_context = causal_compare.get("runtime_context", {}).get("runtime_presentation_event", {})
+        cross_mode_state = {
+            "status": "same_runtime_state" if runtime_context.get("same_state_context") is True else "needs_review",
+            "same_rom": causal_compare.get("comparison", {}).get("rom_sha256", {}).get("same") is True,
+            "same_config": causal_compare.get("comparison", {}).get("config_sha256", {}).get("same") is True,
+            "same_inputs": causal_compare.get("comparison", {}).get("requested_inputs", {}).get("same") is True,
+            "runtime_context": runtime_context,
+            "claim_limit": "same-state context across separate runs; no cross-run PTS or scanout binding",
+        }
     finding = {
         "id": args.finding_id,
         "category": "gameplay_visual",
@@ -865,6 +961,8 @@ def make_gameplay_finding(args: argparse.Namespace) -> int:
         "frame_context": {
             "first_frame_index": frames[0].get("frame_index") if frames else None,
             "last_frame_index": frames[-1].get("frame_index") if frames else None,
+            "source_frame_first": frames[0].get("frame_index") if frames else None,
+            "source_frame_last": frames[-1].get("frame_index") if frames else None,
             "source_query": str(Path(args.query).resolve()),
         },
         "media_sha256": report.get("artifacts", {}).get("video", {}).get("sha256"),
@@ -886,18 +984,20 @@ def make_gameplay_finding(args: argparse.Namespace) -> int:
             "input_trace": args.input_summary,
             "expected_state": args.expected_state,
             "special_sample_count": len(manifest.get("special_samples", [])),
+            "hape": hape,
             "hsem": hsem_summary,
             "hprb": hprb_summary,
             "hcad": hcad,
             "hstr": hstr_summary,
-            "correlation_limit": "HSEM/HPRB are final SRAM snapshots; HSTR provides diagnostic per-presentation state, but its media mapping is estimated from the host capture clock and is not a VDP scanout timestamp",
+            "cross_mode_capture": cross_mode_state,
+            "correlation_limit": "HAPE is same-boundary runtime state context; HSTR/HSEM/HPRB remain diagnostic snapshots and do not provide video PTS, scanout timestamp or perceptual approval",
         },
         "evidence_refs": [str(Path(args.report).resolve()), str(Path(args.manifest).resolve()),
-                          str(Path(args.query).resolve())] + [str(Path(value).resolve()) for value in (args.hsem, args.hprb, args.hcad, args.hstr) if value] + [str(Path(value).resolve()) for value in args.visual_evidence],
+                          str(Path(args.query).resolve())] + ([str(causal_compare_path)] if causal_compare_path else []) + [str(Path(value).resolve()) for value in (args.hsem, args.hprb, args.hcad, args.hstr) if value] + [str(Path(value).resolve()) for value in args.visual_evidence],
         "visual_evidence_refs": [str(Path(value).resolve()) for value in args.visual_evidence],
         "reviewer": args.reviewer,
         "method": "hash_bound_event_query_plus_sequential_image_inspection_and_runtime_probe_decode",
-        "tools": ["ffprobe", "ffmpeg", "view_image", "analyze_hsem_probe.py", "analyze_hprb_probe.py", "analyze_hstr_probe.py"],
+        "tools": ["ffprobe", "ffmpeg", "view_image", "analyze_hape_probe.py", "analyze_hsem_probe.py", "analyze_hprb_probe.py", "analyze_hstr_probe.py", "audiovisual_review.py:causal-compare"],
         "claim_limit": "candidate gameplay finding; does not prove root cause or approve visual/motion/audio quality",
     }
     write_json(Path(args.out).resolve(), {"schema_version": SCHEMA_VERSION, "generated_at": now(),
@@ -905,6 +1005,207 @@ def make_gameplay_finding(args: argparse.Namespace) -> int:
                                           "stage": "V3_findings", "status": "candidate_only",
                                           "findings": [finding]})
     print(json.dumps({"status": "candidate_only", "finding_id": args.finding_id,
+                      "out": str(Path(args.out).resolve())}, indent=2))
+    return 0
+
+
+def _causal_frame_metrics(directory: Path, prefix: str,
+                          roi: tuple[int, int, int, int]) -> dict[str, Any]:
+    """Summarize paired screenshots without pretending ordinal frames are synced.
+
+    This is deliberately a candidate generator.  A no-video run and a video
+    run can execute the same input script at different wall-clock positions;
+    therefore the output reports distributions and alignment limits instead
+    of declaring a game defect from image differences alone.
+    """
+    try:
+        from PIL import Image
+    except Exception as exc:
+        return {"status": "needs_review", "error": f"pillow_unavailable:{exc}", "frames": []}
+    frames = sorted(directory.glob(f"{prefix}*.png"),
+                    key=lambda path: int(path.stem.rsplit("_", 1)[-1])
+                    if path.stem.rsplit("_", 1)[-1].isdigit() else path.name)
+    x, y, width, height = roi
+    records: list[dict[str, Any]] = []
+    for path in frames:
+        try:
+            with Image.open(path) as opened:
+                pixels = list(opened.convert("RGB").crop((x, y, x + width, y + height)).getdata())
+            records.append({
+                "path": str(path),
+                "sha256": sha256(path),
+                "frame_ordinal": int(path.stem.rsplit("_", 1)[-1])
+                if path.stem.rsplit("_", 1)[-1].isdigit() else None,
+                "red_candidate_pixels": sum(r > 150 and g < 115 and b < 115 for r, g, b in pixels),
+                "white_candidate_pixels": sum(r > 190 and g > 190 and b > 190 for r, g, b in pixels),
+            })
+        except Exception as exc:
+            records.append({"path": str(path), "status": "needs_review", "error": str(exc)})
+    numeric_red = sorted(item["red_candidate_pixels"] for item in records
+                         if isinstance(item.get("red_candidate_pixels"), int))
+    numeric_white = sorted(item["white_candidate_pixels"] for item in records
+                           if isinstance(item.get("white_candidate_pixels"), int))
+    def distribution(values: list[int]) -> dict[str, Any]:
+        if not values:
+            return {"count": 0, "minimum": None, "median": None, "maximum": None}
+        return {"count": len(values), "minimum": values[0],
+                "median": values[len(values) // 2], "maximum": values[-1]}
+    return {"status": "passed" if records and all("error" not in item for item in records) else "needs_review",
+            "directory": str(directory), "frame_prefix": prefix, "frame_count": len(records),
+            "roi": {"x": x, "y": y, "width": width, "height": height},
+            "red_candidate_distribution": distribution(numeric_red),
+            "white_candidate_distribution": distribution(numeric_white),
+            "frames": records}
+
+
+def _causal_hstr_summary(path: Path | None, expected_rom: str | None) -> dict[str, Any]:
+    if path is None:
+        return {"status": "not_provided"}
+    if not path.is_file():
+        return {"status": "needs_review", "path": str(path), "reason": "hstr_missing"}
+    try:
+        value = load_json(path)
+    except (OSError, json.JSONDecodeError) as exc:
+        return {"status": "needs_review", "path": str(path), "reason": f"hstr_invalid:{exc}"}
+    active = [item for item in value.get("records", [])
+              if isinstance(item, dict) and int(item.get("p1_fireball_active", 0) or 0) != 0]
+    return {
+        "status": "context_only" if active and (not expected_rom or value.get("rom_sha256", expected_rom) == expected_rom) else "needs_review",
+        "path": str(path), "sha256": sha256(path), "rom_sha256": value.get("rom_sha256", expected_rom),
+        "active_record_count": len(active),
+        "first_active_presentation_frame": active[0].get("presentation_frame") if active else None,
+        "last_active_presentation_frame": active[-1].get("presentation_frame") if active else None,
+        "claim_limit": "same-ROM runtime context; no screenshot timestamp binding unless a shared marker exists",
+    }
+
+
+def causal_compare(args: argparse.Namespace) -> int:
+    with_manifest_path = Path(args.with_video_manifest).resolve()
+    without_manifest_path = Path(args.without_video_manifest).resolve()
+    with_manifest = load_json(with_manifest_path)
+    without_manifest = load_json(without_manifest_path)
+    with_rom = with_manifest.get("rom_sha256")
+    without_rom = without_manifest.get("rom_sha256")
+    comparisons = {
+        "rom_sha256": {"with_video": with_rom, "without_video": without_rom,
+                        "same": bool(with_rom and with_rom == without_rom)},
+        "config_sha256": {"with_video": with_manifest.get("config_sha256"),
+                           "without_video": without_manifest.get("config_sha256"),
+                           "same": with_manifest.get("config_sha256") == without_manifest.get("config_sha256")},
+        "scenario": {"with_video": with_manifest.get("scenario"),
+                      "without_video": without_manifest.get("scenario"),
+                      "same": with_manifest.get("scenario") == without_manifest.get("scenario")},
+        "requested_inputs": {
+            "with_video": [with_manifest.get("requested_p1"), with_manifest.get("requested_p2")],
+            "without_video": [without_manifest.get("requested_p1"), without_manifest.get("requested_p2")],
+            "same": ([with_manifest.get("requested_p1"), with_manifest.get("requested_p2")] ==
+                     [without_manifest.get("requested_p1"), without_manifest.get("requested_p2")]),
+        },
+    }
+    contract_same = all(item["same"] for item in comparisons.values())
+    def hape_context(manifest: dict[str, Any]) -> dict[str, Any]:
+        event = manifest.get("runtime_presentation_event")
+        if not isinstance(event, dict):
+            return {"status": "missing"}
+        fields = ("marker_id", "scene", "logic_ticks", "gameplay_event",
+                  "p1_state", "p1_anim_frame", "p1_anim_frame_total",
+                  "p1_frame_time", "p1_frame_time_total", "p1_fireball_active",
+                  "p1_fireball_x", "p1_fireball_y", "p1_input_bits",
+                  "p1_attack_button", "p1_hit_pause", "active_sprites",
+                  "used_vdp_sprites", "scanline_peak")
+        return {"status": "present", **{field: event.get(field) for field in fields},
+                "runtime_presentation_frame": event.get("runtime_presentation_frame"),
+                "pre_sprite_dma_bytes": event.get("pre_sprite_dma_bytes"),
+                "sprite_dma_delta_bytes": event.get("sprite_dma_delta_bytes")}
+    hape_with = hape_context(with_manifest)
+    hape_without = hape_context(without_manifest)
+    comparable_hape_fields = ("scene", "logic_ticks", "gameplay_event", "p1_state",
+                              "p1_anim_frame", "p1_anim_frame_total", "p1_frame_time",
+                              "p1_frame_time_total", "p1_fireball_active", "p1_fireball_x",
+                              "p1_fireball_y", "p1_input_bits", "p1_attack_button",
+                              "p1_hit_pause", "active_sprites", "used_vdp_sprites",
+                              "scanline_peak")
+    hape_same_state = (hape_with.get("status") == "present" and
+                       hape_without.get("status") == "present" and
+                       all(hape_with.get(field) == hape_without.get(field)
+                           for field in comparable_hape_fields))
+    runtime_event_context = {
+        "with_video": hape_with,
+        "without_video": hape_without,
+        "same_state_context": hape_same_state,
+        "presentation_frame_delta": (hape_with.get("runtime_presentation_frame") -
+                                      hape_without.get("runtime_presentation_frame")
+                                      if hape_same_state else None),
+        "dma_delta_capture_minus_baseline": (hape_with.get("sprite_dma_delta_bytes") -
+                                              hape_without.get("sprite_dma_delta_bytes")
+                                              if hape_same_state else None),
+        "claim_limit": "HAPE compares game state at each run's marker boundary; presentation counters are not cross-run timestamps",
+    }
+    roi_values = tuple(int(value) for value in args.roi.split(","))
+    if len(roi_values) != 4 or any(value < 0 for value in roi_values):
+        raise ValueError("causal compare ROI must be x,y,width,height with non-negative values")
+    with_frames = _causal_frame_metrics(Path(args.with_video_dir).resolve(), args.frame_prefix, roi_values)
+    without_frames = _causal_frame_metrics(Path(args.without_video_dir).resolve(), args.frame_prefix, roi_values)
+    query = load_json(Path(args.query).resolve()) if args.query else {}
+    hstr_with = _causal_hstr_summary(Path(args.hstr_with_video).resolve() if args.hstr_with_video else None, with_rom)
+    hstr_without = _causal_hstr_summary(Path(args.hstr_without_video).resolve() if args.hstr_without_video else None, without_rom)
+    visual_difference = bool(
+        with_frames.get("status") == "passed" and without_frames.get("status") == "passed" and
+        (with_frames.get("red_candidate_distribution") != without_frames.get("red_candidate_distribution") or
+         with_frames.get("white_candidate_distribution") != without_frames.get("white_candidate_distribution"))
+    )
+    finding = {
+        "id": args.finding_id,
+        "category": "capture_route_vs_gameplay",
+        "status": "candidate",
+        "approval_status": "not_approved",
+        "timestamp": query.get("interval"),
+        "frame_context": {
+            "with_video_frame_ordinals": [item.get("frame_ordinal") for item in with_frames.get("frames", [])],
+            "without_video_frame_ordinals": [item.get("frame_ordinal") for item in without_frames.get("frames", [])],
+            "alignment": "ordinal_only; no shared screenshot/runtime timestamp",
+        },
+        "media_sha256": sha256(Path(args.with_video_dir).resolve() / str(with_manifest.get("video") or "combat_window.mp4"))
+        if (Path(args.with_video_dir).resolve() / str(with_manifest.get("video") or "combat_window.mp4")).is_file() else None,
+        "rom_sha256": with_rom,
+        "roi": with_frames.get("roi"),
+        "confidence": 0.7 if contract_same and visual_difference else 0.45,
+        "symptom": "same-ROM special route produces different screenshot pixel distributions with and without video capture",
+        "hypothesis": "capture-route timing or framebuffer acquisition changes the observed visual sequence; this is not a confirmed game root cause",
+        "impact": "a spaced screenshot or recorded frame can mislead a reviewer about the special animation and hide the distinction between game output and recorder artifact",
+        "causal_test": "repeat the same input route with a shared runtime marker in both modes and bind screenshots to presentation frames before changing gameplay code",
+        "routing": {"owner": "capture_pipeline_owner", "next_action": "add shared marker binding to the no-video comparison; do not patch gameplay from this candidate"},
+        "state_correlation": {"with_video_hstr": hstr_with, "without_video_hstr": hstr_without,
+                              "runtime_presentation_event": runtime_event_context,
+                              "runtime_marker": with_manifest.get("runtime_media_marker"),
+                              "correlation_limit": "HAPE proves matching special state at each run's marker boundary; it does not bind the two runs to one video PTS"},
+        "evidence_refs": [str(with_manifest_path), str(without_manifest_path), str(Path(args.query).resolve()) if args.query else None,
+                          str(Path(args.hstr_with_video).resolve()) if args.hstr_with_video else None,
+                          str(Path(args.hstr_without_video).resolve()) if args.hstr_without_video else None],
+        "claim_limit": "candidate-only causal comparison; no visual, motion, audio or game-root-cause approval",
+    }
+    finding["evidence_refs"] = [value for value in finding["evidence_refs"] if value]
+    report = {
+        "schema_version": SCHEMA_VERSION,
+        "generated_at": now(),
+        "tool_name": "audiovisual_review",
+        "tool_version": TOOL_VERSION,
+        "stage": "V3_findings",
+        "status": "candidate_only",
+        "comparison": comparisons,
+        "contract_same": contract_same,
+        "visual_difference_candidate": visual_difference,
+        "with_video": {"manifest": str(with_manifest_path), "frames": with_frames},
+        "without_video": {"manifest": str(without_manifest_path), "frames": without_frames},
+        "runtime_context": {"with_video_hstr": hstr_with, "without_video_hstr": hstr_without,
+                            "runtime_presentation_event": runtime_event_context},
+        "findings": [finding],
+        "finding": finding,
+        "claim_limit": "same-ROM capture-route comparison only; ordinal frame metrics are not runtime/PTS synchronization",
+    }
+    write_json(Path(args.out).resolve(), report)
+    print(json.dumps({"status": report["status"], "finding_id": args.finding_id,
+                      "contract_same": contract_same, "visual_difference_candidate": visual_difference,
                       "out": str(Path(args.out).resolve())}, indent=2))
     return 0
 
@@ -1022,6 +1323,12 @@ def validate_review(report: dict[str, Any], review: dict[str, Any] | None) -> di
     if not isinstance(review, dict):
         return {"qualified": False, "errors": ["review_manifest_missing"],
                 "observed_intervals": [], "coverage": {"complete": False}}
+    if not isinstance(review.get("schema_version"), str) or not re.fullmatch(r"\d+\.\d+\.\d+", review.get("schema_version", "")):
+        errors.append("review_schema_version_missing_or_invalid")
+    if review.get("tool_name") != "audiovisual_review":
+        errors.append("review_tool_name_missing_or_invalid")
+    if not isinstance(review.get("tool_version"), str) or not review.get("tool_version", "").strip():
+        errors.append("review_tool_version_missing_or_invalid")
     if not isinstance(review.get("reviewer"), str) or not review.get("reviewer", "").strip():
         errors.append("reviewer_missing")
     if not isinstance(review.get("method"), str) or not review.get("method", "").strip():
@@ -1130,7 +1437,8 @@ def validate_review(report: dict[str, Any], review: dict[str, Any] | None) -> di
     if not isinstance(verdicts, dict):
         errors.append("verdicts_missing")
         verdicts = {}
-    for axis in ("visual_quality", "motion_quality", "audio_quality"):
+    for axis in ("event_observed", "visual_legibility", "visual_quality",
+                 "motion_quality", "audio_quality"):
         verdict = verdicts.get(axis)
         if not isinstance(verdict, dict) or verdict.get("status") not in ("passed", "failed", "needs_review"):
             errors.append(f"verdict_{axis}_missing_or_invalid")
@@ -1138,6 +1446,17 @@ def validate_review(report: dict[str, Any], review: dict[str, Any] | None) -> di
             errors.append(f"verdict_{axis}_evidence_missing")
         else:
             _validate_evidence_refs(review, verdict.get("evidence_refs"), f"verdict_{axis}", errors)
+            if axis == "visual_quality" and verdict.get("status") == "passed":
+                criteria = verdict.get("criteria_checked")
+                comparison = verdict.get("reference_comparison")
+                if not isinstance(criteria, list) or not criteria or not all(isinstance(item, str) and item.strip() for item in criteria):
+                    errors.append("verdict_visual_quality_criteria_missing")
+                if not isinstance(comparison, dict) or comparison.get("status") != "passed":
+                    errors.append("verdict_visual_quality_reference_comparison_missing")
+                elif not isinstance(comparison.get("evidence_refs"), list) or not comparison.get("evidence_refs"):
+                    errors.append("verdict_visual_quality_reference_evidence_missing")
+                else:
+                    _validate_evidence_refs(review, comparison.get("evidence_refs"), "verdict_visual_quality_reference", errors)
     qualified = not errors
     return {
         "qualified": qualified,
@@ -1187,11 +1506,35 @@ def evaluate_gate(report: dict[str, Any], review: dict[str, Any] | None = None) 
         game_cadence.get("status", "unsupported"),
         game_cadence.get("reason", "game cadence unavailable"))
 
+    event_verdict = verdicts.get("event_observed", {}).get("status")
+    event_allowed = (review_check["qualified"] and event_verdict == "passed" and
+                      bool(verdicts.get("event_observed", {}).get("evidence_refs")))
+    axes["event_observed"] = status_item(
+        "passed" if event_allowed else ("failed" if event_verdict == "failed" else "needs_review"),
+        "qualified review observed the declared event interval" if event_allowed else
+        "qualified event observation/evidence not present")
+
+    legibility_verdict = verdicts.get("visual_legibility", {}).get("status")
+    legibility_allowed = (review_check["qualified"] and legibility_verdict == "passed" and
+                          bool(verdicts.get("visual_legibility", {}).get("evidence_refs")))
+    axes["visual_legibility"] = status_item(
+        "passed" if legibility_allowed else ("failed" if legibility_verdict == "failed" else "needs_review"),
+        "qualified bounded visual-legibility review with evidence" if legibility_allowed else
+        "qualified visual-legibility verdict/evidence not present")
+
     visual_verdict = verdicts.get("visual_quality", {}).get("status")
-    visual_allowed = review_check["qualified"] and visual_verdict == "passed" and bool(verdicts.get("visual_quality", {}).get("evidence_refs"))
+    visual_packet = verdicts.get("visual_quality", {})
+    quality_criteria = visual_packet.get("criteria_checked")
+    quality_reference = visual_packet.get("reference_comparison")
+    quality_allowed = (review_check["qualified"] and visual_verdict == "passed" and
+                       bool(visual_packet.get("evidence_refs")) and
+                       isinstance(quality_criteria, list) and bool(quality_criteria) and
+                       isinstance(quality_reference, dict) and quality_reference.get("status") == "passed" and
+                       bool(quality_reference.get("evidence_refs")))
     axes["visual_quality"] = status_item(
-        "passed" if visual_allowed else ("failed" if visual_verdict == "failed" else "needs_review"),
-        "qualified review verdict with hash-bound visual evidence" if visual_allowed else "qualified visual verdict/evidence not present")
+        "passed" if quality_allowed else ("failed" if visual_verdict == "failed" else "needs_review"),
+        "qualified artistic criteria and reference comparison with evidence" if quality_allowed else
+        "observation/legibility does not substitute for artistic quality criteria and reference comparison")
 
     motion_verdict = verdicts.get("motion_quality", {}).get("status")
     motion_allowed = (review_check["qualified"] and motion_verdict == "passed" and
@@ -1221,6 +1564,8 @@ def evaluate_gate(report: dict[str, Any], review: dict[str, Any] | None = None) 
         "media_temporal_integrity": "released" if axes["media_temporal_integrity"]["status"] == "passed" else "blocked",
         "av_sync": "released" if axes["av_sync"]["status"] == "passed" else "blocked",
         "game_cadence": "released" if axes["game_cadence"]["status"] == "passed" else "blocked",
+        "event_observed": "released" if axes["event_observed"]["status"] == "passed" else "blocked",
+        "visual_legibility": "released" if axes["visual_legibility"]["status"] == "passed" else "blocked",
         "visual_approval": "released" if axes["visual_quality"]["status"] == "passed" else "blocked",
         "temporal_motion_approval": "released" if axes["motion_quality"]["status"] == "passed" else "blocked",
         "audio_approval": "released" if axes["audio_quality"]["status"] == "passed" else "blocked",
@@ -1231,6 +1576,10 @@ def evaluate_gate(report: dict[str, Any], review: dict[str, Any] | None = None) 
         "media_temporal_integrity": "video PTS and encoder continuity only",
         "av_sync": "shared runtime/video/audio marker only",
         "game_cadence": game_cadence.get("claim_limit", "hash-bound HCAD window only"),
+        "event_observed": ("declared event was observed over the qualified interval"
+                           if axes["event_observed"]["status"] == "passed" else "none"),
+        "visual_legibility": ("bounded visual-legibility review over the qualified interval"
+                               if axes["visual_legibility"]["status"] == "passed" else "none"),
         "visual_approval": (review_check.get("claim_scope", "unspecified")
                              if axes["visual_quality"]["status"] == "passed"
                              else "none"),
@@ -1352,14 +1701,22 @@ def end_to_end(args: argparse.Namespace) -> int:
     # Verify the actual capture files named by the capture manifest, not merely
     # the strings in downstream reports.
     capture_video_path = capture_bundle / str(capture.get("video") or "combat_window.mp4")
-    capture_audio_path = capture_bundle / str(capture.get("audio_wav") or "emulator_audio.wav")
+    audio_declared = capture.get("audio_wav")
+    audio_not_captured = audio_declared in (None, "") and str(capture.get("audio", "")).startswith("not_captured")
+    capture_audio_path = (capture_bundle / str(audio_declared)
+                          if isinstance(audio_declared, str) and audio_declared.strip()
+                          else None)
     capture_artifacts: dict[str, Any] = {}
     for kind, path in (("video", capture_video_path), ("audio", capture_audio_path)):
-        if path.is_file():
+        if path is None and kind == "audio" and audio_not_captured:
+            capture_artifacts[kind] = {"present": False, "optional": True,
+                                       "reason": "capture_manifest_declares_audio_not_captured"}
+            continue
+        if path is not None and path.is_file():
             capture_artifacts[kind] = {"path": str(path), "sha256": sha256(path),
                                        "size_bytes": path.stat().st_size}
         else:
-            capture_artifacts[kind] = {"path": str(path), "present": False}
+            capture_artifacts[kind] = {"path": str(path) if path is not None else None, "present": False}
             errors.append(f"capture_{kind}_missing")
     capture_rom_path = capture_bundle / "rom.bin"
     if capture_rom_path.is_file():
@@ -1395,9 +1752,12 @@ def end_to_end(args: argparse.Namespace) -> int:
     hash_checks: dict[str, Any] = {}
     for kind, values in hashes.items():
         present = [value for value in values.values() if isinstance(value, str) and value]
+        audio_absent = kind == "audio" and not present and audio_not_captured
         same = bool(present) and len(set(present)) == 1 and len(present) == len(values)
-        hash_checks[kind] = {"status": "passed" if same else "failed", "values": values}
-        if not same:
+        hash_checks[kind] = {"status": "not_present" if audio_absent else ("passed" if same else "failed"),
+                             "values": values, "claim_limit": "audio axis remains blocked when not captured"
+                             if audio_absent else None}
+        if not same and not audio_absent:
             errors.append(f"{kind}_hash_chain_mismatch_or_missing")
 
     query_ok = bool(query_report.get("frame_count_match") is True and
@@ -1606,8 +1966,21 @@ def main() -> int:
     for name in ("report", "manifest", "query", "out", "finding-id", "symptom", "hypothesis", "impact", "causal-test", "input-summary", "expected-state"):
         p.add_argument("--" + name, required=True)
     p.add_argument("--hsem"); p.add_argument("--hprb"); p.add_argument("--hcad"); p.add_argument("--hstr")
+    p.add_argument("--causal-compare")
     p.add_argument("--visual-evidence", action="append", default=[])
     p.add_argument("--confidence", type=float, default=0.75); p.add_argument("--reviewer", default="Codex")
+    p = sub.add_parser("causal-compare")
+    p.add_argument("--with-video-manifest", required=True)
+    p.add_argument("--without-video-manifest", required=True)
+    p.add_argument("--with-video-dir", required=True)
+    p.add_argument("--without-video-dir", required=True)
+    p.add_argument("--out", required=True)
+    p.add_argument("--query")
+    p.add_argument("--hstr-with-video")
+    p.add_argument("--hstr-without-video")
+    p.add_argument("--finding-id", default="capture-route-special-overlay-001")
+    p.add_argument("--frame-prefix", default="special_only_p1_try0_")
+    p.add_argument("--roi", default="128,80,384,280")
     p = sub.add_parser("gate"); p.add_argument("--report", required=True); p.add_argument("--review"); p.add_argument("--out", required=True)
     p = sub.add_parser("end-to-end")
     for name in ("freeze", "capture-manifest", "ingest", "query", "finding", "review", "gate", "out"):
@@ -1624,6 +1997,7 @@ def main() -> int:
     if args.command == "query": return query(args)
     if args.command == "findings": return make_findings(args)
     if args.command == "gameplay-finding": return make_gameplay_finding(args)
+    if args.command == "causal-compare": return causal_compare(args)
     if args.command == "gate": return gate(args)
     if args.command == "end-to-end": return end_to_end(args)
     return 2

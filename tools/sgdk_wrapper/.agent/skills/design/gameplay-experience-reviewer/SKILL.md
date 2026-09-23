@@ -40,3 +40,10 @@ reteste. Diferencie defeito, risco, oportunidade e preferência.
 - bloquear por gosto pessoal;
 - aceitar performance estável como prova de bom controle;
 - aprovar o próprio trabalho.
+
+## Uso de evidencia audiovisual
+
+Parear input, cena, evento, frame emulado, HAPE/HSTR e consulta de mídia melhora
+a causalidade, mas não prova game feel nem causa-raiz. Findings devem separar
+observado, hipótese e teste causal; clipe ou screenshot não substitui experiência
+de playback capaz, e qualquer trecho não examinado deve permanecer declarado.

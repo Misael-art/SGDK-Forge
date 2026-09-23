@@ -39,6 +39,20 @@ Excecoes so sao validas quando:
 2. o artefato externo esta declarado em `doc/technique_usage_manifest.json > allowed_external_artifacts`;
 3. ha motivo e autorizacao humana registrados.
 
+## Areas de ferramentas na raiz (gitignored)
+
+Permitidas somente para saidas geradas pelas ferramentas do workspace, nunca para material de projeto:
+
+| Area | Dono |
+|---|---|
+| `out/host_tools/`, `out/cmd_.wine/` | ferramentas de host (xgm2tool via wine/flatpak) |
+| `out/ci/` | fixtures de `tools/sgdk_wrapper/ci/` |
+| `out/logs/` | reports do workspace (`host_operation_router`) |
+| `assets/reference/` | casos `translation_curation` de `tools/image-tools/` |
+| `graphify-out/` | grafo consultivo do Graphify |
+
+Build de ROM na raiz, evidencias e experimentos de projeto continuam proibidos aqui.
+
 ## Curadoria
 
 Ao encontrar arquivo solto:

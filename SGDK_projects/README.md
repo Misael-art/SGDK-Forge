@@ -24,6 +24,7 @@ experimentais foram arquivados (com histórico) em `archives/2026-09-23/SGDK_pro
 | `SMOKE_TEST [...] [LAB]` | Fixture de build do wrapper |
 | `Celestial Chase visual benchmark [...] [LAB] [TECHDEMO]` | `tools/audio-tools/vgm_to_xgm2.py`, `ci/test_audio_tools.py` |
 | `Celestial Chase Revive [...] [GAME] [ACTION_RACING]` | `ci/test_celestial_damage_animation.py`, testes de curadoria canônica |
-| `_agent_laboratory` | `forge_art` (modo `all_applicable` só roda dentro deste laboratório) |
+| `_agent_laboratory` | Laboratório canônico do agente (`AGENTS.md`); `forge_art` `all_applicable` só roda aqui |
+| `_agent_training` | Treino canônico do agente (`AGENTS.md`) |
 
 Use `new-project.bat <nome>` para criar novos projetos canônicos aqui.

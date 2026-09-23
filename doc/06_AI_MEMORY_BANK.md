@@ -16,7 +16,7 @@
 Sete projetos parados/experimentais foram movidos com `git mv` (3423 renomeações 100% idênticas) para
 `archives/2026-09-23/SGDK_projects/`: Kirby GROK AX ALPHA, Kirby GROK BUILD, pasta Kirby CLOUDE sem `[GEN]`
 (docs divergentes da linha canônica, guardados sem fusão), BLUE_CIRCUIT, MARE_BRAVA, GOTHAM_OVERDRIVE (com
-seu gerador de assets) e `_agent_training`. A pasta vazia com colchete não fechado foi removida. Mantidos por
+seu gerador de assets) e `_agent_training` (este devolvido no mesmo dia a `SGDK_projects/`, local canonico do AGENTS.md). A pasta vazia com colchete não fechado foi removida. Mantidos por
 serem dependência de ferramentas: FORGE_REFERENCE (golden), SMOKE_TEST, Celestial Chase (benchmark e Revive)
 e `_agent_laboratory`. `.gitignore` versiona só `archives/2026-09-23/` e `archives/README.md`; `out/` e
 demais ignorados continuam fora do git. Exemplos de `seed_active_iteration`/`validate_active_iteration`
@@ -24,6 +24,10 @@ apontam agora para HAMOOPIG. Verificação: conversor 36/36, contratos HAPE+audi
 host-operation-router 30/30, animação Celestial OK. Preexistentes (não causados aqui): 2 erros de coleta em
 `HAMOOPIG/tests` (hash de evidência `ken_vs_musgo_showdown_park_pal` e matriz de QA) e `test_audio_tools`
 sem o módulo `jsonschema` no host Linux.
+Curadoria de arquivos soltos da raiz (mesmo dia): evidencia do Mugenesis movida para o projeto; build/debug
+soltos e reports de agentes sem dono para `archives/2026-09-23/root_loose/` (disco); link `tmp -> /tmp`
+removido; areas de ferramentas (`out/host_tools|ci|logs|cmd_.wine`, `assets/reference`) declaradas na
+`doc/ROOT_LOOSE_FILES_POLICY.md`. Manifesto com hashes e rollback: `doc/curation/2026-09-23-root-loose-manifest.json`.
 
 ## 1. ESTADO ATUAL DO REPOSITÓRIO
 

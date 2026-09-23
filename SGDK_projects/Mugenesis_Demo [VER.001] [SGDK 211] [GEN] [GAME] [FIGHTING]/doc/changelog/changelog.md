@@ -1,5 +1,10 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-23 - P3: memo de multiplexacao dos aneis (NO-GO)
+
+- Medido: pior quadro de anel 107 tiles / 3,4 KB DMA; simulador 16 sprites/linha (ok).
+- Multiplex 16x16 estoura (21/linha); 32x32 fica perto do limite (18) e perde fidelidade. Nada implementado.
+
 ## 2026-09-23 - P5: sombra pontilhada sob o lutador (memo comparativo)
 
 - Memo: doc/hud/p5_shadow_memo.md (dither x flicker x blinking x Shadow/Highlight, com custos medidos).

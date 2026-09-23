@@ -34,7 +34,8 @@
 - P4/P4.1 HUD: FECHADO (ROM b138fb35...; doc/hud/p4_hud_contract.md). Regerar HUD: convert-hud <sfa2_lifebars.zip>.
 - Paleta ocupada: PAL0 9..15 = HUD; PAL0 1..8 livres p/ estagio (E4) e fundo de super usa 1..14 (HUD escondido).
 - P5 sombra: FECHADO (dither; ROM 46a9cd65...; doc/hud/p5_shadow_memo.md). S/H reavaliar no E4.
-- P3 memo aneis, P6 registro de efeitos: pendentes.
+- P3 memo aneis: NO-GO recomendado (doc/hud/p3_ring_multiplex_memo.md; simulador 16/20 atual vs 21/20 multiplex 16x16), aguarda aprovacao.
+- P6 registro de efeitos: pendente.
 - Build: ROMs com --output-dir alternativo exigem out/ ja buildado (sega.s inclui out/rom_head.bin).
 
 ### Conteudo de terceiros

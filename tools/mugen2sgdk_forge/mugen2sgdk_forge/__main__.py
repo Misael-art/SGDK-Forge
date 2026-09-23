@@ -55,10 +55,10 @@ def _used_sounds(ch) -> set[int]:
     return used
 
 
-def convert_char(pkg: Path, char_id: str, project: Path) -> dict:
+def convert_char(pkg: Path, char_id: str, project: Path, vivid_clothing: bool = False) -> dict:
     src = Source(pkg)
     ch = character.load(src)
-    spr = spr_conv.convert(ch)
+    spr = spr_conv.convert(ch, vivid_clothing=vivid_clothing)
     used = _used_sounds(ch)
     snds, snd_rep = snd_conv.convert(ch, used)
     fx = bgfx_conv.detect(ch, spr.report["unsupported_images"])
@@ -142,13 +142,15 @@ def main(argv=None) -> int:
     c.add_argument("package", type=Path)
     c.add_argument("--id", required=True)
     c.add_argument("--project", type=Path, required=True)
+    c.add_argument("--vivid-clothing", action="store_true",
+                   help="redistribui o brilho das rampas de roupa (matiz/saturacao preservados; ver relatorio)")
     args = ap.parse_args(argv)
     if args.cmd == "inventory":
         return inventory.main([args.root, "--out", args.out])
     if args.cmd == "install-runtime":
         print(json.dumps(install_runtime(args.project), indent=2))
         return 0
-    rep = convert_char(args.package, args.id, args.project)
+    rep = convert_char(args.package, args.id, args.project, args.vivid_clothing)
     fid = rep["fidelity"]
     print(json.dumps({"character": rep["character"], "controller_fidelity": fid["controller_fidelity"],
                       "missing_refs": fid["missing_refs"], "sheets": rep["sprites"]["sheets"],

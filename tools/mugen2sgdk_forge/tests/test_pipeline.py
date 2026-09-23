@@ -299,3 +299,14 @@ def test_param_list_always_aligned_with_schema(tmp_path):
             if cc.type in ("varset", "varadd", "varrandom"):
                 continue
             assert len(cc.params) == len(C.SCHEMA[cc.type]), (st.number, cc.type)
+
+
+def test_vivid_clothing_ramp_meets_targets_and_respects_intent():
+    """P2: rampa de roupa mais viva (niveis do VDP), degraus distintos e crescentes; roupa preta intacta."""
+    turquoise = [(0, 36, 36), (0, 72, 72), (0, 108, 108), (0, 144, 144), (0, 180, 180), (0, 216, 216)]
+    out = sprites.vivid_ramp(turquoise)
+    assert out[0] == turquoise[0]                                   # faixa/sombra profunda preservada
+    m = sprites.ramp_metrics(out)
+    assert m["v_top"] >= 0.98 and m["v_median"] >= 0.6 and m["distinct_vdp"] == 6 and m["luma_strictly_increasing"]
+    collapsed_red = [(108, 0, 0), (108, 0, 0), (144, 0, 0), (180, 0, 0), (216, 72, 0), (252, 108, 0)]
+    assert sprites.ramp_metrics(sprites.vivid_ramp(collapsed_red))["distinct_vdp"] == 6

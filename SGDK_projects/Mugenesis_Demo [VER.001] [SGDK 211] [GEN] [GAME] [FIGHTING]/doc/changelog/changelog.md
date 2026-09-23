@@ -1,5 +1,12 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-23 - P2: rampas de roupa mais vivas (medidas antes de ajustar)
+
+- Achado: saturacao ja era maxima; defeito real = brilho baixo + degrau colapsado + pouco contraste.
+- Alvos T1-T4 e metodo em doc/mugen/p2_palette_calibration.md; `convert-char --vivid-clothing`.
+- Turquesa (P1): V 0,85/0,56 -> 0,99/0,71, deltaE 50 -> 63. Vermelho (P2): degraus 5 -> 6, deltaE 90 -> 97.
+- Evidencia BlastEm: ROM 5690eafe... (antes 38a67c94...). Desempenho inalterado.
+
 ## 2026-09-23 - P1: faiscas ancoradas no ponto de contato + variacao em combo
 
 - Faisca nasce no centro da intersecao Clsn1 x Clsn2 que registrou o acerto (antes: borda frontal do

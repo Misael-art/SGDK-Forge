@@ -192,7 +192,64 @@ def split_parts(s) -> list[Part] | None:
     return parts if 0 < len(parts) <= MAX_PARTS else None
 
 
-def convert(ch, used_only: bool = True) -> SpriteResult:
+def _luma(c) -> float:
+    return (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) / 255
+
+
+def _lvl(c) -> tuple[int, int, int]:
+    return tuple(min(7, (x + 18) // 36) for x in c)
+
+
+def vivid_ramp(cols: list[tuple[int, int, int]]) -> list[tuple[int, int, int]]:
+    """Rampa de roupa mais viva direto nos 8 niveis/canal do VDP. O degrau mais escuro e ancora
+    (faixa/sombra profunda, fica intacto); o degrau de posto r recebe nivel maximo 7-(n-1-r) com os
+    canais escalados proporcionalmente (matiz/saturacao preservados). Degraus distintos e crescentes."""
+    n = len(cols)
+    order = sorted(range(n), key=lambda k: (_luma(cols[k]), k))
+    out = list(cols)
+    prev = None
+    for rank, k in enumerate(order):
+        if rank == 0:                      # degrau mais escuro e ancora (faixa/sombra profunda): intacto
+            prev = out[k] = cols[k]
+            continue
+        lv = _lvl(cols[k])
+        m = max(lv) or 1
+        target = max(1, 7 - (n - 1 - rank))
+        new = tuple(min(7, int(round(x * target / m))) for x in lv) if max(lv) else (target,) * 3
+        c = tuple(x * 36 for x in new)
+        if prev is not None and _luma(c) <= _luma(prev):      # colisao na quantizacao: sobe um nivel
+            c = tuple(min(252, x + 36) for x in prev) if max(lv) == 0 else \
+                tuple(min(252, x * 36 + (36 if x == max(new) else 0)) for x in new)
+        out[k] = c
+        prev = c
+    return out
+
+
+def _lab(c):
+    def f(u):
+        u /= 255
+        return ((u + 0.055) / 1.055) ** 2.4 if u > 0.04045 else u / 12.92
+    r, g, b = (f(x) for x in c)
+    X, Y, Z = (0.4124 * r + 0.3576 * g + 0.1805 * b) / 0.9505, 0.2126 * r + 0.7152 * g + 0.0722 * b, \
+        (0.0193 * r + 0.1192 * g + 0.9505 * b) / 1.089
+    g_ = lambda t: t ** (1 / 3) if t > 0.008856 else 7.787 * t + 16 / 116
+    return 116 * g_(Y) - 16, 500 * (g_(X) - g_(Y)), 200 * (g_(Y) - g_(Z))
+
+
+def ramp_metrics(cols, bg=(0x20, 0x28, 0x38)) -> dict:
+    import colorsys
+    hsv = [colorsys.rgb_to_hsv(*[x / 255 for x in c]) for c in cols]
+    vs = sorted(v for _, _, v in hsv)
+    lum = sorted(_luma(c) for c in cols)
+    lb = _lab(bg)
+    de = sorted(sum((a - b) ** 2 for a, b in zip(_lab(c), lb)) ** 0.5 for c in cols)
+    return {"sat_min": round(min(s for _, s, _ in hsv), 2), "v_top": round(vs[-1], 2),
+            "v_median": round(vs[len(vs) // 2], 2), "distinct_vdp": len({tuple(c) for c in cols}),
+            "luma_strictly_increasing": all(a < b for a, b in zip(lum, lum[1:])),
+            "median_deltaE_vs_bg": round(de[len(de) // 2], 1)}
+
+
+def convert(ch, used_only: bool = True, vivid_clothing: bool = False) -> SpriteResult:
     rep: dict = {"unsupported_images": [], "split_groups": [], "hw_over_limit": [], "split_images": []}
     used = {(f.group, f.image) for a in ch.anims.values() for f in a.frames if f.group >= 0}
     sprites = [s for s in ch.sprites if not used_only or (s.group, s.image) in used]
@@ -260,8 +317,26 @@ def convert(ch, used_only: bool = True) -> SpriteResult:
 
     # 3) variantes de paleta do corpo (uma por .act)
     variants = []
-    for name, pal in (ch.palettes or [("sff", base_pal)]):
-        words = [0] + [vdp_word(pal[i]) for i in body_idx]
+    pal_list = ch.palettes or [("sff", base_pal)]
+    vary = [k for k, i in enumerate(body_idx) if len({to_vdp(p[i]) for _, p in pal_list}) > 1]
+    rep["clothing_slots"] = vary
+    rep["vivid_clothing"] = {} if vivid_clothing else None
+    for name, pal in pal_list:
+        cols = [to_vdp(pal[i]) for i in body_idx]
+        if vivid_clothing and vary:
+            orig = [cols[k] for k in vary]
+            ramp = vivid_ramp(orig)
+            mb, ma = ramp_metrics(orig), ramp_metrics(ramp)
+            # so aplica onde melhora: nao reduz brilho mediano, deltaE, nem saturacao (> 0.05)
+            # acromaticas (preto/branco/cinza) mantem a intencao de design: nunca clareia uma roupa preta
+            better = (mb["sat_min"] >= 0.2 and ma["v_median"] >= mb["v_median"] and ma["median_deltaE_vs_bg"] >= mb["median_deltaE_vs_bg"]
+                      and ma["sat_min"] >= mb["sat_min"] - 0.05 and ma["distinct_vdp"] >= mb["distinct_vdp"]
+                      and ma["luma_strictly_increasing"])
+            rep["vivid_clothing"][name] = {"before": mb, "after": ma if better else mb, "applied": better}
+            if better:
+                for k, c in zip(vary, ramp):
+                    cols[k] = c
+        words = [0] + [vdp_word(c) for c in cols]
         variants.append((name, (words + [0] * 16)[:16]))
     fx_words = ([0] + [vdp_word(c) for c in fx_cols] + [0] * 16)[:16]
 

@@ -456,6 +456,19 @@ void MG_fightRender(void)
                                  pr->facing, p->pal, -20, 1, 0);
         }
     }
+    /* sombras: no chao sob cada lutador, profundidade maxima (atras de tudo e descartadas primeiro) */
+    for (u8 s = 0; s < 2; s++) {
+        MgPlayer *p = &mg_fight.p[s];
+        if (!p->def->shadow) continue;
+        if (!p->shadow_spr) {
+            p->shadow_spr = SPR_addSpriteEx(p->def->shadow, 0, 0, TILE_ATTR(p->pal, FALSE, FALSE, FALSE),
+                                            SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
+            if (!p->shadow_spr) continue;
+            SPR_setDepth(p->shadow_spr, SPR_MAX_DEPTH);
+        }
+        SPR_setPosition(p->shadow_spr, FX2I(p->x) - mg_fight.camx - 16, mg_fight.floor_y - 4);
+        SPR_setVisibility(p->shadow_spr, mg_fight.bgfx_active ? HIDDEN : VISIBLE);
+    }
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *h = &mg_fight.helper[s];
         if (mg_fight.helper_active[s])
@@ -733,6 +746,7 @@ void MG_fightEnd(void)
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *p = &mg_fight.p[s];
         MG_drawRelease(&p->dr);
+        if (p->shadow_spr) SPR_releaseSprite(p->shadow_spr);
         MG_drawRelease(&mg_fight.helper[s].dr);
         for (u8 i = 0; i < MG_MAX_PROJ; i++) MG_drawRelease(&p->proj[i].dr);
     }

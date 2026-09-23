@@ -147,6 +147,7 @@ struct MgPlayer {
     s16 sprpriority;
     MgProj proj[MG_MAX_PROJ];
     MgDraw dr;
+    Sprite *shadow_spr;        /* sombra (P5): ultimo na lista, descartada primeiro em estouro de linha */
     s16 shake_screen;
     /* faisca: ultimo ponto de contato e indice de variacao (combos na mesma regiao) */
     s16 spark_last_x, spark_last_y; u32 spark_last_tick; u8 spark_var;

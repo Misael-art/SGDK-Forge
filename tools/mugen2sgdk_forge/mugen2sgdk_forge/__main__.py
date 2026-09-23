@@ -186,6 +186,15 @@ def _update_provenance(project: Path, cid: str, ch, spr, snds):
             "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
             "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
             "notes": f"{ch.name} por {ch.author}; uso local autorizado pelo usuario; redistribuicao nao verificada."})
+    extra = [("portrait", "TILESET", "retrato MUGEN 9000,0 (direto, paleta do corpo)"),
+             ("shadow", "SPRITE", "DERIVADA: silhueta 0,0 achatada 32x8 + xadrez 50% (P5); aprovacao visual pendente")]
+    for name, kind, note in extra:
+        if (project / "res" / "mugen" / cid / f"{name}.png").exists():
+            data["entries"].append({
+                "res_symbol": f"mg_{cid}_{name}", "res_kind": kind, "asset_path": f"mugen/{cid}/{name}.png",
+                "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
+                "generated_by": "tools/mugen2sgdk_forge (generators/sgdk.py)",
+                "notes": f"{ch.name} por {ch.author}; {note}; redistribuicao nao verificada."})
     for rep in spr.report.get("bgfx", []):
         data["entries"].append({
             "res_symbol": f"mg_{cid}_bgfx_{rep['group']}", "res_kind": "IMAGE",

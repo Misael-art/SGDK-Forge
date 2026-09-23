@@ -33,7 +33,8 @@
 - P2 rampas de roupa: FECHADO (ROM 5690eafe...; doc/mugen/p2_palette_calibration.md). Regerar SEMPRE com --vivid-clothing.
 - P4/P4.1 HUD: FECHADO (ROM b138fb35...; doc/hud/p4_hud_contract.md). Regerar HUD: convert-hud <sfa2_lifebars.zip>.
 - Paleta ocupada: PAL0 9..15 = HUD; PAL0 1..8 livres p/ estagio (E4) e fundo de super usa 1..14 (HUD escondido).
-- P5 sombra, P3 memo aneis, P6 registro de efeitos: pendentes, nessa ordem.
+- P5 sombra: FECHADO (dither; ROM 46a9cd65...; doc/hud/p5_shadow_memo.md). S/H reavaliar no E4.
+- P3 memo aneis, P6 registro de efeitos: pendentes.
 - Build: ROMs com --output-dir alternativo exigem out/ ja buildado (sega.s inclui out/rom_head.bin).
 
 ### Conteudo de terceiros

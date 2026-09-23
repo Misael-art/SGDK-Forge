@@ -1,5 +1,13 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-23 - P5: sombra pontilhada sob o lutador (memo comparativo)
+
+- Memo: doc/hud/p5_shadow_memo.md (dither x flicker x blinking x Shadow/Highlight, com custos medidos).
+- Vencedora: dither em sprite 32x8 (+1 sprite/lutador, 0 paleta, 4 tiles, 0 DMA/quadro); estouro residual
+  0,20% tratado por prioridade (sombra descartada primeiro), nao por flicker.
+- Forma DERIVADA da silhueta 0,0 do Ken (technical_candidate, aprovacao visual pendente).
+- ROM 46a9cd65...: 27,0% acima do orcamento (faixa 23-27% entre capturas).
+
 ## 2026-09-23 - P4/P4.1: HUD de luta (arte SFA2 Lifebars convertida)
 
 - Vida amarela drenando com fantasma vermelho (estilo SF), especial azul (mesma arte, cor por paleta),

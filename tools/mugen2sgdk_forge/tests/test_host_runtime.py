@@ -77,3 +77,18 @@ def test_super_effects_ring_parts_and_background(tmp_path):
     exe = build_flags(tmp_path, "supers", "-DMG_TEST_FULL_POWER")
     r = json.loads(subprocess.run([str(exe)], check=True, capture_output=True, text=True).stdout)
     assert r["bg730_ticks"] > 0                                            # fundo do super via Helper
+
+
+def test_hit_sparks_anchor_on_contact_and_vary_in_combo(tmp_path):
+    """P1: faisca nasce no ponto de contato; golpe baixo gera faisca mais baixa que golpe alto;
+    acertos seguidos na mesma regiao variam (>= 3 posicoes distintas, desvio sutil <= 4 px)."""
+    exe = build(tmp_path, "sparks")
+    sp = json.loads(subprocess.run([str(exe)], check=True, capture_output=True, text=True).stdout)
+    high = [s for s in sp if s["tag"] == "high"]
+    low = [s for s in sp if s["tag"] == "low"]
+    assert len(high) >= 3 and len(low) >= 3, sp
+    hy = sorted(s["y"] for s in high)[len(high) // 2]
+    ly = sorted(s["y"] for s in low)[len(low) // 2]
+    assert ly - hy >= 20, (hy, ly)                                   # ancorado por regiao
+    assert len({s["var"] for s in high}) >= 3, high                  # >= 3 variacoes no combo
+    assert max(s["y"] for s in high) < min(s["y"] for s in low), sp  # regioes separadas

@@ -19,7 +19,16 @@ static u16 sIdleFrames;
 /* ROM de teste: roteiro de entrada real para o P1 (evidencia de efeitos de super no emulador).
  * c+z = Special Mode (anel 30100); ~D,DB,B,D,DB,B,x = bola de fogo super (KO -> fundo 730). */
 typedef struct { u16 pad; u8 frames; } ScriptStep;
-#ifdef MG_TEST_RING
+#if defined(MG_TEST_COMBO)
+static const ScriptStep kScript[] = {          /* P1: combo de socos na mesma regiao (faiscas) */
+    { BUTTON_RIGHT, 40 },
+    { BUTTON_X, 2 }, { 0, 12 }, { BUTTON_RIGHT, 6 },
+    { BUTTON_X, 2 }, { 0, 12 }, { BUTTON_RIGHT, 6 },
+    { BUTTON_X, 2 }, { 0, 12 }, { BUTTON_RIGHT, 6 },
+    { BUTTON_X, 2 }, { 0, 12 }, { BUTTON_RIGHT, 6 },
+    { 0, 60 },
+};
+#elif defined(MG_TEST_RING)
 static const ScriptStep kScript[] = {          /* so o Special Mode (anel 30100 / grupo 8000) */
     { 0, 60 }, { BUTTON_C | BUTTON_Z, 2 }, { 0, 250 },
 };

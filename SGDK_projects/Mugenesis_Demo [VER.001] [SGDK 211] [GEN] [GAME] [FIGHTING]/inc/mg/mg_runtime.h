@@ -143,6 +143,8 @@ struct MgPlayer {
     MgProj proj[MG_MAX_PROJ];
     MgDraw dr;
     s16 shake_screen;
+    /* faisca: ultimo ponto de contato e indice de variacao (combos na mesma regiao) */
+    s16 spark_last_x, spark_last_y; u32 spark_last_tick; u8 spark_var;
     /* helper reduzido (MUGEN Helper): roda estados do dono, invisivel a colisoes */
     u8 is_helper;
     s16 helper_id;

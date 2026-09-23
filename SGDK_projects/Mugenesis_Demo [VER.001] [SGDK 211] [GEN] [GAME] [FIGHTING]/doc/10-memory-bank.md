@@ -28,6 +28,11 @@
 - visual: technical_candidate (conversao automatica; aprovacao humana pendente); gate semantico de tela rejeita por baixa densidade de bordas (sem cenario)
 - ready_for_aaa: false
 
+### Direcionamento 2026-09-23 (P1..P6)
+- P1 faiscas ancoradas no contato: FECHADO (ROM normal 38a67c94..., teste f1f4df6a...; 22,6% acima do orcamento).
+- P2 saturacao, P4 HUD, P5 sombra, P3 memo aneis, P6 registro de efeitos: pendentes, nessa ordem.
+- Build: ROMs com --output-dir alternativo exigem out/ ja buildado (sega.s inclui out/rom_head.bin).
+
 ### Conteudo de terceiros
 Ken Masters ADV (autor Chok): uso local autorizado pelo usuario; redistribuicao nao verificada.
 Saidas convertidas (res/mugen/, res/mgres_*, src/mg_gen/, inc/mg_gen/, out_prof/) ficam fora do Git.

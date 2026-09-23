@@ -1,5 +1,18 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-23 - P1: faiscas ancoradas no ponto de contato + variacao em combo
+
+- Faisca nasce no centro da intersecao Clsn1 x Clsn2 que registrou o acerto (antes: borda frontal do
+  defensor + sparkxy, regra MUGEN). Divergencia deliberada, declarada.
+- Combo na mesma regiao (relativa ao corpo do defensor, <=16 px, <=90 ticks) percorre 4 variacoes
+  sutis (0,0) (+3,-2) (-3,+2) (+2,+3).
+- Teste: tests/test_host_runtime.py::test_hit_sparks_anchor_on_contact_and_vary_in_combo
+  (alto y~-78 vs baixo y~-6; variacoes 0,1,2,3,0).
+- Evidencia BlastEm: ROM de teste f1f4df6a... (-DMG_TEST_SCRIPT -DMG_TEST_COMBO), sessao
+  out/mugenesis_evidence/p1_sparks/blastem-linux-20260923T184801Z-674202.
+- Desempenho (ROM normal 38a67c94..., CPU x CPU): 860/3811 quadros acima do orcamento = 22,6%
+  (antes 23%), pico 159%. Sem regressao.
+
 ## 2026-09-23 - Efeitos de super completos (anel, bola de fogo super, fundo de vitoria)
 
 - Quadros grandes divididos em ate 4 sprites; fundo de super em BG_B com animacao de paleta; Helper reduzido.

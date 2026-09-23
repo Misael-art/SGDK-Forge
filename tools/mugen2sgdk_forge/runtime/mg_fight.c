@@ -81,9 +81,10 @@ static u8 overlap(const Rect *a, const Rect *b)
     return a->x1 <= b->x2 && b->x1 <= a->x2 && a->y1 <= b->y2 && b->y1 <= a->y2;
 }
 
-/* alguma Clsn1 do quadro de ataque encosta em alguma Clsn2 do defensor? */
+/* alguma Clsn1 do quadro de ataque encosta em alguma Clsn2 do defensor?
+ * Se sim, devolve em *hit a intersecao do primeiro par que colidiu (ponto de contato real). */
 static u8 frames_collide(const MgCharDef *ad, const MgAnimFrame *af, mgfx ax, mgfx ay, s8 afc,
-                         const MgPlayer *d)
+                         const MgPlayer *d, Rect *hit)
 {
     const MgAnimFrame *df = &d->def->frames[d->def->anims[d->anim_idx].first + d->elem];
     if (!af->nclsn1 || !df->nclsn2) return 0;
@@ -91,7 +92,13 @@ static u8 frames_collide(const MgCharDef *ad, const MgAnimFrame *af, mgfx ax, mg
         Rect r1 = world_box(&ad->boxes[af->clsn + i], ax, ay, afc);
         for (u8 j = 0; j < df->nclsn2; j++) {
             Rect r2 = world_box(&d->def->boxes[df->clsn + df->nclsn1 + j], d->x, d->y, d->facing);
-            if (overlap(&r1, &r2)) return 1;
+            if (overlap(&r1, &r2)) {
+                hit->x1 = r1.x1 > r2.x1 ? r1.x1 : r2.x1;
+                hit->x2 = r1.x2 < r2.x2 ? r1.x2 : r2.x2;
+                hit->y1 = r1.y1 > r2.y1 ? r1.y1 : r2.y1;
+                hit->y2 = r1.y2 < r2.y2 ? r1.y2 : r2.y2;
+                return 1;
+            }
         }
     }
     return 0;
@@ -132,15 +139,33 @@ static u8 guards(const MgHitDef *h, const MgPlayer *d, s8 attacker_side_dir)
     return 0;
 }
 
-static void spark(MgPlayer *owner, s16 anim, const MgPlayer *def, const MgHitDef *h, s8 afc, mgfx ay)
+/* Faisca ancorada no ponto de contato (centro da intersecao Clsn1 x Clsn2).
+ * Divergencia deliberada do MUGEN (que usa borda frontal + sparkxy): leitura de onde o golpe acertou.
+ * Acertos seguidos na mesma regiao (<=16 px, <=90 ticks) percorrem 4 variacoes sutis (jitter). */
+#define SPARK_REGION 16
+#define SPARK_WINDOW 90
+static const s8 kSparkJitter[4][2] = { { 0, 0 }, { 3, -2 }, { -3, 2 }, { 2, 3 } };
+
+static void spark(MgPlayer *owner, s16 anim, const Rect *hit, s8 afc, const MgPlayer *def)
 {
     if (anim < 0) return;
-    mgfx x = def->x - FXI((def->def->consts->ground_front >> MG_FX_SHIFT) * afc) + FXI(h->spark_x * afc);
-    MG_spawnExplod(owner, anim, x, ay + FXI(h->spark_y), -2, -1, afc);
+    s16 cx = (hit->x1 + hit->x2) >> 1, cy = (hit->y1 + hit->y2) >> 1;
+    /* regiao relativa ao corpo do defensor (o empurrao do golpe nao "muda de regiao") */
+    s16 rx = cx - FX2I(def->x), ry = cy - FX2I(def->y);
+    if (abs(rx - owner->spark_last_x) <= SPARK_REGION && abs(ry - owner->spark_last_y) <= SPARK_REGION &&
+        mg_fight.ticks - owner->spark_last_tick <= SPARK_WINDOW)
+        owner->spark_var = (owner->spark_var + 1) & 3;
+    else
+        owner->spark_var = 0;
+    owner->spark_last_x = rx;
+    owner->spark_last_y = ry;
+    owner->spark_last_tick = mg_fight.ticks;
+    s16 jx = kSparkJitter[owner->spark_var][0] * afc, jy = kSparkJitter[owner->spark_var][1];
+    MG_spawnExplod(owner, anim, FXI(cx + jx), FXI(cy + jy), -2, -1, afc);
 }
 
 /* aplica o acerto/defesa. from_proj: atacante nao congela */
-static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj, mgfx hit_y, s8 afc)
+static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj, const Rect *hit, s8 afc)
 {
     u8 g = guards(h, d, -afc);
     d->target = 0;
@@ -161,7 +186,7 @@ static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj,
         d->sdef = d->def;
         MG_changeState(d, d->statetype == 'C' ? 152 : (d->statetype == 'A' ? 154 : 150), 0, -1);
         MG_playSound(a, h->guardsound);
-        spark(a, h->guard_sparkno, d, h, afc, hit_y);
+        spark(a, h->guard_sparkno, hit, afc, d);
         return;
     }
     s32 dmg = h->damage;
@@ -197,7 +222,7 @@ static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj,
     }
     if (d->facing == afc) { d->facing = -afc; }           /* vira para o atacante */
     MG_playSound(a, h->hitsound);
-    spark(a, h->sparkno, d, h, afc, hit_y);
+    spark(a, h->sparkno, hit, afc, d);
     if (h->p2stateno >= 0 && !from_proj) {
         d->sdef = a->sdef;                                 /* custom state do atacante */
         MG_changeState(d, h->p2stateno, 0, -1);
@@ -215,18 +240,19 @@ static void resolve_hits(void)
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *a = &mg_fight.p[s], *d = a->enemy;
         /* golpe corpo a corpo */
+        Rect hit;
         if (a->hitdef_active && a->movetype == 'A' && a->hitpause == 0 && can_hit(&a->hd, d) &&
-            frames_collide(a->def, cur_frame(a), a->x, a->y, a->facing, d)) {
+            frames_collide(a->def, cur_frame(a), a->x, a->y, a->facing, d, &hit)) {
             a->hitdef_active = 0;              /* um HitDef = um acerto */
-            apply_hit(a, d, &a->hd, 0, a->y - FXI(60), a->facing);
+            apply_hit(a, d, &a->hd, 0, &hit, a->facing);
         }
         /* projeteis */
         for (u8 i = 0; i < MG_MAX_PROJ; i++) {
             MgProj *pr = &a->proj[i];
             if (!pr->active || pr->removing) continue;
             const MgAnimFrame *pf = &a->def->frames[a->def->anims[pr->anim_idx].first + pr->elem];
-            if (!can_hit(&pr->hd, d) || !frames_collide(a->def, pf, pr->x, pr->y, pr->facing, d)) continue;
-            apply_hit(a, d, &pr->hd, 1, pr->y, pr->facing);
+            if (!can_hit(&pr->hd, d) || !frames_collide(a->def, pf, pr->x, pr->y, pr->facing, d, &hit)) continue;
+            apply_hit(a, d, &pr->hd, 1, &hit, pr->facing);
             pr->contact_time = 0;
             if (--pr->hits <= 0) {
                 s16 idx = pr->hitanim >= 0 ? MG_findAnim(a->def, pr->hitanim) : -1;

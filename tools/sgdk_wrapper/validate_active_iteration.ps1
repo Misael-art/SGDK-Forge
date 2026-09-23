@@ -21,8 +21,8 @@
     If set, schema validation failures become warnings instead of fatal exit codes.
 .EXAMPLE
     .\validate_active_iteration.ps1 -SchemaPath .\schemas\active_iteration.schema.json ^
-        -ArtifactPath .\SGDK_projects\MARE_BRAVA [VER.001]\doc\active_iteration.json ^
-        -MemoryBankPath .\SGDK_projects\MARE_BRAVA [VER.001]\doc\10-memory-bank.md
+        -ArtifactPath .\SGDK_projects\HAMOOPIG [VER.001]\doc\active_iteration.json ^
+        -MemoryBankPath .\SGDK_projects\HAMOOPIG [VER.001]\doc\10-memory-bank.md
 #>
 
 [CmdletBinding()]

@@ -7,7 +7,7 @@ validators or emulator evidence.
 
 Usage:
     python3 seed_active_iteration.py \
-      --project-root "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]" \
+      --project-root "SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]" \
       --active-claim "..." --blocker-leaf "..." --route "..." --hypothesis "..." \
       --evidence-before "..."
 """

@@ -24,8 +24,11 @@ graphify-out/
 # SDK (download separately)
 sdk/
 
-# Archives
-archives/
+# Archives: older local archives stay out of git; the 2026-09-23 harmonization archive is
+# versioned (projects moved out of SGDK_projects/ with their history).
+archives/*
+!archives/2026-09-23/
+!archives/README.md
 
 # Local workspace state
 .venv/
@@ -52,6 +55,7 @@ ai-memory-data/
 # Materialized project bridges are symlinks, so these patterns intentionally
 # omit a trailing slash (a slash-only directory rule does not match symlinks).
 SGDK_projects/**/.agent
+archives/2026-09-23/**/.agent
 SGDK_Engines/**/.agent
 
 # AI Image Generation: pesos, caches e gerações brutas nunca entram no repo.

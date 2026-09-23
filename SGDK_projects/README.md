@@ -1,19 +1,29 @@
 # SGDK_projects
 
-Esta pasta ficou reservada para projetos autorais ativos do workspace.
+Projetos SGDK ativos e referências usadas pelas ferramentas do workspace. Projetos parados ou
+experimentais foram arquivados (com histórico) em `archives/2026-09-23/SGDK_projects/` — veja
+`archives/README.md`.
 
-## Projetos atuais
+## Projetos ativos
 
-| Projeto | Tipo | Observação |
-|---------|------|------------|
-| `ELITE_TEST_PROJECT` | Fixture | Projeto canônico para validação de build; manter |
-| `Pequeno Principe Cronicas das Estrelas [VER.001]...` | Jogo | Projeto autoral ativo |
-| `teste` | Rascunho | Avaliado em 2026-03-19; recomenda-se arquivar — ver [doc/AVALIACAO_PROJETOS_SGDK_PROJECTS.md](../doc/AVALIACAO_PROJETOS_SGDK_PROJECTS.md) |
+| Projeto | Papel |
+| --- | --- |
+| `HAMOOPIG [...] [ENGINE] [FIGHTING]` | Engine de luta; contratos HAMOOPIG e sonda HAPE; referência do RetroDevStudio |
+| `TAIKETSU ULTRA HERO GENESIS [...] [ENGINE] [FIGHTING]` | Engine de luta |
+| `TAIKETSU ULTRA REBIRTH [...] [GAME] [FIGHTING]` | Jogo de luta em produção |
+| `Mugenesis_Demo [...] [GAME] [FIGHTING]` | Demo do conversor mugen2sgdk (Ken) |
+| `BLAZE_ENGINE [...] [ENGINE] [BEAT_EM_UP]` | Engine beat'em up |
+| `SHADOWDANCER_REVISITADO [...] [ENGINE] [BEAT_EM_UP]` | Engine beat'em up |
+| `KIRBY_FAN GAME CLOUDE [...] [GEN] [GAME] [ACTION_PLATFORMER]` | Plataforma de ação (linha canônica do Kirby) |
 
-## Arquivamento
+## Referências de ferramentas (não arquivar sem atualizar as ferramentas)
 
-Os rascunhos, testes e experimentos anteriores foram movidos para:
-
-- `archives/cleanup_20260314-190609/sandbox/SGDK_projects/`
+| Projeto | Usado por |
+| --- | --- |
+| `FORGE_REFERENCE [...] [LAB] [TECHDEMO]` | `tools/sgdk_wrapper/ci/run_golden_validate.ps1`, `run_reference_e2e.py` (projeto golden) |
+| `SMOKE_TEST [...] [LAB]` | Fixture de build do wrapper |
+| `Celestial Chase visual benchmark [...] [LAB] [TECHDEMO]` | `tools/audio-tools/vgm_to_xgm2.py`, `ci/test_audio_tools.py` |
+| `Celestial Chase Revive [...] [GAME] [ACTION_RACING]` | `ci/test_celestial_damage_animation.py`, testes de curadoria canônica |
+| `_agent_laboratory` | `forge_art` (modo `all_applicable` só roda dentro deste laboratório) |
 
 Use `new-project.bat <nome>` para criar novos projetos canônicos aqui.

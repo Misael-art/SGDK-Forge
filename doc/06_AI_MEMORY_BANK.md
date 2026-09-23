@@ -1,6 +1,6 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
-**Última atualização:** 2026-09-02
+**Última atualização:** 2026-09-23
 **Escopo:** Repositório MegaDrive_DEV (workspace global)
 **Projeto em foco:** Barra viva da cena (oficio Rheo/Pigsy como piso, nao handle), plano para gerar pixel art nesse nivel, SGDK_GLOBAL §39
 
@@ -3049,3 +3049,44 @@ completo continuam pendentes. Nenhuma promocao AAA.
 ### Curadoria incremental HAMOOPIG — 2026-09-18
 
 Pedido humano explicito autorizou assimilacao instrucional durante projeto incompleto. Referencia canonica: `tools/sgdk_wrapper/.agent/references/hamoopig_engine_learning_2026_09_18.md`. Oito principios: identidade de evento, alcance apos pushbox, adiamento de upload, owners/aliases, transicao transacional, unidades de probe, cobertura observada e streaming comprovado. Quatro skills existentes receberam roteamento; sem skill duplicada, alteracao de runtime ou promocao MESTRE/AAA. Fonte e trilha: `SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/curation/2026_09_18/`. 33 testes host, self-check HPRB, 84 schemas e quatro validacoes individuais passaram. Framework geral tem falhas preexistentes; comparar baseline/pos-curadoria. Higiene do projeto permanece bloqueada. Nao transportar limites 100/588/864 nem tratar 36 probes como 36 partidas aprovadas.
+
+
+### Unificacao de historicos e higienizacao do workspace — 2026-09-23
+
+PR #6 (merge `c058fe59`) uniu com `--allow-unrelated-histories` a linhagem
+`codex/taiketsu-ultra-rebirth-aaa` (160 commits, raiz `923f9a4a`, workspace
+completo) e a main publicada (16 commits, raiz `20467ff4`, wrapper standalone +
+`tools/mugen2sgdk_forge` + `Mugenesis_Demo` do PR #5). Politica: lado codex
+venceu os 177 conflitos add/add (tools/sgdk_wrapper, tools/image-tools, doc/,
+FORGE_REFERENCE, AGENTS.md/CLAUDE.md/README.md/.agents); .gitignore em uniao
+(nenhuma regra exclusiva da main); exclusivos da main preservados sem toque
+(tools/mugen2sgdk_forge, Mugenesis_Demo, scripts/, sgdk_templates/,
+sdk/README.md). O README publico da v0.1.0 foi substituido pelo do workspace;
+recuperavel em `77f7413f`.
+
+Higienizacao da mesma sessao: strays da raiz removidos (`src/` orfao de jun,
+extracao `[ENGINE]/` com o rar alocado em `SGDK_projects/BLAZE_ENGINE.../rascunho/entrada_bruta/`);
+`.gitignore` passou a cobrir `**/rascunho/entrada_bruta/`,
+`**/rascunho/upstream_reference/` e `.zcode/`; inventarios
+`imported_assets_sha256.json` commitados (HAMOOPIG 23 archives + 251 arquivos
+upstream, BLAZE 1 rar, HERO manifestado). Massa externa bruta (189M MUGEN,
+16M snapshot HAMOOPIG) permanece apenas em disco, fora do git, protegida por
+inventario. Trabalho pendente da sessao anterior foi commitado antes do merge:
+gate audiovisual P0 (audiovisual_review 2.6.0, schemas 2.3.0, skills) e sonda
+HAPE no SRAM do HAMOOPIG (`5d4ba8a1`, `c4e41e83`).
+
+Worktrees `.wt-main-pr` e `.wt-mugen2sgdk` removidas apos resgate, para o
+projeto Mugenesis_Demo local, de `res/mugen/ken` (fonte unica do material do
+Ken), 3 conjuntos de ROM buildadas (out, out_prof, out_test) e gerados do
+conversor (mgres_ken, mg_gen). Branches `feat/mugen2sgdk-forge{,-main}`
+deletadas apos verificacao de conteudo identico ao merged. Backup
+pre-operatorio completo em `Sgdk Forge.backup-unificacao-20260923/`
+(bundle todas as refs 1,6G + tar da arvore nao commitada 212M/687 arquivos +
+copia integral do Mugenesis_Demo da worktree 54M).
+
+Pos-unificacao: pasta local em `main`, 14767 arquivos trackados, 36/36 testes
+do conversor mugen2sgdk_forge e 15/15 contratos HAMOOPIG (HAPE +
+audiovisual review) passando na arvore unificada. Nenhuma ROM foi
+recertificada e nenhum claim visual/sonoro novo decorre desta
+reorganizacao; o roadmap de performance do Ken (quadros acima do tempo de
+CPU) segue pendente conforme PR #5.

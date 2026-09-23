@@ -18,6 +18,30 @@ if not exist "%GDK%\makefile.gen" (
     echo [ERROR] Set GDK to your SGDK 2.11 folder or extract it to sdk\sgdk-2.11.
     exit /b 1
 )
+set "GDK_MAKEFILE_ROOT=%GDK%"
+if defined GDK_BUILD_ROOT if exist "%GDK_BUILD_ROOT%\makefile.gen" set "GDK_MAKEFILE_ROOT=%GDK_BUILD_ROOT%"
+if "%GDK_MAKEFILE_ROOT%"=="%GDK%" if defined GDK_SHORT if exist "%GDK_SHORT%\makefile.gen" set "GDK_MAKEFILE_ROOT=%GDK_SHORT%"
+for %%I in ("%GDK%") do if "%GDK_MAKEFILE_ROOT%"=="%GDK%" if exist "%%~sI\makefile.gen" set "GDK_MAKEFILE_ROOT=%%~sI"
+
+if exist "%~dp0adopt_project_methodology.ps1" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0adopt_project_methodology.ps1" -ProjectRoot "%CD%" -Lifecycle existing
+    if errorlevel 1 (
+        echo [ERROR] Project methodology adoption failed.
+        exit /b 1
+    )
+)
+
+if exist "%~dp0preflight_host.ps1" (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0preflight_host.ps1" -RepoRoot "%~dp0..\.." -ProjectRoot "%CD%"
+    set "PREFLIGHT_RC=!ERRORLEVEL!"
+    if "!PREFLIGHT_RC!"=="1" (
+        echo [ERROR] Host preflight failed. Fix pre-requisitos e tente novamente.
+        exit /b 1
+    )
+    if "!PREFLIGHT_RC!"=="2" (
+        echo [WARN] Host preflight retornou avisos. Build vai prosseguir, mas validadores opcionais podem degradar.
+    )
+)
 
 set "LOG_DIR=out\logs"
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%" >nul 2>&1
@@ -27,6 +51,7 @@ set "RETRY_COUNT=0"
 set "PREPARE_SCRIPT=%~dp0prepare_assets.py"
 set "NORMALIZE_LOG_SCRIPT=%~dp0normalize_build_log.ps1"
 set "VALIDATE_SCRIPT=%~dp0validate_resources.ps1"
+set "CHANGELOG_SCRIPT=%~dp0update_project_changelog.ps1"
 set "STALE_SCRIPT=%~dp0test_project_stale.ps1"
 set "FIX_TRANSPARENCY_SCRIPT=%~dp0fix_transparency.ps1"
 set "RUNTIME_CAPTURE_SCRIPT=%~dp0run_runtime_capture.ps1"
@@ -34,7 +59,7 @@ set "RUNTIME_MERGE_SCRIPT=%~dp0merge_runtime_metrics.ps1"
 if not defined SGDK_RUNTIME_FRAME_WINDOW set "SGDK_RUNTIME_FRAME_WINDOW=1800"
 
 echo [SGDK Wrapper] Pre-processing (migration + resource validation)...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& '%~dp0fix_migration_issues.ps1' '%CD%'"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0fix_migration_issues.ps1" "%CD%"
 if errorlevel 1 (
     echo [ERROR] Pre-processing migration step failed. Check out\logs\build_debug.log
     exit /b 1
@@ -42,6 +67,10 @@ if errorlevel 1 (
 
 if not exist "%VALIDATE_SCRIPT%" (
     echo [ERROR] Missing resource validation helper: %VALIDATE_SCRIPT%
+    exit /b 1
+)
+if not exist "%CHANGELOG_SCRIPT%" (
+    echo [ERROR] Missing changelog helper: %CHANGELOG_SCRIPT%
     exit /b 1
 )
 
@@ -65,6 +94,10 @@ if "%SGDK_AUTO_FIX_RESOURCES%"=="1" (
     echo [SGDK Wrapper] Proactive resource fixing enabled ^(SGDK_AUTO_FIX_RESOURCES=1^)
     set "VALIDATE_FLAGS=!VALIDATE_FLAGS! -Fix"
 )
+if "%SGDK_VALIDATE_CLOSEOUT%"=="1" (
+    echo [SGDK Wrapper] Strict closeout gate enabled ^(SGDK_VALIDATE_CLOSEOUT=1^)
+    set "VALIDATE_FLAGS=!VALIDATE_FLAGS! -CloseoutGate"
+)
 
 powershell -NoProfile -ExecutionPolicy Bypass -File "%VALIDATE_SCRIPT%" !VALIDATE_FLAGS!
 if errorlevel 1 (
@@ -77,8 +110,18 @@ REM Build loop with resilient retries (up to MAX_RETRIES)
 set /a RETRY_COUNT+=1
 echo [SGDK Wrapper] Running Build (Elite Standard) - attempt !RETRY_COUNT!/%MAX_RETRIES%
 
+REM MSYS sh invocado pelo make pode nao herdar o PATH completo da sessao (ex.: Java instalado via winget).
+REM Garantir que java.exe esteja no PATH antes de rescomp.
+if defined JAVA_HOME if exist "!JAVA_HOME!\bin\java.exe" (
+    set "PATH=!JAVA_HOME!\bin;!PATH!"
+)
+for /f "usebackq delims=" %%J in (`powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+  "$cmd = Get-Command java -ErrorAction SilentlyContinue; if ($cmd) { Split-Path $cmd.Source; exit }; $r1 = Join-Path $env:ProgramFiles 'Eclipse Adoptium'; $r2 = Join-Path ${env:ProgramFiles(x86)} 'Eclipse Adoptium'; foreach ($r in @($r1, $r2)) { if (Test-Path $r) { $all = @(Get-ChildItem $r -Recurse -Filter java.exe -ErrorAction SilentlyContinue); if ($all.Length -gt 0) { $all[0].DirectoryName; exit } } }"`) do (
+    if exist "%%J\java.exe" set "PATH=%%J;!PATH!"
+)
+
 REM Use SGDK canonical makefile for maximum compatibility
-make -f "%GDK%\\makefile.gen" > "%LOG_FILE%" 2>&1
+make -f "%GDK_MAKEFILE_ROOT%\makefile.gen" > "%LOG_FILE%" 2>&1
 set "MAKE_RC=%ERRORLEVEL%"
 
 if %MAKE_RC% EQU 0 (
@@ -107,9 +150,19 @@ if %MAKE_RC% EQU 0 (
     if "!SGDK_EVIDENCE_STALE!"=="1" (
         echo [WARN] Existing emulator evidence marked stale at origin: !SGDK_EVIDENCE_REASON!
     )
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%CHANGELOG_SCRIPT%" -ProjectRoot "%CD%" -Task "build_snapshot" >nul
+    if errorlevel 1 (
+        echo [ERROR] Failed to update canonical changelog after build.
+        exit /b 1
+    )
     powershell -NoProfile -ExecutionPolicy Bypass -File "%VALIDATE_SCRIPT%" -WorkDir "%CD%"
     if errorlevel 1 (
         echo [ERROR] Post-build validation failed. Check out\logs\validation_report.json and out\logs\build_debug.log
+        exit /b 1
+    )
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%CHANGELOG_SCRIPT%" -ProjectRoot "%CD%" -Task "post_validate_refresh" >nul
+    if errorlevel 1 (
+        echo [ERROR] Failed to refresh canonical changelog after validation.
         exit /b 1
     )
     if "%SGDK_RUNTIME_CAPTURE%"=="1" (
@@ -122,6 +175,11 @@ if %MAKE_RC% EQU 0 (
         powershell -NoProfile -ExecutionPolicy Bypass -File "%RUNTIME_MERGE_SCRIPT%" -ProjectDir "%CD%"
         if errorlevel 1 (
             echo [ERROR] Runtime merge failed. Check out\logs\validation_report.json
+            exit /b 1
+        )
+        powershell -NoProfile -ExecutionPolicy Bypass -File "%CHANGELOG_SCRIPT%" -ProjectRoot "%CD%" -Task "runtime_capture_refresh" >nul
+        if errorlevel 1 (
+            echo [ERROR] Failed to refresh canonical changelog after runtime capture.
             exit /b 1
         )
     )
@@ -137,11 +195,13 @@ set "DID_FIX=0"
 
 REM Transparency / palette issues -> try transparency fixer
 findstr /I /C:"transparent pixel" /C:"not an indexed image" /C:"RGB image width should be >=" "%LOG_FILE%" >nul 2>&1
-if %ERRORLEVEL% EQU 0 (
+set "FIND_RC=!ERRORLEVEL!"
+if !FIND_RC! EQU 0 (
     if exist "%FIX_TRANSPARENCY_SCRIPT%" (
         echo [SGDK Wrapper] Detected transparency/palette issues. Running fix_transparency.ps1...
         powershell -NoProfile -ExecutionPolicy Bypass -File "%FIX_TRANSPARENCY_SCRIPT%"
-        if %ERRORLEVEL% EQU 0 (
+        set "FIX_RC=!ERRORLEVEL!"
+        if !FIX_RC! EQU 0 (
             set "DID_FIX=1"
         )
     ) else (
@@ -152,10 +212,12 @@ if %ERRORLEVEL% EQU 0 (
 
 REM Deprecated API / signature mismatch -> force migration rules re-apply
 findstr /I /C:"deprecated" /C:"too many arguments" /C:"implicit declaration of function" "%LOG_FILE%" >nul 2>&1
-if %ERRORLEVEL% EQU 0 (
+set "FIND_RC=!ERRORLEVEL!"
+if !FIND_RC! EQU 0 (
     echo [SGDK Wrapper] Detected migration-related compile errors. Re-running fix_migration_issues.ps1 -Force...
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "& '%~dp0fix_migration_issues.ps1' '%CD%' -Force"
-    if %ERRORLEVEL% EQU 0 (
+    powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0fix_migration_issues.ps1" "%CD%" -Force
+    set "FIX_RC=!ERRORLEVEL!"
+    if !FIX_RC! EQU 0 (
         set "DID_FIX=1"
     )
 )

@@ -1,0 +1,317 @@
+RACING / SPORTS / ADVENTURE SUBGENRE TAXONOMY (BIBLIA 1)
+============================================================
+
+Esta biblia cobre a taxonomia pedagogica dos subgeneros principais do
+genero Racing, Sports e Adventure, com foco em viabilidade para Mega
+Drive (16-bit, 64KB RAM, 7.67MHz 68K, 64KB VRAM). Foi copiada para
+fins de curadoria secundaria. O `verification_status=unverified_secondary_text`
+indica que este texto precisa de revisao humana antes de virar
+`promotion_allowed=true` em SOURCES_INDEX.md.
+
+Cobrimos: Simulador de Corrida, Corrida Arcade, Gestao Esportiva, Acao
+Esportiva Direta, Aventura de Acao. O v2 do framework foca em
+`racing_arcade` (active Wave 1), `sports_action_direct` (active Wave 4+),
+`adventure_action_2d` (active Wave 4+). Os outros 2 ficam em
+`future_architetural` (racing_sim_hardcore, sports_manager_data) ate
+curadoria.
+
+================================================================================
+1. DEFINICAO DO GENERO RACING
+================================================================================
+
+Racing eh um genero onde o jogador controla um veiculo em uma pista,
+competindo contra outros veiculos (AI ou multiplayer). O objetivo eh
+chegar em primeiro lugar (ou completar a prova no menor tempo). Caracteristicas:
+
+- **Pista**: 1-16 circuitos. Cada pista eh um loop fechado (geralmente)
+  ou one-way (point-A-to-point-B).
+- **Veiculo**: Carro, moto, kart, hovercraft, etc. Cada veiculo tem
+  top_speed, acceleration, handling, weight.
+- **AI Oponentes**: 1-15 oponentes. AI segue waypoints com variacao
+  de velocidade/erro.
+- **Laps**: 1-10 voltas por race. Mais voltas = mais tempo, mais
+  strategy.
+- **Collision Model**: arcade (forgiving, knockback) ou sim (justa,
+  realistic physics).
+- **Câmera**: Behind (chase) ou cockpit. Top-down eh variante.
+
+================================================================================
+2. SUBGENERO: CORRIDA ARCADE
+================================================================================
+
+### 2.1 Definicao
+
+Corrida Arcade eh o subgenero canonico de racing com physics simplificada
+e alta velocidade. Inspirado em Super Monaco GP, Road Rash, OutRun,
+Top Gear, F-Zero. Foco em velocidade, drift, boost, e power-ups.
+
+### 2.2 Elementos Universais (presentes em todo racing arcade)
+
+- **Camera Behind/Chase**: Camera segue veiculo por tras. 1-2 lanes
+  visiveis.
+- **Top Speed**: 200-400 km/h canonico (em escala de jogo). MD limita a
+  256 km/h em u8.
+- **Acceleration**: 0-top_speed em 2-5s.
+- **Handling**: Drift em curvas (0.5-1.5 rad/s). Boost em drift perfeito.
+- **Laps**: 3-5 por race.
+- **AI Oponentes**: 5-7 (max 8 para sprite ceiling do MD).
+- **Track Count**: 4-16 (4-8 canonico para MD).
+- **Position Indicator**: "1st", "2nd", ..., "8th" no HUD.
+- **Lap Counter**: "Lap 2/5" no HUD.
+- **Time Display**: Best lap + total race time.
+- **Collision Model Arcade**: Knockback forte. Sem dano permanente
+  (semelhante a Mario Kart).
+
+### 2.3 Elementos Exclusivos do Racing Arcade
+
+- **Drift Mechanic**: Brake + turn = drift. Drift acumula boost.
+- **Boost Meter**: 0-100%. Boost enche durante drift, dash, ou item.
+- **Items/Power-Ups**: Random drop em item box. Tipos: rocket, shield,
+  oil slick, lightning, ghost, machine gun.
+- **Drafting**: Quando atras de outro carro, top_speed aumenta (slipstream).
+- **Rubber Banding**: AI opponents se ajustam para manter corrida
+  acirrada (controverso; opcional).
+- **Shortcuts**: Atalho fora da pista que pula secao.
+
+### 2.4 Elementos Fora do Escopo (NAO canonicos em racing arcade)
+
+- **Realistic Physics**: Use racing_sim_hardcore (MD-não-viavel).
+- **Vehicle Tuning**: racing_sim_hardcore.
+- **Pit Stops**: racing_sim_hardcore.
+- **Single-Seat Cockpit Camera**: Pode ser feito, mas atras-chase eh
+  canonico.
+
+### 2.5 Viabilidade em Mega Drive
+
+Racing Arcade eh **MD-viavel** (referencias canonicas):
+
+- Super Monaco GP (Sega, 1990) -- gold standard
+- Road Rash (EA, ports MD) -- 4-8 carros
+- OutRun (Sega, 1986) -- 1-2 carros
+- Top Gear 1/2/3 (Kemco, 1992-1995)
+- F-Zero (Nintendo, ports MD) -- 4 carros, futurista
+- Virtua Racing (Sega, 1994)
+
+Restricoes:
+- AI opponents: 5-7 (sprite ceiling)
+- Track count: 4-16 (acima exige save data)
+- Lap count: 3-5 (acima eh muito longo)
+- Items: 1-3 slots (4+ polui UI)
+- HUD: speed/lap/position/minimap
+- Top speed: 256 km/h (u8)
+- Boost: 100% (u8)
+
+### 2.6 Frozen Design Axes (v2 do framework)
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "behind_or_chase",
+  "track_count_max": 16,
+  "lap_count_max": 5,
+  "ai_opponents": "5_to_7",
+  "boost_on_drift": "on",
+  "collision_model": "arcade_forgiving"
+}
+```
+
+Cada eixo eh **congelado** durante a vigencia da especializacao. Mudanca
+exige nova rodada de curadoria + projeto piloto + ROM + BlastEm.
+
+### 2.7 Phase-Aware Blockers (disparam em ready_for_aaa/closeout)
+
+- `racing_collision_model_audit`: collision_model deve ser
+  `arcade_forgiving` ou `sim_fair` (NAO `realistic_full` que eh MD-nao-viavel).
+- `adventure_inventory_overflow` (sub-rule: racing arcade pode ter 1-3 item
+  slots; NAO > 5).
+- `adventure_save_overflow` (sub-rule: best lap + total time per track =
+  ~16 bytes; NAO excede 32KB SRAM).
+
+================================================================================
+3. SUBGENERO: ACAO ESPORTIVA DIRETA (FUTURE_KNOWLEDGE WAVE 4+)
+================================================================================
+
+### 3.1 Definicao
+
+Acao Esportiva Direta eh o subgenero canonico de esporte com controle
+direto (sem gestao). Inspirado em NBA Jam, FIFA, Madden (versao arcade),
+Windjammers, Pong.
+
+### 3.2 Elementos Universais
+
+- **Player Count**: 1-2 jogadores (contra AI ou local coop).
+- **Camera**: Side ou isometrica. Camera nunca free 3D.
+- **Match Length**: 2-4 minutos por partida canonico.
+- **Score System**: 1-99 pontos por goal/basket/etc.
+- **Input Mapping**: 1-2 botoes + direcional.
+- **AI Difficulty**: Scripted (3-5 niveis pre-definidos).
+
+### 3.3 Elementos Exclusivos
+
+- **Stylized Rules**: Basketball 2-on-2 (NBA Jam), futebol 5-on-5 arcade,
+  tenis 1-on-1. Sem licensed teams.
+- **On Fire Mechanic**: 3 hits/gols seguidos = "on fire" (3x pontos).
+- **No Tournaments**: Apenas quick matches.
+
+### 3.4 Viabilidade em Mega Drive
+
+Sports Action Direta eh **MD-viavel**. Referencias:
+
+- NBA Jam (EA, ports MD) -- 2-on-2 basketball
+- FIFA (EA, ports MD) -- 5-on-5 futebol
+- Windjammers (Data East, 1994) -- frisbee
+- Mutant League Football (EA, ports MD)
+
+Restricoes:
+- Player count: 4-10 por time (max 10 visiveis)
+- Match length: 2-4 min (acima eh longo demais)
+- Score: 1-99 (u8 max)
+- AI difficulty: 3-5 niveis (acima exige balanceamento)
+
+### 3.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "side_or_isometric",
+  "player_count": "2",
+  "match_length_max": 4,
+  "input_mapping": "analog_or_2_button",
+  "ai_difficulty": "scripted_or_adaptive",
+  "ruleset": "arcade_stylized"
+}
+```
+
+### 3.6 Phase-Aware Blockers (mesmas 3 do racing, sub-rules)
+
+================================================================================
+4. SUBGENERO: AVENTURA DE ACAO (FUTURE_KNOWLEDGE WAVE 4+)
+================================================================================
+
+### 4.1 Definicao
+
+Aventura de Acao eh o subgenero canonico de exploracao com combate
+leve. Inspirado em Zelda (top-down), Secret of Mana, Landstalker, Beyond
+Oasis. Mundo conectado, combate action, puzzles integrados.
+
+### 4.2 Elementos Universais
+
+- **Player Count**: 1 jogador (single-player canonico).
+- **World Map**: Hub central ou mundo conectado. 5-15 areas.
+- **Inventory**: 10-15 items. 4-6 equipment slots.
+- **Combat Light**: Sword swing, dodge, ranged. Sem combo chains.
+- **Puzzles**: Switch, lever, push-block, fetch-quest.
+- **Save Stations**: Save em locais especificos (estatua, cama).
+- **Action Triggering**: Real-time combat (nao turn-based).
+
+### 4.3 Elementos Exclusivos
+
+- **World Map Navigation**: Overworld mapa com icon positions.
+- **NPC Dialogue**: NPCs com dialogo curto (1-2 frases por NPC).
+- **Equipment Upgrade**: Sword, shield, ring, amulet.
+- **Magic Spells**: 1-4 magias com MP.
+
+### 4.4 Viabilidade em Mega Drive
+
+Aventura de Acao eh **MD-viavel** (referencias canonicas):
+
+- Landstalker (Climax, 1993)
+- Beyond Oasis / Story of Thor (Ancient, 1994)
+- Crusader of Centy (Ancient, 1994)
+- Soleil (Sega, 1994) -- ports MD
+
+Restricoes:
+- World size: 5-15 areas (acima exige save data)
+- Inventory: 10-15 (acima de 20 polui UI)
+- Equipment: 4-6 slots (acima exige UI complexa)
+- Dialogue: 1-2 frases por NPC (acima eh cinematic)
+- Save: 8-32KB (SRAM canonica)
+
+### 4.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "side_or_topdown",
+  "world_map": "hub_or_connected",
+  "puzzle_density": "moderate",
+  "combat_density": "light_to_moderate",
+  "inventory_size": "10_to_15"
+}
+```
+
+### 4.6 Phase-Aware Blockers (mesmas 3, sub-rules)
+
+- `racing_collision_model_audit` (sub-rule: NAO applicable, sempre dormant)
+- `adventure_inventory_overflow`: inventory_size <= 15
+- `adventure_save_overflow`: save <= 32KB SRAM
+
+================================================================================
+5. SUBGENERO: SIMULADOR DE CORRIDA (FUTURE_ARCHITETURAL)
+================================================================================
+
+Simulador de Corrida (Gran Turismo, Forza, Assetto Corsa) eh
+**MD-NAO-viavel** por causa de:
+- Modelo de pneu avancado (FPU-dependent)
+- Fisica de suspensao multi-corpo
+- Telemetria 60Hz com dados continuos
+- Tuning granular (camber, toe, spring rate, damper, ARB)
+
+Fica em `future_architetural` para proficiencia taxonomica. NUNCA tera
+design contract.
+
+================================================================================
+6. SUBGENERO: GESTAO ESPORTIVA (FUTURE_ARCHITETURAL)
+================================================================================
+
+Gestao Esportiva (Football Manager, OOTP) eh **MD-NAO-viavel** por causa
+de:
+- Database de atletas (>1000 records)
+- Sim de temporada completa (12+ meses)
+- IA de negocios complexa
+- Multi-tab UI
+
+Fica em `future_architetural`.
+
+================================================================================
+7. CRITERIOS DE PROMOCAO
+================================================================================
+
+Os 5 subgeneros (racing_arcade, sports_action_direct, adventure_action_2d,
+racing_sim_hardcore, sports_manager_data) estao em estados diferentes no
+v2:
+- `racing_arcade` (active Wave 1)
+- `sports_action_direct` (active Wave 4+)
+- `adventure_action_2d` (active Wave 4+)
+- `racing_sim_hardcore` (future_architetural)
+- `sports_manager_data` (future_architetural)
+
+Wave 1 entrega apenas `racing_arcade` com biblia+schemas+validator+skill+tests.
+Waves 2-4 entregam os outros 2 active. Todos compartilham:
+
+1. Schema proprio em `tools/sgdk_wrapper/schemas/racing_<subgenero>_design_contract.schema.json`
+2. Validator proprio em `tools/sgdk_wrapper/validate_racing_<subgenero>_specialization.ps1`
+3. Skill propria em `tools/sgdk_wrapper/.agent/skills/planning/racing-<subgenero>-game-design/`
+4. 5 testes CI por subgenero
+
+================================================================================
+8. NOTAS DE CURADORIA
+================================================================================
+
+Este texto foi compilado de multiplas fontes publicas (manuais de
+Super Monaco GP, OutRun, NBA Jam, Landstalker, F-Zero; artigos genericos
+de game design). NAO inclui citacoes literais extensas. As listas de
+elementos universais/exclusivos seguem a convencao canonica do genero,
+nao citacao exata de uma unica fonte.
+
+Para usar este texto como base de `verified_curated`:
+1. Humano le integralmente.
+2. Humano decide se ha conflito com a politica de IP do workspace
+   (`art_style_catalog.json`).
+3. Humano atualiza `SOURCES_INDEX.md` com `verification_status=verified_curated`
+   e `promotion_allowed=true`.
+4. Humano registra a promocao em `doc/changelog/changelog.md` do wrapper.
+
+================================================================================
+9. FIM
+================================================================================

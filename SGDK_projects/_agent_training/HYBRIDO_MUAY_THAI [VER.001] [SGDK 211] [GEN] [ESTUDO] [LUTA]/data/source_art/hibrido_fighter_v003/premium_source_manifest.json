@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_source_concept_v003",
+  "asset_role": "concept_art",
+  "accepted_as_premium_source": false,
+  "source_file": "data/source_art/hibrido_fighter_v003/source_concept.png",
+  "sha256": "191c56940722bc8531eea30dec5f1ac46ed6821171f2d80d7b111af398cd3381",
+  "license_or_generation_basis": "AI generated concept source candidate for local training study; not copied from existing IP.",
+  "promotion_policy": "May inform native 48x64 redraw only after human validation. The source PNG must not be promoted directly to res/.",
+  "human_approval_required": true,
+  "human_approval_status": "needs_rework",
+  "source_visual_status": "source_candidate_needs_rework",
+  "precheck_report": "out/logs/hibrido_v003_input_gatekeeper_precheck_report.json",
+  "review_report": "out/logs/hibrido_v003_model_sheet_review_report.json",
+  "rework_reasons": [
+    "first pose scale is larger than the other poses",
+    "canonical model sheet needs a back pose",
+    "red armband marker is missing from the first pose but present in other poses"
+  ]
+}

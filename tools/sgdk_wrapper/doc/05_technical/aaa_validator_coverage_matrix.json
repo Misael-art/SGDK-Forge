@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_validator_coverage_matrix",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Map the AAA video curation validator coverage so future agents can maintain validator coherence when adding or changing package artifacts.",
+  "coverage_policy": [
+    "Every mandatory curation artifact must be covered by validate_aaa_video_curation.py.",
+    "Every new schema must have a minimal example unless explicitly marked experimental/backlog.",
+    "Every new workflow, rule or governance JSON must be listed in package inventory and validator coverage.",
+    "Validator coverage does not prove runtime, ROM, VDP or AAA release status."
+  ],
+  "validator_entrypoints": [
+    "tools/sgdk_wrapper/validate_aaa_video_curation.py",
+    "tools/sgdk_wrapper/validate_aaa_video_curation.ps1"
+  ],
+  "coverage_groups": [
+    {
+      "group_id": "required_files",
+      "validator_function": "validate_required_files",
+      "covers": [
+        "new skill directories",
+        "schema files",
+        "core docs",
+        "workflows",
+        "canonical rule",
+        "prompt fixtures"
+      ],
+      "failure_mode_blocked": "mandatory artifact missing"
+    },
+    {
+      "group_id": "schema_integrity",
+      "validator_function": "validate_schemas",
+      "covers": [
+        "JSON schema roots",
+        "$schema",
+        "$id",
+        "title",
+        "type"
+      ],
+      "failure_mode_blocked": "schema not parseable or missing required metadata"
+    },
+    {
+      "group_id": "minimal_examples",
+      "validator_function": "validate_examples",
+      "covers": [
+        "schema-backed minimal examples",
+        "artifact_kind",
+        "status",
+        "top-level required keys"
+      ],
+      "failure_mode_blocked": "example missing or not aligned with schema"
+    },
+    {
+      "group_id": "curation_decisions",
+      "validator_function": "validate_decision_matrix",
+      "covers": [
+        "20 new-skill count",
+        "15 update count",
+        "14 already-covered count",
+        "8 discard/defer count",
+        "3 case studies",
+        "2 pipeline updates"
+      ],
+      "failure_mode_blocked": "curation split changed without explicit update"
+    },
+    {
+      "group_id": "skill_contracts_and_routing",
+      "validator_function": "validate_skill_contract_catalog + validate_skill_activation_matrix",
+      "covers": [
+        "20 operational skill contracts",
+        "global skill activation order",
+        "prompt classes",
+        "routing conflicts",
+        "anti-polishing conflict"
+      ],
+      "failure_mode_blocked": "skill exists without operational contract or route"
+    },
+    {
+      "group_id": "evidence_and_source_truth",
+      "validator_function": "validate_evidence_ladder + validate_source_reliability_rubric",
+      "covers": [
+        "status evidence rungs",
+        "text-only report blocker",
+        "failed-asset source rule",
+        "six source reliability levels",
+        "aggregate 64-video scoping"
+      ],
+      "failure_mode_blocked": "status/source claims can be promoted without required evidence"
+    },
+    {
+      "group_id": "agent_proficiency",
+      "validator_function": "validate_agent_proficiency_artifacts",
+      "covers": [
+        "proficiency levels",
+        "evaluation dimensions",
+        "anti-theater prompt fixtures",
+        "release-closeout fixture"
+      ],
+      "failure_mode_blocked": "agent proficiency cannot be measured"
+    },
+    {
+      "group_id": "source_traceability",
+      "validator_function": "validate_source_to_skill_traceability",
+      "covers": [
+        "six direct cases",
+        "aggregate source",
+        "source to skill mappings",
+        "accepted techniques",
+        "rejected/deferred claims"
+      ],
+      "failure_mode_blocked": "accepted technique lacks source-to-skill traceability"
+    },
+    {
+      "group_id": "recovery_inventory_risk_memory_intake",
+      "validator_function": "validate_recovery_plan + validate_package_inventory + validate_risk_register + validate_memory_update + validate_source_intake_template",
+      "covers": [
+        "runner recovery plan",
+        "package inventory counts",
+        "risk register",
+        "memory update capsule",
+        "future source intake template"
+      ],
+      "failure_mode_blocked": "package can drift or promote status without recovery/risk/memory/source controls"
+    },
+    {
+      "group_id": "status_vocabulary",
+      "validator_function": "validate_status_vocabulary_map",
+      "covers": [
+        "AGENTS.md status vocabulary",
+        "curation package status",
+        "project/runtime status",
+        "forbidden ambiguous synonyms",
+        "evidence-ladder status mapping"
+      ],
+      "failure_mode_blocked": "status can be promoted through ambiguous terms such as pronto, validado or AAA"
+    },
+    {
+      "group_id": "canonical_entrypoints",
+      "validator_function": "validate_canonical_rule_and_bootstrap",
+      "covers": [
+        "AAA_VIDEO_CURATION rule",
+        "agent bootstrap",
+        "mandatory artifact load order",
+        "forbidden shortcut"
+      ],
+      "failure_mode_blocked": "future agents may not load the package"
+    },
+    {
+      "group_id": "phase5_input_camera",
+      "validator_function": "validate_phase5_input_camera",
+      "covers": [
+        "input-system-sgdk SKILL.md and agents/openai.yaml",
+        "camera-system-sgdk SKILL.md and agents/openai.yaml",
+        "five new Phase 5 schemas (input_mapping_contract, input_latency_contract, multiplayer_input_plan, camera_bounds_policy, parallax_camera_contract)",
+        "real joy.h APIs present in input-system-sgdk",
+        "no fake/invented input APIs used in the new skills"
+      ],
+      "failure_mode_blocked": "new P0 input/camera skill or schema missing, or a fake input API is used"
+    },
+    {
+      "group_id": "phase6_case_studies",
+      "validator_function": "validate_phase6_case_studies",
+      "covers": [
+        "lib_case/video-curation-2026-06-16/index.json lists exactly 16 cases",
+        "all 16 CASE_STUDY.md files exist",
+        "each case carries evidence_grade: E1_text and is not a canonical promotion"
+      ],
+      "failure_mode_blocked": "a case study is missing or the index count drifts from 16"
+    }
+  ],
+  "phase7_final_review": {
+    "report": "doc/05_technical/aaa_video_curation_final_review_2026-06-16.md",
+    "document_role": "auxiliary",
+    "note": "The final review is an auxiliary closeout document and is intentionally not added as a mandatory validator artifact; the validator already covers the Phase 5/6 additions via validate_phase5_input_camera and validate_phase6_case_studies."
+  },
+  "runner_verification_state": {
+    "prior_runner_blocker": "blocked_by_CreateProcessAsUserW_failed_5",
+    "prior_runner_blocker_state": "resolved_no_longer_reproduces",
+    "validator_executed_successfully": true,
+    "validator_result": "validate_aaa_video_curation.ps1=PASSED",
+    "coverage_matrix_validated_by_runner": true,
+    "status_must_remain": "candidate_applied_not_verified",
+    "note": "Package-validator PASS confirms documentation/guardrail integrity only; it is not ROM/emulator proof."
+  }
+}

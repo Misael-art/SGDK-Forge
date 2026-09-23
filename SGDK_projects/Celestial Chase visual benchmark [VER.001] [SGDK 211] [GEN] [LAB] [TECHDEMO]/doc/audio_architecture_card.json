@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0.0",
+  "scene_id": "chase_first_playable",
+  "audio_role": "xgm2_fm_psg_music_with_pcm_sfx",
+  "driver": "XGM2",
+  "music_resource": {
+    "id": "mus_chase_core",
+    "source": "res/audio/chase/chase_core_fm_psg.vgm",
+    "source_sha256": "2349f781f0ca06c705f6940398d7b180b8edadeaf5588561355cd2ff1afbd6d4",
+    "rescomp_declaration": "XGM2 mus_chase_core audio/chase/chase_core_fm_psg.vgm",
+    "content": ["YM2612_FM", "SN76489_PSG"],
+    "loop_seconds_ntsc": 8
+  },
+  "channel_ownership_map": {
+    "FM_CH1_TO_CH6": {"owner": "XGM2 music", "stealable": false},
+    "PSG_CH1_TO_NOISE": {"owner": "XGM2 music", "stealable": false},
+    "PCM_CH1": {"owner": "XGM2 music PCM reserve", "active_use": "none", "stealable": false},
+    "PCM_CH2": {"owner": "critical gameplay and result cues", "stealable": true},
+    "PCM_CH3": {"owner": "movement, pickup, menu and pressure cues", "stealable": true}
+  },
+  "sfx_priority_table": [
+    {"event": "failure_or_victory", "priority": 15, "channel": "PCM_CH2"},
+    {"event": "celestial_pulse", "priority": 15, "channel": "PCM_CH2"},
+    {"event": "damage", "priority": 13, "channel": "PCM_CH2"},
+    {"event": "pause", "priority": 8, "channel": "PCM_CH3"},
+    {"event": "pickup", "priority": 7, "channel": "PCM_CH3"},
+    {"event": "pressure_warning", "priority": 6, "channel": "PCM_CH3"},
+    {"event": "menu_or_jump", "priority": 5, "channel": "PCM_CH3"},
+    {"event": "land", "priority": 4, "channel": "PCM_CH3"}
+  ],
+  "dac_budget": {
+    "sample_rate_hz": 13300,
+    "max_concurrent_pcm": 2,
+    "music_uses_pcm": false,
+    "runtime_dma_wait_max": 0,
+    "runtime_xgm2_cpu_load_max": 92,
+    "runtime_missed_frames": 1,
+    "interpretation": "ownership and simultaneous playback pass; one XGM2 missed frame remains a performance warning"
+  },
+  "runtime_evidence": {
+    "rom_sha256": "8eeef763a86f0997b83d9305971bf9aef6e598d18afd3151604e47117f02d450",
+    "session_id": "blastem-linux-20260720T032218Z-267076",
+    "probe": "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/xgm2_audio_probe.json",
+    "audio_capture": "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio.wav",
+    "audio_analysis": "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio_capture_analysis.json",
+    "simultaneous_samples": 8,
+    "sfx_accepted": "5/5"
+  },
+  "fallback_plan": "drop pressure cue first, then pickup; never issue direct PSG writes while XGM2 owns FM/PSG",
+  "approval_status": "technical_pass_pending_human_audio_review",
+  "blockers": ["human_audio_review_pending"],
+  "warnings": ["one_xgm2_missed_frame_in_1363_driver_frames"]
+}

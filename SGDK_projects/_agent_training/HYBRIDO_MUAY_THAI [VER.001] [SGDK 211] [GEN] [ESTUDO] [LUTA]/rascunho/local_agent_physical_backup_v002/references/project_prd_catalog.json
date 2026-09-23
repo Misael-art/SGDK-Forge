@@ -1,0 +1,608 @@
+{
+  "schema_version": "1.0.0",
+  "catalog_id": "megadrive_dev_project_prd_catalog",
+  "status_order": [
+    "seed",
+    "filled",
+    "locked"
+  ],
+  "default_minimum_status": {
+    "prototype": "seed",
+    "AAA": "filled",
+    "stable": "filled",
+    "release": "locked",
+    "delivery": "filled"
+  },
+  "scope_flags": [
+    "has_cutscenes",
+    "has_complex_input",
+    "has_progression",
+    "has_persistence",
+    "has_original_art",
+    "has_audio",
+    "has_localization",
+    "has_benchmark",
+    "has_rom_mastering",
+    "has_code_review",
+    "has_ci_gate",
+    "has_status_panel"
+  ],
+  "prds": [
+    {
+      "id": "PRD-00",
+      "title": "Autonomy Charter",
+      "tier": 0,
+      "path": "doc/00-governance/20_autonomy_charter.md",
+      "required_when": [
+        "always"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "autonomous_decision_authority"
+      ]
+    },
+    {
+      "id": "PRD-01",
+      "title": "Stop and Escalation Protocol",
+      "tier": 0,
+      "path": "doc/00-governance/21_stop_escalation.md",
+      "required_when": [
+        "always"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "fallback_authority",
+        "blocked_status_classification"
+      ]
+    },
+    {
+      "id": "PRD-02",
+      "title": "Definition of Done",
+      "tier": 0,
+      "path": "doc/00-governance/22_definition_of_done.md",
+      "required_when": [
+        "always"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "delivery_gate",
+        "ready_for_aaa"
+      ]
+    },
+    {
+      "id": "PRD-10",
+      "title": "Vision Statement",
+      "tier": 1,
+      "path": "doc/01_game_design/00_vision_statement.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "genre_drift_guard"
+      ]
+    },
+    {
+      "id": "PRD-11",
+      "title": "Player Promise",
+      "tier": 1,
+      "path": "doc/01_game_design/01_player_promise.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "acceptance_criteria"
+      ]
+    },
+    {
+      "id": "PRD-12",
+      "title": "Reference Pillars",
+      "tier": 1,
+      "path": "doc/01_game_design/02_reference_pillars.md",
+      "required_when": [
+        "has_benchmark"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "benchmark_profile",
+        "authoriality_gate"
+      ]
+    },
+    {
+      "id": "PRD-20",
+      "title": "GDD Canonico",
+      "tier": 2,
+      "path": "doc/11-gdd.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": false,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "production_scope",
+        "feature_scope_map"
+      ]
+    },
+    {
+      "id": "PRD-21",
+      "title": "Scene Spec",
+      "tier": 2,
+      "path": "doc/13-spec-cenas.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": false,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "scene_manager_contract",
+        "scene_roadmap"
+      ]
+    },
+    {
+      "id": "PRD-22",
+      "title": "Narrative and Cutscene Bible",
+      "tier": 2,
+      "path": "doc/01_game_design/30_cinematic_language.md",
+      "required_when": [
+        "has_cutscenes"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "cutscene_scene_contract"
+      ]
+    },
+    {
+      "id": "PRD-23",
+      "title": "Control and Input Spec",
+      "tier": 2,
+      "path": "doc/01_game_design/40_input_spec.md",
+      "required_when": [
+        "aaa_claim",
+        "has_complex_input"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "input_abstraction_contract"
+      ]
+    },
+    {
+      "id": "PRD-24",
+      "title": "Difficulty and Progression Curve",
+      "tier": 2,
+      "path": "doc/01_game_design/50_difficulty_curve.md",
+      "required_when": [
+        "has_progression"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "balance_acceptance"
+      ]
+    },
+    {
+      "id": "PRD-30",
+      "title": "Platform Target Spec",
+      "tier": 3,
+      "path": "doc/05_technical/00_platform_target.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "region_timing_contract"
+      ]
+    },
+    {
+      "id": "PRD-31",
+      "title": "Production Runtime Contract Master",
+      "tier": 3,
+      "path": "doc/05_technical/01_production_runtime_master.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "production_runtime_contract",
+        "save_system_contract_applicability"
+      ]
+    },
+    {
+      "id": "PRD-32",
+      "title": "Budget Master",
+      "tier": 3,
+      "path": "doc/05_technical/02_budget_master.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "asset_optimization_report",
+        "vdp_budget_gate"
+      ]
+    },
+    {
+      "id": "PRD-33",
+      "title": "Performance SLO",
+      "tier": 3,
+      "path": "doc/05_technical/03_performance_slo.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "performance_gate"
+      ]
+    },
+    {
+      "id": "PRD-34",
+      "title": "Scheduler Policy",
+      "tier": 3,
+      "path": "doc/05_technical/04_scheduler_policy.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "scheduler_runtime_decision"
+      ]
+    },
+    {
+      "id": "PRD-35",
+      "title": "Save System Spec",
+      "tier": 3,
+      "path": "doc/05_technical/05_save_system.md",
+      "required_when": [
+        "has_persistence"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "save_system_contract"
+      ]
+    },
+    {
+      "id": "PRD-40",
+      "title": "Art Bible",
+      "tier": 4,
+      "path": "doc/03_art/00_art_bible.md",
+      "required_when": [
+        "has_original_art"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "visual_excellence_standards"
+      ]
+    },
+    {
+      "id": "PRD-41",
+      "title": "Master Style Manifest Seed",
+      "tier": 4,
+      "path": "doc/03_art/01_master_style_manifest.md",
+      "required_when": [
+        "has_original_art"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "master_style_manifest"
+      ]
+    },
+    {
+      "id": "PRD-42",
+      "title": "Character Roster Sheet",
+      "tier": 4,
+      "path": "doc/03_art/20_character_roster.md",
+      "required_when": [
+        "has_original_art"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "authorial_model_sheet"
+      ]
+    },
+    {
+      "id": "PRD-43",
+      "title": "Stage Concept Sheet",
+      "tier": 4,
+      "path": "doc/03_art/30_stage_concept.md",
+      "required_when": [
+        "has_original_art"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "authorial_stage_concept"
+      ]
+    },
+    {
+      "id": "PRD-44",
+      "title": "HUD and UI Spec",
+      "tier": 4,
+      "path": "doc/03_art/40_hud_ui_spec.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "ui_decision_card",
+        "glyph_manifest"
+      ]
+    },
+    {
+      "id": "PRD-45",
+      "title": "Animation Catalog",
+      "tier": 4,
+      "path": "doc/03_art/50_animation_catalog.md",
+      "required_when": [
+        "has_original_art"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "animation_state_plan",
+        "motion_phase_map"
+      ]
+    },
+    {
+      "id": "PRD-46",
+      "title": "Palette Master Plan",
+      "tier": 4,
+      "path": "doc/03_art/60_palette_master.md",
+      "required_when": [
+        "has_original_art"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "palette_domain_report"
+      ]
+    },
+    {
+      "id": "PRD-50",
+      "title": "Audio Architecture Spec",
+      "tier": 5,
+      "path": "doc/05_technical/99_aaa_audio_architecture_guide.md",
+      "required_when": [
+        "has_audio"
+      ],
+      "frontmatter_required": false,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "audio_architecture_card"
+      ]
+    },
+    {
+      "id": "PRD-51",
+      "title": "Music Cue List",
+      "tier": 5,
+      "path": "doc/04_audio/01_music_cue_list.md",
+      "required_when": [
+        "has_audio"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "music_cue_map"
+      ]
+    },
+    {
+      "id": "PRD-52",
+      "title": "SFX Catalog",
+      "tier": 5,
+      "path": "doc/04_audio/02_sfx_catalog.md",
+      "required_when": [
+        "has_audio"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "sfx_event_contract"
+      ]
+    },
+    {
+      "id": "PRD-53",
+      "title": "Sample Bank Policy",
+      "tier": 5,
+      "path": "doc/04_audio/03_sample_bank_policy.md",
+      "required_when": [
+        "has_audio"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "sample_bank_contract"
+      ]
+    },
+    {
+      "id": "PRD-60",
+      "title": "Scene Roadmap",
+      "tier": 6,
+      "path": "doc/02_production/00_scene_roadmap.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "scene_manager_contract",
+        "first_playable_slice"
+      ]
+    },
+    {
+      "id": "PRD-61",
+      "title": "Asset Pipeline Contract",
+      "tier": 6,
+      "path": "doc/02_production/10_asset_pipeline.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "asset_optimization_report"
+      ]
+    },
+    {
+      "id": "PRD-62",
+      "title": "Localization Plan",
+      "tier": 6,
+      "path": "doc/02_production/20_localization.md",
+      "required_when": [
+        "has_localization"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "glyph_budget"
+      ]
+    },
+    {
+      "id": "PRD-63",
+      "title": "Risk Register",
+      "tier": 6,
+      "path": "doc/02_production/30_risk_register.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "fallback_authority"
+      ]
+    },
+    {
+      "id": "PRD-70",
+      "title": "Benchmark Profile",
+      "tier": 7,
+      "path": "doc/05_technical/10_benchmark_profile.md",
+      "required_when": [
+        "has_benchmark"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "benchmark_match_report"
+      ]
+    },
+    {
+      "id": "PRD-71",
+      "title": "ROM Mastering Spec",
+      "tier": 7,
+      "path": "doc/05_technical/11_rom_mastering_spec.md",
+      "required_when": [
+        "has_rom_mastering",
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "rom_mastering_report"
+      ]
+    },
+    {
+      "id": "PRD-72",
+      "title": "Test and Evidence Plan",
+      "tier": 7,
+      "path": "doc/02_production/40_test_evidence_plan.md",
+      "required_when": [
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "emulator_evidence",
+        "scene_regression"
+      ]
+    },
+    {
+      "id": "PRD-73",
+      "title": "CI and Local CI Spec",
+      "tier": 7,
+      "path": "doc/02_production/50_ci_spec.md",
+      "required_when": [
+        "has_ci_gate",
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "ci_gate_report",
+        "local_ci_gate_report"
+      ]
+    },
+    {
+      "id": "PRD-74",
+      "title": "Code Review Charter",
+      "tier": 7,
+      "path": "doc/02_production/60_code_review_charter.md",
+      "required_when": [
+        "has_code_review",
+        "aaa_claim"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "code_review_report"
+      ]
+    },
+    {
+      "id": "PRD-80",
+      "title": "Memory Bank Seed",
+      "tier": 8,
+      "path": "doc/10-memory-bank.md",
+      "required_when": [
+        "always"
+      ],
+      "frontmatter_required": false,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "operational_memory"
+      ]
+    },
+    {
+      "id": "PRD-81",
+      "title": "Changelog Discipline",
+      "tier": 8,
+      "path": "doc/changelog/changelog.md",
+      "required_when": [
+        "always"
+      ],
+      "frontmatter_required": false,
+      "not_applicable_allowed": false,
+      "unlocks": [
+        "handoff_trace"
+      ]
+    },
+    {
+      "id": "PRD-82",
+      "title": "Status Panel Contract",
+      "tier": 8,
+      "path": "doc/02_production/70_status_panel.md",
+      "required_when": [
+        "has_status_panel"
+      ],
+      "frontmatter_required": true,
+      "not_applicable_allowed": true,
+      "unlocks": [
+        "status_panel_maintenance"
+      ]
+    }
+  ]
+}

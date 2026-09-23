@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/camera_bounds_policy.schema.json",
+  "title": "Camera Bounds Policy",
+  "description": "Declares world bounds, clamp, boss room lock and arena lock for the camera-system-sgdk owner. Final scroll value must be integer pixel even when internal coordinates are fix16/fix32.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "project",
+    "scene_id",
+    "internal_coordinate",
+    "final_scroll_integer_pixel",
+    "world_bounds",
+    "clamp",
+    "locks",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "camera_bounds_policy" },
+    "project": { "type": "string", "minLength": 1 },
+    "scene_id": { "type": "string", "minLength": 1 },
+    "internal_coordinate": { "type": "string", "enum": ["integer", "fix16", "fix32"] },
+    "final_scroll_integer_pixel": { "type": "boolean" },
+    "world_bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_x", "min_y", "max_x", "max_y"],
+      "properties": {
+        "min_x": { "type": "integer" },
+        "min_y": { "type": "integer" },
+        "max_x": { "type": "integer" },
+        "max_y": { "type": "integer" }
+      }
+    },
+    "clamp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled"],
+      "properties": {
+        "enabled": { "type": "boolean" }
+      }
+    },
+    "locks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boss_room_lock", "arena_lock", "trigger_required"],
+      "properties": {
+        "boss_room_lock": { "type": "boolean" },
+        "arena_lock": { "type": "boolean" },
+        "trigger_required": { "type": "boolean" }
+      }
+    },
+    "status": { "type": "string", "enum": ["candidate_applied_not_verified", "ok", "needs_review", "blocked"] }
+  }
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "VRAM Streaming DMA Queue"
+  short_description: "Fila DMA e streaming de tiles no VBlank"
+  default_prompt: "Use $vram-streaming-dma-queue para definir resident set, slots de VRAM, dirty uploads, prioridades e budget de VBlank."
+
+policy:
+  allow_implicit_invocation: true

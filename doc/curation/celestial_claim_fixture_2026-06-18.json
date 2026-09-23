@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "rom_sha256": "167d4f6937099b542e84f0d64dc6ddf258ba32091c9e874988e01c45a760eafd",
+  "claims": [
+    { "id": "first_playable", "scope": "full_route" },
+    { "id": "gameplay_rom_aprovada", "scope": "gameplay" },
+    { "id": "performance_estavel", "scope": "performance" },
+    { "id": "assets_premium", "scope": "visual_delivery" },
+    { "id": "scene_closeout", "scope": "scene" },
+    { "id": "validado_budget", "scope": "hardware" },
+    { "id": "ready_for_aaa", "scope": "delivery" },
+    { "id": "advance_next_phase", "scope": "phase" }
+  ],
+  "evidence": [
+    {
+      "kind": "screenshot",
+      "scope": "boot_title_only",
+      "rom_sha256": "167d4f6937099b542e84f0d64dc6ddf258ba32091c9e874988e01c45a760eafd",
+      "path": "out/evidence/blastem_audit_v014/screenshot.png"
+    }
+  ],
+  "parallel_work": true,
+  "build": {
+    "critical_warnings": [
+      "comparison is always false due to limited range of data type"
+    ]
+  },
+  "assets": [
+    {
+      "id": "sector_01_procedural_package",
+      "generation_channel": "procedural_renderer",
+      "technical_score": 95,
+      "artistic_approval": "automatic_score_only"
+    }
+  ],
+  "modules": [
+    { "id": "player", "status": "runtime_proven" },
+    { "id": "pursuer", "status": "integrated" },
+    { "id": "pressure_gate", "status": "module_present" }
+  ],
+  "metrics": {
+    "format": "MTR",
+    "fps_observed": 60
+  },
+  "runtime": {
+    "route_status": "crash",
+    "result_reached": false
+  },
+  "visual": {
+    "corruption": true
+  },
+  "review": {
+    "decision": "review_blocked"
+  },
+  "phase": {
+    "current": "sector_01",
+    "requested": "sector_02"
+  },
+  "budget": {
+    "status": "not_validated"
+  },
+  "reconciliation": {
+    "statuses": [
+      { "source": "memory", "status": "buildado" },
+      { "source": "validation", "status": "buildado" },
+      { "source": "evidence", "status": "implementado" }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "action": "idle",
+  "source_of_truth": "pixel_measurement",
+  "phases": [
+    {
+      "frame_index": 0,
+      "phase": "neutral",
+      "hold_vblank": 30
+    },
+    {
+      "frame_index": 1,
+      "phase": "rise",
+      "hold_vblank": 30
+    }
+  ]
+}

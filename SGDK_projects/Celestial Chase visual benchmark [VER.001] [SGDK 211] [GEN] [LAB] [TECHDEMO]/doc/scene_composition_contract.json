@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "composition_schema": {
+    "focal_order": ["incoming threat", "hero", "lane choice", "pursuer", "gate"],
+    "horizon_y_px": 92,
+    "player_ground_y_px": 136,
+    "hud_safe_rows": [0, 1, 2],
+    "result_safe_region": "center 28x8 text cells"
+  },
+  "depth_role_map": {
+    "BG_B": "star field, moon, distant terrain, horizon road and gate",
+    "BG_A": "front road section, lane markings and optional lane telegraph accents",
+    "WINDOW": "reserved for measured fixed HUD promotion; not scenery",
+    "SPRITES": "hero, pursuer, obstacles, pickups, telegraphs and feedback FX"
+  },
+  "layer_plan": [
+    {"layer_id": "atmosphere", "surface": "BG_B", "source": "approved v007 atmosphere translated to reduced unique tiles", "priority": "low"},
+    {"layer_id": "road_front", "surface": "BG_A", "source": "approved v007 floor_y144 road overlay translated to reduced unique tiles", "priority": "normal"},
+    {"layer_id": "actors", "surface": "SPRITES", "source": "approved source-baked strips", "priority": "mixed by actor"},
+    {"layer_id": "hud", "surface": "BG_A fixed safe area or WINDOW fallback", "source": "delivery HUD", "priority": "high"}
+  ],
+  "shared_canvas_contract": {
+    "resolution": "512x224 authored canvas with centered 320x224 active window",
+    "content_origin_x_px": 96,
+    "palette_domains": ["PAL0 environment", "PAL1 hero", "PAL2 pursuit, FX and HUD text read-only", "PAL3 road"],
+    "lane_anchor_x_px": [80, 128, 176],
+    "seam_policy": "BG_A transparent index 0 reveals BG_B; both backgrounds retain 96px authored gutters beyond the active window",
+    "sprite_scenery_relation": "hero remains in front of the road; pursuer remains behind hero; telegraphs never hide the hero silhouette"
+  }
+}

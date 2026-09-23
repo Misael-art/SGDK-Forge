@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "boss_id": "boss_main",
+  "scene_id": "boss_scene",
+  "parts": [
+    {
+      "part_id": "body",
+      "runtime_symbol": "sBossBody",
+      "parent_id": null,
+      "pivot_x": 0,
+      "pivot_y": 0,
+      "scanline_sprite_cost": 1
+    },
+    {
+      "part_id": "wing",
+      "runtime_symbol": "sBossWing",
+      "parent_id": "body",
+      "pivot_x": 16,
+      "pivot_y": 4,
+      "scanline_sprite_cost": 1
+    }
+  ],
+  "fk_chain": [
+    {
+      "parent_part_id": "body",
+      "child_part_id": "wing",
+      "transform_rule": "rotate_about_parent_pivot"
+    }
+  ],
+  "fk_update_symbol": "boss_fk_update",
+  "runtime_source_paths": [
+    "src/scenes/scene_boss.c"
+  ],
+  "scanline_budget": {
+    "maximum_sprites_per_line": 16,
+    "measured_peak": 2
+  }
+}

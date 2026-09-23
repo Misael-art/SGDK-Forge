@@ -2,52 +2,20 @@
 param(
     [Parameter(Mandatory = $false)]
     [string]$ProjectDir = "",
-
     [Parameter(Mandatory = $false)]
-    [string[]]$NavigationSequence = @()
+    [string[]]$NavigationSequence = @(),
+    [Parameter(Mandatory = $false)]
+    [switch]$AllowMissingEvidence
 )
 
 $ErrorActionPreference = "Stop"
 
-Add-Type -AssemblyName System.Drawing
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -TypeDefinition @"
-using System;
-using System.Runtime.InteropServices;
-
-public static class CodexWindowCapture
-{
-    [StructLayout(LayoutKind.Sequential)]
-    public struct RECT
-    {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-    }
-
-    [DllImport("user32.dll")]
-    public static extern bool GetWindowRect(IntPtr hWnd, out RECT rect);
-
-    [DllImport("user32.dll")]
-    public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
-    public static extern bool BringWindowToTop(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
-    public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-    [DllImport("user32.dll")]
-    public static extern bool PrintWindow(IntPtr hWnd, IntPtr hdcBlt, uint nFlags);
-
-    [DllImport("user32.dll")]
-    public static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-    [DllImport("user32.dll")]
-    public static extern uint MapVirtualKey(uint uCode, uint uMapType);
+$BlastEmAutomationModule = Join-Path $PSScriptRoot "lib\blastem_automation.psm1"
+$SceneRegressionModule = Join-Path $PSScriptRoot "lib\scene_regression.psm1"
+if (Test-Path -LiteralPath $SceneRegressionModule) {
+    Import-Module -Name $SceneRegressionModule -Force
 }
-"@
+Import-Module -Name $BlastEmAutomationModule -Force
 
 function Resolve-ProjectRoot {
     param([string]$InputPath)
@@ -59,6 +27,27 @@ function Resolve-ProjectRoot {
     return (Resolve-Path -LiteralPath $InputPath).Path
 }
 
+function Wait-ForBlastEmWindow {
+    param(
+        [Parameter(Mandatory = $true)][System.Diagnostics.Process]$Process,
+        [Parameter(Mandatory = $false)][int]$TimeoutSeconds = 20
+    )
+
+    $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
+    while ((Get-Date) -lt $deadline) {
+        $Process.Refresh()
+        if ($Process.HasExited) {
+            throw "BlastEm encerrou antes de expor a janela principal."
+        }
+        if ($Process.MainWindowHandle -ne [IntPtr]::Zero) {
+            return
+        }
+        Start-Sleep -Milliseconds 250
+    }
+
+    throw "Janela principal do BlastEm nao apareceu em $TimeoutSeconds segundos."
+}
+
 function Get-RomMetadata {
     param([Parameter(Mandatory = $true)][string]$RomPath)
 
@@ -68,10 +57,12 @@ function Get-RomMetadata {
         $sha256 = [System.Security.Cryptography.SHA256]::Create()
         try {
             $hash = ([System.BitConverter]::ToString($sha256.ComputeHash($stream)).Replace("-", "")).ToLowerInvariant()
-        } finally {
+        }
+        finally {
             $sha256.Dispose()
         }
-    } finally {
+    }
+    finally {
         $stream.Dispose()
     }
 
@@ -83,350 +74,170 @@ function Get-RomMetadata {
     }
 }
 
-function Wait-ForMainWindow {
+function Get-BlastEmInitialSramPath {
     param(
-        [Parameter(Mandatory = $true)]
-        [System.Diagnostics.Process]$Process,
-        [int]$TimeoutSeconds = 20
+        [Parameter(Mandatory = $true)][string]$SaveRoot,
+        [Parameter(Mandatory = $true)][string]$RomPath
     )
 
-    $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
-    while ((Get-Date) -lt $deadline) {
-        $Process.Refresh()
-        if ($Process.HasExited) {
-            throw "BlastEm encerrou antes de abrir a janela principal."
-        }
-        if ($Process.MainWindowHandle -ne 0) {
-            return
-        }
-        Start-Sleep -Milliseconds 250
+    $romName = [System.IO.Path]::GetFileNameWithoutExtension($RomPath)
+    if ([string]::IsNullOrWhiteSpace($romName)) {
+        throw "Nao foi possivel resolver o nome base da ROM para o bootstrap SRAM."
     }
 
-    throw "BlastEm nao expôs MainWindowHandle dentro do timeout."
+    $targetDir = Join-Path $SaveRoot $romName
+    New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
+    return (Join-Path $targetDir "save.sram")
 }
 
-function Write-BlastEmConfig {
-    param(
-        [Parameter(Mandatory = $true)][string]$BaseConfigPath,
-        [Parameter(Mandatory = $true)][string]$TargetConfigPath,
-        [Parameter(Mandatory = $true)][string]$ScreenshotRoot,
-        [Parameter(Mandatory = $true)][string]$SaveRoot
-    )
+function Resolve-DefaultVisualCaptureBootstrap {
+    param([Parameter(Mandatory = $true)][string]$ProjectRoot)
 
-    $content = Get-Content -LiteralPath $BaseConfigPath -Raw
-    $normalizedShot = $ScreenshotRoot.Replace("\", "/")
-    $normalizedSave = $SaveRoot.Replace("\", "/")
-
-    $content = [System.Text.RegularExpressions.Regex]::Replace($content, '(?m)^\s*screenshot_path\s+.*$', "`tscreenshot_path $normalizedShot")
-    $content = [System.Text.RegularExpressions.Regex]::Replace($content, '(?m)^\s*save_path\s+.*$', "`tsave_path $normalizedSave/`$ROMNAME")
-    $content = [System.Text.RegularExpressions.Regex]::Replace($content, '(?m)^\s*f11\s+.*$', "")
-    $content = [System.Text.RegularExpressions.Regex]::Replace($content, '(?m)^\s*f12\s+.*$', "")
-    $content = [System.Text.RegularExpressions.Regex]::Replace(
-        $content,
-        '(?m)^(\s*keys\s*\{\s*)$',
-        "`$1`r`n`t`t f11 ui.screenshot`r`n`t`t f12 ui.save_state"
-    )
-    $configDir = Split-Path -Parent $TargetConfigPath
-    New-Item -ItemType Directory -Force -Path $configDir | Out-Null
-    Set-Content -LiteralPath $TargetConfigPath -Value $content -Encoding UTF8
-}
-
-function Get-AutoHotkeyExecutableOrNull {
-    foreach ($candidate in @(
-        "C:\Program Files\AutoHotkey\v2\AutoHotkey64.exe",
-        "C:\Program Files\AutoHotkey\v2\AutoHotkey.exe",
-        "C:\Program Files\AutoHotkey\AutoHotkey.exe",
-        "C:\Program Files (x86)\AutoHotkey\AutoHotkey.exe"
-    )) {
-        if (Test-Path -LiteralPath $candidate) {
-            return $candidate
-        }
+    $manifestPath = Join-Path $ProjectRoot "doc\scene-regression.json"
+    if (-not (Test-Path -LiteralPath $manifestPath)) {
+        return $null
     }
 
-    $command = Get-Command AutoHotkey, AutoHotkey64 -ErrorAction SilentlyContinue | Select-Object -First 1
-    if ($command) {
-        return $command.Source
-    }
-
-    return $null
-}
-
-function Get-AutoItExecutableOrNull {
-    foreach ($candidate in @(
-        "C:\Program Files\AutoIt3\AutoIt3.exe",
-        "C:\Program Files (x86)\AutoIt3\AutoIt3.exe"
-    )) {
-        if (Test-Path -LiteralPath $candidate) {
-            return $candidate
-        }
-    }
-
-    $command = Get-Command AutoIt3 -ErrorAction SilentlyContinue | Select-Object -First 1
-    if ($command) {
-        return $command.Source
-    }
-
-    return $null
-}
-
-function Invoke-BlastEmHotkey {
-    param(
-        [Parameter(Mandatory = $true)][System.Diagnostics.Process]$Process,
-        [Parameter(Mandatory = $true)][ValidateSet("screenshot", "quicksave", "quit")][string]$Action
-    )
-
-    $helperScript = Join-Path $PSScriptRoot "invoke_blastem_hotkey.ps1"
-    $ahkScript = Join-Path $PSScriptRoot "blastem_hotkey_fallback.ahk"
-    $autoItScript = Join-Path $PSScriptRoot "blastem_hotkey_fallback.au3"
-
-    if (Test-Path -LiteralPath $helperScript) {
-        try {
-            & $helperScript -ProcessId $Process.Id -Action $Action | Out-Null
-            return "native-postmessage"
-        }
-        catch {
-        }
-    }
-
-    $autoHotkey = Get-AutoHotkeyExecutableOrNull
-    if ($autoHotkey -and (Test-Path -LiteralPath $ahkScript)) {
-        try {
-            $ahkProcess = Start-Process -FilePath $autoHotkey -ArgumentList @($ahkScript, [string]$Process.Id, $Action) -PassThru -Wait -NoNewWindow
-            if ($ahkProcess.ExitCode -eq 0) {
-                return "autohotkey"
-            }
-        }
-        catch {
-        }
-    }
-
-    $autoIt = Get-AutoItExecutableOrNull
-    if ($autoIt -and (Test-Path -LiteralPath $autoItScript)) {
-        try {
-            $autoItProcess = Start-Process -FilePath $autoIt -ArgumentList @($autoItScript, [string]$Process.Id, $Action) -PassThru -Wait -NoNewWindow
-            if ($autoItProcess.ExitCode -eq 0) {
-                return "autoit"
-            }
-        }
-        catch {
-        }
-    }
-
-    return $null
-}
-
-function Capture-WindowScreenshot {
-    param(
-        [Parameter(Mandatory = $true)][System.Diagnostics.Process]$Process,
-        [Parameter(Mandatory = $true)][string]$OutputPath
-    )
-
-    $Process.Refresh()
-    if ($Process.MainWindowHandle -eq 0) {
-        throw "BlastEm nao expôs uma janela capturavel para screenshot dedicado."
-    }
-
-    $rect = New-Object CodexWindowCapture+RECT
-    if (-not [CodexWindowCapture]::GetWindowRect($Process.MainWindowHandle, [ref]$rect)) {
-        throw "Falha ao obter o retangulo da janela do BlastEm."
-    }
-
-    $width = $rect.Right - $rect.Left
-    $height = $rect.Bottom - $rect.Top
-    if ($width -le 0 -or $height -le 0) {
-        throw "Janela do BlastEm retornou dimensoes invalidas para captura."
-    }
-
-    $bitmap = New-Object System.Drawing.Bitmap $width, $height
     try {
-        $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+        $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+    } catch {
+        return $null
+    }
+
+    $scene = @($manifest.scenes | Where-Object { $_ }) | Select-Object -First 1
+    if (-not $scene) {
+        return $null
+    }
+
+    try {
+        return Invoke-SceneBootstrap -SceneConfig $scene -ProjectRoot $ProjectRoot
+    } catch {
+        return @{
+            Bootstrapped = $false
+            BootMode = "error"
+            NavigationSequence = @()
+            InitialSramBytes = [byte[]]@()
+            Note = $_.Exception.Message
+        }
+    }
+}
+
+function Get-SramEvidenceMagic {
+    param([Parameter(Mandatory = $true)][string]$SramPath)
+
+    try {
+        $bytes = [System.IO.File]::ReadAllBytes($SramPath)
+        if ($bytes.Length -lt 4) {
+            return $null
+        }
+        return [System.Text.Encoding]::ASCII.GetString($bytes, 0, 4)
+    }
+    catch {
+        return $null
+    }
+}
+
+function Get-BinarySha256OrNull {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
+        return $null
+    }
+
+    $stream = [System.IO.File]::OpenRead($Path)
+    try {
+        $sha256 = [System.Security.Cryptography.SHA256]::Create()
         try {
-            $hdc = $graphics.GetHdc()
-            try {
-                $printed = [CodexWindowCapture]::PrintWindow($Process.MainWindowHandle, $hdc, 0)
-            }
-            finally {
-                $graphics.ReleaseHdc($hdc)
-            }
-
-            if (-not $printed) {
-                $graphics.CopyFromScreen($rect.Left, $rect.Top, 0, 0, $bitmap.Size)
-            }
-        } finally {
-            $graphics.Dispose()
+            return ([System.BitConverter]::ToString($sha256.ComputeHash($stream)).Replace("-", "")).ToLowerInvariant()
         }
-
-        $parent = Split-Path -Parent $OutputPath
-        New-Item -ItemType Directory -Force -Path $parent | Out-Null
-        $bitmap.Save($OutputPath, [System.Drawing.Imaging.ImageFormat]::Png)
-    } finally {
-        $bitmap.Dispose()
+        finally {
+            $sha256.Dispose()
+        }
+    }
+    finally {
+        $stream.Dispose()
     }
 }
 
-function Focus-ProcessWindow {
+function Get-UniqueColorCountOrNull {
     param(
-        [Parameter(Mandatory = $true)][System.Diagnostics.Process]$Process
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $false)][int]$StopAfter = 4
     )
 
-    $Process.Refresh()
-    if ($Process.MainWindowHandle -eq 0) {
-        throw "BlastEm nao expôs uma janela focavel."
-    }
-
-    [CodexWindowCapture]::ShowWindow($Process.MainWindowHandle, 9) | Out-Null
-    [CodexWindowCapture]::BringWindowToTop($Process.MainWindowHandle) | Out-Null
-    [CodexWindowCapture]::SetForegroundWindow($Process.MainWindowHandle) | Out-Null
-    Start-Sleep -Milliseconds 800
-}
-
-function Invoke-BlastEmVirtualKey {
-    param(
-        [Parameter(Mandatory = $true)][System.Diagnostics.Process]$Process,
-        [Parameter(Mandatory = $true)][UInt32]$VirtualKey,
-        [Parameter(Mandatory = $false)][int]$HoldMilliseconds = 180
-    )
-
-    $Process.Refresh()
-    if ($Process.MainWindowHandle -eq 0) {
-        throw "BlastEm nao expôs uma janela para navegacao automatica."
-    }
-
-    $scanCode = [CodexWindowCapture]::MapVirtualKey($VirtualKey, 0)
-    $wmKeyDown = 0x100
-    $wmKeyUp = 0x101
-    $downLParam = 1 -bor ($scanCode -shl 16)
-    $upLParam = 1 -bor ($scanCode -shl 16) -bor 0xC0000000
-
-    [CodexWindowCapture]::PostMessage($Process.MainWindowHandle, $wmKeyDown, [intptr]$VirtualKey, [intptr]$downLParam) | Out-Null
-    Start-Sleep -Milliseconds $HoldMilliseconds
-    [CodexWindowCapture]::PostMessage($Process.MainWindowHandle, $wmKeyUp, [intptr]$VirtualKey, [intptr]$upLParam) | Out-Null
-}
-
-function Invoke-BlastEmNavigation {
-    param(
-        [Parameter(Mandatory = $true)][System.Diagnostics.Process]$Process,
-        [Parameter(Mandatory = $true)][string[]]$Sequence
-    )
-
-    if (-not $Sequence -or $Sequence.Count -eq 0) {
-        Start-Sleep -Seconds 5
-        return
-    }
-
-    $virtualKeys = @{
-        "up" = 0x26
-        "down" = 0x28
-        "left" = 0x25
-        "right" = 0x27
-        "a" = 0x41
-        "b" = 0x53
-        "c" = 0x44
-        "start" = 0x0D
-    }
-    $sendKeys = @{
-        "up" = "{UP}"
-        "down" = "{DOWN}"
-        "left" = "{LEFT}"
-        "right" = "{RIGHT}"
-        "a" = "a"
-        "b" = "s"
-        "c" = "d"
-        "start" = "{ENTER}"
-    }
-
-    foreach ($rawStep in $Sequence) {
-        $step = $rawStep.Trim().ToLowerInvariant()
-        if ([string]::IsNullOrWhiteSpace($step)) {
-            continue
-        }
-
-        if ($step.StartsWith("wait:")) {
-            $milliseconds = 0
-            if (-not [int]::TryParse($step.Substring(5), [ref]$milliseconds) -or $milliseconds -lt 0) {
-                throw "Passo de navegacao invalido: $rawStep"
-            }
-            Start-Sleep -Milliseconds $milliseconds
-            continue
-        }
-
-        if (-not $virtualKeys.ContainsKey($step)) {
-            throw "Tecla de navegacao nao suportada: $rawStep"
-        }
-
-        Invoke-BlastEmVirtualKey -Process $Process -VirtualKey $virtualKeys[$step]
-        Focus-ProcessWindow -Process $Process
-        [System.Windows.Forms.SendKeys]::SendWait($sendKeys[$step])
-        Start-Sleep -Milliseconds 220
-    }
-}
-
-function Get-NewestFileOrNull {
-    param(
-        [Parameter(Mandatory = $true)][string]$RootPath,
-        [Parameter(Mandatory = $true)][scriptblock]$Filter
-    )
-
-    if (-not (Test-Path -LiteralPath $RootPath)) {
+    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
         return $null
     }
 
-    $files = Get-ChildItem -LiteralPath $RootPath -Recurse -File -ErrorAction SilentlyContinue | Where-Object $Filter
-    if (-not $files) {
-        return $null
+    try {
+        Add-Type -AssemblyName System.Drawing -ErrorAction Stop
+        $bitmap = [System.Drawing.Bitmap]::FromFile($Path)
+        try {
+            $seen = New-Object 'System.Collections.Generic.HashSet[int]'
+            for ($y = 0; $y -lt $bitmap.Height; $y++) {
+                for ($x = 0; $x -lt $bitmap.Width; $x++) {
+                    [void]$seen.Add($bitmap.GetPixel($x, $y).ToArgb())
+                    if ($seen.Count -gt $StopAfter) {
+                        return [int]$seen.Count
+                    }
+                }
+            }
+            return [int]$seen.Count
+        }
+        finally {
+            $bitmap.Dispose()
+        }
     }
-
-    return $files | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
-}
-
-function Get-SaveEvidenceFileOrNull {
-    param(
-        [Parameter(Mandatory = $true)][string]$RootPath
-    )
-
-    return Get-NewestFileOrNull -RootPath $RootPath -Filter {
-        $_.Length -gt 0 -and (
-            $_.Name -ieq "save.sram" -or
-            $_.Extension -ieq ".sram" -or
-            $_.Extension -ieq ".srm" -or
-            $_.Extension -ieq ".sav"
-        )
+    catch {
+        return $null
     }
 }
 
 function Test-VisualEvidenceSignature {
-    param(
-        [Parameter(Mandatory = $true)][string]$SramPath
-    )
+    param([Parameter(Mandatory = $true)][string]$SramPath)
 
-    if (-not (Test-Path -LiteralPath $SramPath)) {
+    try {
+        $magic = Get-SramEvidenceMagic -SramPath $SramPath
+        return ($magic -eq "VLAB" -or $magic -eq "MDRT")
+    }
+    catch {
         return $false
     }
-
-    $bytes = [System.IO.File]::ReadAllBytes($SramPath)
-    if ($bytes.Length -lt 8) {
-        return $false
-    }
-
-    return ([System.Text.Encoding]::ASCII.GetString($bytes, 0, 4) -eq "VLAB")
 }
 
-function Wait-ForVisualEvidenceSave {
+function Find-FreshVisualEvidenceSave {
     param(
         [Parameter(Mandatory = $true)][string[]]$RootPaths,
-        [int]$TimeoutSeconds = 12
+        [Parameter(Mandatory = $false)][datetime]$ProcessStartedAtUtc = ([datetime]::MinValue),
+        [Parameter(Mandatory = $false)][string]$SandboxRoot = ""
     )
 
-    $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
-    while ((Get-Date) -lt $deadline) {
-        foreach ($rootPath in $RootPaths) {
-            $candidate = Get-SaveEvidenceFileOrNull -RootPath $rootPath
-            if ($candidate -and (Test-VisualEvidenceSignature -SramPath $candidate.FullName)) {
-                return $candidate
-            }
+    foreach ($rootPath in $RootPaths) {
+        if (-not (Test-Path -LiteralPath $rootPath)) {
+            continue
         }
 
-        Start-Sleep -Milliseconds 300
+        $candidates = Get-ChildItem -LiteralPath $rootPath -Recurse -File -ErrorAction SilentlyContinue |
+            Sort-Object LastWriteTimeUtc -Descending
+        foreach ($candidate in $candidates) {
+            if ($candidate.Length -le 0) {
+                continue
+            }
+            $isSaveCandidate =
+                $candidate.Name -ieq "save.sram" -or
+                $candidate.Extension -ieq ".sram" -or
+                $candidate.Extension -ieq ".srm" -or
+                $candidate.Extension -ieq ".sav"
+            if (-not $isSaveCandidate) {
+                continue
+            }
+            if (-not (Test-FreshSramCandidate -Path $candidate.FullName -ProcessStartedAtUtc $ProcessStartedAtUtc -SandboxRoot $SandboxRoot)) {
+                continue
+            }
+            if (Test-VisualEvidenceSignature -SramPath $candidate.FullName) {
+                return $candidate.FullName
+            }
+        }
     }
 
     return $null
@@ -456,6 +267,41 @@ function Extract-VisualEvidenceDump {
     [System.IO.File]::WriteAllBytes($OutputPath, $bytes[0..($totalBytes - 1)])
 }
 
+function Get-VisualEvidenceBlock {
+    param([Parameter(Mandatory = $true)][string]$SramPath)
+
+    $bytes = [System.IO.File]::ReadAllBytes($SramPath)
+    if ($bytes.Length -lt 4) {
+        return $null
+    }
+
+    $magic = [System.Text.Encoding]::ASCII.GetString($bytes, 0, 4)
+    if ($magic -eq "MDRT") {
+        return [ordered]@{
+            magic = "MDRT"
+            version = $null
+            total_bytes = $bytes.Length
+            flags = $null
+            scene_id = $null
+            byte14 = $null
+            byte15 = $null
+        }
+    }
+
+    if ($magic -ne "VLAB" -or $bytes.Length -lt 16) {
+        return $null
+    }
+
+    return [ordered]@{
+        magic = "VLAB"
+        version = (([int]$bytes[4] -shl 8) -bor [int]$bytes[5])
+        total_bytes = (([int]$bytes[6] -shl 8) -bor [int]$bytes[7])
+        flags = [int]$bytes[12]
+        scene_id = [int]$bytes[13]
+        byte14 = [int]$bytes[14]
+        byte15 = [int]$bytes[15]
+    }
+}
 
 $ProjectDir = Resolve-ProjectRoot -InputPath $ProjectDir
 $projectBuild = Join-Path $ProjectDir "build.bat"
@@ -464,20 +310,21 @@ $capturesDir = Join-Path $ProjectDir "out\captures"
 $logsDir = Join-Path $ProjectDir "out\logs"
 $sessionPath = Join-Path $logsDir "emulator_session.json"
 $validatorPath = Join-Path $PSScriptRoot "validate_resources.ps1"
-$workspaceRoot = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..\..")
-$blastEmExe = Join-Path $workspaceRoot "tools\emuladores\Blastem\blastem.exe"
-$blastEmDefaultCfg = Join-Path $workspaceRoot "tools\emuladores\Blastem\default.cfg"
-$blastEmSandboxRoot = Join-Path $ProjectDir "out\blastem_env"
-$blastEmLocalAppData = Join-Path $blastEmSandboxRoot "LocalAppData"
-$blastEmAppData = Join-Path $blastEmSandboxRoot "AppData"
+$workspaceRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..\..")).Path
+$blastEmRoot = Join-Path $workspaceRoot "tools\emuladores\BlastEm"
+$blastEmExe = Join-Path $blastEmRoot "blastem.exe"
+$blastEmDefaultCfg = Join-Path $blastEmRoot "default.cfg"
+$blastEmSandboxRoot = Join-Path $ProjectDir "out\blastem_env_visual"
 $blastEmHome = Join-Path $blastEmSandboxRoot "Home"
-$blastEmRuntimeConfigRoot = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::LocalApplicationData)
-$blastEmRuntimeUserDir = Join-Path $blastEmRuntimeConfigRoot "blastem"
+$blastEmLocalAppData = Join-Path $blastEmHome "AppData\Local"
+$blastEmAppData = Join-Path $blastEmHome "AppData\Roaming"
 $blastEmUserDir = Join-Path $blastEmLocalAppData "blastem"
 $blastEmUserCfg = Join-Path $blastEmUserDir "blastem.cfg"
-$blastEmGlobalSaveRoot = Join-Path $blastEmRuntimeUserDir "rom"
-$configBackup = $null
-$tempCaptureRoot = Join-Path $capturesDir "_blastem_staging"
+$saveRoot = Join-Path $blastEmSandboxRoot "saves"
+$screenshotRoot = Join-Path $blastEmSandboxRoot "screenshots"
+$blastEmLogPath = Join-Path $logsDir "visual_capture_blastem.log"
+$timestampSafe = (Get-Date).ToString("yyyyMMdd_HHmmss")
+$failureScreenshotPath = Join-Path $logsDir ("blastem_visual_failure_" + $timestampSafe + ".png")
 
 if (-not (Test-Path -LiteralPath $projectBuild)) {
     throw "build.bat nao encontrado em $ProjectDir"
@@ -491,28 +338,72 @@ if (-not (Test-Path -LiteralPath $blastEmDefaultCfg)) {
 
 New-Item -ItemType Directory -Force -Path $capturesDir | Out-Null
 New-Item -ItemType Directory -Force -Path $logsDir | Out-Null
-New-Item -ItemType Directory -Force -Path $blastEmLocalAppData | Out-Null
-New-Item -ItemType Directory -Force -Path $blastEmAppData | Out-Null
-New-Item -ItemType Directory -Force -Path $blastEmHome | Out-Null
-if (Test-Path -LiteralPath $tempCaptureRoot) {
-    Remove-Item -LiteralPath $tempCaptureRoot -Recurse -Force
+if (Test-Path -LiteralPath $blastEmSandboxRoot) {
+    Remove-Item -LiteralPath $blastEmSandboxRoot -Recurse -Force
 }
-New-Item -ItemType Directory -Force -Path $tempCaptureRoot | Out-Null
+foreach ($path in @($blastEmLocalAppData, $blastEmAppData, $blastEmHome, $blastEmUserDir, $saveRoot, $screenshotRoot)) {
+    New-Item -ItemType Directory -Force -Path $path | Out-Null
+}
 foreach ($staleFile in @(
     (Join-Path $capturesDir "benchmark_visual.png"),
     (Join-Path $capturesDir "visual_vdp_dump.bin"),
-    (Join-Path $capturesDir "save.sram"),
-    (Join-Path $blastEmSandboxRoot "Home\AppData\Local\blastem\rom\save.sram"),
-    (Join-Path $tempCaptureRoot "save.sram")
+    (Join-Path $capturesDir "save.sram")
 )) {
     if (Test-Path -LiteralPath $staleFile) {
         Remove-Item -LiteralPath $staleFile -Force -ErrorAction SilentlyContinue
     }
 }
+Get-ChildItem -LiteralPath $capturesDir -Filter "benchmark_quicksave*" -File -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+if (Test-Path -LiteralPath $blastEmLogPath) {
+    Remove-Item -LiteralPath $blastEmLogPath -Force
+}
+
+$process = $null
+$processStartedAtUtc = [datetime]::MinValue
+$closeResult = $null
+$screenshotSaved = $false
+$sandboxScreenshotPath = $null
+$saveSramPath = $null
+$saveSramDest = $null
+$dumpDest = $null
+$quickSaveDest = $null
+$evidenceBlock = $null
+$romMeta = $null
+$sessionLaunchStatus = "attempted"
+$sessionBootStatus = "nao_testado"
+$audioStatus = "nao_testado"
+$bootstrapState = $null
+if (-not ($NavigationSequence -and $NavigationSequence.Count -gt 0)) {
+    $bootstrapState = Resolve-DefaultVisualCaptureBootstrap -ProjectRoot $ProjectDir
+}
+$navigationToRun = if ($NavigationSequence -and $NavigationSequence.Count -gt 0) {
+    $NavigationSequence
+} elseif ($bootstrapState -and $bootstrapState.Bootstrapped -and $bootstrapState.NavigationSequence.Count -gt 0) {
+    @($bootstrapState.NavigationSequence)
+} elseif ($bootstrapState -and $bootstrapState.Bootstrapped -and $bootstrapState.InitialSramBytes.Length -gt 0) {
+    @()
+} else {
+    @(
+        "press_until_ready:start,timeout_ms=8000,interval_ms=350,max_presses=20,rotate_key=a",
+        "wait:1200"
+    )
+}
+$initialSramBytes = if ($bootstrapState -and $bootstrapState.InitialSramBytes.Length -gt 0) {
+    [byte[]]@($bootstrapState.InitialSramBytes)
+} else {
+    [byte[]]@()
+}
+$seededInitialSramPath = $null
 
 Push-Location -LiteralPath $ProjectDir
 try {
-    $buildProcess = Start-Process -FilePath "cmd.exe" -ArgumentList @("/c", "build.bat") -PassThru -Wait -NoNewWindow
+    $buildProcess = Start-Process `
+        -FilePath "cmd.exe" `
+        -ArgumentList @("/c", ('"' + $projectBuild + '"')) `
+        -WorkingDirectory $workspaceRoot `
+        -PassThru `
+        -Wait `
+        -NoNewWindow
     if ($buildProcess.ExitCode -ne 0) {
         throw "Falha no build do projeto."
     }
@@ -521,7 +412,7 @@ try {
     }
 
     $romMeta = Get-RomMetadata -RomPath $romPath
-    @{
+    $sessionPayload = @{
         timestamp = (Get-Date -Format "o")
         emulator = $blastEmExe
         rom_path = $romMeta.path
@@ -533,36 +424,64 @@ try {
         performance = "nao_testado"
         audio = "nao_testado"
         hardware_real = "nao_testado"
-        launch_status = "attempted"
-    } | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $sessionPath
+        launch_status = $sessionLaunchStatus
+        sandbox_root = $blastEmSandboxRoot
+        save_root = $saveRoot
+        screenshot_root = $screenshotRoot
+        emulator_log_path = $blastEmLogPath
+        navigation_mode = "scan_code_sendinput"
+        ready_probe_source = "sram_ready_heartbeat"
+        failure_artifact_path = $failureScreenshotPath
+        bootstrap_mode = if ($bootstrapState) { $bootstrapState.BootMode } else { $null }
+        bootstrap_note = if ($bootstrapState) { $bootstrapState.Note } else { $null }
+    } | ConvertTo-Json -Depth 8
+    [System.IO.File]::WriteAllText($sessionPath, $sessionPayload, [System.Text.Encoding]::UTF8)
 
-    if (Test-Path -LiteralPath $blastEmUserCfg) {
-        $configBackup = Get-Content -LiteralPath $blastEmUserCfg -Raw
+    Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "capture_begin" -Data @{
+        rom = $romPath
+        sandbox_root = $blastEmSandboxRoot
+        save_root = $saveRoot
+        screenshot_root = $screenshotRoot
+        failure_artifact_path = $failureScreenshotPath
+        navigation_steps = $navigationToRun.Count
     }
 
-    Write-BlastEmConfig `
-        -BaseConfigPath $blastEmDefaultCfg `
-        -TargetConfigPath $blastEmUserCfg `
-        -ScreenshotRoot $tempCaptureRoot `
-        -SaveRoot $tempCaptureRoot
+    Write-BlastEmConfig -BaseConfigPath $blastEmDefaultCfg -TargetConfigPath $blastEmUserCfg -SaveRoot $saveRoot -ScreenshotRoot $screenshotRoot
+    if ($initialSramBytes.Length -gt 0) {
+        $seededInitialSramPath = Get-BlastEmInitialSramPath -SaveRoot $saveRoot -RomPath $romPath
+        [System.IO.File]::WriteAllBytes($seededInitialSramPath, $initialSramBytes)
+        Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "initial_sram_seeded" -Data @{
+            seeded_sram_path = $seededInitialSramPath
+            bytes = $initialSramBytes.Length
+            bootstrap_mode = if ($bootstrapState) { $bootstrapState.BootMode } else { $null }
+        }
+    }
 
-    $quotedRomPath = '"' + $romPath + '"'
     $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
     $processStartInfo.FileName = $blastEmExe
-    $processStartInfo.Arguments = $quotedRomPath
+    $processStartInfo.Arguments = ('"' + $romPath + '"')
     $processStartInfo.WorkingDirectory = Split-Path -Parent $blastEmExe
     $processStartInfo.UseShellExecute = $false
     $processStartInfo.Environment["LOCALAPPDATA"] = $blastEmLocalAppData
     $processStartInfo.Environment["APPDATA"] = $blastEmAppData
     $processStartInfo.Environment["USERPROFILE"] = $blastEmHome
     $processStartInfo.Environment["HOME"] = $blastEmHome
+    $processStartInfo.Environment["SDL_RENDER_DRIVER"] = "software"
+    $processStartedAtUtc = [datetime]::UtcNow
     $process = [System.Diagnostics.Process]::Start($processStartInfo)
     if (-not $process) {
-        throw "Falha ao iniciar o BlastEm com sandbox de captura dedicado."
+        throw "Falha ao iniciar o BlastEm com sandbox dedicado."
     }
-    Wait-ForMainWindow -Process $process -TimeoutSeconds 20
 
-    @{
+    Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "process_started" -Data @{ pid = $process.Id }
+    Wait-ForBlastEmWindow -Process $process -TimeoutSeconds 20
+    Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "window_ready" -Data @{
+        title = $process.MainWindowTitle
+        hwnd = [int64]$process.MainWindowHandle
+    }
+
+    $sessionLaunchStatus = "started"
+    $sessionPayload = @{
         timestamp = (Get-Date -Format "o")
         emulator = $blastEmExe
         rom_path = $romMeta.path
@@ -574,106 +493,166 @@ try {
         performance = "nao_testado"
         audio = "nao_testado"
         hardware_real = "nao_testado"
-        launch_status = "started"
-    } | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $sessionPath
+        launch_status = $sessionLaunchStatus
+        sandbox_root = $blastEmSandboxRoot
+        save_root = $saveRoot
+        screenshot_root = $screenshotRoot
+        emulator_log_path = $blastEmLogPath
+        navigation_mode = "scan_code_sendinput"
+        ready_probe_source = "sram_ready_heartbeat"
+        failure_artifact_path = $failureScreenshotPath
+        bootstrap_mode = if ($bootstrapState) { $bootstrapState.BootMode } else { $null }
+        bootstrap_note = if ($bootstrapState) { $bootstrapState.Note } else { $null }
+        seeded_initial_sram_path = $seededInitialSramPath
+    } | ConvertTo-Json -Depth 8
+    [System.IO.File]::WriteAllText($sessionPath, $sessionPayload, [System.Text.Encoding]::UTF8)
 
-    $screenshotDest = Join-Path $capturesDir "benchmark_visual.png"
-    Focus-ProcessWindow -Process $process
-    Invoke-BlastEmNavigation -Process $process -Sequence $NavigationSequence
-    Start-Sleep -Milliseconds 1200
-    Capture-WindowScreenshot -Process $process -OutputPath $screenshotDest
-    $screenshotMethod = "window-focused"
-    $nativeScreenshotMethod = $null
-    $quickSaveMethod = $null
+    $foregroundOk = Ensure-BlastEmForeground -Process $process
+    Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "foreground_set" -Data @{ success = [bool]$foregroundOk }
 
-    $gracefulExit = $false
-    $quitMethod = $null
-    if ($process.CloseMainWindow()) {
-        if ($process.WaitForExit(10000)) {
-            $gracefulExit = $true
-        } else {
-            Start-Sleep -Seconds 2
-            if ($process.CloseMainWindow() -and $process.WaitForExit(8000)) {
-                $gracefulExit = $true
+    try {
+        if ($navigationToRun.Count -gt 0) {
+            Invoke-BlastEmNavigation `
+                -Process $process `
+                -Sequence $navigationToRun `
+                -LogPath $blastEmLogPath `
+                -SaveRoots @($saveRoot, $blastEmSandboxRoot) `
+                -HeartbeatOffset 0x100 `
+                -ProcessStartedAtUtc $processStartedAtUtc `
+                -SandboxRoot $blastEmSandboxRoot
+        }
+
+        Start-Sleep -Milliseconds 1200
+        $screenshotDest = Join-Path $capturesDir "benchmark_visual.png"
+        $screenshotSaved = Save-BlastEmWindowScreenshot -Process $process -OutputPath $screenshotDest
+        if (-not $screenshotSaved) {
+            throw "Falha ao capturar screenshot dedicado da janela do BlastEm."
+        }
+        $uniqueColorCount = Get-UniqueColorCountOrNull -Path $screenshotDest -StopAfter 3
+        if ($null -ne $uniqueColorCount -and $uniqueColorCount -le 3) {
+            throw "blank_or_low_information_capture: screenshot dedicado tem apenas $uniqueColorCount cor(es) unicas."
+        }
+        $sandboxScreenshotPath = Join-Path $screenshotRoot "benchmark_visual.png"
+        [System.IO.File]::Copy($screenshotDest, $sandboxScreenshotPath, $true)
+
+        Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "screenshot_saved" -Data @{ path = $screenshotDest; unique_color_count = $uniqueColorCount }
+    }
+    catch {
+        Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "capture_exception" -Data @{
+            message = $_.Exception.Message
+            failure_artifact_path = $failureScreenshotPath
+        }
+        if ($process) {
+            $null = Save-BlastEmWindowScreenshot -Process $process -OutputPath $failureScreenshotPath
+        }
+        throw
+    }
+    finally {
+        if ($process) {
+            $closeResult = Close-BlastEmGracefully -Process $process -LogPath $blastEmLogPath
+        }
+    }
+
+    $saveDeadline = (Get-Date).AddSeconds(20)
+    while ((Get-Date) -lt $saveDeadline) {
+        $saveSramPath = Find-FreshVisualEvidenceSave -RootPaths @($saveRoot, $blastEmSandboxRoot) -ProcessStartedAtUtc $processStartedAtUtc -SandboxRoot $blastEmSandboxRoot
+        if ($saveSramPath) {
+            break
+        }
+        Start-Sleep -Milliseconds 400
+    }
+
+    if ($saveSramPath) {
+        $saveSramDest = Join-Path $capturesDir "save.sram"
+        [System.IO.File]::Copy($saveSramPath, $saveSramDest, $true)
+        $evidenceBlock = Get-VisualEvidenceBlock -SramPath $saveSramDest
+        if ($evidenceBlock -and $evidenceBlock.magic -eq "VLAB") {
+            $dumpDest = Join-Path $capturesDir "visual_vdp_dump.bin"
+            Extract-VisualEvidenceDump -SramPath $saveSramDest -OutputPath $dumpDest
+            $saveHash = Get-BinarySha256OrNull -Path $saveSramDest
+            $dumpHash = Get-BinarySha256OrNull -Path $dumpDest
+            if ($saveHash -and $dumpHash -and $saveHash -eq $dumpHash) {
+                throw "invalid_visual_vdp_dump: visual_vdp_dump.bin e save.sram possuem o mesmo SHA-256."
             }
+        } else {
+            $dumpDest = $null
+        }
+        Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "visual_evidence_found" -Data @{
+            sram_path = $saveSramPath
+            dump_path = $dumpDest
+            sram_magic = if ($evidenceBlock) { $evidenceBlock.magic } else { (Get-SramEvidenceMagic -SramPath $saveSramDest) }
+            fresh_sram_confirmed = $true
+        }
+    }
+    elseif (-not $AllowMissingEvidence) {
+        Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "visual_evidence_missing" -Data @{
+            sandbox_root = $blastEmSandboxRoot
+            fresh_sram_confirmed = $false
+        }
+        throw "save.sram fresco com assinatura canonica (MDRT ou VLAB) nao foi encontrado no sandbox $blastEmSandboxRoot. Log: $blastEmLogPath"
+    }
+
+    if ($evidenceBlock -and $evidenceBlock.scene_id -eq 12) {
+        $driver = [int]$evidenceBlock.byte14
+        $pcmMask = [int]$evidenceBlock.byte15
+        if ($pcmMask -ne 0 -or $driver -ne 0) {
+            $audioStatus = "ok"
         }
     }
 
-    if (-not $gracefulExit) {
-        Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
-        $process.WaitForExit()
-    }
+    $sessionBootStatus = "ok"
+    $sessionLaunchStatus = if ($saveSramDest -or $AllowMissingEvidence) { "captured" } else { "captured_partial" }
+    $publishedCaptureList = @()
+    if ($screenshotSaved) { $publishedCaptureList += (Join-Path $capturesDir "benchmark_visual.png") }
+    if ($dumpDest) { $publishedCaptureList += $dumpDest }
+    if ($saveSramDest) { $publishedCaptureList += $saveSramDest }
+    if ($quickSaveDest) { $publishedCaptureList += $quickSaveDest }
+    $sessionEvidenceList = @()
+    if ($sandboxScreenshotPath) { $sessionEvidenceList += $sandboxScreenshotPath }
+    if ($saveSramPath) { $sessionEvidenceList += $saveSramPath }
 
-    Start-Sleep -Seconds 2
-
-    $saveSram = Wait-ForVisualEvidenceSave -RootPaths @($tempCaptureRoot, $blastEmSandboxRoot) -TimeoutSeconds 8
-
-    $quickSave = Get-NewestFileOrNull -RootPath $tempCaptureRoot -Filter {
-        $_.Name -ne "save.sram" -and
-        $_.Extension -ine ".png" -and
-        $_.Extension -ine ".cfg" -and
-        $_.Extension -ine ".sram" -and
-        $_.Extension -ine ".sav"
-    }
-    if (-not $quickSave) {
-        $quickSave = Get-NewestFileOrNull -RootPath $blastEmSandboxRoot -Filter {
-            $_.Name -ne "save.sram" -and
-            $_.Extension -ine ".png" -and
-            $_.Extension -ine ".cfg" -and
-            $_.Extension -ine ".sram" -and
-            $_.Extension -ine ".sav"
-        }
-    }
-
-    if (-not $saveSram) {
-        throw "save.sram nao foi encontrado; o dump visual nao pode ser extraido."
-    }
-
-    $quickSaveDest = $null
-    $saveSramDest = Join-Path $capturesDir "save.sram"
-    $dumpDest = Join-Path $capturesDir "visual_vdp_dump.bin"
-
-    if ($quickSave) {
-        $quickSaveDest = Join-Path $capturesDir ("benchmark_quicksave" + $quickSave.Extension)
-        Copy-Item -LiteralPath $quickSave.FullName -Destination $quickSaveDest -Force
-    }
-    Copy-Item -LiteralPath $saveSram.FullName -Destination $saveSramDest -Force
-    Extract-VisualEvidenceDump -SramPath $saveSramDest -OutputPath $dumpDest
-
-    $captureList = @(
-        $screenshotDest,
-        $dumpDest,
-        $saveSramDest
-    )
-    if ($quickSaveDest) {
-        $captureList += $quickSaveDest
-    }
-
-    @{
+    $sessionPayload = @{
         timestamp = (Get-Date -Format "o")
         emulator = $blastEmExe
         rom_path = $romMeta.path
         rom_size_bytes = $romMeta.size_bytes
         rom_last_write_utc = $romMeta.last_write_utc
         rom_sha256 = $romMeta.sha256
-        boot_emulador = "ok"
+        boot_emulador = $sessionBootStatus
         gameplay_basico = "funcional"
         performance = "nao_testado"
-        audio = "nao_testado"
+        audio = $audioStatus
         hardware_real = "nao_testado"
-        launch_status = "captured"
-        graceful_exit = $gracefulExit
-        screenshot_method = $screenshotMethod
+        launch_status = $sessionLaunchStatus
+        graceful_exit = if ($closeResult) { -not $closeResult.forced } else { $false }
+        close_exit_mode = if ($closeResult) { $closeResult.exit_mode } else { $null }
+        screenshot_method = if ($screenshotSaved) { "window_capture" } else { "falhou" }
         quicksave_captured = [bool]$quickSaveDest
         quicksave_path = $quickSaveDest
-        quicksave_method = $quickSaveMethod
-        captures = $captureList
-        evidence_files = @(
-            $screenshotDest,
-            $dumpDest,
-            $saveSramDest
-        )
-    } | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $sessionPath
+        quicksave_method = $null
+        captures = $sessionEvidenceList
+        evidence_files = $sessionEvidenceList
+        published_capture_files = $publishedCaptureList
+        save_sram_path = $saveSramDest
+        visual_vdp_dump_path = $dumpDest
+        sandbox_root = $blastEmSandboxRoot
+        save_root = $saveRoot
+        screenshot_root = $screenshotRoot
+        emulator_log_path = $blastEmLogPath
+        fresh_sram_confirmed = [bool]$saveSramDest
+        outside_sandbox_candidate = $null
+        stale_sandbox_candidate = $null
+        navigation_mode = "scan_code_sendinput"
+        ready_probe_source = "sram_ready_heartbeat"
+        failure_artifact_path = if (Test-Path -LiteralPath $failureScreenshotPath) { $failureScreenshotPath } else { $null }
+    } | ConvertTo-Json -Depth 8
+    [System.IO.File]::WriteAllText($sessionPath, $sessionPayload, [System.Text.Encoding]::UTF8)
+
+    Write-BlastEmCaptureLog -LogPath $blastEmLogPath -Event "capture_done" -Data @{
+        session_path = $sessionPath
+        fresh_sram_confirmed = [bool]$saveSramDest
+        close_exit_mode = if ($closeResult) { $closeResult.exit_mode } else { $null }
+    }
 
     Set-Location -LiteralPath $ProjectDir
     & $validatorPath
@@ -682,17 +661,30 @@ try {
     }
 }
 finally {
-    if ($configBackup -ne $null) {
-        Set-Content -LiteralPath $blastEmUserCfg -Value $configBackup -Encoding UTF8
+    # Safety net: se exception disparou ANTES do try/finally interno (L335-368)
+    # fechar $process corretamente, o BlastEm pode ficar orfao. Esta cauda
+    # garante teardown deterministico do processo.
+    if ($process) {
+        try {
+            $process.Refresh()
+            if (-not $process.HasExited) {
+                if (-not $closeResult) {
+                    try {
+                        $closeResult = Close-BlastEmGracefully -Process $process -LogPath $blastEmLogPath
+                    } catch {
+                        Write-Warning "Close-BlastEmGracefully silenced: $_"
+                    }
+                }
+                $process.Refresh()
+                if (-not $process.HasExited) {
+                    try { Stop-Process -Id $process.Id -Force -ErrorAction Stop } catch { Write-Warning "Stop-Process silenced: $_" }
+                    $process.WaitForExit(3000) | Out-Null
+                }
+            }
+        } catch {
+            Write-Warning "visual_capture cleanup silenced: $_"
+        }
     }
-    elseif (Test-Path -LiteralPath $blastEmUserCfg) {
-        Remove-Item -LiteralPath $blastEmUserCfg -Force
-    }
-
-    if (Test-Path -LiteralPath $tempCaptureRoot) {
-        Remove-Item -LiteralPath $tempCaptureRoot -Recurse -Force
-    }
-
     Pop-Location
 }
 

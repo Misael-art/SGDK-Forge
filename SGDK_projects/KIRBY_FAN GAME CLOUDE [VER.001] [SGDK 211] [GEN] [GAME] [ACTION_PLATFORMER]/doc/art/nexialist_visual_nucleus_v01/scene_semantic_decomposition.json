@@ -1,0 +1,71 @@
+{
+  "schema_version": "scene_semantic_decomposition.v1",
+  "scene_id": "vegetable_valley_golden_scene",
+  "source_reference": {
+    "asset_id": "vegetable_valley_golden_scene_concept_v01",
+    "sha256": "a52b366d8881d43133830fdafcf552bc93bba533dc25d729db96c7bdbf11e561",
+    "use": "composition_reference_only",
+    "direct_conversion": false
+  },
+  "shared_canvas": {"resolution": "320x224", "grid": "8x8", "hud_safe_y": "0-24", "collision_floor_y": 170},
+  "semantic_layers": [
+    {
+      "layer_id": "bg_b_distance",
+      "hardware_surface": "BG_B",
+      "regions": ["sky", "clouds", "distant_mountains"],
+      "screen_bands": ["0-63", "64-104"],
+      "parallax_ratio": 0.125,
+      "repeatable_regions": ["sky_band_a", "sky_band_b", "cloud_small", "cloud_wide", "mountain_peak_left", "mountain_peak_right"],
+      "unique_regions": ["horizon_notch", "one_asymmetric_mountain_cut"],
+      "translation_rule": "discrete indexed bands and reusable silhouettes; no smooth gradient"
+    },
+    {
+      "layer_id": "bg_a_near_structure",
+      "hardware_surface": "BG_A",
+      "regions": ["intermediate_hills", "orchard_band", "main_terrain", "raised_ledge", "gap"],
+      "screen_bands": ["105-153", "154-224"],
+      "parallax_ratio": 0.34,
+      "repeatable_regions": ["hill_roll_left", "hill_roll_right", "orchard_blob", "tree_trunk", "soil_fill", "grass_cap_straight", "grass_cap_corner", "soil_inner_corner"],
+      "unique_regions": ["ledge_left_end", "ledge_right_end", "gap_transition", "collision_edge_marker"],
+      "translation_rule": "terrain topology and collision edge take priority over texture density"
+    },
+    {
+      "layer_id": "foreground_priority",
+      "hardware_surface": "priority_art_or_sparse_sprite_graft",
+      "regions": ["bottom_left_leaves", "grass_blades", "occlusion_leaf_cluster"],
+      "screen_bands": ["190-224"],
+      "parallax_ratio": 1.25,
+      "repeatable_regions": ["leaf_cluster_small", "leaf_cluster_wide", "grass_tuft"],
+      "unique_regions": ["hero_clearance_window", "gap_clearance_window"],
+      "translation_rule": "sparse occlusion; never cover actor feet, collision top or ability axis"
+    },
+    {
+      "layer_id": "sprites",
+      "hardware_surface": "sprite_engine",
+      "regions": ["hero", "enemy", "pickup", "inhale_fx"],
+      "screen_bands": ["118-188"],
+      "parallax_ratio": 1.0,
+      "repeatable_regions": ["enemy_active_window", "pickup_single", "wind_cluster_a", "wind_cluster_b", "leaf_fx"],
+      "unique_regions": ["hero_key_pose", "enemy_contact_pose"],
+      "translation_rule": "actors and causal FX are separate assets; no baked FX or baked shadow"
+    }
+  ],
+  "organic_deduplication": {
+    "preserve": ["asymmetric horizon notch", "three grass-cap rhythm variants", "one-off gap transition", "small controlled orchard irregularities"],
+    "deduplicate": ["sky bands", "soil fills", "hill arcs", "tree trunks", "leaf clusters outside focal window"],
+    "flip_policy": "allow horizontal flip only for non-directional hills, soil fills and leaves after seam proof; do not flip hero, enemy face or ability direction",
+    "rhythm_rule": "repeat motifs in 2-4 tile runs, then break with a measured asymmetric marker; avoid a visibly tiled checkerboard"
+  },
+  "estimated_resource_envelope": {
+    "status": "pre_native_estimate",
+    "estimated_unique_tiles_by_layer": {"bg_b": "120-180", "bg_a": "140-220", "foreground": "20-40", "sprite_active_window": "50-80", "total_local_candidate": "330-520"},
+    "current_project_worst_case_reference": {"all_active_assets_unique_tiles": 853, "usable_tiles": 1740, "utilization_percent": 49},
+    "load_time_dma_bytes_estimate": "10560-16640 for 330-520 tile payload only; maps/palettes and SGDK packing still unmeasured",
+    "per_frame_dma": "0 for static layer residency; FX/frame uploads not authorized and must be measured separately",
+    "scanline_reference": {"base": "4 sprites / 128 pixels", "next_density": "7 sprites / 192 pixels", "stress_stop_line": "19 sprites / 336 pixels; fails 320 pixel limit"},
+    "vram_decision": "cabe_com_recuo_pending_native_rescomp",
+    "dma_decision": "not_measured_for_native_candidate",
+    "scanline_decision": "base_and_next_density_offline_pass; stress fails by design"
+  },
+  "handoff": ["tile_kit_inventory.md", "layer_plan.json", "palette_contract.json", "native_translation_gate.json"]
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_reseed_native_lineart_candidate_imagegen_v01",
+  "asset_path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v01.png",
+  "sha256": "4de4b9beaa48b1b1959ee738dbb9afd9cdd08f5587e31ce09ddadf78f55ad736",
+  "generated_with": "codex_builtin_image_generation",
+  "reviewed_at": "2026-08-29",
+  "input_source": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "observed": [
+    "Hair mass, wraps, sash, trousers and guarded stance are broadly recognizable.",
+    "The output is 1086x1448 RGB rather than a 48x64 indexed native-grid asset.",
+    "Its line density and anatomy are illustrative; it cannot prove 3.5-head topology, pivot or tile allocation."
+  ],
+  "fake_pixel_art_rejection": {
+    "status": "rejected",
+    "blockers": ["non_native_dimensions", "rgb_not_indexed", "no_8x8_grid", "not_1px_native_lineart", "editorial_illustration_not_sprite"]
+  },
+  "decision": "rejected_not_generation_source",
+  "allowed_usage": ["negative_evidence", "comparison_only"],
+  "next_required_action": "Hand-author the 48x64 lineart blocking from the approved high-resolution source and translation contract."
+}

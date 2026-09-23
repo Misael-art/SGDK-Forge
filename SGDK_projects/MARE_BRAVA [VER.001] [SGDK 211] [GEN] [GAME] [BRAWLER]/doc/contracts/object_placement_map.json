@@ -1,0 +1,256 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "cais_01_object_placement_map_v1",
+  "scene_id": "cais_01",
+  "world_px": {
+    "width": 1344,
+    "height": 224
+  },
+  "viewport_px": {
+    "width": 320,
+    "height": 224
+  },
+  "lane_bands_y": {
+    "bgb_horizon": "0..96 (ceu/porto distante via BG_B)",
+    "bga_upper_dressing": "64..144 (props, landmarks, paredes de fundo do cais em BG_A)",
+    "fight_lane": "144..208 (faixa de luta de 64px, y-sort)",
+    "edge_strip": "208..224 (beirada: madeira -> agua escura + espuma)"
+  },
+  "camera_script": [
+    {
+      "segment": "entrada",
+      "camera_x": "0..160 livre com clamp 4px/frame"
+    },
+    {
+      "segment": "arena1",
+      "wave_lock_camera_x": 160,
+      "release": "grupo 1 zerado"
+    },
+    {
+      "segment": "respiro1",
+      "camera_x": "160..560 livre"
+    },
+    {
+      "segment": "arena2",
+      "wave_lock_camera_x": 560,
+      "release": "grupo 2 zerado"
+    },
+    {
+      "segment": "respiro2",
+      "camera_x": "560..960 livre"
+    },
+    {
+      "segment": "arena3",
+      "wave_lock_camera_x": 960,
+      "release": "grupo 3 zerado"
+    },
+    {
+      "segment": "saida",
+      "camera_x": "960..1024 (viewport final 1024..1344)"
+    }
+  ],
+  "ring_out_policy": {
+    "edge_exposta_x": [
+      "480..560 (janela curta no respiro1 — ensaio seguro)",
+      "960..1280 (arena 3 — payoff pleno)"
+    ],
+    "edge_bloqueada_x": [
+      "0..480 railing/props",
+      "560..880 costado do barco bloqueia",
+      "880..960 net wall"
+    ],
+    "leitura": "railing quebrada em x=944..960 comunica a mudanca de regra antes da arena 3"
+  },
+  "placements": [
+    {
+      "x": 8,
+      "object": "cargo_stack",
+      "band": "upper_dressing",
+      "phase": "calm",
+      "funcao": "fecho visual esquerdo"
+    },
+    {
+      "x": 40,
+      "object": "crate_single +coiled_rope",
+      "band": "upper_dressing",
+      "phase": "calm",
+      "funcao": "decor"
+    },
+    {
+      "x": 88,
+      "object": "lamp_post_rusty",
+      "band": "upper_dressing",
+      "phase": "calm",
+      "funcao": "ritmo + flicker"
+    },
+    {
+      "x": 120,
+      "object": "dock_entrance_arch",
+      "band": "upper_dressing",
+      "phase": "calm->pressure",
+      "funcao": "portal do golden path (arena 1 comeca ao cruzar)"
+    },
+    {
+      "x": 176,
+      "object": "coiled_rope + mooring_bollard",
+      "band": "upper_dressing",
+      "phase": "pressure",
+      "funcao": "decor de borda; centro 192..448 LIMPO para ensino do combo"
+    },
+    {
+      "x": 300,
+      "object": "distant_crane (BG_B alinhado)",
+      "band": "bgb_horizon",
+      "phase": "pressure",
+      "funcao": "landmark da arena 1 sem custo em BG_A"
+    },
+    {
+      "x": 456,
+      "object": "lamp_post_rusty",
+      "band": "upper_dressing",
+      "phase": "pressure",
+      "funcao": "fecho da arena 1"
+    },
+    {
+      "x": 464,
+      "object": "crate_stack_large",
+      "band": "upper_dressing",
+      "phase": "pressure",
+      "funcao": "cover/borda direita da arena"
+    },
+    {
+      "x": 496,
+      "object": "railing_gap_inicio (railing termina)",
+      "band": "edge_strip",
+      "phase": "breathing",
+      "funcao": "janela de ring-out de ensaio 480..560"
+    },
+    {
+      "x": 520,
+      "object": "pallet + espetinho_pickup_spot",
+      "band": "fight_lane",
+      "phase": "breathing",
+      "funcao": "breathing zone: silhueta do pickup prioridade"
+    },
+    {
+      "x": 600,
+      "object": "moored_boat_sealed",
+      "band": "upper_dressing",
+      "phase": "pressure_high",
+      "funcao": "landmark arena 2; costado bloqueia beirada 560..760"
+    },
+    {
+      "x": 620,
+      "object": "market_stall_frame",
+      "band": "upper_dressing",
+      "phase": "pressure_high",
+      "funcao": "identidade mercado"
+    },
+    {
+      "x": 648,
+      "object": "fish_crate_ice x3 fileira",
+      "band": "upper_dressing",
+      "phase": "pressure_high",
+      "funcao": "decor narrativo"
+    },
+    {
+      "x": 800,
+      "object": "scale_booth",
+      "band": "upper_dressing",
+      "phase": "pressure_high",
+      "funcao": "segundo anchor arena 2"
+    },
+    {
+      "x": 856,
+      "object": "barrel x2 + net_roll",
+      "band": "upper_dressing",
+      "phase": "pressure_high",
+      "funcao": "fecho direito arena 2; breakable candidates futuros"
+    },
+    {
+      "x": 880,
+      "object": "large_net_wall",
+      "band": "upper_dressing+foreground",
+      "phase": "breathing",
+      "funcao": "moldura de transicao; comprime antes do payoff"
+    },
+    {
+      "x": 920,
+      "object": "moeda_pickup_spot",
+      "band": "fight_lane",
+      "phase": "breathing",
+      "funcao": "respiro 2"
+    },
+    {
+      "x": 944,
+      "object": "broken_railing_fragment",
+      "band": "edge_strip",
+      "phase": "breathing->payoff",
+      "funcao": "REGRA VISUAL: grade quebrada anuncia ring-out pleno"
+    },
+    {
+      "x": 976,
+      "object": "crate_single",
+      "band": "upper_dressing",
+      "phase": "payoff",
+      "funcao": "borda esquerda; arena 3 CENTRO VAZIO 992..1248"
+    },
+    {
+      "x": 1056,
+      "object": "missing_plank_hole + dark_water_edge alargada",
+      "band": "edge_strip",
+      "phase": "payoff",
+      "funcao": "beirada dominante; espuma intensidade maxima"
+    },
+    {
+      "x": 1216,
+      "object": "final_lantern_farolete",
+      "band": "upper_dressing",
+      "phase": "payoff",
+      "funcao": "farol do fim; flicker; contraluz na agua"
+    },
+    {
+      "x": 1296,
+      "object": "underside_beam_diagonal + rope frame",
+      "band": "foreground",
+      "phase": "saida",
+      "funcao": "fecho do mundo; zona DEMO CLEAR"
+    }
+  ],
+  "foreground_placements": [
+    {
+      "x": 152,
+      "object": "front_piling_pair",
+      "regra": "borda entre calm/arena1; nunca durante wave_lock central"
+    },
+    {
+      "x": 536,
+      "object": "hanging_net_strip (topo)",
+      "regra": "sobre o respiro 1, fora da faixa de luta"
+    },
+    {
+      "x": 952,
+      "object": "front_piling_pair",
+      "regra": "moldura do inicio do payoff"
+    },
+    {
+      "x": 1264,
+      "object": "front_piling_pair",
+      "regra": "fecho direito do mundo"
+    }
+  ],
+  "seam_policy": {
+    "boardwalk_repeat": "metatile de 128px com variacao (cracked_planks) inserida em x~352, ~704, ~1056 (regra: variacao escondida a cada 2-3 telas)",
+    "streaming": "conforme tilemap_streaming_contract: janela 64x32, margem 12 colunas, max 2 colunas/frame; landmarks entram por colunas com a margem garantindo que tiles unicos nunca aparecem a menos de 2 colunas da borda visivel",
+    "landmark_columns": "arch (cols 15..27), boat (cols 75..95), booth (cols 100..107), net wall (cols 110..118), farolete (cols 152..155) — todos dentro de zonas de camera lock/aproximacao gradual",
+    "bgb_loop_seam": "loop de 512px com costura em x=448..512 mantida so com ceu/mar de baixa frequencia; guindaste em 128..256 e barcos em 320..416 nunca cruzam a costura"
+  },
+  "temporal_variation": [
+    "foam_edge_loop 4f continuo (mais intenso na arena 3)",
+    "lantern_flicker 3f em x=88, 456, 1216 (compartilham tiles)",
+    "boat_bob 3f apenas na linha d'agua do barco (x=600..760)",
+    "far_boat_drift via hscroll na banda 0.25x",
+    "gull_pair sprites ambient (CORTAVEL) — dispersam no primeiro ring-out (FX ligado a gameplay)"
+  ],
+  "status": "documentado — este mapa e autoria de level design; nada aqui esta implementado, buildado ou testado_em_emulador"
+}

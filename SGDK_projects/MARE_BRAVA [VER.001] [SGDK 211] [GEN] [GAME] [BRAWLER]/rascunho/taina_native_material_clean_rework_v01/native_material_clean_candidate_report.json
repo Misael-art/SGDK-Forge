@@ -1,0 +1,513 @@
+{
+  "asset_id": "taina_48x64_native_a1_material_clean_v01",
+  "candidate_sha256": "54df9fd341ad57bdc2c02c62db6366119c7d511ba8e14862666cf487366b2567",
+  "base_a1_sha256": "1033e5a387047c320b9f2bbf6b0bddaafb2d29fd9b74810a40af8001c0947794",
+  "source_a_sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+  "patch_sha256": "6bdeaba407613f675712ff5c23a1404a229125552533cfe84a494a5dbd959bfe",
+  "operations_applied": 70,
+  "material_changes": {
+    "orange_top_to_skin_or_outline_total": 43,
+    "orange_top_to_outline_hem": 7,
+    "orange_top_to_skin_in_abdomen": 14,
+    "orange_top_to_skin_in_arms": 22,
+    "teal_cloth_to_skin_or_outline_in_abdomen": 20,
+    "indigo_trousers_to_skin_or_outline_in_abdomen": 7
+  },
+  "shape_preserved": true,
+  "evidence": {
+    "native_1x": "rascunho/taina_native_material_clean_rework_v01/evidence/native_1x.png",
+    "nearest_8x": "rascunho/taina_native_material_clean_rework_v01/evidence/nearest_8x.png",
+    "light_background": "rascunho/taina_native_material_clean_rework_v01/evidence/light_background.png",
+    "dark_background": "rascunho/taina_native_material_clean_rework_v01/evidence/dark_background.png",
+    "chroma_background": "rascunho/taina_native_material_clean_rework_v01/evidence/chroma_background.png",
+    "camera_320x224": "rascunho/taina_native_material_clean_rework_v01/evidence/camera_320x224.png",
+    "crops": "rascunho/taina_native_material_clean_rework_v01/evidence/crops"
+  },
+  "material_topology": {
+    "status": "passed",
+    "map_method": "explicit_material_ownership_map",
+    "source_reference": {
+      "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+      "sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+      "role": "approved_material_topology_reference"
+    },
+    "material_region_map": {
+      "path": "rascunho/taina_native_material_clean_rework_v01/material_region_map.png",
+      "sha256": "33b0f88fc38f5a890cdf380731c0d7ac0fd15b5bfb8a1d9f0332c206626f4c5a",
+      "asset_id": "taina_48x64_native_a1_material_clean_v01",
+      "scale": "48x64",
+      "source": "rascunho/taina_native_material_clean_rework_v01/taina_48x64_native_a1_material_clean_v01.png"
+    },
+    "material_boundary_overlay": {
+      "path": "rascunho/taina_native_material_clean_rework_v01/material_boundary_overlay.png",
+      "sha256": "40a3211ad5558851928e7c84ceb5c21b1669dd0458322bcd1fe3f2188f74da0c",
+      "asset_id": "taina_48x64_native_a1_material_clean_v01",
+      "scale": "48x64",
+      "source": "rascunho/taina_native_material_clean_rework_v01/taina_48x64_native_a1_material_clean_v01.png"
+    },
+    "material_label_legend": {
+      "hair": 1,
+      "skin": 2,
+      "orange_top": 3,
+      "teal_cloth": 4,
+      "indigo_trousers": 5
+    },
+    "material_label_counts": {
+      "hair": 103,
+      "skin": 384,
+      "orange_top": 57,
+      "teal_cloth": 72,
+      "indigo_trousers": 308
+    },
+    "allowed_palette_indices": {
+      "hair": [
+        2
+      ],
+      "skin": [
+        3,
+        4,
+        5
+      ],
+      "orange_top": [
+        6,
+        7,
+        8
+      ],
+      "teal_cloth": [
+        9,
+        10,
+        11
+      ],
+      "indigo_trousers": [
+        12,
+        13,
+        14
+      ]
+    },
+    "shared_outline_indices": [
+      1
+    ],
+    "critical_boundaries": [
+      {
+        "boundary_id": "top_hem_exposes_abdomen",
+        "material_a": "orange_top",
+        "material_b": "skin",
+        "region": [
+          17,
+          27,
+          28,
+          34
+        ],
+        "minimum_contact_edges": 4
+      },
+      {
+        "boundary_id": "left_top_to_skin",
+        "material_a": "orange_top",
+        "material_b": "skin",
+        "region": [
+          15,
+          20,
+          22,
+          28
+        ],
+        "minimum_contact_edges": 1
+      },
+      {
+        "boundary_id": "right_top_to_skin",
+        "material_a": "orange_top",
+        "material_b": "skin",
+        "region": [
+          24,
+          20,
+          31,
+          28
+        ],
+        "minimum_contact_edges": 1
+      },
+      {
+        "boundary_id": "wraps_to_skin",
+        "material_a": "teal_cloth",
+        "material_b": "skin",
+        "region": [
+          9,
+          20,
+          36,
+          28
+        ],
+        "minimum_contact_edges": 2
+      }
+    ],
+    "blocking_statuses": []
+  },
+  "pixel_contract": {
+    "schema_version": "1.0.0",
+    "tool": "forge_art.pixel_contract",
+    "tool_version": "1.2.0",
+    "width": 48,
+    "height": 64,
+    "bit_depth": 4,
+    "color_type": 3,
+    "visible_colors": 12,
+    "content_sha256": "50c39ef63b8f7c2edfb7c1f6972737bf1c8533a00dc1aeef6e2788f44edae158",
+    "status": "technical_candidate",
+    "blocking_statuses": [],
+    "asset_id": "taina_48x64_native_a1_material_clean_v01",
+    "candidate_path": "rascunho/taina_native_material_clean_rework_v01/taina_48x64_native_a1_material_clean_v01.png",
+    "candidate_sha256": "54df9fd341ad57bdc2c02c62db6366119c7d511ba8e14862666cf487366b2567",
+    "mode": "P",
+    "transparent_index": 0,
+    "filled_pixels": 924,
+    "canvas_pixels": 3072,
+    "bbox": [
+      5,
+      2,
+      43,
+      61
+    ],
+    "occupancy_pct": 30.08
+  },
+  "tile_metrics": {
+    "raw_tiles": 48,
+    "unique_tiles": 30,
+    "vram_unique_bytes": 960,
+    "dma_upper_bound_bytes": 960,
+    "visible_pixels": 924,
+    "bbox": [
+      5,
+      2,
+      43,
+      61
+    ]
+  },
+  "budget": {
+    "asset_id": "taina_48x64_native_a1_material_clean_v01",
+    "candidate_sha256": "54df9fd341ad57bdc2c02c62db6366119c7d511ba8e14862666cf487366b2567",
+    "scale": "48x64",
+    "hardware_cells": {
+      "count": 4,
+      "decomposition": "2x2 <=32x32 VDP cells"
+    },
+    "hero_plus_four_enemies": {
+      "tool_name": "vdp_scanline_simulator",
+      "tool_version": "1.2.0",
+      "status": "ok",
+      "display_mode": "h40",
+      "limits": {
+        "sprites_per_scanline": 20,
+        "pixels_per_scanline": 320
+      },
+      "sprite_count": 5,
+      "hardware_sprite_count": 20,
+      "total_sprite_links": 20,
+      "max_sprites_per_scanline": 10,
+      "max_sprite_pixels_per_scanline": 248,
+      "over_limit_lines": [],
+      "over_pixel_limit_lines": [],
+      "headroom": {
+        "sprite_utilization": 0.5,
+        "pixel_utilization": 0.775,
+        "binding_limit": "sprite_pixels",
+        "peak_utilization": 0.775,
+        "unexploited_threshold": 0.6,
+        "justification": "static geometry challenger budget; no runtime claim",
+        "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+      },
+      "blockers": [],
+      "warnings": []
+    },
+    "next_3_plus_3_comparison_only": {
+      "tool_name": "vdp_scanline_simulator",
+      "tool_version": "1.2.0",
+      "status": "error",
+      "display_mode": "h40",
+      "limits": {
+        "sprites_per_scanline": 20,
+        "pixels_per_scanline": 320
+      },
+      "sprite_count": 7,
+      "hardware_sprite_count": 28,
+      "total_sprite_links": 28,
+      "max_sprites_per_scanline": 14,
+      "max_sprite_pixels_per_scanline": 348,
+      "over_limit_lines": [],
+      "over_pixel_limit_lines": [
+        {
+          "scanline": 128,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 129,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 130,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 131,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 132,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 133,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 134,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 135,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 136,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 137,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 138,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 139,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 140,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 141,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 142,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 143,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 144,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 145,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 146,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 147,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 148,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 149,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 150,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 151,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 152,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 153,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 154,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 155,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 156,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 157,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 158,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 159,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 160,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 161,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 162,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 163,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 164,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 165,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 166,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 167,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 168,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 169,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 170,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 171,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 172,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 173,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 174,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 175,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 176,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 177,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 178,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 179,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 180,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 181,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 182,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 183,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 184,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 185,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 186,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 187,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 188,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 189,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 190,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 191,
+          "sprite_pixels": 348
+        }
+      ],
+      "headroom": {
+        "sprite_utilization": 0.7,
+        "pixel_utilization": 1.087,
+        "binding_limit": "sprite_pixels",
+        "peak_utilization": 1.087,
+        "unexploited_threshold": 0.6,
+        "justification": "static geometry challenger budget; no runtime claim",
+        "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+      },
+      "blockers": [
+        "sprite_pixels_per_scanline_over_320"
+      ],
+      "warnings": []
+    },
+    "measurement_level": "measured"
+  },
+  "status": "technical_candidate",
+  "native_visual": "pending_human_decision",
+  "human": "pending_human_decision",
+  "promotable": false,
+  "res_touched": false,
+  "animation_authorization": false
+}

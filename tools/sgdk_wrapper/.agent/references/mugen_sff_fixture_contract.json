@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "mugen_sff_showdown",
+  "title": "MUGEN SFF Showdown (future canonical fixture)",
+  "status": "conservative_future_fixture",
+  "tooling": {
+    "existing_tool_path": "tools/mugen2sgdk",
+    "existing_tool_status": "legacy_gui_tool_without_cli",
+    "assumption_policy": "do_not_assume_works_without_audit"
+  },
+  "inputs": {
+    "location_policy": "inputs_must_be_copied_into_project_rascunho_and_hashed",
+    "required": [
+      {
+        "kind": "mugen_sff",
+        "path": "rascunho/mugen/*.sff"
+      },
+      {
+        "kind": "mugen_def",
+        "path": "rascunho/mugen/*.def"
+      }
+    ]
+  },
+  "expected_outputs": {
+    "assets": [
+      {
+        "kind": "sgdk_assets",
+        "path": "res/"
+      },
+      {
+        "kind": "resources_res",
+        "path": "res/resources.res"
+      }
+    ],
+    "viewer": [
+      {
+        "kind": "viewer_rom",
+        "path": "out/rom.bin"
+      },
+      {
+        "kind": "blastem_screenshot",
+        "path": "out/captures/*.png"
+      },
+      {
+        "kind": "blastem_evidence",
+        "path": "out/logs/blastem_evidence.json"
+      },
+      {
+        "kind": "save_sram",
+        "path": "out/captures/save.sram"
+      },
+      {
+        "kind": "visual_vdp_dump",
+        "path": "out/captures/visual_vdp_dump.bin",
+        "required_for_budget_promotion": true
+      }
+    ],
+    "reports": [
+      {
+        "kind": "scene_tilemap_conversion_report",
+        "path": "out/logs/scene_tilemap_conversion_report.json",
+        "required_fields": [
+          "world_dimensions",
+          "viewport_dimensions",
+          "runtime_streaming"
+        ]
+      },
+      {
+        "kind": "tilemap_flag_report",
+        "path": "out/logs/tilemap_flag_report.json",
+        "note": "frame_index is allowed for animated or multi-frame SFF-derived stages"
+      },
+      {
+        "kind": "per_tile_palette_conflict_report",
+        "path": "out/logs/per_tile_palette_conflict_report.json"
+      },
+      {
+        "kind": "res_graph_report",
+        "path": "out/logs/res_graph_report.json",
+        "note": "custom BIN resources prove packaging only; runtime tile residency still needs evidence"
+      },
+      {
+        "kind": "vram_budget_report",
+        "path": "out/logs/scene_budget_report.json"
+      },
+      {
+        "kind": "validation_report",
+        "path": "out/logs/validation_report.json"
+      }
+    ]
+  },
+  "runtime_budget_policy": {
+    "world_stage_policy": "Large MUGEN stages must separate world_dimensions, viewport_dimensions and runtime_streaming; flat ad hoc fields are not a valid contract.",
+    "custom_bin_policy": "BIN_CUSTOM_TILE_GRAPHICS_AND_TILEMAP_WINDOW_STREAMING may describe the packaging strategy, but it is not proof that the resident set fits in VRAM.",
+    "promotion_rule": "validado_budget requires measured runtime evidence tied to the ROM hash, preferably visual_vdp_dump or equivalent VDP/VRAM telemetry; estimated cache math remains lab evidence."
+  },
+  "failure_policy": {
+    "if_no_cli": "register_tool_first_audit_fixture_skip_reason_and_block_canonical_use",
+    "if_tool_fails": "justify_alternative_parser_only_after_tool_first_audit_decision"
+  }
+}

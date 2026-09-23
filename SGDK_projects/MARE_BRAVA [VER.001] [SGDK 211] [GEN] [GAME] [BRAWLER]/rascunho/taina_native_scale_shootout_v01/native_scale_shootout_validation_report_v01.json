@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0.0",
+  "status": "passed_for_human_scale_gate_only",
+  "claim_ceiling": "pending_human_scale_decision",
+  "native_candidate_count": 0,
+  "res_promotion": false,
+  "animation_authorization": false,
+  "visual_pass": false,
+  "source_visuals": [
+    {
+      "scale": "48x64",
+      "path": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_48x64_visual_source_v01.png",
+      "sha256": "331ef5f4d0a16d8dee525229333c558fc0954c07b49a7ef2d7c46d606aa51301",
+      "dimensions_on_disk": [1086, 1448],
+      "format": "RGB PNG",
+      "status": "visual_lab_control"
+    },
+    {
+      "scale": "56x80",
+      "path": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_56x80_visual_source_v01.png",
+      "sha256": "32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f",
+      "dimensions_on_disk": [1049, 1499],
+      "format": "RGB PNG",
+      "status": "visual_lab_control"
+    },
+    {
+      "scale": "64x96",
+      "path": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_64x96_visual_source_v01.png",
+      "sha256": "b16e0cbebd5c4595ec875384476a8622cdafc5d3265160bdb71780265d613e8d",
+      "dimensions_on_disk": [1024, 1536],
+      "format": "RGB PNG",
+      "status": "visual_lab_control"
+    }
+  ],
+  "mechanical_probes": [
+    {
+      "scale": "48x64",
+      "path": "out/visual_jobs/taina_idle_guard_48x64_mechanical_probe_v01/09770def4f69d083/basic/taina_idle_guard_48x64_mechanical_probe_v01.png",
+      "sha256": "a532d25463a49b28610f0fa02f6e0af43f8bef60c83862b06939c154821612d0",
+      "content_sha256": "64d0bfb0db61b5271cf00838fa1a32f71ce8d1d8398ee12c260fe85f51ef2293",
+      "contract": "P/4bpp, PLTE 16, 48x64, 15 visible colors, grid valid, index0_role=unused0",
+      "status": "technical_candidate_not_sprite"
+    },
+    {
+      "scale": "56x80",
+      "path": "out/visual_jobs/taina_idle_guard_56x80_mechanical_probe_v01/ec0e708b34062c19/basic/taina_idle_guard_56x80_mechanical_probe_v01.png",
+      "sha256": "8faade706e43a0078937dd4407f802b78c46a924f46c5a407aecca87be1e4b6d",
+      "content_sha256": "914e74565031d4671ab4a0fe120b3ab6ee692eb92410592c857b1e6d31535496",
+      "contract": "P/4bpp, PLTE 16, 56x80, 15 visible colors, grid valid, index0_role=unused0",
+      "status": "technical_candidate_not_sprite"
+    },
+    {
+      "scale": "64x96",
+      "path": "out/visual_jobs/taina_idle_guard_64x96_mechanical_probe_v01/61a3354c6981da34/basic/taina_idle_guard_64x96_mechanical_probe_v01.png",
+      "sha256": "080c4551297b4981f9eee1b92cced97e475defda6e90853f4a2f010c97da3279",
+      "content_sha256": "b7aea97be6ffdad44955aa5c7217cb61f4e3c4443717a9acabe1ff193b7bd0b9",
+      "contract": "P/4bpp, PLTE 16, 64x96, 15 visible colors, grid valid, index0_role=unused0",
+      "status": "technical_candidate_not_sprite"
+    }
+  ],
+  "translation_requests": {
+    "route": "assisted_native_translation",
+    "status": "recorded_handoff_blocked_pending_capable_native_pixel_authoring",
+    "outputs": "none",
+    "reason": "forge-art translate deliberately does not synthesize native pixels"
+  },
+  "visual_evidence": {
+    "scale_panel": "rascunho/taina_native_scale_shootout_v01/taina_native_scale_shootout_evidence_panel.png",
+    "scale_panel_sha256": "34da738d829b7779fd487e541869f7f028364145e867a2cf59ce5a7c205a8daa",
+    "direct_control_panel": "rascunho/taina_native_scale_shootout_v01/taina_direct_control_comparison_panel.png",
+    "direct_control_panel_sha256": "80457d20702effd774f8a0f964bac482452ebe00563ff9d6bf41eb11eafe38c3",
+    "semantic_review": "rascunho/taina_native_scale_shootout_v01/taina_native_scale_semantic_review_v01.json"
+  },
+  "budget": {
+    "display_mode": "h40",
+    "mechanical_probe_tile_storage": {
+      "48x64": {"raw_tiles": 48, "unique_tiles": 27, "vram_unique_bytes": 864, "dma_upload_upper_bound_bytes": 864},
+      "56x80": {"raw_tiles": 70, "unique_tiles": 43, "vram_unique_bytes": 1376, "dma_upload_upper_bound_bytes": 1376},
+      "64x96": {"raw_tiles": 96, "unique_tiles": 49, "vram_unique_bytes": 1568, "dma_upload_upper_bound_bytes": 1568}
+    },
+    "hero_plus_four_enemies": {
+      "48x64": {"status": "ok", "sprite_links": 12, "max_sprites_per_scanline": 6, "max_sprite_pixels_per_scanline": 176},
+      "56x80": {"status": "ok", "sprite_links": 14, "max_sprites_per_scanline": 6, "max_sprite_pixels_per_scanline": 184},
+      "64x96": {"status": "ok", "sprite_links": 14, "max_sprites_per_scanline": 6, "max_sprite_pixels_per_scanline": 192}
+    },
+    "hero_plus_six_enemy_stress": {
+      "48x64": {"status": "error", "blocker": "sprite_pixels_per_scanline_over_320", "sprite_links": 28, "max_sprites_per_scanline": 14, "max_sprite_pixels_per_scanline": 348},
+      "56x80": {"status": "error", "blocker": "sprite_pixels_per_scanline_over_320", "sprite_links": 30, "max_sprites_per_scanline": 14, "max_sprite_pixels_per_scanline": 356},
+      "64x96": {"status": "error", "blocker": "sprite_pixels_per_scanline_over_320", "sprite_links": 30, "max_sprites_per_scanline": 14, "max_sprite_pixels_per_scanline": 364}
+    },
+    "reports_dir": "rascunho/taina_native_scale_shootout_v01/budget"
+  },
+  "tool_checks": {
+    "forge_art_self_check": "111/111",
+    "measurement_tools_self_check": "passed",
+    "project_context": "passed aaa_game planning",
+    "project_hygiene": "passed",
+    "project_methodology": "passed",
+    "asset_provenance_audit": "OK",
+    "res_touched": false
+  },
+  "next_human_decision": {
+    "decision": "choose_one_scale_for_native_authoring",
+    "allowed_assets": [
+      "taina_idle_guard_48x64_visual_source_v01",
+      "taina_idle_guard_56x80_visual_source_v01",
+      "taina_idle_guard_64x96_visual_source_v01"
+    ],
+    "required_fields": ["decision", "asset_id", "sha256", "scale"],
+    "note": "This gate selects scale for the next native redraw; it does not approve res/, animation, ROM, visual_pass or AAA claim."
+  }
+}

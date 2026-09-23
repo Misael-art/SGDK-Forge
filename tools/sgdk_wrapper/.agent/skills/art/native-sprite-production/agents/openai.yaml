@@ -1,0 +1,12 @@
+interface:
+  display_name: "Native Sprite Production"
+  short_description: "Leva fonte visual ate sprite nativa SGDK auditavel"
+  brand_color: "#D46A1F"
+  default_prompt: "Use $native-sprite-production para conduzir este personagem ou objeto da fonte aprovada ate uma sprite nativa SGDK. Separe produtor visual de autoria nativa, meca escala e paleta, falhe fechado em falsos verdes e pare apenas nos gates humanos ou de hardware realmente criticos."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []
+

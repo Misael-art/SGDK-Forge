@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://sgdk-forge.local/schemas/runtime_admission_report.schema.json",
+  "title": "runtime_admission_report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "report_kind",
+    "generated_at",
+    "admission_type",
+    "status",
+    "runtime_admitted",
+    "technical_runtime_admitted",
+    "runtime_lab_admitted",
+    "visual_status_promotion_allowed",
+    "claim_ceiling",
+    "manual_approval_required",
+    "input_fingerprint",
+    "blocking_statuses",
+    "forbidden_claims",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.[0-9]+\\.[0-9]+$"
+    },
+    "report_kind": {
+      "type": "string",
+      "enum": ["runtime_admission_report"]
+    },
+    "template_seed": {
+      "type": "boolean"
+    },
+    "template_prevalidated": {
+      "type": "boolean"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "admission_type": {
+      "type": "string",
+      "enum": ["production_visual", "technical", "lab"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["blocked", "admitted_technical", "admitted_lab", "admitted_production_visual"]
+    },
+    "runtime_admitted": {
+      "type": "boolean"
+    },
+    "technical_runtime_admitted": {
+      "type": "boolean"
+    },
+    "runtime_lab_admitted": {
+      "type": "boolean"
+    },
+    "visual_status_promotion_allowed": {
+      "type": "boolean"
+    },
+    "claim_ceiling": {
+      "type": "string",
+      "enum": [
+        "documented_visual_route_only",
+        "technical_runtime_only",
+        "lab_not_delivery",
+        "production_visual_runtime"
+      ]
+    },
+    "manual_approval_required": {
+      "type": "boolean"
+    },
+    "route_report_ref": {
+      "type": ["string", "null"]
+    },
+    "route_report_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "technical_change_scope_ref": {
+      "type": ["string", "null"]
+    },
+    "technical_change_scope_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "lab_reason": {
+      "type": ["string", "null"]
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "blocking_statuses": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "forbidden_claims": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

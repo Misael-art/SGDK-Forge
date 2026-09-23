@@ -1,0 +1,20 @@
+{
+  "lesson_id": "L102",
+  "date": "2026-09-15",
+  "topic": "p11_release_inventory",
+  "source": "engine_handoff_inventory_and_isolated_reproduction",
+  "problem": "O manual P11 descrevia controles e extensão, mas não havia uma lista verificável que impedisse um handoff sem fontes, documentação ou evidências mínimas.",
+  "change": "Criado `doc/engine/release_inventory.json` com identidade da ROM e listas de fontes/runtime, documentação e bundles; o runner P11 agora valida caminhos e mantém o estado candidate_not_release.",
+  "result": "Todos os caminhos obrigatórios do inventário existem no worktree e a reprodução isolada continua compilando o contrato StageDefinition.",
+  "limits": [
+    "o inventário não promove assets placeholder nem substitui revisão visual/auditiva",
+    "não fecha gameplay completo, pior-frame SGDK, streaming nativo ou hardware",
+    "o SHA listado precisa ser atualizado após qualquer novo build"
+  ],
+  "artifacts": [
+    "doc/engine/release_inventory.json",
+    "tests/reproduce_p11_isolated.py",
+    "tests/test_p11_isolated_reproduction_contract.py"
+  ],
+  "status": "candidate_inventory_validated_release_gates_pending"
+}

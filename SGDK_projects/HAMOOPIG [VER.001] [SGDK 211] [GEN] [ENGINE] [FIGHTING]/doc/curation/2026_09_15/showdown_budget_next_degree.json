@@ -1,0 +1,34 @@
+{
+  "lesson_id": "L077",
+  "date": "2026-09-15",
+  "title": "Medir o próximo degrau de tiles antes de promovê-lo",
+  "scope": "P08 Showdown VRAM",
+  "experiment": [
+    {
+      "budget": 768,
+      "mse_rgb": 177.02955118815103,
+      "status": "accepted_safe_candidate"
+    },
+    {
+      "budget": 864,
+      "mse_rgb": 138.7790323893229,
+      "status": "rejected_vram_contract",
+      "output": "rascunho/showdown_candidate_864.png"
+    },
+    {
+      "budget": 1024,
+      "mse_rgb": 84.8590596516927,
+      "status": "rejected_vram_contract",
+      "output": "rascunho/showdown_candidate_1024.png"
+    }
+  ],
+  "cause": "O sprite engine SGDK 2.11 inicia em TILE_SPRITE_INDEX=1020 nesta organização; stage + HUD + tile inicial excedem esse limite acima de 768.",
+  "correction": "manter o PNG de 768 tiles e registrar streaming/cache por janela como próximo trabalho, sem sobrepor VRAM para melhorar apenas a aparência",
+  "preventive_test": "src/init.c verifica stageTiles + hudTiles antes de carregar o palco",
+  "limitations": [
+    "o MSE é métrica de conversão, não aprovação visual",
+    "streaming de padrões ainda não foi implementado",
+    "cenário permanece candidate/prototype"
+  ],
+  "status": "measured_and_rejected_unsafe_degrees"
+}

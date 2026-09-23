@@ -1,0 +1,80 @@
+{
+  "generated_by": "Codex",
+  "scope": "R2 mechanical corrections only; source candidates only; no res/ promotion",
+  "rgb333_project_grid": [
+    0,
+    36,
+    73,
+    109,
+    146,
+    182,
+    219,
+    255
+  ],
+  "luminance_formula": "(0.2126*R + 0.7152*G + 0.0722*B) / 255",
+  "r2_02": {
+    "source": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-02/layers.png",
+    "output": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-02/layers.png",
+    "method": "palette-snapped multiplicative darkening limited to y>=730",
+    "layer_5_bounds": {
+      "x": [
+        0,
+        1279
+      ],
+      "y": [
+        730,
+        895
+      ]
+    },
+    "selected_scale": 0.501,
+    "palette_snap_micro_dither": {
+      "pixels": 4454,
+      "purpose": "enter the requested luminance interval after discrete RGB333 snapping"
+    },
+    "layer_5_luminance_srgb_weighted": 0.269899,
+    "layers_1_to_4_pixel_diff": 0,
+    "palette_colors": 47,
+    "sha256": "93710b6d70231a2e6235c041987b3d09c4742ebf681423c1da20174206c91c85"
+  },
+  "r2_03": {
+    "source": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-03/concept.png",
+    "output": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-03/concept.png",
+    "method": "exact RGB replacement only; no geometry, crop, or resampling",
+    "palette_colors": 13,
+    "forbidden_pixel_counts": {
+      "(255, 0, 219)": 0,
+      "(219, 0, 219)": 0
+    },
+    "key_pixel_count": 660729,
+    "changed_pixel_count": 612422,
+    "sha256": "be41bc6f577ccc4de0c8d01f53d6b6ddccf5afb2ab7ff259fab3c5db8ab26f3e"
+  },
+  "r2_04": {
+    "source": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r1/r1-04/concept.png",
+    "output": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-04/concept.png",
+    "method": "exact RGB replacement only; no geometry, crop, or resampling",
+    "palette_colors": 13,
+    "forbidden_pixel_counts": {
+      "(219, 0, 219)": 0,
+      "(219, 36, 182)": 0
+    },
+    "key_pixel_count": 402077,
+    "changed_pixel_count": 11441,
+    "sha256": "7f4cf36c7509c5bfbe1913ee4001c3e2ff828b68673a3d9e3bcf3ee2690c689d"
+  },
+  "r2_01": {
+    "source": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-01/floating_pose_r2_crop.png",
+    "output": "SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/data/source_art/r2/r2-01/floating_pose_r2_crop.png",
+    "method": "compact central midtone cluster after localized image edit",
+    "midtone_rgb": [
+      255,
+      146,
+      182
+    ],
+    "visible_character_pixels": 15387,
+    "midtone_pixels": 1539,
+    "midtone_percent_of_character": 10.00195,
+    "palette_colors": 11,
+    "sha256": "b5e86804dac69f491a314bea8387c15639bc2a0ca98189d411ad5cb9c33722b0"
+  }
+}

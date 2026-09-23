@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Visual production workset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project_id",
+    "active_epoch",
+    "state",
+    "production_sources",
+    "reference_only_sources",
+    "forbidden_source_roots",
+    "forbidden_source_roles",
+    "allowed_operations"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "project_id": {"type": "string", "pattern": "[a-z0-9_]+"},
+    "active_epoch": {"type": "string", "pattern": "[a-z0-9_]+"},
+    "state": {"enum": ["active_production", "frozen_case_study"]},
+    "production_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "path", "sha256", "role", "status"],
+        "properties": {
+          "asset_id": {"type": "string", "pattern": "[a-z0-9_]+"},
+          "path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "[a-f0-9]{64}"},
+          "role": {"enum": ["identity_authority", "translation_source"]},
+          "status": {"const": "eligible"}
+        }
+      }
+    },
+    "reference_only_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "path", "sha256", "role", "status"],
+        "properties": {
+          "asset_id": {"type": "string", "pattern": "[a-z0-9_]+"},
+          "path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "[a-f0-9]{64}"},
+          "role": {
+            "enum": [
+              "pose_reference",
+              "style_reference",
+              "quality_reference_only",
+              "positive_case_evidence",
+              "negative_case_evidence"
+            ]
+          },
+          "status": {"const": "reference_only"}
+        }
+      }
+    },
+    "forbidden_source_roots": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "forbidden_source_roles": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "negative_evidence",
+          "comparison_only",
+          "visual_lab_control",
+          "technical_temporal_probe",
+          "procedural_code_probe",
+          "historical_superseded",
+          "runtime_evidence_only"
+        ]
+      }
+    },
+    "allowed_operations": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "read_only_audit",
+          "pixel_validate",
+          "route_verify",
+          "case_study_review",
+          "source_audit",
+          "technical_conversion",
+          "mechanical_route_shootout",
+          "procedural_edit_probe",
+          "native_authoring",
+          "res_promotion"
+        ]
+      }
+    },
+    "freeze_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "frozen_at", "reason", "case_study_path", "reactivation_requires"],
+      "properties": {
+        "decision": {"const": "freeze_visual_production_as_case_study"},
+        "frozen_at": {"type": "string"},
+        "reason": {"type": "string"},
+        "case_study_path": {"type": "string"},
+        "reactivation_requires": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        }
+      }
+    }
+  }
+}

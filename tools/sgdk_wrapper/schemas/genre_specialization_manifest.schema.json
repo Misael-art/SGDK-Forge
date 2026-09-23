@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/genre_specialization_manifest.schema.json",
+  "title": "Project Genre Specialization Manifest",
+  "description": "Per-project opt-in declaration that activates a genre specialization from the registry. Presence of this file is the only way to activate a specialization. Activation is human-declared. Without this file, fighting-game-design orchestrator stays dormant and the project follows the generalista pipeline.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "registry_source",
+    "active_specializations",
+    "human_authorization"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "name",
+        "project_root_policy"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "project_root_policy": {
+          "type": "string",
+          "const": "all_project_material_inside_project"
+        }
+      },
+      "additionalProperties": true
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "active_specializations": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "specialization_id",
+          "activation_reason",
+          "design_contract_path",
+          "evidence",
+          "doc_refs"
+        ],
+        "properties": {
+          "specialization_id": {
+            "type": "string",
+            "pattern": "^(fighting_2d_traditional|rpg_turn_based_jrpg|strategy_tower_defense|brawler_belt_scroll|platformer_precision_2d|racing_arcade)$",
+            "description": "Active specialization id. Pattern expands per Wave (currently fighting + rpg + strategy + brawler + platformer + racing)."
+          },
+          "activation_reason": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Human-authored sentence explaining why this specialization is needed for this project."
+          },
+          "design_contract_path": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Project-relative path to the design contract JSON instance (e.g. doc/fighting_2d_design_contract.json or doc/rpg_turn_based_jrpg_design_contract.json)."
+          },
+          "evidence": {
+            "type": "object",
+            "required": [
+              "gdd_section_ref"
+            ],
+            "properties": {
+              "gdd_section_ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tdd_section_ref": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "curation_source_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "doc_refs": {
+            "type": "array",
+            "minItems": 3,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "freeze_axes_acknowledgement": {
+            "type": "boolean",
+            "const": true,
+            "description": "Human must acknowledge the registry's frozen_design_axes before activation."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "human_authorization": {
+      "type": "object",
+      "required": [
+        "authorized_at",
+        "author_role"
+      ],
+      "properties": {
+        "authorized_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

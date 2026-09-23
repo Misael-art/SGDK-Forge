@@ -1,0 +1,31 @@
+{
+  "action_reviews": {
+    "run": {
+      "evidence_refs": [
+        {
+          "action": "run",
+          "evidence_kind": "artifact_inspection",
+          "path": "evidence/run_diagnostic.json",
+          "sha256": "c7e1c93901650cd8be1ed86a777e7a8daaaa2ab444a9e7df17e2384df4b172a8",
+          "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+        }
+      ],
+      "must_preserve_findings": [
+        {
+          "feature": "invented_top_tuft",
+          "status": "failed"
+        }
+      ],
+      "observations": [
+        "run: diagnostic review is bound to this strip"
+      ],
+      "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+    }
+  },
+  "action_subject_sha256": {
+    "run": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+  },
+  "review_type": "agent_curated_diagnostic_review",
+  "status": "passed",
+  "subject_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+}

@@ -1,0 +1,26 @@
+{
+  "lesson_id": "L086",
+  "date": "2026-09-15",
+  "topic": "showdown_864_tile_promotion",
+  "source": "measured_tile_budget_candidate_and_same_rom_probe",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "O Showdown de 768 representantes ainda apresentava textura quadriculada e MSE RGB 177.0296; o próximo degrau precisava ser medido antes de alterar o runtime.",
+  "change": "Promover o candidato determinístico de 864 tiles, quatro iterações de medoid, mantendo 512x256, índice 0 reservado e o guard `stageTiles + hudTiles > TILE_SPRITE_INDEX`. O candidato de 1024 permanece rejeitado.",
+  "result": "MSE RGB caiu para 138.7790. Build SGDK/Wine passou; probe NTSC registrou 7.000 B DMA, 41 sprites ativos, 58 links VDP e 17 sprites/scanline; a matriz P10 completa foi recapturada no mesmo SHA.",
+  "limits": [
+    "a fonte continua fixture técnico de estudo, não arte autoral final",
+    "a promoção não fecha revisão visual independente nem parallax/streaming",
+    "HPRB de smoke route não substitui pior-frame independente nem gameplay completo"
+  ],
+  "artifacts": [
+    "res/gfx/showdown.png",
+    "res/gfx/showdown.json",
+    "rascunho/showdown_candidate_864.json",
+    "tests/test_stage_palette.py",
+    "tests/test_stage_vram_budget.py",
+    "out/logs/experimental_showdown_864_build.log",
+    "out/emulator_evidence/visual_ko_20260915T112945Z/",
+    "out/logs/p10_matrix_hprb_summary.json"
+  ],
+  "status": "documented_build_runtime_probe_pass_visual_review_pending"
+}

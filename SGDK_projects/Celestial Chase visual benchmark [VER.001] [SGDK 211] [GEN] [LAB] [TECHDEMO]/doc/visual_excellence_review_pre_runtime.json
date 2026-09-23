@@ -1,0 +1,64 @@
+{
+  "schema": "visual_excellence_review_pre_runtime_v1",
+  "project": "Celestial Chase visual benchmark",
+  "scene": "chase_first_playable",
+  "status": "blocked_pending_runtime_translation",
+  "review_date": "2026-06-04",
+  "incumbent_visual_direction": {
+    "status": "locked",
+    "source": "master_style_manifest.json",
+    "summary": "Vibrant 16-bit celestial desert chase with strong navy, indigo and gold hierarchy."
+  },
+  "accepted_incumbents": [
+    {
+      "asset_family": "hero_sprite",
+      "policy": "preserve_source_baked_pixels",
+      "status": "accepted_incumbent_pending_motion_gate"
+    },
+    {
+      "asset_family": "pursuer_sprite",
+      "policy": "preserve_source_baked_pixels",
+      "status": "accepted_incumbent_pending_motion_gate"
+    },
+    {
+      "asset_family": "dust_sprite",
+      "policy": "preserve_source_baked_pixels",
+      "status": "accepted_incumbent_pending_motion_gate"
+    }
+  ],
+  "approved_source_direction": {
+    "candidate": "runtime_split_candidates_v007",
+    "status": "approved_as_translation_source",
+    "runtime_status": "not_yet_approved",
+    "must_keep": [
+      "celestial night atmosphere",
+      "gold road focal line",
+      "deep horizon",
+      "clear hero and obstacle silhouette"
+    ]
+  },
+  "rejected_runtime_surfaces": [
+    {
+      "surface": "current_flat_chase_background",
+      "reason": "Fails depth, material richness and gameplay-linked temporal variation."
+    },
+    {
+      "surface": "development_menu",
+      "reason": "Does not express the locked visual direction or the playable slice."
+    }
+  ],
+  "mandatory_corrections": [
+    "Translate v007 into measured BG_B and BG_A derivatives with shared canvas.",
+    "Translate obstacle and FX source sheets into gameplay-readable runtime sprites.",
+    "Implement authored HUD and result surfaces.",
+    "Measure unique tiles, palettes, sprite scanline pressure and VBlank cost.",
+    "Capture the current ROM in BlastEm before any delivery claim."
+  ],
+  "promotion_gate": {
+    "asset_ok": false,
+    "visual_ok": false,
+    "hardware_ok": false,
+    "emulator_ok": false,
+    "human_motion_approval": false
+  }
+}

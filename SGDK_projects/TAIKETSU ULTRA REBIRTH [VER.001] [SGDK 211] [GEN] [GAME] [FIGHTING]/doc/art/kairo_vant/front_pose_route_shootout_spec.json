@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "data/source_art/kairo_vant/kairo_vant_front_pose_source_v01.png",
+  "source_triage_report_path": "out/logs/front_pose_source_triage_report.json",
+  "source_class": "high_res_full_body_character",
+  "output_dir": "out/art/kairo_vant_front_route_shootout",
+  "target": {
+    "width": 32,
+    "height": 40,
+    "anchor": "bottom_center"
+  },
+  "route_policy": "all_applicable",
+  "include_negative_controls": true,
+  "include_unavailable_placeholders": true,
+  "scale_contract_path": "doc/art/kairo_vant/visual_source_of_truth.json"
+}

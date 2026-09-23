@@ -6,11 +6,33 @@ setlocal
 
 call "%~dp0load_project_context.bat" "%~1"
 if errorlevel 1 exit /b 1
+if defined SGDK_WRAPPER_TRACE echo [TRACE] after_load_project_context
 
 if /I "%SGDK_BUILD_POLICY%"=="disabled" (
     echo [SGDK Wrapper] Pacote de referencia detectado: %SGDK_DISPLAY_NAME%
     echo [SGDK Wrapper] Build desativado por manifesto. Consulte README.md e doc\.
-    exit /b 0
+    endlocal & set "SGDK_BUILD_SKIPPED=1" & exit /b 0
+)
+
+if defined SGDK_WRAPPER_TRACE echo [TRACE] before_detect_operational_loop
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0detect_operational_loop.ps1" -ProjectRoot "%SGDK_PROJECT_ROOT%" -OutputPath "%SGDK_PROJECT_ROOT%\out\logs\operational_loop_report.json"
+if errorlevel 1 (
+    echo [ERROR] Build blocked: operational_loop_detected
+    echo [ERROR] Fix dominant blocker or add doc\operational_loop_decision.json ^(valid^) to unlock.
+    endlocal & exit /b 1
+)
+if defined SGDK_WRAPPER_TRACE echo [TRACE] after_detect_operational_loop
+
+set "SGDK_PROGRESS_WARNING=0"
+for /f "usebackq delims=" %%I in (`powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p='%SGDK_PROJECT_ROOT%\out\logs\operational_loop_report.json'; if (Test-Path -LiteralPath $p) { $r=Get-Content -Raw -LiteralPath $p ^| ConvertFrom-Json; if ($r.progress_warning) { '1' } else { '0' } } else { '0' }"`) do set "SGDK_PROGRESS_WARNING=%%I"
+if "%SGDK_PROGRESS_WARNING%"=="1" (
+    echo [SGDK Wrapper] Repeated blockers detected. Verifying explicit blocker-removal intent...
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0audit_meaningful_change.ps1" -ProjectRoot "%SGDK_PROJECT_ROOT%" -RequireIntent -TargetBlocker "%SGDK_TARGET_BLOCKER%" -ChangeCategory "%SGDK_CHANGE_CATEGORY%" -ChangeDiffSummary "%SGDK_CHANGE_SUMMARY%" -OutputPath "%SGDK_PROJECT_ROOT%\out\logs\meaningful_change_report.json"
+    if errorlevel 1 (
+        echo [ERROR] Build blocked: declare SGDK_TARGET_BLOCKER, SGDK_CHANGE_CATEGORY and SGDK_CHANGE_SUMMARY.
+        echo [ERROR] The target blocker must exist in the current validation report and the change must attack it.
+        endlocal & exit /b 1
+    )
 )
 
 cd /d "%SGDK_WORK_DIR_SHORT%" >nul 2>&1
@@ -25,8 +47,10 @@ if errorlevel 1 (
 )
 
 set "ENV_STDERR=%TEMP%\sgdk_env_stderr_%RANDOM%.txt"
+if defined SGDK_WRAPPER_TRACE echo [TRACE] before_env
 call "%~dp0env.bat" "%SGDK_PROJECT_ROOT%" 2> "%ENV_STDERR%"
 set "ENV_RC=%ERRORLEVEL%"
+if defined SGDK_WRAPPER_TRACE echo [TRACE] after_env rc=%ENV_RC%
 if exist "%ENV_STDERR%" (
     for /f "usebackq delims=" %%L in ("%ENV_STDERR%") do (
         echo %%L | findstr /I /C:"O sistema" >nul 2>&1
@@ -48,8 +72,19 @@ if not exist "%GDK%\makefile.gen" (
     exit /b 1
 )
 
+REM Enforce the Windows-specific route and GCC/libmd.a LTO provenance before
+REM entering make. Exit 2 means optional preflight warnings and is non-blocking;
+REM exit 1 means the host/toolchain route is unsafe.
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0preflight_host.ps1" -RepoRoot "%MD_ROOT%" -ProjectRoot "%SGDK_PROJECT_ROOT%"
+set "SGDK_PREFLIGHT_RC=%ERRORLEVEL%"
+if not "%SGDK_PREFLIGHT_RC%"=="0" if not "%SGDK_PREFLIGHT_RC%"=="2" (
+    echo [ERROR] Build blocked by host/toolchain route preflight.
+    exit /b %SGDK_PREFLIGHT_RC%
+)
+
 echo [SGDK Wrapper] Building project in: %SGDK_WORK_DIR%
 echo [SGDK Wrapper] Layout: %SGDK_LAYOUT% (%SGDK_RESOLUTION_REASON%)
 
 call "%~dp0build_inner.bat"
-endlocal & exit /b %ERRORLEVEL%
+set "SGDK_BUILD_INNER_RC=%ERRORLEVEL%"
+endlocal & exit /b %SGDK_BUILD_INNER_RC%

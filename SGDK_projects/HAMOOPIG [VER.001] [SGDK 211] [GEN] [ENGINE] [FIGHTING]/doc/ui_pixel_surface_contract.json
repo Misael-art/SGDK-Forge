@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "document_kind": "hud_pixel_surface_contract",
+  "owner": "src/hud.c",
+  "palette_owner": "PAL1",
+  "transparent_index": 0,
+  "clock": {
+    "source_atlas": "res/sprite/hud/clock_digits_window.png",
+    "runtime_atlas": "res/sprite/hud/clock_digits_transparent.png",
+    "source_background_index": 11,
+    "mask_rule": "source index 11 -> runtime index 0; all other pixels nearest shared PAL1",
+    "cell_px": [16, 16],
+    "frames": 10,
+    "positions_px": {"left": [144, 24], "right": [160, 24]},
+    "priority": 3,
+    "visibility_flag": "gConfig.hudTimer",
+    "source_sha256": "5c027389221d9632a63ced140ac21be1ff17994d4e061db40fbce9112a912ab2",
+    "runtime_sha256": "3a10eafcc86bff7d7b4b426274f3826f78ffa16f3c994781d0dc3c07be06ecfd",
+    "mask_report": "data/source_art/sf_hud/clock_mask_report.json"
+  },
+  "life": {
+    "renderer": "compact_shared_sprite_cells",
+    "segments_per_player": 8,
+    "positions_px": {"p1": [8, 4], "p2": [184, 4]},
+    "step_px": 16,
+    "visibility_flag": "gConfig.hudLifeBar"
+  },
+  "special": {
+    "renderer": "WINDOW_repeated_cells",
+    "cells_per_player": 8,
+    "tile_row": 2,
+    "columns": {"p1": 1, "p2": 23},
+    "value_range": [0, 32],
+    "visibility_flag": "gConfig.hudSpecialBar"
+  },
+  "combo": {
+    "renderer": "WINDOW_attacker_anchored_message_font",
+    "tile_row": 13,
+    "tile_rows": 4,
+    "columns": {"p1": 1, "p2": 25},
+    "labels": {"event": "RUSH", "count": "00 HITS"},
+    "display_threshold": 2,
+    "display_window_ticks": 60,
+    "visibility_flag": "gConfig.hudHitCount"
+  },
+  "background_policy": {
+    "timer_background": "transparent_by_default",
+    "timer_background_toggle": "gConfig.hudTimerBg",
+    "contrast_panel_geometry": {"x_col": 17, "row": 3, "cols": 6, "rows": 2},
+    "full_width_black_panel": false,
+    "contrast_panel": "optional compact 6x2 tile clock surround; transient result messages remain separate",
+    "stage_visible_behind_hud": true
+  },
+  "title": {
+    "scene_source": "res/gfx/title_scene.png",
+    "source_intermediates": ["res/gfx/title_backdrop.png", "res/gfx/title_logo_overlay.png"],
+    "scene_tiles": 151,
+    "scene_tile_base": 1,
+    "font_tile_base": 1000,
+    "palette_owners": {"scene_backdrop_and_logo": "PAL0", "menu": "PAL1", "accent": "PAL3"},
+    "full_width_black_panel": false,
+    "visual_status": "candidate_pending_independent_review",
+    "provenance_report": "data/source_art/title/title_assets_report.json"
+  },
+  "validation": {
+    "static_contract": "tests/test_clock_transparency.py",
+    "emulator_visual_review": "pending",
+    "ntsc_pal_camera_extremes": "pending",
+    "worst_frame_dma": "pending"
+  }
+}

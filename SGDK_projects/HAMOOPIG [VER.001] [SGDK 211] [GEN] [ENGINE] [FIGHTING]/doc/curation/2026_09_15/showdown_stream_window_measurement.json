@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L090",
+  "date": "2026-09-15",
+  "topic": "showdown_stream_window_measurement",
+  "source": "deterministic_camera_window_occupancy_tool",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "A promoção global para 864 tiles não informava quantos padrões uma janela de câmera com preload exigiria; não era seguro projetar streaming usando apenas o total do atlas.",
+  "change": "Adicionar `tests/analyze_stage_streaming.py`, que amostra posições alinhadas a 8 px, mede janelas 40x28 com preload de uma tile e grava ocupação por câmera.",
+  "result": "Showdown 512x256 tem 864 tiles globais, 25x5 posições, janela máxima 42x30 em (184,24) com 588 tiles únicos; o pico mais margem de 64 cabe na capacidade de referência 1151 do laboratório.",
+  "limits": [
+    "a capacidade 1151 é referência do laboratório, não contrato do runtime atual",
+    "a ferramenta mede padrões do PNG convertido e não implementa upload/cache em C",
+    "não prova ausência de costura, latência ou pior-frame no emulador"
+  ],
+  "artifacts": [
+    "tests/analyze_stage_streaming.py",
+    "tests/test_stage_streaming_contract.py",
+    "out/logs/showdown_stream_window_report.json",
+    "res/gfx/showdown.png"
+  ],
+  "status": "documented_measurement_pass_runtime_streamer_pending"
+}

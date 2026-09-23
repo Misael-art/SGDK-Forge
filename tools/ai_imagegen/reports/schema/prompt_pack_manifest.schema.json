@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "tools/ai_imagegen/reports/schema/prompt_pack_manifest.schema.json",
+  "title": "Prompt Pack Manifest",
+  "description": "Manifest emitido junto ao output bruto de cada geracao local (_write_prompt_pack_manifest). Garante linhagem completa prompt->modelo->arquivo.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "timestamp",
+    "prompt",
+    "seed",
+    "model_id",
+    "sampler",
+    "steps",
+    "width",
+    "height",
+    "profile",
+    "channel",
+    "output_sha256"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "negative_prompt": {
+      "type": "string"
+    },
+    "seed": {
+      "type": ["integer", "null"]
+    },
+    "model_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_variant": {
+      "type": "string"
+    },
+    "sampler": {
+      "type": "string",
+      "minLength": 1
+    },
+    "steps": {
+      "type": "integer"
+    },
+    "cfg": {
+      "type": "number"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "height": {
+      "type": "integer"
+    },
+    "profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "channel": {
+      "type": "string",
+      "minLength": 1
+    },
+    "output_sha256": {
+      "type": "string",
+      "description": "sha256 do PNG bruto produzido neste run."
+    },
+    "license_ack_sha256": {
+      "type": "string"
+    },
+    "style_manifest_sha256": {
+      "type": "string"
+    },
+    "asset_role": {
+      "type": "string"
+    }
+  }
+}

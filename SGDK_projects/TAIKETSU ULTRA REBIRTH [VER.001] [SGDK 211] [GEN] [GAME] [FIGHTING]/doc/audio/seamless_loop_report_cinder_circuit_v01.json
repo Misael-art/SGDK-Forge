@@ -1,0 +1,21 @@
+ {
+   "schema_version": "1.0.0",
+   "track_id": "cinder_circuit_arena_psg_candidate_v01",
+   "status": "technical_candidate",
+   "source_score": "data/source_audio/cinder_circuit_arena_psg_candidate_v01.json",
+   "region": "ntsc",
+   "loop_frame": 0,
+   "frame_count": 960,
+   "bar_count": 8,
+   "expected_duration_seconds": 16,
+   "compiler_contract": "psg_score.py",
+   "checks": {
+     "loop_entry_resets_all_tone_channels": true,
+     "notes_crossing_loop": false,
+     "deterministic_compile": true,
+     "zero_crossing_audio_sample": "not_applicable_psg_candidate",
+     "two_loop_listen": "pending"
+   },
+   "conclusion": "Compiler-level loop topology is valid; audible seam, fatigue and driver pause/resume remain unproven."
+ }
+ 

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "dialogue_cinematic_d1_jack_to_kairo",
+  "scene_id": "dialogue_cinematic_d1",
+  "scene_role": "cutscene",
+  "status_ceiling": "planning_only",
+  "cutscene_mode": "portrait_dialog",
+  "fsm_script": "CS-E: JACK_LINE -> KAIRO_LINE -> BODY_BEAT -> HANDOFF",
+  "resource_plan": "Stage plates remain resident; only the ordered pair Jack -> Kairo owns the portrait and fighter animation windows.",
+  "panel_layout": "Two-body 3/4 composition with dialogue window on rows 19-23; speaker portrait swaps at the line boundary.",
+  "palette_script": "PAL0/BG_B stage, PAL1/BG_A depth, PAL2 active character window, PAL3 dialogue text; no H-Int in D1.",
+  "text_timing_map": "Jack line 96 frames, Kairo line 96 frames, body reaction 48 frames; A accelerates and START advances after TEXT_DONE.",
+  "audio_cue_map": "typewriter cue per line start; short speaker cue remains placeholder until final bank validation.",
+  "glyph_manifest": "SGDK default font during technical slice; final glyph_manifest is required before AAA promotion.",
+  "advance_model": "MIXED",
+  "teardown_plan": "Flush dialogue text, release portrait window, preserve combat fighter residency, reset camera scroll and transfer input ownership to combat.",
+  "evidence_plan": "Mid-line screenshot, animation contact sheet/GIF, SRAM and visual VDP dump bound to the same ROM hash and runtime_state=CS-E.",
+  "uses_fullscreen_bitmap": false,
+  "dynamic_fx": ["portrait_blink", "portrait_breath", "camera_pan", "speaker_cut"],
+  "h_int_owner": "none_d1"
+}

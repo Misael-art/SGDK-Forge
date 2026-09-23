@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_video_transcript_curation_record",
+  "curation_id": "video_transcript_game_music_2026_06_17",
+  "source_attachment": "C:/Users/misae/.codex/attachments/15803b42-46b7-429a-a9d1-577ca73fbc6f/pasted-text.txt",
+  "evidence_grade": "E1_text",
+  "canonical_promotion": false,
+  "status_ceiling": "candidate_operational_rules",
+  "accepted_concepts": [
+    {
+      "concept_id": "adaptive_music_state_map_strengthening",
+      "owner_skill": "xgm2-audio-director",
+      "accepted_as": "composition_gate",
+      "summary": "Adaptive music must be expressed as event-driven musical states with declared intensity, priority, fallback, channel ownership and coexistence with critical SFX."
+    },
+    {
+      "concept_id": "bar_beat_transition_plan",
+      "owner_skill": "xgm2-audio-director",
+      "accepted_as": "transition_gate",
+      "summary": "Horizontal resequencing is useful only when translated into BPM, time signature, NTSC/PAL frame timing, allowed transition points, stinger/bridge ids and missed-window fallback."
+    },
+    {
+      "concept_id": "seamless_loop_tail_handling",
+      "owner_skill": "xgm2-audio-director",
+      "accepted_as": "loop_quality_gate",
+      "summary": "Loop and tail handling are accepted as asset/export requirements captured by seamless_loop_report; they do not imply runtime reverb or middleware features."
+    },
+    {
+      "concept_id": "gameplay_role_first_sound_design",
+      "owner_skill": "sfx-prep-fm-psg-pcm",
+      "accepted_as": "sfx_composition_gate",
+      "summary": "SFX and timbres must declare gameplay role before timbre: alert, damage, confirmation, threat, reward, ambience, UI, boss cue, transition or intentional silence."
+    }
+  ],
+  "rejected_or_not_absorbed": [
+    {
+      "claim": "FMOD/Wwise/RTPC behavior maps directly to Mega Drive audio",
+      "reason": "Rejected. Middleware concepts must be translated into discrete states, fades, stingers, pre-rendered variants or a custom-driver handoff."
+    },
+    {
+      "claim": "Low-pass filters and continuous parameter automation are default Mega Drive capabilities",
+      "reason": "Rejected unless a project-specific driver, asset variant or hardware-feasible substitute is documented and validated."
+    },
+    {
+      "claim": "The example C code is canonical SGDK/XGM2 architecture",
+      "reason": "Rejected. The snippet is illustrative, contains non-validated driver calls and mixes input/debug/UI patterns owned by other skills."
+    },
+    {
+      "claim": "A music theory transcript proves excellent or AAA audio",
+      "reason": "Rejected. E1_text can improve candidate rules, but production still requires contracts, assets, auditory test, build and emulator evidence."
+    }
+  ],
+  "updated_files": [
+    ".agent/skills/code/xgm2-audio-director/SKILL.md",
+    ".agent/skills/audio/sfx-prep-fm-psg-pcm/SKILL.md"
+  ],
+  "required_followups_before_production": [
+    "audio_architecture_card",
+    "composition_scope_contract",
+    "adaptive_music_state_map",
+    "bar_beat_transition_plan or equivalent documented timing plan",
+    "seamless_loop_report",
+    "frequency_masking_plan",
+    "sfx_priority_matrix",
+    "sample_format_audit",
+    "auditory test",
+    "validate_audio report when audio resources exist",
+    "BlastEm evidence when a ROM delivery claims runtime audio"
+  ]
+}

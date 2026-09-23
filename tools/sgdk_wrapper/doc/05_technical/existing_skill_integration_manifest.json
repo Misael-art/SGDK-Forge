@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "existing_skill_integration_manifest",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Declare which pre-existing canonical skills or workflows were updated to consume the new AAA Mega Drive curation contracts, preventing the new package from becoming isolated documentation.",
+  "runner_status": {
+    "local_command_execution": "restored",
+    "prior_blocker": "earlier_createprocessasuserw_5_no_longer_reproduces",
+    "validated_by_runner": true,
+    "validator_result": "validate_aaa_video_curation.ps1=PASSED",
+    "commit_created": false,
+    "push_completed": false
+  },
+  "integration_policy": {
+    "no_free_text_claims": true,
+    "new_contracts_must_have_owner_skill": true,
+    "advanced_aaa_claims_require_guardian": true,
+    "release_claims_require_emulator_evidence": true
+  },
+  "integrations": [
+    {
+      "owner_skill_id": "megadrive-vdp-budget-analyst",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+      "implementation_status": "direct_skill_section_applied",
+      "integration_section": "Curadoria 2026-06-15 - Mega Drive AAA video techniques",
+      "role": "hardware_budget_gate",
+      "consumed_contracts": [
+        "collision_topology_report",
+        "dma_queue_contract",
+        "scroll_fx_contract",
+        "entity_vtable_plan",
+        "state_transition_contract",
+        "aaa_pipeline_gate_report"
+      ],
+      "required_behavior": "Block AAA or release claims when advanced visual, sprite, DMA, scroll, collision, entity or transition claims lack measurable budget evidence."
+    },
+    {
+      "owner_skill_id": "scene-direction-curator",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/art/scene-direction-curator/SKILL.md",
+      "implementation_status": "direct_skill_section_applied",
+      "integration_section": "Curadoria 2026-06-15 - Guardian e scroll FX",
+      "role": "art_direction_gate",
+      "consumed_contracts": [
+        "aaa_pipeline_gate_report",
+        "scroll_fx_contract",
+        "dma_queue_contract"
+      ],
+      "required_behavior": "Route ambitious scene direction through explicit scroll, palette, DMA and VDP proof instead of approving visual ambition by prose."
+    },
+    {
+      "owner_skill_id": "multi-plane-composition",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+      "implementation_status": "direct_skill_section_applied",
+      "integration_section": "Curadoria 2026-06-15 - Tilemap, streaming e guardian",
+      "role": "scene_composition_gate",
+      "consumed_contracts": [
+        "aaa_pipeline_gate_report",
+        "scene_tilemap_conversion_report",
+        "tilemap_flag_report",
+        "per_tile_palette_conflict_report",
+        "dma_queue_contract",
+        "scroll_fx_contract"
+      ],
+      "required_behavior": "Require tilemap attribute, per-tile palette, priority, flip and streaming evidence before a complex background can be treated as production-ready."
+    },
+    {
+      "owner_skill_id": "art-translation-to-vdp",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+      "implementation_status": "direct_skill_section_applied",
+      "integration_section": "Curadoria 2026-06-15 - Tecnicas externas e pipeline AAA",
+      "role": "visual_asset_to_vdp_gate",
+      "consumed_contracts": [
+        "external_technique_curation_record",
+        "aaa_pipeline_gate_report",
+        "scene_tilemap_conversion_report",
+        "dma_queue_contract",
+        "scroll_fx_contract"
+      ],
+      "required_behavior": "Accept external video-derived techniques only when translated into SGDK/VDP constraints with evidence, not as generic inspiration."
+    },
+    {
+      "owner_skill_id": "art-asset-diagnostic",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/art/art-asset-diagnostic/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/art/art-asset-diagnostic/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "visual_fidelity_gate",
+      "consumed_contracts": [
+        "sprite-asset-budget-curator",
+        "palette-cram-curator",
+        "color-conversion-curator",
+        "emulator-vdp-evidence-curator"
+      ],
+      "required_behavior": "Reject obsolete or failed sprite sheets as generation sources and restart from the approved model sheet."
+    },
+    {
+      "owner_skill_id": "art-conversion-pipeline",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/art/art-conversion-pipeline/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/art/art-conversion-pipeline/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "asset_conversion_gate",
+      "consumed_contracts": [
+        "color-conversion-curator",
+        "palette-cram-curator",
+        "tilemap-attribute-director",
+        "sprite-asset-budget-curator",
+        "emulator-vdp-evidence-curator"
+      ],
+      "required_behavior": "Treat conversion as palette, tile, metadata and evidence work, not resizing."
+    },
+    {
+      "owner_skill_id": "visual-excellence-standards",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "visual_quality_gate",
+      "consumed_contracts": [
+        "palette-cram-curator",
+        "dither-composite-transparency",
+        "shadow-highlight-scroll-fx",
+        "emulator-vdp-evidence-curator"
+      ],
+      "required_behavior": "Judge visual quality through palette, display-mode, hardware plan and runtime evidence, not prose."
+    },
+    {
+      "owner_skill_id": "rom-mastering",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "release_closeout_gate",
+      "consumed_contracts": [
+        "emulator-vdp-evidence-curator",
+        "aaa-pipeline-guardian",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "required_behavior": "Prevent build success from being reported as runtime or AAA validation."
+    },
+    {
+      "owner_skill_id": "sgdk-runtime-coder",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "runtime_implementation_gate",
+      "consumed_contracts": [
+        "entity-polymorphism-architect",
+        "game-state-transition-architect",
+        "vram-streaming-dma-queue",
+        "software-tile-rasterizer"
+      ],
+      "required_behavior": "Route advanced runtime implementation through explicit architecture and DMA/state contracts."
+    },
+    {
+      "owner_skill_id": "scene-state-architect",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/architecture/scene-state-architect/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/architecture/scene-state-architect/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "scene_lifecycle_gate",
+      "consumed_contracts": [
+        "game-state-transition-architect",
+        "level-manifest-architect",
+        "emulator-vdp-evidence-curator"
+      ],
+      "required_behavior": "Require fade, flush, cleanup, coordinate truth and evidence for scene lifecycle claims."
+    },
+    {
+      "owner_skill_id": "sgdk-code-reviewer",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-code-reviewer/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-code-reviewer/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "code_review_gate",
+      "consumed_contracts": [
+        "entity-polymorphism-architect",
+        "game-state-transition-architect",
+        "vram-streaming-dma-queue",
+        "software-tile-rasterizer",
+        "z80-audio-boundary-architect"
+      ],
+      "required_behavior": "Review advanced techniques for corruption, VBlank misuse, state re-entry and unbounded upload risk."
+    },
+    {
+      "owner_skill_id": "sgdk-build-wrapper-operator",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "automation_gate",
+      "consumed_contracts": [
+        "validate_aaa_video_curation",
+        "aaa-pipeline-guardian",
+        "emulator-vdp-evidence-curator"
+      ],
+      "required_behavior": "Expose curation validation without confusing it with ROM runtime validation."
+    },
+    {
+      "owner_skill_id": "tiled-hybrid-parallax-curator",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/art/tiled-hybrid-parallax-curator/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/art/tiled-hybrid-parallax-curator/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "hybrid_parallax_gate",
+      "consumed_contracts": [
+        "tilemap-attribute-director",
+        "palette-cram-curator",
+        "hscroll-linescroll-road-fx",
+        "shadow-highlight-scroll-fx",
+        "raster-palette-hint-director"
+      ],
+      "required_behavior": "Preserve tilemap metadata, palette ownership and scroll-effect constraints in hybrid scenes."
+    },
+    {
+      "owner_skill_id": "cutscene-cinematic-direction",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "cinematic_fx_gate",
+      "consumed_contracts": [
+        "game-state-transition-architect",
+        "palette-cram-curator",
+        "raster-palette-hint-director",
+        "sfx-prep-fm-psg-pcm",
+        "emulator-vdp-evidence-curator"
+      ],
+      "required_behavior": "Tie cinematic FX, palettes, fades and SFX to timing and evidence."
+    },
+    {
+      "owner_skill_id": "project-methodology-adoption",
+      "owner_skill_path": "tools/sgdk_wrapper/.agent/workflows/project-methodology-adoption.md",
+      "handoff_path": "tools/sgdk_wrapper/.agent/workflows/project-methodology-adoption.AAA_VIDEO_CURATION_HANDOFF.md",
+      "implementation_status": "sidecar_handoff_applied",
+      "integration_section": "AAA Video Curation Handoff",
+      "role": "methodology_gate",
+      "consumed_contracts": [
+        "validate_aaa_video_curation",
+        "aaa_video_curation_decision_matrix",
+        "external_technique_curation_record"
+      ],
+      "required_behavior": "Keep external video technique curation separated from project validation, hygiene and runtime evidence gates."
+    }
+  ],
+  "non_integrated_backlog": [
+    {
+      "scope": "phase4_asset_conversion_automation",
+      "status": "backlog_pending_evidence",
+      "reason": "The attached material supports asset-conversion discipline, but not a validated local automation pipeline without corpus and script execution evidence."
+    }
+  ]
+}

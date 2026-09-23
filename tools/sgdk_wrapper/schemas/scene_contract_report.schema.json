@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_contract_report.schema.json",
+  "title": "Scene Contract Lint Report",
+  "description": "Output of lint_scene_contract.ps1. Extends the common artifact envelope with per-scene findings.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "workspace_root",
+    "status",
+    "mode",
+    "scenes_checked",
+    "total_findings",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tool_name": {
+      "type": "string",
+      "const": "lint_scene_contract"
+    },
+    "tool_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ok", "warn", "error"]
+    },
+    "failure_reason": {
+      "type": ["string", "null"]
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["lab", "production", "aaa_gate"],
+      "description": "Rigor level used for this lint run"
+    },
+    "contract_path": {
+      "type": "string",
+      "description": "Absolute path to the scene-contracts.json that was validated"
+    },
+    "scenes_checked": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "total_findings": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "scene_statuses": {
+      "type": "object",
+      "description": "Map of scene_id to its lint status (ok|warn|error|unsupported)",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["ok", "warn", "error", "unsupported"]
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/finding"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "finding": {
+      "type": "object",
+      "required": [
+        "scene_id",
+        "severity",
+        "code",
+        "message"
+      ],
+      "properties": {
+        "scene_id": {
+          "type": "string",
+          "description": "Scene this finding relates to, or '_manifest' for global issues"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["info", "warn", "error"]
+        },
+        "code": {
+          "type": "string",
+          "description": "Machine-readable finding code (e.g. 'SC001', 'SC002')"
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable description of the issue"
+        },
+        "related_path": {
+          "type": ["string", "null"],
+          "description": "File path related to this finding, if applicable"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

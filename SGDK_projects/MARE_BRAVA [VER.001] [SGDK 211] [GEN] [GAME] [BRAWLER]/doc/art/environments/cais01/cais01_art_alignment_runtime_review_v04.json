@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-29T17:36:08-03:00",
+  "status": "visual_direction_pass_runtime_observed_partial_evidence",
+  "rom": {
+    "path": "out/rom.bin",
+    "size_bytes": 262144,
+    "sha256": "825e687c8f0513f2d2d9f634f980be83426a2b84a457b0ddef6978271bfba429"
+  },
+  "blastem_session": {
+    "path": "out/evidence/cais01_art_alignment_v04_hash825e687/blastem-linux-20260729T203545Z-1153418",
+    "target_scene": 3,
+    "window_title": "SAMPLE PROGRAM - BlastEm - 61.1 fps",
+    "screenshot_sha256": "438ac5073dbad451246edf28df6d67291b6824b21284cbbcf7615e05f7202d0a",
+    "runtime_animation_sha256": "be759303cbf46215ca8a98c68cb94aaba85b656c4eaa84cde5b0558d641a29be"
+  },
+  "visual_findings": {
+    "passed": [
+      "nuvens horizontais recuperam escala e ritmo do BG_B aprovado",
+      "silhueta portuaria forma massa industrial compacta em vez de predios genericos soltos",
+      "grupo de uma caixa grande e duas menores ancora o lado esquerdo",
+      "poste e rede detalhada enquadram o lado direito",
+      "madeira possui veios, nos, rachaduras, pregos e desgaste em clusters nativos",
+      "TAÍNA permanece legivel contra sol, agua e horizonte",
+      "corda e mancha de oleo foram deslocadas apos a primeira captura para limpar a silhueta"
+    ],
+    "retained_technical_features": [
+      "HSCROLL_LINE com owner SCENE_demo",
+      "reflexo solar quebrado",
+      "fumaca e poeira",
+      "palette cycling do poste",
+      "paleta runtime de contraluz da TAÍNA sem mudanca de geometria"
+    ],
+    "not_claimed": [
+      "qualidade final da TAÍNA",
+      "mundo completo de 1344px",
+      "budget conjunto com inimigos HUD e hit FX",
+      "desempenho medido por runtime_metrics",
+      "AAA",
+      "testado_em_emulador"
+    ]
+  },
+  "budget": {
+    "decision": "cabe com recuo",
+    "bg_b_tiles": 484,
+    "bg_a_tiles": 385,
+    "combined_background_tiles": 869,
+    "default_user_tile_envelope": 948,
+    "remaining_tiles": 79,
+    "report": "doc/art/environments/cais01/cais01_vdp_budget_report_v04.json"
+  },
+  "evidence_gate": {
+    "status": "rejected",
+    "blockers": [
+      "vlab_block_missing",
+      "artifact_missing:vdp_dump",
+      "artifact_missing:runtime_metrics"
+    ],
+    "claim_ceiling": "buildado_runtime_observed_partial"
+  },
+  "comparison": "doc/art/environments/cais01/review/cais01_runtime_compare_v03_v04.png"
+}

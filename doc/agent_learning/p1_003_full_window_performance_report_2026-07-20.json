@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-20T04:23:00Z",
+  "item_id": "P1-003",
+  "status": "completed",
+  "title": "Provar 60 fps em janela completa",
+  "project": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "rom": {
+    "sha256": "40b924f7895386458c7810204464fe47207c40b7f97d0c4585e840ee8d21bbf5",
+    "size_bytes": 262144,
+    "build_environment": "registry.gitlab.com/doragasu/docker-sgdk:v2.11",
+    "build_status": "success"
+  },
+  "implementation": {
+    "runtime_probe_word_count": 932,
+    "runtime_probe_max_samples": 900,
+    "ntsc_window": 900,
+    "pal_window": 750,
+    "measurement_point": "after_SPR_update_before_SYS_doVBlankProcess",
+    "vlab_offset": "0x1000",
+    "vlab_layout": "24_metrics_plus_64_palette_words",
+    "partial_guard": "samples_reach_frame_window_and_probe_window_complete",
+    "post_export_heartbeat": "disabled_to_preserve_sealed_series"
+  },
+  "ntsc": {
+    "session_id": "blastem-linux-20260720T040940Z-424385",
+    "capture_status": "ok",
+    "region_mode": "NTSC_60HZ",
+    "window_title_fps": 61.0,
+    "samples": "900/900",
+    "cpu_p95": 44,
+    "cpu_max": 44,
+    "over_budget_frames": 0,
+    "max_scanline_sprites": 3,
+    "sprite_engine_peak": 4,
+    "max_dma_queue_entries": 1,
+    "max_dma_queue_transfer_bytes": 40,
+    "fresh_bundle_audit": "ok"
+  },
+  "pal": {
+    "session_id": "blastem-linux-20260720T041233Z-435741",
+    "capture_status": "ok",
+    "blastem_forced_region": "E",
+    "region_mode": "PAL_50HZ",
+    "window_title_fps": 50.3,
+    "samples": "750/750",
+    "cpu_p95": 17,
+    "cpu_max": 17,
+    "over_budget_frames": 0,
+    "max_scanline_sprites": 3,
+    "sprite_engine_peak": 4,
+    "max_dma_queue_entries": 1,
+    "max_dma_queue_transfer_bytes": 40,
+    "fresh_bundle_audit": "ok"
+  },
+  "verification": {
+    "parser_resilience": "10_cases_0_failures",
+    "blastem_evidence_schema": "passed",
+    "claim_reconciliation_schema": "passed",
+    "semantic_screenshot_gate": "passed",
+    "project_learning_capture": "learning_context_present_no_canonical_promotion"
+  },
+  "acceptance_checks": {
+    "planned_frame_window_fully_observed": true,
+    "ntsc_and_pal_distinguished": true,
+    "p95_overbudget_sprites_dma_recorded": true,
+    "partial_never_produces_stable": true
+  },
+  "remaining_project_blockers": [
+    "external_path_reference_outside_project",
+    "visual_gate_and_perceptual_closeout",
+    "freshness_and_scene_closeout_global_refresh",
+    "hardware_real_or_fpga_unproven"
+  ],
+  "claim_limit": "Performance is stable only in the observed scene 3 windows. This does not promote audio, every scene, physical hardware, FPGA, release, or AAA readiness."
+}

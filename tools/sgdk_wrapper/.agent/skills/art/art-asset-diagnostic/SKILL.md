@@ -15,7 +15,8 @@ Use esta skill ANTES de qualquer acao de conversao ou criacao de arte. Ela deter
 |---------|----------|-------------|
 | `1_data_needs_conversion` | `/data` existe com PNGs, sem `/res` adequado | Converter assets de /data |
 | `2_res_exists_check` | `/res` existe com PNGs referenciados em .res | Diagnosticar qualidade dos assets em /res |
-| `3_no_art` | Nenhum asset encontrado em /data ou /res | Decidir rota A (IA) ou B (web) |
+| `3_no_art` | Nenhum asset encontrado em /data ou /res | Emitir `context_pack_manifest` e decidir rota A (IA) ou B (web) com `art-creation-sourcing`. Em paralelo, rodar `imagegen_circuit.py preflight` para verificar se o host pode gerar Bonsai (license + host + scope) ou ComfyUI. |
+| `4_lab_nested_art_review` | Projeto de treino/laboratorio sem `/data` ou `/res` convencionais, mas com arte em `work/`, `analysis/`, `evidence/`, `rascunho/inputs`, bins gerados ou viewer SGDK aninhado | Nao declarar ausencia de arte; auditar o pipeline de laboratorio, comparar fonte/export/BlastEm e rotear para `multi-plane-composition` ou `visual-excellence-standards`. |
 
 ---
 
@@ -28,14 +29,52 @@ python tools/sgdk_wrapper/art_diagnostic.py --project "<caminho_do_projeto>"
 # Com output JSON para relatorio persistente
 python tools/sgdk_wrapper/art_diagnostic.py --project "<caminho>" --output doc/art_diagnostic_report.json
 
+# Somente quando a auditoria pedir historia completa (saida muito maior)
+python tools/sgdk_wrapper/art_diagnostic.py --project "<caminho>" --include-history
+
 # Analisar .res especifico
 python tools/sgdk_wrapper/art_diagnostic.py --project "<caminho>" --res-file res/sprite.res
 ```
 
 Exit codes:
-- `0` = todos os assets ok
-- `1` = issues criticos ou assets inadequados
+- `0` = grafo ativo `.res` limpo (issues em fonte nao referenciada podem existir)
+- `1` = recurso ativo inadequado ou, sem grafo `.res`, fonte que exige conversao
 - `2` = nenhuma arte encontrada (cenario 3)
+
+O report separa `source_asset_status`, `active_res_asset_status` e
+`build_blocking_issues`. Somente issues criticos de assets referenciados pelo
+grafo `.res` podem ser descritos como risco de build. Arte em `/data`,
+`rascunho/`, contact sheets e evidencia continuam auditaveis, mas nao podem
+contaminar o veredito do recurso ativo.
+
+O modo padrao e `active-only`: exclui `archive`, `staging`, evidencias e epocas
+superseded da lista de candidatos e limita listas extensas no JSON. Historia so
+entra com `--include-history`; nunca vira fonte elegivel por ter sido descoberta.
+Quando existir, valide `doc/art/visual_workset_manifest.json` antes de rotear.
+
+## Contrato Operacional
+
+### Entrada minima
+
+- raiz do projeto
+- `res/`, `res/data/` e `.res` relevantes
+
+### Saida minima
+
+- laudo de cenario
+- lista de issues bloqueantes
+- decisao de rota para a proxima skill
+
+### Passa quando
+
+- o agente consegue dizer com evidência se o projeto esta em `1_data_needs_conversion`, `2_res_exists_check` ou `3_no_art`
+- assets bloqueantes foram nomeados com codigo e impacto
+
+### Handoff para proxima etapa
+
+- se houver traducao de cena: `art/multi-plane-composition`
+- se houver apenas conversao tecnica: `art/art-conversion-pipeline`
+- se nao houver arte: `art/art-creation-sourcing`
 
 ---
 
@@ -48,6 +87,7 @@ Exit codes:
 | `NOT_INDEXED` | Imagem nao e PNG modo P (indexado) | ResComp rejeita |
 | `DIM_NOT_MULTIPLE_8` | Dimensoes nao sao multiplos de 8 | ResComp rejeita |
 | `TOO_MANY_COLORS` | Mais de 15 cores visiveis | Paleta extrapola hardware |
+| `PALETTE_INFLATED` | Paleta PLTE com >16 entradas (ex: 256 em 8bpp) | Deduplicacao de tiles falha; corrupcao visual no VDP |
 | `OPEN_FAILED` | Arquivo corrompido ou formato invalido | Build falha |
 | `FILE_NOT_FOUND` | Arquivo referenciado no .res nao existe | Linker error |
 
@@ -57,7 +97,7 @@ Exit codes:
 |--------|----------|---------|
 | `COLORS_NOT_9BIT` | Cores fora do grid 9-bits MD | VDP trunca bits — cores imprecisas |
 | `NO_MAGENTA_TRANSPARENT` | Index 0 nao e #FF00FF | Transparencia pode falhar |
-| `SPRITE_TOO_LARGE` | Sprite > 32x32 px sem metasprite | Requer multiplas entradas OAM |
+| `SPRITE_TOO_LARGE` | Imagem candidata excede 32x32, mas pode ser strip/sheet | Exigir metadado de celula; largura total do strip nao prova metasprite |
 | `RGBA_NOT_INDEXED` | Canal alpha presente mas nao indexado | Alpha perdido na conversao |
 
 ---
@@ -82,16 +122,68 @@ magick "<arquivo>.png" -unique-colors txt:-
 
 ---
 
+## Analise forense zero-dependency (PowerShell / .NET)
+
+Quando Python e ImageMagick nao estiverem disponiveis, use leitura directa do header PNG via .NET. Esta tecnica nao requer nenhuma dependencia externa.
+
+```powershell
+# Ler header PNG: bytes 16-25 contem largura, altura, bitDepth e colorType
+$bytes = [System.IO.File]::ReadAllBytes("<arquivo>.png")
+$w = [int]$bytes[16]*16777216 + [int]$bytes[17]*65536 + [int]$bytes[18]*256 + [int]$bytes[19]
+$h = [int]$bytes[20]*16777216 + [int]$bytes[21]*65536 + [int]$bytes[22]*256 + [int]$bytes[23]
+$bitDepth = $bytes[24]   # 4 = 16 cores (correcto), 8 = 256 cores (PROBLEMA)
+$colorType = $bytes[25]  # 3 = Indexed (correcto), 2 = RGB, 6 = RGBA (PROBLEMA)
+```
+
+### Contar entradas PLTE (paleta real)
+
+```powershell
+# Percorrer chunks PNG ate encontrar PLTE; dividir tamanho por 3
+$i = 8
+while ($i -lt ($bytes.Length - 12)) {
+    $chunkLen = [int]$bytes[$i]*16777216 + [int]$bytes[$i+1]*65536 + [int]$bytes[$i+2]*256 + [int]$bytes[$i+3]
+    $chunkType = [System.Text.Encoding]::ASCII.GetString($bytes, $i+4, 4)
+    if ($chunkType -eq 'PLTE') { Write-Output "Paleta: $($chunkLen / 3) entradas"; break }
+    $i += 12 + $chunkLen
+}
+```
+
+### Contar cores unicas reais (via System.Drawing)
+
+```powershell
+Add-Type -AssemblyName System.Drawing
+$bmp = [System.Drawing.Bitmap]::new("<arquivo>.png")
+$cores = @{}
+for ($y = 0; $y -lt $bmp.Height; $y++) {
+    for ($x = 0; $x -lt $bmp.Width; $x++) {
+        $c = $bmp.GetPixel($x, $y)
+        $cores["$($c.R),$($c.G),$($c.B)"] = $true
+    }
+}
+$bmp.Dispose()
+Write-Output "Cores unicas reais: $($cores.Count)"
+```
+
+### IMPORTANTE: Entradas PLTE vs cores unicas
+
+Uma imagem pode ter **11 cores unicas** mas **256 entradas de paleta**. O ImageMagick reporta cores unicas (%k) como 11 e passa. Mas o rescomp usa indices de paleta brutos: dois pixeis com a mesma cor RGB mas indices diferentes geram tiles "unicos" falsos, inflando o tileset e causando corrupcao visual. Verifique SEMPRE as entradas PLTE, nao apenas as cores unicas.
+
+---
+
 ## Checklist de qualidade por asset
 
 Execute mentalmente para cada asset antes de aceitar:
 
-- [ ] Formato: PNG indexado modo P (4-bit ou 8-bit)
+- [ ] Formato: PNG indexado (colorType=3, byte 25 do header)
+- [ ] BitDepth: 4 (max 16 cores) — byte 24 do header
+- [ ] Entradas PLTE: max 16 (contar no chunk, nao confiar apenas em cores unicas)
 - [ ] Index 0 = transparente (#FF00FF)
 - [ ] Max 15 cores visiveis na paleta
 - [ ] Todas as cores no grid 9-bits (R, G, B em multiplos de 0x22)
 - [ ] Dimensoes multiplas de 8 (largura E altura)
 - [ ] Bounding box sem bordas vazias desnecessarias
+- [ ] Em strip/sheet, limite e budget avaliados por frame/celula do `.res`, nunca pela largura total da imagem
+- [ ] Sprite critico possui `sprite_artifact_report.v2` com clipping, ilhas, anatomia, pivot, contato de pes, delta entre frames e cobertura das acoes prometidas
 - [ ] Tiles duplicados/espelhaveis identificados
 - [ ] Sem tecnicas proibidas (AA, alpha parcial, baked light, sombra assada)
 
@@ -136,6 +228,7 @@ Para cada asset reportar:
 |-----------|------|
 | Cenario 1 (data existe) | Ir para `art-conversion-pipeline` |
 | Cenario 2 (res inadequado) | Apresentar relatorio ao usuario para decisao de rota |
-| Cenario 3 (sem arte) | Ir para `art-creation-sourcing` — decidir rota A ou B |
+| Cenario 3 (sem arte) | Ir para `art-creation-sourcing` — emitir `context_pack_manifest`, `master_style_manifest` e decidir rota A ou B |
+| Cenario 4 (arte de laboratorio aninhada) | Auditar `work/`, `analysis/`, `evidence/` e viewer aninhado antes de criar arte nova; nao usar `3_no_art` como verdade final |
 | Issues criticos em /res | Bloquear build, corrigir antes de prosseguir |
 | Apenas avisos em /res | Informar usuario, prosseguir com ressalvas documentadas |

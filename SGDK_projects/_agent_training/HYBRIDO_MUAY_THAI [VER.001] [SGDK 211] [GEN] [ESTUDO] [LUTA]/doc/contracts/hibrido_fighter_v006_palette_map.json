@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_source_concept_v006",
+  "status": "production_reference_pending_human_validation",
+  "purpose": "Material color map for future native 48x64 redraw. This is not automatic quantization.",
+  "hardware_target": {
+    "body_palette": "PAL2",
+    "fx_palette": "PAL3",
+    "transparent_index": 0,
+    "grid": "Mega Drive 9-bit values: 00,22,44,66,88,AA,CC,EE"
+  },
+  "locked_material_rules": {
+    "lava_arm_and_hand": "Always exposed volcanic rock with orange magma seams. No white wrap, no glove, no bandage.",
+    "human_arm_and_hand": "Dirty white hand wrap, red armband on non-lava biceps.",
+    "feet": "Dirty white foot and ankle wraps.",
+    "shorts": "Black shorts with gold trim.",
+    "skin": "Warm bronze ramps; avoid gray or cool wash."
+  },
+  "palettes": {
+    "PAL2_body": [
+      { "index": 0, "hex": "#EE00EE", "role": "transparent_chroma_key" },
+      { "index": 1, "hex": "#000000", "role": "outline_hair_deep" },
+      { "index": 2, "hex": "#222222", "role": "hair_shorts_shadow" },
+      { "index": 3, "hex": "#444444", "role": "shorts_base_rock_dark" },
+      { "index": 4, "hex": "#666666", "role": "rock_mid" },
+      { "index": 5, "hex": "#888866", "role": "rock_light_edge" },
+      { "index": 6, "hex": "#663300", "role": "skin_shadow" },
+      { "index": 7, "hex": "#AA6622", "role": "skin_base" },
+      { "index": 8, "hex": "#CC8844", "role": "skin_light" },
+      { "index": 9, "hex": "#EEAA66", "role": "skin_highlight" },
+      { "index": 10, "hex": "#886644", "role": "dirty_wrap_shadow" },
+      { "index": 11, "hex": "#CCAA88", "role": "dirty_wrap_base" },
+      { "index": 12, "hex": "#EEEECC", "role": "dirty_wrap_highlight" },
+      { "index": 13, "hex": "#CCAA22", "role": "gold_trim_belt" },
+      { "index": 14, "hex": "#CC2222", "role": "red_armband_sash" },
+      { "index": 15, "hex": "#EEEEEE", "role": "eyes_teeth_specular" }
+    ],
+    "PAL3_fx_lava": [
+      { "index": 0, "hex": "#EE00EE", "role": "transparent_chroma_key" },
+      { "index": 1, "hex": "#000000", "role": "fx_outline" },
+      { "index": 2, "hex": "#442200", "role": "smoke_deep" },
+      { "index": 3, "hex": "#882200", "role": "lava_deep_red_brown" },
+      { "index": 4, "hex": "#CC2200", "role": "lava_red" },
+      { "index": 5, "hex": "#EE6600", "role": "lava_orange" },
+      { "index": 6, "hex": "#EEAA00", "role": "lava_yellow_orange" },
+      { "index": 7, "hex": "#EEEE00", "role": "lava_yellow_hot" },
+      { "index": 8, "hex": "#EEEECC", "role": "white_hot_core" },
+      { "index": 9, "hex": "#444444", "role": "fx_rock_dark" },
+      { "index": 10, "hex": "#666666", "role": "fx_rock_mid" },
+      { "index": 11, "hex": "#888866", "role": "heated_rock_edge" },
+      { "index": 12, "hex": "#CC2222", "role": "ember_red" },
+      { "index": 13, "hex": "#EE2222", "role": "spark_red" },
+      { "index": 14, "hex": "#EE8844", "role": "orange_glow" },
+      { "index": 15, "hex": "#EEEEEE", "role": "impact_specular" }
+    ]
+  },
+  "runtime_translation_notes": [
+    "Do not quantize globally from the source image.",
+    "Start with 1px native lineart and material blocks at 48x64.",
+    "PAL2 must preserve skin, shorts, wraps, gold trim, armband and dark rock silhouette.",
+    "PAL3 must carry the hot lava/fire identity without polluting the body sheet.",
+    "If the lava arm reads as wrapped/gloved in runtime, the sprite is rejected."
+  ]
+}

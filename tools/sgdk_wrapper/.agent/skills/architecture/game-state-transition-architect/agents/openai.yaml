@@ -1,0 +1,7 @@
+interface:
+  display_name: "Game State Transition Architect"
+  short_description: "Trocas de cena SGDK com teardown deterministico"
+  default_prompt: "Use $game-state-transition-architect para definir ownership, fade, teardown, input lock e rollback entre estados SGDK."
+
+policy:
+  allow_implicit_invocation: true

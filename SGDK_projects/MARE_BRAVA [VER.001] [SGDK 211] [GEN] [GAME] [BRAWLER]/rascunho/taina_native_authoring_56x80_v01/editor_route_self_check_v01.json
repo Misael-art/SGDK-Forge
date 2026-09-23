@@ -1,0 +1,363 @@
+{
+  "schema_version": "editor_route_self_check.v1",
+  "route": "editor_api_save",
+  "checks": {
+    "health": {
+      "http": 200,
+      "body": {
+        "status": "ok",
+        "editor": "native_editor_session.v2"
+      }
+    },
+    "open_56x80_session": {
+      "http": 200,
+      "body": {
+        "status": "session_open",
+        "spec": {
+          "schema_version": "native_editor_session.v2",
+          "asset_id": "taina_idle_guard_56x80_native_authoring_v01",
+          "canvas": {
+            "width": 56,
+            "height": 80,
+            "pivot": [
+              28,
+              74
+            ],
+            "grid": 8
+          },
+          "export_dir": "rascunho/taina_native_authoring_56x80_v01/exports",
+          "palette": [
+            {
+              "index": 0,
+              "hex": "#000000",
+              "role": "transparent",
+              "visible": false
+            },
+            {
+              "index": 1,
+              "hex": "#220000",
+              "role": "outline",
+              "visible": true
+            },
+            {
+              "index": 2,
+              "hex": "#220022",
+              "role": "hair_deep",
+              "visible": true
+            },
+            {
+              "index": 3,
+              "hex": "#442244",
+              "role": "hair_mid",
+              "visible": true
+            },
+            {
+              "index": 4,
+              "hex": "#664422",
+              "role": "hair_warm_highlight",
+              "visible": true
+            },
+            {
+              "index": 5,
+              "hex": "#884422",
+              "role": "skin_shadow",
+              "visible": true
+            },
+            {
+              "index": 6,
+              "hex": "#AA6622",
+              "role": "skin_base",
+              "visible": true
+            },
+            {
+              "index": 7,
+              "hex": "#CC8844",
+              "role": "skin_light",
+              "visible": true
+            },
+            {
+              "index": 8,
+              "hex": "#CC4400",
+              "role": "top_shadow",
+              "visible": true
+            },
+            {
+              "index": 9,
+              "hex": "#EE6600",
+              "role": "top_base",
+              "visible": true
+            },
+            {
+              "index": 10,
+              "hex": "#EE8844",
+              "role": "top_highlight",
+              "visible": true
+            },
+            {
+              "index": 11,
+              "hex": "#004444",
+              "role": "teal_shadow",
+              "visible": true
+            },
+            {
+              "index": 12,
+              "hex": "#008888",
+              "role": "teal_base",
+              "visible": true
+            },
+            {
+              "index": 13,
+              "hex": "#00AAAA",
+              "role": "teal_highlight",
+              "visible": true
+            },
+            {
+              "index": 14,
+              "hex": "#000044",
+              "role": "indigo_shadow",
+              "visible": true
+            },
+            {
+              "index": 15,
+              "hex": "#222266",
+              "role": "indigo_base",
+              "visible": true
+            }
+          ]
+        }
+      }
+    },
+    "restore_v04_action_log": {
+      "http": 200,
+      "body": {
+        "status": "session_restored",
+        "actions": 3822
+      }
+    },
+    "validate_restored_session": {
+      "http": 200,
+      "body": {
+        "canvas": {
+          "width": 56,
+          "height": 80,
+          "pivot": [
+            28,
+            74
+          ],
+          "grid": 8
+        },
+        "dimensions_valid": true,
+        "visible_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "visible_color_count": 15,
+        "index0_transparent": true,
+        "grid_8x8": true,
+        "action_count": 3822,
+        "bbox": [
+          8,
+          2,
+          52,
+          79
+        ]
+      }
+    },
+    "export_png_and_log": {
+      "http": 200,
+      "body": {
+        "png": {
+          "path": "rascunho/taina_native_authoring_56x80_v01/exports/route_self_check_probe.png",
+          "sha256": "0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e",
+          "bytes": 963
+        },
+        "action_log": {
+          "path": "rascunho/taina_native_authoring_56x80_v01/exports/route_self_check_probe.actions.json",
+          "sha256": "3cfac7b8aecb93da8734323fb550fd73310addc8d62ddd54691d9948eee12abb",
+          "bytes": 307402
+        },
+        "canvas": {
+          "width": 56,
+          "height": 80,
+          "pivot": [
+            28,
+            74
+          ],
+          "grid": 8
+        },
+        "visible_colors": 15,
+        "index0_transparent": true
+      }
+    },
+    "reject_absolute_export": {
+      "http": 400,
+      "body": "{\"status\":\"rejected\",\"error\":\"target_dir traversal/absolute path rejected\"}"
+    },
+    "reject_res_export": {
+      "http": 400,
+      "body": "{\"status\":\"rejected\",\"error\":\"target_dir must remain under rascunho/\"}"
+    },
+    "reject_non_grid_session": {
+      "http": 400,
+      "body": "{\"status\":\"rejected\",\"error\":\"canvas dimensions must be multiples of 8\"}"
+    },
+    "reject_traversal_session": {
+      "http": 400,
+      "body": "{\"status\":\"rejected\",\"error\":\"export_dir traversal/absolute path rejected\"}"
+    },
+    "restore_after_negative_tests_open": {
+      "http": 200,
+      "body": {
+        "status": "session_open",
+        "spec": {
+          "schema_version": "native_editor_session.v2",
+          "asset_id": "taina_idle_guard_56x80_native_authoring_v01",
+          "canvas": {
+            "width": 56,
+            "height": 80,
+            "pivot": [
+              28,
+              74
+            ],
+            "grid": 8
+          },
+          "export_dir": "rascunho/taina_native_authoring_56x80_v01/exports",
+          "palette": [
+            {
+              "index": 0,
+              "hex": "#000000",
+              "role": "transparent",
+              "visible": false
+            },
+            {
+              "index": 1,
+              "hex": "#220000",
+              "role": "outline",
+              "visible": true
+            },
+            {
+              "index": 2,
+              "hex": "#220022",
+              "role": "hair_deep",
+              "visible": true
+            },
+            {
+              "index": 3,
+              "hex": "#442244",
+              "role": "hair_mid",
+              "visible": true
+            },
+            {
+              "index": 4,
+              "hex": "#664422",
+              "role": "hair_warm_highlight",
+              "visible": true
+            },
+            {
+              "index": 5,
+              "hex": "#884422",
+              "role": "skin_shadow",
+              "visible": true
+            },
+            {
+              "index": 6,
+              "hex": "#AA6622",
+              "role": "skin_base",
+              "visible": true
+            },
+            {
+              "index": 7,
+              "hex": "#CC8844",
+              "role": "skin_light",
+              "visible": true
+            },
+            {
+              "index": 8,
+              "hex": "#CC4400",
+              "role": "top_shadow",
+              "visible": true
+            },
+            {
+              "index": 9,
+              "hex": "#EE6600",
+              "role": "top_base",
+              "visible": true
+            },
+            {
+              "index": 10,
+              "hex": "#EE8844",
+              "role": "top_highlight",
+              "visible": true
+            },
+            {
+              "index": 11,
+              "hex": "#004444",
+              "role": "teal_shadow",
+              "visible": true
+            },
+            {
+              "index": 12,
+              "hex": "#008888",
+              "role": "teal_base",
+              "visible": true
+            },
+            {
+              "index": 13,
+              "hex": "#00AAAA",
+              "role": "teal_highlight",
+              "visible": true
+            },
+            {
+              "index": 14,
+              "hex": "#000044",
+              "role": "indigo_shadow",
+              "visible": true
+            },
+            {
+              "index": 15,
+              "hex": "#222266",
+              "role": "indigo_base",
+              "visible": true
+            }
+          ]
+        }
+      }
+    },
+    "restore_after_negative_tests": {
+      "http": 200,
+      "body": {
+        "status": "session_restored",
+        "actions": 3822
+      }
+    }
+  },
+  "passed": 11,
+  "total": 11,
+  "check_status": "passed",
+  "assertions": {
+    "health": true,
+    "open_56x80_session": true,
+    "restore_v04_action_log": true,
+    "validate_restored_session": true,
+    "export_png_and_log": true,
+    "reject_absolute_export": true,
+    "reject_res_export": true,
+    "reject_non_grid_session": true,
+    "reject_traversal_session": true,
+    "restore_after_negative_tests_open": true,
+    "restore_after_negative_tests": true
+  }
+}

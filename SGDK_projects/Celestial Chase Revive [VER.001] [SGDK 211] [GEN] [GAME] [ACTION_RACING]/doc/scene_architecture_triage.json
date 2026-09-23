@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "scene_profile": "aaa_layered",
+  "baseline_technique_applicability": "parcial",
+  "baseline_contract": {
+    "base_layer": "BG_B atmosphere and horizon",
+    "play_layer": "BG_A road, telegraphs and near structure",
+    "fixed_layer": "WINDOW HUD/text",
+    "actor_layer": "sprites for Lio, hazards, pickups and boss parts",
+    "occlusion": "priority split or sprite graft only after budget",
+    "sprite_scene_relation": "lane centers and telegraphs must match logical collision"
+  },
+  "baseline_decision": "adaptar",
+  "divergence_reason": "first slice favors scene-local preload before camera-guided streaming to reduce initial risk",
+  "reference_implementation": "Celestial Chase visual benchmark as technical risk reference only"
+}

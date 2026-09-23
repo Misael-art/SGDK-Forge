@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "scene": "D1 fighting slice",
+  "owner": "SGDK VBlank/resource path",
+  "uploads": [
+    {"asset": "img_fighting_room_0_bgb", "phase": "scene_enter", "policy": "resource_DMA"},
+    {"asset": "img_fighting_room_0_bga", "phase": "scene_enter", "policy": "resource_DMA"},
+    {"asset": "spr_kairo_vant_probe", "phase": "scene_enter", "policy": "sprite_resource_DMA"}
+  ],
+  "runtime_rule": "No manual DMA is issued from scene update; scene update only schedules/requests SGDK resource work.",
+  "dirty_region_streaming": false,
+  "worst_frame_status": "gameplay_observed_preload_pending",
+  "measurement": {
+    "rom_sha256": "869a0eedde787d632aa1997edfebe36c556f386bc40c57fba3e14cdc8a660e18",
+    "evidence_session_id": "blastem-linux-20260909T173215Z-3070928",
+    "target_scene": 3,
+    "warmup_frames_excluded": 90,
+    "max_dma_queue_transfer_bytes": 32,
+    "max_dma_queue_entries": 1,
+    "dma_max_transfer_bytes": 7200,
+    "max_dma_queue_transfer_at_frame": 91,
+    "max_preload_dma_transfer_bytes": 1000,
+    "max_preload_dma_queue_entries": 4,
+    "preload_dma_max_transfer_bytes": 7200,
+    "max_preload_dma_transfer_at_frame": 1,
+    "preload_dma_observation_count": 90,
+    "scope": "per-frame gameplay after 90-frame warmup exclusion plus warmup queue-state observations; load-time streaming completeness is not measured",
+    "status": "partial"
+  }
+}

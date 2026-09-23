@@ -903,6 +903,11 @@ VDP_loadTileSet(bgb.tileset, 1, DMA);
 
 Classic pattern for "fade to flash and come back".
 
+**Canonical reading.** This is now a reference for
+`tile_mask_mosaic_transition` inside `scene_transition_card`, not a universal
+scene-change default. Approve only with backup/restore of tileset, DMA budget,
+`teardown_reset_plan` and fallback in `palette_fade_bridge`.
+
 ---
 
 ## 18. Raycasting Anael — Precomputed Column Tiles + Inline ASM DMA Flush

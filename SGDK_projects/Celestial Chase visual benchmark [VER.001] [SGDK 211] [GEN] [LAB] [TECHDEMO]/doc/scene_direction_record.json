@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "scene_id": "chase_first_playable",
+  "scene_role": "gameplay",
+  "selected_profile": "monumental",
+  "selected_archetype_id": "pseudo3d_road_stack",
+  "catalog_path": "tools/sgdk_wrapper/.agent/references/scene_archetype_catalog.json",
+  "auto_selected": true,
+  "confidence": 0.9,
+  "confidence_threshold": 0.65,
+  "scene_narrative_function": "speed, scale, threat and release",
+  "gameplay_visual_link": "Road lanes communicate available decisions; pursuer proximity, palette heat and impact cadence communicate pressure; the gate communicates remaining survival time.",
+  "top_candidates": [
+    {
+      "archetype_id": "pseudo3d_road_stack",
+      "score": 9.5,
+      "why_fit": "The scene is a forced-perspective chase with discrete lanes and a monumental pursuer.",
+      "risks": "Full signature implementation is expensive beside large animated sprites."
+    },
+    {
+      "archetype_id": "sky_islands_cloud_sea",
+      "score": 7.1,
+      "why_fit": "Supports celestial scale and poetic sky depth.",
+      "risks": "Cloud-sea effects do not reinforce lane decisions as directly."
+    },
+    {
+      "archetype_id": "moving_carrier_battlefield",
+      "score": 6.4,
+      "why_fit": "Supports large-scale pressure and reactive impact.",
+      "risks": "Industrial language conflicts with the locked celestial storybook direction."
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "archetype_id": "neon_city_depth",
+      "reason": "Generic neon city language is outside the art bible."
+    }
+  ],
+  "signature_techniques": [
+    "pseudo3d_road_stack",
+    "line_scroll_floor",
+    "camera_shake_light_flash",
+    "palette_state_transitions"
+  ],
+  "fallback_profile": "competent_two_plane_road_with_plane_scroll_and_palette_accents",
+  "mode7_claim_redirected": true,
+  "budget_preconditions": {
+    "vram_pressure": "high",
+    "cpu_pressure": "medium",
+    "h_int_required": false
+  },
+  "delivery_findings": [
+    "Full v007 BG_B plus road overlay does not fit beside the current 512-tile sprite reserve.",
+    "The approved composition must be translated to a lower unique-tile two-plane derivative.",
+    "Line scroll is allowed only if the worst frame remains inside the measured budget."
+  ],
+  "blocking_statuses": []
+}

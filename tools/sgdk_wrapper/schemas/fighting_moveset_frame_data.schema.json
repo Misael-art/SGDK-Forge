@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/fighting_moveset_frame_data.schema.json",
+  "title": "Fighting 2D Moveset Frame Data",
+  "description": "Per-character move list with frame-precise data. All times are integer frames. Per-move frame fields are REQUIRED for primary characters whose moves are not system/movement category; secondary/secret characters may declare partial frame data. Validator is hard: a primary character missing any required frame field fails schema validation. Downstream phase_aware_blockers (fighting_lore_moveset_unbound, fighting_balance_evidence_missing) only fire at ready_for_aaa/closeout.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "character_id",
+    "character_role",
+    "registry_source",
+    "time_unit",
+    "moves"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "character_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "character_role": {
+      "type": "string",
+      "enum": [
+        "primary",
+        "secondary",
+        "secret",
+        "boss",
+        "training_dummy"
+      ]
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": {
+      "type": "string",
+      "const": "frames"
+    },
+    "moves": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "move_id",
+          "display_name",
+          "input_motion",
+          "category"
+        ],
+        "properties": {
+          "move_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "input_motion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "command_normal",
+              "special",
+              "super",
+              "throw",
+              "system",
+              "movement"
+            ]
+          },
+          "startup_frames": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "active_frames": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "recovery_frames": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "on_hit_advantage_frames": {
+            "type": "integer"
+          },
+          "on_block_advantage_frames": {
+            "type": "integer"
+          },
+          "own_displacement_px": {
+            "type": "integer"
+          },
+          "pushback_on_hit_px": {
+            "type": "integer"
+          },
+          "pushback_on_block_px": {
+            "type": "integer"
+          },
+          "punish_window_frames": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "hitbox_summary": {
+            "type": "string"
+          },
+          "damage": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "stun_frames": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "meter_gain_on_hit": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "meter_gain_on_block": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "is_projectile": {
+            "type": "boolean"
+          },
+          "is_invulnerable": {
+            "type": "boolean"
+          },
+          "is_armor": {
+            "type": "boolean"
+          },
+          "cancel_into": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "Primary characters: every non-system/movement move must declare the 5 frame fields.",
+      "if": {
+        "properties": {
+          "character_role": {
+            "const": "primary"
+          }
+        },
+        "required": [
+          "character_role"
+        ]
+      },
+      "then": {
+        "properties": {
+          "moves": {
+            "items": {
+              "if": {
+                "properties": {
+                  "category": {
+                    "not": {
+                      "enum": [
+                        "system",
+                        "movement"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "category"
+                ]
+              },
+              "then": {
+                "required": [
+                  "startup_frames",
+                  "active_frames",
+                  "recovery_frames",
+                  "on_hit_advantage_frames",
+                  "on_block_advantage_frames"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

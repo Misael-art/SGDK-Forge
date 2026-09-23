@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "project": "HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "scenes": [
+    {
+      "scene_id": "branding_sequence",
+      "scene_key": "branding_sequence",
+      "boot_mode": "direct_boot",
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 0,
+      "baseline_root": "doc\\baselines\\branding_sequence"
+    },
+    {
+      "scene_id": "front_end_main_menu",
+      "scene_key": "front_end_main_menu",
+      "boot_mode": "direct_boot",
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 1,
+      "menu_contract": {
+        "pages": ["main", "options_1", "options_2", "options_3", "debug_1", "debug_2"],
+        "items_per_page": 5,
+        "panel_tile_row": 13,
+        "auto_advance": false,
+        "p2_ignored": true
+      },
+      "required_checks": [
+        "boot_opening_to_title_fade",
+        "start_enters_select_once",
+        "options_toggle_effects",
+        "special_and_hits_toggle_effects",
+        "stage2_toggle_and_selection",
+        "stage2_camera_and_palette",
+        "combo_multi_hit_and_expiry",
+        "debug_page_regression",
+        "back_preserves_option_cursor"
+      ],
+      "baseline_root": "doc\\baselines\\front_end_main_menu"
+    },
+    {
+      "scene_id": "first_playable_slice",
+      "scene_key": "first_playable_slice",
+      "boot_mode": "unsupported",
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "capture_frame": 120,
+      "warmup_frames": 90,
+      "expected_app_scene_id": 2,
+      "baseline_root": "doc\\baselines\\first_playable_slice"
+    }
+  ]
+}

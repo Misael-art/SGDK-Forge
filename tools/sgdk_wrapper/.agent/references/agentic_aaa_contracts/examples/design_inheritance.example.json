@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hero_white_gi",
+  "visual_dna_manifest": "visual_dna_manifest.example.json",
+  "model_sheet": {
+    "path": "data/source_art/hero/model_sheet.png",
+    "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "status": "approved"
+  },
+  "inheritance_rules": {
+    "must_preserve": ["white gi", "bottom center pivot", "compact fighter silhouette"],
+    "may_vary": ["facial expression", "cloth overlap during attack"],
+    "must_reject": ["clone_risk_high", "anatomy_drift", "pivot_drift", "palette_drift", "metadata_only_asset"]
+  },
+  "derivative_policy": {
+    "derivative_of": null,
+    "derivative_license_status": "not_derivative",
+    "clone_risk_score": 0.12,
+    "clone_risk_method": "human review plus silhouette comparison"
+  },
+  "approval_status": "approved",
+  "blockers": []
+}

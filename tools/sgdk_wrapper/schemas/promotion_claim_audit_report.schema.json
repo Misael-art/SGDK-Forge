@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/promotion_claim_audit_report.schema.json",
+  "title": "SGDK Promotion Claim Audit Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "project_root",
+    "status",
+    "requested_claims",
+    "blocker_codes",
+    "claim_ceiling"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "tool_name": { "type": "string", "const": "audit_promotion_claims" },
+    "project_root": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["not_applicable", "passed", "blocked", "error"]
+    },
+    "rom_sha256": { "type": ["string", "null"] },
+    "requested_claims": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "blocker_codes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "claim": { "type": ["string", "null"] },
+          "artifact": { "type": ["string", "null"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "claim_ceiling": { "type": "string" },
+    "least_consistent_status": { "type": ["string", "null"] }
+  },
+  "additionalProperties": true
+}

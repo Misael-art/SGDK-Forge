@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "opening_catalyst_cutscene",
+  "status": "planned",
+  "states": ["OP_00_BLACK_STINGER", "OP_01_LIGHTHOUSE_WIDE", "OP_02_LIO_CLOSEUP", "OP_03_CORE_INSERT", "OP_04_HART_SHADOW", "OP_05_GATE_BREAK", "OP_06_CONTROL_HANDOFF"],
+  "advance_policy": "WAIT_FRAMES_OR_TEXT_DONE, with input accepted only after text safety window",
+  "input_policy": "A/START accelerate text; A/START after text advances; no skip during critical load"
+}

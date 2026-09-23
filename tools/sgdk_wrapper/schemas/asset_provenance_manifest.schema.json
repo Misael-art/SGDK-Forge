@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/asset_provenance_manifest.schema.json",
+  "title": "Asset Provenance Manifest",
+  "description": "Declara a origem real de cada simbolo visual de res/*.res. Substitui adivinhacao por nome de arquivo. Sem entrada declarada, o simbolo e asset_provenance_undeclared e bloqueia entrega visual.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project_name",
+    "declared_at",
+    "entries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "project_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "declared_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "validator_fixture": {
+      "type": "boolean",
+      "default": false,
+      "description": "Fixture de validador: dispensa o gate de asset externo, mas proibe qualquer claim de entrega visual. Deve casar com project_context_manifest.validator_fixture."
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "res_symbol",
+          "res_kind",
+          "asset_path",
+          "source_kind",
+          "acceptance_status",
+          "generated_by"
+        ],
+        "properties": {
+          "res_symbol": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Simbolo exato declarado no .res (ex.: spr_taina_idle_guard)."
+          },
+          "res_kind": {
+            "enum": ["IMAGE", "SPRITE", "TILESET", "TILEMAP", "MAP", "BITMAP", "PALETTE"]
+          },
+          "asset_path": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Caminho do arquivo relativo a res/, exatamente como no .res."
+          },
+          "source_kind": {
+            "enum": [
+              "hand_authored_pixel",
+              "ai_generated",
+              "photo_or_render_derived",
+              "procedural_composed_from_authored",
+              "procedural_primitive",
+              "sgdk_builtin"
+            ],
+            "description": "procedural_primitive = arte desenhada por codigo (ImageDraw, primitivas, poligonos, preenchimento solido). procedural_composed_from_authored = codigo apenas monta/recorta/paletiza uma fonte autoral que ja existia."
+          },
+          "acceptance_status": {
+            "enum": ["final", "placeholder", "debug_lab", "visual_lab_control"]
+          },
+          "generated_by": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Script, ferramenta ou canal que produziu o arquivo final. Use 'none' apenas para arte autoral importada sem script."
+          },
+          "authored_source": {
+            "type": "string",
+            "description": "Caminho da fonte autoral persistida em data/source_art/. Obrigatorio quando source_kind e procedural_composed_from_authored."
+          },
+          "authored_source_hash": {
+            "type": "string",
+            "description": "Hash da fonte autoral, coerente com premium_source_manifest."
+          },
+          "license": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "source_kind": { "const": "procedural_primitive" }
+              },
+              "required": ["source_kind"]
+            },
+            "then": {
+              "properties": {
+                "acceptance_status": {
+                  "not": { "const": "final" },
+                  "description": "Arte desenhada por primitiva nunca pode ser final. Regra 17 e diretriz de bloqueio estetico."
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "source_kind": { "const": "procedural_composed_from_authored" }
+              },
+              "required": ["source_kind"]
+            },
+            "then": {
+              "required": ["authored_source", "authored_source_hash"]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

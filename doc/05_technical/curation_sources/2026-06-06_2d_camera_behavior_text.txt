@@ -1,0 +1,18 @@
+Curadoria secundaria: comportamento de camera 2D para jogos de plataforma/acao.
+
+Origem: texto colado pelo usuario em 2026-06-06 a partir de chat de analise de cases.
+Status: unverified_secondary_text. Nao e evidencia operacional.
+
+Pontos assimilados:
+- Camera 2D nao deve ficar rigidamente grudada ao jogador por padrao.
+- Camera competente combina dead zone, smoothing, look-ahead, clamping e triggers.
+- Em pixel art/SGDK, a simulacao pode usar fix16/fix32, mas a posicao final de render deve ser snapada para pixels inteiros.
+- Screen shake precisa ser curto, decair com o tempo e preservar integer scaling.
+- Camera triggers/anchors sao parte do level design: boss room, arena fixa, auto-scroll e transicoes podem trocar o modo da camera.
+- Culling deve usar a viewport da camera com margem segura; nao pode esconder inimigos, riscos ou telegraphs cedo demais.
+- A camera e sistema de gameplay: precisa manter ameacas, plataformas, quedas, hitboxes e objetivos legiveis.
+
+Aplicacao canonica:
+- Reforcar `camera_scroll_management` sem alterar status para MESTRE.
+- Formalizar `camera_behavior_contract` como contrato machine-readable.
+- Exigir consumo por planejamento, level design, arquitetura de cena e runtime quando camera/scroll afetarem jogabilidade.

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "celestial_chase_style_drift_v001",
+  "blocking_drift": [
+    "heavy continuous black outline on hero or pursuer",
+    "automatic character dithering or granular noise",
+    "environment palette outside the indigo, moonlit sand and celestial ivory domains",
+    "flat procedural laboratory background used as final art",
+    "HUD that resembles debug telemetry",
+    "threat colors that violate the danger and reward color contracts",
+    "character silhouette or costume copied from a proprietary reference"
+  ],
+  "correction_order": [
+    "restore palette domain",
+    "restore silhouette and line weight",
+    "restore focal hierarchy",
+    "reduce tile pressure through translation rather than flattening the composition"
+  ],
+  "current_drift_findings": [
+    "Current runtime background is a flat reduced-residency laboratory fallback.",
+    "Current menu remains a development template.",
+    "Current global debug toggle exists in the control path."
+  ],
+  "status": "correction_required_in_runtime"
+}

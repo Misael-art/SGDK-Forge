@@ -22,6 +22,25 @@ function Resolve-FullPath {
     return [System.IO.Path]::GetFullPath($Path)
 }
 
+function Get-RelativePathSafe {
+    param(
+        [Parameter(Mandatory = $true)][string]$BasePath,
+        [Parameter(Mandatory = $true)][string]$TargetPath
+    )
+
+    $pathType = [System.IO.Path]
+    $getRelativePath = $pathType.GetMethod('GetRelativePath', [type[]]@([string], [string]))
+    if ($null -ne $getRelativePath) {
+        return $getRelativePath.Invoke($null, @($BasePath, $TargetPath))
+    }
+
+    $normalizedBase = $BasePath.TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar
+    $baseUri = [System.Uri]::new($normalizedBase)
+    $targetUri = [System.Uri]::new($TargetPath)
+    $relativeUri = $baseUri.MakeRelativeUri($targetUri)
+    return [System.Uri]::UnescapeDataString($relativeUri.ToString()).Replace('/', '\')
+}
+
 function Ensure-Directory {
     param([Parameter(Mandatory = $true)][string]$Path)
     if (Test-Path -LiteralPath $Path -PathType Container) { return }
@@ -47,12 +66,20 @@ function Get-WrapperRelativePathFromProject {
     )
     $proj = [System.IO.Path]::GetFullPath($ProjectRootPath).TrimEnd('\')
     $ws = [System.IO.Path]::GetFullPath($WorkspaceRootPath).TrimEnd('\')
-    if (-not $proj.StartsWith($ws, [System.StringComparison]::OrdinalIgnoreCase)) {
-        return "..\..\tools\sgdk_wrapper\"
+    $relative = Get-RelativePathSafe -BasePath $ws -TargetPath $proj
+    if ([string]::IsNullOrWhiteSpace($relative) -or $relative -eq '.') {
+        return "tools\sgdk_wrapper\"
     }
-    $relative = $proj.Substring($ws.Length).TrimStart('\', '/')
-    if ([string]::IsNullOrWhiteSpace($relative)) { return "tools\sgdk_wrapper\" }
-    $segments = $relative.Split(@('\', '/'), [StringSplitOptions]::RemoveEmptyEntries)
+
+    if ([System.IO.Path]::IsPathRooted($relative)) {
+        throw "ProjectRoot '$ProjectRootPath' nao esta dentro do workspace '$WorkspaceRootPath'."
+    }
+
+    $segments = $relative.Split([char[]]@('\', '/'), [StringSplitOptions]::RemoveEmptyEntries)
+    if ($segments.Count -gt 0 -and $segments[0] -eq '..') {
+        throw "ProjectRoot '$ProjectRootPath' nao esta dentro do workspace '$WorkspaceRootPath'."
+    }
+
     $depth = $segments.Count
     $prefix = ("..\" * $depth)
     return $prefix + "tools\sgdk_wrapper\"
@@ -66,28 +93,30 @@ function Write-WrapperBat {
         [Parameter(Mandatory = $true)][string]$WorkspaceRootPath
     )
 
+    $relPathToWrapper = Get-WrapperRelativePathFromProject -ProjectRootPath $ProjectRootPath -WorkspaceRootPath $WorkspaceRootPath
+    $wrapperVarName = "SGDK_WRAPPER_{0}" -f $Verb.ToUpperInvariant()
+    $wrapperBatRelativePath = "{0}{1}.bat" -f $relPathToWrapper, $Verb
+
     $content = @(
         '@echo off'
         'REM ========================================================================='
         "REM $Verb.bat - Delegacao canonica para tools\\sgdk_wrapper"
         'REM NUNCA adicione logica aqui. Centralize no wrapper.'
         'REM ========================================================================='
-        'setlocal'
+        'setlocal EnableExtensions EnableDelayedExpansion'
         'set "SGDK_LOCAL_ENV=%~dp0sgdk_wrapper_env.bat"'
-        'if exist "%SGDK_LOCAL_ENV%" call "%SGDK_LOCAL_ENV%"'
+        'if exist "!SGDK_LOCAL_ENV!" call "!SGDK_LOCAL_ENV!"'
         'set "SGDK_PROJECT_ROOT=%~dp0."'
-        'for %%I in ("%SGDK_PROJECT_ROOT%") do set "SGDK_PROJECT_ROOT=%%~fI"'
-        'set "SGDK_WRAPPER_ROOT="'
-        "if exist ""%~dp0tools\sgdk_wrapper\$Verb.bat"" if exist ""%~dp0tools\sgdk_wrapper\prepare_assets.py"" for %%I in (""%~dp0tools\sgdk_wrapper"") do set ""SGDK_WRAPPER_ROOT=%%~fI"""
-        'if not defined SGDK_WRAPPER_ROOT if exist "%~dp0..\build.bat" if exist "%~dp0..\prepare_assets.py" for %%I in ("%~dp0..") do set "SGDK_WRAPPER_ROOT=%%~fI"'
-        "if not defined SGDK_WRAPPER_ROOT if exist ""%~dp0..\..\tools\sgdk_wrapper\$Verb.bat"" for %%I in (""%~dp0..\..\tools\sgdk_wrapper"") do set ""SGDK_WRAPPER_ROOT=%%~fI"""
-        "if not defined SGDK_WRAPPER_ROOT if exist ""%~dp0..\..\..\tools\sgdk_wrapper\$Verb.bat"" for %%I in (""%~dp0..\..\..\tools\sgdk_wrapper"") do set ""SGDK_WRAPPER_ROOT=%%~fI"""
-        'if not defined SGDK_WRAPPER_ROOT ('
-        '    echo [ERROR] Nao foi possivel localizar tools\sgdk_wrapper a partir de %~dp0'
-        '    endlocal & exit /b 1'
+        'for %%I in ("!SGDK_PROJECT_ROOT!") do set "SGDK_PROJECT_ROOT=%%~fI"'
+        ('set "{0}=%~dp0{1}"' -f $wrapperVarName, $wrapperBatRelativePath)
+        ('for %%I in ("!{0}!") do set "{0}=%%~fI"' -f $wrapperVarName)
+        ('if not exist "!{0}!" (' -f $wrapperVarName)
+        ('    echo [ERROR] Nao foi possivel localizar tools\sgdk_wrapper\{0}.bat a partir de %~dp0' -f $Verb)
+        '    exit /b 1'
         ')'
-        "call ""%SGDK_WRAPPER_ROOT%\\$Verb.bat"" ""%SGDK_PROJECT_ROOT%"""
-        'endlocal & exit /b %errorlevel%'
+        ('call "!{0}!" "!SGDK_PROJECT_ROOT!"' -f $wrapperVarName)
+        'set "SGDK_WRAPPER_RC=!ERRORLEVEL!"'
+        'exit /b !SGDK_WRAPPER_RC!'
         ''
     ) -join "`r`n"
 
@@ -256,7 +285,7 @@ Este projeto faz parte do ecossistema **MegaDrive_DEV** (SGDK 2.11).
 - `rebuild.bat`: clean + build
 
 ### Regras para Agentes de IA (obrigatorio)
-- **Nao duplicar** logica de build nesses `.bat`. Toda logica fica em `F:\Projects\MegaDrive_DEV\tools\sgdk_wrapper\`.
+- **Nao duplicar** logica de build nesses `.bat`. Toda logica fica em `tools\sgdk_wrapper\`.
 - **Hierarquia de verdade / governanca**: siga `AGENTS.md`, `CLAUDE.md` e a documentacao do projeto (ex.: `doc/` e `doc/10-memory-bank.md` quando aplicavel).
 - **SGDK / Mega Drive**: sem `float/double`, sem `malloc/free` em gameplay loop, sem inventar APIs, respeitar budgets de VRAM/DMA/sprites.
 - **Ciclo de producao**: planejar → implementar → build pelo wrapper → validar (emulador) → atualizar docs (handoff).
@@ -310,4 +339,3 @@ catch {
     Write-Error $_
     exit 1
 }
-

@@ -1,0 +1,289 @@
+RPG SUBGENRE TAXONOMY (BIBLIA 1)
+==================================
+
+Esta biblia cobre a taxonomia pedagogica dos subgeneros principais do genero RPG
+(Role-Playing Game), com foco em viabilidade para Mega Drive (16-bit, 64KB RAM,
+7.67MHz 68K, 64KB VRAM). Foi copiada para fins de curadoria secundaria. O
+`verification_status=unverified_secondary_text` indica que este texto precisa de
+revisao humana antes de virar `promotion_allowed=true` em SOURCES_INDEX.md.
+
+Cobrimos: Turn-Based JRPG, Action RPG Top-Down, cRPG Classico e RPG Narrativo.
+O v2 do framework foca em `rpg_turn_based_jrpg` (active) e `rpg_action_topdown`
+(active). Os outros dois ficam em `future_knowledge` ate curadoria.
+
+================================================================================
+1. DEFINICAO DO GENERO RPG
+================================================================================
+
+RPG (Role-Playing Game) eh um genero de jogo eletonico onde o jogador assume o
+papel de um ou mais personagens em um mundo ficcional. Caracteristicas
+centrais:
+
+- **Party**: O jogador controla um grupo de 1-8 personagens (party), cada um
+  com atributos, classes, equipamento e progressao individual.
+- **Progressao por XP**: Personagens ganham pontos de experiencia (XP) ao
+  derrotar inimigos ou cumprir objetivos. Acumular XP leva a subida de nivel,
+  que aumenta atributos e libera novas habilidades.
+- **Inventario**: Sistema de coleta, gerenciamento e uso de items (pocoes,
+  armas, armaduras, chave, etc). Inventario tipicamente tem capacidade
+  limitada (8-30 slots) e exige decisao tatica sobre o que carregar.
+- **Narrativa**: RPGs enfatizam histoia, dialogos, personagens com motivacoes
+  proprias, e mundo com lore proprio. Narrativa pode ser linear, ramificada,
+  ou emergente dependendo do subgenero.
+- **Combate**: Resolucao de encontros hostis. Pode ser por turnos
+  (turn-based), em tempo real (action), ou hibrido.
+
+================================================================================
+2. SUBGENERO: TURN-BASED JRPG
+================================================================================
+
+### 2.1 Definicao
+
+JRPG turn-based eh o arquetipo canonico do genero, popularizado por Dragon
+Quest (1986) e Final Fantasy (1987) no console Nintendo. A mecanica central eh
+o combate em turnos: o jogador e o inimigo alternam acoes dentro de uma
+ordem deterministica (geralmente por iniciativa derivada de `speed` ou
+`agility`).
+
+### 2.2 Elementos Universais (presentes em todo JRPG turn-based)
+
+- **Party Size**: Tipicamente 4 personagens (3-5 eh o range canonico). 4 eh o
+  padrao de Final Fantasy I a IX. 3 eh o padrao de Chrono Trigger. 5+ eh
+  raro e geralmente aparece em sequels ou RPGs com classes avancadas.
+- **Turn Order**: Ordem de iniciativa derivada de `agility` ou `speed`. O
+  combatente com maior age first, com desempate por atributo secundario.
+  Em MD, isso cabe em array estatico de ate 8 combatentes.
+- **Action Menu**: Cada turno, o jogador escolhe entre acoes: `attack`,
+  `magic`, `item`, `defend`, `skill`, `escape`. O menu eh tipicamente
+  apresentado em lista vertical com highlight cursor.
+- **Magic System**: Sistema de magias dividido em `white_magic` (cura,
+  buff, status) e `black_magic` (dano, debuff, status negativo). MP (Magic
+  Points) ou `MP` eh o recurso de casting.
+- **Status Effects**: Condicoes alteradas que afetam combate: `poison`,
+  `sleep`, `paralysis`, `silence`, `confusion`, `blind`. Implementados
+  como bitmask em MD.
+- **Equipment Grid**: Sistema de equipamento slot-based. Slots canonicos:
+  `weapon`, `armor`, `helmet`, `shield`, `accessory_1`, `accessory_2`.
+  Cada slot aceita um item por vez.
+- **Encounter Rate**: Frequencia de encontros aleatorios no mapa. Pode ser
+  `fixed` (pre-determinado pelo designer), `random` (RNG por step count),
+  ou `hybrid` (mistura de ambos).
+- **Save Anywhere vs Save Stations**: Sistemas variam. JRPG canonico tem
+  `save_stations` (estabelecimentos como igrejas, inns) com cooldown ou
+  custo. RPGs mais modernos permitem save anywhere com confirmacao.
+- **Permadeath vs Continue**: JRPG canonico NAO tem permadeath. Personagens
+  caem em 0 HP e ficam `unconscious`; podem ser revividos com item ou
+  magia. Permadeath eh mais comum em cRPGs.
+
+### 2.3 Elementos Exclusivos do JRPG Turn-Based
+
+- **Linear Narrative**: Historia segue uma rota pre-determinada. Personagens
+  do jogador nao fazem escolhas morais radicais; o "caminho" do heroi eh
+  canonico.
+- **Optional Side Quests**: Conteudo lateral (dungeons opcionais, NPCs com
+  side-quests) eh comum mas nao obrigatorio para terminar o jogo.
+- **Class System**: Personagens tem classes canonicas (Knight, White Mage,
+  Black Mage, Thief, Archer, etc). Classes podem ser fixas ou evoluir
+  (Final Fantasy V Job System).
+- **Summons / Espers / Aeons**: Personagens ou entidades invocaveis com
+  magias ultimate. Requer slot dedicado em party ou em subsistema.
+- **Crystals / MacGuffins**: Itens narrativos centrais (crystals, espers,
+  orbs) que dao nome a jornada e dao plot twists.
+- **Airship / Overworld Map**: Apos certo progresso, jogador tem acesso a
+  um mapa-mundi navegavel (geralmente com airship) que conecta regioes
+  distantes.
+- **Boss Patterns**: Chefes tem padroes de ataque discerniveis (telegraph
+  obrigatorio para design AAA). Em MD, boss com 2-3 fases eh o teto
+  canonico.
+
+### 2.4 Elementos Fora do Escopo (NAO cabem em JRPG canonico)
+
+- **Open World**: Mundo aberto sem rota definida eh mais caracteristico de
+  cRPG ou Action RPG.
+- **Dialogue Trees Complexos**: Escolhas morais com multiplas consequencias
+  ramificadas sao mais comuns em RPG Narrativo ou cRPG.
+- **Real-Time Combat**: Combate em tempo real eh do Action RPG.
+
+### 2.5 Viabilidade em Mega Drive
+
+JRPG turn-based eh **MD-viavel**.Referencias canonicas que rodaram em MD:
+
+- Phantasy Star II/III/IV (Sega)
+- Shining Force I/II (Sega/Camelot)
+- Landstalker (Climax)
+- Beyond Oasis / Story of Thor
+- Arcus Odyssey
+
+Restricoes de hardware:
+- Party size maximo: 4 (5+ causa lag em cenas com 4-5 sprites + BG)
+- Magias: 16-32 magias distintas (32 eh o teto pratico)
+- Inventario: 8-12 slots (16+ exige sub-telas)
+- Save: 8-32KB de save data (SRAM 32KB canonica do MD)
+
+### 2.6 Frozen Design Axes (v2 do framework)
+
+```json
+{
+  "time_unit": "ticks (turn)",
+  "party_size_max": 4,
+  "equipment_grid": "slot_based",
+  "encounter_trigger": "fixed+random",
+  "permadeath": "off",
+  "narrative_branching": "linear_with_optional_scenes"
+}
+```
+
+Cada eixo eh **congelado** durante a vigencia da especializacao. Mudanca
+exige nova rodada de curadoria + projeto piloto + ROM + BlastEm.
+
+### 2.7 Phase-Aware Blockers (disparam em ready_for_aaa/closeout)
+
+- `rpg_party_size_unbounded`: Party size no design contract deve respeitar
+  `frozen_design_axes.party_size_max`. NUNCA pode ser maior sem mudar o
+  eixo (exige curadoria).
+- `rpg_encounter_resolution_ambiguous`: Encounter trigger e resolution
+  devem ser declarados explicitamente no design contract. NUNCA pode ser
+  implicito.
+- `rpg_save_corruption_risk`: Save deve ter checksum + version field + slot
+  table. NUNCA pode ser raw pointer.
+
+================================================================================
+3. SUBGENERO: ACTION RPG TOP-DOWN
+================================================================================
+
+### 3.1 Definicao
+
+Action RPG top-down eh um subgenero que combina combate em tempo real com
+exploracao vista de cima. A camera eh fixa no eixo Y (top-down), com
+movimentacao livre em X+Y. Combate eh resolved em tempo real, geralmente
+com pausa tatica (similar a Final Fantasy Tactics ou Diablo).
+
+### 3.2 Elementos Universais
+
+- **Top-Down Camera**: Visao isometrica ou ortogonal de cima. Player
+  controlado por D-pad com 8 direcoes.
+- **Real-Time Combat**: Sem turnos. Player ataca com botao, esquiva com
+  outro botao, troca de arma com select.
+- **Pause Tactical**: Em boss fights, jogador pode pausar para escolher
+  magia ou item (similar a Baldur's Gate).
+- **Encounter Realtime**: Inimigos aparecem no mapa (visiveis), nao por
+  encontro aleatorio.
+- **Equipamento Slot-Based**: Similar a JRPG. Slots canonicos: weapon,
+  armor, accessory.
+- **Leveling Real-Time**: XP acumula em tempo real; level up acontece
+  entre encontros.
+
+### 3.3 Elementos Exclusivos
+
+- **Loot Drops**: Inimigos dropam items visiveis no mapa que jogador
+  recolhe.
+- **Stamina/Spirit Bar**: Sistema de recurso para special moves alem de
+  MP. Stamina regenera rapido; Spirit regenera devagar.
+- **Light/Shadow System**: Em alguns (Alundra, Landstalker), areas
+  escuras exigem tocha.
+
+### 3.4 Viabilidade em MD
+
+Action RPG top-down eh **MD-viavel** (borderline).Referencias:
+
+- Landstalker (1993, Sega)
+- Light Crusader (1995, Sega)
+- Arcus Odyssey (1991, Wolf Team)
+
+Restricoes adicionais vs JRPG:
+- IA inimiga em tempo real eh mais cara (CPU-bound)
+- Render de ate 8 inimigos simultaneos no mapa
+- Pause tatico precisa de input lag < 8 frames para nao quebrar ritmo
+
+### 3.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "topdown_fixed",
+  "party_size_max": 2,
+  "encounter_trigger": "overworld_realtime",
+  "combat_resolution": "action_realtime_with_pause",
+  "equipment_grid": "slot_based"
+}
+```
+
+### 3.6 Phase-Aware Blockers (mesmas 3 do JRPG)
+
+- `rpg_party_size_unbounded` (party_size_max=2, nao 4)
+- `rpg_encounter_resolution_ambiguous`
+- `rpg_save_corruption_risk`
+
+================================================================================
+4. SUBGENERO: cRPG CLASSIC (future_knowledge)
+================================================================================
+
+cRPG classico (computer RPG, nao JRPG) eh a linhagem de Ultima, Wizardry,
+Dungeon Crawl. Caracteristicas:
+
+- Party maior (6-8 personagens)
+- World map aberto com exploracao livre
+- Classes avancadas com multiclass
+- IA de companheiro que age sozinho
+- Dialogues densos com quest log
+- Death com permadeath real
+
+cRPG classico eh **borderline** em MD por causa do tamanho de party e
+dialogo. Projetos pilotos nao entregaram. Fica em `future_knowledge` ate
+curadoria explicita.
+
+================================================================================
+5. SUBGENERO: RPG NARRATIVO (future_knowledge)
+================================================================================
+
+RPG narrativo (Planescape Torment, Disco Elysium, Citizen Sleeper) prioriza
+narrativa sobre combate. Caracteristicas:
+
+- Estatisticas de relacionamento com NPCs
+- Dialogue trees com multiplas consequencias
+- Skill checks baseados em stat (Diplomacy, Intimidation, Stealth)
+- Combate pode ser ausente ou minimo
+- Save flags por caminho narrativo
+
+RPG narrativo eh **MD-viavel** em escopo, mas exige **biblia canonica
+revisada** para entrar em `active`. Fica em `future_knowledge`.
+
+================================================================================
+6. CRITERIOS DE PROMOCAO (future_knowledge -> active)
+================================================================================
+
+A promocao de `rpg_c_rpg_classic` ou `rpg_narrative_dialogue` para `active`
+exige:
+
+1. Biblia canonica copiada para `curation_sources/<sha256>_<descriptive>.txt`
+   com `verification_status=verified_curated`.
+2. Projeto piloto opt-in com manifesto declarando o subgenero, com ROM
+   rodando em BlastEm.
+3. Validacao de hardware (VDP budget, scanline pressure, sprite limit)
+   dentro do `megadrive-vdp-budget-analyst`.
+4. Schema novo em `tools/sgdk_wrapper/schemas/rpg_<subgenero>_design_contract.schema.json`.
+5. Validator novo em `tools/sgdk_wrapper/validate_rpg_<subgenero>_specialization.ps1`.
+6. Skill nova em `tools/sgdk_wrapper/.agent/skills/planning/<subgenero>-game-design/`.
+7. Aprovacao humana explicita registrada em changelog do wrapper.
+
+================================================================================
+7. NOTAS DE CURADORIA
+================================================================================
+
+Este texto foi compilado de multiplas fontes publicas (Dragon Quest manual,
+Final Fantasy manual, Phantasy Star manual, Shining Force manual, genericos
+de RPG design). NAO inclui citacoes literais extensas. As listas de
+elementos universais/exclusivos seguem a convencao canonica do genero,
+nao citacao exata de uma unica fonte.
+
+Para usar este texto como base de `verified_curated`:
+1. Humano le integralmente.
+2. Humano decide se ha conflito com a politica de IP do workspace
+   (`art_style_catalog.json`).
+3. Humano atualiza `SOURCES_INDEX.md` com `verification_status=verified_curated`
+   e `promotion_allowed=true`.
+4. Humano registra a promocao em `doc/changelog/changelog.md` do wrapper.
+
+================================================================================
+8. FIM
+================================================================================

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "source_path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+  "source_class": "high_res_full_body_character",
+  "intended_role": "translation_source",
+  "matte_policy": "border_connected",
+  "reviewer": "agent_visual_triage",
+  "identity_authority_path": "data/source_art/kairo_vant/kairo_vant_visual_source.png",
+  "identity_authority_sha256": "e057e1a319163f5ad272f1cd2094483834209ef52453e58f09cab50ebb2d743c",
+  "visual_source_of_truth_contract": "doc/art/kairo_vant/visual_source_of_truth.json",
+  "derivation": "ImageGen visual source generated for Kairo Vant identity; native grid reauthoring remains required and this file is never a final sprite.",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Single full-body three-quarter pose with complete hands and feet. Uniform deep slate background is border-connected and eligible for matte extraction. Scarf tail is an identity accessory, not detached FX. High-resolution RGB source remains visual_source only."
+  }
+}

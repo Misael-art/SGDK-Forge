@@ -1,0 +1,348 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "video_curation_evidence_backlog",
+  "status": "evidence_backlog",
+  "purpose": "Track which Mega Drive AAA video-curation inputs are directly present in the thread versus only summarized by another agent, so the framework does not invent canonical skills without source evidence.",
+  "directly_available_in_thread": [
+    {
+      "id": "case_16tile_tilemap_attributes",
+      "evidence_class": "direct_case",
+      "source_kind": "transcribed_video_analysis",
+      "topic": "16 Tile tilemaps, per-cell attributes, palette anchoring, SGDK MAP/TILESET integration",
+      "curation_status": "case_study_materialized",
+      "owner_docs": [
+        "tools/sgdk_wrapper/doc/05_technical/case_16tile_tilemap_attributes.md"
+      ],
+      "owner_skills": [
+        "multi-plane-composition",
+        "tiled-hybrid-parallax-curator",
+        "megadrive-vdp-budget-analyst"
+      ]
+    },
+    {
+      "id": "case_sprites_16bit_architecture",
+      "evidence_class": "direct_case",
+      "source_kind": "transcribed_video_analysis",
+      "topic": "SAT/OAM, 4bpp sprites, sprite limits, scanline pressure, indexed palettes",
+      "curation_status": "covered_by_existing_and_new_gates",
+      "owner_skills": [
+        "megadrive-vdp-budget-analyst",
+        "sprite-animation",
+        "collision-system-architect"
+      ]
+    },
+    {
+      "id": "case_graphical_tricks_vdp",
+      "evidence_class": "direct_case",
+      "source_kind": "transcribed_video_analysis",
+      "topic": "HScroll, VScroll, raster/H-Int, dithering, palette tricks",
+      "curation_status": "case_study_materialized",
+      "owner_docs": [
+        "tools/sgdk_wrapper/doc/05_technical/case_rangerx_shadow_highlight_scroll.md"
+      ],
+      "owner_skills": [
+        "shadow-highlight-scroll-fx",
+        "scene-direction-curator",
+        "megadrive-vdp-budget-analyst"
+      ]
+    },
+    {
+      "id": "case_modern_vs_classic_md_pipeline",
+      "evidence_class": "direct_case",
+      "source_kind": "transcribed_video_analysis",
+      "topic": "modern SGDK pipeline versus classic assembly/devkit flow",
+      "curation_status": "covered_by_existing_pipeline_with_guardian",
+      "owner_skills": [
+        "sgdk-runtime-coder",
+        "sgdk-build-wrapper-operator",
+        "aaa-pipeline-guardian"
+      ]
+    },
+    {
+      "id": "case_megadrive_graphics_pipeline",
+      "evidence_class": "direct_case",
+      "source_kind": "transcribed_video_analysis",
+      "topic": "VRAM, CRAM, VSRAM, tile descriptors, line rendering",
+      "curation_status": "covered_by_existing_and_new_gates",
+      "owner_skills": [
+        "megadrive-vdp-budget-analyst",
+        "vram-streaming-dma-queue",
+        "shadow-highlight-scroll-fx"
+      ]
+    },
+    {
+      "id": "case_independent_devs_architecture",
+      "evidence_class": "direct_case",
+      "source_kind": "transcribed_video_analysis",
+      "topic": "small teams, entity decomposition, Z80 audio, software rendering, articulated sprites",
+      "curation_status": "case_study_materialized",
+      "owner_docs": [
+        "tools/sgdk_wrapper/doc/05_technical/case_independent_devs_architecture.md"
+      ],
+      "owner_skills": [
+        "entity-polymorphism-architect",
+        "vram-streaming-dma-queue",
+        "game-state-transition-architect",
+        "z80-pcm-custom-driver"
+      ]
+    }
+  ],
+  "summarized_by_other_agent_not_source_verified": [
+    {
+      "id": "aggregate_64_video_claim",
+      "evidence_class": "aggregate_claim",
+      "claim": "64 videos were crossed against the .agent framework",
+      "curation_status": "not_canonically_verified",
+      "required_before_expansion": [
+        "source list with titles/links",
+        "per-video technique summary",
+        "deduplication against existing skills",
+        "evidence grade per proposed skill",
+        "human review for new canonical skill families"
+      ]
+    },
+    {
+      "id": "phase4_asset_conversion_cluster",
+      "claim": "SNES->MD, PC-98->MD, high-colour, color hacking and SFX prep require five additional skills",
+      "curation_status": "pipeline_backlog_only",
+      "reason_not_materialized_as_skills": "The thread contains aggregate labels but not enough per-technique evidence to define non-ambiguous inputs, outputs, tests and limits.",
+      "safe_current_owner": [
+        "art-translation-to-vdp",
+        "art-conversion-pipeline",
+        "megadrive-pixel-strict-rules",
+        "xgm2-audio-director"
+      ]
+    },
+    {
+      "id": "twenty_new_skills_claim",
+      "claim": "20 new skills should be created",
+      "curation_status": "rejected_as_bulk_action",
+      "reason_not_materialized_as_skills": "Bulk skill creation without source-specific contracts would inflate the framework and reduce proficiency."
+    }
+  ],
+  "next_evidence_needed": [
+    "full list of 64 videos or the source transcript pack",
+    "mapping from each video to exact technique claims",
+    "which claims are already covered by existing skills",
+    "which claims have at least one project fixture",
+    "which claims are merely historical/contextual and should remain case studies"
+  ],
+  "curation_batch_2026_06_16": {
+    "batch_id": "curation_batch_2026_06_16",
+    "received_date": "2026-06-16",
+    "intake_status": "registered_as_candidate_backlog_not_proof",
+    "policy": "This batch is recorded for triage. No item here promotes a skill, a runtime status or an AAA claim; expansions are deferred to Phase 4 and require their own evidence.",
+    "items": [
+      {
+        "id": "other_agent_plan_aggregate",
+        "evidence_class": "agent_aggregate_summary",
+        "evidence_grade": "E1_text",
+        "curation_status": "backlog_not_proof",
+        "claim": "Another agent's plan summarizing additional Mega Drive AAA techniques and proposed skill changes.",
+        "reason_not_materialized_as_skills": "An aggregate textual summary without per-technique source records, owners, contracts and minimum evidence cannot become a canonical rule or skill.",
+        "required_before_expansion": [
+          "per-technique source record with owner and contract",
+          "deduplication against existing and already-created candidate skills",
+          "evidence grade per proposed change",
+          "human review before any new canonical skill family"
+        ],
+        "phase4b_concepts_absorbed_as_candidate": {
+          "status": "phase4b_skill_update_applied_candidate",
+          "note": "Raster/scroll, Shadow/Highlight, palette cycling and high-color/true-color illusion concepts from this aggregate were absorbed as candidate operational rules into existing owner skills. The aggregate as a whole remains backlog_not_proof; these skill updates are candidate and require their own evidence.",
+          "owner_skills": [
+            "shadow-highlight-scroll-fx",
+            "raster-palette-hint-director",
+            "visual-excellence-standards",
+            "palette-cram-curator",
+            "color-conversion-curator"
+          ],
+          "still_required_for_production": [
+            "screenshot",
+            "VDP/CRAM/scroll dump when the effect depends on mid-frame state",
+            "worst-frame budget",
+            "reset proof"
+          ]
+        },
+        "phase4c_concepts_absorbed_as_candidate": {
+          "status": "phase4c_skill_update_applied_candidate",
+          "note": "Modular Design, function-pointer ability systems, headers/structs/enums C/SGDK patterns and Window Plane/HUD concepts from this aggregate were absorbed as candidate operational rules into existing code/architecture owner skills. The aggregate as a whole remains backlog_not_proof; these skill updates are candidate and require their own evidence.",
+          "owner_skills": [
+            "entity-polymorphism-architect",
+            "sgdk-runtime-coder",
+            "scene-state-architect"
+          ],
+          "still_required_for_production": [
+            "GDD/TDD",
+            "CPU/frame budget",
+            "resource lifetime",
+            "code review"
+          ]
+        },
+        "phase4d_concepts_absorbed_as_candidate": {
+          "status": "phase4d_skill_update_applied_candidate",
+          "note": "Software 3D, pseudo-Mode 7, rotozoom, wireframe, simple polygons and fullscreen rotation concepts from this aggregate were absorbed as candidate operational rules into the existing software-tile-rasterizer skill. The aggregate as a whole remains backlog_not_proof; these are bounded candidate rules requiring their own evidence.",
+          "owner_skills": [
+            "software-tile-rasterizer"
+          ],
+          "deferred_not_created": {
+            "skill": "software-polygon-renderer",
+            "priority": "P3",
+            "reason": "software-tile-rasterizer covers pseudo-3D/polygon-like in a bounded way until a real local fixture justifies a separate skill."
+          },
+          "still_required_for_production": [
+            "local fixture",
+            "per_frame_dma_budget_report",
+            "cpu_frame_budget_report",
+            "ROM/emulator evidence",
+            "VDP/VRAM evidence",
+            "code review"
+          ]
+        },
+        "phase4e_concepts_absorbed_as_candidate": {
+          "status": "phase4e_skill_update_applied_candidate",
+          "note": "Mega Drive Music Creation and SFX Design concepts (YM2612/FM perceptual role, SN76489/PSG noise-UI-impact-texture, PCM/DAC sample prep) from this aggregate were absorbed as candidate operational rules into the existing sfx-prep-fm-psg-pcm skill. Music architecture stays with xgm2-audio-director and custom PCM/DAC driver stays with z80-pcm-custom-driver (handoff only). The aggregate as a whole remains backlog_not_proof.",
+          "owner_skills": [
+            "sfx-prep-fm-psg-pcm"
+          ],
+          "still_required_for_production": [
+            "audio_architecture_card",
+            "sample_format_audit",
+            "channel ownership",
+            "auditory test",
+            "Z80/PCM benchmark when applicable"
+          ]
+        },
+        "phase4f_concepts_absorbed_as_candidate": {
+          "status": "phase4f_skill_update_applied_candidate",
+          "note": "SGDK Setup + VS Code concepts from this aggregate were absorbed as candidate operational rules into the existing sgdk-build-wrapper-operator skill: setup/build belong to the central wrapper, the workspace sdk/sgdk-2.11/ is the canonical toolchain, an inherited GDK from another workspace is not a canonical dependency, the environment must pass assert_agent_environment.ps1, and PATH/shell/PowerShell/Make/Java/rescomp/VS Code errors become explicit diagnostics. The aggregate as a whole remains backlog_not_proof.",
+          "owner_skills": [
+            "sgdk-build-wrapper-operator"
+          ],
+          "still_required_for_production": [
+            "project validators",
+            "real build",
+            "emulator evidence when a ROM is delivered"
+          ]
+        },
+        "phase5_new_skills_created_candidate": {
+          "status": "phase5_new_candidate_skill_applied",
+          "note": "Input and camera concepts from this aggregate were formalized as two new canonical owner skills (input-system-sgdk, camera-system-sgdk) with minimal contracts. input-system-sgdk uses only real joy.h APIs; fake input APIs are blocked. The aggregate as a whole remains backlog_not_proof; the new skills are candidate and require their own evidence.",
+          "new_skills": ["input-system-sgdk", "camera-system-sgdk"],
+          "deferred_not_created": [
+            "porting-techniques-sgdk (P2/backlog)",
+            "software-polygon-renderer (P3)",
+            "fmv-compression-megadrive (P4)"
+          ],
+          "still_required_for_production": ["fixture", "real build", "emulator evidence when a ROM is delivered"]
+        },
+        "phase6_case_studies_materialized_candidate": {
+          "status": "phase6_case_studies_materialized_candidate",
+          "note": "The case-study items listed in the plan were materialized as a reference case library, not as canonical skills and not as operational evidence. No content was invented beyond the available labels.",
+          "library_path": ".agent/lib_case/video-curation-2026-06-16",
+          "case_studies_created": 16,
+          "declared_case_count_mismatch": "declared_14_listed_16",
+          "canonical_promotion": false,
+          "evidence_grade": "E1_text",
+          "still_required_for_production": ["fixture", "real build", "emulator evidence when a ROM is delivered"]
+        }
+      },
+      {
+        "id": "character_proportion_pixel_art_platformer",
+        "evidence_class": "direct_text_analysis",
+        "evidence_grade": "E1_text",
+        "curation_status": "phase4a_skill_update_applied_candidate",
+        "topic": "Character proportion for pixel-art platformers: 16x32 sprite proportion, 3-4 head heights, baseline/feet placement, visual margin versus hitbox, coherence with the 16x16 grid.",
+        "curation_record": "doc/05_technical/curation_records/case_character_proportion_pixel_art_platformer.json",
+        "owner_skills": [
+          "character-design",
+          "sprite-animation",
+          "megadrive-pixel-strict-rules",
+          "collision-system-architect"
+        ],
+        "phase4a_skill_updates_applied": [
+          "character-design",
+          "sprite-animation",
+          "megadrive-pixel-strict-rules"
+        ],
+        "reason_not_materialized_as_skills": "The attachment includes example C code and proportion guidance as direct text; the text is direct evidence for concepts but is not runtime proof and the C snippet is not a canonical API.",
+        "required_followups": [
+          "collision-system-architect hitbox/baseline reconciliation remains pending",
+          "create a visual fixture or baseline contract before promoting to production"
+        ]
+      }
+    ]
+  },
+  "video_transcript_game_music_2026_06_17": {
+    "id": "video_transcript_game_music_2026_06_17",
+    "received_date": "2026-06-17",
+    "evidence_class": "direct_text_analysis",
+    "evidence_grade": "E1_text",
+    "curation_status": "candidate_operational_rules_applied",
+    "source_attachment": "C:/Users/misae/.codex/attachments/15803b42-46b7-429a-a9d1-577ca73fbc6f/pasted-text.txt",
+    "topic": "Interactive game music composition, adaptive music states, seamless looping, vertical remixing, horizontal resequencing and SFX role discipline.",
+    "curation_record": "doc/05_technical/video_transcript_game_music_curation_2026-06-17.json",
+    "owner_skills": [
+      "xgm2-audio-director",
+      "sfx-prep-fm-psg-pcm"
+    ],
+    "accepted_as_candidate": [
+      "event-driven adaptive_music_state_map strengthening",
+      "bar_beat_transition_plan for horizontal resequencing",
+      "seamless_loop_report with tail/click handling",
+      "gameplay-role-first SFX/timbre allocation"
+    ],
+    "rejected_or_deferred_claims": [
+      "direct FMOD/Wwise/RTPC behavior as native Mega Drive capability",
+      "default low-pass/filter automation without driver or asset proof",
+      "illustrative C snippet as canonical SGDK/XGM2 code",
+      "text analysis as proof of excellent or AAA audio"
+    ],
+    "required_followups_before_production": [
+      "audio_architecture_card",
+      "composition_scope_contract",
+      "adaptive_music_state_map",
+      "seamless_loop_report",
+      "frequency_masking_plan",
+      "sfx_priority_matrix",
+      "sample_format_audit",
+      "auditory test",
+      "validate_audio report when audio resources exist",
+      "BlastEm evidence when a ROM delivery claims runtime audio"
+    ]
+  },
+  "video_transcript_nes_parallax_2026_06_17": {
+    "id": "video_transcript_nes_parallax_2026_06_17",
+    "received_date": "2026-06-17",
+    "evidence_class": "direct_text_analysis",
+    "evidence_grade": "E1_text",
+    "curation_status": "candidate_operational_rules_applied",
+    "source_attachment": "C:/Users/misae/.codex/attachments/9b1a1c00-3a13-425b-a92f-1fb8002b4ba8/pasted-text.txt",
+    "topic": "NES parallax via Sprite 0/MMC3/PPUSCROLL as historical raster analogy, translated into Mega Drive HSCROLL_LINE/HSCROLL_TILE/WINDOW/H-Int/plane ownership.",
+    "curation_record": "doc/05_technical/video_transcript_nes_parallax_curation_2026-06-17.json",
+    "owner_skills": [
+      "hscroll-linescroll-road-fx",
+      "multi-plane-composition"
+    ],
+    "accepted_as_candidate": [
+      "platform-specific raster translation gate",
+      "scanline_band_map for banded/line parallax",
+      "road_gradient_contract with horizon, ratio curve or LUT, update cadence and fallback"
+    ],
+    "rejected_or_deferred_claims": [
+      "NES Sprite 0/MMC3 workflow as Mega Drive implementation rule",
+      "line scroll as unlimited independent planes",
+      "illustrative demo as runtime proof",
+      "linear proximity formula as universal road solution"
+    ],
+    "required_followups_before_production": [
+      "scanline_band_map",
+      "hscroll table ownership and update timing",
+      "formula or LUT for line offsets",
+      "per-frame VDP/DMA budget review",
+      "camera behavior contract when gameplay camera drives the effect",
+      "art authoring check for band/line readability",
+      "fallback visual route",
+      "BlastEm evidence for runtime motion claims"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "blockers": [
+    "animation_strip_schema_invalid",
+    "state_lineart_role_invalid",
+    "state_lineart_not_approved_for_strip",
+    "lineart_stroke_over_1px",
+    "native_lineart_approval_status_invalid"
+  ],
+  "metrics": {
+    "frame_boundary_policy": "coordinate_scoped",
+    "frame_count": 4,
+    "frame_mask_sha256": [
+      "b5bb2742963ef35f9f7c9ee05cd2d06fc530317a06ae4883e40b82f15106df06",
+      "d7c1cdc6b1cb5b3acf2fbf103aa0d808c8c73a7b4620a6c10d934037b92b8ae5",
+      "4f3bad6542f4ad371a6816db2b0b40b078f3904c763dc6646ba8ad0f5d9e34da",
+      "b5bb2742963ef35f9f7c9ee05cd2d06fc530317a06ae4883e40b82f15106df06"
+    ],
+    "frame_pixel_sha256": [
+      "c11a00a81d891c66c51bd1be452118641f8480a78edfbf8dd7118d9ebcae4ca8",
+      "433262afca295acdfd2cc84bd98d4ab9bdc91463a9fdb20a508984b339c06e29",
+      "5b45f15ce56d49c8fcc127d093ce36caf743dbe95845293e26d9163b5ee6762b",
+      "c11a00a81d891c66c51bd1be452118641f8480a78edfbf8dd7118d9ebcae4ca8"
+    ],
+    "horizontal_order": "ok",
+    "integer_replication_factor_by_frame": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "lineart_topology": {
+      "connected_components": 76,
+      "enclosed_negative_space_components": 51,
+      "first_erosion_interior_pixels": 2048,
+      "interior_ratio": 0.80376766,
+      "largest_component_pixels": 661,
+      "max_erosion_depth": 12,
+      "mode": "P",
+      "size": [
+        128,
+        32
+      ],
+      "visible_pixels": 2548
+    },
+    "max_bbox_drift_px": 0,
+    "max_pivot_drift_px": 0,
+    "preview_frame_holds_vblank": [
+      8,
+      8,
+      8,
+      8
+    ],
+    "production_provenance": {
+      "authored_source_sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+      "producer_kind": "assisted_native_translation",
+      "source_kind": "procedural_composed_from_authored"
+    },
+    "schema_errors": [
+      "$.state_lineart_lineage.lineart_role:const",
+      "$.state_lineart_lineage.approval_status:const"
+    ],
+    "strip_path": "out/forward_test_v10_runtime_visual_review/strips/kirby_inhale.png",
+    "strip_sha256": "8347331095e60c2839f3c9e23d1bd6642bc56f67916dcfd75179c4503b3ae6aa"
+  },
+  "status": "error",
+  "tool_name": "validate_strip",
+  "tool_version": "2.1.0",
+  "warnings": [],
+  "strip_sha256": "8347331095e60c2839f3c9e23d1bd6642bc56f67916dcfd75179c4503b3ae6aa"
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sgdk-forge.local/schemas/aaa_video_source_intake_template.schema.json",
+  "title": "AAA Video Source Intake Template",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "status",
+    "curation_date",
+    "purpose",
+    "intake_policy",
+    "template_fields",
+    "mandatory_owner_artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "aaa_video_source_intake_template"
+    },
+    "status": {
+      "enum": [
+        "candidate_applied_not_verified",
+        "validated_curation",
+        "rejected"
+      ]
+    },
+    "curation_date": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "intake_policy": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "template_fields": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "mandatory_owner_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

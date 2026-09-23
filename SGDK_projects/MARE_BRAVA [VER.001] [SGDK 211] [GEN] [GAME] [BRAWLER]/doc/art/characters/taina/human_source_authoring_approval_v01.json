@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "decision": "approved_as_visual_source_for_native_authoring",
+  "asset_id": "face_and_guard_topology_visual_source_v01",
+  "sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+  "scale_target": "48x64",
+  "source": {
+    "path": "rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+    "role": "approved_visual_source_for_new_native_authoring",
+    "source_kind": "ai_generated_high_res",
+    "pixel_source_restriction": "approved_model_sheet_only"
+  },
+  "candidate_control": {
+    "asset_id": "taina_48x64_geometry_face_guard_v01",
+    "sha256": "1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830",
+    "role": "technical_control_only",
+    "final_pose_approval": false
+  },
+  "scale_remains_locked": "48x64",
+  "comparison_only_scales": [
+    "64x96"
+  ],
+  "res_promotion": false,
+  "animation_authorization": false,
+  "next_gate": "new_native_authoring_review_required"
+}

@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "entity_architecture": "static_pool_with_archetype_tables",
+  "runtime_owner": "src/race/race_entities.c",
+  "update_order_contract": [
+    "input",
+    "player_state",
+    "track_events_spawn",
+    "hazards_pickups_update",
+    "collision",
+    "boss_or_setpiece_update",
+    "hud_update",
+    "render_submit",
+    "scene_transition_check"
+  ],
+  "pool_limits_first_slice": {
+    "hazards": 6,
+    "pickups": 4,
+    "fx_particles": 12,
+    "boss_parts": 0,
+    "track_events_live": 10
+  },
+  "pool_limits_product_target": {
+    "hazards": 10,
+    "pickups": 6,
+    "fx_particles": 20,
+    "boss_parts": 7,
+    "track_events_live": 14
+  },
+  "archetypes": [
+    {
+      "id": "lumen_orb",
+      "kind": "pickup",
+      "body_ref": "lumen_orb",
+      "init": "pickup_init",
+      "update": "pickup_update_forward_projection",
+      "on_collect": "grant_lumen",
+      "draw": "sprite_draw",
+      "memory_class": "pickup_pool"
+    },
+    {
+      "id": "low_stone",
+      "kind": "hazard",
+      "body_ref": "low_stone",
+      "init": "hazard_init",
+      "update": "hazard_update_forward_projection",
+      "on_hit": "player_damage_low",
+      "on_pulse": "clear_minor_hazard",
+      "draw": "sprite_draw",
+      "memory_class": "hazard_pool"
+    },
+    {
+      "id": "astral_mark",
+      "kind": "hazard",
+      "body_ref": "astral_mark",
+      "init": "hazard_init",
+      "update": "hazard_update_forward_projection",
+      "on_hit": "player_damage_solid",
+      "on_pulse": "clear_minor_hazard",
+      "draw": "bg_or_sprite_draw",
+      "memory_class": "hazard_pool"
+    },
+    {
+      "id": "pulse_tutorial_target",
+      "kind": "hazard",
+      "body_ref": "astral_mark",
+      "init": "hazard_init_clearable",
+      "update": "hazard_update_forward_projection",
+      "on_hit": "player_damage_solid",
+      "on_pulse": "clear_and_reduce_pressure",
+      "draw": "sprite_draw",
+      "memory_class": "hazard_pool"
+    },
+    {
+      "id": "beacon_key",
+      "kind": "trigger_pickup",
+      "body_ref": "lumen_orb",
+      "init": "pickup_init_beacon",
+      "update": "pickup_update_forward_projection",
+      "on_collect": "sector_goal_collected",
+      "draw": "sprite_draw",
+      "memory_class": "pickup_pool"
+    },
+    {
+      "id": "boss_weakpoint_window",
+      "kind": "boss_target",
+      "body_ref": "boss_weakpoint",
+      "init": "boss_target_init",
+      "update": "boss_target_window_update",
+      "on_pulse": "boss_apply_weakpoint_damage",
+      "draw": "sprite_draw",
+      "memory_class": "boss_pool"
+    },
+    {
+      "id": "pursuer_shadow_hint",
+      "kind": "non_damaging_telegraph",
+      "body_ref": null,
+      "init": "presence_hint_init",
+      "update": "presence_hint_update",
+      "on_hit": null,
+      "draw": "bg_or_sprite_draw",
+      "memory_class": "fx_particles_or_scene_signal"
+    },
+    {
+      "id": "meteor_impact_persistent",
+      "kind": "persistent_hazard",
+      "body_ref": "meteor_diagonal",
+      "init": "hazard_init_persistent",
+      "update": "hazard_update_persistent_lane_block",
+      "on_hit": "player_damage_solid",
+      "on_pulse": "clear_minor_hazard",
+      "draw": "sprite_draw",
+      "memory_class": "hazard_pool"
+    },
+    {
+      "id": "glass_lane_missing",
+      "kind": "lane_state_hazard",
+      "body_ref": "astral_mark",
+      "init": "lane_state_init",
+      "update": "lane_state_update",
+      "on_hit": "player_damage_solid",
+      "on_pulse": null,
+      "draw": "bg_a_tile_state",
+      "memory_class": "track_event_state"
+    },
+    {
+      "id": "debris_fall",
+      "kind": "setpiece_hazard",
+      "body_ref": "meteor_diagonal",
+      "init": "setpiece_debris_init",
+      "update": "hazard_update_forward_projection",
+      "on_hit": "player_damage_solid",
+      "on_pulse": "clear_minor_hazard",
+      "draw": "sprite_draw",
+      "memory_class": "hazard_pool"
+    }
+  ],
+  "spawn_manifest": {
+    "source": "doc/sector_01_track_plan.json",
+    "spawn_rule": "TrackEvent becomes entity when telegraph window enters projection range.",
+    "despawn_rule": "Entity returns to pool after active window exits, collection, clear or scene exit.",
+    "no_allocation_in_gameplay": true
+  },
+  "regression_spawn_fixtures": [
+    "sector_01_no_pool_overflow",
+    "pursuer_shadow_hint_non_damaging",
+    "meteor_persistent_returns_to_pool",
+    "glass_lane_missing_never_all_lanes",
+    "shattered_lane_gauntlet_debris_safe_lane",
+    "beacon_key_spawns_once",
+    "clearable_hazard_returns_to_pool_after_pulse",
+    "scene_exit_clears_all_entity_pools"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "d1_fighting_runtime_proxy_slice",
+  "status": "implemented_with_tracked_art_blocker",
+  "scope": "D1 vertical slice",
+  "scene_owner": "src/scenes/scene_demo.c",
+  "loop_order": ["INPUT_update", "APP_update", "SPR_update", "SYS_doVBlankProcess"],
+  "scene_contract": {
+    "entry": "SCENE_demoEnter",
+    "update": "SCENE_demoUpdate",
+    "teardown": "APP_changeScene sprite reset plus plane reset",
+    "camera": "fixed_room_lock_with_hit_shake",
+    "arena": {"width_px": 320, "height_px": 224, "floor_y": 176}
+  },
+  "fighters": {
+    "jack": {"slot": "P1", "visual": "spr_kairo_vant_probe", "visual_status": "proxy_pending_jack_matte"},
+    "c1": {"slot": "P2", "visual": "spr_c1_probe", "visual_status": "technical_candidate"}
+  },
+  "mechanics": {
+    "meter_max": 100,
+    "charge_sources": ["damage_dealt", "damage_received", "successful_guard"],
+    "whiff_penalty": 4,
+    "special_cost": 100,
+    "special_connect_refill": 100,
+    "hitstop_frames": 8
+  },
+  "cinematic_states": ["CS-C stage_intro", "CS-D fighter_intro", "CS-E pair_dialogue_probe", "CS-A special_flash"],
+  "known_blockers": [
+    "Jack source frame is inherited RGB/magenta art with nonuniform border matte",
+    "stage and Kairo assets are technical_candidate and not visual_pass",
+    "audio is still placeholder cue coverage"
+  ],
+  "claim_ceiling": "testable_d1_runtime_probe",
+  "sprite_pool": 32,
+  "ready_for_aaa": false
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gimp_batch_preflight_report.schema.json",
+  "title": "forge-art optional GIMP batch preflight report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tool",
+    "tool_version",
+    "recorded_at",
+    "status",
+    "blocking",
+    "executable",
+    "gimp_version",
+    "interpreter",
+    "sentinel_observed",
+    "exit_code",
+    "warnings",
+    "blockers",
+    "policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tool": {"const": "forge_art.gimp_batch"},
+    "tool_version": {"type": "string"},
+    "recorded_at": {"type": "string"},
+    "status": {"enum": ["operational", "unavailable", "failed"]},
+    "blocking": {"type": "boolean"},
+    "executable": {"type": "string"},
+    "gimp_version": {"type": "string"},
+    "interpreter": {"const": "python-fu-eval"},
+    "sentinel_observed": {"type": "boolean"},
+    "exit_code": {"type": "integer"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gui_pointer_automation_allowed",
+        "arbitrary_generated_script_allowed",
+        "registered_production_operations",
+        "claim_ceiling"
+      ],
+      "properties": {
+        "gui_pointer_automation_allowed": {"const": false},
+        "arbitrary_generated_script_allowed": {"const": false},
+        "registered_production_operations": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "claim_ceiling": {"const": "optional_batch_capability_only"}
+      }
+    }
+  }
+}

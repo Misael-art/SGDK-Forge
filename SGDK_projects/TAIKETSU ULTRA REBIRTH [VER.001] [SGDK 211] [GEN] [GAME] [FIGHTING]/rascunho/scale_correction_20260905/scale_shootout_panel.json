@@ -1,0 +1,423 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "scale_shootout_panel",
+  "claim_ceiling": "mechanical_geometry_probe",
+  "source": "same v04 Lanczos3 primary underlay for A/B/C; route outputs are not native art",
+  "camera_px": [
+    320,
+    224
+  ],
+  "ground_line_y": 200,
+  "opponents": [
+    "Jack 100 frame 0",
+    "Ryo 100 frame 0"
+  ],
+  "hypotheses": [
+    {
+      "hypothesis": "A",
+      "target_canvas_px": [
+        72,
+        112
+      ],
+      "route_underlay": "rascunho/scale_correction_20260905/route_shootout_A/routes/im_lanczos3/raw_rgba.png",
+      "route_underlay_sha256": "3ef7da08b008c47778254869bd8b071039a2b7daf29efc09e517f58bcb8d1b24",
+      "kairo": {
+        "canvas_px": [
+          72,
+          112
+        ],
+        "bbox_px": [
+          7,
+          5,
+          70,
+          110
+        ],
+        "visible_height_px": 105,
+        "visible_width_px": 63,
+        "pivot_px": [
+          36,
+          111
+        ],
+        "ground_line_px": 111,
+        "tile_metrics": {
+          "raw_tiles": 126,
+          "nonempty_tiles": 94,
+          "unique_nonempty_tiles": 94
+        },
+        "vdp_cells_32x32": [
+          3,
+          4
+        ],
+        "provisional_hitbox_px": [
+          14,
+          13,
+          57,
+          109
+        ],
+        "hitbox_status": "provisional_geometry_only"
+      },
+      "opponents": {
+        "jack": {
+          "opponent_canvas_px": [
+            56,
+            80
+          ],
+          "opponent_bbox_px": [
+            0,
+            6,
+            56,
+            80
+          ],
+          "opponent_visible_height_px": 74,
+          "opponent_tile_metrics": {
+            "raw_tiles": 70,
+            "nonempty_tiles": 41,
+            "unique_nonempty_tiles": 41
+          },
+          "opponent_vdp_cells_32x32": [
+            2,
+            3
+          ],
+          "composition": {
+            "color_1x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_jack_color_1x.png",
+            "color_2x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_jack_color_2x.png",
+            "color_3x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_jack_color_3x.png",
+            "color_nearest_8x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_jack_color_nearest_8x.png",
+            "silhouette_1x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_jack_silhouette_1x.png",
+            "silhouette_2x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_jack_silhouette_2x.png",
+            "silhouette_3x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_jack_silhouette_3x.png",
+            "silhouette_nearest_8x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_jack_silhouette_nearest_8x.png"
+          },
+          "scene_metrics": {
+            "max_sprite_links_per_scanline": 5,
+            "max_sprite_pixels_per_scanline": 82,
+            "worst_link_scanline": 192,
+            "worst_pixel_scanline": 149
+          },
+          "links_total_upper_bound": 18,
+          "raw_tiles_total": 196,
+          "unique_tiles_estimate": 135,
+          "dma_bytes_raw_upper_bound": 6272,
+          "dma_bytes_unique_estimate": 4320,
+          "h40_status": "pass"
+        },
+        "ryo": {
+          "opponent_canvas_px": [
+            64,
+            104
+          ],
+          "opponent_bbox_px": [
+            0,
+            6,
+            55,
+            104
+          ],
+          "opponent_visible_height_px": 98,
+          "opponent_tile_metrics": {
+            "raw_tiles": 104,
+            "nonempty_tiles": 69,
+            "unique_nonempty_tiles": 69
+          },
+          "opponent_vdp_cells_32x32": [
+            2,
+            4
+          ],
+          "composition": {
+            "color_1x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_ryo_color_1x.png",
+            "color_2x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_ryo_color_2x.png",
+            "color_3x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_ryo_color_3x.png",
+            "color_nearest_8x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_ryo_color_nearest_8x.png",
+            "silhouette_1x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_ryo_silhouette_1x.png",
+            "silhouette_2x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_ryo_silhouette_2x.png",
+            "silhouette_3x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_ryo_silhouette_3x.png",
+            "silhouette_nearest_8x": "rascunho/scale_correction_20260905/compositions_A/kairo_vs_ryo_silhouette_nearest_8x.png"
+          },
+          "scene_metrics": {
+            "max_sprite_links_per_scanline": 5,
+            "max_sprite_pixels_per_scanline": 96,
+            "worst_link_scanline": 120,
+            "worst_pixel_scanline": 126
+          },
+          "links_total_upper_bound": 20,
+          "raw_tiles_total": 230,
+          "unique_tiles_estimate": 163,
+          "dma_bytes_raw_upper_bound": 7360,
+          "dma_bytes_unique_estimate": 5216,
+          "h40_status": "pass"
+        }
+      }
+    },
+    {
+      "hypothesis": "B",
+      "target_canvas_px": [
+        80,
+        120
+      ],
+      "route_underlay": "rascunho/scale_correction_20260905/route_shootout_B/routes/im_lanczos3/raw_rgba.png",
+      "route_underlay_sha256": "6968db20dbd7de96e70418bd4ca5c44506bddf35c7af0a8ee02e65448d26acf7",
+      "kairo": {
+        "canvas_px": [
+          80,
+          120
+        ],
+        "bbox_px": [
+          0,
+          1,
+          78,
+          118
+        ],
+        "visible_height_px": 117,
+        "visible_width_px": 78,
+        "pivot_px": [
+          40,
+          119
+        ],
+        "ground_line_px": 119,
+        "tile_metrics": {
+          "raw_tiles": 150,
+          "nonempty_tiles": 108,
+          "unique_nonempty_tiles": 108
+        },
+        "vdp_cells_32x32": [
+          3,
+          4
+        ],
+        "provisional_hitbox_px": [
+          16,
+          14,
+          64,
+          117
+        ],
+        "hitbox_status": "provisional_geometry_only"
+      },
+      "opponents": {
+        "jack": {
+          "opponent_canvas_px": [
+            56,
+            80
+          ],
+          "opponent_bbox_px": [
+            0,
+            6,
+            56,
+            80
+          ],
+          "opponent_visible_height_px": 74,
+          "opponent_tile_metrics": {
+            "raw_tiles": 70,
+            "nonempty_tiles": 41,
+            "unique_nonempty_tiles": 41
+          },
+          "opponent_vdp_cells_32x32": [
+            2,
+            3
+          ],
+          "composition": {
+            "color_1x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_jack_color_1x.png",
+            "color_2x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_jack_color_2x.png",
+            "color_3x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_jack_color_3x.png",
+            "color_nearest_8x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_jack_color_nearest_8x.png",
+            "silhouette_1x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_jack_silhouette_1x.png",
+            "silhouette_2x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_jack_silhouette_2x.png",
+            "silhouette_3x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_jack_silhouette_3x.png",
+            "silhouette_nearest_8x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_jack_silhouette_nearest_8x.png"
+          },
+          "scene_metrics": {
+            "max_sprite_links_per_scanline": 5,
+            "max_sprite_pixels_per_scanline": 89,
+            "worst_link_scanline": 150,
+            "worst_pixel_scanline": 149
+          },
+          "links_total_upper_bound": 18,
+          "raw_tiles_total": 220,
+          "unique_tiles_estimate": 149,
+          "dma_bytes_raw_upper_bound": 7040,
+          "dma_bytes_unique_estimate": 4768,
+          "h40_status": "pass"
+        },
+        "ryo": {
+          "opponent_canvas_px": [
+            64,
+            104
+          ],
+          "opponent_bbox_px": [
+            0,
+            6,
+            55,
+            104
+          ],
+          "opponent_visible_height_px": 98,
+          "opponent_tile_metrics": {
+            "raw_tiles": 104,
+            "nonempty_tiles": 69,
+            "unique_nonempty_tiles": 69
+          },
+          "opponent_vdp_cells_32x32": [
+            2,
+            4
+          ],
+          "composition": {
+            "color_1x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_ryo_color_1x.png",
+            "color_2x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_ryo_color_2x.png",
+            "color_3x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_ryo_color_3x.png",
+            "color_nearest_8x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_ryo_color_nearest_8x.png",
+            "silhouette_1x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_ryo_silhouette_1x.png",
+            "silhouette_2x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_ryo_silhouette_2x.png",
+            "silhouette_3x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_ryo_silhouette_3x.png",
+            "silhouette_nearest_8x": "rascunho/scale_correction_20260905/compositions_B/kairo_vs_ryo_silhouette_nearest_8x.png"
+          },
+          "scene_metrics": {
+            "max_sprite_links_per_scanline": 5,
+            "max_sprite_pixels_per_scanline": 101,
+            "worst_link_scanline": 110,
+            "worst_pixel_scanline": 123
+          },
+          "links_total_upper_bound": 20,
+          "raw_tiles_total": 254,
+          "unique_tiles_estimate": 177,
+          "dma_bytes_raw_upper_bound": 8128,
+          "dma_bytes_unique_estimate": 5664,
+          "h40_status": "pass"
+        }
+      }
+    },
+    {
+      "hypothesis": "C",
+      "target_canvas_px": [
+        88,
+        136
+      ],
+      "route_underlay": "rascunho/scale_correction_20260905/route_shootout_C/routes/im_lanczos3/raw_rgba.png",
+      "route_underlay_sha256": "556a0da5e9f9c6505e28fecfda4f1b16874b0f54b86ffd6f6beae5540effa6a6",
+      "kairo": {
+        "canvas_px": [
+          88,
+          136
+        ],
+        "bbox_px": [
+          0,
+          5,
+          85,
+          133
+        ],
+        "visible_height_px": 128,
+        "visible_width_px": 85,
+        "pivot_px": [
+          44,
+          135
+        ],
+        "ground_line_px": 135,
+        "tile_metrics": {
+          "raw_tiles": 187,
+          "nonempty_tiles": 127,
+          "unique_nonempty_tiles": 127
+        },
+        "vdp_cells_32x32": [
+          3,
+          5
+        ],
+        "provisional_hitbox_px": [
+          17,
+          16,
+          70,
+          133
+        ],
+        "hitbox_status": "provisional_geometry_only"
+      },
+      "opponents": {
+        "jack": {
+          "opponent_canvas_px": [
+            56,
+            80
+          ],
+          "opponent_bbox_px": [
+            0,
+            6,
+            56,
+            80
+          ],
+          "opponent_visible_height_px": 74,
+          "opponent_tile_metrics": {
+            "raw_tiles": 70,
+            "nonempty_tiles": 41,
+            "unique_nonempty_tiles": 41
+          },
+          "opponent_vdp_cells_32x32": [
+            2,
+            3
+          ],
+          "composition": {
+            "color_1x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_jack_color_1x.png",
+            "color_2x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_jack_color_2x.png",
+            "color_3x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_jack_color_3x.png",
+            "color_nearest_8x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_jack_color_nearest_8x.png",
+            "silhouette_1x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_jack_silhouette_1x.png",
+            "silhouette_2x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_jack_silhouette_2x.png",
+            "silhouette_3x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_jack_silhouette_3x.png",
+            "silhouette_nearest_8x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_jack_silhouette_nearest_8x.png"
+          },
+          "scene_metrics": {
+            "max_sprite_links_per_scanline": 5,
+            "max_sprite_pixels_per_scanline": 98,
+            "worst_link_scanline": 145,
+            "worst_pixel_scanline": 150
+          },
+          "links_total_upper_bound": 21,
+          "raw_tiles_total": 257,
+          "unique_tiles_estimate": 168,
+          "dma_bytes_raw_upper_bound": 8224,
+          "dma_bytes_unique_estimate": 5376,
+          "h40_status": "pass"
+        },
+        "ryo": {
+          "opponent_canvas_px": [
+            64,
+            104
+          ],
+          "opponent_bbox_px": [
+            0,
+            6,
+            55,
+            104
+          ],
+          "opponent_visible_height_px": 98,
+          "opponent_tile_metrics": {
+            "raw_tiles": 104,
+            "nonempty_tiles": 69,
+            "unique_nonempty_tiles": 69
+          },
+          "opponent_vdp_cells_32x32": [
+            2,
+            4
+          ],
+          "composition": {
+            "color_1x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_ryo_color_1x.png",
+            "color_2x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_ryo_color_2x.png",
+            "color_3x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_ryo_color_3x.png",
+            "color_nearest_8x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_ryo_color_nearest_8x.png",
+            "silhouette_1x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_ryo_silhouette_1x.png",
+            "silhouette_2x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_ryo_silhouette_2x.png",
+            "silhouette_3x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_ryo_silhouette_3x.png",
+            "silhouette_nearest_8x": "rascunho/scale_correction_20260905/compositions_C/kairo_vs_ryo_silhouette_nearest_8x.png"
+          },
+          "scene_metrics": {
+            "max_sprite_links_per_scanline": 5,
+            "max_sprite_pixels_per_scanline": 108,
+            "worst_link_scanline": 103,
+            "worst_pixel_scanline": 126
+          },
+          "links_total_upper_bound": 23,
+          "raw_tiles_total": 291,
+          "unique_tiles_estimate": 196,
+          "dma_bytes_raw_upper_bound": 9312,
+          "dma_bytes_unique_estimate": 6272,
+          "h40_status": "pass"
+        }
+      }
+    }
+  ],
+  "contact_sheet": {
+    "path": "rascunho/scale_correction_20260905/scale_shootout_contact_sheet.png",
+    "sha256": "f1ce5b51714e4939c8d3e1b38d9c60ccd5fcb32d9f38b4e36d7d4630dbc606b2"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "vram_residency_report.v1",
+  "generated_at": "2026-09-21T01:56:16.595889+00:00",
+  "measurement_source": "VLAB runtime SRAM snapshot sealed with BlastEm evidence",
+  "res_graph_evidence": {
+    "measurement_level": "rescomp_source_hash_snapshot",
+    "rom_sha256": "c8dbc5a3922f866de15b17b8e16a8958c14458b7a968b4e9881a3ccd19b4dd2b",
+    "resident_resources": [
+      {
+        "resource_name": "bgb_credits",
+        "unique_tiles": 475,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "source_sha256": "04998959842b5f9d66e4e5121c2bf13fff1264b2f1e3b214304074d831094a61",
+        "origin_size_bytes": 15200,
+        "runtime_vdp_start_tile": 1,
+        "runtime_vdp_end_tile_exclusive": 476
+      },
+      {
+        "resource_name": "bga_credits",
+        "unique_tiles": 332,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "source_sha256": "ba7bfbfa0016292e6975f30a7ab92de6e81c6515680d0d0cd127ac99982476d7",
+        "origin_size_bytes": 10624,
+        "runtime_vdp_start_tile": 501,
+        "runtime_vdp_end_tile_exclusive": 833
+      }
+    ],
+    "notes": [
+      "The two ranges are observed VDP_loadTileSet transfers from the captured credits scene.",
+      "This is a scene-local residency snapshot, not a whole-game VRAM proof.",
+      "Other gameplay scenes still require their own runtime capture before a final budget claim."
+    ]
+  }
+}

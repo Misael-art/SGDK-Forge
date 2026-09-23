@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "project_local",
+  "canonical_promotion_performed": false,
+  "lessons": [
+    {"id":"hud_atlas_crop","cause":"Bar crop 18..34 included the numeral row; KO crop contained both atlas variants.","change":"Crop bars only 18..29 and one KO 1..15; preserve existing HUD palette.","evidence":"rascunho/runtime_hud_atlas_report.json"},
+    {"id":"ko_single_transition","cause":"EnergyType 2 call after lethal damage entered 550 again, applying its launch displacement twice.","change":"Health transition only for EnergyType 1 crossing positive to zero, never re-enter an existing launch.","test":"rascunho/temporario/test_health_contract.py"},
+    {"id":"terminal_art_semantics","cause":"Musgo 550 was three standing poses and victory reused idle; holding the last frame could not create a grounded pose.","change":"Dedicated externally generated fall, grounded defeat and raised-fist victory, explicit cells/pivots and existing palette.","evidence":"rascunho/musgo_ko_victory_report.json"},
+    {"id":"result_waits_for_landing","cause":"Winner animation length controlled transition even when the loser had not settled.","change":"Result minimum duration and defeated state 570 are prerequisites; hold terminal animation frame.","evidence":"src/init.c: FUNCAO_ROUND_RESTART"},
+    {"id":"resident_tiles_not_rom_compression","cause":"Old 4px image lost detail; reducing compressed ROM bytes does not reduce resident tile count.","change":"768 representative source tiles without 4px blocking; stage plus HUD ends at 1018, sprite region starts at 1020; guard uses actual SGDK metadata.","evidence":"res/gfx/showdown.json"},
+    {"id":"message_palette_owner","cause":"Text using PAL2 depends on the fighter palette.","change":"Atlas glyphs on PAL1 with opaque black background and queued VBlank map upload.","evidence":"src/hud.c"},
+    {"id":"evidence_names_not_claims","cause":"Old captures named after_match still showed combat with positive health.","change":"Inspect image, match ROM hash, record actual life from debugger when diagnosing. Input count is not a KO claim.","evidence":"out/emulator_evidence/visual_ko_20260912T141518Z"},
+    {"id":"bg_zero_is_transparent","cause":"Source PNG assigned useful cream to index 0; VDP showed global black backdrop through those pixels, making rectangular holes in the ground.","change":"Reserve index 0; shift the 14 opaque source colors to indices 1..14, preserving tile count. Compare emulator pixels, not only the PNG.","test":"rascunho/temporario/test_stage_palette.py"},
+    {"id":"result_panel_pose_visibility","cause":"Ten-row result panel hid Musgo victory head and fists.","change":"Six-row menu immediately below WINDOW; normal announcements use two rows, keeping grounded victory silhouette visible.","evidence":"src/hud.c HUD_MESSAGE_ROW/HUD_MESSAGE_ROWS"}
+  ]
+}

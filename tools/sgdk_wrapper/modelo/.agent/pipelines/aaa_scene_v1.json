@@ -1,0 +1,1060 @@
+{
+  "pipeline_id": "aaa_scene_v1",
+  "description": "Jornada canonica de cena visual AAA: diagnostico -> composicao -> traducao -> excelencia -> budget -> runtime -> validacao -> evidencia.",
+  "framework_manifest_min_version": "2026.05.09",
+  "steps": [
+    {
+      "id": "S0_scope",
+      "kind": "human",
+      "label": "Escopo e spec",
+      "skill_path": null,
+      "supporting_skills": [
+        "skills/planning/game-design-planning"
+      ],
+      "inputs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md"
+      ],
+      "required_artifacts": [
+        "briefing aceito"
+      ],
+      "optional_artifacts": [
+        "project_brief",
+        "core_loop_statement",
+        "feature_scope_map",
+        "scene_roadmap",
+        "first_playable_slice",
+        "route_decision_record",
+        "prd_readiness_report",
+        "front_end_profile",
+        "roteiro_scope",
+        "ui_decision_card",
+        "glyph_manifest",
+        "ui_decision_card.text_presentation_profile",
+        "cutscene_scene_contract",
+        "cutscene_fsm_script",
+        "cutscene_storyboard_board",
+        "cutscene_panel_layout",
+        "cutscene_resource_plan",
+        "cutscene_palette_script",
+        "cutscene_text_timing_map",
+        "cutscene_audio_cue_map",
+        "cutscene_teardown_plan",
+        "cutscene_evidence_plan",
+        "production_runtime_contract",
+        "scene_manager_contract",
+        "input_abstraction_contract",
+        "save_system_contract",
+        "region_timing_contract",
+        "asset_optimization_report",
+        "rom_mastering_report",
+        "code_review_report",
+        "ci_gate_report",
+        "local_ci_gate_report",
+        "scene_transition_card",
+        "feedback_fx_decision_card",
+        "boss_setpiece_card",
+        "advanced_tilemap_design_card",
+        "audio_architecture_card",
+        "scene_architecture_triage",
+        "context_pack_manifest",
+        "tooling_capability_report",
+        "generation_channel_decision",
+        "art_direction_decision_record",
+        "style_candidate_matrix",
+        "master_style_manifest",
+        "style_drift_policy",
+        "style_drift_correction_brief",
+        "authorial_model_sheet",
+        "authorial_stage_concept",
+        "clone_risk_report",
+        "source_validity_report",
+        "white_material_palette_contract",
+        "asset_lineage_record",
+        "style_memory_index",
+        "qa_correction_loop",
+        "asset_kind_declaration",
+        "animation_state_plan",
+        "pose_roster",
+        "frame_budget_table",
+        "pivot_and_scale_contract",
+        "animation_direction_contract",
+        "timing_spacing_report",
+        "impact_frame_contract",
+        "smear_frame_manifest",
+        "recovery_curve_report",
+        "hit_reaction_contract",
+        "shading_motion_report",
+        "palette_flash_policy",
+        "modular_boss_rig_contract",
+        "motion_phase_map",
+        "frame_delta_report",
+        "premium_source_manifest",
+        "source_to_rom_asset_map",
+        "benchmark_match_report",
+        "visual_delivery_gate_report"
+      ],
+      "entry_conditions": [],
+      "exit_conditions": [
+        "escopo fechado",
+        "criterio de aceitacao declarado",
+        "quando o projeto nascer do zero ou o escopo precisar de reseed, planning/game-design-planning emitiu seeds suficientes para GDD, roteiro e spec",
+        "quando a rota tecnica ainda nao estiver congelada, route_decision_record foi emitido via workflows/route-decision-gate.md antes de arte ou runtime",
+        "antes de arte ou runtime, prd_readiness_report foi gerado por tools/sgdk_wrapper/check_prd_readiness.ps1",
+        "para AAA, stable, release ou delivery, PRDs obrigatorios no prd_readiness_report estao filled/locked ou not_applicable permitido; seed nao autoriza ready_for_aaa",
+        "quando houver HUD/UI formal, o ui_decision_card foi declarado antes da arte e do runtime",
+        "quando houver UI com peso tipografico real, o ui_decision_card declara anexo tipografico e glyph_manifest antes da arte e do runtime",
+        "quando houver texto dramatico, fala, alerta cinetico ou flavor text, o ui_decision_card declara text_presentation_profile antes da arte e do runtime",
+        "quando houver abertura, cutscene, cena de contexto, briefing, retrato falante ou final, cutscene_scene_contract e emitido antes da arte e do runtime",
+        "quando o alvo for AAA, stable, release, jogo completo ou projeto piloto, production_runtime_contract declara scene manager, input, persistence_scope/save/SRAM quando aplicavel, PAL/NTSC, asset optimization, ROM mastering, code review e CI/local CI antes do runtime final",
+        "save_system_contract_missing so bloqueia quando persistence_scope=required, sram_policy!=none ou feature_scope_map exigir persistencia; quando persistence_scope=none, registrar save_system_contract_not_applicable",
+        "quando houver transicao formal, o scene_transition_card foi declarado antes da arte e do runtime",
+        "quando houver raster/luz/particulas/feedback formal, o feedback_fx_decision_card foi declarado antes da arte e do runtime",
+        "quando houver boss ou setpiece formal, o boss_setpiece_card foi declarado antes da arte e do runtime",
+        "quando houver tilemap avancado, streaming, metatile, priority foreground ou rota complexa, o advanced_tilemap_design_card foi declarado antes da arte e do runtime",
+        "quando houver audio senior, stinger, ambience, boss cue ou PCM ownership, o audio_architecture_card foi declarado antes do runtime",
+        "quando houver menu/title/front-end, o front_end_profile foi declarado no planejamento e o ui_decision_card usa profile_kind=front_end_profile",
+        "antes de gerar arte original, sourcing externo ou codigo SGDK sensivel, context_pack_manifest declara as fontes canonicas consultadas",
+        "quando a cena tiver perfil aaa_layered, scene_architecture_triage foi registrado antes da arte e do runtime com baseline_technique_applicability, baseline_contract, baseline_decision e divergence_reason quando necessario"
+      ],
+      "blocking_statuses": [
+        "feature_creep",
+        "prd_readiness_blocked",
+        "prd_required_seed",
+        "prd_required_missing"
+      ],
+      "handoff_to": [
+        "S0b_art_direction"
+      ]
+    },
+    {
+      "id": "S0b_art_direction",
+      "kind": "skill",
+      "label": "Direcao de arte canonica",
+      "skill_path": "skills/art/art-direction-selector",
+      "inputs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md",
+        "doc/prd_index.json (quando existir)",
+        "doc/01_game_design/02_reference_pillars.md (quando existir)",
+        "doc/03_art/00_art_bible.md (quando existir)",
+        "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+        "prd_readiness_report"
+      ],
+      "required_artifacts": [
+        "art_direction_decision_record",
+        "master_style_manifest"
+      ],
+      "optional_artifacts": [
+        "style_candidate_matrix",
+        "style_drift_policy",
+        "style_drift_correction_brief"
+      ],
+      "entry_conditions": [
+        "briefing aceito"
+      ],
+      "exit_conditions": [
+        "art_style_catalog.json consultado",
+        "art_direction_decision_record registra modo, confianca, top candidatos e risco de clone",
+        "master_style_manifest declara selected_style_id, paleta, line weight, iluminacao, densidade, limite de drift e anti-padroes",
+        "prompts futuros usam descritores tecnicos neutros do catalogo, nao copia de artista, estudio, marca ou IP",
+        "se a confianca ficar abaixo do limiar, status art_direction_low_confidence fica registrado antes de pedir escolha humana"
+      ],
+      "blocking_statuses": [
+        "art_direction_undeclared",
+        "style_catalog_not_consulted",
+        "style_drift_uncorrected",
+        "style_clone_risk_unbounded",
+        "art_direction_low_confidence"
+      ],
+      "handoff_to": [
+        "S1_diagnostic"
+      ]
+    },
+    {
+      "id": "S1_diagnostic",
+      "kind": "skill",
+      "label": "Classificar estado dos assets",
+      "skill_path": "skills/art/art-asset-diagnostic",
+      "inputs": [
+        "res/",
+        "res/data/",
+        "res/*.res"
+      ],
+      "required_artifacts": [
+        "art_diagnostic_report",
+        "asset_route_decision"
+      ],
+      "entry_conditions": [
+        "briefing aceito"
+      ],
+      "exit_conditions": [
+        "rota de arte decidida",
+        "issues bloqueantes registrados"
+      ],
+      "blocking_statuses": [
+        "missing_source_art",
+        "asset_route_undefined"
+      ],
+      "handoff_to": [
+        "S1a_art_creation",
+        "S1b_authoriality_gate",
+        "S2_composition"
+      ]
+    },
+    {
+      "id": "S1a_art_creation",
+      "kind": "skill",
+      "label": "Sourcing e geracao original de arte",
+      "skill_path": "skills/art/art-creation-sourcing",
+      "inputs": [
+        "art_diagnostic_report",
+        "asset_route_decision",
+        "briefing aceito",
+        "art_direction_decision_record",
+        "master_style_manifest",
+        "style_drift_policy",
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md",
+        "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+        "doc/03_art/02_visual_feedback_bank.md",
+        "doc/06_AI_MEMORY_BANK.md",
+        "doc/10-memory-bank.md (quando existir)"
+      ],
+      "required_artifacts": [
+        "context_pack_manifest",
+        "art_direction_decision_record",
+        "master_style_manifest",
+        "art_generation_brief",
+        "asset_route_decision"
+      ],
+      "optional_artifacts": [
+        "asset_lineage_record",
+        "style_memory_index",
+        "tooling_capability_report",
+        "generation_channel_decision",
+        "persistence_audit",
+        "qa_findings",
+        "correction_request",
+        "qa_correction_loop",
+        "asset_kind_declaration",
+        "animation_state_plan",
+        "pose_roster",
+        "frame_budget_table",
+        "pivot_and_scale_contract",
+        "motion_phase_map",
+        "cloth_secondary_animation_contract",
+        "facial_expression_phase_map",
+        "idle_breathing_cycle_contract",
+        "hand_pose_keyframe_contract",
+        "frame_delta_report",
+        "premium_source_manifest",
+        "authorial_model_sheet",
+        "authorial_stage_concept",
+        "clone_risk_report",
+        "source_validity_report",
+        "white_material_palette_contract",
+        "license_plan"
+      ],
+      "entry_conditions": [
+        "asset_route_decision == 3_no_art"
+      ],
+      "exit_conditions": [
+        "context_pack_manifest declara docs, memoria, source cases, feedback bank, engine profiles e headers SGDK relevantes",
+        "art_direction_decision_record foi emitido por art-direction-selector e consultou art_style_catalog.json antes de qualquer prompt",
+        "master_style_manifest declara style_anchor_id, paleta, escala, line weight, iluminacao e limite de drift",
+        "master_style_manifest herda selected_style_id, prompt_descriptors tecnicos, anti-padroes e clone risk policy do catalogo",
+        "art_generation_brief existe antes de qualquer prompt de imagem",
+        "antes de declarar bloqueio de imagem, tooling_capability_report e generation_channel_decision diferenciam callable nativo, geracao inline, API/CLI e renderer procedural",
+        "quando a imagem renderizar inline mas ainda nao estiver salva, o status e generated_inline_pending_persistence, nao blocked_image_tooling",
+        "local_author_pixel_rasterization e procedural_renderer so podem gerar debug_lab, visual_lab_control ou placeholder, nunca fonte final AAA",
+        "arte premium aceita precisa existir em data/source_art/ com premium_source_manifest antes de conversao, promocao para res/ ou alegacao de entrega",
+        "benchmark tecnico nunca vira source_art; benchmark_used_as deve ser escala, densidade, timing, presenca, budget ou qualidade",
+        "authorial_model_sheet e obrigatorio para personagem principal; authorial_stage_concept e obrigatorio para cenario",
+        "premium_source_manifest de asset critico declara license, authorial_source, derivative_of, derivative_license_status, clone_risk_score, clone_risk_method e benchmark_used_as",
+        "quando o asset for personagem, inimigo ou boss animado, asset_kind_declaration, animation_state_plan, pose_roster, frame_budget_table e pivot_and_scale_contract existem antes do primeiro prompt de imagem",
+        "quando houver lutador, golpe, dano, boss, smear, hitstop ou alegacao premium/AAA, animation_direction_contract existe antes do primeiro prompt de strip; golpes declaram startup, anticipation, active, hitstop, follow-through e recovery",
+        "quando character_profile=hero|fighter|boss e production target=AAA, idle_breathing_cycle_contract e facial_expression_phase_map existem ou declaram not_applicable com justificativa anatomica",
+        "quando personagem tiver tecido, cabelo, faixa, capa, jaqueta ou item secundario visivel em movimento critico, cloth_secondary_animation_contract existe e declara frame_budget_impact_estimate",
+        "quando lutador, heroi com arma ou personagem expressivo tiver maos/garra/ferramenta legiveis, hand_pose_keyframe_contract existe ou declara not_applicable",
+        "quando o resultado for animation_strip, ele contem uma unica acao, motion_phase_map e frame_delta_report; key_pose_sheet nao pode ser aceito como strip",
+        "smear frame, flash frame e hit reaction so sao aceitos com contratos declarados; smear como sujeira/ilha/blur, flash por re-quantizacao suja ou dano sem direcao de forca volta para rework",
+        "asset_lineage_record e exigido para cada resultado bruto aceito, rejeitado ou pendente",
+        "style_memory_index e usado quando houver familia visual com mais de um asset",
+        "qa_findings e correction_request substituem Chain of Thought quando houver drift ou incoerencia"
+      ],
+      "blocking_statuses": [
+        "context_pack_missing",
+        "art_direction_undeclared",
+        "style_catalog_not_consulted",
+        "style_manifest_missing",
+        "asset_lineage_missing",
+        "style_memory_drift",
+        "style_drift_uncorrected",
+        "premium_source_missing",
+        "source_validity_failed",
+        "authoriality_gate_failed",
+        "clone_risk_too_high",
+        "benchmark_derived_source",
+        "local_rasterization_used_as_final",
+        "blocked_motion_direction_contract"
+      ],
+      "handoff_to": [
+        "S1b_authoriality_gate"
+      ]
+    },
+    {
+      "id": "S1b_authoriality_gate",
+      "kind": "gate",
+      "label": "Autoria, validade da fonte e risco de clone",
+      "skill_path": null,
+      "inputs": [
+        "context_pack_manifest",
+        "master_style_manifest",
+        "premium_source_manifest",
+        "authorial_model_sheet (personagem principal)",
+        "authorial_stage_concept (cenario)",
+        "benchmark declarado"
+      ],
+      "required_artifacts": [
+        "source_validity_report",
+        "authoriality_gate_report",
+        "clone_risk_report"
+      ],
+      "optional_artifacts": [
+        "white_material_palette_contract",
+        "benchmark_match_report"
+      ],
+      "entry_conditions": [
+        "premium_source_manifest quando houver asset critico",
+        "benchmark declarado apenas como referencia tecnica"
+      ],
+      "exit_conditions": [
+        "source_validity=true antes de source_to_rom_visual_match",
+        "authoriality_gate=passed antes de conversao para VDP",
+        "clone_risk_score respeita o maximo declarado pelo authoriality_gate_report para asset critico autoral",
+        "benchmark_similarity_index respeita benchmark_profile.max_similarity ou o limite declarado pelo authoriality_gate_report para projeto autoral",
+        "benchmark nao foi usado como source_art, silhueta, pose, paleta, timing copiado ou estrutura visual",
+        "fonte clone, derivada indevida sem licenca/autorizacao, benchmark-derived, sem autoria ou sem licenca bloqueia conversao e promocao para res/",
+        "white_material_palette_contract existe antes de sprite heroico com gi branco ou tecido claro"
+      ],
+      "blocking_statuses": [
+        "source_validity_failed",
+        "authoriality_gate_failed",
+        "clone_risk_too_high",
+        "benchmark_similarity_too_high",
+        "benchmark_derived_source",
+        "license_missing",
+        "authorial_source_missing"
+      ],
+      "handoff_to": [
+        "S2_composition"
+      ]
+    },
+    {
+      "id": "S2_composition",
+      "kind": "skill",
+      "label": "Composicao multi-plano",
+      "skill_path": "skills/art/multi-plane-composition",
+      "supporting_skills": [
+        "skills/art/cutscene-cinematic-direction"
+      ],
+      "inputs": [
+        "mapa de composicao",
+        "doc/13-spec-cenas.md",
+        "briefing aceito",
+        "context_pack_manifest (quando houve sourcing/geracao)",
+        "master_style_manifest (quando houve geracao original)",
+        "authoriality_gate_report",
+        "scene_architecture_triage (quando scene_profile=aaa_layered)"
+      ],
+      "required_artifacts": [
+        "depth_role_map",
+        "composition_schema",
+        "layer_plan",
+        "shared_canvas_contract",
+        "hardware_budget_review",
+        "delivery_findings"
+      ],
+      "optional_artifacts": [
+        "ui_decision_card",
+        "ui_decision_card.text_presentation_profile",
+        "scene_transition_card",
+        "cutscene_scene_contract",
+        "cutscene_fsm_script",
+        "cutscene_panel_layout",
+        "cutscene_resource_plan",
+        "cutscene_palette_script",
+        "cutscene_text_timing_map",
+        "feedback_fx_decision_card",
+        "boss_setpiece_card",
+        "advanced_tilemap_design_card",
+        "scene_direction_record",
+        "scene_signature_techniques",
+        "parallax_layer_contract",
+        "palette_cycle_decision_card",
+        "raster_fx_ownership_map",
+        "background_ecology_card",
+        "route_family_matrix",
+        "locked_composition_direction",
+        "baseline_adaptation_record"
+      ],
+      "entry_conditions": [
+        "asset_route_decision"
+      ],
+      "exit_conditions": [
+        "planos declarados",
+        "estrategia de ROM declarada",
+        "se houver alternativas, a cena continua travada pelo mesmo shared_canvas_contract",
+        "quando houver HUD/UI formal, o ui_decision_card congela plane ownership, arquitetura e fallback",
+        "quando houver peso tipografico real, o mesmo card congela font_render_mode, charset_profile e fallback_font_plan",
+        "quando houver texto expressivo, o mesmo card congela text_surface_class, reading_context, layout_anchor, text_audio_plan e fallback",
+        "quando houver cutscene, o cutscene_scene_contract congela FSM, paineis, resource plan, palette script, text timing, audio cue map e teardown antes da traducao/runtime",
+        "quando houver transicao formal, o scene_transition_card congela continuidade, camera, ownership e fallback",
+        "quando houver boss/setpiece ou tilemap avancado, os cards congelam planos, rota, ownership, budget preliminar e fallback",
+        "quando houver feedback FX de cena, o feedback_fx_decision_card congela leitura alvo, classe de FX, owner e fallback",
+        "quando scene_profile=aaa_layered, a composicao explicita o que foi adotado, adaptado ou rejeitado do baseline de tilemap streaming guiado pela camera antes do runtime"
+      ],
+      "blocking_statuses": [
+        "plane_roles_undefined",
+        "rom_strategy_undefined",
+        "cutscene_contract_missing",
+        "architectural_baseline_undefined"
+      ],
+      "handoff_to": [
+        "S2b_scene_direction"
+      ]
+    },
+    {
+      "id": "S2b_scene_direction",
+      "kind": "skill",
+      "label": "Direcao de cenario monumental",
+      "skill_path": "skills/art/scene-direction-curator",
+      "inputs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md",
+        "art_direction_decision_record (quando existir)",
+        "depth_role_map",
+        "composition_schema",
+        "layer_plan",
+        "shared_canvas_contract",
+        "scene_architecture_triage (quando scene_profile=aaa_layered)",
+        "tools/sgdk_wrapper/.agent/references/scene_archetype_catalog.json"
+      ],
+      "required_artifacts": [
+        "scene_direction_record",
+        "scene_signature_techniques",
+        "fallback_profile"
+      ],
+      "optional_artifacts": [
+        "parallax_layer_contract",
+        "palette_cycle_decision_card",
+        "raster_fx_ownership_map",
+        "background_ecology_card",
+        "mode7_redirect_record",
+        "monumental_downgrade_record"
+      ],
+      "entry_conditions": [
+        "depth_role_map",
+        "composition_schema",
+        "layer_plan",
+        "shared_canvas_contract"
+      ],
+      "exit_conditions": [
+        "scene_archetype_catalog.json consultado",
+        "scene_direction_record declara perfil minimal, competent, monumental ou signature_only",
+        "cenario monumental declara funcao narrativa ou de gameplay, nao apenas decoracao",
+        "quando houver referencia a Mode 7, o record redireciona para tecnica real de Mega Drive",
+        "tecnicas assinadas declaram owners, cards, fallback e precondicoes de budget",
+        "quando perfil monumental for prometido em prototype_playable, houve confirmacao humana ou rebaixamento para competent"
+      ],
+      "blocking_statuses": [
+        "scene_direction_undeclared",
+        "archetype_catalog_not_consulted",
+        "monumental_promised_without_budget",
+        "decorative_only_blocked",
+        "mode7_claim_on_megadrive",
+        "raster_fx_owner_collision",
+        "palette_cycle_ownership_conflict",
+        "background_ecology_unbounded",
+        "signature_only_without_fallback"
+      ],
+      "handoff_to": [
+        "S3_translation"
+      ]
+    },
+    {
+      "id": "S3_translation",
+      "kind": "skill",
+      "label": "Traducao interpretativa para VDP",
+      "skill_path": "skills/art/art-translation-to-vdp",
+      "inputs": [
+        "source_image",
+        "translation_target",
+        "layer_plan",
+        "scene_direction_record",
+        "scene_signature_techniques",
+        "parallax_layer_contract (quando aplicavel)",
+        "palette_cycle_decision_card (quando aplicavel)",
+        "raster_fx_ownership_map (quando aplicavel)",
+        "background_ecology_card (quando aplicavel)",
+        "hardware_expectations",
+        "cutscene_panel_layout (quando translation_target=cutscene_board)",
+        "cutscene_resource_plan (quando translation_target=cutscene_board)",
+        "context_pack_manifest (quando houve sourcing/geracao)",
+        "master_style_manifest (quando houve geracao original)",
+        "asset_lineage_record (quando houver asset bruto gerado)"
+      ],
+      "required_artifacts": [
+        "semantic_parse_report",
+        "translation_report",
+        "basic_translation",
+        "elite_translation",
+        "tileset_review_package"
+      ],
+      "optional_artifacts": [
+        "route_exploration_board",
+        "route_comparison_matrix",
+        "route_decision_record",
+        "locked_visual_direction"
+        ,
+        "cutscene_storyboard_board",
+        "cutscene_palette_script",
+        "asset_optimization_report"
+      ],
+      "entry_conditions": [
+        "layer_plan",
+        "source_validity_report aprovado quando houver asset critico",
+        "authoriality_gate_report aprovado quando houver asset critico"
+      ],
+      "exit_conditions": [
+        "semantic parsing emitido",
+        "assets traduzidos e auditaveis",
+        "traducao respeita scene_direction_record e nao reduz cenario monumental para fundo estatico sem downgrade registrado",
+        "quando translation_target=cutscene_board, cutscene_panel_layout e cutscene_resource_plan foram emitidos junto da traducao",
+        "quando houver entrega AAA/stable/release ou asset pesado, asset_optimization_report separa compressao .res, dedup/reuse medido, custo ROM/load e VRAM residente",
+        "source_validity passou antes de qualquer source_to_rom_visual_match",
+        "se houver multiplas rotas fortes, uma direcao foi congelada antes do runtime"
+      ],
+      "blocking_statuses": [
+        "missing_semantic_parse",
+        "translation_without_review",
+        "scene_direction_undeclared",
+        "decorative_only_blocked",
+        "asset_optimization_unmeasured",
+        "dedup_unmeasured"
+      ],
+      "handoff_to": [
+        "S4_excellence"
+      ]
+    },
+    {
+      "id": "S4_excellence",
+      "kind": "skill",
+      "label": "Julgamento estetico AAA",
+      "skill_path": "skills/art/visual-excellence-standards",
+      "inputs": [
+        "assets por layer",
+        "translation_report",
+        "benchmark escolhido",
+        "ui_decision_card (quando houver HUD/UI formal)",
+        "ui_decision_card.text_presentation_profile (quando houver texto expressivo)",
+        "scene_transition_card (quando houver transicao formal)",
+        "feedback_fx_decision_card (quando houver FX/particulas/raster/luz formal)",
+        "boss_setpiece_card (quando houver boss/setpiece formal)",
+        "advanced_tilemap_design_card (quando houver tilemap avancado)",
+        "scene_direction_record (quando houver cenario, fase, bioma ou setpiece)",
+        "parallax_layer_contract (quando aplicavel)",
+        "palette_cycle_decision_card (quando aplicavel)",
+        "raster_fx_ownership_map (quando aplicavel)",
+        "background_ecology_card (quando aplicavel)",
+        "audio_architecture_card (quando houver audio senior)",
+        "cutscene_scene_contract (quando houver abertura, cutscene, contexto, briefing ou final)",
+        "cutscene_panel_layout (quando houver cutscene)",
+        "cutscene_palette_script (quando houver cutscene)",
+        "cutscene_text_timing_map (quando houver cutscene)",
+        "route_exploration_board (opcional)",
+        "context_pack_manifest (quando houve sourcing/geracao)",
+        "master_style_manifest (quando houve geracao original)",
+        "asset_lineage_record (quando houver asset bruto gerado)",
+        "premium_source_manifest (quando houver asset critico gerado ou aceito)",
+        "source_validity_report",
+        "authoriality_gate_report",
+        "clone_risk_report",
+        "white_material_palette_contract (quando sprite heroico usa gi branco ou tecido claro)",
+        "source_to_rom_asset_map (quando houver ROM ou res/ alvo)",
+        "benchmark_match_report (quando houver benchmark declarado)",
+        "sprite_artifact_report (quando houver personagem animado critico)",
+        "animation_direction_contract (quando houver lutador, golpe, dano, boss, smear, hitstop ou qualidade premium/AAA)",
+        "timing_spacing_report (quando houver acao critica)",
+        "impact_frame_contract (quando houver golpe ou dano)",
+        "recovery_curve_report (quando houver ataque ou movimento com inercia)",
+        "hit_reaction_contract (quando houver hurt/knockdown)",
+        "shading_motion_report (quando houver personagem animado critico)",
+        "palette_flash_policy (quando houver flash frame ou impacto especial)",
+        "modular_boss_rig_contract (quando houver boss/chefao/criatura grande)"
+      ],
+      "required_artifacts": [
+        "doc/aesthetic_report.md",
+        "visual_asset_statuses",
+        "visual_delivery_gate_report"
+      ],
+      "optional_artifacts": [
+        "route_preferred_by_judge",
+        "locked_visual_direction",
+        "style_cohesion_check",
+        "qa_findings",
+        "correction_request",
+        "source_to_rom_asset_map",
+        "benchmark_match_report",
+        "hud_formality_check",
+        "white_material_palette_check",
+        "sprite_strip_integrity_check",
+        "slicing_cell_contract",
+        "motion_performance_check",
+        "smear_frame_manifest",
+        "palette_domain_report",
+        "vram_residency_report",
+        "fx_separation_report"
+        ,
+        "scene_monumentality_check",
+        "decorative_only_check",
+        "cutscene_visual_readability_check"
+      ],
+      "entry_conditions": [
+        "elite_translation"
+      ],
+      "exit_conditions": [
+        "nenhum asset critico em rework",
+        "nenhum asset critico em needs_review, placeholder, debug_lab, benchmark-derived ou rework quando houver entrega, AAA ou promocao para ROM",
+        "asset critico so entra em res/ com elite_ready=true; lab_not_delivery=true so classifica laboratorio e nao autoriza delivery",
+        "source_validity=true foi verificado antes de source_to_rom_visual_match",
+        "authoriality_gate=passed e clone_risk_score respeita o maximo declarado pelo authoriality_gate_report para asset critico autoral",
+        "benchmark_similarity_index respeita benchmark_profile.max_similarity ou limite declarado pelo authoriality_gate_report quando o projeto for autoral; benchmark orienta escala, densidade, timing, presenca, budget e qualidade, nao fonte visual",
+        "sprite heroico com gi branco ou tecido claro passa white_material_palette_contract com sombras frias azul/roxo, highlights limpos/quentes, distancia tonal minima e funcao por slot",
+        "PALETTE_WASTE em asset critico bloqueia visual delivery; quantizacao automatica nao substitui palette pass manual",
+        "perceptual_quality foi medido; se estiver nao_medido, ready_for_aaa=false",
+        "asset critico em res/ possui fonte premium em data/source_art/ e source_to_rom_visual_match >= 8",
+        "quando houver benchmark_profile.required_match, benchmark_match >= benchmark_profile.required_match",
+        "personagem animado critico em res/ possui sprite_artifact_report.status=passed; clipping de celula, matte nao transparente, index 0 incorreto, ilhas soltas, componente desconectado grande, escala inconsistente ou FX baked-in bloqueiam elite_ready",
+        "personagem grande animado em res/ possui slicing_cell_contract; celula hardcoded sem contrato ou sem max_bbox+padding/justificativa bloqueia promocao visual",
+        "lutador, personagem heroico, boss ou animacao premium possui animation_direction_contract e passa timing_spacing_report, impact_frame_contract, recovery_curve_report, shading_motion_report e contratos aplicaveis de smear, hit reaction e flash",
+        "ataque que comeca direto no active frame, sem anticipation, sem recovery, com hitstop frame fraco ou com smear sujo nao pode ser elite_ready",
+        "hurt/knockdown sem direcao de forca, quebra de postura e escala coerente nao pode ser elite_ready",
+        "flash frame sem palette_flash_policy ou FX acoplado indevidamente a paleta de personagem bloqueia visual delivery",
+        "boss/chefao/criatura grande que exige full-body acima do budget seguro precisa de modular_boss_rig_contract ou fica visual_gate_blocked",
+        "status visual por asset registrado",
+        "se houver multiplas rotas validas, a rota preferida ficou declarada",
+        "budget_pass e visual_pass ficam separados; folga de runtime nao justifica arte pobre",
+        "quando houver HUD/UI formal, ui_attention_profile, hud_density, hierarquia, area ocupada, contraste e interferencia no gameplay ficaram julgados",
+        "quando houver UI com tipografia relevante, typography_role e contraste de leitura ficaram julgados",
+        "quando houver texto expressivo, text_surface_class, ritmo, ancoragem, voz de texto e legibilidade ficaram julgados",
+        "quando houver cutscene, rosto, emocao, painel, texto, palette script, anime 90s style e leitura nativa 320x224 ficaram julgados",
+        "cutscene fullscreen sem justificativa de tiles/paleta e fallback pan/painel nao pode ser elite_ready",
+        "quando houver transicao formal, transition_role, continuidade e clareza visual ficaram julgados",
+        "quando houver feedback FX formal, gameplay_signal, readability_target e excesso visual ficaram julgados",
+        "quando houver boss/setpiece, telegraph, weak point e impacto visual ficaram julgados",
+        "quando houver tilemap avancado, route_readability_gate e collision_visual_contract ficaram julgados",
+        "quando scene_direction_record declarar monumental ou signature_only, a cena tem assinatura visual verificavel, funcao narrativa/gameplay e nao depende de decoracao solta",
+        "quando houver parallax, palette cycling, raster FX ou ecologia de fundo, os cards correspondentes foram julgados por leitura 320x224 e conflito de paleta/owner",
+        "quando houver audio senior, audio_role e prioridade perceptiva ficaram coerentes com cena"
+      ],
+      "blocking_statuses": [
+        "visual_gate_blocked",
+        "critical_asset_needs_review",
+        "perceptual_quality_unmeasured",
+        "premium_source_missing",
+        "source_validity_failed",
+        "authoriality_gate_failed",
+        "clone_risk_too_high",
+        "benchmark_similarity_too_high",
+        "benchmark_derived_source",
+        "res_promotion_without_elite_ready",
+        "palette_waste",
+        "white_material_palette_contract_missing",
+        "hud_debug_delivery",
+        "sprite_artifact_report_missing",
+        "frame_edge_clipping",
+        "non_index0_background_matte",
+        "small_island_debris",
+        "stray_large_component",
+        "slicing_cell_contract_missing",
+        "motion_direction_contract_missing",
+        "timing_spacing_failed",
+        "impact_frame_contract_failed",
+        "smear_frame_invalid",
+        "recovery_curve_failed",
+        "hit_reaction_contract_missing",
+        "shading_motion_failed",
+        "palette_flash_policy_missing",
+        "modular_boss_rig_missing",
+        "scale_inconsistency",
+        "baked_fx_in_character_sheet",
+        "source_to_rom_mismatch",
+        "benchmark_match_failed",
+        "local_rasterization_used_as_final"
+        ,
+        "scene_direction_undeclared",
+        "decorative_only_blocked",
+        "monumental_promised_without_budget",
+        "mode7_claim_on_megadrive",
+        "raster_fx_owner_collision",
+        "palette_cycle_ownership_conflict",
+        "cutscene_visual_contract_missing",
+        "cutscene_fullscreen_unjustified"
+      ],
+      "handoff_to": [
+        "S5_budget"
+      ]
+    },
+    {
+      "id": "S5_budget",
+      "kind": "skill",
+      "label": "Budget VDP real",
+      "skill_path": "skills/hardware/megadrive-vdp-budget-analyst",
+      "inputs": [
+        "res/resources.res",
+        "build_output.log",
+        "layout real de planos",
+        "configuracao real de SPR_initEx",
+        "ui_decision_card (quando houver HUD/UI formal)",
+        "ui_decision_card.text_presentation_profile (quando houver texto expressivo)",
+        "scene_transition_card (quando houver transicao formal)",
+        "feedback_fx_decision_card (quando houver FX/particulas/raster/luz formal)",
+        "boss_setpiece_card (quando houver boss/setpiece formal)",
+        "advanced_tilemap_design_card (quando houver tilemap avancado)",
+        "scene_direction_record (quando houver cenario monumental, bioma, fase ou setpiece)",
+        "parallax_layer_contract (quando aplicavel)",
+        "palette_cycle_decision_card (quando aplicavel)",
+        "raster_fx_ownership_map (quando aplicavel)",
+        "background_ecology_card (quando aplicavel)",
+        "audio_architecture_card (quando houver audio senior)"
+        ,
+        "cutscene_resource_plan (quando houver cutscene)",
+        "cutscene_palette_script (quando houver cutscene)",
+        "cutscene_text_timing_map (quando houver cutscene)",
+        "asset_optimization_report (quando houver AAA/stable/release ou asset pesado)",
+        "animation_direction_contract (quando houver golpe, dano, boss, smear, flash ou animacao premium)",
+        "palette_flash_policy (quando houver flash frame ou impacto especial)",
+        "modular_boss_rig_contract (quando houver boss/chefao/criatura grande)"
+      ],
+      "required_artifacts": [
+        "doc/hardware_budget_review.md",
+        "budget_decision",
+        "vram_residency_report"
+      ],
+      "entry_conditions": [
+        "visual_asset_statuses"
+      ],
+      "exit_conditions": [
+        "decisao cabe/cabe com recuo/nao cabe registrada",
+        "numeros de VRAM anexados",
+        "budget_pass nao altera visual_pass; se o runtime cabe com folga, budget nao pode justificar empobrecimento visual",
+        "quando houver HUD/UI formal, o laudo responde ao ui_architecture_choice e ao ownership declarado",
+        "quando houver anexo tipografico, o laudo responde a font_render_mode, glyph_budget_class e fallback_font_plan",
+        "quando houver texto expressivo, o laudo responde a glyph cache, paineis, baloes, retratos, text_audio_plan e fallback",
+        "quando houver transicao formal, o laudo responde ao continuity_model, fx_ownership_map, audio_transition_plan e fallback_plan",
+        "quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior, o laudo responde aos respectivos cards, pior quadro, ownership e fallback",
+        "quando houver cenario monumental ou signature_only, o laudo responde ao scene_direction_record, tecnicas assinadas, fallback e pior quadro antes de autorizar runtime",
+        "parallax_layer_contract, palette_cycle_decision_card, raster_fx_ownership_map e background_ecology_card entram no worst-frame cost quando aplicaveis",
+        "se a cena prometida como monumental nao couber, budget_decision rebaixa para cabe com recuo e emite monumental_promised_without_budget ate novo perfil ser registrado",
+        "quando houver cutscene, o laudo mede resource plan por estado e nao trata a cutscene inteira como residente",
+        "quando houver asset_optimization_report, o laudo separa compressao ROM/load, dedup/reuse medido e VRAM residente",
+        "o laudo separa rom_asset_cost, vram_resident_set, load_time_dma_cost, per_frame_dma_cost, active_animation_window, scene_local_scope e scanline_sprite_pressure",
+        "res_graph_report nao substitui vram_residency_report; quando houver lutadores grandes, HUD e FX, o pior quadro P1+P2+BG+HUD+FX precisa ser orcado",
+        "se res_graph_report.vram.status=collision_risk ou overlaps[] nao estiver vazio, budget_decision maxima e cabe com recuo ate corrigir layout de VRAM",
+        "se res_graph_report.method=no_res_files ou res_graph_report.vram.status=code_loaded_tiles_unmeasured, budget_decision maxima e cabe com recuo ate medir runtime/dump VDP ou criar pipeline .res auditavel",
+        "compressao .res nao e usada como reducao falsa de VRAM residente"
+      ],
+      "blocking_statuses": [
+        "budget_undefined",
+        "budget_doc_mismatch",
+        "resources_res_missing_for_visual_delivery",
+        "asset_pipeline_not_started",
+        "code_loaded_tiles_unmeasured",
+        "ui_ownership_undefined",
+        "text_presentation_contract_missing",
+        "transition_contract_missing",
+        "feedback_fx_contract_missing",
+        "scene_direction_undeclared",
+        "monumental_promised_without_budget",
+        "raster_fx_owner_collision",
+        "palette_cycle_ownership_conflict",
+        "boss_setpiece_contract_missing",
+        "advanced_tilemap_contract_missing",
+        "audio_contract_missing"
+        ,
+        "cutscene_resource_plan_missing",
+        "cutscene_state_budget_missing",
+        "asset_optimization_unmeasured",
+        "dedup_unmeasured"
+      ],
+      "handoff_to": [
+        "S6_runtime"
+      ]
+    },
+    {
+      "id": "S6_runtime",
+      "kind": "skill",
+      "label": "Integracao runtime e cena",
+      "skill_path": "skills/code/sgdk-runtime-coder",
+      "supporting_skills": [
+        "skills/operation/sgdk-build-wrapper-operator",
+        "skills/architecture/scene-state-architect",
+        "skills/hardware/megadrive-vdp-budget-analyst"
+      ],
+      "inputs": [
+        "res/resources.res",
+        "src/**/*.c",
+        "budget_decision",
+        "ui_decision_card (quando houver HUD/UI formal)",
+        "ui_decision_card.text_presentation_profile (quando houver texto expressivo)",
+        "scene_transition_card (quando houver transicao formal)",
+        "feedback_fx_decision_card (quando houver FX/particulas/raster/luz formal)",
+        "boss_setpiece_card (quando houver boss/setpiece formal)",
+        "advanced_tilemap_design_card (quando houver tilemap avancado)",
+        "scene_direction_record (quando houver cenario monumental, bioma, fase ou setpiece)",
+        "parallax_layer_contract (quando aplicavel)",
+        "palette_cycle_decision_card (quando aplicavel)",
+        "raster_fx_ownership_map (quando aplicavel)",
+        "background_ecology_card (quando aplicavel)",
+        "audio_architecture_card (quando houver audio senior)",
+        "cutscene_fsm_script (quando houver cutscene)",
+        "cutscene_panel_layout (quando houver cutscene)",
+        "cutscene_resource_plan (quando houver cutscene)",
+        "cutscene_palette_script (quando houver cutscene)",
+        "cutscene_text_timing_map (quando houver cutscene)",
+        "cutscene_audio_cue_map (quando houver cutscene)",
+        "cutscene_teardown_plan (quando houver cutscene)",
+        "production_runtime_contract (quando houver AAA/stable/release)",
+        "scene_manager_contract (quando houver AAA/stable/release)",
+        "input_abstraction_contract (quando houver AAA/stable/release)",
+        "save_system_contract (quando persistence_scope=required, sram_policy!=none ou houver persistencia no GDD)",
+        "region_timing_contract (quando houver AAA/stable/release)",
+        "context_pack_manifest (quando codigo depender de API SGDK sensivel ou asset gerado)",
+        "visual_delivery_gate_report (quando houver entrega visual AAA ou prototipo final)",
+        "cloth_secondary_animation_contract (quando aplicavel)",
+        "facial_expression_phase_map (quando aplicavel)",
+        "idle_breathing_cycle_contract (quando aplicavel)",
+        "hand_pose_keyframe_contract (quando aplicavel)"
+      ],
+      "required_artifacts": [
+        "runtime_decision_log",
+        "api_reality_check",
+        "build_evidence",
+        "delivery_findings"
+      ],
+      "entry_conditions": [
+        "budget_decision",
+        "sem blocked_image_tooling, blocked_no_premium_source ou lab_not_delivery para runtime visual de producao"
+      ],
+      "exit_conditions": [
+        "build limpo",
+        "runtime alinhado ao budget",
+        "api_reality_check cita header, referencia local ou fonte canonica antes de usar API SGDK sensivel",
+        "quando houver HUD/UI formal, WINDOW/H-Int/FX seguem plane_ownership_map, fx_ownership_map e fallback",
+        "quando houver anexo tipografico, o runtime segue font_render_mode, font_owner e fallback_font_plan",
+        "quando houver texto expressivo, o runtime segue text_surface_class, narrative_timing_model, layout_anchor, text_audio_plan, teardown e fallback",
+        "quando houver transicao formal, runtime_state_handoff, teardown_reset_plan e fallback_plan ficam rastreaveis",
+        "quando houver cutscene, runtime_decision_log prova FSM enter/update/advance/exit, triggers, texto temporizado, resource loading por estado, audio cues e teardown",
+        "quando houver AAA/stable/release, runtime_decision_log prova scene manager, input abstraction, save/SRAM quando persistence_scope=required ou sram_policy!=none, region/timing PAL/NTSC e contratos de producao",
+        "quando persistence_scope=none, runtime_decision_log registra save_system_contract_not_applicable e o blocker save_system_contract_missing_when_persistence_required nao pode ser emitido",
+        "quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior, runtime_decision_log cita cards, owner, teardown e fallback",
+        "quando houver scene_direction_record monumental ou signature_only, runtime_decision_log cita tecnica assinada, owners de scroll/CRAM/H-Int/tiles, fallback e downgrade se usado",
+        "runtime implementa parallax, palette cycle, raster FX e ecologia de fundo somente com owner unico, reset simetrico e budget aceito",
+        "runtime nunca declara Mode 7 no Mega Drive; referencias desse tipo ficam redirecionadas para tecnica real registrada",
+        "runtime_decision_log declara o modelo full_resident, scene_local_preload, animation_window_streaming, tilemap_streaming ou fallback_reduced_residency quando houver diferenca entre asset total, set residente e upload por frame",
+        "runtime preserva timing, secondary motion, idle breathing, expressoes e hand poses declarados nos contratos aplicaveis sem achatar tudo para duracao uniforme",
+        "runtime distingue DMA de loading/preload de DMA por frame em gameplay",
+        "runtime nao declara pronto, AAA, delivery ou ready_for_aaa=true quando visual_delivery_gate_report tiver blocker",
+        "runtime prova que TargetScene/bootstrap SRAM/MDRT corresponde a runtime_metrics.scene_id antes de usar screenshot ou baseline como evidencia",
+        "runtime nao usa screenshot de baixa informacao nem visual_vdp_dump.bin igual ao save.sram como evidencia",
+        "runtime textual ou proxy criado apos bloqueio de fonte visual e classificado como laboratorio com lab_not_delivery=true"
+      ],
+      "blocking_statuses": [
+        "runtime_without_budget",
+        "ui_runtime_contract_missing",
+        "text_presentation_runtime_contract_missing",
+        "transition_runtime_contract_missing",
+        "feedback_fx_runtime_contract_missing",
+        "scene_direction_runtime_contract_missing",
+        "raster_fx_runtime_contract_missing",
+        "palette_cycle_runtime_contract_missing",
+        "boss_setpiece_runtime_contract_missing",
+        "advanced_tilemap_runtime_contract_missing",
+        "audio_runtime_contract_missing"
+        ,
+        "cutscene_fsm_missing",
+        "cutscene_runtime_contract_missing",
+        "cutscene_teardown_missing",
+        "production_runtime_contract_missing",
+        "scene_manager_contract_missing",
+        "input_abstraction_contract_missing",
+        "save_system_contract_missing_when_persistence_required",
+        "region_timing_contract_missing",
+        "scheduler_runtime_missing"
+      ],
+      "handoff_to": [
+        "S7_validate"
+      ]
+    },
+    {
+      "id": "S7_validate",
+      "kind": "tool",
+      "label": "Validacao estruturada",
+      "skill_path": null,
+      "script": "tools/sgdk_wrapper/validate_resources.ps1",
+      "inputs": [
+        "out/rom.bin",
+        "out/logs/build_output.log",
+        "doc/changelog/changelog.md",
+        "out/logs/audio_validation_report.json (quando houver audio declarado em .res)",
+        "out/logs/visual_delivery_gate_report.json (quando houver entrega visual AAA ou prototipo final)",
+        "out/logs/scene_regression_report.json (quando houver baseline visual)",
+        "out/logs/res_graph_report.json",
+        "out/logs/asset_optimization_report.json (quando houver AAA/stable/release ou asset pesado)",
+        "out/logs/code_review_report.json (quando houver AAA/stable/release)",
+        "out/logs/rom_mastering_report.json (quando houver AAA/stable/release)",
+        "out/logs/ci_gate_report.json ou out/logs/local_ci_gate_report.json (quando houver AAA/stable/release)",
+        "out/evidence/blastem/visual_vdp_dump.bin (obrigatorio para AAA ou suspeita visual)"
+      ],
+      "required_artifacts": [
+        "out/logs/validation_report.json"
+      ],
+      "optional_artifacts": [
+        "out/logs/audio_validation_report.json",
+        "out/logs/freshness_audit_report.json",
+        "out/logs/scene_regression_report.json",
+        "out/logs/asset_optimization_report.json",
+        "out/logs/code_review_report.json",
+        "out/logs/rom_mastering_report.json",
+        "out/logs/ci_gate_report.json",
+        "out/logs/local_ci_gate_report.json",
+        "out/evidence/blastem/visual_vdp_dump.bin"
+      ],
+      "entry_conditions": [
+        "build_evidence"
+      ],
+      "exit_conditions": [
+        "summary.errors == 0",
+        "quando houver audio declarado em .res, out/logs/audio_validation_report.json existe, nao esta stale e foi absorvido pelo validation_report",
+        "freshness_audit_report.json foi gerado quando houver evidencia previa a reconciliar",
+        "visual_delivery_gate_report usa measurement_level formal e leaf_blocker_propagation=true quando houver asset critico",
+        "para AAA, scene_regression_report compara contra baseline persistido; captura sem baseline nao valida visualmente",
+        "para AAA ou screenshot suspeita, visual_vdp_dump.bin existe e foi registrado no validation_report",
+        "para AAA/stable/release, code_review_report, rom_mastering_report e ci_gate_report ou local_ci_gate_report existem, nao estao stale e local_ci_gate_report segue schema minimo quando usado",
+        "para AAA/stable/release, production_runtime_contract, scene_manager_contract, input_abstraction_contract, region_timing_contract e save_system_contract quando persistence_scope=required ou sram_policy!=none foram observados pelo validator/closeout",
+        "projeto com intencao visual/gameplay tem .res auditavel; sem .res fica resources_res_missing_for_visual_delivery",
+        "code_loaded_tiles_unmeasured, blank_or_low_information_capture, invalid_visual_vdp_dump e runtime_target_scene_mismatch sao blockers",
+        "nenhum blocker de fechamento ativo"
+      ],
+      "blocking_statuses": [
+        "agent_context_degraded",
+        "audio_validation_missing",
+        "audio_validation_stale",
+        "audio_validation_failed",
+        "budget_doc_mismatch",
+        "visual_gate_blocked",
+        "critical_asset_needs_review",
+        "perceptual_quality_unmeasured",
+        "source_to_rom_mismatch",
+        "benchmark_match_failed",
+        "local_rasterization_used_as_final",
+        "measurement_level_missing",
+        "leaf_blocker_propagation_missing",
+        "visual_vdp_dump_missing_required",
+        "cutscene_contract_missing",
+        "cutscene_fsm_missing",
+        "cutscene_resource_plan_missing",
+        "cutscene_text_timing_missing",
+        "production_runtime_contract_missing",
+        "scene_manager_contract_missing",
+        "input_abstraction_contract_missing",
+        "save_system_contract_missing_when_persistence_required",
+        "region_timing_contract_missing",
+        "asset_optimization_unmeasured",
+        "rom_mastering_missing",
+        "code_review_missing",
+        "ci_gate_missing",
+        "pipeline_gate_partial",
+        "resources_res_missing_for_visual_delivery",
+        "asset_pipeline_not_started",
+        "code_loaded_tiles_unmeasured",
+        "blank_or_low_information_capture",
+        "invalid_visual_vdp_dump",
+        "runtime_target_scene_mismatch",
+        "scene_regression_incomplete",
+        "baseline_comparison_missing",
+        "emulator_evidence_stale",
+        "freshness_audit_stale",
+        "changelog_missing"
+      ],
+      "handoff_to": [
+        "S8_qa_evidence"
+      ]
+    },
+    {
+      "id": "S8_qa_evidence",
+      "kind": "human",
+      "label": "QA e evidencia BlastEm",
+      "skill_path": null,
+      "inputs": [
+        "out/rom.bin",
+        "out/logs/validation_report.json",
+        "workflows/build-validate.md"
+      ],
+      "required_artifacts": [
+        "out/logs/emulator_session.json",
+        "out/logs/freshness_audit_report.json",
+        "out/logs/scene_closeout_gate_report.json",
+        "out/logs/scene_regression_report.json",
+        "out/logs/code_review_report.json (quando houver AAA/stable/release)",
+        "out/logs/rom_mastering_report.json (quando houver AAA/stable/release)",
+        "out/logs/ci_gate_report.json ou out/logs/local_ci_gate_report.json (quando houver AAA/stable/release)",
+        "doc/changelog/changelog.md",
+        "doc/10-memory-bank.md"
+      ],
+      "entry_conditions": [
+        "summary.errors == 0"
+      ],
+      "exit_conditions": [
+        "BlastEm observado com evidencia rastreavel",
+        "ready_for_aaa so pode ser true se visual_delivery_gate_report nao tiver blockers, perceptual_quality estiver medido, measurement_level for valido e leaf_blocker_propagation=true",
+        "entrega AAA tem visual_vdp_dump.bin; se o screenshot tiver faixa, garbage, plano descoberto ou suspeita de paleta/VRAM, dump ausente bloqueia",
+        "visual_vdp_dump.bin nao tem hash igual ao save.sram e screenshot de evidencia tem informacao visual suficiente",
+        "scene regression tem baseline comparativo persistido; captura sem baseline fica bloqueada para validacao visual AAA",
+        "AAA/stable/release tem ROM mastering, code review e CI/local CI coerentes com a ROM capturada",
+        "se make paralelo, debug symbols, pre-commit ou GitHub Actions nao existem, isso fica registrado como pipeline_gate_partial em vez de sucesso de pipeline completo",
+        "runtime_metrics.scene_id corresponde a cena alvo capturada",
+        "scene_closeout_gate_report.json registra a sequencia build -> contratos -> res_graph -> validation -> captura -> regressao -> freshness",
+        "freshness_audit_report.json nao aponta stale em artefatos obrigatorios",
+        "changelog atualizado",
+        "memory bank coerente com a ROM vigente"
+      ],
+      "blocking_statuses": [
+        "blastem_gate_false",
+        "visual_gate_blocked",
+        "perceptual_quality_unmeasured",
+        "critical_asset_needs_review",
+        "measurement_level_missing",
+        "leaf_blocker_propagation_missing",
+        "visual_vdp_dump_missing_required",
+        "cutscene_contract_missing",
+        "cutscene_evidence_missing",
+        "production_runtime_contract_missing",
+        "rom_mastering_missing",
+        "code_review_missing",
+        "ci_gate_missing",
+        "pipeline_gate_partial",
+        "blank_or_low_information_capture",
+        "invalid_visual_vdp_dump",
+        "runtime_target_scene_mismatch",
+        "scene_regression_baseline_missing",
+        "emulator_evidence_stale",
+        "scene_closeout_failed",
+        "freshness_audit_stale"
+      ],
+      "handoff_to": []
+    }
+  ]
+}

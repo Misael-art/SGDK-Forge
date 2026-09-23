@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "scene_id": "credits_roll",
+  "role": "legal_and_authorial_closeout",
+  "entry_points": [
+    "title_menu_credits",
+    "ending_result_after_victory"
+  ],
+  "presentation": {
+    "mode": "paged_cards_first",
+    "scrolling_allowed": false,
+    "reason": "paged credits avoid subpixel scroll and preserve 8px baseline readability",
+    "background": "calm revived sky with far beacons",
+    "text_surface": "BG_A or WINDOW depending on atlas pressure",
+    "skip_policy": "START returns to title after first full page has been visible for 60 frames"
+  },
+  "credit_blocks": [
+    {
+      "block_id": "project",
+      "heading": "A MEGA DRIVE PROJECT",
+      "lines": [
+        "CELESTIAL CHASE REVIVE",
+        "VER.001 SGDK 2.11"
+      ]
+    },
+    {
+      "block_id": "design",
+      "heading": "DESIGN",
+      "lines": [
+        "GAME DESIGN",
+        "SCENE DIRECTION",
+        "TECHNICAL DESIGN"
+      ]
+    },
+    {
+      "block_id": "art_audio",
+      "heading": "ART AND AUDIO",
+      "lines": [
+        "PIXEL ART",
+        "CUTSCENE ART",
+        "MUSIC AND SFX"
+      ]
+    },
+    {
+      "block_id": "tools",
+      "heading": "TOOLS",
+      "lines": [
+        "SGDK 2.11",
+        "BLASTEM VALIDATION REQUIRED"
+      ]
+    },
+    {
+      "block_id": "thanks",
+      "heading": "THANK YOU",
+      "lines": [
+        "RUN TOWARD THE LIGHT"
+      ]
+    }
+  ],
+  "glyph_policy": {
+    "glyph_manifest_ref": "doc/glyph_manifest.json",
+    "runtime_text": "uppercase ASCII only for first slice",
+    "name_localization": "real names may expand charset only after glyph budget review"
+  },
+  "vdp_budget": {
+    "tiles_target": 96,
+    "palette_domain": "ui_credits_pal",
+    "sprites": "optional cursor only",
+    "dma_policy": "load page tiles during scene transition or page hold"
+  },
+  "validation_plan": {
+    "required_evidence": [
+      "native 320x224 readability capture",
+      "page transition capture",
+      "input return-to-title regression"
+    ],
+    "status": "planned"
+  },
+  "blockers": [
+    "final_credit_names_missing",
+    "credits_runtime_capture_missing"
+  ]
+}

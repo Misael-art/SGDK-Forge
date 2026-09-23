@@ -1,0 +1,20 @@
+{
+  "id": "L119",
+  "date": "2026-09-16",
+  "title": "Janela de agarrão deve refletir espaçamento produzido pelas caixas de massa",
+  "context": "A rota de teclado mantinha P1 em x=176 e P2 em x=270/336; a resolução de massa e os limites do palco impediam a aproximação nominal de 45 px.",
+  "learning": "Uma janela de comando não pode ser definida apenas pela distância ideal entre origens. Deve considerar o espaçamento observável após física, limites do cenário e caixas de massa.",
+  "action": "FSM usa posições vivas e limite <=100 para o agarrão autorado; captura move P2 pelo teclado e mantém RIGHT+Y no P1. Nenhum estado ou posição é injetado.",
+  "evidence": {
+    "rom_sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc",
+    "bundle": "out/emulator_evidence/visual_ko_20260916T205914Z/",
+    "hprb": "out/logs/current_throw_range100_hprb.json",
+    "hsem": "out/logs/current_throw_range100_hsem.json",
+    "observed": "combat_total_throws=2; throw_frames_p1=80"
+  },
+  "limits": [
+    "telemetria não substitui revisão visual/gameplay",
+    "P10 histórico deve ser recapturado no SHA vigente",
+    "balanceamento da distância permanece decisão de design"
+  ]
+}

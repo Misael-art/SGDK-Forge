@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "orchestration_taskset",
+  "run_id": "hamoopig-visual-gap-20260918",
+  "tasks": [
+    {
+      "task_id": "visual_gap_audit",
+      "objective": "Auditar o gap visual atual contra as oito referências e as capturas da ROM, sem editar o projeto; identificar o próximo item P0 causal e evidência faltante.",
+      "task_kind": "visual_review",
+      "owner_skill": "art/visual-excellence-standards",
+      "identity_scope": null,
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": ["src", "res", "doc", "out/rom.bin"],
+      "input_artifacts": [
+        {"path": "doc/curation/2026_09_18/visual_gap/diagnostico_visual_comparativo.md", "sha256": "f6f67906511d2ba4142d15f39ebf2d72f17125d57a35655eb2d1df6a6a1ee142"},
+        {"path": "doc/curation/2026_09_18/visual_gap/development_backlog.json", "sha256": "5ae644c8dcbd7d6cb9a8ca098dac8bde3900ad5b5da38f7ce318b4106c544923"},
+        {"path": "out/rom.bin", "sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc"}
+      ],
+      "output_paths": ["out/logs/visual_gap_audit_20260918.json"],
+      "expected_seconds": 90,
+      "context_words": 800,
+      "result_words": 400,
+      "model_tier": "balanced",
+      "claim_ceiling": "prototype",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": ["python3 tools/sgdk_wrapper/harness_orchestration.py validate-result"],
+      "prohibitions": ["nao gerar ou promover assets", "nao editar runtime ou docs canonicos"]
+    },
+    {
+      "task_id": "worst_frame_budget_audit",
+      "objective": "Auditar os dados atuais de VRAM, DMA, sprites e scanline do HAMOOPIG e apontar a medição necessária para o primeiro patch sem inventar folga.",
+      "task_kind": "budget_analysis",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "identity_scope": null,
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": ["src", "res", "doc", "out/rom.bin"],
+      "input_artifacts": [
+        {"path": "doc/13-spec-cenas.md", "sha256": "75042f758ff7312bd082abcdb95e2ada2fc4409e15d629283af8f926fbab091a"},
+        {"path": "out/rom.bin", "sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc"}
+      ],
+      "output_paths": ["out/logs/worst_frame_budget_audit_20260918.json"],
+      "expected_seconds": 90,
+      "context_words": 800,
+      "result_words": 400,
+      "model_tier": "balanced",
+      "claim_ceiling": "prototype",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": ["python3 tools/sgdk_wrapper/harness_orchestration.py validate-result"],
+      "prohibitions": ["nao alterar budgets canonicos", "nao declarar validado_budget"]
+    },
+    {
+      "task_id": "first_slice_integration",
+      "objective": "Integrar localmente a primeira melhoria causal do slice HUD/fluxo, com testes host, build e evidência vinculada à ROM; preservar alterações preexistentes e atualizar memória/changelog.",
+      "task_kind": "integration",
+      "owner_skill": "code/sgdk-runtime-coder",
+      "identity_scope": null,
+      "dependencies": ["visual_gap_audit", "worst_frame_budget_audit"],
+      "read_only": false,
+      "isolated_write": false,
+      "write_paths": ["src", "inc", "res", "tests", "doc/10-memory-bank.md", "doc/changelog/changelog.md", "out/logs"],
+      "protected_paths": ["out/rom.bin", "data/source_art", "rascunho/inputs"],
+      "input_artifacts": [
+        {"path": "doc/11-gdd.md", "sha256": "4328234cb72191354a9f0720e2c71b7e6d7791abc709b51d3e989250fc8f3061"},
+        {"path": "doc/13-spec-cenas.md", "sha256": "75042f758ff7312bd082abcdb95e2ada2fc4409e15d629283af8f926fbab091a"}
+      ],
+      "output_paths": ["out/rom.bin", "out/logs/validation_report.json", "out/logs/freshness_audit_report.json"],
+      "expected_seconds": 240,
+      "context_words": 1000,
+      "result_words": 500,
+      "model_tier": "balanced",
+      "claim_ceiling": "prototype",
+      "human_decision_required": true,
+      "shared_capability_blocker": false,
+      "acceptance_commands": ["python3 tools/sgdk_wrapper/select_sgdk_build_route.py", "python3 tools/sgdk_wrapper/harness_orchestration.py validate-result"],
+      "prohibitions": ["nao apagar ou sobrescrever trabalho preexistente", "nao declarar pronto ou AAA"]
+    }
+  ]
+}

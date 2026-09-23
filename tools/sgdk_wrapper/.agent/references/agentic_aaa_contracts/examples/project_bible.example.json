@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "sample_fighter",
+  "project_title": "Sample Fighter",
+  "authorial_identity": "Original martial fantasy with crisp 16-bit staging and grounded impact.",
+  "core_fantasy": "A disciplined fighter reads danger, responds instantly, and makes every hit feel physical.",
+  "visual_pillars": [
+    "clean silhouettes",
+    "cold fabric shadows",
+    "staged arena depth"
+  ],
+  "gameplay_pillars": [
+    "1-frame readable response when possible",
+    "hitboxes aligned to sprite mass"
+  ],
+  "audio_pillars": [
+    "XGM2 first",
+    "SFX priority protects gameplay impact"
+  ],
+  "signature_promise": {
+    "one_sentence": "Every match should feel like a readable duel where one clean decision changes tempo.",
+    "signature_mechanics": [
+      "frame-tight counter window",
+      "corner pressure with visible risk/reward"
+    ],
+    "signature_audiovisual_moments": [
+      "impact freeze with staged hit spark and SFX priority",
+      "arena depth reacts subtly when momentum changes"
+    ],
+    "what_must_never_feel_generic": [
+      "flat training-room combat",
+      "unbranded default font front-end",
+      "hits without weight or recovery"
+    ]
+  },
+  "creative_director_radar_ref": "doc/creative_director_radar.json",
+  "benchmark_policy": {
+    "allowed_use": ["scale", "density", "timing"],
+    "disallowed_use": ["pose_copy", "layout_copy", "palette_copy"],
+    "max_similarity_default": 0.35
+  },
+  "forbidden_clone_targets": [],
+  "approval_status": "approved_for_production"
+}

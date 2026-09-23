@@ -1,0 +1,66 @@
+{
+  "schema_version": "taina_native_lineart_blocking_manifest.v1",
+  "stage": "native_lineart_blocking_v02",
+  "iteration_reason": "v01 read as a generic block mass at 1x; v02 restores arm/ribcage negative space and clusters the face read",
+  "identity_authority": {
+    "file": "inputs/model_sheet_v02.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a"
+  },
+  "underlays": {
+    "A_underlay_im_lanczos3": {
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_primary_im_lanczos3_v01/hybrid_cleanup_primary_im_lanczos3_v01.png",
+      "sha256": "3e60cd9efb233d0ce715c543e9cacdaacbe044b253c088dd06ada52f131b4cf1",
+      "role": "guide_only_not_pixel_source"
+    },
+    "B_underlay_im_mitchell_netravali": {
+      "path": "hybrid_cleanup_shootout/hybrid_cleanup_challenger_im_mitchell_netravali_v01/hybrid_cleanup_challenger_im_mitchell_netravali_v01.png",
+      "sha256": "8e8eb7cbb6d0aaa8906f88f7a12c4352f431d41cd823f57e958c41c3d19bcd61",
+      "role": "guide_only_not_pixel_source"
+    }
+  },
+  "candidates": {
+    "A": {
+      "asset_id": "taina_56x80_native_lineart_blocking_a_v02",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/native_lineart_blocking_v02/A/taina_56x80_native_lineart_blocking_a_v02.png",
+      "sha256": "7828a5fb8d658661adc5d45eeffcc859e5f995f98c4f13a2d6389c24ddb4b5d6",
+      "report": "A/taina_56x80_native_lineart_blocking_a_v02_report.json"
+    },
+    "B": {
+      "asset_id": "taina_56x80_native_lineart_blocking_b_v02",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/native_lineart_blocking_v02/B/taina_56x80_native_lineart_blocking_b_v02.png",
+      "sha256": "da32c27c82dedd95efccd319508a77556ec37b12a0f8b41b8379d2ca9f6d36aa",
+      "report": "B/taina_56x80_native_lineart_blocking_b_v02_report.json"
+    }
+  },
+  "source_file_unchanged": true,
+  "forbidden_pixel_sources": [
+    "BASIC",
+    "ELITE",
+    "v02_regressiva",
+    "G2",
+    "RGB_diagnostic_maps",
+    "v05"
+  ],
+  "comparison": {
+    "pixels_different": 121,
+    "visible_pixel_denominator": 1679,
+    "difference_ratio": 0.07206670637284097,
+    "near_duplicate": false,
+    "affected_regions": {
+      "face": 13,
+      "hair": 25,
+      "guard": 12,
+      "sash": 27,
+      "feet": 12
+    },
+    "meaningful_visual_alternatives": true,
+    "intended_gain": "recover internal drawing, identity, gaze, guard separation and volume before color"
+  },
+  "human_gate_status": "pending_human_decision",
+  "decision_required": "select_one_structurally_valid_lineart_candidate",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "rom_authorization": false,
+  "visual_pass": false,
+  "ready_for_aaa": false
+}

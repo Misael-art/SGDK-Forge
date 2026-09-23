@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_source_concept_v007",
+  "status": "generation_blocked_reference_ready",
+  "purpose": "Single character palette reference for future native 48x64 redraw. This is a design map, not automatic quantization.",
+  "hardware_target": {
+    "character_palette": "one 16-entry sprite palette",
+    "transparent_index": 0,
+    "useful_color_count": 15,
+    "grid": "Mega Drive 9-bit values: 00,22,44,66,88,AA,CC,EE"
+  },
+  "construction_rules": [
+    "Use 1 almost-black color for outline and cuts.",
+    "Use 2-3 skin tones.",
+    "Use 3-4 clothing/hair/rock support tones.",
+    "Use 2 tones for hair/metal/dark material where possible.",
+    "Use 1-2 accent colors for lava/armband/gold/eyes as needed.",
+    "Prefer harmony and contrast over maximizing color count.",
+    "Do not rely on middle-tone colors that vanish in RGB 3:3:3."
+  ],
+  "locked_material_rules": {
+    "lava_arm_and_hand": "Always exposed rock fist/hand with dark outline and orange/red crack accents. Never wrap/glove/bandage.",
+    "human_hand": "Dirty white wrap.",
+    "feet": "Dirty white wraps.",
+    "red_armband": "Non-lava biceps only, consistent in every applicable pose.",
+    "shorts": "Black with gold trim.",
+    "shading": "Clusters/patches, not spray/noise."
+  },
+  "character_palette_16": [
+    { "index": 0, "hex": "#EE00EE", "role": "transparent_chroma_key" },
+    { "index": 1, "hex": "#000000", "role": "almost_black_outline_hair_deep" },
+    { "index": 2, "hex": "#222222", "role": "hair_and_shorts_shadow" },
+    { "index": 3, "hex": "#444444", "role": "shorts_base_and_rock_dark" },
+    { "index": 4, "hex": "#666666", "role": "rock_mid_cluster" },
+    { "index": 5, "hex": "#886644", "role": "skin_deep_shadow_wrap_shadow" },
+    { "index": 6, "hex": "#AA6622", "role": "skin_base" },
+    { "index": 7, "hex": "#CC8844", "role": "skin_light" },
+    { "index": 8, "hex": "#EEAA66", "role": "skin_highlight" },
+    { "index": 9, "hex": "#CCAA88", "role": "dirty_wrap_base" },
+    { "index": 10, "hex": "#EEEECC", "role": "wrap_highlight_and_teeth" },
+    { "index": 11, "hex": "#CCAA22", "role": "gold_trim_belt" },
+    { "index": 12, "hex": "#CC2222", "role": "red_armband_sash_lava_red" },
+    { "index": 13, "hex": "#EE6600", "role": "lava_orange_cracks" },
+    { "index": 14, "hex": "#EEEE00", "role": "lava_hot_yellow_eye_accent" },
+    { "index": 15, "hex": "#EEEEEE", "role": "eye_specular_emergency_highlight" }
+  ],
+  "optional_fx_palette_note": "Detached fire/impact FX may use a separate PAL3 strip after body source approval. Do not bake FX into the character body sheet."
+}

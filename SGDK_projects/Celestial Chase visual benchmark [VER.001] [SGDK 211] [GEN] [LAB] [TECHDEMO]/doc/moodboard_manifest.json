@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "moodboard_id": "celestial_chase_first_playable",
+  "style_anchor_id": "celestial_chase_locked_v005",
+  "style_id": "vibrant_16bit_pixel",
+  "world": {
+    "description": "Moonlit celestial desert crossed by a forced-perspective indigo road and an approaching luminous gate.",
+    "lighting_palette": "cool indigo moonlight, ivory stars, warm danger accents",
+    "key_image_refs": [
+      "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/elite_split_scene/chase_elite_split_approval_board_v005.png",
+      "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/elite_split_scene/runtime_split_candidates_v007/chase_runtime_split_approval_board_v007.png"
+    ],
+    "mood_words": ["urgent", "luminous", "ancient", "hopeful", "vast"]
+  },
+  "protagonists": [
+    {
+      "protagonist_id": "celestial_runner",
+      "key_pose_refs": [
+        "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/source_baked_pixel_art_candidates_v001/animation_strip_candidates_v003/animation_strip_approval_board_v003.png"
+      ],
+      "palette_dominance": ["ivory", "saturated blue", "warm gold"],
+      "mood_words": ["determined", "light", "agile"]
+    }
+  ],
+  "enemies": [
+    {
+      "enemy_id": "ancient_hart_pressure",
+      "key_pose_refs": [
+        "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/source_baked_pixel_art_candidates_v001/animation_strip_candidates_v003/animation_strip_approval_board_v003.png"
+      ],
+      "readability_notes": "Frontal three-quarter pursuit on the Z axis; warm metal mass against cool sky.",
+      "mood_words": ["monumental", "relentless", "ancient"]
+    }
+  ],
+  "items": [
+    {
+      "item_id": "celestial_energy",
+      "key_visual_refs": [
+        "rascunho/processado/legacy_megadrive_dev/processed/celestial_chase_v001/elite_split_scene/chase_elite_split_approval_board_v005.png"
+      ],
+      "rarity_signal": "common"
+    }
+  ],
+  "palette_swatches": [
+    {"swatch_id": "night_base", "hex": "08122E", "role": "base"},
+    {"swatch_id": "road_blue", "hex": "205080", "role": "shadow"},
+    {"swatch_id": "celestial_ivory", "hex": "EEF4DA", "role": "highlight"},
+    {"swatch_id": "hero_blue", "hex": "2878B8", "role": "accent"},
+    {"swatch_id": "danger_warm", "hex": "D05A45", "role": "danger"},
+    {"swatch_id": "hud_safe", "hex": "F2E6BD", "role": "ui_safe"}
+  ],
+  "mood_words": ["urgent", "luminous", "storybook", "celestial", "mechanical"],
+  "negative_references": [
+    "generic neon cyberpunk",
+    "heavy line-art fighter",
+    "flat debug laboratory",
+    "soft AI gradient art",
+    "proprietary character silhouette"
+  ],
+  "inspiration_only": true
+}

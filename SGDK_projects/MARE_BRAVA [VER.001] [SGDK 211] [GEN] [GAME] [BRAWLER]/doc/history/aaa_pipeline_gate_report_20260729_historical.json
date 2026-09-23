@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-29T17:36:08-03:00",
+  "status": "blocked",
+  "phase": "cais01_art_alignment_pass_v04_runtime_review",
+  "claim_ceiling": "buildado_runtime_observed_partial; direção visual v04 observada no BlastEm, mas arte final, validado_budget, AAA e testado_em_emulador permanecem bloqueados",
+  "owners": {
+    "runtime": "sgdk-runtime-coder",
+    "composition": "multi-plane-composition",
+    "translation": "art-translation-to-vdp",
+    "review": "visual-excellence-standards",
+    "evidence": "emulator-vdp-evidence-curator",
+    "budget": "megadrive-vdp-budget-analyst"
+  },
+  "claim_artifact_matrix": [
+    {
+      "claim": "cais01_v04_source_lineage_and_direction_lock",
+      "status": "passed",
+      "artifact": "doc/contracts/cais01_visual_source_matrix_v04.json"
+    },
+    {
+      "claim": "cais01_v04_native_grid_integrity",
+      "status": "passed_technical",
+      "artifact": "doc/art/environments/cais01/cais01_pixel_compliance_report_v04.json"
+    },
+    {
+      "claim": "authorial_composition_recovered",
+      "status": "observed_partial_runtime",
+      "artifact": "doc/art/environments/cais01/review/cais01_runtime_compare_v03_v04.png"
+    },
+    {
+      "claim": "rescomp_and_scene_budget",
+      "status": "cabe_com_recuo_runtime_metrics_pending",
+      "artifact": "doc/art/environments/cais01/cais01_vdp_budget_report_v04.json"
+    },
+    {
+      "claim": "blastem_visual_observation",
+      "status": "observed_partial_evidence_bundle_rejected",
+      "artifact": "doc/art/environments/cais01/cais01_art_alignment_runtime_review_v04.json"
+    },
+    {
+      "claim": "taina_commercial_detail_density",
+      "status": "blocked_reseed_required",
+      "artifact": "doc/art/characters/taina/taina_visual_detail_reseed_brief_v03.json"
+    },
+    {
+      "claim": "aaa_visual_delivery",
+      "status": "blocked",
+      "artifact": "out/logs/visual_delivery_gate_report.json"
+    }
+  ],
+  "blockers": [
+    {
+      "id": "visual_vdp_dump_missing",
+      "required_artifact": "visual_vdp_dump.bin da ROM 825e687c"
+    },
+    {
+      "id": "vlab_block_missing",
+      "required_artifact": "bloco VLAB vinculado à ROM 825e687c"
+    },
+    {
+      "id": "runtime_metrics_missing",
+      "required_artifact": "métricas de frame time, DMA e scanline da ROM 825e687c"
+    },
+    {
+      "id": "background_vram_margin_low",
+      "required_artifact": "streaming do mundo de 1344px ou redução/reuso antes de novos landmarks residentes"
+    },
+    {
+      "id": "full_gameplay_budget_missing",
+      "required_artifact": "medição conjunta de TAÍNA, inimigos, HUD e hit FX"
+    },
+    {
+      "id": "taina_pixel_model_sheet_detail_reseed_pending",
+      "required_artifact": "model sheet pixel redesenhado da imagem 04 e aprovado antes de novas strips"
+    }
+  ],
+  "next_handoff": "Congelar a composição v04 do recorte. Próximo trabalho de cenário: converter o layout de 1344px para streaming com reutilização de tiles; próximo trabalho de personagem: voltar à imagem 04/model sheet, nunca à strip runtime."
+}

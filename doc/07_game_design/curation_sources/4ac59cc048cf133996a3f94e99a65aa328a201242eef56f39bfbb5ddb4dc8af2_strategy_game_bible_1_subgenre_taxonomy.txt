@@ -1,0 +1,308 @@
+STRATEGY SUBGENRE TAXONOMY (BIBLIA 1)
+======================================
+
+Esta biblia cobre a taxonomia pedagogica dos subgeneros principais do genero
+Strategy, com foco em viabilidade para Mega Drive (16-bit, 64KB RAM, 7.67MHz
+68K, 64KB VRAM). Foi copiada para fins de curadoria secundaria. O
+`verification_status=unverified_secondary_text` indica que este texto precisa
+de revisao humana antes de virar `promotion_allowed=true` em SOURCES_INDEX.md.
+
+Cobrimos: Tower Defense, Tactical Turn-Based, RTS Compact, Grand Strategy e
+4X Turn-Based. O v2 do framework foca em `strategy_tower_defense` (active) e
+`strategy_tactical_turn_based` (active). Os outros 3 ficam em
+`future_knowledge`/`future_architetural` ate curadoria.
+
+================================================================================
+1. DEFINICAO DO GENERO STRATEGY
+================================================================================
+
+Strategy (ou Strategy Game) eh um genero onde o jogador toma decisoes de alto
+nivel sobre posicionamento, alocacao de recursos e movimentos de unidades
+para alcancar um objetivo condicional (aniquilacao, captura, sobrevivencia,
+construcao). Caracteristicas centrais:
+
+- **Mapa**: Top-down (orthogonal ou hex), com terreno e obstaculos. Em MD,
+  mapas tile-based com grid 8x8 ou 16x16 sao canonicos.
+- **Unidades**: Personagens controlaveis com HP, dano, alcance, custo.
+  Unidades tem classes (infantaria, veiculo, aereo, naval).
+- **Economia**: Recurso (gold, energy, mana) que limita construcao/upkeep.
+  Economia pode ser fixa (renda por turno) ou continua (extracao).
+- **Vitoria por Condicao**: Objetivo claro (aniquilar, capturar base,
+  sobreviver N waves, construir estrutura). Sem HP do jogador como
+  condicao unica.
+- **Tatica**: Decisao sobre onde posicionar, quando mover, qual unidade
+  construir. Memoria, leitura de mapa e timing.
+
+================================================================================
+2. SUBGENERO: TOWER DEFENSE
+================================================================================
+
+### 2.1 Definicao
+
+Tower Defense (TD) eh o subgenero canonico de defesa posicional. O jogador
+NAO controla unidades ativas; ao inves disso, **constroi torres** em slots
+fixos do mapa enquanto **inimigos (waves)** seguem um path pre-determinado
+ate um objetivo (geralmente a base do jogador). Torres atackam
+automaticamente quando inimigos entram em alcance.
+
+### 2.2 Elementos Universais (presentes em todo TD)
+
+- **Grid + Path**: Mapa em grid (ortogonal 2D) com 1-3 lanes. Inimigos
+  seguem path pre-determinado do spawn ao goal.
+- **Slots de Torre**: Posicoes no mapa (geralmente em tiles adjacentes ao
+  path) onde o jogador pode construir torres. Tipicamente 8-24 slots
+  totais por mapa.
+- **Wave Spawner**: Sistema que dispara waves de inimigos em intervalos
+  fixos. Wave pode ser `scripted` (pre-definida em data table) ou
+  `random_with_seed` (RNG seeded).
+- **Recurso/Economia**: Moeda ganha por kill de inimigo ou por wave
+  completa. Gasta em construir/melhorar torres. Pode ser `gold`, `energy`
+  ou hibrido.
+- **Torres (Categorias)**: Pelo menos 3 tipos base:
+  - **Damage Tower**: Atacka rapido, dano medio (ex: arrow tower)
+  - **Slow Tower**: Dano baixo, aplica slow/freeze (ex: ice tower)
+  - **Splash Tower**: Dano alto, area-of-effect (ex: cannon tower)
+  Categorias avancadas (em TDs modernos): Support (buff torres vizinhas),
+  Economy (gera gold), Chain (hits multiple targets).
+- **Upgrade Tree**: Cada torre tem 2-3 niveis de upgrade. Upgrade 1
+  geralmente: +dano. Upgrade 2: +alcance OU splash OU special. Upgrade 3:
+  ultimate form.
+- **Win Condition**: Sobreviver N waves (10-50). Lose: HP do goal chega a
+  0 (geralmente 10-20 vidas).
+- **Lives/HP do Goal**: Quando inimigo chega ao goal, jogador perde 1 vida
+  (ou HP percentual). Chegar a 0 = game over.
+
+### 2.3 Elementos Exclusivos do TD
+
+- **Wave Composition**: Cada wave tem composicao (quantos inimigos de cada
+  tipo). Boss waves (a cada 5 ou 10) tem inimigos com HP alto e
+  comportamento especial.
+- **Enemy Variants**: Pelo menos 3-5 variantes de inimigo:
+  - **Grunt**: HP baixo, rapido, sem resistencia
+  - **Tank**: HP alto, lento, alta resistencia
+  - **Swarm**: Multiplos de uma vez, baixo HP individual
+  - **Flyer**: Ignora ground path (caminho aereo)
+  - **Boss**: HP muito alto, dano alto, resistencia, special abilities
+- **Path Geometry**: Path pode ter:
+  - **Linear**: 1 lane reta
+  - **Curved**: 1 lane com curvas
+  - **Branching**: 2-3 lanes convergindo
+  - **Loop**: Path circular
+- **Special Abilities de Inimigo**: Bosses podem ter heal-aura, spawn de
+  adds, immolate (dano periodico em area), stealth (invisivel ate torre
+  atacar), regeneracao.
+- **Economy Triggers**: Algumas mecanicas recompensam o jogador por:
+  - **Combo Bonus**: Matar N inimigos em T segundos = bonus gold
+  - **Perfect Wave**: Nenhum inimigo chegar ao goal = bonus gold
+  - **Speed Bonus**: Terminar wave rapido = bonus gold
+
+### 2.4 Elementos Fora do Escopo (NAO canonicos em TD)
+
+- **Controle Ativo de Unidades**: Jogador NAO move unidades pelo mapa
+  (use RTS ou Tactical Turn-Based).
+- **Captura de Estrutura**: Captura de base inimiga nao eh objetivo
+  canonico (use RTS).
+- **Multiplayer Head-to-Head**: TD canonico eh single-player contra AI.
+  Multiplayer eh variante (Bloons TD Battles, etc) e eh MD-não-viavel.
+
+### 2.5 Viabilidade em Mega Drive
+
+Tower Defense eh **MD-viavel**. Referencias que rodaram ou que poderiam
+rodar em MD:
+
+- Dungeon Defenders (3DS/PSP) -- referencia de portabilidade
+- Bloons TD (Flash/N64) -- simples
+- Plants vs Zombies (DS) -- simplificado
+- Kingdom Rush (Flash/iOS) -- estetica 2D
+- Defense Grid (Xbox360) -- base canonica
+
+Restricoes de hardware:
+- Wave count maximo: 30-50 waves (mais que isso exige save data grande)
+- Tipos de torre: 4-8 tipos (mais que isso polui a UI)
+- Slots por mapa: 8-24 (mais que isso exige sub-menus)
+- Inimigos na tela: 8-16 (sprite ceiling do VDP)
+- Inimigos em wave: 20-50 (acima de 50 exige pool de objetos)
+
+### 2.6 Frozen Design Axes (v2 do framework)
+
+```json
+{
+  "time_unit": "frames",
+  "grid": "fixed_path",
+  "lane_count": "1_to_3",
+  "tower_slots_max": 24,
+  "wave_spawner": "scripted",
+  "resource_currency": "energy_or_gold",
+  "victory": "survive_N_waves"
+}
+```
+
+Cada eixo eh **congelado** durante a vigencia da especializacao. Mudanca
+exige nova rodada de curadoria + projeto piloto + ROM + BlastEm.
+
+### 2.7 Phase-Aware Blockers (disparam em ready_for_aaa/closeout)
+
+- `strategy_grid_vram_overflow`: Grid tilemap nao pode exceder VRAM
+  disponivel. Max 64x64 tiles visiveis (4096 tiles); BG_A 32x32 ou 64x32
+  canonico.
+- `strategy_unit_ap_unbounded`: AP por unidade (em Tactical Turn-Based)
+  deve respeitar `frozen_design_axes.per_unit_ap_max`. Em TD nao ha AP,
+  mas cada torre tem fire_rate_cap que eh analogo.
+- `strategy_fog_of_war_race`: Fog update deve ser deterministico dentro
+  do VBlank. Em TD canonico, fog pode nao existir (visivel sempre);
+  se existir, update por VBlank.
+
+================================================================================
+3. SUBGENERO: TACTICAL TURN-BASED
+================================================================================
+
+### 3.1 Definicao
+
+Tactical Turn-Based (TTB) eh o subgenero canonico de estrategia por turnos
+em escala tatico (unidades individuais, nao naes). Inspirado em XCOM,
+Fire Emblem, Final Fantasy Tactics. Combina grid tatico, unidades
+individuais com classes, e condicoes de vitoria posicionais.
+
+### 3.2 Elementos Universais
+
+- **Grid Tatica**: Square (8x8 a 16x16) ou Hex (10x10 a 16x16). Cada
+  tile tem custo de movimento (1, 2, 3, ou impassa).
+- **Cover System**: Tiles de cover (half/full) dao bonus de defesa a
+  unidades que terminam turno atraz.
+- **Action Points (AP)**: Cada unidade tem N AP por turno (tipicamente
+  4-6). Acoes custam AP: move=1-2, attack=1-2, special=2-4.
+- **Line of Sight (LoS)**: Sistema de visibilidade. Unidades em tiles
+  fora de LoS nao podem ser atacadas nem vistas (a menos que sejam
+  detectadas por habilidade).
+- **Fog of War**: Tiles nao explorados sao escuros. Tiles explorados
+  mostram terreno mas nao unidades inimigas (a menos que estejam em LoS).
+- **Permadeath**: Unidades que caem em 0 HP sao perdidas permanentemente
+  (vs revive em RPGs).
+- **Class System**: Unidades tem classes (Soldier, Sniper, Heavy,
+  Medic, Scout, Engineer). Cada classe tem perks unicos.
+- **Mission Objectives**: Condicao de vitoria (extract, defend,
+  eliminate all, capture point). Condicao de derrota (all units dead,
+  objective lost).
+
+### 3.3 Elementos Exclusivos
+
+- **Overwatch/Watch**: Unidade pode escolher `watch` no fim do turno;
+  reage a inimigos que entram em LoS/atackam.
+- **Opportunity Attack**: Unidade atackada durante movimento inimigo
+  tem chance de revidar.
+- **Height Bonus**: Tiles elevados dao bonus de acerto/dano.
+- **Status Effects em Tiles**: Tiles podem ter fire, poison cloud, ice
+  que dao dano/status a quem entra.
+- **Equipment System**: Cada unidade pode carregar 2-4 itens (medkit,
+  grenade, ammo, tool).
+
+### 3.4 Viabilidade em Mega Drive
+
+Tactical Turn-Based eh **MD-viavel**. Referencias:
+
+- Fire Emblem (NES/SNES/GBA)
+- Advance Wars (GBA/NDS) -- referencia canonica de TTB
+- X-COM (PC, antigo)
+- Shining Force (MD/Sega) -- ja rodou em MD
+
+Restricoes:
+- Unit count: 8-20 unidades no campo (acima de 20 polui a tela)
+- Grid: 10x10 a 16x16 (acima de 16x16 exige scroll de mapa)
+- AP per turn: 4-6 (8+ quebra o balanceamento tatico)
+- Class count: 4-6 classes (8+ exige tutorial longo)
+
+### 3.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "ticks",
+  "grid": "square_or_hex",
+  "fog_of_war": "on",
+  "unit_count_max": 20,
+  "per_unit_ap_max": 4,
+  "permadeath": "on",
+  "victory_objective": "objective_based"
+}
+```
+
+### 3.6 Phase-Aware Blockers
+
+- `strategy_grid_vram_overflow`
+- `strategy_unit_ap_unbounded` (ap_max=4)
+- `strategy_fog_of_war_race` (fog update VBlank-deterministic)
+
+================================================================================
+4. SUBGENERO: RTS COMPACT (future_knowledge)
+================================================================================
+
+RTS (Real-Time Strategy) canonico exige:
+- Multi-unidade simultanea (50-200)
+- IA inimiga em tempo real
+- Economia continua (extracao)
+- Producao em tempo real
+- Veterancy/experience
+
+Em MD, RTS canonico eh **borderline** por causa do CPU 7.67MHz 68K.
+Titulos como Herzog Zwei (MD, 1989) provaram que RTS simplificado eh
+viavel (max 4-8 unidades ativas), mas RTS canonico (200 unidades) nao
+cabe. Fica em `future_knowledge` ate curadoria + projeto piloto.
+
+================================================================================
+5. SUBGENERO: GRAND STRATEGY (future_architetural)
+================================================================================
+
+Grand Strategy (Crusader Kings, Europa Universalis, Total War) eh
+**MD-NAO-viavel** por causa de:
+- Mapa-mundi com 200+ nacoes
+- IA diplomatica complexa
+- Persistencia macica (50+ MB de save)
+- Multi-thread sim
+
+Fica em `future_architetural` para proficiencia taxonomica. NUNCA tera
+design contract.
+
+================================================================================
+6. SUBGENERO: 4X TURN-BASED (future_architetural)
+================================================================================
+
+4X (eXplore, eXpand, eXploit, eXterminate) turn-based eh similar a
+Civilization. Tambem exige persistencia macica e IA avancada. NAO-viavel
+em MD. Fica em `future_architetural`.
+
+================================================================================
+7. CRITERIOS DE PROMOCAO (future_knowledge -> active)
+================================================================================
+
+A promocao de `strategy_rts_compact` para `active` exige:
+1. Biblia canonica copiada para `curation_sources/<sha256>_<descriptive>.txt`
+   com `verification_status=verified_curated`.
+2. Projeto piloto opt-in com manifesto declarando o subgenero, com ROM
+   rodando em BlastEm.
+3. Validacao de hardware (VDP budget, scanline pressure, sprite limit)
+   dentro do `megadrive-vdp-budget-analyst`.
+4. Schema novo em `tools/sgdk_wrapper/schemas/strategy_rts_compact_design_contract.schema.json`.
+5. Validator novo em `tools/sgdk_wrapper/validate_strategy_rts_compact_specialization.ps1`.
+6. Skill nova em `tools/sgdk_wrapper/.agent/skills/planning/strategy_rts_compact-game-design/`.
+7. Aprovacao humana explicita registrada em changelog do wrapper.
+
+================================================================================
+8. NOTAS DE CURADORIA
+================================================================================
+
+Este texto foi compilado de multiplas fontes publicas (manuais de
+Defense Grid, Kingdom Rush, Fire Emblem, Advance Wars, X-COM, artigos
+genericos de game design). NAO inclui citacoes literais extensas. As
+listas de elementos universais/exclusivos seguem a convencao canonica
+do genero, nao citacao exata de uma unica fonte.
+
+Para usar este texto como base de `verified_curated`:
+1. Humano le integralmente.
+2. Humano decide se ha conflito com a politica de IP do workspace
+   (`art_style_catalog.json`).
+3. Humano atualiza `SOURCES_INDEX.md` com `verification_status=verified_curated`
+   e `promotion_allowed=true`.
+4. Humano registra a promocao em `doc/changelog/changelog.md` do wrapper.
+
+================================================================================
+9. FIM
+================================================================================

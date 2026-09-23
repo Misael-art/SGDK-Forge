@@ -1,0 +1,78 @@
+﻿{
+  "contract_id": "branding_sequence_v1",
+  "status": "placeholder_runtime_structure",
+  "applies_to": "tools/sgdk_wrapper/modelo",
+  "scene_id": "APP_SCENE_BRANDING",
+  "purpose": "tela padrao de assinatura para todo projeto nascido do modelo canonico",
+  "screens": [
+    {
+      "slot": 1,
+      "role": "engine",
+      "placeholder_text": "MEGA FORGE ENGINE",
+      "duration_frames_ntsc": 150,
+      "visual_contract": "metal/forja/engine signature com brilho por paleta ou imagem final validada",
+      "vdp_owner": {
+        "BG_A": "texto/logo principal",
+        "BG_B": "moldura/efeito procedural ou arte secundaria",
+        "PAL0": "paleta da tela",
+        "PAL3": "texto debug/placeholder"
+      },
+      "audio_cue": "impacto curto; PSG placeholder ate haver PCM/XGM2 real"
+    },
+    {
+      "slot": 2,
+      "role": "author",
+      "placeholder_text": "MISAEL OLIVEIRA",
+      "duration_frames_ntsc": 150,
+      "visual_contract": "assinatura digital/HUD/terminal limpo",
+      "vdp_owner": {
+        "BG_A": "texto e reveal de assinatura",
+        "BG_B": "fundo limpo",
+        "PAL0": "verde/ambar/branco tecnico",
+        "PAL3": "texto placeholder"
+      },
+      "audio_cue": "beep/reveal curto; PSG placeholder ate haver PCM/XGM2 real"
+    },
+    {
+      "slot": 3,
+      "role": "project",
+      "placeholder_text": "MEGA MASTER GAMES",
+      "duration_frames_ntsc": 180,
+      "visual_contract": "selo arcade/logo robusto do projeto com entrada por scroll e brilho de paleta",
+      "vdp_owner": {
+        "BG_A": "logo/projeto",
+        "BG_B": "contramovimento/fundo",
+        "PAL0": "vermelho/dourado/laranja",
+        "PAL3": "texto placeholder"
+      },
+      "audio_cue": "hit final sincronizado; PSG placeholder ate haver PCM/XGM2 real"
+    }
+  ],
+  "asset_paths_when_final": {
+    "raw_source": "res/data/branding/",
+    "final_runtime": "res/branding/",
+    "resource_manifest": "res/resources.res"
+  },
+  "teardown_reset_plan": [
+    "SPR_reset",
+    "SPR_update",
+    "VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE)",
+    "VDP_setHorizontalScroll(BG_A, 0)",
+    "VDP_setHorizontalScroll(BG_B, 0)",
+    "VDP_setVerticalScroll(BG_A, 0)",
+    "VDP_setVerticalScroll(BG_B, 0)",
+    "PSG_setEnvelope(0, PSG_ENVELOPE_MIN)"
+  ],
+  "promotion_rules": [
+    "fallback procedural compila sem assets finais",
+    "arte final precisa de lineage, conversao, validacao de paleta e budget",
+    "nao promover PNG bruto de IA direto para res/",
+    "nao declarar pronto sem BlastEm"
+  ],
+  "verification_current": {
+    "direct_sgdk_make": "passed",
+    "wrapper_build": "blocked_by_existing_governance_gate",
+    "blastem": "not_run"
+  }
+}
+

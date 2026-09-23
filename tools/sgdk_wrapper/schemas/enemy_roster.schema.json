@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/enemy_roster.schema.json",
+  "title": "SGDK Enemy Roster",
+  "description": "Contract declaring enemy types per scene. Uses head_metric (S/M/L/XL) and 6 roles + 2 extras.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scope_id",
+    "enemies"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "scope_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "enemies": {
+      "type": "array",
+      "minItems": 0,
+      "items": {"$ref": "#/definitions/enemy_entry"}
+    }
+  },
+  "additionalProperties": true,
+  "allOf": [
+    {"$ref": "#/definitions/boss_state_constraint"},
+    {"$ref": "#/definitions/head_metric_role_constraint"}
+  ],
+  "definitions": {
+    "boss_state_constraint": {
+      "description": "When role=boss, enemy must declare boss_state_count >= 3 OR provide boss_curto_justification.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "enemies": {
+                "type": "array",
+                "contains": {
+                  "type": "object",
+                  "properties": {"role": {"const": "boss"}},
+                  "required": ["role"]
+                }
+              }
+            },
+            "required": ["enemies"]
+          },
+          "then": {
+            "properties": {
+              "enemies": {
+                "items": {
+                  "if": {
+                    "properties": {"role": {"const": "boss"}},
+                    "required": ["role"]
+                  },
+                  "then": {
+                    "anyOf": [
+                      {
+                        "required": ["boss_state_count"],
+                        "properties": {
+                          "boss_state_count": {"type": "integer", "minimum": 3}
+                        }
+                      },
+                      {
+                        "required": ["boss_curto_justification"],
+                        "properties": {
+                          "boss_curto_justification": {"type": "string", "minLength": 1}
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "head_metric_role_constraint": {
+      "description": "Non-boss enemies must not have head_metric=XL. Boss enemies must have head_metric=XL.",
+      "allOf": [
+        {
+          "if": {"required": ["enemies"]},
+          "then": {
+            "properties": {
+              "enemies": {
+                "items": {
+                  "if": {
+                    "properties": {
+                      "role": {"not": {"const": "boss"}},
+                      "head_metric": {"const": "XL"}
+                    },
+                    "required": ["role", "head_metric"]
+                  },
+                  "then": {
+                    "description": "Non-boss with XL is invalid; the auditor will flag enemy_head_metric_invalid."
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "enemy_entry": {
+      "type": "object",
+      "required": [
+        "enemy_id",
+        "role",
+        "head_metric",
+        "hp",
+        "damage",
+        "movement_model",
+        "ai_behavior",
+        "telegraph_model",
+        "weakness_model",
+        "synergy_partners",
+        "level_placement_rules",
+        "feedback_on_hit",
+        "feedback_on_alert"
+      ],
+      "properties": {
+        "enemy_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "role": {
+          "type": "string",
+          "enum": ["patrulheiro", "perseguidor", "atirador", "guarda", "voador", "bloqueador", "tecnico_suporte", "boss", "solo_tutorial"]
+        },
+        "head_metric": {"type": "string", "enum": ["S", "M", "L", "XL"]},
+        "hp": {"type": "integer", "minimum": 1},
+        "damage": {"type": "integer", "minimum": 0},
+        "movement_model": {
+          "type": "string",
+          "enum": ["ground_linear", "ground_patrol", "ground_chase", "aerial_zigzag", "aerial_hover", "static_emplacement", "phase_transition"]
+        },
+        "ai_behavior": {
+          "type": "object",
+          "required": ["aggro_radius_px", "retreat_threshold_hp_percent"],
+          "properties": {
+            "aggro_radius_px": {"type": "integer", "minimum": 0},
+            "retreat_threshold_hp_percent": {"type": "number", "minimum": 0, "maximum": 100},
+            "state_machine": {"type": "string"},
+            "patrol_waypoints": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "telegraph_model": {
+          "type": "object",
+          "required": ["telegraph_frames", "visual_cue"],
+          "properties": {
+            "telegraph_frames": {"type": "integer", "minimum": 1},
+            "visual_cue": {"type": "string"},
+            "audio_cue": {"type": "string"},
+            "color_contract": {"type": "string"}
+          }
+        },
+        "weakness_model": {
+          "type": "object",
+          "properties": {
+            "weakness_mechanic_ids": {"type": "array", "items": {"type": "string"}},
+            "weakness_position": {"type": "string", "enum": ["head", "back", "legs", "core", "wings", "shield_break"]},
+            "stagger_threshold": {"type": "integer", "minimum": 0}
+          }
+        },
+        "synergy_partners": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["enemy_id", "synergy_type"],
+            "properties": {
+              "enemy_id": {"type": "string"},
+              "synergy_type": {"type": "string", "enum": ["frontline_shield", "backline_dps", "flanker", "support_heal", "control_zoner", "bait"]}
+            }
+          }
+        },
+        "level_placement_rules": {
+          "type": "object",
+          "properties": {
+            "target_scenes": {"type": "array", "items": {"type": "string"}},
+            "min_count_per_scene": {"type": "integer", "minimum": 0},
+            "max_count_per_scene": {"type": "integer", "minimum": 0},
+            "boss_arena_id": {"type": "string", "description": "Required when role=boss."}
+          }
+        },
+        "feedback_on_hit": {
+          "type": "object",
+          "required": ["visual", "audio"],
+          "properties": {
+            "visual": {"type": "string"},
+            "audio": {"type": "string"},
+            "hitstop_frames": {"type": "integer", "minimum": 0}
+          }
+        },
+        "feedback_on_alert": {
+          "type": "object",
+          "properties": {
+            "visual": {"type": "string"},
+            "audio": {"type": "string"},
+            "stinger_id": {"type": "string"}
+          }
+        },
+        "boss_state_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Required when role=boss. Must be >= 3 or justify boss_curto."
+        },
+        "boss_curto_justification": {
+          "type": "string",
+          "description": "Justification when boss has < 3 states."
+        }
+      }
+    }
+  }
+}

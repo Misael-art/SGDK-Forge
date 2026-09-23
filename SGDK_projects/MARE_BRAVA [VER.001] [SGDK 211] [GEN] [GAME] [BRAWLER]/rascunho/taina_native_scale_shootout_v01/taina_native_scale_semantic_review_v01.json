@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "status": "diagnostic_annotation_pending_human_scale_decision",
+  "annotation_method": "agent_curated_diagnostic_annotation",
+  "source_of_truth": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a"
+  },
+  "historical_control": {
+    "asset_id": "taina_48x64_challenger_b",
+    "path": "rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/taina_48x64_challenger_b.png",
+    "sha256": "d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa",
+    "role": "technical_control_only",
+    "pixel_reuse": false
+  },
+  "scales": [
+    {
+      "scale": "48x64",
+      "role": "economic_control",
+      "visual_observations": {
+        "single_idle_guard_pose": "observed",
+        "afro_brazilian_identity": "observed_in_visual_source",
+        "asymmetric_hair_front_lock": "observed_in_visual_source",
+        "focused_eye_gaze": "observed_in_visual_source",
+        "diagonal_guard_two_separate_arms": "observed_in_visual_source",
+        "geometric_wrapped_fists": "observed_in_visual_source",
+        "orange_top_exposed_abdomen": "observed_in_visual_source",
+        "teal_wraps_sash_knot_tail": "observed_in_visual_source",
+        "indigo_trousers_planted_feet": "observed_in_visual_source"
+      },
+      "native_1x_readability": "not_validated; mechanical probe is opaque technical control",
+      "silhouette_semantic_contour": "withheld; no valid transparent silhouette exists",
+      "matte": "required; not applied to native asset",
+      "lineart_blocking": "not_executed; requires native pixel authoring",
+      "color_blocking": "not_executed; requires native pixel authoring",
+      "palette_clean": "not_executed; requires material-aware native decision",
+      "palette_role_map": "planned_only; outline, skin, orange, teal, indigo, sash accent",
+      "native_translation": "blocked_pending_capable_native_pixel_authoring"
+    },
+    {
+      "scale": "56x80",
+      "role": "compromise",
+      "visual_observations": {
+        "single_idle_guard_pose": "observed",
+        "afro_brazilian_identity": "observed_in_visual_source",
+        "asymmetric_hair_front_lock": "observed_in_visual_source",
+        "focused_eye_gaze": "observed_in_visual_source",
+        "diagonal_guard_two_separate_arms": "observed_in_visual_source",
+        "geometric_wrapped_fists": "observed_in_visual_source",
+        "orange_top_exposed_abdomen": "observed_in_visual_source",
+        "teal_wraps_sash_knot_tail": "observed_in_visual_source",
+        "indigo_trousers_planted_feet": "observed_in_visual_source"
+      },
+      "native_1x_readability": "not_validated; mechanical probe is opaque technical control",
+      "silhouette_semantic_contour": "withheld; no valid transparent silhouette exists",
+      "matte": "required; not applied to native asset",
+      "lineart_blocking": "not_executed; requires native pixel authoring",
+      "color_blocking": "not_executed; requires native pixel authoring",
+      "palette_clean": "not_executed; requires material-aware native decision",
+      "palette_role_map": "planned_only; outline, skin, orange, teal, indigo, sash accent",
+      "native_translation": "blocked_pending_capable_native_pixel_authoring"
+    },
+    {
+      "scale": "64x96",
+      "role": "fidelity_challenger",
+      "visual_observations": {
+        "single_idle_guard_pose": "observed",
+        "afro_brazilian_identity": "observed_in_visual_source",
+        "asymmetric_hair_front_lock": "observed_in_visual_source",
+        "focused_eye_gaze": "observed_in_visual_source",
+        "diagonal_guard_two_separate_arms": "observed_in_visual_source",
+        "geometric_wrapped_fists": "observed_in_visual_source",
+        "orange_top_exposed_abdomen": "observed_in_visual_source",
+        "teal_wraps_sash_knot_tail": "observed_in_visual_source",
+        "indigo_trousers_planted_feet": "observed_in_visual_source"
+      },
+      "native_1x_readability": "not_validated; mechanical probe is opaque technical control",
+      "silhouette_semantic_contour": "withheld; no valid transparent silhouette exists",
+      "matte": "required; not applied to native asset",
+      "lineart_blocking": "not_executed; requires native pixel authoring",
+      "color_blocking": "not_executed; requires native pixel authoring",
+      "palette_clean": "not_executed; requires material-aware native decision",
+      "palette_role_map": "planned_only; outline, skin, orange, teal, indigo, sash accent",
+      "native_translation": "blocked_pending_capable_native_pixel_authoring"
+    }
+  ],
+  "decision_rule": "human chooses scale only after comparing at least two visually valid independent source hypotheses; no automatic winner",
+  "claim_ceiling": "pending_human_scale_decision",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "visual_pass": false
+}

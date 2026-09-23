@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "[ESTUDO]_mugen_sff_showdown_v1"
+  },
+  "policy": {
+    "all_project_assets_inside_project": true,
+    "source_inputs_copied_to_rascunho": true,
+    "placeholder_never_promotes_to_aaa": true,
+    "visual_art_requires_artistic_gate": true
+  },
+  "assets": [
+    {
+      "asset_id": "showdown_sff_fixture",
+      "role": "source_fixture",
+      "source_path": "rascunho/inputs/showdown.sff",
+      "runtime_path": null,
+      "owner": "training_fixture",
+      "status": "source_registered",
+      "technique_tags": [
+        "mugen_sff_v1_01_extraction"
+      ],
+      "evidence": [
+        "rascunho/inputs_manifest.json",
+        "work/meta/sprites.json"
+      ]
+    },
+    {
+      "asset_id": "showdown_def_fixture",
+      "role": "camera_and_layer_source",
+      "source_path": "rascunho/inputs/showdown.def",
+      "runtime_path": null,
+      "owner": "training_fixture",
+      "status": "source_registered",
+      "technique_tags": [
+        "mugen_def_full_world_reconstruction"
+      ],
+      "evidence": [
+        "analysis/reconstruction.json",
+        "doc/showdown_camera_palette_curation_2026-06-13.md"
+      ]
+    },
+    {
+      "asset_id": "showdown_reconstructed_viewport",
+      "role": "source_viewport_reference",
+      "source_path": "work/reconstructed_viewports/frame_0000_mugen_start.png",
+      "runtime_path": null,
+      "owner": "training_pipeline",
+      "status": "reference_for_rework",
+      "technique_tags": [
+        "mugen_def_full_world_reconstruction",
+        "multi_plane_composition"
+      ],
+      "evidence": [
+        "doc/showdown_camera_palette_curation_2026-06-13.md"
+      ]
+    },
+    {
+      "asset_id": "showdown_sgdk_bins",
+      "role": "runtime_streaming_lab_assets",
+      "source_path": "work/sgdk_bins/",
+      "runtime_path": "sgdk_viewer/showdown_viewer/res/data/showdown/",
+      "owner": "training_pipeline",
+      "status": "rework_required",
+      "technique_tags": [
+        "tile_dedup_hvflip_hashing",
+        "palette_remastering_slot_audit",
+        "sgdk_window_streamed_stage_viewer"
+      ],
+      "evidence": [
+        "work/sgdk_bins/showdown_export_meta.json",
+        "analysis/palette_violations.json",
+        "doc/showdown_camera_palette_curation_2026-06-13.md"
+      ]
+    }
+  ]
+}

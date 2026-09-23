@@ -72,6 +72,9 @@ RUNTIME_SIZE = RUNTIME_PANORAMA_SIZE
 RUNTIME_VIEWPORT_SIZE = (320, 224)
 RUNTIME_EXPORT_BOX = (0, 0, 584, 224)
 RUNTIME_BG_B_EXPORT_BOX = (32, 0, 160, 224)
+RUNTIME_BG_A_WINDOW_WIDTH = 384
+RUNTIME_BG_A_WINDOW_STARTS = (0, 64, 128, 192, 200)
+RUNTIME_TILE_WIDTH = 8
 MD_LEVELS = [0, 34, 68, 102, 136, 170, 204, 238]
 
 A_BOX = (4, 26, 516, 154)
@@ -379,6 +382,54 @@ def build_authoritative_runtime_layers() -> dict[str, Image.Image]:
     }
 
 
+def export_runtime_bg_a_windows(indexed_image: Image.Image) -> list[dict[str, Any]]:
+    window_assets: list[dict[str, Any]] = []
+    viewport_height = RUNTIME_VIEWPORT_SIZE[1]
+
+    for index, start_x in enumerate(RUNTIME_BG_A_WINDOW_STARTS, start=1):
+        window = indexed_image.crop((start_x, 0, start_x + RUNTIME_BG_A_WINDOW_WIDTH, viewport_height))
+        window_path = PROJECT_RUNTIME_GFX_DIR / f"city_bg_a_window_{index:02d}.png"
+        save_png(window, window_path)
+        window_assets.append(
+            {
+                "index": index,
+                "start_x": start_x,
+                "width": RUNTIME_BG_A_WINDOW_WIDTH,
+                "height": viewport_height,
+                "path": str(window_path),
+            }
+        )
+
+    return window_assets
+
+
+def export_runtime_bg_a_strips(indexed_image: Image.Image) -> list[dict[str, Any]]:
+    strip_assets: list[dict[str, Any]] = []
+    viewport_height = RUNTIME_VIEWPORT_SIZE[1]
+
+    previous_end_x = RUNTIME_BG_A_WINDOW_STARTS[0] + RUNTIME_BG_A_WINDOW_WIDTH
+
+    for index, start_x in enumerate(RUNTIME_BG_A_WINDOW_STARTS[1:], start=2):
+        end_x = start_x + RUNTIME_BG_A_WINDOW_WIDTH
+        strip_width = end_x - previous_end_x
+        strip = indexed_image.crop((previous_end_x, 0, end_x, viewport_height))
+        strip_path = PROJECT_RUNTIME_GFX_DIR / f"city_bg_a_strip_{index:02d}.png"
+        save_png(strip, strip_path)
+        strip_assets.append(
+            {
+                "index": index,
+                "start_x": previous_end_x,
+                "width": strip_width,
+                "width_tiles": strip_width // RUNTIME_TILE_WIDTH,
+                "height": viewport_height,
+                "path": str(strip_path),
+            }
+        )
+        previous_end_x = end_x
+
+    return strip_assets
+
+
 def vertical_gradient_mask(size: tuple[int, int], start: float, end: float, power: float = 1.0) -> Image.Image:
     width, height = size
     mask = Image.new("L", size)
@@ -683,12 +734,14 @@ def main() -> int:
     runtime_bg_a_layer_rgba = authoritative_runtime["bg_a_rgba"]
     runtime_fg_rgba = authoritative_runtime["fg_rgba"]
     runtime_bg_a_rgba = authoritative_runtime["bg_a_rgba"]
+    runtime_bg_a_with_fg_rgba = authoritative_runtime["bg_a_with_fg_rgba"]
     runtime_composite_rgba = authoritative_runtime["composite_rgba"]
     runtime_bg_b_fill = dominant_rgb(runtime_bg_b_rgba, (0, 0, runtime_bg_b_rgba.width, max(1, runtime_bg_b_rgba.height // 6)))
     runtime_bg_b_flat = flatten_visible_rgb(runtime_bg_b_rgba, fill=runtime_bg_b_fill).convert("RGBA")
     runtime_bg_b = snap_palette_image(runtime_bg_b_flat, colors=10, dither=True, return_indexed=True)
     runtime_bg_a = snap_palette_image(runtime_bg_a_rgba, colors=15, dither=False, return_indexed=True)
     runtime_fg = snap_palette_image(runtime_fg_rgba, colors=8, dither=False, return_indexed=True)
+    runtime_bg_a_with_fg = snap_palette_image(runtime_bg_a_with_fg_rgba, colors=15, dither=False, return_indexed=True)
 
     basic_a_path = BASIC_DIR / "layer_a_bg_b_basic.png"
     basic_b_path = BASIC_DIR / "layer_b_bg_a_basic.png"
@@ -703,6 +756,7 @@ def main() -> int:
     elite_reference_path = REPORTS_DIR / "elite_semantic_composite_rgba.png"
     runtime_composite_path = REPORTS_DIR / "runtime_panorama_composite_rgba.png"
     runtime_scene_composite_path = REPORTS_DIR / "runtime_scene_composite_rgba.png"
+    runtime_bg_a_with_fg_path = REPORTS_DIR / "runtime_bg_a_with_fg_rgba.png"
 
     save_png(basic_a, basic_a_path)
     save_png(basic_b, basic_b_path)
@@ -713,10 +767,13 @@ def main() -> int:
     save_png(runtime_bg_b, runtime_bg_b_path)
     save_png(runtime_bg_a, runtime_bg_a_path)
     save_png(runtime_fg, runtime_bg_c_path)
+    runtime_window_assets = export_runtime_bg_a_windows(runtime_bg_a_with_fg)
+    runtime_strip_assets = export_runtime_bg_a_strips(runtime_bg_a_with_fg)
     basic_reference.save(basic_reference_path)
     elite_reference.save(elite_reference_path)
     runtime_panorama_composite_rgba.save(runtime_composite_path)
     runtime_composite_rgba.save(runtime_scene_composite_path)
+    runtime_bg_a_with_fg_rgba.save(runtime_bg_a_with_fg_path)
 
     report = {
         "case_id": "metal_slug_urban_sunset_scene",
@@ -777,6 +834,8 @@ def main() -> int:
                 "bg_b": str(runtime_bg_b_path),
                 "bg_a": str(runtime_bg_a_path),
                 "fg_c": str(runtime_bg_c_path),
+                "bg_a_windows": runtime_window_assets,
+                "bg_a_strips": runtime_strip_assets,
             },
             "runtime_scene": {
                 "authoritative_sources": {
@@ -794,7 +853,10 @@ def main() -> int:
                 "composite_rgba": str(runtime_composite_path),
                 "runtime_scene_rgba": str(runtime_scene_composite_path),
                 "bg_a_without_fg_rgba": str(REPORTS_DIR / "runtime_bg_a_base_rgba.png"),
-                "foreground_policy": "staged_only_until_rom_budget_measurement",
+                "bg_a_with_fg_rgba": str(runtime_bg_a_with_fg_path),
+                "foreground_policy": "baked_into_bg_a_windows_for_rom_proof",
+                "bg_a_window_width": RUNTIME_BG_A_WINDOW_WIDTH,
+                "bg_a_window_starts": list(RUNTIME_BG_A_WINDOW_STARTS),
             },
         },
     }

@@ -1,0 +1,11 @@
+Use case: stylized-concept
+Asset type: key-pose reference board for a Sega Mega Drive 32x32 sprite animation
+Primary request: Create a clean eight-pose horizontal character animation reference based strictly on the approved model sheet in Image 1 and the inflated-cheek correction in Image 2.
+Subject: the same round pink hero, always facing right.
+Pose order, exactly once each: IDLE; RUN CONTACT; RUN PASSAGE; RUN OPPOSITE CONTACT; RUN OPPOSITE PASSAGE; JUMP RISING; FLOAT WITH TWO LARGE CHEEKS PROTRUDING OUTSIDE THE BODY; INHALE LEANING BACK WITH A VERY LARGE OPEN MOUTH.
+Style/medium: professional 16-bit-era key-pose design board, crisp pixel-art logic, clean readable silhouettes, no anti-aliasing aesthetic.
+Composition/framing: one horizontal row of eight equally sized cells; entire character visible in every cell with generous safety margin; consistent body scale and stable foot/torso pivot.
+Color palette: retain the model sheet pink body, dark wine outline, red feet, navy eyes, white eye shines; perfectly flat solid #00ff00 chroma-key background.
+Constraints: use the references only as the approved identity and anatomy source; strong motion arcs; four genuinely distinct run poses; jump must read as rising with tucked feet; float cheeks must break the main circular silhouette; inhale must have a huge forward-facing mouth opening and backward body lean. No labels, no text, no grid lines, no extra limbs, no cropped parts, no detached parts, no blur, no gradients, no watermark. This is a pose reference, not the final Mega Drive sprite sheet.
+
+Final translation was authored at native 32x32 grid by data/builders/build_p1_kirby.py; the generated board was used only as pose reference, never as final sprite pixels.

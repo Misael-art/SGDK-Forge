@@ -1,5 +1,11 @@
 # AGENTS.md – Diretrizes para Agentes de IA
 
+> Status: `legacy_reference`. O ponto de entrada obrigatório e vigente é
+> `F:\Projects\Sgdk Forge\AGENTS.md`, apoiado por
+> `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md`. Em caso de divergência,
+> este arquivo não possui autoridade para relaxar higiene, metodologia,
+> proficiência de técnicas, GDD/TDD ou gates de entrega.
+
 Este documento define propósitos, métodos e regras para agentes de IA que atuam no projeto MegaDrive_DEV, garantindo consistência, portabilidade e respeito à arquitetura existente.
 
 ---
@@ -158,7 +164,7 @@ Todos os engines e jogos possuem agora uma versao SGDK 211:
 ## 7. Referências Rápidas
 
 - **Documentação:** [doc/README.md](README.md)
-- **Template de Projeto:** `templates/project-template/` (template canonico)
+- **Template de Projeto:** `tools/sgdk_wrapper/modelo/` (template primario) + `SGDK_templates/base-elite/` (fallback/referencia ELITE)
 - **Wrapper:** [tools/sgdk_wrapper/README.md](../tools/sgdk_wrapper/README.md)
 - **Resiliência:** [tools/sgdk_wrapper/RESILIENCE.md](../tools/sgdk_wrapper/RESILIENCE.md)
 - **Relatório BLAZE_ENGINE:** [doc/migrations/BLAZE_ENGINE_FIX_REPORT.md](migrations/BLAZE_ENGINE_FIX_REPORT.md)

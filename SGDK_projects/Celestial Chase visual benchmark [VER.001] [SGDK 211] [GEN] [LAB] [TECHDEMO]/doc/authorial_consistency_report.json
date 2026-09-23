@@ -1,0 +1,22 @@
+{
+  "schema": "authorial_consistency_report_v1",
+  "scene": "chase_first_playable",
+  "status": "preserve_incumbent_expand_consistently",
+  "source_basis": "Existing Celestial Chase source art and locked v005/v007 visual direction.",
+  "rules": [
+    "Do not redraw or downscale approved source-baked hero, pursuer or dust sprites.",
+    "Derive obstacles and FX from the project-local source sheets with recorded lineage.",
+    "Treat v007 as a composition source, not as an automatically approved runtime asset.",
+    "Keep navy and indigo as environmental mass and gold as focal gameplay energy.",
+    "Reject debug-only procedural art as a critical delivery asset."
+  ],
+  "consistency_gate": {
+    "hero": "preserved",
+    "pursuer": "preserved",
+    "dust": "preserved",
+    "background": "translation_required",
+    "obstacles": "translation_required",
+    "fx": "translation_required",
+    "hud": "authored_runtime_required"
+  }
+}

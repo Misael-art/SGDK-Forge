@@ -1,0 +1,68 @@
+{
+  "schema_version": "source_triage_report.v1",
+  "tool": "forge_art.source_route_triage",
+  "tool_version": "1.0.0",
+  "source": {
+    "path": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_assisted_native_grid_probe_C_v02_fitted.png",
+    "sha256": "c94dbbd8bcafcc5eb1784461612644821d65fc8b9dc9f4f5bb6a5dd68eb6ab34"
+  },
+  "source_class": "native_pixel_art_integer_scale",
+  "intended_role": "translation_source",
+  "reviewer": "agent_curated_review",
+  "identity_binding": {
+    "identity_authority_path": "data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png",
+    "identity_authority_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+    "identity_authority_observed_sha256": "2314173775b23af937fe329413e8ee006dc26f0d9d2bc5fedcdf461b81bcc608",
+    "visual_source_of_truth_contract": "doc/art/kairo_vant/visual_source_of_truth.json",
+    "derivation": "Mechanical foreground crop and NEAREST fit from the v02 route canonical matte to enforce the selected C-scale visible height of 128 px. This is a technical geometry probe only; native reauthoring remains required."
+  },
+  "human_review_binding": null,
+  "matte_policy": "border_connected",
+  "observations": {
+    "baked_checkerboard": false,
+    "ground_shadow": "absent",
+    "dust_or_particles": "absent",
+    "smoke_or_clouds": "absent",
+    "floor_line": "absent",
+    "text_or_annotation": "absent",
+    "multiple_overlapping_poses": false,
+    "cropped_extremities": false,
+    "occluded_identity_features": false,
+    "motion_blur": false,
+    "background_color_collision": false,
+    "notes": "Binary alpha, 88x136 canvas, measured visible bbox is 87x128 at x=0..86,y=8..135. The fitted probe is not final artwork and cannot be promoted without native authoring and human approval."
+  },
+  "automatic_measurements": {
+    "width": 88,
+    "height": 136,
+    "source_mode": "RGBA",
+    "has_alpha_channel": true,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "visible_pixels": 4758,
+    "partial_alpha_pixels": 0,
+    "opaque_pixels": 4758,
+    "alpha_bbox": [
+      0,
+      8,
+      87,
+      136
+    ]
+  },
+  "border_signal": {
+    "sampled_pixels": 444,
+    "quantized_border_buckets": 15,
+    "dominant_bucket_ratio": 0.9617,
+    "interpretation": "diagnostic_only_not_a_visual_contaminant_detector"
+  },
+  "status": "accepted_translation_source",
+  "route_exploration_allowed": true,
+  "blocking": false,
+  "blockers": [],
+  "warnings": [],
+  "safe_reference_roles": [],
+  "next_action": "run route-shootout; outputs remain mechanical guides",
+  "claim_ceiling": "source_triage_only"
+}

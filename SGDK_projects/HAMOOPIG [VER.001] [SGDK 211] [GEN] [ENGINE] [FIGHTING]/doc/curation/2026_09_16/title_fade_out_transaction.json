@@ -1,0 +1,23 @@
+{
+  "lesson_id": "L116",
+  "date": "2026-09-16",
+  "topic": "title_fade_out_transaction",
+  "source": "feedback do desenvolvedor sobre corte entre abertura, título e seletor",
+  "problem": "START iniciava o fade e desmontava a composição do título no mesmo tick. A carga do seletor podia disputar o VDP durante o fade, produzindo uma transição interrompida.",
+  "change": "src/title.c agora possui TITLE_PHASE_FADE_OUT. A borda de START é consumida, PAL_fadeOutAll(8, TRUE) é iniciado e somente após PAL_isDoingFade() terminar FUNCAO_TITLE_EXIT, CLEAR_VDP e SCENE_SELECT são executados.",
+  "result": "Build 16d3 passou; P10 36/36, title-return 5 capturas e vídeo de transição foram recapturados no mesmo SHA. A suavidade visual ainda requer revisão independente.",
+  "evidence": [
+    "src/title.c",
+    "tests/test_title_menu_contract.py",
+    "out/logs/title_fade_out_build.log",
+    "out/emulator_evidence/title_return_20260916T073955Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T074113Z/opening_title_transition.mp4",
+    "out/logs/p10_summary_16d3.log"
+  ],
+  "limitations": [
+    "a captura prova a rota e a existência de frames, não aprovação estética",
+    "a audição crítica e o teste em hardware real continuam pendentes",
+    "a rota de THROW no SHA 16d3 ainda não gerou evento e precisa de investigação separada"
+  ],
+  "status": "implemented_build_revalidated_visual_review_pending"
+}

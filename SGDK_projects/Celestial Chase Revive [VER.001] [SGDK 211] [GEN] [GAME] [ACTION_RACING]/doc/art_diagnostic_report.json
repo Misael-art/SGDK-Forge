@@ -1,0 +1,314 @@
+﻿{
+  "project_path": ".",
+  "scenario_detected": "2_res_exists_check",
+  "summary": "Projeto tem 11 asset(s) em /res. 11 ok, 0 precisam conversao, 0 inadequados, 0 ausentes.",
+  "total_assets": 11,
+  "ok": 11,
+  "needs_conversion": 0,
+  "inadequate": 0,
+  "absent": 0,
+  "assets": [
+    {
+      "path": "res\\bg\\title_bg.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 13,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "res\\bg\\title_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 48,
+      "color_count": 4,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "res\\branding_image.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 80,
+      "color_count": 14,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "res\\sprites\\astral_mark.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 120,
+      "height": 16,
+      "color_count": 4,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "res\\sprites\\beacon_key.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 48,
+      "height": 16,
+      "color_count": 4,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "aviso",
+          "message": "Sprite 48x16 excede 32x32 px (limite hardware de 1 entrada).",
+          "suggestion": "Usar metasprite (multiplas entradas na sprite table) ou dividir em tiles menores."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": "SPRITE beacon_key \"sprite/beacon_key.png\" 6 2 FAST 5"
+    },
+    {
+      "path": "res\\sprites\\lio_all.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 144,
+      "height": 160,
+      "color_count": 10,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "res\\sprites\\low_stone.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 16,
+      "color_count": 4,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "aviso",
+          "message": "Sprite 64x16 excede 32x32 px (limite hardware de 1 entrada).",
+          "suggestion": "Usar metasprite (multiplas entradas na sprite table) ou dividir em tiles menores."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": "SPRITE low_stone \"sprite/low_stone.png\" 8 2 FAST 5"
+    },
+    {
+      "path": "res\\sprites\\lumen_orb.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 16,
+      "color_count": 3,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "aviso",
+          "message": "Sprite 64x16 excede 32x32 px (limite hardware de 1 entrada).",
+          "suggestion": "Usar metasprite (multiplas entradas na sprite table) ou dividir em tiles menores."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": "SPRITE lumen_orb \"sprite/lumen_orb.png\" 8 2 FAST 5"
+    },
+    {
+      "path": "res\\sprites\\pursuer_shadow.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 48,
+      "height": 32,
+      "color_count": 4,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "aviso",
+          "message": "Sprite 48x32 excede 32x32 px (limite hardware de 1 entrada).",
+          "suggestion": "Usar metasprite (multiplas entradas na sprite table) ou dividir em tiles menores."
+        },
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": "SPRITE pursuer_shadow \"sprite/pursuer_shadow.png\" 6 4 FAST 5"
+    },
+    {
+      "path": "res\\tiles\\hud_elements.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 256,
+      "height": 32,
+      "color_count": 9,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "11 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "res\\tiles\\road_tiles.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 128,
+      "height": 16,
+      "color_count": 12,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    }
+  ],
+  "recommended_actions": [],
+  "conversion_commands": [
+    "# Corrigir transparencia automaticamente:",
+    "python tools/image-tools/fix_png_transparency_final.py res",
+    "# Validar recursos:",
+    "powershell -File tools\\sgdk_wrapper\\validate_resources.ps1",
+    "# Auto-fix sprite.res:",
+    "powershell -File tools\\sgdk_wrapper\\autofix_sprite_res.ps1"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "title": "FLUX.1 Schnell GGUF Experimental",
+  "description": "Workflow experimental com FLUX.1 Schnell em Q4_K_M via GGUF. Alto custo computacional. Apenas para hosts validados por healthcheck.",
+  "nodes": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "flux1-schnell-Q4_K_M.gguf"
+      }
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "pixel art, limited palette, retro console game, clean silhouette, flat shading",
+        "clip": ["1", 0]
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "photo, 3d render, watermark, text, noisy",
+        "clip": ["1", 0]
+      }
+    },
+    "4": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 42,
+        "steps": 4,
+        "cfg": 1.0,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 1.0,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["5", 0]
+      }
+    },
+    "5": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 1024,
+        "height": 1024,
+        "batch_size": 1
+      }
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["4", 0],
+        "vae": ["1", 2]
+      }
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "MD_GEN_FLUX",
+        "images": ["6", 0]
+      }
+    }
+  }
+}

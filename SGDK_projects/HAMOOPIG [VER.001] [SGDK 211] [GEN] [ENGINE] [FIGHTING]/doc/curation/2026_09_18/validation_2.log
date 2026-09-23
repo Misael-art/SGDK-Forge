@@ -1,0 +1,121 @@
+=== mechanic_contract.schema.json ===
+  [PASS] core mechanic with versatility=3, min_reuses=3, combos=1 PASSES
+  [PASS] core mechanic with versatility=2 is REJECTED (rejected with 1 error(s))
+  [PASS] core mechanic with min_reuses=1 is REJECTED (rejected with 1 error(s))
+  [PASS] core mechanic with combination_map=[] is REJECTED (rejected with 1 error(s))
+  [PASS] probability type=random without success_rate_percent is REJECTED (rejected with 1 error(s))
+
+=== level_blueprint.schema.json ===
+  [PASS] level with calm+pressure phases and 2 waypoints PASSES
+  [PASS] level without 'pressure' may pass via anyOf fallback (auditor catches it)
+  [PASS] level without 'calm' may pass via anyOf fallback (auditor catches it)
+  [PASS] level with waypoint_sequence=1 is REJECTED (rejected with 2 error(s))
+  [PASS] level with invalid phase enum is REJECTED (rejected with 2 error(s))
+
+=== enemy_roster.schema.json ===
+  [PASS] enemy roster with boss+state_count=3 PASSES
+  [PASS] boss without boss_state_count and without justification is REJECTED (rejected with 1 error(s))
+  [PASS] boss with boss_state_count=2 (below 3) is REJECTED (rejected with 1 error(s))
+  [PASS] boss with boss_curto_justification (no state_count) PASSES
+
+=== methodology and structured claim schemas ===
+  [PASS] project context template PASSES schema
+  [PASS] AAA project context with full_game profile PASSES schema
+  [PASS] exercise context cannot claim ready_for_aaa (rejected with 1 error(s))
+  [PASS] project methodology template PASSES schema
+  [PASS] project methodology without freshness_audit is REJECTED (rejected with 1 error(s))
+  [PASS] required critical_motion without evidence paths is REJECTED (rejected with 3 error(s))
+  [PASS] road physics example PASSES schema
+  [PASS] empty road physics contract is REJECTED by schema (rejected with 11 error(s))
+  [PASS] boss parts example PASSES schema
+  [PASS] single-part modular boss contract is REJECTED by schema (rejected with 2 error(s))
+
+=== composition_scope_contract.schema.json ===
+  [PASS] micro sketch with prototype ceiling PASSES
+  [PASS] micro sketch cannot claim AAA ceiling (rejected with 1 error(s))
+  [PASS] core loop with loop report and SFX protection PASSES
+  [PASS] core loop without loop plan is REJECTED (rejected with 1 error(s))
+  [PASS] modular track with layers and adaptive map PASSES
+  [PASS] modular track without SFX protection is REJECTED (rejected with 1 error(s))
+  [PASS] intentional silence with rationale PASSES
+  [PASS] silence without rationale is REJECTED (rejected with 1 error(s))
+
+=== brand_identity_manifest.schema.json ===
+  [PASS] planned brand identity manifest PASSES
+  [PASS] brand identity without thumbnail test is REJECTED (rejected with 1 error(s))
+  [PASS] brand identity allowing generic final font is REJECTED (rejected with 1 error(s))
+  [PASS] brand identity with metaphor over readability is REJECTED (rejected with 1 error(s))
+  [PASS] runtime-approved brand identity with evidence PASSES
+  [PASS] runtime-approved brand identity without BlastEm evidence is REJECTED (rejected with 1 error(s))
+
+=== creative_director_radar.schema.json ===
+  [PASS] creative director radar example PASSES
+  [PASS] creative radar forbids benchmark as source art (rejected with 1 error(s))
+  [PASS] approved creative radar requires at least 5 benchmark axes (rejected with 1 error(s))
+  [PASS] approved creative radar requires at least 5 proactive gaps (rejected with 1 error(s))
+  [PASS] creative radar requires feature creep guard (rejected with 1 error(s))
+
+=== visual_dna_manifest.schema.json ===
+  [PASS] visual DNA with locked character scale PASSES
+  [PASS] visual DNA cannot approve key poses with draft scale (rejected with 1 error(s))
+  [PASS] visual DNA rejects non-8px character bbox (rejected with 1 error(s))
+
+=== ui_pixel_surface_contract.schema.json ===
+  [PASS] planned health bar UI pixel contract PASSES
+  [PASS] health bar without latent damage buffer is REJECTED (rejected with 1 error(s))
+  [PASS] UI allowing fractional positioning is REJECTED (rejected with 1 error(s))
+  [PASS] runtime-approved health bar with evidence PASSES
+  [PASS] runtime-approved UI without BlastEm evidence is REJECTED (rejected with 1 error(s))
+
+=== project hygiene and technique selection schemas ===
+  [PASS] project hygiene template PASSES schema
+  [PASS] external input without copied_to metadata is REJECTED (rejected with 4 error(s))
+  [PASS] technique usage template PASSES schema
+  [PASS] technique usage external artifact authorization is REJECTED (rejected with 1 error(s))
+  [PASS] TDD with explicit technique selection PASSES schema
+  [PASS] TDD without explicit technique selection is REJECTED (rejected with 1 error(s))
+
+=== scene_tilemap_conversion_report.schema.json ===
+  [PASS] basic scene tilemap conversion report PASSES schema
+  [PASS] world camera-window streaming report PASSES schema
+  [PASS] world camera-window streaming without runtime_streaming is REJECTED (rejected with 2 error(s))
+  [PASS] legacy flat streaming fields are REJECTED (rejected with 1 error(s))
+
+=== tilemap_flag_report.schema.json ===
+  [PASS] tilemap flag report with optional frame_index PASSES schema
+  [PASS] tilemap flag report rejects unknown entry fields (rejected with 1 error(s))
+
+=== learning_ledger.schema.json ===
+  [PASS] project learning ledger template PASSES schema
+  [PASS] project learning ledger with automatic canonical mutation is REJECTED (rejected with 1 error(s))
+
+=== agent_session_state.schema.json ===
+  [PASS] workspace session state template PASSES schema
+  [PASS] active session with confirmed transition PASSES schema
+  [PASS] session state rejects invalid mode (rejected with 1 error(s))
+  [PASS] idle session cannot keep active project (rejected with 1 error(s))
+  [PASS] session state rejects disabled canonical approval gate (rejected with 1 error(s))
+  [PASS] session history rejects unconfirmed mode transition (rejected with 1 error(s))
+
+=== operational_loop_decision.schema.json ===
+  [PASS] operational loop decision with meaningful_change_summary PASSES schema
+  [PASS] operational loop decision without progress justification is REJECTED (rejected with 1 error(s))
+
+=== cinematic_storyboard_contract.schema.json ===
+  [PASS] cinematic storyboard planning contract PASSES
+  [PASS] cinematic storyboard canonical example PASSES schema
+  [PASS] cinematic storyboard without per-state budget is REJECTED (rejected with 1 error(s))
+  [PASS] cinematic storyboard cannot claim ready_for_aaa without production source (rejected with 2 error(s))
+  [PASS] cinematic storyboard using H-Int without owner is REJECTED (rejected with 3 error(s))
+=== screenshot_semantic_gate_report.schema.json ===
+  [PASS] semantic screenshot report PASSES
+  [PASS] rejected semantic screenshot report PASSES
+  [PASS] failed semantic report cannot claim valid capture (rejected with 1 error(s))
+=== claim_reconciliation_report.schema.json ===
+  [PASS] consistent claim reconciliation report PASSES
+  [PASS] blocked claim reconciliation report PASSES
+  [PASS] blocked reconciliation cannot keep ready_for_aaa (rejected with 1 error(s))
+
+=== Resumo ===
+Passou: 84 / 84
+OK: todos os casos de schema passaram

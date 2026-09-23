@@ -1,0 +1,13 @@
+{
+  "schema": "channel_ownership_map_v1",
+  "scene": "chase_first_playable",
+  "driver": "XGM2",
+  "channels": [
+    {"channel": "PCM_CH1", "owner": "score_loop", "priority": 7, "loop": true},
+    {"channel": "PCM_CH2", "owner": "critical_sfx", "priority_range": "12-15", "loop": false},
+    {"channel": "PCM_CH3", "owner": "movement_ui_warning", "priority_range": "5-8", "loop": false},
+    {"channel": "PSG", "owner": "fallback_only", "priority_range": "fallback", "loop": false}
+  ],
+  "pause_resume": "Stop all PCM on pause; replay score loop and reset warning cadence on resume.",
+  "scene_exit": "Stop PCM_CH1, PCM_CH2 and PCM_CH3."
+}

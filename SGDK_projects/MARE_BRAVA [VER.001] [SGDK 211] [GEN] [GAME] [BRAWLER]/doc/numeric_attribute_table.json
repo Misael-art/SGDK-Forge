@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "scope_id": "cais_01",
+  "attributes": {
+    "combo_de_mare": {
+      "hit_count_max": 3,
+      "cancel_window_frames": 8,
+      "combo_reset_frames": 20,
+      "hitstop_frames": [2, 3, 5],
+      "knockback_px_third_hit": 24,
+      "hit_y_tolerance_px": 12,
+      "target_iframe_frames": 8,
+      "ring_out_per_hit_max": 1,
+      "player_input_latency_target_ms": 17
+    },
+    "cria": {"hp": 40, "damage": 5, "iframe_after_hit_frames": 8, "telegraph_frames": 12, "recoil_px": 8},
+    "estivador": {"hp": 120, "damage": 12, "telegraph_frames": 18, "stagger_threshold": 30}
+  },
+  "source_contract": "doc/contracts/mechanic_contract.json",
+  "status": "declared_pending_runtime_measurement"
+}

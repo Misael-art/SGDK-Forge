@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "celestial_chase_first_playable_level_design",
+  "timestamp": "2026-06-04T04:45:00-03:00",
+  "target_scope": "chase_first_playable",
+  "status": "passed",
+  "reviews": {
+    "golden_path": {
+      "waypoint_count": 5,
+      "landmarks_visible": true,
+      "risk_markers_telegraphed": true,
+      "telegraph_chain_complete": true,
+      "status": "passed"
+    },
+    "phase_rhythm": {
+      "phases_present": ["calm", "pressure", "transition", "boss", "payoff"],
+      "calm_pressure_payoff_present": true,
+      "boss_phase_present": true,
+      "breathing_zone_count": 1,
+      "status": "passed"
+    },
+    "mechanic_reuse": {
+      "core_mechanics_covered": ["lane_change", "jump", "celestial_pulse"],
+      "missing_core_mechanic_ids": [],
+      "status": "passed"
+    },
+    "narrative_environmental": {
+      "story_beats_count": 3,
+      "no_text_required_satisfied": true,
+      "status": "passed"
+    },
+    "pattern_break": {
+      "previous_scope_id": "chase_visual_benchmark",
+      "palette_differentiation": "major",
+      "rhythm_variation": "major",
+      "status": "passed"
+    }
+  },
+  "issues": [],
+  "blocking_statuses": [],
+  "runtime_validation_status": "pending_blastem"
+}

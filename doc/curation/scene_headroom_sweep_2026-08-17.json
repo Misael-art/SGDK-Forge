@@ -1,0 +1,455 @@
+{
+  "schema_version": "1.0.0",
+  "tool": "audit_scene_headroom",
+  "generated_at": "2026-08-17T15:47:05Z",
+  "doctrine_ref": "SGDK_GLOBAL.md secao 30",
+  "sprite_limit_assumed": 20,
+  "limitation": "vdp_scanline_simulator.py exige layout de sprites (x/y/w/h). Nenhuma cena contratada declara layout, entao o simulador nao pode ser apontado para elas. Esta varredura le a pressao declarada; nao a substitui por medicao real.",
+  "declarations": [
+    {
+      "project": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+      "file": "code_review_report.json",
+      "field": "max_scanline_sprites",
+      "declared": "9",
+      "state": "measured",
+      "peak_sprites_per_scanline": 9,
+      "headroom_justification": null,
+      "utilization": 0.45,
+      "finding": "unexploited_headroom"
+    },
+    {
+      "project": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+      "file": "scene_closeout_report.json",
+      "field": "max_scanline_sprites",
+      "declared": "9",
+      "state": "measured",
+      "peak_sprites_per_scanline": 9,
+      "headroom_justification": null,
+      "utilization": 0.45,
+      "finding": "unexploited_headroom"
+    },
+    {
+      "project": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "runtime v012 observado 9/20; enumerador ligado a geometria da ROM mede pior caso 12/20, com 8 de headroom",
+      "state": "measured",
+      "peak_sprites_per_scanline": 9,
+      "headroom_justification": null,
+      "utilization": 0.45,
+      "finding": "unexploited_headroom"
+    },
+    {
+      "project": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "branding_sequence_contract.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites neste baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "branding_sequence_contract.json",
+      "field": "max_scanline_sprites",
+      "declared": "0",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites no baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "branding_sequence_contract.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites neste baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "branding_sequence_contract.json",
+      "field": "max_scanline_sprites",
+      "declared": "0",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites no baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "branding_sequence_contract.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites neste baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "branding_sequence_contract.json",
+      "field": "max_scanline_sprites",
+      "declared": "0",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites no baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "branding_sequence_contract.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites neste baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "branding_sequence_contract.json",
+      "field": "max_scanline_sprites",
+      "declared": "0",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites no baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "file": "branding_sequence_contract.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites neste baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "file": "branding_sequence_contract.json",
+      "field": "max_scanline_sprites",
+      "declared": "0",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites no baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido (risco declarado: 4 inimigos na mesma faixa de y; mitiga\u00e7\u00e3o: espa\u00e7amento por wave manager)",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "_agent_laboratory",
+      "file": "branding_sequence_contract.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites neste baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "_agent_laboratory",
+      "file": "branding_sequence_contract.json",
+      "field": "max_scanline_sprites",
+      "declared": "0",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "_agent_laboratory",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites no baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "_agent_laboratory",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "_agent_laboratory",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "_agent_training",
+      "file": "branding_sequence_contract.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites neste baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "_agent_training",
+      "file": "branding_sequence_contract.json",
+      "field": "max_scanline_sprites",
+      "declared": "0",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "_agent_training",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "0 sprites no baseline",
+      "state": "declared_zero",
+      "peak_sprites_per_scanline": 0,
+      "headroom_justification": null,
+      "utilization": 0.0,
+      "finding": "hardware_idle_undeclared"
+    },
+    {
+      "project": "_agent_training",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    },
+    {
+      "project": "_agent_training",
+      "file": "scene-contracts.json",
+      "field": "scanline_sprite_pressure",
+      "declared": "nao_medido",
+      "state": "unmeasured",
+      "peak_sprites_per_scanline": null,
+      "headroom_justification": null,
+      "finding": "sprite_pressure_unmeasured"
+    }
+  ],
+  "summary": {
+    "declarations_found": 41,
+    "by_state": {
+      "measured": 3,
+      "unmeasured": 17,
+      "declared_zero": 21
+    },
+    "unexploited_headroom": 3,
+    "hardware_idle_undeclared": 21,
+    "unmeasured": 17
+  }
+}

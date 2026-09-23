@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "project": "Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+  "scenes": [
+    {
+      "scene_id": "first_playable_slice",
+      "scene_key": "first_playable_slice",
+      "boot_mode": "sram_bootstrap",
+      "expected_app_scene_id": 4,
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "capture_frame": 120,
+      "capture_hold_frame": 120,
+      "warmup_frames": 90,
+      "budget_alias_owner": true,
+      "baseline_root": "doc\\baselines\\first_playable_slice"
+    },
+    {
+      "scene_id": "front_end_main_menu",
+      "scene_key": "front_end_main_menu",
+      "boot_mode": "sram_bootstrap",
+      "expected_app_scene_id": 2,
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "capture_frame": 120,
+      "capture_hold_frame": 120,
+      "warmup_frames": 90,
+      "baseline_root": "doc\\baselines\\front_end_main_menu"
+    },
+    {
+      "scene_id": "chase_result_state",
+      "scene_key": "chase_result_state",
+      "boot_mode": "sram_bootstrap",
+      "expected_app_scene_id": 4,
+      "bootstrap_flags": ["force_chase_failure_result"],
+      "capture_kind": "evidence_bundle",
+      "comparison_artifacts": ["screenshot"],
+      "comparison_mode": "tolerant",
+      "tolerance_threshold": 0.0005,
+      "screenshot_viewport_crop": {
+        "x": 8,
+        "y": 31,
+        "width": 624,
+        "height": 400
+      },
+      "capture_frame": 120,
+      "capture_hold_frame": 120,
+      "warmup_frames": 90,
+      "baseline_root": "doc\\baselines\\chase_result_state"
+    }
+  ]
+}
+

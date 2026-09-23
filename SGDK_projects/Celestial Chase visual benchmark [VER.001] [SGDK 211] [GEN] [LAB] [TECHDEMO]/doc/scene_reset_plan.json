@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "scene_reset_plan",
+  "scene_id": "chase_first_playable",
+  "enter": [
+    "reset and commit empty SAT",
+    "stop XGM2 PCM channels",
+    "disable WINDOW and restore plane scroll mode",
+    "zero BG_A and BG_B scroll",
+    "clear BG_A and BG_B tilemaps with CPU writes",
+    "load scene-local backgrounds and palettes",
+    "create static sprite pools",
+    "enable WINDOW HUD",
+    "start chase score"
+  ],
+  "exit": [
+    "stop all audio",
+    "clear and disable WINDOW",
+    "release module sprite references",
+    "restore HSCROLL_PLANE",
+    "zero BG_A and BG_B scroll",
+    "let APP_changeScene scrub SAT"
+  ],
+  "restart": "run exit then re-enter APP_SCENE_CHASE",
+  "menu_return": "run exit then enter APP_SCENE_MENU",
+  "blockers": []
+}

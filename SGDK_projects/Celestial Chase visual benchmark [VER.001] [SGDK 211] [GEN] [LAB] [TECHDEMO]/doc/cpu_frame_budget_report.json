@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "cpu_frame_budget_report",
+  "scene_id": "chase_first_playable",
+  "measurement_level": "estimated_pending_blastem",
+  "target_fps": 60,
+  "frame_budget_ms": 16.67,
+  "cpu_load_max_percent": null,
+  "hot_loops": [
+    {
+      "name": "line_scroll_generation",
+      "iterations": 224,
+      "math_policy": "integer shifts only",
+      "heap_in_loop": false,
+      "float_or_double": false,
+      "asm_cycle_note": "not_used"
+    },
+    {
+      "name": "obstacle_pool_update",
+      "iterations": 6,
+      "math_policy": "integer lane and pixel coordinates",
+      "heap_in_loop": false,
+      "float_or_double": false,
+      "asm_cycle_note": "not_used"
+    }
+  ],
+  "blockers": [
+    "runtime_metrics from current ROM required"
+  ]
+}

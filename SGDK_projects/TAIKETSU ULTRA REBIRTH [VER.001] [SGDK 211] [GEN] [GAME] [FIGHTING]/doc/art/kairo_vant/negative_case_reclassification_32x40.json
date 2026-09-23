@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "kairo_vant_32x40_route",
+  "decision": "reject_32x40_fighter_route",
+  "reason": "sprite_scale_below_genre_density_and_identity_loss",
+  "classification": "negative_evidence",
+  "pixel_source_policy": "forbidden_as_pixel_source",
+  "xpm_classification": "procedural_code_probe",
+  "cases": [
+    {"id": "v01", "path": "data/processed/kairo_vant/kairo_vant_front_pose_assisted_native_candidate_v01.png", "status": "absent"},
+    {"id": "v02", "path": "data/processed/kairo_vant/kairo_vant_front_pose_assisted_native_candidate_v02.png", "status": "present_negative_case"},
+    {"id": "v03", "path": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v03.png", "status": "present_negative_case"},
+    {"id": "v04", "path": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v04.png", "status": "absent"},
+    {"id": "v05", "path": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v05.png", "status": "absent"},
+    {"id": "v06", "path": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_v06.png", "status": "present_negative_case"},
+    {"id": "diagnostic_v01", "path": "data/processed/kairo_vant/kairo_vant_front_pose_native_candidate_diagnostic_v01.png", "status": "present_negative_case"},
+    {"id": "native_probe_v01", "path": "data/processed/kairo_vant/kairo_vant_front_pose_native_probe_v01.png", "status": "present_negative_case"},
+    {"id": "res_probe", "path": "res/fighting/fighters/kairo_vant_probe.png", "status": "present_negative_case"},
+    {"id": "c1_probe", "path": "res/fighting/fighters/c1_probe.png", "status": "present_negative_case"},
+    {"id": "xpm", "path": "data/source_art/kairo_vant/kairo_vant_native_grid_authoring_v01.xpm", "status": "present_negative_case", "classification": "procedural_code_probe"}
+  ],
+  "next_allowed_use": ["comparison_only", "audit_only", "historical_evidence"],
+  "next_forbidden_use": ["generation_source", "translation_source", "native_pixel_source", "res_promotion", "runtime_integration"]
+}

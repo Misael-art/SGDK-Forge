@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "status": "diagnostic_evidence_only",
+  "panel": "rascunho/taina_native_scale_shootout_v01/taina_native_scale_shootout_evidence_panel.png",
+  "direct_control_panel": "rascunho/taina_native_scale_shootout_v01/taina_direct_control_comparison_panel.png",
+  "resize_policy": "NEAREST_only",
+  "source_of_truth": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "no_res_touched": true,
+  "records": [
+    {
+      "scale": "48x64",
+      "role": "economic_control",
+      "visual_source": {
+        "path": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_48x64_visual_source_v01.png",
+        "sha256": "331ef5f4d0a16d8dee525229333c558fc0954c07b49a7ef2d7c46d606aa51301"
+      },
+      "mechanical_probe": {
+        "path": "out/visual_jobs/taina_idle_guard_48x64_mechanical_probe_v01/09770def4f69d083/basic/taina_idle_guard_48x64_mechanical_probe_v01.png",
+        "sha256": "a532d25463a49b28610f0fa02f6e0af43f8bef60c83862b06939c154821612d0"
+      },
+      "panel_interpretation": "diagnostic_only",
+      "opaque_probe": true,
+      "native_authoring_status": "pending_capable_native_pixel_authoring"
+    },
+    {
+      "scale": "56x80",
+      "role": "compromise",
+      "visual_source": {
+        "path": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_56x80_visual_source_v01.png",
+        "sha256": "32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f"
+      },
+      "mechanical_probe": {
+        "path": "out/visual_jobs/taina_idle_guard_56x80_mechanical_probe_v01/ec0e708b34062c19/basic/taina_idle_guard_56x80_mechanical_probe_v01.png",
+        "sha256": "8faade706e43a0078937dd4407f802b78c46a924f46c5a407aecca87be1e4b6d"
+      },
+      "panel_interpretation": "diagnostic_only",
+      "opaque_probe": true,
+      "native_authoring_status": "pending_capable_native_pixel_authoring"
+    },
+    {
+      "scale": "64x96",
+      "role": "fidelity_challenger",
+      "visual_source": {
+        "path": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_64x96_visual_source_v01.png",
+        "sha256": "b16e0cbebd5c4595ec875384476a8622cdafc5d3265160bdb71780265d613e8d"
+      },
+      "mechanical_probe": {
+        "path": "out/visual_jobs/taina_idle_guard_64x96_mechanical_probe_v01/61a3354c6981da34/basic/taina_idle_guard_64x96_mechanical_probe_v01.png",
+        "sha256": "080c4551297b4981f9eee1b92cced97e475defda6e90853f4a2f010c97da3279"
+      },
+      "panel_interpretation": "diagnostic_only",
+      "opaque_probe": true,
+      "native_authoring_status": "pending_capable_native_pixel_authoring"
+    }
+  ],
+  "notes": [
+    "The panel does not create or approve sprite pixels.",
+    "Mechanical probes have an opaque background and index0_role=unused0; they are not native sprite candidates.",
+    "No silhouette or matte is claimed for the opaque controls."
+  ]
+}

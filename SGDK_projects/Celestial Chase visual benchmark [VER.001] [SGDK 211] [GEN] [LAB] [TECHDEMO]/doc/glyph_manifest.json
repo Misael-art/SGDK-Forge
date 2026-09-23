@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "status": "implemented_candidate_v011_pending_human_review",
+  "owner": "chase_hud",
+  "font_id": "celestial_chase_hud_font",
+  "source_policy": "source_derived_from_canonical_sgdk_font_with_project_palette",
+  "source": "sdk/sgdk-2.11/res/image/font_default.png",
+  "glyphs": " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:-/",
+  "tile_cell_px": {"width": 8, "height": 8},
+  "vram_residency": {
+    "route": "replace_sgdk_reserved_font_tiles",
+    "reserved_tiles": 96,
+    "additional_user_tiles_expected": 0
+  },
+  "palette_owner": "PAL2_read_only",
+  "palette_indices": {"shadow": 10, "face": 15},
+  "fallback": "SGDK_default_font_until_custom_source_is_approved_and_validated",
+  "validation_required": [
+    "glyph_coverage_test",
+    "hud_legibility_capture",
+    "BlastEm_visual_capture"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_id.schema.json",
+  "title": "SGDK Scene Identifier",
+  "description": "Reusable schema for scene identifiers. ASCII lowercase alphanumeric plus underscores only.",
+  "type": "string",
+  "pattern": "^[a-z0-9_]+$",
+  "minLength": 1,
+  "maxLength": 64,
+  "examples": [
+    "title_screen",
+    "gameplay_stage1",
+    "boss_fight_01",
+    "lab_vdp_stress"
+  ]
+}

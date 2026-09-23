@@ -1,0 +1,110 @@
+{
+  "blockers": [],
+  "metrics": {
+    "adjacent_changed_ratio": [
+      0.10253906,
+      0.09863281,
+      0.10351562
+    ],
+    "area_range_ratio": 0.03233831,
+    "authored_source_frame_ids": [
+      "run_native_key_0",
+      "run_native_key_1",
+      "run_native_key_2",
+      "run_native_key_3"
+    ],
+    "bbox_by_frame": [
+      [
+        4,
+        4,
+        27,
+        27
+      ],
+      [
+        6,
+        5,
+        26,
+        27
+      ],
+      [
+        8,
+        4,
+        28,
+        27
+      ],
+      [
+        6,
+        5,
+        29,
+        27
+      ]
+    ],
+    "centroid_by_frame": [
+      [
+        14.646153846153846,
+        15.176923076923076
+      ],
+      [
+        16.44215938303342,
+        16.105398457583547
+      ],
+      [
+        18.400510204081634,
+        15.247448979591837
+      ],
+      [
+        16.79353233830846,
+        16.412935323383085
+      ]
+    ],
+    "centroid_range_ratio": 0.11732364,
+    "cycle_closure_ratio": 0.10742188,
+    "distinct_frame_count": 999,
+    "duplicate_frame_groups": [],
+    "frame_mask_sha256": [
+      "37a32528767cc9b8732f97370524d8a2e1efbf42f6ba8b95885745bf4fbebc10",
+      "4b5fe62f544fd5faad150d877f3c448371d0a7c9cf5d8546710bb14c6fb9681f",
+      "24611a04e9ad336949c46b12d44226ad22247fed6e1bd67e8eb4e46dd6b6b8f3",
+      "444394091305b6c34c1c4729900a5309f30617f66061ac9ebc42ec81930b45a5"
+    ],
+    "frame_pixel_sha256": [
+      "97613ae9db765bf1dce72c6afc30c94669ea388820f4e48b8f3f3c992849b497",
+      "f0edd452142992b578db14d0df4675718da599b3930d459cdd0445473593fe05",
+      "5e827cd22bee51e1a6e77bacd35da2ef29ef06b81f9eeae73e2ea6af1f256a79",
+      "ca337f57120eea628fecee5cb212fbd4d3751454f170a75677d7054b1f5809af"
+    ],
+    "integer_replication_factor_by_frame": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "missing_phase_patterns": [],
+    "motion_profile_id": "run_cycle",
+    "phases": [
+      "contact_left",
+      "passing",
+      "down_compression",
+      "up_flight"
+    ],
+    "schema_errors": [],
+    "support_contacts_by_id": {},
+    "visible_area_by_frame": [
+      390,
+      389,
+      392,
+      402
+    ]
+  },
+  "registry": {
+    "is_canonical": true,
+    "path": "tools/sgdk_wrapper/.agent/skills/art/sprite-animation/references/motion_profile_registry.json",
+    "schema_version": "1.0.0",
+    "sha256": "dcfb4cef3044a6d378d57c90bcdd2d48eab16928119ba4761f2bbc875b32ce0c"
+  },
+  "status": "ok",
+  "strip_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0",
+  "tool_name": "validate_motion_semantics",
+  "tool_version": "1.2.0",
+  "warnings": []
+}

@@ -1,0 +1,75 @@
+{
+  "blockers": [
+    "source_frame_region_outside"
+  ],
+  "metrics": {
+    "frame_boundary_policy": "coordinate_scoped",
+    "frame_count": 4,
+    "frame_mask_sha256": [
+      "37a32528767cc9b8732f97370524d8a2e1efbf42f6ba8b95885745bf4fbebc10",
+      "4b5fe62f544fd5faad150d877f3c448371d0a7c9cf5d8546710bb14c6fb9681f",
+      "24611a04e9ad336949c46b12d44226ad22247fed6e1bd67e8eb4e46dd6b6b8f3",
+      "444394091305b6c34c1c4729900a5309f30617f66061ac9ebc42ec81930b45a5"
+    ],
+    "frame_pixel_sha256": [
+      "97613ae9db765bf1dce72c6afc30c94669ea388820f4e48b8f3f3c992849b497",
+      "f0edd452142992b578db14d0df4675718da599b3930d459cdd0445473593fe05",
+      "5e827cd22bee51e1a6e77bacd35da2ef29ef06b81f9eeae73e2ea6af1f256a79",
+      "ca337f57120eea628fecee5cb212fbd4d3751454f170a75677d7054b1f5809af"
+    ],
+    "horizontal_order": "ok",
+    "integer_replication_factor_by_frame": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "lineart_topology": {
+      "connected_components": 24,
+      "enclosed_negative_space_components": 1,
+      "first_erosion_interior_pixels": 0,
+      "interior_ratio": 0.0,
+      "largest_component_pixels": 7,
+      "max_erosion_depth": 0,
+      "mode": "P",
+      "size": [
+        32,
+        32
+      ],
+      "visible_pixels": 58
+    },
+    "max_bbox_drift_px": 0,
+    "max_pivot_drift_px": 0,
+    "production_provenance": {
+      "authored_source_sha256": "1ae1ea4e4ad58d9f20929e2e0543f21c20c3fb7c131311dbb5cf0604d35d6d7e",
+      "producer_kind": "validator_fixture",
+      "source_kind": "validator_fixture"
+    },
+    "source_frame_artifacts": [
+      {
+        "file_sha256": "d13e8d80a19e619394be24af1cac89c529c0be6c2624cf8a6d4d2f21ff6cf595",
+        "frame_index": 1,
+        "path": "sources/frame_1.png",
+        "pixel_sha256": "f0edd452142992b578db14d0df4675718da599b3930d459cdd0445473593fe05"
+      },
+      {
+        "file_sha256": "6b77b6dee92d7b47dbc72e53db74779912a7fc58d6951fc8ad675c49049b8fec",
+        "frame_index": 2,
+        "path": "sources/frame_2.png",
+        "pixel_sha256": "5e827cd22bee51e1a6e77bacd35da2ef29ef06b81f9eeae73e2ea6af1f256a79"
+      },
+      {
+        "file_sha256": "c39eb1240413b7045a35682f1af7b4ee56cec15004ee9f066f3d5e50ba3a4506",
+        "frame_index": 3,
+        "path": "sources/frame_3.png",
+        "pixel_sha256": "ca337f57120eea628fecee5cb212fbd4d3751454f170a75677d7054b1f5809af"
+      }
+    ],
+    "strip_path": "strips/run_strip.png",
+    "strip_sha256": "af94fdacd107486795e2930694285955e9351accacaf8859671ec0a25a4f47d0"
+  },
+  "status": "error",
+  "tool_name": "validate_strip",
+  "tool_version": "2.1.0",
+  "warnings": []
+}

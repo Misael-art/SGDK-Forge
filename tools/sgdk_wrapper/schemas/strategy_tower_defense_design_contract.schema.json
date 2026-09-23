@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/strategy_tower_defense_design_contract.schema.json",
+  "title": "Strategy Tower Defense Design Contract",
+  "description": "Design-level contract for strategy_tower_defense projects. Holds tower catalog, wave composition, grid geometry, economy, modes, progression and balance sections as embedded blocks. The TDD continues to own runtime/technical decisions; this contract only describes the gameplay surface. Time unit is 'frames' (1/60 s) for both real-time gameplay and tower fire_rate; cooldown fields are in frames. Per-tower stats are read alongside the per-tower frame data contract.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "specialization_id",
+    "registry_source",
+    "time_unit",
+    "grid",
+    "lane_count",
+    "tower_slots_max",
+    "wave_spawner",
+    "resource_currency",
+    "victory",
+    "grid_layout",
+    "tower_catalog",
+    "enemy_catalog",
+    "wave_composition",
+    "modes",
+    "economy",
+    "balance",
+    "doc_refs"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "specialization_id": {
+      "type": "string",
+      "const": "strategy_tower_defense"
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": { "type": "string", "const": "frames" },
+    "grid": { "type": "string", "const": "fixed_path" },
+    "lane_count": {
+      "type": "string",
+      "enum": ["1", "1_to_3", "2", "3"],
+      "description": "Frozen axis. Number of lanes. '1_to_3' = dynamic per stage."
+    },
+    "tower_slots_max": {
+      "type": "integer",
+      "const": 24,
+      "description": "Frozen axis. Total tower slots per map. Cap 24."
+    },
+    "wave_spawner": {
+      "type": "string",
+      "const": "scripted"
+    },
+    "resource_currency": {
+      "type": "string",
+      "enum": ["gold", "energy", "gold_and_energy"]
+    },
+    "victory": {
+      "type": "string",
+      "const": "survive_N_waves"
+    },
+    "grid_layout": {
+      "type": "object",
+      "required": ["width_tiles", "height_tiles", "path_tile_count", "tower_slot_count", "path_geometry"],
+      "properties": {
+        "width_tiles": { "type": "integer", "minimum": 16, "maximum": 64 },
+        "height_tiles": { "type": "integer", "minimum": 16, "maximum": 64 },
+        "path_tile_count": { "type": "integer", "minimum": 8, "maximum": 200 },
+        "tower_slot_count": { "type": "integer", "minimum": 4, "maximum": 24 },
+        "path_geometry": {
+          "type": "string",
+          "enum": ["linear", "curved", "branching", "loop"]
+        },
+        "vram_budget_estimate_kb": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64,
+          "description": "Estimated VRAM cost for grid + path tiles. Must be <= 64KB MD VRAM."
+        }
+      },
+      "additionalProperties": false
+    },
+    "tower_catalog": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "display_name",
+          "category",
+          "tier",
+          "base_cost",
+          "damage",
+          "range_tiles",
+          "fire_rate_frames",
+          "tower_frame_data_path"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "category": {
+            "type": "string",
+            "enum": ["damage", "slow", "splash", "chain", "support", "economy", "ultimate"]
+          },
+          "tier": {
+            "type": "string",
+            "enum": ["basic", "advanced", "elite"]
+          },
+          "base_cost": { "type": "integer", "minimum": 10, "maximum": 500 },
+          "damage": { "type": "integer", "minimum": 1, "maximum": 999 },
+          "range_tiles": { "type": "integer", "minimum": 1, "maximum": 8 },
+          "fire_rate_frames": { "type": "integer", "minimum": 6, "maximum": 600 },
+          "tower_frame_data_path": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Project-relative path to a strategy_tower_frame_data.json instance."
+          },
+          "upgrade_paths": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["to_tier", "cost"],
+              "properties": {
+                "to_tier": { "type": "string", "enum": ["advanced", "elite"] },
+                "cost": { "type": "integer", "minimum": 10, "maximum": 1000 }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "enemy_catalog": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "display_name",
+          "archetype",
+          "hp",
+          "speed_tiles_per_second",
+          "resistance_pct",
+          "gold_reward"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "archetype": {
+            "type": "string",
+            "enum": ["grunt", "tank", "swarm", "flyer", "boss", "stealth", "healer", "splitter"]
+          },
+          "hp": { "type": "integer", "minimum": 1, "maximum": 99999 },
+          "speed_tiles_per_second": { "type": "integer", "minimum": 1, "maximum": 8 },
+          "resistance_pct": { "type": "integer", "minimum": 0, "maximum": 90 },
+          "gold_reward": { "type": "integer", "minimum": 1, "maximum": 500 },
+          "is_boss": { "type": "boolean" },
+          "special_ability": {
+            "type": "string",
+            "enum": ["none", "heal_aura", "spawn_adds", "immolate", "regen", "shield", "teleport"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "wave_composition": {
+      "type": "object",
+      "required": ["wave_count", "waves"],
+      "properties": {
+        "wave_count": { "type": "integer", "minimum": 5, "maximum": 50 },
+        "goal_lives": { "type": "integer", "minimum": 5, "maximum": 30 },
+        "boss_wave_interval": { "type": "integer", "minimum": 3, "maximum": 10 },
+        "waves": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["wave_id", "spawn_groups"],
+            "properties": {
+              "wave_id": { "type": "integer", "minimum": 1, "maximum": 50 },
+              "spawn_groups": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["enemy_id", "count", "delay_between_spawns_frames"],
+                  "properties": {
+                    "enemy_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$",
+                      "description": "Foreign key into enemy_catalog."
+                    },
+                    "count": { "type": "integer", "minimum": 1, "maximum": 50 },
+                    "delay_between_spawns_frames": { "type": "integer", "minimum": 1, "maximum": 600 }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "is_boss_wave": { "type": "boolean" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "kind": {
+            "type": "string",
+            "enum": ["campaign", "endless", "challenge", "puzzle_td", "daily_seed"]
+          },
+          "starting_resources": { "type": "integer", "minimum": 0, "maximum": 1000 },
+          "save_model": {
+            "type": "string",
+            "enum": ["save_station", "save_anywhere_with_confirm"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "economy": {
+      "type": "object",
+      "required": ["starting_currency", "kill_reward_multiplier", "wave_clear_bonus"],
+      "properties": {
+        "starting_currency": { "type": "integer", "minimum": 0, "maximum": 500 },
+        "kill_reward_multiplier": { "type": "number", "minimum": 0.5, "maximum": 3.0 },
+        "wave_clear_bonus": { "type": "integer", "minimum": 0, "maximum": 200 },
+        "combo_bonus": { "type": "boolean" },
+        "perfect_wave_bonus": { "type": "boolean" },
+        "speed_bonus": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "balance": {
+      "type": "object",
+      "required": ["evidence_paths", "method"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["wave_playtest", "tower_dps_first", "economy_first", "playtest_then_curve", "hybrid"]
+        },
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Project-relative paths to balance evidence (wave clear logs, tower DPS tables, economy curves). Required to lift past vertical_slice.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "dps_target_per_tower": {
+          "type": "object",
+          "description": "Advisory. Target DPS per tower category.",
+          "additionalProperties": { "type": "integer" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "doc_refs": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

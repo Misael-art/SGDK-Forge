@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.1.0",
+  "status": "measured_rescomp_v014_road_polish_current",
+  "scene_id": "chase_first_playable",
+  "runtime_configuration": {
+    "plane_size_tiles": {
+      "width": 64,
+      "height": 32
+    },
+    "sprite_vram_budget_tiles": 680,
+    "font_reserved_tiles": 96
+  },
+  "current_residency_tiles": {
+    "bg_b_measured": 480,
+    "bg_a_measured": 210,
+    "letterbox_measured": 1,
+    "background_user_total_measured": 691,
+    "background_user_capacity": 744,
+    "background_user_headroom": 53,
+    "sprite_estimated_total": 648,
+    "sprite_estimated_headroom": 32
+  },
+  "res_graph_evidence": {
+    "measurement_level": "rescomp_source_hash_snapshot",
+    "rom_sha256": "984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9",
+    "reserved_font_resource": "ts_chase_hud_font_v011",
+    "resident_resources": [
+      {
+        "resource_name": "img_chase_bg_b_v011",
+        "unique_tiles": 480,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "origin_size_bytes": 15360,
+        "source_sha256": "3b96ab1bed39e56cf1a444a969f7147265febd813cfccb3822b62053c05c2c19"
+      },
+      {
+        "resource_name": "img_chase_bg_a_v011",
+        "unique_tiles": 210,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "origin_size_bytes": 6720,
+        "source_sha256": "0d32085e02e0e4c47da8b0d0313c1e92e55e704c431bdb3dba35d94da907f995"
+      },
+      {
+        "resource_name": "ts_chase_letterbox_v009",
+        "unique_tiles": 1,
+        "measurement_method": "source_png_unique"
+      }
+    ]
+  },
+  "v011_acceptance": {
+    "background_user_tiles_max": 722,
+    "background_absolute_ceiling": 744,
+    "road_gutter_additional_tiles_target_max": 48,
+    "road_gutter_additional_tiles_hard_max": 56,
+    "road_gutter_actual_additional_tiles": 2,
+    "sprite_tiles_max": 680,
+    "dma_bytes_per_frame_max": 7168
+  },
+  "rules": [
+    "Mirrored tile-aligned gutters must rely on ResComp deduplication.",
+    "No independent second claw VRAM slot is allowed without an explicit repartition.",
+    "Obstacle scale stages must switch only at bounded Z thresholds.",
+    "All dynamic uploads remain VBlank-owned.",
+    "Measured residency evidence is accepted only while its ROM SHA-256 and source-hash-bound ResComp origin-size snapshot remain current."
+  ],
+  "evidence": [
+    "res/gfx/chase/chase_bg_b_v011.png",
+    "res/gfx/chase/chase_bg_a_v011.png",
+    "out/logs/res_graph_report.json",
+    "out/rom.bin"
+  ],
+  "blockers": [
+    "dma_trace_still_estimated_for_dynamic_sprite_uploads"
+  ]
+}

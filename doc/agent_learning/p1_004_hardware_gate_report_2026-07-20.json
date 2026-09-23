@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-20T04:32:00Z",
+  "item_id": "P1-004",
+  "status": "blocked_external_hardware_evidence",
+  "technical_implementation": {
+    "status": "complete",
+    "schema": "tools/sgdk_wrapper/schemas/hardware_session_manifest.schema.json",
+    "validator": "tools/sgdk_wrapper/validate_hardware_session.py",
+    "regression": "tools/sgdk_wrapper/ci/test_hardware_session_gate.py",
+    "regression_result": "3_cases_passed",
+    "project_protocol": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/hardware_test_protocol.md",
+    "pending_manifest": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/hardware_session_manifest.json"
+  },
+  "rom_mastering": {
+    "status": "mastering_blocked",
+    "rom_sha256": "40b924f7895386458c7810204464fe47207c40b7f97d0c4585e840ee8d21bbf5",
+    "size_bytes": 262144,
+    "alignment_valid": true,
+    "region_flags": "JUE",
+    "sgdk_sizebnd_checksum": "0x1527",
+    "checksum_valid": true,
+    "blastem_rom_identity_matches": true,
+    "report": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/rom_mastering_report.json"
+  },
+  "external_blocker": {
+    "id": "physical_or_fpga_session_missing",
+    "required": [
+      "device_region_revision_and_loader",
+      "matching_rom_hash",
+      "continuous_capture_of_boot_input_audio_gameplay",
+      "explicit_timing_and_audio_decisions",
+      "external_tester_attestation"
+    ],
+    "gate_report": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/hardware_test_gate_report.json"
+  },
+  "claim_limit": "The gate is implemented and rejects missing or mismatched evidence. No physical console or FPGA test was performed by the agent."
+}

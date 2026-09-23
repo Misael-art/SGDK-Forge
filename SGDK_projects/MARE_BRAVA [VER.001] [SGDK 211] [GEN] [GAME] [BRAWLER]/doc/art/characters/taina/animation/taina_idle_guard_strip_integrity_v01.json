@@ -1,0 +1,384 @@
+{
+  "schema": "sprite_strip_integrity_report.v1",
+  "tool": "analyze_sprite_strip_integrity.py",
+  "image_path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/data/processed/characters/taina/animation/taina_idle_guard_native_48x64_v01.png",
+  "mode": "P",
+  "size": [
+    288,
+    64
+  ],
+  "frame_width": 48,
+  "frame_height": 64,
+  "frame_count": 6,
+  "background_rgba": [
+    238,
+    0,
+    238,
+    255
+  ],
+  "background_palette_index": 0,
+  "asset_id": "taina_idle_guard_v01",
+  "asset_kind": "animation_strip",
+  "state_profile": "idle_guard",
+  "palette_domain": "",
+  "palette_domain_report": "",
+  "declared_fx_indices": null,
+  "measurement_level": "measured",
+  "scale_profile_thresholds": {
+    "standing": 1.35,
+    "dash": 1.55,
+    "hop": 1.65,
+    "crouch": 1.7,
+    "grounded": 3.8,
+    "knockdown": 5.0,
+    "getup": 5.0,
+    "throw": 3.2,
+    "fx": 4.0
+  },
+  "status": "passed",
+  "summary": {
+    "edge_problem_frames": 0,
+    "matte_problem_frames": 0,
+    "island_problem_frames": 0,
+    "baked_fx_frames": 0,
+    "bbox_width_min": 30,
+    "bbox_width_max": 31,
+    "bbox_height_min": 48,
+    "bbox_height_max": 48
+  },
+  "findings": [],
+  "frames": [
+    {
+      "frame": 1,
+      "non_background_pixels": 854,
+      "bbox": [
+        10,
+        11,
+        39,
+        58
+      ],
+      "bbox_size": [
+        30,
+        48
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 1,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 853,
+        "non_largest_component_pixels": 1,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 1,
+        "largest_stray_component_box": [
+          32,
+          14,
+          32,
+          14
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 853,
+            "bbox": [
+              10,
+              11,
+              39,
+              58
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              32,
+              14,
+              32,
+              14
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 2,
+      "non_background_pixels": 836,
+      "bbox": [
+        9,
+        11,
+        39,
+        58
+      ],
+      "bbox_size": [
+        31,
+        48
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 1,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 835,
+        "non_largest_component_pixels": 1,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 1,
+        "largest_stray_component_box": [
+          31,
+          14,
+          31,
+          14
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 835,
+            "bbox": [
+              9,
+              11,
+              39,
+              58
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              31,
+              14,
+              31,
+              14
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 3,
+      "non_background_pixels": 836,
+      "bbox": [
+        9,
+        11,
+        39,
+        58
+      ],
+      "bbox_size": [
+        31,
+        48
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 836,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 836,
+            "bbox": [
+              9,
+              11,
+              39,
+              58
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 4,
+      "non_background_pixels": 838,
+      "bbox": [
+        9,
+        11,
+        39,
+        58
+      ],
+      "bbox_size": [
+        31,
+        48
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 1,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 837,
+        "non_largest_component_pixels": 1,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 1,
+        "largest_stray_component_box": [
+          31,
+          14,
+          31,
+          14
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 837,
+            "bbox": [
+              9,
+              11,
+              39,
+              58
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              31,
+              14,
+              31,
+              14
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 5,
+      "non_background_pixels": 858,
+      "bbox": [
+        10,
+        11,
+        39,
+        58
+      ],
+      "bbox_size": [
+        30,
+        48
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 2,
+        "small_island_count": 1,
+        "small_island_pixels": 1,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 857,
+        "non_largest_component_pixels": 1,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 1,
+        "largest_stray_component_box": [
+          32,
+          17,
+          32,
+          17
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 857,
+            "bbox": [
+              10,
+              11,
+              39,
+              58
+            ]
+          },
+          {
+            "area": 1,
+            "bbox": [
+              32,
+              17,
+              32,
+              17
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 6,
+      "non_background_pixels": 847,
+      "bbox": [
+        9,
+        11,
+        39,
+        58
+      ],
+      "bbox_size": [
+        31,
+        48
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 847,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 847,
+            "bbox": [
+              9,
+              11,
+              39,
+              58
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "project": "HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+  "observed_at": "2026-09-11",
+  "claim_ceiling": "prototype / technical_demo",
+  "canonical_promotion_performed": false,
+  "conditions": [
+    {
+      "id": "ken_native_size_not_sms",
+      "fact": "Ken entra pela sheet arcade 1549x11279 (sha256 23ae9176...) sem o shrink 32x64 do MSSF2T SMS. Idle nativo 64x96; especiais ate 128x128 (teto ResComp). Ryo idle e 64x104.",
+      "owner_skill": "native-sprite-production",
+      "reusable": true
+    },
+    {
+      "id": "ken_band_layout_vs_matte",
+      "fact": "content_bands/blobs_x devem usar so o matte original (0,85,127). Expandir is_bg para ciano no layout desloca os indices de faixa e some com o tatsu (band 75).",
+      "owner_skill": "art-conversion-pipeline",
+      "reusable": true
+    },
+    {
+      "id": "ken_shared_palette_remap",
+      "fact": "quantize por estado gera PLTE diferente e indices errados mesmo com putpalette global. Extrair paleta unica e remapear todos os frames nela.",
+      "owner_skill": "megadrive-pixel-strict-rules",
+      "reusable": true
+    },
+    {
+      "id": "ken_id2_table_not_ryo_clone",
+      "fact": "PLAYER_STATE id==2 usa tabela ken_anim_for() em vez de duplicar o bloco gigante do Ryo. Fallbacks cobrem defesa/pulo/hurt com strips existentes. Sem opt-in fighting_2d_traditional.",
+      "owner_skill": "sgdk-runtime-coder",
+      "reusable": true
+    },
+    {
+      "id": "mode_select_vs_debug",
+      "fact": "JOY_MODE sozinho em gRoom==10 cicla id 1<->2. MODE+START permanece debug. Nao ha botao SELECT separado no pad MD; MODE e o equivalente.",
+      "owner_skill": "input-system-sgdk",
+      "reusable": true
+    },
+    {
+      "id": "ken_stage_midi_is_reference_only",
+      "fact": "MIDI vgmusic (sha256 44804801..., 30751 B) nao entra na ROM. Transcricao NTSC VGM 9333 B, YM2612 3ch + PSG noise, 16 compassos a 90 BPM, loop apos patches, driver XGM1 (o projeto ja usa Z80_DRIVER_XGM / XGM_setPCM).",
+      "owner_skill": "megadrive-music-composition",
+      "reusable": true
+    },
+    {
+      "id": "do_not_switch_hamoopig_to_xgm2",
+      "fact": "xgm2-audio-director e dono de arquitetura, mas HAMOOPIG ja mistura BGM+SFX no XGM1. Trocar o driver quebra PCM CH3/CH4 dos golpes.",
+      "owner_skill": "xgm2-audio-director",
+      "reusable": true
+    },
+    {
+      "id": "ken_scanline_headroom",
+      "fact": "Ken 128px de largura vira ate 4x4 HW sprites. Dois Kens + HUD/sombra podem estourar 20 sprites/scanline. Audacia: medir no emulador, nao encolher a sheet por receio. Teto prototype.",
+      "owner_skill": "megadrive-vdp-budget-analyst",
+      "reusable": true
+    },
+    {
+      "id": "ken_ip_placeholder",
+      "fact": "Sheet e MIDI sao material Capcom/vgmusic de estudo. provenance acceptance_status=placeholder. Nao sustenta claim AAA nem comercial.",
+      "owner_skill": "truth-hierarchy-guard",
+      "reusable": false
+    },
+    {
+      "id": "ken_sfx_reuse_hamoopi_gpl",
+      "fact": "Ken reusa snd_* GPL do HAMOOPI no mesmo mapa de estados. Sem voz Capcom. Fireball spr_ryo_701 continua so id==1.",
+      "owner_skill": "sgdk-runtime-coder",
+      "reusable": false
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_identity_turnaround_native_callable_review_v01",
+  "generated_at": "2026-07-09",
+  "asset_id": "taina_identity_turnaround",
+  "channel": "native_chat_image_generation_callable",
+  "tool": "codex_builtin_image_generation",
+  "scope": "concept_art_source_candidate_only",
+  "status": "source_candidates_created_pixel_translation_pending",
+  "prompt_log": "doc/art/generated_prompts/taina_identity_turnaround/taina_identity_turnaround_native_callable_v01.md",
+  "source_policy": {
+    "allowed_status": "source_candidate",
+    "forbidden_statuses": [
+      "ready_for_conversion",
+      "ready_for_res_promotion",
+      "ready_for_aaa",
+      "sprite_final",
+      "tilemap_final",
+      "production_tilemap_source"
+    ],
+    "res_promotion": false,
+    "runtime_claim": false
+  },
+  "accepted_source_candidates": [
+    {
+      "asset_id": "taina_identity_turnaround_native_callable_v01",
+      "path": "data/source_art/concept/taina_identity_turnaround/taina_identity_turnaround_v01.png",
+      "sha256": "d8e7036c8d79aa6cd03e8309ec883e287b27ca2986f8cad27f844cdf6b67710a",
+      "status": "source_candidate",
+      "review": "principal candidate; compact arcade proportions improved; hair mass, strong brow, high guard, wraps, sash and large feet/fists survive at 320x224 thumbnail",
+      "remaining_drift": [
+        "not native pixel sheet",
+        "still above exact 3.5-head sprite scale",
+        "requires manual 1px lineart and pivot/scale lock before key poses"
+      ]
+    },
+    {
+      "asset_id": "taina_identity_turnaround_native_callable_v02",
+      "path": "data/source_art/concept/taina_identity_turnaround/taina_identity_turnaround_v02.png",
+      "sha256": "715ebf7c75679391e6ccc31e9a2383a64b6029089d8fd079cf16bec177ef88ba",
+      "status": "source_candidate",
+      "review": "secondary candidate; strongest compact silhouette and readable lower-body mass; useful as visual reference for manual pixel model sheet",
+      "remaining_drift": [
+        "not native pixel sheet",
+        "some anatomy remains illustration-led",
+        "requires silhouette isolation and pixel translation before promotion"
+      ]
+    }
+  ],
+  "discarded_variants": [
+    {
+      "path": "data/source_art/concept/taina_identity_turnaround/descartes/taina_identity_turnaround_discard_v01_tall_illustrative.png",
+      "sha256": "242b0d5223fe5cb56aaecce601cece3b0b55d3a11462465585c51e133c0c7759",
+      "status": "discarded_source_variant",
+      "reason": "strong identity but too tall/illustrative for 48px brawler compression"
+    },
+    {
+      "path": "data/source_art/concept/taina_identity_turnaround/descartes/taina_identity_turnaround_discard_v02_tall_illustrative.png",
+      "sha256": "3be4c3690126dc94213e06efb756b95b429a4f765c1d4cb6a0ebb7837a3fc785",
+      "status": "discarded_source_variant",
+      "reason": "returns toward taller illustrated/fashion anatomy; useful only as negative evidence"
+    }
+  ],
+  "review_artifacts": {
+    "contact_sheet_320x224": {
+      "path": "doc/art/characters/taina/review/taina_identity_turnaround_native_callable_contact_sheet_320x224_v01.png",
+      "sha256": "f9c26d3fa2712615e753729e0e79ede7a1c03a675c4f6b6c94fac3dba14da5ff"
+    },
+    "contact_sheet_320x224_16c": {
+      "path": "doc/art/characters/taina/review/taina_identity_turnaround_native_callable_contact_sheet_320x224_16c_v01.png",
+      "sha256": "c5ae28281b5e5485eed936d6335c43d0c2d8393a057ca4bb61ad9802757ad3a6"
+    }
+  },
+  "curatorial_findings": [
+    "native callable route produced stronger visual source candidates than the prior procedural lineart attempts",
+    "accepted candidates preserve TAÍNA hooks: diagonal guard, sash, bandages, curly hair mass, strong brow/wedge nose, large wrapped fists and feet",
+    "320x224/16c review keeps the main silhouette/color hooks readable",
+    "the output remains concept source only; it does not replace native 48x64 pixel work"
+  ],
+  "blockers_remaining": [
+    "native_pixel_model_sheet_3_5_heads_missing",
+    "clean_lineart_1px_visual_pass_pending",
+    "key_poses_missing",
+    "animation_contact_sheet_missing",
+    "pivot_overlay_missing",
+    "foot_contact_report_missing",
+    "frame_delta_report_missing",
+    "not_promoted_to_res",
+    "no_gameplay_blastem_visual_evidence"
+  ],
+  "decision": "accept_as_source_candidate_only"
+}

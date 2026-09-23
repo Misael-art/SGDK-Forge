@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "project_learning_curation_record",
+  "curation_id": "project_learning_celestial_chase_revive_2026_06_16",
+  "source_project": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "evidence_grade": "E1_project_artifact",
+  "canonical_promotion": false,
+  "status_ceiling": "candidate_lessons_only",
+  "source_artifacts": [
+    "doc/agent_learning/learning_ledger.json",
+    "doc/agent_learning/failure_patterns.md",
+    "doc/agent_learning/skill_promotion_candidates.md",
+    "doc/canonical_planning_curation_handoff.json",
+    "doc/10-memory-bank.md",
+    "doc/changelog/changelog.md",
+    "doc/critical_gap_audit.json",
+    "doc/build_system_contract.json",
+    "doc/front_end_element_audit.json",
+    "doc/creative_cohesion_audit.json",
+    "src/scene_manager.c",
+    "src/input_abstraction.c",
+    "src/scenes/opening_cutscene.c",
+    "src/scenes/race_scene.c"
+  ],
+  "accepted_lessons": [
+    {
+      "lesson_id": "pre_runtime_spec_closure_for_aaa_game",
+      "owner_artifacts": [
+        ".agent/workflows/project-methodology-adoption.md",
+        ".agent/workflows/production-loop.md"
+      ],
+      "summary": "AAA game planning needs executable contracts for runtime-critical areas before coding a playable slice."
+    },
+    {
+      "lesson_id": "scene_input_before_interaction",
+      "owner_artifacts": [
+        ".agent/skills/code/input-system-sgdk/SKILL.md"
+      ],
+      "summary": "Interactive scenes consume logical actions from one input owner; placeholder bindings must not contradict game-flow buttons."
+    },
+    {
+      "lesson_id": "per_scene_fade_palette_policy",
+      "owner_artifacts": [
+        ".agent/skills/architecture/game-state-transition-architect/SKILL.md"
+      ],
+      "summary": "Fade, palette load, teardown and input lock are scene transition policy, not a generic global effect."
+    },
+    {
+      "lesson_id": "table_driven_cutscene_fsm",
+      "owner_artifacts": [
+        ".agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+        ".agent/skills/code/sgdk-runtime-coder/SKILL.md"
+      ],
+      "summary": "Cutscenes with multiple beats should hand off table-driven FSM data to runtime."
+    },
+    {
+      "lesson_id": "runtime_seed_scope_separation",
+      "owner_artifacts": [
+        ".agent/skills/governance/aaa-pipeline-guardian/SKILL.md",
+        ".agent/skills/code/sgdk-runtime-coder/SKILL.md"
+      ],
+      "summary": "Boot seed evidence proves only boot seed scope, not gameplay, visual delivery, audio or budget."
+    },
+    {
+      "lesson_id": "status_reconciliation_after_build",
+      "owner_artifacts": [
+        ".agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md"
+      ],
+      "summary": "ROM, changelog, memory bank, mastering, validation and emulator evidence must be reconciled before status promotion."
+    },
+    {
+      "lesson_id": "front_end_identity_minimum",
+      "owner_artifacts": [
+        ".agent/skills/art/visual-excellence-standards/SKILL.md"
+      ],
+      "summary": "Logo, font, menu and credits need early contracts for game front-end identity; mockups remain references only."
+    }
+  ],
+  "rejected_or_limited_claims": [
+    "Do not create new skill from one project case.",
+    "Do not promote boot seed evidence to gameplay proof.",
+    "Do not treat local mockup as final art or emulator evidence.",
+    "Do not declare budget, audio quality, visual delivery or AAA readiness from this record."
+  ],
+  "new_files": [
+    ".agent/lib_case/project-learning/index.json",
+    ".agent/lib_case/project-learning/celestial-chase-revive-2026-06-16/CASE_STUDY.md"
+  ],
+  "updated_owner_files": [
+    ".agent/workflows/project-methodology-adoption.md",
+    ".agent/workflows/production-loop.md",
+    ".agent/skills/code/input-system-sgdk/SKILL.md",
+    ".agent/skills/architecture/game-state-transition-architect/SKILL.md",
+    ".agent/skills/code/sgdk-runtime-coder/SKILL.md",
+    ".agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+    ".agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+    ".agent/skills/art/visual-excellence-standards/SKILL.md",
+    ".agent/skills/governance/aaa-pipeline-guardian/SKILL.md"
+  ],
+  "required_followups": [
+    "Human review before treating any lesson as mandatory canon outside aaa_game or vertical slice contexts.",
+    "Repeat across more than one project before creating a new skill or schema.",
+    "Use project validators and BlastEm evidence for any runtime delivery claim."
+  ]
+}

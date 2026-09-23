@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/platformer_level_segment_frame_data.schema.json",
+  "title": "Platformer Level Segment Frame Data",
+  "description": "Per-level segment stat block for platformer_precision_2d projects. Defines parallax layers, hazard zones, checkpoint zones, collectible spawn points, jump arc, animation timing, and ambient particles. All numeric fields are non-negative integers or constrained ranges. Level metrics are REQUIRED for every level; checkpoint zones are required for any level with hazards_count>=10. Time unit is 'frames' (1/60 s) for hazard timing and animation timing.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "level_id",
+    "level_role",
+    "registry_source",
+    "time_unit",
+    "layout",
+    "parallax_layers",
+    "jump_arcs"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "level_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "level_role": {
+      "type": "string",
+      "enum": ["tutorial", "normal", "challenge", "boss", "secret"]
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": { "type": "string", "const": "frames" },
+    "layout": {
+      "type": "object",
+      "required": ["width_tiles", "height_tiles", "tile_size_px", "gravity_zone_count"],
+      "properties": {
+        "width_tiles": { "type": "integer", "minimum": 30, "maximum": 600 },
+        "height_tiles": { "type": "integer", "minimum": 8, "maximum": 32 },
+        "tile_size_px": { "type": "integer", "minimum": 8, "maximum": 32 },
+        "gravity_zone_count": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "ceiling_y_px": { "type": "integer", "minimum": 32, "maximum": 256 },
+        "floor_y_px": { "type": "integer", "minimum": 32, "maximum": 256 }
+      },
+      "additionalProperties": false
+    },
+    "parallax_layers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["layer_id", "parallax_factor", "tile_count", "animation_idle_frames"],
+        "properties": {
+          "layer_id": {
+            "type": "string",
+            "enum": ["bg_far", "bg_mid", "bg_near", "fg_overlay"]
+          },
+          "parallax_factor": { "type": "number", "minimum": 0.1, "maximum": 1.0 },
+          "tile_count": { "type": "integer", "minimum": 4, "maximum": 256 },
+          "animation_idle_frames": { "type": "integer", "minimum": 0, "maximum": 600 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "hazard_zones": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["hazard_id", "x_start_tile", "x_end_tile", "y_tile", "frames_active", "frames_idle"],
+        "properties": {
+          "hazard_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "Foreign key into design contract hazard_catalog."
+          },
+          "x_start_tile": { "type": "integer", "minimum": 0, "maximum": 600 },
+          "x_end_tile": { "type": "integer", "minimum": 0, "maximum": 600 },
+          "y_tile": { "type": "integer", "minimum": 0, "maximum": 32 },
+          "frames_active": { "type": "integer", "minimum": 1, "maximum": 600 },
+          "frames_idle": { "type": "integer", "minimum": 0, "maximum": 600 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "collectible_zones": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["collectible_id", "x_tile", "y_tile", "respawn_pattern"],
+        "properties": {
+          "collectible_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "Foreign key into design contract collectible_catalog."
+          },
+          "x_tile": { "type": "integer", "minimum": 0, "maximum": 600 },
+          "y_tile": { "type": "integer", "minimum": 0, "maximum": 32 },
+          "respawn_pattern": {
+            "type": "string",
+            "enum": ["on_death", "once_per_run", "persistent"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "checkpoint_zones": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["checkpoint_id", "x_tile", "y_tile", "frames_respawn"],
+        "properties": {
+          "checkpoint_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "x_tile": { "type": "integer", "minimum": 0, "maximum": 600 },
+          "y_tile": { "type": "integer", "minimum": 0, "maximum": 32 },
+          "frames_respawn": { "type": "integer", "minimum": 0, "maximum": 60 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "jump_arcs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["arc_id", "max_height_tiles", "horizontal_distance_tiles", "frames_to_apex"],
+        "properties": {
+          "arc_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "max_height_tiles": { "type": "integer", "minimum": 1, "maximum": 8 },
+          "horizontal_distance_tiles": { "type": "integer", "minimum": 1, "maximum": 12 },
+          "frames_to_apex": { "type": "integer", "minimum": 4, "maximum": 30 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "Boss level must declare at least 2 jump_arcs (telegraph + escape).",
+      "if": {
+        "properties": { "level_role": { "const": "boss" } },
+        "required": ["level_role"]
+      },
+      "then": { "properties": { "jump_arcs": { "minItems": 2 } } }
+    }
+  ],
+  "additionalProperties": false
+}

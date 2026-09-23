@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_idle_guard_vdp_budget_v02",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_idle_guard_v02",
+  "decision": "cabe",
+  "measurement_level": "measured_offline_plus_partial_runtime_observation",
+  "rom_asset_cost": {
+    "compression": "FAST",
+    "rescomp_bytes": 4878,
+    "status": "rescomp_and_build_passed"
+  },
+  "vram_resident_set": {
+    "frame_cell_tiles": 48,
+    "unique_tiles_per_frame": 24,
+    "unique_tiles_complete_cycle": 40,
+    "bytes_complete_cycle": 1280,
+    "active_animation_window": "complete_idle_cycle",
+    "scene_local_scope": "APP_SCENE_DEMO"
+  },
+  "tile_reuse": {
+    "adjacent_shared_unique_tile_ratio": [0.792, 0.708, 0.708, 0.792, 0.875],
+    "minimum_adjacent_reuse_ratio": 0.708,
+    "target_25_percent_passed": true
+  },
+  "load_time_dma_cost": "complete cycle has 40 unique tiles / 1280 raw tile bytes; exact SGDK transfer trace pending VDP dump",
+  "per_frame_dma_cost": "manual SPR_setFrame is active; partial MDRT window reported max_dma_queue_transfer_bytes=0, but this probe is not a VDP transfer trace",
+  "scanline_sprite_pressure": {
+    "single_taina_runtime_v01_observed_hardware_sprites": 1,
+    "v02_rescomp_metasprite_parts_per_frame": 2,
+    "v02_partial_runtime_max_scanline_sprites": 1,
+    "worst_gameplay_frame_with_enemies_hud_fx": "not_measured"
+  },
+  "palette": {
+    "domain": "PAL1",
+    "entries_used_in_png": 11,
+    "visible_colors": 10
+  },
+  "technical_axis": "cabe",
+  "perceptual_axis": "human_visual_approval_plus_partial_blastem_observation",
+  "claim_ceiling": "single_asset_budget_pass_full_gameplay_and_vdp_dump_pending"
+}

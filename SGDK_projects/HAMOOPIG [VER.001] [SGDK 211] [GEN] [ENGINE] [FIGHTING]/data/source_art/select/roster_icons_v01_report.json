@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "procedural_composed_from_authored",
+  "purpose": "selection roster rail, three framed 24x24 identity icons, shared PAL0",
+  "source_kind": "existing authored HUD portraits",
+  "output": "data/source_art/select/roster_icons_v01.png",
+  "active_output": "res/sprite/select/roster_icons.png",
+  "output_sha256": "72bd5554358d2625f4117fd5c66780ed50e5bd36b9788f2586e93355b88690e7",
+  "dimensions": [
+    72,
+    24
+  ],
+  "frame_size": [
+    24,
+    24
+  ],
+  "palette_entries": 16,
+  "index0_role": "transparent",
+  "entries": [
+    {
+      "fighter": "ryo",
+      "source": "res/sprite/hud/portrait_ryo.png",
+      "source_sha256": "7ec8d019fca64aa65fc79605853598c8fb566006458954b5d9d0d58e5826db85",
+      "frame": 0
+    },
+    {
+      "fighter": "ken",
+      "source": "res/sprite/hud/portrait_ken.png",
+      "source_sha256": "fcb3c1f82387420e8c4773f2ba152c3d574fa01aaa0b1c2bfbb6dd2b90a32e47",
+      "frame": 1
+    },
+    {
+      "fighter": "musgo",
+      "source": "res/sprite/hud/portrait_musgo.png",
+      "source_sha256": "8570fef4a2782dc4e0d16652b52efed901c9e3e3727af25d2958b69989d61a30",
+      "frame": 2
+    }
+  ],
+  "acceptance_status": "placeholder",
+  "visual_review_required": true
+}

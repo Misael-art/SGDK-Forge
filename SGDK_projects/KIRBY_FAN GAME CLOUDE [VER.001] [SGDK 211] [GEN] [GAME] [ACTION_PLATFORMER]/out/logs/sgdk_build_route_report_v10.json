@@ -1,0 +1,35 @@
+{
+  "schema": "sgdk_build_route_report.v1",
+  "generated_at": "2026-09-04T03:16:21.404898+00:00",
+  "status": "ready",
+  "host_platform": "linux",
+  "selected_route": "linux_wine_bridge",
+  "command": "bash '/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/build_sgdk_wine_bridge.sh' --project-root '/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]'",
+  "rule": "Select by host first; prove compiler/libmd.a LTO provenance before linking; never classify a link-toolchain failure as project-code failure without stage evidence.",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "repo_root": "/mnt/sdcard/Projects/Sgdk Forge",
+  "canonical_gdk": "/mnt/sdcard/Projects/Sgdk Forge/sdk/sgdk-2.11",
+  "compiler": {
+    "path": "/mnt/sdcard/Projects/Sgdk Forge/sdk/sgdk-2.11/bin/gcc.exe",
+    "version": "13.2.0"
+  },
+  "source_library": {
+    "path": "/mnt/sdcard/Projects/Sgdk Forge/sdk/sgdk-2.11/lib/libmd.a",
+    "producer_version": "16.1.0",
+    "lto_detected": true,
+    "direct_link_compatible": false
+  },
+  "linux_stage": {
+    "path": "/mnt/sdcard/Projects/Sgdk Forge/out/host_tools/sgdk_wine_flatpak/sgdk-2.11",
+    "library_path": "/mnt/sdcard/Projects/Sgdk Forge/out/host_tools/sgdk_wine_flatpak/sgdk-2.11/lib/libmd.a",
+    "producer_version": "13.2.0",
+    "lto_detected": false,
+    "link_compatible": true,
+    "source_sdk_mutated": false
+  },
+  "blockers": [],
+  "warnings": [
+    "Direct linking against the source SDK is blocked by a GCC/LTO major mismatch; the Linux bridge must stage and rebuild libmd.a without LTO."
+  ],
+  "status_ceiling_after_build": "buildado_emulator_pending"
+}

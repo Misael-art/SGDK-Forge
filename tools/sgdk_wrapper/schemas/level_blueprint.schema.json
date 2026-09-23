@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/level_blueprint.schema.json",
+  "title": "SGDK Level Blueprint",
+  "description": "Contract declaring a single playable level/scene: golden path, rhythm, narrative, mechanic reuse.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scope_id",
+    "golden_path",
+    "waypoints",
+    "gates",
+    "optional_routes",
+    "risk_markers",
+    "breathing_zones",
+    "phase_rhythm_map",
+    "mechanic_reuse_map",
+    "tutorial_invisible_beats",
+    "environmental_narrative_map",
+    "failure_recovery_model",
+    "acceptance_tests"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "scope_id": {"type": "string", "pattern": "^[a-z0-9_]+$", "minLength": 1, "maxLength": 64},
+    "golden_path": {
+      "type": "object",
+      "required": ["waypoint_sequence", "visible_landmarks"],
+      "properties": {
+        "waypoint_sequence": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+        "visible_landmarks": {"type": "array", "items": {"type": "string"}},
+        "telegraph_chain": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "waypoints": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["waypoint_id", "position", "purpose"],
+        "properties": {
+          "waypoint_id": {"type": "string"},
+          "position": {"type": "string"},
+          "purpose": {"type": "string"},
+          "checkpoint": {"type": "boolean"}
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gate_id", "gate_type", "unlock_condition"],
+        "properties": {
+          "gate_id": {"type": "string"},
+          "gate_type": {"type": "string", "enum": ["key", "enemy", "mechanic_mastery", "exploration", "narrative"]},
+          "unlock_condition": {"type": "string"},
+          "telegraph": {"type": "string"}
+        }
+      }
+    },
+    "optional_routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["route_id", "reward"],
+        "properties": {
+          "route_id": {"type": "string"},
+          "reward": {"type": "string"},
+          "risk_level": {"type": "string", "enum": ["low", "medium", "high"]}
+        }
+      }
+    },
+    "risk_markers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["position", "threat_type", "telegraph"],
+        "properties": {
+          "position": {"type": "string"},
+          "threat_type": {"type": "string"},
+          "telegraph": {"type": "string"}
+        }
+      }
+    },
+    "breathing_zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["zone_id", "purpose"],
+        "properties": {
+          "zone_id": {"type": "string"},
+          "purpose": {"type": "string"},
+          "duration_target_seconds": {"type": "number", "minimum": 0}
+        }
+      }
+    },
+    "phase_rhythm_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["phase", "intensity", "start_waypoint", "end_waypoint"],
+        "properties": {
+          "phase": {"type": "string", "enum": ["calm", "pressure", "payoff", "boss", "transition", "safe_room"]},
+          "intensity": {"type": "string", "enum": ["low", "medium", "high", "climax"]},
+          "start_waypoint": {"type": "string"},
+          "end_waypoint": {"type": "string"},
+          "audio_state": {"type": "string"},
+          "fidelity_target": {"type": "string"}
+        }
+      }
+    },
+    "camera_visibility_plan": {
+      "type": "object",
+      "description": "Optional design-level plan for camera readability before runtime contract.",
+      "required": ["visible_ahead_px", "vertical_policy", "blind_jump_policy", "trigger_zone_plan"],
+      "properties": {
+        "visible_ahead_px": {"type": "integer", "minimum": 0},
+        "vertical_policy": {"type": "string", "enum": ["follow_grounded_feet", "follow_player_center", "room_anchor", "boss_anchor", "fixed"]},
+        "blind_jump_policy": {"type": "string", "enum": ["forbidden", "telegraphed_only", "allowed_lab_only"]},
+        "boss_anchor_policy": {"type": "string"},
+        "trigger_zone_plan": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["trigger_id", "purpose"],
+            "properties": {
+              "trigger_id": {"type": "string"},
+              "purpose": {"type": "string"}
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "mechanic_reuse_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["mechanic_id", "target_scenes", "reuse_count"],
+        "properties": {
+          "mechanic_id": {"type": "string", "description": "deve existir em mechanic_contract.json"},
+          "target_scenes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "reuse_count": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "tutorial_invisible_beats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["beat_id", "teaches", "delivery"],
+        "properties": {
+          "beat_id": {"type": "string"},
+          "teaches": {"type": "string"},
+          "delivery": {"type": "string"}
+        }
+      }
+    },
+    "environmental_narrative_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["element", "story_beat"],
+        "properties": {
+          "element": {"type": "string"},
+          "story_beat": {"type": "string"},
+          "no_text_required": {"type": "boolean"}
+        }
+      }
+    },
+    "failure_recovery_model": {
+      "type": "object",
+      "required": ["last_checkpoint", "reset_strategy"],
+      "properties": {
+        "last_checkpoint": {"type": "string"},
+        "reset_strategy": {"type": "string"},
+        "death_punishment": {"type": "string"}
+      }
+    },
+    "acceptance_tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["test_id", "scenario", "expected"],
+        "properties": {
+          "test_id": {"type": "string"},
+          "scenario": {"type": "string"},
+          "expected": {"type": "string"}
+        }
+      }
+    },
+    "pattern_break_audit": {
+      "type": "object",
+      "properties": {
+        "previous_scope_id": {"type": "string"},
+        "palette_differentiation": {"type": "string", "enum": ["none", "minor", "major"]},
+        "rhythm_variation": {"type": "string", "enum": ["none", "minor", "major"]},
+        "hazard_introduction": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  },
+  "additionalProperties": true,
+  "allOf": [
+    {"$ref": "#/definitions/rhythm_constraint"},
+    {"$ref": "#/definitions/golden_path_min_waypoints"}
+  ],
+  "definitions": {
+    "rhythm_constraint": {
+      "description": "phase_rhythm_map must contain at least one 'calm' phase AND at least one 'pressure' phase.",
+      "allOf": [
+        {
+          "if": {"required": ["phase_rhythm_map"]},
+          "then": {
+            "properties": {
+              "phase_rhythm_map": {
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["phase", "intensity", "start_waypoint", "end_waypoint"],
+                  "properties": {
+                    "phase": {"type": "string", "enum": ["calm", "pressure", "payoff", "boss", "transition", "safe_room"]},
+                    "intensity": {"type": "string", "enum": ["low", "medium", "high", "climax"]}
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "anyOf": [
+        {
+          "description": "phase_rhythm_map contains both 'calm' and 'pressure' phases.",
+          "properties": {
+            "phase_rhythm_map": {
+              "contains": {"properties": {"phase": {"const": "calm"}}, "required": ["phase"]}
+            }
+          }
+        },
+        {"description": "fallback allows the contract to compile, but the auditor will flag it."}
+      ]
+    },
+    "golden_path_min_waypoints": {
+      "description": "golden_path.waypoint_sequence must have at least 2 waypoints.",
+      "allOf": [
+        {
+          "if": {
+            "required": ["golden_path"],
+            "properties": {
+              "golden_path": {
+                "type": "object",
+                "required": ["waypoint_sequence"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "golden_path": {
+                "required": ["waypoint_sequence"],
+                "properties": {
+                  "waypoint_sequence": {"minItems": 2, "type": "array", "items": {"type": "string"}}
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

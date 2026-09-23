@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_combo_hit_1_jab_native_key_pose_review_v01",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_combo_hit_1_jab",
+  "asset_kind": "native_active_key_pose",
+  "status": "human_approved_native_key_pose",
+  "ready_for_res": true,
+  "ready_for_strip_derivation": true,
+  "ready_for_aaa": false,
+  "human_gate": {
+    "directional_active_pose": "approved_2026_07_29",
+    "native_active_key_pose": "approved_2026_07_29",
+    "remaining_frames": "authorized_and_derived_from_approved_topology"
+  },
+  "lineage_validation": {
+    "manual_contract_check": "passed",
+    "automated_validator": "not_completed_host_validator_hung_without_report",
+    "claim_limit": "no automated lineage-pass claim"
+  },
+  "source_lineage": {
+    "authoritative_character_source": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "approved_idle_master": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+    "approved_directional_study": "rascunho/taina_light_jab_cross_v01/taina_light_jab_active_directional_study_v01.png",
+    "builder": "tools/art/build_taina_combo_hit_1_jab_key_pose_v01.py",
+    "builder_sha256": "f0acf3c0d6096f58c53c5c9da22690c482a9077436285010ed2822ab64e49f0e",
+    "native_key_pose": "rascunho/taina_combo_hit_1_jab_v01/taina_combo_hit_1_jab_active_key_pose_64x64_v01.png",
+    "native_key_pose_sha256": "a468a9099bb88264f58f4e0d54c959cbaa3929017166ad2cc695dcc0597a6ff6"
+  },
+  "native_grid_check": {
+    "mode": "P",
+    "dimensions_px": [64, 64],
+    "dimensions_multiple_of_8": true,
+    "bit_depth_on_save": 4,
+    "transparent_index": 0,
+    "transparent_color_rgb": [255, 0, 255],
+    "palette_entries_used": 11,
+    "visible_colors_used": 10,
+    "all_visible_colors_on_megadrive_9bit_grid": true,
+    "antialiasing": false,
+    "partial_alpha": false,
+    "smooth_gradient": false,
+    "baked_fx": false,
+    "status": "passed"
+  },
+  "measured_geometry": {
+    "visible_bbox_xyxy": [15, 2, 59, 60],
+    "visible_width_px": 45,
+    "visible_height_px": 59,
+    "visible_pixel_count": 881,
+    "connected_components_4_neighbor": 1,
+    "pivot_px": [24, 60],
+    "primary_ground_contact_y": 60,
+    "secondary_depth_foot_y": 57,
+    "clipping": false,
+    "horizontal_compression": false
+  },
+  "identity_continuity": {
+    "head_and_hair_topology_reused_from_approved_idle": true,
+    "grounded_lower_body_topology_reused_from_approved_idle": true,
+    "palette_reused_from_approved_idle": true,
+    "orange_top": true,
+    "indigo_trousers": true,
+    "teal_wraps_and_sash": true,
+    "face_and_hair_scale_unchanged": true,
+    "status": "passed_for_review"
+  },
+  "motion_read": {
+    "phase": "active_contact",
+    "lead_arm": "continuous horizontal shoulder-to-fist line",
+    "lead_fist_endpoint_x": 59,
+    "base": "grounded and unchanged from approved idle",
+    "silhouette": "jab readable at native 320x224 context",
+    "rear_guard": "retained from approved idle but remains below the directional study jaw position",
+    "status": "human_approved"
+  },
+  "visual_review_notes": [
+    "The active action reads in native context without shrinking the 59px body.",
+    "The lead fist is intentionally enlarged for endpoint readability and must be judged by the art director before frame derivation.",
+    "The rear guard preserves approved idle topology but sits lower than the directional study; this is the principal fidelity question for human review.",
+    "The first rejected builder pass produced an oversized glove and blocky torso; it was discarded before this candidate and is not a generation source."
+  ],
+  "evidence": {
+    "silhouette": {
+      "path": "rascunho/taina_combo_hit_1_jab_v01/taina_combo_hit_1_jab_active_silhouette_64x64_v01.png",
+      "sha256": "0878bae04d1c05c0c5984e1c696e29a229fec36420a1ea76847d2aa0c6c7078b"
+    },
+    "idle_native_comparison": {
+      "path": "doc/art/characters/taina/review/taina_idle_v02_jab_native_active_compare_v01.png",
+      "sha256": "4af90d2e844e1f4a2716cd6d1cf02b1269cf1d9001706c1aecb85b31408a5ffb"
+    },
+    "native_gameplay_context": {
+      "path": "doc/art/characters/taina/review/taina_combo_hit_1_jab_native_gameplay_context_v01.png",
+      "sha256": "caedf2a0c52dae2f0441f03eb3e78a2bd0c6c08b1469405c2eb8b00221a4c747"
+    }
+  },
+  "decision": "Human approval was recorded through the instruction to proceed. The pose is the approved active-contact topology for deriving frames 0, 1, 3 and 4; promotion remains conditional on strip, pixel, budget, build and runtime checks."
+}

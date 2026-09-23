@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-06-27",
+  "generation_channel": "codex_builtin_imagegen",
+  "policy": {
+    "protected_ip_copying": "forbidden",
+    "procedural_asset_final": "forbidden",
+    "status_before_human_gate": "review_candidate_only",
+    "res_promotion_allowed": false
+  },
+  "prompts": [
+    {
+      "asset_id": "storyboard_candidate_v001",
+      "output_path": "data/source_art/storyboard/blue_circuit_storyboard_candidate_v001.png",
+      "sha256": "97db884c6ecdfe2d779e7b0076df29c24d52f4df49d440d931df057a56ee89da",
+      "prompt_summary": "Six-panel production storyboard for an original Mega Drive action platformer: title, entry conduit, line_sentry, charge bridge, breaker_core, ending; industrial electric circuit identity; avoid protected franchise look."
+    },
+    {
+      "asset_id": "model_sheet_candidate_v001",
+      "output_path": "data/source_art/model_sheet/blue_circuit_model_sheet_candidate_v001.png",
+      "sha256": "7605f6857f5afa84e2ac20466bb04eccdefd4678755676cbfcd0640f92f220d7",
+      "prompt_summary": "Model sheet for original rescue maintenance technician, line_sentry drone and breaker_core mini-boss; 16-bit pixel conversion notes; avoid blue armored robot, helmet and arm cannon silhouette."
+    },
+    {
+      "asset_id": "spritesheet_candidate_v001",
+      "output_path": "data/source_art/spritesheet/blue_circuit_spritesheet_candidate_v001.png",
+      "sha256": "93031904367b4ad1d53a9c77a1506e23d4f8dd7dddf5112e00ba5492c3119e98",
+      "prompt_summary": "Spritesheet review board for player idle/run/jump/shoot/hurt plus line_sentry and breaker_core states; Mega Drive constraints; pivot markers; avoid protected character or arm-cannon silhouette."
+    }
+  ]
+}

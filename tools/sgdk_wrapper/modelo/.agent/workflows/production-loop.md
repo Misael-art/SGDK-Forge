@@ -1,0 +1,214 @@
+# Workflow: Production Loop
+
+Use este fluxo para o pipeline completo de uma iteracao: design -> arte -> runtime -> QA -> evidencia.
+
+Cada passo referencia skills reais. A ordem canonica da jornada de cena AAA vive em:
+
+- `workflows/aaa-scene-pipeline.md`
+- `pipelines/aaa_scene_v1.json`
+
+Nenhum passo pode ser pulado.
+
+---
+
+## Pipeline: Design -> Art -> Code -> QA -> Iteracao
+
+### 0. Abertura e classificacao do contexto
+
+Workflow canonico de entrada:
+
+- `workflows/project-opening.md`
+- `workflows/route-decision-gate.md`
+
+O agente deve primeiro classificar o pedido como:
+
+- `projeto_existente`
+- `reseed`
+- `projeto_novo`
+
+Regra:
+
+- se for `projeto_existente`, continuar a iteracao vigente
+- se for `reseed` ou `projeto_novo`, emitir fundacao documental minima antes de arte ou runtime
+- se a rota tecnica da entrega ainda nao estiver declarada, emitir `route_decision_record` antes de escolher ferramenta ou skill de implementacao
+- antes de gerar arte original, prompt de imagem, sourcing externo ou codigo SGDK sensivel, emitir `context_pack_manifest`
+- antes de converter ou medir match visual de asset critico, emitir `source_validity_report`, `authoriality_gate_report` e `clone_risk_report`
+- benchmark tecnico so pode orientar escala, densidade, timing, presenca, budget e qualidade; se virar fonte visual, pose, paleta, silhueta ou estrutura, a entrega bloqueia
+
+### 1. Escopo, planejamento e mecanica
+
+Papel humano: direcao de produto.
+
+Skill canonica de apoio quando o projeto estiver nascendo ou precisar de reseed:
+
+- `planning/game-design-planning`
+
+- consultar `doc/11-gdd.md` e `doc/13-spec-cenas.md`
+- em projeto novo ou reseed de escopo, emitir `project_brief`, `core_loop_statement`, `feature_scope_map`, `scene_roadmap`, `first_playable_slice`, `roteiro_scope` e `front_end_profile`
+- delimitar escopo da iteracao
+- registrar criterio de aceitacao
+- quando houver menu, title screen ou front-end, `front_end_profile` nasce aqui como seed de design e depois e formalizado como `ui_decision_card`
+- quando a iteracao envolver HUD/UI formal, declarar `ui_decision_card` no GDD/spec antes de abrir arte/runtime
+- quando a UI tiver peso tipografico real, derivar `glyph_manifest` de strings reais e anexar `typography_role`, `font_render_mode`, `charset_profile`, `glyph_budget_class`, `font_owner` e `fallback_font_plan` ao mesmo card
+- quando texto, fala, alerta cinetico, painel, balao, retrato, typewriter voice ou flavor text tiver peso dramatico, anexar `text_presentation_profile` ao mesmo card
+- quando a iteracao envolver transicao formal entre cenas, zonas, atos, menu, cutscene ou estado visual, declarar `scene_transition_card` antes de abrir arte/runtime
+- quando a transicao tocar HUD, menu, title, overlay ou texto critico, referenciar tambem o `ui_decision_card`
+- quando a iteracao envolver menu, title screen ou front-end, o mesmo card deve usar `profile_kind=front_end_profile`
+- quando a iteracao for o primeiro slice de projeto novo, declarar tambem `route_decision_record` com `dominant_route`, `first_skill`, `first_tool`, `resource_loading_model`, `asset_strategy`, evidencias e atalhos bloqueados
+- para projeto autoral com personagem principal, declarar `authorial_model_sheet` antes de arte final; para cenario, declarar `authorial_stage_concept`
+- para asset critico, o manifesto precisa trazer `license`, `authorial_source`, `derivative_of`, `derivative_license_status`, `clone_risk_score`, `clone_risk_method` e `benchmark_used_as`
+- quando a iteracao envolver raster, H-Int, line scroll, palette split, Shadow/Highlight, palette cycling, hit sparks, particulas ou feedback dramatizado, declarar `feedback_fx_decision_card`
+- quando a iteracao envolver boss, setpiece, weak point, telegraph, plane takeover ou arena especial, declarar `boss_setpiece_card`
+- quando a iteracao envolver streaming, metatiles, priority foreground, destruicao local, parallax regional ou rota complexa, declarar `advanced_tilemap_design_card`
+- quando a iteracao envolver XGM2, PCM ownership, ambience, stinger, boss cue, fade ou prioridade de SFX, declarar `audio_architecture_card`
+- quando houver audio declarado em `.res`, rodar `tools/sgdk_wrapper/validate_audio.ps1` e registrar `out/logs/audio_validation_report.json` antes do fechamento
+- quando a cena tiver perfil `aaa_layered`, registrar antes da arte/runtime uma triagem arquitetural com `scene_profile`, `baseline_technique_applicability`, `baseline_contract`, `baseline_decision`, `divergence_reason` quando houver divergencia e `reference_implementation` quando houver referencia interna forte
+- para esse perfil, `tilemap streaming guiado pela camera` vira baseline arquitetural prioritario de analise, sem obrigar replicacao cega
+- se a tecnica for aplicavel em modo `sim` ou `parcial`, extrair dela explicitamente: divisao base/foreground, papel de cada plano, staging visual, organizacao de tilemaps, forma de oclusao e relacao sprite/cenario
+- se houver uma referencia interna madura, como a `BLAZE_ENGINE [VER.001] [SGDK 211] [GEN] [ENGINE] [BRIGA DE RUA]`, usa-la como implementacao de apoio, nao como nome da tecnica
+- se a cena divergir, justificar o desvio com constraints reais antes de abrir depuracao residual de VRAM, paleta, `rescomp`, `WINDOW` ou sprite runtime
+- quando a cena prometer profundidade monumental, clima dinamico, bioma-chave, pseudo-3D, agua/calor/linha, fundo vivo ou setpiece de fundo, declarar que a etapa 2 deve emitir `scene_direction_record` via `art/scene-direction-curator`
+
+Saida minima:
+
+- briefing aceito
+- seeds de planejamento suficientes quando o projeto estiver nascendo ou o escopo estiver sendo redefinido
+- `route_decision_record` quando a rota tecnica ainda nao estiver congelada
+- `context_pack_manifest` quando a iteracao envolver arte original, sourcing externo ou API SGDK sensivel
+- `ui_decision_card` quando houver surface formal de UI
+- `glyph_manifest` + anexo tipografico quando a tipografia tiver peso dramatico ou de leitura
+- anexo `ui_decision_card.text_presentation_profile` quando texto for encenacao, fala, alerta, flavor ou ritmo dramatico
+- `scene_transition_card` quando houver transicao formal
+- `feedback_fx_decision_card`, `boss_setpiece_card`, `advanced_tilemap_design_card` e `audio_architecture_card` quando a cena tocar esses dominios
+- em audio senior, combinar `xgm2-audio-director` com `z80-pcm-custom-driver` apenas quando o XGM2 padrao nao cobrir a necessidade real
+
+### 2. Arte e composicao
+
+Skills oficiais:
+
+1. `art/art-asset-diagnostic`
+2. `art/art-creation-sourcing` quando o diagnostico apontar `3_no_art`
+3. `art/multi-plane-composition`
+4. `art/scene-direction-curator` quando houver cenario competente, monumental, signature-only ou tecnica de plano
+5. `art/art-translation-to-vdp`
+6. `art/visual-excellence-standards`
+7. `hardware/megadrive-vdp-budget-analyst`
+
+Saida minima:
+
+- laudos e artefatos de arte completos
+- quando a cena nascer sem arte, `context_pack_manifest`, `master_style_manifest`, `art_generation_brief` e `asset_lineage_record` antes de qualquer promocao para `res/`
+- arte premium aceita deve ser persistida em `data/source_art/` com `premium_source_manifest`; imagem inline pendente ou prompt sem arquivo nao entra em `res/`
+- se a rota visual terminar em `blocked_image_tooling` ou `blocked_no_premium_source`, pare a producao visual antes do runtime; qualquer ROM posterior e apenas smoke test com `lab_not_delivery=true`
+- `source_validity` precisa passar antes de `source_to_rom_visual_match`; se a fonte premium for clone, derivada indevida, benchmark-derived ou sem autoria, nenhum match visual aprova a promocao
+- `clone_risk_score` e `benchmark_similarity_index` acima dos limites declarados pelo `authoriality_gate_report` ou `benchmark_profile` bloqueiam asset critico autoral
+- asset critico so entra em `res/` com `elite_ready=true`; `needs_review`, `placeholder`, `debug_lab`, `benchmark-derived`, `rework` ou `perceptual_quality=nao_medido` bloqueiam promocao
+- laboratorio visual deve declarar `lab_not_delivery=true` e nao pode ser vendido como entrega
+- `local_author_pixel_rasterization`, `procedural_renderer` e scripts locais de desenho ficam restritos a `data/debug_lab/` e nao podem ser fonte final de asset critico AAA
+- sprite heroico com gi branco ou tecido claro exige `white_material_palette_contract`: sombras frias azul/roxo, highlights limpos/quentes, distancia tonal minima e funcao declarada por slot; `PALETTE_WASTE` bloqueia visual delivery
+- personagem heroico, lutador, boss, golpe, dano, smear, hitstop ou alegacao premium/AAA exige `animation_direction_contract`; golpes precisam de timing/spacing, anticipation, active, hitstop, follow-through e recovery; dano precisa de direcao de forca e quebra de postura; smear, flash e shading motion precisam de contratos proprios quando aplicaveis
+- quantizacao automatica nao substitui palette pass manual
+- decisao explicita `cabe`, `cabe com recuo` ou `nao cabe`
+- quando o projeto ja tiver builder dedicado em `tools/image-tools/build_*.py` ou `doc/source_cases/**/case_manifest.json`, essa rota curada deve ser tentada antes de OCR, thumbnailing, crop manual ou lote generico
+- quando houver UI formal, `ui_decision_card` coerente com ownership, budget e fallback
+- quando houver tipografia relevante, o card tambem precisa ficar coerente com `font_render_mode`, `charset_profile` e `fallback_font_plan`
+- quando houver texto expressivo, o card tambem precisa declarar `text_surface_class`, ritmo, ancoragem, audio, teardown e fallback
+- quando houver transicao formal, `scene_transition_card` coerente com continuidade, camera, ownership, audio, teardown e fallback
+- quando houver feedback FX, boss/setpiece, tilemap avancado ou audio senior, os cards precisam ficar coerentes com gameplay_signal, leitura, ownership, budget e fallback
+- quando houver cenario monumental, `scene_direction_record` precisa consultar `scene_archetype_catalog.json`, escolher perfil, declarar tecnicas assinadas, fallback e funcao de gameplay/narrativa
+- tecnicas de cenario exigem card especifico antes do runtime: `parallax_layer_contract`, `palette_cycle_decision_card`, `raster_fx_ownership_map` ou `background_ecology_card`
+- quando houver mais de uma rota visual honesta, `route_exploration_board` + `route_decision_record` antes do runtime
+- `qa_findings` e `correction_request` devem substituir raciocinio interno exposto quando uma geracao falhar por drift de estilo
+
+Regra de curadoria AAA:
+
+- explorar alternativas e permitido
+- reabrir a direcao visual do zero a cada iteracao, nao e permitido
+- consistencia de mundo vence asset isolado mais bonito
+- banco vetorial e futuro opcional; em v1, `style_memory_index` em arquivo e a memoria auditavel
+- a exploracao deve acontecer dentro do mesmo `shared_canvas_contract` e congelar uma `locked_visual_direction` escolhida pelo usuario ou recomendada pelo juiz estetico
+- em cenas `aaa_layered`, a exploracao visual deve acontecer depois da comparacao com o baseline de `tilemap streaming guiado pela camera`, nunca no lugar dela
+- `needs_review`, `placeholder`, `debug_lab`, `benchmark-derived`, `perceptual_quality=nao_medido`, `source_to_rom_visual_match < 8`, `source_validity=false`, `authoriality_gate!=passed`, `clone_risk_score` acima do limite declarado, `PALETTE_WASTE`, `blocked_image_tooling`, `blocked_no_premium_source`, `lab_not_delivery` ou `benchmark_match` abaixo de `benchmark_profile.required_match` bloqueiam `pronto`, `AAA`, `delivery` e `ready_for_aaa=true`
+- ataque que comeca direto no active frame, sem recovery, com hitstop frame fraco, smear sujo, shading estatico ou hurt sem direcao de forca bloqueia `elite_ready` mesmo quando o PNG e o build estao limpos
+- `budget_pass` e `visual_pass` sao eixos separados; se o runtime cabe com folga, budget nao pode ser usado como desculpa para arte pobre
+- HUD de entrega nao pode parecer debug: precisa registrar `ui_attention_profile`, densidade alvo, hierarquia, area ocupada, contraste e interferencia no gameplay
+- cenario monumental nao pode ser decoracao sem leitura; `decorative_only_blocked`, `monumental_promised_without_budget`, `archetype_catalog_not_consulted`, `mode7_claim_on_megadrive`, `raster_fx_owner_collision` e `palette_cycle_ownership_conflict` bloqueiam `ready_for_aaa=true`
+
+### 3. Integracao runtime
+
+Skills oficiais:
+
+- `code/sgdk-runtime-coder`
+- `architecture/scene-state-architect`
+- `operation/sgdk-build-wrapper-operator`
+
+Saida minima:
+
+- build limpo
+- `runtime_decision_log`
+- `runtime_animation_timing_map` quando houver golpes, dano, hitstop, flash, boss ou animacao premium
+- `api_reality_check` citando header SGDK ou referencia local antes de usar API sensivel
+- ownership de `WINDOW`, `H-Int` e FX de interface rastreavel quando houver UI formal
+- ownership de fonte, cache temporario de glifos e fallback_font_plan rastreavel quando houver anexo tipografico
+- ownership de paineis, baloes, retratos, texto cinetico, SFX de texto e teardown rastreavel quando houver `text_presentation_profile`
+- `runtime_state_handoff`, `teardown_reset_plan` e fallback rastreaveis quando houver transicao formal
+- ownership, teardown e fallback rastreaveis para feedback FX, boss/setpiece, tilemap avancado e audio senior quando seus cards existirem
+- ownership, teardown, fallback e downgrade rastreaveis para parallax, palette cycling, H-Int/raster, background ecology e foreground mutavel quando `scene_direction_record` existir
+- active frames, recovery, hitstop, FX separado, flash frame e camera shake implementados de acordo com `animation_direction_contract` quando houver combate premium
+- se houver audio declarado, `validation_report.json` deve refletir o estado de `audio_validation_report.json`; trilha de audio fora do validator principal nao fecha gate
+- ROM gerada
+- nenhum status de entrega visual AAA e promovido sem `visual_delivery_gate_report` limpo
+- build limpo e BlastEm observado nao reduzem a exigencia visual; gate visual bloqueado continua bloqueado
+
+### 4. Validacao e evidencia
+
+Ferramentas e gates:
+
+- `validate_resources.ps1`
+- `freshness_audit.ps1`
+- `scene_closeout_gate.ps1` no fechamento de cena
+- `workflows/build-validate.md`
+- BlastEm obrigatorio
+- `doc/changelog`
+- `doc/10-memory-bank.md`
+
+Saida minima:
+
+- `validation_report.json`
+- `freshness_audit_report.json`
+- `scene_closeout_gate_report.json` quando a cena for fechada
+- `emulator_session.json`
+- changelog atualizado
+- memoria operacional coerente
+
+Regra de promocao:
+
+- se `runtime_metrics`, `scene_regression`, `emulator_session`, `validation_report` ou docs divergirem, corrija o ponto central e rode `freshness_audit.ps1` antes de promover status
+- se a cena for declarada entregue, `scene_closeout_gate.ps1` deve registrar build, contratos, grafo de recursos, validator, captura/regressao e freshness na mesma linha de evidencia
+- se `scene_closeout_gate_report.json` ou `freshness_audit_report.json` apontar stale/falha, a cena volta para a etapa que gerou o drift
+- se `validation_report.blocking_statuses` nao estiver vazio, o closeout final e `blocked` ou `failed`, nunca `ok` ou `pronto`
+
+### 5. Iteracao
+
+- triagem humana
+- voltar para a skill da etapa afetada
+- nunca corrigir no escuro sem registrar a classe real do erro
+- em cenas `aaa_layered`, revisar primeiro se o erro e de contrato arquitetural antes de descer para depuracao residual de recurso, VDP ou sprite
+
+---
+
+## Regras do Loop
+
+- nenhum passo pode ser pulado
+- assets nao validados nao entram no build
+- budget nao e declarado por intuicao
+- ROM nao testada nao e entregue
+- ROM funcional com gate visual bloqueado continua sendo `buildado` ou `testado_em_emulador_com_visual_gate_blocked`, nunca `pronto`
+- changelog nao e opcional
+- memoria operacional nao substitui evidência
+- BlastEm fecha gate de entrega
+- freshness sem warnings bloqueantes e closeout registrado evitam falso verde
+- FX de interface sem owner, teardown e fallback nao sobe
+- menu/title screen segue a mesma barra AAA das cenas jogaveis e nao pode ser tratado como overlay funcional tardio
+- transicao de cena sem `scene_transition_card`, causa dramatica, teardown e fallback nao sobe
+- raster/luz/particula/boss/tilemap/audio sem card formal, owner, budget e fallback nao sobe

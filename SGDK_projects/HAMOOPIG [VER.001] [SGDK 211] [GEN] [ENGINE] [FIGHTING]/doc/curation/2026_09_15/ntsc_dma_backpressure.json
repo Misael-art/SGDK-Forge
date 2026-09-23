@@ -1,0 +1,50 @@
+{
+  "lesson_id": "L074",
+  "date": "2026-09-15",
+  "scope": "HAMOOPIG P01/P09/P10",
+  "title": "Uploads de frames de lutador precisam respeitar back-pressure do DMA",
+  "symptom": "O pior frame NTSC acumulava 8288 bytes contra 7782 nominais e, em outra rota, chegou a 10048 bytes quando a fila de sprites coincidiu com atualizações de HUD.",
+  "cause": "Os sprites dos lutadores eram criados com SPR_FLAG_DISABLE_DELAYED_FRAME_UPDATE, forçando frames grandes a entrarem na fila mesmo quando o orçamento VBlank já estava comprometido. Os mapas transitórios de HITS/mensagens também usavam DMA_QUEUE_COPY.",
+  "correction": [
+    "reabilitar a proteção de capacidade do SGDK nos módulos player.c, player_ken.c e player_musgo.c, removendo efetivamente o flag de atualização sem atraso",
+    "manter AUTO_TILE_UPLOAD para preservar a arte correta; o SGDK posterga apenas o frame que excederia a capacidade",
+    "escrever os mapas transitórios de combo e mensagem por CPU, fora da fila compartilhada com uploads de tiles",
+    "medir novamente no emulador com o mesmo HPRB schema 7 e registrar a altura efetiva da tela"
+  ],
+  "preventive_tests": [
+    "tests/analyze_hprb_probe.py --self-check",
+    "tests/test_hprb_screen_height_contract.py",
+    "python3 tests/capture_visual_ko.py --stage2 --probe-short"
+  ],
+  "evidence": {
+    "rom_sha256": "c90aaa166634a7435665be43e111ff20b34bd13bec6721536a9f9964c2b7f372",
+    "build_log": "out/logs/continuation_p10_sprite_backpressure_build.log",
+    "ntsc_bundle": "out/emulator_evidence/visual_ko_20260915T063954Z/",
+    "pal240_bundle": "out/emulator_evidence/visual_ko_20260915T064928Z/",
+    "decoded": {
+      "schema": 7,
+      "screen_height": 224,
+      "samples": 1710,
+      "max_dma_queued_bytes": 7008,
+      "max_pre_sprite_dma_bytes": 4096,
+      "max_sprite_dma_delta_bytes": 5864,
+      "max_sprites_per_scanline": 17,
+      "decision": "cabe"
+    },
+    "pal240_decoded": {
+      "schema": 7,
+      "screen_height": 240,
+      "samples": 2520,
+      "max_dma_queued_bytes": 8160,
+      "max_sprites_per_scanline": 17,
+      "decision": "cabe"
+    },
+    "host_suite": "19 test_*.py files passed"
+  },
+  "limitations": [
+    "A rota curta não produziu eventos de combate; a medição é de orçamento e integração, não de cobertura de golpes.",
+    "O atraso controlado pode deslocar a troca visual de um frame em animações muito grandes; isso precisa de revisão visual/temporal independente.",
+    "A captura NTSC não substitui áudio isolado nem revisão artística do cenário quadriculado."
+  ],
+  "status": "implemented_build_passed_ntsc_pal240_probe_visual_audio_review_pending"
+}

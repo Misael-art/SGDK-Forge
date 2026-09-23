@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "cais01_palette_slot_audit_v02",
+  "status": "implemented_pending_cram_dump",
+  "domains": {
+    "PAL0": "BG_B dusk/industry/sea; 15 visible colors",
+    "PAL1": "TAINA plus contact shadow using existing dark indices",
+    "PAL2": "BG_A wood/metal/foam/lamp; slots 14-15 cycle",
+    "PAL3": "debug text only"
+  },
+  "runtime_cycle": {
+    "indices": [
+      46,
+      47
+    ],
+    "meaning": "PAL2 local lamp core and authored wet reflections",
+    "cadence_vblanks": 8,
+    "states": 4
+  },
+  "shadow_highlight_mode": "disabled",
+  "fallback": "keep source PAL2 slots 14-15 static"
+}

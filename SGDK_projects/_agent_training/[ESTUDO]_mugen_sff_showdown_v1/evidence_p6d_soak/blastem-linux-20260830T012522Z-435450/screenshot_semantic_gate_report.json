@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-30T01:27:30.437873+00:00",
+  "tool_name": "screenshot_semantic_gate",
+  "tool_version": "1.0.0",
+  "screenshot_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p6d_soak/blastem-linux-20260830T012522Z-435450/screenshot.png",
+  "screenshot_sha256": "a0fb86d7bf0e73ba30c84d8f2651a70eaf5e45bf69d4924e829efb87465bdbec",
+  "rom_sha256": "962de7a655a9355310b1bafce37c2248b3116ed366392595473f66c6af7963ec",
+  "evidence_session_id": "blastem-linux-20260830T012522Z-435450",
+  "status": "passed",
+  "decision": "accepted_semantic_capture",
+  "semantic_capture_valid": true,
+  "blocker_code": null,
+  "failure_reason": null,
+  "width": 640,
+  "height": 480,
+  "dominant_ratio": 0.117617,
+  "edge_density": 0.173099,
+  "metrics": {
+    "dominant_color_rgb": [
+      49,
+      49,
+      87
+    ],
+    "luminance_variance": 3445.333565,
+    "unique_colors": 589,
+    "sampled_pixels": 76800,
+    "edge_pairs": 153040
+  },
+  "thresholds": {
+    "edge_color_delta": 48,
+    "minimum_edge_density": 0.04,
+    "maximum_dominant_ratio": 0.985,
+    "minimum_luminance_variance": 1.0
+  },
+  "reasons": [],
+  "claim_impacts": {
+    "visual": "capture_semantically_valid_not_quality_proof",
+    "gameplay": "not_proven_by_screenshot_alone",
+    "performance": "not_proven_by_screenshot_alone"
+  }
+}

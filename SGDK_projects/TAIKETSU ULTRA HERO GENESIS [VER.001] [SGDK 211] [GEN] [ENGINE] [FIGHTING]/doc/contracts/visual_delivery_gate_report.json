@@ -1,0 +1,61 @@
+{
+  "schema": "visual_delivery_gate_report.v1",
+  "ready_for_aaa": false,
+  "technical_ready": false,
+  "creative_ready": false,
+  "technical_artifact_status": "template_seed_only",
+  "semantic_audit_status": "missing",
+  "max_delivery_status": "technical_incomplete",
+  "creative_blocking_statuses": [
+    "blocked_no_premium_source",
+    "blocked_no_human_approval",
+    "blocked_no_blastem_evidence"
+  ],
+  "visual_direction_status": "blocked",
+  "visual_direction_findings": [
+    "Template seed only; no visual source, approval panel, or runtime evidence exists."
+  ],
+  "decision_log": [
+    {
+      "axis": "template_birth",
+      "decision": "blocked",
+      "rationale": "New projects start prepared for Vibe Playable routing but not visually validated.",
+      "evidence": "doc/contracts/vibe_playable_route_report.json"
+    }
+  ],
+  "axis_evidence": {
+    "template_seed": true,
+    "premium_source_ready": false,
+    "human_approval_present": false,
+    "blastem_evidence_present": false
+  },
+  "measurement_level": "declared",
+  "leaf_blocker_propagation": true,
+  "workspace_scope_isolation": true,
+  "visual_route_status": "blocked_no_premium_source",
+  "critical_assets": [
+    {
+      "asset_id": "vibe_playable_template_seed",
+      "role": "template_seed",
+      "visual_status": "placeholder",
+      "perceptual_quality": "blocked_template_seed_no_visual_source",
+      "source_validity": false,
+      "authoriality_gate": "blocked",
+      "license": "none_template_seed",
+      "authorial_source": "none_template_seed",
+      "derivative_of": "",
+      "derivative_license_status": "not_applicable_template_seed",
+      "clone_risk_score": 0,
+      "clone_risk_method": "not_applicable_template_seed",
+      "benchmark_used_as": "technical_reference",
+      "premium_source_path": "data/source_art/premium_source_manifest.json",
+      "measurement_level": "declared",
+      "lab_not_delivery": true,
+      "leaf_blockers": [
+        "blocked_no_premium_source",
+        "blocked_no_human_approval",
+        "blocked_no_blastem_evidence"
+      ]
+    }
+  ]
+}

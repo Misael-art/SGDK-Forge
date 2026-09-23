@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "script_id": "title_opening_race_title_route",
+  "target_scene": "APP_SCENE_RACE_THEN_TITLE_LOOP",
+  "rom_identity_required": true,
+  "steps": [
+    {
+      "op": "wait_ms",
+      "duration_ms": 8000
+    },
+    {
+      "op": "press",
+      "key": "START",
+      "duration_ms": 140
+    },
+    {
+      "op": "wait_ms",
+      "duration_ms": 12000
+    },
+    {
+      "op": "capture_screenshot",
+      "path": "out/evidence/blastem/opening_to_race.png"
+    },
+    {
+      "op": "wait_ms",
+      "duration_ms": 9000
+    },
+    {
+      "op": "capture_screenshot",
+      "path": "out/evidence/blastem/opening_race_title_loop.png"
+    },
+    {
+      "op": "close_emulator"
+    }
+  ],
+  "evidence_required": [
+    "rom_sha256",
+    "emulator_session_json",
+    "dedicated_screenshot",
+    "save_sram",
+    "validation_report_json"
+  ]
+}

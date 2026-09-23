@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/per_tile_palette_conflict_report.schema.json",
+  "title": "Per-tile Palette Conflict Report",
+  "description": "Report listing per-tile palette-domain conflicts (too many colors per sub-palette, domain mismatch, index0 contamination, and material mixing signals).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["conflicts_total", "conflicts", "generated_at", "tool_name", "tool_version"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "tool_name": { "type": "string", "minLength": 1 },
+    "tool_version": { "type": "string", "minLength": 1 },
+    "conflicts_total": { "type": "integer", "minimum": 0 },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "severity", "tile_x", "tile_y", "details"],
+        "properties": {
+          "rule_id": { "type": "string", "minLength": 1 },
+          "severity": { "type": "string", "enum": ["warning", "error"] },
+          "tile_x": { "type": "integer", "minimum": 0 },
+          "tile_y": { "type": "integer", "minimum": 0 },
+          "details": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
+

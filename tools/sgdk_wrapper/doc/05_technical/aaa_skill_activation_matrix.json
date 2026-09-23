@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_skill_activation_matrix",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Define deterministic activation order for the twenty curated Mega Drive AAA skills when a real user prompt triggers multiple domains.",
+  "global_order": [
+    {
+      "order": 1,
+      "gate": "aaa-pipeline-guardian",
+      "reason": "Classify the claim, separate ambition from evidence, and route to domain skills."
+    },
+    {
+      "order": 2,
+      "gate": "level-manifest-architect",
+      "reason": "When the prompt concerns a full scene/level, bind camera, assets, collision, entities, audio and evidence before production."
+    },
+    {
+      "order": 3,
+      "gate": "art_and_vdp_design",
+      "skills": [
+        "tilemap-attribute-director",
+        "palette-cram-curator",
+        "sprite-asset-budget-curator",
+        "color-conversion-curator",
+        "visual-excellence-standards"
+      ],
+      "reason": "Visual source truth, palette ownership and asset constraints must be settled before runtime code depends on them."
+    },
+    {
+      "order": 4,
+      "gate": "hardware_budget",
+      "skills": [
+        "megadrive-vdp-budget-analyst",
+        "sprite-scanline-budgeter",
+        "vram-streaming-dma-queue",
+        "shadow-highlight-scroll-fx",
+        "hscroll-linescroll-road-fx",
+        "raster-palette-hint-director",
+        "dither-composite-transparency",
+        "software-tile-rasterizer"
+      ],
+      "reason": "VDP, CRAM, SAT, DMA and scroll effects define whether the visual ambition is physically possible."
+    },
+    {
+      "order": 5,
+      "gate": "runtime_architecture",
+      "skills": [
+        "collision-system-architect",
+        "entity-polymorphism-architect",
+        "articulated-sprite-architect",
+        "game-state-transition-architect",
+        "scene-state-architect",
+        "sgdk-runtime-coder"
+      ],
+      "reason": "Runtime code must consume the approved asset/hardware contracts instead of inventing its own assumptions."
+    },
+    {
+      "order": 6,
+      "gate": "audio",
+      "skills": [
+        "z80-audio-boundary-architect",
+        "sfx-prep-fm-psg-pcm"
+      ],
+      "reason": "Audio ownership and channel/PCM risk must be planned before closeout if the prompt includes sound."
+    },
+    {
+      "order": 7,
+      "gate": "review_and_closeout",
+      "skills": [
+        "sgdk-code-reviewer",
+        "emulator-vdp-evidence-curator",
+        "rom-mastering"
+      ],
+      "reason": "Only review, emulator/VDP evidence and release packaging can close implementation claims."
+    }
+  ],
+  "conflict_rules": [
+    {
+      "conflict": "sprite sheet generation vs rejected prior sheet",
+      "resolution": "sprite-asset-budget-curator must reject the failed sheet as generation source and return to the approved model sheet."
+    },
+    {
+      "conflict": "visual vibrance vs hardware palette budget",
+      "resolution": "palette-cram-curator decides CRAM ownership before visual-excellence-standards can approve color."
+    },
+    {
+      "conflict": "line-scroll spectacle vs collision truth",
+      "resolution": "hscroll-linescroll-road-fx defines display distortion while level-manifest-architect and collision-system-architect preserve gameplay-space mapping."
+    },
+    {
+      "conflict": "software tile rasterizer vs DMA budget",
+      "resolution": "software-tile-rasterizer must hand off dirty upload size to vram-streaming-dma-queue and megadrive-vdp-budget-analyst."
+    },
+    {
+      "conflict": "fade transition vs raster/palette effects",
+      "resolution": "game-state-transition-architect coordinates CRAM ownership with palette-cram-curator and raster-palette-hint-director."
+    },
+    {
+      "conflict": "AAA claim vs missing emulator evidence",
+      "resolution": "aaa-pipeline-guardian blocks the claim until emulator-vdp-evidence-curator maps proof to every runtime/visual claim."
+    }
+  ],
+  "prompt_classes": [
+    {
+      "class_id": "single_asset_visual",
+      "first_skill": "aaa-pipeline-guardian",
+      "required_sequence": [
+        "sprite-asset-budget-curator",
+        "palette-cram-curator",
+        "visual-excellence-standards"
+      ],
+      "closeout": "emulator-vdp-evidence-curator when runtime proof is claimed"
+    },
+    {
+      "class_id": "full_scene_background",
+      "first_skill": "aaa-pipeline-guardian",
+      "required_sequence": [
+        "level-manifest-architect",
+        "multi-plane-composition",
+        "tilemap-attribute-director",
+        "palette-cram-curator",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "closeout": "emulator-vdp-evidence-curator"
+    },
+    {
+      "class_id": "advanced_vdp_fx",
+      "first_skill": "aaa-pipeline-guardian",
+      "required_sequence": [
+        "palette-cram-curator",
+        "shadow-highlight-scroll-fx",
+        "hscroll-linescroll-road-fx",
+        "raster-palette-hint-director",
+        "vram-streaming-dma-queue",
+        "megadrive-vdp-budget-analyst"
+      ],
+      "closeout": "emulator-vdp-evidence-curator"
+    },
+    {
+      "class_id": "runtime_architecture",
+      "first_skill": "aaa-pipeline-guardian",
+      "required_sequence": [
+        "entity-polymorphism-architect",
+        "collision-system-architect",
+        "game-state-transition-architect",
+        "sgdk-runtime-coder",
+        "sgdk-code-reviewer"
+      ],
+      "closeout": "emulator-vdp-evidence-curator if runtime behavior is claimed tested"
+    },
+    {
+      "class_id": "release_or_aaa_closeout",
+      "first_skill": "aaa-pipeline-guardian",
+      "required_sequence": [
+        "megadrive-vdp-budget-analyst",
+        "sgdk-code-reviewer",
+        "emulator-vdp-evidence-curator",
+        "rom-mastering"
+      ],
+      "closeout": "blocked unless emulator evidence exists"
+    }
+  ],
+  "phase5_routing": {
+    "status": "phase5_new_candidate_skill_applied",
+    "note": "input-system-sgdk and camera-system-sgdk are the canonical owners added in Phase 5; they route inside the runtime_architecture class.",
+    "input_system_sgdk": {
+      "owner_of": ["input polling", "held/pressed/released", "6-button detection", "multiplayer input plan"],
+      "activates_before": ["sgdk-runtime-coder"],
+      "handoffs": ["sgdk-runtime-coder", "scene-state-architect", "game-state-transition-architect"]
+    },
+    "camera_system_sgdk": {
+      "owner_of": ["dead zone", "look-ahead", "clamp/bounds", "boss/arena lock", "parallax-aware camera", "screen shake reset"],
+      "reuses": ["camera_behavior_contract"],
+      "handoffs": ["collision-system-architect", "multi-plane-composition", "scene-state-architect", "sgdk-runtime-coder"]
+    }
+  }
+}

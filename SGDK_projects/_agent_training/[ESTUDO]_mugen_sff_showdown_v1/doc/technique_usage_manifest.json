@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.1.0",
+  "project": {
+    "name": "[ESTUDO]_mugen_sff_showdown_v1",
+    "classification": "controlled_training_area",
+    "lab_not_delivery": true,
+    "ready_for_aaa": false
+  },
+  "documentation_sync": {
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "root_viewer_manifest": true
+  },
+  "techniques": [
+    {
+      "id": "mugen_sff_v1_01_extraction",
+      "status": "training_fixture_local",
+      "owner": "tools/mugen_sff/sff_v1.py",
+      "function": "Read ElecbyteSpr v1.01 headers/subfiles and extract PCX payloads.",
+      "evidence": [
+        "work/meta/sprites.json",
+        "tools/tests/test_sff_v1.py"
+      ],
+      "canonical_promotion": false
+    },
+    {
+      "id": "mugen_def_full_world_reconstruction",
+      "status": "measured_training_fixture",
+      "owner": "tools/mugen_sff/def_stage.py",
+      "function": "Parse Showdown BG, camera bounds, start, tile and layer data; reconstruct the full 768x480 stage world instead of downscaling to 320x224.",
+      "evidence": [
+        "analysis/reconstruction.json",
+        "work/reconstructed_layers/",
+        "work/reconstructed_viewports/",
+        "tools/tests/test_def_stage.py"
+      ],
+      "canonical_promotion": false
+    },
+    {
+      "id": "anti_magenta_visual_gate",
+      "status": "measured_training_fixture",
+      "owner": "tools/mugen_sff/visual_gate.py",
+      "function": "Reject reconstructed frames when exact/near-magenta or transparent matte leakage exceeds 5 percent of the declared frame/world.",
+      "evidence": [
+        "analysis/tile_stats.json",
+        "evidence/blastem_screenshot_visual_check.json",
+        "tools/tests/test_visual_gate.py"
+      ],
+      "canonical_promotion": false
+    },
+    {
+      "id": "tile_dedup_hvflip_hashing",
+      "status": "measured_training_fixture",
+      "owner": "tools/vdp_tiles/tile_dedup.py",
+      "function": "Deduplicate 8x8 tiles and preserve H/V/HV flip flags in custom runtime map words.",
+      "evidence": [
+        "analysis/tile_stats.json",
+        "analysis/tilemap_flag_report.json",
+        "tools/tests/test_vdp_tiles.py"
+      ],
+      "canonical_promotion": false
+    },
+    {
+      "id": "palette_remastering_slot_audit",
+      "status": "measured_training_fixture_with_degradation",
+      "owner": "tools/vdp_tiles/palette_plan.py",
+      "function": "Assign each tile to one of four 16-color sub-palettes and report palette pressure/conflicts/remaps.",
+      "evidence": [
+        "analysis/palette_violations.json",
+        "analysis/per_tile_palette_conflict_report.json"
+      ],
+      "canonical_promotion": false
+    },
+    {
+      "id": "sgdk_window_streamed_stage_viewer",
+      "status": "implemented_lab_evidence",
+      "owner": "sgdk_viewer/showdown_viewer",
+      "function": "Stream a 42x30 tile camera window from global ROM tiles into a local VDP cache so a 768x480 world can be viewed through a 320x224 Mega Drive viewport.",
+      "evidence": [
+        "sgdk_viewer/showdown_viewer/src/scenes/scene_demo.c",
+        "sgdk_viewer/showdown_viewer/res/data/showdown/",
+        "sgdk_viewer/showdown_viewer/out/evidence/blastem/screenshot.png",
+        "evidence/blastem_showdown_screenshot.png"
+      ],
+      "known_limits": [
+        "validado_budget=false until VDP dump or runtime telemetry proves live VRAM.",
+        "FRAME_ANIMATION_ENABLED=0 because full-window per-frame tile reloads caused capture tearing.",
+        "Parallax layers are flattened for the current lab viewer."
+      ],
+      "canonical_promotion": false
+    }
+  ]
+}

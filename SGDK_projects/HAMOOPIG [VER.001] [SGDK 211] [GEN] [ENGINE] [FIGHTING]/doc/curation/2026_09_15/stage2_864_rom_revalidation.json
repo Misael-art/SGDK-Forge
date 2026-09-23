@@ -1,0 +1,29 @@
+{
+  "lesson_id": "L091",
+  "date": "2026-09-15",
+  "topic": "stage2_864_rom_revalidation",
+  "source": "stage2_conversion_build_and_blastem_probe",
+  "rom_sha256": "e17027c059396f296ee417da773e1a145bb59efc10999d005cfc5b23679ecf56",
+  "problem": "Aumentar a qualidade do segundo cenário altera a ROM e invalida probes, resets, título e áudio anteriormente vinculados ao SHA do Showdown 864.",
+  "change": "Promover Stage 2 de 768 para 864 padrões, recompilar pelo wrapper SGDK/Wine e recapturar seleção/round, P10, 100 resets, INTRO/FADE e áudio isolado.",
+  "result": "Build passou; Stage 2 foi observado no BlastEm e a matriz P10 decodificou 36/36 casos no SHA e17027c0…; reset 100/100, título 5 capturas e áudio com sinal/rota também foram renovados.",
+  "limits": [
+    "capturas continuam pendentes de revisão visual independente",
+    "áudio tem sinal/rota, mas não audição crítica",
+    "a rota de reset de cena não substitui reset de round durante combate",
+    "streaming/cache nativo e pior-frame ainda não estão implementados"
+  ],
+  "artifacts": [
+    "data/source_art/stage2_swamp/convert_stage2.py",
+    "data/source_art/stage2_swamp/convert_stage2_report.json",
+    "res/gfx/bgb2.png",
+    "out/logs/experimental_stage2_864_build.log",
+    "out/emulator_evidence/visual_ko_20260915T132543Z/manifest.json",
+    "out/logs/p10_matrix_runner_report.json",
+    "out/logs/p10_matrix_hprb_summary.json",
+    "out/emulator_evidence/scene_reset_cycles_20260915T134721Z/manifest.json",
+    "out/emulator_evidence/title_return_20260915T134809Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T134904Z/audio_signal_report.json"
+  ],
+  "status": "documented_build_and_runtime_revalidation_pass_sensorial_review_pending"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "derived_structure_ir_v1",
+  "confidence": "high",
+  "structure": {
+    "BG_B": "atmosphere, horizon and under-road continuity",
+    "BG_A": "playable road and near foreground",
+    "sprites": "hazards, pickup and pulse feedback"
+  },
+  "resource_model": "scene_local_preload",
+  "fallback": "existing tile-light background if runtime budget or perception fails"
+}

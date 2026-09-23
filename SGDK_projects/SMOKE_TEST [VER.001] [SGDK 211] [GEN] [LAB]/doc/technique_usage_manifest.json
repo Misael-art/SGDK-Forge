@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+    "project_root_policy": "all_project_material_inside_project",
+    "lab_not_delivery": true
+  },
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "documentation_sync": {
+    "doc_13_spec_cenas": true,
+    "doc_10_memory_bank": true,
+    "doc_changelog": true,
+    "notes": "Tecnicas da cena de branding registradas apos build, budget e evidencia BlastEm da ROM vigente."
+  },
+  "allowed_external_artifacts": [],
+  "techniques": [
+    {
+      "scene_id": "APP_SCENE_BRANDING",
+      "registry_id": "line_scrolling",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["LINE_SCROLL", "RASTER_EFFECTS", "VBLANK_BUDGET_AUDIT"],
+      "owner_skills": ["sgdk-runtime-coder", "megadrive-vdp-budget-analyst", "multi-plane-composition"],
+      "evidence": {
+        "rom_sha256": "ba1629a611fde71ced7d43790765cff0a144fe78eb91a3af69ecc7f2dd74ec86",
+        "blastem_evidence_paths": ["out/logs/runtime_metrics.json", "out/evidence/blastem_branding_v3_final/project_hold.png"],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "HScroll por linha usa buffer estatico e DMA_QUEUE; sem claim de promocao humana."
+    },
+    {
+      "scene_id": "APP_SCENE_BRANDING",
+      "registry_id": "palette_cycling",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": ["PALETTE_MANAGEMENT_AVANCADO", "RASTER_EFFECTS"],
+      "owner_skills": ["sgdk-runtime-coder", "visual-excellence-standards", "multi-plane-composition"],
+      "evidence": {
+        "rom_sha256": "ba1629a611fde71ced7d43790765cff0a144fe78eb91a3af69ecc7f2dd74ec86",
+        "blastem_evidence_paths": ["out/evidence/blastem_branding_v3_final/author_hold.png", "out/evidence/blastem_branding_v3_final/project_hold.png"],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Cycling, cooldown, shimmer, flashes e fade-in/fade-out progressivo implementados; conceito visual humano aprovado, promocao AAA ainda bloqueada."
+    },
+    {
+      "scene_id": "APP_SCENE_BRANDING",
+      "registry_id": "xgm2_pcm_multiplexing",
+      "human_proficiency_status": "LABORATORIO",
+      "technique_tags": ["AUDIO_ENGINEERING", "PCM_AUDIO", "XGM2_AUDIO"],
+      "owner_skills": ["sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": "ba1629a611fde71ced7d43790765cff0a144fe78eb91a3af69ecc7f2dd74ec86",
+        "blastem_evidence_paths": ["out/logs/emulator_session.json", "out/logs/audio_validation_report.json"],
+        "budget_report_path": "out/logs/audio_validation_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Cinco cues PCM XGM2 usam os tres canais disponiveis com ownership definido em system/audio.c."
+    },
+    {
+      "scene_id": "APP_SCENE_BRANDING",
+      "registry_id": "hitstop_camera_shake_feedback",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["HITSTOP", "CAMERA_SHAKE", "GAMEPLAY_FEEDBACK"],
+      "owner_skills": ["sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": "ba1629a611fde71ced7d43790765cff0a144fe78eb91a3af69ecc7f2dd74ec86",
+        "blastem_evidence_paths": ["out/logs/emulator_session.json"],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Screen shake via VDP_setVerticalScroll(BG_B) com intensidade decrescente; Engine frame 2 (i=4), Project frame 326 (i=3)."
+    },
+    {
+      "scene_id": "APP_SCENE_BRANDING",
+      "registry_id": "palette_state_transitions",
+      "human_proficiency_status": "TEORICA_PRIORITARIA",
+      "technique_tags": ["PALETTE_MANAGEMENT_AVANCADO", "PALETTE_TRANSITION", "PALETTE_FLASH"],
+      "owner_skills": ["sgdk-runtime-coder"],
+      "evidence": {
+        "rom_sha256": "ba1629a611fde71ced7d43790765cff0a144fe78eb91a3af69ecc7f2dd74ec86",
+        "blastem_evidence_paths": ["out/logs/emulator_session.json"],
+        "budget_report_path": "out/logs/res_graph_report.json",
+        "validation_report_path": "out/logs/validation_report.json",
+        "promotion_record_path": null
+      },
+      "doc_refs": ["doc/13-spec-cenas.md", "doc/10-memory-bank.md", "doc/changelog/changelog.md"],
+      "notes": "Fade-in progressivo por canal RGB (brandFadeIn) e fade-out com cache de 64 cores (brandFadeOut); sem PAL_fade nativo, controle manual por frame."
+    }
+  ]
+}

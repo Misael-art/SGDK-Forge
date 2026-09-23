@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "chase_v009_road_physics",
+  "scene_id": "chase_first_playable",
+  "lane_model": {
+    "lane_count": 3,
+    "lane_width_px": 48,
+    "player_lateral_model": "discrete_lanes_with_four_pixel_convergence"
+  },
+  "parallax_equation": "BG_B = shake / 4; BG_A finite-difference bend and streak gain increase quadratically after horizon",
+  "curvature": {
+    "model": "HSCROLL_LINE integer triangle-wave z-gain through addition-only finite differences",
+    "horizon_scanline": 88,
+    "maximum_offset_px": 24,
+    "vertical_model": "VSCROLL_COLUMN edge-weighted road beat"
+  },
+  "impact_frame": {
+    "source": "damage_or_celestial_pulse",
+    "handler": "CHASE_PURSUER_startImpact",
+    "hitstop_frames": "4..5"
+  },
+  "screen_shake": {
+    "maximum_offset_px": 4,
+    "duration_frames": 8,
+    "axes": "x_and_y"
+  },
+  "hscroll_budget": {
+    "rows_updated": 448,
+    "bytes_per_frame": 896,
+    "update_phase": "vblank",
+    "column_scroll_bytes_per_frame": 80,
+    "table_cadence_hz": 30,
+    "gameplay_and_actor_cadence_hz": 60,
+    "impact_shake_cadence_hz": 60
+  },
+  "runtime_source_paths": [
+    "src/gameplay/chase_road.c",
+    "src/gameplay/chase_player.c",
+    "src/gameplay/chase_pursuer.c",
+    "src/scenes/scene_chase.c"
+  ],
+  "runtime_symbols": {
+    "lane_update": "CHASE_PLAYER_update",
+    "curvature_update": "CHASE_ROAD_update",
+    "impact_handler": "CHASE_PURSUER_startImpact"
+  },
+  "bg_b_policy": "fixed deep sky with quarter-strength shake; only shared-slot cloud grafts drift diagonally",
+  "fallback": "freeze VSCROLL_COLUMN offsets and preserve HSCROLL_LINE road deformation",
+  "evidence_required": [
+    "out/logs/dma_queue_plan.json",
+    "out/logs/runtime_metrics.json",
+    "out/evidence/blastem/gameplay_active_v009.png"
+  ]
+}

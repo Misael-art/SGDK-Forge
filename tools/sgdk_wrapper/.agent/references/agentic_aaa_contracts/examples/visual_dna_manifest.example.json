@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hero_white_gi",
+  "asset_role": "hero_character",
+  "authorial_source": "data/source_art/hero/model_sheet.png",
+  "license": "project_owned",
+  "benchmark_used_as": "technical_quality_bar",
+  "style_pillars": [
+    "clean martial silhouette",
+    "cold shadow on white fabric",
+    "large readable hands and feet"
+  ],
+  "palette_intent": {
+    "max_palettes": 1,
+    "reserved_slots": [
+      {
+        "palette": 0,
+        "slot": 0,
+        "purpose": "transparent"
+      }
+    ],
+    "material_ramps": [
+      {
+        "material": "white_gi",
+        "slots": [1, 2, 3, 4],
+        "contrast_goal": "cool shadows, warm highlight, no muddy gray"
+      }
+    ]
+  },
+  "shape_language": ["square stance", "compact torso", "clear head mass"],
+  "material_rules": ["fabric folds must follow limb volume"],
+  "scale_contract": {
+    "native_resolution": "320x224",
+    "nominal_bbox_px": {
+      "w": 48,
+      "h": 64
+    },
+    "pivot_policy": "bottom_center_feet",
+    "scale_class": "macro_64_plus",
+    "scale_lock_status": "locked",
+    "gameplay_scale_fit": {
+      "camera_fov_role": "close_combat_precision",
+      "hitbox_alignment_role": "limb_precise",
+      "animation_workload_policy": "high_cost_team_or_limited_scope",
+      "integer_pixel_motion_policy": "fixed_point_logic_integer_render"
+    },
+    "scale_change_policy": "requires_reseed_before_art"
+  },
+  "forbidden_drift": ["anatomy", "pivot", "scale", "outfit", "face", "palette", "bounding_box"],
+  "approval_status": "approved_for_key_poses",
+  "blockers": []
+}

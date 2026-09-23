@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/racing_vehicle_frame_data.schema.json",
+  "title": "Racing Vehicle Frame Data",
+  "description": "Per-vehicle stat block for racing_arcade projects. Defines top_speed, acceleration, handling, drift, weight, boost consumption, and animation timing. All numeric fields are non-negative integers or constrained ranges. Stat fields are REQUIRED for every vehicle. Time unit is 'frames' (1/60 s) for acceleration_frames and animation timing.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "vehicle_id",
+    "weight_class",
+    "registry_source",
+    "time_unit",
+    "stats",
+    "animation"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "vehicle_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "weight_class": {
+      "type": "string",
+      "enum": ["light", "medium", "heavy", "formula"]
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": { "type": "string", "const": "frames" },
+    "stats": {
+      "type": "object",
+      "required": ["top_speed_kmh", "acceleration_frames_to_top", "handling_rad_per_sec", "drift_factor", "boost_consumption_pct_per_sec", "weight_kg"],
+      "properties": {
+        "top_speed_kmh": { "type": "integer", "minimum": 100, "maximum": 256 },
+        "acceleration_frames_to_top": { "type": "integer", "minimum": 60, "maximum": 600 },
+        "handling_rad_per_sec": { "type": "string", "pattern": "^\\d+\\.\\d+$", "description": "Rad/s. Use string to allow decimals; parsed as float at runtime." },
+        "drift_factor": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "boost_consumption_pct_per_sec": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "weight_kg": { "type": "integer", "minimum": 500, "maximum": 2000 },
+        "tire_grip_pct": { "type": "integer", "minimum": 50, "maximum": 100 },
+        "downforce_pct": { "type": "integer", "minimum": 0, "maximum": 100 }
+      },
+      "additionalProperties": false
+    },
+    "animation": {
+      "type": "object",
+      "required": ["animation_idle_frames", "animation_drift_frames", "animation_boost_frames", "animation_crash_frames", "voxel_size"],
+      "properties": {
+        "animation_idle_frames": { "type": "integer", "minimum": 0, "maximum": 60 },
+        "animation_drift_frames": { "type": "integer", "minimum": 0, "maximum": 60 },
+        "animation_boost_frames": { "type": "integer", "minimum": 0, "maximum": 60 },
+        "animation_crash_frames": { "type": "integer", "minimum": 0, "maximum": 60 },
+        "voxel_size": { "type": "string", "enum": ["16x16", "16x24", "16x32", "24x24", "24x32", "32x32", "32x48"] },
+        "head_metric": {
+          "type": "string",
+          "enum": ["S", "M", "L", "XL"],
+          "description": "Advisory only."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "description": "Light and formula vehicles must have drift_factor >= 30; heavy vehicles >= 10.",
+      "if": {
+        "properties": { "weight_class": { "enum": ["light", "formula"] } },
+        "required": ["weight_class"]
+      },
+      "then": {
+        "properties": { "stats": { "properties": { "drift_factor": { "minimum": 30 } } } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "weight_class": { "const": "heavy" } },
+        "required": ["weight_class"]
+      },
+      "then": {
+        "properties": { "stats": { "properties": { "drift_factor": { "minimum": 10 } } } }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

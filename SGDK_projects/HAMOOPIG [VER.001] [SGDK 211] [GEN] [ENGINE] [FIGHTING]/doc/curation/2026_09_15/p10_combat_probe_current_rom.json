@@ -1,0 +1,25 @@
+{
+  "lesson_id": "L083",
+  "date": "2026-09-15",
+  "topic": "p10_combat_probe_current_rom",
+  "source": "same_rom_matrix_with_opt_in_combat_inputs",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "Os 36 casos P10 tinham apenas um probe curto de seleção/cena; era necessário obter um sinal mínimo de que a rota de combate e o ledger estavam vivos em cada combinação, sem confundir isso com uma luta completa.",
+  "change": "O runner passou a enviar uma sequência bounded de ataques P1/P2 (P1 Right+Q x3; P2 J+X x2) em cada caso não-seleção e a preservar o HPRB por manifesto. O caso PAL que não exportou SRAM foi repetido com --retry-failed --probe-wait=2.",
+  "result": "36/36 casos decodificados no SHA atual, todos com pelo menos 1 HIT observado; 0 falhas e 0 não executados. Máximos HPRB: 8.024 bytes DMA enfileirados, 41 sprites ativos, 60 links VDP e 17 sprites/scanline.",
+  "limits": [
+    "probe bounded não prova gameplay completo, KO, guarda, projétil, agarrão, multi-hit ou reset de round por caso",
+    "todos os casos continuam pending_visual_review e pending_audio_review",
+    "HPRB mede telemetria enfileirada, não aprovação sensorial nem pior-frame independente"
+  ],
+  "artifacts": [
+    "tests/capture_visual_ko.py",
+    "tests/run_p10_matrix.py",
+    "tests/decode_p10_probe_bundles.py",
+    "tests/summarize_p10_hprb.py",
+    "out/logs/p10_matrix_runner_report.json",
+    "out/logs/p10_matrix_hprb_summary.json",
+    "tests/test_p10_evidence_integrity.py"
+  ],
+  "status": "documented_runtime_probe_pass_bounded_claim"
+}

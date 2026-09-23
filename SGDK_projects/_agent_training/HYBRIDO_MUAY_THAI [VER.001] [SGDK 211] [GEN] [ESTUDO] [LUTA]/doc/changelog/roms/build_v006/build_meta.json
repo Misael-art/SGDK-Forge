@@ -1,0 +1,72 @@
+﻿{
+    "build_version":  "build_v006",
+    "rom_sha256":  "9d0facb715052157710b6991c413ca650bf4e0ce7d78e5cfe1c210a1bd014566",
+    "size_bytes":  131072,
+    "timestamp":  "2026-06-14T06:29:54.1657419-03:00",
+    "source_commit_when_available":  "16f876c4e2a2d5ed2403160d35e9744407bb11ab",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  10,
+                               "blocking_statuses":  [
+                                                         "gdd_substantial_insufficient",
+                                                         "visual_gate_blocked",
+                                                         "visual_direction_failed",
+                                                         "emulator_evidence_stale",
+                                                         "scene_tilemap_conversion_report_missing",
+                                                         "tilemap_flag_report_missing",
+                                                         "per_tile_palette_conflict_report_missing",
+                                                         "freshness_audit_stale",
+                                                         "scene_closeout_gate_missing"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "session_not_captured",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "nao_testado",
+                             "performance":  "nao_testado",
+                             "audio":  "nao_testado",
+                             "hardware_real":  "nao_testado"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "spr_hibrido_idle_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_walk_step_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_walk_step_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_guard_block_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_guard_block_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_jab_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_jab_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_knee_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_knee_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_teep_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_teep_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_hurt_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_hurt_body_48x64_strip_v010.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/vdp_inspection.schema.json",
+  "title": "VDP Scene State Inspection",
+  "description": "Output of inspect_vdp_scene_state.ps1. Extends the common artifact envelope with VDP state analysis.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "project_root",
+    "workspace_root",
+    "status",
+    "scene_id",
+    "inspection_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tool_name": {
+      "type": "string",
+      "const": "inspect_vdp_scene_state"
+    },
+    "tool_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ok", "warn", "error"]
+    },
+    "failure_reason": {
+      "type": ["string", "null"]
+    },
+    "scene_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "vdp_dump_path": {
+      "type": ["string", "null"],
+      "description": "Path to the VDP dump file that was analyzed"
+    },
+    "palette_snapshots": {
+      "$ref": "vdp_palette_snapshot.schema.json"
+    },
+    "tile_usage": {
+      "type": "object",
+      "properties": {
+        "total_tiles": { "type": "integer", "description": "VRAM capacity in 8x8 tiles (2048 for 64KB)" },
+        "used_tiles": { "type": "integer" },
+        "usage_fraction": { "type": "number" },
+        "unique_tiles": { "type": "integer", "description": "Tiles with unique content" },
+        "duplicate_tiles": { "type": "integer", "description": "Tiles that are byte-identical to another" }
+      },
+      "additionalProperties": true
+    },
+    "sprite_snapshot": {
+      "$ref": "vdp_sprite_snapshot.schema.json"
+    },
+    "plane_usage": {
+      "type": "object",
+      "properties": {
+        "bg_a": {
+          "type": "object",
+          "properties": {
+            "nametable_address": { "type": ["integer", "null"] },
+            "width_tiles": { "type": ["integer", "null"] },
+            "height_tiles": { "type": ["integer", "null"] },
+            "unique_tiles_used": { "type": ["integer", "null"] }
+          },
+          "additionalProperties": true
+        },
+        "bg_b": {
+          "type": "object",
+          "properties": {
+            "nametable_address": { "type": ["integer", "null"] },
+            "width_tiles": { "type": ["integer", "null"] },
+            "height_tiles": { "type": ["integer", "null"] },
+            "unique_tiles_used": { "type": ["integer", "null"] }
+          },
+          "additionalProperties": true
+        },
+        "window": {
+          "type": "object",
+          "properties": {
+            "nametable_address": { "type": ["integer", "null"] },
+            "active": { "type": ["boolean", "null"] }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "inspection_status": {
+      "type": "string",
+      "enum": ["ok", "warn", "error"],
+      "description": "Overall inspection health"
+    }
+  },
+  "additionalProperties": true
+}

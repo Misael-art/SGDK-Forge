@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/agent_session_state.schema.json",
+  "title": "Agent Session State",
+  "description": "Workspace-level state for the SGDK Forge agent session menu, operation mode and perspective switching. This is advisory state and never replaces project truth hierarchy, validation reports or emulator evidence.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state_id",
+    "last_updated",
+    "current_mode",
+    "current_perspective",
+    "active_project",
+    "mode_history",
+    "pending_transition",
+    "pending_insights",
+    "consent_policy"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "state_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "current_mode": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "create_new_project",
+        "analyze_existing_project",
+        "train_agent",
+        "laboratory",
+        "curation"
+      ]
+    },
+    "current_perspective": {
+      "type": "string",
+      "enum": [
+        "none",
+        "director",
+        "architect",
+        "artist",
+        "hardware",
+        "coder",
+        "audio",
+        "qa",
+        "learner",
+        "curator",
+        "lab_operator"
+      ]
+    },
+    "active_project": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Workspace-relative project path, or null when no project is active."
+    },
+    "mode_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "timestamp",
+          "from_mode",
+          "to_mode",
+          "from_perspective",
+          "to_perspective",
+          "reason",
+          "user_confirmed"
+        ],
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "from_mode": {
+            "type": "string"
+          },
+          "to_mode": {
+            "type": "string"
+          },
+          "from_perspective": {
+            "type": "string"
+          },
+          "to_perspective": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "user_confirmed": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "pending_transition": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "target_mode",
+        "target_perspective",
+        "reason",
+        "requires_user_confirmation"
+      ],
+      "properties": {
+        "target_mode": {
+          "type": "string",
+          "enum": [
+            "create_new_project",
+            "analyze_existing_project",
+            "train_agent",
+            "laboratory",
+            "curation"
+          ]
+        },
+        "target_perspective": {
+          "type": "string",
+          "enum": [
+            "director",
+            "architect",
+            "artist",
+            "hardware",
+            "coder",
+            "audio",
+            "qa",
+            "learner",
+            "curator",
+            "lab_operator"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requires_user_confirmation": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "pending_insights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "insight_id",
+          "summary",
+          "target_mode",
+          "owner_workflow",
+          "status"
+        ],
+        "properties": {
+          "insight_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_\\-]+$"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_mode": {
+            "type": "string",
+            "enum": [
+              "create_new_project",
+              "analyze_existing_project",
+              "train_agent",
+              "laboratory",
+              "curation"
+            ]
+          },
+          "owner_workflow": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "deferred",
+              "rejected",
+              "resolved"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "consent_policy": {
+      "type": "object",
+      "required": [
+        "mode_switch_requires_user_confirmation",
+        "perspective_switch_requires_user_confirmation",
+        "canonical_patch_requires_explicit_human_approval",
+        "direct_task_bypasses_menu_when_unambiguous"
+      ],
+      "properties": {
+        "mode_switch_requires_user_confirmation": {
+          "type": "boolean",
+          "const": true
+        },
+        "perspective_switch_requires_user_confirmation": {
+          "type": "boolean",
+          "const": true
+        },
+        "canonical_patch_requires_explicit_human_approval": {
+          "type": "boolean",
+          "const": true
+        },
+        "direct_task_bypasses_menu_when_unambiguous": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "current_mode": {
+            "const": "idle"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "current_perspective": {
+            "const": "none"
+          },
+          "active_project": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

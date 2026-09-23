@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/vdp_sprite_snapshot.schema.json",
+  "title": "VDP Sprite Snapshot",
+  "description": "Snapshot of the VDP sprite attribute table (up to 80 entries).",
+  "type": "object",
+  "required": [
+    "sprite_count",
+    "sprites"
+  ],
+  "properties": {
+    "sprite_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 80,
+      "description": "Number of active sprites in the sprite table"
+    },
+    "max_sprites_per_scanline": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "description": "Peak sprite count on any single scanline"
+    },
+    "hotspot_scanlines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scanline": { "type": "integer" },
+          "sprite_count": { "type": "integer" }
+        }
+      },
+      "description": "Scanlines with highest sprite density"
+    },
+    "sprites": {
+      "type": "array",
+      "maxItems": 80,
+      "items": {
+        "type": "object",
+        "required": ["index"],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 79
+          },
+          "x": { "type": "integer" },
+          "y": { "type": "integer" },
+          "width_tiles": { "type": "integer", "minimum": 1, "maximum": 4 },
+          "height_tiles": { "type": "integer", "minimum": 1, "maximum": 4 },
+          "tile_index": { "type": "integer" },
+          "palette": { "type": "integer", "minimum": 0, "maximum": 3 },
+          "priority": { "type": "boolean" },
+          "h_flip": { "type": "boolean" },
+          "v_flip": { "type": "boolean" },
+          "link": { "type": "integer" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

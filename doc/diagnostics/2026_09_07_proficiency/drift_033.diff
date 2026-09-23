@@ -1,0 +1,10 @@
+--- SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]/inc/system/runtime_probe.h
++++ tools/sgdk_wrapper/modelo/inc/system/runtime_probe.h
+@@ -35,5 +35,7 @@
+ void MDRuntimeProbe_tick(void);
+ void MDRuntimeProbe_exportToSRAM(void);
+ void MDRuntimeProbe_writeHeartbeat(void);
++/* brandEnsureShard falha em silencio; a cena reporta spawned/failed aqui. */
++void MDRuntimeProbe_noteSpriteAlloc(u16 spawned, u16 failed);
+ 
+ #endif

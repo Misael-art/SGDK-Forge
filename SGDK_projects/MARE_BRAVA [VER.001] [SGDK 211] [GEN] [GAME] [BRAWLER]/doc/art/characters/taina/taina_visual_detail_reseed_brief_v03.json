@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "brief_id": "taina_visual_detail_reseed_v03",
+  "status": "documented_next_pass_human_gate_required",
+  "asset_kind": "pixel_model_sheet_and_lineart_blocking",
+  "reason": "A ROM prova movimento, mas a densidade de clusters, rosto e materiais ainda nao atinge o benchmark comercial pretendido.",
+  "approved_generation_source": {
+    "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "human_baseline": "timeline_image_04",
+    "source_of_truth_contract": "doc/contracts/visual_source_of_truth_taina_v01.json"
+  },
+  "forbidden_generation_sources": [
+    "linearts_v05_v06_v07",
+    "runtime_animation_strips",
+    "blastem_screenshots",
+    "contact_sheets_derived_from_runtime"
+  ],
+  "locked_scale": {
+    "cell_px": [48, 64],
+    "visible_height_target_px": [56, 60],
+    "pivot": [24, 60],
+    "scale_change_policy": "requires_human_reseed_decision"
+  },
+  "must_preserve": [
+    "curly_hair_mass",
+    "wedge_face_and_strong_brow",
+    "burnt_orange_crop_top",
+    "teal_wraps_and_asymmetric_sash",
+    "wide_dark_purple_trousers",
+    "bare_feet_and_low_bjj_guard"
+  ],
+  "material_ramp_plan": {
+    "skin": "warm highlight/base with cool brown-violet shadow",
+    "orange_top": "hot orange base with red-purple shadow",
+    "teal_wraps_and_sash": "cyan-teal highlight with blue-green shadow",
+    "purple_trousers": "muted violet base with blue-black folds",
+    "hair": "near-black violet mass with sparse warm brown cluster accents"
+  },
+  "benchmark_inheritance": [
+    {
+      "game": "Streets of Rage 3",
+      "inherit": "separacao de massas do lutador, leitura de punhos/pes e sombra de contato",
+      "do_not_copy": "personagem, roupa, poses ou paleta nominal"
+    },
+    {
+      "game": "Shinobi III",
+      "inherit": "silhueta dura, clusters economicos e contraste quente/frio",
+      "do_not_copy": "anatomia, traje ou animacoes"
+    },
+    {
+      "game": "Comix Zone",
+      "inherit": "contorno autoral, assimetria e marcas de material legiveis em escala nativa",
+      "do_not_copy": "linework editorial ou design de Sketch Turner"
+    }
+  ],
+  "required_passes": [
+    "four_view_silhouette_blocking",
+    "lineart_blocking_1px",
+    "native_320x224_readability",
+    "material_color_ramp_plan",
+    "face_hair_hand_foot_cluster_review",
+    "human_approval_before_key_poses",
+    "new_strips_redrawn_from_approved_model_sheet"
+  ],
+  "promotion_policy": "Nenhuma sheet nova entra em res antes de model sheet pixel e key poses aprovados."
+}

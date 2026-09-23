@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned_v011",
+  "scene_id": "chase_first_playable",
+  "owner": "chase_road",
+  "route": "scene_local_preload_sparse_512_overlay",
+  "plane": "BG_A",
+  "physical_canvas_px": {"width": 512, "height": 256},
+  "authored_asset_px": {"width": 512, "height": 224},
+  "visible_window_px": {"width": 320, "height": 224},
+  "active_content_origin_x_px": 96,
+  "safe_gutter_px": {"left": 96, "right": 96},
+  "base_hscroll_px": -96,
+  "dynamic_hscroll_bounds_px": {
+    "min": -68,
+    "max": 21,
+    "includes_camera_shake": true
+  },
+  "gutter_authoring": {
+    "method": "tile_aligned_horizontal_mirror_of_edge_regions",
+    "deduplication_expected": true,
+    "seam_columns_px": [96, 416]
+  },
+  "tile_budget": {
+    "current_unique_tiles": 185,
+    "target_additional_unique_tiles_max": 48,
+    "hard_additional_unique_tiles_max": 56,
+    "fallback": "clamp_dynamic_hscroll_and_keep_centered_320_overlay"
+  },
+  "runtime_rules": [
+    "HSCROLL_LINE remains owned by chase_road.",
+    "No per-frame tilemap streaming is allowed.",
+    "Every visible scanline must remain inside authored gutter coverage.",
+    "Climax letterbox fill must cover all 64 tile columns."
+  ],
+  "validation_required": [
+    "rescomp_unique_tile_delta",
+    "road_scroll_bounds_test",
+    "BlastEm_visual_capture",
+    "visual_vdp_dump"
+  ]
+}

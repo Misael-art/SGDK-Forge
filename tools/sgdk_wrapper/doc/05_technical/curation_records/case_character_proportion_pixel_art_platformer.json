@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_technique_curation_record",
+  "source": {
+    "source_id": "case_character_proportion_pixel_art_platformer",
+    "source_kind": "direct_text_analysis",
+    "title_or_label": "Character proportion for pixel-art platformers (16x32 sprites)",
+    "url": "",
+    "availability": "available_in_thread",
+    "batch_id": "curation_batch_2026_06_16"
+  },
+  "technique": {
+    "id": "character_proportion_16x32_platformer",
+    "name": "Pixel-art character proportion for platformers",
+    "summary": "Author platformer characters around a 16x32 sprite proportion of roughly 3-4 head heights, with a clear baseline/feet placement, deliberate visual margin distinct from the hitbox, and silhouette coherence with the 16x16 tile grid.",
+    "risk_domain": [
+      "art",
+      "entity_architecture"
+    ]
+  },
+  "classification": "improve_existing_skill",
+  "canonical_fit": {
+    "owner_paths": [
+      "tools/sgdk_wrapper/.agent/skills/art/character-design/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/art/sprite-animation/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/code/collision-system-architect/SKILL.md"
+    ],
+    "owner_skills": [
+      "character-design",
+      "sprite-animation",
+      "megadrive-pixel-strict-rules",
+      "collision-system-architect"
+    ],
+    "new_artifacts": [],
+    "blocked_by": [
+      "promotion_to_production_without_visual_fixture_or_baseline_contract"
+    ]
+  },
+  "evidence": {
+    "grade": "E1_text",
+    "minimum_required_before_canonical": [
+      "visual fixture showing the proportion at 16x32 in a real scene",
+      "baseline/feet contract reconciled with the collision hitbox",
+      "runtime screenshot or VDP dump for any visual-quality claim"
+    ],
+    "current_gaps": [
+      "source is direct text analysis with example C code, not a local runtime fixture",
+      "no visual fixture or baseline contract exists yet"
+    ]
+  },
+  "promotion_decision": {
+    "decision": "apply_as_candidate",
+    "rationale": "The proportion guidance strengthens existing art and collision owners; it is recorded as candidate backlog and the expansion is deferred to Phase 4."
+  },
+  "accepted_concepts": [
+    "A 16x32 sprite proportion of roughly 3-4 head heights is a workable platformer character baseline.",
+    "Baseline/feet placement must be explicit so the character sits correctly on tiles.",
+    "Visual margin around the sprite is distinct from the collision hitbox and must not be conflated with it.",
+    "Character silhouette and proportion must stay coherent with the 16x16 tile grid."
+  ],
+  "rejected_or_deferred_claims": [
+    "The example C code in the attachment is illustrative and does not become a canonical API.",
+    "Correct proportion does not by itself prove AAA quality.",
+    "Direct text analysis does not prove runtime behavior; no testado_em_emulador, validado_budget or ready_for_aaa is implied."
+  ],
+  "required_followups": [
+    "Expand the existing owner skills (character-design, sprite-animation, megadrive-pixel-strict-rules, collision-system-architect) in Phase 4.",
+    "Create a visual fixture or baseline contract before promoting this guidance to production."
+  ],
+  "status": "accepted_with_constraints"
+}

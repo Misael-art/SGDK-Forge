@@ -1,0 +1,411 @@
+{
+  "schema_version": "1.0.0",
+  "status": "pending_human_decision",
+  "round": "native_authoring_face_guard_v03",
+  "asset_id": "taina_48x64_native_authoring_face_guard_v03",
+  "scale_contract": {
+    "status": "locked",
+    "selected": "48x64",
+    "comparison_only": [
+      "64x96"
+    ]
+  },
+  "identity_source": {
+    "path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "role": "approved_model_sheet_visual_source_of_truth"
+  },
+  "approved_visual_source": {
+    "path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/source/face_and_guard_topology_visual_source_v01.png",
+    "sha256": "b2400128254e08c6aeeabd2feded594ef56762ae1a77a28f20f6076c5690bcaf",
+    "asset_id": "face_and_guard_topology_visual_source_v01",
+    "role": "approved_as_visual_source_for_native_authoring",
+    "human_decision": "doc/art/characters/taina/human_source_authoring_approval_v01.json"
+  },
+  "authoring_source_output": {
+    "path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v03/source/face_and_guard_topology_native_authoring_source_v03.png",
+    "sha256": "a9fdcafcee84e39289b636c794b59ea8e9f8c5528cc3b03024d9abce02b9566d",
+    "role": "new_visual_authoring_output_derived_from_approved_source"
+  },
+  "forbidden_pixel_sources": [
+    "taina_48x64_geometry_face_guard_v01",
+    "challenger_b",
+    "rejected_basic",
+    "rejected_elite"
+  ],
+  "candidate": {
+    "path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v03/taina_48x64_native_authoring_face_guard_v03.png",
+    "sha256": "e3a35e5fad1a77c3931a0b3e0cf30e1f877b25e8fcf3d3ac87b5ca1d4a3f4d33",
+    "role": "new_native_authoring_candidate",
+    "method": "material_native_geometry_authoring_from_approved_visual_source",
+    "not_a_requantization_of_control": true
+  },
+  "tile_metrics": {
+    "raw_tiles": 48,
+    "unique_tiles": 30,
+    "vram_unique_bytes": 960,
+    "dma_upper_bound_bytes": 960,
+    "visible_pixels": 959,
+    "bbox": [
+      5,
+      2,
+      42,
+      61
+    ]
+  },
+  "reports": {
+    "validation": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v03/native_authoring_validation_report_v03.json",
+    "matte": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v03/foreground_matte_report.json",
+    "pixel": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v03/pixel_compliance_report.json",
+    "palette": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v03/palette_role_map.json",
+    "review_panel": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_authoring_face_guard_v03/taina_native_authoring_face_guard_review_panel_v03.png"
+  },
+  "controls": {
+    "face_guard_v01": {
+      "path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_geometry_challengers_v01/face_and_guard_topology/taina_48x64_geometry_face_guard_v01.png",
+      "sha256": "1177d2343b1b9e6fc0f2814add62a979067539cddb0c3ca4952ca7f754d73830",
+      "role": "technical_control_only"
+    },
+    "challenger_b": {
+      "path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_visual_challengers_v03/candidates/taina_48x64_challenger_b/taina_48x64_challenger_b.png",
+      "sha256": "d66110ba9a035dd1d4fbefd5c5692b4b66ce6a0af3b24543f6a9f0091d0975aa",
+      "role": "comparison_only"
+    },
+    "elite": {
+      "path": "SGDK_projects/MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]/rascunho/taina_native_refinement_v01/taina_48x64_refined_elite_v01.png",
+      "sha256": "0c30d7c449eda1086ecce917fa4fcd0403207ed06b28577f89ef3d0cc351ef13",
+      "role": "comparison_only"
+    }
+  },
+  "budget": {
+    "asset_id": "taina_48x64_native_authoring_face_guard_v03",
+    "candidate_sha256": "e3a35e5fad1a77c3931a0b3e0cf30e1f877b25e8fcf3d3ac87b5ca1d4a3f4d33",
+    "scale": "48x64",
+    "hardware_cells": {
+      "count": 4,
+      "decomposition": "2x2 <=32x32 VDP cells"
+    },
+    "hero_plus_four_enemies": {
+      "tool_name": "vdp_scanline_simulator",
+      "tool_version": "1.2.0",
+      "status": "ok",
+      "display_mode": "h40",
+      "limits": {
+        "sprites_per_scanline": 20,
+        "pixels_per_scanline": 320
+      },
+      "sprite_count": 5,
+      "hardware_sprite_count": 20,
+      "total_sprite_links": 20,
+      "max_sprites_per_scanline": 10,
+      "max_sprite_pixels_per_scanline": 248,
+      "over_limit_lines": [],
+      "over_pixel_limit_lines": [],
+      "headroom": {
+        "sprite_utilization": 0.5,
+        "pixel_utilization": 0.775,
+        "binding_limit": "sprite_pixels",
+        "peak_utilization": 0.775,
+        "unexploited_threshold": 0.6,
+        "justification": "static geometry challenger budget; no runtime claim",
+        "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+      },
+      "blockers": [],
+      "warnings": []
+    },
+    "next_3_plus_3_comparison_only": {
+      "tool_name": "vdp_scanline_simulator",
+      "tool_version": "1.2.0",
+      "status": "error",
+      "display_mode": "h40",
+      "limits": {
+        "sprites_per_scanline": 20,
+        "pixels_per_scanline": 320
+      },
+      "sprite_count": 7,
+      "hardware_sprite_count": 28,
+      "total_sprite_links": 28,
+      "max_sprites_per_scanline": 14,
+      "max_sprite_pixels_per_scanline": 348,
+      "over_limit_lines": [],
+      "over_pixel_limit_lines": [
+        {
+          "scanline": 128,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 129,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 130,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 131,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 132,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 133,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 134,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 135,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 136,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 137,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 138,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 139,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 140,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 141,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 142,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 143,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 144,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 145,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 146,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 147,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 148,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 149,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 150,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 151,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 152,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 153,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 154,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 155,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 156,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 157,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 158,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 159,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 160,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 161,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 162,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 163,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 164,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 165,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 166,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 167,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 168,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 169,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 170,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 171,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 172,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 173,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 174,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 175,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 176,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 177,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 178,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 179,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 180,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 181,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 182,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 183,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 184,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 185,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 186,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 187,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 188,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 189,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 190,
+          "sprite_pixels": 348
+        },
+        {
+          "scanline": 191,
+          "sprite_pixels": 348
+        }
+      ],
+      "headroom": {
+        "sprite_utilization": 0.7,
+        "pixel_utilization": 1.087,
+        "binding_limit": "sprite_pixels",
+        "peak_utilization": 1.087,
+        "unexploited_threshold": 0.6,
+        "justification": "static geometry challenger budget; no runtime claim",
+        "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos."
+      },
+      "blockers": [
+        "sprite_pixels_per_scanline_over_320"
+      ],
+      "warnings": []
+    },
+    "measurement_level": "measured"
+  },
+  "decision_required": "approved_for_final_native_pose with exact asset_id, SHA-256 and scale=48x64",
+  "res_promotion": false,
+  "animation_authorization": false,
+  "visual_pass": false,
+  "promotable": false,
+  "ready_for_aaa": false
+}

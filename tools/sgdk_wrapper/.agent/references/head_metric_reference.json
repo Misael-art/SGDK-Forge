@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "catalog_id": "megadrive_dev_head_metric_reference",
+  "purpose": "Canonical head metric scale (S/M/L/XL) for enemy scale on Mega Drive. Used by enemy-design-canonical.",
+  "metric_classes": [
+    {
+      "metric_id": "S",
+      "display_name": "Pequeno",
+      "head_count_threshold": "menor que metade do jogador",
+      "typical_attributes": {
+        "hp_range": [1, 3],
+        "damage_range": [1, 2],
+        "speed_class": "rapido"
+      },
+      "gameplay_change": "exige que o jogador abaixe para atacar; muda o frame de combate",
+      "example_enemies": ["inseto", "rato", "minion", "drone"],
+      "boss_compatibility": false
+    },
+    {
+      "metric_id": "M",
+      "display_name": "Medio",
+      "head_count_threshold": "aproximadamente tamanho do jogador",
+      "typical_attributes": {
+        "hp_range": [3, 8],
+        "damage_range": [2, 4],
+        "speed_class": "balanceado"
+      },
+      "gameplay_change": "parametros equilibrados base; sem quebra de enquadramento",
+      "example_enemies": ["soldado", "guarda", "atirador", "perseguidor"],
+      "boss_compatibility": false
+    },
+    {
+      "metric_id": "L",
+      "display_name": "Grande",
+      "head_count_threshold": "4 a 7 vezes a altura do jogador",
+      "typical_attributes": {
+        "hp_range": [8, 20],
+        "damage_range": [4, 8],
+        "speed_class": "lento"
+      },
+      "gameplay_change": "exige pulo para atingir weak point; muda a dinamica de camera",
+      "example_enemies": ["ogro", "tanque", "mecha", "bebe_de_arqueiro"],
+      "boss_compatibility": false
+    },
+    {
+      "metric_id": "XL",
+      "display_name": "Imenso / Chefe",
+      "head_count_threshold": "mais que 7 vezes a altura do jogador",
+      "typical_attributes": {
+        "hp_range": [20, 100],
+        "damage_range": [8, 16],
+        "speed_class": "variavel_por_estado"
+      },
+      "gameplay_change": "quebra o enquadramento tradicional; foco em chefe; FSM com >= 3 estados",
+      "example_enemies": ["dragao", "golem_titular", "nave_capital", "boss_de_fase"],
+      "boss_compatibility": true,
+      "boss_constraint": "Requer boss_state_count >= 3 ou boss_curto_justification."
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "boss_requires_xl",
+      "description": "role=boss exige head_metric=XL",
+      "invalid_combination": {"role": "boss", "head_metric": ["S", "M", "L"]},
+      "blocking_status": "enemy_head_metric_invalid"
+    },
+    {
+      "rule_id": "non_boss_forbids_xl",
+      "description": "head_metric=XL so e valido quando role=boss",
+      "invalid_combination": {"head_metric": "XL", "role": ["patrulheiro", "perseguidor", "atirador", "guarda", "voador", "bloqueador", "tecnico_suporte", "solo_tutorial"]},
+      "blocking_status": "enemy_head_metric_invalid"
+    }
+  ]
+}

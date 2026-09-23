@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "mare_brava",
+  "manifest_id": "mare_brava_brand_v1",
+  "brand_role": "project_identity",
+  "source_authority": {
+    "gdd_ref": "doc/11-gdd.md",
+    "ui_decision_card_ref": "doc/art/ui_decision_card_front_end.json",
+    "master_style_manifest_ref": "doc/art/master_style_manifest.json",
+    "reference_policy": "technical_inspiration_only"
+  },
+  "logo_system": {
+    "primary_title_text": "MARE BRAVA",
+    "subtitle_text": null,
+    "main_title_weight_percent": 85,
+    "genre_tone_alignment": "traco grosso angular com quebra de onda na barra do E/A: luta + mar sem caricatura",
+    "source_vector_master_path": null,
+    "gameplay_metaphor": {
+      "metaphor": "quebra de onda como golpe (Empurrao de Mare)",
+      "target_letter_or_shape": "barra do A final vira crista de onda",
+      "readability_priority": true
+    },
+    "silhouette_test": {
+      "method": "logo em massa unica preta sobre branco em 320x224",
+      "pass_condition": "palavra legivel sem detalhe interno",
+      "evidence_ref": null
+    },
+    "monochrome_test": {
+      "method": "logo em 1 cor do dominio pal3 sobre fundo escuro",
+      "pass_condition": "legivel sem depender de gradiente/cor",
+      "evidence_ref": null
+    },
+    "thumbnail_test": {
+      "method": "reducao para 96px de largura",
+      "pass_condition": "MARE BRAVA legivel em miniatura",
+      "evidence_ref": null
+    },
+    "dynamic_background_test": {
+      "method": "logo sobre mar em line-scroll no BlastEm",
+      "pass_condition": "leitura estavel com fundo em movimento",
+      "evidence_ref": null
+    }
+  },
+  "typography_system": {
+    "font_roles": [
+      {
+        "role": "logo_display",
+        "render_mode": "bitmap_tileset",
+        "charset_profile": "ptbr_core_accents",
+        "asset_ref": null,
+        "usage": "logo e titulos de painel (DEMO CLEAR/GAME OVER)",
+        "fallback": "versao simplificada sem quebra de onda"
+      },
+      {
+        "role": "hud_critical",
+        "render_mode": "bitmap_tileset",
+        "charset_profile": "ascii_core",
+        "asset_ref": null,
+        "usage": "score e HUD 8x8 em WINDOW",
+        "fallback": "fonte 8x8 simplificada do mesmo desenho"
+      },
+      {
+        "role": "debug_fallback",
+        "render_mode": "sgdk_default_fallback",
+        "charset_profile": "ascii_core",
+        "asset_ref": null,
+        "usage": "overlay tecnico e debug apenas",
+        "fallback": "n/a"
+      }
+    ],
+    "generic_font_policy": {
+      "sgdk_default_font_use": "debug_only",
+      "final_identity_requires_custom_font": true
+    },
+    "glyph_manifest_ref": "doc/art/glyph_manifest.json"
+  },
+  "title_screen_export_plan": {
+    "runtime_layers": [
+      {
+        "layer_id": "mar_fundo",
+        "role": "vfx",
+        "vdp_surface": "BG_B",
+        "palette_domain": "pal0_cenario",
+        "animation_role": "palette_cycle"
+      },
+      {
+        "layer_id": "logo_principal",
+        "role": "main_text",
+        "vdp_surface": "BG_A",
+        "palette_domain": "pal3_hud",
+        "animation_role": "static"
+      },
+      {
+        "layer_id": "press_start",
+        "role": "cursor_feedback",
+        "vdp_surface": "BG_A",
+        "palette_domain": "pal3_hud",
+        "animation_role": "press_start_reveal"
+      }
+    ],
+    "vdp_budget_ref": "doc/13-spec-cenas.md",
+    "fallback_static_plan": "title 100% estatico (logo + press start sem pulso) se o budget da cena 1 apertar"
+  },
+  "validation_plan": {
+    "native_320x224_status": "planned",
+    "silhouette_status": "planned",
+    "monochrome_status": "planned",
+    "thumbnail_status": "planned",
+    "dynamic_background_status": "planned",
+    "blastem_evidence_required": true,
+    "blastem_evidence_ref": null
+  },
+  "fallback_policy": {
+    "budget_fallback": "title estatico de camada unica",
+    "font_fallback": "display simplificada sem quebra de onda; default SGDK apenas debug",
+    "logo_animation_fallback": "remover pulso do press-start antes de tocar no logo"
+  },
+  "approval_status": "planned"
+}

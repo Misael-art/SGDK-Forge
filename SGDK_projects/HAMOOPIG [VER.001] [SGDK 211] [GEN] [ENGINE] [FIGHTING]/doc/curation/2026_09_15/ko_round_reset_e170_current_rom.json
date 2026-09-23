@@ -1,0 +1,23 @@
+{
+  "lesson_id": "L094",
+  "date": "2026-09-15",
+  "topic": "ko_round_reset_e170_current_rom",
+  "source": "real_keyboard_blastem_playtest_with_framebuffer_capture",
+  "rom_sha256": "e17027c059396f296ee417da773e1a145bb59efc10999d005cfc5b23679ecf56",
+  "problem": "Os 100 ciclos de soft-reset cobriam apenas troca de cena; faltava exercitar KO, mensagem de vitória, restauração das duas barras e continuidade do round no binário final.",
+  "change": "Executar a rota real Ryo (P1) contra Musgo (P2), registrar a queda de P2, a mensagem PLAYER 2 WINS e a captura special_reset_health após a inicialização do round seguinte.",
+  "result": "A sessão alcançou KO no passo 25, registrou zero de vida do defensor, exibiu PLAYER 2 WINS e depois mostrou as duas barras restauradas; o processo encerrou sem fatal e o manifesto está vinculado ao SHA e170.",
+  "limits": [
+    "a captura não cobre simultaneous hit, GUARD, THROW ou time-over",
+    "a leitura de barra é um indício visual e não substitui HPRB/VDP dump",
+    "review visual independente, pior-frame e hardware real continuam pendentes"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260915T140256Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T140256Z/zero_1_result.png",
+    "out/emulator_evidence/visual_ko_20260915T140256Z/special_reset_health.png",
+    "out/emulator_evidence/visual_ko_20260915T140256Z/combat_window.mp4",
+    "tests/capture_visual_ko.py"
+  ],
+  "status": "documented_current_sha_ko_reset_pass_collision_classes_pending"
+}

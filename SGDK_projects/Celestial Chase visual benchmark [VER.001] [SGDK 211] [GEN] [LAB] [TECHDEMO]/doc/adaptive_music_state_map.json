@@ -1,0 +1,20 @@
+{
+  "schema": "adaptive_music_state_map_v1",
+  "trigger_sources": ["scene_enter", "phase_change", "pressure_threshold", "victory", "failure"],
+  "music_states": [
+    {"id": "calm", "role": "score_loop", "intensity": 1, "base_track_id": "chase_score_loop", "transition_type": "continue", "transition_frames": 1, "fallback_track_id": "psg_calm", "bpm_hint": 120, "priority": 1},
+    {"id": "pressure", "role": "score_plus_warning", "intensity": 2, "base_track_id": "chase_score_loop", "transition_type": "continue_with_warning", "transition_frames": 1, "fallback_track_id": "psg_pressure", "bpm_hint": 120, "priority": 2},
+    {"id": "climax", "role": "score_plus_dense_warning", "intensity": 3, "base_track_id": "chase_score_loop", "transition_type": "continue_with_warning", "transition_frames": 1, "fallback_track_id": "psg_climax", "bpm_hint": 120, "priority": 3},
+    {"id": "victory", "role": "result_stinger", "intensity": 0, "base_track_id": "chase_victory", "transition_type": "cut", "transition_frames": 1, "fallback_track_id": "psg_victory", "bpm_hint": 120, "priority": 4},
+    {"id": "failure", "role": "result_stinger", "intensity": 0, "base_track_id": "chase_failure", "transition_type": "cut", "transition_frames": 1, "fallback_track_id": "psg_failure", "bpm_hint": 90, "priority": 5}
+  ],
+  "transition_graph": [
+    {"from_state": "calm", "to_state": "pressure", "trigger_source": "phase_change", "fade_strategy": "continue", "ducking_strategy": "none"},
+    {"from_state": "pressure", "to_state": "climax", "trigger_source": "phase_change", "fade_strategy": "continue", "ducking_strategy": "none"},
+    {"from_state": "calm", "to_state": "failure", "trigger_source": "failure", "fade_strategy": "cut", "ducking_strategy": "stop_score"},
+    {"from_state": "pressure", "to_state": "failure", "trigger_source": "failure", "fade_strategy": "cut", "ducking_strategy": "stop_score"},
+    {"from_state": "climax", "to_state": "victory", "trigger_source": "victory", "fade_strategy": "cut", "ducking_strategy": "stop_score"}
+  ],
+  "channel_ownership_reservation": "PCM_CH1 score, PCM_CH2 result/critical, PCM_CH3 warning/movement",
+  "evidence_required": ["validate_audio", "BlastEm audio proof", "runtime metrics"]
+}

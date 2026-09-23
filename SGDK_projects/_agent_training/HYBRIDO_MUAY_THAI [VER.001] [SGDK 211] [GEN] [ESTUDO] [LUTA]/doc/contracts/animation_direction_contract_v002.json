@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_runtime_v002",
+  "cell_px": { "w": 48, "h": 64 },
+  "pivot_px": { "x": 24, "y": 58 },
+  "states": [
+    {
+      "id": "idle",
+      "frames": 8,
+      "intent": "Weighted guard with small breathing motion; no attack frame.",
+      "timing": "6 game frames per sprite frame"
+    },
+    {
+      "id": "walk_step",
+      "frames": 6,
+      "intent": "Short grounded fighter step preserving bottom-center foot contact.",
+      "timing": "6 game frames per sprite frame"
+    },
+    {
+      "id": "teep",
+      "frames": 6,
+      "intent": "Muay Thai teep with startup, active extension, impact cue and recovery.",
+      "phases": ["startup", "startup", "startup", "active", "active", "recovery"],
+      "impact_frame": 4,
+      "timing": "6 game frames per sprite frame"
+    }
+  ],
+  "fx_policy": "FX stays in PAL3 strip; body/material stays in PAL2 strip.",
+  "acting_contract": {
+    "idle": "Focused neutral face, closed mouth, eyes on opponent.",
+    "walk_step": "Focused face with slight tension and eyes tracking opponent.",
+    "teep": "Effort face with tense jaw, teeth or open kiai, narrowed eyes on active frames.",
+    "status": "failed_in_v002",
+    "failure_reason": "v002 repeats a static cold expression across idle and high-effort attack poses."
+  },
+  "motion_preview_paths": [
+    "data/processed/reports/hibrido_idle_motion_preview_v002.gif",
+    "data/processed/reports/hibrido_walk_step_motion_preview_v002.gif",
+    "data/processed/reports/hibrido_teep_motion_preview_v002.gif"
+  ],
+  "human_approval_record_path": "doc/contracts/human_approval_record_v002.md",
+  "human_approval_status": "rejected",
+  "visual_status": "placeholder_rejected_visual_translation",
+  "rejection_report": "out/logs/hibrido_v002_visual_rejection_report.json"
+}

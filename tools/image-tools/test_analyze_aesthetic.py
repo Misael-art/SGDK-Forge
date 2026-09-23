@@ -152,6 +152,21 @@ def make_similar_bg(path: Path) -> None:
     img.save(path, "PNG")
 
 
+def make_structural_layer(path: Path) -> None:
+    img = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(10, 30):
+        for x in range(0, 32):
+            px[x, y] = (96, 72, 64, 255)
+    for y in range(14, 28):
+        for x in range(4, 14):
+            px[x, y] = (140, 102, 86, 255)
+    for y in range(12, 24):
+        for x in range(20, 30):
+            px[x, y] = (74, 118, 120, 255)
+    img.save(path, "PNG")
+
+
 def has_issue(report: dict, code: str) -> bool:
     return any(issue["code"] == code for issue in report["issues"])
 
@@ -171,6 +186,7 @@ def main() -> int:
         noisy_bg = root / "noisy_bg.png"
         flat_bg = root / "flat_bg.png"
         similar_bg = root / "similar_bg.png"
+        structural = root / "structural_layer.png"
 
         make_sprite_good(good)
         make_low_separation_sprite(low_sep)
@@ -179,6 +195,7 @@ def main() -> int:
         make_noisy_bg(noisy_bg)
         make_flat_bg(flat_bg)
         make_similar_bg(similar_bg)
+        make_structural_layer(structural)
 
         good_report = run_case(good, "sprite", "generic-megadrive-elite")
         assert_true("Sprite base fica ao menos em review", good_report["status"] in {"elite_ready", "needs_review"}, good_report["status"])
@@ -197,6 +214,11 @@ def main() -> int:
 
         layer_report = run_case(low_sep, "sprite", "shinobi-iii", paired_bg=similar_bg)
         assert_true("Detecta separacao de plano baixa", has_issue(layer_report, "LOW_LAYER_SEPARATION"), json.dumps(layer_report["issues"], ensure_ascii=False))
+
+        structural_unpaired = run_case(structural, "bg_a", "generic-megadrive-elite")
+        structural_paired = run_case(structural, "bg_a", "generic-megadrive-elite", paired_bg=similar_bg)
+        assert_true("BG_A estrutural continua penalizado sem pareamento", has_issue(structural_unpaired, "OVER_EMPTY_TILES"), json.dumps(structural_unpaired["issues"], ensure_ascii=False))
+        assert_true("BG_A estrutural pareado nao recebe falso OVER_EMPTY_TILES", not has_issue(structural_paired, "OVER_EMPTY_TILES"), json.dumps(structural_paired["issues"], ensure_ascii=False))
 
     print(f"\nResultado: {PASSED} passou/passaram, {FAILED} falhou/falharam.")
     return 0 if FAILED == 0 else 1

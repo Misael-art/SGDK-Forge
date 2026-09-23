@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/external_technique_curation_record.schema.json",
+  "title": "External Technique Curation Record",
+  "description": "Record for curating an external video/transcript technique into the SGDK Forge agent ecosystem without bulk skill inflation or unsupported canonical claims.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "source",
+    "technique",
+    "classification",
+    "canonical_fit",
+    "evidence",
+    "promotion_decision",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "external_technique_curation_record" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_kind", "title_or_label", "availability"],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "source_kind": {
+          "type": "string",
+          "enum": ["direct_transcript", "direct_user_summary", "agent_aggregate_summary", "project_evidence", "unknown"]
+        },
+        "title_or_label": { "type": "string", "minLength": 1 },
+        "url": { "type": "string" },
+        "availability": {
+          "type": "string",
+          "enum": ["available_in_thread", "available_in_repo", "referenced_not_available", "aggregate_only"]
+        }
+      }
+    },
+    "technique": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "summary", "risk_domain"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "risk_domain": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "art",
+              "vdp",
+              "dma",
+              "collision",
+              "entity_architecture",
+              "state_transition",
+              "audio",
+              "asset_pipeline",
+              "tooling",
+              "governance",
+              "unknown"
+            ]
+          }
+        }
+      }
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "create_new_skill",
+        "improve_existing_skill",
+        "already_covered",
+        "discard_as_default",
+        "case_study",
+        "pipeline_update",
+        "backlog_pending_evidence"
+      ]
+    },
+    "canonical_fit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner_paths", "new_artifacts", "blocked_by"],
+      "properties": {
+        "owner_paths": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "new_artifacts": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "blocked_by": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grade", "minimum_required_before_canonical", "current_gaps"],
+      "properties": {
+        "grade": {
+          "type": "string",
+          "enum": ["E0_none", "E1_text", "E2_artifact", "E3_runtime", "E4_vdp_or_hardware"]
+        },
+        "minimum_required_before_canonical": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "current_gaps": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "promotion_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "rationale"],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["apply_now", "apply_as_candidate", "keep_local_case", "defer_pending_evidence", "reject"]
+        },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "curated",
+        "candidate_applied_not_verified",
+        "needs_human_review",
+        "pending_source_evidence",
+        "rejected"
+      ]
+    }
+  }
+}

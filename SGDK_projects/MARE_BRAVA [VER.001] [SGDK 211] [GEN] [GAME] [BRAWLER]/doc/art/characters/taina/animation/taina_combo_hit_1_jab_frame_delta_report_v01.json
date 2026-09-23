@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_combo_hit_1_jab_frame_delta_v01",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_combo_hit_1_jab",
+  "status": "passed_offline",
+  "frame_geometry": "64x64",
+  "visible_pixels_per_frame": [729, 809, 881, 805, 729],
+  "adjacent_changed_pixels": [
+    { "from": 0, "to": 1, "pixels": 165, "ratio_of_cell": 0.040283 },
+    { "from": 1, "to": 2, "pixels": 135, "ratio_of_cell": 0.032959 },
+    { "from": 2, "to": 3, "pixels": 158, "ratio_of_cell": 0.038574 },
+    { "from": 3, "to": 4, "pixels": 158, "ratio_of_cell": 0.038574 }
+  ],
+  "visible_bbox_xyxy_per_frame": [
+    [15, 2, 38, 60],
+    [15, 2, 47, 60],
+    [15, 2, 59, 60],
+    [15, 2, 45, 60],
+    [15, 2, 38, 60]
+  ],
+  "pivot_drift_px": 0,
+  "height_drift_px": 0,
+  "interpretation": "The increasing width is the authored jab reach, not scale drift. Head, lower body, ground contact and palette remain locked while shoulder, lead arm and sash carry the action."
+}

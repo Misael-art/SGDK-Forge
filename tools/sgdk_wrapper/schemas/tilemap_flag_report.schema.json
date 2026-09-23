@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/tilemap_flag_report.schema.json",
+  "title": "Tilemap Flag Report",
+  "description": "Report proving tilemap flags (priority, hflip, vflip) are preserved and linked to canonical tile hashes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entries", "generated_at", "tool_name", "tool_version"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "tool_name": { "type": "string", "minLength": 1 },
+    "tool_version": { "type": "string", "minLength": 1 },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "tile_x",
+          "tile_y",
+          "tile_index",
+          "palette_id",
+          "priority",
+          "hflip",
+          "vflip",
+          "source_tile_hash",
+          "canonical_tile_hash"
+        ],
+        "properties": {
+          "frame_index": { "type": "integer", "minimum": 0 },
+          "tile_x": { "type": "integer", "minimum": 0 },
+          "tile_y": { "type": "integer", "minimum": 0 },
+          "tile_index": { "type": "integer", "minimum": 0 },
+          "palette_id": { "type": "integer", "minimum": 0, "maximum": 3 },
+          "priority": { "type": "boolean" },
+          "hflip": { "type": "boolean" },
+          "vflip": { "type": "boolean" },
+          "source_tile_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "canonical_tile_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    }
+  }
+}

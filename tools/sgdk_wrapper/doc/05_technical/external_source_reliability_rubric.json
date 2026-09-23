@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_source_reliability_rubric",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Classify external video-derived material so the canonical agent can use useful ideas without promoting indirect AI summaries into unverified technical truth.",
+  "global_rules": [
+    "AI-transcribed or AI-analyzed video content is a curation input, not final proof.",
+    "A direct timestamped source can justify a case record, but SGDK/Mega Drive integration still requires local constraints and validation.",
+    "An aggregate count or conclusion from another agent is backlog evidence until individual sources are available.",
+    "No external technique can override AGENTS.md, SGDK 2.11 headers, project manifests or emulator evidence gates.",
+    "When source confidence is lower than the requested claim, downgrade the claim or request stronger evidence."
+  ],
+  "confidence_levels": [
+    {
+      "level": "L0_unavailable",
+      "rank": 0,
+      "meaning": "The source is mentioned but no transcript, timestamp, file, link or local artifact is available.",
+      "allowed_use": [
+        "backlog placeholder"
+      ],
+      "forbidden_use": [
+        "new skill creation",
+        "canonical rule",
+        "case study",
+        "technical claim"
+      ]
+    },
+    {
+      "level": "L1_indirect_ai_summary",
+      "rank": 1,
+      "meaning": "The material is an AI summary/transcription with no independent local verification.",
+      "allowed_use": [
+        "curation hypothesis",
+        "backlog item",
+        "candidate skill idea",
+        "question list"
+      ],
+      "forbidden_use": [
+        "validated technique",
+        "ready_for_aaa claim",
+        "implementation proof",
+        "runtime proof"
+      ]
+    },
+    {
+      "level": "L2_timestamped_transcript",
+      "rank": 2,
+      "meaning": "The transcript or analysis includes source links/timestamps and concrete claims, but has not been independently checked against the video/tool/docs.",
+      "allowed_use": [
+        "candidate case record",
+        "candidate skill contract",
+        "source-scoped technical note"
+      ],
+      "forbidden_use": [
+        "release gate proof",
+        "hardware budget proof",
+        "SGDK API proof"
+      ]
+    },
+    {
+      "level": "L3_primary_doc_or_tool_verified",
+      "rank": 3,
+      "meaning": "The concept is cross-checked against primary documentation, local tool behavior, source code, SGDK headers or verified exported data.",
+      "allowed_use": [
+        "canonical skill rule",
+        "schema requirement",
+        "validator requirement",
+        "implementation guidance"
+      ],
+      "forbidden_use": [
+        "runtime/emulator proof"
+      ]
+    },
+    {
+      "level": "L4_local_runtime_verified",
+      "rank": 4,
+      "meaning": "The technique has local build/runtime/emulator evidence in the workspace.",
+      "allowed_use": [
+        "project evidence",
+        "budget validation candidate",
+        "runtime closeout candidate"
+      ],
+      "forbidden_use": [
+        "final AAA release without full evidence ladder"
+      ]
+    },
+    {
+      "level": "L5_canonical_validated",
+      "rank": 5,
+      "meaning": "The technique has source reliability, local validation, owner skill, machine-readable contract and required emulator/VDP evidence when runtime claims are involved.",
+      "allowed_use": [
+        "canonical validated technique",
+        "approved reusable agent rule",
+        "candidate_aaa support when all activated gates pass"
+      ],
+      "forbidden_use": []
+    }
+  ],
+  "source_type_rules": [
+    {
+      "source_type": "attached_ai_transcript",
+      "default_level": "L1_indirect_ai_summary",
+      "promotion_requirements": [
+        "timestamps or direct source references",
+        "technical claim extracted into curation record",
+        "SGDK/VDP constraint mapping",
+        "local validation for implementation/runtime claims"
+      ]
+    },
+    {
+      "source_type": "youtube_video_link_with_timestamps",
+      "default_level": "L2_timestamped_transcript",
+      "promotion_requirements": [
+        "primary source review or transcript verification",
+        "tool/doc/header cross-check for API/hardware claims",
+        "local test for runtime claims"
+      ]
+    },
+    {
+      "source_type": "other_agent_aggregate_analysis",
+      "default_level": "L1_indirect_ai_summary",
+      "promotion_requirements": [
+        "individual source list",
+        "per-source classification",
+        "direct case records",
+        "decision matrix update"
+      ]
+    },
+    {
+      "source_type": "local_project_artifact",
+      "default_level": "L3_primary_doc_or_tool_verified",
+      "promotion_requirements": [
+        "validator or build output",
+        "emulator evidence when runtime is claimed",
+        "memory/changelog update when required"
+      ]
+    }
+  ],
+  "case_application": [
+    {
+      "case_id": "thread_attached_megadrive_video_analysis",
+      "current_level": "L1_indirect_ai_summary",
+      "accepted_use": "Generate candidate skills, contracts, backlog, workflows and curation questions.",
+      "blocked_use": "Claim validated technical truth or runtime evidence without local validation."
+    },
+    {
+      "case_id": "six_direct_cases_in_thread",
+      "current_level": "L2_timestamped_transcript",
+      "accepted_use": "Create candidate case records and candidate operational guardrails.",
+      "blocked_use": "Promote to validated canonical proof without source/tool/local verification."
+    },
+    {
+      "case_id": "aggregate_64_video_claim",
+      "current_level": "L1_indirect_ai_summary",
+      "accepted_use": "Maintain backlog and decision-matrix pressure.",
+      "blocked_use": "Treat all 64 as individually analyzed by this agent."
+    }
+  ]
+}

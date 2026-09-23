@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "TAIKETSU ULTRA HERO GENESIS [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]"
+  },
+  "policy": {
+    "all_project_assets_inside_project": true,
+    "source_inputs_copied_to_rascunho": true,
+    "placeholder_never_promotes_to_aaa": true,
+    "visual_art_requires_artistic_gate": true
+  },
+  "assets": [
+    {
+      "asset_id": "upstream_sprite_set_jack_ryo",
+      "role": "engine_sprites",
+      "source_path": "SGDK_Engines/TaiketsuUltraHeroGenesis (origem preservada no workspace)",
+      "runtime_path": "res/sprite/",
+      "owner": "upstream GameDevBoss (Daniel Moura) via guilhermesousa03",
+      "status": "placeholder",
+      "promotion_allowed": false,
+      "technique_tags": ["hand_authored_pixel", "upstream_import"],
+      "evidence": ["rascunho/upstream_reference/imported_assets_sha256.json"]
+    },
+    {
+      "asset_id": "upstream_bg_set_rooms_mnta",
+      "role": "engine_backgrounds",
+      "source_path": "SGDK_Engines/TaiketsuUltraHeroGenesis (origem preservada no workspace)",
+      "runtime_path": "res/gfx/",
+      "owner": "upstream GameDevBoss (Daniel Moura) via guilhermesousa03",
+      "status": "placeholder",
+      "promotion_allowed": false,
+      "technique_tags": ["hand_authored_pixel", "upstream_import"],
+      "evidence": ["rascunho/upstream_reference/imported_assets_sha256.json"]
+    },
+    {
+      "asset_id": "snd_placeholder_pcm_xgm",
+      "role": "engine_sfx_placeholders",
+      "source_path": "rascunho/upstream_reference/sound_placeholder_manifest.json",
+      "runtime_path": "res/snd/",
+      "owner": "porta SGDK 2.11 (2026-09-10)",
+      "status": "placeholder",
+      "promotion_allowed": false,
+      "technique_tags": ["procedural_primitive", "audio_placeholder"],
+      "evidence": ["res/sound.res", "rascunho/upstream_reference/sound_placeholder_manifest.json"]
+    },
+    {
+      "asset_id": "spr_placeholder_entries_rescomp",
+      "role": "rescomp_symbols_out_of_sync_upstream",
+      "source_path": "res/sprite.res (bloco PLACEHOLDERS)",
+      "runtime_path": "res/sprite/",
+      "owner": "porta SGDK 2.11 (2026-09-10)",
+      "status": "placeholder",
+      "promotion_allowed": false,
+      "technique_tags": ["rescomp_placeholder", "upstream_out_of_sync"],
+      "evidence": ["res/sprite.res", "doc/10-memory-bank.md"]
+    }
+  ]
+}

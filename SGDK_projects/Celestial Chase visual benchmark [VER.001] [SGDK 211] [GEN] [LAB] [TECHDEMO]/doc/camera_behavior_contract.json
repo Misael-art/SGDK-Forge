@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "camera_behavior_contract",
+  "scene_id": "chase_first_playable",
+  "model": "fixed_camera_with_depth_banded_line_scroll",
+  "lead_px": 0,
+  "smoothing_frames": 0,
+  "gameplay_reason": "keeps all three lanes, threats and pursuer readable at once",
+  "shake": {
+    "owner": "chase_pursuer",
+    "offsets_px": [2, -2, 1, -1, 1, 0],
+    "gameplay_trigger": "damage or Pulse"
+  },
+  "fallback": "HSCROLL_PLANE and no shake",
+  "blockers": [
+    "perceptual read requires current-ROM capture"
+  ]
+}

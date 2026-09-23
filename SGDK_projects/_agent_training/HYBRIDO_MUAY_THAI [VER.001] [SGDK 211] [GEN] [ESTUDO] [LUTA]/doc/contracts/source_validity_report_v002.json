@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_source_concept_v002",
+  "source_validity": "rejected",
+  "direct_runtime_use_allowed": false,
+  "reason": "Human review rejected the source/model sheet for anatomy and facial acting failures. It can be studied as a failed source, but cannot drive final runtime art.",
+  "rejection_report": "out/logs/hibrido_v002_input_gatekeeper_report.json",
+  "required_gates": [
+    "input_gatekeeper_anatomy_member_count",
+    "input_gatekeeper_facial_acting",
+    "semantic_parse_report",
+    "fake_pixel_art_rejection",
+    "lineart_blocking_1px",
+    "pixel_compliance_report",
+    "sprite_strip_integrity_report",
+    "visual_excellence_review",
+    "human_approval_record",
+    "BlastEm evidence"
+  ]
+}

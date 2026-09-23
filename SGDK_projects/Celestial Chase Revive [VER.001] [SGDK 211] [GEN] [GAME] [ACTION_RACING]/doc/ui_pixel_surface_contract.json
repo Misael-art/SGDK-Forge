@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "surface_id": "front_end_title_menu_credits_v001",
+  "surface_kind": "title_frontend",
+  "ui_decision_card_ref": "doc/ui_decision_card.json",
+  "pixel_grid_policy": {
+    "native_resolution": "320x224",
+    "integer_positioning_required": true,
+    "scaling_policy": "one_x_native",
+    "forbidden_interpolation": [
+      "bilinear",
+      "bicubic",
+      "lanczos",
+      "engine_free_scale",
+      "subpixel_ui_motion",
+      "anti_aliased_edges"
+    ]
+  },
+  "typography_policy": {
+    "font_role": "front_end_premium",
+    "native_font_height_px": 8,
+    "baseline_grid_px": 8,
+    "contrast_treatment": "one_px_shadow",
+    "glyph_manifest_ref": "doc/glyph_manifest.json"
+  },
+  "atlas_plan": {
+    "atlas_ref": "res/ui/front_end_tiles.res",
+    "vdp_surface": "MIXED",
+    "palette_domain": "ui_title_menu_credits_pal",
+    "index0_policy": "mixed_declared",
+    "budget_ref": "doc/13-spec-cenas.md"
+  },
+  "validation_plan": {
+    "native_readability_status": "planned",
+    "integer_pixel_motion_status": "planned",
+    "atlas_budget_status": "planned",
+    "blastem_evidence_required": true,
+    "blastem_evidence_ref": null
+  },
+  "approval_status": "planned",
+  "blockers": [
+    "front_end_atlas_missing",
+    "native_readability_unmeasured",
+    "blastem_evidence_missing"
+  ]
+}

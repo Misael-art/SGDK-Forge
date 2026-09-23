@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/promotion_claim_manifest.schema.json",
+  "title": "SGDK Promotion Claim Manifest",
+  "description": "Declares delivery-sensitive claims and the evidence scope offered for each promotion attempt.",
+  "type": "object",
+  "required": ["claims"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "default": "1.0.0"
+    },
+    "rom_sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "scope"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "first_playable",
+              "gameplay_rom_aprovada",
+              "performance_estavel",
+              "audio_ok",
+              "assets_premium",
+              "scene_closeout",
+              "validado_budget",
+              "ready_for_aaa",
+              "advance_next_phase"
+            ]
+          },
+          "scope": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "scope"],
+        "properties": {
+          "kind": { "type": "string", "minLength": 1 },
+          "scope": { "type": "string", "minLength": 1 },
+          "rom_sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "path": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "integration_owner": { "type": "string", "minLength": 1 },
+    "parallel_work": { "type": "boolean" },
+    "build": { "type": "object" },
+    "assets": { "type": "array" },
+    "modules": { "type": "array" },
+    "metrics": { "type": "object" },
+    "runtime": { "type": "object" },
+    "visual": { "type": "object" },
+    "review": { "type": "object" },
+    "phase": { "type": "object" },
+    "budget": { "type": "object" },
+    "reconciliation": { "type": "object" }
+  },
+  "additionalProperties": true
+}

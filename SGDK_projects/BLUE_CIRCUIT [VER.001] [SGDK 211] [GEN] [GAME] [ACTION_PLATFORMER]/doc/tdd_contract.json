@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "blue_circuit",
+  "created_at": "2026-06-27",
+  "status": "active",
+  "method": "small_slices_with_red_green_validation",
+  "technique_selection": {
+    "application_plan": [
+      {
+        "slice_id": "visual_asset_translation",
+        "techniques": [
+          "source_approved_vdp_translation",
+          "indexed_png_4bpp",
+          "mega_drive_9bit_palette",
+          "resources_res_integration"
+        ],
+        "red_test": "rascunho/tests/validate_blue_circuit_assets.py",
+        "pass_gate": "all approved runtime PNGs exist, are 4bpp indexed, 8px aligned, <=16 PLTE entries, 9-bit palette snapped, and declared in res/resources.res"
+      },
+      {
+        "slice_id": "stage_01_action_platformer_runtime",
+        "techniques": [
+          "fix16_platformer_motion",
+          "input_abstraction",
+          "camera_scroll_management",
+          "manual_frame_animation",
+          "full_resident_scene_local_preload"
+        ],
+        "red_test": "build plus BlastEm evidence after asset gate",
+        "pass_gate": "ROM builds, stage can be entered, player can run, jump and shoot, enemy and mini-boss respond, and BlastEm evidence is tied to ROM hash"
+      }
+    ]
+  },
+  "blocked_claims_until_verified": [
+    "ready_for_aaa",
+    "testado_em_emulador",
+    "validado_budget",
+    "gameplay_aprovado",
+    "visual_lab_aprovado"
+  ]
+}

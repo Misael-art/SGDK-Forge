@@ -1,0 +1,138 @@
+{
+  "_meta": {
+    "title": "Channel Ownership Templates — XGM2 Audio Architecture",
+    "version": "1.0.0",
+    "purpose": "Pre-built channel ownership maps for common game scenarios",
+    "last_updated": "2026-04-23"
+  },
+
+  "templates": {
+    "bgm_sfx_standard": {
+      "name": "BGM + SFX Standard",
+      "description": "Most common setup. BGM via XGM2 sequencer, SFX on dedicated PCM channel.",
+      "xgm2_mode": "bgm_sfx",
+      "channel_map": {
+        "FM_CH1-5": { "owner": "BGM", "note": "XGM2 managed" },
+        "FM_CH6_DAC": { "owner": "BGM/PCM", "note": "XGM2 managed, DAC for PCM" },
+        "PSG_CH1-3": { "owner": "BGM", "note": "XGM2 managed" },
+        "PSG_NOISE": { "owner": "BGM", "note": "XGM2 managed" },
+        "PCM_CH1": { "owner": "SFX", "priority_range": "4-14" },
+        "PCM_CH2": { "owner": "SFX_SECONDARY", "priority_range": "4-11" },
+        "PCM_CH3": { "owner": "AMBIENT", "priority_range": "0-3", "loop": true }
+      },
+      "use_cases": ["platformer", "action", "puzzle", "racing"],
+      "fallback": "If PCM channels exhausted, drop ambient (CH3) first"
+    },
+
+    "bgm_sfx_voice": {
+      "name": "BGM + SFX + Voice",
+      "description": "Full setup with dedicated voice channel. For games with announcer, narration, or character speech.",
+      "xgm2_mode": "bgm_sfx_ambience",
+      "channel_map": {
+        "FM_CH1-5": { "owner": "BGM" },
+        "FM_CH6_DAC": { "owner": "BGM/PCM" },
+        "PSG_CH1-3": { "owner": "BGM" },
+        "PSG_NOISE": { "owner": "BGM" },
+        "PCM_CH1": { "owner": "SFX", "priority_range": "4-14" },
+        "PCM_CH2": { "owner": "VOICE", "priority_range": "3-15", "note": "Typewriter ticks at 3, speech at 15" },
+        "PCM_CH3": { "owner": "AMBIENT", "priority_range": "0-3", "loop": true }
+      },
+      "use_cases": ["fighting_game", "rpg", "beat_em_up", "sports"],
+      "fallback": "If voice needed during SFX peak, drop ambient. If all 3 busy, voice preempts lowest."
+    },
+
+    "boss_setpiece": {
+      "name": "Boss Setpiece",
+      "description": "Boss encounter with dynamic stingers and high-priority alerts. All channels active.",
+      "xgm2_mode": "boss_setpiece",
+      "channel_map": {
+        "FM_CH1-5": { "owner": "BGM_BOSS" },
+        "FM_CH6_DAC": { "owner": "BGM/PCM" },
+        "PSG_CH1-3": { "owner": "BGM_BOSS" },
+        "PSG_NOISE": { "owner": "BGM_BOSS / SFX_PSG", "note": "PSG noise for boss roar effect" },
+        "PCM_CH1": { "owner": "SFX_COMBAT", "priority_range": "8-14", "note": "Only combat SFX during boss" },
+        "PCM_CH2": { "owner": "BOSS_VOICE", "priority_range": "13-15", "note": "Boss roar, name, death cry" },
+        "PCM_CH3": { "owner": "BOSS_AMBIENT", "priority_range": "1-5", "note": "Arena atmosphere, fire, wind" }
+      },
+      "stinger_plan": {
+        "boss_intro": "BGM fade → stinger (2s) → boss BGM fade in",
+        "phase_change": "Quick stinger (0.5s) overlaid on BGM",
+        "boss_death": "BGM stop → death stinger → victory BGM"
+      },
+      "use_cases": ["boss_fight", "mini_boss", "final_encounter"],
+      "fallback": "Drop ambient channel first, then reduce SFX to CH1 only"
+    },
+
+    "cutscene_cinematic": {
+      "name": "Cutscene / Cinematic",
+      "description": "Cinematic sequence with voice narration, stingers, and minimal SFX.",
+      "xgm2_mode": "bgm_sfx",
+      "channel_map": {
+        "FM_CH1-5": { "owner": "BGM_CINEMATIC" },
+        "FM_CH6_DAC": { "owner": "BGM/PCM" },
+        "PSG_CH1-3": { "owner": "BGM_CINEMATIC" },
+        "PSG_NOISE": { "owner": "BGM_CINEMATIC" },
+        "PCM_CH1": { "owner": "SFX_CINEMATIC", "priority_range": "6-12", "note": "Door slam, explosion, environment" },
+        "PCM_CH2": { "owner": "VOICE_NARRATOR", "priority_range": "15", "note": "Single speaker or typewriter" },
+        "PCM_CH3": { "owner": "DISABLED", "note": "Not used during cutscene to save CPU" }
+      },
+      "use_cases": ["intro", "ending", "story_cutscene", "credits"],
+      "fallback": "Voice has absolute priority. SFX yield to voice if contention."
+    },
+
+    "sfx_only": {
+      "name": "SFX Only (No BGM)",
+      "description": "Pure SFX mode. For menus, loading, or dramatic silent moments.",
+      "xgm2_mode": "bgm_only",
+      "channel_map": {
+        "FM_CH1-6": { "owner": "DISABLED" },
+        "PSG_CH1-3": { "owner": "PSG_SFX_DIRECT", "note": "PSG driven by 68K for menu beeps" },
+        "PSG_NOISE": { "owner": "PSG_SFX_DIRECT" },
+        "PCM_CH1": { "owner": "SFX_MENU", "priority_range": "4-10" },
+        "PCM_CH2": { "owner": "VOICE", "priority_range": "15" },
+        "PCM_CH3": { "owner": "DISABLED" }
+      },
+      "use_cases": ["main_menu", "pause_menu", "loading_screen", "dramatic_silence"],
+      "note": "XGM2 driver still loaded but no track playing. PCM channels available."
+    },
+
+    "custom_driver_hybrid": {
+      "name": "Custom Z80 Driver + XGM2 Hybrid",
+      "description": "Custom Z80 driver handles specific audio tasks (high-quality voice, echo) while XGM2 manages BGM. Requires careful channel handoff.",
+      "xgm2_mode": "bgm_sfx",
+      "channel_map": {
+        "FM_CH1-5": { "owner": "BGM (XGM2)" },
+        "FM_CH6_DAC": { "owner": "CUSTOM_DRIVER", "note": "DAC taken by custom driver for hi-fi voice" },
+        "PSG_CH1-3": { "owner": "BGM (XGM2)" },
+        "PCM_CH1-3": { "owner": "NEGOTIATED", "note": "Custom driver and XGM2 CANNOT run simultaneously on same channel" }
+      },
+      "integration_contract": {
+        "driver_swap": "Must unload XGM2 before loading custom driver (or vice versa)",
+        "transition": "BGM fade out → driver swap → custom audio → driver swap back → BGM resume",
+        "state_preservation": "BGM position/state LOST during swap — plan for musical break points"
+      },
+      "use_cases": ["hi-fi_voice_cutscene", "special_audio_effect", "demo_scene"],
+      "fallback": "If custom driver fails to load, fall back to XGM2 PCM for degraded but functional audio",
+      "cross_skill": "Requires z80-pcm-custom-driver for implementation"
+    }
+  },
+
+  "ownership_rules": {
+    "invariants": [
+      "Every channel MUST have exactly one owner at any time",
+      "Owner change requires explicit handoff (stop current → assign → start new)",
+      "BGM channels owned by XGM2 sequencer — never write directly",
+      "PCM channel priority: higher number ALWAYS preempts lower",
+      "Same priority = newest wins (last-write-wins)",
+      "Ambient channels are ALWAYS the first sacrificed under contention",
+      "Voice channel should NEVER be preempted by standard SFX"
+    ],
+    "anti_patterns": [
+      "Two owners on same channel (race condition → audio corruption)",
+      "SFX on BGM channel (cuts music)",
+      "Ambient at high priority (blocks combat SFX)",
+      "Voice without dedicated channel (gets preempted mid-sentence)",
+      "No fallback plan (system crashes when all channels busy)"
+    ]
+  }
+}

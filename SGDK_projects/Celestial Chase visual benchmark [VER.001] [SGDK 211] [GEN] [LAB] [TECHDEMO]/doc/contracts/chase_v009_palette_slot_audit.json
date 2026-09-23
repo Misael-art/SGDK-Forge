@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "status": "planned_pending_blastem",
+  "palette_owners": {
+    "PAL0": "fixed cosmic sky and source-derived clouds",
+    "PAL1": "hero and dithered afterimages",
+    "PAL2": "pursuer, obstacles, pickup and visible FX",
+    "PAL3": "road accents and contextual Shadow/Highlight operators"
+  },
+  "index_zero_policy": "transparent for sprites and BG_A; deep black global backdrop for BG_B",
+  "critical_slot_policy": "PAL3 slots 14 and 15 are not used for critical hero skin or pursuer volume",
+  "fallback": "disable Shadow/Highlight and preserve remastered static palettes"
+}

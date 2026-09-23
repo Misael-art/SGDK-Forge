@@ -1,0 +1,80 @@
+{
+  "migration_id": "canonical_copy_2026_06_02",
+  "source_root": "F:\\Projects\\MegaDrive_DEV",
+  "target_root": "F:\\Projects\\Sgdk Forge",
+  "timestamp_utc": "2026-06-02T00:00:00Z",
+  "operator": "opencode",
+  "plan": "canonical_migration_v1",
+  "decisions": {
+    "lib_case_policy": "exclude only case_editorial_board/ (Metal Slug Urban Sunset evidence with 60+ hardcoded MegaDrive_DEV paths)",
+    "ai_imagegen_runtime_policy": "exclude runtime/ entirely (1.5 GB; venv/ComfyUI bundled as one dir)",
+    "extra_tools_policy": "include maintenance and gen-scripts; exclude 16tile, HAMOOPI-PcEngine, nexxt, palette-batch, aseprite-suite, ImageMagick, mugen2sgdk, paletteMergerForSGDK-main",
+    "dry_run": true,
+    "junction_fallback": "symlink",
+    "smoke_test_naming": "SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]"
+  },
+  "includes": [
+    { "src": "AGENTS.md", "dst": "AGENTS.md" },
+    { "src": "CLAUDE.md", "dst": "CLAUDE.md" },
+    { "src": "README.md", "dst": "README.md" },
+    { "src": ".gitignore", "dst": ".gitignore" },
+    { "src": "tools/sgdk_wrapper", "dst": "tools/sgdk_wrapper", "recursive": true },
+    { "src": "tools/ai_imagegen", "dst": "tools/ai_imagegen", "recursive": true },
+    { "src": "tools/emuladores", "dst": "tools/emuladores", "recursive": true },
+    { "src": "tools/image-tools", "dst": "tools/image-tools", "recursive": true },
+    { "src": "tools/photo2sgdk", "dst": "tools/photo2sgdk", "recursive": true },
+    { "src": "tools/vscode-template", "dst": "tools/vscode-template", "recursive": true },
+    { "src": "tools/maintenance", "dst": "tools/maintenance", "recursive": true },
+    { "src": "tools/gen-scripts", "dst": "tools/gen-scripts", "recursive": true },
+    { "src": "sdk/sgdk-2.11", "dst": "sdk/sgdk-2.11", "recursive": true },
+    { "src": ".cursor/rules", "dst": ".cursor/rules", "recursive": true },
+    { "src": "doc/06_AI_MEMORY_BANK.md", "dst": "doc/06_AI_MEMORY_BANK.md" },
+    { "src": "doc/AGENTS.md", "dst": "doc/AGENTS.md" },
+    { "src": "doc/PADRAO_NOMENCLATURA.md", "dst": "doc/PADRAO_NOMENCLATURA.md" },
+    { "src": "doc/TEMPLATE_REGISTRY.md", "dst": "doc/TEMPLATE_REGISTRY.md" },
+    { "src": "doc/WORKSPACE_STRUCTURE.md", "dst": "doc/WORKSPACE_STRUCTURE.md" },
+    { "src": "doc/template_registry.json", "dst": "doc/template_registry.json" },
+    { "src": "doc/agent_learning", "dst": "doc/agent_learning", "recursive": true },
+    { "src": "doc/migrations", "dst": "doc/migrations", "recursive": true },
+    { "src": "doc/05_technical", "dst": "doc/05_technical", "recursive": true },
+    { "src": "doc/03_art", "dst": "doc/03_art", "recursive": true }
+  ],
+  "excludes_dirs": [
+    "out", "__pycache__", ".mypy_cache", ".pytest_cache", "cache", "reports",
+    "tools/ai_imagegen/runtime",
+    "tools/sgdk_wrapper/out",
+    "tools/sgdk_wrapper/.agent/lib_case/art-translation/case_editorial_board",
+    "_archive"
+  ],
+  "excludes_files": [
+    "*.log", "*.tmp", "package-lock.json"
+  ],
+  "implicit_excluded_at_source_root": [
+    "fix_mission1.py", "fix_sky.py", "get_issues.py", "get_needs_review.py",
+    "inf.txt", "rascunho.txt", "CURADORIA_CANONICA_APLICADA.md",
+    "STANDARDIZATION_PLAN.md", "*.yml"
+  ],
+  "junction": {
+    "path": "F:\\Projects\\Sgdk Forge\\.agents\\skills",
+    "target": "F:\\Projects\\Sgdk Forge\\tools\\sgdk_wrapper\\.agent\\skills",
+    "type": "Junction"
+  },
+  "smoke_test": {
+    "project_path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]",
+    "build_command": "build.bat",
+    "emulator": "Blastem",
+    "max_status": "buildado"
+  },
+  "validations": [
+    "Test-Path F:\\Projects\\Sgdk Forge\\tools\\sgdk_wrapper\\.agent\\framework_manifest.json",
+    "Test-Path F:\\Projects\\Sgdk Forge\\sdk\\sgdk-2.11\\makefile.gen",
+    "Test-Path F:\\Projects\\Sgdk Forge\\tools\\emuladores\\Blastem\\Blastem.exe",
+    "Get-Item F:\\Projects\\Sgdk Forge\\.agents\\skills | LinkType",
+    "tools/sgdk_wrapper/preflight_host.ps1",
+    "python tools/sgdk_wrapper/.agent/scripts/validate_skill_framework.py",
+    "python tools/sgdk_wrapper/.agent/scripts/self_check_agentic_aaa_contracts.py",
+    "python tools/sgdk_wrapper/.agent/scripts/validate_template_registry.py",
+    "tools/sgdk_wrapper/ci/test_game_design_contract_gates.ps1"
+  ],
+  "phases": []
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "entries": [
+    {
+      "enemy_id": "celestial_boulder",
+      "role": "lane_blocker",
+      "telegraph_frames": 30,
+      "synergy_partners": ["astral_brand"],
+      "head_metric": "S"
+    },
+    {
+      "enemy_id": "astral_brand",
+      "role": "lane_mark_attack",
+      "telegraph_frames": 45,
+      "synergy_partners": ["celestial_boulder", "meteor_spear"],
+      "head_metric": "S"
+    },
+    {
+      "enemy_id": "meteor_spear",
+      "role": "diagonal_pressure",
+      "telegraph_frames": 50,
+      "synergy_partners": ["lumen_orb"],
+      "head_metric": "M"
+    },
+    {
+      "enemy_id": "master_pursuer",
+      "role": "boss",
+      "telegraph_frames": 60,
+      "synergy_partners": ["shadow_wave", "hoof_impact"],
+      "head_metric": "XL"
+    }
+  ]
+}

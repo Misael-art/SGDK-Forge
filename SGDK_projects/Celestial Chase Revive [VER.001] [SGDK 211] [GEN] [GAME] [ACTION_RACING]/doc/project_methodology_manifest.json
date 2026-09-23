@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "methodology_version": "2026.06.04",
+  "project": {
+    "name": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+    "lifecycle": "new",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "active_workflow": "production-loop",
+  "required_skills": [
+    "governance/truth-hierarchy-guard",
+    "governance/doc-sync-audit",
+    "governance/aaa-pipeline-guardian",
+    "operation/sgdk-build-wrapper-operator",
+    "art/cutscene-cinematic-direction",
+    "art/multi-plane-composition",
+    "art/visual-excellence-standards",
+    "hardware/megadrive-vdp-budget-analyst",
+    "architecture/scene-state-architect",
+    "architecture/game-state-transition-architect",
+    "code/sgdk-runtime-coder",
+    "design/level-design-canonical"
+  ],
+  "required_validations": [
+    "preflight_host",
+    "validate_resources",
+    "scene_closeout_gate",
+    "freshness_audit",
+    "project_hygiene",
+    "project_context"
+  ],
+  "claims": {
+    "critical_motion": {
+      "applicability": "not_applicable",
+      "rationale": "A entrega atual e pacote de specs. Movimento critico esta planejado no GDD/TDD, mas nao ha asset/runtime do Revive; antes da primeira iteracao de animacao, este claim deve ser reclassificado para required e receber GIF, aprovacao humana, screenshot, SRAM, VDP dump e perceptual_check."
+    },
+    "road_physics": {
+      "applicability": "not_applicable",
+      "rationale": "A specs define corrida por faixas e pseudo-3D road stack, mas ainda nao declara contrato runtime de fisica de estrada. A primeira prova jogavel deve decidir entre lane runner puro ou road_physics required antes de codigo."
+    },
+    "modular_boss": {
+      "applicability": "not_applicable",
+      "rationale": "O Mestre Perseguidor esta documentado como boss setpiece. O claim modular_boss so deve virar required quando houver plano de partes runtime, FK chain e codigo SGDK correspondente."
+    }
+  },
+  "claim_activation_plan": {
+    "before_asset_generation": [
+      "critical_motion"
+    ],
+    "before_first_playable_runtime": [
+      "road_physics"
+    ],
+    "before_final_boss_runtime": [
+      "modular_boss"
+    ],
+    "rule": "Nao promover nenhum destes claims por palavras como chase, corrida, mestre, boss ou impacto. Reclassificar somente com contrato, owner, budget e evidencia esperada."
+  }
+}

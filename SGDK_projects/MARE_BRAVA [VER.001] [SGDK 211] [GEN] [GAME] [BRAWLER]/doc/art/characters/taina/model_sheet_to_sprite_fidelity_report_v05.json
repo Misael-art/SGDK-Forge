@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_model_sheet_to_lineart_fidelity_v05",
+  "generated_at": "2026-07-08",
+  "asset_id": "taina",
+  "candidate": {
+    "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+    "sha256": "3fe2aa6de8f51170a32b66b3dfb5bda793e54d929a9b498d6b974129c945c615",
+    "review_8x": "doc/art/characters/taina/review/taina_lineart_clean_native_48x64_candidate_review_8x_v05.png",
+    "review_8x_sha256": "6c4f805832a61ae131facfb69a402d11b2b7858592db716a70bf6fcf28b633ee",
+    "comparison_board_8x": "doc/art/characters/taina/review/taina_lineart_v04_v05_compare_8x_v01.png",
+    "comparison_board_8x_sha256": "e3d2ebc2fdd4d3ac7a083423494bcd875d3dddb2b463ea5626f8b401ee5b8091",
+    "asset_kind": "lineart_blocking_1px_candidate"
+  },
+  "technical_check": {
+    "technical_pass": true,
+    "png_indexed": true,
+    "png_mode": "P",
+    "dimensions_px": {
+      "w": 192,
+      "h": 64
+    },
+    "dimensions_multiple_of_8": true,
+    "cell_px": {
+      "w": 48,
+      "h": 64
+    },
+    "view_count": 4,
+    "used_indices": [0, 1],
+    "index0_is_pipeline_magenta": true,
+    "visible_colors_on_9bit_grid_excluding_index0": true,
+    "visible_colors_max_15": true,
+    "has_alpha_channel": false,
+    "cell_metrics": [
+      {
+        "cell": 0,
+        "visible_pixels": 532,
+        "bbox": [7, 1, 41, 62],
+        "bbox_w": 35,
+        "bbox_h": 62
+      },
+      {
+        "cell": 1,
+        "visible_pixels": 464,
+        "bbox": [8, 2, 42, 62],
+        "bbox_w": 35,
+        "bbox_h": 61
+      },
+      {
+        "cell": 2,
+        "visible_pixels": 365,
+        "bbox": [10, 2, 41, 62],
+        "bbox_w": 32,
+        "bbox_h": 61
+      },
+      {
+        "cell": 3,
+        "visible_pixels": 453,
+        "bbox": [7, 1, 42, 62],
+        "bbox_w": 36,
+        "bbox_h": 62
+      }
+    ]
+  },
+  "visual_fidelity_assessment": {
+    "visual_pass": false,
+    "relative_to_v04": "partial_visual_improvement",
+    "summary": "v05 improves over v04 by restoring denser curly hair mass, a visible face wedge, high guard, gloves, sash and baggy-pants silhouette. It still exaggerates the head/body ratio and remains an iterative lineart candidate rather than a promotable sprite source.",
+    "must_preserve_results": [
+      {
+        "trait": "curly_high_hair_mass",
+        "status": "partial_pass",
+        "evidence": "hair is no longer a smooth cloud/balloon; curls and asymmetry are visible, but mass is oversized in the 48x64 cell"
+      },
+      {
+        "trait": "face_wedge_and_eyes",
+        "status": "partial_pass",
+        "evidence": "front and 3/4 views now include brow/eye/nose/mouth marks; side/back still need tighter model-sheet tracking"
+      },
+      {
+        "trait": "high_diagonal_muay_thai_guard",
+        "status": "partial_pass",
+        "evidence": "fists are closer to the face and guard is readable, but the arms still need action-state timing and pose discipline"
+      },
+      {
+        "trait": "orange_top_sash_baggy_pants_wrapped_feet",
+        "status": "partial_pass",
+        "evidence": "crop top, sash knot/cloth, baggy pant mass and foot wraps are encoded in lineart; color/material identity remains unproven"
+      },
+      {
+        "trait": "scale_contract_medium_24_48",
+        "status": "failed",
+        "evidence": "visible height and head/body ratio drift toward chibi/sticker proportions; needs scale correction before color blocking"
+      },
+      {
+        "trait": "animation_gate",
+        "status": "failed",
+        "evidence": "static turnaround lineart only; no animation_direction_contract, timing/spacing, pivot overlay, foot contact, key poses or strip integrity evidence"
+      }
+    ],
+    "visual_blockers": [
+      "scale_ratio_chibi_drift",
+      "animation_gate_not_started",
+      "color_material_identity_unproven",
+      "not_ready_for_res_promotion"
+    ]
+  },
+  "decision": {
+    "status": "partial_visual_improvement_not_promoted",
+    "accepted_use": "negative_and_iterative_lineart_reference_only",
+    "ready_for_color_blocking": false,
+    "ready_for_key_pose_generation": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "correct scale and head/body ratio using the locked 48x64 scale contract",
+      "preserve v05 hair/face/guard improvements while reducing chibi drift",
+      "emit animation_direction_contract before any action/key-pose strip",
+      "prove a new side-by-side fidelity panel before color blocking or res promotion"
+    ]
+  }
+}

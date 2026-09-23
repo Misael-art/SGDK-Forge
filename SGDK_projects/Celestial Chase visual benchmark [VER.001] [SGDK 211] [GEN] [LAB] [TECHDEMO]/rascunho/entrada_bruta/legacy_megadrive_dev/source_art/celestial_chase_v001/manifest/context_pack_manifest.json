@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "package_id": "celestial_chase_v001",
+  "created_at": "2026-06-02",
+  "workspace_root": "F:/Projects/MegaDrive_DEV",
+  "context_type": "source_art_generation",
+  "consulted_sources": [
+    "AGENTS.md",
+    "tools/sgdk_wrapper/.agent/ARCHITECTURE.md",
+    "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md",
+    "tools/sgdk_wrapper/.agent/workflows/project-opening.md",
+    "tools/sgdk_wrapper/.agent/workflows/route-decision-gate.md",
+    "tools/sgdk_wrapper/.agent/workflows/production-loop.md",
+    "tools/sgdk_wrapper/.agent/skills/art/art-direction-selector/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/art/art-creation-sourcing/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/art/character-design/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/art/sprite-animation/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+    "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+    "doc/03_art/00_visual_quality_bar.md",
+    "doc/03_art/02_visual_feedback_bank.md",
+    "doc/06_AI_MEMORY_BANK.md"
+  ],
+  "memory_fallback": "doc/06_AI_MEMORY_BANK.md",
+  "route_decision_record": {
+    "context_type": "projeto_novo",
+    "affected_surface": "scene_source_art",
+    "user_goal": "Create a high-quality forced-perspective Mega Drive chase scene with authorial anime-like alternatives and user-approved concept art.",
+    "dominant_route": "art_direction",
+    "first_skill": "art-direction-selector",
+    "supporting_skills": [
+      "art-creation-sourcing",
+      "character-design",
+      "sprite-animation",
+      "visual-excellence-standards"
+    ],
+    "technical_family": {
+      "resource_loading_model": "scene_local_preload",
+      "plane_model": "BG_B atmosphere, BG_A stone road/foreground structure, sprites for hero, antagonist scale swaps, props and FX",
+      "asset_strategy": "authorial AI source candidates followed by human approval, VDP translation and budget validation"
+    },
+    "evidence_required": [
+      "human approval per asset",
+      "source validity and lineage",
+      "VDP translation report",
+      "visual quality review",
+      "budget report",
+      "BlastEm evidence before delivery claims"
+    ],
+    "forbidden_shortcuts_until_evidence": [
+      "direct res promotion",
+      "benchmark as source art",
+      "IP likeness reuse",
+      "ready_for_aaa claim",
+      "delivery ROM claim"
+    ]
+  }
+}

@@ -16,15 +16,19 @@
 - estrutura de `src/`, `inc/`, `res/`, `doc/`, `out/` e `.mddev/`;
 - base em C com bootstrap, input, maquina de estados e cenas iniciais;
 - diretorios `res/data/` e `res/data/backup/` ja preparados para o pipeline.
+- contratos `doc/project_methodology_manifest.json`, `doc/project_hygiene_manifest.json` e `doc/technique_usage_manifest.json` prontos para classificacao.
+- `rascunho/` organizado para entradas brutas, processados e temporarios locais.
 
 ## Como usar
 
 1. Copie `tools/sgdk_wrapper/modelo` para `SGDK_projects/<nome-do-projeto>`.
-2. Atualize `.mddev/project.json`.
-3. Coloque assets brutos em `res/data/`.
-4. Declare os recursos finais em `res/resources.res` quando houver assets reais.
-5. Edite `src/` e `inc/`.
-6. Rode `build.bat`.
+2. Renomeie o diretorio conforme o documento do workspace `doc/PADRAO_NOMENCLATURA.md`; `new_project.bat`/`.sh` rejeitam nomes novos fora do padrao.
+3. Classifique `doc/project_methodology_manifest.json`, valide a higiene local e declare as tecnicas usadas em `doc/technique_usage_manifest.json`.
+4. Rode `adopt_project_methodology.ps1` e `validate_project_methodology.ps1`.
+5. Coloque assets brutos em `res/data/`.
+6. Declare os recursos finais em `res/resources.res` quando houver assets reais.
+7. Edite `src/` e `inc/`.
+8. Rode `build.bat`.
 
 ## Regra de ouro
 

@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "curation_implementation_closeout",
+  "date": "2026-09-12",
+  "context": "technical_demo",
+  "claim_ceiling": "prototype",
+  "rom": {
+    "path": "out/rom.bin",
+    "bytes": 2490368,
+    "sha256": "62df66bc9aa96d0e61d8b94742b2d14423e29b7a616a4df32ee27a1c68127827",
+    "build_report": "out/logs/linux_wine_build_report.json",
+    "status": "buildado"
+  },
+  "findings": {
+    "C01_palette_overflow": "resolved_static_build_and_map",
+    "C02_p2_special_facing": "resolved_static_and_build_not_exercised_in_emulator",
+    "C03_round_restart_empty": "resolved_and_partially_exercised_in_emulator",
+    "C08_energy_floor_prevented_ko": "resolved_and_exercised_with_natural_p1_ko",
+    "C04_duplicate_input_architecture": "remaining",
+    "C05_animation_asymmetry": "remaining",
+    "C06_sprite_allocator_churn": "partially_hardened_null_guards_remaining_architecture",
+    "C07_pal_clock_policy": "remaining_50hz_qualification"
+  },
+  "evidence": {
+    "final_integrity_session": "out/emulator_evidence/interactive-round-integrity-20260912T072145Z",
+    "final_integrity_fps": 61.2,
+    "final_integrity_proves": ["reconstructed_showdown_boot", "hud_visible", "no_address_error_on_observed_path"],
+    "previous_round_loop": "out/emulator_evidence/interactive-round-integrity-20260912T064603Z",
+    "previous_round_loop_proves": ["natural_p1_ko", "round_reset", "second_natural_p1_ko", "after_match", "start_returns_to_selector"],
+    "timeover_pre_menu_fix": "out/emulator_evidence/interactive-round-integrity-20260912T063457Z",
+    "timeover_pre_menu_fix_proves": ["timeover_draw", "clock_reset", "health_reset", "position_reset"]
+  },
+  "validators": {
+    "context": "ok_blockers_0",
+    "hygiene": "passed_blockers_0",
+    "methodology": "passed_blockers_0",
+    "reports": ["out/logs/project_context_report.json", "out/logs/project_hygiene_report.json", "out/logs/project_methodology_report.json"]
+  },
+  "claims_not_made": ["ready_for_aaa", "validado_budget", "p2_winner_symmetry", "pal_50hz", "rematch_A_emulator_proof", "musgo_defeat_animation_emulator_proof", "source_font_fidelity"]
+}

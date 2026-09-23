@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "taina_reseed_native_model_sheet_gate_v02",
+  "project_id": "mare_brava",
+  "asset_id": "taina_reseed_native_model_sheet",
+  "asset_kind": "model_sheet",
+  "evaluated_at": "2026-08-29",
+  "measurement_level": "human_source_approval_plus_direction_review",
+  "art_director_review": {
+    "status": "passed_for_lineart_only",
+    "human_approval_record": "doc/human_approval_record.md",
+    "source_review": "doc/art/characters/taina/taina_reseed_authorial_model_sheet_source_review_v01.json",
+    "finding": "A fonte autoral high-res foi aprovada para tradução nativa; esta aprovação não promove sprites, strips, paleta final ou recursos SGDK."
+  },
+  "game_design_context": {
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "camera": "brawler three-quarter, 320x224",
+    "gameplay_role": "heroina de combate proximo; guarda, jab, low kick e defesa devem permanecer legiveis contra o CAIS_01",
+    "interaction_constraints": ["foco no oponente", "maos e pes comunicam contato", "faixa e cabelo pagam follow-through em futuras animacoes", "sem FX baked-in"]
+  },
+  "must_preserve": [
+    "massa de cabelo cacheado presa com mechas irregulares",
+    "rosto em cunha com sobrancelha forte e olhar focado",
+    "top laranja queimado e calca larga indigo",
+    "bandagens verde-azuladas e faixa assimetrica pendendo do lado direito",
+    "guarda de muay thai com punhos e pes legiveis"
+  ],
+  "decision": {
+    "allow_lineart_blocking_1px": true,
+    "allow_color_blocking": false,
+    "allow_key_poses": false,
+    "allow_animation_strips": false,
+    "allow_res_promotion": false,
+    "ready_for_aaa": false
+  },
+  "blockers": ["native_lineart_asset_missing", "palette_role_map_not_revalidated", "fidelity_review_not_applicable_until_lineart_exists"]
+}

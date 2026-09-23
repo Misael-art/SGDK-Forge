@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "mare_brava_fixed_point_v01",
+  "scope": "cais_01_camera_and_player_motion",
+  "internal_position_type": "fix32",
+  "player_motion_type": "fix16",
+  "render_output_type": "s16_integer_pixels",
+  "conversion_apis": ["F16_toFix32", "F32_toInt"],
+  "forbidden": ["float", "double", "implicit_subpixel_vdp_coordinates"],
+  "status": "passed_static_and_build",
+  "evidence": "doc/api_reality_check.json and linux_wine_build_report.json"
+}

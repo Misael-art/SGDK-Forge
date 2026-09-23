@@ -1,0 +1,812 @@
+{
+  "scene_id": "main",
+  "schema_version": "1.7.0",
+  "display_name": "Legacy SGDK Overlay",
+  "background_layers": [],
+  "entities": [
+    {
+      "entity_id": "img_bc_title_logo_tilemap",
+      "display_name": "img_bc_title_logo",
+      "prefab": null,
+      "transform": {
+        "x": 0,
+        "y": 0
+      },
+      "components": {
+        "sprite": null,
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": null,
+        "camera": null,
+        "tilemap": {
+          "tileset": "assets/tilesets/title_logo.png",
+          "map_width": 16,
+          "map_height": 6,
+          "scroll_x": 0,
+          "scroll_y": 0,
+          "cells": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96
+          ]
+        }
+      }
+    },
+    {
+      "entity_id": "spr_bc_player_idle",
+      "display_name": "spr_bc_player_idle",
+      "prefab": null,
+      "transform": {
+        "x": 48,
+        "y": 88
+      },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/player_idle.png",
+          "frame_width": 24,
+          "frame_height": 32,
+          "pivot": null,
+          "palette_slot": 0,
+          "animations": {
+            "default": {
+              "frames": [
+                0
+              ],
+              "fps": 15,
+              "loop": false
+            }
+          },
+          "priority": "foreground",
+          "meta_sprite": false
+        },
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": {
+          "graph_ref": "graphs/sgdk_import_spr_bc_player_idle.json",
+          "graph_origin": "imported_ref",
+          "logic_hints": [
+            "Fase D evid: inc/core/app.h:33 function_call HUD_TEXT_LEN | #define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)",
+            "Fase D evid: inc/core/app.h:35 sgdk_api_call SPR_CENTER_X | #define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))",
+            "Fase D evid: inc/core/app.h:36 sgdk_api_call SPR_CENTER_Y | #define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))",
+            "Fase D evid: inc/core/app.h:38 function_call APP_boot | void APP_boot(bool hardReset);",
+            "Fase D: papel importado desta entidade: 'player_avatar' (nome do recurso/entidade sugere papel de jogador)",
+            "Fase D: external_source_refs prioriza caminho(s) com sinal direto desta entidade: inc/core/app.h, inc/game_vars.h, inc/system/input.h, inc/system/runtime_probe.h, src/main.c.",
+            "Fase D: scan textual agregado em 5 ficheiro(s) do doador: inc/core/app.h, inc/game_vars.h, inc/system/input.h, inc/system/runtime_probe.h, src/main.c.",
+            "Fase D: sincronismo vertical (SYS_doVBlankProcess/VDP_waitVSync/VDP_waitDMACompletion) observado no agregado do doador.",
+            "Fase D: API de sprites SGDK (SPR_addSprite/SPR_setPosition/SPR_update/SPR_init) observada — padrao plataforma/run-and-gun/shmup com update por frame.",
+            "Fase D: nenhum padrao distintivo (JOY_* / MAP_scroll*) no agregado do doador; grafo base mantido.",
+            "Fase D: codigo SGDK original permanece em C externo; graph canônico nao e round-trip textual.",
+            "Fase D: grafo desta entidade persistido em 'graphs/sgdk_import_spr_bc_player_idle.json' (reimport sobrescreve o mesmo ficheiro).",
+            "Fase D: cena importada abriu em staging de autoria porque o donor SGDK nao oferece coordenadas de cena confiaveis; reposicione a entidade quando quiser consolidar o layout real."
+          ],
+          "external_source_refs": [
+            "inc/core/app.h",
+            "inc/game_vars.h",
+            "inc/system/input.h",
+            "inc/system/runtime_probe.h",
+            "src/main.c"
+          ],
+          "imported_semantics": {
+            "source": "sgdk_phase_d",
+            "entity_role": "player_avatar",
+            "confidence": "low",
+            "role_reason": "nome do recurso/entidade sugere papel de jogador",
+            "source_paths": [
+              "inc/core/app.h",
+              "inc/game_vars.h",
+              "inc/system/input.h",
+              "inc/system/runtime_probe.h",
+              "src/main.c"
+            ],
+            "audit_flags": [
+              "player_resource_signal",
+              "position:staging_layout"
+            ]
+          },
+          "variables": {}
+        },
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "spr_bc_player_jump",
+      "display_name": "spr_bc_player_jump",
+      "prefab": null,
+      "transform": {
+        "x": 112,
+        "y": 88
+      },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/player_jump.png",
+          "frame_width": 24,
+          "frame_height": 32,
+          "pivot": null,
+          "palette_slot": 0,
+          "animations": {
+            "default": {
+              "frames": [
+                0
+              ],
+              "fps": 15,
+              "loop": false
+            }
+          },
+          "priority": "foreground",
+          "meta_sprite": false
+        },
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": {
+          "graph_ref": "graphs/sgdk_import_spr_bc_player_jump.json",
+          "graph_origin": "imported_ref",
+          "logic_hints": [
+            "Fase D evid: inc/core/app.h:33 function_call HUD_TEXT_LEN | #define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)",
+            "Fase D evid: inc/core/app.h:35 sgdk_api_call SPR_CENTER_X | #define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))",
+            "Fase D evid: inc/core/app.h:36 sgdk_api_call SPR_CENTER_Y | #define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))",
+            "Fase D evid: inc/core/app.h:38 function_call APP_boot | void APP_boot(bool hardReset);",
+            "Fase D: papel importado desta entidade: 'player_avatar' (nome do recurso/entidade sugere papel de jogador)",
+            "Fase D: padroes globais de src/main.c estao detalhados no sprite primario e no ledger.phase_d; esta entidade partilha o mesmo scan textual.",
+            "Fase D: grafo desta entidade persistido em 'graphs/sgdk_import_spr_bc_player_jump.json'.",
+            "Fase D: cena importada abriu em staging de autoria porque o donor SGDK nao oferece coordenadas de cena confiaveis; reposicione a entidade quando quiser consolidar o layout real."
+          ],
+          "external_source_refs": [
+            "inc/core/app.h",
+            "inc/game_vars.h",
+            "inc/system/input.h",
+            "inc/system/runtime_probe.h",
+            "src/main.c"
+          ],
+          "imported_semantics": {
+            "source": "sgdk_phase_d",
+            "entity_role": "player_avatar",
+            "confidence": "low",
+            "role_reason": "nome do recurso/entidade sugere papel de jogador",
+            "audit_flags": [
+              "player_resource_signal",
+              "position:staging_layout"
+            ]
+          },
+          "variables": {}
+        },
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "spr_bc_player_run",
+      "display_name": "spr_bc_player_run",
+      "prefab": null,
+      "transform": {
+        "x": 176,
+        "y": 88
+      },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/player_run.png",
+          "frame_width": 24,
+          "frame_height": 32,
+          "pivot": null,
+          "palette_slot": 0,
+          "animations": {
+            "default": {
+              "frames": [
+                0,
+                1,
+                2
+              ],
+              "fps": 15,
+              "loop": true
+            }
+          },
+          "priority": "foreground",
+          "meta_sprite": false
+        },
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": {
+          "graph_ref": "graphs/sgdk_import_spr_bc_player_run.json",
+          "graph_origin": "imported_ref",
+          "logic_hints": [
+            "Fase D evid: inc/core/app.h:33 function_call HUD_TEXT_LEN | #define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)",
+            "Fase D evid: inc/core/app.h:35 sgdk_api_call SPR_CENTER_X | #define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))",
+            "Fase D evid: inc/core/app.h:36 sgdk_api_call SPR_CENTER_Y | #define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))",
+            "Fase D evid: inc/core/app.h:38 function_call APP_boot | void APP_boot(bool hardReset);",
+            "Fase D: papel importado desta entidade: 'player_avatar' (nome do recurso/entidade sugere papel de jogador)",
+            "Fase D: padroes globais de src/main.c estao detalhados no sprite primario e no ledger.phase_d; esta entidade partilha o mesmo scan textual.",
+            "Fase D: grafo desta entidade persistido em 'graphs/sgdk_import_spr_bc_player_run.json'.",
+            "Fase D: cena importada abriu em staging de autoria porque o donor SGDK nao oferece coordenadas de cena confiaveis; reposicione a entidade quando quiser consolidar o layout real."
+          ],
+          "external_source_refs": [
+            "inc/core/app.h",
+            "inc/game_vars.h",
+            "inc/system/input.h",
+            "inc/system/runtime_probe.h",
+            "src/main.c"
+          ],
+          "imported_semantics": {
+            "source": "sgdk_phase_d",
+            "entity_role": "player_avatar",
+            "confidence": "low",
+            "role_reason": "nome do recurso/entidade sugere papel de jogador",
+            "audit_flags": [
+              "player_resource_signal",
+              "position:staging_layout"
+            ]
+          },
+          "variables": {}
+        },
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "spr_bc_player_shoot",
+      "display_name": "spr_bc_player_shoot",
+      "prefab": null,
+      "transform": {
+        "x": 240,
+        "y": 88
+      },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/player_shoot.png",
+          "frame_width": 24,
+          "frame_height": 32,
+          "pivot": null,
+          "palette_slot": 0,
+          "animations": {
+            "default": {
+              "frames": [
+                0,
+                1
+              ],
+              "fps": 15,
+              "loop": true
+            }
+          },
+          "priority": "foreground",
+          "meta_sprite": false
+        },
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": {
+          "graph_ref": "graphs/sgdk_import_spr_bc_player_shoot.json",
+          "graph_origin": "imported_ref",
+          "logic_hints": [
+            "Fase D evid: inc/core/app.h:33 function_call HUD_TEXT_LEN | #define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)",
+            "Fase D evid: inc/core/app.h:35 sgdk_api_call SPR_CENTER_X | #define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))",
+            "Fase D evid: inc/core/app.h:36 sgdk_api_call SPR_CENTER_Y | #define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))",
+            "Fase D evid: inc/core/app.h:38 function_call APP_boot | void APP_boot(bool hardReset);",
+            "Fase D: papel importado desta entidade: 'player_avatar' (nome do recurso/entidade sugere papel de jogador)",
+            "Fase D: padroes globais de src/main.c estao detalhados no sprite primario e no ledger.phase_d; esta entidade partilha o mesmo scan textual.",
+            "Fase D: grafo desta entidade persistido em 'graphs/sgdk_import_spr_bc_player_shoot.json'.",
+            "Fase D: cena importada abriu em staging de autoria porque o donor SGDK nao oferece coordenadas de cena confiaveis; reposicione a entidade quando quiser consolidar o layout real."
+          ],
+          "external_source_refs": [
+            "inc/core/app.h",
+            "inc/game_vars.h",
+            "inc/system/input.h",
+            "inc/system/runtime_probe.h",
+            "src/main.c"
+          ],
+          "imported_semantics": {
+            "source": "sgdk_phase_d",
+            "entity_role": "player_avatar",
+            "confidence": "low",
+            "role_reason": "nome do recurso/entidade sugere papel de jogador",
+            "audit_flags": [
+              "player_resource_signal",
+              "position:staging_layout"
+            ]
+          },
+          "variables": {}
+        },
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "spr_bc_projectile_pulse",
+      "display_name": "spr_bc_projectile_pulse",
+      "prefab": null,
+      "transform": {
+        "x": 48,
+        "y": 60
+      },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/projectile_pulse.png",
+          "frame_width": 16,
+          "frame_height": 8,
+          "pivot": null,
+          "palette_slot": 0,
+          "animations": {
+            "default": {
+              "frames": [
+                0
+              ],
+              "fps": 15,
+              "loop": false
+            }
+          },
+          "priority": "foreground",
+          "meta_sprite": false
+        },
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": {
+          "graph_ref": "graphs/sgdk_import_spr_bc_projectile_pulse.json",
+          "graph_origin": "imported_ref",
+          "logic_hints": [
+            "Fase D evid: inc/core/app.h:33 function_call HUD_TEXT_LEN | #define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)",
+            "Fase D evid: inc/core/app.h:35 sgdk_api_call SPR_CENTER_X | #define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))",
+            "Fase D evid: inc/core/app.h:36 sgdk_api_call SPR_CENTER_Y | #define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))",
+            "Fase D evid: inc/core/app.h:38 function_call APP_boot | void APP_boot(bool hardReset);",
+            "Fase D: papel importado desta entidade: 'projectile_actor' (recurso associado a sinais lexicais de tiro/projetil)",
+            "Fase D: padroes globais de src/main.c estao detalhados no sprite primario e no ledger.phase_d; esta entidade partilha o mesmo scan textual.",
+            "Fase D: grafo desta entidade persistido em 'graphs/sgdk_import_spr_bc_projectile_pulse.json'.",
+            "Fase D: cena importada abriu em staging de autoria porque o donor SGDK nao oferece coordenadas de cena confiaveis; reposicione a entidade quando quiser consolidar o layout real."
+          ],
+          "external_source_refs": [
+            "inc/core/app.h",
+            "inc/game_vars.h",
+            "inc/system/input.h",
+            "inc/system/runtime_probe.h",
+            "src/main.c"
+          ],
+          "imported_semantics": {
+            "source": "sgdk_phase_d",
+            "entity_role": "projectile_actor",
+            "confidence": "low",
+            "role_reason": "recurso associado a sinais lexicais de tiro/projetil",
+            "audit_flags": [
+              "position:staging_layout",
+              "projectile_signal"
+            ]
+          },
+          "variables": {}
+        },
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "spr_bc_breaker_core_idle",
+      "display_name": "spr_bc_breaker_core_idle",
+      "prefab": null,
+      "transform": {
+        "x": 112,
+        "y": 204
+      },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/breaker_core_idle.png",
+          "frame_width": 48,
+          "frame_height": 48,
+          "pivot": null,
+          "palette_slot": 0,
+          "animations": {
+            "default": {
+              "frames": [
+                0
+              ],
+              "fps": 15,
+              "loop": false
+            }
+          },
+          "priority": "foreground",
+          "meta_sprite": true
+        },
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": {
+          "graph_ref": "graphs/sgdk_import_spr_bc_breaker_core_idle.json",
+          "graph_origin": "imported_ref",
+          "logic_hints": [
+            "Fase D evid: inc/core/app.h:33 function_call HUD_TEXT_LEN | #define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)",
+            "Fase D evid: inc/core/app.h:35 sgdk_api_call SPR_CENTER_X | #define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))",
+            "Fase D evid: inc/core/app.h:36 sgdk_api_call SPR_CENTER_Y | #define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))",
+            "Fase D evid: inc/core/app.h:38 function_call APP_boot | void APP_boot(bool hardReset);",
+            "Fase D: papel importado desta entidade: 'generic_imported_sprite' (sem sinal lexical forte alem do scan agregado; sprite mantido como importado generico)",
+            "Fase D: padroes globais de src/main.c estao detalhados no sprite primario e no ledger.phase_d; esta entidade partilha o mesmo scan textual.",
+            "Fase D: grafo desta entidade persistido em 'graphs/sgdk_import_spr_bc_breaker_core_idle.json'.",
+            "Fase D: cena importada abriu em staging de autoria porque o donor SGDK nao oferece coordenadas de cena confiaveis; reposicione a entidade quando quiser consolidar o layout real."
+          ],
+          "external_source_refs": [
+            "inc/core/app.h",
+            "inc/game_vars.h",
+            "inc/system/input.h",
+            "inc/system/runtime_probe.h",
+            "src/main.c"
+          ],
+          "imported_semantics": {
+            "source": "sgdk_phase_d",
+            "entity_role": "generic_imported_sprite",
+            "confidence": "low",
+            "role_reason": "sem sinal lexical forte alem do scan agregado; sprite mantido como importado generico",
+            "audit_flags": [
+              "position:staging_layout"
+            ]
+          },
+          "variables": {}
+        },
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "spr_bc_line_sentry_idle",
+      "display_name": "spr_bc_line_sentry_idle",
+      "prefab": null,
+      "transform": {
+        "x": 176,
+        "y": 204
+      },
+      "components": {
+        "sprite": {
+          "asset": "assets/sprites/line_sentry_idle.png",
+          "frame_width": 32,
+          "frame_height": 24,
+          "pivot": null,
+          "palette_slot": 0,
+          "animations": {
+            "default": {
+              "frames": [
+                0
+              ],
+              "fps": 15,
+              "loop": false
+            }
+          },
+          "priority": "foreground",
+          "meta_sprite": false
+        },
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": {
+          "graph_ref": "graphs/sgdk_import_spr_bc_line_sentry_idle.json",
+          "graph_origin": "imported_ref",
+          "logic_hints": [
+            "Fase D evid: inc/core/app.h:33 function_call HUD_TEXT_LEN | #define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)",
+            "Fase D evid: inc/core/app.h:35 sgdk_api_call SPR_CENTER_X | #define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))",
+            "Fase D evid: inc/core/app.h:36 sgdk_api_call SPR_CENTER_Y | #define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))",
+            "Fase D evid: inc/core/app.h:38 function_call APP_boot | void APP_boot(bool hardReset);",
+            "Fase D: papel importado desta entidade: 'generic_imported_sprite' (sem sinal lexical forte alem do scan agregado; sprite mantido como importado generico)",
+            "Fase D: padroes globais de src/main.c estao detalhados no sprite primario e no ledger.phase_d; esta entidade partilha o mesmo scan textual.",
+            "Fase D: grafo desta entidade persistido em 'graphs/sgdk_import_spr_bc_line_sentry_idle.json'.",
+            "Fase D: cena importada abriu em staging de autoria porque o donor SGDK nao oferece coordenadas de cena confiaveis; reposicione a entidade quando quiser consolidar o layout real."
+          ],
+          "external_source_refs": [
+            "inc/core/app.h",
+            "inc/game_vars.h",
+            "inc/system/input.h",
+            "inc/system/runtime_probe.h",
+            "src/main.c"
+          ],
+          "imported_semantics": {
+            "source": "sgdk_phase_d",
+            "entity_role": "generic_imported_sprite",
+            "confidence": "low",
+            "role_reason": "sem sinal lexical forte alem do scan agregado; sprite mantido como importado generico",
+            "audit_flags": [
+              "position:staging_layout"
+            ]
+          },
+          "variables": {}
+        },
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "audio_bank",
+      "display_name": "Audio Bank",
+      "prefab": null,
+      "transform": {
+        "x": 0,
+        "y": 0
+      },
+      "components": {
+        "sprite": null,
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": {
+          "sfx": {
+            "brand_bell_forge": "assets/audio/bell_forge.wav",
+            "brand_reverb_tail": "assets/audio/reverb_tail.wav",
+            "brand_typewriter_click": "assets/audio/typewriter_click.wav",
+            "brand_bell_terminal": "assets/audio/bell_terminal.wav",
+            "brand_stamp_whoosh": "assets/audio/stamp_whoosh.wav"
+          },
+          "bgm": null
+        },
+        "logic": null,
+        "camera": null,
+        "tilemap": null
+      }
+    },
+    {
+      "entity_id": "main_camera",
+      "display_name": "Main Camera",
+      "prefab": null,
+      "transform": {
+        "x": 0,
+        "y": 0
+      },
+      "components": {
+        "sprite": null,
+        "collision": null,
+        "input": null,
+        "physics": null,
+        "audio": null,
+        "logic": null,
+        "camera": {
+          "follow_entity": "spr_bc_player_idle",
+          "offset_x": 0,
+          "offset_y": 0
+        },
+        "tilemap": null
+      }
+    }
+  ],
+  "palettes": [],
+  "retrofx": null,
+  "collision_map": {
+    "tile_width": 8,
+    "tile_height": 8,
+    "width": 16,
+    "height": 6,
+    "data": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "layers": [
+    {
+      "id": "layer_background",
+      "name": "Cenario / Background",
+      "kind": "tile",
+      "visible": true,
+      "locked": false,
+      "depth": 0,
+      "entity_ids": [
+        "img_bc_title_logo_tilemap"
+      ]
+    },
+    {
+      "id": "layer_gameplay",
+      "name": "Gameplay",
+      "kind": "sprite",
+      "visible": true,
+      "locked": false,
+      "depth": 10,
+      "entity_ids": [
+        "spr_bc_player_idle",
+        "spr_bc_player_jump",
+        "spr_bc_player_run",
+        "spr_bc_player_shoot",
+        "spr_bc_projectile_pulse",
+        "spr_bc_breaker_core_idle",
+        "spr_bc_line_sentry_idle",
+        "main_camera"
+      ]
+    },
+    {
+      "id": "layer_audio_objects",
+      "name": "Audio",
+      "kind": "object",
+      "visible": true,
+      "locked": true,
+      "depth": 20,
+      "entity_ids": [
+        "audio_bank"
+      ]
+    }
+  ]
+}

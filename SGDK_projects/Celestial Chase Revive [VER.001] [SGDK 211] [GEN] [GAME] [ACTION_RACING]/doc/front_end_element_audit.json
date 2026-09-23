@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "status": "completed_for_specs",
+  "audit_date": "2026-06-16",
+  "scope": [
+    "font",
+    "logo",
+    "menu",
+    "credits"
+  ],
+  "findings": [
+    {
+      "element": "font",
+      "status_before": "partial",
+      "status_after": "documented",
+      "evidence": [
+        "doc/glyph_manifest.json",
+        "doc/text_presentation_profile.json",
+        "doc/brand_identity_manifest.json",
+        "doc/ui_pixel_surface_contract.json"
+      ],
+      "remaining_blockers": [
+        "custom_font_asset_missing",
+        "native_readability_unmeasured"
+      ]
+    },
+    {
+      "element": "logo",
+      "status_before": "partial",
+      "status_after": "documented",
+      "evidence": [
+        "doc/brand_identity_manifest.json",
+        "doc/13-spec-cenas.md"
+      ],
+      "remaining_blockers": [
+        "source_logo_asset_missing",
+        "blastem_title_capture_missing"
+      ]
+    },
+    {
+      "element": "menu",
+      "status_before": "documented_high_level",
+      "status_after": "documented",
+      "evidence": [
+        "doc/front_end_menu_contract.json",
+        "doc/ui_decision_card.json",
+        "doc/ui_pixel_surface_contract.json",
+        "doc/15-tdd.md"
+      ],
+      "remaining_blockers": [
+        "front_end_atlas_missing",
+        "menu_input_regression_missing"
+      ]
+    },
+    {
+      "element": "credits",
+      "status_before": "missing",
+      "status_after": "documented",
+      "evidence": [
+        "doc/credits_contract.json",
+        "doc/12-roteiro.md",
+        "doc/13-spec-cenas.md"
+      ],
+      "remaining_blockers": [
+        "final_credit_names_missing",
+        "credits_runtime_capture_missing"
+      ]
+    }
+  ],
+  "delivery_status": "documentado",
+  "ready_for_runtime": false
+}

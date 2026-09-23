@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "taina_pixel_model_sheet_gate_v1",
+  "project_id": "mare_brava",
+  "asset_id": "taina_pixel_model_sheet",
+  "asset_kind": "model_sheet",
+  "evaluated_at": "2026-07-06",
+  "measurement_level": "human_visual_review",
+  "art_director_review": {
+    "status": "passed",
+    "reviewer": "human-art-director",
+    "art_direction_decision_record": "doc/art/art_direction_decision_record.json",
+    "master_style_manifest": "doc/art/master_style_manifest.json",
+    "findings": [
+      "O owner congelou a direcao artistica e o contrato de traco como direcao de producao.",
+      "A aprovacao cobre identidade e rota; nao aprova PNG tecnico, strip ou asset para res/.",
+      "O primeiro candidato pixel-looking preserva rosto, faixa e bandagens, mas falha o grid nativo e permanece referencia editorial."
+    ]
+  },
+  "game_design_context": {
+    "status": "passed",
+    "gdd_ref": "doc/11-gdd.md",
+    "scene_spec_ref": "doc/13-spec-cenas.md",
+    "gameplay_role": "heroina jogavel de combate curto, combo, joelhada, especial defensivo e Empurrao de Mare",
+    "camera_perspective": "three_quarter",
+    "interaction_context": [
+      "precisa ler contra BG_A do cais com quatro inimigos ativos",
+      "punhos, pes e faixa comunicam contato, direcao de golpe e follow-through",
+      "altura visivel de 48px sustenta FOV e hitboxes declarados",
+      "silhueta deve permanecer distinta de CRIA e ESTIVADOR"
+    ]
+  },
+  "identity_continuity_lock": {
+    "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+    "design_inheritance": "doc/art/characters/taina/design_inheritance.json",
+    "must_preserve": [
+      {
+        "id": "curly_hair_mass",
+        "kind": "hair",
+        "expected": "massa cacheada presa, curta e irregular",
+        "observed": "presente no concept e no candidato editorial",
+        "status": "locked"
+      },
+      {
+        "id": "wedge_face",
+        "kind": "face",
+        "expected": "sobrancelha forte, nariz em cunha, mandibula compacta",
+        "observed": "presente na direcao aprovada",
+        "status": "locked"
+      },
+      {
+        "id": "orange_top_dark_trousers",
+        "kind": "costume",
+        "expected": "top laranja queimado e calca roxo-escura larga",
+        "observed": "presente nas quatro vistas editoriais",
+        "status": "locked"
+      },
+      {
+        "id": "teal_wraps_and_sash",
+        "kind": "asymmetry",
+        "expected": "bandagens verdes e faixa pendendo de um lado",
+        "observed": "presente e legivel; lado deve permanecer coerente por vista",
+        "status": "locked"
+      },
+      {
+        "id": "muay_thai_guard",
+        "kind": "silhouette",
+        "expected": "guarda alta diagonal com punhos e pes ampliados",
+        "observed": "presente no concept e no candidato editorial",
+        "status": "locked"
+      }
+    ]
+  },
+  "motion_personality_contract": {
+    "status": "passed",
+    "secondary_motion": [
+      "faixa e cabelo respondem com atraso curto a aceleracao",
+      "idle usa respiracao pequena sem oscilar o contato dos pes"
+    ],
+    "expression_requirements": [
+      "idle focado",
+      "mandibula tensa e olhar no oponente durante golpe",
+      "dor assimetrica em hurt e down"
+    ],
+    "state_fantasy_checks": [
+      "jab, cross e lowkick devem ler como muay thai",
+      "Empurrao de Mare usa as duas maos e deslocamento claro de centro de massa"
+    ]
+  },
+  "decision": {
+    "production_allowed": true,
+    "ready_for_generation": true,
+    "ready_for_conversion": false,
+    "ready_for_res_promotion": false,
+    "ready_for_aaa": false,
+    "next_required_route": [
+      "gerar lineart blocking 1px e model sheet em grid nativo 48x64",
+      "validar silhouette, topologia, paleta e fake_pixel_art_rejection",
+      "emitir contact sheet original/basic/elite antes de key poses"
+    ]
+  },
+  "blockers": []
+}

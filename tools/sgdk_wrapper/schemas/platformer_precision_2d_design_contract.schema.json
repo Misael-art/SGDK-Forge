@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/platformer_precision_2d_design_contract.schema.json",
+  "title": "Platformer Precision 2D Design Contract",
+  "description": "Design-level contract for platformer_precision_2d projects. Holds player profile, level catalog, abilities (per-level), hazards catalog, collectibles, modes, progression and balance sections as embedded blocks. The TDD continues to own runtime/technical decisions; this contract only describes the gameplay surface. Time unit is 'frames' (1/60 s) for movement, jump, coyote_time, jump_buffer and death_loop. Per-level data is read alongside the per-level segment frame data contract.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "specialization_id",
+    "registry_source",
+    "time_unit",
+    "camera",
+    "run_speed_horizontal",
+    "jump_count",
+    "coyote_time",
+    "death_loop",
+    "level_length",
+    "player_profile",
+    "ability_set",
+    "hazard_catalog",
+    "collectible_catalog",
+    "level_catalog",
+    "modes",
+    "balance",
+    "doc_refs"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "specialization_id": {
+      "type": "string",
+      "const": "platformer_precision_2d"
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "time_unit": { "type": "string", "const": "frames" },
+    "camera": { "type": "string", "const": "side_scroll_with_lookahead" },
+    "run_speed_horizontal": { "type": "string", "const": "2x_player" },
+    "jump_count": {
+      "type": "string",
+      "enum": ["1", "1_to_2", "2"]
+    },
+    "coyote_time": { "type": "string", "const": "on" },
+    "death_loop": { "type": "string", "const": "on" },
+    "level_length": { "type": "string", "const": "short_tight" },
+    "player_profile": {
+      "type": "object",
+      "required": ["run_speed_px_per_frame", "jump_velocity_px_per_frame", "gravity_px_per_frame_squared", "coyote_time_frames", "jump_buffer_frames", "starting_lives", "instant_restart"],
+      "properties": {
+        "run_speed_px_per_frame": { "type": "integer", "minimum": 2, "maximum": 6 },
+        "walk_speed_px_per_frame": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "jump_velocity_px_per_frame": { "type": "integer", "minimum": 6, "maximum": 18 },
+        "gravity_px_per_frame_squared": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "max_jump_height_tiles": { "type": "integer", "minimum": 3, "maximum": 6 },
+        "coyote_time_frames": { "type": "integer", "minimum": 4, "maximum": 6 },
+        "jump_buffer_frames": { "type": "integer", "minimum": 4, "maximum": 6 },
+        "wall_jump_enabled": { "type": "boolean" },
+        "dash_enabled": { "type": "boolean" },
+        "dash_duration_frames": { "type": "integer", "minimum": 4, "maximum": 30 },
+        "starting_lives": { "type": "integer", "minimum": 1, "maximum": 9 },
+        "instant_restart": { "type": "boolean", "const": true },
+        "voxel_size": { "type": "string", "enum": ["8x8", "16x16", "16x24", "16x32"] }
+      },
+      "additionalProperties": false
+    },
+    "ability_set": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name", "category", "frames_active", "frames_cooldown"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "category": {
+            "type": "string",
+            "enum": ["movement", "combat", "special", "utility"]
+          },
+          "frames_active": { "type": "integer", "minimum": 1, "maximum": 60 },
+          "frames_cooldown": { "type": "integer", "minimum": 0, "maximum": 600 },
+          "stamina_cost": { "type": "integer", "minimum": 0, "maximum": 100 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "hazard_catalog": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name", "category", "damage", "respawn_pattern"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "category": {
+            "type": "string",
+            "enum": ["spike", "fire", "water", "pit", "saw", "moving", "projectile"]
+          },
+          "damage": { "type": "integer", "minimum": 1, "maximum": 99 },
+          "respawn_pattern": {
+            "type": "string",
+            "enum": ["instant_on_death", "loop_forever", "trigger_once", "time_based"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "collectible_catalog": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name", "category", "value"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "category": {
+            "type": "string",
+            "enum": ["coin", "gem", "key", "checkpoint_token", "extra_life", "secret"]
+          },
+          "value": { "type": "integer", "minimum": 1, "maximum": 9999 },
+          "respawn_pattern": {
+            "type": "string",
+            "enum": ["on_death", "once_per_run", "persistent"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "level_catalog": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "required": ["level_id", "display_name", "length_tiles", "hazards_count", "collectibles_count", "level_segment_frame_data_path", "par_time_seconds"],
+        "properties": {
+          "level_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "length_tiles": { "type": "integer", "minimum": 30, "maximum": 600 },
+          "hazards_count": { "type": "integer", "minimum": 1, "maximum": 30 },
+          "collectibles_count": { "type": "integer", "minimum": 0, "maximum": 30 },
+          "level_segment_frame_data_path": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Project-relative path to a platformer_level_segment_frame_data.json instance."
+          },
+          "par_time_seconds": { "type": "integer", "minimum": 15, "maximum": 120 },
+          "best_time_path": { "type": "string", "minLength": 1 },
+          "checkpoint_count": { "type": "integer", "minimum": 0, "maximum": 5 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "kind": {
+            "type": "string",
+            "enum": ["story", "challenge", "speedrun", "practice", "level_editor"]
+          },
+          "lives_policy": {
+            "type": "string",
+            "enum": ["no_lives", "limited_3", "limited_5", "unlimited"]
+          },
+          "score_policy": {
+            "type": "string",
+            "enum": ["time_only", "time_and_collectibles", "no_score"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "balance": {
+      "type": "object",
+      "required": ["evidence_paths", "method"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["playtest_first", "frame_data_first", "difficulty_curve_first", "playtest_then_curve", "hybrid"]
+        },
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Project-relative paths to balance evidence (per-level clear time, death count tables, jump arc playtest). Required to lift past vertical_slice.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "difficulty_curve_path": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "doc_refs": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

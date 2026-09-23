@@ -1,0 +1,49 @@
+{
+  "schema": "material_color_ramp_plan.v1",
+  "hue_shift_rule": "highlight warmer/yellow when applicable; shadow cooler/blue-purple; grey mix is not a ramp",
+  "hero": [
+    {
+      "material": "skin",
+      "steps": ["#CC8866", "#AA6644", "#884466"],
+      "roles": ["highlight", "base", "shadow"],
+      "hue_shift": "warm highlight, cool magenta shadow"
+    },
+    {
+      "material": "vest_teal",
+      "steps": ["#66EECC", "#22CCAA", "#2288AA"],
+      "roles": ["highlight", "base", "shadow"],
+      "hue_shift": "warm mint highlight, cool cyan shadow; saturacao acima do teal do cais #448888"
+    },
+    {
+      "material": "pants",
+      "steps": ["#AA8844", "#886644"],
+      "roles": ["base", "shadow"],
+      "hue_shift": "two-step; outline is dark_shadow"
+    }
+  ],
+  "thug": [
+    {
+      "material": "skin",
+      "steps": ["#EECCAA", "#CCAA88", "#AA6688"],
+      "roles": ["highlight", "base", "shadow"],
+      "hue_shift": "warm highlight, cool shadow"
+    },
+    {
+      "material": "tank_red",
+      "steps": ["#EE6644", "#CC2222", "#880044"],
+      "roles": ["highlight", "base", "shadow"],
+      "hue_shift": "orange highlight, purple-red shadow"
+    },
+    {
+      "material": "shorts_olive",
+      "steps": ["#AACC44", "#668822", "#446644"],
+      "roles": ["highlight", "base", "shadow"],
+      "hue_shift": "yellow-green highlight, cool green shadow"
+    }
+  ],
+  "basic_vs_elite": {
+    "basic": "flat base per material + outline",
+    "elite": "hue-shift ramps, NW light",
+    "elite_wins": true
+  }
+}

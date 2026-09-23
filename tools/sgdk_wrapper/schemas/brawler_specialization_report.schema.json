@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/brawler_specialization_report.schema.json",
+  "title": "Brawler Specialization Compliance Report",
+  "description": "Aggregator report emitted by tools/sgdk_wrapper/validate_brawler_belt_scroll_specialization.ps1 (and the future brawler_run_and_gun validators). Combines a JSON Schema validation pass, a phase-aware blocker check, an enemy archetype frame data cross-reference, and balance-evidence link verification.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "status",
+    "specialization_id",
+    "registry_source",
+    "manifest_path",
+    "manifest_status",
+    "design_contract_path",
+    "design_contract_status",
+    "enemy_archetype_audits",
+    "blockers",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "tool_name": { "type": "string" },
+    "tool_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "status": { "type": "string", "enum": ["ok", "warn", "error"] },
+    "specialization_id": {
+      "type": "string",
+      "enum": ["brawler_belt_scroll", "brawler_run_and_gun_2d", "brawler_run_and_gun_topdown"]
+    },
+    "registry_source": {
+      "type": "string",
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "manifest_path": { "type": "string" },
+    "manifest_status": { "type": "string", "enum": ["absent", "present", "invalid"] },
+    "design_contract_path": { "type": "string" },
+    "design_contract_status": { "type": "string", "enum": ["absent", "present", "invalid"] },
+    "enemy_archetype_audits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["archetype_id", "archetype_role", "path", "schema_status", "missing_required_base_stats"],
+        "properties": {
+          "archetype_id": { "type": "string" },
+          "archetype_role": { "type": "string" },
+          "path": { "type": "string" },
+          "schema_status": { "type": "string", "enum": ["ok", "warn", "error", "absent"] },
+          "missing_required_base_stats": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["blocker_id", "phase", "fired", "evidence"],
+        "properties": {
+          "blocker_id": {
+            "type": "string",
+            "pattern": "^brawler_[a-z][a-z0-9_]*$"
+          },
+          "phase": { "type": "string", "enum": ["vertical_slice", "ready_for_aaa", "closeout"] },
+          "fired": { "type": "boolean" },
+          "evidence": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["passed", "warned", "failed"],
+      "properties": {
+        "passed": { "type": "integer", "minimum": 0 },
+        "warned": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

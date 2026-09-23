@@ -1,0 +1,32 @@
+{
+  "scope": "curation_static_review",
+  "decision": "review_blocked",
+  "workspace_scope_isolation": true,
+  "rom_sha256": "1eb99f6c33cc6fe1c7fb776f5635f31b453a6419f27ff77cd4a215db9e6b00d6",
+  "findings": [
+    {
+      "id": "C01",
+      "priority": 1,
+      "file": "src/main.c",
+      "line": 127,
+      "finding": "palette[64] receives words at indices 48..65"
+    },
+    {
+      "id": "C02",
+      "priority": 1,
+      "file": "src/player.c",
+      "line": 89,
+      "finding": "P2 special facing compares own x with itself"
+    },
+    {
+      "id": "C03",
+      "priority": 1,
+      "file": "src/init.c",
+      "line": 300,
+      "finding": "round restart function empty"
+    }
+  ],
+  "report": "curadoria_hamoopig.md",
+  "runtime_revalidated": false,
+  "ready_for_aaa": false
+}

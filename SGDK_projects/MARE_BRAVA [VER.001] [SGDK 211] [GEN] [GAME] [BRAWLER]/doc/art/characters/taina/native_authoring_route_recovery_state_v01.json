@@ -1,0 +1,75 @@
+{
+  "schema_version": "taina_native_authoring_route_recovery_state.v1",
+  "record_kind": "operational_state_pointer_not_production_record",
+  "status": "rework_localized_cleanup_pending_human",
+  "human_blocker": false,
+  "claim_ceiling": "localized_native_cleanup_candidate",
+  "route_lab_decision": "doc/art/characters/taina/human_native_pose_route_lab_rejection_v01.json",
+  "route_lab_root": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]",
+  "hybrid_cleanup_decision": "doc/art/characters/taina/human_hybrid_cleanup_shootout_decision_v01.json",
+  "hybrid_cleanup_manifest": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/hybrid_cleanup_shootout_manifest.json",
+  "hybrid_cleanup_selection": "doc/art/characters/taina/human_hybrid_cleanup_shootout_selection_v01.json",
+  "localized_cleanup_manifest": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup_manifest.json",
+  "localized_cleanup_rework": "../_agent_laboratory/TAINA_RESAMPLING_ROUTE_LAB [VER.001] [SGDK 211] [GEN] [LAB] [ART_TRANSLATION]/localized_native_cleanup/hybrid_cleanup_primary_im_lanczos3_rework_v05/hybrid_cleanup_primary_im_lanczos3_rework_v05.png",
+  "localized_cleanup_rework_asset_id": "hybrid_cleanup_primary_im_lanczos3_rework_v05",
+  "localized_cleanup_rework_sha256": "6ef8528a91f8cc32e15af5ce8c3e404a37e57927adb0be74f1298b106e7600d3",
+  "localized_cleanup_rework_status": "technical_pass_visual_rework",
+  "method": "mechanical_palette_remap_with_minimal_native_patches",
+  "native_cleanup": "incomplete",
+  "material_topology": "failed_requires_localized_material_cleanup",
+  "semantic_map": "derived_diagnostic_not_independent",
+  "normal_production_paused": true,
+  "current_production_record": "doc/art/characters/taina/taina_localized_cleanup_operational_record_v05.json",
+  "supersedes": [
+    "rascunho/taina_native_authoring_56x80_v01/native_authoring_failure_report_v01.json",
+    "doc/art/characters/taina/native_scale_shootout_record_v01.json"
+  ],
+  "route": {
+    "name": "editor_api_save",
+    "editor": "rascunho/taina_native_authoring_editor/editor_server.py",
+    "session_spec": "rascunho/taina_native_authoring_56x80_v01/editor/spec/taina_idle_guard_56x80_native_spec_v01.json",
+    "self_check": "rascunho/taina_native_authoring_56x80_v01/editor_route_self_check_v01.json",
+    "status": "passed"
+  },
+  "human_decision_scope": {
+    "decision": "approved_for_native_authoring_scale",
+    "asset_id": "taina_idle_guard_56x80_visual_source_v01",
+    "sha256": "32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f",
+    "scale": "56x80",
+    "res_promotion": false,
+    "animation_authorization": false,
+    "rom_authorization": false
+  },
+  "identity_source": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "role": "identity_only"
+  },
+  "direction_source": {
+    "path": "data/source_art/visual_producer_outputs/taina_idle_guard_scale_shootout_v01/taina_idle_guard_56x80_visual_source_v01.png",
+    "sha256": "32c5a8089c52251c0276eb0c28406b44e7797455a767b4a498c1da74be094d4f",
+    "role": "proportion_and_direction_only"
+  },
+  "native_candidate": {
+    "asset_id": "taina_idle_guard_56x80_native_authoring_v04",
+    "sha256": "0f0c758bd50fd41b028ad44f04a3c48e48faf1859f2b4e9769ca68621733800e",
+    "scale": "56x80",
+    "visual_review": "technical_pass_visual_fail",
+    "route_lab_role": "negative_evidence_only"
+  },
+  "scale_policy": {
+    "locked": "56x80",
+    "comparison_only": ["64x96"],
+    "reopened": []
+  },
+  "promotion": {
+    "res": false,
+    "animation": false,
+    "sgdk_integration": false,
+    "rom": false,
+    "aaa": false,
+    "route_lab_evidence_only": true,
+    "hybrid_cleanup_shootout_only": true,
+    "localized_native_cleanup_only": true
+  }
+}

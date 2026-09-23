@@ -1,0 +1,340 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/visual_dna_manifest.schema.json",
+  "title": "Visual DNA Manifest",
+  "description": "Authorial visual identity contract for a character, boss, stage, HUD, or project-facing asset family. It prevents drift before key poses, strips, conversion, and ROM promotion.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "asset_id",
+    "asset_role",
+    "authorial_source",
+    "license",
+    "style_pillars",
+    "palette_intent",
+    "shape_language",
+    "material_rules",
+    "scale_contract",
+    "forbidden_drift",
+    "approval_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "asset_role": {
+      "type": "string",
+      "enum": [
+        "hero_character",
+        "enemy",
+        "boss",
+        "stage",
+        "hud",
+        "prop",
+        "project_identity"
+      ]
+    },
+    "authorial_source": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-authored source or approved generated source persisted in data/source_art."
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1
+    },
+    "benchmark_used_as": {
+      "type": "string",
+      "enum": [
+        "none",
+        "scale_density_timing_only",
+        "technical_quality_bar"
+      ],
+      "default": "none"
+    },
+    "style_pillars": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "palette_intent": {
+      "type": "object",
+      "required": [
+        "max_palettes",
+        "reserved_slots",
+        "material_ramps"
+      ],
+      "properties": {
+        "max_palettes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "reserved_slots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "palette",
+              "slot",
+              "purpose"
+            ],
+            "properties": {
+              "palette": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "slot": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "material_ramps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "material",
+              "slots",
+              "contrast_goal"
+            ],
+            "properties": {
+              "material": {
+                "type": "string",
+                "minLength": 1
+              },
+              "slots": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 15
+                }
+              },
+              "contrast_goal": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "shape_language": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "material_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "scale_contract": {
+      "type": "object",
+      "required": [
+        "native_resolution",
+        "nominal_bbox_px",
+        "pivot_policy",
+        "scale_class",
+        "scale_lock_status",
+        "gameplay_scale_fit",
+        "scale_change_policy"
+      ],
+      "properties": {
+        "native_resolution": {
+          "type": "string",
+          "enum": [
+            "320x224",
+            "256x224",
+            "scene_specific"
+          ]
+        },
+        "nominal_bbox_px": {
+          "type": "object",
+          "required": [
+            "w",
+            "h"
+          ],
+          "properties": {
+            "w": {
+              "type": "integer",
+              "minimum": 1,
+              "multipleOf": 8
+            },
+            "h": {
+              "type": "integer",
+              "minimum": 1,
+              "multipleOf": 8
+            }
+          },
+          "additionalProperties": false
+        },
+        "pivot_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scale_class": {
+          "type": "string",
+          "enum": [
+            "micro_8_16",
+            "medium_24_48",
+            "macro_64_plus",
+            "scene_specific"
+          ],
+          "description": "Pixel-art scale class used for design tradeoffs, not physical height in lore."
+        },
+        "scale_lock_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "locked",
+            "rework_required"
+          ]
+        },
+        "gameplay_scale_fit": {
+          "type": "object",
+          "required": [
+            "camera_fov_role",
+            "hitbox_alignment_role",
+            "animation_workload_policy",
+            "integer_pixel_motion_policy"
+          ],
+          "properties": {
+            "camera_fov_role": {
+              "type": "string",
+              "enum": [
+                "fov_expansive",
+                "balanced_action",
+                "close_combat_precision",
+                "cinematic_presence",
+                "ui_or_prop_specific"
+              ]
+            },
+            "hitbox_alignment_role": {
+              "type": "string",
+              "enum": [
+                "silhouette_only",
+                "coarse_body",
+                "limb_precise",
+                "non_colliding",
+                "scene_specific"
+              ]
+            },
+            "animation_workload_policy": {
+              "type": "string",
+              "enum": [
+                "solo_fast_iteration",
+                "standard_16bit_pipeline",
+                "high_cost_team_or_limited_scope",
+                "static_or_low_motion"
+              ]
+            },
+            "integer_pixel_motion_policy": {
+              "type": "string",
+              "enum": [
+                "render_integer_pixels_required",
+                "fixed_point_logic_integer_render",
+                "not_applicable_static"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "scale_change_policy": {
+          "type": "string",
+          "enum": [
+            "requires_reseed_before_art",
+            "not_applicable_static"
+          ],
+          "description": "Changing character scale after art starts requires reseed/rework, not silent resizing."
+        }
+      },
+      "additionalProperties": false
+    },
+    "forbidden_drift": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "anatomy",
+          "pivot",
+          "scale",
+          "outfit",
+          "face",
+          "palette",
+          "bounding_box",
+          "material",
+          "style"
+        ]
+      }
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved_for_key_poses",
+        "blocked",
+        "retired"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "approval_status": {
+            "const": "approved_for_key_poses"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scale_contract": {
+            "properties": {
+              "scale_lock_status": {
+                "const": "locked"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

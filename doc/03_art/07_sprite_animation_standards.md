@@ -12,6 +12,11 @@ Definir regras rigidas para animacao de sprites no Mega Drive que garantam fluid
 
 ## 1. PRINCIPIOS DE ANIMACAO PARA PIXEL ART 16-BIT
 
+A autoridade completa dos 12 principios adaptados ao Mega Drive e
+`tools/sgdk_wrapper/.agent/skills/art/sprite-animation/references/animation-principles-for-megadrive.md`.
+Os itens desta secao detalham restricoes tecnicas e nao formam uma lista
+alternativa de principios.
+
 ### 1.1 Regras Absolutas
 
 - Cada frame de animacao DEVE manter a mesma massa visual dominante do personagem. Variacao de bounding box entre frames de um mesmo ciclo NAO DEVE exceder 8px em qualquer eixo (largura ou altura).
@@ -20,6 +25,112 @@ Definir regras rigidas para animacao de sprites no Mega Drive que garantam fluid
 - Anticipation (preparacao antes de uma acao) DEVE existir em TODA animacao de ataque e pulo. Minimo: 1 frame de preparacao antes do golpe ou salto.
 - Follow-through (continuacao apos acao) DEVE existir em animacoes de ataque. Minimo: 1 frame de retorno apos o frame de impacto.
 - Toda animacao DEVE ser legivel frame por frame. Se um frame isolado nao comunica a pose com clareza, esse frame DEVE ser redesenhado.
+
+### 1.1.1 Passe `pixel_perfect_animation_pass`
+
+Toda strip heroica, lutador, boss, inimigo grande ou asset gerado por IA deve
+passar por um refinamento antes da paleta final:
+
+0. `scale_lock_check`: `visual_dna_manifest.scale_contract` travado antes de
+   model sheet, key poses ou strip final.
+1. `silhouette_blocking`: poses extremas em massa solida.
+2. `inbetweens`: quadros intermediarios so quando melhoram timing e gameplay.
+3. `line_cleaning_report`: remover jaggies, double corners e pixels orfaos.
+4. `cluster_motion_review`: sombra/base/highlight movem como massa, nao ruido.
+5. `subpixel_shading_motion_report`: micro-movimento por luz/sombra interna,
+   sem alterar a silhueta externa.
+6. `shading_dither_pass`: aplicar rampas e dithering final so depois da linha
+   estar limpa.
+
+Bloqueia:
+
+- key pose ou strip iniciada com escala ainda em `draft`;
+- borda com anti-aliasing, blur ou interpolacao;
+- diagonal tremendo por contagem inconsistente de pixels;
+- sombra congelada enquanto corpo gira;
+- highlight que muda de lugar sem acompanhar volume;
+- smear que parece sujeira, ilha ou fragmento de celula.
+
+### 1.1.2 Gate `fake_pixel_art_rejection`
+
+Arte gerada por IA ou fonte high-res nao passa apenas por parecer pixel art de
+longe. Antes de entrar em `res/`, deve provar:
+
+- downscale por nearest-neighbor ou redesenho manual em grid nativo;
+- paleta indexada, limpa, com ate 15 cores visiveis;
+- PLTE com no maximo 16 entradas;
+- snap para grade 9-bits;
+- chroma/index 0 uniforme;
+- sem halos, microcores, matte residual ou objetos fora da celula.
+
+Se falhar, status: `fake_pixel_art_artifact`.
+
+### 1.1.3 Contrato `style_motion_reverse_engineering`
+
+Antes de animar personagem, boss ou NPC expressivo, o agente deve traduzir o
+estilo visual em regras objetivas. Referencia nao e comando de copia; e fonte
+de restricoes.
+
+O contrato minimo declara:
+
+- `primitive_shape_language`: solidos dominantes, curvas, angulos e silhueta;
+- `proportion_matrix`: cabecas, olhos, membros, maos, pes e relacao de escala;
+- `line_weight_policy`: espessura, contorno externo, contorno interno e leitura;
+- `shading_model`: quantidade de tons por material, direcao de luz e hue shift;
+- `extreme_pose_limits`: ate onde o estilo aceita exaggeration, smear e
+  deformacao sem perder identidade.
+
+Bloqueia:
+
+- estilo descrito apenas como nome de jogo, marca, estudio ou artista;
+- key poses com proporcao diferente do model sheet;
+- key poses aprovadas com `scale_contract.scale_lock_status` diferente de
+  `locked`;
+- frame que parece bom isolado, mas quebra line weight ou shading model;
+- expressao extrema que muda o personagem em vez de expandir sua atuacao.
+
+### 1.1.4 Contrato `turnaround_tracking_contract`
+
+Perspectiva correta em 2D nasce de volume rastreado, nao de redesenhar cada
+angulo como arte separada. Quando houver rotacao, 3/4, direcoes multiples,
+ataque com giro ou cutscene com close-up em outro angulo, declarar:
+
+- `front_view_anchor`, `side_view_anchor`, `back_view_anchor` e `three_quarter_anchor`;
+- `tracking_lines`: topo da cabeca, olhos, nariz, queixo, ombro, cotovelo,
+  punho, cintura, joelho, tornozelo e solo;
+- `volume_primitives`: cabeca, torax, pelvis e membros como formas 3D;
+- `foreshortening_policy`: o que alarga, o que encurta e o que desaparece na
+  virada;
+- `pivot_and_hurtbox_policy`: como pivot, ground_y e hurtbox permanecem justos.
+
+Bloqueia:
+
+- partes do corpo que sobem/descem sem causa entre frente, perfil e 3/4;
+- acessorio ou membro que muda de tamanho por falta de tracking;
+- hitbox/hurtbox que depende de um angulo inconsistente;
+- rotacao que parece troca de desenho, nao volume em movimento.
+
+### 1.1.5 Contrato `motion_physics_contract`
+
+Toda animacao critica deve explicar fisica visual antes de receber polimento:
+
+- `key_pose_sequence`: neutral, anticipation, action/contact, follow-through e
+  recovery;
+- `center_of_mass_curve`: deslocamento do peso em pixels por frame ou fase;
+- `gravity_and_contact_model`: foot lock, aterrissagem, queda, compressao e
+  retorno;
+- `arc_path_map`: arcos de maos, armas, cabeca, cabelo, tecido e projeteis;
+- `timing_spacing_intent`: quais frames acumulam energia e quais explodem;
+- `secondary_motion_order`: corpo primeiro, cabelo/roupa/acessorio depois, com
+  delay e damping declarados.
+
+Bloqueia:
+
+- movimento linear sem arco quando a acao e organica;
+- pulo, queda ou aterrissagem sem contato/gravidade legivel;
+- retorno para idle sem pagar inercia;
+- transicao de estado que estala entre locomocao, ataque, dano ou cutscene;
+- squash/stretch pre-renderizado que nao conserva massa visual.
 
 ### 1.2 Principios de Timing
 
@@ -121,8 +232,10 @@ Excecao: generos que NAO usam todas as acoes (ex: puzzle) DEVEM omitir linhas, n
 | 48x64 (6x8) | 48 tiles | 3 frames | 4608 bytes (144 tiles unicos) |
 
 - OBRIGATORIO: antes de aprovar uma sprite sheet, calcular tiles unicos totais e comparar com o budget acima.
-- Se o ciclo completo exceder o budget, o agente DEVE propor estrategia de streaming (carregar frames sob demanda via DMA) ou reducao de frames.
+- O budget acima e alvo de residencia, nao decreto de impossibilidade fisica. Se o ciclo completo exceder residencia razoavel, o agente DEVE propor `active_animation_window`, SGDK auto VRAM alloc, streaming manual por DMA validado ou reducao de frames.
+- Separar sempre: sheet completa em ROM, frames/ciclos residentes em VRAM, DMA de preload/loading e DMA por frame durante gameplay.
 - SGDK automatiza DMA de sprite frames quando usando `SPR_addSprite()` com `SPR_FLAG_AUTO_VRAM_ALLOC`. O agente DEVE confirmar que o modo automatico comporta o ciclo antes de aprovar.
+- Compressao `FAST`, `BEST` ou `NONE` altera custo de ROM e comportamento de load/decompress; nao reduz o numero de tiles que um frame ocupa quando esta descompactado em VRAM.
 
 ### 3.3 Implementacao SGDK
 
@@ -242,17 +355,11 @@ Toda sprite animada critica DEVE ser comparada com pelo menos 1 dos seguintes:
 
 ## 8. FLUXO DE TRABALHO
 
-```
-1. Definir personagem e genero
-2. Consultar tabela de timing do genero (secao 1.3)
-3. Definir escala do sprite e budget de VRAM (secao 3.2)
-4. Produzir sprite sheet no formato canonico (secao 2.1)
-5. Validar pixel-rigido (megadrive-pixel-strict-rules)
-6. Medir metricas de animacao (secao 4.1)
-7. Rodar checklist (secao 4.2) — TUDO deve ser SIM
-8. Implementar no BENCHMARK_VISUAL_LAB
-9. Compilar e rodar em BlastEm
-10. Comparar com benchmark do genero (secao 5)
-11. Apresentar para aprovacao humana
-12. Se aprovado: CANONIZAR. Se reprovado: registrar no Feedback Bank e corrigir.
-```
+O unico fluxo global e o lifecycle de 12 etapas em
+`tools/sgdk_wrapper/.agent/skills/art/sprite-animation/references/canonical-animation-lifecycle.md`.
+Ele vai do brief de gameplay ate ROM/BlastEm e canonizacao. Os antigos itens
+desta secao foram absorvidos nesse lifecycle; nao devem ser executados como uma
+segunda ordem paralela.
+
+Os passes P0-P5 de sprite nativa ficam dentro da etapa 4. Os 12 principios de
+animacao atravessam todas as etapas e sao fechados por acao antes do gate humano.

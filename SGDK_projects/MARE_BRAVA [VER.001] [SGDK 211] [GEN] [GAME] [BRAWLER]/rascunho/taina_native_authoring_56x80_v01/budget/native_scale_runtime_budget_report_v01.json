@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planning_budget",
+  "claim_ceiling": "planning_only_no_rom_measurement",
+  "display_mode": "h40",
+  "limits": {"sprites_per_scanline": 20, "pixels_per_scanline": 320},
+  "footprint_sources": {
+    "taina_target": "native_authoring_target_56x80_staging_only",
+    "cria_runtime_res": "res/sprites/characters/cria/cria_idle_lean_48x64_v01.png",
+    "estivador": "doc/11-gdd.md character scale seed 56px; no runtime/res sprite promoted"
+  },
+  "scenarios": [
+    {
+      "id": "taina_56x80_plus_four_cria_48x64",
+      "input": "rascunho/taina_native_authoring_56x80_v01/budget/scene_taina_56x80_plus_four_cria_48x64.json",
+      "report": "rascunho/taina_native_authoring_56x80_v01/budget/scene_taina_56x80_plus_four_cria_48x64_vdp_report.json",
+      "status": "ok",
+      "total_sprite_links": 22,
+      "hardware_sprite_count": 22,
+      "max_sprites_per_scanline": 10,
+      "max_sprite_pixels_per_scanline": 248,
+      "slice_scope": "four_enemy_case"
+    },
+    {
+      "id": "taina_56x80_plus_two_cria_two_estivador",
+      "input": "rascunho/taina_native_authoring_56x80_v01/budget/scene_taina_56x80_plus_two_cria_two_estivador.json",
+      "report": "rascunho/taina_native_authoring_56x80_v01/budget/scene_taina_56x80_plus_two_cria_two_estivador_vdp_report.json",
+      "status": "ok",
+      "total_sprite_links": 22,
+      "hardware_sprite_count": 22,
+      "max_sprites_per_scanline": 10,
+      "max_sprite_pixels_per_scanline": 264,
+      "slice_scope": "gdd_mixed_composition_planning"
+    },
+    {
+      "id": "taina_56x80_plus_three_cria_three_estivador_stress",
+      "input": "rascunho/taina_native_authoring_56x80_v01/budget/scene_taina_56x80_plus_three_cria_three_estivador_stress.json",
+      "report": "rascunho/taina_native_authoring_56x80_v01/budget/scene_taina_56x80_plus_three_cria_three_estivador_stress_vdp_report.json",
+      "status": "error",
+      "blockers": ["sprite_pixels_per_scanline_over_320"],
+      "total_sprite_links": 30,
+      "hardware_sprite_count": 30,
+      "max_sprites_per_scanline": 14,
+      "max_sprite_pixels_per_scanline": 368,
+      "slice_scope": "stress_only_outside_four_enemy_cap"
+    }
+  ],
+  "interpretation": [
+    "The earlier 32x48 enemy fixture is not used for this report.",
+    "The ESTIVADOR footprint is planning-only because no ESTIVADOR sprite is in runtime/res.",
+    "These are geometry/planning measurements, not validado_budget; ROM and native candidate are absent.",
+    "No res/ file was changed."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_idle_guard_motion_physics_v02",
+  "generated_at": "2026-07-29",
+  "animation_id": "idle_guard",
+  "status": "measured",
+  "key_pose_sequence": [
+    "neutral",
+    "inhale_start",
+    "inhale_peak",
+    "delayed_secondary",
+    "exhale",
+    "secondary_settle"
+  ],
+  "center_of_mass_curve_px": [0, 0, 0, 0, 0, 0],
+  "gravity_and_contact_model": {
+    "both_feet_locked": true,
+    "ground_y": 60,
+    "visible_pixel_count_per_frame": [729, 729, 729, 729, 729, 729]
+  },
+  "arc_path_map": {
+    "chest_highlight": "internal rise during frames 1-3, no silhouette shift",
+    "hair_cluster": "one-frame delayed internal lateral response",
+    "sash_cluster": "delayed internal settle through frames 3-5"
+  },
+  "timing_spacing_intent_vblanks": [11, 7, 10, 7, 11, 12],
+  "secondary_motion_order": [
+    "torso",
+    "hair",
+    "sash"
+  ],
+  "external_silhouette_motion": "none_for_idle_v02",
+  "measurement_level": "measured_offline_runtime_pending"
+}

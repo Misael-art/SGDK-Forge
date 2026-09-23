@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/aaa_pipeline_gate_report.schema.json",
+  "title": "AAA Pipeline Gate Report",
+  "description": "Integrated report mapping prompt/delivery claims to required SGDK/Mega Drive skills, artifacts, evidence and final ready_for_aaa decision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "project",
+    "claim_source",
+    "claims",
+    "required_skill_invocations",
+    "claim_to_gate_matrix",
+    "missing_artifacts",
+    "blocked_claims",
+    "ready_for_aaa_decision",
+    "status",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "aaa_pipeline_gate_report" },
+    "project": { "type": "string", "minLength": 1 },
+    "claim_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path_or_prompt_id"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["prompt", "prd", "tdd", "delivery_report", "changelog", "external_curation", "other"] },
+        "path_or_prompt_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "claim_type", "text", "risk"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "claim_type": {
+            "type": "string",
+            "enum": [
+              "visual_quality",
+              "vdp_effect",
+              "collision",
+              "vram_streaming",
+              "entity_architecture",
+              "state_transition",
+              "sprite_animation",
+              "stage_camera",
+              "asset_conversion",
+              "audio",
+              "release_status",
+              "other"
+            ]
+          },
+          "text": { "type": "string", "minLength": 1 },
+          "risk": { "type": "string", "enum": ["low", "medium", "high", "critical"] }
+        }
+      }
+    },
+    "required_skill_invocations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["skill", "reason", "required"],
+        "properties": {
+          "skill": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 },
+          "required": { "type": "boolean" }
+        }
+      }
+    },
+    "claim_to_gate_matrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim_id", "required_artifacts", "evidence_status", "decision"],
+        "properties": {
+          "claim_id": { "type": "string", "minLength": 1 },
+          "required_artifacts": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "evidence_status": { "type": "string", "enum": ["present_fresh", "present_stale", "missing", "insufficient", "contradicted"] },
+          "decision": { "type": "string", "enum": ["pass", "warning", "blocked"] }
+        }
+      }
+    },
+    "missing_artifacts": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "blocked_claims": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "ready_for_aaa_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ready_for_aaa", "max_allowed_status", "reason"],
+      "properties": {
+        "ready_for_aaa": { "type": "boolean" },
+        "max_allowed_status": {
+          "type": "string",
+          "enum": [
+            "conceptual_reference",
+            "case_study_candidate",
+            "pipeline_update_candidate",
+            "lab_candidate",
+            "candidate_applied_not_verified",
+            "runtime_candidate",
+            "elite_ready",
+            "ready_for_aaa"
+          ]
+        },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "status": { "type": "string", "enum": ["ok", "needs_review", "blocked"] },
+    "generated_at": { "type": "string", "minLength": 1 }
+  }
+}

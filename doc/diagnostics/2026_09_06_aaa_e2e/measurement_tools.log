@@ -1,0 +1,93 @@
+  [OK  ] tools/sgdk_wrapper/audit_procedural_asset_provenance.py   passed
+           audit_procedural_asset_provenance self-check passed (promocao, placeholder e schema)
+  [OK  ] tools/sgdk_wrapper/audit_tile_residency.py                passed
+           audit_tile_residency self-check passed (passa, estoura teto, sinaliza dedup baixo)
+  [OK  ] tools/sgdk_wrapper/audit_scene_headroom.py                passed
+           audit_scene_headroom self-check passed (3 estados, limiar de folga, estouro de limite)
+  [OK  ] tools/sgdk_wrapper/validate_model_sheet_contract.py       passed
+           validate_model_sheet_contract self-check passed (passa e reprova headroom, ciclo e escala)
+  [OK  ] tools/sgdk_wrapper/validate_brand_comprehension_gate.py   passed
+           validate_brand_comprehension_gate self-check passed (passa, reprova, vazio)
+  [OK  ] tools/sgdk_wrapper/audit_stage_occupancy.py               passed
+           audit_stage_occupancy self-check passed (empilhamento 4x, sucessao limpa, deriva de runtime, saida ausente)
+  [OK  ] tools/sgdk_wrapper/audit_luma_floor.py                    passed
+           audit_luma_floor self-check passed (contraste 0 reprova, +170 passa, contorno preto passa, sem massa de realce reprova, fundo vazio recusa)
+  [OK  ] tools/sgdk_wrapper/seal_fresh_evidence_bundle.py          passed
+           seal_fresh_evidence_bundle self-check passed (32 e 26 metricas sem corte fixo, hi/lo acima de 65535, ausencia como None, VLAB ausente/curto/invalido recusados, 
+  [OK  ] tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator  passed
+           vdp_scanline_simulator self-check passed (geometry cells + both limits + headroom + h32)
+  [OK  ] tools/sgdk_wrapper/forge_art/vdp_color.py                 passed
+           [OK] 20/20 fixtures (positivas e negativas) passaram
+  [OK  ] tools/sgdk_wrapper/forge_art/pixel_contract.py            passed
+           [OK] 20/20 fixtures (positivas e negativas) passaram
+  [OK  ] tools/sgdk_wrapper/forge_art/job.py                       passed
+           [OK] 44/44 fixtures (positivas e negativas) passaram
+  [OK  ] tools/sgdk_wrapper/forge_art/__main__.py                  passed
+           [OK] 137/137 fixtures
+  [OK  ] tools/sgdk_wrapper/validate_native_sprite_production.py   passed
+           38/38 native-sprite semantic-gate fixtures passed
+  [OK  ] tools/sgdk_wrapper/validate_fighting_sprite_semantics.py  passed
+           }
+  [OK  ] tools/sgdk_wrapper/.agent/scripts/validate_lineart_topol  passed
+           validate_lineart_topology self-check passed (outline, filled silhouette, thick stroke)
+  [OK  ] tools/sgdk_wrapper/.agent/scripts/validate_animation_str  passed
+           validate_strip self-check passed (schema, provenance, native scale, approval, artifact, timing)
+  [OK  ] tools/sgdk_wrapper/.agent/scripts/validate_motion_semant  passed
+           validate_motion_semantics self-check passed (profile, lineage, schema, native scale, approval, support)
+  [OK  ] tools/sgdk_wrapper/.agent/scripts/validate_animation_can  passed
+           validate_animation_candidate self-check passed (claims, provenance, principles, reuse, metasprite, blind review, hash binding)
+
+  [FALHA] tool EM USO v1.1.0 != v1.2.0
+           SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/.agent/scripts/vdp_scanlin
+  [FALHA] tool EM USO v1.1.0 != v1.2.0
+           SGDK_projects/GOTHAM_OVERDRIVE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/.agent/scripts/vdp_scanli
+  [FALHA] tool EM USO v1.1.0 != v1.2.0
+           SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/.agent/scr
+  [FALHA] tool EM USO v1.1.0 != v1.2.0
+           SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/.agent
+  [FALHA] tool EM USO v1.1.0 != v1.2.0
+           SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/.agent
+  [aviso] tool arquivada v1.0.0 != v1.2.0
+           SGDK_projects/_agent_training/HYBRIDO_MUAY_THAI [VER.001] [SGDK 211] [GEN] [ESTUDO] [LUTA]/rascunho/
+  [aviso] tool arquivada
+           out/host_tools/python/site-packages/PIL/__main__.py
+  [aviso] tool arquivada
+           out/host_tools/python/site-packages/jsonschema/__main__.py
+  [FALHA] project_source EM USO
+           SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/src/system/runtime_
+  [FALHA] project_source EM USO
+           SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/src/system/ru
+  [FALHA] project_source EM USO
+           SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/src/syste
+  [FALHA] project_source EM USO
+           SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/src/system/runtime_probe.c
+  [FALHA] project_source EM USO
+           SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/src/system
+  [FALHA] project_source EM USO
+           SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/src/sy
+  [FALHA] project_source EM USO
+           SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]/src/system/runtime_probe.c
+  [FALHA] project_source EM USO
+           SGDK_projects/_agent_laboratory/SCENE_TILEMAP_CURATION_FIXTURE [VER.001] [SGDK 211] [GEN] [LAB] [TEC
+  [FALHA] project_source EM USO
+           SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/sgdk_viewer/showdown_viewer/src/system/
+  [FALHA] project_source EM USO
+           SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/inc/system/runtime_
+  [FALHA] project_source EM USO
+           SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/inc/system/ru
+  [FALHA] project_source EM USO
+           SGDK_projects/Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/inc/syste
+  [FALHA] project_source EM USO
+           SGDK_projects/FORGE_REFERENCE [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]/inc/system/runtime_probe.h
+  [FALHA] project_source EM USO
+           SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/inc/system
+  [FALHA] project_source EM USO
+           SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/inc/sy
+  [FALHA] project_source EM USO
+           SGDK_projects/SMOKE_TEST [VER.001] [SGDK 211] [GEN] [LAB]/inc/system/runtime_probe.h
+  [FALHA] project_source EM USO
+           SGDK_projects/_agent_laboratory/SCENE_TILEMAP_CURATION_FIXTURE [VER.001] [SGDK 211] [GEN] [LAB] [TEC
+  [FALHA] project_source EM USO
+           SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/sgdk_viewer/showdown_viewer/inc/system/
+
+[measurement-tools] 19/19 com self-check passando  verdict=BLOCKED

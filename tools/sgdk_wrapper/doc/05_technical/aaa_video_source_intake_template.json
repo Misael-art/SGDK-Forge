@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_video_source_intake_template",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Provide a canonical intake template for future Mega Drive AAA video transcripts, AI summaries, direct video notes or external technique analyses.",
+  "intake_policy": [
+    "Every new source must be classified before techniques are accepted.",
+    "Every accepted technique must map to at least one owner skill and one evidence path.",
+    "Every rejected or deferred claim must be recorded with a reason.",
+    "Aggregate claims cannot update canonical counts without individual source records.",
+    "No intake record can promote runtime, ROM, budget or AAA status by itself."
+  ],
+  "template_fields": {
+    "source_identity": {
+      "source_id": "stable_snake_case_id",
+      "title": "human-readable source title",
+      "source_type": "attached_ai_transcript | youtube_video_link_with_timestamps | other_agent_aggregate_analysis | local_project_artifact",
+      "source_uri_or_local_path": "optional source link or local attachment path",
+      "source_date_or_retrieval_date": "YYYY-MM-DD when known"
+    },
+    "source_reliability": {
+      "initial_level": "L0_unavailable | L1_indirect_ai_summary | L2_timestamped_transcript | L3_primary_doc_or_tool_verified | L4_local_runtime_verified | L5_canonical_validated",
+      "classification_reason": "why this level was assigned",
+      "promotion_requirements": [
+        "specific evidence required before promotion"
+      ]
+    },
+    "technique_extraction": [
+      {
+        "technique_id": "stable_snake_case_id",
+        "raw_claim": "claim as extracted from source",
+        "sgdk_or_vdp_mapping": "concrete Mega Drive/SGDK constraint or behavior",
+        "candidate_owner_skills": [
+          "skill-id"
+        ],
+        "candidate_contracts_or_artifacts": [
+          "artifact_id"
+        ],
+        "decision": "accept_with_constraints | defer | reject",
+        "decision_reason": "why accepted/deferred/rejected",
+        "required_evidence": [
+          "evidence item"
+        ]
+      }
+    ],
+    "correlated_updates": {
+      "update_traceability_matrix": true,
+      "update_decision_matrix": false,
+      "update_skill_contract_catalog": false,
+      "update_activation_matrix": false,
+      "update_evidence_ladder": false,
+      "update_risk_register": false,
+      "update_inventory": false
+    },
+    "closeout": {
+      "allowed_status": "documented | contracted | candidate_applied_not_verified",
+      "forbidden_status": [
+        "ready_for_aaa",
+        "validado_budget",
+        "testado_em_emulador",
+        "final_aaa_release"
+      ],
+      "notes": "open questions and blockers"
+    }
+  },
+  "mandatory_owner_artifacts": [
+    "external_source_reliability_rubric",
+    "aaa_source_to_skill_traceability_matrix",
+    "aaa_skill_contract_catalog",
+    "aaa_evidence_ladder",
+    "aaa-pipeline-guardian"
+  ]
+}

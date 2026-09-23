@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "stage_intro_cinder_circuit_d1",
+  "scene_id": "stage_intro_cinder_circuit",
+  "scene_role": "cutscene",
+  "status_ceiling": "planning_only",
+  "cutscene_mode": "mixed",
+  "fsm_script": "CS-C: ARENA_REVEAL -> CAMERA_SETTLE -> FIGHTER_REVEAL -> HANDOFF",
+  "resource_plan": "BG_B room_0_bgb resident; BG_A room_0_bga resident; portraits and fighter sheets are windowed and not yet production-approved.",
+  "panel_layout": "Full 320x224 stage plate; reveal line at y=176; fighters enter from x=40 and x=280 on the handoff beat.",
+  "palette_script": "PAL0 stage depth, PAL1 stage props, PAL2 active fighter window, PAL3 text; no H-Int in D1.",
+  "text_timing_map": "No dialogue text; stage title hold 60 frames, reveal hold 30 frames.",
+  "audio_cue_map": "stage_enter cue at frame 0; handoff impact cue at the fighter reveal boundary.",
+  "glyph_manifest": "SGDK default font during technical slice; final authorial font remains a separate art gate.",
+  "advance_model": "MIXED",
+  "teardown_plan": "Release title text and cutscene-only portrait window, preserve stage residency, transfer fighter and combat ownership.",
+  "evidence_plan": "BlastEm screenshot plus SRAM and visual VDP dump, all bound to the same ROM hash and runtime_state=CS-C.",
+  "uses_fullscreen_bitmap": false,
+  "dynamic_fx": ["palette_fade", "camera_pan"],
+  "h_int_owner": "none_d1"
+}

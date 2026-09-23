@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-19",
+  "review_scope": "build_v020 Sector 01 runtime recovery and closeout",
+  "decision": "technical_closeout_approved_creative_hold",
+  "rom": {
+    "path": "out/rom.bin",
+    "sha256": "4c8302405accc7d414e2f29e0f77f3c4cdbac1f34f7d5760e5934ff48342d60e",
+    "size_bytes": 131072
+  },
+  "api_verification": {
+    "sgdk_version": "2.11",
+    "sprite_definition_num_animation_type": "u16",
+    "animation_num_frame_type": "u8",
+    "spr_set_anim_and_frame_signature": "void SPR_setAnimAndFrame(Sprite* sprite, s16 anim, s16 frame)",
+    "header": "sdk/sgdk-2.11/inc/sprite_eng.h"
+  },
+  "sprite_metadata": [
+    {"definition": "spr_lio_all", "numAnimation": 5, "numFrame_by_animation": [6, 6, 3, 4, 2]},
+    {"definition": "spr_lumen_orb", "numAnimation": 1, "numFrame_by_animation": [3]},
+    {"definition": "spr_low_stone", "numAnimation": 1, "numFrame_by_animation": [2]},
+    {"definition": "spr_astral_mark", "numAnimation": 1, "numFrame_by_animation": [3]},
+    {"definition": "spr_beacon_key", "numAnimation": 1, "numFrame_by_animation": [3]},
+    {"definition": "spr_pursuer_shadow", "numAnimation": 1, "numFrame_by_animation": [1]}
+  ],
+  "resolved_findings": [
+    {
+      "id": "invalid_animation_frame",
+      "root_cause": "spr_lumen_orb animation 0 received frame 3 while numFrame=3",
+      "fix": "definition-derived frame count and SPR_setAnimAndFrame",
+      "verification": "success and failure routes completed in BlastEm without ADDRESS ERROR"
+    },
+    {
+      "id": "vram_tile_base_collision",
+      "fix": "full tile attributes and explicit road tile base",
+      "verification": "road, HUD and Title rendered without the previous corruption"
+    },
+    {
+      "id": "pulse_pressure_pursuer",
+      "fix": "cooldown update and trigger event integration",
+      "verification": "route evidence and SRAM input/runtime probes"
+    },
+    {
+      "id": "hud_window_bleed",
+      "fix": "opaque high-priority WINDOW plus playfield clipping for race sprites",
+      "verification": "beacon_approach.png"
+    },
+    {
+      "id": "success_failure_semantics",
+      "fix": "sector_cleared persisted and result scene distinguishes COMPLETE from FAILED",
+      "verification": "result_complete.png and result_failed.png"
+    }
+  ],
+  "verification": {
+    "python_tests": "14_passed",
+    "powershell_contracts": "passed",
+    "blastem_success_route": "passed",
+    "blastem_failure_route": "passed",
+    "title_opening_route": "passed",
+    "evidence_seal": "sealed",
+    "runtime_over_budget_frames": 0,
+    "sprite_engine_peak": 15,
+    "max_scanline_sprites": 9,
+    "vram_overlap_count": 0,
+    "palette_conflicts": 0
+  },
+  "open_findings": [
+    {
+      "severity": "medium",
+      "id": "creative_assets_are_placeholders",
+      "impact": "The technical slice cannot be promoted to definitive art or AAA.",
+      "disposition": "intentional_hold"
+    },
+    {
+      "severity": "low",
+      "id": "res_graph_nametable_false_positive",
+      "impact": "The central validator keeps validado_budget=false despite independent measured evidence.",
+      "disposition": "framework_curation_candidate; no central wrapper change authorized"
+    },
+    {
+      "severity": "low",
+      "id": "central_wrapper_post_build_quoting_warning",
+      "impact": "Post-processing reports a PowerShell quoting warning after the ROM was built successfully.",
+      "disposition": "tooling_follow_up; final ROM and evidence remain valid"
+    }
+  ],
+  "claim_ceiling": {
+    "build": "buildado",
+    "sector_01": "testado_em_emulador",
+    "first_playable_technical": true,
+    "gameplay_basic": "functional",
+    "ready_for_aaa": false,
+    "mastering_ready": false,
+    "definitive_art_audio_sector02_authorized": false
+  }
+}

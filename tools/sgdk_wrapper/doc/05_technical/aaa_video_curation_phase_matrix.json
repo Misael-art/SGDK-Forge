@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_video_curation_phase_matrix",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "phases": [
+    {
+      "phase_id": "phase1_foundation",
+      "phase": 1,
+      "priority": "high",
+      "focus": "Fundacao tecnica obrigatoria",
+      "skills": [
+        "collision-system-architect",
+        "vram-streaming-dma-queue",
+        "tilemap-attribute-director",
+        "sprite-scanline-budgeter"
+      ],
+      "status": "candidate_applied_not_verified"
+    },
+    {
+      "phase_id": "phase2_graphics_engine",
+      "phase": 2,
+      "priority": "high_medium",
+      "focus": "Engine grafica e truques VDP",
+      "skills": [
+        "shadow-highlight-scroll-fx",
+        "palette-cram-curator",
+        "hscroll-linescroll-road-fx",
+        "raster-palette-hint-director",
+        "dither-composite-transparency",
+        "software-tile-rasterizer"
+      ],
+      "status": "candidate_applied_not_verified"
+    },
+    {
+      "phase_id": "phase3_entity_architecture",
+      "phase": 3,
+      "priority": "medium",
+      "focus": "Arquitetura de entidades, audio boundary e transicoes",
+      "skills": [
+        "entity-polymorphism-architect",
+        "game-state-transition-architect",
+        "z80-audio-boundary-architect",
+        "articulated-sprite-architect",
+        "level-manifest-architect"
+      ],
+      "status": "candidate_applied_not_verified"
+    },
+    {
+      "phase_id": "phase4_asset_conversion_pipeline",
+      "phase": 4,
+      "priority": "medium_low",
+      "focus": "Pipeline de assets, cor, sprites e SFX",
+      "skills": [
+        "sprite-asset-budget-curator",
+        "color-conversion-curator",
+        "sfx-prep-fm-psg-pcm"
+      ],
+      "status": "backlog_pending_evidence",
+      "reason": "Asset conversion automation still needs local asset corpus, scripts and execution proof before promotion."
+    },
+    {
+      "phase_id": "phase5_documentation_case_studies",
+      "phase": 5,
+      "priority": "continuous",
+      "focus": "Documentacao, case studies e registros machine-readable",
+      "skills": [
+        "aaa-pipeline-guardian"
+      ],
+      "status": "candidate_applied_not_verified"
+    },
+    {
+      "phase_id": "phase6_integrated_validation",
+      "phase": 6,
+      "priority": "blocking",
+      "focus": "Validacao integrada, evidence gate e anti-teatro de validacao",
+      "skills": [
+        "aaa-pipeline-guardian",
+        "emulator-vdp-evidence-curator"
+      ],
+      "status": "candidate_applied_not_verified"
+    }
+  ]
+}

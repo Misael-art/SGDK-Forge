@@ -1,0 +1,384 @@
+PLATFORMER / PUZZLE SUBGENRE TAXONOMY (BIBLIA 1)
+==================================================
+
+Esta biblia cobre a taxonomia pedagogica dos subgeneros principais do
+genero Platformer e Puzzle, com foco em viabilidade para Mega Drive
+(16-bit, 64KB RAM, 7.67MHz 68K, 64KB VRAM). Foi copiada para fins de
+curadoria secundaria. O `verification_status=unverified_secondary_text`
+indica que este texto precisa de revisao humana antes de virar
+`promotion_allowed=true` em SOURCES_INDEX.md.
+
+Cobrimos: Plataforma de Precisao, Metroidvania, Puzzle de Fisica, Sokoban,
+Tile-Matching. O v2 do framework foca em `platformer_precision_2d` (active
+Wave 1), `metroidvania_ability_gated` (active Wave 2+), `puzzle_sokoban_grid`
+(active Wave 3+), `puzzle_tile_matching` (active Wave 3+) e
+`puzzle_physics_2d` (deferred future_knowledge).
+
+================================================================================
+1. DEFINICAO DO GENERO PLATFORMER
+================================================================================
+
+Platformer eh um genero onde o jogador controla um personagem que corre,
+pula, e atravessa um cenario 2D com plataformas, obstaculos, hazards e
+coletaveis. A mecanica central eh o **controle preciso de movimento** em
+ambiente com gravidade. Caracteristicas:
+
+- **Side-Scroll 2D**: Camera rola lateralmente. Plano X horizontal,
+  plano Y vertical (com gravity).
+- **Run + Jump**: Botao de run (X) e botao de jump (A ou B). Combinacoes
+  permitem wall-jump, double-jump, dash, etc.
+- **Platforming**: Plataformas solidas (chão) e semi-solidas (one-way
+  platforms que o jogador pode pular de baixo).
+- **Hazards**: Espinhos, fogo, agua, buracos. Cada hit = dano ou morte.
+- **Collectibles**: Moedas, items, power-ups, secrets.
+- **Death Loop**: Morrer e recomecar eh canonico (com checkpoint).
+  Run-based (Celeste, Super Meat Boy) ou checkpoint-based (Mario, Sonic).
+
+================================================================================
+2. SUBGENERO: PLATAFORMA DE PRECISAO (PRECISION 2D)
+================================================================================
+
+### 2.1 Definicao
+
+Plataforma de Precisao eh o subgenero canonico de platforming onde o
+controle exato eh a mecanica central. Inspirado em Super Meat Boy, Celeste,
+N++, Jump King. Niveis sao curtos, com mortes frequentes, e o jogador
+memoriza a "solucao otima" atraves de tentativas repetidas.
+
+### 2.2 Elementos Universais (presentes em todo precision 2d)
+
+- **Camera Side-Scroll com Lookahead**: Camera segue jogador, com
+  deslocamento de 4-8 tiles no sentido do movimento.
+- **Run Speed**: Velocidade horizontal do jogador. Tipicamente 2x da
+  velocidade "walk" padrao.
+- **Jump Count**: 1-2 pulos (1 = sem double-jump; 2 = com double-jump).
+  Double-jump canonico em Mega Man, Sonic. Ausente em Mario classico.
+- **Coyote Time**: 4-6 frames de janela em que jogador pode pular apos
+  sair da plataforma (sem cair direto). Suaviza a precisao.
+- **Jump Buffering**: 4-6 frames de janela em que jogador pode precionar
+  jump antes de tocar o chao. Suaviza a precisao.
+- **Death Loop**: Morrer reinicia o nivel (ou checkpoint) instantaneamente.
+  Em precision 2d, loop eh run-based (sem checkpoint; cada run = do
+  inicio ao fim).
+- **Level Length**: Curto (15-60s por nivel). Tight design com espacos
+  apertados, paredes finas, inimigos que matam em 1 hit.
+- **No Lives System**: Sem "vidas". Cada run = independente.
+- **Instant Restart**: Morte = restart instantaneo (0.5-2s de animacao).
+- **Score**: Tempo por nivel eh canonico (speedrun). Score = tempo
+  invertido + bonus.
+
+### 2.3 Elementos Exclusivos do Precision 2D
+
+- **Wall Jump**: Jogador pode pular entre paredes. Tipico em Celeste,
+  N++. NAO canonico em Mario classico.
+- **Dash**: Movimento rapido (8-16 frames) em 1 direcao. Tipico em
+  Celeste, Mega Man X.
+- **Coyote Time + Jump Buffer**: Combinados para suavizar input lag.
+- **Stamina/Air Time**: Em alguns (N++), jogador tem stamina limitada
+  para wall-jump. Em outros, eh livre.
+- **No Save**: Run-based. Sem save. Cada tentativa = nova run.
+- **Best Time per Level**: Speedrun canonico. Track best time.
+
+### 2.4 Elementos Fora do Escopo (NAO canonicos em precision 2d)
+
+- **Open World / Metroidvania**: Use `metroidvania_ability_gated`.
+- **Long Levels (10+ minutos)**: Use `metroidvania_ability_gated` ou
+  adventure.
+- **Power-ups Persistentes**: Use metroidvania. Em precision 2d, power-ups
+  sao temporarios (dash, wall-jump) ou per-level (jump upgrade).
+
+### 2.5 Viabilidade em Mega Drive
+
+Precision 2D eh **MD-viavel** (borderline). Referencias:
+
+- Sonic 1/2/3 (Sega, 1991-1994) -- velocidade alta, precisao media
+- Mega Man 1-6 (Capcom, ports MD) -- 1 hit kill, run-based
+- Ghosts 'n Goblins (Capcom, ports MD) -- run-based, alto desafio
+- Hardcore (MD homebrew) -- run-based, wall-jump
+
+Restricoes:
+- Player sprite: 16x16 (max 24x24)
+- Run speed: 2-4 px/frame (max 6)
+- Jump height: 3-6 tiles (acima exige gravity tuning)
+- Coyote time: 4-6 frames (acima de 6 quebra desafio)
+- Death restart: 30-60 frames (0.5-1s) de animacao
+- Level count: 50-100 (acima exige save data)
+
+### 2.6 Frozen Design Axes (v2 do framework)
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "side_scroll_with_lookahead",
+  "run_speed_horizontal": "2x_player",
+  "jump_count": "1_to_2",
+  "coyote_time": "on",
+  "death_loop": "on",
+  "level_length": "short_tight"
+}
+```
+
+Cada eixo eh **congelado** durante a vigencia da especializacao. Mudanca
+exige nova rodada de curadoria + projeto piloto + ROM + BlastEm.
+
+### 2.7 Phase-Aware Blockers (disparam em ready_for_aaa/closeout)
+
+- `platformer_coyote_time_overflow`: Coyote time deve ser <= 6 frames.
+  Acima disso, quebra o desafio.
+- `metroidvania_ability_unlock_path`: Backtracking path deve conectar
+  todos os hubs. Em precision 2d, eh sub-rule (backtracking nao existe
+  em precision canonica).
+- `puzzle_undo_count_unbounded`: Undo stack deve respeitar limite.
+  Em precision 2d, undo nao existe; sub-rule.
+
+================================================================================
+3. SUBGENERO: METROIDVANIA (ABILITY GATED)
+================================================================================
+
+### 3.1 Definicao
+
+Metroidvania eh o subgenero canonico de exploracao com abilities que
+destravam areas. Inspirado em Metroid, Castlevania, Hollow Knight. Mundo
+conectado, com 4-8 abilities que destravam caminhos, e backtracking
+requerido.
+
+### 3.2 Elementos Universais
+
+- **Mapa Interconectado**: Mundo eh uma unica area grande com salas
+  interconectadas. Sem world map (ou 1 world map minimo).
+- **Abilities Gate Areas**: Cada ability destrava 1-3 areas:
+  - **Double Jump**: Atinge plataformas altas
+  - **Dash**: Atravessa buracos
+  - **Wall Jump**: Sobe paredes
+  - **Bomb/Explosion**: Quebra paredes falsas
+  - **Grapple Hook**: Puxa para pontos altos
+  - **Swim/Dive**: Entra em agua
+  - **Morph Ball**: Entra em tuneis pequenos
+- **Save Stations**: Save em locais especificos (banco, cadeira, save
+  point). Morte reinicia do save station.
+- **Map Reveal**: Mapa eh desenhado progressivamente conforme jogador
+  explora. NAO todo mapa eh visivel de inicio.
+- **Backtracking**: Apos ganhar ability, jogador volta para area
+  antes inacessivel. Cenografia guia jogador.
+- **Ability Tree**: 4-8 abilities (sem upgrade tree; cada ability eh
+  unica). Cada ability abre 1-3 paths.
+- **Boss Patterns**: Boss com multi-phase e telegraph (1-3 phases).
+- **Item Pickups**: Health extension, mana, weapon upgrades (1-2).
+
+### 3.3 Elementos Exclusivos
+
+- **Ability Tree Mapping**: cada ability -> areas destravadas. Mapa
+  em design contract.
+- **Backtracking Pacing**: A cada 2 abilities, jogador volta para
+  explorar 2-3 areas antes inacessiveis.
+- **Save Station Cooldown**: Save eh instantaneo. Sem custo de item.
+
+### 3.4 Viabilidade em Mega Drive
+
+Metroidvania eh **MD-viavel** (borderline). Referencias:
+
+- Castlevania: Bloodlines (Konami, 1994)
+- Ranger X (GAU, 1993) -- elementos metroidvania
+- Monster World IV (Sega, 1994)
+- Cave Story (Pixel, 2004) -- homebrew port MD possivel
+
+Restricoes:
+- Map size: 30-60 rooms (acima exige save data grande)
+- Ability count: 4-8 (acima exige UI complexa)
+- Save stations: 6-12 (acima polui o mapa)
+- Bosses: 4-8 (acima de 8 exige balanceamento pesado)
+
+### 3.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "frames",
+  "camera": "side_scroll_with_room_transitions",
+  "ability_count": "4_to_8",
+  "map_size": "large_interconnected",
+  "backtracking": "on",
+  "save_stations": "mandatory"
+}
+```
+
+### 3.6 Phase-Aware Blockers
+
+- `platformer_coyote_time_overflow` (se aplicavel)
+- `metroidvania_ability_unlock_path`: cada ability deve conectar
+  pelo menos 1 area. Sem ability orfã.
+- `puzzle_undo_count_unbounded` (em puzzles internos)
+
+================================================================================
+4. SUBGENERO: SOKOBAN GRID (PUZZLE)
+================================================================================
+
+### 4.1 Definicao
+
+Sokoban eh o subgenero canonico de puzzle espacial: jogador empurra
+caixas para posicoes-alvo em um grid. Inspirado em Sokoban (1982), Chip's
+Challenge, Boxboy.
+
+### 4.2 Elementos Universais
+
+- **Grid Ortogonal**: Mapa em tiles. Tipicamente 10x10 a 16x16.
+- **Boxes**: 3-8 caixas por nivel. Jogador empurra (NAO puxa).
+- **Goals**: 3-8 posicoes-alvo (tipicamente 1 goal por box).
+- **Walls**: Tiles de parede (impassa).
+- **Player**: Move-se em 4 direcoes (N, S, E, W).
+- **Undo**: 5-20 undos por nivel (para corrigir empurroes errados).
+- **Move Counter**: Cada movimento eh contado. Score = moves / optimal_moves.
+- **No Time Limit**: Sokoban canonico eh sem time limit (pensamento).
+
+### 4.3 Elementos Exclusivos
+
+- **Push-Only**: Jogador empurra; nao pode puxar.
+- **One Box per Tile**: Cada box ocupa 1 tile. NAO stacking.
+- **Sokoban Standard Ruleset**: 1982 Hiroyuki Imabayashi rules. Frozen.
+
+### 4.4 Viabilidade em Mega Drive
+
+Sokoban eh **MD-viavel**. Referencias:
+
+- Sokoban (1982, ports MD) -- original
+- Chip's Challenge (1992, ports MD)
+- Boxboy (Nintendo, mas facil de portar)
+
+Restricoes:
+- Grid: 8x8 a 16x16 (acima de 16x16 exige scroll)
+- Boxes: 3-8 (acima de 10 eh dificil visualmente)
+- Undo: 5-20 (acima de 20 quebra o desafio)
+- Level set: 50-200+ (acima de 200 exige save data > 32KB)
+
+### 4.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "moves",
+  "grid_size_max": "12x12",
+  "box_count_max": 8,
+  "undo_count": 10,
+  "move_counter": "on",
+  "level_set": "handcrafted_or_200+"
+}
+```
+
+### 4.6 Phase-Aware Blockers
+
+- `puzzle_undo_count_unbounded`: undo count <= 20 (acima quebra desafio)
+
+================================================================================
+5. SUBGENERO: TILE-MATCHING (PUZZLE)
+================================================================================
+
+### 5.1 Definicao
+
+Tile-Matching eh o subgenero canonico de match-3: jogador troca 2 tiles
+adjacentes para criar 3+ tiles iguais. Inspirado em Tetris (predecessor),
+Bejeweled, Puzzle Fighter, Panel de Pon.
+
+### 5.2 Elementos Universais
+
+- **Grid 8x8**: Tabuleiro em grid 8x8 ou similar.
+- **Tile Colors**: 4-6 cores distintas.
+- **Match Count Min**: 3+ tiles iguais em linha (horizontal ou vertical).
+- **Cascade**: Tiles acima caem para preencher vazios, criando matches
+  em cadeia.
+- **Score**: Cada match = pontos base. Cascade = multiplicador.
+
+### 5.3 Elementos Exclusivos
+
+- **Match-3 Ruleset**: 1985 par matching rules. Frozen.
+- **Time Pressure (opcional)**: alguns jogos (Bejeweled Blitz) tem
+  timer. Outros (Panel de Pon) sao sem tempo.
+- **Special Tiles**: 4-match = linha/coluna clear. 5-match = rainbow
+  (qualquer cor).
+
+### 5.4 Viabilidade em Mega Drive
+
+Tile-Matching eh **MD-viavel**. Referencias:
+
+- Columns (Sega, 1990) -- vertical match
+- Dr. Robotnik's Mean Bean Machine (Sega, 1993) -- match-3 vs CPU
+- Puzzle Bobble (Taito, ports MD) -- 1D match-3 (bubble shooter)
+- Tetris (1984, ports MD) -- predecessor
+
+Restricoes:
+- Grid: 6x12 (Columns) ou 8x8 (Match-3)
+- Tile colors: 4-6
+- Cascade: 1-3 chain (acima de 3 eh raro em MD)
+- Time limit: 60-180s (acima de 180s eh muito longo)
+
+### 5.5 Frozen Design Axes
+
+```json
+{
+  "time_unit": "frames",
+  "grid_size": "8x8",
+  "tile_colors": "4_to_6",
+  "match_count_min": 3,
+  "cascade": "on",
+  "time_pressure": "optional",
+  "special_tile_rainbow": "optional"
+}
+```
+
+### 5.6 Phase-Aware Blockers
+
+- `puzzle_undo_count_unbounded`: se undo existir, <= 5 (mais restritivo
+  que Sokoban). Sem undo = OK.
+
+================================================================================
+6. SUBGENERO: PUZZLE DE FISICA (FUTURE_KNOWLEDGE)
+================================================================================
+
+Puzzle de Fisica (Angry Birds, Cut the Rope) eh o subgenero canonico
+de puzzle com sim. de rigid body 2D. Caracteristicas:
+
+- **Rigid Body Sim 2D**: Boxes, esferas, polygons.
+- **Gravity**: 9.8 m/s^2 (padrao, configuravel).
+- **Collision Detection**: Poligono-poligono, poligono-circulo.
+- **Joints**: Hinge, spring, distance.
+- **Trajectory Prediction**: Jogador preve trajetoria antes de lancar.
+
+MD-viabilidade: **borderline**. CPU 7.67MHz 68K nao tem FPU e tem
+apenas ~50-100 ciclos por frame para simular rigid body. Sim de
+poucos corpos (3-5) eh viavel; sim de 10+ corpos exige simplificacao
+pesada. Fica em `future_knowledge` ate curadoria + projeto piloto.
+
+================================================================================
+7. CRITERIOS DE PROMOCAO
+================================================================================
+
+Os 5 subgeneros (platformer_precision_2d, metroidvania_ability_gated,
+puzzle_sokoban_grid, puzzle_tile_matching, puzzle_physics_2d) ja estao
+em `active` no v2 (exceto puzzle_physics_2d que fica em
+`future_knowledge`). Wave 1 entrega apenas `platformer_precision_2d`
+com biblia+schemas+validator+skill+tests. Waves 2-3 entregam os outros
+3. Todos compartilham:
+
+1. Schema proprio em `tools/sgdk_wrapper/schemas/platformer_<subgenero>_design_contract.schema.json`
+2. Validator proprio em `tools/sgdk_wrapper/validate_platformer_<subgenero>_specialization.ps1`
+3. Skill propria em `tools/sgdk_wrapper/.agent/skills/planning/platformer-<subgenero>-game-design/`
+4. 5 testes CI por subgenero
+
+================================================================================
+8. NOTAS DE CURADORIA
+================================================================================
+
+Este texto foi compilado de multiplas fontes publicas (manuais de
+Sonic, Mega Man, Celeste, Castlevania, Columns, Bejeweled; artigos
+genericos de game design). NAO inclui citacoes literais extensas. As
+listas de elementos universais/exclusivos seguem a convencao canonica
+do genero, nao citacao exata de uma unica fonte.
+
+Para usar este texto como base de `verified_curated`:
+1. Humano le integralmente.
+2. Humano decide se ha conflito com a politica de IP do workspace
+   (`art_style_catalog.json`).
+3. Humano atualiza `SOURCES_INDEX.md` com `verification_status=verified_curated`
+   e `promotion_allowed=true`.
+4. Humano registra a promocao em `doc/changelog/changelog.md` do wrapper.
+
+================================================================================
+9. FIM
+================================================================================

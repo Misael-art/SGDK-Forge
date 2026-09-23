@@ -24,6 +24,43 @@ Definir regras rigidas de design de personagem para sprites do Mega Drive que ga
 | 48x48 (6x6) | Boss medio, personagem especial | 36 | Expressao detalhada | Material rico, contraste dramatico | SoR2 bosses |
 | 48x64+ (6x8+) | Boss grande, splash | 48+ | Retrato completo | Detalhe maximo permitido pelo hardware | Contra Hard Corps bosses |
 
+### 1.1.1 Contrato `character_scale_contract`
+
+A escala do personagem e uma decisao de design e engenharia, nao um resize de
+asset. Ela deve nascer no `visual_dna_manifest.scale_contract` antes de model
+sheet, key poses, spritesheet ou runtime.
+
+Campos obrigatorios no contrato machine-readable:
+
+- `scale_class`: `micro_8_16`, `medium_24_48`, `macro_64_plus` ou
+  `scene_specific`;
+- `scale_lock_status`: `draft`, `locked` ou `rework_required`;
+- `nominal_bbox_px`: largura e altura em multiplos de 8;
+- `gameplay_scale_fit`:
+  - `camera_fov_role`;
+  - `hitbox_alignment_role`;
+  - `animation_workload_policy`;
+  - `integer_pixel_motion_policy`;
+- `scale_change_policy`: `requires_reseed_before_art` para personagens ativos.
+
+Regras de decisao:
+
+- `micro_8_16`: prioriza FOV, velocidade de producao e silhueta; nao promete
+  rosto, dedos, roupa complexa ou hitbox por membro.
+- `medium_24_48`: padrao forte 16-bit; permite carisma, olhos simples,
+  material legivel e ciclos fluidos sem custo explosivo.
+- `macro_64_plus`: permite presenca arcade/cinematica, hitboxes por membro e
+  acting rico, mas exige metasprite, budget, residencia/streaming e escopo de
+  animacao restrito.
+
+Bloqueia:
+
+- mudar escala depois que key poses ou strips foram iniciados sem reseed;
+- aprovar key poses com `scale_lock_status=draft`;
+- escolher escala por beleza isolada sem declarar FOV, hitbox e carga de
+  animacao;
+- redimensionar personagem no runtime para resolver camera ou colisao.
+
 ### 1.2 Regras Absolutas de Proporcao
 
 - O tamanho do sprite DEVE ser escolhido ANTES de qualquer arte. A escala NAO DEVE mudar depois que a sheet comecou.
@@ -31,6 +68,61 @@ Definir regras rigidas de design de personagem para sprites do Mega Drive que ga
 - Excecao: personagens SD (super-deformed) podem ter cabeca de ate 45% da altura.
 - O corpo DEVE ter proporcao internamente consistente. Se bracos sao grossos, pernas DEVEM ser proporcionais.
 - PROIBIDO: sprite com corpo detalhado e cabeca de palito, ou vice-versa.
+
+### 1.3 Contrato `arcade_hi_bit_sprite`
+
+Use somente quando o projeto pedir lutador, boss humanoide, personagem heroico
+grande ou estilo arcade/hi-bit. Nao e default para todo jogo Mega Drive.
+
+Regras:
+
+- Altura alvo: 80-110 px apenas com metasprite, budget de scanline e estrategia
+  de residencia/streaming declarados.
+- Proporcao: 6-7 cabecas de altura para leitura realista/arcade; chibi e SD
+  nao usam este contrato.
+- Anatomia: musculos, tecido e cabelo sao blocos de volume legiveis, nao
+  microdetalhe ruidoso.
+- Paleta: 15 cores visiveis por dominio de sprite; cada material critico deve
+  ter rampa curta e intencional.
+- Cenario: fundo deve ter menor saturacao, menor contraste e menor disputa de
+  detalhe que o personagem.
+
+Bloqueia:
+
+- sprite grande sem `frame_budget_table`, `slicing_cell_contract` e laudo VDP;
+- proporcao arcade prometida por texto, mas sem silhueta forte em 320x224;
+- fundo tao saturado quanto o lutador;
+- detalhe anatomico que so funciona em zoom.
+
+### 1.4 Contrato `lineart_blocking_1px`
+
+Antes de `color blocking`, `material_color_ramp_plan` ou shading final, todo
+personagem critico deve passar por uma etapa de lineart limpa. Esta etapa nao
+e polish; e o contrato estrutural de forma, anatomia e roupa.
+
+Regras:
+
+- Linha principal: 1 px, hard-edge, sem anti-aliasing e sem pixels
+  semi-transparentes.
+- Cor de trabalho: uma unica cor escura temporaria, preferencialmente azul
+  escuro, roxo escuro ou outro tom frio que nao seja preto puro obrigatorio.
+- Objetivo: focar em silhueta, roupa, cabelo, anatomia, volume e leitura antes
+  de discutir saturacao ou paleta final.
+- Limpeza: remover degraus desnecessarios, double corners, pixels orfaos e
+  quebras de diagonal antes de preencher cores.
+- Escala: a lineart deve vencer em 320x224 nativo e no frame box real, nao em
+  zoom de editor.
+- Conversao: a cor escura temporaria deve ser mapeada depois para o slot de
+  outline/dark shadow aprovado no `palette_role_map`.
+
+Bloqueia:
+
+- color blocking iniciado sem lineart limpa para personagem critico;
+- contorno com 2 px por acidente, AA, blur ou interpolacao;
+- lineart preta ou colorida competindo com julgamento de saturacao antes da
+  paleta estar definida;
+- anatomia, cabelo ou roupa que so parecem corretos depois de shading;
+- outline definitivo entrando em palette swap sem justificativa.
 
 ---
 
@@ -101,6 +193,35 @@ Antes de aprovar qualquer sprite de personagem critico:
 - PROIBIDO: heroi e inimigo basico com cores dominantes identicas.
 - PROIBIDO: item coletavel com cor que se confunde com cenario.
 
+### 4.3 Hue Shifting por Material
+
+Rampas de cor nao podem ser simples claro/escuro da mesma matiz. Todo material
+critico deve declarar no `material_color_ramp_plan` como a matiz se move:
+
+- highlights caminham para tons mais quentes/amarelados quando a luz da cena
+  for natural ou quente;
+- sombras caminham para azul, roxo ou frio equivalente, preservando saturacao
+  suficiente para evitar cinza morto;
+- o tom base permanece a identidade local do material;
+- cada rampa deve caber nos slots reais do `palette_role_map` e no grid 9-bits
+  do Mega Drive.
+
+Regras:
+
+- hue shift nao e obrigatorio em todo pixel; e obrigatorio em material critico
+  quando a arte ficaria lavada ou barrenta com straight shading.
+- uma cor compartilhada pode servir a sombra de pele, agua, tecido ou arvore
+  apenas quando a funcao visual continuar clara.
+- quantizacao automatica nao conta como decisao de hue shift.
+
+Bloqueia:
+
+- sombras cinza/preto geradas por escurecimento linear quando o material pede
+  volume premium;
+- highlights brancos ou pastel sem papel de luz;
+- rampas com microvariacoes que desperdicam slots de paleta;
+- personagem que perde contraste contra o fundo por rampas sem temperatura.
+
 ---
 
 ## 5. ROSTER MANAGEMENT
@@ -150,6 +271,10 @@ Swap power-up:  trocar indices 5-10 para cores mais luminosas
 | Metrica | Threshold de Aprovacao | Metodo de Medicao |
 |---------|----------------------|-------------------|
 | `silhouette_recognition` | Personagem identificavel em silhueta preta pura sobre branco | Teste visual descrito na secao 3.2 |
+| `lineart_cleanliness` | Lineart 1px sem degraus, double corners, AA ou pixels orfaos | Revisao em 1x antes do color blocking |
+| `scale_lock_integrity` | Escala travada antes de key poses e strips | `visual_dna_manifest.scale_contract.scale_lock_status=locked` |
+| `scale_gameplay_fit` | Escala serve ao FOV, hitbox e carga de animacao do genero | Revisao do `gameplay_scale_fit` |
+| `hue_shift_ramp_quality` | Highlights e sombras tem temperatura e funcao | Revisao do `material_color_ramp_plan` + `palette_role_map` |
 | `palette_sharing_efficiency` | >= 40% de cores compartilhadas entre personagens do roster | Contagem de cores identicas entre paletas |
 | `readability_at_native` | Rosto/expressao legivel em screenshot 320x224 nativo, nao ampliado | Inspecao visual em BlastEm sem zoom |
 | `archetype_distinction` | Heroi, inimigo e NPC distinguiveis em screenshot com todos presentes | Inspecao visual com 3+ personagens em tela |
@@ -160,12 +285,15 @@ Swap power-up:  trocar indices 5-10 para cores mais luminosas
 ## 7. CHECKLIST DE VALIDACAO (SIM/NAO)
 
 - [ ] O tamanho do sprite foi definido ANTES de comecar a arte?
+- [ ] O `visual_dna_manifest.scale_contract` declara `scale_class`, FOV, hitbox, carga de animacao e `scale_lock_status=locked` antes de key poses?
 - [ ] A proporcao cabeca/corpo esta dentro de 25-35% (ou 45% para SD)?
 - [ ] O personagem passa no teste de silhueta (secao 3.2)?
+- [ ] O personagem possui `lineart_blocking_1px` limpo antes de color blocking?
 - [ ] Os olhos tem o contraste mais alto do sprite?
 - [ ] A expressao e comunicada pela postura, nao por micro-detalhes faciais?
 - [ ] O heroi e o elemento mais saturado da tela?
 - [ ] Inimigos sao distinguiveis do heroi por forma E cor?
+- [ ] Cada material critico tem rampa com hue shift ou justificativa para nao usar?
 - [ ] A paleta cabe no slot designado (PAL1/PAL2)?
 - [ ] Palette swap de jogador 2 funciona trocando apenas 3-5 cores?
 - [ ] O personagem e legivel em 320x224 nativo (sem zoom)?
@@ -183,7 +311,10 @@ Swap power-up:  trocar indices 5-10 para cores mais luminosas
 | Personagem que some no fundo | Outline fraco ou saturacao proxima do BG | REPROVAR — reforcar outline e contrast |
 | Roster onde todos parecem iguais | Mesma silhueta e mesma cor dominante | REPROVAR — redesenhar por arquetipo |
 | Silhueta que so funciona em zoom | Detalhes legiveis apenas em editor ampliado | REPROVAR — avaliar sempre em 1x |
+| Escala alterada no meio da producao | Personagem perde FOV, hitbox, pivot ou custo de animacao | REPROVAR — reseed antes de continuar |
+| Lineart pulada ou suja | Cor e sombra tentam corrigir forma ruim | REPROVAR — voltar para `lineart_blocking_1px` |
 | Paleta desperdicada em tons proximos | Cores quase iguais ocupando slots separados | REPROVAR — fundir tons e realocar |
+| Straight shading lavado | Mesma matiz escurecida/clareada sem temperatura | REPROVAR — refazer `material_color_ramp_plan` |
 | Heroi menos vibrante que inimigo | Inimigo rouba atencao visual | REPROVAR — ajustar saturacao do heroi |
 | Palette swap que muda outline | Personagem perde identidade visual | REPROVAR — outline e estrutural, nao variante |
 

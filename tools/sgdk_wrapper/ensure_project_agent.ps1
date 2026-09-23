@@ -37,6 +37,44 @@ function Get-AgentManifest {
     }
 }
 
+function Copy-TrackedPathIfMissing {
+    param(
+        [Parameter(Mandatory = $true)][string]$SourceAgentDir,
+        [Parameter(Mandatory = $true)][string]$DestinationAgentDir,
+        [Parameter(Mandatory = $true)][string]$TrackedPath
+    )
+
+    $sourcePath = Join-Path $SourceAgentDir $TrackedPath
+    $destinationPath = Join-Path $DestinationAgentDir $TrackedPath
+
+    if (Test-Path -LiteralPath $destinationPath) {
+        return $true
+    }
+
+    if (-not (Test-Path -LiteralPath $sourcePath)) {
+        return $false
+    }
+
+    $sourceItem = Get-Item -LiteralPath $sourcePath
+    $destinationParent = Split-Path $destinationPath -Parent
+    if ($destinationParent -and -not (Test-Path -LiteralPath $destinationParent -PathType Container)) {
+        New-Item -ItemType Directory -Path $destinationParent -Force | Out-Null
+    }
+
+    if ($sourceItem.PSIsContainer) {
+        if (-not (Test-Path -LiteralPath $destinationPath -PathType Container)) {
+            New-Item -ItemType Directory -Path $destinationPath -Force | Out-Null
+        }
+        foreach ($child in Get-ChildItem -LiteralPath $sourcePath -Force) {
+            Copy-Item -LiteralPath $child.FullName -Destination $destinationPath -Recurse -Force
+        }
+    } else {
+        Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force
+    }
+
+    return (Test-Path -LiteralPath $destinationPath)
+}
+
 function Get-FileSha256OrEmpty {
     param([Parameter(Mandatory = $true)][string]$Path)
 
@@ -69,6 +107,45 @@ function Get-FileSha256OrEmpty {
         }
     } finally {
         $stream.Dispose()
+    }
+}
+
+function New-AgentJunctionOrThrow {
+    param(
+        [Parameter(Mandatory = $true)][string]$SourceAgentDir,
+        [Parameter(Mandatory = $true)][string]$DestinationAgentDir
+    )
+
+    if (Test-Path -LiteralPath $DestinationAgentDir) {
+        throw "Destino da .agent ja existe: '$DestinationAgentDir'."
+    }
+
+    New-Item -ItemType Junction -Path $DestinationAgentDir -Target $SourceAgentDir -Force | Out-Null
+
+    $created = Get-Item -LiteralPath $DestinationAgentDir -Force -ErrorAction Stop
+    $isReparsePoint = ($created.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0
+    $target = ""
+    if ($created.Target) {
+        $targets = @($created.Target)
+        if ($targets.Count -gt 0) { $target = [string]$targets[0] }
+    }
+    $expected = [System.IO.Path]::GetFullPath($SourceAgentDir)
+    $actual = if ($target) { [System.IO.Path]::GetFullPath($target) } else { "" }
+
+    if (-not $isReparsePoint -or $created.LinkType -notin @("Junction", "SymbolicLink") -or $actual -ne $expected) {
+        throw "Junction da .agent criada com alvo invalido. Esperado='$expected' Atual='$actual' LinkType='$($created.LinkType)'."
+    }
+}
+
+function Copy-AgentFallback {
+    param(
+        [Parameter(Mandatory = $true)][string]$SourceAgentDir,
+        [Parameter(Mandatory = $true)][string]$DestinationAgentDir
+    )
+
+    New-Item -ItemType Directory -Path $DestinationAgentDir -Force | Out-Null
+    foreach ($child in Get-ChildItem -LiteralPath $SourceAgentDir -Force) {
+        Copy-Item -LiteralPath $child.FullName -Destination $DestinationAgentDir -Recurse -Force
     }
 }
 
@@ -143,11 +220,30 @@ try {
         }
         $status["SGDK_AGENT_BOOTSTRAPPED"] = "1"
         $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "existing"
+        $healedTrackedPaths = @()
         $localManifest = Get-AgentManifest -AgentDir $destinationAgentDir
+        if (-not $localManifest) {
+            $sourceManifestPath = Join-Path $resolvedSource "framework_manifest.json"
+            if (Test-Path -LiteralPath $sourceManifestPath -PathType Leaf) {
+                $destManifestPath = Join-Path $destinationAgentDir "framework_manifest.json"
+                try {
+                    Copy-Item -LiteralPath $sourceManifestPath -Destination $destManifestPath -Force
+                    $localManifest = Get-AgentManifest -AgentDir $destinationAgentDir
+                    if ($localManifest) {
+                        $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "manifest_healed"
+                        if ($OutputFormat -eq "Host") {
+                            Write-Host "[SGDK Wrapper] framework_manifest.json copiado da canonica (heal) - nenhuma outra pasta da .agent local foi sobrescrita."
+                        }
+                    }
+                } catch {
+                    Write-Warning ("[SGDK Wrapper] Falha ao copiar framework_manifest.json da canonica: {0}" -f $_.Exception.Message)
+                }
+            }
+        }
         if (-not $localManifest) {
             $status["SGDK_AGENT_BOOTSTRAP_DEGRADED"] = "1"
             $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "missing_manifest"
-            Write-Warning ("[SGDK Wrapper] .agent local sem framework_manifest.json. Canonica atual: {0}. Rode a auditoria de drift antes de confiar no bootstrap local." -f $sourceVersion)
+            Write-Warning ("[SGDK Wrapper] .agent local sem framework_manifest.json apos heal. Canonica atual: {0}. Auditar drift." -f $sourceVersion)
         } else {
             $localVersion = if ($localManifest.framework_version) { [string]$localManifest.framework_version } else { "desconhecida" }
             $status["SGDK_AGENT_LOCAL_VERSION"] = $localVersion
@@ -185,12 +281,31 @@ try {
                 foreach ($trackedPath in $sourceManifest.tracked_paths) {
                     $localTrackedPath = Join-Path $destinationAgentDir ([string]$trackedPath)
                     if (-not (Test-Path -LiteralPath $localTrackedPath)) {
+                        $copied = $false
+                        try {
+                            $copied = Copy-TrackedPathIfMissing -SourceAgentDir $resolvedSource -DestinationAgentDir $destinationAgentDir -TrackedPath ([string]$trackedPath)
+                        } catch {
+                            $copied = $false
+                        }
+
+                        if ($copied) {
+                            $healedTrackedPaths += [string]$trackedPath
+                            if ($OutputFormat -eq "Host") {
+                                Write-Host ("[SGDK Wrapper] Caminho canonico ausente materializado sem sobrescrita: {0}" -f $trackedPath)
+                            }
+                            continue
+                        }
+
                         $status["SGDK_AGENT_BOOTSTRAP_DEGRADED"] = "1"
                         $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "missing_tracked_path"
                         Write-Warning ("[SGDK Wrapper] .agent local sem caminho rastreado obrigatorio: {0}" -f $localTrackedPath)
                         break
                     }
                 }
+            }
+
+            if ($healedTrackedPaths.Count -gt 0 -and $status["SGDK_AGENT_BOOTSTRAP_DEGRADED"] -ne "1") {
+                $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "tracked_paths_healed"
             }
         }
         if (-not $status["SGDK_AGENT_LOCAL_VERSION"]) {
@@ -200,10 +315,24 @@ try {
         exit 0
     }
 
-    New-Item -ItemType Directory -Path $destinationAgentDir -Force | Out-Null
-
-    foreach ($child in Get-ChildItem -LiteralPath $resolvedSource -Force) {
-        Copy-Item -LiteralPath $child.FullName -Destination $destinationAgentDir -Recurse -Force
+    try {
+        New-AgentJunctionOrThrow -SourceAgentDir $resolvedSource -DestinationAgentDir $destinationAgentDir
+        $status["SGDK_AGENT_BOOTSTRAPPED"] = "1"
+        $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "junction_bootstrapped"
+        $status["SGDK_AGENT_LOCAL_VERSION"] = $sourceVersion
+        if ($OutputFormat -eq "Host") {
+            Write-Host "[SGDK Wrapper] .agent junction criada em: $destinationAgentDir -> $resolvedSource (versao $sourceVersion)"
+        }
+        Write-StatusResult -Status $status
+        exit 0
+    } catch {
+        $junctionError = $_.Exception.Message
+        if ($OutputFormat -eq "Host") {
+            Write-Warning ("[SGDK Wrapper] Falha ao criar junction da .agent; usando copia degradada: {0}" -f $junctionError)
+        }
+        Copy-AgentFallback -SourceAgentDir $resolvedSource -DestinationAgentDir $destinationAgentDir
+        $status["SGDK_AGENT_BOOTSTRAP_DEGRADED"] = "1"
+        $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "junction_failed_copy_fallback"
     }
 
     $copiedArchitecture = Join-Path $destinationAgentDir "ARCHITECTURE.md"
@@ -216,10 +345,9 @@ try {
     }
 
     $status["SGDK_AGENT_BOOTSTRAPPED"] = "1"
-    $status["SGDK_AGENT_BOOTSTRAP_REASON"] = "bootstrapped"
     $status["SGDK_AGENT_LOCAL_VERSION"] = $sourceVersion
     if ($OutputFormat -eq "Host") {
-        Write-Host "[SGDK Wrapper] .agent bootstrap copiada para: $resolvedTarget (versao $sourceVersion)"
+        Write-Host "[SGDK Wrapper] .agent bootstrap copiada em modo degradado para: $resolvedTarget (versao $sourceVersion)"
     }
     Write-StatusResult -Status $status
     exit 0

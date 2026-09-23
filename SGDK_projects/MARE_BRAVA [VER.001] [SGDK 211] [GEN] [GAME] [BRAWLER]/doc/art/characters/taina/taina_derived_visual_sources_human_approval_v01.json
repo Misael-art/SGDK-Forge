@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_at": "2026-08-29",
+  "human_correction": "high_resolution_is_not_artistic_rejection",
+  "sources": [
+    "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v01.png",
+    "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02a.png",
+    "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02b.png"
+  ],
+  "classification": {
+    "visual_quality": "human_approved",
+    "runtime_format": "incompatible_as_direct_asset",
+    "allowed_role": "approved_visual_source_or_construction_reference",
+    "direct_res_promotion": "forbidden"
+  },
+  "lineage_policy": "They supplement pose, volume and cluster study only; the approved authorial model sheet remains the identity source of truth.",
+  "next_gate": "manual native-grid construction in a bitmap editor, followed by pixel-strict review"
+}

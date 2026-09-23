@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/composition_scope_contract.schema.json",
+  "title": "Composition Scope Contract",
+  "description": "Declares whether a music asset is a prototype sketch, functional seamless loop, professional modular track, or intentional silence. Prevents prototype music from being treated as AAA final audio.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "contract_id",
+    "scene_id",
+    "scope",
+    "intended_use",
+    "status_ceiling",
+    "promotion_criteria"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "contract_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "scene_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "track_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "micro_sketch_1m",
+        "core_loop_10m",
+        "modular_track_1h",
+        "silence_intentional"
+      ]
+    },
+    "intended_use": {
+      "type": "string",
+      "enum": [
+        "laboratory",
+        "placeholder",
+        "loading",
+        "simple_menu",
+        "game_jam",
+        "prototype",
+        "stage_bgm",
+        "main_menu",
+        "ambience",
+        "boss",
+        "set_piece",
+        "cutscene",
+        "adaptive_score",
+        "intentional_silence"
+      ]
+    },
+    "status_ceiling": {
+      "type": "string",
+      "enum": [
+        "placeholder_only",
+        "prototype_only",
+        "vertical_slice_candidate",
+        "ready_for_aaa_candidate",
+        "silent_intentional"
+      ]
+    },
+    "identity_note": {
+      "type": "string"
+    },
+    "loop_plan": {
+      "type": "object",
+      "required": [
+        "seamless_loop_report_path",
+        "click_free_strategy",
+        "pause_resume_behavior"
+      ],
+      "properties": {
+        "bar_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 1
+        },
+        "seamless_loop_report_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "click_free_strategy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pause_resume_behavior": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fatigue_risk_notes": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "required": ["bar_count"],
+          "properties": {
+            "bar_count": {
+              "minimum": 8
+            }
+          }
+        },
+        {
+          "required": ["duration_seconds"],
+          "properties": {
+            "duration_seconds": {
+              "minimum": 16
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "sfx_protection": {
+      "type": "object",
+      "required": [
+        "frequency_masking_plan_path",
+        "critical_sfx",
+        "masking_strategy"
+      ],
+      "properties": {
+        "frequency_masking_plan_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "critical_sfx": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "masking_strategy": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "modular_plan": {
+      "type": "object",
+      "required": [
+        "arrangement_sections",
+        "transition_plan",
+        "stem_or_layer_plan",
+        "adaptive_music_state_map_path"
+      ],
+      "properties": {
+        "arrangement_sections": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "transition_plan": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stem_or_layer_plan": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "role"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "owner_channel_or_layer": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "adaptive_music_state_map_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "silence_rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sfx_or_ambience_plan": {
+      "type": "string",
+      "minLength": 1
+    },
+    "promotion_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "scope": {
+            "const": "micro_sketch_1m"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "intended_use": {
+            "enum": [
+              "laboratory",
+              "placeholder",
+              "loading",
+              "simple_menu",
+              "game_jam",
+              "prototype"
+            ]
+          },
+          "status_ceiling": {
+            "enum": [
+              "placeholder_only",
+              "prototype_only"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scope": {
+            "const": "core_loop_10m"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "loop_plan",
+          "sfx_protection"
+        ],
+        "properties": {
+          "status_ceiling": {
+            "enum": [
+              "vertical_slice_candidate",
+              "ready_for_aaa_candidate"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scope": {
+            "const": "modular_track_1h"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "loop_plan",
+          "sfx_protection",
+          "modular_plan"
+        ],
+        "properties": {
+          "status_ceiling": {
+            "const": "ready_for_aaa_candidate"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "scope": {
+            "const": "silence_intentional"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "silence_rationale",
+          "sfx_or_ambience_plan"
+        ],
+        "properties": {
+          "intended_use": {
+            "const": "intentional_silence"
+          },
+          "status_ceiling": {
+            "const": "silent_intentional"
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

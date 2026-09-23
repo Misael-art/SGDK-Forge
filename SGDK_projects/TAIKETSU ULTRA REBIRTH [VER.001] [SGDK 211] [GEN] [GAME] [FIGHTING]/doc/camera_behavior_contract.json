@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taiketsu_fighting_camera_v1",
+  "mode": "arena_lock_with_cinematic_override",
+  "coordinate_model": "fix16_internal",
+  "render_snap": "integer_pixels_only",
+  "owner": "code/camera-system-sgdk",
+  "gameplay_camera": {
+    "dead_zone_px": {"left": 72, "right": 248, "top": 64, "bottom": 176},
+    "look_ahead_px": 20,
+    "bounds_source": "doc/fighting_2d_design_contract.json#stages",
+    "room_lock": true,
+    "reset_trigger": "round_start_or_scene_enter"
+  },
+  "cinematic_camera": {
+    "owner": "art/cutscene-cinematic-direction",
+    "pan_zoom_model": "scroll_planes_and_integer_window_cuts",
+    "fallback": "two_shot_static_pan_without_zoom",
+    "input_policy": "dialogue_advance_only_after_line_complete"
+  }
+}

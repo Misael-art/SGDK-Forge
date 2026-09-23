@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/placeholder_quarantine_report.schema.json",
+  "title": "Placeholder Quarantine Report",
+  "description": "Detecta assets placeholder/technical_lab/procedural promovidos indevidamente para entrega AAA.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_root",
+    "quarantine_active",
+    "quarantined_assets",
+    "promotion_attempts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "quarantine_active": {
+      "type": "boolean"
+    },
+    "quarantined_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["asset_path", "quarantine_tag"],
+        "properties": {
+          "asset_path": { "type": "string", "minLength": 1 },
+          "quarantine_tag": {
+            "enum": ["placeholder", "technical_lab_asset", "procedural_debug", "lab_fallback", "pil_imagedraw_generated"]
+          },
+          "location": {
+            "enum": ["data", "res", "source_art"]
+          },
+          "valid_for_pipeline_validation": {
+            "type": "boolean",
+            "description": "Placeholder pode validar pipeline tecnico, paleta, ResComp, VRAM ou animacao"
+          },
+          "valid_for_visual_delivery": {
+            "const": false,
+            "description": "Placeholder nunca pode satisfazer visual_direction_approved"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "promotion_attempts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["asset_path", "attempted_status", "blocked"],
+        "properties": {
+          "asset_path": { "type": "string", "minLength": 1 },
+          "attempted_status": { "type": "string" },
+          "blocked": { "type": "boolean" },
+          "context": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "blocker_code": {
+      "type": ["string", "null"],
+      "enum": [null, "placeholder_promoted_to_aaa"]
+    }
+  },
+  "additionalProperties": false
+}

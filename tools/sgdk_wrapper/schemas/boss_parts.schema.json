@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/boss_parts.schema.json",
+  "title": "SGDK Modular Boss Parts Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "boss_id",
+    "scene_id",
+    "parts",
+    "fk_chain",
+    "fk_update_symbol",
+    "runtime_source_paths",
+    "scanline_budget"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "boss_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "scene_id": {"type": "string", "minLength": 1},
+    "parts": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["part_id", "runtime_symbol", "parent_id", "pivot_x", "pivot_y", "scanline_sprite_cost"],
+        "properties": {
+          "part_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "runtime_symbol": {"type": "string", "minLength": 1},
+          "parent_id": {"type": ["string", "null"]},
+          "pivot_x": {"type": "integer"},
+          "pivot_y": {"type": "integer"},
+          "scanline_sprite_cost": {"type": "integer", "minimum": 1}
+        },
+        "additionalProperties": true
+      }
+    },
+    "fk_chain": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["parent_part_id", "child_part_id", "transform_rule"],
+        "properties": {
+          "parent_part_id": {"type": "string", "minLength": 1},
+          "child_part_id": {"type": "string", "minLength": 1},
+          "transform_rule": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "fk_update_symbol": {"type": "string", "minLength": 1},
+    "runtime_source_paths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "scanline_budget": {
+      "type": "object",
+      "required": ["maximum_sprites_per_line", "measured_peak"],
+      "properties": {
+        "maximum_sprites_per_line": {"type": "integer", "minimum": 1, "maximum": 20},
+        "measured_peak": {"type": "integer", "minimum": 0, "maximum": 20}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/motion_profile_registry.schema.json",
+  "title": "Animation Motion Profile Registry",
+  "type": "object",
+  "required": ["schema_version", "profiles"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "profiles": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["required_phase_patterns", "minimum_distinct_frames", "minimum_adjacent_change_ratio", "maximum_adjacent_change_ratio", "maximum_cycle_closure_ratio", "duplicate_policy"],
+        "properties": {
+          "required_phase_patterns": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "minimum_distinct_frames": { "type": "integer", "minimum": 1 },
+          "minimum_adjacent_change_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+          "maximum_adjacent_change_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+          "maximum_cycle_closure_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+          "minimum_area_range_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+          "maximum_centroid_range_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+          "duplicate_policy": { "type": "string", "enum": ["forbid_png_duplicates_use_timing", "allow_declared_hold"] },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

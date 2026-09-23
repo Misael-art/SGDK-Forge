@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "orchestration_taskset",
+  "run_id": "quality-forge_aaa_e2e_20260906",
+  "tasks": [
+    {
+      "task_id": "review_code",
+      "objective": "Independently review code for forge_aaa_e2e_20260906",
+      "task_kind": "code_review",
+      "owner_skill": "code/sgdk-code-reviewer",
+      "identity_scope": null,
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+          "sha256": "f7045e810f110a1444984ddd2d0cfa9053b4faad6f2be781c64546056f5ece5a"
+        },
+        {
+          "path": "tools/sgdk_wrapper/.agent/ARCHITECTURE.md",
+          "sha256": "66df6c0c76015eecd58b800ed7bf1423d581fccd76afc787d04a27c0734df30c"
+        },
+        {
+          "path": "doc/06_AI_MEMORY_BANK.md",
+          "sha256": "f85112992af7d2fbbbea4d42d2eaf4e122fa9e73b5defaef2bb934d60f104f89"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "balanced",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    },
+    {
+      "task_id": "review_hardware",
+      "objective": "Independently review hardware for forge_aaa_e2e_20260906",
+      "task_kind": "budget_analysis",
+      "owner_skill": "hardware/megadrive-vdp-budget-analyst",
+      "identity_scope": null,
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+          "sha256": "f7045e810f110a1444984ddd2d0cfa9053b4faad6f2be781c64546056f5ece5a"
+        },
+        {
+          "path": "tools/sgdk_wrapper/.agent/ARCHITECTURE.md",
+          "sha256": "66df6c0c76015eecd58b800ed7bf1423d581fccd76afc787d04a27c0734df30c"
+        },
+        {
+          "path": "doc/06_AI_MEMORY_BANK.md",
+          "sha256": "f85112992af7d2fbbbea4d42d2eaf4e122fa9e73b5defaef2bb934d60f104f89"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "balanced",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    },
+    {
+      "task_id": "review_governance",
+      "objective": "Independently review governance for forge_aaa_e2e_20260906",
+      "task_kind": "documentation_audit",
+      "owner_skill": "governance/aaa-pipeline-guardian",
+      "identity_scope": null,
+      "dependencies": [],
+      "read_only": true,
+      "isolated_write": false,
+      "write_paths": [],
+      "protected_paths": [
+        "."
+      ],
+      "input_artifacts": [
+        {
+          "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+          "sha256": "f7045e810f110a1444984ddd2d0cfa9053b4faad6f2be781c64546056f5ece5a"
+        },
+        {
+          "path": "tools/sgdk_wrapper/.agent/ARCHITECTURE.md",
+          "sha256": "66df6c0c76015eecd58b800ed7bf1423d581fccd76afc787d04a27c0734df30c"
+        },
+        {
+          "path": "doc/06_AI_MEMORY_BANK.md",
+          "sha256": "f85112992af7d2fbbbea4d42d2eaf4e122fa9e73b5defaef2bb934d60f104f89"
+        }
+      ],
+      "output_paths": [],
+      "expected_seconds": 120,
+      "context_words": 900,
+      "result_words": 350,
+      "model_tier": "balanced",
+      "claim_ceiling": "independent_quality_review_only",
+      "human_decision_required": false,
+      "shared_capability_blocker": false,
+      "acceptance_commands": [
+        "python3 tools/sgdk_wrapper/quality_review_router.py validate-report"
+      ],
+      "prohibitions": [
+        "no writes",
+        "no self approval",
+        "no scope expansion",
+        "no claim promotion",
+        "no taste-only blocker"
+      ]
+    }
+  ]
+}

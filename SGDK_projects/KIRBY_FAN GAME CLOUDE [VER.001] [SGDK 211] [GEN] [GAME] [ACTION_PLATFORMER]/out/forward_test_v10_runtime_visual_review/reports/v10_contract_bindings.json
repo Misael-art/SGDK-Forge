@@ -1,0 +1,42 @@
+{
+  "status": "review_candidate",
+  "registry": "canonical_existing_profiles_only",
+  "strips": [
+    {
+      "action": "idle",
+      "contract": "out/forward_test_v10_runtime_visual_review/contracts/idle_strip_contract.json",
+      "contract_sha256": "15ddcd8f87a5ce98ce3ef409d1953260914ac0b3157a0d584d1a689e37b4872a",
+      "strip": "out/forward_test_v10_runtime_visual_review/strips/kirby_idle.png",
+      "strip_sha256": "fa9c2d913fe6b9be41bd98a764a7159289eecb92379c25b82efc1df60007687c",
+      "motion_report": "out/forward_test_v10_runtime_visual_review/reports/idle_motion_phase_map.json",
+      "motion_report_sha256": "d6d66f226a8113615af9738924bd875ad915a5faacca567faca70f82c19b9c0a"
+    },
+    {
+      "action": "run",
+      "contract": "out/forward_test_v10_runtime_visual_review/contracts/run_strip_contract.json",
+      "contract_sha256": "6b1ee99e2fd32f9364423be2fa47d12b1b375b8f0b85f7367b654a70ed9cdd30",
+      "strip": "out/forward_test_v10_runtime_visual_review/strips/kirby_run.png",
+      "strip_sha256": "8ede45964f4486f973686bdf26849ca7f01ef6b5279ff7361634e77bedd94236",
+      "motion_report": "out/forward_test_v10_runtime_visual_review/reports/run_motion_phase_map.json",
+      "motion_report_sha256": "3839c2a25110b93867751129699310b55f69d12cc6553abbb9bbcabda3c60378"
+    },
+    {
+      "action": "jump_float",
+      "contract": "out/forward_test_v10_runtime_visual_review/contracts/jump_float_strip_contract.json",
+      "contract_sha256": "a39c96c3cd6e769ee0aef813772097dbeebc8bb86b60d44def9c43fb7bead15d",
+      "strip": "out/forward_test_v10_runtime_visual_review/strips/kirby_jump_float.png",
+      "strip_sha256": "cef84e2cfb8f171bfa332883c8c7b324a2dd65fe61abf9cb721ed7ff195bc62d",
+      "motion_report": "out/forward_test_v10_runtime_visual_review/reports/jump_float_motion_phase_map.json",
+      "motion_report_sha256": "00accdd7b08e4a8de28103d64b5de5506ee3afa77caf356bab292bef6d83468e"
+    },
+    {
+      "action": "inhale",
+      "contract": "out/forward_test_v10_runtime_visual_review/contracts/inhale_strip_contract.json",
+      "contract_sha256": "1c2938609ccdc0e0ccf468b0547275fcbb50220cfa0415b674c29e08f41ee4ab",
+      "strip": "out/forward_test_v10_runtime_visual_review/strips/kirby_inhale.png",
+      "strip_sha256": "8347331095e60c2839f3c9e23d1bd6642bc56f67916dcfd75179c4503b3ae6aa",
+      "motion_report": "out/forward_test_v10_runtime_visual_review/reports/inhale_motion_phase_map.json",
+      "motion_report_sha256": "aa20aa8dc6f6817442020a0b57189773145ddcd553a12392b861f99cb5b1f653"
+    }
+  ]
+}

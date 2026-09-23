@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "race_start_handoff",
+  "status": "planned",
+  "domains": {
+    "PAL0": "race sky",
+    "PAL1": "runtime road",
+    "PAL2": "Lio runtime sprite",
+    "PAL3": "HUD"
+  },
+  "events": [
+    {"state_id": "handoff_00_anchor", "event": "freeze_cutscene_palette"},
+    {"state_id": "handoff_01_letterbox_release", "event": "snap_or_step_to_race_palettes"},
+    {"state_id": "handoff_02_control_release", "event": "hud_palette_owner_active"}
+  ],
+  "fallback": "single-frame palette handoff before input unlock"
+}

@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "p0_001_screenshot_semantic_remediation_2026_07_18",
+  "generated_at": "2026-07-18T22:54:00-03:00",
+  "item_id": "P0-001",
+  "status": "completed",
+  "runtime_promoted": false,
+  "ready_for_aaa_promoted": false,
+  "implementation": {
+    "analyzer": "tools/sgdk_wrapper/screenshot_semantic_gate.py",
+    "wrapper": "tools/sgdk_wrapper/audit_screenshot_semantics.ps1",
+    "schema": "tools/sgdk_wrapper/schemas/screenshot_semantic_gate_report.schema.json",
+    "integrations": [
+      "tools/sgdk_wrapper/capture_blastem_evidence.ps1",
+      "tools/sgdk_wrapper/finalize_emulator_evidence.ps1",
+      "tools/sgdk_wrapper/scene_closeout_gate.ps1",
+      "tools/sgdk_wrapper/validate_resources.ps1"
+    ]
+  },
+  "negative_fixture": {
+    "path": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/evidence/blastem/screenshot.png",
+    "sha256": "a1a7969480157c03e1cf811b2e80ce5ed112942aeacf1f16bf32f648c2614807",
+    "width": 656,
+    "height": 519,
+    "dominant_ratio": 0.900528,
+    "edge_density": 0.014408,
+    "decision": "rejected_low_information",
+    "blocker_code": "blank_or_low_information_capture",
+    "claim_impacts": {
+      "visual": "unproven",
+      "gameplay": "unproven",
+      "performance": "unproven"
+    }
+  },
+  "positive_controls": [
+    {
+      "path": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/out/evidence/blastem/screenshot.png",
+      "sha256": "8f6422fe4b3ac3658f601c0a5291589b8d80f265e72ffe4e365338c95bf14462",
+      "decision": "accepted_semantic_capture"
+    },
+    {
+      "path": "SGDK_projects/Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]/out/evidence/blastem/sector01_midrun_playable.png",
+      "sha256": "21478dd8a4f31118e43cdb53de291c47d1adaf2e07c5e8f3f4824fd21b665b94",
+      "decision": "accepted_semantic_capture"
+    },
+    {
+      "path": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence/blastem_showdown_screenshot.png",
+      "sha256": "faaaf61cf64b08818eb207ef282076b24c68314e6832f8ab7485778f2f4e9478",
+      "decision": "accepted_semantic_capture"
+    }
+  ],
+  "tests": [
+    {
+      "path": "tools/sgdk_wrapper/ci/test_screenshot_semantic_gate.py",
+      "result": "passed",
+      "cases": 3
+    },
+    {
+      "path": "tools/sgdk_wrapper/ci/test_screenshot_semantic_gate.ps1",
+      "result": "passed",
+      "coverage": "audit_and_evidence_finalizer_negative_and_positive"
+    },
+    {
+      "path": "tools/sgdk_wrapper/ci/test_scene_closeout_gate.ps1",
+      "result": "passed",
+      "coverage": "canonical_closeout_sequence_includes_semantic_gate"
+    },
+    {
+      "path": "tools/sgdk_wrapper/ci/test_schema_contract_gates.py",
+      "result": "passed",
+      "cases": "81/81"
+    }
+  ],
+  "real_project_validation": {
+    "report": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/validation_report.json",
+    "semantic_report": "SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/logs/screenshot_semantic_gate_report.json",
+    "blocking_status": "blank_or_low_information_capture",
+    "visual_gate_ready": false,
+    "gameplay_rom_aprovada": false,
+    "blastem_gate": false,
+    "gameplay_basico": "unproven",
+    "performance": "unproven"
+  },
+  "acceptance_checks": {
+    "white_capture_rejected": true,
+    "dark_controls_accepted": true,
+    "machine_report_has_required_metrics": true,
+    "invalid_capture_forces_claims_unproven": true,
+    "automated_regression_present": true
+  }
+}

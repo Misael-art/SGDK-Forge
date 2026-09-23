@@ -1238,6 +1238,21 @@ def process_existing_res_images(
     return prepared_assets
 
 
+def declared_resource_outputs_are_supported(project_dir: Path) -> bool:
+    resources = parse_resources(project_dir)
+    if not resources:
+        return False
+
+    for resource in resources:
+        if not resource.abs_path.is_file():
+            return False
+        supported, _reasons, _details = inspect_sgdk_image_support(resource.abs_path)
+        if not supported:
+            return False
+
+    return True
+
+
 def process_res_data_mirror(
     project_dir: Path,
     raw_data_dir: Path,
@@ -1252,7 +1267,7 @@ def process_res_data_mirror(
 
     previous_state = {}
     if state_path.exists():
-        previous_state = json.loads(state_path.read_text(encoding="utf-8", errors="ignore"))
+        previous_state = json.loads(state_path.read_text(encoding="utf-8-sig", errors="ignore"))
 
     res_root = project_dir / "res"
     raw_sources = collect_recursive_data_files(raw_data_dir, backup_dir)
@@ -1335,7 +1350,7 @@ def make_preview(project_dir: Path, prepared_assets: list[PreparedAsset], previe
     for asset in prepared_assets:
         source_path = Path(asset.source_file)
         output_path = Path(asset.output_file)
-        if not source_path.exists() or not output_path.exists():
+        if not source_path.is_file() or not output_path.is_file():
             continue
 
         with Image.open(source_path) as source_image:
@@ -1431,7 +1446,7 @@ def process_legacy_resource_mapping(
     assignments, diagnostics = assign_sources(resources, sources)
     previous_state = {}
     if state_path.exists():
-        previous_state = json.loads(state_path.read_text(encoding="utf-8", errors="ignore"))
+        previous_state = json.loads(state_path.read_text(encoding="utf-8-sig", errors="ignore"))
 
     log_event(log_lines, "SCAN", f"modo legado encontrou {len(resources)} recurso(s) e {len(sources)} fonte(s) em data/")
     prepared_assets: list[PreparedAsset] = []
@@ -1552,16 +1567,22 @@ def main() -> int:
     prepared_assets.extend(process_existing_res_images(project_dir, raw_data_dir, backup_dir, log_lines))
 
     raw_data_sources = collect_recursive_data_files(raw_data_dir, backup_dir) if raw_data_dir.exists() else []
+    legacy_data_sources = collect_recursive_data_files(legacy_data_dir, backup_dir) if legacy_data_dir.exists() else []
+    resource_outputs_supported = declared_resource_outputs_are_supported(project_dir)
     if raw_data_sources:
         log_event(log_lines, "MODE", "fase 2: espelhar e converter res/data -> res")
         mirrored_assets, mirrored_failures = process_res_data_mirror(project_dir, raw_data_dir, backup_dir, state_path, log_lines)
         prepared_assets.extend(mirrored_assets)
         failures.extend(mirrored_failures)
-    elif legacy_data_dir.exists():
+    elif legacy_data_sources and not resource_outputs_supported:
         log_event(log_lines, "MODE", "fase 2: fallback legado usando data/ + resources.res")
         legacy_assets, legacy_failures, mapping_diagnostics = process_legacy_resource_mapping(project_dir, legacy_data_dir, state_path, log_lines)
         prepared_assets.extend(legacy_assets)
         failures.extend(legacy_failures)
+    elif legacy_data_sources and resource_outputs_supported:
+        log_event(log_lines, "SKIP", "fallback legado ignorado: recursos declarados ja existem e sao compativeis com SGDK")
+    elif legacy_data_dir.exists():
+        log_event(log_lines, "WARN", "data/ existe, mas nao contem fontes brutas compativeis para fallback legado")
     else:
         log_event(log_lines, "WARN", "nenhuma fonte bruta encontrada em res/data nem em data/")
 

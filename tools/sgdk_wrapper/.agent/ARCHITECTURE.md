@@ -1,69 +1,37 @@
 # SGDK Agent Framework Architecture
 
-> Framework canonico de agentes para projetos `MegaDrive_DEV` hospedado em `tools/sgdk_wrapper/.agent`.
+> Framework canonico de agentes para projetos `MegaDrive_DEV`, hospedado em `tools/sgdk_wrapper/.agent`.
 
 ---
 
 ## Objetivo
 
-Esta `.agent` existe para padronizar o comportamento de IAs que atuam em projetos SGDK do workspace.
+Esta `.agent` padroniza o comportamento de IAs que atuam em projetos SGDK do workspace.
 
-Ela foi desenhada para:
+Ela existe para:
 
-- reforcar governanca documental e hierarquia de verdade
-- proteger budgets e restricoes de hardware do Mega Drive
-- manter a logica operacional no wrapper central
-- separar claramente documentado, implementado, buildado, testado e placeholder
-- reduzir deriva entre manifesto, codigo, documentacao e status real
-- garantir cadeia de evidencia deterministica entre ROM gerada, emulador aberto e artefatos de QA
+- reforcar a hierarquia de verdade documental
+- proteger budgets e limites reais do Mega Drive
+- centralizar a logica operacional no wrapper
+- separar claramente `documentado`, `implementado`, `buildado`, `testado_em_emulador` e `validado_budget`
+- impedir que uma IA trate narrativa bonita como evidência suficiente
+- garantir cadeia deterministica entre build, ROM, emulador, changelog e memoria operacional
 
 ---
 
-## Regra de hospedagem
+## Fonte de Verdade
+
+### Framework
 
 - Fonte canonica: `tools/sgdk_wrapper/.agent`
 - Materializacao local: `<projeto>/.agent`
-- Politica de copia: apenas bootstrap quando a pasta local nao existir
-- Politica de sobrescrita: **proibida por padrao**
+- Politica de copia: bootstrap automatico apenas quando a pasta local nao existir
+- Politica de sobrescrita: proibida por padrao
+- Politica de cura segura: caminhos canonicos ausentes podem ser copiados da fonte central apenas quando o destino ainda nao existir
 
-Os wrappers centrais garantem o bootstrap automatico para projetos novos e antigos.
+### Projeto SGDK
 
-### Resiliencia de bootstrap
-
-- Bootstrap ausente pode ser materializado automaticamente.
-- Bootstrap presente mas sem `framework_manifest.json` nao deve ser tratado como saudavel por padrao.
-- Divergencia entre copia local e fonte canonica deve promover o projeto a estado de `bootstrap_degradado` ate auditoria de drift.
-- O wrapper deve preferir aviso honesto e modo degradado a assumir que a copia local ainda representa a verdade canonica.
-
----
-
-## Estrutura
-
-```text
-.agent/
-  ARCHITECTURE.md
-  framework_manifest.json
-  agents/
-  rules/
-  skills/
-  workflows/
-  scripts/
-```
-
-### Responsabilidades
-
-- `rules/`: regras sempre ativas e nao negociaveis
-- `agents/`: personas especializadas por dominio
-- `skills/`: conhecimento reutilizavel e carregavel por contexto
-- `workflows/`: runbooks operacionais
-- `scripts/`: automacoes de status, auditoria e verificacao
-- `framework_manifest.json`: versao canonica da `.agent`, fontes de status e artefatos obrigatorios
-
----
-
-## Hierarquia de verdade SGDK
-
-Quando houver conflito, a ordem recomendada e:
+Quando houver conflito entre documentos do projeto, a ordem recomendada continua:
 
 1. `doc/10-memory-bank.md`
 2. `doc/11-gdd.md`
@@ -76,133 +44,391 @@ Quando houver conflito, a ordem recomendada e:
 
 Se um documento de menor prioridade contradizer um superior, ele deve ser tratado como desatualizado.
 
+### Contrato metodologico do projeto
+
+- Todo projeto novo ou antigo deve possuir `doc/project_methodology_manifest.json`.
+- Todo projeto novo ou antigo deve possuir `doc/project_hygiene_manifest.json` e `rascunho/`.
+- Materializacao segura: `tools/sgdk_wrapper/adopt_project_methodology.ps1`.
+- Validacao estruturada: `tools/sgdk_wrapper/validate_project_methodology.ps1`.
+- Validacao de isolamento: `tools/sgdk_wrapper/validate_project_hygiene.ps1`.
+- Todo material especifico de projeto permanece no projeto. Fontes externas usadas sao copiadas para `rascunho/` e registradas por hash; apenas wrapper, SDK e emuladores permanecem como dependencias compartilhadas centrais.
+- Implementacao ou arquitetura alterada exige sincronizar `doc/10-memory-bank.md` e `doc/changelog/changelog.md`.
+- Aprendizado local estruturado vive em `doc/agent_learning/learning_ledger.json`; `Audit` e read-only e `Capture` nunca escreve fora do projeto.
+- `ai-memory` e camada opcional consultiva: marcadores `.ai-memory.toml` podem rotear handoff/busca por workspace/projeto, mas a autoridade continua nos docs canonicos, validators, changelog e evidencia BlastEm. O wrapper prepara apenas marcadores/politica/report; nao instala hooks/MCP globais nem aplica auto-improve.
+- Propostas de patch canonico permanecem locais, `not_applied` e pendentes de aprovacao humana, teste e regressao.
+- Claims de movimento critico, road physics e boss modular sao explicitamente
+  classificados; o framework nao infere esses claims por palavras soltas.
+- `review_required` permite continuidade exploratoria, mas bloqueia closeout.
+
 ---
 
-## Modelo operacional
+## Bootstrap Local
+
+Uma `.agent` local so e considerada saudavel quando possui:
+
+- `ARCHITECTURE.md`
+- `framework_manifest.json`
+- skills e workflows criticos listados em `framework_manifest.json > tracked_paths`
+- pipeline machine-readable atual
+
+Estados validos:
+
+- `bootstrapped`: copia local presente e coerente com o minimo canonico
+- `tracked_paths_healed`: faltavam caminhos canonicos ausentes e eles foram materializados sem sobrescrever arquivos locais
+- `degradado`: faltam caminhos criticos, ha drift relevante ou o manifesto local nao representa mais a fonte canonica
+
+Regra:
+
+- `.agent` local incompleta nao e "quase boa"
+- ela deve ser tratada como contexto invalido ate cura segura ou auditoria humana
+
+---
+
+## Estrutura Canonica
+
+```text
+.agent/
+  ARCHITECTURE.md
+  framework_manifest.json
+  rules/
+  skills/
+  workflows/
+  pipelines/
+  scripts/
+  lib_case/
+```
+
+### Responsabilidades
+
+- `rules/`: regras sempre ativas e nao negociaveis
+- `planning/`: seed de projeto, corte de escopo, `first_playable_slice` e roadmap inicial
+- `skills/`: conhecimento acionavel por dominio, com contrato operacional explicito
+- `workflows/`: runbooks operacionais curtos
+- `pipelines/`: jornadas machine-readable
+- `scripts/`: automacoes de status, auditoria, changelog e verificacao
+- `lib_case/`: few-shots pedagogicos e referencias reproduziveis
+- `../validate_audio.ps1`: auditoria canonica de assets de audio declarados em `.res`, sempre com saida em `out/logs/`
+- `../show_agent_menu.ps1`: renderizacao e atualizacao leve do estado de sessao; nao executa build, validacao ou patch canonico
+
+### Camadas de compatibilidade e descoberta
+
+- `agents/`
+  - status oficial: camada pedagogica e de compatibilidade documental
+  - nao e a fonte primaria do fluxo canonico
+  - nao deve ser removida sem decisao arquitetural explicita e curadoria das referencias cruzadas
+- `skills/**/agents/openai.yaml`
+  - metadata de descoberta repo-native e politica de invocacao
+  - `SKILL.md` continua sendo a fonte de verdade do comportamento operacional
+  - ausencia de `openai.yaml` deve ser tratada como exposicao implicita nao curada, nao como prova de orfandade
+- `.agents/skills`
+  - ponte repo-native para `tools/sgdk_wrapper/.agent/skills`
+  - deve permanecer saudavel como junction/symlink rastreavel
+  - se quebrar, a descoberta de skills pode degradar silenciosamente
+
+---
+
+## Modelo Operacional
 
 ```mermaid
 flowchart TD
-    userRequest[Solicitacao do usuario] --> rulesGate[Rules globais]
-    rulesGate --> agentRouter[Selecao de agente]
-    agentRouter --> skillLoad[Carregar skills necessarias]
-    skillLoad --> projectTruth[Consultar docs canonicos e manifesto]
-    projectTruth --> execution[Planejar ou executar]
-    execution --> statusAudit[Auditar status e drift]
-    statusAudit --> handoff[Atualizar handoff e evidencias]
+    request["Solicitacao"] --> session["Session bootstrap quando necessario"]
+    session --> rules["Rules globais"]
+    rules --> truth["Docs canonicos + manifesto"]
+    truth --> pipeline["Pipeline machine-readable"]
+    pipeline --> skills["Skills reais"]
+    skills --> build["Build / validate / evidence"]
+    build --> changelog["doc/changelog + memoria operacional"]
 ```
 
-### Contrato de evidencia operacional
+### Agent Session Bootstrap
 
-- Nenhuma validacao em emulador e confiavel sem vinculo explicito com a ROM testada.
-- A cadeia minima de evidencia deve ser: build final -> identidade da ROM -> sessao do emulador -> captura dedicada -> consolidacao do report -> memoria operacional.
-- Captura dedicada significa imagem da janela do emulador alvo ou artefato equivalente do proprio emulador; captura da area de trabalho inteira nao basta.
-- Se qualquer build ou rebuild ocorrer depois da captura, a evidencia anterior passa a ser `stale` ate nova validacao.
-- `validation_report.json` nao pode sobrescrever silenciosamente um estado mais forte de QA sem marcar regressao ou evidência obsoleta.
-- O framework deve preferir estados honestos como `observado`, `capturado`, `stale` e `degradado` em vez de colapsar tudo em `ok` ou `nao_testado`.
+A entrada por menu/modos vive em:
 
-### Pipeline de producao: Design -> Art -> Code -> QA
+- `workflows/agent-session-bootstrap.md`
+- `workflows/perspective-switch-gate.md`
+- `doc/agent_session_state.json`
+- `tools/sgdk_wrapper/schemas/agent_session_state.schema.json`
+- `../show_agent_menu.ps1`
 
-O framework suporta um ciclo completo de producao de estudio 16-bits, orquestrado pelo workflow `production-loop`:
+Modos oficiais:
 
-```mermaid
-flowchart LR
-    design[Director: Escopo] --> art[Pixel Engineer: Assets]
-    art --> code[Programmer: Integracao]
-    code --> qa[QA: Validacao]
-    qa -->|aprovado| done[Entrega]
-    qa -->|correcao| design
-```
+- `create_new_project`
+- `analyze_existing_project`
+- `train_agent`
+- `laboratory`
+- `curation`
 
-- O `game-director-sgdk` define escopo e protege contra feature creep.
-- O `mega-drive-pixel-engineer` projeta e audita assets dentro dos limites do VDP.
-- Os programadores integram codigo, assets e audio com suporte do `build-wrapper-operator` e `hardware-budget-guardian`.
-- O `qa-hardware-tester` valida a ROM em emuladores precisos e cobra teste em hardware real.
-- Nenhum passo do pipeline pode ser pulado. Evidencia e obrigatoria em cada transicao.
+Regra:
+
+- o menu ajuda a escolher rota quando a intencao estiver ambigua;
+- pedido direto e claro segue direto para o workflow adequado;
+- troca de modo e perspectiva exige consentimento humano;
+- treino usa `SGDK_projects/_agent_training/`;
+- laboratorio usa `SGDK_projects/_agent_laboratory/`;
+- curadoria canonica exige aprovacao humana, testes e memoria;
+- estado de sessao e auxiliar e nunca supera a hierarquia de verdade do projeto.
+
+### Regra principal
+
+O fluxo canonico de uma cena AAA nao e definido por personas ficticias.
+
+Ele e definido por:
+
+1. `pipelines/aaa_scene_v1.json`
+2. `workflows/aaa-scene-pipeline.md`
+3. `workflows/production-loop.md`
+4. `workflows/causal-persistence-loop.md` quando houver terminal condition,
+   blocker repetido ou falha de uma unica ferramenta
+5. `workflows/native-sprite-production-loop.md` quando concept, raster high-res
+   ou arte de IA precisar virar personagem/objeto/FX nativo
+6. `workflows/project-methodology-adoption.md`
+7. `workflows/route-decision-gate.md` quando a rota tecnica ainda nao estiver congelada
+8. `workflows/visual-first-project-lifecycle.md` quando o projeto for
+   `aaa_game`, vertical slice, reseed ou estiver preso em runtime seed com
+   `visual_gate_blocked`
+9. as `SKILL.md` reais invocadas por cada etapa
+
+Workflows descrevem ordem.
+Skills descrevem como executar.
+Validator e wrapper fecham o gate.
+
+### Context Pack Manifest
+
+Antes de gerar arte original, sourcing externo ou codigo SGDK que dependa de API sensivel, a iteracao deve emitir `context_pack_manifest`.
+
+Esse artefato e o RAG v1 do framework: lista arquivos canonicos, memoria operacional, source cases, feedback bank, perfis internos e headers SGDK consultados. Banco vetorial pode existir no futuro, mas a versao canonica inicial e arquivo auditavel.
+
+O agente nao deve expor Chain of Thought para provar decisao. Use `route_decision_record`, `art_generation_brief`, `master_style_manifest`, `qa_findings` e `correction_request`.
 
 ---
 
-## Agentes
+## Planejamento Canonico de Projeto
 
-### Core (governanca e operacao)
+Quando um projeto ainda nao tem briefing, GDD ou spec suficientes, a primeira superficie canonica deixa de ser a camada `agents/` e passa a ser:
 
-- `project-planner-sgdk`: descoberta, plano e enquadramento de escopo
-- `governance-auditor`: hierarquia de verdade, gates, handoff e anti-deriva
-- `hardware-budget-guardian`: VRAM, DMA, sprites, H-Int e riscos de cena
-- `build-wrapper-operator`: wrappers, manifesto, layout, build policy e rastreabilidade
+- `skills/planning/game-design-planning`
+- `workflows/project-opening.md`
 
-### Producao (pipeline de estudio)
+Antes de abrir arte, runtime ou bootstrap estrutural, o agente deve classificar o contexto como:
 
-- `game-director-sgdk`: Game Designer, Level Designer e Producer — define visao, protege escopo, orquestra pipeline
-- `mega-drive-pixel-engineer`: Diretor de Arte Tecnico — projeta e audita assets visuais dentro dos limites do VDP
-- `qa-hardware-tester`: Bug Hunter e Tester de Performance — valida ROM em emuladores precisos e hardware real
+- `projeto_existente`
+- `reseed`
+- `projeto_novo`
 
-### Pipeline de Arte (3 cenarios)
+Regra:
 
-- `art-pipeline-operator`: Operador do pipeline de arte — detecta cenario, executa conversao, apresenta opcoes de correcao
-- `art-creator`: Criador de assets — gera arte com IA ou sourcia da web (CC0/CC-BY), coordena conversao
+- `projeto_existente` continua a iteracao e pergunta apenas o necessario
+- `reseed` preserva aprendizado herdado, mas reabre a base conceitual
+- `projeto_novo` para antes do runtime e exige fundacao documental minima
+
+Ela existe para emitir, antes de arte ou runtime:
+
+- `project_brief`
+- `core_loop_statement`
+- `feature_scope_map`
+- `scene_roadmap`
+- `first_playable_slice`
+- `route_decision_record` quando for projeto novo, reseed ou primeira cena tecnica
+- `front_end_profile`
+- ambicao tecnica, visual e sonora
+- tecnicas escolhidas com registry ID, tags, funcao, owner, budget e fallback
+- tecnicas rejeitadas/adiadas com motivo
+- `scene_transition_card` seed quando houver transicao formal prevista
+- `roteiro_scope`
+
+Regra:
+
+- a skill de planejamento **nao aprova escopo sozinha**
+- ela prepara seeds concretos para a etapa humana de `S0_scope`
+- quando houver HUD/UI formal, o `front_end_profile` planejado deve ser formalizado depois como `ui_decision_card`
+- quando houver transicao formal, o seed deve virar `scene_transition_card` completo antes de arte/runtime
+- quando a skill/ferramenta/modelo de loading ainda nao estiverem declarados, abrir `workflows/route-decision-gate.md` antes de asset, `.res` ou runtime
+- quando a iteracao apontar para cena `aaa_layered`, a abertura e o planejamento tambem devem materializar `scene_architecture_triage` via `workflows/scene-architecture-triage.md`
+
+---
+
+## Pipeline AAA de Cena
+
+Para trabalho de cena visual, a cadeia oficial e:
+
+1. `art/art-asset-diagnostic`
+1b. `art_quality_gate.py` (gate artistico complementar — silhueta, escala, lineart, pose, appeal, coerencia)
+1c. Visual gate antecipado: antes de loops longos de runtime, aprovar direcao visual minima. Procedural/debug/lab nao pode virar final por exaustao.
+2. `art/multi-plane-composition`
+3. `art/art-translation-to-vdp`
+3b. `art/native-sprite-production` quando o alvo for sprite, sheet, objeto ou FX autoral
+4. `art/visual-excellence-standards`
+5. `hardware/megadrive-vdp-budget-analyst`
+6. `code/sgdk-runtime-coder`
+7. `validate_resources.ps1`
+8. BlastEm + `workflows/build-validate.md`
+
+Para campanha de efeitos, showcase multi-ROM ou pacote por eixos, existe um gate adicional antes do closeout consolidado:
+
+- `audit_effect_campaign_semantics.ps1`
+
+Esse auditor procura falso verde semantico: ROM procedural/debug, painel de texto vendido como fase, fallback generico repetido, falta de consulta a `lib_case`, ausencia de `visual_delivery_gate_report`, `freshness_audit_report` ou `scene_closeout_gate_report` frescos e `ready_for_aaa=true` com `blocking_statuses`.
+
+### Auditores de maturidade operacional
+
+Antes do closeout, o pipeline deve executar os auditores de maturidade operacional quando aplicavel:
+
+- `audit_tool_first.ps1` — tool-first audit
+- `detect_operational_loop.ps1` — loop detector
+- `audit_meaningful_change.ps1` — meaningful-change gate
+- `audit_placeholder_quarantine.ps1` — placeholder quarantine
+- `audit_evidence_root.ps1` — gate de raiz/evidencia
+- `audit_orphan_subproject.ps1` — gate contra subprojeto orfao
+
+Quando a cena tiver audio senior, ownership PCM, stinger, ambience ou driver customizado, a trilha oficial passa a incluir tambem:
+
+- `code/xgm2-audio-director`
+- `code/z80-pcm-custom-driver`
+- `../validate_audio.ps1` antes do fechamento em `validate_resources.ps1`
+
+Nenhuma etapa pode ser pulada.
+
+Se o passo anterior nao emitiu os artefatos minimos, o passo seguinte nao tem permissao para se declarar concluido.
+
+### Baseline arquitetural prioritario para cena composta
+
+Quando a cena tiver composicao em camadas, foreground/oclusao, staging visual e relacao forte entre sprite e cenario:
+
+- `tilemap streaming guiado pela camera` vira baseline arquitetural prioritario
+- o agente deve extrair o principio tecnico da referencia, nao copiar tamanho de painel, uso de `IMAGE` ou implementacao 1:1 sem medir a cena atual
+- o budget deve separar mundo total, janela visivel, paineis/metatiles candidatos e resident set simultaneo
+- a comparacao com esse baseline acontece antes de depuracao residual
+- a decisao final deve registrar `adotar`, `adaptar` ou `divergir`
+- uma implementacao interna madura, como a `BLAZE_ENGINE [VER.001] [SGDK 211] [GEN] [ENGINE] [BRIGA DE RUA]`, pode ser usada como referencia de apoio, nao como nome da tecnica
+- divergencia e permitida, mas precisa citar a constraint real da cena
+
+Essa disciplina existe para evitar que bugs locais de VRAM, paleta, `WINDOW`, `rescomp` ou sprite runtime escondam um erro anterior de contrato arquitetural.
+
+### Acoplamento por `skill_path`
+
+Os pipelines machine-readable referenciam skills por `skill_path`.
+
+Isso significa que:
+
+- renomear ou mover uma skill exige curadoria simultanea de `pipelines/`
+- o `framework_manifest.json` deve continuar rastreando skills e workflows usados pelo pipeline
+- limpeza estrutural sem atualizar `skill_path` quebra a cadeia canônica de execucao
+
+Regra:
+
+- mover ou renomear skill sem revisar pipelines e workflows e regressao de governanca, nao "refactor cosmetico"
+
+---
+
+## Contrato de Evidencia
+
+Nenhuma validacao em emulador e confiavel sem vinculo explicito com a ROM testada.
+
+A cadeia minima de evidencia e:
+
+1. build final
+2. identidade da ROM
+3. sessao do emulador
+4. captura dedicada
+5. consolidacao em `validation_report.json`
+6. snapshot em `doc/changelog`
+7. bloco derivado em `doc/10-memory-bank.md`
+
+Se qualquer build ocorrer depois da captura, a evidencia anterior passa a ser `stale`.
+
+### Contrato canonico BlastEm
+
+- `tools/sgdk_wrapper/lib/blastem_automation.psm1` e a unica fonte canonica para foco, input, config, close escalonado, screenshot e logs do BlastEm
+- `run_runtime_capture.ps1` e `run_visual_capture.ps1` devem ser scripts finos de orquestracao; duplicacao local de automacao e regressao
+- `press_until_ready:*` usa o heartbeat `READY` em SRAM `0x100`; sem esse handshake a navegacao e considerada heuristica, nao gate canonico
+- toda evidencia BlastEm deve nascer em sandbox por projeto sob `out/blastem_env_*`
+- qualquer `save.sram` detectado fora do sandbox, ou anterior ao boot do processo, deve invalidar a sessao como `stale`
+- a trilha operacional do emulador deve ir para JSONL em `out/logs/*_blastem.log`
+
+#### Matriz de suporte do stub GDB do BlastEm
+
+Investigado e consolidado em 2026-04 contra o BlastEm release oficial:
+
+- `Z0` breakpoint simples: SUPORTADO
+- `Z2`/`Z3`/`Z4` watchpoints: NAO SUPORTADO pelo stub (responde com pacote vazio)
+- `m addr,len` com CPU parada no entry point de debug: SUPORTADO
+- `c` (continue) + leitura interativa: degrada o canal; nao e rota de heartbeat ao vivo
+
+Consequencias canonicas:
+
+- rota Z2-based para heartbeat esta fora do contrato ate o stub do BlastEm ganhar suporte
+- qualquer agente que proponha rota Z2 precisa aprovacao humana explicita e evidencia de release nova
+- GDB continua util apenas para debug humano offline com `Z0`
+
+#### Readiness canonica (rolling heartbeat SRAM)
+
+Caminho unico aceito para confirmar que a cena esta renderizando antes da captura:
+
+1. ROM escreve em SRAM `0x100` um heartbeat `READY` + contador rolante de frames, re-assinado periodicamente pos-warmup. Um flush unico nao pode ser o ponto de falha.
+2. Wrapper detecta via snapshot periodico com duas camadas:
+   - fast-path `FileSystemWatcher` em `$SaveRoots` para reagir em milissegundos quando o BlastEm flusha SRAM
+   - backstop de polling como rede de seguranca
+3. Flush trigger ativo: a cada `flush_every` presses sem READY detectado, `Invoke-BlastEmNavigation` emite um ciclo breve de ESC pause/resume para forcar o BlastEm a flushar SRAM para o sandbox
+4. Key rotation opcional (`rotate_key=<tecla>`): em timeout do primeiro laco, tentativa extra com tecla alternativa, cobrindo cenas em que o input esperado mudou
+5. Toda detecao deve passar por `Test-FreshSramCandidate` (sandbox-root + `processStartedAt`). Sem fresco + sob sandbox, a evidencia vira `stale`.
+
+A referencia de implementacao ROM-side vive em `tools/sgdk_wrapper/modelo/src/system/runtime_probe.c`. Projetos que queiram o handshake canonico copiam dali.
+
+---
+
+## Changelog Canonico do Projeto
+
+Cada projeto deve manter `doc/changelog/` como trilha operacional minima.
+
+Estrutura obrigatoria:
+
+```text
+doc/changelog/
+  changelog.md
+  assets/<asset_id>/v###/<arquivo_original>
+  assets/<asset_id>/v###/meta.json
+  roms/build_v###/rom.bin
+  roms/build_v###/build_meta.json
+```
+
+Regras:
+
+- asset novo so gera versao nova quando o binario realmente muda
+- ROM nova so gera `build_v###` quando o hash muda
+- a memoria operacional nao pode subir tom acima do que os artefatos realmente sustentam
 
 ---
 
 ## Skills
 
-### Governanca
+As skills centrais deste framework devem expor explicitamente:
 
-- `truth-hierarchy-guard`
-- `doc-sync-audit`
+- `entrada minima`
+- `saida minima`
+- `passa quando`
+- `handoff para proxima etapa`
 
-### Operacao
-
-- `sgdk-build-wrapper-operator`
-- `status-panel-maintainer`
-
-### Hardware
-
-- `megadrive-vdp-budget-analyst`
-
-### Arquitetura
-
-- `scene-state-architect`
-
-### Arte
-
-- `megadrive-pixel-strict-rules`: leis irrevogaveis da arte pixel (paleta 9-bits, grid 8x8, escala 1x, proibicoes absolutas)
-- `visual-excellence-standards`: cerebro estetico do workspace que transforma direcao de arte em metricas de hardware AAA
-- `art-asset-diagnostic`: diagnostica estado dos assets (/data, /res) e detecta cenario 1/2/3
-- `art-conversion-pipeline`: pipeline de conversao — photo2sgdk, batch_resize_index, fix_transparency, spec JSON
-- `art-creation-sourcing`: criacao via IA (prompts especializados) ou busca na web (CC0/CC-BY)
+Se uma skill nao deixa claro o que consome e o que entrega, ela nao esta apta para orquestrar outra IA de forma confiavel.
 
 ---
 
-## Scripts de automacao
+## Lib Case e Few-Shot
 
-- `art_diagnostic.py`: diagnostico completo de assets de um projeto (exit 0/1/2 por cenario)
-- `test_art_pipeline.py`: suite de 32 testes para validar pericia do pipeline de arte
-- `project_status.py`: relatorio de status do projeto
-- `doc_drift_audit.py`: auditoria de deriva documental
+Few-shots canonicos vivem em `lib_case/` e existem para impedir regressao em erros caros.
 
-Os scripts devem usar `framework_manifest.json` como ancora para versao da `.agent`, comparacao com copias locais e fontes reais do status panel.
+Os casos mais importantes para este framework sao:
 
----
+- `PALETTE_INFLATED`
+- overflow real de VRAM por tiles unicos
+- decisao errada entre `IMAGE`, `MAP` e streaming
 
-## Workflows
-
-### Operacionais
-
-- `build-validate`: build, rebuild e validacao operacional
-- `handoff`: encerramento de sessao com evidencias
-- `plan`: planejamento de trabalho multi-arquivo
-- `status`: relatorio de estado sem ambiguidade
-
-### Producao
-
-- `production-loop`: ciclo completo de producao do estudio — Design -> Art -> Code -> QA -> Iteracao
-- `art-onboarding`: pipeline de arte para os 3 cenarios — converter /data, diagnosticar /res, criar sem arte
+Esses casos devem ser usados como memoria reproduzivel, nao como narrativa informal em chat.
 
 ---
 
-## Painel de status
+## Painel de Status
 
-O framework assume um painel unico com, no minimo, estes eixos:
+O status panel continua assumindo, no minimo:
 
 - `documentado`
 - `implementado`
@@ -214,59 +440,69 @@ O framework assume um painel unico com, no minimo, estes eixos:
 - `futuro_arquitetural`
 - `agent_bootstrapped`
 
-`agent_bootstrapped` indica se o projeto ja possui a `.agent` local materializada a partir da fonte canonica.
-O estado desses eixos deve ser derivado primeiro de `out/logs/validation_report.json`, `out/logs/runtime_metrics.json` e `out/logs/emulator_session.json` quando esses artefatos existirem; heuristicas de arquivo entram apenas como fallback honesto.
+Novos bloqueios canonicos tambem devem ficar rastreaveis em `validation_report.json`:
 
-### Proveniencia minima do status
-
-- `validation_report.json` deve apontar para a identidade da ROM validada, idealmente com caminho, timestamp, tamanho e hash.
-- `emulator_session.json` deve registrar o ciclo de vida da sessao com estados como `started`, `captured` e `closed`.
-- `testado_em_emulador` nao deve subir para verdadeiro se existir apenas `launch_status=started`.
-- `runtime_capture_present` nao deve depender apenas da existencia do arquivo; ele exige evidencia realmente anexada ao report.
-- `agent_bootstrapped` deve poder coexistir com um indicador de degradacao quando a copia local existir, mas estiver sem manifesto ou em drift.
-
----
-
-## Integracao com wrappers
-
-Os seguintes scripts do wrapper participam do bootstrap automatico da `.agent`:
-
-- `build.bat`
-- `build_inner.bat`
-- `run.bat`
-- `rebuild.bat`
-- `clean.bat`
-- `env.bat`
-- `new_project.bat`
-
-O bootstrap e centralizado em `ensure_project_agent.bat` + `ensure_project_agent.ps1`.
-
-Eles devem evoluir para:
-
-- diagnosticar drift de manifesto antes de declarar o bootstrap como confiavel
-- expor claramente quando a copia local esta em modo degradado
-- impedir que evidencias velhas de emulador parecam validas para ROMs novas
+- `agent_context_degraded`
+- `budget_doc_mismatch`
+- `visual_delivery_gate_missing`
+- `visual_gate_blocked`
+- `emulator_evidence_stale`
+- `freshness_audit_missing`
+- `freshness_audit_stale`
+- `scene_closeout_gate_missing`
+- `scene_closeout_gate_stale`
+- `changelog_missing`
+- `operational_loop_detected`
+- `meaningful_change_absent`
+- `placeholder_promoted_to_aaa`
+- `evidence_root_mismatch`
+- `evidence_rom_hash_divergent`
+- `evidence_external_path_detected`
+- `orphan_subproject_detected`
+- `deterministic_boot_missing`
+- `learning_capture_skipped`
+- `technique_manifest_empty_in_lab`
+- `artistic_gate_failed`
+- `tool_first_audit_missing`
+- `tool_first_decision_absent`
+- `tool_first_fixture_missing`
+- `tool_first_fixture_skipped`
 
 ---
 
-## Limites intencionais
+## Limites Intencionais
 
 Esta `.agent` nao deve:
 
 - inventar API do SGDK
 - autorizar features fora do GDD
 - normalizar `float`, heap no loop ou DMA inseguro
-- sobrescrever `.agent` local customizada sem ordem explicita
-- mentir status de validacao sem evidencia operacional
+- tratar `.agent` local incompleta como contexto confiavel
+- chamar de `AAA`, `validado` ou `pronto` uma cena sem BlastEm, budget coerente e changelog atualizado
 
 ---
 
-## Evolucao esperada
+## Evolucao Esperada
 
-Evolucoes futuras devem adicionar novos agentes e skills sem perder estes principios:
+Novas skills, workflows e scripts sao bem-vindos se preservarem:
 
 - modularidade
 - auditabilidade
 - explicabilidade
 - aderencia ao hardware real
 - centralizacao da operacao no wrapper
+- continuidade entre build, validação, changelog e memoria operacional
+
+## Gate canonico de promocao por claim
+
+`audit_promotion_claims.ps1` reconcilia claims de entrega com o hash da ROM,
+escopo observado, warnings criticos, reachability de modulos, proveniencia de
+assets, metricas, review e estado da fase. O menor status consistente entre
+memoria, validacao e evidencia define o teto.
+
+- `module_present`, `integrated`, `reachable` e `runtime_proven` sao distintos;
+- screenshot ou boot/title nao prova gameplay, audio ou performance;
+- MTR registra estatistica de jogo; somente MDRT dedicado sustenta performance;
+- closeout manual nao substitui `scene_closeout_gate_report.json`;
+- crash, corrupcao visual ou review bloqueado impedem avancar de fase;
+- todo claim forte aponta para evidencia fresca da mesma ROM.

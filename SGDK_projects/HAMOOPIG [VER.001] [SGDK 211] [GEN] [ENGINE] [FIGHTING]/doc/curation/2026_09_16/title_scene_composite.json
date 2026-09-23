@@ -1,0 +1,24 @@
+{
+  "lesson_id": "L117",
+  "date": "2026-09-16",
+  "topic": "title_scene_composite_vram_and_transition",
+  "source": "revisão das capturas de abertura/título e orientação do desenvolvedor original",
+  "problem": "Reutilizar room_0_bga no título fazia créditos, contador e sprites da abertura atravessarem a transição; a quantização RGB em int16 também corrompia cores e o limite de tiles destruía letras do logo.",
+  "change": "Foi criada uma composição própria title_scene.png: fundo gerado sem texto, logo/pig derivado em meia escala nearest-neighbor, índice 15 reservado para transparência, paleta fixa Mega Drive e aritmética int32. A seleção de tiles protege a arte do logo e o runtime do título não carrega mais room_0_bga.",
+  "result": "Build 2ba2aaf8 passou no wrapper SGDK/Wine. Captura BlastEm 20260916T082401Z mostra fundo azul limpo, logo/pig e menu sem arte residual; a transição continua sujeita à revisão visual independente.",
+  "evidence": [
+    "data/source_art/title/prepare_title_assets.py",
+    "data/source_art/title/title_assets_report.json",
+    "res/gfx/title_scene.png",
+    "src/title.c",
+    "out/logs/build_title_scene_clean.log",
+    "out/emulator_evidence/title_return_20260916T082401Z/01_title_initial.png",
+    "out/emulator_evidence/title_return_20260916T082401Z/options_scene_page.png"
+  ],
+  "limitations": [
+    "o logo reduzido é candidato visual, não entrega final",
+    "P10 e áudio permanecem vinculados ao SHA anterior até recaptura",
+    "não há validação em hardware real"
+  ],
+  "status": "implemented_build_and_emulator_capture_visual_review_pending"
+}

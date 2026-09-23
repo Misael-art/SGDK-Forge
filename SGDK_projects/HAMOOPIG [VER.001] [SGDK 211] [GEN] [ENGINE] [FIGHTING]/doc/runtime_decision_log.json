@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "runtime_decision_log",
+  "scene_id": "fight_round_loop",
+  "updated_at": "2026-09-12",
+  "status": "testado_em_emulador_round_loop_p1",
+  "context": "technical_demo",
+  "claim_ceiling": "prototype",
+  "decisions": {
+    "palette_copy": "cada Palette SGDK e copiada para exatamente um slot CRAM de 16 cores; comprimento e limitado a 16 e o restante e zerado",
+    "match_format": "melhor de tres; ROUNDS_TO_WIN=2",
+    "draw_policy": "empate por tempo nao concede vitoria e reinicia o round",
+    "round_reset_owner": "FUNCAO_ROUND_RESTART em src/init.c",
+    "round_reset_strategy": "reinicializacao integral da cena por FUNCAO_INICIALIZACAO, preservando wins e avancando gRound",
+    "after_match_owner": "gRoom 11 em src/main.c",
+    "after_match_controls": "A inicia revanche com os mesmos lutadores; START retorna ao seletor",
+    "clock_model": "ROUND_CLOCK_TICKS=38 e um tick arcade legado, nao um segundo civil",
+    "sprite_failure_policy": "handles Safe podem ser NULL; posicionamento e flip verificam o handle antes de usar"
+  },
+  "scene_reset_plan": {
+    "reset": ["health", "special_meter", "positions", "physics", "fighter_state", "projectiles", "sparks", "hit_pause", "input_buffers", "clock", "hud", "scene_sprite_handles"],
+    "preserve_between_rounds": ["fighter_id", "palette_choice", "wins"],
+    "reset_on_rematch": ["wins", "round_number", "all_round_owned_state"]
+  },
+  "api_reality": {
+    "palette": "sdk/sgdk-2.11/inc/pal.h: Palette.length + Palette.data",
+    "safe_sprite": "SPR_addSpriteExSafe pode retornar NULL",
+    "music_stop": "XGM_stopPlay",
+    "vblank": "SYS_doVBlankProcess"
+  },
+  "evidence": {
+    "baseline_rom_sha256": "1eb99f6c33cc6fe1c7fb776f5635f31b453a6419f27ff77cd4a215db9e6b00d6",
+    "current_rom_sha256": "62df66bc9aa96d0e61d8b94742b2d14423e29b7a616a4df32ee27a1c68127827",
+    "current_rom_bytes": 2490368,
+    "build_report": "out/logs/linux_wine_build_report.json",
+    "natural_ko_match_and_return_to_select_previous_iteration": "out/emulator_evidence/interactive-round-integrity-20260912T064603Z",
+    "current_integrity_session": "out/emulator_evidence/interactive-round-integrity-20260912T072145Z",
+    "natural_timeover_reset_pre_menu_input_fix": "out/emulator_evidence/interactive-round-integrity-20260912T063457Z",
+    "measured_emulator_speed_fps": 60.2
+  },
+  "claims_not_made": ["ready_for_aaa", "validado_budget", "ko_com_player_2_vencedor", "pal_50hz_qualificado", "rematch_A_testado_em_emulador", "musgo_defeat_animation_emulator_proof", "source_font_fidelity"]
+}

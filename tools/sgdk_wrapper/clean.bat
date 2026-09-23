@@ -48,8 +48,12 @@ if not exist "%GDK%\makefile.gen" (
     echo [ERROR] Set GDK to your SGDK 2.11 folder or extract it to sdk\sgdk-2.11.
     exit /b 1
 )
+set "GDK_MAKEFILE_ROOT=%GDK%"
+if defined GDK_BUILD_ROOT if exist "%GDK_BUILD_ROOT%\makefile.gen" set "GDK_MAKEFILE_ROOT=%GDK_BUILD_ROOT%"
+if "%GDK_MAKEFILE_ROOT%"=="%GDK%" if defined GDK_SHORT if exist "%GDK_SHORT%\makefile.gen" set "GDK_MAKEFILE_ROOT=%GDK_SHORT%"
+for %%I in ("%GDK%") do if "%GDK_MAKEFILE_ROOT%"=="%GDK%" if exist "%%~sI\makefile.gen" set "GDK_MAKEFILE_ROOT=%%~sI"
 
 echo [SGDK Wrapper] Cleaning project in: %SGDK_WORK_DIR% (GDK=%GDK%)
-make -f "%GDK%\\makefile.gen" clean
+make -f "%GDK_MAKEFILE_ROOT%\makefile.gen" clean
 
 endlocal

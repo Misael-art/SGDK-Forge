@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "taina_idle_guard_v02",
+  "review_kind": "approved_master_to_rom_visual_review",
+  "generated_at": "2026-07-29",
+  "status": "technical_runtime_pass_visual_direction_pass_partial_evidence",
+  "delivery_status": "runtime_candidate_idle_guard_approved_direction",
+  "ready_for_aaa": false,
+  "human_approval": {
+    "statement": "Visual Resultado visual v02 ficou bom prossiga",
+    "scope": "resultado visual v02 e continuidade da producao",
+    "does_not_prove": [
+      "gameplay_complete",
+      "sustained_60fps",
+      "audio",
+      "full_vdp_budget",
+      "aaa_closeout"
+    ]
+  },
+  "source_of_truth": {
+    "human_baseline": "data/processed/contact_sheets/authorial_style_validation_contact_sheet_v01.png",
+    "approved_character_source": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+    "approved_master_pose": "rascunho/taina_idle_guard_v02/taina_idle_guard_key_pose_clean_48x64_v02.png",
+    "runtime_strip": "res/sprites/characters/taina/taina_idle_guard_48x64_v02.png",
+    "forbidden_generation_sources": [
+      "v05",
+      "v06",
+      "v07",
+      "taina_idle_guard_native_48x64_v01",
+      "taina_idle_guard_native_proxy_v02"
+    ]
+  },
+  "runtime_evidence": {
+    "rom_sha256": "e6b84c604a2dd26662e2e4603ff79a276351cb77447bb9e8d4874a2c6ffaab15",
+    "rom_size_bytes": 262144,
+    "session_id": "blastem-linux-20260729T094431Z-325801",
+    "scene_id": 3,
+    "window_title": "SAMPLE PROGRAM - BlastEm - 60.2 fps",
+    "screenshot": "out/blastem_env_taina_idle_guard_v02/blastem-linux-20260729T094431Z-325801/screenshot.png",
+    "animation_gif": "out/blastem_env_taina_idle_guard_v02/blastem-linux-20260729T094431Z-325801/runtime_animation.gif",
+    "animation_frames": "out/blastem_env_taina_idle_guard_v02/blastem-linux-20260729T094431Z-325801/animation_frames",
+    "runtime_metrics": "out/blastem_env_taina_idle_guard_v02/blastem-linux-20260729T094431Z-325801/runtime_metrics.json",
+    "semantic_capture_valid": true,
+    "bundle_sealed": false,
+    "bundle_blockers": [
+      "vlab_block_missing",
+      "artifact_missing:vdp_dump"
+    ]
+  },
+  "technical_checks": {
+    "png_pixel_strict": "passed",
+    "rescomp": "passed",
+    "build": "passed",
+    "scene_boot_injection": "passed",
+    "sprite_visible": true,
+    "animation_visible": true,
+    "pivot_stability": "passed_zero_drift",
+    "foot_contact": "passed_zero_drift",
+    "bounding_box_stability": "passed_zero_drift",
+    "visible_mass_variation": "zero",
+    "cpu_load_max_percent_partial_window": 28,
+    "cpu_load_p95_percent_partial_window": 27,
+    "over_budget_frames_partial_window": 0,
+    "max_scanline_sprites_measured": 1,
+    "complete_cycle_unique_tiles": 40,
+    "complete_cycle_tile_bytes": 1280
+  },
+  "visual_findings": [
+    "A silhueta alta, o cabelo dominante, a face angular e a guarda elevada permanecem reconheciveis na captura 320x224.",
+    "Top laranja, calca indigo e faixa teal preservam separacao de materiais usando apenas dez cores visiveis.",
+    "Pes, maos, contorno externo e eixo corporal permanecem fixos; nao ha morphing entre quadros.",
+    "Respiracao, cabelo e faixa se movem em fases diferentes por edicao interna de clusters sobre a mesma pose-mestre.",
+    "O movimento e deliberadamente economico e legivel como idle; impactos e poses de combate exigirao amplitudes maiores em estados proprios."
+  ],
+  "decision": "Aprovar a v02 como incumbente do idle_guard e como unica base permitida para os proximos estados da TAINA. Preservar a v01 e o proxy v02 somente como evidencia negativa. Nao declarar testado_em_emulador nem AAA enquanto faltarem VLAB, dump VDP e closeout da cena.",
+  "next_required_artifact": "taina_combat_key_pose_state_derived_from_v02_master_with_runtime_capture"
+}

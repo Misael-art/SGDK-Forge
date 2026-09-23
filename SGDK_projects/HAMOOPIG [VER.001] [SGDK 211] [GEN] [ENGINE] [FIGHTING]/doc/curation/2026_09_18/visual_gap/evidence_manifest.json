@@ -1,0 +1,86 @@
+{
+  "date": "2026-09-18",
+  "scope": "static_visual_comparison_and_code_review",
+  "new_emulator_session": false,
+  "images_viewed": 12,
+  "artifacts": [
+    {
+      "path": "src/hud.c",
+      "sha256": "e25e7df98d30e6e04aa7010c14c32253d4cd9d5da2691e15e396ba382b0b4a47"
+    },
+    {
+      "path": "src/select.c",
+      "sha256": "d9be450e8830e9bebd503bfb8ddf303c43acf54ae15026d4227573794ac6cd62"
+    },
+    {
+      "path": "src/stage.c",
+      "sha256": "64088566100187f216b5b34dbf992723b4fa2f632681189092dd25d51152de0b"
+    },
+    {
+      "path": "src/graphics.c",
+      "sha256": "0541d5aea33016c3b7dea0c94e232f53f72d8a6f81f1914702002734f88faf0a"
+    },
+    {
+      "path": "src/physics.c",
+      "sha256": "79313c4100970e557f702408664ff171bf19c052464ee0ac5003e7ade7d9aa01"
+    },
+    {
+      "path": "src/player.c",
+      "sha256": "5fbc33cce7ddfccf2620b0a20e4a863eb2c81a0cb5e0fb2fa9ad32d15c82a245"
+    },
+    {
+      "path": "src/main.c",
+      "sha256": "417529af852803745b9d461332d7575d22b191c731ae344c8bda76d67b29a5b1"
+    },
+    {
+      "path": "src/init.c",
+      "sha256": "28706a5c67171823bb065249cf4ee1f85bc0fabe74f4726e2fd99010a9c0212d"
+    },
+    {
+      "path": "inc/player_ken_table.h",
+      "sha256": "eb520a5001be4c15dfb128b4029217a3d71572bd9fc4419f2c6f4074c0d28955"
+    },
+    {
+      "path": "inc/player_musgo_table.h",
+      "sha256": "0427f9ed6cd64eb21a4d27dd5a8e9b3c19177061343d90e4f65de4377909024b"
+    },
+    {
+      "path": "res/sound.res",
+      "sha256": "7f3069b55ee6eb3328f02f36a574065b7ba88c90884381d2426d1173aaeaef4a"
+    },
+    {
+      "path": "res/hud_gfx.res",
+      "sha256": "7f96424a9ea9e5e88cbe0c0bdd71cfd80d170ed262a8b4d5c8c1921fdec8a03a"
+    },
+    {
+      "path": "res/gfx.res",
+      "sha256": "cd54724166077afbca90a829490c84540bc7d6dadf3c1bf82296179d6828e2f4"
+    },
+    {
+      "path": "doc/10-memory-bank.md",
+      "sha256": "552329d0da6acb4a2e9603e321b09b819b376ac05dedc96cddd2acafd5f7fe88"
+    },
+    {
+      "path": "out/rom.bin",
+      "sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc"
+    },
+    {
+      "path": "out/emulator_evidence/visual_ko_20260916T205914Z/01_round.png",
+      "sha256": "23f56f70afec51fb071f66ef587e62db15e3f89fdbcc3a71f997e89ffb970cc3"
+    },
+    {
+      "path": "out/emulator_evidence/visual_ko_20260916T205914Z/00_select.png",
+      "sha256": "5bd6d4c69cdd9279cd26b63e6ef2cc9878e6f4fcce69623fdfe41e7c14908475"
+    },
+    {
+      "path": "out/emulator_evidence/visual_ko_20260916T205914Z/throw_only_result.png",
+      "sha256": "8833139bb361d3acd47fee10668ada584868f3207976854ff6a53a11b9a02b7a"
+    },
+    {
+      "path": "out/emulator_evidence/title_return_20260916T212630Z/01_title_initial.png",
+      "sha256": "67aa14f1481844794fab1a776e6de4bc99e73e36928319d2183b55b4c0d37570"
+    }
+  ],
+  "reference_manifest": "reference_manifest.json",
+  "note": "Code and memory hashes identify the review input, before the documentary closeout append."
+}

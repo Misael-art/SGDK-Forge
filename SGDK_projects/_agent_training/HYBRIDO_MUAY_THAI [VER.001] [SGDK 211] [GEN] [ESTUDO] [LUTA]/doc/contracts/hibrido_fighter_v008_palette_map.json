@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_source_concept_v008",
+  "status": "source_candidate_reference_pending_human_validation",
+  "purpose": "Single character palette embedded in the v008 model sheet and used as reference for future native 48x64 redraw.",
+  "hardware_target": {
+    "character_palette": "one 16-entry sprite palette",
+    "transparent_index": 0,
+    "useful_color_count": 15,
+    "grid": "Mega Drive 9-bit values: 00,22,44,66,88,AA,CC,EE"
+  },
+  "locked_pose_note": "Pose 5 teep must keep the lava hand open, visible and above/in front of the leg.",
+  "character_palette_16": [
+    { "index": 0, "hex": "#EE00EE", "role": "transparent_chroma_key" },
+    { "index": 1, "hex": "#000000", "role": "almost_black_outline_hair_deep" },
+    { "index": 2, "hex": "#222222", "role": "hair_and_shorts_shadow" },
+    { "index": 3, "hex": "#444444", "role": "shorts_base_and_rock_dark" },
+    { "index": 4, "hex": "#666666", "role": "rock_mid_cluster" },
+    { "index": 5, "hex": "#886644", "role": "skin_deep_shadow_wrap_shadow" },
+    { "index": 6, "hex": "#AA6622", "role": "skin_base" },
+    { "index": 7, "hex": "#CC8844", "role": "skin_light" },
+    { "index": 8, "hex": "#EEAA66", "role": "skin_highlight" },
+    { "index": 9, "hex": "#CCAA88", "role": "dirty_wrap_base" },
+    { "index": 10, "hex": "#EEEECC", "role": "wrap_highlight_and_teeth" },
+    { "index": 11, "hex": "#CCAA22", "role": "gold_trim_belt" },
+    { "index": 12, "hex": "#CC2222", "role": "red_armband_sash_lava_red" },
+    { "index": 13, "hex": "#EE6600", "role": "lava_orange_cracks" },
+    { "index": 14, "hex": "#EEEE00", "role": "lava_hot_yellow_eye_accent" },
+    { "index": 15, "hex": "#EEEEEE", "role": "eye_specular_emergency_highlight" }
+  ],
+  "runtime_translation_notes": [
+    "The embedded palette is a production reference, not a quantization result.",
+    "Future runtime assets must be redrawn in native 48x64 clusters.",
+    "Do not downscale the model sheet directly.",
+    "Use controlled indexed PNG with index 0 transparency only after redraw."
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/road_physics_contract.schema.json",
+  "title": "SGDK Road Physics Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "contract_id",
+    "scene_id",
+    "lane_model",
+    "parallax_equation",
+    "curvature",
+    "impact_frame",
+    "screen_shake",
+    "hscroll_budget",
+    "runtime_source_paths",
+    "runtime_symbols"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "contract_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "scene_id": {"type": "string", "minLength": 1},
+    "lane_model": {
+      "type": "object",
+      "required": ["lane_count", "lane_width_px", "player_lateral_model"],
+      "properties": {
+        "lane_count": {"type": "integer", "minimum": 1},
+        "lane_width_px": {"type": "integer", "minimum": 1},
+        "player_lateral_model": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "parallax_equation": {"type": "string", "minLength": 1},
+    "curvature": {
+      "type": "object",
+      "required": ["model", "maximum_offset_px"],
+      "properties": {
+        "model": {"type": "string", "minLength": 1},
+        "maximum_offset_px": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "impact_frame": {
+      "type": "object",
+      "required": ["source", "frame_index"],
+      "properties": {
+        "source": {"type": "string", "minLength": 1},
+        "frame_index": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "screen_shake": {
+      "type": "object",
+      "required": ["maximum_offset_px", "duration_frames"],
+      "properties": {
+        "maximum_offset_px": {"type": "integer", "minimum": 0},
+        "duration_frames": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "hscroll_budget": {
+      "type": "object",
+      "required": ["rows_updated", "bytes_per_frame", "update_phase"],
+      "properties": {
+        "rows_updated": {"type": "integer", "minimum": 1},
+        "bytes_per_frame": {"type": "integer", "minimum": 1},
+        "update_phase": {"type": "string", "enum": ["vblank", "loading"]}
+      },
+      "additionalProperties": true
+    },
+    "runtime_source_paths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "runtime_symbols": {
+      "type": "object",
+      "required": ["lane_update", "curvature_update", "impact_handler"],
+      "properties": {
+        "lane_update": {"type": "string", "minLength": 1},
+        "curvature_update": {"type": "string", "minLength": 1},
+        "impact_handler": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

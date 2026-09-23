@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_agent_proficiency_matrix",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Define measurable proficiency levels for agents applying the Mega Drive AAA video curation package.",
+  "global_rule": "An agent is proficient only when it routes, constrains, validates and blocks claims correctly. Knowing vocabulary is not enough.",
+  "levels": [
+    {
+      "level_id": "L0_unaware",
+      "rank": 0,
+      "description": "Does not recognize Mega Drive hardware constraints or AAA curation gates.",
+      "observable_behavior": [
+        "accepts generic art/code suggestions",
+        "confuses build, emulator and visual validation",
+        "does not route through curated skills"
+      ],
+      "required_remediation": [
+        "load AAA_VIDEO_CURATION rule",
+        "read agent bootstrap",
+        "use guardian before action"
+      ],
+      "allowed_work": [
+        "none for AAA curation"
+      ]
+    },
+    {
+      "level_id": "L1_vocabulary",
+      "rank": 1,
+      "description": "Recognizes terms like VDP, CRAM, DMA, scanline and Shadow/Highlight but cannot reliably operationalize them.",
+      "observable_behavior": [
+        "summarizes techniques correctly in prose",
+        "misses one or more required contracts",
+        "does not distinguish source reliability from runtime proof"
+      ],
+      "required_remediation": [
+        "use skill contract catalog",
+        "use source reliability rubric",
+        "produce blocked status when proof is missing"
+      ],
+      "allowed_work": [
+        "draft notes",
+        "backlog items",
+        "candidate questions"
+      ]
+    },
+    {
+      "level_id": "L2_routing",
+      "rank": 2,
+      "description": "Can activate the correct skills and sequence for a prompt.",
+      "observable_behavior": [
+        "starts with aaa-pipeline-guardian for multi-domain prompts",
+        "uses activation matrix",
+        "identifies missing owner skills and handoffs"
+      ],
+      "required_remediation": [
+        "produce machine-readable contracts",
+        "resolve routing conflicts before implementation"
+      ],
+      "allowed_work": [
+        "triage",
+        "route plan",
+        "candidate curation record"
+      ]
+    },
+    {
+      "level_id": "L3_contracting",
+      "rank": 3,
+      "description": "Can turn a technique into inputs, outputs, blockers, handoffs and SGDK/Mega Drive constraints.",
+      "observable_behavior": [
+        "creates or updates schema-backed contracts",
+        "keeps aggregate claims separate from direct cases",
+        "blocks invalid source promotion"
+      ],
+      "required_remediation": [
+        "connect contracts to validators",
+        "update manifests and correlated docs"
+      ],
+      "allowed_work": [
+        "candidate skill update",
+        "candidate workflow update",
+        "validator update"
+      ]
+    },
+    {
+      "level_id": "L4_implementation_guardian",
+      "rank": 4,
+      "description": "Can guide implementation while preserving SGDK 2.11, VDP budget, asset lineage and evidence constraints.",
+      "observable_behavior": [
+        "routes runtime code to architecture/code review gates",
+        "requires palette, DMA, scanline and transition proof when relevant",
+        "rejects polishing failed assets"
+      ],
+      "required_remediation": [
+        "run local validators when possible",
+        "capture build/emulator evidence for project claims"
+      ],
+      "allowed_work": [
+        "implementation plan",
+        "code/asset changes with blockers declared",
+        "project-specific candidate integration"
+      ]
+    },
+    {
+      "level_id": "L5_closeout_curator",
+      "rank": 5,
+      "description": "Can close a curation or project claim without validation theater.",
+      "observable_behavior": [
+        "uses evidence ladder status exactly",
+        "does not claim validation when runner/build/emulator is blocked",
+        "records commit/push status truthfully",
+        "keeps ready_for_aaa blocked until all gates pass"
+      ],
+      "required_remediation": [
+        "none when evidence exists",
+        "otherwise keep candidate or blocked status"
+      ],
+      "allowed_work": [
+        "validated curation when validators pass",
+        "candidate_aaa support when all evidence exists",
+        "release closeout only with ROM/emulator evidence"
+      ]
+    }
+  ],
+  "evaluation_dimensions": [
+    {
+      "dimension_id": "source_reliability",
+      "must_demonstrate": "Classify AI transcript, timestamped source, aggregate claim and local artifact at correct reliability level."
+    },
+    {
+      "dimension_id": "skill_routing",
+      "must_demonstrate": "Activate correct skills and order for mixed art, hardware, code, audio and closeout prompts."
+    },
+    {
+      "dimension_id": "contract_quality",
+      "must_demonstrate": "Produce concrete inputs, outputs, blockers, handoffs and owner artifacts."
+    },
+    {
+      "dimension_id": "hardware_constraint_reasoning",
+      "must_demonstrate": "Use SGDK/Mega Drive constraints for VRAM, CRAM, SAT, DMA, scanlines, palettes, VBlank and emulator evidence."
+    },
+    {
+      "dimension_id": "anti_theater_closeout",
+      "must_demonstrate": "Refuse false positives and report exact missing evidence."
+    },
+    {
+      "dimension_id": "scope_reconciliation",
+      "must_demonstrate": "Separate boot seed, placeholder, first playable, visual delivery, budget and AAA claims; reconcile changelog, memory, build metadata, validator blockers and emulator evidence before promotion."
+    }
+  ],
+  "minimum_target_for_canonical_agent": "L4_implementation_guardian",
+  "minimum_target_for_release_claims": "L5_closeout_curator",
+  "core_principle": "Vocabulary is not enough: knowing the Mega Drive terms (VRAM, CRAM, SAT, DMA, H-Int) does not raise proficiency. Proficiency is demonstrated only by correct source classification, skill routing, contract quality, hardware-constraint reasoning and anti-theater closeout backed by evidence."
+}

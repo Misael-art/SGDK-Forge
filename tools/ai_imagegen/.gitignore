@@ -1,0 +1,14 @@
+# ComfyUI runtime + weights
+tools/ai_imagegen/runtime/
+tools/ai_imagegen/models/checkpoints/
+tools/ai_imagegen/models/loras/
+tools/ai_imagegen/models/vae/
+tools/ai_imagegen/cache/
+
+# Raw generated outputs
+data/raw_ai/
+
+# Python artifacts
+*.pyc
+__pycache__/
+*.egg-info/

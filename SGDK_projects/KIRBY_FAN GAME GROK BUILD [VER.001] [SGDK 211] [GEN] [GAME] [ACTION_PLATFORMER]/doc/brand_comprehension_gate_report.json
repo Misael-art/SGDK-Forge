@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "art_gameplay_direction_gate",
+  "axis": "brand_comprehension_consequence",
+  "axis_approved_by": "human_curator",
+  "axis_approved_at": "2026-08-17",
+  "contract_id": "branding_sequence_v1",
+  "contract_state": "active",
+  "contract_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME GROK BUILD [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/doc/branding_sequence_contract.json",
+  "summary": {
+    "techniques_total": 0,
+    "comprehension_bearing": 0,
+    "enabling_discipline": 0,
+    "weak_claims": 0
+  },
+  "findings": [
+    {
+      "code": "brand_comprehension_techniques_undeclared",
+      "severity": "blocking",
+      "subject": "branding_sequence_v1",
+      "where": "contract",
+      "message": "contrato de cena de marca ativo sem NENHUMA tecnica declarada com registry_id. O eixo nao tem o que julgar: nao e aprovacao, e ausencia de declaracao. Declare as tecnicas com claim e teste negativo, ou marque o contrato como inativo se ele foi substituido."
+    }
+  ],
+  "human_judgement_still_required": "Este validador prova que nenhuma tecnica passou sem justificativa. Ele NAO julga se o claim e verdadeiro: isso e decisao humana no gate visual, contra screenshot e visual_vdp_dump reais.",
+  "blocking": true,
+  "blocking_statuses": [
+    "brand_comprehension_techniques_undeclared"
+  ]
+}

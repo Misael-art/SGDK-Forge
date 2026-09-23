@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_visual_source_v010",
+  "evaluated_at": "2026-06-14T10:35:00-03:00",
+  "status": "passed",
+  "approved_authorial_source": {
+    "path": "data/source_art/hibrido_fighter_v010/source_concept.png",
+    "role": "model_sheet",
+    "approval_status": "approved_for_key_poses",
+    "sha256": "188a7deded1e97cf9527d0b4657dfb4703b49e299ae1f017e9e6f3be80d806cb",
+    "note": "Fonte autoral aprovada/travada para reconstruir key poses e sprite planning. Sprite sheets derivados nao herdam autoridade autoral."
+  },
+  "allowed_generation_sources": [
+    {
+      "path": "data/source_art/hibrido_fighter_v010/source_concept.png",
+      "role": "model_sheet",
+      "source_status": "approved_for_key_poses",
+      "usage": "primary_visual_generation_source"
+    },
+    {
+      "path": "doc/contracts/visual_dna_manifest_v010.json",
+      "role": "visual_dna",
+      "source_status": "identity_contract",
+      "usage": "identity_and_material_lock"
+    },
+    {
+      "path": "doc/contracts/hibrido_fighter_v010_model_sheet_generation_brief.md",
+      "role": "direction_brief",
+      "source_status": "direction_brief",
+      "usage": "prompt_brief_for_model_sheet_reconstruction_only"
+    },
+    {
+      "path": "doc/contracts/art_gameplay_direction_gate_v010.json",
+      "role": "art_gameplay_direction_gate",
+      "source_status": "direction_contract",
+      "usage": "art_gameplay_supervision_constraints"
+    },
+    {
+      "path": "doc/contracts/human_validation_record_v008.md",
+      "role": "human_review_record",
+      "source_status": "human_approval",
+      "usage": "human_authorial_acceptance_trace"
+    }
+  ],
+  "forbidden_generation_sources": [
+    "data/processed/spritesheets/*",
+    "res/sprites/*",
+    "data/processed/reports/*contact*",
+    "data/processed/reports/*.gif",
+    "data/processed/reports/*motion*",
+    "data/processed/reports/*pivot*",
+    "data/processed/lineart/*v009*",
+    "data/processed/model_sheets/*v001*",
+    "data/processed/model_sheets/*v002*"
+  ],
+  "obsolete_assets": [
+    {
+      "path": "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v009.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "negative_evidence",
+        "comparison_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "v009 foi rejeitado por falha visual grosseira, baixa fidelidade ao model sheet, blocagem exagerada e perda de identidade."
+    },
+    {
+      "path": "res/sprites/hibrido/*_v009.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "negative_evidence",
+        "comparison_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "Strips runtime derivados do v009 herdaram a falha visual e nao podem alimentar img2img, prompt, baseline ou refinamento."
+    },
+    {
+      "path": "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v010.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "comparison_only",
+        "runtime_evidence_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "v010 passou em medicao tecnica/fidelidade candidata, mas ainda possui human_visual_review_missing_for_aaa e visual_vdp_dump_missing; portanto e runtime_candidate_not_source."
+    },
+    {
+      "path": "res/sprites/hibrido/*_v010.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "comparison_only",
+        "runtime_evidence_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "Strips v010 sao derivados de runtime candidate parcial e nao podem virar base de nova geracao."
+    },
+    {
+      "path": "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v009.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "negative_evidence",
+        "comparison_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "Contact sheet v009 serve apenas como demonstracao negativa da perda de padrao."
+    },
+    {
+      "path": "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "allowed_usage": [
+        "comparison_only",
+        "runtime_evidence_only",
+        "do_not_use_for_generation"
+      ],
+      "reason": "Contact sheet v010 documenta candidato medido, mas nao substitui model sheet aprovado nem revisao humana."
+    }
+  ],
+  "partial_runtime_candidates": [
+    {
+      "path": "data/processed/spritesheets/hibrido_fighter_complete_sprite_sheet_48x64_v010.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "runtime_status": "runtime_candidate_not_aaa_not_source",
+      "missing_gates": [
+        "human_visual_review_missing_for_aaa",
+        "visual_vdp_dump_missing",
+        "runtime_60fps_metrics_missing"
+      ]
+    },
+    {
+      "path": "res/sprites/hibrido/*_v010.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "runtime_status": "runtime_candidate_not_aaa_not_source",
+      "missing_gates": [
+        "human_visual_review_missing_for_aaa",
+        "visual_vdp_dump_missing",
+        "runtime_60fps_metrics_missing"
+      ]
+    },
+    {
+      "path": "data/processed/reports/hibrido_fighter_complete_contact_sheet_with_palette_v010.png",
+      "generation_source_status": "obsolete_for_generation_source",
+      "runtime_status": "runtime_evidence_only_not_source",
+      "missing_gates": [
+        "human_visual_review_missing_for_aaa",
+        "visual_vdp_dump_missing"
+      ]
+    },
+    {
+      "path": "data/processed/reports/hibrido_fighter_motion_preview_v010.gif",
+      "generation_source_status": "obsolete_for_generation_source",
+      "runtime_status": "runtime_evidence_only_not_source",
+      "missing_gates": [
+        "human_visual_review_missing_for_aaa",
+        "visual_vdp_dump_missing"
+      ]
+    }
+  ],
+  "lineage_scan_policy": {
+    "blocked_fields": [
+      "source",
+      "baseline",
+      "reference_for_generation",
+      "img2img_base",
+      "generation_source",
+      "image_reference"
+    ],
+    "scan_roots": [
+      "doc/contracts",
+      "data/builders",
+      "data/raw_ai",
+      "out/logs"
+    ],
+    "allowed_reference_semantics": [
+      "negative_evidence",
+      "comparison_only",
+      "runtime_evidence_only"
+    ],
+    "forbidden_reference_semantics": [
+      "source",
+      "baseline",
+      "reference_for_generation",
+      "img2img_base",
+      "generation_source",
+      "image_reference"
+    ]
+  },
+  "decision": {
+    "generation_source_locked": true,
+    "next_sprite_sheet_must_start_from_model_sheet": true,
+    "ready_for_aaa": false,
+    "v009_status": "obsolete_negative_evidence",
+    "v010_status": "runtime_candidate_not_aaa_not_source",
+    "model_sheet_to_sprite_fidelity_report_semantics": "passed significa candidato medido; nao significa fonte autorizada para proxima geracao.",
+    "next_required_route": [
+      "use_approved_model_sheet_only",
+      "refresh_visual_dna_and_art_gameplay_gate",
+      "redraw_lineart_blocking_1px_per_state",
+      "approve_key_poses_before_color",
+      "generate_new_sprite_sheet_from_model_sheet",
+      "run_model_sheet_to_sprite_fidelity_report",
+      "capture_blastem_screenshot_sram_and_visual_vdp_dump",
+      "human_visual_review_before_aaa_claim"
+    ]
+  }
+}

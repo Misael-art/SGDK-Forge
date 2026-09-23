@@ -65,12 +65,20 @@ function Get-RelativeDepth {
     )
     $proj = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd('\')
     $ws = [System.IO.Path]::GetFullPath($WsRoot).TrimEnd('\')
-    if (-not $proj.StartsWith($ws, [System.StringComparison]::OrdinalIgnoreCase)) {
+    $relative = [System.IO.Path]::GetRelativePath($ws, $proj)
+    if ([string]::IsNullOrWhiteSpace($relative) -or $relative -eq '.') {
+        return 0
+    }
+
+    if ([System.IO.Path]::IsPathRooted($relative)) {
         throw "ProjectRoot '$ProjectRoot' nao esta dentro do workspace '$WsRoot'."
     }
-    $relative = $proj.Substring($ws.Length).TrimStart('\', '/')
-    if ([string]::IsNullOrWhiteSpace($relative)) { return 0 }
-    $segments = $relative.Split(@('\', '/'), [StringSplitOptions]::RemoveEmptyEntries)
+
+    $segments = $relative.Split([char[]]@('\', '/'), [StringSplitOptions]::RemoveEmptyEntries)
+    if ($segments.Count -gt 0 -and $segments[0] -eq '..') {
+        throw "ProjectRoot '$ProjectRoot' nao esta dentro do workspace '$WsRoot'."
+    }
+
     return ($segments | Measure-Object).Count
 }
 
@@ -86,28 +94,28 @@ function Get-WrapperBatContent {
         [Parameter(Mandatory = $true)][string]$Verb,
         [Parameter(Mandatory = $true)][string]$RelPathToWrapper
     )
+    $wrapperVarName = "SGDK_WRAPPER_{0}" -f $Verb.ToUpperInvariant()
+    $wrapperBatRelativePath = "{0}{1}.bat" -f $RelPathToWrapper, $Verb
     return @(
         '@echo off'
         'REM ========================================================================='
         "REM $Verb.bat - Delegacao canonica para tools\\sgdk_wrapper"
         'REM NUNCA adicione logica aqui. Centralize no wrapper.'
         'REM ========================================================================='
-        'setlocal'
+        'setlocal EnableExtensions EnableDelayedExpansion'
         'set "SGDK_LOCAL_ENV=%~dp0sgdk_wrapper_env.bat"'
-        'if exist "%SGDK_LOCAL_ENV%" call "%SGDK_LOCAL_ENV%"'
+        'if exist "!SGDK_LOCAL_ENV!" call "!SGDK_LOCAL_ENV!"'
         'set "SGDK_PROJECT_ROOT=%~dp0."'
-        'for %%I in ("%SGDK_PROJECT_ROOT%") do set "SGDK_PROJECT_ROOT=%%~fI"'
-        'set "SGDK_WRAPPER_ROOT="'
-        "if exist ""%~dp0tools\sgdk_wrapper\$Verb.bat"" if exist ""%~dp0tools\sgdk_wrapper\prepare_assets.py"" for %%I in (""%~dp0tools\sgdk_wrapper"") do set ""SGDK_WRAPPER_ROOT=%%~fI"""
-        'if not defined SGDK_WRAPPER_ROOT if exist "%~dp0..\build.bat" if exist "%~dp0..\prepare_assets.py" for %%I in ("%~dp0..") do set "SGDK_WRAPPER_ROOT=%%~fI"'
-        "if not defined SGDK_WRAPPER_ROOT if exist ""%~dp0..\..\tools\sgdk_wrapper\$Verb.bat"" for %%I in (""%~dp0..\..\tools\sgdk_wrapper"") do set ""SGDK_WRAPPER_ROOT=%%~fI"""
-        "if not defined SGDK_WRAPPER_ROOT if exist ""%~dp0..\..\..\tools\sgdk_wrapper\$Verb.bat"" for %%I in (""%~dp0..\..\..\tools\sgdk_wrapper"") do set ""SGDK_WRAPPER_ROOT=%%~fI"""
-        'if not defined SGDK_WRAPPER_ROOT ('
-        '    echo [ERROR] Nao foi possivel localizar tools\sgdk_wrapper a partir de %~dp0'
-        '    endlocal & exit /b 1'
+        'for %%I in ("!SGDK_PROJECT_ROOT!") do set "SGDK_PROJECT_ROOT=%%~fI"'
+        ('set "{0}=%~dp0{1}"' -f $wrapperVarName, $wrapperBatRelativePath)
+        ('for %%I in ("!{0}!") do set "{0}=%%~fI"' -f $wrapperVarName)
+        ('if not exist "!{0}!" (' -f $wrapperVarName)
+        ('    echo [ERROR] Nao foi possivel localizar tools\sgdk_wrapper\{0}.bat a partir de %~dp0' -f $Verb)
+        '    exit /b 1'
         ')'
-        "call ""%SGDK_WRAPPER_ROOT%\\$Verb.bat"" ""%SGDK_PROJECT_ROOT%"""
-        'endlocal & exit /b %errorlevel%'
+        ('powershell -NoProfile -ExecutionPolicy Bypass -Command "& $env:{0} $env:SGDK_PROJECT_ROOT; exit $LASTEXITCODE"' -f $wrapperVarName)
+        'set "SGDK_WRAPPER_RC=!ERRORLEVEL!"'
+        'exit /b !SGDK_WRAPPER_RC!'
         ''
     ) -join "`r`n"
 }

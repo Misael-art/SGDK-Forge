@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "live_scene_bar_report.schema.json",
+  "title": "Live Scene Bar Report",
+  "description": "Laudo de um asset ou cena contra a barra viva (oficio da cena MD atual). Sem este arquivo, o claim visual nao existe.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "bar_id",
+    "project",
+    "target",
+    "school",
+    "status",
+    "shared_floor",
+    "axioms_applied",
+    "blockers",
+    "evidence",
+    "authorship"
+  ],
+  "properties": {
+    "schema": { "const": "live_scene_bar_report.v1" },
+    "bar_id": { "const": "live_scene_bar_rheo_pigsy_craft" },
+    "project": { "type": "string", "minLength": 1 },
+    "target": {
+      "type": "object",
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["asset", "scene", "slice", "project"]
+        },
+        "id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "school": {
+      "type": "string",
+      "enum": [
+        "rheo_density",
+        "pigsy_translation",
+        "pyron_vram_stage",
+        "chev_stage_conversion",
+        "diggo_chip_identity",
+        "mx_shared_palette_roster",
+        "shannon_dma_3d",
+        "hamoopig_fight_engine",
+        "sgdk_base_not_ceiling",
+        "sok_zero_lag",
+        "shared_floor"
+      ]
+    },
+    "schools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "rheo_density",
+          "pigsy_translation",
+          "pyron_vram_stage",
+          "chev_stage_conversion",
+          "diggo_chip_identity",
+          "mx_shared_palette_roster",
+          "shannon_dma_3d",
+          "hamoopig_fight_engine",
+          "sgdk_base_not_ceiling",
+          "sok_zero_lag",
+          "shared_floor"
+        ]
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["passed", "needs_review", "failed", "not_applicable"]
+    },
+    "shared_floor": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["pass", "fail", "not_applicable"]
+      }
+    },
+    "axioms_applied": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["pass", "fail", "not_applicable"]
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["native_320x224", "motion_if_moving"],
+      "properties": {
+        "native_320x224": { "type": "boolean" },
+        "motion_if_moving": { "type": "boolean" },
+        "source_basic_elite_rom": { "type": "boolean" },
+        "blastem_bundle": { "type": "boolean" },
+        "paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "authorship": {
+      "type": "object",
+      "required": ["benchmark_used_as", "their_pixels_in_source_art"],
+      "properties": {
+        "benchmark_used_as": {
+          "type": "string",
+          "enum": ["quality_bar", "illegal_source", "name_drop_only"]
+        },
+        "their_pixels_in_source_art": { "type": "boolean" }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

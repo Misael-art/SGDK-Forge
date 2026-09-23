@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-19T11:24:58.4801404-03:00",
+  "scope": "race_scene.c sprite helpers and SGDK animation/frame calls",
+  "decision": "confirmed_cause_fixed_buildado_runtime_retest_blocked",
+  "rom": {
+    "build_variant": "build_v016",
+    "path": "out/rom.bin",
+    "sha256": "1ddb1a3155dd288e78dcf814776435512abf0ceb0ebd8e1a13d161597b8b2729",
+    "size_bytes": 131072
+  },
+  "generated_sprite_metadata": [
+    {
+      "definition": "spr_lio_all",
+      "numAnimation": 5,
+      "numFrame_by_animation": [6, 6, 3, 4, 2]
+    },
+    {
+      "definition": "spr_lumen_orb",
+      "numAnimation": 1,
+      "numFrame_by_animation": [3]
+    },
+    {
+      "definition": "spr_low_stone",
+      "numAnimation": 1,
+      "numFrame_by_animation": [2]
+    },
+    {
+      "definition": "spr_astral_mark",
+      "numAnimation": 1,
+      "numFrame_by_animation": [3]
+    },
+    {
+      "definition": "spr_beacon_key",
+      "numAnimation": 1,
+      "numFrame_by_animation": [3]
+    },
+    {
+      "definition": "spr_pursuer_shadow",
+      "numAnimation": 1,
+      "numFrame_by_animation": [1]
+    }
+  ],
+  "confirmed_invalid_installation": {
+    "sprite_definition": "spr_lumen_orb",
+    "animation": 0,
+    "invalid_frame": 3,
+    "valid_frame_range": "0..2",
+    "installing_path": "pickup sprite pool in draw_entities",
+    "previous_expression": "(frame_counter / 8) % 4",
+    "binary_evidence": "out/rom.out spr_lumen_orb_animation0 begins with numFrame=3 at symbol 0x00013738",
+    "asset_evidence": "the fourth 16x16 cell in res/sprites/lumen_orb.png is empty and is not emitted as a RESCOMP frame",
+    "failure_mechanism": "SPR_setFrame range validation is conditional in SGDK; the invalid index can reach SPR_update and index animation->frames[3]"
+  },
+  "call_audit": {
+    "player_run": {
+      "animation": 0,
+      "selected_frames": "0..5",
+      "generated_numFrame": 6,
+      "status": "valid"
+    },
+    "player_jump": {
+      "animation": 1,
+      "selected_frames": "0..5",
+      "generated_numFrame": 6,
+      "status": "valid"
+    },
+    "player_pulse": {
+      "animation": 3,
+      "selected_frames": "0..3",
+      "generated_numFrame": 4,
+      "status": "valid"
+    },
+    "hazards_and_pickups": {
+      "animation": 0,
+      "selected_frames": "derived from def->animations[0]->numFrame",
+      "status": "valid_by_definition"
+    }
+  },
+  "minimal_fix": {
+    "file": "src/scenes/race_scene.c",
+    "sha256": "a060251c7b401b72711b55a478e5beac02ec0047ff751f5b0dd092e00bfa18c8",
+    "description": "removed hardcoded hazard/pickup frame counts, derived animation-0 frame count from SpriteDefinition, and installed animation/frame atomically with SPR_setAnimAndFrame",
+    "runtime_scope_changed": [
+      "hazard sprite animation selection",
+      "pickup sprite animation selection"
+    ],
+    "runtime_scope_not_changed": [
+      "assets",
+      "track timing",
+      "collisions",
+      "HUD",
+      "result semantics",
+      "audio",
+      "scene progression"
+    ]
+  },
+  "regression": {
+    "file": "tools/tests/test_sector01_recovery.py",
+    "sha256": "ad285614ddf48304f5c59bc3b3ca6524d8cc7c6ee45fe85d9741df7fcbf52f90",
+    "specific_test": "test_lumen_orb_frame_selection_matches_rescomp_definition",
+    "red_observed": true,
+    "green_result": "8 tests passed",
+    "powershell_suite": {
+      "status": "failed_preexisting_unrelated",
+      "blocker": "road tilemap contract requires explicit TILE_ATTR_FULL palette and tile index"
+    }
+  }
+}

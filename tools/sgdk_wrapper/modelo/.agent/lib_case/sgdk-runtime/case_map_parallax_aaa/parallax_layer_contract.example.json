@@ -1,0 +1,45 @@
+{
+  "contract": "parallax_layer_contract",
+  "case": "case_map_parallax_aaa",
+  "measurement_level": "declared",
+  "scene_profile": "monumental",
+  "layers": [
+    {
+      "semantic_role": "far_horizon",
+      "plane": "BG_B",
+      "scanline_range": [0, 63],
+      "scroll_ratio": "1/8",
+      "owner": "scene_parallax_controller",
+      "line_scroll_table_size_bytes": 448,
+      "dma_cost_per_frame": "estimated"
+    },
+    {
+      "semantic_role": "mid_clouds",
+      "plane": "BG_B",
+      "scanline_range": [64, 127],
+      "scroll_ratio": "1/4",
+      "owner": "scene_parallax_controller",
+      "line_scroll_table_size_bytes": 448,
+      "dma_cost_per_frame": "estimated"
+    },
+    {
+      "semantic_role": "near_terrain",
+      "plane": "BG_A",
+      "scanline_range": [128, 223],
+      "scroll_ratio": "1/1",
+      "owner": "scene_parallax_controller",
+      "line_scroll_table_size_bytes": 448,
+      "dma_cost_per_frame": "estimated"
+    }
+  ],
+  "total_scroll_table_bytes": 896,
+  "worst_frame_cpu_cost": "not_measured",
+  "seam_policy": "band edges must land behind art seams or horizon breaks",
+  "reset_on_scene_exit": [
+    "VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE)",
+    "VDP_setHorizontalScroll(BG_A, 0)",
+    "VDP_setHorizontalScroll(BG_B, 0)"
+  ],
+  "fallback_profile": "competent_two_plane_parallax"
+}
+

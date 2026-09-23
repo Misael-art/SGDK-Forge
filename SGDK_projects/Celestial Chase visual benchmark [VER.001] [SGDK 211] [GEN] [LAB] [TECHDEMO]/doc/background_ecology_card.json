@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "ecology_loops": [
+    {
+      "element": "star pulse",
+      "gameplay_role": "Keeps the environment alive while preserving threat contrast.",
+      "cadence": "8 frames",
+      "palette_or_tile_owner": "scene_chase PAL0 slot 15"
+    },
+    {
+      "element": "gate growth",
+      "gameplay_role": "Communicates remaining survival time.",
+      "cadence": "phase transition and climax",
+      "palette_or_tile_owner": "scene_chase"
+    },
+    {
+      "element": "pursuer proximity",
+      "gameplay_role": "Communicates the pressure value without relying only on HUD.",
+      "cadence": "pressure threshold changes",
+      "palette_or_tile_owner": "chase_pursuer sprite position and frame"
+    }
+  ],
+  "event_hooks": [
+    {"trigger": "player_damage", "visual_response": "dust, shake and warm palette accent", "duration_frames": 18},
+    {"trigger": "pulse_activate", "visual_response": "cool palette release and threat clear", "duration_frames": 45},
+    {"trigger": "victory", "visual_response": "gate highlight release", "duration_frames": 120}
+  ],
+  "tile_mutation_policy": "No per-frame tile mutation; use palette, scroll and sprites.",
+  "palette_domain": "PAL0 only",
+  "decorative_only_risk": "blocked: every loop must communicate time, pressure, impact or route readability",
+  "teardown_plan": "Clear scene sprites, restore PAL0, reset scroll modes and offsets."
+}

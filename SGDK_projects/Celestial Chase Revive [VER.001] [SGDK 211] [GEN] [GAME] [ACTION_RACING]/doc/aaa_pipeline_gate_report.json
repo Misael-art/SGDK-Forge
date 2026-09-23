@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-18T05:05:00-03:00",
+  "status": "blocked",
+  "phase": "runtime_seed_recovery",
+  "claim_ceiling": "buildado; boot/title testado_em_emulador com corrupcao; gameplay parcial observado com crash",
+  "owners": {
+    "runtime": "sgdk-runtime-coder",
+    "review": "sgdk-code-reviewer",
+    "evidence": "emulator-vdp-evidence-curator",
+    "visual": "art-translation-to-vdp",
+    "budget": "megadrive-vdp-budget-analyst"
+  },
+  "blockers": [
+    {
+      "id": "runtime_address_error",
+      "required_artifact": "fresh complete route evidence without crash"
+    },
+    {
+      "id": "visual_corruption",
+      "required_artifact": "correct VRAM allocation and clean BlastEm screenshots"
+    },
+    {
+      "id": "gameplay_contract_regressions",
+      "required_artifact": "tests for Pulse, pursuer, pressure gates, jump, beacon and failure flow"
+    },
+    {
+      "id": "placeholder_visual_delivery",
+      "required_artifact": "approved art direction or explicit placeholder quarantine"
+    },
+    {
+      "id": "runtime_metrics_missing",
+      "required_artifact": "canonical MDRT or honest observational profile"
+    },
+    {
+      "id": "scene_closeout_gate_missing",
+      "required_artifact": "fresh scene_closeout_gate_report.json bound to the current ROM"
+    },
+    {
+      "id": "vdp_budget_unvalidated",
+      "required_artifact": "VRAM, DMA, sprite and scanline budget for the corrected scene"
+    }
+  ],
+  "next_handoff": "Return to runtime recovery. Do not start Sector 02 or upgrade intermission."
+}

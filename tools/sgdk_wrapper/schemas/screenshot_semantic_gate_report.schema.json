@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sgdk-forge.local/schemas/screenshot_semantic_gate_report.schema.json",
+  "title": "Screenshot Semantic Gate Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_name",
+    "tool_version",
+    "screenshot_path",
+    "screenshot_sha256",
+    "rom_sha256",
+    "evidence_session_id",
+    "status",
+    "decision",
+    "semantic_capture_valid",
+    "blocker_code",
+    "failure_reason",
+    "width",
+    "height",
+    "dominant_ratio",
+    "edge_density",
+    "metrics",
+    "thresholds",
+    "reasons",
+    "claim_impacts"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "tool_name": { "const": "screenshot_semantic_gate" },
+    "tool_version": { "type": "string", "minLength": 1 },
+    "screenshot_path": { "type": "string", "minLength": 1 },
+    "screenshot_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "rom_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evidence_session_id": { "type": ["string", "null"], "minLength": 1 },
+    "status": { "enum": ["passed", "failed", "error"] },
+    "decision": {
+      "enum": ["accepted_semantic_capture", "rejected_low_information", "error"]
+    },
+    "semantic_capture_valid": { "type": "boolean" },
+    "blocker_code": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "blank_or_low_information_capture",
+        "screenshot_missing_for_semantic_gate",
+        "screenshot_unreadable_for_semantic_gate",
+        "screenshot_semantic_gate_unavailable"
+      ]
+    },
+    "failure_reason": { "type": ["string", "null"] },
+    "width": { "type": ["integer", "null"], "minimum": 0 },
+    "height": { "type": ["integer", "null"], "minimum": 0 },
+    "dominant_ratio": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "edge_density": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dominant_color_rgb",
+        "luminance_variance",
+        "unique_colors",
+        "sampled_pixels",
+        "edge_pairs"
+      ],
+      "properties": {
+        "dominant_color_rgb": {
+          "type": ["array", "null"],
+          "prefixItems": [
+            { "type": "integer", "minimum": 0, "maximum": 255 },
+            { "type": "integer", "minimum": 0, "maximum": 255 },
+            { "type": "integer", "minimum": 0, "maximum": 255 }
+          ],
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "luminance_variance": { "type": ["number", "null"], "minimum": 0 },
+        "unique_colors": { "type": ["integer", "null"], "minimum": 0 },
+        "sampled_pixels": { "type": ["integer", "null"], "minimum": 0 },
+        "edge_pairs": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edge_color_delta",
+        "minimum_edge_density",
+        "maximum_dominant_ratio",
+        "minimum_luminance_variance"
+      ],
+      "properties": {
+        "edge_color_delta": { "type": "integer", "minimum": 1 },
+        "minimum_edge_density": { "type": "number", "minimum": 0, "maximum": 1 },
+        "maximum_dominant_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+        "minimum_luminance_variance": { "type": "number", "minimum": 0 }
+      }
+    },
+    "reasons": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "claim_impacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visual", "gameplay", "performance"],
+      "properties": {
+        "visual": {
+          "enum": ["unproven", "capture_semantically_valid_not_quality_proof"]
+        },
+        "gameplay": { "enum": ["unproven", "not_proven_by_screenshot_alone"] },
+        "performance": { "enum": ["unproven", "not_proven_by_screenshot_alone"] }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "passed" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "decision": { "const": "accepted_semantic_capture" },
+          "semantic_capture_valid": { "const": true },
+          "blocker_code": { "type": "null" },
+          "failure_reason": { "type": "null" },
+          "claim_impacts": {
+            "properties": {
+              "visual": { "const": "capture_semantically_valid_not_quality_proof" },
+              "gameplay": { "const": "not_proven_by_screenshot_alone" },
+              "performance": { "const": "not_proven_by_screenshot_alone" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "failed" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "decision": { "const": "rejected_low_information" },
+          "semantic_capture_valid": { "const": false },
+          "blocker_code": { "const": "blank_or_low_information_capture" },
+          "failure_reason": { "type": "string", "minLength": 1 },
+          "claim_impacts": {
+            "properties": {
+              "visual": { "const": "unproven" },
+              "gameplay": { "const": "unproven" },
+              "performance": { "const": "unproven" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "decision": { "const": "error" },
+          "semantic_capture_valid": { "const": false },
+          "failure_reason": { "type": "string", "minLength": 1 },
+          "claim_impacts": {
+            "properties": {
+              "visual": { "const": "unproven" },
+              "gameplay": { "const": "unproven" },
+              "performance": { "const": "unproven" }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "lesson_id": "L069",
+  "date": "2026-09-15",
+  "title": "Fonte nativa do laboratório melhora a composição, mas não autoriza promoção automática",
+  "status": "implemented_candidate_build_capture_passed_visual_review_pending",
+  "symptom": "O cenário 512x256 anterior repetia tiles visivelmente e perdeu separação de vegetação, água e pedras.",
+  "investigation": {
+    "lab": "SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1",
+    "route": "route_a_multi_plane native 768x480 study crop",
+    "source_sha256": "9eee7558aa1a13c4536825d30786aaf04bbd613bd34cace5eba0cb3211467cfe",
+    "crop_box": [128, 224, 640, 480],
+    "source_tiles": 1602,
+    "output_tiles": 768,
+    "mse_rgb": 201.30103556315103
+  },
+  "correction": [
+    "copiar a fonte para data/source_art/showdown/lab_frame_0000_source.png com hash",
+    "permitir --source e --crop no conversor determinístico",
+    "gerar res/gfx/showdown.png mantendo índice 0 reservado e 768 tiles",
+    "capturar a ROM real e vincular o frame de luta ao SHA"
+  ],
+  "evidence": {
+    "build_log": "out/logs/continuation_p08_lab_source_build.log",
+    "suite_log": "out/logs/continuation_p08_lab_source_suite.log",
+    "rom_sha256": "c9ae1c999525f31a387d06d491488870019d09eda95050954371d085f1a53849",
+    "capture": "out/emulator_evidence/visual_ko_20260915T053414Z/01_round.png",
+    "probe": "out/emulator_evidence/visual_ko_20260915T053414Z/hprb_probe_report.json"
+  },
+  "limitations": [
+    "a captura ainda mostra repetição/quadriculação perceptível",
+    "DMA máximo permanece 8288 bytes contra envelope NTSC nominal de 7782",
+    "o estudo de laboratório é fixture técnico e não arte final autoral",
+    "streaming nativo por janela e revisão visual independente continuam pendentes"
+  ],
+  "provenance": "orientação do desenvolvedor original da engine aplicada como estudo controlado; nenhuma promoção AAA"
+}

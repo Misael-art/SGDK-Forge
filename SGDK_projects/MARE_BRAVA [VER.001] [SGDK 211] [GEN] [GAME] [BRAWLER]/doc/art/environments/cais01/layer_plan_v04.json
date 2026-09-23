@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "cais_01",
+  "layers": [
+    {
+      "id": "bg_b_harbor_sunset_v04",
+      "plane": "BG_B",
+      "palette": "PAL0",
+      "resource": "res/backgrounds/cais01/cais01_bg_b_harbor_sunset_512x224_v04.png",
+      "priority": 0
+    },
+    {
+      "id": "bg_a_industrial_pier_v04",
+      "plane": "BG_A",
+      "palette": "PAL2",
+      "resource": "res/backgrounds/cais01/cais01_bg_a_industrial_pier_512x224_v04.png",
+      "priority": 0,
+      "transparent_index": 0
+    },
+    {
+      "id": "fighters_and_ecology",
+      "plane": "SPRITES",
+      "palettes": ["PAL1", "PAL0", "PAL2"],
+      "priority": 1
+    }
+  ],
+  "shared_canvas_contract": {
+    "width_px": 512,
+    "height_px": 224,
+    "tile_grid_px": 8,
+    "viewport_px": [320, 224],
+    "crop_policy": "camera_x on BG_A; line-specific camera ratios on BG_B"
+  }
+}

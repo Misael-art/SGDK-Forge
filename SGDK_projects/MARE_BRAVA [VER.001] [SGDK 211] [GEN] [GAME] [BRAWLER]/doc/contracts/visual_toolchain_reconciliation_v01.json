@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "mare_brava_visual_toolchain_reconciliation_v01",
+  "recorded_at": "2026-08-30",
+  "status": "forge_art_convert_tested_cli_first_curated_lineage_gate_v02_passed_native_visual_generation_available_native_translation_pending",
+  "authority_scope": "operational_reconciliation_for_visual_toolchain_and_taina_translation",
+  "claim_ceiling": "technical_conversion_tested_and_lineage_clean_no_native_visual_pass",
+  "source_of_truth": {
+    "identity_source": {
+      "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+      "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+      "status": "approved_authorial_source_for_pixel_translation",
+      "direct_res_promotion": "forbidden"
+    },
+    "visual_source_contract": "doc/contracts/visual_source_of_truth_taina_v02.json",
+    "translation_contract": "doc/art/characters/taina/taina_reseed_native_translation_contract_v01.json",
+    "human_approval": "doc/art/characters/taina/taina_derived_visual_sources_human_approval_v01.json"
+  },
+  "derived_high_resolution_sources": {
+    "artistic_status": "human_approved_visual_construction_references",
+    "runtime_status": "incompatible_as_direct_assets",
+    "allowed_usage": [
+      "construction_reference",
+      "pose_volume_cluster_study",
+      "basic_control_generation",
+      "comparison_only"
+    ],
+    "forbidden_usage": [
+      "direct_res_promotion",
+      "automatic_final_asset_claim",
+      "replacement_of_identity_source",
+      "ready_for_aaa_evidence"
+    ],
+    "path_hygiene_issue": "RESOLVIDO_2026-08-30: as tres referencias aprovadas foram movidas de rejected/ para construction_reference/ com sha256 conferido (4de4b9be..., 0981854f..., 07c94fde...); o unico arquivo que permanece em rejected/ e o candidato genuinamente reprovado, que nenhum contrato cita"
+  },
+  "native_asset_state": {
+    "accepted_asset": null,
+    "technical_candidate_exists": true,
+    "visual_candidate_approved": false,
+    "promotion_to_res_allowed": false,
+    "reason": "native_chat_visual_sources_are_available; no_new_native_candidate_has_passed_identity_fidelity_and_visual_delivery"
+  },
+  "gimp_state": {
+    "historical_attempt": "blocked_during_plugin_initialization",
+    "latest_observation": "recovered_and_functional",
+    "remaining_limitation": "pointer_automation_lacked_pixel_precision_and_safe_export_verification",
+    "policy": "cli_first_gui_human_only; gimp_is_optional_frontend_not_canonical_pipeline_dependency",
+    "batch_preflight": {
+      "tested_at": "2026-08-30T14:34:25Z",
+      "executable": "/usr/bin/gimp-3.2",
+      "version": "3.2.4",
+      "interpreter": "python-fu-eval",
+      "status": "operational_with_nonblocking_startup_warnings",
+      "sentinel_observed": true,
+      "production_operations_registered": 0,
+      "claim_ceiling": "optional_batch_capability_only"
+    },
+    "gui_pointer_automation": "forbidden_as_agent_production_route"
+  },
+  "route_policy": {
+    "technical_conversion": {
+      "purpose": "produce_deterministic_basic_control_or_normalize_native_pixel_assets",
+      "may_be_final": false,
+      "required_outputs": [
+        "indexed_png",
+        "pixel_compliance_report",
+        "source_hashes",
+        "conversion_spec"
+      ]
+    },
+    "assisted_native_translation": {
+      "purpose": "reconstruct_elite_48x64_pixel_art_while_preserving_identity",
+      "may_be_final": "only_after_all_visual_technical_budget_and_emulator_gates",
+      "required_outputs": [
+        "lineart_blocking_1px",
+        "six_stage_semantic_board",
+        "original_basic_elite_comparison",
+        "model_sheet_to_sprite_fidelity_report",
+        "human_approval_record"
+      ]
+    }
+  },
+  "shared_plan": "../../doc/05_technical/visual_forge_toolchain_diagnostic_and_implementation_plan_2026-08-29.md",
+  "project_plan": "doc/23-visual-forge-adoption-plan.md",
+  "execution_prompt": "../../doc/prompts_modelo/prompt_mestre_visual_forge_e_mare_brava_aaa.md",
+  "knowledge_anchors": [
+    "../../doc/05_technical/visual_forge_toolchain_diagnostic_and_implementation_plan_2026-08-29.md",
+    "../../doc/prompts_modelo/prompt_mestre_visual_forge_e_mare_brava_aaa.md",
+    "../../doc/prompts_modelo/prompt_modelo_direcionamento_projeto.md",
+    "../../doc/06_AI_MEMORY_BANK.md",
+    "doc/23-visual-forge-adoption-plan.md",
+    "doc/10-memory-bank.md",
+    "doc/04-recursos-e-pipeline.md",
+    "doc/changelog/changelog.md"
+  ],
+  "anchor_hashes_at_recording": {
+    "shared_plan_sha256": "6692ff53adf4ae4fe2810ab3e0373c856b2443e321afaa3fb755f40956f34207",
+    "execution_prompt_sha256": "ebea23a9d32733d56154c2ba9f5f78dba61d8e36426e38feb7c07a0b60c45f39",
+    "project_plan_sha256": "57a88f67fc5837a3cdac557f00c7c93cb029b14aee3d67d1ebaec69ad71cd102",
+    "shared_plan_sha256_previous": "ebb75ee7cf4e15d87a5fdabc721141b570e276a94cc105abedc021b870c6f7f6",
+    "shared_plan_sha256_previous_pre_cli_first": "9db7fe588262ad2bbbfed1e7f693346db24d10430e62e4191406df6fd133543d",
+    "execution_prompt_sha256_previous_pre_cli_first": "8acc1712f6f4a6b48d48685965056fa67cac089145a227640d838c516d08bc00",
+    "project_plan_sha256_previous_pre_cli_first": "b3301f81f0474afe9609caedd2b71d54f199f89ae481ae3ded6710b7f9309bee",
+    "rehashed_at": "2026-08-30T14:35:00Z"
+  },
+  "known_document_drift": [
+    "RESOLVIDO_2026-08-30: doc/10-memory-bank.md \u2014 entrada superada marcada e datada, nao apagada",
+    "RESOLVIDO_2026-08-30: doc/changelog/changelog.md \u2014 entrada nova anexada, historico preservado",
+    "RESOLVIDO_2026-08-30: runtime_probe_project_copy sincronizado com o modelo canonico (build_ok, nao observado em BlastEm)",
+    "RESOLVIDO_2026-08-30: o gate historico da TAINA preserva as tentativas, mas a decisao ativa encerra a GUI automatizada e aponta para cli_first_gui_human_only",
+    "ABERTO: doc/04-recursos-e-pipeline.md contem layout legado de res/data",
+    "RESOLVIDO_2026-08-30: validate_visual_source_of_truth.ps1 passou com contrato v02 explicito; 141 arquivos; sem overflow"
+  ],
+  "next_actions": [
+    "usar cli_first para operacoes deterministicas; GUI automatizada por ponteiro esta encerrada",
+    "usar GIMP batch somente apos preflight e registro estatico da operacao; no momento existem zero operacoes de producao registradas",
+    "usar native_chat_image_generation_callable para uma idle guard por hipótese, sempre a partir do model sheet v02; forge-art/GIMP batch podem apoiar conformidade, nunca decidir a traducao semantica",
+    "validar qualquer candidata com forge-art validate e comparacao visual antes de color blocking ou animacao",
+    "continue_to_second_character_and_cais_only_after_taina_gate"
+  ],
+  "ready_for_aaa": false,
+  "last_reconciled_at": "2026-08-30",
+  "implementation_state_2026_08_30": {
+    "p0_1_color_library": "testado (forge_art/vdp_color.py, 20 fixtures)",
+    "p0_2_destructive_converters_retired": "testado (ambos falham fechado; consumidores migrados em 2026-08-30)",
+    "p0_3_pixel_contract": "testado (forge_art/pixel_contract.py, 19 fixtures, alpha binario exigido)",
+    "p0_4_immutable_jobs": "testado (forge_art/job.py, 35 fixtures)",
+    "p0_5_taina_lineage": "implementado (migracao executada em 2026-08-30)",
+    "p0_6_runtime_probe": "build_ok (nao observado em BlastEm)",
+    "p1_cli": "parcial: inspect/validate/palette/translate/convert/gimp-batch-preflight/self-check existem; atlas/tiles/compare/promote falham fechado",
+    "p2": "nao iniciado",
+    "suite_forge_art": "parcial: convert tecnico testado; atlas/tiles/compare/promote e os casos completos de sprite/background/tilemap continuam abertos",
+    "p0_4_1_containment_hardening": "testado 2026-08-30: fonte fora de data/res protegida; reconciliacao em finally (mutacao seguida de excecao tambem restaura); evidencia exige candidato PNG + pixel_compliance_report.json casado por hash; output_hashes revalidados em --resume (cache_tampered)"
+  },
+  "taina_native_asset_state_2026_08_30": "sem TAINA 48x64 nativa aprovada; a rota B nao gera pixel por codigo. Use `python3 -m forge_art translate` para registrar o encaminhamento a um produtor capaz em vez de quantizar a ilustracao high-res."
+  ,"round_2026_08_30_convert_lineage_and_native_attempt": {
+    "forge_art_self_check": "103/103",
+    "art_pipeline_test": "111/111",
+    "measurement_isolated": "forge_art CLI 1/1 verdict OK",
+    "visual_source_of_truth": "passed with explicit v02; 141 files scanned; no call depth overflow",
+    "basic_control": {
+      "job_id": "4ceca437f5dc5b2c",
+      "content_sha256": "6e94afcc14954a338175ba24440129351c3a5db4c077bab4c111902ba0402efd",
+      "status": "technical_candidate_comparison_only",
+      "promotion_to_res": false
+    },
+    "native_authoring_attempt": {
+    "evidence_path": "data/source_art/concept/taina_pixel_model_sheet/construction_reference/taina_reseed_native_lineart_candidate_imagegen_v02.png",
+      "sha256": "70ea460cca819084cda5f2b439f3068afba8731e026fe52dbd56aee95276edc1",
+    "verdict": "approved_visual_construction_reference_not_native__technical_asset_rejected"
+    },
+    "next_action": "obtain capable-producer-authored native 48x64 lineart; use CLI/headless only for deterministic support and do not derive final art from the rejected raster or BASIC control",
+    "ready_for_aaa": false
+  },
+  "curation_2026_08_30_cli_first": {
+    "causal_classification": "interaction_channel_mismatch_resolved",
+    "policy": "cli_first_gui_human_only",
+    "forge_art_self_check": "107/107",
+    "gimp_batch_preflight": "operational",
+    "gimp_version": "3.2.4",
+    "interpreter": "python-fu-eval",
+    "headless_sentinel": "observed",
+    "registered_production_operations": [],
+    "warnings": "startup warnings remain recorded; -d/-f may not be used by future operations that require GIMP resources",
+    "visual_claim": "none",
+    "res_changed": false,
+    "rom_changed": false
+  }
+}

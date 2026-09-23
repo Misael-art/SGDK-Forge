@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 WORKSPACE_ROOT = Path(__file__).resolve().parents[2]
-TEMPLATE_ROOT = WORKSPACE_ROOT / "templates" / "project-template"
+TEMPLATE_ROOT = WORKSPACE_ROOT / "tools" / "sgdk_wrapper" / "modelo"
 NESTED_TEMPLATE_ROOT = WORKSPACE_ROOT / "tools" / "sgdk_wrapper" / "templates" / "project-template-nested"
 ARCHIVE_ROOT = WORKSPACE_ROOT / "archives" / "manual_review"
 DEFAULT_ROOTS = ("SGDK_Engines", "SGDK_projects")
@@ -101,6 +101,20 @@ def parse_args() -> argparse.Namespace:
         help="Escreve um relatorio JSON no caminho informado.",
     )
     return parser.parse_args()
+
+
+def validate_template_roots() -> None:
+    required_paths = (
+        TEMPLATE_ROOT,
+        TEMPLATE_ROOT / "doc",
+        TEMPLATE_ROOT / "README.md",
+        NESTED_TEMPLATE_ROOT,
+        NESTED_TEMPLATE_ROOT / "README.md",
+    )
+    missing = [path for path in required_paths if not path.exists()]
+    if missing:
+        joined = ", ".join(str(path.relative_to(WORKSPACE_ROOT)) for path in missing)
+        raise RuntimeError(f"Templates canonicos ausentes para canonicalizacao: {joined}")
 
 
 def is_project_like(path: Path) -> bool:
@@ -302,6 +316,8 @@ def copy_docs_from_template(project: ProjectLayout, metadata: dict[str, str], ap
     }
 
     doc_sources = sorted((TEMPLATE_ROOT / "doc").glob("*.md"))
+    if not doc_sources:
+        raise RuntimeError("Template canonico sem docs em tools/sgdk_wrapper/modelo/doc")
 
     for source in doc_sources:
         target = project.entry_root / "doc" / source.name
@@ -448,6 +464,7 @@ def apply_project(project: ProjectLayout, timestamp: str, apply: bool) -> dict:
 
 def main() -> int:
     args = parse_args()
+    validate_template_roots()
     roots = list(args.roots)
     if args.include_examples and "examples" not in roots:
         roots.append("examples")

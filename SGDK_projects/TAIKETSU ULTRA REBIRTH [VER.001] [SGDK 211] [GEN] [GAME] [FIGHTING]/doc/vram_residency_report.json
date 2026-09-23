@@ -1,0 +1,379 @@
+{
+  "schema_version": "1.0.0",
+  "tool": "audit_tile_residency",
+  "generated_at": "2026-09-09T17:25:11Z",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "ceiling": {
+    "vram_tiles_total": 2048,
+    "nametable_tile_equiv": 256,
+    "sat_tile_equiv": 20,
+    "scroll_table_tile_equiv": 32,
+    "usable_ceiling": 1740,
+    "derivation": "2048 tiles de 32B, menos nametables de BG_A/BG_B a 64x32, menos SAT, menos tabela de scroll por linha"
+  },
+  "residency_basis": "plano de residencia de aaa_d1_cinematic_storyboard.json",
+  "streamed_symbols": [
+    "spr_forge_hammer"
+  ],
+  "assets": [
+    {
+      "res_symbol": "img_brand_fx_tiles",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_fx_tiles.png",
+      "raw_tiles": 64,
+      "unique_tiles": 40,
+      "dedup_ratio": 0.375,
+      "bytes_resident": 1280,
+      "streamed": false,
+      "resident_tiles": 40
+    },
+    {
+      "res_symbol": "img_brand_engine_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_engine_logo.png",
+      "raw_tiles": 280,
+      "unique_tiles": 99,
+      "dedup_ratio": 0.646,
+      "bytes_resident": 3168,
+      "streamed": false,
+      "resident_tiles": 99
+    },
+    {
+      "res_symbol": "img_brand_author_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_author_logo.png",
+      "raw_tiles": 224,
+      "unique_tiles": 71,
+      "dedup_ratio": 0.683,
+      "bytes_resident": 2272,
+      "streamed": false,
+      "resident_tiles": 71
+    },
+    {
+      "res_symbol": "img_brand_project_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_project_logo.png",
+      "raw_tiles": 330,
+      "unique_tiles": 79,
+      "dedup_ratio": 0.761,
+      "bytes_resident": 2528,
+      "streamed": false,
+      "resident_tiles": 79
+    },
+    {
+      "res_symbol": "img_brand_presents_text",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_presents_text.png",
+      "raw_tiles": 42,
+      "unique_tiles": 35,
+      "dedup_ratio": 0.167,
+      "bytes_resident": 1120,
+      "streamed": false,
+      "resident_tiles": 35
+    },
+    {
+      "res_symbol": "img_fighting_room_0_bgb",
+      "res_kind": "IMAGE",
+      "asset_path": "fighting/stage/room_0_bgb.png",
+      "raw_tiles": 1120,
+      "unique_tiles": 500,
+      "dedup_ratio": 0.554,
+      "bytes_resident": 16000,
+      "streamed": false,
+      "resident_tiles": 500
+    },
+    {
+      "res_symbol": "img_fighting_room_0_bga",
+      "res_kind": "IMAGE",
+      "asset_path": "fighting/stage/room_0_bga.png",
+      "raw_tiles": 1120,
+      "unique_tiles": 100,
+      "dedup_ratio": 0.911,
+      "bytes_resident": 3200,
+      "streamed": false,
+      "resident_tiles": 100
+    },
+    {
+      "res_symbol": "spr_kairo_vant_probe",
+      "res_kind": "SPRITE",
+      "asset_path": "fighting/fighters/kairo_vant_probe.png",
+      "raw_tiles": 20,
+      "unique_tiles": 20,
+      "dedup_ratio": 0.0,
+      "bytes_resident": 640,
+      "streamed": false,
+      "resident_tiles": 20
+    },
+    {
+      "res_symbol": "spr_c1_probe",
+      "res_kind": "SPRITE",
+      "asset_path": "fighting/fighters/c1_probe.png",
+      "raw_tiles": 20,
+      "unique_tiles": 20,
+      "dedup_ratio": 0.0,
+      "bytes_resident": 640,
+      "streamed": false,
+      "resident_tiles": 20
+    },
+    {
+      "res_symbol": "img_starfield_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/starfield_320x224.png",
+      "raw_tiles": 1120,
+      "unique_tiles": 26,
+      "dedup_ratio": 0.977,
+      "bytes_resident": 832,
+      "streamed": false,
+      "resident_tiles": 26
+    },
+    {
+      "res_symbol": "img_forge_bg_b",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/forge_bg_b_320x224.png",
+      "raw_tiles": 1120,
+      "unique_tiles": 642,
+      "dedup_ratio": 0.427,
+      "bytes_resident": 20544,
+      "streamed": false,
+      "resident_tiles": 642
+    },
+    {
+      "res_symbol": "img_forge_bg_a_props",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/forge_bg_a_props_320x224.png",
+      "raw_tiles": 1120,
+      "unique_tiles": 304,
+      "dedup_ratio": 0.729,
+      "bytes_resident": 9728,
+      "streamed": false,
+      "resident_tiles": 304
+    },
+    {
+      "res_symbol": "spr_forge_ember",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_ember_16x16_strip.png",
+      "raw_tiles": 24,
+      "unique_tiles": 24,
+      "dedup_ratio": 0.0,
+      "bytes_resident": 768,
+      "streamed": false,
+      "resident_tiles": 24
+    },
+    {
+      "res_symbol": "spr_forge_shard",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_shard_16x16_strip.png",
+      "raw_tiles": 16,
+      "unique_tiles": 16,
+      "dedup_ratio": 0.0,
+      "bytes_resident": 512,
+      "streamed": false,
+      "resident_tiles": 16
+    },
+    {
+      "res_symbol": "spr_forge_hammer",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_hammer_48x48_strip.png",
+      "raw_tiles": 252,
+      "unique_tiles": 154,
+      "dedup_ratio": 0.389,
+      "bytes_resident": 2304,
+      "streamed": true,
+      "resident_tiles": 72,
+      "streaming_slot": "hammer_double_window",
+      "streaming_source": "branding_v2_dma_queue_contract.json"
+    },
+    {
+      "res_symbol": "img_logo_engine_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_engine_224x64.png",
+      "raw_tiles": 224,
+      "unique_tiles": 182,
+      "dedup_ratio": 0.188,
+      "bytes_resident": 5824,
+      "streamed": false,
+      "resident_tiles": 182
+    },
+    {
+      "res_symbol": "img_logo_author_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_author_192x32.png",
+      "raw_tiles": 96,
+      "unique_tiles": 61,
+      "dedup_ratio": 0.365,
+      "bytes_resident": 1952,
+      "streamed": false,
+      "resident_tiles": 61
+    },
+    {
+      "res_symbol": "img_logo_project_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_project_224x48.png",
+      "raw_tiles": 168,
+      "unique_tiles": 141,
+      "dedup_ratio": 0.161,
+      "bytes_resident": 4512,
+      "streamed": false,
+      "resident_tiles": 141
+    },
+    {
+      "res_symbol": "img_presents_text_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/presents_text_96x16.png",
+      "raw_tiles": 24,
+      "unique_tiles": 21,
+      "dedup_ratio": 0.125,
+      "bytes_resident": 672,
+      "streamed": false,
+      "resident_tiles": 21
+    },
+    {
+      "res_symbol": "img_presents_bar_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/presents_bar_8x8.png",
+      "raw_tiles": 1,
+      "unique_tiles": 1,
+      "dedup_ratio": 0.0,
+      "bytes_resident": 32,
+      "streamed": false,
+      "resident_tiles": 1
+    }
+  ],
+  "states": [
+    {
+      "state": "enter_stage",
+      "resident_symbols": [
+        "img_forge_bg_b",
+        "img_forge_bg_a_props",
+        "fighter_active_jack",
+        "fighter_active_kairo",
+        "special_fx_window"
+      ],
+      "unresolved_symbols": [
+        "fighter_active_jack",
+        "fighter_active_kairo",
+        "special_fx_window"
+      ],
+      "resident_tiles": 946,
+      "margin": 0.456
+    },
+    {
+      "state": "dialogue_line_jack",
+      "resident_symbols": [
+        "img_forge_bg_b",
+        "img_forge_bg_a_props",
+        "fighter_active_jack",
+        "fighter_active_kairo",
+        "portrait_jack",
+        "portrait_kairo"
+      ],
+      "unresolved_symbols": [
+        "fighter_active_jack",
+        "fighter_active_kairo",
+        "portrait_jack",
+        "portrait_kairo"
+      ],
+      "resident_tiles": 946,
+      "margin": 0.456
+    },
+    {
+      "state": "dialogue_line_kairo",
+      "resident_symbols": [
+        "img_forge_bg_b",
+        "img_forge_bg_a_props",
+        "fighter_active_jack",
+        "fighter_active_kairo",
+        "portrait_jack",
+        "portrait_kairo"
+      ],
+      "unresolved_symbols": [
+        "fighter_active_jack",
+        "fighter_active_kairo",
+        "portrait_jack",
+        "portrait_kairo"
+      ],
+      "resident_tiles": 946,
+      "margin": 0.456
+    },
+    {
+      "state": "combat_special",
+      "resident_symbols": [
+        "img_forge_bg_b",
+        "img_forge_bg_a_props",
+        "fighter_active_jack",
+        "fighter_active_kairo",
+        "special_fx_window"
+      ],
+      "unresolved_symbols": [
+        "fighter_active_jack",
+        "fighter_active_kairo",
+        "special_fx_window"
+      ],
+      "resident_tiles": 946,
+      "margin": 0.456
+    }
+  ],
+  "peak_resident_tiles": 946,
+  "peak_state": "enter_stage",
+  "vram_utilization": 0.544,
+  "findings": [],
+  "limitation": "Mede o asset, nao o runtime. Nao substitui res_graph_report, que confere o mapa real de VRAM depois que a cena existe.",
+  "blocking": false,
+  "blocking_statuses": [],
+  "res_graph_evidence": {
+    "measurement_level": "rescomp_source_hash_snapshot",
+    "rom_sha256": "869a0eedde787d632aa1997edfebe36c556f386bc40c57fba3e14cdc8a660e18",
+    "build_log": "",
+    "reserved_font_resource": "",
+    "resident_resources": [
+      {
+        "resource_name": "img_fighting_room_0_bgb",
+        "unique_tiles": 500,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "data_symbol": "",
+        "source_sha256": "7302f557543c9d5de5ed76655263f75f12391603261a37a2f25c2d9b1c2216c9",
+        "origin_size_bytes": 16000
+      },
+      {
+        "resource_name": "img_fighting_room_0_bga",
+        "unique_tiles": 100,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "data_symbol": "",
+        "source_sha256": "9480d52c3db879660f275e82b0b2f9966a71fec5e4ad9d9626673b9b4c1b803d",
+        "origin_size_bytes": 3200
+      },
+      {
+        "resource_name": "spr_kairo_vant_probe",
+        "unique_tiles": 20,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "data_symbol": "",
+        "source_sha256": "03df27ae2f800158880f3314e9db092ada3b7a4880e806dead19f626b43e337e",
+        "origin_size_bytes": 640
+      },
+      {
+        "resource_name": "spr_c1_probe",
+        "unique_tiles": 20,
+        "measurement_method": "rescomp_origin_size_snapshot",
+        "data_symbol": "",
+        "source_sha256": "03df27ae2f800158880f3314e9db092ada3b7a4880e806dead19f626b43e337e",
+        "origin_size_bytes": 640
+      }
+    ]
+  },
+  "runtime_observation": {
+    "status": "observed_partial",
+    "rom_sha256": "869a0eedde787d632aa1997edfebe36c556f386bc40c57fba3e14cdc8a660e18",
+    "evidence_session_id": "blastem-linux-20260909T173215Z-3070928",
+    "scene_id": 3,
+    "range_capacity": 4,
+    "range_overflow": false,
+    "tile_ranges": [
+      {"start_tile": 16, "tile_count": 500, "end_tile_exclusive": 516},
+      {"start_tile": 516, "tile_count": 100, "end_tile_exclusive": 616},
+      {"start_tile": 1376, "tile_count": 15, "end_tile_exclusive": 1391},
+      {"start_tile": 1391, "tile_count": 15, "end_tile_exclusive": 1406}
+    ],
+    "source": "out/evidence/blastem_current/runtime_metrics.json",
+    "claim_limit": "Faixas solicitadas/alocadas observadas na cena 3; nao e dump integral de VRAM nem prova de todos os estados."
+  }
+}

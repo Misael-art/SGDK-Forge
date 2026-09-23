@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_frame_budget_table_v010",
+  "status": "estimated_not_validated_budget",
+  "cell_px": [48, 64],
+  "tiles_per_frame": 48,
+  "bytes_per_full_unique_frame": 1536,
+  "states": [
+    {
+      "id": "idle",
+      "frames": 6,
+      "vblanks_per_frame": [10, 8, 8, 10, 8, 8],
+      "max_tile_frame_instances": 288,
+      "max_bytes_if_all_unique": 9216
+    },
+    {
+      "id": "walk_step",
+      "frames": 6,
+      "vblanks_per_frame": [5, 4, 5, 5, 4, 5],
+      "max_tile_frame_instances": 288,
+      "max_bytes_if_all_unique": 9216
+    },
+    {
+      "id": "guard_block",
+      "frames": 4,
+      "vblanks_per_frame": [4, 4, 6, 6],
+      "max_tile_frame_instances": 192,
+      "max_bytes_if_all_unique": 6144
+    },
+    {
+      "id": "jab",
+      "frames": 5,
+      "vblanks_per_frame": [3, 2, 2, 3, 5],
+      "max_tile_frame_instances": 240,
+      "max_bytes_if_all_unique": 7680
+    },
+    {
+      "id": "knee",
+      "frames": 6,
+      "vblanks_per_frame": [4, 3, 3, 2, 4, 6],
+      "max_tile_frame_instances": 288,
+      "max_bytes_if_all_unique": 9216
+    },
+    {
+      "id": "teep",
+      "frames": 6,
+      "vblanks_per_frame": [4, 3, 2, 3, 5, 6],
+      "max_tile_frame_instances": 288,
+      "max_bytes_if_all_unique": 9216
+    },
+    {
+      "id": "hurt",
+      "frames": 3,
+      "vblanks_per_frame": [4, 6, 6],
+      "max_tile_frame_instances": 144,
+      "max_bytes_if_all_unique": 4608
+    }
+  ],
+  "full_sheet_estimate": {
+    "frames_total": 36,
+    "max_tile_frame_instances": 1728,
+    "max_bytes_if_all_unique_and_resident": 55296,
+    "decision": "not safe as a full resident set; requires active animation window, tile reuse and/or SGDK sprite streaming behavior validation"
+  },
+  "acceptance_targets": [
+    "At least 25 percent tile reuse inside each state after native redraw.",
+    "No baked body FX in character frames.",
+    "One action strip active per fighter unless a runtime residency report proves more.",
+    "Two-fighter worst frame plus HUD/FX must be budgeted before res promotion."
+  ]
+}

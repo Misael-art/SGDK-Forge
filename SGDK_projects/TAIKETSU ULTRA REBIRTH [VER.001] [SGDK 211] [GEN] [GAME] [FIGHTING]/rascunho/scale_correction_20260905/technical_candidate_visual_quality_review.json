@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "visual_quality_review",
+  "asset_id": "kairo_vant_combat_idle_3quarter_assisted_native_grid_probe_c_v02_fitted_diagnostic",
+  "candidate_sha256": "9a54d03133232762470b3823002d772a762a9ecfe91d1b1aaafb45c0aa5a9eb8",
+  "comparison_references": [
+    {"id":"engine_jack_100","height_range_px":[74,76],"role":"quality_reference_only"},
+    {"id":"engine_jack_410","height_range_px":[73,75],"role":"quality_reference_only"},
+    {"id":"engine_ryo_100","height_range_px":[98,102],"role":"quality_reference_only"}
+  ],
+  "readability_1x": {
+    "combat_3quarter_silhouette": "pass_observed",
+    "guard_and_center_of_mass": "pass_observed",
+    "separated_hands": "pass_observed",
+    "feet_and_ground_contact": "pass_observed",
+    "face_and_gaze": "needs_review_at_1x",
+    "hair_cyan_lock": "pass_observed",
+    "indigo_coat_and_scarf": "pass_observed",
+    "amber_gloves_and_boots": "pass_observed",
+    "material_boundaries": "needs_native_review",
+    "volume_vs_reference_density": "needs_native_review"
+  },
+  "technical_visual_metrics": {
+    "visible_height_px": 128,
+    "visible_bbox": [0,8,87,136],
+    "visible_colors": 15,
+    "index0": "transparent0",
+    "native_1x_view": "rascunho/scale_correction_20260905/assisted_native_candidate_c_v02_fitted_diagnostics/evidence/native_1x.png",
+    "nearest_8x_view": "rascunho/scale_correction_20260905/assisted_native_candidate_c_v02_fitted_diagnostics/evidence/nearest_8x.png",
+    "light_dark_chroma_views": "present"
+  },
+  "qa_findings": [
+    "technical conversion is not native pixel authorship",
+    "face/gaze cluster and hand articulation need a human/native pass at C scale",
+    "material topology maps are geometric prescreens, not visual approval",
+    "no current-epoch ROM, VDP dump or perceptual runtime check exists"
+  ],
+  "correction_request": {
+    "symptom": "the candidate reads correctly as a large fighter at 1x, but the face and material boundaries are too dependent on the mechanically quantized probe to claim production quality",
+    "diagnosis": "high-res/assisted source detail was compressed into a 15-color probe without native cluster decisions for the face, hands, coat-scarf boundary and boot highlights",
+    "next_native_asset": "reauthor combat_idle_3quarter directly on the 88x136 grid from the model sheet and fitted guide; preserve silhouette, gaze, hands, feet, cyan lock, indigo coat/scarf and amber accents",
+    "required_checks": ["lineart_blocking_1px", "material_topology", "pixel_contract", "model_sheet_fidelity", "offline_budget", "human_visual_approval", "BlastEm_current_epoch"]
+  },
+  "status": "needs_review",
+  "baseline_update": false,
+  "claim_ceiling": "technical_candidate_measured_scale_and_offline_geometry"
+}

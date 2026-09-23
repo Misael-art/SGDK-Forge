@@ -12,6 +12,8 @@ Ferramentas de tratamento de imagem do workspace MegaDrive_DEV: correcoes manuai
 | `infer_source_structure.py` | **IR estrutural minima:** observa o `source`, gera `observed_ir.json` e `derived_structure_ir.json` com confianca por dimensao e conflitos estruturais. |
 | `export_source_structure.py` | **Exportador estrutural:** consome `derived_structure_ir.json`, roda gate engine-aware + recomposicao visual e exporta `final` ou `provisional`. |
 | `analyze_source_semantics.py` | **Alfabetizacao de source:** valida parsing semantico supervisionado de pranchas-fonte, gera `semantic_parse_report` e painéis humanos para treino da skill. |
+| `build_bvl_showcase_assets.py` | **Showcase BENCHMARK_VISUAL_LAB:** gera casos curados de sprite e background para o benchmark historico. |
+| `build_bvl_v2_scene1_assets.py` | **Slice 1 curado da V2:** gera BG_B, BG_A, sprite heroico, `virtual_proof` e manifests da Cena 1 do `BENCHMARK_VISUAL_LAB_V2`. |
 | `reference_profiles.json` | Perfis de benchmark visual (Streets of Rage 3, Monster World IV, Earthworm Jim, Shinobi III, Sonic 3K). |
 | `aesthetic_thresholds.json` | Thresholds por papel do asset (`sprite`, `bg_a`, `bg_b`, `hud`) para o juiz estetico. |
 | `specs/pequeno_principe_v2.json` | Spec do lote Pequeno Principe (production + boards). Modelo para novos specs. |
@@ -33,6 +35,58 @@ Ferramentas de tratamento de imagem do workspace MegaDrive_DEV: correcoes manuai
 4. **Validar** com o script de validacao do seu projeto (ex.: PowerShell que verifica dimensoes e indexed/).
 
 Exemplo de spec minimo: ver `specs/pequeno_principe_v2.json`.
+
+### Integracao com geracao local de imagem (ai_imagegen)
+
+Quando a geracao nativa do chat/API nao estiver disponivel, o toolchain `tools/ai_imagegen/` pode ser usado para gerar imagens em hosts locais (com destaque para Steam Deck OLED). O fluxo publico:
+
+1. **Geracao bruta**: `python tools/ai_imagegen/imagegen_tool.py route --native-callable false --native-inline false --json`
+2. **Gerar**: `python tools/ai_imagegen/imagegen_tool.py generate --profile deck_safe_sd15 --prompt "..." --dry-run`
+3. **Armazenar**: a imagem bruta deve ir para `data/raw_ai/<run_id>/output.png`.
+4. **Persistir em source art**: mover para `data/source_art/` e registrar `asset_lineage_record.json`.
+5. **Conversao SGDK**: usar `tools/image-tools/batch_resize_index.py` com spec para indexes, BMPs e validacao.
+6. **Validacao estética**: chamar `tools/image-tools/analyze_aesthetic.py` com `--role` adequado.
+7. **Promocao para `res/`**: somente apos validacao; nunca promova diretamente de `data/raw_ai/`.
+
+## Rotas curadas de benchmark e showcase
+
+Nem toda conversao deve nascer em `batch_resize_index.py` ou `photo2sgdk`.
+
+Quando o projeto ja tiver:
+
+- `doc/12-roteiro.md` com staging aprovado
+- `doc/13-spec-cenas.md` com fonte visual nomeada
+- `doc/source_cases/**/case_manifest.json`
+- ou um builder dedicado em `tools/image-tools/build_*.py`
+
+o agente deve **reusar primeiro a rota curada do projeto** antes de tentar OCR, thumbnails, crop manual ou varredura cega de sprite sheet.
+
+### Rota canonica: `BENCHMARK_VISUAL_LAB_V2` Cena 1
+
+Entrada oficial:
+
+- pacote `Forest parallax - Parallax (Forest) vertical`
+- sprite sheet `Mega Man (2).png`
+- staging aprovado em `doc/12-roteiro.md`
+
+Comando:
+
+`python tools/image-tools/build_bvl_v2_scene1_assets.py`
+
+Saidas esperadas:
+
+- `res/bgs/slice1_forest_vertical_bg_b.png`
+- `res/bgs/slice1_forest_vertical_bg_a.png`
+- `res/sprites/spr_megaman_stand_v2.png`
+- `doc/source_cases/slice1_multiplane/case_manifest.json`
+- `doc/source_cases/slice1_multiplane/reports/megaman_stand_animation_manifest.json`
+- `doc/source_cases/slice1_multiplane/reports/virtual_proof_hold.png`
+
+Regra operacional:
+
+- se esse builder existir, ele e a fonte canonica para layers, pose `stand`, `virtual_proof` e manifests da cena
+- nao iniciar OCR, leitura por thumbnail ou tentativa de descobrir bbox da pose no escuro
+- so cair para rota manual quando o builder nao existir ou quando o caso exigir uma cena realmente nova, fora do contrato aprovado
 
 ## Juiz estetico
 

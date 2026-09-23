@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "music_states": [
+    {"id": "race_intro", "transition_type": "bar_boundary", "transition_frames": 30, "fallback_track_id": "race_pressure"},
+    {"id": "race_pressure", "transition_type": "stinger_bridge", "transition_frames": 45, "fallback_track_id": "race_intro"},
+    {"id": "race_pressure_plus", "transition_type": "bar_boundary", "transition_frames": 30, "fallback_track_id": "race_pressure"},
+    {"id": "race_climax", "transition_type": "stinger_bridge", "transition_frames": 45, "fallback_track_id": "race_pressure"},
+    {"id": "final_boss", "transition_type": "hard_stinger", "transition_frames": 60, "fallback_track_id": "boss_approach"}
+  ],
+  "channel_ownership_reservation": "See doc/audio_architecture_card.json"
+}

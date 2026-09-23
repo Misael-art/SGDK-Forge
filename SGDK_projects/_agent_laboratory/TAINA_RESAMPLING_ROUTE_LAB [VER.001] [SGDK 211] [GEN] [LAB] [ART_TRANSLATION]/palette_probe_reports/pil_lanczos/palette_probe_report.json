@@ -1,0 +1,54 @@
+{
+  "schema_version": "technical_palette_probe.v1",
+  "route_id": "pil_lanczos",
+  "status": "technical_palette_probe",
+  "input_raw": {
+    "path": "route_reports/pil_lanczos/raw_rgba_56x80.png",
+    "sha256": "fa29d789229d8932a11189b5acf6f50c7e580043f80bf27071d60ff8f0a70fdd"
+  },
+  "output": {
+    "path": "palette_probe_reports/pil_lanczos/technical_palette_probe_56x80.png",
+    "sha256": "a503eddb59f738d757b923190ea7f650ca17b7dc61d742906a46cdeacda6026e"
+  },
+  "target": "56x80",
+  "palette": {
+    "visible_colors": 15,
+    "rgb333": true,
+    "roles": {
+      "0": "transparent0",
+      "1": "outline_deep_shadow",
+      "2": "hair_deep",
+      "3": "hair_base",
+      "4": "hair_highlight",
+      "5": "skin_shadow",
+      "6": "skin_base",
+      "7": "skin_highlight",
+      "8": "top_shadow",
+      "9": "top_base",
+      "10": "top_highlight",
+      "11": "teal_shadow",
+      "12": "teal_base",
+      "13": "teal_highlight",
+      "14": "indigo_shadow",
+      "15": "indigo_base"
+    }
+  },
+  "alpha_policy": "index0_from_raw_alpha_zero; silhouette_support_preserved_for_all_alpha_nonzero",
+  "partial_alpha_input_pixels": 1123,
+  "material_region_map": {
+    "path": "palette_probe_reports/pil_lanczos/material_region_map.png",
+    "sha256": "b4e69cc9d001d56a1e0fd0a3c0d882bf5a18af07386ca5b8b8a84c0f204bb638",
+    "status": "diagnostic_owner_map"
+  },
+  "material_boundary_overlay": {
+    "path": "palette_probe_reports/pil_lanczos/material_boundary_overlay.png",
+    "sha256": "5ecd59daa92342487e59b3a60a148f080acb1f611740626e70a8935cd2e91a8b"
+  },
+  "matte_halo": {
+    "status": "diagnostic",
+    "partial_alpha_input_pixels": 1123,
+    "halo_cleaning": "not_applied"
+  },
+  "claim_ceiling": "technical_palette_probe",
+  "not_native_candidate": true
+}

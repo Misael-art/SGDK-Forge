@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "context_type": "projeto_existente",
+  "affected_surface": "first_playable_slice",
+  "user_goal": "Avancar o MARE_BRAVA ate um slice jogavel observavel no BlastEm sem promover arte provisoria.",
+  "dominant_route": "source_translation",
+  "first_skill": "art-translation-to-vdp",
+  "supporting_skills": [
+    "art/megadrive-pixel-strict-rules",
+    "art/visual-excellence-standards",
+    "hardware/megadrive-vdp-budget-analyst",
+    "code/sgdk-runtime-coder"
+  ],
+  "first_tool": {
+    "command": "capable-producer-authored native 48x64 indexed lineart",
+    "reason": "A fonte aprovada e high-res; a proxima evidencia causal precisa ser uma lineart 1px nativa antes de basic/elite ou res/."
+  },
+  "existing_curation": {
+    "builder": "none",
+    "source_case_manifest": "doc/contracts/visual_source_of_truth_taina_v02.json",
+    "reference_implementation": "doc/contracts/taina_reseed_native_translation_contract_v01.json"
+  },
+  "technical_family": {
+    "resource_loading_model": "animation_window_streaming",
+    "plane_model": "BG_B parallax distante, BG_A cais jogavel, WINDOW HUD fixo, sprites para atores e FX",
+    "asset_strategy": "native lineart -> basic+elite translation -> indexed SGDK sprites; kit modular para CAIS_01"
+  },
+  "evidence_required": [
+    "lineart_blocking_1px report",
+    "basic and elite translation reports",
+    "pixel contract validation",
+    "VDP/VRAM budget report",
+    "clean SGDK build",
+    "BlastEm screenshot + SRAM + visual_vdp_dump.bin with current ROM hash"
+  ],
+  "forbidden_shortcuts_until_evidence": [
+    "quantize or trace the rejected high-res candidate into final sprite",
+    "promote procedural placeholder PNGs to final",
+    "load the 1344px world as one full-resident image",
+    "declare gameplay, audio, budget or AAA from build-only evidence"
+  ],
+  "handoff_next": "art-translation-to-vdp -> visual-excellence-standards -> megadrive-vdp-budget-analyst"
+}

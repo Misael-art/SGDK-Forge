@@ -1,0 +1,2260 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-06-04",
+  "title": "Advanced Mega Drive Hardware Technique Coverage Catalog",
+  "purpose": "Mapear a nomenclatura humana fornecida para IDs canonicos, status reais e regras de aplicacao sem confundir curadoria com dominio pratico.",
+  "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+  "human_panel": "doc/05_technical/93_16bit_hardware_mastery_matrix.md",
+  "curation_source_id": "curation_2026_06_04_advanced_hardware_matrix",
+  "mastery_truth": {
+    "master_count": 0,
+    "statement": "Cobertura registrada nao significa dominio. MESTRE exige ROM, BlastEm, budget, documentacao sincronizada e aprovacao humana."
+  },
+  "claims_rejected": [
+    {
+      "claim": "SGDK C optimizations reduce overhead by up to 80 percent",
+      "reason": "No measured canonical benchmark or approved project evidence."
+    },
+    {
+      "claim": "DMA outside VBlank is a production-safe default",
+      "reason": "Conflicts with current canonical safety rule; HBlank/active-display DMA remains laboratory-only."
+    },
+    {
+      "claim": "Mega Drive provides real Mode 7 or alpha blending",
+      "reason": "Hardware does not provide those features; only honest approximations are registered."
+    },
+    {
+      "claim": "Direct vector patching, register pinning, SMC or O3 are automatic optimizations",
+      "reason": "They are timing/ABI/toolchain-sensitive experiments requiring isolated proof and fallback."
+    }
+  ],
+  "primary_local_sources": [
+    {
+      "path": "sdk/sgdk-2.11/inc/dma.h",
+      "role": "Primary SGDK 2.11 DMA API and VBlank queue semantics"
+    },
+    {
+      "path": "sdk/sgdk-2.11/inc/sys.h",
+      "role": "Primary SGDK system and interrupt API"
+    },
+    {
+      "path": "sdk/sgdk-2.11/inc/vdp.h",
+      "role": "Primary VDP API"
+    },
+    {
+      "path": "sdk/sgdk-2.11/sample/sys/multitasking/src/main.c",
+      "role": "Local SGDK cooperative multitasking sample"
+    },
+    {
+      "path": "sdk/sgdk-2.11/sample/megawifi/basic/src/main.c",
+      "role": "Local SGDK MegaWiFi sample"
+    }
+  ],
+  "external_references": [
+    {
+      "url": "https://www.nxp.com/docs/en/reference-manual/M68000PRM.pdf",
+      "status": "reference_only_not_project_evidence"
+    },
+    {
+      "url": "https://github.com/Tails8521/md-profiler",
+      "status": "reference_only_not_project_evidence"
+    },
+    {
+      "url": "https://github.com/prb28/m68k-instructions-documentation/tree/master/instructions",
+      "status": "reference_only_not_project_evidence"
+    }
+  ],
+  "coverage": [
+    {
+      "human_technique": "Multiplexing",
+      "domain": "cross_domain",
+      "canonical_ids": [
+        "sprite_temporal_multiplexing",
+        "xgm2_pcm_multiplexing"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "sprite_temporal_multiplexing",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "xgm2_pcm_multiplexing",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "DMA Streaming",
+      "domain": "dma_and_vram",
+      "canonical_ids": [
+        "dma_transfer_safety",
+        "sprite_frame_vram_slot_streaming",
+        "animation_lookahead_dma_queue"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "dma_transfer_safety",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "sprite_frame_vram_slot_streaming",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "animation_lookahead_dma_queue",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "RASTER EFFECTS",
+      "domain": "raster",
+      "canonical_ids": [
+        "line_scrolling",
+        "hint_palette_blending",
+        "h_int_control_plane"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "line_scrolling",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "hint_palette_blending",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "h_int_control_plane",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "MID-FRAME PALETTE SWAPPING",
+      "domain": "palette",
+      "canonical_ids": [
+        "hint_palette_blending",
+        "cram_dot_masking_strategy",
+        "cram_overdrive_midline"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "hint_palette_blending",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "cram_dot_masking_strategy",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "cram_overdrive_midline",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "VRAM Tile Index Management",
+      "domain": "vram",
+      "canonical_ids": [
+        "tile_cache_streaming_refcount",
+        "tile_dedup_hvflip_hashing",
+        "vram_to_vram_dma_copy"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "tile_cache_streaming_refcount",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "tile_dedup_hvflip_hashing",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "vram_to_vram_dma_copy",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Delayed Update",
+      "domain": "scheduling",
+      "canonical_ids": [
+        "animation_lookahead_dma_queue",
+        "adaptive_dma_load_shedding"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "animation_lookahead_dma_queue",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "adaptive_dma_load_shedding",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Metasprite Optimization",
+      "domain": "sprite",
+      "canonical_ids": [
+        "large_metasprite_vblank_fit_audit",
+        "rescomp_metasprite_decomposition_audit"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "large_metasprite_vblank_fit_audit",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "rescomp_metasprite_decomposition_audit",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Custom Sprite Composition",
+      "domain": "sprite",
+      "canonical_ids": [
+        "forward_kinematics",
+        "sprite_band_slot_allocator",
+        "priority_split_foreground"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "forward_kinematics",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "sprite_band_slot_allocator",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "priority_split_foreground",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "DMA OTIMIZADO",
+      "domain": "dma_and_vram",
+      "canonical_ids": [
+        "dma_transfer_safety",
+        "adaptive_dma_load_shedding"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "dma_transfer_safety",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "adaptive_dma_load_shedding",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "PALETTE MANAGEMENT AVANCADO",
+      "domain": "palette",
+      "canonical_ids": [
+        "palette_state_transitions",
+        "palette_remastering_slot_audit",
+        "shadow_highlight_slot_rule"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "palette_state_transitions",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "palette_remastering_slot_audit",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "shadow_highlight_slot_rule",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "PARALLAX",
+      "domain": "scroll",
+      "canonical_ids": [
+        "line_scrolling",
+        "column_scrolling",
+        "camera_scroll_management"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "line_scrolling",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "column_scrolling",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "camera_scroll_management",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Line Scrolling Parallax",
+      "domain": "raster",
+      "canonical_ids": [
+        "line_scrolling"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "line_scrolling",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Pseudo-3D Road Stack (ZMAP)",
+      "domain": "pseudo3d",
+      "canonical_ids": [
+        "pseudo3d_road_stack"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "pseudo3d_road_stack",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Vertical Line Scroll (V-Scroll via H-Int)",
+      "domain": "raster",
+      "canonical_ids": [
+        "vertical_line_scroll_hint"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "vertical_line_scroll_hint",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Wobble Vertical (VSRAM por linha)",
+      "domain": "raster",
+      "canonical_ids": [
+        "vertical_line_scroll_hint",
+        "column_scrolling"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "vertical_line_scroll_hint",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "column_scrolling",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Water Wobble / Heat Distortion",
+      "domain": "raster",
+      "canonical_ids": [
+        "line_scrolling",
+        "h_int_control_plane"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "line_scrolling",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "h_int_control_plane",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Parallax Deadzone Camera",
+      "domain": "camera",
+      "canonical_ids": [
+        "camera_scroll_management"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "camera_scroll_management",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Hills & Curves per-scanline",
+      "domain": "pseudo3d",
+      "canonical_ids": [
+        "pseudo3d_road_stack",
+        "line_scrolling"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "pseudo3d_road_stack",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "line_scrolling",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Software Affine Pseudo-3D",
+      "domain": "software_rendering",
+      "canonical_ids": [
+        "software_affine_pseudo3d"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "software_affine_pseudo3d",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Forward Kinematics Rigging",
+      "domain": "sprite",
+      "canonical_ids": [
+        "forward_kinematics"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "forward_kinematics",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Slope Collision per-column",
+      "domain": "physics",
+      "canonical_ids": [
+        "slope_collision_heightmap"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "slope_collision_heightmap",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Sprite Scaling Pre-renderizado",
+      "domain": "sprite",
+      "canonical_ids": [
+        "prerendered_sprite_scaling"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "prerendered_sprite_scaling",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Hardware Sprite Clipping",
+      "domain": "sprite",
+      "canonical_ids": [
+        "hardware_sprite_clipping"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "hardware_sprite_clipping",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Sprite Stretch (1-frame)",
+      "domain": "animation",
+      "canonical_ids": [
+        "smear_frame_animation"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "smear_frame_animation",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Pre-Shifted Sprite Rotation",
+      "domain": "sprite",
+      "canonical_ids": [
+        "pre_shifted_sprite_rotation"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "pre_shifted_sprite_rotation",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Knockback / Push",
+      "domain": "gameplay_feedback",
+      "canonical_ids": [
+        "knockback_push_feedback"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "knockback_push_feedback",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Highlight Aditivo (Fake Additive)",
+      "domain": "lighting",
+      "canonical_ids": [
+        "masked_shadow_highlight_lighting"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "masked_shadow_highlight_lighting",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Dithering 50% Checker",
+      "domain": "art",
+      "canonical_ids": [
+        "dithering_crt_smearing"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "dithering_crt_smearing",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "CRAM Overdrive / Mid-Line Color Swap",
+      "domain": "palette",
+      "canonical_ids": [
+        "cram_overdrive_midline"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cram_overdrive_midline",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Backlight / Silhueta",
+      "domain": "lighting",
+      "canonical_ids": [
+        "backlight_silhouette"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "backlight_silhouette",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Sepia / Greyscale Palette",
+      "domain": "palette",
+      "canonical_ids": [
+        "palette_state_transitions"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "palette_state_transitions",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Lightning Flash",
+      "domain": "palette",
+      "canonical_ids": [
+        "palette_state_transitions"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "palette_state_transitions",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "WINDOW Plane Static HUD",
+      "domain": "ui",
+      "canonical_ids": [
+        "window_plane_static_hud"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "window_plane_static_hud",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Variable-Width Font (TidyText)",
+      "domain": "text",
+      "canonical_ids": [
+        "glyph_cache_variable_width_text"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "glyph_cache_variable_width_text",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Tile Mask Mosaic Transition",
+      "domain": "transition",
+      "canonical_ids": [
+        "tile_mask_mosaic_transition"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "tile_mask_mosaic_transition",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Damage Number Popup",
+      "domain": "ui",
+      "canonical_ids": [
+        "damage_number_popup"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "damage_number_popup",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Letterbox Cinematico",
+      "domain": "cinematics",
+      "canonical_ids": [
+        "cinematic_letterbox"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cinematic_letterbox",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Voice Sample Lip Sync",
+      "domain": "cinematics_audio",
+      "canonical_ids": [
+        "voice_sample_lipsync"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "voice_sample_lipsync",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "XGM2 Channel Ownership",
+      "domain": "audio",
+      "canonical_ids": [
+        "xgm2_audio_architecture",
+        "channel_ownership_templates_audio"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "xgm2_audio_architecture",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "channel_ownership_templates_audio",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Custom Z80 PCM Driver",
+      "domain": "audio",
+      "canonical_ids": [
+        "custom_z80_audio_drivers"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "custom_z80_audio_drivers",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Beat-Reactive FX",
+      "domain": "audio_visual",
+      "canonical_ids": [
+        "beat_reactive_fx"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "beat_reactive_fx",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Ducking Automatico",
+      "domain": "audio",
+      "canonical_ids": [
+        "automatic_audio_ducking"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "automatic_audio_ducking",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Stinger / Music Cue",
+      "domain": "audio",
+      "canonical_ids": [
+        "stinger_music_cue"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "stinger_music_cue",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "DMA Queue Manager",
+      "domain": "dma_and_vram",
+      "canonical_ids": [
+        "dma_transfer_safety",
+        "animation_lookahead_dma_queue"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "dma_transfer_safety",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "animation_lookahead_dma_queue",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Trig Lookup (sin/cos/atan2)",
+      "domain": "math",
+      "canonical_ids": [
+        "fixed_point_trig_lookup"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "fixed_point_trig_lookup",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Indexed Scene Promotion",
+      "domain": "scene_architecture",
+      "canonical_ids": [
+        "scene_indexed_promotion"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "scene_indexed_promotion",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Save SRAM com Checksum",
+      "domain": "persistence",
+      "canonical_ids": [
+        "save_sram_checksum_redundancy"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "save_sram_checksum_redundancy",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Cellular Microbuffer",
+      "domain": "software_rendering",
+      "canonical_ids": [
+        "cellular_microbuffer_sim"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cellular_microbuffer_sim",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Blast Processing DAC Stream",
+      "domain": "audio",
+      "canonical_ids": [
+        "dac_direct_manipulation"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "dac_direct_manipulation",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "PSG Delta-Modulation PCM Playback",
+      "domain": "audio",
+      "canonical_ids": [
+        "psg_delta_pcm_playback"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "psg_delta_pcm_playback",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Vertical Parallax via Column Scroll",
+      "domain": "raster",
+      "canonical_ids": [
+        "column_scrolling"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "column_scrolling",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Software Sprite Mirroring (Preservacao de Assimetria)",
+      "domain": "sprite",
+      "canonical_ids": [
+        "software_sprite_mirroring"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "software_sprite_mirroring",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Z80 Math Offloading",
+      "domain": "math_audio",
+      "canonical_ids": [
+        "z80_math_offloading"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "z80_math_offloading",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Shadow/Highlight Glass Overlay Masking",
+      "domain": "lighting",
+      "canonical_ids": [
+        "masked_shadow_highlight_lighting"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "masked_shadow_highlight_lighting",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Dynamic Palette Slot Clustering",
+      "domain": "palette",
+      "canonical_ids": [
+        "dynamic_palette_slot_clustering"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "dynamic_palette_slot_clustering",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Differential Layer Speed",
+      "domain": "camera",
+      "canonical_ids": [
+        "camera_scroll_management",
+        "line_scrolling"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "camera_scroll_management",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "line_scrolling",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Multi-directional Free Scroll",
+      "domain": "camera",
+      "canonical_ids": [
+        "camera_scroll_management"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "camera_scroll_management",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Image Scroll Wrap",
+      "domain": "camera",
+      "canonical_ids": [
+        "camera_scroll_management"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "camera_scroll_management",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Camera Lookahead",
+      "domain": "camera",
+      "canonical_ids": [
+        "camera_scroll_management"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "camera_scroll_management",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Auto-scroll Forcado",
+      "domain": "camera",
+      "canonical_ids": [
+        "camera_scroll_management"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "camera_scroll_management",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Pseudo-3D Floor",
+      "domain": "pseudo3d",
+      "canonical_ids": [
+        "pseudo3d_road_stack",
+        "one_dimensional_tile_deformation"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "pseudo3d_road_stack",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "one_dimensional_tile_deformation",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Stretch-Sprite Pseudo-Depth",
+      "domain": "sprite",
+      "canonical_ids": [
+        "prerendered_sprite_scaling"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "prerendered_sprite_scaling",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Fake Mode 7 / Roto-Scrolling",
+      "domain": "pseudo3d",
+      "canonical_ids": [
+        "combined_scroll_fake_mode7",
+        "software_affine_pseudo3d"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "Mega Drive has no real Mode 7; this is a composite pseudo-3D mapping.",
+      "status_snapshot": [
+        {
+          "registry_id": "combined_scroll_fake_mode7",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "software_affine_pseudo3d",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Sprite Multiplexing (SAT Reuse)",
+      "domain": "sprite",
+      "canonical_ids": [
+        "sprite_temporal_multiplexing",
+        "sprite_midframe_sat_reuse"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "sprite_temporal_multiplexing",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "sprite_midframe_sat_reuse",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "VRAM Slot Streaming",
+      "domain": "sprite",
+      "canonical_ids": [
+        "sprite_frame_vram_slot_streaming",
+        "animation_lookahead_dma_queue"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "sprite_frame_vram_slot_streaming",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "animation_lookahead_dma_queue",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Metasprite Decomposition",
+      "domain": "sprite",
+      "canonical_ids": [
+        "rescomp_metasprite_decomposition_audit"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "rescomp_metasprite_decomposition_audit",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Palette Cycling & Rotation",
+      "domain": "palette",
+      "canonical_ids": [
+        "palette_cycling"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "palette_cycling",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Shadow / Highlight Mode",
+      "domain": "lighting",
+      "canonical_ids": [
+        "shadow_highlight_mode",
+        "shadow_highlight_slot_rule"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "shadow_highlight_mode",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "shadow_highlight_slot_rule",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Mid-Frame Palette Swapping",
+      "domain": "palette",
+      "canonical_ids": [
+        "hint_palette_blending",
+        "cram_dot_masking_strategy"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "hint_palette_blending",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "cram_dot_masking_strategy",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Dithering & CRT Smearing",
+      "domain": "art",
+      "canonical_ids": [
+        "dithering_crt_smearing"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "dithering_crt_smearing",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Music-driven Palette Pulse",
+      "domain": "audio_visual",
+      "canonical_ids": [
+        "beat_reactive_fx",
+        "palette_cycling"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "beat_reactive_fx",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        },
+        {
+          "registry_id": "palette_cycling",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Custom Font HUD",
+      "domain": "text_ui",
+      "canonical_ids": [
+        "glyph_cache_variable_width_text",
+        "window_plane_static_hud"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "glyph_cache_variable_width_text",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "window_plane_static_hud",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Glyph Cache System",
+      "domain": "text",
+      "canonical_ids": [
+        "glyph_cache_variable_width_text"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "glyph_cache_variable_width_text",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Dialog Box / Speech Balloon",
+      "domain": "text_ui",
+      "canonical_ids": [
+        "expressive_text_presentation_system"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "expressive_text_presentation_system",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Packed Multilingual Script",
+      "domain": "text",
+      "canonical_ids": [
+        "expressive_text_presentation_system"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "expressive_text_presentation_system",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Typewriter Voice",
+      "domain": "text_audio",
+      "canonical_ids": [
+        "expressive_text_presentation_system",
+        "audio_event_contract"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "expressive_text_presentation_system",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "audio_event_contract",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Dramatic Text Reveal",
+      "domain": "text",
+      "canonical_ids": [
+        "expressive_text_presentation_system"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "expressive_text_presentation_system",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Hitstop / Frame Freeze",
+      "domain": "gameplay_feedback",
+      "canonical_ids": [
+        "hitstop_camera_shake_feedback"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "hitstop_camera_shake_feedback",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Camera Shake",
+      "domain": "gameplay_feedback",
+      "canonical_ids": [
+        "hitstop_camera_shake_feedback"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "hitstop_camera_shake_feedback",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Pause Menu Freeze",
+      "domain": "scene_architecture",
+      "canonical_ids": [
+        "contextual_scene_transition_system",
+        "scene_indexed_promotion"
+      ],
+      "classification": "composite_mapping",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "contextual_scene_transition_system",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        },
+        {
+          "registry_id": "scene_indexed_promotion",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "SGDK Multitasking",
+      "domain": "scene_architecture",
+      "canonical_ids": [
+        "cooperative_multitasking"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cooperative_multitasking",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "MegaWiFi Online Integration",
+      "domain": "connectivity",
+      "canonical_ids": [
+        "megawifi_async_integration"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "megawifi_async_integration",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "M68K Instruction Optimization",
+      "domain": "cpu",
+      "canonical_ids": [
+        "m68k_instruction_optimization"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "m68k_instruction_optimization",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Raycasting Column Renderer",
+      "domain": "software_rendering",
+      "canonical_ids": [
+        "raycasting_column_renderer"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "raycasting_column_renderer",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Raycasting HUD Palette Split",
+      "domain": "software_rendering",
+      "canonical_ids": [
+        "raycasting_column_renderer",
+        "hint_palette_blending"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "raycasting_column_renderer",
+          "human_proficiency_status": "LABORATORIO"
+        },
+        {
+          "registry_id": "hint_palette_blending",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Poligonos Flat Shading",
+      "domain": "software_rendering",
+      "canonical_ids": [
+        "flat_shaded_polygon_renderer"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "flat_shaded_polygon_renderer",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Cellular Automata (Fluidos)",
+      "domain": "software_rendering",
+      "canonical_ids": [
+        "cellular_microbuffer_sim"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cellular_microbuffer_sim",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "SegaScope 3D",
+      "domain": "display",
+      "canonical_ids": [
+        "segascope_stereoscopic_3d"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "segascope_stereoscopic_3d",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "YM2612 CSM Mode",
+      "domain": "audio",
+      "canonical_ids": [
+        "ym2612_csm_mode"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "ym2612_csm_mode",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "VDP FIFO Buffer Queue Throttling",
+      "domain": "vdp",
+      "canonical_ids": [
+        "vdp_fifo_active_display_scheduling"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "vdp_fifo_active_display_scheduling",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "HBlank DMA Interleaving",
+      "domain": "dma_and_vram",
+      "canonical_ids": [
+        "hblank_dma_interleaving"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "hblank_dma_interleaving",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Z80 RAM Buffering & Latching (DMA Shield)",
+      "domain": "audio",
+      "canonical_ids": [
+        "z80_ram_dma_shield"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "z80_ram_dma_shield",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "VDP Internal VRAM-to-VRAM DMA Copy",
+      "domain": "dma_and_vram",
+      "canonical_ids": [
+        "vram_to_vram_dma_copy"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "vram_to_vram_dma_copy",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "CRAM Direct Color Fill / Raster Fill",
+      "domain": "palette",
+      "canonical_ids": [
+        "cram_direct_raster_fill"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cram_direct_raster_fill",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Forced Blanking DMA Extension",
+      "domain": "dma_and_vram",
+      "canonical_ids": [
+        "forced_blanking_dma_extension"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "forced_blanking_dma_extension",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Temporal Dithering Palette Blending",
+      "domain": "palette",
+      "canonical_ids": [
+        "temporal_dithering_palette_blending"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "temporal_dithering_palette_blending",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "1D Tile Deformation (Horizontal Line Stretch)",
+      "domain": "raster",
+      "canonical_ids": [
+        "one_dimensional_tile_deformation"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "one_dimensional_tile_deformation",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Cycle-Balanced YM2612 Write Threading",
+      "domain": "audio",
+      "canonical_ids": [
+        "cycle_balanced_ym2612_writes"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cycle_balanced_ym2612_writes",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Active SAT Link Pruning (Off-Screen Culling)",
+      "domain": "sprite",
+      "canonical_ids": [
+        "active_sat_link_pruning"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "active_sat_link_pruning",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Adaptive DMA Load Shedding",
+      "domain": "dma_and_vram",
+      "canonical_ids": [
+        "adaptive_dma_load_shedding"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "adaptive_dma_load_shedding",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Zero-Overhead HBlank ISR",
+      "domain": "low_level",
+      "canonical_ids": [
+        "zero_overhead_hblank_isr"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "zero_overhead_hblank_isr",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Cycle-Perfect Mid-Line CRAM Overdrive",
+      "domain": "low_level",
+      "canonical_ids": [
+        "cram_overdrive_midline"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cram_overdrive_midline",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Global Register Pinning",
+      "domain": "low_level",
+      "canonical_ids": [
+        "global_register_pinning"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "global_register_pinning",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Self-Modifying Code",
+      "domain": "low_level",
+      "canonical_ids": [
+        "self_modifying_code"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "self_modifying_code",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Direct High-Rate PCM DAC Streaming",
+      "domain": "audio",
+      "canonical_ids": [
+        "dac_direct_manipulation"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "dac_direct_manipulation",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "VDP FIFO Interleaved Processing",
+      "domain": "vdp",
+      "canonical_ids": [
+        "vdp_fifo_active_display_scheduling"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "vdp_fifo_active_display_scheduling",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Inline Assembly no C",
+      "domain": "low_level",
+      "canonical_ids": [
+        "inline_assembly_critical_sections"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "inline_assembly_critical_sections",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Direct Interrupt Vector Patching",
+      "domain": "low_level",
+      "canonical_ids": [
+        "direct_interrupt_vector_patching"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "direct_interrupt_vector_patching",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Register Variable Pinning",
+      "domain": "low_level",
+      "canonical_ids": [
+        "global_register_pinning"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "global_register_pinning",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Otimizacoes Especificas do Makefile (GCC Flags)",
+      "domain": "toolchain",
+      "canonical_ids": [
+        "aggressive_gcc_optimization_profile"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "aggressive_gcc_optimization_profile",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Manual VDP FIFO Scheduling no C",
+      "domain": "vdp",
+      "canonical_ids": [
+        "vdp_fifo_active_display_scheduling"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "vdp_fifo_active_display_scheduling",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Cooperative Micro-Threading (Load Balancing)",
+      "domain": "scene_architecture",
+      "canonical_ids": [
+        "cooperative_multitasking"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cooperative_multitasking",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Plane Takeover / BG Takeover",
+      "domain": "boss_setpiece",
+      "canonical_ids": [
+        "bg_b_bypassing"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "bg_b_bypassing",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Real-time Mirroring",
+      "domain": "sprite_raster",
+      "canonical_ids": [
+        "real_time_reflection"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "real_time_reflection",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Palette Remastering",
+      "domain": "palette",
+      "canonical_ids": [
+        "palette_remastering_slot_audit"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "palette_remastering_slot_audit",
+          "human_proficiency_status": "TEORICA_STANDARD"
+        }
+      ]
+    },
+    {
+      "human_technique": "Tile Dedup H/V Flip Hashing",
+      "domain": "vram",
+      "canonical_ids": [
+        "tile_dedup_hvflip_hashing"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "tile_dedup_hvflip_hashing",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Ghost Afterimage Sprites",
+      "domain": "sprite",
+      "canonical_ids": [
+        "ghost_afterimage_sprites"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "ghost_afterimage_sprites",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Arcade Tile Redraw / Tile Substitution",
+      "domain": "art",
+      "canonical_ids": [
+        "arcade_tile_redraw_substitution"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "arcade_tile_redraw_substitution",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Sprite Frame VRAM Slot Streaming",
+      "domain": "sprite",
+      "canonical_ids": [
+        "sprite_frame_vram_slot_streaming"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "sprite_frame_vram_slot_streaming",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Animation Look-ahead DMA Queue",
+      "domain": "dma_and_vram",
+      "canonical_ids": [
+        "animation_lookahead_dma_queue"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "animation_lookahead_dma_queue",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "SAT Double Buffering",
+      "domain": "sprite",
+      "canonical_ids": [
+        "sat_double_buffering"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "sat_double_buffering",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Sprite Band Slot Allocator",
+      "domain": "sprite",
+      "canonical_ids": [
+        "sprite_band_slot_allocator"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "sprite_band_slot_allocator",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "CRAM Dot Masking Strategy",
+      "domain": "palette",
+      "canonical_ids": [
+        "cram_dot_masking_strategy"
+      ],
+      "classification": "hazardous_lab",
+      "application_rule": "LABORATORIO only until isolated evidence and human promotion.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "cram_dot_masking_strategy",
+          "human_proficiency_status": "LABORATORIO"
+        }
+      ]
+    },
+    {
+      "human_technique": "Runtime Profiling with md-profiler",
+      "domain": "profiling",
+      "canonical_ids": [
+        "runtime_profiling_cycle_budget"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "runtime_profiling_cycle_budget",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "M68000 Alignment and Exception Discipline",
+      "domain": "cpu",
+      "canonical_ids": [
+        "m68k_instruction_optimization"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "m68k_instruction_optimization",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    },
+    {
+      "human_technique": "Large Metasprite VBlank Fit Audit",
+      "domain": "sprite",
+      "canonical_ids": [
+        "large_metasprite_vblank_fit_audit"
+      ],
+      "classification": "registered",
+      "application_rule": "Use only through GDD/TDD selection, project manifest, owner skill, budget, fallback and evidence.",
+      "notes": "",
+      "status_snapshot": [
+        {
+          "registry_id": "large_metasprite_vblank_fit_audit",
+          "human_proficiency_status": "TEORICA_PRIORITARIA"
+        }
+      ]
+    }
+  ]
+}

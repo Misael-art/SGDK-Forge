@@ -14,6 +14,9 @@ $LOG_DIR = if ($env:SGDK_LOG_DIR) { $env:SGDK_LOG_DIR } else { Join-Path $pwd.Pa
 $DEBUG_LOG = if ($env:SGDK_DEBUG_LOG) { $env:SGDK_DEBUG_LOG } else { Join-Path $LOG_DIR "build_debug.log" }
 $MAX_SPRITE_SIZE_TILES = 32
 $MAX_INTERNAL_SPRITES = 16
+$UNCOMMENT_SPRITES = -not ($env:SGDK_AUTOFIX_UNCOMMENT_SPRITES -and $env:SGDK_AUTOFIX_UNCOMMENT_SPRITES -eq "0")
+
+. (Join-Path $PSScriptRoot "_lib\sgdk_common.ps1")
 
 # Busca generica de path: tenta localizar arquivo em subdiretorios de res/
 # Nao depende de mapeamento hardcoded — descobre estrutura automaticamente.
@@ -45,41 +48,55 @@ function Write-Log($msg) {
     Add-Content -LiteralPath $DEBUG_LOG $fullMsg
 }
 
+function Initialize-BackupSession([string]$workDir) {
+    if ($env:SGDK_ENABLE_BACKUP -and $env:SGDK_ENABLE_BACKUP -eq "0") {
+        return $null
+    }
+    if ($script:BackupSessionRoot) {
+        return $script:BackupSessionRoot
+    }
+    $root = Join-Path $workDir "out\.backups"
+    if (-not (Test-Path -LiteralPath $root)) {
+        New-Item -ItemType Directory -Force -Path $root | Out-Null
+    }
+    $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $token = [guid]::NewGuid().ToString("N")
+    $session = Join-Path $root ("{0}_{1}" -f $stamp, $token)
+    New-Item -ItemType Directory -Force -Path $session | Out-Null
+    $script:BackupSessionRoot = $session
+    return $session
+}
+
+function Save-BackupBeforeEdit([string]$workDir, [string]$absPath) {
+    $session = Initialize-BackupSession $workDir
+    if (-not $session) {
+        return
+    }
+    if (-not (Test-Path -LiteralPath $absPath -PathType Leaf)) {
+        return
+    }
+    $fullWork = [IO.Path]::GetFullPath($workDir).TrimEnd('\')
+    $fullFile = [IO.Path]::GetFullPath($absPath)
+    $rel = $null
+    if ($fullFile.StartsWith($fullWork + "\", [StringComparison]::OrdinalIgnoreCase)) {
+        $rel = $fullFile.Substring($fullWork.Length + 1)
+    } else {
+        $rel = Split-Path -Leaf $fullFile
+    }
+    $dest = Join-Path $session $rel
+    $destDir = Split-Path -Parent $dest
+    if (-not (Test-Path -LiteralPath $destDir)) {
+        New-Item -ItemType Directory -Force -Path $destDir | Out-Null
+    }
+    Copy-Item -LiteralPath $fullFile -Destination $dest -Force
+}
+
 function Find-RecoveredPath($relPath, $baseDir) {
-    $fileName = Split-Path $relPath -Leaf
-    # Busca dinamica em subdiretorios comuns + subdirs reais de sprite/ e gfx/
-    $searchDirs = @("sprite", "sprites", "gfx", "bg", "bgs", "sound", "sfx")
-    foreach ($parent in @("sprite", "sprites", "gfx", "bg", "bgs")) {
-        $parentPath = Join-Path $baseDir $parent
-        if (Test-Path -LiteralPath $parentPath) {
-            Get-ChildItem -LiteralPath $parentPath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
-                $searchDirs += "$parent/$($_.Name)"
-            }
-        }
-    }
-    foreach ($dir in $searchDirs) {
-        $tryPath = Join-Path $baseDir (Join-Path $dir $fileName)
-        if (Test-Path -LiteralPath $tryPath) {
-            return $tryPath
-        }
-    }
-    return $null
+    return SGDK_FindRecoveredPath $relPath $baseDir
 }
 
 function Estimate-VDPSprites($wTiles, $hTiles) {
-    $count = 0
-    $remW = $wTiles
-    while ($remW -gt 0) {
-        $stepW = if ($remW -ge 4) { 4 } else { $remW }
-        $remH = $hTiles
-        while ($remH -gt 0) {
-            $stepH = if ($remH -ge 4) { 4 } else { $remH }
-            $count++
-            $remH -= $stepH
-        }
-        $remW -= $stepW
-    }
-    return $count
+    return SGDK_EstimateVDPSprites $wTiles $hTiles
 }
 
 if (-not $resFile) {
@@ -110,12 +127,7 @@ if ($sourceResFile -and (Test-Path -LiteralPath $sourceResFile)) {
 }
 
 # Locate ImageMagick
-$magickPath = Get-Command magick -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
-if (-not $magickPath) {
-    $commonPaths = Get-ChildItem -Path "C:\Program Files\ImageMagick*" -Filter "magick.exe" -Recurse -ErrorAction SilentlyContinue | 
-                   Select-Object -ExpandProperty FullName
-    if ($commonPaths.Count -gt 0) { $magickPath = $commonPaths[0] }
-}
+$magickPath = SGDK_GetMagickPath
 
 Write-Log "--- Starting Resilient Sprite Fixer for $resFile ---"
 
@@ -127,7 +139,7 @@ $seenSprites = @{}  # Remoção de duplicatas: manter apenas primeira ocorrênci
 
 foreach ($line in $content) {
     # 0. Uncomment potentially needed sprites
-    if ($line -match '^\/\/\s*SPRITE\s+(\w+)\s+"([^"]+)"\s+(\d+)\s+(\d+)\s+(\w+)\s+(\d+)') {
+    if ($UNCOMMENT_SPRITES -and $line -match '^\/\/\s*SPRITE\s+(\w+)\s+"([^"]+)"\s+(\d+)\s+(\d+)\s+(\w+)\s+(\d+)') {
         $potentialName = $matches[1]
         Write-Log "[INFO] Uncommenting sprite definition for $potentialName"
         $line = $line -replace '^\/\/\s*', ''
@@ -365,6 +377,7 @@ foreach ($line in $content) {
  }
 
 if ($fixCount -gt 0) {
+    Save-BackupBeforeEdit $pwd.Path $resFile
     $finalContent | Set-Content -LiteralPath $resFile
     Write-Log "[OK] Applied $fixCount fixes to $resFile"
 } else {

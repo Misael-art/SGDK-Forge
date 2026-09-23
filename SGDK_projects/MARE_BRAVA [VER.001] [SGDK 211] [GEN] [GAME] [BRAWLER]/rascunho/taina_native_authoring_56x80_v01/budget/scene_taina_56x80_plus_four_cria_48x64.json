@@ -1,0 +1,17 @@
+{
+  "scenario": "taina_56x80_plus_four_cria_48x64",
+  "budget_class": "planning_budget",
+  "display_mode": "h40",
+  "headroom_justification": "GDD slice case; real CRIA runtime/res footprint; hero uses approved native-authoring target footprint",
+  "footprint_sources": {
+    "taina": "native_authoring_target_56x80_staging_only",
+    "cria": "res/sprites/characters/cria/cria_idle_lean_48x64_v01.png"
+  },
+  "sprites": [
+    {"name": "taina", "x": 136, "y": 112, "w": 56, "h": 80},
+    {"name": "cria_1", "x": 32, "y": 128, "w": 48, "h": 64},
+    {"name": "cria_2", "x": 60, "y": 128, "w": 48, "h": 64},
+    {"name": "cria_3", "x": 88, "y": 128, "w": 48, "h": 64},
+    {"name": "cria_4", "x": 168, "y": 128, "w": 48, "h": 64}
+  ]
+}

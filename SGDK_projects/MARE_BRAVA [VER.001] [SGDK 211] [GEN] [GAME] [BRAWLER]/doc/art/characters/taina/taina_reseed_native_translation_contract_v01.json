@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_reseed_native_translation_v01",
+  "translation_target": "sprite_single_model_sheet",
+  "status": "planned_lineart_only_not_an_asset",
+  "source": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "layout_classification": "editorial_board",
+    "keep_regions": ["front_full_body", "three_quarter_guard", "side_full_body", "back_full_body", "jab_pose", "low_kick_pose", "defensive_recovery"],
+    "drop_regions": ["editorial_white_background", "palette_swatch_row", "impact_starburst", "ground sketch lines"],
+    "soul_summary": "Uma lutadora maritima compacta e disciplinada: cabelo cacheado preso, olhar afiado, top laranja, bandagens teal, calca indigo larga e faixa que desloca a silhueta."
+  },
+  "native_grid_plan": {
+    "canvas_px": {"w": 48, "h": 64},
+    "tile_grid": {"w": 6, "h": 8},
+    "scale_class": "medium_48_64_approximately_3_5_heads",
+    "pivot": {"x": 24, "y": 60, "policy": "bottom_center_integer"},
+    "lineart_pass": "single dark hard-edge 1px; no AA, blur, alpha, smooth gradient, baked shadow or FX",
+    "topology_checks": ["one head", "two arms connected to shoulders", "two legs connected to pelvis", "two readable bare feet", "no ambiguous extra limb"],
+    "silhouette_hooks": ["high curly hair mass", "diagonal guard", "right-side sash tail", "wide trouser lower mass"],
+    "palette_intent": "one future sprite palette with outline/dark, skin 3-step, orange cloth 3-step, teal wraps/sash 3-step, indigo trousers 3-step and two small accents; palette is not yet painted"
+  },
+  "required_reports_before_any_promotion": [
+    "semantic_parse_report",
+    "native_grid_translation_report",
+    "fake_pixel_art_rejection",
+    "lineart_blocking_1px review",
+    "silhouette_test_result",
+    "pixel_compliance_report",
+    "model_sheet_to_sprite_fidelity_report"
+  ],
+  "explicitly_not_allowed": ["nearest-neighbor/downscale as final", "repairing a prior runtime sprite", "key pose or animation strip", "res/resources.res entry", "AAA or visual-pass claim"],
+  "next_blocker": "hand-authored native 48x64 lineart asset is absent"
+}

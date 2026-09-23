@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "combat_event_same_tick_dedup_20260915",
+  "title": "Uma colisão reavaliada no mesmo tick não pode inflar o feedback",
+  "source_kind": "implementation",
+  "observed_at": "2026-09-15",
+  "problem_signature": "same_attack_observed_by_multiple_fsm_paths_in_one_tick",
+  "observation": "A FSM pode alcançar mais de um caminho de colisão para a mesma combinação atacante/defensor/estado/tipo no tick. Registrar cada observação como novo HIT ou GUARD infla combo e medidor, mesmo quando o dano legado ainda está sendo tratado em outro caminho.",
+  "resolution_or_preventive_heuristic": "COMBAT_EVENTS_EMIT() compara a tupla atacante/defensor/estado/tipo com o tick corrente e rejeita duplicatas; o índice do evento original permanece anexável apenas para telemetria de migração. A centralização de dano/resultado continua sendo uma etapa separada.",
+  "evidence": {
+    "source": ["src/combat_event.c", "inc/combat_event.h"],
+    "test": ["tests/test_combat_event_contract.py"],
+    "build_log": "out/logs/continuation_p04_dedup_build.log",
+    "rom_sha256": "daa412775ec319764be97c59acb7cd58922db2c75a788900999e51c59a5bcb32",
+    "suite": "13/13_passed"
+  },
+  "status": "implemented_p04_partial",
+  "limitations": [
+    "A deduplicação cobre o feedback do ledger, não remove ainda a aplicação legada de dano.",
+    "Não há captura canônica com probe de eventos no emulador.",
+    "A arte do cenário continua pendente de revisão visual e conversão final."
+  ]
+}

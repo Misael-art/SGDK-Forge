@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_combo_hit_1_jab_vdp_budget_v02",
+  "generated_at": "2026-07-29",
+  "asset_id": "taina_combo_hit_1_jab_runtime_unique_v02",
+  "decision": "cabe_isolated_action",
+  "measurement_level": "rescomp_measured_runtime_boot_observed_partial",
+  "resource_optimization": {
+    "previous_physical_cells": 5,
+    "current_unique_attack_cells": 3,
+    "removed_duplicate_cells": 2,
+    "previous_rescomp_raw_bytes": 3668,
+    "current_rescomp_raw_bytes": 2862,
+    "raw_byte_savings": 806,
+    "raw_byte_reduction_percent": 21.97,
+    "logical_phase_count_preserved": 5,
+    "logical_timing_vblanks": [3, 2, 2, 3, 4]
+  },
+  "rescomp_frames": [
+    { "physical_frame": 0, "phase": "launch", "metasprite_parts": 2, "tiles": 28, "tile_bytes": 896 },
+    { "physical_frame": 1, "phase": "active_contact", "metasprite_parts": 3, "tiles": 28, "tile_bytes": 896 },
+    { "physical_frame": 2, "phase": "follow_through_recoil", "metasprite_parts": 2, "tiles": 28, "tile_bytes": 896 }
+  ],
+  "idle_reuse": {
+    "anticipation": "spr_taina_idle_guard frame 0",
+    "recovery_bridge": "spr_taina_idle_guard frame 0",
+    "idle_frame_tiles": 24,
+    "idle_frame_tile_bytes": 768
+  },
+  "vram_interpretation": {
+    "peak_jab_allocation_tiles": 28,
+    "peak_jab_allocation_bytes": 896,
+    "peak_changed_from_v01": false,
+    "note": "Removing duplicate logical cells reduces resource/ROM data and frame metadata. It does not reduce the 28-tile peak because the active-contact silhouette is unchanged."
+  },
+  "palette": {
+    "domain": "PAL1",
+    "shared_with_idle_guard": true,
+    "visible_colors": 10
+  },
+  "claim_ceiling": "optimized_single_action_rescomp_pass_final_rom_boot_observed_attack_playback_recapture_pending"
+}

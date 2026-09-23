@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "replayability_score_v001",
+  "design_thesis": "A short 5-sector chase needs reasons to repeat without bloating the first slice.",
+  "runtime_owner": "src/system/score.c",
+  "sector_grade_model": {
+    "stars_max": 3,
+    "criteria": [
+      {"id": "lumen_collected_percent", "star_threshold": 80, "weight": "exploration_and_risk"},
+      {"id": "damage_taken", "star_threshold": 0, "weight": "mastery"},
+      {"id": "pressure_max", "star_threshold": 70, "weight": "tension_control"},
+      {"id": "time_target_met", "star_threshold": "sector_target", "weight": "speed"}
+    ],
+    "rule": "3 stars require any 3 of 4 criteria; perfect crown requires all 4."
+  },
+  "run_score_sources": [
+    {"id": "lumen_pickup", "points": 10},
+    {"id": "safe_high_lumen_duration", "points_per_second": 20},
+    {"id": "pulse_clear", "points": 50},
+    {"id": "no_damage_sector", "points": 500},
+    {"id": "signature_setpiece_clean", "points": 750},
+    {"id": "boss_weakpoint_hit", "points": 300}
+  ],
+  "unlockables": [
+    {"id": "lore_shard_sector_01", "unlock": "2 stars sector_01", "type": "lore"},
+    {"id": "concept_title_logo", "unlock": "3 stars sector_01", "type": "concept_art"},
+    {"id": "pressure_mode", "unlock": "all sectors 2 stars", "type": "difficulty_modifier"},
+    {"id": "overdrive_start", "unlock": "all sectors 3 stars", "type": "challenge_modifier"}
+  ],
+  "save_requirements": {
+    "requires_sram": true,
+    "save_contract_ref": "doc/save_system_contract.json",
+    "first_slice": "score may be volatile until save slice, but UI should reserve result fields"
+  },
+  "result_screen_fields": [
+    "sector_time",
+    "lumen_collected_percent",
+    "damage_taken",
+    "pressure_max",
+    "stars",
+    "new_record_flag"
+  ],
+  "validation_plan": [
+    "Sector result can be computed without SRAM.",
+    "SRAM persistence required before unlockables are claimed.",
+    "No replay reward is needed to finish the game.",
+    "Scoring rewards risky Lumen carry but does not force it."
+  ]
+}

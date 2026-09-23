@@ -1,0 +1,27 @@
+{
+  "id": "L066",
+  "date": "2026-09-15",
+  "title": "Refinamento medoid para reduzir quadriculação do Showdown",
+  "scope": "HAMOOPIG P08",
+  "lesson": "Seleção farthest-first preserva diversidade, mas pode trocar regiões extensas por representantes visualmente distantes. Refinamento Lloyd com medoids nativos reduz erro mantendo o limite de tiles.",
+  "implementation": [
+    "convert_tile_budget.py aceita --refine e mantém cada representante como tile 8x8 da fonte.",
+    "Quatro passagens reatribuem tiles por distância RGB ponderada e escolhem o medoid de cada cluster.",
+    "res/gfx/showdown.png foi regenerado com orçamento 768."
+  ],
+  "evidence": {
+    "source_report": "res/gfx/showdown.json",
+    "static_tests": "tests/test_stage_palette.py, tests/test_stage2_palette.py",
+    "build_log": "out/logs/continuation_p08_showdown_medoid_build.log",
+    "capture": "out/emulator_evidence/visual_ko_20260915T050519Z/01_round.png",
+    "rom_sha256": "93c94843df3843628ac8d32fedf24edbcf50bc9660122cd4c0bf9c4ef72763f0",
+    "mse_before": 199.91342163085938,
+    "mse_after": 177.02955118815103,
+    "unique_tiles": 768
+  },
+  "limitations": [
+    "A captura ainda mostra quadriculação perceptível; a promoção visual final requer revisão independente.",
+    "DMA, VDP e pior-frame não foram medidos nesta etapa."
+  ],
+  "status": "implemented_build_passed_exploratory_capture_pending_visual_gate"
+}

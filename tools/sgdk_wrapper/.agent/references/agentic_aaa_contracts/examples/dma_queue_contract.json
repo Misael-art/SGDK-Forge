@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "dma_queue_contract",
+  "scene_id": "scene_training_ring",
+  "vblank_byte_budget": 7168,
+  "ops": [
+    {
+      "frame": 0,
+      "timing": "vblank",
+      "target": "VRAM",
+      "bytes": 1024,
+      "reason": "upload spark tiles"
+    }
+  ],
+  "forbidden": ["active_frame_dma"],
+  "fallback": "preload during loading scene",
+  "blockers": []
+}

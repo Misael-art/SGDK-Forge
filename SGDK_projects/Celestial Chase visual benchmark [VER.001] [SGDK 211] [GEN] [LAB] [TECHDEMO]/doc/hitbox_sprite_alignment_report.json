@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "hitbox_sprite_alignment_report",
+  "scene_id": "chase_first_playable",
+  "shared_depth_contract": {
+    "state": "obstacle_z_u16",
+    "range": "0..255",
+    "drives": ["screen_y", "lane_convergence_x", "scale_stage", "visual_contact_point", "collision_window", "contact_shadow"],
+    "rule": "No obstacle collision threshold may be authored independently from visual depth."
+  },
+  "checks": [
+    {
+      "sprite": "spr_chase_hero_run_toward",
+      "hitbox": "lane_commit_plus_grounded_state",
+      "max_offset_px": 12,
+      "status": "designed_pending_emulator"
+    },
+    {
+      "sprite": "spr_chase_obstacle_boulder",
+      "hitbox": "lane_and_obstacle_z_contact_window",
+      "max_offset_px": 16,
+      "status": "designed_pending_emulator"
+    },
+    {
+      "sprite": "spr_chase_obstacle_brand",
+      "hitbox": "lane_and_obstacle_z_contact_window",
+      "max_offset_px": 16,
+      "status": "designed_pending_emulator"
+    },
+    {
+      "sprite": "spr_chase_energy_star",
+      "hitbox": "lane_and_obstacle_z_pickup_window",
+      "max_offset_px": 16,
+      "status": "designed_pending_emulator"
+    }
+  ],
+  "fx_obscures_hitbox": false,
+  "blockers": [
+    "alignment must be observed in BlastEm"
+  ]
+}

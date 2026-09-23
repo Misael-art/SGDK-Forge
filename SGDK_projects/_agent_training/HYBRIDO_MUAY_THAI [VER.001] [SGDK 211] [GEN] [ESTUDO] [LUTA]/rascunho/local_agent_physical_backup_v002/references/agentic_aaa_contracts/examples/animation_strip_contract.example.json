@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hero_idle_strip",
+  "asset_kind": "animation_strip",
+  "action": "idle",
+  "strip_layout": "horizontal_single_action",
+  "frame_count": 2,
+  "metadata_only": false,
+  "visual_dna_manifest": "visual_dna_manifest.example.json",
+  "motion_phase_map": "hero_idle_motion_phase_map.md",
+  "style_motion_reverse_engineering": "hero_style_motion_reverse_engineering.md",
+  "turnaround_tracking_contract": "hero_turnaround_tracking_contract.md",
+  "motion_physics_contract": "hero_idle_motion_physics_contract.md",
+  "state_transition_motion_contract": "hero_idle_state_transition_motion_contract.md",
+  "pivot_policy": "bottom_center_feet",
+  "palette_hash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "drift_thresholds": {
+    "pivot_px": 0,
+    "bbox_px": 0,
+    "palette_changed_allowed": false,
+    "scale_percent": 0
+  },
+  "approval_status": "approved_for_sheet",
+  "frames": [
+    {
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "w": 48,
+      "h": 64,
+      "pivot_x": 24,
+      "pivot_y": 63,
+      "phase": "breath_low",
+      "hold_frames": 8
+    },
+    {
+      "index": 1,
+      "x": 48,
+      "y": 0,
+      "w": 48,
+      "h": 64,
+      "pivot_x": 24,
+      "pivot_y": 63,
+      "phase": "breath_high",
+      "hold_frames": 8
+    }
+  ],
+  "blockers": []
+}

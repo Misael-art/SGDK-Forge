@@ -1,0 +1,52 @@
+{
+  "schema_version": "2.0.0",
+  "report_kind": "premium_source_manifest",
+  "production_source_ready": true,
+  "assets": [
+    {
+      "asset_id": "boss_unknown_source",
+      "asset_role": "boss",
+      "criticality": "critical",
+      "authoring_method": "not_recorded",
+      "source_origin": "not_recorded",
+      "source_classification": "unknown",
+      "tool": {
+        "name": "unknown",
+        "version": "unknown",
+        "model": null
+      },
+      "source_files": [
+        {
+          "path": "data/source_art/boss_unknown.png",
+          "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "role": "source"
+        }
+      ],
+      "transformations": [
+        {
+          "step": "quantize_to_megadrive_palette",
+          "tool": "tools/sgdk_wrapper/convert_art_to_vdp.ps1",
+          "input_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+          "output_sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+        }
+      ],
+      "variants": {
+        "basic": {
+          "path": "data/converted/boss_basic.png",
+          "sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+          "role": "diagnostic_control"
+        },
+        "elite": {
+          "path": "data/converted/boss_elite.png",
+          "sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+          "role": "unapproved_visual_candidate"
+        }
+      },
+      "license": {
+        "name": "unknown",
+        "author": "unknown",
+        "usage": "blocked fixture"
+      }
+    }
+  ]
+}

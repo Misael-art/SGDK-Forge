@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/moodboard_manifest.schema.json",
+  "title": "SGDK Moodboard Manifest",
+  "description": "Visual reference panel contract, categorized by world, protagonists, enemies, items. Annex to art_direction_decision_record.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "moodboard_id",
+    "world",
+    "protagonists",
+    "enemies",
+    "items",
+    "palette_swatches",
+    "mood_words",
+    "negative_references"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "moodboard_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "world": {
+      "type": "object",
+      "required": ["description", "key_image_refs"],
+      "properties": {
+        "description": {"type": "string", "minLength": 1},
+        "lighting_palette": {"type": "string"},
+        "key_image_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "mood_words": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "protagonists": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["protagonist_id", "key_pose_refs", "palette_dominance"],
+        "properties": {
+          "protagonist_id": {"type": "string"},
+          "key_pose_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "palette_dominance": {"type": "array", "items": {"type": "string"}},
+          "mood_words": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "enemies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["enemy_id", "key_pose_refs", "readability_notes"],
+        "properties": {
+          "enemy_id": {"type": "string"},
+          "key_pose_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "readability_notes": {"type": "string"},
+          "mood_words": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["item_id", "key_visual_refs", "rarity_signal"],
+        "properties": {
+          "item_id": {"type": "string"},
+          "key_visual_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "rarity_signal": {"type": "string", "enum": ["common", "uncommon", "rare", "epic", "legendary"]}
+        }
+      }
+    },
+    "palette_swatches": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["swatch_id", "hex", "role"],
+        "properties": {
+          "swatch_id": {"type": "string"},
+          "hex": {"type": "string", "pattern": "^[0-9A-Fa-f]{6}$"},
+          "role": {"type": "string", "enum": ["base", "shadow", "highlight", "accent", "neutral", "danger", "ui_safe"]}
+        }
+      }
+    },
+    "mood_words": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+    "negative_references": {
+      "type": "array",
+      "description": "Anti-references that should NOT be used as source or visual basis.",
+      "items": {"type": "string"}
+    },
+    "inspiration_only": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": true
+}

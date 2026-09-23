@@ -1,0 +1,22 @@
+{
+  "lesson_id": "L098",
+  "date": "2026-09-15",
+  "topic": "audio_signal_a187_current_rom",
+  "source": "isolated_blastem_pulse_monitor_capture",
+  "rom_sha256": "a1875f95c2c7c864b8c48adac34be3036c09fc30063354b65cbefd1fc8333bfe",
+  "problem": "A recaptura do binário a187 precisava provar rota e sinal de áudio sem herdar o WAV de e170.",
+  "change": "Capturar o monitor PulseAudio isolado durante o probe de combate e auditar o WAV com self-check, RMS, pico e clipping.",
+  "result": "A rota isolada foi confirmada; WAV de 48 kHz estéreo com 18,65 s, RMS -27,16 dBFS, pico 6.585 e zero clipping. Sinal presente; escuta crítica ainda não realizada.",
+  "limits": [
+    "análise elétrica não certifica timbre, mix, cortes ou pertinência dos SFX",
+    "pausa e combinações completas de áudio ainda não foram auditadas",
+    "hardware real permanece não testado"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/visual_ko_20260915T174520Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260915T174520Z/audio_signal_report.json",
+    "out/emulator_evidence/visual_ko_20260915T174520Z/emulator_audio.wav",
+    "tests/audit_captured_audio_signal.py"
+  ],
+  "status": "signal_route_pass_critical_listening_pending"
+}

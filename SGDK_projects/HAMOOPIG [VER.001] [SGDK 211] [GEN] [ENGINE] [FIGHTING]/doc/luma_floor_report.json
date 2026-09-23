@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0.0",
+  "tool": "audit_luma_floor",
+  "tool_version": "1.0.0",
+  "generated_at": "2026-08-18T14:44:23Z",
+  "rule_ref": "SGDK_GLOBAL.md secao 36",
+  "default_floor": 34,
+  "ink_mass_fail_share": 0.333,
+  "highlight_mass_min": 0.2,
+  "floor_rationale": "Um degrau de componente do Mega Drive vale 34. Contraste abaixo de um degrau nao existe no hardware.",
+  "limitation": "O piso de 34 e fato de hardware; a fracao de massa que reprova e convencao declarada e sobrescrevivel por par. Mede luma, nao legibilidade. Tinta e fundo podem ter luma distante e brigar por matiz; serifa fina ou fundo ruidoso continuam ilegiveis com contraste alto. A secao 36 continua exigindo captura.",
+  "pairs_measured": 4,
+  "results": [
+    {
+      "element": "res/branding/presents_text_96x16.png",
+      "region": [
+        112,
+        208,
+        96,
+        16
+      ],
+      "intent": "leve",
+      "floor": 34,
+      "background_luma": 83.9,
+      "background_coverage": 1.0,
+      "ink_pixels": 852,
+      "ink_luma_mean": 66.8,
+      "ink_contrast_mean": -17.1,
+      "ink_below_floor_share": 0.0,
+      "highlight_mass_share": 0.412,
+      "by_index": [
+        {
+          "index": 1,
+          "luma": 0.0,
+          "contrast": -83.9,
+          "share": 0.588
+        },
+        {
+          "index": 12,
+          "luma": 190.9,
+          "contrast": 107.0,
+          "share": 0.216
+        },
+        {
+          "index": 9,
+          "luma": 130.7,
+          "contrast": 46.8,
+          "share": 0.196
+        }
+      ],
+      "declared_in": "doc/branding_v2_cinematic_storyboard.json"
+    },
+    {
+      "element": "res/branding/logo_author_192x32.png",
+      "region": [
+        64,
+        24,
+        192,
+        32
+      ],
+      "intent": "destaque",
+      "floor": 34,
+      "background_luma": 53.4,
+      "background_coverage": 1.0,
+      "ink_pixels": 2304,
+      "ink_luma_mean": 83.1,
+      "ink_contrast_mean": 29.7,
+      "ink_below_floor_share": 0.0,
+      "highlight_mass_share": 0.635,
+      "by_index": [
+        {
+          "index": 1,
+          "luma": 0.0,
+          "contrast": -53.4,
+          "share": 0.365
+        },
+        {
+          "index": 9,
+          "luma": 130.7,
+          "contrast": 77.2,
+          "share": 0.298
+        },
+        {
+          "index": 10,
+          "luma": 160.8,
+          "contrast": 107.4,
+          "share": 0.17
+        },
+        {
+          "index": 8,
+          "luma": 100.5,
+          "contrast": 47.1,
+          "share": 0.168
+        }
+      ],
+      "declared_in": "doc/branding_v2_cinematic_storyboard.json"
+    },
+    {
+      "element": "res/branding/logo_project_224x48.png",
+      "region": [
+        48,
+        8,
+        224,
+        48
+      ],
+      "intent": "destaque",
+      "floor": 34,
+      "background_luma": 49.4,
+      "background_coverage": 1.0,
+      "ink_pixels": 5373,
+      "ink_luma_mean": 70.4,
+      "ink_contrast_mean": 21.0,
+      "ink_below_floor_share": 0.0,
+      "highlight_mass_share": 0.54,
+      "by_index": [
+        {
+          "index": 1,
+          "luma": 0.0,
+          "contrast": -49.4,
+          "share": 0.46
+        },
+        {
+          "index": 9,
+          "luma": 130.7,
+          "contrast": 81.2,
+          "share": 0.192
+        },
+        {
+          "index": 8,
+          "luma": 100.5,
+          "contrast": 51.1,
+          "share": 0.178
+        },
+        {
+          "index": 10,
+          "luma": 160.8,
+          "contrast": 111.3,
+          "share": 0.17
+        }
+      ],
+      "declared_in": "doc/branding_v2_cinematic_storyboard.json"
+    },
+    {
+      "element": "res/branding/logo_engine_224x64.png",
+      "region": [
+        48,
+        64,
+        224,
+        64
+      ],
+      "intent": "destaque",
+      "floor": 34,
+      "background_luma": 53.4,
+      "background_coverage": 1.0,
+      "ink_pixels": 8777,
+      "ink_luma_mean": 54.6,
+      "ink_contrast_mean": 1.2,
+      "ink_below_floor_share": 0.46,
+      "highlight_mass_share": 0.31,
+      "by_index": [
+        {
+          "index": 2,
+          "luma": 27.7,
+          "contrast": -25.7,
+          "share": 0.249
+        },
+        {
+          "index": 9,
+          "luma": 100.5,
+          "contrast": 47.2,
+          "share": 0.233
+        },
+        {
+          "index": 15,
+          "luma": 0.0,
+          "contrast": -53.4,
+          "share": 0.201
+        },
+        {
+          "index": 4,
+          "luma": 61.7,
+          "contrast": 8.3,
+          "share": 0.188
+        },
+        {
+          "index": 13,
+          "luma": 180.2,
+          "contrast": 126.8,
+          "share": 0.045
+        },
+        {
+          "index": 1,
+          "luma": 3.9,
+          "contrast": -49.5,
+          "share": 0.029
+        }
+      ],
+      "finding": "luma_contrast_below_floor",
+      "declared_in": "doc/branding_v2_cinematic_storyboard.json"
+    }
+  ],
+  "blocking": true,
+  "blocking_statuses": [
+    "luma_contrast_below_floor"
+  ]
+}

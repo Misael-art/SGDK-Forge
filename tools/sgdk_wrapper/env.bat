@@ -39,6 +39,10 @@ if exist "%MD_ROOT%\tools\emuladores\Blastem\Blastem.exe" (
     set "SGDK_EMULATOR_PATH=%MD_ROOT%\tools\emuladores\GensKMod\gens.exe"
 )
 
+REM Some automation contexts spawn cmd.exe without the usual OS marker.
+REM Force the native Windows branch in SGDK makefiles when running through batch.
+if not defined OS set "OS=Windows_NT"
+
 set "UPDATED_PATH=%PATH%"
 if exist "%GDK%\bin" set "UPDATED_PATH=%GDK%\bin;%UPDATED_PATH%"
 
@@ -121,28 +125,25 @@ if defined SGDK_ENV_TRACE_LOG (
     echo [TRACE] env.bat end>> "!SGDK_ENV_TRACE_LOG!"
 )
 
-endlocal & (
-    set "MD_ROOT=%MD_ROOT%"
-    set "GDK=%GDK%"
-    set "GDK_WIN=%GDK_WIN%"
-    set "JAVA_OPTS=%JAVA_OPTS%"
-    set "SGDK_EMULATOR_PATH=%SGDK_EMULATOR_PATH%"
-    set "PATH=%UPDATED_PATH%"
-    set "SGDK_HOST_BOOTSTRAPPED=%SGDK_HOST_BOOTSTRAPPED%"
-)
+endlocal & set "MD_ROOT=%MD_ROOT%" & set "GDK=%GDK%" & set "GDK_BUILD_ROOT=%GDK_BUILD_ROOT%" & set "GDK_SHORT=%GDK_SHORT%" & set "GDK_WIN=%GDK_WIN%" & set "JAVA_OPTS=%JAVA_OPTS%" & set "OS=%OS%" & set "SGDK_EMULATOR_PATH=%SGDK_EMULATOR_PATH%" & set "PATH=%UPDATED_PATH%" & set "SGDK_HOST_BOOTSTRAPPED=%SGDK_HOST_BOOTSTRAPPED%"
 
 exit /b 0
 
 :RESOLVE_GDK
 set "SGDK_LOCAL_GDK=%MD_ROOT%\sdk\sgdk-2.11"
 set "GDK_CANDIDATE="
-if defined GDK if exist "%GDK%\makefile.gen" set "GDK_CANDIDATE=%GDK%"
+if exist "%SGDK_LOCAL_GDK%\makefile.gen" set "GDK_CANDIDATE=%SGDK_LOCAL_GDK%"
+if not defined GDK_CANDIDATE if defined GDK if exist "%GDK%\makefile.gen" set "GDK_CANDIDATE=%GDK%"
 if not defined GDK_CANDIDATE if defined GDK_WIN if exist "%GDK_WIN%\makefile.gen" set "GDK_CANDIDATE=%GDK_WIN%"
-if not defined GDK_CANDIDATE if exist "%SGDK_LOCAL_GDK%\makefile.gen" set "GDK_CANDIDATE=%SGDK_LOCAL_GDK%"
 if not defined GDK_CANDIDATE if exist "%USERPROFILE%\sgdk\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=%USERPROFILE%\sgdk\sgdk-2.11"
 if not defined GDK_CANDIDATE if exist "C:\SGDK\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=C:\SGDK\sgdk-2.11"
 if not defined GDK_CANDIDATE if exist "C:\sgdk\sgdk-2.11\makefile.gen" set "GDK_CANDIDATE=C:\sgdk\sgdk-2.11"
 if not defined GDK_CANDIDATE set "GDK_CANDIDATE=%SGDK_LOCAL_GDK%"
 set "GDK=%GDK_CANDIDATE%"
+for %%I in ("%GDK%") do set "GDK_SHORT=%%~sI"
+if not defined GDK_SHORT set "GDK_SHORT=%GDK%"
+set "GDK_BUILD_ROOT=%GDK_SHORT%"
+for %%I in ("%MD_ROOT%") do set "SGDK_CANONICAL_ALIAS=%%~dI\SGDKForge\sdk\sgdk-2.11"
+if exist "%SGDK_CANONICAL_ALIAS%\makefile.gen" if exist "%SGDK_CANONICAL_ALIAS%\bin\gcc.exe" set "GDK_BUILD_ROOT=%SGDK_CANONICAL_ALIAS%"
 set "GDK_WIN=%GDK%"
 goto :eof

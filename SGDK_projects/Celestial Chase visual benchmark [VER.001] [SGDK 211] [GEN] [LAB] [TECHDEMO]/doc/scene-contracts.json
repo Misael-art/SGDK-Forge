@@ -1,0 +1,79 @@
+﻿{
+    "schema_version":  "1.0.0",
+    "project_profile":  "production",
+    "compiled_at":  "2026-06-07T14:33:02.6675991Z",
+    "compiled_from":  "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\doc\\13-spec-cenas.md",
+    "scenes":  [
+                   {
+                       "scene_id":  "chase_result_state",
+                       "scene_role":  "lab",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 2 - `chase_result_state`",
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  120,
+                       "warmup_frames":  90,
+                       "expected_app_scene_id":  4,
+                       "scene_key":  "chase_result_state",
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   },
+                   {
+                       "scene_id":  "front_end_main_menu",
+                       "scene_role":  "menu",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 0 - `front_end_main_menu`",
+                       "resource_budget_model":  {
+                                                     "scene_local_scope":  "moldura do menu, fonte tecnica, cursor e atmosfera local",
+                                                     "rom_asset_cost":  "nao_medido",
+                                                     "vram_resident_set":  "BG_A, BG_B, fonte/overlay em WINDOW e cursor",
+                                                     "load_time_dma_cost":  "preload completo permitido na entrada",
+                                                     "per_frame_dma_cost":  "nao_medido",
+                                                     "active_animation_window":  "animacao so do cursor e micro-vida de front-end",
+                                                     "scanline_sprite_pressure":  "nao_medido",
+                                                     "runtime_loading_model":  "scene_local_preload",
+                                                     "fallback_plan":  "reduzir animacao e detalhe antes de perder legibilidade"
+                                                 },
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  120,
+                       "warmup_frames":  90,
+                       "expected_app_scene_id":  2,
+                       "scene_key":  "front_end_main_menu",
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   },
+                   {
+                       "scene_id":  "first_playable_slice",
+                       "scene_role":  "gameplay",
+                       "boot_mode":  "sram_bootstrap",
+                       "compile_origin":  "merged_with_regression",
+                       "source_heading":  "### Cena 1 - `first_playable_slice`",
+                       "resource_budget_model":  {
+                                                     "scene_local_scope":  "atmosfera, overlay de estrada, heroi, perseguidor, ameacas, energia, HUD e FX",
+                                                     "rom_asset_cost":  "ROM v014 com 393216 bytes, SHA256 984d31d4256940e371586c85c83d744753d6d08e8257a255129c900ee7de62a9",
+                                                     "vram_resident_set":  "BG_B 480 + BG_A 512px 210 + letterbox 1 = 691/744, headroom 53, sprite reserve 680",
+                                                     "load_time_dma_cost":  "permitido apenas na entrada da cena",
+                                                     "per_frame_dma_cost":  "sprite engine + CRAM/scroll pequenos; planejamento 6404/7168, trace detalhado pendente; runtime v014 observado sem over-budget (cpu_load_max=75, p95=73)",
+                                                     "active_animation_window":  "heroi, perseguidor modular, pool estatico de tres slots com ate 2 hazards e 1 pickup ativos, sombras, poeira e Pulse",
+                                                     "scanline_sprite_pressure":  "runtime v012 observado 9/20; enumerador ligado a geometria da ROM mede pior caso 12/20, com 8 de headroom",
+                                                     "runtime_loading_model":  "scene_local_preload",
+                                                     "fallback_plan":  "simplificar composicao antes de vender efeito caro como default"
+                                                 },
+                       "cleanup_required":  true,
+                       "capture_kind":  "evidence_bundle",
+                       "capture_frame":  120,
+                       "warmup_frames":  90,
+                       "expected_app_scene_id":  4,
+                       "scene_key":  "first_playable_slice",
+                       "comparison_artifacts":  [
+                                                    "screenshot"
+                                                ],
+                       "regression_required":  true
+                   }
+               ]
+}

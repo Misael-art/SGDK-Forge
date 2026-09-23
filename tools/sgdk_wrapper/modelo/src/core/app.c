@@ -2,20 +2,36 @@
 
 #include "core/app.h"
 #include "game_vars.h"
+#include "scenes/scene_branding.h"
+#include "scenes/branding_v2.h"
 #include "scenes/scene_boot.h"
 #include "scenes/scene_demo.h"
 #include "scenes/scene_menu.h"
+#include "system/audio.h"
 #include "system/input.h"
+#include "system/runtime_probe.h"
 
 static void APP_drawDebugHud(void)
 {
     char line[40];
+    const char* regionName = (gApp.region == APP_REGION_PAL) ? "PAL" : "NTSC";
 
-    VDP_drawText("DEBUG HUD", 1, 26);
-    sprintf(line, "SCENE: %-8s", APP_sceneName(gApp.currentScene));
-    VDP_drawText(line, 1, 27);
-    sprintf(line, "FRAME: %lu", gApp.totalFrames);
-    VDP_drawText(line, 1, 28);
+    /* Canonical single-row HUD at row 26. Row 27 is reserved for scene hints. */
+    sprintf(line, "SCN:%-8s FRM:%05lu %s", APP_sceneName(gApp.currentScene), gApp.totalFrames, regionName);
+    VDP_drawTextFill(line, HUD_TEXT_X, HUD_ROW_HUD_GLOBAL, HUD_TEXT_LEN);
+}
+
+static void APP_drawTransitionHud(void)
+{
+    char line[40];
+
+    if (gApp.transitionFrames == 0) {
+        VDP_clearTextArea(0, 0, VDP_TEXT_COLS, 1);
+        return;
+    }
+
+    sprintf(line, ">> %s", APP_sceneName(gApp.transitionTarget));
+    VDP_drawTextFill(line, 1, 0, 38);
 }
 
 void APP_boot(bool hardReset)
@@ -32,18 +48,41 @@ void APP_boot(bool hardReset)
 
     JOY_init();
     INPUT_init();
-    SPR_init();
+    AUDIO_init();
+    SPR_initEx(16);   /* pool minimo: a cena de branding gerencia VRAM de sprite manualmente */
 
-    gApp.currentScene = APP_SCENE_BOOT;
-    gApp.previousScene = APP_SCENE_BOOT;
+    gApp.currentScene = APP_SCENE_BRANDING;
+    gApp.previousScene = APP_SCENE_BRANDING;
+    gApp.transitionTarget = APP_SCENE_BRANDING;
     gApp.totalFrames = 0;
     gApp.sceneFrames = 0;
+    gApp.transitionFrames = 0;
+    gApp.region = SYS_isPAL() ? APP_REGION_PAL : APP_REGION_NTSC;
+    gApp.targetFps = (gApp.region == APP_REGION_PAL) ? 50 : 60;
     gApp.sceneNeedsEnter = TRUE;
-    gApp.showDebugHud = TRUE;
+    gApp.showDebugHud = FALSE;
+    gApp.paused = FALSE;
+
+    MDRuntimeProbe_init();
+}
+
+void SCENE_cleanupLineScroll(VDPPlane plane)
+{
+    VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
+    VDP_setHorizontalScroll(plane, 0);
+    VDP_setVerticalScroll(plane, 0);
 }
 
 void APP_changeScene(AppScene nextScene)
 {
+    /*
+     * Canonical SAT scrub on every scene transition: SPR_reset invalidates the
+     * internal sprite list, SPR_update commits an empty list to VRAM SAT so no
+     * stale hardware sprites from the previous scene bleed into the next one.
+     */
+    SPR_reset();
+    SPR_update();
+
     if (gApp.currentScene == nextScene) {
         gApp.sceneFrames = 0;
         gApp.sceneNeedsEnter = TRUE;
@@ -52,14 +91,18 @@ void APP_changeScene(AppScene nextScene)
 
     gApp.previousScene = gApp.currentScene;
     gApp.currentScene = nextScene;
+    gApp.transitionTarget = nextScene;
     gApp.sceneFrames = 0;
+    gApp.transitionFrames = 12;
     gApp.sceneNeedsEnter = TRUE;
+    gApp.paused = FALSE;
 }
 
 const char* APP_sceneName(AppScene scene)
 {
     switch (scene)
     {
+        case APP_SCENE_BRANDING: return "BRAND";
         case APP_SCENE_BOOT: return "BOOT";
         case APP_SCENE_MENU: return "MENU";
         case APP_SCENE_DEMO: return "DEMO";
@@ -72,7 +115,8 @@ void APP_update(void)
     if (INPUT_pressed(BUTTON_C)) {
         gApp.showDebugHud = !gApp.showDebugHud;
         if (!gApp.showDebugHud) {
-            VDP_clearTextArea(0, 26, 40, 3);
+            /* Clear only the canonical HUD row; row 27 is owned by scene hints. */
+            VDP_clearTextArea(0, HUD_ROW_HUD_GLOBAL, VDP_TEXT_COLS, HUD_ROWS);
         }
     }
 
@@ -80,6 +124,7 @@ void APP_update(void)
     {
         switch (gApp.currentScene)
         {
+            case APP_SCENE_BRANDING: SCENE_brandingV2Enter(); break;
             case APP_SCENE_BOOT: SCENE_bootEnter(); break;
             case APP_SCENE_MENU: SCENE_menuEnter(); break;
             case APP_SCENE_DEMO: SCENE_demoEnter(); break;
@@ -90,6 +135,7 @@ void APP_update(void)
 
     switch (gApp.currentScene)
     {
+        case APP_SCENE_BRANDING: SCENE_brandingV2Update(); break;
         case APP_SCENE_BOOT: SCENE_bootUpdate(); break;
         case APP_SCENE_MENU: SCENE_menuUpdate(); break;
         case APP_SCENE_DEMO: SCENE_demoUpdate(); break;
@@ -99,6 +145,16 @@ void APP_update(void)
     if (gApp.showDebugHud) {
         APP_drawDebugHud();
     }
+
+    if (gApp.transitionFrames > 0) {
+        APP_drawTransitionHud();
+        gApp.transitionFrames--;
+        if (gApp.transitionFrames == 0) {
+            VDP_clearTextArea(0, 0, VDP_TEXT_COLS, 1);
+        }
+    }
+
+    AUDIO_update();
 
     gApp.totalFrames++;
     gApp.sceneFrames++;

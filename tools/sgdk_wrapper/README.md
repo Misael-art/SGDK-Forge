@@ -4,6 +4,12 @@ Sistema centralizado de build para projetos SGDK com validacao, auto-fix e prepa
 
 ## Solucao canonica
 
+> **Limite de responsabilidade:** este wrapper prepara, valida, integra e builda
+> assets. Ele não cria direção artística, não autoria personagem/cenário final e
+> não transforma conversão mecânica em aprovação visual. O ciclo artístico
+> completo está em
+> [`doc/03_art/20_canonical_art_production_lifecycle.md`](../../doc/03_art/20_canonical_art_production_lifecycle.md).
+
 O fluxo oficial deste workspace e:
 
 1. guardar os assets brutos em `res/data/`;
@@ -21,7 +27,9 @@ Esse padrao existe para separar origem bruta e saida final, permitir repetibilid
 4. Pode preparar assets brutos a partir de `res/data/`, espelhando para `res/`.
 5. Pode mover backups automaticamente para `res/data/backup/` antes de sobrescrever ou corrigir arquivos.
 6. Pode sanitizar imagens ja geradas em `res/`.
-7. Mantem o pipeline reutilizavel entre projetos.
+7. Materializa contratos metodologicos ausentes sem sobrescrever projetos antigos.
+8. Valida nome, workflow, skills, claims, tecnicas e sincronizacao documental antes do closeout.
+9. Mantem o pipeline reutilizavel entre projetos.
 
 ## Modelo oficial
 
@@ -33,6 +41,7 @@ Ele entrega:
 - `res/data/` e `res/data/backup/` ja criados;
 - codigo C inicial, pedagogico e compilavel;
 - documentacao explicando arquitetura, build e pipeline de assets.
+- manifests de metodologia e uso de tecnicas para classificar o projeto antes de arte/runtime.
 
 Se a ideia for iniciar um projeto novo, copie o conteudo de `modelo` para `SGDK_projects/<nome-do-projeto>` e trabalhe a partir dali.
 
@@ -41,7 +50,7 @@ Se a ideia for iniciar um projeto novo, copie o conteudo de `modelo` para `SGDK_
 ### Build normal
 
 ```bat
-call "F:\Projects\MegaDrive_DEV\tools\sgdk_wrapper\build.bat"
+call "%~dp0build.bat"
 ```
 
 ### Preparacao automatica de assets
@@ -50,7 +59,7 @@ Ative quando o projeto tiver imagens brutas em `res/data/` ou, em projetos legad
 
 ```bat
 set SGDK_AUTO_PREPARE_ASSETS=1
-call "F:\Projects\MegaDrive_DEV\tools\sgdk_wrapper\build.bat"
+call "%~dp0build.bat"
 ```
 
 Fluxo:
@@ -71,7 +80,7 @@ Ative quando quiser que o wrapper corrija conformidade tecnica dos PNGs em `res/
 
 ```bat
 set SGDK_AUTO_FIX_RESOURCES=1
-call "F:\Projects\MegaDrive_DEV\tools\sgdk_wrapper\build.bat"
+call "%~dp0build.bat"
 ```
 
 ## Logs importantes
@@ -79,6 +88,7 @@ call "F:\Projects\MegaDrive_DEV\tools\sgdk_wrapper\build.bat"
 - `out/logs/build_output.log`: saida completa do `make` e do `rescomp`.
 - `out/logs/build_debug.log`: acoes executadas pelos scripts do wrapper.
 - `out/logs/validation_report.json`: resultado estruturado da validacao.
+- `out/logs/project_methodology_report.json`: resultado estruturado de naming, workflow, skills, validacoes e claims.
 - `out/logs/asset_preparation_report.json`: relatorio estruturado da preparacao automatica.
 - `out/logs/asset_preparation.log`: log textual, pedagogico e cronologico da preparacao.
 - `out/logs/asset_preparation_preview.png`: previa visual dos recortes/crops escolhidos.
@@ -89,6 +99,9 @@ call "F:\Projects\MegaDrive_DEV\tools\sgdk_wrapper\build.bat"
 - `build_inner.bat`: orquestracao do pipeline.
 - `prepare_assets.py`: extracao automatica de sprite sheets e backgrounds.
 - `validate_resources.ps1`: validacao de `SPRITE` e `IMAGE`.
+- `adopt_project_methodology.ps1`: adocao segura para projeto novo ou antigo, sem overwrite.
+- `validate_project_methodology.ps1`: gate estruturado de metodologia, naming e claims.
+- `validate_project_name.ps1`: rejeita criacao de projeto novo fora de `NOME [VER.XXX] [SGDK YYY] [PLATAFORMA] [TIPO] [GENERO]`.
 - `ensure_safe_image.ps1`: sanitizacao final sem heuristica destrutiva de `(0,0)`.
 - `fix_transparency.ps1`: correcao reativa usando o sanitizador central.
 

@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_status_vocabulary_map",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Map AGENTS.md status vocabulary to the AAA evidence ladder so future agents cannot promote curation, runtime, budget or release claims through ambiguous wording.",
+  "global_rules": [
+    "Use AGENTS.md vocabulary exactly when reporting project/runtime status.",
+    "Use curation package status only for the curation package itself.",
+    "Never use pronto, AAA, validado, entregue or final as synonyms for missing evidence.",
+    "The allowed status is the lowest proven status across all affected domains."
+  ],
+  "status_map": [
+    {
+      "status_term": "documentado",
+      "scope": "project_or_technique",
+      "evidence_ladder_rung": "documented",
+      "allowed_when": [
+        "There is a curation record, note, plan, schema, prompt or documentation artifact."
+      ],
+      "forbidden_when": [
+        "The answer implies implementation, build, runtime or quality proof."
+      ],
+      "must_not_say": [
+        "funcionando",
+        "validado",
+        "pronto"
+      ]
+    },
+    {
+      "status_term": "contracted",
+      "scope": "curation_package",
+      "evidence_ladder_rung": "contracted",
+      "allowed_when": [
+        "A schema-backed contract, owner skill and blocker/evidence path exist."
+      ],
+      "forbidden_when": [
+        "No implementation file, runtime asset or validator output exists."
+      ],
+      "must_not_say": [
+        "implementado",
+        "buildado",
+        "ready_for_aaa"
+      ]
+    },
+    {
+      "status_term": "implementado",
+      "scope": "project_or_package",
+      "evidence_ladder_rung": "implemented",
+      "allowed_when": [
+        "The relevant file, skill, asset, script or resource exists in the workspace."
+      ],
+      "forbidden_when": [
+        "No build or validator output exists."
+      ],
+      "must_not_say": [
+        "buildado",
+        "testado_em_emulador",
+        "validado_budget"
+      ]
+    },
+    {
+      "status_term": "buildado",
+      "scope": "project",
+      "evidence_ladder_rung": "buildado",
+      "allowed_when": [
+        "A build command executed and produced the declared ROM/output."
+      ],
+      "forbidden_when": [
+        "Build is assumed, old, or not tied to the current worktree."
+      ],
+      "must_not_say": [
+        "testado_em_emulador",
+        "validado_budget",
+        "pronto"
+      ]
+    },
+    {
+      "status_term": "testado_em_emulador",
+      "scope": "project_runtime",
+      "evidence_ladder_rung": "testado_em_emulador",
+      "allowed_when": [
+        "The required emulator evidence exists, with BlastEm used when required by the project."
+      ],
+      "forbidden_when": [
+        "Only build output, editor screenshot, expected behavior or text report exists."
+      ],
+      "must_not_say": [
+        "validado_budget",
+        "ready_for_aaa",
+        "final_aaa_release"
+      ]
+    },
+    {
+      "status_term": "validado_budget",
+      "scope": "project_runtime_hardware",
+      "evidence_ladder_rung": "validado_budget",
+      "allowed_when": [
+        "VRAM, CRAM, SAT, DMA, scanline, VDP dump or equivalent budget evidence exists for the claim."
+      ],
+      "forbidden_when": [
+        "Only screenshot, build output or visual plausibility exists."
+      ],
+      "must_not_say": [
+        "ready_for_aaa",
+        "final_aaa_release"
+      ]
+    },
+    {
+      "status_term": "candidate_applied_not_verified",
+      "scope": "curation_package",
+      "evidence_ladder_rung": "documented",
+      "allowed_when": [
+        "Curation artifacts were written but local validation, audits, commit or push are not proven."
+      ],
+      "forbidden_when": [
+        "Validator and workspace audits have passed and package status files were promoted."
+      ],
+      "must_not_say": [
+        "validated_curation",
+        "commit_created",
+        "push_completed"
+      ]
+    },
+    {
+      "status_term": "validated_curation",
+      "scope": "curation_package",
+      "evidence_ladder_rung": "contracted",
+      "allowed_when": [
+        "The curation validator passes, workspace audits are handled, and status files are updated from recovery plan."
+      ],
+      "forbidden_when": [
+        "Runner execution is blocked or command output is missing."
+      ],
+      "must_not_say": [
+        "ready_for_aaa",
+        "testado_em_emulador",
+        "validado_budget"
+      ]
+    },
+    {
+      "status_term": "ready_for_aaa",
+      "scope": "project_or_asset_claim",
+      "evidence_ladder_rung": "candidate_aaa",
+      "allowed_when": [
+        "All activated domain gates pass, visual/human review requirements are met, and emulator/VDP evidence exists for runtime claims."
+      ],
+      "forbidden_when": [
+        "This is only a curation package validation, build success, report, screenshot-only proof or partial asset."
+      ],
+      "must_not_say": [
+        "final_aaa_release"
+      ]
+    }
+  ],
+  "forbidden_synonym_rules": [
+    {
+      "ambiguous_term": "pronto",
+      "required_replacement": "Use the exact proven status: documentado, implementado, buildado, testado_em_emulador, validado_budget, candidate_aaa or validated_curation."
+    },
+    {
+      "ambiguous_term": "validado",
+      "required_replacement": "Specify whether validation means package validator, emulator evidence, VDP budget evidence or human visual review."
+    },
+    {
+      "ambiguous_term": "AAA",
+      "required_replacement": "Use candidate_aaa or ready_for_aaa only if the evidence ladder and guardian allow it."
+    }
+  ]
+}

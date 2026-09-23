@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/scene_evidence_bundle.schema.json",
+  "title": "Scene Evidence Bundle",
+  "description": "Describes the evidence artifacts captured for a single scene during a regression run. Stored at out/evidence/scenes/<scene_id>/bundle.json.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scene_id",
+    "captured_at",
+    "rom_sha256",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "scene_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rom_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$|^MISSING$"
+    },
+    "boot_mode": {
+      "type": "string"
+    },
+    "capture_frame": {
+      "type": ["integer", "null"]
+    },
+    "warmup_frames": {
+      "type": ["integer", "null"]
+    },
+    "readiness_ok": {
+      "type": ["boolean", "null"]
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "screenshot": {
+          "type": ["string", "null"],
+          "description": "Relative path to screenshot within bundle directory"
+        },
+        "sram": {
+          "type": ["string", "null"],
+          "description": "Relative path to SRAM within bundle directory. For V2 projects this is the canonical technical evidence when it carries the MDRT block."
+        },
+        "vdp_dump": {
+          "type": ["string", "null"],
+          "description": "Relative path to historical visual_vdp_dump.bin when produced by legacy VLAB-compatible flows. Optional for current V2 pipelines."
+        }
+      },
+      "additionalProperties": true
+    },
+    "capture_status": {
+      "type": "string",
+      "enum": ["ok", "degraded", "partial", "wrong_scene", "failed"]
+    },
+    "expected_app_scene_id": {
+      "type": ["integer", "null"],
+      "description": "App scene ID that was expected based on regression manifest"
+    },
+    "captured_app_scene_id": {
+      "type": ["integer", "null"],
+      "description": "App scene ID actually captured via MDRT block in SRAM"
+    },
+    "scene_verification_required": {
+      "type": ["boolean", "null"],
+      "description": "Whether scene verification via MDRT was required"
+    },
+    "scene_match": {
+      "type": ["boolean", "null"],
+      "description": "Whether captured scene matches expected scene"
+    },
+    "ready_heartbeat_ok": {
+      "type": ["boolean", "null"],
+      "description": "Whether the readiness heartbeat was detected in SRAM"
+    },
+    "mdrt_present": {
+      "type": ["boolean", "null"],
+      "description": "Whether a valid MDRT block was found in SRAM"
+    },
+    "mdrt": {
+      "type": ["object", "null"],
+      "description": "Parsed MDRT block data"
+    },
+    "artifacts_captured": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["screenshot", "sram", "vdp_dump"] },
+      "description": "Canonical list of artifact labels captured"
+    },
+    "failure_reason": {
+      "type": ["string", "null"],
+      "description": "Human-readable failure description"
+    }
+  },
+  "additionalProperties": true
+}

@@ -12,6 +12,8 @@ $LOG_DIR = if ($env:SGDK_LOG_DIR) { $env:SGDK_LOG_DIR } else { Join-Path $pwd.Pa
 $DEBUG_LOG = if ($env:SGDK_DEBUG_LOG) { $env:SGDK_DEBUG_LOG } else { Join-Path $LOG_DIR "build_debug.log" }
 $PREP_REPORT = Join-Path $LOG_DIR "asset_preparation_report.json"
 
+. (Join-Path $PSScriptRoot "_lib\sgdk_common.ps1")
+
 function Write-Log($msg, $level = "INFO") {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     Write-Host "[$timestamp] [$level] $msg"
@@ -21,14 +23,51 @@ function Write-Log($msg, $level = "INFO") {
     Add-Content -LiteralPath $DEBUG_LOG "[$timestamp] [$level] $msg"
 }
 
-function Get-MagickPath() {
-    $magickPath = Get-Command magick -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
-    if (-not $magickPath) {
-        $commonPaths = Get-ChildItem -Path "C:\Program Files\ImageMagick*" -Filter "magick.exe" -Recurse -ErrorAction SilentlyContinue |
-            Select-Object -ExpandProperty FullName
-        if ($commonPaths.Count -gt 0) { $magickPath = $commonPaths[0] }
+function Initialize-BackupSession([string]$workDir) {
+    if ($env:SGDK_ENABLE_BACKUP -and $env:SGDK_ENABLE_BACKUP -eq "0") {
+        return $null
     }
-    return $magickPath
+    if ($script:BackupSessionRoot) {
+        return $script:BackupSessionRoot
+    }
+    $root = Join-Path $workDir "out\.backups"
+    if (-not (Test-Path -LiteralPath $root)) {
+        New-Item -ItemType Directory -Force -Path $root | Out-Null
+    }
+    $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $token = [guid]::NewGuid().ToString("N")
+    $session = Join-Path $root ("{0}_{1}" -f $stamp, $token)
+    New-Item -ItemType Directory -Force -Path $session | Out-Null
+    $script:BackupSessionRoot = $session
+    return $session
+}
+
+function Save-BackupBeforeEdit([string]$workDir, [string]$absPath) {
+    $session = Initialize-BackupSession $workDir
+    if (-not $session) {
+        return
+    }
+    if (-not (Test-Path -LiteralPath $absPath -PathType Leaf)) {
+        return
+    }
+    $fullWork = [IO.Path]::GetFullPath($workDir).TrimEnd('\')
+    $fullFile = [IO.Path]::GetFullPath($absPath)
+    $rel = $null
+    if ($fullFile.StartsWith($fullWork + "\", [StringComparison]::OrdinalIgnoreCase)) {
+        $rel = $fullFile.Substring($fullWork.Length + 1)
+    } else {
+        $rel = Split-Path -Leaf $fullFile
+    }
+    $dest = Join-Path $session $rel
+    $destDir = Split-Path -Parent $dest
+    if (-not (Test-Path -LiteralPath $destDir)) {
+        New-Item -ItemType Directory -Force -Path $destDir | Out-Null
+    }
+    Copy-Item -LiteralPath $fullFile -Destination $dest -Force
+}
+
+function Get-MagickPath() {
+    return SGDK_GetMagickPath
 }
 
 function Get-ImageInfo($magickPath, $filePath) {
@@ -120,7 +159,7 @@ if ($metadata -and $metadata.details.background_color) {
     }
 }
 
-$tmpFile = [IO.Path]::GetTempFileName() + ".png"
+$tmpFile = Join-Path ([IO.Path]::GetTempPath()) ("sgdk_safe_{0}.png" -f ([guid]::NewGuid().ToString("N")))
 try {
     $args = @($absFile)
     if ($transparentColor -and $resolvedKind -eq "SPRITE") {
@@ -146,6 +185,7 @@ try {
         exit 1
     }
 
+    Save-BackupBeforeEdit $pwd.Path $absFile
     Move-Item -LiteralPath $tmpFile -Destination $absFile -Force
     $revalidated = Get-ImageInfo $magickPath $absFile
     if (-not $revalidated.Indexed -or $revalidated.Depth -gt 8 -or $revalidated.Colors -gt 16) {

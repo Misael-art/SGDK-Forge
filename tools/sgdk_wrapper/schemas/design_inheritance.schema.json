@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/design_inheritance.schema.json",
+  "title": "Design Inheritance Contract",
+  "description": "Traceability contract linking model sheet, visual DNA, key poses, animation strips, and final runtime assets without copying IP or allowing style drift.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "asset_id",
+    "visual_dna_manifest",
+    "model_sheet",
+    "inheritance_rules",
+    "derivative_policy",
+    "approval_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "visual_dna_manifest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_sheet": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "status"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "approved",
+            "needs_review",
+            "blocked"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "inheritance_rules": {
+      "type": "object",
+      "required": [
+        "must_preserve",
+        "may_vary",
+        "must_reject"
+      ],
+      "properties": {
+        "must_preserve": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "may_vary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "must_reject": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "clone_risk_high",
+              "anatomy_drift",
+              "pivot_drift",
+              "palette_drift",
+              "outfit_drift",
+              "face_drift",
+              "bbox_drift",
+              "metadata_only_asset"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "derivative_policy": {
+      "type": "object",
+      "required": [
+        "derivative_of",
+        "derivative_license_status",
+        "clone_risk_score",
+        "clone_risk_method"
+      ],
+      "properties": {
+        "derivative_of": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "derivative_license_status": {
+          "type": "string",
+          "enum": [
+            "not_derivative",
+            "licensed",
+            "blocked",
+            "unknown"
+          ]
+        },
+        "clone_risk_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "clone_risk_method": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "needs_review",
+        "blocked"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

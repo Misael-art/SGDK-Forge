@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "stage_translation_runtime_report",
+  "stage_id": "stage2_swamp_dock_v02",
+  "source": "data/source_art/stage2_swamp/generated_stage2_v02.png",
+  "runtime_output": "res/gfx/bgb2.png",
+  "source_sha256": "136bd72c8860f04c223eb6844f879920c9ea193695c4fb7fc4eb831c3b8f30cf",
+  "runtime_output_sha256": "461ffa037ab58b7ceddeb8dbafb868386237c9fcd296d1462ac1c9a1771d53f4",
+  "rom_sha256": "b6f7cd649f829c21555883014721992b04261f0c32b34a620538d0548be7cc88",
+  "translation_contract": {
+    "canvas": [512, 256],
+    "palette": "Mega Drive 9-bit snapped, index 0 reserved",
+    "resident_tile_budget": 864,
+    "pre_tile_block": 4,
+    "unique_tiles_before_reuse": 1004,
+    "unique_tiles_after_pipeline": 864,
+    "effective_rescomp_tiles": 653,
+    "claim_ceiling": "translated_stage_candidate"
+  },
+  "runtime_verdict": {
+    "blastem_boot": "passed",
+    "blastem_combat_capture": "passed",
+    "severe_false_rectangles": "reduced_vs_9509ebbb",
+    "visual_parity": "not_met",
+    "ready_for_aaa": false,
+    "latest_evidence": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/01_round.png",
+    "full_match_evidence": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/",
+    "hprb_report": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/hprb_probe_report.json",
+    "hsem_report": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/hsem_probe_report.json",
+    "runtime_metrics": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/runtime_metrics.json",
+    "audio_signal": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/audio_signal_report.json"
+  },
+  "rejected_variants": [
+    {"pre_tile_block": 2, "reason": "runtime shows blue/tan false tile squares after whole-tile reduction"},
+    {"pre_tile_block": 3, "reason": "BlastEm did not reach title/HUD in repeated capture attempts; not promoted"}
+  ],
+  "next_required": [
+    "continue authored modular tile translation toward multi-plane/parallax parity",
+    "independent visual/gameplay review of the new KO/result/revanche evidence",
+    "reduce CPU/jitter before claiming sustained 60 fps",
+    "perform human listening review of Sound Test and combat mix",
+    "close the general validation drift"
+  ]
+}

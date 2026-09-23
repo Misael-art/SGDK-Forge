@@ -1,0 +1,283 @@
+{
+  "schema": "sprite_strip_integrity_report.v1",
+  "tool": "analyze_sprite_strip_integrity.py",
+  "image_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/v11_visual_production/jump_r3/jump_v11_candidate.png",
+  "mode": "P",
+  "size": [
+    128,
+    32
+  ],
+  "frame_width": 32,
+  "frame_height": 32,
+  "frame_count": 4,
+  "background_rgba": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "background_palette_index": 0,
+  "asset_id": "kirby_jump_v11",
+  "asset_kind": "character",
+  "state_profile": "jump",
+  "boundary_contact_policy": "block_on_any_boundary_contact",
+  "palette_domain": "",
+  "palette_domain_report": "",
+  "declared_fx_indices": null,
+  "measurement_level": "measured",
+  "scale_profile_thresholds": {
+    "standing": 1.35,
+    "dash": 1.55,
+    "hop": 1.65,
+    "crouch": 1.7,
+    "grounded": 3.8,
+    "knockdown": 5.0,
+    "getup": 5.0,
+    "throw": 3.2,
+    "fx": 4.0
+  },
+  "status": "passed",
+  "summary": {
+    "edge_problem_frames": 0,
+    "matte_problem_frames": 0,
+    "island_problem_frames": 0,
+    "baked_fx_frames": 0,
+    "bbox_width_min": 24,
+    "bbox_width_max": 26,
+    "bbox_height_min": 16,
+    "bbox_height_max": 17
+  },
+  "findings": [],
+  "frames": [
+    {
+      "frame": 1,
+      "non_background_pixels": 296,
+      "bbox": [
+        4,
+        10,
+        27,
+        25
+      ],
+      "bbox_size": [
+        24,
+        16
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 3,
+        "small_island_count": 2,
+        "small_island_pixels": 20,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 276,
+        "non_largest_component_pixels": 20,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 10,
+        "largest_stray_component_box": [
+          18,
+          24,
+          23,
+          25
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 276,
+            "bbox": [
+              4,
+              10,
+              27,
+              22
+            ]
+          },
+          {
+            "area": 10,
+            "bbox": [
+              18,
+              24,
+              23,
+              25
+            ]
+          },
+          {
+            "area": 10,
+            "bbox": [
+              8,
+              24,
+              13,
+              25
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 2,
+      "non_background_pixels": 300,
+      "bbox": [
+        4,
+        7,
+        27,
+        23
+      ],
+      "bbox_size": [
+        24,
+        17
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 3,
+        "small_island_count": 2,
+        "small_island_pixels": 12,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 288,
+        "non_largest_component_pixels": 12,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 6,
+        "largest_stray_component_box": [
+          18,
+          23,
+          23,
+          23
+        ],
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 288,
+            "bbox": [
+              4,
+              7,
+              27,
+              20
+            ]
+          },
+          {
+            "area": 6,
+            "bbox": [
+              18,
+              23,
+              23,
+              23
+            ]
+          },
+          {
+            "area": 6,
+            "bbox": [
+              8,
+              23,
+              13,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 3,
+      "non_background_pixels": 340,
+      "bbox": [
+        3,
+        6,
+        28,
+        21
+      ],
+      "bbox_size": [
+        26,
+        16
+      ],
+      "edge_counts": {
+        "left": 8,
+        "right": 8,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 340,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 340,
+            "bbox": [
+              3,
+              6,
+              28,
+              21
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "frame": 4,
+      "non_background_pixels": 324,
+      "bbox": [
+        4,
+        8,
+        27,
+        24
+      ],
+      "bbox_size": [
+        24,
+        17
+      ],
+      "edge_counts": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      },
+      "touching_edges": [],
+      "component_report": {
+        "component_count": 1,
+        "small_island_count": 0,
+        "small_island_pixels": 0,
+        "external_small_island_count": 0,
+        "external_small_island_pixels": 0,
+        "largest_component_area": 324,
+        "non_largest_component_pixels": 0,
+        "external_non_largest_component_pixels": 0,
+        "largest_stray_component_area": 0,
+        "largest_stray_component_box": null,
+        "largest_external_stray_component_area": 0,
+        "largest_external_stray_component_box": null,
+        "component_boxes": [
+          {
+            "area": 324,
+            "bbox": [
+              4,
+              8,
+              27,
+              24
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

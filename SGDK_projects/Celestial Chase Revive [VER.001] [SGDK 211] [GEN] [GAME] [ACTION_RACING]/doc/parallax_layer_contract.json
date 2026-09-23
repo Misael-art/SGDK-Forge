@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "layers": [
+    {
+      "layer": "BG_B",
+      "role": "distant sky, faros and boss silhouette",
+      "scroll_ratio": "0.125x to 0.25x",
+      "palette_domain": "PAL0"
+    },
+    {
+      "layer": "BG_A",
+      "role": "road, telegraph bands and near debris",
+      "scroll_ratio": "1.0x with line-scroll deformation",
+      "palette_domain": "PAL1"
+    },
+    {
+      "layer": "sprites",
+      "role": "Lio, hazards, pickups, boss parts and FX",
+      "scroll_ratio": "screen-space or lane-space by owner",
+      "palette_domain": "PAL2/PAL3"
+    }
+  ],
+  "teardown": "reset scroll and hscroll tables on scene exit",
+  "fallback": "BG_B slow plane scroll and BG_A fixed perspective"
+}

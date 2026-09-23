@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "controllers": ["3_button", "6_button"],
+  "actions": {
+    "left": "lane_left",
+    "right": "lane_right",
+    "A": "jump",
+    "B": "pulse",
+    "C": "context_confirm_or_slide_future",
+    "START": "pause_or_confirm",
+    "MODE": "menu_back_when_supported"
+  },
+  "buffer_policy": "2 to 4 frames for lane/jump, no buffered Pulse during pause",
+  "remap": "future_option",
+  "transition_lock": "input ignored during critical scene transitions"
+}

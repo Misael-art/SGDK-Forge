@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_motion_phase_map_p0_v01",
+  "generated_at": "2026-07-08T21:18:32-03:00",
+  "asset_id": "taina",
+  "status": "declared_pre_generation",
+  "measurement_level": "declared",
+  "motion_phase_maps": [
+    {
+      "animation_id": "idle_guard",
+      "frame_count": 6,
+      "phase_sequence": [
+        { "frame": 1, "phase": "neutral_guard", "note": "feet locked, high guard, eyes forward" },
+        { "frame": 2, "phase": "inhale_start", "note": "chest/shoulders rise by internal line shift only" },
+        { "frame": 3, "phase": "inhale_hold", "note": "hair and sash begin delayed lift" },
+        { "frame": 4, "phase": "exhale_start", "note": "shoulders relax without pivot movement" },
+        { "frame": 5, "phase": "settle", "note": "sash returns, jaw stays focused" },
+        { "frame": 6, "phase": "loop_closure", "note": "matches frame 1 mass and foot contact" }
+      ]
+    },
+    {
+      "animation_id": "light_jab_cross",
+      "frame_count": 5,
+      "phase_sequence": [
+        { "frame": 1, "phase": "ready", "note": "guard high, rear shoulder loaded" },
+        { "frame": 2, "phase": "anticipation", "note": "center of mass compresses back 2px; front hand guards face" },
+        { "frame": 3, "phase": "active_contact", "note": "fist line extends; jaw tense; hitstop candidate" },
+        { "frame": 4, "phase": "follow_through", "note": "striking arm decelerates; sash still moving forward" },
+        { "frame": 5, "phase": "recovery", "note": "returns to guard without snapping torso or ground_y" }
+      ]
+    },
+    {
+      "animation_id": "medium_knee_or_low_kick",
+      "frame_count": 6,
+      "phase_sequence": [
+        { "frame": 1, "phase": "ready", "note": "guard high, rear foot rooted" },
+        { "frame": 2, "phase": "anticipation", "note": "hip closes, shoulders counter-rotate" },
+        { "frame": 3, "phase": "windup", "note": "knee/leg begins arc; hair trails" },
+        { "frame": 4, "phase": "active_contact", "note": "leg/knee has clearest silhouette; hitstop candidate" },
+        { "frame": 5, "phase": "follow_through", "note": "weight continues past contact; sash follows late" },
+        { "frame": 6, "phase": "recovery", "note": "root foot and pivot settle back to guard" }
+      ]
+    },
+    {
+      "animation_id": "mare_push_special",
+      "frame_count": 8,
+      "phase_sequence": [
+        { "frame": 1, "phase": "ready", "note": "two hands close to chest, feet planted" },
+        { "frame": 2, "phase": "anticipation", "note": "body compresses and pulls tide force inward" },
+        { "frame": 3, "phase": "windup", "note": "palms align; shoulders rotate forward" },
+        { "frame": 4, "phase": "active_start", "note": "arms extend; separate FX begins in runtime asset" },
+        { "frame": 5, "phase": "active_peak", "note": "silhouette peak; hitstop/impact candidate" },
+        { "frame": 6, "phase": "follow_through", "note": "center of mass finishes forward, hair/sash lag" },
+        { "frame": 7, "phase": "recovery", "note": "arms retract; feet stay grounded" },
+        { "frame": 8, "phase": "settle", "note": "return to guard, no baked water remaining in body sheet" }
+      ]
+    },
+    {
+      "animation_id": "hurt_light_heavy",
+      "frame_count": 4,
+      "phase_sequence": [
+        { "frame": 1, "phase": "impact", "note": "force direction readable before SFX; face asymmetric" },
+        { "frame": 2, "phase": "recoil", "note": "shoulders and head break posture while scale remains locked" },
+        { "frame": 3, "phase": "stabilize", "note": "feet or fall path declared; sash overshoots" },
+        { "frame": 4, "phase": "recovery_bridge", "note": "valid return path to idle, block or knockdown" }
+      ]
+    }
+  ],
+  "known_blockers": [
+    "not_measured_against_frames",
+    "no_animation_preview",
+    "no_frame_delta_report",
+    "no_foot_contact_report"
+  ]
+}

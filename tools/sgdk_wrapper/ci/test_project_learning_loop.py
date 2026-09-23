@@ -1,40 +1,442 @@
 #!/usr/bin/env python3
-"""Thirty-six checks for the main-compatible learning evidence-binding guard."""
+"""Regression suite for the safe project-local closed learning loop."""
+
 from __future__ import annotations
-import importlib.util
+
+import hashlib
+import json
+import shutil
+import subprocess
+import sys
 from pathlib import Path
 
-SCRIPT = Path(__file__).resolve().parents[1] / ".agent" / "scripts" / "learning_evidence_binding.py"
-spec = importlib.util.spec_from_file_location("binding", SCRIPT)
-binding = importlib.util.module_from_spec(spec); assert spec and spec.loader; spec.loader.exec_module(binding)
-SHA_A, SHA_B = "a" * 64, "b" * 64
-passed = total = 0
+from jsonschema import Draft7Validator
 
-def check(name: str, actual, expected) -> None:
-    global passed, total
+
+ROOT = Path(__file__).resolve().parents[3]
+SCRIPT = ROOT / "tools" / "sgdk_wrapper" / ".agent" / "scripts" / "extract_project_learning.py"
+SCHEMA = ROOT / "tools" / "sgdk_wrapper" / "schemas" / "learning_ledger.schema.json"
+WRAPPER = ROOT / "tools" / "sgdk_wrapper" / "audit_project_learning.ps1"
+ADOPT = ROOT / "tools" / "sgdk_wrapper" / "adopt_project_methodology.ps1"
+MODEL_LEDGER = ROOT / "tools" / "sgdk_wrapper" / "modelo" / "doc" / "agent_learning" / "learning_ledger.json"
+CANONICAL_AGENT = ROOT / "tools" / "sgdk_wrapper" / ".agent"
+FIXTURE_ROOT = ROOT / "out" / "ci" / "project_learning_fixture"
+
+passed = 0
+failed = 0
+total = 0
+
+
+def assert_true(name: str, condition: bool, detail: str = "") -> None:
+    global passed, failed, total
     total += 1
-    if actual != expected:
-        raise AssertionError(f"{name}: expected {expected!r}, got {actual!r}")
-    passed += 1
-    print(f"[PASS] {name}")
+    if condition:
+        passed += 1
+        print(f"  [PASS] {name}")
+    else:
+        failed += 1
+        suffix = f" -- {detail}" if detail else ""
+        print(f"  [FAIL] {name}{suffix}")
 
-def run_case(name: str, manifest, gates, expected_status, expected_grade, expected_gap, expected_mismatch, expected_failed) -> None:
-    report = binding.evaluate(manifest, gates)
-    check(f"{name}: status", report["status"], expected_status)
-    check(f"{name}: grade", report["evidence_grade"], expected_grade)
-    check(f"{name}: gap", expected_gap in report["binding_gaps"], expected_gap is not None)
-    check(f"{name}: mismatch count", len(report["mismatches"]), expected_mismatch)
-    check(f"{name}: failed count", len(report["failed_gates"]), expected_failed)
-    check(f"{name}: hash echo", report["rom_sha256"], str(manifest.get("rom_sha256", "")).lower() or None)
 
-def main() -> int:
-    run_case("sealed_matching", {"status": "sealed", "rom_sha256": SHA_A}, [{"gate_id": "runtime", "status": "passed", "rom_sha256": SHA_A}], "fresh", "E4_budget_and_regression", None, 0, 0)
-    run_case("unsealed", {"status": "open", "rom_sha256": SHA_A}, [{"gate_id": "runtime", "status": "passed", "rom_sha256": SHA_A}], "stale", "E3_blastem", "evidence_bundle_not_sealed", 0, 0)
-    run_case("invalid_hash", {"status": "sealed", "rom_sha256": "invalid"}, [{"gate_id": "runtime", "status": "passed", "rom_sha256": "invalid"}], "stale", "E3_blastem", "rom_sha256_invalid", 0, 0)
-    run_case("missing_gate", {"status": "sealed", "rom_sha256": SHA_A}, [], "stale", "E3_blastem", "gate_report_reference_missing", 0, 0)
-    run_case("hash_mismatch", {"status": "sealed", "rom_sha256": SHA_A}, [{"gate_id": "runtime", "status": "passed", "rom_sha256": SHA_B}], "stale", "E3_blastem", "gate_report_rom_hash_mismatch", 1, 0)
-    run_case("failed_gate", {"status": "sealed", "rom_sha256": SHA_A}, [{"gate_id": "runtime", "status": "failed", "rom_sha256": SHA_A}], "stale", "E3_blastem", "referenced_gate_not_passed", 0, 1)
-    print(f"{passed}/{total} passed")
-    return 0 if passed == total == 36 else 1
+def write_text(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
 
-if __name__ == "__main__": raise SystemExit(main())
+
+def reset_fixture(with_learning: bool = True) -> None:
+    if FIXTURE_ROOT.exists():
+        shutil.rmtree(FIXTURE_ROOT)
+    (FIXTURE_ROOT / "out" / "logs").mkdir(parents=True)
+    if not with_learning:
+        return
+    learning = FIXTURE_ROOT / "doc" / "agent_learning"
+    learning.mkdir(parents=True)
+    write_text(learning / "README.md", "# Agent Learning\n")
+    write_text(
+        learning / "success_patterns.md",
+        "# Success Patterns\n\n| Data | Classificacao | Contexto | Padrao observado | Evidencia | Limite de uso |\n"
+        "|---|---|---|---|---|---|\n"
+        "| [DATA] | `local_note` | [cena/sistema] | [o que funcionou] | [build/log] | [limite] |\n",
+    )
+    write_text(
+        learning / "failure_patterns.md",
+        "# Failure Patterns\n\n| Data | Classificacao | Contexto | Falha observada | Causa provavel | Mitigacao | Evidencia |\n"
+        "|---|---|---|---|---|---|---|\n"
+        "| [DATA] | `local_note` | [cena/sistema] | [o que falhou] | [causa] | [como evitar] | [log] |\n",
+    )
+    write_text(
+        learning / "skill_promotion_candidates.md",
+        "# Skill Promotion Candidates\n\n"
+        "| Data | Classificacao | Candidato | Problema resolvido | Evidencia minima | Risco | Proxima revisao humana |\n"
+        "|---|---|---|---|---|---|---|\n"
+        "| [DATA] | `promotion_candidate` | [nome] | [problema] | [evidencia] | [risco] | [criterio] |\n",
+    )
+    write_text(learning / "canonical_promotion_review.md", "# Canonical Promotion Review\n")
+
+
+def run_loop(mode: str) -> tuple[subprocess.CompletedProcess[str], dict]:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPT),
+            "--project-root",
+            str(FIXTURE_ROOT),
+            "--mode",
+            mode,
+            "--output-format",
+            "json",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    payload = {}
+    if result.stdout.strip():
+        try:
+            payload = json.loads(result.stdout)
+        except json.JSONDecodeError:
+            payload = {}
+    return result, payload
+
+
+def run_powershell(script: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(script), *args],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
+def tree_hash(root: Path) -> str:
+    digest = hashlib.sha256()
+    for path in sorted(p for p in root.rglob("*") if p.is_file() and "__pycache__" not in p.parts):
+        digest.update(path.relative_to(root).as_posix().encode("utf-8"))
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
+print("=== Project Learning Loop Test ===")
+
+assert_true("extractor exists", SCRIPT.exists(), str(SCRIPT))
+assert_true("learning ledger schema exists", SCHEMA.exists(), str(SCHEMA))
+assert_true("PowerShell learning wrapper exists", WRAPPER.exists(), str(WRAPPER))
+assert_true("canonical model learning ledger exists", MODEL_LEDGER.exists(), str(MODEL_LEDGER))
+
+if SCRIPT.exists() and SCHEMA.exists() and WRAPPER.exists() and MODEL_LEDGER.exists():
+    reset_fixture(with_learning=False)
+    result, report = run_loop("audit")
+    assert_true("legacy project without learning context audits successfully", result.returncode == 0, result.stderr)
+    assert_true("absent learning context remains a warning", report.get("status") == "learning_context_absent", str(report))
+    assert_true(
+        "audit mode creates no project files",
+        not (FIXTURE_ROOT / "doc" / "agent_learning" / "learning_ledger.json").exists()
+        and not (FIXTURE_ROOT / "out" / "logs" / "project_learning_report.json").exists(),
+    )
+
+    reset_fixture()
+    result, report = run_loop("capture")
+    ledger_path = FIXTURE_ROOT / "doc" / "agent_learning" / "learning_ledger.json"
+    runtime_report_path = FIXTURE_ROOT / "out" / "logs" / "project_learning_report.json"
+    assert_true("capture mode writes the local ledger", result.returncode == 0 and ledger_path.exists(), result.stderr)
+    assert_true("capture mode writes the runtime report", runtime_report_path.exists())
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    assert_true("empty templates produce no qualified lessons", ledger.get("lessons") == [], str(ledger.get("lessons")))
+    assert_true("empty templates report no qualified lessons", report.get("capture_status") == "no_qualified_lessons", str(report))
+    assert_true("capture never claims canonical promotion", report.get("canonical_promotion_performed") is False)
+
+    for i in range(1, 4):
+        validation_report = {
+            "schema_version": "1.0.0",
+            "generated_at": f"2026-06-0{i}T00:00:0{i}Z",
+            "project_root": str(FIXTURE_ROOT),
+            "blocking_statuses": ["visual_gate_blocked"],
+        }
+        write_text(FIXTURE_ROOT / "out" / "logs" / f"validation_report_{i}.json", json.dumps(validation_report))
+    result, blocked_report = run_loop("capture")
+    assert_true("loop with no lessons blocks capture without justification", result.returncode == 1, result.stderr)
+    assert_true("blocked capture reports learning_capture_skipped", blocked_report.get("status") == "learning_capture_skipped", str(blocked_report))
+
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "canonical_promotion_review.md",
+        "# Canonical Promotion Review\n\nno_qualified_lessons_justification: loop reproduced; no new patterns beyond existing owners; human approved to proceed.\n",
+    )
+    result, unblocked_report = run_loop("capture")
+    assert_true("loop with justification allows capture", result.returncode == 0, result.stderr)
+    assert_true("unblocked capture keeps no_qualified_lessons", unblocked_report.get("capture_status") == "no_qualified_lessons", str(unblocked_report))
+
+    reset_fixture()
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "failure_patterns.md",
+        """# Failure Patterns
+
+## Static Sprite Scaling Is Not A Modular Boss
+
+- date: 2026-06-04
+- symptom: the pursuer appeared as one flat image despite a modular boss claim.
+- technical diagnosis: child modules were never instantiated or updated.
+- preventive heuristic: require separate runtime sprites, relative motion and a worst-scanline report.
+- evidence: C:\\outside\\untrusted_capture.png
+- check in ROM: capture two frames where child parts change relative position.
+""",
+    )
+    canonical_before = tree_hash(CANONICAL_AGENT)
+    result, report = run_loop("capture")
+    canonical_after = tree_hash(CANONICAL_AGENT)
+    ledger = json.loads((FIXTURE_ROOT / "doc" / "agent_learning" / "learning_ledger.json").read_text(encoding="utf-8"))
+    assert_true("structured failure is extracted", len(ledger.get("lessons", [])) == 1, str(ledger.get("lessons")))
+    lesson = ledger["lessons"][0]
+    assert_true(
+        "known failure routes to an existing canonical owner",
+        lesson["routing"]["deduplication"] == "matched_existing_owner"
+        and lesson["canonical_patch_proposal"]["action"] == "patch_existing_owner",
+        str(lesson["routing"]),
+    )
+    assert_true(
+        "canonical proposal remains unapplied and human-gated",
+        lesson["canonical_patch_proposal"]["apply_status"] == "not_applied"
+        and lesson["canonical_patch_proposal"]["human_approval"]["status"] == "pending",
+        str(lesson["canonical_patch_proposal"]),
+    )
+    assert_true(
+        "external evidence path is rejected",
+        "external_evidence_reference_rejected" in report.get("warnings", [])
+        and all("outside" not in ref for ref in lesson["evidence"]["refs"]),
+        str(report.get("warnings")),
+    )
+    assert_true("capture does not mutate the canonical agent tree", canonical_before == canonical_after)
+    assert_true("auto-captured ledger contains no MESTRE status", "MESTRE_" not in json.dumps(ledger))
+
+    reset_fixture()
+    rom_hash = "d" * 64
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "failure_patterns.md",
+        """# Failure Patterns
+
+## Runtime evidence must keep one ROM identity
+
+- date: 2026-08-05
+- context: canonical evidence binding
+- symptom: a learning entry cited reports without proving they came from one ROM.
+- technical diagnosis: filenames alone do not establish provenance.
+- preventive heuristic: bind sealed bundle and passed gate to the same ROM SHA-256.
+- evidence: out/evidence/reference/evidence_manifest.json, out/evidence/reference/runtime_gate_report.json
+- check in ROM: compare both rom_sha256 fields before promotion.
+""",
+    )
+    write_text(
+        FIXTURE_ROOT / "out" / "evidence" / "reference" / "evidence_manifest.json",
+        json.dumps({"tool_name": "seal_fresh_evidence_bundle", "status": "sealed", "rom_sha256": rom_hash}),
+    )
+    write_text(
+        FIXTURE_ROOT / "out" / "evidence" / "reference" / "runtime_gate_report.json",
+        json.dumps({"gate_id": "runtime_observation", "status": "passed", "rom_sha256": rom_hash}),
+    )
+    result, _ = run_loop("capture")
+    bound_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    bound_evidence = bound_ledger["lessons"][0]["evidence"]
+    assert_true(
+        "learning evidence reaches E4 only with sealed bundle and passed same-ROM gate",
+        result.returncode == 0
+        and bound_evidence["grade"] == "E4_budget_and_regression"
+        and bound_evidence["freshness"] == "fresh"
+        and bound_evidence["gaps"] == [],
+        str(bound_evidence),
+    )
+
+    write_text(
+        FIXTURE_ROOT / "out" / "evidence" / "reference" / "runtime_gate_report.json",
+        json.dumps({"gate_id": "runtime_observation", "status": "passed", "rom_sha256": "e" * 64}),
+    )
+    result, mismatch_report = run_loop("capture")
+    mismatch_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    mismatch_evidence = mismatch_ledger["lessons"][0]["evidence"]
+    assert_true(
+        "learning evidence degrades when gate ROM identity diverges",
+        result.returncode == 0
+        and mismatch_evidence["grade"] == "E3_blastem"
+        and mismatch_evidence["freshness"] == "stale"
+        and "gate_report_rom_hash_mismatch" in mismatch_evidence["gaps"]
+        and "evidence_rom_hash_mismatch" in mismatch_report.get("warnings", []),
+        str(mismatch_evidence),
+    )
+    ledger = mismatch_ledger
+
+    first_ids = [entry["lesson_id"] for entry in ledger["lessons"]]
+    first_ledger_hash = hashlib.sha256(ledger_path.read_bytes()).hexdigest()
+    result, _ = run_loop("capture")
+    second_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    second_ids = [entry["lesson_id"] for entry in second_ledger["lessons"]]
+    assert_true(
+        "repeated capture is byte-idempotent",
+        first_ids == second_ids
+        and len(second_ids) == len(set(second_ids))
+        and first_ledger_hash == hashlib.sha256(ledger_path.read_bytes()).hexdigest(),
+    )
+
+    ledger_hash_before_audit = hashlib.sha256(ledger_path.read_bytes()).hexdigest()
+    report_hash_before_audit = hashlib.sha256(runtime_report_path.read_bytes()).hexdigest()
+    result, audit_report = run_loop("audit")
+    assert_true("audit after capture succeeds", result.returncode == 0, result.stderr)
+    assert_true(
+        "audit mode remains read-only",
+        ledger_hash_before_audit == hashlib.sha256(ledger_path.read_bytes()).hexdigest()
+        and report_hash_before_audit == hashlib.sha256(runtime_report_path.read_bytes()).hexdigest(),
+    )
+    assert_true("audit exposes compact candidate index", len(audit_report.get("candidate_index", [])) == 1)
+
+    schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+    errors = sorted(Draft7Validator(schema).iter_errors(second_ledger), key=lambda error: list(error.path))
+    assert_true("generated ledger validates against schema", not errors, "; ".join(error.message for error in errors[:3]))
+
+    reset_fixture()
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "skill_promotion_candidates.md",
+        """# Skill Promotion Candidates
+
+| Data | Classificacao | Candidato | Problema resolvido | Evidencia minima | Risco | Proxima revisao humana |
+|---|---|---|---|---|---|---|
+| 2026-06-04 | `promotion_candidate` | deterministic_palette_lab_helper | repeated palette experiment setup | doc/agent_learning/skill_promotion_candidates.md | medio | cross-project proof |
+""",
+    )
+    result, _ = run_loop("capture")
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    candidate = ledger["lessons"][0]
+    assert_true(
+        "explicit unmatched candidate may propose a new skill but stays pending",
+        candidate["canonical_patch_proposal"]["action"] == "create_skill"
+        and candidate["lifecycle_status"] == "human_review_required"
+        and candidate["canonical_patch_proposal"]["apply_status"] == "not_applied",
+        str(candidate),
+    )
+
+    reset_fixture()
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "skill_promotion_candidates.md",
+        """# Skill Promotion Candidates
+
+| Data | Classificacao | Candidato | Problema resolvido | Evidencia minima | Risco | Proxima revisao humana |
+|---|---|---|---|---|---|---|
+| 2026-06-16 | `promotion_candidate` | planning_mode_pre_runtime_spec_closure_checklist | Planejamento AAA parecia completo sem contratos executaveis para runtime | doc/critical_gap_audit.json | medio | human review |
+""",
+    )
+    write_text(FIXTURE_ROOT / "doc" / "critical_gap_audit.json", "{}")
+    result, _ = run_loop("capture")
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    routed = ledger["lessons"][0]
+    assert_true(
+        "known planning candidate patches an existing owner instead of creating a skill",
+        routed["routing"]["deduplication"] == "matched_existing_owner"
+        and routed["canonical_patch_proposal"]["action"] == "patch_existing_owner"
+        and routed["routing"]["owner_skill"] == "planning/game-design-planning",
+        str(routed),
+    )
+
+    reset_fixture()
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "skill_promotion_candidates.md",
+        """# Skill Promotion Candidates
+
+| Data | Classificacao | Candidato | Problema resolvido | Evidencia minima | Risco | Proxima revisao humana |
+|---|---|---|---|---|---|---|
+| 2026-07-20 | `promotion_candidate` | doc_claim_sync_audit | status drift | doc/critical_gap_audit.json | alto | real report |
+| 2026-07-20 | `promotion_candidate` | independent_session_context_recovery | handoff drift | doc/critical_gap_audit.json | medio | independent session |
+| 2026-07-20 | `promotion_candidate` | configurable_full_window_runtime_probe | partial capture | doc/critical_gap_audit.json | medio | cross-project proof |
+| 2026-07-20 | `promotion_candidate` | sealed_sram_export_ownership | post-export corruption | doc/critical_gap_audit.json | alto | corruption fixture |
+| 2026-07-20 | `promotion_candidate` | hardware_evidence_adoption_gate | external proof gap | doc/critical_gap_audit.json | medio | hardware fixture |
+""",
+    )
+    write_text(FIXTURE_ROOT / "doc" / "critical_gap_audit.json", "{}")
+    result, _ = run_loop("capture")
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    routed_rules = {lesson["routing"].get("match_rule_id") for lesson in ledger["lessons"]}
+    expected_rules = {
+        "doc_claim_sync_audit_existing_owner",
+        "independent_session_context_recovery_existing_owner",
+        "configurable_full_window_runtime_probe_existing_owner",
+        "sealed_sram_export_ownership_existing_owner",
+        "hardware_evidence_adoption_gate_existing_owner",
+    }
+    assert_true(
+        "remediation candidates route to existing owners without creating duplicate skills",
+        result.returncode == 0
+        and routed_rules == expected_rules
+        and all(
+            lesson["canonical_patch_proposal"]["action"] == "patch_existing_owner"
+            for lesson in ledger["lessons"]
+        ),
+        str(ledger.get("lessons")),
+    )
+
+    reset_fixture()
+    wrapper_result = run_powershell(
+        WRAPPER,
+        "-ProjectRoot",
+        str(FIXTURE_ROOT),
+        "-Mode",
+        "Capture",
+        "-OutputFormat",
+        "Json",
+    )
+    wrapper_payload = json.loads(wrapper_result.stdout) if wrapper_result.stdout.strip() else {}
+    assert_true(
+        "PowerShell wrapper exposes capture mode",
+        wrapper_result.returncode == 0
+        and wrapper_payload.get("mode") == "capture"
+        and (FIXTURE_ROOT / "doc" / "agent_learning" / "learning_ledger.json").exists(),
+        wrapper_result.stderr or wrapper_result.stdout,
+    )
+
+    reset_fixture(with_learning=False)
+    adopt_result = run_powershell(
+        ADOPT,
+        "-ProjectRoot",
+        str(FIXTURE_ROOT),
+        "-Lifecycle",
+        "existing",
+        "-ProjectName",
+        "Learning Fixture [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]",
+    )
+    adopted_ledger = FIXTURE_ROOT / "doc" / "agent_learning" / "learning_ledger.json"
+    assert_true(
+        "methodology adoption safely materializes missing learning context",
+        adopt_result.returncode == 0 and adopted_ledger.exists(),
+        adopt_result.stderr or adopt_result.stdout,
+    )
+    if adopted_ledger.exists():
+        adopted = json.loads(adopted_ledger.read_text(encoding="utf-8-sig"))
+        assert_true(
+            "adopted ledger is personalized and empty",
+            adopted.get("project", {}).get("name")
+            == "Learning Fixture [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]"
+            and adopted.get("lessons") == [],
+            str(adopted),
+        )
+
+    reset_fixture()
+    write_text(
+        FIXTURE_ROOT / "doc" / "agent_learning" / "canonical_promotion_review.md",
+        """# Canonical Promotion Review
+
+## Checklist de revisao
+
+| Item | Status |
+|---|---|
+| O aprendizado tem evidencia rastreavel? | [pendente] |
+| Um humano aprovou a promocao? | [pendente] |
+""",
+    )
+    result, _ = run_loop("capture")
+    ledger = json.loads((FIXTURE_ROOT / "doc" / "agent_learning" / "learning_ledger.json").read_text(encoding="utf-8"))
+    assert_true(
+        "review checklist rows are not learned as lessons",
+        result.returncode == 0 and ledger.get("lessons") == [],
+        str(ledger.get("lessons")),
+    )
+
+if FIXTURE_ROOT.exists():
+    shutil.rmtree(FIXTURE_ROOT)
+
+print(f"=== Results: {passed}/{total} passed, {failed} failed ===")
+raise SystemExit(1 if failed else 0)

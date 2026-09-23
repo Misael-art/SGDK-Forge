@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0.0",
+  "style_anchor_id": "mare_brava_master_v1",
+  "selected_style_id": "angular_cps2_fighter",
+  "decision_record_ref": "doc/art/art_direction_decision_record.json",
+  "authorial_line_contract_ref": "doc/art/authorial_line_style_contract.json",
+  "quality_reference_board_ref": "doc/art/quality_reference_board.md",
+  "quality_reference_policy": "quality_reference_only; preserve observable craft without copying pixels, poses, layouts or IP",
+  "visual_fantasy": "Fim de tarde num cais brasileiro dos anos 90: sol baixo e quente, mar vivo ao fundo, lutadores angulares de silhueta forte varrendo a milicia do porto. Cada golpe le como arcade; cada cenario conta a cidade sem texto.",
+  "master_palette": {
+    "domains": [
+      {
+        "domain_id": "pal0_cenario",
+        "role": "BG_A cais + BG_B mar/ceu",
+        "anchor_hexes": [
+          "E8A05C",
+          "5C2E4A",
+          "3A6B7A",
+          "FFD98A"
+        ]
+      },
+      {
+        "domain_id": "pal1_heroina",
+        "role": "TAINA + FX de golpe",
+        "anchor_hexes": [
+          "FF5533",
+          "2E1F3A",
+          "F2C29A",
+          "1A6B5A"
+        ]
+      },
+      {
+        "domain_id": "pal2_inimigos",
+        "role": "CRIA + ESTIVADOR (troca de roupa por wave)",
+        "anchor_hexes": [
+          "4A5C8A",
+          "CC2244",
+          "8A6B4A",
+          "2A2A3A"
+        ]
+      },
+      {
+        "domain_id": "pal3_hud",
+        "role": "WINDOW HUD + espuma/splash compartilhado",
+        "anchor_hexes": [
+          "F2F2E0",
+          "CC2244",
+          "3A6B7A",
+          "111122"
+        ]
+      }
+    ],
+    "index0_policy": "transparente sempre; nunca cor jogavel"
+  },
+  "line_weight": "outline 1-2px escuro (nao preto puro: usar sombra do dominio); planos musculares angulares internos com 1px",
+  "authorial_line_signature": "contorno expressivo escuro, nao uniforme; cortes internos curtos em cunha; maos, pes, mandibula, sobrancelha, faixa, corda, rede e madeira recebem marcas graficas deliberadas. O traco deve permitir reconhecer MARE_BRAVA sem depender de texto.",
+  "pixel_density": "personagens 44-56px de altura, 3-4 heads; tiles de cenario com detalhe decrescente por distancia",
+  "lighting": "cel duro 3 tons com hue shift quente->frio; rim light apenas em keyframes de impacto",
+  "drift_limit": "paleta fora do dominio, outline preto puro, sombra cinza neutra, anatomia realista suave ou proporcao acima de 4 heads = drift",
+  "prompt_rules": {
+    "use_descriptors": [
+      "angular arcade fighter anatomy",
+      "MARE_BRAVA authorial line signature",
+      "non-generic silhouette hooks",
+      "expressive brow, jaw, hand and foot shapes",
+      "costume asymmetry and material markers locked",
+      "sharp cel-shadow muscle planes",
+      "vibrant limited palette",
+      "clean outline pixel clusters",
+      "expressive impact poses",
+      "late afternoon warm sunlight",
+      "brazilian coastal dock 1990s"
+    ],
+    "negative_descriptors": [
+      "recolored commercial sprites",
+      "neutral gray ramps",
+      "soft AA edges",
+      "photo realism",
+      "AI glow",
+      "copying iconic fighter poses",
+      "generic anime fighter face",
+      "generic athletic body",
+      "anonymous brawler costume",
+      "uniform black outline everywhere",
+      "decorative line noise",
+      "alpha blending"
+    ],
+    "forbidden": "nomes de artistas vivos, estudios, marcas, 'in the style of', IP de terceiros"
+  },
+  "technical_references": [
+    {
+      "title": "Streets of Rage 2",
+      "used_as": "md_feasibility/quality/scale",
+      "inspiration_only": true
+    },
+    {
+      "title": "Shinobi III",
+      "used_as": "md_feasibility/timing",
+      "inspiration_only": true
+    },
+    {
+      "title": "Comix Zone",
+      "used_as": "md_feasibility/line_language",
+      "inspiration_only": true
+    },
+    {
+      "title": "Street Fighter Alpha 2",
+      "used_as": "linguagem de anatomia angular (ancora conceitual, plataforma nao-MD)",
+      "inspiration_only": true
+    }
+  ],
+  "similarity_limit": "authoriality_gate_report obrigatorio antes de promover qualquer asset; distancia de pose/silhueta/paleta contra referencias medida por revisao humana",
+  "handoff": {
+    "sourcing": "doc/art/art_generation_brief.md",
+    "conversion": "art-translation-to-vdp",
+    "excellence": "visual-excellence-standards"
+  },
+  "vdp_survival_proof": {
+    "required": "todo concept aprovado deve gerar contact sheet reduzido a 320x224 com quantizacao a 16 cores por dominio antes da ratificacao humana",
+    "fail_action": "se a linguagem nao sobreviver (silhueta ilegivel ou ramp quebrado), recuar para vibrant_16bit_pixel (runner-up nativo) sem reabrir catalogo inteiro"
+  },
+  "approval_status": "human_ratified_as_frozen_production_direction_2026_07_05"
+}

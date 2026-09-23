@@ -1,0 +1,543 @@
+{
+  "case_id": "taiketsu_ultra_rebirth_cinder_circuit_translation_analysis_20260906",
+  "source_image": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/cinder_circuit_visual_source_v01.png",
+  "translation_target": "scene_slice",
+  "reference_profile": "cinder_circuit_authorial_stage_visual_lab",
+  "minimum_delta": 0.08,
+  "scene_truth_kind": "authorial_visual_source_candidate",
+  "layout_complexity": "single_frame_multiplane_candidate",
+  "source_inventory": {
+    "source_kind": "ai_generated",
+    "acceptance_status": "visual_lab_control",
+    "editorial_noise_present": false,
+    "text_or_branding_present": false
+  },
+  "drop_policy": {
+    "drop_editorial_regions": true,
+    "drop_text_and_logos": true
+  },
+  "composition_schema": {
+    "shared_canvas": {
+      "source_extent": [
+        1672,
+        941
+      ],
+      "target_extent": [
+        320,
+        224
+      ],
+      "visible_window": [
+        0,
+        0,
+        320,
+        224
+      ]
+    },
+    "roles": [
+      {
+        "region_id": "cinder_bg_b_atmosphere",
+        "composition_role": "bg_b",
+        "order": 0
+      },
+      {
+        "region_id": "cinder_bg_a_reactor_architecture",
+        "composition_role": "bg_a",
+        "order": 1
+      },
+      {
+        "region_id": "cinder_ground_arena",
+        "composition_role": "bg_a",
+        "order": 2
+      },
+      {
+        "region_id": "cinder_foreground_safety_rail",
+        "composition_role": "foreground_layer",
+        "order": 3
+      }
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "single_frame",
+    "semantic_regions": [
+      {
+        "id": "cinder_bg_b_atmosphere",
+        "classification": "scene_plane_bg_b",
+        "bbox": [
+          210,
+          40,
+          1460,
+          500
+        ],
+        "action": "keep"
+      },
+      {
+        "id": "cinder_bg_a_reactor_architecture",
+        "classification": "scene_plane_bg_a",
+        "bbox": [
+          0,
+          80,
+          1672,
+          650
+        ],
+        "action": "keep"
+      },
+      {
+        "id": "cinder_ground_arena",
+        "classification": "scene_plane_ground",
+        "bbox": [
+          0,
+          470,
+          1672,
+          850
+        ],
+        "action": "keep"
+      },
+      {
+        "id": "cinder_foreground_safety_rail",
+        "classification": "scene_plane_foreground_composition",
+        "bbox": [
+          0,
+          590,
+          1672,
+          941
+        ],
+        "action": "keep"
+      }
+    ],
+    "auxiliary_regions": [],
+    "drop_regions": []
+  },
+  "training_labels": {},
+  "hardware_expectations": {
+    "display": "320x224_h40_4_3",
+    "visible_colors_per_palette": 15,
+    "transparent_index": 0,
+    "tile_grid": "8x8",
+    "palette_roles": [
+      "cool_bg_b",
+      "steel_bg_a",
+      "warm_lava_arena",
+      "fighter_hud_reserve"
+    ]
+  },
+  "intent_notes": [
+    "This is a control study, not a final asset.",
+    "The elite slot is deliberately occupied by an underlay until native grid reauthoring exists.",
+    "Any direct conversion or quantization failure must remain visible in the report."
+  ],
+  "soul_contract": {},
+  "variants": {
+    "basic": {
+      "label": "BASIC blind-quantization control",
+      "status": "needs_review",
+      "units": [
+        {
+          "name": "cinder_full_scene_control",
+          "semantic_region_id": "cinder_bg_a_reactor_architecture",
+          "role": "bg_a",
+          "asset_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/translation/basic/cinder_circuit_basic_control.png",
+          "normalized_asset_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/translation_case_work/basic/cinder_full_scene_control_asset_rgba.png",
+          "paired_bg_path": null,
+          "weight": 1.0,
+          "tile_budget": {
+            "total_tiles": 1120,
+            "empty_tiles": 0,
+            "non_empty_tiles": 1120,
+            "unique_non_empty_tiles": 803,
+            "unique_non_empty_tiles_hflip": 797,
+            "unique_non_empty_tiles_vflip": 790,
+            "unique_non_empty_tiles_hvflip": 779,
+            "duplicate_non_empty_tiles": 317,
+            "unique_ratio": 0.717,
+            "unique_ratio_hvflip": 0.6955,
+            "flip_savings_non_empty_tiles": 341,
+            "flip_reuse_ratio": 0.3045
+          },
+          "analysis": {
+            "asset_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/translation_case_work/basic/cinder_full_scene_control_asset_rgba.png",
+            "role": "bg_a",
+            "reference_profile": "generic-megadrive-elite",
+            "critical_visual": true,
+            "paired_bg": null,
+            "status": "needs_review",
+            "metrics": {
+              "palette_efficiency": 0.3857,
+              "tile_efficiency": 0.55,
+              "detail_density_8x8": 0.7,
+              "dithering_density": 0.65,
+              "silhouette_readability": 0.3802,
+              "layer_separation": 0.68,
+              "reuse_opportunity": 0.3045,
+              "reference_alignment": 0.5864,
+              "visual_excellence_score": 0.5864
+            },
+            "metric_inputs": {
+              "palette_efficiency": {
+                "color_count": 42,
+                "tonal_span": 173.99179999999998,
+                "redundancy_ratio": 0.8536585365853658,
+                "low_usage_ratio": 0.8571428571428571
+              },
+              "tile_efficiency": {
+                "empty_ratio": 0.0,
+                "bbox_waste": 0.4377092633928571,
+                "total_tiles": 1120,
+                "empty_tiles": 0,
+                "max_empty_ratio": 0.02,
+                "max_bbox_waste": 0.05,
+                "mode": "default"
+              },
+              "detail_density_8x8": {
+                "avg_transition_density": 0.3110304704352382,
+                "avg_isolated_ratio": 0.29907758708567256,
+                "non_empty_tiles": 1120
+              },
+              "dithering_density": {
+                "dither_ratio": 0.059967585089141004,
+                "noise_ratio": 0.7412209616423555,
+                "samples": 5553
+              },
+              "silhouette_readability": {
+                "boundary_contrast": 3.505981322108899,
+                "fill_ratio": 0.5622907366071429,
+                "components": 9582
+              },
+              "layer_separation": {
+                "contrast_value": 0.0,
+                "source": "unpaired_estimate"
+              },
+              "reuse_opportunity": {
+                "non_empty_tiles": 1120,
+                "exact_duplicates": 317,
+                "flip_reuse_ratio": 0.3044642857142857
+              },
+              "structural_layer": {
+                "paired_structural_layer": false,
+                "transparency_ratio": 0.4377092633928571
+              }
+            },
+            "issues": [
+              {
+                "code": "PALETTE_WASTE",
+                "severity": "warning",
+                "message": "Paleta com baixa eficiencia tonal ou cores redundantes.",
+                "value": 0.3857,
+                "threshold": 0.55
+              },
+              {
+                "code": "OVER_EMPTY_TILES",
+                "severity": "warning",
+                "message": "O asset desperdiça tiles com vazio ou bounding box frouxo.",
+                "value": 0.0,
+                "threshold": 0.02
+              },
+              {
+                "code": "NOISY_TEXTURE",
+                "severity": "warning",
+                "message": "A textura esta operando como ruido, nao como material.",
+                "value": 0.29907758708567256,
+                "threshold": 0.14
+              },
+              {
+                "code": "WEAK_SILHOUETTE",
+                "severity": "warning",
+                "message": "A silhueta nao sustenta leitura forte em escala nativa.",
+                "value": 0.3802,
+                "threshold": 0.56
+              }
+            ],
+            "recommendations": [
+              "Consolidar tons redundantes e preservar apenas diferencas tonais que melhoram leitura material.",
+              "Apertar bounding box, cortar bordas vazias e revisar custo de VRAM do asset.",
+              "Limpar ruido de alta frequencia e reorganizar o detalhe para que ele explique materia.",
+              "Fortalecer massa principal, outline e contraste interno para leitura em 1 frame."
+            ],
+            "benchmarks": [
+              "Streets of Rage 3",
+              "Monster World IV",
+              "Earthworm Jim",
+              "Shinobi III",
+              "Sonic 3 & Knuckles"
+            ],
+            "case_penalties": [
+              {
+                "source": "clean_scene_assumption",
+                "dominant_background": [
+                  0,
+                  0,
+                  0
+                ],
+                "occupied_ratio": 0.4357,
+                "large_components": 1,
+                "largest_component_ratio": 0.959
+              }
+            ]
+          }
+        }
+      ],
+      "aggregate_score": 0.5864
+    },
+    "elite": {
+      "label": "ELITE native reauthoring underlay (not promoted)",
+      "status": "needs_review",
+      "units": [
+        {
+          "name": "cinder_full_scene_underlay",
+          "semantic_region_id": "cinder_bg_a_reactor_architecture",
+          "role": "bg_a",
+          "asset_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/translation/elite_underlay/cinder_circuit_native_reauthoring_underlay_2x.png",
+          "normalized_asset_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/translation_case_work/elite/cinder_full_scene_underlay_asset_rgba.png",
+          "paired_bg_path": null,
+          "weight": 1.0,
+          "tile_budget": {
+            "total_tiles": 4480,
+            "empty_tiles": 0,
+            "non_empty_tiles": 4480,
+            "unique_non_empty_tiles": 4269,
+            "unique_non_empty_tiles_hflip": 4258,
+            "unique_non_empty_tiles_vflip": 4263,
+            "unique_non_empty_tiles_hvflip": 4249,
+            "duplicate_non_empty_tiles": 211,
+            "unique_ratio": 0.9529,
+            "unique_ratio_hvflip": 0.9484,
+            "flip_savings_non_empty_tiles": 231,
+            "flip_reuse_ratio": 0.0516
+          },
+          "analysis": {
+            "asset_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/translation_case_work/elite/cinder_full_scene_underlay_asset_rgba.png",
+            "role": "bg_a",
+            "reference_profile": "generic-megadrive-elite",
+            "critical_visual": true,
+            "paired_bg": null,
+            "status": "needs_review",
+            "metrics": {
+              "palette_efficiency": 0.3501,
+              "tile_efficiency": 1.0,
+              "detail_density_8x8": 1.0,
+              "dithering_density": 0.1705,
+              "silhouette_readability": 0.6116,
+              "layer_separation": 0.68,
+              "reuse_opportunity": 0.0516,
+              "reference_alignment": 0.4629,
+              "visual_excellence_score": 0.4629
+            },
+            "metric_inputs": {
+              "palette_efficiency": {
+                "color_count": 6585,
+                "tonal_span": 254.99999999999997,
+                "redundancy_ratio": 0.9996962332928311,
+                "low_usage_ratio": 0.99832953682612
+              },
+              "tile_efficiency": {
+                "empty_ratio": 0.0,
+                "bbox_waste": 0.0,
+                "total_tiles": 4480,
+                "empty_tiles": 0,
+                "max_empty_ratio": 0.02,
+                "max_bbox_waste": 0.05,
+                "mode": "default"
+              },
+              "detail_density_8x8": {
+                "avg_transition_density": 0.3795889136904762,
+                "avg_isolated_ratio": 0.0,
+                "non_empty_tiles": 4480
+              },
+              "dithering_density": {
+                "dither_ratio": 0.0009487699250436749,
+                "noise_ratio": 0.18290253577142698,
+                "samples": 285633
+              },
+              "silhouette_readability": {
+                "boundary_contrast": 0.2896841006752609,
+                "fill_ratio": 1.0,
+                "components": 1
+              },
+              "layer_separation": {
+                "contrast_value": 0.0,
+                "source": "unpaired_estimate"
+              },
+              "reuse_opportunity": {
+                "non_empty_tiles": 4480,
+                "exact_duplicates": 211,
+                "flip_reuse_ratio": 0.0515625
+              },
+              "structural_layer": {
+                "paired_structural_layer": false,
+                "transparency_ratio": 0.0
+              }
+            },
+            "issues": [
+              {
+                "code": "PALETTE_WASTE",
+                "severity": "warning",
+                "message": "Paleta com baixa eficiencia tonal ou cores redundantes.",
+                "value": 0.3501,
+                "threshold": 0.55
+              },
+              {
+                "code": "MISSING_DITHERING_FOR_MATERIAL",
+                "severity": "warning",
+                "message": "O asset esta abaixo da densidade minima de dithering esperada para o papel informado.",
+                "value": 0.0009487699250436749,
+                "threshold": 0.03
+              },
+              {
+                "code": "EDITORIAL_SHEET_CONTAMINATION",
+                "severity": "warning",
+                "message": "A traducao ainda carrega sinais de sheet editorial ou multiplos paineis em vez de um frame jogavel limpo.",
+                "value": 0.22,
+                "threshold": 0.0
+              }
+            ],
+            "recommendations": [
+              "Isolar a regiao jogavel e desmontar a sheet-fonte antes da traducao final.",
+              "Consolidar tons redundantes e preservar apenas diferencas tonais que melhoram leitura material.",
+              "Adicionar dithering apenas onde ele descreve material ou transicao tonal real."
+            ],
+            "benchmarks": [
+              "Streets of Rage 3",
+              "Monster World IV",
+              "Earthworm Jim",
+              "Shinobi III",
+              "Sonic 3 & Knuckles"
+            ],
+            "case_penalties": [
+              {
+                "source": "editorial_sheet_contamination",
+                "dominant_background": [
+                  0,
+                  0,
+                  0
+                ],
+                "occupied_ratio": 0.1634,
+                "large_components": 11,
+                "largest_component_ratio": 0.2186,
+                "penalty": 0.22
+              }
+            ]
+          }
+        }
+      ],
+      "aggregate_score": 0.4629
+    }
+  },
+  "comparison": {
+    "basic_score": 0.5864,
+    "elite_score": 0.4629,
+    "elite_minus_basic": -0.1235,
+    "status": "no_elite_advantage",
+    "failure_codes": [
+      "NO_ELITE_DELTA"
+    ]
+  },
+  "hardware_budget_review": {
+    "safe_bg_tile_ceiling": 1536,
+    "variants": {
+      "basic": {
+        "background_unique_tiles": 803,
+        "foreground_unique_tiles": 0,
+        "total_unique_tiles": 803,
+        "safe_bg_tile_ceiling": 1536,
+        "background_units": 1,
+        "whole_image_risk_units": []
+      },
+      "elite": {
+        "background_unique_tiles": 4269,
+        "foreground_unique_tiles": 0,
+        "total_unique_tiles": 4269,
+        "safe_bg_tile_ceiling": 1536,
+        "background_units": 1,
+        "whole_image_risk_units": [
+          "cinder_full_scene_underlay"
+        ]
+      }
+    },
+    "recommendations": [
+      {
+        "variant": "elite",
+        "code": "WHOLE_IMAGE_CONVERSION_RISK",
+        "severity": "warning",
+        "message": "A variante tem backgrounds com proporcao muito alta de tiles unicos; isso parece compressao de imagem inteira, nao traducao modular.",
+        "evidence": {
+          "units": [
+            "cinder_full_scene_underlay"
+          ],
+          "background_unique_tiles": 4269
+        },
+        "recommendation": "Rever modularizacao, redistribuir detalhe por plano e evitar promover conversao direta de ilustracao inteira para ROM."
+      }
+    ]
+  },
+  "semantic_stage_review": {
+    "scene_truth_kind": "authorial_visual_source_candidate",
+    "layout_complexity": "single_frame_multiplane_candidate",
+    "source_layout_type": "single_frame",
+    "source_inventory": {
+      "source_kind": "ai_generated",
+      "acceptance_status": "visual_lab_control",
+      "editorial_noise_present": false,
+      "text_or_branding_present": false
+    },
+    "drop_policy": {
+      "drop_editorial_regions": true,
+      "drop_text_and_logos": true
+    },
+    "composition_schema": {
+      "shared_canvas": {
+        "source_extent": [
+          1672,
+          941
+        ],
+        "target_extent": [
+          320,
+          224
+        ],
+        "visible_window": [
+          0,
+          0,
+          320,
+          224
+        ]
+      },
+      "roles": [
+        {
+          "region_id": "cinder_bg_b_atmosphere",
+          "composition_role": "bg_b",
+          "order": 0
+        },
+        {
+          "region_id": "cinder_bg_a_reactor_architecture",
+          "composition_role": "bg_a",
+          "order": 1
+        },
+        {
+          "region_id": "cinder_ground_arena",
+          "composition_role": "bg_a",
+          "order": 2
+        },
+        {
+          "region_id": "cinder_foreground_safety_rail",
+          "composition_role": "foreground_layer",
+          "order": 3
+        }
+      ]
+    },
+    "issues": [],
+    "status": "ok"
+  },
+  "evidence": {
+    "captured": false,
+    "captures_dir": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/out/captures",
+    "screenshot_path": null,
+    "quicksave_path": null,
+    "visual_vdp_dump_path": null,
+    "save_sram_path": null,
+    "quicksave_captured": false
+  },
+  "human_validation": {
+    "format": "original_basic_elite_side_by_side",
+    "panel_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/rascunho/golden_slice_visual_reset_20260906/human_validation_panel.png",
+    "semantic_format": null,
+    "semantic_panel_path": null
+  }
+}

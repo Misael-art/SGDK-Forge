@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "r1_source_delivery_manifest",
+  "project": "KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "round": "r1",
+  "delivered_at": "2026-07-29",
+  "producer_signature": "Codex",
+  "generation": {
+    "tool": "built-in image_gen",
+    "model_family": "gpt-image-2",
+    "method": "one distinct generation per requested composition",
+    "legal_basis": "original non-commercial fan-game concept art; no extracted Nintendo/HAL assets; no logos or official artwork requested"
+  },
+  "normalization": {
+    "method": "ImageMagick 7.1.2-26; nearest-neighbor canvas resize; alpha disabled; RGB333 posterization; color cap; indexed PNG export",
+    "r1_01_exception": "explicitly remapped to the exact ten-color requested palette, including #ff00ff key",
+    "opaque_alpha_policy": "final PNGs have no alpha channel; magenta key is painted into character-sheet backgrounds",
+    "source_provenance_policy": "the corresponding *_generated.png is retained beside each normalized delivery so its generation provenance remains inspectable"
+  },
+  "promotion_policy": {
+    "status": "source_candidate_pending_human_judgment",
+    "res_promotion_allowed": false,
+    "reason": "R1 is concept/palette/layer source only. Native 8x8 redraw, semantic decomposition, budget review, resource policy and BlastEm evidence are still required."
+  },
+  "diagnostic_scope_note": "art_diagnostic.py scans source concepts with direct-res limits (15 colors, magenta index and its legacy RGB checker). Its reported errors for 45-color scene studies and retained raw generations are expected for this source-only round and do not authorize conversion or indicate an active res regression.",
+  "deliveries": [
+    {
+      "id": "r1-01",
+      "role": "concept_art",
+      "final_files": [
+        { "path": "r1-01/concept.png", "sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd", "canvas": "1024x768", "colors": 10 }
+      ],
+      "generated_files": [
+        { "path": "r1-01/concept_generated.png", "sha256": "fdeb3bf16d516508104a419580c3cccb1ce1694acf6639cc29881105d456b512" }
+      ]
+    },
+    {
+      "id": "r1-02",
+      "role": "layer_study",
+      "final_files": [
+        { "path": "r1-02/concept.png", "sha256": "772beb3394356efefdd3826540fc18bc2e757a8b353096db99c4ff7638bfcfa6", "canvas": "1280x896", "colors": 41 },
+        { "path": "r1-02/layers.png", "sha256": "2624b9cfba697ea83f05c384b40693b5fccd0d480d4181473e1df4b127fe9e52", "canvas": "1280x896", "colors": 39 }
+      ],
+      "generated_files": [
+        { "path": "r1-02/concept_generated.png", "sha256": "8928af2167bc8c20120ca8aefe66305efe7c93709377c38e3c91d5e264c0c0d7" },
+        { "path": "r1-02/layers_generated.png", "sha256": "5ccfcbba33290e893d9f6a1cfc385214e73062b9534a058dc7c1130d7bf22b35" }
+      ]
+    },
+    {
+      "id": "r1-03",
+      "role": "concept_art",
+      "final_files": [
+        { "path": "r1-03/concept.png", "sha256": "d67bdb8cedc76d4256cab8bf8ae375b21171b30811af1a651a7ab39b6b650feb", "canvas": "1024x1024", "colors": 15 }
+      ],
+      "generated_files": [
+        { "path": "r1-03/concept_generated.png", "sha256": "424aa7cddd0c4206be1d236ad8219a66e4478e607109c7efb16f91df9ad0442f" }
+      ]
+    },
+    {
+      "id": "r1-04",
+      "role": "concept_art",
+      "final_files": [
+        { "path": "r1-04/concept.png", "sha256": "b37c4421cfe3c24cf58232265bd83572113b76982eb3d33a1fe0e2f2ddf05713", "canvas": "1024x512", "colors": 15 }
+      ],
+      "generated_files": [
+        { "path": "r1-04/concept_generated.png", "sha256": "52633879e802011e7eade0476e368b733a39c9d561b017bea3340c3ad8c9be39" }
+      ]
+    },
+    {
+      "id": "r1-05",
+      "role": "tileset_concept",
+      "final_files": [
+        { "path": "r1-05/concept.png", "sha256": "ca17c9606649a489465bdfc1a5b72a5f1d4201c5f677757225d512b16a43b662", "canvas": "1024x1024", "colors": 15 }
+      ],
+      "generated_files": [
+        { "path": "r1-05/concept_generated.png", "sha256": "3472a26c54fbb89cfbeb0676f3637bfdf88d08565b33af9a426abc9f51957f84" }
+      ]
+    },
+    {
+      "id": "r1-06",
+      "role": "palette_study",
+      "final_files": [
+        { "path": "r1-06/concept.png", "sha256": "ec7c2a5b977c805f158f019a62d5981629cfb46e18b0430b4b2657aa3d287a3f", "canvas": "1280x896", "colors": 39 },
+        { "path": "r1-06/above_below.png", "sha256": "fc78719738797d1d059e2b3a7c7e8256b7338b1d414362337a00e65af082051c", "canvas": "1280x896", "colors": 41 },
+        { "path": "r1-06/distortion.png", "sha256": "2fe727419b61bc49dba351b54aedc114f3c8017444934e3b9d670c0a0a41ac44", "canvas": "1280x896", "colors": 37 }
+      ],
+      "generated_files": [
+        { "path": "r1-06/concept_generated.png", "sha256": "f9c19c61df49353cae75c2b14fc24a239dc1e823604449b28d043de5746378c0" },
+        { "path": "r1-06/above_below_generated.png", "sha256": "3d12055467b81dcb56a5b644f8410ebcebe1654ed6fe5ab912228ef9d2a5ec2c" },
+        { "path": "r1-06/distortion_generated.png", "sha256": "fba29eea91076266b6c46ddc383df9a36432e3cd89a3cd7179f2753d1308eb99" }
+      ]
+    },
+    {
+      "id": "r1-07",
+      "role": "concept_art",
+      "final_files": [
+        { "path": "r1-07/concept.png", "sha256": "4461a41bffa4fd07899cb3abdd48ca95dad52647ec51c1d218ee2c9f8aaeed50", "canvas": "1280x896", "colors": 30 }
+      ],
+      "generated_files": [
+        { "path": "r1-07/concept_generated.png", "sha256": "93e11cc8bc879b8dec840b3379af2506cb6c46938344be22e6430a15a4c527a1" }
+      ]
+    }
+  ],
+  "handoff": {
+    "read_first": [
+      "r1_delivery_manifest.json",
+      "each request's prompt_used.txt and notes.md",
+      "doc/art/AI_IMAGE_PROMPT_PACK.md",
+      "doc/ARCHITECTURE.md"
+    ],
+    "next_required_work": [
+      "human judging against the R1 criteria",
+      "art-direction and game-design gate completion",
+      "native-grid translation rather than direct downscale",
+      "VDP budget/resource policy and BlastEm proof before any promotion"
+    ]
+  }
+}

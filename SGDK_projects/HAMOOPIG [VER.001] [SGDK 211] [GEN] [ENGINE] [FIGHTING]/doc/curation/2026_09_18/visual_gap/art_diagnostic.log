@@ -1,0 +1,1245 @@
+
+======================================================================
+  ART DIAGNOSTIC - /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]
+======================================================================
+  Cenario detectado : 2_res_inadequate_check
+  Resumo            : Projeto tem 132 asset(s) ativos referenciados em /res: 132 ok, 0 precisam conversao, 0 inadequados, 0 ausentes. Ha tambem 124 asset(s) fonte em /data; issues de fonte roteiam conversao, mas nao bloqueiam o build enquanto nao forem referenciados pelo grafo .res.
+  Total assets      : 256
+  Arte descoberta   : 338
+  ok                : 138
+  precisa_conversao : 116
+  inadequado        : 2
+  ausente           : 0
+  fonte /data       : 124
+  ativo /res        : 132
+  blockers de build : 0
+
+----------------------------------------------------------------------
+  INVENTARIO POR OWNERSHIP
+----------------------------------------------------------------------
+  source_art            : 199
+  evidence_art          : 0
+  active_res_art        : 139
+  lab_work_art          : 0
+  analysis_art          : 0
+  staging_art           : 0
+  historical_art        : 0
+  generated_artifacts   : 0
+  nested_projects       : 0
+
+----------------------------------------------------------------------
+  ASSETS
+----------------------------------------------------------------------
+
+  OK brand_author_logo.png  [tileset]  P 224x64px  7cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK brand_engine_logo.png  [tileset]  P 224x80px  14cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK brand_fx_tiles.png  [tileset]  P 128x32px  8cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK brand_presents_text.png  [imagem]  P 112x24px  3cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK brand_project_logo.png  [tileset]  P 240x88px  7cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK starfield_v02.png  [tileset]  P 320x224px  6cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  CONVERT author_panel_source.png  [tileset]  RGB 1536x1024px  71668cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 71668 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT engine_mark_source.png  [tileset]  RGB 2098x750px  71253cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [DIM_NOT_MULTIPLE_8] Dimensoes 2098x750 nao sao multiplas de 8.
+          -> Redimensionar para 2104x752 px.
+       ERR [TOO_MANY_COLORS] 71253 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT project_crest_source.png  [tileset]  RGB 2068x760px  101263cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [DIM_NOT_MULTIPLE_8] Dimensoes 2068x760 nao sao multiplas de 8.
+          -> Redimensionar para 2072x760 px.
+       ERR [TOO_MANY_COLORS] 101263 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  BAD model_sheet_forge_v01.png  [tileset]  P 512x384px  60cores
+       ERR [TOO_MANY_COLORS] 60 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  BAD model_sheet_forge_v02.png  [tileset]  P 512x384px  60cores
+       ERR [TOO_MANY_COLORS] 60 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f001.png  [tileset]  RGB 544x544px  15688cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 15688 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f002.png  [tileset]  RGB 544x544px  16617cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 16617 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f003.png  [tileset]  RGB 544x544px  16710cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 16710 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f004.png  [tileset]  RGB 544x544px  17123cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 17123 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f005.png  [tileset]  RGB 544x544px  17997cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 17997 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f006.png  [tileset]  RGB 544x544px  19620cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19620 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f007.png  [tileset]  RGB 544x544px  19815cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19815 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f008.png  [tileset]  RGB 544x544px  22032cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 22032 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f009.png  [tileset]  RGB 544x544px  21934cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 21934 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f010.png  [tileset]  RGB 544x544px  24366cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 24366 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f011.png  [tileset]  RGB 544x544px  24629cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 24629 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f012.png  [tileset]  RGB 544x544px  26749cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 26749 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f013.png  [tileset]  RGB 544x544px  26109cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 26109 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f014.png  [tileset]  RGB 544x544px  27213cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 27213 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f015.png  [tileset]  RGB 544x544px  26417cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 26417 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f016.png  [tileset]  RGB 544x544px  28215cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 28215 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f017.png  [tileset]  RGB 544x544px  26811cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 26811 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f018.png  [tileset]  RGB 544x544px  27137cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 27137 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f019.png  [tileset]  RGB 544x544px  25946cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 25946 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f020.png  [tileset]  RGB 544x544px  25320cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 25320 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f021.png  [tileset]  RGB 544x544px  24910cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 24910 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f022.png  [tileset]  RGB 544x544px  26447cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 26447 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f023.png  [tileset]  RGB 544x544px  28321cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 28321 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f024.png  [tileset]  RGB 544x544px  33402cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 33402 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f025.png  [tileset]  RGB 544x544px  34969cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 34969 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f026.png  [tileset]  RGB 544x544px  43002cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 43002 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f027.png  [tileset]  RGB 544x544px  44324cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 44324 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f028.png  [tileset]  RGB 544x544px  47620cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 47620 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f029.png  [tileset]  RGB 544x544px  45898cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 45898 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f030.png  [tileset]  RGB 544x544px  45692cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 45692 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f031.png  [tileset]  RGB 544x544px  43440cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 43440 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f032.png  [tileset]  RGB 544x544px  43029cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 43029 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f033.png  [tileset]  RGB 544x544px  41658cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 41658 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f034.png  [tileset]  RGB 544x544px  45612cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 45612 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f035.png  [tileset]  RGB 544x544px  46490cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 46490 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f036.png  [tileset]  RGB 544x544px  47397cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 47397 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f037.png  [tileset]  RGB 544x544px  44449cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 44449 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f038.png  [tileset]  RGB 544x544px  39311cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 39311 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f039.png  [tileset]  RGB 544x544px  36070cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 36070 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f040.png  [tileset]  RGB 544x544px  30408cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 30408 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f041.png  [tileset]  RGB 544x544px  27738cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 27738 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f042.png  [tileset]  RGB 544x544px  24736cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 24736 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f043.png  [tileset]  RGB 544x544px  24078cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 24078 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f044.png  [tileset]  RGB 544x544px  23954cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 23954 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f045.png  [tileset]  RGB 544x544px  23972cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 23972 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f046.png  [tileset]  RGB 544x544px  24828cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 24828 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f047.png  [tileset]  RGB 544x544px  25045cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 25045 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f048.png  [tileset]  RGB 544x544px  27695cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 27695 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f049.png  [tileset]  RGB 544x544px  27028cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 27028 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f050.png  [tileset]  RGB 544x544px  29282cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 29282 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f051.png  [tileset]  RGB 544x544px  27751cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 27751 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f052.png  [tileset]  RGB 544x544px  28698cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 28698 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f053.png  [tileset]  RGB 544x544px  26316cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 26316 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f054.png  [tileset]  RGB 544x544px  25354cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 25354 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f055.png  [tileset]  RGB 544x544px  22149cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 22149 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f056.png  [tileset]  RGB 544x544px  20268cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 20268 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f057.png  [tileset]  RGB 544x544px  20220cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 20220 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f058.png  [tileset]  RGB 544x544px  19900cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19900 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f059.png  [tileset]  RGB 544x544px  19875cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19875 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f060.png  [tileset]  RGB 544x544px  19836cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19836 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f061.png  [tileset]  RGB 544x544px  19754cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19754 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f062.png  [tileset]  RGB 544x544px  19797cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19797 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f063.png  [tileset]  RGB 544x544px  19805cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19805 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f064.png  [tileset]  RGB 544x544px  19844cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19844 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f065.png  [tileset]  RGB 544x544px  19855cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19855 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f066.png  [tileset]  RGB 544x544px  19782cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19782 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f067.png  [tileset]  RGB 544x544px  19780cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19780 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f068.png  [tileset]  RGB 544x544px  19870cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19870 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f069.png  [tileset]  RGB 544x544px  19885cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19885 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f070.png  [tileset]  RGB 544x544px  19828cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19828 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f071.png  [tileset]  RGB 544x544px  19816cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19816 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f072.png  [tileset]  RGB 544x544px  19826cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19826 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f073.png  [tileset]  RGB 544x544px  19819cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 19819 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT ember_settle_v01.png  [tileset]  RGB 1024x1024px  69cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 69 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT ember_squash_v01.png  [tileset]  RGB 1024x1024px  60cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 60 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT ember_v04.png  [tileset]  RGB 1024x1024px  66cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 66 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT forge_anvil_iso_v01.png  [tileset]  RGB 1248x832px  80cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 80 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT forge_bg_b_v01.png  [tileset]  RGB 1248x832px  97cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 97 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT forge_bg_b_v02.png  [tileset]  RGB 1248x832px  82cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 82 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT forge_scene_v06.png  [tileset]  RGB 1280x720px  96cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 96 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT glyphs_v01.png  [tileset]  RGB 1408x704px  12cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+
+  CONVERT hammer_rest_v02.png  [tileset]  RGB 1024x1024px  118cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 118 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT hammer_smear_v01.png  [tileset]  RGB 1024x1024px  106cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 106 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT label_4x_v01.png  [tileset]  RGB 1024x1024px  12cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+
+  CONVERT logo_forge_v02.png  [tileset]  RGB 1408x704px  61cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 61 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT logo_master_v01.png  [tileset]  RGB 1408x704px  58cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 58 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT logo_misael_v01.png  [tileset]  RGB 1408x704px  60cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 60 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT palette_ramps_v02.png  [tileset]  RGB 1408x704px  119cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 119 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT presents_v01.png  [tileset]  RGB 1408x704px  24cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 24 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT shard_v04.png  [tileset]  RGB 1024x1024px  97cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 97 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT shard_v05.png  [tileset]  RGB 1024x1024px  92cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 92 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT silhouette_v03.png  [tileset]  RGB 1280x720px  14cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+
+  CONVERT starfield_v01.png  [tileset]  RGB 320x224px  598cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 598 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT wordmark_forja_v05.png  [tileset]  RGB 1408x704px  52cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 52 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT wordmark_forja_v06.png  [tileset]  RGB 1408x704px  57cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 57 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT ken_arcade_st_v1.png  [tileset]  RGBA 1549x11279px  210cores
+       ERR [NOT_INDEXED] Modo RGBA - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [DIM_NOT_MULTIPLE_8] Dimensoes 1549x11279 nao sao multiplas de 8.
+          -> Redimensionar para 1552x11280 px.
+       ERR [TOO_MANY_COLORS] 210 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+       ERR [RGBA_NOT_INDEXED] Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.
+          -> Declarar o papel do index 0 (transparent0 ou unused0) ANTES de escolher a paleta. Nunca compor sobre preto/branco para resolver transparencia. Medir com: python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate <png> --index0-role transparent0
+
+  CONVERT ko_victory_source_v1.png  [tileset]  RGB 2172x724px  195123cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [DIM_NOT_MULTIPLE_8] Dimensoes 2172x724 nao sao multiplas de 8.
+          -> Redimensionar para 2176x728 px.
+       ERR [TOO_MANY_COLORS] 195123 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f001.png  [tileset]  RGB 480x640px  37682cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 37682 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f013.png  [tileset]  RGB 480x640px  39182cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 39182 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f024.png  [tileset]  RGB 480x640px  39697cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 39697 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f036.png  [tileset]  RGB 480x640px  39458cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 39458 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f010.png  [tileset]  RGB 480x640px  41005cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 41005 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f001.png  [tileset]  RGB 480x640px  37093cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 37093 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f008.png  [tileset]  RGB 480x640px  42310cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 42310 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f016.png  [tileset]  RGB 480x640px  40780cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 40780 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f024.png  [tileset]  RGB 480x640px  43708cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 43708 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f032.png  [tileset]  RGB 480x640px  41913cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 41913 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT f040.png  [tileset]  RGB 480x640px  44827cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 44827 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT sf_hud_sheet.png  [tileset]  RGBA 496x224px  39cores
+       ERR [NOT_INDEXED] Modo RGBA - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 39 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+       ERR [RGBA_NOT_INDEXED] Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.
+          -> Declarar o papel do index 0 (transparent0 ou unused0) ANTES de escolher a paleta. Nunca compor sobre preto/branco para resolver transparencia. Medir com: python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate <png> --index0-role transparent0
+
+  CONVERT lab_frame_0000_source.png  [tileset]  RGB 768x480px  157cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 157 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT reconstructed_frame_0000.png  [tileset]  RGB 768x480px  157cores
+       ERR [NOT_INDEXED] Modo RGB - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [TOO_MANY_COLORS] 157 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+
+  CONVERT generated_stage2_v01.png  [tileset]  RGBA 1774x887px  355497cores
+       ERR [NOT_INDEXED] Modo RGBA - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [DIM_NOT_MULTIPLE_8] Dimensoes 1774x887 nao sao multiplas de 8.
+          -> Redimensionar para 1776x888 px.
+       ERR [TOO_MANY_COLORS] 355497 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+       ERR [RGBA_NOT_INDEXED] Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.
+          -> Declarar o papel do index 0 (transparent0 ou unused0) ANTES de escolher a paleta. Nunca compor sobre preto/branco para resolver transparencia. Medir com: python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate <png> --index0-role transparent0
+
+  CONVERT title_backdrop_generated_v01.png  [tileset]  RGBA 1499x1049px  36509cores
+       ERR [NOT_INDEXED] Modo RGBA - nao e PNG indexado (modo P).
+          -> Indexar para PNG modo P com PLTE <= 16 e index 0 por papel declarado. Rota: forge-art convert (technical_conversion). Fonte high-res de personagem/cenario de identidade exige assisted_native_translation, nao conversao automatica.
+       ERR [DIM_NOT_MULTIPLE_8] Dimensoes 1499x1049 nao sao multiplas de 8.
+          -> Redimensionar para 1504x1056 px.
+       ERR [TOO_MANY_COLORS] 36509 cores visiveis - limite e 15 (index 0 reservado).
+          -> Recurar a paleta para 15 cores visiveis por material, nao por frequencia estatistica. Snap pela biblioteca canonica: python3 tools/sgdk_wrapper/forge_art/vdp_color.py --convert R,G,B
+       ERR [RGBA_NOT_INDEXED] Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.
+          -> Declarar o papel do index 0 (transparent0 ou unused0) ANTES de escolher a paleta. Nunca compor sobre preto/branco para resolver transparencia. Medir com: python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate <png> --index0-role transparent0
+
+  OK bgb1.png  [tileset]  P 512x224px  14cores
+       WARN [COLORS_NOT_9BIT] 15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK bgb2.png  [tileset]  P 512x256px  11cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK room_0_bga.png  [tileset]  P 320x224px  5cores
+       WARN [COLORS_NOT_9BIT] 6 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK room_0_bgb.png  [tileset]  P 320x224px  14cores
+       WARN [COLORS_NOT_9BIT] 13 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK showdown.png  [tileset]  P 512x256px  14cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK title_scene.png  [tileset]  P 320x224px  11cores
+       WARN [NO_MAGENTA_TRANSPARENT] Index 0 da paleta nao e magenta (#FF00FF) - convencao de transparencia SGDK.
+          -> Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res.
+
+  OK clock_digits_transparent.png  [tileset]  P 160x16px  7cores
+
+  OK energy_red.png  [tileset]  P 1664x16px  3cores
+
+  OK energy_red_p2.png  [tileset]  P 1664x16px  3cores
+
+  OK energy_yellow.png  [tileset]  P 1664x16px  9cores
+
+  OK energy_yellow_p1_window.png  [tileset]  P 128x16px  3cores
+
+  OK energy_yellow_p2.png  [tileset]  P 1664x16px  9cores
+
+  OK energy_yellow_p2_window.png  [tileset]  P 128x16px  3cores
+
+  OK energy_yellow_segment.png  [sprite]  P 16x8px  1cores
+       RES_SUGGESTION: SPRITE energy_yellow_segment "sprite/energy_yellow_segment.png" 2 1 FAST 5
+
+  OK ko.png  [sprite]  P 48x24px  3cores
+       INFO [SPRITE_TOO_LARGE] Imagem candidata a sprite mede 48x24px; o tamanho total pode representar strip/sheet e nao uma celula.
+          -> Validar cada frame no contrato .res e no sprite_artifact_report.v2; nao usar a largura total do strip como limite de uma entrada VDP.
+       RES_SUGGESTION: SPRITE ko "sprite/ko.png" 6 3 FAST 5
+
+  OK message_font.png  [tileset]  P 576x16px  7cores
+
+  OK n0.png  [sprite]  P 16x16px  8cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n0 "sprite/n0.png" 2 2 FAST 5
+
+  OK n1.png  [sprite]  P 16x16px  8cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n1 "sprite/n1.png" 2 2 FAST 5
+
+  OK n2.png  [sprite]  P 16x16px  9cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n2 "sprite/n2.png" 2 2 FAST 5
+
+  OK n3.png  [sprite]  P 16x16px  7cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n3 "sprite/n3.png" 2 2 FAST 5
+
+  OK n4.png  [sprite]  P 16x16px  8cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n4 "sprite/n4.png" 2 2 FAST 5
+
+  OK n5.png  [sprite]  P 16x16px  8cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n5 "sprite/n5.png" 2 2 FAST 5
+
+  OK n6.png  [sprite]  P 16x16px  8cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n6 "sprite/n6.png" 2 2 FAST 5
+
+  OK n7.png  [sprite]  P 16x16px  8cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n7 "sprite/n7.png" 2 2 FAST 5
+
+  OK n8.png  [sprite]  P 16x16px  8cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n8 "sprite/n8.png" 2 2 FAST 5
+
+  OK n9.png  [sprite]  P 16x16px  8cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE n9 "sprite/n9.png" 2 2 FAST 5
+
+  OK sombra.png  [sprite]  P 64x16px  1cores
+       INFO [SPRITE_TOO_LARGE] Imagem candidata a sprite mede 64x16px; o tamanho total pode representar strip/sheet e nao uma celula.
+          -> Validar cada frame no contrato .res e no sprite_artifact_report.v2; nao usar a largura total do strip como limite de uma entrada VDP.
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE sombra "sprite/sombra.png" 8 2 FAST 5
+
+  OK 100.png  [tileset]  P 256x96px  15cores
+
+  OK 101.png  [imagem]  P 56x88px  15cores
+
+  OK 102.png  [tileset]  P 192x96px  15cores
+
+  OK 104.png  [imagem]  P 72x104px  15cores
+
+  OK 105.png  [tileset]  P 264x96px  15cores
+
+  OK 106.png  [tileset]  P 128x104px  15cores
+
+  OK 151.png  [tileset]  P 240x96px  15cores
+
+  OK 200.png  [tileset]  P 192x104px  15cores
+
+  OK 201.png  [tileset]  P 768x104px  15cores
+
+  OK 300.png  [tileset]  P 432x128px  15cores
+
+  OK 420.png  [tileset]  P 320x96px  15cores
+
+  OK 501.png  [tileset]  P 224x72px  15cores
+
+  OK 550.png  [tileset]  P 440x96px  15cores
+
+  OK 606.png  [imagem]  P 88x104px  7cores
+
+  OK 700.png  [tileset]  P 192x96px  15cores
+
+  OK 710.png  [tileset]  P 448x96px  15cores
+
+  OK 720.png  [tileset]  P 896x104px  15cores
+
+  OK 730.png  [tileset]  P 1080x120px  15cores
+
+  OK pal1.png  [sprite]  P 8x8px  1cores
+       RES_SUGGESTION: SPRITE pal1 "sprite/pal1.png" 1 1 FAST 5
+
+  OK pal2.png  [sprite]  P 8x8px  1cores
+       RES_SUGGESTION: SPRITE pal2 "sprite/pal2.png" 1 1 FAST 5
+
+  OK 100.png  [tileset]  P 320x104px  15cores
+
+  OK 101.png  [imagem]  P 80x104px  15cores
+
+  OK 102.png  [tileset]  P 240x104px  15cores
+
+  OK 104.png  [tileset]  P 176x120px  15cores
+
+  OK 105.png  [tileset]  P 240x104px  15cores
+
+  OK 106.png  [tileset]  P 160x104px  15cores
+
+  OK 151.png  [tileset]  P 240x104px  15cores
+
+  OK 200.png  [imagem]  P 64x88px  15cores
+
+  OK 201.png  [tileset]  P 216x88px  15cores
+
+  OK 300.png  [tileset]  P 264x112px  15cores
+
+  OK 420.png  [tileset]  P 528x104px  15cores
+
+  OK 501.png  [tileset]  P 160x96px  15cores
+
+  OK 550.png  [tileset]  P 216x88px  15cores
+
+  OK 606.png  [imagem]  P 64x88px  15cores
+
+  OK 700.png  [tileset]  P 176x120px  15cores
+
+  OK 710.png  [tileset]  P 288x120px  15cores
+
+  OK 720.png  [tileset]  P 352x104px  15cores
+
+  OK 730.png  [tileset]  P 264x112px  15cores
+
+  OK defeat_v1.png  [tileset]  P 128x64px  15cores
+
+  OK fall_v1.png  [tileset]  P 240x120px  15cores
+
+  OK pal1.png  [sprite]  P 8x8px  1cores
+       RES_SUGGESTION: SPRITE pal1 "sprite/pal1.png" 1 1 FAST 5
+
+  OK pal2.png  [sprite]  P 8x8px  1cores
+       WARN [COLORS_NOT_9BIT] 15 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE pal2 "sprite/pal2.png" 1 1 FAST 5
+
+  OK victory_v1.png  [tileset]  P 88x128px  15cores
+
+  OK point.png  [sprite]  P 8x8px  2cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE point "sprite/point.png" 1 1 FAST 5
+
+  OK 000.png  [sprite]  P 24x24px  13cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE 000 "sprite/000.png" 3 3 FAST 5
+
+  OK 100.png  [tileset]  P 320x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 101.png  [tileset]  P 264x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 102.png  [tileset]  P 480x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 103.png  [tileset]  P 360x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 104.png  [tileset]  P 384x112px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 105.png  [tileset]  P 560x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 106.png  [tileset]  P 640x112px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 107.png  [imagem]  P 56x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 108.png  [imagem]  P 56x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 113.png  [tileset]  P 672x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 151.png  [tileset]  P 320x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 152.png  [tileset]  P 352x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 154.png  [tileset]  P 336x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 155.png  [tileset]  P 672x136px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 200.png  [imagem]  P 56x72px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 201.png  [tileset]  P 216x80px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 202.png  [tileset]  P 480x128px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 204.png  [tileset]  P 288x72px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 205.png  [tileset]  P 640x80px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 207.png  [imagem]  P 56x72px  14cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 208.png  [imagem]  P 56x72px  14cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 300.png  [tileset]  P 320x120px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 301.png  [tileset]  P 128x80px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 302.png  [tileset]  P 360x120px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 304.png  [tileset]  P 224x88px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 306.png  [tileset]  P 784x88px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 310.png  [tileset]  P 640x120px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 320.png  [tileset]  P 640x120px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 324.png  [tileset]  P 192x88px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 325.png  [tileset]  P 576x120px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 410.png  [tileset]  P 336x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 420.png  [tileset]  P 384x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 471.png  [tileset]  P 160x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 472.png  [tileset]  P 192x96px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 501.png  [tileset]  P 216x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 502.png  [tileset]  P 264x96px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 503.png  [tileset]  P 240x80px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 550.png  [tileset]  P 448x120px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 551.png  [tileset]  P 240x64px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 552.png  [tileset]  P 288x96px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 570.png  [imagem]  P 112x32px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 606.png  [imagem]  P 56x96px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 607.png  [imagem]  P 112x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 608.png  [imagem]  P 96x72px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 611.png  [tileset]  P 512x112px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 612.png  [tileset]  P 704x136px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 615.png  [tileset]  P 360x96px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 700.png  [tileset]  P 1560x112px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 701.png  [tileset]  P 224x48px  7cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 702.png  [tileset]  P 384x72px  6cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 710.png  [tileset]  P 384x104px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK 730.png  [tileset]  P 640x152px  15cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK pal1.png  [sprite]  P 8x8px  
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE pal1 "sprite/pal1.png" 1 1 FAST 5
+
+  OK pal2.png  [sprite]  P 8x8px  
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE pal2 "sprite/pal2.png" 1 1 FAST 5
+
+  OK spr_rect_bb.png  [sprite]  P 8x8px  2cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE spr_rect_bb "sprite/spr_rect_bb.png" 1 1 FAST 5
+
+  OK spr_rect_hb.png  [sprite]  P 8x8px  2cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+       RES_SUGGESTION: SPRITE spr_rect_hb "sprite/spr_rect_hb.png" 1 1 FAST 5
+
+  OK spr_spark0.png  [tileset]  P 168x24px  4cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK spr_spark1.png  [tileset]  P 224x32px  10cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK spr_spark2.png  [tileset]  P 336x48px  10cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+  OK spr_spark3.png  [tileset]  P 1144x120px  12cores
+       WARN [COLORS_NOT_9BIT] 14 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).
+          -> O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK.
+
+----------------------------------------------------------------------
+  COMANDOS DE CONVERSAO
+----------------------------------------------------------------------
+  # Medir conformidade pixel-strict dos assets ativos:
+  python3 tools/sgdk_wrapper/forge_art/pixel_contract.py --validate <png> --index0-role transparent0
+  # Validar recursos:
+  powershell -File tools\sgdk_wrapper\validate_resources.ps1
+  # Auto-fix sprite.res:
+  powershell -File tools\sgdk_wrapper\autofix_sprite_res.ps1
+
+======================================================================
+
+[INFO] Relatorio salvo em: /mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]/doc/curation/2026_09_18/visual_gap/art_diagnostic_report.json

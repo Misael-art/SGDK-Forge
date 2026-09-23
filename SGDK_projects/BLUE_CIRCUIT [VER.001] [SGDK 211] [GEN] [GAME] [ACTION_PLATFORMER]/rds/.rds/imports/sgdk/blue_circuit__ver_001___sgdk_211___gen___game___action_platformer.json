@@ -1,0 +1,697 @@
+{
+  "schema_version": "sgdk-import/v4",
+  "scene_id": "main",
+  "donor_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "effective_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "resolution_kind": "direct",
+  "donor_basename": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+  "fingerprint": "0f51bad198de8a4d",
+  "last_imported_at_unix": 1784376160,
+  "manifests": [
+    "res/resources.res"
+  ],
+  "mappings": [
+    {
+      "resource_kind": "IMAGE",
+      "resource_name": "img_bc_title_logo",
+      "source_relative": "res/blue_circuit/title_logo.png",
+      "destination": "assets/tilesets/title_logo.png"
+    },
+    {
+      "resource_kind": "IMAGE",
+      "resource_name": "img_bc_stage_bg",
+      "source_relative": "res/blue_circuit/stage_01_bg.png",
+      "destination": "assets/tilesets/stage_01_bg.png"
+    },
+    {
+      "resource_kind": "SPRITE",
+      "resource_name": "spr_bc_player_idle",
+      "source_relative": "res/blue_circuit/player_idle.png",
+      "destination": "assets/sprites/player_idle.png"
+    },
+    {
+      "resource_kind": "SPRITE",
+      "resource_name": "spr_bc_player_run",
+      "source_relative": "res/blue_circuit/player_run.png",
+      "destination": "assets/sprites/player_run.png"
+    },
+    {
+      "resource_kind": "SPRITE",
+      "resource_name": "spr_bc_player_jump",
+      "source_relative": "res/blue_circuit/player_jump.png",
+      "destination": "assets/sprites/player_jump.png"
+    },
+    {
+      "resource_kind": "SPRITE",
+      "resource_name": "spr_bc_player_shoot",
+      "source_relative": "res/blue_circuit/player_shoot.png",
+      "destination": "assets/sprites/player_shoot.png"
+    },
+    {
+      "resource_kind": "SPRITE",
+      "resource_name": "spr_bc_line_sentry_idle",
+      "source_relative": "res/blue_circuit/line_sentry_idle.png",
+      "destination": "assets/sprites/line_sentry_idle.png"
+    },
+    {
+      "resource_kind": "SPRITE",
+      "resource_name": "spr_bc_breaker_core_idle",
+      "source_relative": "res/blue_circuit/breaker_core_idle.png",
+      "destination": "assets/sprites/breaker_core_idle.png"
+    },
+    {
+      "resource_kind": "SPRITE",
+      "resource_name": "spr_bc_projectile_pulse",
+      "source_relative": "res/blue_circuit/projectile_pulse.png",
+      "destination": "assets/sprites/projectile_pulse.png"
+    },
+    {
+      "resource_kind": "WAV",
+      "resource_name": "brand_bell_forge",
+      "source_relative": "res/audio/branding/bell_forge.wav",
+      "destination": "assets/audio/bell_forge.wav"
+    },
+    {
+      "resource_kind": "WAV",
+      "resource_name": "brand_typewriter_click",
+      "source_relative": "res/audio/branding/typewriter_click.wav",
+      "destination": "assets/audio/typewriter_click.wav"
+    },
+    {
+      "resource_kind": "WAV",
+      "resource_name": "brand_bell_terminal",
+      "source_relative": "res/audio/branding/bell_terminal.wav",
+      "destination": "assets/audio/bell_terminal.wav"
+    },
+    {
+      "resource_kind": "WAV",
+      "resource_name": "brand_stamp_whoosh",
+      "source_relative": "res/audio/branding/stamp_whoosh.wav",
+      "destination": "assets/audio/stamp_whoosh.wav"
+    },
+    {
+      "resource_kind": "WAV",
+      "resource_name": "brand_reverb_tail",
+      "source_relative": "res/audio/branding/reverb_tail.wav",
+      "destination": "assets/audio/reverb_tail.wav"
+    }
+  ],
+  "skipped_sources": [
+    {
+      "source": "// BLUE_CIRCUIT",
+      "reason": "UnsupportedKind",
+      "detail": "Recurso 'BLUE_CIRCUIT' do tipo '//' nao possui destino canonico no importador SGDK."
+    },
+    {
+      "source": "// Branding",
+      "reason": "UnsupportedKind",
+      "detail": "Recurso 'Branding' do tipo '//' nao possui destino canonico no importador SGDK."
+    }
+  ],
+  "warnings": [],
+  "fallbacks": [
+    "sprite 'spr_bc_player_idle': animacoes derivadas da grelha rescomp (1 fileira(s), 1 quadro(s) por fileira); ver SGDK rescomp SPRITE.",
+    "sprite 'spr_bc_player_run': animacoes derivadas da grelha rescomp (1 fileira(s), 3 quadro(s) por fileira); ver SGDK rescomp SPRITE.",
+    "sprite 'spr_bc_player_jump': animacoes derivadas da grelha rescomp (1 fileira(s), 1 quadro(s) por fileira); ver SGDK rescomp SPRITE.",
+    "sprite 'spr_bc_player_shoot': animacoes derivadas da grelha rescomp (1 fileira(s), 2 quadro(s) por fileira); ver SGDK rescomp SPRITE.",
+    "sprite 'spr_bc_line_sentry_idle': animacoes derivadas da grelha rescomp (1 fileira(s), 1 quadro(s) por fileira); ver SGDK rescomp SPRITE.",
+    "sprite 'spr_bc_breaker_core_idle': animacoes derivadas da grelha rescomp (1 fileira(s), 1 quadro(s) por fileira); ver SGDK rescomp SPRITE.",
+    "sprite 'spr_bc_projectile_pulse': animacoes derivadas da grelha rescomp (1 fileira(s), 1 quadro(s) por fileira); ver SGDK rescomp SPRITE.",
+    "authoring_staging: 7 sprite(s) redistribuidos em shelf/lane de autoria porque o donor SGDK nao forneceu coordenadas confiaveis de cena; cada entidade foi marcada com audit_flag 'position:staging_layout'.",
+    "Fase C: collision_map derivado por regra rastreavel: solido onde indice de tile != 0, livre onde == 0 (indice 0 = tile totalmente transparente em extract_sgdk_tilemap_cells); grade 16x6 tiles, 96 celulas solidas.",
+    "Fase C [img_bc_stage_bg]: Fase C: collision_map derivado por regra rastreavel: solido onde indice de tile != 0, livre onde == 0 (indice 0 = tile totalmente transparente em extract_sgdk_tilemap_cells); grade 40x28 tiles, 1120 celulas solidas."
+  ],
+  "history": [],
+  "scenes": [
+    {
+      "scene_id": "main",
+      "display_name": "Legacy SGDK Overlay",
+      "scene_path": "scenes/main.json",
+      "role": "primary",
+      "entity_count": 10,
+      "tilemap_cells": 96,
+      "tilemap_unique_tiles": 96
+    },
+    {
+      "scene_id": "img_bc_stage_bg",
+      "display_name": "img_bc_stage_bg",
+      "scene_path": "scenes/img_bc_stage_bg.json",
+      "role": "secondary_tilemap",
+      "entity_count": 1,
+      "tilemap_cells": 1120,
+      "tilemap_unique_tiles": 940
+    }
+  ],
+  "phase_c": {
+    "collision_derivation_rule": "nonzero_tile_index",
+    "primary_collision_solid_cells": 96,
+    "primary_sprite_animation_rows": 1,
+    "primary_sprite_animation_names": [
+      "default"
+    ]
+  },
+  "phase_d": {
+    "detected_main_c_token_groups": [
+      "vblank_sync",
+      "spr_engine"
+    ],
+    "donor_logic_scanned_paths": [
+      "inc/core/app.h",
+      "inc/game_vars.h",
+      "inc/system/input.h",
+      "inc/system/runtime_probe.h",
+      "src/main.c"
+    ],
+    "logic_graph_refs": [
+      "graphs/sgdk_import_spr_bc_breaker_core_idle.json",
+      "graphs/sgdk_import_spr_bc_line_sentry_idle.json",
+      "graphs/sgdk_import_spr_bc_player_idle.json",
+      "graphs/sgdk_import_spr_bc_player_jump.json",
+      "graphs/sgdk_import_spr_bc_player_run.json",
+      "graphs/sgdk_import_spr_bc_player_shoot.json",
+      "graphs/sgdk_import_spr_bc_projectile_pulse.json"
+    ],
+    "heuristic_gameplay_class": null,
+    "cross_unit_function_refs": [
+      "call `APP_boot(` em 'src/main.c' linha 9 (caller=global) -> definicao textual em 'inc/core/app.h'",
+      "call `APP_update(` em 'src/main.c' linha 14 (caller=global) -> definicao textual em 'inc/core/app.h'",
+      "call `INPUT_update(` em 'src/main.c' linha 13 (caller=global) -> definicao textual em 'inc/system/input.h'",
+      "call `MDRuntimeProbe_tick(` em 'src/main.c' linha 17 (caller=global) -> definicao textual em 'inc/system/runtime_probe.h'"
+    ],
+    "entity_spr_local_signal_hits": [],
+    "detected_audio_apis": [],
+    "entity_trace": [
+      {
+        "entity_id": "spr_bc_breaker_core_idle",
+        "graph_ref": "graphs/sgdk_import_spr_bc_breaker_core_idle.json",
+        "source_refs": [
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 33,
+            "kind": "function_call",
+            "subject": "HUD_TEXT_LEN",
+            "snippet": "#define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 35,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_X",
+            "snippet": "#define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 36,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_Y",
+            "snippet": "#define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_call",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_def",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_call",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_def",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 40,
+            "kind": "function_call",
+            "subject": "APP_changeScene",
+            "snippet": "void APP_changeScene(AppScene nextScene);"
+          }
+        ],
+        "confidence": "low",
+        "applied_class": "none",
+        "entity_role": "generic_imported_sprite",
+        "role_reason": "sem sinal lexical forte alem do scan agregado; sprite mantido como importado generico",
+        "driver_functions": [],
+        "source_paths": [],
+        "rules_hit": [
+          "spr_engine",
+          "entity_role:generic_imported_sprite"
+        ]
+      },
+      {
+        "entity_id": "spr_bc_line_sentry_idle",
+        "graph_ref": "graphs/sgdk_import_spr_bc_line_sentry_idle.json",
+        "source_refs": [
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 33,
+            "kind": "function_call",
+            "subject": "HUD_TEXT_LEN",
+            "snippet": "#define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 35,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_X",
+            "snippet": "#define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 36,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_Y",
+            "snippet": "#define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_call",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_def",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_call",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_def",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 40,
+            "kind": "function_call",
+            "subject": "APP_changeScene",
+            "snippet": "void APP_changeScene(AppScene nextScene);"
+          }
+        ],
+        "confidence": "low",
+        "applied_class": "none",
+        "entity_role": "generic_imported_sprite",
+        "role_reason": "sem sinal lexical forte alem do scan agregado; sprite mantido como importado generico",
+        "driver_functions": [],
+        "source_paths": [],
+        "rules_hit": [
+          "spr_engine",
+          "entity_role:generic_imported_sprite"
+        ]
+      },
+      {
+        "entity_id": "spr_bc_player_idle",
+        "graph_ref": "graphs/sgdk_import_spr_bc_player_idle.json",
+        "source_refs": [
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 33,
+            "kind": "function_call",
+            "subject": "HUD_TEXT_LEN",
+            "snippet": "#define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 35,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_X",
+            "snippet": "#define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 36,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_Y",
+            "snippet": "#define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_call",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_def",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_call",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_def",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 40,
+            "kind": "function_call",
+            "subject": "APP_changeScene",
+            "snippet": "void APP_changeScene(AppScene nextScene);"
+          }
+        ],
+        "confidence": "low",
+        "applied_class": "none",
+        "entity_role": "player_avatar",
+        "role_reason": "nome do recurso/entidade sugere papel de jogador",
+        "driver_functions": [],
+        "source_paths": [
+          "inc/core/app.h",
+          "inc/game_vars.h",
+          "inc/system/input.h",
+          "inc/system/runtime_probe.h",
+          "src/main.c"
+        ],
+        "rules_hit": [
+          "spr_engine",
+          "primary_sprite",
+          "entity_role:player_avatar"
+        ]
+      },
+      {
+        "entity_id": "spr_bc_player_jump",
+        "graph_ref": "graphs/sgdk_import_spr_bc_player_jump.json",
+        "source_refs": [
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 33,
+            "kind": "function_call",
+            "subject": "HUD_TEXT_LEN",
+            "snippet": "#define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 35,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_X",
+            "snippet": "#define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 36,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_Y",
+            "snippet": "#define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_call",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_def",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_call",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_def",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 40,
+            "kind": "function_call",
+            "subject": "APP_changeScene",
+            "snippet": "void APP_changeScene(AppScene nextScene);"
+          }
+        ],
+        "confidence": "low",
+        "applied_class": "none",
+        "entity_role": "player_avatar",
+        "role_reason": "nome do recurso/entidade sugere papel de jogador",
+        "driver_functions": [],
+        "source_paths": [],
+        "rules_hit": [
+          "spr_engine",
+          "entity_role:player_avatar"
+        ]
+      },
+      {
+        "entity_id": "spr_bc_player_run",
+        "graph_ref": "graphs/sgdk_import_spr_bc_player_run.json",
+        "source_refs": [
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 33,
+            "kind": "function_call",
+            "subject": "HUD_TEXT_LEN",
+            "snippet": "#define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 35,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_X",
+            "snippet": "#define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 36,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_Y",
+            "snippet": "#define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_call",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_def",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_call",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_def",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 40,
+            "kind": "function_call",
+            "subject": "APP_changeScene",
+            "snippet": "void APP_changeScene(AppScene nextScene);"
+          }
+        ],
+        "confidence": "low",
+        "applied_class": "none",
+        "entity_role": "player_avatar",
+        "role_reason": "nome do recurso/entidade sugere papel de jogador",
+        "driver_functions": [],
+        "source_paths": [],
+        "rules_hit": [
+          "spr_engine",
+          "entity_role:player_avatar"
+        ]
+      },
+      {
+        "entity_id": "spr_bc_player_shoot",
+        "graph_ref": "graphs/sgdk_import_spr_bc_player_shoot.json",
+        "source_refs": [
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 33,
+            "kind": "function_call",
+            "subject": "HUD_TEXT_LEN",
+            "snippet": "#define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 35,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_X",
+            "snippet": "#define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 36,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_Y",
+            "snippet": "#define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_call",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_def",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_call",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_def",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 40,
+            "kind": "function_call",
+            "subject": "APP_changeScene",
+            "snippet": "void APP_changeScene(AppScene nextScene);"
+          }
+        ],
+        "confidence": "low",
+        "applied_class": "none",
+        "entity_role": "player_avatar",
+        "role_reason": "nome do recurso/entidade sugere papel de jogador",
+        "driver_functions": [],
+        "source_paths": [],
+        "rules_hit": [
+          "spr_engine",
+          "entity_role:player_avatar"
+        ]
+      },
+      {
+        "entity_id": "spr_bc_projectile_pulse",
+        "graph_ref": "graphs/sgdk_import_spr_bc_projectile_pulse.json",
+        "source_refs": [
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 33,
+            "kind": "function_call",
+            "subject": "HUD_TEXT_LEN",
+            "snippet": "#define HUD_TEXT_LEN (VDP_TEXT_COLS - HUD_TEXT_X)"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 35,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_X",
+            "snippet": "#define SPR_CENTER_X(def, cx) ((s16)((cx) - (s16)((def)->w * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 36,
+            "kind": "sgdk_api_call",
+            "subject": "SPR_CENTER_Y",
+            "snippet": "#define SPR_CENTER_Y(def, cy) ((s16)((cy) - (s16)((def)->h * 4)))"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_call",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 38,
+            "kind": "function_def",
+            "subject": "APP_boot",
+            "snippet": "void APP_boot(bool hardReset);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_call",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 39,
+            "kind": "function_def",
+            "subject": "APP_update",
+            "snippet": "void APP_update(void);"
+          },
+          {
+            "rel_path": "inc/core/app.h",
+            "line": 40,
+            "kind": "function_call",
+            "subject": "APP_changeScene",
+            "snippet": "void APP_changeScene(AppScene nextScene);"
+          }
+        ],
+        "confidence": "low",
+        "applied_class": "none",
+        "entity_role": "projectile_actor",
+        "role_reason": "recurso associado a sinais lexicais de tiro/projetil",
+        "driver_functions": [],
+        "source_paths": [],
+        "rules_hit": [
+          "spr_engine",
+          "entity_role:projectile_actor"
+        ]
+      }
+    ]
+  }
+}

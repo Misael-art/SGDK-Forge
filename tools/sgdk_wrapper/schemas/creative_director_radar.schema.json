@@ -1,0 +1,477 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/creative_director_radar.schema.json",
+  "title": "Creative Director Radar",
+  "description": "Machine-readable proactivity contract for project personality, signature opportunities, benchmark axes and non-generic AAA direction. Benchmarks are quality bars only, never source art or clone targets.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project_id",
+    "radar_id",
+    "source_authority",
+    "project_promise",
+    "benchmark_axis_matrix",
+    "signature_pillars",
+    "proactive_gap_radar",
+    "signature_scene_candidates",
+    "do_not_copy_policy",
+    "decision_policy",
+    "approval_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "radar_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "source_authority": {
+      "type": "object",
+      "required": [
+        "gdd_ref",
+        "project_bible_ref",
+        "genre_or_specialization_ref",
+        "curation_source_note"
+      ],
+      "properties": {
+        "gdd_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "project_bible_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "genre_or_specialization_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "curation_source_note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "project_promise": {
+      "type": "object",
+      "required": [
+        "one_sentence",
+        "target_player_feeling",
+        "non_generic_identity",
+        "first_10_seconds_test"
+      ],
+      "properties": {
+        "one_sentence": {
+          "type": "string",
+          "minLength": 12
+        },
+        "target_player_feeling": {
+          "type": "string",
+          "minLength": 8
+        },
+        "non_generic_identity": {
+          "type": "string",
+          "minLength": 8
+        },
+        "first_10_seconds_test": {
+          "type": "string",
+          "minLength": 8
+        }
+      },
+      "additionalProperties": false
+    },
+    "benchmark_axis_matrix": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "axis",
+          "benchmark_title",
+          "benchmark_role",
+          "inherited_quality",
+          "project_specific_translation",
+          "forbidden_copy_boundary",
+          "evidence_metric",
+          "status"
+        ],
+        "properties": {
+          "axis": {
+            "type": "string",
+            "enum": [
+              "mechanics",
+              "level_design",
+              "audio",
+              "visual_identity",
+              "technical_spectacle",
+              "game_feel",
+              "front_end",
+              "narrative_atmosphere",
+              "systems_depth"
+            ]
+          },
+          "benchmark_title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "benchmark_role": {
+            "type": "string",
+            "enum": [
+              "quality_bar_only",
+              "mechanical_pattern",
+              "pacing_pattern",
+              "audio_reference",
+              "visual_density_reference",
+              "technical_feasibility_reference",
+              "ui_readability_reference"
+            ]
+          },
+          "inherited_quality": {
+            "type": "string",
+            "minLength": 8
+          },
+          "project_specific_translation": {
+            "type": "string",
+            "minLength": 8
+          },
+          "forbidden_copy_boundary": {
+            "type": "string",
+            "minLength": 8
+          },
+          "evidence_metric": {
+            "type": "string",
+            "minLength": 5
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "seed",
+              "planned",
+              "implemented",
+              "verified",
+              "rejected",
+              "deferred"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "signature_pillars": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "pillar_id",
+          "axis",
+          "player_visible_payoff",
+          "production_artifacts",
+          "status"
+        ],
+        "properties": {
+          "pillar_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_\\-]+$"
+          },
+          "axis": {
+            "type": "string",
+            "enum": [
+              "mechanics",
+              "level_design",
+              "audio",
+              "visual_identity",
+              "technical_spectacle",
+              "game_feel",
+              "front_end",
+              "narrative_atmosphere",
+              "systems_depth"
+            ]
+          },
+          "player_visible_payoff": {
+            "type": "string",
+            "minLength": 8
+          },
+          "production_artifacts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "seed",
+              "planned",
+              "implemented",
+              "verified",
+              "rejected",
+              "deferred"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "proactive_gap_radar": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "gap_id",
+          "axis",
+          "current_symptom",
+          "why_it_limits_the_game",
+          "proposed_director_move",
+          "target_docs",
+          "owner_skill",
+          "priority",
+          "decision_state",
+          "acceptance_evidence"
+        ],
+        "properties": {
+          "gap_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_\\-]+$"
+          },
+          "axis": {
+            "type": "string",
+            "enum": [
+              "mechanics",
+              "level_design",
+              "audio",
+              "visual_identity",
+              "technical_spectacle",
+              "game_feel",
+              "front_end",
+              "narrative_atmosphere",
+              "systems_depth"
+            ]
+          },
+          "current_symptom": {
+            "type": "string",
+            "minLength": 8
+          },
+          "why_it_limits_the_game": {
+            "type": "string",
+            "minLength": 8
+          },
+          "proposed_director_move": {
+            "type": "string",
+            "minLength": 8
+          },
+          "target_docs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "owner_skill": {
+            "type": "string",
+            "minLength": 1
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "signature",
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "decision_state": {
+            "type": "string",
+            "enum": [
+              "proposed",
+              "accepted",
+              "rejected",
+              "deferred"
+            ]
+          },
+          "acceptance_evidence": {
+            "type": "string",
+            "minLength": 5
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "signature_scene_candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "scene_id",
+          "signature_moment",
+          "gameplay_payoff",
+          "visual_payoff",
+          "audio_payoff",
+          "technical_showcase",
+          "fallback"
+        ],
+        "properties": {
+          "scene_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "signature_moment": {
+            "type": "string",
+            "minLength": 8
+          },
+          "gameplay_payoff": {
+            "type": "string",
+            "minLength": 8
+          },
+          "visual_payoff": {
+            "type": "string",
+            "minLength": 8
+          },
+          "audio_payoff": {
+            "type": "string",
+            "minLength": 8
+          },
+          "technical_showcase": {
+            "type": "string",
+            "minLength": 8
+          },
+          "fallback": {
+            "type": "string",
+            "minLength": 8
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "do_not_copy_policy": {
+      "type": "object",
+      "required": [
+        "benchmark_usage",
+        "forbidden_uses",
+        "authorial_translation_required",
+        "clone_risk_gate_required"
+      ],
+      "properties": {
+        "benchmark_usage": {
+          "type": "string",
+          "const": "quality_bar_only"
+        },
+        "forbidden_uses": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "enum": [
+              "asset_copy",
+              "layout_copy",
+              "palette_copy",
+              "character_copy",
+              "logo_copy",
+              "music_copy",
+              "name_copy",
+              "story_copy"
+            ]
+          }
+        },
+        "authorial_translation_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "clone_risk_gate_required": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "decision_policy": {
+      "type": "object",
+      "required": [
+        "proactivity_required",
+        "feature_creep_guard",
+        "gdd_tdd_sync_required",
+        "human_scope_approval_required",
+        "no_silent_scope_expansion"
+      ],
+      "properties": {
+        "proactivity_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "feature_creep_guard": {
+          "type": "boolean",
+          "const": true
+        },
+        "gdd_tdd_sync_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "human_scope_approval_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "no_silent_scope_expansion": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "ready_for_human_review",
+        "approved_for_production",
+        "blocked"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "approval_status": {
+            "const": "approved_for_production"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "benchmark_axis_matrix": {
+            "minItems": 5
+          },
+          "proactive_gap_radar": {
+            "minItems": 5
+          },
+          "signature_scene_candidates": {
+            "minItems": 1
+          },
+          "signature_pillars": {
+            "minItems": 3
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

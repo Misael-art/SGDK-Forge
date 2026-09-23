@@ -2,6 +2,7 @@
 
 #include "core/app.h"
 #include "system/input.h"
+#include "system/runtime_probe.h"
 
 int main(bool hardReset)
 {
@@ -13,6 +14,7 @@ int main(bool hardReset)
         APP_update();
         SPR_update();
         SYS_doVBlankProcess();
+        MDRuntimeProbe_tick();
     }
 
     return 0;

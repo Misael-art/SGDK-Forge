@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "report_kind": "kairo_vant_scale_and_pose_correction",
+  "generated_at": "2026-09-05",
+  "status": "candidate_visual_measured_native_authoring_blocked",
+  "root_and_duplicate": {
+    "canonical_root": "SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+    "canonical_realpath_verified": true,
+    "duplicate_root": "SGDK_projects/TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+    "duplicate_file_count": 0,
+    "duplicate_action": "preserved_without_deletion",
+    "inventory_report": "doc/duplicate_project_inventory_20260905.json"
+  },
+  "scale_error_and_correction": {
+    "invalid_prior_ruler": "Jack/Ryo 000 were icons/portraits, not fighter idle frames; the old 24px ruler and all 32x40 routes are rejected.",
+    "gdd_rule": "height_kairo_px >= ceil(1.25 * max(height_jack_px, height_ryo_px))",
+    "max_jack_height_px": 76,
+    "max_ryo_height_px": 102,
+    "required_kairo_visible_height_px": 128,
+    "selected_hypothesis": "C",
+    "selected_canvas_px": [88, 136],
+    "selection_basis": "only A/B/C hypothesis meeting the GDD minimum; native visual and hardware gates remain open"
+  },
+  "fighter_scale_table": {
+    "jack_100": {"source": "SGDK_Engines/TaiketsuUltraHeroGenesis/src/res/sprite/jack/100.png", "sha256": "e5ae31a0e5601533f7f6cc0d59e3c2ea1dd6136d4df54d810adc265677ae9529", "cell_px": [56, 80], "frames": 4, "visible_height_range_px": [74, 76], "sprite_res_declaration": "SPRITE spr_jack_100 sprite/jack/100.png 7 10 FAST 0"},
+    "jack_410": {"source": "SGDK_Engines/TaiketsuUltraHeroGenesis/src/res/sprite/jack/410.png", "sha256": "ded2897fd231c5b1d7f0797a2ccff4371b66dbb6dfc47f88a564df07d4aa3594", "cell_px": [48, 80], "frames": 5, "visible_height_range_px": [73, 75], "sprite_res_declaration": "SPRITE spr_jack_410 sprite/jack/410.png 6 10 FAST 0"},
+    "ryo_100": {"source": "SGDK_Engines/TaiketsuUltraHeroGenesis/src/res/sprite/ryo/100.png", "sha256": "1ff180a0737f5b3c8c156effc481de037d2daba1bce4993dda54598bbd7aa63b", "cell_px": [64, 104], "frames": 5, "visible_height_range_px": [98, 102], "sprite_res_declaration": "no direct declaration found in engine sprite.res; inferred 64x104 frame cell from sheet"},
+    "kairo_target": {"source": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_visual_producer_output_v02_alpha_clean.png", "sha256": "171846af73bdd131e85197aa4abf767a4ebb8720a3f029f154e8e29fa5d08b78", "role": "visual_producer_translation_source", "native_status": "not_native"}
+  },
+  "scale_shootout": {
+    "report": "rascunho/scale_correction_20260905/scale_shootout_panel.json",
+    "contact_sheet": {"path": "rascunho/scale_correction_20260905/scale_shootout_contact_sheet.png", "sha256": "f1ce5b51714e4939c8d3e1b38d9c60ccd5fcb32d9f38b4e36d7d4630dbc606b2"},
+    "claim_ceiling": "mechanical_geometry_probe",
+    "hypotheses": {
+      "A": {"canvas_px": [72, 112], "kairo_visible_height_px": 105, "jack_scene_max_links": 5, "jack_scene_max_pixels_per_scanline": 82, "ryo_scene_max_links": 5, "ryo_scene_max_pixels_per_scanline": 96, "h40": "pass"},
+      "B": {"canvas_px": [80, 120], "kairo_visible_height_px": 117, "jack_scene_max_links": 5, "jack_scene_max_pixels_per_scanline": 89, "ryo_scene_max_links": 5, "ryo_scene_max_pixels_per_scanline": 101, "h40": "pass"},
+      "C": {"canvas_px": [88, 136], "kairo_visible_height_px": 128, "jack_scene_max_links": 5, "jack_scene_max_pixels_per_scanline": 98, "ryo_scene_max_links": 5, "ryo_scene_max_pixels_per_scanline": 108, "h40": "pass"}
+    },
+    "interpretation": "All three two-fighter mechanical compositions pass the sampled H40 limits; this does not close native tile, DMA, FX or worst-scene budget."
+  },
+  "workset": {
+    "manifest": "doc/art/visual_workset_manifest.json",
+    "active_epoch": "d1_scale_reset_20260905",
+    "production_sources": ["identity model sheet", "identity visual source", "v04 translation guide", "new 3/4 visual producer translation source"],
+    "quality_references": ["Jack 100", "Jack 410", "Ryo 100", "Kairo v03 quality reference only"],
+    "forbidden_roots": ["out", "res", "data/processed/kairo_vant", "data/staging", "data/archive", "data/source_art/reference_fighting"],
+    "workset_validation": "passed",
+    "manifest_sha256": "913fc9c58a58075ae44a02ec2ff39c419bb7f9e6897fdb8b1f33975c91274650"
+  },
+  "source_probe_and_pose_comparison": {
+    "identity_authority": ["data/source_art/kairo_vant/kairo_vant_model_sheet_source_v01.png", "data/source_art/kairo_vant/kairo_vant_visual_source.png"],
+    "selected_translation_pose": {"path": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_visual_producer_output_v02_alpha_clean.png", "alpha": "real alpha present; bbox [49,43,1090,1402]; triage accepted_translation_source", "visual_read": "full body, grounded feet, separate hands, guard, gaze, asymmetrical scarf/coat, preserved cyan hair lock"},
+    "rejected_translation_pose": {"path": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_visual_producer_output_v01.png", "reason": "baked checkerboard; alpha extrema 255/255"},
+    "route_selection": {"automatic_winner": null, "primary_underlay": "im_lanczos3", "primary_sha256": "f9ba87d4e1eda89b094a83cb6bee0b00d1d48a428f168ae83db7be6d2c12948b", "challenger": "im_mitchell_netravali", "challenger_sha256": "52efcc529e7a97ba55df1c20ea8d87b0f6662b76300135cebe6e78272b4c4d14", "control": "im_nearest", "control_sha256": "83797eef37d5891a8363d2b556b1fa29a1773784046fb1c0fbaa32cfe3aacc8e", "status": "underlays_only_for_native_reauthoring"},
+    "technical_candidate_v02_fitted": {
+      "source": "rascunho/scale_correction_20260905/kairo_vant_combat_idle_3quarter_assisted_native_grid_probe_C_v02_fitted.png",
+      "source_sha256": "c94dbbd8bcafcc5eb1784461612644821d65fc8b9dc9f4f5bb6a5dd68eb6ab34",
+      "candidate": "rascunho/scale_correction_20260905/assisted_native_candidate_c_v02_fitted_diagnostics/kairo_vant_combat_idle_3quarter_assisted_native_grid_probe_c_v02_fitted_diagnostic_candidate.png",
+      "candidate_sha256": "9a54d03133232762470b3823002d772a762a9ecfe91d1b1aaafb45c0aa5a9eb8",
+      "conversion_content_sha256": "f0ef93aeb7df2a2a8b7d734d16703c059724a468dc9329c014507c764b106135",
+      "canvas_px": [88, 136],
+      "visible_bbox_exclusive": [0, 8, 87, 136],
+      "visible_height_px": 128,
+      "technical_contract": {"pixel_contract": "passed", "native_semantic_gate": "passed", "indexed_4bpp": true, "visible_colors": 15, "index0": "transparent0"},
+      "offline_budget": {"flip_dedup_unique_tiles": 117, "tile_bytes": 3744, "hardware_sprite_links": 29, "max_sprites_per_scanline": 9, "max_pixels_per_scanline": 216, "status": "offline_pass_runtime_pending"},
+      "visual_status": "technical_candidate_not_native_authored",
+      "human_status": "pending",
+      "integration_status": "blocked",
+      "production_record": "doc/art/kairo_vant/combat_idle_3quarter_v02_fitted_native_sprite_production_record.json",
+      "budget_report": "rascunho/scale_correction_20260905/c_scale_candidate_budget_report.json",
+      "visual_quality_review": "rascunho/scale_correction_20260905/technical_candidate_visual_quality_review.json"
+    }
+  },
+  "generation_route_failures": {
+    "report": "rascunho/scale_correction_20260905/generation_failures/generation_route_failure_log_v01.json",
+    "status": "closed_after_two_equivalent_contamination_failures",
+    "outputs_remain_reference_only": true,
+    "next_route": "native_reauthoring_over_fitted_c_scale_guide"
+  },
+  "native_reauthoring_handoff": {
+    "report": "rascunho/scale_correction_20260905/native_reauthoring_handoff_v01.json",
+    "status": "human_native_authoring_required",
+    "target_canvas_px": [88, 136],
+    "minimum_visible_height_px": 128,
+    "integration_allowed": false
+  },
+  "native_translation_block": {
+    "report": "rascunho/scale_correction_20260905/native_reauthoring_translate_block_v01.json",
+    "status": "blocked_pending_capable_producer",
+    "exit_code": 3,
+    "meaning": "canonical translate refuses to fabricate native pixels and records the human handoff",
+    "target_canvas_px": [88, 136]
+  },
+  "native_authoring_capability": {
+    "report": "rascunho/scale_correction_20260905/native_authoring_capability_audit_v01.json",
+    "status": "no_capable_native_authoring_backend_on_current_host",
+    "integration_allowed": false
+  },
+  "gates": {
+    "source_audit": "passed_for_translation_source",
+    "scale_measurement": "passed_direct_reference_measurement",
+    "native_pixel_fidelity": "technical_candidate_passed_native_visual_blocked",
+    "palette_and_index0": "technical_candidate_passed_for_probe",
+    "tile_residency_and_dma": "offline_geometry_measured_runtime_pending",
+    "human_visual_gate": "pending",
+    "animation": "not_started_by_design",
+    "resources_res_integration": "blocked",
+    "build_current_epoch": "not_run; integration is blocked",
+    "rom_current_epoch": "not_generated",
+    "blastem_current_epoch": "not_run",
+    "historical_rom_sha256": "97ce57eaf1707613b150c15af2556004c50f5cff69a5eb77aebc2222a9b23ea4",
+    "historical_evidence_policy": "stale_for_this_scale_reset; cannot prove current pose"
+  },
+  "failed_or_rejected_routes": [
+    "old 24px ruler: invalid reference class",
+    "all 32x40 Kairo candidates: rejected as negative evidence",
+    "XPM native_grid_authoring_v01: procedural_code_probe, negative evidence only",
+    "first 3/4 ImageGen output: rejected for baked checkerboard",
+    "ImageGen edit v03: rejected for glow and opaque background contamination; reference-only",
+    "ImageGen edit v04: rejected for baked checkerboard contamination; reference-only",
+    "ImageGen challenger v05: rejected for luminous background/halo contamination despite alpha channel; copied to rascunho/scale_correction_20260909 and reference-only",
+    "assisted native candidate v07 at 88x136: rejected as sparse/weak visual hypothesis after inspection; technical probe only, not native-authored",
+    "GIMP route entries: skipped because deterministic host backend unavailable",
+    "automatic route winner: none"
+  ],
+  "claim_ceiling": "technical_candidate_measured_scale_and_offline_geometry; not native, not runtime, not visually_approved, not testado_em_emulador, not ready_for_res, not ready_for_aaa",
+  "next_gate": "native reauthoring over the fitted C-scale guide, then pixel/fidelity/material/budget/human gates before any integration"
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "project": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "purpose": "D1 runtime implementation context pack",
+  "authorities": [
+    "doc/10-memory-bank.md",
+    "doc/11-gdd.md",
+    "doc/13-spec-cenas.md",
+    "doc/fighting_2d_design_contract.json",
+    "doc/camera_behavior_contract.json",
+    "doc/technique_usage_manifest.json",
+    "doc/contracts/tdd_contract.json"
+  ],
+  "runtime_files": [
+    "src/core/app.c",
+    "src/scenes/scene_demo.c",
+    "src/system/input.c",
+    "inc/game_vars.h",
+    "res/resources.res"
+  ],
+  "hardware_contract": {
+    "mode": "H40",
+    "resolution": "320x224",
+    "planes": ["BG_A", "BG_B"],
+    "sprite_pool": 16,
+    "dma_policy": "SGDK resource DMA only through VBlank-managed path",
+    "audio_policy": "cue calls are scene events; driver update remains global"
+  },
+  "evidence_required": ["build", "validation_report", "BlastEm_boot", "D1_gameplay_capture", "60fps_observation", "memory_bank_update"]
+}

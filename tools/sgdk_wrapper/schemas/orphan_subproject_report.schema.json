@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/orphan_subproject_report.schema.json",
+  "title": "Orphan Subproject Detection Report",
+  "description": "Detecta subprojetos aninhados (viewer SGDK, estudos) sem manifesto agregador, memory bank, changelog ou fechamento do objetivo original.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_root",
+    "nested_projects",
+    "orphan_detected"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nested_projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "kind"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "kind": {
+            "enum": ["viewer_sgdk", "study", "techdemo", "lab_experiment"]
+          },
+          "aggregator_manifest_present": { "type": "boolean" },
+          "memory_bank_present": { "type": "boolean" },
+          "changelog_present": { "type": "boolean" },
+          "viewer_link_present": { "type": "boolean" },
+          "evidence_or_lab_status": { "type": "boolean" },
+          "objective_closed": { "type": "boolean" },
+          "missing_items": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "orphan_detected": {
+      "type": "boolean"
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "blocker_code": {
+      "type": ["string", "null"],
+      "enum": [null, "orphan_subproject_detected"]
+    }
+  },
+  "additionalProperties": false
+}

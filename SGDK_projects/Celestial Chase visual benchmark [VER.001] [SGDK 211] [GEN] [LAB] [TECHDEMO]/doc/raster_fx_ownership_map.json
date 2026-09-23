@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "chase_first_playable",
+  "single_owner": "chase_road",
+  "h_int_in_use": false,
+  "fx_chain": [
+    {
+      "scanline_range": "0-223",
+      "effect_class": "BG_A pseudo3D road plus BG_B depth zones",
+      "tables": ["chase road line-scroll table", "chase atmosphere line-scroll table"],
+      "update_timing": "prepared during update and committed by SGDK VBlank process"
+    }
+  ],
+  "worst_case_scanline_budget_us": 0,
+  "vblank_update_cost": "896 bytes for two 224-entry line-scroll tables when enabled",
+  "reset_on_scene_exit": true,
+  "fallback_if_owner_conflict": "Switch BG_A to plane scroll and clear the line table."
+}

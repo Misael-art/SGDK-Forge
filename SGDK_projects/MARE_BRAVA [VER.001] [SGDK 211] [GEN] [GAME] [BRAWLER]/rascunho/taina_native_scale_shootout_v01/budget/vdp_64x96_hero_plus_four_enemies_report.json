@@ -1,0 +1,28 @@
+{
+  "blockers": [],
+  "display_mode": "h40",
+  "hardware_sprite_count": 14,
+  "headroom": {
+    "binding_limit": "sprite_pixels",
+    "justification": "scale shootout planning measurement; hero plus four 32x48 enemy footprints",
+    "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos.",
+    "peak_utilization": 0.6,
+    "pixel_utilization": 0.6,
+    "sprite_utilization": 0.3,
+    "unexploited_threshold": 0.6
+  },
+  "limits": {
+    "pixels_per_scanline": 320,
+    "sprites_per_scanline": 20
+  },
+  "max_sprite_pixels_per_scanline": 192,
+  "max_sprites_per_scanline": 6,
+  "over_limit_lines": [],
+  "over_pixel_limit_lines": [],
+  "sprite_count": 5,
+  "status": "ok",
+  "tool_name": "vdp_scanline_simulator",
+  "tool_version": "1.2.0",
+  "total_sprite_links": 14,
+  "warnings": []
+}

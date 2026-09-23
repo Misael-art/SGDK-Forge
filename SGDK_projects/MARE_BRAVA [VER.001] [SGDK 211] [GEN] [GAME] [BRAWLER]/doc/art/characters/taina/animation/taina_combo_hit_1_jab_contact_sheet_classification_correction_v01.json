@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_combo_hit_1_jab_contact_sheet_classification_correction_v01",
+  "generated_at": "2026-07-29",
+  "status": "classification_corrected_duplicate_cells_removed",
+  "reviewed_board": "out/blastem_env_taina_combo_hit_1_jab_v01/blastem-linux-20260729T111215Z-598254/runtime_attack_contact_sheet.png",
+  "reviewed_board_geometry": {
+    "columns": 8,
+    "rows": 6,
+    "sample_count": 48,
+    "kind": "runtime_temporal_burst"
+  },
+  "finding": "The reviewed 6x8 board is a montage of 48 consecutive BlastEm samples. It is not read by ResComp and is not resident in VRAM as a 48-frame animation.",
+  "actual_runtime_assets": [
+    {
+      "resource": "spr_taina_idle_guard",
+      "path": "res/sprites/characters/taina/taina_idle_guard_48x64_v02.png",
+      "geometry_px": [288, 64],
+      "cell_px": [48, 64],
+      "frame_count": 6
+    },
+    {
+      "resource": "spr_taina_combo_hit_1_jab",
+      "path": "res/sprites/characters/taina/taina_combo_hit_1_jab_runtime_unique_64x64_v02.png",
+      "geometry_px": [192, 64],
+      "cell_px": [64, 64],
+      "physical_frame_count": 3,
+      "logical_phase_count": 5,
+      "unique_runtime_frame_contact_sheet": "doc/art/characters/taina/review/taina_combo_hit_1_jab_runtime_unique_contact_6x_v02.png"
+    }
+  ],
+  "start_overlay_root_cause": {
+    "kind": "scene_background_text",
+    "source": "src/scenes/scene_demo.c",
+    "statement_removed": "VDP_drawText(\"START\", 2, 19);",
+    "baked_into_sprite_png": false,
+    "character_pixels_destroyed": false,
+    "explanation": "Transparent regions of the sprite exposed the BG_B marker behind it; no source character pixels need reconstruction."
+  },
+  "optimization_decision": "The 48-frame montage is temporal evidence, but the prior five-cell resource also contained two real duplicate idle cells. Runtime v02 stores only launch, active contact and recoil, reusing the idle definition for anticipation and recovery.",
+  "claim_limit": "The optimized ROM boot and clean background were observed. Focused attack playback on the final ROM hash still requires recapture."
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_technique_curation_record",
+  "source": {
+    "source_id": "case_graphical_tricks_vdp",
+    "source_kind": "direct_user_summary",
+    "title_or_label": "Graphical tricks on the Sega Mega Drive/Genesis",
+    "url": "",
+    "availability": "available_in_thread"
+  },
+  "technique": {
+    "id": "raster_scroll_palette_fx",
+    "name": "Raster, scroll and palette effects",
+    "summary": "Use HScroll, VScroll column, H-Int, palette cycling and dithering as scene-owned VDP effects with budget, reset and evidence.",
+    "risk_domain": [
+      "vdp",
+      "dma",
+      "art"
+    ]
+  },
+  "classification": "create_new_skill",
+  "canonical_fit": {
+    "owner_paths": [
+      "tools/sgdk_wrapper/.agent/skills/hardware/shadow-highlight-scroll-fx/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/art/scene-direction-curator/SKILL.md",
+      "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md"
+    ],
+    "new_artifacts": [
+      "scroll_fx_contract",
+      "raster_fx_ownership_map",
+      "palette_cycle_decision_card"
+    ],
+    "blocked_by": [
+      "mid_frame_claim_without_vdp_dump_or_equivalent_telemetry"
+    ]
+  },
+  "evidence": {
+    "grade": "E1_text",
+    "minimum_required_before_canonical": [
+      "BlastEm screenshot for visual claim",
+      "VDP dump or equivalent telemetry for H-Int/CRAM/scroll table claim",
+      "worst-frame budget"
+    ],
+    "current_gaps": [
+      "no local VDP evidence in this session"
+    ]
+  },
+  "promotion_decision": {
+    "decision": "apply_as_candidate",
+    "rationale": "The thread identifies a real gap around Shadow/Highlight, HScroll/VScroll and H-Int ownership; a dedicated skill and schema were added as candidate material."
+  },
+  "accepted_concepts": [
+    "HScroll, VScroll column, H-Int, palette cycling and dithering are scene-owned VDP effects requiring budget, reset and evidence.",
+    "shadow-highlight-scroll-fx is the canonical owner for Shadow/Highlight and raster scroll ownership."
+  ],
+  "rejected_or_deferred_claims": [
+    "Any mid-frame effect claim without a VDP dump or equivalent telemetry is blocked.",
+    "Visual correctness of any effect is deferred until a BlastEm screenshot exists."
+  ],
+  "required_followups": [
+    "Capture BlastEm screenshot and VDP dump for H-Int/CRAM/scroll-table claims.",
+    "Record a worst-frame budget before promoting the effect."
+  ],
+  "status": "candidate_applied_not_verified"
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "mare_brava_dma_queue_v01",
+  "scene_id": "cais_01",
+  "vblank_byte_budget": 7168,
+  "owner": "app_vblank_callback_unico",
+  "queue_api": "SGDK DMA_QUEUE",
+  "known_operations": [
+    {"name": "bg_a_hscroll_line", "timing": "vblank", "bytes_per_frame": 448, "target": "HSCROLL_LINE"},
+    {"name": "bg_b_hscroll_line", "timing": "vblank", "bytes_per_frame": 448, "target": "HSCROLL_LINE"},
+    {"name": "lamp_palette_pulse", "timing": "vblank", "bytes_per_frame": 4, "target": "CRAM"},
+    {"name": "branding_hscroll_line", "timing": "vblank", "bytes_per_frame": 448, "target": "HSCROLL_LINE"},
+    {"name": "branding_palette_pulse", "timing": "vblank", "bytes_per_frame": 2, "target": "CRAM"}
+  ],
+  "scene_transition_invalidation": "APP_changeScene resets camera, clears scene sprites and invalidates scene-local pending work by teardown",
+  "fallback": "drop optional lamp/branding pulse before critical scene loads if queue pressure is measured",
+  "status": "structural_contract_passed_runtime_worst_case_pending",
+  "blockers": ["runtime_dma_worst_case_not_measured", "performance_over_budget_frames"]
+}

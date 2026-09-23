@@ -1,0 +1,11 @@
+{
+  "schema_version": "source_to_rom_asset_map.v1",
+  "asset_id": "native_idle_key_pose_elite_v01",
+  "source": {"path":"rascunho/nexialist_visual_nucleus_v01/native_idle_key_pose_elite_v01.png","sha256":"58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29","content_sha256":"ce677449e1ce5c0722add0fd587bdba93d5b278667cf7cdf0a51329195ad93bc"},
+  "res_input": {"symbol":"spr_native_idle_elite","path":"res/sprites/native_idle_key_pose_elite_v01.png","sha256":"58004465b39c826ce970c5c8018cb202f2befbf45b8ce8c2fa355804daa9fb29"},
+  "rescomp": {"status":"passed","frame":"spr_native_idle_elite_animation0_frame0","hardware_sprite_count":1,"unique_tiles":16,"raw_size_bytes":606},
+  "rom": {"path":"out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/rom.bin","sha256":"d37077b2d1c6e8c2f65a24ee0ffd4e64ebac57d37ef75520d5d7c1aef7cce8ad"},
+  "scene": {"id":11,"symbol":"APP_SCENE_NATIVE_ART_REVIEW","resource_used":"spr_native_idle_elite"},
+  "offline_vs_rom": {"status":"runtime_identity_correlated; bitmap_pixel_decode_not_attempted","screenshot_semantic_gate":"passed","visual_vdp_dump_present":true,"comparison_limit":"VLAB dump exposes runtime metrics/palette, not a full sprite bitmap; screenshot proves scene identity/visibility only"},
+  "promotion": "review_only_no_first_playable_replacement_no_final_res_claim"
+}

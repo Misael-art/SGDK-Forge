@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "fixed_point_math_contract",
+  "system_id": "chase_first_playable",
+  "representation": "integer_pixel_and_frame_timers",
+  "variables": [
+    {
+      "name": "player_lane_x",
+      "type": "s16",
+      "range": [80, 176],
+      "unit": "pixels"
+    },
+    {
+      "name": "jump_offset_velocity",
+      "type": "s16",
+      "range": [-64, 32],
+      "unit": "pixels_per_frame"
+    },
+    {
+      "name": "round_frame",
+      "type": "u32",
+      "range": [0, 4500],
+      "unit": "frames_at_60hz"
+    },
+    {
+      "name": "pressure_energy",
+      "type": "u16",
+      "range": [0, 100],
+      "unit": "integer_meter"
+    },
+    {
+      "name": "obstacle_z",
+      "type": "u16",
+      "range": [0, 255],
+      "unit": "depth_stage"
+    }
+  ],
+  "render_snap": "all gameplay positions are already integer pixels",
+  "overflow_policy": "clamp pressure, energy and lane targets before accumulation",
+  "lut_required": true,
+  "lut_policy": "bounded 16-stage obstacle depth tables and finite-difference road tables",
+  "obstacle_depth_tables": ["screen_y", "lane_spread", "scale_stage", "contact_shadow_offset", "collision_window"],
+  "float_or_double": false,
+  "asm_path": "not_used",
+  "fallback": "reduce movement step complexity before introducing fix32",
+  "blockers": []
+}

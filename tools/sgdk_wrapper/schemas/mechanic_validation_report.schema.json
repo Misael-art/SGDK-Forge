@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/mechanic_validation_report.schema.json",
+  "title": "SGDK Mechanic Validation Report",
+  "description": "Output of systems-mechanics-validator. Aggregates status per mechanic and per 5 Laws.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "report_id",
+    "timestamp",
+    "target_scope",
+    "mechanic_results",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "report_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "target_scope": {"type": "string", "minLength": 1},
+    "mechanic_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["mechanic_id", "status", "laws_status", "pillars_status", "issues"],
+        "properties": {
+          "mechanic_id": {"type": "string"},
+          "status": {"type": "string", "enum": ["passed", "warn", "failed"]},
+          "laws_status": {
+            "type": "object",
+            "required": ["agency", "feedback", "flow", "consistency", "reward"],
+            "properties": {
+              "agency": {"type": "string", "enum": ["passed", "warn", "failed", "not_applicable"]},
+              "feedback": {"type": "string", "enum": ["passed", "warn", "failed", "not_applicable"]},
+              "flow": {"type": "string", "enum": ["passed", "warn", "failed", "not_applicable"]},
+              "consistency": {"type": "string", "enum": ["passed", "warn", "failed", "not_applicable"]},
+              "reward": {"type": "string", "enum": ["passed", "warn", "failed", "not_applicable"]}
+            }
+          },
+          "pillars_status": {
+            "type": "object",
+            "required": ["space", "trigger", "challenge", "limitation", "probability"],
+            "properties": {
+              "space": {"type": "string", "enum": ["passed", "warn", "failed"]},
+              "trigger": {"type": "string", "enum": ["passed", "warn", "failed"]},
+              "challenge": {"type": "string", "enum": ["passed", "warn", "failed"]},
+              "limitation": {"type": "string", "enum": ["passed", "warn", "failed"]},
+              "probability": {"type": "string", "enum": ["passed", "warn", "failed", "not_applicable"]}
+            }
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["code", "severity", "message"],
+              "properties": {
+                "code": {"type": "string"},
+                "severity": {"type": "string", "enum": ["warn", "blocker"]},
+                "message": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total", "passed", "warn", "failed"],
+      "properties": {
+        "total": {"type": "integer", "minimum": 0},
+        "passed": {"type": "integer", "minimum": 0},
+        "warn": {"type": "integer", "minimum": 0},
+        "failed": {"type": "integer", "minimum": 0},
+        "orphan_mechanic_ids": {"type": "array", "items": {"type": "string"}},
+        "underused_mechanic_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "blocking_statuses": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": true
+}

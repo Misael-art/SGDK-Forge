@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/entity_vtable_plan.schema.json",
+  "title": "Entity VTable Plan",
+  "description": "Contract for SGDK entity catalogs using C function pointers and archetype data without a central switch-case monolith.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "project",
+    "pool_policy",
+    "update_order",
+    "archetypes",
+    "null_handler_policy",
+    "iteration_safety",
+    "fixtures",
+    "status",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "entity_vtable_plan" },
+    "project": { "type": "string", "minLength": 1 },
+    "pool_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_entities", "allocation_model"],
+      "properties": {
+        "max_entities": { "type": "integer", "minimum": 0 },
+        "allocation_model": { "type": "string", "enum": ["static_pool", "scene_pool", "lab_dynamic_only"] }
+      }
+    },
+    "update_order": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "archetypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "state_bytes", "handlers"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "state_bytes": { "type": "integer", "minimum": 0 },
+          "handlers": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["init", "update", "draw", "on_hit", "on_destroy"],
+            "properties": {
+              "init": { "type": "string" },
+              "update": { "type": "string" },
+              "draw": { "type": "string" },
+              "on_hit": { "type": "string" },
+              "on_destroy": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "null_handler_policy": { "type": "string", "minLength": 1 },
+    "iteration_safety": { "type": "string", "enum": ["deferred_remove", "mark_and_sweep", "double_buffered_list", "unsafe_needs_rework"] },
+    "fixtures": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "status": { "type": "string", "enum": ["ok", "needs_review", "blocked"] },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "gate_id": "hibrido_v012_art_gameplay_direction_gate",
+  "project_id": "hibrido_muay_thai",
+  "asset_id": "hibrido_ai_visual_package_v012",
+  "asset_kind": "final_sprite_sheet_and_background_plate",
+  "evaluated_at": "2026-06-15T03:44:13Z",
+  "measurement_level": "advanced_source_generated_and_vdp_normalized_static",
+  "art_director_review": {
+    "status": "passed_for_ai_source_and_vdp_candidate",
+    "reviewer": "visual-excellence-standards",
+    "findings": [
+      "Procedural v011 is not an approved artistic baseline.",
+      "v012 uses advanced generated source art for both fighter and stage, then converts to VDP-constrained assets.",
+      "External reference was translated as ambition/composition only; real brands and characters were excluded."
+    ]
+  },
+  "game_design_context": {
+    "status": "passed",
+    "gameplay_role": "Playable Muay Thai hybrid fighter in side-view ring combat.",
+    "camera_perspective": "side_view_close_combat_320x224",
+    "states": [
+      "idle",
+      "walk_step",
+      "guard_block",
+      "jab",
+      "knee",
+      "teep",
+      "hurt"
+    ],
+    "interaction_context": [
+      "Ring floor remains readable for contact and movement.",
+      "Foreground ropes and LED/statue background support tournament scale without becoming gameplay hitboxes.",
+      "Fighter stays larger and more saturated than the background center."
+    ]
+  },
+  "identity_continuity_lock": {
+    "must_preserve": [
+      "hair",
+      "eyes",
+      "face",
+      "athletic_anatomy",
+      "lava_arm",
+      "lava_fissures",
+      "black_gold_shorts",
+      "red_sash",
+      "red_biceps_band",
+      "dirty_white_wraps",
+      "bronze_skin",
+      "materials",
+      "asymmetry",
+      "accessories"
+    ]
+  },
+  "motion_personality_contract": {
+    "hair": "trails and compresses with movement",
+    "clothing": "red sash and shorts react to knee/teep",
+    "expression": "focused/kiai/hurt faces readable in source and preserved as pixel clusters",
+    "weight": "feet share stable ground_y and attacks show contact/recovery",
+    "fx_policy": "hit sparks and lava bursts remain separate runtime FX"
+  },
+  "decision": {
+    "production_allowed": true,
+    "ready_for_res_promotion": true,
+    "ready_for_aaa": false,
+    "remaining_blockers": [
+      "human_visual_review_missing_for_aaa",
+      "fresh_blastem_capture_missing",
+      "visual_vdp_dump_missing",
+      "runtime_60fps_metrics_missing"
+    ]
+  }
+}

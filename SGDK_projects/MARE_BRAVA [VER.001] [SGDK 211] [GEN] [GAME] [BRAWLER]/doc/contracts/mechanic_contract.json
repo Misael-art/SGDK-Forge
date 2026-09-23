@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0.0",
+  "mechanic_id": "combo_de_mare",
+  "mechanic_role": "core",
+  "player_action": "Encadear jab, cruzado e chute baixo com A; direcionar o knockback do ultimo hit para empurrar inimigos (ring-out na beirada d'agua).",
+  "system_rule": "Cada hit conecta se a hitbox de golpe sobrepoe o corpo do alvo na mesma faixa de y (tolerancia 12px); o terceiro hit aplica knockback fix16 de 24px na direcao encarada; alvo empurrado sobre a zona de beirada sofre ring-out (KO imediato + splash).",
+  "goal_link": "Derrotar as ondas do cais e avancar; ring-out e a rota de alto risco/alta recompensa que define a identidade do jogo.",
+  "input_binding": {
+    "button": "A",
+    "binding_description": "A repetido encadeia o combo terrestre 3 hits; janela de cancel de 8 frames apos cada hit.",
+    "shared_button_disambiguation": "A+B simultaneo dispara o especial defensivo; A no ar dispara joelhada. Prioridade: A+B > ar > solo."
+  },
+  "activation_context": {
+    "state_requirements": "heroina em estado GROUND_NEUTRAL ou GROUND_COMBO com janela de cancel ativa; nao ativa em HIT/DOWN/SPECIAL",
+    "disambiguation_rule": "leitura unica de input por frame decide A+B antes de A; estado aereo decide joelhada",
+    "cooldown_ms": 0,
+    "resource_cost": "nenhum (especial defensivo A+B custa 10% de vida e e outra mecanica)"
+  },
+  "space_requirements": {
+    "min_reuses_in_world": 3,
+    "preferred_zones": [
+      "arena_onda_1",
+      "arena_onda_2",
+      "arena_onda_3_beirada"
+    ]
+  },
+  "required_game_elements": [
+    "inimigos com corpo colidivel",
+    "faixa de luta de 64px",
+    "zona de beirada com marcacao visual de espuma",
+    "fisica de knockback fix16"
+  ],
+  "skill_challenge_type": "physical",
+  "rules_and_limits": [
+    "combo nao encadeia mais de 3 hits; reset apos 20 frames sem input",
+    "hitstop cresce 2/3/5 frames por hit e nunca acumula acima de 6",
+    "maximo 1 ring-out por golpe (sem multi-kill em cadeia no slice)",
+    "inimigo em iframe (8+ frames pos-hit) nao recebe novo hit"
+  ],
+  "probability_model": {
+    "type": "deterministic"
+  },
+  "versatility_cases": [
+    "limpar espaco: 3o hit empurra grupo e abre respiro contra rushers",
+    "execucao espacial: posicionar o alvo entre heroi e beirada para ring-out",
+    "controle de grappler: interromper aproximacao do ESTIVADOR com o alcance do cruzado",
+    "economia de vida: matar por ring-out economiza dano de troca prolongada"
+  ],
+  "level_design_reuse_plan": {
+    "min_reuses": 3,
+    "target_scenes": [
+      "cais_01_arena1",
+      "cais_01_arena2",
+      "cais_01_arena3"
+    ]
+  },
+  "combination_map": [
+    {
+      "combo_mechanic_id": "joelhada_aerea",
+      "combo_effect": "joelhada derruba rusher em avanco; follow-up com combo terrestre no levantar"
+    },
+    {
+      "combo_mechanic_id": "especial_defensivo",
+      "combo_effect": "especial limpa cerco e recoloca inimigos na distancia ideal do combo"
+    }
+  ],
+  "failure_states": [
+    {
+      "failure_condition": "whiff do 2o/3o hit (alvo saiu da faixa de y)",
+      "consequence": "heroina fica 12 frames em recovery punivel",
+      "recovery_path": "andar em y para realinhar; joelhada como escape"
+    },
+    {
+      "failure_condition": "tentar ring-out longe da beirada",
+      "consequence": "knockback normal sem KO; inimigo levanta",
+      "recovery_path": "reposicionar a luta para perto da beirada"
+    }
+  ],
+  "feedback_model": {
+    "visual": "hitspark 8x8 por hit; flash de paleta no 3o hit; splash grande + espuma no ring-out",
+    "audio": "SFX seco por hit (3 pitches); splash como payoff sonoro",
+    "haptic_or_camera": "hitstop 2/3/5 frames; camera shake de 4 frames apenas no ring-out",
+    "juice_layers": [
+      "hitstop",
+      "camera_shake",
+      "palette_flash",
+      "splash_particles"
+    ]
+  },
+  "tutorial_invisible_plan": {
+    "teaching_scenes": [
+      "cais_01_arena1"
+    ],
+    "scaffolding_steps": [
+      "arena1: 2 CRIAs fracos convidam o combo completo sem punicao",
+      "arena2: ESTIVADOR pune spam e ensina a janela de cancel",
+      "arena3: layout empurra a luta para a beirada e sugere o ring-out sem texto"
+    ]
+  },
+  "test_scenarios": [
+    {
+      "scenario_id": "ts1_combo_basico",
+      "setup": "CRIA parado a 20px na mesma faixa de y",
+      "expected_outcome": "3 hits conectam, hitstop 2/3/5, alvo empurrado 24px",
+      "evidence_ref": "captura BlastEm + frame data"
+    },
+    {
+      "scenario_id": "ts2_ring_out",
+      "setup": "ESTIVADOR entre heroina e beirada (16px da borda)",
+      "expected_outcome": "3o hit empurra sobre a beirada; KO com splash, shake e bonus de score",
+      "evidence_ref": "captura BlastEm"
+    },
+    {
+      "scenario_id": "ts3_iframe",
+      "setup": "alvo em iframe pos-hit",
+      "expected_outcome": "novo hit nao conecta durante 8 frames",
+      "evidence_ref": "log de playtest"
+    }
+  ],
+  "evidence_required": [
+    {
+      "evidence_type": "blastem_capture",
+      "location": "out/evidence/blastem/",
+      "passed": false
+    },
+    {
+      "evidence_type": "wave_playtest_log",
+      "location": "doc/balance/wave_playtest_plan.md",
+      "passed": false
+    }
+  ],
+  "mechanic_5_laws_compliance": {
+    "agency": {
+      "status": "passed",
+      "input_latency_target_ms": 17,
+      "evidence_ref": "tdd_contract.input_abstraction_scope (leitura unica por frame)"
+    },
+    "feedback": {
+      "status": "passed",
+      "feedback_layers": [
+        "hitstop",
+        "hitspark",
+        "sfx",
+        "shake_no_ring_out"
+      ],
+      "evidence_ref": "feedback_model deste contrato"
+    },
+    "flow": {
+      "status": "warn",
+      "difficulty_curve_evidence": "curva declarada nas 3 arenas do level_blueprint; confirmacao exige playtest do primeiro build"
+    },
+    "consistency": {
+      "status": "passed",
+      "color_shape_contract_ref": "doc/11-gdd.md#character-scale-seed (hitbox dupla fixa e frame data unica)"
+    },
+    "reward": {
+      "status": "passed",
+      "drop_or_progression_ref": "pickup_catalog do design contract + bonus de score do ring-out"
+    }
+  }
+}

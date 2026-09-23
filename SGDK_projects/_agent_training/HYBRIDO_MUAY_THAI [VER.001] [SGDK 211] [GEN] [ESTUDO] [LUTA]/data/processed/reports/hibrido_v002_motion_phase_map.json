@@ -1,0 +1,465 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_runtime_v002",
+  "visual_status": "rejected_visual_placeholder",
+  "not_final_art": true,
+  "technical_lab_asset": true,
+  "rejection_reason": "v002 is retained only as a technical lab artifact. Human review rejected it for semantic visual failures: source/model-sheet anatomy gate failed, facial acting is static, and runtime 48x64 fidelity loses the eyes, lava arm, shorts and warm material contrast.",
+  "cell_px": [
+    48,
+    64
+  ],
+  "pivot_px": [
+    24,
+    58
+  ],
+  "actions": {
+    "idle": {
+      "frames": 8,
+      "body_strip": "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v002.png",
+      "fx_strip": "res/sprites/hibrido/hibrido_idle_fx_48x64_strip_v002.png",
+      "frame_delta_report": [
+        {
+          "frame_index": 0,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 4,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 1,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 4,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 2,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 5,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 12,
+            "y": 28,
+            "w": 20,
+            "h": 18
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 3,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 5,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 28,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 4,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 4,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 5,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 4,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 6,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 5,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 12,
+            "y": 28,
+            "w": 20,
+            "h": 18
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 7,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 5,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 28,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        }
+      ],
+      "motion_phase_map": [
+        "loop",
+        "loop",
+        "loop",
+        "loop",
+        "loop",
+        "loop",
+        "loop",
+        "loop"
+      ]
+    },
+    "walk_step": {
+      "frames": 6,
+      "body_strip": "res/sprites/hibrido/hibrido_walk_step_body_48x64_strip_v002.png",
+      "fx_strip": "res/sprites/hibrido/hibrido_walk_step_fx_48x64_strip_v002.png",
+      "frame_delta_report": [
+        {
+          "frame_index": 0,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 4,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 1,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 4,
+            "y": 5,
+            "w": 40,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 21,
+            "y": 28,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 2,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 4,
+            "y": 4,
+            "w": 40,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 21,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 3,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 5,
+            "y": 4,
+            "w": 40,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 4,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 9,
+            "y": 5,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 23,
+            "y": 28,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 5,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 9,
+            "y": 4,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 23,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        }
+      ],
+      "motion_phase_map": [
+        "loop",
+        "loop",
+        "loop",
+        "loop",
+        "loop",
+        "loop"
+      ]
+    },
+    "teep": {
+      "frames": 6,
+      "body_strip": "res/sprites/hibrido/hibrido_teep_body_48x64_strip_v002.png",
+      "fx_strip": "res/sprites/hibrido/hibrido_teep_fx_48x64_strip_v002.png",
+      "frame_delta_report": [
+        {
+          "frame_index": 0,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 7,
+            "y": 4,
+            "w": 32,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 1,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 6,
+            "y": 3,
+            "w": 32,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 21,
+            "y": 26,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 2,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 6,
+            "y": 2,
+            "w": 36,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 21,
+            "y": 25,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 3,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 7,
+            "y": 2,
+            "w": 39,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 25,
+            "w": 22,
+            "h": 23
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 4,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 8,
+            "y": 3,
+            "w": 39,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 23,
+            "y": 26,
+            "w": 22,
+            "h": 28
+          },
+          "foot_contact_y": 58
+        },
+        {
+          "frame_index": 5,
+          "pivot_px": [
+            24,
+            58
+          ],
+          "bbox_body": {
+            "x": 7,
+            "y": 4,
+            "w": 32,
+            "h": 53
+          },
+          "bbox_fx": {
+            "x": 22,
+            "y": 27,
+            "w": 10,
+            "h": 5
+          },
+          "foot_contact_y": 58
+        }
+      ],
+      "motion_phase_map": [
+        "startup",
+        "startup",
+        "startup",
+        "active",
+        "active",
+        "recovery"
+      ]
+    }
+  }
+}

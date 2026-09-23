@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/tool_first_audit.schema.json",
+  "title": "Tool-First Audit Report",
+  "description": "Registro de auditoria tool-first: antes de criar automacao nova, o agente deve avaliar ferramentas existentes e registrar decisao.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_root",
+    "automation_intent",
+    "tool_search_results",
+    "fixture_executed",
+    "decision",
+    "justification"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "automation_intent": {
+      "type": "object",
+      "required": ["description", "target_capability"],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "target_capability": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "tool_search_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool_path", "tool_name", "capability_match", "status"],
+        "properties": {
+          "tool_path": { "type": "string", "minLength": 1 },
+          "tool_name": { "type": "string", "minLength": 1 },
+          "capability_match": { "enum": ["full", "partial", "none"] },
+          "status": { "enum": ["stable", "legacy_unaudited", "experimental", "deprecated"] },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "fixture_executed": {
+      "type": "boolean"
+    },
+    "fixture_skip_reason": {
+      "type": ["string", "null"]
+    },
+    "fixture_result": {
+      "type": ["string", "null"]
+    },
+    "decision": {
+      "enum": ["reuse", "wrap", "improve", "replace", "reject"]
+    },
+    "justification": {
+      "type": "string",
+      "minLength": 8
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "blocker_code": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "tool_first_audit_missing",
+        "tool_first_decision_absent",
+        "tool_first_fixture_missing",
+        "tool_first_fixture_skipped"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "fixture_executed": { "const": false }
+        },
+        "required": ["fixture_executed"]
+      },
+      "then": {
+        "required": ["fixture_skip_reason"],
+        "properties": {
+          "fixture_skip_reason": { "type": "string", "minLength": 8 }
+        }
+      }
+    }
+  ]
+}

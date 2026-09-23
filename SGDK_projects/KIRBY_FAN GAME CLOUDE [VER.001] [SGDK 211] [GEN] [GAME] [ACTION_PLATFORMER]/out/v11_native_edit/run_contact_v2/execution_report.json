@@ -1,0 +1,49 @@
+{
+  "action_log": "action_log.json",
+  "actions_sha256": "62fa5317843f42d89dc0a662107e94a0951b2017febde1da6cbeb992d52edf49",
+  "asset_id": "kirby_run_contact_v11",
+  "candidate_8x_sha256": "c2bef70db81e4d5f071d5d4233dff33596a764977588452074a817e14817e31e",
+  "candidate_canonical_sha256": "92fb3b8b44fc7de4c9fe8f292a16ed0b7b1616c0f8e0edb1068d1e47660fb7da",
+  "candidate_sha256": "a25fc55e49ab5b69892fb0e9fa62ed8844e183c7518492316da55c3f085c6c3b",
+  "claim_ceiling": "native_candidate",
+  "command": "native-edit",
+  "frame_id": "run_contact",
+  "operations_applied": 38,
+  "pixel_contract_report": {
+    "bit_depth": 4,
+    "blockers": [],
+    "blocking": false,
+    "blocking_statuses": [],
+    "color_type": 3,
+    "content_sha256": "92fb3b8b44fc7de4c9fe8f292a16ed0b7b1616c0f8e0edb1068d1e47660fb7da",
+    "file": "candidate.png",
+    "height": 32,
+    "index0_role": "transparent0",
+    "limitation": "Aprova sintaxe de hardware. Nao aprova silhueta, anatomia, material, identidade nem leitura; `technical_pass` nao implica `visual_pass`.",
+    "oracle": "rescomp",
+    "plte_entries": 16,
+    "schema_version": "1.0.0",
+    "scope": "static_contract",
+    "status": "technical_candidate",
+    "tool": "forge_art.pixel_contract",
+    "tool_version": "1.2.0",
+    "visible_colors": 10,
+    "width": 32
+  },
+  "res_promotion": false,
+  "schema_version": "1.0.0",
+  "source_authority": {
+    "path": "data/source_art/r1/r1-01/concept.png",
+    "role": "exclusive_visual_authority",
+    "sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd"
+  },
+  "source_sha256_after": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+  "source_sha256_before": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+  "status": "completed",
+  "tool": "forge_art.native_edit",
+  "tool_version": "1.0.0",
+  "underlays": {
+    "data/staging/animation_curation_run_keyposes_20260903/native_grid_encoded_attempt_01.png": "787e6232bd2012fae3ab409b55bbc4a0b727ba0b4795c014cc11cd4dc95875ca",
+    "data/staging/animation_curation_run_keyposes_20260903/run_contact_visual_producer_output.png": "a09d47517e577d90dbcd6c4e7fb04b5b9fee12d20c2df34dc6045a7dd22bf519"
+  }
+}

@@ -1,1 +1,1 @@
-// Intentionally asset-free neutral technical fixture.
+// No external runtime assets. The fixture uses SGDK built-in font geometry.

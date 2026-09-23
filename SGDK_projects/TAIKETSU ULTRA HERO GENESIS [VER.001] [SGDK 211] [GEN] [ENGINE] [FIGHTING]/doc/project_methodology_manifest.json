@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "methodology_version": "2026.06.04",
+  "project": {
+    "name": "TAIKETSU ULTRA HERO GENESIS [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]",
+    "lifecycle": "existing",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "active_workflow": "production-loop",
+  "required_skills": [
+    "governance/truth-hierarchy-guard",
+    "governance/doc-sync-audit",
+    "operation/sgdk-build-wrapper-operator"
+  ],
+  "required_validations": [
+    "preflight_host",
+    "validate_resources",
+    "scene_closeout_gate",
+    "freshness_audit",
+    "project_hygiene",
+    "project_context"
+  ],
+  "claims": {
+    "critical_motion": {
+      "applicability": "not_applicable",
+      "rationale": "Porta verbatim de engine externa (TaiketsuUltraHeroGenesis); nenhuma tecnica de movimento critico deste framework e reivindicada ou autorada aqui."
+    },
+    "road_physics": {
+      "applicability": "not_applicable",
+      "rationale": "Engine de luta 1v1 sem pista, chase ou fisica pseudo-3D de estrada."
+    },
+    "modular_boss": {
+      "applicability": "not_applicable",
+      "rationale": "Sem boss modular ou forward kinematics; combate e FSM de lutadores em main.c monolitico."
+    }
+  }
+}

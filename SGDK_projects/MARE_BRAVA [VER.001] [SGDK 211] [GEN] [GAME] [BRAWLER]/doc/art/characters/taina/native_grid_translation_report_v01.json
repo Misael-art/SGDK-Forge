@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_native_grid_translation_v01",
+  "generated_at": "2026-07-06",
+  "source_image": "data/source_art/concept/taina_pixel_model_sheet/taina_pixel_model_sheet_source_v01.png",
+  "translation_target": "sprite_single_model_sheet_views",
+  "reference_profile": "mare_brava_authorial_taina_v1",
+  "hardware_spec": "sega_mega_drive_vdp_4bpp_9bit",
+  "hardware_expectations": {
+    "cell_px": "48x64",
+    "visible_height_px": 48,
+    "visible_colors_max": 15,
+    "transparent_index": 0,
+    "render_scale": "1x"
+  },
+  "intent_notes": "Preservar rosto, guarda, faixa, bandagens e massa de roupa em aproximadamente 3.5 cabecas sem usar downscale direto como arte final.",
+  "semantic_parse_report": "doc/art/characters/taina/source_semantic_parse_report_v01.json",
+  "fake_pixel_art_rejection": "doc/art/characters/taina/fake_pixel_art_rejection_v01.json",
+  "art_gameplay_direction_gate": "doc/art/characters/taina/art_gameplay_direction_gate.json",
+  "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+  "basic_translation": {
+    "status": "produced_basic_control_technical_pass_visual_rework_required",
+    "asset": "data/processed/characters/taina/lineart/taina_lineart_basic_48x64_v01.png",
+    "sha256": "839e3924ad3d24f4a79ecda46e0f333d8c192c2ddd37bb5f00e2c372046c4734",
+    "review_8x": "doc/art/characters/taina/review/taina_lineart_basic_48x64_review_8x_v01.png",
+    "route_board": "doc/art/characters/taina/review/taina_lineart_basic_area_routes_8x_v01.png",
+    "lineart_blocking_report": "doc/art/characters/taina/lineart_blocking_report_v01.json",
+    "allowed_use": "controle de reducao e referencia de blocking; proibido promover para res/"
+  },
+  "elite_translation": {
+    "status": "candidate_v07_scale_probe_not_promoted_animation_planning_created",
+    "candidate": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v07.png",
+    "candidate_sha256": "b8342103628317977961f3e9ae764cd4c43b04280c66594ac601906faed2c6d1",
+    "fidelity_report": "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v07.json",
+    "animation_planning_gate_report": "doc/art/characters/taina/animation/animation_planning_gate_report_v01.json",
+    "best_identity_candidate_so_far": {
+      "version": "v05",
+      "path": "data/processed/characters/taina/lineart/taina_lineart_clean_native_48x64_candidate_v05.png",
+      "sha256": "3fe2aa6de8f51170a32b66b3dfb5bda793e54d929a9b498d6b974129c945c615",
+      "status": "partial_visual_improvement_but_scale_animation_blocked"
+    },
+    "previous_failed_candidates": [
+      "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v01.json",
+      "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v02.json",
+      "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v03.json",
+      "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v04.json",
+      "doc/art/characters/taina/model_sheet_to_sprite_fidelity_report_v05.json"
+    ],
+    "required_method": "v06/v07 provaram a correcao de escala mas regrediram identidade; a proxima tentativa deve nascer de novo do model sheet aprovado + contratos v01, preservando os ganhos de identidade da v05 sem usar v05/v06/v07 como source final"
+  },
+  "pixel_ok": true,
+  "visual_ok": "v07_scale_probe_technical_pass_but_visual_fail",
+  "delta_ok": false,
+  "hardware_ok": false,
+  "emulator_ok": false,
+  "dominant_problem_class": "erro_de_asset",
+  "status": "basic_control_and_v07_scale_probe_produced_elite_blocked",
+  "blocking_statuses": [
+    "clean_native_lineart_blocking_1px_visual_pass_pending",
+    "native_pixel_model_sheet_elite_pending",
+    "scale_probe_identity_regressed_v07",
+    "animation_planning_created_but_visual_evidence_missing",
+    "source_basic_candidate_panel_required_for_next_attempt"
+  ]
+}

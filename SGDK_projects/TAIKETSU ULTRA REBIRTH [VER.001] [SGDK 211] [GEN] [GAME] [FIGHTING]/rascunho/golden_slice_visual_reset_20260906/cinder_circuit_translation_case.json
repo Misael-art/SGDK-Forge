@@ -1,0 +1,202 @@
+{
+  "case_id": "taiketsu_ultra_rebirth_cinder_circuit_visual_reset_20260906",
+  "project_name": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "source_image": "cinder_circuit_visual_source_v01.png",
+  "translation_target": "scene_slice",
+  "reference_profile": {
+    "reference_1": {
+      "name": "Streets of Rage 3",
+      "inheritance": "silhouette_priority, industrial material ramps and foreground readability"
+    },
+    "reference_2": {
+      "name": "Shinobi III",
+      "inheritance": "atmospheric depth, cooler distant plane and readable arena floor"
+    },
+    "reference_3": {
+      "name": "Gunstar Heroes",
+      "inheritance": "high-energy warm/cool contrast and dense but intentional machine detail"
+    },
+    "benchmark_used_as": "quality_bar",
+    "clone_risk": "blocked_until_authorial_consistency_review"
+  },
+  "scene_truth_kind": "authorial_visual_source_candidate",
+  "layout_complexity": "single_frame_multiplane_candidate",
+  "source_inventory": {
+    "source_kind": "ai_generated",
+    "source_role": "visual_source",
+    "acceptance_status": "visual_lab_control",
+    "dimensions": "1672x941_rgb",
+    "editorial_noise_present": false,
+    "text_or_branding_present": false,
+    "characters_present": false,
+    "source_notes": "Original Cinder Circuit industrial volcanic arena concept generated for this project. It is direction material, not native pixel art and not a final SGDK resource."
+  },
+  "drop_policy": {
+    "drop_editorial_regions": true,
+    "drop_text_and_logos": true,
+    "drop_characters_from_stage": true,
+    "drop_high_frequency_microdetail_when_native_reauthoring": true,
+    "notes": [
+      "Preserve the central molten reactor, circular arena, side machinery, distant skyline and foreground safety rail as semantic anchors.",
+      "Do not preserve every small pipe, ember or micro-highlight as an independent tile."
+    ]
+  },
+  "semantic_parse_report": {
+    "source_layout_type": "single_frame",
+    "semantic_regions": [
+      {
+        "id": "cinder_bg_b_atmosphere",
+        "classification": "scene_plane_bg_b",
+        "bbox": [210, 40, 1460, 500],
+        "action": "keep",
+        "composition_role": "bg_b",
+        "notes": "Distant red volcanic atmosphere, skyline, towers and low-contrast industrial silhouettes."
+      },
+      {
+        "id": "cinder_bg_a_reactor_architecture",
+        "classification": "scene_plane_bg_a",
+        "bbox": [0, 80, 1672, 650],
+        "action": "keep",
+        "composition_role": "bg_a",
+        "notes": "Side machinery, overhead gantries, central reactor and structural catwalks."
+      },
+      {
+        "id": "cinder_ground_arena",
+        "classification": "scene_plane_ground",
+        "bbox": [0, 470, 1672, 850],
+        "action": "keep",
+        "composition_role": "bg_a",
+        "notes": "Circular fighting platform and floor plates; must remain the neutral read anchor."
+      },
+      {
+        "id": "cinder_foreground_safety_rail",
+        "classification": "scene_plane_foreground_composition",
+        "bbox": [0, 590, 1672, 941],
+        "action": "keep",
+        "composition_role": "foreground_layer",
+        "notes": "Near rail, furnace housings and occlusion masses; preserve only where it frames the fight without covering feet."
+      }
+    ],
+    "auxiliary_regions": [],
+    "drop_regions": [],
+    "animation_ranges": [],
+    "final_scene_hypothesis": {
+      "scene_role": "combat_stage_and_stage_intro",
+      "camera_window": "320x224_4_3",
+      "gameplay_lane": [0, 132, 320, 210],
+      "horizon_band": [0, 64, 320, 132],
+      "central_focal_landmark": "molten_reactor_column",
+      "must_preserve": [
+        "central_reactor_column",
+        "circular_arena_ring",
+        "side_tower_symmetry",
+        "warm_lava_cool_steel_contrast",
+        "safe_clear_fighter_lane"
+      ]
+    },
+    "notes_on_why": [
+      "The source is a clean single scene rather than an editorial board, so semantic parsing is spatial and role-based.",
+      "BG_B must be reduced in contrast and detail; BG_A carries the central reactor and arena structure.",
+      "Foreground is a compositional occlusion layer, not an actor sprite and not a third VDP plane."
+    ]
+  },
+  "composition_schema": {
+    "shared_canvas": {
+      "source_extent": [1672, 941],
+      "target_extent": [320, 224],
+      "visible_window": [0, 0, 320, 224],
+      "spatial_lock": "central_reactor_and_arena_centered"
+    },
+    "roles": [
+      {"region_id": "cinder_bg_b_atmosphere", "composition_role": "bg_b", "order": 0},
+      {"region_id": "cinder_bg_a_reactor_architecture", "composition_role": "bg_a", "order": 1},
+      {"region_id": "cinder_ground_arena", "composition_role": "bg_a", "order": 2},
+      {"region_id": "cinder_foreground_safety_rail", "composition_role": "foreground_layer", "order": 3}
+    ],
+    "composition_order": ["bg_b", "bg_a", "foreground_layer", "fighters", "hud_window"],
+    "fallback": "compare_flat_single_plane_candidate_only_if_two_plane_budget_fails",
+    "third_plane_policy": "no_third_plane; foreground is priority/compositional fallback"
+  },
+  "hardware_spec": {
+    "display": "320x224_h40_4_3",
+    "grid": "8x8_tiles",
+    "visible_colors_per_palette": 15,
+    "transparent_index": 0,
+    "color_grid": "9_bit_rgb_0x00_0x22_0x44_0x66_0x88_0xaa_0xcc_0xee",
+    "planes": ["BG_A", "BG_B", "WINDOW"],
+    "sprite_scanline_limits": {"max_sprites": 20, "max_pixels": 320},
+    "audio_required_for_claim": true
+  },
+  "hardware_expectations": {
+    "palette_plan": {
+      "pal0": "cool distant atmosphere and skyline",
+      "pal1": "midground steel and reactor architecture",
+      "pal2": "warm arena/lava shared with stage FX",
+      "pal3": "fighters and HUD reserve; no stage leakage"
+    },
+    "layer_plan": {
+      "bg_b": "cooler, lower contrast, fewer high-frequency clusters, parallax 0.125x",
+      "bg_a": "reactor, catwalks and floor structure, parallax 0.5x/1.0x",
+      "foreground": "selective safety rail and furnace masses with feet-safe occlusion",
+      "hud": "WINDOW fixed plane"
+    },
+    "tile_budget": {
+      "target_bg_a_bg_b_unique_with_flip": "measure_before_promotion",
+      "observed_stage_ceiling": 980,
+      "fighter_and_hud_reserve": "measure_from_current_runtime"
+    },
+    "visual_gate": "needs_review_until_native_reauthoring_and_blastem_proof"
+  },
+  "intent_notes": [
+    "Replace the inherited HAMOOPIG branding/reference screen with an original Cinder Circuit stage.",
+    "Make the arena read immediately at 320x224 while retaining molten-industrial identity.",
+    "Keep the middle combat lane visually quiet enough for Jack and Kairo to win the hierarchy.",
+    "Treat this case as a source and translation workset; do not promote direct quantization as final art."
+  ],
+  "soul_contract": {
+    "soul_summary": "A symmetric industrial reactor arena where a vertical molten core illuminates a circular fighting platform, framed by dark steel machinery and cool service lights.",
+    "must_keep": [
+      "vertical molten core",
+      "circular ring platform",
+      "symmetrical side machinery",
+      "charcoal steel against ember orange",
+      "cool teal service lights",
+      "clear neutral combat lane"
+    ],
+    "can_simplify": ["micro-pipes", "small bolts", "individual embers", "far skyline windows"],
+    "must_drop": ["any text", "logos", "characters", "watermark", "modern smooth gradients", "anti-aliased microdetail"]
+  },
+  "source_semantic_map": {
+    "source_layout_type": "single_frame",
+    "shared_canvas_contract": "320x224_4_3_center_crop_from_1672x941",
+    "regions": [
+      {"id": "cinder_bg_b_atmosphere", "role": "bg_b", "engine_affordance": "scene_layer_continuous"},
+      {"id": "cinder_bg_a_reactor_architecture", "role": "bg_a", "engine_affordance": "scene_layer_continuous"},
+      {"id": "cinder_ground_arena", "role": "bg_a", "engine_affordance": "scene_layer_continuous"},
+      {"id": "cinder_foreground_safety_rail", "role": "foreground_layer", "engine_affordance": "scene_layer_continuous"}
+    ]
+  },
+  "art_gameplay_direction_gate": {
+    "status": "needs_review",
+    "owner": "coordinator_pending_human_visual_review",
+    "gameplay_context": "combat_cinder_circuit",
+    "camera": "fixed_4_3_fighting_camera_with_optional_scroll",
+    "must_preserve": ["clear fighter feet", "neutral center lane", "reactor landmark", "warm/cool hierarchy"],
+    "decision": "continue_as_visual_lab_source; block ROM promotion until native reauthoring and review"
+  },
+  "basic_variant": {
+    "status": "pending_offline_control",
+    "role": "blind_quantization_control_only"
+  },
+  "elite_variant": {
+    "status": "pending_native_reauthoring",
+    "role": "native_grid_recomposition_target_not_yet_generated"
+  },
+  "evidence": {
+    "source_sha256": "281778896b3e7d6098686ac4bccf954d0a812d67ed34d9db56dfa8a60600c914",
+    "rom_sha256_before_translation": "761bdd0f105f6a24e9deb21399bc3f8ad6f00ed7438d6ba5ee7b421a3688020f",
+    "runtime_status": "runtime_probe_passed_visual_epoch_failed",
+    "blastem_proof": "not_yet_run_for_this_source",
+    "promotion_status": "blocked_visual_source_only"
+  }
+}

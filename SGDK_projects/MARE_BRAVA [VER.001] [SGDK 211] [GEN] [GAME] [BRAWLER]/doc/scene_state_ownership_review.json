@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "mare_brava_scene_ownership_v01",
+  "status": "passed",
+  "owners": {
+    "scene_manager": "src/core/app.c",
+    "input": "src/system/input.c",
+    "camera": "src/system/camera.c",
+    "wave_manager": "src/game/wave_manager.c",
+    "vblank_dma": "app_vblank_callback_unico",
+    "window_hud": "scene_demo.c",
+    "audio": "src/system/audio.c"
+  },
+  "single_owner_checks": ["VBlank/DMA", "camera", "WINDOW", "audio", "scene teardown"],
+  "issues": [
+    {"code": "camera_blastem_evidence_pending", "severity": "warning", "message": "Ownership e runtime foram implementados, mas a prova BlastEm precisa ser refeita na ROM desta iteracao."}
+  ],
+  "handoff": "sgdk-runtime-coder"
+}

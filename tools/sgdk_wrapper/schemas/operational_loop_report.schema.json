@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/operational_loop_report.schema.json",
+  "title": "Operational Loop Detection Report",
+  "description": "Detecta quando os mesmos blockers aparecem em 3 builds consecutivos, indicando loop operacional sem progresso real.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_root",
+    "builds_analyzed",
+    "recurring_blockers",
+    "loop_detected",
+    "strategic_decision_required"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "builds_analyzed": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["build_index", "timestamp", "blockers"],
+        "properties": {
+          "build_index": { "type": "integer", "minimum": 1 },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "rom_sha256": { "type": ["string", "null"] },
+          "blockers": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "report_source": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "recurring_blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["blocker_code", "occurrence_count"],
+        "properties": {
+          "blocker_code": { "type": "string", "minLength": 1 },
+          "occurrence_count": { "type": "integer", "minimum": 1 },
+          "first_seen": { "type": ["string", "null"] },
+          "dominant_category": {
+            "type": ["string", "null"],
+            "enum": [null, "visual", "runtime", "budget", "evidence", "documentation", "infra", "other"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "loop_detected": {
+      "type": "boolean"
+    },
+    "loop_threshold": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "strategic_decision_required": {
+      "type": "boolean"
+    },
+    "strategic_decision": {
+      "type": ["string", "null"],
+      "minLength": 8
+    },
+    "decision_path": {
+      "type": ["string", "null"]
+    },
+    "decision_valid": {
+      "type": ["boolean", "null"]
+    },
+    "decision_errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "progress_metrics": {
+      "type": "object",
+      "properties": {
+        "blockers_removed": { "type": "integer", "minimum": 0 },
+        "delivery_status_elevated": { "type": "boolean" },
+        "fresh_evidence_compatible": { "type": "boolean" },
+        "visual_art_approved": { "type": ["boolean", "null"] },
+        "rom_build_count_is_not_progress": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "blocker_code": {
+      "type": ["string", "null"],
+      "enum": [null, "operational_loop_detected"]
+    }
+  },
+  "additionalProperties": false
+}

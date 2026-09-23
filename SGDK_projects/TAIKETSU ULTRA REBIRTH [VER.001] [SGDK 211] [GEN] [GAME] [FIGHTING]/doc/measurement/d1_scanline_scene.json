@@ -1,0 +1,20 @@
+{
+  "scene_id": "combat_cinder_circuit_d1_measurement",
+  "video_mode": "H40",
+  "resolution": {"width": 320, "height": 224},
+  "headroom_justification": "D1 fecha primeiro com dois lutadores grandes e mede deliberadamente o degrau seguinte de dois FX de especial; o espaco restante e reservado para retrato/HUD e sera re-medido na cena viva.",
+  "sprites": [
+    {"id":"jack_idle","x":88,"y":152,"w":24,"h":32},
+    {"id":"kairo_idle_c1_target","x":208,"y":144,"w":32,"h":40},
+    {"id":"special_hit_fx_a","x":144,"y":144,"w":32,"h":32},
+    {"id":"special_hit_fx_b","x":176,"y":144,"w":32,"h":32},
+    {"id":"hud_meter_flash","x":96,"y":24,"w":64,"h":8}
+  ],
+  "measurement_notes": {
+    "jack_ryo_source_idle_png_px": "24x24 each; runtime metasprite alignment may add transparent rows, so final model sheet measurement remains required",
+    "c1_target_minimum_px": 30,
+    "c1_probe_px": 40,
+    "fx_policy": "FX are present to measure the worst D1 beat; remove them before art if either scanline limit fails",
+    "headroom_justification": "D1 deliberately measures the next step beyond two bodies: two special FX and HUD flash."
+  }
+}

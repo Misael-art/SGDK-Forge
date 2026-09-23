@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "methodology_version": "2026.06.04",
+  "project": {
+    "name": "BLUE_CIRCUIT [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]",
+    "lifecycle": "new",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "active_workflow": "production-loop",
+  "required_skills": [
+    "governance/truth-hierarchy-guard",
+    "governance/doc-sync-audit",
+    "governance/aaa-pipeline-guardian",
+    "operation/sgdk-build-wrapper-operator",
+    "operation/emulator-vdp-evidence-curator",
+    "architecture/scene-state-architect",
+    "code/input-system-sgdk",
+    "code/collision-system-architect",
+    "code/camera-system-sgdk",
+    "code/entity-polymorphism-architect",
+    "code/sgdk-runtime-coder",
+    "hardware/megadrive-vdp-budget-analyst",
+    "art/art-asset-diagnostic",
+    "art/art-translation-to-vdp",
+    "art/visual-excellence-standards"
+  ],
+  "required_validations": [
+    "preflight_host",
+    "validate_resources",
+    "scene_closeout_gate",
+    "freshness_audit",
+    "project_hygiene",
+    "project_context"
+  ],
+  "claims": {
+    "critical_motion": {
+      "applicability": "not_applicable",
+      "rationale": "A versao inicial declara movimento basico de plataforma, mas nao reivindica animacao critica premium, motion GIF aprovado ou perceptual motion gate; se o heroi virar asset premium animado, este claim deve ser reaberto."
+    },
+    "road_physics": {
+      "applicability": "not_applicable",
+      "rationale": "O jogo e side-view action platformer; nao ha estrada, lane model, pseudo-3D road stack ou fisica de corrida no escopo."
+    },
+    "modular_boss": {
+      "applicability": "not_applicable",
+      "rationale": "O mini-boss inicial e um unico archetype simples com estados telegraphed/attack/recover; boss modular, partes independentes ou FK chain estao fora do escopo desta versao."
+    }
+  }
+}

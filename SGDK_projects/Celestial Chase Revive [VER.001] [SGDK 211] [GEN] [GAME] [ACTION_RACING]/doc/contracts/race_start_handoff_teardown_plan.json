@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "scene_id": "race_start_handoff",
+  "status": "planned",
+  "teardown_steps": [
+    "stop_typewriter",
+    "clear_window_letterbox",
+    "reset_scroll_to_race_origin",
+    "release_cutscene_palette_owner",
+    "release_cutscene_sprites",
+    "install_race_hud_owner",
+    "unlock_player_input",
+    "enter_sector_01_farol_quebrado"
+  ],
+  "dirty_return_blockers": [
+    "window_owner_conflict",
+    "cutscene_scroll_offset_leaked",
+    "input_unlocked_before_hud_ready",
+    "palette_owner_not_released"
+  ]
+}

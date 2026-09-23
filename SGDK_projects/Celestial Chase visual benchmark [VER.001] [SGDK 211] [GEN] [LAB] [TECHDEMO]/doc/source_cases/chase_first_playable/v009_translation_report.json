@@ -1,0 +1,357 @@
+{
+  "schema": "chase_v009_translation_report_v1",
+  "status": "source_derived_runtime_candidate_pending_blastem_and_human_review",
+  "problem_class": "asset_palette_runtime_composition_and_scene_architecture",
+  "hero_frame_policy": {
+    "source_frame_count": 8,
+    "selected_source_frames_zero_based": [
+      0,
+      3,
+      4,
+      7
+    ],
+    "rejected_source_frames_zero_based": [
+      1,
+      2,
+      5,
+      6
+    ],
+    "reason": "Reject reported anatomy and face-palette defects rather than hiding them with timing."
+  },
+  "palette_policy": {
+    "index_zero": "deep black backdrop on BG_B; transparent on BG_A and sprites",
+    "grid": "Mega Drive 9-bit",
+    "contrast": "deep navy, saturated indigo, ivory and gold separation"
+  },
+  "pursuer_modular_policy": {
+    "parts": [
+      "torso",
+      "head",
+      "claw_shared_hflip"
+    ],
+    "runtime_required": true,
+    "monolithic_body_runtime_rejected": true
+  },
+  "fx_policy": {
+    "energy_star_frames": 4,
+    "pulse_expansion_frames": 6,
+    "opaque_matte_rejected": true
+  },
+  "assets": [
+    {
+      "path": "res/gfx/chase/chase_bg_b_v009.png",
+      "size": [
+        320,
+        224
+      ],
+      "frame_size": null,
+      "frame_count": 1,
+      "transparent_index": null,
+      "index_zero_pixels": 0,
+      "used_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 480,
+      "sha256": "63dc0ccc9721906f15d07894530e722fc2920dde9cfffea83c2614eb679c2834"
+    },
+    {
+      "path": "res/gfx/chase/chase_bg_a_v009.png",
+      "size": [
+        320,
+        224
+      ],
+      "frame_size": null,
+      "frame_count": 1,
+      "transparent_index": 0,
+      "index_zero_pixels": 48496,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "unique_tiles": 209,
+      "sha256": "a00088a9830129eb6e7d354f8b01e488fb5021b36a1b11b8d5043ecf179080f4"
+    },
+    {
+      "path": "res/sprites/chase/hero_run_toward_64x80_strip_v009.png",
+      "size": [
+        256,
+        80
+      ],
+      "frame_size": [
+        64,
+        80
+      ],
+      "frame_count": 4,
+      "transparent_index": 0,
+      "index_zero_pixels": 13017,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "unique_tiles": 188,
+      "sha256": "d39390640637698874b5e71f854ad4ae63d61f284d56cc32eeb9d745796c7be1"
+    },
+    {
+      "path": "res/sprites/chase/hero_ghost_64x80_strip_v009.png",
+      "size": [
+        256,
+        80
+      ],
+      "frame_size": [
+        64,
+        80
+      ],
+      "frame_count": 4,
+      "transparent_index": 0,
+      "index_zero_pixels": 13017,
+      "used_indices": [
+        0,
+        1,
+        3,
+        4,
+        13,
+        14
+      ],
+      "unique_tiles": 186,
+      "sha256": "38528a907077ce074eb3a274c0763c954c9d70f4c7d427b542965320df1ce553"
+    },
+    {
+      "path": "res/sprites/chase/pursuer_torso_96x80_strip_v009.png",
+      "size": [
+        576,
+        80
+      ],
+      "frame_size": [
+        96,
+        80
+      ],
+      "frame_count": 6,
+      "transparent_index": 0,
+      "index_zero_pixels": 38313,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 127,
+      "sha256": "7ab61668929239c3e6413feedc534f1faea37f27bd2712a464124cd66a2111b0"
+    },
+    {
+      "path": "res/sprites/chase/pursuer_head_80x64_strip_v009.png",
+      "size": [
+        480,
+        64
+      ],
+      "frame_size": [
+        80,
+        64
+      ],
+      "frame_count": 6,
+      "transparent_index": 0,
+      "index_zero_pixels": 20785,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 167,
+      "sha256": "c51f39dcb79a9f1e82cc47b854fe73ac435ddb6518f426fa38ef3b2cc2f3ac96"
+    },
+    {
+      "path": "res/sprites/chase/pursuer_claw_64x64_strip_v009.png",
+      "size": [
+        384,
+        64
+      ],
+      "frame_size": [
+        64,
+        64
+      ],
+      "frame_count": 6,
+      "transparent_index": 0,
+      "index_zero_pixels": 12767,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 162,
+      "sha256": "76b7032b829faccbf9ef4a820259001a0de115d49677025f56390a5de7e6b1a3"
+    },
+    {
+      "path": "res/sprites/chase/chase_energy_star_32x32_strip_v009.png",
+      "size": [
+        128,
+        32
+      ],
+      "frame_size": [
+        32,
+        32
+      ],
+      "frame_count": 4,
+      "transparent_index": 0,
+      "index_zero_pixels": 3839,
+      "used_indices": [
+        0,
+        3,
+        6,
+        7,
+        8,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 13,
+      "sha256": "b7e911c6023c134d2492cfb178ad399ce1ce77e83aad20de9d52af0b2b50ef5a"
+    },
+    {
+      "path": "res/sprites/chase/chase_pulse_impact_64x48_strip_v009.png",
+      "size": [
+        384,
+        48
+      ],
+      "frame_size": [
+        64,
+        48
+      ],
+      "frame_count": 6,
+      "transparent_index": 0,
+      "index_zero_pixels": 16958,
+      "used_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 104,
+      "sha256": "fbc5da552d881abf73b990514765bc8d306225bcca8514ed38a6a718ccf658b6"
+    },
+    {
+      "path": "res/sprites/chase/chase_cloud_64x32_strip_v009.png",
+      "size": [
+        128,
+        32
+      ],
+      "frame_size": [
+        64,
+        32
+      ],
+      "frame_count": 2,
+      "transparent_index": 0,
+      "index_zero_pixels": 3098,
+      "used_indices": [
+        0,
+        1,
+        2,
+        5,
+        7,
+        9
+      ],
+      "unique_tiles": 38,
+      "sha256": "c9a237517b28ff6043700eb9a675f6a7387b5d93f77930496eafda6e7d64144d"
+    },
+    {
+      "path": "res/gfx/chase/chase_letterbox_tile_v009.png",
+      "size": [
+        8,
+        8
+      ],
+      "frame_size": null,
+      "frame_count": 1,
+      "transparent_index": null,
+      "index_zero_pixels": 0,
+      "used_indices": [
+        10
+      ],
+      "unique_tiles": 1,
+      "sha256": "492ac6842877e1f40b63e0a833e50b1f6101dc9347e263ad0404881843b15faf"
+    }
+  ],
+  "delivery_findings": [
+    "All v009 critical sprite assets reserve index 0 for transparency.",
+    "BG_B no longer uses palette index 0 for visible beige pixels.",
+    "BG_A road overlay receives the v014 cinematic polish before tile dedup: singleton noise is reduced and perspective rows/vanishing lines are explicit.",
+    "The corrected hero loop intentionally uses fewer frames rather than preserving broken anatomy.",
+    "No human visual approval is inferred by the builder."
+  ]
+}

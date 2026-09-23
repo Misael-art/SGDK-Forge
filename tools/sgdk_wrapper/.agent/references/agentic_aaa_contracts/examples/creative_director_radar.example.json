@@ -1,0 +1,208 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "sample_fighter",
+  "radar_id": "sample_fighter_creative_director_radar_v1",
+  "source_authority": {
+    "gdd_ref": "doc/11-gdd.md",
+    "project_bible_ref": "doc/project_bible.json",
+    "genre_or_specialization_ref": "doc/genre_specialization_manifest.json",
+    "curation_source_note": "Benchmarks are quality axes only; no asset, layout, palette, music, name or story copying is allowed."
+  },
+  "project_promise": {
+    "one_sentence": "A compact 2D fighting game where every hit visibly changes tempo and space control.",
+    "target_player_feeling": "The player should feel precise, threatened and rewarded by clear reads.",
+    "non_generic_identity": "Martial discipline, grounded impacts and arena pressure define the game.",
+    "first_10_seconds_test": "The title, stance, first movement and first hit must communicate readable duel pressure."
+  },
+  "benchmark_axis_matrix": [
+    {
+      "axis": "mechanics",
+      "benchmark_title": "Street Fighter II Turbo",
+      "benchmark_role": "mechanical_pattern",
+      "inherited_quality": "frame-readable risk and reward around spacing, startup and recovery.",
+      "project_specific_translation": "Use small roster move kits with explicit startup, active, recovery and punish windows.",
+      "forbidden_copy_boundary": "Do not copy roster, moves, stage layout, voices, names or frame data.",
+      "evidence_metric": "moveset frame data validates and playtest confirms punishable recovery.",
+      "status": "planned"
+    },
+    {
+      "axis": "audio",
+      "benchmark_title": "Streets of Rage 2",
+      "benchmark_role": "audio_reference",
+      "inherited_quality": "memorable groove and punchy SFX that sell physical impact.",
+      "project_specific_translation": "Reserve SFX priority for hits and use a compact XGM2 groove with clear low-end rhythm.",
+      "forbidden_copy_boundary": "Do not copy melodies, samples, arrangement, voice clips or instrument patches.",
+      "evidence_metric": "audio validation plus SFX priority report shows hits remain readable.",
+      "status": "planned"
+    },
+    {
+      "axis": "visual_identity",
+      "benchmark_title": "Gunstar Heroes",
+      "benchmark_role": "visual_density_reference",
+      "inherited_quality": "high-energy sprite presence and readable chaos.",
+      "project_specific_translation": "Use bold silhouettes, constrained hit sparks and arena parallax that never hides hurtboxes.",
+      "forbidden_copy_boundary": "Do not copy characters, bosses, palettes, props or stage composition.",
+      "evidence_metric": "visual delivery gate confirms sprite wins over FX in 320x224.",
+      "status": "planned"
+    },
+    {
+      "axis": "level_design",
+      "benchmark_title": "Super Metroid",
+      "benchmark_role": "pacing_pattern",
+      "inherited_quality": "environment guides the player without explicit instruction.",
+      "project_specific_translation": "Teach pressure and corner escape through arena landmarks before harder opponents.",
+      "forbidden_copy_boundary": "Do not copy map, biomes, enemies, doors or progression structure.",
+      "evidence_metric": "level_design_report confirms golden path and pressure rhythm.",
+      "status": "planned"
+    },
+    {
+      "axis": "technical_spectacle",
+      "benchmark_title": "Castlevania Bloodlines",
+      "benchmark_role": "technical_feasibility_reference",
+      "inherited_quality": "hardware tricks serve mood and setpiece identity.",
+      "project_specific_translation": "Use one signed raster or palette effect only when it improves duel readability or arena drama.",
+      "forbidden_copy_boundary": "Do not copy specific setpieces, stages, monsters or timing tricks as spectacle for its own sake.",
+      "evidence_metric": "technique usage manifest, VDP budget report and BlastEm capture prove the effect.",
+      "status": "planned"
+    }
+  ],
+  "signature_pillars": [
+    {
+      "pillar_id": "readable_duel_pressure",
+      "axis": "mechanics",
+      "player_visible_payoff": "The player can understand why a hit landed and what recovery allowed it.",
+      "production_artifacts": [
+        "doc/fighting_2d_design_contract.json",
+        "doc/fighting_moveset_frame_data.json"
+      ],
+      "status": "planned"
+    },
+    {
+      "pillar_id": "impact_audio_priority",
+      "axis": "audio",
+      "player_visible_payoff": "Major hits sound bigger without masking music or next input feedback.",
+      "production_artifacts": [
+        "doc/audio_architecture_card.json",
+        "out/logs/audio_validation_report.json"
+      ],
+      "status": "planned"
+    },
+    {
+      "pillar_id": "arena_momentum_identity",
+      "axis": "visual_identity",
+      "player_visible_payoff": "The arena reinforces momentum without swallowing the fighters.",
+      "production_artifacts": [
+        "doc/03_art/scene_direction_record.json",
+        "out/logs/visual_delivery_gate_report.json"
+      ],
+      "status": "planned"
+    }
+  ],
+  "proactive_gap_radar": [
+    {
+      "gap_id": "front_end_identity_gap",
+      "axis": "front_end",
+      "current_symptom": "Project has no declared title/logo behavior.",
+      "why_it_limits_the_game": "The game can look technically competent but still feel like a lab build.",
+      "proposed_director_move": "Create brand_identity_manifest with silhouette, thumbnail and runtime layer plan.",
+      "target_docs": [
+        "doc/11-gdd.md",
+        "doc/brand_identity_manifest.json"
+      ],
+      "owner_skill": "art/visual-excellence-standards",
+      "priority": "high",
+      "decision_state": "proposed",
+      "acceptance_evidence": "brand identity schema validates and title screen passes BlastEm gate."
+    },
+    {
+      "gap_id": "signature_hit_gap",
+      "axis": "game_feel",
+      "current_symptom": "Hit response is not yet a named signature moment.",
+      "why_it_limits_the_game": "Combat may be functional but forgettable.",
+      "proposed_director_move": "Define impact frame, hitstop, SFX priority and recoil recovery as a core signature.",
+      "target_docs": [
+        "doc/13-spec-cenas.md",
+        "doc/fighting_moveset_frame_data.json"
+      ],
+      "owner_skill": "art/sprite-animation",
+      "priority": "signature",
+      "decision_state": "proposed",
+      "acceptance_evidence": "motion and audio gates verify impact in BlastEm."
+    },
+    {
+      "gap_id": "arena_depth_gap",
+      "axis": "visual_identity",
+      "current_symptom": "Arena depth has no authored role.",
+      "why_it_limits_the_game": "The stage may read as a backdrop instead of a fighting space.",
+      "proposed_director_move": "Declare parallax or palette-cycle role tied to pressure state.",
+      "target_docs": [
+        "doc/13-spec-cenas.md",
+        "doc/technique_usage_manifest.json"
+      ],
+      "owner_skill": "art/scene-direction-curator",
+      "priority": "high",
+      "decision_state": "proposed",
+      "acceptance_evidence": "scene direction and budget reports show readable arena pressure."
+    },
+    {
+      "gap_id": "audio_hook_gap",
+      "axis": "audio",
+      "current_symptom": "Music has no declared memorable hook or SFX protection plan.",
+      "why_it_limits_the_game": "The game may feel silent, generic or masked during combat.",
+      "proposed_director_move": "Define core loop scope, SFX priority and optional phase cue.",
+      "target_docs": [
+        "doc/audio_architecture_card.json"
+      ],
+      "owner_skill": "code/xgm2-audio-director",
+      "priority": "high",
+      "decision_state": "proposed",
+      "acceptance_evidence": "composition scope and audio validation pass."
+    },
+    {
+      "gap_id": "first_10_seconds_gap",
+      "axis": "front_end",
+      "current_symptom": "The first ten seconds do not yet prove genre, tone and quality.",
+      "why_it_limits_the_game": "The player may not understand why the project is special before gameplay begins.",
+      "proposed_director_move": "Script title idle, press-start feedback and first playable beat as one promise.",
+      "target_docs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md"
+      ],
+      "owner_skill": "planning/game-design-planning",
+      "priority": "signature",
+      "decision_state": "proposed",
+      "acceptance_evidence": "title/front-end and first playable scene pass closeout."
+    }
+  ],
+  "signature_scene_candidates": [
+    {
+      "scene_id": "stage_1_duel",
+      "signature_moment": "A clean counter hit freezes the opponent, pulses the arena light and shifts music pressure.",
+      "gameplay_payoff": "The player understands spacing, punish and momentum.",
+      "visual_payoff": "Fighter silhouette remains dominant while arena reacts subtly.",
+      "audio_payoff": "Hit SFX cuts through the groove without masking recovery.",
+      "technical_showcase": "Controlled hitstop, palette pulse and XGM2 SFX priority.",
+      "fallback": "Keep hitstop and SFX priority if palette pulse exceeds budget."
+    }
+  ],
+  "do_not_copy_policy": {
+    "benchmark_usage": "quality_bar_only",
+    "forbidden_uses": [
+      "asset_copy",
+      "layout_copy",
+      "palette_copy",
+      "character_copy",
+      "music_copy"
+    ],
+    "authorial_translation_required": true,
+    "clone_risk_gate_required": true
+  },
+  "decision_policy": {
+    "proactivity_required": true,
+    "feature_creep_guard": true,
+    "gdd_tdd_sync_required": true,
+    "human_scope_approval_required": true,
+    "no_silent_scope_expansion": true
+  },
+  "approval_status": "approved_for_production"
+}

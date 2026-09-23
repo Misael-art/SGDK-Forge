@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "tools/ai_imagegen/reports/schema/master_style_manifest_lookup.schema.json",
+  "title": "Master Style Manifest Lookup",
+  "description": "Resultado do lookup multi-path do master_style_manifest.json no preflight (_resolve_master_style_manifest). lookup que nao resolve vira block_reasons, nunca silencio.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "paths_tried",
+    "resolved",
+    "resolved_path",
+    "sha256",
+    "source",
+    "block_reasons"
+  ],
+  "properties": {
+    "paths_tried": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resolved": {
+      "type": "boolean"
+    },
+    "resolved_path": {
+      "type": "string"
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "source": {
+      "enum": ["override", "doc_art", "source_art_role", "out_logs", "not_found"]
+    },
+    "block_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "camera_behavior_contract",
+  "scene_id": "scene_training_ring",
+  "model": "fix16_lead_smoothing",
+  "lead_px": 32,
+  "smoothing_frames": 8,
+  "gameplay_reason": "keeps attack threat visible",
+  "fallback": "integer clamp camera",
+  "blockers": []
+}

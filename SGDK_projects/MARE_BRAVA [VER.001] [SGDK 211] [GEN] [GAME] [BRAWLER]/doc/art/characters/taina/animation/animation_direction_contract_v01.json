@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "taina_animation_direction_contract_v01",
+  "generated_at": "2026-07-08T21:18:32-03:00",
+  "asset_id": "taina",
+  "status": "declared_pre_generation",
+  "measurement_level": "declared",
+  "purpose": "Fixar direcao de movimento, timing, spacing, pivot e carisma da TAINA antes de qualquer key pose, strip ou promocao para res/.",
+  "source_contracts": {
+    "animation_state_plan": "doc/art/characters/taina/animation/animation_state_plan_v01.json",
+    "frame_budget_table": "doc/art/characters/taina/animation/frame_budget_table_v01.json",
+    "pivot_and_scale_contract": "doc/art/characters/taina/animation/pivot_and_scale_contract_v01.json",
+    "motion_phase_map": "doc/art/characters/taina/animation/motion_phase_map_p0_v01.json",
+    "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+    "art_gameplay_direction_gate": "doc/art/characters/taina/art_gameplay_direction_gate.json"
+  },
+  "global_motion_rules": {
+    "motion_archetype": "compact_guard_compression_to_burst_to_paid_recovery",
+    "root_foot_policy": "grounded actions keep one root foot locked until recovery declares transfer",
+    "center_of_mass_policy": "weight shifts are deliberate and bounded; no snap to idle",
+    "secondary_motion_order": "body first, hair/sash/wraps delayed by 1_to_2_frames",
+    "face_policy": "idle focused; attacks tense jaw/eyes; hurt asymmetric pain",
+    "fx_policy": "hit sparks, water push and palette flash are separate runtime assets; never baked into character body sheet",
+    "palette_flash_policy": "runtime/CRAM or separate FX only after palette_domain_report; no accidental requantized flash",
+    "shading_motion_policy": "future highlights and shadows must follow torso, hip and limb rotation; no pasted static lighting"
+  },
+  "action_contracts": [
+    {
+      "animation_id": "idle_guard",
+      "gameplay_role": "neutral close-combat readability and personality loop",
+      "motion_archetype": "held guard with small breathing and delayed cloth",
+      "frame_count": 6,
+      "startup_frames": [],
+      "anticipation_frames": [],
+      "active_frames": [],
+      "smear_frames": [],
+      "hitstop_hold_frame": null,
+      "recovery_frames": [],
+      "center_of_mass_curve_px": [0, 0, 0, 0, 0, 0],
+      "root_foot_policy": "both feet remain grounded; no pivot drift",
+      "silhouette_peak_frame": 1,
+      "impact_readability": "not_applicable_idle",
+      "secondary_motion": "sash and hair move after shoulder/chest breath, amplitude <= 1px internal line shift at lineart stage",
+      "acceptance_notes": "must not become a static doll; must not move feet or resize head"
+    },
+    {
+      "animation_id": "light_jab_cross",
+      "gameplay_role": "fast close-range punish, safe only if timed",
+      "motion_archetype": "guard_load_to_short_burst_to_recovery",
+      "frame_count": 5,
+      "startup_frames": [1],
+      "anticipation_frames": [2],
+      "active_frames": [3],
+      "smear_frames": [],
+      "hitstop_hold_frame": 3,
+      "recovery_frames": [4, 5],
+      "center_of_mass_curve_px": [0, -2, 5, 3, 0],
+      "root_foot_policy": "rear foot locks through active frame; front foot may advance by 1_to_2px only if ground_y remains stable",
+      "silhouette_peak_frame": 3,
+      "impact_readability": "extended glove/hand wrap, shoulder twist, eyes toward opponent",
+      "secondary_motion": "sash trails forward on frames 4-5; hair follows torso rotation late",
+      "acceptance_notes": "attack cannot begin directly on active frame; recovery must be visible"
+    },
+    {
+      "animation_id": "medium_knee_or_low_kick",
+      "gameplay_role": "muay thai signature mid-commitment strike",
+      "motion_archetype": "hip_compression_to_leg_arc_to_weighted_recovery",
+      "frame_count": 6,
+      "startup_frames": [1],
+      "anticipation_frames": [2, 3],
+      "active_frames": [4],
+      "smear_frames": [],
+      "hitstop_hold_frame": 4,
+      "recovery_frames": [5, 6],
+      "center_of_mass_curve_px": [0, -2, 1, 6, 4, 0],
+      "root_foot_policy": "support foot locks through active frame; striking leg returns before idle",
+      "silhouette_peak_frame": 4,
+      "impact_readability": "clear knee/leg silhouette and torso counter-rotation, not a generic karate kick",
+      "secondary_motion": "pants mass and sash lag behind hip by 1_to_2 frames",
+      "acceptance_notes": "state must communicate BJJ/muay-thai brawler fantasy, not generic martial pose"
+    },
+    {
+      "animation_id": "mare_push_special",
+      "gameplay_role": "defensive crowd-control and route/risk signal",
+      "motion_archetype": "two_hand_charge_to_tide_burst_to_grounded_recovery",
+      "frame_count": 8,
+      "startup_frames": [1, 2],
+      "anticipation_frames": [2, 3],
+      "active_frames": [4, 5],
+      "smear_frames": [],
+      "hitstop_hold_frame": 5,
+      "recovery_frames": [6, 7, 8],
+      "center_of_mass_curve_px": [0, -2, -1, 5, 9, 6, 3, 0],
+      "root_foot_policy": "rear foot anchors while both hands push; front foot may slide only with declared dust/water FX separate",
+      "silhouette_peak_frame": 5,
+      "impact_readability": "both palms and forward torso drive must read before water FX is added",
+      "secondary_motion": "hair/sash overshoot on frames 6-7, then settle",
+      "acceptance_notes": "water/tide shape is separate FX; body strip must stay clean of baked splash"
+    },
+    {
+      "animation_id": "hurt_light_heavy",
+      "gameplay_role": "damage direction and temporary loss of control",
+      "motion_archetype": "impact_break_to_recoil_to_recovery_bridge",
+      "frame_count": 4,
+      "startup_frames": [],
+      "anticipation_frames": [],
+      "active_frames": [1],
+      "smear_frames": [],
+      "hitstop_hold_frame": 1,
+      "recovery_frames": [3, 4],
+      "center_of_mass_curve_px": [0, -4, -2, 0],
+      "root_foot_policy": "light hurt preserves one foot contact; heavy hurt must branch to knockdown_getup contract",
+      "silhouette_peak_frame": 2,
+      "impact_readability": "asymmetric pain face, shoulder collapse and force direction clear",
+      "secondary_motion": "hair and sash continue in force direction after torso impact",
+      "acceptance_notes": "scale and ground_y cannot drift; hurt face cannot equal idle face"
+    }
+  ],
+  "conditional_subcontracts": {
+    "idle_breathing_cycle_contract": {
+      "applicability": "required",
+      "reason": "TAINA is a hero/fighter with readable torso and guard in idle.",
+      "measurement_level": "declared",
+      "status": "embedded_in_this_contract_pending_frame_evidence"
+    },
+    "facial_expression_phase_map": {
+      "applicability": "required",
+      "reason": "Face/eyes are identity hooks in the approved model sheet and must change for attack/hurt.",
+      "measurement_level": "declared",
+      "status": "embedded_in_this_contract_pending_frame_evidence"
+    },
+    "cloth_secondary_animation_contract": {
+      "applicability": "required",
+      "reason": "Curly hair, wraps and sash are must-preserve identity hooks and motion cues.",
+      "measurement_level": "declared",
+      "status": "embedded_in_this_contract_pending_frame_evidence"
+    },
+    "hand_pose_keyframe_contract": {
+      "applicability": "required",
+      "reason": "Gloves/wraps sell guard, jab, block and Empurrao de Mare.",
+      "measurement_level": "declared",
+      "status": "embedded_in_this_contract_pending_frame_evidence"
+    }
+  },
+  "pass_fail": {
+    "planning_contract_exists": true,
+    "key_pose_frames_exist": false,
+    "timing_spacing_measured": false,
+    "impact_frame_measured": false,
+    "recovery_curve_measured": false,
+    "shading_motion_measured": false,
+    "animation_gate_can_pass": false,
+    "reason": "This is the required pre-generation direction contract. It intentionally does not claim visual animation evidence."
+  },
+  "next_required_route": [
+    "draw v06 lineart with pivot_and_scale_contract visible-height correction",
+    "produce first idle_guard and light_jab_cross key poses as lineart only",
+    "emit contact_sheet, pivot_overlay, foot_contact_report and frame_delta_report from real frames",
+    "only then reassess animation_gate_failed"
+  ]
+}

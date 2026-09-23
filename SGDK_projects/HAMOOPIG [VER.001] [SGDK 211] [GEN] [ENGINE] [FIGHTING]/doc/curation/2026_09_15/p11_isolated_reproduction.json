@@ -1,0 +1,19 @@
+{
+  "lesson_id": "L080",
+  "date": "2026-09-15",
+  "topic": "p11_isolated_reproduction",
+  "source": "manual_handoff_runner",
+  "problem": "Manuais de quickstart/extensão existiam, mas não havia prova de que o contrato mínimo pudesse ser reproduzido fora da árvore completa.",
+  "change": "Criar uma cópia mínima versionada em out, copiar os três manuais e compilar src/stage.c com um stub explícito de tipos SGDK; executar probe dos dois StageDefinition.",
+  "result": "Reprodução isolada passou em 2026-09-15T09:43:45Z; StageDefinition e dados SHOWDOWN/BGB2 foram compilados e conferidos, e os três manuais passaram pelos tokens de contrato.",
+  "limits": [
+    "não substitui o build SGDK/Wine",
+    "não prova ROM no emulador, arte visual, áudio ou budget"
+  ],
+  "artifacts": [
+    "tests/reproduce_p11_isolated.py",
+    "tests/test_p11_isolated_reproduction_contract.py",
+    "out/p11_isolated_reproduction_20260915T094345Z/report.json"
+  ],
+  "status": "documented_host_reproduction_pass_bounded_claim"
+}

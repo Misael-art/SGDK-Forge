@@ -1,0 +1,17 @@
+anchored path references checked: 103
+Skill framework validation failed:
+- missing openai.yaml: tools/sgdk_wrapper/.agent/skills/code/megadrive-music-composition/agents/openai.yaml
+- skill missing contract blocks ['entrada minima', 'saida minima', 'passa quando', 'handoff']: code/megadrive-music-composition/SKILL.md
+- missing allow_implicit_invocation policy: tools/sgdk_wrapper/.agent/skills/design/gameplay-experience-reviewer/agents/openai.yaml
+- skill missing contract blocks ['saida minima', 'passa quando', 'handoff']: design/gameplay-experience-reviewer/SKILL.md
+- missing allow_implicit_invocation policy: tools/sgdk_wrapper/.agent/skills/governance/independent-quality-review/agents/openai.yaml
+- skill missing contract blocks ['entrada minima', 'saida minima', 'passa quando', 'handoff']: governance/independent-quality-review/SKILL.md
+- default_prompt must mention $harness-orchestration: tools/sgdk_wrapper/.agent/skills/operation/harness-orchestration/agents/openai.yaml
+- missing allow_implicit_invocation policy: tools/sgdk_wrapper/.agent/skills/operation/harness-orchestration/agents/openai.yaml
+- skill missing contract blocks ['saida minima']: operation/harness-orchestration/SKILL.md
+- missing allow_implicit_invocation policy: tools/sgdk_wrapper/.agent/skills/planning/narrative-design-reviewer/agents/openai.yaml
+- skill missing contract blocks ['saida minima', 'passa quando', 'handoff']: planning/narrative-design-reviewer/SKILL.md
+- missing allow_implicit_invocation policy: tools/sgdk_wrapper/.agent/skills/planning/product-market-reviewer/agents/openai.yaml
+- skill missing contract blocks ['saida minima', 'passa quando', 'handoff']: planning/product-market-reviewer/SKILL.md
+- active skill exceeds context budget: art/native-sprite-production (1108>1100)
+- active skill exceeds context budget: operation/harness-orchestration (618>550)

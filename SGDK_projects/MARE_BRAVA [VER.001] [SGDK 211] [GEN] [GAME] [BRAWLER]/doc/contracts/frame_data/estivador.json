@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]"
+  },
+  "archetype_id": "estivador",
+  "archetype_role": "heavy",
+  "registry_source": "doc/07_game_design/genre_specialization_registry.json",
+  "time_unit": "frames",
+  "base_stats": {
+    "hp": 120,
+    "damage": 12,
+    "move_speed_px_per_second": 40,
+    "score_reward": 300,
+    "hit_stun_frames": 8,
+    "iframe_frames": 8
+  },
+  "drop_table": {
+    "drop_pool": [
+      {
+        "pickup_id": "moeda_do_cais",
+        "drop_chance_pct": 50
+      },
+      {
+        "pickup_id": "espetinho",
+        "drop_chance_pct": 25
+      }
+    ]
+  },
+  "animation": {
+    "animation_idle_frames": 60,
+    "animation_attack_frames": 24,
+    "animation_hit_frames": 12,
+    "animation_death_frames": 50,
+    "voxel_size": "32x32",
+    "head_metric": "L"
+  }
+}

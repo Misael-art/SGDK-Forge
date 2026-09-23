@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "independent_quality_review_binding",
+  "review_id": "hamoopig_visual_gap_20260921_current_sha",
+  "rom_sha256": "b6f7cd649f829c21555883014721992b04261f0c32b34a620538d0548be7cc88",
+  "evidence": [
+    {"path": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/evidence_manifest.json", "sha256": "7bc3c5037846c8aadd484195d0805e77b6205e00849aaeb61b289b92aa5385ea"},
+    {"path": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/hprb_probe_report.json", "sha256": "d8385beb03f39bb74b55e4f11a8f62914b5c9a53b04ea896c577203cdf58cd35"},
+    {"path": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/hsem_probe_report.json", "sha256": "cdb96b219b4cae523e49dfe8509c25706e42619d9fbd91b123d846e55cb79386"},
+    {"path": "doc/curation/2026_09_18/visual_gap/visual_quality_baseline_2026_09_20.json", "sha256": "22b98718e87c3c6ab7c01e550b4fa693f6fbca1108581b0eb5c2cfac27294001"},
+    {"path": "doc/curation/2026_09_18/visual_gap/stage2_translation_runtime_report_2026_09_20.json", "sha256": "ffb7d5d47b6f10ea977b6298b13b9ab7df9d0b0dd827cd7f382171beeb47d116"},
+    {"path": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/runtime_metrics.json", "sha256": "bb4df43f054b7df3b72d4fd09013636d0089da8be81acbc23e72c1546a02c388"},
+    {"path": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/audio_signal_report.json", "sha256": "3a1d1722b45ec58d7d5f32520931f640f42ab4a3c76013c6ea81f399c13fcf42"},
+    {"path": "out/emulator_evidence/sound_test_20260921T005842Z/manifest.json", "sha256": "b53df3af400c1129ed50d4ccee1043b3eb769b4d7840b183762e1e46e20dc5b2"},
+    {"path": "out/emulator_evidence/sound_test_20260921T005842Z/audio_signal_report.json", "sha256": "f320d3891c121c2b1abeb70d57e6f28ad6ebbf9747442e4913e0fbd88b6014dc"},
+    {"path": "doc/curation/2026_09_18/visual_gap/event_coverage_current_20260921.json", "sha256": "95b1fd495d85700b7defecf10e2af5c41fdd1cee748495bf3ed0bd5434446e4e"},
+    {"path": "data/source_audio/build_forge_crystal_v2.py", "sha256": "bdfb121df690f8f3d58f05a51d6501685707b01e53d2005f62d45a56de09399b"}
+  ],
+  "execution_status": "review_plan_reexecuted_independent_review_pending",
+  "reason": "The current ROM and evidence bindings were refreshed and the router selected art/gameplay/audio reviewers; no independent reviewer executor was available in this session, so no self-approval is claimed.",
+  "required_review_domains": ["code", "hardware", "visual", "gameplay", "audio", "governance"],
+  "known_findings": [
+    "WINDOW now owns transient combat HUD writes; stage corruption persisted after that fix.",
+    "BGB2 regional material-preserving reduction is a translated candidate; multi-plane parity remains open.",
+    "The current same-ROM visual bundle proves two KO events, result screen and visible rematch return; HPRB reports combat_total_ko=2, while independent visual/gameplay review remains pending.",
+    "Sound Test and Forge Crystal v2 signal route are same-ROM and objectively clean; listening review remains open, and VLAB performance is not stable.",
+    "validation_report remains non-clean with hygiene/drift/rework blockers."
+  ],
+  "decision": "revise_before_growth",
+  "quality_claim": "unproven",
+  "ready_for_aaa": false
+}

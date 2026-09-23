@@ -1,0 +1,88 @@
+﻿{
+    "build_version":  "build_v007",
+    "rom_sha256":  "b06659adddece55ee6f1dc1f51ca16f589c5645ca0d1b3bb18e0d3b4fa54ad4f",
+    "size_bytes":  131072,
+    "timestamp":  "2026-06-14T10:46:08.7937436-03:00",
+    "source_commit_when_available":  "45986c0f57a4067f5279fa267655a2a2422d71f8",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  6,
+                               "blocking_statuses":  [
+                                                         "gdd_substantial_insufficient",
+                                                         "visual_gate_blocked",
+                                                         "emulator_evidence_stale",
+                                                         "freshness_audit_stale",
+                                                         "scene_closeout_gate_missing"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "rom_identity_mismatch",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "visual_viewer_loaded",
+                             "performance":  "not_measured_60fps",
+                             "audio":  "ok_no_audio_resources_declared",
+                             "hardware_real":  "blastem_reference_emulator"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_hibrido_training_stage_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/bg/hibrido_training_stage_320x224_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_idle_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_idle_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_walk_step_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_walk_step_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_guard_block_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_guard_block_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_jab_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_jab_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_knee_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_knee_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_teep_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_teep_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_hurt_body_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido/hibrido_hurt_body_48x64_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_fx_hitspark_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido_fx/hibrido_fx_hitspark_32x32_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_fx_lava_burst_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido_fx/hibrido_fx_lava_burst_32x32_strip_v010.png"
+                                  },
+                                  {
+                                      "asset_id":  "spr_hibrido_fx_dust_v010",
+                                      "version":  "v001",
+                                      "source_path":  "res/sprites/hibrido_fx/hibrido_fx_dust_32x16_strip_v010.png"
+                                  }
+                              ],
+    "notes":  "Snapshot canonico criado por update_project_changelog.ps1"
+}

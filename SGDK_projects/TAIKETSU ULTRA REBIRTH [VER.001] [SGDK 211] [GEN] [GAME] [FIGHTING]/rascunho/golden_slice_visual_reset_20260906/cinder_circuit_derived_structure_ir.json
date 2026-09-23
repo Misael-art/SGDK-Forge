@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "case_id": "taiketsu_ultra_rebirth_cinder_circuit_visual_reset_20260906",
+  "source_sha256": "281778896b3e7d6098686ac4bccf954d0a812d67ed34d9db56dfa8a60600c914",
+  "source_layout_type": "single_frame",
+  "layout_type": "single_frame",
+  "regions": [
+    {
+      "id": "pred_bg_b_atmosphere",
+      "classification": "scene_plane_bg_b",
+      "bbox": [210, 40, 1460, 500],
+      "action": "keep",
+      "compositional_role": "bg_b",
+      "engine_affordance": "scene_layer_continuous",
+      "confidence_bbox": 0.91,
+      "confidence_classification": 0.91,
+      "confidence_composition": 0.88,
+      "confidence_engine_affordance": 0.94
+    },
+    {
+      "id": "pred_bg_a_reactor_architecture",
+      "classification": "scene_plane_bg_a",
+      "bbox": [0, 80, 1672, 650],
+      "action": "keep",
+      "compositional_role": "bg_a",
+      "engine_affordance": "scene_layer_continuous",
+      "confidence_bbox": 0.90,
+      "confidence_classification": 0.92,
+      "confidence_composition": 0.89,
+      "confidence_engine_affordance": 0.94
+    },
+    {
+      "id": "pred_ground_arena",
+      "classification": "scene_plane_ground",
+      "bbox": [0, 470, 1672, 850],
+      "action": "keep",
+      "compositional_role": "bg_a",
+      "engine_affordance": "scene_layer_continuous",
+      "confidence_bbox": 0.89,
+      "confidence_classification": 0.88,
+      "confidence_composition": 0.85,
+      "confidence_engine_affordance": 0.94
+    },
+    {
+      "id": "pred_foreground_safety_rail",
+      "classification": "scene_plane_foreground_composition",
+      "bbox": [0, 590, 1672, 941],
+      "action": "keep",
+      "compositional_role": "foreground_layer",
+      "engine_affordance": "scene_layer_continuous",
+      "confidence_bbox": 0.87,
+      "confidence_classification": 0.90,
+      "confidence_composition": 0.86,
+      "confidence_engine_affordance": 0.94
+    }
+  ],
+  "projection": {
+    "source_extent": [1672, 941],
+    "target_extent": [320, 224],
+    "crop": [164, 0, 1508, 941],
+    "scale": "nearest_or_native_redraw_only"
+  },
+  "nodes": [
+    {"id": "bg_b", "source_regions": ["cinder_bg_b_atmosphere"], "target_role": "BG_B", "parallax_ratio": 0.125, "contrast_policy": "cooler_and_lower_than_BG_A"},
+    {"id": "bg_a_reactor", "source_regions": ["cinder_bg_a_reactor_architecture"], "target_role": "BG_A", "parallax_ratio": 0.5, "contrast_policy": "structural_midground"},
+    {"id": "bg_a_ground", "source_regions": ["cinder_ground_arena"], "target_role": "BG_A", "parallax_ratio": 1.0, "contrast_policy": "neutral_lane_and_foot_anchor"},
+    {"id": "foreground", "source_regions": ["cinder_foreground_safety_rail"], "target_role": "foreground_composition", "parallax_ratio": 1.0, "contrast_policy": "occlude_only_outside_fighter_feet"}
+  ],
+  "anchors": {
+    "reactor_center_x": 160,
+    "arena_center_x": 160,
+    "floor_y": 184,
+    "fighter_lane": [32, 288, 132, 208],
+    "horizon_y": 86
+  },
+  "confidence": {
+    "source_regions": 0.91,
+    "spatial_lock": 0.87,
+    "native_tile_decomposition": 0.22,
+    "palette_roles": 0.74
+  },
+  "promotion": {
+    "status": "provisional",
+    "blockers": ["native_reauthoring_missing", "scene_tilemap_conversion_not_measured", "human_visual_review_missing", "rom_asset_binding_unproven"],
+    "next": "produce basic control, native elite reauthoring, tileset review and budget report before touching res/fighting/stage"
+  }
+}

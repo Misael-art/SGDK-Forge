@@ -56,9 +56,14 @@ local perceptual_naturalidade = tonumber(read_setting("SGDK_RT_PERCEPTUAL_NATURA
 local perceptual_impacto = tonumber(read_setting("SGDK_RT_PERCEPTUAL_IMPACTO", "0")) or 0
 local heartbeat_path = read_setting("SGDK_RT_HEARTBEAT", nil)
 local error_path = read_setting("SGDK_RT_ERROR", nil)
-local max_wait_frames = math.max(frame_window + 600, 900)
+local max_wait_frames = tonumber(read_setting("SGDK_RT_MAX_WAIT_FRAMES", "0")) or 0
+if max_wait_frames <= 0 then
+    max_wait_frames = math.max(frame_window + 600, 900)
+end
 local word_offset = 2
 local sample_offset = 32
+local probe_magic_hi = 0x4D44
+local probe_magic_lo = 0x5254
 
 local function write_text(path, value)
     if path == nil or path == "" then
@@ -174,15 +179,47 @@ end
 
 write_heartbeat("lua_loaded")
 
-local ok, err = xpcall(function()
-    local capture_status = "timeout"
-    write_heartbeat("loop_start")
-    client.unpause()
+local capture_done = false
+local capture_error = nil
+local probe_checked = false
+local probe_ready = false
 
-    while true do
+local function finalize_capture(status, timeout_frame)
+    if capture_done then
+        return
+    end
+
+    capture_done = true
+    write_report(status, timeout_frame)
+    write_heartbeat("report_written")
+    client.pause()
+    client.closerom()
+    pcall(function()
+        client.exitCode(0)
+    end)
+end
+
+local function runtime_tick()
+    local ok, err = xpcall(function()
         local frame = emu.framecount()
-        if frame == 0 then
-            write_heartbeat("frame_0_before_advance")
+        local scene_id = read_word(5)
+        local samples_recorded = read_word(9)
+        local magic_hi = read_word(0)
+        local magic_lo = read_word(1)
+
+        if not probe_checked then
+            if magic_hi == probe_magic_hi and magic_lo == probe_magic_lo then
+                probe_checked = true
+                probe_ready = true
+                write_heartbeat("probe_magic_ok")
+            elseif frame >= 60 then
+                error(string.format("Probe runtime invalido: magic=(0x%04X,0x%04X) esperado=(0x%04X,0x%04X)", magic_hi, magic_lo, probe_magic_hi, probe_magic_lo))
+            else
+                if frame % 15 == 0 then
+                    write_heartbeat(string.format("aguardando_probe_magic frame=%d atual=(0x%04X,0x%04X)", frame, magic_hi, magic_lo))
+                end
+                return
+            end
         end
 
         if frame >= 220 and frame < 228 then
@@ -191,35 +228,40 @@ local ok, err = xpcall(function()
             joypad.set({}, 1)
         end
 
-        emu.frameadvance()
-        client.unpause()
-
-        local scene_id = read_word(5)
-        local samples_recorded = read_word(9)
         if frame % 120 == 0 then
             write_heartbeat(string.format("frame=%d scene=%d samples=%d", frame, scene_id, samples_recorded))
         end
 
-        if scene_id == target_scene and samples_recorded >= frame_window then
-            capture_status = "ok"
-            break
+        if probe_ready and scene_id == target_scene and samples_recorded >= frame_window then
+            finalize_capture("ok", frame)
+            return
         end
 
         if frame >= max_wait_frames then
-            break
+            finalize_capture("timeout", frame)
         end
+    end, function(message)
+        return debug.traceback(tostring(message), 2)
+    end)
+
+    if not ok then
+        capture_done = true
+        capture_error = err
+        write_text(error_path, err)
+        pcall(function()
+            client.exitCode(1)
+        end)
     end
+end
 
-    write_report(capture_status, max_wait_frames)
-    write_heartbeat("report_written")
-    client.pause()
-    client.closerom()
-    client.exitCode(0)
-end, function(message)
-    return debug.traceback(tostring(message), 2)
-end)
+event.onframestart(runtime_tick)
+write_heartbeat("loop_start")
+client.unpause()
 
-if not ok then
-    write_text(error_path, err)
-    error(err)
+while not capture_done do
+    emu.yield()
+end
+
+if capture_error ~= nil then
+    error(capture_error)
 end

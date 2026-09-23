@@ -1,0 +1,28 @@
+{
+  "lesson_id": "L111",
+  "date": "2026-09-16",
+  "topic": "current_rom_session_revalidation",
+  "source": "P02_P10_runtime_review",
+  "rom_sha256": "f4248208cec58ee0fec57b89f46f535e2c21026b9a34685449ce3204be1cab86",
+  "problem": "As evidências de retorno ao título, áudio e reset estavam vinculadas a ROMs anteriores e não podiam sustentar o handoff do build f424.",
+  "change": "Foram executadas novas sessões BlastEm sem injeção de estado: retorno SELECT/TITLE, captura de áudio isolada e 100 ciclos de reset de cena.",
+  "result": "Title return produziu 5 capturas; áudio teve rota isolada verificada, 174,6 s, RMS -27,96 dBFS e zero clipping; reset concluiu 100/100 ciclos. A matriz P10 f424 permanece 36/36.",
+  "limits": [
+    "sinal de áudio não substitui audição crítica do mix",
+    "capturas de imagem/vídeo continuam sujeitas à revisão visual independente",
+    "não há aprovação de hardware físico nem de pior-frame"
+  ],
+  "artifacts": [
+    "out/emulator_evidence/title_return_20260916T062339Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T063136Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T063136Z/opening_title_transition.mp4",
+    "out/emulator_evidence/visual_ko_20260916T062527Z/manifest.json",
+    "out/emulator_evidence/visual_ko_20260916T062527Z/emulator_audio.wav",
+    "out/emulator_evidence/visual_ko_20260916T062527Z/audio_signal_report.json",
+    "out/emulator_evidence/scene_reset_cycles_20260916T062909Z/manifest.json",
+    "out/logs/title_return_f424_capture.log",
+    "out/logs/audio_f424_capture_v2.log",
+    "out/logs/scene_reset_f424.log"
+  ],
+  "status": "current_rom_runtime_session_revalidated"
+}

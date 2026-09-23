@@ -1,0 +1,720 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_skill_contract_catalog",
+  "status": "candidate_applied_not_verified",
+  "curation_date": "2026-06-15",
+  "purpose": "Provide one machine-readable operational contract for each new Mega Drive AAA curation skill so agents can route work without ambiguity.",
+  "global_rules": [
+    "No skill can approve ready_for_aaa alone.",
+    "All advanced visual claims route through aaa-pipeline-guardian.",
+    "Runtime, release and visual closeout claims require emulator/VDP evidence.",
+    "External video-derived ideas remain candidate until translated into SGDK/Mega Drive constraints and locally validated."
+  ],
+  "contracts": [
+    {
+      "skill_id": "collision-system-architect",
+      "domain": "code",
+      "trigger_terms": [
+        "multi-point collision",
+        "semi-solid platform",
+        "slope",
+        "hitbox",
+        "hurtbox",
+        "pushbox"
+      ],
+      "required_inputs": [
+        "actor dimensions",
+        "tile/collision map",
+        "movement states",
+        "one-way platform rules",
+        "box ownership"
+      ],
+      "required_outputs": [
+        "collision_topology_report",
+        "probe layout",
+        "state-specific collision rules",
+        "box sync risks"
+      ],
+      "blockers": [
+        "large actor using single center probe",
+        "semi-solid platform without upward/downward rules",
+        "slope math not tied to tile topology"
+      ],
+      "handoffs": [
+        "sprite-scanline-budgeter",
+        "level-manifest-architect",
+        "sgdk-code-reviewer"
+      ]
+    },
+    {
+      "skill_id": "vram-streaming-dma-queue",
+      "domain": "hardware",
+      "trigger_terms": [
+        "VRAM streaming",
+        "DMA queue",
+        "tile animation",
+        "dirty tile upload",
+        "runtime graphics upload"
+      ],
+      "required_inputs": [
+        "VRAM slot map",
+        "tile upload size",
+        "update frequency",
+        "VBlank budget",
+        "fallback frame rate"
+      ],
+      "required_outputs": [
+        "dma_queue_contract",
+        "slot ownership table",
+        "dirty upload policy",
+        "overflow fallback"
+      ],
+      "blockers": [
+        "unbounded tile upload",
+        "VRAM overwrite without ownership",
+        "DMA outside safe timing"
+      ],
+      "handoffs": [
+        "software-tile-rasterizer",
+        "megadrive-vdp-budget-analyst",
+        "sgdk-code-reviewer"
+      ]
+    },
+    {
+      "skill_id": "shadow-highlight-scroll-fx",
+      "domain": "hardware",
+      "trigger_terms": [
+        "Shadow/Highlight",
+        "Ranger X",
+        "VSCROLL_COLUMN",
+        "palette cycling",
+        "scroll FX"
+      ],
+      "required_inputs": [
+        "plane ownership",
+        "priority map",
+        "palette ownership",
+        "scroll mode",
+        "gameplay purpose"
+      ],
+      "required_outputs": [
+        "scroll_fx_contract",
+        "priority strategy",
+        "palette risk list",
+        "fallback visual mode"
+      ],
+      "blockers": [
+        "claiming alpha blending",
+        "missing priority map",
+        "palette conflicts with sprites/UI"
+      ],
+      "handoffs": [
+        "palette-cram-curator",
+        "hscroll-linescroll-road-fx",
+        "emulator-vdp-evidence-curator"
+      ]
+    },
+    {
+      "skill_id": "entity-polymorphism-architect",
+      "domain": "code",
+      "trigger_terms": [
+        "function pointer",
+        "enemy catalog",
+        "entity vtable",
+        "archetype",
+        "behavior dispatch"
+      ],
+      "required_inputs": [
+        "entity types",
+        "update/draw/collision hooks",
+        "static pool sizes",
+        "lifecycle states",
+        "spawn data"
+      ],
+      "required_outputs": [
+        "entity_vtable_plan",
+        "static pool plan",
+        "dispatch ownership",
+        "state transition risks"
+      ],
+      "blockers": [
+        "giant switch-case catalog without reason",
+        "dynamic allocation in runtime loop",
+        "unowned function pointer lifecycle"
+      ],
+      "handoffs": [
+        "level-manifest-architect",
+        "sgdk-runtime-coder",
+        "sgdk-code-reviewer"
+      ]
+    },
+    {
+      "skill_id": "game-state-transition-architect",
+      "domain": "architecture",
+      "trigger_terms": [
+        "fade",
+        "flush",
+        "transition mutex",
+        "scene change",
+        "state transition"
+      ],
+      "required_inputs": [
+        "source state",
+        "target state",
+        "fade policy",
+        "resource cleanup list",
+        "input lock policy"
+      ],
+      "required_outputs": [
+        "state_transition_contract",
+        "mutex/reentry rule",
+        "VDP/CRAM/SAT cleanup order",
+        "callback reset notes"
+      ],
+      "blockers": [
+        "transition can re-enter",
+        "sprites/callbacks survive scene cleanup",
+        "palette fade conflicts with raster/fx owners"
+      ],
+      "handoffs": [
+        "scene-state-architect",
+        "palette-cram-curator",
+        "sgdk-code-reviewer"
+      ]
+    },
+    {
+      "skill_id": "aaa-pipeline-guardian",
+      "domain": "governance",
+      "trigger_terms": [
+        "AAA",
+        "release ready",
+        "advanced technique",
+        "visual showcase",
+        "pipeline gate"
+      ],
+      "required_inputs": [
+        "claim being made",
+        "project context",
+        "relevant skill outputs",
+        "evidence available",
+        "blocked items"
+      ],
+      "required_outputs": [
+        "aaa_pipeline_gate_report",
+        "required skill routes",
+        "blocked/promoted status",
+        "missing evidence list"
+      ],
+      "blockers": [
+        "ready_for_aaa without domain gates",
+        "report-only validation",
+        "missing emulator/VDP evidence for runtime claim"
+      ],
+      "handoffs": [
+        "emulator-vdp-evidence-curator",
+        "megadrive-vdp-budget-analyst",
+        "rom-mastering"
+      ]
+    },
+    {
+      "skill_id": "tilemap-attribute-director",
+      "domain": "art",
+      "trigger_terms": [
+        "16 Tile",
+        "tilemap attributes",
+        "per-cell palette",
+        "priority bit",
+        "H/V flip"
+      ],
+      "required_inputs": [
+        "tileset",
+        "tilemap export",
+        "plane target",
+        "metatile size",
+        "priority rules"
+      ],
+      "required_outputs": [
+        "tilemap attribute report",
+        "palette/priority/flip table",
+        "deduplication notes",
+        "blocked metadata risks"
+      ],
+      "blockers": [
+        "flat PNG used as tilemap proof",
+        "per-cell metadata lost in export",
+        "static TILE_ATTR_FULL used where attributes differ"
+      ],
+      "handoffs": [
+        "palette-cram-curator",
+        "multi-plane-composition",
+        "megadrive-vdp-budget-analyst"
+      ]
+    },
+    {
+      "skill_id": "palette-cram-curator",
+      "domain": "art",
+      "trigger_terms": [
+        "CRAM",
+        "palette",
+        "9-bit color",
+        "vibrant colors",
+        "indexed color"
+      ],
+      "required_inputs": [
+        "source artwork",
+        "palette owner list",
+        "transparency index",
+        "quantization target",
+        "animated palette needs"
+      ],
+      "required_outputs": [
+        "palette ownership table",
+        "index 0 policy",
+        "quantization decision",
+        "palette conflict list"
+      ],
+      "blockers": [
+        "vibrance claim without indexed palette inspection",
+        "sprite/background palette ownership conflict",
+        "high-color claim without hardware strategy"
+      ],
+      "handoffs": [
+        "color-conversion-curator",
+        "raster-palette-hint-director",
+        "visual-excellence-standards"
+      ]
+    },
+    {
+      "skill_id": "sprite-scanline-budgeter",
+      "domain": "hardware",
+      "trigger_terms": [
+        "large sprite",
+        "boss",
+        "crowd",
+        "sprite flicker",
+        "scanline limit"
+      ],
+      "required_inputs": [
+        "sprite dimensions",
+        "on-screen counts",
+        "max pose spread",
+        "priority plan",
+        "palette plan"
+      ],
+      "required_outputs": [
+        "worst-case sprites per scanline",
+        "worst-case sprite pixels per scanline",
+        "decomposition plan",
+        "flicker risk"
+      ],
+      "blockers": [
+        "only total sprite count checked",
+        "boss approval without scanline estimate",
+        "decomposition not synced with hitboxes"
+      ],
+      "handoffs": [
+        "articulated-sprite-architect",
+        "collision-system-architect",
+        "megadrive-vdp-budget-analyst"
+      ]
+    },
+    {
+      "skill_id": "hscroll-linescroll-road-fx",
+      "domain": "hardware",
+      "trigger_terms": [
+        "line scroll",
+        "road curve",
+        "water wave",
+        "heat haze",
+        "pseudo-3D floor"
+      ],
+      "required_inputs": [
+        "display mode",
+        "visible height",
+        "plane ownership",
+        "HScroll mode",
+        "camera mapping"
+      ],
+      "required_outputs": [
+        "HScroll table plan",
+        "line offset formula/table",
+        "plane constraints",
+        "fallback mode"
+      ],
+      "blockers": [
+        "Mode 7 claim without correction",
+        "per-line animation without budget",
+        "collision tied to distorted pixels without mapping"
+      ],
+      "handoffs": [
+        "shadow-highlight-scroll-fx",
+        "vram-streaming-dma-queue",
+        "level-manifest-architect"
+      ]
+    },
+    {
+      "skill_id": "raster-palette-hint-director",
+      "domain": "hardware",
+      "trigger_terms": [
+        "H-Interrupt",
+        "raster palette",
+        "waterline",
+        "sky gradient",
+        "mid-frame palette"
+      ],
+      "required_inputs": [
+        "target scanline",
+        "palette entries",
+        "timing strategy",
+        "fade interaction",
+        "UI/sprite palette users"
+      ],
+      "required_outputs": [
+        "raster palette plan",
+        "CRAM write risk",
+        "artifact fallback",
+        "evidence requirement"
+      ],
+      "blockers": [
+        "mid-frame colors described as free",
+        "shared palette slots overwritten",
+        "smooth alpha claim"
+      ],
+      "handoffs": [
+        "palette-cram-curator",
+        "game-state-transition-architect",
+        "megadrive-vdp-budget-analyst"
+      ]
+    },
+    {
+      "skill_id": "dither-composite-transparency",
+      "domain": "art",
+      "trigger_terms": [
+        "dithering",
+        "checkerboard transparency",
+        "composite blend",
+        "smoke",
+        "glass"
+      ],
+      "required_inputs": [
+        "display assumption",
+        "pattern size",
+        "palette/priority",
+        "readability target",
+        "capture mode"
+      ],
+      "required_outputs": [
+        "dither pattern spec",
+        "display risk",
+        "priority implications",
+        "capture requirement"
+      ],
+      "blockers": [
+        "called alpha blending",
+        "single scaled screenshot approval",
+        "gameplay-critical visibility loss"
+      ],
+      "handoffs": [
+        "palette-cram-curator",
+        "visual-excellence-standards",
+        "emulator-vdp-evidence-curator"
+      ]
+    },
+    {
+      "skill_id": "z80-audio-boundary-architect",
+      "domain": "audio",
+      "trigger_terms": [
+        "Z80",
+        "PCM",
+        "DAC",
+        "audio driver",
+        "sample streaming"
+      ],
+      "required_inputs": [
+        "driver choice",
+        "music format",
+        "SFX format",
+        "PCM requirements",
+        "68000/Z80 communication"
+      ],
+      "required_outputs": [
+        "audio ownership plan",
+        "Z80 communication contract",
+        "PCM/DAC budget risk",
+        "fallback plan"
+      ],
+      "blockers": [
+        "high-quality PCM without driver plan",
+        "blocking audio updates in gameplay loop",
+        "driver assumptions undocumented"
+      ],
+      "handoffs": [
+        "sfx-prep-fm-psg-pcm",
+        "rom-mastering",
+        "sgdk-code-reviewer"
+      ]
+    },
+    {
+      "skill_id": "articulated-sprite-architect",
+      "domain": "code",
+      "trigger_terms": [
+        "multi-part sprite",
+        "articulated boss",
+        "limb chain",
+        "anchor point",
+        "linked sprites"
+      ],
+      "required_inputs": [
+        "part list",
+        "parent-child graph",
+        "anchor points",
+        "animation timeline",
+        "collision ownership"
+      ],
+      "required_outputs": [
+        "articulation tree",
+        "transform update order",
+        "SAT ordering risk",
+        "hitbox sync notes"
+      ],
+      "blockers": [
+        "visual offsets without anchors",
+        "collision truth drifts from anchors",
+        "no scanline budget"
+      ],
+      "handoffs": [
+        "sprite-scanline-budgeter",
+        "collision-system-architect",
+        "entity-polymorphism-architect"
+      ]
+    },
+    {
+      "skill_id": "software-tile-rasterizer",
+      "domain": "code",
+      "trigger_terms": [
+        "software rasterizer",
+        "CPU rendered",
+        "raycast",
+        "runtime tile rewrite",
+        "pseudo-3D"
+      ],
+      "required_inputs": [
+        "effect resolution",
+        "tile buffer size",
+        "update frequency",
+        "DMA plan",
+        "fallback"
+      ],
+      "required_outputs": [
+        "tile buffer layout",
+        "dirty tile plan",
+        "CPU/VBlank risk",
+        "fallback visual mode"
+      ],
+      "blockers": [
+        "native scaling/rotation claim",
+        "large pattern update without DMA budget",
+        "unbounded rendering loop"
+      ],
+      "handoffs": [
+        "vram-streaming-dma-queue",
+        "megadrive-vdp-budget-analyst",
+        "aaa-pipeline-guardian"
+      ]
+    },
+    {
+      "skill_id": "level-manifest-architect",
+      "domain": "architecture",
+      "trigger_terms": [
+        "level manifest",
+        "stage",
+        "arena",
+        "camera",
+        "spawn table"
+      ],
+      "required_inputs": [
+        "scene goal",
+        "background assets",
+        "sprite assets",
+        "camera constraints",
+        "collision topology"
+      ],
+      "required_outputs": [
+        "level manifest",
+        "asset ownership",
+        "camera/plane rules",
+        "evidence checklist"
+      ],
+      "blockers": [
+        "level approved by screenshot",
+        "camera/collision/art use different coordinate truth",
+        "undeclared assets added"
+      ],
+      "handoffs": [
+        "multi-plane-composition",
+        "collision-system-architect",
+        "entity-polymorphism-architect"
+      ]
+    },
+    {
+      "skill_id": "sprite-asset-budget-curator",
+      "domain": "art",
+      "trigger_terms": [
+        "sprite sheet",
+        "model sheet",
+        "frame alignment",
+        "origin",
+        "generated sprite"
+      ],
+      "required_inputs": [
+        "approved visual source",
+        "animation list",
+        "frame dimensions",
+        "origin policy",
+        "palette target"
+      ],
+      "required_outputs": [
+        "sprite asset budget report",
+        "palette/index policy",
+        "frame alignment policy",
+        "hardware risks"
+      ],
+      "blockers": [
+        "rejected sheet used as source",
+        "mutated character features",
+        "missing indexed palette or visual review"
+      ],
+      "handoffs": [
+        "sprite-scanline-budgeter",
+        "palette-cram-curator",
+        "art-asset-diagnostic"
+      ]
+    },
+    {
+      "skill_id": "color-conversion-curator",
+      "domain": "art",
+      "trigger_terms": [
+        "SNES to MD",
+        "PC-98 to MD",
+        "high color",
+        "AI art conversion",
+        "color hacking"
+      ],
+      "required_inputs": [
+        "source image/style",
+        "target palette budget",
+        "asset role",
+        "identity to preserve",
+        "acceptable loss"
+      ],
+      "required_outputs": [
+        "conversion plan",
+        "palette reduction strategy",
+        "tile/sprite separation notes",
+        "rejection criteria"
+      ],
+      "blockers": [
+        "conversion is only resize",
+        "muddy/desaturated output accepted without alternatives",
+        "external platform tricks treated as native"
+      ],
+      "handoffs": [
+        "palette-cram-curator",
+        "art-translation-to-vdp",
+        "visual-excellence-standards"
+      ]
+    },
+    {
+      "skill_id": "sfx-prep-fm-psg-pcm",
+      "domain": "audio",
+      "trigger_terms": [
+        "SFX",
+        "FM",
+        "PSG",
+        "PCM",
+        "DAC sample"
+      ],
+      "required_inputs": [
+        "SFX list",
+        "driver/playback system",
+        "channel ownership",
+        "sample format",
+        "priority rules"
+      ],
+      "required_outputs": [
+        "SFX preparation table",
+        "FM/PSG/PCM allocation",
+        "polyphony risks",
+        "resource handoff notes"
+      ],
+      "blockers": [
+        "unlimited simultaneous SFX claim",
+        "PCM for every effect without budget",
+        "gameplay cues buried under music"
+      ],
+      "handoffs": [
+        "z80-audio-boundary-architect",
+        "rom-mastering",
+        "emulator-vdp-evidence-curator"
+      ]
+    },
+    {
+      "skill_id": "emulator-vdp-evidence-curator",
+      "domain": "operation",
+      "trigger_terms": [
+        "BlastEm",
+        "VDP dump",
+        "screenshot",
+        "testado_em_emulador",
+        "visual evidence"
+      ],
+      "required_inputs": [
+        "ROM path",
+        "emulator target",
+        "scene to inspect",
+        "claims being closed",
+        "dump/screenshot requirements"
+      ],
+      "required_outputs": [
+        "evidence checklist",
+        "claim-to-evidence mapping",
+        "screenshot/dump requirements",
+        "blocked closeout items"
+      ],
+      "blockers": [
+        "build success used as runtime proof",
+        "BizHawk used as replacement for required BlastEm gate",
+        "text report replaces screenshot/SRAM/VDP dump"
+      ],
+      "handoffs": [
+        "rom-mastering",
+        "megadrive-vdp-budget-analyst",
+        "aaa-pipeline-guardian"
+      ]
+    }
+  ],
+  "phase5_contracts": [
+    {
+      "skill_id": "input-system-sgdk",
+      "domain": "code",
+      "phase": "phase5_new_candidate_skill_applied",
+      "trigger_terms": ["input", "joypad", "d-pad", "6-button", "held", "pressed", "released", "multiplayer", "multitap"],
+      "real_apis": ["JOY_init", "JOY_update", "JOY_readJoypad", "JOY_getJoypadType", "JOY_getPortType", "JOY_setSupport"],
+      "required_inputs": ["action list", "controller class", "per-player plan when 2P"],
+      "required_outputs": ["input_mapping_contract", "input_latency_contract", "multiplayer_input_plan"],
+      "blockers": ["fake input apis", "input read scattered across scenes", "held mixed with pressed", "6-button inferred without JOY_getJoypadType", "multiplayer without per-player plan"],
+      "handoffs": ["sgdk-runtime-coder", "scene-state-architect", "game-state-transition-architect"]
+    },
+    {
+      "skill_id": "camera-system-sgdk",
+      "domain": "code",
+      "phase": "phase5_new_candidate_skill_applied",
+      "trigger_terms": ["camera", "dead zone", "look-ahead", "clamp", "bounds", "boss room", "arena", "parallax", "screen shake", "split-screen", "beat em up z"],
+      "reused_contracts": ["camera_behavior_contract"],
+      "required_inputs": ["scene bounds", "camera role", "parallax planes when applicable"],
+      "required_outputs": ["camera_behavior_contract", "camera_bounds_policy", "parallax_camera_contract"],
+      "blockers": ["camera locked to player without dead zone/clamp", "screen shake without teardown", "parallax without plane owner", "split-screen without budget", "fractional final scroll"],
+      "handoffs": ["collision-system-architect", "multi-plane-composition", "scene-state-architect", "sgdk-runtime-coder"]
+    }
+  ]
+}

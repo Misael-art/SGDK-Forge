@@ -1,0 +1,931 @@
+{
+  "project_path": ".",
+  "scenario_detected": "2_res_inadequate_check",
+  "summary": "Projeto tem 45 asset(s) em /res. 32 ok, 13 precisam conversao, 0 inadequados, 0 ausentes.",
+  "total_assets": 45,
+  "ok": 32,
+  "needs_conversion": 13,
+  "inadequate": 0,
+  "absent": 0,
+  "assets": [
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\branding_intro\\brand_author_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 64,
+      "color_count": 7,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\branding_intro\\brand_engine_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 80,
+      "color_count": 14,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\branding_intro\\brand_fx_tiles.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 128,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\branding_intro\\brand_presents_text.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 112,
+      "height": 24,
+      "color_count": 3,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\branding_intro\\brand_project_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 88,
+      "color_count": 7,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\basic\\chase_bg_a_basic.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 10,
+      "has_transparency": true,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\basic\\chase_bg_b_basic.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "1 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\elite\\chase_bg_a_elite.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 10,
+      "has_transparency": true,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\elite\\chase_bg_b_elite.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 14,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "1 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\basic_composite.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 320,
+      "height": 224,
+      "color_count": 16,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "16 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\bg_a_basic_palette_strip.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 256,
+      "height": 24,
+      "color_count": 12,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\bg_a_basic_tileset_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 256,
+      "height": 96,
+      "color_count": 10,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\bg_a_elite_palette_strip.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 256,
+      "height": 24,
+      "color_count": 12,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\bg_a_elite_tileset_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 256,
+      "height": 96,
+      "color_count": 10,
+      "has_transparency": false,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\bg_b_basic_palette_strip.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 256,
+      "height": 24,
+      "color_count": 16,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "16 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\bg_b_basic_tileset_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 256,
+      "height": 248,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "1 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\bg_b_elite_palette_strip.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 256,
+      "height": 24,
+      "color_count": 16,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "16 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\bg_b_elite_tileset_sheet.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 256,
+      "height": 128,
+      "color_count": 14,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "1 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\elite_composite.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 320,
+      "height": 224,
+      "color_count": 16,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "16 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\processed\\chase_first_playable\\review\\original_basic_elite_board.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 960,
+      "height": 248,
+      "color_count": 145,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "145 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\source_art\\branding_intro\\production\\author_panel_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1536,
+      "height": 1024,
+      "color_count": 71668,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "71668 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\source_art\\branding_intro\\production\\engine_mark_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2098,
+      "height": 750,
+      "color_count": 71253,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2098x750 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2104x752 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "71253 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\source_art\\branding_intro\\production\\project_crest_source.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 2068,
+      "height": 760,
+      "color_count": 101263,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "DIM_NOT_MULTIPLE_8",
+          "severity": "critico",
+          "message": "Dimensoes 2068x760 nao sao multiplas de 8.",
+          "suggestion": "Redimensionar para 2072x760 px."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "101263 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\source_art\\chase_first_playable\\background\\chase_bg_a_road_overlay_runtime_floor_y144.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 10,
+      "has_transparency": true,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\source_art\\chase_first_playable\\background\\chase_bg_b_atmosphere_runtime_v007.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "1 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\source_art\\chase_first_playable\\background\\chase_runtime_split_composite_direct_floor_y144.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGBA",
+      "width": 320,
+      "height": 224,
+      "color_count": 16,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGBA — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "16 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "RGBA_NOT_INDEXED",
+          "severity": "critico",
+          "message": "Imagem RGBA nao e indexada. Alpha sera perdido sem conversao correta.",
+          "suggestion": "Converter com batch_resize_index.py --max-colors 15 preservando canal alpha como index 0."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\source_art\\chase_first_playable\\fx\\chase_fx_sheet_candidate_v001.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1536,
+      "height": 1024,
+      "color_count": 147216,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "147216 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\data\\source_art\\chase_first_playable\\props\\chase_obstacle_props_candidate_v001.png",
+      "asset_type": "tileset",
+      "scenario": "precisa_conversao",
+      "mode": "RGB",
+      "width": 1536,
+      "height": 1024,
+      "color_count": 235543,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NOT_INDEXED",
+          "severity": "critico",
+          "message": "Modo RGB — nao e PNG indexado (modo P).",
+          "suggestion": "Converter para PNG indexado 4-bit com max 16 cores usando photo2sgdk ou batch_resize_index.py."
+        },
+        {
+          "code": "TOO_MANY_COLORS",
+          "severity": "critico",
+          "message": "235543 cores visiveis — limite e 15 (index 0 reservado).",
+          "suggestion": "Reduzir paleta para 15 cores. Usar quantizacao com photo2sgdk ou batch_resize_index.py."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\branding\\brand_author_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 64,
+      "color_count": 7,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\branding\\brand_engine_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 224,
+      "height": 80,
+      "color_count": 14,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\branding\\brand_fx_tiles.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 128,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\branding\\brand_presents_text.png",
+      "asset_type": "imagem",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 112,
+      "height": 24,
+      "color_count": 3,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\branding\\brand_project_logo.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 240,
+      "height": 88,
+      "color_count": 7,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\gfx\\chase\\chase_bg_a_elite.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 10,
+      "has_transparency": true,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\gfx\\chase\\chase_bg_b_elite.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 14,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "COLORS_NOT_9BIT",
+          "severity": "aviso",
+          "message": "1 cor(es) fora do grid 9-bits Mega Drive (multiplos de 0x22).",
+          "suggestion": "O VDP trunca bits menos significativos. Ajustar paleta manualmente ou aceitar o arredondamento automatico do SGDK."
+        },
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\gfx\\chase_anim_runtime_bg_v004.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 320,
+      "height": 224,
+      "color_count": 15,
+      "has_transparency": false,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\chase_energy_star_32x32.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 32,
+      "height": 32,
+      "color_count": 8,
+      "has_transparency": true,
+      "issues": [],
+      "res_suggestion": "SPRITE chase_energy_star_32x32 \"sprite/chase_energy_star_32x32.png\" 4 4 FAST 5"
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\chase_obstacle_boulder_64x48.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 48,
+      "color_count": 13,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "aviso",
+          "message": "Sprite 64x48 excede 32x32 px (limite hardware de 1 entrada).",
+          "suggestion": "Usar metasprite (multiplas entradas na sprite table) ou dividir em tiles menores."
+        }
+      ],
+      "res_suggestion": "SPRITE chase_obstacle_boulder_64x48 \"sprite/chase_obstacle_boulder_64x48.png\" 8 6 FAST 5"
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\chase_obstacle_brand_64x48.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 48,
+      "color_count": 13,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "aviso",
+          "message": "Sprite 64x48 excede 32x32 px (limite hardware de 1 entrada).",
+          "suggestion": "Usar metasprite (multiplas entradas na sprite table) ou dividir em tiles menores."
+        }
+      ],
+      "res_suggestion": "SPRITE chase_obstacle_brand_64x48 \"sprite/chase_obstacle_brand_64x48.png\" 8 6 FAST 5"
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\chase_pulse_impact_64x48.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 64,
+      "height": 48,
+      "color_count": 13,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "aviso",
+          "message": "Sprite 64x48 excede 32x32 px (limite hardware de 1 entrada).",
+          "suggestion": "Usar metasprite (multiplas entradas na sprite table) ou dividir em tiles menores."
+        }
+      ],
+      "res_suggestion": "SPRITE chase_pulse_impact_64x48 \"sprite/chase_pulse_impact_64x48.png\" 8 6 FAST 5"
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\hero_run_toward_64x80_strip_v003.png",
+      "asset_type": "sprite",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 512,
+      "height": 80,
+      "color_count": 15,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "SPRITE_TOO_LARGE",
+          "severity": "aviso",
+          "message": "Sprite 512x80 excede 32x32 px (limite hardware de 1 entrada).",
+          "suggestion": "Usar metasprite (multiplas entradas na sprite table) ou dividir em tiles menores."
+        }
+      ],
+      "res_suggestion": "SPRITE hero_run_toward_64x80_strip_v003 \"sprite/hero_run_toward_64x80_strip_v003.png\" 64 10 FAST 5"
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\pursuer_3q_front_mid_96x80_zloop_strip_v003.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 80,
+      "color_count": 14,
+      "has_transparency": true,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\pursuer_attack_hoof_96x64_zloop_strip_v003.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 576,
+      "height": 64,
+      "color_count": 14,
+      "has_transparency": true,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\pursuer_head_horns_112x64_zloop_strip_v003.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 672,
+      "height": 64,
+      "color_count": 15,
+      "has_transparency": true,
+      "issues": [],
+      "res_suggestion": ""
+    },
+    {
+      "path": "F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res\\sprites\\chase\\pursuer_impact_dust_fx_64x32_strip_v005.png",
+      "asset_type": "tileset",
+      "scenario": "ok",
+      "mode": "P",
+      "width": 384,
+      "height": 32,
+      "color_count": 12,
+      "has_transparency": true,
+      "issues": [
+        {
+          "code": "NO_MAGENTA_TRANSPARENT",
+          "severity": "aviso",
+          "message": "Index 0 da paleta nao e magenta (#FF00FF) — convencao de transparencia SGDK.",
+          "suggestion": "Definir index 0 como #FF00FF ou garantir que index 0 seja a cor transparente no .res."
+        }
+      ],
+      "res_suggestion": ""
+    }
+  ],
+  "recommended_actions": [
+    "ATENCAO: 13 asset(s) com issues criticos — build pode falhar.",
+    "Apresentar este relatorio ao dono do projeto para decisao de rota.",
+    "Assets nao indexados: converter para PNG modo P (indexed) com max 16 cores.",
+    "Usar fix_png_transparency_final.py para corrigir transparencia."
+  ],
+  "conversion_commands": [
+    "# Corrigir transparencia automaticamente:",
+    "python tools/image-tools/fix_png_transparency_final.py F:\\Projects\\Sgdk Forge\\SGDK_projects\\Celestial Chase visual benchmark [VER.001] [SGDK 211] [GEN] [LAB] [TECHDEMO]\\res",
+    "# Validar recursos:",
+    "powershell -File tools\\sgdk_wrapper\\validate_resources.ps1",
+    "# Auto-fix sprite.res:",
+    "powershell -File tools\\sgdk_wrapper\\autofix_sprite_res.ps1"
+  ]
+}

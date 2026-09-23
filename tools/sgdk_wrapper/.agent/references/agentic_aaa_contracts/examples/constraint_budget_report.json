@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "constraint_budget_report",
+  "scene_id": "scene_training_ring",
+  "constraints": {
+    "bg_planes": "BG_A_BG_B_WINDOW_only",
+    "palettes": "PAL0_PAL3_only",
+    "sprite_scanline_limit": 20,
+    "total_sprite_limit": 80,
+    "dma_policy": "vblank_or_loading_only",
+    "h_int_owner": "single_owner_per_frame"
+  },
+  "false_hardware_claims": [],
+  "blockers": []
+}

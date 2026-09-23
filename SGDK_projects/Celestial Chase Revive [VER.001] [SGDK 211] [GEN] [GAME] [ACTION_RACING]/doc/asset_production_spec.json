@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "asset_production_spec_v001",
+  "palette_strategy": {
+    "PAL0": "UI, font, HUD, menu text and title highlights",
+    "PAL1": "Lio, Lumen, player Pulse and friendly pickups",
+    "PAL2": "road, hazards, foreground marks and sector gameplay telegraphs",
+    "PAL3": "background sky, Master Pursuer silhouettes and boss atmosphere",
+    "shadow_highlight": "not required for first slice",
+    "exact_colors_status": "pending source art and palette audit"
+  },
+  "asset_specs": [
+    {
+      "asset_id": "title_logo_branding_sigil",
+      "source_path": "data/source_art/revive/concept/title_logo_layout_v001.svg",
+      "target_surface": "BG_A",
+      "dimensions_px": {"w": 224, "h": 56},
+      "tile_target": 160,
+      "palette": "PAL0",
+      "frames": 1,
+      "status": "mockup_required_then_pixel_art"
+    },
+    {
+      "asset_id": "front_end_custom_font",
+      "source_path": "data/source_art/revive/concept/race_hud_wireframe_v001.svg",
+      "target_surface": "WINDOW_BG_A",
+      "dimensions_px": {"w": 128, "h": 48},
+      "tile_target": 48,
+      "palette": "PAL0",
+      "frames": 1,
+      "status": "planned"
+    },
+    {
+      "asset_id": "hud_lumen_window",
+      "source_path": "data/source_art/revive/concept/race_hud_wireframe_v001.svg",
+      "target_surface": "WINDOW",
+      "dimensions_px": {"w": 320, "h": 24},
+      "tile_target": 64,
+      "palette": "PAL0",
+      "frames": 1,
+      "status": "wireframe_documented"
+    },
+    {
+      "asset_id": "lio_run_strip",
+      "source_path": "data/source_art/revive/concept/sector01_track_mood_v001.svg",
+      "target_surface": "SPRITES",
+      "dimensions_px": {"w": 144, "h": 32},
+      "tile_target": 72,
+      "palette": "PAL1",
+      "frames": 6,
+      "status": "model_sheet_required"
+    },
+    {
+      "asset_id": "lio_jump_strip",
+      "source_path": "data/source_art/revive/concept/sector01_track_mood_v001.svg",
+      "target_surface": "SPRITES",
+      "dimensions_px": {"w": 144, "h": 32},
+      "tile_target": 72,
+      "palette": "PAL1",
+      "frames": 6,
+      "status": "model_sheet_required"
+    },
+    {
+      "asset_id": "sector01_road_bg_a",
+      "source_path": "data/source_art/revive/concept/sector01_track_mood_v001.svg",
+      "target_surface": "BG_A",
+      "dimensions_px": {"w": 320, "h": 200},
+      "tile_target": 240,
+      "palette": "PAL2",
+      "frames": 1,
+      "status": "tilemap_required"
+    },
+    {
+      "asset_id": "sector01_sky_bg_b",
+      "source_path": "data/source_art/revive/concept/sector01_track_mood_v001.svg",
+      "target_surface": "BG_B",
+      "dimensions_px": {"w": 320, "h": 224},
+      "tile_target": 320,
+      "palette": "PAL3",
+      "frames": 1,
+      "status": "tilemap_required"
+    },
+    {
+      "asset_id": "hazard_pickup_set_s01",
+      "source_path": "data/source_art/revive/concept/sector01_track_mood_v001.svg",
+      "target_surface": "SPRITES",
+      "dimensions_px": {"w": 128, "h": 64},
+      "tile_target": 80,
+      "palette": "PAL1_PAL2",
+      "frames": 12,
+      "status": "planned"
+    },
+    {
+      "asset_id": "opening_farol_matriz_panel_set",
+      "source_path": "data/source_art/revive/concept/sector01_track_mood_v001.svg",
+      "target_surface": "BG_A_BG_B",
+      "dimensions_px": {"w": 320, "h": 224},
+      "tile_target": 280,
+      "palette": "PAL1_PAL3",
+      "frames": 4,
+      "status": "concept_required"
+    },
+    {
+      "asset_id": "master_pursuer_boss_layout",
+      "source_path": "data/source_art/revive/concept/master_pursuer_boss_layout_v001.svg",
+      "target_surface": "BG_A_BG_B_SPRITES",
+      "dimensions_px": {"w": 320, "h": 224},
+      "tile_target": 256,
+      "palette": "PAL2_PAL3",
+      "frames": 4,
+      "status": "mockup_required_then_budget_audit"
+    }
+  ],
+  "required_reports_before_runtime_visual_delivery": [
+    "scene_tilemap_conversion_report.json",
+    "per_tile_palette_conflict_report.json",
+    "tilemap_flag_report.json",
+    "palette_slot_audit",
+    "sprite_scanline_pressure_report",
+    "vram_residency_report",
+    "visual_delivery_gate_report.json"
+  ],
+  "budget_decision": "cabe_com_recuo_documental",
+  "budget_caveat": "No tile counts are measured until assets exist and res_graph/vram residency reports are generated."
+}

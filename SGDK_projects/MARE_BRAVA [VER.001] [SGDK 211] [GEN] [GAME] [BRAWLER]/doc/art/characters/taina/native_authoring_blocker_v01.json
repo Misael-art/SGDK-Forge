@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "recorded_at": "2026-08-31",
+  "status": "superseded_by_available_route",
+  "scope": "taina_idle_guard_scale_shootout",
+  "source_of_truth": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+    "sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+    "role": "approved_authorial_model_sheet"
+  },
+  "required_outputs": [
+    "independently_authored_native_48x64",
+    "independently_authored_native_64x96",
+    "silhouette_mask",
+    "native_lineart_shape_blocking",
+    "flat_materials",
+    "nearest_2x",
+    "nearest_3x",
+    "light_background",
+    "dark_background",
+    "camera_320x224",
+    "pivot_ground_overlay"
+  ],
+  "tested_host_routes": [
+    {
+      "route": "aseprite_libresprite_pixelorama_krita",
+      "status": "not_available_on_host"
+    },
+    {
+      "route": "gimp_pointer_automation",
+      "status": "forbidden_by_project_policy"
+    },
+    {
+      "route": "gimp_batch_or_python_pil_imagedraw_procedural_rasterization",
+      "status": "forbidden_by_current_human_direction"
+    },
+    {
+      "route": "existing_g2_a1_basic_elite_or_rejected_probe_pixels",
+      "status": "forbidden_by_lineage"
+    },
+    {
+      "route": "native_chat_image_generation_callable",
+      "status": "available_and_selected_for_visual_source_generation"
+    }
+  ],
+  "conclusion": "The prior host-route blocker is superseded: native image generation is available for visual producer outputs. These outputs remain visual_source and require independent native translation before any technical candidate claim.",
+  "res_unchanged": true,
+  "res_promotion": false,
+  "animation_authorization": false,
+  "ready_for_aaa": false,
+  "next_action": "generate_three_single_pose_visual_sources_from_the_v02_model_sheet; then perform independent native translation and validation"
+}

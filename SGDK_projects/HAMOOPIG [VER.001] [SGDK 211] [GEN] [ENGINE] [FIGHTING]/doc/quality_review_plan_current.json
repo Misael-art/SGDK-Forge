@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "quality_review_plan",
+  "tool": {
+    "name": "quality_review_router",
+    "version": "1.0.0"
+  },
+  "generated_at": "2026-09-21T00:06:31.913739Z",
+  "review_id": "hamoopig_visual_gap_20260920_current_sha",
+  "request_digest": "2990ffa81565c38541f0934761b0d4b0f6bd11295c207bee66ce0888966d1603",
+  "plan_digest": "e3aa7625bf64dedbb1d9c82915a298813dddb71ae9a96c2eb52511771950167d",
+  "review_stage": "vertical_slice",
+  "selected_reviews": [
+    {
+      "domain": "art",
+      "owner_skill": "art/visual-excellence-standards",
+      "score": 375,
+      "selection_reasons": [
+        "explicitly_requested",
+        "changed_domain",
+        "stage_priority:vertical_slice",
+        "checkpoint_default",
+        "risk:identity_drift",
+        "risk:art_regression"
+      ],
+      "model_tier": "high_capability",
+      "evidence_requirements": [
+        "visual_asset",
+        "art_direction"
+      ]
+    },
+    {
+      "domain": "gameplay",
+      "owner_skill": "design/gameplay-experience-reviewer",
+      "score": 385,
+      "selection_reasons": [
+        "explicitly_requested",
+        "changed_domain",
+        "stage_priority:vertical_slice",
+        "checkpoint_default",
+        "risk:gameplay_unproven",
+        "risk:audio_masking"
+      ],
+      "model_tier": "high_capability",
+      "evidence_requirements": [
+        "rom",
+        "emulator_capture",
+        "input_trace"
+      ]
+    },
+    {
+      "domain": "audio",
+      "owner_skill": "code/xgm2-audio-director",
+      "score": 260,
+      "selection_reasons": [
+        "explicitly_requested",
+        "changed_domain",
+        "stage_priority:vertical_slice",
+        "risk:audio_masking"
+      ],
+      "model_tier": "balanced",
+      "evidence_requirements": [
+        "audio_contract",
+        "audio_capture_when_runtime_or_critical"
+      ]
+    }
+  ],
+  "deferred_domains": [
+    {
+      "domain": "hardware",
+      "reason": "capacity_limit_review_next_delta"
+    },
+    {
+      "domain": "code",
+      "reason": "capacity_limit_review_next_delta"
+    },
+    {
+      "domain": "governance",
+      "reason": "capacity_limit_review_next_delta"
+    },
+    {
+      "domain": "game_design",
+      "reason": "capacity_limit_review_next_delta"
+    },
+    {
+      "domain": "animation",
+      "reason": "capacity_limit_review_next_delta"
+    }
+  ],
+  "required_harness_skills": [
+    "art/visual-excellence-standards",
+    "code/xgm2-audio-director",
+    "design/gameplay-experience-reviewer",
+    "governance/independent-quality-review",
+    "operation/harness-orchestration"
+  ],
+  "status": "ready",
+  "blockers": [],
+  "claim_ceiling": "quality_review_plan_only"
+}

@@ -1,0 +1,60 @@
+{
+  "build_version": "build_v002",
+  "rom_sha256": "22a80b7cf9f514550f21073226c2bec63efdcc6a95af9d18c62d5e810ce95c8f",
+  "size_bytes": 262144,
+  "timestamp": "2026-06-03T11:11:36.1661598-03:00",
+  "source_commit_when_available": null,
+  "validation_summary": {
+    "errors": 0,
+    "warnings": 8,
+    "blocking_statuses": [
+      "gdd_substantial_insufficient",
+      "agent_context_degraded",
+      "visual_gate_blocked",
+      "visual_direction_failed",
+      "emulator_evidence_stale",
+      "freshness_audit_missing",
+      "scene_closeout_gate_missing"
+    ]
+  },
+  "emulator_evidence_status": "runtime_metrics_stale",
+  "status_panel_snapshot": {
+    "visual_lab_aprovado": false,
+    "gameplay_rom_aprovada": false,
+    "ready_for_aaa": false
+  },
+  "qa_axes_snapshot": {
+    "gameplay_basico": "stale",
+    "performance": "nao_medido_completo",
+    "audio": "ok",
+    "hardware_real": "blastem_reference_emulator"
+  },
+  "linked_asset_versions": [
+    {
+      "asset_id": "img_brand_fx_tiles",
+      "version": "v001",
+      "source_path": "res/branding/brand_fx_tiles.png"
+    },
+    {
+      "asset_id": "img_brand_engine_logo",
+      "version": "v001",
+      "source_path": "res/branding/brand_engine_logo.png"
+    },
+    {
+      "asset_id": "img_brand_author_logo",
+      "version": "v001",
+      "source_path": "res/branding/brand_author_logo.png"
+    },
+    {
+      "asset_id": "img_brand_project_logo",
+      "version": "v001",
+      "source_path": "res/branding/brand_project_logo.png"
+    },
+    {
+      "asset_id": "img_brand_presents_text",
+      "version": "v001",
+      "source_path": "res/branding/brand_presents_text.png"
+    }
+  ],
+  "notes": "Fase 0/branding: preserved brand_* PNG baseline, added XGM2 WAV cues, integrated MDRuntimeProbe boot/tick, reduced inactive line-scroll uploads, rebuilt ROM SHA256 22a80b7cf9f514550f21073226c2bec63efdcc6a95af9d18c62d5e810ce95c8f, captured TargetScene 0 in BlastEm with screenshot/save.sram/runtime_metrics partial; one CPU budget spike remains at frame_index 128 so performance gate stays blocked."
+}

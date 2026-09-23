@@ -1,0 +1,54 @@
+{
+  "action_log": "action_log.json",
+  "actions_sha256": "7cb2af96b6c4d64ea12176c34e9d882abd1a9e64b8edb43c15aa7b177a4ea3df",
+  "asset_id": "kirby_run_contact_v11_r4_lineart",
+  "candidate_8x_sha256": "699a42df1ef313269174a3d42d9fc103234044a326752b75a14a9b0f108275a0",
+  "candidate_canonical_sha256": "924e1c9369ab37e365cd33700ef70fa5d5b4a1d0b7738568cc737c5afadc7db5",
+  "candidate_sha256": "ab5ff57b1851ca01fc4a60d55c390227ce128daf64ebb9d8dd1758994300c688",
+  "claim_ceiling": "native_candidate",
+  "command": "native-edit",
+  "frame_id": "run_contact_r4_lineart",
+  "operations_applied": 6,
+  "pixel_contract_report": {
+    "bit_depth": 4,
+    "blockers": [],
+    "blocking": false,
+    "blocking_statuses": [],
+    "color_type": 3,
+    "content_sha256": "924e1c9369ab37e365cd33700ef70fa5d5b4a1d0b7738568cc737c5afadc7db5",
+    "file": "candidate.png",
+    "height": 32,
+    "index0_role": "transparent0",
+    "limitation": "Aprova sintaxe de hardware. Nao aprova silhueta, anatomia, material, identidade nem leitura; `technical_pass` nao implica `visual_pass`.",
+    "oracle": "rescomp",
+    "plte_entries": 16,
+    "schema_version": "1.0.0",
+    "scope": "static_contract",
+    "status": "technical_candidate",
+    "tool": "forge_art.pixel_contract",
+    "tool_version": "1.2.0",
+    "visible_colors": 1,
+    "width": 32
+  },
+  "protected_trees_sha256_after": {
+    "data": "e74b6974b33b2821dc831c73b06551070eab7186c206fde72bde26f5be9c47b0",
+    "res": "1066ebdc7eb2f5ad63ecab638786379757ba1d69f0a57169ceae8959618129af"
+  },
+  "protected_trees_sha256_before": {
+    "data": "e74b6974b33b2821dc831c73b06551070eab7186c206fde72bde26f5be9c47b0",
+    "res": "1066ebdc7eb2f5ad63ecab638786379757ba1d69f0a57169ceae8959618129af"
+  },
+  "res_promotion": false,
+  "schema_version": "1.0.0",
+  "source_authority": {
+    "path": "data/source_art/r1/r1-01/concept.png",
+    "role": "exclusive_visual_authority",
+    "sha256": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd"
+  },
+  "source_sha256_after": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+  "source_sha256_before": "591d310623aaf37426af1cb846a715c1fd88e905163364d64565278ed31303cd",
+  "status": "completed",
+  "tool": "forge_art.native_edit",
+  "tool_version": "1.1.0",
+  "underlays": {}
+}

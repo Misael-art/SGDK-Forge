@@ -1,0 +1,54 @@
+{
+  "asset_id": "taina_reseed_native_lineart_editor_candidate_v01",
+  "blockers": [],
+  "blocking": false,
+  "content_sha256": "22ec5e63c9cc8d0a44f061ce4c9c58dc0d079eca8787f461439b04f5dc005159",
+  "index0_function": "transparent0",
+  "index0_role": "transparent0",
+  "metrics": {
+    "colors_after": 1,
+    "colors_before": 1,
+    "input_vdp_histogram": [
+      {
+        "pixels": 198,
+        "rgb": [
+          34,
+          34,
+          68
+        ]
+      }
+    ],
+    "max_individual_error": 0,
+    "palette": [
+      {
+        "index": 1,
+        "pixels": 198,
+        "rgb": [
+          34,
+          34,
+          68
+        ]
+      }
+    ],
+    "visible_pixels": 198,
+    "weighted_error_total": 0,
+    "weighted_mse": 0.0
+  },
+  "next_action": "human visual review; never promote automatically",
+  "oracle": "rescomp",
+  "output": "basic/taina_reseed_native_lineart_editor_candidate_v01.png",
+  "palette_algorithm": "weighted_kmedoids_v1",
+  "route": "technical_conversion",
+  "schema_version": "1.0.0",
+  "source_sha256": "c7ef565e4a6c51a9b8df85b07cad814650ae952ea63ad41d64cc62932737dc88",
+  "spec_sha256": "75ba500381e83618a86fa0e53deea2ddd3b74ceab7e5d158537de4fdb127eea3",
+  "status": "technical_candidate",
+  "strategies": {
+    "dithering_strategy": "none",
+    "palette_strategy": "weighted_kmedoids_v1",
+    "resize_policy": "NEAREST",
+    "transparency_policy": "binary_alpha"
+  },
+  "tool": "forge_art.convert",
+  "tool_version": "1.0.0"
+}

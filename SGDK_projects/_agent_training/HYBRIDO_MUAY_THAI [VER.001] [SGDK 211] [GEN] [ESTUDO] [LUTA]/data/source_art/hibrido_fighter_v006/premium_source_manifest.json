@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_source_concept_v006",
+  "asset_role": "concept_art",
+  "accepted_as_premium_source": false,
+  "source_file": "data/source_art/hibrido_fighter_v006/source_concept.png",
+  "sha256": "87246c88d5b2166a55358b18f2fd03d00a82a44d9e10a90cbf48d033dbbc2a69",
+  "license_or_generation_basis": "AI generated concept source candidate for local training study; not copied from existing IP.",
+  "source_visual_status": "source_candidate_rejected",
+  "human_approval_required": true,
+  "human_approval_status": "rejected",
+  "direct_runtime_use_allowed": false,
+  "promotion_policy": "May inform native 48x64 redraw only after human validation. The source PNG must not be promoted directly to res/.",
+  "precheck_report": "out/logs/hibrido_v006_model_sheet_precheck_report.json",
+  "review_report": "out/logs/hibrido_v006_model_sheet_review_report.json",
+  "rejection_reasons": [
+    "stone/lava arm hand is missing or unreadable",
+    "source still has too much micro-detail/tile-noise risk",
+    "future runtime needs cleaner cluster shading and single character palette plan"
+  ],
+  "palette_map": "doc/contracts/hibrido_fighter_v006_palette_map.json",
+  "palette_map_image": "data/processed/reports/hibrido_v006_palette_map.png"
+}

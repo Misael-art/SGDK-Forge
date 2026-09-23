@@ -1,0 +1,20 @@
+{
+  "schema_version": "human_hybrid_cleanup_shootout_decision.v1",
+  "decision": "approve_hybrid_cleanup_shootout",
+  "scale": "56x80",
+  "primary_route": "im_lanczos3",
+  "primary_sha256": "933caee8829970d0f8877712396b19b57e5843ef73481aceb047cf338cde72be",
+  "challenger_route": "im_mitchell_netravali",
+  "challenger_sha256": "ee524888bd0be4e146a3236a9480565772b8fa8e752818bf2c9717bf702b17b5",
+  "control_route": "im_catmull_rom",
+  "control_sha256": "169426ebbf40eb01631154610cd73fff959afde8540dfa5943c3528225b20cd5",
+  "selected_base_pixels_may_survive": true,
+  "blind_pixel_promotion": false,
+  "res_promotion": false,
+  "animation_authorization": false,
+  "runtime_authorization": false,
+  "rom_authorization": false,
+  "visual_pass": false,
+  "aaa_claim": false,
+  "next_gate": "human_selection_of_hybrid_cleanup_candidate"
+}

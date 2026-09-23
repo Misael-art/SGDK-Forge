@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "session_id": "pending_external_hardware_session",
+  "status": "pending_external_test",
+  "device": {
+    "kind": null,
+    "manufacturer": null,
+    "model": null,
+    "revision": null,
+    "video_standard": null
+  },
+  "region": null,
+  "load_method": {
+    "kind": null,
+    "device": null,
+    "firmware": null
+  },
+  "rom": {
+    "path": "out/rom.bin",
+    "sha256": "40b924f7895386458c7810204464fe47207c40b7f97d0c4585e840ee8d21bbf5",
+    "size_bytes": 262144
+  },
+  "captures": [],
+  "observations": {
+    "boot": "pending",
+    "input": "pending",
+    "audio": "pending",
+    "gameplay": "pending",
+    "timing_decision": "pending",
+    "audio_decision": "pending",
+    "issues": []
+  },
+  "tester_attestation": {
+    "performed_by": null,
+    "performed_at": null,
+    "truthful": false
+  }
+}

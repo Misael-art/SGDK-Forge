@@ -1,0 +1,26 @@
+{
+  "case_id": "case_style_catalog_gate",
+  "schema_version": "1.0.0",
+  "domain": "art-direction",
+  "purpose": "Fixture for projects that try to generate or judge visual assets before consulting the canonical style catalog.",
+  "canonical_inputs": [
+    "doc/11-gdd.md",
+    "doc/13-spec-cenas.md",
+    "tools/sgdk_wrapper/.agent/references/art_style_catalog.json"
+  ],
+  "required_outputs": [
+    "art_direction_decision_record",
+    "style_candidate_matrix",
+    "master_style_manifest",
+    "style_drift_policy"
+  ],
+  "expected_blockers_when_missing": [
+    "art_direction_undeclared",
+    "style_catalog_not_consulted"
+  ],
+  "acceptance_notes": [
+    "A legacy master_style_manifest without art_direction_decision_record is art_direction_pre_canonical and cannot close AAA.",
+    "Reference titles are inspiration_only technical anchors and must not become source art or prompt commands.",
+    "Prompt descriptors must be neutral technical descriptors from the selected catalog entry."
+  ]
+}

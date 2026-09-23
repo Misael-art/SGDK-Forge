@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "driver": "XGM2",
+  "pause": ["XGM2_pause", "stop PCM_CH2", "stop PCM_CH3", "set paused latch"],
+  "resume": ["clear paused latch", "XGM2_resume when score is active", "restore FM and PSG volume for current music state"],
+  "scene_exit": ["export AUD2 telemetry", "XGM2_stop", "stop PCM_CH2", "stop PCM_CH3"],
+  "same_state_restart_rule": "a stopped FM/PSG bed restarts even when the requested music state value is unchanged",
+  "runtime_status": "implemented_buildado",
+  "remaining_gate": "dedicated human pause/resume listen"
+}

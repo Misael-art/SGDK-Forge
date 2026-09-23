@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/genre_specialization_registry.schema.json",
+  "title": "Genre Specialization Operational Registry",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "registry_id",
+    "promotion_tier",
+    "forbidden_inferences",
+    "active_policy",
+    "known_specializations"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "registry_id": {
+      "const": "doc/07_game_design/genre_specialization_registry.json"
+    },
+    "promotion_tier": {
+      "const": "LABORATORIO"
+    },
+    "forbidden_inferences": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "active_policy": {
+      "type": "object",
+      "required": [
+        "requires_schema",
+        "requires_validator",
+        "requires_tests",
+        "requires_explicit_opt_in"
+      ],
+      "properties": {
+        "requires_schema": {
+          "const": true
+        },
+        "requires_validator": {
+          "const": true
+        },
+        "requires_tests": {
+          "const": true
+        },
+        "requires_explicit_opt_in": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "known_specializations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "specialization_id",
+          "category",
+          "status",
+          "owner_skill",
+          "design_contract_schema",
+          "validator",
+          "decision_reason"
+        ],
+        "properties": {
+          "specialization_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "category": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "deferred"
+            ]
+          },
+          "owner_skill": {
+            "type": "string",
+            "minLength": 1
+          },
+          "design_contract_schema": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "validator": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "decision_reason": {
+            "type": "string",
+            "minLength": 8
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "active"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "design_contract_schema": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "validator": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

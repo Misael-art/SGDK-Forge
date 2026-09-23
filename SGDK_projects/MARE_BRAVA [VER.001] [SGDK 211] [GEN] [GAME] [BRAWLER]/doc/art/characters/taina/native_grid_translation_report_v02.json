@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "taina_native_grid_translation_v02",
+  "generated_at": "2026-08-30",
+  "source_image": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "source_sha256": "324951fb2c35da907229430ff128742a2cdb28632a098b1cb7b0c48c5c0cf87a",
+  "translation_target": "sprite_single_native_lineart",
+  "reference_profile": "mare_brava_authorial_taina_v1",
+  "hardware_spec": "sega_mega_drive_vdp_4bpp_9bit",
+  "native_canvas": {"w": 48, "h": 64, "tiles_w": 6, "tiles_h": 8, "scale": "1:1"},
+  "route": "author_stamp_8x8_grid_connected_silhouette",
+  "asset": {
+    "path": "data/processed/characters/taina/lineart/taina_reseed_native_lineart_48x64_v03.png",
+    "sha256": "a9a678480abed70c7ba1d5dc7bfd1a892e5fe84b8f9c2d9a1315bb700c9cab12",
+    "status": "technical_candidate_visual_review_required"
+  },
+  "pixel_contract": "doc/art/characters/taina/pixel_compliance_report_v03.json",
+  "semantic_parse_report": "doc/art/characters/taina/source_semantic_parse_report_v02.json",
+  "fake_pixel_art_rejection": "doc/art/characters/taina/fake_pixel_art_rejection_v01.json",
+  "art_gameplay_direction_gate": "doc/art/characters/taina/art_gameplay_direction_gate_reseed_v02.json",
+  "visual_dna_manifest": "doc/art/characters/taina/visual_dna_manifest.json",
+  "lineart_blocking_report": "doc/art/characters/taina/lineart_blocking_report_v02.json",
+  "basic_translation": {"status": "not_promoted_until_lineart_visual_pass", "asset": null},
+  "elite_translation": {"status": "not_promoted_until_lineart_visual_pass", "asset": null},
+  "gates": {
+    "input_ok": true,
+    "pixel_ok": true,
+    "visual_ok": false,
+    "delta_ok": false,
+    "hardware_ok": false,
+    "emulator_ok": false
+  },
+  "blocking_statuses": ["lineart_blocking_visual_pass_pending", "basic_translation_deferred", "elite_translation_deferred"],
+  "dominant_problem_class": "erro_de_asset",
+  "decision": "native_technical_candidate_not_ready_for_color_blocking_or_res"
+}

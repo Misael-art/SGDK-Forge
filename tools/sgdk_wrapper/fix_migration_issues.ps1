@@ -59,8 +59,67 @@ function Get-ScriptHash($filePath) {
 # --- Marker File (Idempotencia) ---
 # Se o marker existe e o hash deste script nao mudou, pula migracao.
 # Isso evita re-parsear arquivos grandes (ex: HAMOOPIG 7000+ linhas) em cada build.
-$markerFile = Join-Path $projectDir ".sgdk_migration_state.json"
+$cacheDir = Join-Path $projectDir "out\.cache"
+$markerFile = Join-Path $cacheDir "sgdk_migration_state.json"
+$legacyMarkerFile = Join-Path $projectDir ".sgdk_migration_state.json"
 $scriptHash = Get-ScriptHash $PSCommandPath
+
+if ((Test-Path -LiteralPath $legacyMarkerFile) -and -not (Test-Path -LiteralPath $markerFile)) {
+    if (-not (Test-Path -LiteralPath $cacheDir)) {
+        New-Item -ItemType Directory -Force -Path $cacheDir | Out-Null
+    }
+    try {
+        Move-Item -LiteralPath $legacyMarkerFile -Destination $markerFile -Force
+    } catch {
+        try {
+            Copy-Item -LiteralPath $legacyMarkerFile -Destination $markerFile -Force
+        } catch {
+        }
+    }
+}
+
+function Initialize-BackupSession([string]$workDir) {
+    if ($env:SGDK_ENABLE_BACKUP -and $env:SGDK_ENABLE_BACKUP -eq "0") {
+        return $null
+    }
+    if ($script:BackupSessionRoot) {
+        return $script:BackupSessionRoot
+    }
+    $root = Join-Path $workDir "out\.backups"
+    if (-not (Test-Path -LiteralPath $root)) {
+        New-Item -ItemType Directory -Force -Path $root | Out-Null
+    }
+    $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $token = [guid]::NewGuid().ToString("N")
+    $session = Join-Path $root ("{0}_{1}" -f $stamp, $token)
+    New-Item -ItemType Directory -Force -Path $session | Out-Null
+    $script:BackupSessionRoot = $session
+    return $session
+}
+
+function Save-BackupBeforeEdit([string]$workDir, [string]$absPath) {
+    $session = Initialize-BackupSession $workDir
+    if (-not $session) {
+        return
+    }
+    if (-not (Test-Path -LiteralPath $absPath -PathType Leaf)) {
+        return
+    }
+    $fullWork = [IO.Path]::GetFullPath($workDir).TrimEnd('\')
+    $fullFile = [IO.Path]::GetFullPath($absPath)
+    $rel = $null
+    if ($fullFile.StartsWith($fullWork + "\", [StringComparison]::OrdinalIgnoreCase)) {
+        $rel = $fullFile.Substring($fullWork.Length + 1)
+    } else {
+        $rel = Split-Path -Leaf $fullFile
+    }
+    $dest = Join-Path $session $rel
+    $destDir = Split-Path -Parent $dest
+    if (-not (Test-Path -LiteralPath $destDir)) {
+        New-Item -ItemType Directory -Force -Path $destDir | Out-Null
+    }
+    Copy-Item -LiteralPath $fullFile -Destination $dest -Force
+}
 
 if (-not $Force -and -not $DryRun -and (Test-Path -LiteralPath $markerFile)) {
     try {
@@ -106,10 +165,15 @@ if (Test-Path -LiteralPath $resDir) {
         Write-MigrationLog "Running resilient resource fixer on $($res.Name)..."
         $fixerScript = Join-Path $PSScriptRoot "autofix_sprite_res.ps1"
         if ((Test-Path -LiteralPath $fixerScript) -and -not $DryRun) {
-            if ($sourceResFile -and $res.Name -eq "sprite.res") {
-                powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-Location -LiteralPath '$projectDir'; & '$fixerScript' '$($res.FullName)' '$sourceResFile'"
-            } else {
-                powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-Location -LiteralPath '$projectDir'; & '$fixerScript' '$($res.FullName)'"
+            Push-Location -LiteralPath $projectDir
+            try {
+                if ($sourceResFile -and $res.Name -eq "sprite.res") {
+                    & $fixerScript $res.FullName $sourceResFile
+                } else {
+                    & $fixerScript $res.FullName
+                }
+            } finally {
+                Pop-Location
             }
         }
 
@@ -822,6 +886,7 @@ foreach ($file in $files) {
         $totalChanges += $fileChanges
         $changedFiles += $file.FullName
         if (-not $DryRun) {
+            Save-BackupBeforeEdit $projectDir $file.FullName
             Set-Content -LiteralPath $file.FullName $content -NoNewline
             Write-MigrationLog "Fixed $fileChanges issue(s) in $($file.FullName)" "INFO"
         } else {
@@ -839,6 +904,9 @@ if ($totalChanges -eq 0) {
 
 # --- Salvar Marker File ---
 if (-not $DryRun) {
+    if (-not (Test-Path -LiteralPath $cacheDir)) {
+        New-Item -ItemType Directory -Force -Path $cacheDir | Out-Null
+    }
     $markerData = @{
         scriptHash = $scriptHash
         timestamp  = (Get-Date -Format "o")

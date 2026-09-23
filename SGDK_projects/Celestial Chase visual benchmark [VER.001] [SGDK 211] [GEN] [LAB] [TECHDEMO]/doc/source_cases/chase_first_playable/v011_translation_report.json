@@ -1,0 +1,262 @@
+{
+  "schema": "chase_v011_translation_report_v1",
+  "status": "source_derived_runtime_candidate_pending_rescomp_blastem_and_human_review",
+  "background_gutter_policy": {
+    "source_width_px": 320,
+    "runtime_width_px": 512,
+    "gutter_px_each_side": 96,
+    "method": "tile_aligned_horizontal_mirror",
+    "bg_b_flip_aware_unique_tiles": 480,
+    "bg_a_flip_aware_unique_tiles": 209
+  },
+  "obstacle_depth_policy": {
+    "frame_count": 4,
+    "frame_size": [
+      64,
+      48
+    ],
+    "scale_factors": [
+      0.5,
+      0.66,
+      0.82,
+      1.0
+    ],
+    "contact_anchor": "bottom_center",
+    "runtime_rule": "switch frames only at shared obstacle Z thresholds"
+  },
+  "pursuer_torso_policy": {
+    "collar_overlap_margin_px": 6,
+    "rear_body_region": [
+      28,
+      54,
+      68,
+      80
+    ],
+    "rear_body_frame_variants": 4,
+    "runtime_rule": "head swing and bob remain inside the source-baked collar overlap"
+  },
+  "contact_shadow_policy": {
+    "frame_count": 3,
+    "frame_size": [
+      16,
+      8
+    ],
+    "palette": "PAL3 road dark index with transparent dithering",
+    "estimated_resident_sprite_tiles": 10,
+    "owners": [
+      "chase_player",
+      "chase_obstacles",
+      "chase_pursuer"
+    ]
+  },
+  "hud_font_policy": {
+    "source": "sdk/sgdk-2.11/res/image/font_default.png",
+    "glyph_count": 96,
+    "vram_route": "replace_reserved_font_tiles",
+    "palette_indices": {
+      "shadow": 10,
+      "face": 15
+    },
+    "status": "source_derived_candidate_pending_human_review"
+  },
+  "assets": [
+    {
+      "path": "res/gfx/chase/chase_bg_b_v011.png",
+      "size": [
+        512,
+        224
+      ],
+      "frame_size": null,
+      "frame_count": 1,
+      "transparent_index": null,
+      "index_zero_pixels": 0,
+      "used_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 860,
+      "sha256": "3b96ab1bed39e56cf1a444a969f7147265febd813cfccb3822b62053c05c2c19"
+    },
+    {
+      "path": "res/gfx/chase/chase_bg_a_v011.png",
+      "size": [
+        512,
+        224
+      ],
+      "frame_size": null,
+      "frame_count": 1,
+      "transparent_index": 0,
+      "index_zero_pixels": 77616,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "unique_tiles": 354,
+      "sha256": "0d32085e02e0e4c47da8b0d0313c1e92e55e704c431bdb3dba35d94da907f995"
+    },
+    {
+      "path": "res/sprites/chase/chase_obstacle_boulder_64x48_strip_v011.png",
+      "size": [
+        256,
+        48
+      ],
+      "frame_size": [
+        64,
+        48
+      ],
+      "frame_count": 4,
+      "transparent_index": 0,
+      "index_zero_pixels": 6620,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 113,
+      "sha256": "6f1b1d0e518a626199565e1254fd08c9cffeae601647668f78cc1daa7f16e065"
+    },
+    {
+      "path": "res/sprites/chase/chase_obstacle_brand_64x48_strip_v011.png",
+      "size": [
+        256,
+        48
+      ],
+      "frame_size": [
+        64,
+        48
+      ],
+      "frame_count": 4,
+      "transparent_index": 0,
+      "index_zero_pixels": 9314,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 90,
+      "sha256": "8cb5443f0a7a8e8aa3e219ab8b18f7641079485c622f2f00d367543dd533752c"
+    },
+    {
+      "path": "res/sprites/chase/pursuer_torso_96x80_strip_v011.png",
+      "size": [
+        576,
+        80
+      ],
+      "frame_size": [
+        96,
+        80
+      ],
+      "frame_count": 6,
+      "transparent_index": 0,
+      "index_zero_pixels": 36283,
+      "used_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "unique_tiles": 174,
+      "sha256": "fa460fe6d2a3e8bc0ead26fb1d6131ffabf2c750d74733b6558cfe924dcc6c98"
+    },
+    {
+      "path": "res/sprites/chase/chase_contact_shadow_16x8_strip_v011.png",
+      "size": [
+        48,
+        8
+      ],
+      "frame_size": [
+        16,
+        8
+      ],
+      "frame_count": 3,
+      "transparent_index": 0,
+      "index_zero_pixels": 258,
+      "used_indices": [
+        0,
+        8,
+        9,
+        10
+      ],
+      "unique_tiles": 6,
+      "sha256": "d721fcc89a38e2ccc925c94b5f22f25e72acdd874eb256bd3d622cbe2529b3a8"
+    },
+    {
+      "path": "res/gfx/chase/chase_hud_font_v011.png",
+      "size": [
+        128,
+        48
+      ],
+      "frame_size": null,
+      "frame_count": 1,
+      "transparent_index": null,
+      "index_zero_pixels": 3318,
+      "used_indices": [
+        0,
+        10,
+        15
+      ],
+      "unique_tiles": 96,
+      "sha256": "92feb509ed69685d42493c890ac7e71f0cf3abb10d585322131ab7709ea3e46f"
+    }
+  ],
+  "delivery_findings": [
+    "The visible 320px background composition carries the v014 road polish from the v009 source pass.",
+    "Mirrored gutters remain tile aligned so ResComp can reuse flipped tiles.",
+    "Obstacle scale stages reuse one resident VRAM slot per obstacle.",
+    "No human visual approval is inferred by the builder."
+  ]
+}

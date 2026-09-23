@@ -1,0 +1,11 @@
+{
+  "schema_version": "animation_direction_contract.v1",
+  "light": "single_upper_left",
+  "shadow": "lower_right",
+  "language": ["hard_edges","discrete_clusters","continuous_dark_outline","no_antialiasing","no_gradient","no_skin_dither"],
+  "acting": {"idle":"quiet_three_quarter_front","contact":"weight_on_contact_foot","passing":"compressed_transfer","airborne":"clear_lift_with_floating_body"},
+  "face": "eyes remain vertical and directional at 1x; mouth remains small and readable",
+  "arms": "external arms remain connected to body and preserve a readable seam",
+  "feet": "small red feet retain contact or intentional airborne separation",
+  "automatic_interpretation_forbidden": ["breathing_volume_only","foot_slide","baseline_oscillation","automatic_hflip_as_locomotion_pose"]
+}

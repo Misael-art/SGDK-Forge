@@ -1,0 +1,17 @@
+{
+  "schema_version": "native_idle_key_pose_runtime_budget.v1",
+  "scope": "isolated_scene_11_blastem_snapshot",
+  "scene_id": 11,
+  "rom_sha256": "d37077b2d1c6e8c2f65a24ee0ffd4e64ebac57d37ef75520d5d7c1aef7cce8ad",
+  "measurements": {
+    "sprites_per_frame": {"peak":1,"limit":80,"status":"passed"},
+    "sprites_per_scanline": {"peak":1,"limit":20,"status":"passed_sampled"},
+    "cram_distinct": {"peak":39,"limit":58,"status":"passed"},
+    "cpu_p99": {"value":12,"limit":100,"status":"passed_snapshot"},
+    "over_budget_frames": {"value":0,"limit":0,"status":"passed"},
+    "vram_declared_bytes": {"value":32128,"limit":49152,"status":"passed"},
+    "sprite_tiles": {"value":16,"bytes_4bpp":512,"status":"rescomp_confirmed"}
+  },
+  "evidence": {"gate_report":"out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/gate_report.json","runtime_metrics":"out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/runtime_metrics.json","frametime":"out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/frametime_report.json","freshness":"out/evidence/native_idle_elite_review/blastem-linux-20260901T084532Z-4098997/freshness_report.json"},
+  "claim_limit": "isolated review snapshot; not worst-case gameplay, not sustained performance, not AAA"
+}

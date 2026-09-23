@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "kairo_vant_front_pose_assisted_probe_v03",
+  "source_path": "data/source_art/kairo_vant/kairo_vant_native_authoring_source_v03.png",
+  "source_sha256": "6f4df462f025488f102453ad1c8abf572951c86fb4f825c5e4fcf3c0b8eba8d5",
+  "source_triage_report": {
+    "path": "out/logs/kairo_vant_native_authoring_source_v03_triage_report.json",
+    "sha256": "0a21ab9f4088665a2b88841ad394a7f694ec60f3fff14bfd2b5604af8569e866"
+  },
+  "route_shootout": {
+    "report_path": "out/art/kairo_vant_native_authoring_v03_route_shootout/route_shootout_report.json",
+    "report_sha256": "bdf0568c81ace1bde511abb35ee81c820e79b33e5a990684cf29fbfb871c8d7d",
+    "board_path": "out/art/kairo_vant_native_authoring_v03_route_shootout/route_exploration_board.png",
+    "board_sha256": "e7c5eec60f4d46bae80f93276d187bc6c44774541eaf46cb73206cbad8f31486",
+    "executed": 20,
+    "skipped": 5,
+    "automatic_winner": null
+  },
+  "primary_guide": {
+    "route_id": "im_lanczos3",
+    "path": "out/art/kairo_vant_native_authoring_v03_route_shootout/routes/im_lanczos3/raw_rgba.png",
+    "sha256": "4e46fe0a09b638c1b248139cce4da1ff36eeeeacd5a5161ebab44efafeeff9e4",
+    "decision": "best_compromise_of_face_cluster_and_short_scarf_mass_for_native_reauthoring"
+  },
+  "challenger_guide": {
+    "route_id": "im_mitchell_netravali",
+    "path": "out/art/kairo_vant_native_authoring_v03_route_shootout/routes/im_mitchell_netravali/raw_rgba.png",
+    "sha256": "6c17be4238bbfe1374ac44efa54c54f727f14ea5eda3af9a0748dea2b76d5b3b",
+    "decision": "softer_mass_distribution_challenger_for_face_and_coat_readability"
+  },
+  "control_guide": {
+    "route_id": "im_nearest",
+    "path": "out/art/kairo_vant_native_authoring_v03_route_shootout/routes/im_nearest/raw_rgba.png",
+    "sha256": "2857f01c499e137c9f0228d5a6a29d81489e30793e7f21ea6241674387f09ff5",
+    "decision": "negative_control_for_block_survival_and_edge_stairing"
+  },
+  "handoff": "native_reauthoring_over_im_lanczos3_guide",
+  "claim_ceiling": "mechanical_geometry_probe",
+  "human_visual_approval": "pending",
+  "promotion": {
+    "promotable": false,
+    "target": "none"
+  }
+}

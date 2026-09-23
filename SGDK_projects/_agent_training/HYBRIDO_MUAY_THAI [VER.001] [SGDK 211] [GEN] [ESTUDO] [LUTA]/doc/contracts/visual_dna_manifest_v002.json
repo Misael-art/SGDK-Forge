@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "asset_id": "hibrido_fighter_runtime_v002",
+  "scale_contract": {
+    "cell_px": { "w": 48, "h": 64 },
+    "pivot_px": { "x": 24, "y": 58 },
+    "scale_lock_status": "locked_lab"
+  },
+  "silhouette": [
+    "wide shoulders",
+    "heavy forearms",
+    "short grounded stance",
+    "Muay Thai guard",
+    "extended teep line"
+  ],
+  "materials": [
+    "stone mutation",
+    "skin",
+    "bandage",
+    "shorts",
+    "fire/glow FX"
+  ],
+  "palette_domains": {
+    "PAL2": "body, stone, skin, cloth, bandage",
+    "PAL3": "fire, lava, glow, impact"
+  },
+  "status": "placeholder_rejected_visual_translation",
+  "visual_approval": false,
+  "rejection_reports": [
+    "out/logs/hibrido_v002_visual_rejection_report.json",
+    "out/logs/hibrido_v002_runtime_fidelity_report.json"
+  ],
+  "blocked_identity_elements": [
+    "eyes_not_readable_at_runtime",
+    "lava_arm_not_readable_at_runtime",
+    "black_gold_shorts_not_readable_at_runtime",
+    "facial_acting_static"
+  ]
+}

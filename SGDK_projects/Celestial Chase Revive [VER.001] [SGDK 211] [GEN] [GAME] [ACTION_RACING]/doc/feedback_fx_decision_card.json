@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "fx": [
+    {
+      "id": "damage_hitstop_shake",
+      "gameplay_signal": "player took damage",
+      "mechanical_consequence": "integrity loss and invulnerability window",
+      "owner": "race_rules",
+      "fallback": "palette flash without shake"
+    },
+    {
+      "id": "pulse_flash_clear",
+      "gameplay_signal": "Pulse used",
+      "mechanical_consequence": "hazards cleared and pressure reduced",
+      "owner": "race_rules",
+      "fallback": "sprite burst only"
+    },
+    {
+      "id": "boss_weak_point_open",
+      "gameplay_signal": "attack window",
+      "mechanical_consequence": "Pulse can damage boss",
+      "owner": "boss_setpiece",
+      "fallback": "HUD cue plus palette state"
+    }
+  ],
+  "budget_decision": "cabe com recuo",
+  "blocked_until": ["runtime_metrics", "sprite_scanline_pressure_report"]
+}

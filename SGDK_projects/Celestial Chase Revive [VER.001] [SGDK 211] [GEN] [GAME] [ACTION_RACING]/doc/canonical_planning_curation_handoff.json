@@ -1,0 +1,166 @@
+{
+  "schema_version": "1.0.0",
+  "status": "ready_for_human_curation_review",
+  "created_at": "2026-06-16",
+  "project": "Celestial Chase Revive [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_RACING]",
+  "purpose": "Provide local evidence for the canonical agent to evaluate whether planning workflows should require more concrete production contracts before runtime begins.",
+  "canonical_mutation_performed": false,
+  "human_approval_required_before_canonical_change": true,
+  "scope_policy": {
+    "allowed_current_scope": "local_project_learning_and_curation_candidate",
+    "forbidden_without_human_approval": [
+      "editing tools/sgdk_wrapper/.agent",
+      "editing canonical skills",
+      "editing canonical workflows",
+      "promoting project-specific decisions as global rules"
+    ],
+    "proportionality": "Apply strongly to aaa_game and vertical_slice projects; adapt or skip for exercise, technical_demo and consulting contexts."
+  },
+  "curation_candidates": [
+    {
+      "candidate_id": "planning_mode_pre_runtime_spec_closure_checklist",
+      "classification": "promotion_candidate",
+      "problem": "Initial planning docs can look complete while still missing implementation-critical contracts for track data, collision, HUD, animation, tuning, assets, build, boss, flow and references.",
+      "proposed_canonical_target": "tools/sgdk_wrapper/.agent/workflows/project-methodology-adoption.md or aaa-scene-pipeline planning gate",
+      "proposed_change": "Add a proportional pre-runtime checklist for AAA/action projects requiring executable contracts before coding SECTOR_01 or equivalent first playable.",
+      "evidence_files": [
+        "doc/critical_gap_audit.json",
+        "doc/22-production-spec-gap-closure.md",
+        "doc/track_data_format_contract.json",
+        "doc/collision_system_contract.json",
+        "doc/hud_layout_contract.json",
+        "doc/sprite_animation_contract.json",
+        "doc/progression_tuning_tables.json",
+        "doc/asset_production_spec.json",
+        "doc/boss_attack_pattern_contract.json",
+        "doc/game_flow_contract.json",
+        "doc/build_system_contract.json"
+      ],
+      "validation_evidence": [
+        "JSON parse ok after closure",
+        "validate_project_context status ok",
+        "validate_project_methodology status passed",
+        "validate_project_hygiene status passed",
+        "validate_resources remains blocked only by expected material artifacts"
+      ],
+      "risks": [
+        "Could overburden small exercises or lab demos if applied without project_context gating.",
+        "Could become paperwork if not tied to runtime seed and validation reports."
+      ],
+      "recommended_human_review": "Review whether the checklist should become a planning gate for aaa_game only, with explicit exemptions for technical_demo and exercise."
+    },
+    {
+      "candidate_id": "front_end_identity_minimum_contract",
+      "classification": "promotion_candidate",
+      "problem": "Font, logo, menu and credits were easy to under-specify despite being required for a complete first impression.",
+      "proposed_canonical_target": "visual-excellence-standards front-end or project planning checklist",
+      "proposed_change": "Require brand_identity_manifest, glyph/text profile, menu contract and credits contract for game projects with title/menu.",
+      "evidence_files": [
+        "doc/front_end_element_audit.json",
+        "doc/brand_identity_manifest.json",
+        "doc/ui_pixel_surface_contract.json",
+        "doc/front_end_menu_contract.json",
+        "doc/credits_contract.json",
+        "doc/text_presentation_profile.json"
+      ],
+      "validation_evidence": [
+        "brand_identity_manifest schema ok",
+        "ui_pixel_surface_contract schema ok"
+      ],
+      "risks": [
+        "Credits content may be intentionally deferred before team roles are known.",
+        "Logo contract should not force final art before source art stage."
+      ],
+      "recommended_human_review": "Promote as a documented planning expectation, not as a visual delivery gate until assets exist."
+    },
+    {
+      "candidate_id": "central_build_contract_before_runtime_seed",
+      "classification": "promotion_candidate",
+      "problem": "A request for Makefile/build spec can conflict with the workspace rule that build logic stays in tools/sgdk_wrapper.",
+      "proposed_canonical_target": "project-methodology-adoption or sgdk-runtime-coder pre-runtime checklist",
+      "proposed_change": "Require new projects to create a build_system_contract declaring wrapper entry, minimum runtime seed files and why no custom local Makefile is canonical.",
+      "evidence_files": [
+        "doc/build_system_contract.json",
+        ".mddev/project.json",
+        "doc/15-tdd.md",
+        "doc/10-memory-bank.md"
+      ],
+      "validation_evidence": [
+        "Project build_policy remains disabled_until_runtime_seed",
+        "Wrapper build path documented without local build logic"
+      ],
+      "risks": [
+        "Generated Makefile artifacts from wrapper must not be confused with source of truth.",
+        "Projects imported from outside may need migration path instead of immediate strictness."
+      ],
+      "recommended_human_review": "Review as a hygiene/policy clarification for all SGDK game projects."
+    },
+    {
+      "candidate_id": "local_mockup_manifest_for_planning_art",
+      "classification": "promotion_candidate",
+      "problem": "Text-only planning left visual production under-guided; local mockups help, but must not be mistaken for final art or evidence.",
+      "proposed_canonical_target": "visual-excellence-standards or production-loop planning stage",
+      "proposed_change": "Allow local mockup SVG/PNG references in data/source_art with hash manifest and explicit mockup_reference_only status.",
+      "evidence_files": [
+        "doc/concept_art_brief.md",
+        "doc/concept_art_pack_manifest.json",
+        "data/source_art/revive/concept/title_logo_layout_v001.svg",
+        "data/source_art/revive/concept/race_hud_wireframe_v001.svg",
+        "data/source_art/revive/concept/sector01_track_mood_v001.svg",
+        "data/source_art/revive/concept/master_pursuer_boss_layout_v001.svg"
+      ],
+      "validation_evidence": [
+        "Hashes recorded in concept_art_pack_manifest",
+        "Mockups explicitly marked not final art and not emulator evidence"
+      ],
+      "risks": [
+        "Mockups may bias final art too much if treated as approved style.",
+        "SVG references still require Mega Drive pixel reinterpretation and VDP budget."
+      ],
+      "recommended_human_review": "Review whether this should become a recommended planning artifact for AAA projects before pixel production."
+    },
+    {
+      "candidate_id": "creative_cohesion_pass_before_runtime_seed",
+      "classification": "promotion_candidate",
+      "problem": "A game project can have complete technical specs and still risk becoming generic if the first playable is not shaped by visible antagonist pressure, meaningful resource risk, sector-specific mechanics, signature setpieces, reactive audio and replay/mastery hooks.",
+      "proposed_canonical_target": "tools/sgdk_wrapper/.agent/workflows/aaa-scene-pipeline.md or production-loop creative gate",
+      "proposed_change": "Add a proportional creative cohesion checkpoint for aaa_game projects before runtime seed: define the player fantasy, threat visibility, systemic risk, per-section mechanical identity, at least one signature moment, audio-as-feedback and replay motivation.",
+      "evidence_files": [
+        "doc/creative_cohesion_pass.md",
+        "doc/creative_cohesion_audit.json",
+        "doc/pursuer_presence_contract.json",
+        "doc/lumen_pressure_economy_contract.json",
+        "doc/sector_mechanic_identity_contract.json",
+        "doc/signature_setpiece_contract.json",
+        "doc/reactive_music_gameplay_contract.json",
+        "doc/replayability_score_contract.json",
+        "doc/14-plano-de-provas-qa.md"
+      ],
+      "validation_evidence": [
+        "Creative gates mapped into QA plan",
+        "Contracts referenced by GDD/LDD/TDD/runtime contract",
+        "Learning ledger records promotion_candidate without canonical mutation"
+      ],
+      "risks": [
+        "Could become subjective paperwork if not tied to concrete runtime fixtures.",
+        "Should be proportional: mandatory for aaa_game, optional for exercise or pure technical_demo.",
+        "Must not block runtime seed forever when placeholders can prove behavior honestly."
+      ],
+      "recommended_human_review": "Review whether this becomes a pre-runtime creative gate for game projects, with explicit exemptions for labs and exercises."
+    }
+  ],
+  "not_ready_for_promotion_reasons": [
+    "No ROM exists for Revive.",
+    "No BlastEm evidence exists for Revive.",
+    "No res/resources.res exists.",
+    "No visual_delivery_gate_report exists.",
+    "Patterns have been applied to one project only."
+  ],
+  "next_canonical_review_steps": [
+    "Human reviewer reads this handoff and doc/agent_learning/planning_mode_curation_candidate.md.",
+    "Run audit_project_learning.ps1 -Mode Audit.",
+    "Compare candidates against existing workflows to avoid duplicate rules.",
+    "If accepted, edit canonical .agent workflow/skill in a separate curated change with tests.",
+    "Update workspace memory after any canonical promotion."
+  ]
+}

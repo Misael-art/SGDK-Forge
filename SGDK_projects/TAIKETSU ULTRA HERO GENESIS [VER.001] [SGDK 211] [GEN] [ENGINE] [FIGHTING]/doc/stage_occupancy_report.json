@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "tool": "audit_stage_occupancy",
+  "tool_version": "1.0.0",
+  "generated_at": "2026-08-18T14:44:23Z",
+  "rule_ref": "SGDK_GLOBAL.md secao 35",
+  "limitation": "Mede sobreposicao de faixa, que e a metade geometrica da composicao. Nao le hierarquia, peso, direcao de leitura nem ritmo. Ocupacao 1 nao significa cena bem composta; a secao 35 continua exigindo captura.",
+  "declarations_found": 1,
+  "blocks": [
+    {
+      "source": "doc/branding_v2_cinematic_storyboard.json",
+      "zones": [
+        {
+          "zone": "coifa",
+          "band": [
+            0,
+            56
+          ],
+          "max_concurrent": 1,
+          "worst_frame": 330,
+          "worst_occupancy": 1,
+          "elements_at_worst_frame": [
+            "MISAEL"
+          ]
+        },
+        {
+          "zone": "palco",
+          "band": [
+            56,
+            144
+          ],
+          "max_concurrent": 1,
+          "worst_frame": 203,
+          "worst_occupancy": 1,
+          "elements_at_worst_frame": [
+            "FORGE"
+          ]
+        },
+        {
+          "zone": "forja",
+          "band": [
+            144,
+            200
+          ],
+          "max_concurrent": 1,
+          "worst_frame": null,
+          "worst_occupancy": 0,
+          "elements_at_worst_frame": []
+        },
+        {
+          "zone": "assinatura",
+          "band": [
+            200,
+            224
+          ],
+          "max_concurrent": 1,
+          "worst_frame": 480,
+          "worst_occupancy": 1,
+          "elements_at_worst_frame": [
+            "PRESENTS"
+          ]
+        }
+      ],
+      "band_divergences": [],
+      "elements_without_exit": [],
+      "blocking_statuses": []
+    }
+  ],
+  "blocking": false,
+  "blocking_statuses": []
+}

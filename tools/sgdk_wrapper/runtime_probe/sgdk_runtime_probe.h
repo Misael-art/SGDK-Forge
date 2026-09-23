@@ -9,6 +9,22 @@
 #define MD_RT_MAX_SAMPLES 1800
 #define MD_RT_SAMPLE_DATA_OFFSET 32
 
+/*
+ * Heartbeat: marcador ASCII "READY" (5 bytes) gravado em SRAM para que o host
+ * detecte que a ROM chegou a um estado navegavel SEM precisar esperar o
+ * payload MDRT completo (que so aparece apos ~90 frames de warmup + 1 export).
+ * O host polla este offset durante press_until_ready para saber quando parar
+ * de bombardear o START/A e prosseguir com a proxima acao.
+ *
+ * Layout em SRAM:
+ *   0x0100 .. 0x0104 : "READY" (5 bytes ASCII, sem terminador)
+ *   0x0105 .. 0x0107 : reservado (zerado)
+ *   0x0108 .. 0x010B : u32 BE contendo o numero do frame em que foi emitido
+ *   0x0200 ..        : assinatura MDRT + payload normal
+ */
+#define MD_RT_HEARTBEAT_SRAM_OFFSET 0x100
+#define MD_RT_HEARTBEAT_MAGIC_LEN   5
+
 enum
 {
     MD_RT_WORD_MAGIC_HI = 0,
@@ -55,5 +71,15 @@ void MD_RT_RecordSpriteSpan(s16 y, u16 height);
 void MD_RT_MarkFXStart(u16 fxId);
 void MD_RT_MarkFXEnd(u16 fxId);
 void MD_RT_SetPerceptualScores(u16 fluidez, u16 leitura, u16 naturalidade, u16 impacto);
+
+/*
+ * Emite o marcador ASCII "READY" em SRAM[0x100] + frame corrente em BE u32
+ * em SRAM[0x108]. Idempotente: pode ser chamado mais de uma vez sem efeito
+ * colateral (grava sempre os mesmos 5 bytes). Projetos devem chamar apos a
+ * primeira cena interativa estar pronta (normalmente ao fim do warmup,
+ * antes do primeiro export MDRT completo). NAO chame em ISR: usa SRAM_enable
+ * que manipula $A130F1.
+ */
+void MD_RT_ExportHeartbeat(u32 currentFrame);
 
 #endif

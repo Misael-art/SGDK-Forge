@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/model_sheet_to_sprite_fidelity_report.schema.json",
+  "title": "Model Sheet To Sprite Fidelity Report",
+  "description": "Visual inheritance gate between an approved model sheet and a native sprite sheet. This report blocks technically valid sheets that lose the character design.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "asset_id",
+    "evaluated_at",
+    "measurement_level",
+    "source_model_sheet",
+    "candidate_sprite_sheet",
+    "status",
+    "must_preserve_checks",
+    "frame_state_checks",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "evaluated_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "measurement_level": {
+      "type": "string",
+      "enum": [
+        "human_visual_review",
+        "measured_contact_sheet",
+        "emulator_verified",
+        "vdp_dump_verified"
+      ]
+    },
+    "source_model_sheet": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "approval_status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "approval_status": {
+          "type": "string",
+          "enum": [
+            "approved_as_direction",
+            "approved_for_key_poses",
+            "needs_review",
+            "blocked"
+          ]
+        }
+      }
+    },
+    "candidate_sprite_sheet": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "cell_w",
+        "cell_h"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "cell_w": {
+          "type": "integer",
+          "minimum": 8,
+          "multipleOf": 8
+        },
+        "cell_h": {
+          "type": "integer",
+          "minimum": 8,
+          "multipleOf": 8
+        }
+      }
+    },
+    "visual_dna_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "needs_review",
+        "failed"
+      ]
+    },
+    "must_preserve_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/check"
+      }
+    },
+    "frame_state_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/check"
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "model_sheet_to_sprite_fidelity_failed",
+          "signature_feature_loss",
+          "anatomy_simplified_into_block_mass",
+          "face_or_eye_readability_lost",
+          "material_palette_semantics_lost",
+          "costume_marker_loss",
+          "pose_acting_loss",
+          "generic_blocky_redraw",
+          "contact_sheet_missing",
+          "human_visual_rejection"
+        ]
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": [
+        "technical_pass",
+        "visual_pass",
+        "ready_for_res_promotion",
+        "ready_for_aaa"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "technical_pass": {
+          "type": "boolean"
+        },
+        "visual_pass": {
+          "type": "boolean"
+        },
+        "ready_for_res_promotion": {
+          "type": "boolean"
+        },
+        "ready_for_aaa": {
+          "type": "boolean"
+        },
+        "next_required_route": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "expected",
+        "observed",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9_\\-]+$"
+        },
+        "expected": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observed": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "weak",
+            "failed",
+            "not_measured"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

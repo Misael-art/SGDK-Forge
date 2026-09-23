@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "cais01_visual_source_matrix_v04",
+  "scene_id": "cais_01",
+  "status": "human_direction_received_locked_for_v04",
+  "evaluated_at": "2026-07-29",
+  "rule": "Cada regiao tem uma fonte e uma funcao. Efeitos tecnicos podem animar ou iluminar as formas travadas, mas nao substituir sua composicao.",
+  "sources": [
+    {
+      "path": "data/source_art/cais_world/bgb_loop_mar_ceu_v01.png",
+      "sha256": "e04e16d22742ce036e3203cae8c4357dac5a39783ac8d2569a21c8214268dcb1",
+      "status": "mood_and_shape_reference_only",
+      "regions": [
+        "elongated_horizontal_cloud_banks",
+        "compact_continuous_harbor_silhouette",
+        "sea_row_rhythm"
+      ],
+      "not_allowed_as": [
+        "direct_downscale",
+        "whole_panorama_tilemap",
+        "final_layout"
+      ]
+    },
+    {
+      "path": "data/source_art/cais_world/cais_arena1_entrada_v01.png",
+      "sha256": "a3f6d6c515f415c26ea04def00c097ebc3b17c86c58d5ff4ed476067174d83a6",
+      "status": "landmark_and_composition_reference_only",
+      "regions": [
+        "one_large_two_small_crate_group",
+        "lamp_and_net_relationship",
+        "clear_combat_lane",
+        "irregular_wood_perspective"
+      ],
+      "not_allowed_as": [
+        "direct_downscale",
+        "final_arena_layout"
+      ]
+    },
+    {
+      "path": "data/source_art/cais_world/cais_arena2_barco_v01.png",
+      "sha256": "3f2e289d8e19168da8e42e3bb3781e23b5c7d2266894b13e262f84298c5cd463",
+      "status": "landmark_reference_only",
+      "regions": [
+        "dense_port_storytelling",
+        "rusted_scale_booth_material",
+        "asymmetric_prop_staging"
+      ],
+      "not_allowed_as": [
+        "direct_downscale",
+        "final_arena_layout"
+      ]
+    },
+    {
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/dock_scene_kit_authorial_v01.png",
+      "sha256": "afa085f6f785f6a2c28f91f17d53b6999b42fc08519ea2c35d08715910f4bfce",
+      "status": "approved_source_candidate",
+      "regions": [
+        "wood_plank_material_marks",
+        "crate_construction_grammar",
+        "rope_net_and_metal_grammar",
+        "port_landmark_authorship"
+      ],
+      "not_allowed_as": [
+        "combined_board_as_runtime_image",
+        "unreviewed_automatic_crop"
+      ]
+    }
+  ],
+  "technical_evidence_not_generation_source": {
+    "bg_b": "res/backgrounds/cais01/cais01_bg_b_harbor_sunset_512x224_v03.png",
+    "bg_a": "res/backgrounds/cais01/cais01_bg_a_industrial_pier_512x224_v03.png",
+    "keeps": [
+      "HSCROLL_LINE_band_ownership",
+      "broken_sun_reflection",
+      "palette_cycle_slots",
+      "smoke_and_dust_runtime_integration"
+    ],
+    "rejects": [
+      "generic_box_skyline",
+      "sparse_clouds",
+      "floating_or_cropped_props",
+      "uniform_floor_blocks"
+    ]
+  },
+  "character_scope": {
+    "source_of_truth": "doc/contracts/visual_source_of_truth_taina_v01.json",
+    "v04_decision": "Preservar geometria e paleta runtime aprovadas. Textura nova de tecido exige reseed do model sheet e nao sera derivada da strip runtime."
+  }
+}

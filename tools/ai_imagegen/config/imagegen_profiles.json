@@ -1,0 +1,289 @@
+{
+  "aliases": {
+    "deck-safe": "deck_safe_sd15",
+    "deck_safe": "deck_safe_sd15",
+    "sdxl-lowvram": "sdxl_lowvram",
+    "flux-schnell-gguf": "flux_schnell_gguf",
+    "cpu-fallback": "cpu_fallback",
+    "bonsai-ternary": "bonsai_4b_ternary",
+    "bonsai-binary": "bonsai_4b_binary",
+    "native-callable": "native_chat_image_generation_callable",
+    "native-inline": "native_chat_inline_generation"
+  },
+  "profiles": {
+    "native_chat_image_generation_callable": {
+      "name": "Native Chat Image Generation (Callable)",
+      "priority": 0,
+      "type": "native",
+      "status": "available",
+      "description": "API/Chat com geracao de imagem in-line exposta via interface chamavel."
+    },
+    "native_chat_inline_generation": {
+      "name": "Native Chat Image Generation (Inline)",
+      "priority": 1,
+      "type": "native",
+      "status": "available",
+      "description": "API/Chat com geracao de imagem in-line (anexos), sem interface chamavel."
+    },
+    "deck_safe_sd15": {
+      "name": "Steam Deck Safe SD 1.5 Pixel Art",
+      "priority": 2,
+      "type": "local",
+      "status": "available",
+      "model": "runwayml/stable-diffusion-v1-5",
+      "note": "APU RDNA2 on Deck / Linux +4GB swap recomendado. FLUX/SDXL default bloqueado neste host.",
+      "install": {
+        "comfyui_rev": "master",
+        "checkpoint_url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors",
+        "checkpoint_size_mb": 4200,
+        "vae_url": null,
+        "lora_url": null
+      },
+      "generation": {
+        "dimensions": [512, 512],
+        "steps": 20,
+        "cfg": 7.0,
+        "sampler": "euler_a"
+      }
+    },
+    "sdxl_lowvram": {
+      "name": "SDXL + LoRA Pixel Art (Low VRAM)",
+      "priority": 3,
+      "type": "local",
+      "status": "available",
+      "model": "stabilityai/stable-diffusion-xl-base-1.0",
+      "note": "Requer >= 8GB VRAM ou offload agressivo. Nao default no Deck.",
+      "install": {
+        "comfyui_rev": "master",
+        "checkpoint_url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
+        "checkpoint_size_mb": 6900,
+        "lora_url": null,
+        "vae_url": null
+      },
+      "generation": {
+        "dimensions": [1024, 1024],
+        "steps": 25,
+        "cfg": 7.5,
+        "sampler": "euler_a"
+      }
+    },
+    "flux_schnell_gguf": {
+      "name": "FLUX.1 Schnell GGUF (Experimental)",
+      "priority": 4,
+      "type": "local",
+      "status": "deprecated_pending_bonsai_validation",
+      "deprecated_at": "2026-06-01",
+      "deprecation_reason": "Perfil substituivel pelo Bonsai 4B (FLUX-architecture destilado) com footprint ~9x menor. Mantido ate Bonsai provar equivalencia operacional (Fase D completa: install + generate + art-translation-to-vdp + contact sheet + visual audit + BlastEm gate).",
+      "replacement_candidate": "bonsai_4b_ternary",
+      "model": "black-forest-labs/FLUX.1-schnell",
+      "note": "Alto compute / RAM. Apenas se host passar healthcheck e usuario opt-in. NAO default em lugar nenhum.",
+      "install": {
+        "comfyui_rev": "master",
+        "checkpoint_url": "not_used",
+        "gguf_url": "https://huggingface.co/city96/FLUX.1-schnell-gguf/resolve/main/flux1-schnell-Q4_K_M.gguf",
+        "checkpoint_size_mb": 8200
+      },
+      "generation": {
+        "dimensions": [1024, 1024],
+        "steps": 4,
+        "cfg": 1.0,
+        "sampler": "euler"
+      }
+    },
+    "bonsai_4b_ternary": {
+      "name": "Bonsai-Image 4B Ternary (1.58-bit, ~1.21 GB)",
+      "priority": 5,
+      "type": "local_bonsai",
+      "status": "experimental",
+      "license_proof_required": true,
+      "license_ack_path": "tools/ai_imagegen/runtime/bonsai/bonsai_license_ack.json",
+      "vendor_manifest_path": "tools/ai_imagegen/runtime/bonsai/vendor_manifest.json",
+      "model": "prism-ml/Bonsai-Image-4B",
+      "model_variant": "ternary",
+      "approx_size_mb": 1210,
+      "note": "Backends Bonsai exigem GPU NVIDIA (gemlite+HQQ/triton-windows) ou Apple Silicon (mflux+MLX). Nao roda em AMD. Opt-in ate license ack + validacao Fase D.",
+      "backends": {
+        "windows": {
+          "preferred": "ps1",
+          "setup": "scripts/setup.ps1",
+          "serve": "scripts/serve.ps1",
+          "send_request": "scripts/send_request.ps1",
+          "port": 8000
+        },
+        "linux": {
+          "preferred": "sh",
+          "setup": "scripts/setup.sh",
+          "serve": "scripts/serve.sh",
+          "send_request": "scripts/send_request.sh",
+          "port": 8000
+        },
+        "macos": {
+          "preferred": "sh",
+          "backend": "mflux+MLX",
+          "port": 8000
+        }
+      },
+      "install": {
+        "repo_url": "https://github.com/PrismML-Eng/Bonsai-Image-Demo.git",
+        "repo_files": [
+          "setup.ps1",
+          "setup.sh",
+          "scripts/common.ps1",
+          "scripts/common.sh",
+          "scripts/serve.ps1",
+          "scripts/serve.sh",
+          "scripts/send_request.ps1",
+          "scripts/send_request.sh",
+          "scripts/generate.ps1",
+          "scripts/generate.sh",
+          "scripts/generate.py",
+          "scripts/download_model.ps1",
+          "scripts/download_model.sh"
+        ],
+        "excluded": [
+          "vendor/image-studio",
+          "frontend",
+          "node_modules"
+        ]
+      },
+      "generation": {
+        "default_dimensions": [1024, 1024],
+        "allowed_dimensions": [
+          [512, 512],
+          [1024, 1024],
+          [624, 416],
+          [1248, 832],
+          [416, 624],
+          [832, 1244],
+          [704, 352],
+          [1408, 704],
+          [352, 704],
+          [704, 1408]
+        ],
+        "steps": 4,
+        "cfg": 1.0,
+        "sampler": "euler"
+      },
+      "allowed_scopes": [
+        "concept_art",
+        "tileset_concept",
+        "dither_mask",
+        "contrast_study"
+      ],
+      "forbidden_scopes": [
+        "animated_sprite_final",
+        "hud_final",
+        "res_direct",
+        "aaa_final_asset"
+      ],
+      "max_initial_status": "source_candidate"
+    },
+    "bonsai_4b_binary": {
+      "name": "Bonsai-Image 4B Binary (1-bit, menor)",
+      "priority": 6,
+      "type": "local_bonsai",
+      "status": "experimental",
+      "license_proof_required": true,
+      "license_ack_path": "tools/ai_imagegen/runtime/bonsai/bonsai_license_ack.json",
+      "vendor_manifest_path": "tools/ai_imagegen/runtime/bonsai/vendor_manifest.json",
+      "model": "prism-ml/Bonsai-Image-4B",
+      "model_variant": "binary",
+      "approx_size_mb": 850,
+      "note": "Variante binary 1-bit do Bonsai 4B. Mais leve, qualidade ligeiramente menor que ternary. Mesmas travas de escopo e licenca.",
+      "backends": {
+        "windows": {
+          "preferred": "ps1",
+          "setup": "scripts/setup.ps1",
+          "serve": "scripts/serve.ps1",
+          "send_request": "scripts/send_request.ps1",
+          "port": 8000
+        },
+        "linux": {
+          "preferred": "sh",
+          "setup": "scripts/setup.sh",
+          "serve": "scripts/serve.sh",
+          "send_request": "scripts/send_request.sh",
+          "port": 8000
+        },
+        "macos": {
+          "preferred": "sh",
+          "backend": "mflux+MLX",
+          "port": 8000
+        }
+      },
+      "install": {
+        "repo_url": "https://github.com/PrismML-Eng/Bonsai-Image-Demo.git",
+        "repo_files": [
+          "setup.ps1",
+          "setup.sh",
+          "scripts/common.ps1",
+          "scripts/common.sh",
+          "scripts/serve.ps1",
+          "scripts/serve.sh",
+          "scripts/send_request.ps1",
+          "scripts/send_request.sh",
+          "scripts/generate.ps1",
+          "scripts/generate.sh",
+          "scripts/generate.py",
+          "scripts/download_model.ps1",
+          "scripts/download_model.sh"
+        ],
+        "excluded": [
+          "vendor/image-studio",
+          "frontend",
+          "node_modules"
+        ]
+      },
+      "generation": {
+        "default_dimensions": [1024, 1024],
+        "allowed_dimensions": [
+          [512, 512],
+          [1024, 1024],
+          [624, 416],
+          [1248, 832],
+          [416, 624],
+          [832, 1244],
+          [704, 352],
+          [1408, 704],
+          [352, 704],
+          [704, 1408]
+        ],
+        "steps": 4,
+        "cfg": 1.0,
+        "sampler": "euler"
+      },
+      "allowed_scopes": [
+        "concept_art",
+        "tileset_concept",
+        "dither_mask",
+        "contrast_study"
+      ],
+      "forbidden_scopes": [
+        "animated_sprite_final",
+        "hud_final",
+        "res_direct",
+        "aaa_final_asset"
+      ],
+      "max_initial_status": "source_candidate"
+    },
+    "cpu_fallback": {
+      "name": "CPU Fallback (Very Slow)",
+      "priority": 7,
+      "type": "local",
+      "status": "available",
+      "model": "runwayml/stable-diffusion-v1-5",
+      "note": "Apenas se GPU indisponivel e usuario aceitar CPU explicitamente.",
+      "install": {
+        "comfyui_rev": "master",
+        "checkpoint_url": "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors",
+        "checkpoint_size_mb": 4200
+      },
+      "generation": {
+        "dimensions": [512, 512],
+        "steps": 20,
+        "cfg": 7.0,
+        "sampler": "euler_a"
+      }
+    }
+  }
+}

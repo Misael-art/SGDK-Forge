@@ -1,6 +1,6 @@
 @echo off
 REM =========================================================================
-REM ensure_project_agent.bat - Materializa .agent canonica no projeto
+REM ensure_project_agent.bat - Garante ponte .agent para a canonica no projeto
 REM =========================================================================
 setlocal
 

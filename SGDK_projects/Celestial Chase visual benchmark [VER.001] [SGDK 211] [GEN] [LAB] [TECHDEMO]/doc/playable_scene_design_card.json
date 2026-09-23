@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "playable_scene_design_card",
+  "scene_id": "chase_first_playable",
+  "core_decision": "read lane telegraph, commit movement or jump, collect energy, spend Pulse before pressure closes",
+  "tutorial_model": "invisible_scene_teaching",
+  "phase_count": 3,
+  "duration_seconds": 75,
+  "visual_fx_gameplay_link": "shake, dust, hitstop, palette and audio communicate damage, Pulse and phase pressure",
+  "decorative_only_effects": [],
+  "success_condition": "survive the timer below maximum pressure",
+  "failure_condition": "integrity reaches zero or pressure reaches 100",
+  "blockers": [
+    "full-duration emulator proof pending"
+  ]
+}

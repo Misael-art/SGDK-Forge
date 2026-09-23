@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0.0",
+  "context_type": "aaa_game",
+  "context_status": "classified",
+  "delivery_claim_ceiling": "vertical_slice",
+  "documentation_profile": "full_game",
+  "project_intent": {
+    "one_sentence_goal": "Fundar Celestial Chase Revive como jogo autoral de acao/corrida para Mega Drive com abertura cinematica, corrida, upgrades e confronto final contra o Mestre Perseguidor.",
+    "success_definition": "O projeto possui pacote de specs ponta a ponta suficiente para iniciar producao SGDK sem improvisar narrativa, arquitetura, budget, assets, QA ou gates de evidencia.",
+    "non_goals": [
+      "Declarar pronto sem ROM observada no BlastEm",
+      "Copiar arte, paleta, personagens ou layout do benchmark",
+      "Usar Mode 7, alpha blending real, float, malloc ou DMA fora do VBlank",
+      "Promover tecnicas LABORATORIO como entrega AAA",
+      "Converter o benchmark em fonte de arte final"
+    ]
+  },
+  "blocking_policy": {
+    "levels": [
+      "blocking",
+      "phase_blocking",
+      "recommended",
+      "optional",
+      "not_applicable"
+    ],
+    "documents": [
+      {
+        "path": "doc/project_context_manifest.json",
+        "role": "classificacao do contexto de trabalho",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo", "exercise", "game_review", "consulting"]
+      },
+      {
+        "path": "doc/00-project-brief.md",
+        "role": "one-pager, pilares, escopo e nao-escopo",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo", "exercise"]
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "role": "design jogavel, loop, regras e fantasia",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game"]
+      },
+      {
+        "path": "doc/15-tdd.md",
+        "role": "arquitetura tecnica executavel e orcamentos",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game"]
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "role": "contrato de cenas, tecnicas e evidencia",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo"]
+      },
+      {
+        "path": "doc/14-plano-de-provas-qa.md",
+        "role": "plano de validacao proporcional ao contexto",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo"]
+      },
+      {
+        "path": "doc/16-ldd.md",
+        "role": "layout, ritmo, progressao e navegacao de fases",
+        "requirement": "phase_blocking",
+        "required_for_contexts": ["aaa_game"]
+      },
+      {
+        "path": "doc/17-audio-design.md",
+        "role": "direcao musical, SFX e integracao com gameplay",
+        "requirement": "phase_blocking",
+        "required_for_contexts": ["aaa_game"]
+      },
+      {
+        "path": "doc/18-asset-register.json",
+        "role": "inventario vivo de assets, owners e status",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo"]
+      },
+      {
+        "path": "doc/19-roadmap-risk-register.md",
+        "role": "milestones, riscos, cortes e decisoes de producao",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game"]
+      },
+      {
+        "path": "doc/20-release-marketing-legal.md",
+        "role": "release, marca, localizacao, loja e direitos",
+        "requirement": "phase_blocking",
+        "required_for_contexts": ["aaa_game"]
+      },
+      {
+        "path": "doc/project_methodology_manifest.json",
+        "role": "contrato metodologico e claims estruturados",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo", "exercise"]
+      },
+      {
+        "path": "doc/project_hygiene_manifest.json",
+        "role": "isolamento, rascunho e controle de entradas externas",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo", "exercise"]
+      },
+      {
+        "path": "doc/technique_usage_manifest.json",
+        "role": "tecnicas selecionadas, owners e evidencia esperada",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo"]
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "role": "estado operacional real",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo", "exercise", "game_review", "consulting"]
+      },
+      {
+        "path": "doc/changelog/changelog.md",
+        "role": "registro cronologico de mudancas",
+        "requirement": "blocking",
+        "required_for_contexts": ["aaa_game", "technical_demo", "exercise"]
+      }
+    ]
+  },
+  "context_decision_record": {
+    "selected_by": "Codex",
+    "rationale": "O usuario solicitou criacao de um jogo AAA-target completo para Mega Drive, com specs de narrativa, cutscene, corrida, upgrades/power-ups e boss final. O trabalho atual e documentacao de fundacao, com teto vertical_slice ate existir ROM e evidencia.",
+    "evidence_or_prompt": "Pedido direto de criar Celestial Chase Revive com documentacao completa para producao ponta a ponta.",
+    "human_confirmation_required_for_mode_change": true,
+    "last_reviewed_at": "2026-06-16"
+  }
+}

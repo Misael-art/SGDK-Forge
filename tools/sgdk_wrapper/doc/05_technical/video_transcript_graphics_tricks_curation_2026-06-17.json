@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "external_video_transcript_curation_record",
+  "curation_id": "video_transcript_graphics_tricks_2026_06_17",
+  "source_attachment": "C:/Users/misae/.codex/attachments/98b4a7a3-4e3c-4a46-aeb3-dcc1961b1a92/pasted-text.txt",
+  "evidence_grade": "E1_text",
+  "canonical_promotion": false,
+  "status_ceiling": "candidate_operational_rules",
+  "accepted_concepts": [
+    {
+      "concept_id": "tilemap_dedup_hvflip_reporting",
+      "owner_skill": "tilemap-attribute-director",
+      "accepted_as": "stricter_required_output",
+      "summary": "Tilemap conversion must report unique tile count, normal/H/V/HV reuse, flip-dependent cells, priority intent and per-tile palette conflicts."
+    },
+    {
+      "concept_id": "line_scroll_implementation_ownership",
+      "owner_skill": "hscroll-linescroll-road-fx",
+      "accepted_as": "implementation_gate",
+      "summary": "HBlank/line-scroll language must be converted into table ownership, scanline owner, update cadence, reset path and fallback."
+    },
+    {
+      "concept_id": "display_dependent_dither_risk",
+      "owner_skill": "dither-composite-transparency",
+      "accepted_as": "display_risk_gate",
+      "summary": "Composite/CRT dither fusion can be intended, but gameplay must remain readable under declared capture profiles and fallback."
+    },
+    {
+      "concept_id": "sprite_multiplexing_as_degradation",
+      "owner_skill": "sprite-scanline-budgeter",
+      "accepted_as": "budget_policy",
+      "summary": "Temporal sprite flicker/multiplexing is a controlled degradation requiring priority rotation, non-critical use and motion validation."
+    }
+  ],
+  "rejected_or_not_absorbed": [
+    {
+      "claim": "VDP tile descriptor bit layout as new knowledge",
+      "reason": "Already covered by earlier 16 Tile curation, tilemap-attribute-director and SGDK/VDP docs."
+    },
+    {
+      "claim": "High compression or 60 FPS guarantee from tile deduplication",
+      "reason": "Deduplication reduces tile pressure but does not prove DMA, runtime budget or frame rate without measured reports."
+    },
+    {
+      "claim": "Alpha transparency on Mega Drive",
+      "reason": "Rejected. Dither, Shadow/Highlight and palette tricks are not alpha blending."
+    },
+    {
+      "claim": "Generic HBlank magic",
+      "reason": "Rejected unless mapped to an implementable owner, update route, reset and evidence plan."
+    },
+    {
+      "claim": "Sprite flicker as automatic capacity expansion",
+      "reason": "Rejected. It is a last-resort degradation and must not affect critical gameplay readability."
+    }
+  ],
+  "updated_files": [
+    ".agent/skills/art/tilemap-attribute-director/SKILL.md",
+    ".agent/skills/hardware/hscroll-linescroll-road-fx/SKILL.md",
+    ".agent/skills/art/dither-composite-transparency/SKILL.md",
+    ".agent/skills/hardware/sprite-scanline-budgeter/SKILL.md"
+  ],
+  "required_followups_before_production": [
+    "local fixture or project report proving the reports can be generated",
+    "BlastEm evidence for motion/display-dependent effects",
+    "VDP/VRAM/CRAM/SAT/DMA evidence when claiming budget or AAA readiness",
+    "human review before treating E1_text as mandatory canon beyond candidate rules"
+  ]
+}

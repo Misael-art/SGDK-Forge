@@ -1,0 +1,38 @@
+## concept.png — prompt exato
+
+Use case: illustration-story
+Asset type: original palette-and-raster study for a non-commercial Mega Drive side-view platformer; reference source only, not final ROM art.
+Primary request: Create a single 1280x896 16-bit pixel-art lakeside scene cut horizontally by a perfectly straight waterline at about 55% of the canvas height. Above the line: blue-turquoise lake surface, round rocks, sky and soft round clouds. Below the line: the same terrain continuing underwater, darker and desaturated cyan, rounded rocks, swaying aquatic plants, rising bubbles, and diagonal light shafts made from sparse bright dither/Highlight-style pixel patterns—not alpha transparency. The underwater area must visibly be a simple palette-derived version of the above-water world.
+Scene/backdrop: side-view playable landscape, no characters, no logos, no text.
+Style/medium: original handmade 16-bit Mega Drive pixel art with nearest-neighbor crisp clusters and horizontal line-based technical clarity; no copied game art.
+Composition/framing: a 4x conceptual 320x224 side view. Waterline is ruler-straight horizontal. Above and below share recognizable landmark shapes. Underwater distortion implied subtly as tiny discrete lateral shifts of horizontal pixel bands, not wavy waterline.
+Lighting/mood: charming sunny lake, tranquil but legible.
+Color palette: max 45 opaque colors. Restrict every channel to RGB333 values: 0,36,73,109,146,182,219,255. Use discrete colors, no smooth gradients.
+Constraints: no alpha blending, no blur, no airbrush, no soft transparency, no perspective view, no waterline curve, no character, no watermark.
+Avoid: photorealistic water, painterly scene, merged above/below design, diffuse light beams.
+
+## above_below.png — prompt exato
+
+Use case: illustration-story
+Asset type: original before/after palette-comparison study for a non-commercial Mega Drive platformer; source reference only.
+Primary request: A 1280x896 pixel-art technical comparison image with the SAME side-view lakeside terrain duplicated in two equal side-by-side panels. Left panel is ABOVE WATER: bright blue-turquoise water, round rocks, sky/clouds, friendly natural colors. Right panel is BELOW WATER: exactly matching landmarks and silhouettes but remapped by one simple visual rule: shift all non-white surface colors toward cyan/blue, reduce saturation by one palette step, lower brightness by one palette step; preserve white bubble/light highlights. Underwater panel has aquatic plants, bubbles and a few sparse dithered Highlight light shafts, but its geometry corresponds to the left.
+Scene/backdrop: two clean equal panels separated by a thin neutral vertical divider; no characters, no logos, no body text.
+Style/medium: original 16-bit Mega Drive pixel-art palette study, crunchy nearest-neighbor clusters, flat deliberate RGB333 palette.
+Composition/framing: landmarks lined up precisely so an artist can compare colors and shape reuse; no decorative frame.
+Lighting/mood: cheerful above, calm blue submerged below.
+Color palette: maximum 45 opaque colors total; every channel only 0,36,73,109,146,182,219,255. No smooth gradient.
+Constraints: only fully opaque pixels, no alpha/blending/blur/airbrush; simple code-able palette relation must be obvious; no curved waterline, no watermark, no copied game art.
+Avoid: completely different scenes in the two panels, merely applying blue photographic filter, dramatic realistic water.
+
+## distortion.png — prompt exato
+
+Use case: illustration-story
+Asset type: original scanline-distortion technical study for a non-commercial Mega Drive platformer; reference source only, not a final ROM asset.
+Primary request: A 1280x896 original 16-bit pixel-art educational image showing one underwater side-view terrain excerpt—rocks, aquatic plant, bubbles, and a light shaft—deformed by per-horizontal-scanline sine-wave displacement. The waterline itself is not included. The effect must be crystal-clear: the terrain has an unshifted reference strip on top, and below it the same terrain rendered in many fine horizontal pixel bands with each band shifted left/right by a smooth repeating sine pattern. The displaced image must still read as the same objects, not melted.
+Scene/backdrop: neutral flat background with no decorative elements, no characters.
+Style/medium: chunky precise nearest-neighbor Mega Drive technical pixel art, RGB333 colors, flat color clusters.
+Composition/framing: full 1280x896 landscape, strong visual proof of horizontal line scroll / sine offset. Avoid body text; use only minimal clean directional marks if needed.
+Lighting/mood: tranquil cyan underwater, good contrast and high technical legibility.
+Color palette: max 45 opaque colors; every RGB channel exactly one of 0,36,73,109,146,182,219,255.
+Constraints: discrete hard horizontal rows, no alpha, no blur, no smooth alpha gradients, no wave-shaped waterline, no photo effect, no logos/watermarks.
+Avoid: a whole lake scene, vertical distortion, Gaussian blur, arbitrary swirls, unreadable technical diagram.

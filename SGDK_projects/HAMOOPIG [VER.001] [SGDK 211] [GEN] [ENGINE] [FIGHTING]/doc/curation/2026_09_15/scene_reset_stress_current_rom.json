@@ -1,0 +1,20 @@
+{
+  "lesson_id": "L084",
+  "date": "2026-09-15",
+  "topic": "scene_reset_stress_current_rom",
+  "source": "real_blastem_soft_reset_route",
+  "rom_sha256": "da6f6e1b4ede10c6f9feebcaa5b0984d40937d7033df774a41c4cf5dd54bd9d7",
+  "problem": "A normalização do atlas de mensagens produziu uma nova ROM; o estresse de reset anterior não podia ser reutilizado como evidência do SHA vigente.",
+  "change": "Reexecutar 100 soft resets no BlastEm com a ROM b74d2bce e verificar processo, janela e capturas nos ciclos 1, 50 e 100.",
+  "result": "100/100 ciclos concluídos; processo e janela permaneceram presentes e as capturas canônicas foram não vazias.",
+  "limits": [
+    "a rota cobre boot/reset de cena, não reset de round durante a luta",
+    "não substitui revisão visual, audição crítica, gameplay completo ou worst-frame independente"
+  ],
+  "artifacts": [
+    "tests/run_scene_reset_cycles.py",
+    "tests/test_scene_reset_cycles_contract.py",
+    "out/emulator_evidence/scene_reset_cycles_20260915T124852Z/manifest.json"
+  ],
+  "status": "documented_current_rom_runtime_pass_bounded_claim"
+}

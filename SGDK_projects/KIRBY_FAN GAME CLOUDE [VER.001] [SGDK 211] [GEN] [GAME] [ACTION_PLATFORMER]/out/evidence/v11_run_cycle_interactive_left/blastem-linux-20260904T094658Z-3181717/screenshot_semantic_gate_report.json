@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-04T09:47:24.317482+00:00",
+  "tool_name": "screenshot_semantic_gate",
+  "tool_version": "1.0.0",
+  "screenshot_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/KIRBY_FAN GAME CLOUDE [VER.001] [SGDK 211] [GEN] [GAME] [ACTION_PLATFORMER]/out/evidence/v11_run_cycle_interactive_left/blastem-linux-20260904T094658Z-3181717/screenshot.png",
+  "screenshot_sha256": "44399ffdf18d649c147a670b7fdc7b3a67edbcd67dc1f20a50b98b411f6b102d",
+  "rom_sha256": "68f59e9c072a1671b723e8677c40c046f552684b93e5c6daf719a4439f972a10",
+  "evidence_session_id": "blastem-linux-20260904T094658Z-3181717",
+  "status": "passed",
+  "decision": "accepted_semantic_capture",
+  "semantic_capture_valid": true,
+  "blocker_code": null,
+  "failure_reason": null,
+  "width": 640,
+  "height": 480,
+  "dominant_ratio": 0.218854,
+  "edge_density": 0.049752,
+  "metrics": {
+    "dominant_color_rgb": [
+      255,
+      255,
+      146
+    ],
+    "luminance_variance": 3188.918146,
+    "unique_colors": 111,
+    "sampled_pixels": 76800,
+    "edge_pairs": 153040
+  },
+  "thresholds": {
+    "edge_color_delta": 48,
+    "minimum_edge_density": 0.04,
+    "maximum_dominant_ratio": 0.985,
+    "minimum_luminance_variance": 1.0
+  },
+  "reasons": [],
+  "claim_impacts": {
+    "visual": "capture_semantically_valid_not_quality_proof",
+    "gameplay": "not_proven_by_screenshot_alone",
+    "performance": "not_proven_by_screenshot_alone"
+  }
+}

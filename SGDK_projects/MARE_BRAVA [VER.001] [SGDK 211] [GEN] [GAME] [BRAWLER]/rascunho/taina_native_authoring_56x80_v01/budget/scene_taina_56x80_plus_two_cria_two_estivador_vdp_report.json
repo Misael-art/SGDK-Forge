@@ -1,0 +1,28 @@
+{
+  "blockers": [],
+  "display_mode": "h40",
+  "hardware_sprite_count": 22,
+  "headroom": {
+    "binding_limit": "sprite_pixels",
+    "justification": "GDD mixed composition; CRIA runtime/res footprint plus ESTIVADOR planning footprint",
+    "note": "Folga nao medida e timidez. Utilizacao baixa sem justificativa declarada sugere hardware deixado na mesa; empurre a densidade ou declare por que a direcao de arte, o level design ou outra premissa pede menos.",
+    "peak_utilization": 0.825,
+    "pixel_utilization": 0.825,
+    "sprite_utilization": 0.5,
+    "unexploited_threshold": 0.6
+  },
+  "limits": {
+    "pixels_per_scanline": 320,
+    "sprites_per_scanline": 20
+  },
+  "max_sprite_pixels_per_scanline": 264,
+  "max_sprites_per_scanline": 10,
+  "over_limit_lines": [],
+  "over_pixel_limit_lines": [],
+  "sprite_count": 5,
+  "status": "ok",
+  "tool_name": "vdp_scanline_simulator",
+  "tool_version": "1.2.0",
+  "total_sprite_links": 22,
+  "warnings": []
+}

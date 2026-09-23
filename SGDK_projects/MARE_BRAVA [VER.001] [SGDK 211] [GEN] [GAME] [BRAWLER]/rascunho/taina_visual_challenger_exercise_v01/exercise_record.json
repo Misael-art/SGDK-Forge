@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "exercise_id": "taina_visual_challenger_exercise_v01",
+  "scope": "visual_exercise_only",
+  "source_of_truth": "data/source_art/concept/taina_pixel_model_sheet/taina_reseed_authorial_model_sheet_source_v01.png",
+  "generation_route": "ai_generated_semantic_redraw_then_coarse_cluster_then_color_blocking",
+  "asset_kind": "key_pose_visual_challenger_source",
+  "pose": "three_quarter_guard_facing_right",
+  "must_preserve": [
+    "adult_athletic_proportion",
+    "high_irregular_curly_hair_mass",
+    "focused_wedge_face",
+    "separated_muay_thai_guard",
+    "wide_trousers",
+    "right_hip_asymmetric_sash",
+    "two_grounded_bare_feet"
+  ],
+  "outputs": [
+    {
+      "path": "rascunho/taina_visual_challenger_exercise_v01/taina_guard_lineart_semantic_v01.png",
+      "sha256": "033d89dffbb97bd72ef0bf70116fc42c66ec17ca4e858d7a10da3c131c81c6f9",
+      "role": "semantic_lineart_source",
+      "status": "visually_promising_not_native"
+    },
+    {
+      "path": "rascunho/taina_visual_challenger_exercise_v01/taina_guard_lineart_coarse_v02.png",
+      "sha256": "eff93f2a31c3fbf16004b5dfd33ce4f7f4e70fc13e7add71838d6971f29ee787",
+      "role": "coarse_cluster_challenger_source",
+      "status": "visually_promising_not_native"
+    },
+    {
+      "path": "rascunho/taina_visual_challenger_exercise_v01/taina_guard_color_blocking_raw_v03.png",
+      "sha256": "6b246fb94d9fcee868c9affc03e56574000cefbfb75a04783ee94f1a9d5d35e5",
+      "role": "color_blocking_raw_generation",
+      "status": "preserved_source_with_baked_checkerboard"
+    },
+    {
+      "path": "rascunho/taina_visual_challenger_exercise_v01/taina_guard_color_blocking_transparent_v03.png",
+      "sha256": "e1ff4bfc73cc6f4c0e2c643789c4d620bad96f58af165dbb62ec376ded41053f",
+      "role": "selected_color_blocking_challenger_source",
+      "status": "visually_promising_not_native"
+    },
+    {
+      "path": "rascunho/taina_visual_challenger_exercise_v01/taina_guard_palette_clean_transparent_v04.png",
+      "sha256": "f6c55ab8c9d5a8968e70eef27d28afac70a7b5bab37bb96d135ae01dc2fbdd04",
+      "role": "palette_clean_visual_source",
+      "status": "visually_promising_not_native"
+    },
+    {
+      "path": "out/visual_jobs/taina_guard_palette_clean_v04/92e8332d8c32128b/basic/taina_guard_palette_clean_48x64_v04.png",
+      "sha256": "7e4e8bac7134a6e5aab8c30201a797494a896c7da4dcbe3749ab8b27ab7ccf7c",
+      "role": "native_48x64_technical_candidate",
+      "status": "technical_pass_visual_fail"
+    },
+    {
+      "path": "out/visual_jobs/taina_guard_palette_clean_64x96_v04/ea9039882833fea8/basic/taina_guard_palette_clean_64x96_v04.png",
+      "sha256": "bbbee14b98710b263db998aa787b352f7bea9cbc87c4d8c79cd8caf872f50995",
+      "role": "native_64x96_scale_probe",
+      "status": "technical_pass_visual_challenger_pending_scale_gate"
+    }
+  ],
+  "measured_limits": {
+    "coarse_source_geometry": "1086x1448",
+    "coarse_source_mode": "TrueColor",
+    "color_source_geometry": "1086x1448",
+    "color_source_mode": "TrueColorAlpha",
+    "color_source_alpha_values": [0, 255],
+    "color_source_visible_rgb_colors": 74256,
+    "color_source_palette_compliant": false,
+    "palette_clean_source_geometry": "1024x1536",
+    "palette_clean_source_mode": "TrueColorAlpha",
+    "palette_clean_source_alpha_values": [0, 255],
+    "palette_clean_source_visible_rgb_colors": 59854,
+    "native_48x64_total_palette_entries": 16,
+    "native_48x64_visible_colors": 15,
+    "native_48x64_pixel_contract": "passed",
+    "native_48x64_visual_gate": "failed_face_hands_feet_and_presence",
+    "native_64x96_total_palette_entries": 16,
+    "native_64x96_visible_colors": 15,
+    "native_64x96_pixel_contract": "passed",
+    "native_64x96_visual_gate": "promising_pending_human_scale_camera_and_vdp_budget_gate",
+    "native_48x64_claim": false,
+    "pixel_contract_run": false,
+    "promotable": false,
+    "res_changed": false,
+    "aaa_claim": false
+  },
+  "visual_finding": "The v04 pass improves palette hierarchy, contour continuity, cluster size and material separation. Canonical conversion proves that 48x64 can satisfy the pixel contract with 15 visible colors, but loses face, hands, feet and character presence. The same source at 64x96 preserves substantially more identity and remains pixel-contract compliant, making scale the next causal decision rather than further blind quantization.",
+  "next_causal_step": "Open a formal scale gate: compare 48x64 direct-native reauthoring against the 64x96 technical challenger in the real 320x224 camera, then measure metasprite, scanline, VRAM, animation residency and workload. If 48x64 remains locked, reauthor clusters directly at 48x64 from the v04 semantic/material map. If 64x96 passes gameplay and VDP budgets, update the scale contract before key poses or animation. Never promote either technical candidate automatically."
+}

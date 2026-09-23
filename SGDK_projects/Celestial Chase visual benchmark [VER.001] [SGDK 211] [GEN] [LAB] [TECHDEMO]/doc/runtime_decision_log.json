@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "runtime_decision_log",
+  "scene_id": "chase_first_playable",
+  "decisions": [
+    {
+      "id": "runtime_modular_ownership",
+      "decision": "scene_chase orchestrates rules, player, obstacles, pursuer, HUD and audio without owning their internal state",
+      "reason": "keeps scene transitions and VDP ownership explicit",
+      "fallback": "disable optional FX before merging modules"
+    },
+    {
+      "id": "static_sprite_pool",
+      "decision": "create six obstacle slots and all FX sprites at scene enter",
+      "reason": "no heap or surprise VRAM allocation during gameplay",
+      "fallback": "reduce active pool before increasing SPR_initEx"
+    },
+    {
+      "id": "line_scroll_owner",
+      "decision": "scene_chase owns signed 224-line tables for BG_A and BG_B and commits both with DMA_QUEUE",
+      "reason": "HSCROLL_LINE requires a complete table for both planes",
+      "fallback": "HSCROLL_PLANE with static road"
+    },
+    {
+      "id": "animation_upload_alternation",
+      "decision": "hero and pursuer body cannot request an animation frame upload on the same frame",
+      "reason": "preserves VBlank headroom for line scroll, SAT and dust",
+      "fallback": "lengthen animation ticks"
+    },
+    {
+      "id": "delivery_debug_policy",
+      "decision": "BUTTON_C debug toggle and global debug overlay are removed from delivery flow",
+      "reason": "prevents WINDOW and text-plane ownership conflicts",
+      "fallback": "debug-only build flag outside delivery ROM"
+    },
+    {
+      "id": "qa_scene_bootstrap",
+      "decision": "runtime probe consumes a checksum-valid one-shot SBIS scene bootstrap from SRAM",
+      "reason": "allows canonical BlastEm capture of a target scene without player-visible debug input",
+      "fallback": "navigate the front-end with a validated BlastEm input script"
+    },
+    {
+      "id": "xgm2_single_audio_owner",
+      "decision": "XGM2 exclusively owns FM and PSG music; project SFX use only PCM_CH2 and PCM_CH3 through AUDIO_playPCM",
+      "reason": "prevents direct PSG writes and the former PCM_CH1 score loop from conflicting with the XGM2 driver",
+      "fallback": "drop optional PCM_CH3 cues before changing channel ownership"
+    },
+    {
+      "id": "audio_runtime_probe",
+      "decision": "AUD2 telemetry is exported at SRAM offset 0x800 and bound to the captured ROM hash",
+      "reason": "proves music/SFX simultaneity, accepted requests and XGM2 load without relying on intent",
+      "fallback": "block the audio claim when AUD2 is absent or hash identity is stale"
+    }
+  ],
+  "fixed_review_findings": [
+    "replaced VDP_clearPlane mid-frame DMA with CPU tilemap clears",
+    "queued complete BG_A and BG_B line-scroll tables",
+    "moved chase palette timeline to DMA_QUEUE"
+  ],
+  "evidence_required": [
+    "out/rom.bin",
+    "out/logs/res_graph_report.json",
+    "out/logs/audio_validation_report.json",
+    "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/xgm2_audio_probe.json",
+    "out/remediation/P1-002/blastem_audio/blastem-linux-20260720T032218Z-267076/audio_capture_analysis.json",
+    "out/logs/runtime_metrics.json",
+    "out/logs/emulator_session.json",
+    "out/evidence/blastem/screenshot.png",
+    "out/evidence/blastem/save.sram"
+  ],
+  "blockers": [
+    "human audio review remains pending",
+    "perceptual motion still requires human approval"
+  ],
+  "warnings": [
+    "XGM2 reported one missed frame across 1363 driver frames"
+  ]
+}

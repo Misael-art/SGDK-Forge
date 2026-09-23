@@ -1,0 +1,63 @@
+{
+  "title": "SDXL + LoRA Pixel Art - Low VRAM",
+  "description": "Workflow SDXL com otimizacoes low-VRAM para hosts intermediarios. Nao recomendado como default no Steam Deck.",
+  "nodes": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "sd_xl_base_1.0.safetensors"
+      }
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "pixel art, retro style, limited palette, game asset, crisp edges",
+        "clip": ["1", 0]
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "photorealistic, blur, watermark, modern rendering",
+        "clip": ["1", 0]
+      }
+    },
+    "4": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 42,
+        "steps": 25,
+        "cfg": 7.5,
+        "sampler_name": "euler_ancestral",
+        "scheduler": "normal",
+        "denoise": 1.0,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["5", 0]
+      }
+    },
+    "5": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 1024,
+        "height": 1024,
+        "batch_size": 1
+      }
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["4", 0],
+        "vae": ["1", 2]
+      }
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "MD_GEN_SDXL",
+        "images": ["6", 0]
+      }
+    }
+  }
+}

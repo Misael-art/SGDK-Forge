@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "race_hud_layout_v001",
+  "surface": "WINDOW",
+  "native_resolution": "320x224",
+  "window_region_px": {"x": 0, "y": 0, "w": 320, "h": 24},
+  "playfield_region_px": {"x": 0, "y": 24, "w": 320, "h": 200},
+  "tile_grid": {"tile_w": 8, "tile_h": 8, "window_cols": 40, "window_rows": 3},
+  "elements": [
+    {
+      "id": "integrity_icons",
+      "role": "life_state",
+      "x": 8,
+      "y": 8,
+      "w": 28,
+      "h": 8,
+      "render": "three 8x8 shard icons with 2px gap",
+      "update_rule": "redraw only when integrity changes"
+    },
+    {
+      "id": "lumen_counter",
+      "role": "resource",
+      "x": 44,
+      "y": 8,
+      "w": 48,
+      "h": 8,
+      "render": "LUM plus three digits",
+      "update_rule": "redraw digits only when value changes"
+    },
+    {
+      "id": "pressure_meter",
+      "role": "pursuer_pressure",
+      "x": 104,
+      "y": 8,
+      "w": 96,
+      "h": 8,
+      "render": "PRS label plus 64px segmented bar inside 1px hard border",
+      "bar_px": {"x": 136, "y": 8, "w": 64, "h": 8},
+      "mapping": "0..100 pressure maps to 0..64 fill pixels",
+      "critical_rule": "at pressure >= 80, flash fill every 16 frames and play warning tick no more than once per second"
+    },
+    {
+      "id": "pulse_meter",
+      "role": "active_ability",
+      "x": 208,
+      "y": 8,
+      "w": 56,
+      "h": 8,
+      "render": "PUL label plus 32px charge bar",
+      "bar_px": {"x": 232, "y": 8, "w": 32, "h": 8},
+      "mapping": "0..20 Lumen cost maps to 0..32 fill pixels",
+      "ready_rule": "when ready, border pulses for 32 frames without changing layout"
+    },
+    {
+      "id": "focus_counter",
+      "role": "streak_reward",
+      "x": 272,
+      "y": 8,
+      "w": 40,
+      "h": 8,
+      "render": "FCS plus two digits or icon state",
+      "update_rule": "optional in slice 1; if hidden, area remains reserved"
+    }
+  ],
+  "boss_hud_variant": {
+    "rule": "preserve integrity, pressure and Pulse; replace focus with boss weakpoint markers",
+    "weakpoint_marker_region_px": {"x": 272, "y": 8, "w": 40, "h": 8},
+    "marker_count": 4
+  },
+  "animation_policy": {
+    "damage_feedback": "integrity icons blink for 24 frames; no layout shift",
+    "pressure_warning": "palette flash only in UI palette slots",
+    "pulse_ready": "border pulse, no text redraw",
+    "focus_gain": "single 8px sparkle sprite optional; do not consume WINDOW owner"
+  },
+  "vdp_budget": {
+    "hud_tiles_target": 64,
+    "glyph_tiles_shared_target": 48,
+    "palette_domain": "PAL0_ui",
+    "per_frame_dma_policy": "no full HUD redraw during gameplay; update dirty tiles only in VBlank"
+  },
+  "validation_plan": [
+    "native 320x224 screenshot with all HUD states",
+    "pressure 0, 50, 80, 100 visual comparison",
+    "Pulse not ready and ready visual comparison",
+    "boss HUD weakpoint marker comparison",
+    "BlastEm capture before visual delivery"
+  ],
+  "wireframe_ref": "doc/hud_wireframe.md"
+}

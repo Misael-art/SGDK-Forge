@@ -1,0 +1,330 @@
+{
+  "schema_version": "1.0.0",
+  "tdd_id": "mare_brava_tdd_v1",
+  "scene_manager_scope": {
+    "topology": "linear",
+    "deterministic": true,
+    "transition_handling": "fade de paleta ou corte seco no exit da cena; FSM com enter/update/exit/cleanup",
+    "boot_to_first_scene_ms_target": 2500
+  },
+  "input_abstraction_scope": {
+    "abstraction_layer": "leitura_unica_por_frame_via_camada_input_system_sobre_JOY",
+    "latency_target_ms": 17,
+    "supported_devices": [
+      "pad_3_botoes",
+      "pad_6_botoes"
+    ],
+    "rebind_support": false
+  },
+  "camera_runtime_scope": {
+    "contract_path": "doc/11-gdd.md",
+    "runtime_owner": "code/camera-system-sgdk",
+    "coordinate_model": "fix32_internal",
+    "render_snap": "integer_pixels_only",
+    "culling_owner": "wave_manager",
+    "trigger_owner": "wave_manager"
+  },
+  "state_fsm_map": [
+    {
+      "scene_id": "app_root",
+      "states": [
+        "BOOT",
+        "BRANDING",
+        "TITLE",
+        "GAMEPLAY_CAIS01",
+        "DEMO_CLEAR",
+        "GAME_OVER"
+      ],
+      "transitions": [
+        {
+          "from": "BOOT",
+          "to": "BRANDING",
+          "trigger": "init_completo"
+        },
+        {
+          "from": "BRANDING",
+          "to": "TITLE",
+          "trigger": "sequencia_concluida_ou_start"
+        },
+        {
+          "from": "TITLE",
+          "to": "GAMEPLAY_CAIS01",
+          "trigger": "start_pressionado"
+        },
+        {
+          "from": "GAMEPLAY_CAIS01",
+          "to": "DEMO_CLEAR",
+          "trigger": "onda_final_derrotada"
+        },
+        {
+          "from": "GAMEPLAY_CAIS01",
+          "to": "GAME_OVER",
+          "trigger": "hp_zero_sem_vidas"
+        },
+        {
+          "from": "DEMO_CLEAR",
+          "to": "TITLE",
+          "trigger": "timeout_ou_start"
+        },
+        {
+          "from": "GAME_OVER",
+          "to": "TITLE",
+          "trigger": "timeout_ou_start"
+        }
+      ]
+    },
+    {
+      "scene_id": "cais_01",
+      "states": [
+        "ENTER_PRELOAD",
+        "WAVE_INTRO",
+        "COMBATE",
+        "WAVE_CLEAR",
+        "PLAYER_DOWN",
+        "RESULTADO"
+      ],
+      "transitions": [
+        {
+          "from": "ENTER_PRELOAD",
+          "to": "WAVE_INTRO",
+          "trigger": "dma_preload_concluido"
+        },
+        {
+          "from": "WAVE_INTRO",
+          "to": "COMBATE",
+          "trigger": "grupo_spawnado_com_telegraph"
+        },
+        {
+          "from": "COMBATE",
+          "to": "WAVE_CLEAR",
+          "trigger": "grupo_zerado"
+        },
+        {
+          "from": "WAVE_CLEAR",
+          "to": "WAVE_INTRO",
+          "trigger": "proximo_grupo_existe"
+        },
+        {
+          "from": "WAVE_CLEAR",
+          "to": "RESULTADO",
+          "trigger": "grupos_esgotados"
+        },
+        {
+          "from": "COMBATE",
+          "to": "PLAYER_DOWN",
+          "trigger": "hp_zero"
+        },
+        {
+          "from": "PLAYER_DOWN",
+          "to": "COMBATE",
+          "trigger": "vida_restante"
+        },
+        {
+          "from": "PLAYER_DOWN",
+          "to": "RESULTADO",
+          "trigger": "sem_vidas"
+        }
+      ]
+    }
+  ],
+  "memory_pool_map": [
+    {
+      "pool_id": "enemy_pool",
+      "type": "enemy",
+      "size": 4,
+      "owner": "wave_manager",
+      "lifecycle": "aloca_no_spawn_libera_no_ko_estatico_sem_malloc"
+    },
+    {
+      "pool_id": "sprite_slots",
+      "type": "sprite",
+      "size": 10,
+      "owner": "sprite_engine",
+      "lifecycle": "heroi_1_inimigos_4_pickups_2_fx_2_reserva_1"
+    },
+    {
+      "pool_id": "fx_pool",
+      "type": "particle",
+      "size": 4,
+      "owner": "fx_manager",
+      "lifecycle": "splash_poeira_hit_spark_reuso_circular"
+    },
+    {
+      "pool_id": "sfx_channels",
+      "type": "sfx_channel",
+      "size": 3,
+      "owner": "audio_director",
+      "lifecycle": "prioridade_hit_maior_que_passos"
+    },
+    {
+      "pool_id": "hud_widgets",
+      "type": "ui",
+      "size": 3,
+      "owner": "hud_window",
+      "lifecycle": "health_bar_score_retrato_residentes"
+    },
+    {
+      "pool_id": "texto_hud",
+      "type": "string_buffer",
+      "size": 1,
+      "owner": "hud_window",
+      "lifecycle": "buffer_unico_de_score"
+    }
+  ],
+  "vblank_dma_ownership": {
+    "vblank_owner": "app_vblank_callback_unico",
+    "dma_owners": [
+      "SPR_update_sprite_engine",
+      "fila_hscroll_line_table_bgb",
+      "fila_cram_fades_e_flashes",
+      "tilemap_column_streamer_bg_a"
+    ],
+    "max_pending_dma": 3,
+    "safety_pattern": "toda transferencia enfileirada no update e flushada apenas no vblank; streamer de colunas respeita max 2 colunas/frame (doc/contracts/tilemap_streaming_contract.json)"
+  },
+  "h_int_ownership": {
+    "h_int_in_use": false
+  },
+  "audio_ownership": {
+    "driver": "xgm2",
+    "channel_owners": [
+      "musica: FM e PSG pertencem ao driver XGM2 (arranjo na composicao, nao reserva fixa de canais FM pelo codigo)",
+      "sfx: roteados pelos canais PCM do XGM2 (2-3 simultaneos), prioridade hit > telegraph > pickup > ui",
+      "proibido: escrita direta em PSG/FM pelo codigo do jogo enquanto o XGM2 estiver carregado"
+    ],
+    "sample_rate_hz": 13300
+  },
+  "save_scope": "none",
+  "region_timing_scope": {
+    "region": "NTSC",
+    "justification": "60fps e o alvo de game feel do benchmark; PAL tratado por flag de timing e validado apos o slice | SRAM de 32KB declarada apenas para heartbeat de evidencia MDRT do runtime probe (nao e save de jogo).",
+    "frame_budget_ms": 16.6
+  },
+  "rom_mastering_scope": {
+    "size_target_kb": 512,
+    "header_validated": true,
+    "checksum_validated": true,
+    "sram_size_bytes": 32768
+  },
+  "technique_selection": {
+    "registry_source": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+    "usage_manifest_path": "doc/technique_usage_manifest.json",
+    "selected_registry_ids": [
+      "line_scrolling",
+      "camera_scroll_management",
+      "hitstop_camera_shake_feedback"
+    ],
+    "deferred_or_rejected_registry_ids": [
+      "palette_cycling",
+      "shadow_highlight_mode",
+      "pseudo3d_road_stack"
+    ],
+    "required_tags": [
+      "LINE_SCROLL",
+      "PARALLAX",
+      "CAMERA_MANAGEMENT",
+      "CAMERA_DEADZONE",
+      "HITSTOP",
+      "CAMERA_SHAKE",
+      "FIXED_POINT_MATH",
+      "VBLANK_BUDGET_AUDIT"
+    ],
+    "owner_skills": [
+      "code/sgdk-runtime-coder",
+      "code/camera-system-sgdk",
+      "hardware/shadow-highlight-scroll-fx"
+    ],
+    "selection_rationale": "O slice CAIS_01 precisa de profundidade legivel (parallax por line scroll), arena estavel de luta (camera com deadzone e wave-lock) e peso de golpe (hitstop e shake ligados ao gameplay). Todas com status TEORICA_PRIORITARIA no registry.",
+    "fallback_strategy": "Recuo em ordem: HSCROLL_PLANE unico no fundo; camera fixa por segmento; knockback sem shake. Nenhum recuo remove o loop central.",
+    "signature_technique_ids": [
+      "hitstop_camera_shake_feedback"
+    ],
+    "application_plan": [
+      {
+        "registry_id": "line_scrolling",
+        "scene_or_system": "cais_01_bg_b",
+        "gameplay_or_narrative_purpose": "comunicar profundidade e direcao de avanco no cais",
+        "visual_or_audio_role": "mar e ceu em duas velocidades atras do cais",
+        "owner_skill": "code/sgdk-runtime-coder",
+        "budget_evidence": "runtime_metrics.json com custo da tabela hscroll",
+        "fallback": "scroll de plano unico"
+      },
+      {
+        "registry_id": "camera_scroll_management",
+        "scene_or_system": "cais_01_camera",
+        "gameplay_or_narrative_purpose": "manter arena de luta legivel e travar fuga durante ondas",
+        "visual_or_audio_role": "camera estavel sem jitter com wave-lock",
+        "owner_skill": "code/camera-system-sgdk",
+        "budget_evidence": "scene_regression com wave-lock",
+        "fallback": "camera fixa por segmento"
+      },
+      {
+        "registry_id": "hitstop_camera_shake_feedback",
+        "scene_or_system": "combate_global",
+        "gameplay_or_narrative_purpose": "dar peso fisico ao combo e payoff ao ring-out",
+        "visual_or_audio_role": "freeze de 2 a 5 frames e shake no splash",
+        "owner_skill": "code/sgdk-runtime-coder",
+        "budget_evidence": "captura de combo com frame data",
+        "fallback": "knockback sem shake"
+      }
+    ],
+    "rejected_or_deferred": [
+      {
+        "registry_id": "palette_cycling",
+        "decision": "deferred",
+        "reason": "status LABORATORIO no registry; bloqueada fora de lab/techdemo",
+        "reconsideration_gate": "promocao no registry + budget CRAM medido"
+      },
+      {
+        "registry_id": "shadow_highlight_mode",
+        "decision": "deferred",
+        "reason": "status LABORATORIO; paleta estatica de entardecer resolve o slice",
+        "reconsideration_gate": "promocao no registry + slot audit"
+      },
+      {
+        "registry_id": "pseudo3d_road_stack",
+        "decision": "rejected",
+        "reason": "tecnica sem funcao em belt scroller de cais",
+        "reconsideration_gate": "nao_aplicavel"
+      }
+    ]
+  },
+  "risk_mitigation_table": [
+    {
+      "risk_id": "r1_scanline_pressure",
+      "risk": "4 inimigos de 44-56px na mesma faixa de y estouram sprites por scanline",
+      "mitigation": "trava de 4 ativos + espacamento por wave manager + laudo vdp-budget antes do runtime",
+      "severity": "high"
+    },
+    {
+      "risk_id": "r2_ai_art_consistency",
+      "risk": "arte IA sem consistencia entre frames do sheet",
+      "mitigation": "geracao por estado com referencia fixa + aprovacao humana antes da conversao + reduzir estados do slice",
+      "severity": "high"
+    },
+    {
+      "risk_id": "r3_linux_toolchain",
+      "risk": "edge cases da toolchain Wine/binfmt no host Linux",
+      "mitigation": "loop provado com SMOKE_TEST; receita na memoria; fallback host Windows",
+      "severity": "medium"
+    },
+    {
+      "risk_id": "r4_dma_spike_spawn",
+      "risk": "pico de DMA no spawn de grupo (strips novos)",
+      "mitigation": "preload de strips no ENTER_PRELOAD; janela de animacao ativa; spawn escalonado",
+      "severity": "medium"
+    },
+    {
+      "risk_id": "r5_branding_ownership_violation",
+      "risk": "codigo herdado do template (scene_branding.c) escreve CRAM e VDP_setHorizontalScrollLine(...,CPU) dentro do update e toca PSG direto com XGM2 carregado, violando o ownership de VBlank/audio deste TDD",
+      "mitigation": "refatorar branding para fila VBlank e remover acesso direto a PSG ANTES de abrir o runtime do slice; dívida registrada no memory bank; nenhum claim visual/sonoro do branding ate la",
+      "severity": "high"
+    },
+    {
+      "risk_id": "r6_streaming_seam",
+      "risk": "costura visivel ou estouro de DMA no streaming de colunas do cais (1344px)",
+      "mitigation": "contrato de streaming fechado (janela 64x32, margem 12 colunas, max 2 colunas/frame, costura fora da viewport) + medicoes obrigatorias antes de validar budget; fallbacks ordenados declarados",
+      "severity": "medium"
+    }
+  ]
+}

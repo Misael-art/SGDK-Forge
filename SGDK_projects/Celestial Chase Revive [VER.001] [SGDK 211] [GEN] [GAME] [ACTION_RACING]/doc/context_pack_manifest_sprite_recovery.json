@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "iteration_id": "sprite_animationframe_recovery_2026_06_19",
+  "project_root": ".",
+  "scope": [
+    "src/scenes/race_scene.c sprite helpers",
+    "SPR_setAnim, SPR_setFrame and SPR_setAnimAndFrame",
+    "spr_lio_all, hazard and pickup sprite definitions",
+    "ResComp numAnimation and numFrame values",
+    "Sector 01 regression, wrapper rebuild and BlastEm evidence"
+  ],
+  "canonical_sources": [
+    "doc/10-memory-bank.md",
+    "doc/11-gdd.md",
+    "doc/13-spec-cenas.md",
+    "doc/00-diretrizes-agente.md",
+    "doc/project_context_manifest.json",
+    "doc/project_methodology_manifest.json",
+    "doc/project_hygiene_manifest.json",
+    "doc/technique_usage_manifest.json",
+    "doc/tdd_contract.json",
+    "doc/sprite_animation_contract.json",
+    "doc/changelog/changelog.md",
+    "res/resources.res",
+    "src/scenes/race_scene.c",
+    "tools/tests/test_sector01_recovery.py",
+    "tools/test_sector01_recovery_contracts.ps1",
+    "../../tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/sgdk_211_api_reality.json",
+    "../../sdk/sgdk-2.11/inc/sprite_eng.h",
+    "../../sdk/sgdk-2.11/src/sprite_eng.c"
+  ],
+  "baseline": {
+    "rom_sha256": "427f472a8d078f475752c538d39034c005eec50aebdde5bd56434930c17c87f9",
+    "race_scene_sha256": "aabbf5da25e6168cbd3fb4061aeb498fdb19ecce2b089fc6e6bfe699ad916ab3",
+    "resources_res_sha256": "ee67424b36662c8e85252d8e5b4674b14f84bb60b62092b847b03cab514da5b3",
+    "lumen_orb_png_sha256": "3a6794c69b26aceefb48c659ec651ae19a5ded5bea6bc8db91170ecfa19a6dbb"
+  },
+  "api_reality": {
+    "sprite_definition_num_animation": "SpriteDefinition.numAnimation",
+    "animation_num_frame": "Animation.numFrame",
+    "invalid_frame_effect": "With SGDK error logging disabled, an out-of-range frame can reach SPR_update and index animation->frames outside the generated array."
+  },
+  "confirmed_hypothesis": {
+    "sprite": "spr_lumen_orb",
+    "animation": 0,
+    "invalid_frame": 3,
+    "real_num_animation": 1,
+    "real_num_frame": 3,
+    "runtime_assumption": 4,
+    "installation_path": "pickup_sprites in draw_entities",
+    "supporting_evidence": [
+      "out/rom.out at spr_lumen_orb_animation0 starts with numFrame=3",
+      "out/symbol.txt contains frame0, frame1 and frame2 only",
+      "lumen_orb.png cell 3 is empty",
+      "race_scene.c computes modulo 4 for non-Beacon pickups"
+    ]
+  },
+  "workspace_scope_isolation": true,
+  "external_sources_used": [],
+  "canonical_promotion_performed": false
+}

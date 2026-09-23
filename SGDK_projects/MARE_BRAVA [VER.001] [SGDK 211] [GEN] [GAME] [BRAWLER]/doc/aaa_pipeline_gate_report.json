@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "aaa_pipeline_gate_report",
+  "project": "MARE_BRAVA [VER.001] [SGDK 211] [GEN] [GAME] [BRAWLER]",
+  "claim_source": {
+    "kind": "prompt",
+    "path_or_prompt_id": "rascunho/entrada_bruta/continuity_prompts/mare_brava_continuity_approval_20260829.md"
+  },
+  "claims": [
+    { "id": "taina_authorial_source", "claim_type": "asset_conversion", "text": "The approved high-resolution TAÍNA source may drive native pixel translation, not direct res promotion.", "risk": "high" },
+    { "id": "cais01_jab", "claim_type": "collision", "text": "One TAÍNA jab causes 15 damage to CRIA in scene 3.", "risk": "medium" },
+    { "id": "cais01_runtime_probe", "claim_type": "vdp_effect", "text": "Scene 3 exports fresh SRAM, VLAB, VDP dump and a runtime snapshot for the current ROM.", "risk": "medium" },
+    { "id": "vertical_slice_aaa", "claim_type": "release_status", "text": "CAIS_01 is an AAA vertical slice.", "risk": "critical" },
+    { "id": "game_complete_aaa", "claim_type": "release_status", "text": "MARÉ BRAVA is complete and ready for AAA delivery.", "risk": "critical" }
+  ],
+  "required_skill_invocations": [
+    { "skill": "aaa-pipeline-guardian", "reason": "Owns proportional claims and final gate limits.", "required": true },
+    { "skill": "art-translation-to-vdp", "reason": "Reinterpret the approved TAÍNA source on a native pixel grid.", "required": true },
+    { "skill": "visual-excellence-standards", "reason": "Judge character and scene quality beyond technical compliance.", "required": true },
+    { "skill": "megadrive-pixel-strict-rules", "reason": "Validate indexed palette, transparency and grid before res promotion.", "required": true },
+    { "skill": "megadrive-vdp-budget-analyst", "reason": "Measure worst-frame VRAM, DMA and scanline pressure.", "required": true },
+    { "skill": "emulator-vdp-evidence-curator", "reason": "Bind observations to the exact ROM hash.", "required": true }
+  ],
+  "claim_to_gate_matrix": [
+    { "claim_id": "taina_authorial_source", "required_artifacts": ["doc/human_approval_record.md", "data/source_art/premium_source_manifest.json", "doc/art/characters/taina/taina_reseed_authorial_model_sheet_source_review_v01.json"], "evidence_status": "present_fresh", "decision": "pass" },
+    { "claim_id": "cais01_jab", "required_artifacts": ["out/evidence/cais01_combat_jab_input_keyboard_capture/blastem-linux-20260829T230057Z-984247/evidence_manifest.json", "out/logs/cais01_combat_seed_evidence_review_v01.json"], "evidence_status": "present_fresh", "decision": "pass" },
+    { "claim_id": "cais01_runtime_probe", "required_artifacts": ["out/evidence/cais01_combat_seed/blastem-linux-20260829T220742Z-874842/evidence_manifest.json", "out/evidence/cais01_combat_seed/blastem-linux-20260829T220742Z-874842/runtime_metrics.json"], "evidence_status": "present_fresh", "decision": "pass" },
+    { "claim_id": "phase0_reconciliation", "required_artifacts": ["out/logs/freshness_audit_report.json", "out/logs/scene_contract_compile_report.json", "out/logs/res_graph_report.json", "out/logs/validation_report.json", "out/logs/build_output.log"], "evidence_status": "partial_freshness_warning", "decision": "blocked", "blockers": ["FRESH_MISSING_REQUIRED:validation_report", "FRESH_MISSING_REQUIRED:build_output", "scene_contract_lint_error"] },
+    { "claim_id": "vertical_slice_aaa", "required_artifacts": ["production TAÍNA/CRIA/ESTIVADOR assets", "live_scene_bar_report.json status=passed", "measured complete combat budget", "audio evidence", "scene closeout"], "evidence_status": "missing", "decision": "blocked" },
+    { "claim_id": "game_complete_aaa", "required_artifacts": ["all GDD content", "all phase gates", "ROM mastering", "fresh complete-game evidence"], "evidence_status": "missing", "decision": "blocked" }
+  ],
+  "missing_artifacts": [
+    "native TAÍNA model sheet and fidelity report",
+    "fresh validation_report.json and canonical build_output.log",
+    "production character animation strips",
+    "live_scene_bar_report.json status=passed",
+    "measured complete CAIS_01 budget",
+    "authorial HUD, branding and real audio",
+    "scene closeout and complete GDD inventory"
+  ],
+  "blocked_claims": ["vertical_slice_aaa", "game_complete_aaa"],
+  "ready_for_aaa_decision": {
+    "ready_for_aaa": false,
+    "max_allowed_status": "runtime_candidate",
+    "reason": "The current ROM proves a technical combat seed and fresh VLAB evidence, while all production visual, budget, audio and slice-completion gates remain open."
+  },
+  "status": "blocked",
+  "generated_at": "2026-08-29T23:45:00-03:00"
+}

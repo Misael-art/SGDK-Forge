@@ -633,13 +633,53 @@ def tile_budget_stats(asset_path: Path) -> dict[str, Any]:
     empty_tiles = total_tiles - len(non_empty_tiles)
     duplicate_tiles = len(non_empty_tiles) - unique_non_empty_tiles
     unique_ratio = (unique_non_empty_tiles / max(1, len(non_empty_tiles))) if non_empty_tiles else 0.0
+    if non_empty_tiles:
+        def flip_h(tile: tuple[tuple[int, int, int, int], ...]) -> tuple[tuple[int, int, int, int], ...]:
+            out: list[tuple[int, int, int, int]] = []
+            for y in range(8):
+                row = tile[y * 8 : (y + 1) * 8]
+                out.extend(reversed(row))
+            return tuple(out)
+
+        def flip_v(tile: tuple[tuple[int, int, int, int], ...]) -> tuple[tuple[int, int, int, int], ...]:
+            out: list[tuple[int, int, int, int]] = []
+            for y in range(8):
+                src_y = 7 - y
+                out.extend(tile[src_y * 8 : (src_y + 1) * 8])
+            return tuple(out)
+
+        def canonical(tile: tuple[tuple[int, int, int, int], ...]) -> tuple[tuple[int, int, int, int], ...]:
+            fh = flip_h(tile)
+            fv = flip_v(tile)
+            fhv = flip_h(fv)
+            return min(tile, fh, fv, fhv)
+
+        unique_non_empty_tiles_hflip = len({min(tile, flip_h(tile)) for tile in non_empty_tiles})
+        unique_non_empty_tiles_vflip = len({min(tile, flip_v(tile)) for tile in non_empty_tiles})
+        unique_non_empty_tiles_hvflip = len({canonical(tile) for tile in non_empty_tiles})
+        unique_ratio_hvflip = unique_non_empty_tiles_hvflip / max(1, len(non_empty_tiles))
+        flip_savings_non_empty_tiles = len(non_empty_tiles) - unique_non_empty_tiles_hvflip
+        flip_reuse_ratio = flip_savings_non_empty_tiles / max(1, len(non_empty_tiles))
+    else:
+        unique_non_empty_tiles_hflip = 0
+        unique_non_empty_tiles_vflip = 0
+        unique_non_empty_tiles_hvflip = 0
+        unique_ratio_hvflip = 0.0
+        flip_savings_non_empty_tiles = 0
+        flip_reuse_ratio = 0.0
     return {
         "total_tiles": total_tiles,
         "empty_tiles": empty_tiles,
         "non_empty_tiles": len(non_empty_tiles),
         "unique_non_empty_tiles": unique_non_empty_tiles,
+        "unique_non_empty_tiles_hflip": unique_non_empty_tiles_hflip,
+        "unique_non_empty_tiles_vflip": unique_non_empty_tiles_vflip,
+        "unique_non_empty_tiles_hvflip": unique_non_empty_tiles_hvflip,
         "duplicate_non_empty_tiles": duplicate_tiles,
         "unique_ratio": round(unique_ratio, 4),
+        "unique_ratio_hvflip": round(unique_ratio_hvflip, 4),
+        "flip_savings_non_empty_tiles": flip_savings_non_empty_tiles,
+        "flip_reuse_ratio": round(flip_reuse_ratio, 4),
     }
 
 

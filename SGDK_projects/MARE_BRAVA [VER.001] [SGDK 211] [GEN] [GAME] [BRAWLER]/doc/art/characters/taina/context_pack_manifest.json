@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "taina_pixel_model_sheet_context_v1",
+  "created_at": "2026-07-06",
+  "purpose": "Fixar as fontes consultadas para a traducao da identidade autoral da TAINA em model sheet pixel nativo.",
+  "project_scope": "mare_brava",
+  "asset_scope": "taina_pixel_model_sheet",
+  "sources": [
+    {
+      "path": "doc/10-memory-bank.md",
+      "sha256": "7ad2b74144cc4f7d742198f922de00d2b2916c7bc3a85c97a35f3444e643577f",
+      "role": "estado_operacional"
+    },
+    {
+      "path": "doc/11-gdd.md",
+      "sha256": "16a3941b831662f382b620d5fc3a7c6a9f1fb5f43467e15f3bcda46f9e0ab859",
+      "role": "escala_gameplay_e_fantasia"
+    },
+    {
+      "path": "doc/13-spec-cenas.md",
+      "sha256": "f82cb8f6879f0aa18ee3b94fe698a3754d61d4c5392d21c3edbdf4546d6ac4df",
+      "role": "budget_e_papel_em_cais_01"
+    },
+    {
+      "path": "doc/art/authorial_line_style_contract.json",
+      "sha256": "3f44e5ec1a744a04642cb43df2c92b25eb439ee59354cf223ecac9a2160aa70b",
+      "role": "traco_autoral"
+    },
+    {
+      "path": "doc/art/master_style_manifest.json",
+      "sha256": "87e2bcdd2449d83cca97d19f3e22b7939bb232fb85792803413cdcf4eb9f2071",
+      "role": "paleta_e_densidade"
+    },
+    {
+      "path": "doc/contracts/art_gameplay_direction_gate.json",
+      "sha256": "a33ed1bcbce5ceab9a88c5428276b97d93228b7b8721c48ab1113cc47fa032c0",
+      "role": "gate_misto_legado_e_contexto"
+    },
+    {
+      "path": "data/source_art/concept/authorial_style_validation_2026_07_04/taina_identity_turnaround_authorial_v01.png",
+      "sha256": "a453e4670e116460b110445cb6cf15144deac48d2c3799c8530c6fe691284ea5",
+      "role": "fonte_visual_autoral"
+    }
+  ],
+  "generated_candidate": {
+    "path": "data/source_art/concept/taina_pixel_model_sheet/taina_pixel_model_sheet_source_v01.png",
+    "sha256": "ed3c3b49da31c675eecd3e9c45521e709866cd9a33bcbcf26c29c436d99ac3ca",
+    "status": "editorial_pixel_direction_only"
+  },
+  "tooling": [
+    "codex_builtin_image_generation",
+    "art-translation-to-vdp",
+    "megadrive-pixel-strict-rules",
+    "visual-excellence-standards"
+  ],
+  "process_note": "O manifesto foi materializado logo apos a primeira geracao. A geracao permanece source_candidate e nao recebeu promocao retroativa.",
+  "blocking_statuses": [
+    "native_pixel_model_sheet_pending",
+    "lineart_blocking_1px_pending"
+  ]
+}

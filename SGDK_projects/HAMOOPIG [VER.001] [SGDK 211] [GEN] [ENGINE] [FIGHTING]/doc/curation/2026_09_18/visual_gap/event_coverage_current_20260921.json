@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_kind": "same_rom_event_coverage",
+  "as_of": "2026-09-21",
+  "rom_sha256": "b6f7cd649f829c21555883014721992b04261f0c32b34a620538d0548be7cc88",
+  "coverage": [
+    {
+      "event": "throw",
+      "session": "out/emulator_evidence/visual_ko_20260921T004209197732Z-684636/",
+      "hprb": "out/emulator_evidence/visual_ko_20260921T004209197732Z-684636/hprb_probe_report.json",
+      "hsem": "out/emulator_evidence/visual_ko_20260921T004209197732Z-684636/hsem_probe_report.json",
+      "observed": {"throws": 2, "throw_frames_p1": 64},
+      "vdp_decision": "cabe",
+      "visual_review": "candidate_frame_reviewed"
+    },
+    {
+      "event": "special_projectile",
+      "session": "out/emulator_evidence/visual_ko_20260921T005155291248Z-716150/",
+      "hprb": "out/emulator_evidence/visual_ko_20260921T005155291248Z-716150/hprb_probe_report.json",
+      "hsem": "out/emulator_evidence/visual_ko_20260921T005155291248Z-716150/hsem_probe_report.json",
+      "observed": {"projectiles": 3, "fireball_frames_p1": 204},
+      "vdp_decision": "cabe",
+      "visual_review": "contact_sheet_reviewed"
+    },
+    {
+      "event": "guard",
+      "session": "out/emulator_evidence/visual_ko_20260921T005412979207Z-723566/",
+      "hprb": "out/emulator_evidence/visual_ko_20260921T005412979207Z-723566/hprb_probe_report.json",
+      "hsem": "out/emulator_evidence/visual_ko_20260921T005412979207Z-723566/hsem_probe_report.json",
+      "observed": {"guards": 1, "guard_frames_p2": 77, "confirmed_hits": 0},
+      "vdp_decision": "cabe",
+      "visual_review": "candidate_frame_reviewed"
+    },
+    {
+      "event": "full_match_result_rematch",
+      "session": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/",
+      "sealed_manifest": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/evidence_manifest.json",
+      "hprb": "out/emulator_evidence/visual_ko_20260921T005523892270Z-727484/hprb_probe_report.json",
+      "observed": {"ko": 2, "hits": 42, "frames": 3750, "audio_seconds": 87.6},
+      "vdp_decision": "cabe",
+      "visual_review": "selection_ko_result_rematch_reviewed"
+    }
+  ],
+  "quality_gate": {
+    "functionality_coverage": "closed_for_listed_events",
+    "visual_parity": "not_met",
+    "audio_listening": "pending_human_review",
+    "sustained_performance": "unproven",
+    "independent_review": "pending",
+    "claim": "prototype_partial_current_sha",
+    "ready_for_aaa": false
+  }
+}

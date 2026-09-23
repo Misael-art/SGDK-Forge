@@ -1,0 +1,62 @@
+﻿{
+    "build_version":  "build_v002",
+    "rom_sha256":  "2a63344f4e0c8c5b88eacd737d445496e7dc4ce2095eb29d84aebe94e38d711f",
+    "size_bytes":  131072,
+    "timestamp":  "2026-06-02T12:56:40.1382795-03:00",
+    "source_commit_when_available":  "55ea9d6a47ed78211eed6a0a149a18d3a5bfdd45",
+    "validation_summary":  {
+                               "errors":  0,
+                               "warnings":  5,
+                               "blocking_statuses":  [
+                                                         "gdd_substantial_insufficient",
+                                                         "visual_gate_blocked",
+                                                         "procedural_fallback_as_final",
+                                                         "visual_direction_failed"
+                                                     ]
+                           },
+    "emulator_evidence_status":  "ok",
+    "status_panel_snapshot":  {
+                                  "visual_lab_aprovado":  false,
+                                  "gameplay_rom_aprovada":  false,
+                                  "ready_for_aaa":  false
+                              },
+    "qa_axes_snapshot":  {
+                             "gameplay_basico":  "funcional",
+                             "performance":  "estavel",
+                             "audio":  "ok",
+                             "hardware_real":  "blastem_reference_emulator"
+                         },
+    "linked_asset_versions":  [
+                                  {
+                                      "asset_id":  "img_brand_fx_tiles",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_fx_tiles.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_engine_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_engine_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_author_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_author_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_project_logo",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_project_logo.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_brand_presents_text",
+                                      "version":  "v001",
+                                      "source_path":  "res/branding/brand_presents_text.png"
+                                  },
+                                  {
+                                      "asset_id":  "img_chase_compare_flat",
+                                      "version":  "v001",
+                                      "source_path":  "res/gfx/chase_compare_flat.png"
+                                  }
+                              ],
+    "notes":  "scene_closeout_gate_report gerado como blocked; blockers restantes sao de GDD, gate visual e promocao AAA, nao de evidencia ausente."
+}

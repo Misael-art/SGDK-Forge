@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "lesson_id": "title_dma_completion_barrier_20260915",
+  "title": "Não escrever o painel enquanto a restauração do BG_A está em DMA",
+  "source_kind": "implementation",
+  "observed_at": "2026-09-15",
+  "problem_signature": "title_page_transition_partial_artwork",
+  "observation": "A troca para OPTIONS/DEBUG restaurava o tilemap do BG_A por DMA e em seguida escrevia o painel por CPU. Sem uma barreira explícita, as duas operações podiam disputar o VDP e a captura intermediária apresentava arte incompleta.",
+  "resolution_or_preventive_heuristic": "Depois de VDP_setTileMapEx(..., DMA), chamar VDP_waitDMACompletion() antes de qualquer escrita CPU no mesmo plano. Manter a espera localizada na função dona da restauração.",
+  "evidence": {
+    "source": "src/title.c",
+    "test": "tests/test_title_menu_contract.py",
+    "build_log": "out/logs/continuation_title_dma_barrier_build.log",
+    "rom_sha256": "1c685106ecbbe51e888eeeaddaa75132030ad01f27c52b22e49cc88b6b8bbb4f",
+    "suite": "12/12_passed",
+    "exploratory_capture": [
+      "out/emulator_evidence/current_rom_20260915_options_dma_barrier/",
+      "out/emulator_evidence/current_rom_20260915_options_pages/"
+    ],
+    "visual_scope": "options_stable_observed; canonical_vdp_runtime_gate_pending"
+  },
+  "status": "implemented_static_pass_exploratory_visual_pending",
+  "limitations": [
+    "A captura manual do BlastEm não fornece VDP dump nem runtime metrics.",
+    "A imagem intermediária pode ser uma condição de captura da superfície, não prova isolada de atraso do VDP."
+  ]
+}

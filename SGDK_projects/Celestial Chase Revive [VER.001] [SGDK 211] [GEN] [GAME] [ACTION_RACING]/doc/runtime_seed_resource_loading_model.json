@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "created_at": "2026-06-16",
+  "status": "seed_only",
+  "model": "code_text_only_no_external_assets",
+  "res_files": [
+    "res/resources.res"
+  ],
+  "external_asset_declarations": 0,
+  "sprite_engine": "not_initialized",
+  "audio_driver": "not_initialized",
+  "vram_model": {
+    "source": "SGDK built-in font and VDP text only",
+    "measured": false,
+    "visual_delivery_claim": false
+  },
+  "fallback": "If text render fails, keep ROM boot heartbeat as technical evidence and fix VDP text before Fase B."
+}

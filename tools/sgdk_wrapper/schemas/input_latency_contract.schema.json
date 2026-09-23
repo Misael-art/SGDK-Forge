@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "sgdk_wrapper/schemas/input_latency_contract.schema.json",
+  "title": "Input Latency Contract",
+  "description": "Declares single-per-frame polling, held/pressed/released derivation, debounce, repeat rate and input buffer for the input-system-sgdk owner.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "project",
+    "polling",
+    "edge_states",
+    "debounce_frames",
+    "repeat_rate",
+    "input_buffer",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "artifact_kind": { "type": "string", "const": "input_latency_contract" },
+    "project": { "type": "string", "minLength": 1 },
+    "polling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["once_per_frame", "update_api", "read_api"],
+      "properties": {
+        "once_per_frame": { "type": "boolean" },
+        "update_api": { "type": "string", "const": "JOY_update" },
+        "read_api": { "type": "string", "const": "JOY_readJoypad" }
+      }
+    },
+    "edge_states": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["held", "pressed", "released", "derived_from_previous_state"],
+      "properties": {
+        "held": { "type": "boolean" },
+        "pressed": { "type": "boolean" },
+        "released": { "type": "boolean" },
+        "derived_from_previous_state": { "type": "boolean" }
+      }
+    },
+    "debounce_frames": { "type": "integer", "minimum": 0 },
+    "repeat_rate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "initial_delay_frames", "interval_frames"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "initial_delay_frames": { "type": "integer", "minimum": 0 },
+        "interval_frames": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "input_buffer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "window_frames"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "window_frames": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "status": { "type": "string", "enum": ["candidate_applied_not_verified", "ok", "needs_review", "blocked"] }
+  }
+}

@@ -1,0 +1,11 @@
+interface:
+  display_name: "SGDK Code Reviewer"
+  short_description: "Revisao formal de codigo C SGDK 2.11"
+  brand_color: "#5A3D7A"
+  default_prompt: "Use $sgdk-code-reviewer para revisar mudancas C/SGDK, .res, runtime, assets e evidencia antes de entrega, priorizando bugs, regressao, budget, API SGDK 2.11, ownership e testes."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

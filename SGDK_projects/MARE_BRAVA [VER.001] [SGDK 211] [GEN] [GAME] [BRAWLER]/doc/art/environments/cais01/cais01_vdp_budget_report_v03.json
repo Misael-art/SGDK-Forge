@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-29",
+  "status": "rescomp_measured_and_conservatively_estimated_runtime_metrics_pending",
+  "claim_ceiling": "budget_candidate_not_validado_budget",
+  "rom_sha256": "9c2e3e9d82e4fa4ef678bd0a087ffd74a950bd5711ad4748c6a9278fc476ce4d",
+  "backgrounds": {
+    "bg_b": {
+      "role": "sky_far_city_near_city_water",
+      "tiles": 431,
+      "tile_bytes": 13792,
+      "tilemap_bytes_resource": 3584,
+      "palette": "PAL0"
+    },
+    "bg_a": {
+      "role": "industrial_pier_and_props",
+      "tiles": 384,
+      "tile_bytes": 12288,
+      "tilemap_bytes_resource": 3584,
+      "palette": "PAL2"
+    },
+    "combined_tiles": 815,
+    "combined_tile_bytes": 26080
+  },
+  "sprites_visible_worst_authored_state": {
+    "taina_dash": {
+      "tiles": 48,
+      "vdp_sprite_parts": 6
+    },
+    "contact_shadow": {
+      "tiles": 8,
+      "vdp_sprite_parts": 1
+    },
+    "two_smoke_emitters": {
+      "tiles": 24,
+      "vdp_sprite_parts": 2
+    },
+    "two_lamp_dust_emitters": {
+      "tiles": 8,
+      "vdp_sprite_parts": 2
+    },
+    "combined_tiles": 88,
+    "combined_tile_bytes": 2816,
+    "combined_vdp_sprite_parts": 11,
+    "scanline_peak": "not_measured"
+  },
+  "scroll_and_palette": {
+    "hscroll_mode": "HSCROLL_LINE",
+    "h_int_owner": "none",
+    "line_entries_per_plane": 224,
+    "planes_updated": 2,
+    "line_scroll_dma_bytes_per_frame": 896,
+    "line_scroll_work_ram_bytes": 896,
+    "palette_cycle": {
+      "bytes": 4,
+      "period_vblanks": 8,
+      "target": "PAL2 indices 14..15"
+    }
+  },
+  "conservative_worst_frame_dma_estimate": {
+    "line_scroll_tables": 896,
+    "taina_frame_tiles": 1536,
+    "contact_shadow_frame_tiles": 256,
+    "two_smoke_frames": 768,
+    "two_dust_frames": 256,
+    "sat_upper_bound": 640,
+    "palette_cycle": 4,
+    "total_bytes": 4356,
+    "qualification": "upper-bound estimate; tile uploads do not necessarily coincide and runtime instrumentation is still required"
+  },
+  "palette_domains": {
+    "PAL0": "BG_B plus smoke",
+    "PAL1": "TAINA backlight plus contact shadow",
+    "PAL2": "BG_A plus lamp dust and lamp cycle",
+    "PAL3": "system text"
+  },
+  "fallback": {
+    "scroll": "HSCROLL_PLANE; BG_A full camera and BG_B quarter camera",
+    "atmosphere": "disable dust first, then second smoke emitter",
+    "palette": "static lamp colors and original approved TAÍNA palette"
+  },
+  "blockers": [
+    "runtime_dma_metrics_missing",
+    "scanline_sprite_pressure_missing",
+    "full_gameplay_mix_with_enemies_hud_and_hit_fx_missing",
+    "visual_vdp_dump_missing"
+  ]
+}

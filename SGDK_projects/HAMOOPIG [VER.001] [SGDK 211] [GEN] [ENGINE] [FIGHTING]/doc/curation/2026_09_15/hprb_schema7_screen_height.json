@@ -1,0 +1,37 @@
+{
+  "lesson_id": "L073",
+  "date": "2026-09-15",
+  "scope": "HAMOOPIG P00/P09",
+  "title": "Altura efetiva deve ser exportada, não inferida",
+  "symptom": "O HPRB classificava PAL pelo bit de região, mas não distinguia PAL-224 de PAL-240.",
+  "cause": "A altura ativa era aplicada em `FUNCAO_SCREEN_HEIGHT_APPLY()` e não fazia parte do layout SRAM do probe.",
+  "correction": [
+    "schema 7 acrescenta screen_height como 31o word (70 bytes declarados)",
+    "a ROM atualiza o campo depois da aplicação de altura e antes do export periódico",
+    "o decoder mantém schemas 1..6 fechados e só omite o campo em layouts legados",
+    "o harness navega pelo menu DEBUG e registra h240_requested no manifesto"
+  ],
+  "preventive_tests": [
+    "tests/test_hprb_screen_height_contract.py",
+    "tests/analyze_hprb_probe.py --self-check",
+    "tests/test_stage_selection_contract.py"
+  ],
+  "evidence": {
+    "rom_sha256": "4df3e5b9bbc1441c34595d3c464a54d41480dfb154f1d7e3bbaed884bee5c503",
+    "build_log": "out/logs/continuation_p00_hprb_schema7_build.log",
+    "pal240_bundle": "out/emulator_evidence/visual_ko_20260915T062548Z/",
+    "decoded": {
+      "schema": 7,
+      "screen_height": 240,
+      "samples": 2430,
+      "max_dma_queued_bytes": 9568,
+      "max_sprites_per_scanline": 17,
+      "decision": "cabe"
+    }
+  },
+  "limitations": [
+    "A sessão foi uma rota curta de integração, sem cobertura de combate dirigida.",
+    "O campo prova altura efetiva e budget PAL, mas não fecha áudio, câmera ou a qualidade visual do cenário."
+  ],
+  "status": "implemented_build_passed_pal240_runtime_probe_visual_audio_pending"
+}

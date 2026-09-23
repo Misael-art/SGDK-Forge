@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "ui_id": "celestial_chase_front_end_and_hud",
+  "profile_kind": "front_end_profile",
+  "fantasy_role": "A celestial road instrument panel, restrained enough to preserve the storybook chase.",
+  "surfaces": [
+    {"surface_id": "menu", "owner": "scene_menu", "plane": "BG_A", "fallback": "short high-contrast text over approved background"},
+    {"surface_id": "gameplay_hud", "owner": "chase_hud", "plane": "WINDOW preferred; fixed BG_A fallback", "fallback": "compact top safe-area HUD"},
+    {"surface_id": "result", "owner": "chase_hud", "plane": "BG_A", "fallback": "centered two-line result card"}
+  ],
+  "ui_attention_profile": {
+    "density_target": "low",
+    "hierarchy": ["pressure", "Pulse readiness", "integrity", "phase card"],
+    "area_occupied": "top 24 pixels plus result card only outside active play",
+    "contrast": "ivory/cyan over deep indigo",
+    "gameplay_interference": "never cover lane collision area"
+  },
+  "plane_ownership_map": {
+    "WINDOW": "chase_hud when enabled",
+    "BG_A_safe_rows": "chase_hud fallback",
+    "BG_A_world": "scene_chase road"
+  },
+  "selection_feedback": "palette flash and menu cue",
+  "text_presentation_profile": {
+    "text_surface_class": "short dramatic cards and result text",
+    "max_lines": 2,
+    "cadence": "phase-entry hold or result state",
+    "teardown": "clear owned text region before returning to active play"
+  },
+  "gameplay_hud_typography": {
+    "owner": "chase_hud",
+    "font_id": "celestial_chase_hud_font",
+    "glyph_manifest": "doc/glyph_manifest.json",
+    "vram_route": "replace_sgdk_reserved_font_tiles",
+    "palette_owner": "PAL2_read_only",
+    "style_target": "celestial_book_gold_and_ivory",
+    "fallback": "SGDK_default_font"
+  },
+  "blocking_statuses": []
+}

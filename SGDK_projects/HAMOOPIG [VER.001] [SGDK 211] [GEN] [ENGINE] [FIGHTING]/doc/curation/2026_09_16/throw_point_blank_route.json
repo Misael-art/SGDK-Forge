@@ -1,0 +1,25 @@
+{
+  "lesson_id": "L109",
+  "date": "2026-09-16",
+  "topic": "throw_point_blank_route",
+  "source": "P04_runtime_probe_review",
+  "rom_sha256": "f4248208cec58ee0fec57b89f46f535e2c21026b9a34685449ce3204be1cab86",
+  "problem": "Mesmo com janela 0..45, direção relativa e distância absoluta, a rota de teclado ainda não produziu THROW porque o par é separado antes da borda Y ser observada em estado neutro.",
+  "change": "O runtime aceita Y sozinho a até 30 px e o roteiro mantém a aproximação de P2 concorrente às bordas Y, sem injetar posição ou estado.",
+  "result": "A captura HSEM/HPRB f424 registrou 4 HIT, 1 GUARD e 2 PROJECTILE, sem THROW. O fallback ponto-a-ponto está buildado, porém o evento real continua pendente.",
+  "limits": [
+    "não alterar a FSM para forçar um evento de teste",
+    "a próxima investigação deve observar estado/input no tick da borda Y",
+    "P10 e title_return do SHA 9148 são históricos após este build",
+    "revisões visual e auditiva continuam pendentes"
+  ],
+  "artifacts": [
+    "src/fsm.c",
+    "tests/capture_visual_ko.py",
+    "tests/test_throw_window_contract.py",
+    "out/logs/throw_point_blank_build.log",
+    "out/logs/semantics_hsem_f424_v2.json",
+    "out/logs/semantics_hprb_f424_v2.json"
+  ],
+  "status": "route_observed_without_throw_event"
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "TAIKETSU ULTRA REBIRTH [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+    "project_root_policy": "all_project_material_inside_project"
+  },
+  "registry_source": "doc/07_game_design/genre_specialization_registry.json",
+  "active_specializations": [
+    {
+      "specialization_id": "fighting_2d_traditional",
+      "activation_reason": "O convite humano define um fighting 2D round-based com frame data, roster de seis e especial por lutador; o contrato especializado evita inferencia por nome de pasta.",
+      "design_contract_path": "doc/fighting_2d_design_contract.json",
+      "evidence": {
+        "gdd_section_ref": "doc/11-gdd.md#fighting-surface",
+        "tdd_section_ref": "doc/15-tdd.md#fighting-runtime",
+        "curation_source_refs": ["doc/07_game_design/curation_sources/SOURCES_INDEX.md"]
+      },
+      "doc_refs": [
+        "doc/11-gdd.md",
+        "doc/13-spec-cenas.md",
+        "doc/00-project-brief.md",
+        "doc/15-tdd.md"
+      ],
+      "freeze_axes_acknowledgement": true
+    }
+  ],
+  "human_authorization": {
+    "authorized_at": "2026-09-05",
+    "author_role": "project_owner",
+    "notes": "Pre-autorizacao do convite E2E: modo create_new_project, genero FIGHTING e escopo D0-D6."
+  }
+}

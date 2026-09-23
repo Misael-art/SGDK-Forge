@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "candidate": "taina_reseed_native_lineart_editor_candidate_v01",
+  "priority": "P0_visual_rework",
+  "requests": [
+    {"id": "face_01", "request": "Make brow/eye wedge readable in 1x using no more than the existing lineart ink."},
+    {"id": "guard_01", "request": "Rebuild the high diagonal guard with two distinct forearm/fist contacts."},
+    {"id": "hair_01", "request": "Keep irregular tied curl mass asymmetric rather than a circular cap."},
+    {"id": "costume_01", "request": "Preserve orange-top break, indigo wide pants and right teal sash/wrap hook."},
+    {"id": "feet_01", "request": "Retain two planted feet and pivot clearance at (24,60)."}
+  ],
+  "constraints": ["48x64", "1px_hard_edge", "8x8_grid", "index0_transparent", "no_partial_alpha", "no_res_promotion"],
+  "gate_after_fix": "pixel_contract_then_human_visual_review"
+}

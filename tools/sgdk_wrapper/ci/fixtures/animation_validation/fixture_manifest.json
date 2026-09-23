@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1.0",
+  "purpose": "Permanent adversarial expectations for canonical animation validators.",
+  "cases": [
+    { "id": "neighbor_fragment_fixed_cell", "validator": "validate_animation_strip_artifact", "expected_blocker": "neighbor_cell_fragment_detected" },
+    { "id": "filled_silhouette_as_lineart", "validator": "validate_lineart_topology", "expected_blocker": "lineart_fill_masquerading_as_contour" },
+    { "id": "thick_line_as_1px", "validator": "validate_lineart_topology", "expected_blocker": "lineart_stroke_over_1px" },
+    { "id": "source_cells_reordered_as_action", "validator": "validate_motion_semantics", "expected_blocker": "action_is_reordered_source_cells" },
+    { "id": "undeclared_duplicate_frame", "validator": "validate_motion_semantics", "expected_blocker": "undeclared_duplicate_frame" },
+    { "id": "cross_action_frame_reuse", "validator": "validate_animation_candidate", "expected_blocker": "cross_action_frame_reuse" },
+    { "id": "visual_pass_with_needs_review", "validator": "validate_animation_candidate", "expected_blocker": "visual_pass_self_asserted" },
+    { "id": "claim_above_dependencies", "validator": "validate_animation_candidate", "expected_blocker": "claim_dependency_violation" },
+    { "id": "timing_preview_divergence", "validator": "validate_animation_strip_artifact", "expected_blocker": "gif_delay_contract_mismatch" },
+    { "id": "metasprite_report_conflict", "validator": "validate_animation_candidate", "expected_blocker": "metasprite_layout_conflict" },
+    { "id": "planted_support_slides", "validator": "validate_motion_semantics", "expected_blocker": "foot_slide_detected" },
+    { "id": "blind_action_not_recognized", "validator": "validate_animation_candidate", "expected_blocker": "blind_action_recognition_failed" },
+    { "id": "report_not_bound_to_subject", "validator": "validate_animation_candidate", "expected_blocker": "fidelity_subject_hash_unbound" },
+    { "id": "duplicate_timing_authority", "validator": "validate_animation_strip_artifact", "expected_blocker": "duplicate_timing_authority" },
+    { "id": "principles_missing_one_id", "validator": "validate_animation_candidate", "expected_blocker": "animation_principles_incomplete" },
+    { "id": "appeal_marked_not_applicable", "validator": "validate_animation_candidate", "expected_blocker": "animation_principle_illegal_not_applicable" },
+    { "id": "appeal_passed_by_automation_only", "validator": "validate_animation_candidate", "expected_blocker": "animation_principle_human_review_missing" },
+    { "id": "animation_method_not_declared", "validator": "validate_animation_candidate", "expected_blocker": "animation_production_method_missing" },
+    { "id": "single_pose_scaled_as_temporal_animation", "validator": "validate_motion_semantics", "expected_blocker": "single_pose_affine_animation_masquerade" },
+    { "id": "mechanical_affine_probe_as_motion", "validator": "validate_motion_semantics", "expected_blocker": "mechanical_probe_cannot_prove_motion" },
+    { "id": "procedural_contour_as_native_lineart", "validator": "validate_motion_semantics", "expected_blocker": "procedural_contour_declared_native_lineart" },
+    { "id": "declared_support_without_artifact_measurement", "validator": "validate_motion_semantics", "expected_blocker": "support_contact_not_artifact_bound" },
+    { "id": "stale_motion_semantic_report", "validator": "validate_animation_candidate", "expected_blocker": "motion_semantic_report_outdated" },
+    { "id": "unresolved_contract_motion_blocker", "validator": "validate_animation_candidate", "expected_blocker": "strip_contract_has_unresolved_motion_blocker" },
+    { "id": "noncanonical_principle_evidence_kind", "validator": "validate_animation_candidate", "expected_blocker": "animation_principles_evidence_kind_invalid" }
+    ,{ "id": "contract_skips_bundled_schema", "validator": "validate_animation_strip_artifact", "expected_blocker": "animation_strip_schema_invalid" }
+    ,{ "id": "pending_lineart_called_approved", "validator": "validate_motion_semantics", "expected_blocker": "native_lineart_approval_status_invalid" }
+    ,{ "id": "integer_expanded_grid_called_native_resolution", "validator": "validate_animation_strip_artifact", "expected_blocker": "native_pixel_integer_scale_masquerade" }
+    ,{ "id": "ascii_or_code_raster_called_hand_authored", "validator": "validate_animation_strip_artifact", "expected_blocker": "code_authored_character_pixels" }
+    ,{ "id": "native_contract_without_producer_lineage", "validator": "validate_animation_strip_artifact", "expected_blocker": "animation_production_provenance_missing" }
+    ,{ "id": "physical_mechanical_resize_mislabeled_native", "package": "mechanical_resize_mislabeled_native", "validator": "validate_animation_strip_artifact", "expected_blocker": "mechanical_resize_mislabeled_native" }
+    ,{ "id": "physical_vector_procedural_lineart_declared_native", "package": "vector_procedural_lineart_declared_native", "validator": "validate_animation_strip_artifact", "expected_blocker": "vector_procedural_lineart_declared_native" }
+    ,{ "id": "physical_source_frame_lineage_not_independent", "package": "source_frame_lineage_not_independent", "validator": "validate_animation_strip_artifact", "expected_blocker": "source_frame_lineage_not_independent", "allowed_blockers": ["source_frame_lineage_not_independent", "source_frame_lineage_mismatch"] }
+    ,{ "id": "physical_noncanonical_motion_profile", "package": "noncanonical_motion_profile", "validator": "validate_motion_semantics", "expected_blocker": "noncanonical_motion_profile" }
+    ,{ "id": "physical_package_visual_report_subject_incomplete", "package": "package_visual_report_subject_incomplete", "validator": "validate_animation_candidate", "expected_blocker": "package_visual_report_subject_incomplete" }
+    ,{ "id": "physical_animation_principle_evidence_not_action_specific", "package": "animation_principle_evidence_not_action_specific", "validator": "validate_animation_candidate", "expected_blocker": "animation_principle_evidence_not_action_specific" }
+    ,{ "id": "physical_viewpoint_continuity_unproven", "package": "viewpoint_continuity_unproven", "validator": "validate_animation_candidate", "expected_blocker": "viewpoint_continuity_unproven" }
+    ,{ "id": "physical_model_sheet_to_sprite_fidelity_unproven", "package": "model_sheet_to_sprite_fidelity_unproven", "validator": "validate_animation_candidate", "expected_blocker": "model_sheet_to_sprite_fidelity_unproven" }
+    ,{ "id": "physical_source_frame_artifact_fake_hash", "package": "source_frame_artifact_fake_hash", "validator": "validate_animation_strip_artifact", "expected_blocker": "source_frame_artifact_unbound" }
+    ,{ "id": "physical_source_frame_artifact_missing_path", "package": "source_frame_artifact_missing_path", "validator": "validate_animation_strip_artifact", "expected_blocker": "source_frame_artifact_unbound" }
+    ,{ "id": "physical_source_frame_region_outside", "package": "source_frame_region_outside", "validator": "validate_animation_strip_artifact", "expected_blocker": "source_frame_region_outside" }
+    ,{ "id": "physical_source_frame_pixel_hash_mismatch", "package": "source_frame_pixel_hash_mismatch", "validator": "validate_animation_strip_artifact", "expected_blocker": "source_frame_pixel_hash_mismatch" }
+    ,{ "id": "physical_source_frame_lineage_mismatch", "package": "source_frame_lineage_mismatch", "validator": "validate_animation_strip_artifact", "expected_blocker": "source_frame_lineage_mismatch" }
+    ,{ "id": "physical_registry_schema_version_tampered", "package": "registry_schema_version_tampered", "validator": "validate_animation_candidate", "expected_blocker": "motion_semantic_report_outdated" }
+    ,{ "id": "physical_child_validation_report_tampered", "package": "child_validation_report_tampered", "validator": "validate_animation_candidate", "expected_blocker": "child_validation_report_tampered" }
+    ,{ "id": "physical_evidence_ref_missing", "package": "evidence_ref_missing", "validator": "validate_animation_candidate", "expected_blocker": "evidence_ref_unbound" }
+    ,{ "id": "physical_evidence_ref_wrong_action", "package": "evidence_ref_wrong_action", "validator": "validate_animation_candidate", "expected_blocker": "animation_principle_evidence_not_action_specific" }
+    ,{ "id": "physical_agent_diagnostic_as_human_visual_review", "package": "agent_diagnostic_as_human_visual_review", "validator": "validate_animation_candidate", "expected_blocker": "human_visual_review_unproven" }
+    ,{ "id": "physical_human_decision_invalid_bindings", "package": "human_decision_invalid_bindings", "validator": "validate_animation_candidate", "expected_blocker": "human_decision_report_binding_invalid" }
+  ]
+}

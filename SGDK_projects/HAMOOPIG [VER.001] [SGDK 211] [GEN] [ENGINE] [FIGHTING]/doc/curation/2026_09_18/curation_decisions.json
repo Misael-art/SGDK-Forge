@@ -1,0 +1,722 @@
+{
+  "date": "2026-09-18",
+  "authorization": "Pedido explicito do usuario: faca a curadoria do aprendizado mesmo nao estando terminado, para fortalecer o agente canonico.",
+  "scope": "manual_instructional_assimilation",
+  "runtime_modified": false,
+  "aaa_promotion": false,
+  "skill_created": false,
+  "canonical_reference": "tools/sgdk_wrapper/.agent/references/hamoopig_engine_learning_2026_09_18.md",
+  "skill_targets": [
+    "tools/sgdk_wrapper/.agent/skills/code/collision-system-architect/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/hardware/vram-streaming-dma-queue/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+    "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md"
+  ],
+  "rom_sha256": "4c273bd5803913acbd62a55e6386f7c1e50e4d707cd14fd2fdd6c715ffa0ebbc",
+  "sources": [
+    {
+      "path": "doc/curation/2026_09_11/code_review_report.json",
+      "sha256": "a6152b9cbe788b21a262c6c6b6bd853e39577909545f6cff7a9dcc87e6bc735f",
+      "lesson_id": null,
+      "title": null,
+      "source_status": null,
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_11/context_report.json",
+      "sha256": "bfe6c383c7c7435d2b072c823df98b70c22e85afd469837d1cf2fd265b50738c",
+      "lesson_id": null,
+      "title": null,
+      "source_status": "ok",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_11/hygiene_report.json",
+      "sha256": "2d088bbbecd819dd851f5f0c2dbeacd9f7854efc0e0c175725c44677d8eeac15",
+      "lesson_id": null,
+      "title": null,
+      "source_status": "blocked",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_11/source_manifest.json",
+      "sha256": "b75da33ff46ed41845b9e2bf68e56ebd792723e56dc7733ac532546a3b37b9d4",
+      "lesson_id": null,
+      "title": null,
+      "source_status": null,
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_12/implementation_closeout.json",
+      "sha256": "311002fa726fe7d5612bfe1ee55d16c7ff3fc19d143278b18ccde895d973a27c",
+      "lesson_id": null,
+      "title": null,
+      "source_status": null,
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_12/visual_ko_lessons.json",
+      "sha256": "7f85bc76683166b53403cb9c1d1731b75967c46e20cfbaf5ccd87902c9b720f4",
+      "lesson_id": null,
+      "title": null,
+      "source_status": null,
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_13/test_harness_lessons.json",
+      "sha256": "79ff0aab2d955a4e5b778a9d20466400b71d6e425539967b6b631b2029ee85e6",
+      "lesson_id": null,
+      "title": null,
+      "source_status": null,
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_14/clock_stage_transition_learning.json",
+      "sha256": "996a90966b9d30988105a4df96199e99f61f7f6145b127ddafc2807c836a521a",
+      "lesson_id": "clock_mask_and_transition_capture_20260914",
+      "title": "Máscara transparente precisa compartilhar PAL1; captura fresca ainda exige probe",
+      "source_status": "implemented_static_pass_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_14/learning_life_bar_multiplex.json",
+      "sha256": "3cf330713d32c82097b39fe6c7385bbbee5a7d6f13c07107bee3a0c47a7d4a27",
+      "lesson_id": "lesson_life_bar_multiplex_20260914",
+      "title": "Célula fixa de life bar precisa preservar índice de transparência e limite de scanline",
+      "source_status": "documentado_e_buildado; validado_budget_global=false",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_14/title_menu_implementation.json",
+      "sha256": "047e6f0418d8f0000da2ebdea39b69cff07509c4cbfe9529b35fe7d34dbf80b9",
+      "lesson_id": "title_menu_persistent_frontend_20260914",
+      "title": "Tela de título persistente deve separar splash, menu e seletor",
+      "source_status": "implemented_transition_fix_manual_visual_pass; canonical_bundle_blocked_missing_vlab_vdp_runtime",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/6c6d_integrated_revalidation.json",
+      "sha256": "bfe357e6dee6194dda2ae4a807375a017aa69e6e0bb0c67dcfab479d79d7ef32",
+      "lesson_id": "L104",
+      "title": "current_rom_integrated_revalidation",
+      "source_status": "instrumental_revalidation_passed_sensorial_and_full_gameplay_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/audio_a187_current_rom.json",
+      "sha256": "1781eb67a90c13c80edef3df7690c89e41642a37ec7df4d7cc2fb54ae6c78f1d",
+      "lesson_id": "L098",
+      "title": "audio_signal_a187_current_rom",
+      "source_status": "signal_route_pass_critical_listening_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/audio_signal_current_rom.json",
+      "sha256": "1e0d55267806f8f380c7302a279c1c75d17db90f920bc7b34bdda052c3b45126",
+      "lesson_id": "L087",
+      "title": "audio_signal_current_rom",
+      "source_status": "documented_signal_and_route_pass_critical_listening_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/audio_stage2_864_current_rom.json",
+      "sha256": "e3958c465bc89ec7a3d0a3b5ab0fbf259856ef89b5461ee828f26012287d388b",
+      "lesson_id": "L092",
+      "title": "audio_stage2_864_current_rom",
+      "source_status": "documented_signal_route_pass_critical_listening_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/capture_manifest_optional_config.json",
+      "sha256": "ebfe8ccdd9442b70217892c78fb9aa968ac10a9e0354e1d98dc6ed1aa74e0190",
+      "lesson_id": "capture_manifest_optional_config_20260915",
+      "title": "Ausência de blastem.cfg deve ser registrada, não confundida com falha da ROM",
+      "source_status": "implemented_tooling",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/combat_event_combo_consumer.json",
+      "sha256": "74f0858b68ec41fbaf545b3d74ea136afe149fafe5ab4584238f3b4a5724e139",
+      "lesson_id": "combat_event_combo_consumer_20260915",
+      "title": "A colisão produz; um consumidor aplica o combo uma vez",
+      "source_status": "implemented_combo_and_guard_classification_p04_partial",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/combat_event_health_consumer.json",
+      "sha256": "aca321fec0b4f5418479d576d193f4a80574c8eaeb0da07b706a11b9f2137368",
+      "lesson_id": "combat_event_health_consumer_20260915",
+      "title": "Vida deve ser resolvida uma vez pelo evento, depois da FSM",
+      "source_status": "implemented_p04_partial",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/combat_event_persistent_gate.json",
+      "sha256": "24ecb46ddc234b3d291172afaa5edca13e14905e11954904f86c7960c770d1a2",
+      "lesson_id": "L103",
+      "title": "combat_event_persistent_gate",
+      "source_status": "host_and_runtime_probe_revalidated_full_gameplay_pending",
+      "decision": "assimilated_guidance",
+      "rationale": "Principio com limites explicitos; consultar referencia canonica."
+    },
+    {
+      "path": "doc/curation/2026_09_15/combat_event_result_reset.json",
+      "sha256": "ab8ec4ca019e08d2b9e88eced511d8b33e6563ca6a516524d5a084247f3239ea",
+      "lesson_id": "combat_event_result_reset_20260915",
+      "title": "Resultado e fila de eventos precisam sobreviver ao tick, mas não ao round",
+      "source_status": "implemented_p04_partial",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/combat_event_runtime_probe_schema6.json",
+      "sha256": "cd4a7413c10a827f1e97ed63dedd24e31595d3b39ac05989b225b0a37cfd8beb",
+      "lesson_id": "L068",
+      "title": "Telemetria de eventos de combate precisa de schema versionado",
+      "source_status": "implemented_build_passed_sram_decode_passed_hit_projectile_session_pending_guard_throw_double_ko",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/combat_event_same_tick_dedup.json",
+      "sha256": "04f05d5b3811b0d3baf421fa307209583985f7a1673cadf1bdf5a7d80b755272",
+      "lesson_id": "combat_event_same_tick_dedup_20260915",
+      "title": "Uma colisão reavaliada no mesmo tick não pode inflar o feedback",
+      "source_status": "implemented_p04_partial",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/combat_event_source_identity.json",
+      "sha256": "fc3611c8cee8045b20c35f0e4666ba27cbdd3123e70b5d31fec2b9800052f980",
+      "lesson_id": "L064",
+      "title": "Identidade de origem e instância no ledger de combate",
+      "source_status": "implemented_build_passed_host_contract_pending_emulator_trace",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/combat_event_throw_kind.json",
+      "sha256": "ee276bb862372ee5c8614aa19f5732b106ebd10312251f783b1e422025180e78",
+      "lesson_id": "L065",
+      "title": "Tipo THROW explícito e confirmado no ledger",
+      "source_status": "implemented_build_passed_host_contract_pending_emulator_trace",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/current_rom_a187_revalidation.json",
+      "sha256": "5c346d4e1fc7ff49ea5b373ce952ec6f9e3a6be2ff25f694b8ad039f606b388d",
+      "lesson_id": "L096",
+      "title": "current_rom_a187_integrated_revalidation",
+      "source_status": "revalidated_current_sha_with_pending_sensorial_gates",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/eeb5_integrated_revalidation.json",
+      "sha256": "32fec67907d418c8e2848accf3a37080b481efd53c846d4752ce228ca9e867c1",
+      "lesson_id": "L100",
+      "title": "eeb5_integrated_revalidation",
+      "source_status": "instrumental_revalidation_passed_sensorial_and_full_gameplay_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/hprb_schema7_screen_height.json",
+      "sha256": "1061f15f2d9eafee0f370ad5d559ef700db3056f1dcb34c08c03eb33400fdf09",
+      "lesson_id": "L073",
+      "title": "Altura efetiva deve ser exportada, não inferida",
+      "source_status": "implemented_build_passed_pal240_runtime_probe_visual_audio_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/hud_alias_and_stable_fighter_sprite.json",
+      "sha256": "a5baa3d1f2e13a25d28566cae82c2c6845cd8cb723accd287af434b8f52626ad",
+      "lesson_id": "L075",
+      "title": "Sprites de lutador e HUD compacto precisam de proprietários estáveis na VRAM",
+      "source_status": "implemented_build_passed_ko_zero_and_round_reset_visual_capture_partial_visual_audio_review_pending",
+      "decision": "assimilated_guidance",
+      "rationale": "Principio com limites explicitos; consultar referencia canonica."
+    },
+    {
+      "path": "doc/curation/2026_09_15/hud_message_font_transparency.json",
+      "sha256": "20691a89b2dda6dd9ab2c61a450e7bfd005f9a8bfaf051ebcdcafcbc1471e1d1",
+      "lesson_id": "L085",
+      "title": "hud_message_font_transparency",
+      "source_status": "documented_build_and_visual_probe_pass_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/hud_segment_transparency.json",
+      "sha256": "5007ed538b9676356922df5918fe52f42d68217223b8e0040b12874e3c63eb79",
+      "lesson_id": "L067",
+      "title": "Índice 0 transparente no segmento de vida",
+      "source_status": "implemented_build_passed_emulator_capture_pending_budget_and_independent_review",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/ko_round_reset_e170_current_rom.json",
+      "sha256": "a4cb06c6774ea72f32391dc52f0e4fb2ee00afe8bf47ceb04ddf7d6090dedc50",
+      "lesson_id": "L094",
+      "title": "ko_round_reset_e170_current_rom",
+      "source_status": "documented_current_sha_ko_reset_pass_collision_classes_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/musgo_ko_grounded_pose.json",
+      "sha256": "12499247f9ec636ee770a1868f9bfee36b4ebaa6d763aaf80e8be3c0d6c3abc3",
+      "lesson_id": "L099",
+      "title": "musgo_ko_grounded_pose",
+      "source_status": "implemented_built_and_directed_capture_passed_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/ntsc_dma_backpressure.json",
+      "sha256": "2a95ed99916bfe3b4acb5c8a9d6f75995395b5c22b33ebdade6466ea4347a1c8",
+      "lesson_id": "L074",
+      "title": "Uploads de frames de lutador precisam respeitar back-pressure do DMA",
+      "source_status": "implemented_build_passed_ntsc_pal240_probe_visual_audio_review_pending",
+      "decision": "assimilated_guidance",
+      "rationale": "Principio com limites explicitos; consultar referencia canonica."
+    },
+    {
+      "path": "doc/curation/2026_09_15/opening_title_transition_capture.json",
+      "sha256": "590be59257d1bd6dca77428323623d21c01104b9628ff3fefbe2d7a30b943a21",
+      "lesson_id": "L070",
+      "title": "A separação abertura→título precisa de vídeo desde o primeiro framebuffer",
+      "source_status": "capture_passed_visual_temporal_review_metrics_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/p10_combat_probe_current_rom.json",
+      "sha256": "82a9ccc2413adcf196320afec8cc00dbc3cb261ab5475ab648a7f8dddfe78b34",
+      "lesson_id": "L083",
+      "title": "p10_combat_probe_current_rom",
+      "source_status": "documented_runtime_probe_pass_bounded_claim",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/p10_current_rom_revalidation.json",
+      "sha256": "a3965298201579696feaf5f85e33081953b7bfd8000233702416c70e6b0e28f9",
+      "lesson_id": "L082",
+      "title": "p10_revalidation_after_rom_change",
+      "source_status": "documented_current_rom_runtime_probe_pass",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/p10_selection_runner.json",
+      "sha256": "72872b8bf30c3668d588739f4e868d51f5fff4019f2dff2735c512e01826f4a4",
+      "lesson_id": "L078",
+      "title": "p10_selection_runner",
+      "source_status": "documented_implementation_runtime_selection_pending_sensory_review",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/p11_current_rom_revalidation.json",
+      "sha256": "d6163e2aacc9e99a4dde4634194acc5b512e1684c650bd6c3c29951639d19489",
+      "lesson_id": "L088",
+      "title": "p11_current_rom_revalidation",
+      "source_status": "documented_host_reproduction_pass_release_inventory_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/p11_isolated_reproduction.json",
+      "sha256": "3231cefe8bbb396cfc8880a446278cea3a9b44d1ba0383c58a449845a664ab45",
+      "lesson_id": "L080",
+      "title": "p11_isolated_reproduction",
+      "source_status": "documented_host_reproduction_pass_bounded_claim",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/p11_release_inventory.json",
+      "sha256": "f8424b39e61c5857ee357be06acf46c6b233ad4431290b9fece4e6eacd0f5466",
+      "lesson_id": "L102",
+      "title": "p11_release_inventory",
+      "source_status": "candidate_inventory_validated_release_gates_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/scene_reset_stress.json",
+      "sha256": "310f3c1f4ab108ed36436f099b0975b3986ef552c7fd5e6521eb9b379a7070f7",
+      "lesson_id": "L079",
+      "title": "scene_reset_stress",
+      "source_status": "documented_runtime_pass_bounded_claim",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/scene_reset_stress_current_rom.json",
+      "sha256": "4e6d258d29acb4a3d58db472fc4633cf6d79681b2a5b3de98219b7ee5b1f8073",
+      "lesson_id": "L084",
+      "title": "scene_reset_stress_current_rom",
+      "source_status": "documented_current_rom_runtime_pass_bounded_claim",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/showdown_864_tile_promotion.json",
+      "sha256": "c683f02d0876179af2fe559c4e77d8b3b44d2f78f8a4079a07c38f8bb4c184dc",
+      "lesson_id": "L086",
+      "title": "showdown_864_tile_promotion",
+      "source_status": "documented_build_runtime_probe_pass_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/showdown_budget_next_degree.json",
+      "sha256": "7b47247b3af85d1b7a63de550c777527f700e4285768433aceb6348b8d85f120",
+      "lesson_id": "L077",
+      "title": "Medir o próximo degrau de tiles antes de promovê-lo",
+      "source_status": "measured_and_rejected_unsafe_degrees",
+      "decision": "assimilated_guidance",
+      "rationale": "Principio com limites explicitos; consultar referencia canonica."
+    },
+    {
+      "path": "doc/curation/2026_09_15/showdown_lab_source_candidate.json",
+      "sha256": "ceb0d688f722aa8f5defd5079c4901eb7abddc4d7e4c6915532afb32e2490241",
+      "lesson_id": "L069",
+      "title": "Fonte nativa do laboratório melhora a composição, mas não autoriza promoção automática",
+      "source_status": "implemented_candidate_build_capture_passed_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/showdown_medoid_refinement.json",
+      "sha256": "30edb10ebb8743b2c04ea11a77d46fb8d0aa61e548df14c15ded290b84700bde",
+      "lesson_id": "L066",
+      "title": "Refinamento medoid para reduzir quadriculação do Showdown",
+      "source_status": "implemented_build_passed_exploratory_capture_pending_visual_gate",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/showdown_reference_preview_refinement.json",
+      "sha256": "242d325c2fd91d917688e82149c02b01dd1d3885959414ef19b8ab0c7f3c8ed1",
+      "lesson_id": "L076",
+      "title": "Converter de palco deve otimizar contra a referência que será revisada",
+      "source_status": "candidate_built_and_captured_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/showdown_stream_window_measurement.json",
+      "sha256": "848cdfb96ce942f98524fa6436c82d86f45039608b09ee40b3be3e8488f283f8",
+      "lesson_id": "L090",
+      "title": "showdown_stream_window_measurement",
+      "source_status": "documented_measurement_pass_runtime_streamer_pending",
+      "decision": "assimilated_guidance",
+      "rationale": "Principio com limites explicitos; consultar referencia canonica."
+    },
+    {
+      "path": "doc/curation/2026_09_15/special_meter_event_delta.json",
+      "sha256": "6f24973f4e96b48ccb6d2d128b8b44ebd87fd23eb90eebdbcadb9bace6c063fd",
+      "lesson_id": "special_meter_event_delta_20260915",
+      "title": "Aplicar política fixa de especial no consumo HIT/GUARD",
+      "source_status": "implemented_fixed_hit_guard_policy_p05_partial",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/stage2_864_rom_revalidation.json",
+      "sha256": "a232e09bf3c23dbb805c77af0dc410a38d2b69b691c5bf58c7afa3f42d1acc2f",
+      "lesson_id": "L091",
+      "title": "stage2_864_rom_revalidation",
+      "source_status": "documented_build_and_runtime_revalidation_pass_sensorial_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/stage2_width_and_capture_harness.json",
+      "sha256": "21b5779b22621c07b2b3617b665be640c6bb2d277516fcbed7d0fd61fdf72c96",
+      "lesson_id": "L072",
+      "title": "Largura do palco e identidade do input de captura",
+      "source_status": "implemented_build_passed_ntsc_pal240_integration_visual_pending_ntsc_budget_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/stage_definition_loader.json",
+      "sha256": "4e041aec32e46475c81fd91973b777a5d29652a42db9298db47f4d1e67329cef",
+      "lesson_id": "L071",
+      "title": "StageDefinition centraliza a seleção de cenário sem esconder o budget",
+      "source_status": "implemented_build_passed_emulator_regression_pending_budget_visual_audio",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/stage_definition_metadata.json",
+      "sha256": "896fbed64e0a69909df85de5b5cdb9349daa3869c25050ee94a31c020a0ff30a",
+      "lesson_id": "L095",
+      "title": "data_driven_stage_definition_metadata",
+      "source_status": "implemented_built_streaming_runtime_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/timer_bg_contract.json",
+      "sha256": "5c48e10895dc9320227a0f99d405b0722ee66867f4762e85c410bd9b1335bbb1",
+      "lesson_id": "timer_bg_compact_surface_20260915",
+      "title": "Contraste do relógio deve ser opcional e local",
+      "source_status": "implemented_static_pass_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/title_dma_completion_barrier.json",
+      "sha256": "97e35ba06fddceb23bea59db5478803cf8e77e17e05350346bc027ccbf6d1ece",
+      "lesson_id": "title_dma_completion_barrier_20260915",
+      "title": "Não escrever o painel enquanto a restauração do BG_A está em DMA",
+      "source_status": "implemented_static_pass_exploratory_visual_pending",
+      "decision": "assimilated_guidance",
+      "rationale": "Principio com limites explicitos; consultar referencia canonica."
+    },
+    {
+      "path": "doc/curation/2026_09_15/title_return_intro_fade.json",
+      "sha256": "c27c240ba98179fe340803a41a9f1310fe24f9a4316f3b4dac07599e4771b64d",
+      "lesson_id": "L081",
+      "title": "observable_intro_fade_preferences",
+      "source_status": "documented_build_runtime_route_pass_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/title_transition_a187_current_rom.json",
+      "sha256": "fe2bcbdd2eb916a33b4167b04301d978b14cbc65bbf7a53fb3e66779fae858ca",
+      "lesson_id": "L097",
+      "title": "title_transition_a187_current_rom",
+      "source_status": "current_sha_temporal_transition_pass_independent_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/title_transition_current_rom.json",
+      "sha256": "4024cb8fea975f354fd21b3bc9fc05ff14ff18851ab1ae8e66d57aca7637ff19",
+      "lesson_id": "L089",
+      "title": "title_transition_current_rom",
+      "source_status": "documented_temporal_transition_pass_independent_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/title_transition_e170_current_rom.json",
+      "sha256": "2f9b8793d46740578ebb741819d5e5eaa18099e852a1fe926c6b6531ed50a2b5",
+      "lesson_id": "L093",
+      "title": "title_transition_e170_current_rom",
+      "source_status": "documented_current_sha_temporal_pass_independent_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_15/title_transition_eeb5_current_rom.json",
+      "sha256": "0f45cc8da8dfffcc11e114fb23ec5deca70f57f8ed8d059d1aee7f20ae0d6dbf",
+      "lesson_id": "L101",
+      "title": "title_transition_eeb5_current_rom",
+      "source_status": "current_sha_transition_capture_passed_independent_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/combat_probe_f424.json",
+      "sha256": "c1ac67b0d6f9596a137a0a73518bbd7a759289cea447b5ac2e7c63c1e741461c",
+      "lesson_id": "L112",
+      "title": "combat_probe_current_rom",
+      "source_status": "runtime_hit_event_observed_same_rom",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/combat_semantics_probe_v2.json",
+      "sha256": "63e9c7923913c4004389fd6fa32c71ee4a723f64aa7118babaec80fd0bd3be35",
+      "lesson_id": "L106",
+      "title": "real_keyboard_combat_semantics_route",
+      "source_status": "route_corrected_but_event_classes_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/current_rom_30c2_session.json",
+      "sha256": "cb1d9591ae53001bf9600e21f938e8c0ae9d9d4ef9bf485fab094afb7253d22e",
+      "lesson_id": "L115",
+      "title": "current_rom_30c2_session_revalidation",
+      "source_status": "current_rom_runtime_revalidated_visual_audio_gates_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/current_rom_session_revalidation.json",
+      "sha256": "4a3dd1ae25d2fd05cf0d943a32080d2e249c3b06fd5aa58229a68b6dbe625b25",
+      "lesson_id": "L111",
+      "title": "current_rom_session_revalidation",
+      "source_status": "current_rom_runtime_session_revalidated",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/hud_identity_round_stars.json",
+      "sha256": "b5e67d8f5f547dfe3527879ebe94736cf7fbefadd7a873c3afbe7e2ad51d5460",
+      "lesson_id": "L105",
+      "title": "hud_identity_and_round_stars",
+      "source_status": "implemented_build_and_probe_revalidated_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/stage2_black_palette_fix.json",
+      "sha256": "4f27097d2487c64102aabe4983592d4e1bb2acf31e03eeac4847ea0d90b78a6b",
+      "lesson_id": "L113",
+      "title": "stage2_opaque_palette_zero_fix",
+      "source_status": "palette_zero_regression_fixed_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/throw_absolute_distance_fix.json",
+      "sha256": "72d236ee297775b742a6784f791dba4230f48530c4865bb0ced898ca329a7465",
+      "lesson_id": "L108",
+      "title": "throw_absolute_distance",
+      "source_status": "absolute_distance_fixed_throw_event_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/throw_capture_input_ownership.json",
+      "sha256": "606c2a18438e04fd9f485a4bf5829a3da0a4b83aa861512d83fd64d127eada4c",
+      "lesson_id": "L118",
+      "title": "throw_capture_input_ownership",
+      "source_status": "harness_corrected_runtime_throw_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/throw_point_blank_route.json",
+      "sha256": "659ad1eb91b7040783ffe630fac86c31d0bd3dfbb5101728eb3b7176900cf0c7",
+      "lesson_id": "L109",
+      "title": "throw_point_blank_route",
+      "source_status": "route_observed_without_throw_event",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/throw_range_bodyspace_alignment.json",
+      "sha256": "679480bfc8e5ae82ad70f4a28772a308a2b889387806904998337c001a40b642",
+      "lesson_id": "L119",
+      "title": "Janela de agarrão deve refletir espaçamento produzido pelas caixas de massa",
+      "source_status": null,
+      "decision": "assimilated_guidance",
+      "rationale": "Principio com limites explicitos; consultar referencia canonica."
+    },
+    {
+      "path": "doc/curation/2026_09_16/throw_runtime_30c2.json",
+      "sha256": "1378cc302dd27af32588491985aff6729f0c48a4303717bed0a3c431301f96bf",
+      "lesson_id": "L114",
+      "title": "throw_runtime_after_stage_asset_change",
+      "source_status": "runtime_throw_event_observed_current_rom",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/throw_runtime_keyboard_validation.json",
+      "sha256": "11f6ff06779f0db146fd2624d0556f4229bfd5d813069375a01277cff25dae2b",
+      "lesson_id": "L110",
+      "title": "throw_runtime_keyboard_validation",
+      "source_status": "runtime_throw_event_observed_same_rom",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/throw_window_boundary_fix.json",
+      "sha256": "099398b8adcaa7bf1bef76a18b4249e13d088151080aedb2f7a550837c1c9446",
+      "lesson_id": "L107",
+      "title": "throw_window_boundary",
+      "source_status": "boundary_fixed_runtime_event_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    },
+    {
+      "path": "doc/curation/2026_09_16/title_fade_out_transaction.json",
+      "sha256": "c0a19bbed7d5260a84cbb6fc755a1f7288c1f6479b7dcd97cc417a20236afb71",
+      "lesson_id": "L116",
+      "title": "title_fade_out_transaction",
+      "source_status": "implemented_build_revalidated_visual_review_pending",
+      "decision": "assimilated_guidance",
+      "rationale": "Principio com limites explicitos; consultar referencia canonica."
+    },
+    {
+      "path": "doc/curation/2026_09_16/title_scene_composite.json",
+      "sha256": "dca305542ef1a5ca03a5028cf105515d5d280ae1e8263ba094210a19266c1fe3",
+      "lesson_id": "L117",
+      "title": "title_scene_composite_vram_and_transition",
+      "source_status": "implemented_build_and_emulator_capture_visual_review_pending",
+      "decision": "inventory_only_no_canonical_promotion",
+      "rationale": "Registro preservado; nao se promove automaticamente por quantidade ou status declarado."
+    }
+  ],
+  "supporting_artifacts": [
+    {
+      "path": "src/combat_event.c",
+      "sha256": "32250e91abaf0466466efdac77912aa14e0648469c233c7264509bda74016937"
+    },
+    {
+      "path": "src/stage.c",
+      "sha256": "64088566100187f216b5b34dbf992723b4fa2f632681189092dd25d51152de0b"
+    },
+    {
+      "path": "src/title.c",
+      "sha256": "598682f075fbe2f118ab2afe0bf1b99cdc1094a5fdc102478467f17978aa2af0"
+    },
+    {
+      "path": "tests/test_combat_event_contract.py",
+      "sha256": "c77d5b1a12db0e7d905801f61bddc2e678dbae307d94878bd766af86f7935fd5"
+    },
+    {
+      "path": "tests/test_p10_evidence_integrity.py",
+      "sha256": "7c10ef1495239e5ad6796e6b9f1ec2b256fd71c4bed78b8b12dcf25424990bfe"
+    },
+    {
+      "path": "tests/analyze_hprb_probe.py",
+      "sha256": "9848a444cb16088079f18f4d310787114f2b1a03c01bbaa8c3a06eb9407c64ca"
+    },
+    {
+      "path": "doc/engine/p10_qa_matrix.json",
+      "sha256": "6159d874996a6a86d365d6da93c450cfbceed06278c8a05613ff5582be49149d"
+    },
+    {
+      "path": "out/logs/current_throw_range100_hprb.json",
+      "sha256": "a985b014aa0bc303a7b86f95c9fc8905110cfed094e9e05cd90a86711f735731"
+    },
+    {
+      "path": "out/logs/current_throw_range100_hsem.json",
+      "sha256": "bb9777729ca31b12c7963032c88d87e39a90fa716a345130b2572bbe69333211"
+    }
+  ]
+}

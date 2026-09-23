@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "tstr_schema": 2,
+  "source": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/_agent_training/[ESTUDO]_mugen_sff_showdown_v1/evidence_p4_escape/blastem-linux-20260829T150342Z-2028975/save.sram",
+  "counters": {
+    "tiles_requested_total": 6660,
+    "tiles_dma_uploaded_total": 6660,
+    "upload_calls_total": 419,
+    "overflow_events_total": 0,
+    "max_resident_single_pass": 1152,
+    "cache_capacity_compiled": 1190,
+    "global_unique_tiles_compiled": 2870,
+    "magic": "0x54533130",
+    "margin_tiles": 38,
+    "margin_ratio": 0.0319,
+    "overflow_consistent": true
+  },
+  "corner_sweep": {
+    "stops_done_mask": 31,
+    "stops": {
+      "center": {
+        "peak_resident": 814,
+        "tiles_requested": 814,
+        "recorded": true
+      },
+      "nw": {
+        "peak_resident": 653,
+        "tiles_requested": 653,
+        "recorded": true
+      },
+      "ne": {
+        "peak_resident": 693,
+        "tiles_requested": 693,
+        "recorded": true
+      },
+      "sw": {
+        "peak_resident": 1090,
+        "tiles_requested": 1090,
+        "recorded": true
+      },
+      "se": {
+        "peak_resident": 1106,
+        "tiles_requested": 1106,
+        "recorded": true
+      }
+    },
+    "worst_stop": {
+      "name": "se",
+      "peak_resident": 1106,
+      "margin_tiles": 84,
+      "margin_ratio": 0.0706
+    }
+  },
+  "verdict": {
+    "code_loaded_tiles_measured": true,
+    "peak_within_capacity": true,
+    "dma_bytes_total": 213120,
+    "sweep_all_within_capacity": true,
+    "worst_margin_tiles": 84
+  }
+}

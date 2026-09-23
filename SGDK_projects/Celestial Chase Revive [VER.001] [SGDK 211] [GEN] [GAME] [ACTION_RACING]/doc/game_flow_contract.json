@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "status": "planned",
+  "contract_id": "game_flow_pause_gameover_continue_v001",
+  "state_model_ref": "doc/scene_manager_contract.json",
+  "states_added_by_contract": [
+    "PAUSE",
+    "GAME_OVER",
+    "CONTINUE"
+  ],
+  "pause": {
+    "entry": "START during RACE, UPGRADE, BOSS_APPROACH or FINAL_BOSS when transition mutex is free",
+    "exit": "START resumes, B returns to prior scene if menu policy allows",
+    "freezes": [
+      "track frame counter",
+      "entity updates",
+      "collision",
+      "pressure gain",
+      "animation frame advance except pause cursor"
+    ],
+    "continues": [
+      "VBlank processing",
+      "input polling",
+      "audio pause or duck state",
+      "pause menu cursor"
+    ],
+    "render_policy": "WINDOW owner switches to pause overlay only after race_hud state is preserved",
+    "options_first_slice": ["RESUME", "RETRY", "TITLE"],
+    "regression_cases": ["pause_during_jump", "pause_during_damage_invulnerability", "pause_during_boss_weakpoint_window", "pause_then_title_teardown"]
+  },
+  "game_over": {
+    "entry_conditions": [
+      "integrity <= 0",
+      "pressure >= 100 outside protected boss final hit resolution"
+    ],
+    "presentation": "short result card with failure line from doc/12-roteiro.md",
+    "freeze_before_result_frames": 45,
+    "audio": "failure sting then low loop",
+    "choices": ["CONTINUE", "TITLE"],
+    "default_choice": "CONTINUE"
+  },
+  "continue": {
+    "availability_first_slice": "unlimited_retry_for_testing",
+    "product_target": "3 continues per run unless save/accessibility policy changes",
+    "continue_action": "restart current sector at checkpoint with score multiplier reset",
+    "boss_continue_action": "restart current boss phase with weakpoints already broken preserved only after save policy approval",
+    "countdown_frames": 600,
+    "input": {
+      "A_or_START": "confirm_continue",
+      "B": "title",
+      "timeout": "title"
+    }
+  },
+  "scene_handoff": [
+    {"from": "RACE", "to": "PAUSE", "handoff": "preserve race state, input buffer cleared"},
+    {"from": "PAUSE", "to": "RACE", "handoff": "restore race state, resume timers next frame"},
+    {"from": "RACE", "to": "GAME_OVER", "handoff": "freeze, clear hazards after result card"},
+    {"from": "GAME_OVER", "to": "CONTINUE", "handoff": "carry current sector id and checkpoint id"},
+    {"from": "CONTINUE", "to": "RACE", "handoff": "reload sector checkpoint, reset pressure to 25"},
+    {"from": "CONTINUE", "to": "TITLE", "handoff": "full teardown"}
+  ],
+  "blocked_behaviors": [
+    "pause cannot enter during scene fade/load",
+    "continue cannot resume into stale hazard pool",
+    "game over cannot leave HScroll, WINDOW or sprites owned by race scene",
+    "input buffer cannot fire Pulse immediately after continue"
+  ],
+  "validation_plan": [
+    "pause/resume on clean race",
+    "pause/resume during jump",
+    "game over from integrity zero",
+    "game over from pressure 100",
+    "continue returns to sector checkpoint",
+    "title return clears all race resources"
+  ]
+}

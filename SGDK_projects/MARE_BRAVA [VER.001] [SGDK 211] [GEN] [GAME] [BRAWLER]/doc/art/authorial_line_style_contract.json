@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "mare_brava_authorial_line_style_v1",
+  "project_id": "mare_brava",
+  "status": "active_preproduction_contract",
+  "created_at": "2026-07-04",
+  "purpose": "Bloquear arte generica e fixar a assinatura de traco autoral antes de nova geracao, curadoria, traducao VDP ou promocao visual.",
+  "selected_style_id": "angular_cps2_fighter",
+  "style_problem_to_correct": "A etiqueta de estilo estava correta como direcao tecnica, mas ampla demais; os prompts podiam gerar lutadores e props competentes porem anonimos, sem carisma proprio de MARE_BRAVA.",
+  "global_line_signature": {
+    "outer_contour": "contorno escuro roxo/marinho/couro, grosso nos pontos de leitura e mais economico nas areas internas; nunca outline preto uniforme em tudo",
+    "internal_lines": "cortes angulares curtos, como cunhas de sombra e dobras de tecido; nada de hachura decorativa ou sketch solto",
+    "shadow_edges": "bordas de sombra duras em triangulos/trapezios, pensadas para virar clusters de pixel",
+    "gesture": "poses com peso de corpo, quadril e ombro claros; maos e pes grandes o bastante para comunicar contato, guarda, empurrao e impacto",
+    "face_rule": "rostos pequenos mas autorais: sobrancelha forte, nariz em cunha, boca de atitude e olhos mirando o oponente; proibido rosto anime generico"
+  },
+  "character_line_grammar": {
+    "taina": {
+      "silhouette_hooks": [
+        "guarda alta diagonal de muay thai",
+        "faixa na cintura criando cauda grafica lateral",
+        "cabelo cacheado preso em massa curta irregular",
+        "bandagens nas maos e canelas como blocos claros"
+      ],
+      "face_grammar": "olhar cansado e firme, sobrancelha inclinada, mandibula compacta, nariz em cunha e boca fechada de decisao",
+      "hand_foot_grammar": "maos em bandagem com punhos grandes, pes/canelas legiveis para chute baixo e base de luta",
+      "costume_asymmetry": "faixa amarrada pende para um lado; top laranja queimado gasto; calca escura larga com dobras grandes",
+      "generic_blockers": [
+        "pin-up fighter",
+        "mulher fitness generica",
+        "proporcao realista 7-head",
+        "rosto anime liso sem sobrancelha/mandibula",
+        "roupa de luta glamourosa"
+      ]
+    },
+    "cria": {
+      "silhouette_hooks": [
+        "tronco inclinado 30 graus para frente",
+        "ombros estreitos e cotovelos pontudos",
+        "bone virado para tras como pequena cunha",
+        "pernas finas em passo de rusher"
+      ],
+      "face_grammar": "queixo fino, sorriso nervoso ou dentes apertados, olhos estreitos de pressa",
+      "hand_foot_grammar": "punhos pequenos e rapidos; pes/chinelos simplificados mas legiveis",
+      "costume_asymmetry": "camisa azul sem manga puida, shorts enrolados, um detalhe vermelho pequeno",
+      "generic_blockers": [
+        "punk generico armado",
+        "capanga musculoso",
+        "crianca caricata demais",
+        "vilao de gangue importado"
+      ]
+    },
+    "estivador": {
+      "silhouette_hooks": [
+        "torso quadrado como bloco de carga",
+        "bracos grossos abertos no telegraph",
+        "luvas pesadas como massas escuras",
+        "corda no cinto criando circulo/laco lateral"
+      ],
+      "face_grammar": "rosto largo, testa baixa, barba por fazer em massas simples, olhar pesado",
+      "hand_foot_grammar": "maos enormes em luvas de trabalho; botas grossas ancoram o peso",
+      "costume_asymmetry": "colete de carga aberto, corda de um lado, calca de lona com joelho gasto",
+      "generic_blockers": [
+        "bodybuilder limpo",
+        "boss gigante fantastico",
+        "marinheiro caricato",
+        "trabalhador portuario sem marcas de material"
+      ]
+    }
+  },
+  "environment_line_grammar": {
+    "dock_planks": "tábuas com rachaduras em cunha, pregos e bordas lascadas desenhadas por poucos cortes fortes",
+    "rope_and_nets": "cordas com torcao em segmentos grandes; redes com losangos grandes e falhas controladas",
+    "waterline": "espuma em massas brancas recortadas, sempre legivel como zona de ring-out",
+    "foreground_pilings": "pilastras frontais grossas, escuras, com linhas verticais de madeira e cracas simplificadas",
+    "landmarks": "barco lacrado, guindaste e farolete final precisam de silhueta unica e funcao de orientacao no level"
+  },
+  "prompt_requirements": [
+    "todo prompt de personagem deve citar silhouette_hooks e face_grammar do personagem",
+    "todo prompt de cenario deve citar environment_line_grammar e funcao de gameplay do objeto",
+    "todo prompt deve pedir hand-drawn line economy, not generic vector icons",
+    "todo output deve ser auditado em silhueta preta, miniatura 320x224 e lista de generic_blockers"
+  ],
+  "blocking_statuses": [
+    "authorial_line_contract_missing",
+    "generic_prompt_style_blocker",
+    "silhouette_hooks_undeclared",
+    "face_grammar_undeclared",
+    "environment_marks_undeclared"
+  ],
+  "allowed_status_after_generation": "source_candidate",
+  "forbidden_statuses": [
+    "ready_for_conversion",
+    "ready_for_res_promotion",
+    "ready_for_aaa",
+    "sprite_final",
+    "tilemap_final"
+  ]
+}

@@ -1,0 +1,274 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "race_start_handoff_storyboard_v1",
+  "scene_id": "race_start_handoff",
+  "scene_role": "cutscene",
+  "status_ceiling": "planning_only",
+  "ready_for_aaa": false,
+  "source_authority": {
+    "roteiro_ref": "doc/12-roteiro.md#fsm-de-abertura",
+    "spec_ref": "doc/13-spec-cenas.md#cena-3-race_start_handoff",
+    "context_pack_manifest_ref": "doc/context_pack_manifest.json",
+    "reference_profile": [
+      {
+        "game": "Phantasy Star IV",
+        "inheritance": "stateful transition discipline and text-free handoff after panels"
+      },
+      {
+        "game": "Shinobi III",
+        "inheritance": "action readability during speed ramp and strong silhouette priority"
+      },
+      {
+        "game": "Sonic the Hedgehog 2",
+        "inheritance": "instant player-read start with stable HUD and clear lane/path priority"
+      }
+    ]
+  },
+  "cinematic_direction": {
+    "intention": "Convert the last opening panel into playable Sector 01 without a dirty state transfer.",
+    "narrative_structure": "anchor the road, remove the cinematic mask, reveal HUD and release player input",
+    "cinematic_language_methods": [
+      "text-free handoff",
+      "letterbox release",
+      "HUD owner handover",
+      "sprite staging before input unlock"
+    ],
+    "selected_fake_cinema_tools": [
+      "hold_frame",
+      "sprite_staging",
+      "strong_static_composition",
+      "cut_change"
+    ],
+    "signature_moment": "The road lines that were cinematic become the exact three readable lanes under player control."
+  },
+  "state_machine": {
+    "runtime_model": "table_driven_fsm",
+    "states": [
+      {
+        "state_id": "handoff_00_anchor",
+        "narrative_purpose": "Hold the last road image long enough for the eye to identify lanes.",
+        "shot_type": "transition",
+        "entry_load": {
+          "assets": ["race_road_runtime_preview"],
+          "palettes": ["PAL0", "PAL1"],
+          "maps": ["race_start_preview"]
+        },
+        "render_surfaces": {
+          "BG_B": "race sky",
+          "BG_A": "road preview aligned to lane centers",
+          "WINDOW": "letterbox or cleared text band",
+          "sprites": []
+        },
+        "palette_domains": [
+          {"slot": "PAL0", "owner": "race_bg_pending"},
+          {"slot": "PAL1", "owner": "race_road_pending"}
+        ],
+        "text_block": {
+          "speaker": "none",
+          "string_id": "none",
+          "max_lines": 0,
+          "anchor": "none"
+        },
+        "advance_trigger": "WAIT_FRAMES",
+        "duration_frames": 20,
+        "dynamic_fx": ["hold"],
+        "motion_beats": [
+          {
+            "beat_type": "hold",
+            "start_frame": 0,
+            "duration_frames": 20,
+            "purpose": "Prevent a visual snap before the gameplay surfaces take ownership."
+          }
+        ],
+        "animation_link": {
+          "mode": "none"
+        },
+        "audio_cue": {
+          "cue_id": "race_intro_tail",
+          "trigger_frame": 0
+        },
+        "exit_teardown": "release_cutscene_text_owner"
+      },
+      {
+        "state_id": "handoff_01_letterbox_release",
+        "narrative_purpose": "Remove cinematic framing while the HUD prepares to enter.",
+        "shot_type": "transition",
+        "entry_load": {
+          "assets": ["hud_tiles"],
+          "palettes": ["PAL3"],
+          "maps": []
+        },
+        "render_surfaces": {
+          "BG_B": "race sky",
+          "BG_A": "runtime road",
+          "WINDOW": "letterbox retract then clear",
+          "sprites": []
+        },
+        "palette_domains": [
+          {"slot": "PAL0", "owner": "race_bg"},
+          {"slot": "PAL1", "owner": "race_road"},
+          {"slot": "PAL3", "owner": "hud_pending"}
+        ],
+        "text_block": {
+          "speaker": "none",
+          "string_id": "none",
+          "max_lines": 0,
+          "anchor": "none"
+        },
+        "advance_trigger": "WAIT_FRAMES",
+        "duration_frames": 28,
+        "dynamic_fx": ["letterbox_retract"],
+        "motion_beats": [
+          {
+            "beat_type": "pan_or_scroll",
+            "start_frame": 0,
+            "duration_frames": 28,
+            "purpose": "Let the field open upward without changing collision coordinates."
+          }
+        ],
+        "animation_link": {
+          "mode": "window_reveal_table"
+        },
+        "audio_cue": {
+          "cue_id": "hud_wake",
+          "trigger_frame": 18
+        },
+        "exit_teardown": "clear_window_and_install_hud_owner"
+      },
+      {
+        "state_id": "handoff_02_control_release",
+        "narrative_purpose": "Show Lio and HUD before lane input becomes active.",
+        "shot_type": "transition",
+        "entry_load": {
+          "assets": ["lio_runtime_sprite", "hud_runtime_tiles"],
+          "palettes": ["PAL2", "PAL3"],
+          "maps": []
+        },
+        "render_surfaces": {
+          "BG_B": "race sky",
+          "BG_A": "runtime road",
+          "WINDOW": "HUD",
+          "sprites": ["Lio runtime sprite"]
+        },
+        "palette_domains": [
+          {"slot": "PAL2", "owner": "player_sprite"},
+          {"slot": "PAL3", "owner": "race_hud"}
+        ],
+        "text_block": {
+          "speaker": "none",
+          "string_id": "none",
+          "max_lines": 0,
+          "anchor": "none"
+        },
+        "advance_trigger": "WAIT_FRAMES",
+        "duration_frames": 12,
+        "dynamic_fx": ["hud_enter"],
+        "motion_beats": [
+          {
+            "beat_type": "reaction_frame",
+            "start_frame": 0,
+            "duration_frames": 12,
+            "purpose": "Lio shifts from held pose to run pose exactly before control is unlocked."
+          }
+        ],
+        "animation_link": {
+          "mode": "player_idle_to_run",
+          "frames": 2,
+          "loop": "handoff"
+        },
+        "audio_cue": {
+          "cue_id": "start_beat",
+          "trigger_frame": 8
+        },
+        "exit_teardown": "unlock_input_enter_sector_01"
+      }
+    ]
+  },
+  "cutscene_resource_plan": {
+    "states": [
+      {
+        "state_id": "handoff_00_anchor",
+        "vram_resident_set": {"road_preview_tiles": 32, "hud_tiles": 0, "sprite_tiles": 0},
+        "load_time_dma_cost": {"bytes": 0, "phase": "reuse_or_preloaded"},
+        "per_frame_dma_cost": {"bytes": 0, "cadence": "none"},
+        "palette_domains": ["PAL0", "PAL1"],
+        "glyph_cache": {"mode": "none", "tiles": 0},
+        "sprite_pressure": {"max_sprites_total": 0, "max_sprites_per_scanline": 0},
+        "state_teardown": "clear_text_owner",
+        "budget_decision": "planned"
+      },
+      {
+        "state_id": "handoff_01_letterbox_release",
+        "vram_resident_set": {"road_tiles": 32, "hud_tiles": 64, "sprite_tiles": 0},
+        "load_time_dma_cost": {"bytes": 2048, "phase": "if_hud_not_preloaded"},
+        "per_frame_dma_cost": {"bytes": 64, "cadence": "window_reveal_only"},
+        "palette_domains": ["PAL0", "PAL1", "PAL3"],
+        "glyph_cache": {"mode": "hud_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 0, "max_sprites_per_scanline": 0},
+        "state_teardown": "install_hud_owner",
+        "budget_decision": "planned"
+      },
+      {
+        "state_id": "handoff_02_control_release",
+        "vram_resident_set": {"road_tiles": 32, "hud_tiles": 64, "player_tiles": 64},
+        "load_time_dma_cost": {"bytes": 0, "phase": "reuse_runtime_assets"},
+        "per_frame_dma_cost": {"bytes": 128, "cadence": "sprite_frame_and_sat"},
+        "palette_domains": ["PAL0", "PAL1", "PAL2", "PAL3"],
+        "glyph_cache": {"mode": "hud_subset", "tiles": 64},
+        "sprite_pressure": {"max_sprites_total": 6, "max_sprites_per_scanline": 4},
+        "state_teardown": "enter_sector_01",
+        "budget_decision": "planned"
+      }
+    ]
+  },
+  "hardware_ownership": {
+    "window_owner": "race_start_handoff_until_hud_owner_install",
+    "cram_owner": "race_start_handoff_palette_script_then_race_scene",
+    "scroll_owner": "race_start_handoff_then_race_road_renderer",
+    "audio_owner": "race_start_handoff_then_race_music_driver",
+    "h_int": {
+      "in_use": false
+    }
+  },
+  "text_timing_map": {
+    "glyph_manifest_ref": "doc/glyph_manifest.json",
+    "font_surface_owner": "none_for_new_text_clear_previous_window",
+    "base_frames_per_glyph": 3,
+    "punctuation_pauses": {
+      "comma": 8,
+      "period": 16,
+      "ellipsis": 28,
+      "line_break": 12
+    },
+    "advance_controls": {
+      "accelerate_button": "none",
+      "advance_button": "none",
+      "skip_policy": "no_skip_during_handoff"
+    }
+  },
+  "visual_source_gate": {
+    "production_source_ready": false,
+    "premium_source_manifest_ref": "doc/concept_art_pack_manifest.json",
+    "human_approval_record_ref": "doc/human_approval_record.md",
+    "visual_delivery_gate_report_ref": "out/logs/visual_delivery_gate_report.json",
+    "blocked_statuses": [
+      "visual_gate_blocked",
+      "runtime_handoff_capture_missing",
+      "human_approval_missing"
+    ]
+  },
+  "evidence_plan": {
+    "blastem_required": true,
+    "screenshot_required": true,
+    "runtime_metrics_scene_id": "race_start_handoff",
+    "visual_vdp_dump_required": true,
+    "save_sram_required": true,
+    "baseline_comparison_required": true,
+    "freshness_audit_required": true
+  },
+  "approval": {
+    "human_approval_required": true,
+    "approval_status": "not_approved",
+    "approval_record_ref": "doc/human_approval_record.md"
+  }
+}

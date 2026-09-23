@@ -1,5 +1,9 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-23 - P6: catalogo de 180 efeitos registrado (consultivo)
+
+- Aderencia avaliada: 10+ ja em uso com ROM citada, 7 candidatos priorizados, eixos fora de escopo justificados. Nada implementado.
+
 ## 2026-09-23 - P3: memo de multiplexacao dos aneis (NO-GO)
 
 - Medido: pior quadro de anel 107 tiles / 3,4 KB DMA; simulador 16 sprites/linha (ok).

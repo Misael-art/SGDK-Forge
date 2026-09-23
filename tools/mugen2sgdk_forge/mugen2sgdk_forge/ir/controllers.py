@@ -81,6 +81,8 @@ SCHEMA: dict[str, list[tuple[str, int, str | None]]] = {
     "removeexplod": [("id", 0, "-1")],
     "width": [],
     "assertspecial": [],
+    "helper": [("stateno", 0, "0"), ("id", 0, "0"), ("pos", 0, "0"), ("pos", 1, "0")],
+    "destroyself": [],
 }
 SCHEMA["projectile"] = SCHEMA["projectile"] + SCHEMA["hitdef"]
 CONTROLLER_IDS = {name: i for i, name in enumerate(SCHEMA)}
@@ -96,7 +98,6 @@ APPROX = {
 UNSUPPORTED_REASON = {
     "afterimage": "VDP nao tem blending/transparencia; rastro exigiria sprites extras (manual)",
     "palfx": "efeito de paleta por RGB exigiria CRAM dinamica (manual)",
-    "helper": "helpers sao personagens auxiliares completos (manual)",
     "attackmulset": "multiplicador de ataque nao modelado",
     "gamemakeanim": "animacao de sistema (fightfx) indisponivel",
     "envcolor": "flash de tela exigiria CRAM dinamica (manual)",
@@ -107,6 +108,7 @@ ANIMTYPE = {"light": 0, "medium": 1, "med": 1, "hard": 2, "back": 3, "up": 4, "d
 GROUNDTYPE = {"high": 1, "low": 2, "trip": 3, "none": 0}
 STATETYPE = {"s": ord("S"), "c": ord("C"), "a": ord("A"), "l": ord("L"), "u": ord("U")}
 MOVETYPE = {"i": ord("I"), "a": ord("A"), "h": ord("H"), "u": ord("U")}
+POSTYPE = {"p1": 0, "p2": 1, "front": 2, "back": 3, "left": 4, "right": 5}
 PHYSICS = {"s": ord("S"), "c": ord("C"), "a": ord("A"), "n": ord("N"), "u": ord("U")}
 
 
@@ -227,7 +229,8 @@ def compile_controller(c, ctx: E.Ctx, sounds: dict[tuple[bool, int, int], int], 
     for pname, comp, default in SCHEMA[rtype]:
         text = _param_text(c.params, pname)
         if pname == "value" and rtype == "playsnd":
-            continue  # resolvido em sym
+            params.append(CParam(f"{pname}[{comp}]", None))   # resolvido em sym; mantem o indice
+            continue
         if text is None:
             text = default
         if text is None:
@@ -289,7 +292,6 @@ def compile_controller(c, ctx: E.Ctx, sounds: dict[tuple[bool, int, int], int], 
             fidelity = "approximate"
         ref = sound_ref(p["sound"], "S") if "sound" in p else None
         sym["sound"] = sounds.get(ref, -1) if ref else -1
-        params = [x for x in params if not x.name.startswith("anim")]
     if rtype == "playsnd":
         ref = sound_ref(p.get("value", ""), "F")
         sym["sound"] = sounds.get(ref, -1) if ref else -1
@@ -300,6 +302,10 @@ def compile_controller(c, ctx: E.Ctx, sounds: dict[tuple[bool, int, int], int], 
         sym["statetype"] = STATETYPE.get(p.get("statetype", "u").strip().lower()[:1], ord("U"))
         sym["movetype"] = MOVETYPE.get(p.get("movetype", "u").strip().lower()[:1], ord("U"))
         sym["physics"] = PHYSICS.get(p.get("physics", "u").strip().lower()[:1], ord("U"))
+    if rtype == "helper":
+        sym["postype"] = POSTYPE.get(p.get("postype", "p1").strip().lower(), 0)
+        notes.append("helper reduzido: roda estados do dono; nao e atingivel e seus HitDef sao ignorados")
+        fidelity = "approximate"
     if rtype in ("nothitby", "hitby"):
         sym["attr"] = attr_flags(p.get("value", p.get("value2", "SCA")))
     if rtype in ("varset", "varadd", "varrandom"):

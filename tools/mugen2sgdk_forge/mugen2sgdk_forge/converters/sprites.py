@@ -75,7 +75,7 @@ class SpriteResult:
     body_variants: list[tuple[str, list[int]]]   # (nome, 16 words CRAM)
     fx_palette: list[int]
     sheets: list[Sheet]
-    locate: dict[tuple[int, int], tuple[int, int]]   # (grupo,img) -> (sheet idx, frame)
+    locate: dict[tuple[int, int], list]   # (grupo,img) -> [(sheet idx, frame) por parte]
     report: dict = field(default_factory=dict)
 
 
@@ -113,16 +113,87 @@ def _kmeans(weighted: Counter, k: int, rounds: int = 12) -> list[tuple[int, int,
     return out
 
 
+BLOCK_BUDGET = 12          # blocos 32x32 ocupados por parte (margem sobre o limite 16 do rescomp)
+PART_MAX = 232             # lado maximo de uma parte (multiplo de 8, abaixo de 248)
+MAX_PARTS = 4              # partes por quadro (sprites SGDK simultaneos por objeto)
+
+
 def _hw_estimate(im: Image.Image) -> int:
-    bbox = im.getbbox()
-    if not bbox:
-        return 0
-    w, h = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    return -(-w // 32) * -(-h // 32)
+    """Blocos 32x32 com algum pixel opaco: aproximacao do corte do rescomp (que ignora areas vazias)."""
+    w, h = im.size
+    px = im.tobytes()
+    blocks = set()
+    for y in range(h):
+        row = px[y * w:(y + 1) * w]
+        if not any(row):
+            continue
+        for x in range(0, w):
+            if row[x]:
+                blocks.add((x // 32, y // 32))
+    return len(blocks)
+
+
+@dataclass
+class Part:
+    group: int
+    image: int
+    part: int
+    axis_x: int
+    axis_y: int
+    width: int
+    height: int
+    pixels: bytes
+
+
+def _crop(s, x0, y0, x1, y1, k):
+    w = s.width
+    rows = [s.pixels[y * w + x0:y * w + x1] for y in range(y0, y1)]
+    # apara ao conteudo opaco
+    ys = [i for i, r in enumerate(rows) if any(r)]
+    if not ys:
+        return None
+    rows = rows[ys[0]:ys[-1] + 1]
+    xs = [x for x in range(x1 - x0) if any(r[x] for r in rows)]
+    cx0, cx1 = xs[0], xs[-1] + 1
+    rows = [r[cx0:cx1] for r in rows]
+    return Part(s.group, s.image, k, s.axis_x - (x0 + cx0), s.axis_y - (y0 + ys[0]),
+                cx1 - cx0, len(rows), b"".join(rows))
+
+
+def split_parts(s) -> list[Part] | None:
+    """Divide uma imagem acima dos limites em partes validas; None se precisar de mais que MAX_PARTS."""
+    whole = Part(s.group, s.image, 0, s.axis_x, s.axis_y, s.width, s.height, s.pixels)
+    if s.width <= MAX_CELL and s.height <= MAX_CELL and \
+            _hw_estimate(Image.frombytes("P", (s.width, s.height), s.pixels)) <= BLOCK_BUDGET:
+        return [whole]
+    parts = []
+    cols = [(x, min(x + PART_MAX, s.width)) for x in range(0, s.width, PART_MAX)]
+    for cx0, cx1 in cols:
+        y = 0
+        while y < s.height:
+            y1 = y + 32
+            best = None
+            while y1 <= s.height + 31:
+                yy = min(y1, s.height)
+                pr = _crop(s, cx0, y, cx1, yy, 0)
+                if pr and (pr.height > PART_MAX or
+                           _hw_estimate(Image.frombytes("P", (pr.width, pr.height), pr.pixels)) > BLOCK_BUDGET):
+                    break
+                best = yy
+                if yy == s.height:
+                    break
+                y1 += 32
+            if best is None:          # nem 32 linhas cabem: coluna larga demais para o orcamento
+                return None
+            pr = _crop(s, cx0, y, cx1, best, len(parts))
+            if pr:
+                parts.append(pr)
+            y = best
+    return parts if 0 < len(parts) <= MAX_PARTS else None
 
 
 def convert(ch, used_only: bool = True) -> SpriteResult:
-    rep: dict = {"unsupported_images": [], "split_groups": [], "hw_over_limit": []}
+    rep: dict = {"unsupported_images": [], "split_groups": [], "hw_over_limit": [], "split_images": []}
     used = {(f.group, f.image) for a in ch.anims.values() for f in a.frames if f.group >= 0}
     sprites = [s for s in ch.sprites if not used_only or (s.group, s.image) in used]
     base_pal = ch.palettes[0][1] if ch.palettes else sprites[0].palette
@@ -194,29 +265,28 @@ def convert(ch, used_only: bool = True) -> SpriteResult:
         variants.append((name, (words + [0] * 16)[:16]))
     fx_words = ([0] + [vdp_word(c) for c in fx_cols] + [0] * 16)[:16]
 
-    # 4) sheets por grupo
-    by_group: dict[int, list] = {}
+    # 4) sheets por grupo (e por parte, quando a imagem precisa ser dividida)
+    by_group: dict[tuple, list] = {}
     for s in sorted(sprites, key=lambda s: (s.group, s.image)):
-        by_group.setdefault((s.group, kinds[(s.group, s.image)]), []).append(s)
-    sheets: list[Sheet] = []
-    locate = {}
-    approx_pixels = Counter()
-    for (grp, kind), items in sorted(by_group.items()):
-        pmap = body_map if kind == "body" else fx_map
-        ok = []
-        for s in items:
-            if s.width > MAX_CELL or s.height > MAX_CELL:
-                rep["unsupported_images"].append(
-                    {"sprite": [s.group, s.image], "size": [s.width, s.height],
-                     "reason": f"maior que {MAX_CELL}px (limite de frame do rescomp); dividir/reduzir manualmente"})
-                continue
+        kind = kinds[(s.group, s.image)]
+        parts = split_parts(s)
+        if parts is None:
             hw = _hw_estimate(Image.frombytes("P", (s.width, s.height), s.pixels))
-            if hw > MAX_HW_SPRITES:
-                rep["unsupported_images"].append(
-                    {"sprite": [s.group, s.image], "size": [s.width, s.height], "hw_sprites": hw,
-                     "reason": f"exige {hw} sprites de hardware (limite {MAX_HW_SPRITES} por quadro); dividir manualmente"})
-                continue
-            ok.append(s)
+            rep["unsupported_images"].append(
+                {"sprite": [s.group, s.image], "size": [s.width, s.height], "hw_blocks": hw,
+                 "reason": (f"exigiria mais de {MAX_PARTS} partes ({hw} blocos 32x32); quadro de tela cheia "
+                            "deve virar efeito de plano/paleta (manual)")})
+            continue
+        if len(parts) > 1:
+            rep["split_images"].append({"sprite": [s.group, s.image], "parts": len(parts)})
+        for pr in parts:
+            by_group.setdefault((s.group, kind, pr.part), []).append(pr)
+    sheets: list[Sheet] = []
+    locate: dict[tuple[int, int], list] = {}
+    approx_pixels = Counter()
+    for (grp, kind, partk), items in sorted(by_group.items()):
+        pmap = body_map if kind == "body" else fx_map
+        ok = items
         chunks, cur = [], []
         for s in ok:
             trial = cur + [s]
@@ -235,7 +305,8 @@ def convert(ch, used_only: bool = True) -> SpriteResult:
             l = max(x.axis_x for x in chunk); r = max(x.width - x.axis_x for x in chunk)
             t = max(x.axis_y for x in chunk); b = max(x.height - x.axis_y for x in chunk)
             cw, chh = -(-(l + r) // 8) * 8, -(-(t + b) // 8) * 8
-            name = f"g{grp}" + (f"_{ci}" if len(chunks) > 1 else "") + ("" if kind == "body" else "_fx")
+            name = f"g{grp}" + (f"_p{partk}" if partk else "") + (f"_{ci}" if len(chunks) > 1 else "") + \
+                ("" if kind == "body" else "_fx")
             sheet = Sheet(name, kind, cw, chh, l, t, [])
             png = Image.new("P", (cw * len(chunk), chh), 0)
             for fi, s in enumerate(chunk):
@@ -251,7 +322,10 @@ def convert(ch, used_only: bool = True) -> SpriteResult:
                     rep["hw_over_limit"].append({"sprite": [s.group, s.image], "estimate": hw})
                 sheet.images.append(SheetImage(s.group, s.image, fi, l - s.axis_x, t - s.axis_y,
                                                s.width, s.height, hw))
-                locate[(s.group, s.image)] = (len(sheets), fi)
+                slot = locate.setdefault((s.group, s.image), [])
+                while len(slot) <= s.part:
+                    slot.append(None)
+                slot[s.part] = (len(sheets), fi)
             pal_rgb = body_cols if kind == "body" else fx_cols
             flat = [250, 0, 250] + [c for rgb in pal_rgb for c in rgb]
             png.putpalette((flat + [0] * 48)[:48])

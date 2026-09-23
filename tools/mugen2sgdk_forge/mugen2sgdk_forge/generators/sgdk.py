@@ -67,6 +67,7 @@ SYM_ORDER = {
     "hitby": ["attr"],
     "varset": ["fvar", "index", "min"],
     "superpause": ["anim", "sound"],
+    "helper": ["postype"],
 }
 SYM_ORDER["projectile"] = SYM_ORDER["hitdef"]
 SYM_ORDER["varadd"] = SYM_ORDER["varset"]
@@ -110,7 +111,7 @@ def _const_num(consts, sec, key, comp=0, default=0.0):
         return default
 
 
-def generate(ch, spr, sounds, char_id: str, project: Path) -> dict:
+def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
     cid = ident(char_id)
     res_dir = project / "res" / "mugen" / cid
     (res_dir / "sheets").mkdir(parents=True, exist_ok=True)
@@ -139,6 +140,11 @@ def generate(ch, spr, sounds, char_id: str, project: Path) -> dict:
         write(res_dir / "snd" / f"{so.group}_{so.sample}.wav", so.wav)
         res.append(f'WAV {n} "mugen/{cid}/snd/{so.group}_{so.sample}.wav" XGM2 13300 FALSE')
         snd_names[so.index] = n
+    for fx in bgfx:
+        buf = io.BytesIO()
+        fx.png.save(buf, format="PNG", optimize=False)
+        write(res_dir / f"bgfx_{fx.group}.png", buf.getvalue())
+        res.append(f'IMAGE mg_{cid}_bgfx_{fx.group} "mugen/{cid}/bgfx_{fx.group}.png" NONE ALL')
     write(project / "res" / f"mgres_{cid}.res", ("\n".join(res) + "\n").encode())
 
     # ---------------------------------------------------------------- C
@@ -152,7 +158,7 @@ def generate(ch, spr, sounds, char_id: str, project: Path) -> dict:
     c.append(_arr("MgSheet", "sheets", rows, 1))
 
     # anims / frames / boxes
-    anim_rows, frame_rows, boxes = [], [], []
+    anim_rows, frame_rows, boxes, part_rows = [], [], [], []
     miss = 0
     for aid in sorted(ch.anims):
         a = ch.anims[aid]
@@ -160,17 +166,22 @@ def generate(ch, spr, sounds, char_id: str, project: Path) -> dict:
         total = 0
         for f in a.frames[:255]:
             loc = spr.locate.get((f.group, f.image))
-            if loc is None and f.group >= 0:
+            if not loc and f.group >= 0:
                 miss += 1
-            sheet, frame = loc if loc else (-1, 0)
+            sheet, frame = loc[0] if loc else (-1, 0)
+            pidx = len(part_rows)
+            for extra in (loc[1:] if loc else []):
+                part_rows.append(f"{{ {extra[0]}, {extra[1]}, 0 }}")
+            nparts = len(loc) if loc else 1
             flags = (1 if f.hflip else 0) | (2 if f.vflip else 0) | (4 if f.blend else 0)
             bi = len(boxes)
             boxes += [b for b in f.clsn1] + [b for b in f.clsn2]
             frame_rows.append(f"{{ {sheet}, {frame}, {flags}, {f.x}, {f.y}, {f.time}, "
-                              f"{len(f.clsn1)}, {len(f.clsn2)}, {bi} }}")
+                              f"{len(f.clsn1)}, {len(f.clsn2)}, {bi}, {nparts}, 0, {pidx} }}")
             total = -1 if (f.time < 0 or total < 0) else total + f.time
         anim_rows.append(f"{{ {aid}, {first}, {min(len(a.frames), 255)}, {min(a.loopstart, 254)}, {max(-1, min(total, 32767))} }}")
     c.append(_arr("MgAnimFrame", "frames", frame_rows, 1))
+    c.append(_arr("MgFramePart", "parts", part_rows or ["{ -1, 0, 0 }"], 4))
     c.append(_arr("MgBox", "boxes", [f"{{ {b[0]}, {b[1]}, {b[2]}, {b[3]} }}" for b in boxes], 4))
     c.append(_arr("MgAnim", "anims", anim_rows, 1))
 
@@ -282,6 +293,18 @@ def generate(ch, spr, sounds, char_id: str, project: Path) -> dict:
     snd_rows = [f"{{ {snd_names[so.index]}, sizeof({snd_names[so.index]}) }}" for so in sounds]
     c.append(_arr("MgSound", "sounds", snd_rows, 1))
 
+    # efeitos de fundo animados por paleta
+    bg_rows = []
+    for fi, fx in enumerate(bgfx):
+        prow = ["{ " + ", ".join(f"0x{w:03X}" for w in words) + " }" for words in fx.pals]
+        c.append(f"static const u16 bgfx{fi}_pals[][16] = {{\n    " + ",\n    ".join(prow) + "\n};\n")
+        for a in fx.anims:
+            c.append(_arr("u8", f"bgfx{fi}_elem_{a}", [str(x) for x in fx.elem_img[a][:255]], 24))
+            bg_rows.append(f"{{ {a}, &mg_{cid}_bgfx_{fx.group}, bgfx{fi}_pals, {len(fx.pals)}, "
+                           f"{min(len(fx.elem_img[a]), 255)}, bgfx{fi}_elem_{a} }}")
+    if bg_rows:
+        c.append("static const MgBgFx bgfx[] = {\n    " + ",\n    ".join(bg_rows) + "\n};\n")
+
     # constantes
     k = ch.constants
     consts = [
@@ -321,10 +344,11 @@ def generate(ch, spr, sounds, char_id: str, project: Path) -> dict:
             pass
     c.append(f"const MgCharDef mg_char_{cid} = {{\n"
              f'    "{ch.name}",\n'
-             f"    sheets, {len(spr.sheets)}, anims, {len(anim_rows)}, frames, boxes, code, param_offs, syms, ctrls,\n"
+             f"    sheets, {len(spr.sheets)}, anims, {len(anim_rows)}, frames, parts, boxes, code, param_offs, syms, ctrls,\n"
              f"    states, {len(state_rows)}, cmds, {len(cmd_rows)}, steps, keys, gates,\n"
              f"    cmd_bucket_first, cmd_bucket, hold_cmds, {len(hold_cmds)}, neg1_masks, {words},\n"
-             f"    pals, {len(pal_rows)}, {default_pal}, fxpal, sounds, {len(snd_rows)}, &consts,\n"
+             f"    pals, {len(pal_rows)}, {default_pal}, fxpal, sounds, {len(snd_rows)}, "
+             f"{'bgfx' if bg_rows else '0'}, {len(bg_rows)}, &consts,\n"
              f"    {sidx.get(-1, -1)}, {sidx.get(-2, -1)}, {sidx.get(-3, -1)},\n"
              f"    {hold('holdfwd')}, {hold('holdback')}, {hold('holdup')}, {hold('holddown')}\n}};\n")
     write(project / "src" / "mg_gen" / f"mg_{cid}.c", "\n".join(c).encode())

@@ -7,8 +7,17 @@
 #define FX2I(v) ((s16)((v) >> MG_FX_SHIFT))
 
 MgFight mg_fight;
+#ifdef MG_TEST_BREADCRUMB
+char mg_crumbs[25];
+u8 mg_crumb_i;
+#endif
 /* VRAM fixa por jogador (sem realocacao a cada troca de sheet); 0 = alocacao automatica */
 static u16 s_vram[2];
+/* efeitos de fundo: tiles pre-carregados apos os corpos; base por jogador/efeito (0 = sem espaco) */
+#define MG_MAX_BGFX 4
+static u16 s_bgfx_base[2][MG_MAX_BGFX];
+static u16 s_pal0_saved[16];
+static s8 s_bgfx_owner = -1;
 #ifdef MG_PROFILE
 u32 mg_prof[16];
 #endif
@@ -23,6 +32,7 @@ void MG_playSound(const MgPlayer *p, s16 idx)
 {
     if (idx < 0 || idx >= (s16)p->def->nsounds) return;
     const MgSound *s = &p->def->sounds[idx];
+    MG_CRUMB('P');
     XGM2_playPCM(s->data, s->len, SOUND_PCM_CH_AUTO);
 }
 
@@ -35,11 +45,9 @@ void MG_spawnExplod(MgPlayer *owner, s16 anim, mgfx x, mgfx y, s16 removetime, s
     if (!e) {                                   /* pool cheio: recicla o mais antigo (slot 0) */
         e = &mg_fight.explod[0];
     }
-    Sprite *keep = e->spr;
-    s16 ks = e->cur_sheet;
+    MgDraw keep = e->dr;
     memset(e, 0, sizeof(*e));
-    e->spr = keep;
-    e->cur_sheet = keep ? ks : -1;
+    e->dr = keep;
     e->active = 1;
     e->id = id;
     e->anim_idx = idx;
@@ -49,6 +57,9 @@ void MG_spawnExplod(MgPlayer *owner, s16 anim, mgfx x, mgfx y, s16 removetime, s
     e->removetime = removetime;
     e->bind_owner = owner->side;
     e->depth = -5;
+    e->bgfx = -1;
+    for (u8 i = 0; i < owner->def->nbgfx && i < MG_MAX_BGFX; i++)
+        if (owner->def->bgfx[i].anim_id == anim && s_bgfx_base[owner->side][i]) e->bgfx = i;
 }
 
 /* ------------------------------------------------------------------ caixas */
@@ -273,39 +284,63 @@ static void push_and_bounds(void)
 }
 
 /* ------------------------------------------------------------------ render */
-static void draw(const MgCharDef *d, Sprite **spr, s16 *cur_sheet, u16 anim_idx, u8 elem,
-                 mgfx x, mgfx y, s8 facing, u16 body_pal, s16 depth, u8 visible, u16 vram)
+void MG_drawInit(MgDraw *d)
 {
-    const MgAnimFrame *f = &d->frames[d->anims[anim_idx].first + elem];
-    if (!visible || f->sheet < 0) {
-        if (*spr) SPR_setVisibility(*spr, HIDDEN);
-        return;
-    }
-    const MgSheet *sh = &d->sheets[f->sheet];
+    for (u8 i = 0; i < MG_MAX_PARTS; i++) { d->spr[i] = 0; d->sheet[i] = -1; }
+}
+
+void MG_drawRelease(MgDraw *d)
+{
+    for (u8 i = 0; i < MG_MAX_PARTS; i++)
+        if (d->spr[i]) { SPR_releaseSprite(d->spr[i]); d->spr[i] = 0; d->sheet[i] = -1; }
+}
+
+/* desenha uma parte (sheet/frame) no slot k do objeto */
+static void draw_part(const MgCharDef *d, MgDraw *dr, u8 k, s16 sheet, u8 frame, u8 fflags, s16 ox, s16 oy,
+                      mgfx x, mgfx y, s8 facing, u16 body_pal, s16 depth, u16 vram)
+{
+    MG_CRUMB('D');
+    const MgSheet *sh = &d->sheets[sheet];
     u16 pal = sh->pal ? PAL3 : body_pal;
+    Sprite **spr = &dr->spr[k];
     if (!*spr) {
-        *spr = vram ? SPR_addSpriteEx(sh->def, 0, 0, TILE_ATTR_FULL(pal, TRUE, FALSE, FALSE, vram),
-                                      SPR_FLAG_AUTO_TILE_UPLOAD)
-                    : SPR_addSpriteEx(sh->def, 0, 0, TILE_ATTR(pal, TRUE, FALSE, FALSE),
-                                      SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
-        if (!*spr) return;                     /* VRAM de sprite esgotada: quadro pulado */
-        *cur_sheet = f->sheet;
-    } else if (*cur_sheet != f->sheet) {
+        *spr = (vram && k == 0) ? SPR_addSpriteEx(sh->def, 0, 0, TILE_ATTR_FULL(pal, TRUE, FALSE, FALSE, vram),
+                                                   SPR_FLAG_AUTO_TILE_UPLOAD)
+                                : SPR_addSpriteEx(sh->def, 0, 0, TILE_ATTR(pal, TRUE, FALSE, FALSE),
+                                                   SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
+        if (!*spr) return;                     /* VRAM de sprite esgotada: parte pulada */
+        dr->sheet[k] = sheet;
+    } else if (dr->sheet[k] != sheet) {
         if (!SPR_setDefinition(*spr, sh->def)) { SPR_setVisibility(*spr, HIDDEN); return; }
-        *cur_sheet = f->sheet;
+        dr->sheet[k] = sheet;
     }
-    SPR_setAnimAndFrame(*spr, 0, f->frame);
-    u8 flip = (facing < 0) ^ ((f->flags & MG_FRAME_HFLIP) != 0);
+    SPR_setAnimAndFrame(*spr, 0, frame);
+    u8 flip = (facing < 0) ^ ((fflags & MG_FRAME_HFLIP) != 0);
     SPR_setHFlip(*spr, flip);
-    SPR_setVFlip(*spr, (f->flags & MG_FRAME_VFLIP) != 0);
+    SPR_setVFlip(*spr, (fflags & MG_FRAME_VFLIP) != 0);
     SPR_setPalette(*spr, pal);
     s16 px = FX2I(x) - mg_fight.camx + (mg_fight.screen_shake & 1 ? 2 : 0);
     s16 py = mg_fight.floor_y + FX2I(y);
-    s16 sx = px + MG_FACE(f->ox, facing) - (flip ? (s16)(sh->cell_w - sh->axis_x) : sh->axis_x);
-    s16 sy = py + f->oy - sh->axis_y;
+    s16 sx = px + MG_FACE(ox, facing) - (flip ? (s16)(sh->cell_w - sh->axis_x) : sh->axis_x);
+    s16 sy = py + oy - sh->axis_y;
     SPR_setPosition(*spr, sx, sy);
     SPR_setDepth(*spr, depth);
     SPR_setVisibility(*spr, VISIBLE);
+}
+
+static void draw(const MgCharDef *d, MgDraw *dr, u16 anim_idx, u8 elem,
+                 mgfx x, mgfx y, s8 facing, u16 body_pal, s16 depth, u8 visible, u16 vram)
+{
+    const MgAnimFrame *f = &d->frames[d->anims[anim_idx].first + elem];
+    u8 n = (!visible || f->sheet < 0) ? 0 : (f->nparts ? f->nparts : 1);
+    if (n > MG_MAX_PARTS) n = MG_MAX_PARTS;
+    if (n) draw_part(d, dr, 0, f->sheet, f->frame, f->flags, f->ox, f->oy, x, y, facing, body_pal, depth, vram);
+    for (u8 k = 1; k < n; k++) {
+        const MgFramePart *pt = &d->parts[f->part + k - 1];
+        draw_part(d, dr, k, pt->sheet, pt->frame, f->flags, f->ox, f->oy, x, y, facing, body_pal, depth, 0);
+    }
+    for (u8 k = n; k < MG_MAX_PARTS; k++)
+        if (dr->spr[k]) SPR_setVisibility(dr->spr[k], HIDDEN);
 }
 
 static void hud(void)
@@ -342,31 +377,67 @@ static void hud(void)
     for (u8 i = 0; i < 5; i++) last[i] = cur[i];
 }
 
+/* efeito de fundo: tilemap em BG_B (baixa prioridade) + PAL0 1..14 trocada a cada elemento */
+static void bgfx_render(MgExplod *e, const MgPlayer *o)
+{
+    const MgBgFx *fx = &o->def->bgfx[(u8)e->bgfx];
+    MG_CRUMB('m');
+    if (!e->bgfx_shown) {
+        PAL_getColors(0, s_pal0_saved, 16);
+        MG_CRUMB('n');
+        VDP_setTileMapEx(BG_B, fx->img->tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, s_bgfx_base[o->side][(u8)e->bgfx]),
+                         0, 0, 0, 0, 40, 28, DMA_QUEUE);
+        MG_CRUMB('o');
+        e->bgfx_shown = 1;
+        s_bgfx_owner = e - mg_fight.explod;
+    }
+    u8 k = e->elem < fx->nelem ? fx->elem_pal[e->elem] : 255;
+    if (k < fx->npals) PAL_setColors(1, &fx->pals[k][1], 14, DMA_QUEUE);
+}
+
+static void bgfx_end(void)
+{
+    VDP_clearTileMapRect(BG_B, 0, 0, 40, 28);
+    PAL_setColors(1, &s_pal0_saved[1], 14, DMA_QUEUE);
+    s_bgfx_owner = -1;
+}
+
 void MG_fightRender(void)
 {
     MG_PROF_BEGIN();
+    MG_CRUMB('k');
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *p = &mg_fight.p[s];
         s16 depth = -(p->sprpriority * 4) - (s ? 1 : 0);
-        draw(p->def, &p->spr, &p->cur_sheet, p->anim_idx, p->elem, p->x, p->y, p->facing, p->pal, depth, 1, s_vram[s]);
+        draw(p->def, &p->dr, p->anim_idx, p->elem, p->x, p->y, p->facing, p->pal, depth, 1, s_vram[s]);
         for (u8 i = 0; i < MG_MAX_PROJ; i++) {
             MgProj *pr = &p->proj[i];
-            if (!pr->active && pr->spr) { SPR_releaseSprite(pr->spr); pr->spr = 0; continue; }
-            if (pr->active) draw(p->def, &pr->spr, &pr->cur_sheet, pr->anim_idx, pr->elem, pr->x, pr->y,
+            if (!pr->active) { if (pr->dr.spr[0]) MG_drawRelease(&pr->dr); continue; }
+            draw(p->def, &pr->dr, pr->anim_idx, pr->elem, pr->x, pr->y,
                                  pr->facing, p->pal, -20, 1, 0);
         }
+    }
+    for (u8 s = 0; s < 2; s++) {
+        MgPlayer *h = &mg_fight.helper[s];
+        if (mg_fight.helper_active[s])
+            draw(h->def, &h->dr, h->anim_idx, h->elem, h->x, h->y, h->facing, h->pal, -25, 1, 0);
+        else if (h->dr.spr[0]) MG_drawRelease(&h->dr);
     }
     for (u8 i = 0; i < MG_MAX_EXPLOD; i++) {
         MgExplod *e = &mg_fight.explod[i];
         const MgPlayer *o = &mg_fight.p[e->bind_owner];
         if (!e->active) {
-            if (e->spr) { SPR_releaseSprite(e->spr); e->spr = 0; }
+            if (e->dr.spr[0]) MG_drawRelease(&e->dr);
+            if (s_bgfx_owner == i) bgfx_end();
             continue;
         }
-        draw(o->def, &e->spr, &e->cur_sheet, e->anim_idx, e->elem, e->x, e->y, e->facing, o->pal, -30, 1, 0);
+        if (e->bgfx >= 0) { bgfx_render(e, o); continue; }
+        draw(o->def, &e->dr, e->anim_idx, e->elem, e->x, e->y, e->facing, o->pal, -30, 1, 0);
     }
     if (mg_fight.screen_shake > 0) mg_fight.screen_shake--;
+    MG_CRUMB('p');
     hud();
+    MG_CRUMB('q');
     MG_PROF_MARK(6);
 }
 
@@ -429,6 +500,12 @@ static void reset_player(MgPlayer *p, s16 x, s8 facing)
     p->x = FXI(x); p->y = 0; p->vx = p->vy = 0;
     p->facing = facing;
     p->life = p->def->consts->life >> MG_FX_SHIFT;
+#ifdef MG_TEST_FULL_POWER
+    p->power = 3000;                           /* so ROM de teste: supers disponiveis para evidencia */
+#endif
+#ifdef MG_TEST_LOW_LIFE
+    if (p->side == 1) p->life = 150;           /* so ROM de teste: KO por super (fundo de vitoria) */
+#endif
     p->hitpause = p->hitshake = p->hittime_left = 0;
     p->hitdef_active = 0;
     p->target = 0; p->bind_time = 0;
@@ -446,6 +523,7 @@ static void start_round(void)
     reset_player(&mg_fight.p[0], STAGE_W / 2 - 70, 1);
     reset_player(&mg_fight.p[1], STAGE_W / 2 + 70, -1);
     for (u8 i = 0; i < MG_MAX_EXPLOD; i++) mg_fight.explod[i].active = 0;
+    mg_fight.helper_active[0] = mg_fight.helper_active[1] = 0;
     mg_fight.round_state = 0;
     mg_fight.round_timer = 90;                 /* intro */
     mg_fight.round_no++;
@@ -510,11 +588,13 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
         p->enemy = &mg_fight.p[s ^ 1];
         p->pal = s ? PAL2 : PAL1;
         p->is_cpu = s == 1 && p2_cpu;
-        p->cur_sheet = -1;
-        for (u8 i = 0; i < MG_MAX_PROJ; i++) p->proj[i].cur_sheet = -1;
+        MG_drawInit(&p->dr);
+        MG_drawInit(&mg_fight.helper[s].dr);
+        for (u8 i = 0; i < MG_MAX_PROJ; i++) MG_drawInit(&p->proj[i].dr);
         PAL_setColors(s ? 32 : 16, defs[s]->pals[pals[s] % defs[s]->npals], 16, DMA);
     }
     PAL_setColors(48, p1->fxpal, 16, DMA);
+    s_bgfx_owner = -1;
     /* reserva VRAM fixa para os corpos: maior quadro de qualquer sheet do personagem */
     u16 need[2] = { 0, 0 };
     for (u8 s = 0; s < 2; s++)
@@ -526,7 +606,25 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
     } else {
         s_vram[0] = s_vram[1] = 0;            /* nao cabe: volta a alocacao automatica */
     }
-    for (u8 i = 0; i < MG_MAX_EXPLOD; i++) mg_fight.explod[i].cur_sheet = -1;
+    /* tiles dos efeitos de fundo logo apos os corpos, se couberem antes do pool de sprites */
+    u16 next = TILE_USER_INDEX + need[0] + need[1];
+    for (u8 s = 0; s < 2; s++)
+        for (u8 i = 0; i < MG_MAX_BGFX; i++) {
+            s_bgfx_base[s][i] = 0;
+            if (i >= defs[s]->nbgfx) continue;
+            const MgBgFx *fx = &defs[s]->bgfx[i];
+            u16 n = fx->img->tileset->numTile;
+            u16 dup = 0;                          /* mesmo efeito ja carregado (espelho P1=P2) */
+            for (u8 t = 0; t < s; t++)
+                for (u8 j = 0; j < MG_MAX_BGFX && j < defs[t]->nbgfx; j++)
+                    if (defs[t]->bgfx[j].img == fx->img && s_bgfx_base[t][j]) dup = s_bgfx_base[t][j];
+            if (dup) { s_bgfx_base[s][i] = dup; continue; }
+            if (next + n > TILE_SPRITE_INDEX) continue;   /* sem espaco: efeito omitido */
+            VDP_loadTileSet(fx->img->tileset, next, DMA_QUEUE);
+            s_bgfx_base[s][i] = next;
+            next += n;
+        }
+    for (u8 i = 0; i < MG_MAX_EXPLOD; i++) MG_drawInit(&mg_fight.explod[i].dr);
     ai_hold_t[0] = ai_hold_t[1] = 0;
     start_round();
 }
@@ -534,6 +632,7 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
 void MG_fightUpdate(u16 pad1, u16 pad2)
 {
     MG_PROF_BEGIN();
+    MG_CRUMB('a');
     mg_fight.ticks++;
     MgPlayer *p0 = &mg_fight.p[0], *p1 = &mg_fight.p[1];
     MG_playerInput(p0, pad1);
@@ -553,21 +652,32 @@ void MG_fightUpdate(u16 pad1, u16 pad2)
             if (mg_fight.explod[i].active) MG_explodStep(&mg_fight.explod[i], &mg_fight.p[mg_fight.explod[i].bind_owner]);
         return;
     }
+    MG_CRUMB('b');
     MG_playerLogic(p0);
+    MG_CRUMB('c');
     MG_playerLogic(p1);
+    MG_CRUMB('d');
     MG_PROF_MARK(1);
     MG_playerPhysics(p0);
     MG_playerPhysics(p1);
     MG_PROF_MARK(2);
+    MG_CRUMB('e');
+    for (u8 s = 0; s < 2; s++)
+        if (mg_fight.helper_active[s]) { MG_playerLogic(&mg_fight.helper[s]); MG_playerPhysics(&mg_fight.helper[s]); }
+    MG_CRUMB('f');
     for (u8 s = 0; s < 2; s++)
         for (u8 i = 0; i < MG_MAX_PROJ; i++) MG_projStep(&mg_fight.p[s], &mg_fight.p[s].proj[i]);
     for (u8 i = 0; i < MG_MAX_EXPLOD; i++)
         if (mg_fight.explod[i].active) MG_explodStep(&mg_fight.explod[i], &mg_fight.p[mg_fight.explod[i].bind_owner]);
     MG_PROF_MARK(3);
+    MG_CRUMB('g');
     if (mg_fight.round_state == 1 || mg_fight.round_state == 2) resolve_hits();
+    MG_CRUMB('h');
     MG_PROF_MARK(4);
     push_and_bounds();
+    MG_CRUMB('i');
     round_flow();
+    MG_CRUMB('j');
     MG_PROF_MARK(5);
 }
 
@@ -575,9 +685,10 @@ void MG_fightEnd(void)
 {
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *p = &mg_fight.p[s];
-        if (p->spr) SPR_releaseSprite(p->spr);
-        for (u8 i = 0; i < MG_MAX_PROJ; i++) if (p->proj[i].spr) SPR_releaseSprite(p->proj[i].spr);
+        MG_drawRelease(&p->dr);
+        MG_drawRelease(&mg_fight.helper[s].dr);
+        for (u8 i = 0; i < MG_MAX_PROJ; i++) MG_drawRelease(&p->proj[i].dr);
     }
-    for (u8 i = 0; i < MG_MAX_EXPLOD; i++) if (mg_fight.explod[i].spr) SPR_releaseSprite(mg_fight.explod[i].spr);
+    for (u8 i = 0; i < MG_MAX_EXPLOD; i++) MG_drawRelease(&mg_fight.explod[i].dr);
     memset(&mg_fight, 0, sizeof(mg_fight));
 }

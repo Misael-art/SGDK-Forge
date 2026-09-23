@@ -18,6 +18,8 @@ Registre aqui apenas padroes que funcionaram neste projeto com evidencia rastrea
 | 2026-09-23 | `promotion_candidate` | IA de luta | CPU ativa comandos do .cmd (como a IA do MUGEN) em vez de digitar sequencias; generico para qualquer personagem | over_budget 34% -> 3,9% | IA reimplementada; declarar no relatorio |
 | 2026-09-23 | `local_note` | VRAM de sprite | VRAM fixa por jogador (maior maxNumTile das sheets) sem AUTO_VRAM_ALLOC: sem realocacao na troca de sheet | ROM f1507da4; over 115/3391 | Cai para auto se nao couber abaixo de TILE_SPRITE_INDEX |
 | 2026-09-23 | `local_note` | evidencia de audio | --audio-driver disk + RMS por segundo (float32) prova que os sons tocam | sessao e3_ken 070143Z | Nao avalia qualidade, so presenca |
+| 2026-09-23 | `promotion_candidate` | efeitos em tela cheia | Grupo com geometria identica e so indices mudando = animacao de paleta: 1 imagem BG + 14 cores por quadro | fundo 730 no BlastEm (e3_ken_super) | Se nao couber na VRAM, espelhamento declarado como aproximacao |
+| 2026-09-23 | `promotion_candidate` | evidencia de golpe raro | ROM de teste com roteiro de entrada (-DMG_TEST_SCRIPT) + energia cheia + P2 parado prova super no emulador | e3_ken_super / e3_ken_ring | So ROM de teste; nunca na ROM normal |
 | [DATA] | `local_note` | [cena/sistema] | [o que funcionou] | [build/log/screenshot/hash] | [onde nao aplicar] |
 
 ## Regras

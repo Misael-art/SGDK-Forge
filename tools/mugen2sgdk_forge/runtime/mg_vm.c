@@ -139,6 +139,8 @@ static mgfx trg(const MgPlayer *p, u8 id)
     case MG_TRG_ROUNDNO: return FXI(mg_fight.round_no);
     case MG_TRG_NUMENEMY: return FXI(1);
     case MG_TRG_AILEVEL: return FXI(p->is_cpu ? 4 : 0);
+    case MG_TRG_ISHELPER: return FXI(p->is_helper);
+    case MG_TRG_NUMHELPER: return FXI(mg_fight.helper_active[p->side]);
     default: return 0;   /* numhelper, numexplod, ishelper: sem helpers -> 0 */
     }
 }
@@ -184,6 +186,10 @@ static mgfx trga(const MgPlayer *p, u8 id, mgfx arg)
         default: return 0;
         }
     case MG_TRGA_ANIMEXIST: return FXI(MG_findAnim(p->def, n) >= 0);
+    case MG_TRGA_NUMHELPER: {
+        const MgPlayer *o = p->is_helper ? p->parent : p;
+        return FXI(mg_fight.helper_active[o->side] && (n <= 0 || mg_fight.helper[o->side].helper_id == n));
+    }
     default: return 0;
     }
 }

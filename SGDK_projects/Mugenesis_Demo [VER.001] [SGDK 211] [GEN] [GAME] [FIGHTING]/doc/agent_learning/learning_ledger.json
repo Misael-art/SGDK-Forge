@@ -9,9 +9,101 @@
     "human_approval_required": true,
     "evidence_required": true
   },
-  "generated_at": "2026-09-23T07:53:16Z",
-  "source_digest": "35a68fbd6872d856fd2e8913d5c1b13f0a003ff75c72d263cec54ae6419decc2",
+  "generated_at": "2026-09-23T12:17:37Z",
+  "source_digest": "abec8c86eea45e4a94f58845f8284847ed4faaba9060fc95d371bd36eae922dc",
   "lessons": [
+    {
+      "lesson_id": "lesson_6e659d4edead1346",
+      "title": "ADDRESS ERROR em 0x208014",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "address_error_em_0x208014",
+      "context": "ROM de teste",
+      "observation": "ADDRESS ERROR em 0x208014",
+      "diagnosis": "strcat em buffer de diagnostico escreveu 0x20 sobre endereco de retorno",
+      "resolution_or_preventive_heuristic": "Diagnostico com tamanho limitado; crumbs na SRAM sobrevivem ao crash",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_dd0301e53e02bd6f",
+      "title": "Anel nascia 250 px abaixo do chao",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "anel_nascia_250_px_abaixo_do_chao",
+      "context": "compilador",
+      "observation": "Anel nascia 250 px abaixo do chao",
+      "diagnosis": "Parametro removido da lista deslocava indices MG_P_*",
+      "resolution_or_preventive_heuristic": "Lista de parametros sempre alinhada ao esquema; teste dedicado",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
     {
       "lesson_id": "lesson_92a7e27a2f9d92d4",
       "title": "AnimTime = 0 nunca ocorria",
@@ -347,6 +439,52 @@
       "observation": "Crash `0x23080000` no primeiro H-Int",
       "diagnosis": "Handler `void` emite RTS; SR vira PC alto",
       "resolution_or_preventive_heuristic": "HINTERRUPT_CALLBACK` (RTE); nao armar no enter",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_7b23cdebd4197100",
+      "title": "Efeitos de super sumiam (quadros excluidos)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "efeitos_de_super_sumiam_quadros_excluidos",
+      "context": "conversor",
+      "observation": "Efeitos de super sumiam (quadros excluidos)",
+      "diagnosis": "Estimativa de sprites de hardware pelo retangulo cheio; quadros ocos (anel) cabiam",
+      "resolution_or_preventive_heuristic": "Contar blocos 32x32 ocupados; dividir em partes quando exceder",
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
@@ -1497,6 +1635,52 @@
       }
     },
     {
+      "lesson_id": "lesson_28206261265b19a4",
+      "title": "Grupo com geometria identica e so indices mudando = animacao de paleta: 1 imagem BG + 14 cores por quadro",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "grupo_com_geometria_identica_e_so_indices_mudando_animacao_de_paleta_1_imagem_bg_14_cores_por_quadro",
+      "context": "efeitos em tela cheia",
+      "observation": "Grupo com geometria identica e so indices mudando = animacao de paleta: 1 imagem BG + 14 cores por quadro",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Se nao couber na VRAM, espelhamento declarado como aproximacao"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
       "lesson_id": "lesson_91c84fddaccfd464",
       "title": "Harness nativo: runtime C real + dados gerados + stub do SGDK; golpes por entrada roteirizada e luta CPUxCPU de 10 min",
       "source_kind": "success_pattern",
@@ -1649,6 +1833,52 @@
       "resolution_or_preventive_heuristic": "",
       "scope_limits": [
         "Nao evictar o quadro que esta na tela"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_0522bfc44960fceb",
+      "title": "ROM de teste com roteiro de entrada (-DMG_TEST_SCRIPT) + energia cheia + P2 parado prova super no emulador",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "rom_de_teste_com_roteiro_de_entrada_dmg_test_script_energia_cheia_p2_parado_prova_super_no_emulador",
+      "context": "evidencia de golpe raro",
+      "observation": "ROM de teste com roteiro de entrada (-DMG_TEST_SCRIPT) + energia cheia + P2 parado prova super no emulador",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "So ROM de teste; nunca na ROM normal"
       ],
       "evidence": {
         "grade": "E1_artifact",
@@ -1867,6 +2097,22 @@
   ],
   "candidate_index": [
     {
+      "lesson_id": "lesson_6e659d4edead1346",
+      "title": "ADDRESS ERROR em 0x208014",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_dd0301e53e02bd6f",
+      "title": "Anel nascia 250 px abaixo do chao",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_92a7e27a2f9d92d4",
       "title": "AnimTime = 0 nunca ocorria",
       "lifecycle_status": "evidence_incomplete",
@@ -1925,6 +2171,14 @@
     {
       "lesson_id": "lesson_b2d2b2b079e0e72a",
       "title": "Crash `0x23080000` no primeiro H-Int",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_7b23cdebd4197100",
+      "title": "Efeitos de super sumiam (quadros excluidos)",
       "lifecycle_status": "evidence_incomplete",
       "evidence_grade": "E1_artifact",
       "action": "none",

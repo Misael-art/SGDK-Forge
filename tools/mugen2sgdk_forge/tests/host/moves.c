@@ -44,6 +44,13 @@ int main(int argc, char **argv)
     }
     for (int i = 0; i < 90; i++) {
         MG_fightUpdate(0, 0);
+        MG_fightRender();
+        if (getenv("MG_FXDBG"))
+            for (int k = 0; k < MG_MAX_EXPLOD; k++) if (mg_fight.explod[k].active) {
+                const MgAnim *a = &mg_char_ken.anims[mg_fight.explod[k].anim_idx];
+                const MgAnimFrame *f = &mg_char_ken.frames[a->first + mg_fight.explod[k].elem];
+                printf("explod anim=%d elem=%d partes=%d\n", a->id, mg_fight.explod[k].elem, f->nparts);
+            }
         s16 st = mg_fight.p[0].stateno;
         if (seen[ns - 1] != st && ns < 64) seen[ns++] = st;
     }

@@ -56,3 +56,24 @@ def test_cpu_fight_is_alive(tmp_path):
     exe = build(tmp_path, "harness")
     r = json.loads(subprocess.run([str(exe), "36000"], check=True, capture_output=True, text=True).stdout)
     assert r["damage_events"] > 20 and r["distinct_states"] > 60 and r["sound_plays"] > 100, r
+
+
+def build_flags(tmp_path, main, *flags):
+    out = tmp_path / (main + "_fp") / "bin"
+    out.parent.mkdir(parents=True)
+    env = dict(os.environ, MG_HOST_MAIN=str(HERE / f"{main}.c"))
+    subprocess.run([str(HERE / "build_host.sh"), str(PROJECT), str(out), "-O1", *flags], check=True, env=env,
+                   capture_output=True)
+    return out
+
+
+def test_super_effects_ring_parts_and_background(tmp_path):
+    exe = build_flags(tmp_path, "moves", "-DMG_TEST_FULL_POWER")
+    r = subprocess.run([str(exe), "CZ:2"], check=True, capture_output=True, text=True,
+                       env=dict(os.environ, MG_FXDBG="1")).stdout
+    assert "12000" in r and "anim=30100" in r and "partes=4" in r        # anel dividido em 4 sprites
+    r = subprocess.run([str(exe), "D:1 DL:1 L:1 D:5 DL:5 L:1 LX:2"], check=True, capture_output=True, text=True).stdout
+    assert "8000" in r                                                     # bola de fogo super
+    exe = build_flags(tmp_path, "supers", "-DMG_TEST_FULL_POWER")
+    r = json.loads(subprocess.run([str(exe)], check=True, capture_output=True, text=True).stdout)
+    assert r["bg730_ticks"] > 0                                            # fundo do super via Helper

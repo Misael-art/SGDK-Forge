@@ -171,7 +171,9 @@ static void spawn_projectile(MgPlayer *p, const MgCtrl *c)
     MgProj *pr = 0;
     for (u8 i = 0; i < MG_MAX_PROJ; i++) if (!p->proj[i].active) { pr = &p->proj[i]; break; }
     if (!pr) return;                              /* limite do pool: registrado no README */
+    MgDraw keep = pr->dr;                         /* preserva sprites SGDK (evita vazamento do pool) */
     memset(pr, 0, sizeof(*pr));
+    pr->dr = keep;
     pr->id = PIV(p, c, MG_P_PROJECTILE_PROJID, 0);
     pr->anim_id = PIV(p, c, MG_P_PROJECTILE_PROJANIM, 0);
     pr->hitanim = PIV(p, c, MG_P_PROJECTILE_PROJHITANIM, -1);
@@ -189,7 +191,6 @@ static void spawn_projectile(MgPlayer *p, const MgCtrl *c)
     pr->removetime = PIV(p, c, MG_P_PROJECTILE_PROJREMOVETIME, -1);
     pr->hits = PIV(p, c, MG_P_PROJECTILE_PROJHITS, 1);
     pr->contact_time = -1;
-    pr->cur_sheet = -1;
     read_hitdef(p, c, PROJ_HD_BASE, &pr->hd);
     pr->active = 1;
 }
@@ -197,6 +198,7 @@ static void spawn_projectile(MgPlayer *p, const MgCtrl *c)
 /* ------------------------------------------------------------------ controladores */
 static void exec(MgPlayer *p, const MgCtrl *c)
 {
+    MG_CRUMB('0' + (c->type % 40));
     switch (c->type) {
     case MG_CT_CHANGESTATE:
         MG_changeState(p, PIV(p, c, MG_P_CHANGESTATE_VALUE, p->stateno),
@@ -347,6 +349,37 @@ static void exec(MgPlayer *p, const MgCtrl *c)
                 (id < 0 || mg_fight.explod[i].id == id)) mg_fight.explod[i].removetime = 0;
         break;
     }
+    case MG_CT_HELPER: {
+        if (p->is_helper) break;                  /* helpers nao criam helpers (limite do runtime) */
+        MgPlayer *h = &mg_fight.helper[p->side];
+        MgDraw keep = h->dr;
+        memset(h, 0, sizeof(*h));
+        h->dr = keep;
+        h->def = h->sdef = p->def;
+        h->enemy = p->enemy;
+        h->side = p->side;
+        h->pal = p->pal;
+        h->is_helper = 1;
+        h->parent = p;
+        h->helper_id = PIV(p, c, MG_P_HELPER_ID, 0);
+        h->facing = p->facing;
+        mgfx px = PV(p, c, MG_P_HELPER_POS_X), py = PV(p, c, MG_P_HELPER_POS_Y);
+        switch (SYM(p, c, MG_S_HELPER_POSTYPE)) {
+        case 1: h->x = p->enemy->x + MG_FACE(px, p->facing); h->y = p->enemy->y + py; break;
+        case 4: h->x = FXI(mg_fight.camx) + px; h->y = py; break;
+        case 5: h->x = FXI(mg_fight.camx + 320) + px; h->y = py; break;
+        default: h->x = p->x + MG_FACE(px, p->facing); h->y = p->y + py; break;
+        }
+        h->life = p->def->consts->life >> MG_FX_SHIFT;
+        h->statetype = 'S'; h->movetype = 'I'; h->physics = 'N';
+        h->stateno = -1;
+        mg_fight.helper_active[p->side] = 1;
+        MG_changeState(h, PIV(p, c, MG_P_HELPER_STATENO, 0), 0, -1);
+        break;
+    }
+    case MG_CT_DESTROYSELF:
+        if (p->is_helper) mg_fight.helper_active[p->side] = 0;
+        break;
     default: break;                                /* null, width, assertspecial */
     }
 }
@@ -693,6 +726,7 @@ static void engine_auto_transitions(MgPlayer *p)
 /* ------------------------------------------------------------------ tick */
 void MG_playerInput(MgPlayer *p, u16 pad)
 {
+    if (p->is_helper) return;
     u16 in = p->is_cpu ? MG_cpuInput(p) : pad_to_rel(pad, p->facing);
     p->in_prev = p->in_raw;
     p->in_raw = in;
@@ -723,7 +757,7 @@ void MG_playerLogic(MgPlayer *p)
     /* ordem MUGEN: -3, -2, -1 (comandos) sempre; so entao as transicoes automaticas do motor */
     MG_PROF_BEGIN();
     p->state_changed = 0;
-    if (p->sdef == p->def) {                     /* estados negativos nao rodam em custom state */
+    if (p->sdef == p->def && !p->is_helper) {    /* negativos: nao em custom state nem em helper */
         if (p->def->st_minus3 >= 0) run_state(p, p->def->st_minus3);
         if (p->def->st_minus2 >= 0 && !p->state_changed) run_state(p, p->def->st_minus2);
         if (p->def->st_minus1 >= 0 && !p->state_changed) run_minus1(p);

@@ -27,6 +27,9 @@ Registre aqui falhas, falsos positivos, tentativas ruins e decisoes que nao deve
 | 2026-09-23 | `local_note` | captura em worktree | BlastEm window_timeout / 'Failed to open ... for reading' | Flatpak do BlastEm so monta a arvore principal do repo | --output-base dentro da arvore principal; scripts rodados a partir dela | ev1 falhou; e3_ken selado |
 | 2026-09-23 | `local_note` | build | make: 'multiplos padroes para o alvo' em out_prof | Arquivos .d antigos com caminho com espacos | Apagar a pasta de saida antes de rebuild com --output-dir | build8.log |
 | 2026-09-23 | `needs_human_review` | template | Projeto novo nasceu com memory bank/ledger/patterns de outro projeto (The Forge) | new_project copia historico do modelo | Linhas herdadas mantidas; revisar/limpar na curadoria do template | este arquivo, linhas 2026-08-18 |
+| 2026-09-23 | `promotion_candidate` | conversor | Efeitos de super sumiam (quadros excluidos) | Estimativa de sprites de hardware pelo retangulo cheio; quadros ocos (anel) cabiam | Contar blocos 32x32 ocupados; dividir em partes quando exceder | 8000/0: 14 blocos vs 20 estimados |
+| 2026-09-23 | `promotion_candidate` | compilador | Anel nascia 250 px abaixo do chao | Parametro removido da lista deslocava indices MG_P_* | Lista de parametros sempre alinhada ao esquema; teste dedicado | ringpos: y=250 -> -48 |
+| 2026-09-23 | `local_note` | ROM de teste | ADDRESS ERROR em 0x208014 | strcat em buffer de diagnostico escreveu 0x20 sobre endereco de retorno | Diagnostico com tamanho limitado; crumbs na SRAM sobrevivem ao crash | save.sram 0x1000; symbol.txt |
 | [DATA] | `local_note` | [cena/sistema] | [o que falhou] | [causa] | [como evitar] | [log/screenshot/hash] |
 
 ## Regras

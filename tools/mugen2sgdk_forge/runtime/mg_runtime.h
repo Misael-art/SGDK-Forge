@@ -16,6 +16,9 @@
 #define MG_INPUT_HIST   64      /* potencia de 2: buffer circular */
 #define MG_MAX_PROJ     4
 #define MG_MAX_EXPLOD   6
+#define MG_MAX_PARTS    4       /* sprites SGDK por objeto (quadros divididos) */
+
+typedef struct { Sprite *spr[MG_MAX_PARTS]; s16 sheet[MG_MAX_PARTS]; } MgDraw;
 #define MG_MAX_PROG     32      /* comandos em andamento simultaneos */
 #define MG_MAX_LIVE     32      /* comandos ativos (buffer) simultaneos */
 
@@ -58,7 +61,7 @@ typedef struct {
     u8 removing;
     s16 contact_time;          /* ticks desde o ultimo contato (-1 nunca) */
     MgHitDef hd;
-    Sprite *spr; s16 cur_sheet;
+    MgDraw dr;
 } MgProj;
 
 typedef struct {
@@ -71,7 +74,9 @@ typedef struct {
     u8 bind_owner;             /* segue o dono enquanto bindtime */
     mgfx bx, by;
     s16 depth;
-    Sprite *spr; s16 cur_sheet;
+    s8 bgfx;                   /* >=0: efeito de fundo (indice em def->bgfx) em vez de sprite */
+    u8 bgfx_shown;
+    MgDraw dr;
 } MgExplod;
 
 typedef struct MgPlayer MgPlayer;
@@ -135,12 +140,18 @@ struct MgPlayer {
 
     s16 sprpriority;
     MgProj proj[MG_MAX_PROJ];
-    Sprite *spr; s16 cur_sheet;
+    MgDraw dr;
     s16 shake_screen;
+    /* helper reduzido (MUGEN Helper): roda estados do dono, invisivel a colisoes */
+    u8 is_helper;
+    s16 helper_id;
+    MgPlayer *parent;
 };
 
 typedef struct {
     MgPlayer p[2];
+    MgPlayer helper[2];        /* um helper por jogador */
+    u8 helper_active[2];
     MgExplod explod[MG_MAX_EXPLOD];
     s32 camx;                  /* pixels do mundo na borda esquerda da tela */
     s16 stage_left, stage_right, floor_y;
@@ -157,6 +168,17 @@ extern MgFight mg_fight;
 /* Perfil opcional no hardware (compilar com -DMG_PROFILE): subticks (1280 por quadro NTSC)
  * acumulados por etapa: 0 entrada/comandos, 1 estados, 2 fisica, 3 projeteis/explods,
  * 4 colisoes, 5 empurrao/rounds, 6 render, 7 SPR_update (medido pelo host da cena). */
+/* marcador de diagnostico (so ROM de teste): escreve o passo atual na linha 4 da tela */
+#ifdef MG_TEST_BREADCRUMB
+extern char mg_crumbs[25];
+extern u8 mg_crumb_i;
+/* anel de 24 marcadores gravado na SRAM (offset 0x1000; 0x1018 = proxima posicao): sobrevive ao crash */
+#define MG_CRUMB(ch) do { SRAM_enable(); SRAM_writeByte(0x1000 + mg_crumb_i, (ch)); \
+    mg_crumb_i = (mg_crumb_i + 1) % 24; SRAM_writeByte(0x1018, mg_crumb_i); SRAM_disable(); } while (0)
+#else
+#define MG_CRUMB(ch) do { } while (0)
+#endif
+
 #ifdef MG_PROFILE
 extern u32 mg_prof[16];   /* 8..: detalhe (8 hist, 9 laco comandos, 10 negativos, 11 estado atual, 12 auto) */
 #define MG_PROF_BEGIN() u32 mg_prof_t = getSubTick()
@@ -190,5 +212,7 @@ void MG_playerPhysics(MgPlayer *p);
 void MG_projStep(MgPlayer *p, MgProj *pr);
 void MG_explodStep(MgExplod *e, const MgPlayer *owner);
 void MG_selfState(MgPlayer *p, s16 no);
+void MG_drawInit(MgDraw *d);
+void MG_drawRelease(MgDraw *d);
 
 #endif

@@ -261,3 +261,41 @@ def test_generator_is_deterministic(tmp_path):
     assert outs[0] == outs[1]
     c = (tmp_path / "a" / "src" / "mg_gen" / "mg_fixture.c").read_text()
     assert "float" not in c and "double" not in c and "malloc" not in c
+
+
+def test_large_frame_is_split_into_valid_parts():
+    from mugen2sgdk_forge.parsers.sff import Sprite
+    from PIL import Image
+    w, h = 250, 160                                     # > 248 px: exige divisao
+    px = bytearray(w * h)
+    for y in range(h):                                   # anel: so a borda e opaca
+        for x in range(w):
+            if x < 6 or x >= w - 6 or y < 6 or y >= h - 6:
+                px[y * w + x] = 5
+    s = Sprite(8000, 16, 150, 130, w, h, bytes(px), [(0, 0, 0)] * 256, True, None, 0)
+    parts = sprites.split_parts(s)
+    assert parts and 1 < len(parts) <= sprites.MAX_PARTS
+    total = 0
+    for pr in parts:
+        assert pr.width <= sprites.MAX_CELL and pr.height <= sprites.MAX_CELL
+        assert sprites._hw_estimate(Image.frombytes("P", (pr.width, pr.height), pr.pixels)) <= sprites.BLOCK_BUDGET
+        total += sum(1 for b in pr.pixels if b)
+    assert total == sum(1 for b in px if b)             # nenhum pixel perdido
+
+
+def test_frame_needing_too_many_parts_is_rejected():
+    from mugen2sgdk_forge.parsers.sff import Sprite
+    w, h = 320, 240                                      # tela cheia opaca (como o grupo 730 do Ken)
+    s = Sprite(730, 0, 160, 120, w, h, bytes([5]) * (w * h), [(0, 0, 0)] * 256, True, None, 0)
+    assert sprites.split_parts(s) is None
+
+
+def test_param_list_always_aligned_with_schema(tmp_path):
+    """Indices de parametro sao o contrato com o runtime (MG_P_*): nunca podem deslocar."""
+    from mugen2sgdk_forge.ir import controllers as C
+    ch = character.load(Source(make_pkg(tmp_path)))
+    for st in ch.states.values():
+        for cc in st.controllers:
+            if cc.type in ("varset", "varadd", "varrandom"):
+                continue
+            assert len(cc.params) == len(C.SCHEMA[cc.type]), (st.number, cc.type)

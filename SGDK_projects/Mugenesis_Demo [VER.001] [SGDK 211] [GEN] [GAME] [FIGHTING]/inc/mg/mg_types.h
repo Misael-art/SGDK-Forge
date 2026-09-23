@@ -36,7 +36,13 @@ typedef struct {
     s16 time;                    /* -1 = infinito */
     u8  nclsn1, nclsn2;          /* caixas de ataque / corpo */
     u16 clsn;                    /* indice em boxes[]: clsn1 depois clsn2 */
+    u8  nparts;                  /* 1 = quadro simples; >1 = partes extras em parts[part..] */
+    u8  pad;
+    u16 part;
 } MgAnimFrame;
+
+/* parte extra de um quadro grande dividido pelo conversor (limites do rescomp/VDP) */
+typedef struct { s16 sheet; u8 frame; u8 pad; } MgFramePart;
 
 typedef struct {
     s16 id;
@@ -83,6 +89,16 @@ enum { MG_K_NONE, MG_K_F, MG_K_B, MG_K_U, MG_K_D, MG_K_DF, MG_K_DB, MG_K_UF, MG_
 
 typedef struct { const u8 *data; u32 len; } MgSound;
 
+/* efeito de fundo em tela cheia animado por paleta (ex.: fundo de super), desenhado em BG_B/PAL0 1..14 */
+typedef struct {
+    s16 anim_id;
+    const Image *img;
+    const u16 (*pals)[16];
+    u8 npals;
+    u8 nelem;
+    const u8 *elem_pal;          /* por elemento da animacao: indice em pals (255 = sem mudanca) */
+} MgBgFx;
+
 typedef struct {
     mgfx life, attack, defence, liedown_time, airjuggle;
     mgfx ground_back, ground_front, air_back, air_front, height;
@@ -97,6 +113,7 @@ typedef struct {
     const MgSheet *sheets;         u16 nsheets;
     const MgAnim *anims;           u16 nanims;       /* ordenado por id */
     const MgAnimFrame *frames;
+    const MgFramePart *parts;
     const MgBox *boxes;
     const u8 *code;
     const u16 *param_offs;
@@ -115,6 +132,7 @@ typedef struct {
     u8 default_pal;
     const u16 *fxpal;
     const MgSound *sounds;         u16 nsounds;      /* indice = posicao no .snd original */
+    const MgBgFx *bgfx;            u8 nbgfx;
     const MgConsts *consts;
     s16 st_minus1, st_minus2, st_minus3;             /* indices em states[] ou -1 */
     u16 cmd_holdfwd, cmd_holdback, cmd_holdup, cmd_holddown;  /* MG_NONE se ausente */

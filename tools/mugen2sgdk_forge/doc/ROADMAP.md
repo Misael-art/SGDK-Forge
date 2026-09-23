@@ -115,6 +115,20 @@ Build de ROM no Linux: so a ponte Wine funciona (build.sh sofre PATH shadowing).
 - Visual: technical_candidate; o gate semantico de screenshot rejeita a captura por baixa densidade de bordas
   (nao ha cenario). Nao foi burlado.
 
+- 2026-09-23 (efeitos de super, pedido do usuario): nenhuma imagem do Ken fica mais de fora.
+  - Quadros acima dos limites do rescomp sao divididos em ate 4 partes (sprites SGDK) por quadro;
+    estimativa de sprites de hardware passou a contar blocos 32x32 ocupados (antes: retangulo cheio,
+    que excluia a toa quadros ocos como o anel). Anel 30100 (grupo 8000) e bola de fogo super (760) completos.
+  - Fundo de super em tela cheia (grupo 730): detectado como animacao de paleta (geometria identica em 16
+    quadros, 14 cores) -> imagem unica em BG_B + troca de 14 cores da PAL0 por quadro. Geometria
+    `mirror_4` (quadrante espelhado, 272 tiles; simetria original 32%) = aproximacao declarada.
+  - Helper reduzido (roda estados do dono, nao atingivel) -> "Background Victory" do Ken funciona.
+  - Defeito corrigido: SuperPause/PlaySnd removiam parametro e deslocavam os indices (posicao do anel,
+    poweradd). Teste de alinhamento parametros x esquema.
+  - Evidencia: ROM normal `ce783a61…` (e3_ken/…121530Z…); ROMs de teste com roteiro de entrada
+    (`-DMG_TEST_SCRIPT` [+ `-DMG_TEST_RING`], energia cheia, P2 com pouca vida) em e3_ken_super e e3_ken_ring.
+  - Desempenho piorou: 23% dos quadros acima do orcamento (865/3811), pico 160%.
+
 ### Proximos passos (E3b)
 1. Portoes para HitDef: ler parametros constantes uma vez (tabela pre-resolvida pelo gerador) em vez da VM.
 2. Portao de estado para controladores sem comando/tempo (ex.: `StateNo = X && MoveContact`) no -1.

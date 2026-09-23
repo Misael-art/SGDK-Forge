@@ -1,5 +1,11 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-23 - Efeitos de super completos (anel, bola de fogo super, fundo de vitoria)
+
+- Quadros grandes divididos em ate 4 sprites; fundo de super em BG_B com animacao de paleta; Helper reduzido.
+- Corrigido deslocamento de indice de parametros (SuperPause/PlaySnd).
+- ROM ce783a61...; desempenho: 23% dos quadros acima do orcamento (E3b pendente).
+
 ## 2026-09-23 - E3: Ken convertido do MUGEN rodando no BlastEm
 
 - Cena de luta hospeda o runtime generico mugen2sgdk_forge; boot direto na luta (MG_DIRECT_FIGHT).

@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 
 from . import character, inventory
+from .converters import bgfx as bgfx_conv
 from .converters import sounds as snd_conv
 from .converters import sprites as spr_conv
 from .generators import sgdk
@@ -60,7 +61,11 @@ def convert_char(pkg: Path, char_id: str, project: Path) -> dict:
     spr = spr_conv.convert(ch)
     used = _used_sounds(ch)
     snds, snd_rep = snd_conv.convert(ch, used)
-    gen = sgdk.generate(ch, spr, snds, char_id, project)
+    fx = bgfx_conv.detect(ch, spr.report["unsupported_images"])
+    recovered = {(f.group) for f in fx}
+    spr.report["unsupported_images"] = [u for u in spr.report["unsupported_images"] if u["sprite"][0] not in recovered]
+    spr.report["bgfx"] = [f.report for f in fx]
+    gen = sgdk.generate(ch, spr, snds, char_id, project, fx)
 
     cid = sgdk.ident(char_id)
     report = {
@@ -108,6 +113,13 @@ def _update_provenance(project: Path, cid: str, ch, spr, snds):
             "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
             "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
             "notes": f"{ch.name} por {ch.author}; uso local autorizado pelo usuario; redistribuicao nao verificada."})
+    for rep in spr.report.get("bgfx", []):
+        data["entries"].append({
+            "res_symbol": f"mg_{cid}_bgfx_{rep['group']}", "res_kind": "IMAGE",
+            "asset_path": f"mugen/{cid}/bgfx_{rep['group']}.png",
+            "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
+            "generated_by": "tools/mugen2sgdk_forge (converters/bgfx.py)",
+            "notes": f"{ch.name} por {ch.author}; fundo em tela cheia animado por paleta; geometria {rep['strategy']}."})
     for so in snds:
         data["entries"].append({
             "res_symbol": f"mg_{cid}_snd_{so.group}_{so.sample}", "res_kind": "WAV",

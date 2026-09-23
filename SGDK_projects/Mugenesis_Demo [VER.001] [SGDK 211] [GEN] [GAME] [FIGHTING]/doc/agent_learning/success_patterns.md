@@ -13,6 +13,11 @@ Registre aqui apenas padroes que funcionaram neste projeto com evidencia rastrea
 | 2026-08-18 | `local_note` | The Forge parede | Unpack APLIB 40x28 no preludio (probe warmup) e nametable no reveal. ob 9→0, cpu 160→92 | ROM e6437530…; d3_hit1/d3_forge | Pico 92 residual. Dest estatico, sem malloc |
 | 2026-08-18 | `local_note` | The Forge descida | Paleta da forja so depois do tilemap da parede: emerge escura, nao muro fantasma no ceu. 12 fagulhas no lugar de 56 estilhacos: spr 51→13 | ROM e79a9de4…; d2_reveal/d2_lock/d2_hit1/d2_forge | Golpes ainda cpu 160 / ob 9. Nao e validado_budget |
 | 2026-08-18 | `local_note` | branding_sequence_v2 ato 3 | Forja travada + restore unico de props + nomes na parede (y<64) + PRESENTS no fogo. over_budget 0 em F271/331/451/511 | ROM 40fec78b…; fin2/fin4/fin6/fin72 | Nao e licenca para arte final nem ready_for_aaa |
+| 2026-09-23 | `promotion_candidate` | compilador MUGEN->bytecode | Portoes exatos derivados da AST (comandos: E=menor, OU=uniao; tempo: time=N / animelem=N) + curto-circuito ANDJ/ORJ. Mesmo resultado no harness, custo do -1 35%->8% | harness identico (98 danos/1 KO) antes e depois; perfil prof4/prof5 | So condicoes necessarias; nunca suficientes |
+| 2026-09-23 | `promotion_candidate` | teste de runtime | Harness nativo: runtime C real + dados gerados + stub do SGDK; golpes por entrada roteirizada e luta CPUxCPU de 10 min | tests/test_host_runtime.py; tests/host/ | Nao mede ciclos do 68000; so semantica |
+| 2026-09-23 | `promotion_candidate` | IA de luta | CPU ativa comandos do .cmd (como a IA do MUGEN) em vez de digitar sequencias; generico para qualquer personagem | over_budget 34% -> 3,9% | IA reimplementada; declarar no relatorio |
+| 2026-09-23 | `local_note` | VRAM de sprite | VRAM fixa por jogador (maior maxNumTile das sheets) sem AUTO_VRAM_ALLOC: sem realocacao na troca de sheet | ROM f1507da4; over 115/3391 | Cai para auto se nao couber abaixo de TILE_SPRITE_INDEX |
+| 2026-09-23 | `local_note` | evidencia de audio | --audio-driver disk + RMS por segundo (float32) prova que os sons tocam | sessao e3_ken 070143Z | Nao avalia qualidade, so presenca |
 | [DATA] | `local_note` | [cena/sistema] | [o que funcionou] | [build/log/screenshot/hash] | [onde nao aplicar] |
 
 ## Regras

@@ -9,9 +9,147 @@
     "human_approval_required": true,
     "evidence_required": true
   },
-  "generated_at": "2026-08-18T11:37:09Z",
-  "source_digest": "18a8f03387c3afb266e5314e3f6f260b8ad59104b0a521e13cf719c437037051",
+  "generated_at": "2026-09-23T07:53:16Z",
+  "source_digest": "35a68fbd6872d856fd2e8913d5c1b13f0a003ff75c72d263cec54ae6419decc2",
   "lessons": [
+    {
+      "lesson_id": "lesson_92a7e27a2f9d92d4",
+      "title": "AnimTime = 0 nunca ocorria",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "animtime_0_nunca_ocorria",
+      "context": "semantica MUGEN",
+      "observation": "AnimTime = 0 nunca ocorria",
+      "diagnosis": "A animacao voltava ao inicio no mesmo tick do ultimo quadro",
+      "resolution_or_preventive_heuristic": "AnimTime = anim_time + 1 - total (0 no ultimo tick do ciclo)",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_941312ed7b9891a6",
+      "title": "BlastEm window_timeout / 'Failed to open ... for reading'",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "blastem_window_timeout_failed_to_open_for_reading",
+      "context": "captura em worktree",
+      "observation": "BlastEm window_timeout / 'Failed to open ... for reading'",
+      "diagnosis": "Flatpak do BlastEm so monta a arvore principal do repo",
+      "resolution_or_preventive_heuristic": "--output-base dentro da arvore principal; scripts rodados a partir dela",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_58d84b76822b1026",
+      "title": "Build quebrou: quadro de efeito com 20 sprites de hardware",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "build_quebrou_quadro_de_efeito_com_20_sprites_de_hardware",
+      "context": "rescomp",
+      "observation": "Build quebrou: quadro de efeito com 20 sprites de hardware",
+      "diagnosis": "Limite de 16 sprites de hardware por quadro no SPRITE do rescomp",
+      "resolution_or_preventive_heuristic": "Conversor mede e exclui (registrado em unsupported_images) antes do build",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
     {
       "lesson_id": "lesson_742d6bf7460d684a",
       "title": "Bundle do BlastEm recusa o ato I (`blank_or_low_information_capture`); VLAB `frame_counter` anda de 60 em 60",
@@ -28,7 +166,53 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ea58002c567c9c61",
+      "title": "command = b` (chute) virava \"segurar tras\"",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "command_b_chute_virava_segurar_tras",
+      "context": "parser MUGEN",
+      "observation": "command = b` (chute) virava \"segurar tras\"",
+      "diagnosis": "MUGEN diferencia caixa: B maiusculo = direcao, b minusculo = botao",
+      "resolution_or_preventive_heuristic": "Normalizar so direcoes em maiuscula; teste test_cmd_case_back_vs_button",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -74,7 +258,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -120,7 +304,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -166,7 +350,53 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_bd48836cbbfbd548",
+      "title": "Golpes nunca terminavam (ChangeState de saida em outro estado)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "golpes_nunca_terminavam_changestate_de_saida_em_outro_estado",
+      "context": "parser MUGEN",
+      "observation": "Golpes nunca terminavam (ChangeState de saida em outro estado)",
+      "diagnosis": "O numero em [State N, ...] e rotulo; o controlador pertence ao ultimo [Statedef] do arquivo. Ken copia rotulos",
+      "resolution_or_preventive_heuristic": "Parser associa ao ultimo Statedef; teste test_controller_belongs_to_last_statedef_not_label",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -212,7 +442,53 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_bdde3ba28ffcb2ad",
+      "title": "Ken aparecia branco/vermelho em alguns quadros",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "ken_aparecia_branco_vermelho_em_alguns_quadros",
+      "context": "conversor sprites",
+      "observation": "Ken aparecia branco/vermelho em alguns quadros",
+      "diagnosis": "Sprites editados (>10% de pixels fora das 15 cores) iam para a paleta de efeitos",
+      "resolution_or_preventive_heuristic": "Corpo = maioria (>50%) dos pixels na paleta do corpo; resto aproximado e contado",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -258,7 +534,53 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_6576473dc6cac17a",
+      "title": "make: 'multiplos padroes para o alvo' em out_prof",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "make_multiplos_padroes_para_o_alvo_em_out_prof",
+      "context": "build",
+      "observation": "make: 'multiplos padroes para o alvo' em out_prof",
+      "diagnosis": "Arquivos .d antigos com caminho com espacos",
+      "resolution_or_preventive_heuristic": "Apagar a pasta de saida antes de rebuild com --output-dir",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -304,7 +626,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -350,7 +672,145 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_e10f2cc4ea6359f5",
+      "title": "Nenhum especial saia; auto-andar roubava o tick",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "nenhum_especial_saia_auto_andar_roubava_o_tick",
+      "context": "semantica MUGEN",
+      "observation": "Nenhum especial saia; auto-andar roubava o tick",
+      "diagnosis": "Transicoes automaticas do motor rodavam antes do estado -1 e o pulavam",
+      "resolution_or_preventive_heuristic": "Ordem: -3, -2, -1 sempre; transicoes do motor so se nada mudou",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2d294633e2781391",
+      "title": "Passos consecutivos no mesmo tick (soltar D e apertar DF) nao casavam",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "passos_consecutivos_no_mesmo_tick_soltar_d_e_apertar_df_nao_casavam",
+      "context": "comandos",
+      "observation": "Passos consecutivos no mesmo tick (soltar D e apertar DF) nao casavam",
+      "diagnosis": "Reconhecedor avancava so um passo por tick",
+      "resolution_or_preventive_heuristic": "Encadear passos no mesmo tick quando as teclas diferem",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_712f2eed11f14b2b",
+      "title": "Personagem preso em 5101/5110 (caido)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "personagem_preso_em_5101_5110_caido",
+      "context": "semantica MUGEN",
+      "observation": "Personagem preso em 5101/5110 (caido)",
+      "diagnosis": "y>0 era forcado a 0 fora da fisica A; liedown -> getup e regra do motor, nao do .cns",
+      "resolution_or_preventive_heuristic": "So fisica S/C prende ao chao; motor muda 5110 -> 5120 apos liedown.time",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -396,7 +856,53 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_3ee90ab7dcd48450",
+      "title": "Projeto novo nasceu com memory bank/ledger/patterns de outro projeto (The Forge)",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "projeto_novo_nasceu_com_memory_bank_ledger_patterns_de_outro_projeto_the_forge",
+      "context": "template",
+      "observation": "Projeto novo nasceu com memory bank/ledger/patterns de outro projeto (The Forge)",
+      "diagnosis": "new_project copia historico do modelo",
+      "resolution_or_preventive_heuristic": "Linhas herdadas mantidas; revisar/limpar na curadoria do template",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -442,7 +948,53 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/failure_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "human_review",
+        "deduplication": "no_match",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Keep local until an existing owner or reusable procedural gap is proven.",
+        "required_tests": [
+          "human classification review"
+        ],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_ce0addaed8aa6db9",
+      "title": "Varrer 91 comandos e 72 controladores do estado -1 por tick custou 62-99% e 35% do quadro no 68000",
+      "source_kind": "failure_pattern",
+      "source_document": "doc/agent_learning/failure_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "varrer_91_comandos_e_72_controladores_do_estado_1_por_tick_custou_62_99_e_35_do_quadro_no_68000",
+      "context": "runtime MD / CPU",
+      "observation": "Varrer 91 comandos e 72 controladores do estado -1 por tick custou 62-99% e 35% do quadro no 68000",
+      "diagnosis": "Cada iteracao de laco em C compilado para m68k custa centenas de ciclos; o gprof do host subestimou ~10x",
+      "resolution_or_preventive_heuristic": "Trabalho guiado por eventos/indices gerados offline (buckets por tecla, bitmap de controladores por comando, portoes de comando/tempo). Medir no BlastEm com MG_PROFILE (getSubTick, 1280/quadro)",
+      "scope_limits": [],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -488,7 +1040,7 @@
       "scope_limits": [],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/failure_patterns.md"
         ],
@@ -536,7 +1088,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/skill_promotion_candidates.md"
         ],
@@ -586,7 +1138,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/skill_promotion_candidates.md"
         ],
@@ -636,7 +1188,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/skill_promotion_candidates.md"
         ],
@@ -669,6 +1221,52 @@
       }
     },
     {
+      "lesson_id": "lesson_2616199ce08c2f2d",
+      "title": "--audio-driver disk + RMS por segundo (float32) prova que os sons tocam",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "audio_driver_disk_rms_por_segundo_float32_prova_que_os_sons_tocam",
+      "context": "evidencia de audio",
+      "observation": "--audio-driver disk + RMS por segundo (float32) prova que os sons tocam",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao avalia qualidade, so presenca"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
       "lesson_id": "lesson_9471614dccc7b8a7",
       "title": "12 fagulhas do preludio ao nome no lugar de 56 estilhacos: spr 51\u219213, climax sem +ob",
       "source_kind": "success_pattern",
@@ -686,7 +1284,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -732,7 +1330,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -778,7 +1376,53 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_acb30313edda8e1d",
+      "title": "CPU ativa comandos do .cmd (como a IA do MUGEN) em vez de digitar sequencias; generico para qualquer personagem",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "cpu_ativa_comandos_do_cmd_como_a_ia_do_mugen_em_vez_de_digitar_sequencias_generico_para_qualquer_personagem",
+      "context": "IA de luta",
+      "observation": "CPU ativa comandos do .cmd (como a IA do MUGEN) em vez de digitar sequencias; generico para qualquer personagem",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "IA reimplementada; declarar no relatorio"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -824,7 +1468,53 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_91c84fddaccfd464",
+      "title": "Harness nativo: runtime C real + dados gerados + stub do SGDK; golpes por entrada roteirizada e luta CPUxCPU de 10 min",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "harness_nativo_runtime_c_real_dados_gerados_stub_do_sgdk_golpes_por_entrada_roteirizada_e_luta_cpuxcpu_de_10_min",
+      "context": "teste de runtime",
+      "observation": "Harness nativo: runtime C real + dados gerados + stub do SGDK; golpes por entrada roteirizada e luta CPUxCPU de 10 min",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Nao mede ciclos do 68000; so semantica"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -870,7 +1560,53 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_1a18036d302f9678",
+      "title": "Portoes exatos derivados da AST (comandos: E=menor, OU=uniao; tempo: time=N / animelem=N) + curto-circuito ANDJ/ORJ. Mesmo resultado no harness, custo do -1 35%->8%",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "portoes_exatos_derivados_da_ast_comandos_e_menor_ou_uniao_tempo_time_n_animelem_n_curto_circuito_andj_orj_mesmo_resultado_no_harness_custo_do_1_35_8",
+      "context": "compilador MUGEN->bytecode",
+      "observation": "Portoes exatos derivados da AST (comandos: E=menor, OU=uniao; tempo: time=N / animelem=N) + curto-circuito ANDJ/ORJ. Mesmo resultado no harness, custo do -1 35%->8%",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "So condicoes necessarias; nunca suficientes"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -916,7 +1652,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -962,7 +1698,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1008,7 +1744,7 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1054,7 +1790,53 @@
       ],
       "evidence": {
         "grade": "E1_artifact",
-        "freshness": "fresh",
+        "freshness": "not_applicable",
+        "refs": [
+          "doc/agent_learning/success_patterns.md"
+        ],
+        "gaps": [
+          "operational_evidence_missing"
+        ]
+      },
+      "routing": {
+        "candidate_kind": "none",
+        "deduplication": "not_applicable",
+        "canonical_target": null,
+        "owner_skill": null,
+        "match_rule_id": null
+      },
+      "canonical_patch_proposal": {
+        "action": "none",
+        "target_path": null,
+        "summary": "Local success note; no canonical change proposed.",
+        "required_tests": [],
+        "human_approval_required": true,
+        "human_approval": {
+          "status": "pending",
+          "record_ref": null
+        },
+        "apply_status": "not_applied"
+      }
+    },
+    {
+      "lesson_id": "lesson_2034389b1039ad33",
+      "title": "VRAM fixa por jogador (maior maxNumTile das sheets) sem AUTO_VRAM_ALLOC: sem realocacao na troca de sheet",
+      "source_kind": "success_pattern",
+      "source_document": "doc/agent_learning/success_patterns.md",
+      "classification": "local_note",
+      "lifecycle_status": "evidence_incomplete",
+      "observed_at": "2026-09-23",
+      "problem_signature": "vram_fixa_por_jogador_maior_maxnumtile_das_sheets_sem_auto_vram_alloc_sem_realocacao_na_troca_de_sheet",
+      "context": "VRAM de sprite",
+      "observation": "VRAM fixa por jogador (maior maxNumTile das sheets) sem AUTO_VRAM_ALLOC: sem realocacao na troca de sheet",
+      "diagnosis": "",
+      "resolution_or_preventive_heuristic": "",
+      "scope_limits": [
+        "Cai para auto se nao couber abaixo de TILE_SPRITE_INDEX"
+      ],
+      "evidence": {
+        "grade": "E1_artifact",
+        "freshness": "not_applicable",
         "refs": [
           "doc/agent_learning/success_patterns.md"
         ],
@@ -1085,8 +1867,40 @@
   ],
   "candidate_index": [
     {
+      "lesson_id": "lesson_92a7e27a2f9d92d4",
+      "title": "AnimTime = 0 nunca ocorria",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_941312ed7b9891a6",
+      "title": "BlastEm window_timeout / 'Failed to open ... for reading'",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_58d84b76822b1026",
+      "title": "Build quebrou: quadro de efeito com 20 sprites de hardware",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_742d6bf7460d684a",
       "title": "Bundle do BlastEm recusa o ato I (`blank_or_low_information_capture`); VLAB `frame_counter` anda de 60 em 60",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_ea58002c567c9c61",
+      "title": "command = b` (chute) virava \"segurar tras\"",
       "lifecycle_status": "evidence_incomplete",
       "evidence_grade": "E1_artifact",
       "action": "none",
@@ -1117,6 +1931,14 @@
       "target_path": null
     },
     {
+      "lesson_id": "lesson_bd48836cbbfbd548",
+      "title": "Golpes nunca terminavam (ChangeState de saida em outro estado)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_e027b321b3671cdf",
       "title": "imagegen_tool.py route` pede ComfyUI",
       "lifecycle_status": "evidence_incomplete",
@@ -1125,8 +1947,24 @@
       "target_path": null
     },
     {
+      "lesson_id": "lesson_bdde3ba28ffcb2ad",
+      "title": "Ken aparecia branco/vermelho em alguns quadros",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_8a37502492a596c9",
       "title": "Magenta no frame_1 do burst",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_6576473dc6cac17a",
+      "title": "make: 'multiplos padroes para o alvo' em out_prof",
       "lifecycle_status": "evidence_incomplete",
       "evidence_grade": "E1_artifact",
       "action": "none",
@@ -1149,6 +1987,30 @@
       "target_path": null
     },
     {
+      "lesson_id": "lesson_e10f2cc4ea6359f5",
+      "title": "Nenhum especial saia; auto-andar roubava o tick",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_2d294633e2781391",
+      "title": "Passos consecutivos no mesmo tick (soltar D e apertar DF) nao casavam",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_712f2eed11f14b2b",
+      "title": "Personagem preso em 5101/5110 (caido)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_07879a33909fb958",
       "title": "PRESENTS invisivel em F480",
       "lifecycle_status": "evidence_incomplete",
@@ -1157,8 +2019,24 @@
       "target_path": null
     },
     {
+      "lesson_id": "lesson_3ee90ab7dcd48450",
+      "title": "Projeto novo nasceu com memory bank/ledger/patterns de outro projeto (The Forge)",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
       "lesson_id": "lesson_2d9c97b5171a534d",
       "title": "sVramAuthor = sVramBgA` apaga a bigorna em F451",
+      "lifecycle_status": "evidence_incomplete",
+      "evidence_grade": "E1_artifact",
+      "action": "none",
+      "target_path": null
+    },
+    {
+      "lesson_id": "lesson_ce0addaed8aa6db9",
+      "title": "Varrer 91 comandos e 72 controladores do estado -1 por tick custou 62-99% e 35% do quadro no 68000",
       "lifecycle_status": "evidence_incomplete",
       "evidence_grade": "E1_artifact",
       "action": "none",

@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "lessons_2026-09-23_mugen2sgdk",
+  "source": "Iniciativa mugen2sgdk_forge (E0-E3): conversao MUGEN->SGDK e fatia vertical do Ken em SGDK_projects/Mugenesis_Demo; branch feat/mugen2sgdk-forge",
+  "phases_documented": [
+    "E0 baseline",
+    "E1 inventario",
+    "E2 parsers/IR/compilador",
+    "E3 personagem vertical (Ken)"
+  ],
+  "canonized_in": [],
+  "status": "candidates_pending_human_review",
+  "lessons": [
+    {
+      "id": "md_68000_loop_cost",
+      "bucket": "hardware",
+      "severity": "structural",
+      "lesson": "No 68000 cada iteracao de laco em C custa centenas de ciclos. Logica por tick que varre dezenas de itens (comandos, controladores) estoura o quadro; use trabalho guiado por eventos/indices gerados offline.",
+      "evidence": "Laco de 91 comandos 62-99% do quadro; -1 com 72 controladores 35%. Apos buckets/bitmaps/portoes: -1 8%, comandos ~33%, over_budget 1021/1100 -> 115/3391. Perfil MG_PROFILE na tela (prof3..prof7).",
+      "proposed_canon": "skills/hardware/megadrive-vdp-budget-analyst + skills/code/sgdk-runtime-coder",
+      "proposed_owner": "sgdk-runtime-coder",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "measure_on_hardware_not_host",
+      "bucket": "medicao",
+      "severity": "structural",
+      "lesson": "Perfil nativo (gprof) acha o hotspot mas subestima o custo real ~10x. Decisao de desempenho so com medicao no emulador: getSubTick (1280 subticks/quadro NTSC) por etapa, exibido na tela, e composicao do PIOR quadro, nao so media.",
+      "evidence": "Host: 14 avancos de comando/tick pareciam baratos; BlastEm: 30-48% do quadro.",
+      "proposed_canon": "skills/operation/emulator-vdp-evidence-curator",
+      "proposed_owner": "emulator-vdp-evidence-curator",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "semantics_harness_before_rom",
+      "bucket": "processo",
+      "severity": "high",
+      "lesson": "Para runtime com semantica rica (luta), compilar o runtime C real + dados gerados no host com stub do SGDK e testar por entrada roteirizada. Achou 7 defeitos de semantica que a ROM so mostraria como 'personagem travado'.",
+      "evidence": "tests/host/{genesis.h,harness.c,moves.c,build_host.sh}; test_host_runtime.py; defeitos: rotulo [State N], caixa B/b, AnimTime, ordem -1, pouso fisica N, liedown->getup, passos no mesmo tick.",
+      "proposed_canon": "workflows (novo): runtime-semantics-harness",
+      "proposed_owner": "sgdk-runtime-coder",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "exact_gates_equivalence",
+      "bucket": "processo",
+      "severity": "high",
+      "lesson": "Toda otimizacao de runtime deve ser provada equivalente: mesmo resultado deterministico no harness (danos, KOs, estados, sons) antes e depois. Portoes so como condicao NECESSARIA derivada da AST.",
+      "evidence": "Harness identico (98/1/86) antes e depois dos portoes de tempo, VM constante, passo inline.",
+      "proposed_canon": "rules/SGDK_GLOBAL.md (secao desempenho)",
+      "proposed_owner": "aaa-pipeline-guardian",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "mugen_state_label_is_not_owner",
+      "bucket": "mugen",
+      "severity": "high",
+      "lesson": "MUGEN: o numero em [State N, ...] e rotulo; o controlador pertence ao ultimo [Statedef]. Pacotes reais reaproveitam rotulos por copiar/colar.",
+      "evidence": "Ken Statedef 425 com [State 261, 3]; golpes nunca terminavam.",
+      "proposed_canon": "tools/mugen2sgdk_forge (ja aplicado) + skill futura mugen-conversion",
+      "proposed_owner": "mugen2sgdk_forge",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "mugen_case_sensitive_keys",
+      "bucket": "mugen",
+      "severity": "high",
+      "lesson": "MUGEN .cmd diferencia caixa: B/F/U/D maiusculos sao direcoes, a/b/c/x/y/z minusculos sao botoes. 'b' nao e 'tras'.",
+      "evidence": "Stand medium kick (command = b) disparava ao segurar tras.",
+      "proposed_canon": "tools/mugen2sgdk_forge (aplicado)",
+      "proposed_owner": "mugen2sgdk_forge",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "mugen_engine_rules_outside_cns",
+      "bucket": "mugen",
+      "severity": "high",
+      "lesson": "Varias regras do MUGEN nao estao em .cns: andar/agachar/pular/defender com ctrl, pouso automatico da fisica A, deitado->levantar apos liedown.time, AnimTime=0 no ultimo tick, -1 antes das transicoes do motor, fisica N livre no eixo y. O runtime precisa implementa-las.",
+      "evidence": "Cada uma causou estado preso/nao alcancado no harness.",
+      "proposed_canon": "tools/mugen2sgdk_forge/runtime/README.md",
+      "proposed_owner": "mugen2sgdk_forge",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "ai_activates_commands",
+      "bucket": "design",
+      "severity": "medium",
+      "lesson": "IA de luta generica e barata: ativar comandos declarados (como a IA do MUGEN) em vez de simular sequencias de controle para o reconhecedor.",
+      "evidence": "over_budget 34% -> 3,9% com o mesmo comportamento de luta.",
+      "proposed_canon": "skills/design (IA de luta)",
+      "proposed_owner": "gameplay-experience-reviewer",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "third_party_outputs_gitignored",
+      "bucket": "governanca",
+      "severity": "structural",
+      "lesson": "Conteudo de terceiros autorizado so para uso local: conversor e runtime no Git; saidas convertidas (res/mugen, mgres_*, mg_gen, out_prof) no .gitignore, regeneraveis por comando; manifesto de proveniencia marca technical_candidate e redistribuicao nao verificada.",
+      "evidence": "Mugenesis_Demo/.gitignore; doc/asset_provenance_manifest.json; commit c502bd3a sem dados do Ken.",
+      "proposed_canon": "rules/SGDK_GLOBAL.md (proveniencia)",
+      "proposed_owner": "aaa-pipeline-guardian",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "worktree_build_and_capture_paths",
+      "bucket": "ferramentas",
+      "severity": "medium",
+      "lesson": "Projeto em git worktree: rodar build_sgdk_wine_bridge.sh e capture_blastem_evidence_linux.sh a partir da arvore principal; --output-base da captura dentro da arvore principal (flatpak do BlastEm so monta o repo principal). --output-dir alternativo exige limpar .d antigos.",
+      "evidence": "window_timeout / 'Failed to open'; 'multiplos padroes para o alvo'.",
+      "proposed_canon": "tools/sgdk_wrapper (documentar ou aceitar worktree)",
+      "proposed_owner": "sgdk_wrapper",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "template_inherits_foreign_learning",
+      "bucket": "template",
+      "severity": "structural",
+      "lesson": "new_project.sh copia memory bank, changelog, failure/success patterns e ledger do modelo com licoes de OUTRO projeto (The Forge); o ledger do projeto novo nasce com 28 licoes que nao sao dele.",
+      "evidence": "Mugenesis_Demo/doc/agent_learning/*_patterns.md linhas 2026-08-18.",
+      "proposed_canon": "tools/sgdk_wrapper/modelo (limpar historico no bootstrap)",
+      "proposed_owner": "sgdk_wrapper",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "screenshot_gate_without_scene",
+      "bucket": "evidencia",
+      "severity": "low",
+      "lesson": "Gate semantico de screenshot rejeita cena valida sem cenario (edge_density_below_threshold). Nao burlar; registrar e resolver com o stage (E4).",
+      "evidence": "sessoes e3_ken bundle_rejected; runtime_metrics ok.",
+      "proposed_canon": "skills/operation/emulator-vdp-evidence-curator",
+      "proposed_owner": "emulator-vdp-evidence-curator",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    }
+  ],
+  "canonization_audit": {
+    "performed": false,
+    "reason": "curadoria canonica exige aprovacao humana explicita (AGENTS.md)"
+  }
+}

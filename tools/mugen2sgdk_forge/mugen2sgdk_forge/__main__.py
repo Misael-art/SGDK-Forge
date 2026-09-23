@@ -100,6 +100,79 @@ def convert_char(pkg: Path, char_id: str, project: Path, vivid_clothing: bool = 
     return report
 
 
+def convert_hud(pkg: Path, project: Path) -> dict:
+    """HUD de luta a partir de um pacote de lifebars MUGEN (fight.def). Saidas fora do Git (terceiros)."""
+    import io as _io
+    from .converters import hud as hud_conv
+    h = hud_conv.convert(pkg)
+    out_dir = project / "res" / "mugen" / "hud"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (project / "src" / "mg_gen").mkdir(parents=True, exist_ok=True)
+    (project / "inc" / "mg_gen").mkdir(parents=True, exist_ok=True)
+    outputs = {}
+
+    def write(p, data):
+        p.write_bytes(data)
+        outputs[p.relative_to(project).as_posix()] = hashlib.sha256(data).hexdigest()
+
+    def png(im):
+        b = _io.BytesIO()
+        im.save(b, format="PNG", optimize=False)
+        return b.getvalue()
+
+    res = ["// GERADO por mugen2sgdk_forge (convert-hud). Conteudo de terceiros: nao redistribuir.",
+           'TILESET mg_hud_tiles "mugen/hud/hud_tiles.png" NONE NONE']
+    write(out_dir / "hud_tiles.png", png(h.tiles))
+    msg_rows = []
+    for name, parts in h.messages.items():
+        syms = []
+        for k, im in enumerate(parts):
+            fn = f"msg_{name}_{k}.png"
+            write(out_dir / fn, png(im))
+            sym = f"mg_hud_msg_{name}_{k}"
+            res.append(f'SPRITE {sym} "mugen/hud/{fn}" {im.width // 8} {im.height // 8} FAST 0 NONE BALANCED')
+            syms.append((sym, im.width, im.height))
+        msg_rows.append((name, syms))
+    write(project / "res" / "mgres_hud.res", ("\n".join(res) + "\n").encode())
+    hdr = ["/* GERADO por mugen2sgdk_forge (convert-hud). Nao editar. */", "#ifndef MG_GEN_HUD_H", "#define MG_GEN_HUD_H",
+           '#include "mg/mg_types.h"', f"#define MG_HUD_FIRST_SLOT {hud_conv.FIRST_SLOT}"]
+    hdr += [f"#define MG_HUD_T_{k.upper()} {v}" for k, v in h.tile_index.items()]
+    hdr += ["#define MG_HUD_MSG_PARTS 3",
+            "typedef struct { const SpriteDefinition *def[MG_HUD_MSG_PARTS]; u8 nparts; u16 w[MG_HUD_MSG_PARTS], h; } MgHudMsg;",
+            "enum { " + ", ".join(f"MG_HUD_MSG_{n.upper()}" for n, _ in msg_rows) + ", MG_HUD_NMSG };",
+            "extern const MgHudMsg mg_hud_msgs[];", "extern const u16 mg_hud_pal[16];",
+            "extern const TileSet mg_hud_tiles;", "#endif", ""]
+    write(project / "inc" / "mg_gen" / "hud_gen.h", "\n".join(hdr).encode())
+    c = ["/* GERADO por mugen2sgdk_forge (convert-hud). Nao editar. */", '#include "mg_gen/hud_gen.h"',
+         '#include "mgres_hud.h"',
+         "const u16 mg_hud_pal[16] = { " + ", ".join(f"0x{w:03X}" for w in h.palette) + " };",
+         "const MgHudMsg mg_hud_msgs[] = {"]
+    for name, syms in msg_rows:
+        if len(syms) > 3:
+            raise ValueError(f"mensagem {name} com {len(syms)} partes (limite 3)")
+        d = ", ".join([f"&{s}" for s, _, _ in syms] + ["0"] * (3 - len(syms)))
+        ws = ", ".join([str(w) for _, w, _ in syms] + ["0"] * (3 - len(syms)))
+        c.append(f"    {{ {{ {d} }}, {len(syms)}, {{ {ws} }}, {syms[0][2]} }}, /* {name} */")
+    c += ["};", ""]
+    write(project / "src" / "mg_gen" / "hud_gen.c", "\n".join(c).encode())
+    rep = dict(h.report, input={"package": pkg.name, "sha256": hashlib.sha256(pkg.read_bytes()).hexdigest()},
+               outputs=outputs, license={"status": "user_authorized_local_use", "redistribution": "not_verified"})
+    (project / "doc" / "mugen").mkdir(parents=True, exist_ok=True)
+    (project / "doc" / "mugen" / "hud_conversion_report.json").write_text(
+        json.dumps(rep, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
+    path = project / "doc" / "asset_provenance_manifest.json"
+    data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"schema_version": "1.0.0", "entries": []}
+    data["entries"] = [e for e in data.get("entries", []) if not e.get("res_symbol", "").startswith("mg_hud_")]
+    for sym, kind, ap in [("mg_hud_tiles", "TILESET", "mugen/hud/hud_tiles.png")] + \
+            [(s, "SPRITE", f"mugen/hud/{s[len('mg_hud_'):]}.png") for _, syms in msg_rows for s, _, _ in syms]:
+        data["entries"].append({"res_symbol": sym, "res_kind": kind, "asset_path": ap,
+                                "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
+                                "generated_by": "tools/mugen2sgdk_forge (converters/hud.py)",
+                                "notes": f"{pkg.name} (SFA2 Lifebars, Chok); uso local autorizado; redistribuicao nao verificada."})
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return rep
+
+
 def _update_provenance(project: Path, cid: str, ch, spr, snds):
     """Registra cada simbolo do .res gerado em doc/asset_provenance_manifest.json (regra do Forge)."""
     path = project / "doc" / "asset_provenance_manifest.json"
@@ -136,6 +209,9 @@ def main(argv=None) -> int:
     a = sub.add_parser("inventory")
     a.add_argument("root")
     a.add_argument("--out", required=True)
+    hb = sub.add_parser("convert-hud")
+    hb.add_argument("package", type=Path)
+    hb.add_argument("--project", type=Path, required=True)
     b = sub.add_parser("install-runtime")
     b.add_argument("project", type=Path)
     c = sub.add_parser("convert-char")
@@ -147,6 +223,10 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     if args.cmd == "inventory":
         return inventory.main([args.root, "--out", args.out])
+    if args.cmd == "convert-hud":
+        rep = convert_hud(args.package, args.project)
+        print(json.dumps({"tiles": rep["tiles"], "messages": rep["messages"], "palette": rep["palette_slots"]}, indent=2))
+        return 0
     if args.cmd == "install-runtime":
         print(json.dumps(install_runtime(args.project), indent=2))
         return 0

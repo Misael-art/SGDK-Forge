@@ -145,6 +145,22 @@ def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
         fx.png.save(buf, format="PNG", optimize=False)
         write(res_dir / f"bgfx_{fx.group}.png", buf.getvalue())
         res.append(f'IMAGE mg_{cid}_bgfx_{fx.group} "mugen/{cid}/bgfx_{fx.group}.png" NONE ALL')
+    # retrato (MUGEN 9000,0): 32x32, indices do corpo -> PAL1/PAL2 do lutador
+    has_portrait = False
+    face = next((s for s in ch.sprites if (s.group, s.image) == (9000, 0)), None)
+    if face is not None and face.width <= 32 and face.height <= 32:
+        lut = bytes(spr.body.remap.get(i, spr.body.approx_indices.get(i, 0)) for i in range(256))
+        from PIL import Image as _Im
+        im = _Im.new("P", (32, 32), 0)
+        im.paste(_Im.frombytes("P", (face.width, face.height), face.pixels.translate(lut)),
+                 ((32 - face.width) // 2, (32 - face.height) // 2))
+        pal = spr.sheets[0].png.getpalette()[:48] if spr.sheets else [0] * 48
+        im.putpalette(pal)
+        buf = io.BytesIO()
+        im.save(buf, format="PNG", optimize=False)
+        write(res_dir / "portrait.png", buf.getvalue())
+        res.append(f'TILESET mg_{cid}_portrait "mugen/{cid}/portrait.png" NONE NONE')
+        has_portrait = True
     write(project / "res" / f"mgres_{cid}.res", ("\n".join(res) + "\n").encode())
 
     # ---------------------------------------------------------------- C
@@ -350,7 +366,8 @@ def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
              f"    pals, {len(pal_rows)}, {default_pal}, fxpal, sounds, {len(snd_rows)}, "
              f"{'bgfx' if bg_rows else '0'}, {len(bg_rows)}, &consts,\n"
              f"    {sidx.get(-1, -1)}, {sidx.get(-2, -1)}, {sidx.get(-3, -1)},\n"
-             f"    {hold('holdfwd')}, {hold('holdback')}, {hold('holdup')}, {hold('holddown')}\n}};\n")
+             f"    {hold('holdfwd')}, {hold('holdback')}, {hold('holdup')}, {hold('holddown')},\n"
+             f"    {('&mg_' + cid + '_portrait') if has_portrait else '0'}\n}};\n")
     write(project / "src" / "mg_gen" / f"mg_{cid}.c", "\n".join(c).encode())
     write(project / "inc" / "mg_gen" / f"mg_{cid}.h",
           (f"/* GERADO por mugen2sgdk_forge. Nao editar. */\n#ifndef MG_GEN_{cid.upper()}_H\n"

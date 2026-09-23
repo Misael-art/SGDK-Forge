@@ -200,6 +200,10 @@ static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj,
     d->power += h->givepower;
     if (a->power > 3000) a->power = 3000;
     if (d->power > 3000) d->power = 3000;
+    /* combo: continua se o defensor ja estava em atordoamento (movetype H) */
+    if (d->movetype == 'H' && mg_fight.combo[a->side]) mg_fight.combo[a->side]++;
+    else mg_fight.combo[a->side] = 1;
+    mg_fight.combo_tick[a->side] = mg_fight.ticks;
     d->gh = *h;
     d->gh_guarded = 0;
     d->hitshake = h->pause_p2;
@@ -369,8 +373,15 @@ static void draw(const MgCharDef *d, MgDraw *dr, u16 anim_idx, u8 elem,
         if (dr->spr[k]) SPR_setVisibility(dr->spr[k], HIDDEN);
 }
 
+static u16 s_vram_next;
+
+u16 MG_fightVramNext(void) { return s_vram_next; }
+
 static void hud(void)
 {
+#ifdef MG_EXTERNAL_HUD
+    return;                                  /* HUD do jogo (arte convertida) substitui o texto */
+#endif
     /* UI transitoria (texto): substituida por lifebar convertida na etapa de screenpack.
      * Redesenha so quando algum valor muda (VDP_drawText e caro no 68000). */
     static s16 last[5] = { -1, -1, -1, -1, -1 };
@@ -416,6 +427,7 @@ static void bgfx_render(MgExplod *e, const MgPlayer *o)
         MG_CRUMB('o');
         e->bgfx_shown = 1;
         s_bgfx_owner = e - mg_fight.explod;
+        mg_fight.bgfx_active = 1;
     }
     u8 k = e->elem < fx->nelem ? fx->elem_pal[e->elem] : 255;
     if (k < fx->npals) PAL_setColors(1, &fx->pals[k][1], 14, DMA_QUEUE);
@@ -426,6 +438,7 @@ static void bgfx_end(void)
     VDP_clearTileMapRect(BG_B, 0, 0, 40, 28);
     PAL_setColors(1, &s_pal0_saved[1], 14, DMA_QUEUE);
     s_bgfx_owner = -1;
+    mg_fight.bgfx_active = 0;
 }
 
 void MG_fightRender(void)
@@ -554,7 +567,10 @@ static void start_round(void)
     mg_fight.round_timer = 90;                 /* intro */
     mg_fight.round_no++;
     mg_fight.pause_time = 0;
+    mg_fight.combo[0] = mg_fight.combo[1] = 0;
+#ifndef MG_EXTERNAL_HUD
     VDP_clearTextArea(0, 8, 40, 4);
+#endif
 }
 
 static void round_flow(void)
@@ -566,7 +582,9 @@ static void round_flow(void)
             mg_fight.round_state = 1;
             mg_fight.round_timer = ROUND_TIME * 60;
             a->ctrl = b->ctrl = 1;
+#ifndef MG_EXTERNAL_HUD
             VDP_clearTextArea(0, 8, 40, 4);
+#endif
         }
         break;
     case 1:
@@ -576,7 +594,9 @@ static void round_flow(void)
                 if (a->life != b->life) MG_selfState(a->life < b->life ? a : b, 170);
             }
             mg_fight.round_timer = 150;
+#ifndef MG_EXTERNAL_HUD
             VDP_drawText(a->life <= 0 || b->life <= 0 ? "K.O." : "TIME", 18, 10);
+#endif
         }
         break;
     case 2:
@@ -650,6 +670,7 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
             s_bgfx_base[s][i] = next;
             next += n;
         }
+    s_vram_next = next;
     for (u8 i = 0; i < MG_MAX_EXPLOD; i++) MG_drawInit(&mg_fight.explod[i].dr);
     ai_hold_t[0] = ai_hold_t[1] = 0;
     start_round();

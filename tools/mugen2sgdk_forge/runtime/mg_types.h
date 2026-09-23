@@ -135,6 +135,7 @@ typedef struct {
     const MgConsts *consts;
     s16 st_minus1, st_minus2, st_minus3;             /* indices em states[] ou -1 */
     u16 cmd_holdfwd, cmd_holdback, cmd_holdup, cmd_holddown;  /* MG_NONE se ausente */
+    const TileSet *portrait;       /* retrato 32x32 (4x4 tiles, paleta do corpo) ou 0 */
 } MgCharDef;
 
 #endif

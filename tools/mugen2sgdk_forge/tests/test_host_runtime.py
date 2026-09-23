@@ -92,3 +92,20 @@ def test_hit_sparks_anchor_on_contact_and_vary_in_combo(tmp_path):
     assert ly - hy >= 20, (hy, ly)                                   # ancorado por regiao
     assert len({s["var"] for s in high}) >= 3, high                  # >= 3 variacoes no combo
     assert max(s["y"] for s in high) < min(s["y"] for s in low), sp  # regioes separadas
+
+
+LIFEBARS = Path("/mnt/sdcard/Projects/Mugenesis/Base de Estudo/lifebars/sfa2_lifebars.zip")
+
+
+@pytest.mark.skipif(not LIFEBARS.exists(), reason="pacote de lifebars do acervo ausente")
+def test_hud_converter_keeps_exact_bar_colors_and_segment_tiles():
+    """P4: paleta do HUD = cores reais da barra (amarelo vida, vermelho fantasma) + azul do especial;
+    9 limites de pixel por par de estados; mensagens em partes de ate 128 px."""
+    from mugen2sgdk_forge.converters import hud
+    h = hud.convert(LIFEBARS)
+    cols = [tuple(c) for c in h.report["colors"]]
+    assert (252, 252, 0) in cols and (252, 36, 0) in cols                  # amarelo / fantasma vermelho
+    assert (36, 108, 252) in cols                                          # especial azul
+    for k in ("bar_LG", "bar_LE", "bar_GE", "bar_SE"):
+        assert k in h.tile_index
+    assert all(w <= 128 for parts in h.messages.values() for (w, _h) in [p.size for p in parts])

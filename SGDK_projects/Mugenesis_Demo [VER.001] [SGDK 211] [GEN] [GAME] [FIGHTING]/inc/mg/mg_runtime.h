@@ -9,6 +9,11 @@
 #define MG_RUNTIME_H
 
 #include <genesis.h>
+#if defined(__has_include)
+#if __has_include("mg_config.h")
+#include "mg_config.h"          /* configuracao do projeto (ex.: MG_EXTERNAL_HUD) */
+#endif
+#endif
 #include "mg_types.h"
 
 #define MG_NUM_VARS     65      /* var(0..59) + sysvar(0..4) em 60..64 */
@@ -164,6 +169,9 @@ typedef struct {
     u8 wins[2];
     u32 ticks;
     s16 screen_shake;
+    u8 combo[2];               /* acertos consecutivos do atacante (lado) no combo atual */
+    u32 combo_tick[2];         /* tick do ultimo acerto do combo */
+    u8 bgfx_active;            /* fundo de super em tela cheia ativo (HUD deve se esconder) */
 } MgFight;
 
 extern MgFight mg_fight;
@@ -196,6 +204,7 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
 void MG_fightUpdate(u16 pad1, u16 pad2);     /* 1 tick de logica (sem DMA fora do VBlank) */
 void MG_fightRender(void);                   /* posiciona sprites; o upload ocorre em SPR_update */
 void MG_fightEnd(void);
+u16  MG_fightVramNext(void);                 /* primeiro tile livre apos corpos e fundos (para o HUD) */
 
 /* internos compartilhados */
 mgfx MG_eval(const MgPlayer *p, u16 off);

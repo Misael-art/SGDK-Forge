@@ -1,5 +1,13 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-23 - P4/P4.1: HUD de luta (arte SFA2 Lifebars convertida)
+
+- Vida amarela drenando com fantasma vermelho (estilo SF), especial azul (mesma arte, cor por paleta),
+  tempo, retratos 9000,0, vitorias, "N HITS" junto de quem comba (ancora de evento do P1), ROUND n /
+  FIGHT! / K.O. / TIME OVER / DRAW. HUD some durante o fundo de super (nobardisplay).
+- Contrato, medicoes e decisoes: doc/hud/p4_hud_contract.md. `convert-hud` no mugen2sgdk_forge.
+- ROM b138fb35...: 23,1-26,2% dos quadros acima do orcamento (baseline 22,6%); HUD ~3% do quadro.
+
 ## 2026-09-23 - P2: rampas de roupa mais vivas (medidas antes de ajustar)
 
 - Achado: saturacao ja era maxima; defeito real = brilho baixo + degrau colapsado + pouco contraste.

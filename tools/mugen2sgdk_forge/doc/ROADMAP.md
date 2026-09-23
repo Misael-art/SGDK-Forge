@@ -55,7 +55,7 @@ Regras: IR nao conhece SGDK; generators nao leem MUGEN; toda saida de arte nasce
 | E1 Inventario | `inventory.py`, `reports/e1_inventory.json`, testes | 119 zips lidos, 0 erros, deterministico | ✅ v1 2026-09-22 |
 | E1b Licencas | `reports/e1_licenses.csv` (humano confirma) | cada item candidato com status; nenhum "confirmed" sem evidencia | ⏳ depende do usuario |
 | E2 IR + parsers | parsers def/air/sff/act + schema IR + testes de contrato | parse de 100% dos .def/.air/.sff do acervo sem crash; erros com arquivo:linha | ⏳ |
-| E3 Personagem vertical | 1 personagem → sprites, anim, clsn, cmd, estados, sons → MUGEN_DEMO | build wrapper + BlastEm + relatorio de fidelidade | ⏳ |
+| E3 Personagem vertical | 1 personagem → sprites, anim, clsn, cmd, estados, sons → Mugenesis_Demo | build wrapper + BlastEm + relatorio de fidelidade | ⏳ |
 | E4 Stage vertical | 1 stage → BG/parallax/chao/limites/musica | idem + orcamento VDP | ⏳ |
 | E5 Generalizacao | ≥2 chars, ≥2 stages, casos hostis | relatorio por recurso; codigo HAMOOPIG-especifico em adaptador | ⏳ |
 | E6 Fechamento | ROM + evidencia + memory bank/changelog + revisao independente | evidencia ligada ao hash; revisao registrada | ⏳ |

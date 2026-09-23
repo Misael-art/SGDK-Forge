@@ -171,6 +171,8 @@ def main() -> int:
             if capture_values: phase_overhead[name]["capture_median_ms"] = round(statistics.median(capture_values), 3)
             if deltas: phase_overhead[name]["delta_median_ms"] = round(statistics.median(deltas), 3)
         cadence_complete = bool(pairs) and all(pair.get("cadence_comparison", {}).get("status") in ("equal", "different") for pair in pairs)
+        case_rom_hashes = [case.get("rom_sha256") for case in cases
+                           if isinstance(case.get("rom_sha256"), str) and case.get("rom_sha256")]
         report = {
             "schema_version": "1.0.0",
             "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -179,7 +181,11 @@ def main() -> int:
             "cases": cases,
             "successful_pairs": pairs,
             "rejected_pairs": rejected_pairs,
-            "same_rom_sha256": len(pairs) == len(cases) // 2 if cases else False,
+            # Rejected pairs remain evidence, but must not turn a same-ROM
+            # assertion false merely because their HCAD was unusable. Pair
+            # sufficiency is enforced separately by ``paired_success_count``
+            # and ``status`` below.
+            "same_rom_sha256": bool(case_rom_hashes) and len(case_rom_hashes) == len(cases) and len(set(case_rom_hashes)) == 1,
             "observed_overhead": {
                 "phase_medians": phase_overhead,
                 "paired_success_count": len(pairs),

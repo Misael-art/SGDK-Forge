@@ -23,6 +23,23 @@
 **Proxima fase:** fechar audição crítica/visual independente; depois instrumentar pior-frame SGDK e projetar streaming/cache para cenários acima de 864 tiles.
 **Aprendizado:** cadernos `doc/agent_learning/musgo_roster_lessons.md` e `doc/agent_learning/showdown_stage_lessons.md`; composição de título em `data/source_art/title/title_assets_report.json`; curadorias L083–L119 registram as revalidações atuais.
 
+## Atualização audiovisual — 2026-09-22
+
+- O pipeline audiovisual 2.6.0/schema 2.3.0 agora separa evento observado,
+  legibilidade, qualidade visual, movimento, áudio, sync, cadência e cobertura.
+  A execução real V5 passa, mas o gate permanece bloqueado nos eixos sem
+  revisão suficiente.
+- Foi fechado um ciclo causal técnico do especial Ryo/700: baseline ROM
+  `d6b7ea5e3e43c97b75caff47fa113c841378704b423de50adc2f287732eb9618`, correção
+  `dee2356e`, pós-correção ROM
+  `47dbf3eccd6ada51248df5590a66d9746f53296ec629789b73a6e470c4db6d58`.
+  O código corrigiu a emissão no frame 4 e a animação das quatro células de
+  `spr_ryo_701`; imagens hash-bound nos índices 0/4/8/12 sustentam mudança
+  visível. Recibo: `out/audiovisual_review/marker_event_capture_v4_correction_cycle_special_001.json`.
+- A contraprova não é aprovação: as execuções são separadas, sem âncora PTS
+  comum; playback normal e audição crítica continuam não realizados. P10 segue
+  bloqueado por 36 casos presos a SHA histórico e requer renovação explícita.
+
 ## 1. Origem e proveniencia
 
 - Engine origem: `SGDK_Engines/HAMOOPIG-SGDK` (origem upstream `https://github.com/humbertodias/sgdk-HAMOOPIG`, commit f90c0c4).
@@ -1922,3 +1939,85 @@ evidência, não autorização para promover o projeto.
 - O medidor recebeu rota explícita `--rom` para overhead da ROM diagnóstica;
   a tentativa v2 não emitiu relatório/par aceito e foi interrompida sem alterar
   masters. O V5 não reutiliza overhead de outro SHA como fallback.
+
+## 2026-09-21 — V3/V5 real com vídeo sem áudio
+
+A correção de `capture_visual_ko.py` aceita `--rom path` além de `--rom=path`;
+isso evitou que a medição silenciosamente usasse a ROM default. A captura
+diagnóstica válida é
+`out/emulator_evidence/visual_ko_20260921T233202296146Z-1286271/`, ROM
+`cf34ff61337200c050d278549e7ce7edcfa786a2df5db1fcea81fdf39e7b880f`, vídeo
+`5a2bfbf234e4966bb10f06d23b81ae51692f714f3f0882af9c7fce71cd4377f6`, 7.737
+frames/128,95 s e 158 gaps PTS. O WAV não foi capturado e permanece
+`audio.hash_chain.status=not_present`; V5 mantém `audio_approval=blocked`.
+
+O overhead válido está em
+`out/audiovisual_review/marker_event_capture_v3_overhead_diagnostic.json`, com
+dois pares, mesmo SHA e HCAD completo. O V5
+`out/audiovisual_review/marker_event_capture_v3_v5.json` consumiu V0–V4 com
+`execution_status=passed`, mas mantém `status=blocked` por não-substituição de
+eixos. O finding e a consulta do marcador 2288 são rastreáveis a source frames
+1308–1311 e ao clipe/player por evento; a revisão foi image-only, portanto não
+libera movimento, áudio ou cobertura.
+
+O causal compare encontrou diferença candidata na ROI entre as rotas com e sem
+vídeo, mas HSTR ficou `context_only` sem binding ao mesmo PTS; não há claim de
+overflow, scanout, defeito de jogo ou correção. O contrato do wrapper passou em
+7 testes, incluindo a regressão de captura video-only e a rota positiva de
+playback/audição; 26 testes do projeto
+passaram com o fixture P10 stale explicitamente ignorado. A medição registra as
+diferenças HCAD entre sessões como comparação técnica, jamais como FPS.
+## 2026-09-22 — V4 HAPE e gate audiovisual bloqueado por eixo
+
+- Congelada a ROM diagnóstica HAPE `47dbf3eccd6ada51248df5590a66d9746f53296ec629789b73a6e470c4db6d58` em `out/audiovisual_review/marker_event_capture_v4_freeze/`; configuração BlastEm permaneceu hash-bound.
+- `src/hamoopig_runtime_probe.c` passou a registrar HAPE no mesmo boundary de apresentação: runtime/probe/game frame, cena, ticks, evento, estado/animação, fireball, input/hitstop, DMA, sprites ativos/VDP e pico de scanline. O decoder `tests/analyze_hape_probe.py` e seu self-check passaram.
+- O bundle V4 tem vídeo SHA `2fd623042c555aa87f7e79605104526201529ba54241f0e06fbc560c7a87bda9`, 3.798 frames/63,3 s, quatro gaps PTS e nenhum áudio. O master não foi reencodado; a integridade temporal falha explicitamente.
+- A query V4 consultou 38 frames consecutivos com PTS e ROI; a revisão image-only inspecionou oito quadros adjacentes e liberou somente `visual_approval=eight_consecutive_special_transition_frames_only`. Motion, áudio e cobertura seguem bloqueados.
+- HAPE com/sem vídeo confirma o mesmo estado do especial, mas os contadores de apresentação/DMA são por execução. O causal compare e o finding permanecem `candidate_only`/`not_approved`; não há causa de jogo ou recorder confirmada.
+- Overhead HAPE: três repetições, dois pares aceitos com HCAD e medianas; o terceiro foi preservado como rejeitado. O medidor agora separa SHA uniforme de suficiência de pares.
+- V5 V4 teve `execution_status=passed` e `status=blocked`; nenhuma promoção AAA, correção de gameplay ou aprovação de arte foi feita.
+- O preflight de percepção confirmou ffmpeg/ffprobe/ffplay, query lossless,
+  player por evento e métricas de áudio, mas não percepção direta do agente
+  para playback/audição. O recibo
+  `out/audiovisual_review/marker_event_capture_v4_preflight.json` registra essa
+  limitação; motion/audio continuam `needs_review`.
+
+- O finding V3 foi fortalecido para
+  `marker_event_capture_v4_finding_gameplay_consistency_002.json`: inclui
+  imagens da query com vídeo e da execução sem vídeo, causal compare e HAPE de
+  ambas as rotas. A sequência emissão→expansão/impacto→hold reproduz com o
+  mesmo estado 700/fireball ativo, portanto o candidato agora é encaminhado ao
+  owner de gameplay como possível timing/legibilidade autoral, não como causa
+  confirmada do recorder. Continua `candidate_only` e sem patch.
+- O contrato de entrada foi formalizado em
+  `tools/sgdk_wrapper/schemas/audiovisual_review_manifest.schema.json`; o
+  validator rejeita pacotes sem versão/protocolo, hashes, capabilities,
+  intervalos vistos ou evidências por veredito.
+
+## 2026-09-22 — P0 HCAD e separação observação/qualidade
+
+- O validator audiovisual passou a 2.6.0/schema 2.3.0. HCAD é recalculado a
+  partir dos campos u16: janela vazia, contagem contraditória, booleano, região
+  inválida, overflow e identidade ROM ausente/stale falham; a flag declarada
+  não é confiada.
+- A revisão exige `event_observed`, `visual_legibility`, `visual_quality`,
+  `motion_quality` e `audio_quality` separados. Qualidade aprovada exige
+  `criteria_checked` + `reference_comparison`; oito imagens só liberam
+  observação/legibilidade local.
+- O novo gate está em `out/audiovisual_review/marker_event_capture_v4_gate_p0_recomputed.json`
+  e o V5 em `out/audiovisual_review/marker_event_capture_v4_v5_p0_recomputed.json`, com
+  `execution_status=passed`, `status=blocked`, evento/legibilidade liberados e
+  qualidade/movimento/áudio/sync/cobertura bloqueados.
+- A comparação de intenção em
+  `out/audiovisual_review/marker_event_capture_v4_special_intent_comparison_001.json`
+  confirma o contrato Ryo/700 → quatro células de `spr_ryo_701`; não confirmou
+  defeito de jogo, então nenhuma correção de gameplay foi inventada.
+- Skills canônicas atualizadas: evidence curator, AAA guardian, visual
+  excellence, sprite animation, VDP budget, gameplay reviewer, XGM2 audio e
+  SGDK code reviewer.
+- A suíte completa continua falhando na coleta P10, deliberadamente: o caso
+  `ryo_vs_ryo_showdown_park_ntsc` exige o SHA histórico
+  `8ac1bda70511fbd395af9a3fa3f49ca356e39dec31254b8f336f96a0a405e506`, mas
+  `out/rom.bin` é `9018c2c235b6d6acff8066ac96643c7148b54da97e280313de1dbb14a938aa9d`.
+  Não foi feita substituição silenciosa; renovar os 36 casos P10 é trabalho
+  separado e necessário para fechar a suíte ampla.

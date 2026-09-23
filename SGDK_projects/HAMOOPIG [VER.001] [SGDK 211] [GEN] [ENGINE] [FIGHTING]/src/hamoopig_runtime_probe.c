@@ -25,6 +25,10 @@
 #define HANC_WORDS 8u
 #define HANC_SCHEMA 1u
 #define HANC_BYTES (8u + (HANC_WORDS * 2u))
+#define HAPE_OFFSET 0x1920u
+#define HAPE_WORDS 26u
+#define HAPE_SCHEMA 1u
+#define HAPE_BYTES (8u + (HAPE_WORDS * 2u))
 #define HSTR_OFFSET 0x700u
 #define HSTR_SCHEMA 1u
 #define HSTR_RECORD_WORDS 16u
@@ -779,6 +783,44 @@ void HAMOOPIG_captureMarker(u8 scene)
     writeBE16(HANC_OFFSET + 18u, CAPTURE_MARKER_PSG_CHANNEL);
     writeBE16(HANC_OFFSET + 20u, CAPTURE_MARKER_PSG_FREQUENCY);
     writeBE16(HANC_OFFSET + 22u, scene);
+
+    /* HAPE is the state-side companion of HANC.  It is written at the same
+       presentation boundary and is deliberately separate from the legacy
+       24-byte HANC block.  This records the game state that produced the
+       marker without changing the FSM, sprite data or audio route. */
+    SRAM_writeByte(HAPE_OFFSET + 0u, 'H'); SRAM_writeByte(HAPE_OFFSET + 1u, 'A');
+    SRAM_writeByte(HAPE_OFFSET + 2u, 'P'); SRAM_writeByte(HAPE_OFFSET + 3u, 'E');
+    writeBE16(HAPE_OFFSET + 4u, HAPE_SCHEMA);
+    writeBE16(HAPE_OFFSET + 6u, HAPE_BYTES);
+    writeBE16(HAPE_OFFSET + 8u, emittedMarkerId);
+    writeBE16(HAPE_OFFSET + 10u, (u16)(cadenceVideoFrames >> 16));
+    writeBE16(HAPE_OFFSET + 12u, (u16)cadenceVideoFrames);
+    writeBE16(HAPE_OFFSET + 14u, (u16)(probeFrame >> 16));
+    writeBE16(HAPE_OFFSET + 16u, (u16)probeFrame);
+    writeBE16(HAPE_OFFSET + 18u, (u16)(gFrames >> 16));
+    writeBE16(HAPE_OFFSET + 20u, (u16)gFrames);
+    writeBE16(HAPE_OFFSET + 22u, scene);
+    writeBE16(HAPE_OFFSET + 24u, cadenceLastLogicTicks);
+    writeBE16(HAPE_OFFSET + 26u, gameplayEvent ? 1u : 0u);
+    writeBE16(HAPE_OFFSET + 28u, P[1].state);
+    writeBE16(HAPE_OFFSET + 30u, P[1].animFrame);
+    writeBE16(HAPE_OFFSET + 32u, P[1].animFrameTotal);
+    writeBE16(HAPE_OFFSET + 34u, P[1].frameTimeAtual);
+    writeBE16(HAPE_OFFSET + 36u, P[1].frameTimeTotal);
+    writeBE16(HAPE_OFFSET + 38u, P[1].fball.active ? 1u : 0u);
+    writeBE16(HAPE_OFFSET + 40u, (u16)P[1].fball.x);
+    writeBE16(HAPE_OFFSET + 42u, (u16)P[1].fball.y);
+    writeBE16(HAPE_OFFSET + 44u,
+        (u16)((P[1].key_JOY_DOWN_status ? 0x0001u : 0u) |
+              (P[1].key_JOY_RIGHT_status ? 0x0002u : 0u) |
+              (P[1].key_JOY_X_status ? 0x0004u : 0u)));
+    writeBE16(HAPE_OFFSET + 46u, P[1].attackButton);
+    writeBE16(HAPE_OFFSET + 48u, P[1].hitPause);
+    writeBE16(HAPE_OFFSET + 50u, probeCurrentPreSpriteDma);
+    writeBE16(HAPE_OFFSET + 52u, probeCurrentSpriteDmaDelta);
+    writeBE16(HAPE_OFFSET + 54u, SPR_getNumActiveSprite());
+    writeBE16(HAPE_OFFSET + 56u, SPR_getUsedVDPSprite());
+    writeBE16(HAPE_OFFSET + 58u, scanlinePeak());
     SRAM_disable();
 #else
     (void)scene;

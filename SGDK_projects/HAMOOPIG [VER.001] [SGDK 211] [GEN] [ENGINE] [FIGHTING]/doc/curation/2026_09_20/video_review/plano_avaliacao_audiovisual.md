@@ -130,7 +130,9 @@ Gates independentes:
 |---|---|---|
 | captura | integridade do pacote | SHA/master/config ausente ou divergente |
 | cadência | continuidade técnica da mídia | PTS inválido, buraco ou `drop>0` |
-| visual | diagnóstico visual | screenshot/metadata nunca vira aprovação |
+| evento observado | evento localizado | intervalo realmente visto e evidência hash-bound |
+| legibilidade visual | leitura local do evento | não aprova estética, movimento ou qualidade global |
+| qualidade visual | critérios artísticos + referência | observação/screenshot/metadata isolados bloqueiam |
 | movimento | fluidez/temporal | revisão ausente, cobertura insuficiente ou cadência falha |
 | áudio | qualidade/mix/sincronia | sinal sem audição, marcador ou revisão capaz |
 | cobertura | escopo examinado | intervalos não vistos continuam `needs_review` |
@@ -149,6 +151,17 @@ O contrato também é executado pelo wrapper em
 separação dos eixos, o recebimento de revisão qualificada limitada e a rejeição
 de revisão ausente ou cobertura inválida.
 
+O formato de entrada da revisão está formalizado em
+`tools/sgdk_wrapper/schemas/audiovisual_review_manifest.schema.json`; o validator
+também exige `schema_version`, `tool_name`, `tool_version`, reviewer, método,
+capabilities, hashes, intervalos vistos, evidências e vereditos por eixo antes
+de qualificar o pacote.
+
+O schema 2.3.0 exige os vereditos separados `event_observed`,
+`visual_legibility`, `visual_quality`, `motion_quality` e `audio_quality`.
+`visual_quality=passed` também exige `criteria_checked` e
+`reference_comparison` com evidência; frames vistos não são aprovação artística.
+
 ### V5 — ciclo end-to-end no BlastEm
 
 1. Congelar ROM/configuração.
@@ -161,6 +174,64 @@ de revisão ausente ou cobertura inválida.
    integridade de artefatos liberável quando os hashes batem, cadência histórica
    bloqueada pelos buracos/drop, temporal/sonoro `needs_review` e sem aprovação
    AAA.
+
+### Resultado P0/P1 do piloto — 2026-09-22
+
+O contrato foi elevado para `audiovisual_review.py` 2.6.0/schema 2.3.0. HCAD
+recalcula contagens e rejeita janela vazia, contradições, booleanos, região
+inválida, overflow u16 e identidade ROM ausente/stale; a flag declarada não é
+autoridade. O wrapper passou 8 testes e a suíte audiovisual do projeto passou 26
+(P10 histórico stale preservado fora da coleta).
+
+O gate e o recibo atualizados estão em
+`out/audiovisual_review/marker_event_capture_v4_gate_p0_recomputed.json` e
+`out/audiovisual_review/marker_event_capture_v4_v5_p0_recomputed.json`: o end-to-end real
+registra `execution_status=passed`, `status=blocked`, `event_observed=released`
+e `visual_legibility=released`; qualidade visual, movimento, áudio, sync,
+integridade temporal e cobertura continuam bloqueados. Não houve promoção AAA.
+
+O candidato do especial foi comparado à intenção em
+`out/audiovisual_review/marker_event_capture_v4_special_intent_comparison_001.json`.
+O código confirma Ryo/700 → `spr_ryo_701` no frame 4 e quatro células animadas;
+Musgo/700 é outra ação. A reprodução com/sem vídeo mantém o mesmo estado HAPE,
+portanto não confirmou defeito de jogo nem artefato exclusivo do recorder. Não
+há patch de gameplay nem antes/depois inventado; a próxima ação é playback
+normal com revisor capaz/humano e, se houver defeito confirmado, nova ROM + mesma
+rota + counterproof.
+
+A suíte completa (`pytest -q tests`) permanece bloqueada na coleta de
+`tests/test_p10_evidence_integrity.py`: o caso
+`ryo_vs_ryo_showdown_park_ntsc` referencia SHA histórico
+`8ac1bda70511fbd395af9a3fa3f49ca356e39dec31254b8f336f96a0a405e506`, enquanto
+`out/rom.bin` atual é `9018c2c235b6d6acff8066ac96643c7148b54da97e280313de1dbb14a938aa9d`.
+O caso e os masters não foram reescritos; a ação mínima é recapturar/renovar os
+36 casos P10 no SHA vigente antes de remover o blocker.
+
+### Ciclo causal do especial — 2026-09-22
+
+O primeiro ciclo causal executável foi fechado sem promover a qualidade global.
+O baseline pré-correção é o bundle
+`visual_ko_20260921T085100974673Z-2406057` (ROM SHA
+`d6b7ea5e3e43c97b75caff47fa113c841378704b423de50adc2f287732eb9618`), cuja
+rota antiga deixava `spr_ryo_701` no frame 0. O commit `dee2356e` corrigiu o
+gatilho de `state 700` para o frame 4 e passou a percorrer as quatro células
+autorizadas da folha `res/sprite/ryo/701.png`, sem upload adicional.
+
+A contraprova pós-correção foi capturada no SHA
+`47dbf3eccd6ada51248df5590a66d9746f53296ec629789b73a6e470c4db6d58`, no
+bundle `visual_ko_20260922T001059377786Z-1464412`. Os mesmos índices do
+harness (0, 4, 8, 12) têm imagens hash-bound e mostram a assinatura mudando de
+emissão grande para células menores/dissipadas. O recibo completo é
+`out/audiovisual_review/marker_event_capture_v4_correction_cycle_special_001.json`.
+
+Resultado: `counterproof_supports_visible_change`; a causa no código e o
+efeito visual técnico estão sustentados. Como são duas execuções, não houve
+âncora de sincronização comum nem playback normal/audição pelo agente. Logo
+`motion_quality`, `audio_quality` e `visual_quality` continuam `needs_review`;
+o recibo não é aprovação estética, temporal, sonora ou AAA. A comparação
+pré/pós também não autoriza inventar um defeito além do comportamento de frame
+fixo nem alterar a ROM novamente sem um achado perceptivo capaz de orientar a
+próxima correção.
 
 ## Overhead e sincronização
 
@@ -551,3 +622,113 @@ sem substituir `out/rom.bin`. A tentativa de executar quatro sessões com
 interrompida após não haver processo BlastEm observável; isso é uma rota de
 medição pendente, não overhead válido. Até existir esse relatório compatível,
 o V5 diagnóstico permanece bloqueado e não reutiliza o overhead `d6b7…`.
+
+### Correção operacional V0–V5 — 2026-09-21
+
+O piloto V3 foi capturado novamente com a ROM diagnóstica congelada
+`cf34ff61337200c050d278549e7ce7edcfa786a2df5db1fcea81fdf39e7b880f`, sem
+substituir a ROM release. O bundle
+`out/emulator_evidence/visual_ko_20260921T233202296146Z-1286271/` registra a
+mesma configuração nos casos com e sem vídeo; o vídeo tem SHA
+`5a2bfbf234e4966bb10f06d23b81ae51692f714f3f0882af9c7fce71cd4377f6`, 7.737
+frames, 128,95 s e 158 gaps PTS. O manifesto declara explicitamente que áudio
+não foi capturado; isso é `not_present`, não silêncio, sincronismo ou aprovação.
+
+O overhead foi medido em dois pares BlastEm válidos no mesmo SHA, com HCAD
+persistido e medianas por fase. O relatório canônico é
+`out/audiovisual_review/marker_event_capture_v3_overhead_diagnostic.json`;
+SHA do relatório `4283f40173ad0133ef9eb7d0b5bde82228397d989cd6b9270ec72ae6e0416aa4`.
+As medianas delta foram boot 373,130 ms, captura 1.060,553 ms, finalização
+595,329 ms e total 744,627 ms. A comparação HCAD registrou diferenças entre
+sessões; nenhuma delas é chamada de FPS, lógica ou fluidez.
+
+O recibo end-to-end
+`out/audiovisual_review/marker_event_capture_v3_v5.json` tem
+`execution_status=passed` e `status=blocked`: identidade, HCAD e a faixa visual
+de quatro frames ficam nos próprios escopos; integridade temporal, A/V,
+movimento normal-speed, áudio e cobertura permanecem bloqueados. A consulta
+`runtime_marker_2288_context` preserva PTS 37,416667/37,600000/37,600065/
+37,766667 s, índices 1308–1311, ROI gameplay, clipe FFV1 e `play_event.sh`.
+Somente os quatro frames foram efetivamente inspecionados por imagem; a
+cobertura é 0,271423%, com os demais intervalos declarados não examinados.
+
+O caso causal
+`out/audiovisual_review/marker_event_capture_v3_causal_compare.json` encontra
+diferença candidata entre a rota com e sem vídeo, mas permanece
+`candidate_only`: HSTR não está ligado ao mesmo PTS/scanout e a hipótese é
+encaminhada ao owner da captura/runtime, não promovida a defeito do jogo. O
+finding real `marker_event_capture_v3_finding_special_projectile_001.json`
+tem timestamp, SHA, ROI, confiança, hipótese, impacto, teste causal e
+`approval_status=not_approved`.
+
+Regressões cobrem glitch de um frame, hitstop legítimo, buraco PTS, áudio
+desalinhado, SHA incorreto, ausência de revisão, intervalo não examinado e
+captura sem WAV. O schema agora representa explicitamente `not_present` para
+áudio. Não houve correção do jogo, promoção AAA ou aprovação de arte.
+### V4/HAPE — 2026-09-22
+
+O segundo piloto foi congelado em `out/audiovisual_review/marker_event_capture_v4_freeze/`
+com ROM HAPE SHA `47dbf3eccd6ada51248df5590a66d9746f53296ec629789b73a6e470c4db6d58`
+e configuração BlastEm SHA `543d9c519ff149d9e05c7dd6b60286be94868ff23f6a47671175337e93b6c7a3`.
+O HAPE é diagnóstico no limite de apresentação: registra frame de runtime,
+frame de probe, game frame, ticks lógicos, estado/animação do P1, fireball,
+input, hitstop, DMA de sprites, sprites ativos/VDP e pico de scanline. Não
+altera FSM, input ou áudio.
+
+O bundle de vídeo
+`out/emulator_evidence/visual_ko_20260922T001749406802Z-1501445/` foi ingerido
+sem normalização, com vídeo SHA
+`2fd623042c555aa87f7e79605104526201529ba54241f0e06fbc560c7a87bda9`, 3.798
+frames e 63,3 s. O ingest encontrou quatro gaps PTS, incluindo 22 frames
+nominais no primeiro buraco; esses frames ficam inelegíveis para claim temporal.
+Não há WAV: `audio.status=not_present`, nunca silêncio ou aprovação.
+
+A consulta `marker_event_capture_v4_query/runtime_marker_1544_context/` extraiu
+38 frames-fonte numerados, source 666–703, PTS 11,1–11,72 s, pré/pós 0,3 s,
+ROI gameplay, clipe FFV1 e player por evento. Oito imagens adjacentes
+realmente inspecionadas mostram uma transição de emissão pequena para clarão
+grande do especial; isso é um achado visual limitado, não aprovação de movimento.
+O finding `marker_event_capture_v4_finding_special_projectile_001.json` registra
+timestamp, source query, SHA, ROI, HAPE, HSTR contextual, hipótese, impacto,
+confiança 0,82, teste causal e `approval_status=not_approved`.
+
+O causal compare com e sem vídeo encontrou `same_state_context=true` no HAPE,
+mas deixa `candidate_only`: presentation frame e DMA são contadores de cada
+execução, não timestamps cross-run. HSTR fica `context_only` sem binding a
+PTS/scanout. Não há claim de overflow, causa de recorder ou defeito de jogo.
+
+O overhead HAPE foi medido em três repetições, com dois pares aceitos, HCAD
+persistido e medianas: delta boot `-24,921 ms`, captura `57,551 ms`,
+finalização `545,632 ms`, total `621,114 ms`. Um terceiro par foi rejeitado por
+janela de luta ausente; permaneceu no relatório. Corrigiu-se o medidor para
+`same_rom_sha256` significar SHA uniforme entre casos executados, enquanto a
+suficiência continua exigindo pares aceitos, HCAD e medianas.
+
+O V5 `out/audiovisual_review/marker_event_capture_v4_v5.json` consumiu V0–V4
+com `execution_status=passed`, porém `status=blocked`: identidade e cadência
+HCAD estão liberadas nos próprios escopos, a faixa visual de oito frames é a
+única revisão perceptiva liberada, e integridade temporal, A/V, movimento
+normal-speed, áudio e cobertura total continuam bloqueados. Nenhuma correção
+de jogo, promoção AAA ou aprovação audiovisual global foi feita.
+
+O preflight V4 está em `out/audiovisual_review/marker_event_capture_v4_preflight.json`:
+ffmpeg/ffprobe/ffplay, query lossless, player por evento e métricas de áudio
+estão disponíveis; percepção direta do agente para playback de vídeo e audição
+não está disponível. Portanto, sequências de imagens permanecem evidência
+temporal limitada e o gate mantém motion/audio em `needs_review`.
+
+### Achado de gameplay reproduzido fora do recorder — 2026-09-22
+
+O finding `out/audiovisual_review/marker_event_capture_v4_finding_gameplay_consistency_002.json`
+consome a query de vídeo e imagens consecutivas da execução sem vídeo. As duas
+rotas usam a mesma ROM/configuração/entrada e o HAPE confirma o mesmo estado do
+especial (`scene=10`, `state=700`, `anim_frame=4/5`, `fireball_active=1`,
+`x=196`, `y=125`, `hit_pause=0`). A sequência observada é emissão pequena,
+expansão/impacto e retenção do clarão.
+
+Isso muda a orientação do achado: há candidato de timing/legibilidade da
+animação autoral que reproduz fora da captura, e não apenas uma diferença do
+recorder. Ainda é `candidate_only`, sem causa raiz, sem aprovação perceptiva
+global e sem patch autorizado. O próximo teste do owner de gameplay é revisar
+todos os frames adjacentes em playback normal-speed e confrontar o hold com o
+contrato da animação antes de alterar asset/timing.

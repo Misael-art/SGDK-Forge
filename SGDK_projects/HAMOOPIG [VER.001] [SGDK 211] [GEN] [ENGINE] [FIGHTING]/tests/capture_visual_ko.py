@@ -27,8 +27,10 @@ FIGHTER_IDS={'ryo': 1, 'ken': 2, 'musgo': 3}
 
 def arg_value(name, default=None):
     prefix=name+'='
-    for value in sys.argv:
+    for index, value in enumerate(sys.argv):
         if value.startswith(prefix): return value[len(prefix):]
+        if value == name and index + 1 < len(sys.argv) and not sys.argv[index + 1].startswith('--'):
+            return sys.argv[index + 1]
     return default
 
 
@@ -290,6 +292,46 @@ def main():
                                     'visible_hold_frames':words[4],
                                     'psg_channel':words[5],'psg_frequency_hz':words[6],
                                     'scene':words[7], 'source':'save.sram:HANC'}
+                    time.sleep(.20)
+                return None
+            except (OSError, IndexError, ValueError, struct.error):
+                return None
+        def presentation_event_snapshot():
+            """Read HAPE, the state-side record at the HANC boundary."""
+            path=DEST/'userdata/blastem/rom/save.sram'
+            try:
+                for _ in range(12):
+                    raw=path.read_bytes(); offset=raw.find(b'HAPE')
+                    if offset >= 0 and len(raw) >= offset + 60:
+                        schema,total=struct.unpack_from('>HH',raw,offset+4)
+                        if schema == 1 and total == 60:
+                            words=struct.unpack_from('>26H',raw,offset+8)
+                            u32=lambda index:(words[index]<<16)|words[index+1]
+                            return {
+                                'schema':schema,'bytes':total,
+                                'marker_id':words[0],
+                                'runtime_presentation_frame':u32(1),
+                                'probe_frame':u32(3),'game_frame':u32(5),
+                                'scene':words[7],'logic_ticks':words[8],
+                                'gameplay_event':bool(words[9]),
+                                'p1_state':words[10],
+                                'p1_anim_frame':words[11],
+                                'p1_anim_frame_total':words[12],
+                                'p1_frame_time':words[13],
+                                'p1_frame_time_total':words[14],
+                                'p1_fireball_active':bool(words[15]),
+                                'p1_fireball_x':words[16],
+                                'p1_fireball_y':words[17],
+                                'p1_input_bits':words[18],
+                                'p1_attack_button':words[19],
+                                'p1_hit_pause':words[20],
+                                'pre_sprite_dma_bytes':words[21],
+                                'sprite_dma_delta_bytes':words[22],
+                                'active_sprites':words[23],
+                                'used_vdp_sprites':words[24],
+                                'scanline_peak':words[25],
+                                'source':'save.sram:HAPE',
+                            }
                     time.sleep(.20)
                 return None
             except (OSError, IndexError, ValueError, struct.error):
@@ -1064,9 +1106,13 @@ def main():
                 time.sleep(1.0)
                 capture_manifest=json.loads(manifest_path.read_text(encoding='utf-8'))
                 capture_manifest['runtime_media_marker']=media_marker_snapshot()
+                capture_manifest['runtime_presentation_event']=presentation_event_snapshot()
                 capture_manifest['runtime_media_marker_claim_limit'] = (
                     'runtime marker context only; video PTS/audio sample binding requires '
                     'analyze_media_marker.py and bind_runtime_media_anchor.py')
+                capture_manifest['runtime_presentation_event_claim_limit'] = (
+                    'same-boundary game-state context; it does not timestamp scanout or '
+                    'approve visual, motion or audio quality')
                 manifest_path.write_text(json.dumps(capture_manifest, indent=2)+'\n', encoding='utf-8')
             except (OSError, ValueError, TypeError):
                 (DEST/'finalization_warnings.log').open('a').write('manifest runtime marker update failed\n')

@@ -11,6 +11,27 @@ ROOT = Path(__file__).resolve().parents[1]
 TOOL = ROOT.parents[1] / "tools" / "sgdk_wrapper" / "audiovisual_review.py"
 EVIDENCE_ROOT = str(TOOL.parent)
 EVIDENCE_REF = "audiovisual_review.py"
+REVIEW_PROTOCOL = {
+    "schema_version": "2.3.0",
+    "generated_at": "2026-09-22T00:00:00Z",
+    "tool_name": "audiovisual_review",
+    "tool_version": "2.6.0",
+}
+
+
+def review_verdicts(status: str, evidence_ref: str = EVIDENCE_REF) -> dict:
+    return {
+        "event_observed": {"status": status, "evidence_refs": [evidence_ref]},
+        "visual_legibility": {"status": status, "evidence_refs": [evidence_ref]},
+        "visual_quality": {
+            "status": status,
+            "evidence_refs": [evidence_ref],
+            "criteria_checked": ["native_320x224_readability", "silhouette_and_material_separation"],
+            "reference_comparison": {"status": status, "evidence_refs": [evidence_ref]},
+        },
+        "motion_quality": {"status": status, "evidence_refs": [evidence_ref]},
+        "audio_quality": {"status": status, "evidence_refs": [evidence_ref]},
+    }
 spec = importlib.util.spec_from_file_location("audiovisual_review", TOOL)
 assert spec and spec.loader
 module = importlib.util.module_from_spec(spec)
@@ -65,6 +86,7 @@ def test_historical_empty_v5_review_packet_is_not_coverage() -> None:
         "game_cadence": {"status": "passed"},
     }
     review = {
+        **REVIEW_PROTOCOL,
         "reviewer": None,
         "method": "indexed_only",
         "evidence_root": EVIDENCE_ROOT,
@@ -74,6 +96,8 @@ def test_historical_empty_v5_review_packet_is_not_coverage() -> None:
         "observed_intervals": [],
         "coverage": {"unexamined_intervals": ["0-10"], "coverage_ratio": 0},
         "verdicts": {
+            "event_observed": {"status": "needs_review", "evidence_refs": [EVIDENCE_REF]},
+            "visual_legibility": {"status": "needs_review", "evidence_refs": [EVIDENCE_REF]},
             "visual_quality": {"status": "needs_review", "evidence_refs": [EVIDENCE_REF]},
             "motion_quality": {"status": "needs_review", "evidence_refs": [EVIDENCE_REF]},
             "audio_quality": {"status": "needs_review", "evidence_refs": [EVIDENCE_REF]},
@@ -98,6 +122,7 @@ def test_null_coverage_is_rejected_even_with_review_fields() -> None:
         "game_cadence": {"status": "passed"},
     }
     review = {
+        **REVIEW_PROTOCOL,
         "reviewer": "qualified-reviewer",
         "method": "playback_and_audition",
         "evidence_root": EVIDENCE_ROOT,
@@ -107,8 +132,7 @@ def test_null_coverage_is_rejected_even_with_review_fields() -> None:
         "observed_intervals": [{"event_id": "all", "start_seconds": 0, "end_seconds": 1,
                                 "actually_seen": True, "evidence_refs": [EVIDENCE_REF]}],
         "coverage": {"unexamined_intervals": None, "coverage_ratio": 1.0},
-        "verdicts": {axis: {"status": "passed", "evidence_refs": [EVIDENCE_REF]}
-                     for axis in ("visual_quality", "motion_quality", "audio_quality")},
+        "verdicts": review_verdicts("passed"),
     }
     result = module.evaluate_gate(report, review)
     assert "unexamined_intervals_must_be_list" in result["review_validation"]["errors"]
@@ -127,6 +151,7 @@ def test_qualified_review_can_release_only_supported_axes() -> None:
         "game_cadence": {"status": "passed"},
     }
     review = {
+        **REVIEW_PROTOCOL,
         "reviewer": "qualified-reviewer",
         "method": "playback_and_audition",
         "evidence_root": EVIDENCE_ROOT,
@@ -136,8 +161,7 @@ def test_qualified_review_can_release_only_supported_axes() -> None:
         "observed_intervals": [{"event_id": "all", "start_seconds": 0, "end_seconds": 1,
                                 "actually_seen": True, "evidence_refs": [EVIDENCE_REF]}],
         "coverage": {"unexamined_intervals": [], "coverage_ratio": 1.0},
-        "verdicts": {axis: {"status": "passed", "evidence_refs": [EVIDENCE_REF]}
-                     for axis in ("visual_quality", "motion_quality", "audio_quality")},
+        "verdicts": review_verdicts("passed"),
     }
     result = module.evaluate_gate(report, review)
     assert result["review_validation"]["qualified"] is True
@@ -161,6 +185,7 @@ def test_invalid_unexamined_interval_cannot_release_coverage() -> None:
         "game_cadence": {"status": "passed"},
     }
     review = {
+        **REVIEW_PROTOCOL,
         "reviewer": "qualified-reviewer",
         "method": "playback_and_audition",
         "evidence_root": EVIDENCE_ROOT,
@@ -170,8 +195,7 @@ def test_invalid_unexamined_interval_cannot_release_coverage() -> None:
                                 "actually_seen": True, "evidence_refs": [EVIDENCE_REF]}],
         "coverage": {"unexamined_intervals": [{"start_seconds": 5, "end_seconds": 4}],
                      "coverage_ratio": 0.3},
-        "verdicts": {axis: {"status": "passed", "evidence_refs": [EVIDENCE_REF]}
-                     for axis in ("visual_quality", "motion_quality", "audio_quality")},
+        "verdicts": review_verdicts("passed"),
     }
     result = module.evaluate_gate(report, review)
     assert result["review_validation"]["qualified"] is False
@@ -192,6 +216,7 @@ def test_qualified_packet_requires_capability_flags_and_verdict_evidence() -> No
         "game_cadence": {"status": "passed"},
     }
     review = {
+        **REVIEW_PROTOCOL,
         "reviewer": "qualified-reviewer",
         "method": "image_sequence_only",
         "evidence_root": EVIDENCE_ROOT,
@@ -202,6 +227,8 @@ def test_qualified_packet_requires_capability_flags_and_verdict_evidence() -> No
                                 "actually_seen": True, "evidence_refs": [EVIDENCE_REF]}],
         "coverage": {"unexamined_intervals": [], "coverage_ratio": 1.0},
         "verdicts": {
+            "event_observed": {"status": "passed", "evidence_refs": [EVIDENCE_REF]},
+            "visual_legibility": {"status": "passed", "evidence_refs": [EVIDENCE_REF]},
             "visual_quality": {"status": "passed", "evidence_refs": [EVIDENCE_REF]},
             "motion_quality": {"status": "needs_review"},
             "audio_quality": {"status": "needs_review", "evidence_refs": [EVIDENCE_REF]},
@@ -353,6 +380,7 @@ def test_v5_end_to_end_consumes_qualified_review_but_keeps_blocked_claims(tmp_pa
         }],
     }
     review = {
+        **REVIEW_PROTOCOL,
         "reviewer": "fixture-reviewer", "method": "image_sequence_only", "evidence_root": ".",
         "tools": ["view_image"],
         "method_capabilities": {"video_playback": False, "audio_audition": False},
@@ -360,8 +388,7 @@ def test_v5_end_to_end_consumes_qualified_review_but_keeps_blocked_claims(tmp_pa
         "observed_intervals": [{"event_id": "fixture", "start_seconds": 0, "end_seconds": 1,
                                 "actually_seen": True, "evidence_refs": ["seen.txt"]}],
         "coverage": {"unexamined_intervals": [], "coverage_ratio": 1.0},
-        "verdicts": {axis: {"status": "needs_review", "evidence_refs": ["seen.txt"]}
-                     for axis in ("visual_quality", "motion_quality", "audio_quality")},
+        "verdicts": review_verdicts("needs_review", "seen.txt"),
     }
     paths = {
         "freeze": tmp_path / "freeze.json", "capture": bundle / "manifest.json",

@@ -1,5 +1,30 @@
 # Changelog Canonico - HAMOOPIG [VER.001] [SGDK 211] [GEN] [ENGINE] [FIGHTING]
 
+## 2026-09-22 - Contraprova causal do especial sem promoção sensorial
+
+- Fechado o ciclo baseline pré-correção (`d6b7...eb9618`) → commit `dee2356e`
+  → ROM pós-correção (`47db...c4db6d58`) para Ryo/700.
+- O recibo `out/audiovisual_review/marker_event_capture_v4_correction_cycle_special_001.json`
+  vincula fonte, asset, ROMs e imagens dos mesmos índices do harness; registra
+  mudança da folha de quatro células e preserva as limitações de execução
+  separada, playback e audição.
+- Resultado técnico: `counterproof_supports_visible_change`. Movimento, áudio,
+  qualidade visual e AAA continuam bloqueados; P10 histórico não foi reescrito.
+
+## 2026-09-22 - Gate audiovisual P0 e separação de qualidade
+
+- `audiovisual_review.py` 2.6.0/schema 2.3.0 separa observação do evento,
+  legibilidade visual e qualidade visual. Qualidade exige critérios e comparação
+  de referência; frames vistos não são aprovação.
+- HCAD recalcula contagens, ticks, apresentação, zero-tick, região e identidade
+  ROM, rejeitando janela vazia, contradição, booleano, overflow e SHA stale.
+- Wrapper: 8 testes; projeto audiovisual: 26 testes; P10 histórico stale segue
+  preservado. O V5 real foi reemitido em
+  `out/audiovisual_review/marker_event_capture_v4_v5_p0_recomputed.json` com execução
+  passada e claims finais bloqueados quando não sustentados.
+- O especial foi comparado a `src/fsm.c`, `src/physics.c` e `spr_ryo_701`; o
+  candidato continua sem causa confirmada e sem patch de jogo.
+
 ## 2026-09-20 - KO transitório e revanche same-ROM no SHA 86b15dac
 
 - O banner KO autoral deixou de reservar SAT/VRAM durante toda a luta; agora é
@@ -2230,3 +2255,54 @@ A seleção P2 foi recapturada com Ryo/P1 e Ken/P2 em `out/emulator_evidence/vis
 - O medidor ganhou `--rom` para executar overhead contra snapshot diagnóstico;
   a tentativa v2 não produziu par/relatório válido, então o V5 mantém o bloqueio
   e não reutiliza o overhead de outro SHA.
+
+## 2026-09-21 — V3 real, overhead comparável e áudio explicitamente ausente
+
+- Corrigido `capture_visual_ko.py` para aceitar `--rom path`; a captura V3
+  válida usa ROM/configuração diagnósticas congeladas e preserva o bundle
+  histórico sem o reinterpretar como FPS do jogo.
+- Medidos dois pares BlastEm com HCAD persistido e mesma ROM: medianas de
+  overhead separadas por boot, captura, finalização e total. Diferenças HCAD
+  entre sessões continuam sendo telemetria de comparação, não aprovação de
+  cadência ou fluidez.
+- V5 end-to-end agora executa integralmente e consome freeze, captura, ingest,
+  query, finding, review, gate e overhead. O recibo permanece `blocked` nos
+  eixos sem suporte: gaps PTS, A/V, movimento, áudio e cobertura.
+- Captura sem WAV é aceita como `not_present` no hash-chain e nos artefatos,
+  mas nunca libera `audio_approval`; schema atualizado para esse estado.
+- Consulta do marcador 2288 materializa quatro frames consecutivos com PTS,
+  ROI, clipe FFV1 e `play_event.sh`. Causal compare e finding real são
+  `candidate_only`/`not_approved`; HSTR sem binding ao mesmo PTS permanece
+  contextual.
+- Regressão do wrapper ampliada para 7 testes, incluindo uma revisão positiva
+  com playback/audição que libera apenas eixos sustentados; 26 testes do projeto passaram
+  com o fixture P10 stale explicitamente ignorado. Nenhuma correção do jogo,
+  promoção AAA ou aprovação audiovisual global foi feita.
+## 2026-09-22 — V4 HAPE, query audiovisual e gate por eixos
+
+- Adicionado probe HAPE e decoder/self-check para correlacionar apresentação,
+  lógica, estado de especial, animação, DMA e pressão de sprites sem confundir
+  esses contadores com PTS do vídeo ou FPS do jogo.
+- Reforçado o caminho existente de captura: freeze hash-bound, ingest sem CFR,
+  query com 38 frames-fonte, player por evento, ROIs, HSTR contextual e finding
+  causal candidate-only. O caso real mostra uma transição do especial que uma
+  screenshot espaçada perderia.
+- Adicionado review V4 honesto com oito imagens realmente inspecionadas;
+  `visual_quality` passa somente no escopo local, enquanto playback normal-speed,
+  áudio e cobertura permanecem `needs_review`.
+- Medidor de overhead passa a declarar `same_rom_sha256` pela uniformidade dos
+  casos executados; pares sem HCAD continuam rejeitados e não contam para a
+  suficiência mínima.
+- Recibo V5 V4 consumiu V0–V4 com execução passada, mas bloqueou claims de
+  integridade temporal, A/V, movimento, áudio e cobertura. Não houve correção do
+  jogo, promoção AAA ou aprovação audiovisual global.
+- O finding V3 passou a consumir também imagens da execução sem vídeo e o
+  `causal-compare` HAPE dos dois modos. A repetição do especial no mesmo estado
+  autoral orienta a investigação para gameplay/timing/legibilidade; continua
+  candidate-only, sem patch ou aprovação global.
+- Formalizado o protocolo em `audiovisual_review_manifest.schema.json` e endurecido o intake para
+  exigir versão/protocolo, reviewer, método, capabilities, hashes, intervalos
+  vistos e evidências por eixo.
+- Preflight V4 registrou ferramentas de metadata/query/player e métricas de
+  áudio disponíveis, mas percepção direta do agente para vídeo/áudio ausente;
+  isso mantém a política de revisão fechada sem fabricar playback ou audição.

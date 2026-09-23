@@ -12,7 +12,7 @@
 
 ## Pre-requisitos e bloqueios
 
-- Este plano implementa a especificacao aprovada em `docs/superpowers/specs/2026-06-24-vibe-playable-template-birth-curation-proposal.md` (`c1022c51`).
+- Este plano implementa a especificacao aprovada em `doc/superpowers/specs/2026-06-24-vibe-playable-template-birth-curation-proposal.md` (`c1022c51`).
 - Este plano depende dos contratos reais criados pelo plano `vibe_playable_loop_v1` aprovado em `a9e70939`.
 - A implementacao deste plano so pode comecar depois que estes tres schemas reais existirem no workspace: `tools/sgdk_wrapper/schemas/vibe_playable_route_report.schema.json`, `tools/sgdk_wrapper/schemas/premium_source_manifest.schema.json` e `tools/sgdk_wrapper/schemas/runtime_admission_report.schema.json`.
 - Nao criar `vibe_playable_birth_contract.schema.json`, `template_birth.schema.json` ou qualquer schema paralelo.

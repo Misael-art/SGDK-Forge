@@ -1,0 +1,39 @@
+# Failure Patterns
+
+Registre aqui falhas, falsos positivos, tentativas ruins e decisoes que nao devem ser repetidas sem nova evidencia.
+
+| Data | Classificacao | Contexto | Falha observada | Causa provavel | Mitigacao | Evidencia |
+|---|---|---|---|---|---|---|
+| 2026-08-18 | `promotion_candidate` | VDP | `VSCROLL_COLUMN` usado como cortina da COIFA envolve a bigorna de preto | A tabela de coluna desloca o plano inteiro, nao uma faixa | Nao e cortina local. Owner: shadow-highlight-scroll-fx | pres4/pres6; memoria 2026-08-18 |
+| 2026-08-18 | `promotion_candidate` | VRAM | `sVramAuthor = sVramBgA` apaga a bigorna em F451 | Tileset do wordmark sobrescreve tileset vivo do tilemap | Nunca reusar indice sob plano vivo. Bissect ponto 6 | bis_6; ROM 1d432425… |
+| 2026-08-18 | `promotion_candidate` | CRAM/cena | Menu distorcido apos a marca | `VDP_drawText` herda PAL0 da forja + scroll/S/H residual | Teardown: fonte, PAL3, barra, handoff para MENU | front12 F691 |
+| 2026-08-18 | `local_note` | paleta | Muro-fantasma roxo no ceu | Lerp star→forge com tilemap do ceu ainda visivel | So aquece depois do tilemap da parede pousar | F91 ghost vs d2_reveal |
+| 2026-08-18 | `local_note` | H-Int | Crash `0x23080000` no primeiro H-Int | Handler `void` emite RTS; SR vira PC alto | `HINTERRUPT_CALLBACK` (RTE); nao armar no enter | runtime_decision_log h_int_why |
+| 2026-08-18 | `local_note` | WINDOW | PRESENTS invisivel em F480 | `VDP_setWindowVPos(FALSE,n)` e topo | TRUE=fundo; ou carimbar em BG_A sem WINDOW | act3_presents vs pres_fix |
+| 2026-08-18 | `local_note` | captura | Magenta no frame_1 do burst | Janela BlastEm ainda nao composta | Espera 0.35 s; PAL0[0] no dump e 0x0000 | capture_blastem_evidence_linux.sh |
+| 2026-08-18 | `local_note` | roteamento IA | `imagegen_tool.py route` pede ComfyUI | Detector nao ve `image_gen` desta sessao | Se a ferramenta nativa existe, o canal e nativo | generation_channel_decision 2026-08-18 |
+| 2026-08-18 | `local_note` | The Forge parede | cpu 160 / ob 9 entre F151 e F211, atribuidos aos golpes | `VDP_setTileMapEx` em IMAGE BEST desempacota o APLIB 40x28 inteiro no display (F154 e F155) | unpackTileMap em buffer estatico no warmup; nametable no reveal | d2_hit1 ob=9 cpu=160; d3_hit1 ob=0 cpu=92 |
+| 2026-08-18 | `local_note` | The Forge ceu | Bundle do BlastEm recusa o ato I (`blank_or_low_information_capture`); VLAB `frame_counter` anda de 60 em 60 | Campo estelar e quase preto; SRAM do probe nao e por quadro | Autoridade do beat e o screenshot; nao usar o contador VLAB como relogio fino; nao vender selo do ceu | d2_sky / d2_sky2 / d2_drop rejeitados; d2_reveal/d2_lock ambos reportam F151 e mostram atos diferentes |
+| 2026-08-18 | `local_note` | branding ato 3 | Cortina de coluna corta a bigorna; wipe apaga o ferro; unpack APLIB 8x + WINDOW some com o MASTER | VSCROLL_COLUMN move o plano inteiro; clear em y>=64; setTileMapEx descompacta o mapa todo por chamada | Nao usar scroll de coluna como cortina local; restore, nao clear; uma chamada so; PRESENTS em BG_A | pres4/pres6 costura preta; hq6 MASTER ausente cpu 201; fin* over_budget 0 |
+| 2026-09-23 | `promotion_candidate` | runtime MD / CPU | Varrer 91 comandos e 72 controladores do estado -1 por tick custou 62-99% e 35% do quadro no 68000 | Cada iteracao de laco em C compilado para m68k custa centenas de ciclos; o gprof do host subestimou ~10x | Trabalho guiado por eventos/indices gerados offline (buckets por tecla, bitmap de controladores por comando, portoes de comando/tempo). Medir no BlastEm com MG_PROFILE (getSubTick, 1280/quadro) | perfil na tela prof3->prof7; over_budget 1021/1100 -> 115/3391 |
+| 2026-09-23 | `promotion_candidate` | parser MUGEN | Golpes nunca terminavam (ChangeState de saida em outro estado) | O numero em [State N, ...] e rotulo; o controlador pertence ao ultimo [Statedef] do arquivo. Ken copia rotulos | Parser associa ao ultimo Statedef; teste test_controller_belongs_to_last_statedef_not_label | harness t=336..371 preso em 425; tests/test_pipeline.py |
+| 2026-09-23 | `promotion_candidate` | parser MUGEN | `command = b` (chute) virava "segurar tras" | MUGEN diferencia caixa: B maiusculo = direcao, b minusculo = botao | Normalizar so direcoes em maiuscula; teste test_cmd_case_back_vs_button | moves B:2 -> 261 depois da correcao |
+| 2026-09-23 | `promotion_candidate` | semantica MUGEN | AnimTime = 0 nunca ocorria | A animacao voltava ao inicio no mesmo tick do ultimo quadro | AnimTime = anim_time + 1 - total (0 no ultimo tick do ciclo) | harness: estados de ataque presos -> 103 estados distintos |
+| 2026-09-23 | `local_note` | semantica MUGEN | Nenhum especial saia; auto-andar roubava o tick | Transicoes automaticas do motor rodavam antes do estado -1 e o pulavam | Ordem: -3, -2, -1 sempre; transicoes do motor so se nada mudou | moves: fireball -> 850 apos correcao |
+| 2026-09-23 | `local_note` | semantica MUGEN | Personagem preso em 5101/5110 (caido) | y>0 era forcado a 0 fora da fisica A; liedown -> getup e regra do motor, nao do .cns | So fisica S/C prende ao chao; motor muda 5110 -> 5120 apos liedown.time | harness: 5101 por 5954 ticks -> maximo 128 |
+| 2026-09-23 | `local_note` | comandos | Passos consecutivos no mesmo tick (soltar D e apertar DF) nao casavam | Reconhecedor avancava so um passo por tick | Encadear passos no mesmo tick quando as teclas diferem | moves fireball/shoryuken |
+| 2026-09-23 | `local_note` | conversor sprites | Ken aparecia branco/vermelho em alguns quadros | Sprites editados (>10% de pixels fora das 15 cores) iam para a paleta de efeitos | Corpo = maioria (>50%) dos pixels na paleta do corpo; resto aproximado e contado | ev4 vs ev5; relatorio body_palette.approx_pixels=3088 |
+| 2026-09-23 | `local_note` | rescomp | Build quebrou: quadro de efeito com 20 sprites de hardware | Limite de 16 sprites de hardware por quadro no SPRITE do rescomp | Conversor mede e exclui (registrado em unsupported_images) antes do build | build1.log g8000_fx frame 9 |
+| 2026-09-23 | `local_note` | captura em worktree | BlastEm window_timeout / 'Failed to open ... for reading' | Flatpak do BlastEm so monta a arvore principal do repo | --output-base dentro da arvore principal; scripts rodados a partir dela | ev1 falhou; e3_ken selado |
+| 2026-09-23 | `local_note` | build | make: 'multiplos padroes para o alvo' em out_prof | Arquivos .d antigos com caminho com espacos | Apagar a pasta de saida antes de rebuild com --output-dir | build8.log |
+| 2026-09-23 | `needs_human_review` | template | Projeto novo nasceu com memory bank/ledger/patterns de outro projeto (The Forge) | new_project copia historico do modelo | Linhas herdadas mantidas; revisar/limpar na curadoria do template | este arquivo, linhas 2026-08-18 |
+| 2026-09-23 | `promotion_candidate` | conversor | Efeitos de super sumiam (quadros excluidos) | Estimativa de sprites de hardware pelo retangulo cheio; quadros ocos (anel) cabiam | Contar blocos 32x32 ocupados; dividir em partes quando exceder | 8000/0: 14 blocos vs 20 estimados |
+| 2026-09-23 | `promotion_candidate` | compilador | Anel nascia 250 px abaixo do chao | Parametro removido da lista deslocava indices MG_P_* | Lista de parametros sempre alinhada ao esquema; teste dedicado | ringpos: y=250 -> -48 |
+| 2026-09-23 | `local_note` | ROM de teste | ADDRESS ERROR em 0x208014 | strcat em buffer de diagnostico escreveu 0x20 sobre endereco de retorno | Diagnostico com tamanho limitado; crumbs na SRAM sobrevivem ao crash | save.sram 0x1000; symbol.txt |
+| [DATA] | `local_note` | [cena/sistema] | [o que falhou] | [causa] | [como evitar] | [log/screenshot/hash] |
+
+## Regras
+
+- Falha sem evidencia deve ser marcada como hipotese.
+- Solucao nao comprovada nao vira recomendacao.
+- Se a falha indicar risco canonico, classifique como `needs_human_review`.

@@ -1,0 +1,311 @@
+Contexto
+
+- Estamos conduzindo um caso real de tradução visual Mega Drive chamado Metal Slug Urban Sunset, cujo objetivo é converter uma cena de referência para um runtime SGDK válido, com evidência em emulador e aderência à filosofia maximalista do workspace.
+- A regra-mãe que governa tudo é: “se não foi visto rodando no emulador, não existe”, conforme AGENTS.md:L8-L12 .
+- O trabalho está sendo guiado pela hierarquia de verdade e pelo pipeline canônico Director → Pixel Engineer → Programador → QA → Iteração em AGENTS.md:L42-L54 e AGENTS.md:L87-L99 .
+- O caso já saiu da fase meramente documental: há geração de assets, build, ROM, captura no BlastEm e bloco de evidência, com status rastreáveis em validation_report.json:L250-L317 e emulator_session.json:L1-L29 .
+Propósito De Treinamento
+
+- O agente deve aprender a operar como agente de produção, não como assistente textual: ele precisa inferir, executar, validar e registrar evidências.
+- O objetivo não é apenas “converter imagem”, mas aprender a tomar decisões sob restrições reais de hardware, SGDK 2.11, planos VDP, transparência indexada, budget visual e gate de emulador.
+- No modo Fábrica, cada problema encontrado deve virar aprendizado operacional explícito: o que houve, por que aconteceu, qual regra faltava, como detectar cedo e onde registrar para a próxima execução.
+- A filosofia maximalista exige que o agente não se contente com “funciona”; ele deve perseguir leitura visual forte, coerência de camadas, impacto de cena e vínculo com gameplay, conforme AGENTS.md:L103-L108 .
+O Que Foi Feito
+
+- Reestruturamos o pipeline Python para decompor a arte em camadas semânticas A/B/C, preservar a composição RGBA de referência e forçar quantização Mega Drive correta em generate_metal_slug_translation_case.py:L61-L119 .
+- Corrigimos a transparência impondo magenta no índice 0 da paleta para assets com alpha, evitando inconsistências de máscara.
+- Garantimos que todas as layers fossem tratadas em 320x224, eliminando desalinhamento e buracos de cobertura.
+- Mantivemos a decomposição “elite” para análise semântica, mas passamos a exportar assets específicos de runtime para SGDK em generate_metal_slug_translation_case.py:L712-L803 .
+- O runtime final deixou de usar a WINDOW como terceira camada fullscreen e passou a renderizar a cena com dois planos reais: BG_B para atmosfera e BG_A para arquitetura + foreground, usando a WINDOW apenas como overlay textual em main.c:L91-L126 .
+- O registro de recursos foi alinhado ao runtime real em resources.res:L1-L3 .
+Problemas Reais Encontrados
+
+- Transparência quebrada: a presença de pixels transparentes sem controle de índice 0 gerava leitura errada no runtime.
+- Premissa errada de planos: o uso de um “terceiro layer visual” fullscreen conflitou com a realidade do hardware e da WINDOW , exatamente o tipo de alucinação que o workspace proíbe em AGENTS.md:L112-L122 .
+- Cobertura incompleta: a composição parecia certa em intenção, mas os assets não estavam plenamente alinhados ao framebuffer alvo.
+- Erro de compatibilidade SGDK: uso de identificador inválido ( FG_A ) foi corrigido ao voltar para a API real suportada.
+- Divergência entre “referência semântica ideal” e “runtime viável”: aprendemos que a composição ideal de 3 camadas precisava ser reinterpretada para 2 planos reais no build final.
+O Que O Agente Deve Aprender
+
+- Leitura de hardware
+- Mega Drive não é Photoshop: BG_A, BG_B e WINDOW têm papel concreto e limitações concretas; não existe liberdade arbitrária de composição.
+- Transparência em SGDK depende de paleta indexada e convenção correta; alpha conceitual só vale até a etapa de pré-processamento.
+- Toda decisão visual precisa ser traduzida para tilemap, VRAM, paleta e prioridades reais.
+- Leitura de pipeline
+- Separar “asset de análise” de “asset de runtime” é uma estratégia válida quando a intenção artística excede a topologia final do VDP.
+- O pipeline de geração deve produzir arte, referência composta, métricas e artefatos de revisão na mesma execução.
+- O agente precisa aprender que scripts de geração são parte da arquitetura do jogo, não utilitários descartáveis.
+- Leitura de produção
+- Um erro visual nunca é só “bug de imagem”; pode ser erro de segmentação, erro de topologia de planos, erro de paleta, erro de API ou erro de validação.
+- Toda correção precisa deixar um rastro de decisão: qual hipótese caiu, qual regra nova surgiu e qual evidência encerrou a dúvida.
+- O agente deve refletir em cima das falhas, não apenas corrigi-las.
+- Leitura de QA
+- Build limpo não basta; gate canônico exige ROM, validação, boot em BlastEm e evidência mínima.
+- “Quase certo” visualmente ainda é alerta, não é pronto.
+- O agente deve distinguir claramente implementado , buildado , testado_em_emulador e validado_budget , como definido em AGENTS.md:L72-L83 .
+Onde Registrar Cada Aprendizado
+
+- Estado operacional real → registrar em doc/10-memory-bank.md , porque é a fonte de verdade número 1 para o que realmente foi descoberto, corrigido e comprovado em produção, conforme AGENTS.md:L42-L54 .
+- Intenção de design da cena → registrar em doc/11-gdd.md , quando a lição impacta enquadramento, leitura de cena, papel dramático da layer ou objetivo de gameplay.
+- Budget por cena → registrar em doc/13-spec-cenas.md , quando o aprendizado for sobre tiles, VRAM, composição por planos, overlays ou custo visual.
+- Regra de processo → registrar em doc/00-diretrizes-agente.md , quando a lição for “como evitar repetir esse erro no fluxo”.
+- Arquitetura de implementação → registrar em doc/03-arquitetura.md , quando a lição envolver a divisão entre gerador Python, assets de revisão, assets runtime e integração SGDK.
+- Conhecimento reutilizável de agente → consolidar em tools/sgdk_wrapper/.agent/skills/ , especialmente em trilhas de arte, hardware e validação, conforme AGENTS.md:L15-L38 .
+- Runbook operacional → registrar em tools/sgdk_wrapper/.agent/workflows/production-loop.md quando a lição virar passo obrigatório de execução, inspeção ou gate.
+- API definitiva → nunca registrar por memória quando houver dúvida; confirmar sempre nos headers SGDK, como manda AGENTS.md:L58-L68 .
+Modo Fábrica: Reflexão Obrigatória
+
+- Para cada incidente, o agente deve responder 5 perguntas:
+- Qual foi a falha observável?
+- Qual hipótese errada nos levou até ela?
+- Qual restrição de hardware, pipeline ou processo estava ausente?
+- Qual evidência encerrou a ambiguidade?
+- Em qual nível da hierarquia essa lição deve ser registrada?
+- Neste caso, o ciclo exemplar foi:
+- Hipótese fraca: 3 camadas fullscreen independentes no runtime resolveriam a composição.
+- Realidade: a WINDOW fullscreen destruiu a leitura desejada.
+- Correção madura: manter 3 camadas semânticas para raciocínio, mas colapsar B+C em um único asset runtime para BG_A .
+- Evidência: screenshot canônico do BlastEm + SRAM + dump VDP.
+- Registro correto: memória operacional, skill de hardware VDP e workflow de validação visual.
+Relação Entre A Imagem Original E O Último Resultado
+
+- A imagem original em source.png contém quatro zonas conceituais: céu, arquitetura urbana, preview composto e foreground separado.
+- A referência semântica consolidada em elite_semantic_composite_rgba.png representa o “alvo artístico interno” após curadoria A/B/C.
+- O último resultado runtime em benchmark_visual.png é a versão jogável SGDK/VDP desse alvo.
+- Relação prática:
+- O céu original virou o asset de atmosfera usado em BG_B .
+- A massa urbana do miolo virou a base estrutural do runtime.
+- O foreground original, antes pensado como layer independente, foi incorporado ao asset final de BG_A para respeitar a topologia real do hardware.
+- O resultado preserva a silhueta da rua destruída, o prédio da direita, o viaduto e a temperatura quente do pôr do sol.
+- A perda principal em relação ao ideal analítico foi a independência plena da terceira layer; o ganho foi um runtime correto, coerente e validado em emulador.
+Leitura Do Último Estado
+
+- O caso está buildado e testado_em_emulador , com gate visual aceito em validation_report.json:L293-L317 .
+- Ainda não está em estado final de entrega total, porque o próprio relatório mantém performance = nao_testado , audio = nao_testado e validado_budget = false em validation_report.json:L251-L259 .
+- Isso é importante para o treinamento: o agente deve aprender a não confundir “resolvido visualmente” com “entregue no padrão do workspace”.
+Contexto De Treinamento Pronto Para O Agente
+
+- Missão: converter uma referência artística rica em uma cena Mega Drive executável sem violar limitações do VDP.
+- Método: decompor semanticamente, quantizar corretamente, adaptar ao runtime real, validar no BlastEm e registrar evidências.
+- Mentalidade: toda intenção precisa virar decisão técnica comprovável.
+- Padrão de excelência: maximalismo com disciplina de hardware, sem improviso, sem ambiguidade e sem declarar vitória antes do gate.
+Próximo Material Que Vale Formalizar
+
+- Um bloco de “lições aprendidas do caso Metal Slug Urban Sunset” para alimentar memória operacional e skill de produção.
+- Uma regra explícita de skill dizendo: “quando a composição semântica exigir 3 planos mas o runtime não comportar, o agente deve separar asset analítico de asset runtime e justificar a fusão”.
+- Um checklist de pré-gate visual: transparência índice 0, resolução 320x224, plano válido SGDK, overlay isolado da cena, screenshot BlastEm, SRAM e dump VDP.
+Se quiser, eu posso transformar esse contexto agora em um formato de treinamento pronto para ingestão pelo agente, dividido em:
+
+- memória operacional,
+- lições aprendidas,
+- skill gaps,
+- regras anti-ambiguidade,
+- e checklist de fábrica.
+
+PARA O DESAFIO METAL_SLUG_URBAN_SUNSET PRECISA SER RETOMADO
+
+como um dev de Mega Drive de verdade montaria essa cena mantendo qualidade e ainda ganhando dinamismo.
+
+Vou te passar a estratégia ideal, não só conceitual, mas já pensando em implementação real (SGDK / VDP).
+
+🧠 1. COMO QUEBRAR ESSA CENA (a decisão mais importante)
+
+Essa imagem tem 4 profundidades bem claras:
+
+🟥 1. Céu (background distante)
+gradiente + nuvens
+sem detalhe fino
+ideal pra paralax suave
+🟫 2. Skyline / fundo urbano (ponte + prédio escuro)
+silhueta escura
+baixa frequência de detalhe
+perfeito pra paralax lento
+🟨 3. Arquitetura principal (prédios + rua)
+ALTA quantidade de detalhe
+onde o jogador “vive”
+precisa máxima nitidez
+⬛ 4. Foreground (entulho / chão quebrado)
+silhueta forte
+ótimo pra dar profundidade
+⚙️ 2. MAPEAMENTO PERFEITO PARA MEGA DRIVE
+
+Aqui está a melhor configuração possível:
+
+🟦 BG-B (Plano de fundo)
+
+👉 Coloque AQUI:
+
+Céu completo (100%)
+Parte do skyline distante (silhueta escura)
+Por quê?
+BG-B é ideal pra coisas que se movem pouco
+permite scroll independente (parallax)
+🟩 BG-A (Plano principal)
+
+👉 Coloque AQUI:
+
+cidade principal (prédios detalhados)
+rua
+postes
+base da ponte
+IMPORTANTE:
+usar transparência corretamente
+céu SEMPRE vem de BG-B
+🟨 WINDOW ou SPRITES (Foreground)
+
+👉 Coloque AQUI:
+
+entulho da frente
+chão quebrado mais próximo
+Por quê?
+permite prioridade sobre BG-A
+cria profundidade forte
+🎯 3. PARALAX (onde a mágica acontece)
+
+Aqui você ganha MUITO da sensação de qualidade.
+
+🔥 Estratégia ideal (multi-layer fake parallax)
+BG-B dividido em 2 zonas:
+🟥 Céu (parte superior)
+scroll = muito lento (ex: x / 8)
+🟫 Skyline
+scroll = lento (ex: x / 4)
+
+👉 Isso pode ser feito com:
+
+line scroll (VDP_setHorizontalScrollLine)
+🟩 BG-A (cidade)
+scroll = normal (x / 1)
+🟨 Foreground
+scroll = mais rápido (x * 1.2 ou x * 1.5)
+
+👉 cria sensação de profundidade absurda
+
+🎨 4. PALETA (o ponto mais crítico)
+
+Mega Drive = 4 palettes × 16 cores
+
+💡 Estratégia ideal
+🎯 Paleta 0 → Céu
+gradiente vermelho/laranja
+cores suaves
+evitar desperdiçar com detalhes
+🎯 Paleta 1 → Cidade principal
+tons de marrom / cinza / laranja
+reutilizar cores do céu quando possível
+🎯 Paleta 2 → Foreground
+mais escuro
+alto contraste
+🎯 Paleta 3 → reserva
+efeitos
+variações
+luz de janela
+🔥 Dica avançada
+
+👉 Compartilhe cores entre camadas
+
+Exemplo:
+
+laranja do céu = luz das janelas
+marrom escuro = sombra global
+
+Isso aumenta MUITO a qualidade percebida
+
+🧱 5. TILESET (onde muita gente erra)
+❌ ERRO comum
+converter imagem inteira direto
+explode VRAM
+✅ CERTO
+separar por repetição:
+parede do prédio → tile reutilizável
+janelas → tile reutilizável
+chão → padrões repetidos
+💡 Técnica essencial
+
+👉 “tile clustering”
+
+Agrupar:
+
+texturas repetidas
+padrões de parede
+variações pequenas
+✂️ 6. NITIDEZ (como manter)
+🔴 Problema
+
+Mega Drive + quantização = imagem “lavada”
+
+✅ Solução
+1. Priorizar contraste
+bordas mais fortes
+outlines seletivos
+2. Evitar dither excessivo
+usar blocos sólidos quando possível
+3. Separação clara de planos
+foreground mais escuro
+fundo mais claro
+🌫️ 7. PROFUNDIDADE (truque profissional)
+💡 Adicionar “atmospheric perspective”
+fundo → mais desaturado
+meio → médio contraste
+frente → alto contraste
+
+Isso simula profundidade mesmo com poucas cores
+
+⚡ 8. OTIMIZAÇÃO REAL (VDP / performance)
+VRAM
+tiles: ~800–1200 ideal
+evitar tiles únicos demais
+Scroll
+usar line scroll com moderação
+dividir tela em 2–3 zonas já dá ótimo resultado
+DMA
+carregar tiles por bloco
+evitar streaming pesado
+🧩 9. PIPELINE IDEAL (resumo prático)
+ETAPA 1
+
+Separar imagem em:
+
+céu
+skyline
+cidade
+foreground
+ETAPA 2
+
+Reduzir cores GLOBALMENTE (não por camada)
+
+ETAPA 3
+
+Reindexar paletas
+
+ETAPA 4
+
+Gerar tiles reutilizáveis
+
+ETAPA 5
+
+Montar tilemaps:
+
+BG-B completo
+BG-A com transparência
+ETAPA 6
+
+Implementar scroll:
+
+BG_B → lento
+BG_A → normal
+FG → rápido
+🧠 10. RESUMO FINAL (a melhor estratégia)
+
+👉 Para ficar MAIS próximo do original e MAIS dinâmico:
+
+Céu completo no BG-B
+Skyline no BG-B com scroll diferente (line scroll)
+Cidade detalhada no BG-A
+Foreground separado com prioridade
+Paleta compartilhada e otimizada
+Tiles reutilizáveis
+Paralax em múltiplas velocidades
+💡 FRASE-CHAVE (pra nunca errar)
+
+No Mega Drive você não desenha uma imagem — você constrói profundidade com planos inteligentes.

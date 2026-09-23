@@ -1,0 +1,11 @@
+interface:
+  display_name: "Art Asset Diagnostic"
+  short_description: "Diagnostica automaticamente o estado dos assets SGDK e escolhe o cenario correto"
+  brand_color: "#2E7D5A"
+  default_prompt: "Use $art-asset-diagnostic para inspecionar este projeto SGDK, detectar o cenario de arte atual e produzir um relatorio objetivo antes de converter ou criar assets."
+
+policy:
+  allow_implicit_invocation: true
+
+dependencies:
+  tools: []

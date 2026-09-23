@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "updated_at": "2026-04-09",
+  "facts": [
+    {
+      "id": "spr_get_animation_index_missing",
+      "tier": "hard_fact_blocker",
+      "claim": "SPR_getAnimationIndex() nao existe no SGDK 2.11.",
+      "correct_usage": "Acessar o indice atual via sprite->animInd quando o contexto permitir.",
+      "impact": "Referencia a getter inventado quebra compilacao."
+    },
+    {
+      "id": "globals_single_definition",
+      "tier": "hard_fact_blocker",
+      "claim": "Globais como gApp e gInput exigem pattern extern em header e definicao unica em um .c.",
+      "correct_usage": "Declarar extern no header compartilhado e manter apenas uma definicao concreta.",
+      "impact": "Redeclaracao em multiplos .c causa multiple definition no linker."
+    },
+    {
+      "id": "spr_init_signature",
+      "tier": "hard_fact_blocker",
+      "claim": "SPR_init() no SGDK 2.11 nao aceita argumentos.",
+      "correct_usage": "Usar SPR_init() sem args para default e SPR_initEx(n) para reserva customizada.",
+      "impact": "Assinatura errada quebra compilacao ou revela migracao incompleta."
+    },
+    {
+      "id": "image_vs_map_plane_fit",
+      "tier": "canonical_pattern",
+      "claim": "Quando uma IMAGE de 512px preenche exatamente o plano de 64x32 tiles, MAP_create pode ser desnecessario.",
+      "correct_usage": "Preferir VDP_drawImageEx + VDP_setHorizontalScroll quando a arte couber no plano e nao precisar de streaming.",
+      "impact": "Evita complexidade e overhead desnecessarios."
+    },
+    {
+      "id": "vblank_process_main_loop",
+      "tier": "hard_fact_blocker",
+      "claim": "SYS_doVBlankProcess() deve ser chamado no loop principal, nao dentro da cena.",
+      "correct_usage": "Estruturar o loop principal para chamar update da app/cena, depois SPR_update(), depois SYS_doVBlankProcess().",
+      "impact": "Chamada no lugar errado produz lag de frame, corrupcao de fluxo ou padrao anti-canonico."
+    },
+    {
+      "id": "transparent_index_zero_png",
+      "tier": "hard_fact_blocker",
+      "claim": "A composicao entre planos usando index 0 depende de transparencia real no PNG indexado.",
+      "correct_usage": "Salvar PNG indexado com transparency=0 quando o index 0 representa vazado semantico.",
+      "impact": "Sem isso, BG_A nao revela BG_B corretamente."
+    },
+    {
+      "id": "tile_user_index_stacking",
+      "tier": "hard_fact_blocker",
+      "claim": "TILE_USER_INDEX e a ancora correta para empilhar tilesets de arte manualmente.",
+      "correct_usage": "Carregar o primeiro tileset em TILE_USER_INDEX e somar ind += tileset.numTile para o proximo.",
+      "impact": "Ignorar isso causa colisoes de VRAM e corrupcao visual."
+    },
+    {
+      "id": "scroll_wrap_plane",
+      "tier": "canonical_pattern",
+      "claim": "Com plano 64x32 (512px), o scroll horizontal faz wrap automatico.",
+      "correct_usage": "Nao adicionar logica extra de tiling infinito quando o wrap natural do plano ja resolver.",
+      "impact": "Reduz codigo e risco de bugs."
+    },
+    {
+      "id": "loop_order_contract",
+      "tier": "hard_fact_blocker",
+      "claim": "A ordem canonica do game loop e INPUT_update() -> scene update -> SPR_update() -> SYS_doVBlankProcess().",
+      "correct_usage": "Preservar essa ordem a menos que haja motivo muito forte e documentado.",
+      "impact": "Inverter passos gera 1 frame de lag, OAM inconsistente ou corrupcao visual."
+    }
+  ]
+}

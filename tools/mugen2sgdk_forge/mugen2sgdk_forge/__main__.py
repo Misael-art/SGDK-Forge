@@ -1,0 +1,162 @@
+"""CLI do mugen2sgdk_forge.
+
+    python3 -m mugen2sgdk_forge inventory <acervo> --out <json>
+    python3 -m mugen2sgdk_forge install-runtime <projeto_sgdk>
+    python3 -m mugen2sgdk_forge convert-char <pacote.zip|pasta> --id ken --project <projeto_sgdk>
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+from . import character, inventory
+from .converters import bgfx as bgfx_conv
+from .converters import sounds as snd_conv
+from .converters import sprites as spr_conv
+from .generators import sgdk
+from .source import Source
+
+TOOL_VERSION = "0.3.0"
+RUNTIME_DIR = Path(__file__).resolve().parent.parent / "runtime"
+RUNTIME_FILES = ["mg_types.h", "mg_runtime.h", "mg_vm.c", "mg_char.c", "mg_fight.c"]
+
+
+def install_runtime(project: Path) -> dict:
+    """Copia o runtime para src/mg/ e inc/mg/ e regenera mg_ops.h do contrato atual."""
+    src, inc = project / "src" / "mg", project / "inc" / "mg"
+    src.mkdir(parents=True, exist_ok=True)
+    inc.mkdir(parents=True, exist_ok=True)
+    out = {}
+    ops = sgdk.ops_header()
+    (RUNTIME_DIR / "mg_ops.h").write_text(ops, encoding="utf-8")
+    for name in RUNTIME_FILES + ["mg_ops.h"]:
+        dst = (inc if name.endswith(".h") else src) / name
+        banner = f"/* COPIADO de tools/mugen2sgdk_forge/runtime/{name} (v{TOOL_VERSION}). Edite na fonte. */\n"
+        body = (RUNTIME_DIR / name).read_text(encoding="utf-8")
+        if name.endswith(".c"):   # headers vivem em inc/mg/ (-Iinc); fontes em src/mg/
+            body = body.replace('#include "mg_', '#include "mg/mg_')
+        data = banner + body
+        dst.write_text(data, encoding="utf-8")
+        out[dst.relative_to(project).as_posix()] = hashlib.sha256(data.encode()).hexdigest()
+    return out
+
+
+def _used_sounds(ch) -> set[int]:
+    used = set()
+    for st in ch.states.values():
+        for c in st.controllers:
+            for k in ("hitsound", "guardsound", "sound"):
+                v = c.sym.get(k, -1)
+                if v is not None and v >= 0:
+                    used.add(v)
+    return used
+
+
+def convert_char(pkg: Path, char_id: str, project: Path) -> dict:
+    src = Source(pkg)
+    ch = character.load(src)
+    spr = spr_conv.convert(ch)
+    used = _used_sounds(ch)
+    snds, snd_rep = snd_conv.convert(ch, used)
+    fx = bgfx_conv.detect(ch, spr.report["unsupported_images"])
+    recovered = {(f.group) for f in fx}
+    spr.report["unsupported_images"] = [u for u in spr.report["unsupported_images"] if u["sprite"][0] not in recovered]
+    spr.report["bgfx"] = [f.report for f in fx]
+    gen = sgdk.generate(ch, spr, snds, char_id, project, fx)
+
+    cid = sgdk.ident(char_id)
+    report = {
+        "schema": "mugen2sgdk_forge.character_report/v1",
+        "tool_version": TOOL_VERSION,
+        "character": {"name": ch.name, "author": ch.author, "def": ch.def_path, "id": cid},
+        "input": {"package": pkg.name, "sha256": ch.source_sha256},
+        "license": {
+            "status": "user_authorized_local_use",
+            "redistribution": "not_verified",
+            "note": "Conteudo de terceiros. Saidas ficam fora do Git ate permissao do autor.",
+        },
+        "classification": {
+            "tool": "tools/mugen2sgdk_forge",
+            "original_data": "pacote MUGEN (somente leitura, fora do repositorio)",
+            "converted_data": "res/mugen/" + cid + "/ (technical_candidate; aprovacao visual humana pendente)",
+            "generated_code": ["src/mg_gen/mg_" + cid + ".c", "inc/mg_gen/mg_" + cid + ".h", "res/mgres_" + cid + ".res"],
+            "authored_by_forge": ["common_forge.cns (estados comuns)", "runtime mg_*.c"],
+        },
+        "fidelity": ch.report,
+        "sprites": spr.report,
+        "sounds": snd_rep,
+        "generator": {k: v for k, v in gen.items() if k != "outputs"},
+        "outputs": gen["outputs"],
+        "warnings": ch.warnings,
+    }
+    doc = project / "doc" / "mugen"
+    doc.mkdir(parents=True, exist_ok=True)
+    (doc / f"{cid}_conversion_report.json").write_text(
+        json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True, default=str) + "\n", encoding="utf-8")
+    _update_provenance(project, cid, ch, spr, snds)
+    return report
+
+
+def _update_provenance(project: Path, cid: str, ch, spr, snds):
+    """Registra cada simbolo do .res gerado em doc/asset_provenance_manifest.json (regra do Forge)."""
+    path = project / "doc" / "asset_provenance_manifest.json"
+    data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"schema_version": "1.0.0", "entries": []}
+    prefix = f"mg_{cid}_"
+    data["entries"] = [e for e in data.get("entries", []) if not e.get("res_symbol", "").startswith(prefix)]
+    for sh in spr.sheets:
+        data["entries"].append({
+            "res_symbol": f"mg_{cid}_{sh.name}", "res_kind": "SPRITE",
+            "asset_path": f"mugen/{cid}/sheets/{sh.name}.png",
+            "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
+            "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
+            "notes": f"{ch.name} por {ch.author}; uso local autorizado pelo usuario; redistribuicao nao verificada."})
+    for rep in spr.report.get("bgfx", []):
+        data["entries"].append({
+            "res_symbol": f"mg_{cid}_bgfx_{rep['group']}", "res_kind": "IMAGE",
+            "asset_path": f"mugen/{cid}/bgfx_{rep['group']}.png",
+            "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
+            "generated_by": "tools/mugen2sgdk_forge (converters/bgfx.py)",
+            "notes": f"{ch.name} por {ch.author}; fundo em tela cheia animado por paleta; geometria {rep['strategy']}."})
+    for so in snds:
+        data["entries"].append({
+            "res_symbol": f"mg_{cid}_snd_{so.group}_{so.sample}", "res_kind": "WAV",
+            "asset_path": f"mugen/{cid}/snd/{so.group}_{so.sample}.wav",
+            "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
+            "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
+            "notes": f"{ch.name} por {ch.author}; som {so.group},{so.sample}; redistribuicao nao verificada."})
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(prog="mugen2sgdk_forge")
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    a = sub.add_parser("inventory")
+    a.add_argument("root")
+    a.add_argument("--out", required=True)
+    b = sub.add_parser("install-runtime")
+    b.add_argument("project", type=Path)
+    c = sub.add_parser("convert-char")
+    c.add_argument("package", type=Path)
+    c.add_argument("--id", required=True)
+    c.add_argument("--project", type=Path, required=True)
+    args = ap.parse_args(argv)
+    if args.cmd == "inventory":
+        return inventory.main([args.root, "--out", args.out])
+    if args.cmd == "install-runtime":
+        print(json.dumps(install_runtime(args.project), indent=2))
+        return 0
+    rep = convert_char(args.package, args.id, args.project)
+    fid = rep["fidelity"]
+    print(json.dumps({"character": rep["character"], "controller_fidelity": fid["controller_fidelity"],
+                      "missing_refs": fid["missing_refs"], "sheets": rep["sprites"]["sheets"],
+                      "unsupported_images": len(rep["sprites"]["unsupported_images"]),
+                      "sounds_rom_bytes": rep["sounds"]["rom_bytes_total"],
+                      "bytecode_bytes": rep["generator"]["bytecode_bytes"]}, indent=2, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

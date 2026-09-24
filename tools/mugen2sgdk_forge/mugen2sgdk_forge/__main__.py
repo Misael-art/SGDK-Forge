@@ -206,6 +206,9 @@ def main(argv=None) -> int:
     hb.add_argument("--project", type=Path, required=True)
     fp = sub.add_parser("fix-provenance", help="migra entradas antigas do manifesto para o schema canonico")
     fp.add_argument("--project", type=Path, required=True)
+    ii = sub.add_parser("intake-index", help="gera o indice de intake MUGEN -> owners (--check: lint de deriva)")
+    ii.add_argument("--repo", type=Path, default=Path(__file__).resolve().parents[3])
+    ii.add_argument("--check", action="store_true")
     b = sub.add_parser("install-runtime")
     b.add_argument("project", type=Path)
     c = sub.add_parser("convert-char")
@@ -224,6 +227,14 @@ def main(argv=None) -> int:
     if args.cmd == "fix-provenance":
         from . import provenance as prov
         print(json.dumps(prov.migrate(args.project), indent=2))
+        return 0
+    if args.cmd == "intake-index":
+        from . import intake
+        if args.check:
+            problems = intake.check(args.repo)
+            print("\n".join(problems) or "intake-index: ok")
+            return 1 if problems else 0
+        print(json.dumps(intake.write(args.repo), indent=2))
         return 0
     if args.cmd == "install-runtime":
         print(json.dumps(install_runtime(args.project), indent=2))

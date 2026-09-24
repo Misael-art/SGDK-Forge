@@ -51,7 +51,8 @@
   - pos 17,-23 com facing -1 -> explod em (83,-23);
   - time 31 / movetime 5 exatos em ticks; poweradd 250; som S2,0 identificado pelo ponteiro.
   - Tres mutantes (TIME<->MOVETIME, POS_X<->POS_Y, sem espelho) fazem o teste falhar.
-- Pendentes: Q3 (indice de intake), etapa 3 (camera shake + palette flash).
+- Q3 fechado: indice de intake gerado (`intake-index`, lint `--check`); 12 licoes, todas pending_human_review.
+- Pendente: etapa 3 (camera shake + palette flash), so apos PR das etapas 1-2.
 
 ### Conteudo de terceiros
 Ken Masters ADV (autor Chok): uso local autorizado pelo usuario; redistribuicao nao verificada.
@@ -63,6 +64,9 @@ Regerar: `python3 -m mugen2sgdk_forge convert-char <ken_masters_adv.zip> --id ke
   so cabem guiados por eventos/indices gerados pelo compilador (portoes de comando e de tempo).
 - Numero em [State N, ...] e rotulo: controlador pertence ao ultimo Statedef (Ken reaproveita rotulos).
 - `B` = direcao tras, `b` = botao; caixa importa no .cmd.
+- Indice derivado deve ser GERADO das fontes e ter lint de deriva; indice editado a mao vira mais um status concorrente.
+- Ferramenta que chama git precisa tolerar repo sem commits (fixture de teste pegou isso no intake).
+- A sonda de runtime media a si mesma (~10% do quadro); perfilar por amostragem de PC via H-Int, nao por getSubTick.
 
 ## 2. Bloqueios iniciais
 

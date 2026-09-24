@@ -1,5 +1,11 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Q3: indice de intake MUGEN -> owners
+
+- `python3 -m mugen2sgdk_forge intake-index` gera `doc/curation/mugen_intake_index.{json,md}` a partir do registro de licoes + parecer mais recente.
+- Cada linha: licao, fonte@commit, blob sha1, owner resolvido contra o repo, status, proxima acao. O indice nao guarda status proprio nem promove nada.
+- `--check` reprova indice desatualizado, owner inexistente e promocao sem `canonized_in`. Estado atual: 12 licoes, 0 problemas. Suite: 43 testes.
+
 ## 2026-09-24 - Q2: regressao focal do SuperPause
 
 - Personagem sintetico (sem terceiros), com valores distintos por parametro, compilado e executado no host.

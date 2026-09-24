@@ -53,7 +53,8 @@ static inline void SPR_setPosition(Sprite *s, s16 x, s16 y) { s->x = x; s->y = y
 static inline void SPR_setDepth(Sprite *s, s16 v) { (void)s; (void)v; }
 static inline void SPR_setVisibility(Sprite *s, SpriteVisibility v) { s->visible = v == VISIBLE; }
 static inline void SPR_releaseSprite(Sprite *s) { free(s); }
-static inline bool XGM2_playPCM(const u8 *d, u32 l, SoundPCMChannel c) { (void)d; (void)l; (void)c; host_sound_plays++; return TRUE; }
+__attribute__((weak)) const u8 *host_last_pcm;   /* ultimo PCM tocado (testes conferem QUAL som) */
+static inline bool XGM2_playPCM(const u8 *d, u32 l, SoundPCMChannel c) { (void)l; (void)c; host_sound_plays++; host_last_pcm = d; return TRUE; }
 static inline void XGM2_stopPCM(SoundPCMChannel c) { (void)c; }
 static inline void PAL_setColors(u16 i, const u16 *p, u16 n, TransferMethod t) { (void)i; (void)p; (void)n; (void)t; }
 static inline void VDP_drawText(const char *s, u16 x, u16 y) { (void)s; (void)x; (void)y; }

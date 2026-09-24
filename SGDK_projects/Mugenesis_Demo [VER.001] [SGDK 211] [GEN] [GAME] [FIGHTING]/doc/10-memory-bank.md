@@ -47,7 +47,11 @@
   - Sons foram para doc/mugen/ken_audio_provenance.json.
   - neg1_masks vira tabela logica por analise de uso (nao por nome); um pixel renomeado continua bloqueado (fixtures + mutacao).
   - Migrar manifesto antigo: python3 -m mugen2sgdk_forge fix-provenance --project <P>.
-- Pendentes: Q2 (SuperPause), Q3 (indice de intake), etapa 3 (camera shake + palette flash).
+- Q2 SuperPause: FECHADO. Teste focal no personagem sintetico (tests/host/superpause.c):
+  - pos 17,-23 com facing -1 -> explod em (83,-23);
+  - time 31 / movetime 5 exatos em ticks; poweradd 250; som S2,0 identificado pelo ponteiro.
+  - Tres mutantes (TIME<->MOVETIME, POS_X<->POS_Y, sem espelho) fazem o teste falhar.
+- Pendentes: Q3 (indice de intake), etapa 3 (camera shake + palette flash).
 
 ### Conteudo de terceiros
 Ken Masters ADV (autor Chok): uso local autorizado pelo usuario; redistribuicao nao verificada.

@@ -1,5 +1,11 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Q2: regressao focal do SuperPause
+
+- Personagem sintetico (sem terceiros), com valores distintos por parametro, compilado e executado no host.
+- Verifica o espelhamento do X com facing -1, os ticks exatos de pausa e movetime, o dono, o power e qual som tocou.
+- Mutacao de indice ou do espelho reprova o teste. Suite: 41 testes.
+
 ## 2026-09-24 - Q1: proveniencia no schema canonico + falso positivo do neg1_masks
 
 - O conversor gravava enums fora do schema, e o manifesto inteiro invalido gerava 125 "sem proveniencia" falsos.

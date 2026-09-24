@@ -1,0 +1,168 @@
+{
+  "status": "review_proposal_no_code_patch",
+  "source_commit": "c05f88bb6dce3ff079ce7dafeb932add818de388",
+  "pr": "https://github.com/Misael-art/SGDK-Forge/pull/19",
+  "checks": {
+    "pytest": "56 passed in 18.13s",
+    "native_image_generation_attempted": false,
+    "new_emulator_run": false
+  },
+  "rgb_vectors": [
+    {
+      "word": "0x0",
+      "observed": [
+        0,
+        0,
+        0
+      ],
+      "expected_rgb252": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "word": "0x2",
+      "observed": [
+        0,
+        0,
+        0
+      ],
+      "expected_rgb252": [
+        36,
+        0,
+        0
+      ]
+    },
+    {
+      "word": "0xe",
+      "observed": [
+        109,
+        0,
+        0
+      ],
+      "expected_rgb252": [
+        252,
+        0,
+        0
+      ]
+    },
+    {
+      "word": "0xe0",
+      "observed": [
+        0,
+        109,
+        0
+      ],
+      "expected_rgb252": [
+        0,
+        252,
+        0
+      ]
+    },
+    {
+      "word": "0xe00",
+      "observed": [
+        0,
+        0,
+        109
+      ],
+      "expected_rgb252": [
+        0,
+        0,
+        252
+      ]
+    },
+    {
+      "word": "0xeee",
+      "observed": [
+        109,
+        109,
+        109
+      ],
+      "expected_rgb252": [
+        252,
+        252,
+        252
+      ]
+    }
+  ],
+  "original_heuristic": {
+    "character": "ken",
+    "variants": 12,
+    "stable": 9,
+    "clothing": 6,
+    "fx_dedicated": 5,
+    "fx_orphan_colours": 6,
+    "delta_e_limit": 10.0,
+    "needed": 20,
+    "line_slots": 15,
+    "fits": false,
+    "over_by": 5
+  },
+  "corrected_decoder_same_heuristic": {
+    "character": "ken",
+    "variants": 12,
+    "stable": 9,
+    "clothing": 6,
+    "fx_dedicated": 9,
+    "fx_orphan_colours": 9,
+    "delta_e_limit": 10.0,
+    "needed": 24,
+    "line_slots": 15,
+    "fits": false,
+    "over_by": 9
+  },
+  "correction_scope": "monkeypatch in isolated Python process only; files unchanged; not minimum palette solution",
+  "exact_duplicate": {
+    "indices": [
+      1,
+      6
+    ],
+    "same_in_all_variants": true,
+    "variant_count": 12,
+    "word": "0x68c",
+    "potential_free_slots": 1,
+    "runtime_flash_semantics_review_required": true
+  },
+  "count_counterexample": {
+    "body_slots": [
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14,
+      14
+    ],
+    "effect_word": 224,
+    "algorithm_needed": 16,
+    "distinct_visible_colours": 2
+  },
+  "sources": [
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/palette_contract.py",
+      "sha256": "81fae0a6580f2bb06f7bd4acefc57d0a1227ae3ccc6e3099378cd500cba87d4a"
+    },
+    {
+      "path": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/mugen/palette_contract_rule1.md",
+      "sha256": "c2d08f30a2b4d8d225b516eea277a69eb01f4e9befa763714647e119916bba58"
+    },
+    {
+      "path": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/mugen/stage/e4_suzaku_viabilidade.md",
+      "sha256": "a172840a69c68d50be4eaa37cecc8db542cb2fa860bb41994051c720f36ed4ec"
+    },
+    {
+      "path": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/src/mg_gen/mg_ken.c",
+      "sha256": "b2024d3cb2c29e01837a2e34a2b5110ece6beacbdacc04e91001233737e6f656"
+    }
+  ]
+}

@@ -197,6 +197,102 @@
       "canonized_in": "",
       "enforced_by": "",
       "enforcement_state": "candidate"
+    },
+    {
+      "id": "palette_line_per_fighter_budget",
+      "bucket": "art",
+      "severity": "structural",
+      "lesson": "Contrato 1 linha por lutador para corpo + efeitos: conte estaveis + roupa (slots que variam entre .act) + efeitos sem par (dE>10). Efeitos nao podem usar slots de roupa, senao mudam de cor com a variante.",
+      "evidence": "Ken (medidor corrigido): 14 classes de corpo (8 estaveis + 6 de roupa) + 9 cores so de efeito = 23 de 15; remap automatico dE 20,7 e 67% dos pixels > 10 dE. A 1a medicao (20, dE 8,6) usava a decodificacao VDP errada. Invalidados: 20 slots, dE 8,6 / 34,7%, 22,0 / 78,6%, '5 slots dedicados'. Limite: o slot unico de FX atende a TODAS as familias do personagem (contrato estatico); o piloto aprova so uma familia e o checker global segue reprovando ate a migracao completa.",
+      "proposed_canon": "skills/art/art-translation-to-vdp + mugen2sgdk_forge palette-check",
+      "proposed_owner": "art-translation-to-vdp",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "source_resolution_scale_evaluation",
+      "bucket": "art",
+      "severity": "structural",
+      "lesson": "Personagem de arcade com outra largura (CPS2 384 -> MD 320) aparece 20% mais largo. Medir tiles em escalas pequenas (x 15/16 .. 5/6) antes de redesenhar; a reamostragem so mede, o pixel final e redesenho, e hitbox escalada muda o gameplay.",
+      "evidence": "Ken, 263 quadros: x 5/6 = -17% no maior quadro e -14,3% na soma.",
+      "proposed_canon": "skills/art/megadrive-pixel-strict-rules",
+      "proposed_owner": "megadrive-pixel-strict-rules",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "art_decision_routed_to_graphic_agent",
+      "bucket": "governance",
+      "severity": "structural",
+      "lesson": "Quando a regra de hardware exige cortar cor ou pixel, registre as opcoes medidas e encaminhe a reautoria para um agente com capacidade grafica; o agente de codigo nao decide nem executa o corte.",
+      "evidence": "Decisao do usuario em 2026-09-24 sobre o estouro de paleta do Ken.",
+      "proposed_canon": "skills/art/art-creation-sourcing",
+      "proposed_owner": "art-creation-sourcing",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "meter_before_reauthoring",
+      "bucket": "governance",
+      "severity": "structural",
+      "lesson": "Antes de encomendar reautoria por causa de uma medicao, valide o medidor com oraculos independentes (vetores de hardware, contraexemplos a mao). Um teste que fixa a contagem produzida pelo proprio codigo nao e oraculo.",
+      "evidence": "palette-check decodificava branco como 109 (mascara 0xE apos o deslocamento); 56 testes passavam; a necessidade real era 23, nao 20. O mutante com a mascara antiga agora reprova 2 testes. Correcao: commit b69e92cc; 62 testes sem skip (revisor reproduziu). Limite: 23 e a necessidade do contrato estatico, nao minimo artistico global.",
+      "proposed_canon": "skills/governance/independent-quality-review",
+      "proposed_owner": "independent-quality-review",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "lossless_packing_before_sacrifice",
+      "bucket": "art",
+      "severity": "structural",
+      "lesson": "Antes de cortar cor, separe indice reservado, indice usado, classe de cor por variante (tupla em todas as variantes) e cor visual; funda classes identicas sem perda e prove por pixel e variante. Duplicata numa variante que diverge em outra NAO e fusivel.",
+      "evidence": "Ken: slots 1 e 6 = 0x68C nas 12 variantes -> 1 slot livre sem redesenho (remap_lossless_verified). Limite: a prova e algebrica; a fusao so vale depois de APLICADA aos assets (indice 6 -> 1) e verificada no candidato, antes de reusar o slot 6.",
+      "proposed_canon": "skills/art/art-translation-to-vdp",
+      "proposed_owner": "art-translation-to-vdp",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "handoff_requires_realizable_contract",
+      "bucket": "governance",
+      "severity": "structural",
+      "lesson": "Feche a aritmetica de posse (slots, tiles) antes de delegar ao artista; o executor visual nao resolve orcamento impossivel so por ser mais capaz.",
+      "evidence": "O 1o brief pedia 5 slots dedicados sobre 9 + 6 = 15 ja ocupados; o corrigido e 8 + 6 + 1. Reavaliacao followup_b69e92cc.md: o aceite do piloto e separado do aceite do personagem; waiver nunca e aprovacao.",
+      "proposed_canon": "skills/governance/aaa-pipeline-guardian",
+      "proposed_owner": "aaa-pipeline-guardian",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "capability_per_task_not_model_reputation",
+      "bucket": "governance",
+      "severity": "structural",
+      "lesson": "Divida por capacidade verificavel: ver, gerar, editar, persistir, indexar, revisar e integrar em runtime. Gerar RGB nao prova PNG indexado nem ciclo coerente, e aprovacao tecnica nao substitui julgamento visual humano.",
+      "evidence": "Parecer de 2026-09-24: o agente tecnico integra e mede, o agente grafico produz um piloto de uma familia de FX e a revisao visual e humana.",
+      "proposed_canon": "skills/art/art-creation-sourcing",
+      "proposed_owner": "art-creation-sourcing",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "scenery_planes_share_palette",
+      "bucket": "art",
+      "severity": "structural",
+      "lesson": "Na REGRA 1, BG_A e BG_B dividem uma unica PAL0: valide a UNIAO das cores dos planos, nao cada imagem isolada.",
+      "evidence": "Suzaku: BG_B 29 e BG_A 33 cores MD compostas, 56 no total, contra 15 para os dois juntos.",
+      "proposed_canon": "skills/art/multi-plane-composition",
+      "proposed_owner": "multi-plane-composition",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
     }
   ],
   "canonization_audit": {

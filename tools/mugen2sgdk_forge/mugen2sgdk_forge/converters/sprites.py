@@ -31,6 +31,12 @@ def vdp_word(rgb) -> int:
     return (b << 9) | (g << 5) | (r << 1)
 
 
+def vdp_rgb(word: int) -> tuple[int, int, int]:
+    """Inverso de vdp_word na mesma grade do conversor (nivel x 36: 0, 36, .., 252).
+    Palavra VDP = 0000 BBB0 GGG0 RRR0: cada canal ocupa 3 bits a partir do bit 1/5/9."""
+    return tuple(((word >> s) & 7) * 36 for s in (1, 5, 9))
+
+
 def _dist(a, b):
     # distancia perceptual simples (pesos de luminancia)
     return 2 * (a[0] - b[0]) ** 2 + 4 * (a[1] - b[1]) ** 2 + 3 * (a[2] - b[2]) ** 2

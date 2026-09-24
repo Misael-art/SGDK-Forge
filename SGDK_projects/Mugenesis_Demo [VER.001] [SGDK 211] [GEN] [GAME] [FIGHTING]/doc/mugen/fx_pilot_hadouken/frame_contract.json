@@ -1,0 +1,381 @@
+{
+  "family": "hadouken",
+  "actions": [
+    750,
+    751
+  ],
+  "frames": [
+    {
+      "action": 750,
+      "elem": 1,
+      "loopstart": false,
+      "sprite": [
+        -1,
+        0
+      ],
+      "empty": true,
+      "time": 1,
+      "offset": [
+        0,
+        0
+      ],
+      "hflip": false,
+      "vflip": false,
+      "blend": "",
+      "clsn1": [
+        [
+          -48,
+          -14,
+          4,
+          12
+        ]
+      ],
+      "clsn2": [
+        [
+          -19,
+          -14,
+          16,
+          12
+        ]
+      ]
+    },
+    {
+      "action": 750,
+      "elem": 2,
+      "loopstart": true,
+      "sprite": [
+        750,
+        0
+      ],
+      "empty": false,
+      "time": 3,
+      "offset": [
+        0,
+        -2
+      ],
+      "hflip": false,
+      "vflip": false,
+      "blend": "",
+      "clsn1": [
+        [
+          -14,
+          -14,
+          18,
+          12
+        ]
+      ],
+      "clsn2": [
+        [
+          -14,
+          -14,
+          18,
+          12
+        ]
+      ]
+    },
+    {
+      "action": 750,
+      "elem": 3,
+      "loopstart": false,
+      "sprite": [
+        -1,
+        0
+      ],
+      "empty": true,
+      "time": 1,
+      "offset": [
+        0,
+        0
+      ],
+      "hflip": false,
+      "vflip": false,
+      "blend": "",
+      "clsn1": [
+        [
+          -27,
+          -12,
+          20,
+          11
+        ]
+      ],
+      "clsn2": [
+        [
+          -27,
+          -12,
+          20,
+          11
+        ]
+      ]
+    },
+    {
+      "action": 750,
+      "elem": 4,
+      "loopstart": false,
+      "sprite": [
+        750,
+        1
+      ],
+      "empty": false,
+      "time": 3,
+      "offset": [
+        0,
+        -2
+      ],
+      "hflip": false,
+      "vflip": false,
+      "blend": "",
+      "clsn1": [
+        [
+          -27,
+          -12,
+          20,
+          11
+        ]
+      ],
+      "clsn2": [
+        [
+          -27,
+          -12,
+          20,
+          11
+        ]
+      ]
+    },
+    {
+      "action": 750,
+      "elem": 5,
+      "loopstart": false,
+      "sprite": [
+        -1,
+        0
+      ],
+      "empty": true,
+      "time": 1,
+      "offset": [
+        0,
+        0
+      ],
+      "hflip": false,
+      "vflip": false,
+      "blend": "",
+      "clsn1": [
+        [
+          -14,
+          -14,
+          18,
+          12
+        ]
+      ],
+      "clsn2": [
+        [
+          -14,
+          -14,
+          18,
+          12
+        ]
+      ]
+    },
+    {
+      "action": 751,
+      "elem": 1,
+      "loopstart": false,
+      "sprite": [
+        750,
+        2
+      ],
+      "empty": false,
+      "time": 3,
+      "offset": [
+        0,
+        -2
+      ],
+      "hflip": false,
+      "vflip": false,
+      "blend": "",
+      "clsn1": [],
+      "clsn2": []
+    },
+    {
+      "action": 751,
+      "elem": 2,
+      "loopstart": false,
+      "sprite": [
+        750,
+        3
+      ],
+      "empty": false,
+      "time": 2,
+      "offset": [
+        0,
+        -2
+      ],
+      "hflip": false,
+      "vflip": false,
+      "blend": "",
+      "clsn1": [],
+      "clsn2": []
+    },
+    {
+      "action": 751,
+      "elem": 3,
+      "loopstart": false,
+      "sprite": [
+        750,
+        4
+      ],
+      "empty": false,
+      "time": 3,
+      "offset": [
+        0,
+        -2
+      ],
+      "hflip": false,
+      "vflip": false,
+      "blend": "",
+      "clsn1": [],
+      "clsn2": []
+    }
+  ],
+  "sprites": [
+    {
+      "sprite": [
+        750,
+        0
+      ],
+      "size": [
+        43,
+        32
+      ],
+      "axis": [
+        20,
+        17
+      ],
+      "sheet": "g750_fx",
+      "sheet_palette": "fx",
+      "cell": [
+        56,
+        32
+      ],
+      "cell_axis": [
+        33,
+        17
+      ],
+      "tiles_8x8_nonempty": 22,
+      "hw_sprites": 2,
+      "dma_bytes_if_uploaded": 704
+    },
+    {
+      "sprite": [
+        750,
+        1
+      ],
+      "size": [
+        56,
+        28
+      ],
+      "axis": [
+        33,
+        15
+      ],
+      "sheet": "g750_fx",
+      "sheet_palette": "fx",
+      "cell": [
+        56,
+        32
+      ],
+      "cell_axis": [
+        33,
+        17
+      ],
+      "tiles_8x8_nonempty": 26,
+      "hw_sprites": 2,
+      "dma_bytes_if_uploaded": 832
+    },
+    {
+      "sprite": [
+        750,
+        2
+      ],
+      "size": [
+        26,
+        20
+      ],
+      "axis": [
+        3,
+        11
+      ],
+      "sheet": "g750_fx",
+      "sheet_palette": "fx",
+      "cell": [
+        56,
+        32
+      ],
+      "cell_axis": [
+        33,
+        17
+      ],
+      "tiles_8x8_nonempty": 14,
+      "hw_sprites": 1,
+      "dma_bytes_if_uploaded": 448
+    },
+    {
+      "sprite": [
+        750,
+        3
+      ],
+      "size": [
+        15,
+        25
+      ],
+      "axis": [
+        -8,
+        14
+      ],
+      "sheet": "g750_fx",
+      "sheet_palette": "fx",
+      "cell": [
+        56,
+        32
+      ],
+      "cell_axis": [
+        33,
+        17
+      ],
+      "tiles_8x8_nonempty": 8,
+      "hw_sprites": 1,
+      "dma_bytes_if_uploaded": 256
+    },
+    {
+      "sprite": [
+        750,
+        4
+      ],
+      "size": [
+        28,
+        28
+      ],
+      "axis": [
+        5,
+        16
+      ],
+      "sheet": "g750_fx",
+      "sheet_palette": "fx",
+      "cell": [
+        56,
+        32
+      ],
+      "cell_axis": [
+        33,
+        17
+      ],
+      "tiles_8x8_nonempty": 14,
+      "hw_sprites": 1,
+      "dma_bytes_if_uploaded": 448
+    }
+  ],
+  "rules": [
+    "preservar trajetoria, ponto de origem (eixo), limites de quadro e tempos do AIR",
+    "os quadros vazios (-1) sao parte do desenho (piscar): manter",
+    "nao mudar Clsn, corpo, escala nem hitbox"
+  ]
+}

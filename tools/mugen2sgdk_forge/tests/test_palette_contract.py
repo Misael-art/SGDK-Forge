@@ -93,9 +93,10 @@ def ken():
 
 
 def test_ken_structure(ken):
-    # fatos estruturais: 12 variantes, 8 classes estaveis + 6 de roupa, slots 1 e 6 iguais em todas
-    assert (ken["variants"], ken["body_indices_used"], ken["stable_classes"], ken["varying_classes"]) == (12, 15, 8, 6)
-    assert ken["lossless_merges"] == {"1": [1, 6]} and ken["remap_lossless_verified"]
+    # projeto com a fusao 6 -> 1 APLICADA pelo conversor (o estado anterior e provado em test_palette_merge):
+    # 12 variantes, 8 classes estaveis + 6 de roupa, indice 6 livre, nada mais para fundir
+    assert (ken["variants"], ken["body_indices_used"], ken["stable_classes"], ken["varying_classes"]) == (12, 14, 8, 6)
+    assert ken["unused_body_indices"] == [6] and ken["lossless_merges"] == {} and ken["remap_lossless_verified"]
     assert ken["free_after_lossless"] == 1
     assert not ken["fits"] and ken["exact_need"] > pc.LINE_SLOTS
 

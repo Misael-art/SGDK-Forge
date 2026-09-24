@@ -255,7 +255,7 @@ def ramp_metrics(cols, bg=(0x20, 0x28, 0x38)) -> dict:
             "median_deltaE_vs_bg": round(de[len(de) // 2], 1)}
 
 
-def convert(ch, used_only: bool = True, vivid_clothing: bool = False) -> SpriteResult:
+def convert(ch, used_only: bool = True, vivid_clothing: bool = False, merge_identical_slots: bool = True) -> SpriteResult:
     rep: dict = {"unsupported_images": [], "split_groups": [], "hw_over_limit": [], "split_images": []}
     used = {(f.group, f.image) for a in ch.anims.values() for f in a.frames if f.group >= 0}
     sprites = [s for s in ch.sprites if not used_only or (s.group, s.image) in used]
@@ -345,6 +345,27 @@ def convert(ch, used_only: bool = True, vivid_clothing: bool = False) -> SpriteR
         words = [0] + [vdp_word(c) for c in cols]
         variants.append((name, (words + [0] * 16)[:16]))
     fx_words = ([0] + [vdp_word(c) for c in fx_cols] + [0] * 16)[:16]
+
+    # 3b) fusao SEM PERDA (REGRA 1): slots de corpo com a mesma palavra VDP em TODAS as variantes
+    #     viram um so (o menor); os outros ficam livres (palavra 0) para uso declarado (ex.: FX).
+    #     Mesma cor em toda variante => mesmo pixel em toda variante e em qualquer efeito por cor.
+    rep["merged_body_slots"] = {}
+    if merge_identical_slots and variants:
+        classes: dict[tuple, list[int]] = {}
+        for slot in range(1, 16):
+            if any(w[slot] for _, w in variants):
+                classes.setdefault(tuple(w[slot] for _, w in variants), []).append(slot)
+        move = {sl: min(g) for g in classes.values() if len(g) > 1 for sl in g if sl != min(g)}
+        if move:
+            for m in (body_map.remap, body_map.approx_indices):
+                for i, sl in list(m.items()):
+                    m[i] = move.get(sl, sl)
+            for _, w in variants:
+                for sl in move:
+                    w[sl] = 0
+            rep["merged_body_slots"] = {str(k): v for k, v in sorted(move.items())}
+    # livre = slot movido pela fusao (explicito). NAO usar "palavra 0": 0x000 e o preto, uma cor real.
+    rep["free_body_slots"] = sorted(int(k) for k in rep["merged_body_slots"])
 
     # 4) sheets por grupo (e por parte, quando a imagem precisa ser dividida)
     by_group: dict[tuple, list] = {}

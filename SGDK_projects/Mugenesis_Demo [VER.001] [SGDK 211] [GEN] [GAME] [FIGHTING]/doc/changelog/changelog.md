@@ -1,5 +1,21 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Fusao sem perda 6 -> 1 aplicada + pacote do piloto de FX (hadouken)
+
+- **Conversor:** funde slots de corpo com a mesma palavra VDP em TODAS as variantes (padrao ligado; `--no-merge-slots` desliga).
+  - Ken: 6 -> 1; o indice 6 fica livre para efeito.
+  - Prova: 0 divergencias em 772 704 pixels opacos x 12 variantes (67 sheets de corpo) + retrato (75 px movidos).
+- **Bug pego no caminho:** a sombra escolhia o slot mais escuro e caia no slot liberado (palavra 0x000 = preto).
+  - Agora slot livre e explicito, nunca "palavra 0".
+  - Testes + mutante.
+- **ROM** `9530c0a1...`: 5,8% (70/1200); pico de CPU 145, 10 sprites/linha, 288 px/linha. Antes: 5,7% (68). Os tiles mudam de conteudo, e o dedup/DMA pode variar.
+- **Proveniencia:** a reconversao apagaria notas escritas a mao no manifesto e no audio; essas mudancas foram revertidas.
+- **Pacote do piloto:** `fx-pilot`, em `doc/mugen/fx_pilot_hadouken/` (brief, contrato de quadros, papeis da paleta, orcamento, catalogo de FX, hashes). Pixels ficam fora do Git.
+- **Achado:** a paleta de efeitos compartilhada leva o nucleo preto do hadouken a vermelho (216,0,0) e colapsa 5 azuis em 1.
+  - O `current_md` do pacote e referencia a NAO seguir.
+  - Sem correcao na linha antiga: os efeitos migram para a linha do lutador.
+- Suite: 65 testes.
+
 ## 2026-09-24 - REGRA 1: contrato de paletas + validacao no conversor (migracao aguarda arte)
 
 - Contrato: PAL0 cenario, PAL1/PAL2 lutador (corpo + efeitos), PAL3 HUD; emprestimos declarados (fundo de super na linha do cenario; flash na linha do lutador).

@@ -55,10 +55,10 @@ def _used_sounds(ch) -> set[int]:
     return used
 
 
-def convert_char(pkg: Path, char_id: str, project: Path, vivid_clothing: bool = False) -> dict:
+def convert_char(pkg: Path, char_id: str, project: Path, vivid_clothing: bool = False, merge_slots: bool = True) -> dict:
     src = Source(pkg)
     ch = character.load(src)
-    spr = spr_conv.convert(ch, vivid_clothing=vivid_clothing)
+    spr = spr_conv.convert(ch, vivid_clothing=vivid_clothing, merge_identical_slots=merge_slots)
     used = _used_sounds(ch)
     snds, snd_rep = snd_conv.convert(ch, used)
     fx = bgfx_conv.detect(ch, spr.report["unsupported_images"])
@@ -221,6 +221,11 @@ def main(argv=None) -> int:
     pc.add_argument("--id", required=True)
     pc.add_argument("--delta-e", type=float, default=10.0)
     pc.add_argument("--waiver", help="excecao DECLARADA (motivo): registrada no relatorio; nao aprova (rc continua 1)")
+    fp2 = sub.add_parser("fx-pilot", help="pacote de passagem de UMA familia de FX para o agente grafico")
+    fp2.add_argument("package", type=Path)
+    fp2.add_argument("--project", type=Path, required=True)
+    fp2.add_argument("--name", required=True)
+    fp2.add_argument("--actions", required=True, help="acoes AIR da familia, ex.: 750,751")
     b = sub.add_parser("install-runtime")
     b.add_argument("project", type=Path)
     c = sub.add_parser("convert-char")
@@ -229,6 +234,8 @@ def main(argv=None) -> int:
     c.add_argument("--project", type=Path, required=True)
     c.add_argument("--vivid-clothing", action="store_true",
                    help="redistribui o brilho das rampas de roupa (matiz/saturacao preservados; ver relatorio)")
+    c.add_argument("--no-merge-slots", action="store_true",
+                   help="nao funde slots de corpo identicos em todas as variantes (a fusao e sem perda; padrao ligado)")
     args = ap.parse_args(argv)
     if args.cmd == "inventory":
         return inventory.main([args.root, "--out", args.out])
@@ -274,10 +281,15 @@ def main(argv=None) -> int:
             rep["waiver"] = args.waiver
         print(json.dumps(rep, indent=2, ensure_ascii=False))
         return 0 if rep["fits"] else 1
+    if args.cmd == "fx-pilot":
+        from . import fx_pilot
+        print(json.dumps(fx_pilot.build(args.package, args.project, args.name,
+                                        [int(a) for a in args.actions.split(",")]), indent=2, ensure_ascii=False))
+        return 0
     if args.cmd == "install-runtime":
         print(json.dumps(install_runtime(args.project), indent=2))
         return 0
-    rep = convert_char(args.package, args.id, args.project, args.vivid_clothing)
+    rep = convert_char(args.package, args.id, args.project, args.vivid_clothing, not args.no_merge_slots)
     fid = rep["fidelity"]
     print(json.dumps({"character": rep["character"], "controller_fidelity": fid["controller_fidelity"],
                       "missing_refs": fid["missing_refs"], "sheets": rep["sprites"]["sheets"],

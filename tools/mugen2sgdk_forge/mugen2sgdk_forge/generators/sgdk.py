@@ -172,7 +172,8 @@ def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
         words = spr.body_variants[0][1]
         def _lum(w):
             return ((w >> 1) & 7) * 3 + ((w >> 5) & 7) * 6 + ((w >> 9) & 7)
-        dark = min(range(1, 16), key=lambda k: _lum(words[k]))
+        free = set(spr.report.get("free_body_slots", []))      # slot livre sera de FX: a sombra nao pode morar nele
+        dark = min((k for k in range(1, 16) if k not in free), key=lambda k: _lum(words[k]))
         px = bytes(dark if flat.getpixel((x, y)) >= 96 and (x + y) % 2 == 0 else 0
                    for y in range(8) for x in range(32))
         im = _Im.frombytes("P", (32, 8), px)

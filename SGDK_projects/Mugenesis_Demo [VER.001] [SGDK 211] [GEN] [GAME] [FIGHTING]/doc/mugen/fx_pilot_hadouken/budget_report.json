@@ -1,0 +1,61 @@
+{
+  "limits": {
+    "max_tiles_8x8_per_frame": 26,
+    "max_hw_sprites_per_frame": 2,
+    "origin": "limite de PROJETO do piloto = pior quadro atual da familia (nao piora o que existe)"
+  },
+  "estimate_source": {
+    "per_sprite": [
+      {
+        "sprite": [
+          750,
+          0
+        ],
+        "tiles_8x8_nonempty": 22,
+        "hw_sprites": 2,
+        "dma_bytes_if_uploaded": 704
+      },
+      {
+        "sprite": [
+          750,
+          1
+        ],
+        "tiles_8x8_nonempty": 26,
+        "hw_sprites": 2,
+        "dma_bytes_if_uploaded": 832
+      },
+      {
+        "sprite": [
+          750,
+          2
+        ],
+        "tiles_8x8_nonempty": 14,
+        "hw_sprites": 1,
+        "dma_bytes_if_uploaded": 448
+      },
+      {
+        "sprite": [
+          750,
+          3
+        ],
+        "tiles_8x8_nonempty": 8,
+        "hw_sprites": 1,
+        "dma_bytes_if_uploaded": 256
+      },
+      {
+        "sprite": [
+          750,
+          4
+        ],
+        "tiles_8x8_nonempty": 14,
+        "hw_sprites": 1,
+        "dma_bytes_if_uploaded": 448
+      }
+    ],
+    "method": "tiles 8x8 nao vazios da celula; hw_sprites = blocos 32x32 nao vazios (_hw_estimate); dma = tiles x 32 B. ESTIMATIVA: nao e a decomposicao final do rescomp"
+  },
+  "compiled": {
+    "status": "a medir",
+    "how": "maxNumTile/numSprite do SpriteDefinition na ROM (symbol.txt) + captura com dois lutadores, HUD e FX juntos antes de aceite global"
+  }
+}

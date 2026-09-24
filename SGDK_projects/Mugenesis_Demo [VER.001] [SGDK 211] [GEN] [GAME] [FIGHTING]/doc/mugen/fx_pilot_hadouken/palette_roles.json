@@ -1,0 +1,184 @@
+{
+  "line": "linha do lutador (PAL1/PAL2)",
+  "budget": "8 estaveis + 6 de roupa + 1 de efeito",
+  "stable_usable_by_fx": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    11,
+    15
+  ],
+  "clothing_forbidden_for_fx": [
+    7,
+    9,
+    10,
+    12,
+    13,
+    14
+  ],
+  "fx_dedicated": [
+    6
+  ],
+  "fx_slot_rule": "o slot de efeito e UM so para todas as familias do personagem: escolher a cor olhando o catalogo inteiro (fx_catalog.json), nao so este piloto",
+  "slots": [
+    {
+      "slot": 0,
+      "role": "transparent",
+      "vdp_word": "0x000",
+      "rgb": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "slot": 1,
+      "role": "stable_usable_by_fx",
+      "vdp_word": "0x68C",
+      "rgb": [
+        216,
+        144,
+        108
+      ]
+    },
+    {
+      "slot": 2,
+      "role": "stable_usable_by_fx",
+      "vdp_word": "0x0AE",
+      "rgb": [
+        252,
+        180,
+        0
+      ]
+    },
+    {
+      "slot": 3,
+      "role": "stable_usable_by_fx",
+      "vdp_word": "0x6CE",
+      "rgb": [
+        252,
+        216,
+        108
+      ]
+    },
+    {
+      "slot": 4,
+      "role": "stable_usable_by_fx",
+      "vdp_word": "0x8CE",
+      "rgb": [
+        252,
+        216,
+        144
+      ]
+    },
+    {
+      "slot": 5,
+      "role": "stable_usable_by_fx",
+      "vdp_word": "0xAEE",
+      "rgb": [
+        252,
+        252,
+        180
+      ]
+    },
+    {
+      "slot": 6,
+      "role": "fx_dedicated",
+      "vdp_word": null,
+      "rgb": null
+    },
+    {
+      "slot": 7,
+      "role": "clothing_forbidden_for_fx",
+      "vdp_word": "0x466",
+      "rgb": [
+        108,
+        108,
+        72
+      ]
+    },
+    {
+      "slot": 8,
+      "role": "stable_usable_by_fx",
+      "vdp_word": "0x006",
+      "rgb": [
+        108,
+        0,
+        0
+      ]
+    },
+    {
+      "slot": 9,
+      "role": "clothing_forbidden_for_fx",
+      "vdp_word": "0x688",
+      "rgb": [
+        144,
+        144,
+        108
+      ]
+    },
+    {
+      "slot": 10,
+      "role": "clothing_forbidden_for_fx",
+      "vdp_word": "0x88A",
+      "rgb": [
+        180,
+        144,
+        144
+      ]
+    },
+    {
+      "slot": 11,
+      "role": "stable_usable_by_fx",
+      "vdp_word": "0x468",
+      "rgb": [
+        144,
+        108,
+        72
+      ]
+    },
+    {
+      "slot": 12,
+      "role": "clothing_forbidden_for_fx",
+      "vdp_word": "0x8AC",
+      "rgb": [
+        216,
+        180,
+        144
+      ]
+    },
+    {
+      "slot": 13,
+      "role": "clothing_forbidden_for_fx",
+      "vdp_word": "0xACC",
+      "rgb": [
+        216,
+        216,
+        180
+      ]
+    },
+    {
+      "slot": 14,
+      "role": "clothing_forbidden_for_fx",
+      "vdp_word": "0xEEE",
+      "rgb": [
+        252,
+        252,
+        252
+      ]
+    },
+    {
+      "slot": 15,
+      "role": "stable_usable_by_fx",
+      "vdp_word": "0x000",
+      "rgb": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

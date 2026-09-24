@@ -63,6 +63,7 @@
   - Divisao de papeis: o agente tecnico integra e mede; o agente grafico produz candidatos; a aprovacao visual e humana.
   - Fusao 6 -> 1 APLICADA (conversor, sem perda, provada). Pacote do piloto hadouken pronto em `doc/mugen/fx_pilot_hadouken/`, aguardando o agente grafico.
   - Defeito conhecido na linha antiga de FX: nucleo preto -> vermelho.
+- Proveniencia: decisao humana vive em `doc/mugen/provenance_annotations.json` (so acrescentada pelo conversor). Aprovacao vale so para o sha256 aprovado.
 - Dieta de VRAM (2026-09-24): reserva do corpo 102 (guarda para sheet maior), fundo de super sob demanda, especial compacto no rodape (BG_A linha 26, precisa de scroll 0 quando houver palco).
   - Livre para cenario: 180 tiles, 452 com emprestimo. O pool de sprites (600) ainda nao foi medido.
   - Achado: o super passa de 320 px/linha em 128 de 1200 quadros (ja na main).

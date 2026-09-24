@@ -1,5 +1,11 @@
 # E4.0 — Suzaku Castle (SSF2 Ryu): memo de viabilidade
 
+> **Atualizacao 2026-09-24 (REGRA 1 + dieta de VRAM):** os numeros de orcamento abaixo sao do estado de ENTAO (90 tiles, 8 cores).
+> - VRAM livre para cenario agora: **180 tiles**, **452** com o emprestimo do fundo de super (PR #17).
+> - Paleta: pela REGRA 1, BG_A e BG_B **compartilham uma unica PAL0** (15 entradas visiveis para os dois planos juntos), nao 15 cada. O que se valida e a UNIAO das cores dos dois planos. O Suzaku bruto usa 56 cores MD no total; os planos compostos, 29 (BG_B) e 33 (BG_A), com sobreposicao.
+> - Nao aplicar a escala 384->320 ao palco: a fonte ja e 320x240; o corte e vertical (240->224).
+> - Reautoria: so uma faixa representativa pelo agente grafico, em paralelo, e o palco completo so depois do piloto de FX aceito e do orcamento fechado (largura 640, chao y=200, planos, tiles residentes, uploads e restauracao pos-super).
+
 **Veredito: NO-GO para a E4.1 como "inclusao direta".** Mesmo a reducao mais agressiva medida estoura a VRAM livre da luta em 7,9x. A paleta estoura em 7x. Os caminhos de GO pedem decisao humana (secao 6).
 
 Todos os numeros vem de `python3 -m mugen2sgdk_forge stage-measure` (saida em `suzaku_measure.json`, ao lado deste memo). A ROM medida esta citada pelo hash.

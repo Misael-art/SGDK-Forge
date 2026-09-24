@@ -20,29 +20,37 @@
 
 A migracao comeca pela linha dos lutadores, que depende da decisao de arte da secao 2. Depois vem o HUD em PAL3 e o cenario com PAL0 inteira.
 
-## 2. Ken nao cabe: 20 slots para 15 (medido)
+## 2. Ken nao cabe (medicao CORRIGIDA)
 
-| parte | slots |
+> **Correcao (parecer `doc/curation/2026_09_24/palette_art_handoff/`):** a 1a versao deste doc decodificava a palavra VDP com mascara `0xE` depois do deslocamento. O bit baixo de cada canal se perdia, e o branco maximo virava 109. Os numeros "20 slots", "dE 8,6 / 34,7%" e "5 dedicados" eram invalidos. Agora a decodificacao e `converters.sprites.vdp_rgb`, a mesma grade do conversor, com teste de vetores de hardware.
+
+| medida EXATA | valor |
 |---|---|
-| corpo estavel (pele, cabelo, preto, branco; iguais nas 12 variantes) | 9 |
-| rampa de roupa (varia entre as 12 variantes; calibrada em 6 degraus no P2) | 6 |
-| cores de efeito sem par no corpo (dE > 10), ja agrupadas | 5 |
-| **total** | **20 (estoura por 5)** |
+| indices de corpo usados | 15 de 15 |
+| classes de corpo (tupla de cores do slot nas 12 variantes) | **14** = 8 estaveis + 6 de roupa |
+| fusao sem perda | slots **1 e 6** iguais em toda variante; provada pixel a pixel (`remap_lossless_verified`) |
+| livre apos a fusao | **1** |
+| cores exatas de efeito | 11; **9** sem classe estavel igual (nenhuma dentro de dE 10) |
+| necessidade exata | **23** para 15 (estoura por 8) |
 
-`palette-check` hoje: Ken reprova (`needed` 20, `over_by` 5). E o resultado honesto, mantido ate a decisao.
+`palette-check`: `status: fail`, rc=1. O `--waiver` so registra a excecao (`fail_waived`), nunca aprova.
 
-### Opcoes registradas (prioridade definida pelo usuario: ajuste artistico por agente grafico dedicado)
-1. **PRIORIDADE — reautoria dos efeitos por um agente com capacidade grafica** (entende e gera imagem).
-   - Alvo: os efeitos usam os 9 slots estaveis + 1 livre + no maximo 5 dedicados, sem mexer na roupa.
-   - Brief na secao 4. A saida entra como `technical_candidate`; `visually_approved` exige humano.
-2. Roupa 6->3 degraus + efeitos 5->3 dedicados.
-   - Perde profundidade de sombra no uniforme e desfaz parte da calibracao P2.
-3. Efeitos so com cores do corpo (vizinho mais proximo).
-   - dE medio ponderado 8,6; 34,7% dos pixels de efeito mudam > 10 dE.
-   - A cor do efeito passaria a mudar com a variante de roupa.
-   - So com os 9 estaveis: dE 22,0 e 78,6% dos pixels mudam.
-4. Linha de efeitos compartilhada (desvio da REGRA 1).
-   - O lutador nao perde nada, mas HUD e cenario dividem PAL0 e o cenario fica com 8 cores.
+### Orcamento realizavel (base do piloto)
+**8 estaveis + 6 de roupa + 1 de efeito = 15.**
+- Os efeitos precisam ser redesenhados com as 8 cores estaveis, o 1 slot recuperado e a transparencia.
+- Nao existem outros slots livres.
+- As estaveis sao quase todas tons quentes de pele/cabelo e escuros. Manter o hadouken azul/branco com isso e desafio de direcao de arte, nao consequencia de quantizacao.
+
+### Opcoes (prioridade do usuario: piloto com agente grafico)
+1. **PRIORIDADE — piloto de UMA familia de FX** pelo agente grafico, no orcamento 8+6+1 (secao 4).
+   - Se nao atingir a leitura: devolver alternativas medidas e pedir decisao de compromisso (rampas/materiais, estetica ou contrato).
+2. Roupa 6 -> menos degraus para abrir slots de efeito.
+   - Perde profundidade no uniforme e desfaz parte do P2. Precisa de decisao.
+3. Efeitos remapeados para as cores do corpo por maquina (corrigido):
+   - com os 15 do corpo: dE medio **20,7**, **67,0%** dos pixels > 10 dE, pior 46,4; e a cor do efeito mudaria com a roupa;
+   - so com as estaveis: dE **37,2**, **93,2%** > 10 dE.
+   - Perda visivel: descartado como solucao automatica.
+4. Linha de efeitos compartilhada (desvio da REGRA 1): HUD e cenario dividem PAL0.
 
 ## 3. Avaliacao de dimensao (pedido do usuario: CPS2 384 contra MD/Neo Geo 320)
 
@@ -59,18 +67,22 @@ Medida nos 263 quadros de corpo. O redimensionamento aqui e so instrumento de me
 | x 15/16, y 15/16 | -9,6% | -11,2% | 118 |
 | x 5/6, y 15/16 | -19,1% | -19,3% | 118 |
 
-Leitura:
+Leitura (com o limite do parecer, F4):
+- Ocupacao horizontal na tela e aspecto de exibicao sao problemas distintos. x 5/6 e uma alternativa estetica medida, nao restauracao universal de proporcao.
+- **Fora desta rodada:** nao escalar corpo nem hitbox enquanto a paleta estiver aberta.
 - So no eixo x, 5/6 devolve a proporcao que o artista desenhou para 384 de largura e reduz ~17% o slot fixo (102 -> ~85 tiles por lutador) e ~14% a ROM de sprites.
 - Mexer no y reduz presenca na tela; so vale se a leitura do golpe nao cair.
 - Reamostragem automatica quebra pixel art (linhas de 1 px somem ou dobram). A escala escolhida tem de ser **redesenhada pelo agente grafico** e comparada lado a lado com o 1:1 (silhueta, leitura dos golpes, hitbox).
 - Hitboxes (Clsn) escalam junto. Isso muda o alcance em jogo, e e decisao de gameplay que precisa ser declarada.
 
-## 4. Brief para o agente grafico (reautoria)
-- Entrada: sheets `res/mugen/ken/sheets/*_fx.png`, paleta de corpo (12 variantes) e esta medicao.
-- Paleta alvo, linha unica de 15:
-  - slots estaveis 1,2,3,4,5,6,8,11,15 (nao mudar);
-  - roupa 7,9,10,12,13,14 (nao usar em efeitos: mudam por variante);
-  - livres para efeito: o que sobrar (hoje 0 alem do duplicado; cabem ate 5 so se a roupa ceder, o que e decisao).
-- Preservar: a leitura do hadouken (azul/branco) e das chamas do shoryuken; o contraste contra o cenario.
-- Opcional, com comparacao 1:1: variante x 5/6 dos quadros de corpo, para decisao humana.
-- Saida: PNG indexado + relatorio. Entra no manifesto como derivado de terceiros reautorado. `palette-check` precisa passar sem `--waiver`.
+## 4. Brief para o agente grafico (corrigido; o pacote completo vai no handoff do piloto)
+- Tarefa: piloto de **uma** familia de FX. Nao mexer em corpo, escala nem hitbox.
+- Paleta alvo (linha do lutador, 15 slots):
+  - estaveis 1,2,3,4,5,8,11,15 (o slot 6 e fundido no 1, sem perda);
+  - roupa 7,9,10,12,13,14 (proibidos em efeito: mudam por variante);
+  - **1** slot de efeito (o antigo 6);
+  - nao inventar cores livres.
+- Preservar funcao, trajetoria, ponto de origem, limites de quadro e timing do AIR.
+- Entregar duas alternativas de direcao + um ciclo completo da escolhida, em tamanho nativo, com fundo claro e escuro.
+- A saida e candidata: a indexacao e a conversao passam pelo pipeline tecnico; `visually_approved` exige revisao humana.
+- `palette-check` deve passar sem `--waiver` depois da integracao.

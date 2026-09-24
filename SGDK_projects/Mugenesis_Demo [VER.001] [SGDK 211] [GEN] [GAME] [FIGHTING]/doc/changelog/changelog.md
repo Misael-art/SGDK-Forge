@@ -4,10 +4,14 @@
 
 - Contrato: PAL0 cenario, PAL1/PAL2 lutador (corpo + efeitos), PAL3 HUD; emprestimos declarados (fundo de super na linha do cenario; flash na linha do lutador).
 - `palette-check`: reprova personagem com mais de 15 slots; excecao so com `--waiver` registrado. 3 testes; suite 56.
-- Ken medido: 9 estaveis + 6 de roupa + 5 so de efeito = **20 slots** (estoura por 5). Reprova ate a decisao de arte.
+- **Correcao pos-parecer:** o medidor decodificava a palavra VDP com a mascara errada (branco = 109). Agora usa `vdp_rgb` do conversor, com vetores de hardware em teste.
+- Ken, exato: 14 classes de corpo (8 estaveis + 6 de roupa); os slots 1 e 6 sao iguais em todas as variantes (fusao sem perda, verificada) -> 1 slot livre; efeitos com 9 cores sem par.
+- Necessidade exata: **23 de 15**. Orcamento realizavel do piloto: 8 + 6 + 1.
+- Remap automatico dos efeitos para as cores do corpo: dE 20,7 e 67% dos pixels > 10 dE (descartado).
+- Waiver registra mas nao aprova (rc=1); entrada invalida da rc=2. Suite: 62 testes.
 - Opcoes registradas; prioridade do usuario: reautoria dos efeitos por agente grafico dedicado.
 - Dimensao avaliada: x 5/6 (proporcao CPS2) = -17% no maior quadro e -14% na soma. So medicao; pixel final exige redesenho.
-- Registro: `doc/mugen/palette_contract_rule1.md`. Nada foi migrado e nenhuma cor foi cortada.
+- Registro: `doc/mugen/palette_contract_rule1.md`. O memo do Suzaku foi atualizado (PAL0 compartilhada, VRAM 180/452). Nada foi migrado e nenhuma cor foi cortada.
 
 ## 2026-09-24 - Dieta de VRAM da luta + especial compacto no rodape (REGRA 2)
 

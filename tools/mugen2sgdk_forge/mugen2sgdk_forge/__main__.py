@@ -220,7 +220,7 @@ def main(argv=None) -> int:
     pc.add_argument("--project", type=Path, required=True)
     pc.add_argument("--id", required=True)
     pc.add_argument("--delta-e", type=float, default=10.0)
-    pc.add_argument("--waiver", help="excecao DECLARADA (motivo); vai no relatorio, rc=0")
+    pc.add_argument("--waiver", help="excecao DECLARADA (motivo): registrada no relatorio; nao aprova (rc continua 1)")
     b = sub.add_parser("install-runtime")
     b.add_argument("project", type=Path)
     c = sub.add_parser("convert-char")
@@ -263,11 +263,17 @@ def main(argv=None) -> int:
         return 0
     if args.cmd == "palette-check":
         from . import palette_contract
-        rep = palette_contract.check_project(args.project, args.id, args.delta_e)
+        try:
+            rep = palette_contract.check_project(args.project, args.id, args.delta_e)
+        except ValueError as e:
+            print(json.dumps({"status": "invalid_input", "error": str(e)}, ensure_ascii=False))
+            return 2
+        # o waiver so REGISTRA uma excecao de investigacao: reprova de recurso continua reprova (rc=1)
+        rep["status"] = "pass" if rep["fits"] else ("fail_waived" if args.waiver else "fail")
         if args.waiver:
             rep["waiver"] = args.waiver
         print(json.dumps(rep, indent=2, ensure_ascii=False))
-        return 0 if rep["fits"] or args.waiver else 1
+        return 0 if rep["fits"] else 1
     if args.cmd == "install-runtime":
         print(json.dumps(install_runtime(args.project), indent=2))
         return 0

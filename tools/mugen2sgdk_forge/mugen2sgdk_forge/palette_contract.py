@@ -1,9 +1,13 @@
 """REGRA 1 -- contrato de paletas da engine: cada lutador tem UMA linha de CRAM (15 cores + transparente)
-para corpo E efeitos. Mede o que um personagem convertido precisa e reprova quem estoura.
+para corpo E efeitos. Mede o que um personagem convertido ocupa e reprova quem estoura.
 
-Slots necessarios = estaveis do corpo (iguais em todas as variantes .act) + roupa (variam entre
-variantes) + cores de efeito sem par estavel a dE76 <= limite (agrupadas entre si no mesmo limite).
-Medido nos dados GERADOS (mg_<id>.c + sheets PNG do .res), que e o que vai a ROM.
+O relatorio separa o que e EXATO do que e ESTIMATIVA:
+- exato: slots reservados; indices usados nos sheets; classe de cada slot = a tupla de palavras VDP
+  dele em TODAS as variantes; classes iguais podem ser fundidas sem perda (mesma cor em toda variante,
+  portanto o mesmo resultado em qualquer transformacao que dependa so da cor, como o flash);
+- estimativa: cores de efeito "proximas" (dE76 <= limite) de uma classe estavel. Isso e aproximacao que
+  precisa ser feita e julgada, nao prova de que a cor sobra.
+Cores decodificadas com `converters.sprites.vdp_rgb` (a mesma grade do conversor).
 """
 from __future__ import annotations
 
@@ -14,19 +18,17 @@ from pathlib import Path
 
 from PIL import Image
 
+from .converters.sprites import vdp_rgb
+
 LINE_SLOTS = 15
 
-# mapa de posse estatica (REGRA 1). "emprestimo" e declarado, com janela e restauracao.
+# mapa de posse estatica (REGRA 1). Emprestimo e declarado, com janela e restauracao.
 SLOT_MAP = {
-    "PAL0": {"owner": "cenario (BG_A + BG_B)", "loan": "fundo de super enquanto cobre a tela; restaura em bgfx_end/KO/fim de luta"},
+    "PAL0": {"owner": "cenario (BG_A + BG_B compartilham a linha)", "loan": "fundo de super enquanto cobre a tela; restaura em bgfx_end/KO/fim de luta"},
     "PAL1": {"owner": "lutador P1 (corpo + efeitos)", "loan": "flash de impacto por tabela de swap pre-declarada, so nesta linha"},
     "PAL2": {"owner": "lutador P2 (corpo + efeitos)", "loan": "flash de impacto por tabela de swap pre-declarada, so nesta linha"},
     "PAL3": {"owner": "HUD", "loan": None},
 }
-
-
-def _rgb(w: int) -> tuple[int, int, int]:
-    return tuple(((w >> s) & 0xE) * 255 // 14 for s in (1, 5, 9))
 
 
 def _lab(c):
@@ -42,26 +44,62 @@ def delta_e(a, b) -> float:
     return math.dist(_lab(a), _lab(b))
 
 
-def slots_needed(variants: list[list[int]], fxpal: list[int], fx_pixels: dict[int, int], limit: float = 10.0) -> dict:
-    """variants: paletas de corpo (16 palavras VDP cada); fxpal: paleta de efeitos; fx_pixels: indice -> pixels."""
-    stable = [i for i in range(1, 16) if len({v[i] for v in variants}) == 1]
-    clothing = [i for i in range(1, 16) if i not in stable]
-    body = [_rgb(variants[0][i]) for i in stable]
-    orphan = [i for i in fx_pixels if not body or min(delta_e(_rgb(fxpal[i]), c) for c in body) > limit]
+def analyse(variants: list[list[int]], fxpal: list[int], body_used: set[int], fx_pixels: dict[int, int],
+            limit: float = 10.0) -> dict:
+    """variants: paletas do corpo (16 palavras VDP cada); fxpal: paleta dos efeitos;
+    body_used: indices de corpo que aparecem em algum pixel; fx_pixels: indice de efeito -> pixels."""
+    if not isinstance(limit, (int, float)) or not math.isfinite(limit) or limit < 0:
+        raise ValueError(f"limite de dE invalido: {limit!r}")
+    if not variants or any(len(v) != 16 for v in variants) or len(fxpal) != 16:
+        raise ValueError("paletas devem ter 16 palavras (indice 0 = transparente)")
+    if 0 in body_used or 0 in fx_pixels:
+        raise ValueError("indice 0 e transparente: nao pode estar em uso opaco")
+    cls = {i: tuple(v[i] for v in variants) for i in range(1, 16)}
+    used = sorted(body_used)
+    classes: dict[tuple, list[int]] = {}
+    for i in used:
+        classes.setdefault(cls[i], []).append(i)
+    merges = {min(g): sorted(g) for g in classes.values() if len(g) > 1}
+    remap = {i: min(g) for g in classes.values() for i in g}          # sem perda: mesma classe
+    stable = {k for k in classes if len(set(k)) == 1}                   # mesma cor em toda variante
+    varying = [k for k in classes if k not in stable]
+    stable_rgb = {k[0]: vdp_rgb(k[0]) for k in stable}
+    fx_words = {i: fxpal[i] for i in fx_pixels}
+    fx_exact_new = sorted({w for w in fx_words.values() if w not in stable_rgb})   # cor exata sem classe estavel
+    orphan = [w for w in fx_exact_new if not stable_rgb or
+              min(delta_e(vdp_rgb(w), c) for c in stable_rgb.values()) > limit]
+    weight = collections.Counter()
+    for i, n in fx_pixels.items():
+        weight[fx_words[i]] += n
     reps: list[int] = []
-    for i in sorted(orphan, key=lambda i: -fx_pixels[i]):
-        if not any(delta_e(_rgb(fxpal[i]), _rgb(fxpal[r])) <= limit for r in reps):
-            reps.append(i)
-    need = len(stable) + len(clothing) + len(reps)
-    return {"stable": len(stable), "clothing": len(clothing), "fx_dedicated": len(reps),
-            "fx_orphan_colours": len(orphan), "delta_e_limit": limit, "needed": need,
-            "line_slots": LINE_SLOTS, "fits": need <= LINE_SLOTS, "over_by": max(0, need - LINE_SLOTS)}
+    for w in sorted(orphan, key=lambda w: -weight[w]):
+        if not any(delta_e(vdp_rgb(w), vdp_rgb(r)) <= limit for r in reps):
+            reps.append(w)
+    body_slots = len(classes)
+    exact_need = body_slots + len(fx_exact_new)
+    estimate = body_slots + len(reps)
+    return {
+        "reserved_body_slots": 15, "body_indices_used": len(used), "unused_body_indices": [i for i in range(1, 16) if i not in body_used],
+        "body_classes": body_slots, "stable_classes": len(stable), "varying_classes": len(varying),
+        "lossless_merges": {str(k): v for k, v in merges.items()}, "remap": {str(k): v for k, v in remap.items() if k != v},
+        "slots_after_lossless": body_slots, "free_after_lossless": LINE_SLOTS - body_slots,
+        "fx_colours_exact": len(set(fx_words.values())), "fx_exact_without_stable_twin": len(fx_exact_new),
+        "exact_need": exact_need, "exact_fits": exact_need <= LINE_SLOTS,
+        "estimate": {"delta_e_limit": limit, "fx_dedicated": len(reps), "need": estimate,
+                     "note": "aproximacao dE: as cores 'proximas' precisam ser remapeadas e julgadas"},
+        "line_slots": LINE_SLOTS, "fits": exact_need <= LINE_SLOTS, "over_by": max(0, exact_need - LINE_SLOTS),
+    }
+
+
+def verify_remap(variants: list[list[int]], remap: dict[int, int], used: set[int]) -> bool:
+    """Prova da fusao sem perda: todo pixel usado mostra a mesma palavra VDP em toda variante."""
+    return all(v[i] == v[remap.get(i, i)] for v in variants for i in used)
 
 
 def _array(src: str, name: str) -> list[int]:
     b = src[src.index(name):]
     b = b[:b.index("};")]
-    return [int(x, 16) for x in re.findall(r"0x([0-9A-Fa-f]{3,4})", b)]
+    return [int(x, 16) for x in re.findall(r"0x([0-9A-Fa-f]{1,4})", b)]
 
 
 def check_project(project: Path, char_id: str, limit: float = 10.0) -> dict:
@@ -70,8 +108,14 @@ def check_project(project: Path, char_id: str, limit: float = 10.0) -> dict:
     variants = [flat[i:i + 16] for i in range(0, len(flat), 16)]
     fxpal = _array(src, "static const u16 fxpal[]")
     res = (project / "res" / f"mgres_{char_id}.res").read_text(encoding="utf-8")
-    px: collections.Counter = collections.Counter()
+    fx_px: collections.Counter = collections.Counter()
+    body_used: set[int] = set()
     for name, path in re.findall(r'SPRITE (\w+) "([^"]+)"', res):
+        data = Image.open(project / "res" / path).get_flattened_data()
         if name.endswith("_fx"):
-            px.update(i for i in Image.open(project / "res" / path).get_flattened_data() if i)
-    return {"character": char_id, "variants": len(variants), **slots_needed(variants, fxpal, dict(px), limit)}
+            fx_px.update(i for i in data if i)
+        else:
+            body_used |= set(data) - {0}
+    rep = analyse(variants, fxpal, body_used, dict(fx_px), limit)
+    rep["remap_lossless_verified"] = verify_remap(variants, {int(k): v for k, v in rep["remap"].items()}, body_used)
+    return {"character": char_id, "variants": len(variants), **rep}

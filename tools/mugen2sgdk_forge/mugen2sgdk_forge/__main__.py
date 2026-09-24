@@ -209,6 +209,13 @@ def main(argv=None) -> int:
     ii = sub.add_parser("intake-index", help="gera o indice de intake MUGEN -> owners (--check: lint de deriva)")
     ii.add_argument("--repo", type=Path, default=Path(__file__).resolve().parents[3])
     ii.add_argument("--check", action="store_true")
+    sm = sub.add_parser("stage-measure", help="mede viabilidade de um stage MUGEN no MD (sem converter)")
+    sm.add_argument("package", type=Path)
+    sm.add_argument("--def", dest="def_name", required=True)
+    sm.add_argument("--sff", required=True)
+    sm.add_argument("--project", type=Path, help="le o orcamento real da luta de out/rom.bin + out/symbol.txt")
+    sm.add_argument("--sprite-pool", type=int, default=600, help="FIGHT_SPR_VRAM da cena de luta")
+    sm.add_argument("--out", type=Path, required=True)
     b = sub.add_parser("install-runtime")
     b.add_argument("project", type=Path)
     c = sub.add_parser("convert-char")
@@ -235,6 +242,19 @@ def main(argv=None) -> int:
             print("\n".join(problems) or "intake-index: ok")
             return 1 if problems else 0
         print(json.dumps(intake.write(args.repo), indent=2))
+        return 0
+    if args.cmd == "stage-measure":
+        from . import stage_measure
+        rep = stage_measure.measure(args.package, args.def_name, args.sff)
+        rep["source_sha256"] = hashlib.sha256(args.package.read_bytes()).hexdigest()
+        if args.project:
+            out = args.project / "out"
+            rep["fight_vram"] = stage_measure.fight_vram(out / "rom.bin", out / "symbol.txt",
+                                                         args.project / "res" / "mgres_ken.res", args.sprite_pool)
+            rep["fight_rom_sha256"] = hashlib.sha256((out / "rom.bin").read_bytes()).hexdigest()
+        args.out.write_text(json.dumps(rep, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        print(json.dumps({k: rep[k] for k in ("stage", "stage_md_colours")} |
+                         {"free_for_stage": rep.get("fight_vram", {}).get("free_for_stage")}, ensure_ascii=False))
         return 0
     if args.cmd == "install-runtime":
         print(json.dumps(install_runtime(args.project), indent=2))

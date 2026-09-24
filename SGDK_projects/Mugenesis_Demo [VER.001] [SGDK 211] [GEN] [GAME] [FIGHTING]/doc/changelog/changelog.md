@@ -1,5 +1,14 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - E4.0: Suzaku Castle (SSF2) -- intake, parser, medicao e memo: NO-GO para inclusao direta
+
+- Intake: `rascunho/entrada_bruta/ssf2_01_ryu.zip` (sha256 d781b8d5...), inventario versionado, registro em `project_hygiene_manifest.json`.
+- Parser de stage (`parsers/stage.py`): [BG] normal/parallax/anim, [Camera]/[PlayerInfo]/[Bound]/[StageInfo]/[Shadow], [BGCtrlDef]/[BGCtrl] e as [Begin Action]. 0 avisos no .def real.
+- `stage-measure`: medicao por camada e por plano composto, mais o orcamento real da luta lido da ROM (`6bbef58a...`).
+- Numeros: o stage pede ~1280 tiles e 56 cores. A luta deixa 90 tiles e 8 cores (PAL0 1-8). O stage congelado em 320 px ainda pede 708 tiles.
+- O briefing nao batia com o .def: 10 secoes (nao ~23); 320x240 (nao ha 384->320; o corte e vertical); nao ha bandeira nem chamas.
+- Memo: `doc/mugen/stage/e4_suzaku_viabilidade.md`. Suite: 52 testes.
+
 ## 2026-09-24 - Q3: indice de intake MUGEN -> owners
 
 - `python3 -m mugen2sgdk_forge intake-index` gera `doc/curation/mugen_intake_index.{json,md}` a partir do registro de licoes + parecer mais recente.

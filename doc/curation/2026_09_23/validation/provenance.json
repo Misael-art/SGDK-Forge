@@ -1,0 +1,2213 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-23T23:48:29Z",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "project_name": "Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "validator_fixture": false,
+  "context_type": "unclassified",
+  "manifest_status": "invalid_schema",
+  "manifest_schema": "/mnt/sdcard/Projects/Sgdk Forge/tools/sgdk_wrapper/schemas/asset_provenance_manifest.schema.json",
+  "manifest_schema_errors": [
+    "$.entries[16].source_kind: value 'third_party_mugen_conversion' is not allowed"
+  ],
+  "visual_symbols": [
+    {
+      "res_symbol": "mg_hud_tiles",
+      "res_kind": "TILESET",
+      "asset_path": "mugen/hud/hud_tiles.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 2,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_round1_0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_round1_0.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 3,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_round1_1",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_round1_1.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 4,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_round2_0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_round2_0.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 5,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_round2_1",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_round2_1.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 6,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_round2_2",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_round2_2.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 7,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_round3_0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_round3_0.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 8,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_round3_1",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_round3_1.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 9,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_round3_2",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_round3_2.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 10,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_fight_0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_fight_0.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 11,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_fight_1",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_fight_1.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 12,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_timeover_0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_timeover_0.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 13,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_timeover_1",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_timeover_1.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 14,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_draw_0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_draw_0.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 15,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_draw_1",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_draw_1.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 16,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_doubleko_0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_doubleko_0.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 17,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_doubleko_1",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_doubleko_1.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 18,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_ko_0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_ko_0.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 19,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_hud_msg_ko_1",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/hud/msg_ko_1.png",
+      "res_file": "res/mgres_hud.res",
+      "res_line": 20,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g0",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g0.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 4,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 5,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g10",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g10.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 6,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g20",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g20.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 7,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g21",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g21.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 8,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g25",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g25.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 9,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g40",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g40.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 10,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g42",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g42.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 11,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g120",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g120.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 12,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g121",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g121.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 13,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g130",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g130.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 14,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g131",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g131.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 15,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g132",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g132.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 16,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g150",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g150.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 17,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g151",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g151.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 18,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g200",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g200.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 19,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g201",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g201.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 20,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g210",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g210.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 21,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g215",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g215.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 22,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g220",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g220.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 23,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g250",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g250.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 24,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g260",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g260.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 25,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g261",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g261.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 26,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g265",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g265.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 27,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g270",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g270.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 28,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g271",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g271.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 29,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g272",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g272.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 30,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g274",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g274.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 31,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g275",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g275.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 32,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g280",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g280.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 33,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g400",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g400.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 34,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g405",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g405.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 35,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g410",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g410.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 36,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g420",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g420.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 37,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g425",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g425.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 38,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g430",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g430.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 39,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g600",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g600.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 40,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g605",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g605.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 41,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g620",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g620.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 42,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g625",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g625.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 43,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g650",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g650.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 44,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g660",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g660.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 45,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g665",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g665.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 46,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g700_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g700_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 47,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g710_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g710_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 48,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g720_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g720_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 49,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g740_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g740_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 50,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g745_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g745_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 51,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g750_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g750_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 52,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g760_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g760_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 53,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g760_p1_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g760_p1_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 54,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g765_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g765_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 55,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g766_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g766_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 56,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g767_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g767_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 57,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g768_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g768_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 58,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g780_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g780_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 59,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g781_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g781_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 60,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g800",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g800.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 61,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g805",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g805.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 62,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g810",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g810.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 63,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g820",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g820.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 64,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g825",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g825.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 65,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g900",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g900.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 66,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5000",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5000.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 67,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5010",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5010.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 68,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5020",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5020.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 69,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5030",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5030.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 70,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5031",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5031.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 71,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5040",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5040.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 72,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5041",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5041.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 73,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5060",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5060.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 74,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5070",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5070.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 75,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g5071",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g5071.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 76,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g6000",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6000.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 77,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g6100",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6100.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 78,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g6200",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6200.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 79,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g6500",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6500.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 80,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g6600",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6600.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 81,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g6700",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6700.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 82,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g6800_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g6800_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 83,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g7000",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g7000.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 84,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g8000_0_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g8000_0_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 85,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g8000_1_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g8000_1_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 86,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g8000_p1_0_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g8000_p1_0_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 87,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g8000_p1_1_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g8000_p1_1_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 88,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g8000_p2_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g8000_p2_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 89,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_g8000_p3_fx",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/sheets/g8000_p3_fx.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 90,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_bgfx_730",
+      "res_kind": "IMAGE",
+      "asset_path": "mugen/ken/bgfx_730.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 121,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_portrait",
+      "res_kind": "TILESET",
+      "asset_path": "mugen/ken/portrait.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 122,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "mg_ken_shadow",
+      "res_kind": "SPRITE",
+      "asset_path": "mugen/ken/shadow.png",
+      "res_file": "res/mgres_ken.res",
+      "res_line": 123,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_brand_fx_tiles",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_fx_tiles.png",
+      "res_file": "res/resources.res",
+      "res_line": 3,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py"
+      ],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_brand_engine_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_engine_logo.png",
+      "res_file": "res/resources.res",
+      "res_line": 4,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v3_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v4_assets.py"
+      ],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_brand_author_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_author_logo.png",
+      "res_file": "res/resources.res",
+      "res_line": 5,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py"
+      ],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_brand_project_logo",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_project_logo.png",
+      "res_file": "res/resources.res",
+      "res_line": 6,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v3_assets.py",
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v4_assets.py"
+      ],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_brand_presents_text",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/brand_presents_text.png",
+      "res_file": "res/resources.res",
+      "res_line": 7,
+      "primitive_builders": [
+        "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py"
+      ],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_starfield_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/starfield_320x224.png",
+      "res_file": "res/resources.res",
+      "res_line": 35,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_forge_bg_b",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/forge_bg_b_320x224.png",
+      "res_file": "res/resources.res",
+      "res_line": 36,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_forge_bg_a_props",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/forge_bg_a_props_320x224.png",
+      "res_file": "res/resources.res",
+      "res_line": 37,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "spr_forge_ember",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_ember_16x16_strip.png",
+      "res_file": "res/resources.res",
+      "res_line": 38,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "spr_forge_shard",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_shard_16x16_strip.png",
+      "res_file": "res/resources.res",
+      "res_line": 39,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "spr_forge_hammer",
+      "res_kind": "SPRITE",
+      "asset_path": "branding/spr_forge_hammer_48x48_strip.png",
+      "res_file": "res/resources.res",
+      "res_line": 40,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_logo_engine_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_engine_224x64.png",
+      "res_file": "res/resources.res",
+      "res_line": 41,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_logo_author_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_author_192x32.png",
+      "res_file": "res/resources.res",
+      "res_line": 42,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_logo_project_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/logo_project_224x48.png",
+      "res_file": "res/resources.res",
+      "res_line": 43,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_presents_text_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/presents_text_96x16.png",
+      "res_file": "res/resources.res",
+      "res_line": 44,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    },
+    {
+      "res_symbol": "img_presents_bar_v2",
+      "res_kind": "IMAGE",
+      "asset_path": "branding/presents_bar_8x8.png",
+      "res_file": "res/resources.res",
+      "res_line": 45,
+      "primitive_builders": [],
+      "provenance": "undeclared"
+    }
+  ],
+  "primitive_builders": [
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/.agent/scripts/render_animation_evidence.py",
+      "primitive_calls": 2,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/.agent/scripts/validate_lineart_topology.py",
+      "primitive_calls": 3,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/.agent/scripts/validate_motion_semantics.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/.agent/scripts/validate_strip.py",
+      "primitive_calls": 5,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/analyze_source_semantics.py",
+      "primitive_calls": 14,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/analyze_translation_case.py",
+      "primitive_calls": 8,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_arara_gi_fighter_assets.py",
+      "primitive_calls": 7,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_axe_de_aco_fighter_assets.py",
+      "primitive_calls": 60,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py",
+      "primitive_calls": 22,
+      "traced_symbols": [
+        "img_brand_author_logo",
+        "img_brand_engine_logo",
+        "img_brand_fx_tiles",
+        "img_brand_presents_text",
+        "img_brand_project_logo"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v2_assets.py",
+      "primitive_calls": 32,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v3_assets.py",
+      "primitive_calls": 87,
+      "traced_symbols": [
+        "img_brand_engine_logo",
+        "img_brand_project_logo"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v4_assets.py",
+      "primitive_calls": 45,
+      "traced_symbols": [
+        "img_brand_engine_logo",
+        "img_brand_project_logo"
+      ]
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_bvl_showcase_assets.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_bvl_v2_scene1_assets.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_bvl_v3_scene1_manifest_gate.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_neon_rain_ninja_slice_assets.py",
+      "primitive_calls": 136,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/convert_axe_premium_sources.py",
+      "primitive_calls": 3,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/export_source_structure.py",
+      "primitive_calls": 14,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_anime_reference_budget_route.py",
+      "primitive_calls": 3,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_guided_anime_route.py",
+      "primitive_calls": 1,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_linefirst_anime_route.py",
+      "primitive_calls": 2,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_metal_slug_translation_case.py",
+      "primitive_calls": 2,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/generate_visual_lab_assets.py",
+      "primitive_calls": 110,
+      "traced_symbols": []
+    },
+    {
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/sprite_artifact_audit.py",
+      "primitive_calls": 2,
+      "traced_symbols": []
+    }
+  ],
+  "runtime_authored_tiles": [
+    {
+      "file": "src/mg_gen/mg_ken.c",
+      "api": "authored_tile_data_array",
+      "line": 3703,
+      "symbol": "neg1_masks",
+      "hex_words": 276,
+      "debug_scoped": false
+    }
+  ],
+  "findings": [
+    {
+      "code": "asset_provenance_manifest_schema_invalid",
+      "severity": "blocking",
+      "subject": "doc/asset_provenance_manifest.json",
+      "message": "Manifesto nao satisfaz o schema canonico; enums inventados e campos desconhecidos nao concedem proveniencia.",
+      "evidence": "$.entries[16].source_kind: value 'third_party_mugen_conversion' is not allowed"
+    },
+    {
+      "code": "asset_provenance_manifest_invalid",
+      "severity": "blocking",
+      "subject": "doc/asset_provenance_manifest.json",
+      "message": "Manifesto de proveniencia ausente ou invalido. Sem ele nenhum asset visual pode ser aceito como final.",
+      "evidence": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/asset_provenance_manifest.json"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_tiles",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:2"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_round1_0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:3"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_round1_1",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:4"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_round2_0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:5"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_round2_1",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:6"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_round2_2",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:7"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_round3_0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:8"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_round3_1",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:9"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_round3_2",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:10"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_fight_0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:11"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_fight_1",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:12"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_timeover_0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:13"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_timeover_1",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:14"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_draw_0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:15"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_draw_1",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:16"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_doubleko_0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:17"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_doubleko_1",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:18"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_ko_0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:19"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_hud_msg_ko_1",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_hud.res:20"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g0",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:4"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:5"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g10",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:6"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g20",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:7"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g21",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:8"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g25",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:9"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g40",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:10"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g42",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:11"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g120",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:12"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g121",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:13"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g130",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:14"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g131",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:15"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g132",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:16"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g150",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:17"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g151",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:18"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g200",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:19"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g201",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:20"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g210",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:21"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g215",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:22"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g220",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:23"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g250",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:24"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g260",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:25"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g261",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:26"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g265",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:27"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g270",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:28"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g271",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:29"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g272",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:30"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g274",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:31"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g275",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:32"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g280",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:33"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g400",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:34"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g405",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:35"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g410",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:36"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g420",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:37"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g425",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:38"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g430",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:39"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g600",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:40"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g605",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:41"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g620",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:42"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g625",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:43"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g650",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:44"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g660",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:45"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g665",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:46"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g700_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:47"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g710_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:48"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g720_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:49"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g740_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:50"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g745_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:51"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g750_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:52"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g760_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:53"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g760_p1_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:54"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g765_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:55"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g766_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:56"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g767_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:57"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g768_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:58"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g780_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:59"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g781_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:60"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g800",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:61"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g805",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:62"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g810",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:63"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g820",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:64"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g825",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:65"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g900",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:66"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5000",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:67"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5010",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:68"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5020",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:69"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5030",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:70"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5031",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:71"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5040",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:72"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5041",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:73"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5060",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:74"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5070",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:75"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g5071",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:76"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g6000",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:77"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g6100",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:78"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g6200",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:79"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g6500",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:80"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g6600",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:81"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g6700",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:82"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g6800_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:83"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g7000",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:84"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g8000_0_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:85"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g8000_1_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:86"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g8000_p1_0_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:87"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g8000_p1_1_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:88"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g8000_p2_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:89"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_g8000_p3_fx",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:90"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_bgfx_730",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:121"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_portrait",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:122"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "mg_ken_shadow",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/mgres_ken.res:123"
+    },
+    {
+      "code": "procedural_asset_promoted_to_res",
+      "severity": "blocking",
+      "subject": "img_brand_fx_tiles",
+      "message": "Asset visual final produzido por builder de primitivas sem proveniencia declarada.",
+      "evidence": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py"
+    },
+    {
+      "code": "procedural_asset_promoted_to_res",
+      "severity": "blocking",
+      "subject": "img_brand_engine_logo",
+      "message": "Asset visual final produzido por builder de primitivas sem proveniencia declarada.",
+      "evidence": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py, /mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v3_assets.py, /mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v4_assets.py"
+    },
+    {
+      "code": "procedural_asset_promoted_to_res",
+      "severity": "blocking",
+      "subject": "img_brand_author_logo",
+      "message": "Asset visual final produzido por builder de primitivas sem proveniencia declarada.",
+      "evidence": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py"
+    },
+    {
+      "code": "procedural_asset_promoted_to_res",
+      "severity": "blocking",
+      "subject": "img_brand_project_logo",
+      "message": "Asset visual final produzido por builder de primitivas sem proveniencia declarada.",
+      "evidence": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py, /mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v3_assets.py, /mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_v4_assets.py"
+    },
+    {
+      "code": "procedural_asset_promoted_to_res",
+      "severity": "blocking",
+      "subject": "img_brand_presents_text",
+      "message": "Asset visual final produzido por builder de primitivas sem proveniencia declarada.",
+      "evidence": "/mnt/sdcard/Projects/Sgdk Forge/tools/image-tools/build_branding_intro_assets.py"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "img_starfield_v2",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:35"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "img_forge_bg_b",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:36"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "img_forge_bg_a_props",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:37"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "spr_forge_ember",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:38"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "spr_forge_shard",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:39"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "spr_forge_hammer",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:40"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "img_logo_engine_v2",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:41"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "img_logo_author_v2",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:42"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "img_logo_project_v2",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:43"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "img_presents_text_v2",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:44"
+    },
+    {
+      "code": "asset_provenance_undeclared",
+      "severity": "blocking",
+      "subject": "img_presents_bar_v2",
+      "message": "Asset visual final sem proveniencia declarada.",
+      "evidence": "res/resources.res:45"
+    },
+    {
+      "code": "runtime_authored_tile_pixels_outside_debug",
+      "severity": "blocking",
+      "subject": "neg1_masks",
+      "message": "Pixels de tile escritos como literal em C fora de escopo de debug/telemetria. Grafico procedural e permitido apenas para debug visual ou elemento transitorio de interface.",
+      "evidence": "src/mg_gen/mg_ken.c:3703 (276 hex words)"
+    }
+  ],
+  "summary": {
+    "visual_symbols": 125,
+    "pixel_bearing_symbols": 125,
+    "declared_entries": 0,
+    "primitive_builders": 24,
+    "symbols_traced_to_primitive_builders": 5,
+    "blocking_findings": 128,
+    "warnings": 0
+  },
+  "blocking": true,
+  "blocking_statuses": [
+    "asset_provenance_manifest_invalid",
+    "asset_provenance_manifest_schema_invalid",
+    "asset_provenance_undeclared",
+    "procedural_asset_promoted_to_res",
+    "runtime_authored_tile_pixels_outside_debug"
+  ]
+}

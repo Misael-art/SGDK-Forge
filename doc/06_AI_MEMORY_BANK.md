@@ -1,5 +1,32 @@
 # 06 - AI Memory Bank (MegaDrive_DEV)
 
+### Curadoria MUGEN → Mega Drive — 2026-09-23 (proposta)
+
+Direcionador humano autorizou diagnóstico e propostas, sem implementação do jogo
+ou promoção automática de skills. Pacote: `doc/curation/2026_09_23/README.md`.
+Fonte auditada: `12c63349d72fb8d96ecd16148fcfe9a9bde5965c`; branch documental
+criada de main `caf10a2d66cf3d418d47da7b87a87a4ac3a60bc5`. Entregues 16 princípios,
+31 conceitos na matriz de fidelidade, 54 skills em quatro dimensões, 12 lições
+reavaliadas, 14 gaps, 15 grupos de técnicas e roadmap com três quick wins.
+
+Suíte do conversor: 39 passed, sem skips neste host. Self-checks de scanline,
+proveniência, meta-medição e selo de captura passaram. Guard de ambiente ready;
+adoção preservou manifests. Contexto do projeto unclassified, higiene bloqueada,
+proveniência inválida (`third_party_mugen_conversion` fora do enum); auditor também
+confunde bitmap lógico `neg1_masks` com pixels. São findings, não bypass autorizado.
+Capture local executado: learning_context_present, canonical_promotion_performed=false.
+
+P5 histórico: cinco hashes conferidos, screenshot inspecionado; ROM
+`46a9cd6581bf2e7a9c16e15b5406767b9f24bd8a82c9d2591d02838b1d037c90`.
+Report contém 591 ocorrências acima do limiar, contador2191, picoCPU158 e áudio
+dummy. Probe atual inclui warmup no denominador e mede contagem, não pixels/linha;
+nenhum claim de60fps estáveis. Sem nova execução de emulador ou audição.
+Missing-frame reconciliado por reparse do pacote: duas ausências820,1 nas ações
+100/105 +48 elementos do grupo730 no plano =50 sem sheet. 46 elementos blend
+continuam perda de fidelidade. Helper é reduzido; SuperPause precisa regressão
+focal de coordenadas. Fighting/VDP/AV já têm owners: priorizar integração e
+evidência, não criar escolas duplicadas. Nenhuma promoção AAA/MESTRE.
+
 **Última atualização:** 2026-09-23
 **Escopo:** Repositório MegaDrive_DEV (workspace global)
 **Projeto em foco:** Barra viva da cena (oficio Rheo/Pigsy como piso, nao handle), plano para gerar pixel art nesse nivel, SGDK_GLOBAL §39

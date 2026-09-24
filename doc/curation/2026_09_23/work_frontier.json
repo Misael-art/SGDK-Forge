@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "work_frontier_snapshot",
+  "tool": {
+    "name": "harness_orchestration",
+    "version": "1.1.0"
+  },
+  "generated_at": "2026-09-23T23:25:00.272850Z",
+  "project_root": ".",
+  "active_epoch": "mugen_curation_20260923",
+  "claim_ceiling": "consulting",
+  "dominant_blocker": "evidence_not_yet_audited",
+  "blocked_nodes": [],
+  "independent_nodes": [
+    "converter",
+    "runtime",
+    "skills"
+  ],
+  "eligible_sources": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "762b3a1a17b8228e461d6cd01e280a3cdf185b6414164247566411a45dcc9148"
+    }
+  ],
+  "forbidden_sources": [],
+  "next_causal_action": "inspect source and evidence",
+  "status": "active"
+}

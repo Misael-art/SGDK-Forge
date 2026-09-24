@@ -1,0 +1,37 @@
+﻿{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-23T23:48:25.6242213Z",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "manifest_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/project_hygiene_manifest.json",
+  "status": "blocked",
+  "ready": false,
+  "blocking_statuses": [
+    "orphan_project_root_entry"
+  ],
+  "details": [
+    {
+      "status": "orphan_project_root_entry",
+      "message": "A raiz do projeto possui entradas nao classificadas no manifesto de higiene.",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/project_hygiene_manifest.json",
+      "details": {
+        "entries": [
+          "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/out_prof",
+          "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/out_test",
+          "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/.gitignore"
+        ]
+      }
+    }
+  ],
+  "observed": {
+    "suspicious_project_artifacts": [],
+    "unexpected_root_entries": [
+      "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/out_prof",
+      "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/out_test",
+      "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/.gitignore"
+    ],
+    "noncanonical_project_entries": [],
+    "external_inputs_checked": 0,
+    "external_path_references": [],
+    "workspace_root_orphans": []
+  }
+}

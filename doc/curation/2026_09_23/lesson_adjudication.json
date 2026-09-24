@@ -1,0 +1,114 @@
+{
+  "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+  "status": "proposal",
+  "lessons": [
+    {
+      "id": "md_68000_loop_cost",
+      "verdict": "qualificar",
+      "rationale": "Hotspots e melhora são observações locais. Rejeitar “cada iteração custa centenas de ciclos”; depende de código gerado, memória e trabalho. Exigir trace/profiler por etapa e estado.",
+      "next_action": "G03",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "measure_on_hardware_not_host",
+      "verdict": "qualificar",
+      "rationale": "Host serve para localizar hotspots; fator10x não é constante. Header timer.h confirma76.800subticks/s, não prova frames estáveis. Hardware físico não foi testado nesta revisão.",
+      "next_action": "G03",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "semantics_harness_before_rom",
+      "verdict": "confirmar_no_escopo",
+      "rationale": "39testes atuais incluem host real/stubs; correções semânticas têm testes. Isso não substitui ROM nem prova que todos os sete defeitos têm regressão focal independente.",
+      "next_action": "G05",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "exact_gates_equivalence",
+      "verdict": "qualificar",
+      "rationale": "Preservar ordem e portões necessários derivados de AST é boa proposta; trace98/1/86 sozinho não prova equivalência universal. Ampliar seeds/inputs e divergências nominais.",
+      "next_action": "G05",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "mugen_state_label_is_not_owner",
+      "verdict": "confirmar_no_escopo",
+      "rationale": "Parser usa último Statedef; teste com rótulo divergente existe e passou. Candidata forte de domínio.",
+      "next_action": "G05",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "mugen_case_sensitive_keys",
+      "verdict": "confirmar_no_escopo",
+      "rationale": "Parser diferencia B/b e teste unitário mais movimento host passam. Não confundir nome de comando com símbolo do botão.",
+      "next_action": "G05",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "mugen_engine_rules_outside_cns",
+      "verdict": "qualificar",
+      "rationale": "Engine rules fora CNS existem; common_forge/runtime é subset. Não elevar todos os comportamentos de pouso/negativos/custom state a equivalentes sem corpus.",
+      "next_action": "G05",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "ai_activates_commands",
+      "verdict": "contestar_generalizacao",
+      "rationale": "Ativar comandos é estratégia local; não descrever como definição universal da IA MUGEN nem como mesmo input humano. Melhora histórica não elimina27% do P5.",
+      "next_action": "G03",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "third_party_outputs_gitignored",
+      "verdict": "qualificar",
+      "rationale": "Outputs estão separados/ignorados, mas manifesto atual falha schema. Gitignore não prova ausência no histórico nem autorização de distribuição.",
+      "next_action": "G01",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "worktree_build_and_capture_paths",
+      "verdict": "qualificar",
+      "rationale": "Flatpak/mounts e .d stale são dependentes do host. Worktree é suportável com rota/montagem correta; não canonizar obrigação universal de build na árvore principal.",
+      "next_action": "G13",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "template_inherits_foreign_learning",
+      "verdict": "confirmar_ocorrencia_local",
+      "rationale": "Projeto contém the_forge_opening_lessons e histórico herdado. Quantidade28 não foi recontada como origem integral; separar inherited de local e testar bootstrap limpo.",
+      "next_action": "G12",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    },
+    {
+      "id": "screenshot_gate_without_scene",
+      "verdict": "contestar_remedio",
+      "rationale": "Edge-density não é oráculo estético. Não adicionar estágio para satisfazer heurística de captura de uma fatia técnica; classificar cena/expectativa e manter gate de estágio completo separado.",
+      "next_action": "G11",
+      "original_commit": "33722d76",
+      "promotion": "pending_human_review",
+      "canonized_in": []
+    }
+  ]
+}

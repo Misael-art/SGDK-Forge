@@ -1,0 +1,54 @@
+[
+  {
+    "check": "pytest",
+    "exit_code": 0
+  },
+  {
+    "check": "adoption",
+    "exit_code": 0
+  },
+  {
+    "check": "context",
+    "exit_code": 1
+  },
+  {
+    "check": "hygiene",
+    "exit_code": 1
+  },
+  {
+    "check": "learning_audit",
+    "exit_code": 0
+  },
+  {
+    "check": "provenance",
+    "exit_code": 1
+  },
+  {
+    "check": "environment",
+    "exit_code": 0
+  },
+  {
+    "check": "scanline_selfcheck",
+    "exit_code": 0
+  },
+  {
+    "check": "audiovisual_selfcheck_unsupported_option",
+    "exit_code": 2
+  },
+  {
+    "check": "provenance_selfcheck",
+    "exit_code": 0
+  },
+  {
+    "check": "measurement_selfcheck",
+    "exit_code": 0
+  },
+  {
+    "check": "capture_seal_selfcheck",
+    "exit_code": 0
+  },
+  {
+    "check": "learning_capture",
+    "exit_code": 0
+  }
+]

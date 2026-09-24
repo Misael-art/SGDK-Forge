@@ -1,0 +1,33 @@
+﻿{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-23T23:48:24.8100011Z",
+  "tool_name": "validate_project_context",
+  "tool_version": "1.0.0",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]",
+  "workspace_root": "/mnt/sdcard/Projects/Sgdk Forge",
+  "status": "error",
+  "failure_reason": "Blocking statuses: project_context_unclassified",
+  "validation_status": "blocked",
+  "phase": "planning",
+  "manifest_path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/project_context_manifest.json",
+  "context_type": "unclassified",
+  "documentation_profile": "unclassified",
+  "delivery_claim_ceiling": "none",
+  "ready": false,
+  "blocking_statuses": [
+    "project_context_unclassified"
+  ],
+  "warnings": [],
+  "required_documents": [],
+  "phase_blocking_documents": [],
+  "non_blocking_documents": [],
+  "details": [
+    {
+      "level": "blocking",
+      "status": "project_context_unclassified",
+      "message": "Classifique o contexto: aaa_game, technical_demo, exercise, game_review ou consulting.",
+      "path": "/mnt/sdcard/Projects/Sgdk Forge/SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/project_context_manifest.json",
+      "details": null
+    }
+  ]
+}

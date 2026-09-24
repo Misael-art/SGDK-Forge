@@ -1,0 +1,1820 @@
+{
+  "status": "proposal_pending_human_review",
+  "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+  "skill_count": 54,
+  "rating_scope": "documentary_contract; not runtime proficiency",
+  "rows": [
+    {
+      "skill": "game-state-transition-architect",
+      "path": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+      "sha256": "df459ff8669f2fd82af4d8f29f6f41d883fe391ff96eafd0fcf6cd0f8084d3a1",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 11,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 27,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 35,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 40,
+          "text": "## Regras"
+        },
+        {
+          "line": 48,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Ownership/teardown têm aceite; acrescentar restauração PAL0/BG_B em super interrompido, KO e revanche.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "scene-state-architect",
+      "path": "tools/sgdk_wrapper/.agent/skills/architecture/scene-state-architect/SKILL.md",
+      "sha256": "be7b5dac79264e28696bb6e2483c4074ae01d852291149265580bb0cd4fb3f0c",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 44,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 60,
+          "text": "### Handoff para proxima etapa"
+        }
+      ],
+      "review": "Modularidade e handoff definidos; ligar helper/pools e custom-state ownership ao IR, sem misturar máquina de luta e cena.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "art-asset-diagnostic",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/art-asset-diagnostic/SKILL.md",
+      "sha256": "2d081f9be12bc752922900f25f4b8f7cdda1ce3fc25f4d85db8a7d0c18a5b579",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 32,
+          "text": "# Somente quando a auditoria pedir historia completa (saida muito maior)"
+        },
+        {
+          "line": 55,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 68,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 73,
+          "text": "### Handoff para proxima etapa"
+        }
+      ],
+      "review": "Diagnóstico de assets e frame/célula existe; reconhecer pacote SFF/AIR/ACT como entrada semântica e emitir rota MUGEN.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "art-conversion-pipeline",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/art-conversion-pipeline/SKILL.md",
+      "sha256": "eb768b0063d579b33689fa9bc5e48ca892b0f4b5d4590da98ceb4648595db062",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 109,
+          "text": "### Quando NAO usar este pipeline"
+        },
+        {
+          "line": 117,
+          "text": "### Quando usar `source_baked_pixel_art_standard`"
+        },
+        {
+          "line": 133,
+          "text": "### Anti-padrao: aplicar downscaling em arte ja pixel"
+        },
+        {
+          "line": 174,
+          "text": "## Contrato para personagens grandes animados"
+        },
+        {
+          "line": 247,
+          "text": "### Gate anti-fake-pixel-art para fontes IA/high-res"
+        }
+      ],
+      "review": "Quantização/grid e gate de fonte robustos; falta consumir perdas por elemento AIR e distinguir split SGDK de SAT.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "art-creation-sourcing",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/art-creation-sourcing/SKILL.md",
+      "sha256": "c7a2649b71bd490ade12c359e7524496f26860d8806fcf7aadc83acad35ecd88",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 246,
+          "text": "### Passo 4 — Pos-gerado: classificacao e handoff obrigatorios"
+        },
+        {
+          "line": 416,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 445,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 464,
+          "text": "### Handoff para proxima etapa"
+        }
+      ],
+      "review": "Sourcing/proveniência previstos; explicitar autoria original, derivação e permissão de uso/redistribuição separadas para pacote convertido.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "art-direction-selector",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/art-direction-selector/SKILL.md",
+      "sha256": "3aa9281a8c1a5f2e610f6eb42dafeed5c2fcae36b915ad05c1541044f573094d",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 24,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 48,
+          "text": "## Regras de seguranca artistica"
+        },
+        {
+          "line": 207,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 227,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 240,
+          "text": "### Handoff"
+        }
+      ],
+      "review": "Escolha estética e blockers explícitos; consumir loss manifest sem substituir direção por reprodução automática de pacote.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "art-translation-to-vdp",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+      "sha256": "08214cb0dd956bae1f4b74912c5fd9b8fde4eec06866ea74c5b0cafe362d6f78",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 69,
+          "text": "## Bloqueio anti-polimento do erro"
+        },
+        {
+          "line": 90,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 174,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 206,
+          "text": "### Saida opcional quando houver multiplas rotas viaveis"
+        },
+        {
+          "line": 237,
+          "text": "### Passa quando"
+        }
+      ],
+      "review": "Já cobre tradução interpretativa e stages MUGEN; separar custo perceptivo de mirror/crop/reduce e avaliar com fonte lado a lado.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "character-design",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/character-design/SKILL.md",
+      "sha256": "5f89ead367da4d8546d6f09ecd2e0d5d0a5bf76dc1e53b52b91ad67d0be147ce",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 17,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 42,
+          "text": "## Regras canonicas"
+        },
+        {
+          "line": 106,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 121,
+          "text": "## Senior Competencies"
+        },
+        {
+          "line": 155,
+          "text": "## Contrato Operacional"
+        }
+      ],
+      "review": "Escala/rampas/roster já cobertos; conectar variantes ACT e leitura P1/P2 ao fundo real, não apenas a cor plana de calibração.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "cutscene-cinematic-direction",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+      "sha256": "269ad0cbc9d0c9c0984f3d042fb195d55f3e80796631742c5472c555d325813f",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 26,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 44,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 65,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 72,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 105,
+          "text": "## Contrato de FSM"
+        }
+      ],
+      "review": "FSM, timing e budgets verificáveis; não converter intros/screenpack em escopo obrigatório da fatia Ken.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "image-generation-routing",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/image-generation-routing/SKILL.md",
+      "sha256": "cde5e9984476f25cd2dc33d287aeea78664b68cb7f17a600cdfe82685bb440f4",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 60,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 141,
+          "text": "## Regras de host"
+        },
+        {
+          "line": 217,
+          "text": "## Handoff"
+        },
+        {
+          "line": 270,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Árvore de capacidades e lineage existem; não é owner da conversão de pixel existente. Nenhuma skill nova para este caso.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "megadrive-pixel-strict-rules",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/SKILL.md",
+      "sha256": "af5fe6035d39f24391a64342755a287581b50f8aade8b336bb2467b920475241",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 168,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 193,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 202,
+          "text": "### Handoff para proxima etapa"
+        }
+      ],
+      "review": "Index0, 4bpp, grid e paleta explícitos; acoplar ao lote por frame convertido. Não usar conformidade como aceite estético.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "multi-plane-composition",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+      "sha256": "f621fad0993270926b40bcab1f309982ec894b339c4b69f814c29538d42a025f",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 18,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 42,
+          "text": "## Entregas opcionais quando houver multiplas rotas de cena"
+        },
+        {
+          "line": 51,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 83,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 95,
+          "text": "### Handoff para proxima etapa"
+        }
+      ],
+      "review": "Topology/ownership e rotas MUGEN já existem; integrar takeover BG_B e restauração de palco ao fim do helper.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "native-sprite-production",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/native-sprite-production/SKILL.md",
+      "sha256": "741a6fe98a2d1bb5245fb33acee0ad53d4b3a8f1ebb92962685b59380ecc9821",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 32,
+          "text": "## Contrato operacional"
+        },
+        {
+          "line": 72,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 99,
+          "text": "### Handoff"
+        }
+      ],
+      "review": "Rota de fonte autoral e gates separados; conversão SFF nativa deve evitar reautoria desnecessária, mantendo perdas declaradas.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "scene-direction-curator",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/scene-direction-curator/SKILL.md",
+      "sha256": "7fd0ba1dc174f9bdab9d8deccbaea1639b946c4856e0310b9943d12089640a51",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 21,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 122,
+          "text": "## Regras canonicas"
+        },
+        {
+          "line": 148,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 173,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 186,
+          "text": "### Handoff"
+        }
+      ],
+      "review": "Perfis e função de técnica antes da densidade; E4 precisa direção própria, não conteúdo aleatório para passar edge_density.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "sprite-animation",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/sprite-animation/SKILL.md",
+      "sha256": "88a9f6e6ece0dd3fd00cbe2db3d03818d4391aab9c9947d1de0f5ebd64b9dfa6",
+      "scores": {
+        "estrutura": 2,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 35,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 101,
+          "text": "## Regras canonicas"
+        },
+        {
+          "line": 246,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 301,
+          "text": "## Senior Competencies"
+        },
+        {
+          "line": 348,
+          "text": "## Contrato Operacional"
+        }
+      ],
+      "review": "Timing/hitstop/pivot e QA audiovisual já existem; qualificar referência central ambígua e importar AIR time/loop/clsn para cobertura nominal.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "tiled-hybrid-parallax-curator",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/tiled-hybrid-parallax-curator/SKILL.md",
+      "sha256": "8ea848f9339cc7e215530dcd7fa9bda950fef571fce5c382f61d59ad38a7eca6",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 26,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 43,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 51,
+          "text": "### Handoff"
+        }
+      ],
+      "review": "Rota específica Tiled/oclusão com prova ROM; não é importador geral de CNS. Reutilizar no estágio apenas se houver essa entrada.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "visual-excellence-standards",
+      "path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+      "sha256": "a6163dcbf447ec604b69fb3d48521b120ddd51d4a0dd01bd6d5594a130005075",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 41,
+          "text": "## Contrato de qualidade de producao"
+        },
+        {
+          "line": 55,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 144,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 253,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 340,
+          "text": "## Sintaxe tecnica nao e semantica visual"
+        }
+      ],
+      "review": "Gates numéricos e anti-padrões extensos; confronto fonte versus MD por técnica de perda deve acompanhar veredito humano, não score automático.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "camera-system-sgdk",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/camera-system-sgdk/SKILL.md",
+      "sha256": "e0b892c12b6b0cac36e41b43971a94506e28a00d1e9ff668436da29a4543de59",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 11,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 27,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 35,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 40,
+          "text": "## Regras"
+        },
+        {
+          "line": 47,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Mundo/câmera/tela e fixtures definidos; incluir dois lutadores, corner-push e offset de spark durante shake.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "collision-system-architect",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/collision-system-architect/SKILL.md",
+      "sha256": "e540e331deab1025bc5775c887ea9b3c9d9442c7b9cff0ccf941ea2deb566b57",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 27,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 35,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 41,
+          "text": "## Regras"
+        },
+        {
+          "line": 48,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Separa hit/hurt/push; adicionar oráculos trade, throw, juggle e re-hit por identidade, preservando ordem de resolução.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "entity-polymorphism-architect",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/entity-polymorphism-architect/SKILL.md",
+      "sha256": "4ed209885d639bc5adaf25ed0a8f15735b12ed2264465971a65c860d01144259",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 26,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 34,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 40,
+          "text": "## Regras"
+        },
+        {
+          "line": 47,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Pools/lifecycle definidos; mapear Helper/Explod/Projectile e falha de spawn. Não trocar VM por vtables por reflexo.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "forward-kinematics-rigging",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/forward-kinematics-rigging/SKILL.md",
+      "sha256": "5f506c2ee96017b33ff58e21f0148a75914d7e85f58a98e6fb7207453463b042",
+      "scores": {
+        "estrutura": 1,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 27,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 43,
+          "text": "## Regras canonicas"
+        },
+        {
+          "line": 52,
+          "text": "## Senior Competencies"
+        },
+        {
+          "line": 63,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 77,
+          "text": "## Contrato Operacional"
+        }
+      ],
+      "review": "Referência sdk/sgdk-2.11/inc/fixmath.h ausente; maths.h existe. Split de anel não é rig nem demonstra multiplexação.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "input-system-sgdk",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md",
+      "sha256": "87dd84e59a2c582824d8691cf2443f5ff1b0081b7f19ee5234f006e87fd34767",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 17,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 33,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 41,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 46,
+          "text": "## Regras"
+        },
+        {
+          "line": 52,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Snapshot e latência/6-button previstos; acrescentar CMD B/b, charge/release, facing e buffer sob pausa com fixtures.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "megadrive-music-composition",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/megadrive-music-composition/SKILL.md",
+      "sha256": "fc47b037ca803ea59698ed95def46d6b83b8c18613cc5faffda9b4f00a7c6a12",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 6,
+          "text": "# Composicao musical Mega Drive"
+        },
+        {
+          "line": 8,
+          "text": "## Direcao e arranjo"
+        },
+        {
+          "line": 23,
+          "text": "## Rota executavel neste workspace"
+        },
+        {
+          "line": 53,
+          "text": "## Escuta e integracao"
+        }
+      ],
+      "review": "Arranjo e limites PSG/FM/PCM distintos; composição não é requisito para provar conversão SND. Handoff ao áudio é apropriado.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "sgdk-code-reviewer",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-code-reviewer/SKILL.md",
+      "sha256": "a8d343f7098663b044ca273bfc4bad4183ffacdde58da4f46b09dc44cdafe557",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 27,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 35,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 39,
+          "text": "## Regras"
+        },
+        {
+          "line": 46,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Revisão formal/ownership existe; incluir schema→índices C, casts, limites255/160/32/256 e paridade runtime instalado versus fonte.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "sgdk-runtime-coder",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+      "sha256": "cd5e04ad626e9362b8ab1f08b8f971daaf2d6666e6f895efef525b01883a03f4",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 47,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 80,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 138,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 186,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 192,
+          "text": "## Regras canonicas imediatas"
+        }
+      ],
+      "review": "Timing de ataque e API reality cobertos; corpus diferencial MUGEN, bitmaps necessários e profiler 68000 precisam roteiro reproduzível.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "xgm2-audio-director",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/SKILL.md",
+      "sha256": "3d4e1b6fdbae82abdec4224039cd88b4e3723a1b024da3179ef1e08acb0c1599",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 44,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 72,
+          "text": "## Regras canonicas"
+        },
+        {
+          "line": 96,
+          "text": "## Senior Competencies"
+        },
+        {
+          "line": 117,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 162,
+          "text": "### Regras aceitas com traducao para Mega Drive"
+        }
+      ],
+      "review": "Contratos de canais e simultaneidade já existem; ligá-los ao SND converter e PlaySnd/StopSnd, com audição e CPU/DMA sob carga.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "z80-pcm-custom-driver",
+      "path": "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/SKILL.md",
+      "sha256": "fd60f003caff14cc0102573526a39b54414a096d22cc56ca4a0d34d4f268486b",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 38,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 79,
+          "text": "## Regras canonicas"
+        },
+        {
+          "line": 136,
+          "text": "## Senior Competencies"
+        },
+        {
+          "line": 157,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 179,
+          "text": "## Contrato Operacional"
+        }
+      ],
+      "review": "Arquitetura/canais e fontes locais existem; exigência universal de alinhamento como hardware deve citar driver concreto. XGM2 primeiro; custom driver não corrige falta de QA.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "enemy-design-canonical",
+      "path": "tools/sgdk_wrapper/.agent/skills/design/enemy-design-canonical/SKILL.md",
+      "sha256": "96eb195ca7084169d50d43ee434378c3b99222d4f938dbcc337533659c850a65",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 114,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 123,
+          "text": "## Handoff"
+        },
+        {
+          "line": 130,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 139,
+          "text": "## Senior Competencies"
+        }
+      ],
+      "review": "Design e reação com handoff; IA que ativa comandos deve declarar seu próprio contrato de fairness, sem universalizar IA MUGEN.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "gameplay-experience-reviewer",
+      "path": "tools/sgdk_wrapper/.agent/skills/design/gameplay-experience-reviewer/SKILL.md",
+      "sha256": "0886e9da7e125f15092b55a150a945e6f3af67fd4d8fe8388bd8da474a647fd6",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 6,
+          "text": "# Gameplay Experience Reviewer"
+        },
+        {
+          "line": 11,
+          "text": "## Entrada mínima"
+        },
+        {
+          "line": 19,
+          "text": "## Julgue"
+        },
+        {
+          "line": 30,
+          "text": "## Saída"
+        }
+      ],
+      "review": "Revisão de experiência separada de implementação; avaliar golpe por startup/active/recovery/hitstop/cancel e comparação jogável.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "level-design-canonical",
+      "path": "tools/sgdk_wrapper/.agent/skills/design/level-design-canonical/SKILL.md",
+      "sha256": "ef6579da3f0198a9c8ebdc9a5ecc4e8e8f95fc18b515622f32162d5ffc7039f6",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 130,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 139,
+          "text": "## Handoff"
+        },
+        {
+          "line": 147,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 158,
+          "text": "## Senior Competencies"
+        }
+      ],
+      "review": "Golden path/ritmo e handoff coerentes; arena não exige conteúdo de plataforma. Aplicar proporcionalmente ao estágio do projeto.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "systems-mechanics-validator",
+      "path": "tools/sgdk_wrapper/.agent/skills/design/systems-mechanics-validator/SKILL.md",
+      "sha256": "3871c19d1629b908ca5cc6a648f7cc7c79f765291653194d0338e6d9ca30b8b9",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 106,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 115,
+          "text": "## Handoff"
+        },
+        {
+          "line": 122,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 131,
+          "text": "## Senior Competencies"
+        }
+      ],
+      "review": "Atributos numéricos e consistência já exigidos; acrescentar tabela perdas→impacto em combo/defesa, evitando aceitar mecânica só por existir.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "aaa-pipeline-guardian",
+      "path": "tools/sgdk_wrapper/.agent/skills/governance/aaa-pipeline-guardian/SKILL.md",
+      "sha256": "5c1062e652a067fc1829c2f9a1b16d1568a11e476d3c868b46e55da791d2d60a",
+      "scores": {
+        "estrutura": 2,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 11,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 27,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 38,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 60,
+          "text": "## Regras"
+        },
+        {
+          "line": 100,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Sete eixos e QA audiovisual separados; qualificar referência central curta e exigir loss manifest+coverage+frame-budget antes de ampliar FX.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "doc-sync-audit",
+      "path": "tools/sgdk_wrapper/.agent/skills/governance/doc-sync-audit/SKILL.md",
+      "sha256": "431c1959cb68a050e1a96bf0730c5bf116c47e6f055414ddd8ca341e5991f25d",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 26,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 31,
+          "text": "### Handoff para proxima etapa"
+        }
+      ],
+      "review": "Drift entre docs e implementação é escopo explícito; detectar README helper/HUD stale e paths antigos de evidence, sem apagar histórico.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "independent-quality-review",
+      "path": "tools/sgdk_wrapper/.agent/skills/governance/independent-quality-review/SKILL.md",
+      "sha256": "37129ab0e289585f17881ce32c1df3d2a0290951d67d0d9c4a437b7ce489e572",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 6,
+          "text": "# Independent Quality Review"
+        },
+        {
+          "line": 12,
+          "text": "## Checkpoints"
+        },
+        {
+          "line": 22,
+          "text": "## Roteamento obrigatório"
+        },
+        {
+          "line": 43,
+          "text": "## Parecer"
+        }
+      ],
+      "review": "Revisão independente e escopo limitados; não duplicar aqui aprovação técnica/estética. Revisores precisam capabilities e intervalos reais.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "project-learning-loop",
+      "path": "tools/sgdk_wrapper/.agent/skills/governance/project-learning-loop/SKILL.md",
+      "sha256": "5eb83d47b5ee2b630e257bafad7320a9765caa0bac4f2bf17549e10bac9f8d7e",
+      "scores": {
+        "estrutura": 2,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 31,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 86,
+          "text": "## Handoff"
+        }
+      ],
+      "review": "Candidatura e deduplicação corretas; resolver referência central e impedir herança de lessons The Forge como prova do Ken.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "truth-hierarchy-guard",
+      "path": "tools/sgdk_wrapper/.agent/skills/governance/truth-hierarchy-guard/SKILL.md",
+      "sha256": "56e2ccf004b9050a5364d32f527bc7bfb5f523b25f07f6bd69dc8f0913224e21",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 14,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 29,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 34,
+          "text": "### Handoff para proxima etapa"
+        }
+      ],
+      "review": "Hierarquia e saídas claras; contradição entre memória bootstrap e updates exige reconciliação com artefatos, não preferência cega pelo cabeçalho.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "megadrive-vdp-budget-analyst",
+      "path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+      "sha256": "55eacb65c914897d70811064de4e8e681faefb75d8232467f9361725a6a28240",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 49,
+          "text": "## Resource Budget Semantics"
+        },
+        {
+          "line": 98,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 150,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 176,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 185,
+          "text": "## Quando houver HUD/UI formal"
+        }
+      ],
+      "review": "Já exige pior quadro ANTES de aprovar FX (linhas8/24/133); falta ligação automática rescomp→SAT→composição→CPU/áudio no conversor.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "shadow-highlight-scroll-fx",
+      "path": "tools/sgdk_wrapper/.agent/skills/hardware/shadow-highlight-scroll-fx/SKILL.md",
+      "sha256": "aa037acf5bda29cf43de1a17e7b1090cad4ac39ebfaf021c8a9f4bc7086c4432",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 11,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 27,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 35,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 41,
+          "text": "## Regras"
+        },
+        {
+          "line": 48,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "S/H e ownership de raster definidos; incluir tradução de blend AIR e custo PAL3/priority; dither não é S/H e shadow bit genérico não existe.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "vram-streaming-dma-queue",
+      "path": "tools/sgdk_wrapper/.agent/skills/hardware/vram-streaming-dma-queue/SKILL.md",
+      "sha256": "8f5a89682bb2c9b01b42a0762046fa1749363a348b73096f3b96afed3f410354",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 26,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 34,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 40,
+          "text": "## Regras"
+        },
+        {
+          "line": 47,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Uploads/residência e aliases cobertos; medir simultaneidade dois corpos+anel+HUD e preload separado. Bytes enfileirados não provam tempo de transferência.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "emulator-vdp-evidence-curator",
+      "path": "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md",
+      "sha256": "84b092aca2bf77cc3b9544338e9168eaaf37e7ad9e6f81ca7af07aad88ce0462",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 12,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 31,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 40,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 45,
+          "text": "## Regras"
+        },
+        {
+          "line": 68,
+          "text": "## Semantica do probe e cobertura real"
+        }
+      ],
+      "review": "Identidade/AV/coverage separados; gate deve recusar áudio dummy para qualidade e screenshot burst para cadência, aceitando-os só no escopo limitado.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "harness-orchestration",
+      "path": "tools/sgdk_wrapper/.agent/skills/operation/harness-orchestration/SKILL.md",
+      "sha256": "138eaeac9df4d808d262b93d9e5fc9d5ac2b37ff13f1ada421f454261a419ee9",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 61,
+          "text": "## Quando delegar"
+        },
+        {
+          "line": 73,
+          "text": "## Quando não delegar"
+        },
+        {
+          "line": 82,
+          "text": "## Contrato do worker"
+        },
+        {
+          "line": 110,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 122,
+          "text": "## Handoff"
+        }
+      ],
+      "review": "Decisão local versus delegação explícita; plano desta curadoria escolheu execução local. Não multiplicar agentes como substituto de oráculo.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "rom-mastering",
+      "path": "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/SKILL.md",
+      "sha256": "94377e77d44124bee275aef0c1f8a2e7cddfd950343ea9759a16dbe41555293a",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 31,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 40,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 44,
+          "text": "## Regras"
+        },
+        {
+          "line": 68,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Mastering não substitui gameplay/áudio/QA; manter congelamento de ROM e identidade separada de resultado artístico.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "sgdk-build-wrapper-operator",
+      "path": "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+      "sha256": "de546e21478383c523395aa4bd5cc272d22cb438f6cbdd127514fb902d0e7ee8",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 65,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 86,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 104,
+          "text": "### Handoff para proxima etapa"
+        }
+      ],
+      "review": "Roteamento por host e capturas já tratados; documentar Flatpak/worktree por capacidade observada, sem proibir worktree genericamente.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "status-panel-maintainer",
+      "path": "tools/sgdk_wrapper/.agent/skills/operation/status-panel-maintainer/SKILL.md",
+      "sha256": "b3005265ad8b84ad2b7383cd5969f31ed586881ab8114388476220a337e0039e",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 24,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 29,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 45,
+          "text": "## Gates semanticos"
+        },
+        {
+          "line": 51,
+          "text": "## Regras"
+        }
+      ],
+      "review": "Vocabulário claro; apresentar testes39/39 ao lado de performance/áudio/contexto bloqueados, sem condensar em concluído.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "brawler-game-design",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/brawler-game-design/SKILL.md",
+      "sha256": "cd5e7b2fb998229a193c25d041eadcb492bad244b7113ea2f7df898b8196f90c",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 25,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 32,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 39,
+          "text": "## Regras"
+        }
+      ],
+      "review": "Opt-in de gênero e owners claros; não ativar por lutar/ter sprites grandes. Não há demanda de belt-scroll nesta conversão.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "fighting-game-design",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design/SKILL.md",
+      "sha256": "baae34372fbfd8613b760b9f2d6ae70883850be6f87328a0d07b5ec9350961bc",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 61,
+          "text": "## Secoes Obrigatorias do Contrato"
+        },
+        {
+          "line": 120,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 129,
+          "text": "## Handoff"
+        }
+      ],
+      "review": "Já existe especialização com frame data e manifesto opt-in; adicionar ponte CNS/AIR→moveset e contrato de feel. Não criar escola fighting paralela.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "game-design-planning",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/game-design-planning/SKILL.md",
+      "sha256": "bfce56448c566847d065b6d1d0cad53e84015fb6fc352e44c85923693bfc4340",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 137,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 163,
+          "text": "## Handoff para proxima etapa"
+        },
+        {
+          "line": 324,
+          "text": "## Anti-padroes"
+        }
+      ],
+      "review": "Planejamento e técnicas por ID cobertos; decidir escopo do port e degradações aceitas antes de converter roster/FX.",
+      "proposed_action": "criar rota",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "narrative-design-reviewer",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/narrative-design-reviewer/SKILL.md",
+      "sha256": "d47eab12a594bd3d093cca6ae27297fefc8dd2832cdd0f7fc08b04e08bdf7772",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 6,
+          "text": "# Narrative Design Reviewer"
+        },
+        {
+          "line": 11,
+          "text": "## Entrada mínima"
+        },
+        {
+          "line": 18,
+          "text": "## Julgue"
+        },
+        {
+          "line": 27,
+          "text": "## Saída"
+        }
+      ],
+      "review": "Review e escopo separados; não exigir história/cutscene para sanar bug de runtime. Ativar apenas se GDD requerer.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "platformer-puzzle-game-design",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/platformer-puzzle-game-design/SKILL.md",
+      "sha256": "f0dfdaaceb430ea2596ff8d8cb16d8a56d77c5eeef5137d5dc1e4847ce888742",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 24,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 31,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 38,
+          "text": "## Regras"
+        }
+      ],
+      "review": "Opt-in e delegação existentes; sem gap MUGEN que justifique alteração. Cobertura2 é contrato local, não reprovação por gênero diferente.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "product-market-reviewer",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/product-market-reviewer/SKILL.md",
+      "sha256": "4d958a58ad607b81112a919adf1ad7c82aa5db1c9db2519e03b37253817f3730",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 6,
+          "text": "# Product Market Reviewer"
+        },
+        {
+          "line": 11,
+          "text": "## Entrada mínima"
+        },
+        {
+          "line": 18,
+          "text": "## Julgue"
+        },
+        {
+          "line": 30,
+          "text": "## Saída"
+        }
+      ],
+      "review": "Fontes atuais e intenção comercial explícita; proveniência técnica não autoriza distribuição comercial de Ken.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "racing-sports-adventure-game-design",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/racing-sports-adventure-game-design/SKILL.md",
+      "sha256": "4655b3920b705a6bf5836bfa161c1cda0f15699ba06604dc5d89804eac71fd86",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 24,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 31,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 37,
+          "text": "## Regras"
+        }
+      ],
+      "review": "Opt-in específico racing; fora do port de luta. Não ampliar escopo com pseudo3D só porque existe no catálogo.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "rpg-game-design",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/rpg-game-design/SKILL.md",
+      "sha256": "4f9ef002737664fcfcdcfa19b05e28a4b5d3172f3489349ea0a2cc20168ddb3d",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 24,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 32,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 38,
+          "text": "## Regras"
+        }
+      ],
+      "review": "Opt-in e budgets existem; fora do caso. Não inferir fraqueza técnica pela ausência de CNS.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "strategy-game-design",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/strategy-game-design/SKILL.md",
+      "sha256": "1db3bf6a38e71a950cd85819ae9104dc64906db0449726ceca0c85c5ec2a552f",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 2,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Contrato Operacional"
+        },
+        {
+          "line": 24,
+          "text": "### Passa quando"
+        },
+        {
+          "line": 31,
+          "text": "### Handoff para proxima etapa"
+        },
+        {
+          "line": 37,
+          "text": "## Regras"
+        }
+      ],
+      "review": "Opt-in e UX dimensionada previstos; fora do caso, manter sem duplicação de mecanismos de combate.",
+      "proposed_action": "manter",
+      "implementation_authorized": false
+    },
+    {
+      "skill": "tdd-authoring",
+      "path": "tools/sgdk_wrapper/.agent/skills/planning/tdd-authoring/SKILL.md",
+      "sha256": "acc41847b79c5da66ba719b6580a304d5bcd03d3b631d1605436b041b186e166",
+      "scores": {
+        "estrutura": 3,
+        "capacidade_tecnica": 3,
+        "roteamento": 2,
+        "cobertura": 2
+      },
+      "evidence_sections": [
+        {
+          "line": 10,
+          "text": "## Quando usar"
+        },
+        {
+          "line": 200,
+          "text": "## Passa quando"
+        },
+        {
+          "line": 214,
+          "text": "## Handoff"
+        },
+        {
+          "line": 223,
+          "text": "## Anti-padroes"
+        },
+        {
+          "line": 238,
+          "text": "## Senior Competencies"
+        }
+      ],
+      "review": "Ownership/FSM/pools/região robustos; incorporar limites do compilador, loss manifest e ligação entre ROM/profiler/cobertura de estados.",
+      "proposed_action": "endurecer",
+      "implementation_authorized": false
+    }
+  ]
+}

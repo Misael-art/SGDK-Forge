@@ -3,7 +3,7 @@
 Gerado por `python3 -m mugen2sgdk_forge intake-index` a partir das fontes abaixo; **nao editar**.
 Status mora no parecer de curadoria (ou no registro, sem parecer). Nenhuma linha aqui promove licao.
 
-Fontes: `doc/curation/2026_09_23/lesson_adjudication.json`, `doc/curation/lessons_2026-09-23_mugen2sgdk.json`
+Fontes: `doc/curation/2026_09_23/lesson_adjudication.json`, `doc/curation/lessons_2026-09-23_mugen2sgdk.json`, `doc/curation/lessons_2026-09-24_mugenesis.json`
 
 |licao|owner (existente)|status|proxima acao|fonte@commit (blob)|
 |---|---|---|---|---|
@@ -19,3 +19,19 @@ Fontes: `doc/curation/2026_09_23/lesson_adjudication.json`, `doc/curation/lesson
 |`template_inherits_foreign_learning`|sgdk_wrapper → `tools/sgdk_wrapper/`|confirmar_ocorrencia_local (pending_human_review)|G12|`doc/curation/lessons_2026-09-23_mugen2sgdk.json`@33722d76 (5c173dde)|
 |`third_party_outputs_gitignored`|aaa-pipeline-guardian → `tools/sgdk_wrapper/.agent/skills/governance/aaa-pipeline-guardian/SKILL.md`|qualificar (pending_human_review)|G01|`doc/curation/lessons_2026-09-23_mugen2sgdk.json`@33722d76 (5c173dde)|
 |`worktree_build_and_capture_paths`|sgdk_wrapper → `tools/sgdk_wrapper/`|qualificar (pending_human_review)|G13|`doc/curation/lessons_2026-09-23_mugen2sgdk.json`@33722d76 (5c173dde)|
+|`briefing_vs_real_source`|truth-hierarchy-guard → `tools/sgdk_wrapper/.agent/skills/governance/truth-hierarchy-guard/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`deterministic_build_evidence_reuse`|emulator-vdp-evidence-curator → `tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`event_outside_measure_window`|emulator-vdp-evidence-curator → `tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`fixed_vram_by_body_sheet_with_guard`|sgdk-runtime-coder → `tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`impact_threshold_from_data`|gameplay-experience-reviewer → `tools/sgdk_wrapper/.agent/skills/design/gameplay-experience-reviewer/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`mugen_mask_compositing`|mugen2sgdk_forge → `tools/mugen2sgdk_forge/`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`mutation_restore_and_interrupted_batch`|project-learning-loop → `tools/sgdk_wrapper/.agent/skills/governance/project-learning-loop/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`overbudget_denominator_direction`|megadrive-vdp-budget-analyst → `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`probe_window_fixed_for_ab`|megadrive-vdp-budget-analyst → `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`raw_rip_stage_not_tile_friendly`|art-translation-to-vdp → `tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`render_only_change_trace_equivalence`|sgdk-runtime-coder → `tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`super_exceeds_px_per_line`|megadrive-vdp-budget-analyst → `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`template_probe_self_cost`|sgdk_wrapper → `tools/sgdk_wrapper/`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`vram_budget_read_from_rom`|megadrive-vdp-budget-analyst → `tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`vram_temporal_loan_declared`|vram-streaming-dma-queue → `tools/sgdk_wrapper/.agent/skills/hardware/vram-streaming-dma-queue/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|
+|`window_plane_top_or_bottom`|multi-plane-composition → `tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md`|candidate (pending_human_review)|-|`doc/curation/lessons_2026-09-24_mugenesis.json`@uncommit (706711c1)|

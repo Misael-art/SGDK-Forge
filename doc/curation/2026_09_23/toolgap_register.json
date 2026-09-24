@@ -1,0 +1,159 @@
+{
+  "status": "proposal",
+  "rows": [
+    {
+      "id": "G01",
+      "severity": "P0",
+      "gap": "Contexto/higiene/proveniência incompatíveis",
+      "evidence": "validators executados: context=unclassified; higiene blocked; enum fora do schema",
+      "impact": "Bloqueia entrega e rastreabilidade; efeitos em cascata confundem diagnóstico",
+      "proposal": "Reconciliar manifests existentes; adaptar conversão ao schema sem inventar enum; registrar símbolos/hashes e permissões",
+      "effort": "1–2 dias",
+      "owner": "guardian + build-wrapper",
+      "acceptance": "Todos os validadores passam; ausência de permissão continua explícita e limita distribuição"
+    },
+    {
+      "id": "G02",
+      "severity": "P0",
+      "gap": "Falso positivo em neg1_masks",
+      "evidence": "gerador: bitmap de command gates; runtime apenas operações bitwise; auditor chamou de pixels",
+      "impact": "Bloqueio indevido pode incentivar bypass perigoso",
+      "proposal": "Auditor com análise de uso/sink e fixtures tabela lógica versus tiles reais; não allowlist por nome",
+      "effort": "1–2 dias",
+      "owner": "code-reviewer + provenance",
+      "acceptance": "Bitmap não bloqueia; array de pixels que chega ao VDP continua bloqueado, mesmo renomeado"
+    },
+    {
+      "id": "G03",
+      "severity": "P0",
+      "gap": "CPU acima do budget e falta de baseline com áudio",
+      "evidence": "P5 591/2191, pico158%; DMA null; audio dummy",
+      "impact": "Impede combate fluido; aumentar FX antes de fechar custo amplia defeito",
+      "proposal": "Harness determinístico de ROM com perfil por etapa; confrontar baseline/fx-off/fx-on no mesmo input e configuração",
+      "effort": "3–6 dias",
+      "owner": "runtime-coder + budget + audio",
+      "acceptance": "Zero deadline perdido no corpus acordado de combate; startup/preload separados; contadores sem saturação; áudio ativo"
+    },
+    {
+      "id": "G04",
+      "severity": "P0",
+      "gap": "Capacidades truncadas sem prova de rejeição",
+      "evidence": "slices255 no gerador; -1 words limitado8; MAX_CMDS160 PROG/LIVE32",
+      "impact": "Personagem pode compilar perdendo transições e animações",
+      "proposal": "Preflight de limites e falha explícita com origem; testes abaixo/no/acima; política de pool saturado",
+      "effort": "2–3 dias",
+      "owner": "runtime-coder",
+      "acceptance": "Nenhum truncamento silencioso; diagnóstico cita estado/elemento e capacidade; corpus normal preservado"
+    },
+    {
+      "id": "G05",
+      "severity": "P1",
+      "gap": "Cobertura semântica nominal ausente",
+      "evidence": "126estados/796controladores no report; teste apenas limiar de estados distintos",
+      "impact": "Teste vivo não demonstra golpes, throws e defesa corretos",
+      "proposal": "Manifesto state/controller/transition coverage com IDs; host+ROM; oráculos juggle/priority/re-hit/HitOverride",
+      "effort": "4–7 dias",
+      "owner": "collision + fighting + runtime",
+      "acceptance": "Cada regra do escopo tem witness/esperado/resultado; estados não alcançados permanecem needs_review"
+    },
+    {
+      "id": "G06",
+      "severity": "P1",
+      "gap": "Budget automático da composição convertido→SAT",
+      "evidence": "hw_over_limit=[] trata assets; simulador existe; P3 depende de script no histórico",
+      "impact": "Pode estourar scanline com dois corpos+HUD+FX mesmo assets válidos",
+      "proposal": "Adaptador rescomp/SAT por frame, ambos limites e cenário adversarial; VRAM/dma/preload separados",
+      "effort": "3–5 dias",
+      "owner": "budget + streaming",
+      "acceptance": "Inputs/resultados persistidos; self-check passa; teste sintético viola pixels sem violar contagem e é rejeitado"
+    },
+    {
+      "id": "G07",
+      "severity": "P1",
+      "gap": "Ownership temporal de paleta",
+      "evidence": "PAL0 HUD9..15 versus BGFX1..14; HUD oculto durante super",
+      "impact": "Cores erradas após retorno/interrupção; teste de asset isolado não detecta",
+      "proposal": "Auditor por slot/intervalo com restauração, shared palette e cenário2personagens",
+      "effort": "2–4 dias",
+      "owner": "budget + visual + scene-state",
+      "acceptance": "Colisão simultânea é bloqueada; uso serial com restore é aceito; KO/pause/revanche não deixam cores stale"
+    },
+    {
+      "id": "G08",
+      "severity": "P1",
+      "gap": "Loss manifest incompleto",
+      "evidence": "46blend; missing_frame_sprites50; mirror4 e erro0 não reconciliados",
+      "impact": "Conversão silenciosa elimina intenção artística e regra",
+      "proposal": "Exportar perdas por source_hash/action/element/controller; separar crop/mirror/quantização/omissão/limite",
+      "effort": "2–4 dias",
+      "owner": "conversion + runtime",
+      "acceptance": "Toda perda classificada e ligada a output; sem dívida desconhecida no lote aceito; aprovação humana por classe visível"
+    },
+    {
+      "id": "G09",
+      "severity": "P1",
+      "gap": "Regressão focal SuperPause",
+      "evidence": "pos enums corretos; fixture de schema sem caso explícito; harness só verifica ativação",
+      "impact": "Erro pode reaparecer sob outro controlador/ordem",
+      "proposal": "Fixture sintética com parâmetros distintos, pos não zero, facing±, time/movetime/sound",
+      "effort": "0,5–1 dia",
+      "owner": "runtime-coder",
+      "acceptance": "Asserções de valores gerados e coordenadas/ticks exatos no C; mutação de índice faz teste falhar"
+    },
+    {
+      "id": "G10",
+      "severity": "P1",
+      "gap": "SND→XGM2 existe, fidelidade sonora não fechada",
+      "evidence": "sounds.py; MG_playSound AUTO; P5 dummy",
+      "impact": "StopSnd/mix/canais podem interromper vozes; resample linear pode degradar espectro",
+      "proposal": "Contrato de canais SND+PlaySnd/StopSnd, captura real, teste de prioridades e audição A/B",
+      "effort": "3–5 dias",
+      "owner": "xgm2-audio-director",
+      "acceptance": "Voz+BGM+impactos sem clipping/cortes indevidos; regiões/driver/ROM registrados; qualidade revisada ouvindo"
+    },
+    {
+      "id": "G11",
+      "severity": "P1",
+      "gap": "Regressão visual temporal não integrada ao conversor",
+      "evidence": "audiovisual_review existe; bundle P5 só burst0,4s",
+      "impact": "Frames estáticos ocultam jitter, stalls, restauração e perdas de quadros",
+      "proposal": "Cenários determinísticos hash-bound com AV contínuo, ROIs por ação, busca de regressões e revisão por intervalo",
+      "effort": "4–6 dias",
+      "owner": "evidence-curator + visual + animation",
+      "acceptance": "Integridade/cadência/AV-sync/qualidade/coverage independentes; referência pode diferir pixel sem falhar se aproximação autorizada"
+    },
+    {
+      "id": "G12",
+      "severity": "P2",
+      "gap": "Lições herdadas e documentos stale",
+      "evidence": "the_forge_opening_lessons e README helper/HUD contradizem código",
+      "impact": "Agente aprende sucesso que pertence a outro projeto",
+      "proposal": "Índice único por lesson ID/commit/evidence/owner; bootstrap separa template/inherited/local; lint de deriva",
+      "effort": "2–3 dias",
+      "owner": "learning-loop + doc-sync",
+      "acceptance": "Novo projeto não atribui lições importadas a evidência local; índice não duplica status; fontes antigas preservadas"
+    },
+    {
+      "id": "G13",
+      "severity": "P2",
+      "gap": "Portabilidade/reprodutibilidade de testes",
+      "evidence": "host exige Ken foraGit; lifebar fixture aponta outro workspace e pode skip",
+      "impact": "CI verde parcial aparenta cobertura que não existiu",
+      "proposal": "Fixtures sintéticas para semântica e caminhos por manifesto local; relatório obrigatório de skips e corpus privado",
+      "effort": "2–3 dias",
+      "owner": "build-wrapper + reviewer",
+      "acceptance": "Clean checkout roda core sem terceiro; integração privada identifica hashes/licença/skip como coverage_gap"
+    },
+    {
+      "id": "G14",
+      "severity": "P2",
+      "gap": "Entrada de pacote ambígua",
+      "evidence": "Source indexa nomes lowercase e resolve basename fallback",
+      "impact": "Arquivos homônimos/versões não suportadas podem resolver pacote errado",
+      "proposal": "Diagnóstico de colisões de paths/case e limites de tamanho/contagem para ingestão",
+      "effort": "1–2 dias",
+      "owner": "conversion",
+      "acceptance": "Pacote ambíguo é rejeitado com candidatos; SFFv2 recebe unsupported explícito, não sucesso vazio"
+    }
+  ]
+}

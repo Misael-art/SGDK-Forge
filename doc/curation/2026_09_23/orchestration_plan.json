@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "orchestration_plan",
+  "tool": {
+    "name": "harness_orchestration",
+    "version": "1.1.0"
+  },
+  "generated_at": "2026-09-23T23:44:28.984095Z",
+  "run_id": "mugen_curation_20260923",
+  "context_digest": "b3620db4e5cf65e9e712bbe0a0dcc732153a6ce435206a47eb8891b61cbdab6c",
+  "work_frontier_digest": "297be3e1de2f47c262fc88ad81dbdbf370b372186afe55d14a2611eb86e3eaf4",
+  "coordinator_policy": {
+    "single_claim_owner": true,
+    "single_promotion_owner": true,
+    "single_final_memory_owner": true,
+    "worker_default_access": "read_only",
+    "human_gate_may_block_only_dependent_branches": true
+  },
+  "tasks": [
+    {
+      "task_id": "converter",
+      "objective": "Read-only audit converter; evidence-backed proposals only",
+      "task_kind": "source_audit",
+      "owner_skill": "code/sgdk-runtime-coder",
+      "identity_scope": null,
+      "dependencies": [],
+      "execution_mode": "coordinator_local",
+      "decision_reasons": [
+        "write_task_not_safely_isolated"
+      ],
+      "requested_model_tier": "balanced",
+      "model_tier": "economical",
+      "expected_seconds": 600,
+      "context_capsule": {
+        "inherit_full_history": false,
+        "maximum_words": 800,
+        "canonical_context_digest": "b3620db4e5cf65e9e712bbe0a0dcc732153a6ce435206a47eb8891b61cbdab6c",
+        "work_frontier_digest": "297be3e1de2f47c262fc88ad81dbdbf370b372186afe55d14a2611eb86e3eaf4",
+        "input_artifacts": [
+          {
+            "path": "AGENTS.md",
+            "sha256": "762b3a1a17b8228e461d6cd01e280a3cdf185b6414164247566411a45dcc9148"
+          }
+        ],
+        "required_output_paths": [],
+        "claim_ceiling": "consulting",
+        "acceptance_commands": [],
+        "prohibitions": []
+      },
+      "write_lease": {
+        "mode": "none",
+        "paths": [],
+        "protected_paths": [
+          "tools",
+          "SGDK_projects"
+        ]
+      },
+      "result_contract": {
+        "maximum_summary_words": 550,
+        "raw_logs_must_be_files": true,
+        "hash_bindings_required": true,
+        "claim_ceiling": "consulting"
+      },
+      "planning_warnings": [
+        "requested_model_tier_overridden:balanced->economical"
+      ]
+    },
+    {
+      "task_id": "skills",
+      "objective": "Read-only audit skills; evidence-backed proposals only",
+      "task_kind": "source_audit",
+      "owner_skill": "code/sgdk-runtime-coder",
+      "identity_scope": null,
+      "dependencies": [],
+      "execution_mode": "coordinator_local",
+      "decision_reasons": [
+        "write_task_not_safely_isolated"
+      ],
+      "requested_model_tier": "balanced",
+      "model_tier": "economical",
+      "expected_seconds": 600,
+      "context_capsule": {
+        "inherit_full_history": false,
+        "maximum_words": 800,
+        "canonical_context_digest": "b3620db4e5cf65e9e712bbe0a0dcc732153a6ce435206a47eb8891b61cbdab6c",
+        "work_frontier_digest": "297be3e1de2f47c262fc88ad81dbdbf370b372186afe55d14a2611eb86e3eaf4",
+        "input_artifacts": [
+          {
+            "path": "AGENTS.md",
+            "sha256": "762b3a1a17b8228e461d6cd01e280a3cdf185b6414164247566411a45dcc9148"
+          }
+        ],
+        "required_output_paths": [],
+        "claim_ceiling": "consulting",
+        "acceptance_commands": [],
+        "prohibitions": []
+      },
+      "write_lease": {
+        "mode": "none",
+        "paths": [],
+        "protected_paths": [
+          "tools",
+          "SGDK_projects"
+        ]
+      },
+      "result_contract": {
+        "maximum_summary_words": 550,
+        "raw_logs_must_be_files": true,
+        "hash_bindings_required": true,
+        "claim_ceiling": "consulting"
+      },
+      "planning_warnings": [
+        "requested_model_tier_overridden:balanced->economical"
+      ]
+    },
+    {
+      "task_id": "runtime",
+      "objective": "Read-only audit runtime; evidence-backed proposals only",
+      "task_kind": "source_audit",
+      "owner_skill": "code/sgdk-runtime-coder",
+      "identity_scope": null,
+      "dependencies": [],
+      "execution_mode": "coordinator_local",
+      "decision_reasons": [
+        "write_task_not_safely_isolated"
+      ],
+      "requested_model_tier": "balanced",
+      "model_tier": "economical",
+      "expected_seconds": 600,
+      "context_capsule": {
+        "inherit_full_history": false,
+        "maximum_words": 800,
+        "canonical_context_digest": "b3620db4e5cf65e9e712bbe0a0dcc732153a6ce435206a47eb8891b61cbdab6c",
+        "work_frontier_digest": "297be3e1de2f47c262fc88ad81dbdbf370b372186afe55d14a2611eb86e3eaf4",
+        "input_artifacts": [
+          {
+            "path": "AGENTS.md",
+            "sha256": "762b3a1a17b8228e461d6cd01e280a3cdf185b6414164247566411a45dcc9148"
+          }
+        ],
+        "required_output_paths": [],
+        "claim_ceiling": "consulting",
+        "acceptance_commands": [],
+        "prohibitions": []
+      },
+      "write_lease": {
+        "mode": "none",
+        "paths": [],
+        "protected_paths": [
+          "tools",
+          "SGDK_projects"
+        ]
+      },
+      "result_contract": {
+        "maximum_summary_words": 550,
+        "raw_logs_must_be_files": true,
+        "hash_bindings_required": true,
+        "claim_ceiling": "consulting"
+      },
+      "planning_warnings": [
+        "requested_model_tier_overridden:balanced->economical"
+      ]
+    }
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "mode": "coordinator_serial",
+      "task_ids": [
+        "converter"
+      ]
+    },
+    {
+      "wave": 2,
+      "mode": "coordinator_serial",
+      "task_ids": [
+        "runtime"
+      ]
+    },
+    {
+      "wave": 3,
+      "mode": "coordinator_serial",
+      "task_ids": [
+        "skills"
+      ]
+    }
+  ],
+  "summary": {
+    "task_count": 3,
+    "delegated_count": 0,
+    "coordinator_count": 3,
+    "blocked_count": 0,
+    "runnable_count": 3,
+    "identity_serial_groups": [],
+    "writer_conflict_task_ids": [],
+    "worker_slots": 3,
+    "maximum_worker_context_and_result_words": 0
+  },
+  "token_policy": {
+    "goal": "minimize_total_tokens_before_minimizing_wall_clock",
+    "static_instructions_first": true,
+    "dynamic_capsule_last": true,
+    "full_history_fork_default": false,
+    "raw_logs_in_coordinator_context": false,
+    "validation_cache_key": "tool_sha256+tool_version+args+input_manifest_sha256+schema_sha256",
+    "final_critical_validation_must_rerun": true
+  },
+  "claim_ceiling": "orchestration_plan_only",
+  "status": "ready"
+}

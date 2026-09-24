@@ -1,0 +1,5880 @@
+[
+  {
+    "skill": "game-state-transition-architect",
+    "path": "tools/sgdk_wrapper/.agent/skills/architecture/game-state-transition-architect/SKILL.md",
+    "sha256": "df459ff8669f2fd82af4d8f29f6f41d883fe391ff96eafd0fcf6cd0f8084d3a1",
+    "lines": 59,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Game State Transition Architect"
+      },
+      {
+        "line": 11,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 13,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 20,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 27,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 35,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 40,
+        "text": "## Regras"
+      },
+      {
+        "line": 48,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 55,
+        "text": "## Reset repetido e conclusao de transferencias"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "scene-state-architect",
+    "path": "tools/sgdk_wrapper/.agent/skills/architecture/scene-state-architect/SKILL.md",
+    "sha256": "be7b5dac79264e28696bb6e2483c4074ae01d852291149265580bb0cd4fb3f0c",
+    "lines": 154,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Scene State Architect"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 28,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 44,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 60,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 65,
+        "text": "## Foco"
+      },
+      {
+        "line": 72,
+        "text": "## Perguntas chave"
+      },
+      {
+        "line": 86,
+        "text": "## Proibido"
+      },
+      {
+        "line": 102,
+        "text": "## Menu Scene Ownership"
+      },
+      {
+        "line": 115,
+        "text": "## Competencias estruturais"
+      },
+      {
+        "line": 146,
+        "text": "## Nota de curadoria (curation_batch_2026_06_16)"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 16,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03-arquitetura.md",
+        "line": 16,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "art-asset-diagnostic",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/art-asset-diagnostic/SKILL.md",
+    "sha256": "2d081f9be12bc752922900f25f4b8f7cdda1ce3fc25f4d85db8a7d0c18a5b579",
+    "lines": 234,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Art Asset Diagnostic"
+      },
+      {
+        "line": 12,
+        "text": "## Cenarios detectados"
+      },
+      {
+        "line": 23,
+        "text": "## Ferramenta principal"
+      },
+      {
+        "line": 26,
+        "text": "# Diagnostico completo do projeto"
+      },
+      {
+        "line": 29,
+        "text": "# Com output JSON para relatorio persistente"
+      },
+      {
+        "line": 32,
+        "text": "# Somente quando a auditoria pedir historia completa (saida muito maior)"
+      },
+      {
+        "line": 35,
+        "text": "# Analisar .res especifico"
+      },
+      {
+        "line": 55,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 57,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 62,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 68,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 73,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 81,
+        "text": "## O que o diagnostico verifica"
+      },
+      {
+        "line": 83,
+        "text": "### Issues Criticos (bloqueantes para build)"
+      },
+      {
+        "line": 94,
+        "text": "### Avisos (degradam qualidade)"
+      },
+      {
+        "line": 105,
+        "text": "## Analise manual complementar (ImageMagick)"
+      },
+      {
+        "line": 108,
+        "text": "# Verificar modo e dimensoes"
+      },
+      {
+        "line": 111,
+        "text": "# Contar cores unicas"
+      },
+      {
+        "line": 114,
+        "text": "# Verificar se e indexado (mode Palette)"
+      },
+      {
+        "line": 116,
+        "text": "# Esperado: Palette (indexado) ou Grayscale"
+      },
+      {
+        "line": 117,
+        "text": "# Problematico: TrueColor, TrueColorAlpha"
+      },
+      {
+        "line": 119,
+        "text": "# Converter para ver paleta"
+      },
+      {
+        "line": 125,
+        "text": "## Analise forense zero-dependency (PowerShell / .NET)"
+      },
+      {
+        "line": 130,
+        "text": "# Ler header PNG: bytes 16-25 contem largura, altura, bitDepth e colorType"
+      },
+      {
+        "line": 138,
+        "text": "### Contar entradas PLTE (paleta real)"
+      },
+      {
+        "line": 141,
+        "text": "# Percorrer chunks PNG ate encontrar PLTE; dividir tamanho por 3"
+      },
+      {
+        "line": 151,
+        "text": "### Contar cores unicas reais (via System.Drawing)"
+      },
+      {
+        "line": 167,
+        "text": "### IMPORTANTE: Entradas PLTE vs cores unicas"
+      },
+      {
+        "line": 173,
+        "text": "## Checklist de qualidade por asset"
+      },
+      {
+        "line": 192,
+        "text": "## Saida esperada do diagnostico"
+      },
+      {
+        "line": 225,
+        "text": "## Decisao apos diagnostico"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/art/visual_workset_manifest.json",
+        "line": 53,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "art-conversion-pipeline",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/art-conversion-pipeline/SKILL.md",
+    "sha256": "eb768b0063d579b33689fa9bc5e48ca892b0f4b5d4590da98ceb4648595db062",
+    "lines": 563,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Art Conversion Pipeline"
+      },
+      {
+        "line": 15,
+        "text": "## Visao geral do pipeline"
+      },
+      {
+        "line": 40,
+        "text": "## Ferramentas disponíveis"
+      },
+      {
+        "line": 60,
+        "text": "## Matriz de escolha de rota"
+      },
+      {
+        "line": 103,
+        "text": "## Curadoria - source_baked_pixel_art_standard"
+      },
+      {
+        "line": 109,
+        "text": "### Quando NAO usar este pipeline"
+      },
+      {
+        "line": 117,
+        "text": "### Quando usar `source_baked_pixel_art_standard`"
+      },
+      {
+        "line": 133,
+        "text": "### Anti-padrao: aplicar downscaling em arte ja pixel"
+      },
+      {
+        "line": 144,
+        "text": "## Builder Gate"
+      },
+      {
+        "line": 159,
+        "text": "## Gate de fonte premium e estrutura canonica"
+      },
+      {
+        "line": 174,
+        "text": "## Contrato para personagens grandes animados"
+      },
+      {
+        "line": 204,
+        "text": "### Curadoria 2026-06-03: rescomp, dedup e remasterizacao"
+      },
+      {
+        "line": 223,
+        "text": "### Curadoria 2026-06-04: rotacao, escala, espelhamento e paleta temporal"
+      },
+      {
+        "line": 237,
+        "text": "### Paleta por material"
+      },
+      {
+        "line": 247,
+        "text": "### Gate anti-fake-pixel-art para fontes IA/high-res"
+      },
+      {
+        "line": 275,
+        "text": "## ROTA GUI: photo2sgdk"
+      },
+      {
+        "line": 299,
+        "text": "## ROTA CLI (substituida pelo forge-art)"
+      },
+      {
+        "line": 317,
+        "text": "# 1. cor: oraculo unico (ResComp e o default, porque e ele que escreve a ROM)"
+      },
+      {
+        "line": 320,
+        "text": "# 2. PNG JA indexado: normalizar PLTE e papel do index 0"
+      },
+      {
+        "line": 323,
+        "text": "# 3. medir o candidato contra o contrato pixel-strict (nao escreve nada)"
+      },
+      {
+        "line": 332,
+        "text": "### GIMP 3 batch opcional"
+      },
+      {
+        "line": 357,
+        "text": "## PALETA: garantindo qualidade maxima"
+      },
+      {
+        "line": 359,
+        "text": "### Grid 9-bits obrigatorio"
+      },
+      {
+        "line": 376,
+        "text": "### Distribuicao de paleta recomendada (15 cores)"
+      },
+      {
+        "line": 399,
+        "text": "### Tecnica de dithering manual (para gradientes)"
+      },
+      {
+        "line": 412,
+        "text": "## GERACAO DE ENTRADAS .res"
+      },
+      {
+        "line": 416,
+        "text": "### sprite.res"
+      },
+      {
+        "line": 419,
+        "text": "# Sprite de personagem 4x4 tiles (32x32 px)"
+      },
+      {
+        "line": 422,
+        "text": "# Sprite de inimigo 3x4 tiles (24x32 px)"
+      },
+      {
+        "line": 435,
+        "text": "### gfx.res (tileset + mapa)"
+      },
+      {
+        "line": 448,
+        "text": "## VALIDACAO POS-CONVERSAO"
+      },
+      {
+        "line": 450,
+        "text": "### Checklist automatizado"
+      },
+      {
+        "line": 453,
+        "text": "# 1. Re-diagnosticar para confirmar que issues criticos foram resolvidos"
+      },
+      {
+        "line": 456,
+        "text": "# 2. Validar integracao com ResComp"
+      },
+      {
+        "line": 459,
+        "text": "# 3. Auto-fix .res se necessario"
+      },
+      {
+        "line": 462,
+        "text": "# 4. Build de teste"
+      },
+      {
+        "line": 466,
+        "text": "### Criterio de aceitacao pos-conversao"
+      },
+      {
+        "line": 487,
+        "text": "## PALETA COMPARTILHADA (mergePaletteSGDK)"
+      },
+      {
+        "line": 492,
+        "text": "# Colocar todos os PNGs indexados no mesmo diretorio e executar"
+      },
+      {
+        "line": 501,
+        "text": "## REFERENCIA DE QUALIDADE (Jogos comerciais MD)"
+      },
+      {
+        "line": 516,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 518,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 527,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 538,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 559,
+        "text": "### Handoff para proxima etapa"
+      }
+    ],
+    "references": [
+      {
+        "path": "references/canonical_asset_structure.md",
+        "line": 161,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/technique_usage_manifest.json",
+        "line": 206,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "art-creation-sourcing",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/art-creation-sourcing/SKILL.md",
+    "sha256": "c7a2649b71bd490ade12c359e7524496f26860d8806fcf7aadc83acad35ecd88",
+    "lines": 472,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Art Creation & Sourcing"
+      },
+      {
+        "line": 12,
+        "text": "## Regra de Contexto Primeiro"
+      },
+      {
+        "line": 52,
+        "text": "## As duas rotas"
+      },
+      {
+        "line": 91,
+        "text": "## ROTA A: Geracao com IA"
+      },
+      {
+        "line": 93,
+        "text": "### Passo 1 — Bible artistica resumida (obrigatorio)"
+      },
+      {
+        "line": 98,
+        "text": "## Art Direction Decision Record"
+      },
+      {
+        "line": 109,
+        "text": "## Concept Art Direction Brief"
+      },
+      {
+        "line": 117,
+        "text": "## Master Style Manifest"
+      },
+      {
+        "line": 139,
+        "text": "### Passo 2 — Prompts de FONTE, nao de sprite final"
+      },
+      {
+        "line": 157,
+        "text": "# Personagem (fonte, depois lineart 1px no tamanho alvo):"
+      },
+      {
+        "line": 162,
+        "text": "# Inimigo de rua (densidade arcade = escala do GDD, nao 24x32 no prompt):"
+      },
+      {
+        "line": 166,
+        "text": "# Cenario (fonte de plano, depois reautoria em tiles — nunca dump):"
+      },
+      {
+        "line": 184,
+        "text": "### Passo 3 — Ferramentas de geracao de imagem"
+      },
+      {
+        "line": 195,
+        "text": "# Dry-run read-only (sempre funciona; auto-detecta Codex/ChatGPT nativo)"
+      },
+      {
+        "line": 203,
+        "text": "# Run real pelo circuit apenas para backend local. Se preflight retornar"
+      },
+      {
+        "line": 204,
+        "text": "# native_chat_image_generation_callable/native_chat_inline_generation, use a"
+      },
+      {
+        "line": 205,
+        "text": "# ferramenta nativa da sessao, salve em data/source_art/ e registre lineage."
+      },
+      {
+        "line": 241,
+        "text": "# Usar Claude API com tool use para coordenar geracao"
+      },
+      {
+        "line": 242,
+        "text": "# O agente art-creator usa esta skill para gerar prompts"
+      },
+      {
+        "line": 243,
+        "text": "# e pode chamar APIs externas de imagem via MCP ou HTTP"
+      },
+      {
+        "line": 246,
+        "text": "### Passo 4 — Pos-gerado: classificacao e handoff obrigatorios"
+      },
+      {
+        "line": 251,
+        "text": "# 1. Inspecionar o que foi gerado"
+      },
+      {
+        "line": 254,
+        "text": "# 2. Para sprite/objeto/FX autoral, criar e validar o record operacional"
+      },
+      {
+        "line": 259,
+        "text": "# 3. Se a fonte estiver perto do padrao e a rota for apenas tecnica, executar"
+      },
+      {
+        "line": 260,
+        "text": "# forge-art convert com spec registrada. A saida continua technical_candidate."
+      },
+      {
+        "line": 272,
+        "text": "## ROTA B: Busca e Download na Web"
+      },
+      {
+        "line": 274,
+        "text": "### Repositorios recomendados"
+      },
+      {
+        "line": 284,
+        "text": "### Estrategia de busca eficiente"
+      },
+      {
+        "line": 302,
+        "text": "### Avaliacao de sprite sheet baixado"
+      },
+      {
+        "line": 305,
+        "text": "# Verificar o que foi baixado"
+      },
+      {
+        "line": 308,
+        "text": "# Identificar dimensoes e modo"
+      },
+      {
+        "line": 311,
+        "text": "# Verificar grid de frames (para sprite sheets)"
+      },
+      {
+        "line": 312,
+        "text": "# Largura/altura deve ser divisivel pelo tamanho do frame"
+      },
+      {
+        "line": 313,
+        "text": "# Ex: 192x32 px com frames 32x32 = 6 frames horizontais"
+      },
+      {
+        "line": 325,
+        "text": "### Download e organizacao"
+      },
+      {
+        "line": 340,
+        "text": "# Creditos de Assets"
+      },
+      {
+        "line": 348,
+        "text": "### Corte de sprite sheet"
+      },
+      {
+        "line": 353,
+        "text": "# Cortar grid de sprites (ex: sheet 192x32 com frames 32x32)"
+      },
+      {
+        "line": 356,
+        "text": "# Cortar frame especifico (x_offset, y_offset, w, h)"
+      },
+      {
+        "line": 364,
+        "text": "## Decisao: qual rota escolher?"
+      },
+      {
+        "line": 380,
+        "text": "## Saida esperada desta skill"
+      },
+      {
+        "line": 385,
+        "text": "## Analise de Arte — <Nome do Projeto>"
+      },
+      {
+        "line": 406,
+        "text": "## Memoria de Estilo"
+      },
+      {
+        "line": 416,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 418,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 426,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 445,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 464,
+        "text": "### Handoff para proxima etapa"
+      }
+    ],
+    "references": [
+      {
+        "path": "references/context_orchestration_v1.md",
+        "line": 20,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/master_style_manifest.md",
+        "line": 21,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/03_art/17_concept_art_direction_system.md",
+        "line": 22,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+        "line": 22,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/image_generation_capability_routing.md",
+        "line": 23,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/project_bible.schema.json",
+        "line": 25,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/benchmark_usage_policy.md",
+        "line": 26,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/18_live_scene_bar.md",
+        "line": 27,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 50,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/06_AI_MEMORY_BANK.md",
+        "line": 50,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/workflows/ai-imagegen-circuit.md",
+        "line": 214,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "art-direction-selector",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/art-direction-selector/SKILL.md",
+    "sha256": "3aa9281a8c1a5f2e610f6eb42dafeed5c2fcae36b915ad05c1541044f573094d",
+    "lines": 246,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Art Direction Selector"
+      },
+      {
+        "line": 10,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 24,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 34,
+        "text": "## Modo padrao"
+      },
+      {
+        "line": 48,
+        "text": "## Regras de seguranca artistica"
+      },
+      {
+        "line": 58,
+        "text": "## Artefatos"
+      },
+      {
+        "line": 60,
+        "text": "### `art_direction_decision_record`"
+      },
+      {
+        "line": 92,
+        "text": "### `concept_art_direction_brief`"
+      },
+      {
+        "line": 129,
+        "text": "### `style_candidate_matrix`"
+      },
+      {
+        "line": 133,
+        "text": "### `master_style_manifest`"
+      },
+      {
+        "line": 147,
+        "text": "### `brand_identity_manifest`"
+      },
+      {
+        "line": 166,
+        "text": "### `style_drift_policy`"
+      },
+      {
+        "line": 177,
+        "text": "## Blockers"
+      },
+      {
+        "line": 192,
+        "text": "## Anexo: `moodboard_manifest`"
+      },
+      {
+        "line": 207,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 209,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 217,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 227,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 240,
+        "text": "### Handoff"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+        "line": 12,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/conception_agent_brief.md",
+        "line": 13,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 14,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 15,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/01_game_design/02_reference_pillars.md",
+        "line": 16,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/00_art_bible.md",
+        "line": 17,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/00_visual_quality_bar.md",
+        "line": 17,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/01_master_style_manifest.md",
+        "line": 18,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/17_concept_art_direction_system.md",
+        "line": 19,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/13_hud_ui_fx_decision_system.md",
+        "line": 20,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/brand_identity_manifest.schema.json",
+        "line": 21,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+        "line": 22,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/moodboard_manifest.schema.json",
+        "line": 194,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 211,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 212,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "art-translation-to-vdp",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/art-translation-to-vdp/SKILL.md",
+    "sha256": "08214cb0dd956bae1f4b74912c5fd9b8fde4eec06866ea74c5b0cafe362d6f78",
+    "lines": 861,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Art Translation to VDP"
+      },
+      {
+        "line": 13,
+        "text": "## Missao"
+      },
+      {
+        "line": 25,
+        "text": "## Regra critica para sprites 48x64"
+      },
+      {
+        "line": 69,
+        "text": "## Bloqueio anti-polimento do erro"
+      },
+      {
+        "line": 90,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 101,
+        "text": "## Nao use"
+      },
+      {
+        "line": 108,
+        "text": "## Caso: source Bonsai 1-bit dithered (Canonico)"
+      },
+      {
+        "line": 147,
+        "text": "## Entradas obrigatorias"
+      },
+      {
+        "line": 174,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 176,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 186,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 206,
+        "text": "### Saida opcional quando houver multiplas rotas viaveis"
+      },
+      {
+        "line": 213,
+        "text": "### Triagem obrigatoria para raster high-res de sprite"
+      },
+      {
+        "line": 237,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 260,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 266,
+        "text": "## Curadoria e acuracia da skill"
+      },
+      {
+        "line": 289,
+        "text": "## Few-shot canonico de falhas caras"
+      },
+      {
+        "line": 297,
+        "text": "## Reuso de builders curados"
+      },
+      {
+        "line": 315,
+        "text": "## Checklist obrigatorio"
+      },
+      {
+        "line": 333,
+        "text": "## Processo"
+      },
+      {
+        "line": 335,
+        "text": "### 1. Fazer alfabetizacao semantica do `source`"
+      },
+      {
+        "line": 409,
+        "text": "### 2. Extrair a alma da imagem"
+      },
+      {
+        "line": 440,
+        "text": "### 3. Traduzir para decisoes de hardware"
+      },
+      {
+        "line": 501,
+        "text": "### 4. Gerar duas leituras"
+      },
+      {
+        "line": 511,
+        "text": "### 4.1 Explorar alternativas sem perder coerencia"
+      },
+      {
+        "line": 571,
+        "text": "### 5. Validar"
+      },
+      {
+        "line": 581,
+        "text": "### 5.1 Triagem de promocao para ROM"
+      },
+      {
+        "line": 609,
+        "text": "### 5.2 Interpretar o `hardware_budget_review`"
+      },
+      {
+        "line": 628,
+        "text": "### 5.3 Escolher a classe certa de tecnica de VDP"
+      },
+      {
+        "line": 651,
+        "text": "### 5. Revisar como tileset, nao apenas como imagem"
+      },
+      {
+        "line": 673,
+        "text": "## Tecnicas avancadas permitidas"
+      },
+      {
+        "line": 675,
+        "text": "### `3+1 palette split`"
+      },
+      {
+        "line": 680,
+        "text": "### Curadoria manual semantica de paleta"
+      },
+      {
+        "line": 690,
+        "text": "### `borrowed_fx_ramp`"
+      },
+      {
+        "line": 696,
+        "text": "### `sprite-grafted parallax`"
+      },
+      {
+        "line": 701,
+        "text": "### `compare_flat` para prova em ROM"
+      },
+      {
+        "line": 709,
+        "text": "### `whole-image conversion` e suspeita por padrao"
+      },
+      {
+        "line": 715,
+        "text": "### `plane size tuning`"
+      },
+      {
+        "line": 721,
+        "text": "### `window alias`"
+      },
+      {
+        "line": 730,
+        "text": "### `hscroll slack reuse`"
+      },
+      {
+        "line": 735,
+        "text": "### `SAT reuse`"
+      },
+      {
+        "line": 740,
+        "text": "## Texto expressivo como asset VDP"
+      },
+      {
+        "line": 750,
+        "text": "## Outputs obrigatorios"
+      },
+      {
+        "line": 766,
+        "text": "## Outputs opcionais para curadoria AAA"
+      },
+      {
+        "line": 773,
+        "text": "## Comando de avaliacao"
+      },
+      {
+        "line": 785,
+        "text": "## Gates"
+      },
+      {
+        "line": 800,
+        "text": "### Curadoria - motion_gif + pivos + contact points"
+      },
+      {
+        "line": 813,
+        "text": "## Regra de Ouro"
+      },
+      {
+        "line": 824,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 842,
+        "text": "## Curadoria 2026-06-15 - Tecnicas externas e pipeline AAA"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/validate_visual_source_of_truth.ps1",
+        "line": 87,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/04_art_translation_curation_protocol.md",
+        "line": 272,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/03_ai_source_to_vdp_sprint.md",
+        "line": 273,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/image-tools/specs/art_translation_case.template.json",
+        "line": 274,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/image-tools/analyze_translation_case.py",
+        "line": 275,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/image-tools/build_bvl_v2_scene1_assets.py",
+        "line": 313,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/18_live_scene_bar.md",
+        "line": 317,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/00_visual_quality_bar.md",
+        "line": 318,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/01_visual_cohesion_system.md",
+        "line": 319,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/02_visual_feedback_bank.md",
+        "line": 320,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/art/sprite-animation/SKILL.md",
+        "line": 327,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/art/character-design/SKILL.md",
+        "line": 329,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+        "line": 330,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+        "line": 331,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/lib_case/art-translation/index.json",
+        "line": 385,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/image-tools/analyze_source_semantics.py",
+        "line": 397,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/02_visual_feedback_bank.md",
+        "line": 819,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "character-design",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/character-design/SKILL.md",
+    "sha256": "5f89ead367da4d8546d6f09ecd2e0d5d0a5bf76dc1e53b52b91ad67d0be147ce",
+    "lines": 200,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Character Design"
+      },
+      {
+        "line": 10,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 17,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 26,
+        "text": "## Entregas obrigatorias"
+      },
+      {
+        "line": 42,
+        "text": "## Regras canonicas"
+      },
+      {
+        "line": 72,
+        "text": "### Proporcao de plataforma 2D"
+      },
+      {
+        "line": 94,
+        "text": "## Gates de aprovacao"
+      },
+      {
+        "line": 106,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 121,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 149,
+        "text": "## Integracao"
+      },
+      {
+        "line": 155,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 157,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 166,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 181,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 196,
+        "text": "### Handoff para proxima etapa"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/03_art/08_character_design_standards.md",
+        "line": 12,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/00_visual_quality_bar.md",
+        "line": 13,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/01_visual_cohesion_system.md",
+        "line": 14,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/02_visual_feedback_bank.md",
+        "line": 15,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "cutscene-cinematic-direction",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/cutscene-cinematic-direction/SKILL.md",
+    "sha256": "269ad0cbc9d0c9c0984f3d042fb195d55f3e80796631742c5472c555d325813f",
+    "lines": 313,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Cutscene Cinematic Direction"
+      },
+      {
+        "line": 12,
+        "text": "## Avaliacao honesta da capacidade atual"
+      },
+      {
+        "line": 26,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 38,
+        "text": "## Nao use"
+      },
+      {
+        "line": 44,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 46,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 55,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 65,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 72,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 78,
+        "text": "## Entradas obrigatorias"
+      },
+      {
+        "line": 89,
+        "text": "## Saidas obrigatorias"
+      },
+      {
+        "line": 105,
+        "text": "## Contrato de FSM"
+      },
+      {
+        "line": 109,
+        "text": "## Contrato machine-readable"
+      },
+      {
+        "line": 150,
+        "text": "### FSM table-driven para runtime SGDK"
+      },
+      {
+        "line": 168,
+        "text": "## Direcao visual anime 90s"
+      },
+      {
+        "line": 183,
+        "text": "## Layout de paineis"
+      },
+      {
+        "line": 196,
+        "text": "## Texto e ritmo"
+      },
+      {
+        "line": 213,
+        "text": "## Movimento cinematico minimo"
+      },
+      {
+        "line": 233,
+        "text": "## Truques de hardware permitidos"
+      },
+      {
+        "line": 252,
+        "text": "## Budget por estado"
+      },
+      {
+        "line": 268,
+        "text": "## Evidencia"
+      },
+      {
+        "line": 279,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 292,
+        "text": "## Handoff"
+      },
+      {
+        "line": 299,
+        "text": "## Anti-padroes"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/12-roteiro.md",
+        "line": 48,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 49,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/12-roteiro.md",
+        "line": 80,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 81,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/cinematic_storyboard_contract.schema.json",
+        "line": 114,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "image-generation-routing",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/image-generation-routing/SKILL.md",
+    "sha256": "cde5e9984476f25cd2dc33d287aeea78664b68cb7f17a600cdfe82685bb440f4",
+    "lines": 289,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Image Generation Routing"
+      },
+      {
+        "line": 10,
+        "text": "## Arvore de 3 ramos (obrigatoria antes de qualquer promessa)"
+      },
+      {
+        "line": 53,
+        "text": "## Entrada minima"
+      },
+      {
+        "line": 60,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 67,
+        "text": "## Ordem de canais (top-down)"
+      },
+      {
+        "line": 99,
+        "text": "## Comandos canonicos do toolchain local"
+      },
+      {
+        "line": 104,
+        "text": "# 1. Estado do host"
+      },
+      {
+        "line": 107,
+        "text": "# 2. Roteamento (auto detecta Codex/ChatGPT; use false/true para override)"
+      },
+      {
+        "line": 110,
+        "text": "# 3. Healthcheck especifico do perfil"
+      },
+      {
+        "line": 113,
+        "text": "# 4. Instalacao idempotente (dry-run primeiro)"
+      },
+      {
+        "line": 117,
+        "text": "# 5. Geracao real (ComfyUI deve estar online)"
+      },
+      {
+        "line": 120,
+        "text": "# 6. Conversao com lineage (origem em data/source_art/)"
+      },
+      {
+        "line": 124,
+        "text": "## Regra de selecao"
+      },
+      {
+        "line": 141,
+        "text": "## Regras de host"
+      },
+      {
+        "line": 148,
+        "text": "## Artefatos obrigatorios antes de bloqueio"
+      },
+      {
+        "line": 182,
+        "text": "## Persistencia inline"
+      },
+      {
+        "line": 195,
+        "text": "## Lineage por asset"
+      },
+      {
+        "line": 208,
+        "text": "## Saida minima desta skill"
+      },
+      {
+        "line": 217,
+        "text": "## Handoff"
+      },
+      {
+        "line": 223,
+        "text": "## Auto-invocacao via `imagegen_circuit.py` (Ring 1, projeto-aware)"
+      },
+      {
+        "line": 228,
+        "text": "# Dry-run (read-only, sempre funciona; nativo e auto-detectado por default)"
+      },
+      {
+        "line": 235,
+        "text": "# Run real pelo circuit e apenas para backends locais; se o preflight retornar"
+      },
+      {
+        "line": 236,
+        "text": "# `native_chat_image_generation_callable` ou `native_chat_inline_generation`,"
+      },
+      {
+        "line": 237,
+        "text": "# o agente deve usar a ferramenta nativa da sessão, persistir o output em"
+      },
+      {
+        "line": 238,
+        "text": "# data/source_art/ e registrar lineage/status source_candidate."
+      },
+      {
+        "line": 270,
+        "text": "## Anti-padroes"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/03_art/18_live_scene_bar.md",
+        "line": 48,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/ai_imagegen/imagegen_tool.py",
+        "line": 82,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/successor_asset_directive.schema.json",
+        "line": 157,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/successor_asset_directive_template.md",
+        "line": 158,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/ai_imagegen/reports/schema/bonsai_license_ack.schema.json",
+        "line": 263,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/ai_imagegen/reports/schema/bonsai_session.schema.json",
+        "line": 264,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/ai_imagegen/reports/schema/prompt_pack_manifest.schema.json",
+        "line": 265,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/ai_imagegen/reports/schema/master_style_manifest_lookup.schema.json",
+        "line": 266,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/ai_imagegen/reports/schema/generation_channel_decision.schema.json",
+        "line": 267,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/ai_imagegen/reports/schema/asset_lineage_record.schema.json",
+        "line": 268,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "megadrive-pixel-strict-rules",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/SKILL.md",
+    "sha256": "af5fe6035d39f24391a64342755a287581b50f8aade8b336bb2467b920475241",
+    "lines": 255,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Mega Drive Pixel Strict Rules"
+      },
+      {
+        "line": 12,
+        "text": "## 1. Cor indexada 4-bits"
+      },
+      {
+        "line": 19,
+        "text": "## 2. Resolucao de cor 9-bits"
+      },
+      {
+        "line": 29,
+        "text": "## 3. Grid 8x8 obrigatorio"
+      },
+      {
+        "line": 36,
+        "text": "## 4. Escala 1x"
+      },
+      {
+        "line": 42,
+        "text": "## 5. Bounding box justo"
+      },
+      {
+        "line": 48,
+        "text": "## 6. Tile flipping via hardware"
+      },
+      {
+        "line": 54,
+        "text": "## 7. Economia de VRAM"
+      },
+      {
+        "line": 61,
+        "text": "## 8. Pivot, baseline, grid e dither (curation_batch_2026_06_16)"
+      },
+      {
+        "line": 89,
+        "text": "## Proibicoes absolutas"
+      },
+      {
+        "line": 103,
+        "text": "## Checklist de validacao de asset"
+      },
+      {
+        "line": 119,
+        "text": "## Gate `fake_pixel_art_rejection`"
+      },
+      {
+        "line": 144,
+        "text": "### Limite do gate pixel-strict"
+      },
+      {
+        "line": 168,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 170,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 182,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 193,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 202,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 208,
+        "text": "## Caso especial: source Bonsai 1-bit dithered → paleta MD 16-cores"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "multi-plane-composition",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+    "sha256": "f621fad0993270926b40bcab1f309982ec894b339c4b69f814c29538d42a025f",
+    "lines": 267,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Multi-Plane Composition"
+      },
+      {
+        "line": 10,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 18,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 31,
+        "text": "## Entregas obrigatorias"
+      },
+      {
+        "line": 42,
+        "text": "## Entregas opcionais quando houver multiplas rotas de cena"
+      },
+      {
+        "line": 51,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 53,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 64,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 83,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 95,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 101,
+        "text": "## Regras canonicas"
+      },
+      {
+        "line": 125,
+        "text": "## Exploracao de rotas sem quebrar a cena"
+      },
+      {
+        "line": 149,
+        "text": "## Resource Topology Plan"
+      },
+      {
+        "line": 165,
+        "text": "## Gates de aprovacao"
+      },
+      {
+        "line": 173,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 189,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 228,
+        "text": "## Integracao"
+      },
+      {
+        "line": 235,
+        "text": "## Curadoria 2026-06-15 - Tilemap, streaming e guardian"
+      },
+      {
+        "line": 253,
+        "text": "## Curadoria 2026-06-17 - Parallax por bandas e linhas"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/03_art/09_multi_plane_composition_standards.md",
+        "line": 12,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/04_art_translation_curation_protocol.md",
+        "line": 13,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/02_visual_feedback_bank.md",
+        "line": 14,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+        "line": 15,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/art/scene-direction-curator/SKILL.md",
+        "line": 16,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "native-sprite-production",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/native-sprite-production/SKILL.md",
+    "sha256": "741a6fe98a2d1bb5245fb33acee0ad53d4b3a8f1ebb92962685b59380ecc9821",
+    "lines": 152,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Native Sprite Production"
+      },
+      {
+        "line": 10,
+        "text": "## Owners especializados"
+      },
+      {
+        "line": 16,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 32,
+        "text": "## Contrato operacional"
+      },
+      {
+        "line": 34,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 43,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 72,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 99,
+        "text": "### Handoff"
+      },
+      {
+        "line": 106,
+        "text": "## Persistencia causal"
+      },
+      {
+        "line": 126,
+        "text": "## Teto de claim"
+      },
+      {
+        "line": 133,
+        "text": "## Proibicoes"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/visual-workset-and-freeze-contract.md",
+        "line": 18,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/workflows/native-sprite-production-loop.md",
+        "line": 21,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/source-route-triage-protocol.md",
+        "line": 22,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/generation-and-scale-protocol.md",
+        "line": 23,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/03_art/02_visual_feedback_bank.md",
+        "line": 26,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 27,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 27,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/fighting-full-body-semantic-guard.md",
+        "line": 29,
+        "exists": true,
+        "scope": "skill"
+      }
+    ]
+  },
+  {
+    "skill": "scene-direction-curator",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/scene-direction-curator/SKILL.md",
+    "sha256": "7fd0ba1dc174f9bdab9d8deccbaea1639b946c4856e0310b9943d12089640a51",
+    "lines": 209,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Scene Direction Curator"
+      },
+      {
+        "line": 10,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 21,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 27,
+        "text": "## Perfis de saida"
+      },
+      {
+        "line": 34,
+        "text": "## Artefatos obrigatorios"
+      },
+      {
+        "line": 36,
+        "text": "### `scene_direction_record`"
+      },
+      {
+        "line": 71,
+        "text": "### `parallax_layer_contract`"
+      },
+      {
+        "line": 85,
+        "text": "### `palette_cycle_decision_card`"
+      },
+      {
+        "line": 96,
+        "text": "### `raster_fx_ownership_map`"
+      },
+      {
+        "line": 109,
+        "text": "### `background_ecology_card`"
+      },
+      {
+        "line": 122,
+        "text": "## Regras canonicas"
+      },
+      {
+        "line": 136,
+        "text": "## Blockers"
+      },
+      {
+        "line": 148,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 150,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 159,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 173,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 186,
+        "text": "### Handoff"
+      },
+      {
+        "line": 193,
+        "text": "## Curadoria 2026-06-15 - Guardian e scroll FX"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/scene_archetype_catalog.json",
+        "line": 12,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/art_style_catalog.json",
+        "line": 13,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 14,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 15,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/art/multi-plane-composition/SKILL.md",
+        "line": 18,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+        "line": 19,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 152,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 153,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "sprite-animation",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/sprite-animation/SKILL.md",
+    "sha256": "88a9f6e6ece0dd3fd00cbe2db3d03818d4391aab9c9947d1de0f5ebd64b9dfa6",
+    "lines": 475,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Sprite Animation"
+      },
+      {
+        "line": 16,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 35,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 44,
+        "text": "## Entregas obrigatorias"
+      },
+      {
+        "line": 101,
+        "text": "## Regras canonicas"
+      },
+      {
+        "line": 207,
+        "text": "### Principios de animacao como gates"
+      },
+      {
+        "line": 227,
+        "text": "## Gates de aprovacao"
+      },
+      {
+        "line": 246,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 301,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 337,
+        "text": "## Integracao"
+      },
+      {
+        "line": 348,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 350,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 370,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 423,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 462,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 469,
+        "text": "## Correlacao audiovisual de animacao"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/visual-workset-and-freeze-contract.md",
+        "line": 18,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/07_sprite_animation_standards.md",
+        "line": 20,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/02_visual_feedback_bank.md",
+        "line": 21,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/art/megadrive-pixel-strict-rules/SKILL.md",
+        "line": 22,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/animation_production_contract.md",
+        "line": 23,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/premium_motion_direction_contract.md",
+        "line": 24,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+        "line": 25,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/visual_dna_manifest.schema.json",
+        "line": 27,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/scripts/validate_animation_strip_artifact.py",
+        "line": 28,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/animation-validation-architecture.md",
+        "line": 30,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/animation-principles-for-megadrive.md",
+        "line": 31,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/canonical-animation-lifecycle.md",
+        "line": 32,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/uninterrupted-forward-production-policy.md",
+        "line": 33,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/canonical-animation-lifecycle.md",
+        "line": 123,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/animation-principles-for-megadrive.md",
+        "line": 210,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/agentic_aaa_contracts/examples/animation_strip_contract.example.json",
+        "line": 415,
+        "exists": false,
+        "scope": "skill"
+      },
+      {
+        "path": "references/canonical-animation-lifecycle.md",
+        "line": 467,
+        "exists": true,
+        "scope": "skill"
+      }
+    ]
+  },
+  {
+    "skill": "tiled-hybrid-parallax-curator",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/tiled-hybrid-parallax-curator/SKILL.md",
+    "sha256": "8ea848f9339cc7e215530dcd7fa9bda950fef571fce5c382f61d59ad38a7eca6",
+    "lines": 66,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Tiled Hybrid Parallax Curator"
+      },
+      {
+        "line": 26,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 28,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 35,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 43,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 51,
+        "text": "### Handoff"
+      },
+      {
+        "line": 58,
+        "text": "## Validation"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "visual-excellence-standards",
+    "path": "tools/sgdk_wrapper/.agent/skills/art/visual-excellence-standards/SKILL.md",
+    "sha256": "a6163dcbf447ec604b69fb3d48521b120ddd51d4a0dd01bd6d5594a130005075",
+    "lines": 1079,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Visual Excellence Standards"
+      },
+      {
+        "line": 41,
+        "text": "## Contrato de qualidade de producao"
+      },
+      {
+        "line": 55,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 57,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 98,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 144,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 253,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 258,
+        "text": "## Regra de Ouro"
+      },
+      {
+        "line": 271,
+        "text": "## Gate de direcao arte + game design"
+      },
+      {
+        "line": 294,
+        "text": "## Gate obrigatorio para model sheet e sprite de personagem"
+      },
+      {
+        "line": 340,
+        "text": "## Sintaxe tecnica nao e semantica visual"
+      },
+      {
+        "line": 354,
+        "text": "## Gate de fidelidade model sheet -> sprite sheet"
+      },
+      {
+        "line": 386,
+        "text": "## Gate de topologia de materiais"
+      },
+      {
+        "line": 407,
+        "text": "## Gate de fonte visual canonica"
+      },
+      {
+        "line": 428,
+        "text": "## Baseline Visual"
+      },
+      {
+        "line": 435,
+        "text": "## Leitura obrigatoria"
+      },
+      {
+        "line": 446,
+        "text": "## Metricas canonicas"
+      },
+      {
+        "line": 450,
+        "text": "### `palette_efficiency`"
+      },
+      {
+        "line": 455,
+        "text": "### `tile_efficiency`"
+      },
+      {
+        "line": 460,
+        "text": "### `detail_density_8x8`"
+      },
+      {
+        "line": 465,
+        "text": "### `dithering_density`"
+      },
+      {
+        "line": 470,
+        "text": "### `silhouette_readability`"
+      },
+      {
+        "line": 475,
+        "text": "### `layer_separation`"
+      },
+      {
+        "line": 480,
+        "text": "### `reuse_opportunity`"
+      },
+      {
+        "line": 485,
+        "text": "### `style_cohesion`"
+      },
+      {
+        "line": 490,
+        "text": "## Traducao de estetica para hardware"
+      },
+      {
+        "line": 492,
+        "text": "## Exploracao controlada de rotas visuais"
+      },
+      {
+        "line": 543,
+        "text": "## Regra de incumbencia"
+      },
+      {
+        "line": 576,
+        "text": "### Dithering"
+      },
+      {
+        "line": 581,
+        "text": "### Outline"
+      },
+      {
+        "line": 585,
+        "text": "### Volume"
+      },
+      {
+        "line": 589,
+        "text": "### Materiais"
+      },
+      {
+        "line": 595,
+        "text": "### Contraste de planos"
+      },
+      {
+        "line": 600,
+        "text": "### Economia de paleta"
+      },
+      {
+        "line": 606,
+        "text": "### Review de tileset"
+      },
+      {
+        "line": 611,
+        "text": "### Leitura em 320x224"
+      },
+      {
+        "line": 615,
+        "text": "## Menus e Title Screens"
+      },
+      {
+        "line": 644,
+        "text": "### Identidade minima de front-end"
+      },
+      {
+        "line": 664,
+        "text": "## HUD, interface e overlay"
+      },
+      {
+        "line": 682,
+        "text": "## Texto narrativo expressivo"
+      },
+      {
+        "line": 695,
+        "text": "## Transicoes contextualizadas"
+      },
+      {
+        "line": 709,
+        "text": "## Espetaculo runtime AAA"
+      },
+      {
+        "line": 725,
+        "text": "## Extrapolacao legitima do VDP"
+      },
+      {
+        "line": 727,
+        "text": "### Repartir budget e melhor que fingir que o limite nao existe"
+      },
+      {
+        "line": 737,
+        "text": "### Taxonomia de montagem avancada"
+      },
+      {
+        "line": 758,
+        "text": "### Auditoria de slot em Shadow/Highlight"
+      },
+      {
+        "line": 768,
+        "text": "### Waterline e palette split"
+      },
+      {
+        "line": 774,
+        "text": "### Leitura sob interlace"
+      },
+      {
+        "line": 780,
+        "text": "### Ilusoes modernas honestas"
+      },
+      {
+        "line": 791,
+        "text": "### Gate `high_color_illusion`"
+      },
+      {
+        "line": 810,
+        "text": "### Fundo enorme nao e virtude por si so"
+      },
+      {
+        "line": 815,
+        "text": "## Quirks e exploits opt-in"
+      },
+      {
+        "line": 825,
+        "text": "## Protocolo de referencias"
+      },
+      {
+        "line": 845,
+        "text": "## Protocolo de feedback"
+      },
+      {
+        "line": 861,
+        "text": "## Gatilhos de reprovacao"
+      },
+      {
+        "line": 889,
+        "text": "## Curadoria - perceptual_motion_gate e critical_visual_rework_blocker"
+      },
+      {
+        "line": 894,
+        "text": "### `perceptual_motion_gate` antes de promover critico"
+      },
+      {
+        "line": 907,
+        "text": "### `critical_visual_rework_blocker` nao aceitam override \"por GIF\""
+      },
+      {
+        "line": 920,
+        "text": "### Piso honesto: `visual_lab_static_floor`"
+      },
+      {
+        "line": 930,
+        "text": "## Curadoria - Visual-first project lifecycle"
+      },
+      {
+        "line": 935,
+        "text": "### Rota visual-first economiza tempo e tokens"
+      },
+      {
+        "line": 951,
+        "text": "### Runtime tecnico com visual bloqueado nao e maturidade AAA"
+      },
+      {
+        "line": 973,
+        "text": "### Estagios visuais canonicos"
+      },
+      {
+        "line": 988,
+        "text": "## Integracao com agentes"
+      },
+      {
+        "line": 990,
+        "text": "### `art-director`"
+      },
+      {
+        "line": 994,
+        "text": "### `mega-drive-pixel-engineer`"
+      },
+      {
+        "line": 998,
+        "text": "### `art-creator`"
+      },
+      {
+        "line": 1002,
+        "text": "### `art-pipeline-operator`"
+      },
+      {
+        "line": 1006,
+        "text": "## Governanca operacional"
+      },
+      {
+        "line": 1012,
+        "text": "## O Segredo da Profundidade"
+      },
+      {
+        "line": 1026,
+        "text": "## Benchmark Lab"
+      },
+      {
+        "line": 1033,
+        "text": "## Nunca faca"
+      },
+      {
+        "line": 1042,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 1072,
+        "text": "## Evidencia audiovisual nao e aprovacao estetica"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/visual-workset-and-freeze-contract.md",
+        "line": 19,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/production_visual_quality_contract.md",
+        "line": 44,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/18_live_scene_bar.md",
+        "line": 50,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/02_visual_feedback_bank.md",
+        "line": 62,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/live_scene_bar_report.schema.json",
+        "line": 149,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/ui_pixel_surface_contract.schema.json",
+        "line": 225,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/brand_identity_manifest.schema.json",
+        "line": 227,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/art_gameplay_direction_gate.schema.json",
+        "line": 276,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/validate_visual_source_of_truth.ps1",
+        "line": 424,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/source_to_rom_visual_gate.md",
+        "line": 442,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/03_art/12_menu_visual_language.md",
+        "line": 618,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/13_hud_ui_fx_decision_system.md",
+        "line": 619,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/16_expressive_narrative_text_presentation.md",
+        "line": 684,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/15_aaa_runtime_spectacle_decision_system.md",
+        "line": 711,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "camera-system-sgdk",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/camera-system-sgdk/SKILL.md",
+    "sha256": "e0b892c12b6b0cac36e41b43971a94506e28a00d1e9ff668436da29a4543de59",
+    "lines": 52,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Camera System SGDK"
+      },
+      {
+        "line": 11,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 13,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 20,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 27,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 35,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 40,
+        "text": "## Regras"
+      },
+      {
+        "line": 47,
+        "text": "## Anti-padroes"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "collision-system-architect",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/collision-system-architect/SKILL.md",
+    "sha256": "e540e331deab1025bc5775c887ea9b3c9d9442c7b9cff0ccf941ea2deb566b57",
+    "lines": 59,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Collision System Architect"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 19,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 27,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 35,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 41,
+        "text": "## Regras"
+      },
+      {
+        "line": 48,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 55,
+        "text": "## Contato persistente e alcance realizavel"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "entity-polymorphism-architect",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/entity-polymorphism-architect/SKILL.md",
+    "sha256": "4ed209885d639bc5adaf25ed0a8f15735b12ed2264465971a65c860d01144259",
+    "lines": 52,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Entity Polymorphism Architect"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 19,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 26,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 34,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 40,
+        "text": "## Regras"
+      },
+      {
+        "line": 47,
+        "text": "## Anti-padroes"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "forward-kinematics-rigging",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/forward-kinematics-rigging/SKILL.md",
+    "sha256": "5f506c2ee96017b33ff58e21f0148a75914d7e85f58a98e6fb7207453463b042",
+    "lines": 106,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Forward Kinematics Rigging"
+      },
+      {
+        "line": 10,
+        "text": "## Nao substitui outras skills"
+      },
+      {
+        "line": 19,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 27,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 34,
+        "text": "## Saidas obrigatorias"
+      },
+      {
+        "line": 43,
+        "text": "## Regras canonicas"
+      },
+      {
+        "line": 52,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 63,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 71,
+        "text": "## Integracao"
+      },
+      {
+        "line": 77,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 79,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 86,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 95,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 102,
+        "text": "### Handoff para proxima etapa"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+        "line": 21,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
+        "line": 22,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/sgdk_211_api_reality.json",
+        "line": 23,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "sdk/sgdk-2.11/inc/fixmath.h",
+        "line": 24,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "input-system-sgdk",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/input-system-sgdk/SKILL.md",
+    "sha256": "87dd84e59a2c582824d8691cf2443f5ff1b0081b7f19ee5234f006e87fd34767",
+    "lines": 57,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Input System SGDK"
+      },
+      {
+        "line": 10,
+        "text": "## APIs SGDK 2.11 verificadas"
+      },
+      {
+        "line": 17,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 19,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 26,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 33,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 41,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 46,
+        "text": "## Regras"
+      },
+      {
+        "line": 52,
+        "text": "## Anti-padroes"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "megadrive-music-composition",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/megadrive-music-composition/SKILL.md",
+    "sha256": "fc47b037ca803ea59698ed95def46d6b83b8c18613cc5faffda9b4f00a7c6a12",
+    "lines": 61,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Composicao musical Mega Drive"
+      },
+      {
+        "line": 8,
+        "text": "## Direcao e arranjo"
+      },
+      {
+        "line": 23,
+        "text": "## Rota executavel neste workspace"
+      },
+      {
+        "line": 53,
+        "text": "## Escuta e integracao"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/17-audio-design.md",
+        "line": 10,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "sgdk-code-reviewer",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-code-reviewer/SKILL.md",
+    "sha256": "a8d343f7098663b044ca273bfc4bad4183ffacdde58da4f46b09dc44cdafe557",
+    "lines": 59,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# SGDK Code Reviewer"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 20,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 27,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 35,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 39,
+        "text": "## Regras"
+      },
+      {
+        "line": 46,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 53,
+        "text": "## Auditoria dos validadores audiovisuais"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 18,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 18,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "sgdk-runtime-coder",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+    "sha256": "cd5e04ad626e9362b8ab1f08b8f971daaf2d6666e6f895efef525b01883a03f4",
+    "lines": 652,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# SGDK Runtime Coder"
+      },
+      {
+        "line": 16,
+        "text": "## Nao substitui outras skills"
+      },
+      {
+        "line": 29,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 47,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 58,
+        "text": "## Saidas obrigatorias"
+      },
+      {
+        "line": 80,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 82,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 104,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 116,
+        "text": "## Ordem Conservadora de Debug Grafico"
+      },
+      {
+        "line": 128,
+        "text": "## Fechamento de Runtime"
+      },
+      {
+        "line": 138,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 186,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 192,
+        "text": "## Regras canonicas imediatas"
+      },
+      {
+        "line": 220,
+        "text": "## Padroes C/SGDK e Window Plane (curation_batch_2026_06_16)"
+      },
+      {
+        "line": 228,
+        "text": "### Padroes C/SGDK"
+      },
+      {
+        "line": 238,
+        "text": "### Licoes de runtime seed e placeholder"
+      },
+      {
+        "line": 257,
+        "text": "### Contrato de Window Plane / HUD estatico"
+      },
+      {
+        "line": 271,
+        "text": "## Roteamento antes de runtime"
+      },
+      {
+        "line": 283,
+        "text": "## Curadoria 2026-06-03: streaming, SAT e CRAM"
+      },
+      {
+        "line": 302,
+        "text": "## Classificacao de conhecimento"
+      },
+      {
+        "line": 313,
+        "text": "## Modelos de carga e residencia"
+      },
+      {
+        "line": 329,
+        "text": "## Curadoria - status declarativos e visual_lab_static_floor"
+      },
+      {
+        "line": 336,
+        "text": "### Taxonomia obrigatoria de status de runtime"
+      },
+      {
+        "line": 350,
+        "text": "### Piso `visual_lab_static_floor` para LAB/TECHDEMO"
+      },
+      {
+        "line": 361,
+        "text": "### Flag `asset_promovido_nao_usado`"
+      },
+      {
+        "line": 373,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 423,
+        "text": "## Regra para engine scan"
+      },
+      {
+        "line": 431,
+        "text": "## Como decidir"
+      },
+      {
+        "line": 433,
+        "text": "### `IMAGE` vs `MAP`"
+      },
+      {
+        "line": 440,
+        "text": "### `SPR_init` vs `SPR_initEx`"
+      },
+      {
+        "line": 446,
+        "text": "### Escada forense antes de mudar arquitetura"
+      },
+      {
+        "line": 458,
+        "text": "### Escada visual antes de mexer em recursos"
+      },
+      {
+        "line": 474,
+        "text": "### Scene exit reset"
+      },
+      {
+        "line": 483,
+        "text": "## Contrato de runtime para transicoes formais"
+      },
+      {
+        "line": 499,
+        "text": "## Contrato de runtime para cutscenes"
+      },
+      {
+        "line": 519,
+        "text": "## Contrato de runtime de producao AAA"
+      },
+      {
+        "line": 534,
+        "text": "## Contrato de runtime para espetaculo AAA"
+      },
+      {
+        "line": 548,
+        "text": "## Contrato de runtime para direcao de cenario"
+      },
+      {
+        "line": 562,
+        "text": "## Contrato de runtime para HUD/UI formal"
+      },
+      {
+        "line": 597,
+        "text": "## Contrato de Runtime para Menus"
+      },
+      {
+        "line": 619,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 637,
+        "text": "## Lib case obrigatoria"
+      },
+      {
+        "line": 646,
+        "text": "## Integracao"
+      }
+    ],
+    "references": [
+      {
+        "path": "references/sgdk_211_api_reality.json",
+        "line": 31,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/runtime_scene_contracts.md",
+        "line": 32,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/windows_toolchain_gotchas.md",
+        "line": 33,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/pattern_catalog.json",
+        "line": 34,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/05_technical/92_sgdk_engine_pattern_frontdoor.md",
+        "line": 35,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
+        "line": 36,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/build_and_emulator_gate.md",
+        "line": 37,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 38,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/project_methodology_manifest.json",
+        "line": 39,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/project_hygiene_manifest.json",
+        "line": 40,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/technique_usage_manifest.json",
+        "line": 41,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/camera_behavior_contract.schema.json",
+        "line": 42,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 45,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/06_AI_MEMORY_BANK.md",
+        "line": 45,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/scripts/dma_queue_planner.py",
+        "line": 113,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 189,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 190,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/changelog/changelog.md",
+        "line": 190,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 338,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/agent_learning/failure_patterns.md",
+        "line": 363,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/05_technical/92_sgdk_engine_pattern_frontdoor.md",
+        "line": 426,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
+        "line": 427,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/05_technical/92_sgdk_engine_pattern_registry.json",
+        "line": 642,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "xgm2-audio-director",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/SKILL.md",
+    "sha256": "3d4e1b6fdbae82abdec4224039cd88b4e3723a1b024da3179ef1e08acb0c1599",
+    "lines": 264,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# XGM2 Audio Director"
+      },
+      {
+        "line": 10,
+        "text": "## Nao substitui outras skills"
+      },
+      {
+        "line": 25,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 44,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 53,
+        "text": "## Saidas obrigatorias"
+      },
+      {
+        "line": 72,
+        "text": "## Regras canonicas"
+      },
+      {
+        "line": 96,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 117,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 136,
+        "text": "## Anexo: `adaptive_music_state_map`"
+      },
+      {
+        "line": 156,
+        "text": "## Curadoria candidata: composicao adaptativa e clock musical"
+      },
+      {
+        "line": 162,
+        "text": "### Regras aceitas com traducao para Mega Drive"
+      },
+      {
+        "line": 181,
+        "text": "### Rejeicoes explicitas desta fonte"
+      },
+      {
+        "line": 196,
+        "text": "## Integracao"
+      },
+      {
+        "line": 203,
+        "text": "## Prova audiovisual de audio"
+      },
+      {
+        "line": 211,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 213,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 220,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 238,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 260,
+        "text": "### Handoff para proxima etapa"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/03_art/18_live_scene_bar.md",
+        "line": 19,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+        "line": 27,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "sdk/sgdk-2.11/inc/snd/xgm2.h",
+        "line": 28,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/references/sgdk_211_api_reality.json",
+        "line": 30,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/audio_event_contract.json",
+        "line": 31,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/channel_ownership_templates.json",
+        "line": 32,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/05_technical/99_aaa_audio_architecture_guide.md",
+        "line": 33,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/validate_audio.ps1",
+        "line": 34,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/audio_architecture_card.schema.json",
+        "line": 35,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/composition_scope_contract.schema.json",
+        "line": 36,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/audio_architecture_card.example.json",
+        "line": 37,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/audio-tools/README.md",
+        "line": 38,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/adaptive_music_state_map.schema.json",
+        "line": 138,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "z80-pcm-custom-driver",
+    "path": "tools/sgdk_wrapper/.agent/skills/code/z80-pcm-custom-driver/SKILL.md",
+    "sha256": "fd60f003caff14cc0102573526a39b54414a096d22cc56ca4a0d34d4f268486b",
+    "lines": 218,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Z80 PCM Custom Driver — Drivers de Audio Customizados"
+      },
+      {
+        "line": 10,
+        "text": "## Nao substitui outras skills"
+      },
+      {
+        "line": 21,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 38,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 54,
+        "text": "## Saidas obrigatorias"
+      },
+      {
+        "line": 79,
+        "text": "## Regras canonicas"
+      },
+      {
+        "line": 81,
+        "text": "### Z80 Driver Core"
+      },
+      {
+        "line": 89,
+        "text": "### PCM Streaming"
+      },
+      {
+        "line": 97,
+        "text": "### Bus Contention"
+      },
+      {
+        "line": 105,
+        "text": "### Qualidade AAA"
+      },
+      {
+        "line": 113,
+        "text": "### Curadoria 2026-06-04: tecnicas de audio de alto risco"
+      },
+      {
+        "line": 120,
+        "text": "### Formato e Conversao"
+      },
+      {
+        "line": 128,
+        "text": "### ROM Budget"
+      },
+      {
+        "line": 136,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 157,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 171,
+        "text": "## Integracao"
+      },
+      {
+        "line": 179,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 181,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 188,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 204,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 214,
+        "text": "### Handoff para proxima etapa"
+      }
+    ],
+    "references": [
+      {
+        "path": "references/z80_driver_architecture.json",
+        "line": 23,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/pcm_streaming_patterns.md",
+        "line": 24,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/hardware_audio_memory_map.json",
+        "line": 25,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/sample_format_decision_system.md",
+        "line": 26,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "sdk/sgdk-2.11/inc/z80_ctrl.h",
+        "line": 27,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "sdk/sgdk-2.11/inc/snd/xgm2.h",
+        "line": 28,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "sdk/sgdk-2.11/inc/snd/pcm/snd_pcm.h",
+        "line": 29,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "sdk/sgdk-2.11/inc/snd/pcm/snd_pcm4.h",
+        "line": 30,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "sdk/sgdk-2.11/inc/snd/pcm/snd_dpcm2.h",
+        "line": 31,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "sdk/sgdk-2.11/inc/psg.h",
+        "line": 32,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/05_technical/99_aaa_audio_architecture_guide.md",
+        "line": 34,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/validate_audio.ps1",
+        "line": 35,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/scripts/ym2612_patch_validator.py",
+        "line": 36,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "enemy-design-canonical",
+    "path": "tools/sgdk_wrapper/.agent/skills/design/enemy-design-canonical/SKILL.md",
+    "sha256": "96eb195ca7084169d50d43ee434378c3b99222d4f938dbcc337533659c850a65",
+    "lines": 145,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Enemy Design Canonical"
+      },
+      {
+        "line": 10,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 18,
+        "text": "## Nao use"
+      },
+      {
+        "line": 25,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 36,
+        "text": "## Entrada minima"
+      },
+      {
+        "line": 43,
+        "text": "## Saida minima"
+      },
+      {
+        "line": 50,
+        "text": "## 6 Roles + 2 Extras"
+      },
+      {
+        "line": 64,
+        "text": "## Metrica de Cabecas (S/M/L/XL)"
+      },
+      {
+        "line": 76,
+        "text": "## Telegraph Obrigatorio"
+      },
+      {
+        "line": 85,
+        "text": "## Synergy Coletiva"
+      },
+      {
+        "line": 96,
+        "text": "## Feedback Multimodal"
+      },
+      {
+        "line": 105,
+        "text": "## Bloqueios emitidos"
+      },
+      {
+        "line": 114,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 123,
+        "text": "## Handoff"
+      },
+      {
+        "line": 130,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 139,
+        "text": "## Senior Competencies"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/schemas/enemy_roster.schema.json",
+        "line": 27,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/enemy_design_report.schema.json",
+        "line": 28,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/enemy_ai_role_catalog.json",
+        "line": 29,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/head_metric_reference.json",
+        "line": 30,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 33,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "gameplay-experience-reviewer",
+    "path": "tools/sgdk_wrapper/.agent/skills/design/gameplay-experience-reviewer/SKILL.md",
+    "sha256": "0886e9da7e125f15092b55a150a945e6f3af67fd4d8fe8388bd8da474a647fd6",
+    "lines": 49,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Gameplay Experience Reviewer"
+      },
+      {
+        "line": 11,
+        "text": "## Entrada mínima"
+      },
+      {
+        "line": 19,
+        "text": "## Julgue"
+      },
+      {
+        "line": 30,
+        "text": "## Saída"
+      },
+      {
+        "line": 36,
+        "text": "## Nunca faça"
+      },
+      {
+        "line": 44,
+        "text": "## Uso de evidencia audiovisual"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "level-design-canonical",
+    "path": "tools/sgdk_wrapper/.agent/skills/design/level-design-canonical/SKILL.md",
+    "sha256": "ef6579da3f0198a9c8ebdc9a5ecc4e8e8f95fc18b515622f32162d5ffc7039f6",
+    "lines": 165,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Level Design Canonical"
+      },
+      {
+        "line": 10,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 17,
+        "text": "## Nao use"
+      },
+      {
+        "line": 24,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 35,
+        "text": "## Entrada minima"
+      },
+      {
+        "line": 45,
+        "text": "## Saida minima"
+      },
+      {
+        "line": 54,
+        "text": "## Golden Path"
+      },
+      {
+        "line": 64,
+        "text": "## Narrativa Ambiental"
+      },
+      {
+        "line": 73,
+        "text": "## Agencia no Desafio"
+      },
+      {
+        "line": 82,
+        "text": "## Camera e Legibilidade"
+      },
+      {
+        "line": 91,
+        "text": "## Quebra de Padrao"
+      },
+      {
+        "line": 101,
+        "text": "## Ritmo de Fase (phase_rhythm_map)"
+      },
+      {
+        "line": 111,
+        "text": "## Reuso de Mecanicas"
+      },
+      {
+        "line": 119,
+        "text": "## Bloqueios emitidos"
+      },
+      {
+        "line": 130,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 139,
+        "text": "## Handoff"
+      },
+      {
+        "line": 147,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 158,
+        "text": "## Senior Competencies"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/schemas/level_blueprint.schema.json",
+        "line": 26,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/level_design_report.schema.json",
+        "line": 27,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 31,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/head_metric_reference.json",
+        "line": 32,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "systems-mechanics-validator",
+    "path": "tools/sgdk_wrapper/.agent/skills/design/systems-mechanics-validator/SKILL.md",
+    "sha256": "3871c19d1629b908ca5cc6a648f7cc7c79f765291653194d0338e6d9ca30b8b9",
+    "lines": 138,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Systems Mechanics Validator"
+      },
+      {
+        "line": 10,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 17,
+        "text": "## Nao use"
+      },
+      {
+        "line": 24,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 34,
+        "text": "## Entrada minima"
+      },
+      {
+        "line": 42,
+        "text": "## Saida minima"
+      },
+      {
+        "line": 48,
+        "text": "## 5 Leis Fundamentais aplicadas"
+      },
+      {
+        "line": 58,
+        "text": "## 5 Pilares de Validacao"
+      },
+      {
+        "line": 68,
+        "text": "## Especificidade Numerica"
+      },
+      {
+        "line": 87,
+        "text": "## Juices por mecanica"
+      },
+      {
+        "line": 94,
+        "text": "## Bloqueios emitidos"
+      },
+      {
+        "line": 106,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 115,
+        "text": "## Handoff"
+      },
+      {
+        "line": 122,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 131,
+        "text": "## Senior Competencies"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/schemas/mechanic_contract.schema.json",
+        "line": 26,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/mechanic_validation_report.schema.json",
+        "line": 27,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/mechanic_role_catalog.json",
+        "line": 28,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 29,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 30,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/head_metric_reference.json",
+        "line": 31,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/enemy_ai_role_catalog.json",
+        "line": 32,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 36,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 37,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "aaa-pipeline-guardian",
+    "path": "tools/sgdk_wrapper/.agent/skills/governance/aaa-pipeline-guardian/SKILL.md",
+    "sha256": "5c1062e652a067fc1829c2f9a1b16d1568a11e476d3c868b46e55da791d2d60a",
+    "lines": 118,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# AAA Pipeline Guardian"
+      },
+      {
+        "line": 11,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 13,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 20,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 27,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 38,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 43,
+        "text": "## Roteamento minimo"
+      },
+      {
+        "line": 60,
+        "text": "## Regras"
+      },
+      {
+        "line": 100,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 112,
+        "text": "## Claim audiovisual"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/03_art/18_live_scene_bar.md",
+        "line": 35,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/conception_agent_brief.md",
+        "line": 81,
+        "exists": false,
+        "scope": "skill"
+      }
+    ]
+  },
+  {
+    "skill": "doc-sync-audit",
+    "path": "tools/sgdk_wrapper/.agent/skills/governance/doc-sync-audit/SKILL.md",
+    "sha256": "431c1959cb68a050e1a96bf0730c5bf116c47e6f055414ddd8ca341e5991f25d",
+    "lines": 64,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Doc Sync Audit"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 18,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 26,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 31,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 36,
+        "text": "## Verifique"
+      },
+      {
+        "line": 47,
+        "text": "## Drift de Evidencia"
+      },
+      {
+        "line": 53,
+        "text": "## Classificacao"
+      },
+      {
+        "line": 60,
+        "text": "## Resultado esperado"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "independent-quality-review",
+    "path": "tools/sgdk_wrapper/.agent/skills/governance/independent-quality-review/SKILL.md",
+    "sha256": "37129ab0e289585f17881ce32c1df3d2a0290951d67d0d9c4a437b7ce489e572",
+    "lines": 72,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Independent Quality Review"
+      },
+      {
+        "line": 12,
+        "text": "## Checkpoints"
+      },
+      {
+        "line": 22,
+        "text": "## Roteamento obrigatório"
+      },
+      {
+        "line": 43,
+        "text": "## Parecer"
+      },
+      {
+        "line": 65,
+        "text": "## Limites"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "project-learning-loop",
+    "path": "tools/sgdk_wrapper/.agent/skills/governance/project-learning-loop/SKILL.md",
+    "sha256": "5eb83d47b5ee2b630e257bafad7320a9765caa0bac4f2bf17549e10bac9f8d7e",
+    "lines": 90,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Project Learning Loop"
+      },
+      {
+        "line": 10,
+        "text": "## Principio"
+      },
+      {
+        "line": 16,
+        "text": "## Entrada minima"
+      },
+      {
+        "line": 22,
+        "text": "## Saida minima"
+      },
+      {
+        "line": 31,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 41,
+        "text": "## Operacao"
+      },
+      {
+        "line": 43,
+        "text": "### Abertura read-only"
+      },
+      {
+        "line": 51,
+        "text": "### Fechamento com captura local"
+      },
+      {
+        "line": 64,
+        "text": "### Promoção canônica"
+      },
+      {
+        "line": 74,
+        "text": "## Proibicoes"
+      },
+      {
+        "line": 86,
+        "text": "## Handoff"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/agent_learning/learning_ledger.json",
+        "line": 12,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/closed_learning_loop_contract.md",
+        "line": 14,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/agent_learning/learning_ledger.json",
+        "line": 26,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/agent_learning/learning_ledger.json",
+        "line": 61,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/learning_owner_catalog.json",
+        "line": 79,
+        "exists": false,
+        "scope": "skill"
+      }
+    ]
+  },
+  {
+    "skill": "truth-hierarchy-guard",
+    "path": "tools/sgdk_wrapper/.agent/skills/governance/truth-hierarchy-guard/SKILL.md",
+    "sha256": "56e2ccf004b9050a5364d32f527bc7bfb5f523b25f07f6bd69dc8f0913224e21",
+    "lines": 57,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Truth Hierarchy Guard"
+      },
+      {
+        "line": 10,
+        "text": "## Objetivo"
+      },
+      {
+        "line": 14,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 16,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 22,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 29,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 34,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 39,
+        "text": "## Checklist"
+      },
+      {
+        "line": 48,
+        "text": "## Saida minima"
+      },
+      {
+        "line": 54,
+        "text": "## Proibido"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 41,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 42,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 43,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/00-diretrizes-agente.md",
+        "line": 44,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "megadrive-vdp-budget-analyst",
+    "path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+    "sha256": "55eacb65c914897d70811064de4e8e681faefb75d8232467f9361725a6a28240",
+    "lines": 612,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Mega Drive VDP Budget Analyst"
+      },
+      {
+        "line": 10,
+        "text": "## Verifique sempre"
+      },
+      {
+        "line": 29,
+        "text": "## Decisao"
+      },
+      {
+        "line": 49,
+        "text": "## Resource Budget Semantics"
+      },
+      {
+        "line": 75,
+        "text": "## Curadoria 2026-06-03: sprites grandes, CRAM e DMA"
+      },
+      {
+        "line": 98,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 100,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 118,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 142,
+        "text": "## Fechamento por Evidencia"
+      },
+      {
+        "line": 150,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 176,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 185,
+        "text": "## Quando houver HUD/UI formal"
+      },
+      {
+        "line": 208,
+        "text": "## Quando houver cutscene"
+      },
+      {
+        "line": 220,
+        "text": "## Quando houver transicao formal"
+      },
+      {
+        "line": 240,
+        "text": "## Quando houver espetaculo runtime AAA"
+      },
+      {
+        "line": 261,
+        "text": "## Quando houver cenario monumental"
+      },
+      {
+        "line": 276,
+        "text": "## Tecnicas canonicas de extrapolacao segura"
+      },
+      {
+        "line": 278,
+        "text": "### Reparticao intencional de VRAM"
+      },
+      {
+        "line": 309,
+        "text": "### `Plane size tuning`"
+      },
+      {
+        "line": 316,
+        "text": "### Paleta `3+1`"
+      },
+      {
+        "line": 321,
+        "text": "### `Sprite grafts` para profundidade"
+      },
+      {
+        "line": 327,
+        "text": "### `compare_flat` para prova em ROM"
+      },
+      {
+        "line": 332,
+        "text": "### Animacao de background via VRAM"
+      },
+      {
+        "line": 341,
+        "text": "### Streaming de tilemap para stage largo"
+      },
+      {
+        "line": 358,
+        "text": "### Painel, mosaico e detalhe central"
+      },
+      {
+        "line": 370,
+        "text": "### Streaming de animacao e janela ativa"
+      },
+      {
+        "line": 380,
+        "text": "### Gate de verdade para raster e paleta"
+      },
+      {
+        "line": 386,
+        "text": "## Tecnicas avancadas com gate forte"
+      },
+      {
+        "line": 388,
+        "text": "### `Window alias`"
+      },
+      {
+        "line": 397,
+        "text": "### `H-Scroll slack reuse`"
+      },
+      {
+        "line": 406,
+        "text": "### Shadow/Highlight ambiental por background"
+      },
+      {
+        "line": 416,
+        "text": "### Worst-frame budget"
+      },
+      {
+        "line": 426,
+        "text": "## Tecnicas opt-in de cena especial"
+      },
+      {
+        "line": 428,
+        "text": "### `SAT reuse`"
+      },
+      {
+        "line": 438,
+        "text": "## Taxonomia operacional"
+      },
+      {
+        "line": 455,
+        "text": "## Curadoria - resposta tecnica vs resposta perceptiva"
+      },
+      {
+        "line": 459,
+        "text": "### Dois eixos de resposta obrigatorios"
+      },
+      {
+        "line": 463,
+        "text": "#### Eixo tecnico (pergunta: \"cabe?\")"
+      },
+      {
+        "line": 472,
+        "text": "#### Eixo perceptivo (pergunta: \"perceptivel?\")"
+      },
+      {
+        "line": 481,
+        "text": "### Relacao entre os dois eixos"
+      },
+      {
+        "line": 492,
+        "text": "### Aplicacao em LAB/TECHDEMO"
+      },
+      {
+        "line": 496,
+        "text": "## Senior Competencies"
+      },
+      {
+        "line": 542,
+        "text": "## Quirks e exploits do VDP"
+      },
+      {
+        "line": 547,
+        "text": "### X = -128 em coordenadas praticas"
+      },
+      {
+        "line": 553,
+        "text": "## Alertas classicos"
+      },
+      {
+        "line": 575,
+        "text": "## Escada forense obrigatoria"
+      },
+      {
+        "line": 586,
+        "text": "## Curadoria 2026-06-15 - Mega Drive AAA video techniques"
+      },
+      {
+        "line": 605,
+        "text": "## Limite dos probes audiovisuais"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/.agent/scripts/vdp_scanline_simulator.py",
+        "line": 138,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/scripts/dma_queue_planner.py",
+        "line": 139,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/project_methodology_manifest.json",
+        "line": 536,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "shadow-highlight-scroll-fx",
+    "path": "tools/sgdk_wrapper/.agent/skills/hardware/shadow-highlight-scroll-fx/SKILL.md",
+    "sha256": "aa037acf5bda29cf43de1a17e7b1090cad4ac39ebfaf021c8a9f4bc7086c4432",
+    "lines": 53,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Shadow Highlight Scroll FX"
+      },
+      {
+        "line": 11,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 13,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 20,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 27,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 35,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 41,
+        "text": "## Regras"
+      },
+      {
+        "line": 48,
+        "text": "## Anti-padroes"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "vram-streaming-dma-queue",
+    "path": "tools/sgdk_wrapper/.agent/skills/hardware/vram-streaming-dma-queue/SKILL.md",
+    "sha256": "8f5a89682bb2c9b01b42a0762046fa1749363a348b73096f3b96afed3f410354",
+    "lines": 58,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# VRAM Streaming DMA Queue"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 19,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 26,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 34,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 40,
+        "text": "## Regras"
+      },
+      {
+        "line": 47,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 54,
+        "text": "## Animacao, aliases e streaming medido"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "emulator-vdp-evidence-curator",
+    "path": "tools/sgdk_wrapper/.agent/skills/operation/emulator-vdp-evidence-curator/SKILL.md",
+    "sha256": "84b092aca2bf77cc3b9544338e9168eaaf37e7ad9e6f81ca7af07aad88ce0462",
+    "lines": 82,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Emulator VDP Evidence Curator"
+      },
+      {
+        "line": 12,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 14,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 23,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 31,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 40,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 45,
+        "text": "## Regras"
+      },
+      {
+        "line": 54,
+        "text": "## Freeze, Capture, Seal"
+      },
+      {
+        "line": 68,
+        "text": "## Semantica do probe e cobertura real"
+      },
+      {
+        "line": 74,
+        "text": "## Revisao audiovisual hash-bound"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "harness-orchestration",
+    "path": "tools/sgdk_wrapper/.agent/skills/operation/harness-orchestration/SKILL.md",
+    "sha256": "138eaeac9df4d808d262b93d9e5fc9d5ac2b37ff13f1ada421f454261a419ee9",
+    "lines": 126,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Harness Orchestration"
+      },
+      {
+        "line": 12,
+        "text": "## Entrada mínima"
+      },
+      {
+        "line": 23,
+        "text": "## Decisão obrigatória"
+      },
+      {
+        "line": 61,
+        "text": "## Quando delegar"
+      },
+      {
+        "line": 73,
+        "text": "## Quando não delegar"
+      },
+      {
+        "line": 82,
+        "text": "## Contrato do worker"
+      },
+      {
+        "line": 110,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 122,
+        "text": "## Handoff"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "rom-mastering",
+    "path": "tools/sgdk_wrapper/.agent/skills/operation/rom-mastering/SKILL.md",
+    "sha256": "94377e77d44124bee275aef0c1f8a2e7cddfd950343ea9759a16dbe41555293a",
+    "lines": 73,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# ROM Mastering"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 21,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 31,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 40,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 44,
+        "text": "## Regras"
+      },
+      {
+        "line": 52,
+        "text": "## Evidencia de probe SRAM por escopo"
+      },
+      {
+        "line": 68,
+        "text": "## Anti-padroes"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 19,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "sgdk-build-wrapper-operator",
+    "path": "tools/sgdk_wrapper/.agent/skills/operation/sgdk-build-wrapper-operator/SKILL.md",
+    "sha256": "de546e21478383c523395aa4bd5cc272d22cb438f6cbdd127514fb902d0e7ee8",
+    "lines": 281,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# SGDK Build Wrapper Operator"
+      },
+      {
+        "line": 10,
+        "text": "## Principios"
+      },
+      {
+        "line": 25,
+        "text": "## Roteamento obrigatorio por host"
+      },
+      {
+        "line": 57,
+        "text": "## Jornada AAA cena (ordem obrigatoria)"
+      },
+      {
+        "line": 65,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 67,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 73,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 86,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 104,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 109,
+        "text": "## Checklist"
+      },
+      {
+        "line": 142,
+        "text": "## Reconciliacao de status apos build"
+      },
+      {
+        "line": 168,
+        "text": "## Gate de progresso antes de novo build"
+      },
+      {
+        "line": 207,
+        "text": "## Evidencia de input no BlastEm por observacao da ROM"
+      },
+      {
+        "line": 225,
+        "text": "## Setup SGDK/VS Code candidato"
+      },
+      {
+        "line": 248,
+        "text": "## Proibido"
+      },
+      {
+        "line": 268,
+        "text": "## Regressao reproduzivel da cadeia Linux"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/.agent/pipelines/aaa_scene_v1.json",
+        "line": 59,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/workflows/aaa-scene-pipeline.md",
+        "line": 60,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/workflows/production-loop.md",
+        "line": 61,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/blastem_input_script.schema.json",
+        "line": 84,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 106,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/preflight_host.ps1",
+        "line": 111,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/select_sgdk_build_route.py",
+        "line": 112,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/check_prd_readiness.ps1",
+        "line": 114,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/local_ci_gate_report.schema.json",
+        "line": 115,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 118,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 118,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 119,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/12_menu_visual_language.md",
+        "line": 120,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/13_hud_ui_fx_decision_system.md",
+        "line": 120,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/blastem_input_script.schema.json",
+        "line": 134,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/agentic_aaa_contracts/examples/blastem_input_script.example.json",
+        "line": 134,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 151,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/changelog/changelog.md",
+        "line": 152,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/rom_mastering_report.json",
+        "line": 153,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/local_ci_gate_report.json",
+        "line": 154,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/operational_loop_decision.json",
+        "line": 186,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/prd_index.json",
+        "line": 257,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "status-panel-maintainer",
+    "path": "tools/sgdk_wrapper/.agent/skills/operation/status-panel-maintainer/SKILL.md",
+    "sha256": "b3005265ad8b84ad2b7383cd5969f31ed586881ab8114388476220a337e0039e",
+    "lines": 55,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Status Panel Maintainer"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 18,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 24,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 29,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 33,
+        "text": "## Campos minimos"
+      },
+      {
+        "line": 45,
+        "text": "## Gates semanticos"
+      },
+      {
+        "line": 51,
+        "text": "## Regras"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "brawler-game-design",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/brawler-game-design/SKILL.md",
+    "sha256": "cd5e7b2fb998229a193c25d041eadcb492bad244b7113ea2f7df898b8196f90c",
+    "lines": 44,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Brawler Game Design"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 18,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 25,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 32,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 39,
+        "text": "## Regras"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "fighting-game-design",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/fighting-game-design/SKILL.md",
+    "sha256": "baae34372fbfd8613b760b9f2d6ae70883850be6f87328a0d07b5ec9350961bc",
+    "lines": 137,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Fighting Game Design (Orchestrator)"
+      },
+      {
+        "line": 10,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 16,
+        "text": "## Nao use"
+      },
+      {
+        "line": 34,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 48,
+        "text": "## Entrada minima"
+      },
+      {
+        "line": 54,
+        "text": "## Saida minima"
+      },
+      {
+        "line": 61,
+        "text": "## Secoes Obrigatorias do Contrato"
+      },
+      {
+        "line": 71,
+        "text": "## Politicas fixas (nao negociaveis)"
+      },
+      {
+        "line": 84,
+        "text": "## Inferencias proibidas"
+      },
+      {
+        "line": 94,
+        "text": "## Curadoria (fontes secundarias)"
+      },
+      {
+        "line": 102,
+        "text": "## Promocao de especializacao (LABORATORIO -> ... -> MESTRE_*)"
+      },
+      {
+        "line": 111,
+        "text": "## Verificacao"
+      },
+      {
+        "line": 114,
+        "text": "# canonical validator (top-level)"
+      },
+      {
+        "line": 120,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 129,
+        "text": "## Handoff"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/genre_specialization_manifest.json",
+        "line": 3,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/genre_specialization_manifest.json",
+        "line": 12,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/genre_specialization_manifest.json",
+        "line": 18,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/18_live_scene_bar.md",
+        "line": 29,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/genre_specialization_registry.schema.json",
+        "line": 36,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/genre_specialization_manifest.schema.json",
+        "line": 37,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/fighting_2d_design_contract.schema.json",
+        "line": 38,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/fighting_moveset_frame_data.schema.json",
+        "line": 39,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/fighting_specialization_report.schema.json",
+        "line": 40,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/07_game_design/genre_specialization_registry.json",
+        "line": 41,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/07_game_design/curation_sources/SOURCES_INDEX.md",
+        "line": 42,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/fighting_design_lexicon.md",
+        "line": 43,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "references/fighting_orchestrator_map.md",
+        "line": 44,
+        "exists": true,
+        "scope": "skill"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 45,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/technique_usage_manifest.json",
+        "line": 46,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/genre_specialization_manifest.json",
+        "line": 50,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/project_methodology_manifest.json",
+        "line": 52,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/fighting_2d_design_contract.json",
+        "line": 56,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/genre_specialization_manifest.json",
+        "line": 92,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/07_game_design/curation_sources/SOURCES_INDEX.md",
+        "line": 98,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/07_game_design/genre_specialization_registry.json",
+        "line": 109,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/genre_specialization_manifest.json",
+        "line": 122,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/fighting_2d_design_contract.json",
+        "line": 124,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "game-design-planning",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/game-design-planning/SKILL.md",
+    "sha256": "bfce56448c566847d065b6d1d0cad53e84015fb6fc352e44c85923693bfc4340",
+    "lines": 366,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Game Design Planning"
+      },
+      {
+        "line": 48,
+        "text": "## Entrada minima"
+      },
+      {
+        "line": 68,
+        "text": "## Saida minima"
+      },
+      {
+        "line": 97,
+        "text": "### Mapeamento recomendado para docs"
+      },
+      {
+        "line": 104,
+        "text": "## Chain de Producao canonico (5 estagios)"
+      },
+      {
+        "line": 137,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 163,
+        "text": "## Handoff para proxima etapa"
+      },
+      {
+        "line": 174,
+        "text": "## Processo canonico"
+      },
+      {
+        "line": 176,
+        "text": "### 1. Congelar a promessa do projeto"
+      },
+      {
+        "line": 203,
+        "text": "### 2. Fechar o loop central"
+      },
+      {
+        "line": 211,
+        "text": "### 3. Cortar escopo cedo"
+      },
+      {
+        "line": 221,
+        "text": "### 4. Planejar front-end desde o inicio"
+      },
+      {
+        "line": 236,
+        "text": "### 5. Fechar o first playable slice"
+      },
+      {
+        "line": 255,
+        "text": "### 6. Abrir o roadmap de cenas"
+      },
+      {
+        "line": 267,
+        "text": "### 7. Emitir o route decision record inicial"
+      },
+      {
+        "line": 281,
+        "text": "### 8. Delimitar narrativa"
+      },
+      {
+        "line": 307,
+        "text": "### 9. Delimitar runtime de producao"
+      },
+      {
+        "line": 324,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 340,
+        "text": "## Saida esperada"
+      }
+    ],
+    "references": [
+      {
+        "path": "doc/prd_index.json",
+        "line": 18,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 59,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 60,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/12-roteiro.md",
+        "line": 61,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/10-memory-bank.md",
+        "line": 62,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/11-gdd.md",
+        "line": 99,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/prd_index.json",
+        "line": 100,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/references/project_prd_catalog.json",
+        "line": 100,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/13-spec-cenas.md",
+        "line": 101,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/12-roteiro.md",
+        "line": 102,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/pipelines/game_production_v1.json",
+        "line": 106,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/creative_director_radar.json",
+        "line": 123,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/creative_director_radar.schema.json",
+        "line": 124,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/brand_identity_manifest.json",
+        "line": 125,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/brand_identity_manifest.schema.json",
+        "line": 125,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/ui_pixel_surface_contract.json",
+        "line": 127,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/03_art/14_contextual_scene_transition_system.md",
+        "line": 130,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/check_prd_readiness.ps1",
+        "line": 133,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/prd_index.json",
+        "line": 141,
+        "exists": false,
+        "scope": "workspace_or_project"
+      }
+    ]
+  },
+  {
+    "skill": "narrative-design-reviewer",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/narrative-design-reviewer/SKILL.md",
+    "sha256": "d47eab12a594bd3d093cca6ae27297fefc8dd2832cdd0f7fc08b04e08bdf7772",
+    "lines": 39,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Narrative Design Reviewer"
+      },
+      {
+        "line": 11,
+        "text": "## Entrada mínima"
+      },
+      {
+        "line": 18,
+        "text": "## Julgue"
+      },
+      {
+        "line": 27,
+        "text": "## Saída"
+      },
+      {
+        "line": 33,
+        "text": "## Nunca faça"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "platformer-puzzle-game-design",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/platformer-puzzle-game-design/SKILL.md",
+    "sha256": "f0dfdaaceb430ea2596ff8d8cb16d8a56d77c5eeef5137d5dc1e4847ce888742",
+    "lines": 42,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Platformer Puzzle Game Design"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 18,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 24,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 31,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 38,
+        "text": "## Regras"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "product-market-reviewer",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/product-market-reviewer/SKILL.md",
+    "sha256": "4d958a58ad607b81112a919adf1ad7c82aa5db1c9db2519e03b37253817f3730",
+    "lines": 42,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Product Market Reviewer"
+      },
+      {
+        "line": 11,
+        "text": "## Entrada mínima"
+      },
+      {
+        "line": 18,
+        "text": "## Julgue"
+      },
+      {
+        "line": 30,
+        "text": "## Saída"
+      },
+      {
+        "line": 36,
+        "text": "## Nunca faça"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "racing-sports-adventure-game-design",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/racing-sports-adventure-game-design/SKILL.md",
+    "sha256": "4655b3920b705a6bf5836bfa161c1cda0f15699ba06604dc5d89804eac71fd86",
+    "lines": 41,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Racing Sports Adventure Game Design"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 18,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 24,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 31,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 37,
+        "text": "## Regras"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "rpg-game-design",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/rpg-game-design/SKILL.md",
+    "sha256": "4f9ef002737664fcfcdcfa19b05e28a4b5d3172f3489349ea0a2cc20168ddb3d",
+    "lines": 42,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# RPG Game Design"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 18,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 24,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 32,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 38,
+        "text": "## Regras"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "strategy-game-design",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/strategy-game-design/SKILL.md",
+    "sha256": "1db3bf6a38e71a950cd85819ae9104dc64906db0449726ceca0c85c5ec2a552f",
+    "lines": 41,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# Strategy Game Design"
+      },
+      {
+        "line": 10,
+        "text": "## Contrato Operacional"
+      },
+      {
+        "line": 12,
+        "text": "### Entrada minima"
+      },
+      {
+        "line": 18,
+        "text": "### Saida minima"
+      },
+      {
+        "line": 24,
+        "text": "### Passa quando"
+      },
+      {
+        "line": 31,
+        "text": "### Handoff para proxima etapa"
+      },
+      {
+        "line": 37,
+        "text": "## Regras"
+      }
+    ],
+    "references": []
+  },
+  {
+    "skill": "tdd-authoring",
+    "path": "tools/sgdk_wrapper/.agent/skills/planning/tdd-authoring/SKILL.md",
+    "sha256": "acc41847b79c5da66ba719b6580a304d5bcd03d3b631d1605436b041b186e166",
+    "lines": 248,
+    "headings": [
+      {
+        "line": 6,
+        "text": "# TDD Authoring"
+      },
+      {
+        "line": 10,
+        "text": "## Quando usar"
+      },
+      {
+        "line": 17,
+        "text": "## Nao use"
+      },
+      {
+        "line": 25,
+        "text": "## Ler antes de agir"
+      },
+      {
+        "line": 43,
+        "text": "## Entrada minima"
+      },
+      {
+        "line": 52,
+        "text": "## Saida minima"
+      },
+      {
+        "line": 62,
+        "text": "## Secoes Obrigatorias"
+      },
+      {
+        "line": 64,
+        "text": "### 1. Arquitetura Logica"
+      },
+      {
+        "line": 71,
+        "text": "### 2. Scene Manager Scope"
+      },
+      {
+        "line": 78,
+        "text": "### 3. Input Abstraction Scope"
+      },
+      {
+        "line": 85,
+        "text": "### 3.1 Camera Runtime Scope"
+      },
+      {
+        "line": 95,
+        "text": "### 4. State FSM Map"
+      },
+      {
+        "line": 102,
+        "text": "### 5. Memory Pool Map"
+      },
+      {
+        "line": 110,
+        "text": "### 6. VBlank/DMA Ownership"
+      },
+      {
+        "line": 117,
+        "text": "### 7. H-Int Ownership"
+      },
+      {
+        "line": 123,
+        "text": "### 8. Audio Ownership"
+      },
+      {
+        "line": 130,
+        "text": "### 9. Save Scope"
+      },
+      {
+        "line": 139,
+        "text": "### 10. Region/Timing Scope"
+      },
+      {
+        "line": 145,
+        "text": "### 11. ROM Mastering Scope"
+      },
+      {
+        "line": 152,
+        "text": "### 12. Technique Selection"
+      },
+      {
+        "line": 163,
+        "text": "### 12.1 Anexo opt-in por especializacao de genero"
+      },
+      {
+        "line": 186,
+        "text": "### 13. Risk Mitigation Table"
+      },
+      {
+        "line": 191,
+        "text": "## Bloqueios emitidos"
+      },
+      {
+        "line": 200,
+        "text": "## Passa quando"
+      },
+      {
+        "line": 214,
+        "text": "## Handoff"
+      },
+      {
+        "line": 223,
+        "text": "## Anti-padroes"
+      },
+      {
+        "line": 238,
+        "text": "## Senior Competencies"
+      }
+    ],
+    "references": [
+      {
+        "path": "tools/sgdk_wrapper/schemas/tdd_contract.schema.json",
+        "line": 27,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/hardware/megadrive-vdp-budget-analyst/SKILL.md",
+        "line": 28,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+        "line": 29,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "references/sgdk_211_api_reality.json",
+        "line": 29,
+        "exists": false,
+        "scope": "skill"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/code/xgm2-audio-director/SKILL.md",
+        "line": 30,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/.agent/skills/architecture/scene-state-architect/SKILL.md",
+        "line": 31,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/creative_director_radar.json",
+        "line": 35,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/audio_architecture_card.schema.json",
+        "line": 37,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/05_technical/93_16bit_hardware_mastery_registry.json",
+        "line": 39,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/technique_usage_manifest.json",
+        "line": 40,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/schemas/camera_behavior_contract.schema.json",
+        "line": 41,
+        "exists": true,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/genre_specialization_manifest.json",
+        "line": 165,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "doc/genre_specialization_manifest.json",
+        "line": 183,
+        "exists": false,
+        "scope": "workspace_or_project"
+      },
+      {
+        "path": "tools/sgdk_wrapper/validate_fighting_specialization.ps1",
+        "line": 184,
+        "exists": true,
+        "scope": "workspace_or_project"
+      }
+    ]
+  }
+]

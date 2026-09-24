@@ -1,0 +1,772 @@
+{
+  "schema_version": "1.0.0",
+  "status": "proposal_pending_human_review",
+  "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+  "base_main_commit": "caf10a2d66cf3d418d47da7b87a87a4ac3a60bc5",
+  "definitions": {
+    "implementado": "mecanismo presente no subset descrito; não aprovação ROM/AAA",
+    "aproximado": "substituição/subset declarado",
+    "degradado": "semântica perdida ou menos fiel",
+    "ignorado": "nenhum equivalente implementado"
+  },
+  "source_report": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/mugen/ken_conversion_report.json",
+  "source_report_sha256": "76507a9c884fd86348e04aaa601ca29ff940d9233bd4a54c0e65d973d6df782c",
+  "counts": {
+    "states": 126,
+    "commands": 91,
+    "animations": 161,
+    "air_elements": 934,
+    "controllers": 796,
+    "direct": 702,
+    "approximate": 73,
+    "unsupported": 21,
+    "blend_elements": 46,
+    "generator_missing_frame_sprites": 50
+  },
+  "rows": [
+    {
+      "id": "def_package",
+      "concept": "DEF e resolução de pacote",
+      "status": "implementado",
+      "mechanism": "Source + character.load resolvem arquivos e registram hash; escopo de pacotes aceitos limitado",
+      "hardware_cost": {
+        "description": "offline; sem custo de leitura ZIP no console",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/source.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/character.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "geração de arrays",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "teste sintético; não todos os pacotes"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "cns_constants",
+      "concept": "CNS constantes/física",
+      "status": "aproximado",
+      "mechanism": "subset em MgConstants e common_forge; física 24.8",
+      "hardware_cost": {
+        "description": "CPU por tick; RAM de jogador",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/character.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "MgConstants",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "harness de movimentos"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "state_ownership",
+      "concept": "Statedef versus rótulo State",
+      "status": "implementado",
+      "mechanism": "controlador pertence ao último Statedef",
+      "hardware_cost": {
+        "description": "offline",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "states/ctrls",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "test_controller_belongs_to_last_statedef_not_label"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "state_tick",
+      "concept": "ST, negativos e transições",
+      "status": "aproximado",
+      "mechanism": "ordem e transições no mesmo tick; subset de regras do motor",
+      "hardware_cost": {
+        "description": "CPU proporcional a controladores executados",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "MG_playerLogic",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "harness vivo; cobertura total ausente"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "expressions",
+      "concept": "Expressões/triggers",
+      "status": "aproximado",
+      "mechanism": "compilação para bytecode; opcodes e domínios suportados finitos",
+      "hardware_cost": {
+        "description": "VM e pool ROM; 13865 bytes de bytecode no report",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/expr.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_vm.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "test_expr.py; domínio fora do subset gera notes"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "cmd_case",
+      "concept": "CMD direções/botões",
+      "status": "implementado",
+      "mechanism": "B e b separados",
+      "hardware_cost": {
+        "description": "offline; máscara de input runtime",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cmd.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/character.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "MG_playerInput / update_commands",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "test_cmd_case_back_vs_button; movimento B:2 chega 261"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "cmd_buffer",
+      "concept": "Buffer, carga e sequência",
+      "status": "aproximado",
+      "mechanism": "buckets e listas prog/live com limites32; máximo160 comandos",
+      "hardware_cost": {
+        "description": "RAM arrays; CPU por transição; não custo zero",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cmd.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_char.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "11 sequências de movimentos; fronteiras de capacidade não cobertas"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "ai",
+      "concept": "IA por comandos",
+      "status": "aproximado",
+      "mechanism": "IA ativa comandos nomeados; não emula inputs físicos",
+      "hardware_cost": {
+        "description": "reduz reconhecedor CPU",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cmd.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_fight.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "CPU fight >20danos/>60estados/>100sons; não equivalência humana"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "air",
+      "concept": "AIR timing/eixos/loop",
+      "status": "aproximado",
+      "mechanism": "frames, durações e loop; limite255 elementos e pivots após split",
+      "hardware_cost": {
+        "description": "upload por mudança de frame; RAM animação",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/air.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_char.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "test_air_boxes_and_defaults; falta corpus flips/timing"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "boxes",
+      "concept": "Clsn1/Clsn2/push",
+      "status": "aproximado",
+      "mechanism": "hit/hurt em boxes e push por largura",
+      "hardware_cost": {
+        "description": "1526 boxes ROM; custo de pares em colisão",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/air.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_fight.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "harness combate; não prova todo trade/corner"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "sff",
+      "concept": "SFFv1/PCX e links",
+      "status": "implementado",
+      "mechanism": "decoder v1, paleta e sprites linked; não SFFv2",
+      "hardware_cost": {
+        "description": "offline e ROM de sheets; sem decoder PCX runtime",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/sff.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sprites.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "rescomp SpriteDefinition",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "test_sprites_palette_and_sheets; escopo v1"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "act",
+      "concept": "ACT/quantização/roupas",
+      "status": "aproximado",
+      "mechanism": "15cores visíveis por bloco; corpo/FX e ramps vivid_clothing",
+      "hardware_cost": {
+        "description": "CRAM compartilhada por 4 slots de paleta",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/sff.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sprites.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "PAL buffers",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "test_vivid_clothing_ramp_meets_targets_and_respects_intent"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "split",
+      "concept": "Anel até4 partes",
+      "status": "aproximado",
+      "mechanism": "split_parts preserva regiões ocupadas; até4 objetos SGDK, não4HW",
+      "hardware_cost": {
+        "description": "scanline/SAT e DMA reais a compor;11 imagens divididas",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/sff.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sprites.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "MgDraw.spr[4]",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "test_large_frame_is_split_into_valid_parts + host super"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "bgfx",
+      "concept": "Fundo super/paleta/espelhamento",
+      "status": "aproximado",
+      "mechanism": "BG_B, mirror_4,272tiles;16paletas; raios mudam",
+      "hardware_cost": {
+        "description": "8704B tiles;28B cores/update + tilemap; ownership PAL0",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/sff.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/bgfx.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "bgfx_render",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "host bg730_ticks>0; report strategy; revisão visual completa pendente"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "helper",
+      "concept": "Helpers",
+      "status": "aproximado",
+      "mechanism": "um helper por lado, states do dono, sem nested/hitdefs/atingibilidade",
+      "hardware_cost": {
+        "description": "pool fixo; tick extra",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "MG_CT_HELPER",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "test_super_effects_ring_parts_and_background"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "superpause",
+      "concept": "SuperPause",
+      "status": "aproximado",
+      "mechanism": "pause/movetime e spawn pos via enums; animação comum indisponível aproxima",
+      "hardware_cost": {
+        "description": "tick e explod; upload FX durante pausa",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "MG_CT_SUPERPAUSE",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "alinhamento de schema e super ativo; falta asserção específica de coordenadas"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "hitstop",
+      "concept": "Pause/HitStop",
+      "status": "aproximado",
+      "mechanism": "subset de pause_time e pausetime; diferentes relógios envolvidos",
+      "hardware_cost": {
+        "description": "CPU por tick; não confundir hold intencional com atraso",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_char.c/mg_fight.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "compilado e combate; falta trace exato de freeze/cancel"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "hitdef",
+      "concept": "HitDef/hitstates/targets",
+      "status": "aproximado",
+      "mechanism": "subset dano/guarda/velocidade/target; parâmetros armazenados não garantem uso",
+      "hardware_cost": {
+        "description": "CPU colisão e transições",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_fight.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "harness positivo; sem oráculo MUGEN completo"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "juggle",
+      "concept": "Juggle/prioridade de HitDef",
+      "status": "degradado",
+      "mechanism": "juggle e prioridade lidos/armazenados; aplicação equivalente ausente",
+      "hardware_cost": {
+        "description": "enforcement adicional exigiria contador/arbitragem",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_char.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "busca de usos + README divergências; não validado"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "hitoverride",
+      "concept": "HitOverride/identidade avançada",
+      "status": "ignorado",
+      "mechanism": "HitOverride fora do schema; não prometer regras de re-hit completas",
+      "hardware_cost": {
+        "description": "custo futuro não medido",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "controlador não suportado",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "SCHEMA não contém HitOverride"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "changeanim2",
+      "concept": "ChangeAnim2/custom animation",
+      "status": "degradado",
+      "mechanism": "redireciona à animação do próprio personagem",
+      "hardware_cost": {
+        "description": "economia de lookup, altera semântica de throw",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "ChangeAnim",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "4ocorrências approximate no report"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "blend",
+      "concept": "46 elementos AIR com blending",
+      "status": "degradado",
+      "mechanism": "flag gerada; renderer desenha opaco",
+      "hardware_cost": {
+        "description": "equivalente S/H/dither requer budget adicional",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/air.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "render sem composição alpha",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "fidelity.anims.blend_frames=46; não contagem de imagens únicas"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "missing",
+      "concept": "Sprite ausente e frames sem sheet",
+      "status": "degradado",
+      "mechanism": "fonte falta820,1; missing_frame_sprites=50 inclui rotas sem sheet",
+      "hardware_cost": {
+        "description": "quadro invisível sem upload; não métrica de qualidade",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/air.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "sheet=-1 versus BGFX",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "reconciliação executada:2 source_missing +48 plane_routed =50; evidence/missing_frame_reconciliation.json"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "afterimage",
+      "concept": "AfterImage/PalFX/EnvColor",
+      "status": "ignorado",
+      "mechanism": "unsupported; não traduzido automaticamente para dither ou CRAM",
+      "hardware_cost": {
+        "description": "custo futuro sprites/CRAM e conflitos",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "null unsupported",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "17AfterImage e1PalFX no report Ken"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "snd",
+      "concept": "SND→PCM XGM2",
+      "status": "aproximado",
+      "mechanism": "WAV8/16bits; mono16 a13300Hz; rescomp8signed; ignora samples não usados",
+      "hardware_cost": {
+        "description": "214142B estimados de PCM; concorrência Z80 não medida",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/snd.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sounds.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "MG_playSound",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "pipeline e host contam sons; P5 dummy não prova áudio"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "snd_channels",
+      "concept": "PlaySnd/StopSnd canais",
+      "status": "degradado",
+      "mechanism": "play/stop via SOUND_PCM_CH_AUTO; canal MUGEN não preservado integralmente",
+      "hardware_cost": {
+        "description": "prioridade PCM/BGM e DMA a medir",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "XGM2_playPCM/stopPCM",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "fonte runtime; teste de mix/stop seletivo ausente"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "debug",
+      "concept": "DisplayToClipboard/debug",
+      "status": "ignorado",
+      "mechanism": "controlador fora SCHEMA, sem clipboard console",
+      "hardware_cost": {
+        "description": "telemetria alternativa teria custo próprio",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "unsupported",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "aceitável só com escopo debug declarado"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "hud",
+      "concept": "HUD/lifebars",
+      "status": "aproximado",
+      "mechanism": "conversor separado de lifebars; tiles e mensagens; não UI MUGEN geral",
+      "hardware_cost": {
+        "description": "PAL0 slots9..15/Window e sprites de mensagens",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/ini.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/hud.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "projeto fight_hud.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "teste cores/segmentos + screenshot P5 observado"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "shadow",
+      "concept": "Sombra derivada/dither",
+      "status": "aproximado",
+      "mechanism": "silhueta autoral achatada32x8 e meia-tinta; não S/H",
+      "hardware_cost": {
+        "description": "4tiles e1sprite/lutador; descarte residual deve ficar visível no gate",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/sff.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sprites.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "shadow_spr",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "P5 screenshot inspecionado; memo estima overflow0,20%"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "capacity",
+      "concept": "Limites e truncamentos",
+      "status": "degradado",
+      "mechanism": "geração usa slices255; bitmap -1 limitado8words; pools finitos",
+      "hardware_cost": {
+        "description": "limite evita memória dinâmica mas perde semântica se excedido",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/character.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "mg_runtime.h/mg_char.c",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "inspeção de código; faltam fixtures de fronteira/erro"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    },
+    {
+      "id": "layering",
+      "concept": "Prioridade de desenho",
+      "status": "aproximado",
+      "mechanism": "sprpriority mapeado para profundidade de sprites; planos e HUD têm política fixa",
+      "hardware_cost": {
+        "description": "SAT/VRAM/CRAM compartilhados; prioridade não éalpha",
+        "whole_scene_measured": false
+      },
+      "pipeline": {
+        "parser_or_intake": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+        "ir": "subset em tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/",
+        "converter_or_generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+        "generator": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+        "runtime": "SPR_setDepth em render",
+        "rom": "bundle P5 histórico; não prova individualmente este conceito"
+      },
+      "evidence": [
+        "fonte mg_fight.c; combos deoclusão não cobertos"
+      ],
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "acceptance": "needs_review",
+      "proof_scope": "code_and_tests; historical_ROM_scope_separate"
+    }
+  ]
+}

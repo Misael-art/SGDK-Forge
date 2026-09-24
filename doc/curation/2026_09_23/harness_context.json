@@ -1,0 +1,181 @@
+{
+  "schema_version": "1.1.0",
+  "artifact_kind": "harness_context_snapshot",
+  "tool": {
+    "name": "harness_orchestration",
+    "version": "1.1.0"
+  },
+  "generated_at": "2026-09-23T23:25:30.417965Z",
+  "workspace_root": "/mnt/sdcard/Projects/Sgdk Forge",
+  "project_root": "/mnt/sdcard/Projects/Sgdk Forge",
+  "objective": "Audit converter runtime and skills",
+  "harness": {
+    "surface": "codex_desktop",
+    "subagents_available": true,
+    "max_concurrency": 4,
+    "supports_wait": true,
+    "supports_interrupt": true,
+    "permission_profile": "workspace_write",
+    "selected_skills": [
+      "code/sgdk-runtime-coder"
+    ],
+    "selected_pipelines": []
+  },
+  "host": {
+    "os": "linux",
+    "architecture": "x86_64",
+    "python": "3.14.7",
+    "execution_mode": "native"
+  },
+  "git": {
+    "branch": "feat/mugenesis-p3-ring-memo",
+    "scope": ".",
+    "dirty": false,
+    "dirty_path_count": 0,
+    "dirty_path_examples": []
+  },
+  "tools": [
+    {
+      "name": "python3",
+      "path": "/usr/sbin/python3",
+      "state": "found"
+    },
+    {
+      "name": "pwsh",
+      "path": "/usr/sbin/pwsh",
+      "state": "found"
+    },
+    {
+      "name": "git",
+      "path": "/usr/sbin/git",
+      "state": "found"
+    },
+    {
+      "name": "magick",
+      "path": "/usr/sbin/magick",
+      "state": "found"
+    },
+    {
+      "name": "gimp",
+      "path": "/usr/sbin/gimp",
+      "state": "found"
+    },
+    {
+      "name": "java",
+      "path": "/usr/sbin/java",
+      "state": "found"
+    },
+    {
+      "name": "wine",
+      "path": "/usr/sbin/wine",
+      "state": "found"
+    },
+    {
+      "name": "blastem",
+      "path": null,
+      "state": "not_found"
+    }
+  ],
+  "canonical_context": {
+    "sources": [
+      {
+        "role": "workspace_instructions",
+        "path": "AGENTS.md",
+        "exists": true,
+        "sha256": "762b3a1a17b8228e461d6cd01e280a3cdf185b6414164247566411a45dcc9148",
+        "size_bytes": 23487
+      },
+      {
+        "role": "global_rules",
+        "path": "tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md",
+        "exists": true,
+        "sha256": "2093e9abcfe3508362ddbf1adf47c45b1a22709d6940ba550ab68ee78fc44c1b",
+        "size_bytes": 83464
+      },
+      {
+        "role": "project_truth:doc/10-memory-bank.md",
+        "path": "doc/10-memory-bank.md",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/11-gdd.md",
+        "path": "doc/11-gdd.md",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/13-spec-cenas.md",
+        "path": "doc/13-spec-cenas.md",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/00-diretrizes-agente.md",
+        "path": "doc/00-diretrizes-agente.md",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/project_context_manifest.json",
+        "path": "doc/project_context_manifest.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/project_methodology_manifest.json",
+        "path": "doc/project_methodology_manifest.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/project_hygiene_manifest.json",
+        "path": "doc/project_hygiene_manifest.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:doc/active_iteration.json",
+        "path": "doc/active_iteration.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "project_truth:.mddev/project.json",
+        "path": ".mddev/project.json",
+        "exists": false,
+        "sha256": null,
+        "size_bytes": 0
+      },
+      {
+        "role": "selected_skill:code/sgdk-runtime-coder",
+        "path": "tools/sgdk_wrapper/.agent/skills/code/sgdk-runtime-coder/SKILL.md",
+        "exists": true,
+        "sha256": "cd5e04ad626e9362b8ab1f08b8f971daaf2d6666e6f895efef525b01883a03f4",
+        "size_bytes": 44639
+      }
+    ],
+    "digest": "b3620db4e5cf65e9e712bbe0a0dcc732153a6ce435206a47eb8891b61cbdab6c",
+    "stale_state_policy": "reject_or_refresh"
+  },
+  "orchestration_policy": {
+    "coordinator_is_single_claim_owner": true,
+    "coordinator_is_single_promotion_owner": true,
+    "default_worker_access": "read_only",
+    "default_worker_slots": 2,
+    "maximum_context_capsule_words": 1200,
+    "maximum_result_summary_words": 600,
+    "full_history_fork_default": false
+  },
+  "status": "ready",
+  "blockers": [],
+  "claim_ceiling": "orchestration_diagnostic_only"
+}

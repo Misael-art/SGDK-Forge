@@ -1,0 +1,421 @@
+{
+  "status": "proposal",
+  "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+  "base_commit": "caf10a2d66cf3d418d47da7b87a87a4ac3a60bc5",
+  "historical_rom_sha256": "46a9cd6581bf2e7a9c16e15b5406767b9f24bd8a82c9d2591d02838b1d037c90",
+  "historical_bundle_locator": "out/mugenesis_evidence/p5_shadow/blastem-linux-20260923T224301Z-1479693",
+  "bundle_locator_policy": "historical; resolve from source checkout only; reports copied here, no ROM/assets redistributed",
+  "current_review_method": "source_and_tests_plus_one_historical_screenshot; no_new_emulator_run_or_audio",
+  "source_files": [
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/character.py",
+      "sha256": "8cef36324cef33a67648a531bb506de49a1bad224eebb6b55ae707cc5fcb64c0",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/character.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/inventory.py",
+      "sha256": "b965085864bc6fcc57516753d263b5177b7bfff4a183f7dda53fc84e1c6920a0",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/inventory.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/source.py",
+      "sha256": "405caeacb3e4a5a76bb6774aac43706b3a1a76803143e20fcac4b6c795724d38",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/source.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/__init__.py",
+      "sha256": "19797a535cc064cd705be323306a245d534c478c409accf4c34b7e966938c300",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/__init__.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/__main__.py",
+      "sha256": "73a998eab6fa1b1dc074016ed610d10e2c1b822eb7f178a93538f378cdda275e",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/__main__.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/tests/test_expr.py",
+      "sha256": "8aaf48fb33d6e6816a97240c3db94581ab6df8534cd3cff8992777735b868f8d",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/tests/test_expr.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/tests/test_host_runtime.py",
+      "sha256": "38cb9281b272f5314f3fde63f7c18bf32a9d289b286337f65ffc90ebdc34a8c8",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/tests/test_host_runtime.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/tests/test_inventory.py",
+      "sha256": "32ffe95be873de4b0ce105e38b6bf580a4229b96600dc9730845c74817cd3457",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/tests/test_inventory.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/tests/test_pipeline.py",
+      "sha256": "26e23baea0efd3bfedced27ed6ea3f672d152dcd66c2df84f44ef0c18f498432",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/tests/test_pipeline.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/tests/host/stub_res.py",
+      "sha256": "bd8eff87b5c6bbcae4caa073745debffa2b239ce8933856d8232206d10eb7de6",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/tests/host/stub_res.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/bgfx.py",
+      "sha256": "fd509d1883d4466a79bcff8115f70f2b6f591a907b15fce113b165faef9e9744",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/bgfx.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/hud.py",
+      "sha256": "39c8c47f82dd896660df488f90b6a92bf97daca263873ce2ef42d046ed3899a9",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/hud.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sounds.py",
+      "sha256": "66c614dfcc3e3ecbb4709cfef384cbbc553cd34d0cfd7c8fa8b9f330aa4950ce",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sounds.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sprites.py",
+      "sha256": "413e60a0c80df3431d97bd8bc953a9e2eb41a19338fa66c89a2d374dd3f7ed97",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/sprites.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/__init__.py",
+      "sha256": "dbc599f2e258cdecfdfcd2626ae076f6ea2734fdbf28c35734865e0d5a44e24f",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/converters/__init__.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/data/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/data/__init__.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py",
+      "sha256": "7008f69c225dada910e411532f215d963fc34b090749779096a1d779388bb313",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/sgdk.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/__init__.py",
+      "sha256": "9c62ac345bfaa89d1e3a8a3a3eff3b616029c4ae4e89f093c5517d12a6093978",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/generators/__init__.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py",
+      "sha256": "fef51865042274ee67069a82c2198419bb714e3710a8d8df423a03cfde58ff4d",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/controllers.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/expr.py",
+      "sha256": "9bd07ed3722ba29fe3e5e6005ab894db9e814221b7423b2e9fc34c4d2cbde745",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/expr.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/opcodes.py",
+      "sha256": "5993763dae5873cec9f1b8ea2d17990cbd5c5fa661ca758821090379ed72b4f4",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/opcodes.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/vm.py",
+      "sha256": "ef609ad7927492aa078504dbb00b5be987f27119c2281f495c3ec902347d9f55",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/vm.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/__init__.py",
+      "sha256": "c94bd13c8beb1c3e20752a22cd2b6ab05f0f5fbcfb443cda2b5271396f8f478e",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/ir/__init__.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/air.py",
+      "sha256": "b914b9f69aac03bdc2352267639a07bc93c1e54626ef3aa7632bc0b0a2b3df32",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/air.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cmd.py",
+      "sha256": "21e3d4c2ec1ac28c672f636cbddce0a3ece09422327d38d57f83e0ae0c5232cc",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cmd.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py",
+      "sha256": "e44d420619c223fd0a55336df8f520e88fe65c1c4e8b45c2671750e86f5d0b10",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/cns.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/ini.py",
+      "sha256": "3aa5514af51da470b3aa45e1a4acc47826f895bdca0b4383caf12ec15364ea3e",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/ini.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/sff.py",
+      "sha256": "2942ba2b878cda6894826b568660a546d6b7607c28f36e6838ea22ccc3d2a7a9",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/sff.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/snd.py",
+      "sha256": "1f54f4ef8b372426f1c682e292b69c23d15caed52ce9bfab2ca7a57a1d192de4",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/snd.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/__init__.py",
+      "sha256": "4634c32ce4e053b53bd6619769aac822aee08970bb8c886d9404aff5ec4e20f3",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/mugen2sgdk_forge/parsers/__init__.py"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/runtime/mg_char.c",
+      "sha256": "66c5fc2529dd5154365e65b8daf4b26cb4abdd1b83fb2efa0f3389be2ecc7fc2",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/runtime/mg_char.c"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/runtime/mg_fight.c",
+      "sha256": "f37910e57f16675082b2ca286cef122bc08e953cd5d1e8d0d13c3e85bd461835",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/runtime/mg_fight.c"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/runtime/mg_ops.h",
+      "sha256": "49d9ed24a508a43064cf99b093dca83ba73e62ebf996cd3e77f9905b143684b1",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/runtime/mg_ops.h"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/runtime/mg_runtime.h",
+      "sha256": "46ebf408dfe6e171f3538598eb22fec8f6c9271b7016d2a0e818282eaba33b5d",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/runtime/mg_runtime.h"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/runtime/mg_types.h",
+      "sha256": "ae4320103f58b165dbe21c7979c5a02cfe5a42a99f1c7ebdf9097f5b7fa0ca63",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/runtime/mg_types.h"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/runtime/mg_vm.c",
+      "sha256": "3a2e80fa0b577336a880d5ba7474baf1cda35bf2419dd208ecdb3d11b488d494",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/runtime/mg_vm.c"
+    },
+    {
+      "path": "tools/mugen2sgdk_forge/runtime/README.md",
+      "sha256": "e8bdc0ea2ad15e0599f783b7e98c1694b65509af6dcd8e11ee9cab23252e6e08",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": "https://github.com/Misael-art/SGDK-Forge/blob/12c63349d72fb8d96ecd16148fcfe9a9bde5965c/tools/mugen2sgdk_forge/runtime/README.md"
+    },
+    {
+      "path": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/mugen/ken_conversion_report.json",
+      "sha256": "76507a9c884fd86348e04aaa601ca29ff940d9233bd4a54c0e65d973d6df782c",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": null
+    },
+    {
+      "path": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/10-memory-bank.md",
+      "sha256": "5b36fc9d0ed9f24930e8651bec59717889d81f939ed390ec20bf1a48794583f6",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": null
+    },
+    {
+      "path": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/hud/p3_ring_multiplex_memo.md",
+      "sha256": "e4dc1a91a7d1892d1586d09230544a8146504cd2817e741bf19ebf4db249656d",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": null
+    },
+    {
+      "path": "SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/doc/hud/p5_shadow_memo.md",
+      "sha256": "ce8c6db6d07ee1bff276b92e745384affd80061661467ad99dbfc12c0dbce112",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": null
+    },
+    {
+      "path": "doc/curation/lessons_2026-09-23_mugen2sgdk.json",
+      "sha256": "973c70c5e3af865110552455c2db866385b6c033102e0ae1f25a183b52c2f64f",
+      "source_commit": "12c63349d72fb8d96ecd16148fcfe9a9bde5965c",
+      "source_url": null
+    }
+  ],
+  "source_report_summary": {
+    "character": {
+      "author": "Chok",
+      "def": "KenMastersADV/KenMastersADV.def",
+      "id": "ken",
+      "name": "Ken Masters ADV"
+    },
+    "fidelity": {
+      "anims": {
+        "blend_frames": 46,
+        "frames": 934,
+        "missing_sprites": [
+          [
+            820,
+            1
+          ]
+        ],
+        "total": 161
+      },
+      "commands": {
+        "total": 91,
+        "with_errors": 0
+      },
+      "controller_fidelity": {
+        "approximate": 73,
+        "direct": 702,
+        "unsupported": 21
+      },
+      "controllers": {
+        "afterimage:unsupported": 17,
+        "assertspecial:direct": 2,
+        "attackmulset:unsupported": 1,
+        "changeanim2:approximate": 4,
+        "changeanim:direct": 27,
+        "changestate:direct": 180,
+        "ctrlset:direct": 1,
+        "envshake:direct": 2,
+        "explod:direct": 3,
+        "fallenvshake:approximate": 2,
+        "forcefeedback:approximate": 3,
+        "gamemakeanim:unsupported": 2,
+        "gravity:direct": 3,
+        "helper:approximate": 1,
+        "hitdef:approximate": 41,
+        "hitdef:direct": 27,
+        "hitfalldamage:direct": 2,
+        "hitfallvel:direct": 1,
+        "makedust:approximate": 4,
+        "nothitby:direct": 20,
+        "null:direct": 4,
+        "palfx:unsupported": 1,
+        "playsnd:direct": 121,
+        "posadd:direct": 38,
+        "posfreeze:direct": 1,
+        "posset:direct": 16,
+        "poweradd:direct": 1,
+        "projectile:approximate": 6,
+        "projectile:direct": 6,
+        "removeexplod:direct": 1,
+        "selfstate:direct": 4,
+        "sprpriority:direct": 4,
+        "statetypeset:direct": 29,
+        "stopsnd:direct": 1,
+        "superpause:approximate": 12,
+        "targetbind:direct": 32,
+        "targetdrop:direct": 4,
+        "targetlifeadd:direct": 5,
+        "targetvelset:direct": 4,
+        "turn:direct": 7,
+        "varadd:direct": 1,
+        "varrandom:direct": 1,
+        "varset:direct": 6,
+        "veladd:direct": 19,
+        "velmul:direct": 4,
+        "velset:direct": 119,
+        "width:direct": 6
+      },
+      "missing_refs": [
+        {
+          "key": "stcommon",
+          "ref": "common1.cns",
+          "resolution": "substituido por common_forge.cns (estados comuns originais do Forge)"
+        }
+      ],
+      "sounds": {
+        "invalid": 0,
+        "seconds": 21.2,
+        "total": 33
+      },
+      "sprites": {
+        "linked": 105,
+        "total": 463
+      },
+      "states": {
+        "from_common_forge": [
+          10,
+          11,
+          12,
+          20,
+          40,
+          50,
+          120,
+          130,
+          131,
+          132,
+          140,
+          150,
+          152,
+          154,
+          170,
+          175,
+          5000,
+          5001,
+          5010,
+          5011,
+          5020,
+          5030,
+          5050,
+          5070,
+          5120,
+          5150,
+          5900
+        ],
+        "total": 126
+      }
+    },
+    "generator": {
+      "boxes": 1526,
+      "bytecode_bytes": 13865,
+      "controllers": 796,
+      "frames": 934,
+      "gated_controllers": 796,
+      "missing_frame_sprites": 50
+    },
+    "bgfx": [
+      {
+        "anims": [
+          730
+        ],
+        "colors": 14,
+        "fidelity": "approximate",
+        "group": 730,
+        "images": 16,
+        "mean_level_error_per_pixel": 0.0,
+        "merge_threshold": 0,
+        "note": "animacao por paleta: direta (geometria identica, 14 cores); geometria conforme 'strategy'",
+        "source_horizontal_symmetry": 0.323,
+        "strategy": "mirror_4",
+        "tile_budget": 480,
+        "tiles": 272
+      }
+    ]
+  },
+  "tests": "validation/pytest.txt",
+  "runtime": "evidence/p5_runtime_metrics.json",
+  "hash_verification": "evidence/p5_hash_verification.json",
+  "skills": "skill_source_inventory.json",
+  "lessons": "lesson_adjudication.json"
+}

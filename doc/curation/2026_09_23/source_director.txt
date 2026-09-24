@@ -1,0 +1,142 @@
+# DIRECIONADOR — CURADORIA PROFUNDA: MUGEN → MEGA DRIVE (mugen2sgdk_forge)
+
+## 0. Perfil: assuma o chapéu de curador
+Você não está aqui para implementar o jogo. Você está aqui para transformar a
+experiência do mugen2sgdk_forge (conversor MUGEN→SGDK + runtime + Mugenesis_Demo/Ken)
+em conhecimento canonizado que permita a QUALQUER agente futuro construir um game
+AAA de Mega Drive de maneira primorosa. Curador:
+- Lê antes de afirmar: código-fonte, testes, reports e evidências — não apenas docs.
+- Cuida da verdade: hierarquia do workspace (memory bank > GDD > spec > diretrizes);
+  suposição é a última prioridade.
+- Canoniza por processo: lição vira "candidata", candidata com evidência vira
+  proposta, proposta com aprovação humana vira canon. Nunca aplica por conta própria.
+- Só escreve em `tools/sgdk_wrapper/.agent/`, `tools/sgdk_wrapper/` e `doc/`,
+  com aprovação humana explícita, testes e memória atualizada (regra de curadoria
+  do AGENTS.md).
+- Claim medido ou nenhum claim: toda afirmação sobre "o que funcionou" cita
+  commit, teste, report ou evidência de emulador.
+
+## 1. Escopo e fontes de verdade (onde mergulhar)
+- Conversor: `tools/mugen2sgdk_forge/` (parsers, IR, converters, generators, tests —
+  36/36 passando é o baseline).
+- Runtime C genérico + vertical slice do Ken:
+  `SGDK_projects/Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]/`
+  (src/mg_gen, inc/mg_gen, res/mgres_ken.*, material-fonte em res/mugen/ken).
+- Lições E0–E3 já registradas como candidatas pela sessão anterior (commit
+  `33722d76`) — revise, valide ou conteste cada uma.
+- Precedente de formato: `tools/sgdk_wrapper/.agent/references/hamoopig_engine_learning_2026_09_18.md`.
+- Skills atuais: `tools/sgdk_wrapper/.agent/skills/` (art/, code/, design/,
+  governance/, hardware/, operation/).
+- Regras globais: `tools/sgdk_wrapper/.agent/rules/SGDK_GLOBAL.md` (seções 8.2, 17,
+  30, 39 em particular) e AGENTS.md da raiz.
+- Roadmap pendente do jogo (contexto, não seu escopo): P1–P6 do direcionamento
+  vigente do Mugenesis_Demo + performance (23% dos quadros acima do tempo de CPU,
+  pico 160%).
+
+## 2. Análise profunda do motor MUGEN (domínio de origem)
+Mapeie o domínio SEMÂNTICO do MUGEN a partir do que o conversor precisa entender
+(e do que ele hoje ignora): DEF/CNS (constantes de lutador), ST (máquina de
+estados e transições), CMD (command buffers e detecção de input), AIR (eixos,
+clsn1/clsn2, timings), SFF (sprites e prioridades de camada), SND/ACT (áudio e
+paletas), helpers, hitdefs/hitstates (identidade de evento, juggle, hitoverride),
+pause/superpause, pushboxes, projéteis, displaytoclipboard/debug, etc.
+Entrega 1 — referência de domínio:
+`tools/sgdk_wrapper/.agent/references/mugen_engine_learning_<data>.md`, no padrão
+do precedente HAMOOPIG: princípios numerados, sem duplicar escola, cada princípio
+com (a) o que o MUGEN faz de verdade, (b) o que sobrevive num Mega Drive real,
+(c) o que precisa ser aproximado e por quê.
+
+## 3. Análise do que foi construído (matriz de fidelidade)
+Audite o pipeline inteiro (parser → IR → converter → gerador → runtime → ROM) e
+produza uma MATRIZ DE FIDELIDADE: cada conceito MUGEN mapeado para
+{implementado | aproximado | degradado | ignorado}, com o mecanismo real usado,
+o custo em hardware, e a evidência que prova o estado. Pontos que JÁ SABEMOS que
+exigem verbete próprio (valide e complete, não aceite sem conferir):
+- Split de quadros grandes em até 4 sprites por área ocupada (anel do Special Mode).
+- Fundo do super em tela cheia como imagem + animação por paleta, montada por
+  espelhamento de 1/4 (aproximação registrada: posição de raios muda).
+- Helper em versão reduzida (suficiente só para o efeito do fundo).
+- Defeito SuperPause corrigido (posição do efeito lida no lugar errado — teste de
+  regressão existe; confira se o princípio está generalizado).
+- 2 quadros vazios por apontarem para imagem inexistente no pacote original.
+- 46 quadros com transparência MUGEN desenhados opacos no MD.
+Entrega 2 — matriz de fidelidade (machine-readable + narrativa):
+`tools/sgdk_wrapper/.agent/references/mugen2sgdk_fidelity_matrix.json` + `.md`.
+
+## 4. Ferramentas: as que funcionaram, as adaptações, as lacunas
+Inventarie com evidência:
+- O que funcionou como está (e por quê): suíte do conversor, vdp_scanline_simulator,
+  audiovisual_review, capturas BlastEm, fixtures de teste (ROM de sequência fixa).
+- Adaptações que a realidade do hardware impôs (lista acima + o que encontrar).
+- LACUNAS de ferramenta — o que NÃO existe e doeria num projeto AAA. Hipóteses a
+  verificar/expandir (não limite a elas): budget de scanline por quadro convertido
+  (hoje é medido quando? automático?), detecção de choque de paleta entre lutador/
+  estágio/FX/HUD, pipeline de áudio MUGEN SND → XGM2 (existe? qual o estado real?),
+  verificador de cobertura de estados CNS (quantos estados o Ken tem vs quantos o
+  runtime cobre), regressão visual automatizada frame-a-frame por SHA de ROM.
+Entrega 3 — registro de lacunas priorizado por impacto no goal AAA:
+`doc/curation/<data>/mugen2sgdk_toolgap_register.md` (cada lacuna: severidade,
+impacto, proposta de ferramenta, esforço estimado).
+
+## 5. Auditoria dos skills (o núcleo deste direcionador)
+Avalie CADA skill de `tools/sgdk_wrapper/.agent/skills/` em quatro dimensões,
+com nota e evidência:
+1. ESTRUTURA: o SKILL.md tem gatilho claro, escopo delimitado, aceite verificável,
+   links válidos para as ferramentas que cita? Existe arquivo/caminho citado que
+   não existe (skill apodrecida)?
+2. CAPACIDADE TÉCNICA: o conhecimento interno basta para decidir no nível AAA?
+   Onde o texto é vago demais para reproduzir resultado (ex.: "ajustar as cores"
+   sem piso numérico)? Onde falta o contraexemplo / o erro clássico?
+3. ROTEAMENTO: um agente na dúvida chega nessa skill? Quais rotas faltam —
+   inclusive do fluxo mugen2sgdk para skills existentes (pixel-strict-rules,
+   vdp-budget-analyst, xgm2-audio-director, code-reviewer, pipeline-guardian) e
+   das skills para as ferramentas do item 4?
+4. COBERTURA: que skills NÃO EXISTEM e o projeto precisa? Hipóteses a avaliar:
+   conversão MUGEN→MD como skill própria, "fighting game feel" (frametrap, hitstop,
+   cancel, buffer), engenharia de paleta para MD (saturação/contraste/S-H),
+   multiplexação de sprites, otimização de frame budget em C 68000.
+Entrega 4 — matriz de auditoria:
+`doc/curation/<data>/skill_audit_matrix.md` (skill × 4 dimensões × nota × evidência
+× ação proposta: manter | endurecer | fundir | criar rota | criar skill nova).
+Endurecer/criar skill só após aprovação humana — a entrega é a PROPOSTA.
+
+## 6. Catálogo de técnicas curáveis
+Conecte ao registry dos 180+ efeitos de Mega Drive a provar e canonizar:
+- Classifique as técnicas já usadas/estudadas no projeto (split de sprite, animação
+  por paleta, espelhamento de fundo, SuperPause, jitter de faísca, teses abertas de
+  multiplexação e sombra) com status {provada com evidência | candidata | tese}.
+- Identifique quais técnicas dos 180+ o pipeline MUGEN→MD naturalmente destrava
+  (ex.: efeitos que no MUGEN são alpha/blending e no MD viram S/H, dithering ou
+  troca de paleta — mapeie a tradução semântica).
+Entrega 5 — catálogo: `doc/curation/<data>/mugen_md_technique_catalog.md` com
+link de cada técnica provada para sua evidência.
+
+## 7. Pontos de atenção transversais a robustecer
+Mínimo a cobrir (complete com o que encontrar):
+- PERFORMANCE: 23% dos quadros acima do budget com pico 160% — nenhum skill hoje
+  obriga medição de frame budget ANTES de adicionar FX; proponha o gate.
+- PROVENIÊNCIA: arte convertida do MUGEN tem proveniência declarada? O auditor
+  `audit_procedural_asset_provenance.py` cobre assets de conversão?
+- SEMÂNTICA DE TRANSPARÊNCIA: os 46 quadros opacos não são bug pontual, são uma
+  CLASSE de perda — merece princípio + ferramenta de detecção.
+- APROXIMAÇÕES REGISTRADAS: espelhamento do fundo muda raios; aproximação sem
+  registro em arte é dívida — proponha como o pipeline registra aproximações
+  automaticamente (metadata no manifesto de proveniência).
+- FONTE DE VERDADE ÚNICA: lições espalhadas entre changelog, curation docs e
+  memory bank — proponha o índice canônico.
+
+## 8. Plano de robustecimento priorizado (a síntese)
+Consolide tudo num roadmap ordenado por (impacto no goal AAA) ÷ (esforço), com
+critério de aceite para cada item, marcando o que é: skill nova, endurecimento de
+skill, ferramenta nova, rota nova, gate novo. Máximo de 3 itens "quick win" para
+aprovação imediata e o resto em ondas.
+
+## 9. Regras de engajamento e entregáveis
+- Entregas 1–2 em `tools/sgdk_wrapper/.agent/references/`; 3–6 e 8 em
+  `doc/curation/<data>/`. Toda alteração em canon exige aprovação humana explícita.
+- Ao final: rode `audit_project_learning.ps1 -Mode Capture` para as lições do
+  projeto; atualize `doc/06_AI_MEMORY_BANK.md` com um bloco datado no formato
+  vigente; nada de promoção de status (nenhum "ready_for_aaa" nasce daqui).
+- Trabalhe em branch a partir da `main`; PR separado para a curadoria.
+- Se não foi visto rodando no emulador, não existe — e se não foi medido,
+  não é lição, é opinião.

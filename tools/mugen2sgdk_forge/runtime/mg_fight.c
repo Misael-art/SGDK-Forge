@@ -45,6 +45,22 @@ static const u8 kFlash[5][8] = {
     { 5, 6, 6, 6, 7, 7, 7, 7 }, { 7, 7, 7, 7, 7, 7, 7, 7 },
 };
 static const u16 *s_basepal[2];     /* paleta do corpo de cada lado (restaurada no fim do flash) */
+/* REGRA 1c: tabela de swap PRE-DECLARADA por lutador (niveis 2..4), montada no inicio da luta.
+ * O flash so copia uma linha dela para a PROPRIA linha do lutador. Tambem e memoria estatica:
+ * DMA_QUEUE le a fonte no VBlank, entao um buffer de pilha ja estaria morto quando a copia rodasse. */
+static u16 s_flash_tab[2][3][15];
+
+static void build_flash_table(u8 side)
+{
+    const u16 *src = s_basepal[side];
+    for (u8 l = 2; l <= 4; l++) {
+        const u8 *t = kFlash[l];
+        for (u8 i = 0; i < 15; i++) {
+            u16 v = src[i + 1];
+            s_flash_tab[side][l - 2][i] = ((u16)t[(v >> 9) & 7] << 9) | ((u16)t[(v >> 5) & 7] << 5) | ((u16)t[(v >> 1) & 7] << 1);
+        }
+    }
+}
 static s16 s_bgb_scroll_x, s_bgb_scroll_y;
 
 static void impact_fx(const MgPlayer *d, s32 dmg, s8 afc)
@@ -82,17 +98,8 @@ static void impact_fx_step(void)
         u8 lvl = mg_fight.flash_lvl[s];
         if (!lvl) continue;
         const u16 *src = s_basepal[s];
-        if (lvl == 1) {                             /* fim: devolve a paleta original exata */
-            PAL_setColors(s ? 33 : 17, &src[1], 15, DMA_QUEUE);
-        } else {
-            const u8 *t = kFlash[lvl];
-            u16 c[15];
-            for (u8 i = 0; i < 15; i++) {
-                u16 v = src[i + 1];
-                c[i] = ((u16)t[(v >> 9) & 7] << 9) | ((u16)t[(v >> 5) & 7] << 5) | ((u16)t[(v >> 1) & 7] << 1);
-            }
-            PAL_setColors(s ? 33 : 17, c, 15, DMA_QUEUE);
-        }
+        if (lvl == 1) PAL_setColors(s ? 33 : 17, &src[1], 15, DMA_QUEUE);   /* fim: paleta original exata */
+        else PAL_setColors(s ? 33 : 17, s_flash_tab[s][lvl - 2], 15, DMA_QUEUE);
         mg_fight.flash_lvl[s] = lvl - 1;
     }
 }
@@ -732,6 +739,7 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
         MG_drawInit(&mg_fight.helper[s].dr);
         for (u8 i = 0; i < MG_MAX_PROJ; i++) MG_drawInit(&p->proj[i].dr);
         s_basepal[s] = defs[s]->pals[pals[s] % defs[s]->npals];
+        build_flash_table(s);
         PAL_setColors(s ? 32 : 16, s_basepal[s], 16, DMA);
     }
     PAL_setColors(48, p1->fxpal, 16, DMA);

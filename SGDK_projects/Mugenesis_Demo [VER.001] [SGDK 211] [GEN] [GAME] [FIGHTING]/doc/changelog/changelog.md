@@ -1,5 +1,24 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Etapa 3 (v2): shake + flash sob a REGRA 1 (capturas BlastEm pendentes)
+
+- Trazido do WIP 29d99535 para a main atual.
+- Flash com **tabela de swap pre-declarada** por lutador (REGRA 1c), montada no inicio da luta.
+- **Bug corrigido:** o flash passava um buffer de PILHA ao `PAL_setColors(..., DMA_QUEUE)`. O SGDK so copia no VBlank, entao a fonte ja estaria morta.
+  - O stub do host agora enfileira o ponteiro e copia no `host_vblank()`, depois de sujar a pilha.
+  - O mutante com buffer de pilha reprova.
+- **Oraculo independente:** as 15 cores exatas em todo acerto, inclusive o 2o golpe dentro do hitshake (88 re-disparos).
+- **Contrato testado:**
+  - PAL0/PAL3 intocadas (35 708 quadros);
+  - nunca trava (401 quadros de hitstop);
+  - 14 acertos de projetil a mais de 120 px;
+  - troca de round/KO devolve a paleta exata (32);
+  - superpause dirigida.
+  - Mutantes (spill em PAL3, congelar na superpause) reprovam.
+- **Limites:** a ausencia de spill em projeteis so se decide com os FX migrados para a linha do lutador (hoje eles estao em PAL3). O runtime nao tem pausa de jogo, so hitpause/superpause.
+- Base `9530c0a1` = 5,8% (70/1200). ROM so com flash construida (`595116bc`). Capturas adiadas por memoria do host (1,0 GiB livre).
+- Suite: 70 testes.
+
 ## 2026-09-24 - Fusao sem perda 6 -> 1 aplicada + pacote do piloto de FX (hadouken)
 
 - **Conversor:** funde slots de corpo com a mesma palavra VDP em TODAS as variantes (padrao ligado; `--no-merge-slots` desliga).

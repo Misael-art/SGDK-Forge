@@ -59,7 +59,23 @@ static inline bool XGM2_playPCM(const u8 *d, u32 l, SoundPCMChannel c) { (void)l
 static inline void XGM2_stopPCM(SoundPCMChannel c) { (void)c; }
 __attribute__((weak)) u16 host_cram[64];          /* CRAM simulada (testes conferem as cores escritas) */
 __attribute__((weak)) s16 host_scroll_b[2];       /* scroll de BG_B: [0] horizontal, [1] vertical */
-static inline void PAL_setColors(u16 i, const u16 *p, u16 n, TransferMethod t) { (void)t; for (u16 k = 0; k < n && i + k < 64; k++) host_cram[i + k] = p[k]; }
+/* DMA_QUEUE como no SGDK: guarda so o PONTEIRO e copia no VBlank (host_vblank). Fonte em pilha
+ * morta ja foi sobrescrita quando a copia roda -- o teste pega o mesmo bug que o hardware. */
+__attribute__((weak)) struct { u16 i, n; const u16 *p; } host_dmaq[32];
+__attribute__((weak)) u16 host_dmaq_n;
+static inline void PAL_setColors(u16 i, const u16 *p, u16 n, TransferMethod t)
+{
+    if (t == DMA_QUEUE && host_dmaq_n < 32) { host_dmaq[host_dmaq_n].i = i; host_dmaq[host_dmaq_n].n = n; host_dmaq[host_dmaq_n++].p = p; return; }
+    for (u16 k = 0; k < n && i + k < 64; k++) host_cram[i + k] = p[k];
+}
+static __attribute__((noinline)) void host_clobber_stack(void) { volatile u16 junk[512]; for (u16 k = 0; k < 512; k++) junk[k] = 0xDEAD; }
+static inline void host_vblank(void)
+{
+    host_clobber_stack();
+    for (u16 q = 0; q < host_dmaq_n; q++)
+        for (u16 k = 0; k < host_dmaq[q].n && host_dmaq[q].i + k < 64; k++) host_cram[host_dmaq[q].i + k] = host_dmaq[q].p[k];
+    host_dmaq_n = 0;
+}
 static inline void VDP_setHorizontalScroll(VDPPlane pl, s16 v) { if (pl == BG_B) host_scroll_b[0] = v; }
 static inline void VDP_setVerticalScroll(VDPPlane pl, s16 v) { if (pl == BG_B) host_scroll_b[1] = v; }
 static inline void VDP_drawText(const char *s, u16 x, u16 y) { (void)s; (void)x; (void)y; }

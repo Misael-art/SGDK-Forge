@@ -1,0 +1,241 @@
+{
+  "stage": "(SSF2) Suzaku Castle",
+  "localcoord": [
+    320,
+    240
+  ],
+  "camera_span": 448.0,
+  "crop_top": 8,
+  "parser_warnings": [],
+  "sff_warnings": [],
+  "stage_md_colours": 56,
+  "stage_sff_indices": 81,
+  "layers": {
+    "BG 0a": {
+      "type": "normal",
+      "spriteno": [
+        0,
+        1
+      ],
+      "delta_x": 0.0,
+      "size": [
+        480,
+        144
+      ],
+      "sff_indices": 11,
+      "md_colours": 7,
+      "tiles_total": 1080,
+      "tiles_unique_with_flip": 440,
+      "max_md_colours_per_tile": 6,
+      "max_md_colours_per_16px_block": 7
+    },
+    "BG 0b": {
+      "type": "normal",
+      "spriteno": [
+        0,
+        0
+      ],
+      "delta_x": 0.0,
+      "size": [
+        480,
+        144
+      ],
+      "sff_indices": 14,
+      "md_colours": 9,
+      "tiles_total": 1080,
+      "tiles_unique_with_flip": 454,
+      "max_md_colours_per_tile": 8,
+      "max_md_colours_per_16px_block": 9
+    },
+    "BG 1": {
+      "type": "normal",
+      "spriteno": [
+        1,
+        0
+      ],
+      "delta_x": 0.470982,
+      "size": [
+        139,
+        76
+      ],
+      "sff_indices": 13,
+      "md_colours": 8,
+      "tiles_total": 180,
+      "tiles_unique_with_flip": 133,
+      "max_md_colours_per_tile": 8,
+      "max_md_colours_per_16px_block": 8
+    },
+    "BG 2": {
+      "type": "normal",
+      "spriteno": [
+        2,
+        0
+      ],
+      "delta_x": 0.537946,
+      "size": [
+        504,
+        212
+      ],
+      "sff_indices": 20,
+      "md_colours": 16,
+      "tiles_total": 1701,
+      "tiles_unique_with_flip": 374,
+      "max_md_colours_per_tile": 11,
+      "max_md_colours_per_16px_block": 12
+    },
+    "BG 3": {
+      "type": "normal",
+      "spriteno": [
+        3,
+        0
+      ],
+      "delta_x": 0.671875,
+      "size": [
+        621,
+        192
+      ],
+      "sff_indices": 25,
+      "md_colours": 21,
+      "tiles_total": 1872,
+      "tiles_unique_with_flip": 289,
+      "max_md_colours_per_tile": 16,
+      "max_md_colours_per_16px_block": 18
+    },
+    "BG 4a": {
+      "type": "parallax",
+      "spriteno": [
+        4,
+        0
+      ],
+      "delta_x": 0.79241,
+      "size": [
+        896,
+        36
+      ],
+      "sff_indices": 13,
+      "md_colours": 11,
+      "tiles_total": 560,
+      "tiles_unique_with_flip": 300,
+      "max_md_colours_per_tile": 9,
+      "max_md_colours_per_16px_block": 11
+    },
+    "BG 4b": {
+      "type": "normal",
+      "spriteno": [
+        4,
+        1
+      ],
+      "delta_x": 1.102678,
+      "size": [
+        894,
+        12
+      ],
+      "sff_indices": 12,
+      "md_colours": 10,
+      "tiles_total": 224,
+      "tiles_unique_with_flip": 113,
+      "max_md_colours_per_tile": 8,
+      "max_md_colours_per_16px_block": 10
+    }
+  },
+  "planes": [
+    {
+      "plan": "BG_B ceu+castelo+muro, delta 0.43 (maior que cabe em 512 px)",
+      "delta": 0.43,
+      "width": 520,
+      "tiles_unique_with_flip": 739,
+      "empty_cells": 317,
+      "md_colours": 29
+    },
+    {
+      "plan": "BG_B ceu+castelo+muro, delta 0.50",
+      "delta": 0.5,
+      "width": 544,
+      "tiles_unique_with_flip": 753,
+      "empty_cells": 380,
+      "md_colours": 29
+    },
+    {
+      "plan": "BG_A telhados+chao, delta 0.67",
+      "delta": 0.67,
+      "width": 624,
+      "tiles_unique_with_flip": 673,
+      "empty_cells": 1291,
+      "md_colours": 32
+    },
+    {
+      "plan": "BG_A telhados+chao, delta 1.0 (1:1 como no briefing)",
+      "delta": 1.0,
+      "width": 768,
+      "tiles_unique_with_flip": 540,
+      "empty_cells": 1711,
+      "md_colours": 33
+    },
+    {
+      "plan": "S1 BG_B estatico 320 (sem scroll)",
+      "delta": 0.0,
+      "width": 320,
+      "tiles_unique_with_flip": 476,
+      "empty_cells": 40,
+      "md_colours": 29
+    },
+    {
+      "plan": "S1 BG_A estatico 320 (sem scroll)",
+      "delta": 0.0,
+      "width": 320,
+      "tiles_unique_with_flip": 232,
+      "empty_cells": 775,
+      "md_colours": 24
+    },
+    {
+      "plan": "so chao (4a+4b), delta 1.0",
+      "delta": 1.0,
+      "width": 768,
+      "tiles_unique_with_flip": 283,
+      "empty_cells": 2212,
+      "md_colours": 12
+    },
+    {
+      "plan": "so telhados, delta 0.67",
+      "delta": 0.67,
+      "width": 624,
+      "tiles_unique_with_flip": 283,
+      "empty_cells": 1681,
+      "md_colours": 21
+    }
+  ],
+  "bg_b_bands_delta_0_43": {
+    "ceu linhas 0-47": {
+      "width": 520,
+      "tiles_unique_with_flip": 243,
+      "empty_cells": 72,
+      "md_colours": 20
+    },
+    "castelo+muro linhas 48-223": {
+      "width": 520,
+      "tiles_unique_with_flip": 496,
+      "empty_cells": 245,
+      "md_colours": 29
+    }
+  },
+  "source_sha256": "d781b8d53d8b35789ed18985b7ad7ab9db977d220d9940b132999ed92323fb96",
+  "fight_vram": {
+    "tile_space": 1536,
+    "font": 96,
+    "sprite_pool": 600,
+    "system": 16,
+    "user_area": 824,
+    "fighter_fixed_each": 147,
+    "fighter_fixed_driver": "mg_ken_g760_fx",
+    "largest_body_sheet": [
+      102,
+      "mg_ken_g6600"
+    ],
+    "bgfx_tiles": 272,
+    "hud_tiles": 136,
+    "portrait_tiles_each": 16,
+    "used": 734,
+    "free_for_stage": 90
+  },
+  "fight_rom_sha256": "6bbef58aa2002565228fa44f0ffbe6e7c40d07c2659db2200824c98b1f2234c2"
+}

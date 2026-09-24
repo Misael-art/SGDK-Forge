@@ -52,7 +52,11 @@
   - time 31 / movetime 5 exatos em ticks; poweradd 250; som S2,0 identificado pelo ponteiro.
   - Tres mutantes (TIME<->MOVETIME, POS_X<->POS_Y, sem espelho) fazem o teste falhar.
 - Q3 fechado: indice de intake gerado (`intake-index`, lint `--check`); 12 licoes, todas pending_human_review.
-- Pendente: etapa 3 (camera shake + palette flash), so apos PR das etapas 1-2.
+- Etapa 3 (shake + flash): implementada e testada no host, parada no branch `feat/mugenesis-impact-fx` (commit WIP 29d99535). Faltam as capturas flash/shake/both, interrompidas por falta de memoria no host.
+  - Achado: a janela da sonda variava com a duracao da captura e com o reset por fim de luta, entao o A/B era invalido. No branch ha uma janela fixa de 1200 quadros travada; base = 5,5%.
+- E4.0 (stage Suzaku): NO-GO para inclusao direta. Livre na luta: 90 tiles e 8 cores (PAL0 1-8); o stage pede ~1280 tiles e 56 cores.
+  - Proximo passo depende de decisao: re-autoria, CRAM ou enxugar a VRAM da luta (+272 do bgfx temporal, +90 da reserva de corpo, pool a medir).
+  - Memo: doc/mugen/stage/e4_suzaku_viabilidade.md.
 
 ### Conteudo de terceiros
 Ken Masters ADV (autor Chok): uso local autorizado pelo usuario; redistribuicao nao verificada.
@@ -66,6 +70,9 @@ Regerar: `python3 -m mugen2sgdk_forge convert-char <ken_masters_adv.zip> --id ke
 - `B` = direcao tras, `b` = botao; caixa importa no .cmd.
 - Indice derivado deve ser GERADO das fontes e ter lint de deriva; indice editado a mao vira mais um status concorrente.
 - Ferramenta que chama git precisa tolerar repo sem commits (fixture de teste pegou isso no intake).
+- Inventario do acervo nao e o .def: o Suzaku tinha 10 secoes e 320x240, nao ~23 e 384. Abrir a fonte antes de planejar rodadas.
+- Orcamento de VRAM se le da ROM (SpriteDefinition.maxNumTile e TileSet.numTile via symbol.txt), nao dos PNGs.
+- A reserva fixa do corpo usa o maior sheet de EFEITO (147), nao o de corpo (102): 90 tiles possivelmente recuperaveis.
 - A sonda de runtime media a si mesma (~10% do quadro); perfilar por amostragem de PC via H-Int, nao por getSubTick.
 
 ## 2. Bloqueios iniciais

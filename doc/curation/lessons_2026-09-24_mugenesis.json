@@ -197,6 +197,42 @@
       "canonized_in": "",
       "enforced_by": "",
       "enforcement_state": "candidate"
+    },
+    {
+      "id": "palette_line_per_fighter_budget",
+      "bucket": "art",
+      "severity": "structural",
+      "lesson": "Contrato 1 linha por lutador para corpo + efeitos: conte estaveis + roupa (slots que variam entre .act) + efeitos sem par (dE>10). Efeitos nao podem usar slots de roupa, senao mudam de cor com a variante.",
+      "evidence": "Ken: 9 + 6 + 5 = 20 de 15; efeitos no vizinho do corpo = dE 8,6 medio e 34,7% dos pixels > 10 dE.",
+      "proposed_canon": "skills/art/art-translation-to-vdp + mugen2sgdk_forge palette-check",
+      "proposed_owner": "art-translation-to-vdp",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "source_resolution_scale_evaluation",
+      "bucket": "art",
+      "severity": "structural",
+      "lesson": "Personagem de arcade com outra largura (CPS2 384 -> MD 320) aparece 20% mais largo. Medir tiles em escalas pequenas (x 15/16 .. 5/6) antes de redesenhar; a reamostragem so mede, o pixel final e redesenho, e hitbox escalada muda o gameplay.",
+      "evidence": "Ken, 263 quadros: x 5/6 = -17% no maior quadro e -14,3% na soma.",
+      "proposed_canon": "skills/art/megadrive-pixel-strict-rules",
+      "proposed_owner": "megadrive-pixel-strict-rules",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
+    },
+    {
+      "id": "art_decision_routed_to_graphic_agent",
+      "bucket": "governance",
+      "severity": "structural",
+      "lesson": "Quando a regra de hardware exige cortar cor ou pixel, registre as opcoes medidas e encaminhe a reautoria para um agente com capacidade grafica; o agente de codigo nao decide nem executa o corte.",
+      "evidence": "Decisao do usuario em 2026-09-24 sobre o estouro de paleta do Ken.",
+      "proposed_canon": "skills/art/art-creation-sourcing",
+      "proposed_owner": "art-creation-sourcing",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
     }
   ],
   "canonization_audit": {

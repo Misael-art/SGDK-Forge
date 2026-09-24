@@ -216,6 +216,11 @@ def main(argv=None) -> int:
     sm.add_argument("--project", type=Path, help="le o orcamento real da luta de out/rom.bin + out/symbol.txt")
     sm.add_argument("--sprite-pool", type=int, default=600, help="FIGHT_SPR_VRAM da cena de luta")
     sm.add_argument("--out", type=Path, required=True)
+    pc = sub.add_parser("palette-check", help="REGRA 1: corpo + efeitos do lutador cabem em 15 cores?")
+    pc.add_argument("--project", type=Path, required=True)
+    pc.add_argument("--id", required=True)
+    pc.add_argument("--delta-e", type=float, default=10.0)
+    pc.add_argument("--waiver", help="excecao DECLARADA (motivo); vai no relatorio, rc=0")
     b = sub.add_parser("install-runtime")
     b.add_argument("project", type=Path)
     c = sub.add_parser("convert-char")
@@ -256,6 +261,13 @@ def main(argv=None) -> int:
         print(json.dumps({k: rep[k] for k in ("stage", "stage_md_colours")} |
                          {"free_for_stage": rep.get("fight_vram", {}).get("free_for_stage")}, ensure_ascii=False))
         return 0
+    if args.cmd == "palette-check":
+        from . import palette_contract
+        rep = palette_contract.check_project(args.project, args.id, args.delta_e)
+        if args.waiver:
+            rep["waiver"] = args.waiver
+        print(json.dumps(rep, indent=2, ensure_ascii=False))
+        return 0 if rep["fits"] or args.waiver else 1
     if args.cmd == "install-runtime":
         print(json.dumps(install_runtime(args.project), indent=2))
         return 0

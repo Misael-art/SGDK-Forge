@@ -1,5 +1,14 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - REGRA 1: contrato de paletas + validacao no conversor (migracao aguarda arte)
+
+- Contrato: PAL0 cenario, PAL1/PAL2 lutador (corpo + efeitos), PAL3 HUD; emprestimos declarados (fundo de super na linha do cenario; flash na linha do lutador).
+- `palette-check`: reprova personagem com mais de 15 slots; excecao so com `--waiver` registrado. 3 testes; suite 56.
+- Ken medido: 9 estaveis + 6 de roupa + 5 so de efeito = **20 slots** (estoura por 5). Reprova ate a decisao de arte.
+- Opcoes registradas; prioridade do usuario: reautoria dos efeitos por agente grafico dedicado.
+- Dimensao avaliada: x 5/6 (proporcao CPS2) = -17% no maior quadro e -14% na soma. So medicao; pixel final exige redesenho.
+- Registro: `doc/mugen/palette_contract_rule1.md`. Nada foi migrado e nenhuma cor foi cortada.
+
 ## 2026-09-24 - Dieta de VRAM da luta + especial compacto no rodape (REGRA 2)
 
 Todas as medicoes usam a janela fixa de 1200 quadros (sonda corrigida, trazida da etapa 3).

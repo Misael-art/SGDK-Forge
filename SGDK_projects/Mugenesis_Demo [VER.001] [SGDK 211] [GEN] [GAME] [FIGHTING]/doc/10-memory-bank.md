@@ -38,6 +38,12 @@
 - P6 catalogo: registrado como consultivo (doc/mugen/p6_effects_catalog_fit.md); nada implementado.
 - Build: ROMs com --output-dir alternativo exigem out/ ja buildado (sega.s inclui out/rom_head.bin).
 
+### Rodada 2026-09-24 (direcionamento pos-P6)
+- Etapa 1 desempenho com audio real: FECHADA. A luta foi de 29,3% para 8,5% de quadros acima do orcamento (pos-warmup), ROM 6bbef58a... (doc/perf/etapa1_perf_audio_real.md).
+- Medir CPU com -DMG_PCPROF (amostragem de PC por H-Int) + tools/mugen2sgdk_forge/perf/read_sram_metrics.py. O -DMG_PROFILE (getSubTick) distorce: a ROM de perfil fica 77% acima do orcamento.
+- A sonda canonica custava ~10% do quadro (laco por linha). Corrigida so neste projeto; o template ainda tem o custo.
+- Pendentes: etapa 2 (3 quick wins da curadoria) e etapa 3 (camera shake + palette flash).
+
 ### Conteudo de terceiros
 Ken Masters ADV (autor Chok): uso local autorizado pelo usuario; redistribuicao nao verificada.
 Saidas convertidas (res/mugen/, res/mgres_*, src/mg_gen/, inc/mg_gen/, out_prof/) ficam fora do Git.

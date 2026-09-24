@@ -1,5 +1,12 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Etapa 1: desempenho com audio real (29,3% -> 8,5%)
+
+- Captura com audio real (disk). O denominador pos-warmup agora e exportado; o quociente bruto antigo subestimava.
+- Sonda: px por linha (limite de 320 em H40) e varredura so nas fronteiras; o laco antigo custava ~10% do quadro.
+- VM: frente leve para constantes e var(n); pilha por ponteiro. O trace do host e identico (md5 b47cfeef...).
+- Maximos: 10 sprites e 288 px por linha. PCM real custa ~4 pontos. Nenhum efeito visivel removido.
+
 ## 2026-09-23 - P6: catalogo de 180 efeitos registrado (consultivo)
 
 - Aderencia avaliada: 10+ ja em uso com ROM citada, 7 candidatos priorizados, eixos fora de escopo justificados. Nada implementado.

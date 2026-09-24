@@ -194,67 +194,94 @@ static mgfx trga(const MgPlayer *p, u8 id, mgfx arg)
     }
 }
 
+static mgfx eval_full(const MgPlayer *p, const u8 *c) __attribute__((noinline));
+
+/* Frente leve do VM: constantes e var(n) sem pagar o prologo do interpretador.
+ *
+ * PORQUE: amostragem de PC no BlastEm (H-Int a cada 8 linhas) mediu MG_eval em
+ * 13,9% do quadro com so ~15 chamadas por quadro: ~1100 ciclos cada, a maior
+ * parte no prologo/epilogo (movem de 11 registros) e no despacho. Um terco das
+ * chamadas era programa constante ("PUSH8 0; END" = trigger sempre falso, 3,4
+ * por tick) que pagava o prologo inteiro para devolver um literal. */
 mgfx MG_eval(const MgPlayer *p, u16 off)
 {
     if (off == MG_NONE) return 0;
     const u8 *c = p->sdef->code + off;
-    /* atalho: programa que e so uma constante (maioria dos parametros de HitDef etc.) */
     switch (c[0]) {
-    case MG_OP_PUSH8: if (c[2] == MG_OP_END) return FXI((s8)c[1]); break;
+    case MG_OP_PUSH8:
+        if (c[2] == MG_OP_END) return FXI((s8)c[1]);
+        /* var(n) com n constante: PUSH8 n; TRGA VAR; END */
+        if (c[2] == MG_OP_TRGA && c[3] == MG_TRGA_VAR && c[4] == MG_OP_END) {
+            s8 n = (s8)c[1];
+            return (n >= 0 && n < 60) ? FXI(p->vars[(u8)n]) : 0;
+        }
+        break;
     case MG_OP_PUSH16: if (c[3] == MG_OP_END) return FXI((s16)((c[1] << 8) | c[2])); break;
     case MG_OP_PUSHFX:
         if (c[5] == MG_OP_END)
             return (mgfx)(((u32)c[1] << 24) | ((u32)c[2] << 16) | ((u32)c[3] << 8) | c[4]);
         break;
     }
+    return eval_full(p, c);
+}
+
+/* Pilha por ponteiro (s aponta para a proxima posicao livre; topo = s[-1]).
+ *
+ * PORQUE: com indice (st[sp - 1]) o gcc do 68000 recalculava endereco a cada
+ * acesso (extensao de sinal + duas somas + modo indexado). A amostragem de PC
+ * mostrou o interpretador como maior custo dos quadros acima do orcamento
+ * (16% das amostras nesses quadros). Mesma semantica, byte a byte. */
+static mgfx eval_full(const MgPlayer *p, const u8 *c)
+{
     mgfx st[STACK];
-    s16 sp = 0;
+    mgfx *s = st;
+    mgfx *const lim = st + STACK;
     for (;;) {
         u8 op = *c++;
         mgfx a, b;
         switch (op) {
-        case MG_OP_END: return sp ? st[sp - 1] : 0;
-        case MG_OP_PUSH8: st[sp++] = FXI((s8)*c); c++; break;
-        case MG_OP_PUSH16: st[sp++] = FXI((s16)((c[0] << 8) | c[1])); c += 2; break;
-        case MG_OP_PUSHFX: st[sp++] = (mgfx)(((u32)c[0] << 24) | ((u32)c[1] << 16) | ((u32)c[2] << 8) | c[3]); c += 4; break;
-        case MG_OP_TRG: st[sp++] = trg(p, *c++); break;
-        case MG_OP_TRGA: st[sp - 1] = trga(p, *c++, st[sp - 1]); break;
-        case MG_OP_CMD: st[sp++] = FXI(p->sdef == p->def && p->cmd_timer[*c] != 0); c++; break;
-        case MG_OP_ANIMELEMTIME: st[sp - 1] = FXI(MG_animElemTime(p, st[sp - 1] >> MG_FX_SHIFT)); break;
-        case MG_OP_UNSUPPORTED: st[sp++] = 0; c++; break;
+        case MG_OP_END: return s > st ? s[-1] : 0;
+        case MG_OP_PUSH8: *s++ = FXI((s8)*c); c++; break;
+        case MG_OP_PUSH16: *s++ = FXI((s16)((c[0] << 8) | c[1])); c += 2; break;
+        case MG_OP_PUSHFX: *s++ = (mgfx)(((u32)c[0] << 24) | ((u32)c[1] << 16) | ((u32)c[2] << 8) | c[3]); c += 4; break;
+        case MG_OP_TRG: *s++ = trg(p, *c++); break;
+        case MG_OP_TRGA: s[-1] = trga(p, *c, s[-1]); c++; break;
+        case MG_OP_CMD: *s++ = FXI(p->sdef == p->def && p->cmd_timer[*c] != 0); c++; break;
+        case MG_OP_ANIMELEMTIME: s[-1] = FXI(MG_animElemTime(p, s[-1] >> MG_FX_SHIFT)); break;
+        case MG_OP_UNSUPPORTED: *s++ = 0; c++; break;
         case MG_OP_ANDJ: {
             u16 rel = (c[0] << 8) | c[1];
             c += 2;
-            if (st[sp - 1] == 0) c += rel; else sp--;
+            if (s[-1] == 0) c += rel; else s--;
             break;
         }
         case MG_OP_ORJ: {
             u16 rel = (c[0] << 8) | c[1];
             c += 2;
-            if (st[sp - 1] != 0) { st[sp - 1] = MG_FX; c += rel; } else sp--;
+            if (s[-1] != 0) { s[-1] = MG_FX; c += rel; } else s--;
             break;
         }
-        case MG_OP_BOOL: st[sp - 1] = st[sp - 1] ? MG_FX : 0; break;
-        case MG_OP_NEG: st[sp - 1] = -st[sp - 1]; break;
-        case MG_OP_NOT: st[sp - 1] = st[sp - 1] ? 0 : MG_FX; break;
-        case MG_OP_BNOT: st[sp - 1] = FXI(~(st[sp - 1] >> MG_FX_SHIFT)); break;
-        case MG_OP_ABS: if (st[sp - 1] < 0) st[sp - 1] = -st[sp - 1]; break;
-        case MG_OP_FLOOR: st[sp - 1] &= ~(MG_FX - 1); break;
+        case MG_OP_BOOL: s[-1] = s[-1] ? MG_FX : 0; break;
+        case MG_OP_NEG: s[-1] = -s[-1]; break;
+        case MG_OP_NOT: s[-1] = s[-1] ? 0 : MG_FX; break;
+        case MG_OP_BNOT: s[-1] = FXI(~(s[-1] >> MG_FX_SHIFT)); break;
+        case MG_OP_ABS: if (s[-1] < 0) s[-1] = -s[-1]; break;
+        case MG_OP_FLOOR: s[-1] &= ~(MG_FX - 1); break;
         case MG_OP_INRANGE: {
             u8 fl = *c++;
-            mgfx hi = st[--sp], lo = st[--sp], v = st[sp - 1];
+            mgfx hi = *--s, lo = *--s, v = s[-1];
             u8 ok = ((fl & 1) ? v >= lo : v > lo) && ((fl & 2) ? v <= hi : v < hi);
-            st[sp - 1] = ok ? MG_FX : 0;
+            s[-1] = ok ? MG_FX : 0;
             break;
         }
         case MG_OP_IFELSE: {
-            mgfx bb = st[--sp], aa = st[--sp], cc = st[sp - 1];
-            st[sp - 1] = cc ? aa : bb;
+            mgfx bb = *--s, aa = *--s, cc = s[-1];
+            s[-1] = cc ? aa : bb;
             break;
         }
         default:
-            b = st[--sp];
-            a = st[sp - 1];
+            b = *--s;
+            a = s[-1];
             switch (op) {
             case MG_OP_ADD: a = a + b; break;
             case MG_OP_SUB: a = a - b; break;
@@ -276,10 +303,10 @@ mgfx MG_eval(const MgPlayer *p, u16 off)
             case MG_OP_LXOR: a = ((a != 0) != (b != 0)) ? MG_FX : 0; break;
             default: return 0;   /* opcode invalido: programa corrompido */
             }
-            st[sp - 1] = a;
+            s[-1] = a;
             break;
         }
-        if (sp >= STACK) return 0;
+        if (s >= lim) return 0;
     }
 }
 

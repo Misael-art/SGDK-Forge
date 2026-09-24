@@ -305,6 +305,18 @@
       "canonized_in": "",
       "enforced_by": "",
       "enforcement_state": "candidate"
+    },
+    {
+      "id": "reconversion_preserves_human_provenance",
+      "bucket": "governance",
+      "severity": "structural",
+      "lesson": "Gerador que reescreve o manifesto por prefixo apaga a decisao humana. Separe o metadado derivado da anotacao humana (arquivo proprio, so acrescentado), capture a edicao manual antes de sobrescrever e prenda a aprovacao ao hash do asset: pixel novo exige nova aprovacao, sem apagar a antiga.",
+      "evidence": "Reconversao do Ken apagaria notas de licenca/aprovacao (58 linhas no audio). Protecao em provenance.py: 4 testes (sobrevive, idempotente, stale, removido); reconversao real numa copia = audio identico.",
+      "proposed_canon": "tools/mugen2sgdk_forge provenance.py + skills/governance/truth-hierarchy-guard",
+      "proposed_owner": "truth-hierarchy-guard",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
     }
   ],
   "canonization_audit": {

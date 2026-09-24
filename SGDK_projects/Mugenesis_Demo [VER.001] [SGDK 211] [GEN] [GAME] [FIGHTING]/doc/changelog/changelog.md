@@ -1,5 +1,13 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Proveniencia protegida contra reconversao
+
+- Decisao humana saiu do metadado derivado: `doc/mugen/provenance_annotations.json` e do humano (notas, restricoes, aprovacoes presas ao sha256 do asset, historico). O conversor so acrescenta.
+- Antes de sobrescrever, a nota escrita a mao no manifesto/audio e capturada.
+- Aprovacao com hash diferente do asset atual nao se aplica (fica `approval_stale` no historico); simbolo removido fica como `removed`.
+- Reconversao do Ken numa copia do projeto: o audio sai identico ao commitado, o manifesto preserva todas as notas, e a 2a rodada e idempotente (3 arquivos iguais byte a byte).
+- 4 testes novos; suite 72.
+
 ## 2026-09-24 - Fusao sem perda 6 -> 1 aplicada + pacote do piloto de FX (hadouken)
 
 - **Conversor:** funde slots de corpo com a mesma palavra VDP em TODAS as variantes (padrao ligado; `--no-merge-slots` desliga).

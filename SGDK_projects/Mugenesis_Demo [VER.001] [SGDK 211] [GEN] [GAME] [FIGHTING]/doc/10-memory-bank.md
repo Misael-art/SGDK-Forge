@@ -54,6 +54,9 @@
 - Q3 fechado: indice de intake gerado (`intake-index`, lint `--check`); 12 licoes, todas pending_human_review.
 - Etapa 3 (shake + flash): implementada e testada no host, parada no branch `feat/mugenesis-impact-fx` (commit WIP 29d99535). Faltam as capturas flash/shake/both, interrompidas por falta de memoria no host.
   - Achado: a janela da sonda variava com a duracao da captura e com o reset por fim de luta, entao o A/B era invalido. No branch ha uma janela fixa de 1200 quadros travada; base = 5,5%.
+- Dieta de VRAM (2026-09-24): reserva do corpo 102 (guarda para sheet maior), fundo de super sob demanda, especial compacto no rodape (BG_A linha 26, precisa de scroll 0 quando houver palco).
+  - Livre para cenario: 180 tiles, 452 com emprestimo. O pool de sprites (600) ainda nao foi medido.
+  - Achado: o super passa de 320 px/linha em 128 de 1200 quadros (ja na main).
 - E4.0 (stage Suzaku): NO-GO para inclusao direta. Livre na luta: 90 tiles e 8 cores (PAL0 1-8); o stage pede ~1280 tiles e 56 cores.
   - Proximo passo depende de decisao: re-autoria, CRAM ou enxugar a VRAM da luta (+272 do bgfx temporal, +90 da reserva de corpo, pool a medir).
   - Memo: doc/mugen/stage/e4_suzaku_viabilidade.md.

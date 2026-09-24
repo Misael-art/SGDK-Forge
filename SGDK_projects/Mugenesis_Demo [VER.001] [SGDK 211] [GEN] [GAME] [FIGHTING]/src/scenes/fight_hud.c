@@ -4,6 +4,9 @@
  * retrato 9000,0 do personagem. Transporte: tiles no plano WINDOW (linhas 0..6) -- sprites no topo
  * estourariam 20/linha quando o lutador pula (7,4% dos ticks). Mensagens (ROUND/FIGHT/KO) = sprites.
  * Paleta: PAL0 slots 9..15 (estagio fica com 1..8). Barra estilo Street Fighter com fantasma de dano.
+ * Especial (REGRA 2, estilo SSF2T): barra compacta de 1/3 da vida, centrada no RODAPE, em BG_A
+ * (linha 26 = y 208..215). O WINDOW so pode ocupar o topo OU a base; a vida fica no topo. Com
+ * cenario (E4) essa linha de BG_A precisa de scroll 0 (line scroll): contrato do palco.
  * Tudo por evento: so reescreve tiles cujo conteudo mudou.
  */
 #include <genesis.h>
@@ -15,6 +18,11 @@
 #define WROWS        7                 /* altura do WINDOW em tiles */
 #define BAR_TILES    14
 #define BAR_PX       (BAR_TILES * 8)
+#define POW_TILES    5                 /* 1/3 de BAR_TILES (14/3 = 4,67 -> 5) */
+#define POW_PX       (POW_TILES * 8)
+#define POW_ROW      26                /* BG_A, y 208..215: abaixo do chao (200) e da sombra */
+#define POW_P1_X     18                /* P1 cresce para a esquerda a partir daqui; P2 espelhado */
+#define POW_P2_X     21                /* folga de 2 tiles no centro (x 19..20) */
 #define GHOST_HOLD   30                /* ticks antes do fantasma comecar a drenar */
 #define GHOST_SPEED  2                 /* px por tick */
 #define COMBO_SHOW   90
@@ -31,6 +39,7 @@ static Sprite *sMsgSpr[MG_HUD_MSG_PARTS];
 static inline u16 attr(u16 idx, bool hflip) { return TILE_ATTR_FULL(PAL0, TRUE, FALSE, hflip, sBase + idx); }
 
 static void putTile(u16 x, u16 y, u16 a) { VDP_setTileMapXY(WINDOW, a, x, y); }
+static void putPow(u16 x, u16 a) { VDP_setTileMapXY(BG_A, a, x, POW_ROW); }
 
 static void put2x2(u16 x, u16 y, u16 first)
 {
@@ -58,7 +67,8 @@ static void drawBar(u8 side, u8 kind, u8 L, u8 G)
 {
     u8 oL = sLastL[side][kind], oG = sLastG[side][kind];
     if (L == oL && G == oG) return;
-    u8 c0 = 0, c1 = BAR_TILES - 1;
+    const u8 n = kind ? POW_TILES : BAR_TILES;
+    u8 c0 = 0, c1 = n - 1;
     if (oL != 0xFF) {
         u8 lo = L, hi = L;
         if (oL < lo) lo = oL;
@@ -70,11 +80,10 @@ static void drawBar(u8 side, u8 kind, u8 L, u8 G)
             if (oG > hi) hi = oG;
         }
         c0 = lo >> 3;
-        c1 = (hi >> 3) < BAR_TILES ? (hi >> 3) : BAR_TILES - 1;
+        c1 = (hi >> 3) < n ? (hi >> 3) : n - 1;
     }
     sLastL[side][kind] = L;
     sLastG[side][kind] = G;
-    u16 y = kind ? 3 : 1;
     for (u8 c = c0; c <= c1; c++) {
         u16 t;
         if (kind) {
@@ -83,13 +92,19 @@ static void drawBar(u8 side, u8 kind, u8 L, u8 G)
         } else t = lifeTile(c, L, G);
         if (sTileCache[side][kind][c] == t) continue;
         sTileCache[side][kind][c] = t;
-        /* P1: centro = x 17, cresce para a esquerda; P2: centro = x 22, espelhado */
-        if (side == 0) putTile(17 - c, y, attr(t, FALSE));
-        else putTile(22 + c, y, attr(t, TRUE));
+        if (kind) {                            /* especial: rodape, BG_A */
+            if (side == 0) putPow(POW_P1_X - c, attr(t, FALSE));
+            else putPow(POW_P2_X + c, attr(t, TRUE));
+        } else if (side == 0) putTile(17 - c, 1, attr(t, FALSE));   /* vida: centro x 17, cresce p/ esquerda */
+        else putTile(22 + c, 1, attr(t, TRUE));                      /* P2: centro x 22, espelhado */
     }
 }
 
-static void clearWindow(void) { VDP_clearTileMapRect(WINDOW, 0, 0, 40, WROWS); }
+static void clearWindow(void)
+{
+    VDP_clearTileMapRect(WINDOW, 0, 0, 40, WROWS);
+    VDP_clearTileMapRect(BG_A, POW_P1_X - POW_TILES + 1, POW_ROW, POW_P2_X + POW_TILES - (POW_P1_X - POW_TILES + 1), 1);
+}
 
 static void drawStatic(void)
 {
@@ -180,7 +195,7 @@ void FIGHT_HUD_update(void)
         drawBar(s, 0, sLifePx[s], sGhostPx[s]);
         if (p->power != lastPow[s]) {
             lastPow[s] = p->power;
-            cacheP[s] = (u8)((p->power > 3000 ? 3000 : p->power) * BAR_PX / 3000);
+            cacheP[s] = (u8)((p->power > 3000 ? 3000 : p->power) * POW_PX / 3000);
         }
         sPowPx[s] = cacheP[s];
         drawBar(s, 1, sPowPx[s], 0);

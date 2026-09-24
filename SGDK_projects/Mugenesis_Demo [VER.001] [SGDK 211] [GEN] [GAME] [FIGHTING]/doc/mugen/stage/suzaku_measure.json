@@ -225,8 +225,12 @@
     "sprite_pool": 600,
     "system": 16,
     "user_area": 824,
-    "fighter_fixed_each": 147,
-    "fighter_fixed_driver": "mg_ken_g760_fx",
+    "fighter_fixed_each": 102,
+    "fighter_fixed_driver": "mg_ken_g6600",
+    "largest_sheet_any": [
+      147,
+      "mg_ken_g760_fx"
+    ],
     "largest_body_sheet": [
       102,
       "mg_ken_g6600"
@@ -234,8 +238,13 @@
     "bgfx_tiles": 272,
     "hud_tiles": 136,
     "portrait_tiles_each": 16,
-    "used": 734,
-    "free_for_stage": 90
+    "used": 644,
+    "free_for_stage": 180,
+    "stage_region_with_bgfx_loan": 452,
+    "rules": {
+      "body_reservation": true,
+      "bgfx_loan": true
+    }
   },
-  "fight_rom_sha256": "6bbef58aa2002565228fa44f0ffbe6e7c40d07c2659db2200824c98b1f2234c2"
+  "fight_rom_sha256": "2aaf1830b3069052f983afa5876f5eed697c5b74522974a7b60097a3060136d1"
 }

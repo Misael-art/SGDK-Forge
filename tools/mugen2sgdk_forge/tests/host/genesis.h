@@ -13,7 +13,8 @@ typedef struct { u16 id; u16 maxNumTile; } SpriteDefinition;
 #define TILE_USER_INDEX 16
 #define TILE_SPRITE_INDEX 1100
 #define TILE_ATTR_FULL(p, pr, v, h, i) (TILE_ATTR(p, pr, v, h) | (i))
-typedef struct { const SpriteDefinition *def; s16 x, y; u16 frame; u8 visible; } Sprite;
+#define TILE_INDEX_MASK 0x7FF
+typedef struct { const SpriteDefinition *def; s16 x, y; u16 frame; u8 visible; u16 attr, flags; } Sprite;
 typedef enum { HIDDEN, VISIBLE, AUTO_FAST, AUTO_SLOW } SpriteVisibility;
 typedef enum { SOUND_PCM_CH_AUTO = -1, SOUND_PCM_CH1, SOUND_PCM_CH2, SOUND_PCM_CH3 } SoundPCMChannel;
 typedef enum { CPU, DMA, DMA_QUEUE } TransferMethod;
@@ -43,7 +44,7 @@ typedef enum { BG_B, BG_A } VDPPlane;
 #define BUTTON_Z 0x0100
 extern u32 host_sound_plays, host_def_switches;
 static inline Sprite *SPR_addSpriteEx(const SpriteDefinition *d, s16 x, s16 y, u16 a, u16 f)
-{ (void)a; (void)f; Sprite *s = calloc(1, sizeof(Sprite)); s->def = d; s->x = x; s->y = y; return s; }
+{ Sprite *s = calloc(1, sizeof(Sprite)); s->def = d; s->x = x; s->y = y; s->attr = a; s->flags = f; return s; }
 static inline bool SPR_setDefinition(Sprite *s, const SpriteDefinition *d) { s->def = d; host_def_switches++; return TRUE; }
 static inline void SPR_setAnimAndFrame(Sprite *s, s16 a, s16 f) { (void)a; s->frame = f; }
 static inline void SPR_setHFlip(Sprite *s, bool v) { (void)s; (void)v; }

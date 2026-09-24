@@ -14,6 +14,7 @@ u8 mg_crumb_i;
 #endif
 /* VRAM fixa por jogador (sem realocacao a cada troca de sheet); 0 = alocacao automatica */
 static u16 s_vram[2];
+static u16 s_vram_cap[2];   /* tiles reservados em s_vram: maior sheet de CORPO (pal 0) */
 /* efeitos de fundo: tiles pre-carregados apos os corpos; base por jogador/efeito (0 = sem espaco) */
 #define MG_MAX_BGFX 4
 static u16 s_bgfx_base[2][MG_MAX_BGFX];
@@ -318,6 +319,7 @@ static void push_and_bounds(void)
 void MG_drawInit(MgDraw *d)
 {
     for (u8 i = 0; i < MG_MAX_PARTS; i++) { d->spr[i] = 0; d->sheet[i] = -1; }
+    d->fixed0 = 0;
 }
 
 void MG_drawRelease(MgDraw *d)
@@ -334,7 +336,12 @@ static void draw_part(const MgCharDef *d, MgDraw *dr, u8 k, s16 sheet, u8 frame,
     const MgSheet *sh = &d->sheets[sheet];
     u16 pal = sh->pal ? PAL3 : body_pal;
     Sprite **spr = &dr->spr[k];
+    /* guarda: sheet maior que a reserva (nao observado no Ken) vai ao pool neste quadro,
+     * em vez de transbordar a VRAM vizinha; volta ao slot fixo quando o sheet couber */
+    if (vram && k == 0 && sh->def->maxNumTile > s_vram_cap[vram == s_vram[0] ? 0 : 1]) vram = 0;
+    if (*spr && k == 0 && dr->fixed0 != (vram != 0)) { SPR_releaseSprite(*spr); *spr = 0; }
     if (!*spr) {
+        if (k == 0) dr->fixed0 = vram != 0;
         *spr = (vram && k == 0) ? SPR_addSpriteEx(sh->def, 0, 0, TILE_ATTR_FULL(pal, TRUE, FALSE, FALSE, vram),
                                                    SPR_FLAG_AUTO_TILE_UPLOAD)
                                 : SPR_addSpriteEx(sh->def, 0, 0, TILE_ATTR(pal, TRUE, FALSE, FALSE),
@@ -421,6 +428,9 @@ static void bgfx_render(MgExplod *e, const MgPlayer *o)
     const MgBgFx *fx = &o->def->bgfx[(u8)e->bgfx];
     MG_CRUMB('m');
     if (!e->bgfx_shown) {
+        /* emprestimo de VRAM: a regiao do fundo de super e a regiao do cenario; os tiles sobem
+         * so enquanto o super cobre a tela (o cenario, quando existir, recarrega em bgfx_end) */
+        VDP_loadTileSet(fx->img->tileset, s_bgfx_base[o->side][(u8)e->bgfx], DMA_QUEUE);
         PAL_getColors(0, s_pal0_saved, 16);
         MG_CRUMB('n');
         VDP_setTileMapEx(BG_B, fx->img->tilemap, TILE_ATTR_FULL(PAL0, FALSE, FALSE, FALSE, s_bgfx_base[o->side][(u8)e->bgfx]),
@@ -655,11 +665,15 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
     }
     PAL_setColors(48, p1->fxpal, 16, DMA);
     s_bgfx_owner = -1;
-    /* reserva VRAM fixa para os corpos: maior quadro de qualquer sheet do personagem */
+    /* reserva VRAM fixa para os corpos: maior quadro dos sheets de CORPO (pal 0). Sheets de efeito
+     * (PAL3) nunca foram observados na parte 0 do lutador; se aparecerem, draw_part os manda ao pool */
     u16 need[2] = { 0, 0 };
     for (u8 s = 0; s < 2; s++)
         for (u16 i = 0; i < defs[s]->nsheets; i++)
-            if (defs[s]->sheets[i].def->maxNumTile > need[s]) need[s] = defs[s]->sheets[i].def->maxNumTile;
+            if (!defs[s]->sheets[i].pal && defs[s]->sheets[i].def->maxNumTile > need[s])
+                need[s] = defs[s]->sheets[i].def->maxNumTile;
+    s_vram_cap[0] = need[0];
+    s_vram_cap[1] = need[1];
     if (TILE_USER_INDEX + need[0] + need[1] <= TILE_SPRITE_INDEX) {
         s_vram[0] = TILE_USER_INDEX;
         s_vram[1] = TILE_USER_INDEX + need[0];
@@ -680,8 +694,7 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
                     if (defs[t]->bgfx[j].img == fx->img && s_bgfx_base[t][j]) dup = s_bgfx_base[t][j];
             if (dup) { s_bgfx_base[s][i] = dup; continue; }
             if (next + n > TILE_SPRITE_INDEX) continue;   /* sem espaco: efeito omitido */
-            VDP_loadTileSet(fx->img->tileset, next, DMA_QUEUE);
-            s_bgfx_base[s][i] = next;
+            s_bgfx_base[s][i] = next;       /* so reserva: os tiles sobem quando o super comeca */
             next += n;
         }
     s_vram_next = next;

@@ -164,3 +164,11 @@ def test_superpause_params_position_facing_and_timing(tmp_path):
     assert r["sound_plays"] == 1 and r["sound_is_2_0"] == 1, r
     # facing -1: x = 100 - 17; y = 0 + (-23); explod herda o facing do dono
     assert r["explod"] >= 0 and (r["ex_x"], r["ex_y"], r["ex_facing"]) == (83, -23, -1), r
+
+
+def test_body_vram_reservation_and_oversize_guard(tmp_path):
+    """Reserva fixa = maior sheet de CORPO; sheet de efeito maior na parte 0 vai ao pool e volta."""
+    exe = build(tmp_path, "vram_guard")
+    r = json.loads(subprocess.run([str(exe)], check=True, capture_output=True, text=True).stdout)
+    assert r["fx_anim"] >= 0 and r["any_max"] > r["body_max"], r
+    assert r["fixed_before"] == r["pool"] == r["back"] == r["slot_ok"] == 1, r

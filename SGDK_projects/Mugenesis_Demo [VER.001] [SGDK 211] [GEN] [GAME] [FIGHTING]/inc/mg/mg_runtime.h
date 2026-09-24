@@ -24,7 +24,7 @@
 #define MG_MAX_EXPLOD   6
 #define MG_MAX_PARTS    4       /* sprites SGDK por objeto (quadros divididos) */
 
-typedef struct { Sprite *spr[MG_MAX_PARTS]; s16 sheet[MG_MAX_PARTS]; } MgDraw;
+typedef struct { Sprite *spr[MG_MAX_PARTS]; s16 sheet[MG_MAX_PARTS]; u8 fixed0; } MgDraw;  /* fixed0: parte 0 na VRAM fixa */
 #define MG_MAX_PROG     32      /* comandos em andamento simultaneos */
 #define MG_MAX_LIVE     32      /* comandos ativos (buffer) simultaneos */
 

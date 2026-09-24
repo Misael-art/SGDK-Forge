@@ -1,5 +1,22 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Dieta de VRAM da luta + especial compacto no rodape (REGRA 2)
+
+Todas as medicoes usam a janela fixa de 1200 quadros (sonda corrigida, trazida da etapa 3).
+
+- **Reserva do corpo: 147 -> 102 tiles por lutador** (o maior sheet de CORPO, nao o de efeito).
+  - Em 8 lutas no host (normal + energia cheia), nenhum sheet de efeito caiu no slot fixo (35 sheets).
+  - Uma guarda manda um sheet maior ao pool em vez de transbordar; teste proprio, e o mutante sem a guarda reprova.
+- **Fundo de super carregado so no super** (emprestimo da regiao que sera do cenario).
+  - ROM roteirizada com KO por super: pico de CPU 253 -> 263 no quadro do upload; quadros acima do orcamento iguais (730/1200).
+  - O fundo 730 aparece correto (burst `ko_diet_vis`).
+- **Especial (REGRA 2):** 5 tiles por lado (1/3 dos 14), centrado no rodape, em BG_A linha 26 (y 210-215).
+  - Na captura, a sombra/pe mais baixo fica em y 204, sem sobreposicao.
+  - O WINDOW perde 28 celulas (a linha 3 ficou vazia).
+- **VRAM livre para cenario: 90 -> 180 tiles** (452 com o emprestimo do fundo de super). ROM `2aaf1830...`.
+- **Luta normal: 5,5% -> 5,7%** acima do orcamento (66 -> 68 de 1200); pico de CPU 144, 10 sprites/linha, 288 px/linha, iguais.
+- **Achado preexistente (main tambem):** no super, 424 px/linha e 128 quadros acima de 320 px -- sprites cortados em linhas. Nao mexido aqui.
+
 ## 2026-09-24 - E4.0: Suzaku Castle (SSF2) -- intake, parser, medicao e memo: NO-GO para inclusao direta
 
 - Intake: `rascunho/entrada_bruta/ssf2_01_ryu.zip` (sha256 d781b8d5...), inventario versionado, registro em `project_hygiene_manifest.json`.

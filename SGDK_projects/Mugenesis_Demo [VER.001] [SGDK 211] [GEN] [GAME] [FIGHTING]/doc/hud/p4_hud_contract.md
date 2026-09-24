@@ -12,10 +12,12 @@ de vitoria (730): HUD some (o proprio Ken declara `AssertSpecial nobardisplay`).
 ```
 y 0-7   | [P1 nome]                          [P2 nome] |
 y 8-15  |[face]====vida P1====  99  ====vida P2====[face]|
-y 16-23 |      ##especial P1##       ##especial P2##   |
+y 16-23 |                                              |  (especial saiu daqui: REGRA 2, 2026-09-24)
 y 24-31 |  o o (vitorias)                   o o        |
 y 32-39 |  12 HITS                                     |  <- lado de quem combou
 meio    |          ROUND 1 / FIGHT! / K.O.             |  (sprites SFA2 grupo 30/90/95/96)
+chao    |  ----------------- y 200 ------------------  |  (sombra y 196..204)
+y 208-215|             ##P1##  ##P2##                  |  especial compacto, 5 tiles cada, BG_A linha 26
 ```
 
 ## 3. Medicao (host harness + BlastEm)
@@ -67,3 +69,10 @@ e a anim de super comum (anim 100) hoje registradas como indisponiveis.
 - Sprites por linha (pico medido): 10 (limite 20).
 - Evidencia: out/mugenesis_evidence/p4_hud/blastem-linux-20260923T223739Z-1463769 (ROM b138fb35...).
 - Efeito colateral: slot 15 da PAL0 (cor do texto do SGDK) agora e azul do HUD: texto de depuracao sai azul.
+
+## REGRA 2 (2026-09-24): especial compacto no rodape
+- 5 tiles (40 px) por lado, 1/3 dos 14 da vida; P1 em x 14..18 cresce para a esquerda, P2 em x 21..25 espelhado.
+- Mantem amarelo = vida, azul = especial e os mesmos tiles de segmento (`MG_HUD_T_BAR_SE`).
+- Plano: BG_A linha 26 (o WINDOW nao pode estar no topo e na base ao mesmo tempo).
+- Contrato com o cenario: essa linha de BG_A fica com scroll 0 (line scroll) quando houver palco.
+- Some com o HUD durante o fundo de super, como o resto.

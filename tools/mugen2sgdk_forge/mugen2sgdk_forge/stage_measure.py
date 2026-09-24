@@ -98,7 +98,8 @@ def plane_stats(buf, pal, rows=(0, MD_H)) -> dict:
     return {"width": W, "tiles_unique_with_flip": len(uniq), "empty_cells": empty, "md_colours": len(cols)}
 
 
-def fight_vram(rom: Path, symbols: Path, res: Path, sprite_pool: int) -> dict:
+def fight_vram(rom: Path, symbols: Path, res: Path, sprite_pool: int,
+               body_reservation: bool = True, bgfx_loan: bool = True) -> dict:
     """Orcamento da luta lido da ROM: o que o runtime reserva antes de qualquer stage."""
     data = rom.read_bytes()
     sym = {}
@@ -120,11 +121,18 @@ def fight_vram(rom: Path, symbols: Path, res: Path, sprite_pool: int) -> dict:
     hud = tileset(sym["mg_hud_tiles"]) if "mg_hud_tiles" in sym else 0
     portrait = tileset(sym[p]) if (p := next((n for n in sym if n.endswith("_portrait")), None)) else 0
     user = TILES_VRAM - FONT_LEN - sprite_pool - SYSTEM_TILES
-    used = 2 * sheets[0][0] + bgfx_tiles + hud + 2 * portrait
+    # o runtime reserva o maior sheet de CORPO (sufixo _fx == pal 1, conferido nos 87 sheets do Ken);
+    # a regiao do fundo de super e emprestada: tiles so sobem durante o super, o palco oculto
+    fixed = body[0] if body_reservation else sheets[0][0]
+    used = 2 * fixed + bgfx_tiles + hud + 2 * portrait
+    free = user - used
     return {"tile_space": TILES_VRAM, "font": FONT_LEN, "sprite_pool": sprite_pool, "system": SYSTEM_TILES,
-            "user_area": user, "fighter_fixed_each": sheets[0][0], "fighter_fixed_driver": sheets[0][1],
-            "largest_body_sheet": list(body), "bgfx_tiles": bgfx_tiles, "hud_tiles": hud,
-            "portrait_tiles_each": portrait, "used": used, "free_for_stage": user - used}
+            "user_area": user, "fighter_fixed_each": fixed,
+            "fighter_fixed_driver": body[1] if body_reservation else sheets[0][1],
+            "largest_sheet_any": list(sheets[0]), "largest_body_sheet": list(body), "bgfx_tiles": bgfx_tiles,
+            "hud_tiles": hud, "portrait_tiles_each": portrait, "used": used, "free_for_stage": free,
+            "stage_region_with_bgfx_loan": free + (bgfx_tiles if bgfx_loan else 0),
+            "rules": {"body_reservation": body_reservation, "bgfx_loan": bgfx_loan}}
 
 
 PLANS = [

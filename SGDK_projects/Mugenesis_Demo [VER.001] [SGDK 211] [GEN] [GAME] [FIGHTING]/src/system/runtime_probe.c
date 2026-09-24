@@ -19,6 +19,16 @@
 #define PROBE_CPU_BUDGET_THRESHOLD 100
 #define PROBE_SAMPLE_OFFSET 32
 #define PROBE_SCENE_WARMUP_FRAMES 90
+/* Janela fixa de medicao: para de acumular apos N quadros pos-warmup (0 = sem limite).
+ * Sem ela a janela depende do tempo de parede da captura, e como a luta e deterministica
+ * ROMs diferentes eram medidas sobre trechos diferentes da luta (A/B invalido). */
+#ifndef PROBE_MEASURE_FRAMES
+#define PROBE_MEASURE_FRAMES 1200
+#endif
+/* A primeira janela que fecha fica travada: exporta uma vez e ignora re-entradas de cena.
+ * Sem isso uma captura longa caia na luta SEGUINTE (o fim da luta volta ao attract e
+ * zera a sonda), e o quociente vinha de outro trecho de jogo. */
+static u8 s_windowLatched;
 #define PROBE_SCANLINE_COUNT 224
 #define PROBE_SCANLINE_SAMPLE_GROUPS 4
 #define PROBE_SCANLINE_GROUP_LENGTH (PROBE_SCANLINE_COUNT / PROBE_SCANLINE_SAMPLE_GROUPS)
@@ -234,6 +244,9 @@ static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
 {
     u16 i;
 
+    if (s_windowLatched) {
+        return;
+    }
     g_mdRuntimeProbe[5] = sceneId;
     g_mdRuntimeProbe[8] = 0;
     g_mdRuntimeProbe[9] = 0;
@@ -387,6 +400,13 @@ void MDRuntimeProbe_tick(void)
         MDRuntimeProbe_writeHeartbeat();
     }
 
+    if (PROBE_MEASURE_FRAMES && g_mdRuntimeProbe[30] >= PROBE_MEASURE_FRAMES) {
+        if (!s_windowLatched) {                     /* janela fechada: exporta 1x e congela */
+            s_windowLatched = 1;
+            MDRuntimeProbe_exportToSRAM();
+        }
+        return;
+    }
     g_mdRuntimeProbe[30]++;
     if (cpuLoad > PROBE_CPU_BUDGET_THRESHOLD) {
         g_mdRuntimeProbe[10]++;

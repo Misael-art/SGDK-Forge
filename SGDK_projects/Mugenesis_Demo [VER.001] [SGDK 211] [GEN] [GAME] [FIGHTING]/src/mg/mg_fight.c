@@ -29,6 +29,82 @@ u32 mg_prof[16];
 #define ROUND_TIME     99
 #define SPR_VRAM_TILES 900
 
+/* ------------------------------------------------------------------ efeitos de impacto
+ * Camera shake: so em IMPACTO PESADO (acerto, nao defesa, que derruba, mata ou tira >= 100).
+ * No Ken isso e 73 de 204 acertos (36%), medido no harness em 36000 ticks.
+ * E uma mola amortecida: o 1o quadro empurra o mundo na direcao do golpe e ele volta
+ * oscilando, com amplitude decrescente. Queda/KO tambem batem no eixo Y (o chao treme).
+ * Palette flash: todo acerto (nunca defesa) clareia a linha de paleta de quem apanhou em
+ * direcao ao branco e apaga em 4 quadros. Impacto pesado comeca no branco puro. */
+#define MG_HEAVY_DAMAGE 100
+#define MG_SHAKE_LEN    12
+/* resposta da mola em oitavos da amplitude, 1 entrada por quadro */
+static const s8 kShake[MG_SHAKE_LEN] = { 8, -6, 5, -4, 3, -3, 2, -2, 1, -1, 1, 0 };
+/* canal de 3 bits clareado para o branco em nivel/4 (nivel 0..4) */
+static const u8 kFlash[5][8] = {
+    { 0, 1, 2, 3, 4, 5, 6, 7 }, { 2, 3, 3, 4, 5, 6, 6, 7 }, { 4, 4, 5, 5, 6, 6, 7, 7 },
+    { 5, 6, 6, 6, 7, 7, 7, 7 }, { 7, 7, 7, 7, 7, 7, 7, 7 },
+};
+static const u16 *s_basepal[2];     /* paleta do corpo de cada lado (restaurada no fim do flash) */
+/* REGRA 1c: tabela de swap PRE-DECLARADA por lutador (niveis 2..4), montada no inicio da luta.
+ * O flash so copia uma linha dela para a PROPRIA linha do lutador. Tambem e memoria estatica:
+ * DMA_QUEUE le a fonte no VBlank, entao um buffer de pilha ja estaria morto quando a copia rodasse. */
+static u16 s_flash_tab[2][3][15];
+
+static void build_flash_table(u8 side)
+{
+    const u16 *src = s_basepal[side];
+    for (u8 l = 2; l <= 4; l++) {
+        const u8 *t = kFlash[l];
+        for (u8 i = 0; i < 15; i++) {
+            u16 v = src[i + 1];
+            s_flash_tab[side][l - 2][i] = ((u16)t[(v >> 9) & 7] << 9) | ((u16)t[(v >> 5) & 7] << 5) | ((u16)t[(v >> 1) & 7] << 1);
+        }
+    }
+}
+static s16 s_bgb_scroll_x, s_bgb_scroll_y;
+
+static void impact_fx(const MgPlayer *d, s32 dmg, s8 afc)
+{
+    u8 heavy = d->gh_fall || d->life <= 0 || dmg >= MG_HEAVY_DAMAGE;
+    mg_fight.flash_lvl[d->side] = heavy ? 4 : 3;
+    if (!heavy) return;
+    s8 a = 2 + (s8)(dmg / 40);                      /* 35 -> 2 px ... 130 -> 5 px */
+    if (d->life <= 0) a += 2;                       /* KO: o golpe final pesa mais */
+    if (a > 7) a = 7;
+    mg_fight.shake_ax = afc < 0 ? -a : a;
+    mg_fight.shake_ay = (d->gh_fall || d->life <= 0) ? a / 2 + 1 : 0;
+    mg_fight.shake_t = 0;
+}
+
+/* avanca 1 quadro: calcula o deslocamento da camera e aplica o flash. Custo zero parado. */
+static void impact_fx_step(void)
+{
+    s8 x = 0, y = 0;
+    if (mg_fight.shake_t < MG_SHAKE_LEN) {
+        s8 k = kShake[mg_fight.shake_t++];
+        x = (s8)((mg_fight.shake_ax * k) >> 3);
+        y = (s8)((mg_fight.shake_ay * (k < 0 ? -k : k)) >> 3);   /* Y so desce: o chao quica */
+    }
+    if (mg_fight.screen_shake > 0) {                /* EnvShake do personagem: vertical, alternado */
+        s8 e = mg_fight.envshake_ampl ? mg_fight.envshake_ampl : 2;
+        y += (mg_fight.screen_shake & 2) ? e : -e;
+        mg_fight.screen_shake--;
+    }
+    mg_fight.shake_x = x;
+    mg_fight.shake_y = y;
+    if (x != s_bgb_scroll_x) { s_bgb_scroll_x = x; VDP_setHorizontalScroll(BG_B, x); }
+    if (y != s_bgb_scroll_y) { s_bgb_scroll_y = y; VDP_setVerticalScroll(BG_B, -y); }
+    for (u8 s = 0; s < 2; s++) {
+        u8 lvl = mg_fight.flash_lvl[s];
+        if (!lvl) continue;
+        const u16 *src = s_basepal[s];
+        if (lvl == 1) PAL_setColors(s ? 33 : 17, &src[1], 15, DMA_QUEUE);   /* fim: paleta original exata */
+        else PAL_setColors(s ? 33 : 17, s_flash_tab[s][lvl - 2], 15, DMA_QUEUE);
+        mg_fight.flash_lvl[s] = lvl - 1;
+    }
+}
+
 /* ------------------------------------------------------------------ som / explod */
 void MG_playSound(const MgPlayer *p, s16 idx)
 {
@@ -227,6 +303,7 @@ static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj,
         if (d->gh_vx == 0) d->gh_vx = -FXI(3);
     }
     if (d->facing == afc) { d->facing = -afc; }           /* vira para o atacante */
+    impact_fx(d, dmg, afc);
     MG_playSound(a, h->hitsound);
     spark(a, h->sparkno, hit, afc, d);
     if (h->p2stateno >= 0 && !from_proj) {
@@ -357,8 +434,8 @@ static void draw_part(const MgCharDef *d, MgDraw *dr, u8 k, s16 sheet, u8 frame,
     SPR_setHFlip(*spr, flip);
     SPR_setVFlip(*spr, (fflags & MG_FRAME_VFLIP) != 0);
     SPR_setPalette(*spr, pal);
-    s16 px = FX2I(x) - mg_fight.camx + (mg_fight.screen_shake & 1 ? 2 : 0);
-    s16 py = mg_fight.floor_y + FX2I(y);
+    s16 px = FX2I(x) - mg_fight.camx + mg_fight.shake_x;
+    s16 py = mg_fight.floor_y + FX2I(y) + mg_fight.shake_y;
     s16 sx = px + MG_FACE(ox, facing) - (flip ? (s16)(sh->cell_w - sh->axis_x) : sh->axis_x);
     s16 sy = py + oy - sh->axis_y;
     SPR_setPosition(*spr, sx, sy);
@@ -456,6 +533,7 @@ void MG_fightRender(void)
 {
     MG_PROF_BEGIN();
     MG_CRUMB('k');
+    impact_fx_step();
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *p = &mg_fight.p[s];
         s16 depth = -(p->sprpriority * 4) - (s ? 1 : 0);
@@ -477,7 +555,8 @@ void MG_fightRender(void)
             if (!p->shadow_spr) continue;
             SPR_setDepth(p->shadow_spr, SPR_MAX_DEPTH);
         }
-        SPR_setPosition(p->shadow_spr, FX2I(p->x) - mg_fight.camx - 16, mg_fight.floor_y - 4);
+        SPR_setPosition(p->shadow_spr, FX2I(p->x) - mg_fight.camx - 16 + mg_fight.shake_x,
+                        mg_fight.floor_y - 4 + mg_fight.shake_y);
         SPR_setVisibility(p->shadow_spr, mg_fight.bgfx_active ? HIDDEN : VISIBLE);
     }
     for (u8 s = 0; s < 2; s++) {
@@ -497,7 +576,6 @@ void MG_fightRender(void)
         if (e->bgfx >= 0) { bgfx_render(e, o); continue; }
         draw(o->def, &e->dr, e->anim_idx, e->elem, e->x, e->y, e->facing, o->pal, -30, 1, 0);
     }
-    if (mg_fight.screen_shake > 0) mg_fight.screen_shake--;
     MG_CRUMB('p');
     hud();
     MG_CRUMB('q');
@@ -661,7 +739,9 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
         MG_drawInit(&p->dr);
         MG_drawInit(&mg_fight.helper[s].dr);
         for (u8 i = 0; i < MG_MAX_PROJ; i++) MG_drawInit(&p->proj[i].dr);
-        PAL_setColors(s ? 32 : 16, defs[s]->pals[pals[s] % defs[s]->npals], 16, DMA);
+        s_basepal[s] = defs[s]->pals[pals[s] % defs[s]->npals];
+        build_flash_table(s);
+        PAL_setColors(s ? 32 : 16, s_basepal[s], 16, DMA);
     }
     PAL_setColors(48, p1->fxpal, 16, DMA);
     s_bgfx_owner = -1;

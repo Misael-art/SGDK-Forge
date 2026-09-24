@@ -305,6 +305,18 @@
       "canonized_in": "",
       "enforced_by": "",
       "enforcement_state": "candidate"
+    },
+    {
+      "id": "dma_queue_source_lifetime",
+      "bucket": "code",
+      "severity": "structural",
+      "lesson": "Com DMA_QUEUE o SGDK guarda so o ponteiro e copia no VBlank: a fonte precisa viver ate la (tabela estatica/ROM), nunca buffer de pilha. O stub de host que copia na hora esconde o bug; o stub deve enfileirar e copiar num vblank simulado depois de sujar a pilha.",
+      "evidence": "Etapa 3: flash montava c[15] na pilha para PAL_setColors(DMA_QUEUE). O teste passava. Com o stub honesto + oraculo exato, o mutante com buffer de pilha reprova. PR #22.",
+      "proposed_canon": "skills/code/sgdk-runtime-coder + skills/hardware/vram-streaming-dma-queue",
+      "proposed_owner": "sgdk-runtime-coder",
+      "canonized_in": "",
+      "enforced_by": "",
+      "enforcement_state": "candidate"
     }
   ],
   "canonization_audit": {

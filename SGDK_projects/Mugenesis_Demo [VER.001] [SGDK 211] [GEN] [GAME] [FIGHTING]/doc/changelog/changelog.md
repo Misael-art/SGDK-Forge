@@ -1,5 +1,14 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Q1: proveniencia no schema canonico + falso positivo do neg1_masks
+
+- O conversor gravava enums fora do schema, e o manifesto inteiro invalido gerava 125 "sem proveniencia" falsos.
+- Agora: procedural_composed_from_authored + placeholder + hash do pacote + licenca NAO verificada, por simbolo.
+- O auditor segue o array ate o destino (chamada VDP/DMA, tipo grafico SGDK, campo de struct -> usos).
+  - Tabela logica: informativa.
+  - Pixel renomeado ou nao resolvido: continua bloqueando.
+- Auditoria do projeto: rc=0, sem bloqueios. As outras 17 arvores nao tem arrays desse tipo (sem mudanca).
+
 ## 2026-09-24 - Etapa 1: desempenho com audio real (29,3% -> 8,5%)
 
 - Captura com audio real (disk). O denominador pos-warmup agora e exportado; o quociente bruto antigo subestimava.

@@ -96,7 +96,7 @@ def convert_char(pkg: Path, char_id: str, project: Path, vivid_clothing: bool = 
     doc.mkdir(parents=True, exist_ok=True)
     (doc / f"{cid}_conversion_report.json").write_text(
         json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True, default=str) + "\n", encoding="utf-8")
-    _update_provenance(project, cid, ch, spr, snds)
+    _update_provenance(project, cid, ch, spr, snds, pkg)
     return report
 
 
@@ -160,56 +160,39 @@ def convert_hud(pkg: Path, project: Path) -> dict:
     (project / "doc" / "mugen").mkdir(parents=True, exist_ok=True)
     (project / "doc" / "mugen" / "hud_conversion_report.json").write_text(
         json.dumps(rep, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
-    path = project / "doc" / "asset_provenance_manifest.json"
-    data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"schema_version": "1.0.0", "entries": []}
-    data["entries"] = [e for e in data.get("entries", []) if not e.get("res_symbol", "").startswith("mg_hud_")]
-    for sym, kind, ap in [("mg_hud_tiles", "TILESET", "mugen/hud/hud_tiles.png")] + \
-            [(s, "SPRITE", f"mugen/hud/{s[len('mg_hud_'):]}.png") for _, syms in msg_rows for s, _, _ in syms]:
-        data["entries"].append({"res_symbol": sym, "res_kind": kind, "asset_path": ap,
-                                "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
-                                "generated_by": "tools/mugen2sgdk_forge (converters/hud.py)",
-                                "notes": f"{pkg.name} (SFA2 Lifebars, Chok); uso local autorizado; redistribuicao nao verificada."})
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    from . import provenance as prov
+    pkg_sha = rep["input"]["sha256"]
+    prov.write_visual(project, "mg_hud_", [
+        prov.entry(sym, kind, ap, "tools/mugen2sgdk_forge (converters/hud.py)", pkg.name, pkg_sha,
+                   f"{pkg.name} (SFA2 Lifebars, Chok)")
+        for sym, kind, ap in [("mg_hud_tiles", "TILESET", "mugen/hud/hud_tiles.png")] +
+        [(s, "SPRITE", f"mugen/hud/{s[len('mg_hud_'):]}.png") for _, syms in msg_rows for s, _, _ in syms]])
     return rep
 
 
-def _update_provenance(project: Path, cid: str, ch, spr, snds):
-    """Registra cada simbolo do .res gerado em doc/asset_provenance_manifest.json (regra do Forge)."""
-    path = project / "doc" / "asset_provenance_manifest.json"
-    data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"schema_version": "1.0.0", "entries": []}
-    prefix = f"mg_{cid}_"
-    data["entries"] = [e for e in data.get("entries", []) if not e.get("res_symbol", "").startswith(prefix)]
-    for sh in spr.sheets:
-        data["entries"].append({
-            "res_symbol": f"mg_{cid}_{sh.name}", "res_kind": "SPRITE",
-            "asset_path": f"mugen/{cid}/sheets/{sh.name}.png",
-            "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
-            "generated_by": "tools/mugen2sgdk_forge (converters/sprites.py)",
-            "notes": f"{ch.name} por {ch.author}; uso local autorizado pelo usuario; redistribuicao nao verificada."})
+def _update_provenance(project: Path, cid: str, ch, spr, snds, pkg: Path):
+    """Registra cada simbolo visual do .res gerado no manifesto canonico (schema do Forge)."""
+    from . import provenance as prov
+    sha = ch.source_sha256
+    who = f"{ch.name} por {ch.author}"
+    entries = [prov.entry(f"mg_{cid}_{sh.name}", "SPRITE", f"mugen/{cid}/sheets/{sh.name}.png",
+                          "tools/mugen2sgdk_forge (converters/sprites.py)", pkg.name, sha, who)
+               for sh in spr.sheets]
     extra = [("portrait", "TILESET", "retrato MUGEN 9000,0 (direto, paleta do corpo)"),
-             ("shadow", "SPRITE", "DERIVADA: silhueta 0,0 achatada 32x8 + xadrez 50% (P5); aprovacao visual pendente")]
+             ("shadow", "SPRITE", "DERIVADA: silhueta 0,0 achatada 32x8 + xadrez 50% (P5)")]
     for name, kind, note in extra:
         if (project / "res" / "mugen" / cid / f"{name}.png").exists():
-            data["entries"].append({
-                "res_symbol": f"mg_{cid}_{name}", "res_kind": kind, "asset_path": f"mugen/{cid}/{name}.png",
-                "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
-                "generated_by": "tools/mugen2sgdk_forge (generators/sgdk.py)",
-                "notes": f"{ch.name} por {ch.author}; {note}; redistribuicao nao verificada."})
+            entries.append(prov.entry(f"mg_{cid}_{name}", kind, f"mugen/{cid}/{name}.png",
+                                      "tools/mugen2sgdk_forge (generators/sgdk.py)", pkg.name, sha, f"{who}; {note}"))
     for rep in spr.report.get("bgfx", []):
-        data["entries"].append({
-            "res_symbol": f"mg_{cid}_bgfx_{rep['group']}", "res_kind": "IMAGE",
-            "asset_path": f"mugen/{cid}/bgfx_{rep['group']}.png",
-            "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
-            "generated_by": "tools/mugen2sgdk_forge (converters/bgfx.py)",
-            "notes": f"{ch.name} por {ch.author}; fundo em tela cheia animado por paleta; geometria {rep['strategy']}."})
-    for so in snds:
-        data["entries"].append({
-            "res_symbol": f"mg_{cid}_snd_{so.group}_{so.sample}", "res_kind": "WAV",
-            "asset_path": f"mugen/{cid}/snd/{so.group}_{so.sample}.wav",
-            "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
-            "generated_by": "tools/mugen2sgdk_forge (converters/sounds.py)",
-            "notes": f"{ch.name} por {ch.author}; som {so.group},{so.sample}; redistribuicao nao verificada."})
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        entries.append(prov.entry(f"mg_{cid}_bgfx_{rep['group']}", "IMAGE", f"mugen/{cid}/bgfx_{rep['group']}.png",
+                                  "tools/mugen2sgdk_forge (converters/bgfx.py)", pkg.name, sha,
+                                  f"{who}; fundo em tela cheia animado por paleta; geometria {rep['strategy']}"))
+    prov.write_visual(project, f"mg_{cid}_", entries)
+    prov.write_audio(project, cid, pkg.name, sha, [
+        {"res_symbol": f"mg_{cid}_snd_{so.group}_{so.sample}",
+         "asset_path": f"mugen/{cid}/snd/{so.group}_{so.sample}.wav",
+         "notes": f"{who}; som {so.group},{so.sample}"} for so in snds])
 
 
 def main(argv=None) -> int:
@@ -221,6 +204,8 @@ def main(argv=None) -> int:
     hb = sub.add_parser("convert-hud")
     hb.add_argument("package", type=Path)
     hb.add_argument("--project", type=Path, required=True)
+    fp = sub.add_parser("fix-provenance", help="migra entradas antigas do manifesto para o schema canonico")
+    fp.add_argument("--project", type=Path, required=True)
     b = sub.add_parser("install-runtime")
     b.add_argument("project", type=Path)
     c = sub.add_parser("convert-char")
@@ -235,6 +220,10 @@ def main(argv=None) -> int:
     if args.cmd == "convert-hud":
         rep = convert_hud(args.package, args.project)
         print(json.dumps({"tiles": rep["tiles"], "messages": rep["messages"], "palette": rep["palette_slots"]}, indent=2))
+        return 0
+    if args.cmd == "fix-provenance":
+        from . import provenance as prov
+        print(json.dumps(prov.migrate(args.project), indent=2))
         return 0
     if args.cmd == "install-runtime":
         print(json.dumps(install_runtime(args.project), indent=2))

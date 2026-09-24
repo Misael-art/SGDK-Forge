@@ -198,6 +198,133 @@ def trace_builders_to_symbols(
         symbol["primitive_builders"] = sorted(set(hits))
 
 
+# Sinks where a u32 array becomes pixels: tile/DMA upload calls and the SGDK
+# resource types whose members the engine uploads.
+PIXEL_SINK_CALL_RE = re.compile(
+    r"\b(?:VDP_(?:loadTileData|loadTileSet|setTileData|loadFont|loadFontData|loadBMPTileData)|"
+    r"DMA_(?:queueDma|queueDmaFast|doDma|doDmaFast|transfer|doCPUCopy|doVRamCopy))\s*\("
+)
+PIXEL_SINK_TYPES = {
+    "TileSet", "Image", "Palette", "SpriteDefinition", "AnimationFrame", "Animation",
+    "TileMap", "MapDefinition", "Bitmap", "FrameVDPSprite", "VDPSpriteInf",
+}
+STRUCT_DEF_RE = re.compile(r"typedef\s+struct\s*[A-Za-z_0-9]*\s*\{(?P<body>.*?)\}\s*(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*;", re.S)
+AGG_INIT_RE = re.compile(r"\b(?P<type>[A-Za-z_][A-Za-z0-9_]*)\s+(?:const\s+)?[A-Za-z_][A-Za-z0-9_]*\s*(?:\[[^\]]*\])?\s*=\s*\{")
+
+
+def _strip_comments(text: str) -> str:
+    text = re.sub(r"/\*.*?\*/", lambda m: " " * len(m.group(0)), text, flags=re.S)
+    return re.sub(r"//[^\n]*", lambda m: " " * len(m.group(0)), text)
+
+
+def _struct_fields(sources: dict[str, str]) -> dict[str, list[str]]:
+    """Field names of every `typedef struct {...} Name;`, in declaration order."""
+    structs: dict[str, list[str]] = {}
+    for text in sources.values():
+        for match in STRUCT_DEF_RE.finditer(text):
+            if "{" in match.group("body"):
+                continue                     # struct/union aninhado: layout nao confiavel
+            fields: list[str] = []
+            for decl in match.group("body").split(";"):
+                decl = re.sub(r"\[[^\]]*\]", "", decl.strip())
+                if not decl:
+                    continue
+                if "(" in decl:              # ponteiro de funcao ocupa uma posicao
+                    fp = re.search(r"\(\s*\*\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)", decl)
+                    fields.append(fp.group(1) if fp else "?")
+                    continue
+                head, *rest = decl.split(",")
+                names = [head.split()[-1] if head.split() else ""] + [r.strip() for r in rest]
+                fields.extend(n.lstrip("*").strip() for n in names if n.strip())
+            structs[match.group("name")] = fields
+    return structs
+
+
+def _enclosing_initializer(text: str, pos: int) -> tuple[str, int] | None:
+    """(struct type, top-level field index) when `pos` sits inside `Type x = { ... }`."""
+    for match in AGG_INIT_RE.finditer(text, 0, pos):
+        start = match.end()
+        depth, index, i = 1, 0, start
+        while i < len(text) and depth:
+            ch = text[i]
+            if i == pos:
+                # aninhado ({ {..}, ..}): campo indefinido -> quem chama trata como nao resolvido
+                return (match.group("type"), index) if depth == 1 else ("", -1)
+            if ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+            elif ch == "," and depth == 1:
+                index += 1
+            i += 1
+    return None
+
+
+def _uses_reach_pixel_sink(sources: dict[str, str], token_re: re.Pattern[str]) -> tuple[bool, int]:
+    """(reaches sink, number of uses) for expressions matching token_re, with one hop of
+    pointer aliasing inside the same file (`const u32 *x = <expr>` then `sink(x)`)."""
+    uses = 0
+    for text in sources.values():
+        for line in text.splitlines():
+            if not token_re.search(line):
+                continue
+            uses += 1
+            if PIXEL_SINK_CALL_RE.search(line):
+                return True, uses
+            alias = re.search(r"\*\s*(?P<alias>[A-Za-z_][A-Za-z0-9_]*)\s*=", line)
+            if alias:
+                alias_re = re.compile(r"\b" + re.escape(alias.group("alias")) + r"\b")
+                for other in text.splitlines():
+                    if alias_re.search(other) and PIXEL_SINK_CALL_RE.search(other):
+                        return True, uses
+    return False, uses
+
+
+def classify_array_sink(name: str, decl_file: str, sources: dict[str, str],
+                        structs: dict[str, list[str]]) -> str:
+    """Decide what a hex-literal u32 array becomes: 'pixel', 'logic_table' or 'unresolved'.
+
+    Follows the array to its uses instead of trusting its name: direct sink calls,
+    aggregate initializers of SGDK graphics types, and the struct field that holds
+    it (then every `->field` / `.field` use). Anything it cannot follow stays
+    'unresolved' and keeps blocking, as before.
+    """
+    ref_re = re.compile(r"\b" + re.escape(name) + r"\b")
+    fields: list[str] = []
+    followed = 0
+    for rel, text in sources.items():
+        for match in ref_re.finditer(text):
+            line_start = text.rfind("\n", 0, match.start()) + 1
+            line = text[line_start:text.find("\n", match.end())]
+            if rel == decl_file and re.search(r"\bu32\s+" + re.escape(name) + r"\s*\[", line):
+                continue                                   # the declaration itself
+            if PIXEL_SINK_CALL_RE.search(line):
+                return "pixel"
+            enclosing = _enclosing_initializer(text, match.start())
+            if enclosing:
+                struct_type, index = enclosing
+                if struct_type in PIXEL_SINK_TYPES:
+                    return "pixel"
+                layout = structs.get(struct_type)
+                if not layout or index < 0 or index >= len(layout):
+                    return "unresolved"
+                fields.append(layout[index])
+                followed += 1
+                continue
+            reaches, uses = _uses_reach_pixel_sink({rel: line}, ref_re)
+            if reaches:
+                return "pixel"
+            followed += uses
+    for field in fields:
+        reaches, uses = _uses_reach_pixel_sink(
+            sources, re.compile(r"(?:->|\.)\s*" + re.escape(field) + r"\b"))
+        if reaches:
+            return "pixel"
+        if uses == 0:
+            return "unresolved"
+    return "logic_table" if followed else "unresolved"
+
+
 def scan_runtime_authored_tiles(project_root: Path) -> list[dict[str, Any]]:
     """Find tile pixel data authored as C literals and uploaded to VRAM.
 
@@ -207,6 +334,12 @@ def scan_runtime_authored_tiles(project_root: Path) -> list[dict[str, Any]]:
         when the upload is indirect.
     """
     hits: list[dict[str, Any]] = []
+    all_sources = {
+        path.relative_to(project_root).as_posix(): _strip_comments(read_text(path))
+        for base in ("src", "inc")
+        for path in sorted(walkable(project_root / base, (".c", ".h")))
+    }
+    structs = _struct_fields(all_sources)
     for source in sorted(walkable(project_root / "src", (".c", ".h"))):
         rel = source.relative_to(project_root).as_posix()
         text = read_text(source)
@@ -249,14 +382,16 @@ def scan_runtime_authored_tiles(project_root: Path) -> list[dict[str, Any]]:
         for name, info in authored_arrays.items():
             if name in uploaded:
                 continue
+            sink = classify_array_sink(name, rel, all_sources, structs)
             hits.append(
                 {
                     "file": rel,
-                    "api": "authored_tile_data_array",
+                    "api": "authored_tile_data_array" if sink != "logic_table" else "logic_table_array",
                     "line": info["line"],
                     "symbol": name,
                     "hex_words": info["hex_words"],
                     "debug_scoped": debug_file,
+                    "sink": sink,
                 }
             )
     return hits
@@ -459,7 +594,22 @@ def audit(project_root: Path, extra_roots: list[Path]) -> dict[str, Any]:
             "doc/asset_provenance_manifest.json",
         )
 
-    undeclared_runtime = [h for h in runtime_hits if not h["debug_scoped"]]
+    # Tabela logica (bitmap de portoes, mascaras) cujo uso foi seguido ate o fim e
+    # nunca chega a VDP/DMA nem a tipo grafico do SGDK nao e pixel. Fica no
+    # relatorio como informativo; 'unresolved' continua bloqueando.
+    for hit in runtime_hits:
+        if hit.get("sink") == "logic_table":
+            add(
+                "runtime_logic_table_not_pixels",
+                "info",
+                hit["symbol"],
+                "Array u32 em hex seguido ate os usos: nenhum chega a upload de tile/DMA "
+                "nem a tipo grafico do SGDK. Tratado como tabela logica, nao pixel.",
+                f"{hit['file']}:{hit['line']} ({hit['hex_words']} hex words)",
+            )
+    undeclared_runtime = [
+        h for h in runtime_hits if not h["debug_scoped"] and h.get("sink") != "logic_table"
+    ]
     for hit in undeclared_runtime:
         add(
             "runtime_authored_tile_pixels_outside_debug",
@@ -577,13 +727,57 @@ def self_check() -> int:
         )
         invalid = audit(root, [])
 
+    # Tabela logica vs pixel renomeado: mesmo formato (u32 + hex de 8 digitos, via
+    # campo de struct), destinos diferentes. Nome nao decide nada.
+    words = ", ".join(["0x00000020"] * 24)
+    fixture_common = (
+        "typedef struct { const char *name; const u32 *neg1_masks; u8 neg1_words; } Def;\n"
+    )
+    logic_src = (
+        f"static const u32 neg1_masks[] = {{ {words} }};\n"
+        "const Def def = { \"k\", neg1_masks, 1 };\n"
+        "u32 gate(const Def *d, u8 i) { return d->neg1_masks[i] & 0x20; }\n"
+    )
+    pixel_src = (
+        f"static const u32 neg1_masks[] = {{ {words} }};\n"
+        "const Def def = { \"k\", neg1_masks, 1 };\n"
+        "void up(const Def *d) { const u32 *t = d->neg1_masks; VDP_loadTileData(t, 1, 3, DMA); }\n"
+    )
+    direct_src = (
+        f"static const u32 hud_bits[] = {{ {words} }};\n"
+        "void up2(void) { DMA_queueDma(DMA_VRAM, (void*) hud_bits, 32, 48, 2); }\n"
+    )
+    unresolved_src = f"static const u32 orphan_words[] = {{ {words} }};\n"
+    verdicts = {}
+    for label, src in (("logic", logic_src), ("pixel", pixel_src), ("direct", direct_src),
+                       ("unresolved", unresolved_src)):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "src").mkdir()
+            (root / "inc").mkdir()
+            (root / "inc" / "def.h").write_text(fixture_common, encoding="utf-8")
+            (root / "src" / "gen.c").write_text('#include "def.h"\n' + src, encoding="utf-8")
+            hits = scan_runtime_authored_tiles(root)
+            report = audit(root, [])
+            verdicts[label] = (
+                [h.get("sink") for h in hits],
+                "runtime_authored_tile_pixels_outside_debug" in report["blocking_statuses"],
+            )
+    expected = {"logic": (["logic_table"], False), "pixel": (["pixel"], True),
+                "direct": (["pixel"], True), "unresolved": (["unresolved"], True)}
+    for label, want in expected.items():
+        if verdicts[label] != want:
+            print(f"self-check failed: fixture '{label}' deu {verdicts[label]}, esperado {want}",
+                  file=sys.stderr)
+            return 1
+
     if "procedural_asset_promoted_to_res" not in bad["blocking_statuses"]:
         print("self-check failed: promocao procedural nao detectada", file=sys.stderr); return 1
     if ok["blocking"]:
         print(f"self-check failed: placeholder honesto reprovado {ok['blocking_statuses']}", file=sys.stderr); return 1
     if "asset_provenance_manifest_schema_invalid" not in invalid["blocking_statuses"]:
         print("self-check failed: enum inventado nao foi reprovado pelo schema", file=sys.stderr); return 1
-    print("audit_procedural_asset_provenance self-check passed (promocao, placeholder e schema)")
+    print("audit_procedural_asset_provenance self-check passed (promocao, placeholder, schema, tabela logica x pixel)")
     return 0
 
 

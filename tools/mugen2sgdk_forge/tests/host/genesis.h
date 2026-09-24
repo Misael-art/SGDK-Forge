@@ -27,6 +27,8 @@ typedef enum { BG_B, BG_A } VDPPlane;
 #define PAL3 3
 #define TILE_ATTR(p, pr, v, h) (((p) << 13) | ((pr) << 15))
 #define SPR_FLAG_AUTO_VRAM_ALLOC 0x0800
+#define SPR_MAX_DEPTH 0x7FFF
+#define SPR_MIN_DEPTH (-0x8000)
 #define SPR_FLAG_AUTO_TILE_UPLOAD 0x0400
 #define BUTTON_UP 0x0001
 #define BUTTON_DOWN 0x0002

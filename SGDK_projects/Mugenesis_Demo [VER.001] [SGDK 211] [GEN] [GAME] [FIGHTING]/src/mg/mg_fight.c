@@ -82,9 +82,10 @@ static u8 overlap(const Rect *a, const Rect *b)
     return a->x1 <= b->x2 && b->x1 <= a->x2 && a->y1 <= b->y2 && b->y1 <= a->y2;
 }
 
-/* alguma Clsn1 do quadro de ataque encosta em alguma Clsn2 do defensor? */
+/* alguma Clsn1 do quadro de ataque encosta em alguma Clsn2 do defensor?
+ * Se sim, devolve em *hit a intersecao do primeiro par que colidiu (ponto de contato real). */
 static u8 frames_collide(const MgCharDef *ad, const MgAnimFrame *af, mgfx ax, mgfx ay, s8 afc,
-                         const MgPlayer *d)
+                         const MgPlayer *d, Rect *hit)
 {
     const MgAnimFrame *df = &d->def->frames[d->def->anims[d->anim_idx].first + d->elem];
     if (!af->nclsn1 || !df->nclsn2) return 0;
@@ -92,7 +93,13 @@ static u8 frames_collide(const MgCharDef *ad, const MgAnimFrame *af, mgfx ax, mg
         Rect r1 = world_box(&ad->boxes[af->clsn + i], ax, ay, afc);
         for (u8 j = 0; j < df->nclsn2; j++) {
             Rect r2 = world_box(&d->def->boxes[df->clsn + df->nclsn1 + j], d->x, d->y, d->facing);
-            if (overlap(&r1, &r2)) return 1;
+            if (overlap(&r1, &r2)) {
+                hit->x1 = r1.x1 > r2.x1 ? r1.x1 : r2.x1;
+                hit->x2 = r1.x2 < r2.x2 ? r1.x2 : r2.x2;
+                hit->y1 = r1.y1 > r2.y1 ? r1.y1 : r2.y1;
+                hit->y2 = r1.y2 < r2.y2 ? r1.y2 : r2.y2;
+                return 1;
+            }
         }
     }
     return 0;
@@ -133,15 +140,33 @@ static u8 guards(const MgHitDef *h, const MgPlayer *d, s8 attacker_side_dir)
     return 0;
 }
 
-static void spark(MgPlayer *owner, s16 anim, const MgPlayer *def, const MgHitDef *h, s8 afc, mgfx ay)
+/* Faisca ancorada no ponto de contato (centro da intersecao Clsn1 x Clsn2).
+ * Divergencia deliberada do MUGEN (que usa borda frontal + sparkxy): leitura de onde o golpe acertou.
+ * Acertos seguidos na mesma regiao (<=16 px, <=90 ticks) percorrem 4 variacoes sutis (jitter). */
+#define SPARK_REGION 16
+#define SPARK_WINDOW 90
+static const s8 kSparkJitter[4][2] = { { 0, 0 }, { 3, -2 }, { -3, 2 }, { 2, 3 } };
+
+static void spark(MgPlayer *owner, s16 anim, const Rect *hit, s8 afc, const MgPlayer *def)
 {
     if (anim < 0) return;
-    mgfx x = def->x - FXI((def->def->consts->ground_front >> MG_FX_SHIFT) * afc) + FXI(h->spark_x * afc);
-    MG_spawnExplod(owner, anim, x, ay + FXI(h->spark_y), -2, -1, afc);
+    s16 cx = (hit->x1 + hit->x2) >> 1, cy = (hit->y1 + hit->y2) >> 1;
+    /* regiao relativa ao corpo do defensor (o empurrao do golpe nao "muda de regiao") */
+    s16 rx = cx - FX2I(def->x), ry = cy - FX2I(def->y);
+    if (abs(rx - owner->spark_last_x) <= SPARK_REGION && abs(ry - owner->spark_last_y) <= SPARK_REGION &&
+        mg_fight.ticks - owner->spark_last_tick <= SPARK_WINDOW)
+        owner->spark_var = (owner->spark_var + 1) & 3;
+    else
+        owner->spark_var = 0;
+    owner->spark_last_x = rx;
+    owner->spark_last_y = ry;
+    owner->spark_last_tick = mg_fight.ticks;
+    s16 jx = kSparkJitter[owner->spark_var][0] * afc, jy = kSparkJitter[owner->spark_var][1];
+    MG_spawnExplod(owner, anim, FXI(cx + jx), FXI(cy + jy), -2, -1, afc);
 }
 
 /* aplica o acerto/defesa. from_proj: atacante nao congela */
-static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj, mgfx hit_y, s8 afc)
+static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj, const Rect *hit, s8 afc)
 {
     u8 g = guards(h, d, -afc);
     d->target = 0;
@@ -162,7 +187,7 @@ static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj,
         d->sdef = d->def;
         MG_changeState(d, d->statetype == 'C' ? 152 : (d->statetype == 'A' ? 154 : 150), 0, -1);
         MG_playSound(a, h->guardsound);
-        spark(a, h->guard_sparkno, d, h, afc, hit_y);
+        spark(a, h->guard_sparkno, hit, afc, d);
         return;
     }
     s32 dmg = h->damage;
@@ -176,6 +201,10 @@ static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj,
     d->power += h->givepower;
     if (a->power > 3000) a->power = 3000;
     if (d->power > 3000) d->power = 3000;
+    /* combo: continua se o defensor ja estava em atordoamento (movetype H) */
+    if (d->movetype == 'H' && mg_fight.combo[a->side]) mg_fight.combo[a->side]++;
+    else mg_fight.combo[a->side] = 1;
+    mg_fight.combo_tick[a->side] = mg_fight.ticks;
     d->gh = *h;
     d->gh_guarded = 0;
     d->hitshake = h->pause_p2;
@@ -198,7 +227,7 @@ static void apply_hit(MgPlayer *a, MgPlayer *d, const MgHitDef *h, u8 from_proj,
     }
     if (d->facing == afc) { d->facing = -afc; }           /* vira para o atacante */
     MG_playSound(a, h->hitsound);
-    spark(a, h->sparkno, d, h, afc, hit_y);
+    spark(a, h->sparkno, hit, afc, d);
     if (h->p2stateno >= 0 && !from_proj) {
         d->sdef = a->sdef;                                 /* custom state do atacante */
         MG_changeState(d, h->p2stateno, 0, -1);
@@ -216,18 +245,19 @@ static void resolve_hits(void)
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *a = &mg_fight.p[s], *d = a->enemy;
         /* golpe corpo a corpo */
+        Rect hit;
         if (a->hitdef_active && a->movetype == 'A' && a->hitpause == 0 && can_hit(&a->hd, d) &&
-            frames_collide(a->def, cur_frame(a), a->x, a->y, a->facing, d)) {
+            frames_collide(a->def, cur_frame(a), a->x, a->y, a->facing, d, &hit)) {
             a->hitdef_active = 0;              /* um HitDef = um acerto */
-            apply_hit(a, d, &a->hd, 0, a->y - FXI(60), a->facing);
+            apply_hit(a, d, &a->hd, 0, &hit, a->facing);
         }
         /* projeteis */
         for (u8 i = 0; i < MG_MAX_PROJ; i++) {
             MgProj *pr = &a->proj[i];
             if (!pr->active || pr->removing) continue;
             const MgAnimFrame *pf = &a->def->frames[a->def->anims[pr->anim_idx].first + pr->elem];
-            if (!can_hit(&pr->hd, d) || !frames_collide(a->def, pf, pr->x, pr->y, pr->facing, d)) continue;
-            apply_hit(a, d, &pr->hd, 1, pr->y, pr->facing);
+            if (!can_hit(&pr->hd, d) || !frames_collide(a->def, pf, pr->x, pr->y, pr->facing, d, &hit)) continue;
+            apply_hit(a, d, &pr->hd, 1, &hit, pr->facing);
             pr->contact_time = 0;
             if (--pr->hits <= 0) {
                 s16 idx = pr->hitanim >= 0 ? MG_findAnim(a->def, pr->hitanim) : -1;
@@ -344,8 +374,15 @@ static void draw(const MgCharDef *d, MgDraw *dr, u16 anim_idx, u8 elem,
         if (dr->spr[k]) SPR_setVisibility(dr->spr[k], HIDDEN);
 }
 
+static u16 s_vram_next;
+
+u16 MG_fightVramNext(void) { return s_vram_next; }
+
 static void hud(void)
 {
+#ifdef MG_EXTERNAL_HUD
+    return;                                  /* HUD do jogo (arte convertida) substitui o texto */
+#endif
     /* UI transitoria (texto): substituida por lifebar convertida na etapa de screenpack.
      * Redesenha so quando algum valor muda (VDP_drawText e caro no 68000). */
     static s16 last[5] = { -1, -1, -1, -1, -1 };
@@ -391,6 +428,7 @@ static void bgfx_render(MgExplod *e, const MgPlayer *o)
         MG_CRUMB('o');
         e->bgfx_shown = 1;
         s_bgfx_owner = e - mg_fight.explod;
+        mg_fight.bgfx_active = 1;
     }
     u8 k = e->elem < fx->nelem ? fx->elem_pal[e->elem] : 255;
     if (k < fx->npals) PAL_setColors(1, &fx->pals[k][1], 14, DMA_QUEUE);
@@ -401,6 +439,7 @@ static void bgfx_end(void)
     VDP_clearTileMapRect(BG_B, 0, 0, 40, 28);
     PAL_setColors(1, &s_pal0_saved[1], 14, DMA_QUEUE);
     s_bgfx_owner = -1;
+    mg_fight.bgfx_active = 0;
 }
 
 void MG_fightRender(void)
@@ -417,6 +456,19 @@ void MG_fightRender(void)
             draw(p->def, &pr->dr, pr->anim_idx, pr->elem, pr->x, pr->y,
                                  pr->facing, p->pal, -20, 1, 0);
         }
+    }
+    /* sombras: no chao sob cada lutador, profundidade maxima (atras de tudo e descartadas primeiro) */
+    for (u8 s = 0; s < 2; s++) {
+        MgPlayer *p = &mg_fight.p[s];
+        if (!p->def->shadow) continue;
+        if (!p->shadow_spr) {
+            p->shadow_spr = SPR_addSpriteEx(p->def->shadow, 0, 0, TILE_ATTR(p->pal, FALSE, FALSE, FALSE),
+                                            SPR_FLAG_AUTO_VRAM_ALLOC | SPR_FLAG_AUTO_TILE_UPLOAD);
+            if (!p->shadow_spr) continue;
+            SPR_setDepth(p->shadow_spr, SPR_MAX_DEPTH);
+        }
+        SPR_setPosition(p->shadow_spr, FX2I(p->x) - mg_fight.camx - 16, mg_fight.floor_y - 4);
+        SPR_setVisibility(p->shadow_spr, mg_fight.bgfx_active ? HIDDEN : VISIBLE);
     }
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *h = &mg_fight.helper[s];
@@ -529,7 +581,10 @@ static void start_round(void)
     mg_fight.round_timer = 90;                 /* intro */
     mg_fight.round_no++;
     mg_fight.pause_time = 0;
+    mg_fight.combo[0] = mg_fight.combo[1] = 0;
+#ifndef MG_EXTERNAL_HUD
     VDP_clearTextArea(0, 8, 40, 4);
+#endif
 }
 
 static void round_flow(void)
@@ -541,7 +596,9 @@ static void round_flow(void)
             mg_fight.round_state = 1;
             mg_fight.round_timer = ROUND_TIME * 60;
             a->ctrl = b->ctrl = 1;
+#ifndef MG_EXTERNAL_HUD
             VDP_clearTextArea(0, 8, 40, 4);
+#endif
         }
         break;
     case 1:
@@ -551,7 +608,9 @@ static void round_flow(void)
                 if (a->life != b->life) MG_selfState(a->life < b->life ? a : b, 170);
             }
             mg_fight.round_timer = 150;
+#ifndef MG_EXTERNAL_HUD
             VDP_drawText(a->life <= 0 || b->life <= 0 ? "K.O." : "TIME", 18, 10);
+#endif
         }
         break;
     case 2:
@@ -625,6 +684,7 @@ void MG_fightInit(const MgCharDef *p1, u8 p1pal, const MgCharDef *p2, u8 p2pal, 
             s_bgfx_base[s][i] = next;
             next += n;
         }
+    s_vram_next = next;
     for (u8 i = 0; i < MG_MAX_EXPLOD; i++) MG_drawInit(&mg_fight.explod[i].dr);
     ai_hold_t[0] = ai_hold_t[1] = 0;
     start_round();
@@ -687,6 +747,7 @@ void MG_fightEnd(void)
     for (u8 s = 0; s < 2; s++) {
         MgPlayer *p = &mg_fight.p[s];
         MG_drawRelease(&p->dr);
+        if (p->shadow_spr) SPR_releaseSprite(p->shadow_spr);
         MG_drawRelease(&mg_fight.helper[s].dr);
         for (u8 i = 0; i < MG_MAX_PROJ; i++) MG_drawRelease(&p->proj[i].dr);
     }

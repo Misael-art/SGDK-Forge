@@ -9,6 +9,7 @@
 #include "system/audio.h"
 #include "mg/mg_runtime.h"
 #include "mg_gen/mg_ken.h"
+#include "scenes/fight_hud.h"
 
 #define FIGHT_SPR_VRAM 600   /* projeteis/explods (partes de efeitos grandes); corpos e fundo usam VRAM fixa */
 #define ATTRACT_IDLE_FRAMES 300   /* 5 s sem entrada no P1: CPU assume (modo demonstracao) */
@@ -19,7 +20,16 @@ static u16 sIdleFrames;
 /* ROM de teste: roteiro de entrada real para o P1 (evidencia de efeitos de super no emulador).
  * c+z = Special Mode (anel 30100); ~D,DB,B,D,DB,B,x = bola de fogo super (KO -> fundo 730). */
 typedef struct { u16 pad; u8 frames; } ScriptStep;
-#ifdef MG_TEST_RING
+#if defined(MG_TEST_COMBO)
+static const ScriptStep kScript[] = {          /* P1: combo de socos na mesma regiao (faiscas) */
+    { BUTTON_RIGHT, 40 },
+    { BUTTON_X, 2 }, { 0, 12 }, { BUTTON_RIGHT, 6 },
+    { BUTTON_X, 2 }, { 0, 12 }, { BUTTON_RIGHT, 6 },
+    { BUTTON_X, 2 }, { 0, 12 }, { BUTTON_RIGHT, 6 },
+    { BUTTON_X, 2 }, { 0, 12 }, { BUTTON_RIGHT, 6 },
+    { 0, 60 },
+};
+#elif defined(MG_TEST_RING)
 static const ScriptStep kScript[] = {          /* so o Special Mode (anel 30100 / grupo 8000) */
     { 0, 60 }, { BUTTON_C | BUTTON_Z, 2 }, { 0, 250 },
 };
@@ -72,6 +82,7 @@ void SCENE_demoEnter(void)
     MG_fightInit(&mg_char_ken, mg_char_ken.default_pal, &mg_char_ken, mg_char_ken.default_pal, TRUE);
 #endif
     sIdleFrames = 0;
+    FIGHT_HUD_init();
 }
 
 void SCENE_demoUpdate(void)
@@ -92,6 +103,11 @@ void SCENE_demoUpdate(void)
     MG_fightUpdate(pad1, JOY_readJoypad(JOY_2));
 #endif
     MG_fightRender();
+#ifdef MG_PROFILE
+    { u32 th = getSubTick(); FIGHT_HUD_update(); mg_prof[13] += getSubTick() - th; }
+#else
+    FIGHT_HUD_update();
+#endif
 #ifdef MG_TEST_SCRIPT
     {   /* diagnostico na tela: explods ativos (anim, elemento, sprite SGDK alocado); tamanho limitado */
         char l[41];
@@ -134,8 +150,8 @@ void SCENE_demoUpdate(void)
                     PCT(mg_prof[2]), PCT(mg_prof[4]), PCT(mg_prof[6]), PCT(mg_prof[7]),
                     PCT(mg_prof[0] + mg_prof[1] + mg_prof[2] + mg_prof[3] + mg_prof[4] + mg_prof[5] + mg_prof[6] + mg_prof[7]));
             VDP_drawText(l, 0, 26);
-            sprintf(l, "MX IN%lu CU%lu NG%lu PJ%lu RD%lu SU%lu T%lu ", PCW(worst[0]), PCW(worst[11]), PCW(worst[10]),
-                    PCW(worst[3]), PCW(worst[6]), PCW(worst[7]), PCW(worst_tot));
+            sprintf(l, "HUD%lu MX IN%lu CU%lu RD%lu SU%lu T%lu ", PCT(mg_prof[13]), PCW(worst[0]), PCW(worst[11]),
+                    PCW(worst[6]), PCW(worst[7]), PCW(worst_tot));
             VDP_drawText(l, 0, 25);
             memset(mg_prof, 0, sizeof(mg_prof));
             memset(last, 0, sizeof(last));

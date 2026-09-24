@@ -10,7 +10,7 @@ out_c, out_h, *res = sys.argv[1:]
 syms = []
 for path in res:
     for line in open(path, encoding="utf-8"):
-        m = re.match(r"\s*(SPRITE|WAV|IMAGE)\s+(\w+)\s", line)
+        m = re.match(r"\s*(SPRITE|WAV|IMAGE|TILESET)\s+(\w+)\s", line)
         if m:
             syms.append(m.groups())
 with open(out_h, "w") as h, open(out_c, "w") as c:
@@ -20,6 +20,9 @@ with open(out_h, "w") as h, open(out_c, "w") as c:
         if kind == "IMAGE":
             h.write(f"extern const Image {name};\n")
             c.write(f"static TileSet {name}_ts = {{ 0, 272, 0 }};\nconst Image {name} = {{ 0, &{name}_ts, 0 }};\n")
+        elif kind == "TILESET":
+            h.write(f"extern const TileSet {name};\n")
+            c.write(f"const TileSet {name} = {{ 0, 16, 0 }};\n")
         elif kind == "SPRITE":
             h.write(f"extern const SpriteDefinition {name};\n")
             c.write(f"const SpriteDefinition {name};\n")

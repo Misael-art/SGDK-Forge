@@ -145,6 +145,43 @@ def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
         fx.png.save(buf, format="PNG", optimize=False)
         write(res_dir / f"bgfx_{fx.group}.png", buf.getvalue())
         res.append(f'IMAGE mg_{cid}_bgfx_{fx.group} "mugen/{cid}/bgfx_{fx.group}.png" NONE ALL')
+    # retrato (MUGEN 9000,0): 32x32, indices do corpo -> PAL1/PAL2 do lutador
+    has_portrait = False
+    face = next((s for s in ch.sprites if (s.group, s.image) == (9000, 0)), None)
+    if face is not None and face.width <= 32 and face.height <= 32:
+        lut = bytes(spr.body.remap.get(i, spr.body.approx_indices.get(i, 0)) for i in range(256))
+        from PIL import Image as _Im
+        im = _Im.new("P", (32, 32), 0)
+        im.paste(_Im.frombytes("P", (face.width, face.height), face.pixels.translate(lut)),
+                 ((32 - face.width) // 2, (32 - face.height) // 2))
+        pal = spr.sheets[0].png.getpalette()[:48] if spr.sheets else [0] * 48
+        im.putpalette(pal)
+        buf = io.BytesIO()
+        im.save(buf, format="PNG", optimize=False)
+        write(res_dir / "portrait.png", buf.getvalue())
+        res.append(f'TILESET mg_{cid}_portrait "mugen/{cid}/portrait.png" NONE NONE')
+        has_portrait = True
+    # sombra (P5): silhueta autoral do personagem parado (0,0) achatada em 32x8 + xadrez 50%,
+    # na cor mais escura da paleta do corpo. technical_candidate (aprovacao visual humana).
+    has_shadow = False
+    stand = next((s for s in ch.sprites if (s.group, s.image) == (0, 0)), None)
+    if stand is not None and spr.body_variants:
+        from PIL import Image as _Im
+        mask = _Im.frombytes("L", (stand.width, stand.height), bytes(255 if v else 0 for v in stand.pixels))
+        flat = mask.resize((32, 8), _Im.BILINEAR)
+        words = spr.body_variants[0][1]
+        def _lum(w):
+            return ((w >> 1) & 7) * 3 + ((w >> 5) & 7) * 6 + ((w >> 9) & 7)
+        dark = min(range(1, 16), key=lambda k: _lum(words[k]))
+        px = bytes(dark if flat.getpixel((x, y)) >= 96 and (x + y) % 2 == 0 else 0
+                   for y in range(8) for x in range(32))
+        im = _Im.frombytes("P", (32, 8), px)
+        im.putpalette(spr.sheets[0].png.getpalette()[:48])
+        buf = io.BytesIO()
+        im.save(buf, format="PNG", optimize=False)
+        write(res_dir / "shadow.png", buf.getvalue())
+        res.append(f'SPRITE mg_{cid}_shadow "mugen/{cid}/shadow.png" 4 1 NONE 0 NONE NONE')
+        has_shadow = True
     write(project / "res" / f"mgres_{cid}.res", ("\n".join(res) + "\n").encode())
 
     # ---------------------------------------------------------------- C
@@ -350,7 +387,9 @@ def generate(ch, spr, sounds, char_id: str, project: Path, bgfx=()) -> dict:
              f"    pals, {len(pal_rows)}, {default_pal}, fxpal, sounds, {len(snd_rows)}, "
              f"{'bgfx' if bg_rows else '0'}, {len(bg_rows)}, &consts,\n"
              f"    {sidx.get(-1, -1)}, {sidx.get(-2, -1)}, {sidx.get(-3, -1)},\n"
-             f"    {hold('holdfwd')}, {hold('holdback')}, {hold('holdup')}, {hold('holddown')}\n}};\n")
+             f"    {hold('holdfwd')}, {hold('holdback')}, {hold('holdup')}, {hold('holddown')},\n"
+             f"    {('&mg_' + cid + '_portrait') if has_portrait else '0'},\n"
+             f"    {('&mg_' + cid + '_shadow') if has_shadow else '0'}\n}};\n")
     write(project / "src" / "mg_gen" / f"mg_{cid}.c", "\n".join(c).encode())
     write(project / "inc" / "mg_gen" / f"mg_{cid}.h",
           (f"/* GERADO por mugen2sgdk_forge. Nao editar. */\n#ifndef MG_GEN_{cid.upper()}_H\n"

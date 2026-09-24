@@ -3,7 +3,7 @@
 ## Curadoria canonica de skills
 
 Concluida a curadoria definida em
-`docs/superpowers/plans/2026-06-18-canonical-skill-curation.md`.
+`doc/superpowers/plans/2026-06-18-canonical-skill-curation.md`.
 
 ### Mantidas e compactadas
 

@@ -11,7 +11,8 @@
 
 - Posse estatica por padrao. Todo emprestimo esta nesta tabela, com janela e restauracao; nao ha malabarismo temporal implicito.
 - Validacao no conversor: `python3 -m mugen2sgdk_forge palette-check --project <proj> --id <char>`.
-  - Reprova (rc=1) personagem cujo corpo + efeitos passem de 15 slots, com dE76 <= 10 como "mesma cor".
+  - Reprova (rc=1) personagem cuja contagem EXATA (classes de cor do corpo por variante + cores de efeito sem classe estavel identica) passe de 15 slots.
+  - dE76 <= 10 entra so como ESTIMATIVA separada de aproximacao, que teria de ser feita e julgada. Nunca decide o gate.
   - Excecao so com `--waiver "<motivo>"`, que fica registrada no relatorio.
 
 ### Estado atual contra o contrato (ainda NAO migrado)
@@ -70,7 +71,7 @@ Medida nos 263 quadros de corpo. O redimensionamento aqui e so instrumento de me
 Leitura (com o limite do parecer, F4):
 - Ocupacao horizontal na tela e aspecto de exibicao sao problemas distintos. x 5/6 e uma alternativa estetica medida, nao restauracao universal de proporcao.
 - **Fora desta rodada:** nao escalar corpo nem hitbox enquanto a paleta estiver aberta.
-- So no eixo x, 5/6 devolve a proporcao que o artista desenhou para 384 de largura e reduz ~17% o slot fixo (102 -> ~85 tiles por lutador) e ~14% a ROM de sprites.
+- So no eixo x, 5/6 reduz ~17% o maior quadro e ~14% a soma dos quadros. E um estudo estetico, fora desta rodada.
 - Mexer no y reduz presenca na tela; so vale se a leitura do golpe nao cair.
 - Reamostragem automatica quebra pixel art (linhas de 1 px somem ou dobram). A escala escolhida tem de ser **redesenhada pelo agente grafico** e comparada lado a lado com o 1:1 (silhueta, leitura dos golpes, hitbox).
 - Hitboxes (Clsn) escalam junto. Isso muda o alcance em jogo, e e decisao de gameplay que precisa ser declarada.

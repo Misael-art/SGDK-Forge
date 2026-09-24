@@ -257,7 +257,9 @@ def test_generator_is_deterministic(tmp_path):
         outs.append(rep["outputs"])
         assert "src/mg_gen/mg_fixture.c" in rep["outputs"]
         prov = json.loads((proj / "doc" / "asset_provenance_manifest.json").read_text())
-        assert all(e["acceptance_status"] == "technical_candidate" for e in prov["entries"])
+        # saida de maquina nunca e final: placeholder + nota technical_candidate (enum do schema)
+        assert all(e["acceptance_status"] == "placeholder" and "technical_candidate" in e["notes"]
+                   for e in prov["entries"])
     assert outs[0] == outs[1]
     c = (tmp_path / "a" / "src" / "mg_gen" / "mg_fixture.c").read_text()
     assert "float" not in c and "double" not in c and "malloc" not in c
@@ -310,3 +312,51 @@ def test_vivid_clothing_ramp_meets_targets_and_respects_intent():
     assert m["v_top"] >= 0.98 and m["v_median"] >= 0.6 and m["distinct_vdp"] == 6 and m["luma_strictly_increasing"]
     collapsed_red = [(108, 0, 0), (108, 0, 0), (144, 0, 0), (180, 0, 0), (216, 72, 0), (252, 108, 0)]
     assert sprites.ramp_metrics(sprites.vivid_ramp(collapsed_red))["distinct_vdp"] == 6
+
+
+def _schema_errors(manifest):
+    root = Path(__file__).resolve().parents[2] / "sgdk_wrapper"
+    sys.path.insert(0, str(root))
+    from forge_art import schema_gate  # noqa: E402
+    schema = json.loads((root / "schemas" / "asset_provenance_manifest.schema.json").read_text())
+    try:
+        schema_gate.validate(manifest, schema)
+    except schema_gate.SchemaError as exc:
+        return [str(exc)]
+    return []
+
+
+def test_provenance_manifest_follows_canonical_schema(tmp_path):
+    """Conversao grava proveniencia valida no schema do Forge, por simbolo, com a
+    permissao de terceiros declarada como NAO verificada; e o migrate converte o
+    formato antigo (enums fora do schema, WAV no manifesto visual)."""
+    pkg = make_pkg(tmp_path)
+    proj = tmp_path / "proj"
+    (proj / "doc").mkdir(parents=True)
+    cli.convert_char(pkg, "fixture", proj)
+    man = json.loads((proj / "doc" / "asset_provenance_manifest.json").read_text())
+    assert _schema_errors(man) == []
+    mg = [e for e in man["entries"] if e["res_symbol"].startswith("mg_fixture_")]
+    assert mg and all(e["acceptance_status"] != "final" for e in mg)
+    assert all("NAO verificada" in e["license"] for e in mg)
+    assert all(e["authored_source_hash"].startswith("sha256:") for e in mg)
+    assert not any(e["res_kind"] == "WAV" for e in man["entries"])
+    res_syms = {line.split()[1] for line in (proj / "res" / "mgres_fixture.res").read_text().splitlines()
+                if line.split() and line.split()[0] in ("SPRITE", "IMAGE", "TILESET")}
+    assert res_syms <= {e["res_symbol"] for e in mg}
+    audio = json.loads((proj / "doc" / "mugen" / "fixture_audio_provenance.json").read_text())
+    assert audio["sounds"] and "NAO verificada" in audio["license"]
+
+    # formato antigo -> migrate -> schema valido, sem perder simbolo
+    legacy = dict(man, entries=[dict(e, source_kind="third_party_mugen_conversion",
+                                     acceptance_status="technical_candidate") for e in mg] +
+                  [{"res_symbol": "mg_fixture_snd_0_0", "res_kind": "WAV", "asset_path": "x.wav",
+                    "source_kind": "third_party_mugen_conversion", "acceptance_status": "technical_candidate",
+                    "generated_by": "t"}])
+    assert _schema_errors(legacy)
+    (proj / "doc" / "asset_provenance_manifest.json").write_text(json.dumps(legacy))
+    from mugen2sgdk_forge import provenance
+    out = provenance.migrate(proj)
+    fixed = json.loads((proj / "doc" / "asset_provenance_manifest.json").read_text())
+    assert _schema_errors(fixed) == [] and out["migrated"] == len(mg) + 1
+    assert {e["res_symbol"] for e in fixed["entries"]} == {e["res_symbol"] for e in mg}

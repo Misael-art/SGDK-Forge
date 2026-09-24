@@ -38,6 +38,22 @@
 - P6 catalogo: registrado como consultivo (doc/mugen/p6_effects_catalog_fit.md); nada implementado.
 - Build: ROMs com --output-dir alternativo exigem out/ ja buildado (sega.s inclui out/rom_head.bin).
 
+### Rodada 2026-09-24 (direcionamento pos-P6)
+- Etapa 1 desempenho com audio real: FECHADA. A luta foi de 29,3% para 8,5% de quadros acima do orcamento (pos-warmup), ROM 6bbef58a... (doc/perf/etapa1_perf_audio_real.md).
+- Medir CPU com -DMG_PCPROF (amostragem de PC por H-Int) + tools/mugen2sgdk_forge/perf/read_sram_metrics.py. O -DMG_PROFILE (getSubTick) distorce: a ROM de perfil fica 77% acima do orcamento.
+- A sonda canonica custava ~10% do quadro (laco por linha). Corrigida so neste projeto; o template ainda tem o custo.
+- Q1 proveniencia: FECHADO. O manifesto passa no schema (audit rc=0, nenhum bloqueio).
+  - MUGEN = procedural_composed_from_authored + placeholder, com licenca NAO verificada.
+  - Sons foram para doc/mugen/ken_audio_provenance.json.
+  - neg1_masks vira tabela logica por analise de uso (nao por nome); um pixel renomeado continua bloqueado (fixtures + mutacao).
+  - Migrar manifesto antigo: python3 -m mugen2sgdk_forge fix-provenance --project <P>.
+- Q2 SuperPause: FECHADO. Teste focal no personagem sintetico (tests/host/superpause.c):
+  - pos 17,-23 com facing -1 -> explod em (83,-23);
+  - time 31 / movetime 5 exatos em ticks; poweradd 250; som S2,0 identificado pelo ponteiro.
+  - Tres mutantes (TIME<->MOVETIME, POS_X<->POS_Y, sem espelho) fazem o teste falhar.
+- Q3 fechado: indice de intake gerado (`intake-index`, lint `--check`); 12 licoes, todas pending_human_review.
+- Pendente: etapa 3 (camera shake + palette flash), so apos PR das etapas 1-2.
+
 ### Conteudo de terceiros
 Ken Masters ADV (autor Chok): uso local autorizado pelo usuario; redistribuicao nao verificada.
 Saidas convertidas (res/mugen/, res/mgres_*, src/mg_gen/, inc/mg_gen/, out_prof/) ficam fora do Git.
@@ -48,6 +64,9 @@ Regerar: `python3 -m mugen2sgdk_forge convert-char <ken_masters_adv.zip> --id ke
   so cabem guiados por eventos/indices gerados pelo compilador (portoes de comando e de tempo).
 - Numero em [State N, ...] e rotulo: controlador pertence ao ultimo Statedef (Ken reaproveita rotulos).
 - `B` = direcao tras, `b` = botao; caixa importa no .cmd.
+- Indice derivado deve ser GERADO das fontes e ter lint de deriva; indice editado a mao vira mais um status concorrente.
+- Ferramenta que chama git precisa tolerar repo sem commits (fixture de teste pegou isso no intake).
+- A sonda de runtime media a si mesma (~10% do quadro); perfilar por amostragem de PC via H-Int, nao por getSubTick.
 
 ## 2. Bloqueios iniciais
 

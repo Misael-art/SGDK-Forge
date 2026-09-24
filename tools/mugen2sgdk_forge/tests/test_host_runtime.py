@@ -109,3 +109,58 @@ def test_hud_converter_keeps_exact_bar_colors_and_segment_tiles():
     for k in ("bar_LG", "bar_LE", "bar_GE", "bar_SE"):
         assert k in h.tile_index
     assert all(w <= 128 for parts in h.messages.values() for (w, _h) in [p.size for p in parts])
+
+
+SUPERPAUSE_CNS = """
+[Statedef 3000]
+type = S
+movetype = A
+anim = 200
+ctrl = 0
+[State 3000, pausa]
+type = SuperPause
+trigger1 = Time = 0
+time = 31
+movetime = 5
+poweradd = 250
+anim = S700
+sound = S2, 0
+pos = 17, -23
+"""
+
+
+def test_superpause_params_position_facing_and_timing(tmp_path):
+    """Regressao focal (curadoria G09/Q2) no personagem SINTETICO, sem terceiros.
+    Valores distintos por parametro: um indice MG_P_* trocado no gerador muda um numero."""
+    import sys
+    import zipfile
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import test_pipeline as tp
+    from mugen2sgdk_forge import __main__ as cli
+
+    pkg = tmp_path / "sp.zip"
+    with zipfile.ZipFile(pkg, "w") as z:
+        z.writestr("fx/f.def", tp.DEF)
+        z.writestr("fx/f.cmd", tp.CMD)
+        z.writestr("fx/f.cns", tp.CNS + SUPERPAUSE_CNS)
+        z.writestr("fx/f.air", tp.AIR)
+        z.writestr("fx/f.sff", tp.sff([(0, 0, 8, 32, tp.pcx(16, 32, 5, tp.PAL)), (0, 1, 8, 32, tp.pcx(16, 32, 6, tp.PAL)),
+                                      (200, 0, 8, 32, tp.pcx(24, 32, 5, tp.PAL)), (700, 0, 8, 8, tp.pcx(16, 16, 40, tp.PAL))]))
+        z.writestr("fx/f.snd", tp.snd([(1, 0, tp.wav()), (2, 0, tp.wav(n=400))]))
+        z.writestr("fx/p1.act", bytes(c for rgb in reversed(tp.PAL) for c in rgb))
+    proj = tmp_path / "proj"
+    (proj / "doc").mkdir(parents=True)
+    cli.convert_char(pkg, "fixture", proj)
+    cli.install_runtime(proj)
+    out = tmp_path / "sp" / "bin"
+    out.parent.mkdir(parents=True)
+    env = dict(os.environ, MG_HOST_MAIN=str(HERE / "superpause.c"))
+    subprocess.run([str(HERE / "build_host.sh"), str(proj), str(out), "-O1"], check=True, env=env,
+                   capture_output=True)
+    r = json.loads(subprocess.run([str(out)], check=True, capture_output=True, text=True).stdout)
+    assert r["pause_time_first"] == 31 and r["pause_ticks"] == 31, r
+    assert r["movetime_first"] == 5 and r["owner_moved"] == 5 and r["other_moved"] == 0, r
+    assert r["owner"] == 0 and r["power"] == 250, r
+    assert r["sound_plays"] == 1 and r["sound_is_2_0"] == 1, r
+    # facing -1: x = 100 - 17; y = 0 + (-23); explod herda o facing do dono
+    assert r["explod"] >= 0 and (r["ex_x"], r["ex_y"], r["ex_facing"]) == (83, -23, -1), r

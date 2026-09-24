@@ -60,6 +60,69 @@ static u16 scriptPad(void)
 }
 #endif
 
+#ifdef MG_PCPROF
+/* Amostrador de PC por H-Int (so ROM de perfil): a cada 8 linhas o handler le o PC
+ * empilhado pela excecao e soma 1 no balde de 64 bytes do codigo. Exporta para
+ * SRAM 0x2000 a cada 600 quadros. Vies conhecido: nao amostra o vblank nem trechos
+ * com interrupcao mascarada (a amostra cai logo depois de reabilitar). */
+#define PCPROF_BUCKETS 4096
+#define PCPROF_LIST 48
+#define SPIKE_BUCKETS 2048          /* 128 bytes por balde */
+u16 mg_pc_hist[PCPROF_BUCKETS];
+u32 mg_pc_list[PCPROF_LIST];
+u16 mg_pc_n;
+static u16 sSpikeHist[SPIKE_BUCKETS];
+static u16 sSpikeFrames, sFrames;
+extern void mg_pcprof_hint(void);
+__asm__(
+    ".globl mg_pcprof_hint\n"
+    "mg_pcprof_hint:\n"
+    "    movem.l %d0-%d1/%a0,-(%sp)\n"
+    "    move.l 14(%sp),%d0\n"
+    "    move.w mg_pc_n,%d1\n"
+    "    cmp.w #48,%d1\n"
+    "    bhs.s 2f\n"
+    "    addq.w #1,mg_pc_n\n"
+    "    add.w %d1,%d1\n"
+    "    add.w %d1,%d1\n"
+    "    lea mg_pc_list,%a0\n"
+    "    move.l %d0,(%a0,%d1.w)\n"
+    "2:  cmp.l #0x40000,%d0\n"
+    "    bhs.s 1f\n"
+    "    lsr.l #5,%d0\n"
+    "    and.w #0xFFFE,%d0\n"
+    "    lea mg_pc_hist,%a0\n"
+    "    addq.w #1,(%a0,%d0.l)\n"
+    "1:  movem.l (%sp)+,%d0-%d1/%a0\n"
+    "    rte\n");
+/* Chamado no inicio de cada quadro: as amostras do quadro anterior entram no
+ * histograma de picos se aquele quadro passou do orcamento. */
+static void pcprof_frame(void)
+{
+    const u16 load = SYS_getCPULoad();
+    const u16 n = mg_pc_n;
+    sFrames++;
+    if (load > 100) {
+        sSpikeFrames++;
+        for (u16 i = 0; i < n; i++) {
+            const u32 pc = mg_pc_list[i];
+            if (pc < 0x40000) sSpikeHist[pc >> 7]++;
+        }
+    }
+    mg_pc_n = 0;
+}
+static void pcprof_export(void)
+{
+    SRAM_enable();
+    SRAM_writeByte(0x2000, 'P'); SRAM_writeByte(0x2001, 'C'); SRAM_writeByte(0x2002, 'H'); SRAM_writeByte(0x2003, 'S');
+    for (u16 i = 0; i < PCPROF_BUCKETS; i++) SRAM_writeWord(0x2004 + i * 2, mg_pc_hist[i]);
+    SRAM_writeWord(0x4004, sFrames);
+    SRAM_writeWord(0x4006, sSpikeFrames);
+    for (u16 i = 0; i < SPIKE_BUCKETS; i++) SRAM_writeWord(0x4008 + i * 2, sSpikeHist[i]);
+    SRAM_disable();
+}
+#endif
+
 void SCENE_demoEnter(void)
 {
 
@@ -83,10 +146,22 @@ void SCENE_demoEnter(void)
 #endif
     sIdleFrames = 0;
     FIGHT_HUD_init();
+#ifdef MG_PCPROF
+    SYS_disableInts();
+    SYS_setHIntCallback(mg_pcprof_hint);
+    VDP_setHIntCounter(7);
+    VDP_setHInterrupt(TRUE);
+    SYS_enableInts();
+#endif
 }
 
 void SCENE_demoUpdate(void)
 {
+#ifdef MG_PCPROF
+    {   static u16 f;
+        pcprof_frame();
+        if (++f == 600) { f = 0; VDP_setHInterrupt(FALSE); pcprof_export(); VDP_setHInterrupt(TRUE); mg_pc_n = 0; } }
+#endif
     u16 pad1 = JOY_readJoypad(JOY_1);
 #ifdef MG_TEST_SCRIPT
     pad1 = scriptPad();
@@ -134,7 +209,7 @@ void SCENE_demoUpdate(void)
     /* a cada 60 quadros: % medio por etapa; e a composicao do PIOR quadro da janela */
     {
         static u16 n;
-        static u32 last[13], worst[13], worst_tot;
+        static u32 last[13], worst[13], worst_tot, last13;
         u32 t0 = getSubTick();
         SPR_update();
         mg_prof[7] += getSubTick() - t0;
@@ -142,8 +217,29 @@ void SCENE_demoUpdate(void)
         for (u8 i = 0; i < 13; i++) { cur[i] = mg_prof[i] - last[i]; last[i] = mg_prof[i]; }
         for (u8 i = 0; i < 8; i++) tot += cur[i];
         if (tot > worst_tot) { worst_tot = tot; for (u8 i = 0; i < 13; i++) worst[i] = cur[i]; }
+        /* Acumulado da luta inteira e composicao do pior quadro em SRAM 0x400
+         * ("MGPF"), lidos da captura BlastEm sem depender de ler a tela. */
+        {
+            static u32 acc[14], wr[14], wr_tot, frames;
+            frames++;
+            for (u8 i = 0; i < 13; i++) acc[i] += cur[i];
+            acc[13] += mg_prof[13] - last13;
+            last13 = mg_prof[13];
+            if (tot > wr_tot) { wr_tot = tot; for (u8 i = 0; i < 13; i++) wr[i] = cur[i]; }
+            if (n == 59) {
+                u32 o = 0x400;
+                SRAM_enable();
+                SRAM_writeByte(o++, 'M'); SRAM_writeByte(o++, 'G'); SRAM_writeByte(o++, 'P'); SRAM_writeByte(o++, 'F');
+                SRAM_writeLong(o, frames); o += 4;
+                for (u8 i = 0; i < 14; i++) { SRAM_writeLong(o, acc[i]); o += 4; }
+                for (u8 i = 0; i < 13; i++) { SRAM_writeLong(o, wr[i]); o += 4; }
+                SRAM_writeLong(o, wr_tot);
+                SRAM_disable();
+            }
+        }
         if (++n == 60) {
             char l[41];
+            last13 = 0;
             #define PCT(v) ((v) * 100 / (1280UL * 60))
             #define PCW(v) ((v) * 100 / 1280UL)
             sprintf(l, "IN%lu LG%lu PH%lu HT%lu RD%lu SU%lu T%lu  ", PCT(mg_prof[0]), PCT(mg_prof[1]),

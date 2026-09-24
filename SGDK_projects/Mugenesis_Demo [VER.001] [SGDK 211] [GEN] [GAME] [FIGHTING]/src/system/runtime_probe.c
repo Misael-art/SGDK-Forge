@@ -49,7 +49,27 @@ static u32 s_heartbeatCounter;
 static u16 s_scanlineCursor;
 static u16 s_vlabPalette[PROBE_VLAB_PALETTE_WORDS];
 
-static u8 s_linePressure[PROBE_SCANLINE_COUNT];
+/* Diferencas por linha: +1/+largura na primeira linha do sprite e -1/-largura
+ * na linha seguinte a ultima. Um bitmap marca as linhas tocadas e a varredura
+ * visita so elas: entre duas fronteiras a contagem nao muda, entao o pico nas
+ * fronteiras e o pico exato das 224 linhas.
+ *
+ * PORQUE (medido no BlastEm com amostragem de PC):
+ *  - a versao original incrementava cada linha coberta por cada sprite; ao
+ *    somar a largura no mesmo laco a propria sonda levou a luta de 28% para 78%
+ *    de quadros acima do orcamento, com o jogo identico;
+ *  - a versao com soma prefixa das 224 linhas ainda custava 12,2% do quadro
+ *    (~13k ciclos), dentro do quadro que ela mede.
+ *
+ * Pixels por linha sao o segundo limite do VDP (H40 = 320 px/linha): poucos
+ * sprites largos tambem causam dropout. [20] pico de px, [21] quadros com linha
+ * acima da largura da tela, [22] quadros com linha > 20 sprites, [30] quadros
+ * medidos apos o warmup (denominador honesto do over_budget em [10]). */
+#define PROBE_TOUCHED_WORDS ((PROBE_SCANLINE_COUNT + 1 + 31) / 32)
+static s8 s_lineCountDelta[PROBE_SCANLINE_COUNT + 1];
+static s16 s_lineWidthDelta[PROBE_SCANLINE_COUNT + 1];
+static u32 s_lineTouched[PROBE_TOUCHED_WORDS];
+static u16 s_peakWidth;
 
 /*
  * Conta TODAS as 224 linhas por quadro, em vez de amostrar 4 com cursor
@@ -73,41 +93,69 @@ static void probe_note_peak_frame(u16 slot)
     g_mdRuntimeProbe[slot + 1] = (u16)(frame & 0xFFFF);
 }
 
+static void probe_mark_line(s16 line, s8 dc, s16 dw)
+{
+    s_lineCountDelta[line] += dc;
+    s_lineWidthDelta[line] += dw;
+    s_lineTouched[(u16)line >> 5] |= 1UL << (line & 31);
+}
+
 static u16 measure_max_scanline_sprites(void)
 {
     Sprite* cursor = firstSprite;
-    u16 line;
     u16 peak = 0;
+    s16 count = 0;
+    s16 width = 0;
+    u8 k;
 
-    for (line = 0; line < PROBE_SCANLINE_COUNT; line++) {
-        s_linePressure[line] = 0;
-    }
+    s_peakWidth = 0;
 
     while (cursor != NULL) {
         if (cursor->frame != NULL && cursor->visibility != HIDDEN) {
             u16 index;
-            u16 count = cursor->frame->numSprite & 0x7F;
+            const u16 n = cursor->frame->numSprite & 0x7F;
 
-            for (index = 0; index < count; index++) {
+            for (index = 0; index < n; index++) {
                 const FrameVDPSprite* vdpSprite = &cursor->frame->frameVDPSprites[index];
                 s16 start = (cursor->y - 0x80) + (s16)vdpSprite->offsetY;
                 s16 end = start + (s16)(((vdpSprite->size & 0x3) + 1) << 3);
+                const s16 w = (s16)((((vdpSprite->size >> 2) & 0x3) + 1) << 3);
 
-                /* Sprite estacionado fora da tela pode dar end negativo. Sem
-                 * este guarda o cast para u16 vira ~65000 e o loop escreve fora
-                 * do array, corrompendo memoria e impedindo o export do VLAB. */
+                /* Sprite estacionado fora da tela pode dar end negativo; sem
+                 * este guarda o indice sai do array e corrompe memoria. */
                 if (end <= 0 || start >= (s16)PROBE_SCANLINE_COUNT) continue;
                 if (start < 0) start = 0;
                 if (end > (s16)PROBE_SCANLINE_COUNT) end = (s16)PROBE_SCANLINE_COUNT;
 
-                for (line = (u16)start; line < (u16)end; line++) {
-                    if (++s_linePressure[line] > peak) {
-                        peak = s_linePressure[line];
-                    }
-                }
+                probe_mark_line(start, 1, w);
+                probe_mark_line(end, -1, (s16)-w);
             }
         }
         cursor = cursor->next;
+    }
+
+    /* varre so as linhas marcadas, em ordem crescente, zerando para o proximo quadro */
+    for (k = 0; k < PROBE_TOUCHED_WORDS; k++) {
+        u32 bits = s_lineTouched[k];
+        s_lineTouched[k] = 0;
+        while (bits) {
+            u32 t = bits;
+            u8 bi = 0;
+            u16 line;
+            if (!(t & 0xFFFF)) { t >>= 16; bi += 16; }
+            if (!(t & 0xFF)) { t >>= 8; bi += 8; }
+            if (!(t & 0xF)) { t >>= 4; bi += 4; }
+            if (!(t & 0x3)) { t >>= 2; bi += 2; }
+            if (!(t & 0x1)) bi += 1;
+            bits &= bits - 1;
+            line = (u16)k * 32 + bi;
+            count += s_lineCountDelta[line];
+            width += s_lineWidthDelta[line];
+            s_lineCountDelta[line] = 0;
+            s_lineWidthDelta[line] = 0;
+            if ((u16)count > peak) peak = (u16)count;
+            if ((u16)width > s_peakWidth) s_peakWidth = (u16)width;
+        }
     }
 
     return peak;
@@ -198,6 +246,10 @@ static void reset_scene_metrics(u16 sceneId, u16 cpuLoad)
     g_mdRuntimeProbe[17] = 0;
     g_mdRuntimeProbe[18] = 0;
     g_mdRuntimeProbe[19] = 0;
+    g_mdRuntimeProbe[20] = 0;
+    g_mdRuntimeProbe[21] = 0;
+    g_mdRuntimeProbe[22] = 0;
+    g_mdRuntimeProbe[30] = 0;
     for (i = 24; i <= 29; i++) {
         g_mdRuntimeProbe[i] = 0;   /* quadros de pico zeram junto com os picos */
     }
@@ -335,6 +387,7 @@ void MDRuntimeProbe_tick(void)
         MDRuntimeProbe_writeHeartbeat();
     }
 
+    g_mdRuntimeProbe[30]++;
     if (cpuLoad > PROBE_CPU_BUDGET_THRESHOLD) {
         g_mdRuntimeProbe[10]++;
     }
@@ -351,6 +404,9 @@ void MDRuntimeProbe_tick(void)
         g_mdRuntimeProbe[14] = maxScanlineSprites;
         probe_note_peak_frame(24);
     }
+    if (maxScanlineSprites > 20) g_mdRuntimeProbe[22]++;
+    if (s_peakWidth > g_mdRuntimeProbe[20]) g_mdRuntimeProbe[20] = s_peakWidth;
+    if (s_peakWidth > VDP_getScreenWidth()) g_mdRuntimeProbe[21]++;
 
     if (g_mdRuntimeProbe[15] < 1) g_mdRuntimeProbe[15] = 1;
     /*

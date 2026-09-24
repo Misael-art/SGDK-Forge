@@ -1,5 +1,33 @@
 # Changelog Canonico - Mugenesis_Demo [VER.001] [SGDK 211] [GEN] [GAME] [FIGHTING]
 
+## 2026-09-24 - Q3: indice de intake MUGEN -> owners
+
+- `python3 -m mugen2sgdk_forge intake-index` gera `doc/curation/mugen_intake_index.{json,md}` a partir do registro de licoes + parecer mais recente.
+- Cada linha: licao, fonte@commit, blob sha1, owner resolvido contra o repo, status, proxima acao. O indice nao guarda status proprio nem promove nada.
+- `--check` reprova indice desatualizado, owner inexistente e promocao sem `canonized_in`. Estado atual: 12 licoes, 0 problemas. Suite: 43 testes.
+
+## 2026-09-24 - Q2: regressao focal do SuperPause
+
+- Personagem sintetico (sem terceiros), com valores distintos por parametro, compilado e executado no host.
+- Verifica o espelhamento do X com facing -1, os ticks exatos de pausa e movetime, o dono, o power e qual som tocou.
+- Mutacao de indice ou do espelho reprova o teste. Suite: 41 testes.
+
+## 2026-09-24 - Q1: proveniencia no schema canonico + falso positivo do neg1_masks
+
+- O conversor gravava enums fora do schema, e o manifesto inteiro invalido gerava 125 "sem proveniencia" falsos.
+- Agora: procedural_composed_from_authored + placeholder + hash do pacote + licenca NAO verificada, por simbolo.
+- O auditor segue o array ate o destino (chamada VDP/DMA, tipo grafico SGDK, campo de struct -> usos).
+  - Tabela logica: informativa.
+  - Pixel renomeado ou nao resolvido: continua bloqueando.
+- Auditoria do projeto: rc=0, sem bloqueios. As outras 17 arvores nao tem arrays desse tipo (sem mudanca).
+
+## 2026-09-24 - Etapa 1: desempenho com audio real (29,3% -> 8,5%)
+
+- Captura com audio real (disk). O denominador pos-warmup agora e exportado; o quociente bruto antigo subestimava.
+- Sonda: px por linha (limite de 320 em H40) e varredura so nas fronteiras; o laco antigo custava ~10% do quadro.
+- VM: frente leve para constantes e var(n); pilha por ponteiro. O trace do host e identico (md5 b47cfeef...).
+- Maximos: 10 sprites e 288 px por linha. PCM real custa ~4 pontos. Nenhum efeito visivel removido.
+
 ## 2026-09-23 - P6: catalogo de 180 efeitos registrado (consultivo)
 
 - Aderencia avaliada: 10+ ja em uso com ROM citada, 7 candidatos priorizados, eixos fora de escopo justificados. Nada implementado.

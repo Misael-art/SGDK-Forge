@@ -172,3 +172,11 @@ def test_body_vram_reservation_and_oversize_guard(tmp_path):
     r = json.loads(subprocess.run([str(exe)], check=True, capture_output=True, text=True).stdout)
     assert r["fx_anim"] >= 0 and r["any_max"] > r["body_max"], r
     assert r["fixed_before"] == r["pool"] == r["back"] == r["slot_ok"] == 1, r
+def test_impact_fx_shake_on_heavy_flash_on_hit(tmp_path):
+    """Etapa 3: flash so em acerto (nunca defesa), 4 quadros e volta a paleta exata; shake so em
+    impacto pesado, na direcao do golpe, variando no tempo e parando em 12 quadros; BG_B junto."""
+    exe = build(tmp_path, "impact_fx")
+    r = json.loads(subprocess.run([str(exe), "36000"], check=True, capture_output=True, text=True).stdout)
+    assert r["bad"] == 0, r
+    assert r["hits"] > 100 and r["guards"] > 100 and 20 < r["heavy"] < r["hits"], r
+    assert r["flash_restored"] > 100 and r["shake_varied"] == r["shake_done"] > 20, r

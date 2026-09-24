@@ -57,7 +57,11 @@ static inline void SPR_releaseSprite(Sprite *s) { free(s); }
 __attribute__((weak)) const u8 *host_last_pcm;   /* ultimo PCM tocado (testes conferem QUAL som) */
 static inline bool XGM2_playPCM(const u8 *d, u32 l, SoundPCMChannel c) { (void)l; (void)c; host_sound_plays++; host_last_pcm = d; return TRUE; }
 static inline void XGM2_stopPCM(SoundPCMChannel c) { (void)c; }
-static inline void PAL_setColors(u16 i, const u16 *p, u16 n, TransferMethod t) { (void)i; (void)p; (void)n; (void)t; }
+__attribute__((weak)) u16 host_cram[64];          /* CRAM simulada (testes conferem as cores escritas) */
+__attribute__((weak)) s16 host_scroll_b[2];       /* scroll de BG_B: [0] horizontal, [1] vertical */
+static inline void PAL_setColors(u16 i, const u16 *p, u16 n, TransferMethod t) { (void)t; for (u16 k = 0; k < n && i + k < 64; k++) host_cram[i + k] = p[k]; }
+static inline void VDP_setHorizontalScroll(VDPPlane pl, s16 v) { if (pl == BG_B) host_scroll_b[0] = v; }
+static inline void VDP_setVerticalScroll(VDPPlane pl, s16 v) { if (pl == BG_B) host_scroll_b[1] = v; }
 static inline void VDP_drawText(const char *s, u16 x, u16 y) { (void)s; (void)x; (void)y; }
 static inline u16 VDP_loadTileSet(const TileSet *t, u16 i, TransferMethod m) { (void)t; (void)i; (void)m; return 1; }
 static inline bool VDP_setTileMapEx(VDPPlane p, const TileMap *m, u16 b, u16 xp, u16 yp, u16 x, u16 y, u16 w, u16 h, TransferMethod t) { (void)p; (void)m; (void)b; (void)xp; (void)yp; (void)x; (void)y; (void)w; (void)h; (void)t; return 1; }

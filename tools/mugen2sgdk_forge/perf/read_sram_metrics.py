@@ -28,6 +28,7 @@ def mdrt(raw):
     w = struct.unpack(">%dH" % n, raw[i + 10:i + 10 + 2 * n])
     measured = w[30]
     return {
+        "scene_id": w[5],
         "scene_frames": w[8],
         "measured_post_warmup": measured,
         "over_budget": w[10],

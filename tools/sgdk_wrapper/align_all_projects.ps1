@@ -10,6 +10,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 function Resolve-FullPath {
     param([Parameter(Mandatory = $true)][string]$Path)
     return (Resolve-Path -LiteralPath $Path).Path
@@ -50,7 +54,7 @@ try {
 
     foreach ($proj in $unique) {
         Write-Host ("[ALIGN] {0}" -f $proj)
-        & powershell -NoProfile -ExecutionPolicy Bypass -File $alignScript -ProjectRoot $proj -WorkspaceRoot $workspaceRoot -Fix
+        & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $alignScript -ProjectRoot $proj -WorkspaceRoot $workspaceRoot -Fix
         if ($LASTEXITCODE -eq 0) { $ok++ } else { $fail++ }
     }
 

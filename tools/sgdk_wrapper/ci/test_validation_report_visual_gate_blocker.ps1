@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $projectRoot = Join-Path $workspaceRoot 'out\ci\visual_gate_no_analysis_fixture'
@@ -43,7 +47,7 @@ New-Item -ItemType Directory -Force -Path (Join-Path $projectRoot 'doc\changelog
 New-Item -ItemType Directory -Force -Path (Join-Path $projectRoot 'out\logs') | Out-Null
 Set-Content -LiteralPath (Join-Path $projectRoot 'doc\changelog\changelog.md') -Value '# CI fixture' -Encoding UTF8
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot | Out-Null
 if ($LASTEXITCODE -ne 0) {
     throw "validate_resources.ps1 failed with exit code $LASTEXITCODE"
 }

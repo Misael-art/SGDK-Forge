@@ -19,6 +19,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 if ([string]::IsNullOrWhiteSpace($WorkspaceRoot)) {
     $WorkspaceRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "..\.."))
 } else {
@@ -76,7 +80,7 @@ foreach ($project in $projects) {
     $projectRoot = $project.FullName
     Write-Host ("[matrix] validate {0}" -f $project.Name)
 
-    $validatorOutput = & powershell -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot -CloseoutGate 2>&1
+    $validatorOutput = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot -CloseoutGate 2>&1
     $exitCode = $LASTEXITCODE
     $validationPath = Join-Path $projectRoot "out\logs\validation_report.json"
     $validation = Read-JsonOrNull -Path $validationPath

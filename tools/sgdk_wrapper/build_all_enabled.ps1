@@ -16,6 +16,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 function Try-ReadJson {
     param([Parameter(Mandatory = $true)][string]$Path)
     try { return (Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json) } catch { return $null }
@@ -53,7 +57,7 @@ function Resolve-WorkDir {
     if (-not (Test-Path -LiteralPath $resolver -PathType Leaf)) { return $ProjectDir }
 
     try {
-        $json = & powershell -NoProfile -ExecutionPolicy Bypass -File $resolver -EntryDir $ProjectDir -OutputFormat Json 2>$null
+        $json = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $resolver -EntryDir $ProjectDir -OutputFormat Json 2>$null
         if (-not $json) { return $ProjectDir }
         $ctx = $json | ConvertFrom-Json -ErrorAction Stop
         if ($ctx -and $ctx.SgdkRoot -and (Test-Path -LiteralPath $ctx.SgdkRoot -PathType Container)) {

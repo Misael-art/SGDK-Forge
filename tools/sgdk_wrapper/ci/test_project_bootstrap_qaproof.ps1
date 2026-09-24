@@ -1,6 +1,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $modelRoot = Join-Path $wrapperRoot 'modelo'
@@ -49,9 +53,9 @@ $pythonPath = SGDK_GetPythonPath
 $validNameAccepted = $false
 $invalidNameRejected = $false
 if (Test-Path -LiteralPath $nameValidator -PathType Leaf) {
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $nameValidator -Name 'CI Methodology Bootstrap [VER.999] [SGDK 211] [GEN] [LAB] [TECHDEMO]' | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $nameValidator -Name 'CI Methodology Bootstrap [VER.999] [SGDK 211] [GEN] [LAB] [TECHDEMO]' | Out-Null
     $validNameAccepted = ($LASTEXITCODE -eq 0)
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $nameValidator -Name 'CI' | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $nameValidator -Name 'CI' | Out-Null
     $invalidNameRejected = ($LASTEXITCODE -ne 0)
 }
 

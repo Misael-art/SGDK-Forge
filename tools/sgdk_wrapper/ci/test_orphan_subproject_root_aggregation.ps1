@@ -9,6 +9,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $WrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $ScriptUnderTest = Join-Path $WrapperRoot "audit_orphan_subproject.ps1"
 if (-not (Test-Path -LiteralPath $ScriptUnderTest -PathType Leaf)) {
@@ -45,7 +49,7 @@ $viewerDir = Join-Path $ProjectRoot $nestedRel
 foreach ($p in @($viewerDir, (Join-Path $viewerDir "src"), (Join-Path $viewerDir "res"))) { [System.IO.Directory]::CreateDirectory($p) | Out-Null }
 Set-Content -LiteralPath (Join-Path $viewerDir "Makefile") -Value "all:`n`t@echo ok`n" -Encoding UTF8
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot | Out-Null
 Assert-True ($LASTEXITCODE -eq 0) "Expected orphan subproject audit to pass when root aggregates nested viewer"
 
 $projectJson2 = @{
@@ -54,7 +58,7 @@ $projectJson2 = @{
 }
 ($projectJson2 | ConvertTo-Json -Depth 10) | Set-Content -LiteralPath (Join-Path $MddevDir "project.json") -Encoding UTF8
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot | Out-Null
 Assert-True ($LASTEXITCODE -ne 0) "Expected orphan subproject audit to block when nested_viewers is missing in root project.json"
 
 Write-Host "[PASS] orphan subproject audit validates root aggregation via .mddev/project.json nested_viewers"

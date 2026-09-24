@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $scriptUnderTest = Join-Path $wrapperRoot 'update_project_changelog.ps1'
 $fixtureRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("sgdk_status_sync_{0}" -f ([guid]::NewGuid().ToString('N')))
@@ -69,7 +73,7 @@ try {
 
     $changelogTree = Split-Path $changelogPath -Parent
     $beforeIdentity = Get-TreeIdentity $changelogTree
-    $output = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scriptUnderTest -ProjectRoot $fixtureRoot -StatusOnly | Out-String
+    $output = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $scriptUnderTest -ProjectRoot $fixtureRoot -StatusOnly | Out-String
     Assert-True 'status-only exits successfully' ($LASTEXITCODE -eq 0) $output
 
     $result = $output | ConvertFrom-Json

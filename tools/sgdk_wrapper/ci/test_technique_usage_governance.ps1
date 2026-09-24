@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $validator = Join-Path $wrapperRoot 'validate_resources.ps1'
@@ -98,7 +102,7 @@ function New-TechniqueManifest {
 }
 
 function Invoke-Validator {
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validator -WorkDir $fixtureRoot | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator -WorkDir $fixtureRoot | Out-Null
     return Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 }
 

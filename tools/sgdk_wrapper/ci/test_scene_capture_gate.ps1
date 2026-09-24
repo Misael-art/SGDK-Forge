@@ -1,6 +1,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $gateScript = Join-Path $wrapperRoot 'scene_capture_gate.ps1'
 
@@ -133,7 +137,7 @@ try {
     )
 
     foreach ($case in $cases) {
-        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $gateScript -ProjectRoot $tempRoot -SceneId $case.scene -WarnOnly | Out-Null
+        & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $gateScript -ProjectRoot $tempRoot -SceneId $case.scene -WarnOnly | Out-Null
         $exitCode = $LASTEXITCODE
         $report = Get-Content -LiteralPath (Join-Path $logsDir 'scene_capture_gate_report.json') -Raw -Encoding UTF8 | ConvertFrom-Json
         $gateResult = $report.gate_result
@@ -145,7 +149,7 @@ try {
     $okReport = Get-Content -LiteralPath (Join-Path $logsDir 'scene_capture_gate_report.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     Assert-True 'last report remains structured' ($null -ne $okReport.gate_result)
 
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $gateScript -ProjectRoot $tempRoot -SceneId 'scene_ok' -WarnOnly | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $gateScript -ProjectRoot $tempRoot -SceneId 'scene_ok' -WarnOnly | Out-Null
     $okReport = Get-Content -LiteralPath (Join-Path $logsDir 'scene_capture_gate_report.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     Assert-True 'bundle.json contradiction does not beat raw evidence' ($okReport.gate_result.capture_status -eq 'ok')
 }

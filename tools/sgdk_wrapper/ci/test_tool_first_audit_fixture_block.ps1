@@ -9,6 +9,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $WrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $ScriptUnderTest = Join-Path $WrapperRoot "audit_tool_first.ps1"
 if (-not (Test-Path -LiteralPath $ScriptUnderTest -PathType Leaf)) {
@@ -26,7 +30,7 @@ function Assert-True {
 $ProjectRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("SGDK_TOOL_FIRST_TEST_[{0}]" -f ([guid]::NewGuid().ToString("N")))
 [System.IO.Directory]::CreateDirectory($ProjectRoot) | Out-Null
 
-$output = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest `
+$output = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest `
     -ProjectRoot $ProjectRoot `
     -AutomationDescription "new automation" `
     -TargetCapability "convert sprites" `
@@ -43,7 +47,7 @@ Assert-True ($report.fixture_executed -eq $false) "Expected fixture_executed=fal
 Assert-True ($report.fixture_skip_reason -and $report.fixture_skip_reason.Length -ge 8) "Expected fixture_skip_reason to be recorded"
 Assert-True ($report.blocker_code -eq "tool_first_fixture_skipped") "Expected blocker_code=tool_first_fixture_skipped"
 
-$output2 = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest `
+$output2 = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest `
     -ProjectRoot $ProjectRoot `
     -AutomationDescription "new automation" `
     -TargetCapability "convert sprites" `

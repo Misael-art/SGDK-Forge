@@ -7,6 +7,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $fixtureRoot = Join-Path $workspaceRoot 'out\ci\visual_gate_not_required_schema_fixture'
@@ -55,7 +59,7 @@ $artifact = [ordered]@{
 
 $artifact | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $artifactPath -Encoding UTF8
 
-$schemaOutput = & powershell -NoProfile -ExecutionPolicy Bypass -File $validator -SchemaPath $schemaPath -ArtifactPath $artifactPath 2>&1
+$schemaOutput = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validator -SchemaPath $schemaPath -ArtifactPath $artifactPath 2>&1
 $exitCode = $LASTEXITCODE
 $joinedOutput = ($schemaOutput -join '; ')
 

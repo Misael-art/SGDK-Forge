@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $auditScript = Join-Path $wrapperRoot 'res_graph_audit.ps1'
@@ -80,7 +84,7 @@ Set-Content -LiteralPath (Join-Path $projectRoot 'src\core\app.c') -Encoding ASC
     'void app_init(void) { SPR_init(); }'
 )
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
 $exitCode = $LASTEXITCODE
 $report = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 

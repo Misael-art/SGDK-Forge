@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $auditScript = Join-Path $wrapperRoot 'res_graph_audit.ps1'
@@ -88,7 +92,7 @@ $evidence = [ordered]@{
 }
 $evidence | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $projectRoot 'doc\vram_residency_report.json') -Encoding UTF8
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
 $validExit = $LASTEXITCODE
 $validReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
@@ -100,7 +104,7 @@ Assert-True 'measured user tiles stay clear of reserve' ([string]$validReport.vr
 
 $evidence.res_graph_evidence.rom_sha256 = ('0' * 64)
 $evidence | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $projectRoot 'doc\vram_residency_report.json') -Encoding UTF8
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
 $invalidReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
 Assert-True 'stale ROM hash rejects measured evidence' ([string]$invalidReport.vram.measured_evidence.status -eq 'invalid')
@@ -122,7 +126,7 @@ $evidence.res_graph_evidence.resident_resources = @(
     [ordered]@{ resource_name = 'letterbox'; unique_tiles = 1; measurement_method = 'source_png_unique' }
 )
 $evidence | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $projectRoot 'doc\vram_residency_report.json') -Encoding UTF8
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
 $snapshotReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
 Assert-True 'source-hash snapshot is accepted without current ResComp log' ([string]$snapshotReport.vram.measured_evidence.status -eq 'valid')
@@ -130,7 +134,7 @@ Assert-True 'snapshot method is exposed' ([string]$snapshotReport.vram.method -e
 
 $evidence.res_graph_evidence.resident_resources[0].source_sha256 = ('0' * 64)
 $evidence | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $projectRoot 'doc\vram_residency_report.json') -Encoding UTF8
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $projectRoot -WarnOnly | Out-Null
 $staleSourceReport = Get-Content -LiteralPath $reportPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
 Assert-True 'changed source hash rejects measured snapshot' ([string]$staleSourceReport.vram.measured_evidence.status -eq 'invalid')

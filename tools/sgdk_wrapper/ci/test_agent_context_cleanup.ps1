@@ -6,6 +6,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $cleanupScript = Join-Path $wrapperRoot 'agent_context_cleanup.ps1'
@@ -43,11 +47,11 @@ Copy-Item -LiteralPath (Join-Path $canonicalAgent 'ARCHITECTURE.md') -Destinatio
 Copy-Item -LiteralPath (Join-Path $canonicalAgent 'framework_manifest.json') -Destination (Join-Path $agentRoot 'framework_manifest.json') -Force
 Set-Content -LiteralPath (Join-Path $agentRoot 'local_only_marker.txt') -Value 'must be preserved in backup' -Encoding UTF8
 
-$audit = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $cleanupScript -Mode Audit -ScopeRoots $fixtureRoot -OutputRoot $outputRoot | ConvertFrom-Json
+$audit = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $cleanupScript -Mode Audit -ScopeRoots $fixtureRoot -OutputRoot $outputRoot | ConvertFrom-Json
 Assert-True 'audit encontrou fixture' ($audit.candidates -eq 1)
 Assert-True 'audit nao substituiu .agent' ((Get-Item -LiteralPath $agentRoot -Force).LinkType -notin @('Junction', 'SymbolicLink'))
 
-$apply = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $cleanupScript -Mode Apply -ScopeRoots $fixtureRoot -OutputRoot $outputRoot | ConvertFrom-Json
+$apply = & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $cleanupScript -Mode Apply -ScopeRoots $fixtureRoot -OutputRoot $outputRoot | ConvertFrom-Json
 $agentItem = Get-Item -LiteralPath $agentRoot -Force
 $targets = @()
 if ($agentItem.Target) { $targets = @($agentItem.Target) }

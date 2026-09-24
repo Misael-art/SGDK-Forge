@@ -1,6 +1,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $auditScript = Join-Path $wrapperRoot 'res_graph_audit.ps1'
 
@@ -47,7 +51,7 @@ try {
     Write-Host '=== Res Graph Audit Host Smoke Test ==='
     Write-Host ''
 
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $tempRoot -WarnOnly | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $tempRoot -WarnOnly | Out-Null
     $exitCode = $LASTEXITCODE
 
     $reportPath = Join-Path $logsDir 'res_graph_report.json'

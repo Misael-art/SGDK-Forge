@@ -7,6 +7,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $projectRoot = Join-Path $workspaceRoot 'out\ci\lab_category_product_taxonomy_fixture'
@@ -57,7 +61,7 @@ Set-Content -LiteralPath (Join-Path $projectRoot 'res\data\dummy.bin') -Value 'd
 Set-Content -LiteralPath (Join-Path $projectRoot 'res\resources.res') -Value 'BIN dummy_blob "data/dummy.bin"' -Encoding UTF8
 Set-Content -LiteralPath (Join-Path $projectRoot 'src\main.c') -Value '#include <genesis.h>' -Encoding UTF8
 
-& powershell -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot | Out-Null
 if ($LASTEXITCODE -ne 0) {
     throw "validate_resources.ps1 failed with exit code $LASTEXITCODE"
 }

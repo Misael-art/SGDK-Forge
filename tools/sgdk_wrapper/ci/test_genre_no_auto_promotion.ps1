@@ -10,6 +10,10 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $registryPath = Join-Path $workspaceRoot "doc\07_game_design\genre_specialization_registry.json"
@@ -54,7 +58,7 @@ Remove-Item -LiteralPath $fixtureRoot -Recurse -Force -ErrorAction SilentlyConti
 New-Item -ItemType Directory -Force -Path (Join-Path $fixtureRoot "out\logs") | Out-Null
 try {
     $global:LASTEXITCODE = 0
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validatorPath -ProjectRoot $fixtureRoot | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validatorPath -ProjectRoot $fixtureRoot | Out-Null
     if ($LASTEXITCODE -ne 0) {
         throw "genre_validator_generalist_path_failed:$($ExpectedId):$LASTEXITCODE"
     }

@@ -9,6 +9,10 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $WrapperRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $ScriptUnderTest = Join-Path $WrapperRoot "detect_operational_loop.ps1"
 
@@ -51,7 +55,7 @@ try {
     Write-BuildMeta -Root $ProjectRoot -Index 2
 
     $reportPath = Join-Path $LogDir "operational_loop_report.json"
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot -OutputPath $reportPath | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot -OutputPath $reportPath | Out-Null
     Assert-True ($LASTEXITCODE -eq 0) "Two repeated build snapshots should warn but not hard-block."
     $warningReport = Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json
     Assert-True ([bool]$warningReport.progress_warning) "Expected progress_warning after two repeated snapshots."
@@ -59,7 +63,7 @@ try {
     Assert-True (@($warningReport.builds_analyzed | Where-Object { $_.source_kind -eq "build_meta" }).Count -eq 2) "Expected build_meta history as the source."
 
     Write-BuildMeta -Root $ProjectRoot -Index 3
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot -OutputPath $reportPath | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $ScriptUnderTest -ProjectRoot $ProjectRoot -OutputPath $reportPath | Out-Null
     Assert-True ($LASTEXITCODE -ne 0) "Three repeated build snapshots should hard-block."
     $blockedReport = Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json
     Assert-True ([bool]$blockedReport.loop_detected) "Expected loop_detected from build snapshots."

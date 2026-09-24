@@ -7,6 +7,10 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $wrapperRoot = Split-Path $PSScriptRoot -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
 $projectRoot = Join-Path $workspaceRoot 'out\ci\visual_gate_lab_fallback_fixture'
@@ -248,7 +252,7 @@ $visualGate = @{
 }
 [System.IO.File]::WriteAllText($visualGatePath, ($visualGate | ConvertTo-Json -Depth 10), [System.Text.Encoding]::UTF8)
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot | Out-Null
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $validateScript -WorkDir $projectRoot | Out-Null
 if ($LASTEXITCODE -ne 0) {
     throw "validate_resources.ps1 failed with exit code $LASTEXITCODE"
 }

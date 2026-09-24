@@ -1,5 +1,9 @@
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 function Assert-True {
     param(
         [bool]$Condition,
@@ -27,7 +31,7 @@ function Invoke-Admission {
         [string]$OutputPath
     )
 
-    & powershell -NoProfile -ExecutionPolicy Bypass -File $AdmissionScript @Arguments -OutputPath $OutputPath | Out-Null
+    & $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $AdmissionScript @Arguments -OutputPath $OutputPath | Out-Null
     if ($LASTEXITCODE -ne 0) {
         throw "runtime admission command failed"
     }
@@ -48,7 +52,7 @@ Assert-True (Test-Path -LiteralPath $TechnicalScopeSchema) 'technical_change_sco
 Assert-True (Test-Path -LiteralPath $AdmissionScript) 'runtime admission evaluator must exist'
 
 $RoutePath = Join-Path $OutDir 'visual_route.json'
-& powershell -NoProfile -ExecutionPolicy Bypass -File $RouterScript `
+& $script:HostPwsh -NoProfile -ExecutionPolicy Bypass -File $RouterScript `
     -RequestText 'create a level with a hero fighting a boss' `
     -ProjectRoot $RepoRoot `
     -OutputPath $RoutePath `

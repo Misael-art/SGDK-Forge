@@ -125,6 +125,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+# Executor real do host; nunca "powershell" literal (ausente no Linux).
+. (Join-Path $PSScriptRoot "../lib/host_executors_bootstrap.ps1")
+$script:HostPwsh = Get-PowerShellExecutable
+
 $ciDir = $PSScriptRoot
 $wrapperRoot = Split-Path $ciDir -Parent
 $workspaceRoot = Split-Path (Split-Path $wrapperRoot -Parent) -Parent
@@ -372,7 +376,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] agent startup test not found: $agentStartupScript"
         $report.agent_startup_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "agent_startup_environment (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $agentStartupScript)
+        $result = Run-Step -Name "agent_startup_environment (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $agentStartupScript)
         $report.agent_startup_test = $result
         $agentStartupRan = $true
     }
@@ -416,7 +420,7 @@ if ($Mode -in @("full", "audit", "smoke")) {
         Write-Host "[ERROR] audit test not found: $auditScript"
         $report.audit_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "audit_game_design_contracts (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $auditScript)
+        $result = Run-Step -Name "audit_game_design_contracts (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $auditScript)
         $report.audit_test = $result
         $auditRan = $true
     }
@@ -453,7 +457,7 @@ if ($Mode -in @("full", "schema", "smoke")) {
         Write-Host "[ERROR] art gameplay direction gate test not found: $artGameplayDirectionGateScript"
         $report.art_gameplay_direction_gate_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "art_gameplay_direction_gate (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $artGameplayDirectionGateScript)
+        $result = Run-Step -Name "art_gameplay_direction_gate (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $artGameplayDirectionGateScript)
         $report.art_gameplay_direction_gate_test = $result
         $artGameplayDirectionGateRan = $true
     }
@@ -464,7 +468,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] project context test not found: $projectContextScript"
         $report.project_context_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "project_context_governance (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $projectContextScript)
+        $result = Run-Step -Name "project_context_governance (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $projectContextScript)
         $report.project_context_test = $result
         $projectContextRan = $true
     }
@@ -475,7 +479,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] methodology test not found: $methodologyScript"
         $report.methodology_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "project_methodology_governance (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $methodologyScript)
+        $result = Run-Step -Name "project_methodology_governance (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $methodologyScript)
         $report.methodology_test = $result
         $methodologyRan = $true
     }
@@ -486,7 +490,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] technique usage test not found: $techniqueUsageScript"
         $report.technique_usage_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "technique_usage_governance (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $techniqueUsageScript)
+        $result = Run-Step -Name "technique_usage_governance (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $techniqueUsageScript)
         $report.technique_usage_test = $result
         $techniqueUsageRan = $true
     }
@@ -497,7 +501,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] hygiene test not found: $hygieneScript"
         $report.hygiene_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "project_hygiene_governance (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $hygieneScript)
+        $result = Run-Step -Name "project_hygiene_governance (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $hygieneScript)
         $report.hygiene_test = $result
         $hygieneRan = $true
     }
@@ -508,7 +512,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] freshness test not found: $freshnessScript"
         $report.freshness_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "freshness_audit_propagation (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $freshnessScript)
+        $result = Run-Step -Name "freshness_audit_propagation (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $freshnessScript)
         $report.freshness_test = $result
         $freshnessRan = $true
     }
@@ -519,7 +523,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] bootstrap test not found: $bootstrapScript"
         $report.bootstrap_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "project_bootstrap_qaproof (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $bootstrapScript)
+        $result = Run-Step -Name "project_bootstrap_qaproof (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $bootstrapScript)
         $report.bootstrap_test = $result
         $bootstrapRan = $true
     }
@@ -530,7 +534,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] vibe template birth test not found: $vibeTemplateBirthScript"
         $report.vibe_template_birth_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "vibe_playable_template_birth (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $vibeTemplateBirthScript)
+        $result = Run-Step -Name "vibe_playable_template_birth (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $vibeTemplateBirthScript)
         $report.vibe_template_birth_test = $result
         $vibeTemplateBirthRan = $true
     }
@@ -541,7 +545,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] status sync test not found: $statusSyncScript"
         $report.status_sync_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "changelog_status_sync (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $statusSyncScript)
+        $result = Run-Step -Name "changelog_status_sync (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $statusSyncScript)
         $report.status_sync_test = $result
         $statusSyncRan = $true
     }
@@ -574,7 +578,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] genre registry test not found: $genreRegistryScript"
         $report.genre_registry_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "genre_specialization_registry (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $genreRegistryScript)
+        $result = Run-Step -Name "genre_specialization_registry (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $genreRegistryScript)
         $report.genre_registry_test = $result
         $genreRegistryRan = $true
     }
@@ -585,7 +589,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] fighting orchestrator test not found: $fightingOrchestratorScript"
         $report.fighting_orchestrator_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "fighting_specialization_orchestrator (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $fightingOrchestratorScript)
+        $result = Run-Step -Name "fighting_specialization_orchestrator (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $fightingOrchestratorScript)
         $report.fighting_orchestrator_test = $result
         $fightingOrchestratorRan = $true
     }
@@ -596,7 +600,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] fighting contracts test not found: $fightingContractsScript"
         $report.fighting_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "fighting_specialization_contracts (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $fightingContractsScript)
+        $result = Run-Step -Name "fighting_specialization_contracts (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $fightingContractsScript)
         $report.fighting_contracts_test = $result
         $fightingContractsRan = $true
     }
@@ -607,7 +611,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] fighting master promotion test not found: $fightingMasterPromotionScript"
         $report.fighting_master_promotion_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "fighting_master_promotion_guard (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $fightingMasterPromotionScript)
+        $result = Run-Step -Name "fighting_master_promotion_guard (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $fightingMasterPromotionScript)
         $report.fighting_master_promotion_test = $result
         $fightingMasterPromotionRan = $true
     }
@@ -618,7 +622,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] fighting validator smoke test not found: $fightingValidatorSmokeScript"
         $report.fighting_validator_smoke_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "fighting_specialization_validator_smoke (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $fightingValidatorSmokeScript)
+        $result = Run-Step -Name "fighting_specialization_validator_smoke (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $fightingValidatorSmokeScript)
         $report.fighting_validator_smoke_test = $result
         $fightingValidatorSmokeRan = $true
     }
@@ -629,7 +633,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] rpg orchestrator test not found: $rpgOrchestratorScript"
         $report.rpg_orchestrator_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "rpg_specialization_orchestrator (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgOrchestratorScript)
+        $result = Run-Step -Name "rpg_specialization_orchestrator (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgOrchestratorScript)
         $report.rpg_orchestrator_test = $result
         $rpgOrchestratorRan = $true
     }
@@ -640,7 +644,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] rpg registry test not found: $rpgRegistryScript"
         $report.rpg_registry_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "rpg_specialization_registry (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgRegistryScript)
+        $result = Run-Step -Name "rpg_specialization_registry (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgRegistryScript)
         $report.rpg_registry_test = $result
         $rpgRegistryRan = $true
     }
@@ -651,7 +655,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] rpg contracts test not found: $rpgContractsScript"
         $report.rpg_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "rpg_specialization_contracts (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgContractsScript)
+        $result = Run-Step -Name "rpg_specialization_contracts (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgContractsScript)
         $report.rpg_contracts_test = $result
         $rpgContractsRan = $true
     }
@@ -662,7 +666,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] rpg master promotion test not found: $rpgMasterPromotionScript"
         $report.rpg_master_promotion_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "rpg_master_promotion_guard (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgMasterPromotionScript)
+        $result = Run-Step -Name "rpg_master_promotion_guard (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgMasterPromotionScript)
         $report.rpg_master_promotion_test = $result
         $rpgMasterPromotionRan = $true
     }
@@ -673,7 +677,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] rpg validator smoke test not found: $rpgValidatorSmokeScript"
         $report.rpg_validator_smoke_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "rpg_specialization_validator_smoke (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgValidatorSmokeScript)
+        $result = Run-Step -Name "rpg_specialization_validator_smoke (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $rpgValidatorSmokeScript)
         $report.rpg_validator_smoke_test = $result
         $rpgValidatorSmokeRan = $true
     }
@@ -684,7 +688,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] strategy orchestrator test not found: $strategyOrchestratorScript"
         $report.strategy_orchestrator_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "strategy_specialization_orchestrator (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyOrchestratorScript)
+        $result = Run-Step -Name "strategy_specialization_orchestrator (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyOrchestratorScript)
         $report.strategy_orchestrator_test = $result
         $strategyOrchestratorRan = $true
     }
@@ -695,7 +699,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] strategy registry test not found: $strategyRegistryScript"
         $report.strategy_registry_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "strategy_specialization_registry (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyRegistryScript)
+        $result = Run-Step -Name "strategy_specialization_registry (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyRegistryScript)
         $report.strategy_registry_test = $result
         $strategyRegistryRan = $true
     }
@@ -706,7 +710,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] strategy contracts test not found: $strategyContractsScript"
         $report.strategy_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "strategy_specialization_contracts (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyContractsScript)
+        $result = Run-Step -Name "strategy_specialization_contracts (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyContractsScript)
         $report.strategy_contracts_test = $result
         $strategyContractsRan = $true
     }
@@ -717,7 +721,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] strategy master promotion test not found: $strategyMasterPromotionScript"
         $report.strategy_master_promotion_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "strategy_master_promotion_guard (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyMasterPromotionScript)
+        $result = Run-Step -Name "strategy_master_promotion_guard (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyMasterPromotionScript)
         $report.strategy_master_promotion_test = $result
         $strategyMasterPromotionRan = $true
     }
@@ -728,7 +732,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] strategy validator smoke test not found: $strategyValidatorSmokeScript"
         $report.strategy_validator_smoke_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "strategy_specialization_validator_smoke (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyValidatorSmokeScript)
+        $result = Run-Step -Name "strategy_specialization_validator_smoke (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $strategyValidatorSmokeScript)
         $report.strategy_validator_smoke_test = $result
         $strategyValidatorSmokeRan = $true
     }
@@ -739,7 +743,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] brawler orchestrator test not found: $brawlerOrchestratorScript"
         $report.brawler_orchestrator_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "brawler_specialization_orchestrator (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerOrchestratorScript)
+        $result = Run-Step -Name "brawler_specialization_orchestrator (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerOrchestratorScript)
         $report.brawler_orchestrator_test = $result
         $brawlerOrchestratorRan = $true
     }
@@ -750,7 +754,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] brawler registry test not found: $brawlerRegistryScript"
         $report.brawler_registry_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "brawler_specialization_registry (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerRegistryScript)
+        $result = Run-Step -Name "brawler_specialization_registry (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerRegistryScript)
         $report.brawler_registry_test = $result
         $brawlerRegistryRan = $true
     }
@@ -761,7 +765,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] brawler contracts test not found: $brawlerContractsScript"
         $report.brawler_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "brawler_specialization_contracts (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerContractsScript)
+        $result = Run-Step -Name "brawler_specialization_contracts (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerContractsScript)
         $report.brawler_contracts_test = $result
         $brawlerContractsRan = $true
     }
@@ -772,7 +776,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] brawler master promotion test not found: $brawlerMasterPromotionScript"
         $report.brawler_master_promotion_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "brawler_master_promotion_guard (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerMasterPromotionScript)
+        $result = Run-Step -Name "brawler_master_promotion_guard (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerMasterPromotionScript)
         $report.brawler_master_promotion_test = $result
         $brawlerMasterPromotionRan = $true
     }
@@ -783,7 +787,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] brawler validator smoke test not found: $brawlerValidatorSmokeScript"
         $report.brawler_validator_smoke_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "brawler_specialization_validator_smoke (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerValidatorSmokeScript)
+        $result = Run-Step -Name "brawler_specialization_validator_smoke (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $brawlerValidatorSmokeScript)
         $report.brawler_validator_smoke_test = $result
         $brawlerValidatorSmokeRan = $true
     }
@@ -794,7 +798,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] platformer orchestrator test not found: $platformerOrchestratorScript"
         $report.platformer_orchestrator_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "platformer_specialization_orchestrator (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerOrchestratorScript)
+        $result = Run-Step -Name "platformer_specialization_orchestrator (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerOrchestratorScript)
         $report.platformer_orchestrator_test = $result
         $platformerOrchestratorRan = $true
     }
@@ -805,7 +809,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] platformer registry test not found: $platformerRegistryScript"
         $report.platformer_registry_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "platformer_specialization_registry (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerRegistryScript)
+        $result = Run-Step -Name "platformer_specialization_registry (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerRegistryScript)
         $report.platformer_registry_test = $result
         $platformerRegistryRan = $true
     }
@@ -816,7 +820,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] platformer contracts test not found: $platformerContractsScript"
         $report.platformer_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "platformer_specialization_contracts (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerContractsScript)
+        $result = Run-Step -Name "platformer_specialization_contracts (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerContractsScript)
         $report.platformer_contracts_test = $result
         $platformerContractsRan = $true
     }
@@ -827,7 +831,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] platformer master promotion test not found: $platformerMasterPromotionScript"
         $report.platformer_master_promotion_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "platformer_master_promotion_guard (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerMasterPromotionScript)
+        $result = Run-Step -Name "platformer_master_promotion_guard (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerMasterPromotionScript)
         $report.platformer_master_promotion_test = $result
         $platformerMasterPromotionRan = $true
     }
@@ -838,7 +842,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] platformer validator smoke test not found: $platformerValidatorSmokeScript"
         $report.platformer_validator_smoke_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "platformer_specialization_validator_smoke (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerValidatorSmokeScript)
+        $result = Run-Step -Name "platformer_specialization_validator_smoke (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $platformerValidatorSmokeScript)
         $report.platformer_validator_smoke_test = $result
         $platformerValidatorSmokeRan = $true
     }
@@ -849,7 +853,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] racing orchestrator test not found: $racingOrchestratorScript"
         $report.racing_orchestrator_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "racing_specialization_orchestrator (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingOrchestratorScript)
+        $result = Run-Step -Name "racing_specialization_orchestrator (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingOrchestratorScript)
         $report.racing_orchestrator_test = $result
         $racingOrchestratorRan = $true
     }
@@ -860,7 +864,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] racing registry test not found: $racingRegistryScript"
         $report.racing_registry_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "racing_specialization_registry (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingRegistryScript)
+        $result = Run-Step -Name "racing_specialization_registry (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingRegistryScript)
         $report.racing_registry_test = $result
         $racingRegistryRan = $true
     }
@@ -871,7 +875,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] racing contracts test not found: $racingContractsScript"
         $report.racing_contracts_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "racing_specialization_contracts (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingContractsScript)
+        $result = Run-Step -Name "racing_specialization_contracts (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingContractsScript)
         $report.racing_contracts_test = $result
         $racingContractsRan = $true
     }
@@ -882,7 +886,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] racing master promotion test not found: $racingMasterPromotionScript"
         $report.racing_master_promotion_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "racing_master_promotion_guard (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingMasterPromotionScript)
+        $result = Run-Step -Name "racing_master_promotion_guard (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingMasterPromotionScript)
         $report.racing_master_promotion_test = $result
         $racingMasterPromotionRan = $true
     }
@@ -893,7 +897,7 @@ if ($Mode -in @("full", "smoke")) {
         Write-Host "[ERROR] racing validator smoke test not found: $racingValidatorSmokeScript"
         $report.racing_validator_smoke_test = @{ exit_code = 2; duration_seconds = 0; error = "script not found" }
     } else {
-        $result = Run-Step -Name "racing_specialization_validator_smoke (PowerShell)" -Command "powershell.exe" -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingValidatorSmokeScript)
+        $result = Run-Step -Name "racing_specialization_validator_smoke (PowerShell)" -Command $script:HostPwsh -CommandArgs @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $racingValidatorSmokeScript)
         $report.racing_validator_smoke_test = $result
         $racingValidatorSmokeRan = $true
     }

@@ -15,6 +15,7 @@ import collections
 import hashlib
 import io
 import json
+import re
 from pathlib import Path
 
 from PIL import Image
@@ -22,6 +23,7 @@ from PIL import Image
 from . import character
 from .converters import sprites as spr_conv
 from .converters.sprites import vdp_rgb
+from .palette_contract import delta_e as pc_delta_e
 from .source import Source
 
 
@@ -43,6 +45,30 @@ def _swatch(words: list[int], labels: list[str]) -> Image.Image:
     for k, w in enumerate(words):
         im.paste(vdp_rgb(w), (16 * k, 0, 16 * k + 16, 16))
     return im
+
+
+BUDGET_BEGIN, BUDGET_END = "<!-- budget:begin (gerado por fx-pilot; nao editar) -->", "<!-- budget:end -->"
+
+
+def family_of(sheet_name: str) -> str:
+    """Familia = grupo MUGEN do efeito. A sheet pode vir dividida por lote (g8000_0_fx, g8000_1_fx) e por
+    parte de quadro grande (g760_p1_fx, g8000_p1_0_fx): tudo isso e a familia g8000_fx / g760_fx."""
+    m = re.match(r"(g\d+)", sheet_name)
+    return f"{m.group(1)}_fx" if m else sheet_name
+
+
+def render_budget(budget: dict) -> str:
+    """Secao de orcamento do brief, gerada dos MESMOS numeros do budget_report.json."""
+    lim = budget["limits"]
+    rows = "\n".join(f"| {s['sprite'][0]},{s['sprite'][1]} | {s['tiles_8x8_nonempty']} | {s['hw_sprites']} |"
+                     for s in budget["estimate_source"]["per_sprite"])
+    return (f"{BUDGET_BEGIN}\n"
+            f"**Limite de projeto do candidato:** ate **{lim['max_tiles_8x8_per_frame']} tiles** 8x8 e "
+            f"**{lim['max_hw_sprites_per_frame']} sprites de hardware** por quadro ({lim['origin']}).\n\n"
+            f"| sprite | tiles 8x8 (estimativa) | sprites HW (estimativa) |\n|---|---|---|\n{rows}\n\n"
+            f"Estimativa da fonte, nao medicao: {budget['estimate_source']['method']}.\n"
+            f"Medicao compilada: {budget['compiled']['status']} ({budget['compiled']['how']}).\n"
+            f"{BUDGET_END}")
 
 
 def build(pkg: Path, project: Path, name: str, actions: list[int], vivid_clothing: bool = True) -> dict:
@@ -74,7 +100,9 @@ def build(pkg: Path, project: Path, name: str, actions: list[int], vivid_clothin
         s = by[(g, i)]
         src = Image.frombytes("P", (s.width, s.height), s.pixels)
         src.putpalette([c for rgb in s.palette for c in rgb])
-        put(pix / f"source_{g}_{i}.png", _png_bytes(src.convert("RGBA")))
+        rgba = src.convert("RGBA")
+        rgba.putalpha(Image.frombytes("L", (s.width, s.height), bytes(0 if p == 0 else 255 for p in s.pixels)))
+        put(pix / f"source_{g}_{i}.png", _png_bytes(rgba))
         # quadro convertido como a ROM tem hoje: corte da celula da sheet (linha de efeitos atual)
         sheet_idx, frame = spr.locate[(g, i)][0]
         sh = spr.sheets[sheet_idx]
@@ -109,7 +137,42 @@ def build(pkg: Path, project: Path, name: str, actions: list[int], vivid_clothin
             for idx, n in collections.Counter(sh.png.get_flattened_data()).items():
                 if idx:
                     fam[sh.name][f"0x{spr.fx_palette[idx]:03X}"] += n
-    catalog = {k: dict(v.most_common()) for k, v in sorted(fam.items())}
+    current_by_sheet = {k: dict(v.most_common()) for k, v in sorted(fam.items())}
+    grouped = collections.defaultdict(collections.Counter)
+    for k, v in fam.items():
+        grouped[family_of(k)].update(v)
+    current = {k: dict(v.most_common()) for k, v in sorted(grouped.items())}
+    source: dict[str, dict] = {}
+    for (g, i), parts in spr.locate.items():
+        sh = spr.sheets[parts[0][0]]
+        if sh.palette != "fx" or (g, i) not in by:
+            continue
+        sp = by[(g, i)]
+        fam_src = source.setdefault(family_of(sh.name), {"sprites": [], "transparent_px": 0, "colours": collections.Counter(),
+                                              "map": {}})
+        fam_src["sprites"].append([g, i])
+        for idx, n in collections.Counter(sp.pixels).items():
+            if idx == 0:
+                fam_src["transparent_px"] += n
+                continue
+            rgb = tuple(sp.palette[idx])
+            vw = spr_conv.vdp_word(rgb)
+            fam_src["colours"][f"0x{vw:03X}"] += n
+            slot = spr.fx.remap.get(idx, spr.fx.approx_indices.get(idx, 0))
+            cur = spr.fx_palette[slot]
+            m = fam_src["map"].setdefault(f"0x{vw:03X}", {"source_rgb": list(rgb), "current_word": f"0x{cur:03X}",
+                                                         "delta_e": round(pc_delta_e(vdp_rgb(vw), vdp_rgb(cur)), 1),
+                                                         "kind": "direto" if idx in spr.fx.remap else "aproximado",
+                                                         "px": 0})
+            m["px"] += n
+    for f in source.values():
+        tot = sum(f["colours"].values())
+        f["visible_colours"] = len(f["colours"])
+        f["colours"] = dict(f["colours"].most_common())
+        f["px_changed_over_10dE_pct"] = round(100 * sum(m["px"] for m in f["map"].values() if m["delta_e"] > 10) / tot, 1) if tot else 0.0
+    catalog = {"rule": "o slot de FX e unico para todas as familias: escolher olhando a FONTE, nao o atual degradado",
+               "source_by_family": dict(sorted(source.items())), "current_by_family": current,
+               "current_by_sheet": current_by_sheet}
 
     contract = {"family": name, "actions": actions, "frames": frames, "sprites": sprites_out,
                 "rules": ["preservar trajetoria, ponto de origem (eixo), limites de quadro e tempos do AIR",
@@ -121,13 +184,25 @@ def build(pkg: Path, project: Path, name: str, actions: list[int], vivid_clothin
                "fx_slot_rule": "o slot de efeito e UM so para todas as familias do personagem: escolher a cor "
                                "olhando o catalogo inteiro (fx_catalog.json), nao so este piloto",
                "slots": roles}
-    budget = {"per_sprite": [{k: s[k] for k in ("sprite", "tiles_8x8_nonempty", "hw_sprites", "dma_bytes_if_uploaded")}
-                             for s in sprites_out],
-              "max_tiles_frame": max(s["tiles_8x8_nonempty"] for s in sprites_out),
-              "note": "o candidato nao pode passar do maior quadro atual nem de 16 sprites de hardware por quadro"}
+    budget = {
+        "limits": {"max_tiles_8x8_per_frame": max(s["tiles_8x8_nonempty"] for s in sprites_out),
+                   "max_hw_sprites_per_frame": max(s["hw_sprites"] for s in sprites_out),
+                   "origin": "limite de PROJETO do piloto = pior quadro atual da familia (nao piora o que existe)"},
+        "estimate_source": {"per_sprite": [{k: s[k] for k in ("sprite", "tiles_8x8_nonempty", "hw_sprites", "dma_bytes_if_uploaded")}
+                                           for s in sprites_out],
+                            "method": "tiles 8x8 nao vazios da celula; hw_sprites = blocos 32x32 nao vazios (_hw_estimate); "
+                                      "dma = tiles x 32 B. ESTIMATIVA: nao e a decomposicao final do rescomp"},
+        "compiled": {"status": "a medir", "how": "maxNumTile/numSprite do SpriteDefinition na ROM (symbol.txt) + captura "
+                     "com dois lutadores, HUD e FX juntos antes de aceite global"},
+    }
     for fname, obj in (("frame_contract.json", contract), ("palette_roles.json", palette),
                        ("budget_report.json", budget), ("fx_catalog.json", catalog)):
         put(doc / fname, (json.dumps(obj, indent=2, ensure_ascii=False) + "\n").encode())
+    brief = doc / "brief.md"
+    if brief.exists():
+        t = brief.read_text(encoding="utf-8")
+        a, b = t.index(BUDGET_BEGIN), t.index(BUDGET_END) + len(BUDGET_END)
+        put(brief, (t[:a] + render_budget(budget) + t[b:]).encode())
     (doc / "source_hashes.json").write_text(json.dumps(hashes, indent=2) + "\n", encoding="utf-8")
     return {"frames": len(frames), "sprites": len(sprites_out), "pixels_dir": str(pix.relative_to(project)),
             "doc_dir": str(doc.relative_to(project)), "fx_slot": sorted(free)}

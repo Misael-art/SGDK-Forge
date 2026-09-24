@@ -85,3 +85,54 @@ def test_fx_pilot_package_contract(tmp_path):
     from mugen2sgdk_forge.source import Source
     fxpal = sc.convert(character.load(Source(KEN)), vivid_clothing=True).fx_palette
     assert [tuple(cur.getpalette()[k * 3:k * 3 + 3]) for k in range(16)] == [vdp_rgb(w) for w in fxpal]
+
+
+@pytest.fixture(scope="module")
+def pilot(tmp_path_factory):
+    if not KEN.exists():
+        pytest.skip("pacote de terceiros do Ken ausente")
+    from mugen2sgdk_forge import fx_pilot
+    t = tmp_path_factory.mktemp("pilot")
+    doc = t / "doc/mugen/fx_pilot_hadouken"
+    doc.mkdir(parents=True)
+    (doc / "brief.md").write_text(f"x\n{fx_pilot.BUDGET_BEGIN}\nvelho: 16 sprites\n{fx_pilot.BUDGET_END}\ny\n")
+    fx_pilot.build(KEN, t, "hadouken", [750, 751])
+    return t, doc
+
+
+def test_pilot_source_transparency_is_index_0_only(pilot):
+    """P1: indice 0 -> alpha 0; qualquer outro (inclusive o nucleo PRETO visivel) -> alpha 255."""
+    from mugen2sgdk_forge import character
+    from mugen2sgdk_forge.source import Source
+    t, _ = pilot
+    by = {(s.group, s.image): s for s in character.load(Source(KEN)).sprites}
+    black_checked = 0
+    for k in range(5):
+        s = by[(750, k)]
+        a = Image.open(t / f"rascunho/processado/fx_pilot_hadouken/source_750_{k}.png").getchannel("A").tobytes()
+        assert len(a) == len(s.pixels)
+        assert all((al == 0) == (p == 0) for al, p in zip(a, s.pixels)), k
+        black_checked += sum(1 for al, p in zip(a, s.pixels) if p and max(s.palette[p]) < 16 and al == 255)
+    assert black_checked > 0                                   # o preto visivel sobreviveu opaco
+
+
+def test_pilot_brief_budget_is_generated_from_contract(pilot):
+    """P1: o texto do brief sai dos MESMOS numeros do budget_report.json (sem 2 contra 16)."""
+    from mugen2sgdk_forge import fx_pilot
+    _, doc = pilot
+    budget = json.loads((doc / "budget_report.json").read_text())
+    brief = (doc / "brief.md").read_text()
+    assert fx_pilot.render_budget(budget) in brief and "velho: 16" not in brief
+    lim = budget["limits"]
+    assert (lim["max_tiles_8x8_per_frame"], lim["max_hw_sprites_per_frame"]) == (26, 2)
+    assert budget["compiled"]["status"] == "a medir" and "ESTIMATIVA" in budget["estimate_source"]["method"]
+
+
+def test_pilot_catalog_keeps_source_and_current(pilot):
+    """P2: catalogo com a FONTE por familia; o preto do nucleo aparece como perda grave, nao some."""
+    _, doc = pilot
+    cat = json.loads((doc / "fx_catalog.json").read_text())
+    fam = next(v for v in cat["source_by_family"].values() if [750, 1] in v["sprites"])
+    assert fam["colours"].get("0x000", 0) > 0 and fam["map"]["0x000"]["delta_e"] > 50
+    assert fam["visible_colours"] >= 8 and fam["transparent_px"] > 0
+    assert len(cat["source_by_family"]) == len(cat["current_by_family"]) >= 10

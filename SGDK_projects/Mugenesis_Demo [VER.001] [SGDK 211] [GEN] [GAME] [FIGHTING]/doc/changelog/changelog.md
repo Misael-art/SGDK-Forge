@@ -14,7 +14,11 @@
 - **Achado:** a paleta de efeitos compartilhada leva o nucleo preto do hadouken a vermelho (216,0,0) e colapsa 5 azuis em 1.
   - O `current_md` do pacote e referencia a NAO seguir.
   - Sem correcao na linha antiga: os efeitos migram para a linha do lutador.
-- Suite: 65 testes.
+- **Revisao do PR #20** (`followup_pr20_b54a82db.md`):
+  - transparencia da fonte so no indice 0;
+  - limites numericos do orcamento (26 tiles, 2 HW), com o texto do brief gerado deles;
+  - catalogo com a FONTE das 15 familias. Hadouken: 58,7% dos pixels visiveis mudam > 10 dE hoje; preto -> vermelho com dE 102,7.
+- Suite: 68 testes.
 
 ## 2026-09-24 - REGRA 1: contrato de paletas + validacao no conversor (migracao aguarda arte)
 
